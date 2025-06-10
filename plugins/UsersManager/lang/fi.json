@@ -152,7 +152,6 @@
         "TokenSuccessfullyDeleted": "Poletti poistettiin onnistuneesti",
         "TokenSuccessfullyGenerated": "Poletti luotiin onnistuneesti",
         "TokensSuccessfullyDeleted": "Kaikki poletit poistettiin onnistuneesti",
-        "TokensWithExpireDateCreationBySystem": "Eräpäivällä varustettuja poletteja voi tällä hetkellä luoda ainoastaan järjestelmän toimesta",
         "TwoFactorAuthentication": "Kaksivaiheinen tunnistautuminen",
         "TypeYourCurrentPassword": "Kirjoita nykyinen salasanasi vahvistaaksesi salasanan vaihdon.",
         "TypeYourPasswordAgain": "Kirjoita uusi salasana uudelleen.",

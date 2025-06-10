@@ -231,7 +231,6 @@
         "TokenSuccessfullyDeleted": "El testimoni s'ha suprimit correctament",
         "TokenSuccessfullyGenerated": "El testimoni s'ha generat correctament",
         "TokensSuccessfullyDeleted": "Tots els testimonis s'han suprimit correctament",
-        "TokensWithExpireDateCreationBySystem": "Actualment només el sistema pot crear testimonis amb data de caducitat",
         "TwoFactorAuthentication": "Autenticació de dos factors",
         "TypeYourCurrentPassword": "Escriviu la vostra contrasenya actual per confirmar el canvi de contrasenya.",
         "TypeYourPasswordAgain": "Torna a escriure la teva nova contrasenya.",

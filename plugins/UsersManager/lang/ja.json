@@ -201,7 +201,6 @@
         "TokenSuccessfullyDeleted": "トークンは正常に削除されました",
         "TokenSuccessfullyGenerated": "トークンが正常に生成されました",
         "TokensSuccessfullyDeleted": "すべてのトークンが正常に削除されました",
-        "TokensWithExpireDateCreationBySystem": "有効期限のあるトークンは現在、システムでのみ作成できます",
         "TwoFactorAuthentication": "2ファクター認証",
         "TypeYourCurrentPassword": "現在のパスワードを入力して、パスワードの変更を確認してください。",
         "TypeYourPasswordAgain": "新しいパスワードを再入力します。",

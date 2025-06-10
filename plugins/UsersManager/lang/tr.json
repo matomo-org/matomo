@@ -231,7 +231,6 @@
         "TokenSuccessfullyDeleted": "Kod silindi",
         "TokenSuccessfullyGenerated": "Kod üretildi",
         "TokensSuccessfullyDeleted": "Tüm kodlar silindi",
-        "TokensWithExpireDateCreationBySystem": "Sona erme tarihi olan kodlar şu anda yalnızca sistem tarafından oluşturulabilir",
         "TwoFactorAuthentication": "İki adımlı doğrulama",
         "TypeYourCurrentPassword": "Lütfen parola değişikliğini onaylamak için geçerli parolanızı yazın.",
         "TypeYourPasswordAgain": "Yeni parolanızı yeniden yazın.",

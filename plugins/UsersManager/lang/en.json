@@ -255,7 +255,7 @@
         "InvalidTokenExpireDateFormat": "Invalid format of the expire date, please use YYYY-MM-DD. The date also needs to be in the future.",
         "AuthTokenExpirationWarningEmailSubject": "Reminder: Your Matomo personal access token will expire within the next %1$s",
         "AuthTokenExpirationWarningEmailReminder": "Reminder: Your auth token will expire within the next %1$s",
-        "AuthTokenExpirationWarningEmail01": "You’re receiving this email because your %1$s%2$s%3$s personal access token will expire on %4$s%5$s%6$s.",
+        "AuthTokenExpirationWarningEmail01": "You’re receiving this email because your %1$s personal access token will expire on %2$s.",
         "AuthTokenExpirationWarningEmail02": "To generate a new token and delete the old one, go to Personal > Security settings in your Matomo instance.",
         "AuthTokenExpirationWarningEmail03": "If you believe you received this email in error, please contact your Matomo administrator.",
         "AuthTokenExpirationWarningEmail04": "Manage your access tokens"
