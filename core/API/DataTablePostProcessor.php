@@ -24,6 +24,7 @@ use Piwik\Plugin\Report;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreHome\Columns\Metrics\EvolutionMetric;
+use Piwik\Request;
 
 /**
  * Processes DataTables that should be served through Piwik's APIs. This processing handles
@@ -209,7 +210,9 @@ class DataTablePostProcessor
                 $recursiveLabelSeparator = $this->report->getRecursiveLabelSeparator();
             }
 
-            $dataTable = $flattener->flatten($dataTable, $recursiveLabelSeparator);
+            $showDimensions = (new Request($this->request))->getBoolParameter('show_dimensions', false);
+
+            $dataTable = $flattener->flatten($dataTable, $recursiveLabelSeparator, $showDimensions);
         }
         return $dataTable;
     }
