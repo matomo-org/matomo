@@ -103,11 +103,11 @@ interface MatomoCopyModalState {
 }
 
 interface CopyRequestResponse {
-  isCopySuccessful: boolean;
-  successMessage: string;
-  responseData: Record<string, unknown>;
-  errorMessage: string;
-  errorCode: number;
+  isCopySuccessful?: boolean;
+  successMessage?: string;
+  responseData?: Record<string, unknown>;
+  errorMessage?: string;
+  errorCode?: number;
 }
 
 export default defineComponent({
@@ -288,15 +288,12 @@ export default defineComponent({
       if (!tempResponseObject) {
         tempResponseObject = {
           isCopySuccessful: false,
-          successMessage: '',
-          responseData: {},
-          errorCode: 0,
           errorMessage: translate('General_ErrorRequest'),
         };
       }
 
       // If the error message wasn't set, set it to a generic error message
-      if (tempResponseObject.errorMessage.length === 0) {
+      if (!tempResponseObject.errorMessage || tempResponseObject.errorMessage.length === 0) {
         tempResponseObject.errorMessage = translate('General_ErrorRequest');
       }
 

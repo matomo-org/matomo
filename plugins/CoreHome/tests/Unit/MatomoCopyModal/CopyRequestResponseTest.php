@@ -46,6 +46,40 @@ class CopyRequestResponseTest extends TestCase
         $this->assertTrue($this->copyRequestResponse->hasResponseBeenModified());
     }
 
+    public function testGetJsonResponseNoChanges()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No copy request response properties were set.');
+
+        $this->copyRequestResponse->getJsonResponse();
+    }
+
+    public function testGetJsonResponseSuccess()
+    {
+        $this->copyRequestResponse->setIsCopySuccessful(true);
+        $this->copyRequestResponse->setSuccessMessage('Item copied!');
+
+        $this->assertSame('{"isCopySuccessful":true,"successMessage":"Item copied!"}', $this->copyRequestResponse->getJsonResponse());
+    }
+
+    public function testGetJsonResponseSuccessWithData()
+    {
+        $this->copyRequestResponse->setIsCopySuccessful(true);
+        $this->copyRequestResponse->setSuccessMessage('Item copied!');
+        $this->copyRequestResponse->setResponseData(['foo' => 'bar']);
+
+        $this->assertSame('{"isCopySuccessful":true,"successMessage":"Item copied!","responseData":{"foo":"bar"}}', $this->copyRequestResponse->getJsonResponse());
+    }
+
+    public function testGetJsonResponseSuccessFail()
+    {
+        $this->copyRequestResponse->setIsCopySuccessful(false);
+        $this->copyRequestResponse->setErrorCode(500);
+        $this->copyRequestResponse->setErrorMessage('Item copy failed!');
+
+        $this->assertSame('{"isCopySuccessful":false,"errorMessage":"Item copy failed!,"errorCode":500"}', $this->copyRequestResponse->getJsonResponse());
+    }
+
     public function getPropertyNames(): array
     {
         return [

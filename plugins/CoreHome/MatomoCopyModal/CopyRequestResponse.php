@@ -148,15 +148,27 @@ class CopyRequestResponse
         return $this->initialState !== $this->getCurrentState();
     }
 
+    /**
+     * Checks which property values have changed from the initial state and only includes them in the JSON string.
+     *
+     * @return string JSON of the response object
+     * @throws \Exception If none of the properties have been set
+     */
     public function getJsonResponse(): string
     {
-        return json_encode([
-            'isCopySuccessful' => $this->isCopySuccessful(),
-            'successMessage' => $this->getSuccessMessage(),
-            'responseData' => $this->getResponseData(),
-            'errorMessage' => $this->getErrorMessage(),
-            'errorCode' => $this->getErrorCode(),
-        ]);
+        $responseArray = [];
+        $currentState = $this->getCurrentState();
+        foreach ($this->initialState as $propertyName => $value) {
+            if ($currentState[$propertyName] !== $value) {
+                $responseArray[$propertyName] = $currentState[$propertyName];
+            }
+        }
+
+        if (count($responseArray) === 0) {
+            throw new \Exception('No copy request response properties were set.');
+        }
+
+        return json_encode($responseArray);
     }
 
     /**
