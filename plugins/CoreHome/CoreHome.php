@@ -187,7 +187,6 @@ class CoreHome extends \Piwik\Plugin
         $jsFiles[] = "plugins/CoreHome/javascripts/color_manager.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/notification.js";
         $jsFiles[] = "plugins/CoreHome/javascripts/listingFormatter.js";
-        $jsFiles[] = "plugins/CoreHome/javascripts/autoClearPassword.js";
 
         // we have to load these CorePluginsAdmin files here. If we loaded them in CorePluginsAdmin,
         // there would be JS errors as CorePluginsAdmin is loaded first. Meaning it is loaded before
