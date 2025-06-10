@@ -28,7 +28,7 @@ class PasswordStrength
     }
 
     /**
-     * Provides the rules for defining a strong vs weak password. Rules are
+     * Provides the rules for defining a strong password. Rules are
      * broken up into a regular expression which is applied to a password candidate,
      * and a string which describes what the rule is testing for.
      *
