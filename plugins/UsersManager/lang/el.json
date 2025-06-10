@@ -231,7 +231,6 @@
         "TokenSuccessfullyDeleted": "Το τεκμήριο αυθεντικοποίησης διαγράφηκε επιτυχώς",
         "TokenSuccessfullyGenerated": "Το τεκμήριο αυθεντικοποίησης δημιουργήθηκε",
         "TokensSuccessfullyDeleted": "Όλα τα τεκμήρια αυθεντικοποίησης διαγράφηκαν επιτυχώς",
-        "TokensWithExpireDateCreationBySystem": "Τα τεκμήρια αυθεντικοποίησης με ημερομηνία λήξης μπορούν να δημιουργηθούν μόνο από το σύστημα",
         "TwoFactorAuthentication": "Αυθεντικοποίηση δύο παραγόντων",
         "TypeYourCurrentPassword": "Παρακαλώ εισάγετε το τρέχον συνθηματικό σας για να επικυρώσετε την αλλαγή συνθηματικού.",
         "TypeYourPasswordAgain": "Γράψτε τον νέο σας κωδικό ξανά.",
