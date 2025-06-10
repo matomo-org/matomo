@@ -361,6 +361,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_ExportTooltip';
         $translationKeys[] = 'CoreHome_ExportTooltipWithLink';
         $translationKeys[] = 'CoreHome_FlattenReport';
+        $translationKeys[] = 'CoreHome_IncludeDimensionsSeparately';
         $translationKeys[] = 'CoreHome_CustomLimit';
         $translationKeys[] = 'CoreHome_ExpandSubtables';
         $translationKeys[] = 'CoreHome_HomeShortcut';

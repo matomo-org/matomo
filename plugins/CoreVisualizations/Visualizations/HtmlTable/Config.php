@@ -109,12 +109,6 @@ class Config extends VisualizationConfig
     public $report_ratio_columns = array();
 
     /**
-     * If true, dimensions in flattened reports will be shown as separate columns
-     * @var bool
-     */
-    public $show_dimensions = false;
-
-    /**
      * The minimum width for the label column in table visualizations.
      *
      * @var null|int
@@ -143,7 +137,6 @@ class Config extends VisualizationConfig
             'enable_sort',
             'keep_summary_row',
             'subtable_controller_action',
-            'show_dimensions',
             'row_identifier',
             'min_label_width',
             'max_label_width',
@@ -158,7 +151,6 @@ class Config extends VisualizationConfig
             'disable_subtable_when_show_goals',
             'keep_summary_row',
             'highlight_summary_row',
-            'show_dimensions',
         ));
     }
 }
