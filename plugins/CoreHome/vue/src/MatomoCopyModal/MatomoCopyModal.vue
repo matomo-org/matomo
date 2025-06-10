@@ -5,7 +5,7 @@
   @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 <template>
-  <div class="modal matomo-copy-modal" ref="root">
+  <div :class="getRooDivClasses" ref="root">
     <div class="entire-copy-modal">
       <div class="modal-header">
         <span class="btn-close modal-close"><i class="icon-close"></i></span>
@@ -318,7 +318,7 @@ export default defineComponent({
   computed: {
     getRooDivClasses(): string {
       const defaults = 'modal matomo-copy-modal';
-      const stateBased = this.$slots.default ? 'slot-configured' : '';
+      const stateBased = this.$slots.default ? ' slot-configured' : '';
 
       return `${defaults}${stateBased}`;
     },
