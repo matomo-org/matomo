@@ -26,8 +26,8 @@ class PasswordStrengthTest extends \PHPUnit\Framework\TestCase
 
     public function testGetRulesFeatureEnabled()
     {
-        $PasswordStrength = new PasswordStrength($featureEnabled = true);
-        $rules = $PasswordStrength->getRules();
+        $passwordStrength = new PasswordStrength($featureEnabled = true);
+        $rules = $passwordStrength->getRules();
 
         $this->assertNotEmpty($rules);
         foreach ($rules as $rule) {
