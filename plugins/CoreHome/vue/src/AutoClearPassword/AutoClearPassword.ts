@@ -49,6 +49,7 @@ function setupAutoClear(el: HTMLInputElementWithAutoClear, delay: number) {
 
   el.addEventListener('input', inputListener);
   el.addEventListener('change', changeListener);
+  el.dataset.autoClearEnabled = 'true';
 
   const intervalId = setInterval(() => {
     if (el.value !== lastValue) {
@@ -63,6 +64,7 @@ function setupAutoClear(el: HTMLInputElementWithAutoClear, delay: number) {
       clearInterval(intervalId);
       el.removeEventListener('input', inputListener);
       el.removeEventListener('change', changeListener);
+      delete el.dataset.autoClearEnabled;
     },
   };
 }

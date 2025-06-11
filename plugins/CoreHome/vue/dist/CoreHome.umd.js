@@ -10243,6 +10243,7 @@ function setupAutoClear(el, delay) {
   const changeListener = () => resetTimer();
   el.addEventListener('input', inputListener);
   el.addEventListener('change', changeListener);
+  el.dataset.autoClearEnabled = 'true';
   const intervalId = setInterval(() => {
     if (el.value !== lastValue) {
       lastValue = el.value;
@@ -10255,6 +10256,7 @@ function setupAutoClear(el, delay) {
       clearInterval(intervalId);
       el.removeEventListener('input', inputListener);
       el.removeEventListener('change', changeListener);
+      delete el.dataset.autoClearEnabled;
     }
   };
 }
