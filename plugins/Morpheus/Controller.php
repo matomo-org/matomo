@@ -161,7 +161,7 @@ export default defineComponent({
     placeholder="Some text here"
     v-model="username"
   />
-</div>', [], false);
+</div>', [], [], false);
         $snippets[] = $this->formSnippet('withInlineHelp', 'email', "''", '', '<div v-form>
   <Field
     uicontrol="email"
@@ -208,11 +208,26 @@ export default defineComponent({
   />
 </div>');
 
+        $snippets[] = $this->formSnippet('passwordAutoClear', 'pwdAutoClear', "''", '', '<div v-form>
+  <Field
+    uicontrol="password"
+    name="password_autoclear"
+    title="Password with auto-clear after 5 seconds"
+    placeholder="When you stop typing, field will clear after 5 seconds"
+    v-model="pwdAutoClear"
+    v-auto-clear-password="{ delay: 5 }"
+  >
+    <template v-slot:inline-help>
+      Without the configuration object passed to the directive, the delay defaults to 600 seconds (10 minutes). You can provide a custom delay if you need. A delay too short may impact usability of the field. 
+    </template>
+  </Field>
+</div>', [], [['plugin' => 'CoreHome', 'directive' => 'AutoClearPassword']]);
+
         $snippets[] = $this->formSnippet('complexHelp', 'text', "''", '', '<div v-form>
   <Field
     uicontrol="text"
     name="alias"
-    title="Disabeld text field"
+    title="Disabled text field"
     :disabled="true"
     placeholder="This value cannot be changed"
     v-model="text"
@@ -254,7 +269,7 @@ export default defineComponent({
   />
 </div>');
 
-        // TODOO: handle arrays
+        // TODO: handle arrays
         $snippets[] = $this->formSnippet(
             'language',
             ['language', 'phoneNumber', 'selectedExpand'],
@@ -877,7 +892,7 @@ export default defineComponent({
         ]);
     }
 
-    private function formSnippet($id, $dataName, $dataValueCode, $dataValue, $demoCode, $extraComponents = [], $noMargin = true)
+    private function formSnippet($id, $dataName, $dataValueCode, $dataValue, $demoCode, $extraComponents = [], $extraDirectives = [], $noMargin = true)
     {
         if (is_array($dataName)) {
             $dataCode = "";
@@ -924,9 +939,9 @@ $dataCode    };
             'components' => array_merge([
                 ['plugin' => 'CorePluginsAdmin', 'component' => 'Field'],
             ], $extraComponents),
-            'directives' => [
+            'directives' => array_merge([
                 ['plugin' => 'CorePluginsAdmin', 'directive' => 'Form'],
-            ],
+            ], $extraDirectives),
             'data' => $data,
             'noMargin' => $noMargin,
         ];

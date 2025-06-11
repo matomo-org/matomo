@@ -219,6 +219,7 @@ __webpack_require__.d(__webpack_exports__, "VersionInfoHeaderMessage", function(
 __webpack_require__.d(__webpack_exports__, "MobileLeftMenu", function() { return /* reexport */ MobileLeftMenu; });
 __webpack_require__.d(__webpack_exports__, "scrollToAnchorInUrl", function() { return /* reexport */ scrollToAnchorInUrl; });
 __webpack_require__.d(__webpack_exports__, "SearchFiltersPersistenceStore", function() { return /* reexport */ SearchFiltersPersistence_store; });
+__webpack_require__.d(__webpack_exports__, "AutoClearPassword", function() { return /* reexport */ AutoClearPassword; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -10210,6 +10211,71 @@ function scrollToAnchorInUrl() {
   // timeout needed to ensure Vue rendered fully
   Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(handleScrollToAnchorIfPresentOnPageLoad);
 }
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AutoClearPassword/AutoClearPassword.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+function collectPasswordInputs(el) {
+  const targets = [];
+  if (el.tagName === 'INPUT' && el.type === 'password') {
+    targets.push(el);
+  } else {
+    const nested = el.querySelectorAll('input[type="password"]');
+    nested.forEach(nestedEl => targets.push(nestedEl));
+  }
+  return targets;
+}
+function setupAutoClear(el, delay) {
+  let timeoutId;
+  let lastValue = el.value;
+  const clearValue = () => {
+    el.value = '';
+    el.dispatchEvent(new Event('input'));
+  };
+  const resetTimer = () => {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(clearValue, delay * 1000);
+  };
+  const inputListener = () => resetTimer();
+  const changeListener = () => resetTimer();
+  el.addEventListener('input', inputListener);
+  el.addEventListener('change', changeListener);
+  el.dataset.autoClearEnabled = 'true';
+  const intervalId = setInterval(() => {
+    if (el.value !== lastValue) {
+      lastValue = el.value;
+      resetTimer();
+    }
+  }, 300);
+  el.onUmounted = {
+    cleanup() {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+      el.removeEventListener('input', inputListener);
+      el.removeEventListener('change', changeListener);
+      delete el.dataset.autoClearEnabled;
+    }
+  };
+}
+/* harmony default export */ var AutoClearPassword = ({
+  mounted(el, binding) {
+    const delay = binding.value && binding.value.delay || 600;
+    const targets = collectPasswordInputs(el);
+    targets.forEach(input => setupAutoClear(input, delay));
+  },
+  unmounted(el) {
+    const targets = collectPasswordInputs(el);
+    targets.forEach(e => {
+      if (e.onUmounted && typeof e.onUmounted.cleanup === 'function') {
+        e.onUmounted.cleanup();
+        delete e.onUmounted;
+      }
+    });
+  }
+});
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -10217,6 +10283,7 @@ function scrollToAnchorInUrl() {
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

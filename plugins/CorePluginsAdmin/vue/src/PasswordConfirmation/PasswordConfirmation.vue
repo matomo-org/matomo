@@ -29,6 +29,7 @@
           :autocomplete="'off'"
           :full-width="true"
           :title="translate('UsersManager_YourCurrentPassword')"
+          v-auto-clear-password
         >
         </Field>
       </div>
@@ -51,7 +52,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Matomo } from 'CoreHome';
+import { Matomo, AutoClearPassword } from 'CoreHome';
 import Field from '../Field/Field.vue';
 import KeyPressEvent = JQuery.KeyPressEvent;
 
@@ -79,6 +80,9 @@ export default defineComponent({
     };
   },
   emits: ['confirmed', 'aborted', 'update:modelValue'],
+  directives: {
+    AutoClearPassword,
+  },
   components: {
     Field,
   },

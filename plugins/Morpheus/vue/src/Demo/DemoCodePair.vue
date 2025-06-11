@@ -6,7 +6,10 @@
 -->
 
 <template>
-  <div :style="{'margin-top': snippet.noMargin ? '-16px' : undefined}">
+  <div
+    :style="{'margin-top': snippet.noMargin ? '-16px' : undefined}"
+    :data-snippet="snippet.id"
+  >
     <h2 v-if="snippet.title">{{ snippet.title }}</h2>
     <div class="demo" v-if="snippet.vue_embed">
       <component :is="vueEmbedComponent" />

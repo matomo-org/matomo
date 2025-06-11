@@ -97,3 +97,4 @@ export {
 export { default as MobileLeftMenu } from './MobileLeftMenu/MobileLeftMenu.vue';
 export { default as scrollToAnchorInUrl } from './scrollToAnchorInUrl';
 export { default as SearchFiltersPersistenceStore } from './SearchFiltersPersistence/SearchFiltersPersistence.store';
+export { default as AutoClearPassword } from './AutoClearPassword/AutoClearPassword';
