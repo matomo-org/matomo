@@ -172,15 +172,36 @@ class Url
             }
         }
 
-        if (!isset($url[0]) || $url[0] !== '/') {
-            $url = '/' . $url;
-        }
-
         // A hash part should actually be never send to the server, as browsers automatically remove them from the request
         // The same happens for tools like cUrl. While Apache won't answer requests that contain them, Nginx would handle them
         // and the hash part would be included in REQUEST_URI. Therefor we always remove any hash parts here.
         if (mb_strpos($url, '#')) {
             $url = mb_substr($url, 0, mb_strpos($url, '#'));
+        }
+
+        // replace relative path references with absolute.
+        $urlSections = explode('/', $url);
+        $absoluteUrlComponents = [];
+
+        foreach ($urlSections as $section) {
+            if ($section === '.') {
+                continue;
+            }
+
+            if ($section === '..') {
+                if (!empty($absoluteUrlComponents)) {
+                    array_pop($absoluteUrlComponents);
+                }
+                continue;
+            }
+
+            $absoluteUrlComponents[] = $section;
+        }
+
+        $url = implode('/', $absoluteUrlComponents);
+
+        if (!isset($url[0]) || $url[0] !== '/') {
+            $url = '/' . $url;
         }
 
         return $url;
