@@ -47,6 +47,7 @@
         "FormatMetrics": "Μετρικές μορφοποίησης",
         "HideExportUrl": "Απόκρυψη URL εξαγωγής",
         "HomeShortcut": "Αρχή",
+        "IncludeDimensionsSeparately": "Να συμπεριληφθούν οι διαστάσεις ξεχωριστά",
         "IncludeRowsWithLowPopulation": "Οι εγγραφές με χαμηλό πλήθος είναι κρυφές %s Προβολή όλων",
         "InjectedHostEmailBody": "Γεια σας, προσπάθησα να έχω προσπελάσω σήμερα το Matomo και αντιμετώπισα μια προειδοποίηση για άγνωστο όνομα διακομιστή.",
         "InjectedHostEmailSubject": "Το Matomo προσπελάστηκε με ένα άγνωστο όνομα διακομιστή: %s",
