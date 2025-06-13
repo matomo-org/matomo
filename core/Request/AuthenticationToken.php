@@ -81,7 +81,7 @@ class AuthenticationToken
         if (!empty($requestBody) && strpos($requestBody, '{') === 0) {
             $jsonContent = json_decode($requestBody, true);
 
-            if (!empty($jsonContent['token_auth'])) {
+            if (!empty($jsonContent['token_auth']) && is_string($jsonContent['token_auth'])) {
                 $this->authToken = $jsonContent['token_auth'];
                 $this->wasTokenProvidedSecurely = true;
                 return true;

@@ -165,7 +165,7 @@ class Access
 
         $token = StaticContainer::get(AuthenticationToken::class);
 
-        if ($isApiRequest && ($token->wasTokenAuthProvidedSecurely() || $isGetApiRequest)) {
+        if ($isApiRequest && $token->isSessionToken() && ($token->wasTokenAuthProvidedSecurely() || $isGetApiRequest)) {
             $tokenAuth = $token->getAuthToken();
             Session::start();
             $auth = StaticContainer::get(SessionAuth::class);
