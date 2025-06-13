@@ -130,12 +130,9 @@ class Map implements DataTableInterface
     public function multiFilter($otherTables, $filter)
     {
         $result = [];
-        if (empty($otherTables)) {
-            return $result;
-        }
         foreach ($this->getDataTables() as $key => $childTable) {
             $otherChildTables = array_map(function ($otherTable) use ($key) {
-                return $otherTable->hasTable($key) ? $otherTable->getTable($key) : null;
+                return !empty($otherTable) && $otherTable->hasTable($key) ? $otherTable->getTable($key) : null;
             }, $otherTables);
 
             $result[$key] = $childTable->multiFilter($otherChildTables, $filter);
