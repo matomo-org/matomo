@@ -123,19 +123,16 @@ class Map implements DataTableInterface
      * If a key exists in this instance but not in one of the otherTables, $filter will be invoked with null
      * for that parameter.
      *
-     * @param Map[] $otherTables Other tables to invoke $filter with.
+     * @param (Map|null)[] $otherTables Other tables to invoke $filter with.
      * @param callable $filter A function like `function (DataTable $thisTable, $otherTable1, $otherTable2, ...) {}`.
      * @return mixed[] The return value of each `multiFilter()` call made on child tables, indexed by the keys in this Map instance.
      */
     public function multiFilter($otherTables, $filter)
     {
         $result = [];
-        if (empty($otherTables)) {
-            return $result;
-        }
         foreach ($this->getDataTables() as $key => $childTable) {
             $otherChildTables = array_map(function ($otherTable) use ($key) {
-                return $otherTable->hasTable($key) ? $otherTable->getTable($key) : null;
+                return !empty($otherTable) && $otherTable->hasTable($key) ? $otherTable->getTable($key) : null;
             }, $otherTables);
 
             $result[$key] = $childTable->multiFilter($otherChildTables, $filter);

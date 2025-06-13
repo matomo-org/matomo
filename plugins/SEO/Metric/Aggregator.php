@@ -27,7 +27,7 @@ class Aggregator implements MetricsProvider
         $this->providers = $this->getProviders();
     }
 
-    public function getMetrics($domain)
+    public function getMetrics(string $domain)
     {
         $metrics = [];
 
