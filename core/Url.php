@@ -180,25 +180,27 @@ class Url
         }
 
         // replace relative path references with absolute.
-        $urlSections = explode('/', $url);
-        $absoluteUrlComponents = [];
+        if (strlen($url) > 0) {
+            $urlSections = explode('/', $url);
+            $absoluteUrlComponents = [];
 
-        foreach ($urlSections as $section) {
-            if ($section === '.') {
-                continue;
-            }
-
-            if ($section === '..') {
-                if (!empty($absoluteUrlComponents)) {
-                    array_pop($absoluteUrlComponents);
+            foreach ($urlSections as $section) {
+                if ($section === '.') {
+                    continue;
                 }
-                continue;
+
+                if ($section === '..') {
+                    if (!empty($absoluteUrlComponents)) {
+                        array_pop($absoluteUrlComponents);
+                    }
+                    continue;
+                }
+
+                $absoluteUrlComponents[] = $section;
             }
 
-            $absoluteUrlComponents[] = $section;
+            $url = implode('/', $absoluteUrlComponents);
         }
-
-        $url = implode('/', $absoluteUrlComponents);
 
         if (!isset($url[0]) || $url[0] !== '/') {
             $url = '/' . $url;
