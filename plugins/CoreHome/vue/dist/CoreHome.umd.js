@@ -220,6 +220,7 @@ __webpack_require__.d(__webpack_exports__, "MobileLeftMenu", function() { return
 __webpack_require__.d(__webpack_exports__, "scrollToAnchorInUrl", function() { return /* reexport */ scrollToAnchorInUrl; });
 __webpack_require__.d(__webpack_exports__, "SearchFiltersPersistenceStore", function() { return /* reexport */ SearchFiltersPersistence_store; });
 __webpack_require__.d(__webpack_exports__, "MatomoCopyModal", function() { return /* reexport */ MatomoCopyModal; });
+__webpack_require__.d(__webpack_exports__, "MatomoCopyAction", function() { return /* reexport */ MatomoCopyAction; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -10235,60 +10236,64 @@ function scrollToAnchorInUrl() {
   // timeout needed to ensure Vue rendered fully
   Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(handleScrollToAnchorIfPresentOnPageLoad);
 }
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=template&id=d97bce34
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=template&id=289c841d
 
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_1 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_1 = {
   class: "entire-copy-modal"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_2 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_2 = {
   class: "modal-header"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "btn-close modal-close"
 }, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-close"
 })], -1);
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_4 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_4 = {
   key: 0,
   class: "modal-content copy-loading"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_5 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_5 = {
   class: "Piwik_Popover_Loading"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_6 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_6 = {
   class: "Piwik_Popover_Loading_Name"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_7 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_7 = {
   class: "modal-sub-header"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_8 = ["innerHTML"];
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_9 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_8 = ["innerHTML"];
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_9 = {
   class: "modal-content"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_10 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_10 = {
   class: "modal-inputs"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_11 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_11 = {
   class: "modal-sub-footer"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_12 = ["innerHTML"];
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_13 = ["innerHTML"];
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_14 = {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_12 = ["innerHTML"];
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_13 = ["innerHTML"];
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_14 = {
   class: "modal-footer"
 };
-const MatomoCopyModalvue_type_template_id_d97bce34_hoisted_15 = ["disabled"];
-function MatomoCopyModalvue_type_template_id_d97bce34_render(_ctx, _cache, $props, $setup, $data, $options) {
+const MatomoCopyModalvue_type_template_id_289c841d_hoisted_15 = ["disabled"];
+function MatomoCopyModalvue_type_template_id_289c841d_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.getRootDivClasses),
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+      'modal': true,
+      'matomo-copy-modal': true,
+      'slot-configured': _ctx.$slots.default
+    }),
     ref: "root"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_2, [MatomoCopyModalvue_type_template_id_d97bce34_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getModalTitle), 1)]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Loading')), 1)])])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_2, [MatomoCopyModalvue_type_template_id_289c841d_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getModalTitle), 1)]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Loading')), 1)])])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 1
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getCopyDescription) + "  ", 1), _ctx.descriptionLearnMoreLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getCopyDescription) + "  ", 1), _ctx.descriptionLearnMoreLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     innerHTML: _ctx.$sanitize(_ctx.getLearnMoreLink)
-  }, null, 8, MatomoCopyModalvue_type_template_id_d97bce34_hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, MatomoCopyModalvue_type_template_id_289c841d_hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "site",
     name: "siteSelector",
     title: _ctx.translate('CoreHome_ChooseWebsite'),
@@ -10298,27 +10303,55 @@ function MatomoCopyModalvue_type_template_id_d97bce34_render(_ctx, _cache, $prop
       sitesWithAtLeastWriteAccess: true,
       excludeRollUpSites: true
     }
-  }, null, 8, ["title", "modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])), [[_directive_form]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_11, [_ctx.copyErrors.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+  }, null, 8, ["title", "modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])), [[_directive_form]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_11, [_ctx.copyErrors.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.getAlertClasses)
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.copyErrors, (copyError, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: index,
       innerHTML: _ctx.$sanitize(copyError)
-    }, null, 8, MatomoCopyModalvue_type_template_id_d97bce34_hoisted_12);
+    }, null, 8, MatomoCopyModalvue_type_template_id_289c841d_hoisted_12);
   }), 128))])], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.copyErrors.length === 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
     key: 1,
     class: "note-text",
     innerHTML: _ctx.$sanitize(_ctx.getNoteText)
-  }, null, 8, MatomoCopyModalvue_type_template_id_d97bce34_hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_d97bce34_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+  }, null, 8, MatomoCopyModalvue_type_template_id_289c841d_hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
     class: "btn",
     disabled: !_ctx.getIsValid || _ctx.hasBeenSubmitted,
     onClick: _cache[1] || (_cache[1] = $event => _ctx.submitCopy())
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Copy')), 9, MatomoCopyModalvue_type_template_id_d97bce34_hoisted_15)])], 64))])], 2);
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Copy')), 9, MatomoCopyModalvue_type_template_id_289c841d_hoisted_15)])], 64))])], 2);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=template&id=d97bce34
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=template&id=289c841d
 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyLogic.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+/* harmony default export */ var MatomoCopyLogic = ({
+  computed: {
+    /**
+     * Uses the copyEntityTypeTranslation property to return the translated entity type (e.g. goal,
+     * funnel, segment, ...), which can be a translated string or translation key. If the value is a
+     * translation key, the translated value will be returned. If no value is set, the default is \
+     * the translation of 'report'.
+     */
+    getEntityTypeTranslation() {
+      // Default to 'report' if no value is provided via copyEntityTypeTranslation
+      let translationKey = 'CoreHome_ReportLowercase';
+      if (this.copyEntityTypeTranslation) {
+        translationKey = this.copyEntityTypeTranslation;
+      }
+      // Only translate if it's a translation key and not an already translated string
+      return translateOrDefault(translationKey);
+    }
+  }
+});
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=script&lang=ts
+
 
 
 
@@ -10349,16 +10382,28 @@ const {
       required: true,
       default: false
     },
+    /**
+     * Should uniquely identify what is being copied (e.g. goal, funnel, segment, ...). The is
+     * important as it's used as the entityTypeName property of the request sent to the server.
+     */
     copyEntityType: {
       type: String,
       required: true,
       default: ''
     },
+    /**
+     * Translation of what is being copied (e.g. goal, funnel, segment, ...). This can be a string
+     * or translation key. If nothing is provided 'report' is used.
+     */
     copyEntityTypeTranslation: {
       type: String,
       required: false,
       default: ''
     },
+    /**
+     * Additional form data that needs to be included in the request sent to the server. This should
+     * typically include the unique identifier of the entity being copied (e.g. idGoal for a goal).
+     */
     formData: {
       type: Object,
       required: false,
@@ -10377,6 +10422,7 @@ const {
     };
   },
   emits: ['update:modelValue', 'resetFormData', 'copySuccessful', 'copyFailed'],
+  mixins: [MatomoCopyLogic],
   watch: {
     modelValue(newValue) {
       if (!newValue) {
@@ -10517,21 +10563,8 @@ const {
     });
   },
   computed: {
-    getRootDivClasses() {
-      const defaults = 'modal matomo-copy-modal';
-      const stateBased = this.$slots.default ? ' slot-configured' : '';
-      return `${defaults}${stateBased}`;
-    },
     getModalTitle() {
       return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
-    },
-    getEntityTypeTranslation() {
-      let translationKey = 'CoreHome_ReportLowercase';
-      if (this.copyEntityTypeTranslation) {
-        translationKey = this.copyEntityTypeTranslation;
-      }
-      // Only translate if it's a translation key and not an already translated string
-      return translateOrDefault(translationKey);
     },
     getNoteText() {
       const noteText = translate('CoreHome_CopyModalNote', '<strong>', '</strong>', this.getEntityTypeTranslation);
@@ -10566,9 +10599,134 @@ const {
 
 
 
-MatomoCopyModalvue_type_script_lang_ts.render = MatomoCopyModalvue_type_template_id_d97bce34_render
+MatomoCopyModalvue_type_script_lang_ts.render = MatomoCopyModalvue_type_template_id_289c841d_render
 
 /* harmony default export */ var MatomoCopyModal = (MatomoCopyModalvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=21ba5c32
+
+const MatomoCopyActionvue_type_template_id_21ba5c32_hoisted_1 = ["title", "aria-disabled"];
+function MatomoCopyActionvue_type_template_id_21ba5c32_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+      'matomo-copy-action': true,
+      'table-action': true,
+      'icon-content-copy': true,
+      'is-disabled': !_ctx.isActionEnabled
+    }),
+    title: _ctx.getActionTooltip,
+    "aria-disabled": !_ctx.isActionEnabled,
+    onClick: _cache[0] || (_cache[0] = $event => !_ctx.isActionEnabled || _ctx.handleClick())
+  }, null, 10, MatomoCopyActionvue_type_template_id_21ba5c32_hoisted_1)), [[_directive_tooltips], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isActionVisible]]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=21ba5c32
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=script&lang=ts
+
+
+
+
+/* harmony default export */ var MatomoCopyActionvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    /**
+     * Useful data to pass to the modal, such as the ID for which entity this action triggers a copy
+     */
+    modelData: {
+      type: Object,
+      required: true
+    },
+    /**
+     * This allows modelData to be emitted to the parent so that it can be used by the modal
+     */
+    copyFormData: {
+      type: Object,
+      required: true,
+      default: () => ({})
+    },
+    /**
+     * Indicates the modal should be shown. Emitting an update notifies the parent to show the modal
+     */
+    showCopyModal: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    /**
+     * Indicates whether the action should be shown.
+     */
+    isActionVisible: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    /**
+     * Allows disabling the action (if you want it visible, but not active).
+     */
+    isActionEnabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    /**
+     * Allows setting custom tooltip text. The default is 'Copy {copyEntityTypeTranslation}'.
+     */
+    tooltipTextOverride: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    /**
+     * Custom tooltip text used when the action is disabled, great for explaining why it's disabled.
+     */
+    tooltipTextOverrideDisabled: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    /**
+     * Translation of what is being copied (e.g. goal, funnel, segment, ...). This can be a string
+     * or translation key. If nothing is provided 'report' is used.
+     */
+    copyEntityTypeTranslation: {
+      type: String,
+      required: false,
+      default: ''
+    }
+  },
+  emits: ['update:showCopyModal', 'update:copyFormData'],
+  directives: {
+    Tooltips: Tooltips
+  },
+  mixins: [MatomoCopyLogic],
+  methods: {
+    handleClick() {
+      // Combines the model data and copy form data just in case model data is missing fields
+      const modifiedData = Object.assign(Object.assign({}, this.modelData), this.copyFormData);
+      this.$emit('update:copyFormData', modifiedData);
+      this.$emit('update:showCopyModal', true);
+    }
+  },
+  computed: {
+    getActionTooltip() {
+      if (this.isActionEnabled && this.tooltipTextOverride.length) {
+        return translateOrDefault(this.tooltipTextOverride);
+      }
+      if (!this.isActionEnabled && this.tooltipTextOverrideDisabled.length) {
+        return translateOrDefault(this.tooltipTextOverrideDisabled);
+      }
+      return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue
+
+
+
+MatomoCopyActionvue_type_script_lang_ts.render = MatomoCopyActionvue_type_template_id_21ba5c32_render
+
+/* harmony default export */ var MatomoCopyAction = (MatomoCopyActionvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -10576,6 +10734,7 @@ MatomoCopyModalvue_type_script_lang_ts.render = MatomoCopyModalvue_type_template
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

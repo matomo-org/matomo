@@ -5,7 +5,13 @@
   @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 <template>
-  <div :class="getRootDivClasses" ref="root">
+  <div
+    :class="{
+      'modal': true,
+      'matomo-copy-modal': true,
+      'slot-configured': $slots.default
+    }"
+    ref="root">
     <div class="entire-copy-modal">
       <div class="modal-header">
         <span class="btn-close modal-close"><i class="icon-close"></i></span>
@@ -81,10 +87,11 @@ import useExternalPluginComponent from '../useExternalPluginComponent';
 import SiteRef from '../SiteSelector/SiteRef';
 import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
-import { translate, translateOrDefault } from '../translate';
+import { translate } from '../translate';
 import { externalLink } from '../externalLink';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import MatomoCopyLogic from './MatomoCopyLogic';
 
 // async since we're referencing a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
@@ -126,16 +133,28 @@ export default defineComponent({
       required: true,
       default: false,
     },
+    /**
+     * Should uniquely identify what is being copied (e.g. goal, funnel, segment, ...). The is
+     * important as it's used as the entityTypeName property of the request sent to the server.
+     */
     copyEntityType: {
       type: String,
       required: true,
       default: '',
     },
+    /**
+     * Translation of what is being copied (e.g. goal, funnel, segment, ...). This can be a string
+     * or translation key. If nothing is provided 'report' is used.
+     */
     copyEntityTypeTranslation: {
       type: String,
       required: false,
       default: '',
     },
+    /**
+     * Additional form data that needs to be included in the request sent to the server. This should
+     * typically include the unique identifier of the entity being copied (e.g. idGoal for a goal).
+     */
     formData: {
       type: Object,
       required: false,
@@ -158,6 +177,9 @@ export default defineComponent({
     'resetFormData',
     'copySuccessful',
     'copyFailed',
+  ],
+  mixins: [
+    MatomoCopyLogic,
   ],
   watch: {
     modelValue(newValue) {
@@ -316,23 +338,8 @@ export default defineComponent({
     );
   },
   computed: {
-    getRootDivClasses(): string {
-      const defaults = 'modal matomo-copy-modal';
-      const stateBased = this.$slots.default ? ' slot-configured' : '';
-
-      return `${defaults}${stateBased}`;
-    },
     getModalTitle(): string {
       return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
-    },
-    getEntityTypeTranslation(): string {
-      let translationKey = 'CoreHome_ReportLowercase';
-      if (this.copyEntityTypeTranslation) {
-        translationKey = this.copyEntityTypeTranslation;
-      }
-
-      // Only translate if it's a translation key and not an already translated string
-      return translateOrDefault(translationKey);
     },
     getNoteText(): string {
       const noteText = translate(
