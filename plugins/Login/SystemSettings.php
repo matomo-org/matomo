@@ -35,6 +35,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $loginAttemptsTimeRange;
 
+    /** @var Setting */
+    public $enablePasswordStrengthCheck;
+
     protected function init()
     {
         $this->enableBruteForceDetection = $this->createEnableBruteForceDetection();
@@ -42,6 +45,16 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         $this->loginAttemptsTimeRange = $this->createLoginAttemptsTimeRange();
         $this->blacklistedBruteForceIps = $this->createBlacklistedBruteForceIps();
         $this->whitelisteBruteForceIps = $this->createWhitelisteBruteForceIps();
+        $this->enablePasswordStrengthCheck = $this->createEnablePasswordStrengthCheck();
+    }
+
+    private function createEnablePasswordStrengthCheck(): Setting
+    {
+        return $this->makeSetting('enablePasswordStrengthCheck', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Login_SettingPasswordStrengthCheck');
+            $field->description = Piwik::translate('Login_SettingPasswordStrengthCheckHelp');
+            $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
+        });
     }
 
     private function createEnableBruteForceDetection()
