@@ -85,20 +85,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      */
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
-        if (
-            class_exists('\Piwik\SettingsServer')
-            && class_exists('\Piwik\Common')
-            && \Piwik\SettingsServer::isArchivePhpTriggered()
-            && \Piwik\Common::isPhpCliMode()
-        ) {
-            return true;
-        }
-
-        $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
-                || !empty($GLOBALS['PIWIK_PRINT_ERROR_BACKTRACE'])
-                || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
-
-        return $bool;
+        return \Piwik\ExceptionHandler::shouldPrintBackTraceWithMessage();
     }
 
     /**
@@ -210,7 +197,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         $content = '<h2>' . $message . '</h2>'
             . $redirectSection
             . $backLinks
-            . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
+            . ' ' . (\Piwik\ExceptionHandler::shouldPrintBackTraceWithMessage() ? $optionalTrace : '')
             . ' ' . $optionalLinks;
 
 

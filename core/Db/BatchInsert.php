@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Config\DatabaseConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Db;
+use Piwik\ExceptionHandler;
 use Piwik\Log;
 use Piwik\SettingsServer;
 use Piwik\SettingsPiwik;
@@ -252,7 +253,7 @@ class BatchInsert
             } catch (Exception $e) {
                 $code = $e->getCode();
                 $message = $e->getMessage() . ($code ? "[$code]" : '');
-                if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+                if (ExceptionHandler::shouldPrintBackTraceWithMessage()) {
                     $message .= "\n" . $e->getTraceAsString();
                 }
                 $exceptions[] = "\n  Try #" . (count($exceptions) + 1) . ': ' . $queryStart . ": " . $message;
