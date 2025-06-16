@@ -185,7 +185,7 @@ class Url
             $absoluteUrlComponents = [];
 
             foreach ($urlSections as $section) {
-                if ($section === '.') {
+                if ($section === '.' || $section === '' || $section === '~') {
                     continue;
                 }
 
