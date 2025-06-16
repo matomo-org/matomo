@@ -74,7 +74,7 @@ class TrackerTest extends IntegrationTestCase
     {
         $token_auth = Fixture::getTokenAuth();
         \Piwik\Filesystem::deleteAllCacheOnUpdate();
-        // both requests shoulde btracked, as the token doesn't allow tracking custom ip
+        // both requests should be tracked, as the token doesn't allow tracking custom ip
         $this->issueBulkTrackingRequest($token_auth, true, 2, 0);
     }
 
