@@ -286,13 +286,14 @@ class UrlTest extends \PHPUnit\Framework\TestCase
             ['/index.php', '/foo/../index.php?module=Relative', null],
             ['/index.php', '/bar/./../index.php/route/9?module=Test#section', '/route/9'],
 
-            ['/index.php', '/index.php/route/../10', 'route/../10'],
+            ['/index.php', '/index.php/route/../10', '/route/../10'],
             ['/index.php', '/index.php/route/./11', '/route/./11'],
 
             ['/index.php', '/../index.php', null],
             ['/index.php', '/bar/../../index.php', null],
             ['/.../index.php', '/.../index.php', null],
             ['/index.php', '/.../../index.php', null],
+            ['/index.php', '//index.php', null],
         ];
 
         foreach ($tests as $test) {

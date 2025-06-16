@@ -185,7 +185,7 @@ class Url
             $absoluteUrlComponents = [];
 
             foreach ($urlSections as $section) {
-                if ($section === '.' || $section === '' || $section === '~') {
+                if ($section === '.' || $section === '~') {
                     continue;
                 }
 
@@ -201,6 +201,10 @@ class Url
 
             $url = implode('/', $absoluteUrlComponents);
         }
+
+        // to handle instances of empty strings that don't appear at either end
+        // of the url, and creates double slashes in the resulting url.
+        $url = str_replace('//', '/', $url);
 
         if (!str_starts_with($url, '/')) {
             $url = '/' . $url;
