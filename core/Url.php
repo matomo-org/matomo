@@ -202,7 +202,7 @@ class Url
             $url = implode('/', $absoluteUrlComponents);
         }
 
-        if (!isset($url[0]) || $url[0] !== '/') {
+        if (!str_starts_with($url, '/')) {
             $url = '/' . $url;
         }
 
