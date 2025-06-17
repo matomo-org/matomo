@@ -18,7 +18,6 @@ use Piwik\Plugin\LogTablesProvider;
 use Piwik\Plugins\Actions\Tracker\ActionsRequestProcessor;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\FeatureFlags\UpdateVisitIdInLogTablesOnTrackingRequests;
-use Piwik\Plugins\UserCountry\Columns\Base;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
@@ -385,9 +384,7 @@ class Visit implements VisitInterface
 
         $wasInserted = $this->getModel()->updateVisit($idSite, $idVisit, $valuesToUpdate);
 
-
         if (isset($valuesToUpdate['idvisitor'])) {
-
             if ($this->featureFlagManager->isFeatureActive(UpdateVisitIdInLogTablesOnTrackingRequests::class)) {
                 $this->updateIdVisitorAcrossLogTables($valuesToUpdate['idvisitor']);
                 Common::printDebug('Updating idvisitor across tables for idvisit = ' . $idVisit);

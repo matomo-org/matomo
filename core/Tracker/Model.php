@@ -472,7 +472,7 @@ class Model
 
         $table = Common::prefixTable($logTable);
 
-        $sqlQuery = "UPDATE $table SET idvisitor = ? WHERE ";
+        $sqlQuery = "UPDATE `$table` SET `idvisitor` = ? WHERE ";
         $sqlConditions = [];
         $sqlBind = [$idVisitor];
 
