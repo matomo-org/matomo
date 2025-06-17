@@ -36,7 +36,7 @@ class DomainAge implements MetricsProvider
         $this->logger = $logger;
     }
 
-    public function getMetrics($domain)
+    public function getMetrics(string $domain)
     {
         $domain  = str_replace('www.', '', $domain ?? '');
 

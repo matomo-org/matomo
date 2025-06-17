@@ -195,7 +195,7 @@ class Sorter
 
     /**
      * @param DataTable $table
-     * @param string|int $columnToSort  A column name or column id. Make sure that column actually exists in the row.
+     * @param string|int|null $columnToSort  A column name or column id. Make sure that column actually exists in the row.
      *                                  You might want to get a valid column via {@link getPrimaryColumnToSort()} or
      *                                  {@link getSecondaryColumnToSort()}
      * @return int

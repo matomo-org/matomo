@@ -40,7 +40,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeViewAccess();
 
         $metricProvider = new ProviderCache(new Aggregator());
-        $domain = Url::getHostFromUrl($url);
+        $domain = Url::getHostFromUrl($url) ?: '';
         $metrics = $metricProvider->getMetrics($domain);
 
         $dataTable = $this->toDataTable($metrics);

@@ -43,9 +43,9 @@ class Mysqli extends Db
      * Builds the DB object
      *
      * @param array $dbInfo
-     * @param string $driverName
      */
-    public function __construct($dbInfo, $driverName = 'mysql')
+
+    public function __construct($dbInfo)
     {
         if (isset($dbInfo['unix_socket']) && substr($dbInfo['unix_socket'], 0, 1) == '/') {
             $this->host = null;
