@@ -118,10 +118,6 @@ class Mysql extends Db
      */
     public function connect()
     {
-        if (self::$profiling) {
-            $timer = $this->initProfiler();
-        }
-
         // Make sure MySQL returns all matched rows on update queries including
         // rows that actually didn't have to be updated because the values didn't
         // change. This matches common behaviour among other database systems.
@@ -141,7 +137,8 @@ class Mysql extends Db
             }
         }
 
-        if (self::$profiling && isset($timer)) {
+        if (self::$profiling) {
+            $timer = $this->initProfiler();
             $this->recordQueryProfile('connect', $timer);
         }
     }
@@ -297,17 +294,14 @@ class Mysql extends Db
         }
 
         try {
-            if (self::$profiling) {
-                $timer = $this->initProfiler();
-            }
-
             if (!is_array($parameters)) {
                 $parameters = array($parameters);
             }
             $sth = $this->connection->prepare($query);
             $sth->execute($parameters);
 
-            if (self::$profiling && isset($timer)) {
+            if (self::$profiling) {
+                $timer = $this->initProfiler();
                 $this->recordQueryProfile($query, $timer);
             }
             return $sth;
