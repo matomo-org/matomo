@@ -269,6 +269,9 @@ export default defineComponent({
   },
   computed: {
     hasMultipleDimensions() {
+      if (typeof this.dataTable?.getReportMetadata !== 'function') {
+        return false;
+      }
       return Object.keys(this.dataTable?.getReportMetadata().dimensions || {}).length > 1;
     },
     filterLimitTooltip() {
