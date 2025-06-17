@@ -270,6 +270,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
             ['/path/index.php', '/path/index.php/route/3/?module=Fu&action=Bar#Hash', '/route/3/'],
             // Current directory resolution
             ['/index.php', '/./index.php', null],
+            ['/index.php', './index.php', null],
             ['/foo/index.php', '/foo/./index.php', null],
             ['/foo/index.php', '/foo/./index.php/route/4', '/route/4'],
 
@@ -290,6 +291,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
             ['/index.php', '/index.php/route/./11', '/route/./11'],
 
             ['/index.php', '/../index.php', null],
+            ['/index.php', '../index.php', null],
             ['/index.php', '/bar/../../index.php', null],
             ['/.../index.php', '/.../index.php', null],
             ['/index.php', '/.../../index.php', null],
