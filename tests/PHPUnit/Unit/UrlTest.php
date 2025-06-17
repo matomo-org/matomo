@@ -297,7 +297,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
 
             ['/index.php', '~/index.php', null],
             ['/bar/index.php', '/bar/~/index.php', null],
-            ['/bar/index', '/bar/index/~', null],
+            ['/bar/foo', '/bar/foo/~', null],
         ];
 
         foreach ($tests as $test) {
