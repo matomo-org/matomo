@@ -220,6 +220,7 @@ __webpack_require__.d(__webpack_exports__, "MobileLeftMenu", function() { return
 __webpack_require__.d(__webpack_exports__, "scrollToAnchorInUrl", function() { return /* reexport */ scrollToAnchorInUrl; });
 __webpack_require__.d(__webpack_exports__, "SearchFiltersPersistenceStore", function() { return /* reexport */ SearchFiltersPersistence_store; });
 __webpack_require__.d(__webpack_exports__, "AutoClearPassword", function() { return /* reexport */ AutoClearPassword; });
+__webpack_require__.d(__webpack_exports__, "PasswordStrength", function() { return /* reexport */ PasswordStrength; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -10279,6 +10280,97 @@ function setupAutoClear(el, delay) {
     });
   }
 });
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=4865ed39
+
+const PasswordStrengthvue_type_template_id_4865ed39_hoisted_1 = {
+  class: "password-strength row"
+};
+function PasswordStrengthvue_type_template_id_4865ed39_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", PasswordStrengthvue_type_template_id_4865ed39_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.rules, rule => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
+      key: rule.ruleText,
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(`col s12 xl6 rule rule-${_ctx.ruleStatus(rule)}`)
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+        'icon': true,
+        'icon-ok': _ctx.ruleStatus(rule) === 'valid',
+        'icon-close': _ctx.ruleStatus(rule) === 'invalid',
+        'icon-circle': _ctx.ruleStatus(rule) === 'undefined'
+      })
+    }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rule.ruleText), 1)], 2);
+  }), 128))]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=4865ed39
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=script&lang=ts
+
+/* harmony default export */ var PasswordStrengthvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    validationRules: {
+      type: Array,
+      required: true
+    },
+    password: {
+      type: String,
+      required: true
+    },
+    submitted: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props) {
+    // local reactive copy of the rules
+    const rules = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(props.validationRules.map(rule => Object.assign({}, rule)));
+    // Watch for password changes and update validation status
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => [props.password, props.submitted], ([pwd, sub]) => {
+      rules.forEach(rule => {
+        try {
+          const regex = new RegExp(rule.validationRegex.replace(/^\/|\/$/g, ''));
+          if (regex.test(pwd)) {
+            rule.passed = true;
+          } else if (sub) {
+            rule.passed = false;
+          } else {
+            delete rule.passed;
+          }
+        } catch (e) {
+          console.log('Invalid password validation pattern:', e);
+        }
+      });
+    }, {
+      immediate: true
+    });
+    return {
+      rules
+    };
+  },
+  methods: {
+    ruleStatus(rule) {
+      if (typeof rule.passed === 'undefined') {
+        return 'undefined';
+      }
+      return rule.passed ? 'valid' : 'invalid';
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue
+
+
+
+PasswordStrengthvue_type_script_lang_ts.render = PasswordStrengthvue_type_template_id_4865ed39_render
+
+/* harmony default export */ var PasswordStrength = (PasswordStrengthvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -10286,6 +10378,8 @@ function setupAutoClear(el, delay) {
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
+
 
 
 

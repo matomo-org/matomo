@@ -28,6 +28,9 @@
             :title="translate('Login_NewPassword')"
             :inline-help="translate('UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne')"
             v-auto-clear-password
+            :ui-control-attributes="{
+              passwordStrengthValidationRules: passwordStrengthValidationRules,
+            }"
           />
 
           <Field
@@ -38,6 +41,9 @@
             :title="translate('Login_NewPasswordRepeat')"
             :inline-help="translate('UsersManager_TypeYourPasswordAgain')"
             v-auto-clear-password
+            :ui-control-attributes="{
+              passwordStrengthValidationRules: passwordStrengthValidationRules,
+            }"
           />
 
           <Field
@@ -184,6 +190,7 @@ export default defineComponent({
     invalidHost: String,
     afterPasswordEventContent: String,
     invalidHostMailLinkStart: String,
+    passwordStrengthValidationRules: Array,
   },
   components: {
     ContentBlock,

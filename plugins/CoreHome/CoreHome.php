@@ -159,6 +159,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/FieldArray/FieldArray.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/vue-transitions.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.less";
     }
 
     public function getJsFiles(&$jsFiles)
