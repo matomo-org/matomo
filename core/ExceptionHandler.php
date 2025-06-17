@@ -108,7 +108,7 @@ class ExceptionHandler
         exit(1);
     }
 
-    public static function replaceSensitiveValues($trace)
+    public static function replaceSensitiveValues(string $message): string
     {
         $dbConfig = Db::getDatabaseConfig();
 
@@ -131,7 +131,7 @@ class ExceptionHandler
 
         $valuesToReplace[PIWIK_DOCUMENT_ROOT] = '';
 
-        return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $trace);
+        return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $message);
     }
 
     /**

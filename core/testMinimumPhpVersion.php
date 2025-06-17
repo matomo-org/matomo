@@ -13,9 +13,6 @@
  * This file must be compatible with PHP 5.3.
  */
 
-use Piwik\ExceptionHandler;
-use Piwik\Url;
-
 $piwik_errorMessage = '';
 
 // Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
@@ -68,7 +65,7 @@ if ($minimumPhpInvalid) {
                     "<br/>" . $composerInstall .
                     " This will initialize composer for Matomo and download libraries we use in vendor/* directory." .
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
-                    "\n\n<br/><br/>For more information check out this FAQ: <a href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/faq_18271/') . "' rel='noreferrer noopener' target='_blank'>How do I use Matomo from the Git repository?</a>." .
+            "\n\n<br/><br/>For more information check out this FAQ: <a href='https://matomo.org/faq/how-to-install/faq_18271/' rel='noreferrer noopener' target='_blank'>How do I use Matomo from the Git repository?</a>." .
                     "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Matomo release from " .
                     "<a href='https://builds.matomo.org/piwik.zip' rel='noreferrer noopener'>builds.matomo.org</a>.</p>";
     }
@@ -86,11 +83,11 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      */
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
-        if (!class_exists(ExceptionHandler::class)) {
+        if (!class_exists(\Piwik\ExceptionHandler::class)) {
             return false;
         }
 
-        return ExceptionHandler::shouldPrintBackTraceWithMessage();
+        return \Piwik\ExceptionHandler::shouldPrintBackTraceWithMessage();
     }
 
     /**
@@ -162,10 +159,9 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if ($optionalLinks) {
-
             $adjustUrl = function ($url) {
-                if (class_exists(Url::class)) {
-                    return Url::addCampaignParametersToMatomoLink($url);
+                if (class_exists(\Piwik\Url::class)) {
+                    return \Piwik\Url::addCampaignParametersToMatomoLink($url);
                 }
 
                 return $url;
