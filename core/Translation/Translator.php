@@ -81,7 +81,7 @@ class Translator
      * Returns an internationalized string using a translation ID. If a translation
      * cannot be found for the ID, the ID is returned.
      *
-     * @param string           $translationId Translation ID, eg, `General_Date`.
+     * @param string|null $translationId      Translation ID, eg, `General_Date`.
      * @param array|string|int $args          `sprintf` arguments to be applied to the internationalized
      *                                        string.
      * @param string|null      $language      Optionally force the language.
