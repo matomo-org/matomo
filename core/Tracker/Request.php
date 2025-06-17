@@ -239,7 +239,7 @@ class Request
         $auth->setPasswordHash(null);
         $access = $auth->authenticate();
 
-        if (!empty($access) && $access->hasSuperUserAccess()) {
+        if ($access->hasSuperUserAccess()) {
             return true;
         }
 
@@ -754,6 +754,7 @@ class Request
     public function getVisitorId()
     {
         $found = false;
+        $idVisitor = '';
 
         if (TrackerConfig::getConfigValue('enable_userid_overwrites_visitorid', $this->getIdSiteIfExists())) {
             // If User ID is set it takes precedence
@@ -814,6 +815,7 @@ class Request
     public function getVisitorIdForThirdPartyCookie()
     {
         $found = false;
+        $idVisitor = '';
 
         // For 3rd party cookies, priority is on re-using the existing 3rd party cookie value
         if (!$found) {
