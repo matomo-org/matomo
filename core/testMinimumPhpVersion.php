@@ -13,6 +13,7 @@
  * This file must be compatible with PHP 5.3.
  */
 
+use Piwik\ExceptionHandler;
 use Piwik\Url;
 
 $piwik_errorMessage = '';
@@ -85,7 +86,11 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      */
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
-        return \Piwik\ExceptionHandler::shouldPrintBackTraceWithMessage();
+        if (!class_exists(ExceptionHandler::class)) {
+            return false;
+        }
+
+        return ExceptionHandler::shouldPrintBackTraceWithMessage();
     }
 
     /**
@@ -157,12 +162,21 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if ($optionalLinks) {
+
+            $adjustUrl = function ($url) {
+                if (class_exists(Url::class)) {
+                    return Url::addCampaignParametersToMatomoLink($url);
+                }
+
+                return $url;
+            };
+
             $optionalLinks = '<ul>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org') . '">Matomo.org homepage</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/') . '">Frequently Asked Questions</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/') . '">User Guides</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://forum.matomo.org/') . '">Matomo Forums</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/support/') . '">Professional Support for Matomo</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://matomo.org') . '">Matomo.org homepage</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://matomo.org/faq/') . '">Frequently Asked Questions</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://matomo.org/docs/') . '">User Guides</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://forum.matomo.org/') . '">Matomo Forums</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://matomo.org/support/') . '">Professional Support for Matomo</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {
@@ -197,7 +211,7 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         $content = '<h2>' . $message . '</h2>'
             . $redirectSection
             . $backLinks
-            . ' ' . (\Piwik\ExceptionHandler::shouldPrintBackTraceWithMessage() ? $optionalTrace : '')
+            . ' ' . (Piwik_ShouldPrintBackTraceWithMessage() ? $optionalTrace : '')
             . ' ' . $optionalLinks;
 
 
