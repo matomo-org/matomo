@@ -132,12 +132,15 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
      */
     public function __construct($table, $enable, $processOnlyIdGoal, $goalsToProcess = null)
     {
-        $this->processOnlyIdGoal = $processOnlyIdGoal;
-        $this->isEcommerce = $this->processOnlyIdGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $this->processOnlyIdGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
-        parent::__construct($table);
-        // Ensure that all rows with no visit but conversions will be displayed
-        $this->deleteRowsWithNoVisit = false;
-        $this->goalsToProcess = $goalsToProcess;
+        $enable = true;
+        if ($enable) {
+            $this->processOnlyIdGoal = $processOnlyIdGoal;
+            $this->isEcommerce = $this->processOnlyIdGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER || $this->processOnlyIdGoal === Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_CART;
+            parent::__construct($table);
+            // Ensure that all rows with no visit but conversions will be displayed
+            $this->deleteRowsWithNoVisit = false;
+            $this->goalsToProcess = $goalsToProcess;
+        }
     }
 
     /**
