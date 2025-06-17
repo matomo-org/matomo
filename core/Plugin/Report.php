@@ -699,13 +699,6 @@ class Report
         if (!empty($relatedReports)) {
             $report['relatedReports'] = array();
             foreach ($relatedReports as $relatedReport) {
-<<<<<<< HEAD
-                $report['relatedReports'][] = array(
-                    'name' => $relatedReport->getName(),
-                    'module' => $relatedReport->getModule(),
-                    'action' => $relatedReport->getAction()
-                );
-=======
                 if (!empty($relatedReport)) {
                     $report['relatedReports'][] = [
                         'name'   => $relatedReport->getName(),
@@ -713,7 +706,6 @@ class Report
                         'action' => $relatedReport->getAction(),
                     ];
                 }
->>>>>>> f52263a993357cb4cf780c04a91bd1ac07ae790c
             }
         }
 
