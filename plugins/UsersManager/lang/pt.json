@@ -201,7 +201,6 @@
         "TokenSuccessfullyDeleted": "O código foi eliminado com sucesso",
         "TokenSuccessfullyGenerated": "Código gerado com sucesso",
         "TokensSuccessfullyDeleted": "Todos os códigos foram eliminados com sucesso",
-        "TokensWithExpireDateCreationBySystem": "Tokens com data de validade atualmente só podem ser criados pelo sistema",
         "TwoFactorAuthentication": "Autenticação de dois fatores",
         "TypeYourCurrentPassword": "Por favor, digite a sua palavra.-passe atual para confirmar a alteração da mesma.",
         "TypeYourPasswordAgain": "Introduza novamente a sua nova palavra-passe.",

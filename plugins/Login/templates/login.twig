@@ -39,7 +39,8 @@
                             <input type="hidden" name="form_redirect" id="login_form_redirect" value=""/>
                             <input type="password" name="form_password" id="login_form_password" class="input"
                                    value="" size="20" placeholder="" autocomplete="current-password" autocorrect="off"
-                                   autocapitalize="none" spellcheck="false" tabindex="20" />
+                                   autocapitalize="none" spellcheck="false" tabindex="20"
+                                   vue-directive="CoreHome.AutoClearPassword" />
                             <label for="login_form_password">
                                 <i class="icon-locked icon"></i> {{ 'General_Password'|translate }}
                             </label>
@@ -108,7 +109,8 @@
                         <div class="col s12 input-field">
                             <input type="password" placeholder="" name="form_password" id="reset_form_password" class="input" value="" size="20"
                                    autocorrect="off" autocapitalize="none" spellcheck="false"
-                                   tabindex="20" autocomplete="off"/>
+                                   tabindex="20" autocomplete="off"
+                                   vue-directive="CoreHome.AutoClearPassword" />
                             <label for="reset_form_password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
                         </div>
                     </div>
@@ -116,7 +118,8 @@
                         <div class="col s12 input-field">
                             <input type="password" placeholder="" name="form_password_bis" id="reset_form_password_bis" class="input" value=""
                                    autocorrect="off" autocapitalize="none" spellcheck="false"
-                                   size="20" tabindex="30" autocomplete="off"/>
+                                   size="20" tabindex="30" autocomplete="off"
+                                   vue-directive="CoreHome.AutoClearPassword" />
                             <label for="reset_form_password_bis"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
                         </div>
                     </div>

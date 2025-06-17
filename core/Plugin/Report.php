@@ -699,11 +699,21 @@ class Report
         if (!empty($relatedReports)) {
             $report['relatedReports'] = array();
             foreach ($relatedReports as $relatedReport) {
+<<<<<<< HEAD
                 $report['relatedReports'][] = array(
                     'name' => $relatedReport->getName(),
                     'module' => $relatedReport->getModule(),
                     'action' => $relatedReport->getAction()
                 );
+=======
+                if (!empty($relatedReport)) {
+                    $report['relatedReports'][] = [
+                        'name'   => $relatedReport->getName(),
+                        'module' => $relatedReport->getModule(),
+                        'action' => $relatedReport->getAction(),
+                    ];
+                }
+>>>>>>> f52263a993357cb4cf780c04a91bd1ac07ae790c
             }
         }
 
@@ -760,7 +770,7 @@ class Report
      * Get the list of related reports if there are any. They will be displayed for instance below a report as a
      * recommended related report.
      *
-     * @return Report[]
+     * @return (Report|null)[]
      * @api
      */
     public function getRelatedReports()
@@ -968,7 +978,7 @@ class Report
     {
         $paramOverride = array('idSubtable' => $idSubtable) + $paramOverride;
 
-        list($module, $action) = $this->getSubtableApiMethod();
+        [$module, $action] = $this->getSubtableApiMethod();
         return Request::processRequest($module . '.' . $action, $paramOverride);
     }
 

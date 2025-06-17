@@ -14,6 +14,7 @@
         "AllWebsites": "All websites",
         "LastUsed": "Last used",
         "ExpireDate": "Expire date",
+        "TokenExpireDate": "Token expire date",
         "AuthTokens": "Auth tokens",
         "AuthTokenPurpose": "What are you using this token for?",
         "NoTokenCreatedYetCreateNow": "No token created yet, %1$screate a new token now%2$s.",
@@ -110,7 +111,6 @@
         "TokenSuccessfullyDeleted": "Token was successfully deleted",
         "DeleteAllTokens": "Delete all tokens",
         "ExpiredTokensDeleteAutomatically": "Tokens with an expire date will be deleted automatically.",
-        "TokensWithExpireDateCreationBySystem": "Tokens with expire date can currently only be created by the system",
         "TokenAuthIntro": "Tokens you have generated can be used to access the Matomo reporting API, Matomo tracking API, and exported Matomo widgets and have the same permissions as your regular user login. You can use these tokens also for the Matomo Mobile app.",
         "TypeYourPasswordAgain": "Type your new password again.",
         "TypeYourCurrentPassword": "Please type your current password to confirm the password change.",
@@ -248,6 +248,16 @@
         "AuthTokenNotificationEmail02": "You’re receiving this email because your %1$s%2$s%3$s personal access token has not been rotated since %4$s%5$s%6$s.",
         "AuthTokenNotificationEmail03": "To generate a new token and delete the old one, go to Personal > Security settings in your Matomo instance.",
         "AuthTokenNotificationEmail04": "If you believe you received this email in error, please contact your Matomo administrator.",
-        "AuthTokenNotificationEmail05": "Manage your access tokens"
+        "AuthTokenNotificationEmail05": "Manage your access tokens",
+        "TokenExpireDateCheckboxLabel": "Enable token expiration",
+        "TokenExpireDateCheckboxHelp": "Enable this option and set a custom token expiration date. Regularly rotating auth tokens is a recommended security practice. You will receive an email notification %1$s days before the token expires. After the expiry date, the token will be rejected by the system and you will need to create a new one.",
+        "TokenExpireDateHelpText": "The initial token expiration is set to %1$s days from today, and you can select a custom date. You will receive a reminder %2$s days before the selected token expiration date.",
+        "InvalidTokenExpireDateFormat": "Invalid format of the expire date, please use YYYY-MM-DD. The date also needs to be in the future.",
+        "AuthTokenExpirationWarningEmailSubject": "Reminder: Your Matomo personal access token will expire within the next %1$s",
+        "AuthTokenExpirationWarningEmailReminder": "Reminder: Your auth token will expire within the next %1$s",
+        "AuthTokenExpirationWarningEmail01": "You’re receiving this email because your %1$s personal access token will expire on %2$s.",
+        "AuthTokenExpirationWarningEmail02": "To generate a new token and delete the old one, go to Personal > Security settings in your Matomo instance.",
+        "AuthTokenExpirationWarningEmail03": "If you believe you received this email in error, please contact your Matomo administrator.",
+        "AuthTokenExpirationWarningEmail04": "Manage your access tokens"
     }
 }

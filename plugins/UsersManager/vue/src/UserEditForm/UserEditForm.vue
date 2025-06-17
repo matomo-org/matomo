@@ -115,6 +115,7 @@
               name="user_password"
               autocomplete="new-password"
               :title="translate('General_Password')"
+              v-auto-clear-password
             />
           </div>
           <div class="email-input">
@@ -294,6 +295,7 @@ import {
   externalLink,
   Matomo,
   Notification,
+  AutoClearPassword,
 } from 'CoreHome';
 import {
   PasswordConfirmation,
@@ -372,6 +374,7 @@ export default defineComponent({
   },
   directives: {
     Form,
+    AutoClearPassword,
   },
   data(): UserEditFormState {
     return {

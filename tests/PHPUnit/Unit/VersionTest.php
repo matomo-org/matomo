@@ -109,13 +109,9 @@ class VersionTest extends \PHPUnit\Framework\TestCase
         // stable bumps patch and adds alpha
         $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3', '3.3.4-alpha');
 
-        // non-stable bumps b1, rc1
-        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-b1', '3.3.3-b2');
-        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-rc1', '3.3.3-rc2');
-        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-b1.20201224180000', '3.3.3-b1');
-        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-rc1.20201224180000', '3.3.3-rc1');
-
-        // preview does not bump x.y.z, only dt suffix
+        // non stable and preview does not bump x.y.z, only dt suffix
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-b1', '3.3.3-b1');
+        $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-rc1', '3.3.3-rc1');
         $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-alpha.20201224180000', '3.3.3-alpha');
         $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-b1.20201224180000', '3.3.3-b1');
         $this->assertCorrectPreviewVersionWithoutSuffix('3.3.3-rc1.20201224180000', '3.3.3-rc1');

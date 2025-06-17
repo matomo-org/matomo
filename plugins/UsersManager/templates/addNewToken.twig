@@ -7,8 +7,12 @@
     <div
         vue-entry="UsersManager.AddNewToken"
         no-description="{{ noDescription|json_encode }}"
+        invalid-expire-date="{{ invalidExpireDate|json_encode }}"
         form-nonce="{{ nonce|json_encode }}"
         force-secure-only="{{ forceSecureOnly|json_encode }}"
+        default-expiration-days="{{ defaultExpirationDays|json_encode }}"
+        expiration-reminder-days="{{ expirationReminderDays|json_encode }}"
+        initial-expire-date="{{ initialExpireDate|json_encode }}"
     ></div>
 
 {% endblock %}

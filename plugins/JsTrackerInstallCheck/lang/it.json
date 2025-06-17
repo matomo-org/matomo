@@ -3,6 +3,7 @@
         "JsTrackingCodeInstallCheckFailureMessage": "La verifica del codice di monitoraggio è fallito. Verificare di aver installato correttamente il codice. %1$s Scorpi di più%2$s.",
         "JsTrackingCodeInstallCheckFailureMessageWordpress": "La verifica del codice di monitoraggio è fallito. Verificare di aver installato il plugin \"%1$s\" e seguire tutti i passi. %2$s Scorpi di più%3$s.",
         "JsTrackingCodeInstallCheckSuccessMessage": "Il codice di monitoraggio è stato installato con successo! Questa schermata scomparirà non appena alcuni dati saranno tracciati per il tuo sito.",
+        "OptionalTestInstallationDescription": "Facoltativo: per verificare che il codice di tracciamento (tracking code) sia in grado di inviare richieste alla tua istanza Matomo, immetti l'esatto URL che stai tracciando e clicca su \"Test installation\". Un nuovo tab si prirà e dovrebbe chiudersi in 10 secondi.",
         "PluginDescription": "Verificare se il codice di monitoraggio è stato installato sul tuo sito e che possa inviare richieste di tracciamento alla tua istanza Matomo",
         "TestInstallationBtnText": "Testa installazione"
     }

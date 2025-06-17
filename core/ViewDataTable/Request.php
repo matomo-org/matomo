@@ -72,6 +72,7 @@ class Request
             'filter_column',
             'filter_pattern',
             'flat',
+            'show_dimensions',
             'totals',
             'expanded',
             'pivotBy',

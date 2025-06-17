@@ -220,7 +220,6 @@
         "TokenSuccessfullyDeleted": "Het token is succesvol verwijderd",
         "TokenSuccessfullyGenerated": "Token succesvol aangemaakt",
         "TokensSuccessfullyDeleted": "Alle tokens zijn succesvol verwijderd",
-        "TokensWithExpireDateCreationBySystem": "Tokens met een vervaldatum kunnen momenteel enkel door het systeem worden aangemaakt",
         "TwoFactorAuthentication": "Twee-factor-authenticatie",
         "TypeYourCurrentPassword": "Voer uw huidige wachtwoord in om de wijziging van het wachtwoord te bevestigen.",
         "TypeYourPasswordAgain": "Vul uw wachtwoord nogmaals in.",

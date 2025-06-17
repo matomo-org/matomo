@@ -207,7 +207,6 @@
         "TokenSuccessfullyDeleted": "Il token è stato cancellato con successo",
         "TokenSuccessfullyGenerated": "Token generato con successo",
         "TokensSuccessfullyDeleted": "Tutti i token sono stati cancellati con successo",
-        "TokensWithExpireDateCreationBySystem": "I token con data di scadenza possono attualmente essere creati solo dal sistema",
         "TwoFactorAuthentication": "Autenticazione a due fattori",
         "TypeYourCurrentPassword": "Si prega di digitare la password corrente per confermare il cambio password.",
         "TypeYourPasswordAgain": "Scrivi di nuovo la tua nuova password.",

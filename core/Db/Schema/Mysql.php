@@ -75,6 +75,7 @@ class Mysql implements SchemaInterface
                           date_expired DATETIME NULL,
                           secure_only TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           ts_rotation_notified DATETIME NULL,
+                          ts_expiration_warning_notified DATETIME NULL,
                             PRIMARY KEY(idusertokenauth),
                             UNIQUE KEY uniq_password(password)
                           ) $tableOptions

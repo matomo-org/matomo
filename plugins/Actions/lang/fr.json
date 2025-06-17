@@ -2,7 +2,7 @@
     "Actions": {
         "ActionType": "Type d'action",
         "ActionTypes": "Types d'action",
-        "ActionsInVisit": "Actions de la visite",
+        "ActionsInVisit": "Nombre d'actions de la visite",
         "AvgGenerationTimeTooltip": "Moyenne basée sur %1$s entrée(s) %2$s entre %3$s et %4$s",
         "Behaviour": "Comportement",
         "ColumnActionURL": "URL d'action",

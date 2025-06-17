@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Monolog\Processor;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Db;
 use Piwik\ErrorHandler;
 use Piwik\Exception\InvalidRequestParameterException;
@@ -147,6 +148,16 @@ class ExceptionToTextProcessor
             $dbConfig['username'] => 'dbuser',
             $dbConfig['password'] => 'dbpass',
         ];
+
+        $mailConfig = Config::getInstance()->mail;
+
+        if (!empty($mailConfig['username'])) {
+            $valuesToReplace[$mailConfig['username']] = 'smtpuser';
+        }
+
+        if (!empty($mailConfig['password'])) {
+            $valuesToReplace[$mailConfig['password']] = 'smtppass';
+        }
 
         return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $trace);
     }

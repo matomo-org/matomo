@@ -20,14 +20,14 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
  * @group UsersManager
- * @group AuthTokenNotificationEmailTest
+ * @group AuthTokenRotationNotificationEmailTest
  * @group TokenNotifications
  * @group Plugins
  */
-class AuthTokenNotificationEmailTest extends IntegrationTestCase
+class AuthTokenRotationNotificationEmailTest extends IntegrationTestCase
 {
     /**
-     * @var Fixture
+     * @var TokensFixture
      */
     public static $fixture;
 
@@ -136,4 +136,4 @@ class AuthTokenNotificationEmailTest extends IntegrationTestCase
     }
 }
 
-AuthTokenNotificationEmailTest::$fixture = new TokensFixture();
+AuthTokenRotationNotificationEmailTest::$fixture = new TokensFixture();

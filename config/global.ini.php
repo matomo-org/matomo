@@ -566,6 +566,15 @@ only_allow_secure_auth_tokens = 0
 ; Recommended to keep enabled for best security.
 auth_token_rotation_notification_days = 180
 
+; Number of days that will be added to 'today' to preset an expiration date when a new auth token is being created
+; For example, if a user starts creating an auth token on 1 May 2025, the expiry date will be preset to 1 November 2025.
+auth_token_default_expiration_days = 180
+
+; Number of days before the expiration date of a personal auth token, where an email notification is sent to the user.
+; If set to 0 days, notifications won't be sent. 
+; Recommended to keep enabled for best security.
+auth_token_expiration_notification_days = 30
+
 ; language cookie name for session
 language_cookie_name = matomo_lang
 

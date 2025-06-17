@@ -174,30 +174,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 // CONCATENATED MODULE: ./plugins/Morpheus/vue/src/Demo/Demo.vue?vue&type=template&id=da6620a8
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Morpheus/vue/src/Demo/DemoCodePair.vue?vue&type=template&id=40b1793e
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Morpheus/vue/src/Demo/DemoCodePair.vue?vue&type=template&id=f61d0dcc
 
-const DemoCodePairvue_type_template_id_40b1793e_hoisted_1 = {
+const DemoCodePairvue_type_template_id_f61d0dcc_hoisted_1 = ["data-snippet"];
+const DemoCodePairvue_type_template_id_f61d0dcc_hoisted_2 = {
   key: 0
 };
-const DemoCodePairvue_type_template_id_40b1793e_hoisted_2 = {
+const DemoCodePairvue_type_template_id_f61d0dcc_hoisted_3 = {
   key: 1,
   class: "demo"
 };
-const DemoCodePairvue_type_template_id_40b1793e_hoisted_3 = {
+const DemoCodePairvue_type_template_id_f61d0dcc_hoisted_4 = {
   key: 2,
   class: "demo-code"
 };
-const DemoCodePairvue_type_template_id_40b1793e_hoisted_4 = {
+const _hoisted_5 = {
   key: 3
 };
-function DemoCodePairvue_type_template_id_40b1793e_render(_ctx, _cache, $props, $setup, $data, $options) {
+function DemoCodePairvue_type_template_id_f61d0dcc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
       'margin-top': _ctx.snippet.noMargin ? '-16px' : undefined
-    })
-  }, [_ctx.snippet.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", DemoCodePairvue_type_template_id_40b1793e_hoisted_1, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.snippet.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.snippet.vue_embed ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DemoCodePairvue_type_template_id_40b1793e_hoisted_2, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(_ctx.vueEmbedComponent)))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.snippet.code ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DemoCodePairvue_type_template_id_40b1793e_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.processedSnippetCode), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.snippet.desc ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", DemoCodePairvue_type_template_id_40b1793e_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.snippet.desc), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 4);
+    }),
+    "data-snippet": _ctx.snippet.id
+  }, [_ctx.snippet.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", DemoCodePairvue_type_template_id_f61d0dcc_hoisted_2, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.snippet.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.snippet.vue_embed ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DemoCodePairvue_type_template_id_f61d0dcc_hoisted_3, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(_ctx.vueEmbedComponent)))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.snippet.code ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DemoCodePairvue_type_template_id_f61d0dcc_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("pre", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.processedSnippetCode), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.snippet.desc ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", _hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.snippet.desc), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 12, DemoCodePairvue_type_template_id_f61d0dcc_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/Morpheus/vue/src/Demo/DemoCodePair.vue?vue&type=template&id=40b1793e
+// CONCATENATED MODULE: ./plugins/Morpheus/vue/src/Demo/DemoCodePair.vue?vue&type=template&id=f61d0dcc
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -251,7 +253,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
 
 
 
-DemoCodePairvue_type_script_lang_ts.render = DemoCodePairvue_type_template_id_40b1793e_render
+DemoCodePairvue_type_script_lang_ts.render = DemoCodePairvue_type_template_id_f61d0dcc_render
 
 /* harmony default export */ var DemoCodePair = (DemoCodePairvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Morpheus/vue/src/Demo/Demo.vue?vue&type=script&lang=ts
