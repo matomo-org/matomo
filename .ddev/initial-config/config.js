@@ -5,7 +5,6 @@ exports.phpServer = {
     REMOTE_ADDR: '127.0.0.1'
 };
 exports.browserConfig = {
-  args: ['--no-sandbox', '--ignore-certificate-errors'],
-  executablePath: '/usr/bin/chromium'
+  args: ['--no-sandbox', '--ignore-certificate-errors']
 };
 
