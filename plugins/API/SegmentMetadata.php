@@ -90,6 +90,8 @@ class SegmentMetadata
 
         $columns = array('category', 'type', 'name', 'segment');
 
+        $compare = 0;
+
         foreach ($columns as $column) {
             // Keep segments ordered alphabetically inside categories..
             $type = -1;

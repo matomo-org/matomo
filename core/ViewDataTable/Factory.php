@@ -187,7 +187,7 @@ class Factory
     /**
      * Returns the default viewDataTable ID to use when determining which visualization to use.
      *
-     * @param Report $report
+     * @param Report|null $report
      * @param string $apiAction
      *
      * @return bool|string
@@ -204,7 +204,7 @@ class Factory
     /**
      * Returns if the default viewDataTable ID to use is fixed.
      *
-     * @param Report $report
+     * @param Report|null $report
      * @return bool
      */
     private static function isDefaultViewTypeForReportFixed($report)
