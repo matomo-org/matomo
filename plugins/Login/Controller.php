@@ -462,20 +462,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return null;
     }
 
-    /**
-     * @param QuickForm2 $form
-     * @return array of rules the password breaks
-     */
-    private function checkResetPasswordStrength(QuickForm2 $form): array
-    {
-        $password = $form->getSubmitValue('form_password');
-
-        $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
-        $brokenRules = $passwordStrengthChecker->validatePasswordStrength($password);
-
-        return $brokenRules;
-    }
-
     public function initiateCancelResetPassword(): string
     {
         if (!Url::isValidHost()) {
