@@ -93,7 +93,7 @@ class PasswordStrength
             return '';
         }
 
-        $concatenatedRules = implode(', ', array_map(fn ($rule): string => strtolower($rule), $brokenRules));
+        $concatenatedRules = implode(', ', array_map('strtolower', $brokenRules));
 
         return Piwik::translate('General_PasswordStrengthValidationFailed', $concatenatedRules);
     }
