@@ -405,17 +405,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return $this->renderResetPasswordView([$nonceError]);
         }
 
-        $passwordStrengthBrokenRules = $this->checkResetPasswordStrength($form);
+        $password = $form->getSubmitValue('form_password');
+        $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
+        $brokenRules = $passwordStrengthChecker->validatePasswordStrength($password);
 
-        if (!empty($passwordStrengthBrokenRules)) {
-            $error = Piwik::translate('Login_PasswordStrengthValidationFailed') . ' ';
-            $error .= array_reduce($passwordStrengthBrokenRules, function ($result, $rule) {
-                if (isset($result)) {
-                    return $result . ', ' . strtolower($rule);
-                }
-                return strtolower($rule);
-            }) . '.';
-            return $this->renderResetPasswordView([$error]);
+        if (!empty($brokenRules)) {
+            $errorMsg = $passwordStrengthChecker->formatValidationFailedMessage($brokenRules);
+            return $this->renderResetPasswordView([$errorMsg]);
         }
 
         $firstStepFormErrors = $this->resetPasswordFirstStep($form);
@@ -723,13 +719,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
             $brokenRules = $passwordStrengthChecker->validatePasswordStrength($password);
             if (!empty($brokenRules)) {
-                $error = Piwik::translate('Login_PasswordStrengthValidationFailed') . ' ';
-                $error .= array_reduce($brokenRules, function ($result, $rule) {
-                    if (isset($result)) {
-                        return $result . ', ' . strtolower($rule);
-                    }
-                    return strtolower($rule);
-                }) . '.';
+                $error = $passwordStrengthChecker->formatValidationFailedMessage($brokenRules);
             }
 
             if (!$error) {
