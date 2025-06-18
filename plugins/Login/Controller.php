@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\Auth\Password;
-use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
