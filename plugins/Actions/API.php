@@ -491,7 +491,7 @@ class API extends \Piwik\Plugin\API
             $callBackParameters[7] = $idSubTable;
 
             /**
-             * @var \Piwik\Period $period
+             * @var \Piwik\Period|false $period
              */
             $period = $table->getMetadata('period');
             if (!empty($period)) {

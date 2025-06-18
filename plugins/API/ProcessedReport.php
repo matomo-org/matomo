@@ -715,7 +715,7 @@ class ProcessedReport
                         $formatMetrics === null
                         || $formatMetrics == 'bc'
                     ) {
-                        $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue, $htmlAllowed = false);
+                        $prettyValue = self::getPrettyValue($formatter, $idSiteForRow, $columnName, $columnValue);
                     } else {
                         $prettyValue = $columnValue;
                     }
@@ -729,7 +729,7 @@ class ProcessedReport
                 }
             }
 
-            /** @var DataTable $comparisons */
+            /** @var DataTable|mixed $comparisons */
             $comparisons = $row->getComparisons();
 
             if (

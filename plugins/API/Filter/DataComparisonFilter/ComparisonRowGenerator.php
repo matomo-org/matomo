@@ -217,7 +217,7 @@ class ComparisonRowGenerator
             $parentTable
             && $this->isRequestMultiplePeriod
         ) {
-            /** @var Period $period */
+            /** @var Period|false $period */
             $period = $parentTable->getMetadata('period');
             if (empty($period)) {
                 return;

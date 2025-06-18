@@ -284,7 +284,7 @@ class DataComparisonFilter
 
     /**
      * @param $paramsToModify
-     * @return DataTable
+     * @return DataTable|mixed
      */
     private function requestReport($method, $paramsToModify)
     {
@@ -361,7 +361,7 @@ class DataComparisonFilter
             }
 
             foreach ($rows as $row) {
-                /** @var DataTable $comparisonTable */
+                /** @var DataTable|mixed $comparisonTable */
                 $comparisonTable = $row->getComparisons();
                 if (!empty($comparisonTable)) { // sanity check
                     $columnMappings = $this->columnMappings;
