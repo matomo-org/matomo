@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -698,6 +699,14 @@ class Controller extends ControllerAdmin
 
         if ($newPassword === $passwordCurrent) {
             throw new Exception($this->translator->translate('UsersManager_PasswordAlreadyInUse'));
+        }
+
+        // check password is sufficently strong
+        $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
+        $brokenRules = $passwordStrengthChecker->validatePasswordStrength($newPassword);
+        if (!empty($brokenRules)) {
+            $brokenRulesMsg = implode(' - ', $brokenRules);
+            throw new Exception($brokenRulesMsg);
         }
 
         Request::processRequest('UsersManager.updateUser', [

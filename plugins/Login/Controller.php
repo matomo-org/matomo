@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\Auth\Password;
+use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -405,6 +406,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return $this->renderResetPasswordView([$nonceError]);
         }
 
+        $passwordStrengthBrokenRules = $this->checkResetPasswordStrength($form);
+
+        if (!empty($passwordStrengthBrokenRules)) {
+            return $this->renderResetPasswordView($passwordStrengthBrokenRules);
+        }
+
         $firstStepFormErrors = $this->resetPasswordFirstStep($form);
 
         if (!empty($firstStepFromErrors)) {
@@ -451,6 +458,20 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return null;
+    }
+
+    /**
+     * @param QuickForm2 $form
+     * @return array of rules the password breaks
+     */
+    private function checkResetPasswordStrength(QuickForm2 $form): array
+    {
+        $password = $form->getSubmitValue('form_password');
+
+        $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
+        $brokenRules = $passwordStrengthChecker->validatePasswordStrength($password);
+
+        return $brokenRules;
     }
 
     public function initiateCancelResetPassword(): string
@@ -690,6 +711,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // confirm matching passwords
             if ($password !== $passwordConfirmation) {
                 $error = Piwik::translate('Login_PasswordsDoNotMatch');
+            }
+
+            // check password strength
+            $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
+            $brokenRules = $passwordStrengthChecker->validatePasswordStrength($password);
+            if (!empty($brokenRules)) {
+                $brokenRulesMsg = implode(' - ', $brokenRules);
+                $error = $brokenRulesMsg;
             }
 
             if (!$error) {
