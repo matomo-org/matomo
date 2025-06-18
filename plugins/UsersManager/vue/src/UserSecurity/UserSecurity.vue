@@ -31,6 +31,7 @@
             :ui-control-attributes="{
               passwordStrengthValidationRules: passwordStrengthValidationRules,
             }"
+            @check:isValid="setPasswordStrengthValidation($event, 'passwordStrengthMet')"
           />
 
           <Field
@@ -44,6 +45,7 @@
             :ui-control-attributes="{
               passwordStrengthValidationRules: passwordStrengthValidationRules,
             }"
+            @check:isValid="setPasswordStrengthValidation($event, 'passwordBisStrengthMet')"
           />
 
           <Field
@@ -62,6 +64,7 @@
             type="submit"
             :value="translate('General_Save')"
             class="btn"
+            :disabled="!isPasswordChangeFormSubmitEnabled"
           />
         </div>
 
@@ -177,6 +180,8 @@ interface UserSecurityState {
   password: string;
   passwordBis: string;
   passwordConfirmation: string;
+  passwordStrengthMet: boolean;
+  passwordBisStrengthMet: boolean;
 }
 
 export default defineComponent({
@@ -205,11 +210,18 @@ export default defineComponent({
       password: '',
       passwordBis: '',
       passwordConfirmation: '',
+      passwordStrengthMet: false,
+      passwordBisStrengthMet: false,
     };
   },
   mounted() {
     const afterPassword = this.$refs.afterPassword as HTMLElement;
     Matomo.helper.compileVueEntryComponents(afterPassword);
+  },
+  methods: {
+    setPasswordStrengthValidation($event, field) {
+      this[field] = !!$event;
+    },
   },
   computed: {
     recordPasswordChangeAction() {
@@ -277,6 +289,11 @@ export default defineComponent({
           Matomo.helper.destroyVueComponent(afterPassword);
         },
       });
+    },
+    isPasswordChangeFormSubmitEnabled() {
+      return this.passwordStrengthMet
+        && this.passwordBisStrengthMet
+        && this.passwordConfirmation;
     },
   },
 });

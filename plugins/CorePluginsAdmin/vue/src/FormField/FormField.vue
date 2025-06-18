@@ -34,6 +34,7 @@
           ...extraChildComponentParams,
         }"
         @update:modelValue="onChange($event)"
+        @check:isValid="onCheckIsValid($event)"
       >
       </component>
     </div>
@@ -168,7 +169,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'check:isValid'],
   components: {
     FieldCheckbox,
     FieldCheckboxArray,
@@ -389,6 +390,9 @@ export default defineComponent({
   methods: {
     onChange(newValue: unknown) {
       this.$emit('update:modelValue', newValue);
+    },
+    onCheckIsValid(isValid: boolean) {
+      this.$emit('check:isValid', isValid);
     },
   },
 });

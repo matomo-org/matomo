@@ -29,6 +29,7 @@
     :password="modelValueText"
     :validation-rules="passwordStrengthValidationRules"
     :submitted="submitted"
+    @check:isValid="onCheckIsValid($event)"
   />
 </template>
 
@@ -49,7 +50,7 @@ export default defineComponent({
     submitted: Boolean,
   },
   inheritAttrs: false,
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'check:isValid'],
   computed: {
     modelValueText() {
       if (typeof this.modelValue === 'undefined' || this.modelValue === null) {
@@ -100,6 +101,9 @@ export default defineComponent({
 
         this.$emit('update:modelValue', emitEventData);
       }
+    },
+    onCheckIsValid(isValid: boolean) {
+      this.$emit('check:isValid', isValid);
     },
   },
 });

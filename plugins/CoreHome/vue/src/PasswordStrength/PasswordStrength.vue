@@ -47,7 +47,8 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props) {
+  emits: ['check:isValid'],
+  setup(props, { emit }) {
     // local reactive copy of the rules
     const rules = reactive(
       props.validationRules.map((rule) => ({ ...rule })),
@@ -57,11 +58,13 @@ export default defineComponent({
     watch(
       () => [props.password, props.submitted],
       ([pwd, sub]) => {
+        const rulesValidity = [];
         rules.forEach((rule) => {
           try {
             const regex = new RegExp(rule.validationRegex.replace(/^\/|\/$/g, ''));
             if (regex.test(pwd as string)) {
               rule.passed = true;
+              rulesValidity.push(true);
             } else if (sub) {
               rule.passed = false;
             } else {
@@ -71,6 +74,9 @@ export default defineComponent({
             console.log('Invalid password validation pattern:', e);
           }
         });
+        if (rules.length > 0 && (rulesValidity.length === rules.length)) {
+          emit('check:isValid', true);
+        }
       },
       { immediate: true },
     );
