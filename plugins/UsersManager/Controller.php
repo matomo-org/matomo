@@ -711,7 +711,7 @@ class Controller extends ControllerAdmin
                     return $result . ', ' . strtolower($rule);
                 }
                 return strtolower($rule);
-            });
+            }) . '.';
             throw new Exception($error);
         }
 

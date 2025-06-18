@@ -415,7 +415,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                     return $result . ', ' . strtolower($rule);
                 }
                 return strtolower($rule);
-            });
+            }) . '.';
             return $this->renderResetPasswordView([$error]);
         }
 
@@ -730,7 +730,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                         return $result . ', ' . strtolower($rule);
                     }
                     return strtolower($rule);
-                });
+                }) . '.';
             }
 
             if (!$error) {
