@@ -410,7 +410,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if (!empty($passwordStrengthBrokenRules)) {
             $error = Piwik::translate('Login_PasswordStrengthValidationFailed') . ' ';
-            $error .= array_reduce($passwordStrengthBrokenRules, function (string|null $result, string $rule) {
+            $error .= array_reduce($passwordStrengthBrokenRules, function ($result, $rule) {
                 if (isset($result)) {
                     return $result . ', ' . strtolower($rule);
                 }
@@ -725,7 +725,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $brokenRules = $passwordStrengthChecker->validatePasswordStrength($password);
             if (!empty($brokenRules)) {
                 $error = Piwik::translate('Login_PasswordStrengthValidationFailed') . ' ';
-                $error .= array_reduce($brokenRules, function (string|null $result, string $rule) {
+                $error .= array_reduce($brokenRules, function ($result, $rule) {
                     if (isset($result)) {
                         return $result . ', ' . strtolower($rule);
                     }
