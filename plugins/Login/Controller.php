@@ -409,7 +409,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $passwordStrengthBrokenRules = $this->checkResetPasswordStrength($form);
 
         if (!empty($passwordStrengthBrokenRules)) {
-            return $this->renderResetPasswordView($passwordStrengthBrokenRules);
+            $error = Piwik::translate('Login_PasswordStrengthValidationFailed') . ' ';
+            $error .= array_reduce($passwordStrengthBrokenRules, function(string|null $result, string $rule) {
+                if (isset($result)) {
+                    return $result . ', ' . strtolower($rule);
+                }
+                return strtolower($rule);
+            });
+            return $this->renderResetPasswordView([$error]);
         }
 
         $firstStepFormErrors = $this->resetPasswordFirstStep($form);
@@ -717,8 +724,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
             $brokenRules = $passwordStrengthChecker->validatePasswordStrength($password);
             if (!empty($brokenRules)) {
-                $brokenRulesMsg = implode(' - ', $brokenRules);
-                $error = $brokenRulesMsg;
+                $error = Piwik::translate('Login_PasswordStrengthValidationFailed') . ' ';
+                $error .= array_reduce($brokenRules, function(string|null $result, string $rule) {
+                    if (isset($result)) {
+                        return $result . ', ' . strtolower($rule);
+                    }
+                    return strtolower($rule);
+                });
             }
 
             if (!$error) {

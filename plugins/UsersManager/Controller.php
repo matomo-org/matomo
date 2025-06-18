@@ -705,8 +705,14 @@ class Controller extends ControllerAdmin
         $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
         $brokenRules = $passwordStrengthChecker->validatePasswordStrength($newPassword);
         if (!empty($brokenRules)) {
-            $brokenRulesMsg = implode(' - ', $brokenRules);
-            throw new Exception($brokenRulesMsg);
+            $error = Piwik::translate('Login_PasswordStrengthValidationFailed') . ' ';
+            $error .= array_reduce($brokenRules, function(string|null $result, string $rule) {
+                if (isset($result)) {
+                    return $result . ', ' . strtolower($rule);
+                }
+                return strtolower($rule);
+            });
+            throw new Exception($error);
         }
 
         Request::processRequest('UsersManager.updateUser', [
