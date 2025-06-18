@@ -706,7 +706,7 @@ class Controller extends ControllerAdmin
         $brokenRules = $passwordStrengthChecker->validatePasswordStrength($newPassword);
         if (!empty($brokenRules)) {
             $error = Piwik::translate('Login_PasswordStrengthValidationFailed') . ' ';
-            $error .= array_reduce($brokenRules, function(string|null $result, string $rule) {
+            $error .= array_reduce($brokenRules, function (string|null $result, string $rule) {
                 if (isset($result)) {
                     return $result . ', ' . strtolower($rule);
                 }
