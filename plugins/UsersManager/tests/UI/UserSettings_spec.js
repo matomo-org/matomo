@@ -163,4 +163,14 @@ describe("UserSettings", function () {
         await page.click('#userSettingsTable .btn');
         expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reuse');
     });
+
+    it('should not allow a password to be set that doesnt meet strength requirements', async function () {
+        const weakPassword = 'password1';
+        await page.goto(userSecurityUrl);
+        await page.type('#password', weakPassword);
+        await page.type('#passwordBis', weakPassword);
+        await page.type('#passwordConfirmation', superUserPassword);
+        await page.click('#userSettingsTable .btn');
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('password_strength');
+    });
 });
