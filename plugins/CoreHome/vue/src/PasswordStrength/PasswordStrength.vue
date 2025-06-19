@@ -5,7 +5,7 @@
   @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<template v-if="validationRules.length">
+<template v-if="rules.length">
   <ul class="password-strength row">
     <li v-for="rule in rules"
         :key="rule.ruleText"
@@ -27,8 +27,6 @@
 import {
   defineComponent,
   PropType,
-  reactive,
-  watch,
 } from 'vue';
 import { PasswordRule } from './PasswordStrength';
 
@@ -40,48 +38,76 @@ export default defineComponent({
     },
     password: {
       type: String,
-      required: true,
+      default: '',
     },
-    submitted: {
-      type: Boolean,
-      default: false,
+    externalInputSelector: {
+      type: String,
+      default: '',
     },
   },
+  data() {
+    return {
+      pwd: '',
+      rules: [],
+    };
+  },
   emits: ['check:isValid'],
-  setup(props, { emit }) {
-    // local reactive copy of the rules
-    const rules = reactive(
-      props.validationRules.map((rule) => ({ ...rule })),
-    );
-
-    // Watch for password changes and update validation status
-    watch(
-      () => [props.password, props.submitted],
-      ([pwd, sub]) => {
+  watch: {
+    pwdValue: {
+      immediate: true,
+      handler(pwd: string) {
         const rulesValidity = [];
-        rules.forEach((rule) => {
+        this.rules.forEach((rule) => {
+          if (!pwd.length) {
+            delete rule.passed;
+            return;
+          }
           try {
             const regex = new RegExp(rule.validationRegex.replace(/^\/|\/$/g, ''));
             if (regex.test(pwd as string)) {
               rule.passed = true;
               rulesValidity.push(true);
-            } else if (sub) {
-              rule.passed = false;
             } else {
-              delete rule.passed;
+              rule.passed = false;
             }
           } catch (e) {
             console.log('Invalid password validation pattern:', e);
           }
         });
-        if (rules.length > 0 && (rulesValidity.length === rules.length)) {
-          emit('check:isValid', true);
+        if (this.rules.length > 0 && (rulesValidity.length === this.rules.length)) {
+          this.$emit('check:isValid', true);
         }
       },
-      { immediate: true },
-    );
+    },
+  },
+  computed: {
+    pwdValue(): string {
+      if (this.externalInputSelector?.length) {
+        return this.pwd;
+      }
+      return this.password;
+    },
+  },
+  mounted() {
+    this.rules = this.validationRules.length
+      ? this.validationRules.map((rule) => ({ ...rule }))
+      : [];
 
-    return { rules };
+    if (this.externalInputSelector?.length) {
+      const input = document.querySelector<HTMLInputElement>(this.externalInputSelector);
+      if (input) {
+        input.addEventListener('input', this.handleExternalInput);
+        this.pwd = input.value;
+      }
+    }
+  },
+  unmounted() {
+    if (this.externalInputSelector?.length) {
+      const input = document.querySelector<HTMLInputElement>(this.externalInputSelector);
+      if (input) {
+        input.removeEventListener('input', this.handleExternalInput);
+      }
+    }
   },
   methods: {
     ruleStatus(rule: PasswordRule): string {
@@ -89,6 +115,10 @@ export default defineComponent({
         return 'undefined';
       }
       return rule.passed ? 'valid' : 'invalid';
+    },
+    handleExternalInput(event: Event) {
+      const target = event.target as HTMLInputElement;
+      this.pwd = target.value;
     },
   },
 });

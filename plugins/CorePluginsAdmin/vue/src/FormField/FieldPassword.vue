@@ -28,7 +28,6 @@
   <PasswordStrength
     :password="modelValueText"
     :validation-rules="passwordStrengthValidationRules"
-    :submitted="submitted"
     @check:isValid="onCheckIsValid($event)"
   />
 </template>
@@ -47,7 +46,6 @@ export default defineComponent({
     modelValue: [String, Number],
     modelModifiers: Object,
     uiControl: String,
-    submitted: Boolean,
   },
   inheritAttrs: false,
   emits: ['update:modelValue', 'check:isValid'],

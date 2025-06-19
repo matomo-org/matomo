@@ -69,12 +69,16 @@ class Controller extends ControllerAdmin
      */
     private $passwordStrength;
 
-    public function __construct(Translator $translator, PasswordVerifier $passwordVerify, Model $userModel)
-    {
+    public function __construct(
+        Translator $translator,
+        PasswordVerifier $passwordVerify,
+        Model $userModel,
+        PasswordStrength $passwordStrength
+    ) {
         $this->translator = $translator;
         $this->passwordVerify = $passwordVerify;
         $this->userModel = $userModel;
-        $this->passwordStrength = new PasswordStrength(true); // change to DI once we don't need the param
+        $this->passwordStrength = $passwordStrength;
         $this->pluginManager = Plugin\Manager::getInstance();
 
         parent::__construct();
