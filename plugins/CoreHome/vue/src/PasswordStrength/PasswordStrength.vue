@@ -30,6 +30,11 @@ import {
 } from 'vue';
 import { PasswordRule } from './PasswordStrength';
 
+interface PasswordStrengthState {
+  pwd: string;
+  rules: PasswordRule[];
+}
+
 export default defineComponent({
   props: {
     validationRules: {
@@ -45,7 +50,7 @@ export default defineComponent({
       default: '',
     },
   },
-  data() {
+  data(): PasswordStrengthState {
     return {
       pwd: '',
       rules: [],
@@ -58,7 +63,7 @@ export default defineComponent({
       handler(pwd: string) {
         const rulesValidity = [];
         this.rules.forEach((rule) => {
-          if (!pwd.length) {
+          if (!pwd.length && typeof rule.passed !== 'undefined') {
             delete rule.passed;
             return;
           }

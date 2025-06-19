@@ -219,8 +219,13 @@ export default defineComponent({
     Matomo.helper.compileVueEntryComponents(afterPassword);
   },
   methods: {
-    setPasswordStrengthValidation($event, field) {
-      this[field] = !!$event;
+    setPasswordStrengthValidation(event: boolean, field: string) {
+      if (field === 'passwordStrengthMet') {
+        this.passwordStrengthMet = event;
+      }
+      if (field === 'passwordBisStrengthMet') {
+        this.passwordBisStrengthMet = event;
+      }
     },
   },
   computed: {
