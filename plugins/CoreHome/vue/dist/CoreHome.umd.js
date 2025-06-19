@@ -10280,13 +10280,13 @@ function setupAutoClear(el, delay) {
     });
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=4865ed39
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=40d57bf1
 
-const PasswordStrengthvue_type_template_id_4865ed39_hoisted_1 = {
+const PasswordStrengthvue_type_template_id_40d57bf1_hoisted_1 = {
   class: "password-strength row"
 };
-function PasswordStrengthvue_type_template_id_4865ed39_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", PasswordStrengthvue_type_template_id_4865ed39_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.rules, rule => {
+function PasswordStrengthvue_type_template_id_40d57bf1_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", PasswordStrengthvue_type_template_id_40d57bf1_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.rules, rule => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: rule.ruleText,
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(`col s12 xl6 rule rule-${_ctx.ruleStatus(rule)}`)
@@ -10300,7 +10300,7 @@ function PasswordStrengthvue_type_template_id_4865ed39_render(_ctx, _cache, $pro
     }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rule.ruleText), 1)], 2);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=4865ed39
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=40d57bf1
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=script&lang=ts
 
@@ -10312,38 +10312,76 @@ function PasswordStrengthvue_type_template_id_4865ed39_render(_ctx, _cache, $pro
     },
     password: {
       type: String,
-      required: true
+      default: ''
     },
-    submitted: {
-      type: Boolean,
-      default: false
+    externalInputSelector: {
+      type: String,
+      default: ''
     }
   },
-  setup(props) {
-    // local reactive copy of the rules
-    const rules = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(props.validationRules.map(rule => Object.assign({}, rule)));
-    // Watch for password changes and update validation status
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => [props.password, props.submitted], ([pwd, sub]) => {
-      rules.forEach(rule => {
-        try {
-          const regex = new RegExp(rule.validationRegex.replace(/^\/|\/$/g, ''));
-          if (regex.test(pwd)) {
-            rule.passed = true;
-          } else if (sub) {
-            rule.passed = false;
-          } else {
-            delete rule.passed;
-          }
-        } catch (e) {
-          console.log('Invalid password validation pattern:', e);
-        }
-      });
-    }, {
-      immediate: true
-    });
+  data() {
     return {
-      rules
+      pwd: '',
+      rules: []
     };
+  },
+  emits: ['check:isValid'],
+  watch: {
+    pwdValue: {
+      immediate: true,
+      handler(pwd) {
+        const rulesValidity = [];
+        this.rules.forEach(rule => {
+          if (!pwd.length && typeof rule.passed !== 'undefined') {
+            delete rule.passed;
+            return;
+          }
+          try {
+            const regex = new RegExp(rule.validationRegex.replace(/^\/|\/$/g, ''));
+            if (regex.test(pwd)) {
+              rule.passed = true;
+              rulesValidity.push(true);
+            } else {
+              rule.passed = false;
+            }
+          } catch (e) {
+            console.log('Invalid password validation pattern:', e);
+          }
+        });
+        if (this.rules.length > 0 && rulesValidity.length === this.rules.length) {
+          this.$emit('check:isValid', true);
+        }
+      }
+    }
+  },
+  computed: {
+    pwdValue() {
+      var _this$externalInputSe;
+      if ((_this$externalInputSe = this.externalInputSelector) !== null && _this$externalInputSe !== void 0 && _this$externalInputSe.length) {
+        return this.pwd;
+      }
+      return this.password;
+    }
+  },
+  mounted() {
+    var _this$externalInputSe2;
+    this.rules = this.validationRules.length ? this.validationRules.map(rule => Object.assign({}, rule)) : [];
+    if ((_this$externalInputSe2 = this.externalInputSelector) !== null && _this$externalInputSe2 !== void 0 && _this$externalInputSe2.length) {
+      const input = document.querySelector(this.externalInputSelector);
+      if (input) {
+        input.addEventListener('input', this.handleExternalInput);
+        this.pwd = input.value;
+      }
+    }
+  },
+  unmounted() {
+    var _this$externalInputSe3;
+    if ((_this$externalInputSe3 = this.externalInputSelector) !== null && _this$externalInputSe3 !== void 0 && _this$externalInputSe3.length) {
+      const input = document.querySelector(this.externalInputSelector);
+      if (input) {
+        input.removeEventListener('input', this.handleExternalInput);
+      }
+    }
   },
   methods: {
     ruleStatus(rule) {
@@ -10351,6 +10389,10 @@ function PasswordStrengthvue_type_template_id_4865ed39_render(_ctx, _cache, $pro
         return 'undefined';
       }
       return rule.passed ? 'valid' : 'invalid';
+    },
+    handleExternalInput(event) {
+      const target = event.target;
+      this.pwd = target.value;
     }
   }
 }));
@@ -10360,7 +10402,7 @@ function PasswordStrengthvue_type_template_id_4865ed39_render(_ctx, _cache, $pro
 
 
 
-PasswordStrengthvue_type_script_lang_ts.render = PasswordStrengthvue_type_template_id_4865ed39_render
+PasswordStrengthvue_type_script_lang_ts.render = PasswordStrengthvue_type_template_id_40d57bf1_render
 
 /* harmony default export */ var PasswordStrength = (PasswordStrengthvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.ts
