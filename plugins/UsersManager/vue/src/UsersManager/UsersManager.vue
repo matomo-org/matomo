@@ -77,6 +77,7 @@
         :initial-site-id="initialSiteId"
         :initial-site-name="initialSiteName"
         :activated-plugins="activatedPlugins"
+        :extensions="userEditExtensions"
         @resend-invite="showResendPopup($event.user)"
         @updated="userBeingEdited = $event.user"
       />
@@ -218,6 +219,10 @@ export default defineComponent({
     },
     inviteTokenExpiryDays: {
       type: String,
+      required: true,
+    },
+    userEditExtensions: {
+      type: Array,
       required: true,
     },
   },

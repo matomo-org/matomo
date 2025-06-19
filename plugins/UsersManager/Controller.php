@@ -139,6 +139,7 @@ class Controller extends ControllerAdmin
         }
 
         $view->activatedPlugins = $this->pluginManager->getActivatedPlugins();
+        $view->userEditExtensions = $this->getUserEditExtensions();
 
         $this->setBasicVariablesView($view);
 
@@ -722,5 +723,12 @@ class Controller extends ControllerAdmin
     private function getIgnoreCookieSalt()
     {
         return md5(SettingsPiwik::getSalt());
+    }
+
+    public static function getUserEditExtensions(): array
+    {
+        $componentExtensions = [];
+        Piwik::postEvent('UsersManager.getUserEditExtensions', [&$componentExtensions]);
+        return $componentExtensions;
     }
 }

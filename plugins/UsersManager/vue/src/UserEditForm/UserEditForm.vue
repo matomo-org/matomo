@@ -143,6 +143,9 @@
               :inline-help="translate('UsersManager_FirstSiteInlineHelp')"
             />
           </div>
+          <div v-for="(refComponent, index) in componentExtensions" :key="index">
+            <component :is="refComponent"/>
+          </div>
           <div>
             <div class="form-group row" style="position: relative">
               <div class="col s12 m6 save-button">
@@ -285,7 +288,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, readonly } from 'vue';
+import {
+  defineComponent,
+  markRaw,
+  PropType,
+  readonly,
+} from 'vue';
 import {
   ContentBlock,
   SiteRef,
@@ -296,6 +304,7 @@ import {
   Matomo,
   Notification,
   AutoClearPassword,
+  useExternalPluginComponent,
 } from 'CoreHome';
 import {
   PasswordConfirmation,
@@ -332,6 +341,11 @@ interface UserEditFormState {
   isShowingPasswordConfirm: boolean;
 }
 
+interface ComponentExtension {
+  plugin: string;
+  component: string;
+}
+
 export default defineComponent({
   props: {
     user: Object,
@@ -362,6 +376,10 @@ export default defineComponent({
     activatedPlugins: {
       type: Array,
       required: true,
+    },
+    extensions: {
+      type: Array as PropType<ComponentExtension[]>,
+      default: () => [],
     },
   },
   components: {
@@ -616,6 +634,11 @@ export default defineComponent({
       }
 
       return pluginInfo ? `${riskInfo} ${pluginInfo}` : riskInfo;
+    },
+    componentExtensions() {
+      return markRaw(this.extensions.map(
+        (ref: ComponentExtension) => useExternalPluginComponent(ref.plugin, ref.component),
+      ));
     },
   },
 });
