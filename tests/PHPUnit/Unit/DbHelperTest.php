@@ -22,6 +22,56 @@ use Piwik\DbHelper;
 class DbHelperTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @dataProvider getExtractOrderByFromQueryTestData
+     */
+    public function testExtractOrderByFromQuery(string $sql, ?string $expectedOrderBy): void
+    {
+        $extractedOrderBy = DbHelper::extractOrderByFromQuery($sql);
+
+        // compare with collapsed whitespace
+        $expectedOrderBy = trim(preg_replace('/\s+/', ' ', $expectedOrderBy));
+        $extractedOrderBy = trim(preg_replace('/\s+/', ' ', $extractedOrderBy));
+
+        $this->assertSame($expectedOrderBy, $extractedOrderBy);
+    }
+
+    public function getExtractOrderByFromQueryTestData(): iterable
+    {
+        yield 'no clause' => [
+            'SELECT my_column FROM my_table',
+            null
+        ];
+
+        yield 'simple order by' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                ORDER BY column_one DESC,
+                         column_two ASC
+            ',
+            '
+                column_one DESC,
+                column_two ASC
+            '
+        ];
+
+        yield 'order by with following limit' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                ORDER BY column_one
+                LIMIT 1
+            ',
+            'column_one'
+        ];
+
+        yield 'unbalanced parentheses' => [
+            'SELECT my_column FROM my_table ORDER BY column_one, (, column_two',
+            null
+        ];
+    }
+
+    /**
      * @dataProvider getVariousDbNames
      * @param string $dbName
      * @param bool $expectation
