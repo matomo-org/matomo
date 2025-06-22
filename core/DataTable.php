@@ -432,6 +432,9 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $this->totalsRow = $totalsRow;
     }
 
+    /**
+     * @return Row|null
+     */
     public function getTotalsRow()
     {
         return $this->totalsRow;

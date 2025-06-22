@@ -729,7 +729,6 @@ class ProcessedReport
                 }
             }
 
-            /** @var DataTable|mixed $comparisons */
             $comparisons = $row->getComparisons();
 
             if (

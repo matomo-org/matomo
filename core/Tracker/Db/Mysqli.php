@@ -105,6 +105,11 @@ class Mysqli extends Db
      */
     public function connect()
     {
+        /** @var Timer|null $timer */
+        $timer = null;
+        if (self::$profiling) {
+            $timer = $this->initProfiler();
+        }
         // The default error reporting of mysqli changed in PHP 8.1. To circumvent problems in our error handling we set
         // the erroring reporting to the default that was used prior PHP 8.1
         // See https://php.watch/versions/8.1/mysqli-error-mode for more details
@@ -148,8 +153,7 @@ class Mysqli extends Db
 
         $this->password = '';
 
-        if (self::$profiling) {
-            $timer = $this->initProfiler();
+        if (isset($timer)) {
             $this->recordQueryProfile('connect', $timer);
         }
     }
@@ -210,7 +214,10 @@ class Mysqli extends Db
     public function fetchAll($query, $parameters = array())
     {
         try {
+            /** @var Timer|null $timer */
+            $timer = null;
             if (self::$profiling) {
+                $timer = $this->initProfiler();
             }
 
             list($stmt, $fields) = $this->executeQuery($query, $parameters);
@@ -223,8 +230,7 @@ class Mysqli extends Db
             $stmt->free_result();
             $stmt->close();
 
-            if (self::$profiling) {
-                $timer = $this->initProfiler();
+            if (isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
             return $rows;
@@ -248,6 +254,12 @@ class Mysqli extends Db
     public function fetch($query, $parameters = array())
     {
         try {
+            /** @var Timer|null $timer */
+            $timer = null;
+            if (self::$profiling) {
+                $timer = $this->initProfiler();
+            }
+
             list($stmt, $fields) = $this->executeQuery($query, $parameters);
 
             $row = $this->fetchResult($stmt, $fields);
@@ -255,8 +267,7 @@ class Mysqli extends Db
             $stmt->free_result();
             $stmt->close();
 
-            if (self::$profiling) {
-                $timer = $this->initProfiler();
+            if (isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
             if ($row === null) {
@@ -284,10 +295,14 @@ class Mysqli extends Db
         }
 
         try {
-            list($stmt, $fields) = $this->executeQuery($query, $parameters);
-
+            /** @var Timer|null $timer */
+            $timer = null;
             if (self::$profiling) {
                 $timer = $this->initProfiler();
+            }
+            list($stmt, $fields) = $this->executeQuery($query, $parameters);
+
+            if (isset($timer)) {
                 $this->recordQueryProfile($query, $timer);
             }
             return $stmt;
