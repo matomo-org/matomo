@@ -2,6 +2,7 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s con nessun plugin abilitato",
         "BrowserWithPluginsEnabled": "%1$s con plugin %2$s abilitati",
+        "ColumnPercentageVisitsDocumentation": "Percentuale delle visite totali in cui è stato rilevato il plugin. Una visita può includere più plugin. Il valore è arrotondato per difetto a numeri interi.",
         "PluginDescription": "Restituisce l'elenco dei plugin supportati dal browser dei visitatori.",
         "PluginDetectionDoesNotWorkInIE": "Nota: L'individuazione dei plugin non funziona con versioni di Internet Explorer precedenti alla 11. Questo report è basato solamente su browser diversi da IE e con versioni recenti di IE.",
         "WidgetPlugins": "Plugin Browser",

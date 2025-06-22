@@ -49,6 +49,7 @@
         "PasswordRepeat": "Password (ripetila)",
         "PasswordRequired": "Inserisci la tua password per continuare",
         "PasswordResetAlreadySent": "Sono state richieste troppe reimpostazioni di password di recente. È possibile effettuare una nuova richiesta entro un'ora. Il tuo amministratore può aiutarti se non funziona.",
+        "PasswordResetCancelEmailSubject": "Il tuo account Matomo è stato protetto",
         "PasswordsDoNotMatch": "Le password non corrispondono.",
         "PluginDescription": "Fornisce il login con nome utente e password e la funzionalità di reimpostazione della password. Il metodo di accesso può essere cambiato utilizzando un altro plugin di accesso, come LoginLdap, disponibile sul mercato.",
         "RememberMe": "Ricordami",
