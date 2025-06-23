@@ -296,9 +296,15 @@ export default defineComponent({
       });
     },
     isPasswordChangeFormSubmitEnabled() {
-      return this.passwordStrengthMet
-        && this.passwordBisStrengthMet
-        && this.passwordConfirmation;
+      return this.passwordConfirmation
+        && (
+          !this.passwordStrengthValidationRules?.length
+          || (
+            this.passwordStrengthValidationRules?.length
+            && this.passwordStrengthMet
+            && this.passwordBisStrengthMet
+          )
+        );
     },
   },
 });
