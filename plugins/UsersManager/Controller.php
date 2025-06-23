@@ -69,16 +69,12 @@ class Controller extends ControllerAdmin
      */
     private $userModel;
 
-    public function __construct(Translator $translator, PasswordVerifier $passwordVerify, Model $userModel, PasswordStrength $passwordStrength = null)
+    public function __construct(Translator $translator, PasswordVerifier $passwordVerify, Model $userModel, PasswordStrength $passwordStrength)
     {
         $this->translator = $translator;
         $this->passwordVerify = $passwordVerify;
         $this->userModel = $userModel;
         $this->pluginManager = Plugin\Manager::getInstance();
-
-        if (empty($passwordStrength)) {
-            $passwordStrength = StaticContainer::get('Piwik\Auth\PasswordStrength');
-        }
         $this->passwordStrength = $passwordStrength;
 
         parent::__construct();
@@ -711,7 +707,7 @@ class Controller extends ControllerAdmin
             throw new Exception($this->translator->translate('UsersManager_PasswordAlreadyInUse'));
         }
 
-        // check password is sufficently strong
+        // check password is sufficiently strong
         $brokenRules = $this->passwordStrength->validatePasswordStrength($newPassword);
         if (!empty($brokenRules)) {
             $errorMsg = $this->passwordStrength->formatValidationFailedMessage($brokenRules);
