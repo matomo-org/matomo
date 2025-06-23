@@ -184,7 +184,7 @@
     <PasswordConfirmation
       v-model="showRemoveDialog"
       @confirmed="deleteSite"
-      :id-suffix="'-'+theSite.idsite"
+      :password-field-id="'currentUserPassword-'+theSite.idsite"
     >
         <h2>{{ removeDialogTitle }}</h2>
         <p>{{ translate('SitesManager_DeleteSiteExplanation') }}</p>

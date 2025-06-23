@@ -25,7 +25,8 @@
           v-model="passwordConfirmation"
           :uicontrol="'password'"
           :disabled="!requiresPasswordConfirmation ? 'disabled' : undefined"
-          :name="passwordFieldId"
+          :name="'currentUserPassword'"
+          :id="passwordFieldId"
           :autocomplete="'off'"
           :full-width="true"
           :title="translate('UsersManager_YourCurrentPassword')"
@@ -72,9 +73,9 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    idSuffix: {
+    passwordFieldId: {
       type: String,
-      default: () => '',
+      default: () => 'currentUserPassword',
     },
   },
   data(): PasswordConfirmationState {
@@ -137,9 +138,6 @@ export default defineComponent({
     },
   },
   computed: {
-    passwordFieldId() {
-      return `currentUserPassword${this.idSuffix}`;
-    },
     requiresPasswordConfirmation() {
       return !!Matomo.requiresPasswordConfirmation;
     },
