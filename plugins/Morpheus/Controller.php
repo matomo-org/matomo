@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Morpheus;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Piwik;
 
