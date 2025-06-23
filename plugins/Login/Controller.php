@@ -98,7 +98,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $passwordVerify = null,
         $bruteForceDetection = null,
         $systemSettings = null,
-        $passwordStrength = null,
+        $passwordStrength = null
     ) {
         parent::__construct();
 
