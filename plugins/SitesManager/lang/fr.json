@@ -4,7 +4,7 @@
         "AddSensibleExclusionsToMyCustomListButtonText": "Ajouter les paramètres PII recommandés par Matomo",
         "AddSite": "Ajouter un site",
         "AdvancedTimezoneSupportNotFound": "La prise en charge avancée des fuseaux horaires n'a pas été trouvée dans votre PHP (prise en charge dans PHP&gt;=5.2). Vous pouvez toujours choisir un décalage UTC manuel.",
-        "AliasUrlHelp": "Il est recommandé, mais pas obligatoire, de caractéristiques les différentes URL, une par ligne, que vos visiteurs utilisent pour accéder à ce site Web. Les URL alias d'un site web n'apparaîtront pas dans le rapport Referrers → Sites Internet. Notez qu'il n'est pas nécessaire de spécifier les URL avec et sans 'www' car Matomo les prend automatiquement en compte.",
+        "AliasUrlHelp": "Il est recommandé, mais pas obligatoire, d’indiquer les différentes URL (une par ligne) que vos visiteurs utilisent pour accéder à ce site web. Les URL alias d’un site web n’apparaîtront pas dans le rapport Référents → Sites web. Notez qu’il n’est pas nécessaire de spécifier les URL avec et sans « www », car Matomo prend automatiquement en compte les deux.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Le fait de modifier votre fuseau horaire affectera uniquement les nouvelles données, ce n'est pas rétroactif.",
         "ChooseMeasurableTypeHeadline": "Que voudriez-vous mesurer ?",
         "ChooseMeasurableTypeSubheader": "Une mesure désigne tout site web, application ou système en ligne que vous souhaitez suivre et analyser. Les mesures constituent la base de la collecte de données et de la génération de rapports dans Matomo.",
