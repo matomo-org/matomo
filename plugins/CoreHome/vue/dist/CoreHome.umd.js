@@ -10280,13 +10280,14 @@ function setupAutoClear(el, delay) {
     });
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=40d57bf1
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=07fc5e99
 
-const PasswordStrengthvue_type_template_id_40d57bf1_hoisted_1 = {
+const PasswordStrengthvue_type_template_id_07fc5e99_hoisted_1 = {
+  key: 0,
   class: "password-strength row"
 };
-function PasswordStrengthvue_type_template_id_40d57bf1_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", PasswordStrengthvue_type_template_id_40d57bf1_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.rules, rule => {
+function PasswordStrengthvue_type_template_id_07fc5e99_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return _ctx.rules.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", PasswordStrengthvue_type_template_id_07fc5e99_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.rules, rule => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: rule.ruleText,
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(`col s12 xl6 rule rule-${_ctx.ruleStatus(rule)}`)
@@ -10298,9 +10299,9 @@ function PasswordStrengthvue_type_template_id_40d57bf1_render(_ctx, _cache, $pro
         'icon-circle': _ctx.ruleStatus(rule) === 'undefined'
       })
     }, null, 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(rule.ruleText), 1)], 2);
-  }), 128))]);
+  }), 128))])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=40d57bf1
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=template&id=07fc5e99
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.vue?vue&type=script&lang=ts
 
@@ -10402,7 +10403,7 @@ function PasswordStrengthvue_type_template_id_40d57bf1_render(_ctx, _cache, $pro
 
 
 
-PasswordStrengthvue_type_script_lang_ts.render = PasswordStrengthvue_type_template_id_40d57bf1_render
+PasswordStrengthvue_type_script_lang_ts.render = PasswordStrengthvue_type_template_id_07fc5e99_render
 
 /* harmony default export */ var PasswordStrength = (PasswordStrengthvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.ts

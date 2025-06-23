@@ -5,8 +5,8 @@
   @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 
-<template v-if="rules.length">
-  <ul class="password-strength row">
+<template>
+  <ul class="password-strength row" v-if="rules.length">
     <li v-for="rule in rules"
         :key="rule.ruleText"
         :class="`col s12 xl6 rule rule-${ruleStatus(rule)}`"
