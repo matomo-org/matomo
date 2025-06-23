@@ -17111,58 +17111,58 @@ GroupedSettingvue_type_script_lang_ts.render = GroupedSettingvue_type_template_i
 GroupedSettingsvue_type_script_lang_ts.render = GroupedSettingsvue_type_template_id_566a93cc_render
 
 /* harmony default export */ var GroupedSettings = (GroupedSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/PasswordConfirmation/PasswordConfirmation.vue?vue&type=template&id=73c1d0ec
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/PasswordConfirmation/PasswordConfirmation.vue?vue&type=template&id=486baa07
 
-const PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_1 = {
+const PasswordConfirmationvue_type_template_id_486baa07_hoisted_1 = {
   class: "confirm-password-modal modal",
   ref: "root"
 };
-const PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_2 = {
+const PasswordConfirmationvue_type_template_id_486baa07_hoisted_2 = {
   class: "modal-content"
 };
-const PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_3 = {
+const PasswordConfirmationvue_type_template_id_486baa07_hoisted_3 = {
   class: "modal-text"
 };
-const PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_4 = {
+const PasswordConfirmationvue_type_template_id_486baa07_hoisted_4 = {
   ref: "content"
 };
-const PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_5 = {
+const PasswordConfirmationvue_type_template_id_486baa07_hoisted_5 = {
   key: 0
 };
-const PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_6 = {
+const PasswordConfirmationvue_type_template_id_486baa07_hoisted_6 = {
   key: 1
 };
-const PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_7 = {
+const PasswordConfirmationvue_type_template_id_486baa07_hoisted_7 = {
   key: 2
 };
-const PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_8 = {
+const PasswordConfirmationvue_type_template_id_486baa07_hoisted_8 = {
   class: "modal-footer"
 };
-const PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_9 = ["disabled"];
-function PasswordConfirmationvue_type_template_id_73c1d0ec_render(_ctx, _cache, $props, $setup, $data, $options) {
+const PasswordConfirmationvue_type_template_id_486baa07_hoisted_9 = ["disabled"];
+function PasswordConfirmationvue_type_template_id_486baa07_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _directive_auto_clear_password = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("auto-clear-password");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512), !_ctx.requiresPasswordConfirmation && !_ctx.slotHasContent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmThisChange')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.requiresPasswordConfirmation && !_ctx.slotHasContent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.requiresPasswordConfirmation && _ctx.slotHasContent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PasswordConfirmationvue_type_template_id_486baa07_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PasswordConfirmationvue_type_template_id_486baa07_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PasswordConfirmationvue_type_template_id_486baa07_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PasswordConfirmationvue_type_template_id_486baa07_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512), !_ctx.requiresPasswordConfirmation && !_ctx.slotHasContent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", PasswordConfirmationvue_type_template_id_486baa07_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmThisChange')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.requiresPasswordConfirmation && !_ctx.slotHasContent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("h2", PasswordConfirmationvue_type_template_id_486baa07_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.requiresPasswordConfirmation && _ctx.slotHasContent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PasswordConfirmationvue_type_template_id_486baa07_hoisted_7, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_ConfirmWithPassword')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.passwordConfirmation,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.passwordConfirmation = $event),
     uicontrol: 'password',
     disabled: !_ctx.requiresPasswordConfirmation ? 'disabled' : undefined,
-    name: 'currentUserPassword',
+    name: _ctx.passwordFieldId,
     autocomplete: 'off',
     "full-width": true,
     title: _ctx.translate('UsersManager_YourCurrentPassword')
-  }, null, 8, ["modelValue", "disabled", "title"]), [[_directive_auto_clear_password]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.requiresPasswordConfirmation]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, null, 8, ["modelValue", "disabled", "name", "title"]), [[_directive_auto_clear_password]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.requiresPasswordConfirmation]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PasswordConfirmationvue_type_template_id_486baa07_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close btn",
     disabled: _ctx.requiresPasswordConfirmation && !_ctx.passwordConfirmation ? 'disabled' : undefined,
     onClick: _cache[1] || (_cache[1] = $event => _ctx.onClickConfirm($event))
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Confirm')), 9, PasswordConfirmationvue_type_template_id_73c1d0ec_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Confirm')), 9, PasswordConfirmationvue_type_template_id_486baa07_hoisted_9), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "",
     class: "modal-action modal-close modal-no btn-flat",
     onClick: _cache[2] || (_cache[2] = $event => _ctx.onClickCancel($event))
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Cancel')), 1)])], 512);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PasswordConfirmation/PasswordConfirmation.vue?vue&type=template&id=73c1d0ec
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PasswordConfirmation/PasswordConfirmation.vue?vue&type=template&id=486baa07
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/PasswordConfirmation/PasswordConfirmation.vue?vue&type=script&lang=ts
 
@@ -17179,6 +17179,10 @@ const {
     modelValue: {
       type: Boolean,
       required: true
+    },
+    idSuffix: {
+      type: String,
+      default: () => ''
     }
   },
   data() {
@@ -17229,7 +17233,7 @@ const {
       $root.modal({
         dismissible: false,
         onOpenEnd: () => {
-          const passwordField = '.modal.open #currentUserPassword';
+          const passwordField = `.modal.open #${this.passwordFieldId}`;
           $(passwordField).focus();
           $(passwordField).off('keypress').keypress(onEnter);
         },
@@ -17240,6 +17244,9 @@ const {
     }
   },
   computed: {
+    passwordFieldId() {
+      return `currentUserPassword${this.idSuffix}`;
+    },
     requiresPasswordConfirmation() {
       return !!external_CoreHome_["Matomo"].requiresPasswordConfirmation;
     }
@@ -17258,7 +17265,7 @@ const {
 
 
 
-PasswordConfirmationvue_type_script_lang_ts.render = PasswordConfirmationvue_type_template_id_73c1d0ec_render
+PasswordConfirmationvue_type_script_lang_ts.render = PasswordConfirmationvue_type_template_id_486baa07_render
 
 /* harmony default export */ var PasswordConfirmation = (PasswordConfirmationvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=script&lang=ts
