@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -59,16 +60,26 @@ class Controller extends ControllerAdmin
     private $pluginManager;
 
     /**
+     * @var PasswordStrength
+     */
+    private $passwordStrength;
+
+    /**
      * @var Model
      */
     private $userModel;
 
-    public function __construct(Translator $translator, PasswordVerifier $passwordVerify, Model $userModel)
+    public function __construct(Translator $translator, PasswordVerifier $passwordVerify, Model $userModel, PasswordStrength $passwordStrength = null)
     {
         $this->translator = $translator;
         $this->passwordVerify = $passwordVerify;
         $this->userModel = $userModel;
         $this->pluginManager = Plugin\Manager::getInstance();
+
+        if (empty($passwordStrength)) {
+            $passwordStrength = StaticContainer::get('Piwik\Auth\PasswordStrength');
+        }
+        $this->passwordStrength = $passwordStrength;
 
         parent::__construct();
     }
@@ -701,10 +712,9 @@ class Controller extends ControllerAdmin
         }
 
         // check password is sufficently strong
-        $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
-        $brokenRules = $passwordStrengthChecker->validatePasswordStrength($newPassword);
+        $brokenRules = $this->passwordStrength->validatePasswordStrength($newPassword);
         if (!empty($brokenRules)) {
-            $errorMsg = $passwordStrengthChecker->formatValidationFailedMessage($brokenRules);
+            $errorMsg = $this->passwordStrength->formatValidationFailedMessage($brokenRules);
             throw new Exception($errorMsg);
         }
 

@@ -11,8 +11,6 @@ namespace Piwik\Plugins\UsersManager\tests\Fixtures;
 
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\tests\Fixtures\ManyUsers;
-use Piwik\Container\StaticContainer;
-use Piwik\Plugins\Login\SystemSettings;
 
 /**
  * Fixture with a larger number of users setting the 'now' date to 2013
@@ -25,10 +23,6 @@ class ManyUsersPastDate extends ManyUsers
     {
         Date::$now = strtotime($this->dateTime);
 
-        // enable passwordStrengthCheck
-        /** @var SystemSettings */
-        $settings = StaticContainer::get('Piwik\Plugins\Login\SystemSettings');
-        $settings->enablePasswordStrengthCheck->setValue(true);
 
         return parent::provideContainerConfig();
     }

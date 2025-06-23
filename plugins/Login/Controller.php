@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\Auth\Password;
+use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -75,6 +76,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     protected $passwordVerify;
 
     /**
+     * @var PasswordStrength
+     */
+    private $passwordStrength;
+
+    /**
      * Constructor.
      *
      * @param PasswordResetter $passwordResetter
@@ -83,6 +89,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * @param PasswordVerifier $passwordVerify
      * @param BruteForceDetection $bruteForceDetection
      * @param SystemSettings $systemSettings
+     * @param PasswordStrength $passwordStrength
      */
     public function __construct(
         $passwordResetter = null,
@@ -90,7 +97,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $sessionInitializer = null,
         $passwordVerify = null,
         $bruteForceDetection = null,
-        $systemSettings = null
+        $systemSettings = null,
+        $passwordStrength = null,
     ) {
         parent::__construct();
 
@@ -123,6 +131,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $systemSettings = StaticContainer::get('Piwik\Plugins\Login\SystemSettings');
         }
         $this->systemSettings = $systemSettings;
+
+        if (empty($passwordStrength)) {
+            $passwordStrength = StaticContainer::get('Piwik\Auth\PasswordStrength');
+        }
+        $this->passwordStrength = $passwordStrength;
     }
 
     /**
@@ -406,11 +419,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         $password = $form->getSubmitValue('form_password');
-        $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
-        $brokenRules = $passwordStrengthChecker->validatePasswordStrength($password);
+        $brokenRules = $this->passwordStrength->validatePasswordStrength($password);
 
         if (!empty($brokenRules)) {
-            $errorMsg = $passwordStrengthChecker->formatValidationFailedMessage($brokenRules);
+            $errorMsg = $this->passwordStrength->formatValidationFailedMessage($brokenRules);
             return $this->renderResetPasswordView([$errorMsg]);
         }
 
@@ -702,10 +714,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
 
             // check password strength
-            $passwordStrengthChecker = StaticContainer::get('Piwik\Auth\PasswordStrength');
-            $brokenRules = $passwordStrengthChecker->validatePasswordStrength($password);
+            $brokenRules = $this->passwordStrength->validatePasswordStrength($password);
             if (!empty($brokenRules)) {
-                $error = $passwordStrengthChecker->formatValidationFailedMessage($brokenRules);
+                $error = $this->passwordStrength->formatValidationFailedMessage($brokenRules);
             }
 
             if (!$error) {
