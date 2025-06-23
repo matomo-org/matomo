@@ -707,7 +707,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             } catch (\Exception $e) {
                 $error = $e->getMessage();
             }
-            
+
             // check password strength
             $brokenRules = $this->passwordStrength->validatePasswordStrength($password);
             if (!empty($brokenRules)) {
