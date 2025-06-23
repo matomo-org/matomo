@@ -707,16 +707,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             } catch (\Exception $e) {
                 $error = $e->getMessage();
             }
-
-            // confirm matching passwords
-            if ($password !== $passwordConfirmation) {
-                $error = Piwik::translate('Login_PasswordsDoNotMatch');
-            }
-
+            
             // check password strength
             $brokenRules = $this->passwordStrength->validatePasswordStrength($password);
             if (!empty($brokenRules)) {
                 $error = $this->passwordStrength->formatValidationFailedMessage($brokenRules);
+            }
+
+            // confirm matching passwords
+            if ($password !== $passwordConfirmation) {
+                $error = Piwik::translate('Login_PasswordsDoNotMatch');
             }
 
             if (!$error) {
