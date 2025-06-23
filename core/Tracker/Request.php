@@ -10,6 +10,7 @@
 namespace Piwik\Tracker;
 
 use Exception;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
@@ -63,12 +64,12 @@ class Request
 
     /**
      * @param $params
-     * @param bool|string $tokenAuth
+     * @param string $tokenAuth
      */
     public function __construct(
         $params,
         #[\SensitiveParameter]
-        $tokenAuth = false
+        $tokenAuth = ''
     ) {
         if (!is_array($params)) {
             $params = array();
@@ -172,8 +173,12 @@ class Request
                 return;
             }
 
+            if (empty($tokenAuth) && !empty($this->params)) {
+                $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken($this->params);
+            }
+
             if (empty($tokenAuth)) {
-                $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $this->params);
+                $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
             }
 
             $cache = PiwikCache::getTransientCache();

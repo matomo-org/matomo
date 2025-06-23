@@ -11,6 +11,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
@@ -244,7 +245,7 @@ class Request
             $corsHandler = new CORSHandler();
             $corsHandler->handle();
 
-            $tokenAuth = Common::getRequestVar('token_auth', '', 'string', $this->request);
+            $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken($this->request);
 
             // IP check is needed here as we cannot listen to API.Request.authenticate as it would then not return proper API format response.
             // We can also not do it by listening to API.Request.dispatch as by then the user is already authenticated and we want to make sure
@@ -425,7 +426,7 @@ class Request
     public static function reloadAuthUsingTokenAuth($request = null)
     {
         // if a token_auth is specified in the API request, we load the right permissions
-        $token_auth = Common::getRequestVar('token_auth', '', 'string', $request);
+        $token_auth = StaticContainer::get(AuthenticationToken::class)->getAuthToken($request);
 
         if (self::shouldReloadAuthUsingTokenAuth($request)) {
             self::forceReloadAuthUsingTokenAuth($token_auth);
@@ -524,7 +525,7 @@ class Request
     public static function shouldReloadAuthUsingTokenAuth($request)
     {
         if (is_null($request)) {
-            $request = self::getDefaultRequest();
+            return StaticContainer::get(AuthenticationToken::class)->getAuthToken() != Access::getInstance()->getTokenAuth();
         }
 
         if (!isset($request['token_auth'])) {
@@ -547,11 +548,11 @@ class Request
      * and bearer tokens might be used as well.
      *
      * @return bool True if token was supplied in a secure way
+     * @deprecated will be removed in Matomo 6
      */
     public static function isTokenAuthProvidedSecurely(): bool
     {
-        return (\Piwik\Request::fromGet()->getStringParameter('token_auth', '') === '' &&
-                \Piwik\Request::fromPost()->getStringParameter('token_auth', '') !== '');
+        return StaticContainer::get(AuthenticationToken::class)->wasTokenAuthProvidedSecurely();
     }
 
     /**
