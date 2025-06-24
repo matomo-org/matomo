@@ -908,4 +908,27 @@ class Model
         $count = (int) $db->fetchOne($sql, $bind);
         return $count > 0;
     }
+
+    public function getLastSeenTimestamp(string $userLogin): int
+    {
+        $db = $this->getDb();
+        $sql = "SELECT ts_last_seen FROM " . $this->userTable . " WHERE login = ?";
+        $bind = [$userLogin];
+        return (int) $db->fetchOne($sql, $bind);
+    }
+
+    public function getLastSeenTimestampAllUsers(): array
+    {
+        $db = $this->getDb();
+        $sql = "SELECT login, ts_last_seen FROM " . $this->userTable;
+        return $db->fetchAll($sql);
+    }
+
+    public function setLastSeenTimestamp(string $userLogin, int $timestamp): void
+    {
+        $db = $this->getDb();
+        $sql = "UPDATE `" . $this->userTable . "` SET `ts_last_seen` = ? WHERE login = ?";
+        $bind = [Date::factory($timestamp)->getDatetime(), $userLogin];
+        $db->query($sql, $bind);
+    }
 }

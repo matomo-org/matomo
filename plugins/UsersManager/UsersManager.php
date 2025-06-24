@@ -81,8 +81,7 @@ class UsersManager extends \Piwik\Plugin
 
     public function onPlatformInitialized()
     {
-        $lastSeenTimeLogger = new LastSeenTimeLogger();
-        $lastSeenTimeLogger->logCurrentUserLastSeenTime();
+        LastSeenTimeLogger::logCurrentUserLastSeenTime();
     }
 
     /**

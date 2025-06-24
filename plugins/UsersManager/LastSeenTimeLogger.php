@@ -10,17 +10,14 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Common;
-use Piwik\Option;
 use Piwik\Piwik;
 
 /**
- * Class that logs the time the current user is accessing the current resource (which
- * is 'now') so it can be retrieved later.
+ * Class that logs the time the current user is accessing the current resource (which is 'now')
+ * so it can be retrieved later.
  */
 class LastSeenTimeLogger
 {
-    public const OPTION_PREFIX = 'UsersManager.lastSeen.';
-
     /**
      * The amount of time in seconds that a last seen value is considered valid. We don't want
      * to update the database for every request made by every user, so we only do it if the time
@@ -30,10 +27,10 @@ class LastSeenTimeLogger
 
     /**
      * Saves the current time for a user as an option if the current request is for something
-     * in the reporting UI, the current user is not anonymous and the time hasn't been saved
+     * in the reporting UI, the current user is not anonymous, and the time hasn't been saved
      * in the last 5 minutes.
      */
-    public function logCurrentUserLastSeenTime()
+    public static function logCurrentUserLastSeenTime()
     {
         $module = Common::getRequestVar('module', false);
         $currentUserLogin = Piwik::getCurrentUserLogin();
@@ -48,18 +45,16 @@ class LastSeenTimeLogger
         }
 
         // get the last known time
-        $optionName = self::OPTION_PREFIX . $currentUserLogin;
-        $lastSeen = Option::get($optionName);
+        $userModel = new Model();
+        $lastSeen = $userModel->getLastSeenTimestamp($currentUserLogin);
 
-        // do not log if last known time is less than N minutes from now (so we don't make too many
-        // queries)
+        // do not log if the last known time is less than N seconds from now (so we don't make too many queries)
         if (time() - $lastSeen <= self::LAST_TIME_SAVE_DELTA) {
             return;
         }
 
-        // log last seen time (Note: autoload is important so the Option::get above does not result in
-        // a separate query)
-        Option::set($optionName, time(), $autoload = 1);
+        // log last seen time
+        $userModel->setLastSeenTimestamp($currentUserLogin, time());
     }
 
     /**
@@ -67,18 +62,16 @@ class LastSeenTimeLogger
      */
     public static function getLastSeenTimeForUser($userName)
     {
-        $optionName = self::OPTION_PREFIX . $userName;
-        return Option::get($optionName);
+        $userModel = new Model();
+        return $userModel->getLastSeenTimestamp($userName);
     }
 
     public static function getLastSeenTimesForAllUsers()
     {
         $results = [];
-        foreach (Option::getLike(self::OPTION_PREFIX . '%') as $name => $value) {
-            preg_match('/^' . preg_quote(self::OPTION_PREFIX) . '(.*)$/', $name, $matches);
-            if (isset($matches[1])) {
-                $results[$matches[1]] = $value;
-            }
+        $userModel = new Model();
+        foreach ($userModel->getLastSeenTimestampAllUsers() as $values) {
+            $results[$values[0]] = $values[1];
         }
         return $results;
     }
