@@ -27,6 +27,7 @@ class ControllerTest extends IntegrationTestCase
      * @var Controller
      */
     private $controller;
+    private $post;
 
     public function setUp(): void
     {
@@ -41,11 +42,14 @@ class ControllerTest extends IntegrationTestCase
             $systemSettings = null,
             $passwordStrength = new PasswordStrength(true)
         );
+        $this->post = $_POST;
+        $_POST = [];
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
+        $_POST = $this->post;
     }
 
     public function testResetPasswordStrengthCheck()

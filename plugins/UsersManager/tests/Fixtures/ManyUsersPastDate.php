@@ -23,7 +23,6 @@ class ManyUsersPastDate extends ManyUsers
     {
         Date::$now = strtotime($this->dateTime);
 
-
         return parent::provideContainerConfig();
     }
 }
