@@ -125,7 +125,7 @@ class PluginsArchiver
      * Instantiates the Archiver class in each plugin that defines it,
      * and triggers Aggregation processing on these plugins.
      */
-    public function callAggregateAllPlugins($visits, $visitsConverted, $forceArchivingWithoutVisits = false)
+    public function callAggregateAllPlugins($visits, $visitsConverted)
     {
         Log::debug(
             "PluginsArchiver::%s: Initializing archiving process for all plugins [visits = %s, visits converted = %s]",
@@ -166,7 +166,7 @@ class PluginsArchiver
                 continue;
             }
 
-            if (!$forceArchivingWithoutVisits && !$visits && !$archiver->shouldRunEvenWhenNoVisits()) {
+            if (!$visits && !$archiver->shouldRunEvenWhenNoVisits()) {
                 Log::debug("PluginsArchiver::%s: Skipping archiving for plugin '%s' (no visits).", __FUNCTION__, $pluginName);
                 continue;
             }

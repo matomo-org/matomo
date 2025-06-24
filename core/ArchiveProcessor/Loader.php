@@ -12,7 +12,6 @@ namespace Piwik\ArchiveProcessor;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor;
 use Piwik\Cache;
-use Piwik\CacheId;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -20,9 +19,7 @@ use Piwik\Context;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
-use Piwik\DataAccess\RawLogDao;
 use Piwik\Date;
-use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
@@ -47,19 +44,9 @@ class Loader
     private $invalidator;
 
     /**
-     * @var \Matomo\Cache\Cache
-     */
-    private $cache;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
-
-    /**
-     * @var RawLogDao
-     */
-    private $rawLogDao;
 
     /**
      * @var Model
@@ -76,18 +63,8 @@ class Loader
         $this->params = $params;
         $this->invalidateBeforeArchiving = $invalidateBeforeArchiving;
         $this->invalidator = StaticContainer::get(ArchiveInvalidator::class);
-        $this->cache = Cache::getTransientCache();
         $this->logger = StaticContainer::get(LoggerInterface::class);
-        $this->rawLogDao = new RawLogDao();
         $this->dataAccessModel = new Model();
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isThereSomeVisits($visits)
-    {
-        return $visits > 0;
     }
 
     /**
@@ -137,7 +114,7 @@ class Loader
         if (sizeof($data) == 2) {
             return $data;
         }
-        list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
+        [$idArchives, $visits, $visitsConverted, $foundRecords] = $data;
 
         // only lock meet those conditions
         if (ArchiveProcessor::$isRootArchivingRequest && !SettingsServer::isArchivePhpTriggered()) {
@@ -156,7 +133,7 @@ class Loader
                     return $data;
                 }
 
-                list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
+                [$idArchives, $visits, $visitsConverted, $foundRecords] = $data;
 
                 return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
             } finally {
@@ -183,21 +160,16 @@ class Loader
             $this->params->setFoundRequestedReports($foundRecords);
         }
 
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        [$visits, $visitsConverted] = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+        [$idArchive, $visits] = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
-        if (
-            $this->isThereSomeVisits($visits)
-            || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()
-        ) {
-            $idArchivesToQuery = [$idArchive];
-            if (!empty($foundRecords)) {
-                $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives ?: []);
-            }
-            return [$idArchivesToQuery, $visits];
+        $idArchivesToQuery = [$idArchive];
+
+        if (!empty($foundRecords)) {
+            $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives ?: []);
         }
 
-        return [false, false];
+        return [$idArchivesToQuery, $visits];
     }
 
     /**
@@ -319,8 +291,7 @@ class Loader
             $visitsConverted = $metrics['nb_visits_converted'];
         }
 
-        $forceArchivingWithoutVisits = !$this->isThereSomeVisits($visits) && $this->shouldArchiveForSiteEvenWhenNoVisits();
-        $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted, $forceArchivingWithoutVisits);
+        $pluginsArchiver->callAggregateAllPlugins($visits, $visitsConverted);
 
         $idArchive = $pluginsArchiver->finalizeArchive();
 
@@ -331,9 +302,7 @@ class Loader
     {
         $processAllReportsIncludingVisitsSummary =
                 Rules::shouldProcessReportsAllPlugins(array($this->params->getSite()->getId()), $this->params->getSegment(), $this->params->getPeriod()->getLabel());
-        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary
-                                                        || $this->params->getRequestedPlugin() == 'VisitsSummary';
-        return $doesRequestedPluginIncludeVisitsSummary;
+        return $processAllReportsIncludingVisitsSummary || $this->params->getRequestedPlugin() == 'VisitsSummary';
     }
 
     protected function isArchivingForcedToTrigger()
@@ -377,8 +346,7 @@ class Loader
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
-        $result = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
-        return $result;
+        return ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
     }
 
     /**
@@ -420,28 +388,6 @@ class Loader
         }
 
         return false;
-    }
-
-    private function shouldArchiveForSiteEvenWhenNoVisits()
-    {
-        $idSitesToArchive = $this->getIdSitesToArchiveWhenNoVisits();
-        return in_array($this->params->getSite()->getId(), $idSitesToArchive);
-    }
-
-    private function getIdSitesToArchiveWhenNoVisits()
-    {
-        $cacheKey = 'Archiving.getIdSitesToArchiveWhenNoVisits';
-
-        if (!$this->cache->contains($cacheKey)) {
-            $idSites = array();
-
-            // leaving undocumented unless decided otherwise
-            Piwik::postEvent('Archiving.getIdSitesToArchiveWhenNoVisits', array(&$idSites));
-
-            $this->cache->save($cacheKey, $idSites);
-        }
-
-        return $this->cache->fetch($cacheKey);
     }
 
     // public for tests
@@ -494,31 +440,18 @@ class Loader
         $idSite = $params->getSite()->getId();
 
         $isWebsiteUsingTracker = $this->isWebsiteUsingTheTracker($idSite);
-        $isArchivingForcedWhenNoVisits = $this->shouldArchiveForSiteEvenWhenNoVisits();
-        $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
-        $hasChildArchivesInPeriod = $this->hasChildArchivesInPeriod($idSite, $params->getPeriod());
+        $isPeriodBeforeCreationDate = $params->getSite()->getCreationDate()->isLater($params->getDateEnd());
 
-        if ($this->canSkipArchiveForSegment()) {
+        /**
+         * skip archives for periods prior to the websites creation date
+         * this can be safely done, as the creation date will automatically be updated
+         * @see \Piwik\Plugins\SitesManager\Tracker\SitesManagerRequestProcessor::recordLogs()
+         */
+        if ($isWebsiteUsingTracker && $isPeriodBeforeCreationDate) {
             return true;
         }
 
-        return $isWebsiteUsingTracker
-            && !$isArchivingForcedWhenNoVisits
-            && !$hasSiteVisitsBetweenTimeframe
-            && !$hasChildArchivesInPeriod;
-    }
-
-    private function hasChildArchivesInPeriod($idSite, Period $period): bool
-    {
-        $cacheKey = CacheId::siteAware('Archiving.hasChildArchivesInPeriod.' . $period->getRangeString(), [$idSite]);
-
-        if ($this->cache->contains($cacheKey)) {
-            $hasChildArchivesInPeriod = $this->cache->fetch($cacheKey);
-        } else {
-            $hasChildArchivesInPeriod = $this->dataAccessModel->hasChildArchivesInPeriod($idSite, $period);
-            $this->cache->save($cacheKey, $hasChildArchivesInPeriod);
-        }
-        return $hasChildArchivesInPeriod;
+        return $this->canSkipArchiveForSegment();
     }
 
     public function canSkipArchiveForSegment()
@@ -607,39 +540,6 @@ class Loader
             $cache->save($cacheKey, $idSitesNotUsingTracker);
         }
         return $idSitesNotUsingTracker;
-    }
-
-    private function hasSiteVisitsBetweenTimeframe($idSite, Period $period): bool
-    {
-        $cacheKeyStr = 'Archiving.hasSiteVisitsBetweenTimeframe.%s.%s';
-        $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $period->getLabel(), $period->getRangeString()), [$idSite]);
-
-        if ($this->cache->contains($cacheKey)) {
-            return $this->cache->fetch($cacheKey);
-        }
-
-        $timezone = Site::getTimezoneFor($idSite);
-        /** @var Date $date1 */
-        /** @var Date $date2 */
-        [$date1, $date2] = $period->getBoundsInTimezone($timezone);
-
-        $hasSiteVisitsBetweenTimeframe = $this->rawLogDao->hasSiteVisitsBetweenTimeframe($date1->getDatetime(), $date2->getDatetime(), $idSite);
-        $this->cache->save($cacheKey, $hasSiteVisitsBetweenTimeframe);
-
-        if ($hasSiteVisitsBetweenTimeframe) {
-            $currentPeriod = $period;
-            do {
-                $parentPeriodLabel = $currentPeriod->getParentPeriodLabel();
-                if ($parentPeriodLabel) {
-                    $parentPeriod = Period\Factory::build($parentPeriodLabel, $date1);
-                    $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $parentPeriod->getLabel(), $parentPeriod->getRangeString()), [$idSite]);
-                    $this->cache->save($cacheKey, true);
-                    $currentPeriod = $parentPeriod;
-                }
-            } while ($parentPeriodLabel);
-        }
-
-        return $hasSiteVisitsBetweenTimeframe;
     }
 
     public static function getArchivingDepth()

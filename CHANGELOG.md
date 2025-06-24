@@ -8,15 +8,16 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Authentication changes
 
-Matomo now supports providing authentication using Bearer header tokens. Instead of sending your auth token as GET or POST param, you can use a header like `Authorization: Bearer myAuthToken`.
+* Matomo now supports providing authentication using Bearer header tokens. Instead of sending your auth token as GET or POST param, you can use a header like `Authorization: Bearer myAuthToken`.
 
 ### Breaking Changes
 
-The ImageGraph URLs returned by some of our APIs do no longer contain the `token_auth`. If you are using such URLs to e.g. directly fetch their content, you may need to adjust your implementation to append a valid `token_auth` again.
+* The ImageGraph URLs returned by some of our APIs do no longer contain the `token_auth`. If you are using such URLs to e.g. directly fetch their content, you may need to adjust your implementation to append a valid `token_auth` again.
+* The event `Archiving.getIdSitesToArchiveWhenNoVisits` has been removed, as it no longer has an effect.
 
 ### New APIs
 
-The new API parameter `showMetadata` was introduced. In can be used to toggle displaying of metadata in API exports. The default value is `1` to keep current behavior.
+* The new API parameter `showMetadata` was introduced. In can be used to toggle displaying of metadata in API exports. The default value is `1` to keep current behavior.
 
 ### JavaScript Tracker
 
