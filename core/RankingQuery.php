@@ -389,7 +389,7 @@ class RankingQuery
 				( $innerQuery ) actualQuery
 		";
 
-        if (!empty($counterRollupExpression) && !Schema::getInstance()->supportsRankingRollupWithoutExtraSorting()) {
+        if ($withRollup && !empty($withRollupColumns) && !Schema::getInstance()->supportsRankingRollupWithoutExtraSorting()) {
             // MariaDB requires an additional sorting layer to return
             // the counter/counterRollup values we expect
             $rollupColumnSorts = [];
