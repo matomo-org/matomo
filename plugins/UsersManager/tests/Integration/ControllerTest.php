@@ -58,7 +58,7 @@ class ControllerTest extends IntegrationTestCase
         $_POST['passwordBis'] = 'password1';
         // original password (irrelevant for test)
         $_POST['passwordConfirmation'] = '';
-        
+
         try {
             $this->controller->recordPasswordChange();
         } catch (\Exception $e) {
