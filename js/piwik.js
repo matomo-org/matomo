@@ -7359,6 +7359,25 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * When `_paq.push(['requireConsent'])` is called, it is possible to revoke this with 
+             * `_paq.push(['unrequireConsent'])`. So no `_paq.push(['setConsentGiven']);` is required.
+             * This will cause all tracking requests from this page view to be sent.
+             */
+            this.unrequireConsent = function () {
+                configConsentRequired = false;
+                var i, requestType;
+                for (i = 0; i < consentRequestsQueue.length; i++) {
+                    requestType = typeof consentRequestsQueue[i][0];
+                    if (requestType === 'string') {
+                      sendRequest(consentRequestsQueue[i][0], configTrackerPause, consentRequestsQueue[i][1]);
+                    } else if (requestType === 'object') {
+                      sendBulkRequest(consentRequestsQueue[i][0], configTrackerPause);
+                    }
+                }
+                consentRequestsQueue = [];
+            };
+
+            /**
              * Call this method once the user has given consent. This will cause all tracking requests from this
              * page view to be sent. Please note that the given consent won't be remembered across page views. If you
              * want to remember consent across page views, call {@link rememberConsentGiven()} instead.
