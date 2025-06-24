@@ -55,6 +55,40 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             '
         ];
 
+        yield 'multiple order by' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    ORDER BY column_two
+                ) AS my_data
+                ORDER BY column_one
+            ',
+            'column_one'
+        ];
+
+        yield 'nested order by ignored' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    ORDER BY column_two
+                ) AS my_data
+            ',
+            null
+        ];
+
+        yield 'query terminated by ;' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                ORDER BY column_one DESC;
+            ',
+            'column_one DESC'
+        ];
+
         yield 'order by with following limit' => [
             '
                 SELECT column_one, column_two

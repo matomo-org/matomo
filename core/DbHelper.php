@@ -437,7 +437,7 @@ class DbHelper
      */
     public static function extractOrderByFromQuery(string $sql): ?string
     {
-        $pattern = '/ORDER\s+BY\s+(.+?)(?:\s+LIMIT|\s*$)/is';
+        $pattern = '/.*ORDER\s+BY\s+(.*?)(?:\s+LIMIT|\s*;|\s*$)/is';
 
         if (preg_match($pattern, $sql, $matches)) {
             $orderBy = $matches[1];
