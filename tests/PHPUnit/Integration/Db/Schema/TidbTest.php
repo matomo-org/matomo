@@ -21,6 +21,12 @@ class TidbTest extends IntegrationTestCase
         $this->assertFalse($schema->isOptimizeInnoDBSupported());
     }
 
+    public function testSupportsWindowFunctionsReturnsCorrectResult(): void
+    {
+        $schema = new Db\Schema\Tidb();
+        $this->assertTrue($schema->supportsWindowFunctions());
+    }
+
     public function testOptimize()
     {
         if (!DatabaseConfig::isTiDb()) {

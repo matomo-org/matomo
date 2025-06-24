@@ -791,6 +791,18 @@ class Mysql implements SchemaInterface
         return true;
     }
 
+    public function supportsWindowFunctions(): bool
+    {
+        $version = strtolower($this->getVersion());
+
+        // If MySQL is configured but MariaDb used don't take chances
+        if (str_contains($version, 'mariadb')) {
+            return false;
+        }
+
+        return version_compare($version, '8.0', '>=');
+    }
+
     public function getSupportedReadIsolationTransactionLevel(): string
     {
         return 'READ UNCOMMITTED';
