@@ -71,7 +71,7 @@ class LastSeenTimeLogger
         $results = [];
         $userModel = new Model();
         foreach ($userModel->getLastSeenTimestampAllUsers() as $values) {
-            $results[$values[0]] = $values[1];
+            $results[$values['login']] = $values['ts_last_seen'];
         }
         return $results;
     }
