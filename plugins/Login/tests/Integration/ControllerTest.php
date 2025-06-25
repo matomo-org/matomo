@@ -51,19 +51,30 @@ class ControllerTest extends IntegrationTestCase
         parent::tearDown();
         $_POST = $this->post;
     }
-
-    public function testResetPasswordStrengthCheck()
+    
+    private function setupPostStateWithPassword(string $password)
     {
         $_POST['form_nonce'] = Nonce::getNonce('Login.login');
         $_POST['form_login'] = 'test';
-        $_POST['form_password'] = 'password';
-        $_POST['form_password_bis'] = 'password';
+        $_POST['form_password'] = $password;
+        $_POST['form_password_bis'] = $password;
+    }
 
+    public function testResetPasswordStrengthCheckWeakPassword()
+    {
+        $this->setupPostStateWithPassword('password');
         $response = $this->controller->resetPassword();
         $this->assertStringContainsString('General_PasswordStrengthValidationFailed', $response);
     }
 
-    public function testAcceptInvitationPasswordStrengthCheck()
+    public function testResetPasswordStrengthCheckStrongPassword()
+    {
+        $this->setupPostStateWithPassword('Password111!');
+        $response = $this->controller->resetPassword();
+        $this->assertStringNotContainsString('General_PasswordStrengthValidationFailed', $response);
+    }
+
+    private function generateTestUser(): array
     {
         // generate new user
         $userLogin = 'test';
@@ -73,15 +84,36 @@ class ControllerTest extends IntegrationTestCase
         $token = $usersModel->generateRandomInviteToken();
         $usersModel->attachInviteToken($userLogin, $token, $expiryInDays = 1);
 
-        // simulate completing accept invitation form
+        return [$userEmail, $token];
+    }
 
+    private function setupPostInvitationSubmitted(string $token, string $userEmail, string $password)
+    {
+        // simulate completing accept invitation form
         $_POST['token'] = $token;
-        $_POST['password'] = 'password';
-        $_POST['passwordConfirmation'] = 'password';
+        $_POST['password'] = $password;
+        $_POST['passwordConfirmation'] = $password;
         $_POST['email'] = $userEmail;
         $_POST['invitation_form'] = 'Confirm';
         $_POST['conditionCheck'] = true;
+    }
+
+    public function testAcceptInvitationPasswordStrengthCheckWeakPassword()
+    {
+
+        [$userEmail, $token] = $this->generateTestUser();
+        $this->setupPostInvitationSubmitted($token, $userEmail, 'password');
+
         $response = $this->controller->acceptInvitation();
         $this->assertStringContainsString('General_PasswordStrengthValidationFailed', $response);
+    }
+
+    public function testAcceptInvitationPasswordStrengthCheckStrongPassword()
+    {
+        [$userEmail, $token] = $this->generateTestUser();
+        $this->setupPostInvitationSubmitted($token, $userEmail, 'Password111!');
+
+        $response = $this->controller->acceptInvitation();
+        $this->assertStringNotContainsString('General_PasswordStrengthValidationFailed', $response);
     }
 }

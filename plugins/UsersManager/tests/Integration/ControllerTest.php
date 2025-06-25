@@ -51,18 +51,34 @@ class ControllerTest extends IntegrationTestCase
         $_POST = $this->post;
     }
 
-    public function testRecordPasswordChangePasswordStrengthCheck()
+    public function testRecordPasswordChangePasswordStrengthCheckWeakPassword()
     {
-        $_POST['nonce'] = Nonce::getNonce('changePasswordNonce');
-        $_POST['password'] = 'password1';
-        $_POST['passwordBis'] = 'password1';
-        // original password (irrelevant for test)
-        $_POST['passwordConfirmation'] = '';
-
+        $this->setupPostStateWithPassword('password1');
         try {
             $this->controller->recordPasswordChange();
         } catch (\Exception $e) {
             $this->assertStringContainsString('General_PasswordStrengthValidationFailed', $e->getMessage());
         }
+    }
+
+    public function testRecordPasswordChangePasswordStrengthCheckStrongPassword()
+    {
+        $this->setupPostStateWithPassword('Password111!');
+        try {
+            $this->controller->recordPasswordChange();
+        } catch (\Exception $e) {
+            // do nothing
+        }
+        $this->assertTrue(true);
+
+    }
+
+    private function setupPostStateWithPassword(string $password)
+    {
+        $_POST['nonce'] = Nonce::getNonce('changePasswordNonce');
+        $_POST['password'] = $password;
+        $_POST['passwordBis'] = $password;
+        // original password (irrelevant for test)
+        $_POST['passwordConfirmation'] = '';
     }
 }
