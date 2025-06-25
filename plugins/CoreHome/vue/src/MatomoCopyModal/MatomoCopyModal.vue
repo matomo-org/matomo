@@ -12,7 +12,7 @@
       'slot-configured': $slots.default
     }"
     ref="root">
-    <div class="entire-copy-modal">
+    <div class="entire-copy-modal" v-show="isModalVisible">
       <div class="modal-header">
         <span class="btn-close modal-close"><i class="icon-close"></i></span>
         <h2>
@@ -90,7 +90,6 @@ import debounce from '../debounce';
 import { translate } from '../translate';
 import { externalLink } from '../externalLink';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
-import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { MatomoCopyModalStore } from './MatomoCopyModalStore';
 
 // async since we're referencing a recursive component
@@ -207,15 +206,7 @@ export default defineComponent({
       ajax.removeDefaultParameter('segment');
       // Include token in POST body so that it can be used for the security check instead of a nonce
       ajax.withTokenInUrl();
-      ajax.addParams({
-        module: 'CoreHome',
-        action: 'copyEntity',
-        idSite: Matomo.idSite || MatomoUrl.parsed.value.idSite,
-        idDestinationSites: [this.site?.id],
-        entityTypeName: this.modalStore.state.copyEntityType,
-        ...this.modalStore.state.commonFormData,
-        ...this.modalStore.state.entityFormData,
-      }, 'POST');
+      ajax.addParams(this.modalStore.getFormValues(this.site?.id), 'POST');
       ajax.setFormat('json');
       ajax.send().then((response: CopyRequestResponse) => {
         // If the response was invalid or unsuccessful, emit the failure and show an error message
@@ -250,12 +241,7 @@ export default defineComponent({
       }
 
       const validationData: QueryParameters = {
-        formValues: {
-          ...this.modalStore.state.commonFormData,
-          ...this.modalStore.state.entityFormData,
-          idSite: Matomo.idSite || MatomoUrl.parsed.value.idSite,
-          idDestinationSites: [this.site?.id],
-        },
+        formValues: this.modalStore.getFormValues(this.site?.id),
         errorMessages: [] as string[],
       };
       Matomo.postEvent('MatomoCopyModal:validateFormFields', validationData);
@@ -312,7 +298,7 @@ export default defineComponent({
   },
   computed: {
     isModalVisible(): boolean {
-      return this.modalStore.state.isModalVisible;
+      return this.modalStore.state.isModalVisible ?? false;
     },
     getModalTitle(): string {
       return translate('CoreHome_CopyX', this.modalStore.getEntityTypeTranslation);
