@@ -5,13 +5,13 @@ var Matomo_Overlay_Client = (function () {
     /** jQuery */
     var $;
 
-    /** Url of the Piwik root */
+    /** Url of the Matomo root */
     var piwikRoot;
 
-    /** protocol and domain of Piwik root */
+    /** protocol and domain of Matomo root */
     var piwikOrigin;
 
-    /** Piwik idsite */
+    /** Matomo idsite */
     var idSite;
 
     /** The current period and date */
@@ -55,7 +55,7 @@ var Matomo_Overlay_Client = (function () {
     }
 
     /**
-     * Notify Piwik of the current iframe location.
+     * Notify Matomo of the current iframe location.
      * This way, we can display additional metrics on the side of the iframe.
      */
     function notifyPiwikOfLocation() {
@@ -191,7 +191,7 @@ var Matomo_Overlay_Client = (function () {
             head.appendChild(script);
         },
 
-        /** Piwik Overlay API Request */
+        /** Matomo Overlay API Request */
         api: function (method, callback, additionalParams) {
             var url = piwikRoot + '/index.php?module=API&method=' + method
                 + '&idSite=' + idSite + '&period=' + period + '&date=' + date + '&format=JSON&filter_limit=-1';
