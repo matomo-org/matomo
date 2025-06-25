@@ -469,7 +469,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com");
         $this->api->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
 
-        Option::set('UsersManager.lastSeen.gegg4564eqgeqag', $now = time());
+        $this->model->setLastSeenTimestamp('gegg4564eqgeqag', $now = time());
 
         $users = $this->api->getUsers();
         $users = $this->removeNonTestableFieldsFromUsers($users);
@@ -482,12 +482,14 @@ class UsersManagerTest extends IntegrationTestCase
         $user2 = array('login'            => "geggeqge632ge56a4qag",
                        'email'            => "tesggt@tesgt.com",
                        'superuser_access' => 0,
-                       'uses_2fa'         => false
+                       'uses_2fa'         => false,
+                       'last_seen'        => null,
         );
         $user3 = array('login'            => "geggeqgeqagqegg",
                        'email'            => "tesgggt@tesgt.com",
                        'superuser_access' => 0,
-                       'uses_2fa'         => false
+                       'uses_2fa'         => false,
+                       'last_seen'        => null,
         );
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
@@ -528,7 +530,6 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['invite_link_token']);
             unset($user['invite_accept_at']);
             unset($user['invited_by']);
-            unset($user['ts_last_seen']);
         }
         return $users;
     }
@@ -1169,6 +1170,11 @@ class UsersManagerTest extends IntegrationTestCase
         $user = $this->api->getUser($user['login']);
 
         $this->assertNotEmpty($user['invite_status']);
+    }
+
+    public function testSetLastSeenTimestamp()
+    {
+
     }
 
     private function addSites($numberOfSites)
