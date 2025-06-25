@@ -80,7 +80,6 @@ class CronArchive
      */
     private $websiteIdArchiveList;
     private $requests = 0;
-    private $archiveAndRespectTTL = true;
     public $shouldArchiveAllSites = false;
 
     private $idSitesNotUsingTracker = [];
@@ -138,12 +137,11 @@ class CronArchive
     public $disableScheduledTasks = false;
 
     /**
-     * Forces CronArchive to invalidate data for the last [$dateLastForced] years when it notices a segment that
-     * was recently created or updated. By default this is 7.
+     * If set to true, yesterday and today won't be invalidated.
      *
-     * @var int|false
+     * @var bool
      */
-    public $dateLastForced = SegmentArchiving::DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS;
+    public $skipInvalidatingRecentDates = false;
 
     /**
      * The number of concurrent requests to issue per website. Defaults to {@link MAX_CONCURRENT_API_REQUESTS}.
@@ -999,6 +997,10 @@ class CronArchive
 
     public function invalidateRecentDate(string $dateStr, int $idSite): void
     {
+        if ($this->skipInvalidatingRecentDates) {
+            return;
+        }
+
         $timezone = Site::getTimezoneFor($idSite);
         $date = Date::factoryInTimezone($dateStr, $timezone);
 
