@@ -124,7 +124,7 @@ class RequestTest extends UnitTestCase
     public function testGetTokenAuthShouldReturnDefaultValueIfNoneSet()
     {
         $request = $this->buildRequest(array('idsite' => 1));
-        $this->assertFalse($request->getTokenAuth());
+        $this->assertEquals('', $request->getTokenAuth());
     }
 
     public function testGetTokenAuthShouldReturnSetTokenAuth()
