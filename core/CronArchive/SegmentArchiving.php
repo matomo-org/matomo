@@ -14,6 +14,7 @@ use Matomo\Cache\Transient;
 use Piwik\Access;
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Cache as PiwikCache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
@@ -78,7 +79,7 @@ class SegmentArchiving
         $this->processNewSegmentsFrom = StaticContainer::get('ini.General.process_new_segments_from');
         $this->beginningOfTimeLastNInYears = $beginningOfTimeLastNInYears;
         $this->segmentEditorModel = $segmentEditorModel ?: new Model();
-        $this->segmentListCache = $segmentListCache ?: new Transient();
+        $this->segmentListCache = $segmentListCache ?: PiwikCache::getTransientCache();
         $this->now = $now ?: Date::factory('now');
         $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
         $this->forceArchiveAllSegments = self::getShouldForceArchiveAllSegments();
@@ -221,13 +222,15 @@ class SegmentArchiving
 
     public function getAllSegments()
     {
-        if (!$this->segmentListCache->contains('all')) {
+        $cacheKey = 'SegmentArchiving_AllSegments';
+
+        if (!$this->segmentListCache->contains($cacheKey)) {
             $segments = $this->segmentEditorModel->getAllSegmentsAndIgnoreVisibility();
 
-            $this->segmentListCache->save('all', $segments);
+            $this->segmentListCache->save($cacheKey, $segments);
         }
 
-        return $this->segmentListCache->fetch('all');
+        return $this->segmentListCache->fetch($cacheKey);
     }
 
     public function getAllSegmentsToArchive($idSite)
