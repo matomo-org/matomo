@@ -6,12 +6,15 @@
 -->
 <template>
   <a
-    :class="{
-      'matomo-copy-action': true,
-      'table-action': true,
-      'icon-content-copy': true,
-      'is-disabled': !isActionEnabled,
-    }"
+    :class="[
+      {
+        'matomo-copy-action': true,
+        'table-action': true,
+        'icon-content-copy': true,
+        'is-disabled': !isActionEnabled,
+      },
+      extraClasses,
+    ]"
     v-tooltips
     :title="getActionTooltip"
     v-show="isActionVisible"
@@ -74,6 +77,13 @@ export default defineComponent({
     tooltipTextOverrideDisabled: {
       type: String,
       required: false,
+      default: '',
+    },
+    /**
+     * Optional property to provide any custom classes to the root of the action's anchor element
+     */
+    extraClasses: {
+      type: [String, Array, Object],
       default: '',
     },
   },

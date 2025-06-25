@@ -10621,24 +10621,24 @@ const {
 MatomoCopyModalvue_type_script_lang_ts.render = MatomoCopyModalvue_type_template_id_4dfabb72_render
 
 /* harmony default export */ var MatomoCopyModal = (MatomoCopyModalvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=a617be78
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=2099311b
 
-const MatomoCopyActionvue_type_template_id_a617be78_hoisted_1 = ["title", "aria-disabled"];
-function MatomoCopyActionvue_type_template_id_a617be78_render(_ctx, _cache, $props, $setup, $data, $options) {
+const MatomoCopyActionvue_type_template_id_2099311b_hoisted_1 = ["title", "aria-disabled"];
+function MatomoCopyActionvue_type_template_id_2099311b_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
       'matomo-copy-action': true,
       'table-action': true,
       'icon-content-copy': true,
       'is-disabled': !_ctx.isActionEnabled
-    }),
+    }, _ctx.extraClasses]),
     title: _ctx.getActionTooltip,
     "aria-disabled": !_ctx.isActionEnabled,
     onClick: _cache[0] || (_cache[0] = $event => !_ctx.isActionEnabled || _ctx.handleClick())
-  }, null, 10, MatomoCopyActionvue_type_template_id_a617be78_hoisted_1)), [[_directive_tooltips], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isActionVisible]]);
+  }, null, 10, MatomoCopyActionvue_type_template_id_2099311b_hoisted_1)), [[_directive_tooltips], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isActionVisible]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=a617be78
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=2099311b
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=script&lang=ts
 
@@ -10692,6 +10692,13 @@ function MatomoCopyActionvue_type_template_id_a617be78_render(_ctx, _cache, $pro
       type: String,
       required: false,
       default: ''
+    },
+    /**
+     * Optional property to provide any custom classes to the root of the action's anchor element
+     */
+    extraClasses: {
+      type: [String, Array, Object],
+      default: ''
     }
   },
   directives: {
@@ -10720,7 +10727,7 @@ function MatomoCopyActionvue_type_template_id_a617be78_render(_ctx, _cache, $pro
 
 
 
-MatomoCopyActionvue_type_script_lang_ts.render = MatomoCopyActionvue_type_template_id_a617be78_render
+MatomoCopyActionvue_type_script_lang_ts.render = MatomoCopyActionvue_type_template_id_2099311b_render
 
 /* harmony default export */ var MatomoCopyAction = (MatomoCopyActionvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
