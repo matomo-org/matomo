@@ -25,6 +25,7 @@ interface SitesStoreStateFiltered extends SitesStoreState {
   onlySitesWithAdminAccess: boolean;
   sitesWithAtLeastWriteAccess: boolean;
   excludeRollUpSites: boolean;
+  excludedRollUpSites: number[];
 }
 
 class SitesStore {
@@ -40,6 +41,7 @@ class SitesStore {
     onlySitesWithAdminAccess: false,
     sitesWithAtLeastWriteAccess: false,
     excludeRollUpSites: false,
+    excludedRollUpSites: [],
   });
 
   private currentRequestAbort: AbortController | null = null;
@@ -192,7 +194,20 @@ class SitesStore {
       });
     }).then((response) => {
       if (response) {
-        return this.processWebsitesList(response as Site[], excludeRollUpSites);
+        const result = this.processWebsitesList(response as Site[], excludeRollUpSites);
+
+        // If there were rollups excluded, run the search again until none are found
+        if (this.stateFiltered.excludedRollUpSites.length > 0) {
+          return this.searchSite(
+            term,
+            onlySitesWithAdminAccess,
+            this.stateFiltered.excludedSites,
+            sitesWithAtLeastWriteAccess,
+            excludeRollUpSites,
+          );
+        }
+
+        return result;
       }
 
       return null;
@@ -204,6 +219,9 @@ class SitesStore {
   private processWebsitesList(response: Site[], excludeRollUpSites = false): Site[] {
     let sites = response;
 
+    // Clear the array in preparation for another search
+    this.stateFiltered.excludedRollUpSites.splice(0, this.stateFiltered.excludedRollUpSites.length);
+
     if (!sites || !sites.length) {
       return [];
     }
@@ -211,7 +229,11 @@ class SitesStore {
     // Add group to site name and filter out roll-ups if flag is set
     sites = sites.reduce(
       (tempSites: Site[], s: Site) => {
-        if (!excludeRollUpSites || s.type.toLowerCase().trim() !== 'rollup') {
+        // If the flag is set, identify rollups and exclude them from future searches
+        if (excludeRollUpSites && s.type.toLowerCase().trim() === 'rollup') {
+          this.stateFiltered.excludedSites.push(s.idsite as number);
+          this.stateFiltered.excludedRollUpSites.push(s.idsite as number);
+        } else {
           tempSites.push({
             ...s,
             name: s.group ? `[${s.group}] ${s.name}` : s.name,

@@ -5074,7 +5074,8 @@ class SitesStore_SitesStore {
       excludedSites: [],
       onlySitesWithAdminAccess: false,
       sitesWithAtLeastWriteAccess: false,
-      excludeRollUpSites: false
+      excludeRollUpSites: false,
+      excludedRollUpSites: []
     }));
     SitesStore_defineProperty(this, "currentRequestAbort", null);
     SitesStore_defineProperty(this, "limitRequest", void 0);
@@ -5166,7 +5167,12 @@ class SitesStore_SitesStore {
       });
     }).then(response => {
       if (response) {
-        return this.processWebsitesList(response, excludeRollUpSites);
+        const result = this.processWebsitesList(response, excludeRollUpSites);
+        // If there were rollups excluded, run the search again until none are found
+        if (this.stateFiltered.excludedRollUpSites.length > 0) {
+          return this.searchSite(term, onlySitesWithAdminAccess, this.stateFiltered.excludedSites, sitesWithAtLeastWriteAccess, excludeRollUpSites);
+        }
+        return result;
       }
       return null;
     }).finally(() => {
@@ -5175,12 +5181,18 @@ class SitesStore_SitesStore {
   }
   processWebsitesList(response, excludeRollUpSites = false) {
     let sites = response;
+    // Clear the array in preparation for another search
+    this.stateFiltered.excludedRollUpSites.splice(0, this.stateFiltered.excludedRollUpSites.length);
     if (!sites || !sites.length) {
       return [];
     }
     // Add group to site name and filter out roll-ups if flag is set
     sites = sites.reduce((tempSites, s) => {
-      if (!excludeRollUpSites || s.type.toLowerCase().trim() !== 'rollup') {
+      // If the flag is set, identify rollups and exclude them from future searches
+      if (excludeRollUpSites && s.type.toLowerCase().trim() === 'rollup') {
+        this.stateFiltered.excludedSites.push(s.idsite);
+        this.stateFiltered.excludedRollUpSites.push(s.idsite);
+      } else {
         tempSites.push(Object.assign(Object.assign({}, s), {}, {
           name: s.group ? `[${s.group}] ${s.name}` : s.name
         }));
