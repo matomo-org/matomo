@@ -67,7 +67,7 @@ class ControllerTest extends IntegrationTestCase
         try {
             $this->controller->recordPasswordChange();
         } catch (\Exception $e) {
-            // do nothing
+            $this->assertTrue(false);
         }
         $this->assertTrue(true);
     }
