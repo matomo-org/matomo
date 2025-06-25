@@ -67,12 +67,6 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
 
         PluginsArchiver::$archivers['VisitsSummary'] = 'Piwik\Tests\Integration\ArchiveWithNoVisitsTestMockArchiver';
 
-        // mark our only site as should archive when no visits
-        $eventDispatcher = $this->getEventDispatcher();
-        $eventDispatcher->addObserver('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
-            $idSites[] = 1;
-        });
-
         Cache::getTransientCache()->flushAll();
 
         // initiate archiving and make sure both aggregate methods are called correctly
@@ -91,16 +85,16 @@ class ArchiveWithNoVisitsTest extends IntegrationTestCase
         $this->assertEquals($expectedMethodCalls, ArchiveWithNoVisitsTestMockArchiver::$methodsCalled);
     }
 
-    public function testPluginArchiverDoesNotTriggerArchivingEvenIfSiteHasNoVisits()
+    public function testPluginArchiverDoesNotTriggerArchivingIfSiteHasNoVisits()
     {
         PluginsArchiver::$archivers['VisitsSummary'] = 'Piwik\Tests\Integration\ArchiveWithNoVisitsTestMockArchiver';
 
-        ArchiveWithNoVisitsTestMockArchiver::$runWithoutVisits = true;
+        ArchiveWithNoVisitsTestMockArchiver::$runWithoutVisits = false;
 
         // initiate archiving and make sure methods are called
         VisitsSummaryAPI::getInstance()->get($idSite = 1, 'week', '2012-01-01');
 
-        $expectedMethodCalls = array();
+        $expectedMethodCalls = [];
         $this->assertEquals($expectedMethodCalls, ArchiveWithNoVisitsTestMockArchiver::$methodsCalled);
     }
 

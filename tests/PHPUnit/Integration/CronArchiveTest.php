@@ -1087,14 +1087,6 @@ class CronArchiveTest extends IntegrationTestCase
 
         Fixture::createWebsite('2014-12-12 00:01:02');
 
-        // track a visit for today, so todays data will get invalidated
-        $tracker = Fixture::getTracker(1, '2020-09-09 07:00:00');
-        $tracker->setUrl('http://someurl.com');
-        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
-
-        // remove invalidation options created through tracking
-        Option::deleteLike('%report_to_invalidate_%');
-
         Rules::setBrowserTriggerArchiving(false);
         $id1 = SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
         $id2 = SegmentAPI::getInstance()->add('barb', 'actions>=2', 1, true, true);
@@ -1128,6 +1120,30 @@ class CronArchiveTest extends IntegrationTestCase
                 false,
                 false,
             ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                'actions>=1',
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
         ];
         self::assertEquals($expectedInvalidations, $requestedInvalidations);
 
@@ -1139,14 +1155,6 @@ class CronArchiveTest extends IntegrationTestCase
         Date::$now = strtotime('2020-09-09 09:00:00');
 
         Fixture::createWebsite('2014-12-12 00:01:02');
-
-        // track a visit for today, so todays data will get invalidated
-        $tracker = Fixture::getTracker(1, '2020-09-09 07:00:00');
-        $tracker->setUrl('http://someurl.com');
-        Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
-
-        // remove invalidation options created through tracking
-        Option::deleteLike('%report_to_invalidate_%');
 
         Rules::setBrowserTriggerArchiving(false);
         $id1 = SegmentAPI::getInstance()->add('foo', 'actions>=1', 1, true, true);
@@ -1184,6 +1192,30 @@ class CronArchiveTest extends IntegrationTestCase
             [
                 1,
                 Date::now()->toString(),
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                'actions>=1',
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
                 'day',
                 'actions>=2',
                 false,
@@ -1289,6 +1321,9 @@ class CronArchiveTest extends IntegrationTestCase
         SegmentAPI::getInstance()->add('burr', 'actions>=4', 1, true, true);
         Rules::setBrowserTriggerArchiving(true);
 
+        // remove invalidations that were created by adding the segments
+        Option::delete(CronArchive\ReArchiveList::OPTION_NAME);
+
         $tracker = Fixture::getTracker(1, '2019-12-12 02:03:00');
         $tracker->setUrl('http://someurl.com');
         Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
@@ -1308,6 +1343,8 @@ class CronArchiveTest extends IntegrationTestCase
         $logger = new FakeLogger();
 
         $archiver = new CronArchive($logger);
+
+        $archiver->skipInvalidatingRecentDates = true;
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiveFilter->setSegmentsToForce(['actions>=2;browserCode=FF', 'actions>=2']);
@@ -1340,8 +1377,6 @@ Checking for queued invalidations...
   Will invalidate archived reports for 2019-12-11 for following websites ids: 1
   Will invalidate archived reports for 2019-12-10 for following websites ids: 1
   Will invalidate archived reports for 2019-12-02 for following websites ids: 1
-  Today archive can be skipped due to no visits for idSite = 1, skipping invalidation...
-  Yesterday archive can be skipped due to no visits for idSite = 1, skipping invalidation...
 Done invalidating
 Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
@@ -1423,6 +1458,7 @@ LOG;
         $sequence->create();
 
         $archiver = new CronArchive($logger);
+        $archiver->skipInvalidatingRecentDates = true;
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiver->setArchiveFilter($archiveFilter);
@@ -1450,8 +1486,6 @@ Start processing archives for site 2.
 Checking for queued invalidations...
   Will invalidate archived reports for 2019-12-11 for following websites ids: 2
   Will invalidate archived reports for 2019-12-10 for following websites ids: 2
-  Today archive can be skipped due to no visits for idSite = 2, skipping invalidation...
-  Yesterday archive can be skipped due to no visits for idSite = 2, skipping invalidation...
 Done invalidating
 Processing invalidation: [idinvalidation = %d, idsite = 2, period = day(2019-12-11 - 2019-12-11), name = done, segment = ].
 Processing invalidation: [idinvalidation = %d, idsite = 2, period = day(2019-12-10 - 2019-12-10), name = done, segment = ].
@@ -1523,6 +1557,7 @@ LOG;
         $logger = new FakeLogger();
 
         $archiver = new CronArchive($logger);
+        $archiver->skipInvalidatingRecentDates = true;
         $archiver->shouldArchiveSpecifiedSites = array(99999, 1);
         $archiver->init();
         $archiver->run();
@@ -1536,8 +1571,6 @@ Starting Matomo reports archiving...
 Applying queued rearchiving...
 Start processing archives for site 1.
 Checking for queued invalidations...
-  Today archive can be skipped due to no visits for idSite = 1, skipping invalidation...
-  Yesterday archive can be skipped due to no visits for idSite = 1, skipping invalidation...
 Done invalidating
 No next invalidated archive.
 LOG;
@@ -1550,7 +1583,7 @@ LOG;
         Date::$now = strtotime('2020-02-03 04:05:06');
 
         return array(
-            'Piwik\CliMulti' => \Piwik\DI::create('Piwik\Tests\Framework\Mock\FakeCliMulti')
+            'Piwik\CliMulti' => \Piwik\DI::create('Piwik\Tests\Framework\Mock\FakeCliMulti'),
         );
     }
 
@@ -1594,6 +1627,8 @@ LOG;
 
 class TestCronArchive extends CronArchive
 {
+    public $skipInvalidatingRecentDates = true;
+
     protected function checkPiwikUrlIsValid()
     {
     }

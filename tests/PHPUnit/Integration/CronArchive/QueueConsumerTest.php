@@ -46,14 +46,6 @@ class QueueConsumerTest extends IntegrationTestCase
         Fixture::createWebsite('2015-02-03');
         Fixture::createWebsite('2015-02-03');
 
-        // force archiving so we don't skip those without visits
-        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
-            $idSites[] = 1;
-            $idSites[] = 2;
-            $idSites[] = 3;
-            $idSites[] = 4;
-        });
-
         $cronArchive = $this->getMockCronArchive();
         $cronArchive->init();
 
@@ -155,12 +147,6 @@ class QueueConsumerTest extends IntegrationTestCase
         API::getInstance()->add('testegment', 'browserCode==IE;dimension1==val', 1, true);
         API::getInstance()->add('testegment2', 'browserCode==ff', false);
         Rules::setBrowserTriggerArchiving(true);
-
-        // force archiving so we don't skip those without visits
-        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
-            $idSites[] = 1;
-            $idSites[] = 2;
-        });
 
         $cronArchive = $this->getMockCronArchive();
         $cronArchive->init();
@@ -483,11 +469,6 @@ class QueueConsumerTest extends IntegrationTestCase
     {
         Fixture::createWebsite('2015-02-03');
 
-        // force archiving so we don't skip those without visits
-        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
-            $idSites[] = 1;
-        });
-
         $cronArchive = $this->getMockCronArchive();
         $cronArchive->init();
 
@@ -562,11 +543,6 @@ class QueueConsumerTest extends IntegrationTestCase
         API::getInstance()->add('testegment', 'browserCode==IE', false, true);
         API::getInstance()->add('testegment', 'browserCode==FF', false, true);
         Rules::setBrowserTriggerArchiving(true);
-
-        // force archiving so we don't skip those without visits
-        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
-            $idSites[] = 1;
-        });
 
         $cronArchive = $this->getMockCronArchive();
         $cronArchive->init();
@@ -692,11 +668,6 @@ class QueueConsumerTest extends IntegrationTestCase
         API::getInstance()->add('testegment', 'browserCode==IE', false, true);
         Rules::setBrowserTriggerArchiving(true);
 
-        // force archiving so we don't skip those without visits
-        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
-            $idSites[] = 1;
-        });
-
         $cronArchive = $this->getMockCronArchive();
         $cronArchive->init();
 
@@ -740,13 +711,6 @@ class QueueConsumerTest extends IntegrationTestCase
         Fixture::createWebsite('2021-11-16');
         Fixture::createWebsite('2021-11-16');
         Fixture::createWebsite('2021-11-16');
-
-        // force archiving so we don't skip those without visits
-        Piwik::addAction('Archiving.getIdSitesToArchiveWhenNoVisits', function (&$idSites) {
-            $idSites[] = 1;
-            $idSites[] = 2;
-            $idSites[] = 3;
-        });
 
         $cronArchive = $this->getMockCronArchive();
         $cronArchive->init();
@@ -886,7 +850,7 @@ class QueueConsumerTest extends IntegrationTestCase
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)", $bind);
     }
 
-    public function testCanSkipArchiveBecauseNoPointReturnsTrueIfDateRangeHasNoVisits()
+    public function testCanSkipArchiveBecauseNoPointReturnsFalseEvenIfDateRangeHasNoVisits()
     {
         Fixture::createWebsite('2010-04-06');
 
@@ -918,7 +882,7 @@ class QueueConsumerTest extends IntegrationTestCase
         ];
 
         $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
-        $this->assertTrue($result);
+        $this->assertFalse($result);
     }
 
     public function testCanSkipArchiveBecauseNoPointReturnsFalseIfDateRangeHasVisitsAndPeriodDoesNotIncludeToday()
