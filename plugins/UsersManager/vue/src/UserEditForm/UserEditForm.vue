@@ -146,7 +146,7 @@
           <div v-for="(refComponent, index) in componentExtensions" :key="index">
             <component
               :is="refComponent"
-              :user="userBeingEdited"
+              :user="user"
               :current-user-role="currentUserRole"
               :invite-token-expiry-days="inviteTokenExpiryDays"
               :access-levels="accessLevels"
