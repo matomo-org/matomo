@@ -528,6 +528,7 @@ class UsersManagerTest extends IntegrationTestCase
             unset($user['invite_link_token']);
             unset($user['invite_accept_at']);
             unset($user['invited_by']);
+            unset($user['ts_last_seen']);
         }
         return $users;
     }
