@@ -53,10 +53,11 @@ class ControllerTest extends IntegrationTestCase
 
     public function testRecordPasswordChangePasswordStrengthCheckWeakPassword()
     {
-        $this->setupPostStateWithPassword('password1');
-        $this->controller->recordPasswordChange();
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_PasswordStrengthValidationFailed');
+
+        $this->setupPostStateWithPassword('password1');
+        $this->controller->recordPasswordChange();
     }
 
     public function testRecordPasswordChangePasswordStrengthCheckStrongPassword()
