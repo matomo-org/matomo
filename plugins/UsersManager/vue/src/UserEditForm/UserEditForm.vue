@@ -144,7 +144,16 @@
             />
           </div>
           <div v-for="(refComponent, index) in componentExtensions" :key="index">
-            <component :is="refComponent"/>
+            <component
+              :is="refComponent"
+              :user="userBeingEdited"
+              :current-user-role="currentUserRole"
+              :invite-token-expiry-days="inviteTokenExpiryDays"
+              :access-levels="accessLevels"
+              :filter-access-levels="filterAccessLevels"
+              :initial-site-id="initialSiteId"
+              :initial-site-name="initialSiteName"
+            />
           </div>
           <div>
             <div class="form-group row" style="position: relative">
