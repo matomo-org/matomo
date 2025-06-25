@@ -168,14 +168,6 @@ class SegmentArchiving
                 }
             }
 
-            $earliestVisitTime = $this->getEarliestVisitTimeFor($idSite);
-            if (
-                !empty($earliestVisitTime)
-                && $result->isEarlier($earliestVisitTime)
-            ) {
-                $result = $earliestVisitTime;
-            }
-
             return $result;
         }
     }
@@ -202,22 +194,6 @@ class SegmentArchiving
             ? null : Date::factory($storedSegment['ts_last_edit']);
 
         return [$createdTime, $lastEditTime];
-    }
-
-    private function getEarliestVisitTimeFor($idSite)
-    {
-        $earliestIdVisit = Db::fetchOne('SELECT idvisit FROM ' . Common::prefixTable('log_visit')
-            . ' WHERE idsite = ? ORDER BY visit_last_action_time ASC LIMIT 1', [$idSite]);
-
-        $earliestStartTime = Db::fetchOne('SELECT visit_first_action_time FROM ' . Common::prefixTable('log_visit') . ' WHERE idvisit = ?', [
-            $earliestIdVisit,
-        ]);
-
-        if (empty($earliestStartTime)) {
-            return null;
-        }
-
-        return Date::factory($earliestStartTime);
     }
 
     public function getAllSegments()
