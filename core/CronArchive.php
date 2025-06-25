@@ -79,7 +79,6 @@ class CronArchive
      */
     private $websiteIdArchiveList;
     private $requests = 0;
-    private $archiveAndRespectTTL = true;
     public $shouldArchiveAllSites = false;
 
     private $idSitesNotUsingTracker = [];
@@ -137,12 +136,11 @@ class CronArchive
     public $disableScheduledTasks = false;
 
     /**
-     * Forces CronArchive to invalidate data for the last [$dateLastForced] years when it notices a segment that
-     * was recently created or updated. By default this is 7.
+     * If set to true, yesterday and today won't be invalidated.
      *
-     * @var int|false
+     * @var bool
      */
-    public $dateLastForced = SegmentArchiving::DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS;
+    public $skipInvalidatingRecentDates = false;
 
     /**
      * The number of concurrent requests to issue per website. Defaults to {@link MAX_CONCURRENT_API_REQUESTS}.
@@ -511,7 +509,7 @@ class CronArchive
         $urls = [];
         $archivesBeingQueried = [];
         foreach ($archives as $index => $archive) {
-            list($url, $segment, $plugin) = $this->generateUrlToArchiveFromArchiveInfo($archive);
+            [$url, $segment, $plugin] = $this->generateUrlToArchiveFromArchiveInfo($archive);
             if (empty($url)) {
                 // can happen if, for example, a segment was deleted after an archive was invalidated
                 // in this case, we can just delete the archive entirely.
@@ -993,17 +991,12 @@ class CronArchive
 
     public function invalidateRecentDate(string $dateStr, int $idSite): void
     {
-        $timezone = Site::getTimezoneFor($idSite);
-        $date = Date::factoryInTimezone($dateStr, $timezone);
-        $period = PeriodFactory::build('day', $date);
-
-        $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
-
-        $loader = new Loader($params);
-        if ($loader->canSkipThisArchive()) {
-            $this->logger->debug("  " . ucfirst($dateStr) . " archive can be skipped due to no visits for idSite = $idSite, skipping invalidation...");
+        if ($this->skipInvalidatingRecentDates) {
             return;
         }
+
+        $timezone = Site::getTimezoneFor($idSite);
+        $date = Date::factoryInTimezone($dateStr, $timezone);
 
         $isYesterday = $dateStr === 'yesterday';
         $isToday = $dateStr === 'today';
