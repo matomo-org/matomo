@@ -51,7 +51,7 @@ class ControllerTest extends IntegrationTestCase
         parent::tearDown();
         $_POST = $this->post;
     }
-    
+
     private function setupPostStateWithPassword(string $password)
     {
         $_POST['form_nonce'] = Nonce::getNonce('Login.login');

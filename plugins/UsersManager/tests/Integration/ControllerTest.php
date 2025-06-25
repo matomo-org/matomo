@@ -70,7 +70,6 @@ class ControllerTest extends IntegrationTestCase
             // do nothing
         }
         $this->assertTrue(true);
-
     }
 
     private function setupPostStateWithPassword(string $password)
