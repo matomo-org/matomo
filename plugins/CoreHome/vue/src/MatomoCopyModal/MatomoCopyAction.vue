@@ -26,7 +26,7 @@ import {
 } from 'vue';
 import { translate, translateOrDefault } from '../translate';
 import Tooltips from '../Tooltips/Tooltips';
-import MatomoCopyLogic from './MatomoCopyLogic';
+import { MatomoCopyModalStore } from './MatomoCopyModalStore';
 
 export default defineComponent({
   props: {
@@ -38,20 +38,11 @@ export default defineComponent({
       required: true,
     },
     /**
-     * This allows modelData to be emitted to the parent so that it can be used by the modal
+     * The reactive class for controlling the settings of the modal from multiple components.
      */
-    copyFormData: {
-      type: Object,
+    modalStore: {
+      type: MatomoCopyModalStore,
       required: true,
-      default: () => ({}),
-    },
-    /**
-     * Indicates the modal should be shown. Emitting an update notifies the parent to show the modal
-     */
-    showCopyModal: {
-      type: Boolean,
-      required: true,
-      default: false,
     },
     /**
      * Indicates whether the action should be shown.
@@ -85,32 +76,13 @@ export default defineComponent({
       required: false,
       default: '',
     },
-    /**
-     * Translation of what is being copied (e.g. goal, funnel, segment, ...). This can be a string
-     * or translation key. If nothing is provided 'report' is used.
-     */
-    copyEntityTypeTranslation: {
-      type: String,
-      required: false,
-      default: '',
-    },
   },
-  emits: ['update:showCopyModal', 'update:copyFormData'],
   directives: {
     Tooltips,
   },
-  mixins: [
-    MatomoCopyLogic,
-  ],
   methods: {
     handleClick() {
-      // Combines the model data and copy form data just in case model data is missing fields
-      const modifiedData = {
-        ...this.modelData,
-        ...this.copyFormData,
-      };
-      this.$emit('update:copyFormData', modifiedData);
-      this.$emit('update:showCopyModal', true);
+      this.modalStore.showModal(this.modelData);
     },
   },
   computed: {
@@ -123,7 +95,7 @@ export default defineComponent({
         return translateOrDefault(this.tooltipTextOverrideDisabled);
       }
 
-      return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
+      return translate('CoreHome_CopyX', this.modalStore.getEntityTypeTranslation);
     },
   },
 });

@@ -221,6 +221,8 @@ __webpack_require__.d(__webpack_exports__, "scrollToAnchorInUrl", function() { r
 __webpack_require__.d(__webpack_exports__, "SearchFiltersPersistenceStore", function() { return /* reexport */ SearchFiltersPersistence_store; });
 __webpack_require__.d(__webpack_exports__, "MatomoCopyModal", function() { return /* reexport */ MatomoCopyModal; });
 __webpack_require__.d(__webpack_exports__, "MatomoCopyAction", function() { return /* reexport */ MatomoCopyAction; });
+__webpack_require__.d(__webpack_exports__, "MatomoCopyModalStore", function() { return /* reexport */ MatomoCopyModalStore_MatomoCopyModalStore; });
+__webpack_require__.d(__webpack_exports__, "buildMatomoCopyModalStore", function() { return /* reexport */ buildMatomoCopyModalStore; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -10236,49 +10238,49 @@ function scrollToAnchorInUrl() {
   // timeout needed to ensure Vue rendered fully
   Object(external_commonjs_vue_commonjs2_vue_root_Vue_["nextTick"])(handleScrollToAnchorIfPresentOnPageLoad);
 }
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=template&id=289c841d
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=template&id=4dfabb72
 
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_1 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_1 = {
   class: "entire-copy-modal"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_2 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_2 = {
   class: "modal-header"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "btn-close modal-close"
 }, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-close"
 })], -1);
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_4 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_4 = {
   key: 0,
   class: "modal-content copy-loading"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_5 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_5 = {
   class: "Piwik_Popover_Loading"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_6 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_6 = {
   class: "Piwik_Popover_Loading_Name"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_7 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_7 = {
   class: "modal-sub-header"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_8 = ["innerHTML"];
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_9 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_8 = ["innerHTML"];
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_9 = {
   class: "modal-content"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_10 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_10 = {
   class: "modal-inputs"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_11 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_11 = {
   class: "modal-sub-footer"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_12 = ["innerHTML"];
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_13 = ["innerHTML"];
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_14 = {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_12 = ["innerHTML"];
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_13 = ["innerHTML"];
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_14 = {
   class: "modal-footer"
 };
-const MatomoCopyModalvue_type_template_id_289c841d_hoisted_15 = ["disabled"];
-function MatomoCopyModalvue_type_template_id_289c841d_render(_ctx, _cache, $props, $setup, $data, $options) {
+const MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_15 = ["disabled"];
+function MatomoCopyModalvue_type_template_id_4dfabb72_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
@@ -10288,12 +10290,12 @@ function MatomoCopyModalvue_type_template_id_289c841d_render(_ctx, _cache, $prop
       'slot-configured': _ctx.$slots.default
     }),
     ref: "root"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_2, [MatomoCopyModalvue_type_template_id_289c841d_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getModalTitle), 1)]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Loading')), 1)])])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_2, [MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getModalTitle), 1)]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Loading')), 1)])])])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 1
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getCopyDescription) + "  ", 1), _ctx.descriptionLearnMoreLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getCopyDescription) + "  ", 1), _ctx.descriptionLearnMoreLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     innerHTML: _ctx.$sanitize(_ctx.getLearnMoreLink)
-  }, null, 8, MatomoCopyModalvue_type_template_id_289c841d_hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "site",
     name: "siteSelector",
     title: _ctx.translate('CoreHome_ChooseWebsite'),
@@ -10303,27 +10305,28 @@ function MatomoCopyModalvue_type_template_id_289c841d_render(_ctx, _cache, $prop
       sitesWithAtLeastWriteAccess: true,
       excludeRollUpSites: true
     }
-  }, null, 8, ["title", "modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])), [[_directive_form]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_11, [_ctx.copyErrors.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+  }, null, 8, ["title", "modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])), [[_directive_form]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_11, [_ctx.copyErrors.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.getAlertClasses)
   }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("ul", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.copyErrors, (copyError, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: index,
       innerHTML: _ctx.$sanitize(copyError)
-    }, null, 8, MatomoCopyModalvue_type_template_id_289c841d_hoisted_12);
+    }, null, 8, MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_12);
   }), 128))])], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.copyErrors.length === 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
     key: 1,
     class: "note-text",
     innerHTML: _ctx.$sanitize(_ctx.getNoteText)
-  }, null, 8, MatomoCopyModalvue_type_template_id_289c841d_hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_289c841d_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+  }, null, 8, MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_13)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
     class: "btn",
     disabled: !_ctx.getIsValid || _ctx.hasBeenSubmitted,
     onClick: _cache[1] || (_cache[1] = $event => _ctx.submitCopy())
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Copy')), 9, MatomoCopyModalvue_type_template_id_289c841d_hoisted_15)])], 64))])], 2);
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Copy')), 9, MatomoCopyModalvue_type_template_id_4dfabb72_hoisted_15)])], 64))])], 2);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=template&id=289c841d
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=template&id=4dfabb72
 
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyLogic.ts
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModalStore.ts
+function MatomoCopyModalStore_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -10331,25 +10334,63 @@ function MatomoCopyModalvue_type_template_id_289c841d_render(_ctx, _cache, $prop
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-/* harmony default export */ var MatomoCopyLogic = ({
-  computed: {
-    /**
-     * Uses the copyEntityTypeTranslation property to return the translated entity type (e.g. goal,
-     * funnel, segment, ...), which can be a translated string or translation key. If the value is a
-     * translation key, the translated value will be returned. If no value is set, the default is \
-     * the translation of 'report'.
-     */
-    getEntityTypeTranslation() {
-      // Default to 'report' if no value is provided via copyEntityTypeTranslation
-      let translationKey = 'CoreHome_ReportLowercase';
-      if (this.copyEntityTypeTranslation) {
-        translationKey = this.copyEntityTypeTranslation;
-      }
-      // Only translate if it's a translation key and not an already translated string
-      return translateOrDefault(translationKey);
-    }
+
+class MatomoCopyModalStore_MatomoCopyModalStore {
+  constructor(copyEntityType, copyEntityTypeTranslation, commonFormData) {
+    MatomoCopyModalStore_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
+      isModalVisible: false,
+      isWatchSuppressed: false,
+      commonFormData: {},
+      entityFormData: {},
+      copyEntityType: '',
+      copyEntityTypeTranslation: ''
+    }));
+    this.state.copyEntityType = copyEntityType;
+    this.state.copyEntityTypeTranslation = copyEntityTypeTranslation;
+    this.state.commonFormData = commonFormData !== null && commonFormData !== void 0 ? commonFormData : {};
   }
-});
+  showModal(entityFormData) {
+    // Make sure that we start fresh
+    this.resetFormData();
+    // Update the store with any provided form data
+    Object.entries(entityFormData !== null && entityFormData !== void 0 ? entityFormData : {}).forEach(([key, value]) => {
+      this.state.entityFormData[key] = value;
+    });
+    this.state.isModalVisible = true;
+  }
+  hideModal() {
+    this.state.isModalVisible = false;
+    this.resetFormData();
+  }
+  resetFormData() {
+    this.state.isWatchSuppressed = true;
+    // Remove all properties (preserves the original object reference)
+    Object.keys(this.state.entityFormData).forEach(key => {
+      delete this.state.entityFormData[key];
+    });
+  }
+  disableWatchSuppression() {
+    this.state.isWatchSuppressed = false;
+  }
+  /**
+   * Uses the copyEntityTypeTranslation property to return the translated entity type (e.g. goal,
+   * funnel, segment, ...), which can be a translated string or translation key. If the value is a
+   * translation key, the translated value will be returned. If no value is set, the default is \
+   * the translation of 'report'.
+   */
+  get getEntityTypeTranslation() {
+    // Default to 'report' if no value is provided via copyEntityTypeTranslation
+    let translationKey = 'CoreHome_ReportLowercase';
+    if (this.state.copyEntityTypeTranslation) {
+      translationKey = this.state.copyEntityTypeTranslation;
+    }
+    // Only translate if it's a translation key and not an already translated string
+    return translateOrDefault(translationKey);
+  }
+}
+function buildMatomoCopyModalStore(copyEntityType, copyEntityTypeTranslation, commonFormData) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(new MatomoCopyModalStore_MatomoCopyModalStore(copyEntityType, copyEntityTypeTranslation, commonFormData));
+}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.vue?vue&type=script&lang=ts
 
 
@@ -10375,39 +10416,11 @@ const {
   },
   props: {
     /**
-     * Whether the modal is displayed or not
+     * The reactive class for controlling the settings of the modal from multiple components.
      */
-    modelValue: {
-      type: Boolean,
-      required: true,
-      default: false
-    },
-    /**
-     * Should uniquely identify what is being copied (e.g. goal, funnel, segment, ...). The is
-     * important as it's used as the entityTypeName property of the request sent to the server.
-     */
-    copyEntityType: {
-      type: String,
-      required: true,
-      default: ''
-    },
-    /**
-     * Translation of what is being copied (e.g. goal, funnel, segment, ...). This can be a string
-     * or translation key. If nothing is provided 'report' is used.
-     */
-    copyEntityTypeTranslation: {
-      type: String,
-      required: false,
-      default: ''
-    },
-    /**
-     * Additional form data that needs to be included in the request sent to the server. This should
-     * typically include the unique identifier of the entity being copied (e.g. idGoal for a goal).
-     */
-    formData: {
-      type: Object,
-      required: false,
-      default: () => ({})
+    modalStore: {
+      type: MatomoCopyModalStore_MatomoCopyModalStore,
+      required: true
     }
   },
   data() {
@@ -10421,10 +10434,9 @@ const {
       hasBeenSubmitted: false
     };
   },
-  emits: ['update:modelValue', 'resetFormData', 'copySuccessful', 'copyFailed'],
-  mixins: [MatomoCopyLogic],
+  emits: ['copySuccessful', 'copyFailed'],
   watch: {
-    modelValue(newValue) {
+    isModalVisible(newValue) {
       if (!newValue) {
         return;
       }
@@ -10444,13 +10456,13 @@ const {
       $root.modal('close');
     },
     resetModal() {
+      this.modalStore.hideModal();
       this.site = null;
       this.isLoading = true;
       this.isValidated = false;
       this.copyErrors = [];
       this.hasSiteBeenInitialised = false;
       this.hasBeenSubmitted = false;
-      this.$emit('resetFormData');
     },
     showCopyModal() {
       const root = this.$refs.root;
@@ -10459,9 +10471,9 @@ const {
         dismissible: true,
         onCloseEnd: () => {
           this.resetModal();
-          this.$emit('update:modelValue', false);
         }
       }).modal('open');
+      this.modalStore.disableWatchSuppression();
     },
     submitCopy() {
       var _this$site;
@@ -10479,13 +10491,13 @@ const {
       ajax.removeDefaultParameter('segment');
       // Include token in POST body so that it can be used for the security check instead of a nonce
       ajax.withTokenInUrl();
-      ajax.addParams(Object.assign({
+      ajax.addParams(Object.assign(Object.assign({
         module: 'CoreHome',
         action: 'copyEntity',
         idSite: Matomo_Matomo.idSite || src_MatomoUrl_MatomoUrl.parsed.value.idSite,
         idDestinationSites: [(_this$site = this.site) === null || _this$site === void 0 ? void 0 : _this$site.id],
-        entityTypeName: this.copyEntityType
-      }, this.formData), 'POST');
+        entityTypeName: this.modalStore.state.copyEntityType
+      }, this.modalStore.state.commonFormData), this.modalStore.state.entityFormData), 'POST');
       ajax.setFormat('json');
       ajax.send().then(response => {
         // If the response was invalid or unsuccessful, emit the failure and show an error message
@@ -10508,7 +10520,7 @@ const {
       this.isValidated = true;
       this.copyErrors = [];
       // Don't bother if the modal isn't visible
-      if (!this.modelValue) {
+      if (!this.modalStore.state.isModalVisible) {
         return;
       }
       // Ignore the site getting initialised by the component
@@ -10517,8 +10529,9 @@ const {
         return;
       }
       const validationData = {
-        formValues: Object.assign(Object.assign({}, this.formData), {}, {
-          idDestinationSite: (_this$site2 = this.site) === null || _this$site2 === void 0 ? void 0 : _this$site2.id
+        formValues: Object.assign(Object.assign(Object.assign({}, this.modalStore.state.commonFormData), this.modalStore.state.entityFormData), {}, {
+          idSite: Matomo_Matomo.idSite || src_MatomoUrl_MatomoUrl.parsed.value.idSite,
+          idDestinationSites: [(_this$site2 = this.site) === null || _this$site2 === void 0 ? void 0 : _this$site2.id]
         }),
         errorMessages: []
       };
@@ -10556,22 +10569,28 @@ const {
     // Add a delay to validation to try and let the input finish
     const delayedValidation = debounce(this.validateAfterFieldChange);
     // Watch the formData object for any property changes
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.formData, () => {
+    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.modalStore.state.entityFormData, () => {
+      if (this.modalStore.state.isWatchSuppressed) {
+        return;
+      }
       delayedValidation();
     }, {
       deep: true
     });
   },
   computed: {
+    isModalVisible() {
+      return this.modalStore.state.isModalVisible;
+    },
     getModalTitle() {
-      return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
+      return translate('CoreHome_CopyX', this.modalStore.getEntityTypeTranslation);
     },
     getNoteText() {
-      const noteText = translate('CoreHome_CopyModalNote', '<strong>', '</strong>', this.getEntityTypeTranslation);
+      const noteText = translate('CoreHome_CopyModalNote', '<strong>', '</strong>', this.modalStore.getEntityTypeTranslation);
       return `${noteText}`;
     },
     getCopyDescription() {
-      return translate('CoreHome_CopyXDescription', this.getEntityTypeTranslation);
+      return translate('CoreHome_CopyXDescription', this.modalStore.getEntityTypeTranslation);
     },
     getLearnMoreLink() {
       if (!this.descriptionLearnMoreLink) {
@@ -10599,13 +10618,13 @@ const {
 
 
 
-MatomoCopyModalvue_type_script_lang_ts.render = MatomoCopyModalvue_type_template_id_289c841d_render
+MatomoCopyModalvue_type_script_lang_ts.render = MatomoCopyModalvue_type_template_id_4dfabb72_render
 
 /* harmony default export */ var MatomoCopyModal = (MatomoCopyModalvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=21ba5c32
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=a617be78
 
-const MatomoCopyActionvue_type_template_id_21ba5c32_hoisted_1 = ["title", "aria-disabled"];
-function MatomoCopyActionvue_type_template_id_21ba5c32_render(_ctx, _cache, $props, $setup, $data, $options) {
+const MatomoCopyActionvue_type_template_id_a617be78_hoisted_1 = ["title", "aria-disabled"];
+function MatomoCopyActionvue_type_template_id_a617be78_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
@@ -10617,9 +10636,9 @@ function MatomoCopyActionvue_type_template_id_21ba5c32_render(_ctx, _cache, $pro
     title: _ctx.getActionTooltip,
     "aria-disabled": !_ctx.isActionEnabled,
     onClick: _cache[0] || (_cache[0] = $event => !_ctx.isActionEnabled || _ctx.handleClick())
-  }, null, 10, MatomoCopyActionvue_type_template_id_21ba5c32_hoisted_1)), [[_directive_tooltips], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isActionVisible]]);
+  }, null, 10, MatomoCopyActionvue_type_template_id_a617be78_hoisted_1)), [[_directive_tooltips], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isActionVisible]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=21ba5c32
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=a617be78
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=script&lang=ts
 
@@ -10636,20 +10655,11 @@ function MatomoCopyActionvue_type_template_id_21ba5c32_render(_ctx, _cache, $pro
       required: true
     },
     /**
-     * This allows modelData to be emitted to the parent so that it can be used by the modal
+     * The reactive class for controlling the settings of the modal from multiple components.
      */
-    copyFormData: {
-      type: Object,
-      required: true,
-      default: () => ({})
-    },
-    /**
-     * Indicates the modal should be shown. Emitting an update notifies the parent to show the modal
-     */
-    showCopyModal: {
-      type: Boolean,
-      required: true,
-      default: false
+    modalStore: {
+      type: MatomoCopyModalStore_MatomoCopyModalStore,
+      required: true
     },
     /**
      * Indicates whether the action should be shown.
@@ -10682,28 +10692,14 @@ function MatomoCopyActionvue_type_template_id_21ba5c32_render(_ctx, _cache, $pro
       type: String,
       required: false,
       default: ''
-    },
-    /**
-     * Translation of what is being copied (e.g. goal, funnel, segment, ...). This can be a string
-     * or translation key. If nothing is provided 'report' is used.
-     */
-    copyEntityTypeTranslation: {
-      type: String,
-      required: false,
-      default: ''
     }
   },
-  emits: ['update:showCopyModal', 'update:copyFormData'],
   directives: {
     Tooltips: Tooltips
   },
-  mixins: [MatomoCopyLogic],
   methods: {
     handleClick() {
-      // Combines the model data and copy form data just in case model data is missing fields
-      const modifiedData = Object.assign(Object.assign({}, this.modelData), this.copyFormData);
-      this.$emit('update:copyFormData', modifiedData);
-      this.$emit('update:showCopyModal', true);
+      this.modalStore.showModal(this.modelData);
     }
   },
   computed: {
@@ -10714,7 +10710,7 @@ function MatomoCopyActionvue_type_template_id_21ba5c32_render(_ctx, _cache, $pro
       if (!this.isActionEnabled && this.tooltipTextOverrideDisabled.length) {
         return translateOrDefault(this.tooltipTextOverrideDisabled);
       }
-      return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
+      return translate('CoreHome_CopyX', this.modalStore.getEntityTypeTranslation);
     }
   }
 }));
@@ -10724,7 +10720,7 @@ function MatomoCopyActionvue_type_template_id_21ba5c32_render(_ctx, _cache, $pro
 
 
 
-MatomoCopyActionvue_type_script_lang_ts.render = MatomoCopyActionvue_type_template_id_21ba5c32_render
+MatomoCopyActionvue_type_script_lang_ts.render = MatomoCopyActionvue_type_template_id_a617be78_render
 
 /* harmony default export */ var MatomoCopyAction = (MatomoCopyActionvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
@@ -10734,6 +10730,7 @@ MatomoCopyActionvue_type_script_lang_ts.render = MatomoCopyActionvue_type_templa
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

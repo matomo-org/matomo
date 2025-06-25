@@ -91,7 +91,7 @@ import { translate } from '../translate';
 import { externalLink } from '../externalLink';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
-import MatomoCopyLogic from './MatomoCopyLogic';
+import { MatomoCopyModalStore } from './MatomoCopyModalStore';
 
 // async since we're referencing a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
@@ -126,39 +126,11 @@ export default defineComponent({
   },
   props: {
     /**
-     * Whether the modal is displayed or not
+     * The reactive class for controlling the settings of the modal from multiple components.
      */
-    modelValue: {
-      type: Boolean,
+    modalStore: {
+      type: MatomoCopyModalStore,
       required: true,
-      default: false,
-    },
-    /**
-     * Should uniquely identify what is being copied (e.g. goal, funnel, segment, ...). The is
-     * important as it's used as the entityTypeName property of the request sent to the server.
-     */
-    copyEntityType: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    /**
-     * Translation of what is being copied (e.g. goal, funnel, segment, ...). This can be a string
-     * or translation key. If nothing is provided 'report' is used.
-     */
-    copyEntityTypeTranslation: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    /**
-     * Additional form data that needs to be included in the request sent to the server. This should
-     * typically include the unique identifier of the entity being copied (e.g. idGoal for a goal).
-     */
-    formData: {
-      type: Object,
-      required: false,
-      default: () => ({}),
     },
   },
   data(): MatomoCopyModalState {
@@ -173,16 +145,11 @@ export default defineComponent({
     };
   },
   emits: [
-    'update:modelValue',
-    'resetFormData',
     'copySuccessful',
     'copyFailed',
   ],
-  mixins: [
-    MatomoCopyLogic,
-  ],
   watch: {
-    modelValue(newValue) {
+    isModalVisible(newValue) {
       if (!newValue) {
         return;
       }
@@ -205,13 +172,13 @@ export default defineComponent({
       $root.modal('close');
     },
     resetModal() {
+      this.modalStore.hideModal();
       this.site = null;
       this.isLoading = true;
       this.isValidated = false;
       this.copyErrors = [];
       this.hasSiteBeenInitialised = false;
       this.hasBeenSubmitted = false;
-      this.$emit('resetFormData');
     },
     showCopyModal() {
       const root = this.$refs.root as HTMLElement;
@@ -220,9 +187,9 @@ export default defineComponent({
         dismissible: true,
         onCloseEnd: () => {
           this.resetModal();
-          this.$emit('update:modelValue', false);
         },
       }).modal('open');
+      this.modalStore.disableWatchSuppression();
     },
     submitCopy() {
       this.hasBeenSubmitted = true;
@@ -245,8 +212,9 @@ export default defineComponent({
         action: 'copyEntity',
         idSite: Matomo.idSite || MatomoUrl.parsed.value.idSite,
         idDestinationSites: [this.site?.id],
-        entityTypeName: this.copyEntityType,
-        ...this.formData,
+        entityTypeName: this.modalStore.state.copyEntityType,
+        ...this.modalStore.state.commonFormData,
+        ...this.modalStore.state.entityFormData,
       }, 'POST');
       ajax.setFormat('json');
       ajax.send().then((response: CopyRequestResponse) => {
@@ -271,7 +239,7 @@ export default defineComponent({
       this.isValidated = true;
       this.copyErrors = [];
       // Don't bother if the modal isn't visible
-      if (!this.modelValue) {
+      if (!this.modalStore.state.isModalVisible) {
         return;
       }
 
@@ -283,8 +251,10 @@ export default defineComponent({
 
       const validationData: QueryParameters = {
         formValues: {
-          ...this.formData,
-          idDestinationSite: this.site?.id,
+          ...this.modalStore.state.commonFormData,
+          ...this.modalStore.state.entityFormData,
+          idSite: Matomo.idSite || MatomoUrl.parsed.value.idSite,
+          idDestinationSites: [this.site?.id],
         },
         errorMessages: [] as string[],
       };
@@ -330,29 +300,35 @@ export default defineComponent({
 
     // Watch the formData object for any property changes
     watch(
-      () => this.formData,
+      () => this.modalStore.state.entityFormData,
       () => {
+        if (this.modalStore.state.isWatchSuppressed) {
+          return;
+        }
         delayedValidation();
       },
       { deep: true },
     );
   },
   computed: {
+    isModalVisible(): boolean {
+      return this.modalStore.state.isModalVisible;
+    },
     getModalTitle(): string {
-      return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
+      return translate('CoreHome_CopyX', this.modalStore.getEntityTypeTranslation);
     },
     getNoteText(): string {
       const noteText = translate(
         'CoreHome_CopyModalNote',
         '<strong>',
         '</strong>',
-        this.getEntityTypeTranslation,
+        this.modalStore.getEntityTypeTranslation,
       );
 
       return `${noteText}`;
     },
     getCopyDescription(): string {
-      return translate('CoreHome_CopyXDescription', this.getEntityTypeTranslation);
+      return translate('CoreHome_CopyXDescription', this.modalStore.getEntityTypeTranslation);
     },
     getLearnMoreLink() {
       if (!this.descriptionLearnMoreLink) {
