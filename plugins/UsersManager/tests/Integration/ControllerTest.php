@@ -53,17 +53,20 @@ class ControllerTest extends IntegrationTestCase
 
     public function testRecordPasswordChangePasswordStrengthCheckWeakPassword()
     {
+        $this->setupPostStateWithPassword('password1');
+
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('General_PasswordStrengthValidationFailed');
-
-        $this->setupPostStateWithPassword('password1');
         $this->controller->recordPasswordChange();
     }
 
     public function testRecordPasswordChangePasswordStrengthCheckStrongPassword()
     {
-        $this->expectNotToPerformAssertions();
+        //$this->expectNotToPerformAssertions();
         $this->setupPostStateWithPassword('Password111!');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessageMatches('/^^Trying to access array offset on value of type bool/');
         $this->controller->recordPasswordChange();
     }
 

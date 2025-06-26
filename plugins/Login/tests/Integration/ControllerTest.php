@@ -87,12 +87,12 @@ class ControllerTest extends IntegrationTestCase
         return [$userEmail, $token];
     }
 
-    private function setupPostInvitationSubmitted(string $token, string $userEmail, string $password)
+    private function setupPostInvitationSubmitted(string $token, string $userEmail, string $password, string $passwordConfirmation = null)
     {
         // simulate completing accept invitation form
         $_POST['token'] = $token;
         $_POST['password'] = $password;
-        $_POST['passwordConfirmation'] = $password;
+        $_POST['passwordConfirmation'] = $passwordConfirmation ?? $password;
         $_POST['email'] = $userEmail;
         $_POST['invitation_form'] = 'Confirm';
         $_POST['conditionCheck'] = true;
@@ -111,7 +111,7 @@ class ControllerTest extends IntegrationTestCase
     public function testAcceptInvitationPasswordStrengthCheckStrongPassword()
     {
         [$userEmail, $token] = $this->generateTestUser();
-        $this->setupPostInvitationSubmitted($token, $userEmail, 'Password111!');
+        $this->setupPostInvitationSubmitted($token, $userEmail, 'Password111!', 'NotSamePassword');
 
         $response = $this->controller->acceptInvitation();
         $this->assertStringNotContainsString('General_PasswordStrengthValidationFailed', $response);
