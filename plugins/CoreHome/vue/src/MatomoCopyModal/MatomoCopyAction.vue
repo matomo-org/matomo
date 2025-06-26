@@ -36,7 +36,7 @@ export default defineComponent({
     /**
      * Useful data to pass to the modal, such as the ID for which entity this action triggers a copy
      */
-    modelData: {
+    actionFormData: {
       type: Object,
       required: true,
     },
@@ -92,7 +92,7 @@ export default defineComponent({
   },
   methods: {
     handleClick() {
-      this.modalStore.showModal(this.modelData);
+      this.modalStore.showModal(this.actionFormData);
     },
   },
   computed: {

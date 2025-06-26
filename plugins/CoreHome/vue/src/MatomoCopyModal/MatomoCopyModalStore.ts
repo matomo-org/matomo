@@ -126,6 +126,15 @@ export class MatomoCopyModalStore {
   }
 }
 
+/**
+ * Returns a reactive store object for the specific type of entity being copied so that it can be
+ * used to maintain the state of the modal across all the actions which trigger showing the modal.
+ * See the property descriptions of the MatomoCopyState interface for more information.
+ *
+ * @param copyEntityType
+ * @param copyEntityTypeTranslation
+ * @param commonFormData
+ */
 export function buildMatomoCopyModalStore(
   copyEntityType: string,
   copyEntityTypeTranslation: string,

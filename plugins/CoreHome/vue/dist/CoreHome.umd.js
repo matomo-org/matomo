@@ -10507,6 +10507,15 @@ class MatomoCopyModalStore_MatomoCopyModalStore {
     return translateOrDefault(translationKey);
   }
 }
+/**
+ * Returns a reactive store object for the specific type of entity being copied so that it can be
+ * used to maintain the state of the modal across all the actions which trigger showing the modal.
+ * See the property descriptions of the MatomoCopyState interface for more information.
+ *
+ * @param copyEntityType
+ * @param copyEntityTypeTranslation
+ * @param commonFormData
+ */
 function buildMatomoCopyModalStore(copyEntityType, copyEntityTypeTranslation, commonFormData) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(new MatomoCopyModalStore_MatomoCopyModalStore(copyEntityType, copyEntityTypeTranslation, commonFormData));
 }
@@ -10731,10 +10740,10 @@ const {
 MatomoCopyModalvue_type_script_lang_ts.render = MatomoCopyModalvue_type_template_id_6db06330_render
 
 /* harmony default export */ var MatomoCopyModal = (MatomoCopyModalvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=2099311b
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=501e32e5
 
-const MatomoCopyActionvue_type_template_id_2099311b_hoisted_1 = ["title", "aria-disabled"];
-function MatomoCopyActionvue_type_template_id_2099311b_render(_ctx, _cache, $props, $setup, $data, $options) {
+const MatomoCopyActionvue_type_template_id_501e32e5_hoisted_1 = ["title", "aria-disabled"];
+function MatomoCopyActionvue_type_template_id_501e32e5_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
@@ -10746,9 +10755,9 @@ function MatomoCopyActionvue_type_template_id_2099311b_render(_ctx, _cache, $pro
     title: _ctx.getActionTooltip,
     "aria-disabled": !_ctx.isActionEnabled,
     onClick: _cache[0] || (_cache[0] = $event => !_ctx.isActionEnabled || _ctx.handleClick())
-  }, null, 10, MatomoCopyActionvue_type_template_id_2099311b_hoisted_1)), [[_directive_tooltips], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isActionVisible]]);
+  }, null, 10, MatomoCopyActionvue_type_template_id_501e32e5_hoisted_1)), [[_directive_tooltips], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isActionVisible]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=2099311b
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=template&id=501e32e5
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.vue?vue&type=script&lang=ts
 
@@ -10760,7 +10769,7 @@ function MatomoCopyActionvue_type_template_id_2099311b_render(_ctx, _cache, $pro
     /**
      * Useful data to pass to the modal, such as the ID for which entity this action triggers a copy
      */
-    modelData: {
+    actionFormData: {
       type: Object,
       required: true
     },
@@ -10816,7 +10825,7 @@ function MatomoCopyActionvue_type_template_id_2099311b_render(_ctx, _cache, $pro
   },
   methods: {
     handleClick() {
-      this.modalStore.showModal(this.modelData);
+      this.modalStore.showModal(this.actionFormData);
     }
   },
   computed: {
@@ -10837,7 +10846,7 @@ function MatomoCopyActionvue_type_template_id_2099311b_render(_ctx, _cache, $pro
 
 
 
-MatomoCopyActionvue_type_script_lang_ts.render = MatomoCopyActionvue_type_template_id_2099311b_render
+MatomoCopyActionvue_type_script_lang_ts.render = MatomoCopyActionvue_type_template_id_501e32e5_render
 
 /* harmony default export */ var MatomoCopyAction = (MatomoCopyActionvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
