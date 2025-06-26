@@ -146,6 +146,7 @@
           <div v-for="(refComponent, index) in componentExtensions" :key="index">
             <component
               :is="refComponent"
+              :ref="el => componentExtensionRef[index] = el"
               :user="user"
               :current-user-role="currentUserRole"
               :invite-token-expiry-days="inviteTokenExpiryDays"
@@ -348,6 +349,7 @@ interface UserEditFormState {
   showPasswordConfirmationForInviteUser: boolean;
   isResetting2FA: boolean;
   isShowingPasswordConfirm: boolean;
+  componentExtensionRef: any[];
 }
 
 interface ComponentExtension {
@@ -422,6 +424,7 @@ export default defineComponent({
       showPasswordConfirmationForInviteUser: false,
       isResetting2FA: false,
       isShowingPasswordConfirm: false,
+      componentExtensionRef: [],
     };
   },
   emits: ['done', 'updated', 'resendInvite'],
@@ -481,22 +484,36 @@ export default defineComponent({
         user: this.user,
       });
     },
-    inviteUser(password: string) {
+    async inviteUser(password: string) {
       this.isSavingUserInfo = true;
-      return AjaxHelper.post(
-        {
-          method: 'UsersManager.inviteUser',
-        },
-        {
-          userLogin: this.theUser.login,
-          email: this.theUser.email,
-          initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
-          passwordConfirmation: password,
-        },
-      ).catch((e) => {
+
+      try {
+        await Promise.all(
+          this.componentExtensionRef.map((component: any) => {
+            if (typeof component?.beforeInvite === 'function') {
+              return component?.beforeInvite.call(component, this.theUser);
+            }
+            return Promise.resolve();
+          }),
+        );
+      } catch (e) {
         this.isSavingUserInfo = false;
         throw e;
-      }).then(() => {
+      }
+
+      try {
+        await AjaxHelper.post(
+          {
+            method: 'UsersManager.inviteUser',
+          },
+          {
+            userLogin: this.theUser.login,
+            email: this.theUser.email,
+            initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
+            passwordConfirmation: password,
+          },
+        );
+
         this.firstSiteAccess = null;
         this.isSavingUserInfo = false;
         this.isUserModified = true;
@@ -505,7 +522,10 @@ export default defineComponent({
         this.resetPasswordVar();
         this.showUserCreatedNotification();
         this.$emit('updated', { user: readonly(this.theUser) });
-      });
+      } catch (e) {
+        this.isSavingUserInfo = false;
+        throw e;
+      }
     },
     resetPasswordVar() {
       if (!this.isAdd) {
