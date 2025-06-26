@@ -121,7 +121,7 @@ describe("UserSettings", function () {
     });
 
     it('should allow user to subscribe to newsletter', async function () {
-        await page.click('#newsletterSignupCheckbox input');
+        await page.click('#newsletterSignupCheckbox');
         await page.click('#newsletterSignupBtn input');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('signup_success');
@@ -130,8 +130,6 @@ describe("UserSettings", function () {
     it('should not prompt user to subscribe to newsletter again', async function () {
         // Assumes previous test has clicked on the signup button - so we shouldn't see it this time
         await page.goto(userSettingsUrl);
-        await page.waitForNetworkIdle();
-        await page.waitForTimeout(100);
         expect(await page.screenshotSelector('.admin')).to.matchImage('already_signed_up');
     });
 
