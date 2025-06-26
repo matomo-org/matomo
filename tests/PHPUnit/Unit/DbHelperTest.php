@@ -22,22 +22,186 @@ use Piwik\DbHelper;
 class DbHelperTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @dataProvider getExtractGroupByFromQueryTestData
+     */
+    public function testExtractGroupByFromQuery(string $sql, bool $stripTableNames, ?string $expectedGroupBy): void
+    {
+        $extractedGroupBy = DbHelper::extractGroupByFromQuery($sql, $stripTableNames);
+
+        $this->checkQueryExtraction($expectedGroupBy, $extractedGroupBy);
+    }
+
+    public function getExtractGroupByFromQueryTestData(): iterable
+    {
+        yield 'no clause' => [
+            'SELECT my_column FROM my_table',
+            false,
+            null,
+        ];
+
+        yield 'simple group by' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one, column_two
+            ',
+            false,
+            'column_one, column_two',
+        ];
+
+        yield 'multiple group by' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    GROUP BY column_two
+                ) AS my_data
+                GROUP BY column_one
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'nested group by ignored' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    GROUP BY column_two
+                ) AS my_data
+            ',
+            false,
+            null,
+        ];
+
+        yield 'nested group by ignored - with rollup' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    GROUP BY column_two WITH ROLLUP
+                ) AS my_data
+            ',
+            false,
+            null,
+        ];
+
+        yield 'nested group by ignored - having' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    GROUP BY column_two
+                    HAVING COUNT(column_two) > 0
+                ) AS my_data
+            ',
+            false,
+            null,
+        ];
+
+        yield 'query terminated by ;' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one;
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following WITH' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one WITH ROLLUP
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following HAVING' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+                HAVING COUNT(column_two) > 0
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following WINDOW' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+                WINDOW x AS (ORDER BY column_two)
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following ORDER' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+                ORDER BY column_two
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'group by with following LIMIT' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+                LIMIT 1
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'unbalanced parentheses' => [
+            'SELECT my_column FROM my_table GROUP BY column_one, (, column_two',
+            false,
+            null,
+        ];
+
+        yield 'with stripped table names' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY `my_table`.`column_one`, `column_two`
+            ',
+            true,
+            '`column_one`, `column_two`',
+        ];
+
+        yield 'without stripped table names' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY `my_table`.`column_one`, `column_two`
+            ',
+            false,
+            '`my_table`.`column_one`, `column_two`',
+        ];
+    }
+
+    /**
      * @dataProvider getExtractOrderByFromQueryTestData
      */
     public function testExtractOrderByFromQuery(string $sql, bool $stripTableNames, ?string $expectedOrderBy): void
     {
         $extractedOrderBy = DbHelper::extractOrderByFromQuery($sql, $stripTableNames);
 
-        // compare with collapsed whitespace
-        if (null !== $expectedOrderBy) {
-            $expectedOrderBy = trim(preg_replace('/\s+/', ' ', $expectedOrderBy));
-        }
-
-        if (null !== $extractedOrderBy) {
-            $extractedOrderBy = trim(preg_replace('/\s+/', ' ', $extractedOrderBy));
-        }
-
-        $this->assertSame($expectedOrderBy, $extractedOrderBy);
+        $this->checkQueryExtraction($expectedOrderBy, $extractedOrderBy);
     }
 
     public function getExtractOrderByFromQueryTestData(): iterable
@@ -386,5 +550,21 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             'SELECT /* comment */ * FROM (SELECT /*+ HINT_ONE(1) */ /* comment */ value FROM table)',
             'MAX_EXECUTION_TIME(100)',
         ];
+    }
+
+    /**
+     * Compare two extracted SQL query parts with collapsed whitespace.
+     */
+    private function checkQueryExtraction(?string $expected, ?string $extracted): void
+    {
+        if (null !== $expected) {
+            $expected = trim(preg_replace('/\s+/', ' ', $expected));
+        }
+
+        if (null !== $extracted) {
+            $extracted = trim(preg_replace('/\s+/', ' ', $extracted));
+        }
+
+        $this->assertSame($expected, $extracted);
     }
 }
