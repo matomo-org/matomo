@@ -9,7 +9,8 @@
 
 namespace Piwik\Tracker;
 
-use Piwik\Common;
+use Piwik\Request\AuthenticationToken;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 
 class RequestSet
@@ -81,7 +82,7 @@ class RequestSet
             return $this->tokenAuth;
         }
 
-        return Common::getRequestVar('token_auth', false);
+        return StaticContainer::get(AuthenticationToken::class)->getAuthToken();
     }
 
     private function areRequestsInitialized()

@@ -29,6 +29,7 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 
 require_once PIWIK_INCLUDE_PATH . '/core/bootstrap.php';
 
+require_once PIWIK_INCLUDE_PATH . '/core/Request/AuthenticationToken.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/Controller.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Exception/NotYetInstalledException.php';
 require_once PIWIK_INCLUDE_PATH . '/core/Plugin/ControllerAdmin.php';

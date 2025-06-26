@@ -17,6 +17,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Version;
 
 class TestCustomCap extends Access\Capability
 {
@@ -648,6 +649,26 @@ class AccessTest extends IntegrationTestCase
         curl_close($ch);
 
         $this->assertEquals(401, $responseInfo["http_code"]);
+    }
+
+    public function testAPIWithAuthorizationHeader()
+    {
+        Fixture::createSuperUser();
+
+        $url = Fixture::getTestRootUrl() . '?' . http_build_query([
+                'module' => 'API',
+                'method' => 'API.getMatomoVersion',
+            ]);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Bearer ' . Fixture::getTokenAuth()]);
+        $response = curl_exec($ch);
+        $responseInfo = curl_getinfo($ch);
+        curl_close($ch);
+
+        $this->assertEquals(200, $responseInfo["http_code"]);
+        self::assertStringContainsString('<result>' . Version::VERSION . '</result>', $response);
     }
 
     private function switchUser($user)

@@ -295,7 +295,7 @@ class Common
     /**
      * Secure wrapper for unserialize, which by default disallows unserializing classes
      *
-     * @param string $string String to unserialize
+     * @param string|null $string String to unserialize
      * @param array $allowedClasses Class names that should be allowed to unserialize
      * @param bool $rethrow Whether to rethrow exceptions or not.
      * @return mixed
@@ -421,7 +421,7 @@ class Common
     /**
      * Unsanitizes a single input value and returns the result.
      *
-     * @param string $value
+     * @param string|null $value
      * @return string  unsanitized input
      * @api
      */
@@ -960,10 +960,10 @@ class Common
             return self::LANGUAGE_CODE_INVALID;
         }
         foreach ($matches as $parts) {
-            $langIso639 = $parts[1];
-            if (empty($langIso639)) {
+            if (count($parts) < 2) {
                 continue;
             }
+            $langIso639 = $parts[1];
 
             // If a region tag is found eg. "fr-ca"
             if (count($parts) === 3) {

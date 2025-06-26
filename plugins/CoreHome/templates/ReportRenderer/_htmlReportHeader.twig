@@ -8,7 +8,7 @@
         {% if isAttachedFile is defined and isAttachedFile %}
         {{ 'ScheduledReports_PleaseFindAttachedFile'|translate(frequency, reportTitle|escape|preventLinking)|raw }}
         {% else %}
-        {{ 'ScheduledReports_PleaseFindBelow'|translate(period, reportTitle|escape|preventLinking)|raw }}
+        {{ 'ScheduledReports_PleaseFindBelow'|translate(('Intl_Period' ~ period|capitalize)|translate, reportTitle|escape|preventLinking)|raw }}
         {% endif %}
         <br />{{ description|escape|preventLinking }}
         <br />{{ 'General_DateRange'|translate }} {{ prettyDate }}

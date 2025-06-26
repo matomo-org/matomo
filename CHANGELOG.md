@@ -6,6 +6,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.4.0
 
+### Authentication changes
+
+Matomo now supports providing authentication using Bearer header tokens. Instead of sending your auth token as GET or POST param, you can use a header like `Authorization: Bearer myAuthToken`.
+
 ### Breaking Changes
 
 The ImageGraph URLs returned by some of our APIs do no longer contain the `token_auth`. If you are using such URLs to e.g. directly fetch their content, you may need to adjust your implementation to append a valid `token_auth` again.

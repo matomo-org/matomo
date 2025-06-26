@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Changes\Model as ChangesModel;
 use Piwik\Changes\UserChanges;
 use Piwik\Common;
@@ -1056,7 +1057,7 @@ abstract class Controller
      */
     protected function checkTokenInUrl()
     {
-        $tokenRequest = Common::getRequestVar('token_auth', false);
+        $tokenRequest = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
         $tokenUser = Piwik::getCurrentUserTokenAuth();
 
         if (empty($tokenRequest) && empty($tokenUser)) {

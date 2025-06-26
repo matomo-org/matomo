@@ -64,6 +64,7 @@
           :title="translate('General_SmtpPassword')"
           :inline-help="passwordHelp"
           :autocomplete="'off'"
+          v-auto-clear-password
         />
 
         <Field
@@ -109,6 +110,7 @@ import {
   translate,
   NotificationsStore,
   AjaxHelper,
+  AutoClearPassword,
 } from 'CoreHome';
 import {
   SaveButton,
@@ -180,6 +182,7 @@ export default defineComponent({
   },
   directives: {
     Form,
+    AutoClearPassword,
   },
   computed: {
     passwordHelp() {

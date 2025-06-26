@@ -405,7 +405,7 @@ class ArchiveProcessor
             $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
 
             // see https://github.com/piwik/piwik/issues/4377
-            $blobTable->filter(function ($table) use ($columnsToRenameAfterAggregation, $name) {
+            $blobTable->filter(function ($table) use ($columnsToRenameAfterAggregation) {
                 if ($this->areColumnsNotAlreadyRenamed($table)) {
                     /**
                      * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
