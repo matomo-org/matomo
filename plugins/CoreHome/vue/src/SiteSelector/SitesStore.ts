@@ -98,14 +98,12 @@ class SitesStore {
     }
 
     // If we want to exclude certain sites, perform the search for that.
-    let isFilteredSearch = false;
     if (
       sitesToExclude.length > 0
       || onlySitesWithAdminAccess
       || sitesWithAtLeastWriteAccess
       || siteTypesToExclude.length > 0
     ) {
-      isFilteredSearch = true;
       const searchPromise = this.searchSite(
         '%',
         onlySitesWithAdminAccess,
@@ -132,7 +130,7 @@ class SitesStore {
     }
 
     // If the main state has already been initialized, no need to continue.
-    if (!isFilteredSearch && this.state.isInitialized) {
+    if (this.state.isInitialized) {
       return Promise.resolve(readonly(this.state.initialSites));
     }
 

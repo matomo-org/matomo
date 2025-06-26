@@ -5097,9 +5097,7 @@ class SitesStore_SitesStore {
       return Promise.resolve(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.stateFiltered.initialSites));
     }
     // If we want to exclude certain sites, perform the search for that.
-    let isFilteredSearch = false;
     if (sitesToExclude.length > 0 || onlySitesWithAdminAccess || sitesWithAtLeastWriteAccess || siteTypesToExclude.length > 0) {
-      isFilteredSearch = true;
       const searchPromise = this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude, sitesWithAtLeastWriteAccess, siteTypesToExclude).then(sites => {
         this.stateFiltered.isInitialized = true;
         this.stateFiltered.excludedSites = sitesToExclude;
@@ -5117,7 +5115,7 @@ class SitesStore_SitesStore {
       }
     }
     // If the main state has already been initialized, no need to continue.
-    if (!isFilteredSearch && this.state.isInitialized) {
+    if (this.state.isInitialized) {
       return Promise.resolve(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.state.initialSites));
     }
     return this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude, sitesWithAtLeastWriteAccess, siteTypesToExclude).then(sites => {
