@@ -112,6 +112,7 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['invite_link_token']);
         unset($userAfter['invite_accept_at']);
         unset($userAfter['invited_by']);
+        unset($userAfter['ts_last_seen']);
 
         // implicitly checks password!
         $user['email'] = $newEmail;
