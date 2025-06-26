@@ -81,6 +81,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
     {
         $uses = [];
         $rgOutput = [];
+        $regex = '';
 
         if ($plugin) {
             $plugin = '/plugins/' . $plugin;
@@ -101,7 +102,7 @@ class CheckDirectDependencyUse extends ConsoleCommand
         $command = 'rg \'' . $regex . '\' --glob=*.php ' . $vendorScan . ' --json --sort path ' . PIWIK_INCLUDE_PATH . $plugin;
         exec($command, $rgOutput, $returnCode);
 
-        if (isset($returnCode) && $returnCode == 127) {
+        if ($returnCode == 127) {
             throw new Exception('Please install ripgrep package, Check https://github.com/BurntSushi/ripgrep?tab=readme-ov-file#installation for installation');
         }
 

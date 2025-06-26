@@ -591,6 +591,8 @@ class CliMulti
             $requestBody = 'token_auth=' . $tokenAuth;
         }
 
+        $response = null;
+
         try {
             $this->logger->debug("Execute HTTP API request: "  . $url);
             $response = Http::sendHttpRequestBy('curl', $url, $timeout = 0, $userAgent = null, $destinationPath = null, $file = null, $followDepth = 0, $acceptLanguage = false, $this->acceptInvalidSSLCertificate, false, false, 'POST', null, null, $requestBody, [], $forcePost = true);
@@ -598,7 +600,7 @@ class CliMulti
         } catch (\Exception $e) {
             $message = "Got invalid response from API request: $url. ";
 
-            if (isset($response) && empty($response)) {
+            if (empty($response)) {
                 $message .= "The response was empty. This usually means a server error. This solution to this error is generally to increase the value of 'memory_limit' in your php.ini file. Please check your Web server Error Log file for more details.";
             } else {
                 $message .= "Response was '" . $e->getMessage() . "'";

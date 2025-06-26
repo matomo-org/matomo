@@ -18,5 +18,5 @@ interface MetricsProvider
      * @param string $domain
      * @return Metric[]
      */
-    public function getMetrics($domain);
+    public function getMetrics(string $domain);
 }

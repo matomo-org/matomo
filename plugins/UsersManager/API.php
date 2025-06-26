@@ -1472,15 +1472,17 @@ class API extends \Piwik\Plugin\API
      * @param string $expireHours Optionally number of hours for how long the token should be valid before it expires.
      *                            If expireDate is set and expireHours, then expireDate will be used.
      *                            If expireDate is set and expireHours, then expireDate will be used.
+     * @param bool $secureOnly Defines if the token can be used securely only (if true, token can't be provided as param in GET requests)
      * @return string
      */
     public function createAppSpecificTokenAuth(
-        $userLogin,
+        string $userLogin,
         #[\SensitiveParameter]
-        $passwordConfirmation,
-        $description,
+        string $passwordConfirmation,
+        string $description,
         $expireDate = null,
-        $expireHours = 0
+        $expireHours = 0,
+        bool $secureOnly = false
     ) {
         $user = $this->model->getUser($userLogin);
         if (empty($user) && Piwik::isValidEmailString($userLogin)) {
@@ -1509,7 +1511,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $generatedToken = $this->model->generateRandomTokenAuth();
-        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate);
+        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly);
 
         return $generatedToken;
     }

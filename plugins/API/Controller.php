@@ -12,8 +12,10 @@ namespace Piwik\Plugins\API;
 use Piwik\API\DocumentationGenerator;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Plugins\API\Renderer\Original;
 use Piwik\Url;
@@ -27,7 +29,7 @@ class Controller extends \Piwik\Plugin\Controller
 {
     public function index()
     {
-        $tokenAuth = Common::getRequestVar('token_auth', 'anonymous', 'string');
+        $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken() ?: 'anonymous';
         $format = Common::getRequestVar('format', false);
         $serialize = Common::getRequestVar('serialize', false);
 

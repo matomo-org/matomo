@@ -32,7 +32,8 @@
                         <input type="password" placeholder="" name="password" id="password"
                                class="input" value="" size="20"  autocomplete="new-password"
                                autocorrect="off" autocapitalize="none" spellcheck="false"
-                               tabindex="1" required/>
+                               tabindex="1" required
+                               vue-directive="CoreHome.AutoClearPassword" />
                         <label for="password">{{ 'General_Password'|translate }}
                         </label>
                     </div>
@@ -40,7 +41,8 @@
                         <input type="password" placeholder="" name="passwordConfirmation" id="password_confirm"
                                class="input" value="" size="20" autocomplete="new-password"
                                autocorrect="off" autocapitalize="none" spellcheck="false"
-                               tabindex="2" required/>
+                               tabindex="2" required
+                               vue-directive="CoreHome.AutoClearPassword" />
                         <label for="password_confirm">{{ 'General_PasswordConfirmation'|translate }}</label>
                     </div>
                 </div>

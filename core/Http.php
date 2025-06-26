@@ -628,7 +628,7 @@ class Http
                 $response = @file_get_contents($aUrl, 0, $ctx);
 
                 // try to get http status code from response headers
-                if (isset($http_response_header) && preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', implode("\n", $http_response_header), $m)) {
+                if (!empty($http_response_header) && preg_match('~^HTTP/(\d\.\d)\s+(\d+)(\s*.*)?~', implode("\n", $http_response_header), $m)) {
                     $status = (int)$m[2];
                 }
 

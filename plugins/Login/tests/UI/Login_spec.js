@@ -67,6 +67,12 @@ describe("Login", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('login_form');
     });
 
+    // auto-clear-password directive applied
+    it('should have the auto-clear-password directive applied to the password field', async function () {
+      const element = await page.$('input[type="password"][data-auto-clear-enabled="true"]');
+      expect(element).to.be.ok;
+    });
+
     // Enable/disable login button.
     it('should enable the login button when username and password are entered', async function () {
       await page.goto('?module=CoreHome&action=index&idSite=1&period=week&date=2017-06-04');
