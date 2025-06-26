@@ -909,12 +909,16 @@ class Model
         return $count > 0;
     }
 
-    public function getLastSeenTimestamp(string $userLogin): int
+    public function getLastSeenTimestamp(string $userLogin): ?int
     {
         $db = $this->getDb();
         $sql = "SELECT ts_last_seen FROM " . $this->userTable . " WHERE login = ?";
         $bind = [$userLogin];
-        return (int) $db->fetchOne($sql, $bind);
+        $dt = $db->fetchOne($sql, $bind);
+        if ($dt) {
+            return Date::factory($dt)->getTimestamp();
+        }
+        return null;
     }
 
     public function getLastSeenTimestampAllUsers(): array

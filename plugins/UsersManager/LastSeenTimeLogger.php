@@ -49,7 +49,7 @@ class LastSeenTimeLogger
         $lastSeen = $userModel->getLastSeenTimestamp($currentUserLogin);
 
         // do not log if the last known time is less than N seconds from now (so we don't make too many queries)
-        if (time() - $lastSeen <= self::LAST_TIME_SAVE_DELTA) {
+        if ($lastSeen && (time() - $lastSeen <= self::LAST_TIME_SAVE_DELTA)) {
             return;
         }
 

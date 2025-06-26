@@ -406,8 +406,8 @@ class UsersManagerTest extends IntegrationTestCase
         // add the same user
         $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com");
 
-        //checks access have been deleted
-        //to do so we recreate the same user login and check if the rights are still there
+        // check access has been deleted
+        // to do so we recreate the same user login and check if the rights are still there
         $this->assertEquals(array(), $this->api->getSitesAccessFromUser("geggeqgeqag"));
     }
 
@@ -462,6 +462,7 @@ class UsersManagerTest extends IntegrationTestCase
     /**
      * normal case
      * as well as selecting specific user names, comma separated
+     * also tests setting and getting 'last seen' for the user
      */
     public function testGetUsers()
     {
@@ -477,19 +478,17 @@ class UsersManagerTest extends IntegrationTestCase
                        'email'            => "tegst@tesgt.com",
                        'superuser_access' => 0,
                        'uses_2fa'         => false,
-                       'last_seen'        => Date::getDatetimeFromTimestamp($now)
+                       'last_seen'        => Date::getDatetimeFromTimestamp($now),
         );
         $user2 = array('login'            => "geggeqge632ge56a4qag",
                        'email'            => "tesggt@tesgt.com",
                        'superuser_access' => 0,
                        'uses_2fa'         => false,
-                       'last_seen'        => null,
         );
         $user3 = array('login'            => "geggeqgeqagqegg",
                        'email'            => "tesgggt@tesgt.com",
                        'superuser_access' => 0,
                        'uses_2fa'         => false,
-                       'last_seen'        => null,
         );
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
@@ -1170,11 +1169,6 @@ class UsersManagerTest extends IntegrationTestCase
         $user = $this->api->getUser($user['login']);
 
         $this->assertNotEmpty($user['invite_status']);
-    }
-
-    public function testSetLastSeenTimestamp()
-    {
-
     }
 
     private function addSites($numberOfSites)
