@@ -43,7 +43,7 @@
             v-model="site"
             :ui-control-attributes="{
               sitesWithAtLeastWriteAccess: true,
-              excludeRollUpSites: true,
+              siteTypesToExclude: ['rollup'],
             }"
           />
         </div>
