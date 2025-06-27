@@ -9,10 +9,13 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
+use Piwik\Access;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\UsersManager\Controller;
 use Piwik\Nonce;
 use Piwik\Auth\PasswordStrength;
+use Piwik\Config;
+use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\Login\PasswordVerifier;
 use Piwik\Translation\Loader\DevelopmentLoader;
@@ -65,8 +68,15 @@ class ControllerTest extends IntegrationTestCase
         //$this->expectNotToPerformAssertions();
         $this->setupPostStateWithPassword('Password111!');
 
+        // create user to get test in a repeatable state
+        $userLogin = 'super user was set';
+        $userEmail = 'test@test.com';
+        $usersModel = new Model();
+        $usersModel->addUser($userLogin, $passwordHash = '', $userEmail, Date::now()->getDatetime());
+        
+        // expect test to get past strength check and fail when checking existing password
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessageMatches('/^^Trying to access array offset on value of type bool/');
+        $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
         $this->controller->recordPasswordChange();
     }
 
