@@ -23,6 +23,7 @@ use Piwik\CronArchive\QueueConsumer;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\CronArchive\StopArchiverException;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
@@ -511,7 +512,7 @@ class CronArchive
         $urls = [];
         $archivesBeingQueried = [];
         foreach ($archives as $index => $archive) {
-            list($url, $segment, $plugin) = $this->generateUrlToArchiveFromArchiveInfo($archive);
+            [$url, $segment, $plugin] = $this->generateUrlToArchiveFromArchiveInfo($archive);
             if (empty($url)) {
                 // can happen if, for example, a segment was deleted after an archive was invalidated
                 // in this case, we can just delete the archive entirely.
@@ -553,6 +554,10 @@ class CronArchive
                     'date1' => $archive['date1'],
                     'date2' => $archive['date2'],
                 ]);
+
+                $archiveWriter = new ArchiveWriter($params);
+                $archiveWriter->initNewArchive();
+                $archiveWriter->finalizeArchive();
 
                 // site is using the tracker, but there are no visits for this period, so just delete the archive and move on
                 $this->deleteInvalidatedArchives($archive);
@@ -995,15 +1000,6 @@ class CronArchive
     {
         $timezone = Site::getTimezoneFor($idSite);
         $date = Date::factoryInTimezone($dateStr, $timezone);
-        $period = PeriodFactory::build('day', $date);
-
-        $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
-
-        $loader = new Loader($params);
-        if ($loader->canSkipThisArchive()) {
-            $this->logger->debug("  " . ucfirst($dateStr) . " archive can be skipped due to no visits for idSite = $idSite, skipping invalidation...");
-            return;
-        }
 
         $isYesterday = $dateStr === 'yesterday';
         $isToday = $dateStr === 'today';
