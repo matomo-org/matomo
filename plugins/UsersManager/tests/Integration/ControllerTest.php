@@ -63,7 +63,6 @@ class ControllerTest extends IntegrationTestCase
 
     public function testRecordPasswordChangePasswordStrengthCheckStrongPassword()
     {
-        //$this->expectNotToPerformAssertions();
         $this->setupPostStateWithPassword('Password111!');
 
         // create user to get test in a repeatable state
