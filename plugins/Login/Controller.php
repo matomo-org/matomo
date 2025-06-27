@@ -184,6 +184,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@Login/login');
         $view->AccessErrorString = $messageNoAccess;
         $view->infoMessage = nl2br($infoMessage);
+        $view->passwordStrengthValidationRules = $this->passwordStrength->getRules();
         $view->addForm($form);
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
@@ -768,6 +769,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->privacyPolicyUrl = $privacyPolicyUrl;
         $view->token = $token;
         $view->loginPlugin = Piwik::getLoginPluginName();
+        $view->passwordStrengthValidationRules = $this->passwordStrength->getRules();
         $this->configureView($view);
         self::setHostValidationVariablesView($view);
         return $view->render();

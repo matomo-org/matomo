@@ -268,6 +268,38 @@ class UrlTest extends \PHPUnit\Framework\TestCase
             ['/index.php', '/index.php#<img src=http://matomo.org', ''],
             ['/index.php', '/index.php/route/2?module=Bar', '/route/2'],
             ['/path/index.php', '/path/index.php/route/3/?module=Fu&action=Bar#Hash', '/route/3/'],
+            // Current directory resolution
+            ['/index.php', '/./index.php', null],
+            ['/index.php', './index.php', null],
+            ['/foo/index.php', '/foo/./index.php', null],
+            ['/foo/index.php', '/foo/./index.php/route/4', '/route/4'],
+
+            // Parent directory resolution
+            ['/index.php', '/test/../index.php', null],
+            ['/index.php', '/test/../index.php/route/5', '/route/5'],
+            ['/foo/path/index.php', '/foo/bar/../path/index.php/route/6', '/route/6'],
+
+            // Combined current and parent directory usage
+            ['/index.php', '/test/.././index.php/route/7', '/route/7'],
+            ['/a/c/deep/index.php', '/a/b/../c/./d/../deep/index.php/route/8', '/route/8'],
+
+            // With query strings and fragments
+            ['/index.php', '/foo/../index.php?module=Relative', null],
+            ['/index.php', '/bar/./../index.php/route/9?module=Test#section', '/route/9'],
+
+            ['/index.php', '/index.php/route/../10', '/route/../10'],
+            ['/index.php', '/index.php/route/./11', '/route/./11'],
+
+            ['/index.php', '/../index.php', null],
+            ['/index.php', '../index.php', null],
+            ['/index.php', '/bar/../../index.php', null],
+            ['/.../index.php', '/.../index.php', null],
+            ['/index.php', '/.../../index.php', null],
+            ['/index.php', '//index.php', null],
+
+            ['/index.php', '~/index.php', null],
+            ['/bar/index.php', '/bar/~/index.php', null],
+            ['/bar/foo', '/bar/foo/~', null],
         ];
 
         foreach ($tests as $test) {

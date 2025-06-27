@@ -60,20 +60,25 @@ class Controller extends ControllerAdmin
     private $pluginManager;
 
     /**
-     * @var PasswordStrength
-     */
-    private $passwordStrength;
-
-    /**
      * @var Model
      */
     private $userModel;
 
-    public function __construct(Translator $translator, PasswordVerifier $passwordVerify, Model $userModel, PasswordStrength $passwordStrength)
-    {
+    /**
+     * @var PasswordStrength
+     */
+    private $passwordStrength;
+
+    public function __construct(
+        Translator $translator,
+        PasswordVerifier $passwordVerify,
+        Model $userModel,
+        PasswordStrength $passwordStrength
+    ) {
         $this->translator = $translator;
         $this->passwordVerify = $passwordVerify;
         $this->userModel = $userModel;
+        $this->passwordStrength = $passwordStrength;
         $this->pluginManager = Plugin\Manager::getInstance();
         $this->passwordStrength = $passwordStrength;
 
@@ -146,6 +151,7 @@ class Controller extends ControllerAdmin
         }
 
         $view->activatedPlugins = $this->pluginManager->getActivatedPlugins();
+        $view->passwordStrengthValidationRules = $this->passwordStrength->getRules();
 
         $this->setBasicVariablesView($view);
 
@@ -316,7 +322,8 @@ class Controller extends ControllerAdmin
             'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
             'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
             'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
-            'tokens' => $tokens
+            'tokens' => $tokens,
+            'passwordStrengthValidationRules' => $this->passwordStrength->getRules(),
         ]);
     }
 

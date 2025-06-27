@@ -110,11 +110,7 @@ class SegmentArchiving
 
     public function getReArchiveSegmentStartDate($segmentInfo)
     {
-        /**
-         * @var Date $segmentCreatedTime
-         * @var Date $segmentLastEditedTime
-         */
-        list($segmentCreatedTime, $segmentLastEditedTime) = $this->getCreatedTimeOfSegment($segmentInfo);
+        [$segmentCreatedTime, $segmentLastEditedTime] = $this->getCreatedTimeOfSegment($segmentInfo);
 
         if ($this->processNewSegmentsFrom == SegmentArchiving::CREATION_TIME) {
             if (empty($segmentCreatedTime)) {
@@ -139,7 +135,7 @@ class SegmentArchiving
             }
             $lastN = $matches[1];
 
-            list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentLastEditedTime, 'day');
+            [$lastDate, $lastPeriod] = Range::getDateXPeriodsAgo($lastN, $segmentLastEditedTime, 'day');
             $result = Date::factory($lastDate);
 
             $this->logger->debug("process_new_segments_from set to editLast{N}, oldest date to process is {time}", array('N' => $lastN, 'time' => $result));
@@ -151,7 +147,7 @@ class SegmentArchiving
             }
             $lastN = $matches[1];
 
-            list($lastDate, $lastPeriod) = Range::getDateXPeriodsAgo($lastN, $segmentCreatedTime, 'day');
+            [$lastDate, $lastPeriod] = Range::getDateXPeriodsAgo($lastN, $segmentCreatedTime, 'day');
             $result = Date::factory($lastDate);
 
             $this->logger->debug("process_new_segments_from set to last{N}, oldest date to process is {time}", array('N' => $lastN, 'time' => $result));
@@ -188,7 +184,7 @@ class SegmentArchiving
      *
      * @param array $storedSegment
      *
-     * @return array
+     * @return array<Date|null>
      */
     private function getCreatedTimeOfSegment(array $storedSegment): array
     {

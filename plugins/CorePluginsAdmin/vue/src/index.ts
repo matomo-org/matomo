@@ -26,3 +26,4 @@ export { default as PluginsTable } from './PluginsTable/PluginsTable.vue';
 export { default as PluginsTableWithUpdates } from './PluginsTable/PluginsTableWithUpdates.vue';
 export { default as UploadPluginDialog } from './UploadPluginDialog/UploadPluginDialog.vue';
 export { default as InstallAllPaidPluginsButton } from './InstallAllPaidPluginsButton/InstallAllPaidPluginsButton.vue';
+export { default as FieldPassword } from './FormField/FieldPassword.vue';

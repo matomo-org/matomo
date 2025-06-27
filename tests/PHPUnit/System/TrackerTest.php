@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\System;
 
+use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Db;
 use Piwik\Log\Logger;
@@ -61,17 +62,34 @@ class TrackerTest extends IntegrationTestCase
      *
      * With invalid token_auth the request would still work
      */
+
     public function testTrackingApiWithBulkRequestsViaCurlWithWrongTokenAuth()
     {
         $token_auth = '33dc3f2536d3025974cccb4b4d2d98f4';
-        $this->issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed = true);
+        // one tracking request is supposed to be invalid, as the token doesn't allow tracking custom ip
+        $this->issueBulkTrackingRequest($token_auth, true, 1, 1);
     }
 
     public function testTrackingApiWithBulkRequestsViaCurlWithCorrectTokenAuth()
     {
         $token_auth = Fixture::getTokenAuth();
         \Piwik\Filesystem::deleteAllCacheOnUpdate();
-        $this->issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed = true);
+        // both requests should be tracked, as the token doesn't allow tracking custom ip
+        $this->issueBulkTrackingRequest($token_auth, true, 2, 0);
+    }
+
+    public function testTrackingApiWithBulkRequestsViaCurlWithSecureTokenAuth()
+    {
+        \Piwik\Filesystem::deleteAllCacheOnUpdate();
+
+        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', [
+            'userLogin'            => Fixture::ADMIN_USER_LOGIN,
+            'passwordConfirmation' => Fixture::ADMIN_USER_PASSWORD,
+            'description'          => 'secure one',
+            'secureOnly'           => true,
+        ]);
+
+        $this->issueBulkTrackingRequest($token, true, 2, 0);
     }
 
     public function testTrackingEcommerceOrderWithHtmlEscapedTextInsertsCorrectLogs()
@@ -263,26 +281,32 @@ class TrackerTest extends IntegrationTestCase
         }
     }
 
-    protected function issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed)
+    protected function issueBulkTrackingRequest($token_auth, $expectTrackingToSucceed, $tracked, $invalid)
     {
         $piwikHost = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/matomo.php';
 
-        $command = 'curl -s -X POST -d \'{"requests":["?idsite=1&url=http://example.org&action_name=Test bulk log Pageview&rec=1","?idsite=1&url=http://example.net/test.htm&action_name=Another bulk page view&rec=1"],"token_auth":"' . $token_auth . '"}\' ' . $piwikHost;
+        // Note: The first request requires a valid super user token, because of the custom ip
+        $command = 'curl -s -X POST -d \'{"requests":["?idsite=1&url=http://example.org&action_name=Test bulk log Pageview&cip=1.1.1.1&rec=1","?idsite=1&url=http://example.net/test.htm&action_name=Another bulk page view&rec=1"],"token_auth":"' . $token_auth . '"}\' ' . $piwikHost;
 
         exec($command, $output, $result);
         if ($result !== 0) {
             throw new \Exception("tracking bulk failed: " . implode("\n", $output) . "\n\ncommand used: $command");
         }
+
         $output = implode("", $output);
+
         $this->assertStringStartsWith('{"status":', $output);
 
+        $response = json_decode($output, true);
+
         if ($expectTrackingToSucceed) {
-            self::assertStringNotContainsString('error', $output);
-            self::assertStringContainsString('success', $output);
+            self::assertEquals('success', $response['status']);
         } else {
-            self::assertStringContainsString('error', $output);
-            self::assertStringNotContainsString('success', $output);
+            self::assertEquals('error', $response['status']);
         }
+
+        self::assertEquals($tracked, $response['tracked']);
+        self::assertEquals($invalid, $response['invalid']);
     }
 
     private function sendTrackingRequestByCurl($url)

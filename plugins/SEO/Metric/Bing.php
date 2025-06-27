@@ -31,9 +31,9 @@ class Bing implements MetricsProvider
         $this->logger = $logger;
     }
 
-    public function getMetrics($domain)
+    public function getMetrics(string $domain)
     {
-        $url = self::URL . urlencode($domain ?? '');
+        $url = self::URL . urlencode($domain ?: '');
         $suffix = '';
         try {
             $response = str_replace('&nbsp;', ' ', Http::sendHttpRequest($url, $timeout = 10, @$_SERVER['HTTP_USER_AGENT']));

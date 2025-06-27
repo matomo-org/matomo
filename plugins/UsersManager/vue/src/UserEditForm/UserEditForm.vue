@@ -116,6 +116,9 @@
               autocomplete="new-password"
               :title="translate('General_Password')"
               v-auto-clear-password
+              :ui-control-attributes="{
+                passwordStrengthValidationRules: passwordStrengthValidationRules,
+              }"
             />
           </div>
           <div class="email-input">
@@ -362,6 +365,10 @@ export default defineComponent({
     activatedPlugins: {
       type: Array,
       required: true,
+    },
+    passwordStrengthValidationRules: {
+      type: Array,
+      default: () => [],
     },
   },
   components: {

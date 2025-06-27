@@ -700,11 +700,11 @@ class Report
             $report['relatedReports'] = array();
             foreach ($relatedReports as $relatedReport) {
                 if (!empty($relatedReport)) {
-                    $report['relatedReports'][] = array(
-                        'name' => $relatedReport->getName(),
+                    $report['relatedReports'][] = [
+                        'name'   => $relatedReport->getName(),
                         'module' => $relatedReport->getModule(),
-                        'action' => $relatedReport->getAction()
-                    );
+                        'action' => $relatedReport->getAction(),
+                    ];
                 }
             }
         }
@@ -762,7 +762,7 @@ class Report
      * Get the list of related reports if there are any. They will be displayed for instance below a report as a
      * recommended related report.
      *
-     * @return Report[]
+     * @return (Report|null)[]
      * @api
      */
     public function getRelatedReports()
@@ -826,7 +826,7 @@ class Report
     }
 
     /**
-     * @return \Piwik\Columns\Dimension
+     * @return \Piwik\Columns\Dimension|null
      * @ignore
      */
     public function getDimension()
@@ -970,7 +970,7 @@ class Report
     {
         $paramOverride = array('idSubtable' => $idSubtable) + $paramOverride;
 
-        list($module, $action) = $this->getSubtableApiMethod();
+        [$module, $action] = $this->getSubtableApiMethod();
         return Request::processRequest($module . '.' . $action, $paramOverride);
     }
 

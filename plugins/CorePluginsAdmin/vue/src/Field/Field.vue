@@ -10,6 +10,7 @@
     :form-field="field"
     :model-value="modelValue"
     @update:model-value="onChange($event)"
+    @check:is-valid="onCheckIsValid($event)"
     :model-modifiers="modelModifiers"
   >
     <template v-slot:inline-help>
@@ -64,7 +65,7 @@ export default defineComponent({
     max: Number,
     component: null,
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'check:isValid'],
   components: {
     FormField,
   },
@@ -115,6 +116,9 @@ export default defineComponent({
   methods: {
     onChange(newValue: unknown) {
       this.$emit('update:modelValue', newValue);
+    },
+    onCheckIsValid(isValid: boolean) {
+      this.$emit('check:isValid', isValid);
     },
   },
 });

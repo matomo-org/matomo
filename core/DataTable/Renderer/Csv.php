@@ -478,7 +478,7 @@ class Csv extends Renderer
             $value = ltrim(substr($value, 3), "\0");
         }
 
-        $posPercent = strpos($value ?? '', '%');
+        $posPercent = strpos($value, '%');
         if ($posPercent !== false) {
             return substr_replace($value, '', $posPercent, 1);
         }

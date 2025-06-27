@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable\Manager;
@@ -445,7 +446,7 @@ class FrontController extends Singleton
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
         if (
-            Common::getRequestVar('token_auth', '', 'string') !== ''
+            StaticContainer::get(AuthenticationToken::class)->getAuthToken() !== ''
             && Request::shouldReloadAuthUsingTokenAuth(null)
         ) {
             Request::reloadAuthUsingTokenAuth();
@@ -491,7 +492,7 @@ class FrontController extends Singleton
             throw new Exception("Invalid module name '$module'");
         }
 
-        list($module, $action) = Request::getRenamedModuleAndAction($module, $action);
+        [$module, $action] = Request::getRenamedModuleAndAction($module, $action);
 
         if (!SettingsPiwik::isInternetEnabled() && \Piwik\Plugin\Manager::getInstance()->doesPluginRequireInternetConnection($module)) {
             throw new PluginRequiresInternetException($module);
@@ -575,7 +576,7 @@ class FrontController extends Singleton
 
         if (
             $isDashboardReferrer
-            && !empty($_POST['token_auth'])
+            && StaticContainer::get(AuthenticationToken::class)->wasTokenAuthProvidedSecurely()
             && Common::getRequestVar('widget', 0, 'int') === 1
         ) {
             Session::close();
@@ -610,7 +611,7 @@ class FrontController extends Singleton
      */
     private function doDispatch($module, $action, $parameters)
     {
-        list($module, $action, $parameters) = $this->prepareDispatch($module, $action, $parameters);
+        [$module, $action, $parameters] = $this->prepareDispatch($module, $action, $parameters);
 
         /**
          * Triggered directly before controller actions are dispatched.
@@ -710,7 +711,9 @@ class FrontController extends Singleton
             return null;
         }
 
-        if (Common::getRequestVar('token_auth', '', 'string') !== '' && !Common::getRequestVar('force_api_session', 0)) {
+        $token = StaticContainer::get(AuthenticationToken::class);
+
+        if ($token->getAuthToken() !== '' && !$token->isSessionToken()) {
              return null;
         }
 
@@ -820,7 +823,7 @@ class FrontController extends Singleton
             return true;
         }
 
-        if (Common::getRequestVar('token_auth', '', 'string') !== '') {
+        if (StaticContainer::get(AuthenticationToken::class)->getAuthToken() !== '') {
             return true;
         }
 

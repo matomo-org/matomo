@@ -47,6 +47,7 @@
         "FormatMetrics": "Méadracht formáide",
         "HideExportUrl": "Folaigh URL Easpórtála",
         "HomeShortcut": "Baile",
+        "IncludeDimensionsSeparately": "Cuir na toisí san áireamh ar leithligh",
         "IncludeRowsWithLowPopulation": "Tá sraitheanna le daonra íseal i bhfolach %s Taispeáin gach ró",
         "InjectedHostEmailBody": "Dia duit, rinne mé iarracht rochtain a fháil ar Matomo inniu agus tháinig mé ar an rabhadh anaithnid óstainm.",
         "InjectedHostEmailSubject": "Aimsíodh Matomo le hóstainm anaithnid: %s",
