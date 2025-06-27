@@ -555,6 +555,7 @@ class CronArchive
                     'date2' => $archive['date2'],
                 ]);
 
+                // create an empty archive
                 $archiveWriter = new ArchiveWriter($params);
                 $archiveWriter->initNewArchive();
                 $archiveWriter->finalizeArchive();
