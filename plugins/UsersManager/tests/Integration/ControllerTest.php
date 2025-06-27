@@ -9,12 +9,10 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
-use Piwik\Access;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\UsersManager\Controller;
 use Piwik\Nonce;
 use Piwik\Auth\PasswordStrength;
-use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -73,7 +71,7 @@ class ControllerTest extends IntegrationTestCase
         $userEmail = 'test@test.com';
         $usersModel = new Model();
         $usersModel->addUser($userLogin, $passwordHash = '', $userEmail, Date::now()->getDatetime());
-        
+
         // expect test to get past strength check and fail when checking existing password
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
