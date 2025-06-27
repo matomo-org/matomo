@@ -86,7 +86,6 @@ import {
 import useExternalPluginComponent from '../useExternalPluginComponent';
 import SiteRef from '../SiteSelector/SiteRef';
 import Matomo from '../Matomo/Matomo';
-import debounce from '../debounce';
 import { translate } from '../translate';
 import { externalLink } from '../externalLink';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
@@ -188,13 +187,15 @@ export default defineComponent({
           this.resetModal();
         },
       }).modal('open');
-      this.modalStore.disableWatchSuppression();
     },
     submitCopy() {
       this.hasBeenSubmitted = true;
-      // It should have already run in order for the copy button to be enabled, but let's confirm
+      this.modalStore.disableWatchSuppression();
+
+      // Make sure all the validation passes before making the server request
       this.validateFormFields();
       if (!this.getIsValid) {
+        this.hasBeenSubmitted = false;
         return;
       }
 
@@ -234,12 +235,6 @@ export default defineComponent({
         return;
       }
 
-      // Ignore the site getting initialised by the component
-      if (!this.hasSiteBeenInitialised) {
-        this.hasSiteBeenInitialised = true;
-        return;
-      }
-
       const validationData: QueryParameters = {
         formValues: this.modalStore.getFormValues(this.site?.id),
         errorMessages: [] as string[],
@@ -253,12 +248,9 @@ export default defineComponent({
         this.copyErrors = validationData.errorMessages;
       }
     },
-    validateAfterFieldChange() {
-      this.validateFormFields();
-      this.hasBeenSubmitted = false;
-    },
     onSiteChange() {
-      this.validateAfterFieldChange();
+      // Reset flag since the data has changed since validation
+      this.isValidated = false;
     },
     emitFailureAndSetErrorMessage(response: null|CopyRequestResponse = null) {
       let tempResponseObject = response;
@@ -281,17 +273,14 @@ export default defineComponent({
     },
   },
   mounted() {
-    // Add a delay to validation to try and let the input finish
-    const delayedValidation = debounce(this.validateAfterFieldChange);
-
-    // Watch the formData object for any property changes
+    // Watch the formData object for any property changes to know whether current data was validated
     watch(
       () => this.modalStore.state.entityFormData,
       () => {
         if (this.modalStore.state.isWatchSuppressed) {
           return;
         }
-        delayedValidation();
+        this.isValidated = false;
       },
       { deep: true },
     );
