@@ -9,7 +9,6 @@
 
 namespace Piwik\CronArchive;
 
-use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive;

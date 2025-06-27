@@ -20,7 +20,6 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Period\Day;
 use Piwik\Period\Month;
 use Piwik\Period\Week;
-use Piwik\Period\Year;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -276,8 +275,8 @@ class ArchiveCronTest extends SystemTestCase
 
         // re archiving should not produce any ExamplePlugin specific archives, but 262 done flags for certain periods and segments
         $table = ArchiveTableCreator::getNumericTable(Date::factory('2012-08-09'));
-        self::assertSame(0, Db::fetchOne("SELECT count(*) FROM `$table` WHERE name LIKE 'done.ExamplePlugin%'"));
-        self::assertSame(262, Db::fetchOne("SELECT count(*) FROM `$table` WHERE name LIKE 'done%'"));
+        self::assertEquals(0, Db::fetchOne("SELECT count(*) FROM `$table` WHERE name LIKE 'done.ExamplePlugin%'"));
+        self::assertEquals(262, Db::fetchOne("SELECT count(*) FROM `$table` WHERE name LIKE 'done%'"));
 
         foreach ($this->getApiForTesting() as $testInfo) {
             [$api, $params] = $testInfo;
