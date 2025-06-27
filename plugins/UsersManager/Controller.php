@@ -80,7 +80,6 @@ class Controller extends ControllerAdmin
         $this->userModel = $userModel;
         $this->passwordStrength = $passwordStrength;
         $this->pluginManager = Plugin\Manager::getInstance();
-        $this->passwordStrength = $passwordStrength;
 
         parent::__construct();
     }
