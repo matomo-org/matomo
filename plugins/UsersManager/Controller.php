@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -63,11 +64,21 @@ class Controller extends ControllerAdmin
      */
     private $userModel;
 
-    public function __construct(Translator $translator, PasswordVerifier $passwordVerify, Model $userModel)
-    {
+    /**
+     * @var PasswordStrength
+     */
+    private $passwordStrength;
+
+    public function __construct(
+        Translator $translator,
+        PasswordVerifier $passwordVerify,
+        Model $userModel,
+        PasswordStrength $passwordStrength
+    ) {
         $this->translator = $translator;
         $this->passwordVerify = $passwordVerify;
         $this->userModel = $userModel;
+        $this->passwordStrength = $passwordStrength;
         $this->pluginManager = Plugin\Manager::getInstance();
 
         parent::__construct();
@@ -139,6 +150,7 @@ class Controller extends ControllerAdmin
         }
 
         $view->activatedPlugins = $this->pluginManager->getActivatedPlugins();
+        $view->passwordStrengthValidationRules = $this->passwordStrength->getRules();
 
         $this->setBasicVariablesView($view);
 
@@ -309,7 +321,8 @@ class Controller extends ControllerAdmin
             'isUsersAdminEnabled' => UsersManager::isUsersAdminEnabled(),
             'changePasswordNonce' => Nonce::getNonce(self::NONCE_CHANGE_PASSWORD),
             'deleteTokenNonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
-            'tokens' => $tokens
+            'tokens' => $tokens,
+            'passwordStrengthValidationRules' => $this->passwordStrength->getRules(),
         ]);
     }
 
