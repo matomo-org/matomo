@@ -20,9 +20,6 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         StaticContainer::getContainer()->set('Piwik\Access', $this->getMockAccess());
-        Config::getInstance()->General['salt'] = null;
-        Config::getInstance()->database['username'] = '';
-        Config::getInstance()->database['password'] = '';
     }
 
     /**
