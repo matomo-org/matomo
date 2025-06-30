@@ -250,7 +250,12 @@ class Loader
             if (!empty($idArchives)) {
                 return [$idArchives, $visits];
             } else {
-                return [false, 0];
+                // create an empty archive
+                $archiveWriter = new ArchiveWriter($this->params);
+                $archiveId = $archiveWriter->initNewArchive();
+                $archiveWriter->finalizeArchive();
+
+                return [[$archiveId], 0];
             }
         }
 
