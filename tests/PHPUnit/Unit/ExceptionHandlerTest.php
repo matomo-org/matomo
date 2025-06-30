@@ -43,28 +43,29 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $dbUser = $expectedDbUser = 'no db user';
         $dbPass = $expectedDbPass = 'no db password';
 
+        StaticContainer::get('Piwik\Access')->setTokenAuth($configToken);
+        Config::getInstance()->General['salt'] = $configSalt;
+        Config::getInstance()->database['username'] = $configDbUser;
+        Config::getInstance()->database['password'] = $configDbPass;
+
         if (!empty($configToken)) {
             $tokenAuth = $configToken;
             $expectedToken = 'tokenauth';
-            StaticContainer::get('Piwik\Access')->setTokenAuth($configToken);
         }
         if (!empty($configSalt)) {
             $salt = $configSalt;
             $expectedSalt = 'generalSalt';
-            Config::getInstance()->General['salt'] = $configSalt;
         }
         if (!empty($configDbUser)) {
             $dbUser = $configDbUser;
             $expectedDbUser = 'dbuser';
-            Config::getInstance()->database['username'] = $configDbUser;
         }
         if (!empty($configDbPass)) {
             $dbPass = $configDbPass;
             $expectedDbPass = 'dbpass';
-            Config::getInstance()->database['password'] = $configDbPass;
         }
-        $testMessage = "Error message containing $tokenAuth, $salt, $dbUser, $dbPass";
-        $expectedMessage = "Error message containing $expectedToken, $expectedSalt, $expectedDbUser, $expectedDbPass";
+        $testMessage = "Error message containing $tokenAuth, $salt, $dbUser, $dbPass, and hard-coded: zero (0)";
+        $expectedMessage = "Error message containing $expectedToken, $expectedSalt, $expectedDbUser, $expectedDbPass, and hard-coded: zero (0)";
         $result = \Piwik\ExceptionHandler::replaceSensitiveValues($testMessage);
         $this->assertSame($expectedMessage, $result);
     }
@@ -73,9 +74,10 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [null, null, null, null],
-            [0, 0, 0, 0],
+            [null, '', '', ''],
+            [0, '', '', ''],
             ['', '', '', ''],
-            ['0', '0', '0', '0'],
+            ['0', '', '', ''],
             ['myTestToken', 'myTestSalt', 'myTestDbUser', 'myTestDbPass'],
             ['myTestToken', '', '', ''],
             ['', 'myTestSalt', '', ''],
@@ -103,7 +105,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
                 return $this->token_auth;
             }
 
-            public function setTokenAuth(string $tokenAuth): void
+            public function setTokenAuth($tokenAuth): void
             {
                 $this->token_auth = $tokenAuth;
             }
