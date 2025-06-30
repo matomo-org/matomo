@@ -40,6 +40,7 @@ class Updates_5_4_0_b4 extends PiwikUpdates
     {
         return [
           $this->migration->db->addColumns('user', ['ts_last_seen' => 'TIMESTAMP null DEFAULT null']),
+          $this->migration->db->addColumns('user', ['ts_inactivity_notified' => 'TIMESTAMP null DEFAULT null']),
         ];
     }
 

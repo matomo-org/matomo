@@ -935,4 +935,35 @@ class Model
         $bind = [Date::factory($timestamp)->getDatetime(), $userLogin];
         $db->query($sql, $bind);
     }
+
+    public function getUsersWithoutActivityForDays(int $days = 180): array
+    {
+        $db = $this->getDb();
+        $sql = "
+            SELECT
+                u.login,
+                u.ts_last_login,
+                MAX(COALESCE(t.last_used, t.date_created)) AS ts_last_token_activity
+            FROM " . $this->userTable . " u
+            LEFT JOIN " . $this->tokenTable . " t ON u.login = t.login
+            WHERE 
+                u.login != ? AND
+                u.ts_inactivity_notified IS NULL
+            GROUP BY
+                u.login,
+                u.email,
+                u.ts_last_login,
+                u.date_registered
+            HAVING COALESCE(u.ts_last_login, u.date_registered) < NOW() - INTERVAL ? DAY;
+        ";
+        $bind = ['anonymous', $days];
+        return $db->fetchAll($sql, $bind);
+    }
+
+    public function setInactiveUserNotificationWasSentForUsers(array $users, string $dtNotified): void
+    {
+        foreach ($users as $user) {
+            $this->updateUserFields($user['login'], ['ts_inactivity_notified' => $dtNotified]);
+        }
+    }
 }

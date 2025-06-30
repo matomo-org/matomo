@@ -176,6 +176,7 @@ class UserRepository
         unset($user['invite_token']);
         unset($user['invite_link_token']);
         unset($user['ts_last_seen']);
+        unset($user['ts_inactivity_notified']);
 
         if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
             $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
