@@ -113,11 +113,13 @@ class ExceptionHandler
         $dbConfig = Db::getDatabaseConfig();
 
         $valuesToReplace = [
-            Piwik::getCurrentUserTokenAuth() => 'tokenauth',
-            SettingsPiwik::getSalt()         => 'generalSalt',
-            $dbConfig['username']            => 'dbuser',
-            $dbConfig['password']            => 'dbpass',
+            Piwik::getCurrentUserTokenAuth() ?: '' => 'tokenauth',
+            SettingsPiwik::getSalt() ?: ''         => 'generalSalt',
+            $dbConfig['username']                  => 'dbuser',
+            $dbConfig['password']                  => 'dbpass',
         ];
+        // Remove empty key entry
+        unset($valuesToReplace['']);
 
         $mailConfig = Config::getInstance()->mail;
 
