@@ -9,8 +9,10 @@
 
 namespace Piwik\Plugins\UsersManager\UserNotifications;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\UsersManager\SystemSettings;
 
 final class InactiveUsersNotificationProvider extends UserNotificationProvider
 {
@@ -21,6 +23,11 @@ final class InactiveUsersNotificationProvider extends UserNotificationProvider
 
     protected function getSetsOfUsersToNotify(): array
     {
+        $settings = StaticContainer::get(SystemSettings::class);
+        if (!$settings->enableInactiveUsersNotifications->getValue()) {
+            return [];
+        }
+
         return [$this->userModel->getUsersWithoutActivityForDays()];
     }
 
