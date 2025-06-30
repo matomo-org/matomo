@@ -99,6 +99,8 @@
         "RemoveUserAccess": "Remove access for '%1$s' for %2$s.",
         "ReportDateToLoadByDefault": "Report date to load by default",
         "ReportToLoadByDefault": "Report to load by default",
+        "SettingEnableInactiveUsersNotifications": "Receive monthly security email with list of inactive users",
+        "SettingEnableInactiveUsersNotificationsHelp": "For security reasons, Matomo can notify all Super Users once a month with a list of accounts that haven’t logged in for more than 6 months. This helps you review and remove old user accounts that may no longer be needed.",
         "SuperUserAccessManagement": "Manage Super User access",
         "SuperUserAccessManagementGrantMore": "You can grant Super User access to other users of Matomo here. Please use this feature carefully.",
         "SuperUserAccessManagementMainDescription": "Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace.",
