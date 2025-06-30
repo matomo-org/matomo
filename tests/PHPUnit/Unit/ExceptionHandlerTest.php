@@ -7,6 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+namespace Piwik\Tests\Unit;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -96,7 +97,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
 
     private function getMockAccess(): FakeAccess
     {
-        return new class() extends FakeAccess {
+        return new class () extends FakeAccess {
             public function getTokenAuth()
             {
                 return $this->token_auth;
