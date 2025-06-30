@@ -20,7 +20,7 @@ use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 
 /**
- * Send token notifications for each provider
+ * Send user notifications for each provider
  */
 class UserNotifierTask extends Task
 {
