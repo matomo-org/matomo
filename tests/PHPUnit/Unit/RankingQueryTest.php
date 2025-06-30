@@ -70,6 +70,43 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
             FROM (
                 SELECT
                     `label`,
+                    ROW_NUMBER() OVER (ORDER BY `label`) AS counter,
+                    `column`,
+                    `columnSum`
+                FROM
+                    ( SELECT `label`, `column`, `columnSum` FROM `myTable` ) actualQuery
+            ) AS withCounter
+            GROUP BY
+                CASE
+                    WHEN counter >= 11 THEN 11
+                    ELSE counter
+                END
+        ";
+
+        $mockSchema = $this->createMock(Schema::class);
+        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
+        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(true);
+
+        yield 'basic - window functions' => [
+            $mockSchema,
+            $rankingQuery,
+            $innerQuery,
+            false,
+            $expectedQuery,
+        ];
+
+        $expectedQuery = "
+            SELECT
+                CASE
+                    WHEN counter = 11 THEN 'Others'
+                    ELSE `label`
+                END AS `label`,
+                `column`,
+                sum(`columnSum`) AS `columnSum`
+            FROM (
+                SELECT
+                    `label`,
                     CASE
                         WHEN @counter = 11 THEN 11
                         ELSE @counter := @counter + 1
@@ -86,8 +123,9 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $mockSchema = $this->createMock(Schema::class);
         $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
         $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(false);
 
-        yield 'basic - default' => [
+        yield 'basic - no window functions' => [
             $mockSchema,
             $rankingQuery,
             $innerQuery,
@@ -123,6 +161,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $mockSchema = $this->createMock(Schema::class);
         $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
         $mockSchema->method('supportsSortingInSubquery')->willReturn(false);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(false);
 
         yield 'basic - sorting in subquery not supported' => [
             $mockSchema,
@@ -155,6 +194,88 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $mockSchema = $this->createMock(Schema::class);
         $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
         $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(true);
+
+        $expectedQuery = "
+            SELECT
+                CASE
+                    WHEN counterRollup = 11 THEN 'Others'
+                    WHEN counterRollup > 0 THEN `label`
+                    WHEN counter = 11 THEN 'Others'
+                    ELSE `label`
+                END AS `label`,
+                CASE
+                    WHEN counterRollup = 11 THEN NULL 
+                    WHEN counterRollup > 0 THEN `url`
+                    WHEN counter = 11 THEN 'Others'
+                    ELSE `url`
+                END AS `url`,
+                `column`,
+                sum(`columnSum`) AS `columnSum`
+            FROM (
+                SELECT
+                    `label`, `url`,
+                    CASE
+                        WHEN `label` IS NULL THEN -1
+                        WHEN `url` IS NULL THEN -1
+                        ELSE ROW_NUMBER() OVER (
+                            ORDER BY
+                                CASE
+                                    WHEN `label` IS NULL THEN 1
+                                    WHEN `url` IS NULL THEN 1
+                                    ELSE 0
+                                END,
+                                `column`
+                        )
+                    END AS counter,
+                    CASE
+                        WHEN `label` IS NULL AND `url` IS NULL THEN -1
+                        WHEN `label` IS NOT NULL AND `url` IS NOT NULL THEN 0
+                        ELSE ROW_NUMBER() OVER (
+                            ORDER BY
+                                CASE
+                                    WHEN `label` IS NULL AND `url` IS NULL THEN 1
+                                    WHEN `label` IS NULL OR `url` IS NULL THEN 0
+                                    ELSE 1
+                                END,
+                                `column`
+                        )
+                    END AS counterRollup,
+                    `column`,
+                    `columnSum`
+                FROM
+                    (
+                        SELECT * FROM (
+                            SELECT `label`, `url`, `column`, `columnSum`
+                            FROM `myTable`
+                            GROUP BY `label`, `url` WITH ROLLUP
+                        ) AS rollupQuery
+                        ORDER BY `column`
+                    ) actualQuery
+            ) AS withCounter
+            GROUP BY 
+                CASE
+                    WHEN counter >= 11 THEN 11
+                    ELSE counter
+                END,
+                CASE
+                    WHEN counterRollup >= 11 THEN 11
+                    ELSE counterRollup
+                END
+        ";
+
+        yield 'basic with rollup - window functions' => [
+            $mockSchema,
+            $rankingQuery,
+            $innerQuery,
+            true,
+            $expectedQuery,
+        ];
+
+        $mockSchema = $this->createMock(Schema::class);
+        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
+        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(false);
 
         $expectedQuery = "
             SELECT
@@ -206,7 +327,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
             GROUP BY counter, counterRollup
         ";
 
-        yield 'basic with rollup - default' => [
+        yield 'basic with rollup - no window functions' => [
             $mockSchema,
             $rankingQuery,
             $innerQuery,
@@ -269,6 +390,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $mockSchema = $this->createMock(Schema::class);
         $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
         $mockSchema->method('supportsSortingInSubquery')->willReturn(false);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(false);
 
         yield 'basic with rollup - sorting in subquery not supported' => [
             $mockSchema,
@@ -332,6 +454,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $mockSchema = $this->createMock(Schema::class);
         $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(false);
         $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(false);
 
         yield 'basic with rollup - ranking query without extra sorting not supported' => [
             $mockSchema,
@@ -344,13 +467,57 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
 
     public function getExcludeRowsTestData(): iterable
     {
-
         $rankingQuery = new RankingQuery(20);
         $rankingQuery->setOthersLabel('Others');
         $rankingQuery->addLabelColumn('label');
         $rankingQuery->setColumnToMarkExcludedRows('exclude_marker');
 
         $innerQuery = "SELECT `label`, 1 AS exclude_marker FROM myTable";
+
+        $expectedQuery = "
+            SELECT
+                CASE
+                    WHEN counter = 21 THEN 'Others'
+                    ELSE `label`
+                END AS `label`,
+                `exclude_marker`
+            FROM (
+                SELECT
+                    `label`,
+                    CASE
+                        WHEN exclude_marker != 0 THEN -1 * exclude_marker
+                        ELSE ROW_NUMBER() OVER (
+                            ORDER BY
+                                CASE
+                                    WHEN exclude_marker != 0 THEN 1 * exclude_marker
+                                    ELSE 0
+                                END,
+                                `label`
+                        )
+                    END AS counter,
+                    `exclude_marker`
+                FROM
+                    ( SELECT `label`, 1 AS exclude_marker FROM myTable ) actualQuery
+                ) AS withCounter
+            GROUP BY
+                CASE
+                    WHEN counter >= 21 THEN 21
+                    ELSE counter
+                END
+        ";
+
+        $mockSchema = $this->createMock(Schema::class);
+        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
+        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(true);
+
+        yield 'exclude rows - window functions' => [
+            $mockSchema,
+            $rankingQuery,
+            $innerQuery,
+            false,
+            $expectedQuery,
+        ];
 
         $expectedQuery = "
             SELECT
@@ -378,8 +545,9 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $mockSchema = $this->createMock(Schema::class);
         $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
         $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(false);
 
-        yield 'exclude rows' => [
+        yield 'exclude rows - no window functions' => [
             $mockSchema,
             $rankingQuery,
             $innerQuery,
@@ -396,6 +564,42 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $rankingQuery->partitionResultIntoMultipleGroups('partition', [1, 2, 3]);
 
         $innerQuery = "SELECT `label`, `partition` FROM `myTable`";
+
+        $expectedQuery = "
+            SELECT
+                CASE
+                    WHEN counter = 1001 THEN 'Others'
+                    ELSE `label`
+                END AS `label`,
+                `partition`
+            FROM (
+                SELECT
+                    `label`,
+                    ROW_NUMBER() OVER (PARTITION BY `partition` ORDER BY `label`) AS counter,
+                    `partition`
+                FROM
+                    ( SELECT `label`, `partition` FROM `myTable` ) actualQuery
+                ) AS withCounter
+            GROUP BY
+                CASE
+                    WHEN counter >= 1001 THEN 1001
+                    ELSE counter
+                END,
+                `partition`
+        ";
+
+        $mockSchema = $this->createMock(Schema::class);
+        $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
+        $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(true);
+
+        yield 'partition result - window functions' => [
+            $mockSchema,
+            $rankingQuery,
+            $innerQuery,
+            false,
+            $expectedQuery,
+        ];
 
         $expectedQuery = "
             SELECT
@@ -429,8 +633,9 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $mockSchema = $this->createMock(Schema::class);
         $mockSchema->method('supportsRankingRollupWithoutExtraSorting')->willReturn(true);
         $mockSchema->method('supportsSortingInSubquery')->willReturn(true);
+        $mockSchema->method('supportsWindowFunctions')->willReturn(false);
 
-        yield 'partition result' => [
+        yield 'partition result - no window functions' => [
             $mockSchema,
             $rankingQuery,
             $innerQuery,
