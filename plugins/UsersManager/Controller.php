@@ -713,6 +713,13 @@ class Controller extends ControllerAdmin
             throw new Exception($this->translator->translate('UsersManager_PasswordAlreadyInUse'));
         }
 
+        // check password is sufficiently strong
+        $brokenRules = $this->passwordStrength->validatePasswordStrength($newPassword);
+        if (!empty($brokenRules)) {
+            $errorMsg = $this->passwordStrength->formatValidationFailedMessage($brokenRules);
+            throw new Exception($errorMsg);
+        }
+
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
             'password' => $newPassword,

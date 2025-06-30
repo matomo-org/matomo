@@ -419,6 +419,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return $this->renderResetPasswordView([$nonceError]);
         }
 
+        $password = $form->getSubmitValue('form_password');
+        $brokenRules = $this->passwordStrength->validatePasswordStrength($password);
+
+        if (!empty($brokenRules)) {
+            $errorMsg = $this->passwordStrength->formatValidationFailedMessage($brokenRules);
+            return $this->renderResetPasswordView([$errorMsg]);
+        }
+
         $firstStepFormErrors = $this->resetPasswordFirstStep($form);
 
         if (!empty($firstStepFromErrors)) {
@@ -699,6 +707,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 UsersManager::checkPassword($password);
             } catch (\Exception $e) {
                 $error = $e->getMessage();
+            }
+
+            // check password strength
+            $brokenRules = $this->passwordStrength->validatePasswordStrength($password);
+            if (!empty($brokenRules)) {
+                $error = $this->passwordStrength->formatValidationFailedMessage($brokenRules);
             }
 
             // confirm matching passwords

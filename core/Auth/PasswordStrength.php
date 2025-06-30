@@ -86,4 +86,15 @@ class PasswordStrength
 
         return $brokenRules;
     }
+
+    public function formatValidationFailedMessage(array $brokenRules): string
+    {
+        if (!$this->enabled || empty($brokenRules)) {
+            return '';
+        }
+
+        $concatenatedRules = implode(', ', array_map('lcfirst', $brokenRules));
+
+        return Piwik::translate('General_PasswordStrengthValidationFailed', $concatenatedRules);
+    }
 }
