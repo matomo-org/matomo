@@ -205,11 +205,6 @@ class Archiver
                 $allRecordBuilders = $this->getRecordBuilders($pluginName);
                 $recordBuilders = $this->filterRecordBuildersByRequestedRecords($allRecordBuilders, $this->processor->getParams()->getArchiveOnlyReportAsArray());
 
-                // If the plugin provides record builders and only a specific record was requested, we mark the archive as partial
-                if (count($allRecordBuilders) > 0 && $this->processor->getParams()->getArchiveOnlyReport()) {
-                    $this->processor->getParams()->setIsPartialArchive(true);
-                }
-
                 foreach ($recordBuilders as $recordBuilder) {
                     if (!$recordBuilder->isEnabled($this->getProcessor())) {
                         continue;
@@ -247,11 +242,6 @@ class Archiver
             if (Manager::getInstance()->isPluginLoaded($pluginName)) {
                 $allRecordBuilders = $this->getRecordBuilders($pluginName);
                 $recordBuilders = $this->filterRecordBuildersByRequestedRecords($allRecordBuilders, $this->processor->getParams()->getArchiveOnlyReportAsArray());
-
-                // If the plugin provides record builders and only a specific record was requested, we mark the archive as partial
-                if (count($allRecordBuilders) > 0 && $this->processor->getParams()->getArchiveOnlyReport()) {
-                    $this->processor->getParams()->setIsPartialArchive(true);
-                }
 
                 foreach ($recordBuilders as $recordBuilder) {
                     if (!$recordBuilder->isEnabled($this->getProcessor())) {

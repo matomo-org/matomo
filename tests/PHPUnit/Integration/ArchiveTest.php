@@ -111,7 +111,7 @@ class ArchiveTest extends IntegrationTestCase
         $params = new Parameters(new Site($idSite), Factory::build('day', '2014-05-07'), new Segment('', [$idSite]));
         $params->setRequestedPlugin('ExamplePlugin');
         $params->onlyArchiveRequestedPlugin();
-        $params->setIsPartialArchive(true);
+        $params->setArchiveOnlyReport(['ExamplePlugin_archive2metric', 'ExamplePlugin_archive3metric']);
         $archiveWriter = new ArchiveWriter($params);
         $archiveWriter->initNewArchive();
         $archiveWriter->insertRecord('ExamplePlugin_archive2metric', 2);
@@ -124,7 +124,7 @@ class ArchiveTest extends IntegrationTestCase
         $params = new Parameters(new Site($idSite), Factory::build('day', '2014-05-07'), new Segment('', [$idSite]));
         $params->setRequestedPlugin('ExamplePlugin');
         $params->onlyArchiveRequestedPlugin();
-        $params->setIsPartialArchive(true);
+        $params->setArchiveOnlyReport('ExamplePlugin_archive3metric');
         $archiveWriter = new ArchiveWriter($params);
         $archiveWriter->initNewArchive();
         $archiveWriter->insertRecord('ExamplePlugin_archive3metric', 7);
