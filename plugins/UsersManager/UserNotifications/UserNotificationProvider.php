@@ -29,7 +29,7 @@ abstract class UserNotificationProvider implements UserNotificationProviderInter
     {
         $notifications = [];
 
-        foreach ($this->getSetsOfUsersToNotify() as $setOfUsers) {
+        foreach (array_filter($this->getSetsOfUsersToNotify()) as $setOfUsers) {
             $notifications[] = $this->createNotification($setOfUsers);
         }
 
