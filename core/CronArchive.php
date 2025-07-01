@@ -544,6 +544,10 @@ class CronArchive
                 $params->onlyArchiveRequestedPlugin();
             }
 
+            if (!empty($archive['report'])) {
+                $params->setIsPartialArchive(true);
+            }
+
             $loader = new Loader($params);
             if ($loader->canSkipThisArchive()) {
                 $this->logger->info("Found no visits for site ID = {idSite}, {period} ({date1},{date2}), site is using the tracker so skipping archiving...", [
