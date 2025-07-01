@@ -288,7 +288,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, readonly } from 'vue';
+import { defineComponent } from 'vue';
 import {
   ContentBlock,
   SiteRef,
@@ -484,7 +484,7 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserCreatedNotification();
-        this.$emit('updated', { user: readonly(this.theUser) });
+        this.$emit('updated', { user: this.theUser });
       });
     },
     resetPasswordVar() {
@@ -546,7 +546,7 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
-        this.$emit('updated', { user: readonly(this.theUser) });
+        this.$emit('updated', { user: this.theUser });
       }).catch(() => {
         this.isSavingUserInfo = false;
       });
