@@ -113,7 +113,7 @@ class ExceptionHandler
         $dbConfig = Db::getDatabaseConfig();
 
         $valuesToReplace = [
-            'tokenauth'   => Piwik::getCurrentUserTokenAuth() ?: '',
+            'tokenauth'   => Piwik::getCurrentUserTokenAuth(),
             'generalSalt' => SettingsPiwik::getSalt(),
             'dbuser'      => $dbConfig['username'],
             'dbpass'      => $dbConfig['password'],
