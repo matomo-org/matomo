@@ -22,7 +22,7 @@
     {% for inactiveUser in inactiveUsers %}
         <tr>
             <td>{{ inactiveUser.login }}</td>
-            <td>{{ inactiveUser.ts_last_login }}</td>
+            <td>{{ inactiveUser.ts_last_seen }}</td>
             <td>{{ inactiveUser.ts_last_token_activity|default('n/a') }}</td>
         </tr>
     {% endfor %}

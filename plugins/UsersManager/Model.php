@@ -942,7 +942,7 @@ class Model
         $sql = "
             SELECT
                 u.login,
-                u.ts_last_login,
+                COALESCE(u.ts_last_seen, u.date_registered) as ts_last_seen,
                 MAX(COALESCE(t.last_used, t.date_created)) AS ts_last_token_activity
             FROM " . $this->userTable . " u
             LEFT JOIN " . $this->tokenTable . " t ON u.login = t.login
@@ -952,11 +952,11 @@ class Model
             GROUP BY
                 u.login,
                 u.email,
-                u.ts_last_login,
+                u.ts_last_seen,
                 u.date_registered
-            HAVING COALESCE(u.ts_last_login, u.date_registered) < NOW() - INTERVAL ? DAY;
+            HAVING COALESCE(u.ts_last_seen, u.date_registered) < (? - INTERVAL ? DAY);
         ";
-        $bind = ['anonymous', $days];
+        $bind = ['anonymous', Date::factory('now')->getDatetime(), $days];
         return $db->fetchAll($sql, $bind);
     }
 
