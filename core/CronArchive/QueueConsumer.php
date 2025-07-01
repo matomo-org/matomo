@@ -247,7 +247,7 @@ class QueueConsumer
                 continue;
             }
 
-            list($isUsableExists, $archivedTime) = $this->usableArchiveExists($invalidatedArchive);
+            [$isUsableExists, $archivedTime] = $this->usableArchiveExists($invalidatedArchive);
             if ($isUsableExists) {
                 $now = Date::now()->getDatetime();
                 $this->addInvalidationToExclude($invalidatedArchive);
@@ -623,6 +623,9 @@ class QueueConsumer
         $params = new Parameters($site, $period, $segment);
         if (!empty($invalidatedArchive['plugin'])) {
             $params->setRequestedPlugin($invalidatedArchive['plugin']);
+        }
+        if (!empty($invalidatedArchive['report'])) {
+            $params->setRequestedPlugin($invalidatedArchive['report']);
         }
 
         // if latest archive includes today and is usable (DONE_OK or DONE_INVALIDATED and recent enough), skip
