@@ -269,7 +269,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $params  = new Parameters(new Site($this->idSite), $oPeriod, $segment);
         if ($isPartial) {
             $params->setRequestedPlugin('ExamplePlugin');
-            $params->setIsPartialArchive(true);
+            $params->setArchiveOnlyReport('report');
         }
         $writer  = new TestArchiveWriter($params);
         return $writer;
