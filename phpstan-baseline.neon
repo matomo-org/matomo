@@ -2281,21 +2281,6 @@ parameters:
 			path: core/QuickForm2.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: core/RankingQuery.php
-
-		-
-			message: "#^Property Piwik\\\\RankingQuery\\:\\:\\$columnToMarkExcludedRows \\(string\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: core/RankingQuery.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: core/RankingQuery.php
-
-		-
 			message: "#^Parameter \\#1 \\$viewDataTableId of method Piwik\\\\Report\\\\ReportWidgetConfig\\:\\:setDefaultViewDataTable\\(\\) expects string, null given\\.$#"
 			count: 1
 			path: core/Report/ReportWidgetFactory.php
