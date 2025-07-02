@@ -441,7 +441,7 @@ class DbHelper
      * Will return null if no clause found or the extraction failed,
      * e.g. parentheses in the extracted clause are not balanced.
      */
-    public static function extractOrderByFromQuery(string $sql): ?string
+    public static function extractOrderByFromQuery(string $sql, bool $stripTableNames = false): ?string
     {
         $pattern = '/.*ORDER\s+BY\s+(.*?)(?:\s+LIMIT|\s*;|\s*$)(.*)/is';
 
@@ -469,7 +469,11 @@ class DbHelper
             }
         }
 
-        return $orderBy;
+        if ($stripTableNames) {
+            return self::stripTableNamesFromQueryClause($orderBy);
+        } else {
+            return $orderBy;
+        }
     }
 
     /**
@@ -484,5 +488,16 @@ class DbHelper
     public static function isValidDbname($dbname)
     {
         return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
+    }
+
+    private static function stripTableNamesFromQueryClause(string $clause): string
+    {
+        return preg_replace_callback(
+            '/`?\w+`?\.`?(\w+)`?/',
+            function (array $matches): string {
+                return '`' . $matches[1] . '`';
+            },
+            $clause
+        );
     }
 }
