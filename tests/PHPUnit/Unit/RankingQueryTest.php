@@ -749,6 +749,27 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
             '`column_new`',
         ];
 
+        yield 'column aliases are resolved - backtick quoted' => [
+            $rankingQuery,
+            'SELECT column_one AS `column_new` FROM my_table ORDER BY column_one',
+            false,
+            '`column_new`',
+        ];
+
+        yield 'column aliases are resolved - double quoted' => [
+            $rankingQuery,
+            'SELECT column_one AS "column_new" FROM my_table ORDER BY column_one',
+            false,
+            '`column_new`',
+        ];
+
+        yield 'column aliases are resolved - single quoted' => [
+            $rankingQuery,
+            "SELECT column_one AS 'column_new' FROM my_table ORDER BY column_one",
+            false,
+            '`column_new`',
+        ];
+
         yield 'column aliases are resolved - rollup' => [
             $rankingQuery,
             '

@@ -738,14 +738,14 @@ class RankingQuery
 
             $column = str_replace('`', '', trim($columnParts[0]));
 
-            if (preg_match('/`?' . $column . '`? AS `?(\w+)`?(?:,|$)/is', $selectColumns, $matches)) {
+            if (preg_match('/`?' . $column . '`? AS [`"\']?(\w+)[`"\']?(?:,|$)/is', $selectColumns, $matches)) {
                 // unalias the column to allow usage in window
                 $column = trim($matches[1]);
                 $columnParts[0] = '`' . $column . '`';
                 $exprColumn = implode(' ', $columnParts);
             }
 
-            if (!preg_match('/`?' . $column . '`?(?:,|$)/is', $selectColumns)) {
+            if (!preg_match('/[`"\']?' . $column . '[`"\']?(?:,|$)/is', $selectColumns)) {
                 // the column was not found as "column," or "column<end of select>" in the SELECT part
                 // we remove it from the window because it otherwise break the query
                 unset($exprColumns[$i]);
