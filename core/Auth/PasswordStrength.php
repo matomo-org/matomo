@@ -58,7 +58,7 @@ class PasswordStrength
                 'ruleText' => Piwik::translate('General_PasswordStrengthValidationNumber')
             ],
             [
-                'validationRegex' => '/^.*[!@#$%\-_^&+*(){}[\]\'\`\\\|\"\~].*$/',
+                'validationRegex' => '/^.*[!\"#$%&\\\'(\\\\)*+,\-.\/:;<=>?@[\\]^_\`{\|}\~].*$/',
                 'ruleText' => Piwik::translate('General_PasswordStrengthValidationSpecialChar')
             ],
         ];
