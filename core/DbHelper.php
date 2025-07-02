@@ -437,19 +437,33 @@ class DbHelper
      */
     public static function extractOrderByFromQuery(string $sql): ?string
     {
-        $pattern = '/.*ORDER\s+BY\s+(.*?)(?:\s+LIMIT|\s*;|\s*$)/is';
+        $pattern = '/.*ORDER\s+BY\s+(.*?)(?:\s+LIMIT|\s*;|\s*$)(.*)/is';
 
-        if (preg_match($pattern, $sql, $matches)) {
-            $orderBy = $matches[1];
-            $openParentheses = substr_count($orderBy, '(');
-            $closeParentheses = substr_count($orderBy, ')');
+        preg_match($pattern, $sql, $matches);
 
-            if ($openParentheses === $closeParentheses) {
-                return trim($orderBy);
+        if (empty($matches[1])) {
+            return null;
+        }
+
+        $orderBy = trim($matches[1]);
+        $openParentheses = substr_count($orderBy, '(');
+        $closeParentheses = substr_count($orderBy, ')');
+
+        if ($openParentheses !== $closeParentheses) {
+            return null;
+        }
+
+        if (!empty($matches[2])) {
+            $postMatch = $matches[2];
+            $openParentheses = substr_count($postMatch, '(');
+            $closeParentheses = substr_count($postMatch, ')');
+
+            if ($openParentheses !== $closeParentheses) {
+                return null;
             }
         }
 
-        return null;
+        return $orderBy;
     }
 
     /**

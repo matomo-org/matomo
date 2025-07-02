@@ -85,6 +85,19 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             null
         ];
 
+        yield 'nested order by with limit ignored' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    ORDER BY column_two
+                    LIMIT 1
+                ) AS my_data
+            ',
+            null,
+        ];
+
         yield 'query terminated by ;' => [
             '
                 SELECT column_one, column_two
