@@ -334,6 +334,10 @@ const DEFAULT_USER: User = {
   invite_status: '',
 };
 
+interface ComponentExtension {
+  plugin: string;
+  component: string;
+}
 interface UserEditFormState {
   theUser: User;
   activeTab: string;
@@ -349,12 +353,7 @@ interface UserEditFormState {
   showPasswordConfirmationForInviteUser: boolean;
   isResetting2FA: boolean;
   isShowingPasswordConfirm: boolean;
-  componentExtensionRef: any[];
-}
-
-interface ComponentExtension {
-  plugin: string;
-  component: string;
+  componentExtensionRef: ComponentExtension[];
 }
 
 export default defineComponent({
@@ -489,6 +488,7 @@ export default defineComponent({
 
       try {
         await Promise.all(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           this.componentExtensionRef.map((component: any) => {
             if (typeof component?.beforeInvite === 'function') {
               return component?.beforeInvite.call(component, this.theUser);
