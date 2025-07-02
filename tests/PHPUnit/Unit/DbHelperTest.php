@@ -28,9 +28,12 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
     {
         $extractedOrderBy = DbHelper::extractOrderByFromQuery($sql);
 
+        // compare with collapsed whitespace
         if (null !== $expectedOrderBy) {
-            // compare with collapsed whitespace
-            $expectedOrderBy  = trim(preg_replace('/\s+/', ' ', $expectedOrderBy));
+            $expectedOrderBy = trim(preg_replace('/\s+/', ' ', $expectedOrderBy));
+        }
+
+        if (null !== $extractedOrderBy) {
             $extractedOrderBy = trim(preg_replace('/\s+/', ' ', $extractedOrderBy));
         }
 
@@ -77,6 +80,19 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                     SELECT column_two
                     FROM my_table
                     ORDER BY column_two
+                ) AS my_data
+            ',
+            null,
+        ];
+
+        yield 'nested order by with limit ignored' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    ORDER BY column_two
+                    LIMIT 1
                 ) AS my_data
             ',
             null,
