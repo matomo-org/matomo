@@ -10,13 +10,10 @@
 namespace Piwik\Plugins\Monolog\Processor;
 
 use Piwik\Common;
-use Piwik\Config;
-use Piwik\Db;
 use Piwik\ErrorHandler;
 use Piwik\Exception\InvalidRequestParameterException;
+use Piwik\ExceptionHandler;
 use Piwik\Log;
-use Piwik\Piwik;
-use Piwik\SettingsPiwik;
 use Piwik\Url;
 
 /**
@@ -24,16 +21,16 @@ use Piwik\Url;
  */
 class ExceptionToTextProcessor
 {
-    private $forcePrintBacktrace = false;
+    private $forcePrintBacktrace;
 
-    public function __construct($forcePrintBacktrace = false)
+    public function __construct(bool $forcePrintBacktrace = false)
     {
         $this->forcePrintBacktrace = $forcePrintBacktrace;
     }
 
     public function __invoke(array $record)
     {
-        if (! $this->contextContainsException($record)) {
+        if (!$this->contextContainsException($record)) {
             return $record;
         }
 
@@ -46,7 +43,7 @@ class ExceptionToTextProcessor
 
         $exceptionStr = sprintf(
             "%s(%d): %s",
-            $exception instanceof \Exception ? $exception->getFile() : $exception['file'],
+            ExceptionHandler::replaceSensitiveValues($exception instanceof \Exception ? $exception->getFile() : $exception['file']),
             $exception instanceof \Exception ? $exception->getLine() : $exception['line'],
             $this->getStackTrace($exception)
         );
@@ -57,7 +54,7 @@ class ExceptionToTextProcessor
         ) {
             $record['message'] = $exceptionStr;
         } else {
-            $record['message'] = str_replace('{exception}', $exceptionStr, $record['message']);
+            $record['message'] = str_replace('{exception}', $exceptionStr, ExceptionHandler::replaceSensitiveValues($record['message']));
         }
 
         $record['message'] .= ' [' . $this->getErrorContext() . ']';
@@ -80,14 +77,14 @@ class ExceptionToTextProcessor
     private function getMessage($exception)
     {
         if ($exception instanceof \ErrorException) {
-            return ErrorHandler::getErrNoString($exception->getSeverity()) . ' - ' . $exception->getMessage();
+            return ErrorHandler::getErrNoString($exception->getSeverity()) . ' - ' . ExceptionHandler::replaceSensitiveValues($exception->getMessage());
         }
 
         if (is_array($exception) && isset($exception['message'])) {
-            return $exception['message'];
+            return ExceptionHandler::replaceSensitiveValues($exception['message']);
         }
 
-        return $exception->getMessage();
+        return ExceptionHandler::replaceSensitiveValues($exception->getMessage());
     }
 
     private function getStackTrace($exception)
@@ -100,17 +97,17 @@ class ExceptionToTextProcessor
      * @param bool|null $shouldPrintBacktrace
      * @return mixed|string
      */
-    public static function getMessageAndWholeBacktrace($exception, $shouldPrintBacktrace = null)
+    public static function getMessageAndWholeBacktrace($exception, ?bool $shouldPrintBacktrace = null)
     {
         if ($shouldPrintBacktrace === null) {
-            $shouldPrintBacktrace = \Piwik_ShouldPrintBackTraceWithMessage();
+            $shouldPrintBacktrace = ExceptionHandler::shouldPrintBackTraceWithMessage();
         }
 
         if (is_array($exception)) {
-            $message = $exception['message'] ?? '';
+            $message = ExceptionHandler::replaceSensitiveValues($exception['message'] ?? '');
             if ($shouldPrintBacktrace && isset($exception['backtrace'])) {
                 $trace = $exception['backtrace'];
-                $trace = self::replaceSensitiveValues($trace);
+                $trace = ExceptionHandler::replaceSensitiveValues($trace);
                 return $message . "\n" . $trace;
             } else {
                 return $message;
@@ -118,7 +115,7 @@ class ExceptionToTextProcessor
         }
 
         if (!$shouldPrintBacktrace) {
-            return $exception->getMessage();
+            return ExceptionHandler::replaceSensitiveValues($exception->getMessage());
         }
 
         $message = "";
@@ -129,37 +126,11 @@ class ExceptionToTextProcessor
                 $message .= ",\ncaused by: ";
             }
 
-            $message .= $e->getMessage();
-            if ($shouldPrintBacktrace) {
-                $message .= "\n" . self::replaceSensitiveValues($e->getTraceAsString());
-            }
+            $message .= ExceptionHandler::replaceSensitiveValues($e->getMessage());
+            $message .= "\n" . ExceptionHandler::replaceSensitiveValues($e->getTraceAsString());
         } while ($e = $e->getPrevious());
 
         return $message;
-    }
-
-    private static function replaceSensitiveValues($trace)
-    {
-        $dbConfig = Db::getDatabaseConfig();
-
-        $valuesToReplace = [
-            Piwik::getCurrentUserTokenAuth() => 'tokenauth',
-            SettingsPiwik::getSalt() => 'generalSalt',
-            $dbConfig['username'] => 'dbuser',
-            $dbConfig['password'] => 'dbpass',
-        ];
-
-        $mailConfig = Config::getInstance()->mail;
-
-        if (!empty($mailConfig['username'])) {
-            $valuesToReplace[$mailConfig['username']] = 'smtpuser';
-        }
-
-        if (!empty($mailConfig['password'])) {
-            $valuesToReplace[$mailConfig['password']] = 'smtppass';
-        }
-
-        return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $trace);
     }
 
     private function getErrorContext()
@@ -169,8 +140,7 @@ class ExceptionToTextProcessor
             $context .= ', CLI mode: ' . (int)Common::isPhpCliMode();
             return $context;
         } catch (\Exception $ex) {
-            $context = "cannot get url or cli mode: " . $ex->getMessage();
-            return $context;
+            return 'cannot get url or cli mode: ' . ExceptionHandler::replaceSensitiveValues($ex->getMessage());
         }
     }
 }

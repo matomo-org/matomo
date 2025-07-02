@@ -15,6 +15,7 @@ use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\MissingFilePermissionException;
+use Piwik\ExceptionHandler;
 use Piwik\Filechecks;
 use Piwik\Filesystem;
 use Piwik\Nonce;
@@ -373,7 +374,7 @@ class Controller extends Plugin\ControllerAdmin
 
             if (
                 !empty($lastError['backtrace'])
-                && \Piwik_ShouldPrintBackTraceWithMessage()
+                && ExceptionHandler::shouldPrintBackTraceWithMessage()
             ) {
                 $errorMessage .= $lastError['backtrace'];
             }
@@ -392,7 +393,7 @@ class Controller extends Plugin\ControllerAdmin
             throw new Exception("Error: " . var_export($lastError, true));
         }
 
-        if (!\Piwik_ShouldPrintBackTraceWithMessage()) {
+        if (!ExceptionHandler::shouldPrintBackTraceWithMessage()) {
             unset($lastError['backtrace']);
         }
 
