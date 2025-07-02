@@ -643,4 +643,125 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
             $expectedQuery,
         ];
     }
+
+    /**
+     * @dataProvider getGenerateWindowOrderByStringTestData
+     */
+    public function testGenerateWindowOrderByString(
+        RankingQuery $rankingQuery,
+        string $innerQuery,
+        bool $withRollup,
+        string $expectedOrderBy
+    ): void {
+        $reflection = new \ReflectionClass($rankingQuery);
+        $method = $reflection->getMethod('generateWindowOrderByExpression');
+        $method->setAccessible(true);
+
+        $windowOrderBy = $method->invokeArgs($rankingQuery, [$innerQuery, $withRollup]);
+
+        $this->assertEquals($expectedOrderBy, $windowOrderBy);
+    }
+
+    public function getGenerateWindowOrderByStringTestData(): iterable
+    {
+        $rankingQuery = new RankingQuery(1);
+        $rankingQuery->addLabelColumn('label_1');
+        $rankingQuery->addLabelColumn('label_2');
+
+        $reflection = new \ReflectionClass($rankingQuery);
+        $method = $reflection->getMethod('generateLabelColumnsString');
+        $method->setAccessible(true);
+
+        $labelColumnsString = $method->invokeArgs($rankingQuery, []);
+
+        yield 'SELECT extraction fails' => [
+            $rankingQuery,
+            'SET @counter = 1',
+            false,
+            $labelColumnsString,
+        ];
+
+        yield 'SELECT extraction fails - with rollup' => [
+            $rankingQuery,
+            'SELECT * FROM (SET @counter = 1)',
+            true,
+            $labelColumnsString,
+        ];
+
+        yield 'window matches ORDER BY' => [
+            $rankingQuery,
+            'SELECT column_one, column_two FROM my_table GROUP BY column_two ORDER BY column_one ASC',
+            false,
+            'column_one ASC',
+        ];
+
+        yield 'window matches ORDER BY - rollup' => [
+            $rankingQuery,
+            '
+                SELECT *
+                FROM (
+                    SELECT column_one, column_two
+                    FROM my_table
+                    GROUP BY column_two WITH ROLLUP
+                ) AS rollupQuery
+                ORDER BY column_one ASC
+            ',
+            true,
+            'column_one ASC',
+        ];
+
+        yield 'window matches GROUP BY' => [
+            $rankingQuery,
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                GROUP BY column_one
+            ',
+            false,
+            'column_one',
+        ];
+
+        yield 'window matches GROUP BY - rollup' => [
+            $rankingQuery,
+            '
+                SELECT *
+                FROM (
+                    SELECT column_one, column_two
+                    FROM my_table
+                    GROUP BY column_one WITH ROLLUP
+                ) AS rollupQuery
+            ',
+            true,
+            'column_one',
+        ];
+
+        yield 'unselected column is removed' => [
+            $rankingQuery,
+            'SELECT column_one FROM my_table ORDER BY column_one, column_two',
+            false,
+            'column_one',
+        ];
+
+        yield 'column aliases are resolved' => [
+            $rankingQuery,
+            'SELECT column_one AS column_new FROM my_table ORDER BY column_one',
+            false,
+            '`column_new`',
+        ];
+
+        yield 'column aliases are resolved - rollup' => [
+            $rankingQuery,
+            '
+                SELECT *
+                FROM (
+                    SELECT column_one AS column_new
+                    FROM my_table
+                    GROUP BY column_two WITH ROLLUP
+                ) AS rollupQuery
+                ORDER BY column_new
+            ',
+            true,
+            'column_new',
+        ];
+    }
 }

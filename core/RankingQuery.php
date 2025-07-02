@@ -317,8 +317,10 @@ class RankingQuery
         $additionalColumnsExpressions = $this->generateAdditionalColumnsExpressions();
 
         if (Schema::getInstance()->supportsWindowFunctions()) {
-            $counterExpressions = $this->generateWindowCounterExpressions($innerQuery, $withRollup);
-            $counterRollupExpressions = $this->generateWindowCounterRollupExpressions($innerQuery, $withRollup);
+            $windowOrderBy = $this->generateWindowOrderByExpression($innerQuery, $withRollup);
+
+            $counterExpressions = $this->generateWindowCounterExpressions($windowOrderBy, $withRollup);
+            $counterRollupExpressions = $this->generateWindowCounterRollupExpressions($withRollup, $windowOrderBy);
             $groupByExpression = $this->generateWindowGroupByExpression($limit, $withRollup);
         } else {
             $counterExpressions = $this->generateVariableCounterExpressions($limit, $withRollup);
@@ -552,17 +554,13 @@ class RankingQuery
      *
      * @return array{counter: string, init: string}
      */
-    private function generateWindowCounterExpressions(string $innerQuery, bool $withRollup): array
+    private function generateWindowCounterExpressions(string $windowOrderBy, bool $withRollup): array
     {
         $partitionBy = '';
 
         if ($this->partitionColumn !== false) {
             $partitionBy = "PARTITION BY `{$this->partitionColumn}`";
         }
-
-        $orderByColumns = DbHelper::extractOrderByFromQuery($innerQuery, true)
-            ?? DbHelper::extractGroupByFromQuery($innerQuery, true)
-            ?? $this->generateLabelColumnsString();
 
         $excludeWhens = [];
         $orderByWhens = [];
@@ -580,7 +578,7 @@ class RankingQuery
         }
 
         if ([] === $orderByWhens) {
-            $orderBy = $orderByColumns;
+            $orderBy = $windowOrderBy;
         } else {
             $orderBy = "
                 CASE
@@ -588,7 +586,7 @@ class RankingQuery
                     ", $orderByWhens) . "
                     ELSE 0
                 END,
-                $orderByColumns
+                $windowOrderBy
             ";
         }
 
@@ -619,16 +617,12 @@ class RankingQuery
      *
      * @return array{counter: string, init: string}
      */
-    private function generateWindowCounterRollupExpressions(string $innerQuery, bool $withRollup): array
+    private function generateWindowCounterRollupExpressions(bool $withRollup, string $withRollupOrderBy): array
     {
         $counter = '';
 
         if ($withRollup) {
             $rollupColumns = array_keys($this->labelColumns);
-
-            $orderByColumns = DbHelper::extractOrderByFromQuery($innerQuery, true)
-                ?? DbHelper::extractGroupByFromQuery($innerQuery, true)
-                ?? $this->generateLabelColumnsString();
 
             $orderBy = "
                 CASE
@@ -636,7 +630,7 @@ class RankingQuery
                     WHEN `" . implode('` IS NULL OR `', $rollupColumns) . "` IS NULL THEN 0
                     ELSE 1
                 END,
-                $orderByColumns
+                $withRollupOrderBy
             ";
 
             $counter = "
@@ -677,6 +671,92 @@ class RankingQuery
         }
 
         return $groupBy;
+    }
+
+    private function generateWindowOrderByExpression(string $innerQuery, bool $withRollup): string
+    {
+        $selectColumns = DbHelper::extractSelectFromQuery($innerQuery);
+
+        if ($withRollup && '*' === $selectColumns) {
+            // special case for wrapped ROLLUP query
+            // we find the real columns one level deeper
+            $outerSelectPos = stripos($innerQuery, 'SELECT');
+            $innerSelectPos = stripos($innerQuery, 'SELECT', $outerSelectPos + strlen('SELECT'));
+            $realInnerQuery = substr($innerQuery, $innerSelectPos);
+            $selectColumns = DbHelper::extractSelectFromQuery($realInnerQuery);
+        }
+
+        if (null === $selectColumns || '*' === $selectColumns) {
+            // order by label columns if we can not find
+            // the named SELECT columns to order by
+            return $this->generateLabelColumnsString();
+        }
+
+        $columns = DbHelper::extractOrderByFromQuery($innerQuery, true);
+        $columns = $this->prepareColumnsForWindowOrderBy($columns, $selectColumns);
+
+        if (null === $columns) {
+            $columns = DbHelper::extractGroupByFromQuery($innerQuery, true);
+
+            if (null === $columns && $withRollup) {
+                // a rollup has the GROUP BY inside the wrapper
+                $outerSelectPos = stripos($innerQuery, 'SELECT');
+                $innerSelectPos = stripos($innerQuery, 'SELECT', $outerSelectPos + strlen('SELECT'));
+                $lastClosingParenthesis = strrpos($innerQuery, ')');
+
+                $realInnerQuery = substr($innerQuery, $innerSelectPos, $lastClosingParenthesis - $innerSelectPos);
+                $columns = DbHelper::extractGroupByFromQuery($realInnerQuery, true);
+            }
+
+            $columns = $this->prepareColumnsForWindowOrderBy($columns, $selectColumns);
+        }
+
+        if (null === $columns) {
+            $columns = $this->generateLabelColumnsString();
+        }
+
+        return $columns;
+    }
+
+    private function prepareColumnsForWindowOrderBy(?string $expr, string $selectColumns): ?string
+    {
+        if (null === $expr) {
+            return null;
+        }
+
+        $exprColumns = explode(',', $expr);
+
+        foreach ($exprColumns as $i => &$exprColumn) {
+            $columnParts = explode(' ', trim($exprColumn));
+
+            if (count($columnParts) > 2) {
+                // the column contains more than just "column ASC"
+                // remove the column for safety, we don't know what we are really dealing with
+                unset($exprColumns[$i]);
+                continue;
+            }
+
+            $column = str_replace('`', '', trim($columnParts[0]));
+
+            if (preg_match('/`?' . $column . '`? AS `?(\w+)`?(?:,|$)/is', $selectColumns, $matches)) {
+                // unalias the column to allow usage in window
+                $column = trim($matches[1]);
+                $columnParts[0] = '`' . $column . '`';
+                $exprColumn = implode(' ', $columnParts);
+            }
+
+            if (!preg_match('/`?' . $column . '`?(?:,|$)/is', $selectColumns)) {
+                // the column was not found as "column," or "column<end of select>" in the SELECT part
+                // we remove it from the window because it otherwise break the query
+                unset($exprColumns[$i]);
+            }
+        }
+
+        if ([] === $exprColumns) {
+            return null;
+        }
+
+        return implode(', ', $exprColumns);
     }
 
     /**
