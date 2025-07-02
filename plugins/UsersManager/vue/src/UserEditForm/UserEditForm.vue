@@ -411,7 +411,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.onUserChange(this.user as User);
+    this.onUserChange({ ...this.user } as User);
   },
   methods: {
     onUserChange(newVal: User) {
