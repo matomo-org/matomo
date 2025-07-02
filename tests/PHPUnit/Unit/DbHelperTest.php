@@ -24,9 +24,9 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getExtractOrderByFromQueryTestData
      */
-    public function testExtractOrderByFromQuery(string $sql, ?string $expectedOrderBy): void
+    public function testExtractOrderByFromQuery(string $sql, bool $stripTableNames, ?string $expectedOrderBy): void
     {
-        $extractedOrderBy = DbHelper::extractOrderByFromQuery($sql);
+        $extractedOrderBy = DbHelper::extractOrderByFromQuery($sql, $stripTableNames);
 
         // compare with collapsed whitespace
         if (null !== $expectedOrderBy) {
@@ -44,6 +44,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
     {
         yield 'no clause' => [
             'SELECT my_column FROM my_table',
+            false,
             null,
         ];
 
@@ -54,6 +55,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                 ORDER BY column_one DESC,
                          column_two ASC
             ',
+            false,
             '
                 column_one DESC,
                 column_two ASC
@@ -70,6 +72,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                 ) AS my_data
                 ORDER BY column_one
             ',
+            false,
             'column_one',
         ];
 
@@ -82,6 +85,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                     ORDER BY column_two
                 ) AS my_data
             ',
+            false,
             null,
         ];
 
@@ -95,6 +99,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                     LIMIT 1
                 ) AS my_data
             ',
+            false,
             null,
         ];
 
@@ -104,22 +109,45 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                 FROM my_table
                 ORDER BY column_one DESC;
             ',
+            false,
             'column_one DESC',
         ];
 
-        yield 'order by with following limit' => [
+        yield 'order by with following LIMIT' => [
             '
                 SELECT column_one, column_two
                 FROM my_table
                 ORDER BY column_one
                 LIMIT 1
             ',
+            false,
             'column_one',
         ];
 
         yield 'unbalanced parentheses' => [
             'SELECT my_column FROM my_table ORDER BY column_one, (, column_two',
+            false,
             null,
+        ];
+
+        yield 'with stripped table names' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                ORDER BY `my_table`.`column_one`, `column_two`
+            ',
+            true,
+            '`column_one`, `column_two`',
+        ];
+
+        yield 'without stripped table names' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                ORDER BY `my_table`.`column_one`, `column_two`
+            ',
+            false,
+            '`my_table`.`column_one`, `column_two`',
         ];
     }
 
