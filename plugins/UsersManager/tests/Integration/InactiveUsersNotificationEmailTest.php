@@ -12,6 +12,7 @@ namespace Integration;
 use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\UsersManager\tests\Fixtures\Tokens as TokensFixture;
 use Piwik\Plugins\UsersManager\UserNotifications\UserNotifierTask;
@@ -38,6 +39,8 @@ class InactiveUsersNotificationEmailTest extends IntegrationTestCase
 
     protected $systemSetting;
 
+    protected $userModel;
+
     /**
      * @throws \Exception
      */
@@ -49,6 +52,7 @@ class InactiveUsersNotificationEmailTest extends IntegrationTestCase
         Fixture::loadAllTranslations();
 
         $this->task = new UserNotifierTask();
+        $this->userModel = new UsersManagerModel();
 
         $settings = StaticContainer::get(SystemSettings::class);
         $this->systemSetting = $settings->enableInactiveUsersNotifications;
@@ -98,11 +102,36 @@ class InactiveUsersNotificationEmailTest extends IntegrationTestCase
         $this->clearCaptureAndDispatch();
         self::assertEquals(0, count($this->capturedNotifications));
 
-        // after removing the notification timestamp, we should have two notifications again, both in 2024
+        // after removing the notification timestamp, we should have two notifications again
         $this->clearCaptureAndDispatch(true);
         self::assertEquals(2, count($this->capturedNotifications));
+        self::assertEquals(['superUserLogin', 'user1'], array_keys($this->capturedNotifications));
 
-        // TODO: add assertions on the actual table data for user names, last seen and last activity
+        // after removing super access from the second user, we should only get one notification
+        $this->userModel->setSuperUserAccess('user1', false);
+        $this->clearCaptureAndDispatch(true);
+        self::assertEquals(1, count($this->capturedNotifications));
+        self::assertEquals(['superUserLogin'], array_keys($this->capturedNotifications));
+
+        $notification = $this->capturedNotifications['superUserLogin'];
+        self::assertEquals(6, count($notification));
+
+        // if there's a token for a user, and it hasn't been used, and the user haven't logged in
+        // the token activity is the same as last seen for the user, which is both when they were created
+        self::assertEquals($notification[0]['last_token_activity'], $notification[0]['last_seen']);
+
+        // for user1, the fixture sets a custom last token activity
+        self::assertEquals('user1', $notification[1]['login']);
+        self::assertEquals('2025-02-01 00:00:00', $notification[1]['last_token_activity']);
+
+        // for user2, the fixture sets a custom last seen date, which is within 180 days from 'now'
+        self::assertEquals('user2', $notification[2]['login']);
+        self::assertEquals('2024-09-29 00:00:00', $notification[2]['last_seen']);
+
+        // for user4, the fixture does not create a token, so it was never used, and sets a custom last-seen date
+        self::assertEquals('user4', $notification[4]['login']);
+        self::assertEquals('2024-09-29 00:00:00', $notification[4]['last_seen']);
+        self::assertEquals('n/a', $notification[4]['last_token_activity']);
     }
 
     /**
