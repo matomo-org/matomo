@@ -36,7 +36,7 @@ try {
     include PIWIK_INCLUDE_PATH . '/matomo.php';
 } catch (Exception $ex) {
     $stacktrace = '';
-    if (\Piwik_ShouldPrintBackTraceWithMessage()) {
+    if (\Piwik\ExceptionHandler::shouldPrintBackTraceWithMessage()) {
         $stacktrace = "\n" . $ex->getTraceAsString();
     }
     echo "Unexpected error during tracking: " . $ex->getMessage() . $stacktrace . "\n";

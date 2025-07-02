@@ -24,13 +24,13 @@
 	</row>
 	<row>
 		<label>Others</label>
-		<nb_visits>335</nb_visits>
-		<nb_actions>410</nb_actions>
-		<max_actions>2</max_actions>
-		<sum_visit_length>180</sum_visit_length>
-		<bounce_count>195</bounce_count>
+		<nb_visits>353</nb_visits>
+		<nb_actions>554</nb_actions>
+		<max_actions>15</max_actions>
+		<sum_visit_length>196</sum_visit_length>
+		<bounce_count>197</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
-		<sum_daily_nb_uniq_visitors>67</sum_daily_nb_uniq_visitors>
-		<sum_daily_nb_users>67</sum_daily_nb_users>
+		<sum_daily_nb_uniq_visitors>85</sum_daily_nb_uniq_visitors>
+		<sum_daily_nb_users>85</sum_daily_nb_users>
 	</row>
 </result>
