@@ -470,6 +470,22 @@ class DbHelper
     }
 
     /**
+     * Extracts the "SELECT" columns from a query.
+     *
+     * Will return null if no columns found or the extraction failed.
+     *
+     * Will skip comments and optimizer hints between the SELECT and the
+     * first column, but not between individual columns.
+     */
+    public static function extractSelectFromQuery(string $sql): ?string
+    {
+        return self::extractClauseFromQuery(
+            $sql,
+            '/^\s*SELECT\s+(?:\/\*.*?\*\/\s*)*(.*?)(?:\s+FROM|\s*;|\s*$)/is'
+        );
+    }
+
+    /**
      * Returns true if the string is a valid database name for MySQL. MySQL allows + in the database names.
      * Database names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), plus(+), and dot(.) will be accepted.
      * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).

@@ -316,6 +316,74 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @dataProvider getExtractSelectFromQueryTestData
+     */
+    public function testExtractSelectFromQuery(string $sql, ?string $expectedSelect): void
+    {
+        $extractedSelect = DbHelper::extractSelectFromQuery($sql);
+
+        $this->checkQueryExtraction($expectedSelect, $extractedSelect);
+    }
+
+    public function getExtractSelectFromQueryTestData(): iterable
+    {
+        yield 'no clause' => [
+            'SET @counter = 1',
+            null,
+        ];
+
+        yield 'minimal select' => [
+            'SELECT @@version',
+            '@@version',
+        ];
+
+        yield 'minimal select terminated by ;' => [
+            'SELECT @@version;',
+            '@@version',
+        ];
+
+        yield 'asterisk' => [
+            '
+                SELECT *
+                FROM my_table
+            ',
+            '*',
+        ];
+
+        yield 'skip comments and optimizer hints at the beginning' => [
+            '
+                SELECT /*+ OPTIMIZE */
+                    /* this will be skipped */
+                    column_one,
+                    /* this will be kept */
+                    column_two
+                FROM my_table
+            ',
+            '
+                column_one,
+                /* this will be kept */
+                column_two
+            ',
+        ];
+
+        yield 'nested select by ignored' => [
+            '
+                SELECT column_one, column_two AS second_column
+                FROM (
+                    SELECT column_three
+                    FROM my_table
+                ) AS my_data
+            ',
+            'column_one, column_two AS second_column',
+        ];
+
+        yield 'unbalanced parentheses' => [
+            'SELECT my_column ( FROM my_table',
+            null,
+        ];
+    }
+
+    /**
      * @dataProvider getVariousDbNames
      * @param string $dbName
      * @param bool $expectation
