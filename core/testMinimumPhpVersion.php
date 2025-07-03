@@ -13,8 +13,6 @@
  * This file must be compatible with PHP 5.3.
  */
 
-use Piwik\Url;
-
 $piwik_errorMessage = '';
 
 // Minimum requirement: stream_resolve_include_path, working json_encode in 5.3.3, namespaces in 5.3
@@ -67,7 +65,7 @@ if ($minimumPhpInvalid) {
                     "<br/>" . $composerInstall .
                     " This will initialize composer for Matomo and download libraries we use in vendor/* directory." .
                     "\n\n<br/><br/>Then reload this page to access your analytics reports." .
-                    "\n\n<br/><br/>For more information check out this FAQ: <a href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/faq_18271/') . "' rel='noreferrer noopener' target='_blank'>How do I use Matomo from the Git repository?</a>." .
+            "\n\n<br/><br/>For more information check out this FAQ: <a href='https://matomo.org/faq/how-to-install/faq_18271/' rel='noreferrer noopener' target='_blank'>How do I use Matomo from the Git repository?</a>." .
                     "\n\n<br/><br/>Note: if for some reasons you cannot install composer, instead install the latest Matomo release from " .
                     "<a href='https://builds.matomo.org/piwik.zip' rel='noreferrer noopener'>builds.matomo.org</a>.</p>";
     }
@@ -85,20 +83,11 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
      */
     function Piwik_ShouldPrintBackTraceWithMessage()
     {
-        if (
-            class_exists('\Piwik\SettingsServer')
-            && class_exists('\Piwik\Common')
-            && \Piwik\SettingsServer::isArchivePhpTriggered()
-            && \Piwik\Common::isPhpCliMode()
-        ) {
-            return true;
+        if (!class_exists(\Piwik\ExceptionHandler::class)) {
+            return false;
         }
 
-        $bool = (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
-                || !empty($GLOBALS['PIWIK_PRINT_ERROR_BACKTRACE'])
-                || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
-
-        return $bool;
+        return \Piwik\ExceptionHandler::shouldPrintBackTraceWithMessage();
     }
 
     /**
@@ -170,12 +159,20 @@ if (!function_exists('Piwik_GetErrorMessagePage')) {
         }
 
         if ($optionalLinks) {
+            $adjustUrl = function ($url) {
+                if (class_exists(\Piwik\Url::class)) {
+                    return \Piwik\Url::addCampaignParametersToMatomoLink($url);
+                }
+
+                return $url;
+            };
+
             $optionalLinks = '<ul>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org') . '">Matomo.org homepage</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/') . '">Frequently Asked Questions</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/') . '">User Guides</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://forum.matomo.org/') . '">Matomo Forums</a></li>
-                            <li><a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/support/') . '">Professional Support for Matomo</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://matomo.org') . '">Matomo.org homepage</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://matomo.org/faq/') . '">Frequently Asked Questions</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://matomo.org/docs/') . '">User Guides</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://forum.matomo.org/') . '">Matomo Forums</a></li>
+                            <li><a rel="noreferrer noopener" target="_blank" href="' . $adjustUrl('https://matomo.org/support/') . '">Professional Support for Matomo</a></li>
                             </ul>';
         }
         if ($optionalLinkBack) {
