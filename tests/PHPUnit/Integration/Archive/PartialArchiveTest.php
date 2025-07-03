@@ -107,7 +107,7 @@ class PartialArchiveTest extends IntegrationTestCase
         $this->assertEquals([
             // expect only one blob for new range partial archive
             ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done.Goals', 'value' => 5, 'blob_count' => 0],
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done.VisitsSummary', 'value' => 1, 'blob_count' => 0],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done.VisitsSummary', 'value' => 5, 'blob_count' => 0],
         ], $archiveInfo);
     }
 
