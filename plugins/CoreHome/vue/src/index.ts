@@ -99,3 +99,5 @@ export { default as scrollToAnchorInUrl } from './scrollToAnchorInUrl';
 export { default as SearchFiltersPersistenceStore } from './SearchFiltersPersistence/SearchFiltersPersistence.store';
 export { default as AutoClearPassword } from './AutoClearPassword/AutoClearPassword';
 export { default as MatomoCopyModal } from './MatomoCopyModal/MatomoCopyModal.vue';
+export { default as MatomoCopyAction } from './MatomoCopyModal/MatomoCopyAction.vue';
+export * from './MatomoCopyModal/MatomoCopyModalStore';

@@ -121,7 +121,7 @@
 </template>
 
 <script lang="ts">
-import { DeepReadonly, defineComponent } from 'vue';
+import { DeepReadonly, defineComponent, PropType } from 'vue';
 import Tooltips from '../Tooltips/Tooltips';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
@@ -184,9 +184,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    excludeRollUpSites: {
-      type: Boolean,
-      default: false,
+    siteTypesToExclude: {
+      type: Array as PropType<string[]>,
+      default: () => [] as string[],
     },
   },
   emits: ['update:modelValue', 'blur'],
@@ -391,7 +391,7 @@ export default defineComponent({
         this.onlySitesWithAdminAccess,
         (this.sitesToExclude ? this.sitesToExclude : []) as number[],
         this.sitesWithAtLeastWriteAccess,
-        this.excludeRollUpSites,
+        (this.siteTypesToExclude ? this.siteTypesToExclude : []) as string[],
       ).then((sites) => {
         this.sites = sites || [];
       });
@@ -403,7 +403,7 @@ export default defineComponent({
         term, this.onlySitesWithAdminAccess,
         (this.sitesToExclude ? this.sitesToExclude : []) as number[],
         this.sitesWithAtLeastWriteAccess,
-        this.excludeRollUpSites,
+        (this.siteTypesToExclude ? this.siteTypesToExclude : []) as string[],
       ).then((sites) => {
         if (term !== this.searchTerm) {
           return; // search term changed in the meantime

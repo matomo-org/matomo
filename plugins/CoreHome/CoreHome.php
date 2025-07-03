@@ -160,6 +160,7 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/vue-transitions.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyModal.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/MatomoCopyModal/MatomoCopyAction.less";
     }
 
     public function getJsFiles(&$jsFiles)

@@ -5,8 +5,14 @@
   @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 -->
 <template>
-  <div :class="getRootDivClasses" ref="root">
-    <div class="entire-copy-modal">
+  <div
+    :class="{
+      'modal': true,
+      'matomo-copy-modal': true,
+      'slot-configured': $slots.default
+    }"
+    ref="root">
+    <div class="entire-copy-modal" v-show="isModalVisible">
       <div class="modal-header">
         <span class="btn-close modal-close"><i class="icon-close"></i></span>
         <h2>
@@ -37,7 +43,7 @@
             v-model="site"
             :ui-control-attributes="{
               sitesWithAtLeastWriteAccess: true,
-              excludeRollUpSites: true,
+              siteTypesToExclude: ['rollup'],
             }"
           />
         </div>
@@ -80,11 +86,10 @@ import {
 import useExternalPluginComponent from '../useExternalPluginComponent';
 import SiteRef from '../SiteSelector/SiteRef';
 import Matomo from '../Matomo/Matomo';
-import debounce from '../debounce';
-import { translate, translateOrDefault } from '../translate';
+import { translate } from '../translate';
 import { externalLink } from '../externalLink';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
-import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import { MatomoCopyModalStore } from './MatomoCopyModalStore';
 
 // async since we're referencing a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
@@ -119,27 +124,11 @@ export default defineComponent({
   },
   props: {
     /**
-     * Whether the modal is displayed or not
+     * The reactive class for controlling the settings of the modal from multiple components.
      */
-    modelValue: {
-      type: Boolean,
+    modalStore: {
+      type: MatomoCopyModalStore,
       required: true,
-      default: false,
-    },
-    copyEntityType: {
-      type: String,
-      required: true,
-      default: '',
-    },
-    copyEntityTypeTranslation: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    formData: {
-      type: Object,
-      required: false,
-      default: () => ({}),
     },
   },
   data(): MatomoCopyModalState {
@@ -154,13 +143,11 @@ export default defineComponent({
     };
   },
   emits: [
-    'update:modelValue',
-    'resetFormData',
     'copySuccessful',
     'copyFailed',
   ],
   watch: {
-    modelValue(newValue) {
+    isModalVisible(newValue) {
       if (!newValue) {
         return;
       }
@@ -183,13 +170,13 @@ export default defineComponent({
       $root.modal('close');
     },
     resetModal() {
+      this.modalStore.hideModal();
       this.site = null;
       this.isLoading = true;
       this.isValidated = false;
       this.copyErrors = [];
       this.hasSiteBeenInitialised = false;
       this.hasBeenSubmitted = false;
-      this.$emit('resetFormData');
     },
     showCopyModal() {
       const root = this.$refs.root as HTMLElement;
@@ -198,15 +185,17 @@ export default defineComponent({
         dismissible: true,
         onCloseEnd: () => {
           this.resetModal();
-          this.$emit('update:modelValue', false);
         },
       }).modal('open');
     },
     submitCopy() {
       this.hasBeenSubmitted = true;
-      // It should have already run in order for the copy button to be enabled, but let's confirm
+      this.modalStore.disableWatchSuppression();
+
+      // Make sure all the validation passes before making the server request
       this.validateFormFields();
       if (!this.getIsValid) {
+        this.hasBeenSubmitted = false;
         return;
       }
 
@@ -218,14 +207,7 @@ export default defineComponent({
       ajax.removeDefaultParameter('segment');
       // Include token in POST body so that it can be used for the security check instead of a nonce
       ajax.withTokenInUrl();
-      ajax.addParams({
-        module: 'CoreHome',
-        action: 'copyEntity',
-        idSite: Matomo.idSite || MatomoUrl.parsed.value.idSite,
-        idDestinationSites: [this.site?.id],
-        entityTypeName: this.copyEntityType,
-        ...this.formData,
-      }, 'POST');
+      ajax.addParams(this.modalStore.getFormValues(this.site?.id), 'POST');
       ajax.setFormat('json');
       ajax.send().then((response: CopyRequestResponse) => {
         // If the response was invalid or unsuccessful, emit the failure and show an error message
@@ -249,21 +231,12 @@ export default defineComponent({
       this.isValidated = true;
       this.copyErrors = [];
       // Don't bother if the modal isn't visible
-      if (!this.modelValue) {
-        return;
-      }
-
-      // Ignore the site getting initialised by the component
-      if (!this.hasSiteBeenInitialised) {
-        this.hasSiteBeenInitialised = true;
+      if (!this.modalStore.state.isModalVisible) {
         return;
       }
 
       const validationData: QueryParameters = {
-        formValues: {
-          ...this.formData,
-          idDestinationSite: this.site?.id,
-        },
+        formValues: this.modalStore.getFormValues(this.site?.id),
         errorMessages: [] as string[],
       };
       Matomo.postEvent('MatomoCopyModal:validateFormFields', validationData);
@@ -275,12 +248,9 @@ export default defineComponent({
         this.copyErrors = validationData.errorMessages;
       }
     },
-    validateAfterFieldChange() {
-      this.validateFormFields();
-      this.hasBeenSubmitted = false;
-    },
     onSiteChange() {
-      this.validateAfterFieldChange();
+      // Reset flag since the data has changed since validation
+      this.isValidated = false;
     },
     emitFailureAndSetErrorMessage(response: null|CopyRequestResponse = null) {
       let tempResponseObject = response;
@@ -303,49 +273,37 @@ export default defineComponent({
     },
   },
   mounted() {
-    // Add a delay to validation to try and let the input finish
-    const delayedValidation = debounce(this.validateAfterFieldChange);
-
-    // Watch the formData object for any property changes
+    // Watch the formData object for any property changes to know whether current data was validated
     watch(
-      () => this.formData,
+      () => this.modalStore.state.entityFormData,
       () => {
-        delayedValidation();
+        if (this.modalStore.state.isWatchSuppressed) {
+          return;
+        }
+        this.isValidated = false;
       },
       { deep: true },
     );
   },
   computed: {
-    getRootDivClasses(): string {
-      const defaults = 'modal matomo-copy-modal';
-      const stateBased = this.$slots.default ? ' slot-configured' : '';
-
-      return `${defaults}${stateBased}`;
+    isModalVisible(): boolean {
+      return this.modalStore.state.isModalVisible ?? false;
     },
     getModalTitle(): string {
-      return translate('CoreHome_CopyX', this.getEntityTypeTranslation);
-    },
-    getEntityTypeTranslation(): string {
-      let translationKey = 'CoreHome_ReportLowercase';
-      if (this.copyEntityTypeTranslation) {
-        translationKey = this.copyEntityTypeTranslation;
-      }
-
-      // Only translate if it's a translation key and not an already translated string
-      return translateOrDefault(translationKey);
+      return translate('CoreHome_CopyX', this.modalStore.getEntityTypeTranslation);
     },
     getNoteText(): string {
       const noteText = translate(
         'CoreHome_CopyModalNote',
         '<strong>',
         '</strong>',
-        this.getEntityTypeTranslation,
+        this.modalStore.getEntityTypeTranslation,
       );
 
       return `${noteText}`;
     },
     getCopyDescription(): string {
-      return translate('CoreHome_CopyXDescription', this.getEntityTypeTranslation);
+      return translate('CoreHome_CopyXDescription', this.modalStore.getEntityTypeTranslation);
     },
     getLearnMoreLink() {
       if (!this.descriptionLearnMoreLink) {
