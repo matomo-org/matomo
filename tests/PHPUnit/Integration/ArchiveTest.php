@@ -194,9 +194,9 @@ class ArchiveTest extends IntegrationTestCase
         $archives = Db::fetchAll("SELECT date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '1'],
-            ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
-            ['date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '1'],
+            ['date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
         ];
         $this->assertEquals($expected, $archives);
 
@@ -217,9 +217,9 @@ class ArchiveTest extends IntegrationTestCase
         $archives = Db::fetchAll("SELECT date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '4'],
-            ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
-            ['date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '4'],
+            ['date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
         ];
         $this->assertEquals($expected, $archives);
 
@@ -231,9 +231,10 @@ class ArchiveTest extends IntegrationTestCase
         $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
-            ['idarchive' => '5', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '4'],
-            ['idarchive' => '8', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '1'],
+            ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['idarchive' => '5', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['idarchive' => '8', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
         ];
         $this->assertEquals($expected, $archives);
 
@@ -246,9 +247,10 @@ class ArchiveTest extends IntegrationTestCase
         $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
-            ['idarchive' => '8', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '1'],
-            ['idarchive' => '9', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '1'],
+            ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['idarchive' => '8', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ['idarchive' => '9', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
         ];
         $this->assertEquals($expected, $archives);
 
@@ -259,9 +261,11 @@ class ArchiveTest extends IntegrationTestCase
         $archives = Db::fetchAll("SELECT idarchive, date1, date2, name, value FROM " . Common::prefixTable('archive_numeric_2020_03')
             . " WHERE `name` IN ('done', 'done.VisitsSummary')");
         $expected = [
-            ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => '1'],
-            ['idarchive' => '9', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => '1'],
-            ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => '1'],
+            ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['idarchive' => '8', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ['idarchive' => '9', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
         ];
         $this->assertEquals($expected, $archives);
     }
