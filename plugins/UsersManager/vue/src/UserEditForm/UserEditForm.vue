@@ -146,7 +146,7 @@
               :inline-help="translate('UsersManager_FirstSiteInlineHelp')"
             />
           </div>
-          <div v-for="(refComponent, index) in componentExtensions" :key="index">
+          <div id="plugin-extra" v-for="(refComponent, index) in componentExtensions" :key="index">
             <component
               :is="refComponent"
               :ref="el => componentExtensionRef[index] = el"
