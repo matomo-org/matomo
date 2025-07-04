@@ -147,6 +147,56 @@ class ArchivePurger
         return $deletedRowCount;
     }
 
+    /**
+     * Removes the broken archives for the given month
+     * (meaning they are not marked with a Done flag correctly)
+     *
+     * @param Date $dateStart The date to purge from
+     * @param Date|null $dateEnd The date to purge up to, if not provided then will purge to end of the same month as $dateStart.
+     *                  if $dateEnd is in the past relative to $dateStart, it is ignored
+     * @return int Returns the total number of rows deleted.
+     */
+    public function purgeBrokenArchives(Date $dateStart, Date $dateEnd = null): int
+    {
+        if (!isset($dateEnd) || $dateStart->isLater($dateEnd)) {
+            $dateEnd = $dateStart->getEndOfMonth();
+        }
+
+        $monthStart = $dateStart->getStartOfMonth();
+        $monthEnd = $dateStart->getEndOfMonth();
+
+        $numRowsDeleted = 0;
+
+        // loop through months and delete from relevant tables
+        do {
+            $start = $dateStart->isLater($monthStart) ? $dateStart : $monthStart;
+            $end = $dateEnd->isLater($monthEnd) ? $monthEnd : $dateEnd;
+            $idArchivesToDelete = $this->getBrokenArchiveIds($start, $end);
+            $deletedRowCount = 0;
+            if (!empty($idArchivesToDelete)) {
+                $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
+
+                $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for {date}.", array(
+                    'count' => $deletedRowCount,
+                    'date' => $dateStart
+                ));
+            } else {
+                $this->logger->debug("No broken archives found in archive numeric table for {date}.", array('date' => $dateStart));
+            }
+            $monthStart = $monthStart->addMonth(1);
+            $monthEnd = $monthEnd->addMonth(1);
+
+            $numRowsDeleted += $deletedRowCount;
+            $this->logger->debug("Purging broken archives: done [ purged archives in {yearMonth} ] [Deleted IDs count: {deletedIds}]", array(
+                'yearMonth' => $start->toString('Y-m'),
+                'deletedIds' => $deletedRowCount
+            ));
+
+        } while ($dateEnd->isLater($monthEnd));
+
+        return $numRowsDeleted;
+    }
+
     public function purgeDeletedSiteArchives(Date $dateStart)
     {
         $archiveTable = ArchiveTableCreator::getNumericTable($dateStart);
@@ -220,6 +270,34 @@ class ArchivePurger
         $archiveTable = ArchiveTableCreator::getNumericTable($date);
 
         $result = $this->model->getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan);
+
+        $idArchivesToDelete = array();
+        if (!empty($result)) {
+            foreach ($result as $row) {
+                $idArchivesToDelete[] = $row['idarchive'];
+            }
+        }
+
+        return $idArchivesToDelete;
+    }
+
+    /**
+     * returns the ids of archives which are in a broken state (missing the done flag)
+     * Only searches the archive linked to the date specified in $dateStart
+     *
+     * @param Date $dateStart The date to start getting broken archives from, used to determine the archive table to search
+     * @param Date|null $dateEnd The date to stop searching, if null then search will continue to the end of the month specified
+     *                  in $dateStart. Ignored if the date is not in the same month as $dateStart.
+     * @return array
+     */
+    private function getBrokenArchiveIds(Date $dateStart, Date $dateEnd = null): array
+    {
+        if (!isset($dateEnd) || $dateStart->compareMonth($dateEnd) !== 0 || $dateStart->isLater($dateEnd)) {
+            $dateEnd = $dateStart->getEndOfMonth();
+        }
+        $archiveTable = ArchiveTableCreator::getNumericTable($dateStart);
+
+        $result = $this->model->getArchivesMissingDoneFlag($archiveTable, $dateStart, $dateEnd);
 
         $idArchivesToDelete = array();
         if (!empty($result)) {

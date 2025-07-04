@@ -410,6 +410,23 @@ class Model
         return Db::fetchAll($query, array($purgeArchivesOlderThan));
     }
 
+    public function getArchivesMissingDoneFlag(string $archiveTable, Date $dateStart, Date $dateEnd): array
+    {
+        // todo add dates to query
+        $query = "SELECT DISTINCT idarchive, date1
+                    FROM $archiveTable
+                    WHERE period = 1
+                        AND date1 >= ?
+                        AND date1 <= ?
+                        AND idarchive NOT IN (
+                            SELECT DISTINCT idarchive
+                            FROM $archiveTable
+                            WHERE period = 1 AND name LIKE 'done%'
+                        )";
+
+        return Db::fetchAll($query,[$dateStart->toString('Y-m-d'), $dateEnd->toString('Y-m-d')]);
+    }
+
     public function deleteArchivesWithPeriod($numericTable, $blobTable, $period, $date)
     {
         if (SettingsServer::isArchivePhpTriggered()) {

@@ -74,6 +74,7 @@ class Tasks extends \Piwik\Plugin\Tasks
 
         // general data purge on invalidated archive records, executed daily
         $this->daily('purgeInvalidatedArchives', null, self::LOW_PRIORITY);
+        $this->daily('purgeBrokenArchivesCurrentMonth', null, self::LOW_PRIORITY);
         $this->daily('purgeInvalidationsForDeletedSites', null, self::LOW_PRIORITY);
 
         $this->weekly('purgeOrphanedArchives', null, self::NORMAL_PRIORITY);
@@ -310,6 +311,40 @@ class Tasks extends \Piwik\Plugin\Tasks
         if (empty($purgedDates[$yearStart])) {
             $this->archivePurger->purgeInvalidatedArchivesFrom(Date::factory($yearStart . '-01'));
         }
+    }
+
+    /**
+     * @return bool `true` if the purge was executed, `false` if it was skipped.
+     * @throws \Exception
+     */
+    public function purgeBrokenArchivesCurrentMonth(): bool
+    {
+        if ($this->willPurgingCausePotentialProblemInUI() && !Rules::$disablePureOutdatedArchive) {
+            $this->logger->info("Purging broken archives: skipped (browser triggered archiving not enabled & not running after core:archive)");
+            return false;
+        }
+
+        $archiveTable = ArchiveTableCreator::getLatestArchiveTableInstalled();
+
+        if (!empty($archiveTable)) {
+            $this->logger->info("Purging broken archives in {table} archive table.", array('table' => $archiveTable));
+
+            $date = ArchiveTableCreator::getDateFromTableName($archiveTable);
+            [$year, $month] = explode('_', $date);
+
+            try {
+                $dateMonthStart = Date::factory("$year-$month-01");
+            } catch (\Exception $e) {
+                $this->logger->debug("Date extracted from {table} not valid.", array('table' => $archiveTable));
+                return false;
+            }
+
+            $this->archivePurger->purgeBrokenArchives($dateMonthStart);
+        } else {
+            $this->logger->info("No archive tables found");
+        }
+
+        return true;
     }
 
     public function optimizeArchiveTable()

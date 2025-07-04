@@ -12,6 +12,7 @@ namespace Piwik;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
+use Piwik\Plugins\TagManager\Model\Tag;
 
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
@@ -307,6 +308,37 @@ class Date
     {
         $dateEndUTC = gmdate('Y-m-d 23:59:59', $this->timestamp);
         return Date::factory($dateEndUTC)->setTimezone($this->timezone);
+    }
+
+    /**
+     * Returns the Date instance representing 
+     * the end of the month of the current timestamp. 
+     *
+     * For example: 
+     * 2025-02-13 -> 2025-02-28
+     * 2025-01-22 -> 2025-01-31
+     * 2025-06-02 -> 2025-06-30
+     * 
+     * @return Date
+     */
+    public function getEndOfMonth()
+    {
+        $maxDaysInMonth = self::getMaxDaysInMonth($this->timestamp);
+        return $this->setDay($maxDaysInMonth);
+    }
+
+    /**
+     * Returns the Date instance representing 
+     * the start of the month of the current timestamp. 
+     *
+     * For example: 
+     * 2025-02-13 -> 2025-02-01
+     * 
+     * @return Date
+     */
+    public function getStartOfMonth()
+    {
+        return $this->setDay(1);
     }
 
     /**
