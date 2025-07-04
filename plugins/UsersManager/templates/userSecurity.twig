@@ -16,6 +16,7 @@
     invalid-host="{{ invalidHost|default(null)|json_encode }}"
     after-password-event-content="{{ afterPasswordEventContent|default(null)|json_encode }}"
     invalid-host-mail-link-start="{{ invalidHostMailLinkStart|default(null)|json_encode }}"
+    password-strength-validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
 ></div>
 
 {% endblock %}

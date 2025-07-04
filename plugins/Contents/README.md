@@ -1,4 +1,4 @@
-# Piwik Contents Plugin
+# Matomo Contents Plugin
 
 ## Description
 

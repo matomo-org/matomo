@@ -63,6 +63,37 @@ class PasswordStrengthTest extends \PHPUnit\Framework\TestCase
     public function passwordProvider()
     {
         yield ['Testpassword1!', []];
+        yield ['Testpassword1"', []];
+        yield ['Testpassword1#', []];
+        yield ['Testpassword1$', []];
+        yield ['Testpassword1%', []];
+        yield ['Testpassword1&', []];
+        yield ["Testpassword1'", []];
+        yield ['Testpassword1(', []];
+        yield ['Testpassword1)', []];
+        yield ['Testpassword1*', []];
+        yield ['Testpassword1+', []];
+        yield ['Testpassword1,', []];
+        yield ['Testpassword1-', []];
+        yield ['Testpassword1.', []];
+        yield ['Testpassword1/', []];
+        yield ['Testpassword1:', []];
+        yield ['Testpassword1;', []];
+        yield ['Testpassword1<', []];
+        yield ['Testpassword1=', []];
+        yield ['Testpassword1>', []];
+        yield ['Testpassword1?', []];
+        yield ['Testpassword1@', []];
+        yield ['Testpassword1[', []];
+        yield ['Testpassword1\\', []];
+        yield ['Testpassword1]', []];
+        yield ['Testpassword1^', []];
+        yield ['Testpassword1_', []];
+        yield ['Testpassword1`', []];
+        yield ['Testpassword1{', []];
+        yield ['Testpassword1|', []];
+        yield ['Testpassword1}', []];
+        yield ['Testpassword1~', []];
         yield ['Testword1!', ['General_PasswordStrengthValidationLength']];
         yield ['TESTPASSWORD1!', ['General_PasswordStrengthValidationLowercase']];
         yield ['testpassword1!', ['General_PasswordStrengthValidationUppercase']];

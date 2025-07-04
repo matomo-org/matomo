@@ -17,7 +17,7 @@ var exports = require('piwik/UI'),
 
 /**
  * This class contains the client side logic for viewing and interacting with
- * Piwik datatables.
+ * Matomo datatables.
  *
  * The id attribute for DataTables is set dynamically by the initNewDataTables
  * method, and this class instance is stored using the jQuery $.data function
