@@ -486,6 +486,29 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         ],
     ];
 
+    public static $dummyArchiveDataNoDoneFlag = [
+        [
+            'idarchive' => 42,
+            'idsite' => 1,
+            'name' => '',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-02-11',
+            'date2' => '2015-02-11',
+            'period' => 1,
+            'ts_archived' => '2015-02-20 06:00:00',
+        ],
+        [
+            'idarchive' => 43,
+            'idsite' => 1,
+            'name' => '',
+            'value' => ArchiveWriter::DONE_ERROR,
+            'date1' => '2015-02-12',
+            'date2' => '2015-02-12',
+            'period' => 1,
+            'ts_archived' => '2015-02-20 06:00:00',
+        ],
+    ];
+
     /**
      * @var Date
      */
@@ -505,6 +528,9 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
         $this->insertOutdatedArchives($this->january);
         $this->insertOutdatedArchives($this->february);
+
+        $this->insertArchivesWithoutDoneFlag($this->january);
+        $this->insertArchivesWithoutDoneFlag($this->february);
     }
 
     public function insertSegmentArchives(Date $archiveDate)
@@ -523,6 +549,12 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
         $dummyErrorInProgress = $this->setDatesOnArchiveData($archiveDate, self::$dummyArchiveDataErrorInProgress);
         $this->insertArchiveRows($archiveDate, $dummyErrorInProgress);
+    }
+
+    private function insertArchivesWithoutDoneFlag(Date $archiveDate)
+    {
+        $dummyArchiveData = $this->setDatesOnArchiveData($archiveDate, self::$dummyArchiveDataNoDoneFlag);
+        $this->insertArchiveRows($archiveDate, $dummyArchiveData);
     }
 
     private function insertArchiveRows(Date $archiveDate, array $dummyArchiveData)
@@ -692,5 +724,11 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
         $expectedExistingArchives = [23];
         $this->assertArchivesExist($expectedExistingArchives, $date);
+    }
+
+    public function assertBrokenArchivesWithoutDoneFlagPurged(Date $date)
+    {
+        $expectedPurgedArchives = [42, 43];
+        $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
     }
 }
