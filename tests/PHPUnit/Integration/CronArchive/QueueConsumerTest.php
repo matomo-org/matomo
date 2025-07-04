@@ -984,7 +984,7 @@ class QueueConsumerTest extends IntegrationTestCase
         $this->assertEquals([true, '2020-04-04 23:58:20'], $result);
     }
 
-    public function testUsableArchiveExistsReturnsTrueIfDateRangeHasVisitsAndPeriodIncludesTodayAndExistingPluginArchiveIsRecent()
+    public function testUsableArchiveExistsReturnsTrueIfPeriodIncludesTodayAndExistingPluginArchiveIsRecent()
     {
         $this->setUpSiteAndTrackVisit();
 
@@ -1016,6 +1016,127 @@ class QueueConsumerTest extends IntegrationTestCase
         $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
             1, 1,2, '2020-03-30', '2020-04-05', 'done' . $segmentHash . '.ExamplePlugin', ArchiveWriter::DONE_PARTIAL, $tsArchived
+        ]);
+
+        $result = $queueConsumer->usableArchiveExists($invalidation);
+        $this->assertEquals([true, '2020-04-04 23:58:20'], $result);
+    }
+
+    public function testUsableArchiveExistsReturnsTrueIfPeriodIncludesTodayAndExistingPluginArchiveIsRecentAndContainsRequestedReport()
+    {
+        $this->setUpSiteAndTrackVisit();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            new CronArchive(),
+            $this->makeTestArchiveFilter()
+        );
+
+        $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
+
+        $invalidation = [
+            'idsite'  => 1,
+            'period'  => Week::PERIOD_ID,
+            'date1'   => '2020-03-30',
+            'date2'   => '2020-04-05',
+            'name'    => 'done' . $segmentHash . '.ExamplePlugin',
+            'segment' => 'browserCode==IE',
+            'plugin'  => 'ExamplePlugin',
+            'report'  => 'ExamplePlugin_metric',
+        ];
+
+        $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1, 2, '2020-03-30', '2020-04-05', 'done' . $segmentHash . '.ExamplePlugin', ArchiveWriter::DONE_PARTIAL, $tsArchived,
+        ]);
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1, 2, '2020-03-30', '2020-04-05', 'ExamplePlugin_metric', 10, $tsArchived,
+        ]);
+
+        $result = $queueConsumer->usableArchiveExists($invalidation);
+        $this->assertEquals([true, '2020-04-04 23:58:20'], $result);
+    }
+
+    public function testUsableArchiveExistsReturnsFalseIfPeriodIncludesTodayAndExistingPluginArchiveIsRecentButDoesNotContainRequestedReport()
+    {
+        $this->setUpSiteAndTrackVisit();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            new CronArchive(),
+            $this->makeTestArchiveFilter()
+        );
+
+        $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
+
+        $invalidation = [
+            'idsite'  => 1,
+            'period'  => Week::PERIOD_ID,
+            'date1'   => '2020-03-30',
+            'date2'   => '2020-04-05',
+            'name'    => 'done' . $segmentHash . '.ExamplePlugin',
+            'segment' => 'browserCode==IE',
+            'plugin'  => 'ExamplePlugin',
+            'report'  => 'ExamplePlugin_metric',
+        ];
+
+        $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1, 2, '2020-03-30', '2020-04-05', 'done' . $segmentHash . '.ExamplePlugin', ArchiveWriter::DONE_PARTIAL, $tsArchived,
+        ]);
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1, 2, '2020-03-30', '2020-04-05', 'ExamplePlugin_metric2', 10, $tsArchived,
+        ]);
+
+        $result = $queueConsumer->usableArchiveExists($invalidation);
+        $this->assertEquals([false, '2020-04-04 23:58:20'], $result);
+    }
+
+    public function testUsableArchiveExistsReturnsTrueIfPeriodIncludesTodayAndExistingFullArchiveIsRecentEvenIfItDoesNotContainRequestedReport()
+    {
+        $this->setUpSiteAndTrackVisit();
+
+        $queueConsumer = new QueueConsumer(
+            StaticContainer::get(LoggerInterface::class),
+            new FixedSiteIds([1]),
+            3,
+            24,
+            new Model(),
+            new SegmentArchiving(),
+            new CronArchive(),
+            $this->makeTestArchiveFilter()
+        );
+
+        $invalidation = [
+            'idsite'  => 1,
+            'period'  => Week::PERIOD_ID,
+            'date1'   => '2020-03-30',
+            'date2'   => '2020-04-05',
+            'name'    => 'done.ExamplePlugin',
+            'segment' => '',
+            'plugin'  => 'ExamplePlugin',
+            'report'  => 'ExamplePlugin_metric',
+        ];
+
+        $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
+
+        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
+        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            1, 1, 2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived,
         ]);
 
         $result = $queueConsumer->usableArchiveExists($invalidation);

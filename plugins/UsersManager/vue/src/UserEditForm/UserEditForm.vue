@@ -116,6 +116,9 @@
               autocomplete="new-password"
               :title="translate('General_Password')"
               v-auto-clear-password
+              :ui-control-attributes="{
+                passwordStrengthValidationRules: passwordStrengthValidationRules,
+              }"
             />
           </div>
           <div class="email-input">
@@ -302,7 +305,6 @@ import {
   defineComponent,
   markRaw,
   PropType,
-  readonly,
 } from 'vue';
 import {
   ContentBlock,
@@ -391,6 +393,10 @@ export default defineComponent({
       type: Array as PropType<ComponentExtension[]>,
       default: () => [],
     },
+    passwordStrengthValidationRules: {
+      type: Array,
+      default: () => [],
+    },
   },
   components: {
     Notification,
@@ -433,7 +439,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.onUserChange(this.user as User);
+    this.onUserChange({ ...this.user } as User);
   },
   methods: {
     onUserChange(newVal: User) {
@@ -521,7 +527,7 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserCreatedNotification();
-        this.$emit('updated', { user: readonly(this.theUser) });
+        this.$emit('updated', { user: this.theUser });
       } catch (e) {
         this.isSavingUserInfo = false;
         throw e;
@@ -586,7 +592,7 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
-        this.$emit('updated', { user: readonly(this.theUser) });
+        this.$emit('updated', { user: this.theUser });
       }).catch(() => {
         this.isSavingUserInfo = false;
       });

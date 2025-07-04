@@ -78,6 +78,7 @@
         :initial-site-name="initialSiteName"
         :activated-plugins="activatedPlugins"
         :extensions="userEditExtensions"
+        :password-strength-validation-rules="passwordStrengthValidationRules"
         @resend-invite="showResendPopup($event.user)"
         @updated="userBeingEdited = $event.user"
       />
@@ -224,6 +225,10 @@ export default defineComponent({
     userEditExtensions: {
       type: Array,
       required: true,
+    },
+    passwordStrengthValidationRules: {
+      type: Array,
+      default: () => [],
     },
   },
   components: {
