@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Test\Columns;
 
 use Piwik\Columns\Updater as ColumnsUpdater;
 use Piwik\Common;
-use Piwik\Config\DatabaseConfig;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugin\Dimension\ActionDimension;
@@ -201,20 +200,11 @@ class UpdaterTest extends IntegrationTestCase
 
     private function assertDimensionsAddedToTables()
     {
-        $intColumnType = 'int(10) unsigned';
-        $dbSchema = strtolower(DatabaseConfig::getConfigValue('schema'));
-        $dbServerVersion = Db::get()->getServerVersion();
-
-        // display length "(10)" is not returned for MySQL 8.0.17+
-        if ($dbSchema === 'mysql' && version_compare('8.0', $dbServerVersion, '<=')) {
-            $intColumnType = 'int unsigned';
-        }
-
-        $this->assertTableHasColumn('log_visit', 'test_visit_col_1', $intColumnType, $allowNull = false);
+        $this->assertTableHasColumn('log_visit', 'test_visit_col_1', 'int(10) unsigned', $allowNull = false);
         $this->assertTableHasColumn('log_visit', 'test_visit_col_2', 'varchar(32)', $allowNull = false);
 
         $this->assertTableHasColumn('log_link_visit_action', 'test_action_col_1', 'varchar(32)', $allowNull = false);
-        $this->assertTableHasColumn('log_link_visit_action', 'test_action_col_2', $intColumnType, $allowNull = true);
+        $this->assertTableHasColumn('log_link_visit_action', 'test_action_col_2', 'int(10) unsigned', $allowNull = true);
 
         $this->assertTableHasColumn('log_conversion', 'test_conv_col_1', 'float', $allowNull = true);
         $this->assertTableHasColumn('log_conversion', 'test_conv_col_2', 'varchar(32)', $allowNull = false);

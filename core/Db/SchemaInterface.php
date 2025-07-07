@@ -179,14 +179,6 @@ interface SchemaInterface
     public function optimizeTables(array $tables, bool $force = false): bool;
 
     /**
-     * Returns if the database engine can provide a rollup ranking query result
-     * without needing additional sorting.
-     *
-     * @return bool
-     */
-    public function supportsRankingRollupWithoutExtraSorting(): bool;
-
-    /**
      * Returns if the database engine is able to use sorted subqueries
      *
      * @return bool
