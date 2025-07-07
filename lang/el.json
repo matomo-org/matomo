@@ -371,6 +371,7 @@
         "ParameterMustIntegerBetween": "Η παράμετρος %1$s πρέπει να είναι ακέραιος αριθμός μεταξύ %2$s και %3$s.",
         "Password": "Κωδικός",
         "PasswordConfirmation": "Επιβεβαίωση Συνθηματικού",
+        "PasswordStrengthValidationFailed": "Απέτυχε ο έλεγχος επαλήθευσης ισχύος συνθηματικού. Το συνθηματικό θα πρέπει να ικανοποιεί τους εξής κανόνες: %1$s.",
         "PasswordStrengthValidationLength": "Τουλάχιστον 12 χαρακτήρες",
         "PasswordStrengthValidationLowercase": "Να περιέχει ένα πεζό γράμμα",
         "PasswordStrengthValidationNumber": "Να περιέχει ένα αριθμό",
