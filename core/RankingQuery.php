@@ -371,7 +371,7 @@ class RankingQuery
                 ";
         }
 
-        if (false === strpos(' LIMIT ', $innerQuery) && !Schema::getInstance()->supportsSortingInSubquery()) {
+        if (false === strpos($innerQuery, ' LIMIT ') && !Schema::getInstance()->supportsSortingInSubquery()) {
             // Setting a limit for the inner query forces the optimizer to use a temporary table, which uses the sorting
             $innerQuery .= ' LIMIT 18446744073709551615';
         }
@@ -388,6 +388,24 @@ class RankingQuery
 				$initCounter
 				( $innerQuery ) actualQuery
 		";
+
+        if ($withRollup && !empty($withRollupColumns) && !Schema::getInstance()->supportsRankingRollupWithoutExtraSorting()) {
+            // MariaDB requires an additional sorting layer to return
+            // the counter/counterRollup values we expect
+            $rollupColumnSorts = [];
+
+            foreach ($withRollupColumns as $withRollupColumn) {
+                $rollupColumnSorts[] = "`$withRollupColumn` IS NULL";
+            }
+
+            $withCounter .= ' ORDER BY ' . implode(', ', $rollupColumnSorts);
+            $innerQueryOrderBy = DbHelper::extractOrderByFromQuery($innerQuery);
+
+            if (null !== $innerQueryOrderBy) {
+                // copy ORDER BY from inner query to rollup sorting
+                $withCounter .= ', ' . $innerQueryOrderBy;
+            }
+        }
 
         // group by the counter - this groups "Others" because the counter stops at $limit
         $groupBy = 'counter';

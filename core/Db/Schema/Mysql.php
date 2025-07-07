@@ -771,6 +771,11 @@ class Mysql implements SchemaInterface
         return version_compare($semanticVersion, '10.1.1', '>=');
     }
 
+    public function supportsRankingRollupWithoutExtraSorting(): bool
+    {
+        return true;
+    }
+
     public function supportsSortingInSubquery(): bool
     {
         return true;
