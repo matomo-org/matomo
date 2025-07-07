@@ -118,22 +118,25 @@ class ExceptionHandler
             'dbuser'      => $dbConfig['username'],
             'dbpass'      => $dbConfig['password'],
         ];
-        // Remove empty entries
-        $valuesToReplace = array_flip(array_filter($valuesToReplace));
 
         $mailConfig = Config::getInstance()->mail;
 
         if (!empty($mailConfig['username'])) {
-            $valuesToReplace[$mailConfig['username']] = 'smtpuser';
+            $valuesToReplace['smtpuser'] = $mailConfig['username'];
         }
 
         if (!empty($mailConfig['password'])) {
-            $valuesToReplace[$mailConfig['password']] = 'smtppass';
+            $valuesToReplace['smtppass'] = $mailConfig['password'];
         }
 
-        $valuesToReplace[PIWIK_DOCUMENT_ROOT] = '';
+        // Remove possible empty entries
+        $valuesToReplace = array_filter($valuesToReplace);
 
-        return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $message);
+        // replace all sensitive values
+        $message = str_replace(array_values($valuesToReplace), array_keys($valuesToReplace), $message);
+
+        // remove the document root from all messages
+        return str_replace(PIWIK_DOCUMENT_ROOT, '', $message);
     }
 
     /**

@@ -32,7 +32,7 @@ class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
      * @param $configDbUser
      * @param $configDbPass
      * @return void
-     * @throws Exception
+     * @throws \Exception
      */
     public function testReplaceSensitiveValues($configToken, $configSalt, $configDbUser, $configDbPass)
     {
