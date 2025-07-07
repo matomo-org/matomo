@@ -412,16 +412,14 @@ class Model
 
     public function getArchivesMissingDoneFlag(string $archiveTable, Date $dateStart, Date $dateEnd): array
     {
-        // todo add dates to query
-        $query = "SELECT DISTINCT idarchive, date1
+        $query = "SELECT DISTINCT idarchive
                     FROM $archiveTable
-                    WHERE period = 1
-                        AND date1 >= ?
+                    WHERE date1 >= ?
                         AND date1 <= ?
                         AND idarchive NOT IN (
                             SELECT DISTINCT idarchive
                             FROM $archiveTable
-                            WHERE period = 1 AND name LIKE 'done%'
+                            WHERE name LIKE 'done%'
                         )";
 
         return Db::fetchAll($query,[$dateStart->toString('Y-m-d'), $dateEnd->toString('Y-m-d')]);
