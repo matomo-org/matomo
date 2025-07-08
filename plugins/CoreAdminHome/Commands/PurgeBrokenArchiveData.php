@@ -10,11 +10,8 @@
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
 use Piwik\Archive\ArchivePurger;
-use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
-use Piwik\Db;
 use Piwik\Plugin\ConsoleCommand;
-use Piwik\Timer;
 use Piwik\Log\NullLogger;
 
 /**
@@ -49,12 +46,12 @@ class PurgeBrokenArchiveData extends ConsoleCommand
         $this->setName('core:purge-broken-archive-data');
         $this->setDescription('Purges broken archive data from archive tables.');
         $this->addOptionalArgument(
-            "dateStart", 
+            "dateStart",
             "The start date to purge data from. Defaults to start of current month",
             self::getToday()->getStartOfMonth()->toString('Y-m-d')
         );
         $this->addOptionalArgument(
-            "dateEnd", 
+            "dateEnd",
             "The start date to purge data from. Defaults to end of current month",
             self::getToday()->getEndOfMonth()->toString('Y-m-d')
         );
@@ -79,7 +76,7 @@ class PurgeBrokenArchiveData extends ConsoleCommand
 
         $dateStartStr = $this->getInput()->getArgument('dateStart');
         $dateEndStr = $this->getInput()->getArgument('dateEnd');
-        
+
         try {
             $dateStart = Date::factory($dateStartStr);
         } catch (\Exception $e) {
