@@ -12,7 +12,6 @@ namespace Piwik;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\DateTimeFormatProvider;
-use Piwik\Plugins\TagManager\Model\Tag;
 
 /**
  * Utility class that wraps date/time related PHP functions. Using this class can
@@ -311,14 +310,14 @@ class Date
     }
 
     /**
-     * Returns the Date instance representing 
-     * the end of the month of the current timestamp. 
+     * Returns the Date instance representing
+     * the end of the month of the current timestamp.
      *
-     * For example: 
+     * For example:
      * 2025-02-13 -> 2025-02-28
      * 2025-01-22 -> 2025-01-31
      * 2025-06-02 -> 2025-06-30
-     * 
+     *
      * @return Date
      */
     public function getEndOfMonth()
@@ -328,12 +327,12 @@ class Date
     }
 
     /**
-     * Returns the Date instance representing 
-     * the start of the month of the current timestamp. 
+     * Returns the Date instance representing
+     * the start of the month of the current timestamp.
      *
-     * For example: 
+     * For example:
      * 2025-02-13 -> 2025-02-01
-     * 
+     *
      * @return Date
      */
     public function getStartOfMonth()
@@ -852,7 +851,7 @@ class Date
                 return $this->toString('Y');
             case "yy":
                 return $this->toString('y');
-            // month
+                // month
             case "MMMM":
                 return $translator->translate('Intl_Month_Long_' . $monthOfYear);
             case "MMM":
@@ -869,7 +868,7 @@ class Date
                 return $this->toString('n');
             case "L":
                 return $this->toString('m');
-            // day
+                // day
             case "dd":
                 return $this->toString('d');
             case "d":
@@ -890,14 +889,14 @@ class Date
                 return 1 + (int)$this->toString('z'); // 1 - 366
             case "F":
                 return (int)(((int)$this->toString('j') + 6) / 7);
-            // week in month
+                // week in month
             case "w":
                 $weekDay = date('N', mktime(0, 0, 0, $this->toString('m'), 1, $this->toString('y')));
                 return floor(($weekDay + (int)$this->toString('m') - 2) / 7) + 1;
-            // week in year
+                // week in year
             case "W":
                 return $this->toString('N');
-            // hour
+                // hour
             case "HH":
                 return $this->toString('H');
             case "H":
@@ -914,23 +913,23 @@ class Date
                 return str_pad($this->toString('G') + 1, 2, '0');
             case "k": // 1 .. 24
                 return $this->toString('G') + 1;
-            // minute
+                // minute
             case "mm":
             case "m":
                 return $this->toString('i');
-            // second
+                // second
             case "ss":
             case "s":
                 return $this->toString('s');
-            // would normally also include AM, PM, Noon and Midnight
+                // would normally also include AM, PM, Noon and Midnight
             case "b":
-            // would normally be a textual presentation like "in the afternoon"
+                // would normally be a textual presentation like "in the afternoon"
             case "B":
-            // am / pm
+                // am / pm
             case "a":
                 return $this->toString('a') == 'am' ? $translator->translate('Intl_Time_AM') : $translator->translate('Intl_Time_PM');
 
-            // currently not implemented:
+                // currently not implemented:
             case "G":
             case "GG":
             case "GGG":

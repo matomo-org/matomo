@@ -191,7 +191,6 @@ class ArchivePurger
                 'yearMonth' => $start->toString('Y-m'),
                 'deletedIds' => $deletedRowCount
             ));
-
         } while ($dateEnd->isLater($monthEnd));
 
         return $numRowsDeleted;
