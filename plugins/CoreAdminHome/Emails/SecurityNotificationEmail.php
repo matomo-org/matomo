@@ -16,7 +16,7 @@ use Piwik\Piwik;
 abstract class SecurityNotificationEmail extends Mail
 {
     public static $notifyPluginList = [
-        'Login' => 'CoreAdminHome_BruteForce',
+        'Login' => 'CoreAdminHome_Login',
         'TwoFactorAuth' => 'CoreAdminHome_TwoFactorAuth',
         'CoreAdminHome' => 'CoreAdminHome_Cors'
     ];

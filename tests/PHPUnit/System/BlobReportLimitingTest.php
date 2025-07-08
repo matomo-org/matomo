@@ -292,4 +292,3 @@ class BlobReportLimitingTest extends SystemTestCase
 
 BlobReportLimitingTest::$fixture = new ManyVisitsWithMockLocationProvider();
 BlobReportLimitingTest::$fixture->trackVisitsForDaysInPast = 2;
-BlobReportLimitingTest::$fixture->trackVisitsForDeterministicCustomDimensions = true;

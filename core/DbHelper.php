@@ -430,29 +430,6 @@ class DbHelper
     }
 
     /**
-     * Extracts the "ORDER BY" clause from a query.
-     *
-     * Will return null if no clause found or the extraction failed,
-     * e.g. parentheses in the extracted clause are not balanced.
-     */
-    public static function extractOrderByFromQuery(string $sql): ?string
-    {
-        $pattern = '/.*ORDER\s+BY\s+(.*?)(?:\s+LIMIT|\s*;|\s*$)/is';
-
-        if (preg_match($pattern, $sql, $matches)) {
-            $orderBy = $matches[1];
-            $openParentheses = substr_count($orderBy, '(');
-            $closeParentheses = substr_count($orderBy, ')');
-
-            if ($openParentheses === $closeParentheses) {
-                return trim($orderBy);
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Returns true if the string is a valid database name for MySQL. MySQL allows + in the database names.
      * Database names that start with a-Z or 0-9 and contain a-Z, 0-9, underscore(_), dash(-), plus(+), and dot(.) will be accepted.
      * File names beginning with anything but a-Z or 0-9 will be rejected (including .htaccess for example).

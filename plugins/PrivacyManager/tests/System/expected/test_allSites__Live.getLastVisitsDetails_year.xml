@@ -32181,8 +32181,8 @@
 				
 				<pageId>766</pageId>
 				<bandwidth />
-				<timeSpent>360</timeSpent>
-				<timeSpentPretty>6 min 0s</timeSpentPretty>
+				<timeSpent>0</timeSpent>
+				<timeSpentPretty>0s</timeSpentPretty>
 				<pageviewPosition>1</pageviewPosition>
 				<title>Hello World</title>
 				<subtitle>http://www.helloworld.com/hello/world206</subtitle>
@@ -32222,8 +32222,8 @@
 				<pageId>768</pageId>
 				<pageLoadTime>0.74s</pageLoadTime>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
+				<timeSpent>360</timeSpent>
+				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageLoadTimeMilliseconds>741</pageLoadTimeMilliseconds>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Hello World 1</title>

@@ -111,6 +111,10 @@
                                    autocorrect="off" autocapitalize="none" spellcheck="false"
                                    tabindex="20" autocomplete="off"
                                    vue-directive="CoreHome.AutoClearPassword" />
+                            <div vue-entry="CoreHome.PasswordStrength"
+                                 external-input-selector="#reset_form_password"
+                                 validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
+                            ></div>
                             <label for="reset_form_password"><i class="icon-locked icon"></i> {{ 'Login_NewPassword'|translate }}</label>
                         </div>
                     </div>
@@ -120,6 +124,10 @@
                                    autocorrect="off" autocapitalize="none" spellcheck="false"
                                    size="20" tabindex="30" autocomplete="off"
                                    vue-directive="CoreHome.AutoClearPassword" />
+                            <div vue-entry="CoreHome.PasswordStrength"
+                                 external-input-selector="#reset_form_password_bis"
+                                 validation-rules="{{ passwordStrengthValidationRules|json_encode }}"
+                            ></div>
                             <label for="reset_form_password_bis"><i class="icon-locked icon"></i> {{ 'Login_NewPasswordRepeat'|translate }}</label>
                         </div>
                     </div>

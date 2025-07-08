@@ -52,19 +52,22 @@ jobs:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        environment:
+        php: [ '7.2', '8.2', '8.4' ]
+        engine: [ 'Mysql', 'Mariadb' ]
+        adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
+        exclude:
           - php: '7.2'
-            adapter: 'PDO_MYSQL'
-            mysql-engine: 'Mysql'
-            mysql-version: '5.7'
+            engine: 'Mariadb'
           - php: '8.2'
-            adapter: 'PDO_MYSQL'
-            mysql-engine: 'Mariadb'
-            mysql-version: '11.4'
+            engine: 'Mysql'
           - php: '8.4'
+            engine: 'Mariadb'
+          - php: '7.2'
             adapter: 'MYSQLI'
-            mysql-engine: 'Mysql'
-            mysql-version: '8.0'
+          - php: '8.2'
+            adapter: 'MYSQLI'
+          - php: '8.4'
+            adapter: 'PDO_MYSQL'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -77,13 +80,12 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: ${{ matrix.type }}
-          mysql-driver: ${{ matrix.environment.adapter }}
-          mysql-engine: ${{ matrix.environment.mysql-engine }}
-          mysql-version: ${{ matrix.environment.mysql-version }}
-          php-version: ${{ matrix.environment.php }}
+          mysql-driver: ${{ matrix.adapter }}
+          mysql-engine: ${{ matrix.engine }}
+          php-version: ${{ matrix.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          upload-artifacts: ${{ matrix.php == '7.2' }}
           testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
   Javascript:
     runs-on: ubuntu-24.04
