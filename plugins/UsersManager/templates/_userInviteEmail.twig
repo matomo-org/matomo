@@ -1,5 +1,5 @@
-{% set inviteLinks = postEvent('UsersManager.setInviteLinks', login) %}
-{% set notes = postEvent('UsersManager.setInviteNotes', login)|default(notes) %}
+{% set inviteLinks = postEvent('UsersManager.getInviteLinks', login) %}
+{% set notes = postEvent('UsersManager.getInviteNotes', login)|default(notes) %}
 {% set closingHeadTag %}<code>{{ '</head>'|e('html') }}</code>{% endset %}
 
 <p>{{ 'General_HelloUser'|translate(login) }}</p>
