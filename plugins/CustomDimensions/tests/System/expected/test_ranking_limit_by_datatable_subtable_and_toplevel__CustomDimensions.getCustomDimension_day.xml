@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>site3 group5</label>
+		<label>site3 group1</label>
 		<nb_visits>5</nb_visits>
 		<nb_uniq_visitors>5</nb_uniq_visitors>
-		<nb_hits>140</nb_hits>
+		<nb_hits>5</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network>0</min_time_network>
@@ -33,20 +33,20 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>1440</sum_time_spent>
 		<bounce_count>0</bounce_count>
-		<exit_nb_visits>5</exit_nb_visits>
+		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_dimension>0</avg_time_on_dimension>
+		<avg_time_on_dimension>288</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>100%</exit_rate>
-		<segment>dimension1==site3+group5</segment>
+		<exit_rate>20%</exit_rate>
+		<segment>dimension1==site3+group1</segment>
 		<subtable>
 			<row>
-				<label>example.com/page/5/1</label>
+				<label>example.com/page/1/1</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_hits>26</nb_hits>
+				<nb_hits>1</nb_hits>
 				<sum_time_network>0</sum_time_network>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network>0</min_time_network>
@@ -75,20 +75,20 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>360</sum_time_spent>
 				<bounce_count>0</bounce_count>
-				<exit_nb_visits>1</exit_nb_visits>
-				<avg_time_on_dimension>0</avg_time_on_dimension>
+				<exit_nb_visits>0</exit_nb_visits>
+				<avg_time_on_dimension>360</avg_time_on_dimension>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<segment>dimension1==site3+group5;actionUrl=$example.com%2Fpage%2F5%2F1</segment>
-				<url>example.com%2Fpage%2F5%2F1</url>
+				<exit_rate>0%</exit_rate>
+				<segment>dimension1==site3+group1;actionUrl=$example.com%2Fpage%2F1%2F1</segment>
+				<url>example.com%2Fpage%2F1%2F1</url>
 			</row>
 			<row>
-				<label>example.com/page/5/2</label>
+				<label>example.com/page/1/2</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_hits>27</nb_hits>
+				<nb_hits>1</nb_hits>
 				<sum_time_network>0</sum_time_network>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network>0</min_time_network>
@@ -117,20 +117,20 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>360</sum_time_spent>
 				<bounce_count>0</bounce_count>
-				<exit_nb_visits>1</exit_nb_visits>
-				<avg_time_on_dimension>0</avg_time_on_dimension>
+				<exit_nb_visits>0</exit_nb_visits>
+				<avg_time_on_dimension>360</avg_time_on_dimension>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<segment>dimension1==site3+group5;actionUrl=$example.com%2Fpage%2F5%2F2</segment>
-				<url>example.com%2Fpage%2F5%2F2</url>
+				<exit_rate>0%</exit_rate>
+				<segment>dimension1==site3+group1;actionUrl=$example.com%2Fpage%2F1%2F2</segment>
+				<url>example.com%2Fpage%2F1%2F2</url>
 			</row>
 			<row>
 				<label>Others</label>
 				<nb_visits>3</nb_visits>
 				<nb_uniq_visitors>3</nb_uniq_visitors>
-				<nb_hits>87</nb_hits>
+				<nb_hits>3</nb_hits>
 				<sum_time_network>0</sum_time_network>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network>0</min_time_network>
@@ -159,22 +159,22 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>720</sum_time_spent>
 				<bounce_count>0</bounce_count>
-				<exit_nb_visits>3</exit_nb_visits>
-				<avg_time_on_dimension>0</avg_time_on_dimension>
+				<exit_nb_visits>1</exit_nb_visits>
+				<avg_time_on_dimension>240</avg_time_on_dimension>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<segment>dimension1==site3+group5;actionUrl=$-1</segment>
+				<exit_rate>33%</exit_rate>
+				<segment>dimension1==site3+group1;actionUrl=$-1</segment>
 				<url>-1</url>
 			</row>
 		</subtable>
 	</row>
 	<row>
-		<label>site3 group4</label>
-		<nb_visits>4</nb_visits>
-		<nb_uniq_visitors>4</nb_uniq_visitors>
-		<nb_hits>90</nb_hits>
+		<label>site3 group2</label>
+		<nb_visits>5</nb_visits>
+		<nb_uniq_visitors>5</nb_uniq_visitors>
+		<nb_hits>5</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network>0</min_time_network>
@@ -203,20 +203,20 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>1440</sum_time_spent>
 		<bounce_count>0</bounce_count>
-		<exit_nb_visits>4</exit_nb_visits>
+		<exit_nb_visits>1</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_dimension>0</avg_time_on_dimension>
+		<avg_time_on_dimension>288</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>100%</exit_rate>
-		<segment>dimension1==site3+group4</segment>
+		<exit_rate>20%</exit_rate>
+		<segment>dimension1==site3+group2</segment>
 		<subtable>
 			<row>
-				<label>example.com/page/4/1</label>
+				<label>example.com/page/2/1</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_hits>21</nb_hits>
+				<nb_hits>1</nb_hits>
 				<sum_time_network>0</sum_time_network>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network>0</min_time_network>
@@ -245,20 +245,20 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>360</sum_time_spent>
 				<bounce_count>0</bounce_count>
-				<exit_nb_visits>1</exit_nb_visits>
-				<avg_time_on_dimension>0</avg_time_on_dimension>
+				<exit_nb_visits>0</exit_nb_visits>
+				<avg_time_on_dimension>360</avg_time_on_dimension>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<segment>dimension1==site3+group4;actionUrl=$example.com%2Fpage%2F4%2F1</segment>
-				<url>example.com%2Fpage%2F4%2F1</url>
+				<exit_rate>0%</exit_rate>
+				<segment>dimension1==site3+group2;actionUrl=$example.com%2Fpage%2F2%2F1</segment>
+				<url>example.com%2Fpage%2F2%2F1</url>
 			</row>
 			<row>
-				<label>example.com/page/4/2</label>
+				<label>example.com/page/2/2</label>
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_hits>22</nb_hits>
+				<nb_hits>1</nb_hits>
 				<sum_time_network>0</sum_time_network>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network>0</min_time_network>
@@ -287,20 +287,20 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>360</sum_time_spent>
 				<bounce_count>0</bounce_count>
-				<exit_nb_visits>1</exit_nb_visits>
-				<avg_time_on_dimension>0</avg_time_on_dimension>
+				<exit_nb_visits>0</exit_nb_visits>
+				<avg_time_on_dimension>360</avg_time_on_dimension>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<segment>dimension1==site3+group4;actionUrl=$example.com%2Fpage%2F4%2F2</segment>
-				<url>example.com%2Fpage%2F4%2F2</url>
+				<exit_rate>0%</exit_rate>
+				<segment>dimension1==site3+group2;actionUrl=$example.com%2Fpage%2F2%2F2</segment>
+				<url>example.com%2Fpage%2F2%2F2</url>
 			</row>
 			<row>
 				<label>Others</label>
-				<nb_visits>2</nb_visits>
-				<nb_uniq_visitors>2</nb_uniq_visitors>
-				<nb_hits>47</nb_hits>
+				<nb_visits>3</nb_visits>
+				<nb_uniq_visitors>3</nb_uniq_visitors>
+				<nb_hits>3</nb_hits>
 				<sum_time_network>0</sum_time_network>
 				<nb_hits_with_time_network>0</nb_hits_with_time_network>
 				<min_time_network>0</min_time_network>
@@ -329,22 +329,22 @@
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth>0</min_bandwidth>
 				<max_bandwidth>0</max_bandwidth>
-				<sum_time_spent>0</sum_time_spent>
+				<sum_time_spent>720</sum_time_spent>
 				<bounce_count>0</bounce_count>
-				<exit_nb_visits>2</exit_nb_visits>
-				<avg_time_on_dimension>0</avg_time_on_dimension>
+				<exit_nb_visits>1</exit_nb_visits>
+				<avg_time_on_dimension>240</avg_time_on_dimension>
 				<bounce_rate>0%</bounce_rate>
-				<exit_rate>100%</exit_rate>
-				<segment>dimension1==site3+group4;actionUrl=$-1</segment>
+				<exit_rate>33%</exit_rate>
+				<segment>dimension1==site3+group2;actionUrl=$-1</segment>
 				<url>-1</url>
 			</row>
 		</subtable>
 	</row>
 	<row>
 		<label>Others</label>
-		<nb_visits>6</nb_visits>
-		<nb_uniq_visitors>6</nb_uniq_visitors>
-		<nb_hits>80</nb_hits>
+		<nb_visits>15</nb_visits>
+		<nb_uniq_visitors>15</nb_uniq_visitors>
+		<nb_hits>15</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network>0</min_time_network>
@@ -373,13 +373,13 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>4320</sum_time_spent>
 		<bounce_count>0</bounce_count>
-		<exit_nb_visits>6</exit_nb_visits>
+		<exit_nb_visits>3</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_dimension>0</avg_time_on_dimension>
+		<avg_time_on_dimension>288</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
-		<exit_rate>100%</exit_rate>
+		<exit_rate>20%</exit_rate>
 		<segment>dimension1==-1</segment>
 	</row>
 </result>

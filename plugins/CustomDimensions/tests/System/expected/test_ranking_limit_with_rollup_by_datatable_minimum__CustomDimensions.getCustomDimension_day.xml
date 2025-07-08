@@ -2,9 +2,9 @@
 <result>
 	<row>
 		<label>Others</label>
-		<nb_visits>15</nb_visits>
+		<nb_visits>5</nb_visits>
 		<nb_uniq_visitors>5</nb_uniq_visitors>
-		<nb_hits>310</nb_hits>
+		<nb_hits>25</nb_hits>
 		<sum_time_network>0</sum_time_network>
 		<nb_hits_with_time_network>0</nb_hits_with_time_network>
 		<min_time_network>0</min_time_network>
@@ -33,11 +33,11 @@
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth>0</min_bandwidth>
 		<max_bandwidth>0</max_bandwidth>
-		<sum_time_spent>0</sum_time_spent>
+		<sum_time_spent>7200</sum_time_spent>
 		<bounce_count>0</bounce_count>
-		<exit_nb_visits>15</exit_nb_visits>
+		<exit_nb_visits>5</exit_nb_visits>
 		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_on_dimension>0</avg_time_on_dimension>
+		<avg_time_on_dimension>288</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
 		<segment>dimension1==-1</segment>

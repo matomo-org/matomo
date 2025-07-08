@@ -715,12 +715,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "68dc5c026beb7d65b5f2a2e8d0b6aca5d7a801aa"
+                "reference": "1b8a21d8c71843b0c62c1ec5b9e50c0c84fb6e8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/68dc5c026beb7d65b5f2a2e8d0b6aca5d7a801aa",
-                "reference": "68dc5c026beb7d65b5f2a2e8d0b6aca5d7a801aa",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/1b8a21d8c71843b0c62c1ec5b9e50c0c84fb6e8c",
+                "reference": "1b8a21d8c71843b0c62c1ec5b9e50c0c84fb6e8c",
                 "shasum": ""
             },
             "replace": {
@@ -738,7 +738,7 @@
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
                 "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
             },
-            "time": "2025-06-16T22:04:58+00:00"
+            "time": "2025-07-02T22:22:50+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -3698,16 +3698,16 @@
     "packages-dev": [
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/composer-installer.git",
-                "reference": "18a95476797ed480b3f2598984bc6f7e1eecc9a8"
+                "reference": "6e0fa428497bf560152ee73ffbb8af5c6a56b0dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/composer-installer/zipball/18a95476797ed480b3f2598984bc6f7e1eecc9a8",
-                "reference": "18a95476797ed480b3f2598984bc6f7e1eecc9a8",
+                "url": "https://api.github.com/repos/PHPCSStandards/composer-installer/zipball/6e0fa428497bf560152ee73ffbb8af5c6a56b0dd",
+                "reference": "6e0fa428497bf560152ee73ffbb8af5c6a56b0dd",
                 "shasum": ""
             },
             "require": {
@@ -3719,7 +3719,7 @@
                 "composer/composer": "^2.2",
                 "ext-json": "*",
                 "ext-zip": "*",
-                "php-parallel-lint/php-parallel-lint": "^1.3.1",
+                "php-parallel-lint/php-parallel-lint": "^1.4.0",
                 "phpcompatibility/php-compatibility": "^9.0",
                 "yoast/phpunit-polyfills": "^1.0"
             },
@@ -3790,7 +3790,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-05-28T16:05:48+00:00"
+            "time": "2025-06-27T17:24:01+00:00"
         },
         {
             "name": "doctrine/instantiator",
