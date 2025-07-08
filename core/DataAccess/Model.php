@@ -422,7 +422,7 @@ class Model
                             WHERE name LIKE 'done%'
                         )";
 
-        return Db::fetchAll($query,[$dateStart->toString('Y-m-d'), $dateEnd->toString('Y-m-d')]);
+        return Db::fetchAll($query, [$dateStart->toString('Y-m-d'), $dateEnd->toString('Y-m-d')]);
     }
 
     public function deleteArchivesWithPeriod($numericTable, $blobTable, $period, $date)
