@@ -21,9 +21,9 @@
       </div>
 
       <template v-if="isLoading">
-        <div class="loadingPiwik">
+        <div class="modal-sub-header">
           <MatomoLoader />
-          <span class="Piwik_Popover_Loading_Name">{{ translate('General_Loading') }}</span>
+          <span class="loading-message">{{ translate('General_Loading') }}</span>
         </div>
       </template>
 
@@ -65,16 +65,13 @@
               />
             </ul>
           </div>
-          <p class="note-text"
-             v-html="$sanitize(getNoteText)"
-             v-if="duplicationErrors.length === 0"
-          />
+          <p class="note-text" v-html="$sanitize(getNoteText)"/>
         </div>
         <div class="modal-footer">
           <button
             class="btn"
             :disabled="!getIsValid || hasBeenSubmitted"
-            @click="submitDuplicationRequest()"
+            @click="submitRequest()"
           >{{ translate('General_Copy') }}</button>
         </div>
       </template>
@@ -164,7 +161,7 @@ export default defineComponent({
 
       // TODO - Do some logic before showing modal
 
-      this.showDuplicateModal();
+      this.showModal();
 
       // TODO - determine the best indication that loading is done
       this.isLoading = false;
@@ -188,7 +185,7 @@ export default defineComponent({
       this.hasSiteBeenInitialised = false;
       this.hasBeenSubmitted = false;
     },
-    showDuplicateModal() {
+    showModal() {
       const root = this.$refs.root as HTMLElement;
       const $root = $(root);
       $root.modal({
@@ -198,7 +195,7 @@ export default defineComponent({
         },
       }).modal('open');
     },
-    submitDuplicationRequest() {
+    submitRequest() {
       this.hasBeenSubmitted = true;
       this.modalStore.disableWatchSuppression();
 
