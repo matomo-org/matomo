@@ -757,7 +757,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         if ($date === $this->january) {
             $expectedPurgedArchives = [44, 45];
             $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
-        } else if ($date === $this->february) {
+        } elseif ($date === $this->february) {
             $expectedPurgedArchives = [42, 43];
             $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
         }
