@@ -13,6 +13,11 @@ use Piwik\Plugins\UsersManager\Emails\InactiveUsersNotificationEmail;
 
 final class InactiveUsersEmailNotification extends UserEmailNotification
 {
+    /**
+     * @param array $users A list of users this notification is about
+     * @param array $recipients A list of recipients this notification will be sent to
+     * @param array $emailData Optional additional data passed to the email notification indexed by a recipient
+     */
     public function __construct(
         array $users,
         array $recipients,

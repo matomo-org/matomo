@@ -30,6 +30,7 @@ class InactiveUsersNotificationEmail extends Mail
     /** @var array */
     private $emailData;
 
+    /** @var Model */
     private $userModel;
 
     public function __construct(UserNotification $notification, string $recipient, array $emailData)
