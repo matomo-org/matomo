@@ -410,6 +410,43 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns the list of websites with at least 'write' access for the current user.
+     * For the superUser it returns all the websites in the database.
+     *
+     * @param false|string $pattern
+     * @param false|int    $limit
+     * @param []|int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
+     * @return array for each site, an array of information (idsite, name, main_url, etc.)
+     */
+    public function getSitesWithAtLeastWriteAccess($pattern = false, $limit = false, $sitesToExclude = [])
+    {
+        $sitesId = Access::getInstance()->getSitesIdWithAtLeastWriteAccess();
+        if (!is_array($sitesId)) {
+            return [];
+        }
+
+        // Remove the sites to exclude from the list of IDs.
+        if (is_array($sitesToExclude) && count($sitesToExclude)) {
+            $sitesId = array_diff($sitesId, $sitesToExclude);
+        }
+
+        if (count($sitesId) === 0) {
+            return [];
+        }
+
+        if ($pattern === false) {
+            return $this->getSitesFromIds($sitesId, $limit);
+        }
+
+        $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit);
+        foreach ($sites as &$site) {
+            $this->enrichSite($site);
+        }
+
+        return Site::setSitesFromArray($sites);
+    }
+
+    /**
      * Returns the messages to warn users on site deletion.
      *
      * @param int $idSite
