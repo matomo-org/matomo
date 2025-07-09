@@ -21,19 +21,16 @@
       </div>
 
       <template v-if="isLoading">
-        <div class="modal-content duplicator-modal-loading">
-          <div class="Piwik_Popover_Loading">
-            <div class="Piwik_Popover_Loading_Name">
-              <h2>{{ translate('General_Loading') }}</h2>
-            </div>
-          </div>
+        <div class="loadingPiwik">
+          <MatomoLoader />
+          <span class="Piwik_Popover_Loading_Name">{{ translate('General_Loading') }}</span>
         </div>
       </template>
 
       <template v-else>
         <div class="modal-sub-header">
           <p>
-            {{ getDuplicateDescription }}&nbsp;
+            {{ getDuplicateDescription }}
             <span v-if="descriptionLearnMoreLink" v-html="$sanitize(getLearnMoreLink)"></span>
           </p>
           <Field
@@ -53,7 +50,13 @@
           </div>
         </div>
         <div class="modal-sub-footer">
-          <div :class="getAlertClasses" v-if="duplicationErrors.length > 0">
+          <div
+            :class="{
+              'alert': true,
+              'alert-danger': true,
+              'error-list': duplicationErrors.length > 1
+            }"
+            v-if="duplicationErrors.length > 0">
             <ul>
               <li
                 v-for="(duplicationError, index) in duplicationErrors"
@@ -90,6 +93,7 @@ import { translate } from '../translate';
 import { externalLink } from '../externalLink';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import { EntityDuplicatorStore } from './EntityDuplicatorStore';
+import MatomoLoader from '../MatomoLoader/MatomoLoader.vue';
 
 // async since we're referencing a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
@@ -100,7 +104,6 @@ const { $ } = window;
 interface EntityDuplicatorState {
   isLoading: boolean;
   isValidated: boolean;
-  descriptionLearnMoreLink: string;
   duplicationErrors: string[];
   site: SiteRef|null;
   hasSiteBeenInitialised: boolean;
@@ -120,6 +123,7 @@ export default defineComponent({
     Form,
   },
   components: {
+    MatomoLoader,
     Field,
   },
   props: {
@@ -130,12 +134,18 @@ export default defineComponent({
       type: EntityDuplicatorStore,
       required: true,
     },
+    /**
+     * Optional "Learn more." link to append to the end of the description text if provided.
+     */
+    descriptionLearnMoreLink: {
+      type: String,
+      default: '',
+    },
   },
   data(): EntityDuplicatorState {
     return {
       isLoading: true,
       isValidated: false,
-      descriptionLearnMoreLink: '',
       duplicationErrors: [],
       site: null,
       hasSiteBeenInitialised: false,
@@ -312,10 +322,6 @@ export default defineComponent({
 
       const linkString = externalLink(this.descriptionLearnMoreLink);
       return translate('CoreHome_LearnMoreFullStop', linkString, '</a>');
-    },
-    getAlertClasses() {
-      const listClass = this.duplicationErrors.length > 1 ? ' error-list' : '';
-      return `alert alert-danger${listClass}`;
     },
     getIsValid(): boolean {
       // Show as valid until validation has actually been checked

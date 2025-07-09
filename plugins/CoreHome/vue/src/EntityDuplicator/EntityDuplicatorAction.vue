@@ -53,14 +53,12 @@ export default defineComponent({
     isActionVisible: {
       type: Boolean,
       required: true,
-      default: false,
     },
     /**
      * Allows disabling the action (if you want it visible, but not active).
      */
     isActionEnabled: {
       type: Boolean,
-      required: false,
       default: false,
     },
     /**
@@ -68,7 +66,6 @@ export default defineComponent({
      */
     tooltipTextOverride: {
       type: String,
-      required: false,
       default: '',
     },
     /**
@@ -76,7 +73,6 @@ export default defineComponent({
      */
     tooltipTextOverrideDisabled: {
       type: String,
-      required: false,
       default: '',
     },
     /**

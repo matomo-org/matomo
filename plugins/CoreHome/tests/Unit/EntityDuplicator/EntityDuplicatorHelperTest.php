@@ -79,6 +79,15 @@ class EntityDuplicatorHelperTest extends TestCase
             ['SomeOtherName (9)', '', '4', true],
             ['SomeOtherName (9)', '', '5', true],
             ['SomeOtherName (9)', 'SomeO (10)', '10', false],
+            ['Some1Name', 'Some1Name (1)', '', false],
+            ['Some1Name (1)', 'Some1Name (2)', '', false],
+            ['NameContainingMultiple12Digits', 'NameContainingMultiple12Digits (1)', '', false],
+            ['NameContainingMultiple12Digits (1)', 'NameContainingMultiple12Digits (2)', '', false],
+            ['AnotherNameContainingMultiple12Digits34', 'AnotherNameContainingMultiple12Digits34 (1)', '', false],
+            ['AnotherNameContainingMultiple12Digits34 (1)', 'AnotherNameContainingMultiple12Digits34 (2)', '', false],
+            ['AnotherNameContainingMultiple12Digits34 (2)', 'AnotherNameContainingMultiple12Digits34 (3)', '', false],
+            ['AnotherNameContainingMultiple12Digits34 (3)', 'AnotherNameContainingMultiple12Digits34 (4)', '', false],
+            ['AnotherNameContainingMultiple12Digits34 (4)', 'AnotherNameContainingMultiple12Digits34 (5)', '', false],
         ];
     }
 }
