@@ -344,6 +344,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     protected $maximumAllowedRows = 0;
 
+    protected $isBuiltWithoutArchives = true;
+
     /**
      * Constructor. Creates an empty DataTable.
      */
@@ -2132,5 +2134,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $existingRow->sumRow($tableRow, true, $aggregationOps);
         }
         return $existingRow;
+    }
+
+    public function setAsBuiltWithoutArchives(bool $flag): void
+    {
+        $this->isBuiltWithoutArchives = $flag;
+    }
+
+    public function wasBuiltWithoutArchives(): bool
+    {
+        return $this->isBuiltWithoutArchives;
     }
 }

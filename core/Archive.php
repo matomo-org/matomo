@@ -379,7 +379,9 @@ class Archive implements ArchiveQuery
     public function getDataTableFromNumeric($names)
     {
         $data = $this->get($names, 'numeric');
-        return $data->getDataTable($this->getResultIndices());
+        $table = $data->getDataTable($this->getResultIndices());
+        $table->setAsBuiltWithoutArchives($data->wasBuiltWithoutArchives());
+        return $table;
     }
 
     /**
@@ -598,6 +600,8 @@ class Archive implements ArchiveQuery
             Piwik::postEvent('Archive.noArchivedData');
             return $result;
         }
+
+        $result->setAsBuiltWithoutArchives(false);
 
         $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
         $archiveState = new ArchiveState();
