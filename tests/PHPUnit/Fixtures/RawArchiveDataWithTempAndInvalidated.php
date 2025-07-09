@@ -507,6 +507,26 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'period' => 1,
             'ts_archived' => '2015-02-20 06:00:00',
         ],
+        [
+            'idarchive' => 44,
+            'idsite' => 1,
+            'name' => '',
+            'value' => ArchiveWriter::DONE_OK,
+            'date1' => '2015-01-11',
+            'date2' => '2015-01-11',
+            'period' => 1,
+            'ts_archived' => '2015-01-20 06:00:00',
+        ],
+        [
+            'idarchive' => 45,
+            'idsite' => 1,
+            'name' => '',
+            'value' => ArchiveWriter::DONE_ERROR,
+            'date1' => '2015-01-12',
+            'date2' => '2015-01-12',
+            'period' => 1,
+            'ts_archived' => '2015-01-20 06:00:00',
+        ],
     ];
 
     /**
@@ -654,6 +674,12 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
         $this->assertArchivesExist($expectedPresentArchives, $date);
     }
 
+    public function assertBrokenArchivesNotPurged(Date $date)
+    {
+        $expectedPresentArchives = [42, 43];
+        $this->assertArchivesExist($expectedPresentArchives, $date);
+    }
+
     public function assertErrorInProgressArchivedNotPurged(Date $date, $includeRecentInProgress = true)
     {
         $expectedPresentArchives = [40, 41];
@@ -728,7 +754,21 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
     public function assertBrokenArchivesWithoutDoneFlagPurged(Date $date)
     {
-        $expectedPurgedArchives = [42, 43];
+        if ($date === $this->january) {
+            $expectedPurgedArchives = [44, 45];
+            $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
+        } else if ($date === $this->february) {
+            $expectedPurgedArchives = [42, 43];
+            $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
+        }
+    }
+
+    public function assertPartialBrokenArchivesWithoutDoneFlag(Date $date)
+    {
+        $expectedPurgedArchives = [44];
+        $expectedExistingArchives = [45];
+
         $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
+        $this->assertArchivesExist($expectedExistingArchives, $date);
     }
 }

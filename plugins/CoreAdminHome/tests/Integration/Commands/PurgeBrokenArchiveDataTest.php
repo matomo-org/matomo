@@ -66,18 +66,59 @@ class PurgeBrokenArchiveDataTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function testExecutingCommandWithDatesPurgesAllExistingArchiveTables()
+    public function testExecutingCommandDefaultDatesPurgesFromExistingMonth()
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-broken-archive-data',
-            'dateStart' => '2015-06-01',
-            'dateEnd' => '2015-06-30'
         ));
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
 
         self::$fixture->assertBrokenArchivesWithoutDoneFlagPurged(self::$fixture->february);
+        self::$fixture->assertBrokenArchivesNotPurged(self::$fixture->january);
+    }
+
+    public function testExecutingCommandSpecificDatesPurgesOnlyInRange()
+    {
+        $result = $this->applicationTester->run(array(
+            'command' => 'core:purge-broken-archive-data',
+            'dateStart' => '2015-01-01',
+            'dateEnd' => '2015-01-11'
+        ));
+
+        $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
+
+        self::$fixture->assertPartialBrokenArchivesWithoutDoneFlag(self::$fixture->january);
+    }
+
+    public function testExecutingCommandDateStartPurgesOnlyInRange()
+    {
+        $result = $this->applicationTester->run(array(
+            'command' => 'core:purge-broken-archive-data',
+            'dateStart' => '2015-01-01',
+        ));
+
+        $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
+
         self::$fixture->assertBrokenArchivesWithoutDoneFlagPurged(self::$fixture->january);
+    }
+
+    public function testExecutingCommandInvalidDates()
+    {
+        $result = $this->applicationTester->run(array(
+            'command' => 'core:purge-broken-archive-data',
+            'dateStart' => '201-01',
+        ));
+
+        $this->assertEquals(2, $result, $this->getCommandDisplayOutputErrorMessage());
+
+        $result = $this->applicationTester->run(array(
+            'command' => 'core:purge-broken-archive-data',
+            'dateStart' => '2015-01-01',
+            'dateEnd' => '201-001'
+        ));
+
+        $this->assertEquals(2, $result, $this->getCommandDisplayOutputErrorMessage());
     }
 
     protected function getCommandDisplayOutputErrorMessage()

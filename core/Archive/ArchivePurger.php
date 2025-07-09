@@ -184,7 +184,7 @@ class ArchivePurger
                 $this->logger->debug("No broken archives found in archive numeric table for {date}.", array('date' => $dateStart));
             }
             $monthStart = $monthStart->addMonth(1);
-            $monthEnd = $monthEnd->addMonth(1);
+            $monthEnd = $monthEnd->addMonth(1)->getEndOfMonth();
 
             $numRowsDeleted += $deletedRowCount;
             $this->logger->debug("Purging broken archives: done [ purged archives in {yearMonth} ] [Deleted IDs count: {deletedIds}]", array(

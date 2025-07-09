@@ -45,12 +45,12 @@ class PurgeBrokenArchiveData extends ConsoleCommand
     {
         $this->setName('core:purge-broken-archive-data');
         $this->setDescription('Purges broken archive data from archive tables.');
-        $this->addRequiredArgument(
+        $this->addOptionalArgument(
             "dateStart",
             "The start date to purge data from. Defaults to start of current month",
             self::getToday()->getStartOfMonth()->toString('Y-m-d')
         );
-        $this->addRequiredArgument(
+        $this->addOptionalArgument(
             "dateEnd",
             "The start date to purge data from. Defaults to end of current month",
             self::getToday()->getEndOfMonth()->toString('Y-m-d')
@@ -81,12 +81,14 @@ class PurgeBrokenArchiveData extends ConsoleCommand
             $dateStart = Date::factory($dateStartStr);
         } catch (\Exception $e) {
             $output->writeln("Invalid Argument - dateStart - $dateStartStr");
+            return self::INVALID;
         }
 
         try {
             $dateEnd = Date::factory($dateEndStr);
         } catch (\Exception $e) {
             $output->writeln("Invalid Argument - dateEnd - $dateEndStr");
+            return self::INVALID;
         }
 
         $output->writeln("Purging broken archives between $dateStartStr & $dateEndStr");
