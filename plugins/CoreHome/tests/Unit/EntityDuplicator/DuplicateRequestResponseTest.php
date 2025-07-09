@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Plugins\CoreHome\tests\Unit\EntityDuplicator;
+
+use PHPUnit\Framework\TestCase;
+use Piwik\Plugins\CoreHome\EntityDuplicator\DuplicateRequestResponse;
+
+/**
+ * @group CoreHome
+ * @group CoreHomeTest
+ * @group EntityDuplicator
+ */
+class DuplicateRequestResponseTest extends TestCase
+{
+    /**
+     * @var DuplicateRequestResponse
+     */
+    private $duplicateRequestResponse;
+
+    protected function setUp(): void
+    {
+        $this->duplicateRequestResponse = new DuplicateRequestResponse();
+    }
+
+    public function testHasResponseBeenModified()
+    {
+        $this->assertFalse($this->duplicateRequestResponse->hasResponseBeenModified());
+    }
+
+    /**
+     * @dataProvider getPropertyNames
+     */
+    public function testHasResponseBeenModifiedSetValue($methodName, $value)
+    {
+        $this->assertTrue(method_exists($this->duplicateRequestResponse, $methodName));
+
+        $this->duplicateRequestResponse->$methodName($value);
+
+        $this->assertTrue($this->duplicateRequestResponse->hasResponseBeenModified());
+    }
+
+    public function testGetJsonResponseNoChanges()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No duplicate request response properties were set.');
+
+        $this->duplicateRequestResponse->getJsonResponse();
+    }
+
+    public function testGetJsonResponseSuccess()
+    {
+        $this->duplicateRequestResponse->setIsDuplicationSuccessful(true);
+        $this->duplicateRequestResponse->setSuccessMessage('Item copied!');
+
+        $this->assertSame('{"isDuplicationSuccessful":true,"successMessage":"Item copied!"}', $this->duplicateRequestResponse->getJsonResponse());
+    }
+
+    public function testGetJsonResponseSuccessWithData()
+    {
+        $this->duplicateRequestResponse->setIsDuplicationSuccessful(true);
+        $this->duplicateRequestResponse->setSuccessMessage('Item copied!');
+        $this->duplicateRequestResponse->setResponseData(['foo' => 'bar']);
+
+        $this->assertSame('{"isDuplicationSuccessful":true,"successMessage":"Item copied!","responseData":{"foo":"bar"}}', $this->duplicateRequestResponse->getJsonResponse());
+    }
+
+    public function testGetJsonResponseSuccessFail()
+    {
+        $this->duplicateRequestResponse->setIsDuplicationSuccessful(false);
+        $this->duplicateRequestResponse->setErrorCode(500);
+        $this->duplicateRequestResponse->setErrorMessage('Item duplication failed!');
+
+        $this->assertSame('{"isDuplicationSuccessful":false,"errorMessage":"Item duplication failed!","errorCode":500}', $this->duplicateRequestResponse->getJsonResponse());
+    }
+
+    public function getPropertyNames(): array
+    {
+        return [
+            ['setIsDuplicationSuccessful', false],
+            ['setIsDuplicationSuccessful', true],
+            ['setSuccessMessage', ''],
+            ['setSuccessMessage', 'Some message'],
+            ['setResponseData', []],
+            ['setResponseData', ['key' => 'value']],
+            ['setErrorMessage', ''],
+            ['setErrorMessage', 'Some message'],
+            ['setErrorMessage', 'Another message'],
+            ['setErrorCode', 0],
+            ['setErrorCode', 400],
+        ];
+    }
+}

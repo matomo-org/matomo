@@ -7,17 +7,17 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\CoreHome\tests\Unit\MatomoCopyModal;
+namespace Piwik\Plugins\CoreHome\tests\Unit\EntityDuplicator;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyHelper;
+use Piwik\Plugins\CoreHome\EntityDuplicator\EntityDuplicatorHelper;
 
 /**
  * @group CoreHome
  * @group CoreHomeTest
- * @group MatomoCopyModal
+ * @group EntityDuplicator
  */
-class CopyHelperTest extends TestCase
+class EntityDuplicatorHelperTest extends TestCase
 {
     /**
      * @dataProvider getIncrementNameWithNumericalSuffix
@@ -35,12 +35,12 @@ class CopyHelperTest extends TestCase
         }
 
         if ($maxLength === '') {
-            $this->assertSame($expected, CopyHelper::incrementNameWithNumericalSuffix($name), "Name '$name' should be equal to '$expected' when not providing max length.");
+            $this->assertSame($expected, EntityDuplicatorHelper::incrementNameWithNumericalSuffix($name), "Name '$name' should be equal to '$expected' when not providing max length.");
             return;
         }
         $maxLength = intval($maxLength);
 
-        $this->assertSame($expected, CopyHelper::incrementNameWithNumericalSuffix($name, $maxLength), "Name '$name' should be equal to '$expected' when max length is set to '$maxLength'.");
+        $this->assertSame($expected, EntityDuplicatorHelper::incrementNameWithNumericalSuffix($name, $maxLength), "Name '$name' should be equal to '$expected' when max length is set to '$maxLength'.");
     }
 
     public function getIncrementNameWithNumericalSuffix(): array

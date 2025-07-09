@@ -8,7 +8,7 @@
   <a
     :class="[
       {
-        'matomo-copy-action': true,
+        'entity-duplicator-action': true,
         'table-action': true,
         'icon-content-copy': true,
         'is-disabled': !isActionEnabled,
@@ -29,7 +29,7 @@ import {
 } from 'vue';
 import { translate, translateOrDefault } from '../translate';
 import Tooltips from '../Tooltips/Tooltips';
-import { MatomoCopyModalStore } from './MatomoCopyModalStore';
+import { EntityDuplicatorStore } from './EntityDuplicatorStore';
 
 export default defineComponent({
   props: {
@@ -44,7 +44,7 @@ export default defineComponent({
      * The reactive class for controlling the settings of the modal from multiple components.
      */
     modalStore: {
-      type: MatomoCopyModalStore,
+      type: EntityDuplicatorStore,
       required: true,
     },
     /**
@@ -64,7 +64,7 @@ export default defineComponent({
       default: false,
     },
     /**
-     * Allows setting custom tooltip text. The default is 'Copy {copyEntityTypeTranslation}'.
+     * Allows setting custom tooltip text. The default is 'Copy {duplicateEntityTypeTranslation}'.
      */
     tooltipTextOverride: {
       type: String,

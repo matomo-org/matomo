@@ -21,8 +21,8 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Notification\Manager as NotificationManager;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
-use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequest;
-use Piwik\Plugins\CoreHome\MatomoCopyModal\CopyRequestResponse;
+use Piwik\Plugins\CoreHome\EntityDuplicator\DuplicateRequest;
+use Piwik\Plugins\CoreHome\EntityDuplicator\DuplicateRequestResponse;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\FeatureFlags\FeatureFlags\Example;
 use Piwik\Plugins\FeatureFlags\Storage\ConfigFeatureFlagStorage;
@@ -356,7 +356,7 @@ class Controller extends \Piwik\Plugin\Controller
         ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters, $containerId);
     }
 
-    public function copyEntity(): string
+    public function duplicateEntity(): string
     {
         $request = \Piwik\Request::fromRequest();
         $idSite = $request->getIntegerParameter('idSite');
@@ -370,27 +370,27 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasWriteAccess(array_unique(array_merge([$idSite], $idDestinationSites)));
         $this->checkTokenInUrl();
 
-        // Post event to be intercepted by plugin using the modal to copy something
-        $copyRequest = new CopyRequest($idSite, $entityTypeName, $idDestinationSites, $additionalData);
-        $copyRequestResponse = new CopyRequestResponse();
+        // Post event to be intercepted by plugin using the modal to duplicate something
+        $duplicateRequest = new DuplicateRequest($idSite, $entityTypeName, $idDestinationSites, $additionalData);
+        $duplicateRequestResponse = new DuplicateRequestResponse();
         try {
-            Piwik::postEvent('CoreHome.processCopyRequest', [$copyRequest, &$copyRequestResponse]);
+            Piwik::postEvent('CoreHome.processDuplicationRequest', [$duplicateRequest, &$duplicateRequestResponse]);
         } catch (\Throwable $e) {
-            $copyRequestResponse->setIsCopySuccessful(false);
-            if (empty($copyRequestResponse->getErrorMessage())) {
-                $copyRequestResponse->setErrorMessage(Piwik::translate('General_ErrorRequest'));
+            $duplicateRequestResponse->setIsDuplicationSuccessful(false);
+            if (empty($duplicateRequestResponse->getErrorMessage())) {
+                $duplicateRequestResponse->setErrorMessage(Piwik::translate('General_ErrorRequest'));
             }
-            if (empty($copyRequestResponse->getErrorCode())) {
-                $copyRequestResponse->setErrorCode(500);
+            if (empty($duplicateRequestResponse->getErrorCode())) {
+                $duplicateRequestResponse->setErrorCode(500);
             }
         }
 
-        if (!$copyRequestResponse->hasResponseBeenModified()) {
+        if (!$duplicateRequestResponse->hasResponseBeenModified()) {
             // This should only happen if the developer forgets to implement/register a listener. It won't be displayed
             throw new \Exception('The response was not modified. This likely means nobody registered for the event and processed it.');
         }
 
         Json::sendHeaderJSON();
-        return $copyRequestResponse->getJsonResponse();
+        return $duplicateRequestResponse->getJsonResponse();
     }
 }

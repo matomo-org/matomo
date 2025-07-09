@@ -9,12 +9,12 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Plugins\CoreHome\MatomoCopyModal;
+namespace Piwik\Plugins\CoreHome\EntityDuplicator;
 
 /**
  *
  */
-class CopyHelper
+class EntityDuplicatorHelper
 {
     /**
      * Update the provided name with a number suffix. It will either add a suffix or increment the number in the suffix.

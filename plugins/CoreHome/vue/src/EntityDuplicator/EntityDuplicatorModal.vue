@@ -8,11 +8,11 @@
   <div
     :class="{
       'modal': true,
-      'matomo-copy-modal': true,
+      'entity-duplicator-modal': true,
       'slot-configured': $slots.default
     }"
     ref="root">
-    <div class="entire-copy-modal" v-show="isModalVisible">
+    <div class="main-duplicator-modal-content" v-show="isModalVisible">
       <div class="modal-header">
         <span class="btn-close modal-close"><i class="icon-close"></i></span>
         <h2>
@@ -21,7 +21,7 @@
       </div>
 
       <template v-if="isLoading">
-        <div class="modal-content copy-loading">
+        <div class="modal-content duplicator-modal-loading">
           <div class="Piwik_Popover_Loading">
             <div class="Piwik_Popover_Loading_Name">
               <h2>{{ translate('General_Loading') }}</h2>
@@ -33,7 +33,7 @@
       <template v-else>
         <div class="modal-sub-header">
           <p>
-            {{ getCopyDescription }}&nbsp;
+            {{ getDuplicateDescription }}&nbsp;
             <span v-if="descriptionLearnMoreLink" v-html="$sanitize(getLearnMoreLink)"></span>
           </p>
           <Field
@@ -53,25 +53,25 @@
           </div>
         </div>
         <div class="modal-sub-footer">
-          <div :class="getAlertClasses" v-if="copyErrors.length > 0">
+          <div :class="getAlertClasses" v-if="duplicationErrors.length > 0">
             <ul>
               <li
-                v-for="(copyError, index) in copyErrors"
+                v-for="(duplicationError, index) in duplicationErrors"
                 :key="index"
-                v-html="$sanitize(copyError)"
+                v-html="$sanitize(duplicationError)"
               />
             </ul>
           </div>
           <p class="note-text"
              v-html="$sanitize(getNoteText)"
-             v-if="copyErrors.length === 0"
+             v-if="duplicationErrors.length === 0"
           />
         </div>
         <div class="modal-footer">
           <button
             class="btn"
             :disabled="!getIsValid || hasBeenSubmitted"
-            @click="submitCopy()"
+            @click="submitDuplicationRequest()"
           >{{ translate('General_Copy') }}</button>
         </div>
       </template>
@@ -89,7 +89,7 @@ import Matomo from '../Matomo/Matomo';
 import { translate } from '../translate';
 import { externalLink } from '../externalLink';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
-import { MatomoCopyModalStore } from './MatomoCopyModalStore';
+import { EntityDuplicatorStore } from './EntityDuplicatorStore';
 
 // async since we're referencing a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
@@ -97,18 +97,18 @@ const Form = useExternalPluginComponent('CorePluginsAdmin', 'Form');
 
 const { $ } = window;
 
-interface MatomoCopyModalState {
+interface EntityDuplicatorState {
   isLoading: boolean;
   isValidated: boolean;
   descriptionLearnMoreLink: string;
-  copyErrors: string[];
+  duplicationErrors: string[];
   site: SiteRef|null;
   hasSiteBeenInitialised: boolean;
   hasBeenSubmitted: boolean;
 }
 
-interface CopyRequestResponse {
-  isCopySuccessful?: boolean;
+interface DuplicateRequestResponse {
+  isDuplicationSuccessful?: boolean;
   successMessage?: string;
   responseData?: Record<string, unknown>;
   errorMessage?: string;
@@ -127,24 +127,24 @@ export default defineComponent({
      * The reactive class for controlling the settings of the modal from multiple components.
      */
     modalStore: {
-      type: MatomoCopyModalStore,
+      type: EntityDuplicatorStore,
       required: true,
     },
   },
-  data(): MatomoCopyModalState {
+  data(): EntityDuplicatorState {
     return {
       isLoading: true,
       isValidated: false,
       descriptionLearnMoreLink: '',
-      copyErrors: [],
+      duplicationErrors: [],
       site: null,
       hasSiteBeenInitialised: false,
       hasBeenSubmitted: false,
     };
   },
   emits: [
-    'copySuccessful',
-    'copyFailed',
+    'duplicationSuccessful',
+    'duplicationFailed',
   ],
   watch: {
     isModalVisible(newValue) {
@@ -154,7 +154,7 @@ export default defineComponent({
 
       // TODO - Do some logic before showing modal
 
-      this.showCopyModal();
+      this.showDuplicateModal();
 
       // TODO - determine the best indication that loading is done
       this.isLoading = false;
@@ -174,11 +174,11 @@ export default defineComponent({
       this.site = null;
       this.isLoading = true;
       this.isValidated = false;
-      this.copyErrors = [];
+      this.duplicationErrors = [];
       this.hasSiteBeenInitialised = false;
       this.hasBeenSubmitted = false;
     },
-    showCopyModal() {
+    showDuplicateModal() {
       const root = this.$refs.root as HTMLElement;
       const $root = $(root);
       $root.modal({
@@ -188,7 +188,7 @@ export default defineComponent({
         },
       }).modal('open');
     },
-    submitCopy() {
+    submitDuplicationRequest() {
       this.hasBeenSubmitted = true;
       this.modalStore.disableWatchSuppression();
 
@@ -209,15 +209,15 @@ export default defineComponent({
       ajax.withTokenInUrl();
       ajax.addParams(this.modalStore.getFormValues(this.site?.id), 'POST');
       ajax.setFormat('json');
-      ajax.send().then((response: CopyRequestResponse) => {
+      ajax.send().then((response: DuplicateRequestResponse) => {
         // If the response was invalid or unsuccessful, emit the failure and show an error message
-        if (!response || !response.isCopySuccessful) {
+        if (!response || !response.isDuplicationSuccessful) {
           this.emitFailureAndSetErrorMessage();
           return;
         }
 
         // Emit success so parent can perform desired actions like reload the data store or page
-        this.$emit('copySuccessful', response);
+        this.$emit('duplicationSuccessful', response);
 
         this.closeModal();
       }).catch((error) => {
@@ -229,7 +229,7 @@ export default defineComponent({
     },
     validateFormFields() {
       this.isValidated = true;
-      this.copyErrors = [];
+      this.duplicationErrors = [];
       // Don't bother if the modal isn't visible
       if (!this.modalStore.state.isModalVisible) {
         return;
@@ -239,25 +239,25 @@ export default defineComponent({
         formValues: this.modalStore.getFormValues(this.site?.id),
         errorMessages: [] as string[],
       };
-      Matomo.postEvent('MatomoCopyModal:validateFormFields', validationData);
+      Matomo.postEvent('EntityDuplicator:validateFormFields', validationData);
       if (
         validationData
         && Array.isArray(validationData.errorMessages)
         && validationData.errorMessages.length > 0
       ) {
-        this.copyErrors = validationData.errorMessages;
+        this.duplicationErrors = validationData.errorMessages;
       }
     },
     onSiteChange() {
       // Reset flag since the data has changed since validation
       this.isValidated = false;
     },
-    emitFailureAndSetErrorMessage(response: null|CopyRequestResponse = null) {
+    emitFailureAndSetErrorMessage(response: null|DuplicateRequestResponse = null) {
       let tempResponseObject = response;
       // If no response object is set, create one with a generic error message
       if (!tempResponseObject) {
         tempResponseObject = {
-          isCopySuccessful: false,
+          isDuplicationSuccessful: false,
           errorMessage: translate('General_ErrorRequest'),
         };
       }
@@ -267,9 +267,9 @@ export default defineComponent({
         tempResponseObject.errorMessage = translate('General_ErrorRequest');
       }
 
-      this.copyErrors = [];
-      this.copyErrors.push(tempResponseObject.errorMessage);
-      this.$emit('copyFailed', tempResponseObject);
+      this.duplicationErrors = [];
+      this.duplicationErrors.push(tempResponseObject.errorMessage);
+      this.$emit('duplicationFailed', tempResponseObject);
     },
   },
   mounted() {
@@ -302,7 +302,7 @@ export default defineComponent({
 
       return `${noteText}`;
     },
-    getCopyDescription(): string {
+    getDuplicateDescription(): string {
       return translate('CoreHome_CopyXDescription', this.modalStore.getEntityTypeTranslation);
     },
     getLearnMoreLink() {
@@ -314,7 +314,7 @@ export default defineComponent({
       return translate('CoreHome_LearnMoreFullStop', linkString, '</a>');
     },
     getAlertClasses() {
-      const listClass = this.copyErrors.length > 1 ? ' error-list' : '';
+      const listClass = this.duplicationErrors.length > 1 ? ' error-list' : '';
       return `alert alert-danger${listClass}`;
     },
     getIsValid(): boolean {
@@ -323,7 +323,7 @@ export default defineComponent({
         return true;
       }
 
-      return Array.isArray(this.copyErrors) && this.copyErrors.length === 0;
+      return Array.isArray(this.duplicationErrors) && this.duplicationErrors.length === 0;
     },
   },
 });

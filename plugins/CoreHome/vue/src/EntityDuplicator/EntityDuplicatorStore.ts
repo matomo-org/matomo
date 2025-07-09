@@ -10,7 +10,7 @@ import { translateOrDefault } from '../translate';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
-interface MatomoCopyState {
+interface EntityDuplicatorState {
   /**
    * Whether the modal is currently visible
    */
@@ -21,7 +21,7 @@ interface MatomoCopyState {
   isWatchSuppressed: boolean
   /**
    * Form data that needs to be included in the request sent to the server but won't change between
-   * requests. This could be a parent ID (e.g. ID of the container when copying MTM tags).
+   * requests. This could be a parent ID (e.g. ID of the container when duplicating MTM tags).
    */
   commonFormData?: Record<string, unknown>;
   /**
@@ -33,31 +33,31 @@ interface MatomoCopyState {
    * Should uniquely identify what is being copied (e.g. goal, funnel, segment, ...). The is
    * important as it's used as the entityTypeName property of the request sent to the server.
    */
-  copyEntityType: string;
+  duplicateEntityType: string;
   /**
    * Translation of what is being copied (e.g. goal, funnel, segment, ...). This can be a string
    * or translation key. If nothing is provided 'report' is used.
    */
-  copyEntityTypeTranslation: string;
+  duplicateEntityTypeTranslation: string;
 }
 
-export class MatomoCopyModalStore {
-  state: MatomoCopyState = reactive({
+export class EntityDuplicatorStore {
+  state: EntityDuplicatorState = reactive({
     isModalVisible: false,
     isWatchSuppressed: false,
     commonFormData: {},
     entityFormData: {},
-    copyEntityType: '',
-    copyEntityTypeTranslation: '',
+    duplicateEntityType: '',
+    duplicateEntityTypeTranslation: '',
   });
 
   constructor(
-    copyEntityType: string,
-    copyEntityTypeTranslation: string,
+    duplicateEntityType: string,
+    duplicateEntityTypeTranslation: string,
     commonFormData?: Record<string, unknown>,
   ) {
-    this.state.copyEntityType = copyEntityType;
-    this.state.copyEntityTypeTranslation = copyEntityTypeTranslation;
+    this.state.duplicateEntityType = duplicateEntityType;
+    this.state.duplicateEntityTypeTranslation = duplicateEntityTypeTranslation;
     this.state.commonFormData = commonFormData ?? {};
   }
 
@@ -99,26 +99,26 @@ export class MatomoCopyModalStore {
     }
     return {
       module: 'CoreHome',
-      action: 'copyEntity',
+      action: 'duplicateEntity',
       idSite: Matomo.idSite || MatomoUrl.parsed.value.idSite,
       idDestinationSites: idDestinationSitesArray,
-      entityTypeName: this.state.copyEntityType,
+      entityTypeName: this.state.duplicateEntityType,
       ...this.state.commonFormData,
       ...this.state.entityFormData,
     } as Record<string, unknown>;
   }
 
   /**
-   * Uses the copyEntityTypeTranslation property to return the translated entity type (e.g. goal,
-   * funnel, segment, ...), which can be a translated string or translation key. If the value is a
-   * translation key, the translated value will be returned. If no value is set, the default is \
+   * Uses the duplicateEntityTypeTranslation property to return the translated entity type (e.g.
+   * goal, funnel, segment, ...), which can be a translated string or translation key. If the value
+   * is a translation key, the translated value will be returned. If no value is set, the default is
    * the translation of 'report'.
    */
   get getEntityTypeTranslation(): string {
-    // Default to 'report' if no value is provided via copyEntityTypeTranslation
+    // Default to 'report' if no value is provided via duplicateEntityTypeTranslation
     let translationKey = 'CoreHome_ReportLowercase';
-    if (this.state.copyEntityTypeTranslation) {
-      translationKey = this.state.copyEntityTypeTranslation;
+    if (this.state.duplicateEntityTypeTranslation) {
+      translationKey = this.state.duplicateEntityTypeTranslation;
     }
 
     // Only translate if it's a translation key and not an already translated string
@@ -129,20 +129,20 @@ export class MatomoCopyModalStore {
 /**
  * Returns a reactive store object for the specific type of entity being copied so that it can be
  * used to maintain the state of the modal across all the actions which trigger showing the modal.
- * See the property descriptions of the MatomoCopyState interface for more information.
+ * See the property descriptions of the EntityDuplicatorState interface for more information.
  *
- * @param copyEntityType
- * @param copyEntityTypeTranslation
+ * @param duplicateEntityType
+ * @param duplicateEntityTypeTranslation
  * @param commonFormData
  */
-export function buildMatomoCopyModalStore(
-  copyEntityType: string,
-  copyEntityTypeTranslation: string,
+export function buildEntityDuplicatorStore(
+  duplicateEntityType: string,
+  duplicateEntityTypeTranslation: string,
   commonFormData?: Record<string, unknown>,
-): MatomoCopyModalStore {
-  return reactive(new MatomoCopyModalStore(
-    copyEntityType,
-    copyEntityTypeTranslation,
+): EntityDuplicatorStore {
+  return reactive(new EntityDuplicatorStore(
+    duplicateEntityType,
+    duplicateEntityTypeTranslation,
     commonFormData,
   ));
 }

@@ -100,6 +100,6 @@ export { default as SearchFiltersPersistenceStore } from './SearchFiltersPersist
 export { default as AutoClearPassword } from './AutoClearPassword/AutoClearPassword';
 export { default as PasswordStrength } from './PasswordStrength/PasswordStrength.vue';
 export * from './PasswordStrength/PasswordStrength';
-export { default as MatomoCopyModal } from './MatomoCopyModal/MatomoCopyModal.vue';
-export { default as MatomoCopyAction } from './MatomoCopyModal/MatomoCopyAction.vue';
-export * from './MatomoCopyModal/MatomoCopyModalStore';
+export { default as EntityDuplicatorModal } from './EntityDuplicator/EntityDuplicatorModal.vue';
+export { default as EntityDuplicatorAction } from './EntityDuplicator/EntityDuplicatorAction.vue';
+export * from './EntityDuplicator/EntityDuplicatorStore';

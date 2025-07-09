@@ -9,12 +9,12 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Plugins\CoreHome\MatomoCopyModal;
+namespace Piwik\Plugins\CoreHome\EntityDuplicator;
 
 /**
  *
  */
-class CopyRequest
+class DuplicateRequest
 {
     /**
      * @var int

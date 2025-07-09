@@ -9,12 +9,12 @@
 
 declare(strict_types=1);
 
-namespace Piwik\Plugins\CoreHome\MatomoCopyModal;
+namespace Piwik\Plugins\CoreHome\EntityDuplicator;
 
 /**
  *
  */
-class CopyRequestResponse
+class DuplicateRequestResponse
 {
     /**
      * @var array
@@ -24,7 +24,7 @@ class CopyRequestResponse
     /**
      * @var bool
      */
-    protected $isCopySuccessful;
+    protected $isDuplicationSuccessful;
 
     /**
      * @var string
@@ -58,18 +58,18 @@ class CopyRequestResponse
     /**
      * @return bool
      */
-    public function isCopySuccessful(): bool
+    public function isDuplicationSuccessful(): bool
     {
-        return $this->isCopySuccessful ?? false;
+        return $this->isDuplicationSuccessful ?? false;
     }
 
     /**
-     * @param bool $isCopySuccessful
+     * @param bool $isDuplicationSuccessful
      * @return void
      */
-    public function setIsCopySuccessful(bool $isCopySuccessful): void
+    public function setIsDuplicationSuccessful(bool $isDuplicationSuccessful): void
     {
-        $this->isCopySuccessful = $isCopySuccessful;
+        $this->isDuplicationSuccessful = $isDuplicationSuccessful;
     }
 
     /**
@@ -165,7 +165,7 @@ class CopyRequestResponse
         }
 
         if (count($responseArray) === 0) {
-            throw new \Exception('No copy request response properties were set.');
+            throw new \Exception('No duplicate request response properties were set.');
         }
 
         return json_encode($responseArray);
