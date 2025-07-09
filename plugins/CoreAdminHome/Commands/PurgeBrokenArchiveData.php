@@ -45,12 +45,12 @@ class PurgeBrokenArchiveData extends ConsoleCommand
     {
         $this->setName('core:purge-broken-archive-data');
         $this->setDescription('Purges broken archive data from archive tables.');
-        $this->addOptionalArgument(
+        $this->addRequiredArgument(
             "dateStart",
             "The start date to purge data from. Defaults to start of current month",
             self::getToday()->getStartOfMonth()->toString('Y-m-d')
         );
-        $this->addOptionalArgument(
+        $this->addRequiredArgument(
             "dateEnd",
             "The start date to purge data from. Defaults to end of current month",
             self::getToday()->getEndOfMonth()->toString('Y-m-d')
