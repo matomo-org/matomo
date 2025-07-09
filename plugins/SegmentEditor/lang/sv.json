@@ -53,6 +53,8 @@
         "UnprocessedSegmentNoData1": "Dessa rapporter saknar data eftersom Segmentet som du valde %1$s inte har bearbetats av systemet.",
         "UnprocessedSegmentNoData2": "Data för detta Segment bör vara tillgänglig inom några timmar när bearbetningen slutförts. (Om så inte är fallet, kan det ha uppstått ett problem.)",
         "UnprocessedSegmentNoData3": "Matomo kan inte visa data för %1$s-segmentet eftersom konfigurationen förhindrar en omarkivering för denna period. Kontakta din administratör eller se %2$si denna FAQ%3$s hur du kan lösa problemet.",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "Detta segment gjordes tillgängligt för alla webbplatser av superanvändaren. Nu får endast superanvändare uppdatera eller ta bort den.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "Du kan endast redigera och ta bort anpassade segment som du själv har skapat. Detta segment skapades och 'delades med dig' av Superanvändaren. För att ändra detta segment kan du först skapa ett nytt genom att klicka på 'Lägg till nytt segment'. Sedan kan du anpassa segmentets definition.",
         "VisibleToAllUsers": "alla användare",
         "VisibleToMe": "jag",
         "VisibleToSuperUser": "Synligt för dig eftersom du har administratörsrättigheter",
