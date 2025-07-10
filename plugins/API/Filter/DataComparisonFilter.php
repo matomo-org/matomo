@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\API\Filter;
 
+use CpChart\Data;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
@@ -221,6 +222,7 @@ class DataComparisonFilter
             $compareMetadata = $this->getMetadataFromModifiedParams($modifiedParams);
             $comparisonSeries[] = $compareMetadata['compareSeriesPretty'];
 
+            /** @var DataTable|null $compareTable */
             $compareTable = $this->requestReport($method, $modifiedParams);
             $this->comparisonRowGenerator->compareTables($compareMetadata, $table, empty($compareTable) ? null : $compareTable);
         }
