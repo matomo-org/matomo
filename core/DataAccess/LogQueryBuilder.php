@@ -74,6 +74,11 @@ class LogQueryBuilder
         }
 
         $tables = new JoinTables($this->logTableProvider, $from);
+        $tablesArray = $tables->getTables();
+        if (in_array('log_link_visit_action', $tablesArray) && in_array('log_visit', $tablesArray)) {
+            $logVisitIndex = array_search('log_visit', $tablesArray);
+            $tables[$logVisitIndex] = ['table' => 'log_visit', 'join' => 'INNER JOIN'];
+        }
         $join = new JoinGenerator($tables);
         $join->generate();
         $from = $join->getJoinString();
