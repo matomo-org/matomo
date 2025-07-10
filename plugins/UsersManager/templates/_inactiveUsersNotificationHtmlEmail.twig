@@ -1,0 +1,38 @@
+<p>{{ 'General_HelloUser'|translate(superuserLogin) }}</p>
+<p>{{ 'UsersManager_InactiveUsersNotificationEmail01'|translate }}</p>
+<p>{{ 'UsersManager_InactiveUsersNotificationEmail02'|translate }}</p>
+<ul>
+    <li>{{ 'UsersManager_InactiveUsersNotificationEmail02a'|translate }}</li>
+    <li>{{ 'UsersManager_InactiveUsersNotificationEmail02b'|translate }}</li>
+    <li>{{ 'UsersManager_InactiveUsersNotificationEmail02c'|translate }}</li>
+</ul>
+
+<strong>{{ 'UsersManager_InactiveUserAccounts'|translate }}</strong>
+<p>{{ 'UsersManager_InactiveUsersNotificationEmail03'|translate }}</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>{{ 'General_Username'|translate }}</th>
+            <th>{{ 'UsersManager_LastLoginDate'|translate }}</th>
+            <th>{{ 'UsersManager_LastAPIUsageDate'|translate }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for inactiveUser in inactiveUsers %}
+        <tr>
+            <td>{{ inactiveUser.login }}</td>
+            <td>{{ inactiveUser.ts_last_seen }}</td>
+            <td>{{ inactiveUser.ts_last_token_activity|default('n/a') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<p>{{ 'UsersManager_InactiveUsersNotificationEmail04'|translate }} <a href="{{ manageUsersLink|escape('html_attr') }}">{{ 'UsersManager_UsersManagement'|translate }}</a></p>
+<p>{{ 'UsersManager_InactiveUsersNotificationEmail05'|translate }}</p>
+<p>{{ 'UsersManager_InactiveUsersNotificationEmail06'|translate }}</p>
+
+<strong>{{ 'UsersManager_DisablingThisNotification'|translate }}</strong>
+
+<p>{{ 'UsersManager_InactiveUsersNotificationEmail07'|translate }}</p>
