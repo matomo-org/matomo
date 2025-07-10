@@ -183,13 +183,10 @@ class Loader
             $this->params->setFoundRequestedReports($foundRecords);
         }
 
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        [$visits, $visitsConverted] = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+        [$idArchive, $visits] = $this->prepareAllPluginsArchive($visits, $visitsConverted);
 
-        if (
-            $this->isThereSomeVisits($visits)
-            || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()
-        ) {
+        if (!empty($idArchive)) {
             $idArchivesToQuery = [$idArchive];
             if (!empty($foundRecords)) {
                 $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives ?: []);
