@@ -105,7 +105,6 @@ class Mysqli extends Db
      */
     public function connect()
     {
-        /** @var Timer|null $timer */
         $timer = null;
         if (self::$profiling) {
             $timer = $this->initProfiler();
@@ -214,7 +213,6 @@ class Mysqli extends Db
     public function fetchAll($query, $parameters = array())
     {
         try {
-            /** @var Timer|null $timer */
             $timer = null;
             if (self::$profiling) {
                 $timer = $this->initProfiler();
@@ -254,7 +252,6 @@ class Mysqli extends Db
     public function fetch($query, $parameters = array())
     {
         try {
-            /** @var Timer|null $timer */
             $timer = null;
             if (self::$profiling) {
                 $timer = $this->initProfiler();
@@ -295,7 +292,6 @@ class Mysqli extends Db
         }
 
         try {
-            /** @var Timer|null $timer */
             $timer = null;
             if (self::$profiling) {
                 $timer = $this->initProfiler();
