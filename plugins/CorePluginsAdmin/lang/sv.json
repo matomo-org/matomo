@@ -77,7 +77,7 @@
         "Themes": "Teman",
         "ThemesDescription": "Teman kan förändra utseendet på Matomos gränssnitt, och erbjuda en helt ny visuell upplevelse där du kan ta del av dina analysrapporter.",
         "ThemesManagement": "Hantera teman",
-        "UninstallConfirm": "Du är på väg att avinstallera ett plugin %s. Pluginet kommer att tas bort helt från din plattform och du kommer inte kunna återställa det. Är du säker på att du vill göra det?",
+        "UninstallConfirm": "Du är på väg att avinstallera ett plugin %s. Pluginet och all data det samlat in kommer att tas bort helt från din plattform och du kommer inte kunna återställa det. Är du säker på att du vill göra det?",
         "UpdateSelected": "Uppdatering är vald",
         "Version": "Version",
         "ViewAllMarketplacePlugins": "Visa alla Marketplace plugins",

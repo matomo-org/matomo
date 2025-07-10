@@ -371,6 +371,7 @@
         "ParameterMustIntegerBetween": "Caithfidh paraiméadar %1$s a bheith ina luach slánuimhir idir %2$s agus %3$s.",
         "Password": "Pasfhocal",
         "PasswordConfirmation": "Deimhniú pasfhocail",
+        "PasswordStrengthValidationFailed": "Theip ar fhíorú neart an phasfhocail. Ba chóir go gcomhlíonfadh an pasfhocal na rialacha seo: %1$s.",
         "PasswordStrengthValidationLength": "12 charachtar ar a laghad",
         "PasswordStrengthValidationLowercase": "Tá litir bheag ann",
         "PasswordStrengthValidationNumber": "Tá uimhir ann",

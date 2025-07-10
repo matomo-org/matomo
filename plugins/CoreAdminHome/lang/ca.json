@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "Per començar a fer un seguiment de les dades i obtenir informació sobre els vostres usuaris, haureu de configurar el seguiment al vostre lloc web o a l'aplicació mòbil. Per als llocs web, simplement inseriu el codi de seguiment just abans de l'etiqueta %s.",
         "JsTrackingCodeMissingEmail3": "Per trobar i personalitzar el vostre codi de seguiment, %1$sfeu clic aquí%2$s (o feu una ullada a la %3$sGuia del client de seguiment de JavaScript%4$s).",
         "LearnMore": "Aprèn més",
+        "Login": "Inicia la sessió",
         "LogoNotWriteableInstruction": "Per utilitzar el vostre logotip personalitzat en lloc del logotip predeterminat de Matomo, doneu permís d'escriptura a aquest directori: %1$s Matomo necessita accés d'escriptura per als vostres logotips emmagatzemats als fitxers %2$s.",
         "LogoUpload": "Seleccioneu un logo per pujar",
         "LogoUploadFailed": "El fitxer penjat no s'ha pogut processar. Comproveu si el fitxer té un format vàlid.",

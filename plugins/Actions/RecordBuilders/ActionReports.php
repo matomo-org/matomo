@@ -487,11 +487,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     protected function updateQuerySelectFromForSiteSearch(string &$select, array &$from): void
     {
         $selectFlagNoResultKeywords = ",
-                CASE WHEN (MAX(log_link_visit_action.search_count) = 0)
-                THEN 1 ELSE 0 END
-                    AS `" . PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
+                MAX(log_link_visit_action.search_count) = 0 AS `" . PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT . "`";
 
-        //we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
+        // we need an extra JOIN to know whether the referrer "idaction_name_ref" was a Site Search request
         $from[] = array(
             "table"      => "log_action",
             "tableAlias" => "log_action_name_ref",
