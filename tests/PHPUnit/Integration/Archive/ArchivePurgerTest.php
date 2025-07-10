@@ -96,7 +96,7 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertTemporaryArchivesNotPurged($this->january);
         self::$fixture->assertErrorInProgressArchivesNotPurged($this->january);
 
-        $this->assertEquals(2 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+        $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
 
         $this->checkNoDuplicateArchives();
     }
