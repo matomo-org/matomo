@@ -373,6 +373,7 @@
         "PasswordStrengthValidationUppercase": "Contains an uppercase letter",
         "PasswordStrengthValidationNumber": "Contains a number",
         "PasswordStrengthValidationSpecialChar": "Contains a special character",
+        "PasswordStrengthValidationFailed": "Password strength validation failed. The password should meet these rules: %1$s.",
         "Period": "Period",
         "Piechart": "Pie chart",
         "PiwikCannotBeUpgradedBecausePhpIsTooOld": "Matomo cannot be upgraded to the latest major version because your PHP version is too old.",

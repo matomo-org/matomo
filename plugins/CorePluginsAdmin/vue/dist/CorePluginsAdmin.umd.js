@@ -1725,6 +1725,7 @@ __webpack_require__.d(__webpack_exports__, "PluginsTable", function() { return /
 __webpack_require__.d(__webpack_exports__, "PluginsTableWithUpdates", function() { return /* reexport */ PluginsTableWithUpdates; });
 __webpack_require__.d(__webpack_exports__, "UploadPluginDialog", function() { return /* reexport */ UploadPluginDialog; });
 __webpack_require__.d(__webpack_exports__, "InstallAllPaidPluginsButton", function() { return /* reexport */ InstallAllPaidPluginsButton; });
+__webpack_require__.d(__webpack_exports__, "FieldPassword", function() { return /* reexport */ FieldPassword; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -15033,7 +15034,7 @@ expressions_math.import({
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=512ab4ff
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=8a2c17da
 
 const _hoisted_1 = {
   class: "form-group row matomo-form-field"
@@ -15066,7 +15067,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     modelModifiers: _ctx.modelModifiers,
     availableOptions: _ctx.availableOptions
   }, _ctx.extraChildComponentParams), {
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.onChange($event))
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.onChange($event)),
+    "onCheck:isValid": _cache[1] || (_cache[1] = $event => _ctx.onCheckIsValid($event))
   }), null, 16))], 2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["col s12", {
       'm6': !_ctx.formField.fullWidth
@@ -15077,7 +15079,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 0
   }, _ctx.inlineHelpBind)), null, 16)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "inline-help")], 512)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, [_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Default')) + ": ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.defaultValuePrettyTruncated), 1)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showDefaultValue]])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)]);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=512ab4ff
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=template&id=8a2c17da
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -16560,6 +16562,116 @@ function processCheckboxAndRadioAvailableValues(availableValues, type) {
   });
   return flatValues;
 }
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldPassword.vue?vue&type=template&id=49da593c
+
+const FieldPasswordvue_type_template_id_49da593c_hoisted_1 = ["type", "id", "name", "value"];
+const FieldPasswordvue_type_template_id_49da593c_hoisted_2 = ["for", "innerHTML"];
+function FieldPasswordvue_type_template_id_49da593c_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_PasswordStrength = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordStrength");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["mergeProps"])({
+    class: `control_${_ctx.uiControl}`,
+    type: _ctx.uiControl,
+    id: _ctx.name,
+    name: _ctx.name,
+    value: _ctx.modelValueText,
+    spellcheck: "false",
+    autocomplete: "current-password",
+    autocorrect: "off",
+    autocapitalize: "none",
+    onKeydown: _cache[0] || (_cache[0] = $event => _ctx.onKeydown($event)),
+    onChange: _cache[1] || (_cache[1] = $event => _ctx.onKeydown($event))
+  }, _ctx.uiControlAttributes), null, 16, FieldPasswordvue_type_template_id_49da593c_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
+    for: _ctx.name,
+    innerHTML: _ctx.$sanitize(_ctx.title)
+  }, null, 8, FieldPasswordvue_type_template_id_49da593c_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordStrength, {
+    password: _ctx.modelValueText,
+    "validation-rules": _ctx.passwordStrengthValidationRules,
+    "onCheck:isValid": _cache[2] || (_cache[2] = $event => _ctx.onCheckIsValid($event))
+  }, null, 8, ["password", "validation-rules"])], 64);
+}
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldPassword.vue?vue&type=template&id=49da593c
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/FormField/FieldPassword.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var FieldPasswordvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  components: {
+    PasswordStrength: external_CoreHome_["PasswordStrength"]
+  },
+  props: {
+    title: String,
+    name: String,
+    uiControlAttributes: Object,
+    modelValue: [String, Number],
+    modelModifiers: Object,
+    uiControl: String
+  },
+  inheritAttrs: false,
+  emits: ['update:modelValue', 'check:isValid'],
+  computed: {
+    modelValueText() {
+      if (typeof this.modelValue === 'undefined' || this.modelValue === null) {
+        return '';
+      }
+      return this.modelValue.toString();
+    },
+    passwordStrengthValidationRules() {
+      var _this$uiControlAttrib, _this$uiControlAttrib2;
+      return (_this$uiControlAttrib = (_this$uiControlAttrib2 = this.uiControlAttributes) === null || _this$uiControlAttrib2 === void 0 ? void 0 : _this$uiControlAttrib2.passwordStrengthValidationRules) !== null && _this$uiControlAttrib !== void 0 ? _this$uiControlAttrib : [];
+    }
+  },
+  created() {
+    // debounce because puppeteer types reeaally fast
+    this.onKeydown = Object(external_CoreHome_["debounce"])(this.onKeydown.bind(this), 50);
+  },
+  mounted() {
+    setTimeout(() => {
+      window.Materialize.updateTextFields();
+    });
+  },
+  watch: {
+    modelValue() {
+      setTimeout(() => {
+        window.Materialize.updateTextFields();
+      });
+    }
+  },
+  methods: {
+    onKeydown(event) {
+      const newValue = event.target.value;
+      if (this.modelValue !== newValue) {
+        var _this$modelModifiers;
+        if (!((_this$modelModifiers = this.modelModifiers) !== null && _this$modelModifiers !== void 0 && _this$modelModifiers.abortable)) {
+          this.$emit('update:modelValue', newValue);
+          return;
+        }
+        const emitEventData = {
+          value: newValue,
+          abort: () => {
+            // change to previous value if the parent component did not update the model value
+            // (done manually because Vue will not notice if a value does NOT change)
+            if (event.target.value !== this.modelValueText) {
+              event.target.value = this.modelValueText;
+            }
+          }
+        };
+        this.$emit('update:modelValue', emitEventData);
+      }
+    },
+    onCheckIsValid(isValid) {
+      this.$emit('check:isValid', isValid);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldPassword.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/FormField/FieldPassword.vue
+
+
+
+FieldPasswordvue_type_script_lang_ts.render = FieldPasswordvue_type_template_id_49da593c_render
+
+/* harmony default export */ var FieldPassword = (FieldPasswordvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/FormField/FormField.vue?vue&type=script&lang=ts
 
 
@@ -16579,7 +16691,8 @@ function processCheckboxAndRadioAvailableValues(availableValues, type) {
 
 
 
-const TEXT_CONTROLS = ['password', 'url', 'search', 'email'];
+
+const TEXT_CONTROLS = ['url', 'search', 'email'];
 const CONTROLS_SUPPORTING_ARRAY = ['textarea', 'checkbox', 'text'];
 const CONTROL_TO_COMPONENT_MAP = {
   checkbox: 'FieldCheckbox',
@@ -16590,6 +16703,7 @@ const CONTROL_TO_COMPONENT_MAP = {
   multiselect: 'FieldSelect',
   multituple: 'FieldMultituple',
   number: 'FieldNumber',
+  password: 'FieldPassword',
   radio: 'FieldRadio',
   select: 'FieldSelect',
   site: 'FieldSite',
@@ -16611,7 +16725,7 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
       required: true
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'check:isValid'],
   components: {
     FieldCheckbox: FieldCheckbox,
     FieldCheckboxArray: FieldCheckboxArray,
@@ -16627,7 +16741,8 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
     FieldText: FieldText,
     FieldTextArray: FieldTextArray,
     FieldTextarea: FieldTextarea,
-    FieldTextareaArray: FieldTextareaArray
+    FieldTextareaArray: FieldTextareaArray,
+    FieldPassword: FieldPassword
   },
   setup(props) {
     const inlineHelpNode = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(null);
@@ -16688,7 +16803,7 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
       } = formField;
       let control = CONTROL_TO_COMPONENT_MAP[uiControl];
       if (TEXT_CONTROLS.indexOf(uiControl) !== -1) {
-        control = 'FieldText'; // we use same template for text and password both
+        control = 'FieldText'; // we use same field for url, email etc.
       }
       if (this.formField.type === 'array' && CONTROLS_SUPPORTING_ARRAY.indexOf(uiControl) !== -1) {
         control = `${control}Array`;
@@ -16798,6 +16913,9 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
   methods: {
     onChange(newValue) {
       this.$emit('update:modelValue', newValue);
+    },
+    onCheckIsValid(isValid) {
+      this.$emit('check:isValid', isValid);
     }
   }
 }));
@@ -16810,21 +16928,22 @@ const CONTROL_TO_AVAILABLE_OPTION_PROCESSOR = {
 FormFieldvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var FormField = (FormFieldvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/Field/Field.vue?vue&type=template&id=5f883444
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/Field/Field.vue?vue&type=template&id=45ca943b
 
-function Fieldvue_type_template_id_5f883444_render(_ctx, _cache, $props, $setup, $data, $options) {
+function Fieldvue_type_template_id_45ca943b_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_FormField = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("FormField");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_FormField, {
     "form-field": _ctx.field,
     "model-value": _ctx.modelValue,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.onChange($event)),
+    "onCheck:isValid": _cache[1] || (_cache[1] = $event => _ctx.onCheckIsValid($event)),
     "model-modifiers": _ctx.modelModifiers
   }, {
     "inline-help": Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "inline-help")]),
     _: 3
   }, 8, ["form-field", "model-value", "model-modifiers"]);
 }
-// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Field/Field.vue?vue&type=template&id=5f883444
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/Field/Field.vue?vue&type=template&id=45ca943b
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/Field/Field.vue?vue&type=script&lang=ts
 
@@ -16870,7 +16989,7 @@ const UI_CONTROLS_TO_TYPE = {
     max: Number,
     component: null
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'check:isValid'],
   components: {
     FormField: FormField
   },
@@ -16918,6 +17037,9 @@ const UI_CONTROLS_TO_TYPE = {
   methods: {
     onChange(newValue) {
       this.$emit('update:modelValue', newValue);
+    },
+    onCheckIsValid(isValid) {
+      this.$emit('check:isValid', isValid);
     }
   }
 }));
@@ -16927,7 +17049,7 @@ const UI_CONTROLS_TO_TYPE = {
 
 
 
-Fieldvue_type_script_lang_ts.render = Fieldvue_type_template_id_5f883444_render
+Fieldvue_type_script_lang_ts.render = Fieldvue_type_template_id_45ca943b_render
 
 /* harmony default export */ var Field = (Fieldvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/PluginSettings/PluginSettings.vue?vue&type=template&id=601e4fc6
@@ -18748,6 +18870,7 @@ UploadPluginDialogvue_type_script_lang_ts.render = UploadPluginDialogvue_type_te
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
 
 
 

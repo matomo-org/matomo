@@ -223,6 +223,20 @@ export default defineComponent({
   </Field>
 </div>', [], [['plugin' => 'CoreHome', 'directive' => 'AutoClearPassword']]);
 
+        // rules are hardcoded as json-encoding the regular expressions produces an output that breaks the combination of single and double quotes used here
+        $snippets[] = $this->formSnippet('passwordStrength', 'pwdStrength', "''", '', '<div v-form>
+  <Field
+    uicontrol="password"
+    name="password_strength"
+    title="Password with strength indicator"
+    v-model="pwdStrength"
+    :ui-control-attributes="{
+      passwordStrengthValidationRules: [{\'validationRegex\':\'\/^.{12,}$\/\',\'ruleText\':\'At least 12 characters\'},{\'validationRegex\':\'\/^.*[a-z].*$\/\',\'ruleText\':\'Contains a lowercase letter\'},{\'validationRegex\':\'\/^.*[A-Z].*$\/\',\'ruleText\':\'Contains an uppercase letter\'},{\'validationRegex\':\'\/^.*[0-9].*$\/\',\'ruleText\':\'Contains a number\'},{\'validationRegex\':\'\/^.*[!@#$%^&*(){}~].*$\/\',\'ruleText\':\'Contains a special character\'}]
+    }"
+  >
+  </Field>
+</div>');
+
         $snippets[] = $this->formSnippet('complexHelp', 'text', "''", '', '<div v-form>
   <Field
     uicontrol="text"

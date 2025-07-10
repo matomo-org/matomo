@@ -77,6 +77,7 @@
         :initial-site-id="initialSiteId"
         :initial-site-name="initialSiteName"
         :activated-plugins="activatedPlugins"
+        :password-strength-validation-rules="passwordStrengthValidationRules"
         @resend-invite="showResendPopup($event.user)"
         @updated="userBeingEdited = $event.user"
       />
@@ -219,6 +220,10 @@ export default defineComponent({
     inviteTokenExpiryDays: {
       type: String,
       required: true,
+    },
+    passwordStrengthValidationRules: {
+      type: Array,
+      default: () => [],
     },
   },
   components: {

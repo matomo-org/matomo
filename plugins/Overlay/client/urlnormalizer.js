@@ -1,7 +1,7 @@
 /**
  * URL NORMALIZER
  * This utility preprocesses both the URLs in the document and
- * from the Piwik logs in order to make matching possible.
+ * from the Matomo logs in order to make matching possible.
  */
 var Piwik_Overlay_UrlNormalizer = (function () {
 
