@@ -908,4 +908,63 @@ class Model
         $count = (int) $db->fetchOne($sql, $bind);
         return $count > 0;
     }
+
+    public function getLastSeenTimestamp(string $userLogin): ?int
+    {
+        $db = $this->getDb();
+        $sql = "SELECT ts_last_seen FROM " . $this->userTable . " WHERE login = ?";
+        $bind = [$userLogin];
+        $dt = $db->fetchOne($sql, $bind);
+        if ($dt) {
+            return Date::factory($dt)->getTimestamp();
+        }
+        return null;
+    }
+
+    public function getLastSeenTimestampAllUsers(): array
+    {
+        $db = $this->getDb();
+        $sql = "SELECT login, ts_last_seen FROM " . $this->userTable;
+        return $db->fetchAll($sql);
+    }
+
+    public function setLastSeenTimestamp(string $userLogin, int $timestamp): void
+    {
+        $db = $this->getDb();
+        $sql = "UPDATE `" . $this->userTable . "` SET `ts_last_seen` = ? WHERE login = ?";
+        $bind = [Date::factory($timestamp)->getDatetime(), $userLogin];
+        $db->query($sql, $bind);
+    }
+
+    public function getUsersWithoutActivityForDays(int $days = 180): array
+    {
+        $db = $this->getDb();
+        $sql = "
+            SELECT
+                u.login,
+                COALESCE(u.ts_last_seen, u.date_registered) as ts_last_seen,
+                MAX(COALESCE(t.last_used, t.date_created)) AS ts_last_token_activity
+            FROM " . $this->userTable . " u
+            LEFT JOIN " . $this->tokenTable . " t ON u.login = t.login
+            WHERE 
+                u.login != ? AND
+                u.ts_inactivity_notified IS NULL
+            GROUP BY
+                u.login,
+                u.email,
+                u.ts_last_seen,
+                u.date_registered
+            HAVING COALESCE(u.ts_last_seen, u.date_registered) < (? - INTERVAL ? DAY)
+            ORDER BY u.login;
+        ";
+        $bind = ['anonymous', Date::factory('now')->getDatetime(), $days];
+        return $db->fetchAll($sql, $bind);
+    }
+
+    public function setInactiveUserNotificationWasSentForUsers(array $users, string $dtNotified): void
+    {
+        foreach ($users as $user) {
+            $this->updateUserFields($user['login'], ['ts_inactivity_notified' => $dtNotified]);
+        }
+    }
 }
