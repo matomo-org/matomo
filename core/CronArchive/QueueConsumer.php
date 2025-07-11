@@ -570,14 +570,15 @@ class QueueConsumer
     private function getInvalidationDescription(array $invalidatedArchive): string
     {
         return sprintf(
-            "[idinvalidation = %s, idsite = %s, period = %s(%s - %s), name = %s, segment = %s]",
+            "[idinvalidation = %s, idsite = %s, period = %s(%s - %s), name = %s, segment = %s, report = %s]",
             $invalidatedArchive['idinvalidation'],
             $invalidatedArchive['idsite'],
             $this->periodIdsToLabels[$invalidatedArchive['period']],
             $invalidatedArchive['date1'],
             $invalidatedArchive['date2'],
             $invalidatedArchive['name'],
-            $invalidatedArchive['segment'] ?? ''
+            $invalidatedArchive['segment'] ?? '',
+            $invalidatedArchive['report'] ?? ''
         );
     }
 

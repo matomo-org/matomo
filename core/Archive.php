@@ -990,7 +990,7 @@ class Archive implements ArchiveQuery
                 }
 
                 $this->idarchives[$doneFlag][$periodString][] = $idArchive;
-                $this->idarchiveStates[$idSite][$doneFlag][$periodString][$idArchive] = ArchiveWriter::DONE_OK;
+                $this->idarchiveStates[$idSite][$doneFlag][$periodString][$idArchive] = $shouldOnlyProcessRequestedArchives ? ArchiveWriter::DONE_PARTIAL : ArchiveWriter::DONE_OK;
             }
         }
     }
