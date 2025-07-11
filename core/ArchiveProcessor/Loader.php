@@ -82,18 +82,12 @@ class Loader
         $this->dataAccessModel = new Model();
     }
 
-    /**
-     * @return bool
-     */
-    protected function isThereSomeVisits($visits)
+    protected function isThereSomeVisits($visits): bool
     {
         return $visits > 0;
     }
 
-    /**
-     * @return bool
-     */
-    protected function mustProcessVisitCount($visits)
+    protected function mustProcessVisitCount($visits): bool
     {
         return $visits === false;
     }
@@ -173,7 +167,7 @@ class Loader
      * @param $visitsConverted
      * @return int[]
      */
-    protected function insertArchiveData($visits, $visitsConverted, $existingArchives, $foundRecords)
+    protected function insertArchiveData($visits, $visitsConverted, $existingArchives, $foundRecords): array
     {
         if (SettingsServer::isArchivePhpTriggered()) {
             $this->logger->info("initiating archiving via core:archive for " . $this->params);
@@ -198,7 +192,7 @@ class Loader
      * @return string
      * @throws \Exception
      */
-    private function makeArchivingLockId()
+    private function makeArchivingLockId(): string
     {
         $doneFlag = Rules::getDoneStringFlagFor(
             [$this->params->getSite()->getId()],
@@ -211,9 +205,9 @@ class Loader
     }
 
     /**
-     * @return array|false[]
+     * @return array{0: int[], 1: int}|array{0: int[], 1: int, 2: int, 3: array}
      */
-    protected function loadArchiveData()
+    protected function loadArchiveData(): array
     {
         // this hack was used to check the main function goes to return or continue
         // NOTE: $idArchives will contain the latest DONE_OK/DONE_INVALIDATED archive as well as any partial archives
@@ -271,9 +265,10 @@ class Loader
      * Prepares the core metrics if needed.
      *
      * @param $visits
-     * @return array
+     * @param $visitsConverted
+     * @return array{0: int, 1: int}
      */
-    protected function prepareCoreMetricsArchive($visits, $visitsConverted)
+    protected function prepareCoreMetricsArchive($visits, $visitsConverted): array
     {
         $createSeparateArchiveForCoreMetrics = $this->mustProcessVisitCount($visits)
                                 && !$this->doesRequestedPluginIncludeVisitsSummary();
@@ -299,10 +294,13 @@ class Loader
             $visitsConverted = $metrics['nb_visits_converted'];
         }
 
-        return array($visits, $visitsConverted);
+        return [$visits, $visitsConverted];
     }
 
-    protected function prepareAllPluginsArchive($visits, $visitsConverted)
+    /**
+     * @return array{0: int, 1: int}
+     */
+    protected function prepareAllPluginsArchive($visits, $visitsConverted): array
     {
         $pluginsArchiver = new PluginsArchiver($this->params);
 
@@ -320,19 +318,20 @@ class Loader
 
         $idArchive = $pluginsArchiver->finalizeArchive();
 
-        return array($idArchive, $visits);
+        return [$idArchive, $visits];
     }
 
-    protected function doesRequestedPluginIncludeVisitsSummary()
+    protected function doesRequestedPluginIncludeVisitsSummary(): bool
     {
-        $processAllReportsIncludingVisitsSummary =
-                Rules::shouldProcessReportsAllPlugins(array($this->params->getSite()->getId()), $this->params->getSegment(), $this->params->getPeriod()->getLabel());
-        $doesRequestedPluginIncludeVisitsSummary = $processAllReportsIncludingVisitsSummary
-                                                        || $this->params->getRequestedPlugin() == 'VisitsSummary';
-        return $doesRequestedPluginIncludeVisitsSummary;
+        $processAllReportsIncludingVisitsSummary = Rules::shouldProcessReportsAllPlugins(
+            [$this->params->getSite()->getId()],
+            $this->params->getSegment(),
+            $this->params->getPeriod()->getLabel()
+        );
+        return $processAllReportsIncludingVisitsSummary || $this->params->getRequestedPlugin() == 'VisitsSummary';
     }
 
-    protected function isArchivingForcedToTrigger()
+    protected function isArchivingForcedToTrigger(): bool
     {
         $period = $this->params->getPeriod()->getLabel();
         $debugSetting = 'always_archive_data_period'; // default
@@ -373,8 +372,7 @@ class Loader
         }
 
         $minDatetimeArchiveProcessedUTC = $this->getMinTimeArchiveProcessed();
-        $result = ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
-        return $result;
+        return ArchiveSelector::getArchiveIdAndVisits($this->params, $minDatetimeArchiveProcessedUTC);
     }
 
     /**
@@ -418,7 +416,7 @@ class Loader
         return false;
     }
 
-    private function shouldArchiveForSiteEvenWhenNoVisits()
+    private function shouldArchiveForSiteEvenWhenNoVisits(): bool
     {
         $idSitesToArchive = $this->getIdSitesToArchiveWhenNoVisits();
         return in_array($this->params->getSite()->getId(), $idSitesToArchive);
@@ -465,7 +463,7 @@ class Loader
         return $sitesPerDays;
     }
 
-    private function invalidatedReportsIfNeeded()
+    private function invalidatedReportsIfNeeded(): void
     {
         $sitesPerDays = $this->getReportsToInvalidate();
         if (empty($sitesPerDays)) {
@@ -484,7 +482,7 @@ class Loader
         Site::clearCache();
     }
 
-    public function canSkipThisArchive()
+    public function canSkipThisArchive(): bool
     {
         $params = $this->params;
         $idSite = $params->getSite()->getId();
@@ -517,7 +515,7 @@ class Loader
         return $hasChildArchivesInPeriod;
     }
 
-    public function canSkipArchiveForSegment()
+    public function canSkipArchiveForSegment(): bool
     {
         $params = $this->params;
 
@@ -568,13 +566,11 @@ class Loader
         return false;
     }
 
-    private function isWebsiteUsingTheTracker($idSite)
+    private function isWebsiteUsingTheTracker($idSite): bool
     {
         $idSitesNotUsingTracker = self::getSitesNotUsingTracker();
 
-        $isUsingTracker = !in_array($idSite, $idSitesNotUsingTracker);
-
-        return $isUsingTracker;
+        return !in_array($idSite, $idSitesNotUsingTracker);
     }
 
     public static function getSitesNotUsingTracker()
@@ -638,12 +634,12 @@ class Loader
         return $hasSiteVisitsBetweenTimeframe;
     }
 
-    public static function getArchivingDepth()
+    public static function getArchivingDepth(): int
     {
         return self::$archivingDepth;
     }
 
-    private function shouldForceInvalidatedArchive($value, $tsArchived)
+    private function shouldForceInvalidatedArchive($value, $tsArchived): bool
     {
         $params = $this->params;
 
