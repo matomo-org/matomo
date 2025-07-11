@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\API\Filter;
 
-use CpChart\Data;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
