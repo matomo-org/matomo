@@ -510,7 +510,7 @@ class Loader
 
         $canSkipArchiveForSegment = $this->canSkipArchiveForSegmentWithReason();
 
-        if ($canSkipArchiveForSegment) {
+        if ($canSkipArchiveForSegment[0]) {
             return [
                 true,
                 'Skip archive for segment: ' . $canSkipArchiveForSegment[1]
