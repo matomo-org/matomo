@@ -545,7 +545,7 @@ class CronArchive
             }
 
             if (!empty($archive['report'])) {
-                $params->setIsPartialArchive(true);
+                $params->setArchiveOnlyReport($archive['report']);
             }
 
             $loader = new Loader($params);
