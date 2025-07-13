@@ -1,10 +1,11 @@
 {
     "Events": {
-        "PluginDescription": "Spåra händelser och få rapporter om besökarnas aktiviteter.",
         "AvgEventValue": "Genomsnittligt värde för händelse är: %s",
         "AvgValue": "Medelvärde",
         "AvgValueDocumentation": "Medelvärdet för alla värden för denna händelse",
         "Category": "Kategori",
+        "ColumnNbUniqVisitorsDocumentation": "Antalet deduplicerade besökare som utlöst en händelse på din webbplats. Varje besökare räknas endast en gång, även om de besöker eller utlöser flera händelser på webbplatsen.",
+        "ColumnNbVisitsDocumentation": "Det totala antalet besök där minst en händelse utlöstes.",
         "Event": "Händelse",
         "EventAction": "Åtgärd för händelse",
         "EventActions": "Åtgärder för händelse",
@@ -17,15 +18,18 @@
         "EventNamesReportDocumentation": "Denna rapport visar namnen som är associerade med varje spårad händelse och hur många gånger de inträffade. Du kan se händelseåtgärderna och kategorierna som spårades tillsammans med varje händelses namn i varje rads undertabell. Du kan ändra vilket som visas genom att ändra den sekundära måttlinjen med länken längst ner i rapporten.",
         "EventUrl": "Händelsens adress",
         "EventUrls": "Händelsernas adresser",
-        "Events": "Händelser",
-        "EventsWithValue": "Händelser med ett värde",
-        "EventsWithValueDocumentation": "Antal händelser där en händelses värde fastställdes",
         "EventValue": "Händelse värde",
         "EventValueTooltip": "Totalt händelsevärde är summan av %1$shändelsevärden%2$s mellan minst %3$s och högst %4$s.",
+        "Events": "Händelser",
+        "EventsSubcategoryHelp1": "Sektionen Händelser erbjuder rapporter om anpassade händelser som är kopplade till din webbplats. Händelser kräver vanligtvis anpassad konfiguration. När du har konfigurerat kan du granska rapporterna uppdelade efter kategori, åtgärd och namn.",
+        "EventsSubcategoryHelp2": "Läs mer om händelsespårning här.",
+        "EventsWithValue": "Händelser med ett värde",
+        "EventsWithValueDocumentation": "Antal händelser där en händelses värde fastställdes",
         "MaxValue": "Högsta händelse värde",
         "MaxValueDocumentation": "Det maximala värdet för denna händelse",
         "MinValue": "Minsta händelse värde",
         "MinValueDocumentation": "Det lägsta värdet för denna händelse",
+        "PluginDescription": "Spåra händelser och få rapporter om besökarnas aktiviteter.",
         "SecondaryDimension": "Sekundär dimension är %s.",
         "SwitchToSecondaryDimension": "Växla till %s",
         "TopEvents": "Topphändelser",
@@ -33,8 +37,6 @@
         "TotalEventsDocumentation": "Totala antalet händelser",
         "TotalValue": "Händelse värde",
         "TotalValueDocumentation": "Summan av händelse värdena",
-        "ViewEvents": "Visa händelser",
-        "EventsSubcategoryHelp1": "Sektionen Händelser erbjuder rapporter om anpassade händelser som är kopplade till din webbplats. Händelser kräver vanligtvis anpassad konfiguration. När du har konfigurerat kan du granska rapporterna uppdelade efter kategori, åtgärd och namn.",
-        "EventsSubcategoryHelp2": "Läs mer om händelsespårning här."
+        "ViewEvents": "Visa händelser"
     }
 }

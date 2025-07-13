@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "För att börja spåra data och få insikt om dina användare behöver du starta spårningen på din webbsida eller app. För webbsidor är det bara att lägga till spårningskoden precis innan %s-taggen.",
         "JsTrackingCodeMissingEmail3": "%1$sKlicka här%2$s för att visa eller anpassa din spårningskod (eller ta en titt på %3$sJavaScript Tracking Client-guiden%4$s).",
         "LearnMore": "Läs mer",
+        "Login": "Inloggning",
         "LogoNotWriteableInstruction": "Om du vill använda din egen logotyp istället för Matomos logotyp, se till så att det finns skrivrättigheter till denna katalog: %1$s. Matomo behöver skrivrättighet för dina logotyper som lagras i filerna %2$s.",
         "LogoUpload": "Välj en logotyp att ladda upp",
         "LogoUploadFailed": "Den uppladdade filen kunde inte behandlats. Var snäll och kontrollera om filen är i giltigt format.",

@@ -47,6 +47,7 @@
         "FormatMetrics": "Formatar métricas",
         "HideExportUrl": "Ocultar URL de exportação",
         "HomeShortcut": "Início",
+        "IncludeDimensionsSeparately": "Incluir dimensões separadamente",
         "IncludeRowsWithLowPopulation": "As linhas com baixa população estão ocultas %s Mostrar todas as linhas",
         "InjectedHostEmailBody": "Olá, eu tentei aceder ao Matomo hoje e deparei-me com um aviso de nome de servidor desconhecido.",
         "InjectedHostEmailSubject": "O Matomo foi acedido com um nome de servidor desconhecido: %s",

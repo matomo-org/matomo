@@ -359,7 +359,7 @@ var broadcast = {
     loadAjaxContent: function (urlAjax) {
         if(broadcast.getParamValue('module', urlAjax) == 'API') {
             broadcast.lastUrlRequested = null;
-            $('#content').html("Loading content from the API and displaying it within Piwik is not allowed.");
+            $('#content').html("Loading content from the API and displaying it within Matomo is not allowed.");
             piwikHelper.hideAjaxLoading();
             return false;
         }

@@ -2,12 +2,9 @@
 
 __I have a large database, can I install the plugin on the command line?__
 
-Yes, this is not only possible but even recommended as the installation may take hours. To do this follow these steps:
+Yes, this is not only possible but even recommended as the installation may take hours. To do this:
 
-* Download the Plugin from [https://plugins.piwik.org/CustomDimensions](https://plugins.piwik.org/CustomDimensions)
-* Extract the files within the downloaded ZIP file
-* Copy the `CustomDimensions` directory into the `plugins` directory of your Piwik
-* Execute the command `./console plugin:activate CustomDimensions` within your Piwik directory
+* Execute the command `./console plugin:activate CustomDimensions` within your Matomo directory
 
 __Where can I manage Custom Dimensions?__
 
@@ -22,7 +19,7 @@ find the Id in the table that lists all available Custom Dimensions.
 
 __How do I set a value for a dimension in the JavaScript Tracker?__
 
-Please have a look at the [JavaScript Tracker guide for Custom Dimensions](https://developer.piwik.org/guides/tracking-javascript-guide#custom-dimensions).
+Please have a look at the [JavaScript Tracker guide for Custom Dimensions](https://developer.matomo.org/guides/tracking-javascript-guide#custom-dimensions).
 
 __How do I set a value for a dimension in the PHP Tracker?__
 

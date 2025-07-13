@@ -108,12 +108,43 @@ class ExceptionHandler
         exit(1);
     }
 
+    public static function replaceSensitiveValues(string $message): string
+    {
+        $dbConfig = Db::getDatabaseConfig();
+
+        $valuesToReplace = [
+            'tokenauth'   => Piwik::getCurrentUserTokenAuth(),
+            'generalSalt' => SettingsPiwik::getSalt(),
+            'dbuser'      => $dbConfig['username'],
+            'dbpass'      => $dbConfig['password'],
+        ];
+
+        $mailConfig = Config::getInstance()->mail;
+
+        if (!empty($mailConfig['username'])) {
+            $valuesToReplace['smtpuser'] = $mailConfig['username'];
+        }
+
+        if (!empty($mailConfig['password'])) {
+            $valuesToReplace['smtppass'] = $mailConfig['password'];
+        }
+
+        // Remove possible empty entries
+        $valuesToReplace = array_filter($valuesToReplace);
+
+        // replace all sensitive values
+        $message = str_replace(array_values($valuesToReplace), array_keys($valuesToReplace), $message);
+
+        // remove the document root from all messages
+        return str_replace(PIWIK_DOCUMENT_ROOT, '', $message);
+    }
+
     /**
      * @param Exception|\Throwable $ex
      */
     private static function getErrorResponse($ex)
     {
-        $debugTrace = $ex->getTraceAsString();
+        $debugTrace = self::replaceSensitiveValues($ex->getTraceAsString());
 
         $message = $ex->getMessage();
 
@@ -190,6 +221,29 @@ class ExceptionHandler
         }
 
         return $result;
+    }
+
+    public static function shouldPrintBackTraceWithMessage(): bool
+    {
+        if (
+            class_exists('\Piwik\SettingsServer')
+            && class_exists('\Piwik\Common')
+            && \Piwik\SettingsServer::isArchivePhpTriggered()
+            && \Piwik\Common::isPhpCliMode()
+        ) {
+            return true;
+        }
+
+        try {
+            $isDevelopmentModeEnabled = Development::isEnabled();
+        } catch (Exception $e) {
+            $isDevelopmentModeEnabled = false;
+        }
+
+        return $isDevelopmentModeEnabled
+            || (defined('PIWIK_PRINT_ERROR_BACKTRACE') && PIWIK_PRINT_ERROR_BACKTRACE)
+            || !empty($GLOBALS['PIWIK_PRINT_ERROR_BACKTRACE'])
+            || !empty($GLOBALS['PIWIK_TRACKER_DEBUG']);
     }
 
     private static function logException($exception, $loglevel = Log::ERROR)

@@ -4,6 +4,8 @@
         "AvgValue": "Valor médio",
         "AvgValueDocumentation": "A média de todos os valores para este evento",
         "Category": "Categoria",
+        "ColumnNbUniqVisitorsDocumentation": "O número de visitantes desduplicados que desencadearam um evento em seu site. Cada visitante só é contado uma vez, mesmo que eles visitem ou acionem vários eventos no site.",
+        "ColumnNbVisitsDocumentation": "O número total de visitas onde pelo menos um evento foi acionado.",
         "Event": "Evento",
         "EventAction": "Ação do evento",
         "EventActions": "Ações do evento",
