@@ -25,6 +25,8 @@
         "SettingBruteForceMaxFailedLoginsHelp": "Blocks the IP if more than this number of failed logins are recorded within the time frame set below.",
         "SettingBruteForceTimeRange": "Count login retries within this time range in minutes",
         "SettingBruteForceTimeRangeHelp": "Enter a number of minutes.",
+        "SettingPasswordStrengthCheck": "Force strong passwords to be used",
+        "SettingPasswordStrengthCheckHelp": "Forces users to create strong passwords by requiring them to meet a series of complex rules.",
         "ConfirmPasswordReset": "Reset password",
         "ConfirmPasswordResetIntro": "Please type your new password to confirm you really requested having your password changed.",
         "ConfirmPasswordResetWrongPassword": "The entered password does not match your newly made one. Reset your password again if you don't remember it. Don't do anything to keep your password if you didn't request changing it.",

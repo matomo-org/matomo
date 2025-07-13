@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "Para iniciar o acompanhamento de dados e obter conhecimentos sobre os seus utilizadores, é necessário configurar o processo de acompanhamento no seu site ou aplicação móvel. Para sites, basta incorporar o código de acompanhamento imediatamente antes da tag %s.",
         "JsTrackingCodeMissingEmail3": "Para encontrar e personalizar o seu código de acompanhamento, %1$sclique aqui%2$s (ou dê uma vista de olhos no %3$sguia do JavaScript de acompanhamento do cliente%4$s).",
         "LearnMore": "Saber mais",
+        "Login": "Entrar",
         "LogoNotWriteableInstruction": "Para utilizar o seu logótipo personalizado em vez do logótipo predefinido do Matomo, atribua permissões de escrita a este diretório: %1$s O Matomo necessita de acesso para escrita aos seus logótipos armazenados nos ficheiros %2$s.",
         "LogoUpload": "Selecione um logótipo para enviar",
         "LogoUploadFailed": "Não foi possível processar o ficheiro enviado. Por favor, confirme se o ficheiro tem um formato válido.",

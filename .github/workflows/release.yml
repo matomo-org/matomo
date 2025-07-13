@@ -173,7 +173,7 @@ jobs:
           chmod 755 ./.github/scripts/*.sh
           ./.github/scripts/build-package.sh $version
         shell: bash
-      - uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174
+      - uses: ncipollo/release-action@bcfe5470707e8832e12347755757cec0eb3c22af
         with:
           artifacts: "archives/matomo-${{ steps.tag.outputs.version }}.*,archives/piwik-${{ steps.tag.outputs.version }}.*"
           allowUpdates: ${{ steps.tag.outputs.update }}
