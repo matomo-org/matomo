@@ -325,4 +325,28 @@ class Schema extends Singleton
     {
         return $this->getSchema()->getSupportedReadIsolationTransactionLevel();
     }
+
+    /**
+     * Returns the type of the current database (e.g. MySQL, MariaDb, ...)
+     */
+    public function getDatabaseType(): string
+    {
+        return $this->getSchema()->getDatabaseType();
+    }
+
+    /**
+     * Returns the version of the currently used database server
+     */
+    public function getVersion(): string
+    {
+        return $this->getSchema()->getVersion();
+    }
+
+    /**
+     * Returns if the currently used database version has reach its EOL
+     */
+    public function hasReachedEOL(): string
+    {
+        return $this->getSchema()->hasReachedEOL();
+    }
 }
