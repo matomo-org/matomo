@@ -148,7 +148,7 @@
           </div>
           <div id="user-edit-form-plugin-extra-options">
             <component
-              v-for="(refComponent, index) in componentExtensions"
+              v-for="(refComponent, index) in componentReferences"
               :key="index"
               :is="refComponent"
               :ref="el => componentExtensionRef[index] = el"
@@ -304,9 +304,11 @@
 
 <script lang="ts">
 import {
+  Component,
   defineComponent,
   markRaw,
   PropType,
+  Ref,
 } from 'vue';
 import {
   ContentBlock,
@@ -338,9 +340,13 @@ const DEFAULT_USER: User = {
   invite_status: '',
 };
 
-interface ComponentExtension {
+interface ComponentReference {
   plugin: string;
   component: string;
+}
+
+interface ComponentWithBeforeInvite {
+  beforeInvite?: (user: User) => Promise<void>;
 }
 interface UserEditFormState {
   theUser: User;
@@ -357,7 +363,7 @@ interface UserEditFormState {
   showPasswordConfirmationForInviteUser: boolean;
   isResetting2FA: boolean;
   isShowingPasswordConfirm: boolean;
-  componentExtensionRef: ComponentExtension[];
+  componentExtensionRef: Ref<Component>[];
 }
 
 export default defineComponent({
@@ -392,7 +398,7 @@ export default defineComponent({
       required: true,
     },
     extensions: {
-      type: Array as PropType<ComponentExtension[]>,
+      type: Array as PropType<ComponentReference[]>,
       default: () => [],
     },
     passwordStrengthValidationRules: {
@@ -496,10 +502,9 @@ export default defineComponent({
 
       try {
         await Promise.all(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          this.componentExtensionRef.map((component: any) => {
-            if (typeof component?.beforeInvite === 'function') {
-              return component?.beforeInvite.call(component, this.theUser);
+          this.componentExtensionRef.map((component: ComponentWithBeforeInvite) => {
+            if (component && typeof component.beforeInvite === 'function') {
+              return component.beforeInvite.call(component, this.theUser);
             }
             return Promise.resolve();
           }),
@@ -672,9 +677,9 @@ export default defineComponent({
 
       return pluginInfo ? `${riskInfo} ${pluginInfo}` : riskInfo;
     },
-    componentExtensions() {
+    componentReferences() {
       return markRaw(this.extensions.map(
-        (ref: ComponentExtension) => useExternalPluginComponent(ref.plugin, ref.component),
+        (ref: ComponentReference) => useExternalPluginComponent(ref.plugin, ref.component),
       ));
     },
   },
