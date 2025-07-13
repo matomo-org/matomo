@@ -146,8 +146,10 @@
               :inline-help="translate('UsersManager_FirstSiteInlineHelp')"
             />
           </div>
-          <div id="plugin-extra" v-for="(refComponent, index) in componentExtensions" :key="index">
+          <div id="user-edit-form-plugin-extra-options">
             <component
+              v-for="(refComponent, index) in componentExtensions"
+              :key="index"
               :is="refComponent"
               :ref="el => componentExtensionRef[index] = el"
               :user="user"
@@ -157,7 +159,7 @@
               :filter-access-levels="filterAccessLevels"
               :initial-site-id="initialSiteId"
               :initial-site-name="initialSiteName"
-            />
+            ></component>
           </div>
           <div>
             <div class="form-group row" style="position: relative">
