@@ -745,7 +745,7 @@ class Controller extends ControllerAdmin
         return md5(SettingsPiwik::getSalt());
     }
 
-    public static function getUserEditExtensions(): array
+    private function getUserEditExtensions(): array
     {
         $componentExtensions = [];
         Piwik::postEvent('UsersManager.getUserEditExtensions', [&$componentExtensions]);
