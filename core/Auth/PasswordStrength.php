@@ -97,4 +97,15 @@ class PasswordStrength
 
         return Piwik::translate('General_PasswordStrengthValidationFailed', $concatenatedRules);
     }
+
+    public function formatRulesListHTML(array $rules): string
+    {
+        $list = '';
+        foreach ($rules as $rule) {
+            $ruleText = $rule['ruleText'];
+            $list .= "<ul>$ruleText</ul>";
+        }
+
+        return "<li>$list</li>";
+    }
 }

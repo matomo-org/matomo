@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Validators\IpRanges;
+use Piwik\Auth\PasswordStrength;
 
 /**
  * Defines Settings for Login.
@@ -52,7 +53,9 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         return $this->makeSetting('enablePasswordStrengthCheck', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('Login_SettingPasswordStrengthCheck');
-            $field->description = Piwik::translate('Login_SettingPasswordStrengthCheckHelp');
+            $PasswordStrengthChecker = new PasswordStrength($featureEnabled = true);
+            $rules = $PasswordStrengthChecker->getRules();
+            $field->inlineHelp = Piwik::translate('Login_SettingPasswordStrengthCheckHelp', [$PasswordStrengthChecker->formatRulesListHTML($rules)]);
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }
