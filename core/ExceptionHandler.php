@@ -113,25 +113,30 @@ class ExceptionHandler
         $dbConfig = Db::getDatabaseConfig();
 
         $valuesToReplace = [
-            Piwik::getCurrentUserTokenAuth() => 'tokenauth',
-            SettingsPiwik::getSalt()         => 'generalSalt',
-            $dbConfig['username']            => 'dbuser',
-            $dbConfig['password']            => 'dbpass',
+            'tokenauth'   => Piwik::getCurrentUserTokenAuth(),
+            'generalSalt' => SettingsPiwik::getSalt(),
+            'dbuser'      => $dbConfig['username'],
+            'dbpass'      => $dbConfig['password'],
         ];
 
         $mailConfig = Config::getInstance()->mail;
 
         if (!empty($mailConfig['username'])) {
-            $valuesToReplace[$mailConfig['username']] = 'smtpuser';
+            $valuesToReplace['smtpuser'] = $mailConfig['username'];
         }
 
         if (!empty($mailConfig['password'])) {
-            $valuesToReplace[$mailConfig['password']] = 'smtppass';
+            $valuesToReplace['smtppass'] = $mailConfig['password'];
         }
 
-        $valuesToReplace[PIWIK_DOCUMENT_ROOT] = '';
+        // Remove possible empty entries
+        $valuesToReplace = array_filter($valuesToReplace);
 
-        return str_replace(array_keys($valuesToReplace), array_values($valuesToReplace), $message);
+        // replace all sensitive values
+        $message = str_replace(array_values($valuesToReplace), array_keys($valuesToReplace), $message);
+
+        // remove the document root from all messages
+        return str_replace(PIWIK_DOCUMENT_ROOT, '', $message);
     }
 
     /**

@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s -%2$s மணித்துளி",
         "BetweenXYSeconds": "%1$s -%2$ss",
         "ColumnPagesPerVisit": "ஒரு வருகைக்கு பக்கங்கள்",
+        "ColumnPercentageVisitsDocumentation": "மொத்த வருகைகளின் சதவீதம், பார்வையாளர்கள் இதுவரை மொத்தம் இவ்வளவு வருகைகளை கொண்டுள்ளனர்.",
         "ColumnVisitDuration": "காலத்தைப் பார்வையிடவும்",
         "Engagement": "மண உறுதி",
         "NPages": "%s பக்கங்கள்",

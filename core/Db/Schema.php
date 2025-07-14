@@ -293,17 +293,6 @@ class Schema extends Singleton
     }
 
     /**
-     * Returns if the database engine can provide a rollup ranking query result
-     * without needing additional sorting.
-     *
-     * @return bool
-     */
-    public function supportsRankingRollupWithoutExtraSorting(): bool
-    {
-        return $this->getSchema()->supportsRankingRollupWithoutExtraSorting();
-    }
-
-    /**
      * Returns if the database engine is able to use sorted subqueries
      *
      * @return bool
