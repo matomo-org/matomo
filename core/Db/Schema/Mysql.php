@@ -820,7 +820,7 @@ class Mysql implements SchemaInterface
             return false;
         }
 
-        // Support for all other versions prior 9.3 already ended
+        // Support for all other versions prior to 9.3 (not covered by conditions above) already ended
         if (version_compare($currentVersion, '9.3', '<')) {
             return true;
         }

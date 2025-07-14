@@ -18,7 +18,7 @@ class Mariadb extends Mysql
 {
     public function getDatabaseType(): string
     {
-        return 'MariaDb';
+        return 'MariaDB';
     }
 
     /**
@@ -90,7 +90,7 @@ class Mariadb extends Mysql
             return false;
         }
 
-        // Support for all versions prior 11.8 already ended
+        // Support for all versions prior to 11.8 (not covered by conditions above) already ended
         if (version_compare($currentVersion, '11.8', '<')) {
             return true;
         }

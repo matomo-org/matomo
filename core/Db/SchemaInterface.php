@@ -15,7 +15,7 @@ namespace Piwik\Db;
 interface SchemaInterface
 {
     /**
-     * Returns the type of the current database (e.g. MySQL, MariaDb, ...)
+     * Returns the type of the current database (e.g. MySQL, MariaDB, ...)
      */
     public function getDatabaseType(): string;
 

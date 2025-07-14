@@ -304,7 +304,7 @@ abstract class ControllerAdmin extends Controller
         NotificationManager::notify('PHPVersionCheck', $notification);
     }
 
-    private static function notifyWhenDatabaseVersionIsEOL()
+    private static function notifyWhenDatabaseVersionIsEOL(): void
     {
         if (defined('PIWIK_TEST_MODE')) { // to avoid changing every admin UI test
             return;
