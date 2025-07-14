@@ -851,7 +851,7 @@ class Date
                 return $this->toString('Y');
             case "yy":
                 return $this->toString('y');
-                // month
+            // month
             case "MMMM":
                 return $translator->translate('Intl_Month_Long_' . $monthOfYear);
             case "MMM":
@@ -868,7 +868,7 @@ class Date
                 return $this->toString('n');
             case "L":
                 return $this->toString('m');
-                // day
+            // day
             case "dd":
                 return $this->toString('d');
             case "d":
@@ -889,11 +889,11 @@ class Date
                 return 1 + (int)$this->toString('z'); // 1 - 366
             case "F":
                 return (int)(((int)$this->toString('j') + 6) / 7);
-                // week in month
+            // week in month
             case "w":
                 $weekDay = date('N', mktime(0, 0, 0, $this->toString('m'), 1, $this->toString('y')));
                 return floor(($weekDay + (int)$this->toString('m') - 2) / 7) + 1;
-                // week in year
+            // week in year
             case "W":
                 return $this->toString('N');
                 // hour
@@ -913,23 +913,23 @@ class Date
                 return str_pad($this->toString('G') + 1, 2, '0');
             case "k": // 1 .. 24
                 return $this->toString('G') + 1;
-                // minute
+            // minute
             case "mm":
             case "m":
                 return $this->toString('i');
-                // second
+            // second
             case "ss":
             case "s":
                 return $this->toString('s');
-                // would normally also include AM, PM, Noon and Midnight
+            // would normally also include AM, PM, Noon and Midnight
             case "b":
-                // would normally be a textual presentation like "in the afternoon"
+            // would normally be a textual presentation like "in the afternoon"
             case "B":
-                // am / pm
+            // am / pm
             case "a":
                 return $this->toString('a') == 'am' ? $translator->translate('Intl_Time_AM') : $translator->translate('Intl_Time_PM');
 
-                // currently not implemented:
+            // currently not implemented:
             case "G":
             case "GG":
             case "GGG":

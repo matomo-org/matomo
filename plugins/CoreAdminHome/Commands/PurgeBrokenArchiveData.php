@@ -52,10 +52,10 @@ class PurgeBrokenArchiveData extends ConsoleCommand
         );
         $this->addOptionalArgument(
             "dateEnd",
-            "The start date to purge data from. Defaults to end of current month",
+            "The end date to purge data to. Defaults to end of current month",
             self::getToday()->getEndOfMonth()->toString('Y-m-d')
         );
-        $this->setHelp("Broken Archives are removed from all archive tables between supplied dates.\n\n"
+        $this->setHelp("Broken archives are removed from all archive tables between supplied dates.\n\n"
                      . "Note: archive purging is done during scheduled task execution, so under normal circumstances, you should not need to "
                      . "run this command manually.");
     }
@@ -91,7 +91,7 @@ class PurgeBrokenArchiveData extends ConsoleCommand
             return self::INVALID;
         }
 
-        $output->writeln("Purging broken archives between $dateStartStr & $dateEndStr");
+        $output->writeln("Purging broken archives between $dateStartStr and $dateEndStr");
         $rowsPurged = $archivePurger->purgeBrokenArchives($dateStart, $dateEnd);
         $output->writeln("Purging complete: Rows purged - $rowsPurged");
 

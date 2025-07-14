@@ -68,9 +68,9 @@ class PurgeBrokenArchiveDataTest extends IntegrationTestCase
 
     public function testExecutingCommandDefaultDatesPurgesFromExistingMonth()
     {
-        $result = $this->applicationTester->run(array(
+        $result = $this->applicationTester->run([
             'command' => 'core:purge-broken-archive-data',
-        ));
+        ]);
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
 
@@ -80,11 +80,11 @@ class PurgeBrokenArchiveDataTest extends IntegrationTestCase
 
     public function testExecutingCommandSpecificDatesPurgesOnlyInRange()
     {
-        $result = $this->applicationTester->run(array(
+        $result = $this->applicationTester->run([
             'command' => 'core:purge-broken-archive-data',
             'dateStart' => '2015-01-01',
             'dateEnd' => '2015-01-11'
-        ));
+        ]);
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
 
@@ -105,18 +105,18 @@ class PurgeBrokenArchiveDataTest extends IntegrationTestCase
 
     public function testExecutingCommandInvalidDates()
     {
-        $result = $this->applicationTester->run(array(
+        $result = $this->applicationTester->run([
             'command' => 'core:purge-broken-archive-data',
             'dateStart' => '201-01',
-        ));
+        ]);
 
         $this->assertEquals(2, $result, $this->getCommandDisplayOutputErrorMessage());
 
-        $result = $this->applicationTester->run(array(
+        $result = $this->applicationTester->run([
             'command' => 'core:purge-broken-archive-data',
             'dateStart' => '2015-01-01',
             'dateEnd' => '201-001'
-        ));
+        ]);
 
         $this->assertEquals(2, $result, $this->getCommandDisplayOutputErrorMessage());
     }

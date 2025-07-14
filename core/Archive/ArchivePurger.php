@@ -176,21 +176,21 @@ class ArchivePurger
             if (!empty($idArchivesToDelete)) {
                 $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
 
-                $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for {date}.", array(
+                $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for {date}.", [
                     'count' => $deletedRowCount,
                     'date' => $dateStart
-                ));
+                ]);
             } else {
-                $this->logger->debug("No broken archives found in archive numeric table for {date}.", array('date' => $dateStart));
+                $this->logger->debug("No broken archives found in archive numeric table for {date}.", ['date' => $dateStart]);
             }
             $monthStart = $monthStart->addMonth(1);
             $monthEnd = $monthEnd->addMonth(1)->getEndOfMonth();
 
             $numRowsDeleted += $deletedRowCount;
-            $this->logger->debug("Purging broken archives: done [ purged archives in {yearMonth} ] [Deleted IDs count: {deletedIds}]", array(
+            $this->logger->debug("Purging broken archives: done [ purged archives in {yearMonth} ] [Deleted IDs count: {deletedIds}]", [
                 'yearMonth' => $start->toString('Y-m'),
                 'deletedIds' => $deletedRowCount
-            ));
+            ]);
         } while ($dateEnd->isLater($monthEnd));
 
         return $numRowsDeleted;
@@ -298,11 +298,9 @@ class ArchivePurger
 
         $result = $this->model->getArchivesMissingDoneFlag($archiveTable, $dateStart, $dateEnd);
 
-        $idArchivesToDelete = array();
+        $idArchivesToDelete = [];
         if (!empty($result)) {
-            foreach ($result as $row) {
-                $idArchivesToDelete[] = $row['idarchive'];
-            }
+            $idArchivesToDelete = array_column($result, 'idarchive');
         }
 
         return $idArchivesToDelete;
