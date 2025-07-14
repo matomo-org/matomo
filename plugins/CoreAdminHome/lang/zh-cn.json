@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "要开始跟踪数据并深入了解用户，您需要在自己的网站或移动应用中设置跟踪功能。 对于网站，只需在%s标记之前嵌入跟踪代码。",
         "JsTrackingCodeMissingEmail3": "要查找和自定义跟踪代码，%1$s点击此处%2$s（或查看%3$s JavaScript跟踪客户端指南%4$s）。",
         "LearnMore": "学到更多",
+        "Login": "登录",
         "LogoNotWriteableInstruction": "要使用您的自定义图标替代 Matomo 默认的，请给予此文件夹写入权限：%1$s。Matomo 需要%2$s的写入权限以便将您的图标存储下来。",
         "LogoUpload": "选择一个图标上传",
         "LogoUploadFailed": "无法处理上传的文件。请检查该文件是否为有效格式。",
