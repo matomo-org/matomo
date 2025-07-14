@@ -47,6 +47,7 @@
         "FormatMetrics": "Formatera variabler",
         "HideExportUrl": "Dölj exportadress",
         "HomeShortcut": "Hem",
+        "IncludeDimensionsSeparately": "Inkludera dimensioner separat",
         "IncludeRowsWithLowPopulation": "Rader med låga värden är dolda %s Visa alla rader",
         "InjectedHostEmailBody": "Hej, jag försökte komma åt Matomo idag och stötte på varningen det okända värdnamnet.",
         "InjectedHostEmailSubject": "Matomo nåddes genom ett okänt värdnamn: %s",

@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "Chun tús a chur le sonraí a rianú agus léargais a fháil ar d'úsáideoirí, beidh ort rianú a chur ar bun i do láithreán gréasáin nó i d'aip soghluaiste. I gcás suíomhanna Gréasáin, ní gá ach an cód rianaithe a leabú díreach roimh an gclib %s.",
         "JsTrackingCodeMissingEmail3": "Chun do chód rianaithe a aimsiú agus a shaincheapadh, %1$sclick here%2$s (nó féach ar an %3$sJavaScript Tracking Client guide%4$s).",
         "LearnMore": "Faigh tuilleadh eolais",
+        "Login": "Logáil Isteach",
         "LogoNotWriteableInstruction": "Chun do lógó saincheaptha a úsáid in ionad lógó réamhshocraithe Matomo, tabhair cead scríofa don chomhadlann seo: %1$sNí mór do Matomo rochtain a scríobh ar do lógónna atá stóráilte sna comhaid%2$s.",
         "LogoUpload": "Roghnaigh Lógó le huaslódáil",
         "LogoUploadFailed": "Níorbh fhéidir an comhad uaslódáilte a phróiseáil. Seiceáil an bhfuil formáid bhailí ag an gcomhad.",
