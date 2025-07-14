@@ -103,9 +103,9 @@ class PasswordStrength
         $list = '';
         foreach ($rules as $rule) {
             $ruleText = $rule['ruleText'];
-            $list .= "<ul>$ruleText</ul>";
+            $list .= "<li>$ruleText</li>";
         }
 
-        return "<li>$list</li>";
+        return "<ul>$list</ul>";
     }
 }
