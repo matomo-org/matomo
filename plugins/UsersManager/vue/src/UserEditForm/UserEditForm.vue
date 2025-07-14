@@ -153,12 +153,6 @@
               :is="refComponent"
               :ref="el => componentExtensionRef[index] = el"
               :user="user"
-              :current-user-role="currentUserRole"
-              :invite-token-expiry-days="inviteTokenExpiryDays"
-              :access-levels="accessLevels"
-              :filter-access-levels="filterAccessLevels"
-              :initial-site-id="initialSiteId"
-              :initial-site-name="initialSiteName"
             ></component>
           </div>
           <div>
