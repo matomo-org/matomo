@@ -73,16 +73,12 @@ class LogQueryBuilder
             $bind = array_merge($bind, $segmentSql['bind']);
         }
 
-        $tables = new JoinTables($this->logTableProvider, $from);
-        $tablesArray = $tables->getTables();
-        if (count($tablesArray) === 2
-            && in_array('log_link_visit_action', $tablesArray)
-            && in_array('log_visit', $tablesArray)
-            && array_filter($tablesArray, 'is_scalar')
-        ) {
-            $logVisitIndex = array_search('log_visit', $tablesArray);
-            $tables[$logVisitIndex] = ['table' => 'log_visit', 'join' => 'INNER JOIN'];
+        // hack for DEV-19253
+        if ($from === ['log_link_visit_action', 'log_visit']) {
+            $from[1] = ['table' => 'log_visit', 'join' => 'INNER JOIN'];
         }
+
+        $tables = new JoinTables($this->logTableProvider, $from);
         $join = new JoinGenerator($tables);
         $join->generate();
         $from = $join->getJoinString();
