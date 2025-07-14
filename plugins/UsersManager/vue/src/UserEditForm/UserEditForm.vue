@@ -151,7 +151,7 @@
               v-for="(refComponent, index) in componentReferences"
               :key="index"
               :is="refComponent"
-              :ref="el => componentExtensionRef[index] = el"
+              :ref="el => pluginComponents[index] = el"
               :user="user"
             ></component>
           </div>
@@ -298,11 +298,10 @@
 
 <script lang="ts">
 import {
-  Component,
+  ComponentPublicInstance,
   defineComponent,
   markRaw,
   PropType,
-  Ref,
 } from 'vue';
 import {
   ContentBlock,
@@ -339,7 +338,8 @@ interface ComponentReference {
   component: string;
 }
 
-interface ComponentWithBeforeInvite {
+interface PluginComponent extends ComponentPublicInstance {
+  user?: User;
   beforeInvite?: (user: User) => Promise<void>;
 }
 interface UserEditFormState {
@@ -357,7 +357,7 @@ interface UserEditFormState {
   showPasswordConfirmationForInviteUser: boolean;
   isResetting2FA: boolean;
   isShowingPasswordConfirm: boolean;
-  componentExtensionRef: Ref<Component>[];
+  pluginComponents: PluginComponent[];
 }
 
 export default defineComponent({
@@ -431,7 +431,7 @@ export default defineComponent({
       showPasswordConfirmationForInviteUser: false,
       isResetting2FA: false,
       isShowingPasswordConfirm: false,
-      componentExtensionRef: [],
+      pluginComponents: [],
     };
   },
   emits: ['done', 'updated', 'resendInvite'],
@@ -496,7 +496,7 @@ export default defineComponent({
 
       try {
         await Promise.all(
-          this.componentExtensionRef.map((component: ComponentWithBeforeInvite) => {
+          this.pluginComponents.map((component: PluginComponent) => {
             if (component && typeof component.beforeInvite === 'function') {
               return component.beforeInvite.call(component, this.theUser);
             }
