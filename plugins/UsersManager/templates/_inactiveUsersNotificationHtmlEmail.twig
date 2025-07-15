@@ -10,20 +10,20 @@
 <strong>{{ 'UsersManager_InactiveUserAccounts'|translate }}</strong>
 <p>{{ 'UsersManager_InactiveUsersNotificationEmail03'|translate }}</p>
 
-<table>
+<table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse;">
     <thead>
         <tr>
-            <th>{{ 'General_Username'|translate }}</th>
-            <th>{{ 'UsersManager_LastLoginDate'|translate }}</th>
-            <th>{{ 'UsersManager_LastAPIUsageDate'|translate }}</th>
+            <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">{{ 'General_Username'|translate }}</th>
+            <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">{{ 'UsersManager_LastLoginDate'|translate }}</th>
+            <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">{{ 'UsersManager_LastAPIUsageDate'|translate }}</th>
         </tr>
     </thead>
     <tbody>
     {% for inactiveUser in inactiveUsers %}
         <tr>
-            <td>{{ inactiveUser.login }}</td>
-            <td>{{ inactiveUser.ts_last_seen }}</td>
-            <td>{{ inactiveUser.ts_last_token_activity|default('n/a') }}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ inactiveUser.login }}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ inactiveUser.ts_last_seen }}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ inactiveUser.ts_last_token_activity|default('n/a') }}</td>
         </tr>
     {% endfor %}
     </tbody>
