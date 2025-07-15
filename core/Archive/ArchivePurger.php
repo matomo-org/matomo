@@ -16,6 +16,7 @@ use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\Model;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Period\Month;
 use Piwik\Log\LoggerInterface;
 
 /**
@@ -156,42 +157,39 @@ class ArchivePurger
      *                  if $dateEnd is in the past relative to $dateStart, it is ignored
      * @return int Returns the total number of rows deleted.
      */
-    public function purgeBrokenArchives(Date $dateStart, Date $dateEnd = null): int
+    public function purgeBrokenArchives(Month $startMonth, Month $endMonth = null): int
     {
-        if (!isset($dateEnd) || $dateStart->isLater($dateEnd)) {
-            $dateEnd = $dateStart->getEndOfMonth();
+        if (!isset($endMonth) || $startMonth->getDateStart()->isLater($endMonth->getDateEnd())) {
+            $endMonth = $startMonth; 
         }
 
-        $monthStart = $dateStart->getStartOfMonth();
-        $monthEnd = $dateStart->getEndOfMonth();
-
+        $currentMonth = $startMonth;
+        $currentMonthStart = $currentMonth->getDateStart();
         $numRowsDeleted = 0;
 
         // loop through months and delete from relevant tables
         do {
-            $start = $dateStart->isLater($monthStart) ? $dateStart : $monthStart;
-            $end = $dateEnd->isLater($monthEnd) ? $monthEnd : $dateEnd;
-            $idArchivesToDelete = $this->getBrokenArchiveIds($start, $end);
+            $idArchivesToDelete = $this->getBrokenArchiveIds($currentMonth);
             $deletedRowCount = 0;
             if (!empty($idArchivesToDelete)) {
-                $deletedRowCount = $this->deleteArchiveIds($dateStart, $idArchivesToDelete);
+                $deletedRowCount = $this->deleteArchiveIds($currentMonthStart, $idArchivesToDelete);
 
                 $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for {date}.", [
                     'count' => $deletedRowCount,
-                    'date' => $dateStart
+                    'date' => $currentMonthStart
                 ]);
             } else {
-                $this->logger->debug("No broken archives found in archive numeric table for {date}.", ['date' => $dateStart]);
+                $this->logger->debug("No broken archives found in archive numeric table for {date}.", ['date' => $currentMonthStart]);
             }
-            $monthStart = $monthStart->addMonth(1);
-            $monthEnd = $monthEnd->addMonth(1)->getEndOfMonth();
 
             $numRowsDeleted += $deletedRowCount;
             $this->logger->debug("Purging broken archives: done [ purged archives in {yearMonth} ] [Deleted IDs count: {deletedIds}]", [
-                'yearMonth' => $start->toString('Y-m'),
+                'yearMonth' => $currentMonthStart->toString('Y-m'),
                 'deletedIds' => $deletedRowCount
             ]);
-        } while ($dateEnd->isLater($monthEnd));
+            $currentMonth = new Month($currentMonthStart->addMonth(1));
+            $currentMonthStart = $currentMonth->getDateStart();
+        } while ($endMonth->getDateEnd()->isLater($currentMonthStart));
 
         return $numRowsDeleted;
     }
@@ -289,14 +287,11 @@ class ArchivePurger
      *                  in $dateStart. Ignored if the date is not in the same month as $dateStart.
      * @return array
      */
-    private function getBrokenArchiveIds(Date $dateStart, Date $dateEnd = null): array
+    private function getBrokenArchiveIds(Month $month): array
     {
-        if (!isset($dateEnd) || $dateStart->compareMonth($dateEnd) !== 0 || $dateStart->isLater($dateEnd)) {
-            $dateEnd = $dateStart->getEndOfMonth();
-        }
-        $archiveTable = ArchiveTableCreator::getNumericTable($dateStart);
+        $archiveTable = ArchiveTableCreator::getNumericTable($month->getDateStart());
 
-        $result = $this->model->getArchivesMissingDoneFlag($archiveTable, $dateStart, $dateEnd);
+        $result = $this->model->getArchivesMissingDoneFlag($archiveTable);
 
         $idArchivesToDelete = [];
         if (!empty($result)) {

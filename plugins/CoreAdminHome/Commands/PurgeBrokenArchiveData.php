@@ -13,6 +13,7 @@ use Piwik\Archive\ArchivePurger;
 use Piwik\Date;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Log\NullLogger;
+use Piwik\Period\Month;
 
 /**
  * Command that allows users to force purge old or invalid archive data. In the event of a failure
@@ -78,21 +79,22 @@ class PurgeBrokenArchiveData extends ConsoleCommand
         $dateEndStr = $this->getInput()->getArgument('dateEnd');
 
         try {
-            $dateStart = Date::factory($dateStartStr);
+            $startMonth = new Month(Date::factory($dateStartStr));
         } catch (\Exception $e) {
             $output->writeln("Invalid Argument - dateStart - $dateStartStr");
             return self::INVALID;
         }
 
         try {
-            $dateEnd = Date::factory($dateEndStr);
+            $endMonth = new Month(Date::factory($dateEndStr));
         } catch (\Exception $e) {
             $output->writeln("Invalid Argument - dateEnd - $dateEndStr");
             return self::INVALID;
         }
-
-        $output->writeln("Purging broken archives between $dateStartStr and $dateEndStr");
-        $rowsPurged = $archivePurger->purgeBrokenArchives($dateStart, $dateEnd);
+        $startMonthStr = $startMonth->getDateStart()->toString('Y-m');
+        $endMonthStr = $endMonth->getDateStart()->toString('Y-m');
+        $output->writeln("Purging broken archives between $startMonthStr and $endMonthStr");
+        $rowsPurged = $archivePurger->purgeBrokenArchives($startMonth, $endMonth);
         $output->writeln("Purging complete: Rows purged - $rowsPurged");
 
         return self::SUCCESS;

@@ -34,6 +34,7 @@ use Piwik\Site;
 use Piwik\Tracker\FingerprintSalt;
 use Piwik\Tracker\Visit\ReferrerSpamFilter;
 use Piwik\Log\LoggerInterface;
+use Piwik\Period\Month;
 use Piwik\SettingsPiwik;
 
 class Tasks extends \Piwik\Plugin\Tasks
@@ -333,13 +334,13 @@ class Tasks extends \Piwik\Plugin\Tasks
             [$year, $month] = explode('_', $date);
 
             try {
-                $dateMonthStart = Date::factory("$year-$month-01");
+                $monthPeriod = new Month(Date::factory("$year-$month-01"));
             } catch (\Exception $e) {
                 $this->logger->debug("Date extracted from {table} not valid.", ['table' => $archiveTable]);
                 return false;
             }
 
-            $this->archivePurger->purgeBrokenArchives($dateMonthStart);
+            $this->archivePurger->purgeBrokenArchives($monthPeriod);
         } else {
             $this->logger->info("No archive tables found");
         }
