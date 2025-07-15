@@ -2,7 +2,7 @@
     "UserLanguage": {
         "BrowserLanguage": "浏览器语言",
         "LanguageCode": "语言代码",
-        "PluginDescription": "报告访问者用的主要浏览器语言",
+        "PluginDescription": "报告访客用的主要浏览器语言。",
         "getLanguageCodeDocumentation": "显示访问者浏览器设置的语言代码。 （例如“德国-奥地利（de-at）”）",
         "getLanguageDocumentation": "显示访问者正在使用的浏览器语言。 （例如“法语”）"
     }
