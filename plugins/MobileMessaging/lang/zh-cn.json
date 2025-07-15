@@ -10,7 +10,7 @@
         "PluginDescription": "创建并下载自定义短信报表，每天、每周或每月发到您的手机。",
         "SMS_Content_Too_Long": "[太长]",
         "SettingsMenu": "手机短信",
-        "Settings_APIKey": "API Key",
+        "Settings_APIKey": "API密钥",
         "Settings_CountryCode": "国家代码",
         "Settings_CredentialInvalid": "您的 %1$s SMS API帐户已配置，但在尝试接收可用信用额度时发生错误。",
         "Settings_CredentialNotProvided": "请设置上面的 Matomo 短信帐号，然后才能创建和管理电话号码。",
