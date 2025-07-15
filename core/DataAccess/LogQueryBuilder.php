@@ -73,7 +73,8 @@ class LogQueryBuilder
             $bind = array_merge($bind, $segmentSql['bind']);
         }
 
-        // hack for DEV-19253
+        // hack to allow db planner and db query optimiser to use an anti-join which results in a lower cost query
+        // and filtering on the log_visit table first when it doesn't need to consider null-extended rows
         if ($from === ['log_link_visit_action', 'log_visit']) {
             $from[1] = ['table' => 'log_visit', 'join' => 'INNER JOIN'];
         }
