@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Piwik;
 
 /**
@@ -71,7 +72,9 @@ class LastSeenTimeLogger
         $results = [];
         $userModel = new Model();
         foreach ($userModel->getLastSeenTimestampAllUsers() as $values) {
-            $results[$values['login']] = $values['ts_last_seen'];
+            if ($values['ts_last_seen']) {
+                $results[$values['login']] = Date::factory($values['ts_last_seen'])->getTimestamp();
+            }
         }
         return $results;
     }
