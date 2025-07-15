@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Period\Month;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -87,7 +88,7 @@ class ArchivePurgerTest extends IntegrationTestCase
     {
         $this->enableBrowserTriggeredArchiving();
 
-        $deletedRowCount = $this->archivePurger->purgeBrokenArchives($this->february);
+        $deletedRowCount = $this->archivePurger->purgeBrokenArchives(new Month($this->february));
 
         self::$fixture->assertBrokenArchivesWithoutDoneFlagPurged($this->february);
 

@@ -87,20 +87,8 @@ class PurgeBrokenArchiveDataTest extends IntegrationTestCase
         ]);
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
-
-        self::$fixture->assertPartialBrokenArchivesWithoutDoneFlag(self::$fixture->january);
-    }
-
-    public function testExecutingCommandDateStartPurgesOnlyInRange()
-    {
-        $result = $this->applicationTester->run(array(
-            'command' => 'core:purge-broken-archive-data',
-            'dateStart' => '2015-01-01',
-        ));
-
-        $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
-
         self::$fixture->assertBrokenArchivesWithoutDoneFlagPurged(self::$fixture->january);
+        self::$fixture->assertBrokenArchivesNotPurged(self::$fixture->february);
     }
 
     public function testExecutingCommandInvalidDates()
