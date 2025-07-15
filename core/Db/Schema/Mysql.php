@@ -796,7 +796,9 @@ class Mysql implements SchemaInterface
         $currentVersion = $this->getVersion();
 
         // Aurora is managed by AWS and is updated automatically if EOL, therefor we can ignore that here
-        if (str_contains(strtolower($currentVersion), 'aurora')) {
+        $auroraQuery = $this->getDb()->query('SHOW VARIABLES LIKE "aurora%"');
+
+        if ($this->getDb()->rowCount($auroraQuery) > 0) {
             return false;
         }
 
