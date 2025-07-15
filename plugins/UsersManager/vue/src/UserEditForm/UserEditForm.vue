@@ -503,9 +503,8 @@ export default defineComponent({
             return Promise.resolve();
           }),
         );
-      } catch (e) {
+      } finally {
         this.isSavingUserInfo = false;
-        throw e;
       }
 
       try {
