@@ -1,6 +1,6 @@
 {
     "UserCountry": {
-        "CannotLocalizeLocalIP": "IP 地址“%s”是本地的，因此无法对其进行地理定位。",
+        "CannotLocalizeLocalIP": "IP地址“%s”是局域网地址，因此无法对其进行地理定位。",
         "City": "城市",
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "大洲",

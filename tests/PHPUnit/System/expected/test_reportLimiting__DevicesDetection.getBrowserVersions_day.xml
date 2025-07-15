@@ -28,13 +28,13 @@
 	</row>
 	<row>
 		<label>Others</label>
-		<nb_uniq_visitors>15</nb_uniq_visitors>
-		<nb_visits>75</nb_visits>
-		<nb_actions>100</nb_actions>
-		<nb_users>15</nb_users>
-		<max_actions>2</max_actions>
-		<sum_visit_length>65</sum_visit_length>
-		<bounce_count>25</bounce_count>
+		<nb_uniq_visitors>33</nb_uniq_visitors>
+		<nb_visits>93</nb_visits>
+		<nb_actions>244</nb_actions>
+		<nb_users>33</nb_users>
+		<max_actions>15</max_actions>
+		<sum_visit_length>81</sum_visit_length>
+		<bounce_count>27</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<logo>plugins/Morpheus/icons/dist/browsers/UNK.png</logo>
 	</row>
