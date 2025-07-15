@@ -41,7 +41,7 @@ class PurgeBrokenArchiveDataTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        Date::$now = Date::factory('2015-02-27');
+        Date::$now = Date::factory('2015-02-27')->getTimestamp();
 
         $archivePurger = new ArchivePurger();
         $archivePurger->setTodayDate(Date::factory('2015-02-27'));
@@ -61,7 +61,7 @@ class PurgeBrokenArchiveDataTest extends IntegrationTestCase
 
     public function tearDown(): void
     {
-        PurgeBrokenArchiveData::$todayOverride = null;
+        Date::$now = null;
 
         parent::tearDown();
     }

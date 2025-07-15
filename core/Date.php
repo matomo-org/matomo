@@ -55,7 +55,9 @@ class Date
     public const DATE_FORMAT_YEAR        = DateTimeFormatProvider::DATE_FORMAT_YEAR;
     public const TIME_FORMAT             = DateTimeFormatProvider::TIME_FORMAT;
 
-    // for tests
+    /** for tests
+     * @var int
+     */
     public static $now = null;
 
     /**
