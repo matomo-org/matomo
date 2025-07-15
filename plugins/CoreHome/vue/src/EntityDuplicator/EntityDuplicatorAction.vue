@@ -26,6 +26,7 @@
 <script lang="ts">
 import {
   defineComponent,
+  PropType,
 } from 'vue';
 import { translate, translateOrDefault } from '../translate';
 import Tooltips from '../Tooltips/Tooltips';
@@ -44,7 +45,7 @@ export default defineComponent({
      * The reactive class for controlling the settings of the modal from multiple components.
      */
     modalStore: {
-      type: EntityDuplicatorStore,
+      type: Object as PropType<EntityDuplicatorStore>,
       required: true,
     },
     /**

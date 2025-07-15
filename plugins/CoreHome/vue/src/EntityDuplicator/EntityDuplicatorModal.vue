@@ -81,7 +81,9 @@
 
 <script lang="ts">
 import {
-  defineComponent, watch,
+  defineComponent,
+  watch,
+  PropType,
 } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 import SiteRef from '../SiteSelector/SiteRef';
@@ -128,7 +130,7 @@ export default defineComponent({
      * The reactive class for controlling the settings of the modal from multiple components.
      */
     modalStore: {
-      type: EntityDuplicatorStore,
+      type: Object as PropType<EntityDuplicatorStore>,
       required: true,
     },
     /**
