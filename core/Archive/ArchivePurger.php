@@ -161,7 +161,7 @@ class ArchivePurger
     public function purgeBrokenArchives(Month $startMonth, Month $endMonth = null): int
     {
         if (!isset($endMonth) || $startMonth->getDateStart()->isLater($endMonth->getDateEnd())) {
-            $endMonth = $startMonth; 
+            $endMonth = $startMonth;
         }
 
         $currentMonth = $startMonth;
