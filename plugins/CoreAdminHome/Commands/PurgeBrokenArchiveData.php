@@ -22,12 +22,6 @@ use Piwik\Period\Month;
 class PurgeBrokenArchiveData extends ConsoleCommand
 {
     /**
-     * overridden in tests 
-     * @var Date
-     */
-    public static $today = Date::today();
-
-    /**
      * @var ArchivePurger
      */
     private $archivePurger;
@@ -41,7 +35,7 @@ class PurgeBrokenArchiveData extends ConsoleCommand
 
     protected function configure()
     {
-        $currentMonth = new Month(self::$today);
+        $currentMonth = new Month(Date::today());
         $this->setName('core:purge-broken-archive-data');
         $this->setDescription('Purges broken archive data from archive tables.');
         $this->addOptionalArgument(
