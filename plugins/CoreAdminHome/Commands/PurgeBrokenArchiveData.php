@@ -21,14 +21,11 @@ use Piwik\Period\Month;
  */
 class PurgeBrokenArchiveData extends ConsoleCommand
 {
-    public const ALL_DATES_STRING = 'all';
-
     /**
-     * For tests.
-     *
+     * overridden in tests 
      * @var Date
      */
-    public static $todayOverride = null;
+    public static $today = Date::today();
 
     /**
      * @var ArchivePurger
@@ -44,17 +41,18 @@ class PurgeBrokenArchiveData extends ConsoleCommand
 
     protected function configure()
     {
+        $currentMonth = new Month(self::$today);
         $this->setName('core:purge-broken-archive-data');
         $this->setDescription('Purges broken archive data from archive tables.');
         $this->addOptionalArgument(
             "dateStart",
             "The start date to purge data from. Defaults to start of current month",
-            self::getToday()->getStartOfMonth()->toString('Y-m-d')
+            $currentMonth->getDateStart()->toString('Y-m-d')
         );
         $this->addOptionalArgument(
             "dateEnd",
             "The end date to purge data to. Defaults to end of current month",
-            self::getToday()->getEndOfMonth()->toString('Y-m-d')
+            $currentMonth->getDateEnd()->toString('Y-m-d')
         );
         $this->setHelp("Broken archives are removed from all archive tables between supplied dates.\n\n"
                      . "Note: archive purging is done during scheduled task execution, so under normal circumstances, you should not need to "
@@ -98,10 +96,5 @@ class PurgeBrokenArchiveData extends ConsoleCommand
         $output->writeln("Purging complete: Rows purged - $rowsPurged");
 
         return self::SUCCESS;
-    }
-
-    private static function getToday()
-    {
-        return self::$todayOverride ?: Date::today();
     }
 }

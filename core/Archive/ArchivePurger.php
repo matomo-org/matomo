@@ -152,9 +152,10 @@ class ArchivePurger
      * Removes the broken archives for the given month
      * (meaning they are not marked with a Done flag correctly)
      *
-     * @param Date $dateStart The date to purge from
-     * @param Date|null $dateEnd The date to purge up to, if not provided then will purge to end of the same month as $dateStart.
-     *                  if $dateEnd is in the past relative to $dateStart, it is ignored
+     * @param Month $startMonth a month period where the purge will begin
+     * @param Month|null $endMonth the final month period to purge from,
+     *                  if not provided then will purge to end of the same month as $startMonth.
+     *                  if $endMonth is in the past relative to $startMonth, it is ignored
      * @return int Returns the total number of rows deleted.
      */
     public function purgeBrokenArchives(Month $startMonth, Month $endMonth = null): int
@@ -282,9 +283,7 @@ class ArchivePurger
      * returns the ids of archives which are in a broken state (missing the done flag)
      * Only searches the archive linked to the date specified in $dateStart
      *
-     * @param Date $dateStart The date to start getting broken archives from, used to determine the archive table to search
-     * @param Date|null $dateEnd The date to stop searching, if null then search will continue to the end of the month specified
-     *                  in $dateStart. Ignored if the date is not in the same month as $dateStart.
+     * @param Month $month The month period describing which table to search for broken archives
      * @return array
      */
     private function getBrokenArchiveIds(Month $month): array

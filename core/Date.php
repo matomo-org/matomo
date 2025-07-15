@@ -310,37 +310,6 @@ class Date
     }
 
     /**
-     * Returns the Date instance representing
-     * the end of the month of the current timestamp.
-     *
-     * For example:
-     * 2025-02-13 -> 2025-02-28
-     * 2025-01-22 -> 2025-01-31
-     * 2025-06-02 -> 2025-06-30
-     *
-     * @return Date
-     */
-    public function getEndOfMonth()
-    {
-        $maxDaysInMonth = self::getMaxDaysInMonth($this->timestamp);
-        return $this->setDay($maxDaysInMonth);
-    }
-
-    /**
-     * Returns the Date instance representing
-     * the start of the month of the current timestamp.
-     *
-     * For example:
-     * 2025-02-13 -> 2025-02-01
-     *
-     * @return Date
-     */
-    public function getStartOfMonth()
-    {
-        return $this->setDay(1);
-    }
-
-    /**
      * Returns a new date object with the same timestamp as `$this` but with a new
      * timezone.
      *
@@ -896,7 +865,7 @@ class Date
             // week in year
             case "W":
                 return $this->toString('N');
-                // hour
+            // hour
             case "HH":
                 return $this->toString('H');
             case "H":
