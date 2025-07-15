@@ -1002,7 +1002,7 @@ class CronArchive
         $loader = new Loader($params);
         $canSkip = $loader->canSkipThisArchiveWithReason();
         if ($canSkip[0] === true) {
-            $this->logger->info('Can skip archiving for period because: ' . $canSkip[1]);
+            $this->logger->info('  ' . ucfirst($dateStr) . " archive can be skipped for period for idSite = $idSite because: " . $canSkip[1]);
             return;
         }
 
