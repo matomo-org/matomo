@@ -106,6 +106,6 @@ class PasswordStrength
             $list .= "<li>$ruleText</li>";
         }
 
-        return "<ul>$list</ul>";
+        return "<ul class='browser-default'>$list</ul>";
     }
 }
