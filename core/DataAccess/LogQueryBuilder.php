@@ -82,8 +82,11 @@ class LogQueryBuilder
         // hack for https://github.com/piwik/piwik/issues/9194#issuecomment-164321612
         $useSpecialConversionGroupBy = (!empty($segmentSql)
             && strpos($groupBy, 'log_conversion.idgoal') !== false
-            && $fromInitially == array('log_conversion')
-            && strpos($from, 'log_link_visit_action') !== false);
+            && $fromInitially === ['log_conversion']
+            && (array_filter($from, function ($item) {
+                return $item === 'log_link_visit_action' || (is_array($item) && isset($item['table']) && $item['table'] === 'log_link_visit_action');
+            }))
+        );
 
         if (!empty($this->forcedInnerGroupBy)) {
             if ($this->forcedInnerGroupBy === self::FORCE_INNER_GROUP_BY_NO_SUBSELECT) {
