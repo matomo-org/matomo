@@ -98,9 +98,10 @@ class PasswordStrength
         return Piwik::translate('General_PasswordStrengthValidationFailed', $concatenatedRules);
     }
 
-    public function formatRulesListHTML(array $rules): string
+    public function getRulesAsHtmlList(): string
     {
         $list = '';
+        $rules = $this->getRules();
         foreach ($rules as $rule) {
             $ruleText = $rule['ruleText'];
             $list .= "<li>$ruleText</li>";

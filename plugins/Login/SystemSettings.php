@@ -54,8 +54,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
         return $this->makeSetting('enablePasswordStrengthCheck', $default = false, FieldConfig::TYPE_BOOL, function (FieldConfig $field) {
             $field->title = Piwik::translate('Login_SettingPasswordStrengthCheck');
             $PasswordStrengthChecker = new PasswordStrength($featureEnabled = true);
-            $rules = $PasswordStrengthChecker->getRules();
-            $field->inlineHelp = Piwik::translate('Login_SettingPasswordStrengthCheckHelp', [$PasswordStrengthChecker->formatRulesListHTML($rules)]);
+            $field->inlineHelp = Piwik::translate('Login_SettingPasswordStrengthCheckHelp', [$PasswordStrengthChecker->getRulesAsHtmlList()]);
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
     }
