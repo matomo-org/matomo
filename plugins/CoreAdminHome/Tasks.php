@@ -333,12 +333,7 @@ class Tasks extends \Piwik\Plugin\Tasks
             $date = ArchiveTableCreator::getDateFromTableName($archiveTable);
             [$year, $month] = explode('_', $date);
 
-            try {
-                $monthPeriod = new Month(Date::factory("$year-$month-01"));
-            } catch (\Exception $e) {
-                $this->logger->debug("Date extracted from {table} not valid.", ['table' => $archiveTable]);
-                return false;
-            }
+            $monthPeriod = new Month(Date::factory("$year-$month-01"));
 
             $this->archivePurger->purgeBrokenArchives($monthPeriod);
         } else {
