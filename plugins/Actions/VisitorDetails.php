@@ -337,7 +337,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
 					" . implode(" ", $customJoins) . "
 				WHERE log_link_visit_action.idvisit IN ('" . implode("','", $idVisits) . "')
-				ORDER BY log_link_visit_action.idvisit, server_time ASC
+				ORDER BY log_link_visit_action.idvisit, log_link_visit_action.server_time, log_link_visit_action.idlink_va
 				 ";
         $actionDetails = $this->getDb()->fetchAll($sql);
         return $actionDetails;
