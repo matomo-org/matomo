@@ -92,7 +92,8 @@ import { translate } from '../translate';
 import { externalLink } from '../externalLink';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import { EntityDuplicatorStore } from './EntityDuplicatorStore';
-import MatomoLoader from '../MatomoLoader/MatomoLoader.vue';
+import { DuplicateRequestResponse } from './types';
+import MatomoLoader from '../MatomoLoader/MatomoLoader';
 
 // async since we're referencing a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
@@ -107,14 +108,6 @@ interface EntityDuplicatorState {
   site: SiteRef|null;
   hasSiteBeenInitialised: boolean;
   hasBeenSubmitted: boolean;
-}
-
-interface DuplicateRequestResponse {
-  isDuplicationSuccessful?: boolean;
-  successMessage?: string;
-  responseData?: Record<string, unknown>;
-  errorMessage?: string;
-  errorCode?: number;
 }
 
 export default defineComponent({

@@ -10477,46 +10477,46 @@ PasswordStrengthvue_type_script_lang_ts.render = PasswordStrengthvue_type_templa
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=template&id=7ba2411a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=template&id=b35f7eca
 
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_1 = {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_1 = {
   class: "main-duplicator-modal-content"
 };
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_2 = {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_2 = {
   class: "modal-header"
 };
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "btn-close modal-close"
 }, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-close"
 })], -1);
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_4 = {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_4 = {
   key: 0,
   class: "modal-sub-header"
 };
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_5 = {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_5 = {
   class: "loading-message"
 };
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_6 = {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_6 = {
   class: "modal-sub-header"
 };
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_7 = ["innerHTML"];
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_8 = {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_7 = ["innerHTML"];
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_8 = {
   class: "modal-content"
 };
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_9 = {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_9 = {
   class: "modal-inputs"
 };
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_10 = {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_10 = {
   class: "modal-sub-footer"
 };
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_11 = ["innerHTML"];
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_12 = ["innerHTML"];
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_13 = {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_11 = ["innerHTML"];
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_12 = ["innerHTML"];
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_13 = {
   class: "modal-footer"
 };
-const EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_14 = ["disabled"];
-function EntityDuplicatorModalvue_type_template_id_7ba2411a_render(_ctx, _cache, $props, $setup, $data, $options) {
+const EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_14 = ["disabled"];
+function EntityDuplicatorModalvue_type_template_id_b35f7eca_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
@@ -10527,12 +10527,12 @@ function EntityDuplicatorModalvue_type_template_id_7ba2411a_render(_ctx, _cache,
       'slot-configured': _ctx.$slots.default
     }),
     ref: "root"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_2, [EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getModalTitle), 1)]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Loading')), 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_2, [EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getModalTitle), 1)]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Loading')), 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 1
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getDuplicateDescription) + " ", 1), _ctx.descriptionLearnMoreLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getDuplicateDescription) + " ", 1), _ctx.descriptionLearnMoreLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     innerHTML: _ctx.$sanitize(_ctx.getLearnMoreLink)
-  }, null, 8, EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "site",
     name: "siteSelector",
     title: _ctx.translate('CoreHome_ChooseWebsite'),
@@ -10542,7 +10542,7 @@ function EntityDuplicatorModalvue_type_template_id_7ba2411a_render(_ctx, _cache,
       sitesWithAtLeastWriteAccess: true,
       siteTypesToExclude: ['rollup']
     }
-  }, null, 8, ["title", "modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])), [[_directive_form]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_10, [_ctx.duplicationErrors.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+  }, null, 8, ["title", "modelValue"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])), [[_directive_form]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_10, [_ctx.duplicationErrors.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
       'alert': true,
@@ -10553,17 +10553,17 @@ function EntityDuplicatorModalvue_type_template_id_7ba2411a_render(_ctx, _cache,
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: index,
       innerHTML: _ctx.$sanitize(duplicationError)
-    }, null, 8, EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_11);
+    }, null, 8, EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_11);
   }), 128))])], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
     class: "note-text",
     innerHTML: _ctx.$sanitize(_ctx.getNoteText)
-  }, null, 8, EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_12)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+  }, null, 8, EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_12)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
     class: "btn",
     disabled: !_ctx.getIsValid || _ctx.hasBeenSubmitted,
     onClick: _cache[1] || (_cache[1] = $event => _ctx.submitRequest())
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Copy')), 9, EntityDuplicatorModalvue_type_template_id_7ba2411a_hoisted_14)])], 64))], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isModalVisible]])], 2);
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Copy')), 9, EntityDuplicatorModalvue_type_template_id_b35f7eca_hoisted_14)])], 64))], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isModalVisible]])], 2);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=template&id=7ba2411a
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=template&id=b35f7eca
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=script&lang=ts
 
@@ -10776,7 +10776,7 @@ const {
 
 
 
-EntityDuplicatorModalvue_type_script_lang_ts.render = EntityDuplicatorModalvue_type_template_id_7ba2411a_render
+EntityDuplicatorModalvue_type_script_lang_ts.render = EntityDuplicatorModalvue_type_template_id_b35f7eca_render
 
 /* harmony default export */ var EntityDuplicatorModal = (EntityDuplicatorModalvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.vue?vue&type=template&id=62f80bcc
@@ -10937,13 +10937,14 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
     if (idDestinationSites && !Array.isArray(idDestinationSites)) {
       idDestinationSitesArray.push(idDestinationSites);
     }
-    return Object.assign(Object.assign({
+    return {
       module: 'CoreHome',
       action: 'duplicateEntity',
       idSite: Matomo_Matomo.idSite || src_MatomoUrl_MatomoUrl.parsed.value.idSite,
       idDestinationSites: idDestinationSitesArray,
-      entityTypeName: this.state.duplicateEntityType
-    }, this.state.commonFormData), this.state.entityFormData);
+      entityTypeName: this.state.duplicateEntityType,
+      requestData: Object.assign(Object.assign({}, this.state.commonFormData), this.state.entityFormData)
+    };
   }
   /**
    * Uses the duplicateEntityTypeTranslation property to return the translated entity type (e.g.
@@ -10973,6 +10974,14 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
 function buildEntityDuplicatorStore(duplicateEntityType, duplicateEntityTypeTranslation, commonFormData) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(new EntityDuplicatorStore_EntityDuplicatorStore(duplicateEntityType, duplicateEntityTypeTranslation, commonFormData));
 }
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/types.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -10980,6 +10989,7 @@ function buildEntityDuplicatorStore(duplicateEntityType, duplicateEntityTypeTran
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 

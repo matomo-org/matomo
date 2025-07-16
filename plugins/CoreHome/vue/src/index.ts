@@ -103,3 +103,4 @@ export * from './PasswordStrength/PasswordStrength';
 export { default as EntityDuplicatorModal } from './EntityDuplicator/EntityDuplicatorModal.vue';
 export { default as EntityDuplicatorAction } from './EntityDuplicator/EntityDuplicatorAction.vue';
 export * from './EntityDuplicator/EntityDuplicatorStore';
+export * from './EntityDuplicator/types';

@@ -103,8 +103,10 @@ export class EntityDuplicatorStore {
       idSite: Matomo.idSite || MatomoUrl.parsed.value.idSite,
       idDestinationSites: idDestinationSitesArray,
       entityTypeName: this.state.duplicateEntityType,
-      ...this.state.commonFormData,
-      ...this.state.entityFormData,
+      requestData: {
+        ...this.state.commonFormData,
+        ...this.state.entityFormData,
+      },
     } as Record<string, unknown>;
   }
 
