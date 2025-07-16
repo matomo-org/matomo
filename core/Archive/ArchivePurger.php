@@ -292,12 +292,11 @@ class ArchivePurger
 
         $result = $this->model->getArchivesMissingDoneFlag($archiveTable);
 
-        $idArchivesToDelete = [];
         if (!empty($result)) {
-            $idArchivesToDelete = array_column($result, 'idarchive');
+            return array_column($result, 'idarchive');
         }
 
-        return $idArchivesToDelete;
+        return [];
     }
 
     /**
