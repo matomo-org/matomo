@@ -39,16 +39,16 @@ class PurgeBrokenArchiveData extends ConsoleCommand
         $this->setName('core:purge-broken-archive-data');
         $this->setDescription('Purges broken archive data from archive tables.');
         $this->addOptionalArgument(
-            "dateStart",
-            "The start date to purge data from. Defaults to start of current month",
-            $currentMonth->getDateStart()->toString('Y-m-d')
+            "startMonth",
+            "The start month to purge data from in format YYYY-MM. Defaults to current month",
+            $currentMonth->getDateStart()->toString('Y-m')
         );
         $this->addOptionalArgument(
-            "dateEnd",
-            "The end date to purge data to. Defaults to end of current month",
-            $currentMonth->getDateEnd()->toString('Y-m-d')
+            "endMonth",
+            "The end month to purge data to in format YYYY-MM. Defaults to current month",
+            $currentMonth->getDateStart()->toString('Y-m')
         );
-        $this->setHelp("Broken archives are removed from all archive tables between supplied dates.\n\n"
+        $this->setHelp("Broken archives are removed from all archive tables between supplied months inclusive.\n\n"
                      . "Note: archive purging is done during scheduled task execution, so under normal circumstances, you should not need to "
                      . "run this command manually.");
     }
@@ -67,20 +67,20 @@ class PurgeBrokenArchiveData extends ConsoleCommand
 
         $archivePurger = $this->archivePurger ?: new ArchivePurger($model = null, $purgeDatesOlderThan = null, $logger);
 
-        $dateStartStr = $this->getInput()->getArgument('dateStart');
-        $dateEndStr = $this->getInput()->getArgument('dateEnd');
+        $startMonthStr = $this->getInput()->getArgument('startMonth');
+        $endMonthStr = $this->getInput()->getArgument('endMonth');
 
         try {
-            $startMonth = new Month(Date::factory($dateStartStr));
+            $startMonth = new Month(Date::factory($startMonthStr));
         } catch (\Exception $e) {
-            $output->writeln("Invalid Argument - dateStart - $dateStartStr");
+            $output->writeln("Invalid Argument - startMonth - $startMonthStr");
             return self::INVALID;
         }
 
         try {
-            $endMonth = new Month(Date::factory($dateEndStr));
+            $endMonth = new Month(Date::factory($endMonthStr));
         } catch (\Exception $e) {
-            $output->writeln("Invalid Argument - dateEnd - $dateEndStr");
+            $output->writeln("Invalid Argument - endMonth - $endMonthStr");
             return self::INVALID;
         }
         $startMonthStr = $startMonth->getDateStart()->toString('Y-m');
