@@ -508,7 +508,7 @@ JS;
                     this.setCookie(this.CONSENT_COOKIE_NAME, '', -129600000);              
                     return false;
                 }                
-                return (consentCookie || consentCookie !== 0);            
+                return !!(consentCookie && consentCookie !== 0);            
             },        
             consentGiven: function() {                                                        
                 this.setCookie(this.CONSENT_REMOVED_COOKIE_NAME, '', -129600000);
