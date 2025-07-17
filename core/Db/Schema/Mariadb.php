@@ -9,11 +9,18 @@
 
 namespace Piwik\Db\Schema;
 
+use Piwik\Date;
+
 /**
  * Mariadb schema
  */
 class Mariadb extends Mysql
 {
+    public function getDatabaseType(): string
+    {
+        return 'MariaDB';
+    }
+
     /**
      * Adds a max_statement_time hint into a SELECT query if $limit is bigger than 0
      *
@@ -47,6 +54,47 @@ class Mariadb extends Mysql
 
     public function supportsRankingRollupWithoutExtraSorting(): bool
     {
+        return false;
+    }
+
+    public function hasReachedEOL(): bool
+    {
+        $currentVersion = $this->getVersion();
+
+        // End of security update for certain MariaDb versions as of https://mariadb.org/about/#maintenance-policy
+
+        // Support for 10.6 LTS ends on 6th July 2026
+        if (
+            version_compare($currentVersion, '10.6', '>=') &&
+            version_compare($currentVersion, '10.7', '<') &&
+            Date::today()->isEarlier(Date::factory('2026-07-07'))
+        ) {
+            return false;
+        }
+
+        // Support for 10.11 LTS ends on 16th February 2028
+        if (
+            version_compare($currentVersion, '10.11', '>=') &&
+            version_compare($currentVersion, '10.12', '<') &&
+            Date::today()->isEarlier(Date::factory('2028-02-17'))
+        ) {
+            return false;
+        }
+
+        // Support for 11.4 LTS ends on 29th May 2029
+        if (
+            version_compare($currentVersion, '11.4', '>=') &&
+            version_compare($currentVersion, '11.5', '<') &&
+            Date::today()->isEarlier(Date::factory('2029-05-30'))
+        ) {
+            return false;
+        }
+
+        // Support for all versions prior to 11.8 (not covered by conditions above) already ended
+        if (version_compare($currentVersion, '11.8', '<')) {
+            return true;
+        }
+
         return false;
     }
 }

@@ -15,6 +15,11 @@ namespace Piwik\Db;
 interface SchemaInterface
 {
     /**
+     * Returns the type of the current database (e.g. MySQL, MariaDB, ...)
+     */
+    public function getDatabaseType(): string;
+
+    /**
      * Get the SQL to create a specific Matomo table
      *
      * @param string $tableName
@@ -192,4 +197,16 @@ interface SchemaInterface
      * @return bool
      */
     public function supportsSortingInSubquery(): bool;
+
+    /**
+     * Returns the version of the database server
+     * @return string
+     */
+    public function getVersion(): string;
+
+    /**
+     * Returns if the used database version has reached its EOL
+     * @return bool
+     */
+    public function hasReachedEOL(): bool;
 }
