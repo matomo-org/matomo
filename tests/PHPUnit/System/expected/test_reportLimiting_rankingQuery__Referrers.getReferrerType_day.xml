@@ -2,13 +2,13 @@
 <result>
 	<row>
 		<label>Direct Entry</label>
-		<nb_uniq_visitors>25</nb_uniq_visitors>
-		<nb_visits>105</nb_visits>
-		<nb_actions>130</nb_actions>
-		<nb_users>25</nb_users>
-		<max_actions>2</max_actions>
-		<sum_visit_length>65</sum_visit_length>
-		<bounce_count>55</bounce_count>
+		<nb_uniq_visitors>43</nb_uniq_visitors>
+		<nb_visits>123</nb_visits>
+		<nb_actions>274</nb_actions>
+		<nb_users>43</nb_users>
+		<max_actions>15</max_actions>
+		<sum_visit_length>81</sum_visit_length>
+		<bounce_count>57</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerType==direct</segment>
 		<referrer_type>1</referrer_type>
