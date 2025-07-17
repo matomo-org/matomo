@@ -2099,7 +2099,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'period' => '2',
                 'name' => 'done.VisitsSummary',
                 'report' => null,
-                'dates' => '2020-05-04,2020-05-10|2020-05-11,2020-05-17|2020-05-18,2020-05-24|2020-05-25,2020-05-31|2020-04-27,2020-05-03|2020-06-01,2020-06-07'
+                'dates' => '2020-04-27,2020-05-03|2020-05-04,2020-05-10|2020-05-11,2020-05-17|2020-05-18,2020-05-24|2020-05-25,2020-05-31|2020-06-01,2020-06-07'
                     . '|2020-06-08,2020-06-14|2020-06-15,2020-06-21',
                 'count' => '8',
             ),
@@ -2157,7 +2157,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'period' => '2',
                 'name' => 'done.VisitsSummary',
                 'report' => 'some.Report',
-                'dates' => '2020-05-04,2020-05-10|2020-05-11,2020-05-17|2020-05-18,2020-05-24|2020-05-25,2020-05-31|2020-04-27,2020-05-03'
+                'dates' => '2020-04-27,2020-05-03|2020-05-04,2020-05-10|2020-05-11,2020-05-17|2020-05-18,2020-05-24|2020-05-25,2020-05-31'
                     . '|2020-06-01,2020-06-07|2020-06-08,2020-06-14|2020-06-15,2020-06-21',
                 'count' => '8',
             ),
@@ -2216,7 +2216,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'period' => '2',
                 'name' => 'done.VisitsSummary',
                 'report' => 'some.Report',
-                'dates' => '2020-05-04,2020-05-10|2020-05-11,2020-05-17|2020-05-18,2020-05-24|2020-05-25,2020-05-31|2020-04-27,2020-05-03'
+                'dates' => '2020-04-27,2020-05-03|2020-05-04,2020-05-10|2020-05-11,2020-05-17|2020-05-18,2020-05-24|2020-05-25,2020-05-31'
                     . '|2020-06-01,2020-06-07|2020-06-08,2020-06-14|2020-06-15,2020-06-21',
                 'count' => '8',
             ),
@@ -2475,7 +2475,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         Db::get()->query('SET SESSION group_concat_max_len=' . (128 * 1024));
 
         $table = Common::prefixTable('archive_invalidations');
-        return Db::fetchAll("SELECT idsite, period, name, report, GROUP_CONCAT(CONCAT(date1, ',', date2) SEPARATOR '|') as dates, COUNT(*) as count FROM $table GROUP BY idsite, period, name, report ORDER BY idsite, period, name, report");
+
+        return Db::fetchAll("
+            SELECT idsite, period, name, report,
+                   GROUP_CONCAT(CONCAT(date1, ',', date2) ORDER BY date1 SEPARATOR '|') as dates,
+                   COUNT(*) as count
+            FROM $table
+            GROUP BY idsite, period, name, report
+            ORDER BY idsite, period, name, report
+        ");
     }
 
     private static function addVisitToEachSite()

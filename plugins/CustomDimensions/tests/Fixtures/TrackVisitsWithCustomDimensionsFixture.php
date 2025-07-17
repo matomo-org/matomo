@@ -195,17 +195,23 @@ class TrackVisitsWithCustomDimensionsFixture extends Fixture
 
         $t = self::getTracker($this->idSite3, $this->dateTime, $defaultInit = true);
         $t->setIp('56.11.55.99');
+        $t->enableBulkTracking();
 
-        for ($i = 1; $i < 6; $i++) {
-            for ($j = 1; $j < 6; $j++) {
+        for ($i = 1; $i <= 5; $i++) {
+            for ($j = 1; $j <= $i; $j++) {
                 $dateTime = $baseTime->addHour($i)->addHour($j * 0.1)->getDatetime();
 
-                $t->setCustomDimension("1", "site3 group$i");
-                $t->setForceVisitDateTime($dateTime);
-                $t->setUrl("http://example.com/page/$i/$j");
+                $t->setForceNewVisit();
 
-                self::checkResponse($t->doTrackPageView("Page $i $j"));
+                for ($k = 1; $k <= ($i * 5) + $j; $k++) {
+                    $t->setCustomDimension("1", "site3 group$i");
+                    $t->setForceVisitDateTime($dateTime);
+                    $t->setUrl("http://example.com/page/$i/$j");
+                    $t->doTrackPageView("Page $i $j");
+                }
             }
         }
+
+        self::checkBulkTrackingResponse($t->doBulkTrack());
     }
 }
