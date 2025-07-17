@@ -1,18 +1,10 @@
-{% set inviteLinks = postEvent('UsersManager.getInviteLinks', login) %}
-{% set notes = postEvent('UsersManager.getInviteNotes', login)|default(notes) %}
 {% set closingHeadTag %}<code>{{ '</head>'|e('html') }}</code>{% endset %}
-
 <p>{{ 'General_HelloUser'|translate(login) }}</p>
-
 <p>{{ content|raw }}</p>
 
-{% if inviteLinks is not empty %}
-    {{ inviteLinks|raw }}
-{% else %}
-    <a target="_blank" href="{{ piwikUrl }}?module={{ loginPlugin }}&action=acceptInvitation&token={{ token }}"
-    >{{ 'CoreAdminHome_AcceptInvite'|translate }}</a> |
-    <a target="_blank" href="{{ piwikUrl }}?module={{ loginPlugin }}&action=declineInvitation&token={{ token }}"
-    >{{ 'CoreAdminHome_DeclineInvite'|translate }}</a>
-{% endif %}
+<a target="_blank" href="{{ piwikUrl }}?module={{ loginPlugin }}&action=acceptInvitation&token={{ token }}"
+>{{ 'CoreAdminHome_AcceptInvite'|translate }}</a> |
+<a target="_blank" href="{{ piwikUrl }}?module={{ loginPlugin }}&action=declineInvitation&token={{ token }}"
+>{{ 'CoreAdminHome_DeclineInvite'|translate }}</a>
 
 <p>{{ notes }}</p>

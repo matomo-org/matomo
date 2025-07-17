@@ -95,4 +95,24 @@ class UserInviteEmail extends Mail
         $view->notes = Piwik::translate('CoreAdminHome_UserInviteNotes', [$this->currentUser,  $this->expiryInDays]);
         return $view;
     }
+
+    public function getInvitedUser()
+    {
+        return $this->invitedUser;
+    }
+
+    public function getCurrentUser()
+    {
+        return $this->currentUser;
+    }
+
+    public function getSiteName()
+    {
+        return $this->siteName;
+    }
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
 }
