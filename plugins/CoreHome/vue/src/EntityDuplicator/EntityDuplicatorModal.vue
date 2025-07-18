@@ -28,7 +28,7 @@
       </template>
 
       <template v-else>
-        <div class="modal-sub-header">
+        <div class="modal-sub-header" v-if="!hideSiteSelector">
           <p>
             {{ getDuplicateDescription }}
             <span v-if="descriptionLearnMoreLink" v-html="$sanitize(getLearnMoreLink)"></span>
@@ -125,6 +125,10 @@ export default defineComponent({
     modalStore: {
       type: Object as PropType<EntityDuplicatorStore>,
       required: true,
+    },
+    hideSiteSelector: {
+      type: Boolean,
+      default: false,
     },
     /**
      * Optional "Learn more." link to append to the end of the description text if provided.
