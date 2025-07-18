@@ -25,7 +25,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.2.9"
+            "php": "8.2.0"
         },
         "prepend-autoloader": false,
         "sort-packages": true,
