@@ -1,12 +1,12 @@
 {
     "DBStats": {
-        "DatabaseUsage": "数据库使用状况",
-        "DataSize": "占用空间",
         "DBSize": "数据库大小",
+        "DataSize": "占用空间",
+        "DatabaseUsage": "数据库使用状况",
         "EstimatedSize": "估计大小",
         "IndexSize": "索引空间大小",
         "LearnMore": "了解更多关于 Matomo 如何处理数据以及使 Matomo 在中高流量的网站上运作事宜，请查阅说明文件 %s。",
-        "MainDescription": "Matomo 在MySQL中保存您的所有网站分析数据。 目前， Matomo 数据表已经使用了 %s！",
+        "MainDescription": "Matomo在MySQL数据库中保存您所有的网站分析数据。目前，Matomo数据表已经使用了 %s空间。",
         "MetricDataByYear": "按年的指标表",
         "MetricTables": "指标表",
         "OtherTables": "其它表",

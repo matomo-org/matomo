@@ -1,8 +1,9 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "此报告为您提供每个网站的信息概览，包含有关访客的最通用指标。",
         "Evolution": "趋势",
         "LoadingWebsites": "正在加载网站",
-        "PluginDescription": "在此有用的“所有网站”仪表板中查看和比较您的所有网站和应用程序。",
-        "TopLinkTooltip": "比较所有网站的分析数据"
+        "PluginDescription": "在这个实用的“所有网站”仪表板中查看和比较您的所有网站和应用程序。",
+        "TopLinkTooltip": "比较您所有网站的网站分析数据。"
     }
 }
