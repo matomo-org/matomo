@@ -15,6 +15,11 @@ namespace Piwik\Db;
 interface SchemaInterface
 {
     /**
+     * Returns the type of the current database (e.g. MySQL, MariaDB, ...)
+     */
+    public function getDatabaseType(): string;
+
+    /**
      * Get the SQL to create a specific Matomo table
      *
      * @param string $tableName
@@ -179,9 +184,29 @@ interface SchemaInterface
     public function optimizeTables(array $tables, bool $force = false): bool;
 
     /**
+     * Returns if the database engine can provide a rollup ranking query result
+     * without needing additional sorting.
+     *
+     * @return bool
+     */
+    public function supportsRankingRollupWithoutExtraSorting(): bool;
+
+    /**
      * Returns if the database engine is able to use sorted subqueries
      *
      * @return bool
      */
     public function supportsSortingInSubquery(): bool;
+
+    /**
+     * Returns the version of the database server
+     * @return string
+     */
+    public function getVersion(): string;
+
+    /**
+     * Returns if the used database version has reached its EOL
+     * @return bool
+     */
+    public function hasReachedEOL(): bool;
 }
