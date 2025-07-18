@@ -1000,8 +1000,9 @@ class CronArchive
         $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
 
         $loader = new Loader($params);
-        if ($loader->canSkipThisArchive()) {
-            $this->logger->debug("  " . ucfirst($dateStr) . " archive can be skipped due to no visits for idSite = $idSite, skipping invalidation...");
+        $canSkip = $loader->canSkipThisArchiveWithReason();
+        if ($canSkip[0] === true) {
+            $this->logger->info('  ' . ucfirst($dateStr) . " archive can be skipped for period for idSite = $idSite because: " . $canSkip[1]);
             return;
         }
 

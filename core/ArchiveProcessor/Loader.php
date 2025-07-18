@@ -490,6 +490,16 @@ class Loader
 
     public function canSkipThisArchive()
     {
+        return $this->canSkipThisArchiveWithReason()[0];
+    }
+
+    /**
+     * @internal
+     *
+     * @return array{0: bool, 1: string}
+     */
+    public function canSkipThisArchiveWithReason(): array
+    {
         $params = $this->params;
         $idSite = $params->getSite()->getId();
 
@@ -498,14 +508,47 @@ class Loader
         $hasSiteVisitsBetweenTimeframe = $this->hasSiteVisitsBetweenTimeframe($idSite, $params->getPeriod());
         $hasChildArchivesInPeriod = $this->hasChildArchivesInPeriod($idSite, $params->getPeriod());
 
-        if ($this->canSkipArchiveForSegment()) {
-            return true;
+        $canSkipArchiveForSegment = $this->canSkipArchiveForSegmentWithReason();
+
+        if ($canSkipArchiveForSegment[0]) {
+            return [
+                true,
+                'Skip archive for segment: ' . $canSkipArchiveForSegment[1]
+            ];
         }
 
-        return $isWebsiteUsingTracker
-            && !$isArchivingForcedWhenNoVisits
-            && !$hasSiteVisitsBetweenTimeframe
-            && !$hasChildArchivesInPeriod;
+        if (!$isWebsiteUsingTracker) {
+            return [
+                false,
+                'Site is not using the JavaScript tracker'
+            ];
+        }
+
+        if ($isArchivingForcedWhenNoVisits) {
+            return [
+                false,
+                'Archiving is forced when no visits'
+            ];
+        }
+
+        if ($hasSiteVisitsBetweenTimeframe) {
+            return [
+                false,
+                'Site has visits between start and end date'
+            ];
+        }
+
+        if ($hasChildArchivesInPeriod) {
+            return [
+                false,
+                'There are child archives in the period'
+            ];
+        }
+
+        return [
+            true,
+            'Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period'
+        ];
     }
 
     private function hasChildArchivesInPeriod($idSite, Period $period): bool
@@ -521,16 +564,19 @@ class Loader
         return $hasChildArchivesInPeriod;
     }
 
-    public function canSkipArchiveForSegment()
+    /**
+     * @return array{0: bool, 1: string}
+     */
+    private function canSkipArchiveForSegmentWithReason(): array
     {
         $params = $this->params;
 
         if ($params->getSegment()->isEmpty()) {
-            return false;
+            return [false, 'Segment is empty'];
         }
 
         if (!empty($params->getRequestedPlugin()) && Rules::isSegmentPluginArchivingDisabled($params->getRequestedPlugin(), $params->getSite()->getId())) {
-            return true;
+            return [true, 'Plugin provided and segment plugin archiving disabled'];
         }
 
         // For better understanding of the next check please have a look at Rules::shouldProcessReportsAllPlugins implementation
@@ -541,7 +587,7 @@ class Loader
         //  - we don't have a segment that should be preprocessed
         //  - we are not forcing a single plugin archiving
         if (!Rules::shouldProcessReportsAllPlugins($params->getIdSites(), $params->getSegment(), $params->getPeriod()->getLabel())) {
-            return false;
+            return [false, 'shouldProcessReportsAllPlugins reported false'];
         }
 
         /** @var SegmentArchiving */
@@ -549,7 +595,7 @@ class Loader
         $segmentInfo = $segmentArchiving->findSegmentForHash($params->getSegment()->getHash(), $params->getSite()->getId());
 
         if (!$segmentInfo) {
-            return false;
+            return [false, 'segment not found for hash'];
         }
 
         $segmentArchiveStartDate = $segmentArchiving->getReArchiveSegmentStartDate($segmentInfo);
@@ -566,10 +612,21 @@ class Loader
             // if we have invalidations for the period and name, but only for a specific reports, we can skip
             // if the report is not null we only want to rearchive if we have invalidation for that report
             // if we don't find invalidation for that report, we can skip
-            return !$this->dataAccessModel->hasInvalidationForPeriodAndName($params->getSite()->getId(), $params->getPeriod(), $doneFlag, $params->getArchiveOnlyReport());
+            $hasInvalidationsForPeriodAndName = $this->dataAccessModel->hasInvalidationForPeriodAndName($params->getSite()->getId(), $params->getPeriod(), $doneFlag, $params->getArchiveOnlyReport());
+
+            if ($hasInvalidationsForPeriodAndName) {
+                return [false, 'Has invalidations for period and name'];
+            } else {
+                return [true, 'No invalidations for period and name'];
+            }
         }
 
-        return false;
+        return [false, 'Segment archive date set or segment archive start date is earlier than period end of day'];
+    }
+
+    public function canSkipArchiveForSegment()
+    {
+        return $this->canSkipArchiveForSegmentWithReason()[0];
     }
 
     private function isWebsiteUsingTheTracker($idSite)

@@ -30,6 +30,8 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
     public $trackVisitsForDaysInPast = 0;
 
+    public $trackVisitsForDeterministicCustomDimensions = false;
+
     public function __construct()
     {
         $this->nextDay = Date::factory($this->dateTime)->addDay(1)->getDatetime();
@@ -43,6 +45,10 @@ class ManyVisitsWithMockLocationProvider extends Fixture
 
         $this->setMockLocationProvider();
         $this->trackVisits();
+
+        if ($this->trackVisitsForDeterministicCustomDimensions) {
+            $this->trackVisitsForDeterministicCustomDimensions();
+        }
 
         $dateTime = $this->dateTime;
         for ($i = 0; $i < $this->trackVisitsForDaysInPast; $i++) {
@@ -306,6 +312,34 @@ class ManyVisitsWithMockLocationProvider extends Fixture
                 $t->doTrackPageView('page title ' . $i);
             }
         }
+        Fixture::checkBulkTrackingResponse($t->doBulkTrack());
+    }
+
+    private function trackVisitsForDeterministicCustomDimensions()
+    {
+        $t = Fixture::getTracker($this->idSite, '2015-03-03 06:00:00');
+        $t->enableBulkTracking();
+
+        $visitDate = Date::factory($this->dateTime);
+
+        for ($i = 1; $i <= 8; $i++) {
+            for ($j = 0; $j <= 3; ++$j) {
+                $actionDate = $visitDate;
+                $actionNum = $i * 4 + $j;
+
+                for ($k = 1; $k <= $i; $k++) {
+                    $t->setUserId('user' . ($i + $k + $j + 100000));
+                    $t->setIp("155.5.4.$i");
+                    $t->setNewVisitorId();
+                    $t->setUrl("http://piwik.net/$i/$actionNum");
+                    $t->setForceVisitDateTime($actionDate->getDatetime());
+                    $t->setCustomDimension('' . $this->actionCustomDimensionId, $i * 5 + $j);
+
+                    $this->trackAction($t, 'pageview', $i, $actionNum);
+                }
+            }
+        }
+
         Fixture::checkBulkTrackingResponse($t->doBulkTrack());
     }
 }
