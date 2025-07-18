@@ -57,4 +57,40 @@ class EntityDuplicatorHelper
 
         return $modifiedName;
     }
+
+    /**
+     * Takes a list of existing names and updates the provided name with a numerical suffix until it's unique. It also
+     * truncates the name to make sure that it doesn't exceed the maximum length.
+     *
+     * @param string $name The name that needs to be updated with a number suffix. If no suffix exists, one will be
+     *  added. If one already exists, the number in the suffix will be incremented.
+     * @param string[] $names List of existing names to compare against in order to provide a unique name.
+     * @param int $maxLength Optional number indicates the maximum allowed length. If adding the suffix exceeds the max,
+     *  the string will be truncated just enough to allow the suffix. Default is -1 allowing infinite length.
+     * @return string
+     * @throws \Exception If the maximum length is too small".
+     */
+    public static function getUniqueNameComparedToList(string $name, array $names, int $maxLength = -1)
+    {
+        // Make sure that the name is at least one character long
+        if ($maxLength !== -1 && $maxLength < 1) {
+            throw new \Exception('The maximum name length cannot be less than 1 character.');
+        }
+
+        $newName = $name;
+        // Make sure that the string is no more than the max length
+        if ($maxLength !== -1 && strlen($newName) > $maxLength) {
+            $newName = substr($newName, 0, $maxLength);
+        }
+
+        // Logically, the name should at most need to be adjusted once per listed name.
+        for ($i = 0; $i < count($names); $i++) {
+            if (!in_array($newName, $names)) {
+                break;
+            }
+            $newName = self::incrementNameWithNumericalSuffix($newName, $maxLength);
+        }
+
+        return $newName;
+    }
 }

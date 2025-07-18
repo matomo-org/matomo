@@ -378,7 +378,7 @@ class Controller extends \Piwik\Plugin\Controller
         } catch (\Throwable $e) {
             $duplicateRequestResponse->setIsDuplicationSuccessful(false);
             if (empty($duplicateRequestResponse->getErrorMessage())) {
-                $duplicateRequestResponse->setErrorMessage(Piwik::translate('General_ErrorRequest'));
+                $duplicateRequestResponse->setErrorMessage(Piwik::translate('General_ErrorRequest', ['', '']));
             }
             if (empty($duplicateRequestResponse->getErrorCode())) {
                 $duplicateRequestResponse->setErrorCode(500);

@@ -126,6 +126,9 @@ export default defineComponent({
       type: Object as PropType<EntityDuplicatorStore>,
       required: true,
     },
+    /**
+     * Option to hide the site selector when it's not needed.
+     */
     hideSiteSelector: {
       type: Boolean,
       default: false,
@@ -264,13 +267,13 @@ export default defineComponent({
       if (!tempResponseObject) {
         tempResponseObject = {
           isDuplicationSuccessful: false,
-          errorMessage: translate('General_ErrorRequest'),
+          errorMessage: translate('General_ErrorRequest', '', ''),
         };
       }
 
       // If the error message wasn't set, set it to a generic error message
       if (!tempResponseObject.errorMessage || tempResponseObject.errorMessage.length === 0) {
-        tempResponseObject.errorMessage = translate('General_ErrorRequest');
+        tempResponseObject.errorMessage = translate('General_ErrorRequest', '', '');
       }
 
       this.duplicationErrors = [];
