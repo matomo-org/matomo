@@ -5,7 +5,8 @@ nixPkgs = [
     'libmysqlclient',
     'php82Packages.composer',
     'nodejs_18',
-    'npm-9_x'
+    'npm-9_x',
+    'python3'
 ]
 
 [phases.install]
