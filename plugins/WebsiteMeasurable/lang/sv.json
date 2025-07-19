@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Webbplats",
         "WebsiteDescription": "En webbplats består av webbsidor som vanligtvis tillhandahålls från en enda domän på webben.",
+        "WebsiteLongDescription": "Spåra besökarinteraktioner som sidvisningar, klick, nedladdningar och händelser på en offentlig webbplats. En enda mätbar kan inkludera flera domäner och underdomäner, eller så kan du skapa separata mätbara uppgifter för varje.",
         "Websites": "Webbplatser"
     }
 }
