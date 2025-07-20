@@ -197,7 +197,7 @@ class Model
      * @param bool $limit
      * @return array
      */
-    public function getSitesFromIds($idSites, $limit = false)
+    public function getSitesFromIds($idSites, $limit = false, $siteTypesToExclude = [])
     {
         if (count($idSites) === 0) {
             return array();
@@ -211,10 +211,17 @@ class Model
 
         $idSites = array_map('intval', $idSites);
 
+        $bind = [];
+        $typeWhere = '';
+        if (!empty($siteTypesToExclude)) {
+            $bind = $siteTypesToExclude;
+            $typeWhere = ' AND type NOT IN (' . Common::getSqlStringFieldsArray($siteTypesToExclude) . ') ';
+        }
+
         $db    = $this->getDb();
         $sites = $db->fetchAll("SELECT * FROM " . $this->table . "
-                                WHERE idsite IN (" . implode(", ", $idSites) . ")
-                                ORDER BY idsite ASC $limit");
+                                WHERE idsite IN (" . implode(", ", $idSites) . ") $typeWhere
+                                ORDER BY idsite ASC $limit", $bind);
 
         return $sites;
     }
@@ -385,7 +392,7 @@ class Model
             ));
     }
 
-    public function getPatternMatchSites($ids, $pattern, $limit)
+    public function getPatternMatchSites($ids, $pattern, $limit, $siteTypesToExclude = [])
     {
         $ids_str = '';
         foreach ($ids as $id_val) {
@@ -402,13 +409,19 @@ class Model
             $where  = 'OR s.idsite = ?';
         }
 
+        $typeWhere = '';
+        if (!empty($siteTypesToExclude)) {
+            $bind = array_merge($bind, $siteTypesToExclude);
+            $typeWhere = 'AND type NOT IN (' . Common::getSqlStringFieldsArray($siteTypesToExclude) . ')';
+        }
+
         $query = "SELECT *
                   FROM " . $this->table . " s
                   WHERE ( " . self::getPatternMatchSqlQuery('s') . "
-                          $where )
+                          $where ) $typeWhere
                      AND idsite in ($ids_str)";
 
-        if ($limit !== false) {
+        if ($limit > 0) {
             $query .= " LIMIT " . (int) $limit;
         }
 
