@@ -40,23 +40,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const ACTIVATE_DNT_NONCE = 'PrivacyManager.activateDnt';
     public const DEACTIVATE_DNT_NONCE = 'PrivacyManager.deactivateDnt';
 
-    /**
-     * @var ReferrerAnonymizer
-     */
-    private $referrerAnonymizer;
 
     /** @var SiteContentDetector */
     private $siteContentDetector;
 
-    /** @var FeatureFlagManager */
-    private $featureFlagManager;
-
-    public function __construct(ReferrerAnonymizer $referrerAnonymizer, SiteContentDetector $siteContentDetector, FeatureFlagManager $featureFlagManager)
+    public function __construct(SiteContentDetector $siteContentDetector)
     {
         parent::__construct();
-        $this->referrerAnonymizer = $referrerAnonymizer;
         $this->siteContentDetector = $siteContentDetector;
-        $this->featureFlagManager = $featureFlagManager;
     }
 
     private function checkDataPurgeAdminSettingsIsEnabled()
@@ -229,11 +220,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    public function privacySettings()
+    public function getConfigRandomisationFeatureActive(): bool
     {
-        Piwik::checkUserHasSuperUserAccess();
-        $view = new View('@PrivacyManager/privacySettings');
+        return $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class);
+    }
 
+    public function getTrackerFileDetails(): array
+    {
         if (Piwik::hasUserSuperUserAccess()) {
             $jsCodeGenerator = new TrackerCodeGenerator();
             $file = new File(PIWIK_DOCUMENT_ROOT . '/' . $jsCodeGenerator->getJsTrackerEndpoint());
@@ -244,49 +237,30 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 $filename = $file->getName();
             }
 
-            $view->trackerFileName = $filename;
-            $view->trackerWritable = $file->hasWriteAccess();
+            return [$filename, $file->hasWriteAccess()];
+        }
+
+        return ['', false];
+    }
+
+    public function privacySettings()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $view = new View('@PrivacyManager/privacySettings');
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            [$trackerFilename, $trackerFileWritable] = $this->getTrackerFileDetails();
+
+            $view->trackerFileName = $trackerFilename;
+            $view->trackerWritable = $trackerFileWritable;
             $view->deleteData = $this->getDeleteDataInfo();
-            $view->anonymizeIP = $this->getAnonymizeIPInfo();
+            $view->anonymizeIP = $this->getAnonymisationSettings();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = PiwikConfig::getInstance()->database['username'];
             $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);
             $view->activateNonce   = Nonce::getNonce(self::ACTIVATE_DNT_NONCE);
-            $view->configRandomisationFeatureFlag = $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class);
-
-            $view->maskLengthOptions = [
-                ['key' => '1',
-                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["1","192.168.100.xxx"]),
-                      'description' => ''],
-                ['key' => '2',
-                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["2","192.168.xxx.xxx"]),
-                      'description' => Piwik::translate('General_Recommended')],
-                ['key' => '3',
-                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["3","192.xxx.xxx.xxx"]),
-                      'description' => ''],
-                ['key' => '4',
-                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskFully'),
-                      'description' => '']
-            ];
-            $view->useAnonymizedIpForVisitEnrichmentOptions = [
-                ['key' => '1',
-                      'value' => Piwik::translate('General_Yes'),
-                      'description' => Piwik::translate('PrivacyManager_RecommendedForPrivacy')],
-                [
-                      'key' => '0',
-                      'value' => Piwik::translate('General_No'),
-                      'description' => ''
-                ]
-            ];
-            $view->scheduleDeletionOptions = [
-                ['key' => '1',
-                      'value' => Piwik::translate('Intl_PeriodDay')],
-                ['key' => '7',
-                      'value' => Piwik::translate('Intl_PeriodWeek')],
-                ['key' => '30',
-                      'value' => Piwik::translate('Intl_PeriodMonth')]
-            ];
-            $view->referrerAnonymizationOptions = $this->referrerAnonymizer->getAvailableAnonymizationOptions();
+            $view->scheduleDeletionOptions = PrivacyManager::getScheduleDeletionOptions();
+            $view->referrerAnonymizationOptions = ReferrerAnonymizer::getAvailableAnonymizationOptions();
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
@@ -354,25 +328,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $result;
     }
 
-    private function getAnonymizeIPInfo()
+    public function getAnonymisationSettings(?int $idSite = null)
     {
-        Piwik::checkUserHasSuperUserAccess();
-        $anonymizeIP = [];
-
-        $privacyConfig = new Config();
-        $anonymizeIP["enabled"] = IPAnonymizer::isActive();
-        $anonymizeIP["maskLength"] = $privacyConfig->ipAddressMaskLength;
-        $anonymizeIP["forceCookielessTracking"] = $privacyConfig->forceCookielessTracking;
-        $anonymizeIP["anonymizeOrderId"] = $privacyConfig->anonymizeOrderId;
-        $anonymizeIP["anonymizeUserId"] = $privacyConfig->anonymizeUserId;
-        $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $privacyConfig->useAnonymizedIpForVisitEnrichment;
-        $anonymizeIP["anonymizeReferrer"] = $privacyConfig->anonymizeReferrer;
-        if (!$anonymizeIP["useAnonymizedIpForVisitEnrichment"]) {
-            $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = '0';
-        }
-        $anonymizeIP["randomizeConfigId"] = $privacyConfig->randomizeConfigId;
-
-        return $anonymizeIP;
+        return API::getInstance()->getAnonymisationSettings($idSite);
     }
 
     private function getDeleteDataInfo()

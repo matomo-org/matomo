@@ -32,6 +32,18 @@ use Piwik\Tracker\Cache;
  */
 class Config
 {
+    /**
+     * If provided, tells the config to only apply to a specific site ID.
+     *
+     * @var int|null
+     */
+    private $idSite;
+
+    public function __construct(?int $idSite = null)
+    {
+        $this->setIdSite($idSite);
+    }
+
     private $properties = array(
         'useAnonymizedIpForVisitEnrichment' => array('type' => 'boolean', 'default' => false),
         'ipAddressMaskLength'               => array('type' => 'integer', 'default' => 2),
@@ -62,16 +74,14 @@ class Config
         return $this->getFromTrackerCache($name, $this->properties[$name]);
     }
 
-    private function prefix($optionName)
+    private function prefix(string $optionName, bool $addIdSite = true)
     {
-        return 'PrivacyManager.' . $optionName;
+        // if provided, adding the site ID in the middle to have all the site-specific settings together
+        return 'PrivacyManager.' . (($addIdSite && $this->idSite) ? "idSite($this->idSite)." : '') . $optionName;
     }
 
-    private function getFromTrackerCache($name, $config)
+    private function getFromSpecificTrackerCache(string $name, array $cache, array $config, bool $useFallback = true)
     {
-        $name  = $this->prefix($name);
-        $cache = Cache::getCacheGeneral();
-
         if (array_key_exists($name, $cache)) {
             $value = $cache[$name];
             settype($value, $config['type']);
@@ -79,10 +89,25 @@ class Config
             return $value;
         }
 
-        return $config['default'];
+        return $useFallback ? $config['default'] : null;
     }
 
-    private function getFromOption($name, $config)
+    private function getFromTrackerCache($name, $config)
+    {
+        $generalCache = Cache::getCacheGeneral();
+        $name = $this->prefix($name, false); // when getting from tracker cache, we always want the generic name
+        if (null !== $this->idSite) {
+            $cache = Cache::getCacheWebsiteAttributes($this->idSite);
+        } else {
+            $cache = $generalCache;
+        }
+
+        // check specific cache first, if no value found there return from general cache or use default
+        $value = $this->getFromSpecificTrackerCache($name, $cache, $config, $useFallback = false);
+        return null !== $value ? $value : $this->getFromSpecificTrackerCache($name, $generalCache, $config);
+    }
+
+    private function getFromOption(string $name, array $config)
     {
         $name  = $this->prefix($name);
         $value = Option::get($name);
@@ -104,16 +129,40 @@ class Config
             settype($value, $config['type']);
         }
 
-        Option::set($this->prefix($name), $value);
-        Cache::clearCacheGeneral();
+        $name = $this->prefix($name);
+
+        Option::set($name, $value);
+        Cache::clearCacheGeneral(); // TODO: verify this also clears individual website tracker cache
     }
 
-    public function setTrackerCacheGeneral($cacheContent)
+    public function setIdSite(?int $idSite): void {
+        $this->idSite = $idSite;
+    }
+
+    public function setTrackerCache(array &$cacheContent): void
     {
         foreach ($this->properties as $name => $config) {
-            $cacheContent[$this->prefix($name)] = $this->getFromOption($name, $config);
+            // when setting tracker cache, we always want generic name
+            $cacheContent[$this->prefix($name, false)] = $this->getFromOption($name, $config);
         }
+    }
 
-        return $cacheContent;
+    public function getConfigPropertyNames(): array
+    {
+        return array_keys($this->properties);
+    }
+
+    public function removeForSite(): void
+    {
+        if ($this->idSite) {
+            Option::deleteLike($this->prefix('%'));
+        }
+    }
+
+    public function useSiteSpecificSettings(): bool
+    {
+        if (!$this->idSite) return false;
+
+        return count(Option::getLike($this->prefix('%'))) > 0;
     }
 }

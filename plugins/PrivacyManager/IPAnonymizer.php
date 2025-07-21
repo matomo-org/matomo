@@ -33,9 +33,11 @@ class IPAnonymizer
 
     /**
      * Hook on Tracker.Visit.setVisitorIp to anomymize visitor IP addresses
+     *
+     * @param int|null $idSite Site ID to get anonymization config from. Uses global settings if not provided.
      * @param string $ip IP address in binary format (network format)
      */
-    public function setVisitorIpAddress(&$ip)
+    public function setVisitorIpAddress(&$ip, ?int $idSite = null)
     {
         $ipObject = IP::fromBinaryIP($ip);
 
@@ -44,7 +46,7 @@ class IPAnonymizer
             return;
         }
 
-        $privacyConfig = new Config();
+        $privacyConfig = new Config($idSite);
 
         $newIpObject = self::applyIPMask($ipObject, $privacyConfig->ipAddressMaskLength);
         $ip = $newIpObject->toBinary();
@@ -54,30 +56,35 @@ class IPAnonymizer
 
     /**
      * Deactivates IP anonymization. This function will not be called by the Tracker.
+     *
+     * @param int|null $idSite Site ID to apply the config to. Applies globally if not provided.
      */
-    public static function deactivate()
+    public static function deactivate(?int $idSite = null)
     {
-        $privacyConfig = new Config();
+        $privacyConfig = new Config($idSite);
         $privacyConfig->ipAnonymizerEnabled = false;
     }
 
     /**
      * Activates IP anonymization. This function will not be called by the Tracker.
+     *
+     * @param int|null $idSite Site ID to apply the config to. Applies globally if not provided.
      */
-    public static function activate()
+    public static function activate(?int $idSite = null)
     {
-        $privacyConfig = new Config();
+        $privacyConfig = new Config($idSite);
         $privacyConfig->ipAnonymizerEnabled = true;
     }
 
     /**
      * Returns true if IP anonymization support is enabled, false if otherwise.
      *
+     * @param int|null $idSite Site ID to check for. Checks global settings if not provided.
      * @return bool
      */
-    public static function isActive()
+    public static function isActive(?int $idSite = null)
     {
-        $privacyConfig = new Config();
+        $privacyConfig = new Config($idSite);
         return $privacyConfig->ipAnonymizerEnabled;
     }
 }

@@ -54,7 +54,7 @@
             </li>
           </ul>
         </div>
-        <div class="col m4">
+        <div class="col m3">
           <ul>
             <li>
               <span class="title">{{ translate('SitesManager_Urls') }}</span>:
@@ -78,32 +78,33 @@
             </li>
           </ul>
         </div>
-        <div class="col m1 text-right">
-          <ul>
-            <li>
-              <button
-                class="table-action"
-                @click="editSite()"
-                :title="translate('General_Edit')"
-              >
-                <span class="icon-edit"></span>
-              </button>
-            </li>
-            <li>
-              <button
-                class="table-action"
-                v-show="theSite.idsite"
-                @click="getMessagesToWarnOnSiteRemoval()"
-                :title="translate('General_Delete')"
-              >
-                <span class="icon-delete"></span>
-              </button>
-            </li>
-          </ul>
+        <div class="col m2 right-align">
+          <button
+            class="table-action"
+            @click="editSite()"
+            :title="translate('General_Edit')"
+          >
+            <span class="icon-edit"></span>
+          </button>
+          <button
+            class="table-action"
+            @click="editPrivacy()"
+            :title="translate('PrivacyManager_ManagePrivacySettings')"
+          >
+            <span class="icon-locked"></span>
+          </button>
+          <button
+            class="table-action"
+            v-show="theSite.idsite"
+            @click="getMessagesToWarnOnSiteRemoval()"
+            :title="translate('General_Delete')"
+          >
+            <span class="icon-delete"></span>
+          </button>
         </div>
       </div>
 
-      <div v-if="editMode">
+      <div v-if="isEditingSite">
 
         <div class="form-group row">
           <div class="col s12 m6 input-field">
@@ -179,6 +180,22 @@
         </div>
 
       </div>
+      <div v-if="isEditingPrivacy">
+        <div class="editingSiteFooter">
+
+          <h3>{{ translate('PrivacyManager_UseAnonymizeTrackingData') }}</h3>
+
+          <ActivityIndicator :loading="isLoading"/>
+
+          <AnonymizeIp
+            v-if="!isLoading"
+            :id-site-specific="theSite.idsite"
+            v-bind="anonymisationSettings"
+            @updated="onPrivacyUpdated"
+            @cancel="cancelEditPrivacy(site)"
+          ></AnonymizeIp>
+        </div>
+      </div>
     </div>
 
     <PasswordConfirmation
@@ -211,6 +228,9 @@ import {
   Setting,
   PasswordConfirmation,
 } from 'CorePluginsAdmin';
+import {
+  AnonymizeIp,
+} from 'PrivacyManager';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
 import CurrencyStore from '../CurrencyStore/CurrencyStore';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
@@ -219,9 +239,10 @@ import SiteType from '../SiteTypesStore/SiteType';
 interface SiteFieldsState {
   isLoading: boolean;
   isSaving: boolean;
-  editMode: boolean;
+  editMode: boolean | string;
   theSite: Site;
   measurableSettings: DeepReadonly<SettingsForSinglePlugin[]>;
+  anonymisationSettings: DeepReadonly<SettingsForSinglePlugin[]>;
   settingValues: Record<string, unknown>;
   showRemoveDialog: boolean;
   deleteSiteExplanation: string;
@@ -242,6 +263,9 @@ const timezoneOptions = computed(
 function isSiteNew(site: Site) {
   return typeof site.idsite === 'undefined';
 }
+
+const EDIT_MODE_SITE = 'site';
+const EDIT_MODE_PRIVACY = 'privacy';
 
 export default defineComponent({
   props: {
@@ -268,18 +292,20 @@ export default defineComponent({
       editMode: false,
       theSite: { ...(this.site as Site) },
       measurableSettings: [],
+      anonymisationSettings: [],
       settingValues: {},
       showRemoveDialog: false,
       deleteSiteExplanation: '',
     };
   },
   components: {
+    AnonymizeIp,
     PasswordConfirmation,
     Field,
     GroupedSettings,
     ActivityIndicator,
   },
-  emits: ['delete', 'editSite', 'cancelEditSite', 'save'],
+  emits: ['delete', 'editSite', 'cancelEditSite', 'save', 'editPrivacy', 'cancelEditPrivacy'],
   created() {
     CurrencyStore.init();
     TimezoneStore.init();
@@ -327,7 +353,7 @@ export default defineComponent({
       }
     },
     editSite() {
-      this.editMode = true;
+      this.editMode = EDIT_MODE_SITE;
 
       this.$emit('editSite', { idSite: this.theSite.idsite });
 
@@ -351,6 +377,27 @@ export default defineComponent({
       }).finally(() => {
         this.isLoading = false;
       });
+    },
+    editPrivacy() {
+      this.editMode = EDIT_MODE_PRIVACY;
+      const idSite = this.theSite.idsite;
+      this.$emit('editPrivacy', { idSite });
+
+      this.isLoading = true;
+      this.anonymisationSettings = [];
+
+      AjaxHelper.fetch<SettingsForSinglePlugin[]>({
+        method: 'PrivacyManager.getAnonymisationSettings',
+        idSiteSpecific: this.theSite.idsite,
+      }).then((settings) => {
+        this.anonymisationSettings = settings;
+      }).finally(() => {
+        this.isLoading = false;
+      });
+    },
+    onPrivacyUpdated() {
+      this.editMode = false;
+      this.anonymisationSettings = [];
     },
     saveSite() {
       if (this.isSaving) {
@@ -444,6 +491,11 @@ export default defineComponent({
 
       this.$emit('cancelEditSite', { site, element: this.$refs.root as HTMLElement });
     },
+    cancelEditPrivacy(site: Site) {
+      this.editMode = false;
+
+      this.$emit('cancelEditPrivacy', { site, element: this.$refs.root as HTMLElement });
+    },
     deleteSite(password: string) {
       AjaxHelper.post({
         idSite: this.theSite.idsite,
@@ -472,6 +524,12 @@ export default defineComponent({
     },
   },
   computed: {
+    isEditingSite() {
+      return this.editMode === EDIT_MODE_SITE;
+    },
+    isEditingPrivacy() {
+      return this.editMode === EDIT_MODE_PRIVACY;
+    },
     availableTypes() {
       return SiteTypesStore.types.value;
     },

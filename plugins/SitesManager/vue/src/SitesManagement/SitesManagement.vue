@@ -111,6 +111,7 @@
           :global-settings="globalSettings"
           @edit-site="this.isSiteBeingEdited = true"
           @cancel-edit-site="afterCancelEdit($event)"
+          @cancel-edit-privacy="afterCancelEdit($event)"
           @delete="afterDelete($event)"
           @save="afterSave($event.site, $event.settingValues, index, $event.isNew)"
         />

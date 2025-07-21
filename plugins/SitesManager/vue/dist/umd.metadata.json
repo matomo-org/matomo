@@ -1,6 +1,7 @@
 {
   "dependsOn": [
     "CorePluginsAdmin",
-    "CoreHome"
+    "CoreHome",
+    "PrivacyManager"
   ]
 }

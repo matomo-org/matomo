@@ -180,6 +180,7 @@ class PrivacyManager extends Plugin
         return [
             'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
             'Tracker.setTrackerCacheGeneral'          => 'setTrackerCacheGeneral',
+            'Tracker.Cache.getSiteAttributes'         => 'setTrackerCacheSiteAttributes',
             'Tracker.isExcludedVisit'                 => [$this->dntChecker, 'checkHeaderInTracker'],
             'Tracker.setVisitorIp'                    => [$this->ipAnonymizer, 'setVisitorIpAddress'],
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
@@ -205,6 +206,8 @@ class PrivacyManager extends Plugin
 
     public function onConfigureVisualisation(Plugin\Visualization $view)
     {
+        // TODO: how to get the idSite to pass to config here?
+
         if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
             $config = new Config();
             if ($config->anonymizeReferrer == ReferrerAnonymizer::EXCLUDE_NONE) {
@@ -213,8 +216,7 @@ class PrivacyManager extends Plugin
             if (!$view->config->show_footer_message) {
                 $view->config->show_footer_message = '';
             }
-            $anonymizer = StaticContainer::get(ReferrerAnonymizer::class);
-            $methods = $anonymizer->getAvailableAnonymizationOptions();
+            $methods = ReferrerAnonymizer::getAvailableAnonymizationOptions();
             if (!empty($methods[$config->anonymizeReferrer])) {
                 $view->config->show_footer_message .= Piwik::translate('PrivacyManager_InfoSomeReferrerInfoMayBeAnonymized', $methods[$config->anonymizeReferrer]);
             }
@@ -463,18 +465,28 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'General_Done';
         $translationKeys[] = 'PrivacyManager_UseRandomizeConfigId';
         $translationKeys[] = 'PrivacyManager_RandomizeConfigIdNote';
+        $translationKeys[] = 'PrivacyManager_SiteAnonymizationConfig';
+        $translationKeys[] = 'PrivacyManager_UseSystemSettings';
+        $translationKeys[] = 'PrivacyManager_UseSiteSpecificSettings';
+        $translationKeys[] = 'PrivacyManager_UseSiteSpecificSettingsHelpText';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
     {
-        $config       = new Config();
-        $cacheContent = $config->setTrackerCacheGeneral($cacheContent);
+        $config = new Config();
+        $config->setTrackerCache($cacheContent);
         $cacheContent[self::OPTION_USERID_SALT] = self::getUserIdSalt();
 
         $purgeSettings = PrivacyManager::getPurgeDataSettings();
         $cacheContent['delete_logs_enable'] = $purgeSettings['delete_logs_enable'];
         $cacheContent['delete_logs_schedule_lowest_interval'] = $purgeSettings['delete_logs_schedule_lowest_interval'];
         $cacheContent['delete_logs_older_than'] = $purgeSettings['delete_logs_older_than'];
+    }
+
+    public function setTrackerCacheSiteAttributes(&$cacheContent, int $idSite): void
+    {
+        $config = new Config($idSite);
+        $config->setTrackerCache($cacheContent);
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -912,5 +924,65 @@ class PrivacyManager extends Plugin
     {
         $config = new Config();
         return !!$config->forceCookielessTracking;
+    }
+
+    public static function getMaskLengthOptions(): array
+    {
+        return [
+            [
+                'key' => '1',
+                'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["1","192.168.100.xxx"]),
+                'description' => '',
+            ],
+            [
+                'key' => '2',
+                'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["2","192.168.xxx.xxx"]),
+                'description' => Piwik::translate('General_Recommended'),
+            ],
+            [
+                'key' => '3',
+                'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["3","192.xxx.xxx.xxx"]),
+                'description' => '',
+            ],
+            [
+                'key' => '4',
+                'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskFully'),
+                'description' => ''
+            ],
+        ];
+    }
+
+    public static function getUseAnonymizedIpForVisitEnrichmentOptions(): array
+    {
+        return [
+            [
+                'key' => '1',
+                'value' => Piwik::translate('General_Yes'),
+                'description' => Piwik::translate('PrivacyManager_RecommendedForPrivacy'),
+            ],
+            [
+                'key' => '0',
+                'value' => Piwik::translate('General_No'),
+                'description' => '',
+            ]
+        ];
+    }
+
+    public static function getScheduleDeletionOptions(): array
+    {
+        return [
+            [
+                'key' => '1',
+                'value' => Piwik::translate('Intl_PeriodDay'),
+            ],
+            [
+                'key' => '7',
+                'value' => Piwik::translate('Intl_PeriodWeek'),
+            ],
+            [
+                'key' => '30',
+                'value' => Piwik::translate('Intl_PeriodMonth'),
+            ],
+        ];
     }
 }
