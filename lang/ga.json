@@ -530,6 +530,7 @@
         "VisitsWith": "Cuairteanna le %s",
         "VisualizationDoesNotSupportComparison": "Ní thacaíonn an léirshamhlú seo le comparáid deighleog / tréimhse.",
         "Warning": "Rabhadh",
+        "WarningDatabaseVersionXIsTooOld": "Tá deireadh a ré (EOL) bainte amach ag an %1$s leagan%2$s atá in úsáid agat. Moltar go láidir duit uasghrádú a dhéanamh chuig an leagan reatha, mar d'fhéadfadh úsáid an leagan seo tú a nochtadh do leochaileachtaí slándála agus fabhtanna atá socraithe i leaganacha níos déanaí de %1$s.",
         "WarningDebugOnDemandEnabled": "Cumasaítear mód rianaire %1$s. Ar chúiseanna slándála, níor cheart é seo a chumasú ach ar feadh tréimhse ghearr ama. Chun é a dhíchumasú socraigh %2$s go %3$s i %4$s",
         "WarningDevelopmentModeOnButNotGitInstalled": "Tá Matomo á úsáid agat faoi láthair i mód forbartha, ach níor suiteáladh é trí git. Ní mholtar Matomo a úsáid i mód forbartha i dtimpeallacht táirgthe.",
         "WarningFileIntegrityNoHashFile": "Níorbh fhéidir seiceáil sláine an chomhaid a chur i gcrích mar gheall ar fheidhm hash_file() atá ar iarraidh.",
