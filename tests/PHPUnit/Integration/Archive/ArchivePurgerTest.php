@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Period\Month;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -79,6 +80,24 @@ class ArchivePurgerTest extends IntegrationTestCase
         self::$fixture->assertErrorInProgressArchivesNotPurged($this->january);
 
         $this->assertEquals(11 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+
+        $this->checkNoDuplicateArchives();
+    }
+
+    public function testPurgeBrokenArchivesPurgesOnlyBrokenArchives()
+    {
+        $this->enableBrowserTriggeredArchiving();
+
+        $deletedRowCount = $this->archivePurger->purgeBrokenArchives(new Month($this->february));
+
+        self::$fixture->assertBrokenArchivesWithoutDoneFlagPurged($this->february);
+
+        self::$fixture->assertCustomRangesNotPurged($this->february, $includeTemporary = false);
+        self::$fixture->assertErrorInProgressArchivedNotPurged($this->february, $includeRecentInProgress = false);
+        self::$fixture->assertTemporaryArchivesNotPurged($this->january);
+        self::$fixture->assertErrorInProgressArchivesNotPurged($this->january);
+
+        $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
 
         $this->checkNoDuplicateArchives();
     }
