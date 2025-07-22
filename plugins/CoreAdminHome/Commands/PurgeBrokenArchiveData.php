@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
+use Exception;
 use Piwik\Archive\ArchivePurger;
 use Piwik\Date;
 use Piwik\Plugin\ConsoleCommand;
@@ -70,7 +71,12 @@ class PurgeBrokenArchiveData extends ConsoleCommand
         $startMonthStr = $this->getInput()->getArgument('startMonth');
         $endMonthStr = $this->getInput()->getArgument('endMonth');
 
+        $yearMonthRegex = '/^(19[7-9][0-9]|2[0-9]{3})-(0[1-9]|1[0-2])$/';
         try {
+            // check format of string
+            if (!preg_match($yearMonthRegex, $startMonthStr)) {
+                throw new \Exception();
+            }
             $startMonth = new Month(Date::factory($startMonthStr));
         } catch (\Exception $e) {
             $output->writeln("Invalid Argument - startMonth - $startMonthStr");
@@ -78,6 +84,9 @@ class PurgeBrokenArchiveData extends ConsoleCommand
         }
 
         try {
+            if (!preg_match($yearMonthRegex, $startMonthStr)) {
+                throw new \Exception();
+            }
             $endMonth = new Month(Date::factory($endMonthStr));
         } catch (\Exception $e) {
             $output->writeln("Invalid Argument - endMonth - $endMonthStr");
