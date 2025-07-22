@@ -175,12 +175,12 @@ class ArchivePurger
             if (!empty($idArchivesToDelete)) {
                 $deletedRowCount = $this->deleteArchiveIds($currentMonthStart, $idArchivesToDelete);
 
-                $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for {date}.", [
+                $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for month starting {monthStart}.", [
                     'count' => $deletedRowCount,
-                    'date' => $currentMonthStart
+                    'monthStart' => $currentMonthStart->toString('Y-m')
                 ]);
             } else {
-                $this->logger->debug("No broken archives found in archive numeric table for {date}.", ['date' => $currentMonthStart]);
+                $this->logger->debug("No broken archives found in archive numeric table for month starting {monthStart}.", ['monthStart' => $currentMonthStart->toString('Y-m')]);
             }
 
             $numRowsDeleted += $deletedRowCount;
