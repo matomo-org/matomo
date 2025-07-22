@@ -56,7 +56,7 @@ class Date
     public const TIME_FORMAT             = DateTimeFormatProvider::TIME_FORMAT;
 
     /** for tests
-     * @var int
+     * @var null|int
      */
     public static $now = null;
 

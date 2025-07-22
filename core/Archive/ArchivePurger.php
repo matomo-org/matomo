@@ -158,7 +158,7 @@ class ArchivePurger
      *                  if $endMonth is in the past relative to $startMonth, it is ignored
      * @return int Returns the total number of rows deleted.
      */
-    public function purgeBrokenArchives(Month $startMonth, Month $endMonth = null): int
+    public function purgeBrokenArchives(Month $startMonth, ?Month $endMonth = null): int
     {
         if (!isset($endMonth) || $startMonth->getDateStart()->isLater($endMonth->getDateEnd())) {
             $endMonth = $startMonth;

@@ -762,13 +762,4 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
         }
     }
-
-    public function assertPartialBrokenArchivesWithoutDoneFlag(Date $date)
-    {
-        $expectedPurgedArchives = [44];
-        $expectedExistingArchives = [45];
-
-        $this->assertArchivesDoNotExist($expectedPurgedArchives, $date);
-        $this->assertArchivesExist($expectedExistingArchives, $date);
-    }
 }
