@@ -83,7 +83,7 @@ class PurgeBrokenArchiveData extends ConsoleCommand
         }
 
         try {
-            if (!preg_match($yearMonthRegex, $startMonthStr)) {
+            if (!preg_match($yearMonthRegex, $endMonthStr)) {
                 throw new \Exception();
             }
             $endMonth = new Month(Date::factory($endMonthStr));
