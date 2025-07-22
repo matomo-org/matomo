@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\CoreAdminHome\Commands;
 
-use Exception;
 use Piwik\Archive\ArchivePurger;
 use Piwik\Date;
 use Piwik\Plugin\ConsoleCommand;
