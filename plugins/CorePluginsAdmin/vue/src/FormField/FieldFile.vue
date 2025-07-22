@@ -8,8 +8,8 @@
 <template>
   <div>
     <div class="btn">
-      <span :for="name" v-html="$sanitize(title)"></span>
-      <input ref="fileInput" :name="name" type="file" :id="name" @change="onChange($event)" />
+      <span :for="id" v-html="$sanitize(title)"></span>
+      <input ref="fileInput" :name="name" type="file" :id="id" @change="onChange($event)" />
     </div>
 
     <div class="file-path-wrapper">
@@ -26,6 +26,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
+    id: String,
     modelValue: [String, File],
     modelModifiers: Object,
   },

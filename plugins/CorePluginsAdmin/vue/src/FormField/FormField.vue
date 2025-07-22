@@ -28,6 +28,7 @@
         v-bind="{
           formField,
           ...formField,
+          id: fieldId,
           modelValue: processedModelValue,
           modelModifiers,
           availableOptions,
@@ -385,6 +386,9 @@ export default defineComponent({
 
       const inlineHelpSlot = this.$slots['inline-help']();
       return !!inlineHelpSlot?.[0]?.children?.length;
+    },
+    fieldId() {
+      return this.formField.id ? this.formField.id : this.formField.name;
     },
   },
   methods: {

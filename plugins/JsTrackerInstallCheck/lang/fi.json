@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "Seurantakoodin vahvistus epäonnistui. Varmista, että olet asentanut koodin oikein. %1$sLisätietoja%2$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Seurantakoodin vahvistus epäonnistui. Varmista, että olet asentanut \"%1$s\"-liitännäisen ja noudattanut kaikkia vaiheita. %2$sLisätietoja%3$s.",
+        "JsTrackingCodeInstallCheckSuccessMessage": "Seurantakoodi on asennettu onnistuneesti! Tämä näyttö katoaa heti, kun verkkosivustosi tietoja on seurattu.",
+        "OptionalTestInstallationDescription": "Valinnainen: Testaaksesi, että seurantakoodi pystyy lähettämään pyyntöjä Matomo-esiintymääsi, syötä tarkka URL-osoite, jota seuraat, ja napsauta \"Testaa asennus\". Uusi välilehti avautuu ja sen pitäisi sulkeutua 10 sekunnin kuluessa.",
+        "PluginDescription": "Varmista, onko seurantakoodi asennettu sivustollesi ja voiko se lähettää seurantapyyntöjä takaisin Matomo-instanssiisi",
+        "TestInstallationBtnText": "Testaa asennus"
+    }
+}

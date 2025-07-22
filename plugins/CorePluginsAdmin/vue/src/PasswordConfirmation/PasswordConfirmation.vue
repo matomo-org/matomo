@@ -26,6 +26,7 @@
           :uicontrol="'password'"
           :disabled="!requiresPasswordConfirmation ? 'disabled' : undefined"
           :name="'currentUserPassword'"
+          :id="passwordFieldId"
           :autocomplete="'off'"
           :full-width="true"
           :title="translate('UsersManager_YourCurrentPassword')"
@@ -71,6 +72,10 @@ export default defineComponent({
     modelValue: {
       type: Boolean,
       required: true,
+    },
+    passwordFieldId: {
+      type: String,
+      default: () => 'currentUserPassword',
     },
   },
   data(): PasswordConfirmationState {
@@ -122,7 +127,7 @@ export default defineComponent({
       $root.modal({
         dismissible: false,
         onOpenEnd: () => {
-          const passwordField = '.modal.open #currentUserPassword';
+          const passwordField = `.modal.open #${this.passwordFieldId}`;
           $(passwordField).focus();
           $(passwordField).off('keypress').keypress(onEnter);
         },

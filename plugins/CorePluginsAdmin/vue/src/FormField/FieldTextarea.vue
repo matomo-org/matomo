@@ -10,14 +10,14 @@
   <textarea
     :name="name"
     v-bind="uiControlAttributes"
-    :id="name"
+    :id="id"
     :value="modelValueText"
     @keydown="onKeydown($event)"
     @change="onKeydown($event)"
     class="materialize-textarea"
     ref="textarea"
   ></textarea>
-  <label :for="name" v-html="$sanitize(title)"></label>
+  <label :for="id" v-html="$sanitize(title)"></label>
 </template>
 
 <script lang="ts">
@@ -32,6 +32,7 @@ export default defineComponent({
     modelValue: String,
     modelModifiers: Object,
     title: String,
+    id: String,
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],
