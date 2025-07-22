@@ -225,6 +225,9 @@ class API extends \Piwik\Plugin\API
         return $formatted;
     }
 
+    /**
+     * @internal
+     */
     public function getTrackerFileDetails(): array
     {
         if (Piwik::hasUserSuperUserAccess()) {
@@ -249,6 +252,9 @@ class API extends \Piwik\Plugin\API
     }
 
 
+    /**
+     * @internal
+     */
     public function getAnonymisationSettings(?int $idSiteSpecific): array
     {
         if (is_numeric($idSiteSpecific)) {
