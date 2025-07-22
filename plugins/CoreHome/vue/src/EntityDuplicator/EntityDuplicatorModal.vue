@@ -199,7 +199,6 @@ export default defineComponent({
     },
     submitRequest() {
       this.hasBeenSubmitted = true;
-      this.modalStore.disableWatchSuppression();
 
       // Make sure all the validation passes before making the server request
       this.validateFormFields();
@@ -286,9 +285,6 @@ export default defineComponent({
     watch(
       () => this.modalStore.state.entityFormData,
       () => {
-        if (this.modalStore.state.isWatchSuppressed) {
-          return;
-        }
         this.isValidated = false;
       },
       { deep: true },
