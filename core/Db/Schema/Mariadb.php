@@ -57,6 +57,13 @@ class Mariadb extends Mysql
         return false;
     }
 
+    public function supportsWindowFunctions(): bool
+    {
+        $version = strtolower($this->getVersion());
+
+        return version_compare($version, '10.2', '>=');
+    }
+
     public function hasReachedEOL(): bool
     {
         $currentVersion = $this->getVersion();

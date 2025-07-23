@@ -31,6 +31,11 @@ class Mysql implements SchemaInterface
     public const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
     public const MAX_TABLE_NAME_LENGTH = 64;
 
+    /**
+     * @var string|null
+     */
+    private $databaseVersion = null;
+
     private $tablesInstalled = null;
 
     public function getDatabaseType(): string
@@ -786,6 +791,18 @@ class Mysql implements SchemaInterface
         return true;
     }
 
+    public function supportsWindowFunctions(): bool
+    {
+        $version = strtolower($this->getVersion());
+
+        // If MySQL is configured but MariaDb used don't take chances
+        if (str_contains($version, 'mariadb')) {
+            return false;
+        }
+
+        return version_compare($version, '8.0', '>=');
+    }
+
     public function getSupportedReadIsolationTransactionLevel(): string
     {
         return 'READ UNCOMMITTED';
@@ -871,7 +888,11 @@ class Mysql implements SchemaInterface
 
     public function getVersion(): string
     {
-        return Db::fetchOne("SELECT VERSION()");
+        if (null === $this->databaseVersion) {
+            $this->databaseVersion = Db::fetchOne("SELECT VERSION()");
+        }
+
+        return $this->databaseVersion;
     }
 
     protected function getTableStatus()

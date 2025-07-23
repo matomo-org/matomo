@@ -430,26 +430,59 @@ class DbHelper
     }
 
     /**
+     * Extracts the "GROUP BY" clause from a query.
+     *
+     * Will return null if no clause found or the extraction failed,
+     * e.g. parentheses in the extracted clause are not balanced.
+     */
+    public static function extractGroupByFromQuery(string $sql, bool $stripTableNames = false): ?string
+    {
+        $groupBy = self::extractClauseFromQuery(
+            $sql,
+            '/.*GROUP\s+BY\s+(.*?)(?:\s+(?:WITH|HAVING|WINDOW|ORDER|LIMIT)|\s*;|\s*$)(.*)/is'
+        );
+
+        if ($stripTableNames && null !== $groupBy) {
+            return self::stripTableNamesFromQueryClause($groupBy);
+        } else {
+            return $groupBy;
+        }
+    }
+
+    /**
      * Extracts the "ORDER BY" clause from a query.
      *
      * Will return null if no clause found or the extraction failed,
      * e.g. parentheses in the extracted clause are not balanced.
      */
-    public static function extractOrderByFromQuery(string $sql): ?string
+    public static function extractOrderByFromQuery(string $sql, bool $stripTableNames = false): ?string
     {
-        $pattern = '/.*ORDER\s+BY\s+(.*?)(?:\s+LIMIT|\s*;|\s*$)/is';
+        $orderBy = self::extractClauseFromQuery(
+            $sql,
+            '/.*ORDER\s+BY\s+(.*?)(?:\s+LIMIT|\s*;|\s*$)(.*)/is'
+        );
 
-        if (preg_match($pattern, $sql, $matches)) {
-            $orderBy = $matches[1];
-            $openParentheses = substr_count($orderBy, '(');
-            $closeParentheses = substr_count($orderBy, ')');
-
-            if ($openParentheses === $closeParentheses) {
-                return trim($orderBy);
-            }
+        if ($stripTableNames && null !== $orderBy) {
+            return self::stripTableNamesFromQueryClause($orderBy);
+        } else {
+            return $orderBy;
         }
+    }
 
-        return null;
+    /**
+     * Extracts the "SELECT" columns from a query.
+     *
+     * Will return null if no columns found or the extraction failed.
+     *
+     * Will skip comments and optimizer hints between the SELECT and the
+     * first column, but not between individual columns.
+     */
+    public static function extractSelectFromQuery(string $sql): ?string
+    {
+        return self::extractClauseFromQuery(
+            $sql,
+            '/^\s*SELECT\s+(?:\/\*.*?\*\/\s*)*(.*?)(?:\s+FROM|\s*;|\s*$)/is'
+        );
     }
 
     /**
@@ -464,5 +497,48 @@ class DbHelper
     public static function isValidDbname($dbname)
     {
         return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
+    }
+
+    private static function extractClauseFromQuery(string $query, string $pattern): ?string
+    {
+        preg_match($pattern, $query, $matches);
+
+        if (empty($matches[1])) {
+            return null;
+        }
+
+        $clause = trim($matches[1]);
+        $openParentheses = substr_count($clause, '(');
+        $closeParentheses = substr_count($clause, ')');
+
+        if ($openParentheses !== $closeParentheses) {
+            return null;
+        }
+
+        // secondary match is after optional keywords
+        // check for balanced parentheses to avoid matching
+        // clause from a nested query
+        if (!empty($matches[2])) {
+            $postMatch = $matches[2];
+            $openParentheses = substr_count($postMatch, '(');
+            $closeParentheses = substr_count($postMatch, ')');
+
+            if ($openParentheses !== $closeParentheses) {
+                return null;
+            }
+        }
+
+        return $clause;
+    }
+
+    private static function stripTableNamesFromQueryClause(string $clause): string
+    {
+        return preg_replace_callback(
+            '/`?\w+`?\.`?(\w+)`?/',
+            function (array $matches): string {
+                return '`' . $matches[1] . '`';
+            },
+            $clause
+        );
     }
 }

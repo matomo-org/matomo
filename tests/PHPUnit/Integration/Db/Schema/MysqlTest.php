@@ -17,27 +17,56 @@ class MysqlTest extends IntegrationTestCase
 {
     /**
      * @dataProvider getIsOptimizeInnoDBTestData
+     * @dataProvider getGenericFeatureNotSupportedVersionTestData
      */
-    public function testIsOptimizeInnoDBSupportedReturnsCorrectResult($version, $expectedResult)
+    public function testIsOptimizeInnoDBSupportedReturnsCorrectResult(string $version, bool $expectedResult): void
     {
         $schema = $this->getMockBuilder(Db\Schema\Mysql::class)->onlyMethods(['getVersion'])->getMock();
         $schema->method('getVersion')->willReturn($version);
         $this->assertEquals($expectedResult, $schema->isOptimizeInnoDBSupported());
     }
 
-    public function getIsOptimizeInnoDBTestData()
+    public function getIsOptimizeInnoDBTestData(): array
     {
-        return array(
-            array("10.0.17-MariaDB-1~trusty", false),
-            array("10.1.1-MariaDB-1~trusty", true),
-            array("10.2.0-MariaDB-1~trusty", true),
-            array("10.6.19-0ubuntu0.14.04.1", false),
-            array("8.0.11-TiDB-v8.1.0", false),
-            array("", false),
-            array("0", false),
-            array("slkdf(@*#lkesjfMariaDB", false),
-            array("slkdfjq3rujlkv", false),
-        );
+        return [
+            ['10.0.17-MariaDB-1~trusty', false],
+            ['10.1.1-MariaDB-1~trusty', true],
+            ['10.2.0-MariaDB-1~trusty', true],
+            ['10.6.19-0ubuntu0.14.04.1', false],
+            ['8.0.11-TiDB-v8.1.0', false],
+        ];
+    }
+
+    /**
+     * @dataProvider getSupportsWindowFunctionsTestData
+     * @dataProvider getGenericFeatureNotSupportedVersionTestData
+     */
+    public function testSupportsWindowFunctionsReturnsCorrectResult(string $version, bool $expectedResult): void
+    {
+        $schema = $this->getMockBuilder(Db\Schema\Mysql::class)->onlyMethods(['getVersion'])->getMock();
+        $schema->method('getVersion')->willReturn($version);
+        $this->assertEquals($expectedResult, $schema->supportsWindowFunctions());
+    }
+
+    public function getSupportsWindowFunctionsTestData(): array
+    {
+        return [
+            ['5.5.68-MariaDB-log', false],
+            ['10.1.1-MariaDB-1~trusty', false],
+            ['5.7.44-log', false],
+            ['8.0.36', true],
+            ['9.4.16', true],
+        ];
+    }
+
+    public function getGenericFeatureNotSupportedVersionTestData(): array
+    {
+        return [
+            ['', false],
+            ['0', false],
+            ['slkdf(@*#lkesjfMariaDB', false],
+            ['slkdfjq3rujlkv', false],
+        ];
     }
 
     public function testOptimize()

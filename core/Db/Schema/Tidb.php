@@ -88,6 +88,11 @@ class Tidb extends Mysql
         return false;
     }
 
+    public function supportsWindowFunctions(): bool
+    {
+        return true;
+    }
+
     public function getSupportedReadIsolationTransactionLevel(): string
     {
         // TiDB doesn't support READ UNCOMMITTED
