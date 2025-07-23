@@ -12,6 +12,7 @@
       class="grouped"
       :multiple="multiple"
       :name="name"
+      :id="id"
       @change="onChange($event)"
       v-bind="uiControlAttributes"
     >
@@ -33,7 +34,7 @@
         </option>
       </optgroup>
     </select>
-    <label :for="name" v-html="$sanitize(title)"></label>
+    <label :for="id" v-html="$sanitize(title)"></label>
   </div>
   <div v-if="!groupedOptions && options" class="matomo-field-select">
     <select
@@ -41,6 +42,7 @@
       ref="select"
       :multiple="multiple"
       :name="name"
+      :id="id"
       @change="onChange($event)"
       v-bind="uiControlAttributes"
     >
@@ -56,7 +58,7 @@
         {{ option.value }}
       </option>
     </select>
-    <label :for="name" v-html="$sanitize(title)"></label>
+    <label :for="id" v-html="$sanitize(title)"></label>
   </div>
 </template>
 
@@ -177,6 +179,7 @@ export default defineComponent({
     multiple: Boolean,
     name: String,
     title: String,
+    id: String,
     availableOptions: Array,
     uiControlAttributes: Object,
     uiControlOptions: Object,

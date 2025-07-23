@@ -354,7 +354,7 @@ class SegmentTest extends IntegrationTestCase
                     *
                 FROM
                     " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-                    LEFT JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
+                    INNER JOIN " . Common::prefixTable('log_visit') . " AS log_visit ON log_visit.idvisit = log_link_visit_action.idvisit
                 WHERE
                     ( log_link_visit_action.idvisit = ? )
                     AND
