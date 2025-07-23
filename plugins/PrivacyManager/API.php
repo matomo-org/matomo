@@ -226,7 +226,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Provide tracker file name and whether it's writable to Matomo UI only
+     *
      * @internal
+     * @ignore
      */
     public function getTrackerFileDetails(): array
     {
@@ -253,7 +256,10 @@ class API extends \Piwik\Plugin\API
 
 
     /**
+     * Provide anonymisation settings to Matomo UI only
+     * 
      * @internal
+     * @ignore
      */
     public function getAnonymisationSettings(?int $idSiteSpecific): array
     {
