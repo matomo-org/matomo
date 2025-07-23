@@ -364,7 +364,54 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     }
 
     if (this.dataTable.param.flat !== undefined) {
-        extraParams['flat'] = this.dataTable.param.flat;
+        var unflattenActionLabel = function(label) {
+            return label.split(',').map(function(item) {
+                var hasAt = item.startsWith('@');
+                if (hasAt) {
+                    item = item.slice(1);
+                }
+
+                item = decodeURIComponent(item);
+
+                if (item === '/') {
+                    return (hasAt ? '@' : '') + encodeURIComponent('/index');
+                }
+
+                var isIndex = false;
+
+                if (item.endsWith('/')) {
+                    item = item.slice(0, -1);
+                    isIndex = true;
+                }
+                if (item.startsWith('/')) {
+                    item = item.slice(1);
+                }
+
+                var parts = item.split('/').map(encodeURIComponent);
+
+                if (isIndex) {
+                    parts.push(encodeURIComponent('/index'));
+                } else {
+                    parts[parts.length - 1] = '/' + parts[parts.length - 1];
+                }
+
+                if (hasAt) {
+                    parts[parts.length - 1] = '@' + parts[parts.length - 1];
+                }
+
+                return parts.join(' > ');
+            }).join(',');
+        };
+
+        if (
+          this.dataTable.param.module === 'Actions' && this.dataTable.param.action === 'getPageUrls'
+          && this.dataTable.param.flat && label.indexOf(' > ') === -1
+        ) {
+            label = unflattenActionLabel(label);
+            extraParams['flat'] = 0;
+        } else {
+            extraParams['flat'] = this.dataTable.param.flat;
+        }
     }
 
     var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;
