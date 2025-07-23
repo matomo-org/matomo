@@ -31,8 +31,9 @@ class RequestProcessor extends Tracker\RequestProcessor
 
     private function provideIdSiteToPrivacyManagerConfig(Request $request): void
     {
-        if (is_numeric($request->getIdSite())) {
-            $this->config->setIdSite((int) $request->getIdSite());
+        $idSite = $request->getIdSite();
+        if (is_numeric($request->getIdSite()) && $idSite) {
+            $this->config->setIdSite((int) $idSite);
         }
     }
 
