@@ -257,9 +257,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Provide anonymisation settings to Matomo UI only
-     * 
+     *
      * @internal
-     * @ignore
      */
     public function getAnonymisationSettings(?int $idSiteSpecific): array
     {
