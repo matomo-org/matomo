@@ -225,36 +225,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class);
     }
 
-    public function getTrackerFileDetails(): array
-    {
-        if (Piwik::hasUserSuperUserAccess()) {
-            $jsCodeGenerator = new TrackerCodeGenerator();
-            $file = new File(PIWIK_DOCUMENT_ROOT . '/' . $jsCodeGenerator->getJsTrackerEndpoint());
-            $filename = $jsCodeGenerator->getJsTrackerEndpoint();
-
-            if (Manager::getInstance()->isPluginActivated('CustomJsTracker')) {
-                $file = StaticContainer::get('Piwik\Plugins\CustomJsTracker\TrackerUpdater')->getToFile();
-                $filename = $file->getName();
-            }
-
-            return [$filename, $file->hasWriteAccess()];
-        }
-
-        return ['', false];
-    }
-
     public function privacySettings()
     {
         Piwik::checkUserHasSuperUserAccess();
         $view = new View('@PrivacyManager/privacySettings');
 
         if (Piwik::hasUserSuperUserAccess()) {
-            [$trackerFilename, $trackerFileWritable] = $this->getTrackerFileDetails();
+            $api = API::getInstance();
+            [$trackerFilename, $trackerFileWritable] = $api->getTrackerFileDetails();
 
             $view->trackerFileName = $trackerFilename;
             $view->trackerWritable = $trackerFileWritable;
             $view->deleteData = $this->getDeleteDataInfo();
-            $view->anonymizeIP = $this->getAnonymisationSettings();
+            $view->anonymizeIP = $api->getAnonymisationSettings();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = PiwikConfig::getInstance()->database['username'];
             $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);
@@ -326,11 +309,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return $result;
-    }
-
-    public function getAnonymisationSettings(?int $idSite = null)
-    {
-        return API::getInstance()->getAnonymisationSettings($idSite);
     }
 
     private function getDeleteDataInfo()
