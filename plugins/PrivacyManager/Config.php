@@ -139,12 +139,14 @@ class Config
         $this->idSite = $idSite;
     }
 
-    public function setTrackerCache(array &$cacheContent): void
+    public function setTrackerCache(array &$cacheContent): array
     {
         foreach ($this->properties as $name => $config) {
             // when setting tracker cache, we always want generic name
             $cacheContent[$this->prefix($name, false)] = $this->getFromOption($name, $config);
         }
+
+        return $cacheContent;
     }
 
     public function getConfigPropertyNames(): array

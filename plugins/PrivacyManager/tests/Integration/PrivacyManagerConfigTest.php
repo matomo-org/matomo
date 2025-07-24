@@ -104,7 +104,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     public function testSetTrackerCacheContent()
     {
-        $content = $this->config->setTrackerCacheGeneral(array('existingEntry' => 'test'));
+        $content = $this->config->setTrackerCache(array('existingEntry' => 'test'));
 
         $expected = array(
             'existingEntry' => 'test',
@@ -126,7 +126,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
     {
         Option::set('PrivacyManager.ipAddressMaskLength', '232');
 
-        $content = $this->config->setTrackerCacheGeneral(array('existingEntry' => 'test'));
+        $content = $this->config->setTrackerCache(array('existingEntry' => 'test'));
 
         $this->assertEquals(232, $content['PrivacyManager.ipAddressMaskLength']);
     }
