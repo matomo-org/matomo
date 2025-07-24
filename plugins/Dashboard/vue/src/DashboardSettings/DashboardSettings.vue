@@ -27,10 +27,6 @@
     >
       <ul class="submenu">
         <li>
-          <div class="addWidget">{{ translate('Dashboard_AddAWidget') }}</div>
-          <ul class="widgetpreview-categorylist"></ul>
-        </li>
-        <li>
           <div class="manageDashboard">{{ translate('Dashboard_ManageDashboard') }}</div>
 
           <ul>
@@ -56,6 +52,10 @@
           :data-action="actionName"
         >
           {{ translate(title) }}
+        </li>
+        <li>
+          <div class="addWidget">{{ translate('Dashboard_AddAWidget') }}</div>
+          <ul class="widgetpreview-categorylist"></ul>
         </li>
       </ul>
       <ul class="widgetpreview-widgetlist"></ul>
