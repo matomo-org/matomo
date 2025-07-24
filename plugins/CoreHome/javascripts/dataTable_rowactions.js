@@ -407,6 +407,13 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
           this.dataTable.param.module === 'Actions' && this.dataTable.param.action === 'getPageUrls'
           && this.dataTable.param.flat && label.indexOf(' > ') === -1
         ) {
+            // Requesting a row evolution for a flattened page url report can easily reach memory limits
+            // This happens due to the fact, that requesting a report flattened, will currently process
+            // the data for ALL subtables, for all periods shown in the row evolution.
+            // We actually would only need to fetch the data for the requested labels.
+            // Till this was refactored in the backend, this hack will convert the flattened request
+            // into a request that would come from a subtable. This is handled differently by the backend
+            // and will only process the requested labels in the backend.
             label = unflattenActionLabel(label);
             extraParams['flat'] = 0;
         } else {
