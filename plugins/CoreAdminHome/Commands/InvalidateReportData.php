@@ -141,6 +141,7 @@ class InvalidateReportData extends ConsoleCommand
         foreach ($segments as $segmentStr) {
             // determine sites where current segment is available for
             $sitesToProcess = $this->getSitesForSegment($segmentStr, $sites);
+            $segment = null;
 
             try {
                 $segment = new Segment($segmentStr, $sitesToProcess);

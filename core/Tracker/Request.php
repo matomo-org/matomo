@@ -10,6 +10,7 @@
 namespace Piwik\Tracker;
 
 use Exception;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Cookie;
@@ -63,10 +64,13 @@ class Request
 
     /**
      * @param $params
-     * @param bool|string $tokenAuth
+     * @param string $tokenAuth
      */
-    public function __construct($params, $tokenAuth = false)
-    {
+    public function __construct(
+        $params,
+        #[\SensitiveParameter]
+        $tokenAuth = ''
+    ) {
         if (!is_array($params)) {
             $params = array();
         }
@@ -154,8 +158,10 @@ class Request
      * This method allows to set custom IP + server time + visitor ID, when using Tracking API.
      * These two attributes can be only set by the Super User (passing token_auth).
      */
-    protected function authenticateTrackingApi($tokenAuth)
-    {
+    protected function authenticateTrackingApi(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $shouldAuthenticate = TrackerConfig::getConfigValue('tracking_requests_require_authentication', $this->getIdSiteIfExists());
 
         if ($shouldAuthenticate) {
@@ -167,8 +173,12 @@ class Request
                 return;
             }
 
+            if (empty($tokenAuth) && !empty($this->params)) {
+                $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken($this->params);
+            }
+
             if (empty($tokenAuth)) {
-                $tokenAuth = Common::getRequestVar('token_auth', false, 'string', $this->params);
+                $tokenAuth = StaticContainer::get(AuthenticationToken::class)->getAuthToken();
             }
 
             $cache = PiwikCache::getTransientCache();
@@ -200,8 +210,11 @@ class Request
         }
     }
 
-    public static function authenticateSuperUserOrAdminOrWrite($tokenAuth, $idSite)
-    {
+    public static function authenticateSuperUserOrAdminOrWrite(
+        #[\SensitiveParameter]
+        $tokenAuth,
+        $idSite
+    ) {
         if (empty($tokenAuth)) {
             return false;
         }

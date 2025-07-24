@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\Widgetize;
 
 use Piwik\API\Request;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\FrontController;
 use Piwik\Piwik;
 use Piwik\Url;
@@ -31,8 +33,7 @@ class Controller extends \Piwik\Plugin\Controller
     public function iframe()
     {
         // also called by FrontController, we call it explicitly as a safety measure in case something changes in the future
-        $token_auth = Common::getRequestVar('token_auth', '', 'string');
-        if (!empty($token_auth)) {
+        if (StaticContainer::get(AuthenticationToken::class)->getAuthToken()) {
             Request::checkTokenAuthIsNotLimited('Widgetize', 'iframe');
         }
 

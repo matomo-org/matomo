@@ -376,7 +376,7 @@ class ScheduledReports extends \Piwik\Plugin
         $customReplyTo = null;
         if (
             Config::getInstance()->General['scheduled_reports_replyto_is_user_email_and_alias']
-            || !isset($reportDetails['login'])
+            && isset($report['login'])
         ) {
             $userModel = new UserModel();
             $customReplyTo = $userModel->getUser($report['login']);

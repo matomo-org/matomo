@@ -53,6 +53,8 @@
         "UnprocessedSegmentNoData1": "Veri istediğiniz %1$s özel dilimi henüz sistem tarafından işlenmemiş olduğundan bu raporlarda herhangi bir veri yok.",
         "UnprocessedSegmentNoData2": "Bu dilimin verileri işlem bir kaç saat içinde tamamlandıktan sonra kullanılabilir (erişilemiyorsa bir sorun olabilir).",
         "UnprocessedSegmentNoData3": "Yapılandırma bu dönem için yeniden arşivlemeyi engellediğinden, Matomo %1$s diliminin verilerini görüntüleyemiyor. Lütfen yöneticinizle görüşün ya da %2$sbu SSS%3$s açıklamasına bakarak sorunu nasıl çözeceğiniz hakkında bilgi alın.",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "Bu parça, süper kullanıcı tarafından tüm sitelere erişilebilir yapıldı. Artık yalnızca süper kullanıcıların güncellemesine veya kaldırmasına izin veriliyor.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "Yalnızca kendiniz oluşturduğunuz özel parçaları düzenleyebilir ve silebilirsiniz. Bu parça süper kullanıcı tarafından oluşturulmuş ve 'sizinle paylaşılmış'. Bu parçayı değiştirmek için önce 'Yeni parça ekle' üzerine tıklayarak yeni bir parça oluşturabilirsiniz. Ardından parçanın tanımını özelleştirebilirsiniz.",
         "VisibleToAllUsers": "tüm kullanıcılar",
         "VisibleToMe": "yalnızca ben",
         "VisibleToSuperUser": "Süper kullanıcı izinleriniz olduğundan size görüntüleniyor",

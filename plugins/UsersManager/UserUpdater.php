@@ -23,6 +23,7 @@ class UserUpdater
      */
     public function updateUserWithoutCurrentPassword(
         $userLogin,
+        #[\SensitiveParameter]
         $password = false,
         $email = false,
         $_isPasswordHashed = false

@@ -16,7 +16,6 @@
         "ConfirmPasswordResetIntro": "Por favor, digite sua nova senha para confirmar que você realmente solicitou a alteração de sua senha.",
         "ConfirmPasswordResetWrongPassword": "A senha digitada não corresponde à senha recém-criada. Redefina sua senha novamente caso não se lembre dela. Não faça nada para manter sua senha se você não solicitou a alteração dela.",
         "ConfirmPasswordToContinue": "Confirme a sua palavra-passe para prosseguir",
-        "ConfirmationLinkSent": "Abra o link de confirmação enviado para sua caixa de entrada de e-mail para confirmar a alteração de sua senha.",
         "ContactAdmin": "Possível motivo: seu host pode ter desabilitado a função mail(). <br>Entre em contato com o administrador do Matomo.",
         "CreatePasswordDescription": "Certifique-se de lembrar desta senha e de mantê-la em lugar seguro.",
         "CurrentlyBlockedIPs": "IPs bloqueados",

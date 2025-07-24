@@ -22,6 +22,90 @@ use Piwik\DbHelper;
 class DbHelperTest extends \PHPUnit\Framework\TestCase
 {
     /**
+     * @dataProvider getExtractOrderByFromQueryTestData
+     */
+    public function testExtractOrderByFromQuery(string $sql, ?string $expectedOrderBy): void
+    {
+        $extractedOrderBy = DbHelper::extractOrderByFromQuery($sql);
+
+        // compare with collapsed whitespace
+        $expectedOrderBy = trim(preg_replace('/\s+/', ' ', $expectedOrderBy));
+        $extractedOrderBy = trim(preg_replace('/\s+/', ' ', $extractedOrderBy));
+
+        $this->assertSame($expectedOrderBy, $extractedOrderBy);
+    }
+
+    public function getExtractOrderByFromQueryTestData(): iterable
+    {
+        yield 'no clause' => [
+            'SELECT my_column FROM my_table',
+            null
+        ];
+
+        yield 'simple order by' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                ORDER BY column_one DESC,
+                         column_two ASC
+            ',
+            '
+                column_one DESC,
+                column_two ASC
+            '
+        ];
+
+        yield 'multiple order by' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    ORDER BY column_two
+                ) AS my_data
+                ORDER BY column_one
+            ',
+            'column_one'
+        ];
+
+        yield 'nested order by ignored' => [
+            '
+                SELECT column_one
+                FROM (
+                    SELECT column_two
+                    FROM my_table
+                    ORDER BY column_two
+                ) AS my_data
+            ',
+            null
+        ];
+
+        yield 'query terminated by ;' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                ORDER BY column_one DESC;
+            ',
+            'column_one DESC'
+        ];
+
+        yield 'order by with following limit' => [
+            '
+                SELECT column_one, column_two
+                FROM my_table
+                ORDER BY column_one
+                LIMIT 1
+            ',
+            'column_one'
+        ];
+
+        yield 'unbalanced parentheses' => [
+            'SELECT my_column FROM my_table ORDER BY column_one, (, column_two',
+            null
+        ];
+    }
+
+    /**
      * @dataProvider getVariousDbNames
      * @param string $dbName
      * @param bool $expectation
@@ -62,9 +146,9 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @dataProvider getTestQueries
+     * @dataProvider getMaxExecutionTimeTestData
      */
-    public function testAddMaxExecutionTimeHintToQuery($expected, $query, $timeLimit, $schema)
+    public function testAddMaxExecutionTimeHintToQuery($expected, $query, $timeLimit, $schema): void
     {
         Schema::unsetInstance();
         Config::getInstance()->database['schema'] = $schema;
@@ -72,12 +156,12 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function getTestQueries()
+    public function getMaxExecutionTimeTestData(): iterable
     {
         return [
             // MySql Schema
-            ['SELECT  /*+ MAX_EXECUTION_TIME(1500) */  * FROM table', 'SELECT * FROM table', 1.5, 'Mysql'],
-            ['SELECT  /*+ MAX_EXECUTION_TIME(20000) */  column FROM (SELECT * FROM table)', 'SELECT column FROM (SELECT * FROM table)', 20, 'Mysql'],
+            ['SELECT /*+ MAX_EXECUTION_TIME(1500) */ * FROM table', 'SELECT * FROM table', 1.5, 'Mysql'],
+            ['SELECT /*+ MAX_EXECUTION_TIME(20000) */ column FROM (SELECT * FROM table)', 'SELECT column FROM (SELECT * FROM table)', 20, 'Mysql'],
             ['SELECT * FROM table', 'SELECT * FROM table', 0, 'Mysql'],
             ['SELECT /*+ MAX_EXECUTION_TIME(1000) */ * FROM table', 'SELECT /*+ MAX_EXECUTION_TIME(1000) */ * FROM table', 3.5, 'Mysql'], // should not append/change MAX_EXECUTION_TIME hint if already present
             ['UPDATE table SET column = value', 'UPDATE table SET column = value', 150, 'Mysql'],
@@ -87,6 +171,174 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             ['SELECT * FROM table', 'SELECT * FROM table', 0, 'Mariadb'],
             ['SET STATEMENT max_statement_time=2 FOR SELECT * FROM table', 'SET STATEMENT max_statement_time=2 FOR SELECT * FROM table', 3.5, 'Mariadb'], // should not append/change max_statement_time hint if already present
             ['UPDATE table SET column = value', 'UPDATE table SET column = value', 150, 'Mariadb'],
+        ];
+    }
+
+    /**
+     * @dataProvider getAddOptimizerHintTestData
+     */
+    public function testAddOptimizerHint($expected, $query, $hint): void
+    {
+        $result = DbHelper::addOptimizerHintToQuery($query, $hint);
+        $this->assertEquals($expected, $result);
+    }
+
+    public function getAddOptimizerHintTestData(): iterable
+    {
+        yield 'no previous hints' => [
+            'SELECT /*+ HINT_ONE(1) */ * FROM table',
+            'SELECT * FROM table',
+            'HINT_ONE(1)',
+        ];
+
+        yield 'different previous hint' => [
+            'SELECT /*+ HINT_TWO(2) HINT_ONE(1) */ * FROM table',
+            'SELECT /*+ HINT_ONE(1) */ * FROM table',
+            'HINT_TWO(2)',
+        ];
+
+        yield 'comment before previous hint' => [
+            'SELECT /* comment */ /*+ HINT_TWO(2) HINT_ONE(1) */ * FROM table',
+            'SELECT /* comment */ /*+ HINT_ONE(1) */ * FROM table',
+            'HINT_TWO(2)',
+        ];
+
+        yield 'comments around previous hint' => [
+            'SELECT /* comment */ /*+ HINT_TWO(2) HINT_ONE(1) */ /* comment */ * FROM table',
+            'SELECT /* comment */ /*+ HINT_ONE(1) */ /* comment */ * FROM table',
+            'HINT_TWO(2)',
+        ];
+
+        yield 'multiline query with previous hint' => [
+            'SELECT
+                    /*+ HINT_TWO(2) HINT_ONE(1) */
+                    * FROM table',
+            'SELECT
+                    /*+ HINT_ONE(1) */
+                    * FROM table',
+            'HINT_TWO(2)',
+        ];
+
+        yield 'multiline comment with previous hint' => [
+            'SELECT
+                    /*
+                      comment
+                    */
+                    /*+ HINT_TWO(2) HINT_ONE(1) */
+                    * FROM table',
+            'SELECT
+                    /*
+                      comment
+                    */
+                    /*+ HINT_ONE(1) */
+                    * FROM table',
+            'HINT_TWO(2)',
+        ];
+
+        yield 'multiline hint with previous hint' => [
+            'SELECT
+                    /*+ HINT_TWO(2) HINT_ONE(1) */
+                    * FROM table',
+            'SELECT
+                    /*+
+                      HINT_ONE(1)
+                    */
+                    * FROM table',
+            'HINT_TWO(2)',
+        ];
+
+        yield 'different previous hint (same start)' => [
+            'SELECT /*+ HINT_ONE_OTHER(2) HINT_ONE(1) */ * FROM table',
+            'SELECT /*+ HINT_ONE(1) */ * FROM table',
+            'HINT_ONE_OTHER(2)',
+        ];
+
+        yield 'different previous hint (same end)' => [
+            'SELECT /*+ OTHER_HINT_ONE(2) HINT_ONE(1) */ * FROM table',
+            'SELECT /*+ HINT_ONE(1) */ * FROM table',
+            'OTHER_HINT_ONE(2)',
+        ];
+
+        yield 'duplicate hint' => [
+            'SELECT /*+ HINT_ONE(1) */ * FROM table',
+            'SELECT /*+ HINT_ONE(1) */ * FROM table',
+            'HINT_ONE("different value")',
+        ];
+
+        yield 'multiline hint with duplicate hint' => [
+            'SELECT /*+
+                      HINT_ONE(1)
+                      HINT_TWO(2)
+                    */ * FROM table',
+            'SELECT /*+
+                      HINT_ONE(1)
+                      HINT_TWO(2)
+                    */ * FROM table',
+            'HINT_ONE("different value")',
+        ];
+
+        yield 'duplicate hint without parenthesis' => [
+            'SELECT /*+ STRAIGHT_JOIN */ * FROM table',
+            'SELECT /*+ STRAIGHT_JOIN */ * FROM table',
+            'STRAIGHT_JOIN',
+        ];
+
+        yield 'multiline hint without parenthesis and extra whitespace' => [
+            'SELECT /*+
+                      STRAIGHT_JOIN    HINT_ONE(1)
+                    */ * FROM table',
+            'SELECT /*+
+                      STRAIGHT_JOIN    HINT_ONE(1)
+                    */ * FROM table',
+            'STRAIGHT_JOIN',
+        ];
+
+        yield 'empty hint comment' => [
+            'SELECT /*+ HINT_ONE(1) */ * FROM table',
+            'SELECT /*+*/ * FROM table',
+            'HINT_ONE(1)',
+        ];
+
+        yield 'regular SQL comment' => [
+            'SELECT /*+ HINT_ONE(1) */ /* comment */ * FROM table',
+            'SELECT /* comment */ * FROM table',
+            'HINT_ONE(1)',
+        ];
+
+        yield 'hint without parenthesis' => [
+            'SELECT /*+ STRAIGHT_JOIN HINT_ONE(1) */ * FROM table',
+            'SELECT /*+ HINT_ONE(1) */ * FROM table',
+            'STRAIGHT_JOIN'
+        ];
+
+        yield 'not a SELECT query' => [
+            'UPDATE table SET value = 1',
+            'UPDATE table SET value = 1',
+            'HINT_ONE(1)',
+        ];
+
+        yield 'only applies to queries starting with a SELECT' => [
+            'DELETE FROM table WHERE value in (SELECT value FROM table)',
+            'DELETE FROM table WHERE value in (SELECT value FROM table)',
+            'HINT_ONE(1)',
+        ];
+
+        yield 'hints on multiple levels' => [
+            'SELECT /*+ MAX_EXECUTION_TIME(100) */ * FROM (SELECT /*+ HINT_ONE(1) */ value FROM table)',
+            'SELECT * FROM (SELECT /*+ HINT_ONE(1) */ value FROM table)',
+            'MAX_EXECUTION_TIME(100)',
+        ];
+
+        yield 'repeated hint' => [
+            'SELECT /*+ MAX_EXECUTION_TIME(100) HINT_ONE(1) */ * FROM (SELECT /*+ HINT_ONE(1) */ value FROM table)',
+            'SELECT /*+ HINT_ONE(1) */ * FROM (SELECT /*+ HINT_ONE(1) */ value FROM table)',
+            'MAX_EXECUTION_TIME(100)',
+        ];
+
+        yield 'hints on multiple levels with comments' => [
+            'SELECT /*+ MAX_EXECUTION_TIME(100) */ /* comment */ * FROM (SELECT /*+ HINT_ONE(1) */ /* comment */ value FROM table)',
+            'SELECT /* comment */ * FROM (SELECT /*+ HINT_ONE(1) */ /* comment */ value FROM table)',
+            'MAX_EXECUTION_TIME(100)',
         ];
     }
 }

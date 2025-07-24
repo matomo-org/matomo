@@ -7,6 +7,8 @@
         "AliasUrlHelp": "Her satırda ziyaretçilerin siteye erişmek için kullandığı ayrı bir adres belirtmeniz önerilir ancak zorunlu değildir. Kısaltma adresleri Yönlendirenler → Siteler raporunda görüntülenmez. Adresleri, başında 'www' olarak ve olmayarak iki ayrı şekilde yazmanız gerekmez. Matomo her iki durumu da hesaba katar.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Saat dilimi değişikliği, yalnızca bundan sonraki verileri etkiler ve geriye dönük olarak uygulanmaz.",
         "ChooseMeasurableTypeHeadline": "Neyi ölçmek istiyorsunuz?",
+        "ChooseMeasurableTypeSubheader": "Bir ölçülebilir, izlemek istediğiniz herhangi bir site, uygulama veya çevrim içi sistem olabilir. Ölçülebilirler, Matomo üzerinde verileri toplamak ve raporları üretmek için temel ögelerdir.",
+        "ChooseMeasurableTypeSubheaderRollUp": "Ayrıca birleşik bir görünüm için bir Toplu rapor kullanarak birden fazla ölçülebiliri gruplayabilirsiniz.",
         "CmsAndWebsiteBuilders": "İçerik yönetimi sistemi ve site oluşturucular",
         "ConsentManagerConnected": "Sitenizde bulunan %1$s Matomo ile çalışmak üzere doğru şekilde yapılandırılmış.",
         "Currency": "Para birimi",

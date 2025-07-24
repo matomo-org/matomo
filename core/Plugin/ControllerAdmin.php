@@ -13,6 +13,7 @@ use Piwik\Config as PiwikConfig;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Db\Schema;
 use Piwik\Development;
 use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Menu\MenuAdmin;
@@ -303,6 +304,31 @@ abstract class ControllerAdmin extends Controller
         NotificationManager::notify('PHPVersionCheck', $notification);
     }
 
+    private static function notifyWhenDatabaseVersionIsEOL(): void
+    {
+        if (defined('PIWIK_TEST_MODE')) { // to avoid changing every admin UI test
+            return;
+        }
+
+        $isEOL = Piwik::hasUserSuperUserAccess() && Schema::getInstance()->hasReachedEOL();
+        if (!$isEOL) {
+            return;
+        }
+
+        $databaseVersion = Schema::getInstance()->getVersion();
+
+        $message = Piwik::translate('General_WarningDatabaseVersionXIsTooOld', [Schema::getInstance()->getDatabaseType(), $databaseVersion]);
+
+        $notification = new Notification($message);
+        $notification->raw = true;
+        $notification->title = Piwik::translate('General_Warning');
+        $notification->priority = Notification::PRIORITY_LOW;
+        $notification->context = Notification::CONTEXT_WARNING;
+        $notification->type = Notification::TYPE_TRANSIENT;
+        $notification->flags = Notification::FLAG_NO_CLEAR;
+        NotificationManager::notify('DatabaseVersionCheck', $notification);
+    }
+
     private static function notifyWhenDebugOnDemandIsEnabled($trackerSetting)
     {
         if (
@@ -373,6 +399,7 @@ abstract class ControllerAdmin extends Controller
         self::notifyAnyInvalidPlugin();
         self::notifyWhenPhpVersionIsEOL();
         self::notifyWhenPhpVersionIsNotCompatibleWithNextMajorPiwik();
+        self::notifyWhenDatabaseVersionIsEOL();
         self::notifyWhenDebugOnDemandIsEnabled('debug');
         self::notifyWhenDebugOnDemandIsEnabled('debug_on_demand');
 

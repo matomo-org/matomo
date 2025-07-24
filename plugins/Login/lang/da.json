@@ -2,7 +2,6 @@
     "Login": {
         "ChangeYourPassword": "Skift din adgangskode",
         "ConfirmPasswordToContinue": "Bekræft din adgangskode for at fortsætte",
-        "ConfirmationLinkSent": "Et bekræftelselink er blevet sendt til din indbakke. Tjek din e-mail og besøg dette link for at godkende ændringen af din adgangskode.",
         "CurrentlyBlockedIPs": "Aktuelt blokerede IP-adresser",
         "CurrentlyBlockedIPsUnblockConfirm": "Er du sikker på, at du vil fjerne alle blokeringer af IP-adresser?",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "En bruger med superbrugeradgang kan ikke godkendes ved hjælp af '%s'.",

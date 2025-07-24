@@ -13,7 +13,6 @@
         "ConfirmPasswordResetIntro": "Skriv inn passordet ditt igjen for å bekrefte at det var du som forespurte tilbakestilling.",
         "ConfirmPasswordResetWrongPassword": "Innskrevet passord samsvarer ikke med dit tnye. Hvis du ikke husker ditt nylig valgte passord kan du tilbakestille det igjen. Hvis du ikke forespurte noen endring trenger du ikke å foreta deg noe og passordet ditt vil ikke bli endret.",
         "ConfirmPasswordToContinue": "Bekreft passordet ditt for å fortsette.",
-        "ConfirmationLinkSent": "En bekreftelseslenke har blitt sendt til din innboks. Sjekk din e-post og besøk denne lenken for å autorisere din forespørsel om å endre passord.",
         "ContactAdmin": "Mulig grunn: Din vert kan ha skrudd av mail()-funksjonen.<br>Kontakt din Matomo-administrator",
         "CreatePasswordDescription": "Forsikre deg om at du husker dette passordet og oppbevar det på et trygt sted",
         "CurrentlyBlockedIPs": "IP-er som blokkeres",

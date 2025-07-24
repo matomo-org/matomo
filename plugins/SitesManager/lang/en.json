@@ -111,6 +111,8 @@
         "WebsiteCreated": "Website created",
         "XManagement": "Manage %s",
         "ChooseMeasurableTypeHeadline": "What would you like to measure?",
+        "ChooseMeasurableTypeSubheader": "A measurable is any website, app, or online system you want to track and analyse. Measurables are the foundation for collecting data and generating reports in Matomo.",
+        "ChooseMeasurableTypeSubheaderRollUp": "You can also group multiple measurables using a Roll-Up for a unified view.",
         "YouCurrentlyHaveAccessToNWebsites": "You currently have access to %s websites.",
         "YourCurrentIpAddressIs": "Your current IP address is %s",
         "DeleteSiteExplanation": "Deleting a website will delete all log data that has been collected for it. This action is permanent and cannot be undone.",

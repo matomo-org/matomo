@@ -7,6 +7,8 @@
         "AliasUrlHelp": "Këshillohet, por s’është e domosdoshme, të jepen URL të ndryshme, një për rresht, që vizitorët tuaj t’i përdorin për të hyrë në këtë sajt. URL-të alias për sajtin nuk kanë për t’u dukur te raporti Sjellës → Sajte. Mbani shënim që s’është e domosdoshme të jepen URL me apo pa “www”, ngaqë Matomo i ka vetvetiu parasysh që të dyja trajtat.",
         "ChangingYourTimezoneWillOnlyAffectDataForward": "Ndryshimi i zonës suaj kohore do të prekë vetëm të dhënat pas kësaj e tutje, nuk do të zbatohet për të mëparshmet.",
         "ChooseMeasurableTypeHeadline": "Ç’do të donit të matnit?",
+        "ChooseMeasurableTypeSubheader": "Një i matshëm është çfarëdo sajti, aplikacioni apo sistemi internetor që doni të ndiqet dhe të analizohet. Të matshmit janë baza e grumbullimit të të dhënave dhe prodhimit të raporteve në Matomo.",
+        "ChooseMeasurableTypeSubheaderRollUp": "Mundeni edhe të gruponi të matshëm të shumtë, duke përdorur një Roll-Up, për pamje të njësuar.",
         "CmsAndWebsiteBuilders": "CMS dhe krijues sajtesh",
         "ConsentManagerConnected": "Pikasëm se %1$s është i formësuar saktë për të punuar me Matomo-n në sajtin tuaj.",
         "Currency": "Monedhë",

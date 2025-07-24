@@ -12,7 +12,7 @@
         "Camera": "Appareil photo",
         "CarBrowser": "Navigateur de voiture",
         "ClientHints": "Conseils du client",
-        "ClientHintsNotSupported": "Votre navigateur n'est pas compatible avec les conseils du client.",
+        "ClientHintsNotSupported": "Votre navigateur ne prend pas en charge une technologie appelée “Client Hints”, qui permet de détecter automatiquement certaines caractéristiques de votre appareil (comme la taille de l’écran ou la résolution).",
         "ClientType": "Type de client",
         "ClientTypes": "Types de client",
         "ColumnBrowser": "Navigateur",

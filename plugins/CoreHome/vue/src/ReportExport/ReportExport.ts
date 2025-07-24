@@ -42,11 +42,16 @@ export default {
         || dataTable.param.flat === 1
         || dataTable.param.flat === '1';
 
+      const optionShowDimensions = dataTable.param.show_dimensions === true
+        || dataTable.param.show_dimensions === 1
+        || dataTable.param.show_dimensions === '1';
+
       const props = {
         initialReportType: 'default',
         initialReportLimit: reportLimit > 0 ? reportLimit : 100,
         initialReportLimitAll: reportLimit === -1 ? 'yes' : 'no',
         initialOptionFlat: optionFlat,
+        initialOptionShowDimensions: optionShowDimensions,
         initialOptionExpanded: true,
         initialOptionFormatMetrics: false,
         hasSubtables: optionFlat || dataTable.numberOfSubtables > 0,

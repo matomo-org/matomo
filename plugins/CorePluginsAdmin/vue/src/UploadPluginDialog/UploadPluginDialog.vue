@@ -26,6 +26,7 @@
           autocomplete="off"
           :title="translate('Login_ConfirmPasswordToContinue')"
           v-model="confirmPassword"
+          v-auto-clear-password
         />
 
         <input
@@ -49,7 +50,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { MatomoUrl } from 'CoreHome';
+import { MatomoUrl, AutoClearPassword } from 'CoreHome';
 import Field from '../Field/Field.vue';
 import PluginUpload from '../Plugins/PluginUpload';
 
@@ -68,6 +69,7 @@ export default defineComponent({
   },
   directives: {
     PluginUpload,
+    AutoClearPassword,
   },
   data(): UploadPluginDialogState {
     return {

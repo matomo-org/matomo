@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Aip Soghluaiste",
         "MobileAppDescription": "Aip soghluaiste dúchais le haghaidh iOS, Android nó aon chóras oibriúcháin soghluaiste eile.",
+        "MobileAppLongDescription": "Rianaigh gníomhaíocht úsáideoirí laistigh d'aipeanna dúchasacha iOS agus Android. I measc na sonraí a bhailítear tá radhairc scáileáin, imeachtaí san aip, sonraí gléis, agus seisiúin úsáideoirí. Tá an tomhas seo deartha d'aipeanna a úsáideann SDKanna soghluaiste Matomo.",
         "MobileApps": "Aipeanna Soghluaiste"
     }
 }

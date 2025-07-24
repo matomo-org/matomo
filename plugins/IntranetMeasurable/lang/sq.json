@@ -1,7 +1,8 @@
 {
     "IntranetMeasurable": {
         "Intranet": "Sajt Intranet",
-        "Intranets": "Sajte Intranet",
-        "IntranetDescription": "Një përmasë intranet është njësoj si ato për një sajt, por strehuar në një rrjet të brendshëm."
+        "IntranetDescription": "Një përmasë intranet është njësoj si ato për një sajt, por strehuar në një rrjet të brendshëm.",
+        "IntranetLongDescription": "Ndiqni sajte të brendshëm që janë të përdorshëm vetëm brenda rrjetit të entit tuaj. Matomo përdor “cookies” palësh të para për të identifikuar më saktë vizitorë unikë në mjedise intranet.",
+        "Intranets": "Sajte Intranet"
     }
 }

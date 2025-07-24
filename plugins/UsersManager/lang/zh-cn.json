@@ -172,7 +172,6 @@
         "TokenSuccessfullyDeleted": "令牌已成功删除",
         "TokenSuccessfullyGenerated": "令牌成功生成",
         "TokensSuccessfullyDeleted": "所有令牌已成功删除",
-        "TokensWithExpireDateCreationBySystem": "当前只能由系统创建带有到期日期的令牌",
         "TwoFactorAuthentication": "二次登录认证",
         "TypeYourCurrentPassword": "请输入您的当前密码以确认密码更改。",
         "TypeYourPasswordAgain": "再输入一次新的密码。",

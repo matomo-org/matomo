@@ -7,10 +7,11 @@
 
 <template>
   <div>
-    <label :for="name" v-html="$sanitize(title)"></label>
+    <label :for="id" v-html="$sanitize(title)"></label>
 
     <FieldArray
       :name="name"
+      :id="id"
       :model-value="modelValue"
       @update:modelValue="onValueUpdate($event)"
       :model-modifiers="modelModifiers"
@@ -31,6 +32,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
+    id: String,
     modelValue: null,
     modelModifiers: Object,
     uiControlAttributes: Object,

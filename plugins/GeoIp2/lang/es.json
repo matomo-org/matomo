@@ -20,7 +20,7 @@
         "GeoIPVariablesConfigurationHere": "Puede configurar las variables de servidor usadas %1$saquí%2$s",
         "HowToInstallApacheModule": "¿Cómo instalar el módulo GeoIP en Apache?",
         "HowToInstallNginxModule": "¿Cómo instalo el módulo GeoIP en Nginx?",
-        "HowToSetupGeoIPIntro": "Parece ser que la configuración de la Geolocalización no es confiable. Esta es una función útil y sin ella no verá una información precisa y completa de la ubicación de sus visitantes. Aquí un rápido vistazo de como utilizarla:",
+        "HowToSetupGeoIPIntro": "Parece que no tiene configurada correctamente la geolocalización. Es una función útil y sin ella no verá una información precisa y completa de la ubicación de sus visitantes. A continuación le explicamos cómo puede empezar a utilizarlo rápidamente:",
         "HttpServerModule": "Módulo servidor HTTP",
         "ISPDatabase": "Base de dato ISP",
         "InvalidGeoIPUpdatePeriod": "Período inválido para el actualizador GeoIP: %1$s. Los valores correctos son %2$s.",

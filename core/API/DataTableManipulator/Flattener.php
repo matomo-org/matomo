@@ -41,13 +41,20 @@ class Flattener extends DataTableManipulator
     public $recursiveLabelSeparator = '';
 
     /**
+     * Defines if dimensions should be added as additional columns if there are more than one
+     * @var bool
+     */
+    public $showDimensions = false;
+
+    /**
      * @param  DataTable $dataTable
      * @param string $recursiveLabelSeparator
      * @return DataTable|DataTable\Map
      */
-    public function flatten($dataTable, $recursiveLabelSeparator)
+    public function flatten($dataTable, $recursiveLabelSeparator, bool $showDimensions)
     {
         $this->recursiveLabelSeparator = $recursiveLabelSeparator;
+        $this->showDimensions = $showDimensions;
 
         return $this->manipulate($dataTable);
     }
@@ -78,6 +85,21 @@ class Flattener extends DataTableManipulator
         $dimensionName = !empty($dimension) ? str_replace('.', '_', $dimension->getId()) : 'label1';
 
         $this->flattenDataTableInto($dataTable, $newDataTable, $level = 1, $dimensionName);
+
+        $dimensions = $newDataTable->getMetadata('dimensions');
+        $hasMultipleDimensions = is_array($dimensions) && count($dimensions) > 1;
+
+        if ($this->showDimensions && $hasMultipleDimensions) {
+            $newDataTable->filter(function ($dataTable) use ($dimensions) {
+                /** @var DataTable $dataTable */
+                $rows = $dataTable->getRows();
+                foreach ($rows as $row) {
+                    foreach ($dimensions as $dimension) {
+                        $row->setColumn($dimension, $row->getMetadata($dimension));
+                    }
+                }
+            });
+        }
 
         return $newDataTable;
     }

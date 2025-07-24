@@ -23,28 +23,39 @@
           <Field
             uicontrol="password"
             name="password"
-            :autocomplete="false"
+            :autocomplete="'off'"
             v-model="password"
             :title="translate('Login_NewPassword')"
             :inline-help="translate('UsersManager_IfYouWouldLikeToChangeThePasswordTypeANewOne')"
+            v-auto-clear-password
+            :ui-control-attributes="{
+              passwordStrengthValidationRules: passwordStrengthValidationRules,
+            }"
+            @check:isValid="setPasswordStrengthValidation($event, 'passwordStrengthMet')"
           />
 
           <Field
             uicontrol="password"
             name="passwordBis"
-            :autocomplete="false"
+            :autocomplete="'off'"
             v-model="passwordBis"
             :title="translate('Login_NewPasswordRepeat')"
             :inline-help="translate('UsersManager_TypeYourPasswordAgain')"
+            v-auto-clear-password
+            :ui-control-attributes="{
+              passwordStrengthValidationRules: passwordStrengthValidationRules,
+            }"
+            @check:isValid="setPasswordStrengthValidation($event, 'passwordBisStrengthMet')"
           />
 
           <Field
             uicontrol="password"
             name="passwordConfirmation"
-            :autocomplete="false"
+            :autocomplete="'off'"
             v-model="passwordConfirmation"
             :title="translate('UsersManager_YourCurrentPassword')"
             :inline-help="translate('UsersManager_TypeYourCurrentPassword')"
+            v-auto-clear-password
           />
 
           <div class="alert alert-info" v-html="$sanitize(changePasswordInfoNotification)"></div>
@@ -53,6 +64,7 @@
             type="submit"
             :value="translate('General_Save')"
             class="btn"
+            :disabled="!isPasswordChangeFormSubmitEnabled"
           />
         </div>
 
@@ -76,9 +88,7 @@
     <ContentBlock :content-title="translate('UsersManager_AuthTokens')">
       <p>
         {{ translate('UsersManager_TokenAuthIntro') }}
-        <span v-if="hasTokensWithExpireDate">
-          {{ translate('UsersManager_ExpiredTokensDeleteAutomatically') }}
-        </span>
+        {{ translate('UsersManager_ExpiredTokensDeleteAutomatically') }}
       </p>
       <table v-content-table class="listAuthTokens">
         <thead>
@@ -87,19 +97,14 @@
           <th>{{ translate('General_Description') }}</th>
           <th>{{ translate('UsersManager_LastUsed') }}</th>
           <th>{{ translate('UsersManager_SecureUseOnly') }}</th>
-          <th
-            v-if="hasTokensWithExpireDate"
-            :title="translate('UsersManager_TokensWithExpireDateCreationBySystem')"
-          >
-            {{ translate('UsersManager_ExpireDate') }}
-          </th>
+          <th>{{ translate('UsersManager_ExpireDate') }}</th>
           <th>{{ translate('General_Actions') }}</th>
         </tr>
         </thead>
         <tbody>
         <tr v-if="!tokens?.length">
           <td
-            :colspan="hasTokensWithExpireDate ? 5 : 4"
+            :colspan="5"
             v-html="$sanitize(noTokenCreatedYetText)"
           ></td>
         </tr>
@@ -113,10 +118,7 @@
             {{ parseInt(theToken.secure_only, 10) === 1 ?
                translate('General_Yes') : translate('General_No') }}
           </td>
-          <td
-            v-if="hasTokensWithExpireDate"
-            :title="translate('UsersManager_TokensWithExpireDateCreationBySystem')"
-          >
+          <td>
             {{ theToken.date_expired ? theToken.date_expired : translate('General_Never') }}
           </td>
           <td>
@@ -170,6 +172,7 @@ import {
   ContentTable, Matomo,
   MatomoUrl,
   translate,
+  AutoClearPassword,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 
@@ -177,13 +180,14 @@ interface UserSecurityState {
   password: string;
   passwordBis: string;
   passwordConfirmation: string;
+  passwordStrengthMet: boolean;
+  passwordBisStrengthMet: boolean;
 }
 
 export default defineComponent({
   props: {
     deleteTokenNonce: String,
     tokens: Array,
-    hasTokensWithExpireDate: Boolean,
     isUsersAdminEnabled: Boolean,
     changePasswordNonce: String,
     isValidHost: Boolean,
@@ -191,6 +195,7 @@ export default defineComponent({
     invalidHost: String,
     afterPasswordEventContent: String,
     invalidHostMailLinkStart: String,
+    passwordStrengthValidationRules: Array,
   },
   components: {
     ContentBlock,
@@ -198,17 +203,30 @@ export default defineComponent({
   },
   directives: {
     ContentTable,
+    AutoClearPassword,
   },
   data(): UserSecurityState {
     return {
       password: '',
       passwordBis: '',
       passwordConfirmation: '',
+      passwordStrengthMet: false,
+      passwordBisStrengthMet: false,
     };
   },
   mounted() {
     const afterPassword = this.$refs.afterPassword as HTMLElement;
     Matomo.helper.compileVueEntryComponents(afterPassword);
+  },
+  methods: {
+    setPasswordStrengthValidation(event: boolean, field: string) {
+      if (field === 'passwordStrengthMet') {
+        this.passwordStrengthMet = event;
+      }
+      if (field === 'passwordBisStrengthMet') {
+        this.passwordBisStrengthMet = event;
+      }
+    },
   },
   computed: {
     recordPasswordChangeAction() {
@@ -276,6 +294,17 @@ export default defineComponent({
           Matomo.helper.destroyVueComponent(afterPassword);
         },
       });
+    },
+    isPasswordChangeFormSubmitEnabled() {
+      return this.passwordConfirmation
+        && (
+          !this.passwordStrengthValidationRules?.length
+          || (
+            this.passwordStrengthValidationRules?.length
+            && this.passwordStrengthMet
+            && this.passwordBisStrengthMet
+          )
+        );
     },
   },
 });

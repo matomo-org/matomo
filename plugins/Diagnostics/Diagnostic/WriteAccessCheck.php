@@ -87,6 +87,7 @@ class WriteAccessCheck implements Diagnostic
             $this->tmpPath . '/climulti/',
             $this->tmpPath . '/latest/',
             $this->tmpPath . '/logs/',
+            $this->tmpPath . '/logos/',
             $this->tmpPath . '/sessions/',
             $this->tmpPath . '/tcpdf/',
             StaticContainer::get('path.tmp.templates')

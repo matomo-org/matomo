@@ -6,7 +6,6 @@
         "ConfirmPasswordResetIntro": "Para confirmar que realmente sos vos quién solicitó el cambio de la contraseña, por favor, ingresá tu nueva contraseña de nuevo.",
         "ConfirmPasswordResetWrongPassword": "La contraseña ingresada no coincide con tu nueva contraseña. Si no estás seguro de la nueva contraseña recientemente elegida, podés restablecerla de nuevo. Si no solicitaste cambiarla, simplemente no hagás nada, y la contraseña no será cambiada.",
         "ConfirmPasswordToContinue": "Confirmá tu contraseña para seguir",
-        "ConfirmationLinkSent": "Se envió un enlace de confirmación a tu cuenta de correo. Revisá tu email y visitá ese enlace para autorizar tu solicitud de cambio de contraseña.",
         "ContactAdmin": "Posible razón: tu servidor puede tener deshabilitado la función mail(). <br />Por favor, contactá a tu administrador de Matomo.",
         "CurrentlyBlockedIPs": "Direcciones IP bloqueadas actualmente",
         "CurrentlyBlockedIPsUnblockConfirm": "¿Estás seguro que querés desbloquear todas las direcciones IP bloqueadas actualmente?",

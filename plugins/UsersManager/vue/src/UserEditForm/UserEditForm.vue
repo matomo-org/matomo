@@ -115,6 +115,10 @@
               name="user_password"
               autocomplete="new-password"
               :title="translate('General_Password')"
+              v-auto-clear-password
+              :ui-control-attributes="{
+                passwordStrengthValidationRules: passwordStrengthValidationRules,
+              }"
             />
           </div>
           <div class="email-input">
@@ -284,7 +288,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, readonly } from 'vue';
+import { defineComponent } from 'vue';
 import {
   ContentBlock,
   SiteRef,
@@ -294,6 +298,7 @@ import {
   externalLink,
   Matomo,
   Notification,
+  AutoClearPassword,
 } from 'CoreHome';
 import {
   PasswordConfirmation,
@@ -361,6 +366,10 @@ export default defineComponent({
       type: Array,
       required: true,
     },
+    passwordStrengthValidationRules: {
+      type: Array,
+      default: () => [],
+    },
   },
   components: {
     Notification,
@@ -372,6 +381,7 @@ export default defineComponent({
   },
   directives: {
     Form,
+    AutoClearPassword,
   },
   data(): UserEditFormState {
     return {
@@ -401,7 +411,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.onUserChange(this.user as User);
+    this.onUserChange({ ...this.user } as User);
   },
   methods: {
     onUserChange(newVal: User) {
@@ -474,7 +484,7 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserCreatedNotification();
-        this.$emit('updated', { user: readonly(this.theUser) });
+        this.$emit('updated', { user: this.theUser });
       });
     },
     resetPasswordVar() {
@@ -536,7 +546,7 @@ export default defineComponent({
 
         this.resetPasswordVar();
         this.showUserSavedNotification();
-        this.$emit('updated', { user: readonly(this.theUser) });
+        this.$emit('updated', { user: this.theUser });
       }).catch(() => {
         this.isSavingUserInfo = false;
       });

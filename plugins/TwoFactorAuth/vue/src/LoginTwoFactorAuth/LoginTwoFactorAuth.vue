@@ -58,7 +58,7 @@
       <div class="row actions">
         <div class="col s12">
           <input
-            class="submit btn"
+            class="submit btn btn-block"
             id="login_form_submit"
             type="submit"
             :value="translate('TwoFactorAuth_Verify')"

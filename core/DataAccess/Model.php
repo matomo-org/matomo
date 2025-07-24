@@ -396,13 +396,31 @@ class Model
 
     public function getTemporaryArchivesOlderThan($archiveTable, $purgeArchivesOlderThan)
     {
-        $query = "SELECT idarchive FROM " . $archiveTable . "
+        $temporaryArchiveValues = [
+            ArchiveWriter::DONE_OK_TEMPORARY,
+            ArchiveWriter::DONE_ERROR,
+            ArchiveWriter::DONE_ERROR_INVALIDATED,
+        ];
+
+        $query = "SELECT idarchive FROM $archiveTable
                   WHERE name LIKE 'done%'
-                    AND ((  value = " . ArchiveWriter::DONE_OK_TEMPORARY . "
-                            AND ts_archived < ?)
-                         OR value IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . "))";
+                        AND ts_archived < ?
+                        AND value IN (" . implode(', ', $temporaryArchiveValues) . ")";
 
         return Db::fetchAll($query, array($purgeArchivesOlderThan));
+    }
+
+    public function getArchivesMissingDoneFlag(string $archiveTable): array
+    {
+        $query = "SELECT DISTINCT idarchive
+                    FROM $archiveTable
+                    WHERE idarchive NOT IN (
+                            SELECT DISTINCT idarchive
+                            FROM $archiveTable
+                            WHERE name LIKE 'done%'
+                        )";
+
+        return Db::fetchAll($query);
     }
 
     public function deleteArchivesWithPeriod($numericTable, $blobTable, $period, $date)

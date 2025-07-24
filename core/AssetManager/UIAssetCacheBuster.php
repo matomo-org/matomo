@@ -47,7 +47,7 @@ class UIAssetCacheBuster extends Singleton
                 }
             }
 
-            $cacheBuster = md5($pluginsInfo . PHP_VERSION . Version::VERSION . trim($currentGitHash ?? ''));
+            $cacheBuster = md5($pluginsInfo . PHP_VERSION . Version::VERSION . trim($currentGitHash ?: ''));
 
             if ($pluginNames !== false) {
                 return $cacheBuster;

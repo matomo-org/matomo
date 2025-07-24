@@ -160,8 +160,10 @@ abstract class Zend_Db_Adapter_Abstract
      * @param  array|Zend_Config $config An array or instance of Zend_Config having configuration data
      * @throws Zend_Db_Adapter_Exception
      */
-    public function __construct($config)
-    {
+    public function __construct(
+        #[\SensitiveParameter]
+        $config
+    ) {
         /*
          * Verify that adapter parameters are in an array.
          */
@@ -278,8 +280,10 @@ abstract class Zend_Db_Adapter_Abstract
      * @param array $config
      * @throws Zend_Db_Adapter_Exception
      */
-    protected function _checkRequiredOptions(array $config)
-    {
+    protected function _checkRequiredOptions(
+        #[\SensitiveParameter]
+        array $config
+    ) {
         // we need at least a dbname
         if (! array_key_exists('dbname', $config)) {
             /** @see Zend_Db_Adapter_Exception */

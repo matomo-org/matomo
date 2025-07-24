@@ -3,7 +3,7 @@
         "AverageGenerationTime": "சராசரி தலைமுறை நேரம்",
         "AverageVisitDuration": "சராசரி வருகை காலம்",
         "GenerateQueries": "%s வினவல்கள் செயல்படுத்தப்பட்டன",
-        "GenerateTime": "பக்கத்தை உருவாக்க %s வினாடிகள்",
+        "GenerateTime": "பக்கத்தை உருவாக்க %s நொடிகள்",
         "MaxNbActions": "ஒரு வருகையில் அதிகபட்ச நடவடிக்கைகள்",
         "NbActionsDescription": "%s செயல்கள்",
         "NbActionsPerVisit": "ஒரு வருகைக்கு செயல்கள் (பக்க காட்சிகள், பதிவிறக்கங்கள், அவுட்லின்கள் மற்றும் உள் தளத் தேடல்கள்)",

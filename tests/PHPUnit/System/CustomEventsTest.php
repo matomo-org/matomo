@@ -64,96 +64,140 @@ class CustomEventsTest extends SystemTestCase
         $apiEventAndAction = array('Events', 'Actions.getPageUrls');
 
         $result = array(
-            array($apiToCallProcessedReportMetadata, array(
+            array(
+                $apiToCallProcessedReportMetadata, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $periods,
                 'setDateLastN' => false,
-                'testSuffix'   => '')),
+                'testSuffix' => '',
+            ),
+            ),
 
-            array($apiEventAndAction, array(
+            array(
+                $apiEventAndAction, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
                 'segment'      => "eventCategory==Movie,eventName==" . urlencode('La fiancée de l\'eau'),
                 'setDateLastN' => false,
-                'testSuffix'   => '_eventCategoryOrNameMatch')
+                'testSuffix' => '_eventCategoryOrNameMatch',
+            ),
             ),
 
-            array($apiEventAndAction, array(
+            array(
+                $apiEventAndAction, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
                 'segment'      => "eventAction==rating;eventValue>9",
                 'setDateLastN' => false,
-                'testSuffix'   => '_eventValueMatch')
+                'testSuffix' => '_eventValueMatch',
+            ),
             ),
 
             // eventAction should not match any page view
-            array($apiEventAndAction, array(
+            array(
+                $apiEventAndAction, array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
                 'segment'      => "eventAction=@play",
                 'setDateLastN' => false,
-                'testSuffix'   => '_segmentMatchesEventActionPlay')
+                'testSuffix' => '_segmentMatchesEventActionPlay',
+            ),
             ),
 
             // Goals and events
-            array('Goals.get', array(
+            array(
+                'Goals.get', array(
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => $dayPeriod,
                 'idGoal'       => ThreeVisitsWithCustomEvents::$idGoalTriggeredOnEventCategory,
-                'setDateLastN' => false)
-            )
+                'setDateLastN' => false,
+            ),
+            ),
 
         );
 
-        $apiToCallProcessedReportMetadata = array(
+        $apiToCallProcessedReportMetadata = [
             'Events.getCategory',
             'Events.getAction',
             'Events.getName',
-        );
+        ];
         // testing metadata API for Events reports
         foreach ($apiToCallProcessedReportMetadata as $api) {
-            list($apiModule, $apiAction) = explode(".", $api);
+            [$apiModule, $apiAction] = explode(".", $api);
 
-            $result[] = array(
-                'API.getProcessedReport', array('idSite'       => $idSite1,
-                                                'date'         => $dateTime,
-                                                'periods'      => $dayPeriod,
-                                                'setDateLastN' => true,
-                                                'apiModule'    => $apiModule,
-                                                'apiAction'    => $apiAction,
-                                                'testSuffix'   => '_' . $api . '_lastN')
-            );
-            $result[] = array(
-                'API.getProcessedReport', array('idSite'       => $idSite1,
-                                                'date'         => $dateTime,
-                                                'periods'      => $dayPeriod,
-                                                'setDateLastN' => true,
-                                                'apiModule'    => $apiModule,
-                                                'apiAction'    => $apiAction,
-                                                'otherRequestParameters' => array('flat' => '1'),
-                                                'testSuffix'   => '_' . $api . '_flat')
-            );
+            $result[] = [
+                'API.getProcessedReport', [
+                    'idSite'       => $idSite1,
+                    'date'         => $dateTime,
+                    'periods'      => $dayPeriod,
+                    'setDateLastN' => true,
+                    'apiModule'    => $apiModule,
+                    'apiAction'    => $apiAction,
+                    'testSuffix'   => '_' . $api . '_lastN',
+                ],
+            ];
+            $result[] = [
+                'API.getProcessedReport', [
+                    'idSite'                 => $idSite1,
+                    'date'                   => $dateTime,
+                    'periods'                => $dayPeriod,
+                    'setDateLastN'           => true,
+                    'apiModule'              => $apiModule,
+                    'apiAction'              => $apiAction,
+                    'otherRequestParameters' => ['flat' => '1'],
+                    'testSuffix'             => '_' . $api . '_flat',
+                ],
+            ];
         }
 
         // Test secondary dimensions
-        $secondaryDimensions = array('eventCategory', 'eventAction', 'eventName');
+        $secondaryDimensions = ['eventCategory', 'eventAction', 'eventName'];
         foreach ($secondaryDimensions as $secondaryDimension) {
-            $result[] = array(array('Events'), array(
-                'idSite'       => $idSite1,
-                'date'         => $dateTime,
-                'periods'      => $periods,
-                'otherRequestParameters' => array(
-                    'secondaryDimension' => $secondaryDimension
-                ),
-                'setDateLastN' => false,
-                'testSuffix'   => '_secondaryDimensionIs' . ucfirst($secondaryDimension))
-            );
+            $result[] = [
+                ['Events'], [
+                    'idSite'                 => $idSite1,
+                    'date'                   => $dateTime,
+                    'periods'                => $periods,
+                    'otherRequestParameters' => [
+                        'secondaryDimension' => $secondaryDimension,
+                    ],
+                    'setDateLastN'           => false,
+                    'testSuffix'             => '_secondaryDimensionIs' . ucfirst($secondaryDimension),
+                ],
+            ];
         }
+
+        $result[] = [
+            'Events.getCategory', [
+                'idSite'                 => $idSite1,
+                'date'                   => $dateTime,
+                'periods'                => $dayPeriod,
+                'otherRequestParameters' => [
+                    'flat'         => '1',
+                    'showMetadata' => '0',
+                ],
+                'testSuffix'             => '_flat',
+            ],
+        ];
+
+        $result[] = [
+            'Events.getCategory', [
+                'idSite'                 => $idSite1,
+                'date'                   => $dateTime,
+                'periods'                => $dayPeriod,
+                'otherRequestParameters' => [
+                    'showMetadata'    => '0',
+                    'flat'            => '1',
+                    'show_dimensions' => '1',
+                ],
+                'testSuffix'             => '_flat_with_dimensions',
+            ],
+        ];
 
         return $result;
     }

@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobiele app",
         "MobileAppDescription": "Een mobiele app voor iOS, Android of elk ander mobiel besturingssysteem.",
+        "MobileAppLongDescription": "Volg gebruikersactiviteit binnen native iOS en Android apps. De verzamelde gegevens kunnen schermweergaven, in-app evenementen, apparaatdetails en gebruikerssessies omvatten. Deze is ontworpen voor apps die gebruik maken van Matomo's mobile SDK's.",
         "MobileApps": "Mobiele apps"
     }
 }

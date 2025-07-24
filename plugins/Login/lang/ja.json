@@ -13,7 +13,6 @@
         "ConfirmPasswordResetIntro": "パスワードの変更を本当に要求したことを確認するために、新しいパスワードを入力してください。",
         "ConfirmPasswordResetWrongPassword": "入力したパスワードが新しく作成したパスワードと一致しません。 パスワードを覚えていない場合は、もう一度パスワードをリセットしてください。 パスワードの変更を要求していない場合は、パスワードを保持するために何もしないでください。",
         "ConfirmPasswordToContinue": "続行するにはパスワードを確認してください",
-        "ConfirmationLinkSent": "電子メールの受信トレイに送信された確認リンクを開いて、パスワードの変更を確認します。",
         "ContactAdmin": "考えられる理由：ホストが mail（）関数を無効にしている可能性があります。Matomo 管理者に連絡してください。",
         "CurrentlyBlockedIPs": "ブロックされている IP",
         "CurrentlyBlockedIPsUnblockConfirm": "ブロックされたすべての IP のブロックを解除しますか?",

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Login;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -139,7 +140,7 @@ class Login extends \Piwik\Plugin
         // Only throw an exception if this is an API request
         if ($this->isModuleIsAPI()) {
             // Throw an exception if a token was provided but it was invalid
-            if (Request::isTokenAuthProvidedSecurely()) {
+            if (StaticContainer::get(AuthenticationToken::class)->wasTokenAuthProvidedSecurely()) {
                 throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid or expired.');
             } else {
                 throw new NoAccessException('Unable to authenticate with the provided token. It is either invalid, expired or is required to be sent as a POST parameter.');
@@ -241,8 +242,10 @@ class Login extends \Piwik\Plugin
      * Set login name and authentication token for API request.
      * Listens to API.Request.authenticate hook.
      */
-    public function apiRequestAuthenticate($tokenAuth)
-    {
+    public function apiRequestAuthenticate(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $this->beforeLoginCheckBruteForce();
 
         /** @var \Piwik\Auth $auth */

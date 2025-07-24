@@ -10,8 +10,10 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Auth\Password;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
@@ -189,9 +191,9 @@ class Model
     ) {
         $siteAccessFilter = new SiteAccessFilter($userLogin, $pattern, $access, $idSites);
 
-        list($joins, $bind) = $siteAccessFilter->getJoins('a');
+        [$joins, $bind] = $siteAccessFilter->getJoins('a');
 
-        list($where, $whereBind) = $siteAccessFilter->getWhere();
+        [$where, $whereBind] = $siteAccessFilter->getWhere();
         $bind = array_merge($bind, $whereBind);
 
         $limitSql = '';
@@ -238,9 +240,9 @@ class Model
     {
         $siteAccessFilter = new SiteAccessFilter($userLogin, $filter_search, $filter_access, $idSites);
 
-        list($joins, $bind) = $siteAccessFilter->getJoins('a');
+        [$joins, $bind] = $siteAccessFilter->getJoins('a');
 
-        list($where, $whereBind) = $siteAccessFilter->getWhere();
+        [$where, $whereBind] = $siteAccessFilter->getWhere();
         $bind = array_merge($bind, $whereBind);
 
         $sql = 'SELECT s.idsite FROM ' . Common::prefixTable('access') . " a $joins $where";
@@ -271,8 +273,10 @@ class Model
         return reset($matchedUsers);
     }
 
-    public function hashTokenAuth($tokenAuth)
-    {
+    public function hashTokenAuth(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $salt = SettingsPiwik::getSalt();
         return hash(self::TOKEN_HASH_ALGO, $tokenAuth . $salt);
     }
@@ -337,6 +341,7 @@ class Model
      */
     public function addTokenAuth(
         $login,
+        #[\SensitiveParameter]
         $tokenAuth,
         $description,
         $dateCreated,
@@ -373,8 +378,10 @@ class Model
         return $db->lastInsertId();
     }
 
-    private function getTokenByTokenAuth($tokenAuth)
-    {
+    private function getTokenByTokenAuth(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
         $db = $this->getDb();
 
@@ -410,8 +417,11 @@ class Model
      * @return array|bool               An array representing the token record, or null if not found
      * @throws \Exception
      */
-    private function getTokenByTokenAuthIfNotExpired(?string $tokenAuth, bool $isTokenSecured)
-    {
+    private function getTokenByTokenAuthIfNotExpired(
+        #[\SensitiveParameter]
+        ?string $tokenAuth,
+        bool $isTokenSecured
+    ) {
         // If the token wasn't provided via a secure mechanism and use of secure tokens is enforced globally
         // then don't attempt to find the token
         if (GeneralConfig::getConfigValue('only_allow_secure_auth_tokens') && !$isTokenSecured) {
@@ -517,8 +527,11 @@ class Model
         );
     }
 
-    public function setTokenAuthWasUsed($tokenAuth, $dateLastUsed)
-    {
+    public function setTokenAuthWasUsed(
+        #[\SensitiveParameter]
+        $tokenAuth,
+        $dateLastUsed
+    ) {
         $token = $this->getTokenByTokenAuth($tokenAuth);
         if (!empty($token)) {
             $lastUsage = !empty($token['last_used']) ? strtotime($token['last_used']) : 0;
@@ -539,6 +552,11 @@ class Model
     public function setRotationNotificationWasSentForToken(string $tokenId, string $tsRotation)
     {
         $this->updateTokenAuthTable($tokenId, ['ts_rotation_notified' => $tsRotation]);
+    }
+
+    public function setExpirationWarningNotificationWasSentForToken(string $tokenId, string $tsExpirationWarning)
+    {
+        $this->updateTokenAuthTable($tokenId, ['ts_expiration_warning_notified' => $tsExpirationWarning]);
     }
 
     private function updateTokenAuthTable($idTokenAuth, $fields)
@@ -566,8 +584,10 @@ class Model
     }
 
 
-    public function getUserByInviteToken($tokenAuth)
-    {
+    public function getUserByInviteToken(
+        #[\SensitiveParameter]
+        $tokenAuth
+    ) {
         $token = $this->hashTokenAuth($tokenAuth);
         if (!empty($token)) {
             $db = $this->getDb();
@@ -583,14 +603,18 @@ class Model
      * @return array|null
      * @throws \Exception
      */
-    public function getUserByTokenAuth(?string $tokenAuth): ?array
-    {
+    public function getUserByTokenAuth(
+        #[\SensitiveParameter]
+        ?string $tokenAuth
+    ): ?array {
         if ($tokenAuth === 'anonymous') {
             $row = $this->getUser('anonymous');
             return (is_array($row) ? $row : null);
         }
 
-        $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth, \Piwik\API\Request::isTokenAuthProvidedSecurely());
+        $isTokenProvidedSecurely = StaticContainer::get(AuthenticationToken::class)->wasTokenAuthProvidedSecurely();
+
+        $token = $this->getTokenByTokenAuthIfNotExpired($tokenAuth, $isTokenProvidedSecurely);
         if (!empty($token)) {
             $db = $this->getDb();
             $row = $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
@@ -606,8 +630,13 @@ class Model
      * @param $email
      * @param $dateRegistered
      */
-    public function addUser($userLogin, $hashedPassword, $email, $dateRegistered)
-    {
+    public function addUser(
+        $userLogin,
+        #[\SensitiveParameter]
+        $hashedPassword,
+        $email,
+        $dateRegistered
+    ) {
         $user = array(
           'login'                => $userLogin,
           'password'             => $hashedPassword,
@@ -678,8 +707,12 @@ class Model
         return $users;
     }
 
-    public function updateUser($userLogin, $hashedPassword, $email)
-    {
+    public function updateUser(
+        $userLogin,
+        #[\SensitiveParameter]
+        $hashedPassword,
+        $email
+    ) {
         $fields = array(
           'email' => $email,
         );
@@ -806,8 +839,8 @@ class Model
     ) {
         $filter = new UserTableFilter($access, $idSite, $pattern, $status, $logins);
 
-        list($joins, $bind) = $filter->getJoins('u');
-        list($where, $whereBind) = $filter->getWhere();
+        [$joins, $bind] = $filter->getJoins('u');
+        [$where, $whereBind] = $filter->getWhere();
 
         $bind = array_merge($bind, $whereBind);
 

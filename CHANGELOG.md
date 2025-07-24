@@ -6,9 +6,24 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.4.0
 
+### Authentication changes
+
+Matomo now supports providing authentication using Bearer header tokens. Instead of sending your auth token as GET or POST param, you can use a header like `Authorization: Bearer myAuthToken`.
+
+### Breaking Changes
+
+The ImageGraph URLs returned by some of our APIs do no longer contain the `token_auth`. If you are using such URLs to e.g. directly fetch their content, you may need to adjust your implementation to append a valid `token_auth` again.
+
 ### New APIs
 
 The new API parameter `showMetadata` was introduced. In can be used to toggle displaying of metadata in API exports. The default value is `1` to keep current behavior.
+
+### JavaScript Tracker
+
+#### New APIs
+
+* The methods `setIgnoreCampaignsForReferrers` and `getIgnoreCampaignsForReferrers` have been added to the JavaScript tracker. They allow to set/get referrers for which campaign parameters should be ignored. For more details see [Configuration of JavaScript tracker](https://developer.matomo.org/api-reference/tracking-javascript#configuration-of-the-tracker-object) documentation.
+
 
 ## Matomo 5.3.0
 

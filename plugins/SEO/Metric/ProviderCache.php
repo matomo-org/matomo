@@ -33,7 +33,7 @@ class ProviderCache implements MetricsProvider
         $this->cache = Cache::getLazyCache();
     }
 
-    public function getMetrics($domain)
+    public function getMetrics(string $domain)
     {
         $cacheId = 'SEO_getRank_' . md5($domain ?? '');
 

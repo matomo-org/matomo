@@ -1,7 +1,6 @@
 {
     "Login": {
         "BruteForceLog": "Logare prin forță brută",
-        "ConfirmationLinkSent": "Deschide link-ul de confirmare trimis la adresa dumneavoastra de e-mail pentru confirmarea schimbarii parolei.",
         "ContactAdmin": "Motiv posibil: host-ul dumneavoastra a dezactivat functia mail(). <br>Va rugam sa contactati administratorul dumeavoastra Matomo.",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Un utilizator cu acces de super utilizator nu poate fi autentificat folosind mecanismul '%s' .",
         "ExceptionPasswordMD5HashExpected": "Parametrul parolei este aşteptat să fie un hash MD5 al parolei.",

@@ -40,8 +40,11 @@ class PasswordVerifier
         return new SessionNamespace('Login');
     }
 
-    public function isPasswordCorrect($userLogin, $password)
-    {
+    public function isPasswordCorrect(
+        $userLogin,
+        #[\SensitiveParameter]
+        $password
+    ) {
         /**
          * @ignore
          * @internal

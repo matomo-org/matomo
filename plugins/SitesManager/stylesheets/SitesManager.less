@@ -399,7 +399,41 @@ td.editable-site-field:hover {
 }
 
 .add-site-dialog {
-    button {
-        margin: 10px;
+    .card-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .card {
+            margin: 10px;
+            width: 30%;
+
+            .card-content {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+
+                div {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+
+                .btn {
+                    padding: 0 16px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+    .add-site-dialog {
+        .card-row {
+            .card {
+                width: 100%;
+            }
+        }
     }
 }
