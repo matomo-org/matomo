@@ -232,12 +232,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         if (Piwik::hasUserSuperUserAccess()) {
             $api = API::getInstance();
-            [$trackerFilename, $trackerFileWritable] = $api->getTrackerFileDetails();
 
-            $view->trackerFileName = $trackerFilename;
-            $view->trackerWritable = $trackerFileWritable;
             $view->deleteData = $this->getDeleteDataInfo();
-            $view->anonymizeIP = $api->getAnonymisationSettings();
+            $view->anonymisationSettings = $api->getAnonymisationSettings();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = PiwikConfig::getInstance()->database['username'];
             $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);

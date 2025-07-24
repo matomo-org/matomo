@@ -226,12 +226,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Provide tracker file name and whether it's writable to Matomo UI only
-     *
-     * @internal
-     * @ignore
+     * Provide tracker file name and whether it's writable
      */
-    public function getTrackerFileDetails(): array
+    protected function getTrackerFileDetails(): array
     {
         if (Piwik::hasUserSuperUserAccess()) {
             $jsCodeGenerator = new TrackerCodeGenerator();
@@ -260,7 +257,7 @@ class API extends \Piwik\Plugin\API
      *
      * @internal
      */
-    public function getAnonymisationSettings(?int $idSiteSpecific): array
+    public function getAnonymisationSettings(?int $idSiteSpecific = null): array
     {
         if (is_numeric($idSiteSpecific)) {
             $idSite = intval($idSiteSpecific);
