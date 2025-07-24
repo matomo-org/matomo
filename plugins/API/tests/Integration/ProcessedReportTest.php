@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -133,7 +134,9 @@ class ProcessedReportTest extends IntegrationTestCase
         Fixture::clearInMemoryCaches();
 
         $reports = StaticContainer::get(ReportsProvider::class)->getAllReports();
-        $reports = array_filter($reports, function (Report $r) { return $r->getModule() === 'TestPlugin'; });
+        $reports = array_filter($reports, function (Report $r) {
+            return $r->getModule() === 'TestPlugin';
+        });
 
         // sanity check
         $addedReports = 3;
@@ -142,7 +145,7 @@ class ProcessedReportTest extends IntegrationTestCase
 
     private function makeTestReportWithParameters(int $paramCount): Report
     {
-        $report = new class() extends Report {
+        $report = new class () extends Report {
             public $paramCount = 0;
 
             public function init()
