@@ -23,7 +23,7 @@ describe("GoalsPages", function () {
   });
 
   it('should show the correct relative data for the revenue in-cart tooltip', async function() {
-    const element = await page.jQuery('#rightcolumn sparkline:eq(1) .metricEvolution');
+    const element = await page.jQuery('#rightcolumn .sparkline:eq(1) .metricEvolution');
     await element.hover();
     const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true });
     expect(await tooltip.screenshot()).to.matchImage('revenue_incart_tooltip');
