@@ -23,7 +23,7 @@ describe("GoalsPages", function () {
   });
 
   it('should show the correct relative data for the revenue in-cart tooltip', async function() {
-    var monthParams = 'idSite=1&period=month&date=2012-08-09';
+    var monthParams = 'idSite=1&period=month&date=2012-01-09';
     await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
     await page.waitForNetworkIdle();
     const element = await page.jQuery('#rightcolumn .sparkline:eq(1) .metricEvolution');
