@@ -17,6 +17,9 @@ use Piwik\Plugins\API\ProcessedReport;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
+/**
+ * @phpcs:ignoreFile PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+ */
 class ProcessedReportTest extends IntegrationTestCase
 {
     /**
