@@ -82,7 +82,7 @@
             <a
               href=""
               class="entityCancelLink"
-              @click.prevent="$emit('aborted')"
+              @click.prevent="abort()"
             >
               <span class="icon icon-arrow-left">&nbsp;
               </span>{{ translate('UsersManager_BackToUser') }}</a>
@@ -194,6 +194,14 @@ export default defineComponent({
         context: 'success',
         type: 'toast',
       });
+    },
+    abort() {
+      this.theUser = DEFAULT_USER;
+      this.firstSiteAccess = {
+        id: this.initialSiteId,
+        name: this.initialSiteName,
+      };
+      this.$emit('aborted');
     },
   },
 });
