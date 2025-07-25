@@ -202,16 +202,6 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
-    inviteComponent: {
-      type: Object,
-      required: false,
-      default: null,
-    },
-    resendInviteComponent: {
-      type: Object,
-      required: false,
-      default: null,
-    },
   },
   components: {
     EnrichedHeadline,
@@ -429,20 +419,16 @@ export default defineComponent({
   },
   computed: {
     usedInviteComponent() {
-      if (this.inviteComponent) {
-        const [plugin, component] = this.inviteComponent.split('.');
-        return useExternalPluginComponent(plugin, component);
-      }
+      const parameters = { plugin: 'UsersManager', component: 'UserInvite' };
+      Matomo.postEvent('UsersManager.getInviteComponent', parameters);
 
-      return useExternalPluginComponent('UsersManager', 'UserInvite');
+      return useExternalPluginComponent(parameters.plugin, parameters.component);
     },
     usedResendInviteComponent() {
-      if (this.resendInviteComponent) {
-        const [plugin, component] = this.resendInviteComponent.split('.');
-        return useExternalPluginComponent(plugin, component);
-      }
+      const parameters = { plugin: 'UsersManager', component: 'ResendInviteModal' };
+      Matomo.postEvent('UsersManager.getResendInviteComponent', parameters);
 
-      return useExternalPluginComponent('UsersManager', 'ResendInviteModal');
+      return useExternalPluginComponent(parameters.plugin, parameters.component);
     },
   },
 });
