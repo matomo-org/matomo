@@ -1699,57 +1699,52 @@ const DEFAULT_USER = {
 UserEditFormvue_type_script_lang_ts.render = UserEditFormvue_type_template_id_eb3dd4a8_render
 
 /* harmony default export */ var UserEditForm = (UserEditFormvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserInvite/UserInvite.vue?vue&type=template&id=5bbb7788
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserInvite/UserInvite.vue?vue&type=template&id=354f1f6c
 
-const UserInvitevue_type_template_id_5bbb7788_hoisted_1 = {
+const UserInvitevue_type_template_id_354f1f6c_hoisted_1 = {
   class: "row"
 };
-const UserInvitevue_type_template_id_5bbb7788_hoisted_2 = {
+const UserInvitevue_type_template_id_354f1f6c_hoisted_2 = {
   class: "col s12 m6 invite-notes"
 };
-const UserInvitevue_type_template_id_5bbb7788_hoisted_3 = {
+const UserInvitevue_type_template_id_354f1f6c_hoisted_3 = {
   class: "form-help"
 };
-const UserInvitevue_type_template_id_5bbb7788_hoisted_4 = ["innerHTML"];
-const UserInvitevue_type_template_id_5bbb7788_hoisted_5 = {
-  class: "visibleTab col m10"
+const UserInvitevue_type_template_id_354f1f6c_hoisted_4 = ["innerHTML"];
+const UserInvitevue_type_template_id_354f1f6c_hoisted_5 = {
+  class: "col m10"
 };
-const UserInvitevue_type_template_id_5bbb7788_hoisted_6 = {
-  class: "basic-info-tab"
-};
-const UserInvitevue_type_template_id_5bbb7788_hoisted_7 = {
+const UserInvitevue_type_template_id_354f1f6c_hoisted_6 = {
   class: "email-input"
 };
-const UserInvitevue_type_template_id_5bbb7788_hoisted_8 = {
+const UserInvitevue_type_template_id_354f1f6c_hoisted_7 = {
   class: "form-group row",
   style: {
     "position": "relative"
   }
 };
-const UserInvitevue_type_template_id_5bbb7788_hoisted_9 = {
+const UserInvitevue_type_template_id_354f1f6c_hoisted_8 = {
   class: "col s12 m6 save-button"
 };
-const UserInvitevue_type_template_id_5bbb7788_hoisted_10 = {
+const UserInvitevue_type_template_id_354f1f6c_hoisted_9 = {
   class: "entityCancel"
 };
-const UserInvitevue_type_template_id_5bbb7788_hoisted_11 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const UserInvitevue_type_template_id_354f1f6c_hoisted_10 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-arrow-left"
 }, "  ", -1);
-function UserInvitevue_type_template_id_5bbb7788_render(_ctx, _cache, $props, $setup, $data, $options) {
+function UserInvitevue_type_template_id_354f1f6c_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
   const _component_PasswordConfirmation = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PasswordConfirmation");
   const _component_ContentBlock = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ContentBlock");
   const _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ContentBlock, {
-    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["userInviteForm", {
-      loading: _ctx.isInvitingUser
-    }]),
+    class: "userInviteForm",
     "content-title": _ctx.translate('UsersManager_InviteNewUser')
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserInvitevue_type_template_id_5bbb7788_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_5bbb7788_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_5bbb7788_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", UserInvitevue_type_template_id_354f1f6c_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_354f1f6c_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_354f1f6c_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
       innerHTML: _ctx.$sanitize(_ctx.translate('UsersManager_InviteSuccessNotification', [_ctx.inviteTokenExpiryDays]))
-    }, null, 8, UserInvitevue_type_template_id_5bbb7788_hoisted_4)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_5bbb7788_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_5bbb7788_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    }, null, 8, UserInvitevue_type_template_id_354f1f6c_hoisted_4)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_354f1f6c_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       modelValue: _ctx.theUser.login,
       "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.theUser.login = $event),
       disabled: _ctx.isInvitingUser,
@@ -1758,7 +1753,7 @@ function UserInvitevue_type_template_id_5bbb7788_render(_ctx, _cache, $props, $s
       name: "user_login",
       maxlength: 100,
       title: _ctx.translate('General_Username')
-    }, null, 8, ["modelValue", "disabled", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_5bbb7788_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    }, null, 8, ["modelValue", "disabled", "title"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_354f1f6c_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       modelValue: _ctx.theUser.email,
       "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.theUser.email = $event),
       disabled: _ctx.isInvitingUser,
@@ -1778,24 +1773,24 @@ function UserInvitevue_type_template_id_5bbb7788_render(_ctx, _cache, $props, $s
       },
       title: _ctx.translate('UsersManager_FirstWebsitePermission'),
       "inline-help": _ctx.translate('UsersManager_FirstSiteInlineHelp')
-    }, null, 8, ["modelValue", "disabled", "title", "inline-help"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_5bbb7788_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_5bbb7788_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
+    }, null, 8, ["modelValue", "disabled", "title", "inline-help"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_354f1f6c_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_354f1f6c_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
       value: _ctx.translate('UsersManager_InviteUser'),
-      disabled: !_ctx.firstSiteAccess || !_ctx.firstSiteAccess.id,
+      disabled: !_ctx.firstSiteAccess || !_ctx.firstSiteAccess.id || !_ctx.theUser.login || !_ctx.theUser.email,
       saving: _ctx.isInvitingUser,
       onConfirm: _cache[3] || (_cache[3] = $event => _ctx.showPasswordConfirmation = true)
     }, null, 8, ["value", "disabled", "saving"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
       modelValue: _ctx.showPasswordConfirmation,
       "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => _ctx.showPasswordConfirmation = $event),
       onConfirmed: _ctx.inviteUser
-    }, null, 8, ["modelValue", "onConfirmed"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_5bbb7788_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    }, null, 8, ["modelValue", "onConfirmed"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", UserInvitevue_type_template_id_354f1f6c_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       href: "",
       class: "entityCancelLink",
       onClick: _cache[5] || (_cache[5] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.abort(), ["prevent"]))
-    }, [UserInvitevue_type_template_id_5bbb7788_hoisted_11, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BackToUser')), 1)])])])])])), [[_directive_form]])]),
+    }, [UserInvitevue_type_template_id_354f1f6c_hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('UsersManager_BackToUser')), 1)])])])])), [[_directive_form]])]),
     _: 1
-  }, 8, ["class", "content-title"]);
+  }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserInvite/UserInvite.vue?vue&type=template&id=5bbb7788
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserInvite/UserInvite.vue?vue&type=template&id=354f1f6c
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserInvite/UserInvite.vue?vue&type=script&lang=ts
 
@@ -1877,10 +1872,7 @@ const UserInvitevue_type_script_lang_ts_DEFAULT_USER = {
     },
     abort() {
       this.theUser = UserInvitevue_type_script_lang_ts_DEFAULT_USER;
-      this.firstSiteAccess = {
-        id: this.initialSiteId,
-        name: this.initialSiteName
-      };
+      this.firstSiteAccess = null;
       this.$emit('aborted');
     }
   }
@@ -1891,7 +1883,7 @@ const UserInvitevue_type_script_lang_ts_DEFAULT_USER = {
 
 
 
-UserInvitevue_type_script_lang_ts.render = UserInvitevue_type_template_id_5bbb7788_render
+UserInvitevue_type_script_lang_ts.render = UserInvitevue_type_template_id_354f1f6c_render
 
 /* harmony default export */ var UserInvite = (UserInvitevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserInvite/ResendInviteModal.vue?vue&type=template&id=e4d615e6

@@ -8,7 +8,6 @@
 <template>
   <ContentBlock
     class="userInviteForm"
-    :class="{ loading: isInvitingUser }"
     :content-title="translate('UsersManager_InviteNewUser')"
   >
     <div
@@ -23,70 +22,67 @@
            </span>
         </div>
       </div>
-      <div class="visibleTab col m10">
-        <div
-          class="basic-info-tab"
-        >
-          <div>
-            <Field
-              v-model="theUser.login"
-              :disabled="isInvitingUser"
-              autocomplete="off"
-              uicontrol="text"
-              name="user_login"
-              :maxlength="100"
-              :title="translate('General_Username')"
-            />
-          </div>
-          <div class="email-input">
-            <Field
-              v-model="theUser.email"
-              :disabled="isInvitingUser"
-              uicontrol="text"
-              name="user_email"
-              autocomplete="off"
-              :maxlength="100"
-              :title="translate('UsersManager_Email')"
-            />
-          </div>
-          <div>
-            <Field
-              v-model="firstSiteAccess"
-              :disabled="isInvitingUser"
-              uicontrol="site"
-              name="user_site"
-              :ui-control-attributes="{ onlySitesWithAdminAccess: true }"
-              :title="translate('UsersManager_FirstWebsitePermission')"
-              :inline-help="translate('UsersManager_FirstSiteInlineHelp')"
-            />
-          </div>
-          <div>
-            <div class="form-group row" style="position: relative">
-              <div class="col s12 m6 save-button">
-                <SaveButton
-                  :value="translate('UsersManager_InviteUser')"
-                  :disabled="!firstSiteAccess || !firstSiteAccess.id"
-                  :saving="isInvitingUser"
-                  @confirm="showPasswordConfirmation = true"
-                />
-              </div>
+      <div class="col m10">
+        <div>
+          <Field
+            v-model="theUser.login"
+            :disabled="isInvitingUser"
+            autocomplete="off"
+            uicontrol="text"
+            name="user_login"
+            :maxlength="100"
+            :title="translate('General_Username')"
+          />
+        </div>
+        <div class="email-input">
+          <Field
+            v-model="theUser.email"
+            :disabled="isInvitingUser"
+            uicontrol="text"
+            name="user_email"
+            autocomplete="off"
+            :maxlength="100"
+            :title="translate('UsersManager_Email')"
+          />
+        </div>
+        <div>
+          <Field
+            v-model="firstSiteAccess"
+            :disabled="isInvitingUser"
+            uicontrol="site"
+            name="user_site"
+            :ui-control-attributes="{ onlySitesWithAdminAccess: true }"
+            :title="translate('UsersManager_FirstWebsitePermission')"
+            :inline-help="translate('UsersManager_FirstSiteInlineHelp')"
+          />
+        </div>
+        <div>
+          <div class="form-group row" style="position: relative">
+            <div class="col s12 m6 save-button">
+              <SaveButton
+                :value="translate('UsersManager_InviteUser')"
+                :disabled="!firstSiteAccess || !firstSiteAccess.id
+                            || !theUser.login || !theUser.email"
+                :saving="isInvitingUser"
+                @confirm="showPasswordConfirmation = true"
+              />
             </div>
-            <PasswordConfirmation
-              v-model="showPasswordConfirmation"
-              @confirmed="inviteUser"
-            />
           </div>
-          <div
-            class="entityCancel"
+          <PasswordConfirmation
+            v-model="showPasswordConfirmation"
+            @confirmed="inviteUser"
+          />
+        </div>
+        <div
+          class="entityCancel"
+        >
+          <a
+            href=""
+            class="entityCancelLink"
+            @click.prevent="abort()"
           >
-            <a
-              href=""
-              class="entityCancelLink"
-              @click.prevent="abort()"
-            >
-              <span class="icon icon-arrow-left">&nbsp;
-              </span>{{ translate('UsersManager_BackToUser') }}</a>
-          </div>
+            <span class="icon icon-arrow-left">&nbsp;
+            </span>{{ translate('UsersManager_BackToUser') }}</a>
         </div>
       </div>
     </div>
@@ -197,10 +193,7 @@ export default defineComponent({
     },
     abort() {
       this.theUser = DEFAULT_USER;
-      this.firstSiteAccess = {
-        id: this.initialSiteId,
-        name: this.initialSiteName,
-      };
+      this.firstSiteAccess = null;
       this.$emit('aborted');
     },
   },
