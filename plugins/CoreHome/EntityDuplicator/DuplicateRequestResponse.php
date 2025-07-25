@@ -24,22 +24,17 @@ class DuplicateRequestResponse
     /**
      * @var bool
      */
-    protected $isDuplicationSuccessful;
+    protected $success;
 
     /**
      * @var string
      */
-    protected $successMessage;
+    protected $message;
 
     /**
      * @var array
      */
-    protected $responseData;
-
-    /**
-     * @var string
-     */
-    protected $errorMessage;
+    protected $additionalData;
 
     /**
      * @var int
@@ -58,69 +53,52 @@ class DuplicateRequestResponse
     /**
      * @return bool
      */
-    public function isDuplicationSuccessful(): bool
+    public function isSuccess(): bool
     {
-        return $this->isDuplicationSuccessful ?? false;
+        return $this->success ?? false;
     }
 
     /**
-     * @param bool $isDuplicationSuccessful
+     * @param bool $success
      * @return void
      */
-    public function setIsDuplicationSuccessful(bool $isDuplicationSuccessful): void
+    public function setSuccess(bool $success): void
     {
-        $this->isDuplicationSuccessful = $isDuplicationSuccessful;
+        $this->success = $success;
     }
 
     /**
      * @return string
      */
-    public function getSuccessMessage(): string
+    public function getMessage(): string
     {
-        return $this->successMessage ?? '';
+        return $this->message ?? '';
     }
 
     /**
-     * @param string $successMessage
+     * @param string $message
      * @return void
      */
-    public function setSuccessMessage(string $successMessage): void
+    public function setMessage(string $message): void
     {
-        $this->successMessage = $successMessage;
+        $this->message = $message;
     }
 
     /**
      * @return array
      */
-    public function getResponseData(): array
+    public function getAdditionalData(): array
     {
-        return $this->responseData ?? [];
+        return $this->additionalData ?? [];
     }
 
     /**
-     * @param array $responseData
+     * @param array $additionalData
      * @return void
      */
-    public function setResponseData(array $responseData): void
+    public function setAdditionalData(array $additionalData): void
     {
-        $this->responseData = $responseData;
-    }
-
-    /**
-     * @return string
-     */
-    public function getErrorMessage(): string
-    {
-        return $this->errorMessage ?? '';
-    }
-
-    /**
-     * @param string $errorMessage
-     * @return void
-     */
-    public function setErrorMessage(string $errorMessage): void
-    {
-        $this->errorMessage = $errorMessage;
+        $this->additionalData = $additionalData;
     }
 
     /**
@@ -156,6 +134,17 @@ class DuplicateRequestResponse
      */
     public function getJsonResponse(): string
     {
+        return json_encode($this->getResponseArray());
+    }
+
+    /**
+     * Checks which property values have changed from the initial state and only includes them in the array.
+     *
+     * @return array response object properties
+     * @throws \Exception If none of the properties have been set
+     */
+    public function getResponseArray(): array
+    {
         $responseArray = [];
         $currentState = $this->getCurrentState();
         foreach ($this->initialState as $propertyName => $value) {
@@ -168,7 +157,7 @@ class DuplicateRequestResponse
             throw new \Exception('No duplicate request response properties were set.');
         }
 
-        return json_encode($responseArray);
+        return $responseArray;
     }
 
     /**

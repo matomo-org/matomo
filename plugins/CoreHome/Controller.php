@@ -355,42 +355,4 @@ class Controller extends \Piwik\Plugin\Controller
 
         ViewDataTableManager::saveViewDataTableParameters($login, $reportId, $parameters, $containerId);
     }
-
-    public function duplicateEntity(): string
-    {
-        $request = \Piwik\Request::fromRequest();
-        $idSite = $request->getIntegerParameter('idSite');
-        $entityTypeName = $request->getStringParameter('entityTypeName');
-        $idDestinationSites = $request->getArrayParameter('idDestinationSites', []);
-        if (count($idDestinationSites) === 0) {
-            $idDestinationSitesString = $request->getStringParameter('idDestinationSites', '');
-            $idDestinationSites = Site::getIdSitesFromIdSitesString($idDestinationSitesString);
-        }
-        $additionalData = $request->getArrayParameter('requestData', []);
-        Piwik::checkUserHasWriteAccess(array_unique(array_merge([$idSite], $idDestinationSites)));
-        $this->checkTokenInUrl();
-
-        // Post event to be intercepted by plugin using the modal to duplicate something
-        $duplicateRequest = new DuplicateRequest($idSite, $entityTypeName, $idDestinationSites, $additionalData);
-        $duplicateRequestResponse = new DuplicateRequestResponse();
-        try {
-            Piwik::postEvent('CoreHome.processDuplicationRequest', [$duplicateRequest, &$duplicateRequestResponse]);
-        } catch (\Throwable $e) {
-            $duplicateRequestResponse->setIsDuplicationSuccessful(false);
-            if (empty($duplicateRequestResponse->getErrorMessage())) {
-                $duplicateRequestResponse->setErrorMessage(Piwik::translate('General_ErrorRequest', ['', '']));
-            }
-            if (empty($duplicateRequestResponse->getErrorCode())) {
-                $duplicateRequestResponse->setErrorCode(500);
-            }
-        }
-
-        if (!$duplicateRequestResponse->hasResponseBeenModified()) {
-            // This should only happen if the developer forgets to implement/register a listener. It won't be displayed
-            throw new \Exception('The response was not modified. This likely means nobody registered for the event and processed it.');
-        }
-
-        Json::sendHeaderJSON();
-        return $duplicateRequestResponse->getJsonResponse();
-    }
 }

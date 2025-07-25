@@ -87,15 +87,10 @@ export class EntityDuplicatorStore {
       idDestinationSitesArray.push(idDestinationSites as number);
     }
     return {
-      module: 'CoreHome',
-      action: 'duplicateEntity',
       idSite: Matomo.idSite || MatomoUrl.parsed.value.idSite,
       idDestinationSites: idDestinationSitesArray,
-      entityTypeName: this.state.duplicateEntityType,
-      requestData: {
-        ...this.state.commonFormData,
-        ...this.state.entityFormData,
-      },
+      ...this.state.commonFormData,
+      ...this.state.entityFormData,
     } as Record<string, unknown>;
   }
 

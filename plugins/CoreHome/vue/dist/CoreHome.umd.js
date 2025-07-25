@@ -225,6 +225,7 @@ __webpack_require__.d(__webpack_exports__, "EntityDuplicatorModal", function() {
 __webpack_require__.d(__webpack_exports__, "EntityDuplicatorAction", function() { return /* reexport */ EntityDuplicatorAction; });
 __webpack_require__.d(__webpack_exports__, "EntityDuplicatorStore", function() { return /* reexport */ EntityDuplicatorStore_EntityDuplicatorStore; });
 __webpack_require__.d(__webpack_exports__, "buildEntityDuplicatorStore", function() { return /* reexport */ buildEntityDuplicatorStore; });
+__webpack_require__.d(__webpack_exports__, "BaseDuplicatorAdapter", function() { return /* reexport */ EntityDuplicatorAdapter_BaseDuplicatorAdapter; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -10486,47 +10487,47 @@ PasswordStrengthvue_type_script_lang_ts.render = PasswordStrengthvue_type_templa
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=template&id=e0b1fc0a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=template&id=485da537
 
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_1 = {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_1 = {
   class: "main-duplicator-modal-content"
 };
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_2 = {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_2 = {
   class: "modal-header"
 };
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "btn-close modal-close"
 }, [/*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("i", {
   class: "icon-close"
 })], -1);
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_4 = {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_4 = {
   key: 0,
   class: "modal-sub-header"
 };
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_5 = {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_5 = {
   class: "loading-message"
 };
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_6 = {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_6 = {
   key: 0,
   class: "modal-sub-header"
 };
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_7 = ["innerHTML"];
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_8 = {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_7 = ["innerHTML"];
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_8 = {
   class: "modal-content"
 };
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_9 = {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_9 = {
   class: "modal-inputs"
 };
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_10 = {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_10 = {
   class: "modal-sub-footer"
 };
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_11 = ["innerHTML"];
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_12 = ["innerHTML"];
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_13 = {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_11 = ["innerHTML"];
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_12 = ["innerHTML"];
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_13 = {
   class: "modal-footer"
 };
-const EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_14 = ["disabled"];
-function EntityDuplicatorModalvue_type_template_id_e0b1fc0a_render(_ctx, _cache, $props, $setup, $data, $options) {
+const EntityDuplicatorModalvue_type_template_id_485da537_hoisted_14 = ["disabled"];
+function EntityDuplicatorModalvue_type_template_id_485da537_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MatomoLoader = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MatomoLoader");
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _directive_form = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("form");
@@ -10537,22 +10538,22 @@ function EntityDuplicatorModalvue_type_template_id_e0b1fc0a_render(_ctx, _cache,
       'slot-configured': _ctx.$slots.default
     }),
     ref: "root"
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_2, [EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getModalTitle), 1)]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Loading')), 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_485da537_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_485da537_hoisted_2, [EntityDuplicatorModalvue_type_template_id_485da537_hoisted_3, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h2", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getModalTitle), 1)]), _ctx.isLoading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_485da537_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_MatomoLoader), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", EntityDuplicatorModalvue_type_template_id_485da537_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Loading')), 1)])) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
     key: 1
-  }, [!_ctx.hideSiteSelector ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getDuplicateDescription) + " ", 1), _ctx.descriptionLearnMoreLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
+  }, [!_ctx.hideSiteSelector ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_485da537_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getDuplicateDescription) + " ", 1), _ctx.descriptionLearnMoreLink ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
     key: 0,
     innerHTML: _ctx.$sanitize(_ctx.getLearnMoreLink)
-  }, null, 8, EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, EntityDuplicatorModalvue_type_template_id_485da537_hoisted_7)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: "site",
     name: "siteSelector",
     title: _ctx.translate('CoreHome_ChooseWebsite'),
-    modelValue: _ctx.site,
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.site = $event),
+    modelValue: _ctx.destinationSite,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.destinationSite = $event),
     "ui-control-attributes": {
       sitesWithAtLeastWriteAccess: true,
       siteTypesToExclude: ['rollup']
     }
-  }, null, 8, ["title", "modelValue"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])), [[_directive_form]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_10, [_ctx.duplicationErrors.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+  }, null, 8, ["title", "modelValue"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_485da537_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", EntityDuplicatorModalvue_type_template_id_485da537_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")])), [[_directive_form]])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_485da537_hoisted_10, [_ctx.duplicationErrors.length > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
       'alert': true,
@@ -10563,21 +10564,19 @@ function EntityDuplicatorModalvue_type_template_id_e0b1fc0a_render(_ctx, _cache,
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
       key: index,
       innerHTML: _ctx.$sanitize(duplicationError)
-    }, null, 8, EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_11);
+    }, null, 8, EntityDuplicatorModalvue_type_template_id_485da537_hoisted_11);
   }), 128))])], 2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
     class: "note-text",
     innerHTML: _ctx.$sanitize(_ctx.getNoteText)
-  }, null, 8, EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_12)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+  }, null, 8, EntityDuplicatorModalvue_type_template_id_485da537_hoisted_12)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", EntityDuplicatorModalvue_type_template_id_485da537_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
     class: "btn",
     disabled: !_ctx.getIsValid || _ctx.hasBeenSubmitted,
     onClick: _cache[1] || (_cache[1] = $event => _ctx.submitRequest())
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Copy')), 9, EntityDuplicatorModalvue_type_template_id_e0b1fc0a_hoisted_14)])], 64))], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isModalVisible]])], 2);
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Copy')), 9, EntityDuplicatorModalvue_type_template_id_485da537_hoisted_14)])], 64))], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isModalVisible]])], 2);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=template&id=e0b1fc0a
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=template&id=485da537
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.vue?vue&type=script&lang=ts
-
-
 
 
 
@@ -10606,6 +10605,13 @@ const {
       required: true
     },
     /**
+     * The adapter that handles validation and submission logic
+     */
+    adapter: {
+      type: Object,
+      required: true
+    },
+    /**
      * Option to hide the site selector when it's not needed.
      */
     hideSiteSelector: {
@@ -10625,24 +10631,33 @@ const {
       isLoading: true,
       isValidated: false,
       duplicationErrors: [],
-      site: null,
-      hasSiteBeenInitialised: false,
+      destinationSite: null,
       hasBeenSubmitted: false
     };
   },
-  emits: ['duplicationSuccessful', 'duplicationFailed'],
   watch: {
     isModalVisible(newValue) {
       if (!newValue) {
         return;
       }
-      // TODO - Do some logic before showing modal
+      // Call adapter's beforeShowModal if defined
+      let beforeShowModal;
+      if (this.adapter.beforeShowModal) {
+        beforeShowModal = this.adapter.beforeShowModal();
+      }
+      // If a promise was returned, leave as loading until the promise is resolved
+      if (!beforeShowModal || typeof beforeShowModal === 'undefined') {
+        beforeShowModal = new Promise(resolve => resolve());
+      }
       this.showModal();
-      // TODO - determine the best indication that loading is done
-      this.isLoading = false;
+      // If a promise was returned, use that to set the state at the right time
+      beforeShowModal.then(() => {
+        this.isLoading = false;
+      });
     },
-    site() {
-      this.onSiteChange();
+    destinationSite() {
+      // Reset flag since the data has changed since validation
+      this.isValidated = false;
     }
   },
   methods: {
@@ -10653,11 +10668,10 @@ const {
     },
     resetModal() {
       this.modalStore.hideModal();
-      this.site = null;
+      this.destinationSite = null;
       this.isLoading = true;
       this.isValidated = false;
       this.duplicationErrors = [];
-      this.hasSiteBeenInitialised = false;
       this.hasBeenSubmitted = false;
     },
     showModal() {
@@ -10671,86 +10685,62 @@ const {
       }).modal('open');
     },
     submitRequest() {
-      var _this$site;
       this.hasBeenSubmitted = true;
-      this.modalStore.disableWatchSuppression();
-      // Make sure all the validation passes before making the server request
-      this.validateFormFields();
-      if (!this.getIsValid) {
-        this.hasBeenSubmitted = false;
-        return;
-      }
-      // Actually POST the API call
-      const ajax = new AjaxHelper_AjaxHelper();
-      // Remove the unnecessary default parameters
-      ajax.removeDefaultParameter('date');
-      ajax.removeDefaultParameter('period');
-      ajax.removeDefaultParameter('segment');
-      // Include token in POST body so that it can be used for the security check instead of a nonce
-      ajax.withTokenInUrl();
-      ajax.addParams(this.modalStore.getFormValues((_this$site = this.site) === null || _this$site === void 0 ? void 0 : _this$site.id), 'POST');
-      ajax.setFormat('json');
-      ajax.send().then(response => {
-        // If the response was invalid or unsuccessful, emit the failure and show an error message
-        if (!response || !response.isDuplicationSuccessful) {
-          this.emitFailureAndSetErrorMessage();
+      // Make sure the validation passes before making the server request
+      this.getValidationResultPromise().then(validationResult => {
+        var _this$destinationSite;
+        if (!validationResult.isValid && validationResult.errorMessages.length > 0) {
+          this.isValidated = true;
+          this.hasBeenSubmitted = false;
+          this.duplicationErrors = validationResult.errorMessages;
           return;
         }
-        // Emit success so parent can perform desired actions like reload the data store or page
-        this.$emit('duplicationSuccessful', response);
-        this.closeModal();
-      }).catch(error => {
-        this.emitFailureAndSetErrorMessage();
-        console.log('Unexpected server error during request.', error);
-      }).finally(() => {
-        this.hasBeenSubmitted = false;
+        // Use adapter to prepare API parameters
+        const params = this.adapter.prepareApiParams(this.modalStore.getFormValues((_this$destinationSite = this.destinationSite) === null || _this$destinationSite === void 0 ? void 0 : _this$destinationSite.id));
+        // Use adapter to submit the request
+        this.adapter.submitRequest(params).then(response => {
+          if (!response || !response.success) {
+            this.setErrorMessages(response);
+            return;
+          }
+          // Call adapter's onSuccess if defined
+          if (this.adapter.onSuccess) {
+            this.adapter.onSuccess(response);
+          }
+          this.closeModal();
+        }).catch(error => {
+          this.setErrorMessages();
+          // Call adapter's onFailure if defined
+          if (this.adapter.onFailure) {
+            this.adapter.onFailure(error);
+          }
+          console.log('Unexpected server error during request.', error);
+        }).finally(() => {
+          this.hasBeenSubmitted = false;
+        });
       });
     },
-    validateFormFields() {
-      var _this$site2;
-      this.isValidated = true;
+    getValidationResultPromise() {
+      var _this$destinationSite2;
       this.duplicationErrors = [];
-      // Don't bother if the modal isn't visible
-      if (!this.modalStore.state.isModalVisible) {
-        return;
-      }
-      const validationData = {
-        formValues: this.modalStore.getFormValues((_this$site2 = this.site) === null || _this$site2 === void 0 ? void 0 : _this$site2.id),
-        errorMessages: []
-      };
-      Matomo_Matomo.postEvent('EntityDuplicator:validateFormFields', validationData);
-      if (validationData && Array.isArray(validationData.errorMessages) && validationData.errorMessages.length > 0) {
-        this.duplicationErrors = validationData.errorMessages;
-      }
+      // Use adapter for validation
+      const validationResultPromise = this.adapter.validateFormFields(this.modalStore.getFormValues((_this$destinationSite2 = this.destinationSite) === null || _this$destinationSite2 === void 0 ? void 0 : _this$destinationSite2.id));
+      // If a promise wasn't returned wrap the result with a promise for consistent processing
+      return 'isValid' in validationResultPromise ? new Promise(resolve => resolve(validationResultPromise)) : validationResultPromise;
     },
-    onSiteChange() {
-      // Reset flag since the data has changed since validation
-      this.isValidated = false;
-    },
-    emitFailureAndSetErrorMessage(response = null) {
-      let tempResponseObject = response;
-      // If no response object is set, create one with a generic error message
-      if (!tempResponseObject) {
-        tempResponseObject = {
-          isDuplicationSuccessful: false,
-          errorMessage: translate('General_ErrorRequest', '', '')
-        };
-      }
+    setErrorMessages(response = null) {
+      let message = (response === null || response === void 0 ? void 0 : response.message) || '';
       // If the error message wasn't set, set it to a generic error message
-      if (!tempResponseObject.errorMessage || tempResponseObject.errorMessage.length === 0) {
-        tempResponseObject.errorMessage = translate('General_ErrorRequest', '', '');
+      if (!message || message.length === 0) {
+        message = translate('General_ErrorRequest', '', '');
       }
       this.duplicationErrors = [];
-      this.duplicationErrors.push(tempResponseObject.errorMessage);
-      this.$emit('duplicationFailed', tempResponseObject);
+      this.duplicationErrors.push(message);
     }
   },
   mounted() {
     // Watch the formData object for any property changes to know whether current data was validated
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => this.modalStore.state.entityFormData, () => {
-      if (this.modalStore.state.isWatchSuppressed) {
-        return;
-      }
       this.isValidated = false;
     }, {
       deep: true
@@ -10793,7 +10783,7 @@ const {
 
 
 
-EntityDuplicatorModalvue_type_script_lang_ts.render = EntityDuplicatorModalvue_type_template_id_e0b1fc0a_render
+EntityDuplicatorModalvue_type_script_lang_ts.render = EntityDuplicatorModalvue_type_template_id_485da537_render
 
 /* harmony default export */ var EntityDuplicatorModal = (EntityDuplicatorModalvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.vue?vue&type=template&id=62f80bcc
@@ -10916,7 +10906,6 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
   constructor(duplicateEntityType, duplicateEntityTypeTranslation, commonFormData) {
     EntityDuplicatorStore_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       isModalVisible: false,
-      isWatchSuppressed: false,
       commonFormData: {},
       entityFormData: {},
       duplicateEntityType: '',
@@ -10940,28 +10929,20 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
     this.resetFormData();
   }
   resetFormData() {
-    this.state.isWatchSuppressed = true;
     // Remove all properties (preserves the original object reference)
     Object.keys(this.state.entityFormData).forEach(key => {
       delete this.state.entityFormData[key];
     });
-  }
-  disableWatchSuppression() {
-    this.state.isWatchSuppressed = false;
   }
   getFormValues(idDestinationSites) {
     const idDestinationSitesArray = Array.isArray(idDestinationSites) ? idDestinationSites : [];
     if (idDestinationSites && !Array.isArray(idDestinationSites)) {
       idDestinationSitesArray.push(idDestinationSites);
     }
-    return {
-      module: 'CoreHome',
-      action: 'duplicateEntity',
+    return Object.assign(Object.assign({
       idSite: Matomo_Matomo.idSite || src_MatomoUrl_MatomoUrl.parsed.value.idSite,
-      idDestinationSites: idDestinationSitesArray,
-      entityTypeName: this.state.duplicateEntityType,
-      requestData: Object.assign(Object.assign({}, this.state.commonFormData), this.state.entityFormData)
-    };
+      idDestinationSites: idDestinationSitesArray
+    }, this.state.commonFormData), this.state.entityFormData);
   }
   /**
    * Uses the duplicateEntityTypeTranslation property to return the translated entity type (e.g.
@@ -10991,7 +10972,8 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
 function buildEntityDuplicatorStore(duplicateEntityType, duplicateEntityTypeTranslation, commonFormData) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(new EntityDuplicatorStore_EntityDuplicatorStore(duplicateEntityType, duplicateEntityTypeTranslation, commonFormData));
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/types.ts
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAdapter.ts
+function EntityDuplicatorAdapter_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 /*!
  * Matomo - free/libre analytics platform
  *
@@ -10999,6 +10981,83 @@ function buildEntityDuplicatorStore(duplicateEntityType, duplicateEntityTypeTran
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
+
+
+
+class EntityDuplicatorAdapter_BaseDuplicatorAdapter {
+  constructor(properties) {
+    EntityDuplicatorAdapter_defineProperty(this, "module", void 0);
+    EntityDuplicatorAdapter_defineProperty(this, "method", void 0);
+    EntityDuplicatorAdapter_defineProperty(this, "format", void 0);
+    EntityDuplicatorAdapter_defineProperty(this, "requiredFields", void 0);
+    this.module = properties.module || 'API';
+    this.method = properties.method;
+    this.format = properties.format || 'json';
+    this.requiredFields = properties.requiredFields || ['idSite', 'idDestinationSites'];
+  }
+  async validateFormFields(formValues) {
+    const errorMessages = [];
+    this.requiredFields.forEach(fieldName => {
+      if (!(fieldName in formValues)) {
+        errorMessages.push(translate('General_Required', fieldName));
+      }
+    });
+    return new Promise(resolve => resolve({
+      errorMessages,
+      isValid: errorMessages.length === 0
+    }));
+  }
+  prepareApiParams(formValues) {
+    return Object.assign({
+      idSite: Matomo_Matomo.idSite || src_MatomoUrl_MatomoUrl.parsed.value.idSite,
+      idDestinationSites: [formValues.idDestinationSite]
+    }, formValues);
+  }
+  async submitRequest(params) {
+    // Override the defaults if provided in the params and then remove them from the params
+    this.module = params.module || this.module;
+    this.method = params.method || this.method;
+    this.format = params.format || this.format;
+    const postParams = params;
+    if (!this.method || this.method.length < 1) {
+      throw new Error('The POST method cannot be empty!');
+    }
+    const ajax = new AjaxHelper_AjaxHelper();
+    // Remove some default parameters as they aren't applicable to copying existing reports
+    ajax.removeDefaultParameter('date');
+    ajax.removeDefaultParameter('period');
+    ajax.removeDefaultParameter('segment');
+    // Set the main params as part of the URL
+    ajax.addParams({
+      module: this.module,
+      method: this.method,
+      format: this.format
+    }, 'GET');
+    ajax.addParams(postParams, 'POST');
+    ajax.setFormat(this.format);
+    return ajax.send();
+  }
+  onSuccess(response) {
+    // In case a promise wasn't returned, wrap the result with a promise for consistent processing
+    let onSuccessReloadStorePromise = new Promise(resolve => resolve());
+    if (this.onSuccessReloadStore) {
+      onSuccessReloadStorePromise = this.onSuccessReloadStore();
+    }
+    onSuccessReloadStorePromise.then(() => {
+      // Show the success message returned by the API
+      setTimeout(() => {
+        const notificationInstanceId = Notifications_store.show({
+          message: response.message,
+          context: response.success ? 'success' : 'error',
+          type: 'toast',
+          id: 'entityDuplicationResult'
+        });
+        Notifications_store.scrollToNotification(notificationInstanceId);
+      });
+    });
+  }
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
