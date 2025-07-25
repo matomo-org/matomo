@@ -54,12 +54,29 @@ class DuplicateRequestResponseTest extends TestCase
         $this->duplicateRequestResponse->getJsonResponse();
     }
 
+    public function testGetResponseArraySuccess()
+    {
+        $this->duplicateRequestResponse->setSuccess(true);
+        $this->duplicateRequestResponse->setMessage('Item copied!');
+
+        $this->assertSame(['success' => true, 'message' => 'Item copied!'], $this->duplicateRequestResponse->getResponseArray());
+    }
+
+    public function testGetResponseArraySuccessFail()
+    {
+        $this->duplicateRequestResponse->setSuccess(false);
+        $this->duplicateRequestResponse->setErrorCode(500);
+        $this->duplicateRequestResponse->setMessage('Item duplication failed!');
+
+        $this->assertSame(['success' => false, 'message' => 'Item duplication failed!', 'errorCode' => 500], $this->duplicateRequestResponse->getResponseArray());
+    }
+
     public function testGetJsonResponseSuccess()
     {
         $this->duplicateRequestResponse->setSuccess(true);
         $this->duplicateRequestResponse->setMessage('Item copied!');
 
-        $this->assertSame('{"isDuplicationSuccessful":true,"successMessage":"Item copied!"}', $this->duplicateRequestResponse->getJsonResponse());
+        $this->assertSame('{"success":true,"message":"Item copied!"}', $this->duplicateRequestResponse->getJsonResponse());
     }
 
     public function testGetJsonResponseSuccessWithData()
@@ -68,30 +85,28 @@ class DuplicateRequestResponseTest extends TestCase
         $this->duplicateRequestResponse->setMessage('Item copied!');
         $this->duplicateRequestResponse->setAdditionalData(['foo' => 'bar']);
 
-        $this->assertSame('{"isDuplicationSuccessful":true,"successMessage":"Item copied!","responseData":{"foo":"bar"}}', $this->duplicateRequestResponse->getJsonResponse());
+        $this->assertSame('{"success":true,"message":"Item copied!","additionalData":{"foo":"bar"}}', $this->duplicateRequestResponse->getJsonResponse());
     }
 
     public function testGetJsonResponseSuccessFail()
     {
         $this->duplicateRequestResponse->setSuccess(false);
         $this->duplicateRequestResponse->setErrorCode(500);
-        $this->duplicateRequestResponse->setErrorMessage('Item duplication failed!');
+        $this->duplicateRequestResponse->setMessage('Item duplication failed!');
 
-        $this->assertSame('{"isDuplicationSuccessful":false,"errorMessage":"Item duplication failed!","errorCode":500}', $this->duplicateRequestResponse->getJsonResponse());
+        $this->assertSame('{"success":false,"message":"Item duplication failed!","errorCode":500}', $this->duplicateRequestResponse->getJsonResponse());
     }
 
     public function getPropertyNames(): array
     {
         return [
-            ['setIsDuplicationSuccessful', false],
-            ['setIsDuplicationSuccessful', true],
-            ['setSuccessMessage', ''],
-            ['setSuccessMessage', 'Some message'],
-            ['setResponseData', []],
-            ['setResponseData', ['key' => 'value']],
-            ['setErrorMessage', ''],
-            ['setErrorMessage', 'Some message'],
-            ['setErrorMessage', 'Another message'],
+            ['setSuccess', false],
+            ['setSuccess', true],
+            ['setMessage', ''],
+            ['setMessage', 'Some message'],
+            ['setMessage', 'Another message'],
+            ['setAdditionalData', []],
+            ['setAdditionalData', ['key' => 'value']],
             ['setErrorCode', 0],
             ['setErrorCode', 400],
         ];
