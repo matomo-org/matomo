@@ -67,6 +67,10 @@ export default defineComponent({
       type: Object,
       required: false,
     },
+    inviteTokenExpiryDays: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     PasswordConfirmation,

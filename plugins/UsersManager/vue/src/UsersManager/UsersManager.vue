@@ -78,6 +78,7 @@
     <component
       :is="usedResendInviteComponent"
       :user="triggerResendInviteForUser"
+      :invite-token-expiry-days="inviteTokenExpiryDays"
       @close="triggerResendInviteForUser = null"
     ></component>
     <!-- TODO: whether a user is being edited should be part of the URL -->
