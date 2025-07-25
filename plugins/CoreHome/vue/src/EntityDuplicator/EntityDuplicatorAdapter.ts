@@ -11,10 +11,6 @@ import { translate } from '../translate';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 import { NotificationsStore } from '../Notification';
 
-export interface BeforeShowModalResult {
-  isLoading: boolean;
-}
-
 export interface DuplicateRequestResponse {
   success: boolean;
   message?: string;
@@ -143,13 +139,13 @@ export class BaseDuplicatorAdapter implements EntityDuplicatorAdapter {
    * Optional: Called during onSuccess method if both are defined. This allows using the default
    * success method while also defining some custom actions such as reloading a store
    */
-  onSuccessReloadStore?(): Promise<void>;
+  onSuccessReloadStore?(response: DuplicateRequestResponse): Promise<void>;
 
   onSuccess(response: DuplicateRequestResponse): void {
     // In case a promise wasn't returned, wrap the result with a promise for consistent processing
     let onSuccessReloadStorePromise = new Promise((resolve) => resolve()) as Promise<void>;
     if (this.onSuccessReloadStore) {
-      onSuccessReloadStorePromise = this.onSuccessReloadStore();
+      onSuccessReloadStorePromise = this.onSuccessReloadStore(response);
     }
 
     onSuccessReloadStorePromise.then(() => {

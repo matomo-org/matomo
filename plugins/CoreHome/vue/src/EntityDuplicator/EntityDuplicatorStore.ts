@@ -26,15 +26,10 @@ interface EntityDuplicatorState {
    */
   entityFormData: Record<string, unknown>;
   /**
-   * Should uniquely identify what is being copied (e.g. goal, funnel, segment, ...). The is
-   * important as it's used as the entityTypeName property of the request sent to the server.
-   */
-  duplicateEntityType: string;
-  /**
    * Translation of what is being copied (e.g. goal, funnel, segment, ...). This can be a string
    * or translation key. If nothing is provided 'report' is used.
    */
-  duplicateEntityTypeTranslation: string;
+  entityTypeTranslation: string;
 }
 
 export class EntityDuplicatorStore {
@@ -42,17 +37,14 @@ export class EntityDuplicatorStore {
     isModalVisible: false,
     commonFormData: {},
     entityFormData: {},
-    duplicateEntityType: '',
-    duplicateEntityTypeTranslation: '',
+    entityTypeTranslation: '',
   });
 
   constructor(
-    duplicateEntityType: string,
     duplicateEntityTypeTranslation: string,
     commonFormData?: Record<string, unknown>,
   ) {
-    this.state.duplicateEntityType = duplicateEntityType;
-    this.state.duplicateEntityTypeTranslation = duplicateEntityTypeTranslation;
+    this.state.entityTypeTranslation = duplicateEntityTypeTranslation;
     this.state.commonFormData = commonFormData ?? {};
   }
 
@@ -95,16 +87,16 @@ export class EntityDuplicatorStore {
   }
 
   /**
-   * Uses the duplicateEntityTypeTranslation property to return the translated entity type (e.g.
+   * Uses the entityTypeTranslation property to return the translated entity type (e.g.
    * goal, funnel, segment, ...), which can be a translated string or translation key. If the value
    * is a translation key, the translated value will be returned. If no value is set, the default is
    * the translation of 'report'.
    */
   get getEntityTypeTranslation(): string {
-    // Default to 'report' if no value is provided via duplicateEntityTypeTranslation
+    // Default to 'report' if no value is provided via entityTypeTranslation
     let translationKey = 'CoreHome_ReportLowercase';
-    if (this.state.duplicateEntityTypeTranslation) {
-      translationKey = this.state.duplicateEntityTypeTranslation;
+    if (this.state.entityTypeTranslation) {
+      translationKey = this.state.entityTypeTranslation;
     }
 
     // Only translate if it's a translation key and not an already translated string
@@ -117,17 +109,14 @@ export class EntityDuplicatorStore {
  * used to maintain the state of the modal across all the actions which trigger showing the modal.
  * See the property descriptions of the EntityDuplicatorState interface for more information.
  *
- * @param duplicateEntityType
  * @param duplicateEntityTypeTranslation
  * @param commonFormData
  */
 export function buildEntityDuplicatorStore(
-  duplicateEntityType: string,
   duplicateEntityTypeTranslation: string,
   commonFormData?: Record<string, unknown>,
 ): EntityDuplicatorStore {
   return reactive(new EntityDuplicatorStore(
-    duplicateEntityType,
     duplicateEntityTypeTranslation,
     commonFormData,
   ));

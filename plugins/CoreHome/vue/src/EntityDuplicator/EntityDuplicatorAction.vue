@@ -63,7 +63,7 @@ export default defineComponent({
       default: false,
     },
     /**
-     * Allows setting custom tooltip text. The default is 'Copy {duplicateEntityTypeTranslation}'.
+     * Allows setting custom tooltip text. The default is 'Copy {entityTypeTranslation}'.
      */
     tooltipTextOverride: {
       type: String,

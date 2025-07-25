@@ -10786,10 +10786,10 @@ const {
 EntityDuplicatorModalvue_type_script_lang_ts.render = EntityDuplicatorModalvue_type_template_id_485da537_render
 
 /* harmony default export */ var EntityDuplicatorModal = (EntityDuplicatorModalvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.vue?vue&type=template&id=62f80bcc
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.vue?vue&type=template&id=4fcb6fd6
 
-const EntityDuplicatorActionvue_type_template_id_62f80bcc_hoisted_1 = ["title", "aria-disabled"];
-function EntityDuplicatorActionvue_type_template_id_62f80bcc_render(_ctx, _cache, $props, $setup, $data, $options) {
+const EntityDuplicatorActionvue_type_template_id_4fcb6fd6_hoisted_1 = ["title", "aria-disabled"];
+function EntityDuplicatorActionvue_type_template_id_4fcb6fd6_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])([{
@@ -10801,9 +10801,9 @@ function EntityDuplicatorActionvue_type_template_id_62f80bcc_render(_ctx, _cache
     title: _ctx.getActionTooltip,
     "aria-disabled": !_ctx.isActionEnabled,
     onClick: _cache[0] || (_cache[0] = $event => !_ctx.isActionEnabled || _ctx.handleClick())
-  }, null, 10, EntityDuplicatorActionvue_type_template_id_62f80bcc_hoisted_1)), [[_directive_tooltips], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isActionVisible]]);
+  }, null, 10, EntityDuplicatorActionvue_type_template_id_4fcb6fd6_hoisted_1)), [[_directive_tooltips], [external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.isActionVisible]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.vue?vue&type=template&id=62f80bcc
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.vue?vue&type=template&id=4fcb6fd6
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.vue?vue&type=script&lang=ts
 
@@ -10840,7 +10840,7 @@ function EntityDuplicatorActionvue_type_template_id_62f80bcc_render(_ctx, _cache
       default: false
     },
     /**
-     * Allows setting custom tooltip text. The default is 'Copy {duplicateEntityTypeTranslation}'.
+     * Allows setting custom tooltip text. The default is 'Copy {entityTypeTranslation}'.
      */
     tooltipTextOverride: {
       type: String,
@@ -10887,7 +10887,7 @@ function EntityDuplicatorActionvue_type_template_id_62f80bcc_render(_ctx, _cache
 
 
 
-EntityDuplicatorActionvue_type_script_lang_ts.render = EntityDuplicatorActionvue_type_template_id_62f80bcc_render
+EntityDuplicatorActionvue_type_script_lang_ts.render = EntityDuplicatorActionvue_type_template_id_4fcb6fd6_render
 
 /* harmony default export */ var EntityDuplicatorAction = (EntityDuplicatorActionvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorStore.ts
@@ -10903,16 +10903,14 @@ function EntityDuplicatorStore_defineProperty(obj, key, value) { if (key in obj)
 
 
 class EntityDuplicatorStore_EntityDuplicatorStore {
-  constructor(duplicateEntityType, duplicateEntityTypeTranslation, commonFormData) {
+  constructor(duplicateEntityTypeTranslation, commonFormData) {
     EntityDuplicatorStore_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       isModalVisible: false,
       commonFormData: {},
       entityFormData: {},
-      duplicateEntityType: '',
-      duplicateEntityTypeTranslation: ''
+      entityTypeTranslation: ''
     }));
-    this.state.duplicateEntityType = duplicateEntityType;
-    this.state.duplicateEntityTypeTranslation = duplicateEntityTypeTranslation;
+    this.state.entityTypeTranslation = duplicateEntityTypeTranslation;
     this.state.commonFormData = commonFormData !== null && commonFormData !== void 0 ? commonFormData : {};
   }
   showModal(entityFormData) {
@@ -10945,16 +10943,16 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
     }, this.state.commonFormData), this.state.entityFormData);
   }
   /**
-   * Uses the duplicateEntityTypeTranslation property to return the translated entity type (e.g.
+   * Uses the entityTypeTranslation property to return the translated entity type (e.g.
    * goal, funnel, segment, ...), which can be a translated string or translation key. If the value
    * is a translation key, the translated value will be returned. If no value is set, the default is
    * the translation of 'report'.
    */
   get getEntityTypeTranslation() {
-    // Default to 'report' if no value is provided via duplicateEntityTypeTranslation
+    // Default to 'report' if no value is provided via entityTypeTranslation
     let translationKey = 'CoreHome_ReportLowercase';
-    if (this.state.duplicateEntityTypeTranslation) {
-      translationKey = this.state.duplicateEntityTypeTranslation;
+    if (this.state.entityTypeTranslation) {
+      translationKey = this.state.entityTypeTranslation;
     }
     // Only translate if it's a translation key and not an already translated string
     return translateOrDefault(translationKey);
@@ -10965,12 +10963,11 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
  * used to maintain the state of the modal across all the actions which trigger showing the modal.
  * See the property descriptions of the EntityDuplicatorState interface for more information.
  *
- * @param duplicateEntityType
  * @param duplicateEntityTypeTranslation
  * @param commonFormData
  */
-function buildEntityDuplicatorStore(duplicateEntityType, duplicateEntityTypeTranslation, commonFormData) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(new EntityDuplicatorStore_EntityDuplicatorStore(duplicateEntityType, duplicateEntityTypeTranslation, commonFormData));
+function buildEntityDuplicatorStore(duplicateEntityTypeTranslation, commonFormData) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])(new EntityDuplicatorStore_EntityDuplicatorStore(duplicateEntityTypeTranslation, commonFormData));
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAdapter.ts
 function EntityDuplicatorAdapter_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -11042,7 +11039,7 @@ class EntityDuplicatorAdapter_BaseDuplicatorAdapter {
     // In case a promise wasn't returned, wrap the result with a promise for consistent processing
     let onSuccessReloadStorePromise = new Promise(resolve => resolve());
     if (this.onSuccessReloadStore) {
-      onSuccessReloadStorePromise = this.onSuccessReloadStore();
+      onSuccessReloadStorePromise = this.onSuccessReloadStore(response);
     }
     onSuccessReloadStorePromise.then(() => {
       // Show the success message returned by the API
