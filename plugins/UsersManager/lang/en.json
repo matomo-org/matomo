@@ -99,7 +99,7 @@
         "RemoveUserAccess": "Remove access for '%1$s' for %2$s.",
         "ReportDateToLoadByDefault": "Report date to load by default",
         "ReportToLoadByDefault": "Report to load by default",
-        "SettingEnableInactiveUsersNotifications": "Receive monthly security email with list of inactive users",
+        "SettingEnableInactiveUsersNotifications": "Send monthly security email with list of inactive users",
         "SettingEnableInactiveUsersNotificationsHelp": "For security reasons, Matomo can notify all Superusers once a month with a list of accounts that haven’t logged in for more than 6 months. This helps you review and remove old user accounts that may no longer be needed.",
         "SuperUserAccessManagement": "Manage Super User access",
         "SuperUserAccessManagementGrantMore": "You can grant Super User access to other users of Matomo here. Please use this feature carefully.",
