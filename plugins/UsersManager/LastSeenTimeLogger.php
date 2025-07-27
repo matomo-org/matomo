@@ -57,25 +57,4 @@ class LastSeenTimeLogger
         // log last seen time
         $userModel->setLastSeenTimestamp($currentUserLogin, time());
     }
-
-    /**
-     * Returns the time a user was last seen or `false` if the user has never logged in.
-     */
-    public static function getLastSeenTimeForUser($userName)
-    {
-        $userModel = new Model();
-        return $userModel->getLastSeenTimestamp($userName);
-    }
-
-    public static function getLastSeenTimesForAllUsers()
-    {
-        $results = [];
-        $userModel = new Model();
-        foreach ($userModel->getLastSeenTimestampAllUsers() as $values) {
-            if ($values['ts_last_seen']) {
-                $results[$values['login']] = Date::factory($values['ts_last_seen'])->getTimestamp();
-            }
-        }
-        return $results;
-    }
 }

@@ -175,12 +175,10 @@ class UserRepository
         unset($user['ts_changes_shown']);
         unset($user['invite_token']);
         unset($user['invite_link_token']);
-        unset($user['ts_last_seen']);
         unset($user['ts_inactivity_notified']);
 
-        if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
-            $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
-        }
+        $user['last_seen'] = $user['ts_last_seen'] ? Date::getDatetimeFromTimestamp($user['ts_last_seen']) : null;
+        unset($user['ts_last_seen']);
 
         $user['invite_status'] = 'active';
 
@@ -241,24 +239,6 @@ class UserRepository
         if (!empty($users)) {
             foreach ($users as $index => $user) {
                 $users[$index] = $this->enrichUser($user);
-            }
-        }
-        return $users;
-    }
-
-    /**
-     * @param array $users
-     * @return mixed
-     */
-    public function enrichUsersWithLastSeen(array $users): array
-    {
-        $formatter = new Formatter();
-
-        $lastSeenTimes = LastSeenTimeLogger::getLastSeenTimesForAllUsers();
-        foreach ($users as &$user) {
-            $login = $user['login'];
-            if (isset($lastSeenTimes[$login])) {
-                $user['last_seen'] = $formatter->getPrettyTimeFromSeconds(time() - $lastSeenTimes[$login]);
             }
         }
         return $users;
