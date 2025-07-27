@@ -22,6 +22,16 @@ describe("GoalsPages", function () {
     expect(await page.screenshotSelector('.pageWrap')).to.matchImage('ecommerce');
   });
 
+  it('should show the correct relative data for the revenue in-cart tooltip', async function() {
+    var monthParams = 'idSite=1&period=month&date=2012-01-09';
+    await page.goto("?" + urlBase + "#?" + monthParams + "&category=Goals_Ecommerce&subcategory=General_Overview");
+    await page.waitForNetworkIdle();
+    const element = await page.jQuery('#rightcolumn .sparkline:eq(1) .metricEvolution');
+    await element.hover();
+    const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true });
+    expect(await tooltip.screenshot()).to.matchImage('revenue_incart_tooltip');
+  });
+
   it('should load the goals > overview page correctly', async function () {
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=Goals_Goals&subcategory=General_Overview");
     await page.waitForNetworkIdle();
