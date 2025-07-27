@@ -27,6 +27,7 @@
           :uicontrol="field.uiControl"
           :title="field.title"
           :name="`${name}-${index}`"
+          :id="`${id}-${index}`"
           :template-file="field.templateFile"
           :component="field.component"
         >
@@ -46,13 +47,14 @@
 import { defineComponent } from 'vue';
 import useExternalPluginComponent from '../useExternalPluginComponent';
 
-// async since this is a a recursive component
+// async since this is a recursive component
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
 export default defineComponent({
   props: {
     modelValue: Array,
     name: String,
+    id: String,
     field: Object,
     rows: String,
   },

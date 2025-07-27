@@ -7,12 +7,12 @@
 
 <template>
   <div>
-    <label :for="name" class="siteSelectorLabel" v-html="$sanitize(title)"></label>
+    <label :for="id" class="siteSelectorLabel" v-html="$sanitize(title)"></label>
     <div class="sites_autocomplete">
       <SiteSelector
         :model-value="modelValue"
         @update:modelValue="onChange($event)"
-        :id="name"
+        :id="id"
         :show-all-sites-item="uiControlAttributes.showAllSitesItem || false"
         :switch-site-on-select="false"
         :show-selected-site="true"
@@ -32,6 +32,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
+    id: String,
     modelValue: Object,
     modelModifiers: Object,
     uiControlAttributes: Object,

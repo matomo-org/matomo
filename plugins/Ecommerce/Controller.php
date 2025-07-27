@@ -90,7 +90,12 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             $date = Common::getRequestVar('date');
 
             /** @var DataTable $previousData */
-            $previousData = Request::processRequest('Goals.get', ['date' => $lastPeriodDate, 'format_metrics' => 0]);
+            $previousData = Request::processRequest(
+                'Goals.get',
+                ['date' => $lastPeriodDate,
+                'format_metrics' => 0,
+                'idGoal' => $idGoal]
+            );
             $previousDataRow = $previousData->getFirstRow();
 
             $return = $this->addSparklineEvolutionValues($return, $idGoal, $date, $lastPeriodDate, $dataRow, $previousDataRow);
