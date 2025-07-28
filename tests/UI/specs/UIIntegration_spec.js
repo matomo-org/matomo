@@ -633,6 +633,8 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
 
         it('should load the config file page correctly', async function () {
+            testEnvironment.configOverride.mail = {username: '<a href="test">value</a>'};
+            testEnvironment.save();
             await page.goto("?" + generalParams + "&module=Diagnostics&action=configfile");
 
             expect(await screenshotPageWrap()).to.matchImage('admin_diagnostics_configfile');

@@ -39,7 +39,7 @@
             :title="translate('CoreHome_ChooseWebsite')"
             v-model="site"
             :ui-control-attributes="{
-              sitesWithAtLeastWriteAccess: true,
+              onlySitesWithAtLeastWriteAccess: true,
               siteTypesToExclude: ['rollup'],
             }"
           />

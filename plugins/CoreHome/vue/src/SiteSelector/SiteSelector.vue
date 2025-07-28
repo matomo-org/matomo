@@ -180,7 +180,7 @@ export default defineComponent({
       type: Array,
       default: () => [] as number[],
     },
-    sitesWithAtLeastWriteAccess: {
+    onlySitesWithAtLeastWriteAccess: {
       type: Boolean,
       default: false,
     },
@@ -262,13 +262,13 @@ export default defineComponent({
     },
     hasMultipleSites() {
       const initialSites = SitesStore.initialSitesFiltered.value
-        && SitesStore.initialSitesFiltered.value.length
+      && SitesStore.initialSitesFiltered.value.length
         ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
       return initialSites && initialSites.length > 1;
     },
     firstSiteName() {
       const initialSites = SitesStore.initialSitesFiltered.value
-        && SitesStore.initialSitesFiltered.value.length
+      && SitesStore.initialSitesFiltered.value.length
         ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
       return initialSites && initialSites.length > 0 ? initialSites[0].name : '';
     },
@@ -390,7 +390,7 @@ export default defineComponent({
       return SitesStore.loadInitialSites(
         this.onlySitesWithAdminAccess,
         (this.sitesToExclude ? this.sitesToExclude : []) as number[],
-        this.sitesWithAtLeastWriteAccess,
+        this.onlySitesWithAtLeastWriteAccess,
         (this.siteTypesToExclude ? this.siteTypesToExclude : []) as string[],
       ).then((sites) => {
         this.sites = sites || [];
@@ -402,7 +402,7 @@ export default defineComponent({
       SitesStore.searchSite(
         term, this.onlySitesWithAdminAccess,
         (this.sitesToExclude ? this.sitesToExclude : []) as number[],
-        this.sitesWithAtLeastWriteAccess,
+        this.onlySitesWithAtLeastWriteAccess,
         (this.siteTypesToExclude ? this.siteTypesToExclude : []) as string[],
       ).then((sites) => {
         if (term !== this.searchTerm) {
