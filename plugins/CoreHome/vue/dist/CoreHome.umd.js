@@ -10936,6 +10936,15 @@ function EntityDuplicatorStore_defineProperty(obj, key, value) { if (key in obj)
 
 
 class EntityDuplicatorStore_EntityDuplicatorStore {
+  /**
+   * Protected so that the buildStoreInstance has to be used. This ensures that the modal store is
+   * instantiated as a reactive object. See buildStoreInstance for more documentation.
+   *
+   * @param duplicateEntityTypeTranslation
+   * @param adapterDefinition
+   * @param commonFormData
+   * @protected
+   */
   constructor(duplicateEntityTypeTranslation, adapterDefinition, commonFormData) {
     EntityDuplicatorStore_defineProperty(this, "state", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       isModalVisible: false,
@@ -10943,6 +10952,10 @@ class EntityDuplicatorStore_EntityDuplicatorStore {
       entityFormData: {},
       entityTypeTranslation: ''
     }));
+    /**
+     * The adapter class defines the implementation/behaviour of common part of the duplication
+     * process such as validation, gathering parameters, posting to the API, and handling success.
+     */
     EntityDuplicatorStore_defineProperty(this, "adapter", void 0);
     this.state.entityTypeTranslation = duplicateEntityTypeTranslation;
     this.adapter = 'validateFormFields' in adapterDefinition ? adapterDefinition : new EntityDuplicatorAdapter_BaseDuplicatorAdapter(adapterDefinition);

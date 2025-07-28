@@ -45,8 +45,21 @@ export class EntityDuplicatorStore {
     entityTypeTranslation: '',
   });
 
+  /**
+   * The adapter class defines the implementation/behaviour of common part of the duplication
+   * process such as validation, gathering parameters, posting to the API, and handling success.
+   */
   adapter: EntityDuplicatorAdapter;
 
+  /**
+   * Protected so that the buildStoreInstance has to be used. This ensures that the modal store is
+   * instantiated as a reactive object. See buildStoreInstance for more documentation.
+   *
+   * @param duplicateEntityTypeTranslation
+   * @param adapterDefinition
+   * @param commonFormData
+   * @protected
+   */
   protected constructor(
     duplicateEntityTypeTranslation: string,
     adapterDefinition: EntityDuplicatorAdapter | EntityDuplicatorAdapterProperties,
