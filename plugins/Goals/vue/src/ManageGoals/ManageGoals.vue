@@ -96,6 +96,12 @@
                     class="table-action icon-delete"
                     :title="translate('General_Delete')"
                   ></button>
+                  <EntityDuplicatorAction
+                    :actionFormData="{idGoal: goal.idgoal}"
+                    :modalStore="entityDuplicatorStore"
+                    :isActionVisible="showDuplicatorAction"
+                    :isActionEnabled="enableDuplicatorAction"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -372,6 +378,7 @@
     </div>
     </div>
 
+    <EntityDuplicatorModal :modalStore="entityDuplicatorStore"></EntityDuplicatorModal>
     <a id='bottom'></a>
   </div>
 </template>
@@ -391,6 +398,14 @@ import {
   ReportingMenuStore,
   VueEntryContainer,
   externalLink,
+  useExternalPluginComponent,
+  importPluginUmd,
+} from 'CoreHome';
+// Only import duplicator types since they might not exist in the current core version.
+import type {
+  EntityDuplicatorStore as EntityDuplicatorStoreType,
+  BaseDuplicatorAdapter as BaseDuplicatorAdapterType,
+  DuplicateRequestResponse as DuplicateRequestResponseType,
 } from 'CoreHome';
 import {
   Form,
@@ -399,6 +414,17 @@ import {
 } from 'CorePluginsAdmin';
 import Goal from '../Goal';
 import ManageGoalsStore from './ManageGoals.store';
+
+// Load these separately in case the version of core doesn't have the components yet
+const EntityDuplicatorModal = useExternalPluginComponent('CoreHome', 'EntityDuplicatorModal');
+const EntityDuplicatorAction = useExternalPluginComponent('CoreHome', 'EntityDuplicatorAction');
+
+// Load the class similar to useExternalPluginComponent, but for something other than a component
+let EntityDuplicatorStore: typeof EntityDuplicatorStoreType | undefined = undefined;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+importPluginUmd('CoreHome').then((module: any) => {
+  EntityDuplicatorStore = module?.EntityDuplicatorStore;
+});
 
 interface ManageGoalsState {
   showEditGoal: boolean;
@@ -411,6 +437,9 @@ interface ManageGoalsState {
   submitText: string;
   goalToDelete: Goal|null;
   addEditTableComponent: boolean;
+  showDuplicatorAction: boolean;
+  enableDuplicatorAction: boolean;
+  entityDuplicatorStore?: EntityDuplicatorStoreType;
 }
 
 function ambiguousBoolToInt(n: string|number|boolean): 1|0 {
@@ -452,9 +481,21 @@ export default defineComponent({
       submitText: '',
       goalToDelete: null,
       addEditTableComponent: false,
+      showDuplicatorAction: true, // This can be updated later based on permissions
+      enableDuplicatorAction: true, // The check whether the feature is allowed updates this value
+      entityDuplicatorStore: typeof EntityDuplicatorStore !== 'undefined'
+        ? EntityDuplicatorStore.buildStoreInstance(
+          'General_Goal',
+          {
+            method: 'Goals.duplicateGoal',
+            requiredFields: ['idSite', 'idDestinationSites', 'idGoal'],
+          },
+        ) : undefined,
     };
   },
   components: {
+    EntityDuplicatorModal,
+    EntityDuplicatorAction,
     SaveButton,
     ContentBlock,
     ActivityIndicator,
@@ -479,6 +520,19 @@ export default defineComponent({
       this.editGoal(this.showGoal);
     } else {
       this.showListOfReports();
+    }
+
+    // If the adapter is defined, cast it to the expected type and override any necessary methods.
+    if (this.entityDuplicatorStore) {
+      const adapter = this.entityDuplicatorStore.adapter as BaseDuplicatorAdapterType;
+
+      adapter.onSuccessCallback = (
+        response: DuplicateRequestResponseType,
+      ) => new Promise<void>((resolve) => {
+        console.log(response);
+
+        return resolve();
+      });
     }
   },
   methods: {

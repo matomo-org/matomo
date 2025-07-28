@@ -22,6 +22,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\API\DataTable\MergeDataTables;
 use Piwik\Plugins\CoreHome\Columns\Metrics\ConversionRate;
+use Piwik\Plugins\CoreHome\EntityDuplicator\DuplicateRequestResponse;
 use Piwik\Plugins\Goals\Columns\Metrics\AverageOrderRevenue;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalConversionRate;
@@ -33,6 +34,7 @@ use Piwik\Tracker\GoalManager;
 use Piwik\Plugins\VisitFrequency\API as VisitFrequencyAPI;
 use Piwik\Validators\Regex;
 use Piwik\Validators\WhitelistedValue;
+use Piwik\Plugins\CoreHome\EntityDuplicator\EntityDuplicatorHelper;
 
 /**
  * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
@@ -369,6 +371,93 @@ class API extends \Piwik\Plugin\API
         $this->getGoalsInfoStaticCache()->delete(self::getCacheId($idSite));
 
         Cache::regenerateCacheWebsiteAttributes($idSite);
+    }
+
+    /**
+     * Duplicates a goal to one or more destination sites.
+     *
+     * @param int $idSite The source site ID
+     * @param array $idDestinationSites Array or comma-separated list of destination site IDs
+     * @param int $idGoal The goal ID to duplicate
+     * @return array Response containing success status and duplicated goal IDs
+     * @throws Exception
+     */
+    public function duplicateGoal(int $idSite, array $idDestinationSites, int $idGoal): array
+    {
+        Piwik::checkUserHasWriteAccess(array_unique(array_merge([$idSite], $idDestinationSites)));
+
+        // Initialise the common response values
+        $duplicateRequestResponse = new DuplicateRequestResponse();
+        $additionalData = [
+            'idSite' => $idSite,
+            'idDestinationSites' => $idDestinationSites,
+            'idGoal' => $idGoal,
+        ];
+
+        $goal = $this->getGoal($idSite, $idGoal);
+
+        if (empty($goal) || !empty($goal['deleted'])) {
+            $duplicateRequestResponse->setSuccess(false);
+            $duplicateRequestResponse->setMessage('Invalid goal');
+            $duplicateRequestResponse->setAdditionalData($additionalData);
+
+            return $duplicateRequestResponse->getResponseArray();
+        }
+
+        $idSitesFailed = [];
+        $idSiteGoals = [];
+
+        foreach ($idDestinationSites as $idDestinationSite) {
+            try {
+                $newName = $goal['name'];
+
+                // Get existing goals for the destination site to ensure unique naming
+                $existingGoals = $this->getGoals($idDestinationSite);
+
+                if (!empty($existingGoals)) {
+                    $goalNames = array_column($existingGoals, 'name');
+                    $newName = EntityDuplicatorHelper::getUniqueNameComparedToList($newName, $goalNames, 50);
+                }
+
+                // Create the new goal
+                $newGoalId = $this->addGoal(
+                    $idDestinationSite,
+                    $newName,
+                    $goal['match_attribute'],
+                    $goal['pattern'] ?? '',
+                    $goal['pattern_type'] ?? '',
+                    $goal['case_sensitive'] ?? false,
+                    $goal['revenue'] ?? false,
+                    $goal['allow_multiple'] ?? false,
+                    $goal['description'] ?? '',
+                    $goal['event_value_as_revenue'] ?? false
+                );
+
+                if (!is_numeric($newGoalId) || (int) $newGoalId < 1) {
+                    $idSitesFailed[] = $idDestinationSite;
+                    continue;
+                }
+
+                $idSiteGoals[] = $newGoalId;
+            } catch (\Throwable $e) {
+                $idSitesFailed[] = $idDestinationSite;
+            }
+        }
+
+        $additionalData['newIds'] = $idSiteGoals;
+        $duplicateRequestResponse->setAdditionalData($additionalData);
+
+        if (!empty($idSitesFailed)) {
+            $duplicateRequestResponse->setSuccess(false);
+            $duplicateRequestResponse->setMessage(
+                'Goal duplication failed for: ' . implode(', ', $idSitesFailed)
+            );
+        } else {
+            $duplicateRequestResponse->setSuccess(true);
+            $duplicateRequestResponse->setMessage('Goal duplication successful');
+        }
+
+        return $duplicateRequestResponse->getResponseArray();
     }
 
     /**
