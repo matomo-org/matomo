@@ -139,16 +139,16 @@ export class BaseDuplicatorAdapter implements EntityDuplicatorAdapter {
    * Optional: Called during onSuccess method if both are defined. This allows using the default
    * success method while also defining some custom actions such as reloading a store
    */
-  onSuccessReloadStore?(response: DuplicateRequestResponse): Promise<void>;
+  onSuccessCallback?(response: DuplicateRequestResponse): Promise<void>;
 
   onSuccess(response: DuplicateRequestResponse): void {
     // In case a promise wasn't returned, wrap the result with a promise for consistent processing
-    let onSuccessReloadStorePromise = new Promise((resolve) => resolve()) as Promise<void>;
-    if (this.onSuccessReloadStore) {
-      onSuccessReloadStorePromise = this.onSuccessReloadStore(response);
+    let onSuccessCallbackPromise = new Promise((resolve) => resolve()) as Promise<void>;
+    if (this.onSuccessCallback) {
+      onSuccessCallbackPromise = this.onSuccessCallback(response);
     }
 
-    onSuccessReloadStorePromise.then(() => {
+    onSuccessCallbackPromise.then(() => {
       // Show the success message returned by the API
       setTimeout(() => {
         const notificationInstanceId = NotificationsStore.show({

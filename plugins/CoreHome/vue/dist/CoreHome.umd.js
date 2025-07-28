@@ -10904,11 +10904,11 @@ class EntityDuplicatorAdapter_BaseDuplicatorAdapter {
   }
   onSuccess(response) {
     // In case a promise wasn't returned, wrap the result with a promise for consistent processing
-    let onSuccessReloadStorePromise = new Promise(resolve => resolve());
-    if (this.onSuccessReloadStore) {
-      onSuccessReloadStorePromise = this.onSuccessReloadStore(response);
+    let onSuccessCallbackPromise = new Promise(resolve => resolve());
+    if (this.onSuccessCallback) {
+      onSuccessCallbackPromise = this.onSuccessCallback(response);
     }
-    onSuccessReloadStorePromise.then(() => {
+    onSuccessCallbackPromise.then(() => {
       // Show the success message returned by the API
       setTimeout(() => {
         const notificationInstanceId = Notifications_store.show({
