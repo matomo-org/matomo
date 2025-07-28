@@ -77,12 +77,6 @@ class UserNotifierTask extends Task
                 }
             }
 
-            // reschedule for next run
-            /** @var Scheduler $scheduler */
-            $scheduler = $container->get(Scheduler::class);
-            // reschedule to ensure it's not run again in an hour
-            $scheduler->rescheduleTask(new static());
-
             if ($notificationsToDispatchCount) {
                 $logger->info(
                     "Number of user notifications dispatched: {number} of {total}.",
