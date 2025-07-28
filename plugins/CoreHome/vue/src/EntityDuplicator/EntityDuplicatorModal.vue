@@ -68,6 +68,7 @@
           <p class="note-text" v-html="$sanitize(getNoteText)"/>
         </div>
         <div class="modal-footer">
+          <MatomoLoader v-show="hasBeenSubmitted" />
           <button
             class="btn"
             :disabled="!getIsValid || hasBeenSubmitted"
