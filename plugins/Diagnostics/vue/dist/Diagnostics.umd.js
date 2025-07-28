@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Diagnostics/vue/src/ConfigFile/ConfigFile.vue?vue&type=template&id=68f61a99
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Diagnostics/vue/src/ConfigFile/ConfigFile.vue?vue&type=template&id=73386260
 
 const _hoisted_1 = ["innerHTML"];
 const _hoisted_2 = ["innerHTML"];
@@ -221,7 +221,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/Diagnostics/vue/src/ConfigFile/ConfigFile.vue?vue&type=template&id=68f61a99
+// CONCATENATED MODULE: ./plugins/Diagnostics/vue/src/ConfigFile/ConfigFile.vue?vue&type=template&id=73386260
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -268,7 +268,7 @@ var external_CoreHome_ = __webpack_require__("19dc");
       if (typeof value === 'object' && Object.keys(value).length > 0) {
         return `<div class="pre">${JSON.stringify(value, null, 4)}</div>`;
       }
-      return `${value}`;
+      return external_CoreHome_["Matomo"].helper.htmlEntities(`${value}`);
     },
     onHideUnchanged(event) {
       if (event.target.tagName !== 'A') {

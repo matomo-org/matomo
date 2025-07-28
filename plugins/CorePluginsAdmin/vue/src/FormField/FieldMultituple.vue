@@ -7,9 +7,10 @@
 
 <template>
   <div class="fieldMultiTuple">
-    <label :for="name" v-html="$sanitize(title)"></label>
+    <label :for="id" v-html="$sanitize(title)"></label>
     <MultiPairField
       :name="name"
+      :id="id"
       :model-value="modelValue"
       @update:modelValue="onUpdateValue"
       :model-modifiers="modelModifiers"
@@ -31,6 +32,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
+    id: String,
     modelValue: null,
     modelModifiers: Object,
     uiControlAttributes: Object,

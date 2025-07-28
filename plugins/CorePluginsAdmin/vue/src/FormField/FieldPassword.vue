@@ -10,7 +10,7 @@
   <input
     :class="`control_${uiControl}`"
     :type="uiControl"
-    :id="name"
+    :id="id"
     :name="name"
     :value="modelValueText"
     spellcheck="false"
@@ -22,7 +22,7 @@
     v-bind="uiControlAttributes"
   />
   <label
-    :for="name"
+    :for="id"
     v-html="$sanitize(title)"
   />
   <PasswordStrength
@@ -42,6 +42,7 @@ export default defineComponent({
   props: {
     title: String,
     name: String,
+    id: String,
     uiControlAttributes: Object,
     modelValue: [String, Number],
     modelModifiers: Object,

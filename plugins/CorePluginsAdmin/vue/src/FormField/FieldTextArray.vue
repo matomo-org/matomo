@@ -9,13 +9,14 @@
   <!-- note: @change is used in case the change event is programmatically triggered -->
   <div>
     <label
-      :for="name"
+      :for="id"
       v-html="$sanitize(title)"
     />
     <input
       :class="`control_${ uiControl }`"
       :type="uiControl"
       :name="name"
+      :id="id"
       @keydown="onKeydown($event)"
       @change="onKeydown($event)"
       :value="concattedValues"
@@ -33,6 +34,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
+    id: String,
     uiControl: String,
     modelValue: Array,
     modelModifiers: Object,

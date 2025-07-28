@@ -10,14 +10,14 @@
   <input
     :class="`control_${uiControl}`"
     :type="uiControl"
-    :id="name"
+    :id="id"
     :name="name"
     :value="modelValueFormatted"
     @keydown="onChange($event)"
     @change="onChange($event)"
     v-bind="uiControlAttributes"
   />
-  <label :for="name" v-html="$sanitize(title)"></label>
+  <label :for="id" v-html="$sanitize(title)"></label>
 </template>
 
 <script lang="ts">
@@ -30,6 +30,7 @@ export default defineComponent({
     uiControl: String,
     name: String,
     title: String,
+    id: String,
     modelValue: [Number, String],
     modelModifiers: Object,
     uiControlAttributes: Object,

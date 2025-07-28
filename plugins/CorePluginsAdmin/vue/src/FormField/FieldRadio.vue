@@ -19,7 +19,7 @@
           :value="radioModel.key"
           @change="onChange($event)"
           type="radio"
-          :id="`${name}${radioModel.key}`"
+          :id="`${id}${radioModel.key}`"
           :name="name"
           :disabled="radioModel.disabled || disabled"
           v-bind="uiControlAttributes"
@@ -47,6 +47,7 @@ export default defineComponent({
     title: String,
     availableOptions: Array,
     name: String,
+    id: String,
     disabled: Boolean,
     uiControlAttributes: Object,
     modelValue: [String, Number],
