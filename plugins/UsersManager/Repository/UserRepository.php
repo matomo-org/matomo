@@ -5,6 +5,7 @@ namespace Piwik\Plugins\UsersManager\Repository;
 use Piwik\Auth\Password;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
@@ -175,8 +176,13 @@ class UserRepository
         unset($user['invite_link_token']);
         unset($user['ts_inactivity_notified']);
 
-        $user['last_seen'] = $user['ts_last_seen'] ? Date::getDatetimeFromTimestamp($user['ts_last_seen']) : null;
-        unset($user['ts_last_seen']);
+        if (isset($user['ts_last_seen'])) {
+            $formatter = new Formatter();
+            $user['last_seen'] = $formatter->getPrettyTimeFromSeconds(
+                time() - Date::factory($user['ts_last_seen'])->getTimestamp()
+            );
+            unset($user['ts_last_seen']);
+        }
 
         $user['invite_status'] = 'active';
 
