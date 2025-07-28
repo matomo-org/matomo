@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Common;
-use Piwik\Date;
 use Piwik\Piwik;
 
 /**

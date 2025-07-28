@@ -16,7 +16,6 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Scheduler\Schedule\Monthly;
-use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 
 /**
