@@ -89,7 +89,7 @@ export class BaseDuplicatorAdapter implements EntityDuplicatorAdapter {
     const errorMessages: string[] = [];
 
     this.requiredFields.forEach((fieldName) => {
-      if (!(fieldName in formValues)) {
+      if (!(fieldName in formValues) || !formValues[fieldName]) {
         errorMessages.push(translate('General_Required', fieldName));
       }
     });

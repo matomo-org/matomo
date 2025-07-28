@@ -92,7 +92,6 @@ import { externalLink } from '../externalLink';
 import { EntityDuplicatorStore } from './EntityDuplicatorStore';
 import {
   DuplicateRequestResponse,
-  EntityDuplicatorAdapter,
   ValidationResult,
 } from './EntityDuplicatorAdapter';
 import MatomoLoader from '../MatomoLoader/MatomoLoader';
@@ -128,13 +127,6 @@ export default defineComponent({
       required: true,
     },
     /**
-     * The adapter that handles validation and submission logic
-     */
-    adapter: {
-      type: Object as PropType<EntityDuplicatorAdapter>,
-      required: true,
-    },
-    /**
      * Option to hide the site selector when it's not needed.
      */
     hideSiteSelector: {
@@ -166,8 +158,8 @@ export default defineComponent({
 
       // Call adapter's beforeShowModal if defined
       let beforeShowModal: void | Promise<void>;
-      if (this.adapter.beforeShowModal) {
-        beforeShowModal = this.adapter.beforeShowModal();
+      if (this.modalStore.adapter.beforeShowModal) {
+        beforeShowModal = this.modalStore.adapter.beforeShowModal();
       }
 
       // If a promise was returned, leave as loading until the promise is resolved
@@ -222,28 +214,28 @@ export default defineComponent({
         }
 
         // Use adapter to prepare API parameters
-        const params = this.adapter.prepareApiParams(
+        const params = this.modalStore.adapter.prepareApiParams(
           this.modalStore.getFormValues(this.destinationSite?.id),
         );
 
         // Use adapter to submit the request
-        this.adapter.submitRequest(params).then((response: DuplicateRequestResponse) => {
+        this.modalStore.adapter.submitRequest(params).then((response: DuplicateRequestResponse) => {
           if (!response || !response.success) {
             this.setErrorMessages(response);
             return;
           }
 
           // Call adapter's onSuccess if defined
-          if (this.adapter.onSuccess) {
-            this.adapter.onSuccess(response);
+          if (this.modalStore.adapter.onSuccess) {
+            this.modalStore.adapter.onSuccess(response);
           }
 
           this.closeModal();
         }).catch((error) => {
           this.setErrorMessages();
           // Call adapter's onFailure if defined
-          if (this.adapter.onFailure) {
-            this.adapter.onFailure(error);
+          if (this.modalStore.adapter.onFailure) {
+            this.modalStore.adapter.onFailure(error);
           }
 
           console.log('Unexpected server error during request.', error);
@@ -256,7 +248,7 @@ export default defineComponent({
       this.duplicationErrors = [];
 
       // Use adapter for validation
-      const validationResultPromise = this.adapter.validateFormFields(
+      const validationResultPromise = this.modalStore.adapter.validateFormFields(
         this.modalStore.getFormValues(this.destinationSite?.id),
       );
       // If a promise wasn't returned wrap the result with a promise for consistent processing

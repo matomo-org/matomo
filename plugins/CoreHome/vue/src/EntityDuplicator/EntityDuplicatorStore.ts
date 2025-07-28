@@ -9,6 +9,11 @@ import { reactive } from 'vue';
 import { translateOrDefault } from '../translate';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import {
+  BaseDuplicatorAdapter,
+  EntityDuplicatorAdapter,
+  EntityDuplicatorAdapterProperties,
+} from './EntityDuplicatorAdapter';
 
 interface EntityDuplicatorState {
   /**
@@ -40,12 +45,43 @@ export class EntityDuplicatorStore {
     entityTypeTranslation: '',
   });
 
-  constructor(
+  adapter: EntityDuplicatorAdapter;
+
+  protected constructor(
     duplicateEntityTypeTranslation: string,
+    adapterDefinition: EntityDuplicatorAdapter | EntityDuplicatorAdapterProperties,
     commonFormData?: Record<string, unknown>,
   ) {
     this.state.entityTypeTranslation = duplicateEntityTypeTranslation;
+    this.adapter = 'validateFormFields' in adapterDefinition ? adapterDefinition
+      : new BaseDuplicatorAdapter(adapterDefinition as EntityDuplicatorAdapterProperties);
     this.state.commonFormData = commonFormData ?? {};
+  }
+
+  /**
+   * Returns a reactive store object for the specific type of entity being copied so that it can be
+   * used to maintain the state of the modal across all the actions which trigger showing the modal.
+   * See the property descriptions of the EntityDuplicatorState interface for more information.
+   *
+   * @param duplicateEntityTypeTranslation Translation string or translated string of the item being
+   * duplicated. E.g. goal, funnel, heatmap,...
+   * @param adapterDefinition Either an instance of EntityDuplicatorAdapter or an object containing
+   * the properties necessary to instantiate an instance of the default BaseDuplicatorAdapter. This
+   * allows encapsulating the desired implementation of how the modal behaves such as validation
+   * and posting the API request.
+   * @param commonFormData Optional form data that's common to the type of entity being duplicated.
+   * E.g. status to set for the new copies or something similar.
+   */
+  static buildStoreInstance(
+    duplicateEntityTypeTranslation: string,
+    adapterDefinition: EntityDuplicatorAdapter | EntityDuplicatorAdapterProperties,
+    commonFormData?: Record<string, unknown>,
+  ): EntityDuplicatorStore {
+    return reactive(new EntityDuplicatorStore(
+      duplicateEntityTypeTranslation,
+      adapterDefinition,
+      commonFormData,
+    ));
   }
 
   showModal(entityFormData?: Record<string, unknown>): void {
@@ -102,22 +138,4 @@ export class EntityDuplicatorStore {
     // Only translate if it's a translation key and not an already translated string
     return translateOrDefault(translationKey);
   }
-}
-
-/**
- * Returns a reactive store object for the specific type of entity being copied so that it can be
- * used to maintain the state of the modal across all the actions which trigger showing the modal.
- * See the property descriptions of the EntityDuplicatorState interface for more information.
- *
- * @param duplicateEntityTypeTranslation
- * @param commonFormData
- */
-export function buildEntityDuplicatorStore(
-  duplicateEntityTypeTranslation: string,
-  commonFormData?: Record<string, unknown>,
-): EntityDuplicatorStore {
-  return reactive(new EntityDuplicatorStore(
-    duplicateEntityTypeTranslation,
-    commonFormData,
-  ));
 }
