@@ -181,8 +181,8 @@ class UserRepository
             $user['last_seen'] = $formatter->getPrettyTimeFromSeconds(
                 time() - Date::factory($user['ts_last_seen'])->getTimestamp()
             );
-            unset($user['ts_last_seen']);
         }
+        unset($user['ts_last_seen']);
 
         $user['invite_status'] = 'active';
 
