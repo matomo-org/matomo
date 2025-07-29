@@ -37,11 +37,6 @@ class DuplicateRequestResponse
     protected $additionalData;
 
     /**
-     * @var int
-     */
-    protected $errorCode;
-
-    /**
      * Get an instance of the object and store it's initial state for comparison later
      */
     public function __construct()
@@ -107,15 +102,6 @@ class DuplicateRequestResponse
     public function getErrorCode(): int
     {
         return $this->errorCode ?? 0;
-    }
-
-    /**
-     * @param int $errorCode
-     * @return void
-     */
-    public function setErrorCode(int $errorCode): void
-    {
-        $this->errorCode = $errorCode;
     }
 
     /**

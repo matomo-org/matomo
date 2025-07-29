@@ -65,10 +65,9 @@ class DuplicateRequestResponseTest extends TestCase
     public function testGetResponseArraySuccessFail()
     {
         $this->duplicateRequestResponse->setSuccess(false);
-        $this->duplicateRequestResponse->setErrorCode(500);
         $this->duplicateRequestResponse->setMessage('Item duplication failed!');
 
-        $this->assertSame(['success' => false, 'message' => 'Item duplication failed!', 'errorCode' => 500], $this->duplicateRequestResponse->getResponseArray());
+        $this->assertSame(['success' => false, 'message' => 'Item duplication failed!'], $this->duplicateRequestResponse->getResponseArray());
     }
 
     public function testGetJsonResponseSuccess()
@@ -91,10 +90,9 @@ class DuplicateRequestResponseTest extends TestCase
     public function testGetJsonResponseSuccessFail()
     {
         $this->duplicateRequestResponse->setSuccess(false);
-        $this->duplicateRequestResponse->setErrorCode(500);
         $this->duplicateRequestResponse->setMessage('Item duplication failed!');
 
-        $this->assertSame('{"success":false,"message":"Item duplication failed!","errorCode":500}', $this->duplicateRequestResponse->getJsonResponse());
+        $this->assertSame('{"success":false,"message":"Item duplication failed!"}', $this->duplicateRequestResponse->getJsonResponse());
     }
 
     public function getPropertyNames(): array
@@ -107,8 +105,6 @@ class DuplicateRequestResponseTest extends TestCase
             ['setMessage', 'Another message'],
             ['setAdditionalData', []],
             ['setAdditionalData', ['key' => 'value']],
-            ['setErrorCode', 0],
-            ['setErrorCode', 400],
         ];
     }
 }
