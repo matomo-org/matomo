@@ -120,6 +120,8 @@ export class BaseDuplicatorAdapter implements EntityDuplicatorAdapter {
     }
 
     const ajax = new AjaxHelper();
+    ajax.useCallbackInCaseOfError();
+    ajax.setErrorCallback(null);
     // Remove some default parameters as they aren't applicable to copying existing reports
     ajax.removeDefaultParameter('date');
     ajax.removeDefaultParameter('period');
