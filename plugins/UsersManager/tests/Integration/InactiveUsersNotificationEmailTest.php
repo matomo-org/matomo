@@ -169,7 +169,7 @@ class InactiveUsersNotificationEmailTest extends IntegrationTestCase
                         preg_match_all('|<tr>(.*?)</tr>|isu', $matches[2], $tableRows);
                         if (count($tableRows) > 0) {
                             foreach ($tableRows[1] as $tableRow) {
-                                preg_match_all('|<td>(.*?)</td>|isu', $tableRow, $tableCells);
+                                preg_match_all('|<td.*?>(.*?)</td>|isu', $tableRow, $tableCells);
                                 if (count($tableCells) === 2) {
                                     $inactiveUserInfo = [
                                         'login' => $tableCells[1][0],
