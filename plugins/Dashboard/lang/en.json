@@ -1,6 +1,7 @@
 {
     "Dashboard": {
         "AddAWidget": "Add a widget",
+        "AddWidgetToThisDashboard": "Add widget to this dashboard",
         "AddPreviewedWidget": "Click to add widget to the dashboard",
         "ChangeDashboardLayout": "Change dashboard layout",
         "CopyDashboardToUser": "Copy dashboard to user",
@@ -15,6 +16,7 @@
         "EmptyDashboard": "Empty dashboard - Pick your favorite widgets",
         "LoadingWidget": "Loading widget, please wait…",
         "ManageDashboard": "Manage dashboard",
+        "ManageThisDashboard": "Manage this dashboard",
         "Maximise": "Maximise",
         "Minimise": "Minimise",
         "NotUndo": "You will not be able to undo this operation.",
