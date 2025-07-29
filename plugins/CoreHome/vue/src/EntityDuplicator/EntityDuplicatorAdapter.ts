@@ -14,7 +14,6 @@ import { NotificationsStore } from '../Notification';
 export interface DuplicateRequestResponse {
   success: boolean;
   message?: string;
-  errorCode?: number;
   additionalData?: Record<string, unknown>;
 }
 

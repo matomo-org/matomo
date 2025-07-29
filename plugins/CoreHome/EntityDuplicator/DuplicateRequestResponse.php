@@ -97,14 +97,6 @@ class DuplicateRequestResponse
     }
 
     /**
-     * @return int
-     */
-    public function getErrorCode(): int
-    {
-        return $this->errorCode ?? 0;
-    }
-
-    /**
      * @return bool
      */
     public function hasResponseBeenModified(): bool
