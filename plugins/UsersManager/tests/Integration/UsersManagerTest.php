@@ -472,7 +472,8 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com");
         $this->api->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
 
-        $this->model->setLastSeenTimestamp('gegg4564eqgeqag', $now = time());
+        $nowDt = Date::getDatetimeFromTimestamp(time());
+        $this->model->setLastSeenDatetime('gegg4564eqgeqag', $nowDt);
 
         $users = $this->api->getUsers();
         $users = $this->removeNonTestableFieldsFromUsers($users);
@@ -480,7 +481,8 @@ class UsersManagerTest extends IntegrationTestCase
                        'email'            => "tegst@tesgt.com",
                        'superuser_access' => 0,
                        'uses_2fa'         => false,
-                       'last_seen'        => Date::getDatetimeFromTimestamp($now),
+                       'last_seen'        => $nowDt,
+                       'last_seen_ago'    => '00:00:00',
         );
         $user2 = array('login'            => "geggeqge632ge56a4qag",
                        'email'            => "tesggt@tesgt.com",

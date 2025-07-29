@@ -178,7 +178,8 @@ class UserRepository
 
         if (isset($user['ts_last_seen'])) {
             $formatter = new Formatter();
-            $user['last_seen'] = $formatter->getPrettyTimeFromSeconds(
+            $user['last_seen'] = $user['ts_last_seen'];
+            $user['last_seen_ago'] = $formatter->getPrettyTimeFromSeconds(
                 time() - Date::factory($user['ts_last_seen'])->getTimestamp()
             );
         }

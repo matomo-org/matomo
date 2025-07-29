@@ -71,8 +71,8 @@ class Tokens extends Fixture
             $api->setUserAccess("user$i", 'view', [1]);
         }
         $model->setSuperUserAccess('user1', true);
-        $model->setLastSeenTimestamp('user2', Date::factory('2024-09-29')->getTimestamp());
-        $model->setLastSeenTimestamp('user4', Date::factory('2024-09-29')->getTimestamp());
+        $model->setLastSeenDatetime('user2', '2024-09-29 00:00:00');
+        $model->setLastSeenDatetime('user4', '2024-09-29 00:00:00');
 
         foreach ($this->tokens as $user => $tokens) {
             foreach ($tokens as $tokenArray) {

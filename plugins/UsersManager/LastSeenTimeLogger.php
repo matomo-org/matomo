@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Piwik;
 
 /**
@@ -54,6 +55,6 @@ class LastSeenTimeLogger
         }
 
         // log last seen time
-        $userModel->setLastSeenTimestamp($currentUserLogin, time());
+        $userModel->setLastSeenDatetime($currentUserLogin, Date::factory('now')->getDatetime());
     }
 }
