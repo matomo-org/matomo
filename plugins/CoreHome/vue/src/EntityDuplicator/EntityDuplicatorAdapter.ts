@@ -119,6 +119,7 @@ export class BaseDuplicatorAdapter implements EntityDuplicatorAdapter {
     }
 
     const ajax = new AjaxHelper();
+    // Force callback but leave it empty so that API errors are only displayed in the modal
     ajax.useCallbackInCaseOfError();
     ajax.setErrorCallback(null);
     // Remove some default parameters as they aren't applicable to copying existing reports
