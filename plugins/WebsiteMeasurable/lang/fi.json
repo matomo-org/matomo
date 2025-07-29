@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Sivusto",
         "WebsiteDescription": "Verkkosivusto koostuu sivuista, jotka ovat tyyppillisesti saman verkkotunnuksen alla.",
+        "WebsiteLongDescription": "Seuraa kävijöiden vuorovaikutusta, kuten sivulatauksia, klikkauksia, latauksia ja tapahtumia julkisella verkkosivustolla. Yksi mitattava ominaisuus voi sisältää useita verkkotunnuksia ja aliverkkotunnuksia, tai voit luoda erilliset mitattavat ominaisuudet kullekin.",
         "Websites": "Sivustot"
     }
 }

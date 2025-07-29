@@ -10888,6 +10888,8 @@ class EntityDuplicatorAdapter_BaseDuplicatorAdapter {
       throw new Error('The POST method cannot be empty!');
     }
     const ajax = new AjaxHelper_AjaxHelper();
+    ajax.useCallbackInCaseOfError();
+    ajax.setErrorCallback(null);
     // Remove some default parameters as they aren't applicable to copying existing reports
     ajax.removeDefaultParameter('date');
     ajax.removeDefaultParameter('period');

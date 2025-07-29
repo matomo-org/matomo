@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "Chcete-li začít sledovat údaje a získávat informace o svých uživatelích, musíte na svém webu nebo mobilní aplikaci nastavit sledování. U webů jednoduše vložte měřicí kód těsně před značku %s.",
         "JsTrackingCodeMissingEmail3": "Chcete-li najít a přizpůsobit svůj měřicí kód, %1$sklikněte sem%2$s (nebo se podívejte do %3$spříručky Klienta pro sledování JavaScriptu%4$s).",
         "LearnMore": "Další informace",
+        "Login": "Login",
         "LogoNotWriteableInstruction": "Pokud chcete místo výcchozího loga použít vlastní, je nutné, abyste měli práva k zápisu adresáře %1$s. Matomo potřebuje práva k zápisu log umístěných v souborech %2$s.",
         "LogoUpload": "Vyberte logo, které chcete nahrát",
         "LogoUploadFailed": "Nahraný soubor nemohl být zpracován. Ověřte prosím, že má nahraný soubor správný formát.",

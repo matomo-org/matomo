@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "Vlastní dimenzi nelze smazat, pouze deaktivovat.",
         "ColumnAvgTimeOnDimension": "Průměrný čas na dimenzi",
+        "ColumnAvgTimeOnDimensionDocumentation": "Průměrný čas strávený na vlastní akci je průměrný čas, který návštěvníci strávili na konkrétní vlastní akci, než přešli na jinou sledovanou akci. Vypočítá se součtem času stráveného na akci napříč všemi návštěvami a vydělením počtem provedení akce.",
         "ColumnUniqueActions": "Jedinečné akce",
         "ConfigureDimension": "Konfigurovat %1$s Vlastní dimenzi %2$s",
         "ConfigureNewDimension": "Konfigurovat novou dimenzi",

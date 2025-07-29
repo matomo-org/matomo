@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobiilisovellus",
         "MobileAppDescription": "Natiiviohjelmat iOS:llä, Androidilla tai millä tahansa muulla mobiilikäyttöjärjestelmällä.",
+        "MobileAppLongDescription": "Seuraa käyttäjien toimintaa iOS- ja Android-sovelluksissa. Kerättyä dataa voivat olla näytön katselukerrat, sovelluksen sisäiset tapahtumat, laitetiedot ja käyttäjäistunnot. Tämä mittaus on suunniteltu sovelluksille, jotka käyttävät Matomon mobiili-SDK:ita.",
         "MobileApps": "Mobiilisovellukset"
     }
 }

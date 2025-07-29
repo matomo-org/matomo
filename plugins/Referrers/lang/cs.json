@@ -2,6 +2,9 @@
     "Referrers": {
         "Acquisition": "Akvizice",
         "AllReferrersReportDocumentation": "Toto hlášení zobrazuje všechny odkazující stránky v jednom uceleném hlášení s výpisem všech webů, klíčových slov a kampaní použitých návštěvníky k nalezení vašeho webu.",
+        "AllReferrersSubcategory1": "V této části se zobrazuje počet návštěv, které přišly z různých typů kanálů a odkazujících webů. Kliknutím na tlačítka plus nebo mínus zobrazíte odkazující weby v rámci jednotlivých typů.",
+        "CampaignContent": "Obsah kampaně",
+        "CampaignGroup": "Skupina kampaní",
         "Campaigns": "Kampaně",
         "CampaignsDocumentation": "Návštěvníci, kteří přišli na váš web jako výsledek kampaně. %1$s Pro více informací si prohlédněte hlášení %2$s.",
         "ColumnCampaign": "Kampaň",
