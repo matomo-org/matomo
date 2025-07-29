@@ -26,6 +26,17 @@
       v-tooltips="{show: false}"
     >
       <ul class="submenu">
+        <li
+          v-for="(title, actionName) of generalActions"
+          :key="actionName"
+          @click="onClickAction($event, actionName)"
+          class="generalAction"
+          :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
+          :title="actionTooltips[actionName] || undefined"
+          :data-action="actionName"
+        >
+          {{ translate(title) }}
+        </li>
         <li>
           <div class="manageDashboard">{{ translate('Dashboard_ManageDashboard') }}</div>
 
@@ -41,17 +52,6 @@
               {{ translate(title) }}
             </li>
           </ul>
-        </li>
-        <li
-          v-for="(title, actionName) of generalActions"
-          :key="actionName"
-          @click="onClickAction($event, actionName)"
-          class="generalAction"
-          :disabled="isActionDisabled[actionName] ? 'disabled' : undefined"
-          :title="actionTooltips[actionName] || undefined"
-          :data-action="actionName"
-        >
-          {{ translate(title) }}
         </li>
         <li>
           <div class="addWidget">{{ translate('Dashboard_AddAWidget') }}</div>
