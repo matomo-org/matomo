@@ -4,6 +4,8 @@
         "AvgValue": "Průměrná hodnota",
         "AvgValueDocumentation": "Průměr všech hodnot pro tuto událost",
         "Category": "Kategorie",
+        "ColumnNbUniqVisitorsDocumentation": "Počet deduplikovaných návštěvníků, kteří spustili událost na vašich webových stránkách. Každý návštěvník je započítán pouze jednou, i když navštíví nebo spustí na webu více událostí.",
+        "ColumnNbVisitsDocumentation": "Celkový počet návštěv, při kterých byla spuštěna alespoň jedna událost.",
         "Event": "Událost",
         "EventAction": "Akce události",
         "EventActions": "Akce události",

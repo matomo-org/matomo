@@ -2,6 +2,7 @@
     "Widgetize": {
         "OpenInNewWindow": "Otevřít nové okno",
         "PluginDescription": "Zobrazte jakékoliv hlášení z Matoma na vašich stránkách jednoduchých vložením HTML tagu.",
+        "SelectAReport": "Vyberte report a zkopírujte a vložte na stránku kód pro vložení pod widgetem:",
         "TopLinkTooltip": "Exportujte své Matomo hlášení jako widgety a použijte eje e vaší aplikaci jako iframe."
     }
 }
