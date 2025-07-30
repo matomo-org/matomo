@@ -365,16 +365,24 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
 
     if (this.dataTable.param.flat !== undefined) {
         var unflattenActionLabel = function(label) {
+            // To "unflatten" a label we need to convert labels from e.g.
+            // * @%2Fblog%2Fauthor%2Fjulien%2F
+            // * @%2Fcontact
+            // * @%2Fanalytics%2Fcultizer
+            // to e.g.
+            // * blog > author > julien > @%2Findex
+            // * @%2Fcontact
+            // * analytics > @%2Fcultizer
             return label.split(',').map(function(item) {
-                var hasAt = item.startsWith('@');
-                if (hasAt) {
+                var startsWithAt  = item.startsWith('@');
+                if (startsWithAt ) {
                     item = item.slice(1);
                 }
 
                 item = decodeURIComponent(item);
 
                 if (item === '/') {
-                    return (hasAt ? '@' : '') + encodeURIComponent('/index');
+                    return (startsWithAt  ? '@' : '') + encodeURIComponent('/index');
                 }
 
                 var isIndex = false;
@@ -395,7 +403,7 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
                     parts[parts.length - 1] = '/' + parts[parts.length - 1];
                 }
 
-                if (hasAt) {
+                if (startsWithAt ) {
                     parts[parts.length - 1] = '@' + parts[parts.length - 1];
                 }
 
