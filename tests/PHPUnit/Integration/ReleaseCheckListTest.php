@@ -1043,6 +1043,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*.jscsrc',
             '*phpstan.neon',
             '*phpstan.neon.dist',
+            '*phpstan-baseline.neon',
             '*package.xml',
             '*.stylelintrc.json'
         ];
