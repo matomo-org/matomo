@@ -14,9 +14,11 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyComplianceDashboard;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Site;
@@ -416,5 +418,87 @@ class API extends \Piwik\Plugin\API
         if (!Controller::isDataPurgeSettingsEnabled()) {
             throw new \Exception("Configuring deleting raw data and report data has been disabled by Matomo admins.");
         }
+    }
+
+    public function getComplianceStatus($siteId)
+    {
+        $sites = [
+            '1' => [
+                'Anonymize IP' => false,
+                'retention period' => true,
+                'consent before tracking' => true,
+                'cookie-less tracking' => true,
+                'geoIP accuracy' => true,
+                'heatmaps & session recording' => true,
+                'tag manager' => true,
+                'data export options' => true,
+            ],
+            '2' => [
+                'Anonymize IP' => true,
+                'retention period' => true,
+                'consent before tracking' => true,
+                'cookie-less tracking' => true,
+                'geoIP accuracy' => true,
+                'heatmaps & session recording' => true,
+                'tag manager' => true,
+                'data export options' => true,
+            ],
+            '3' => [
+                'Anonymize IP' => true,
+                'retention period' => true,
+                'consent before tracking' => true,
+                'cookie-less tracking' => true,
+                'geoIP accuracy' => true,
+                'heatmaps & session recording' => true,
+                'tag manager' => true,
+                'data export options' => true,
+            ],
+            '4' => [
+                'Anonymize IP' => true,
+                'retention period' => true,
+                'consent before tracking' => true,
+                'cookie-less tracking' => true,
+                'geoIP accuracy' => true,
+                'heatmaps & session recording' => true,
+                'tag manager' => true,
+                'data export options' => true,
+            ],
+            '5' => [
+                'Anonymize IP' => true,
+                'retention period' => true,
+                'consent before tracking' => true,
+                'cookie-less tracking' => true,
+                'geoIP accuracy' => true,
+                'heatmaps & session recording' => true,
+                'tag manager' => true,
+                'data export options' => true,
+            ],
+        ];
+
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if (!$featureFlagManager->isFeatureActive(PrivacyComplianceDashboard::class)) {
+            return [];
+        }
+
+        if ($siteId == 'all') {
+            // return summary of data
+            return [
+                'Anonymize IP' => true,
+                'retention period' => true,
+                'consent before tracking' => true,
+                'cookie-less tracking' => true,
+                'geoIP accuracy' => true,
+                'heatmaps & session recording' => true,
+                'tag manager' => true,
+                'data export options' => true,
+            ];
+        }
+
+        if (!empty($sites[$siteId])) {
+            // return site specific data
+            return $sites[$siteId];
+        }
+
+        return [];
     }
 }
