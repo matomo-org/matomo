@@ -67,6 +67,8 @@ describe("TagManagerTeaser", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
 
+        await page.evaluate(() => $('.containers .index').text('redacted'));
+
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('super_user_activate_plugin');
     });
 
