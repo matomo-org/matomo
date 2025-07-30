@@ -479,7 +479,7 @@ class API extends \Piwik\Plugin\API
         if (!$featureFlagManager->isFeatureActive(PrivacyComplianceDashboard::class)) {
             return [];
         }
-        
+
         if ($siteId == 'all') {
             // return summary of data
             return [
@@ -498,7 +498,7 @@ class API extends \Piwik\Plugin\API
             // return site specific data
             return $sites[$siteId];
         }
-        
+
         return [];
     }
 }
