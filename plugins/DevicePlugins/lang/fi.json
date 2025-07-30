@@ -2,6 +2,7 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s ilman liitännäisiä aktivoitu",
         "BrowserWithPluginsEnabled": "%1$s liitännäisillä %2$s on aktivoitu",
+        "ColumnPercentageVisitsDocumentation": "Niiden käyntien prosenttiosuus kokonaismäärästä, joilla liitännäinen havaittiin. Käynti voi sisältää useita liitännäisiä. Arvo pyöristetään alaspäin kokonaislukuun.",
         "PluginDescription": "Lista liitännäisistä, joita kävijöiden selaimet tukevat.",
         "PluginDetectionDoesNotWorkInIE": "Huom. Liitännäisten tunnistus ei toimi Internet Explorerissa ennen versiota 11. Tässä raportissa on mukana vain uudet IE:t ja muut selaimet.",
         "WidgetPlugins": "Selainliitännäiset",

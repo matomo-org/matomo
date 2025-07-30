@@ -1,5 +1,6 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardDocumentation": "Tento report poskytuje informační přehled pro každý z vašich webů a obsahuje nejobecnější metriky o návštěvnících.",
         "Evolution": "Vývoj",
         "LoadingWebsites": "Načítání webových stránek",
         "PluginDescription": "Zobrazte a porovnejte všechny vaše stránky a aplikace na této užitečné nástěnce všech stránek.",
