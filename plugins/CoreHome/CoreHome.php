@@ -160,6 +160,8 @@ class CoreHome extends \Piwik\Plugin
         $stylesheets[] = "plugins/CoreHome/vue/src/Comparisons/Comparisons.less";
         $stylesheets[] = "plugins/CoreHome/stylesheets/vue-transitions.less";
         $stylesheets[] = "plugins/CoreHome/vue/src/PasswordStrength/PasswordStrength.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorModal.less";
+        $stylesheets[] = "plugins/CoreHome/vue/src/EntityDuplicator/EntityDuplicatorAction.less";
     }
 
     public function getJsFiles(&$jsFiles)
@@ -400,6 +402,12 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_YouAreCurrentlyUsing';
         $translationKeys[] = 'General_Copy';
         $translationKeys[] = 'General_CopiedToClipboard';
+        $translationKeys[] = 'CoreHome_ReportLowercase';
+        $translationKeys[] = 'CoreHome_LearnMoreFullStop';
+        $translationKeys[] = 'CoreHome_ChooseWebsite';
+        $translationKeys[] = 'CoreHome_CopyModalNote';
+        $translationKeys[] = 'CoreHome_CopyX';
+        $translationKeys[] = 'CoreHome_CopyXDescription';
 
         // add admin menu translations
         if (
