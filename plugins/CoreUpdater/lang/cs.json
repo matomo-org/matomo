@@ -1,6 +1,7 @@
 {
     "CoreUpdater": {
         "CheckingForPluginUpdates": "Kontrola aktualizací zásuvných modulů",
+        "ClickHereToViewSqlQueries": "Kliknutím sem zobrazíte a zkopírujete seznam dotazů SQL a konzolových příkazů, které budou provedeny",
         "CloudHosting": "Hostování v Cloudu",
         "CriticalErrorDuringTheUpgradeProcess": "Při aktualizaci nastala kritická chyba:",
         "DatabaseUpgradeRequired": "Vyžadováno povýšení databáze",

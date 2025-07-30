@@ -1,5 +1,9 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Prům. doba načtení stránky",
+        "ColumnAverageTimeNetwork": "Prům. síťový čas",
+        "ColumnAverageTimeServer": "Prům. serverový čas",
+        "ColumnAverageTimeTransfer": "Prům. čas přenosu",
         "ColumnTimeServer": "Čas na serveru"
     }
 }
