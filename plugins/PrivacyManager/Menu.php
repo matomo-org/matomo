@@ -25,7 +25,6 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addItem($category, null, [], 3);
 
             if (Piwik::hasUserSuperUserAccess()) {
-
                 $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
                 if ($featureFlagManager->isFeatureActive(PrivacyComplianceDashboard::class)) {
                     $menu->addItem($category, 'PrivacyManager_ComplianceDashboard', $this->urlForAction('complianceDashboard'), 0);
