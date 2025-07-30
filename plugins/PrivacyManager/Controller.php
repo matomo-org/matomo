@@ -229,6 +229,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
+    public function complianceDashboard()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $view = new View('@PrivacyManager/complianceDashboard');
+        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
+        $this->setBasicVariablesView($view);
+
+        return $view->render();
+    }
+
     public function privacySettings()
     {
         Piwik::checkUserHasSuperUserAccess();
