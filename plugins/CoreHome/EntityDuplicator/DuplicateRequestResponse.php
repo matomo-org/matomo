@@ -22,17 +22,17 @@ class DuplicateRequestResponse
     private $initialState;
 
     /**
-     * @var bool
+     * @var bool|null
      */
     protected $success;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $message;
 
     /**
-     * @var array
+     * @var array|null
      */
     protected $additionalData;
 
