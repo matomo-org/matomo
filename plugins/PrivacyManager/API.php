@@ -14,9 +14,11 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Site;
@@ -416,5 +418,94 @@ class API extends \Piwik\Plugin\API
         if (!Controller::isDataPurgeSettingsEnabled()) {
             throw new \Exception("Configuring deleting raw data and report data has been disabled by Matomo admins.");
         }
+    }
+
+    /**
+     * @internal
+     */
+    public function getComplianceStatus(string $idSite, string $complianceType): array
+    {
+        $sites = [
+            '1' => [
+                ['name' => 'Anonymize IP', 'value' => true, 'notes' => 'Set to at least 2 byte masking'],
+                ['name' => 'retention period', 'value' => true, 'notes' => 'Retention periods is set to 1,200 days'],
+                ['name' => 'consent before tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'cookie-less tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'geoIP accuracy', 'value' => true, 'notes' => ''],
+                ['name' => 'heatmaps & session recording', 'value' => true, 'notes' => ''],
+                ['name' => 'tag manager', 'value' => true, 'notes' => ''],
+                ['name' => 'data export options', 'value' => true, 'notes' => ''],
+            ],
+            '2' => [
+                ['name' => 'Anonymize IP', 'value' => true, 'notes' => 'Set to at least 2 byte masking'],
+                ['name' => 'retention period', 'value' => true, 'notes' => 'Retention periods is set to 1,200 days'],
+                ['name' => 'consent before tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'cookie-less tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'geoIP accuracy', 'value' => true, 'notes' => ''],
+                ['name' => 'heatmaps & session recording', 'value' => true, 'notes' => ''],
+                ['name' => 'tag manager', 'value' => true, 'notes' => ''],
+                ['name' => 'data export options', 'value' => true, 'notes' => ''],
+            ],
+            '3' => [
+                ['name' => 'Anonymize IP', 'value' => true, 'notes' => 'Set to at least 2 byte masking'],
+                ['name' => 'retention period', 'value' => true, 'notes' => 'Retention periods is set to 1,200 days'],
+                ['name' => 'consent before tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'cookie-less tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'geoIP accuracy', 'value' => true, 'notes' => ''],
+                ['name' => 'heatmaps & session recording', 'value' => true, 'notes' => ''],
+                ['name' => 'tag manager', 'value' => true, 'notes' => ''],
+                ['name' => 'data export options', 'value' => true, 'notes' => ''],
+            ],
+            '4' => [
+                ['name' => 'Anonymize IP', 'value' => true, 'notes' => 'Set to at least 2 byte masking'],
+                ['name' => 'retention period', 'value' => true, 'notes' => 'Retention periods is set to 1,200 days'],
+                ['name' => 'consent before tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'cookie-less tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'geoIP accuracy', 'value' => true, 'notes' => ''],
+                ['name' => 'heatmaps & session recording', 'value' => true, 'notes' => ''],
+                ['name' => 'tag manager', 'value' => true, 'notes' => ''],
+                ['name' => 'data export options', 'value' => true, 'notes' => ''],
+            ],
+            '5' => [
+                ['name' => 'Anonymize IP', 'value' => true, 'notes' => 'Set to at least 2 byte masking'],
+                ['name' => 'retention period', 'value' => true, 'notes' => 'Retention periods is set to 1,200 days'],
+                ['name' => 'consent before tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'cookie-less tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'geoIP accuracy', 'value' => true, 'notes' => ''],
+                ['name' => 'heatmaps & session recording', 'value' => true, 'notes' => ''],
+                ['name' => 'tag manager', 'value' => true, 'notes' => ''],
+                ['name' => 'data export options', 'value' => true, 'notes' => ''],
+            ],
+        ];
+
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if (!$featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            return [];
+        }
+
+        if ($complianceType !== 'cnil') {
+            return [];
+        }
+
+        if ($idSite == 'all') {
+            // return summary of data
+            return [
+                ['name' => 'Anonymize IP', 'value' => true, 'notes' => 'Set to at least 2 byte masking'],
+                ['name' => 'retention period', 'value' => true, 'notes' => 'Retention periods is set to 1,200 days'],
+                ['name' => 'consent before tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'cookie-less tracking', 'value' => true, 'notes' => ''],
+                ['name' => 'geoIP accuracy', 'value' => true, 'notes' => ''],
+                ['name' => 'heatmaps & session recording', 'value' => true, 'notes' => ''],
+                ['name' => 'tag manager', 'value' => true, 'notes' => ''],
+                ['name' => 'data export options', 'value' => true, 'notes' => ''],
+            ];
+        }
+
+        if (!empty($sites[$idSite])) {
+            // return site specific data
+            return $sites[$idSite];
+        }
+
+        return [];
     }
 }
