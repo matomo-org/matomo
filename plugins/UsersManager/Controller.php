@@ -150,8 +150,13 @@ class Controller extends ControllerAdmin
         }
 
         $view->activatedPlugins = $this->pluginManager->getActivatedPlugins();
-        $view->inviteComponent="UsersManager.UserInvite";
-        $view->resendInviteComponent="UsersManager.ResendInviteModal";
+
+        $componentExtensions = [];
+        Piwik::postEvent('UsersManager.getComponentExtensions', [&$componentExtensions]);
+
+        $view->inviteComponent = $componentExtensions['inviteComponent'] ?? 'UsersManager.UserInvite';
+        $view->resendInviteComponent = $componentExtensions['resendInviteComponent'] ?? 'UsersManager.ResendInviteModal';
+
         $view->passwordStrengthValidationRules = $this->passwordStrength->getRules();
 
         $this->setBasicVariablesView($view);
