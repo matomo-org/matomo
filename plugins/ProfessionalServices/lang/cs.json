@@ -1,1 +1,10 @@
-{}
+{
+    "ProfessionalServices": {
+        "PromoFormAnalytics": "Formuláře",
+        "PromoFunnels": "Trychtýře",
+        "PromoManage": "Spravovat",
+        "PromoMediaAnalytics": "Média",
+        "PromoOverview": "Přehled",
+        "WidgetPremiumServicesForPiwik": "Prémiové funkce a služby pro Matomo"
+    }
+}

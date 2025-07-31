@@ -410,6 +410,52 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns the list of websites, where the current user has at least the provided access level
+     *
+     * @param string $permission one of view, write or admin
+     * @param null|string $pattern pattern to match name against
+     * @param null|int $limit optional parameter to limit the amount of returned records
+     * @param int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
+     * @param string[] $siteTypesToExclude optional array of site types to exclude from the result.
+     * @return array for each site, an array of information (idsite, name, main_url, etc.)
+     */
+    public function getSitesWithMinimumAccess(string $permission, ?string $pattern = null, ?int $limit = null, array $sitesToExclude = [], array $siteTypesToExclude = []): array
+    {
+        switch (strtolower($permission)) {
+            case Access\Role\Admin::ID:
+                $sitesId = Access::getInstance()->getSitesIdWithAdminAccess();
+                break;
+            case Access\Role\Write::ID:
+                $sitesId = Access::getInstance()->getSitesIdWithAtLeastWriteAccess();
+                break;
+            case Access\Role\View::ID:
+                $sitesId = Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+                break;
+            default:
+                throw new Exception('Invalid permission provided');
+        }
+
+        // Remove the sites to exclude from the list of IDs.
+        if (is_array($sitesId) && is_array($sitesToExclude) && count($sitesToExclude)) {
+            $sitesId = array_diff($sitesId, $sitesToExclude);
+        }
+
+        if (empty($pattern)) {
+            $sites = $this->getSitesFromIds($sitesId, $limit, $siteTypesToExclude);
+        } else {
+            $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit, $siteTypesToExclude);
+
+            foreach ($sites as &$site) {
+                $this->enrichSite($site);
+            }
+
+            $sites = Site::setSitesFromArray($sites);
+        }
+
+        return $sites;
+    }
+
+    /**
      * Returns the messages to warn users on site deletion.
      *
      * @param int $idSite
@@ -542,11 +588,12 @@ class API extends \Piwik\Plugin\API
      *
      * @param array $idSites list of website ID
      * @param bool $limit
+     * @param string[] $siteTypesToExclude optional array of site types to exclude from the result.
      * @return array
      */
-    private function getSitesFromIds($idSites, $limit = false)
+    private function getSitesFromIds($idSites, $limit = false, array $siteTypesToExclude = [])
     {
-        $sites = $this->getModel()->getSitesFromIds($idSites, $limit);
+        $sites = $this->getModel()->getSitesFromIds($idSites, $limit, $siteTypesToExclude);
 
         foreach ($sites as &$site) {
             $this->enrichSite($site);

@@ -327,7 +327,7 @@ class Updater
          * These files are visible in the web root and are generally
          * served directly by the web server.  May be shared.
          */
-        if (PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT) {
+        if (PIWIK_INCLUDE_PATH !== PIWIK_DOCUMENT_ROOT) { // @phpstan-ignore notIdentical.alwaysFalse
             // Copy PHP files that expect to be in the document root
             $specialCases = array(
                 '/index.php',

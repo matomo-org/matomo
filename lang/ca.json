@@ -531,6 +531,7 @@
         "VisitsWith": "Visites amb %s",
         "VisualizationDoesNotSupportComparison": "Aquesta visualització no admet la comparació de segments/períodes.",
         "Warning": "Avís",
+        "WarningDatabaseVersionXIsTooOld": "La versió %2$s de %1$s que esteu utilitzant ha arribat al seu final de vida útil (EOL). Us recomanem fermament que actualitzeu a una versió actual, ja que utilitzar aquesta versió us pot exposar a vulnerabilitats de seguretat i errors que s'han corregit en versions més recents de %1$s.",
         "WarningDebugOnDemandEnabled": "El mode de seguiment %1$s està habilitat. Per motius de seguretat només s'ha d'activar durant un període de temps curt. Per desactivar-lo, defineix%2$s com %3$s a %4$s",
         "WarningDevelopmentModeOnButNotGitInstalled": "Actualment esteu utilitzant Matomo en mode de desenvolupament, però no s'ha instal·lat mitjançant git. No es recomana utilitzar Matomo en mode de desenvolupament en un entorn de producció.",
         "WarningFileIntegrityNoHashFile": "La verificació de la integritat dels fitxers no s'ha pogut completar perquè falta la funció hash_file().",

@@ -77,7 +77,7 @@
         "Themes": "Šablony",
         "ThemesDescription": "Šablony mohou změnit vzhled uživatelského rozhraní Matoma a přinést nový zážitek z vašich analytických hlášení.",
         "ThemesManagement": "Správce šablon",
-        "UninstallConfirm": "Chystáte se odebrat zásuvný modul %s. Tento modul bude kompletně odebrán z platformy a akci nebude možné vrátit zpět. Opravdu to chcete provést?",
+        "UninstallConfirm": "Chystáte se odebrat zásuvný modul %s. Tento modul se všemi daty bude kompletně odebrán z platformy a akci nebude možné vrátit zpět. Opravdu to chcete provést?",
         "UpdateSelected": "Aktualizovat vybrané",
         "Version": "Verze",
         "ViewAllMarketplacePlugins": "Zobrazit všechny zásuvné moduly v marketplace zásuvných modulů",

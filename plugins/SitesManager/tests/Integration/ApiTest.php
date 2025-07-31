@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
+use Piwik\Access\Role\Admin;
+use Piwik\Access\Role\View;
+use Piwik\Access\Role\Write;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
@@ -1767,6 +1770,62 @@ class ApiTest extends IntegrationTestCase
     {
         yield 'non empty list of exclusions' => ['one,two,three', 'custom'];
         yield 'empty list of exclusions' => ['', 'common_session_parameters'];
+    }
+
+    /**
+     * @dataProvider getSitesWithMinimumAccessTestData
+     */
+    public function testGetSitesWithMinimumAccess(
+        string $permission,
+        ?string $pattern,
+        ?int $limit,
+        array $sitesToExclude,
+        array $siteTypesToExclude,
+        array $expectedSites
+    ) {
+        // view permission
+        API::getInstance()->addSite("first site", ["http://first.site", "http://first.com/test/"]);
+        // write permission
+        API::getInstance()->addSite("second site", ["http://second.site/test/"]);
+        // no permission
+        API::getInstance()->addSite("third site", ["http://third.site/"]);
+        // admin permission
+        API::getInstance()->addSite("fourth site", ["http://fourth.site"]);
+        // write permission, intranet site
+        API::getInstance()->addSite("intranet", ["intranet.page"], null, null, null, null, null, null, 'Asia/Tokyo', null, null, null, null, null, IntranetType::ID);
+
+        FakeAccess::clearAccess(false, [4], [1], 'login', [2, 5]);
+
+        $result = Api::getInstance()->getSitesWithMinimumAccess($permission, $pattern, $limit, $sitesToExclude, $siteTypesToExclude);
+        self::assertEquals($expectedSites, array_column($result, 'idsite'));
+    }
+
+    public function getSitesWithMinimumAccessTestData(): iterable
+    {
+        yield 'get all sites with at least view access' => [
+            View::ID, null, null, [], [], [1, 2, 4, 5],
+        ];
+        yield 'get all sites with at least view access with search' => [
+            View::ID, 'site', null, [], [], [1, 2, 4],
+        ];
+        yield 'get all sites with at least view access with search and limit' => [
+            View::ID, 'site', 2, [], [], [1, 2],
+        ];
+        yield 'get all sites with at least write access' => [
+            Write::ID, null, null, [], [], [2, 4, 5],
+        ];
+        yield 'get all sites with at least write access and excluded site' => [
+            Write::ID, null, null, [4], [], [2, 5],
+        ];
+        yield 'get all sites with at least write access, without intranet sites' => [
+            Write::ID, null, null, [], [IntranetType::ID], [2, 4],
+        ];
+        yield 'get all sites with at least write access, without website sites' => [
+            Write::ID, null, null, [], [WebsiteType::ID], [5],
+        ];
+        yield 'get all sites with admin access' => [
+            Admin::ID, null, null, [], [], [4],
+        ];
     }
 
     private function setCommonPIIParamsInConfig(array $urlParams): void
