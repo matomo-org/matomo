@@ -12,6 +12,7 @@ namespace Piwik\Plugins\PrivacyManager\tests;
 use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -27,6 +28,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+        Fixture::createWebsite('2025-01-01 00:00:00');
 
         $this->config = new PrivacyManagerConfig();
     }
@@ -131,5 +133,36 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $content = $this->config->setTrackerCache($trackerCache);
 
         $this->assertEquals(232, $content['PrivacyManager.ipAddressMaskLength']);
+    }
+
+    public function testSetTrackerCacheContentShouldGetValuesFromConfigForSite()
+    {
+        Option::set('PrivacyManager.idSite(1).ipAddressMaskLength', '345');
+
+        $trackerCache = ['existingEntry' => 'test'];
+        $this->config->setIdSite(1);
+        $content = $this->config->setTrackerCache($trackerCache);
+
+        $this->assertEquals(345, $content['PrivacyManager.ipAddressMaskLength']);
+    }
+
+    public function testSetTrackerCacheContentForSiteShouldFallbackToGlobalSettings()
+    {
+        Option::set('PrivacyManager.anonymizeReferrer', ReferrerAnonymizer::EXCLUDE_QUERY);
+
+        $trackerCache = ['existingEntry' => 'test'];
+        $this->config->setIdSite(1);
+        $content = $this->config->setTrackerCache($trackerCache);
+
+        $this->assertEquals(ReferrerAnonymizer::EXCLUDE_QUERY, $content['PrivacyManager.anonymizeReferrer']);
+    }
+
+    public function testDirectSettingGlobalConfigIsReflectedViaFallbackForSite()
+    {
+        $this->config->setIdSite(null);
+        $this->config->randomizeConfigId = true;
+        $this->config->setIdSite(1);
+
+        $this->assertEquals(true, $this->config->randomizeConfigId);
     }
 }
