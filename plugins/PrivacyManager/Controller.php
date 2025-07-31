@@ -18,9 +18,6 @@ use Piwik\Metrics\Formatter;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Plugin\Manager;
-use Piwik\Plugins\CustomJsTracker\File;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\ConfigIdRandomisation;
@@ -28,7 +25,6 @@ use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstr
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
 use Piwik\Scheduler\Scheduler;
-use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\View;
 
 /**
@@ -218,11 +214,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
 
         return $view->render();
-    }
-
-    public function getConfigRandomisationFeatureActive(): bool
-    {
-        return $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class);
     }
 
     public function privacySettings()

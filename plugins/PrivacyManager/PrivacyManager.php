@@ -492,7 +492,6 @@ class PrivacyManager extends Plugin
     public function setTrackerCacheSiteAttributes(&$cacheContent, int $idSite): void
     {
         $this->logger->info('set tracker cache for site id ' . $idSite);
-//        var_dump('set site specific tracker cache', $idSite);
         $config = new Config($idSite);
         $config->setTrackerCache($cacheContent);
     }
@@ -530,7 +529,7 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * Process the submit on the Installation "default settings" form.
+     * Process the Installation "default settings" form submission.
      *
      * @param FormDefaultSettings $form
      */

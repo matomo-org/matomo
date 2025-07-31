@@ -486,7 +486,7 @@ class Common
      *
      * @param string $varName Name of the request parameter to get. By default, we look in `$_GET[$varName]`
      *                        and `$_POST[$varName]` for the value.
-     * @param string|null $varDefault The value to return if the request parameter cannot be found or has an empty value.
+     * @param string|null|int $varDefault The value to return if the request parameter cannot be found or has an empty value.
      * @param string|null $varType Expected type of the request variable. This parameters value must be one of the following:
      *                             `'array'`, `'int'`, `'integer'`, `'string'`, `'json'`.
      *

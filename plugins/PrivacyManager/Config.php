@@ -132,13 +132,12 @@ class Config
             settype($value, $config['type']);
         }
 
-        $name = $this->prefix($name);
-
-        Option::set($name, $value);
+        Option::set($this->prefix($name), $value);
         Cache::deleteTrackerCache();
     }
 
-    public function setIdSite(?int $idSite): void {
+    public function setIdSite(?int $idSite): void
+    {
         if ($idSite) {
             $this->idSite = $idSite;
         }
@@ -173,7 +172,9 @@ class Config
 
     public function useSiteSpecificSettings(): bool
     {
-        if (!$this->idSite) return false;
+        if (!$this->idSite) {
+            return false;
+        }
 
         return $this->hasSiteSpecificSettings();
     }

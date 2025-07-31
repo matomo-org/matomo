@@ -303,8 +303,7 @@ class API extends \Piwik\Plugin\API
         $randomizeConfigId = false,
         $idSiteSpecific = null,
         $useSiteSpecificSettings = false
-    )
-    {
+    ) {
         Piwik::checkUserHasSuperUserAccess();
 
         if (is_numeric($idSiteSpecific)) {
