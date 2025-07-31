@@ -501,4 +501,9 @@ class API extends \Piwik\Plugin\API
 
         return [];
     }
+
+    public function setComplianceStatus($siteId)
+    {
+        return true;
+    }
 }
