@@ -509,8 +509,11 @@ class API extends \Piwik\Plugin\API
         return [];
     }
 
-    public function setComplianceStatus($siteId)
+    /**
+     * @internal
+     */
+    public function setComplianceStatus(string $idSite, string $complianceType): bool
     {
-        return true;
+        return $complianceType === 'cnil';
     }
 }
