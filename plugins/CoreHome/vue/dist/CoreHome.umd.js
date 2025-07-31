@@ -5073,7 +5073,10 @@ class SitesStore_SitesStore {
     SitesStore_defineProperty(this, "stateFiltered", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["reactive"])({
       initialSites: [],
       isInitialized: false,
-      excludedSites: []
+      excludedSites: [],
+      onlySitesWithAdminAccess: false,
+      onlySitesWithAtLeastWriteAccess: false,
+      siteTypesToExclude: []
     }));
     SitesStore_defineProperty(this, "currentRequestAbort", null);
     SitesStore_defineProperty(this, "limitRequest", void 0);
@@ -5081,18 +5084,21 @@ class SitesStore_SitesStore {
     SitesStore_defineProperty(this, "initialSitesFiltered", Object(external_commonjs_vue_commonjs2_vue_root_Vue_["computed"])(() => Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.stateFiltered.initialSites)));
   }
   loadInitialSites(onlySitesWithAdminAccess = false, sitesToExclude = [], onlySitesWithAtLeastWriteAccess = false, siteTypesToExclude = []) {
-    if (this.state.isInitialized && sitesToExclude.length === 0) {
+    if (this.state.isInitialized && sitesToExclude.length === 0 && onlySitesWithAdminAccess === false && onlySitesWithAtLeastWriteAccess === false && siteTypesToExclude.length === 0) {
       return Promise.resolve(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.state.initialSites));
     }
     // If the filtered state has already been initialized with the same sites, return that.
-    if (this.stateFiltered.isInitialized && sitesToExclude.length === this.stateFiltered.excludedSites.length && sitesToExclude.every((val, index) => val === this.stateFiltered.excludedSites[index])) {
+    if (this.stateFiltered.isInitialized && sitesToExclude.length === this.stateFiltered.excludedSites.length && sitesToExclude.every((val, index) => val === this.stateFiltered.excludedSites[index]) && onlySitesWithAdminAccess === this.stateFiltered.onlySitesWithAdminAccess && onlySitesWithAtLeastWriteAccess === this.stateFiltered.onlySitesWithAtLeastWriteAccess && siteTypesToExclude.length === this.stateFiltered.siteTypesToExclude.length && siteTypesToExclude.every((val, index) => val === this.stateFiltered.siteTypesToExclude[index])) {
       return Promise.resolve(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["readonly"])(this.stateFiltered.initialSites));
     }
     // If we want to exclude certain sites, perform the search for that.
-    if (sitesToExclude.length > 0) {
+    if (sitesToExclude.length > 0 || onlySitesWithAdminAccess || onlySitesWithAtLeastWriteAccess || siteTypesToExclude.length > 0) {
       return this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude, onlySitesWithAtLeastWriteAccess, siteTypesToExclude).then(sites => {
         this.stateFiltered.isInitialized = true;
         this.stateFiltered.excludedSites = sitesToExclude;
+        this.stateFiltered.onlySitesWithAdminAccess = onlySitesWithAdminAccess;
+        this.stateFiltered.onlySitesWithAtLeastWriteAccess = onlySitesWithAtLeastWriteAccess;
+        this.stateFiltered.siteTypesToExclude = siteTypesToExclude;
         if (sites !== null) {
           this.stateFiltered.initialSites = sites;
         }
@@ -10888,6 +10894,7 @@ class EntityDuplicatorAdapter_BaseDuplicatorAdapter {
       throw new Error('The POST method cannot be empty!');
     }
     const ajax = new AjaxHelper_AjaxHelper();
+    // Force callback but leave it empty so that API errors are only displayed in the modal
     ajax.useCallbackInCaseOfError();
     ajax.setErrorCallback(null);
     // Remove some default parameters as they aren't applicable to copying existing reports
