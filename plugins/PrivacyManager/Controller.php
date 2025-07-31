@@ -24,7 +24,7 @@ use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\ConfigIdRandomisation;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyComplianceDashboard;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
@@ -230,12 +230,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    public function complianceDashboard()
+    public function compliance()
     {
         Piwik::checkUserHasSuperUserAccess();
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyComplianceDashboard::class)) {
-            $view = new View('@PrivacyManager/complianceDashboard');
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $view = new View('@PrivacyManager/compliance');
             $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
             $this->setBasicVariablesView($view);
 

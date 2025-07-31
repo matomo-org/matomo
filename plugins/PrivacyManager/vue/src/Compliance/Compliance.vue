@@ -7,7 +7,7 @@
 
 <template>
   <div>
-    ComplianceDashboard
+    Compliance
   </div>
 </template>
 
