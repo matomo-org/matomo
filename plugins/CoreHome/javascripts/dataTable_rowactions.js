@@ -364,7 +364,69 @@ DataTable_RowActions_RowEvolution.prototype.performAction = function (label, tr,
     }
 
     if (this.dataTable.param.flat !== undefined) {
-        extraParams['flat'] = this.dataTable.param.flat;
+        var unflattenActionLabel = function(label) {
+            // To "unflatten" a label we need to convert labels from e.g.
+            // * @%2Fblog%2Fauthor%2Fjulien%2F
+            // * @%2Fcontact
+            // * @%2Fanalytics%2Fcultizer
+            // to e.g.
+            // * blog > author > julien > @%2Findex
+            // * @%2Fcontact
+            // * analytics > @%2Fcultizer
+            return label.split(',').map(function(item) {
+                var startsWithAt  = item.startsWith('@');
+                if (startsWithAt ) {
+                    item = item.slice(1);
+                }
+
+                item = decodeURIComponent(item);
+
+                if (item === '/') {
+                    return (startsWithAt  ? '@' : '') + encodeURIComponent('/index');
+                }
+
+                var isIndex = false;
+
+                if (item.endsWith('/')) {
+                    item = item.slice(0, -1);
+                    isIndex = true;
+                }
+                if (item.startsWith('/')) {
+                    item = item.slice(1);
+                }
+
+                var parts = item.split('/').map(encodeURIComponent);
+
+                if (isIndex) {
+                    parts.push(encodeURIComponent('/index'));
+                } else {
+                    parts[parts.length - 1] = '/' + parts[parts.length - 1];
+                }
+
+                if (startsWithAt ) {
+                    parts[parts.length - 1] = '@' + parts[parts.length - 1];
+                }
+
+                return parts.join(' > ');
+            }).join(',');
+        };
+
+        if (
+          this.dataTable.param.module === 'Actions' && this.dataTable.param.action === 'getPageUrls'
+          && this.dataTable.param.flat && label.indexOf(' > ') === -1
+        ) {
+            // Requesting a row evolution for a flattened page url report can easily reach memory limits
+            // This happens due to the fact, that requesting a report flattened, will currently process
+            // the data for ALL subtables, for all periods shown in the row evolution.
+            // We actually would only need to fetch the data for the requested labels.
+            // Till this was refactored in the backend, this hack will convert the flattened request
+            // into a request that would come from a subtable. This is handled differently by the backend
+            // and will only process the requested labels in the backend.
+            label = unflattenActionLabel(label);
+            extraParams['flat'] = 0;
+        } else {
+            extraParams['flat'] = this.dataTable.param.flat;
+        }
     }
 
     var apiMethod = this.dataTable.param.module + '.' + this.dataTable.param.action;
