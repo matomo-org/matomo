@@ -16,10 +16,10 @@ use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 /**
  *
  */
-class PrivacyComplianceDashboard implements FeatureFlagInterface
+class PrivacyCompliance implements FeatureFlagInterface
 {
     public function getName(): string
     {
-        return 'PrivacyComplianceDashboard';
+        return 'PrivacyCompliance';
     }
 }

@@ -13,7 +13,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyComplianceDashboard;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 
 class Menu extends \Piwik\Plugin\Menu
 {
@@ -26,8 +26,8 @@ class Menu extends \Piwik\Plugin\Menu
 
             if (Piwik::hasUserSuperUserAccess()) {
                 $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-                if ($featureFlagManager->isFeatureActive(PrivacyComplianceDashboard::class)) {
-                    $menu->addItem($category, 'PrivacyManager_ComplianceDashboard', $this->urlForAction('complianceDashboard'), 0);
+                if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+                    $menu->addItem($category, 'PrivacyManager_Compliance', $this->urlForAction('compliance'), 0);
                 }
                 $menu->addItem($category, 'PrivacyManager_AnonymizeData', $this->urlForAction('privacySettings'), 5);
             }
