@@ -109,8 +109,11 @@ class Config
 
     private function getFromOption(string $name, array $config)
     {
-        $name  = $this->prefix($name);
-        $value = Option::get($name);
+        $value = Option::get($this->prefix($name));
+        // fallback to global settings if we don't have specific site settings saved
+        if (false === $value && !$this->hasSiteSpecificSettings()) {
+            $value = Option::get($this->prefix($name, false));
+        }
 
         if (false !== $value) {
             settype($value, $config['type']);
@@ -132,11 +135,13 @@ class Config
         $name = $this->prefix($name);
 
         Option::set($name, $value);
-        Cache::clearCacheGeneral(); // TODO: verify this also clears individual website tracker cache
+        Cache::deleteTrackerCache();
     }
 
     public function setIdSite(?int $idSite): void {
-        $this->idSite = $idSite;
+        if ($idSite) {
+            $this->idSite = $idSite;
+        }
     }
 
     public function setTrackerCache(array &$cacheContent): array
@@ -161,10 +166,15 @@ class Config
         }
     }
 
+    private function hasSiteSpecificSettings(): bool
+    {
+        return $this->idSite && count(Option::getLike($this->prefix('%'))) > 0;
+    }
+
     public function useSiteSpecificSettings(): bool
     {
         if (!$this->idSite) return false;
 
-        return count(Option::getLike($this->prefix('%'))) > 0;
+        return $this->hasSiteSpecificSettings();
     }
 }

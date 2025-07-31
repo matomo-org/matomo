@@ -17,6 +17,7 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
 use Piwik\Option;
 use Piwik\Period;
@@ -72,6 +73,8 @@ class PrivacyManager extends Plugin
     private $dntChecker = null;
     private $ipAnonymizer = null;
 
+    private $logger = null;
+
     /**
      * Constructor.
      */
@@ -81,6 +84,7 @@ class PrivacyManager extends Plugin
 
         $this->dntChecker = new DoNotTrackHeaderChecker();
         $this->ipAnonymizer = new IPAnonymizer();
+        $this->logger = StaticContainer::get(LoggerInterface::class);
     }
 
     public function install()
@@ -473,6 +477,8 @@ class PrivacyManager extends Plugin
 
     public function setTrackerCacheGeneral(&$cacheContent)
     {
+        $this->logger->info('set general tracker cache');
+
         $config = new Config();
         $config->setTrackerCache($cacheContent);
         $cacheContent[self::OPTION_USERID_SALT] = self::getUserIdSalt();
@@ -485,6 +491,8 @@ class PrivacyManager extends Plugin
 
     public function setTrackerCacheSiteAttributes(&$cacheContent, int $idSite): void
     {
+        $this->logger->info('set tracker cache for site id ' . $idSite);
+//        var_dump('set site specific tracker cache', $idSite);
         $config = new Config($idSite);
         $config->setTrackerCache($cacheContent);
     }
@@ -708,9 +716,9 @@ class PrivacyManager extends Plugin
     {
         // if range, only look at the first date
         if ($strPeriod === 'range') {
-            $idSite = Common::getRequestVar('idSite', '');
+            $idSite = Common::getRequestVar('idSite', 0, 'int');
 
-            if (intval($idSite) != 0) {
+            if ($idSite) {
                 $site     = new Site($idSite);
                 $timezone = $site->getTimezone();
             } else {
@@ -910,20 +918,22 @@ class PrivacyManager extends Plugin
 
     public function shouldAddTrackerFile(&$shouldAdd, $pluginName)
     {
+        $idSite = Common::getRequestVar('idsite', 0, 'int');
         if ($pluginName === 'PrivacyManager') {
-            $shouldAdd = self::isCookieLessTrackingForced();
+            $shouldAdd = self::isCookieLessTrackingForced($idSite);
         }
     }
 
     /**
      * Returns if cookie less tracking is forced
      *
+     * @param int|null $idSite
      * @return bool
      */
-    public static function isCookieLessTrackingForced()
+    public static function isCookieLessTrackingForced(?int $idSite = null): bool
     {
-        $config = new Config();
-        return !!$config->forceCookielessTracking;
+        $config = new Config($idSite);
+        return $config->forceCookielessTracking;
     }
 
     public static function getMaskLengthOptions(): array

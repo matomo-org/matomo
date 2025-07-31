@@ -19,7 +19,7 @@ class ReferrerAnonymizer
     public const EXCLUDE_ALL = 'exclude_all';
     public const EXCLUDE_NONE = '';
 
-    public static function getAvailableAnonymizationOptions()
+    public static function getAvailableAnonymizationOptions(): array
     {
         return [
             self::EXCLUDE_NONE => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeNone'),

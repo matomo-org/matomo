@@ -41,7 +41,7 @@ class IPAnonymizer
     {
         $ipObject = IP::fromBinaryIP($ip);
 
-        if (!$this->isActive()) {
+        if (!self::isActive($idSite)) {
             Common::printDebug("Visitor IP was _not_ anonymized: " . $ipObject->toString());
             return;
         }
