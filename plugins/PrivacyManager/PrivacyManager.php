@@ -477,8 +477,6 @@ class PrivacyManager extends Plugin
 
     public function setTrackerCacheGeneral(&$cacheContent)
     {
-        $this->logger->info('set general tracker cache');
-
         $config = new Config();
         $config->setTrackerCache($cacheContent);
         $cacheContent[self::OPTION_USERID_SALT] = self::getUserIdSalt();
@@ -491,7 +489,6 @@ class PrivacyManager extends Plugin
 
     public function setTrackerCacheSiteAttributes(&$cacheContent, int $idSite): void
     {
-        $this->logger->info('set tracker cache for site id ' . $idSite);
         $config = new Config($idSite);
         $config->setTrackerCache($cacheContent);
     }
