@@ -37,21 +37,8 @@ describe('CoreHome/SitesStore', () => {
   const adminSites = defaultSites.slice(2);
 
   beforeEach(() => {
-    (testingSitesStore as any).state = reactive({
-      initialSites: [],
-      isInitialized: false,
-    });
-    (testingSitesStore as any).stateFiltered = reactive({
-      initialSites: [],
-      isInitialized: false,
-      excludedSites: [],
-      onlySitesWithAdminAccess: false,
-      onlySitesWithAtLeastWriteAccess: false,
-      siteTypesToExclude: [],
-    });
-
     // Mock AjaxHelper.fetch to return a collection of sites based on the provided filters
-    jest.spyOn(AjaxHelper, 'fetch').mockImplementation((params, options) => {
+    jest.spyOn(AjaxHelper, 'fetch').mockImplementation((params) => {
       if (params.method !== 'SitesManager.getSitesWithMinimumAccess') {
         return Promise.resolve([]);
       }
@@ -81,7 +68,19 @@ describe('CoreHome/SitesStore', () => {
     });
   });
   afterEach(() => {
-    // TODO - Perform necessary cleanup
+    // Reset the state of the store after each testcase
+    (testingSitesStore as any).state = reactive({
+      initialSites: [],
+      isInitialized: false,
+    });
+    (testingSitesStore as any).stateFiltered = reactive({
+      initialSites: [],
+      isInitialized: false,
+      excludedSites: [],
+      onlySitesWithAdminAccess: false,
+      onlySitesWithAtLeastWriteAccess: false,
+      siteTypesToExclude: [],
+    });
   });
 
   describe('#loadInitialSites()', () => {
@@ -92,19 +91,28 @@ describe('CoreHome/SitesStore', () => {
 
     it('should return the admin sites', async () => {
       expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(true);
+      const sitesResponse = await testingSitesStore.loadInitialSites(
+        true,
+      );
       expect(sitesResponse).toEqual(adminSites);
     });
 
     it('should return the write sites', async () => {
       expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(false, [], true);
+      const sitesResponse = await testingSitesStore.loadInitialSites(
+        false,
+        [],
+        true,
+      );
       expect(sitesResponse).toEqual(writeSites);
     });
 
     it('should return sites excluding site 2', async () => {
       expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(false, [2]);
+      const sitesResponse = await testingSitesStore.loadInitialSites(
+        false,
+        [2],
+      );
       expect(sitesResponse).toEqual([
         ...defaultSites.slice(0, 1),
         ...defaultSites.slice(2),
@@ -113,19 +121,32 @@ describe('CoreHome/SitesStore', () => {
 
     it('should return sites excluding sites 1 and 4', async () => {
       expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(false, [1, 4]);
+      const sitesResponse = await testingSitesStore.loadInitialSites(
+        false,
+        [1, 4],
+      );
       expect(sitesResponse).toEqual(defaultSites.slice(1, 3));
     });
 
     it('should return sites excluding type website', async () => {
       expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(false, [], false, ['website']);
+      const sitesResponse = await testingSitesStore.loadInitialSites(
+        false,
+        [],
+        false,
+        ['website'],
+      );
       expect(sitesResponse).toEqual(defaultSites.slice(1, 3));
     });
 
     it('should return sites excluding type rollup', async () => {
       expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(false, [], false, ['rollup']);
+      const sitesResponse = await testingSitesStore.loadInitialSites(
+        false,
+        [],
+        false,
+        ['rollup'],
+      );
       expect(sitesResponse).toEqual([
         ...defaultSites.slice(0, 2),
         ...defaultSites.slice(3),
@@ -134,29 +155,57 @@ describe('CoreHome/SitesStore', () => {
 
     it('should return sites excluding type rollup and intranet', async () => {
       expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(false, [], false, ['rollup', 'intranet']);
+      const sitesResponse = await testingSitesStore.loadInitialSites(
+        false,
+        [],
+        false,
+        ['rollup', 'intranet'],
+      );
       expect(sitesResponse).toEqual([
         ...defaultSites.slice(0, 1),
         ...defaultSites.slice(3),
       ]);
     });
 
-    it('should return admin sites when both admin and write are enabled', async () => {
-      expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(true, [], true);
-      expect(sitesResponse).toEqual(adminSites);
-    });
+    it(
+      'should return admin sites when both admin and write are enabled',
+      async () => {
+        expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
+        const sitesResponse = await testingSitesStore.loadInitialSites(
+          true,
+          [],
+          true,
+        );
+        expect(sitesResponse).toEqual(adminSites);
+      },
+    );
 
-    it('should return sites filtered by permission and excluded types', async () => {
-      expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(false, [], true, ['intranet']);
-      expect(sitesResponse).toEqual(writeSites.slice(0, 1));
-    });
+    it(
+      'should return sites filtered by permission and excluded types',
+      async () => {
+        expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
+        const sitesResponse = await testingSitesStore.loadInitialSites(
+          false,
+          [],
+          true,
+          ['intranet'],
+        );
+        expect(sitesResponse).toEqual(writeSites.slice(0, 1));
+      },
+    );
 
-    it('should return sites filtered by permission, excluded sites, and excluded types', async () => {
-      expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
-      const sitesResponse = await testingSitesStore.loadInitialSites(false, [1], true, ['intranet']);
-      expect(sitesResponse).toEqual([]);
-    });
+    it(
+      'should return sites filtered by permission, excluded sites, and excluded types',
+      async () => {
+        expect(await testingSitesStore.loadInitialSites()).toEqual(defaultSites);
+        const sitesResponse = await testingSitesStore.loadInitialSites(
+          false,
+          [1],
+          true,
+          ['intranet'],
+        );
+        expect(sitesResponse).toEqual([]);
+      },
+    );
   });
 });
