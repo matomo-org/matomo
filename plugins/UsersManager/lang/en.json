@@ -271,7 +271,7 @@
         "InactiveUsersNotificationEmail04": "You can review and manage all users here:",
         "InactiveUsersNotificationEmail05": "If you determine these users no longer require access, we recommend removing their accounts from the system.",
         "InactiveUsersNotificationEmail06": "Before deactivating any inactive superusers, please ensure their authentication tokens are not being used for tracking.",
-        "InactiveUsersNotificationEmail07": "This monthly security notification is enabled by default. If you prefer not to receive these updates in the future, you can disable the feature under: Matomo Settings > System > General Settings > UsersManager settings.",
+        "InactiveUsersNotificationEmail07": "This monthly security notification is enabled for your Matomo instance. If you prefer not to receive these updates in the future, you can disable the feature under: Matomo Settings > System > General Settings > UsersManager settings.",
         "InactiveUserAccounts": "Inactive user accounts",
         "DisablingThisNotification": "Disabling this notification",
         "LastLoginDate": "Last login date",
