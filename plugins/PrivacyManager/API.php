@@ -454,6 +454,9 @@ class API extends \Piwik\Plugin\API
         if (!$featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             return false;
         }
+        if (!Piwik::hasUserSuperUserAccess()) {
+            return false;
+        }
 
         return $enabled;
     }
