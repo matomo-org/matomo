@@ -425,71 +425,14 @@ class API extends \Piwik\Plugin\API
      */
     public function getComplianceStatus(string $idSite, string $complianceType): array
     {
-        $sites = [
-            '1' => [
-                ['name' => 'Anonymize IP', 'value' => 'compliant', 'notes' => 'Set to at least 2 byte masking'],
-                ['name' => 'retention period', 'value' => 'unknown', 'notes' => 'Retention periods is set to 1,200 days'],
-                ['name' => 'consent before tracking', 'value' => 'non_compliant', 'notes' => ''],
-                ['name' => 'cookie-less tracking', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'geoIP accuracy', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'heatmaps & session recording', 'value' => 'unknown', 'notes' => ''],
-                ['name' => 'tag manager', 'value' => 'non_compliant', 'notes' => ''],
-                ['name' => 'data export options', 'value' => 'compliant', 'notes' => ''],
-            ],
-            '2' => [
-                ['name' => 'Anonymize IP', 'value' => 'unknown', 'notes' => 'Set to at least 2 byte masking'],
-                ['name' => 'retention period', 'value' => 'compliant', 'notes' => 'Retention periods is set to 1,200 days'],
-                ['name' => 'consent before tracking', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'cookie-less tracking', 'value' => 'non_compliant', 'notes' => ''],
-                ['name' => 'geoIP accuracy', 'value' => 'unknown', 'notes' => ''],
-                ['name' => 'heatmaps & session recording', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'tag manager', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'data export options', 'value' => 'non_compliant', 'notes' => ''],
-            ],
-            '3' => [
-                ['name' => 'Anonymize IP', 'value' => 'non_compliant', 'notes' => 'Set to at least 2 byte masking'],
-                ['name' => 'retention period', 'value' => 'compliant', 'notes' => 'Retention periods is set to 1,200 days'],
-                ['name' => 'consent before tracking', 'value' => 'unknown', 'notes' => ''],
-                ['name' => 'cookie-less tracking', 'value' => 'unknown', 'notes' => ''],
-                ['name' => 'geoIP accuracy', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'heatmaps & session recording', 'value' => 'non_compliant', 'notes' => ''],
-                ['name' => 'tag manager', 'value' => 'unknown', 'notes' => ''],
-                ['name' => 'data export options', 'value' => 'compliant', 'notes' => ''],
-            ],
-            '4' => [
-                ['name' => 'Anonymize IP', 'value' => 'compliant', 'notes' => 'Set to at least 2 byte masking'],
-                ['name' => 'retention period', 'value' => 'non_compliant', 'notes' => 'Retention periods is set to 1,200 days'],
-                ['name' => 'consent before tracking', 'value' => 'unknown', 'notes' => ''],
-                ['name' => 'cookie-less tracking', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'geoIP accuracy', 'value' => 'non_compliant', 'notes' => ''],
-                ['name' => 'heatmaps & session recording', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'tag manager', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'data export options', 'value' => 'unknown', 'notes' => ''],
-            ],
-            '5' => [
-                ['name' => 'Anonymize IP', 'value' => 'non_compliant', 'notes' => 'Set to at least 2 byte masking'],
-                ['name' => 'retention period', 'value' => 'unknown', 'notes' => 'Retention periods is set to 1,200 days'],
-                ['name' => 'consent before tracking', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'cookie-less tracking', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'geoIP accuracy', 'value' => 'unknown', 'notes' => ''],
-                ['name' => 'heatmaps & session recording', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'tag manager', 'value' => 'non_compliant', 'notes' => ''],
-                ['name' => 'data export options', 'value' => 'unknown', 'notes' => ''],
-            ],
-        ];
-
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if (!$featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             return [];
         }
 
-        if ($complianceType !== 'cnil') {
-            return [];
-        }
-
-        if ($idSite == 'all') {
-            // return summary of data
-            return [
+        return [
+            'complianceModeEnabled' => true,
+            'complianceSummary' => [
                 ['name' => 'Anonymize IP', 'value' => 'unknown', 'notes' => 'Set to at least 2 byte masking'],
                 ['name' => 'retention period', 'value' => 'compliant', 'notes' => 'Retention periods is set to 1,200 days'],
                 ['name' => 'consent before tracking', 'value' => 'compliant', 'notes' => ''],
@@ -498,22 +441,20 @@ class API extends \Piwik\Plugin\API
                 ['name' => 'heatmaps & session recording', 'value' => 'compliant', 'notes' => ''],
                 ['name' => 'tag manager', 'value' => 'non_compliant', 'notes' => ''],
                 ['name' => 'data export options', 'value' => 'compliant', 'notes' => ''],
-            ];
-        }
-
-        if (!empty($sites[$idSite])) {
-            // return site specific data
-            return $sites[$idSite];
-        }
-
-        return [];
+            ]
+        ];
     }
 
     /**
      * @internal
      */
-    public function setComplianceStatus(string $idSite, string $complianceType): bool
+    public function setComplianceStatus(string $idSite, string $complianceType, bool $enabled): bool
     {
-        return $complianceType === 'cnil';
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if (!$featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            return false;
+        }
+
+        return $enabled;
     }
 }
