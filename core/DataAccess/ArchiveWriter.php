@@ -276,11 +276,6 @@ class ArchiveWriter
 
         $valueSeen = false;
         foreach ($records as $record) {
-            // don't record zero
-            if (empty($record[1])) {
-                continue;
-            }
-
             $bind     = $bindSql;
             $bind[]   = $record[0]; // name
             $bind[]   = $record[1]; // value
@@ -316,10 +311,6 @@ class ArchiveWriter
      */
     public function insertRecord($name, $value)
     {
-        if ($this->isRecordZero($value)) {
-            return false;
-        }
-
         $valueType = $this->isRecordNumeric($value) ? 'numeric' : 'blob';
         $this->recordsToWriteSpool[$valueType][] = [
             0 => $name,
@@ -394,11 +385,6 @@ class ArchiveWriter
     protected function getInsertFields()
     {
         return $this->fields;
-    }
-
-    protected function isRecordZero($value)
-    {
-        return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
     }
 
     private function isRecordNumeric($value)

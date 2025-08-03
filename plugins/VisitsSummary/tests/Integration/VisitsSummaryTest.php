@@ -72,7 +72,7 @@ class VisitsSummaryTest extends IntegrationTestCase
 
         $response = $this->requestProcessedGetReport();
 
-        $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = 0);
+        $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = 0.0);
     }
 
     public function testIsUsedInAtLeastOneSiteShouldRemoveUsersIfNoneWereTracked()
