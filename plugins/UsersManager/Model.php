@@ -152,12 +152,12 @@ class Model
      * @param string $userLogin User that has to be valid
      *
      * @return array    The returned array has the format
-     *                    array(
-     *                        idsite1 => 'view',
-     *                        idsite2 => 'admin',
-     *                        idsite3 => 'view',
+     *                    [
+     *                        ['site' => 'idsite1', 'access' => 'view'],
+     *                        ['site' => 'idsite2', 'access' => 'admin'],
+     *                        ['site' => 'idsite3', 'access' => 'view'],
      *                        ...
-     *                    )
+     *                    [
      */
     public function getSitesAccessFromUser($userLogin)
     {
