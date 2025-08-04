@@ -35,7 +35,7 @@ class LastSeenTimeLogger
             $userModel = new Model();
             return $userModel->getLastSeenTimestamp($userName);
         } catch (\Exception $e) {
-            throw $e; // rethrow so callers can handle it
+            return null;
         }
     }
 
@@ -44,8 +44,12 @@ class LastSeenTimeLogger
      */
     public static function getLastSeenTimesForAllUsers(): array
     {
-        $userModel = new Model();
-        return $userModel->getLastSeenTimestampForAllSeenUsers();
+        try {
+            $userModel = new Model();
+            return $userModel->getLastSeenTimestampForAllSeenUsers();
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     /**
