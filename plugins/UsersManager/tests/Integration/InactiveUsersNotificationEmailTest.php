@@ -131,7 +131,7 @@ class InactiveUsersNotificationEmailTest extends IntegrationTestCase
         // for user4, the fixture does not create a token, so it was never used, and sets a custom last-seen date
         self::assertEquals('user4', $notification[4]['login']);
         self::assertEquals('2024-09-29 00:00:00', $notification[4]['last_seen']);
-        self::assertEquals('n/a', $notification[4]['last_token_activity']);
+        self::assertEquals('N/A', $notification[4]['last_token_activity']);
     }
 
     /**
