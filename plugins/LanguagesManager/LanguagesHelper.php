@@ -41,7 +41,7 @@ class LanguagesHelper
         return $user;
     }
 
-    public static function doWithUserLanguage($emailOrLogin, $callback)
+    public static function doWithUserLanguage(string $emailOrLogin, callable $callback)
     {
         $user = self::getUserFromEmailOrLogin($emailOrLogin);
 
