@@ -7,7 +7,7 @@
 
 <template>
   <div class="usersManager" v-tooltips>
-    <div v-show="!isEditing">
+    <div v-show="!isEditing && !isInviting">
       <div v-content-intro>
         <h2>
           <EnrichedHeadline
@@ -51,7 +51,7 @@
           @change-user-role="onChangeUserRole($event.users, $event.role, $event.password)"
           @delete-user="onDeleteUser($event.users, $event.password)"
           @search-change="searchParams = $event.params; fetchUsers()"
-          @resend-invite="showResendPopup($event.user)"
+          @resend-invite="triggerResendInviteForUser = $event.user"
           :initial-site-id="initialSiteId"
           :initial-site-name="initialSiteName"
           :is-loading-users="isLoadingUsers"
@@ -65,54 +65,35 @@
         />
       </div>
     </div>
+    <div v-show="isInviting">
+      <component
+        :is="usedInviteComponent"
+        :invite-token-expiry-days="inviteTokenExpiryDays"
+        :initial-site-id="initialSiteId"
+        :initial-site-name="initialSiteName"
+        @aborted="isInviting = false"
+        @invited="onInvite($event.user)"
+      ></component>
+    </div>
+    <component
+      :is="usedResendInviteComponent"
+      :user="triggerResendInviteForUser"
+      :invite-token-expiry-days="inviteTokenExpiryDays"
+      @close="triggerResendInviteForUser = null"
+    ></component>
     <!-- TODO: whether a user is being edited should be part of the URL -->
     <div v-if="isEditing">
       <UserEditForm
         @done="onDoneEditing($event.isUserModified)"
         :user="userBeingEdited"
         :current-user-role="currentUserRole"
-        :invite-token-expiry-days="inviteTokenExpiryDays"
         :access-levels="accessLevels"
         :filter-access-levels="filterAccessLevels"
-        :initial-site-id="initialSiteId"
-        :initial-site-name="initialSiteName"
         :activated-plugins="activatedPlugins"
         :password-strength-validation-rules="passwordStrengthValidationRules"
-        @resend-invite="showResendPopup($event.user)"
+        @resend-invite="triggerResendInviteForUser = $event.user"
         @updated="userBeingEdited = $event.user"
       />
-    </div>
-    <div class="resend-invite-confirm-modal modal" ref="resendInviteConfirmModal">
-      <div class="btn-close modal-close"><i class="icon-close"></i></div>
-      <div class="modal-content">
-        <h2 class="modal-title">{{ translate('UsersManager_ResendInvite') }}</h2>
-        <p
-          v-if="userBeingEdited"
-          v-html="$sanitize(translate(
-            'UsersManager_InviteConfirmMessage',
-            [`<strong>${userBeingEdited.login}</strong>`,
-             `<strong>${userBeingEdited.email}</strong>`]
-            ,
-          ))"
-        ></p>
-        <p><strong>
-            {{ translate('UsersManager_InviteActionNotes', inviteTokenExpiryDays) }}
-        </strong></p>
-      </div>
-      <div class="modal-footer">
-        <span v-if="copied" class="success-copied">
-          <i class="icon-success"></i>
-          {{ translate('UsersManager_LinkCopied') }}</span>
-        <button
-          @click="showInviteActionPasswordConfirm('copy')"
-          class="btn btn-copy-link modal-action"
-          style="margin-right:3.5px"
-        >{{ translate('UsersManager_CopyLink') }}</button>
-        <button
-          class="btn btn-resend modal-action modal-no"
-          @click = "showInviteActionPasswordConfirm('send')"
-        >{{ translate('UsersManager_ResendInvite') }}</button>
-      </div>
     </div>
     <div class="add-existing-user-modal modal" ref="addExistingUserModal">
       <div class="modal-content">
@@ -140,10 +121,6 @@
         >{{ translate('General_Cancel') }}</a>
       </div>
     </div>
-    <PasswordConfirmation
-      v-model="showPasswordConfirmationForInviteAction"
-      @confirmed="onInviteAction"
-    />
   </div>
 </template>
 
@@ -161,8 +138,9 @@ import {
   AjaxHelper,
   translate,
   NotificationsStore,
+  useExternalPluginComponent,
 } from 'CoreHome';
-import { Field, PasswordConfirmation } from 'CorePluginsAdmin';
+import { Field } from 'CorePluginsAdmin';
 import PagedUsersList from '../PagedUsersList/PagedUsersList.vue';
 import UserEditForm from '../UserEditForm/UserEditForm.vue';
 import User from '../User';
@@ -170,6 +148,7 @@ import SearchParams from '../PagedUsersList/SearchParams';
 
 interface UsersManagerState {
   isEditing: boolean;
+  isInviting: boolean;
   isCurrentUserSuperUser: boolean;
   users: User[];
   userBeingEdited: User | null;
@@ -177,10 +156,8 @@ interface UsersManagerState {
   searchParams: SearchParams;
   isLoadingUsers: boolean;
   addNewUserLoginEmail: string;
-  copied: boolean;
   loading: boolean;
-  showPasswordConfirmationForInviteAction: boolean;
-  inviteAction: string;
+  triggerResendInviteForUser: User | null;
 }
 
 const NUM_USERS_PER_PAGE = 20;
@@ -225,9 +202,18 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+    inviteComponent: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    resendInviteComponent: {
+      type: Object,
+      required: false,
+      default: null,
+    },
   },
   components: {
-    PasswordConfirmation,
     EnrichedHeadline,
     PagedUsersList,
     UserEditForm,
@@ -240,6 +226,7 @@ export default defineComponent({
   data(): UsersManagerState {
     return {
       isEditing: !!MatomoUrl.urlParsed.value.showadduser,
+      isInviting: false,
       isCurrentUserSuperUser: true,
       users: [],
       totalEntries: null,
@@ -254,10 +241,8 @@ export default defineComponent({
       isLoadingUsers: false,
       userBeingEdited: null,
       addNewUserLoginEmail: '',
-      copied: false,
       loading: false,
-      showPasswordConfirmationForInviteAction: false,
-      inviteAction: '',
+      triggerResendInviteForUser: null,
     };
   },
   created() {
@@ -269,26 +254,11 @@ export default defineComponent({
     },
   },
   methods: {
-    showInviteActionPasswordConfirm(action: string) {
-      if (this.loading) return;
-      this.showPasswordConfirmationForInviteAction = true;
-      this.inviteAction = action;
-    },
-    showResendPopup(user: User) {
+    onInvite(user: User) {
+      this.isInviting = false;
       this.userBeingEdited = user;
-      $(this.$refs.resendInviteConfirmModal as HTMLElement)
-        .modal({
-          dismissible: false,
-        })
-        .modal('open');
-      this.copied = false;
-    },
-    onInviteAction(password: string) {
-      if (this.inviteAction === 'send') {
-        this.onResendInvite(password);
-      } else {
-        this.generateInviteLink(password);
-      }
+      this.isEditing = true;
+      this.fetchUsers();
     },
     onEditUser(user: User) {
       Matomo.helper.lazyScrollToContent();
@@ -393,78 +363,6 @@ export default defineComponent({
         this.fetchUsers();
       });
     },
-    async generateInviteLink(password: string) {
-      if (this.loading) {
-        return;
-      }
-      this.loading = true;
-      try {
-        const res = await AjaxHelper.post<{ value: string }>(
-          {
-            method: 'UsersManager.generateInviteLink',
-          }, {
-            userLogin: this.userBeingEdited!.login,
-            passwordConfirmation: password,
-          },
-        );
-
-        await this.copyToClipboard(res.value);
-        // eslint-disable-next-line no-empty
-      } catch (e) {
-
-      }
-      this.loading = false;
-    },
-    async copyToClipboard(value: string) {
-      try {
-        const tempInput = document.createElement('input');
-        tempInput.style.top = '-100px';
-        tempInput.style.left = '0';
-        tempInput.style.position = 'fixed';
-        tempInput.value = value;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        if (window.location.protocol !== 'https:') {
-          document.execCommand('copy');
-        } else {
-          await navigator.clipboard.writeText(tempInput.value);
-        }
-        document.body.removeChild(tempInput);
-        this.copied = true;
-        // eslint-disable-next-line no-empty
-      } catch (e) {
-        const id = NotificationsStore.show({
-          message: `<strong>${translate('UsersManager_CopyDenied')}</strong><br>
-${translate('UsersManager_CopyDeniedHints', [`<br><span class="invite-link">${value}</span>`])}`,
-          id: 'copyError',
-          context: 'error',
-          type: 'transient',
-        });
-        NotificationsStore.scrollToNotification(id);
-      }
-    },
-    onResendInvite(password: string) {
-      if (password === '') return;
-      AjaxHelper.post<AjaxHelper>(
-        {
-          method: 'UsersManager.resendInvite',
-          userLogin: this.userBeingEdited!.login,
-        },
-        {
-          passwordConfirmation: password,
-        },
-      ).then(() => {
-        this.fetchUsers();
-        $(this.$refs.resendInviteConfirmModal as HTMLElement).modal('close');
-        const id = NotificationsStore.show({
-          message: translate('UsersManager_InviteSuccess'),
-          id: 'resendInvite',
-          context: 'success',
-          type: 'transient',
-        });
-        NotificationsStore.scrollToNotification(id);
-      });
-    },
     fetchUsers() {
       this.isLoadingUsers = true;
       return AjaxHelper.fetch<AjaxHelper>(
@@ -525,8 +423,26 @@ ${translate('UsersManager_CopyDeniedHints', [`<br><span class="invite-link">${va
         return;
       }
 
-      this.isEditing = true;
+      this.isInviting = true;
       this.userBeingEdited = null;
+    },
+  },
+  computed: {
+    usedInviteComponent() {
+      if (this.inviteComponent) {
+        const [plugin, component] = this.inviteComponent.split('.');
+        return useExternalPluginComponent(plugin, component);
+      }
+
+      return useExternalPluginComponent('UsersManager', 'UserInvite');
+    },
+    usedResendInviteComponent() {
+      if (this.resendInviteComponent) {
+        const [plugin, component] = this.resendInviteComponent.split('.');
+        return useExternalPluginComponent(plugin, component);
+      }
+
+      return useExternalPluginComponent('UsersManager', 'ResendInviteModal');
     },
   },
 });

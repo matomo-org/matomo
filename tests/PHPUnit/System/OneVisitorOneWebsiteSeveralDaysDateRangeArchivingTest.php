@@ -129,18 +129,18 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             /**
              * segments: 9 (including all visits)
              * plugins: 4 different plugins
-             *   VisitsSummary: 9 archives (8 segments + all visits) (4 metrics in each + 3 bounce_counts across 3 archives)
+             *   VisitsSummary: 9 archives (8 segments + all visits) (8 metrics in each)
              *   Actions: 3 archives (2 segments + all visits) (0 metrics in each, since no metrics are requested for period=range)
              *   Resolution: 3 archives (2 segments + all visits) (0 metrics in each)
              *   VisitTime: 3 archives (2 segments + all visits) (0 metrics in each)
              *
-             * Total: 9 VisitsSummary done flags + ((4 * 9) + 3) VisitsSummary metrics
+             * Total: 9 VisitsSummary done flags + (9 * 8) VisitsSummary metrics
              *   + 3 Actions done flags
              *   + 3 Resolution done flags
              *   + 3 VisitTime done flags
-             * = 63
+             * = 90
              */
-            'archive_numeric_2010_12' => 57,
+            'archive_numeric_2010_12' => 90,
 
             /**
              * In the January date range,
@@ -150,10 +150,10 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
             'archive_blob_2011_01'    => $expectedActionsBlobsWhenFlattened,
 
             /**
-             *   5 metrics + 1 flag // VisitsSummary
+             *   8 metrics + 1 flag // VisitsSummary
              * + 1 flag // Actions (no metrics, just blobs)
              */
-            'archive_numeric_2011_01' => (6 + 1),
+            'archive_numeric_2011_01' => (9 + 1),
 
             // nothing in Feb
             'archive_blob_2011_02'    => 0,

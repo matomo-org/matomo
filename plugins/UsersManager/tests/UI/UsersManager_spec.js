@@ -258,10 +258,10 @@ describe("UsersManager", function () {
         await page.type('#user_login', '000newuser');
         await page.type('#user_email', 'theuser@email.com');
 
-        await page.click('.userEditForm .siteSelector a.title');
-        await (await page.jQuery('.userEditForm .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
+        await page.click('.userInviteForm .siteSelector a.title');
+        await (await page.jQuery('.userInviteForm .siteSelector .custom_select_ul_list a:eq(1):visible', { waitFor: true })).click();
 
-        await page.evaluate(() => $('.userEditForm .matomo-save-button input').click());
+        await page.evaluate(() => $('.userInviteForm .matomo-save-button input').click());
         const modal = await page.waitForSelector('.modal.open', { visible: true });
         await page.focus('.modal.open #currentUserPassword');
         await page.waitForTimeout(250);
@@ -720,7 +720,7 @@ describe("UsersManager", function () {
         });
 
         it('should not allow editing basic info for admin users', async function () {
-            await page.click('.userEditForm .entityCancelLink');
+            await page.click('.userInviteForm .entityCancelLink');
             await (await page.jQuery('button.edituser:eq(1)')).click();
             await page.waitForNetworkIdle();
 

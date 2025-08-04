@@ -44,8 +44,12 @@ class SitesStore {
 
   public readonly initialSitesFiltered = computed(() => readonly(this.stateFiltered.initialSites));
 
-  loadInitialSites(onlySitesWithAdminAccess = false,
-    sitesToExclude: number[] = []): Promise<DeepReadonly<Site[]>|null> {
+  loadInitialSites(
+    onlySitesWithAdminAccess = false,
+    sitesToExclude: number[] = [],
+    onlySitesWithAtLeastWriteAccess = false,
+    siteTypesToExclude: string[] = [],
+  ): Promise<DeepReadonly<Site[]>|null> {
     if (this.state.isInitialized && sitesToExclude.length === 0) {
       return Promise.resolve(readonly(this.state.initialSites));
     }
@@ -59,12 +63,19 @@ class SitesStore {
 
     // If we want to exclude certain sites, perform the search for that.
     if (sitesToExclude.length > 0) {
-      this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then((sites) => {
+      return this.searchSite(
+        '%',
+        onlySitesWithAdminAccess,
+        sitesToExclude,
+        onlySitesWithAtLeastWriteAccess,
+        siteTypesToExclude,
+      ).then((sites) => {
         this.stateFiltered.isInitialized = true;
         this.stateFiltered.excludedSites = sitesToExclude;
         if (sites !== null) {
           this.stateFiltered.initialSites = sites;
         }
+        return sites;
       });
     }
 
@@ -73,7 +84,13 @@ class SitesStore {
       return Promise.resolve(readonly(this.state.initialSites));
     }
 
-    return this.searchSite('%', onlySitesWithAdminAccess, sitesToExclude).then((sites) => {
+    return this.searchSite(
+      '%',
+      onlySitesWithAdminAccess,
+      sitesToExclude,
+      onlySitesWithAtLeastWriteAccess,
+      siteTypesToExclude,
+    ).then((sites) => {
       this.state.isInitialized = true;
       if (sites !== null) {
         this.state.initialSites = sites;
@@ -104,10 +121,20 @@ class SitesStore {
     }
   }
 
-  searchSite(term?: string, onlySitesWithAdminAccess = false,
-    sitesToExclude: number[] = []): Promise<DeepReadonly<Site[]>|null> {
+  searchSite(
+    term?: string,
+    onlySitesWithAdminAccess = false,
+    sitesToExclude: number[] = [],
+    onlySitesWithAtLeastWriteAccess = false,
+    siteTypesToExclude: string[] = [],
+  ): Promise<DeepReadonly<Site[]>|null> {
     if (!term) {
-      return this.loadInitialSites(onlySitesWithAdminAccess, sitesToExclude);
+      return this.loadInitialSites(
+        onlySitesWithAdminAccess,
+        sitesToExclude,
+        onlySitesWithAtLeastWriteAccess,
+        siteTypesToExclude,
+      );
     }
 
     if (this.currentRequestAbort) {
@@ -121,17 +148,21 @@ class SitesStore {
     return this.limitRequest.then((response) => {
       const limit = response.value;
 
-      let methodToCall = 'SitesManager.getPatternMatchSites';
+      let permission = 'view';
       if (onlySitesWithAdminAccess) {
-        methodToCall = 'SitesManager.getSitesWithAdminAccess';
+        permission = 'admin';
+      } else if (onlySitesWithAtLeastWriteAccess) {
+        permission = 'write';
       }
 
       this.currentRequestAbort = new AbortController();
       return AjaxHelper.fetch({
-        method: methodToCall,
+        method: 'SitesManager.getSitesWithMinimumAccess',
+        permission,
         limit,
         pattern: term,
         sitesToExclude,
+        siteTypesToExclude,
       }, {
         abortController: this.currentRequestAbort,
         abortable: false,

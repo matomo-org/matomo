@@ -1,7 +1,8 @@
 {
     "IntranetMeasurable": {
         "Intranet": "Sisäverkon sivusto",
-        "Intranets": "Sisäverkon sivustot",
-        "IntranetDescription": "Sisäverkon sivusto on aivan kuten mikä tahansa sivusto, mutta siihen on pääsy vain sisäisestä verkosta."
+        "IntranetDescription": "Sisäverkon sivusto on aivan kuten mikä tahansa sivusto, mutta siihen on pääsy vain sisäisestä verkosta.",
+        "IntranetLongDescription": "Seuraa sisäisiä sivustoja, joihin pääsee vain organisaatiosi verkossa. Matomo käyttää ensimmäisen osapuolen evästeitä yksilöllisten kävijöiden tarkempaan tunnistamiseen intranet-ympäristöissä.",
+        "Intranets": "Sisäverkon sivustot"
     }
 }

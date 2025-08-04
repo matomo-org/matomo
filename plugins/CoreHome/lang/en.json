@@ -130,6 +130,12 @@
         "PeriodHasOnlyRawData": "It looks like reports for this period have not been processed yet. Do you want to see what's happening now? Check out the %1$sVisits log%2$s or choose a different date period until the reports are generated.",
         "PeriodHasOnlyRawDataNoVisitsLog": "It looks like reports for this period have not been processed yet, but they will be available in a few hours. You could choose a different date period until the reports are generated.",
         "StartDate": "Start Date",
-        "EndDate": "End Date"
+        "EndDate": "End Date",
+        "ReportLowercase": "report",
+        "LearnMoreFullStop": "%1$sLearn more.%2$s",
+        "ChooseWebsite": "Choose website",
+        "CopyModalNote": "%1$sNote:%2$s The copied %3$s may need adjustments if it includes references specific to the original website. Review settings to ensure compatibility.",
+        "CopyX": "Copy %1$s",
+        "CopyXDescription": "Select the website to copy this %1$s to. This will create an exact copy, including settings, in the chosen site."
     }
 }
