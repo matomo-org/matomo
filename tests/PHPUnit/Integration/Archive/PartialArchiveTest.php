@@ -98,6 +98,7 @@ class PartialArchiveTest extends IntegrationTestCase
         $this->assertEquals([
             'Goal_1_nb_conversions',
             'Goal_1_nb_visits_converted',
+            'Goal_1_revenue',
         ], $archiveNames);
 
         $blobArchiveNames = $this->getArchiveNames('2020_04', $idArchives[0]);

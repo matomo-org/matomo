@@ -619,7 +619,7 @@ class DataPurgingTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 114); // 1 segmented blob + 5 day blobs
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 124); // 1 segmented blob + 5 day blobs
     }
 
     // --- utility functions follow ---
@@ -954,27 +954,23 @@ class DataPurgingTest extends IntegrationTestCase
 
     protected function getExpectedNumericArchiveCountJan()
     {
-        // 5 entries per period w/ visits
-        // + 3 entries per dependent goals segment (2 total) per period w/ visits
-        // + 1 entry for every period in the month (the 'done' rows)
-        // + 1 garbage metric
-        // + 2 visitorinterest archives (just done flags)
-        // + 2 VisitsSummary archives w/ 2 metrics each
-        // + 1 visitorinterest segment archive (just done flag)
-        // + 1 other vistssummary segment archive w/ 2 metrics
-        // + 64 entries for dependent Goals segments (3 metrics for periods that have data for those segment combinations) (11 * 2 done flags + 3 metrics * 10 periods w/ data + 3 metrics * 4 periods w/ data for other segment)
-        //   + 50 entries for VisitsSummary archives for dependent Goals segments (11 * 2 done flags + 2 metrics * 10 periods w/ data + 2 metrics * 4 periods w/ data for other segment)
-        return self::JAN_METRIC_ARCHIVE_COUNT * 6 + 1 + 2 + 6 + 1 + 3 + 64 + 50;
+        // 6 entries per period w/ visits (done flag + 5 metrics)
+        // + 1 - garbage metric
+        // + 2 - VisitorInterest archives for 2 ranges (just done flag)
+        // + 1 - VisitorInterest segment archive (just done flag)
+        // + 6 - VisitsSummary archives for 2 ranges (done flag w/ 2 metrics each)
+        // + 64 - 22 entries for dependent Goals segments (3 metrics for periods that have data for those segment combinations) (8 done flags without metrics, 14 done flags with 3 metrics each)
+        // + 69 - 23 entries for dependent VisitsSummary segments (done flag + 2 metrics each)
+        return self::JAN_METRIC_ARCHIVE_COUNT * 6 + 1 + 2 + 1 + 6 + 64 + 69;
     }
 
     protected function getExpectedNumericArchiveCountFeb()
     {
         // (5 metrics per period w/ visits
-        // + 1 'done' archive for every period w/ data)
         // + 1 garbage metric
-        // + 55 entries for dependent Goals segments (11 done flags * 2 + 3 metrics * 11 periods w/ data)
-        //   44 entries for VisitsSummary archives for dependent VisitsSummary segment + (11 done flags * 2 + 2 metrics * 11 periods w/ data)
-        return self::FEB_METRIC_ARCHIVE_COUNT * 6 + 1 + 55 + 44;
+        // + 55 - 22 entries for dependent Goals segments (3 metrics for periods that have data for those segment combinations) (11 done flags without metrics, 11 done flags with 3 metrics each)
+        // + 66 - 22 entries for dependent VisitsSummary segment + (done flags + 2 metrics each)
+        return self::FEB_METRIC_ARCHIVE_COUNT * 6 + 1 + 55 + 66;
     }
 
     /**

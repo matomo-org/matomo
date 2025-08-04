@@ -137,7 +137,7 @@ class Loader
         if (sizeof($data) == 2) {
             return $data;
         }
-        list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
+        [$idArchives, $visits, $visitsConverted, $foundRecords] = $data;
 
         // only lock meet those conditions
         if (ArchiveProcessor::$isRootArchivingRequest && !SettingsServer::isArchivePhpTriggered()) {
@@ -156,7 +156,7 @@ class Loader
                     return $data;
                 }
 
-                list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
+                [$idArchives, $visits, $visitsConverted, $foundRecords] = $data;
 
                 return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
             } finally {
@@ -171,7 +171,7 @@ class Loader
     /**
      * @param $visits
      * @param $visitsConverted
-     * @return array|false[]
+     * @return int[]
      */
     protected function insertArchiveData($visits, $visitsConverted, $existingArchives, $foundRecords)
     {
@@ -183,21 +183,15 @@ class Loader
             $this->params->setFoundRequestedReports($foundRecords);
         }
 
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        [$visits, $visitsConverted] = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+        [$idArchive, $visits] = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        $idArchivesToQuery = [$idArchive];
 
-        if (
-            $this->isThereSomeVisits($visits)
-            || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()
-        ) {
-            $idArchivesToQuery = [$idArchive];
-            if (!empty($foundRecords)) {
-                $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives ?: []);
-            }
-            return [$idArchivesToQuery, $visits];
+        if (!empty($foundRecords)) {
+            $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives ?: []);
         }
 
-        return [false, false];
+        return [$idArchivesToQuery, $visits];
     }
 
     /**
