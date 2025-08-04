@@ -925,6 +925,26 @@ class Model
         return null;
     }
 
+    public function getLastSeenTimestampForAllSeenUsers(): array
+    {
+        $db = $this->getDb();
+        $sql = "
+            SELECT
+                login,
+                UNIX_TIMESTAMP(ts_last_seen) as last_seen
+            FROM " . $this->userTable . " 
+            WHERE ts_last_seen IS NOT NULL
+        ";
+        $rows = $db->fetchAll($sql);
+        $users = [];
+        if ($rows) {
+            foreach ($rows as $row) {
+                $users[$row['login']] = $row['last_seen'];
+            }
+        }
+        return $users;
+    }
+
     public function setLastSeenDatetime(string $userLogin, string $timestamp): void
     {
         $db = $this->getDb();

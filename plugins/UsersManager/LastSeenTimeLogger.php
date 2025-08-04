@@ -27,6 +27,28 @@ class LastSeenTimeLogger
     public const LAST_TIME_SAVE_DELTA = 300;
 
     /**
+     * Returns the time a user was last seen or `null` if the user has never logged in
+     */
+    public static function getLastSeenTimeForUser($userName): ?int
+    {
+        try {
+            $userModel = new Model();
+            return $userModel->getLastSeenTimestamp($userName);
+        } catch (\Exception $e) {
+            throw $e; // rethrow so callers can handle it
+        }
+    }
+
+    /**
+     * Returns the last seen time for all users if it has been set
+     */
+    public static function getLastSeenTimesForAllUsers(): array
+    {
+        $userModel = new Model();
+        return $userModel->getLastSeenTimestampForAllSeenUsers();
+    }
+
+    /**
      * Saves the current time for a user as an option if the current request is for something
      * in the reporting UI, the current user is not anonymous, and the time hasn't been saved
      * in the last 5 minutes.
@@ -45,16 +67,21 @@ class LastSeenTimeLogger
             return;
         }
 
-        // get the last known time
-        $userModel = new Model();
-        $lastSeen = $userModel->getLastSeenTimestamp($currentUserLogin);
 
-        // do not log if the last known time is less than N seconds from now (so we don't make too many queries)
-        if ($lastSeen && (time() - $lastSeen <= self::LAST_TIME_SAVE_DELTA)) {
-            return;
+        try {
+            // get the last known time
+            $lastSeen = self::getLastSeenTimeForUser($currentUserLogin);
+
+            // do not log if the last known time is less than N seconds from now (so we don't make too many queries)
+            if ($lastSeen && (time() - $lastSeen <= self::LAST_TIME_SAVE_DELTA)) {
+                return;
+            }
+
+            // log last seen time
+            $userModel = new Model();
+            $userModel->setLastSeenDatetime($currentUserLogin, Date::factory('now')->getDatetime());
+        } catch (\Exception $e) {
+            // do nothing if getting or setting the timestamp fails, e.g. during an upgrade
         }
-
-        // log last seen time
-        $userModel->setLastSeenDatetime($currentUserLogin, Date::factory('now')->getDatetime());
     }
 }
