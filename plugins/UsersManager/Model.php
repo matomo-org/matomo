@@ -254,7 +254,7 @@ class Model
         return $sites;
     }
 
-    public function getUser($userLogin)
+    public function getUser($userLogin): array
     {
         $db = $this->getDb();
 
@@ -270,7 +270,11 @@ class Model
             }
         }
 
-        return reset($matchedUsers);
+        if (!count($matchedUsers)) {
+            return [];
+        }
+
+        return (array) reset($matchedUsers);
     }
 
     public function hashTokenAuth(
@@ -609,7 +613,7 @@ class Model
     ): ?array {
         if ($tokenAuth === 'anonymous') {
             $row = $this->getUser('anonymous');
-            return (is_array($row) ? $row : null);
+            return (!empty($row) ? $row : null);
         }
 
         $isTokenProvidedSecurely = StaticContainer::get(AuthenticationToken::class)->wasTokenAuthProvidedSecurely();

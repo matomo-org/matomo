@@ -55,7 +55,7 @@ class UserNotifierTask extends Task
         $logger = $container->get(LoggerInterface::class);
 
         try {
-            Option::set(self::LAST_RUN_TIME_OPTION_NAME, Date::factory('today')->getTimestamp());
+            Option::set(self::LAST_RUN_TIME_OPTION_NAME, (string) Date::factory('today')->getTimestamp());
 
             $notificationsToDispatchCount = 0;
             $notificationsDispatchedCount = 0;
