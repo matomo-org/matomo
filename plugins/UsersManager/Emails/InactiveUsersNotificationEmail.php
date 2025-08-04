@@ -11,6 +11,7 @@ namespace Piwik\Plugins\UsersManager\Emails;
 
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\Plugins\LanguagesManager\LanguagesHelper;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserNotifications\UserNotification;
 use Piwik\SettingsPiwik;
@@ -47,12 +48,14 @@ class InactiveUsersNotificationEmail extends Mail
 
     private function setUpEmail(): void
     {
-        $this->setDefaultFromPiwik();
-        $this->addTo($this->recipient);
-        $this->setSubject($this->getDefaultSubject());
-        $this->addReplyTo($this->getFrom(), $this->getFromName());
-        $this->setBodyText($this->getDefaultBodyText());
-        $this->setWrappedHtmlBody($this->getDefaultBodyView());
+        LanguagesHelper::doWithUserLanguage($this->recipient, function () {
+            $this->setDefaultFromPiwik();
+            $this->addTo($this->recipient);
+            $this->setSubject($this->getDefaultSubject());
+            $this->addReplyTo($this->getFrom(), $this->getFromName());
+            $this->setBodyText($this->getDefaultBodyText());
+            $this->setWrappedHtmlBody($this->getDefaultBodyView());
+        });
     }
 
     protected function getManageUsersLink(): string
