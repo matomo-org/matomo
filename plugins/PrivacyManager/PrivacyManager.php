@@ -485,6 +485,7 @@ class PrivacyManager extends Plugin
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/gdprOverview.less";
         $stylesheets[] = "plugins/PrivacyManager/vue/src/AnonymizeLogData/AnonymizeLogData.less";
         $stylesheets[] = "plugins/PrivacyManager/stylesheets/footerLinks.less";
+        $stylesheets[] = "plugins/PrivacyManager/stylesheets/compliance.less";
     }
 
     /**

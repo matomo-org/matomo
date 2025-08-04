@@ -7,17 +7,78 @@
 
 <template>
   <h2>
-    <EnrichedHeadline>{{ translate('PrivacyManager_Compliance') }}</EnrichedHeadline>
+      Compliance
   </h2>
+
+  <p>
+    Select a site below to get an indication if the given site is compliant according to the
+    indicated privacy law
+  </p>
+
+  <SiteSelector
+    id="complianceDashboard"
+    :switch-site-on-select="false"
+    :show-selected-site="true"
+    v-model="site"
+  />
+
+  <div>
+    <ComplianceOverview
+      v-for="type in complianceTypes"
+      :key="type.id"
+      :id-site="siteId"
+      :compliance-type="type.id"
+      :title="type.title"
+      :description="type.description"
+    />
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { EnrichedHeadline } from 'CoreHome';
+import { defineComponent, ref, watch } from 'vue';
+import { SiteSelector, SiteRef } from '../../../../CoreHome/vue/src';
+import ComplianceOverview from './ComplianceOverview.vue';
+import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
 
 export default defineComponent({
   components: {
-    EnrichedHeadline,
+    ComplianceOverview,
+    SiteSelector,
+  },
+  setup() {
+    const site = ref<SiteRef>({
+      id: Matomo.idSite,
+      name: Matomo.helper.htmlDecode(Matomo.siteName),
+    });
+    const siteId = ref(String(Matomo.idSite));
+
+    watch(site, (newSite) => {
+      siteId.value = newSite?.id != null ? String(newSite.id) : '';
+    });
+
+    const complianceTypes = [
+      {
+        id: 'cnil',
+        title: 'CNIL Compliance',
+        description: 'This table acts as a guide for what parts of your configuration may be compliant according to CNIL.',
+      },
+      {
+        id: 'hipaa',
+        title: 'HIPAA Compliance',
+        description: 'This section outlines whether your analytics setup aligns with healthcare data protection requirements under HIPAA.',
+      },
+      {
+        id: 'ccpa',
+        title: 'CCPA Compliance',
+        description: 'This overview checks how well your tracking policies meet California Consumer Privacy Act standards.',
+      },
+    ];
+
+    return {
+      site,
+      siteId,
+      complianceTypes,
+    };
   },
 });
 </script>
