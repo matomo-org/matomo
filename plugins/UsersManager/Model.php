@@ -945,11 +945,11 @@ class Model
         return $users;
     }
 
-    public function setLastSeenDatetime(string $userLogin, string $timestamp): void
+    public function setLastSeenDatetime(string $userLogin, string $datetime): void
     {
         $db = $this->getDb();
         $sql = "UPDATE `" . $this->userTable . "` SET `ts_last_seen` = ? WHERE login = ?";
-        $bind = [$timestamp, $userLogin];
+        $bind = [$datetime, $userLogin];
         $db->query($sql, $bind);
     }
 
