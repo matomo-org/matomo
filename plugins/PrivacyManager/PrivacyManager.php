@@ -712,7 +712,7 @@ class PrivacyManager extends Plugin
     {
         // if range, only look at the first date
         if ($strPeriod === 'range') {
-            $idSite = Common::getRequestVar('idSite', 0, 'int');
+            $idSite = Common::getRequestVar('idSite', '0', 'int');
 
             if ($idSite) {
                 $site     = new Site($idSite);
@@ -914,7 +914,7 @@ class PrivacyManager extends Plugin
 
     public function shouldAddTrackerFile(&$shouldAdd, $pluginName)
     {
-        $idSite = Common::getRequestVar('idsite', 0, 'int');
+        $idSite = Common::getRequestVar('idsite', '0', 'int');
         if ($pluginName === 'PrivacyManager') {
             $shouldAdd = self::isCookieLessTrackingForced($idSite);
         }
