@@ -440,5 +440,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_TokenExpireDateCheckboxHelp';
         $translationKeys[] = 'UsersManager_TokenExpireDateHelpText';
         $translationKeys[] = 'UsersManager_InvalidTokenExpireDateFormat';
+        $translationKeys[] = 'UsersManager_XAgo';
     }
 }
