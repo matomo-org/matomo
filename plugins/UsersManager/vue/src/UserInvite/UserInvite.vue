@@ -174,7 +174,10 @@ export default defineComponent({
           passwordConfirmation: password,
         },
       ).then(() => {
-        this.firstSiteAccess = null;
+        this.firstSiteAccess = {
+          id: this.initialSiteId,
+          name: this.initialSiteName,
+        };
         this.theUser.invite_status = 'pending';
 
         this.showUserInvitedNotification();
