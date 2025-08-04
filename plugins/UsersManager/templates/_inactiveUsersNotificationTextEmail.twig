@@ -14,7 +14,7 @@
 
 {{ 'General_Username'|translate }} | {{ 'UsersManager_LastLoginDate'|translate }} | {{ 'UsersManager_LastAPIUsageDate'|translate }}
 {% for inactiveUser in inactiveUsers %}
-{{ inactiveUser.login }} | {{ inactiveUser.ts_last_seen }} | {{ inactiveUser.ts_last_token_activity|default('n/a') }}
+{{ inactiveUser.login }} | {{ inactiveUser.ts_last_seen }} | {% if inactiveUser.ts_last_token_activity is not empty %}{{ inactiveUser.ts_last_token_activity }}{% else %}{{ 'General_NotAvailable'|translate }}{% endif %}
 {% endfor %}
 
 {{ 'UsersManager_InactiveUsersNotificationEmail04'|translate }} {{ manageUsersLink }}

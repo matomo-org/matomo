@@ -23,7 +23,7 @@
         <tr>
             <td style="border: 1px solid #ccc; padding: 10px;">{{ inactiveUser.login }}</td>
             <td style="border: 1px solid #ccc; padding: 10px;">{{ inactiveUser.ts_last_seen }}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ inactiveUser.ts_last_token_activity|default('n/a') }}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">{% if inactiveUser.ts_last_token_activity is not empty %}{{ inactiveUser.ts_last_token_activity }}{% else %}{{ 'General_NotAvailable'|translate }}{% endif %}</td>
         </tr>
     {% endfor %}
     </tbody>

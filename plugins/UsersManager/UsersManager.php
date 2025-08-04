@@ -255,6 +255,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Done';
         $translationKeys[] = 'General_Language';
         $translationKeys[] = 'General_Never';
+        $translationKeys[] = 'General_NotAvailable';
         $translationKeys[] = 'General_Note';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_OrCancel';
