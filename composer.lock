@@ -715,12 +715,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "1b8a21d8c71843b0c62c1ec5b9e50c0c84fb6e8c"
+                "reference": "e28590ce3c8ef0cfb2f56939e4c99fe0d205b4ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/1b8a21d8c71843b0c62c1ec5b9e50c0c84fb6e8c",
-                "reference": "1b8a21d8c71843b0c62c1ec5b9e50c0c84fb6e8c",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/e28590ce3c8ef0cfb2f56939e4c99fe0d205b4ad",
+                "reference": "e28590ce3c8ef0cfb2f56939e4c99fe0d205b4ad",
                 "shasum": ""
             },
             "replace": {
@@ -736,9 +736,9 @@
             "description": "Community-contributed list of referrer spammers",
             "support": {
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
-                "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
+                "source": "https://github.com/matomo-org/referrer-spam-list/tree/4.0.1"
             },
-            "time": "2025-07-02T22:22:50+00:00"
+            "time": "2025-08-03T07:43:11+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -3906,16 +3906,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.13.3",
+            "version": "1.13.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "faed855a7b5f4d4637717c2b3863e277116beb36"
+                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/faed855a7b5f4d4637717c2b3863e277116beb36",
-                "reference": "faed855a7b5f4d4637717c2b3863e277116beb36",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/07d290f0c47959fd5eed98c95ee5602db07e0b6a",
+                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a",
                 "shasum": ""
             },
             "require": {
@@ -3954,7 +3954,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.3"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.4"
             },
             "funding": [
                 {
@@ -3962,7 +3962,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-07-05T12:25:42+00:00"
+            "time": "2025-08-01T08:46:24+00:00"
         },
         {
             "name": "phar-io/manifest",
