@@ -354,7 +354,7 @@ class Controller extends ControllerAdmin
 
         $model = new UsersModel();
         $user = $model->getUser(Piwik::getCurrentUserLogin());
-        if (is_array($user)) {
+        if (!empty($user)) {
             $userChanges = new UserChanges($user);
             $changes = $userChanges->getChanges();
             return $this->renderTemplate('whatIsNew', ['changes' => $changes]);

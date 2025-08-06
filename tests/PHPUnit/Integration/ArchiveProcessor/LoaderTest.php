@@ -193,15 +193,8 @@ class LoaderTest extends IntegrationTestCase
                 'date2' => '2020-01-20',
                 'period' => '1',
             ],
-            // Why archive 4 is missing:
-            // Triggering the archiving will at first archive core metrics (aka VisitsSummary) if they are not yet available.
-            // In case there were no visits, the created archive will only contain a done flag, but no other metrics.
-            // This causes the archiving (for core metrics) to be triggered again, which will create a new (empty) archive, while removing the previous one.
-            // As archiving dependent segments also first triggers archiving VisitsSummary, it creates an empty archive.
-            // Afterwards when archiving the Goals plugin it will archive VisitsSummary again, as the previous one is empty.
-            // Which then causes this missing archive id.
             [
-                'idarchive' => '5',
+                'idarchive' => '4',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -209,7 +202,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '6',
+                'idarchive' => '5',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -264,9 +257,8 @@ class LoaderTest extends IntegrationTestCase
                 'date2' => '2020-01-20',
                 'period' => '1',
             ],
-            // archive 4 is missing as VisitsSummary is archived twice, as it doesn't contain data
             [
-                'idarchive' => '5',
+                'idarchive' => '4',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -274,7 +266,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '6',
+                'idarchive' => '5',
                 'name' => 'donefea44bece172bc9696ae57c26888bf8a.Goals',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -284,7 +276,7 @@ class LoaderTest extends IntegrationTestCase
 
             // start of new archives
             [
-                'idarchive' => '7',
+                'idarchive' => '6',
                 'name' => 'done.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -292,7 +284,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '2',
             ],
             [
-                'idarchive' => '8',
+                'idarchive' => '7',
                 'name' => 'done.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-22',
@@ -300,7 +292,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '9',
+                'idarchive' => '8',
                 'name' => 'done.ExamplePlugin',
                 'value' => '5',
                 'date1' => '2020-01-20',
@@ -308,7 +300,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '2',
             ],
             [
-                'idarchive' => '10',
+                'idarchive' => '9',
                 'name' => 'done.ExamplePlugin',
                 'value' => '5',
                 'date1' => '2020-01-22',
@@ -369,13 +361,10 @@ class LoaderTest extends IntegrationTestCase
         }
 
         $actualArchives = $this->getArchives();
-        if ($actualArchives != $expectedArchives) {
-            var_export($actualArchives);
-        }
         $this->assertEquals($expectedArchives, $actualArchives);
     }
 
-    public function getTestDataForArchiving()
+    public function getTestDataForArchiving(): iterable
     {
         $pluginSpecificArchive = [1, 'day', '2018-03-03', '', 'ExamplePlugin', false];
 
@@ -384,272 +373,329 @@ class LoaderTest extends IntegrationTestCase
 
         $unloadedPluginArchive = [1, 'day', '2018-03-03', '', 'MyImaginaryPlugin', false];
 
-        return [
-            // no archive, archive specific plugin
-            [
-                [],
-                $pluginSpecificArchive,
-                array (
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'bounce_count',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done.VisitsSummary',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'max_actions',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'nb_actions',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'nb_uniq_visitors',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'nb_visits',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done.ExamplePlugin',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'ExamplePlugin_example_metric',
-                        'value' => '-603',
-                    ),
-                ),
-                false,
-            ],
-
-            // all plugins, recent, archive specific plugin
+        yield 'no archive, archive specific plugin' => [
+            [],
+            $pluginSpecificArchive,
             [
                 [
-                    ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2018-03-04 04:50:00'],
-                    ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits', 'value' => 12, 'ts_archived' => '2018-03-04 04:50:00'],
-                    ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits_converted', 'value' => 3, 'ts_archived' => '2018-03-04 04:50:00'],
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'bounce_count',
+                    'value'     => '1',
                 ],
-                $pluginSpecificArchive,
-                array ( // done archive already exists and is recent, so we don't archive the plugin
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'nb_visits',
-                        'value' => '12',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'nb_visits_converted',
-                        'value' => '3',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done.ExamplePlugin',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'ExamplePlugin_example_metric',
-                        'value' => '-603',
-                    ),
-                ),
-                false,
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'done.VisitsSummary',
+                    'value'     => '1',
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'max_actions',
+                    'value'     => '1',
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'nb_actions',
+                    'value'     => '1',
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'nb_uniq_visitors',
+                    'value'     => '1',
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'nb_users',
+                    'value'     => '0',
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'nb_visits',
+                    'value'     => '1',
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'nb_visits_converted',
+                    'value'     => '0',
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'sum_visit_length',
+                    'value'     => '0',
+                ],
+                [
+                    'idarchive' => '2',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'done.ExamplePlugin',
+                    'value'     => '1',
+                ],
+                [
+                    'idarchive' => '2',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'ExamplePlugin_example_metric',
+                    'value'     => '-603',
+                ],
+                [
+                    'idarchive' => '2',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'ExamplePlugin_example_metric2',
+                    'value'     => '0',
+                ],
             ],
+            false,
+        ];
 
-            // visitssummary, recent, archive specific plugin
+        yield 'all plugins, recent, archive specific plugin' => [
+            [
+                ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2018-03-04 04:50:00'],
+                ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits', 'value' => 12, 'ts_archived' => '2018-03-04 04:50:00'],
+                ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits_converted', 'value' => 3, 'ts_archived' => '2018-03-04 04:50:00'],
+            ],
+            $pluginSpecificArchive,
+            [ // done archive already exists and is recent, so we don't archive the plugin
+              [
+                  'idarchive' => '1',
+                  'idsite'    => '1',
+                  'date1'     => '2018-03-03',
+                  'date2'     => '2018-03-03',
+                  'period'    => '1',
+                  'name'      => 'done',
+                  'value'     => '1',
+              ],
+              [
+                  'idarchive' => '1',
+                  'idsite'    => '1',
+                  'date1'     => '2018-03-03',
+                  'date2'     => '2018-03-03',
+                  'period'    => '1',
+                  'name'      => 'nb_visits',
+                  'value'     => '12',
+              ],
+              [
+                  'idarchive' => '1',
+                  'idsite'    => '1',
+                  'date1'     => '2018-03-03',
+                  'date2'     => '2018-03-03',
+                  'period'    => '1',
+                  'name'      => 'nb_visits_converted',
+                  'value'     => '3',
+              ],
+              [
+                  'idarchive' => '2',
+                  'idsite'    => '1',
+                  'date1'     => '2018-03-03',
+                  'date2'     => '2018-03-03',
+                  'period'    => '1',
+                  'name'      => 'done.ExamplePlugin',
+                  'value'     => '1',
+              ],
+              [
+                  'idarchive' => '2',
+                  'idsite'    => '1',
+                  'date1'     => '2018-03-03',
+                  'date2'     => '2018-03-03',
+                  'period'    => '1',
+                  'name'      => 'ExamplePlugin_example_metric',
+                  'value'     => '-603',
+              ],
+              [
+                  'idarchive' => '2',
+                  'idsite'    => '1',
+                  'date1'     => '2018-03-03',
+                  'date2'     => '2018-03-03',
+                  'period'    => '1',
+                  'name'      => 'ExamplePlugin_example_metric2',
+                  'value'     => '0',
+              ],
+            ],
+            false,
+        ];
+
+        yield 'visitssummary, recent, archive specific plugin' => [
+            [
+                ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2018-03-04 04:50:00'],
+                ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits', 'value' => 12, 'ts_archived' => '2018-03-04 04:50:00'],
+                ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits_converted', 'value' => 3, 'ts_archived' => '2018-03-04 04:50:00'],
+            ],
+            $pluginSpecificArchive,
             [
                 [
-                    ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2018-03-04 04:50:00'],
-                    ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits', 'value' => 12, 'ts_archived' => '2018-03-04 04:50:00'],
-                    ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits_converted', 'value' => 3, 'ts_archived' => '2018-03-04 04:50:00'],
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'done.VisitsSummary',
+                    'value'     => '1',
                 ],
-                $pluginSpecificArchive,
-                array (
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done.VisitsSummary',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'nb_visits',
-                        'value' => '12',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'nb_visits_converted',
-                        'value' => '3',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done.ExamplePlugin',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'ExamplePlugin_example_metric',
-                        'value' => '-603',
-                    ),
-                ),
-                false,
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'nb_visits',
+                    'value'     => '12',
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'nb_visits_converted',
+                    'value'     => '3',
+                ],
+                [
+                    'idarchive' => '2',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'done.ExamplePlugin',
+                    'value'     => '1',
+                ],
+                [
+                    'idarchive' => '2',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'ExamplePlugin_example_metric',
+                    'value'     => '-603',
+                ],
+                [
+                    'idarchive' => '2',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'ExamplePlugin_example_metric2',
+                    'value'     => '0',
+                ],
             ],
+            false,
+        ];
 
-            // all plugins, old, archive specific plugin
+        yield 'all plugins, old, archive specific plugin' => [
+            [
+                ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2018-03-01 04:50:00'],
+                ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits', 'value' => 12, 'ts_archived' => '2018-03-01 04:50:00'],
+                ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits_converted', 'value' => 3, 'ts_archived' => '2018-03-01 04:50:00'],
+            ],
+            $pluginSpecificArchive,
             [
                 [
-                    ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2018-03-01 04:50:00'],
-                    ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits', 'value' => 12, 'ts_archived' => '2018-03-01 04:50:00'],
-                    ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits_converted', 'value' => 3, 'ts_archived' => '2018-03-01 04:50:00'],
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'done',
+                    'value'     => '1',
                 ],
-                $pluginSpecificArchive,
-                array (
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'nb_visits',
-                        'value' => '12',
-                    ),
-                    array (
-                        'idarchive' => '1',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'nb_visits_converted',
-                        'value' => '3',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'done.ExamplePlugin',
-                        'value' => '1',
-                    ),
-                    array (
-                        'idarchive' => '2',
-                        'idsite' => '1',
-                        'date1' => '2018-03-03',
-                        'date2' => '2018-03-03',
-                        'period' => '1',
-                        'name' => 'ExamplePlugin_example_metric',
-                        'value' => '-603',
-                    ),
-                ),
-                false,
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'nb_visits',
+                    'value'     => '12',
+                ],
+                [
+                    'idarchive' => '1',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'nb_visits_converted',
+                    'value'     => '3',
+                ],
+                [
+                    'idarchive' => '2',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'done.ExamplePlugin',
+                    'value'     => '1',
+                ],
+                [
+                    'idarchive' => '2',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'ExamplePlugin_example_metric',
+                    'value'     => '-603',
+                ],
+                [
+                    'idarchive' => '2',
+                    'idsite'    => '1',
+                    'date1'     => '2018-03-03',
+                    'date2'     => '2018-03-03',
+                    'period'    => '1',
+                    'name'      => 'ExamplePlugin_example_metric2',
+                    'value'     => '0',
+                ],
             ],
+            false,
+        ];
 
-            // visitssummary, old, archive specific plugin
-            [
+        yield 'visitssummary, old, archive specific plugin' => [
                 [
                     ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_OK, 'ts_archived' => '2018-03-01 04:50:00'],
                     ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits', 'value' => 12, 'ts_archived' => '2018-03-01 04:50:00'],
                     ['idarchive' => 1, 'idsite' => 1, 'date1' => '2018-03-03', 'date2' => '2018-03-03', 'period' => 1, 'name' => 'nb_visits_converted', 'value' => 3, 'ts_archived' => '2018-03-01 04:50:00'],
                 ],
                 $pluginSpecificArchive,
-                array (
-                    array (
+                [
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -657,8 +703,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.VisitsSummary',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -666,8 +712,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_visits',
                         'value' => '12',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -675,8 +721,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_visits_converted',
                         'value' => '3',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '2',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -684,8 +730,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.ExamplePlugin',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '2',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -693,17 +739,25 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'ExamplePlugin_example_metric',
                         'value' => '-603',
-                    ),
-                ),
+                    ],
+                    [
+                        'idarchive' => '2',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'ExamplePlugin_example_metric2',
+                        'value'     => '0',
+                    ],
+                ],
                 false,
-            ],
+        ];
 
-            // no archive, archive specific plugin, archive specific plugin again
-            [
+        yield 'no archive, archive specific plugin, archive specific plugin again' => [
                 [],
                 $pluginSpecificArchive,
-                array (
-                    array (
+                [
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -711,8 +765,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'bounce_count',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -720,8 +774,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.VisitsSummary',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -729,8 +783,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'max_actions',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -738,8 +792,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_actions',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -747,8 +801,17 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_uniq_visitors',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'nb_users',
+                        'value'     => '0',
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -756,8 +819,26 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_visits',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'nb_visits_converted',
+                        'value'     => '0',
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'sum_visit_length',
+                        'value'     => '0',
+                    ],
+                    [
                         'idarchive' => '3',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -765,8 +846,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.ExamplePlugin',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '3',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -774,8 +855,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'ExamplePlugin_example_metric',
                         'value' => '-603',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '3',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -783,17 +864,16 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'ExamplePlugin_example_metric2',
                         'value' => '1',
-                    ),
-                ),
+                    ],
+                ],
                 true,
-            ],
+        ];
 
-            // no archive, archive specific report, archive specific report again
-            [
+        yield 'no archive, archive specific report, archive specific report again' => [
                 [],
                 $reportSpecificArchive1,
-                array (
-                    array (
+                [
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -801,8 +881,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'bounce_count',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -810,8 +890,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.VisitsSummary',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -819,8 +899,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'max_actions',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -828,8 +908,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_actions',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -837,17 +917,44 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_uniq_visitors',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
                         'date2' => '2018-03-03',
                         'period' => '1',
+                        'name'  => 'nb_users',
+                        'value' => '0',
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
                         'name' => 'nb_visits',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'nb_visits_converted',
+                        'value'     => '0',
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'sum_visit_length',
+                        'value'     => '0',
+                    ],
+                    [
                         'idarchive' => '2',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -855,8 +962,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.ExamplePlugin',
                         'value' => '5',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '2',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -864,8 +971,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'ExamplePlugin_example_metric',
                         'value' => '-603',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '3',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -873,8 +980,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.ExamplePlugin',
                         'value' => '5',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '3',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -882,17 +989,16 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'ExamplePlugin_example_metric',
                         'value' => '-603',
-                    ),
-                ),
+                    ],
+                ],
                 true,
-            ],
+        ];
 
-            // no archive, archive specific report, archive different report again
-            [
+        yield 'no archive, archive specific report, archive different report again' => [
                 [],
                 $reportSpecificArchive1,
-                array (
-                    array (
+                [
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -900,8 +1006,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'bounce_count',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -909,8 +1015,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.VisitsSummary',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -918,8 +1024,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'max_actions',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -927,8 +1033,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_actions',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -936,17 +1042,44 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_uniq_visitors',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
                         'date2' => '2018-03-03',
                         'period' => '1',
+                        'name'  => 'nb_users',
+                        'value' => '0',
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
                         'name' => 'nb_visits',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'nb_visits_converted',
+                        'value'     => '0',
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'sum_visit_length',
+                        'value'     => '0',
+                    ],
+                    [
                         'idarchive' => '2',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -954,8 +1087,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.ExamplePlugin',
                         'value' => '5',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '2',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -963,17 +1096,34 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'ExamplePlugin_example_metric',
                         'value' => '-603',
-                    ),
-                ),
+                    ],
+                    [
+                        'idarchive' => '3',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'done.ExamplePlugin',
+                        'value'     => '5',
+                    ],
+                    [
+                        'idarchive' => '3',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'ExamplePlugin_example_metric2',
+                        'value'     => '0',
+                    ],
+                ],
                 $reportSpecificArchive2,
-            ],
+        ];
 
-            // no archive, unloaded plugin
-            [
+        yield 'no archive, unloaded plugin' => [
                 [],
                 $unloadedPluginArchive,
-                array (
-                    array (
+                [
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -981,8 +1131,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'bounce_count',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -990,8 +1140,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.VisitsSummary',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -999,8 +1149,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'max_actions',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -1008,8 +1158,8 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_actions',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -1017,17 +1167,44 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'nb_uniq_visitors',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
                         'idarchive' => '1',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
                         'date2' => '2018-03-03',
                         'period' => '1',
+                        'name'  => 'nb_users',
+                        'value' => '0',
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
                         'name' => 'nb_visits',
                         'value' => '1',
-                    ),
-                    array (
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'nb_visits_converted',
+                        'value'     => '0',
+                    ],
+                    [
+                        'idarchive' => '1',
+                        'idsite'    => '1',
+                        'date1'     => '2018-03-03',
+                        'date2'     => '2018-03-03',
+                        'period'    => '1',
+                        'name'      => 'sum_visit_length',
+                        'value'     => '0',
+                    ],
+                    [
                         'idarchive' => '2',
                         'idsite' => '1',
                         'date1' => '2018-03-03',
@@ -1035,10 +1212,9 @@ class LoaderTest extends IntegrationTestCase
                         'period' => '1',
                         'name' => 'done.MyImaginaryPlugin',
                         'value' => '1',
-                    ),
-                ),
+                    ],
+                ],
                 false,
-            ],
         ];
     }
 

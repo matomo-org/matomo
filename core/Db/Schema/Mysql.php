@@ -64,6 +64,8 @@ class Mysql implements SchemaInterface
                           invite_expired_at TIMESTAMP NULL,
                           invite_accept_at TIMESTAMP NULL,
                           ts_changes_shown TIMESTAMP NULL,
+                          ts_last_seen TIMESTAMP NULL,
+                          ts_inactivity_notified TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE INDEX `uniq_email` (`email`)
                           ) $tableOptions

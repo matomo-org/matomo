@@ -704,6 +704,10 @@ class ArchiveProcessor
 
         $dataTable = $this->getArchive()->getDataTableFromNumeric($columns);
 
+        if ($dataTable->wasBuiltWithoutArchives()) {
+            return (new Row())->getColumns();
+        }
+
         $results = $this->getAggregatedDataTableMap($dataTable, $operationForColumn);
         if ($results->getRowsCount() > 1) {
             throw new Exception("A DataTable is an unexpected state:" . var_export($results, true));

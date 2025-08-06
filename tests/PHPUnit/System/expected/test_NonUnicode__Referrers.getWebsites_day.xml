@@ -7,7 +7,7 @@
 		<nb_actions>6</nb_actions>
 		<nb_users>0</nb_users>
 		<max_actions>5</max_actions>
-		<sum_visit_length>721</sum_visit_length>
+		<sum_visit_length>722</sum_visit_length>
 		<bounce_count>1</bounce_count>
 		<nb_visits_converted>0</nb_visits_converted>
 		<segment>referrerName==anothersite.com</segment>
@@ -30,7 +30,7 @@
 				<nb_actions>5</nb_actions>
 				<nb_users>0</nb_users>
 				<max_actions>5</max_actions>
-				<sum_visit_length>721</sum_visit_length>
+				<sum_visit_length>722</sum_visit_length>
 				<bounce_count>0</bounce_count>
 				<nb_visits_converted>0</nb_visits_converted>
 			</row>

@@ -3,6 +3,7 @@
         "Clicks": "%s klikkausta",
         "ClicksFromXLinks": "%1$s klikkaukset yhdestä %2$s:n linkeistä",
         "Domain": "Verkkotunnus",
+        "ErrorNoSiteUrls": "VAROITUS: Tällä verkkosivustolla ei ole määritetty sivuston URL-osoitteita Matomossa. Tämä saattaa aiheuttaa Overlayn ja muiden ominaisuuksien toimintahäiriöitä tai oudon toiminnan. Voit korjata tämän lisäämällä URL-osoitteen tämän verkkosivuston asetuksiin Matomon hallintaosiossa.",
         "ErrorNotLoading": "Sivun leijukeistuntoa ei voitu vielä käynnistää.",
         "ErrorNotLoadingDetails": "On mahdollista, ettei ladatulla sivulla ole Matomon seurantakoodia. Yritä käynnistää leijuke toiselle sivulle sivuraportista.",
         "ErrorNotLoadingDetailsSSL": "Koska käytät Matomoa https:llä, todennäköisin syy on, ettei verkkosivusi tue SSL:ää. Kokeile käyttää Matomoa http:llä.",
@@ -14,6 +15,7 @@
         "OpenFullScreen": "Siirry koko näytön tilaan (ei sivupalkkia)",
         "Overlay": "Sivun leijuke",
         "PluginDescription": "Näe analytiikkatietosi omalla verkkosivullasi. Katso kuinka monta kertaa käyttäjät ovat klikanneet linkkejäsi. Huom.: \"Transitions\"-lisäosan täytyy olla käytössä.",
+        "RedirectUrlError": "Yrität avata sivun peittokuvaa URL-osoitteelle \"%1$s\". %2$s Mikään Matomo-asetusten verkkotunnuksista ei vastaa linkkiä.",
         "RedirectUrlErrorAdmin": "Voit lisätä domainin ylimääräisenä URL:nä %1$sasetuksissa%2$s.",
         "RedirectUrlErrorUser": "Pyydä ylläpitää lisäämään domain ylimääräisenä verkkosivuna."
     }

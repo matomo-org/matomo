@@ -108,6 +108,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
             $t->setForceVisitDateTime($visitDateTime);
             $t->setPerformanceTimings(35 + $daysIntoPast, 125 + $daysIntoPast, 356 + $daysIntoPast, 255 + $daysIntoPast, 351 + $daysIntoPast, 66 + $daysIntoPast);
             self::assertTrue($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
+            $t->setForceVisitDateTime(Date::factory($visitDateTime)->addPeriod(1, 'second')->getDatetime());
 
             // Trigger goal n°1 once
             self::assertTrue($t->doTrackGoal(1));

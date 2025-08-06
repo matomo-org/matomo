@@ -9,23 +9,14 @@
   <ContentBlock
     class="userEditForm"
     :class="{ loading: isSavingUserInfo }"
-    :content-title="`${formTitle} ${!isAdd ? `${theUser.login}` : ''}`"
+    :content-title="theUser.login"
   >
     <div
       class="row"
       v-form=""
     >
-      <div v-if="isAdd" class="col s12 m6 invite-notes">
-        <div class="form-help">
-                     <span v-html="$sanitize(
-                          translate('UsersManager_InviteSuccessNotification',
-                          [inviteTokenExpiryDays]))">
-                     </span>
-        </div>
-      </div>
       <div
         class="col m2 entityList"
-        v-if="!isAdd"
       >
         <ul class="listCircle">
           <li
@@ -66,7 +57,7 @@
           <li
             :class="{active: activeTab === '2fa'}"
             class="menuUserTwoFa"
-            v-if="currentUserRole === 'superuser' && theUser.uses_2fa && !isAdd"
+            v-if="currentUserRole === 'superuser' && theUser.uses_2fa"
           >
             <a
               href=""
@@ -96,7 +87,7 @@
           <div>
             <Field
               v-model="theUser.login"
-              :disabled="isSavingUserInfo || !isAdd || isShowingPasswordConfirm"
+              :disabled="true"
               autocomplete="off"
               uicontrol="text"
               name="user_login"
@@ -108,7 +99,7 @@
             <Field
               v-if="!isPending"
               :model-value="theUser.password"
-              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
+              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser')
                 || isShowingPasswordConfirm"
               @update:model-value="theUser.password = $event; isPasswordModified = true"
               uicontrol="password"
@@ -124,9 +115,9 @@
           <div class="email-input">
             <Field
               v-model="theUser.email"
-              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser' && !isAdd)
+              :disabled="isSavingUserInfo || (currentUserRole !== 'superuser')
                 || isShowingPasswordConfirm"
-              v-if="currentUserRole === 'superuser' || isAdd"
+              v-if="currentUserRole === 'superuser'"
               uicontrol="text"
               name="user_email"
               autocomplete="off"
@@ -135,26 +126,13 @@
             />
           </div>
           <div>
-            <Field
-              v-model="firstSiteAccess"
-              :disabled="isSavingUserInfo"
-              v-if="isAdd"
-              uicontrol="site"
-              name="user_site"
-              :ui-control-attributes="{ onlySitesWithAdminAccess: true }"
-              :title="translate('UsersManager_FirstWebsitePermission')"
-              :inline-help="translate('UsersManager_FirstSiteInlineHelp')"
-            />
-          </div>
-          <div>
             <div class="form-group row" style="position: relative">
               <div class="col s12 m6 save-button">
                 <SaveButton
-                  v-if="currentUserRole === 'superuser' || isAdd"
-                  :value="saveButtonLabel"
-                  :disabled="isAdd && (!firstSiteAccess || !firstSiteAccess.id)"
+                  v-if="currentUserRole === 'superuser'"
+                  :value="translate('UsersManager_SaveBasicInfo')"
                   :saving="isSavingUserInfo"
-                  @confirm="saveUserInfo"
+                  @confirm="this.isShowingPasswordConfirm = true"
                 />
               </div>
             </div>
@@ -165,26 +143,9 @@
                     v-html="$sanitize(translate('UsersManager_ResendInvite') +
                     '/'+ translate('UsersManager_CopyLink'))"></span>
             </p>
-            <PasswordConfirmation
-              v-model="showPasswordConfirmationForInviteUser"
-              @confirmed="inviteUser"
-            />
-          </div>
-          <div
-            class="entityCancel"
-            v-if="isAdd"
-          >
-            <a
-              href=""
-              class="entityCancelLink"
-              @click.prevent="onDoneEditing()"
-            >
-              <span class="icon icon-arrow-left">&nbsp;
-              </span>{{ translate('UsersManager_BackToUser') }}</a>
           </div>
         </div>
         <div
-          v-if="!isAdd"
           v-show="activeTab === 'permissions'"
           class="user-permissions"
         >
@@ -207,7 +168,7 @@
           </div>
         </div>
         <div
-          v-if="activeTab === 'superuser' && currentUserRole === 'superuser' && !isAdd"
+          v-if="activeTab === 'superuser' && currentUserRole === 'superuser'"
           class="superuser-access form-group"
         >
           <p v-if="isMarketplacePluginEnabled">{{ translate('UsersManager_SuperUserIntro1') }}</p>
@@ -253,7 +214,7 @@
         </div>
         <div
           v-show="activeTab === '2fa'"
-          v-if="currentUserRole === 'superuser' && !isAdd"
+          v-if="currentUserRole === 'superuser'"
           class="twofa-reset form-group"
         >
           <p>{{ translate('UsersManager_ResetTwoFactorAuthenticationInfo') }}</p>
@@ -291,7 +252,6 @@
 import { defineComponent } from 'vue';
 import {
   ContentBlock,
-  SiteRef,
   translate,
   AjaxHelper,
   NotificationsStore,
@@ -324,13 +284,11 @@ interface UserEditFormState {
   permissionsForIdSite: string | number;
   isSavingUserInfo: boolean;
   userHasAccess: boolean;
-  firstSiteAccess: SiteRef | null;
   isUserModified: boolean;
   isPasswordModified: boolean;
   superUserAccessChecked: boolean | null;
   showPasswordConfirmationForSuperUser: boolean;
   showPasswordConfirmationFor2FA: boolean;
-  showPasswordConfirmationForInviteUser: boolean;
   isResetting2FA: boolean;
   isShowingPasswordConfirm: boolean;
 }
@@ -348,18 +306,6 @@ export default defineComponent({
     },
     filterAccessLevels: {
       type: Array,
-      required: true,
-    },
-    initialSiteId: {
-      type: [String, Number],
-      required: true,
-    },
-    initialSiteName: {
-      type: String,
-      required: true,
-    },
-    inviteTokenExpiryDays: {
-      type: String,
       required: true,
     },
     activatedPlugins: {
@@ -390,16 +336,11 @@ export default defineComponent({
       permissionsForIdSite: 1,
       isSavingUserInfo: false,
       userHasAccess: true,
-      firstSiteAccess: {
-        id: this.initialSiteId,
-        name: this.initialSiteName,
-      },
       isUserModified: false,
       isPasswordModified: false,
       superUserAccessChecked: null,
       showPasswordConfirmationForSuperUser: false,
       showPasswordConfirmationFor2FA: false,
-      showPasswordConfirmationForInviteUser: false,
       isResetting2FA: false,
       isShowingPasswordConfirm: false,
     };
@@ -449,60 +390,18 @@ export default defineComponent({
         this.setSuperUserAccessChecked();
       });
     },
-    saveUserInfo() {
-      if (this.isAdd) {
-        this.showPasswordConfirmationForInviteUser = true;
-      } else {
-        this.isShowingPasswordConfirm = true;
-      }
-    },
     resendRequestedUser() {
       this.$emit('resendInvite', {
         user: this.user,
       });
     },
-    inviteUser(password: string) {
-      this.isSavingUserInfo = true;
-      return AjaxHelper.post(
-        {
-          method: 'UsersManager.inviteUser',
-        },
-        {
-          userLogin: this.theUser.login,
-          email: this.theUser.email,
-          initialIdSite: this.firstSiteAccess ? this.firstSiteAccess.id : undefined,
-          passwordConfirmation: password,
-        },
-      ).catch((e) => {
-        this.isSavingUserInfo = false;
-        throw e;
-      }).then(() => {
-        this.firstSiteAccess = null;
-        this.isSavingUserInfo = false;
-        this.isUserModified = true;
-        this.theUser.invite_status = 'pending';
-
-        this.resetPasswordVar();
-        this.showUserCreatedNotification();
-        this.$emit('updated', { user: this.theUser });
-      });
-    },
     resetPasswordVar() {
-      if (!this.isAdd) {
-        // make sure password is not stored in the client after update/save
-        this.theUser.password = 'XXXXXXXX';
-      }
+      // make sure password is not stored in the client after update/save
+      this.theUser.password = 'XXXXXXXX';
     },
     showUserSavedNotification() {
       NotificationsStore.show({
         message: translate('General_YourChangesHaveBeenSaved'),
-        context: 'success',
-        type: 'toast',
-      });
-    },
-    showUserCreatedNotification() {
-      NotificationsStore.show({
-        message: translate('UsersManager_InviteSuccess'),
         context: 'success',
         type: 'toast',
       });
@@ -566,14 +465,6 @@ export default defineComponent({
     },
   },
   computed: {
-    formTitle() {
-      return this.isAdd ? translate('UsersManager_InviteNewUser') : '';
-    },
-    saveButtonLabel() {
-      return this.isAdd
-        ? translate('UsersManager_InviteUser')
-        : translate('UsersManager_SaveBasicInfo');
-    },
     isPending() {
       if (!this.user) {
         return true;
@@ -582,9 +473,6 @@ export default defineComponent({
         return true;
       }
       return false;
-    },
-    isAdd() {
-      return !this.user;
     },
     changePasswordTitle() {
       return translate(

@@ -9,6 +9,8 @@ export { default as CapabilitiesEdit } from './CapabilitiesEdit/CapabilitiesEdit
 export { default as Capability } from './CapabilitiesStore/Capability';
 export { default as UserPermissionsEdit } from './UserPermissionsEdit/UserPermissionsEdit.vue';
 export { default as UserEditForm } from './UserEditForm/UserEditForm.vue';
+export { default as UserInvite } from './UserInvite/UserInvite.vue';
+export { default as ResendInviteModal } from './UserInvite/ResendInviteModal.vue';
 export { default as PagedUsersList } from './PagedUsersList/PagedUsersList.vue';
 export { default as UsersManager } from './UsersManager/UsersManager.vue';
 export { default as AnonymousSettings } from './AnonymousSettings/AnonymousSettings.vue';
