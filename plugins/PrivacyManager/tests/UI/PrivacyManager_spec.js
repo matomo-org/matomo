@@ -374,7 +374,45 @@ describe("PrivacyManager", function () {
         });
         testEnvironment.save();
 
-        await loadActionPage('compliance');
+        await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
+        await page.waitForNetworkIdle();
+
+        const privacyMenuItem = await page.jQuery('#secondNavBar .navbar a:contains(Privacy):visible:first');
+        await privacyMenuItem.click();
+
+        const complianceMenuSelector = '#secondNavBar .navbar .menuTab.active ul li [href*="compliance"]';
+
+        await page.waitForSelector(complianceMenuSelector);
+        await page.click(complianceMenuSelector);
+
+        await page.waitForNetworkIdle();
+
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
     });
-});
+
+    it('should not be able to navigate to compliance page with feature flag enabled', async function() {
+      testEnvironment.overrideConfig('FeatureFlags', {
+        PrivacyCompliance_feature: 'disabled',
+      });
+      testEnvironment.save();
+
+      await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+
+      const privacyMenuItem = await page.jQuery('#secondNavBar .navbar a:contains(Privacy):visible:first');
+      await privacyMenuItem.click();
+
+      // Not in menu
+      const complianceMenuItem = await page.$('#secondNavBar .navbar .menuTab.active ul li [href*="compliance"]');
+      expect(complianceMenuItem).to.be.null;
+
+      // Not accessible directly - empty body
+      await loadActionPage('compliance');
+      const isBodyEmpty = await page.evaluate(() => {
+        const body = document.body;
+        return body && body.children.length === 0 && body.innerText.trim() === '';
+      });
+
+      expect(isBodyEmpty).to.be.true;
+    });
+  });
