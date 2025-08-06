@@ -367,4 +367,14 @@ describe("PrivacyManager", function () {
         await findDataSubjects();
         expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_userid');
     });
+
+    it('should load compliance page when feature flag enabled', async function() {
+        testEnvironment.overrideConfig('FeatureFlags', {
+          PrivacyCompliance_feature: 'enabled',
+        });
+        testEnvironment.save();
+
+        await loadActionPage('compliance');
+        expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
+    });
 });
