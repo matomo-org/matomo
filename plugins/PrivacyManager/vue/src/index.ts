@@ -20,4 +20,5 @@ export { default as AskingForConsent } from './AskingForConsent/AskingForConsent
 export { default as GdprOverview } from './GdprOverview/GdprOverview.vue';
 export { default as PreviousAnonymizations } from './AnonymizeLogData/PreviousAnonymizations.vue';
 export { default as PrivacySettings } from './PrivacySettings/PrivacySettings.vue';
+export { default as Compliance } from './Compliance/Compliance.vue';
 export { default as UsersOptOut } from './UsersOptOut/UsersOptOut.vue';

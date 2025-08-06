@@ -13,9 +13,6 @@ namespace Piwik\Plugins\PrivacyManager\FeatureFlags;
 
 use Piwik\Plugins\FeatureFlags\FeatureFlagInterface;
 
-/**
- *
- */
 class PrivacyCompliance implements FeatureFlagInterface
 {
     public function getName(): string

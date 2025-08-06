@@ -230,17 +230,19 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $view->render();
     }
 
-    public function compliance()
+    public function compliance(): string
     {
         Piwik::checkUserHasSuperUserAccess();
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $view = new View('@PrivacyManager/compliance');
-            $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
-            $this->setBasicVariablesView($view);
-
-            return $view->render();
+        if (!$featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            return '';
         }
+
+        $view = new View('@PrivacyManager/compliance');
+        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
+        $this->setBasicVariablesView($view);
+
+        return $view->render();
     }
 
     public function privacySettings()
