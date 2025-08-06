@@ -17,8 +17,8 @@
       v-if="!state.loading"
       uicontrol="checkbox"
       name="enableFeature"
-      title="Enforce compliant settings"
-      introduction="Override the current configuration to help maintain compliance"
+      title="Enforce settings that help support alignment where possible"
+      introduction="Override current configuration to help improve alignment with guidance"
       inline-help="Enabling this will override the above settings to support compliance.
 Note: This does not guarantee full compliance, manual review may still be required."
       v-model="isComplianceModeEnabled"
@@ -42,7 +42,7 @@ import {
 } from 'vue';
 import { ActivityIndicator, ContentBlock } from '../../../../CoreHome/vue/src';
 import ComplianceTable from './ComplianceTable.vue';
-import { createComplianceStore } from './compliance.store';
+import { createComplianceStore } from './Compliance.store';
 import { Field, PasswordConfirmation, SaveButton } from '../../../../CorePluginsAdmin/vue/src';
 
 export default defineComponent({

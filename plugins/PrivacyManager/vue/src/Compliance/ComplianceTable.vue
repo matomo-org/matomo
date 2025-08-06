@@ -44,7 +44,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { ComplianceIndicator } from './compliance.store';
+import { ComplianceIndicator } from './Compliance.store';
 
 export default defineComponent({
   props: {

@@ -60,7 +60,7 @@ export default defineComponent({
       {
         id: 'cnil',
         title: 'CNIL Compliance',
-        description: 'This table acts as a guide for what parts of your configuration may be compliant according to CNIL.',
+        description: 'This table provides an indication of whether certain settings align with CNIL guidance. It does not guarantee full legal compliance.',
       },
       {
         id: 'hipaa',
