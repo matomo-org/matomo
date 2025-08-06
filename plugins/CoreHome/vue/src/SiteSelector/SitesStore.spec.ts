@@ -9,6 +9,38 @@ import { reactive } from 'vue';
 import SitesStore from './SitesStore';
 import AjaxHelper from '../AjaxHelper/AjaxHelper';
 
+type MethodArgsArray = [
+  (boolean | undefined)?,
+  (number[] | undefined)?,
+  (boolean | undefined)?,
+  (string[] | undefined)?,
+];
+
+function getPossibleFilterArgCombinations(): MethodArgsArray[] {
+  const onlySitesWithAdminAccessVals = [undefined, true, false];
+  const excludedSitesVals = [undefined, [], [1], [1, 2], [3, 4, 1]];
+  const onlySitesWithAtLeastWriteAccessVals = [undefined, true, false];
+  const siteTypesToExcludeVals = [undefined, [], ['rollup'], ['rollup', 'intranet'], ['intranet', 'website', 'rollup']];
+
+  const results = [] as MethodArgsArray[];
+  onlySitesWithAdminAccessVals.forEach((onlySitesWithAdminAccess?: boolean) => {
+    excludedSitesVals.forEach((excludedSites?: number[]) => {
+      onlySitesWithAtLeastWriteAccessVals.forEach((onlySitesWithAtLeastWriteAccess?: boolean) => {
+        siteTypesToExcludeVals.forEach((siteTypesToExclude?: string[]) => {
+          results.push([
+            onlySitesWithAdminAccess,
+            excludedSites,
+            onlySitesWithAtLeastWriteAccess,
+            siteTypesToExclude,
+          ]);
+        });
+      });
+    });
+  });
+
+  return results;
+}
+
 describe('CoreHome/SitesStore', () => {
   const testingSitesStore: typeof SitesStore = SitesStore;
   const defaultSites = [
@@ -35,6 +67,21 @@ describe('CoreHome/SitesStore', () => {
   ];
   const writeSites = defaultSites.slice(0, 2);
   const adminSites = defaultSites.slice(2);
+
+  function resetTestingSitesStoreState() {
+    (testingSitesStore as any).state = reactive({
+      initialSites: [],
+      isInitialized: false,
+    });
+    (testingSitesStore as any).stateFiltered = reactive({
+      initialSites: [],
+      isInitialized: false,
+      excludedSites: [],
+      onlySitesWithAdminAccess: false,
+      onlySitesWithAtLeastWriteAccess: false,
+      siteTypesToExclude: [],
+    });
+  }
 
   beforeEach(() => {
     // Mock AjaxHelper.fetch to return a collection of sites based on the provided filters
@@ -69,17 +116,63 @@ describe('CoreHome/SitesStore', () => {
   });
   afterEach(() => {
     // Reset the state of the store after each testcase
-    (testingSitesStore as any).state = reactive({
-      initialSites: [],
-      isInitialized: false,
+    resetTestingSitesStoreState();
+  });
+
+  describe('#isFiltered()', () => {
+    getPossibleFilterArgCombinations().forEach((args: MethodArgsArray) => {
+      const expected = !(
+        args.every((arg) => typeof arg === 'undefined'
+          || arg === false || (Array.isArray(arg) && arg.length === 0))
+      );
+      it(`should return '${expected}' for params: ${JSON.stringify(args)}`, async () => {
+        expect(testingSitesStore.isFiltered(...args)).toEqual(expected);
+      });
     });
-    (testingSitesStore as any).stateFiltered = reactive({
-      initialSites: [],
-      isInitialized: false,
-      excludedSites: [],
-      onlySitesWithAdminAccess: false,
-      onlySitesWithAtLeastWriteAccess: false,
-      siteTypesToExclude: [],
+  });
+
+  describe('#matchesCurrentFilteredState()', () => {
+    beforeEach(async () => {
+      await testingSitesStore.loadInitialSites();
+    });
+
+    getPossibleFilterArgCombinations().forEach((args: MethodArgsArray) => {
+      const isNotFiltered = !testingSitesStore.isFiltered(...args);
+      const cases = [
+        [
+          `should return '${isNotFiltered}' when store initialised: 'true' and params: ${JSON.stringify(args)}`,
+          isNotFiltered,
+          false,
+          args,
+        ],
+        [
+          `should return '${isNotFiltered}' when store initialised: 'false' and params: ${JSON.stringify(args)}`,
+          isNotFiltered,
+          true,
+          args,
+        ],
+        [
+          `should return 'true' when filtered state and filters match. Params: ${JSON.stringify(args)}`,
+          true,
+          null,
+          args,
+        ],
+      ] as [
+        string,
+        boolean,
+        boolean | null,
+        MethodArgsArray
+      ][];
+      it.each(cases)('%s', async (_label, expected, resetState, params) => {
+        if (resetState) {
+          resetTestingSitesStoreState();
+        }
+        if (resetState === null) {
+          testingSitesStore.loadInitialSites(...params).then(() => {
+            expect(testingSitesStore.matchesCurrentFilteredState(...params)).toEqual(expected);
+          });
+        }
+      });
     });
   });
 

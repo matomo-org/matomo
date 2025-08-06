@@ -261,7 +261,13 @@ export default defineComponent({
         : '';
     },
     hasMultipleSites() {
-      const initialSites = SitesStore.initialSitesFiltered.value
+      const initialSites = SitesStore.matchesCurrentFilteredState(
+        this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[],
+        this.onlySitesWithAtLeastWriteAccess,
+        (this.siteTypesToExclude ? this.siteTypesToExclude : []) as string[],
+      )
+        && SitesStore.initialSitesFiltered.value
         && SitesStore.initialSitesFiltered.value.length
         ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
       return initialSites && initialSites.length > 1;
