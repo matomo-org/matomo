@@ -22,6 +22,9 @@ interface SitesStoreState {
 
 interface SitesStoreStateFiltered extends SitesStoreState {
   excludedSites: number[];
+  onlySitesWithAdminAccess: boolean;
+  onlySitesWithAtLeastWriteAccess: boolean;
+  siteTypesToExclude: string[];
 }
 
 class SitesStore {
@@ -34,6 +37,9 @@ class SitesStore {
     initialSites: [],
     isInitialized: false,
     excludedSites: [],
+    onlySitesWithAdminAccess: false,
+    onlySitesWithAtLeastWriteAccess: false,
+    siteTypesToExclude: [],
   });
 
   private currentRequestAbort: AbortController | null = null;
@@ -44,25 +50,68 @@ class SitesStore {
 
   public readonly initialSitesFiltered = computed(() => readonly(this.stateFiltered.initialSites));
 
+  isFiltered(
+    onlySitesWithAdminAccess = false,
+    sitesToExclude: number[] = [],
+    onlySitesWithAtLeastWriteAccess = false,
+    siteTypesToExclude: string[] = [],
+  ): boolean {
+    return sitesToExclude.length > 0
+      || onlySitesWithAdminAccess
+      || onlySitesWithAtLeastWriteAccess
+      || siteTypesToExclude.length > 0;
+  }
+
+  matchesCurrentFilteredState(
+    onlySitesWithAdminAccess = false,
+    sitesToExclude: number[] = [],
+    onlySitesWithAtLeastWriteAccess = false,
+    siteTypesToExclude: string[] = [],
+  ): boolean {
+    // If the filtered state hasn't been initialised yet and no filters are applied, return true
+    if (!this.stateFiltered.isInitialized && !this.isFiltered(
+      onlySitesWithAdminAccess, sitesToExclude, onlySitesWithAtLeastWriteAccess, siteTypesToExclude,
+    )) {
+      return true;
+    }
+
+    // Run deep comparison to ensure the filters are actually the same
+    return this.stateFiltered.isInitialized
+      && sitesToExclude.length === this.stateFiltered.excludedSites.length
+      && (sitesToExclude.every((val, index) => val === this.stateFiltered.excludedSites[index]))
+      && onlySitesWithAdminAccess === this.stateFiltered.onlySitesWithAdminAccess
+      && onlySitesWithAtLeastWriteAccess === this.stateFiltered.onlySitesWithAtLeastWriteAccess
+      && siteTypesToExclude.length === this.stateFiltered.siteTypesToExclude.length
+      && (
+        siteTypesToExclude.every(
+          (val, index) => val === this.stateFiltered.siteTypesToExclude[index],
+        )
+      );
+  }
+
   loadInitialSites(
     onlySitesWithAdminAccess = false,
     sitesToExclude: number[] = [],
     onlySitesWithAtLeastWriteAccess = false,
     siteTypesToExclude: string[] = [],
   ): Promise<DeepReadonly<Site[]>|null> {
-    if (this.state.isInitialized && sitesToExclude.length === 0) {
+    if (this.state.isInitialized && !this.isFiltered(
+      onlySitesWithAdminAccess, sitesToExclude, onlySitesWithAtLeastWriteAccess, siteTypesToExclude,
+    )) {
       return Promise.resolve(readonly(this.state.initialSites));
     }
 
     // If the filtered state has already been initialized with the same sites, return that.
-    if (this.stateFiltered.isInitialized
-      && sitesToExclude.length === this.stateFiltered.excludedSites.length
-      && (sitesToExclude.every((val, index) => val === this.stateFiltered.excludedSites[index]))) {
+    if (this.stateFiltered.isInitialized && this.matchesCurrentFilteredState(
+      onlySitesWithAdminAccess, sitesToExclude, onlySitesWithAtLeastWriteAccess, siteTypesToExclude,
+    )) {
       return Promise.resolve(readonly(this.stateFiltered.initialSites));
     }
 
     // If we want to exclude certain sites, perform the search for that.
-    if (sitesToExclude.length > 0) {
+    if (this.isFiltered(
+      onlySitesWithAdminAccess, sitesToExclude, onlySitesWithAtLeastWriteAccess, siteTypesToExclude,
+    )) {
       return this.searchSite(
         '%',
         onlySitesWithAdminAccess,
@@ -72,6 +121,9 @@ class SitesStore {
       ).then((sites) => {
         this.stateFiltered.isInitialized = true;
         this.stateFiltered.excludedSites = sitesToExclude;
+        this.stateFiltered.onlySitesWithAdminAccess = onlySitesWithAdminAccess;
+        this.stateFiltered.onlySitesWithAtLeastWriteAccess = onlySitesWithAtLeastWriteAccess;
+        this.stateFiltered.siteTypesToExclude = siteTypesToExclude;
         if (sites !== null) {
           this.stateFiltered.initialSites = sites;
         }

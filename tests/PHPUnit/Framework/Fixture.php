@@ -671,6 +671,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             $t = new MatomoTracker($idSite, self::getTrackerUrl());
         }
         $t->setForceVisitDateTime($dateTime);
+        $t->configCookieDomain = \Piwik\Url::getHost();
 
         if ($defaultInit) {
             $t->setTokenAuth(self::getTokenAuth());

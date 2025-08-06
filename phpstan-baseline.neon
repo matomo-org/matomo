@@ -6904,16 +6904,6 @@ parameters:
 			path: plugins/UsersManager/Emails/UserInviteEmail.php
 
 		-
-			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<1, max\\> given\\.$#"
-			count: 1
-			path: plugins/UsersManager/LastSeenTimeLogger.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/UsersManager/LastSeenTimeLogger.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\Model\\:\\:\\$passwordHelper is never read, only written\\.$#"
 			count: 1
 			path: plugins/UsersManager/Model.php
@@ -6925,7 +6915,7 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @return with type mixed is not subtype of native type array\\.$#"
-			count: 2
+			count: 1
 			path: plugins/UsersManager/Repository/UserRepository.php
 
 		-
@@ -6959,39 +6949,9 @@ parameters:
 			path: plugins/UsersManager/Tasks.php
 
 		-
-			message: "#^Call to method getUser\\(\\) on an unknown class Piwik\\\\Plugins\\\\UsersManager\\\\TokenNotifications\\\\Model\\.$#"
-			count: 1
-			path: plugins/UsersManager/TokenNotifications/TokenExpirationWarningNotificationProvider.php
-
-		-
-			message: "#^Call to method setExpirationWarningNotificationWasSentForToken\\(\\) on an unknown class Piwik\\\\Plugins\\\\UsersManager\\\\TokenNotifications\\\\Model\\.$#"
-			count: 1
-			path: plugins/UsersManager/TokenNotifications/TokenExpirationWarningNotificationProvider.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\TokenNotifications\\\\TokenNotificationProvider\\:\\:\\$userModel \\(Piwik\\\\Plugins\\\\UsersManager\\\\TokenNotifications\\\\Model\\) does not accept Piwik\\\\Plugins\\\\UsersManager\\\\Model\\.$#"
-			count: 1
-			path: plugins/UsersManager/TokenNotifications/TokenNotificationProvider.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\UsersManager\\\\TokenNotifications\\\\TokenNotificationProvider\\:\\:\\$userModel has unknown class Piwik\\\\Plugins\\\\UsersManager\\\\TokenNotifications\\\\Model as its type\\.$#"
-			count: 1
-			path: plugins/UsersManager/TokenNotifications/TokenNotificationProvider.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/UsersManager/TokenNotifications/TokenNotifierTask.php
-
-		-
-			message: "#^Call to method getUser\\(\\) on an unknown class Piwik\\\\Plugins\\\\UsersManager\\\\TokenNotifications\\\\Model\\.$#"
-			count: 1
-			path: plugins/UsersManager/TokenNotifications/TokenRotationNotificationProvider.php
-
-		-
-			message: "#^Call to method setRotationNotificationWasSentForToken\\(\\) on an unknown class Piwik\\\\Plugins\\\\UsersManager\\\\TokenNotifications\\\\Model\\.$#"
-			count: 1
-			path: plugins/UsersManager/TokenNotifications/TokenRotationNotificationProvider.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\UsersManager\\\\UserAccessFilter\\:\\:filterUser\\(\\) should return array\\|null but return statement is missing\\.$#"

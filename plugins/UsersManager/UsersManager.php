@@ -81,8 +81,7 @@ class UsersManager extends \Piwik\Plugin
 
     public function onPlatformInitialized()
     {
-        $lastSeenTimeLogger = new LastSeenTimeLogger();
-        $lastSeenTimeLogger->logCurrentUserLastSeenTime();
+        LastSeenTimeLogger::logCurrentUserLastSeenTime();
     }
 
     /**
@@ -138,6 +137,7 @@ class UsersManager extends \Piwik\Plugin
         $stylesheets[] = "plugins/UsersManager/vue/src/UsersManager/UsersManager.less";
         $stylesheets[] = "plugins/UsersManager/vue/src/PagedUsersList/PagedUsersList.less";
         $stylesheets[] = "plugins/UsersManager/vue/src/UserEditForm/UserEditForm.less";
+        $stylesheets[] = "plugins/UsersManager/vue/src/UserInvite/UserInvite.less";
         $stylesheets[] = "plugins/UsersManager/vue/src/UserPermissionsEdit/UserPermissionsEdit.less";
         $stylesheets[] = "plugins/UsersManager/vue/src/CapabilitiesEdit/CapabilitiesEdit.less";
     }
@@ -256,6 +256,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Done';
         $translationKeys[] = 'General_Language';
         $translationKeys[] = 'General_Never';
+        $translationKeys[] = 'General_NotAvailable';
         $translationKeys[] = 'General_Note';
         $translationKeys[] = 'General_Ok';
         $translationKeys[] = 'General_OrCancel';
@@ -439,5 +440,6 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_TokenExpireDateCheckboxHelp';
         $translationKeys[] = 'UsersManager_TokenExpireDateHelpText';
         $translationKeys[] = 'UsersManager_InvalidTokenExpireDateFormat';
+        $translationKeys[] = 'UsersManager_XAgo';
     }
 }

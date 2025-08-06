@@ -324,7 +324,7 @@
               id="last_seen"
               v-if="currentUserRole === 'superuser'"
           >
-            {{ user.last_seen ? `${user.last_seen} ago`:'-' }}
+            {{ user.last_seen_ago ? translate('UsersManager_XAgo', user.last_seen_ago) : '-' }}
           </td>
           <td id="status">
               <span :class="Number.isInteger(user.invite_status)? 'pending':user.invite_status"

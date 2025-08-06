@@ -11,7 +11,6 @@ use Piwik\Plugin;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
-use Piwik\Plugins\UsersManager\LastSeenTimeLogger;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UserAccessFilter;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -175,10 +174,16 @@ class UserRepository
         unset($user['ts_changes_shown']);
         unset($user['invite_token']);
         unset($user['invite_link_token']);
+        unset($user['ts_inactivity_notified']);
 
-        if ($lastSeen = LastSeenTimeLogger::getLastSeenTimeForUser($user['login'])) {
-            $user['last_seen'] = Date::getDatetimeFromTimestamp($lastSeen);
+        if (isset($user['ts_last_seen'])) {
+            $formatter = new Formatter();
+            $user['last_seen'] = $user['ts_last_seen'];
+            $user['last_seen_ago'] = $formatter->getPrettyTimeFromSeconds(
+                time() - Date::factory($user['ts_last_seen'])->getTimestamp()
+            );
         }
+        unset($user['ts_last_seen']);
 
         $user['invite_status'] = 'active';
 
@@ -239,24 +244,6 @@ class UserRepository
         if (!empty($users)) {
             foreach ($users as $index => $user) {
                 $users[$index] = $this->enrichUser($user);
-            }
-        }
-        return $users;
-    }
-
-    /**
-     * @param array $users
-     * @return mixed
-     */
-    public function enrichUsersWithLastSeen(array $users): array
-    {
-        $formatter = new Formatter();
-
-        $lastSeenTimes = LastSeenTimeLogger::getLastSeenTimesForAllUsers();
-        foreach ($users as &$user) {
-            $login = $user['login'];
-            if (isset($lastSeenTimes[$login])) {
-                $user['last_seen'] = $formatter->getPrettyTimeFromSeconds(time() - $lastSeenTimes[$login]);
             }
         }
         return $users;

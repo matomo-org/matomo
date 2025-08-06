@@ -68,7 +68,7 @@ class SomeVisitsWithNonUnicodePageTitles extends Fixture
 
         // Test w/ windows-1251
         $visitor = self::getTracker($idSite1, $dateTime, $defaultInit = true);
-        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->getDatetime());
+        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.3)->addPeriod(1, 'second')->getDatetime());
         $visitor->setUrlReferrer('http://anothersite.com/whatever.html?txt=%EC%E5%F8%EA%EE%E2%FB%E5');
         $visitor->setUrl('http://example.org/page/index.htm?whatever=%EC%E5%F8%EA%EE%E2%FB%E5');
         $visitor->setPageCharset('windows-1251');
@@ -89,13 +89,13 @@ class SomeVisitsWithNonUnicodePageTitles extends Fixture
         self::checkResponse($visitor->doTrackPageView('Site Search'));
 
         $visitor->setPageCharset('');
-        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->getDatetime());
+        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.5)->addPeriod(1, 'second')->getDatetime());
         $visitor->setUrl('http://example.org/exit-page');
         self::checkResponse($visitor->doTrackPageView('Page title is always UTF-8'));
 
         // Test set invalid page char set
         $visitor = self::getTracker($idSite1, $dateTime, $defaultInit = true);
-        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->getDatetime());
+        $visitor->setForceVisitDateTime(Date::factory($dateTime)->addHour(1)->addPeriod(5, 'second')->getDatetime());
         $visitor->setUrlReferrer('http://anothersite.com/whatever.html');
         $visitor->setUrl('http://example.org/index.htm?random=param&mykwd=a+keyword&test&cats= Search Kategory &search_count=INCORRECT!');
         $visitor->setPageCharset('GTF-42'); // galactic transformation format

@@ -88,7 +88,7 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $cat = '', $price = 888);
         self::checkResponse($t->doTrackPageView('Another Product page with no category'));
 
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2)->getDatetime());
+        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.2003)->getDatetime());
         $t->setEcommerceView($sku = 'SKU VERY nice indeed', $name = 'PRODUCT name', $categories = ['Multiple Category 1', '', 0, 'Multiple Category 2', 'Electronics & Cameras', 'Multiple Category 4', 'Multiple Category 5', 'SHOULD NOT BE REPORTEDSSSSSSSSSSSSSSssssssssssssssssssssssssssstttttttttttttttttttttttuuuu!']);
         self::checkResponse($t->doTrackPageView('Another Product page with multiple categories'));
 
