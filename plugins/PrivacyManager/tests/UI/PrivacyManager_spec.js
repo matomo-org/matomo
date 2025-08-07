@@ -385,6 +385,7 @@ describe("PrivacyManager", function () {
         await page.waitForSelector(complianceMenuSelector);
         await page.click(complianceMenuSelector);
 
+        await page.waitForNetworkIdle();
         await page.waitForSelector('.compliance', { visible: true });
 
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
