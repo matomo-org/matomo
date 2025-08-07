@@ -377,7 +377,9 @@ describe("PrivacyManager", function () {
         await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
         await page.waitForNetworkIdle();
 
-        await (await page.jQuery('li.menuTab:contains(Privacy) > a')).click();
+        await page.evaluate(() => $('li.menuTab:contains(Privacy) > a').click());
+
+        await page.waitForTimeout(150);
 
         const complianceMenuSelector = 'li.menuTab.active li a[href*="compliance"]';
 
