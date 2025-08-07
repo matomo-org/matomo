@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UsersManager\Emails;
 use Piwik\Config;
 use Piwik\Mail;
 use Piwik\Piwik;
+use Piwik\Plugins\LanguagesManager\LanguagesHelper;
 use Piwik\Plugins\UsersManager\TokenNotifications\TokenNotification;
 use Piwik\SettingsPiwik;
 use Piwik\Url;
@@ -43,12 +44,14 @@ class AuthTokenRotationNotificationEmail extends Mail
 
     private function setUpEmail(): void
     {
-        $this->setDefaultFromPiwik();
-        $this->addTo($this->recipient);
-        $this->setSubject($this->getDefaultSubject());
-        $this->addReplyTo($this->getFrom(), $this->getFromName());
-        $this->setBodyText($this->getDefaultBodyText());
-        $this->setWrappedHtmlBody($this->getDefaultBodyView());
+        LanguagesHelper::doWithUserLanguage($this->recipient, function () {
+            $this->setDefaultFromPiwik();
+            $this->addTo($this->recipient);
+            $this->setSubject($this->getDefaultSubject());
+            $this->addReplyTo($this->getFrom(), $this->getFromName());
+            $this->setBodyText($this->getDefaultBodyText());
+            $this->setWrappedHtmlBody($this->getDefaultBodyView());
+        });
     }
 
     private function getRotationPeriodPretty(): string

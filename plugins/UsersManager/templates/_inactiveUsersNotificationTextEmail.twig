@@ -1,0 +1,27 @@
+{% autoescape false %}
+{{ 'General_HelloUser'|translate(superuserLogin) }}
+
+{{ 'UsersManager_InactiveUsersNotificationEmail01'|translate }}
+{{ 'UsersManager_InactiveUsersNotificationEmail02'|translate }}
+
+- {{ 'UsersManager_InactiveUsersNotificationEmail02a'|translate }}
+- {{ 'UsersManager_InactiveUsersNotificationEmail02b'|translate }}
+- {{ 'UsersManager_InactiveUsersNotificationEmail02c'|translate }}
+
+{{ 'UsersManager_InactiveUserAccounts'|translate }}
+
+{{ 'UsersManager_InactiveUsersNotificationEmail03'|translate }}
+
+{{ 'General_Username'|translate }} | {{ 'UsersManager_LastLoginDate'|translate }} | {{ 'UsersManager_LastAPIUsageDate'|translate }}
+{% for inactiveUser in inactiveUsers %}
+{{ inactiveUser.login }} | {{ inactiveUser.ts_last_seen }} | {% if inactiveUser.ts_last_token_activity is not empty %}{{ inactiveUser.ts_last_token_activity }}{% else %}{{ 'General_NotAvailable'|translate }}{% endif %}
+{% endfor %}
+
+{{ 'UsersManager_InactiveUsersNotificationEmail04'|translate }} {{ manageUsersLink }}
+{{ 'UsersManager_InactiveUsersNotificationEmail05'|translate }}
+{{ 'UsersManager_InactiveUsersNotificationEmail06'|translate }}
+
+{{ 'UsersManager_DisablingThisNotification'|translate }}
+
+{{ 'UsersManager_InactiveUsersNotificationEmail07'|translate }}
+{% endautoescape %}

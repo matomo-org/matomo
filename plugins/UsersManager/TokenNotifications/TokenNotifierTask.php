@@ -16,7 +16,6 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Plugin\Manager as PluginManager;
 use Piwik\Scheduler\Schedule\Daily;
-use Piwik\Scheduler\Scheduler;
 use Piwik\Scheduler\Task;
 
 /**
@@ -73,12 +72,6 @@ class TokenNotifierTask extends Task
                     }
                 }
             }
-
-            // reschedule for next run
-            /** @var Scheduler $scheduler */
-            $scheduler = $container->get(Scheduler::class);
-            // reschedule to ensure it's not run again in an hour
-            $scheduler->rescheduleTask(new static());
 
             if ($notificationsToDispatchCount) {
                 $logger->info(

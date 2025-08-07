@@ -714,8 +714,8 @@
 				<productViewName>PRODUCT name</productViewName>
 				<productViewSku>SKU VERY nice indeed</productViewSku>
 				<bandwidth />
-				<timeSpent>0</timeSpent>
-				<timeSpentPretty>0s</timeSpentPretty>
+				<timeSpent>1</timeSpent>
+				<timeSpentPretty>1s</timeSpentPretty>
 				<pageviewPosition>3</pageviewPosition>
 				<title>Another Product page with no category</title>
 				<subtitle>http://example.org/index.htm</subtitle>
@@ -779,8 +779,8 @@
 		<secondsSinceFirstVisit>0</secondsSinceFirstVisit>
 		<daysSinceLastEcommerceOrder>0</daysSinceLastEcommerceOrder>
 		<secondsSinceLastEcommerceOrder />
-		<visitDuration>721</visitDuration>
-		<visitDurationPretty>12 min 1s</visitDurationPretty>
+		<visitDuration>722</visitDuration>
+		<visitDurationPretty>12 min 2s</visitDurationPretty>
 		<searches>0</searches>
 		<actions>4</actions>
 		<interactions>4</interactions>

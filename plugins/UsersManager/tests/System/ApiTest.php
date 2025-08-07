@@ -63,17 +63,19 @@ class ApiTest extends SystemTestCase
         foreach ($logins as $login => $appendix) {
             $params['token_auth'] = self::$fixture->users[$login]['token'];
             $xmlFieldsToRemove = [
-              'date_registered',
-              'invite_token',
-              'invite_accept_at',
-              'invite_expired_at',
-              'last_seen',
-              'password',
-              'token_auth',
-              'ts_password_modified',
-              'idchange_last_viewed',
-              'invite_status',
-              'ts_changes_shown'
+                'date_registered',
+                'invite_token',
+                'invite_accept_at',
+                'invite_expired_at',
+                'last_seen',
+                'last_seen_ago',
+                'password',
+                'token_auth',
+                'ts_password_modified',
+                'idchange_last_viewed',
+                'invite_status',
+                'ts_changes_shown',
+                'ts_last_seen',
             ];
 
             $this->runAnyApiTest($api, $apiId . '_' . $appendix, $params, array('xmlFieldsToRemove' => $xmlFieldsToRemove));

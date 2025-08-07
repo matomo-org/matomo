@@ -5,7 +5,7 @@
 		<nb_visits>3</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>13</nb_hits>
-		<sum_time_spent>2880</sum_time_spent>
+		<sum_time_spent>2881</sum_time_spent>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 		<min_bandwidth />
@@ -13,7 +13,7 @@
 		<entry_nb_uniq_visitors>1</entry_nb_uniq_visitors>
 		<entry_nb_visits>3</entry_nb_visits>
 		<entry_nb_actions>13</entry_nb_actions>
-		<entry_sum_visit_length>5403</entry_sum_visit_length>
+		<entry_sum_visit_length>5404</entry_sum_visit_length>
 		<entry_bounce_count>0</entry_bounce_count>
 		<exit_nb_uniq_visitors>1</exit_nb_uniq_visitors>
 		<exit_nb_visits>3</exit_nb_visits>
