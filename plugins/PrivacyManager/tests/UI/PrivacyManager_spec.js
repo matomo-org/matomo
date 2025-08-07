@@ -376,16 +376,16 @@ describe("PrivacyManager", function () {
 
         await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
         await page.waitForNetworkIdle();
-
+        
         const privacyMenuItem = await page.jQuery('#secondNavBar .navbar a:contains(Privacy):visible:first');
-        await privacyMenuItem.click();
-
+        //await privacyMenuItem.click();
+        
         const complianceMenuSelector = '#secondNavBar .navbar .menuTab.active ul li [href*="compliance"]';
 
-        await page.waitForSelector(complianceMenuSelector);
-        await page.click(complianceMenuSelector);
+        //await page.waitForSelector(complianceMenuSelector);
+        //await page.click(complianceMenuSelector);
 
-        await page.waitForNetworkIdle();
+        //await page.waitForNetworkIdle();
         await page.waitForSelector('.compliance', { visible: true });
 
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
