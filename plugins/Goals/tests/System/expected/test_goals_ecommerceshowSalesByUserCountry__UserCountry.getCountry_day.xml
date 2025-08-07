@@ -53,7 +53,7 @@
 		<nb_actions>4</nb_actions>
 		<nb_users>0</nb_users>
 		<max_actions>4</max_actions>
-		<sum_visit_length>721</sum_visit_length>
+		<sum_visit_length>722</sum_visit_length>
 		<bounce_count>0</bounce_count>
 		<nb_visits_converted>1</nb_visits_converted>
 		<goals>
@@ -67,7 +67,7 @@
 		<revenue>10</revenue>
 		<conversion_rate>100%</conversion_rate>
 		<nb_actions_per_visit>4</nb_actions_per_visit>
-		<avg_time_on_site>721</avg_time_on_site>
+		<avg_time_on_site>722</avg_time_on_site>
 		<bounce_rate>0%</bounce_rate>
 		<revenue_per_visit>10</revenue_per_visit>
 		<goal_ecommerceOrder_conversion_rate>0%</goal_ecommerceOrder_conversion_rate>

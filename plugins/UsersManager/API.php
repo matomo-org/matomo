@@ -422,7 +422,6 @@ class API extends \Piwik\Plugin\API
         }
 
         $users = $this->userRepository->enrichUsers($users);
-        $users = $this->userRepository->enrichUsersWithLastSeen($users);
 
         foreach ($users as &$user) {
             unset($user['password']);

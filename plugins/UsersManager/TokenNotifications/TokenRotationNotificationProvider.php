@@ -57,6 +57,6 @@ class TokenRotationNotificationProvider extends TokenNotificationProvider
 
     public function setTokenNotificationDispatched(string $tokenId): void
     {
-        $this->userModel->setRotationNotificationWasSentForToken($tokenId, Date::factory('now')->getDatetime());
+        $this->userModel->setRotationNotificationWasSentForToken($tokenId, $this->today);
     }
 }

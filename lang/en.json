@@ -327,6 +327,7 @@
         "No": "No",
         "NoDataForGraph": "No data for this graph.",
         "NoDataForTagCloud": "No data for this tag cloud.",
+        "NotAvailable": "N/A",
         "NotDefined": "%s not defined",
         "NotInstalled": "Not Installed",
         "NotPossibleWithoutHttps": "Attention: Doing this without having set up a SSL certificate for using HTTPS will break Matomo.",

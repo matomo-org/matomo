@@ -812,10 +812,15 @@ class GoalManager
         $wasInserted = $this->getModel()->createConversion($conversion);
         if (
             !$wasInserted
-            && !empty($idorder)
         ) {
-            $idSite = $request->getIdSite();
-            throw new InvalidRequestParameterException("Invalid non-unique idsite/idorder combination ($idSite, $idorder), conversion was not inserted.");
+            if (!empty($idorder)) {
+                $idSite = $request->getIdSite();
+                throw new InvalidRequestParameterException("Invalid non-unique idsite/idorder combination ($idSite, $idorder), conversion was not inserted.");
+            } elseif ($conversion['buster'] > 0) {
+                // Note: The buster is set to 0 for goals that can only be triggered once per visit.
+                // It's expected behaviour that creating additional conversion fail, so we don't log failures in that case.
+                StaticContainer::get(LoggerInterface::class)->warning("Failed to insert goal due to duplicate idvisit/idgoal/buster combination ({$conversion['idvisit']}, {$conversion['idgoal']}, {$conversion['buster']})");
+            }
         }
 
         return $wasInserted;

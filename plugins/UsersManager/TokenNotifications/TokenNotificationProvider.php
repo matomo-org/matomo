@@ -14,7 +14,7 @@ use Piwik\Plugins\UsersManager\Model as UserModel;
 
 abstract class TokenNotificationProvider implements TokenNotificationProviderInterface
 {
-    /** @var Model */
+    /** @var UserModel */
     protected $userModel;
 
     /** @var string */

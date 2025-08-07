@@ -99,6 +99,8 @@
         "RemoveUserAccess": "Remove access for '%1$s' for %2$s.",
         "ReportDateToLoadByDefault": "Report date to load by default",
         "ReportToLoadByDefault": "Report to load by default",
+        "SettingEnableInactiveUsersNotifications": "Send monthly security email with list of inactive users",
+        "SettingEnableInactiveUsersNotificationsHelp": "For security reasons, Matomo can notify all Superusers once a month with a list of accounts that haven’t logged in for more than 6 months. This helps you review and remove old user accounts that may no longer be needed.",
         "SuperUserAccessManagement": "Manage Super User access",
         "SuperUserAccessManagementGrantMore": "You can grant Super User access to other users of Matomo here. Please use this feature carefully.",
         "SuperUserAccessManagementMainDescription": "Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace.",
@@ -258,6 +260,22 @@
         "AuthTokenExpirationWarningEmail01": "You’re receiving this email because your %1$s personal access token will expire on %2$s.",
         "AuthTokenExpirationWarningEmail02": "To generate a new token and delete the old one, go to Personal > Security settings in your Matomo instance.",
         "AuthTokenExpirationWarningEmail03": "If you believe you received this email in error, please contact your Matomo administrator.",
-        "AuthTokenExpirationWarningEmail04": "Manage your access tokens"
+        "AuthTokenExpirationWarningEmail04": "Manage your access tokens",
+        "InactiveUsersNotificationEmailSubject": "Security notice: Review inactive user accounts",
+        "InactiveUsersNotificationEmail01": "As part of Matomo’s commitment to data security and secure account management, we’re sending you this summary of user accounts that have not logged into your Matomo instance in the past 6 months.",
+        "InactiveUsersNotificationEmail02": "Regularly reviewing and removing inactive accounts helps reduce your security risk by:",
+        "InactiveUsersNotificationEmail02a": "Minimising exposure to account takeovers due to weak or reused passwords",
+        "InactiveUsersNotificationEmail02b": "Reducing the surface area of access in case of a breach",
+        "InactiveUsersNotificationEmail02c": "Ensuring only active users retain access to analytics data",
+        "InactiveUsersNotificationEmail03": "The following users have not logged in for over 6 months:",
+        "InactiveUsersNotificationEmail04": "You can review and manage all users here:",
+        "InactiveUsersNotificationEmail05": "If you determine these users no longer require access, we recommend removing their accounts from the system.",
+        "InactiveUsersNotificationEmail06": "Before deactivating any inactive superusers, please ensure their authentication tokens are not being used for tracking.",
+        "InactiveUsersNotificationEmail07": "This monthly security notification is enabled for your Matomo instance. If you prefer not to receive these updates in the future, you can disable the feature under: Matomo Settings > System > General Settings > UsersManager settings.",
+        "InactiveUserAccounts": "Inactive user accounts",
+        "DisablingThisNotification": "Disabling this notification",
+        "LastLoginDate": "Last login date",
+        "LastAPIUsageDate": "Last API usage date",
+        "XAgo": "%1$s ago"
     }
 }

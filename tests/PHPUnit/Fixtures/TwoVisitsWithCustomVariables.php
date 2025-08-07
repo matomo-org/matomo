@@ -84,6 +84,7 @@ class TwoVisitsWithCustomVariables extends Fixture
         $visitorA->setUrl('http://example.org/homepage');
         $visitorA->setCustomVariable($id = 2, $name = 'VisitorType', $value = 'LoggedOut');
         self::checkResponse($visitorA->doTrackPageView('Homepage'));
+        $visitorA->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->addPeriod(1, 'second')->getDatetime());
         self::checkResponse($visitorA->doTrackGoal($idGoal2));
 
         // After login, set to LoggedIn, should overwrite previous value
@@ -98,6 +99,7 @@ class TwoVisitsWithCustomVariables extends Fixture
         }
         $visitorA->setCustomVariable($id = 5, $name = 'Status user', $value = $lookingAtProfile, $scope = 'page');
         self::checkResponse($visitorA->doTrackPageView('Profile page'));
+        $visitorA->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->addPeriod(1, 'second')->getDatetime());
 
         $visitorA->setCustomVariable($id = 2, $name = 'SET WITH EMPTY VALUE', $value = '');
         $visitorA->setCustomVariable($id = 1, $name = 'Language', $value = 'FR', $scope = 'page');
@@ -105,6 +107,7 @@ class TwoVisitsWithCustomVariables extends Fixture
         $visitorA->setCustomVariable($id = 4, $name = 'Status user', $value = "looking at \"profile page\"", $scope = 'page');
         $visitorA->setCustomVariable($id = 3, $name = 'Value will be VERY long and truncated', $value = 'abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----abcdefghijklmnopqrstuvwxyz----');
         self::checkResponse($visitorA->doTrackPageView('Profile page for user *_)%'));
+        $visitorA->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->addPeriod(2, 'second')->getDatetime());
         self::checkResponse($visitorA->doTrackGoal($idGoal));
 
         if ($this->doExtraQuoteTests) {
@@ -126,6 +129,7 @@ class TwoVisitsWithCustomVariables extends Fixture
                 $value = '\\looking at "\profile page"\\',
                 $scope = 'page'
             );
+            $visitorA->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.2)->addPeriod(3, 'second')->getDatetime());
             self::checkResponse($visitorA->doTrackPageView('Concurrent page views'));
         }
 
