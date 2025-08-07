@@ -10,6 +10,13 @@
         <span>{{ 'Referrers_ColumnCampaign'|translate }}: {{ visitInfo.getColumn('referrerName') }}
             {% if visitInfo.getColumn('referrerKeyword') is not empty %} - {{ visitInfo.getColumn('referrerKeyword') }}{% endif %}</span>
     {% endif %}
+    {% if visitInfo.getColumn('referrerType') == 'ai' %}
+        <span>{{ 'Referrers_ColumnAIAssistant'|translate }}:</span>
+        <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer noopener" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl')|e('html')|e('html') }}"
+           style="text-decoration:underline;">
+            {{ visitInfo.getColumn('referrerName') }}
+        </a>
+    {% endif %}
     {% if visitInfo.getColumn('referrerType') == 'social' %}
         <span>{{ 'Referrers_ColumnSocial'|translate }}:</span>
         {% if visitInfo.getColumn('referrerSearchEngineIcon') %}
