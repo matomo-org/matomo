@@ -14,7 +14,9 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Live;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
@@ -49,16 +51,23 @@ class API extends \Piwik\Plugin\API
      */
     private $referrerAnonymizer;
 
+    /**
+     * @var FeatureFlagManager
+     */
+    private $featureFlagManager;
+
     public function __construct(
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
         LogDataAnonymizer $logDataAnonymizer,
-        ReferrerAnonymizer $referrerAnonymizer
+        ReferrerAnonymizer $referrerAnonymizer,
+        FeatureFlagManager $featureFlagManager
     ) {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
         $this->referrerAnonymizer = $referrerAnonymizer;
+        $this->featureFlagManager = $featureFlagManager;
     }
 
     private function checkDataSubjectVisits($visits)
@@ -398,6 +407,42 @@ class API extends \Piwik\Plugin\API
             $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());
             $reportsPurger->purgeData(true);
         }
+    }
+
+    /**
+     * @internal
+     */
+    public function getComplianceStatus(string $idSite, string $complianceType): array
+    {
+        if ($this->featureFlagManager->isFeatureActive(PrivacyCompliance::class) === false) {
+            return [];
+        }
+
+        if ($complianceType !== 'cnil') {
+            return [];
+        }
+
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+
+        if (empty($idSites)) {
+            return [];
+        }
+
+        Piwik::checkUserHasSuperUserAccess();
+
+        return [
+            'complianceModeEnabled' => true,
+            'complianceIndicators' => [
+                ['name' => 'Anonymize IP', 'value' => 'unknown', 'notes' => 'Set to at least 2 byte masking'],
+                ['name' => 'retention period', 'value' => 'non_compliant', 'notes' => 'Retention periods is set to 1,200 days'],
+                ['name' => 'consent before tracking', 'value' => 'compliant', 'notes' => ''],
+                ['name' => 'cookie-less tracking', 'value' => 'non_compliant', 'notes' => ''],
+                ['name' => 'geoIP accuracy', 'value' => 'unknown', 'notes' => ''],
+                ['name' => 'heatmaps & session recording', 'value' => 'compliant', 'notes' => ''],
+                ['name' => 'tag manager', 'value' => 'non_compliant', 'notes' => ''],
+                ['name' => 'data export options', 'value' => 'compliant', 'notes' => ''],
+            ]
+        ];
     }
 
     private function savePurgeDataSettings($settings)

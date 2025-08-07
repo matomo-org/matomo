@@ -10,8 +10,10 @@
 namespace Piwik\Plugins\PrivacyManager\tests\System;
 
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Db;
 use Piwik\Plugins\PrivacyManager\API;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\MultipleSitesMultipleVisitsFixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -158,6 +160,57 @@ class APITest extends SystemTestCase
         ]);
     }
 
+    private function setComplianceFeatureFlag(bool $enableFlag): void
+    {
+        $config = Config::getInstance();
+        $featureFlag = new PrivacyCompliance();
+        $featureFlagConfig = $featureFlag->getName() . '_feature';
+
+        if ($enableFlag) {
+            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
+        } else {
+            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+        }
+    }
+
+    public function testGetComplianceStatusReturnsEmptyArrayIfFeatureFlagDisabled(): void
+    {
+        $this->setComplianceFeatureFlag(false);
+
+        $this->runApiTests('PrivacyManager.getComplianceStatus', [
+            'testSuffix' => 'featureFlagDisabled',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'complianceType' => 'cnil'
+            ]
+        ]);
+    }
+
+    public function testGetComplianceStatusReturnsEmptyArrayIfComplianceTypeIsNotCnil(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+
+        $this->runApiTests('PrivacyManager.getComplianceStatus', [
+            'testSuffix' => 'complianceTypeNotCnil',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'complianceType' => 'something else not valid'
+            ]
+        ]);
+    }
+
+    public function testGetComplianceStatusReturnsComplianceStatus(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+
+        $this->runApiTests('PrivacyManager.getComplianceStatus', [
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'complianceType' => 'cnil'
+            ]
+        ]);
+    }
+
     public static function getOutputPrefix()
     {
         return '';
@@ -166,6 +219,20 @@ class APITest extends SystemTestCase
     public static function getPathToTestDirectory()
     {
         return dirname(__FILE__);
+    }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'observers.global' => \Piwik\DI::add([
+                [
+                    'Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
+                    $this->mail = $mail;
+                    $this->mail->preSend();
+                })
+                ],
+            ]),
+        ];
     }
 }
 

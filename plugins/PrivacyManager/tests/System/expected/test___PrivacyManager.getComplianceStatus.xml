@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<complianceModeEnabled>1</complianceModeEnabled>
+	<complianceIndicators>
+		<row>
+			<name>Anonymize IP</name>
+			<value>unknown</value>
+			<notes>Set to at least 2 byte masking</notes>
+		</row>
+		<row>
+			<name>retention period</name>
+			<value>non_compliant</value>
+			<notes>Retention periods is set to 1,200 days</notes>
+		</row>
+		<row>
+			<name>consent before tracking</name>
+			<value>compliant</value>
+			<notes />
+		</row>
+		<row>
+			<name>cookie-less tracking</name>
+			<value>non_compliant</value>
+			<notes />
+		</row>
+		<row>
+			<name>geoIP accuracy</name>
+			<value>unknown</value>
+			<notes />
+		</row>
+		<row>
+			<name>heatmaps &amp; session recording</name>
+			<value>compliant</value>
+			<notes />
+		</row>
+		<row>
+			<name>tag manager</name>
+			<value>non_compliant</value>
+			<notes />
+		</row>
+		<row>
+			<name>data export options</name>
+			<value>compliant</value>
+			<notes />
+		</row>
+	</complianceIndicators>
+</result>
