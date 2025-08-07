@@ -12,12 +12,25 @@ $(function () {
         content.css('width', width + 'px');
     }
 
+    function hideAdminOnSmallViewports()
+    {
+        if ($(window).width() < 200 || $(window).height() < 200) {
+            $('#root').css('display', 'none');
+            $('#sizewarning').css('display', 'block');
+        } else {
+            $('#root').css('display', '');
+            $('#sizewarning').css('display', 'none');
+        }
+    }
+
     var contentAdmin = $('#content.admin');
 
     if (contentAdmin.length) {
         adjustSize(contentAdmin);
+        hideAdminOnSmallViewports()
         $(window).resize(function () {
             adjustSize(contentAdmin);
+            hideAdminOnSmallViewports()
         });
     }
 });
