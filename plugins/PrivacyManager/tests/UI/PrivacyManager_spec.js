@@ -390,7 +390,7 @@ describe("PrivacyManager", function () {
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
     });
 
-    it('should not be able to navigate to compliance page with feature flag enabled', async function() {
+    it('should not be able to navigate to compliance page with feature flag disabled', async function() {
       testEnvironment.overrideConfig('FeatureFlags', {
         PrivacyCompliance_feature: 'disabled',
       });
