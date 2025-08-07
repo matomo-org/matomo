@@ -376,16 +376,15 @@ describe("PrivacyManager", function () {
 
         await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
         await page.waitForNetworkIdle();
-        
-        const privacyMenuItem = await page.jQuery('#secondNavBar .navbar a:contains(Privacy):visible:first');
-        //await privacyMenuItem.click();
-        
-        const complianceMenuSelector = '#secondNavBar .navbar .menuTab.active ul li [href*="compliance"]';
 
-        //await page.waitForSelector(complianceMenuSelector);
-        //await page.click(complianceMenuSelector);
+        await (await page.jQuery('li.menuTab:contains(Privacy) > a')).click();
 
-        //await page.waitForNetworkIdle();
+        const complianceMenuSelector = 'li.menuTab.active li a[href*="compliance"]';
+
+        await page.waitForSelector(complianceMenuSelector);
+        await page.click(complianceMenuSelector);
+
+        await page.waitForNetworkIdle();
         await page.waitForSelector('.compliance', { visible: true });
 
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
@@ -400,11 +399,10 @@ describe("PrivacyManager", function () {
       await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
       await page.waitForNetworkIdle();
 
-      const privacyMenuItem = await page.jQuery('#secondNavBar .navbar a:contains(Privacy):visible:first');
-      await privacyMenuItem.click();
+      await (await page.jQuery('li.menuTab:contains(Privacy) > a')).click();
 
       // Not in menu
-      const complianceMenuItem = await page.$('#secondNavBar .navbar .menuTab.active ul li [href*="compliance"]');
+      const complianceMenuItem = await page.$('li.menuTab.active li a[href*="compliance"]');
       expect(complianceMenuItem).to.be.null;
 
       // Not accessible directly - empty body
