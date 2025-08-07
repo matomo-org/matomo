@@ -440,6 +440,30 @@ class API extends \Piwik\Plugin\API
         ];
     }
 
+    /**
+     * @internal
+     */
+    public function setComplianceStatus(string $idSite, string $complianceType, bool $enabled): bool
+    {
+        if (!$this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            return false;
+        }
+
+        if ($complianceType !== 'cnil') {
+            return false;
+        }
+
+        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+
+        if (empty($idSites)) {
+            return false;
+        }
+
+        Piwik::checkUserHasSuperUserAccess();
+
+        return $enabled;
+    }
+
     private function savePurgeDataSettings($settings)
     {
         Piwik::checkUserHasSuperUserAccess();
