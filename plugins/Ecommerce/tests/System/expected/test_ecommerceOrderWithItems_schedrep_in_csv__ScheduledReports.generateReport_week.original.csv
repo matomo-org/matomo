@@ -306,8 +306,8 @@ avg_time_network,avg_time_server,avg_time_transfer,avg_time_dom_processing,avg_t
 00:00:00,00:00:00,00:00:00,00:00:00,00:00:00,00:00:00,00:00:00
 
 Referrers Overview
-Referrers_visitorsFromSearchEngines,Referrers_visitorsFromSocialNetworks,Referrers_visitorsFromDirectEntry,Referrers_visitorsFromWebsites,Referrers_visitorsFromCampaigns,Referrers_distinctSearchEngines,Referrers_distinctSocialNetworks,Referrers_distinctKeywords,Referrers_distinctWebsites,Referrers_distinctCampaigns,Referrers_visitorsFromDirectEntry_percent,Referrers_visitorsFromSearchEngines_percent,Referrers_visitorsFromCampaigns_percent,Referrers_visitorsFromSocialNetworks_percent,Referrers_visitorsFromWebsites_percent
-0,0,5,0,0,0,0,0,0,0,100%,0%,0%,0%,0%
+Referrers_visitorsFromSearchEngines,Referrers_visitorsFromSocialNetworks,Referrers_visitorsFromAIAssistants,Referrers_visitorsFromDirectEntry,Referrers_visitorsFromWebsites,Referrers_visitorsFromCampaigns,Referrers_distinctSearchEngines,Referrers_distinctSocialNetworks,Referrers_distinctAIAssistants,Referrers_distinctKeywords,Referrers_distinctWebsites,Referrers_distinctCampaigns,Referrers_visitorsFromDirectEntry_percent,Referrers_visitorsFromSearchEngines_percent,Referrers_visitorsFromAIAssistants_percent,Referrers_visitorsFromCampaigns_percent,Referrers_visitorsFromSocialNetworks_percent,Referrers_visitorsFromWebsites_percent
+0,0,0,5,0,0,0,0,0,0,0,0,100%,0%,0%,0%,0%,0%
 
 Channel Type
 label,nb_visits,nb_actions,revenue,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -326,6 +326,9 @@ Websites
 No data available
 
 Social Networks
+No data available
+
+AI Assistants
 No data available
 
 Campaigns
