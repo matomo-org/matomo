@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
+use Exception;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
@@ -485,6 +486,36 @@ class API extends \Piwik\Plugin\API
             $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());
             $reportsPurger->purgeData(true);
         }
+    }
+
+    /**
+     * @internal
+     */
+    public function getComplianceStatus(string $idSite, string $complianceType): array
+    {
+        if (false === $this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            throw new Exception('Feature not available');
+        }
+
+        if ($complianceType !== 'cnil') {
+            throw new Exception('Invalid compliance type');
+        }
+
+        Piwik::checkUserHasSuperUserAccess();
+
+        return [
+            'complianceModeEnabled' => true,
+            'complianceIndicators' => [
+                ['name' => 'Anonymize IP', 'value' => 'unknown', 'notes' => 'Set to at least 2 byte masking'],
+                ['name' => 'retention period', 'value' => 'non_compliant', 'notes' => 'Retention periods is set to 1,200 days'],
+                ['name' => 'consent before tracking', 'value' => 'compliant', 'notes' => ''],
+                ['name' => 'cookie-less tracking', 'value' => 'non_compliant', 'notes' => ''],
+                ['name' => 'geoIP accuracy', 'value' => 'unknown', 'notes' => ''],
+                ['name' => 'heatmaps & session recording', 'value' => 'compliant', 'notes' => ''],
+                ['name' => 'tag manager', 'value' => 'non_compliant', 'notes' => ''],
+                ['name' => 'data export options', 'value' => 'compliant', 'notes' => ''],
+            ]
+        ];
     }
 
     private function savePurgeDataSettings($settings)

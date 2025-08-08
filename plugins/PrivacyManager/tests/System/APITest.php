@@ -9,9 +9,12 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\System;
 
+use Piwik\Access;
 use Piwik\Common;
+use Piwik\Config;
 use Piwik\Db;
 use Piwik\Plugins\PrivacyManager\API;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\MultipleSitesMultipleVisitsFixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -155,6 +158,79 @@ class APITest extends SystemTestCase
         $this->runAnyApiTest('PrivacyManager.findDataSubjects', 'specificSiteNoVisitorLogs', [
             'idSite'     => '3',
             'segment'    => 'countryCode==CN',
+        ]);
+    }
+
+    private function setComplianceFeatureFlag(bool $enableFlag): void
+    {
+        $config = Config::getInstance();
+        $featureFlag = new PrivacyCompliance();
+        $featureFlagConfig = $featureFlag->getName() . '_feature';
+
+        if ($enableFlag) {
+            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
+        } else {
+            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+        }
+    }
+
+    public function testGetComplianceStatusReturnsErrorIfFeatureFlagDisabled(): void
+    {
+        $this->setComplianceFeatureFlag(false);
+
+        $this->runApiTests('PrivacyManager.getComplianceStatus', [
+            'testSuffix' => 'featureFlagDisabled',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'complianceType' => 'cnil'
+            ]
+        ]);
+    }
+
+    public function testGetComplianceStatusReturnsErrorIfComplianceTypeIsNotCnil(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+
+        $this->runApiTests('PrivacyManager.getComplianceStatus', [
+            'testSuffix' => 'complianceTypeNotCnil',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'complianceType' => 'something else not valid'
+            ]
+        ]);
+    }
+
+    public function testGetComplianceStatusReturnsErrorIfNotSuperAdmin(): void
+    {
+        $access = Access::getInstance();
+        $originalAccess = $access->hasSuperUserAccess();
+
+        try {
+            $access->setSuperUserAccess(false);
+
+            $this->setComplianceFeatureFlag(true);
+
+            $this->runApiTests('PrivacyManager.getComplianceStatus', [
+                'testSuffix' => 'notSuperAdmin',
+                'otherRequestParameters' => [
+                    'idSite' => '1',
+                    'complianceType' => 'cnil'
+                ]
+            ]);
+        } finally {
+            $access->setSuperUserAccess($originalAccess);
+        }
+    }
+
+    public function testGetComplianceStatusReturnsComplianceStatus(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+
+        $this->runApiTests('PrivacyManager.getComplianceStatus', [
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'complianceType' => 'cnil'
+            ]
         ]);
     }
 
