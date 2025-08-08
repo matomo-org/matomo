@@ -58,16 +58,16 @@ class VisitsWithAllActionsAndDevices extends Fixture
 
         // desktop
         $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(26.7)->getDatetime(), 'Mozilla/5.0 (Windows NT 6.3; Win64; x64; Trident/7.0; NP06; rv:11.0) like Gecko');
-        $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(32.5)->getDatetime(), 'Safari/9537.73.11 CFNetwork/673.0.3 Darwin/13.0.0 (x86_64) (MacBookAir6%2C2)');
+        $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(32.5)->getDatetime(), 'Safari/9537.73.11 CFNetwork/673.0.3 Darwin/13.0.0 (x86_64) (MacBookAir6%2C2)', 'https://chat.openai.com/');
 
         // car browser
         $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(60.4)->getDatetime(), 'Mozilla/5.0 (X11; u; Linux; C) AppleWebKit /533.3 (Khtml, like Gheko) QtCarBrowser Safari/533.3');
 
         // unknown device
-        $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(75.1)->getDatetime(), 'Mozilla/5.0 (Android; Linux armv7l; rv:10.0) Gecko/20120118 Firefox/10.0 Fennec/10.0');
+        $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(75.1)->getDatetime(), 'Mozilla/5.0 (Android; Linux armv7l; rv:10.0) Gecko/20120118 Firefox/10.0 Fennec/10.0', 'https://www.perplexity.ai/search?q=matomo');
 
         // smartphone
-        $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(79.5)->getDatetime(), 'Mozilla/5.0 (Linux; U; Android 4.1.2; en-us; ADR910L 4G Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30');
+        $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(79.5)->getDatetime(), 'Mozilla/5.0 (Linux; U; Android 4.1.2; en-us; ADR910L 4G Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30', 'https://instagram.com/');
         $this->trackDeviceVisit($t, Date::factory($this->dateTime)->addHour(86.8)->getDatetime(), 'Mozilla/5.0 (Linux; U; Android 4.1.2; zh-cn; ZTE N799D Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30; 360browser(securitypay,securityinstalled); 360(android,uppayplugin); 360 Aphone Browser (5.4.0)');
 
         $this->trackVisitSmartphone($t, Date::factory($this->dateTime)->addHour(101.6)->getDatetime());
@@ -235,12 +235,13 @@ class VisitsWithAllActionsAndDevices extends Fixture
         self::checkResponse($t->doTrackPageView('Action without url'));
     }
 
-    private function trackDeviceVisit(\MatomoTracker $t, $dateTime, $useragent)
+    private function trackDeviceVisit(\MatomoTracker $t, $dateTime, $useragent, ?string $referrerUrl = null)
     {
         $t->setForceVisitDateTime($dateTime);
         $t->setUserAgent($useragent);
 
         $t->setUrl('http://example.org/');
+        $t->setUrlReferrer($referrerUrl);
         $t->setPerformanceTimings(88, 165, 247, 355, 401, 196);
         $t->setDebugStringAppend('bw_bytes=555');
         self::checkResponse($t->doTrackPageView('home'));
