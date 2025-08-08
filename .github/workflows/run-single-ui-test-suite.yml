@@ -1,0 +1,53 @@
+name: Run Specific UI Test Suite
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_suite_name:
+        description: 'Name of the UI test suite to run (TestSuiteName)'
+        required: true
+        type: string
+      ref:
+        description: 'Branch name (e.g. 5.x-dev)'
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  checks: none
+  contents: read
+  deployments: none
+  issues: read
+  packages: none
+  pull-requests: read
+  repository-projects: none
+  security-events: none
+  statuses: none
+
+concurrency:
+  group: ui-${{ inputs.ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  UI-Test-Specific:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+
+      - name: Run specific UI test suite
+        uses: matomo-org/github-action-tests@main
+        with:
+          ui-test-options: '${{ inputs.test_suite_name }}'
+          test-type: 'UI'
+          php-version: '7.2'
+          node-version: '16'
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: true
