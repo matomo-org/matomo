@@ -246,7 +246,7 @@ class API extends \Piwik\Plugin\API
         ?string $period = null,
         ?string $date = null,
         ?string $segment = null,
-        string $pattern,
+        string $pattern = '',
         int $filter_limit = 0
     ): array {
         Piwik::checkUserHasSomeViewAccess();
