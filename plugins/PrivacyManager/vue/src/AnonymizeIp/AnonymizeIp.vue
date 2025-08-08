@@ -19,7 +19,7 @@
       </Field>
     </template>
     <template v-if="showSettings">
-      <div>
+      <div class="anonymizeIpSettingsField">
         <Field
           uicontrol="checkbox"
           name="anonymizeIpSettings"
@@ -30,7 +30,7 @@
         </Field>
       </div>
       <div v-show="actualEnabled">
-        <div>
+        <div class="maskLengthField">
           <Field
             uicontrol="radio"
             name="maskLength"
@@ -41,7 +41,7 @@
           >
           </Field>
         </div>
-        <div>
+        <div class="useAnonymizedIpForVisitEnrichmentField">
           <Field
             uicontrol="radio"
             name="useAnonymizedIpForVisitEnrichment"
@@ -53,7 +53,7 @@
           </Field>
         </div>
       </div>
-      <div>
+      <div class="anonymizeUserIdField">
         <Field
           uicontrol="checkbox"
           name="anonymizeUserId"
@@ -67,7 +67,7 @@
           </template>
         </Field>
       </div>
-      <div>
+      <div class="anonymizeOrderIdField">
         <Field
           uicontrol="checkbox"
           name="anonymizeOrderId"
@@ -77,7 +77,7 @@
         >
         </Field>
       </div>
-      <div>
+      <div class="forceCookielessTrackingField">
         <Field
           uicontrol="checkbox"
           name="forceCookielessTracking"
@@ -99,7 +99,7 @@
           </template>
         </Field>
       </div>
-      <div>
+      <div class="anonymizeReferrerField">
         <Field
           uicontrol="select"
           name="anonymizeReferrer"
@@ -110,9 +110,8 @@
         >
         </Field>
       </div>
-      <div>
+      <div class="randomizeConfigIdField" v-if="configRandomisationFeatureFlag">
         <Field
-          v-if="configRandomisationFeatureFlag"
           uicontrol="checkbox"
           name="randomizeConfigId"
           :title="translate('PrivacyManager_UseRandomizeConfigId')"
