@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\System;
 
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Db;
@@ -195,6 +196,21 @@ class APITest extends SystemTestCase
             'otherRequestParameters' => [
                 'idSite' => '1',
                 'complianceType' => 'something else not valid'
+            ]
+        ]);
+    }
+
+    public function testGetComplianceStatusReturnsErrorIfNotSuperAdmin(): void
+    {
+        Access::getInstance()->setSuperUserAccess(false);
+
+        $this->setComplianceFeatureFlag(true);
+
+        $this->runApiTests('PrivacyManager.getComplianceStatus', [
+            'testSuffix' => 'notSuperAdmin',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'complianceType' => 'cnil'
             ]
         ]);
     }
