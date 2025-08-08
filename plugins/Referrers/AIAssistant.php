@@ -33,14 +33,15 @@ class AIAssistant extends Singleton
     /**
      * Returns list of ai assistants by URL
      *
-     * @return null|array<string, string>
+     * @return array<string, string>
      */
-    public function getDefinitions(): ?array
+    public function getDefinitions(): array
     {
         $cache = Cache::getEagerCache();
         $cacheId = 'AIAssistant-' . self::OPTION_STORAGE_NAME;
 
         if ($cache->contains($cacheId)) {
+            /** @var array<string, string> $list */
             $list = $cache->fetch($cacheId);
         } else {
             $list = $this->loadDefinitions();
@@ -50,7 +51,10 @@ class AIAssistant extends Singleton
         return $list;
     }
 
-    private function loadDefinitions(): ?array
+    /**
+     * @return array<string, string>
+     */
+    private function loadDefinitions(): array
     {
         if ($this->definitionList === null) {
             $referrerDefinitionSyncOpt = Config::getInstance()->General['enable_referrer_definition_syncs'];
@@ -64,7 +68,7 @@ class AIAssistant extends Singleton
 
         Piwik::postEvent('Referrer.addAIAssistantUrls', [&$this->definitionList]);
 
-        return $this->definitionList;
+        return $this->definitionList ?? [];
     }
 
     /**
@@ -76,7 +80,10 @@ class AIAssistant extends Singleton
         $list = Option::get(self::OPTION_STORAGE_NAME);
 
         if ($list && SettingsPiwik::isInternetEnabled()) {
-            $this->definitionList = Common::safe_unserialize(base64_decode($list));
+            $list = Common::safe_unserialize(base64_decode($list));
+            if (!empty($list) && is_array($list)) {
+                $this->definitionList = $list;
+            }
         } else {
             // Fallback to reading the bundled list
             $this->loadLocalYmlData();
@@ -99,7 +106,7 @@ class AIAssistant extends Singleton
      * Parses the given YML string and caches the resulting definitions
      *
      * @param string $yml
-     * @return array
+     * @return null|array<string, string>
      */
     public function loadYmlData(string $yml): ?array
     {
@@ -112,6 +119,10 @@ class AIAssistant extends Singleton
         return $this->definitionList;
     }
 
+    /**
+     * @param array<string, string[]> $ais
+     * @return array<string, string>
+     */
     protected function transformData(array $ais): array
     {
         $urlToName = [];
