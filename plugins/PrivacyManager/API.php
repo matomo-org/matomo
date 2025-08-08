@@ -422,12 +422,6 @@ class API extends \Piwik\Plugin\API
             return [];
         }
 
-        $idSites = Site::getIdSitesFromIdSitesString($idSite);
-
-        if (empty($idSites)) {
-            return [];
-        }
-
         Piwik::checkUserHasSuperUserAccess();
 
         return [
