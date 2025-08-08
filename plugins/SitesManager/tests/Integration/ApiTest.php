@@ -1828,6 +1828,30 @@ class ApiTest extends IntegrationTestCase
         ];
     }
 
+    public function testAddSiteWithLegacyTimezoneWorks()
+    {
+        $timezone = current(array_diff(
+            \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC),
+            \DateTimeZone::listIdentifiers(\DateTimeZone::ALL)
+        ));
+
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            ['http://example.org'],
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $ip = '',
+            $params = '',
+            $timezone
+        );
+
+        $site = new Site($idSite);
+
+        self::assertSame($timezone, $site->getTimezone());
+    }
+
     private function setCommonPIIParamsInConfig(array $urlParams): void
     {
         $config = Config::getInstance();
