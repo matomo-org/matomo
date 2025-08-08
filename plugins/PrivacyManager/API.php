@@ -415,7 +415,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getComplianceStatus(string $idSite, string $complianceType): array
     {
-        if ($this->featureFlagManager->isFeatureActive(PrivacyCompliance::class) === false) {
+        if (false === $this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             throw new Exception('Feature not available');
         }
 
