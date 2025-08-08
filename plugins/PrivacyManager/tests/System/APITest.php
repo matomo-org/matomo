@@ -173,7 +173,7 @@ class APITest extends SystemTestCase
         }
     }
 
-    public function testGetComplianceStatusReturnsEmptyArrayIfFeatureFlagDisabled(): void
+    public function testGetComplianceStatusReturnsErrorIfFeatureFlagDisabled(): void
     {
         $this->setComplianceFeatureFlag(false);
 
@@ -186,7 +186,7 @@ class APITest extends SystemTestCase
         ]);
     }
 
-    public function testGetComplianceStatusReturnsEmptyArrayIfComplianceTypeIsNotCnil(): void
+    public function testGetComplianceStatusReturnsErrorIfComplianceTypeIsNotCnil(): void
     {
         $this->setComplianceFeatureFlag(true);
 

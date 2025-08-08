@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
+use Exception;
 use Piwik\API\Request;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
@@ -415,11 +416,11 @@ class API extends \Piwik\Plugin\API
     public function getComplianceStatus(string $idSite, string $complianceType): array
     {
         if ($this->featureFlagManager->isFeatureActive(PrivacyCompliance::class) === false) {
-            return [];
+            throw new Exception('Feature not available');
         }
 
         if ($complianceType !== 'cnil') {
-            return [];
+            throw new Exception('Invalid compliance type');
         }
 
         Piwik::checkUserHasSuperUserAccess();
