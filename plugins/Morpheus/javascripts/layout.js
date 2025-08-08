@@ -12,15 +12,21 @@ $(function () {
         content.css('width', width + 'px');
     }
 
+    var timeout = null;
     function hideAdminOnSmallViewports()
     {
-        if ($(window).width() < 200 || $(window).height() < 200) {
-            $('#root').css('display', 'none');
-            $('#sizewarning').css('display', 'block');
-        } else {
-            $('#root').css('display', '');
-            $('#sizewarning').css('display', 'none');
+        if (timeout) {
+            clearTimeout(timeout);
         }
+        setTimeout(function () {
+            if ($(window).width() < 200 || $(window).height() < 200) {
+                $('body > #root').css('display', 'none');
+                $('#sizewarning').css('display', 'block');
+            } else if ($('body > #root').css('display') === 'none') {
+                $('body > #root').css('display', '');
+                $('#sizewarning').css('display', 'none');
+            }
+        }, 50);
     }
 
     var contentAdmin = $('#content.admin');
