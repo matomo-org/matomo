@@ -39,6 +39,7 @@ class ReferrerType extends Base
             Common::REFERRER_TYPE_WEBSITE        => 'website',
             Common::REFERRER_TYPE_SEARCH_ENGINE  => 'search',
             Common::REFERRER_TYPE_SOCIAL_NETWORK => 'social',
+            Common::REFERRER_TYPE_AI_ASSISTANT => 'ai',
             Common::REFERRER_TYPE_CAMPAIGN       => 'campaign',
         );
     }
