@@ -128,7 +128,7 @@
         :saving="isLoading"
       />
       <button v-if="idSiteSpecific"
-        class="btn btn-link"
+        class="btn btn-link cancel"
         @click="$emit('cancel')"
       >
         {{ translate('General_Cancel', '', '') }}
