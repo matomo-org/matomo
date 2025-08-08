@@ -12,6 +12,7 @@
         "AnonymizeReferrerNote": "Matomo stores from which URL (referrer) a user comes to your site. In some cases such a URL may contain information that can be considered personal information. If you want to prevent such information to be tracked you can restrict the amount of referrer data that Matomo will store when a visitor enters your website. The more information is removed from the referrer information, the less likely personal information will be recorded. The more information you remove from the referrer, the less clear it will be how a visitor came to your website.",
         "AskingForConsent": "Asking for consent",
         "ConsentExplanation": "Consent means offering individuals choice and control about how their personal data is processed.",
+        "Compliance": "Compliance",
         "ClickHereSettings": "Click here to access the %s settings.",
         "WhenDoINeedConsent": "When do I need to ask for user consent?",
         "WhenConsentIsNeededPart1": "The %1$sGDPR privacy regulations%2$s require you to ask for your users' consent when processing personal data in some cases. To determine whether you need to ask for consent, you need to identify your lawful basis for processing personal data. This can be either \"Consent\" or \"Legitimate interest\", or you may be able to avoid collecting personal data altogether.",
