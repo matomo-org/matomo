@@ -181,7 +181,11 @@
 
       </div>
       <div v-if="isEditingPrivacy">
-        <div class="editingSiteFooter">
+        <div>
+          <p>
+            {{ theSite.name }}<br>
+            <span class="title">{{ translate('General_Id') }}</span>: {{ theSite.idsite }}
+          </p>
 
           <h3>{{ translate('PrivacyManager_UseAnonymizeTrackingData') }}</h3>
 
