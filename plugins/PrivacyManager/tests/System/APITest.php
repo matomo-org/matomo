@@ -202,17 +202,24 @@ class APITest extends SystemTestCase
 
     public function testGetComplianceStatusReturnsErrorIfNotSuperAdmin(): void
     {
-        Access::getInstance()->setSuperUserAccess(false);
+        $access = Access::getInstance();
+        $originalAccess = $access->hasSuperUserAccess();
 
-        $this->setComplianceFeatureFlag(true);
+        try {
+            $access->setSuperUserAccess(false);
 
-        $this->runApiTests('PrivacyManager.getComplianceStatus', [
-            'testSuffix' => 'notSuperAdmin',
-            'otherRequestParameters' => [
-                'idSite' => '1',
-                'complianceType' => 'cnil'
-            ]
-        ]);
+            $this->setComplianceFeatureFlag(true);
+
+            $this->runApiTests('PrivacyManager.getComplianceStatus', [
+                'testSuffix' => 'notSuperAdmin',
+                'otherRequestParameters' => [
+                    'idSite' => '1',
+                    'complianceType' => 'cnil'
+                ]
+            ]);
+        } finally {
+            $access->setSuperUserAccess($originalAccess);
+        }
     }
 
     public function testGetComplianceStatusReturnsComplianceStatus(): void
