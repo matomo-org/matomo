@@ -76,7 +76,7 @@ class Config
 
     private function prefix(string $optionName, bool $addIdSite = true)
     {
-        // if provided, adding the site ID in the middle to have all the site-specific settings together
+        // if requested, adding the site ID in the middle to have all the site-specific settings together
         return 'PrivacyManager.' . (($addIdSite && $this->idSite) ? "idSite($this->idSite)." : '') . $optionName;
     }
 
@@ -96,15 +96,17 @@ class Config
     {
         $generalCache = Cache::getCacheGeneral();
         $name = $this->prefix($name, false); // when getting from tracker cache, we always want the generic name
-        if (null !== $this->idSite) {
+        if ($this->idSite) {
             $cache = Cache::getCacheWebsiteAttributes($this->idSite);
         } else {
-            $cache = $generalCache;
+            $cache = $generalCache; // so that we always have some cache to check below
         }
 
         // check specific cache first, if no value found there return from general cache or use default
-        $value = $this->getFromSpecificTrackerCache($name, $cache, $config, $useFallback = false);
-        return null !== $value ? $value : $this->getFromSpecificTrackerCache($name, $generalCache, $config);
+        $valueSite = $this->getFromSpecificTrackerCache($name, $cache, $config, $useFallback = false);
+        $valueGeneralWithFallback = $this->getFromSpecificTrackerCache($name, $generalCache, $config);
+
+        return (null !== $valueSite ? $valueSite : $valueGeneralWithFallback);
     }
 
     private function getFromOption(string $name, array $config)

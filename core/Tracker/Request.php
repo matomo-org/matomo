@@ -783,7 +783,7 @@ class Request
             }
         }
 
-        $privacyConfig = new \Piwik\Plugins\PrivacyManager\Config();
+        $privacyConfig = new \Piwik\Plugins\PrivacyManager\Config($this->getIdSiteIfExists());
 
         // Only check for cookie values if cookieless tracking is NOT forced
         if (!$privacyConfig->forceCookielessTracking) {

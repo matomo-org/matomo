@@ -228,7 +228,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Provide tracker file name and whether it's writable
      */
-    protected function getTrackerFileDetails(): array
+    private function getTrackerFileDetails(): array
     {
         if (Piwik::hasUserSuperUserAccess()) {
             $jsCodeGenerator = new TrackerCodeGenerator();
@@ -245,12 +245,6 @@ class API extends \Piwik\Plugin\API
 
         return ['', false];
     }
-
-    private function getConfigRandomisationFeatureActive(): bool
-    {
-        return $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class);
-    }
-
 
     /**
      * Provide anonymisation settings to Matomo UI only
@@ -281,7 +275,8 @@ class API extends \Piwik\Plugin\API
             'useAnonymizedIpForVisitEnrichmentOptions' =>
                 PrivacyManager::getUseAnonymizedIpForVisitEnrichmentOptions(),
             'referrerAnonymizationOptions' => ReferrerAnonymizer::getAvailableAnonymizationOptions(),
-            'configRandomisationFeatureFlag' => $this->getConfigRandomisationFeatureActive(),
+            'configRandomisationFeatureFlag' =>
+                $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class),
             'trackerFileName' => $trackerFilename,
             'trackerWritable' => $trackerFileWritable,
         ]);

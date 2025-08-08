@@ -210,10 +210,12 @@ class PrivacyManager extends Plugin
 
     public function onConfigureVisualisation(Plugin\Visualization $view)
     {
-        // TODO: how to get the idSite to pass to config here?
-
         if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
-            $config = new Config();
+            $idSite = $view->requestConfig->getRequestParam('idsite');
+            if (!is_numeric($idSite) || !$idSite) {
+                $idSite = null;
+            }
+            $config = new Config($idSite);
             if ($config->anonymizeReferrer == ReferrerAnonymizer::EXCLUDE_NONE) {
                 return;
             }

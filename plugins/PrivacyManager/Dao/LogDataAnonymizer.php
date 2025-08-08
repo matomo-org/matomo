@@ -52,6 +52,7 @@ class LogDataAnonymizer
             return 0; // no visit tracked yet, the idsite in() would otherwise fail
         }
 
+        $idSitesArray = $idSites;
         $idSites = implode(', ', $idSites);
 
         $numVisitsToUpdate = $this->getNumVisitsInTimeRange($idSites, $startDate, $endDate);
@@ -62,7 +63,11 @@ class LogDataAnonymizer
 
         $privacyConfig = new Config();
         $minimumIpAddressMaskLength = 2;
-        $ipMask = max($minimumIpAddressMaskLength, $privacyConfig->ipAddressMaskLength);
+        $ipMaskPerSite = [];
+        foreach ($idSitesArray as $idSite) {
+            $privacyConfig->setIdSite($idSite);
+            $ipMaskPerSite[$idSite] = max($minimumIpAddressMaskLength, $privacyConfig->ipAddressMaskLength);
+        }
 
         $numRecordsUpdated = 0;
         $trackerModel = new Model();
@@ -81,7 +86,7 @@ class LogDataAnonymizer
             foreach ($rows as $row) {
                 $ipObject = IP::fromBinaryIP($row['location_ip']);
                 $ipString = $ipObject->toString();
-                $ipAnonymized = IPAnonymizer::applyIPMask($ipObject, $ipMask);
+                $ipAnonymized = IPAnonymizer::applyIPMask($ipObject, $ipMaskPerSite[$row['idsite']]);
                 $update = array();
 
                 if ($anonymizeIp) {
