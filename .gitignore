@@ -22,6 +22,7 @@ php_errors.log
 /misc/user/logo.svg
 /misc/user/favicon.png
 /misc/user/*.js
+/misc/static-sites
 /piwik-min.js
 /plugins/*.zip
 /plugins/ImageGraph/fonts/unifont.ttf

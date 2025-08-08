@@ -473,6 +473,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_UseSystemSettings';
         $translationKeys[] = 'PrivacyManager_UseSiteSpecificSettings';
         $translationKeys[] = 'PrivacyManager_UseSiteSpecificSettingsHelpText';
+        $translationKeys[] = 'PrivacyManager_Compliance';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
