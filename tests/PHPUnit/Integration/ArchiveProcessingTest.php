@@ -435,7 +435,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         foreach ($allMetrics as $date => $metrics) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter, $params) = $this->createArchiveProcessorInst('day', $date, $site->getId());
+            [$archiveProcessor, $archiveWriter, $params] = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $archiveProcessor->insertNumericRecords($metrics);
@@ -444,7 +444,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
         }
 
         /** @var ArchiveProcessor $archiveProcessor */
-        list($archiveProcessor, $archiveWriter, $params) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
+        [$archiveProcessor, $archiveWriter, $params] = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
         $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
@@ -489,7 +489,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         foreach ($allMetrics as $date => $metrics) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('day', $date, $site->getId());
+            [$archiveProcessor, $archiveWriter] = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $archiveProcessor->insertNumericRecords($metrics);
@@ -498,8 +498,8 @@ class ArchiveProcessingTest extends IntegrationTestCase
         }
 
         /** @var ArchiveProcessor $archiveProcessor */
-        list($archiveProcessor, $archiveWriter, $params) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'nb_visits', 'VisitsSummary');
-        $params->setIsPartialArchive(true);
+        [$archiveProcessor, $archiveWriter, $params] = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'nb_visits', 'VisitsSummary');
+        $params->setArchiveOnlyReport('report');
         $idArchive = $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
@@ -548,7 +548,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
 
         foreach ($tables as $date => $table) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('day', $date, $site->getId());
+            [$archiveProcessor, $archiveWriter] = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $tableSerialized = $table->getSerialized();
@@ -557,7 +557,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
             $archiveWriter->finalizeArchive();
         }
 
-        list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
+        [$archiveProcessor, $archiveWriter] = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
         $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
@@ -614,7 +614,7 @@ END;
 
         foreach ($tables as $date => $table) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('day', $date, $site->getId());
+            [$archiveProcessor, $archiveWriter] = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $tableSerialized = $table->getSerialized();
@@ -624,8 +624,8 @@ END;
         }
 
         /** @var ArchiveProcessor $archiveProcessor */
-        list($archiveProcessor, $archiveWriter, $params) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'Actions_test_value', 'VisitsSummary');
-        $params->setIsPartialArchive(true);
+        [$archiveProcessor, $archiveWriter, $params] = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId(), 'Actions_test_value', 'VisitsSummary');
+        $params->setArchiveOnlyReport('report');
         $idArchive = $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
@@ -668,7 +668,7 @@ END;
 
         foreach ($tables as $date => $table) {
             /** @var ArchiveWriter $archiveWriter */
-            list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('day', $date, $site->getId());
+            [$archiveProcessor, $archiveWriter] = $this->createArchiveProcessorInst('day', $date, $site->getId());
             $archiveWriter->initNewArchive();
 
             $tableSerialized = $table->getSerialized();
@@ -677,7 +677,7 @@ END;
             $archiveWriter->finalizeArchive();
         }
 
-        list($archiveProcessor, $archiveWriter) = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
+        [$archiveProcessor, $archiveWriter] = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
         $archiveWriter->initNewArchive();
 
         $archiveProcessor->captureInserts();
