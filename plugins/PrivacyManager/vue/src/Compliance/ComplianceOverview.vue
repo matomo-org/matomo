@@ -24,7 +24,7 @@
     />
     <SaveButton
       @confirm="this.showPasswordConfirmation = true"
-      value="Save"
+      :value="translate('General_Save')"
     />
     <PasswordConfirmation
       :model-value="this.showPasswordConfirmation"
