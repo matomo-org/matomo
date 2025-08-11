@@ -959,6 +959,12 @@ class API extends \Piwik\Plugin\API
 
     private function checkValidTimezone($timezone)
     {
+        try {
+            Date::factory('today', $timezone);
+        } catch (\Exception $e) {
+            throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidTimezone', [$timezone]));
+        }
+
         $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC);
         $timezones = array_merge($timezones, array_keys($this->getTimezonesListUTCOffsets()));
         if (in_array($timezone, $timezones)) {

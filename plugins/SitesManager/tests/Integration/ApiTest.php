@@ -1828,12 +1828,14 @@ class ApiTest extends IntegrationTestCase
         ];
     }
 
-    public function testAddSiteWithLegacyTimezoneWorks()
+    /**
+     * @dataProvider getTimezonesToTest
+     */
+    public function testAddSiteWithLegacyTimezoneWorks($timezone)
     {
-        $timezone = current(array_diff(
-            \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC),
-            \DateTimeZone::listIdentifiers(\DateTimeZone::ALL)
-        ));
+        if (in_array($timezone, ['leapseconds', 'tzdata.zi'])) {
+            $this->markTestSkipped('Unsupported legacy timezone');
+        }
 
         $idSite = API::getInstance()->addSite(
             "site1",
@@ -1850,6 +1852,26 @@ class ApiTest extends IntegrationTestCase
         $site = new Site($idSite);
 
         self::assertSame($timezone, $site->getTimezone());
+    }
+
+    public function getTimezonesToTest(): iterable
+    {
+        $timezoneListFromApi = API::getInstance()->getTimezonesList();
+
+        foreach ($timezoneListFromApi as $countries) {
+            foreach ($countries as $timezone => $timezoneName) {
+                yield $timezone => [$timezone];
+            }
+        }
+
+        $timezones = array_diff(
+            \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC),
+            \DateTimeZone::listIdentifiers(\DateTimeZone::ALL)
+        );
+
+        foreach ($timezones as $timezone) {
+            yield $timezone => [$timezone];
+        }
     }
 
     private function setCommonPIIParamsInConfig(array $urlParams): void
