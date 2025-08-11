@@ -1,4 +1,4 @@
-import { reactive, readonly } from 'vue';
+import { DeepReadonly, reactive, readonly } from 'vue';
 
 export interface ComplianceIndicator {
   name: string;
@@ -15,8 +15,8 @@ interface ComplianceStoreState {
 }
 
 export interface ComplianceStore {
-  state: ComplianceStoreState;
-  setIdSite: (idsite: int) => void;
+  state: DeepReadonly<ComplianceStoreState>;
+  setIdSite: (idsite: string) => void;
   saveComplianceStatus: (enabled: boolean) => void;
 }
 
@@ -68,7 +68,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     }, Math.floor(Math.random() * 1200) + 300);
   }
 
-  function setIdSite(idSite: int | string | null) {
+  function setIdSite(idSite: string | null) {
     state.idsite = idSite;
     fetchCompliance();
   }
@@ -111,8 +111,10 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     }, Math.floor(Math.random() * 1200) + 300);
   }
 
+  const publicState = readonly(state) as DeepReadonly<ComplianceStoreState>;
+
   return {
-    state: readonly(state),
+    state: publicState,
     setIdSite,
     saveComplianceStatus,
   };
