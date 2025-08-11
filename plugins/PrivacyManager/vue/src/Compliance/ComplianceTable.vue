@@ -10,13 +10,13 @@
     <thead>
       <tr>
         <th class="label">
-          Setting Name
+          {{ translate('PrivacyManager_ComplianceTableSettingName') }}
         </th>
         <th class="label">
-          Status
+          {{ translate('PrivacyManager_ComplianceTableSettingStatus') }}
         </th>
         <th class="label">
-          Notes
+          {{ translate('PrivacyManager_ComplianceTableSettingNotes') }}
         </th>
       </tr>
     </thead>
