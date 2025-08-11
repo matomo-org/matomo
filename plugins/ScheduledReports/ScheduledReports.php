@@ -45,10 +45,13 @@ class ScheduledReports extends \Piwik\Plugin
     public const EVOLUTION_GRAPH_PARAMETER = 'evolutionGraph';
     public const ADDITIONAL_EMAILS_PARAMETER = 'additionalEmails';
     public const DISPLAY_FORMAT_PARAMETER = 'displayFormat';
+    public const SLACK_CHANNEL_ID_PARAMETER = 'slackChannelID';
     public const EMAIL_ME_PARAMETER_DEFAULT_VALUE = true;
     public const EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE = false;
 
     public const EMAIL_TYPE = 'email';
+
+    public const SLACK_TYPE = 'slack';
 
     private static $availableParameters = array(
         self::EMAIL_ME_PARAMETER          => false,
@@ -57,8 +60,13 @@ class ScheduledReports extends \Piwik\Plugin
         self::DISPLAY_FORMAT_PARAMETER    => true,
     );
 
+    private static $availableParametersSlack = array(
+        self::SLACK_CHANNEL_ID_PARAMETER    => true,
+    );
+
     private static $managedReportTypes = array(
-        self::EMAIL_TYPE => 'plugins/Morpheus/images/email.png'
+        self::EMAIL_TYPE => 'plugins/Morpheus/images/email.png',
+        self::SLACK_TYPE => 'plugins/Morpheus/images/slack.png'
     );
 
     private static $managedReportFormats = array(
@@ -155,6 +163,9 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_AddNewSegment';
         $translationKeys[] = 'ScheduledReports_SentToMe';
         $translationKeys[] = 'ScheduledReports_AlsoSendReportToTheseEmails';
+        $translationKeys[] = 'ScheduledReports_SlackChannelID';
+        $translationKeys[] = 'ScheduledReports_NoSlackOauthTokenAdded';
+        $translationKeys[] = 'ScheduledReports_SlackChannel';
     }
 
     /**
@@ -182,6 +193,17 @@ class ScheduledReports extends \Piwik\Plugin
     public function validateReportParameters(&$parameters, $reportType)
     {
         if (! self::manageEvent($reportType)) {
+            return;
+        }
+
+        if ($reportType === self::SLACK_TYPE) {
+            $settings = StaticContainer::get(SystemSettings::class);
+            if (empty($settings->slackOauthToken->getValue())) {
+                throw new Exception(Piwik::translate('ScheduledReports_SlackOauthTokenRequired'));
+            } elseif (empty($parameters[self::SLACK_CHANNEL_ID_PARAMETER])) {
+                throw new Exception(Piwik::translate('ScheduledReports_SlackChannelIDRequired'));
+            }
+
             return;
         }
 
@@ -256,6 +278,9 @@ class ScheduledReports extends \Piwik\Plugin
     {
         if (self::manageEvent($reportType)) {
             $reportFormats = self::$managedReportFormats;
+            if ($reportType === self::SLACK_TYPE) {
+                unset($reportFormats[ReportRenderer::HTML_FORMAT]);
+            }
         }
     }
 
@@ -263,6 +288,9 @@ class ScheduledReports extends \Piwik\Plugin
     {
         if (self::manageEvent($reportType)) {
             $availableParameters = self::$availableParameters;
+            if ($reportType === self::SLACK_TYPE) {
+                $availableParameters = self::$availableParametersSlack;
+            }
         }
     }
 
@@ -372,6 +400,11 @@ class ScheduledReports extends \Piwik\Plugin
         $generatedReport = new GeneratedReport($report, $reportTitle, $prettyDate, $contents, $additionalFiles);
 
         $reportFormat = $generatedReport->getReportFormat();
+
+        if ($reportType === self::SLACK_TYPE) {
+            $scheduleReportSlack = new ScheduleReportSlack();
+            return $scheduleReportSlack->send($filename, $contents, $report['parameters']['slackChannelID']);
+        }
 
         $customReplyTo = null;
         if (

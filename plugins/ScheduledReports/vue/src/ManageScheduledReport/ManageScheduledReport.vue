@@ -59,6 +59,7 @@
         :report-types="reportTypes"
         :segment-editor-activated="segmentEditorActivated"
         :saved-segments-by-id="savedSegmentsById"
+        :is-slack-oauth-token-added="isSlackOauthTokenAdded"
         @toggle-selected-report="toggleSelectedReport($event.reportType, $event.uniqueId)"
         @change="onChangeProperty($event.prop, $event.value)"
         @submit="submitReport()"
@@ -189,6 +190,10 @@ export default defineComponent({
     reportTypes: {
       type: Object,
       required: true,
+    },
+    isSlackOauthTokenAdded: {
+      type: Boolean,
+      default: false,
     },
   },
   components: {
@@ -393,7 +398,14 @@ export default defineComponent({
       return false;
     },
     onChangeProperty(propName: string, value: unknown) {
-      this.report[propName] = value;
+      if (propName === 'slackChannelID') {
+        if (!this.report.parameters) {
+          this.report.parameters = {};
+        }
+        this.report.parameters.slackChannelID = value;
+      } else {
+        this.report[propName] = value;
+      }
 
       if (propName === 'type') {
         this.changedReportType();

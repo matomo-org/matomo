@@ -105,6 +105,12 @@ export default defineComponent({
         additionalEmails: (theReport.additionalEmails || []),
       });
     }
+
+    if (!getReportParametersFunctions.slack) {
+      getReportParametersFunctions.slack = (theReport) => ({
+        slackChannelID: theReport.parameters.slackChannelID,
+      });
+    }
   },
 });
 </script>

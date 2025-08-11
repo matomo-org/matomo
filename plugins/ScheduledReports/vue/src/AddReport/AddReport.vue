@@ -154,7 +154,39 @@
         <slot name="report-parameters"></slot>
       </div>
       <div
-        v-show="report.type === 'email'
+          v-show="report.type === 'slack'"
+      >
+        <div class="slackChannelID">
+          <Field
+              uicontrol="text"
+              name="channelID"
+              :title="translate('ScheduledReports_SlackChannelID')"
+              class="slack"
+              :model-value="report.parameters?.slackChannelID"
+              :disabled="!isSlackOauthTokenAdded"
+              @update:model-value="$emit('change', { prop: 'slackChannelID', value: $event })"
+          >
+            <template v-slot:inline-help>
+              <div id="slackChannelIDHelp" class="inline-help-node">
+                <span class="icon-info" style="margin-right:3.5px"></span>
+                <span
+                    v-if="!isSlackOauthTokenAdded"
+                    style="margin-right:3.5px"
+                    v-html="$sanitize(getSlackOAuthTokenNotAddedHelpText)"
+                >
+                </span>
+                <span
+                    v-else
+                >
+                  Enter you Slack Channel ID
+                </span>
+              </div>
+            </template>
+          </Field>
+        </div>
+      </div>
+      <div
+        v-show="(report.type === 'email' || report.type === 'slack')
               && report.formatemail !== 'csv'
               && report.formatemail !== 'tsv'"
       >
@@ -291,6 +323,7 @@ import {
   Matomo,
   translate,
   debounce,
+  MatomoUrl,
 } from 'CoreHome';
 import { Field, Form, SaveButton } from 'CorePluginsAdmin';
 import { adjustHourToTimezone } from '../utilities';
@@ -351,6 +384,10 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    isSlackOauthTokenAdded: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['submit', 'change', 'toggleSelectedReport'],
   components: {
@@ -374,6 +411,12 @@ export default defineComponent({
     decode(s: string) {
       // report names can be encoded (mainly goals)
       return Matomo.helper.htmlDecode(s);
+    },
+    linkTo(params: QueryParameters) {
+      return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        ...params,
+      })}`;
     },
   },
   setup(props, ctx) {
@@ -480,6 +523,14 @@ export default defineComponent({
         '</a>',
         translate('SegmentEditor_DefaultAllVisits'),
         translate('SegmentEditor_AddNewSegment'),
+      );
+    },
+    getSlackOAuthTokenNotAddedHelpText() {
+      const link = this.linkTo({ module: 'CoreAdminHome', action: 'generalSettings', updated: null });
+      return translate(
+        'ScheduledReports_NoSlackOauthTokenAdded',
+        `<a href="${link}#/ScheduledReports" rel="noreferrer noopener" target="_blank">`,
+        '</a>',
       );
     },
     timezoneOffset() {

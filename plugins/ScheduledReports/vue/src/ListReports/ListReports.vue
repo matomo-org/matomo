@@ -66,7 +66,12 @@
             <span v-if="report.format">{{ report.format.toUpperCase() }}</span>
           </td>
           <td>
-            <span v-if="report.recipients.length === 0">
+            <span v-if="report.type === 'slack'">
+              {{ translate('ScheduledReports_SlackChannel') }}:
+               {{ report.parameters.slackChannelID }}
+              <br />
+            </span>
+            <span v-else-if="report.recipients.length === 0">
               {{ translate('ScheduledReports_NoRecipients') }}
             </span>
             <span v-for="(recipient, index) in report.recipients" :key="index">
@@ -75,7 +80,9 @@
             </span>
 
             <a
-              v-if="report.recipients.length !== 0"
+              v-if="
+              report.recipients.length !== 0
+              || (report.type === 'slack' && report.parameters.slackChannelID)"
               href="#"
               name="linkSendNow"
               class="link_but withIcon"

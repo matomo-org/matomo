@@ -59,6 +59,11 @@
         "EvolutionGraphsShowForPreviousN": "Evolution graphs show the evolution over the previous N %s",
         "ReportPeriod": "Report Period",
         "ReportPeriodHelp": "The period of data covered by this report. By default this is the same as the email schedule, so if the report is sent weekly, it will contain information regarding the last week.",
-        "ReportPeriodHelp2": "You can change this, however, if you want to see different information and still retain the email schedule. For example, if the email schedule is weekly, and the report period is 'day', you will get information for the last day, every week."
+        "ReportPeriodHelp2": "You can change this, however, if you want to see different information and still retain the email schedule. For example, if the email schedule is weekly, and the report period is 'day', you will get information for the last day, every week.",
+        "SlackChannelID": "Slack Channel ID",
+        "NoSlackOauthTokenAdded": "Please add your Slack OauthToken %1$shere%2$s.",
+        "SlackOauthTokenRequire": "Please add your Slack Oauth token in General Settings under ScheduledReports section.",
+        "SlackChannelIDRequired": "Slack Channel ID cannot be empty.",
+        "SlackChannel": "Slack Channel"
     }
 }

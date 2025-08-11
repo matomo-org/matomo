@@ -12,6 +12,7 @@ namespace Piwik\Plugins\ScheduledReports;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Nonce;
 use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
@@ -32,6 +33,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@ScheduledReports/index');
         $this->setGeneralVariablesView($view);
+        $settings = StaticContainer::get(SystemSettings::class);
 
         $view->countWebsites      = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
 
@@ -47,6 +49,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->defaultReportFormat = ScheduledReports::DEFAULT_REPORT_FORMAT;
         $view->defaultEvolutionPeriodN = ImageGraph::getDefaultGraphEvolutionLastPeriods();
         $view->displayFormats = ScheduledReports::getDisplayFormats();
+        $view->isSlackOauthTokenAdded = !empty($settings->slackOauthToken->getValue());
 
         $view->paramPeriods = [];
 
