@@ -11,8 +11,7 @@
   </h2>
 
   <p>
-    Select a site below to get an indication if the given site is compliant according to the
-    indicated privacy law
+    {{ translate('PrivacyManager_ComplianceSelectSite') }}
   </p>
 
   <SiteSelector
@@ -59,17 +58,17 @@ export default defineComponent({
     const complianceTypes = [
       {
         id: 'cnil',
-        title: 'CNIL Compliance',
-        description: 'This table provides an indication of whether certain settings align with CNIL guidance. It does not guarantee full legal compliance.',
+        title: 'CNIL website analytics consent exemption conditions',
+        description: 'This table provides an indication of whether certain settings align with CNIL guidance. It does not guarantee full legal compliance. To qualify for the consent exemption under CNIL rules, all required configurations must be implemented. If any setting is shown as “Non-Compliant,” the exemption conditions are not met, and consent must be obtained from users. If any setting is shown as “Unknown” Matomo cannot determine whether this requirement has been implemented. In such cases, the Customer must verify that these measures are in place.(e.g. privacy policy updated, opt-out link added).',
       },
       {
         id: 'hipaa',
-        title: 'HIPAA Compliance',
+        title: 'HIPAA website analytics consent exemption conditions',
         description: 'This section outlines whether your analytics setup aligns with healthcare data protection requirements under HIPAA.',
       },
       {
         id: 'ccpa',
-        title: 'CCPA Compliance',
+        title: 'CCPA website analytics consent exemption conditions',
         description: 'This overview checks how well your tracking policies meet California Consumer Privacy Act standards.',
       },
     ];

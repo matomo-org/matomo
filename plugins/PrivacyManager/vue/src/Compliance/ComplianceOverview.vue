@@ -17,10 +17,9 @@
       v-if="!state.loading"
       uicontrol="checkbox"
       name="enableFeature"
-      title="Enforce settings that help support alignment where possible"
-      introduction="Override current configuration to help improve alignment with guidance"
-      inline-help="Enabling this will override the above settings to support compliance.
-Note: This does not guarantee full compliance, manual review may still be required."
+      :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
+      :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
+      :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
       v-model="isComplianceModeEnabled"
     />
     <SaveButton
@@ -80,7 +79,6 @@ export default defineComponent({
   },
   setup(props) {
     const store = createComplianceStore(props.complianceType);
-    debugger;
     store.setIdSite(props.idSite);
     watch(
       () => props.idSite,

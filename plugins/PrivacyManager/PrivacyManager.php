@@ -464,6 +464,10 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_UseRandomizeConfigId';
         $translationKeys[] = 'PrivacyManager_RandomizeConfigIdNote';
         $translationKeys[] = 'PrivacyManager_Compliance';
+        $translationKeys[] = 'PrivacyManager_ComplianceSelectSite';
+        $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxIntro';
+        $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxTitle';
+        $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxHelp';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
