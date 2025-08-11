@@ -140,6 +140,11 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $tracker->setUrlReferrer('http://www.google.com.vn/url?sa=t&rct=j&q='); // search w/ unknown keyword
         $this->trackPageView($tracker, 0, 'page/one.html');
 
+        $tracker->setIp('156.5.3.9');
+        $tracker->setNewVisitorId();
+        $tracker->setUrlReferrer('');
+        $this->trackPageView($tracker, 0, 'page/one.html?pk_campaign=AnotherCampaign');
+
         self::checkBulkTrackingResponse($tracker->doBulkTrack());
     }
 
