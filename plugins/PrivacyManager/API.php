@@ -445,13 +445,15 @@ class API extends \Piwik\Plugin\API
      */
     public function setComplianceStatus(string $idSite, string $complianceType, bool $enabled): bool
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if (!$featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            return false;
+        if (!$this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            throw new Exception('Feature not available');
         }
-        if (!Piwik::hasUserSuperUserAccess()) {
-            return false;
+
+        if ($complianceType !== 'cnil') {
+            throw new Exception('Invalid compliance type');
         }
+
+        Piwik::checkUserHasSuperUserAccess();
 
         return $enabled;
     }

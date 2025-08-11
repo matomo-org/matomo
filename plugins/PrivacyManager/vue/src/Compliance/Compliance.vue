@@ -7,7 +7,7 @@
 
 <template>
   <h2>
-      Compliance
+    <EnrichedHeadline>{{ translate('PrivacyManager_Compliance') }}</EnrichedHeadline>
   </h2>
 
   <p>
