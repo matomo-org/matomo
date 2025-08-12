@@ -1,9 +1,15 @@
 import { DeepReadonly, reactive, readonly } from 'vue';
+import { AjaxHelper } from 'CoreHome';
 
 export interface ComplianceIndicator {
   name: string;
   value: string;
   notes: string
+}
+
+interface ComplianceStatus {
+  complianceModeEnabled: boolean;
+  complianceIndicators: ComplianceIndicator[];
 }
 
 interface ComplianceStoreState {
@@ -34,38 +40,16 @@ export function createComplianceStore(initialType: string): ComplianceStore {
 
     state.loading = true;
 
-    setTimeout(() => {
-      state.compliance_mode_enabled = false;
-      state.compliance_indicators = [
-        {
-          name: 'IP Anonymisation',
-          value: 'compliant',
-          notes: 'Set to at least 2 byte masking',
-        },
-        {
-          name: 'Data retention period',
-          value: 'non_compliant',
-          notes: 'Retention period is set to 365 days',
-        },
-        {
-          name: 'Visits Log and Visitors Profile',
-          value: 'non_compliant',
-          notes: 'Visits log is still enabled',
-        },
-        {
-          name: 'Ecommerce analytics',
-          value: 'non_compliant',
-          notes: 'Ecommerce analytics is enabled for this site',
-        },
-        {
-          name: 'Opt out',
-          value: 'unknown',
-          notes: 'Opt out must be manually set up and configured',
-        },
-      ];
-
+    AjaxHelper.fetch<ComplianceStatus>({
+      idSite: state.idsite,
+      complianceType: state.compliance_type,
+      method: 'PrivacyManager.getComplianceStatus',
+    }).then((response: ComplianceStatus) => {
+        state.compliance_mode_enabled = response.complianceModeEnabled;
+        state.compliance_indicators = response.complianceIndicators;
+    }).finally(() => {
       state.loading = false;
-    }, Math.floor(Math.random() * 1200) + 300);
+    });
   }
 
   function setIdSite(idSite: string | null) {
@@ -76,6 +60,20 @@ export function createComplianceStore(initialType: string): ComplianceStore {
   function saveComplianceStatus(enabled: boolean) {
     state.loading = true;
 
+    AjaxHelper.fetch<boolean>({
+      idSite: state.idsite,
+      complianceType: state.compliance_type,
+      enabled: enabled,
+      method: 'PrivacyManager.setComplianceStatus'
+    }).then((response: boolean) => {
+      state.compliance_mode_enabled = response;
+      for (let indicator of state.compliance_indicators) {
+        indicator.value = state.compliance_mode_enabled ? 'compliant' : 'non_compliant';
+      }
+    }).finally(() => {
+      state.loading = false;
+    });
+    /*
     setTimeout(() => {
       state.loading = false;
 
@@ -109,6 +107,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
         },
       ];
     }, Math.floor(Math.random() * 1200) + 300);
+    */
   }
 
   const publicState = readonly(state) as DeepReadonly<ComplianceStoreState>;
