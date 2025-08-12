@@ -35,9 +35,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-import { SiteSelector, SiteRef } from '../../../../CoreHome/vue/src';
+import { Matomo, SiteSelector, SiteRef } from 'CoreHome';
 import ComplianceOverview from './ComplianceOverview.vue';
-import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
 
 export default defineComponent({
   components: {

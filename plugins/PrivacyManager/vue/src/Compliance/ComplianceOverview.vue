@@ -37,12 +37,12 @@
 <script lang="ts">
 
 import {
-  defineComponent, watch, ref, toRaw,
+  defineComponent, watch, ref,
 } from 'vue';
-import { ActivityIndicator, ContentBlock } from '../../../../CoreHome/vue/src';
-import ComplianceTable from './ComplianceTable.vue';
+import { ActivityIndicator, ContentBlock } from 'CoreHome';
+import { Field, PasswordConfirmation, SaveButton } from 'CorePluginsAdmin';
 import { createComplianceStore } from './Compliance.store';
-import { Field, PasswordConfirmation, SaveButton } from '../../../../CorePluginsAdmin/vue/src';
+import ComplianceTable from './ComplianceTable.vue';
 
 export default defineComponent({
   props: {
