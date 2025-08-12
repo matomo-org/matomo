@@ -25,11 +25,13 @@
 	<avg_time_on_site_returning>0</avg_time_on_site_returning>
 	<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
 	<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
+	<Referrers_visitorsFromAIAssistants>0</Referrers_visitorsFromAIAssistants>
 	<Referrers_visitorsFromDirectEntry>1</Referrers_visitorsFromDirectEntry>
 	<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
 	<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
 	<Referrers_distinctSearchEngines>0</Referrers_distinctSearchEngines>
 	<Referrers_distinctSocialNetworks>0</Referrers_distinctSocialNetworks>
+	<Referrers_distinctAIAssistants>0</Referrers_distinctAIAssistants>
 	<Referrers_distinctKeywords>0</Referrers_distinctKeywords>
 	<Referrers_distinctWebsites>0</Referrers_distinctWebsites>
 	<Referrers_distinctWebsitesUrls>0</Referrers_distinctWebsitesUrls>
@@ -81,6 +83,7 @@
 	<hits>1</hits>
 	<Referrers_visitorsFromDirectEntry_percent>100%</Referrers_visitorsFromDirectEntry_percent>
 	<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
+	<Referrers_visitorsFromAIAssistants_percent>0%</Referrers_visitorsFromAIAssistants_percent>
 	<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
 	<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
 	<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
