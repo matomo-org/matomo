@@ -17,7 +17,7 @@
         "ComplianceTableSettingStatus": "Status",
         "ComplianceTableSettingNotes": "Notes",
         "ComplianceSelectSite": "Select a site below to get an indication if the given site is compliant according to the indicated privacy law",
-        "ComplianceEnforceCheckboxIntro": "Enforce Compliance where possible",
+        "ComplianceEnforceCheckboxIntro": "Enforce compliance where possible",
         "ComplianceEnforceCheckboxTitle": "Enforce settings that help support alignment where possible",
         "ComplianceEnforceCheckboxHelp": "Enabling this will override the above settings. Note that some conditions require changes to Customer implementation which are not controlled by this UI",
         "ClickHereSettings": "Click here to access the %s settings.",

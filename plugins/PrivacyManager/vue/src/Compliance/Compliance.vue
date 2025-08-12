@@ -21,16 +21,14 @@
     v-model="site"
   />
 
-  <div>
-    <ComplianceOverview
-      v-for="type in complianceTypes"
-      :key="type.id"
-      :id-site="siteId"
-      :compliance-type="type.id"
-      :title="type.title"
-      :description="type.description"
-    />
-  </div>
+  <ComplianceOverview
+    v-for="type in complianceTypes"
+    :key="type.id"
+    :id-site="siteId"
+    :compliance-type="type.id"
+    :title="type.title"
+    :description="type.description"
+  />
 </template>
 
 <script lang="ts">

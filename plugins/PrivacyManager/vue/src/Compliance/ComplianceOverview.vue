@@ -20,9 +20,10 @@
       :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
       :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
       :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
-      v-model="isComplianceModeEnabled"
+      v-model="shouldEnforceComplianceMode"
     />
     <SaveButton
+      v-if="!state.loading"
       @confirm="this.showPasswordConfirmation = true"
       :value="translate('General_Save')"
     />
@@ -73,7 +74,7 @@ export default defineComponent({
   },
   methods: {
     saveSettings() {
-      this.saveComplianceStatus(this.isComplianceModeEnabled);
+      this.saveComplianceStatus(this.shouldEnforceComplianceMode);
       this.showPasswordConfirmation = false;
     },
   },
@@ -93,7 +94,7 @@ export default defineComponent({
     return {
       state: store.state,
       saveComplianceStatus: store.saveComplianceStatus,
-      isComplianceModeEnabled: store.state.compliance_mode_enabled,
+      shouldEnforceComplianceMode: store.state.compliance_mode_enabled,
       showPasswordConfirmation: ref(false),
     };
   },
