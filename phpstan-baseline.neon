@@ -6189,11 +6189,6 @@ parameters:
 			path: plugins/Referrers/API.php
 
 		-
-			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 4
-			path: plugins/Referrers/API.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\API\\:\\:filterOutKeywordNotDefined\\(\\) is unused\\.$#"
 			count: 1
 			path: plugins/Referrers/API.php
@@ -6211,11 +6206,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
 			count: 1
-			path: plugins/Referrers/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$idSite of method Piwik\\\\Plugins\\\\Referrers\\\\API\\:\\:getDataTable\\(\\) expects int, string given\\.$#"
-			count: 3
 			path: plugins/Referrers/API.php
 
 		-
