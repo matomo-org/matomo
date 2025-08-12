@@ -258,6 +258,12 @@ class Request
 
             // read parameters
             $moduleMethod = Common::getRequestVar('method', null, 'string', $this->request);
+            $versionString = \Piwik\Request::fromGet()->getStringParameter('apiVersion', '');
+            if ('' === $versionString) {
+                $apiVersion = null;
+            } else {
+                $apiVersion = APIVersion::createFromVersionString($versionString);
+            }
 
             [$module, $method] = $this->extractModuleAndMethod($moduleMethod);
             [$module, $method] = self::getRenamedModuleAndAction($module, $method);
@@ -274,7 +280,7 @@ class Request
             }
 
             // call the method
-            $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request);
+            $returnedValue = Proxy::getInstance()->call($apiClassName, $method, $this->request, $apiVersion);
 
             // get the response with the request query parameters loaded, since DataTablePost processor will use the Report
             // class instance, which may inspect the query parameters. (eg, it may look for the idCustomReport parameters

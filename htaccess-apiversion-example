@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^api/([^/]+)/([^/]+)/([^/]+)$ ?module=API&method=$2.get$3&apiVersion=$1 [QSA,L]

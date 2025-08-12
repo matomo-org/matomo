@@ -153,22 +153,19 @@ class Proxy
      * @return mixed|null
      * @throws Exception|\Piwik\NoAccessException
      */
-    public function call($className, $methodName, $parametersRequest)
+    public function call(string $className, string $methodName, array $parametersRequest, ?APIVersion $apiVersion = null)
     {
         // Temporarily sets the Request array to this API call context
-        return Context::executeWithQueryParameters($parametersRequest, function () use ($className, $methodName, $parametersRequest) {
-            $this->registerClass($className);
+        return Context::executeWithQueryParameters($parametersRequest, function () use ($className, $methodName, $parametersRequest, $apiVersion) {
+            $pluginName = $this->getModuleNameFromClassName($className); // - awkward as we're translating plugin name to classname, then untranslating it
+            $this->registerClass($className); // needs to be made version aware, but has a role in docs.
 
             $request = new \Piwik\Request($parametersRequest);
 
-            /**
-             * instantiate the object
-             * @var API $object
-             */
-            $object = $className::getInstance();
+            $object = $this->getApiClass($pluginName, $className, $apiVersion);
 
             // check method exists
-            $this->checkMethodExists($className, $methodName);
+            $this->checkMethodExists(get_class($object), $methodName);
 
             // get the list of parameters required by the method
             $parameterNamesDefaultValuesAndTypes = $this->getParametersListWithTypes($className, $methodName);
@@ -179,9 +176,6 @@ class Proxy
             } else {
                 $finalParameters = $this->getRequestParametersArray($parameterNamesDefaultValuesAndTypes, $request);
             }
-
-            // allow plugins to manipulate the value
-            $pluginName = $this->getModuleNameFromClassName($className);
 
             $returnedValue = null;
 
@@ -345,6 +339,18 @@ class Proxy
 
             return $returnedValue;
         });
+    }
+
+    // TODO - add some extra safety checks as to if the class exists
+    public function getApiClass(string $pluginName, string $className, ?APIVersion $apiVersion): API
+    {
+        // If no version specified, get original style API.
+        if (null === $apiVersion) {
+            return $className::getInstance();
+        }
+
+        $versionedClassname = $apiVersion->getClassString($pluginName);
+        return $versionedClassname::getInstance();
     }
 
     /**
