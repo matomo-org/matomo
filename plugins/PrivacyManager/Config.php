@@ -25,8 +25,8 @@ use Piwik\Tracker\Cache;
  *                                      valid values are the number of octets in IP address to mask (from 0 to 4).
  *                                      For IPv6 addresses 0..4 means that 0, 64, 80, 104 or all bits are masked.
  * @property bool $forceCookielessTracking If enabled, Matomo will try to force tracking without cookies
- * @property int  $anonymizeUserId      If enabled, it will pseudo anonymize the User ID
- * @property int  $anonymizeOrderId     If enabled, it will anonymize the Order ID
+ * @property bool $anonymizeUserId      If enabled, it will pseudo anonymize the User ID
+ * @property bool $anonymizeOrderId     If enabled, it will anonymize the Order ID
  * @property string  $anonymizeReferrer  Whether the referrer should be anonymized and how it much it should be anonymized
  * @property bool $randomizeConfigId    If enabled, Matomo will generate a new random Config ID (fingerprint) for each tracking request
  */
