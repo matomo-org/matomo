@@ -11,6 +11,10 @@
     {{ postEvent("Template.header", "admin") }}
     {{ parent() }}
     {{ postEvent("Template.footer", "admin") }}
+
+    <div id="sizewarning" class="notification system notification-error">
+        This page can't be rendered on screens with width or height below 200px.
+    </div>
 {% endblock %}
 
 

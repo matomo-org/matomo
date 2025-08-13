@@ -1,10 +1,10 @@
 {
     "General": {
+        "API": "API",
         "Actions": "hərəkətlər",
         "Add": "Əlavə et",
         "AllWebsitesDashboard": "Bütün saytların lövhəsi",
         "And": "və",
-        "API": "API",
         "Apply": "Tətbiq et",
         "Cancel": "Ləğv et",
         "ChangePassword": "Şifrəni Dəyiş",
@@ -68,7 +68,7 @@
         "RatingNotNow": "Hal Hazırda Yox",
         "RatingNow": "Yaxşı, Mən indi qiymətləndirəcəm",
         "ShowAll": "Hamısını göstər",
-        "TryIt": "Cəhd Et"
+        "TryIt": "Yoxla!"
     },
     "RowEvolution": {
         "CompareRows": "Qeydləri müqayisə et"

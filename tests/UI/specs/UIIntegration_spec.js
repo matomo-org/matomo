@@ -603,8 +603,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await screenshotPageWrap()).to.matchImage('admin_home');
         });
 
+        it('should not render the Admin when resized below 200x200', async function () {
+            await page.webpage.setViewport({ width: 199, height: 199 });
+            await page.waitForTimeout(100);
+
+            expect(await page.screenshot({fullPage: true})).to.matchImage('admin_home_low_size');
+        });
+
         // Admin user settings (plugins not displayed)
         it('should load the Manage > Websites admin page correctly', async function () {
+            await page.webpage.setViewport({ width: 1350, height: 768 });
             await page.goto("?" + generalParams + "&module=SitesManager&action=index");
             await page.evaluate(function () {
                 $('.form-help:contains(UTC time is)').hide();
