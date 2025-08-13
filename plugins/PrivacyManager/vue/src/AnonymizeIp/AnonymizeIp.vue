@@ -77,7 +77,7 @@
         >
         </Field>
       </div>
-      <div class="forceCookielessTrackingField">
+      <div v-if="!idSiteSpecific" class="forceCookielessTrackingField">
         <Field
           uicontrol="checkbox"
           name="forceCookielessTracking"
@@ -242,7 +242,9 @@ export default defineComponent({
           enableIpAnonymizer: boolToInt(this.actualEnabled),
           anonymizeUserId: boolToInt(this.actualAnonymizeUserId),
           anonymizeOrderId: boolToInt(this.actualAnonymizeOrderId),
-          forceCookielessTracking: boolToInt(this.actualForceCookielessTracking),
+          forceCookielessTracking: this.idSiteSpecific
+            ? undefined
+            : boolToInt(this.actualForceCookielessTracking),
           anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
           ipAddressMaskLength: this.actualMaskLength,
           useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,

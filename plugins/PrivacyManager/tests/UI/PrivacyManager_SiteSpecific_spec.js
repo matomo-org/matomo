@@ -99,9 +99,6 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.click(sitePrefix(1, '#anonymizeOrderId'));
         await page.waitForTimeout(100);
 
-        await page.click(sitePrefix(1, '#forceCookielessTracking'));
-        await page.waitForTimeout(100);
-
         await page.evaluate(() => $('div[idsite="1"] div.anonymizeReferrerField div.matomo-field-select div.select-wrapper input.dropdown-trigger')[0].click());
         await page.waitForTimeout(100);
         await page.evaluate(() => $('div[idsite="1"] div.anonymizeReferrerField div.matomo-field-select ul li:nth-child(3)').click());
@@ -129,7 +126,6 @@ describe("PrivacyManager_SiteSpecific", function () {
             'PrivacyManager.ipAddressMaskLength': '1',
             'PrivacyManager.doNotTrackEnabled': '1',
             'PrivacyManager.ipAnonymizerEnabled': '1',
-            'PrivacyManager.forceCookielessTracking': '1',
             'PrivacyManager.anonymizeUserId': '1',
             'PrivacyManager.anonymizeOrderId': '1',
             'PrivacyManager.anonymizeReferrer': 'exclude_path',
@@ -156,7 +152,6 @@ describe("PrivacyManager_SiteSpecific", function () {
             'PrivacyManager.ipAddressMaskLength': '1',
             'PrivacyManager.doNotTrackEnabled': '1',
             'PrivacyManager.ipAnonymizerEnabled': '0',
-            'PrivacyManager.forceCookielessTracking': '0',
             'PrivacyManager.anonymizeUserId': '0',
             'PrivacyManager.anonymizeOrderId': '1',
             'PrivacyManager.anonymizeReferrer': 'exclude_query',

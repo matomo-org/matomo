@@ -346,7 +346,9 @@ class API extends \Piwik\Plugin\API
             $privacyConfig->anonymizeOrderId = (bool) $anonymizeOrderId;
         }
 
-        if (false !== $forceCookielessTracking) {
+        if (false !== $forceCookielessTracking && !$idSite) {
+            // only allow setting 'force cookieless tracking' instance-wide and skip it for site as it applies
+            // changes to JS tracker files that we can't currently support on a per-site basis
             $privacyConfig->forceCookielessTracking = (bool) $forceCookielessTracking;
 
             // update tracker files
