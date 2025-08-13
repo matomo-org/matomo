@@ -287,7 +287,7 @@
 	</row>
 	<row>
 		<name>Social Networks (Referrers)</name>
-		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+		<documentation>This report shows which social networks led visitors to your website.&lt;br /&gt;By clicking on a row in the table, you can see from which social network pages visitors came to your website.</documentation>
 	</row>
 	<row>
 		<name>Temperatures evolution over time (UI Framework)</name>

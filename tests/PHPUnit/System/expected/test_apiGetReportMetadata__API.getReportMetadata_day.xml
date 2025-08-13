@@ -2673,7 +2673,7 @@
 		<module>Referrers</module>
 		<action>getSocials</action>
 		<dimension>Social network</dimension>
-		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
+		<documentation>This report shows which social networks led visitors to your website.&lt;br /&gt;By clicking on a row in the table, you can see from which social network pages visitors came to your website.</documentation>
 		<dimensions>
 			<Referrers_SocialNetwork>Social network</Referrers_SocialNetwork>
 			<Referrers_WebsitePage>Website Page</Referrers_WebsitePage>
