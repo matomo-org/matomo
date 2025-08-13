@@ -9,7 +9,7 @@ export interface ComplianceRequirement {
 
 interface ComplianceStatus {
   complianceModeEnabled: boolean;
-  complianceIndicators: ComplianceIndicator[];
+  complianceIndicators: ComplianceRequirement[];
 }
 
 interface ComplianceStoreState {
@@ -73,6 +73,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     }).then(() => {
         fetchComplianceStatus().then((res) => {
           res.complianceModeEnabled = enabled;
+          // below logic will be replaced with internal logic in PrivacyManager.getComplianceStatus
           if (enabled) {
             res.complianceIndicators = res.complianceIndicators.map((indicator) => {
               indicator.value = 'compliant';
