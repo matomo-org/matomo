@@ -917,21 +917,19 @@ class PrivacyManager extends Plugin
 
     public function shouldAddTrackerFile(&$shouldAdd, $pluginName)
     {
-        $idSite = Common::getRequestVar('idsite', '0', 'int');
         if ($pluginName === 'PrivacyManager') {
-            $shouldAdd = self::isCookieLessTrackingForced($idSite);
+            $shouldAdd = self::isCookieLessTrackingForced();
         }
     }
 
     /**
      * Returns if cookie less tracking is forced
      *
-     * @param int|null $idSite
      * @return bool
      */
-    public static function isCookieLessTrackingForced(?int $idSite = null): bool
+    public static function isCookieLessTrackingForced(): bool
     {
-        $config = new Config($idSite);
+        $config = new Config();
         return $config->forceCookielessTracking;
     }
 
