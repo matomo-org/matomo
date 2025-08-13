@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Website",
         "WebsiteDescription": "Een website bestaat uit webpagina's die vanaf eenzelfde webdomein worden geserveerd.",
+        "WebsiteLongDescription": "Traceer bezoekerinteracties zoals paginaweergaven, klikken, downloads en evenementen op een openbare website. Een enkele meting kan meerdere domeinen en subdomeinen bevatten, of u kunt aparte metingen voor elk maken.",
         "Websites": "Websites"
     }
 }

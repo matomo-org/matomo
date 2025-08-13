@@ -4,6 +4,7 @@
         "AvgValue": "Gemiddelde waarde",
         "AvgValueDocumentation": "Het gemiddelde voor alle waardes van deze gebeurtenis",
         "Category": "Categorie",
+        "ColumnNbUniqVisitorsDocumentation": "Het aantal gedupliceerde bezoekers die een event activeerden op uw website. Elke bezoeker wordt slechts één keer geteld, zelfs als er meerdere bezoeken waren of er meerdere events geactiveerd werden op de website.",
         "ColumnNbVisitsDocumentation": "Het totaal aantal bezoeken waarbij ten minste één activiteit werd geactiveerd.",
         "Event": "Gebeurtenis",
         "EventAction": "Gebeurtenis actie",

@@ -68,7 +68,7 @@
         "KeepURLFragmentsHelp2": "Também pode sobrepor esta definição para sites individuais acima.",
         "KeepURLFragmentsLong": "Manter fragmentos de endereços de páginas no acompanhamento dos endereços das páginas",
         "ListOfIpsToBeExcludedOnAllWebsites": "Os IPs abaixo serão excluídos do acompanhamento em todos os sites.",
-        "ListOfQueryParametersToBeExcludedOnAllWebsites": "Os parâmetros de consulta de endereços abaixo serão excluídos dos endereços de todos os sites.",
+        "ListOfQueryParametersToBeExcludedOnAllWebsites": "Os parâmetros do URL para excluir dos rastreamentos e relatórios",
         "ListOfQueryParametersToExclude": "Insira a lista de Parâmetros de consulta de URL, um por linha, para excluir dos relatórios de URLs de página. Expressões regulares como %s são suportadas.",
         "LogAnalytics": "Análise de registos",
         "LogAnalyticsDescription": "Se o método de monitorização por JavaScript não for possível, pode %1$sutilizar a análise dos registos do servidor%2$s como um método alternativo para a monitorização dos utilizadores do seu site.",
