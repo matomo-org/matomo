@@ -184,7 +184,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             testEnvironment.save();
 
             // use columns query param to make sure columns works when supplied in URL fragment
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
+            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions,hits");
             await page.waitForNetworkIdle();
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
               $('.dataTableScroller').css('overflow-x', 'scroll');

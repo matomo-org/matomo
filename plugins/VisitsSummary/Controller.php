@@ -95,6 +95,7 @@ class Controller extends \Piwik\Plugin\Controller
             'max_actions',
             'nb_visits_converted',
             // columns from Actions.get
+            'hits',
             'nb_pageviews',
             'nb_uniq_pageviews',
             'nb_downloads',
