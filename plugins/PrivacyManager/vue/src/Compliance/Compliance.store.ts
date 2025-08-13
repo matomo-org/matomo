@@ -35,18 +35,24 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     compliance_indicators: [],
   });
 
-  function fetchCompliance() {
-    if (!state.idsite || !state.compliance_type) return;
-
-    state.loading = true;
-
-    AjaxHelper.fetch<ComplianceStatus>({
+  function fetchComplianceStatus(): Promise<ComplianceStatus> {
+    return AjaxHelper.fetch<ComplianceStatus>({
       idSite: state.idsite,
       complianceType: state.compliance_type,
       method: 'PrivacyManager.getComplianceStatus',
-    }).then((response: ComplianceStatus) => {
-        state.compliance_mode_enabled = response.complianceModeEnabled;
-        state.compliance_indicators = response.complianceIndicators;
+    });
+  }
+
+  function storeComplianceStatus(complianceData: ComplianceStatus) {
+    state.compliance_mode_enabled = complianceData.complianceModeEnabled;
+    state.compliance_indicators = complianceData.complianceIndicators;
+  }
+
+  function fetchCompliance() {
+    if (!state.idsite || !state.compliance_type) return;
+    state.loading = true;
+    fetchComplianceStatus().then((complianceData: ComplianceStatus) => {
+      storeComplianceStatus(complianceData);
     }).finally(() => {
       state.loading = false;
     });
@@ -59,55 +65,25 @@ export function createComplianceStore(initialType: string): ComplianceStore {
 
   function saveComplianceStatus(enabled: boolean) {
     state.loading = true;
-
     AjaxHelper.fetch<boolean>({
       idSite: state.idsite,
       complianceType: state.compliance_type,
-      enabled: enabled,
-      method: 'PrivacyManager.setComplianceStatus'
-    }).then((response: boolean) => {
-      state.compliance_mode_enabled = response;
-      for (let indicator of state.compliance_indicators) {
-        indicator.value = state.compliance_mode_enabled ? 'compliant' : 'non_compliant';
-      }
+      enabled,
+      method: 'PrivacyManager.setComplianceStatus',
+    }).then(() => {
+        fetchComplianceStatus().then((res) => {
+          res.complianceModeEnabled = enabled;
+          if (enabled) {
+            res.complianceIndicators = res.complianceIndicators.map((indicator) => {
+              indicator.value = 'compliant';
+              return indicator;
+            });
+          }
+          storeComplianceStatus(res);
+        });
     }).finally(() => {
       state.loading = false;
     });
-    /*
-    setTimeout(() => {
-      state.loading = false;
-
-      state.compliance_mode_enabled = enabled;
-
-      state.compliance_indicators = [
-        {
-          name: 'IP Anonymisation',
-          value: 'compliant',
-          notes: 'Set to at least 2 byte masking',
-        },
-        {
-          name: 'Data retention period',
-          value: enabled ? 'compliant' : 'non_compliant',
-          notes: 'Retention period is set to 365 days',
-        },
-        {
-          name: 'Visits Log and Visitors Profile',
-          value: enabled ? 'compliant' : 'non_compliant',
-          notes: 'Visits log is still enabled',
-        },
-        {
-          name: 'Ecommerce analytics',
-          value: enabled ? 'compliant' : 'non_compliant',
-          notes: 'Ecommerce analytics is enabled for this site',
-        },
-        {
-          name: 'Opt out',
-          value: 'unknown',
-          notes: 'Opt out must be manually set up and configured',
-        },
-      ];
-    }, Math.floor(Math.random() * 1200) + 300);
-    */
   }
 
   const publicState = readonly(state) as DeepReadonly<ComplianceStoreState>;

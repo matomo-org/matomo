@@ -57,6 +57,7 @@ class API extends \Piwik\Plugin\API
      */
     private $featureFlagManager;
 
+
     public function __construct(
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
@@ -424,15 +425,34 @@ class API extends \Piwik\Plugin\API
         }
 
         Piwik::checkUserHasSuperUserAccess();
-
         return [
-            'complianceModeEnabled' => true,
+            'complianceModeEnabled' => false, 
             'complianceIndicators' => [
-                ['name' => 'IP Anonymisation', 'value' => 'compliant', 'notes' => 'Set to at least 2 byte masking'],
-                ['name' => 'Data retention period','value' => 'non_compliant','notes' => 'Retention period is set to 365 days'],
-                ['name' => 'Visits Log and Visitors Profile','value' => 'non_compliant','notes' => 'Visits log is still enabled'],
-                ['name' => 'Ecommerce analytics','value' => 'non_compliant','notes' => 'Ecommerce analytics is enabled for this site'],
-                ['name' => 'Opt out','value' => 'unknown','notes' => 'Opt out must be manually set up and configured'],
+                [
+                    'name' => 'IP Anonymisation',
+                    'value' => 'compliant',
+                    'notes' => 'Set to at least 2 byte masking'
+                ],
+                [
+                    'name' => 'Data retention period',
+                    'value' => 'non_compliant',
+                    'notes' => 'Retention period is set to 365 days'
+                ],
+                [
+                    'name' => 'Visits Log and Visitors Profile',
+                    'value' => 'non_compliant',
+                    'notes' => 'Visits log is still enabled'
+                ],
+                [
+                    'name' => 'Ecommerce analytics',
+                    'value' => 'non_compliant',
+                    'notes' => 'Ecommerce analytics is enabled for this site'
+                ],
+                [
+                    'name' => 'Opt out',
+                    'value' => 'unknown',
+                    'notes' => 'Opt out must be manually set up and configured'
+                ],
             ]
         ];
     }
