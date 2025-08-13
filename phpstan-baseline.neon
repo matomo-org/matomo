@@ -6034,16 +6034,6 @@ parameters:
 			path: plugins/PagePerformance/Visualizations/JqplotGraph/StackedBarEvolution.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\PrivacyManager\\\\Config\\:\\:\\$anonymizeOrderId \\(int\\) does not accept bool\\.$#"
-			count: 1
-			path: plugins/PrivacyManager/API.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\PrivacyManager\\\\Config\\:\\:\\$anonymizeUserId \\(int\\) does not accept bool\\.$#"
-			count: 1
-			path: plugins/PrivacyManager/API.php
-
-		-
 			message: "#^Binary operation \"\\+\" between non\\-falsy\\-string and int results in an error\\.$#"
 			count: 1
 			path: plugins/PrivacyManager/Controller.php
