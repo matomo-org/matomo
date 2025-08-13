@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s–%2$s min",
         "BetweenXYSeconds": "%1$s–%2$s sec",
         "ColumnPagesPerVisit": "Pagina's per bezoek",
+        "ColumnPercentageVisitsDocumentation": "Het percentage totale bezoeken, waar bezoekers deze hoeveelheid bezoeken in totaal reeds hadden.",
         "ColumnVisitDuration": "Duur bezoek",
         "Engagement": "Herhaalbezoeken",
         "NPages": "%s pagina's",

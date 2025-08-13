@@ -88,7 +88,7 @@
         "SuperUser": "Super-utilizador",
         "SuperUserLogin": "Autenticação de super-utilizador",
         "SuperUserSetupError": "Ocorreu um erro ao adicionar o super-utilizador",
-        "SuperUserSetupSuccess": "Super-utilizador criado com sucesso!",
+        "SuperUserSetupSuccess": "Superutilizador criado.",
         "SystemCheck": "Verificação de sistema",
         "SystemCheckAutoUpdateHelp": "Nota: a atualização com um clique do Matomo requer permissão de gravação para a pasta Matomo e seu conteúdo.",
         "SystemCheckCronArchiveProcess": "Configurar Cron",
