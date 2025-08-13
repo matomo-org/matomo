@@ -10,34 +10,34 @@
     <EnrichedHeadline>{{ translate('PrivacyManager_Compliance') }}</EnrichedHeadline>
   </h2>
 
-  <p>
-    {{ translate('PrivacyManager_ComplianceSelectSite') }}
-  </p>
-
+  <label
+    for="complianceSite"
+  >
+    <p>
+      {{ translate('PrivacyManager_ComplianceSelectSite') }}
+    </p>
+  </label>
   <SiteSelector
-    id="complianceDashboard"
+    id="complianceSite"
     :switch-site-on-select="false"
     :show-selected-site="true"
     v-model="site"
   />
 
-  <div>
-    <ComplianceOverview
-      v-for="type in complianceTypes"
-      :key="type.id"
-      :id-site="siteId"
-      :compliance-type="type.id"
-      :title="type.title"
-      :description="type.description"
-    />
-  </div>
+  <ComplianceOverview
+    v-for="type in complianceTypes"
+    :key="type.id"
+    :id-site="siteId"
+    :compliance-type="type.id"
+    :title="type.title"
+    :description="type.description"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-import { SiteSelector, SiteRef } from '../../../../CoreHome/vue/src';
+import { Matomo, SiteSelector, SiteRef } from 'CoreHome';
 import ComplianceOverview from './ComplianceOverview.vue';
-import Matomo from '../../../../CoreHome/vue/src/Matomo/Matomo';
 
 export default defineComponent({
   components: {

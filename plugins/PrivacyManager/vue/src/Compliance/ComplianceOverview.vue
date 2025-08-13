@@ -16,13 +16,14 @@
     <Field
       v-if="!state.loading"
       uicontrol="checkbox"
-      name="enableFeature"
+      :name="idSite + '_' + complianceType +  '_enableFeature'"
       :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
       :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
       :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
-      v-model="isComplianceModeEnabled"
+      v-model="shouldEnforceComplianceMode"
     />
     <SaveButton
+      v-if="!state.loading"
       @confirm="this.showPasswordConfirmation = true"
       :value="translate('General_Save')"
     />
@@ -37,12 +38,12 @@
 <script lang="ts">
 
 import {
-  defineComponent, watch, ref, toRaw,
+  defineComponent, watch, ref,
 } from 'vue';
-import { ActivityIndicator, ContentBlock } from '../../../../CoreHome/vue/src';
-import ComplianceTable from './ComplianceTable.vue';
+import { ActivityIndicator, ContentBlock } from 'CoreHome';
+import { Field, PasswordConfirmation, SaveButton } from 'CorePluginsAdmin';
 import { createComplianceStore } from './Compliance.store';
-import { Field, PasswordConfirmation, SaveButton } from '../../../../CorePluginsAdmin/vue/src';
+import ComplianceTable from './ComplianceTable.vue';
 
 export default defineComponent({
   props: {
@@ -73,7 +74,7 @@ export default defineComponent({
   },
   methods: {
     saveSettings() {
-      this.saveComplianceStatus(this.isComplianceModeEnabled);
+      this.saveComplianceStatus(this.shouldEnforceComplianceMode);
       this.showPasswordConfirmation = false;
     },
   },
@@ -93,7 +94,7 @@ export default defineComponent({
     return {
       state: store.state,
       saveComplianceStatus: store.saveComplianceStatus,
-      isComplianceModeEnabled: store.state.compliance_mode_enabled,
+      shouldEnforceComplianceMode: store.state.compliance_mode_enabled,
       showPasswordConfirmation: ref(false),
     };
   },

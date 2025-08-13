@@ -23,18 +23,9 @@
     <tbody>
       <tr v-for="(item, index) in results" :key="index">
         <td>{{ item.name }}</td>
-        <td :class="{
-          'status': true,
-          'compliant': item.value === 'compliant',
-          'non-compliant': item.value === 'non_compliant',
-          'unknown': item.value === 'unknown',
-        }">
-          <span :class="{
-              'icon-ok': item.value === 'compliant',
-              'icon-close': item.value === 'non_compliant',
-              'icon-circle': item.value === 'unknown'
-           }"></span>
-          {{ item.value }}
+        <td :class="['status', getStatusClass(item.value)]">
+          <span :class="['icon', getIconClass(item.value)]"></span>
+          {{ translate(getStatusText(item.value)) }}
         </td>
         <td>{{ item.notes }}</td>
       </tr>
@@ -44,13 +35,42 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { ComplianceIndicator } from './Compliance.store';
+import { ComplianceRequirement } from './Compliance.store';
+
+const statusClassMap: Record<string, string> = {
+  compliant: 'compliant',
+  non_compliant: 'non-compliant',
+  unknown: 'unknown',
+};
+
+const iconClassMap: Record<string, string> = {
+  compliant: 'icon-ok',
+  non_compliant: 'icon-close',
+  unknown: 'icon-circle',
+};
+
+const statusTextMap: Record<string, string> = {
+  compliant: 'PrivacyManager_ComplianceCompliant',
+  non_compliant: 'PrivacyManager_ComplianceNonCompliant',
+  unknown: 'PrivacyManager_ComplianceComplianceUnknown',
+};
 
 export default defineComponent({
   props: {
     results: {
-      type: Array as PropType<ComplianceIndicator[]>,
+      type: Array as PropType<ComplianceRequirement[]>,
       required: true,
+    },
+  },
+  methods: {
+    getStatusClass(value: string) {
+      return statusClassMap[value] || statusClassMap.unknown;
+    },
+    getIconClass(value: string) {
+      return iconClassMap[value] || iconClassMap.unknown;
+    },
+    getStatusText(value: string) {
+      return statusTextMap[value] || statusTextMap.unknown;
     },
   },
 });

@@ -1,7 +1,7 @@
 import { DeepReadonly, reactive, readonly } from 'vue';
 import { AjaxHelper } from 'CoreHome';
 
-export interface ComplianceIndicator {
+export interface ComplianceRequirement {
   name: string;
   value: string;
   notes: string
@@ -17,7 +17,7 @@ interface ComplianceStoreState {
   loading: boolean;
   compliance_type: string;
   compliance_mode_enabled: boolean;
-  compliance_indicators: ComplianceIndicator[];
+  compliance_indicators: ComplianceRequirement[];
 }
 
 export interface ComplianceStore {
