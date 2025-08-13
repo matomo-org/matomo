@@ -16,7 +16,7 @@
     <Field
       v-if="!state.loading"
       uicontrol="checkbox"
-      name="enableFeature"
+      :name="idSite + '_' + complianceType +  '_enableFeature'"
       :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
       :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
       :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
