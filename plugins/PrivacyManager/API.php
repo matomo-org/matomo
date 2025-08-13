@@ -520,6 +520,24 @@ class API extends \Piwik\Plugin\API
         ];
     }
 
+    /**
+     * @internal
+     */
+    public function setComplianceStatus(string $idSite, string $complianceType, bool $enabled): bool
+    {
+        if (!$this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            throw new Exception('Feature not available');
+        }
+
+        if ($complianceType !== 'cnil') {
+            throw new Exception('Invalid compliance type');
+        }
+
+        Piwik::checkUserHasSuperUserAccess();
+
+        return $enabled;
+    }
+
     private function savePurgeDataSettings($settings)
     {
         Piwik::checkUserHasSuperUserAccess();
