@@ -268,7 +268,6 @@ export default defineComponent({
       });
     },
     getActualUseSiteSpecificSettings(): string {
-      console.log('getActualUseSiteSpecificSettings', this.idSiteSpecific, this.useSiteSpecificSettings);
       return (this.idSiteSpecific && this.useSiteSpecificSettings)
         ? SITE_SPECIFIC_SETTINGS
         : SYSTEM_SETTINGS;
