@@ -10,12 +10,15 @@
     <EnrichedHeadline>{{ translate('PrivacyManager_Compliance') }}</EnrichedHeadline>
   </h2>
 
-  <p>
-    {{ translate('PrivacyManager_ComplianceSelectSite') }}
-  </p>
-
+  <label
+    for="complianceSite"
+  >
+    <p>
+      {{ translate('PrivacyManager_ComplianceSelectSite') }}
+    </p>
+  </label>
   <SiteSelector
-    id="complianceDashboard"
+    id="complianceSite"
     :switch-site-on-select="false"
     :show-selected-site="true"
     v-model="site"
