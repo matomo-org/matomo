@@ -49,7 +49,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Goals_Goals' => 3,
             'Insights_WidgetCategory' => 2,
             'ExampleUI_UiFramework' => 8,
-            'Referrers_Referrers' => 10,
+            'Referrers_Referrers' => 11,
             'About Matomo' => 11,
             'Marketplace_Marketplace' => 3,
 

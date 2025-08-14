@@ -65,7 +65,7 @@
         "SearchEnginesSubcategoryHelp1": "Bu bölüm, arama motorları için başarımın ve iyileştirmelerin incelemesini içerir. Sık kullanılan anahtar sözcükler, birleştirilmiş anahtar sözcük raporları ile incelenebilir ya da daha hedef odaklı inceleme ve iyileştirme için belirli arama motorlarında hangi anahtar sözcüklerin daha iyi başarım elde ettiği görülebilir.",
         "SearchEnginesSubcategoryHelp2": "%1$sMatomo Cloud%2$s ve %3$sarama motoru anahtar sözcük başarımı%4$s eklentini kullanarak bu rapordan en iyi sonuçlar alınabilir.",
         "Socials": "Sosyal ağlar",
-        "SocialsReportDocumentation": "Bu rapor ziyaretçileri siteye yönlendiren sosyal ağları görüntüler. <br> Tablodaki bir satıra tıklayarak kullanıcıların sosyal ağ sayfalarına göre dağılımını görebilirsiniz.",
+        "SocialsReportDocumentation": "Bu rapor ziyaretçileri siteye yönlendiren sosyal ağları görüntüler.%sTablodaki bir satıra tıklayarak kullanıcıların sosyal ağ sayfalarına göre dağılımını görebilirsiniz.",
         "SocialsSubcategoryHelp": "Bu tabloda, siteye ziyaretçi yönlendiren siteler görülebilir.",
         "SubmenuSearchEngines": "Arama motorları ve anahtar sözcükler",
         "SubmenuWebsitesOnly": "Siteler",

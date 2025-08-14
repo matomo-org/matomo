@@ -13,28 +13,28 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
-use Piwik\Plugins\Referrers\Columns\SocialNetwork;
+use Piwik\Plugins\Referrers\Columns\AIAssistant;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
-class GetSocials extends Base
+class GetAIAssistants extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new SocialNetwork();
-        $this->name          = Piwik::translate('Referrers_Socials');
-        $this->documentation = Piwik::translate('Referrers_SocialsReportDocumentation', '<br />');
-        $this->actionToLoadSubTables = 'getUrlsForSocial';
+        $this->dimension = new AIAssistant();
+        $this->name = Piwik::translate('Referrers_AIAssistants');
+        $this->documentation = Piwik::translate('Referrers_AIAssistantsReportDocumentation', '<br />');
+        $this->actionToLoadSubTables = 'getUrlsForAIAssistant';
         $this->hasGoalMetrics = true;
-        $this->order = 11;
+        $this->order = 13;
 
-        $this->subcategoryId = 'Referrers_Socials';
+        $this->subcategoryId = 'Referrers_AIAssistants';
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
-        $widget = $factory->createWidget()->setName('Referrers_Socials');
+        $widget = $factory->createWidget()->setName('Referrers_AIAssistants');
         $widgetsList->addWidgetConfig($widget);
     }
 
