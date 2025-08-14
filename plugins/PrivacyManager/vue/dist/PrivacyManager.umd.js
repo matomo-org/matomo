@@ -2829,9 +2829,9 @@ function Compliancevue_type_template_id_28002704_render(_ctx, _cache, $props, $s
 }
 // CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/Compliance/Compliance.vue?vue&type=template&id=28002704
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/Compliance/ComplianceOverview.vue?vue&type=template&id=129f1fe7
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/Compliance/ComplianceOverview.vue?vue&type=template&id=96dac368
 
-function ComplianceOverviewvue_type_template_id_129f1fe7_render(_ctx, _cache, $props, $setup, $data, $options) {
+function ComplianceOverviewvue_type_template_id_96dac368_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_ComplianceTable = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ComplianceTable");
   const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
@@ -2843,7 +2843,7 @@ function ComplianceOverviewvue_type_template_id_129f1fe7_render(_ctx, _cache, $p
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.description), 1), !_ctx.state.loading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_ComplianceTable, {
       key: 0,
-      results: _ctx.state.compliance_indicators
+      results: _ctx.state.compliance_requirements
     }, null, 8, ["results"])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
       loading: _ctx.state.loading
     }, null, 8, ["loading"]), !_ctx.state.loading ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_Field, {
@@ -2867,7 +2867,7 @@ function ComplianceOverviewvue_type_template_id_129f1fe7_render(_ctx, _cache, $p
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/Compliance/ComplianceOverview.vue?vue&type=template&id=129f1fe7
+// CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/Compliance/ComplianceOverview.vue?vue&type=template&id=96dac368
 
 // CONCATENATED MODULE: ./plugins/PrivacyManager/vue/src/Compliance/Compliance.store.ts
 
@@ -2876,15 +2876,15 @@ function createComplianceStore(initialType) {
     idsite: null,
     loading: false,
     compliance_type: initialType,
-    compliance_mode_enabled: false,
-    compliance_indicators: []
+    compliance_mode_enforced: false,
+    complicance_requirements: []
   });
   function fetchCompliance() {
     if (!state.idsite || !state.compliance_type) return;
     state.loading = true;
     setTimeout(() => {
-      state.compliance_mode_enabled = false;
-      state.compliance_indicators = [{
+      state.compliance_mode_enforced = false;
+      state.complicance_requirements = [{
         name: 'IP Anonymisation',
         value: 'compliant',
         notes: 'Set to at least 2 byte masking'
@@ -2916,8 +2916,8 @@ function createComplianceStore(initialType) {
     state.loading = true;
     setTimeout(() => {
       state.loading = false;
-      state.compliance_mode_enabled = enabled;
-      state.compliance_indicators = [{
+      state.compliance_mode_enforced = enabled;
+      state.complicance_requirements = [{
         name: 'IP Anonymisation',
         value: 'compliant',
         notes: 'Set to at least 2 byte masking'
@@ -3071,7 +3071,7 @@ ComplianceTablevue_type_script_lang_ts.render = ComplianceTablevue_type_template
     return {
       state: store.state,
       saveComplianceStatus: store.saveComplianceStatus,
-      shouldEnforceComplianceMode: store.state.compliance_mode_enabled,
+      shouldEnforceComplianceMode: store.state.compliance_mode_enforced,
       showPasswordConfirmation: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["ref"])(false)
     };
   }
@@ -3082,7 +3082,7 @@ ComplianceTablevue_type_script_lang_ts.render = ComplianceTablevue_type_template
 
 
 
-ComplianceOverviewvue_type_script_lang_ts.render = ComplianceOverviewvue_type_template_id_129f1fe7_render
+ComplianceOverviewvue_type_script_lang_ts.render = ComplianceOverviewvue_type_template_id_96dac368_render
 
 /* harmony default export */ var ComplianceOverview = (ComplianceOverviewvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/PrivacyManager/vue/src/Compliance/Compliance.vue?vue&type=script&lang=ts
