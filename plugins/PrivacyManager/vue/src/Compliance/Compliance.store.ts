@@ -16,8 +16,8 @@ interface ComplianceStoreState {
   idsite: string | null;
   loading: boolean;
   compliance_type: string;
-  compliance_mode_enabled: boolean;
-  compliance_indicators: ComplianceRequirement[];
+  compliance_mode_enforced: boolean;
+  complicance_requirements: ComplianceRequirement[];
 }
 
 export interface ComplianceStore {
@@ -31,8 +31,8 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     idsite: null,
     loading: false,
     compliance_type: initialType,
-    compliance_mode_enabled: false,
-    compliance_indicators: [],
+    compliance_mode_enforced: false,
+    complicance_requirements: [],
   });
 
   function fetchComplianceStatus(): Promise<ComplianceStatus> {
