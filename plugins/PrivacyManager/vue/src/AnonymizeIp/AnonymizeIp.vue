@@ -10,7 +10,7 @@
     <template v-if="idSiteSpecific">
       <Field
         uicontrol="radio"
-        :name="`useSiteSpecificSettings-${idSiteSpecific}`"
+        :name="`useSiteSpecificSettings${idSiteSpecific}`"
         :title="translate('PrivacyManager_SiteAnonymizationConfig')"
         v-model="actualUseSiteSpecificSettings"
         :options="useSiteSpecificSettingsOptions"
@@ -22,7 +22,7 @@
       <div class="anonymizeIpSettingsField">
         <Field
           uicontrol="checkbox"
-          name="anonymizeIpSettings"
+          :name="`anonymizeIpSettings${idSiteSpecific}`"
           :title="translate('PrivacyManager_UseAnonymizeIp')"
           v-model="actualEnabled"
           :inline-help="anonymizeIpEnabledHelp"
@@ -33,7 +33,7 @@
         <div class="maskLengthField">
           <Field
             uicontrol="radio"
-            name="maskLength"
+            :name="`maskLength${idSiteSpecific}`"
             :title="translate('PrivacyManager_AnonymizeIpMaskLengtDescription')"
             v-model="actualMaskLength"
             :options="maskLengthOptions"
@@ -44,7 +44,7 @@
         <div class="useAnonymizedIpForVisitEnrichmentField">
           <Field
             uicontrol="radio"
-            name="useAnonymizedIpForVisitEnrichment"
+            :name="`useAnonymizedIpForVisitEnrichment${idSiteSpecific}`"
             :title="translate('PrivacyManager_UseAnonymizedIpForVisitEnrichment')"
             v-model="actualUseAnonymizedIpForVisitEnrichment"
             :options="useAnonymizedIpForVisitEnrichmentOptions"
@@ -56,7 +56,7 @@
       <div class="anonymizeUserIdField">
         <Field
           uicontrol="checkbox"
-          name="anonymizeUserId"
+          :name="`anonymizeUserId${idSiteSpecific}`"
           :title="translate('PrivacyManager_PseudonymizeUserId')"
           v-model="actualAnonymizeUserId"
         >
@@ -70,7 +70,7 @@
       <div class="anonymizeOrderIdField">
         <Field
           uicontrol="checkbox"
-          name="anonymizeOrderId"
+          :name="`anonymizeOrderId${idSiteSpecific}`"
           :title="translate('PrivacyManager_UseAnonymizeOrderId')"
           v-model="actualAnonymizeOrderId"
           :inline-help="translate('PrivacyManager_AnonymizeOrderIdNote')"
@@ -102,7 +102,7 @@
       <div class="anonymizeReferrerField">
         <Field
           uicontrol="select"
-          name="anonymizeReferrer"
+          :name="`anonymizeReferrer${idSiteSpecific}`"
           :title="translate('PrivacyManager_AnonymizeReferrer')"
           v-model="actualAnonymizeReferrer"
           :options="referrerAnonymizationOptions"
@@ -113,7 +113,7 @@
       <div class="randomizeConfigIdField" v-if="configRandomisationFeatureFlag">
         <Field
           uicontrol="checkbox"
-          name="randomizeConfigId"
+          :name="`randomizeConfigId${idSiteSpecific}`"
           :title="translate('PrivacyManager_UseRandomizeConfigId')"
           v-model="actualRandomizeConfigId"
           :inline-help="translate('PrivacyManager_RandomizeConfigIdNote')"
