@@ -15,6 +15,18 @@
     <div id="sizewarning" class="notification system notification-error">
         This page can't be rendered on screens with width or height below 200px.
     </div>
+    <style>
+        {# Inlined to ensure it is only applied in the admin area #}
+        @media (max-width: 200px), (max-height: 200px) {
+            #sizewarning {
+                display: block;
+            }
+
+            body > #root {
+                display: none!important;
+            }
+        }
+    </style>
 {% endblock %}
 
 
