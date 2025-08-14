@@ -65,7 +65,7 @@
         "SearchEnginesSubcategoryHelp1": "Aquesta secció us ajuda a analitzar l'optimització i el rendiment del vostre motor de cerca. Podeu analitzar les vostres paraules clau més populars amb els informes de paraules clau combinats o veure quines paraules clau funcionen bé en motors de cerca específics per a una anàlisi i optimització més específica.",
         "SearchEnginesSubcategoryHelp2": "Els usuaris del connector %1$sMatomo Cloud%2$s i %3$sSearch Engine Performance%4$s rebran els millors resultats d'aquest informe.",
         "Socials": "Xarxes socials",
-        "SocialsReportDocumentation": "Aquest informe mostra quines xarxes socials han conduït els visitants al vostre lloc web.<br>Si feu clic a una fila de la taula, podeu veure des de quines pàgines de xarxes socials han arribat els visitants al vostre lloc web.",
+        "SocialsReportDocumentation": "Aquest informe mostra quines xarxes socials han conduït els visitants al vostre lloc web.%sSi feu clic a una fila de la taula, podeu veure des de quines pàgines de xarxes socials han arribat els visitants al vostre lloc web.",
         "SocialsSubcategoryHelp": "En aquesta taula podeu veure quins llocs web van remetre els visitants al vostre lloc.",
         "SubmenuSearchEngines": "Cercadors i paraules clau",
         "SubmenuWebsitesOnly": "Llocs web",

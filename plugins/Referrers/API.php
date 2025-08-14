@@ -679,7 +679,7 @@ class API extends \Piwik\Plugin\API
         });
 
         $dataTable->filter('AddSegmentByLabel', ['referrerUrl']);
-        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', [true]);
+        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial');
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
     }
@@ -728,7 +728,7 @@ class API extends \Piwik\Plugin\API
         });
 
         $dataTable->filter('AddSegmentByLabel', ['referrerUrl']);
-        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForAIAssistant', [true]);
+        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForAIAssistant');
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
     }
@@ -921,7 +921,7 @@ class API extends \Piwik\Plugin\API
                 }
 
                 if ($newTable->getRowsCount()) {
-                    $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial', [$expanded]);
+                    $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial');
                     $row->setSubtable($newTable);
                 }
             }
@@ -974,7 +974,7 @@ class API extends \Piwik\Plugin\API
                 }
 
                 if ($newTable->getRowsCount()) {
-                    $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForAIAssistant', [$expanded]);
+                    $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForAIAssistant');
                     $row->setSubtable($newTable);
                 }
             }

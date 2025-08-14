@@ -64,7 +64,7 @@
         "SearchEnginesSubcategoryHelp1": "Denne delen hjelper deg å analysere søkemotoroptimalisering og ytelse. Du kan analysere dine mest populære nøkkelord med de kombinerte nøkkelordrapportene, eller finne ut hvilke nøkkelord som fungerer bra på gitte søkemotorer for mer målrettet analyse og optimalisering.",
         "SearchEnginesSubcategoryHelp2": "%1$sMatomo-sky%2$s og %3$sSøkemotornøkkelordytelse%4$s-programtilleggsbrukere vil få de beste resultatene fra denne rapporten.",
         "Socials": "Sosiale nettverk",
-        "SocialsReportDocumentation": "Rapporten viser hvilke sosiale nettverk som ledet besøkende til nettsiden din.<br>Ved å klikke på en rad i tabellen kan du se hvilke sosiale nettverkssider besøkende nådde nettsiden din fra.",
+        "SocialsReportDocumentation": "Rapporten viser hvilke sosiale nettverk som ledet besøkende til nettsiden din.%sVed å klikke på en rad i tabellen kan du se hvilke sosiale nettverkssider besøkende nådde nettsiden din fra.",
         "SocialsSubcategoryHelp": "I denne tabellen finner du nettsider som henviste besøkende til din.",
         "SubmenuSearchEngines": "Søkemotorer og nøkkelord",
         "SubmenuWebsitesOnly": "Nettsteder",
