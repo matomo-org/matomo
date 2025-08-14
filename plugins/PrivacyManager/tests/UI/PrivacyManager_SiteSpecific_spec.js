@@ -188,4 +188,19 @@ describe("PrivacyManager_SiteSpecific", function () {
 
         await capturePage('load_site_specific_settings_site2');
     });
+
+    it('should not display the privacy settings lock icons when privacy manager plugin is disabled', async function() {
+        testEnvironment.pluginsToUnload = ['PrivacyManager'];
+        await testEnvironment.save();
+
+        await loadBasePage();
+        await page.waitForTimeout(100);
+        await page.waitForNetworkIdle();
+        await page.mouse.move(-10, -10);
+
+        await capturePage('no_lock_icons_when_plugin_disabled');
+
+        delete testEnvironment.pluginsToUnload;
+        await testEnvironment.save();
+    });
 });
