@@ -28,6 +28,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+        Fixture::createWebsite('2024-01-01 00:00:00');
         Fixture::createWebsite('2025-01-01 00:00:00');
 
         $this->config = new PrivacyManagerConfig();
@@ -72,7 +73,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
     {
         $this->assertSame(2, $this->config->ipAddressMaskLength);
 
-        $this->config->ipAddressMaskLength = '19';
+        $this->config->ipAddressMaskLength = 19;
 
         $this->assertSame(19, $this->config->ipAddressMaskLength);
     }
@@ -161,7 +162,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
     {
         $this->config->setIdSite(null);
         $this->config->randomizeConfigId = true;
-        $this->config->setIdSite(1);
+        $this->config->setIdSite(2);
 
         $this->assertEquals(true, $this->config->randomizeConfigId);
     }

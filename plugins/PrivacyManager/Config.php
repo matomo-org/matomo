@@ -140,7 +140,7 @@ class Config
 
     public function setIdSite(?int $idSite): void
     {
-        if ($idSite) {
+        if (null === $idSite || $idSite > 0) {
             $this->idSite = $idSite;
         }
     }
