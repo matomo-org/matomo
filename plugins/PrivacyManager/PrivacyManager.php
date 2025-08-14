@@ -17,7 +17,6 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Log\LoggerInterface;
 use Piwik\Metrics;
 use Piwik\Option;
 use Piwik\Period;
