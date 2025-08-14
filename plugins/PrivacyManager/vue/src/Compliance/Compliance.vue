@@ -10,13 +10,7 @@
     <EnrichedHeadline>{{ translate('PrivacyManager_Compliance') }}</EnrichedHeadline>
   </h2>
 
-  <label
-    for="complianceSite"
-  >
-    <p>
-      {{ translate('PrivacyManager_ComplianceSelectSite') }}
-    </p>
-  </label>
+  <label for="complianceSite">{{ translate('PrivacyManager_ComplianceSelectSite') }}</label>
   <SiteSelector
     id="complianceSite"
     :switch-site-on-select="false"
