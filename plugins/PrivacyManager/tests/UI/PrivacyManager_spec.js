@@ -390,6 +390,7 @@ describe("PrivacyManager", function () {
 
         await page.waitForNetworkIdle();
         await page.waitForSelector('.compliance', { visible: true });
+        await page.waitForTimeout(2000); // TODO: lower once data comes from API
 
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
     });
