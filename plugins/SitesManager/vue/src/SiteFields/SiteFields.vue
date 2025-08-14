@@ -87,6 +87,7 @@
             <span class="icon-edit"></span>
           </button>
           <button
+            v-if="privacyManagerEnabled"
             class="table-action"
             @click="editPrivacy()"
             :title="translate('PrivacyManager_ManagePrivacySettings')"
@@ -191,13 +192,14 @@
 
           <ActivityIndicator :loading="isLoading"/>
 
-          <AnonymizeIp
+          <component
+            :is="anonymizeIpComponent"
             v-if="!isLoading"
             :id-site-specific="theSite.idsite"
             v-bind="anonymisationSettings"
             @updated="onPrivacyUpdated"
             @cancel="cancelEditPrivacy(site)"
-          ></AnonymizeIp>
+          ></component>
         </div>
       </div>
     </div>
@@ -224,6 +226,7 @@ import {
   translate,
   AjaxHelper,
   NotificationsStore,
+  useExternalPluginComponent,
 } from 'CoreHome';
 import {
   Field,
@@ -232,9 +235,6 @@ import {
   Setting,
   PasswordConfirmation,
 } from 'CorePluginsAdmin';
-import {
-  AnonymizeIp,
-} from 'PrivacyManager';
 import TimezoneStore from '../TimezoneStore/TimezoneStore';
 import CurrencyStore from '../CurrencyStore/CurrencyStore';
 import SiteTypesStore from '../SiteTypesStore/SiteTypesStore';
@@ -288,6 +288,10 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    privacyManagerEnabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data(): SiteFieldsState {
     return {
@@ -303,7 +307,6 @@ export default defineComponent({
     };
   },
   components: {
-    AnonymizeIp,
     PasswordConfirmation,
     Field,
     GroupedSettings,
@@ -532,7 +535,7 @@ export default defineComponent({
       return this.editMode === EDIT_MODE_SITE;
     },
     isEditingPrivacy() {
-      return this.editMode === EDIT_MODE_PRIVACY;
+      return this.privacyManagerEnabled && this.editMode === EDIT_MODE_PRIVACY;
     },
     availableTypes() {
       return SiteTypesStore.types.value;
@@ -601,6 +604,12 @@ export default defineComponent({
         'SitesManager_DeleteConfirm',
         `"${this.theSite.name}" (idSite = ${this.theSite.idsite})`,
       );
+    },
+    anonymizeIpComponent() {
+      if (this.privacyManagerEnabled) {
+        return useExternalPluginComponent('PrivacyManager', 'AnonymizeIp');
+      }
+      return '';
     },
   },
 });

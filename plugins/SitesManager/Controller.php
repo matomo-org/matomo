@@ -51,8 +51,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $pluginManager = Manager::getInstance();
         $rollUpEnabled = $pluginManager->isPluginLoaded('RollUpReporting')
             && $pluginManager->isPluginActivated('RollUpReporting');
+        $privacyManagerEnabled = $pluginManager->isPluginLoaded('PrivacyManager')
+            && $pluginManager->isPluginActivated('PrivacyManager');
 
-        return $this->renderTemplate('index', ['rollUpEnabled' => $rollUpEnabled]);
+        return $this->renderTemplate('index', [
+            'rollUpEnabled' => $rollUpEnabled,
+            'privacyManagerEnabled' => $privacyManagerEnabled,
+        ]);
     }
 
     public function globalSettings()
