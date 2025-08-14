@@ -155,7 +155,7 @@ class VisitRequestProcessor extends RequestProcessor
          * This event is primarily used by the **PrivacyManager** plugin to anonymize IP addresses.
          *
          * @param string &$ip The visitor's IP address.
-         * @param mixed $idSite The site ID we're tracking the visit for.
+         * @param int $idSite The site ID we're tracking the visit for.
          */
         $this->eventDispatcher->postEvent('Tracker.setVisitorIp', [&$ip, (int) $request->getIdSiteIfExists()]);
 
