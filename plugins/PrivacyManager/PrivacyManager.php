@@ -211,6 +211,8 @@ class PrivacyManager extends Plugin
             $idSite = $view->requestConfig->getRequestParam('idsite');
             if (!is_numeric($idSite) || !$idSite) {
                 $idSite = null;
+            } else {
+                $idSite = (int) $idSite;
             }
             $config = new Config($idSite);
             if ($config->anonymizeReferrer == ReferrerAnonymizer::EXCLUDE_NONE) {
