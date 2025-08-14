@@ -426,7 +426,7 @@ class API extends \Piwik\Plugin\API
 
         Piwik::checkUserHasSuperUserAccess();
         return [
-            'complianceModeEnabled' => false, 
+            'complianceModeEnabled' => false,
             'complianceIndicators' => [
                 [
                     'name' => 'IP Anonymisation',
