@@ -71,17 +71,17 @@ export function createComplianceStore(initialType: string): ComplianceStore {
       enforce,
       method: 'PrivacyManager.setComplianceStatus',
     }).then(() => {
-        fetchComplianceStatus().then((res) => {
-          res.complianceModeEnforced = enforce;
-          // below logic will be replaced with internal logic in PrivacyManager.getComplianceStatus
-          if (enforce) {
-            res.complianceRequirements = res.complianceRequirements.map((indicator) => {
-              indicator.value = 'compliant';
-              return indicator;
-            });
-          }
-          storeComplianceStatus(res);
-        });
+      fetchComplianceStatus().then((res) => {
+        res.complianceModeEnforced = enforce;
+        // below logic will be replaced with internal logic in PrivacyManager.getComplianceStatus
+        if (enforce) {
+          res.complianceRequirements = res.complianceRequirements.map((indicator) => {
+            indicator.value = 'compliant';
+            return indicator;
+          });
+        }
+        storeComplianceStatus(res);
+      });
     }).finally(() => {
       state.loading = false;
     });
