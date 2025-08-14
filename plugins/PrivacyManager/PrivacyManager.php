@@ -73,8 +73,6 @@ class PrivacyManager extends Plugin
     private $dntChecker = null;
     private $ipAnonymizer = null;
 
-    private $logger = null;
-
     /**
      * Constructor.
      */
@@ -84,7 +82,6 @@ class PrivacyManager extends Plugin
 
         $this->dntChecker = new DoNotTrackHeaderChecker();
         $this->ipAnonymizer = new IPAnonymizer();
-        $this->logger = StaticContainer::get(LoggerInterface::class);
     }
 
     public function install()
