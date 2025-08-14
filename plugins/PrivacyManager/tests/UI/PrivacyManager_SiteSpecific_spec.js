@@ -84,19 +84,19 @@ describe("PrivacyManager_SiteSpecific", function () {
     });
 
     it('should save site-specific', async function() {
-        await page.click(sitePrefix(1, '#anonymizeIpSettings'));
+        await page.click(sitePrefix(1, '#anonymizeIpSettings1'));
         await page.waitForTimeout(100);
 
-        await page.click(sitePrefix(1, '#maskLength4'));
+        await page.click(sitePrefix(1, '#maskLength14'));
         await page.waitForTimeout(100);
 
-        await page.click(sitePrefix(1, '#useAnonymizedIpForVisitEnrichment1'));
+        await page.click(sitePrefix(1, '#useAnonymizedIpForVisitEnrichment11'));
         await page.waitForTimeout(100);
 
-        await page.click(sitePrefix(1, '#anonymizeUserId'));
+        await page.click(sitePrefix(1, '#anonymizeUserId1'));
         await page.waitForTimeout(100);
 
-        await page.click(sitePrefix(1, '#anonymizeOrderId'));
+        await page.click(sitePrefix(1, '#anonymizeOrderId1'));
         await page.waitForTimeout(100);
 
         await page.evaluate(() => $('div[idsite="1"] div.anonymizeReferrerField div.matomo-field-select div.select-wrapper input.dropdown-trigger')[0].click());
@@ -163,7 +163,7 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.waitForTimeout(300);
         await page.waitForNetworkIdle();
 
-        await page.click('#useSiteSpecificSettings-2site-specific');
+        await page.click('#useSiteSpecificSettings2site-specific');
         await page.waitForTimeout(200);
 
         testEnvironment.optionsOverride = {};
