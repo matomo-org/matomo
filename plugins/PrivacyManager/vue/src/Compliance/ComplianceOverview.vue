@@ -10,7 +10,7 @@
     <p>{{ description }}</p>
     <ComplianceTable
       v-if="!state.loading"
-      :results="state.compliance_requirements"
+      :results="state.complianceRequirements"
     />
     <ActivityIndicator :loading="state.loading"/>
     <Field
@@ -94,7 +94,7 @@ export default defineComponent({
     return {
       state: store.state,
       saveComplianceStatus: store.saveComplianceStatus,
-      shouldEnforceComplianceMode: store.state.compliance_mode_enforced,
+      shouldEnforceComplianceMode: store.state.complianceModeEnforced,
       showPasswordConfirmation: ref(false),
     };
   },

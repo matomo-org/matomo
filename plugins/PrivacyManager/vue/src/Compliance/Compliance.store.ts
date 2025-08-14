@@ -7,36 +7,36 @@ export interface ComplianceRequirement {
 }
 
 interface ComplianceStoreState {
-  idsite: string | null;
+  idSite: string | null;
   loading: boolean;
-  compliance_type: string;
-  compliance_mode_enforced: boolean;
-  complicance_requirements: ComplianceRequirement[];
+  complianceType: string;
+  complianceModeEnforced: boolean;
+  complianceRequirements: ComplianceRequirement[];
 }
 
 export interface ComplianceStore {
   state: DeepReadonly<ComplianceStoreState>;
-  setIdSite: (idsite: string) => void;
+  setIdSite: (idSite: string) => void;
   saveComplianceStatus: (enabled: boolean) => void;
 }
 
 export function createComplianceStore(initialType: string): ComplianceStore {
   const state = reactive<ComplianceStoreState>({
-    idsite: null,
+    idSite: null,
     loading: false,
-    compliance_type: initialType,
-    compliance_mode_enforced: false,
-    complicance_requirements: [],
+    complianceType: initialType,
+    complianceModeEnforced: false,
+    complianceRequirements: [],
   });
 
   function fetchCompliance() {
-    if (!state.idsite || !state.compliance_type) return;
+    if (!state.idSite || !state.complianceType) return;
 
     state.loading = true;
 
     setTimeout(() => {
-      state.compliance_mode_enforced = false;
-      state.complicance_requirements = [
+      state.complianceModeEnforced = false;
+      state.complianceRequirements = [
         {
           name: 'IP Anonymisation',
           value: 'compliant',
@@ -69,19 +69,19 @@ export function createComplianceStore(initialType: string): ComplianceStore {
   }
 
   function setIdSite(idSite: string | null) {
-    state.idsite = idSite;
+    state.idSite = idSite;
     fetchCompliance();
   }
 
-  function saveComplianceStatus(enabled: boolean) {
+  function saveComplianceStatus(enforce: boolean) {
     state.loading = true;
 
     setTimeout(() => {
       state.loading = false;
 
-      state.compliance_mode_enforced = enabled;
+      state.complianceModeEnforced = enforce;
 
-      state.complicance_requirements = [
+      state.complianceRequirements = [
         {
           name: 'IP Anonymisation',
           value: 'compliant',
@@ -89,17 +89,17 @@ export function createComplianceStore(initialType: string): ComplianceStore {
         },
         {
           name: 'Data retention period',
-          value: enabled ? 'compliant' : 'non_compliant',
+          value: enforce ? 'compliant' : 'non_compliant',
           notes: 'Retention period is set to 365 days',
         },
         {
           name: 'Visits Log and Visitors Profile',
-          value: enabled ? 'compliant' : 'non_compliant',
+          value: enforce ? 'compliant' : 'non_compliant',
           notes: 'Visits log is still enabled',
         },
         {
           name: 'Ecommerce analytics',
-          value: enabled ? 'compliant' : 'non_compliant',
+          value: enforce ? 'compliant' : 'non_compliant',
           notes: 'Ecommerce analytics is enabled for this site',
         },
         {
