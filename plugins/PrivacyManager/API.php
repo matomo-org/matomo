@@ -301,13 +301,12 @@ class API extends \Piwik\Plugin\API
         $idSiteSpecific = null,
         $useSiteSpecificSettings = false
     ) {
-        Piwik::checkUserHasSuperUserAccess();
-
         if (is_numeric($idSiteSpecific)) {
             $idSite = intval($idSiteSpecific);
             Piwik::checkUserHasAdminAccess($idSiteSpecific);
         } else {
             $idSite = null;
+            Piwik::checkUserHasSuperUserAccess();
         }
 
         // if we receive a specific site ID, and it's set not to use custom site settings, we need to remove them
