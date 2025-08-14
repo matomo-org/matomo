@@ -10,8 +10,8 @@ interface ComplianceStoreState {
   idsite: string | null;
   loading: boolean;
   compliance_type: string;
-  compliance_mode_enabled: boolean;
-  compliance_indicators: ComplianceRequirement[];
+  compliance_mode_enforced: boolean;
+  complicance_requirements: ComplianceRequirement[];
 }
 
 export interface ComplianceStore {
@@ -25,8 +25,8 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     idsite: null,
     loading: false,
     compliance_type: initialType,
-    compliance_mode_enabled: false,
-    compliance_indicators: [],
+    compliance_mode_enforced: false,
+    complicance_requirements: [],
   });
 
   function fetchCompliance() {
@@ -35,8 +35,8 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     state.loading = true;
 
     setTimeout(() => {
-      state.compliance_mode_enabled = false;
-      state.compliance_indicators = [
+      state.compliance_mode_enforced = false;
+      state.complicance_requirements = [
         {
           name: 'IP Anonymisation',
           value: 'compliant',
@@ -79,9 +79,9 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     setTimeout(() => {
       state.loading = false;
 
-      state.compliance_mode_enabled = enabled;
+      state.compliance_mode_enforced = enabled;
 
-      state.compliance_indicators = [
+      state.complicance_requirements = [
         {
           name: 'IP Anonymisation',
           value: 'compliant',
