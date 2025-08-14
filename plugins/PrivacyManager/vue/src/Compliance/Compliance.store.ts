@@ -8,8 +8,8 @@ export interface ComplianceRequirement {
 }
 
 interface ComplianceStatus {
-  complianceModeEnabled: boolean;
-  complianceIndicators: ComplianceRequirement[];
+  complianceModeEnforced: boolean;
+  complianceRequirements: ComplianceRequirement[];
 }
 
 interface ComplianceStoreState {
@@ -44,8 +44,8 @@ export function createComplianceStore(initialType: string): ComplianceStore {
   }
 
   function storeComplianceStatus(complianceData: ComplianceStatus) {
-    state.compliance_mode_enabled = complianceData.complianceModeEnabled;
-    state.compliance_indicators = complianceData.complianceIndicators;
+    state.compliance_mode_enforced = complianceData.complianceModeEnforced;
+    state.complicance_requirements = complianceData.complianceRequirements;
   }
 
   function fetchCompliance() {
@@ -63,19 +63,19 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     fetchCompliance();
   }
 
-  function saveComplianceStatus(enabled: boolean) {
+  function saveComplianceStatus(enforced: boolean) {
     state.loading = true;
     AjaxHelper.fetch<boolean>({
       idSite: state.idsite,
       complianceType: state.compliance_type,
-      enabled,
+      enforced,
       method: 'PrivacyManager.setComplianceStatus',
     }).then(() => {
         fetchComplianceStatus().then((res) => {
-          res.complianceModeEnabled = enabled;
+          res.complianceModeEnforced = enforced;
           // below logic will be replaced with internal logic in PrivacyManager.getComplianceStatus
-          if (enabled) {
-            res.complianceIndicators = res.complianceIndicators.map((indicator) => {
+          if (enforced) {
+            res.complianceRequirements = res.complianceRequirements.map((indicator) => {
               indicator.value = 'compliant';
               return indicator;
             });

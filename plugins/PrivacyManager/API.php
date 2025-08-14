@@ -460,7 +460,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setComplianceStatus(string $idSite, string $complianceType, bool $enabled): bool
+    public function setComplianceStatus(string $idSite, string $complianceType, bool $enforced): bool
     {
         if (!$this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             throw new Exception('Feature not available');
@@ -472,7 +472,7 @@ class API extends \Piwik\Plugin\API
 
         Piwik::checkUserHasSuperUserAccess();
 
-        return $enabled;
+        return $enforced;
     }
 
     private function savePurgeDataSettings($settings)
