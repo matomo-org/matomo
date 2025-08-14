@@ -77,7 +77,7 @@ describe("PrivacyManager_SiteSpecific", function () {
     });
 
     it('should show site-specific settings when option selected', async function() {
-        await page.click('#useSiteSpecificSettings-1site-specific');
+        await page.click('#useSiteSpecificSettings1site-specific');
         await page.waitForTimeout(200);
 
         await capturePage('site_specific_settings_site1');
@@ -137,7 +137,7 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.waitForTimeout(300);
         await page.waitForNetworkIdle();
 
-        await page.click('#useSiteSpecificSettings-3site-specific');
+        await page.click('#useSiteSpecificSettings3site-specific');
         await page.waitForTimeout(200);
 
         testEnvironment.optionsOverride = {};
