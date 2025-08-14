@@ -290,19 +290,19 @@ class API extends \Piwik\Plugin\API
      * @internal
      */
     public function setAnonymisationSettings(
-        $enableIpAnonymizer,
-        $ipAddressMaskLength,
-        $useAnonymizedIpForVisitEnrichment,
-        $anonymizeUserId = false,
-        $anonymizeOrderId = false,
-        $anonymizeReferrer = '',
-        $forceCookielessTracking = false,
-        $randomizeConfigId = false,
-        $idSiteSpecific = null,
-        $useSiteSpecificSettings = false
+        bool $enableIpAnonymizer,
+        int $ipAddressMaskLength,
+        bool $useAnonymizedIpForVisitEnrichment,
+        bool $anonymizeUserId = false,
+        bool $anonymizeOrderId = false,
+        string $anonymizeReferrer = '',
+        bool $forceCookielessTracking = false,
+        bool $randomizeConfigId = false,
+        ?int $idSiteSpecific = null,
+        bool $useSiteSpecificSettings = false
     ) {
-        if (is_numeric($idSiteSpecific)) {
-            $idSite = intval($idSiteSpecific);
+        if (null !== $idSiteSpecific) {
+            $idSite = $idSiteSpecific;
             Piwik::checkUserHasAdminAccess($idSiteSpecific);
         } else {
             $idSite = null;
@@ -318,12 +318,10 @@ class API extends \Piwik\Plugin\API
             return true;
         }
 
-        if ($enableIpAnonymizer == '1') {
+        if ($enableIpAnonymizer) {
             IPAnonymizer::activate($idSite);
-        } elseif ($enableIpAnonymizer == '0') {
-            IPAnonymizer::deactivate($idSite);
         } else {
-            // pass
+            IPAnonymizer::deactivate($idSite);
         }
 
         if (
@@ -334,29 +332,29 @@ class API extends \Piwik\Plugin\API
         }
 
         $privacyConfig = new Config($idSite);
-        $privacyConfig->ipAddressMaskLength = (int) $ipAddressMaskLength;
-        $privacyConfig->useAnonymizedIpForVisitEnrichment = (bool) $useAnonymizedIpForVisitEnrichment;
+        $privacyConfig->ipAddressMaskLength = $ipAddressMaskLength;
+        $privacyConfig->useAnonymizedIpForVisitEnrichment = $useAnonymizedIpForVisitEnrichment;
         $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
 
         if (false !== $anonymizeUserId) {
-            $privacyConfig->anonymizeUserId = (bool) $anonymizeUserId;
+            $privacyConfig->anonymizeUserId = $anonymizeUserId;
         }
 
         if (false !== $anonymizeOrderId) {
-            $privacyConfig->anonymizeOrderId = (bool) $anonymizeOrderId;
+            $privacyConfig->anonymizeOrderId = $anonymizeOrderId;
         }
 
         if (false !== $forceCookielessTracking && !$idSite) {
             // only allow setting 'force cookieless tracking' instance-wide and skip it for site as it applies
             // changes to JS tracker files that we can't currently support on a per-site basis
-            $privacyConfig->forceCookielessTracking = (bool) $forceCookielessTracking;
+            $privacyConfig->forceCookielessTracking = $forceCookielessTracking;
 
             // update tracker files
             Piwik::postEvent('CustomJsTracker.updateTracker');
         }
 
         if (false !== $randomizeConfigId) {
-            $privacyConfig->randomizeConfigId = (bool) $randomizeConfigId;
+            $privacyConfig->randomizeConfigId = $randomizeConfigId;
         }
 
         return true;
