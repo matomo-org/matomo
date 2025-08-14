@@ -1,0 +1,37 @@
+.compliance {
+  label {
+    color: @theme-color-text;
+    .font-default(13px, 18px);
+    display: block;
+    margin: 10px 0;
+  }
+
+  .status {
+    line-height: 1.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+
+    &.compliant {
+      color: #5D9E52;
+    }
+
+    &.non-compliant {
+      color: #D2312D;
+    }
+
+    &.unknown {
+      color: #D9D9D9;
+    }
+
+    .icon {
+      width: 1rem;
+      text-align: center;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    .icon-close {
+      font-size: 0.65rem
+    }
+  }
+}
