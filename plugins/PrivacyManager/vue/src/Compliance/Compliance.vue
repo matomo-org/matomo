@@ -36,11 +36,17 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-import { Matomo, SiteSelector, SiteRef } from 'CoreHome';
+import {
+  EnrichedHeadline,
+  Matomo,
+  SiteSelector,
+  SiteRef,
+} from 'CoreHome';
 import ComplianceOverview from './ComplianceOverview.vue';
 
 export default defineComponent({
   components: {
+    EnrichedHeadline,
     ComplianceOverview,
     SiteSelector,
   },
