@@ -1,8 +1,22 @@
 <?php
 
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
 namespace Piwik\Plugins\UnifiedSettingsAccess;
 
-class UnifiedSettingsAccess
+use Piwik\Plugin;
+use Piwik\Plugins\UnifiedSettingsAccess\Getters\ConfigSettingGetter;
+use Piwik\Plugins\UnifiedSettingsAccess\Getters\MeasurableSettingGetter;
+use Piwik\Plugins\UnifiedSettingsAccess\Getters\OptionSettingGetter;
+use Piwik\Plugins\UnifiedSettingsAccess\Getters\SettingGetter;
+use Piwik\Plugins\UnifiedSettingsAccess\Getters\SystemSettingGetter;
+
+class UnifiedSettingsAccess extends Plugin
 {
     public const SOURCE_CONFIG = 'config';
     public const SOURCE_OPTION = 'option';
@@ -15,9 +29,10 @@ class UnifiedSettingsAccess
     public const TYPE_ARRAY = 'array';
 
     private static $sourceToClassMap = [
+        self::SOURCE_MEASURABLE => MeasurableSettingGetter::class,
         self::SOURCE_SYSTEM => SystemSettingGetter::class,
         self::SOURCE_CONFIG => ConfigSettingGetter::class,
-        self::SOURCE_MEASURABLE => MeasurableSettingGetter::class,
+        self::SOURCE_OPTION => OptionSettingGetter::class,
     ];
 
     public static $defaultHierarchy = [self::SOURCE_MEASURABLE, self::SOURCE_SYSTEM, self::SOURCE_CONFIG];

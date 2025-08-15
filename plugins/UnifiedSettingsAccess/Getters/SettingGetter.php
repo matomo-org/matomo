@@ -1,6 +1,13 @@
 <?php
 
-namespace Piwik\Plugins\UnifiedSettingsAccess;
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Plugins\UnifiedSettingsAccess\Getters;
 
 use Piwik\Piwik;
 
@@ -52,9 +59,9 @@ abstract class SettingGetter
         settype($this->myValue, $this->type);
     }
 
-    protected function fallbackDefaultValue(): void
+    protected function fallbackDefaultValue($notSetValue = null): void
     {
-        if (null === $this->myValue) {
+        if ($notSetValue === $this->myValue) {
             $this->myValue = $this->defaultValue;
         }
     }
