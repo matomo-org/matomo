@@ -45,7 +45,7 @@ class UnifiedSettingsAccess extends Plugin
         array $hierarchy = null
     )
     {
-        [$pluginName, $settingName] = explode('.', $setting);
+        [$pluginName, $settingName] = explode('.', $setting, 2);
 
         if (null === $hierarchy) {
             $hierarchy = static::$defaultHierarchy;
