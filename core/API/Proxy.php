@@ -165,7 +165,7 @@ class Proxy
             $object = $this->getApiClass($pluginName, $className, $apiVersion);
 
             // check method exists
-            $this->checkMethodExists(get_class($object), $methodName);
+            $this->checkMethodExists('\\'. get_class($object), $methodName);
 
             // get the list of parameters required by the method
             $parameterNamesDefaultValuesAndTypes = $this->getParametersListWithTypes($className, $methodName);
