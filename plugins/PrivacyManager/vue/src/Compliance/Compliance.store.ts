@@ -47,8 +47,9 @@ export function createComplianceStore(initialType: string): ComplianceStore {
         method: 'PrivacyManager.getComplianceStatus',
       },
       {
-        createErrorNotification: false
-      });
+        createErrorNotification: false,
+      },
+    );
   }
 
   function storeComplianceStatus(complianceData: ComplianceStatus) {
@@ -85,8 +86,8 @@ export function createComplianceStore(initialType: string): ComplianceStore {
         method: 'PrivacyManager.setComplianceStatus',
       },
       {
-        createErrorNotification: false
-      }
+        createErrorNotification: false,
+      },
     ).then(() => {
       fetchCompliance();
     }).catch((error) => {

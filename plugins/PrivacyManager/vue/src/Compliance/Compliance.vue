@@ -35,6 +35,7 @@ import {
   Matomo,
   SiteSelector,
   SiteRef,
+  translate,
 } from 'CoreHome';
 import ComplianceOverview from './ComplianceOverview.vue';
 
@@ -58,13 +59,8 @@ export default defineComponent({
     const complianceTypes = [
       {
         id: 'cnil',
-        title: 'CNIL website analytics consent exemption conditions',
-        description: 'This table provides an indication of whether certain settings align with CNIL guidance. It does not guarantee full legal compliance. To qualify for the consent exemption under CNIL rules, all required configurations must be implemented. If any setting is shown as “Non-Compliant,” the exemption conditions are not met, and consent must be obtained from users. If any setting is shown as “Unknown” Matomo cannot determine whether this requirement has been implemented. In such cases, these measures must be manually verified.',
-      },
-      {
-        id: 'hipaa',
-        title: 'CNIL website analytics consent exemption conditions',
-        description: 'This table provides an indication of whether certain settings align with CNIL guidance. It does not guarantee full legal compliance. To qualify for the consent exemption under CNIL rules, all required configurations must be implemented. If any setting is shown as “Non-Compliant,” the exemption conditions are not met, and consent must be obtained from users. If any setting is shown as “Unknown” Matomo cannot determine whether this requirement has been implemented. In such cases, these measures must be manually verified.',
+        title: translate('PrivacyManager_ComplianceCNILTitle'),
+        description: translate('PrivacyManager_ComplianceCNILDescription'),
       },
     ];
 
