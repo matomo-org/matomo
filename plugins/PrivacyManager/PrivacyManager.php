@@ -474,6 +474,8 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_ComplianceCompliant';
         $translationKeys[] = 'PrivacyManager_ComplianceNonCompliant';
         $translationKeys[] = 'PrivacyManager_ComplianceComplianceUnknown';
+        $translationKeys[] = 'General_ErrorTryAgain';
+        $translationKeys[] = 'General_ExceptionContactSupportGeneric';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

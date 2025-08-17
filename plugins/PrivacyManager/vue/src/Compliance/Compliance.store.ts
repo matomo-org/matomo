@@ -18,6 +18,8 @@ interface ComplianceStoreState {
   complianceType: string;
   complianceModeEnforced: boolean;
   complianceRequirements: ComplianceRequirement[];
+  fetchComplianceError: string | null;
+  saveComplianceError: string | null;
 }
 
 export interface ComplianceStore {
@@ -33,14 +35,20 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     complianceType: initialType,
     complianceModeEnforced: false,
     complianceRequirements: [],
+    fetchComplianceError: null,
+    saveComplianceError: null,
   });
 
   function fetchComplianceStatus(): Promise<ComplianceStatus> {
-    return AjaxHelper.fetch<ComplianceStatus>({
-      idSite: state.idSite,
-      complianceType: state.complianceType,
-      method: 'PrivacyManager.getComplianceStatus',
-    });
+    return AjaxHelper.fetch<ComplianceStatus>(
+      {
+        idSite: state.idSite,
+        complianceType: state.complianceType,
+        method: 'PrivacyManager.getComplianceStatus',
+      },
+      {
+        createErrorNotification: false
+      });
   }
 
   function storeComplianceStatus(complianceData: ComplianceStatus) {
@@ -51,8 +59,11 @@ export function createComplianceStore(initialType: string): ComplianceStore {
   function fetchCompliance() {
     if (!state.idSite || !state.complianceType) return;
     state.loading = true;
+    state.fetchComplianceError = null;
     fetchComplianceStatus().then((complianceData: ComplianceStatus) => {
       storeComplianceStatus(complianceData);
+    }).catch((error) => {
+      state.fetchComplianceError = error.message || error;
     }).finally(() => {
       state.loading = false;
     });
@@ -65,12 +76,18 @@ export function createComplianceStore(initialType: string): ComplianceStore {
 
   function saveComplianceStatus(enforce: boolean) {
     state.loading = true;
-    AjaxHelper.fetch<boolean>({
-      idSite: state.idSite,
-      complianceType: state.complianceType,
-      enforce,
-      method: 'PrivacyManager.setComplianceStatus',
-    }).then(() => {
+    state.saveComplianceError = null;
+    AjaxHelper.fetch<boolean>(
+      {
+        idSite: state.idSite,
+        complianceType: state.complianceType,
+        enforce,
+        method: 'PrivacyManager.setComplianceStatus',
+      },
+      {
+        createErrorNotification: false
+      }
+    ).then(() => {
       fetchComplianceStatus().then((res) => {
         res.complianceModeEnforced = enforce;
         // below logic will be replaced with internal logic in PrivacyManager.getComplianceStatus
@@ -82,6 +99,8 @@ export function createComplianceStore(initialType: string): ComplianceStore {
         }
         storeComplianceStatus(res);
       });
+    }).catch((error) => {
+      state.saveComplianceError = error.message || error;
     }).finally(() => {
       state.loading = false;
     });
