@@ -88,17 +88,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
         createErrorNotification: false
       }
     ).then(() => {
-      fetchComplianceStatus().then((res) => {
-        res.complianceModeEnforced = enforce;
-        // below logic will be replaced with internal logic in PrivacyManager.getComplianceStatus
-        if (enforce) {
-          res.complianceRequirements = res.complianceRequirements.map((indicator) => {
-            indicator.value = 'compliant';
-            return indicator;
-          });
-        }
-        storeComplianceStatus(res);
-      });
+      fetchCompliance();
     }).catch((error) => {
       state.saveComplianceError = error.message || error;
     }).finally(() => {
