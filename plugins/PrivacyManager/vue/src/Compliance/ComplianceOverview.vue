@@ -25,13 +25,14 @@
         <template v-else>
           <Field
             uicontrol="checkbox"
-            :name="idSite + '_' + complianceType +  '_enableFeature'"
+            :name="'site-' + idSite + '-' + complianceType +  '-enableFeature'"
             :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
             :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
             :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
             v-model="shouldEnforceComplianceMode"
           />
           <SaveButton
+            :class="'site-' + idSite + '-' + complianceType +  '-save'"
             @confirm="this.showPasswordConfirmation = true"
             :value="translate('General_Save')"
           />

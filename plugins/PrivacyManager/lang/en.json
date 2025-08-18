@@ -23,6 +23,8 @@
         "ComplianceCompliant": "compliant",
         "ComplianceNonCompliant": "non-compliant",
         "ComplianceComplianceUnknown": "unknown",
+        "ComplianceCNILTitle": "CNIL website analytics consent exemption conditions",
+        "ComplianceCNILDescription": "This table provides an indication of whether certain settings align with CNIL guidance. It does not guarantee full legal compliance. To qualify for the consent exemption under CNIL rules, all required configurations must be implemented. If any setting is shown as “Non-Compliant,” the exemption conditions are not met, and consent must be obtained from users. If any setting is shown as “Unknown” Matomo cannot determine whether this requirement has been implemented. In such cases, these measures must be manually verified.",
         "ClickHereSettings": "Click here to access the %s settings.",
         "WhenDoINeedConsent": "When do I need to ask for user consent?",
         "WhenConsentIsNeededPart1": "The %1$sGDPR privacy regulations%2$s require you to ask for your users' consent when processing personal data in some cases. To determine whether you need to ask for consent, you need to identify your lawful basis for processing personal data. This can be either \"Consent\" or \"Legitimate interest\", or you may be able to avoid collecting personal data altogether.",

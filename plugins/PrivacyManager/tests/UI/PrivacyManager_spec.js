@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+const { vShow } = require("vue");
+
 describe("PrivacyManager", function () {
     this.timeout(0);
 
@@ -390,7 +392,7 @@ describe("PrivacyManager", function () {
 
         await page.waitForNetworkIdle();
         await page.waitForSelector('.compliance', { visible: true });
-        await page.waitForTimeout(2000); // TODO: lower once data comes from API
+        await page.waitForSelector('table.dataTable.compliance', { visible: true });
 
         expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
     });
@@ -418,5 +420,57 @@ describe("PrivacyManager", function () {
       });
 
       expect(isBodyEmpty).to.be.true;
+    });
+
+    async function confirmPassword() {
+      await page.$('.confirm-password-modal.open', { visible: true });
+      await page.waitForTimeout(300);
+
+      await page.evaluate((superUserPassword) => {
+        $('.confirm-password-modal input[name=currentUserPassword]:visible')
+          .val(superUserPassword)
+          .change();
+      }, superUserPassword);
+
+      await page.waitForTimeout(250);
+      await (await page.jQuery('.confirm-password-modal.open .modal-close:not(.modal-no):visible')).click();
+      await page.$('.confirm-password-modal.open', { hidden: true });
+      await page.waitForTimeout(300);
+      await page.waitForNetworkIdle();
+    }
+
+    it('should show compliance is enforced when checkbox is selected', async function() {
+      testEnvironment.overrideConfig('FeatureFlags', {
+        PrivacyCompliance_feature: 'enabled',
+      });
+      testEnvironment.save();
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+
+      await page.waitForSelector('.compliance', { visible: true });
+      await (await page.jQuery('#site-1-cnil-enableFeature')).click();
+      await page.waitForTimeout(150);
+      await (await page.jQuery('.site-1-cnil-save input')).click();
+      await page.waitForTimeout(150);
+      await confirmPassword();
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_enforced');
+    });
+
+    it('should load a new compliance page when site selector is changed', async function() {
+      testEnvironment.overrideConfig('FeatureFlags', {
+        PrivacyCompliance_feature: 'enabled',
+      });
+      testEnvironment.save();
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await (await page.jQuery('#complianceSite a')).click();
+      await page.waitForTimeout(150);
+      await (await page.jQuery('#complianceSite li:nth-child(2)')).click();
+      await page.waitForNetworkIdle();
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_different_site');
     });
   });

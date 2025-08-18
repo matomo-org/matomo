@@ -33,6 +33,7 @@ import { defineComponent, ref, watch } from 'vue';
 import {
   EnrichedHeadline,
   Matomo,
+  MatomoUrl,
   SiteSelector,
   SiteRef,
   translate,
@@ -47,10 +48,10 @@ export default defineComponent({
   },
   setup() {
     const site = ref<SiteRef>({
-      id: Matomo.idSite,
+      id: Matomo.idSite ?? MatomoUrl.urlParsed.value.idSite,
       name: Matomo.helper.htmlDecode(Matomo.siteName),
     });
-    const siteId = ref(String(Matomo.idSite));
+    const siteId = ref(String(Matomo.idSite ?? MatomoUrl.urlParsed.value.idSite));
 
     watch(site, (newSite) => {
       siteId.value = newSite?.id != null ? String(newSite.id) : '';
