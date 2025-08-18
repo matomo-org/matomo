@@ -192,6 +192,11 @@ class Setting
         $this->storage->save();
     }
 
+    public function hasValue(): bool
+    {
+        return $this->storage->hasValue($this->name);
+    }
+
     /**
      * Returns the previously persisted setting value. If no value was set, the default value
      * is returned.
