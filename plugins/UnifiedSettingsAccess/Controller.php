@@ -20,8 +20,8 @@ class Controller extends ControllerAdmin
     {
         $usa = new UnifiedSettingsAccess();
         var_dump([
-            $usa->getSetting('General.proxy_client_headers', [], UnifiedSettingsAccess::TYPE_ARRAY, null, [UnifiedSettingsAccess::SOURCE_CONFIG]),
-            $usa->getSetting('General.enabled_periods_UI', null, UnifiedSettingsAccess::TYPE_STRING, null, [UnifiedSettingsAccess::SOURCE_CONFIG]),
+            $usa->getSetting('General.proxy_client_headers', [], UnifiedSettingsAccess::TYPE_ARRAY),
+            $usa->getSetting('General.enabled_periods_UI', null, UnifiedSettingsAccess::TYPE_STRING),
         ]);
     }
 }

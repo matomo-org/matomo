@@ -15,8 +15,3 @@ e.g. to force a specific setting based on other conditions/flags.
 ## Testing
 
 Add whatever calls you want into the temporary controller class and access /index.php?module=UnifiedSettingsAccess&action=index to trigger the code.
-
-## Caveats found so far/TODOs
-
-- Measurable setting will return null/default value when the setting does not exist. We'd need an addition to check if a setting exists
-- Hierarchy is not working if a getter class doesn't throw an exception and the first value is returned, even when it's the default
