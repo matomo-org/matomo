@@ -13,9 +13,11 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Metrics;
+use Piwik\Period\Range;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\Goals\API as GoalsApi;
@@ -59,9 +61,9 @@ class PartialArchiveTest extends IntegrationTestCase
         ], $data->getFirstRow()->getColumns());
 
         // check archive is all plugins archive as expected
-        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 5, false);
+        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', Range::PERIOD_ID, false);
         $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done', 'value' => 1, 'blob_count' => 58],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 58],
         ], $archiveInfo);
 
         $maxIdArchive = $this->getMaxIdArchive('2020_04');
@@ -92,7 +94,7 @@ class PartialArchiveTest extends IntegrationTestCase
             'conversion_rate_returning_visit' => 'Intl_NumberFormatPercent',
         ], $data->getFirstRow()->getColumns());
 
-        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 5, false, $maxIdArchive);
+        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', Range::PERIOD_ID, false, $maxIdArchive);
 
         $archiveNames = $this->getArchiveNames('2020_04', $idArchives[0], 'numeric');
         $this->assertEquals([
@@ -106,8 +108,8 @@ class PartialArchiveTest extends IntegrationTestCase
 
         $this->assertEquals([
             // expect only one blob for new range partial archive
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done.Goals', 'value' => 5, 'blob_count' => 0],
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done.VisitsSummary', 'value' => 1, 'blob_count' => 0],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done.Goals', 'value' => ArchiveWriter::DONE_PARTIAL, 'blob_count' => 0],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL, 'blob_count' => 0],
         ], $archiveInfo);
     }
 
@@ -120,9 +122,9 @@ class PartialArchiveTest extends IntegrationTestCase
         $this->assertEquals(['label' => '0-0', Metrics::INDEX_NB_CONVERSIONS => 1], $data->getFirstRow()->getColumns());
 
         // check archive is all plugins archive as expected
-        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 5, false);
+        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', Range::PERIOD_ID, false);
         $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done', 'value' => 1, 'blob_count' => 58],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 58],
         ], $archiveInfo);
 
         $maxIdArchive = $this->getMaxIdArchive('2020_04');
@@ -140,14 +142,14 @@ class PartialArchiveTest extends IntegrationTestCase
         $data = GoalsApi::getInstance()->getDaysToConversion(1, 'range', '2020-04-06,2020-04-09', false, $this->idGoal);
         $this->assertEquals(['label' => '0-0', Metrics::INDEX_NB_CONVERSIONS => 2], $data->getFirstRow()->getColumns());
 
-        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', 5, false, $maxIdArchive);
+        [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', Range::PERIOD_ID, false, $maxIdArchive);
 
         $archiveNames = $this->getArchiveNames('2020_04', $idArchives[0]);
         $this->assertEquals(['Goal_1_days_until_conv'], $archiveNames);
 
         $this->assertEquals([
             // expect only one blob for new range partial archive
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => 5, 'name' => 'done.Goals', 'value' => 5, 'blob_count' => 1],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done.Goals', 'value' => ArchiveWriter::DONE_PARTIAL, 'blob_count' => 1],
         ], $archiveInfo);
     }
 

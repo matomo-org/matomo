@@ -276,11 +276,9 @@ class Loader
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
             $requestedReport = $this->params->getArchiveOnlyReport();
-            $isPartialArchive = $this->params->isPartialArchive();
 
             $this->params->setRequestedPlugin('VisitsSummary');
             $this->params->setArchiveOnlyReport(null);
-            $this->params->setIsPartialArchive(false);
 
             $metrics = Context::executeWithQueryParameters(['requestedReport' => ''], function () {
                 $pluginsArchiver = new PluginsArchiver($this->params);
@@ -291,7 +289,6 @@ class Loader
 
             $this->params->setRequestedPlugin($requestedPlugin);
             $this->params->setArchiveOnlyReport($requestedReport);
-            $this->params->setIsPartialArchive($isPartialArchive);
 
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];
