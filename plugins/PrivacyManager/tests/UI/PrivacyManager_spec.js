@@ -7,8 +7,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-const { vShow } = require("vue");
-
 describe("PrivacyManager", function () {
     this.timeout(0);
 
