@@ -14,14 +14,17 @@ use Piwik\Option;
 
 class OptionSettingGetter extends SettingGetter
 {
+    public function hasSetting(): bool
+    {
+        return Option::get($this->settingName) === false;
+    }
+
     public function getSetting()
     {
         try {
             $this->myValue = Option::get($this->settingName);
 
-            $this->fallbackDefaultValue(false);
-            $this->convertValue();
-            $this->postUpdateEvent();
+            $this->processValue(false);
 
             return $this->myValue;
         } catch (\Exception $e) {

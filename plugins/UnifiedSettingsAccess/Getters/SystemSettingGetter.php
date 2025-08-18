@@ -14,15 +14,29 @@ use Piwik\Settings\Plugin\SystemSetting;
 
 class SystemSettingGetter extends SettingGetter
 {
+    private $systemSetting = null;
+
+    private function getSystemSetting()
+    {
+        if ($this->systemSetting === null) {
+            $this->systemSetting = new SystemSetting($this->settingName, $this->defaultValue, $this->type, $this->pluginName);
+        }
+
+        return $this->systemSetting;
+    }
+
+    public function hasSetting(): bool
+    {
+        return $this->getSystemSetting()->hasValue();
+    }
+
     public function getSetting()
     {
         try {
-            $setting = new SystemSetting($this->settingName, $this->defaultValue, $this->type, $this->pluginName);
+            $setting = $this->getSystemSetting();
             $this->myValue = $setting->getValue();
 
-            $this->fallbackDefaultValue();
-            $this->convertValue();
-            $this->postUpdateEvent();
+            $this->processValue();
 
             return $this->myValue;
         } catch (\Exception $e) {

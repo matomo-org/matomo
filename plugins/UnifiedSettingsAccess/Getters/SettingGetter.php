@@ -52,6 +52,11 @@ abstract class SettingGetter
         $this->defaultValue = $defaultValue;
     }
 
+    public function hasSetting(): bool
+    {
+        return false;
+    }
+
     abstract public function getSetting();
 
     protected function convertValue(): void
@@ -73,5 +78,12 @@ abstract class SettingGetter
             $this->settingName,
             &$this->myValue
         ]);
+    }
+
+    protected function processValue($notSetValue = null): void
+    {
+        $this->fallbackDefaultValue($notSetValue);
+        $this->convertValue();
+        $this->postUpdateEvent();
     }
 }

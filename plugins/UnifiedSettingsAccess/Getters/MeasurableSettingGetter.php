@@ -14,21 +14,35 @@ use Piwik\Settings\Measurable\MeasurableSetting;
 
 class MeasurableSettingGetter extends SettingGetter
 {
-    public function getSetting()
+    private $measurableSetting = null;
+
+    private function getMeasurableSetting()
     {
-        try {
-            $setting = new MeasurableSetting(
+        if ($this->measurableSetting === null) {
+            $this->measurableSetting = new MeasurableSetting(
                 $this->settingName,
                 $this->defaultValue,
                 $this->type,
                 $this->pluginName,
                 $this->idSite
             );
+        }
+
+        return $this->measurableSetting;
+    }
+
+    public function hasSetting(): bool
+    {
+        return $this->getMeasurableSetting()->hasValue();
+    }
+
+    public function getSetting()
+    {
+        try {
+            $setting = $this->getMeasurableSetting();
             $this->myValue = $setting->getValue();
 
-            $this->fallbackDefaultValue();
-            $this->convertValue();
-            $this->postUpdateEvent();
+            $this->processValue();
 
             return $this->myValue;
         } catch (\Exception $e) {

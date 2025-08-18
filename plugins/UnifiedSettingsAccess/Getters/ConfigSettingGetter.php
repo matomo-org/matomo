@@ -14,14 +14,18 @@ use Piwik\Exception\Exception;
 
 class ConfigSettingGetter extends SettingGetter
 {
+    public function hasSetting(): bool
+    {
+        $config = Config::getInstance()->{$this->pluginName};
+        return $config && array_key_exists($this->settingName, $config);
+    }
+
     public function getSetting()
     {
         try {
             $this->myValue = Config::getInstance()->{$this->pluginName}[$this->settingName];
 
-            $this->fallbackDefaultValue();
-            $this->convertValue();
-            $this->postUpdateEvent();
+            $this->processValue();
 
             return $this->myValue;
         } catch (\Exception $e) {

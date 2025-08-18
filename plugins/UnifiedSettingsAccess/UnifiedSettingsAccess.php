@@ -57,7 +57,11 @@ class UnifiedSettingsAccess extends Plugin
             $getter = new $getterClass($pluginName, $settingName, $type, $defaultValue, $idSite);
 
             try {
-                return $getter->getSetting();
+                if ($getter->hasSetting()) {
+                    return $getter->getSetting();
+                } else {
+                    continue;
+                }
             } catch (\Exception $e) {
                 continue;
             }
