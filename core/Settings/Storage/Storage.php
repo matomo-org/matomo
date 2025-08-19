@@ -67,6 +67,13 @@ class Storage
         }
     }
 
+    public function hasValue($key): bool
+    {
+        $this->loadSettingsIfNotDoneYet();
+
+        return array_key_exists($key, $this->settingsValues);
+    }
+
     /**
      * Returns the current value for a setting. If no value is stored, the default value
      * is be returned.
