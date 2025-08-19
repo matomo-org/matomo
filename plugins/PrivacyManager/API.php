@@ -289,9 +289,9 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setAnonymisationSettings(
-        bool $enableIpAnonymizer,
-        int $ipAddressMaskLength,
+    public function setAnonymizeIpSettings(
+        bool $anonymizeIPEnable,
+        int $maskLength,
         bool $useAnonymizedIpForVisitEnrichment,
         bool $anonymizeUserId = false,
         bool $anonymizeOrderId = false,
@@ -318,7 +318,7 @@ class API extends \Piwik\Plugin\API
             return true;
         }
 
-        if ($enableIpAnonymizer) {
+        if ($anonymizeIPEnable) {
             IPAnonymizer::activate($idSite);
         } else {
             IPAnonymizer::deactivate($idSite);
@@ -332,29 +332,20 @@ class API extends \Piwik\Plugin\API
         }
 
         $privacyConfig = new Config($idSite);
-        $privacyConfig->ipAddressMaskLength = $ipAddressMaskLength;
+        $privacyConfig->ipAddressMaskLength = $maskLength;
         $privacyConfig->useAnonymizedIpForVisitEnrichment = $useAnonymizedIpForVisitEnrichment;
         $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
+        $privacyConfig->anonymizeUserId = $anonymizeUserId;
+        $privacyConfig->anonymizeOrderId = $anonymizeOrderId;
+        $privacyConfig->randomizeConfigId = $randomizeConfigId;
 
-        if (false !== $anonymizeUserId) {
-            $privacyConfig->anonymizeUserId = $anonymizeUserId;
-        }
-
-        if (false !== $anonymizeOrderId) {
-            $privacyConfig->anonymizeOrderId = $anonymizeOrderId;
-        }
-
-        if (false !== $forceCookielessTracking && !$idSite) {
+        if (!$idSite) {
             // only allow setting 'force cookieless tracking' instance-wide and skip it for site as it applies
             // changes to JS tracker files that we can't currently support on a per-site basis
             $privacyConfig->forceCookielessTracking = $forceCookielessTracking;
 
             // update tracker files
             Piwik::postEvent('CustomJsTracker.updateTracker');
-        }
-
-        if (false !== $randomizeConfigId) {
-            $privacyConfig->randomizeConfigId = $randomizeConfigId;
         }
 
         return true;

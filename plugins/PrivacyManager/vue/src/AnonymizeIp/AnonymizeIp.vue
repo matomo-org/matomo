@@ -236,17 +236,17 @@ export default defineComponent({
       AjaxHelper.post(
         {
           module: 'API',
-          method: 'PrivacyManager.setAnonymisationSettings',
+          method: 'PrivacyManager.setAnonymizeIpSettings',
         },
         {
-          enableIpAnonymizer: boolToInt(this.actualEnabled),
+          anonymizeIPEnable: boolToInt(this.actualEnabled),
           anonymizeUserId: boolToInt(this.actualAnonymizeUserId),
           anonymizeOrderId: boolToInt(this.actualAnonymizeOrderId),
           forceCookielessTracking: this.idSiteSpecific
             ? undefined
             : boolToInt(this.actualForceCookielessTracking),
           anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
-          ipAddressMaskLength: this.actualMaskLength,
+          maskLength: this.actualMaskLength,
           useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
           randomizeConfigId: boolToInt(this.actualRandomizeConfigId),
           idSiteSpecific: this.idSiteSpecific ? this.idSiteSpecific : undefined,
