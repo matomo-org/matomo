@@ -18,12 +18,6 @@ use Piwik\DbHelper;
 class Model
 {
     private static $rawPrefix = 'annotations';
-    private $table;
-
-    public function __construct()
-    {
-        $this->table = Common::prefixTable(self::$rawPrefix);
-    }
 
     public static function install()
     {
