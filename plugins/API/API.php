@@ -237,8 +237,7 @@ class API extends \Piwik\Plugin\API
         $period = false,
         $date = false,
         $hideMetricsDoc = false,
-        $showSubtableReports = false,
-        $exact_match = false
+        $showSubtableReports = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -248,7 +247,7 @@ class API extends \Piwik\Plugin\API
             $translator->setCurrentLanguage($language);
         }
 
-        $metadata = $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports, $exact_match);
+        $metadata = $this->processedReport->getMetadata($idSite, $apiModule, $apiAction, $apiParameters, $language, $period, $date, $hideMetricsDoc, $showSubtableReports);
         return $metadata;
     }
 
@@ -303,8 +302,7 @@ class API extends \Piwik\Plugin\API
         $idSubtable = false,
         $showRawMetrics = false,
         $format_metrics = null,
-        $idDimension = false,
-        $exact_match = false
+        $idDimension = false
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -323,8 +321,7 @@ class API extends \Piwik\Plugin\API
             $idSubtable,
             $showRawMetrics,
             $format_metrics,
-            $idDimension,
-            $exact_match
+            $idDimension
         );
 
         return $processed;

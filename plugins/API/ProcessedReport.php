@@ -55,8 +55,7 @@ class ProcessedReport
         $period = false,
         $date = false,
         $hideMetricsDoc = false,
-        $showSubtableReports = false,
-        $exact_match = false
+        $showSubtableReports = false
     ) {
         $reportsMetadata = $this->getReportMetadata($idSite, $period, $date, $hideMetricsDoc, $showSubtableReports);
 
@@ -72,6 +71,7 @@ class ProcessedReport
             }
         }
 
+        $looseMatchingReports = [];
         foreach ($reportsMetadata as $report) {
             // See ArchiveProcessor/Aggregator.php - unique visitors are not processed for period != day
             // todo: should use SettingsPiwik::isUniqueVisitorsEnabled instead
@@ -94,24 +94,22 @@ class ProcessedReport
                     continue;
                 }
 
-                if ($exact_match) {
-                    $isMatchingReport = $report['parameters'] == $apiParameters;
-                } else {
-                    $diff = array_diff_assoc($report['parameters'], $apiParameters);
-                    $isMatchingReport = empty($diff);
-                }
-
-                if ($isMatchingReport) {
+                $isExactMatchingReport = $report['parameters'] == $apiParameters || empty(array_diff_assoc($report['parameters'], $apiParameters));
+                if ($isExactMatchingReport) {
                     return array($report);
+                }
+                $isLooseMatchingReport = empty(array_diff($report['parameters'], $apiParameters));
+                if ($isLooseMatchingReport) {
+                    $looseMatchingReports[] = $report;
                 }
             }
         }
 
-        return false;
+        return reset($looseMatchingReports);
     }
 
     /**
-     * Verfies whether the given report exists for the given site.
+     * Verifies whether the given report exists for the given site.
      *
      * @param int $idSite
      * @param string $apiMethodUniqueId  For example 'MultiSites_getAll'
@@ -359,8 +357,7 @@ class ProcessedReport
         $idSubtable = false,
         $showRawMetrics = false,
         $formatMetrics = null,
-        $idDimension = false,
-        $exact_match = false
+        $idDimension = false
     ) {
         $timer = new Timer();
         if (empty($apiParameters)) {
@@ -391,8 +388,7 @@ class ProcessedReport
             $period,
             $date,
             $hideMetricsDoc,
-            $showSubtableReports = true,
-            $exact_match
+            $showSubtableReports = true
         );
         if (empty($reportMetadata)) {
             throw new Exception("Requested report $apiModule.$apiAction for Website id=$idSite not found in the list of available reports. \n");

@@ -43,9 +43,9 @@ class ProcessedReportTest extends IntegrationTestCase
         $this->addTestReports();
     }
 
-    public function test_getMetadata_matchesCorrectReport_whenExactNoParametersProvided_andExactMatchIsOff()
+    public function test_getMetadata_matchesCorrectReport_whenExactNoParametersProvided()
     {
-        $reports = $this->getTestReportMetadata([], false);
+        $reports = $this->getTestReportMetadata([]);
         $this->assertNotEmpty($reports);
         $this->assertCount(1, $reports);
 
@@ -56,35 +56,9 @@ class ProcessedReportTest extends IntegrationTestCase
         $this->assertEmpty($report['parameters'] ?? []);
     }
 
-    public function test_getMetadata_matchesCorrectReport_whenExactNoParametersProvided_andExactMatchIsOn()
+    public function test_getMetadata_matchesCorrectReport_whenExactApiParametersProvided()
     {
-        $reports = $this->getTestReportMetadata([], true);
-        $this->assertNotEmpty($reports);
-        $this->assertCount(1, $reports);
-
-        $report = $reports[0];
-        $this->assertNotEmpty($report);
-        $this->assertEquals('TestPlugin', $report['module']);
-        $this->assertEquals('getTestReport', $report['action']);
-        $this->assertEmpty($report['parameters'] ?? []);
-    }
-
-    public function test_getMetadata_returnsFirstMatchedReportWithParams_whenExactApiParametersProvided_andExactMatchIsOff()
-    {
-        $reports = $this->getTestReportMetadata(['param0' => 'testvalue', 'param1' => 'testvalue'], false);
-        $this->assertNotEmpty($reports);
-        $this->assertCount(1, $reports);
-
-        $report = $reports[0];
-        $this->assertNotEmpty($report);
-        $this->assertEquals('TestPlugin', $report['module']);
-        $this->assertEquals('getTestReport', $report['action']);
-        $this->assertEquals(['param0' => 'testvalue'], $report['parameters']);
-    }
-
-    public function test_getMetadata_matchesCorrectReport_whenExactApiParametersProvided_andExactMatchIsOn()
-    {
-        $reports = $this->getTestReportMetadata(['param0' => 'testvalue', 'param1' => 'testvalue'], true);
+        $reports = $this->getTestReportMetadata(['param0' => 'testvalue', 'param1' => 'testvalue']);
         $this->assertNotEmpty($reports);
         $this->assertCount(1, $reports);
 
@@ -95,34 +69,20 @@ class ProcessedReportTest extends IntegrationTestCase
         $this->assertEquals(['param0' => 'testvalue', 'param1' => 'testvalue'], $report['parameters']);
     }
 
-    public function test_getMetadata_returnsFirstMatchedReportWithParams_whenUnneededApiParametersProvided_andExactMatchIsOff()
+    public function test_getMetadata_returnsFirstMatchedReportWithParams_whenUnneededApiParametersProvided()
     {
-        $reports = $this->getTestReportMetadata(['param0' => 'testvalue', 'param1' => 'testvalue', 'extraParam' => 'value'], false);
-        $this->assertNotEmpty($reports);
-        $this->assertCount(1, $reports);
+        $reports = $this->getTestReportMetadata(['param0' => 'testvalue', 'param1' => 'testvalue', 'extraParam' => 'value']);
 
         $report = $reports[0];
         $this->assertNotEmpty($report);
         $this->assertEquals('TestPlugin', $report['module']);
         $this->assertEquals('getTestReport', $report['action']);
-        $this->assertEquals(['param0' => 'testvalue'], $report['parameters']);
+        $this->assertEquals(['param0' => 'testvalue', 'param1' => 'testvalue'], $report['parameters']);
     }
 
-    public function test_getMetadata_doesNotMatch_whenUnneededApiParametersProvided_andExactMatchIsOn()
+    public function test_getMetadata_doesNotMatch_whenMissingApiParameters()
     {
-        $reports = $this->getTestReportMetadata(['param0' => 'testvalue', 'param1' => 'testvalue', 'extraParam' => 'value'], true);
-        $this->assertEmpty($reports);
-    }
-
-    public function test_getMetadata_doesNotMatch_whenMissingApiParameters_andExactMatchIsOff()
-    {
-        $reports = $this->getTestReportMetadata(['param1' => 'testvalue'], false);
-        $this->assertEmpty($reports);
-    }
-
-    public function test_getMetadata_doesNotMatch_whenMissingApiParameters_andExactMatchIsOn()
-    {
-        $reports = $this->getTestReportMetadata(['param1' => 'testvalue'], true);
+        $reports = $this->getTestReportMetadata(['param1' => 'testvalue']);
         $this->assertEmpty($reports);
     }
 
@@ -171,7 +131,7 @@ class ProcessedReportTest extends IntegrationTestCase
         return $report;
     }
 
-    private function getTestReportMetadata(array $parameters, bool $exact_match)
+    private function getTestReportMetadata(array $parameters)
     {
         return $this->processedReport->getMetadata(
             $this->idSite,
@@ -182,8 +142,7 @@ class ProcessedReportTest extends IntegrationTestCase
             false,
             false,
             false,
-            false,
-            $exact_match
+            false
         );
     }
 }
