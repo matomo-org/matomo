@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Annotations;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
+use Piwik\Plugins\Annotations\Model as AnnotationsModel;
 
 /**
  * Annotations plugins. Provides the ability to attach text notes to
@@ -93,5 +94,15 @@ class Annotations extends \Piwik\Plugin
             $endDate = Date::factory($endDate);
         }
         return array($startDate, $endDate);
+    }
+
+    public function install()
+    {
+        AnnotationsModel::install();
+    }
+
+    public function uninstall()
+    {
+        AnnotationsModel::uninstall();
     }
 }
