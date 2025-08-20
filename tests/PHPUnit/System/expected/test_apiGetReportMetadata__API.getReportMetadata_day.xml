@@ -2354,7 +2354,7 @@
 			<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
 			<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
 			<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
-			<Referrers_distinctAIAssistants>Distinct AI Assistants</Referrers_distinctAIAssistants>
+			<Referrers_distinctAIAssistants>Distinct AI assistants</Referrers_distinctAIAssistants>
 			<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
 			<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
 			<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>
@@ -2734,7 +2734,7 @@
 		<module>Referrers</module>
 		<action>getAIAssistants</action>
 		<dimension>AI Assistant</dimension>
-		<documentation>This report shows which AI Assistants led visitors to your website.&lt;br /&gt;By clicking on a row in the table, you can see from which AI Assistant pages visitors came to your website.</documentation>
+		<documentation>This report shows which AI assistants led visitors to your website.&lt;br /&gt;By clicking on a row in the table, you can see from which AI assistant pages visitors came to your website.</documentation>
 		<dimensions>
 			<Referrers_AIAssistant>AI Assistant</Referrers_AIAssistant>
 			<Referrers_WebsitePage>Website Page</Referrers_WebsitePage>
@@ -3745,7 +3745,7 @@
 			<Referrers_visitorsFromCampaigns_percent>Percent of Visitors from Campaigns</Referrers_visitorsFromCampaigns_percent>
 			<Referrers_distinctSearchEngines>Distinct search engines</Referrers_distinctSearchEngines>
 			<Referrers_distinctSocialNetworks>Distinct social networks</Referrers_distinctSocialNetworks>
-			<Referrers_distinctAIAssistants>Distinct AI Assistants</Referrers_distinctAIAssistants>
+			<Referrers_distinctAIAssistants>Distinct AI assistants</Referrers_distinctAIAssistants>
 			<Referrers_distinctWebsites>Distinct websites</Referrers_distinctWebsites>
 			<Referrers_distinctKeywords>Distinct keywords</Referrers_distinctKeywords>
 			<Referrers_distinctCampaigns>Distinct campaigns</Referrers_distinctCampaigns>

@@ -1441,7 +1441,7 @@
 			<id>Referrers_AIAssistants</id>
 			<name>AI Assistants</name>
 			<order>18</order>
-			<help>&lt;p&gt;In this table, you can see which AI Assistants referred visitors to your site.&lt;/p&gt;&lt;p&gt;By clicking on a row in the table, you can see which URLs the links to your website were on.&lt;/p&gt;</help>
+			<help>&lt;p&gt;In this table, you can see which AI assistants referred visitors to your site.&lt;/p&gt;&lt;p&gt;By clicking on a row in the table, you can see which URLs the links to your website were on.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
