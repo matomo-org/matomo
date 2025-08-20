@@ -18,7 +18,7 @@ use Piwik\SettingsPiwik;
 use Piwik\Singleton;
 
 /**
- * Contains methods to access ai assistant definition data.
+ * Contains methods to access AI assistant definition data.
  */
 class AIAssistant extends Singleton
 {
@@ -31,7 +31,7 @@ class AIAssistant extends Singleton
     protected $definitionList = null;
 
     /**
-     * Returns list of ai assistants by URL
+     * Returns list of AI assistants by URL
      *
      * @return array<string, string>
      */
@@ -139,10 +139,10 @@ class AIAssistant extends Singleton
     }
 
     /**
-     * Returns true if a URL belongs to an AI Assistant, false if otherwise.
+     * Returns true if a URL belongs to an AI assistant, false if otherwise.
      *
      * @param string $url The URL to check.
-     * @param string|null $aiAssistantName The name of the AI Assistant to check for, or false to check for any.
+     * @param string|null $aiAssistantName The name of the AI assistant to check for, or false to check for any.
      * @return bool
      */
     public function isAIAssistantUrl(string $url, ?string $aiAssistantName = null): bool
@@ -158,7 +158,7 @@ class AIAssistant extends Singleton
 
 
     /**
-     * Gets AI Assistant name from URL.
+     * Gets AI assistant name from URL.
      */
     public function getAIAssistantFromDomain(string $url): string
     {
@@ -172,7 +172,7 @@ class AIAssistant extends Singleton
     }
 
     /**
-     * Returns the main url of the AI Assistant the given url matches
+     * Returns the main url of the AI assistant the given url matches
      */
     public function getMainUrl(string $url): string
     {
@@ -186,7 +186,7 @@ class AIAssistant extends Singleton
     }
 
     /**
-     * Returns the main url of the given AI Assistant
+     * Returns the main url of the given AI assistant
      */
     public function getMainUrlFromName(string $aiAssistant): ?string
     {
@@ -200,7 +200,7 @@ class AIAssistant extends Singleton
 
 
     /**
-     * Return AI logo path by URL
+     * Return AI assistant logo path by URL
      *
      * @see plugins/Morpheus/icons/dist/aiAssistants/
      */

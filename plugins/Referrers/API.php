@@ -479,7 +479,7 @@ class API extends \Piwik\Plugin\API
 
 
     /**
-     * Returns report comparing the number of visits (and other info) for AI referrers.
+     * Returns report comparing the number of visits (and other info) for AI assistant referrers.
      * This is a view of the getWebsites report.
      *
      * @param string|int|int[] $idSite
@@ -685,7 +685,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns report containing individual referrer URLs for a specific AI site.
+     * Returns report containing individual referrer URLs for a specific AI assistant.
      *
      * @param string|int|int[] $idSite
      * @param string $period
@@ -694,7 +694,7 @@ class API extends \Piwik\Plugin\API
      * @param null|int $idSubtable This ID does not reference a real DataTable record. Instead, it
      *                              is the array index of an item in the AI list file.
      *                              The urls are filtered by the AI at this index.
-     *                              If false, no filtering is done and every social URL is returned.
+     *                              If false, no filtering is done and every AI assistant URL is returned.
      * @return DataTable
      */
     public function getUrlsForAIAssistant($idSite, string $period, string $date, ?string $segment = null, ?int $idSubtable = null)
@@ -713,7 +713,7 @@ class API extends \Piwik\Plugin\API
             $AIs = array_values(AIAssistant::getInstance()->getDefinitions());
             $aiAssistant = $AIs[$idSubtable - 1] ?? null;
 
-            // filter out everything but social network indicated by $idSubtable
+            // filter out everything but AI assistant indicated by $idSubtable
             $dataTableFiltered->filter(
                 'ColumnCallbackDeleteRow',
                 [
@@ -827,7 +827,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Sets the subtable IDs for the DataTable returned by getAIAssistant.
      *
-     * The IDs are int indexes into the array in of defined socials.
+     * The IDs are int indexes into the array in of defined AI assistants.
      *
      * @param DataTable|DataTable\Map $dataTable
      */
@@ -835,7 +835,7 @@ class API extends \Piwik\Plugin\API
     {
         if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $childTable) {
-                $this->setSocialIdSubtables($childTable);
+                $this->setAIAssistantIdSubtables($childTable);
             }
         } else {
             foreach ($dataTable->getRows() as $row) {
