@@ -88,24 +88,34 @@ class ProcessedReport
                     empty($apiParameters)
                     && empty($report['parameters'])
                 ) {
-                    return array($report);
+                    return [$report];
                 }
                 if (empty($report['parameters'])) {
                     continue;
                 }
 
-                $isExactMatchingReport = $report['parameters'] == $apiParameters || empty(array_diff_assoc($report['parameters'], $apiParameters));
+                $isExactMatchingReport = $report['parameters'] == $apiParameters;
                 if ($isExactMatchingReport) {
-                    return array($report);
+                    return [$report];
                 }
-                $isLooseMatchingReport = empty(array_diff($report['parameters'], $apiParameters));
+                $isLooseMatchingReport = empty(array_diff_assoc($report['parameters'], $apiParameters));
                 if ($isLooseMatchingReport) {
-                    $looseMatchingReports[] = $report;
+                    $matchingParams = count(array_intersect_assoc($report['parameters'], $apiParameters));
+                    if (!array_key_exists($matchingParams, $looseMatchingReports)) {
+                        $looseMatchingReports[$matchingParams] = [];
+                    }
+                    $looseMatchingReports[$matchingParams][] = $report;
                 }
             }
         }
 
-        return reset($looseMatchingReports);
+        if (count($looseMatchingReports)) {
+            // most matching params are last
+            $reports = end($looseMatchingReports);
+            return [reset($reports)];
+        }
+
+        return false;
     }
 
     /**
