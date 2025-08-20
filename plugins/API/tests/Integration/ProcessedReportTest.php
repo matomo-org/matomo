@@ -56,7 +56,20 @@ class ProcessedReportTest extends IntegrationTestCase
         $this->assertEmpty($report['parameters'] ?? []);
     }
 
-    public function test_getMetadata_matchesCorrectReport_whenExactApiParametersProvided()
+    public function test_getMetadata_matchesCorrectReport_whenExactOneApiParameterProvided()
+    {
+        $reports = $this->getTestReportMetadata(['param0' => 'testvalue']);
+        $this->assertNotEmpty($reports);
+        $this->assertCount(1, $reports);
+
+        $report = $reports[0];
+        $this->assertNotEmpty($report);
+        $this->assertEquals('TestPlugin', $report['module']);
+        $this->assertEquals('getTestReport', $report['action']);
+        $this->assertEquals(['param0' => 'testvalue'], $report['parameters']);
+    }
+
+    public function test_getMetadata_matchesCorrectReport_whenExactTwoApiParametersProvided()
     {
         $reports = $this->getTestReportMetadata(['param0' => 'testvalue', 'param1' => 'testvalue']);
         $this->assertNotEmpty($reports);
