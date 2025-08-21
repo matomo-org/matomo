@@ -17,6 +17,9 @@ use Piwik\DataAccess\Model;
 use Piwik\Http;
 use Piwik\Log\Logger;
 use Piwik\Log\LoggerInterface;
+use Piwik\Period\Day;
+use Piwik\Period\Month;
+use Piwik\Period\Week;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Site;
 use Piwik\Tests\Framework\TestingEnvironmentVariables;
@@ -219,11 +222,13 @@ class ArchiveCronTest extends SystemTestCase
 
         Rules::setBrowserTriggerArchiving(false);
 
+        $dateToTest = '2007-04-05';
+
         // invalidate exampleplugin only archives in past
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
         $invalidator->markArchivesAsInvalidated(
             [1],
-            ['2007-04-05'],
+            [$dateToTest],
             'day',
             new Segment('', [1]),
             false,
@@ -231,18 +236,30 @@ class ArchiveCronTest extends SystemTestCase
             'ExamplePlugin'
         );
 
-        // track a visit in 2007-04-05 so it will archive (don't want to force archiving because then this test will take another 15 mins)
-        $tracker = Fixture::getTracker(1, '2007-04-05');
+        // track a visit in 2007-04-05 so it will fully archive (ExamplePlugin wouldn't archive without visit)
+        $tracker = Fixture::getTracker(1, $dateToTest);
         $tracker->setUrl('http://example.com/test/url');
         Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
 
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
-        $this->assertGreaterThan(0, count($invalidationEntries));
+        // there should be 4 invalidations (day, week, month, year) for ExamplePlugin
+        self::assertCount(4, $invalidationEntries);
+        self::assertEquals(['done.ExamplePlugin'], array_unique(array_column($invalidationEntries, 'name')));
 
         // empty the list so nothing is invalidated during core:archive (so we only archive ExamplePlugin and not all plugins)
-        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-05'));
+        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory($dateToTest));
 
         $this->runArchivePhpCron();
+
+        $table = ArchiveTableCreator::getNumericTable(Date::factory($dateToTest));
+        $doneFlags = Db::fetchAll("SELECT `period`, `date1`, `date2`, `value` FROM `$table` WHERE name LIKE 'done.ExamplePlugin%' ORDER BY `period` ASC , `date1` ASC, `date2` ASC");
+        $expectedDoneFlags = [
+            ['period' => Day::PERIOD_ID, 'date1' => '2007-04-05', 'date2' => '2007-04-05', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Week::PERIOD_ID, 'date1' => '2007-04-02', 'date2' => '2007-04-08', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Month::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-04-30', 'value' => ArchiveWriter::DONE_OK],
+            // Year flag is stored in other table
+        ];
+        self::assertEquals($expectedDoneFlags, $doneFlags);
 
         // add new segment w/ edited created/edit time so it will not trigger segment re-archiving, then track a visit
         // so the segments will be archived w/ other invalidation. this also runs core:archive forcing CURL requests.
@@ -250,11 +267,16 @@ class ArchiveCronTest extends SystemTestCase
             self::forceCurlCliMulti();
             self::addNewSegmentToPast();
             self::trackVisitsForToday();
-            self::trackVisitInPast(); // track in the past so we end up invalidating and rearchiving a past month
+            self::trackVisitInPast(); // tracks visit on 2012-08-09, so we end up invalidating and rearchiving a past month
             $output = $this->runArchivePhpCron();
         } finally {
             self::undoForceCurlCliMulti();
         }
+
+        // re archiving should not produce any ExamplePlugin specific archives, but 262 done flags for certain periods and segments
+        $table = ArchiveTableCreator::getNumericTable(Date::factory('2012-08-09'));
+        self::assertEquals(0, Db::fetchOne("SELECT count(*) FROM `$table` WHERE name LIKE 'done.ExamplePlugin%'"));
+        self::assertEquals(262, Db::fetchOne("SELECT count(*) FROM `$table` WHERE name LIKE 'done%'"));
 
         foreach ($this->getApiForTesting() as $testInfo) {
             [$api, $params] = $testInfo;
@@ -291,18 +313,24 @@ class ArchiveCronTest extends SystemTestCase
         $dateToRequest = '2007-04-04';
 
         // track a visit so archiving will go through
-        $tracker = Fixture::getTracker(1, '2007-04-04');
+        $tracker = Fixture::getTracker(1, $dateToRequest);
         $tracker->setUrl('http://example.com/test/url2');
         Fixture::checkResponse($tracker->doTrackPageView('jkl'));
 
         $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory('2007-04-04'));
+        $invalidator->forgetRememberedArchivedReportsToInvalidate(1, Date::factory($dateToRequest));
 
         $table = ArchiveTableCreator::getNumericTable(Date::factory($dateToRequest));
 
         // three whole plugin archives from previous tests
-        $countOfDoneExamplePluginArchives = Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'done.ExamplePlugin'");
-        $this->assertEquals(3, $countOfDoneExamplePluginArchives);
+        $doneFlags = Db::fetchAll("SELECT `period`, `date1`, `date2`, `value` FROM `$table` WHERE name LIKE 'done.ExamplePlugin%' ORDER BY `period` ASC , `date1` ASC, `date2` ASC, `value` ASC");
+        $expectedDoneFlags = [
+            ['period' => Day::PERIOD_ID, 'date1' => '2007-04-05', 'date2' => '2007-04-05', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Week::PERIOD_ID, 'date1' => '2007-04-02', 'date2' => '2007-04-08', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Month::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-04-30', 'value' => ArchiveWriter::DONE_OK],
+            // Year flag is stored in other table
+        ];
+        self::assertEquals($expectedDoneFlags, $doneFlags);
 
         // invalidate a report so we get a partial archive (using the metric that gets incremented each time it is archived)
         // (do it after the last run so we don't end up just re-using the ExamplePlugin archive)
@@ -317,15 +345,17 @@ class ArchiveCronTest extends SystemTestCase
             'testSuffix' => '_singleMetric',
         ]);
 
-        // three new partial plugin archives should appear
-        $countOfDoneExamplePluginArchives = Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE name = 'done.ExamplePlugin'");
-        $this->assertEquals(6, $countOfDoneExamplePluginArchives);
-
         // test that latest archives for ExamplePlugin are partial
-        $archiveValues = Db::fetchAll("SELECT value FROM $table WHERE `name` = 'done.ExamplePlugin' ORDER BY ts_archived DESC LIMIT 8");
-        $archiveValues = array_column($archiveValues, 'value');
-        $archiveValues = array_unique($archiveValues);
-        $this->assertEquals([5, 1], array_values($archiveValues));
+        $doneFlags = Db::fetchAll("SELECT `period`, `date1`, `date2`, `value` FROM `$table` WHERE name LIKE 'done.ExamplePlugin%' ORDER BY `period` ASC , `date1` ASC, `date2` ASC, `value` ASC");
+        $expectedDoneFlags = [
+            ['period' => Day::PERIOD_ID, 'date1' => '2007-04-04', 'date2' => '2007-04-04', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ['period' => Day::PERIOD_ID, 'date1' => '2007-04-05', 'date2' => '2007-04-05', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Week::PERIOD_ID, 'date1' => '2007-04-02', 'date2' => '2007-04-08', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Week::PERIOD_ID, 'date1' => '2007-04-02', 'date2' => '2007-04-08', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ['period' => Month::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-04-30', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Month::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-04-30', 'value' => ArchiveWriter::DONE_PARTIAL],
+        ];
+        self::assertEquals($expectedDoneFlags, $doneFlags);
     }
 
     /**
@@ -491,6 +521,8 @@ class ArchiveCronTest extends SystemTestCase
 
     public static function provideContainerConfigBeforeClass()
     {
+        Date::$now = strtotime('2015-01-01 00:00:00');
+
         return array(
             LoggerInterface::class => \Piwik\DI::get(Logger::class),
 

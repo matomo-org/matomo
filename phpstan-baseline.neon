@@ -811,11 +811,6 @@ parameters:
 			path: core/CronArchive.php
 
 		-
-			message: "#^Property Piwik\\\\CronArchive\\:\\:\\$archiveAndRespectTTL is never read, only written\\.$#"
-			count: 1
-			path: core/CronArchive.php
-
-		-
 			message: "#^Property Piwik\\\\CronArchive\\:\\:\\$archivingStartingTime is never read, only written\\.$#"
 			count: 1
 			path: core/CronArchive.php

@@ -1028,6 +1028,7 @@ class CronArchiveTest extends IntegrationTestCase
         $api = API::getInstance();
 
         $cronarchive = new TestCronArchive();
+        $cronarchive->skipInvalidatingRecentDates = true;
         $cronarchive->init();
         $cronarchive->setApiToInvalidateArchivedReport($api);
         $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
@@ -1128,6 +1129,30 @@ class CronArchiveTest extends IntegrationTestCase
                 false,
                 false,
             ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                'actions>=1',
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
         ];
         self::assertEquals($expectedInvalidations, $requestedInvalidations);
 
@@ -1184,6 +1209,30 @@ class CronArchiveTest extends IntegrationTestCase
             [
                 1,
                 Date::now()->toString(),
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                'actions>=1',
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
                 'day',
                 'actions>=2',
                 false,
@@ -1289,6 +1338,9 @@ class CronArchiveTest extends IntegrationTestCase
         SegmentAPI::getInstance()->add('burr', 'actions>=4', 1, true, true);
         Rules::setBrowserTriggerArchiving(true);
 
+        // remove invalidations that were created by adding the segments
+        Option::delete(CronArchive\ReArchiveList::OPTION_NAME);
+
         $tracker = Fixture::getTracker(1, '2019-12-12 02:03:00');
         $tracker->setUrl('http://someurl.com');
         Fixture::checkResponse($tracker->doTrackPageView('abcdefg'));
@@ -1308,6 +1360,7 @@ class CronArchiveTest extends IntegrationTestCase
         $logger = new FakeLogger();
 
         $archiver = new CronArchive($logger);
+        $archiver->skipInvalidatingRecentDates = true;
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiveFilter->setSegmentsToForce(['actions>=2;browserCode=FF', 'actions>=2']);
@@ -1340,8 +1393,6 @@ Checking for queued invalidations...
   Will invalidate archived reports for 2019-12-11 for following websites ids: 1
   Will invalidate archived reports for 2019-12-10 for following websites ids: 1
   Will invalidate archived reports for 2019-12-02 for following websites ids: 1
-  Today archive can be skipped for period for idSite = 1 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
-  Yesterday archive can be skipped for period for idSite = 1 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
 Done invalidating
 Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
@@ -1423,6 +1474,7 @@ LOG;
         $sequence->create();
 
         $archiver = new CronArchive($logger);
+        $archiver->skipInvalidatingRecentDates = true;
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiver->setArchiveFilter($archiveFilter);
@@ -1450,8 +1502,6 @@ Start processing archives for site 2.
 Checking for queued invalidations...
   Will invalidate archived reports for 2019-12-11 for following websites ids: 2
   Will invalidate archived reports for 2019-12-10 for following websites ids: 2
-  Today archive can be skipped for period for idSite = 2 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
-  Yesterday archive can be skipped for period for idSite = 2 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
 Done invalidating
 Processing invalidation: [idinvalidation = %d, idsite = 2, period = day(2019-12-11 - 2019-12-11), name = done, segment = ].
 Processing invalidation: [idinvalidation = %d, idsite = 2, period = day(2019-12-10 - 2019-12-10), name = done, segment = ].
@@ -1536,10 +1586,9 @@ Starting Matomo reports archiving...
 Applying queued rearchiving...
 Start processing archives for site 1.
 Checking for queued invalidations...
-  Today archive can be skipped for period for idSite = 1 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
-  Yesterday archive can be skipped for period for idSite = 1 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
+  Will invalidate archived reports for today in site ID = 1's timezone (2020-02-03 00:00:00).
+  Will invalidate archived reports for yesterday in site ID = 1's timezone (2020-02-02 00:00:00).
 Done invalidating
-No next invalidated archive.
 LOG;
 
         self::assertStringContainsString($expected, $logger->output);
