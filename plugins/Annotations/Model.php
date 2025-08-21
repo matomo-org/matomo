@@ -28,7 +28,8 @@ class Model
                              `idsite` INTEGER UNSIGNED NOT NULL,
                              `date` DATETIME NOT NULL,
                              `note` TEXT NOT NULL,
-                             `starred` TINYINT(1) NOT NULL DEFAULT 0 ,
+                             `starred` TINYINT(1) NOT NULL DEFAULT 0,
+                             `user` VARCHAR(100) NOT NULL,
                              PRIMARY KEY ( `id` )";
             DbHelper::createTable(self::$rawPrefix, $annotation);
         }

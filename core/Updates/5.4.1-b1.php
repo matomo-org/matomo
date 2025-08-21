@@ -47,6 +47,7 @@ class Updates_5_4_1_b1 extends PiwikUpdates
                 'date' => 'DATETIME NOT NULL',
                 'note' => 'TEXT NOT NULL',
                 'starred' => 'TINYINT(1) NOT NULL DEFAULT 0',
+                'user' => 'VARCHAR(100) NOT NULL',
             ], $primaryKey = 'id');
         $migrations[] = $this->migration->db->addIndex('annotations', ['id', 'idsite', 'date']);
 

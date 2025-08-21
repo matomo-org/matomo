@@ -399,6 +399,7 @@ class Mysql implements SchemaInterface
                                       `date` DATETIME NOT NULL,
                                       `note` TEXT NOT NULL,
                                       `starred` TINYINT(1) NOT NULL DEFAULT 0,
+                                      `user` VARCHAR(100) NOT NULL,
                                       PRIMARY KEY(`id`),
                                       INDEX index_id_idsite_date (`id`, `idsite`, `date`)                            
                                   ) $tableOptions
