@@ -67,7 +67,8 @@ class Updates_5_5_0_b1 extends PiwikUpdates
         }
 
         // delete legacy options
-        $migrations[] = $this->migration->db->sql($this->removeLegacyValuesFromOptionsTableSql());
+        // TODO: uncomment when we've updated the annotations mechanism to also read and write using the new table
+        // $migrations[] = $this->migration->db->sql($this->removeLegacyValuesFromOptionsTableSql());
 
         return $migrations;
     }
