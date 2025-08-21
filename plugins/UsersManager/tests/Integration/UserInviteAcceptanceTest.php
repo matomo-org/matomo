@@ -9,12 +9,10 @@
 
 namespace Piwik\Plugins\UsersManager\tests\Integration;
 
-use PHPMailer\PHPMailer\PHPMailer;
 use Piwik\Date;
 use Piwik\Http;
 use Piwik\Piwik;
 use Piwik\Plugins\LanguagesManager\Model as LanguagesManagerModel;
-use Piwik\Plugins\Login\Controller;
 use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -28,32 +26,12 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class UserInviteAcceptanceTest extends IntegrationTestCase
 {
     /**
-     * @var Controller
-     */
-    private $controller;
-
-    /**
-     * @var array
-     */
-    private $post;
-
-    /**
      * @var string[]
      */
     private $pendingUser = [
         'login' => '000pendingUser4',
         'email' => 'pendinguser4light@example.com'
     ];
-
-    /**
-     * @var string
-     */
-    private $greeting = '';
-
-    /**
-     * @var string
-     */
-    private $message = '';
 
     private $invitedUserLanguage = 'de';
 
@@ -64,21 +42,12 @@ class UserInviteAcceptanceTest extends IntegrationTestCase
         parent::setUp();
         Fixture::createWebsite('2010-01-01 05:00:00');
         Fixture::createSuperUser();
-        $this->controller = new Controller();
-        $this->post = $_POST;
-        $_POST = [];
 
         \Zend_Session::$_unitTestEnabled = true;
         Fixture::loadAllTranslations();
 
         $model = new LanguagesManagerModel();
         $model->setLanguageForUser(Fixture::ADMIN_USER_LOGIN, $this->invitedByUserLanguage);
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-        $_POST = $this->post;
     }
 
     protected static function configureFixture($fixture)
@@ -104,6 +73,11 @@ class UserInviteAcceptanceTest extends IntegrationTestCase
 
     public function testAcceptingUserInviteSendsEmailToInviterInTheirLanguage()
     {
+        $acceptInvitationEmailJsonFilePath = PIWIK_INCLUDE_PATH . '/tmp/Login.acceptInvitation.mail.json';
+        // ensure we don't have a stored email json file from previous runs
+        @unlink($acceptInvitationEmailJsonFilePath);
+
+        // generate invited user and accept invitation from via curl request
         [, $token] = $this->generateTestUser();
         $response = Http::sendHttpRequest(
             Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=acceptInvitation&token=' . $token,
@@ -117,22 +91,44 @@ class UserInviteAcceptanceTest extends IntegrationTestCase
         // translate('General_SetPassword') for German is "Passwort setzen"
         $this->assertStringContainsString('Passwort setzen', $response, 'error on accept invite page');
 
-        // simulate completing accept invitation form
-        $_POST['token'] = $token;
-        $_POST['password'] = 'Password111!';
-        $_POST['passwordConfirmation'] = 'Password111!';
-        $_POST['email'] = $this->pendingUser['email'];
-        $_POST['invitation_form'] = 'Confirm';
-        $_POST['conditionCheck'] = true;
+        // create request post data
+        $requestPostData = [
+            'token' => $token,
+            'password' => 'Password111!',
+            'passwordConfirmation' => 'Password111!',
+            'email' => $this->pendingUser['email'],
+            'invitation_form' => 'Confirm',
+            'conditionCheck' => true,
+        ];
 
-        try {
-            $this->controller->acceptInvitation();
-        } catch (\Exception $e) {
-            // browser redirection exception is ok, otherwise re-throw
-            if (!str_starts_with($e->getMessage(), 'If you were using a browser, Matomo would redirect you to this URL')) {
-                throw $e;
-            }
-        }
+        // set invited user's password which triggers invite acceptance confirmation email to the inviter
+        Http::sendHttpRequestBy(
+            'curl',
+            Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Login&action=acceptInvitation',
+            10,
+            $userAgent = null,
+            $destinationPath = null,
+            $file = null,
+            $followDepth = 0,
+            $this->invitedUserLanguage, // force invite acceptance screen to German
+            $acceptInvalidSslCertificate = false,
+            $byteRange = false,
+            $getExtendedInfo = false,
+            $httpMethod = 'POST',
+            $httpUsername = null,
+            $httpPassword = null,
+            $requestBody = $requestPostData,
+            $additionalHeaders = [],
+            $forcePost = true
+        );
+
+        $acceptInvitationEmail = file_get_contents($acceptInvitationEmailJsonFilePath);
+        $this->assertNotEmpty($acceptInvitationEmail, 'Email about user accepting invitation is not empty');
+
+        $acceptInvitationEmail = json_decode($acceptInvitationEmail, true);
+        $this->assertIsArray($acceptInvitationEmail, 'JSON email about user accepting invitation decoded correctly');
+
+        [$greeting, $message] = $this->extractContentFromEmailBody($acceptInvitationEmail['contents']);
 
         $this->assertEquals(
             Piwik::translate(
@@ -140,7 +136,7 @@ class UserInviteAcceptanceTest extends IntegrationTestCase
                 [Fixture::ADMIN_USER_LOGIN],
                 $this->invitedByUserLanguage
             ),
-            $this->greeting
+            $greeting
         );
         $this->assertEquals(
             Piwik::translate(
@@ -148,25 +144,18 @@ class UserInviteAcceptanceTest extends IntegrationTestCase
                 [$this->pendingUser['login']],
                 $this->invitedByUserLanguage
             ),
-            $this->message
+            $message
         );
     }
 
-    public function provideContainerConfig()
+    private function extractContentFromEmailBody(string $body): array
     {
-        return [
-            'observers.global' => \Piwik\DI::add([
-                ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
-                    $body = $mail->createBody();
-                    $body = quoted_printable_decode($body);
-                    $body = preg_replace("/=[\r\n]+/", '', $body);
-                    preg_match('/<p>(.*?)<\/p>\s*<p>(.*?)<\/p>/', $body, $matches);
-                    if (count($matches) === 3) {
-                        $this->greeting = $matches[1];
-                        $this->message = $matches[2];
-                    }
-                })],
-            ]),
-        ];
+        $body = preg_replace("/=[\r\n]+/", '', $body);
+        preg_match('/<p>(.*?)<\/p>\s*<p>(.*?)<\/p>/', $body, $matches);
+        if (count($matches) === 3) {
+            return array_slice($matches, 1);
+        }
+
+        return ['', ''];
     }
 }
