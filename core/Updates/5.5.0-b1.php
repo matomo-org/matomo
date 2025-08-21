@@ -9,6 +9,9 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Common;
+use Piwik\Option;
+use Piwik\Plugins\SitesManager\Model;
 use Piwik\Updater;
 use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration;
@@ -24,13 +27,20 @@ class Updates_5_5_0_b1 extends PiwikUpdates
      */
     private $migration;
 
+    /**
+     * How many annotations in one insert per site id
+     *
+     * @var int
+     */
+    private $chunkSize = 50;
+
     public function __construct(MigrationFactory $factory)
     {
         $this->migration = $factory;
     }
 
     /**
-     * Here you can define one or multiple SQL statements that should be executed during the update.
+     * Migrations
      *
      * @param Updater $updater
      *
@@ -51,7 +61,72 @@ class Updates_5_5_0_b1 extends PiwikUpdates
             ], $primaryKey = 'id');
         $migrations[] = $this->migration->db->addIndex('annotations', ['idsite', 'date']);
 
+        // insert values from options table
+        foreach ($this->getAnnotationInsertsAndBindValues() as $migrationEntry) {
+            $migrations[] = $this->migration->db->boundSql($migrationEntry['sql'], $migrationEntry['bind']);
+        }
+
+        // delete legacy options
+        $migrations[] = $this->migration->db->sql($this->removeLegacyValuesFromOptionsTableSql());
+
         return $migrations;
+    }
+
+    private function getAnnotationsForSite(int $idSite): array
+    {
+        $optionName = sprintf('%s_annotations', $idSite);
+        $serialized = Option::get($optionName);
+
+        if ($serialized !== false) {
+            $result = Common::safe_unserialize($serialized);
+            if (!empty($result)) {
+                return $result;
+            }
+        }
+
+        return [];
+    }
+
+    private function getAnnotationInsertsAndBindValues(): array
+    {
+        $table = Common::prefixTable('annotations');
+        $data = [];
+
+        $model = new Model();
+        foreach ($model->getSitesId() as $siteID) {
+            $annotations = $this->getAnnotationsForSite($siteID);
+            $chunks = array_chunk($annotations, $this->chunkSize);
+
+            foreach ($chunks as $chunk) {
+                $bindValues = [];
+                $placeholders = [];
+                foreach ($chunk as $annotation) {
+                    $bindValues[] = $values = [
+                        $siteID,
+                        $annotation['date'],
+                        $annotation['note'],
+                        $annotation['starred'],
+                        $annotation['user'],
+                    ];
+                    $placeholders[] = Common::getSqlStringFieldsArray($values);
+                }
+                if (count($placeholders) && count($bindValues)) {
+                    $sql = sprintf(
+                        'INSERT INTO `%s` (`idsite`, `date`, `note`, `starred`, `user`) VALUES (%s)',
+                        $table,
+                        implode('), (', $placeholders)
+                    );
+                    $data[] = ['sql' => $sql, 'bind' => Common::flattenArray($bindValues)];
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    private function removeLegacyValuesFromOptionsTableSql(): string
+    {
+        return sprintf("DELETE FROM `%s` WHERE `option_name` LIKE '%%_annotations'", Common::prefixTable('option'));
     }
 
     public function doUpdate(Updater $updater)
