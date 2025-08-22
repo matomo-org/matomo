@@ -54,6 +54,7 @@ class WordPress extends SiteContentDetectionAbstract
         $view     = new View("@SitesManager/_wordpressTabInstructions");
         $faqLink  = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/faq_114/');
         $authLink = '';
+        $idSite = 0;
         if (Piwik::isUserHasSomeViewAccess()) {
             $request  = \Piwik\Request::fromRequest();
             $idSite   = $request->getIntegerParameter('idSite', 0);
