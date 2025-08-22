@@ -111,14 +111,14 @@ class Updates_5_5_0_b1 extends PiwikUpdates
                     ];
                     $placeholders[] = Common::getSqlStringFieldsArray($values);
                 }
-                if (count($placeholders) && count($bindValues)) {
-                    $sql = sprintf(
-                        'INSERT INTO `%s` (`idsite`, `date`, `note`, `starred`, `user`) VALUES (%s)',
-                        $table,
-                        implode('), (', $placeholders)
-                    );
-                    $data[] = ['sql' => $sql, 'bind' => Common::flattenArray($bindValues)];
-                }
+
+                // chunk always has aray items, so it's safe to assume we have some bind values and placeholders
+                $sql = sprintf(
+                    'INSERT INTO `%s` (`idsite`, `date`, `note`, `starred`, `user`) VALUES (%s)',
+                    $table,
+                    implode('), (', $placeholders)
+                );
+                $data[] = ['sql' => $sql, 'bind' => Common::flattenArray($bindValues)];
             }
         }
 
