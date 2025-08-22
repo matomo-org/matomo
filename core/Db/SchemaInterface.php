@@ -199,6 +199,13 @@ interface SchemaInterface
     public function supportsSortingInSubquery(): bool;
 
     /**
+     * Returns if the database engine supports window functions.
+     *
+     * @return bool
+     */
+    public function supportsWindowFunctions(): bool;
+
+    /**
      * Returns the version of the database server
      * @return string
      */
