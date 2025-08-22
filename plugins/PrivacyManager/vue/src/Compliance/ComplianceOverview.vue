@@ -8,30 +8,42 @@
 <template>
   <ContentBlock :content-title="title">
     <p>{{ description }}</p>
-    <ComplianceTable
-      v-if="!state.loading"
-      :results="state.complianceRequirements"
-    />
     <ActivityIndicator :loading="state.loading"/>
-    <Field
-      v-if="!state.loading"
-      uicontrol="checkbox"
-      :name="idSite + '_' + complianceType +  '_enableFeature'"
-      :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
-      :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
-      :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
-      v-model="shouldEnforceComplianceMode"
-    />
-    <SaveButton
-      v-if="!state.loading"
-      @confirm="this.showPasswordConfirmation = true"
-      :value="translate('General_Save')"
-    />
-    <PasswordConfirmation
-      :model-value="this.showPasswordConfirmation"
-      :passwordFieldId="'password' + complianceType"
-      @confirmed="saveSettings"
-    />
+    <template v-if="!state.loading">
+      <div v-if="state.fetchComplianceError" class="notification system notification-error">
+          {{ translate('General_ErrorTryAgain') }}
+          {{ translate('General_ExceptionContactSupportGeneric', ['','']) }}
+      </div>
+      <template v-else>
+        <ComplianceTable
+          :results="state.complianceRequirements"
+        />
+        <div v-if="state.saveComplianceError" class="notification system notification-error">
+            {{ translate('General_ErrorTryAgain') }}
+            {{ translate('General_ExceptionContactSupportGeneric', ['','']) }}
+        </div>
+        <template v-else>
+          <Field
+            uicontrol="checkbox"
+            :name="'site-' + idSite + '-' + complianceType +  '-enableFeature'"
+            :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
+            :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
+            :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
+            v-model="shouldEnforceComplianceMode"
+          />
+          <SaveButton
+            :class="'site-' + idSite + '-' + complianceType +  '-save'"
+            @confirm="this.showPasswordConfirmation = true"
+            :value="translate('General_Save')"
+          />
+          <PasswordConfirmation
+            :model-value="this.showPasswordConfirmation"
+            :passwordFieldId="'password' + complianceType"
+            @confirmed="saveSettings"
+          />
+        </template>
+      </template>
+    </template>
   </ContentBlock>
 </template>
 

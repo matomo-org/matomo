@@ -1,9 +1,15 @@
 import { DeepReadonly, reactive, readonly } from 'vue';
+import { AjaxHelper } from 'CoreHome';
 
 export interface ComplianceRequirement {
   name: string;
   value: string;
   notes: string
+}
+
+interface ComplianceStatus {
+  complianceModeEnforced: boolean;
+  complianceRequirements: ComplianceRequirement[];
 }
 
 interface ComplianceStoreState {
@@ -12,6 +18,8 @@ interface ComplianceStoreState {
   complianceType: string;
   complianceModeEnforced: boolean;
   complianceRequirements: ComplianceRequirement[];
+  fetchComplianceError: string | null;
+  saveComplianceError: string | null;
 }
 
 export interface ComplianceStore {
@@ -27,45 +35,39 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     complianceType: initialType,
     complianceModeEnforced: false,
     complianceRequirements: [],
+    fetchComplianceError: null,
+    saveComplianceError: null,
   });
+
+  function fetchComplianceStatus(): Promise<ComplianceStatus> {
+    return AjaxHelper.fetch<ComplianceStatus>(
+      {
+        idSite: state.idSite,
+        complianceType: state.complianceType,
+        method: 'PrivacyManager.getComplianceStatus',
+      },
+      {
+        createErrorNotification: false,
+      },
+    );
+  }
+
+  function storeComplianceStatus(complianceData: ComplianceStatus) {
+    state.complianceModeEnforced = complianceData.complianceModeEnforced;
+    state.complianceRequirements = complianceData.complianceRequirements;
+  }
 
   function fetchCompliance() {
     if (!state.idSite || !state.complianceType) return;
-
     state.loading = true;
-
-    setTimeout(() => {
-      state.complianceModeEnforced = false;
-      state.complianceRequirements = [
-        {
-          name: 'IP Anonymisation',
-          value: 'compliant',
-          notes: 'Set to at least 2 byte masking',
-        },
-        {
-          name: 'Data retention period',
-          value: 'non_compliant',
-          notes: 'Retention period is set to 365 days',
-        },
-        {
-          name: 'Visits Log and Visitors Profile',
-          value: 'non_compliant',
-          notes: 'Visits log is still enabled',
-        },
-        {
-          name: 'Ecommerce analytics',
-          value: 'non_compliant',
-          notes: 'Ecommerce analytics is enabled for this site',
-        },
-        {
-          name: 'Opt out',
-          value: 'unknown',
-          notes: 'Opt out must be manually set up and configured',
-        },
-      ];
-
+    state.fetchComplianceError = null;
+    fetchComplianceStatus().then((complianceData: ComplianceStatus) => {
+      storeComplianceStatus(complianceData);
+    }).catch((error) => {
+      state.fetchComplianceError = error.message || error;
+    }).finally(() => {
       state.loading = false;
-    }, Math.floor(Math.random() * 1200) + 300);
+    });
   }
 
   function setIdSite(idSite: string | null) {
@@ -75,40 +77,24 @@ export function createComplianceStore(initialType: string): ComplianceStore {
 
   function saveComplianceStatus(enforce: boolean) {
     state.loading = true;
-
-    setTimeout(() => {
+    state.saveComplianceError = null;
+    AjaxHelper.fetch<boolean>(
+      {
+        idSite: state.idSite,
+        complianceType: state.complianceType,
+        enforce,
+        method: 'PrivacyManager.setComplianceStatus',
+      },
+      {
+        createErrorNotification: false,
+      },
+    ).then(() => {
+      fetchCompliance();
+    }).catch((error) => {
+      state.saveComplianceError = error.message || error;
+    }).finally(() => {
       state.loading = false;
-
-      state.complianceModeEnforced = enforce;
-
-      state.complianceRequirements = [
-        {
-          name: 'IP Anonymisation',
-          value: 'compliant',
-          notes: 'Set to at least 2 byte masking',
-        },
-        {
-          name: 'Data retention period',
-          value: enforce ? 'compliant' : 'non_compliant',
-          notes: 'Retention period is set to 365 days',
-        },
-        {
-          name: 'Visits Log and Visitors Profile',
-          value: enforce ? 'compliant' : 'non_compliant',
-          notes: 'Visits log is still enabled',
-        },
-        {
-          name: 'Ecommerce analytics',
-          value: enforce ? 'compliant' : 'non_compliant',
-          notes: 'Ecommerce analytics is enabled for this site',
-        },
-        {
-          name: 'Opt out',
-          value: 'unknown',
-          notes: 'Opt out must be manually set up and configured',
-        },
-      ];
-    }, Math.floor(Math.random() * 1200) + 300);
+    });
   }
 
   const publicState = readonly(state) as DeepReadonly<ComplianceStoreState>;

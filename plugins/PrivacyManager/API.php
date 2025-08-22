@@ -60,6 +60,7 @@ class API extends \Piwik\Plugin\API
      */
     private $featureFlagManager;
 
+
     public function __construct(
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
@@ -427,18 +428,34 @@ class API extends \Piwik\Plugin\API
         }
 
         Piwik::checkUserHasSuperUserAccess();
-
         return [
-            'complianceModeEnabled' => true,
-            'complianceIndicators' => [
-                ['name' => 'Anonymize IP', 'value' => 'unknown', 'notes' => 'Set to at least 2 byte masking'],
-                ['name' => 'retention period', 'value' => 'non_compliant', 'notes' => 'Retention periods is set to 1,200 days'],
-                ['name' => 'consent before tracking', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'cookie-less tracking', 'value' => 'non_compliant', 'notes' => ''],
-                ['name' => 'geoIP accuracy', 'value' => 'unknown', 'notes' => ''],
-                ['name' => 'heatmaps & session recording', 'value' => 'compliant', 'notes' => ''],
-                ['name' => 'tag manager', 'value' => 'non_compliant', 'notes' => ''],
-                ['name' => 'data export options', 'value' => 'compliant', 'notes' => ''],
+            'complianceModeEnforced' => false,
+            'complianceRequirements' => [
+                [
+                    'name' => 'IP Anonymisation',
+                    'value' => 'compliant',
+                    'notes' => 'Set to at least 2 byte masking'
+                ],
+                [
+                    'name' => 'Data retention period',
+                    'value' => 'non_compliant',
+                    'notes' => 'Retention period is set to 365 days'
+                ],
+                [
+                    'name' => 'Visits Log and Visitors Profile',
+                    'value' => 'non_compliant',
+                    'notes' => 'Visits log is still enabled'
+                ],
+                [
+                    'name' => 'Ecommerce analytics',
+                    'value' => 'non_compliant',
+                    'notes' => 'Ecommerce analytics is enabled for this site'
+                ],
+                [
+                    'name' => 'Opt out',
+                    'value' => 'unknown',
+                    'notes' => 'Opt out must be manually set up and configured'
+                ],
             ]
         ];
     }
@@ -446,7 +463,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setComplianceStatus(string $idSite, string $complianceType, bool $enabled): bool
+    public function setComplianceStatus(string $idSite, string $complianceType, bool $enforce): bool
     {
         if (!$this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             throw new Exception('Feature not available');
@@ -458,7 +475,7 @@ class API extends \Piwik\Plugin\API
 
         Piwik::checkUserHasSuperUserAccess();
 
-        return $enabled;
+        return $enforce;
     }
 
     public function testGetSetting()
