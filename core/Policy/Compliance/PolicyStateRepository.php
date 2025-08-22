@@ -12,7 +12,7 @@ final class PolicyStateRepository
     public function isEnabled(?int $idSite, string $policy): bool
     {
         // TODO: implement DB lookup for site-specific or global enablement.
-        return false;
+        return true;
     }
 
     /**

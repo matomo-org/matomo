@@ -6,10 +6,10 @@ namespace Piwik\Policy\Policies;
 
 use Piwik\Policy\Compliance\PolicyStateRepository;
 use Piwik\Policy\Compliance\CompliancePolicy;
-use Piwik\Policy\Compliance\PolicySettingValue;
-use Piwik\Policy\Retention\RetentionSettingValue;
+use Piwik\Policy\Settings\ReportRetentionSettingValue;
+use Piwik\Policy\SettingValue;
 
-final class CnilPolicy extends CompliancePolicy
+class CnilPolicy extends CompliancePolicy
 {
     /** @var PolicyStateRepository */
     private $repo;
@@ -32,11 +32,12 @@ final class CnilPolicy extends CompliancePolicy
 
     protected function loadSettings(): void
     {
-        $this->settings['PrivacyManager.ReportRetentionPeriod'] = RetentionSettingValue::class;
+        $this->settings['PrivacyManager.ReportRetentionPeriod'] = ReportRetentionSettingValue::class;
     }
 
-    protected function retrieveSettingValue(string $setting, ?int $idSite = null): PolicySettingValue
+    protected function retrieveSettingValue(string $setting, ?int $idSite): SettingValue
     {
-        
+        // TODO
+        return new ReportRetentionSettingValue();
     }
 }

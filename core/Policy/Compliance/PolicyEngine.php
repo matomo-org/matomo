@@ -17,14 +17,17 @@ final class PolicyEngine
 {
     public static function getRegisteredPolicies(): array
     {
-        $policies[] = new CnilPolicy();
-        $policies[] = new HipaaPolicy();
+        $repo = new PolicyStateRepository();
+        $policies[] = new CnilPolicy($repo);
+        $policies[] = new HipaaPolicy($repo);
         return $policies;
     }
 
+    /**
+     * @param CompliancePolicy[] $policies
+     */
     public static function getSettingFromPolicies(array $policies, string $setting, ?int $idSite = null): ?SettingValue
     {
-        /** @var SettingValue[] */
         $settingValues = [];
         foreach ($policies as $policy) {
             $settingValues[] = $policy->getSetting($setting, $idSite);
@@ -33,6 +36,9 @@ final class PolicyEngine
         return self::getMostStrictSettingValue($settingValues);
     }
 
+    /**
+     * @param CompliancePolicy[] $policies
+     */
     public static function isSettingGovernedByActivePolicy(array $policies, string $setting): bool
     {
         foreach ($policies as $policy) {
@@ -43,6 +49,9 @@ final class PolicyEngine
         return false;
     }
 
+    /**
+     * @param SettingValue[] $settings
+     */
     private static function getMostStrictSettingValue(array $settings): ?SettingValue
     {
         $strictest = null;

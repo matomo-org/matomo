@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Policy;
+namespace Piwik\Policy\UnifiedSettingsAccess;
 
 use Piwik\Policy\Compliance\PolicyEngine;
 use Piwik\Policy\UnifiedSettingsAccess\UnifiedSettingsAccess;
@@ -10,10 +10,9 @@ use Piwik\Policy\UnifiedSettingsAccess\UnifiedSettingsAccess;
  */
 class SettingsManager
 {
-    public static function getSetting(string $setting, string $type, ?mixed $defaultValue = null, ?int $idSite = null, ?array $hierachy = null): ?SettingValue
+    public function getSetting(string $setting, string $type, mixed $defaultValue = null, ?int $idSite = null, ?array $hierachy = null)
     {
-        
-        $policies = PolicyEngine::getRegisteredPolicies(); 
+        $policies = PolicyEngine::getRegisteredPolicies();
         if (PolicyEngine::isSettingGovernedByActivePolicy($policies, $setting, $idSite)) {
             return PolicyEngine::getSettingFromPolicies($policies, $setting, $idSite);
         }

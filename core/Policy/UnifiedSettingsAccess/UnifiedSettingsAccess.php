@@ -37,7 +37,7 @@ class UnifiedSettingsAccess
 
     public static $defaultHierarchy = [self::SOURCE_MEASURABLE, self::SOURCE_SYSTEM, self::SOURCE_CONFIG];
 
-    public static function getSetting(string $setting, string $type, ?mixed $defaultValue, ?int $idSite = null, ?array $hierarchy = null): ?SettingValue
+    public static function getSetting(string $setting, string $type, mixed $defaultValue, ?int $idSite = null, ?array $hierarchy = null): ?SettingValue
     {
         if (is_null($hierarchy)) {
             $hierarchy = static::$defaultHierarchy;
