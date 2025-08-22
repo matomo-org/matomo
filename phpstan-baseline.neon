@@ -6539,16 +6539,6 @@ parameters:
 			path: plugins/SitesManager/Model.php
 
 		-
-			message: "#^Variable \\$consentManagerUrl might not be defined\\.$#"
-			count: 1
-			path: plugins/SitesManager/SiteContentDetection/Matomo.php
-
-		-
-			message: "#^Variable \\$idSite might not be defined\\.$#"
-			count: 1
-			path: plugins/SitesManager/SiteContentDetection/WordPress.php
-
-		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$urls$#"
 			count: 1
 			path: plugins/SitesManager/SiteUrls.php
