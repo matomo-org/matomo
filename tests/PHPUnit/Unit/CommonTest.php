@@ -669,6 +669,6 @@ class CommonTest extends TestCase
         yield 'Nested array' => [[[1, 2], [3, 4]], [1, 2, 3, 4]];
         yield 'Deeply nested array' => [[[[1, 2]], [[3, 4]]], [1, 2, 3, 4]];
         yield 'Mix of levels in an array' => [[1, [[2]], [[[3]]], 4], [1, 2, 3, 4]];
-        yield 'Mix of numeric and assoc arrays' => [[1, [['a' => 2]], [[['b' => 3]]], 'd' => 4], [1, 2, 3, 4]];;
+        yield 'Mix of numeric and assoc arrays' => [[1, [['a' => 2]], [[['b' => 3]]], 'd' => 4], [1, 2, 3, 4]];
     }
 }
