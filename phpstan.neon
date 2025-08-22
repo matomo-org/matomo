@@ -34,5 +34,3 @@ parameters:
         - Piwik\Config
         - Piwik\View
         - Piwik\ViewDataTable\Config
-    stubFiles:
-        - phpstan.stub.count

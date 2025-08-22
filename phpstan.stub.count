@@ -1,7 +1,0 @@
-<?php
-
-/**
- * @param Countable|array $value
- * @return 0|positive-int
- */
-function count($value): int {}
