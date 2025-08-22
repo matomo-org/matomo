@@ -66,8 +66,8 @@ class Updates_5_5_0_b1 extends PiwikUpdates
             $migrations[] = $this->migration->db->boundSql($migrationEntry['sql'], $migrationEntry['bind']);
         }
 
-        // delete legacy options
         // TODO: uncomment when we've updated the annotations mechanism to also read and write using the new table
+        // delete legacy options
         // $migrations[] = $this->migration->db->sql($this->removeLegacyValuesFromOptionsTableSql());
 
         return $migrations;
@@ -125,10 +125,11 @@ class Updates_5_5_0_b1 extends PiwikUpdates
         return $data;
     }
 
-    private function removeLegacyValuesFromOptionsTableSql(): string
-    {
-        return sprintf("DELETE FROM `%s` WHERE `option_name` LIKE '%%_annotations'", Common::prefixTable('option'));
-    }
+// TODO: uncomment when we've updated the annotations mechanism to also read and write using the new table
+//    private function removeLegacyValuesFromOptionsTableSql(): string
+//    {
+//        return sprintf("DELETE FROM `%s` WHERE `option_name` LIKE '%%_annotations'", Common::prefixTable('option'));
+//    }
 
     public function doUpdate(Updater $updater)
     {
