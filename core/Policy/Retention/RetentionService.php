@@ -6,6 +6,10 @@ namespace Piwik\Policy\Retention;
 
 use Piwik\Policy\Compliance\PolicyEngine;
 
+/**
+ * This service is responsible for providing the ability to retrieve a 
+ * specific setting value, which is dependent on a policy or policies
+ */
 final class RetentionService
 {
     /** @var PolicyEngine */
@@ -47,5 +51,4 @@ final class RetentionService
 
         return $decision;
     }
-
 }

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Piwik\Policy\Compliance;
 
+/**
+ * specific class for representing the value of the retention setting
+ */
 final class RetentionOverride
 {
     /** @var int */

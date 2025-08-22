@@ -7,16 +7,16 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\UnifiedSettingsAccess;
+namespace Piwik\Policy\UnifiedSettingsAccess;
 
-use Piwik\Plugin;
-use Piwik\Plugins\UnifiedSettingsAccess\Getters\ConfigSettingGetter;
-use Piwik\Plugins\UnifiedSettingsAccess\Getters\MeasurableSettingGetter;
-use Piwik\Plugins\UnifiedSettingsAccess\Getters\OptionSettingGetter;
-use Piwik\Plugins\UnifiedSettingsAccess\Getters\SettingGetter;
-use Piwik\Plugins\UnifiedSettingsAccess\Getters\SystemSettingGetter;
+use Piwik\Policy\UnifiedSettingsAccess\Getters\ConfigSettingGetter;
+use Piwik\Policy\UnifiedSettingsAccess\Getters\MeasurableSettingGetter;
+use Piwik\Policy\UnifiedSettingsAccess\Getters\OptionSettingGetter;
+use Piwik\Policy\UnifiedSettingsAccess\Getters\SettingGetter;
+use Piwik\Policy\UnifiedSettingsAccess\Getters\SystemSettingGetter;
+use Piwik\Policy\SettingValue;
 
-class UnifiedSettingsAccess extends Plugin
+class UnifiedSettingsAccess
 {
     public const SOURCE_CONFIG = 'config';
     public const SOURCE_OPTION = 'option';
@@ -37,19 +37,13 @@ class UnifiedSettingsAccess extends Plugin
 
     public static $defaultHierarchy = [self::SOURCE_MEASURABLE, self::SOURCE_SYSTEM, self::SOURCE_CONFIG];
 
-    public function getSetting(
-        string $setting,
-        $defaultValue = null,
-        string $type = self::TYPE_STRING,
-        int $idSite = null,
-        array $hierarchy = null
-    )
+    public static function getSetting(string $setting, string $type, ?mixed $defaultValue, ?int $idSite = null, ?array $hierarchy = null): ?SettingValue
     {
-        [$pluginName, $settingName] = explode('.', $setting, 2);
-
-        if (null === $hierarchy) {
+        if (is_null($hierarchy)) {
             $hierarchy = static::$defaultHierarchy;
         }
+
+        [$pluginName, $settingName] = explode('.', $setting, 2);
 
         foreach ($hierarchy as $hierarchyKey) {
             /** @var SettingGetter $getterClass */

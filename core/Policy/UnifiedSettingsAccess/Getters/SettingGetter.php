@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\UnifiedSettingsAccess\Getters;
+namespace Piwik\Policy\UnifiedSettingsAccess\Getters;
 
 use Piwik\Piwik;
 
@@ -43,7 +43,7 @@ abstract class SettingGetter
      */
     protected $myValue;
 
-    public function __construct(string $pluginName, string $settingName, string $type, $defaultValue = null, int $idSite = null)
+    public function __construct(string $pluginName, string $settingName, string $type, ?mixed $defaultValue = null, ?int $idSite = null)
     {
         $this->pluginName = $pluginName;
         $this->settingName = $settingName;

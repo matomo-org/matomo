@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Piwik\Policy\Retention;
 
+/**
+ * represents a summary of the setting retrieved, after processing through the 
+ * policies relevant to this setting
+ */
 final class RetentionDecision
 {
     /** @var int */

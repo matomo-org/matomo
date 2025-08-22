@@ -22,6 +22,9 @@ use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
+use Piwik\Policy\Compliance\PolicyEngine;
+use Piwik\Policy\SettingsManager;
+use Piwik\Settings\FieldConfig;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 
@@ -456,6 +459,11 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         return $enabled;
+    }
+
+    public function testGetSetting()
+    {
+        SettingsManager::getSetting('PrivacyManager.ReportRetentionPeriod', FieldConfig::TYPE_INT);
     }
 
     private function savePurgeDataSettings($settings)

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Piwik\Policy\Compliance;
 
+/**
+ * connection between the policy and its representation in the db
+ */
 final class PolicyStateRepository
 {
     public function isEnabled(?int $idSite, string $policy): bool

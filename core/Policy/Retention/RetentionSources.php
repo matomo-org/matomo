@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Piwik\Policy\Retention;
 
+/**
+ * This is the sources where the setting value for the retention period.
+ * This is used to actually do the retrieving for each source type (ENUM???)
+ */
 final class RetentionSources
 {
     public function config(): ?int

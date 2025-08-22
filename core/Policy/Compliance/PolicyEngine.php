@@ -4,33 +4,52 @@ declare(strict_types=1);
 
 namespace Piwik\Policy\Compliance;
 
+use Piwik\Policy\Policies\CnilPolicy;
+use Piwik\Policy\Policies\HipaaPolicy;
+use Piwik\Policy\SettingValue;
+
+/**
+ * The policy engine is responsible for processing policies and returning 
+ * the desired value that would make a setting compliant with all provided
+ * policies
+ */
 final class PolicyEngine
 {
-    /** @var CompliancePolicy[] */
-    private $policies;
-
-    /**
-     * @param CompliancePolicy[] $policies
-     */
-    public function __construct(array $policies)
+    public static function getRegisteredPolicies(): array
     {
-        $this->policies = $policies;
+        $policies[] = new CnilPolicy();
+        $policies[] = new HipaaPolicy();
+        return $policies;
     }
 
-    public function getRetentionOverride(?int $idSite): ?RetentionOverride
+    public static function getSettingFromPolicies(array $policies, string $setting, ?int $idSite = null): ?SettingValue
     {
-        $chosen = null;
-
-        foreach ($this->policies as $p) {
-            $ovr = $p->getRetentionOverride($idSite);
-            if ($ovr === null) {
-                continue;
-            }
-            if ($chosen === null || $ovr->days < $chosen->days) {
-                $chosen = $ovr; // most restrictive (fewest days) wins
-            }
+        /** @var SettingValue[] */
+        $settingValues = [];
+        foreach ($policies as $policy) {
+            $settingValues[] = $policy->getSetting($setting, $idSite);
         }
 
-        return $chosen;
+        return self::getMostStrictSettingValue($settingValues);
+    }
+
+    public static function isSettingGovernedByActivePolicy(array $policies, string $setting): bool
+    {
+        foreach ($policies as $policy) {
+            if ($policy->hasSetting($setting)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static function getMostStrictSettingValue(array $settings): ?SettingValue
+    {
+        $strictest = null;
+        foreach ($settings as $setting) {
+            $strictest = $setting->compare($strictest);
+        }
+
+        return $strictest;
     }
 }
