@@ -11,6 +11,7 @@ namespace Piwik\Policy\UnifiedSettingsAccess\Getters;
 
 use Piwik\Exception\Exception;
 use Piwik\Option;
+use Piwik\Policy\SettingValues\GenericSettingValue;
 
 class OptionSettingGetter extends SettingGetter
 {
@@ -19,14 +20,15 @@ class OptionSettingGetter extends SettingGetter
         return Option::get($this->settingName) === false;
     }
 
-    public function getSetting()
+    public function getSetting(): GenericSettingValue
     {
         try {
+            // problem
             $this->myValue = Option::get($this->settingName);
 
             $this->processValue(false);
 
-            return $this->myValue;
+            return new GenericSettingValue($this->idSite, $this->myValue, '');
         } catch (\Exception $e) {
             throw new Exception(sprintf("Option setting '%s' not supported. Error: %s", $this->settingName, $e->getMessage()));
         }

@@ -11,6 +11,7 @@ namespace Piwik\Policy\UnifiedSettingsAccess\Getters;
 
 use Piwik\Config;
 use Piwik\Exception\Exception;
+use Piwik\Policy\SettingValues\GenericSettingValue;
 
 class ConfigSettingGetter extends SettingGetter
 {
@@ -20,14 +21,14 @@ class ConfigSettingGetter extends SettingGetter
         return $config && array_key_exists($this->settingName, $config);
     }
 
-    public function getSetting()
+    public function getSetting(): GenericSettingValue
     {
         try {
             $this->myValue = Config::getInstance()->{$this->pluginName}[$this->settingName];
 
             $this->processValue();
 
-            return $this->myValue;
+            return new GenericSettingValue($this->idSite, $this->myValue, '');
         } catch (\Exception $e) {
             throw new Exception(sprintf("Config setting '%s' not supported. Error: %s", $this->settingName, $e->getMessage()));
         }

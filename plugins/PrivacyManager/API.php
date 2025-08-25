@@ -22,7 +22,7 @@ use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
-use Piwik\Policy\UnifiedSettingsAccess\SettingsManager;
+use Piwik\Policy\SettingsManager;
 use Piwik\Settings\FieldConfig;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
@@ -479,8 +479,13 @@ class API extends \Piwik\Plugin\API
 
     public function testGetSetting()
     {
+        $return = [];
         $settingsManager = new SettingsManager();
-        return $settingsManager->getSetting('PrivacyManager.ReportRetentionPeriod', FieldConfig::TYPE_INT);
+        $setting = $settingsManager->getSetting('Deletelogs.delete_logs_older_than', FieldConfig::TYPE_INT);
+        $return[] = $setting->getValue();
+        $setting = $settingsManager->getSetting('Login.enableBruteForceDetection', FieldConfig::TYPE_BOOL, $default = true);
+        $return[] = $setting->getValue();
+        return $return;
     }
 
     private function savePurgeDataSettings($settings)

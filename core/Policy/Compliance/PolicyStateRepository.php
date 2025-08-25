@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Piwik\Policy\Compliance;
 
 /**
@@ -11,16 +9,14 @@ final class PolicyStateRepository
 {
     public function isEnabled(?int $idSite, string $policy): bool
     {
-        // TODO: implement DB lookup for site-specific or global enablement.
-        return true;
-    }
-
-    /**
-     * @return array<string,mixed>
-     */
-    public function getPolicyMetadata(?int $idSite, string $policy): array
-    {
-        // TODO: implement DB lookup for metadata json.
-        return [];
+        // TODO set up Option storage and retrieval
+        switch ($policy) {
+            case 'cnil_v1':
+                return true;
+            case 'hipaa_v1':
+                return true;
+            default:
+                return false;
+            }
     }
 }

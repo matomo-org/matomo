@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Piwik\Policy\Compliance;
 
-use Piwik\Policy\Policies\CnilPolicy;
-use Piwik\Policy\Policies\HipaaPolicy;
-use Piwik\Policy\SettingValue;
+use Piwik\Policy\Compliance\Policies\CnilPolicy;
+use Piwik\Policy\Compliance\Policies\HipaaPolicy;
+use Piwik\Policy\SettingValues\SettingValue;
 
 /**
  * The policy engine is responsible for processing policies and returning 
@@ -15,6 +13,9 @@ use Piwik\Policy\SettingValue;
  */
 final class PolicyEngine
 {
+    /**
+     * @return CompliancePolicy[]
+     */
     public static function getRegisteredPolicies(): array
     {
         $repo = new PolicyStateRepository();
@@ -39,10 +40,10 @@ final class PolicyEngine
     /**
      * @param CompliancePolicy[] $policies
      */
-    public static function isSettingGovernedByActivePolicy(array $policies, string $setting): bool
+    public static function isSettingGovernedByActivePolicy(array $policies, string $setting, ?int $idSite): bool
     {
         foreach ($policies as $policy) {
-            if ($policy->hasSetting($setting)) {
+            if ($policy->isActiveFor($idSite) && $policy->hasSetting($setting)) {
                 return true;
             }
         }
@@ -56,7 +57,9 @@ final class PolicyEngine
     {
         $strictest = null;
         foreach ($settings as $setting) {
-            $strictest = $setting->compare($strictest);
+            if (!is_null($setting)) {
+                $strictest = $setting->compare($strictest);
+            }
         }
 
         return $strictest;

@@ -10,6 +10,7 @@
 namespace Piwik\Policy\UnifiedSettingsAccess\Getters;
 
 use Piwik\Piwik;
+use Piwik\Policy\SettingValues\GenericSettingValue;
 
 abstract class SettingGetter
 {
@@ -43,7 +44,7 @@ abstract class SettingGetter
      */
     protected $myValue;
 
-    public function __construct(string $pluginName, string $settingName, string $type, ?mixed $defaultValue = null, ?int $idSite = null)
+    public function __construct(string $pluginName, string $settingName, string $type, mixed $defaultValue = null, ?int $idSite = null)
     {
         $this->pluginName = $pluginName;
         $this->settingName = $settingName;
@@ -57,7 +58,7 @@ abstract class SettingGetter
         return false;
     }
 
-    abstract public function getSetting();
+    abstract public function getSetting(): GenericSettingValue;
 
     protected function convertValue(): void
     {

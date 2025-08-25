@@ -10,16 +10,22 @@
 namespace Piwik\Policy\UnifiedSettingsAccess\Getters;
 
 use Piwik\Exception\Exception;
+use Piwik\Policy\SettingValues\GenericSettingValue;
 use Piwik\Settings\Plugin\SystemSetting;
+use Piwik\Policy\UnifiedSettingsAccess\Getters\CustomSystemSettings;
 
 class SystemSettingGetter extends SettingGetter
 {
+    /** @var SystemSetting */
     private $systemSetting = null;
 
     private function getSystemSetting()
     {
         if ($this->systemSetting === null) {
-            $this->systemSetting = new SystemSetting($this->settingName, $this->defaultValue, $this->type, $this->pluginName);
+            $systemSettings = new CustomSystemSettings();
+            $setting = new SystemSetting($this->settingName, $this->defaultValue, $this->type, $this->pluginName);
+            $systemSettings->addSetting($setting);
+            $this->systemSetting = $systemSettings->getSetting($this->settingName);
         }
 
         return $this->systemSetting;
@@ -30,7 +36,7 @@ class SystemSettingGetter extends SettingGetter
         return $this->getSystemSetting()->hasValue();
     }
 
-    public function getSetting()
+    public function getSetting(): GenericSettingValue
     {
         try {
             $setting = $this->getSystemSetting();
@@ -38,7 +44,7 @@ class SystemSettingGetter extends SettingGetter
 
             $this->processValue();
 
-            return $this->myValue;
+            return new GenericSettingValue($this->idSite, $this->myValue, '');
         } catch (\Exception $e) {
             throw new Exception(sprintf("System setting '%s' not supported. Error: %s", $this->settingName, $e->getMessage()));
         }

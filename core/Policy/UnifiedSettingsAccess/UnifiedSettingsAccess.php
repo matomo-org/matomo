@@ -14,7 +14,7 @@ use Piwik\Policy\UnifiedSettingsAccess\Getters\MeasurableSettingGetter;
 use Piwik\Policy\UnifiedSettingsAccess\Getters\OptionSettingGetter;
 use Piwik\Policy\UnifiedSettingsAccess\Getters\SettingGetter;
 use Piwik\Policy\UnifiedSettingsAccess\Getters\SystemSettingGetter;
-use Piwik\Policy\SettingValue;
+use Piwik\Policy\SettingValues\SettingValue;
 
 class UnifiedSettingsAccess
 {

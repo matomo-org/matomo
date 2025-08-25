@@ -10,6 +10,7 @@
 namespace Piwik\Policy\UnifiedSettingsAccess\Getters;
 
 use Piwik\Exception\Exception;
+use Piwik\Policy\SettingValues\GenericSettingValue;
 use Piwik\Settings\Measurable\MeasurableSetting;
 
 class MeasurableSettingGetter extends SettingGetter
@@ -36,7 +37,7 @@ class MeasurableSettingGetter extends SettingGetter
         return $this->getMeasurableSetting()->hasValue();
     }
 
-    public function getSetting()
+    public function getSetting(): GenericSettingValue
     {
         try {
             $setting = $this->getMeasurableSetting();
@@ -44,7 +45,7 @@ class MeasurableSettingGetter extends SettingGetter
 
             $this->processValue();
 
-            return $this->myValue;
+            return new GenericSettingValue($this->idSite, $this->myValue, '');
         } catch (\Exception $e) {
             throw new Exception(sprintf("Measurable setting '%s' not supported. Error: %s", $this->settingName, $e->getMessage()));
         }

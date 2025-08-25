@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Policy\UnifiedSettingsAccess;
+namespace Piwik\Policy;
 
 use Piwik\Policy\Compliance\PolicyEngine;
 use Piwik\Policy\UnifiedSettingsAccess\UnifiedSettingsAccess;
@@ -16,7 +16,6 @@ class SettingsManager
         if (PolicyEngine::isSettingGovernedByActivePolicy($policies, $setting, $idSite)) {
             return PolicyEngine::getSettingFromPolicies($policies, $setting, $idSite);
         }
-
         return UnifiedSettingsAccess::getSetting($setting, $type, $defaultValue, $idSite, $hierachy);
     }
 }

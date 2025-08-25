@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Piwik\Policy\Policies;
+namespace Piwik\Policy\Compliance\Policies;
 
 use Piwik\Policy\Compliance\PolicyStateRepository;
 use Piwik\Policy\Compliance\CompliancePolicy;
-use Piwik\Policy\Settings\ReportRetentionSettingValue;
-use Piwik\Policy\SettingValue;
+use Piwik\Policy\SettingValues\ReportRetention;
+use Piwik\Policy\SettingValues\SettingValue;
 
 class CnilPolicy extends CompliancePolicy
 {
@@ -20,24 +18,24 @@ class CnilPolicy extends CompliancePolicy
         $this->repo = $repo;
     }
 
-    public function key(): string
+    public function setKey()
     {
-        return 'cnil_v1';
+        $this->key = 'cnil_v1';
     }
 
     public function isActiveFor(?int $idSite): bool
     {
-        return $this->repo->isEnabled($idSite, $this->key());
+        return $this->repo->isEnabled($idSite, $this->getKey());
     }
 
     protected function loadSettings(): void
     {
-        $this->settings['PrivacyManager.ReportRetentionPeriod'] = ReportRetentionSettingValue::class;
+        $this->settings['Deletelogs.delete_logs_older_than'] = [ReportRetention::class, '90', ''];
     }
 
     protected function retrieveSettingValue(string $setting, ?int $idSite): SettingValue
     {
-        // TODO
-        return new ReportRetentionSettingValue();
+        [$class, $value, $notes] = $this->settings[$setting];
+        return new $class($idSite, $value, $notes);
     }
 }

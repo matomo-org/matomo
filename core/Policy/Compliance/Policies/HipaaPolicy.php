@@ -1,11 +1,11 @@
 <?php
 
-namespace Piwik\Policy\Policies;
+namespace Piwik\Policy\Compliance\Policies;
 
-use Piwik\Policy\Compliance\CompliancePolicy;
 use Piwik\Policy\Compliance\PolicyStateRepository;
-use Piwik\Policy\Settings\ReportRetentionSettingValue;
-use Piwik\Policy\SettingValue;
+use Piwik\Policy\Compliance\CompliancePolicy;
+use Piwik\Policy\SettingValues\ReportRetention;
+use Piwik\Policy\SettingValues\SettingValue;
 
 class HipaaPolicy extends CompliancePolicy
 {
@@ -17,24 +17,25 @@ class HipaaPolicy extends CompliancePolicy
         parent::__construct();
         $this->repo = $repo;
     }
-
-    public function key(): string
+    
+    public function setKey()
     {
-        return 'hipaa_v1';
+        $this->key = 'hipaa_v1';
     }
 
     public function isActiveFor(?int $idSite): bool
     {
-        return $this->repo->isEnabled($idSite, $this->key());
+        return $this->repo->isEnabled($idSite, $this->getKey());
     }
 
     protected function loadSettings(): void
     {
-        $this->settings['PrivacyManager.ReportRetentionPeriod'] = ReportRetentionSettingValue::class;
+        $this->settings['Deletelogs.delete_logs_older_than'] = [ReportRetention::class, '120', ''];
     }
 
     protected function retrieveSettingValue(string $setting, ?int $idSite): SettingValue
     {
-        return new ReportRetentionSettingValue();
+        [$class, $value, $notes] = $this->settings[$setting];
+        return new $class($idSite, $value, $notes);
     }
 }
