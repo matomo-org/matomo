@@ -95,14 +95,4 @@ class Annotations extends \Piwik\Plugin
         }
         return array($startDate, $endDate);
     }
-
-    public function install()
-    {
-        AnnotationsModel::install();
-    }
-
-    public function uninstall()
-    {
-        AnnotationsModel::uninstall();
-    }
 }
