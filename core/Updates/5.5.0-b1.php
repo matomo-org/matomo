@@ -49,7 +49,7 @@ class Updates_5_5_0_b1 extends PiwikUpdates
                 'starred' => 'TINYINT(1) NOT NULL DEFAULT 0',
                 'user' => 'VARCHAR(100) NOT NULL',
             ], $primaryKey = 'id');
-        $migrations[] = $this->migration->db->addIndex('annotations', ['id', 'idsite', 'date']);
+        $migrations[] = $this->migration->db->addIndex('annotations', ['idsite', 'date']);
 
         return $migrations;
     }
