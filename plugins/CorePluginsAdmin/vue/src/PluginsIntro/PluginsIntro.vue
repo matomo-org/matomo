@@ -28,7 +28,7 @@
       <span v-html="$sanitize(changeLookByManageThemesText)"></span>
     </p>
   </div>
-  <InstallAllPaidPluginsButton
+  <InstallAllPaidPluginsButton v-if="isMarketplaceEnabled"
   />
 </template>
 
