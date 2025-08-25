@@ -12,7 +12,6 @@ namespace Piwik\Plugins\Annotations;
 use Piwik\Date;
 use Piwik\Period;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
-use Piwik\Plugins\Annotations\Model as AnnotationsModel;
 
 /**
  * Annotations plugins. Provides the ability to attach text notes to
