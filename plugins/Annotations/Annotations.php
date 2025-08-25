@@ -15,7 +15,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as Evo
 
 /**
  * Annotations plugins. Provides the ability to attach text notes to
- * dates for each sites. Notes can be viewed, modified, deleted or starred.
+ * dates for each site. Notes can be viewed, modified, deleted or starred.
  *
  */
 class Annotations extends \Piwik\Plugin
