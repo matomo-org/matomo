@@ -1250,7 +1250,9 @@ class Manager
         }
 
         $newPlugin = $this->makePluginClass($pluginName);
-
+        if (!SettingsPiwik::isInternetEnabled() && $newPlugin->requiresInternetConnection()) {
+            return null;
+        }
         $this->addLoadedPlugin($pluginName, $newPlugin);
         return $newPlugin;
     }
