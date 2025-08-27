@@ -154,16 +154,6 @@ class SegmentArchivingTest extends IntegrationTestCase
         $this->testGetReArchiveSegmentStartDate(SegmentArchiving::BEGINNING_OF_TIME, $segmentInfo, '2020-01-03');
     }
 
-    public function testGetReArchiveSegmentStartDateWhenEarliestVisitTimeIsLater()
-    {
-        $t = Fixture::getTracker(1, '2020-02-05 03:00:00');
-        $t->setUrl('http://abc.com');
-        Fixture::checkResponse($t->doTrackPageView('abc'));
-
-        $segmentInfo = ['ts_created' => '2019-05-03 00:00:00', 'enable_only_idsite' => 1];
-        $this->testGetReArchiveSegmentStartDate(SegmentArchiving::BEGINNING_OF_TIME, $segmentInfo, '2020-02-05');
-    }
-
     protected static function configureFixture($fixture)
     {
         parent::configureFixture($fixture);

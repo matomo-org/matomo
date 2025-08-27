@@ -62,7 +62,7 @@ class Http
      * @param string|null $destinationPath If supplied, the HTTP response will be saved to the file specified by
      *                                     this path.
      * @param int|null $followDepth Internal redirect count. Should always pass `null` for this parameter.
-     * @param bool $acceptLanguage The value to use for the `'Accept-Language'` HTTP request header.
+     * @param bool|string $acceptLanguage The value to use for the `'Accept-Language'` HTTP request header.
      * @param array|bool $byteRange For `Range:` header. Should be two element array of bytes, eg, `array(0, 1024)`
      *                              Doesn't work w/ `fopen` transport method.
      * @param bool $getExtendedInfo If true returns the status code, headers & response, if false just the response.

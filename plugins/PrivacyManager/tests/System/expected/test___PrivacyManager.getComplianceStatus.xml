@@ -1,46 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<complianceModeEnabled>1</complianceModeEnabled>
-	<complianceIndicators>
+	<complianceModeEnforced>0</complianceModeEnforced>
+	<complianceRequirements>
 		<row>
-			<name>Anonymize IP</name>
-			<value>unknown</value>
+			<name>IP Anonymisation</name>
+			<value>compliant</value>
 			<notes>Set to at least 2 byte masking</notes>
 		</row>
 		<row>
-			<name>retention period</name>
+			<name>Data retention period</name>
 			<value>non_compliant</value>
-			<notes>Retention periods is set to 1,200 days</notes>
+			<notes>Retention period is set to 365 days</notes>
 		</row>
 		<row>
-			<name>consent before tracking</name>
-			<value>compliant</value>
-			<notes />
-		</row>
-		<row>
-			<name>cookie-less tracking</name>
+			<name>Visits Log and Visitors Profile</name>
 			<value>non_compliant</value>
-			<notes />
+			<notes>Visits log is still enabled</notes>
 		</row>
 		<row>
-			<name>geoIP accuracy</name>
+			<name>Ecommerce analytics</name>
+			<value>non_compliant</value>
+			<notes>Ecommerce analytics is enabled for this site</notes>
+		</row>
+		<row>
+			<name>Opt out</name>
 			<value>unknown</value>
-			<notes />
+			<notes>Opt out must be manually set up and configured</notes>
 		</row>
-		<row>
-			<name>heatmaps &amp; session recording</name>
-			<value>compliant</value>
-			<notes />
-		</row>
-		<row>
-			<name>tag manager</name>
-			<value>non_compliant</value>
-			<notes />
-		</row>
-		<row>
-			<name>data export options</name>
-			<value>compliant</value>
-			<notes />
-		</row>
-	</complianceIndicators>
+	</complianceRequirements>
 </result>
