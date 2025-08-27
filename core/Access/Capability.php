@@ -15,6 +15,10 @@ abstract class Capability
     abstract public function getName(): string;
     abstract public function getCategory(): string;
     abstract public function getDescription(): string;
+
+    /**
+     * @return string[]
+     */
     abstract public function getIncludedInRoles(): array;
 
     public function getHelpUrl(): string

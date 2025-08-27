@@ -872,7 +872,7 @@ class Url
      * @param string|null $medium   Optional campaign medium, defaults to App.[module].[action] where module and action are
      *                              taken from the currently viewed application page, eg. 'CoreAdminHome.trackingCodeGenerator'
      *
-     * @return string|null      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreAdminHome.trackingCodeGenerator
+     * @return ($url is string ? string : null)      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreAdminHome.trackingCodeGenerator
      */
     public static function addCampaignParametersToMatomoLink(
         ?string $url = null,
