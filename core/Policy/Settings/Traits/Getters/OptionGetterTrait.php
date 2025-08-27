@@ -4,7 +4,7 @@ namespace Piwik\Policy\Settings\Traits\Getters;
 
 use Piwik\Option;
 
-trait OptionGetter
+trait OptionGetterTrait
 {
     public static function getOptionValue()
     {
@@ -13,4 +13,3 @@ trait OptionGetter
 
     abstract protected static function getOptionName(): string;
 }
-

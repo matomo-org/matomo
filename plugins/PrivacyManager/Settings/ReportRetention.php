@@ -2,22 +2,23 @@
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
-use Piwik\Policy\Settings\ISettingValue;
-use Piwik\Policy\Settings\Traits\PolicyComparison;
-use Piwik\Policy\Settings\Traits\Getters\ConfigGetter;
+use Piwik\Policy\Settings\SettingValueInterface;
+use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
+use Piwik\Policy\Settings\Traits\Getters\ConfigGetterTrait;
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;
 
-class ReportRetention implements ISettingValue
+class ReportRetention implements SettingValueInterface
 {
-    use PolicyComparison, ConfigGetter;
+    use ConfigGetterTrait;
+    use PolicyComparisonTrait;
 
     /** @var int|null */
     private $value;
-    
+
     private function __construct(?int $value)
     {
-        $this->value = $value; 
+        $this->value = $value;
     }
 
     public function getValue()
@@ -44,16 +45,15 @@ class ReportRetention implements ISettingValue
         return $policyValues;
     }
 
-    public static function getInstance(?int $idSite = null): self
+    public static function getInstance(?int $idSite = null)
     {
         $values = self::getPolicyValues($idSite);
         $values['config'] = self::getConfigValue();
-        /** @var int|null */
         $strictest = self::getStrictestValueFromArray($values);
         return new self($strictest);
     }
 
-    private static function compareStrictness($value1, $value2)
+    protected static function compareStrictness($value1, $value2)
     {
         if (is_null($value1)) {
             if (is_null($value2)) {

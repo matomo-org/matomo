@@ -4,11 +4,12 @@ namespace Piwik\Policy\Settings\Traits\Getters;
 
 use Piwik\Config;
 
-trait ConfigGetter
+trait ConfigGetterTrait
 {
     public static function getConfigValue()
     {
         $config = Config::getInstance()->{self::getConfigSection()};
+
         if (is_null($config) || !array_key_exists(self::getConfigSettingName(), $config)) {
             return null;
         }

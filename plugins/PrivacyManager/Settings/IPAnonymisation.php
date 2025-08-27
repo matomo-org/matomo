@@ -2,24 +2,25 @@
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
-use Piwik\Policy\Settings\ISettingValue;
-use Piwik\Policy\Settings\Traits\PolicyComparison;
-use Piwik\Policy\Settings\Traits\Getters\OptionGetter;
+use Piwik\Policy\Settings\SettingValueInterface;
+use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
+use Piwik\Policy\Settings\Traits\Getters\OptionGetterTrait;
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;
 
-class IPAnonymisation implements ISettingValue
+class IPAnonymisation implements SettingValueInterface
 {
-    use PolicyComparison, OptionGetter;
+    use OptionGetterTrait;
+    use PolicyComparisonTrait;
 
     /** @var int|null */
     private $value;
 
     private function __construct(?int $value)
     {
-        $this->value = $value;    
+        $this->value = $value;
     }
-    
+
     public function getValue()
     {
         return $this->value;
@@ -38,7 +39,7 @@ class IPAnonymisation implements ISettingValue
         return $policies;
     }
 
-    public static function getInstance(?int $idSite = null): ISettingValue
+    public static function getInstance(?int $idSite = null)
     {
         $values = self::getPolicyValues($idSite);
         $values['option'] = self::getOptionValue();
@@ -57,6 +58,5 @@ class IPAnonymisation implements ISettingValue
             return $value1;
         }
         return $value2;
-    } 
+    }
 }
-

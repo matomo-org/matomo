@@ -4,22 +4,24 @@ namespace Piwik\Plugins\PrivacyManager\Settings;
 
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;
-use Piwik\Policy\Settings\Traits\Getters\MeasurableGetter;
-use Piwik\Policy\Settings\Traits\Getters\SystemGetter;
-use Piwik\Policy\Settings\Traits\PolicyComparison;
+use Piwik\Policy\Settings\Traits\Getters\MeasurableGetterTrait;
+use Piwik\Policy\Settings\Traits\Getters\SystemGetterTrait;
+use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
 use Piwik\Settings\FieldConfig;
-use Piwik\Policy\Settings\ISettingValue;
+use Piwik\Policy\Settings\SettingValueInterface;
 
-class VisitorLog implements ISettingValue
+class VisitorLog implements SettingValueInterface
 {
-    use PolicyComparison, MeasurableGetter, SystemGetter;
+    use MeasurableGetterTrait;
+    use PolicyComparisonTrait;
+    use SystemGetterTrait;
 
     /** @var bool|null */
-    private $value;    
+    private $value;
 
     private function __construct(bool $value)
     {
-        $this->value = $value;     
+        $this->value = $value;
     }
 
     public function getValue()
@@ -37,7 +39,7 @@ class VisitorLog implements ISettingValue
         return 'disable_visitor_log';
     }
 
-    protected static function getDefaultValue(): mixed
+    protected static function getDefaultValue()
     {
         return false;
     }
@@ -49,14 +51,14 @@ class VisitorLog implements ISettingValue
 
     protected static function getType(): string
     {
-        return FieldConfig::TYPE_BOOL;        
+        return FieldConfig::TYPE_BOOL;
     }
 
     protected static function getPolicyValues(?int $idSite): array
     {
         $policies = [];
         $policies[CnilPolicy::getName()] = CnilPolicy::isActive($idSite) ? true : null;
-        $policies[HipaaPolicy::getName()] = CnilPolicy::isActive($idSite) ? false : null;
+        $policies[HipaaPolicy::getName()] = HipaaPolicy::isActive($idSite) ? false : null;
         return $policies;
     }
 
@@ -65,7 +67,7 @@ class VisitorLog implements ISettingValue
         $values = self::getPolicyValues($idSite);
         $values['measurable'] = self::getMeasurableValue($idSite);
         $values['system'] = self::getSystemValue();
-        
+
         $strictest = self::getStrictestValueFromArray($values);
         return new self($strictest);
     }

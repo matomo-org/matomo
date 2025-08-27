@@ -2,17 +2,17 @@
 
 namespace Piwik\Policy\Settings\Traits;
 
-trait PolicyComparison
+trait PolicyComparisonTrait
 {
     /**
      * @return array<string, mixed>
      */
-    public abstract static function getPolicyValues(?int $idSite): array;
+    abstract public static function getPolicyValues(?int $idSite): array;
 
     /**
-     * @param array<string,mixed> $policies
+     * @param array<string, mixed> $policies
      */
-    protected static function getStrictestValueFromArray(array $policies): mixed
+    protected static function getStrictestValueFromArray(array $policies)
     {
         return array_reduce($policies, [__CLASS__, 'compareStrictness']);
     }
@@ -22,5 +22,5 @@ trait PolicyComparison
         return array_key_exists($policy, self::getPolicyValues(null));
     }
 
-    protected abstract static function compareStrictness($value1, $value2);
+    abstract protected static function compareStrictness($value1, $value2);
 }

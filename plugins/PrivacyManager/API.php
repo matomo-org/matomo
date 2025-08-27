@@ -486,7 +486,7 @@ class API extends \Piwik\Plugin\API
         $value2 = VisitorLog::getInstance(1)->getValue();
         $value3 = IPAnonymisation::getInstance()->getValue();
         $value4 = IpAddressMaskLength::getInstance()->getValue();
-        
+
         $settings = CnilPolicy::getAllSettings();
 
         $policySettingValues = [];

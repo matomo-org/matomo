@@ -3,7 +3,7 @@
 namespace Piwik\Policy\Policies;
 
 use Piwik\Plugin\Manager;
-use Piwik\Policy\Settings\ISettingValue;
+use Piwik\Policy\Settings\SettingValueInterface;
 
 abstract class CompliancePolicy
 {
@@ -13,9 +13,9 @@ abstract class CompliancePolicy
 
     public static function getAllSettings()
     {
-        $settings = Manager::getInstance()->findMultipleComponents('Settings', ISettingValue::class);
-        
+        $settings = Manager::getInstance()->findMultipleComponents('Settings', SettingValueInterface::class);
         $underPolicy = [];
+
         foreach ($settings as $setting) {
             if (method_exists($setting, 'isControlledBySpecificPolicy')) {
                 if ($setting::isControlledBySpecificPolicy(static::getName())) {
@@ -23,6 +23,7 @@ abstract class CompliancePolicy
                 }
             }
         }
-        return $settings;
+
+        return $underPolicy;
     }
 }
