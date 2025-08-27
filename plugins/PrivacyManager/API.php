@@ -22,8 +22,11 @@ use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
-use Piwik\Policy\SettingsManager;
-use Piwik\Settings\FieldConfig;
+use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
+use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
+use Piwik\Plugins\PrivacyManager\Settings\ReportRetention;
+use Piwik\Plugins\PrivacyManager\Settings\VisitorLog;
+use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 
@@ -479,6 +482,7 @@ class API extends \Piwik\Plugin\API
 
     public function testGetSetting()
     {
+        /*
         $return = [];
         $settingsManager = new SettingsManager();
         $setting = $settingsManager->getSetting('Deletelogs.delete_logs_older_than', FieldConfig::TYPE_INT);
@@ -486,6 +490,21 @@ class API extends \Piwik\Plugin\API
         $setting = $settingsManager->getSetting('Login.enableBruteForceDetection', FieldConfig::TYPE_BOOL, $default = true);
         $return[] = $setting->getValue();
         return $return;
+         */
+
+        $value = ReportRetention::getInstance()->getValue();
+        $value2 = VisitorLog::getInstance(1)->getValue();
+        $value3 = IPAnonymisation::getInstance()->getValue();
+        $value4 = IpAddressMaskLength::getInstance()->getValue();
+        
+        $settings = CnilPolicy::getAllSettings();
+
+        $policySettingValues = [];
+        foreach ($settings as $setting) {
+            $policySettingValues[$setting] = $setting::getInstance(1)->getValue();
+        }
+
+        return [$value, $value2, $value3, $value4, $policySettingValues];
     }
 
     private function savePurgeDataSettings($settings)

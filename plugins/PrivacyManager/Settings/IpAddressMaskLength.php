@@ -1,0 +1,62 @@
+<?php
+
+namespace Piwik\Plugins\PrivacyManager\Settings;
+
+use Piwik\Policy\Settings\ISettingValue;
+use Piwik\Policy\Settings\Traits\PolicyComparison;
+use Piwik\Policy\Settings\Traits\Getters\OptionGetter;
+use Piwik\Policy\Policies\CnilPolicy;
+use Piwik\Policy\Policies\HipaaPolicy;
+
+class IpAddressMaskLength implements ISettingValue
+{
+    use PolicyComparison, OptionGetter;
+
+    /** @var int|null */
+    private $value;
+
+    private function __construct(?int $value)
+    {
+        $this->value = $value;    
+    }
+    
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    protected static function getOptionName(): string
+    {
+        return 'PrivacyManager.IpAddressMaskLength';
+    }
+
+    public static function getPolicyValues(?int $idSite): array
+    {
+        $policies = [];
+        $policies[CnilPolicy::getName()] = CnilPolicy::isActive($idSite) ? 2 : null;
+        $policies[HipaaPolicy::getName()] = HipaaPolicy::isActive($idSite) ? 1 : null;
+        return $policies;
+    }
+
+    public static function getInstance(?int $idSite = null): ISettingValue
+    {
+        $values = self::getPolicyValues($idSite);
+        $values['option'] = self::getOptionValue();
+        return new self(self::getStrictestValueFromArray($values));
+    }
+
+    protected static function compareStrictness($value1, $value2)
+    {
+        if (is_null($value1)) {
+            return $value2;
+        }
+        if (is_null($value2)) {
+            return $value1;
+        }
+        if ($value1 > $value2) {
+            return $value1;
+        }
+        return $value2;
+    } 
+}
+

@@ -1,0 +1,21 @@
+<?php
+
+namespace Piwik\Policy\Policies;
+
+class CnilPolicy extends CompliancePolicy
+{
+    public static function getName(): string
+    {
+        return 'cnil_v1';
+    }
+
+    public static function getDescription(): string
+    {
+        return 'test description';
+    }
+
+    public static function isActive(?int $idSite): bool
+    {
+        return true;
+    }
+}
