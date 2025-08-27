@@ -38,11 +38,11 @@ class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterfa
         return 'Deletelogs';
     }
 
-    public static function getPolicyValues(?int $idSite = null): array
+    public static function getPolicyRequirements(): array
     {
         $policyValues = [];
-        $policyValues[CnilPolicy::getName()] = CnilPolicy::isActive($idSite) ? 90 : null;
-        $policyValues[HipaaPolicy::getName()] = HipaaPolicy::isActive($idSite) ? 120 : null;
+        $policyValues[CnilPolicy::class] = 90;
+        $policyValues[HipaaPolicy::class] = 120;
 
         return $policyValues;
     }
@@ -53,6 +53,19 @@ class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterfa
         $values['config'] = self::getConfigValue();
         $strictest = self::getStrictestValueFromArray($values);
         return new self($strictest);
+    }
+
+    public static function isCompliant(string $policy, ?int $idSite = null): bool
+    {
+        $policyValues = self::getPolicyRequirements();
+
+        if (!array_key_exists($policy, $policyValues)) {
+            return true;
+        }
+
+        $currentValue = self::getInstance($idSite)->getValue();
+
+        return $currentValue <= $policyValues[$policy];
     }
 
     protected static function compareStrictness($value1, $value2)

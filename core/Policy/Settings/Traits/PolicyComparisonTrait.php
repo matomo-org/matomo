@@ -2,6 +2,7 @@
 
 namespace Piwik\Policy\Settings\Traits;
 
+use Piwik\Policy\Policies\CompliancePolicy;
 use Piwik\Policy\Settings\PolicyComparisonInterface;
 
 /**
@@ -9,6 +10,22 @@ use Piwik\Policy\Settings\PolicyComparisonInterface;
  */
 trait PolicyComparisonTrait
 {
+    /**
+     * @return array<class-string<CompliancePolicy>, mixed>
+     */
+    public static function getPolicyValues(?int $idSite = null): array
+    {
+        $policyValues = self::getPolicyRequirements();
+
+        foreach (array_keys($policyValues) as $policy) {
+            if (!$policy::isActive($idSite)) {
+                $policyValues[$policy] = null;
+            }
+        }
+
+        return $policyValues;
+    }
+
     /**
      * @param array<string, mixed> $policies
      */

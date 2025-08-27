@@ -419,7 +419,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function getComplianceStatus(string $idSite, string $complianceType): array
+    public function getComplianceStatus(int $idSite, string $complianceType): array
     {
         if (false === $this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             throw new Exception('Feature not available');
@@ -430,22 +430,23 @@ class API extends \Piwik\Plugin\API
         }
 
         Piwik::checkUserHasSuperUserAccess();
+
         return [
             'complianceModeEnforced' => false,
             'complianceRequirements' => [
                 [
                     'name' => 'IP Anonymisation',
-                    'value' => 'compliant',
+                    'value' => IPAnonymisation::isCompliant(CnilPolicy::class, $idSite) ? 'compliant' : 'non_compliant',
                     'notes' => 'Set to at least 2 byte masking'
                 ],
                 [
                     'name' => 'Data retention period',
-                    'value' => 'non_compliant',
+                    'value' => ReportRetention::isCompliant(CnilPolicy::class, $idSite) ? 'compliant' : 'non_compliant',
                     'notes' => 'Retention period is set to 365 days'
                 ],
                 [
                     'name' => 'Visits Log and Visitors Profile',
-                    'value' => 'non_compliant',
+                    'value' => VisitorLog::isCompliant(CnilPolicy::class, $idSite) ? 'compliant' : 'non_compliant',
                     'notes' => 'Visits log is still enabled'
                 ],
                 [
@@ -487,7 +488,7 @@ class API extends \Piwik\Plugin\API
         $value3 = IPAnonymisation::getInstance()->getValue();
         $value4 = IpAddressMaskLength::getInstance()->getValue();
 
-        $settings = CnilPolicy::getAllSettings();
+        $settings = CnilPolicy::getAllControlledSettings();
 
         $policySettingValues = [];
         foreach ($settings as $setting) {

@@ -33,11 +33,12 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
         return 'PrivacyManager.ipAnonymizerEnabled';
     }
 
-    public static function getPolicyValues(?int $idSite = null): array
+    public static function getPolicyRequirements(): array
     {
         $policies = [];
-        $policies[CnilPolicy::getName()] = CnilPolicy::isActive($idSite) ? 1 : null;
-        $policies[HipaaPolicy::getName()] = HipaaPolicy::isActive($idSite) ? 1 : null;
+        $policies[CnilPolicy::class] = 1;
+        $policies[HipaaPolicy::class] = 1;
+
         return $policies;
     }
 
@@ -46,6 +47,19 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
         $values = self::getPolicyValues($idSite);
         $values['option'] = self::getOptionValue();
         return new self(self::getStrictestValueFromArray($values));
+    }
+
+    public static function isCompliant(string $policy, ?int $idSite = null): bool
+    {
+        $policyValues = self::getPolicyRequirements();
+
+        if (!array_key_exists($policy, $policyValues)) {
+            return true;
+        }
+
+        $currentValue = self::getInstance($idSite)->getValue();
+
+        return $currentValue >= $policyValues[$policy];
     }
 
     protected static function compareStrictness($value1, $value2)

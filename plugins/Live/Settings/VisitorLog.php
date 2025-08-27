@@ -62,12 +62,13 @@ class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterfac
         return FieldConfig::TYPE_BOOL;
     }
 
-    public static function getPolicyValues(?int $idSite = null): array
+    public static function getPolicyRequirements(): array
     {
-        $policies = [];
-        $policies[CnilPolicy::getName()] = CnilPolicy::isActive($idSite) ? true : null;
-        $policies[HipaaPolicy::getName()] = HipaaPolicy::isActive($idSite) ? false : null;
-        return $policies;
+        $policyValues = [];
+        $policyValues[CnilPolicy::class] = true;
+        $policyValues[HipaaPolicy::class] = true;
+
+        return $policyValues;
     }
 
     public static function getInstance(?int $idSite = null): self
@@ -78,6 +79,19 @@ class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterfac
 
         $strictest = self::getStrictestValueFromArray($values);
         return new self($strictest);
+    }
+
+    public static function isCompliant(string $policy, ?int $idSite = null): bool
+    {
+        $policyValues = self::getPolicyRequirements();
+
+        if (!array_key_exists($policy, $policyValues)) {
+            return true;
+        }
+
+        $currentValue = self::getInstance($idSite)->getValue();
+
+        return !$policyValues[$policy] || $currentValue;
     }
 
     protected static function compareStrictness($value1, $value2)
