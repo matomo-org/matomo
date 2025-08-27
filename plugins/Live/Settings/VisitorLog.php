@@ -4,13 +4,16 @@ namespace Piwik\Plugins\Live\Settings;
 
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;
+use Piwik\Policy\Settings\MeasurableSettingInterface;
+use Piwik\Policy\Settings\PolicyComparisonInterface;
+use Piwik\Policy\Settings\SystemSettingInterface;
 use Piwik\Policy\Settings\Traits\Getters\MeasurableGetterTrait;
 use Piwik\Policy\Settings\Traits\Getters\SystemGetterTrait;
 use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
 use Piwik\Settings\FieldConfig;
 use Piwik\Policy\Settings\SettingValueInterface;
 
-class VisitorLog implements SettingValueInterface
+class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface, SystemSettingInterface
 {
     use MeasurableGetterTrait;
     use PolicyComparisonTrait;
@@ -29,32 +32,37 @@ class VisitorLog implements SettingValueInterface
         return $this->value;
     }
 
-    protected static function getSystemName(): string
-    {
-        return 'disable_visitor_log';
-    }
-
     protected static function getMeasurableName(): string
     {
         return 'disable_visitor_log';
     }
 
-    protected static function getDefaultValue()
+    protected static function getMeasurableDefaultValue()
     {
         return false;
     }
 
-    protected static function getPluginName(): string
-    {
-        return 'Live';
-    }
-
-    protected static function getType(): string
+    protected static function getMeasurableType(): string
     {
         return FieldConfig::TYPE_BOOL;
     }
 
-    protected static function getPolicyValues(?int $idSite): array
+    protected static function getSystemName(): string
+    {
+        return 'disable_visitor_log';
+    }
+
+    protected static function getSystemDefaultValue()
+    {
+        return false;
+    }
+
+    protected static function getSystemType(): string
+    {
+        return FieldConfig::TYPE_BOOL;
+    }
+
+    public static function getPolicyValues(?int $idSite = null): array
     {
         $policies = [];
         $policies[CnilPolicy::getName()] = CnilPolicy::isActive($idSite) ? true : null;

@@ -3,7 +3,11 @@
 namespace Piwik\Policy\Settings\Traits\Getters;
 
 use Piwik\Config;
+use Piwik\Policy\Settings\ConfigSettingInterface;
 
+/**
+ * @phpstan-require-implements ConfigSettingInterface
+ */
 trait ConfigGetterTrait
 {
     public static function getConfigValue()
@@ -17,6 +21,7 @@ trait ConfigGetterTrait
         return $config[self::getConfigSettingName()];
     }
 
-    abstract protected static function getConfigSettingName(): string;
     abstract protected static function getConfigSection(): string;
+
+    abstract protected static function getConfigSettingName(): string;
 }

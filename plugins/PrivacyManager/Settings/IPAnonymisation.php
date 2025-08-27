@@ -2,13 +2,15 @@
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
+use Piwik\Policy\Settings\OptionSettingInterface;
+use Piwik\Policy\Settings\PolicyComparisonInterface;
 use Piwik\Policy\Settings\SettingValueInterface;
 use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
 use Piwik\Policy\Settings\Traits\Getters\OptionGetterTrait;
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;
 
-class IPAnonymisation implements SettingValueInterface
+class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
     use OptionGetterTrait;
     use PolicyComparisonTrait;
@@ -31,7 +33,7 @@ class IPAnonymisation implements SettingValueInterface
         return 'PrivacyManager.ipAnonymizerEnabled';
     }
 
-    public static function getPolicyValues(?int $idSite): array
+    public static function getPolicyValues(?int $idSite = null): array
     {
         $policies = [];
         $policies[CnilPolicy::getName()] = CnilPolicy::isActive($idSite) ? 1 : null;

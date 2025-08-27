@@ -2,13 +2,15 @@
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
+use Piwik\Policy\Settings\ConfigSettingInterface;
+use Piwik\Policy\Settings\PolicyComparisonInterface;
 use Piwik\Policy\Settings\SettingValueInterface;
 use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
 use Piwik\Policy\Settings\Traits\Getters\ConfigGetterTrait;
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;
 
-class ReportRetention implements SettingValueInterface
+class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
     use ConfigGetterTrait;
     use PolicyComparisonTrait;
@@ -36,7 +38,7 @@ class ReportRetention implements SettingValueInterface
         return 'Deletelogs';
     }
 
-    public static function getPolicyValues(?int $idSite): array
+    public static function getPolicyValues(?int $idSite = null): array
     {
         $policyValues = [];
         $policyValues[CnilPolicy::getName()] = CnilPolicy::isActive($idSite) ? 90 : null;

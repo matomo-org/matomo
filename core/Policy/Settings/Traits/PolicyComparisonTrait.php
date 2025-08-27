@@ -2,13 +2,13 @@
 
 namespace Piwik\Policy\Settings\Traits;
 
+use Piwik\Policy\Settings\PolicyComparisonInterface;
+
+/**
+ * @phpstan-require-implements PolicyComparisonInterface
+ */
 trait PolicyComparisonTrait
 {
-    /**
-     * @return array<string, mixed>
-     */
-    abstract public static function getPolicyValues(?int $idSite): array;
-
     /**
      * @param array<string, mixed> $policies
      */
@@ -17,9 +17,9 @@ trait PolicyComparisonTrait
         return array_reduce($policies, [__CLASS__, 'compareStrictness']);
     }
 
-    public static function isControlledBySpecificPolicy(string $policy): bool
+    public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool
     {
-        return array_key_exists($policy, self::getPolicyValues(null));
+        return array_key_exists($policy, self::getPolicyValues($idSite));
     }
 
     abstract protected static function compareStrictness($value1, $value2);

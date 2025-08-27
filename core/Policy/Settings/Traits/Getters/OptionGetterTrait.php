@@ -3,7 +3,11 @@
 namespace Piwik\Policy\Settings\Traits\Getters;
 
 use Piwik\Option;
+use Piwik\Policy\Settings\OptionSettingInterface;
 
+/**
+ * @phpstan-require-implements OptionSettingInterface
+ */
 trait OptionGetterTrait
 {
     public static function getOptionValue()
