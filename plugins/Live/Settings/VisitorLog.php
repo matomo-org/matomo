@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Plugins\PrivacyManager\Settings;
+namespace Piwik\Plugins\Live\Settings;
 
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;

@@ -2,6 +2,7 @@
 
 namespace Piwik\Policy\Settings\Traits\Getters;
 
+use Piwik\Piwik;
 use Piwik\Settings\Plugin\SystemSetting;
 
 trait SystemGetterTrait
@@ -14,7 +15,7 @@ trait SystemGetterTrait
             self::getSystemName(),
             self::getDefaultValue(),
             self::getType(),
-            self::getPluginName()
+            Piwik::getPluginNameOfMatomoClass(static::class)
         );
 
         return $setting->getValue();
