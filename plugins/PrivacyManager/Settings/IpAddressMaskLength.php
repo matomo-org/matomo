@@ -10,12 +10,22 @@ use Piwik\Policy\Settings\Traits\Getters\OptionGetterTrait;
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;
 
+/**
+ * @implements PolicyComparisonInterface<int|null>
+ * @implements SettingValueInterface<int|null>
+ */
 class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
     use OptionGetterTrait;
+
+    /**
+     * @use PolicyComparisonTrait<int|null>
+     */
     use PolicyComparisonTrait;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     private $value;
 
     private function __construct(?int $value)

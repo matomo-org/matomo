@@ -3,11 +3,12 @@
 namespace Piwik\Policy\Settings\Traits\Getters;
 
 use Piwik\Piwik;
-use Piwik\Policy\Settings\MeasurableSettingInterface;
 use Piwik\Settings\Measurable\MeasurableSetting;
 
 /**
- * @phpstan-require-implements MeasurableSettingInterface
+ * @template T of mixed
+ *
+ * @phpstan-require-implements \Piwik\Policy\Settings\MeasurableSettingInterface<T>
  */
 trait MeasurableGetterTrait
 {
@@ -22,11 +23,17 @@ trait MeasurableGetterTrait
         );
     }
 
+    /**
+     * @return T
+     */
     public static function getMeasurableValue(int $idSite)
     {
         return self::getMeasurableSetting($idSite)->getValue();
     }
 
+    /**
+     * @return T
+     */
     abstract protected static function getMeasurableDefaultValue();
 
     abstract protected static function getMeasurableName(): string;

@@ -10,12 +10,26 @@ use Piwik\Policy\Settings\Traits\Getters\ConfigGetterTrait;
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;
 
+/**
+ * @implements ConfigSettingInterface<int|null>
+ * @implements PolicyComparisonInterface<int|null>
+ * @implements SettingValueInterface<int|null>
+ */
 class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
+    /**
+     * @use ConfigGetterTrait<int|null>
+     */
     use ConfigGetterTrait;
+
+    /**
+     * @use PolicyComparisonTrait<int|null>
+     */
     use PolicyComparisonTrait;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     private $value;
 
     private function __construct(?int $value)

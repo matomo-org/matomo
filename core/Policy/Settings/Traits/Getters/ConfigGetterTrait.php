@@ -6,10 +6,15 @@ use Piwik\Config;
 use Piwik\Policy\Settings\ConfigSettingInterface;
 
 /**
+ * @template T of mixed
+ *
  * @phpstan-require-implements ConfigSettingInterface
  */
 trait ConfigGetterTrait
 {
+    /**
+     * @return T|null
+     */
     public static function getConfigValue()
     {
         $config = Config::getInstance()->{self::getConfigSection()};

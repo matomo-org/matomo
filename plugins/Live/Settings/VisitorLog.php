@@ -13,13 +13,32 @@ use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
 use Piwik\Settings\FieldConfig;
 use Piwik\Policy\Settings\SettingValueInterface;
 
+/**
+ * @implements MeasurableSettingInterface<bool>
+ * @implements PolicyComparisonInterface<bool>
+ * @implements SettingValueInterface<bool>
+ * @implements SystemSettingInterface<bool>
+ */
 class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface, SystemSettingInterface
 {
+    /**
+     * @use MeasurableGetterTrait<bool>
+     */
     use MeasurableGetterTrait;
+
+    /**
+     * @use PolicyComparisonTrait<bool>
+     */
     use PolicyComparisonTrait;
+
+    /**
+     * @use SystemGetterTrait<bool>
+     */
     use SystemGetterTrait;
 
-    /** @var bool|null */
+    /**
+     * @var bool
+     */
     private $value;
 
     private function __construct(bool $value)
@@ -74,7 +93,7 @@ class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterfac
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyValues($idSite);
-        $values['measurable'] = self::getMeasurableValue($idSite);
+        $values['measurable'] = $idSite === null ? null : self::getMeasurableValue($idSite);
         $values['system'] = self::getSystemValue();
 
         $strictest = self::getStrictestValueFromArray($values);

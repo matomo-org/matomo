@@ -10,6 +10,9 @@ use Piwik\Policy\Settings\OptionSettingInterface;
  */
 trait OptionGetterTrait
 {
+    /**
+     * @return string|false
+     */
     public static function getOptionValue()
     {
         return Option::get(self::getOptionName());

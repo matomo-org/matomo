@@ -3,11 +3,12 @@
 namespace Piwik\Policy\Settings\Traits\Getters;
 
 use Piwik\Piwik;
-use Piwik\Policy\Settings\SystemSettingInterface;
 use Piwik\Settings\Plugin\SystemSetting;
 
 /**
- * @phpstan-require-implements SystemSettingInterface
+ * @template T of mixed
+ *
+ * @phpstan-require-implements \Piwik\Policy\Settings\SystemSettingInterface<T>
  */
 trait SystemGetterTrait
 {
@@ -21,12 +22,20 @@ trait SystemGetterTrait
         );
     }
 
+    /**
+     * @return T
+     */
     public static function getSystemValue()
     {
         return self::getSystemSetting()->getValue();
     }
 
+    /**
+     * @return T
+     */
     abstract protected static function getSystemDefaultValue();
+
     abstract protected static function getSystemName(): string;
+
     abstract protected static function getSystemType(): string;
 }

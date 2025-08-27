@@ -10,12 +10,22 @@ use Piwik\Policy\Settings\Traits\Getters\OptionGetterTrait;
 use Piwik\Policy\Policies\CnilPolicy;
 use Piwik\Policy\Policies\HipaaPolicy;
 
+/**
+ * @implements PolicyComparisonInterface<int|null>
+ * @implements SettingValueInterface<int|null>
+ */
 class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
     use OptionGetterTrait;
+
+    /**
+     * @use PolicyComparisonTrait<int|null>
+     */
     use PolicyComparisonTrait;
 
-    /** @var int|null */
+    /**
+     * @var int|null
+     */
     private $value;
 
     private function __construct(?int $value)
@@ -44,9 +54,14 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
 
     public static function getInstance(?int $idSite = null)
     {
+        $optionValue = self::getOptionValue();
+
         $values = self::getPolicyValues($idSite);
-        $values['option'] = self::getOptionValue();
-        return new self(self::getStrictestValueFromArray($values));
+        $values['option'] = $optionValue;
+
+        $x = self::getStrictestValueFromArray($values);
+
+        return new self($x);
     }
 
     public static function isCompliant(string $policy, ?int $idSite = null): bool

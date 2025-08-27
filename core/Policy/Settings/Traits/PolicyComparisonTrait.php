@@ -3,15 +3,16 @@
 namespace Piwik\Policy\Settings\Traits;
 
 use Piwik\Policy\Policies\CompliancePolicy;
-use Piwik\Policy\Settings\PolicyComparisonInterface;
 
 /**
- * @phpstan-require-implements PolicyComparisonInterface
+ * @template T of mixed
+ *
+ * @phpstan-require-implements \Piwik\Policy\Settings\PolicyComparisonInterface<T>
  */
 trait PolicyComparisonTrait
 {
     /**
-     * @return array<class-string<CompliancePolicy>, mixed>
+     * @return array<class-string<CompliancePolicy>, T|null>
      */
     public static function getPolicyValues(?int $idSite = null): array
     {
@@ -27,11 +28,16 @@ trait PolicyComparisonTrait
     }
 
     /**
-     * @param array<string, mixed> $policies
+     * @param array<string, T> $policies
+     *
+     * @return T
      */
     protected static function getStrictestValueFromArray(array $policies)
     {
-        return array_reduce($policies, [__CLASS__, 'compareStrictness']);
+        /** @var callable-string */
+        $callback = [__CLASS__, 'compareStrictness'];
+
+        return array_reduce($policies, $callback);
     }
 
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool
@@ -39,5 +45,11 @@ trait PolicyComparisonTrait
         return array_key_exists($policy, self::getPolicyValues($idSite));
     }
 
+    /**
+     * @param T $value1
+     * @param T $value2
+     *
+     * @return T
+     */
     abstract protected static function compareStrictness($value1, $value2);
 }
