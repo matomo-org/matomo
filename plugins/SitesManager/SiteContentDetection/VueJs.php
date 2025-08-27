@@ -77,14 +77,14 @@ class VueJs extends SiteContentDetectionAbstract
         );
     }
 
-    private function getVueInitializeCode($vueVersion = '3')
+    private function getVueInitializeCode(int $vueVersion = 3): string
     {
         $request = \Piwik\Request::fromRequest();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $siteId = $request->getIntegerParameter('idSite', 1);
         $configureComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo');
         $trackViewComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView');
-        if ($vueVersion == 2) {
+        if ($vueVersion === 2) {
             return <<<INST
 import { createApp } from 'vue'
 import VueMatomo from 'vue-matomo'

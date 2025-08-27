@@ -64,7 +64,7 @@ class CoreArchiverProcessSignal extends Fixture
     {
         $this->inTestEnv = (bool) getenv(self::ENV_TRIGGER);
         $this->inTestRequest = Request::fromRequest()->getBoolParameter(self::ENV_TRIGGER, false);
-        $this->today = Date::today()->toString();
+        $this->today = '2024-05-03';
 
         $this->stepControl = new StepControl();
     }
@@ -87,6 +87,8 @@ class CoreArchiverProcessSignal extends Fixture
 
     public function provideContainerConfig(): array
     {
+        Date::$now = strtotime('2024-05-03 10:00:00');
+
         if (!$this->inTestEnv && !$this->inTestRequest) {
             return [];
         }

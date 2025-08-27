@@ -23,6 +23,7 @@ use Piwik\CronArchive\QueueConsumer;
 use Piwik\CronArchive\SharedSiteIds;
 use Piwik\CronArchive\StopArchiverException;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveWriter;
 use Piwik\DataAccess\Model;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Metrics\Formatter;
@@ -79,7 +80,6 @@ class CronArchive
      */
     private $websiteIdArchiveList;
     private $requests = 0;
-    private $archiveAndRespectTTL = true;
     public $shouldArchiveAllSites = false;
 
     private $idSitesNotUsingTracker = [];
@@ -137,12 +137,11 @@ class CronArchive
     public $disableScheduledTasks = false;
 
     /**
-     * Forces CronArchive to invalidate data for the last [$dateLastForced] years when it notices a segment that
-     * was recently created or updated. By default this is 7.
+     * If set to true, yesterday and today won't be invalidated.
      *
-     * @var int|false
+     * @var bool
      */
-    public $dateLastForced = SegmentArchiving::DEFAULT_BEGINNING_OF_TIME_LAST_N_YEARS;
+    public $skipInvalidatingRecentDates = false;
 
     /**
      * The number of concurrent requests to issue per website. Defaults to {@link MAX_CONCURRENT_API_REQUESTS}.
@@ -511,7 +510,7 @@ class CronArchive
         $urls = [];
         $archivesBeingQueried = [];
         foreach ($archives as $index => $archive) {
-            list($url, $segment, $plugin) = $this->generateUrlToArchiveFromArchiveInfo($archive);
+            [$url, $segment, $plugin] = $this->generateUrlToArchiveFromArchiveInfo($archive);
             if (empty($url)) {
                 // can happen if, for example, a segment was deleted after an archive was invalidated
                 // in this case, we can just delete the archive entirely.
@@ -545,6 +544,10 @@ class CronArchive
                 $params->onlyArchiveRequestedPlugin();
             }
 
+            if (!empty($archive['report'])) {
+                $params->setArchiveOnlyReport($archive['report']);
+            }
+
             $loader = new Loader($params);
             if ($loader->canSkipThisArchive()) {
                 $this->logger->info("Found no visits for site ID = {idSite}, {period} ({date1},{date2}), site is using the tracker so skipping archiving...", [
@@ -553,6 +556,11 @@ class CronArchive
                     'date1' => $archive['date1'],
                     'date2' => $archive['date2'],
                 ]);
+
+                // create an empty archive
+                $archiveWriter = new ArchiveWriter($params);
+                $archiveWriter->initNewArchive();
+                $archiveWriter->finalizeArchive();
 
                 // site is using the tracker, but there are no visits for this period, so just delete the archive and move on
                 $this->deleteInvalidatedArchives($archive);
@@ -993,18 +1001,12 @@ class CronArchive
 
     public function invalidateRecentDate(string $dateStr, int $idSite): void
     {
-        $timezone = Site::getTimezoneFor($idSite);
-        $date = Date::factoryInTimezone($dateStr, $timezone);
-        $period = PeriodFactory::build('day', $date);
-
-        $params = new Parameters(new Site($idSite), $period, new Segment('', [$idSite], $period->getDateStart(), $period->getDateEnd()));
-
-        $loader = new Loader($params);
-        $canSkip = $loader->canSkipThisArchiveWithReason();
-        if ($canSkip[0] === true) {
-            $this->logger->info('  ' . ucfirst($dateStr) . " archive can be skipped for period for idSite = $idSite because: " . $canSkip[1]);
+        if ($this->skipInvalidatingRecentDates) {
             return;
         }
+
+        $timezone = Site::getTimezoneFor($idSite);
+        $date = Date::factoryInTimezone($dateStr, $timezone);
 
         $isYesterday = $dateStr === 'yesterday';
         $isToday = $dateStr === 'today';

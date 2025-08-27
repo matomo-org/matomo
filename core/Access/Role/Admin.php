@@ -29,9 +29,9 @@ class Admin extends Role
 
     public function getDescription(): string
     {
-        return Piwik::translate('UsersManager_PrivAdminDescription', array(
+        return Piwik::translate('UsersManager_PrivAdminDescription', [
             Piwik::translate('UsersManager_PrivWrite')
-        ));
+        ]);
     }
 
     public function getHelpUrl(): string
