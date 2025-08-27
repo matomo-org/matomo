@@ -482,16 +482,6 @@ class API extends \Piwik\Plugin\API
 
     public function testGetSetting()
     {
-        /*
-        $return = [];
-        $settingsManager = new SettingsManager();
-        $setting = $settingsManager->getSetting('Deletelogs.delete_logs_older_than', FieldConfig::TYPE_INT);
-        $return[] = $setting->getValue();
-        $setting = $settingsManager->getSetting('Login.enableBruteForceDetection', FieldConfig::TYPE_BOOL, $default = true);
-        $return[] = $setting->getValue();
-        return $return;
-         */
-
         $value = ReportRetention::getInstance()->getValue();
         $value2 = VisitorLog::getInstance(1)->getValue();
         $value3 = IPAnonymisation::getInstance()->getValue();
