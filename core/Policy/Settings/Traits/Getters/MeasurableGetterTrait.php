@@ -11,17 +11,20 @@ use Piwik\Settings\Measurable\MeasurableSetting;
  */
 trait MeasurableGetterTrait
 {
-    public static function getMeasurableValue(int $idSite)
+    public static function getMeasurableSetting(int $idSite): MeasurableSetting
     {
-        $measurable = new MeasurableSetting(
+        return new MeasurableSetting(
             self::getMeasurableName(),
             self::getMeasurableDefaultValue(),
             self::getMeasurableType(),
             Piwik::getPluginNameOfMatomoClass(static::class),
             $idSite
         );
+    }
 
-        return $measurable->getValue();
+    public static function getMeasurableValue(int $idSite)
+    {
+        return self::getMeasurableSetting($idSite)->getValue();
     }
 
     abstract protected static function getMeasurableDefaultValue();

@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Live;
 
 use Piwik\Piwik;
+use Piwik\Plugins\Live\Settings\VisitorLog;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Measurable\MeasurableSetting;
 
@@ -34,14 +35,16 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     private function makeVisitorLogSetting(): MeasurableSetting
     {
-        $defaultValue = false;
-        $type = FieldConfig::TYPE_BOOL;
-
-        return $this->makeSetting('disable_visitor_log', $defaultValue, $type, function (FieldConfig $field) {
+        $setting = VisitorLog::getMeasurableSetting($this->idSite);
+        $setting->setConfigureCallback(function (FieldConfig $field) {
             $field->title = Piwik::translate('Live_DisableVisitsLogAndProfile');
             $field->inlineHelp = Piwik::translate('Live_DisableVisitsLogAndProfileDescription');
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
+
+        $this->addSetting($setting);
+
+        return $setting;
     }
 
     private function makeVisitorProfileSetting(): MeasurableSetting

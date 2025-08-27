@@ -11,16 +11,19 @@ use Piwik\Settings\Plugin\SystemSetting;
  */
 trait SystemGetterTrait
 {
-    public static function getSystemValue()
+    public static function getSystemSetting(): SystemSetting
     {
-        $setting = new SystemSetting(
+        return new SystemSetting(
             self::getSystemName(),
             self::getMeasurableDefaultValue(),
             self::getMeasurableType(),
             Piwik::getPluginNameOfMatomoClass(static::class)
         );
+    }
 
-        return $setting->getValue();
+    public static function getSystemValue()
+    {
+        return self::getSystemSetting()->getValue();
     }
 
     abstract protected static function getSystemDefaultValue();
