@@ -22,4 +22,6 @@ interface PolicyComparisonInterface
     public static function isCompliant(string $policy, ?int $idSite = null): bool;
 
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool;
+
+    public static function getComplianceRequirementNote(): string;
 }

@@ -13,4 +13,8 @@ interface SettingValueInterface
      * @return T
      */
     public function getValue();
+
+    public static function getTitle(): string;
+
+    public static function getInlineHelp(): string;
 }

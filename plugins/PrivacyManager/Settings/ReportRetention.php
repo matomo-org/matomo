@@ -52,6 +52,23 @@ class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterfa
         return 'Deletelogs';
     }
 
+    public static function getTitle(): string
+    {
+        return 'Data retention period';
+    }
+
+    public static function getComplianceRequirementNote(): string
+    {
+        // TODO add in dynamic messaging
+        return 'Retention period is set to 365 days';
+    }
+
+    public static function getInlineHelp(): string
+    {
+        // TODO
+        return '';
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policyValues = [];

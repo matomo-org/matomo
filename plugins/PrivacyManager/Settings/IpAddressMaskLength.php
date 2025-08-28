@@ -43,6 +43,22 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
         return 'PrivacyManager.IpAddressMaskLength';
     }
 
+    public static function getTitle(): string
+    {
+        return 'IP Address Mask Length';
+    }
+
+    public static function getComplianceRequirementNote(): string
+    {
+        return 'Must be set to at least 2 bytes.';
+    }
+
+    public static function getInlineHelp(): string
+    {
+        // TODO
+        return '';
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policies = [];

@@ -26,7 +26,9 @@ use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Plugins\PrivacyManager\Settings\ReportRetention;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Policy\CnilPolicy;
+use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 
@@ -418,9 +420,14 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @internal
+     * @param int|string $idSite
      */
-    public function getComplianceStatus(int $idSite, string $complianceType): array
+    public function getComplianceStatus($idSite, string $complianceType): array
     {
+        if ($idSite === 'all') {
+            $idSite = null;
+        }
+
         if (false === $this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             throw new Exception('Feature not available');
         }
@@ -431,6 +438,18 @@ class API extends \Piwik\Plugin\API
 
         Piwik::checkUserHasSuperUserAccess();
 
+        $payload['complianceModeEnforced']  = CnilPolicy::isActive($idSite);
+        /** @var PolicyComparisonInterface[]|SettingValueInterface[] */
+        $settingsUnderPolicy = CnilPolicy::getAllControlledSettings($idSite);
+        foreach ($settingsUnderPolicy as $setting) {
+            $payload['complianceRequirements'][] = [
+                'name' => $setting::getTitle(),
+                'value' => $setting::isCompliant(CnilPolicy::class, $idSite) ? 'compliant' : 'non_compliant',
+                'notes' => $setting::getComplianceRequirementNote(),
+            ];
+        }
+        return $payload;
+        /*
         return [
             'complianceModeEnforced' => false,
             'complianceRequirements' => [
@@ -461,6 +480,7 @@ class API extends \Piwik\Plugin\API
                 ],
             ]
         ];
+         */
     }
 
     /**

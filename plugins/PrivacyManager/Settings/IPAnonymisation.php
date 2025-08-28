@@ -43,6 +43,22 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
         return 'PrivacyManager.ipAnonymizerEnabled';
     }
 
+    public static function getTitle(): string
+    {
+        return 'IP Anonymisation Enabled';
+    }
+
+    public static function getComplianceRequirementNote(): string
+    {
+        return "Anonymisation of Visitor's IP addresses must be enabled";
+    }
+
+    public static function getInlineHelp(): string
+    {
+        // TODO maybe make this only required for system/measurable settings
+        return '';
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policies = [];

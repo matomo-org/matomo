@@ -81,6 +81,22 @@ class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterfac
         return FieldConfig::TYPE_BOOL;
     }
 
+    public static function getTitle(): string
+    {
+        return 'Visits Log and Visitors Profile';
+    }
+
+    public static function getComplianceRequirementNote(): string
+    {
+        return 'Visits log is required to be disabled.';
+    }
+
+    public static function getInlineHelp(): string
+    {
+        // TODO
+        return '';
+    }
+
     public static function getPolicyRequirements(): array
     {
         $policyValues = [];
