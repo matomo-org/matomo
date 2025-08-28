@@ -1,10 +1,10 @@
 <?php
 
-namespace Piwik\Policy\Policies;
+namespace Piwik\Policies;
 
 use Piwik\Plugin\Manager;
-use Piwik\Policy\Settings\PolicyComparisonInterface;
-use Piwik\Policy\Settings\SettingValueInterface;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
+use Piwik\Settings\Interfaces\SettingValueInterface;
 
 abstract class CompliancePolicy
 {

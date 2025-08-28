@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Policy\Settings\Traits\Getters;
+namespace Piwik\Settings\Interfaces\Traits\Getters;
 
 use Piwik\Piwik;
 use Piwik\Settings\Plugin\SystemSetting;

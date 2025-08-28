@@ -2,13 +2,13 @@
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
-use Piwik\Policy\Settings\ConfigSettingInterface;
-use Piwik\Policy\Settings\PolicyComparisonInterface;
-use Piwik\Policy\Settings\SettingValueInterface;
-use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
-use Piwik\Policy\Settings\Traits\Getters\ConfigGetterTrait;
-use Piwik\Policy\Policies\CnilPolicy;
-use Piwik\Policy\Policies\HipaaPolicy;
+use Piwik\Settings\Interfaces\ConfigSettingInterface;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
+use Piwik\Settings\Interfaces\SettingValueInterface;
+use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
+use Piwik\Settings\Interfaces\Traits\Getters\ConfigGetterTrait;
+use Piwik\Policies\CnilPolicy;
+use Piwik\Policies\HipaaPolicy;
 
 /**
  * @implements ConfigSettingInterface<int|null>
@@ -61,7 +61,7 @@ class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterfa
         return $policyValues;
     }
 
-    public static function getInstance(?int $idSite = null)
+    public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyValues($idSite);
         $values['config'] = self::getConfigValue();

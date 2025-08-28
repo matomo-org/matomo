@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Policy\Policies;
+namespace Piwik\Policies;
 
 class HipaaPolicy extends CompliancePolicy
 {

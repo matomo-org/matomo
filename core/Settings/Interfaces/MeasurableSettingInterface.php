@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Policy\Settings;
+namespace Piwik\Settings\Interfaces;
 
 use Piwik\Settings\Measurable\MeasurableSetting;
 

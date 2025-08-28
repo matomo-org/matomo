@@ -2,13 +2,13 @@
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
-use Piwik\Policy\Settings\OptionSettingInterface;
-use Piwik\Policy\Settings\PolicyComparisonInterface;
-use Piwik\Policy\Settings\SettingValueInterface;
-use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
-use Piwik\Policy\Settings\Traits\Getters\OptionGetterTrait;
-use Piwik\Policy\Policies\CnilPolicy;
-use Piwik\Policy\Policies\HipaaPolicy;
+use Piwik\Settings\Interfaces\OptionSettingInterface;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
+use Piwik\Settings\Interfaces\SettingValueInterface;
+use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
+use Piwik\Settings\Interfaces\Traits\Getters\OptionGetterTrait;
+use Piwik\Policies\CnilPolicy;
+use Piwik\Policies\HipaaPolicy;
 
 /**
  * @implements PolicyComparisonInterface<int|null>
@@ -52,7 +52,7 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
         return $policies;
     }
 
-    public static function getInstance(?int $idSite = null)
+    public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyValues($idSite);
         $values['option'] = self::getOptionValue();

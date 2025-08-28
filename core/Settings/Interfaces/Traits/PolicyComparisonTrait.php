@@ -1,8 +1,8 @@
 <?php
 
-namespace Piwik\Policy\Settings\Traits;
+namespace Piwik\Settings\Interfaces\Traits;
 
-use Piwik\Policy\Policies\CompliancePolicy;
+use Piwik\Policies\CompliancePolicy;
 
 /**
  * @template T of mixed

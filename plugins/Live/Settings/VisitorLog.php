@@ -2,16 +2,16 @@
 
 namespace Piwik\Plugins\Live\Settings;
 
-use Piwik\Policy\Policies\CnilPolicy;
-use Piwik\Policy\Policies\HipaaPolicy;
-use Piwik\Policy\Settings\MeasurableSettingInterface;
-use Piwik\Policy\Settings\PolicyComparisonInterface;
-use Piwik\Policy\Settings\SystemSettingInterface;
-use Piwik\Policy\Settings\Traits\Getters\MeasurableGetterTrait;
-use Piwik\Policy\Settings\Traits\Getters\SystemGetterTrait;
-use Piwik\Policy\Settings\Traits\PolicyComparisonTrait;
+use Piwik\Policies\CnilPolicy;
+use Piwik\Policies\HipaaPolicy;
+use Piwik\Settings\Interfaces\MeasurableSettingInterface;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
+use Piwik\Settings\Interfaces\SystemSettingInterface;
+use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
+use Piwik\Settings\Interfaces\Traits\Getters\SystemGetterTrait;
+use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Settings\FieldConfig;
-use Piwik\Policy\Settings\SettingValueInterface;
+use Piwik\Settings\Interfaces\SettingValueInterface;
 
 /**
  * @implements MeasurableSettingInterface<bool>

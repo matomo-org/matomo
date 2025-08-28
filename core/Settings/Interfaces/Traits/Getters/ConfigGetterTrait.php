@@ -1,9 +1,8 @@
 <?php
 
-namespace Piwik\Policy\Settings\Traits\Getters;
+namespace Piwik\Settings\Interfaces\Traits\Getters;
 
 use Piwik\Config;
-use Piwik\Policy\Settings\ConfigSettingInterface;
 
 /**
  * @template T of mixed

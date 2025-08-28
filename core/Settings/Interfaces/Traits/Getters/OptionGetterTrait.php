@@ -1,9 +1,8 @@
 <?php
 
-namespace Piwik\Policy\Settings\Traits\Getters;
+namespace Piwik\Settings\Interfaces\Traits\Getters;
 
 use Piwik\Option;
-use Piwik\Policy\Settings\OptionSettingInterface;
 
 /**
  * @phpstan-require-implements OptionSettingInterface

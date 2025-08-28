@@ -26,7 +26,7 @@ use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Plugins\PrivacyManager\Settings\ReportRetention;
-use Piwik\Policy\Policies\CnilPolicy;
+use Piwik\Policies\CnilPolicy;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 
