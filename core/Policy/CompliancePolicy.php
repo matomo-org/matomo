@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Policies;
+namespace Piwik\Policy;
 
 use Piwik\Plugin\Manager;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;

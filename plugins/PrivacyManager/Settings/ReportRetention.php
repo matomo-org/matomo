@@ -7,8 +7,8 @@ use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Settings\Interfaces\Traits\Getters\ConfigGetterTrait;
-use Piwik\Policies\CnilPolicy;
-use Piwik\Policies\HipaaPolicy;
+use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\HipaaPolicy;
 
 /**
  * @implements ConfigSettingInterface<int|null>

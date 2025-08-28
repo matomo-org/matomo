@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Policies;
+namespace Piwik\Policy;
 
 class CnilPolicy extends CompliancePolicy
 {

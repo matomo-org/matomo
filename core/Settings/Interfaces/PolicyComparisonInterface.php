@@ -2,7 +2,7 @@
 
 namespace Piwik\Settings\Interfaces;
 
-use Piwik\Policies\CompliancePolicy;
+use Piwik\Policy\CompliancePolicy;
 
 /**
  * @template T of mixed

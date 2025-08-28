@@ -2,8 +2,8 @@
 
 namespace Piwik\Plugins\Live\Settings;
 
-use Piwik\Policies\CnilPolicy;
-use Piwik\Policies\HipaaPolicy;
+use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\HipaaPolicy;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SystemSettingInterface;
