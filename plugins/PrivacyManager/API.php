@@ -26,9 +26,7 @@ use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Plugins\PrivacyManager\Settings\ReportRetention;
-use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Policy\CnilPolicy;
-use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 
@@ -439,7 +437,6 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
 
         $payload['complianceModeEnforced']  = CnilPolicy::isActive($idSite);
-        /** @var PolicyComparisonInterface[]|SettingValueInterface[] */
         $settingsUnderPolicy = CnilPolicy::getAllControlledSettings($idSite);
         foreach ($settingsUnderPolicy as $setting) {
             $payload['complianceRequirements'][] = [

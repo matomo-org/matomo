@@ -615,7 +615,9 @@ class Manager
     }
 
     /**
-     * @return array<class-string>
+     * @template T of object
+     * @param class-string<T> $expectedSubclass
+     * @return array<class-string<T>>
      */
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
     {

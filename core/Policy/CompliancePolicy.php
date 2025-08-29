@@ -13,7 +13,7 @@ abstract class CompliancePolicy
     abstract public static function isActive(?int $idSite): bool;
 
     /**
-     * @return array<class-string>
+     * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
      */
     public static function getAllControlledSettings(?int $idSite = null): array
     {
@@ -32,7 +32,7 @@ abstract class CompliancePolicy
     }
 
     /**
-     * @return array<class-string>
+     * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
      */
     public static function getAllSettings(?int $idSite = null): array
     {
