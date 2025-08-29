@@ -153,17 +153,16 @@ abstract class RecordBuilder
 
         $aggregatedCounts = [];
 
-        // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived first
         foreach ($numericRecords as $record) {
             if (
                 empty($record->getCountOfRecordName())
-                || !in_array($record->getName(), $requestedReports)
+                || !in_array($record->getName(), $requestedReports) // Wrong?
             ) {
                 continue;
             }
 
             $dependentRecordName = $record->getCountOfRecordName();
-            if (!in_array($dependentRecordName, $requestedReports)) {
+            if (!in_array($dependentRecordName, $requestedReports)) { // Wrong?
                 $requestedReports[] = $dependentRecordName;
             }
 
@@ -224,26 +223,8 @@ abstract class RecordBuilder
                 return $r->getName();
             }, $autoAggregateMetrics);
 
-            // if $requestedReports exists, then keep autoAggregateMetrics only if they are in requested reports and not in found requested reports.
-            // So the problem is that the requestedReports name and the name doesn't match
-            // name is right, requestedReports is wrong b- should be full metric name, not just report name
-
-            // Below code works, but it hacky.
-
-
-            if (!empty($requestedReports)) {
-                $autoAggregateMetrics = array_filter($autoAggregateMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
-                    foreach ($requestedReports as $requestedReport) {
-                        if (strncmp($name, $requestedReport, strlen($requestedReport)) === 0) {
-                            if (in_array($name, $foundRequestedReports)) {
-                                return false;
-                            }
-                            return true;
-                        }
-                    }
-                    return false;
-                });
-            }
+            $autoAggregateMetrics = $this->removeFoundReports($autoAggregateMetrics, $foundRequestedReports);
+            $autoAggregateMetrics = $this->keepOnlyRequestedReports($autoAggregateMetrics, $requestedReports);
 
             $autoAggregateMetrics = array_values($autoAggregateMetrics);
 
@@ -281,6 +262,33 @@ abstract class RecordBuilder
                 $archiveProcessor->insertNumericRecords($recordCountMetricValues);
             }
         }
+    }
+
+    public function removeFoundReports(array $autoAggregateMetrics, array $foundRequestedReports): array
+    {
+        return array_filter($autoAggregateMetrics, function ($name) use ($foundRequestedReports) {
+            // Don't process if we already found the metric
+            return !in_array($name, $foundRequestedReports);
+        });
+    }
+
+    public function keepOnlyRequestedReports(array $autoAggregateMetrics, array $requestedReports): array
+    {
+        return array_filter($autoAggregateMetrics, function ($name) use ($requestedReports) {
+            // Do process if this is a metric matching the report we specifically asked for
+            if (in_array($name, $requestedReports)) {
+                return true;
+            }
+            // Do process if this is a metric for that specific report
+            foreach ($requestedReports as $requestedReport) {
+                $requestedReportWithUnderscore = $requestedReport . '_';
+                if (strncmp($name, $requestedReportWithUnderscore, strlen($requestedReportWithUnderscore)) === 0) {
+                    return true;
+                }
+            }
+            // Do not process if we did not ask for this.
+            return false;
+        });
     }
 
     /**
