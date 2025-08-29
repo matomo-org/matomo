@@ -224,9 +224,24 @@ abstract class RecordBuilder
                 return $r->getName();
             }, $autoAggregateMetrics);
 
+            // if $requestedReports exists, then keep autoAggregateMetrics only if they are in requested reports and not in found requested reports.
+            // So the problem is that the requestedReports name and the name doesn't match
+            // name is right, requestedReports is wrong b- should be full metric name, not just report name
+
+            // Below code works, but it hacky.
+
+
             if (!empty($requestedReports)) {
                 $autoAggregateMetrics = array_filter($autoAggregateMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
-                    return in_array($name, $requestedReports) && !in_array($name, $foundRequestedReports);
+                    foreach ($requestedReports as $requestedReport) {
+                        if (strncmp($name, $requestedReport, strlen($requestedReport)) === 0) {
+                            if (in_array($name, $foundRequestedReports)) {
+                                return false;
+                            }
+                            return true;
+                        }
+                    }
+                    return false;
                 });
             }
 
