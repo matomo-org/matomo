@@ -4,6 +4,7 @@ namespace Piwik\Settings\Interfaces\Traits\Getters;
 
 use Piwik\Piwik;
 use Piwik\Settings\Plugin\SystemSetting;
+use Piwik\Settings\Interfaces\SystemSettingInterface;
 
 /**
  * @template T of mixed

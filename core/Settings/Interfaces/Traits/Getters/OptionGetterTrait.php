@@ -3,6 +3,7 @@
 namespace Piwik\Settings\Interfaces\Traits\Getters;
 
 use Piwik\Option;
+use Piwik\Settings\Interfaces\OptionSettingInterface;
 
 /**
  * @phpstan-require-implements OptionSettingInterface

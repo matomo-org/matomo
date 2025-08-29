@@ -3,6 +3,7 @@
 namespace Piwik\Settings\Interfaces\Traits\Getters;
 
 use Piwik\Config;
+use Piwik\Settings\Interfaces\ConfigSettingInterface;
 
 /**
  * @template T of mixed

@@ -3,6 +3,7 @@
 namespace Piwik\Settings\Interfaces\Traits;
 
 use Piwik\Policy\CompliancePolicy;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 
 /**
  * @template T of mixed

@@ -4,6 +4,7 @@ namespace Piwik\Settings\Interfaces\Traits\Getters;
 
 use Piwik\Piwik;
 use Piwik\Settings\Measurable\MeasurableSetting;
+use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 
 /**
  * @template T of mixed
