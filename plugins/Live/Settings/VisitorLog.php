@@ -2,6 +2,7 @@
 
 namespace Piwik\Plugins\Live\Settings;
 
+use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\HipaaPolicy;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
@@ -83,7 +84,7 @@ class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterfac
 
     public static function getTitle(): string
     {
-        return 'Visits Log and Visitors Profile';
+        return Piwik::translate('Live_DisableVisitsLogAndProfile');
     }
 
     public static function getComplianceRequirementNote(): string
@@ -93,8 +94,7 @@ class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterfac
 
     public static function getInlineHelp(): string
     {
-        // TODO
-        return '';
+        return Piwik::translate('Live_DisableVisitsLogAndProfileDescription');
     }
 
     public static function getPolicyRequirements(): array

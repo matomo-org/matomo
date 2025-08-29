@@ -32,8 +32,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     {
         $setting = VisitorLog::getSystemSetting();
         $setting->setConfigureCallback(function (FieldConfig $field) {
-            $field->title = Piwik::translate('Live_DisableVisitsLogAndProfile');
-            $field->inlineHelp = Piwik::translate('Live_DisableVisitsLogAndProfileDescription');
+            $field->title = VisitorLog::getTitle();
+            $field->inlineHelp = VisitorLog::getInlineHelp();
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
 
