@@ -70,7 +70,7 @@ class Model
         ];
         return $db->fetchRow($query, $bind)[0];
     }
-    
+
     public function getCountStarredAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate): int
     {
         $db = $this->getDb();

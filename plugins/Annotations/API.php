@@ -12,10 +12,8 @@ namespace Piwik\Plugins\Annotations;
 use Exception;
 use Piwik\Common;
 use Piwik\Date;
-use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Site;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 
 /**
  * @see plugins/Annotations/AnnotationList.php
@@ -282,7 +280,7 @@ class API extends \Piwik\Plugin\API
         }
         // we add one for the end of the last period (used in for loop below to bound annotation dates)
         $dates[] = $startDate;
-        
+
         // TODO handle possible 'all' scenario
         // convert possible id list into array of int ids
         $idstrings = explode(',', $idSite);
