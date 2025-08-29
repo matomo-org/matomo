@@ -29,7 +29,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
         $systemSettings = new SystemSettings();
 
-        $this->disableVisitorLog->setIsWritableByCurrentUser(!$systemSettings->disableVisitorLog->getValue());
+        $this->disableVisitorLog->setIsWritableByCurrentUser(!VisitorLog::getInstance()->getValue());
         $this->disableVisitorProfile->setIsWritableByCurrentUser(!$systemSettings->disableVisitorProfile->getValue());
     }
 
