@@ -153,6 +153,7 @@ abstract class RecordBuilder
 
         $aggregatedCounts = [];
 
+        // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived first
         foreach ($numericRecords as $record) {
             if (
                 empty($record->getCountOfRecordName())
