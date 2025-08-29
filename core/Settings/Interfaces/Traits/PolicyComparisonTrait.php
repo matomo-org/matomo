@@ -3,12 +3,11 @@
 namespace Piwik\Settings\Interfaces\Traits;
 
 use Piwik\Policy\CompliancePolicy;
-use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 
 /**
  * @template T of mixed
  *
- * @phpstan-require-implements \Piwik\Policy\Settings\PolicyComparisonInterface<T>
+ * @phpstan-require-implements \Piwik\Settings\Interfaces\PolicyComparisonInterface<T>
  */
 trait PolicyComparisonTrait
 {

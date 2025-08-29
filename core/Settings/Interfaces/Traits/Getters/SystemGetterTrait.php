@@ -4,12 +4,11 @@ namespace Piwik\Settings\Interfaces\Traits\Getters;
 
 use Piwik\Piwik;
 use Piwik\Settings\Plugin\SystemSetting;
-use Piwik\Settings\Interfaces\SystemSettingInterface;
 
 /**
  * @template T of mixed
  *
- * @phpstan-require-implements \Piwik\Policy\Settings\SystemSettingInterface<T>
+ * @phpstan-require-implements \Piwik\Settings\Interfaces\SystemSettingInterface<T>
  */
 trait SystemGetterTrait
 {
