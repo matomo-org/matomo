@@ -223,8 +223,10 @@ abstract class RecordBuilder
                 return $r->getName();
             }, $autoAggregateMetrics);
 
-            $autoAggregateMetrics = $this->removeFoundReports($autoAggregateMetrics, $foundRequestedReports);
-            $autoAggregateMetrics = $this->keepOnlyRequestedReports($autoAggregateMetrics, $requestedReports);
+            if (!empty($requestedReports)) {
+                $autoAggregateMetrics = $this->removeFoundReports($autoAggregateMetrics, $foundRequestedReports);
+                $autoAggregateMetrics = $this->keepOnlyRequestedReports($autoAggregateMetrics, $requestedReports);
+            }
 
             $autoAggregateMetrics = array_values($autoAggregateMetrics);
 
