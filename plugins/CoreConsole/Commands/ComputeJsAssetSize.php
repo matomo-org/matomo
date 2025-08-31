@@ -255,15 +255,15 @@ class ComputeJsAssetSize extends ConsoleCommand
 
     private function printCurrentGitHashAndBranch($plugin = null)
     {
-        $branchName = trim(`git rev-parse --abbrev-ref HEAD`);
-        $lastCommit = trim(`git log --pretty=format:'%h' -n 1`);
+        $branchName = trim(shell_exec("git rev-parse --abbrev-ref HEAD"));
+        $lastCommit = trim(shell_exec("git log --pretty=format:'%h' -n 1"));
 
         $pluginSuffix = '';
         if ($plugin) {
             $prefix = 'cd "' . addslashes(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin) . '"; ';
 
-            $pluginBranchName = trim(`$prefix git rev-parse --abbrev-ref HEAD`);
-            $pluginLastCommit = trim(`$prefix git log --pretty=format:'%h' -n 1`);
+            $pluginBranchName = trim(shell_exec("$prefix git rev-parse --abbrev-ref HEAD"));
+            $pluginLastCommit = trim(shell_exec("$prefix git log --pretty=format:'%h' -n 1"));
 
             $pluginSuffix = " [$plugin: $pluginBranchName ($pluginLastCommit)]";
         }
