@@ -68,7 +68,7 @@ class Model
             $startDate,
             $endDate,
         ];
-        return $db->fetchRow($query, $bind)[0];
+        return $db->fetchRow($query, $bind)[0] ?? 0;
     }
 
     public function getCountStarredAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate): int
@@ -80,24 +80,26 @@ class Model
             $startDate,
             $endDate,
         ];
-        return $db->fetchRow($query, $bind)[0];
+        return $db->fetchRow($query, $bind)[0] ?? 0;
     }
 
     public function updateAnnotation(int $annotationId, array $updatedColumns): array
     {
         $db = $this->getDb();
-        $query = "UPDATE $this->table SET ";
+        $query = "UPDATE $this->table SET";
         $bind = [];
         foreach ($this->getEditableColumns() as $columnName) {
             if (isset($updatedColumns[$columnName])) {
-                $query .= "$columnName as ? ";
+                $query .= " $columnName = ?,";
                 $bind[] = $updatedColumns[$columnName];
             }
         }
-        $query .= "WHERE id = ?";
+        $query = rtrim($query, ',');
+        $query .= " WHERE id = ?";
         $bind[] = $annotationId;
-        $updatedAnnotation = $db->query($query, $bind)->fetch();
-        return $updatedAnnotation;
+        $db->query($query, $bind);
+        return $this->getAnnotation($annotationId);
+
     }
 
     public function deleteAnnotation(int $annotationId): void

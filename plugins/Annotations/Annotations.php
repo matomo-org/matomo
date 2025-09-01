@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Annotations;
 
 use Piwik\Date;
 use Piwik\Period;
+use Piwik\Piwik;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
 
 /**
@@ -93,5 +94,25 @@ class Annotations extends \Piwik\Plugin
             $endDate = Date::factory($endDate);
         }
         return array($startDate, $endDate);
+    }
+
+    /**
+     * Returns true if the current user can modify or delete a specific annotation.
+     *
+     * A user can modify/delete a note if the user has write access for the site OR
+     * the user has view access, is not the anonymous user and is the user that
+     * created the note in question.
+     *
+     * @param int $idSite The site ID the annotation belongs to.
+     * @param array $annotation The annotation.
+     * @return bool
+     */
+    public static function canUserModifyOrDelete($idSite, $annotation)
+    {
+        // user can save if user is admin or if has view access, is not anonymous & is user who wrote note
+        $canEdit = Piwik::isUserHasWriteAccess($idSite)
+            || (!Piwik::isUserIsAnonymous()
+                && Piwik::getCurrentUserLogin() == $annotation['user']);
+        return $canEdit;
     }
 }

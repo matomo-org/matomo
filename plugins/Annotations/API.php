@@ -55,12 +55,14 @@ class API extends \Piwik\Plugin\API
             'date' => $date,
             'note' => $note,
             'starred' => (int) $starred,
-            'user' => Piwik::getCurrentUserLogin()
+            'user' => Piwik::getCurrentUserLogin(),
         ];
 
         $model = new Model();
+        $idNote = $model->createAnnotation($annotation);
+        $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($idSite, $annotation);
         return [
-            'idNote' => $model->createAnnotation($annotation),
+            'idNote' => $idNote,
             'annotation' => $annotation,
         ];
 
@@ -93,7 +95,7 @@ class API extends \Piwik\Plugin\API
         $this->checkSiteExists($idSite);
         $this->checkDateIsValid($date, $canBeNull = true);
 
-        [$idNote, $originalAnnotation] = $this->get($idSite, $idNote);
+        $originalAnnotation = $this->get($idSite, $idNote);
 
         // check if original note even exists, throw if doesn't
         if (empty($originalAnnotation)) {
@@ -117,10 +119,9 @@ class API extends \Piwik\Plugin\API
             $originalAnnotation = $model->updateAnnotation($idNote, $updatedValues);
         }
 
-        return [
-            'idNote' => $idNote,
-            'annotation' => $originalAnnotation
-        ];
+        $originalAnnotation['canEditOrDelete'] = true;
+
+        return $originalAnnotation;
     }
 
     /**
@@ -139,7 +140,7 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkSiteExists($idSite);
 
-        [$idNote, $annotation] = $this->get($idSite, $idNote);
+        $annotation = $this->get($idSite, $idNote);
         // check permissions
         $this->checkUserCanModifyOrDelete($annotation);
 
@@ -182,11 +183,9 @@ class API extends \Piwik\Plugin\API
 
         $model = new Model();
         $annotation = $model->getAnnotation($idNote);
+        $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($idSite, $annotation);
 
-        return [
-            'idNote' => $idNote,
-            'annotation' => $annotation
-        ];
+        return $annotation;
     }
 
     /**
@@ -228,6 +227,9 @@ class API extends \Piwik\Plugin\API
         $annotations = [];
         foreach ($ids as $id) {
             $annotations[$id] = $model->getAllAnnotationsForSiteInRange($id, $startDate->toString(), $endDate->toString());
+            for ($i = 0; $i < count($annotations[$id]); $i++) {
+                $annotations[$id][$i]['canEditOrDelete'] = Annotations::canUserModifyOrDelete($idSite, $annotations[$id][$i]);
+            }
         }
 
         return $annotations;
@@ -328,15 +330,8 @@ class API extends \Piwik\Plugin\API
     private function checkUserCanModifyOrDelete($annotation): void
     {
         $idSite = $annotation['idsite'];
-        try {
-            Piwik::checkUserHasAdminAccess($idSite);
-        } catch (\Exception) {
-            Piwik::checkUserHasViewAccess($idSite);
-            Piwik::checkUserIsNotAnonymous();
-
-            if ($annotation['user'] !== Piwik::getCurrentUserLogin()) {
-                throw new Exception("The current user is not allowed to modify or delete notes for site #$idSite");
-            }
+        if (!Annotations::canUserModifyOrDelete($idSite, $annotation)) {
+            throw new Exception("The current user is not allowed to modify or delete notes for site #$idSite");
         }
     }
 
