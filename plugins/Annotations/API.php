@@ -17,11 +17,6 @@ use Piwik\Piwik;
 use Piwik\Site;
 
 /**
- * @see plugins/Annotations/AnnotationList.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/Annotations/AnnotationList.php';
-
-/**
  * API for annotations plugin. Provides methods to create, modify, delete & query
  * annotations.
  *

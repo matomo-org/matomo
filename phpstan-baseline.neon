@@ -341,11 +341,6 @@ parameters:
 			path: core/Archive/ArchiveInvalidator.php
 
 		-
-			message: "#^Variable \\$entry might not be defined\\.$#"
-			count: 4
-			path: core/Archive/ArchiveInvalidator.php
-
-		-
 			message: "#^Method Piwik\\\\Archive\\\\ArchivePurger\\:\\:getOldestTemporaryArchiveToKeepThreshold\\(\\) should return bool\\|int but returns string\\.$#"
 			count: 2
 			path: core/Archive/ArchivePurger.php
@@ -581,7 +576,7 @@ parameters:
 			path: core/AssetManager/UIAssetMerger/JScriptUIAssetMerger.php
 
 		-
-			message: "#^Constant PASSWORD_ARGON2ID not found\\.$#"
+			message: "#^Method Piwik\\\\Auth\\\\Password\\:\\:preferredAlgorithm\\(\\) never returns int so it can be removed from the return type\\.$#"
 			count: 1
 			path: core/Auth/Password.php
 
@@ -3817,21 +3812,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:checkUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
 			count: 2
 			path: plugins/Annotations/API.php
-
-		-
-			message: "#^Parameter \\#5 \\$starred of method Piwik\\\\Plugins\\\\Annotations\\\\AnnotationList\\:\\:update\\(\\) expects int\\|null, bool\\|null given\\.$#"
-			count: 1
-			path: plugins/Annotations/API.php
-
-		-
-			message: "#^Cannot call method getTimestamp\\(\\) on string\\|false\\.$#"
-			count: 1
-			path: plugins/Annotations/AnnotationList.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Annotations\\\\Annotations\\:\\:getDateRangeForPeriod\\(\\) should return array\\<Piwik\\\\Date\\> but returns array\\<int, false\\>\\.$#"
-			count: 1
-			path: plugins/Annotations/Annotations.php
 
 		-
 			message: "#^Parameter \\#1 \\$array of function reset is passed by reference, so it expects variables only\\.$#"
