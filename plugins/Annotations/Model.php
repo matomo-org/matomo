@@ -29,7 +29,7 @@ class Model
         /** @var \Zend_Db_Adapter_Abstract $db */
         $db = $this->getDb();
         $db->insert($this->table, $annotation);
-        return $db->lastInsertId();
+        return (int) $db->lastInsertId();
     }
 
     public function getAnnotation(int $annotationId): array
@@ -37,14 +37,16 @@ class Model
         $db = $this->getDb();
         $query = "SELECT * FROM $this->table WHERE id = ?";
         $bind = [$annotationId];
-        return $db->fetchRow($query, $bind);
+        $result = $db->fetchRow($query, $bind);
+        return $result ? $result : [];
     }
 
     public function getAllAnnotations(): array
     {
         $db = $this->getDb();
         $query = "SELECT * FROM $this->table";
-        return $db->fetchAll($query);
+        $result = $db->fetchAll($query);
+        return $result ? $result : [];
     }
 
     public function getAllAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate): array
@@ -56,33 +58,31 @@ class Model
             $startDate,
             $endDate,
         ];
-        return $db->fetchAll($query, $bind);
+        $result = $db->fetchAll($query, $bind);
+        return $result ? $result : [];
     }
 
-    public function getCountAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate): int
+    public function getCountAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate, bool $countStarred = false): int
     {
         $db = $this->getDb();
-        $query = "SELECT count(id) FROM $this->table WHERE idsite = ? AND date >= ? AND date <= ?";
+        $query = "SELECT count(id) as count FROM $this->table WHERE idsite = ? AND date >= ? AND date < ?";
+        if ($countStarred) {
+            $query .= " AND starred = 1";
+        }
         $bind = [
             $idSite,
             $startDate,
             $endDate,
         ];
-        return $db->fetchRow($query, $bind)[0] ?? 0;
+        $result = $db->fetchRow($query, $bind);
+        return $result['count'] ?? 0;
     }
 
-    public function getCountStarredAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate): int
-    {
-        $db = $this->getDb();
-        $query = "SELECT count(id) FROM $this->table WHERE idsite = ? AND starred = 1 AND date >= ? AND date <= ?";
-        $bind = [
-            $idSite,
-            $startDate,
-            $endDate,
-        ];
-        return $db->fetchRow($query, $bind)[0] ?? 0;
-    }
-
+    /**
+     * @param array $updatedColumns an associative array containing columns to update,
+     *              only columns matching $this->getEditableColumns() are used.
+     * @return array the updated annotation
+     */
     public function updateAnnotation(int $annotationId, array $updatedColumns): array
     {
         $db = $this->getDb();
@@ -99,7 +99,6 @@ class Model
         $bind[] = $annotationId;
         $db->query($query, $bind);
         return $this->getAnnotation($annotationId);
-
     }
 
     public function deleteAnnotation(int $annotationId): void
@@ -123,6 +122,9 @@ class Model
         return Db::get();
     }
 
+    /**
+     * @return array of columns which are permitted to be modified
+     */
     private function getEditableColumns(): array
     {
         return ['note', 'date', 'starred'];

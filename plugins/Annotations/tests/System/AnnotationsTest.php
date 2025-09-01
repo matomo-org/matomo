@@ -23,6 +23,7 @@ use Exception;
  */
 class AnnotationsTest extends SystemTestCase
 {
+    /** @var TwoSitesWithAnnotations */
     public static $fixture = null;
 
     public function setUp(): void
@@ -192,36 +193,38 @@ class AnnotationsTest extends SystemTestCase
     {
         API::getInstance()->save(
             self::$fixture->idSite1,
-            0,
+            1,
             $date = '2011-04-01',
             $note = 'new note text',
             $starred = 1
         );
 
         $expectedAnnotation = array(
-            'date'            => '2011-04-01',
-            'note'            => 'new note text',
-            'starred'         => 1,
-            'user'            => 'superUserLogin',
-            'idNote'          => 0,
-            'canEditOrDelete' => true
+            'date'              => '2011-04-01',
+            'note'              => 'new note text',
+            'starred'           => 1,
+            'user'              => 'superUserLogin',
+            'id'                => 1,
+            'idsite'            => 1,
+            'canEditOrDelete'   => true
         );
-        $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 0));
+        $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 1));
     }
 
     public function testSaveNoChangesSuccess()
     {
-        API::getInstance()->save(self::$fixture->idSite1, 1);
+        API::getInstance()->save(self::$fixture->idSite1, 2);
 
         $expectedAnnotation = array(
-            'date'            => '2011-12-02',
-            'note'            => '1: Site 1 annotation for 2011-12-02',
-            'starred'         => 0,
+            'date'            => '2011-12-01',
+            'note'            => '0: Site 2 annotation for 2011-12-01',
+            'starred'         => 1,
             'user'            => 'superUserLogin',
-            'idNote'          => 1,
+            'id'              => 2,
+            'idsite'          => 2,
             'canEditOrDelete' => true
         );
-        $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 1));
+        $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 2));
     }
 
     public function testDeleteSuccess()
@@ -239,7 +242,7 @@ class AnnotationsTest extends SystemTestCase
             array(false, false, "module=API&method=Annotations.getAll&idSite=1&date=2012-01-01&period=year", true, "getAll should throw if user does not have view access"),
 
             // get
-            array(false, false, "module=API&method=Annotations.get&idSite=1&idNote=0", true, "get should throw if user does not have view access"),
+            array(false, false, "module=API&method=Annotations.get&idSite=1&idNote=1", true, "get should throw if user does not have view access"),
 
             // getAnnotationCountForDates
             array(false, false, "module=API&method=Annotations.getAnnotationCountForDates&idSite=1&date=2012-01-01&period=year", true, "getAnnotationCountForDates should throw if user does not have view access"),
@@ -250,14 +253,14 @@ class AnnotationsTest extends SystemTestCase
             array(true, true, "module=API&method=Annotations.add&idSite=1&date=2011-02-01&note=whatever3", false, "add should not throw if user has admin access"),
 
             // save
-            array(false, false, "module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote", true, "save should throw if user does not have view access"),
-            array(false, true, "module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote", true, "save should throw if user has view access but did not edit note"),
-            array(true, true, "module=API&method=Annotations.save&idSite=1&idNote=0&date=2011-03-01&note=newnote", false, "save should not throw if user has admin access"),
+            array(false, false, "module=API&method=Annotations.save&idSite=1&idNote=1&date=2011-03-01&note=newnote", true, "save should throw if user does not have view access"),
+            array(false, true, "module=API&method=Annotations.save&idSite=1&idNote=1&date=2011-03-01&note=newnote", true, "save should throw if user has view access but did not edit note"),
+            array(true, true, "module=API&method=Annotations.save&idSite=1&idNote=53&date=2011-03-01&note=newnote", false, "save should not throw if user has admin access"),
 
             // delete
-            array(false, false, "module=API&method=Annotations.delete&idSite=1&idNote=0", true, "delete should throw if user does not have view access"),
-            array(false, true, "module=API&method=Annotations.delete&idSite=1&idNote=0", true, "delete should throw if user does not have view access"),
-            array(true, true, "module=API&method=Annotations.delete&idSite=1&idNote=0", false, "delete should not throw if user has admin access"),
+            array(false, false, "module=API&method=Annotations.delete&idSite=1&idNote=1", true, "delete should throw if user does not have view access"),
+            array(false, true, "module=API&method=Annotations.delete&idSite=1&idNote=1", true, "delete should throw if user does not have view access"),
+            array(true, true, "module=API&method=Annotations.delete&idSite=1&idNote=53", false, "delete should not throw if user has admin access"),
         );
     }
 

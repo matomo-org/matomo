@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Annotations;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Piwik;
@@ -65,7 +66,6 @@ class API extends \Piwik\Plugin\API
             'idNote' => $idNote,
             'annotation' => $annotation,
         ];
-
     }
 
     /**
@@ -175,6 +175,8 @@ class API extends \Piwik\Plugin\API
      *               - note: The note text.
      *               - starred: Whether the note is starred or not.
      *               - user: The user that created the note.
+     *               - canEditOrDelete: Whether the current user is permitted to edit or delete this annotation
+     * @throws Exception if the $idNote does not correspond to an existing annotation
      */
     public function get(int $idSite, int $idNote): array
     {
@@ -183,6 +185,10 @@ class API extends \Piwik\Plugin\API
 
         $model = new Model();
         $annotation = $model->getAnnotation($idNote);
+        if (empty($annotation)) {
+            throw new Exception("There is no note with id '$idNote' for site with id '$idSite'.");
+        }
+        $annotation['date'] = substr($annotation['date'], 0, 10);
         $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($idSite, $annotation);
 
         return $annotation;
@@ -218,17 +224,14 @@ class API extends \Piwik\Plugin\API
             return [];
         }
 
-        // TODO handle possible 'all' scenario
-        // convert possible id list into array of int ids
-        $idstrings = explode(',', $idSite);
-        $ids = array_map('intval', $idstrings);
-
+        $ids = $this->processIdSiteStringIntoList($idSite);
         $model = new Model();
         $annotations = [];
         foreach ($ids as $id) {
             $annotations[$id] = $model->getAllAnnotationsForSiteInRange($id, $startDate->toString(), $endDate->toString());
             for ($i = 0; $i < count($annotations[$id]); $i++) {
-                $annotations[$id][$i]['canEditOrDelete'] = Annotations::canUserModifyOrDelete($idSite, $annotations[$id][$i]);
+                $annotations[$id][$i]['date'] = substr($annotations[$id][$i]['date'], 0, 10);
+                $annotations[$id][$i]['canEditOrDelete'] = Annotations::canUserModifyOrDelete($id, $annotations[$id][$i]);
             }
         }
 
@@ -271,6 +274,11 @@ class API extends \Piwik\Plugin\API
 
         // get start & end date for request. lastN is ignored if $period == 'range'
         [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date, $period, $lastN ?? false);
+
+        if (!($startDate && $endDate)) {
+            return [];
+        }
+
         if ($period == 'range') {
             $period = 'day';
         }
@@ -283,14 +291,9 @@ class API extends \Piwik\Plugin\API
         // we add one for the end of the last period (used in for loop below to bound annotation dates)
         $dates[] = $startDate;
 
-        // TODO handle possible 'all' scenario
-        // convert possible id list into array of int ids
-        $idstrings = explode(',', $idSite);
-        $ids = array_map('intval', $idstrings);
-
+        $ids = $this->processIdSiteStringIntoList($idSite);
 
         $model = new Model();
-
         $result = [];
         foreach ($ids as $id) {
             $result[$id] = [];
@@ -300,8 +303,8 @@ class API extends \Piwik\Plugin\API
                 $strDate = $date->toString();
                 $strNextDate = $nextDate->toString();
 
-                $totalCount = $model->getCountAnnotationsForSiteInRange($id, $strDate, $strNextDate);
-                $starredCount = $model->getCountStarredAnnotationsForSiteInRange($id, $strDate, $strNextDate);
+                $totalCount = $model->getcountannotationsforsiteinrange($id, $strDate, $strNextDate);
+                $starredCount = $model->getcountannotationsforsiteinrange($id, $strDate, $strNextDate, $countStarred = true);
 
                 $result[$id][] = [
                     $strDate,
@@ -391,5 +394,19 @@ class API extends \Piwik\Plugin\API
         // @todo store message unsanitized, sanitize on output instead.
         // can be changed when migrating annotations to a separate table.
         return Common::sanitizeInputValue($note);
+    }
+
+    /**
+     * @param string $idSite either 'all', or comma separated ids '1,2,3'
+     * @return array<int> of site ids [1,2,3]
+     */
+    private function processIdSiteStringIntoList(string $idSite): array
+    {
+        if ($idSite === 'all') {
+            return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+        }
+        // convert possible id list into array of int ids
+        $idstrings = explode(',', $idSite);
+        return array_map('intval', $idstrings);
     }
 }

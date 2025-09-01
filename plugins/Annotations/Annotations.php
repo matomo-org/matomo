@@ -65,7 +65,7 @@ class Annotations extends \Piwik\Plugin
      * @param bool|int $lastN Whether to include the last N periods in the range or not.
      *                         Ignored if period == range.
      *
-     * @return Date[]   array of Date objects or array(false, false)
+     * @return Date[]|bool[]   array of Date objects or array(false, false)
      */
     public static function getDateRangeForPeriod($date, $period, $lastN = false)
     {
