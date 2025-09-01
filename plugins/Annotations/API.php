@@ -100,10 +100,12 @@ class API extends \Piwik\Plugin\API
         // check if current user has the right to update the annotation
         $this->checkUserCanModifyOrDelete($originalAnnotation);
 
+        // $note is used via $$column further down
         $note = $this->filterNote($note);
 
         $updatedValues = [];
         foreach ($originalAnnotation as $columnName => $originalValue) {
+            // double $$ intentional
             if (isset($$columnName) && !is_null($$columnName) && $$columnName !== $originalValue) {
                 $updatedValues[$columnName] = $$columnName;
             }
