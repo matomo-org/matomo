@@ -328,9 +328,8 @@ class API extends \Piwik\Plugin\API
      */
     private function checkUserCanModifyOrDelete(array $annotation): void
     {
-        $idSite = $annotation['idsite'];
-        if (!Annotations::canUserModifyOrDelete($idSite, $annotation)) {
-            throw new Exception("The current user is not allowed to modify or delete notes for site #$idSite");
+        if (!Annotations::canUserModifyOrDelete($annotation)) {
+            throw new Exception("The current user is not allowed to modify or delete notes for site #{$annotation['idSite']}");
         }
     }
 
