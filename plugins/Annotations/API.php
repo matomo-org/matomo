@@ -326,7 +326,7 @@ class API extends \Piwik\Plugin\API
      * @param array $annotation The annotation.
      * @throws Exception if the current user is not allowed to modify/delete $annotation.
      */
-    private function checkUserCanModifyOrDelete($annotation): void
+    private function checkUserCanModifyOrDelete(array $annotation): void
     {
         $idSite = $annotation['idsite'];
         if (!Annotations::canUserModifyOrDelete($idSite, $annotation)) {
@@ -341,7 +341,7 @@ class API extends \Piwik\Plugin\API
      * @throws Exception if the current user is anonymous or does not have view access
      *                   for site w/ id=$idSite.
      */
-    private static function checkUserCanAddNotesFor($idSite): void
+    private static function checkUserCanAddNotesFor(int $idSite): void
     {
         if (!Piwik::isUserHasViewAccess($idSite) || Piwik::isUserIsAnonymous()) {
             throw new Exception("The current user is not allowed to add notes for site #$idSite.");

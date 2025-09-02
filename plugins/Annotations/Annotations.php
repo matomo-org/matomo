@@ -67,7 +67,7 @@ class Annotations extends \Piwik\Plugin
      *
      * @return Date[]|bool[]   array of Date objects or array(false, false)
      */
-    public static function getDateRangeForPeriod($date, $period, $lastN = false)
+    public static function getDateRangeForPeriod($date, $period, $lastN = false): array
     {
         if ($date === false) {
             return array(false, false);
