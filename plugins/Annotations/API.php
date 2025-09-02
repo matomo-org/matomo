@@ -242,7 +242,7 @@ class API extends \Piwik\Plugin\API
      * @param string $idSite The site ID(s) to get the annotation count for.
      * @param string $date The date of the period.
      * @param string $period The period type.
-     * @param int|bool $lastN Whether to get counts for the last N number of periods or not.
+     * @param int|null $lastN Whether to get counts for the last N number of periods or not.
      * @param bool $getAnnotationText
      * @return array An array mapping site IDs to arrays holding dates & the count of
      *               annotations made for those dates. eg,

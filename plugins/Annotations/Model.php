@@ -24,14 +24,19 @@ class Model
         $this->table = Common::prefixTable(self::$rawPrefix);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function createAnnotation(array $annotation): int
     {
-        /** @var \Zend_Db_Adapter_Abstract $db */
         $db = $this->getDb();
         $db->insert($this->table, $annotation);
         return (int) $db->lastInsertId();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getAnnotation(int $annotationId): array
     {
         $db = $this->getDb();
@@ -41,6 +46,9 @@ class Model
         return $result ? $result : [];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getAllAnnotations(): array
     {
         $db = $this->getDb();
@@ -49,6 +57,9 @@ class Model
         return $result ? $result : [];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getAllAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate): array
     {
         $db = $this->getDb();
@@ -62,6 +73,9 @@ class Model
         return $result ? $result : [];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getCountAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate, bool $countStarred = false): int
     {
         $db = $this->getDb();
@@ -79,9 +93,13 @@ class Model
     }
 
     /**
+     * Update existing annotation with provided data
+     *
+     * @param int $annotationId id of the annotation being updated
      * @param array $updatedColumns an associative array containing columns to update,
      *              only columns matching $this->getEditableColumns() are used.
      * @return array the updated annotation
+     * @throws \Exception
      */
     public function updateAnnotation(int $annotationId, array $updatedColumns): array
     {
@@ -101,6 +119,9 @@ class Model
         return $this->getAnnotation($annotationId);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function deleteAnnotation(int $annotationId): void
     {
         $db = $this->getDb();
@@ -109,6 +130,9 @@ class Model
         $db->query($query, $bind);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function deleteAllAnnotationsForSite(int $idSite): void
     {
         $db = $this->getDb();
@@ -117,6 +141,9 @@ class Model
         $db->query($query, $bind);
     }
 
+    /**
+     * @return Db|Db\AdapterInterface|\Zend_Db_Adapter_Abstract
+     */
     private function getDb()
     {
         return Db::get();
