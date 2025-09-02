@@ -56,7 +56,8 @@ class API extends \Piwik\Plugin\API
 
         $model = new Model();
         $idNote = $model->createAnnotation($annotation);
-        $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($idSite, $annotation);
+        $this->sanitizeAnnotation($annotation);
+
         return [
             'idNote' => $idNote,
             'annotation' => $annotation,
@@ -185,8 +186,7 @@ class API extends \Piwik\Plugin\API
         if (empty($annotation)) {
             throw new Exception("There is no note with id '$idNote' for site with id '$idSite'.");
         }
-        $annotation['date'] = substr($annotation['date'], 0, 10);
-        $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($idSite, $annotation);
+        $this->sanitizeAnnotation($annotation);
 
         return $annotation;
     }
@@ -227,8 +227,7 @@ class API extends \Piwik\Plugin\API
         foreach ($ids as $id) {
             $annotations[$id] = $model->getAllAnnotationsForSiteInRange($id, $startDate->toString(), $endDate->toString());
             for ($i = 0; $i < count($annotations[$id]); $i++) {
-                $annotations[$id][$i]['date'] = substr($annotations[$id][$i]['date'], 0, 10);
-                $annotations[$id][$i]['canEditOrDelete'] = Annotations::canUserModifyOrDelete($id, $annotations[$id][$i]);
+                $this->sanitizeAnnotation($annotations[$id][$i]);
             }
         }
 
@@ -388,9 +387,14 @@ class API extends \Piwik\Plugin\API
             $note = mb_substr($note, 0, 254) . '…';
         }
 
-        // @todo store message unsanitized, sanitize on output instead.
-        // can be changed when migrating annotations to a separate table.
-        return Common::sanitizeInputValue($note);
+        return $note;
+    }
+
+    private function sanitizeAnnotation(array &$annotation): void
+    {
+        $annotation['date'] = substr($annotation['date'], 0, 10);
+        $annotation['note'] = Common::sanitizeInputValue($annotation['note']);
+        $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($annotation);
     }
 
     /**

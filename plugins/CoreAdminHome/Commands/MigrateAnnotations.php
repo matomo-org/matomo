@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\SitesManager\Model;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
@@ -90,7 +91,7 @@ class MigrateAnnotations extends ConsoleCommand
         $table = Common::prefixTable('annotations');
         $data = [];
 
-        $model = new \Piwik\Plugins\SitesManager\Model();
+        $model = new Model();
         foreach ($model->getSitesId() as $siteID) {
             $annotations = self::getAnnotationsForSite($siteID);
             $chunks = array_chunk($annotations, $chunkSize);
@@ -102,7 +103,7 @@ class MigrateAnnotations extends ConsoleCommand
                     $bindValues[] = $values = [
                         $siteID,
                         $annotation['date'],
-                        $annotation['note'],
+                        Common::unsanitizeInputValue($annotation['note']),
                         $annotation['starred'],
                         $annotation['user'],
                     ];
