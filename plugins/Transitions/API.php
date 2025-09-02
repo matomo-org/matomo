@@ -380,6 +380,7 @@ class API extends \Piwik\Plugin\API
 				WHEN ' . Common::REFERRER_TYPE_DIRECT_ENTRY . ' THEN \'\'
 				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_name
 				WHEN ' . Common::REFERRER_TYPE_SOCIAL_NETWORK . ' THEN log_visit.referer_name
+				WHEN ' . Common::REFERRER_TYPE_AI_ASSISTANT . ' THEN log_visit.referer_name
 				WHEN ' . Common::REFERRER_TYPE_WEBSITE . ' THEN log_visit.referer_url
 				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT_WS(\' \', log_visit.referer_name, log_visit.referer_keyword)
 			END', 'referer_type');
@@ -387,12 +388,13 @@ class API extends \Piwik\Plugin\API
 
         // get one limited group per referrer type
         $rankingQuery->partitionResultIntoMultipleGroups('referer_type', array(
-                                                                              Common::REFERRER_TYPE_DIRECT_ENTRY,
-                                                                              Common::REFERRER_TYPE_SEARCH_ENGINE,
-                                                                              Common::REFERRER_TYPE_SOCIAL_NETWORK,
-                                                                              Common::REFERRER_TYPE_WEBSITE,
-                                                                              Common::REFERRER_TYPE_CAMPAIGN
-                                                                         ));
+            Common::REFERRER_TYPE_DIRECT_ENTRY,
+            Common::REFERRER_TYPE_SEARCH_ENGINE,
+            Common::REFERRER_TYPE_SOCIAL_NETWORK,
+            Common::REFERRER_TYPE_AI_ASSISTANT,
+            Common::REFERRER_TYPE_WEBSITE,
+            Common::REFERRER_TYPE_CAMPAIGN,
+        ));
 
         $type = $this->getColumnTypeSuffix($actionType);
         $where = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
@@ -402,11 +404,12 @@ class API extends \Piwik\Plugin\API
 
         // array is prefilled with available keys and empty values are removed in the end to ensure the order is static
         $referrerData = [
-            Common::REFERRER_TYPE_DIRECT_ENTRY => [],
+            Common::REFERRER_TYPE_DIRECT_ENTRY  => [],
             Common::REFERRER_TYPE_SEARCH_ENGINE => [],
             Common::REFERRER_TYPE_SOCIAL_NETWORK => [],
-            Common::REFERRER_TYPE_WEBSITE => [],
-            Common::REFERRER_TYPE_CAMPAIGN => [],
+            Common::REFERRER_TYPE_AI_ASSISTANT  => [],
+            Common::REFERRER_TYPE_WEBSITE       => [],
+            Common::REFERRER_TYPE_CAMPAIGN      => [],
         ];
         $referrerSubData = array();
 
@@ -656,6 +659,8 @@ class API extends \Piwik\Plugin\API
                 return Controller::getTranslation('fromSearchEngines');
             case Common::REFERRER_TYPE_SOCIAL_NETWORK:
                 return Controller::getTranslation('fromSocialNetworks');
+            case Common::REFERRER_TYPE_AI_ASSISTANT:
+                return Controller::getTranslation('fromAIAssistants');
             case Common::REFERRER_TYPE_WEBSITE:
                 return Controller::getTranslation('fromWebsites');
             case Common::REFERRER_TYPE_CAMPAIGN:

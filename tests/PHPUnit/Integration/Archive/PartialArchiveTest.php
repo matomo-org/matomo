@@ -63,7 +63,7 @@ class PartialArchiveTest extends IntegrationTestCase
         // check archive is all plugins archive as expected
         [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', Range::PERIOD_ID, false);
         $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 58],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 59],
         ], $archiveInfo);
 
         $maxIdArchive = $this->getMaxIdArchive('2020_04');
@@ -124,7 +124,7 @@ class PartialArchiveTest extends IntegrationTestCase
         // check archive is all plugins archive as expected
         [$idArchives, $archiveInfo] = $this->getArchiveInfo('2020_04', Range::PERIOD_ID, false);
         $this->assertEquals([
-            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 58],
+            ['idsite' => 1, 'date1' => '2020-04-06', 'date2' => '2020-04-09', 'period' => Range::PERIOD_ID, 'name' => 'done', 'value' => ArchiveWriter::DONE_OK, 'blob_count' => 59],
         ], $archiveInfo);
 
         $maxIdArchive = $this->getMaxIdArchive('2020_04');

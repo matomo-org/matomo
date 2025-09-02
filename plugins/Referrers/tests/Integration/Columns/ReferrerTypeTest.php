@@ -123,6 +123,8 @@ class ReferrerTypeTest extends IntegrationTestCase
 
             [Common::REFERRER_TYPE_SOCIAL_NETWORK, $this->idSite3, $url, 'https://twitter.com/matomo_org'],
 
+            [Common::REFERRER_TYPE_AI_ASSISTANT, $this->idSite3, $url, 'https://chatgpt.com/'],
+
             // testing case for backwards compatibility where url has same domain as urlref but the domain is not known to any website
             [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com/foo', 'http://example.com/bar'],
             [Common::REFERRER_TYPE_DIRECT_ENTRY, $this->idSite3, 'http://example.com/foo', 'http://example.com'],

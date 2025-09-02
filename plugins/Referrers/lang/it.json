@@ -65,7 +65,7 @@
         "SearchEnginesSubcategoryHelp1": "Questa sezione ti aiuta ad analizzare l'ottimizzazione e le prestazioni del tuo motore di ricerca. Puoi analizzare le tue parole chiave più popolari con i report combinasti sulle parole chiave o vedere quali parole chiave hanno un buon rendimento su motori di ricerca specifici, per un'analisi e un'ottimizzazione più mirate.",
         "SearchEnginesSubcategoryHelp2": "Gli utenti dei plug-in %1$sMatomo Cloud%2$s e %3$sSearch Engine Keywords Performance%4$s riceveranno i migliori risultati da questo report.",
         "Socials": "Social Network",
-        "SocialsReportDocumentation": "Questo report mostra quali social network hanno indirizzato i visitatori al tuo sito web.<br>Cliccando su una riga nella tabella, puoi vedere da quali pagine dei social network i visitatori sono arrivati al tuo sito web.",
+        "SocialsReportDocumentation": "Questo report mostra quali social network hanno indirizzato i visitatori al tuo sito web.%sCliccando su una riga nella tabella, puoi vedere da quali pagine dei social network i visitatori sono arrivati al tuo sito web.",
         "SocialsSubcategoryHelp": "In questa tabella puoi vedere quali siti web hanno indirizzato i visitatori al tuo sito.",
         "SubmenuSearchEngines": "Motori di ricerca e parole chiave",
         "SubmenuWebsitesOnly": "Siti web",
