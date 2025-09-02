@@ -61,10 +61,13 @@ class Model
     /**
      * @throws \Exception
      */
-    public function getAllAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate): array
+    public function getAllAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate, ?int $limit = null): array
     {
         $db = $this->getDb();
         $query = "SELECT * FROM $this->table WHERE idsite = ? AND date >= ? AND date <= ?";
+        if (null !== $limit) {
+            $query .= " LIMIT $limit";
+        }
         $bind = [
             $idSite,
             $startDate,

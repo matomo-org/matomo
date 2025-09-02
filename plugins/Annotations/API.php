@@ -310,8 +310,9 @@ class API extends \Piwik\Plugin\API
                 ];
 
                 if ($getAnnotationText && $totalCount === 1) {
-                    [$annotation] = $model->getAllAnnotationsForSiteInRange($siteId, $strDate, $strNextDate);
-                    $result[$siteId][1]['note'] = $annotation['note'];
+                    [$annotation] = $model->getAllAnnotationsForSiteInRange($siteId, $strDate, $strNextDate, 1);
+                    // 1 for the second array to add the note to
+                    $result[$siteId][$i][1]['note'] = $annotation['note'];
                 }
             }
         }
