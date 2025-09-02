@@ -300,8 +300,8 @@ class API extends \Piwik\Plugin\API
                 $strDate = $date->toString();
                 $strNextDate = $nextDate->toString();
 
-                $totalCount = $model->getcountannotationsforsiteinrange($id, $strDate, $strNextDate);
-                $starredCount = $model->getcountannotationsforsiteinrange($id, $strDate, $strNextDate, $countStarred = true);
+                $totalCount = $model->getCountAnnotationsForSiteInRange($id, $strDate, $strNextDate);
+                $starredCount = $model->getCountAnnotationsForSiteInRange($id, $strDate, $strNextDate, $countStarred = true);
 
                 $result[$id][] = [
                     $strDate,
@@ -403,7 +403,7 @@ class API extends \Piwik\Plugin\API
             return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
         }
         // convert possible id list into array of int ids
-        $idstrings = explode(',', $idSite);
-        return array_map('intval', $idstrings);
+        $idStrings = explode(',', $idSite);
+        return array_map('intval', $idStrings);
     }
 }
