@@ -21,12 +21,12 @@ use Piwik\SettingsPiwik;
 use Piwik\Theme;
 
 /**
- * @phpstan-type TOTALS array{merged: int, gzip: int}
+ * @phpstan-type TotalsType array{merged: int, gzip: int}
  */
 class ComputeJsAssetSize extends ConsoleCommand
 {
     /**
-     * @var TOTALS
+     * @var TotalsType
      */
     private $totals = [
         'merged' => 0,
@@ -234,9 +234,7 @@ class ComputeJsAssetSize extends ConsoleCommand
     }
 
     /**
-     * @param string $fileLocation
-     * @param key-of<TOTALS> $type
-     * @return string
+     * @param key-of<TotalsType> $type
      */
     private function getFileSize(string $fileLocation, string $type): string
     {
