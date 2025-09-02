@@ -70,7 +70,7 @@ class Annotations extends \Piwik\Plugin
     public static function getDateRangeForPeriod($date, $period, $lastN = false): array
     {
         if ($date === false) {
-            return array(false, false);
+            return [false, false];
         }
 
         $isMultiplePeriod = Period\Range::isMultiplePeriod($date, $period);
@@ -86,14 +86,14 @@ class Annotations extends \Piwik\Plugin
             $endDate = $oPeriod->getDateEnd();
         } else { // if the range includes the last N periods or is a multiple period
             if (!$isMultiplePeriod) {
-                list($date, $lastN) = EvolutionViz::getDateRangeAndLastN($period, $date, $lastN);
+                [$date, $lastN] = EvolutionViz::getDateRangeAndLastN($period, $date, $lastN);
             }
-            list($startDate, $endDate) = explode(',', $date);
+            [$startDate, $endDate] = explode(',', $date);
 
             $startDate = Date::factory($startDate);
             $endDate = Date::factory($endDate);
         }
-        return array($startDate, $endDate);
+        return [$startDate, $endDate];
     }
 
     /**
