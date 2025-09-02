@@ -1984,6 +1984,34 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>AI Assistants</name>
+		<category>
+			<id>Referrers_Referrers</id>
+			<name>Acquisition</name>
+			<order>15</order>
+			<icon>icon-reporting-referer</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>Referrers_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>18</order>
+			<help>&lt;p&gt;In this table, you can see which AI assistants referred visitors to your site.&lt;/p&gt;&lt;p&gt;By clicking on a row in the table, you can see which URLs the links to your website were on.&lt;/p&gt;</help>
+		</subcategory>
+		<module>Referrers</module>
+		<action>getAIAssistants</action>
+		<order>113</order>
+		<parameters>
+			<module>Referrers</module>
+			<action>getAIAssistants</action>
+		</parameters>
+		<uniqueId>widgetReferrersgetAIAssistants</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>graphPie</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
 		<name>Campaigns</name>
 		<category>
 			<id>Referrers_Referrers</id>
@@ -2722,6 +2750,39 @@
 		<isReport>1</isReport>
 	</row>
 	<row>
+		<name>Sales by Referrers: AI Assistants</name>
+		<category>
+			<id>Goals_Ecommerce</id>
+			<name>Ecommerce</name>
+			<order>20</order>
+			<icon>icon-reporting-ecommerce</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>Ecommerce_Sales</id>
+			<name>Sales</name>
+			<order>15</order>
+			<help>&lt;p&gt;This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.&lt;/p&gt;&lt;p&gt;You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.&lt;/p&gt;</help>
+		</subcategory>
+		<module>Referrers</module>
+		<action>getAIAssistants</action>
+		<order>6</order>
+		<parameters>
+			<forceView>1</forceView>
+			<viewDataTable>tableGoals</viewDataTable>
+			<module>Referrers</module>
+			<action>getAIAssistants</action>
+			<documentationForGoalsPage>1</documentationForGoalsPage>
+			<idGoal>ecommerceOrder</idGoal>
+			<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+		</parameters>
+		<uniqueId>widgetReferrersgetAIAssistantsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+		<isWide>0</isWide>
+		<viewDataTable>tableGoals</viewDataTable>
+		<isReport>1</isReport>
+	</row>
+	<row>
 		<name>Sales by Referrers: Campaigns</name>
 		<category>
 			<id>Goals_Ecommerce</id>
@@ -2739,7 +2800,7 @@
 		</subcategory>
 		<module>Referrers</module>
 		<action>getCampaigns</action>
-		<order>6</order>
+		<order>7</order>
 		<parameters>
 			<forceView>1</forceView>
 			<viewDataTable>tableGoals</viewDataTable>

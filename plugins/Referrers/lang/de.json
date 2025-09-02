@@ -65,7 +65,7 @@
         "SearchEnginesSubcategoryHelp1": "Dieser Bereich hilft Ihnen beim Analysieren Ihrer Suchmaschinenoptimierung und -performance. Sie können Ihre beliebtesten Suchworte analysieren mit Hilfe des Suchwort-Berichts oder sehen welche Suchworte auf spezifischen Suchmaschinen wie gut funktionieren, um weitere zielgerichtete Analysen und Optimierungen vorzunehmen.",
         "SearchEnginesSubcategoryHelp2": "%1$sMatomo Cloud%2$s und %3$sSearch Engine Keywords Performance%4$s Benutzer erhalten die besten Resultate mit diesem Bericht.",
         "Socials": "Soziale Netzwerke",
-        "SocialsReportDocumentation": "Dieser Bericht zeigt, welche sozialen Netzwerke Besucher auf Ihre Webseite führten.<br>Wenn Sie eine Zeile in der Tabelle anklicken, können Sie sehen von welchen Sozialen Netzwerkseiten der Besucher auf Ihre Webseite kam.",
+        "SocialsReportDocumentation": "Dieser Bericht zeigt, welche sozialen Netzwerke Besucher auf Ihre Webseite führten.%sWenn Sie eine Zeile in der Tabelle anklicken, können Sie sehen von welchen Sozialen Netzwerkseiten der Besucher auf Ihre Webseite kam.",
         "SocialsSubcategoryHelp": "In dieser Tabelle können Sie sehen, welche Webseiten Besucher auf Ihre Webseite gelenkt haben.",
         "SubmenuSearchEngines": "Suchmaschinen und Suchbegriffe",
         "SubmenuWebsitesOnly": "Webseiten",
