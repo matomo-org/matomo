@@ -2266,11 +2266,6 @@ parameters:
 			path: core/QuickForm2.php
 
 		-
-			message: "#^PHPDoc tag @throws with type HTML_QuickForm2_InvalidArgumentException\\|HTML_QuickForm2_NotFoundException is not subtype of Throwable$#"
-			count: 1
-			path: core/QuickForm2.php
-
-		-
 			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
 			count: 1
 			path: core/RankingQuery.php
@@ -3804,16 +3799,6 @@ parameters:
 			path: plugins/Actions/VisitorDetails.php
 
 		-
-			message: "#^PHPDoc tag @param for parameter \\$lastN with type bool\\|int is not subtype of native type int\\|null\\.$#"
-			count: 1
-			path: plugins/Annotations/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:checkUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
-			count: 2
-			path: plugins/Annotations/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$array of function reset is passed by reference, so it expects variables only\\.$#"
 			count: 1
 			path: plugins/Annotations/Controller.php
@@ -5049,11 +5034,6 @@ parameters:
 			path: plugins/Events/VisitorDetails.php
 
 		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:checkUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
-			count: 3
-			path: plugins/ExamplePlugin/API.php
-
-		-
 			message: "#^Parameter \\#3 \\$escapeComment of static method Piwik\\\\Plugins\\\\Diagnostics\\\\Diagnostic\\\\DiagnosticResult\\:\\:informationalResult\\(\\) expects bool, string given\\.$#"
 			count: 1
 			path: plugins/ExamplePlugin/Diagnostic/ExampleCheck.php
@@ -6179,11 +6159,6 @@ parameters:
 			path: plugins/Referrers/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:checkUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
-			count: 3
-			path: plugins/Referrers/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\:\\:getColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Referrers/API.php
@@ -6970,11 +6945,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Archive\\\\ArchiveQuery\\:\\:getParams\\(\\)\\.$#"
-			count: 1
-			path: plugins/VisitTime/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:checkUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
 			count: 1
 			path: plugins/VisitTime/API.php
 
