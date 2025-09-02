@@ -10,7 +10,7 @@
     class="site card hoverable"
     :idsite="theSite.idsite"
     :type="theSite.type"
-    :class="{ 'editingSite': !!editMode }"
+    :class="{ 'editingSite': editMode }"
     ref="root"
   >
     <div class="card-content">
@@ -87,14 +87,6 @@
             <span class="icon-edit"></span>
           </button>
           <button
-            v-if="privacyManagerEnabled"
-            class="table-action"
-            @click="editPrivacy()"
-            :title="translate('PrivacyManager_ManagePrivacySettings')"
-          >
-            <span class="icon-locked"></span>
-          </button>
-          <button
             class="table-action"
             v-show="theSite.idsite"
             @click="getMessagesToWarnOnSiteRemoval()"
@@ -105,7 +97,7 @@
         </div>
       </div>
 
-      <div v-if="isEditingSite">
+      <div v-if="editMode">
 
         <div class="form-group row">
           <div class="col s12 m6 input-field">
@@ -180,27 +172,21 @@
           </button>
         </div>
 
-      </div>
-      <div v-if="isEditingPrivacy">
-        <div>
-          <p>
-            {{ theSite.name }}<br>
-            <span class="title">{{ translate('General_Id') }}</span>: {{ theSite.idsite }}
-          </p>
+        <template v-if="privacyManagerEnabled">
+          <h3 class="">{{ translate('PrivacyManager_UseAnonymizeTrackingDataForThisSite') }}</h3>
 
-          <h3>{{ translate('PrivacyManager_UseAnonymizeTrackingData') }}</h3>
-
-          <ActivityIndicator :loading="isLoading"/>
+          <ActivityIndicator :loading="isLoadingPrivacy"/>
 
           <component
             :is="anonymizeIpComponent"
-            v-if="!isLoading"
+            v-if="!isLoadingPrivacy"
             :id-site-specific="theSite.idsite"
             v-bind="anonymisationSettings"
             @updated="onPrivacyUpdated"
-            @cancel="cancelEditPrivacy(site)"
+            @cancel="cancelEditSite(site)"
           ></component>
-        </div>
+        </template>
+
       </div>
     </div>
 
@@ -242,8 +228,9 @@ import SiteType from '../SiteTypesStore/SiteType';
 
 interface SiteFieldsState {
   isLoading: boolean;
+  isLoadingPrivacy: boolean;
   isSaving: boolean;
-  editMode: boolean | string;
+  editMode: boolean;
   theSite: Site;
   measurableSettings: DeepReadonly<SettingsForSinglePlugin[]>;
   anonymisationSettings: DeepReadonly<SettingsForSinglePlugin[]>;
@@ -267,9 +254,6 @@ const timezoneOptions = computed(
 function isSiteNew(site: Site) {
   return typeof site.idsite === 'undefined';
 }
-
-const EDIT_MODE_SITE = 'site';
-const EDIT_MODE_PRIVACY = 'privacy';
 
 export default defineComponent({
   props: {
@@ -296,6 +280,7 @@ export default defineComponent({
   data(): SiteFieldsState {
     return {
       isLoading: false,
+      isLoadingPrivacy: false,
       isSaving: false,
       editMode: false,
       theSite: { ...(this.site as Site) },
@@ -312,7 +297,7 @@ export default defineComponent({
     GroupedSettings,
     ActivityIndicator,
   },
-  emits: ['delete', 'editSite', 'cancelEditSite', 'save', 'editPrivacy', 'cancelEditPrivacy'],
+  emits: ['delete', 'editSite', 'cancelEditSite', 'save'],
   created() {
     CurrencyStore.init();
     TimezoneStore.init();
@@ -360,11 +345,13 @@ export default defineComponent({
       }
     },
     editSite() {
-      this.editMode = EDIT_MODE_SITE;
+      this.editMode = true;
 
-      this.$emit('editSite', { idSite: this.theSite.idsite });
+      const idSite = this.theSite.idsite;
+      this.$emit('editSite', { idSite });
 
       this.measurableSettings = [];
+      this.anonymisationSettings = [];
 
       if (isSiteNew(this.theSite)) {
         if (!this.currentType) {
@@ -378,29 +365,26 @@ export default defineComponent({
       this.isLoading = true;
       AjaxHelper.fetch<SettingsForSinglePlugin[]>({
         method: 'SitesManager.getSiteSettings',
-        idSite: this.theSite.idsite,
+        idSite,
       }).then((settings) => {
         this.measurableSettings = settings;
       }).finally(() => {
         this.isLoading = false;
       });
-    },
-    editPrivacy() {
-      this.editMode = EDIT_MODE_PRIVACY;
-      const idSite = this.theSite.idsite;
-      this.$emit('editPrivacy', { idSite });
 
-      this.isLoading = true;
-      this.anonymisationSettings = [];
-
-      AjaxHelper.fetch<SettingsForSinglePlugin[]>({
-        method: 'PrivacyManager.getAnonymisationSettings',
-        idSiteSpecific: this.theSite.idsite,
-      }).then((settings) => {
-        this.anonymisationSettings = settings;
-      }).finally(() => {
-        this.isLoading = false;
-      });
+      if (this.privacyManagerEnabled) {
+        this.isLoadingPrivacy = true;
+        AjaxHelper.fetch<SettingsForSinglePlugin[]>({
+          method: 'PrivacyManager.getAnonymisationSettings',
+          idSiteSpecific: idSite,
+        })
+          .then((settings) => {
+            this.anonymisationSettings = settings;
+          })
+          .finally(() => {
+            this.isLoadingPrivacy = false;
+          });
+      }
     },
     onPrivacyUpdated() {
       this.editMode = false;
@@ -498,11 +482,6 @@ export default defineComponent({
 
       this.$emit('cancelEditSite', { site, element: this.$refs.root as HTMLElement });
     },
-    cancelEditPrivacy(site: Site) {
-      this.editMode = false;
-
-      this.$emit('cancelEditPrivacy', { site, element: this.$refs.root as HTMLElement });
-    },
     deleteSite(password: string) {
       AjaxHelper.post({
         idSite: this.theSite.idsite,
@@ -531,12 +510,6 @@ export default defineComponent({
     },
   },
   computed: {
-    isEditingSite() {
-      return this.editMode === EDIT_MODE_SITE;
-    },
-    isEditingPrivacy() {
-      return this.privacyManagerEnabled && this.editMode === EDIT_MODE_PRIVACY;
-    },
     availableTypes() {
       return SiteTypesStore.types.value;
     },

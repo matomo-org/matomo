@@ -182,6 +182,7 @@
         "AnonymizeOrderIdNote": "Because an Order ID can be cross-referenced with another system, typically an ecommerce shop, the Order ID may count as personal information under the GDPR. When you enable this option, an Order ID will be automatically anonymized so no personal information will be tracked.",
         "UseAnonymizeIp": "Anonymize Visitors' IP addresses",
         "UseAnonymizeTrackingData": "Anonymize Tracking Data",
+        "UseAnonymizeTrackingDataForThisSite": "Tracking data anonymization settings for this site",
         "UseAnonymizeUserId": "Anonymize User ID",
         "PseudonymizeUserId": "Replace User ID with a pseudonym",
         "OptOutAppearance": "Customize the opt-out appearance",

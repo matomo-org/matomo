@@ -396,7 +396,7 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
         $translationKeys[] = 'PrivacyManager_ManagePrivacySettings';
-        $translationKeys[] = 'PrivacyManager_UseAnonymizeTrackingData';
+        $translationKeys[] = 'PrivacyManager_UseAnonymizeTrackingDataForThisSite';
         $translationKeys[] = 'SitesManager_AddMeasurable';
         $translationKeys[] = 'SitesManager_AddSite';
         $translationKeys[] = 'SitesManager_AdvancedTimezoneSupportNotFound';
