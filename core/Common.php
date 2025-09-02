@@ -30,6 +30,7 @@ class Common
     public const REFERRER_TYPE_WEBSITE = 3;
     public const REFERRER_TYPE_CAMPAIGN = 6;
     public const REFERRER_TYPE_SOCIAL_NETWORK = 7;
+    public const REFERRER_TYPE_AI_ASSISTANT = 8;
 
     // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
     public const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
