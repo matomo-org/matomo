@@ -45,15 +45,15 @@ describe("PrivacyManager_SiteSpecific", function () {
     }
 
     function openSitePrivacySettingsSelector(idSite) {
-        return sitePrefix(idSite, 'button[title="Manage privacy settings"]');
+        return sitePrefix(idSite, 'button[title="Edit"]');
     }
 
     function cancelSitePrivacySettingsButton(idSite) {
-        return sitePrefix(idSite, '.footer-buttons button.cancel');
+        return sitePrefix(idSite, '.anonymizeSettings .footer-buttons button.cancel');
     }
 
     function saveSitePrivacySettingsButton(idSite) {
-        return sitePrefix(idSite, '.footer-buttons input[value="Save"]');
+        return sitePrefix(idSite, '.anonymizeSettings .footer-buttons input[value="Save"]');
     }
 
     it('should show privacy settings for multiple sites at the same time on lock icon click', async function() {
@@ -189,16 +189,17 @@ describe("PrivacyManager_SiteSpecific", function () {
         await capturePage('load_site_specific_settings_site2');
     });
 
-    it('should not display the privacy settings lock icons when privacy manager plugin is disabled', async function() {
+    it('should not display the privacy settings when privacy manager plugin is disabled', async function() {
         testEnvironment.pluginsToUnload = ['PrivacyManager'];
         await testEnvironment.save();
 
         await loadBasePage();
-        await page.waitForTimeout(100);
+        await page.click(openSitePrivacySettingsSelector(1));
+        await page.waitForTimeout(300);
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
 
-        await capturePage('no_lock_icons_when_plugin_disabled');
+        await capturePage('no_privacy_settings_when_plugin_disabled');
 
         delete testEnvironment.pluginsToUnload;
         await testEnvironment.save();
