@@ -24,7 +24,7 @@ class ReferrerType extends Base
     protected $nameSingular = 'Referrers_Type';
     protected $namePlural = 'Referrers_ReferrerTypes';
     protected $sqlFilterValue = 'Piwik\Plugins\Referrers\getReferrerTypeFromShortName';
-    protected $acceptValues = 'direct, search, website, campaign';
+    protected $acceptValues = 'direct, search, website, campaign, ai';
     protected $category = 'Referrers_Referrers';
 
     public function formatValue($value, $idSite, Formatter $formatter)
@@ -39,6 +39,7 @@ class ReferrerType extends Base
             Common::REFERRER_TYPE_WEBSITE        => 'website',
             Common::REFERRER_TYPE_SEARCH_ENGINE  => 'search',
             Common::REFERRER_TYPE_SOCIAL_NETWORK => 'social',
+            Common::REFERRER_TYPE_AI_ASSISTANT => 'ai',
             Common::REFERRER_TYPE_CAMPAIGN       => 'campaign',
         );
     }
