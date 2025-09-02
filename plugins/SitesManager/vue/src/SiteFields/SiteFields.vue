@@ -54,7 +54,7 @@
             </li>
           </ul>
         </div>
-        <div class="col m3">
+        <div class="col m4">
           <ul>
             <li>
               <span class="title">{{ translate('SitesManager_Urls') }}</span>:
@@ -78,7 +78,7 @@
             </li>
           </ul>
         </div>
-        <div class="col m2 right-align">
+        <div class="col m1 right-align">
           <button
             class="table-action"
             @click="editSite()"
