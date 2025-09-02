@@ -29,7 +29,7 @@
         "SearchEnginesDocumentation": "Besøgende blev henvist til hjemmesiden fra en søgemaskine. %1$s Se rapporten %2$s for yderligere oplysninger.",
         "SearchEnginesReportDocumentation": "Rapporten viser hvilke søgemaskiner, der henviser brugere til hjemmesiden. %s Klik på en række i tabellen for at se, hvad brugerne søgte efter ved brug af en bestemt søgemaskine.",
         "Socials": "Sociale netværk",
-        "SocialsReportDocumentation": "Rapporten viser, hvilke sociale netværk der førte besøgende til hjemmesiden.<br\/> Ved at klikke på en række i tabellen, kan du se, fra hvilke sociale netværkssider besøgende kom til hjemmesiden.",
+        "SocialsReportDocumentation": "Rapporten viser, hvilke sociale netværk der førte besøgende til hjemmesiden.%sVed at klikke på en række i tabellen, kan du se, fra hvilke sociale netværkssider besøgende kom til hjemmesiden.",
         "SubmenuSearchEngines": "Søgemaskine og søgeord",
         "SubmenuWebsitesOnly": "Hjemmesider",
         "Type": "Kanaltype",

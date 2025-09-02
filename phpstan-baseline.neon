@@ -3564,11 +3564,6 @@ parameters:
 			path: plugins/API/WidgetMetadata.php
 
 		-
-			message: "#^Parameter \\#1 \\$translationId of static method Piwik\\\\Piwik\\:\\:translate\\(\\) expects string, null given\\.$#"
-			count: 2
-			path: plugins/API/WidgetMetadata.php
-
-		-
 			message: "#^Parameter \\#2 \\$isPageTitleType of method Piwik\\\\Plugins\\\\Actions\\\\API\\:\\:filterActionsDataTable\\(\\) expects bool, int given\\.$#"
 			count: 9
 			path: plugins/Actions/API.php
@@ -3637,41 +3632,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between non\\-empty\\-string and null will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/Actions/ArchivingHelper.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Categories\\\\DownloadsSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Actions/Categories/DownloadsSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Categories\\\\EntryPagesSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Actions/Categories/EntryPagesSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Categories\\\\ExitPagesSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Actions/Categories/ExitPagesSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Categories\\\\OutlinksSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Actions/Categories/OutlinksSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Categories\\\\PageTitlesSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Actions/Categories/PageTitlesSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Categories\\\\PagesSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Actions/Categories/PagesSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Categories\\\\SiteSearchSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Actions/Categories/SiteSearchSubcategory.php
 
 		-
 			message: "#^Empty array passed to foreach\\.$#"
@@ -3884,11 +3844,6 @@ parameters:
 			path: plugins/BulkTracking/Tracker/Requests.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Contents\\\\Categories\\\\ContentsSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Contents/Categories/ContentsSubcategory.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\Contents\\\\Columns\\\\ContentInteraction\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
 			count: 1
 			path: plugins/Contents/Columns/ContentInteraction.php
@@ -4084,34 +4039,9 @@ parameters:
 			path: plugins/CoreHome/Categories/ActionsCategory.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\DevicesSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/CoreHome/Categories/DevicesSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\EngagementSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/CoreHome/Categories/EngagementSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\SoftwareSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/CoreHome/Categories/SoftwareSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\VisitorsCategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/CoreHome/Categories/VisitorsCategory.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\VisitorsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
 			count: 1
 			path: plugins/CoreHome/Categories/VisitorsCategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\VisitorsOverviewSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/CoreHome/Categories/VisitorsOverviewSubcategory.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -4629,11 +4559,6 @@ parameters:
 			path: plugins/Dashboard/API.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Dashboard\\\\Categories\\\\DashboardCategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Dashboard/Categories/DashboardCategory.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\Dashboard\\\\Categories\\\\DashboardCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
 			count: 1
 			path: plugins/Dashboard/Categories/DashboardCategory.php
@@ -4899,26 +4824,6 @@ parameters:
 			path: plugins/Ecommerce/Categories/EcommerceCategory.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Ecommerce\\\\Categories\\\\EcommerceLogSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Categories/EcommerceLogSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Ecommerce\\\\Categories\\\\EcommerceOverviewSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Categories/EcommerceOverviewSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Ecommerce\\\\Categories\\\\ProductSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Categories/ProductSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Ecommerce\\\\Categories\\\\SalesSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Categories/SalesSubcategory.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Ecommerce\\\\Columns\\\\BaseConversion\\:\\:roundRevenueIfNeeded\\(\\) should return float\\|int but returns false\\.$#"
 			count: 1
 			path: plugins/Ecommerce/Columns/BaseConversion.php
@@ -4997,11 +4902,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\API\\:\\:getSecondaryDimensions\\(\\) should return array but returns false\\.$#"
 			count: 1
 			path: plugins/Events/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\Categories\\\\EventsSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Events/Categories/EventsSubcategory.php
 
 		-
 			message: "#^Property Piwik\\\\Plugins\\\\Events\\\\Columns\\\\EventAction\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
@@ -5242,16 +5142,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugins\\\\Goals\\\\Categories\\\\GoalsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
 			count: 1
 			path: plugins/Goals/Categories/GoalsCategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\Categories\\\\GoalsOverviewSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Goals/Categories/GoalsOverviewSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\Categories\\\\ManageGoalsSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Goals/Categories/ManageGoalsSubcategory.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between int and 'ecommerceOrder' will always evaluate to false\\.$#"
@@ -5629,16 +5519,6 @@ parameters:
 			path: plugins/Live/API.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Categories\\\\RealTimeVisitorsSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Live/Categories/RealTimeVisitorsSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Categories\\\\VisitorLogSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Live/Categories/VisitorLogSubcategory.php
-
-		-
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 3
 			path: plugins/Live/Controller.php
@@ -5994,11 +5874,6 @@ parameters:
 			path: plugins/Monolog/Processor/ExceptionToTextProcessor.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\PagePerformance\\\\Categories\\\\PerformanceSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/PagePerformance/Categories/PerformanceSubcategory.php
-
-		-
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/PagePerformance/Controller.php
@@ -6189,11 +6064,6 @@ parameters:
 			path: plugins/Referrers/API.php
 
 		-
-			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 4
-			path: plugins/Referrers/API.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\API\\:\\:filterOutKeywordNotDefined\\(\\) is unused\\.$#"
 			count: 1
 			path: plugins/Referrers/API.php
@@ -6214,11 +6084,6 @@ parameters:
 			path: plugins/Referrers/API.php
 
 		-
-			message: "#^Parameter \\#2 \\$idSite of method Piwik\\\\Plugins\\\\Referrers\\\\API\\:\\:getDataTable\\(\\) expects int, string given\\.$#"
-			count: 3
-			path: plugins/Referrers/API.php
-
-		-
 			message: "#^Variable \\$numericArchives in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/Referrers/API.php
@@ -6229,39 +6094,9 @@ parameters:
 			path: plugins/Referrers/API.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Categories\\\\AllReferrersSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Referrers/Categories/AllReferrersSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Categories\\\\CampaignsSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Referrers/Categories/CampaignsSubcategory.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\Referrers\\\\Categories\\\\ReferrersCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
 			count: 1
 			path: plugins/Referrers/Categories/ReferrersCategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Categories\\\\ReferrersOverviewSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Referrers/Categories/ReferrersOverviewSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Categories\\\\SearchEnginesSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Referrers/Categories/SearchEnginesSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Categories\\\\SocialsSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Referrers/Categories/SocialsSubcategory.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Categories\\\\WebsitesSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Referrers/Categories/WebsitesSubcategory.php
 
 		-
 			message: "#^Offset 'referer_keyword' on array\\{referer_type\\: 1\\|3, referer_name\\: mixed, referer_keyword\\: '', referer_url\\: string\\} in empty\\(\\) always exists and is always falsy\\.$#"
@@ -6284,11 +6119,6 @@ parameters:
 			path: plugins/Referrers/Columns/Metrics/VisitorsFromReferrerPercent.php
 
 		-
-			message: "#^Parameter \\#1 \\$label of function Piwik\\\\Plugins\\\\Referrers\\\\getReferrerTypeLabel expects string, int given\\.$#"
-			count: 1
-			path: plugins/Referrers/Controller.php
-
-		-
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 3
 			path: plugins/Referrers/Controller.php
@@ -6297,11 +6127,6 @@ parameters:
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: plugins/Referrers/DataTable/Filter/SetGetReferrerTypeSubtables.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Referrers\\\\DataTable\\\\Filter\\\\UrlsForSocial\\:\\:\\$sortRecursive is never read, only written\\.$#"
-			count: 1
-			path: plugins/Referrers/DataTable/Filter/UrlsForSocial.php
 
 		-
 			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
@@ -6664,11 +6489,6 @@ parameters:
 			path: plugins/Transitions/API.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Transitions\\\\Categories\\\\TransitionsSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/Transitions/Categories/TransitionsSubcategory.php
-
-		-
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: plugins/Transitions/Transitions.php
@@ -6712,11 +6532,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between Piwik\\\\Plugins\\\\UserCountry\\\\LocationProvider and false will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/UserCountry/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\UserCountry\\\\Categories\\\\LocationsSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/UserCountry/Categories/LocationsSubcategory.php
 
 		-
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
@@ -6779,11 +6594,6 @@ parameters:
 			path: plugins/UserCountry/functions.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\UserCountryMap\\\\Categories\\\\RealTimeMapSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/UserCountryMap/Categories/RealTimeMapSubcategory.php
-
-		-
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, bool given\\.$#"
 			count: 1
 			path: plugins/UserCountryMap/Controller.php
@@ -6807,11 +6617,6 @@ parameters:
 			message: "#^Parameter \\#3 \\$strDate of static method Piwik\\\\Archive\\:\\:build\\(\\) expects Piwik\\\\Date\\|string, int given\\.$#"
 			count: 1
 			path: plugins/UserId/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\UserId\\\\Categories\\\\VisitorsUserSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/UserId/Categories/VisitorsUserSubcategory.php
 
 		-
 			message: "#^Argument of an invalid type Zend_Db_Statement supplied for foreach, only iterables are supported\\.$#"
@@ -7002,11 +6807,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$idsite of static method Piwik\\\\Site\\:\\:getTimezoneFor\\(\\) expects int, string given\\.$#"
 			count: 1
 			path: plugins/VisitTime/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\VisitTime\\\\Categories\\\\TimesSubcategory\\:\\:getHelp\\(\\) should return null but returns string\\.$#"
-			count: 1
-			path: plugins/VisitTime/Categories/TimesSubcategory.php
 
 		-
 			message: "#^Parameter \\#3 \\$pad_string of function str_pad expects string, int given\\.$#"

@@ -65,7 +65,7 @@
         "SearchEnginesSubcategoryHelp1": "Kjo ndarje ju ndihmon të analizoni optimizimet dhe funksionimin e motorit tuaj të kërkimeve. Mund të analizoni fjalëkyçet tuaja më popullore, me raportet për ndërthurje fjalëkyçesh, ose të shihni se cilat fjalëkyçe punojnë mirë për motorë të dhënë kërkimesh, për një analizim dhe optimizim më të fokusuar.",
         "SearchEnginesSubcategoryHelp2": "Përdoruesit e shtojcave %1$sRe Matomo%2$s dhe %3$sPunim Fjalëkyçesh Motorësh Kërkimi%4$s do të përfitojnë përfundimet më të mira nga ky raport.",
         "Socials": "Rrjete Shoqërore",
-        "SocialsReportDocumentation": "Ky raport shfaq rrjetet shoqërore që prunë vizitorë te sajti juaj.<br>Duke klikuar mbi një rresht të tabelës, mund të shihni se prej cilave faqe të rrjetit shoqëror erdhën vizitorët te sajti juaj.",
+        "SocialsReportDocumentation": "Ky raport shfaq rrjetet shoqërore që prunë vizitorë te sajti juaj.%sDuke klikuar mbi një rresht të tabelës, mund të shihni se prej cilave faqe të rrjetit shoqëror erdhën vizitorët te sajti juaj.",
         "SocialsSubcategoryHelp": "Në këtë tabelë, mund të shihni cilët sajte sollën vizitorë në sajtin tuaj.",
         "SubmenuSearchEngines": "Motorë Kërkimi &amp; Fjalëkyçe",
         "SubmenuWebsitesOnly": "Sajte",
