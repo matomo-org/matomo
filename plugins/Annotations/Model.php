@@ -31,6 +31,7 @@ class Model
     {
         $db = $this->getDb();
         $db->insert($this->table, $annotation);
+
         return (int) $db->lastInsertId();
     }
 
@@ -42,8 +43,8 @@ class Model
         $db = $this->getDb();
         $query = "SELECT * FROM $this->table WHERE id = ?";
         $bind = [$annotationId];
-        $result = $db->fetchRow($query, $bind);
-        return $result ? $result : [];
+
+        return $db->fetchRow($query, $bind);
     }
 
     /**
@@ -53,8 +54,8 @@ class Model
     {
         $db = $this->getDb();
         $query = "SELECT * FROM $this->table";
-        $result = $db->fetchAll($query);
-        return $result ? $result : [];
+
+        return $db->fetchAll($query);
     }
 
     /**
@@ -69,8 +70,8 @@ class Model
             $startDate,
             $endDate,
         ];
-        $result = $db->fetchAll($query, $bind);
-        return $result ? $result : [];
+
+        return $db->fetchAll($query, $bind);
     }
 
     /**
@@ -89,6 +90,7 @@ class Model
             $endDate,
         ];
         $result = $db->fetchRow($query, $bind);
+
         return $result['count'] ?? 0;
     }
 
@@ -116,6 +118,7 @@ class Model
         $query .= " WHERE id = ?";
         $bind[] = $annotationId;
         $db->query($query, $bind);
+
         return $this->getAnnotation($annotationId);
     }
 
