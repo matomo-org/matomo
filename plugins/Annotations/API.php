@@ -116,8 +116,7 @@ class API extends \Piwik\Plugin\API
             $model = new Model();
             $originalAnnotation = $model->updateAnnotation($idNote, $updatedValues);
         }
-
-        $originalAnnotation['canEditOrDelete'] = true;
+        $this->sanitizeAnnotation($originalAnnotation);
 
         return $originalAnnotation;
     }
