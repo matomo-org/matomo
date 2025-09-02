@@ -231,7 +231,7 @@ class Controller extends \Piwik\Plugin\Controller
      * @param int $idSite The site to add notes to.
      * @return bool
      */
-    public static function canUserAddNotesFor($idSite)
+    public static function canUserAddNotesFor(int $idSite): bool
     {
         return Piwik::isUserHasWriteAccess($idSite);
     }
