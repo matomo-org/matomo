@@ -44,7 +44,7 @@ class Model
         $query = "SELECT * FROM $this->table WHERE id = ?";
         $bind = [$annotationId];
 
-        return $db->fetchRow($query, $bind);
+        return $db->fetchRow($query, $bind) ?: [];
     }
 
     /**
@@ -55,7 +55,7 @@ class Model
         $db = $this->getDb();
         $query = "SELECT * FROM $this->table";
 
-        return $db->fetchAll($query);
+        return $db->fetchAll($query) ?: [];
     }
 
     /**
@@ -74,7 +74,7 @@ class Model
             $endDate,
         ];
 
-        return $db->fetchAll($query, $bind);
+        return $db->fetchAll($query, $bind) ?: [];
     }
 
     /**
