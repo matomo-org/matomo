@@ -138,7 +138,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { translate, AjaxHelper, NotificationsStore } from 'CoreHome';
+import {
+  translate,
+  AjaxHelper,
+  MatomoUrl,
+  NotificationsStore,
+} from 'CoreHome';
 import { Form, Field, SaveButton } from 'CorePluginsAdmin';
 
 interface AnonymizeIpState {
@@ -280,8 +285,15 @@ export default defineComponent({
       return `${inlineHelp1} ${inlineHelp2}`;
     },
     useSiteSpecificSettingsHelpText(): string {
+      const link = `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        module: 'PrivacyManager',
+        action: 'privacySettings',
+      })}`;
       return translate(
         'PrivacyManager_UseSiteSpecificSettingsHelpText',
+        `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
+        '</a>',
         translate('PrivacyManager_UseSiteSpecificSettings'),
       );
     },
