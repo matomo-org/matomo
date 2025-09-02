@@ -172,7 +172,7 @@
           </button>
         </div>
 
-        <template v-if="privacyManagerEnabled">
+        <template v-if="privacyManagerEnabled && theSite && theSite.idsite">
           <h3 class="">{{ translate('PrivacyManager_UseAnonymizeTrackingDataForThisSite') }}</h3>
 
           <ActivityIndicator :loading="isLoadingPrivacy"/>
@@ -372,7 +372,7 @@ export default defineComponent({
         this.isLoading = false;
       });
 
-      if (this.privacyManagerEnabled) {
+      if (this.privacyManagerEnabled && idSite) {
         this.isLoadingPrivacy = true;
         AjaxHelper.fetch<SettingsForSinglePlugin[]>({
           method: 'PrivacyManager.getAnonymisationSettings',
