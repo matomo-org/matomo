@@ -1,7 +1,8 @@
 {
     "IntranetMeasurable": {
         "Intranet": "Site de intranet",
-        "Intranets": "Sites de intranet",
-        "IntranetDescription": "Um mensurável de intranet é como um site, mas hospedado em uma rede interna."
+        "IntranetDescription": "Um mensurável de intranet é como um site, mas hospedado em uma rede interna.",
+        "IntranetLongDescription": "Rastrear sites internos que são acessíveis somente dentro da rede da sua organização. O Matomo usa cookies primários para identificar os visitantes únicos em ambientes intranet.",
+        "Intranets": "Sites de intranet"
     }
 }
