@@ -287,22 +287,21 @@ class API extends \Piwik\Plugin\API
         // we add one for the end of the last period (used in for loop below to bound annotation dates)
         $dates[] = $startDate;
 
-        $ids = $this->processIdSiteStringIntoList($idSite);
+        $siteIds = $this->processIdSiteStringIntoList($idSite);
 
         $model = new Model();
         $result = [];
-        foreach ($ids as $id) {
-            $result[$id] = [];
+        foreach ($siteIds as $siteId) {
+            $result[$siteId] = [];
             for ($i = 0; $i < count($dates) - 1; $i++) {
                 $date = $dates[$i];
                 $nextDate = $dates[$i + 1];
                 $strDate = $date->toString();
                 $strNextDate = $nextDate->toString();
 
-                $totalCount = $model->getCountAnnotationsForSiteInRange($id, $strDate, $strNextDate);
-                $starredCount = $model->getCountAnnotationsForSiteInRange($id, $strDate, $strNextDate, $countStarred = true);
+                [$totalCount, $starredCount] = $model->getCountAnnotationsForSiteInRange($siteId, $strDate, $strNextDate);
 
-                $result[$id][] = [
+                $result[$siteId][] = [
                     $strDate,
                     [
                         'count' => $totalCount,
@@ -311,8 +310,8 @@ class API extends \Piwik\Plugin\API
                 ];
 
                 if ($getAnnotationText && $totalCount === 1) {
-                    [$annotation] = $model->getAllAnnotationsForSiteInRange($id, $strDate, $strNextDate);
-                    $result[$id][1]['note'] = $annotation['note'];
+                    [$annotation] = $model->getAllAnnotationsForSiteInRange($siteId, $strDate, $strNextDate);
+                    $result[$siteId][1]['note'] = $annotation['note'];
                 }
             }
         }

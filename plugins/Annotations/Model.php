@@ -75,15 +75,17 @@ class Model
     }
 
     /**
+     * @return array{int, int}
      * @throws \Exception
      */
-    public function getCountAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate, bool $countStarred = false): int
+    public function getCountAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate): array
     {
         $db = $this->getDb();
-        $query = "SELECT count(id) as count FROM $this->table WHERE idsite = ? AND date >= ? AND date < ?";
-        if ($countStarred) {
-            $query .= " AND starred = 1";
-        }
+        $query = "SELECT
+                    SUM(1) AS cnt_total,
+                    SUM(CASE WHEN starred = 1 THEN 1 ELSE 0 END) AS cnt_starred
+                FROM $this->table
+                WHERE idsite = ? AND date >= ? AND date < ?";
         $bind = [
             $idSite,
             $startDate,
@@ -91,7 +93,7 @@ class Model
         ];
         $result = $db->fetchRow($query, $bind);
 
-        return $result['count'] ?? 0;
+        return [intval($result['cnt_total'] ?? 0), intval($result['cnt_starred'] ?? 0)];
     }
 
     /**
