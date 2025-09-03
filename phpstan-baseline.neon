@@ -3639,59 +3639,9 @@ parameters:
 			path: plugins/Actions/Columns/ActionType.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\ActionUrl\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/ActionUrl.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\ClickedUrl\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/ClickedUrl.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\DownloadUrl\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/DownloadUrl.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\EntryPageTitle\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/EntryPageTitle.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\EntryPageUrl\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/EntryPageUrl.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\ExitPageTitle\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/ExitPageTitle.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\ExitPageUrl\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
 			count: 1
 			path: plugins/Actions/Columns/ExitPageUrl.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\ExitPageUrl\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/ExitPageUrl.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\PageTitle\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/PageTitle.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\PageUrl\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/PageUrl.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\SearchKeyword\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Actions/Columns/SearchKeyword.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalActions\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
@@ -3842,26 +3792,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, true given\\.$#"
 			count: 1
 			path: plugins/BulkTracking/Tracker/Requests.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Contents\\\\Columns\\\\ContentInteraction\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Contents/Columns/ContentInteraction.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Contents\\\\Columns\\\\ContentName\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Contents/Columns/ContentName.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Contents\\\\Columns\\\\ContentPiece\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Contents/Columns/ContentPiece.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Contents\\\\Columns\\\\ContentTarget\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Contents/Columns/ContentTarget.php
 
 		-
 			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
@@ -4834,26 +4764,6 @@ parameters:
 			path: plugins/Ecommerce/Columns/BaseConversion.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\Ecommerce\\\\Columns\\\\ProductName\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Columns/ProductName.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Ecommerce\\\\Columns\\\\ProductSku\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Columns/ProductSku.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Ecommerce\\\\Columns\\\\ProductViewName\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Columns/ProductViewName.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Ecommerce\\\\Columns\\\\ProductViewSku\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Columns/ProductViewSku.php
-
-		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$cart$#"
 			count: 1
 			path: plugins/Ecommerce/Columns/Revenue.php
@@ -4902,26 +4812,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\API\\:\\:getSecondaryDimensions\\(\\) should return array but returns false\\.$#"
 			count: 1
 			path: plugins/Events/API.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Events\\\\Columns\\\\EventAction\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Events/Columns/EventAction.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Events\\\\Columns\\\\EventCategory\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Events/Columns/EventCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Events\\\\Columns\\\\EventName\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Events/Columns/EventName.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Events\\\\Columns\\\\EventUrl\\:\\:\\$sqlFilter \\(Closure\\|string\\) does not accept default value of type array\\{'Piwik\\\\\\\\Tracker\\\\\\\\TableLogAction', 'getOptimizedIdActio…'\\}\\.$#"
-			count: 1
-			path: plugins/Events/Columns/EventUrl.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\Columns\\\\TotalEvents\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"

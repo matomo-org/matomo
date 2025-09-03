@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Contents\Columns;
 
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
-use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\Contents\Actions\ActionContent;
