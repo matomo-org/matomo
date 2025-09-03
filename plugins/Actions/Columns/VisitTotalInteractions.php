@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Actions\Columns;
 
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\Request;
@@ -21,7 +22,7 @@ class VisitTotalInteractions extends VisitDimension
     protected $type = self::TYPE_NUMBER;
     protected $segmentName = 'interactions';
     protected $nameSingular = 'General_NbInteractions';
-    protected $acceptValues = 'Any positive integer';
+    protected $acceptValues = 'General_AnyPositiveInteger';
 
     public function __construct()
     {

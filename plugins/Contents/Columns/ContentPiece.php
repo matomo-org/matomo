@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Contents\Columns;
 
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Plugins\Contents\Actions\ActionContent;
 use Piwik\Tracker\Action;
@@ -24,7 +25,7 @@ class ContentPiece extends ActionDimension
     protected $segmentName = 'contentPiece';
     protected $nameSingular = 'Contents_ContentPiece';
     protected $namePlural = 'Contents_ContentPieces';
-    protected $acceptValues = 'The actual content. For instance "ad.jpg" or "My text ad"';
+    protected $acceptValues = 'Contents_ContentPieceSegmentHelp';
     protected $suggestedValuesApi = 'Contents.getContentPieces';
     protected $type = self::TYPE_TEXT;
     protected $category = 'General_Actions';

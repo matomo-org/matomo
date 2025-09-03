@@ -621,6 +621,10 @@ abstract class Dimension
      */
     public function getAcceptValues()
     {
+        if (!empty($this->acceptValues) && strpos('_', $this->acceptValues)) {
+            return Piwik::translate($this->acceptValues);
+        }
+
         return $this->acceptValues;
     }
 

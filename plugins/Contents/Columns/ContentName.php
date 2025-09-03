@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Contents\Columns;
 
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Plugins\Contents\Actions\ActionContent;
@@ -25,7 +26,7 @@ class ContentName extends ActionDimension
     protected $segmentName = 'contentName';
     protected $nameSingular = 'Contents_ContentName';
     protected $namePlural = 'Contents_ContentNames';
-    protected $acceptValues = 'The name of a content block, for instance "Ad Sale"';
+    protected $acceptValues = 'Contents_ContentNameSegmentHelp';
     protected $suggestedValuesApi = 'Contents.getContentNames';
     protected $type = self::TYPE_TEXT;
     protected $category = 'General_Actions';

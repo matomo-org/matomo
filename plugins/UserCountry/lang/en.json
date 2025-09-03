@@ -30,6 +30,7 @@
         "getRegionDocumentation": "Shows which region your visitors connected from when accessing website.",
         "HowToInstallGeoIPDatabases": "How do I get geolocation databases?",
         "Latitude": "Latitude",
+        "LatitudeSegmentHelp": "-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using %1$s.",
         "Latitudes": "Latitudes",
         "Location": "Location",
         "LocationProvider": "Location provider",
