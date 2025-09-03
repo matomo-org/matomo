@@ -33,6 +33,13 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.waitForTimeout(100);
     }
 
+    async function hideUTCTimeInfo() {
+        await page.evaluate(function () {
+            $('.form-help:contains(UTC time is)').hide();
+        });
+        await page.waitForTimeout(200);
+    }
+
     async function capturePage(screenshotName) {
         await page.waitForNetworkIdle();
         const pageWrap = await page.$('.pageWrap,#notificationContainer,.modal.open');
@@ -65,6 +72,7 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.click(openSitePrivacySettingsSelector(3));
         await page.waitForTimeout(200);
         await page.waitForNetworkIdle();
+        await hideUTCTimeInfo();
 
         await capturePage('show_settings');
     });
@@ -72,6 +80,7 @@ describe("PrivacyManager_SiteSpecific", function () {
     it('should close privacy settings for a given site', async function() {
         await page.click(cancelSitePrivacySettingsButton(3));
         await page.waitForTimeout(200);
+        await hideUTCTimeInfo();
 
         await capturePage('close_one_site_settings');
     });
@@ -79,6 +88,7 @@ describe("PrivacyManager_SiteSpecific", function () {
     it('should show site-specific settings when option selected', async function() {
         await page.click('#useSiteSpecificSettings1site-specific');
         await page.waitForTimeout(200);
+        await hideUTCTimeInfo();
 
         await capturePage('site_specific_settings_site1');
     });
@@ -107,6 +117,7 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.click(saveSitePrivacySettingsButton(1));
         await page.waitForTimeout(300);
         await page.waitForNetworkIdle();
+        await hideUTCTimeInfo();
 
         await capturePage('save_site_specific_settings_site1');
     });
@@ -116,6 +127,7 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.click(openSitePrivacySettingsSelector(1));
         await page.waitForTimeout(300);
         await page.waitForNetworkIdle();
+        await hideUTCTimeInfo();
 
         await capturePage('load_site_specific_settings_site1');
     });
@@ -139,6 +151,7 @@ describe("PrivacyManager_SiteSpecific", function () {
 
         await page.click('#useSiteSpecificSettings3site-specific');
         await page.waitForTimeout(200);
+        await hideUTCTimeInfo();
 
         testEnvironment.optionsOverride = {};
         testEnvironment.save();
@@ -165,6 +178,7 @@ describe("PrivacyManager_SiteSpecific", function () {
 
         await page.click('#useSiteSpecificSettings2site-specific');
         await page.waitForTimeout(200);
+        await hideUTCTimeInfo();
 
         testEnvironment.optionsOverride = {};
         testEnvironment.save();
@@ -185,6 +199,7 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.click(openSitePrivacySettingsSelector(2));
         await page.waitForTimeout(300);
         await page.waitForNetworkIdle();
+        await hideUTCTimeInfo();
 
         await capturePage('load_site_specific_settings_site2');
     });
@@ -198,6 +213,7 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.waitForTimeout(300);
         await page.waitForNetworkIdle();
         await page.mouse.move(-10, -10);
+        await hideUTCTimeInfo();
 
         await capturePage('no_privacy_settings_when_plugin_disabled');
 
