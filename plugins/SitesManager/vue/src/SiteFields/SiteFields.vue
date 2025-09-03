@@ -137,11 +137,11 @@
           name="timezone"
           v-model="theSite.timezone"
           :title="translate('SitesManager_Timezone')"
-          :inline-help="'#timezoneHelpText'"
+          :inline-help="`#timezoneHelpText-${theSite.idsite}`"
           :options="timezones"
         />
 
-        <div id="timezoneHelpText" class="inline-help-node">
+        <div :id="`timezoneHelpText-${theSite.idsite}`" class="inline-help-node">
           <div>
             <span v-if="!timezoneSupportEnabled">
               {{ translate('SitesManager_AdvancedTimezoneSupportNotFound') }}
