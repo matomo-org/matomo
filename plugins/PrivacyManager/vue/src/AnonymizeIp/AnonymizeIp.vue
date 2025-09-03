@@ -121,17 +121,11 @@
         </Field>
       </div>
     </template>
-    <div class="footer-buttons">
+    <div class="footer-buttons" v-if="!idSiteSpecific">
       <SaveButton
         @confirm="save()"
         :saving="isLoading"
       />
-      <button v-if="idSiteSpecific"
-        class="btn btn-link cancel"
-        @click="$emit('cancel')"
-      >
-        {{ translate('General_Cancel', '', '') }}
-      </button>
     </div>
   </div>
 </template>
@@ -210,6 +204,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    triggerSave: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     Field,
@@ -218,7 +216,7 @@ export default defineComponent({
   directives: {
     Form,
   },
-  emits: ['updated', 'cancel'],
+  emits: ['updated'],
   data(): AnonymizeIpState {
     return {
       isLoading: false,
@@ -260,13 +258,15 @@ export default defineComponent({
             : undefined,
         },
       ).then(() => {
-        const notificationInstanceId = NotificationsStore.show({
-          message: translate('CoreAdminHome_SettingsSaveSuccess'),
-          context: 'success',
-          id: 'privacyManagerSettings',
-          type: 'toast',
-        });
-        NotificationsStore.scrollToNotification(notificationInstanceId);
+        if (!this.idSiteSpecific) {
+          const notificationInstanceId = NotificationsStore.show({
+            message: translate('CoreAdminHome_SettingsSaveSuccess'),
+            context: 'success',
+            id: 'privacyManagerSettings',
+            type: 'toast',
+          });
+          NotificationsStore.scrollToNotification(notificationInstanceId);
+        }
         this.$emit('updated');
       }).finally(() => {
         this.isLoading = false;
@@ -317,6 +317,14 @@ export default defineComponent({
           key: SITE_SPECIFIC_SETTINGS,
         },
       ];
+    },
+  },
+  watch: {
+    triggerSave(newValue) {
+      console.log('trigger save changed', newValue);
+      if (newValue) {
+        this.save();
+      }
     },
   },
 });

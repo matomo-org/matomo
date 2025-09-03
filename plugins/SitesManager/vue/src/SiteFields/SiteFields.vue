@@ -154,6 +154,22 @@
           </div>
         </div>
 
+        <template v-if="privacyManagerEnabled && theSite && theSite.idsite">
+          <h3 class="">{{ translate('PrivacyManager_UseAnonymizeTrackingDataForThisSite') }}</h3>
+
+          <ActivityIndicator :loading="isLoadingPrivacy"/>
+
+          <component
+            :is="anonymizeIpComponent"
+            v-if="!isLoadingPrivacy"
+            :id-site-specific="theSite.idsite"
+            :trigger-save="triggerSavePrivacySettings"
+            v-bind="anonymisationSettings"
+            @updated="onPrivacyUpdated"
+            @cancel="cancelEditSite(site)"
+          ></component>
+        </template>
+
         <div class="editingSiteFooter">
           <input
             v-show="!isLoading"
@@ -171,21 +187,6 @@
             {{ translate('General_Cancel', '', '') }}
           </button>
         </div>
-
-        <template v-if="privacyManagerEnabled && theSite && theSite.idsite">
-          <h3 class="">{{ translate('PrivacyManager_UseAnonymizeTrackingDataForThisSite') }}</h3>
-
-          <ActivityIndicator :loading="isLoadingPrivacy"/>
-
-          <component
-            :is="anonymizeIpComponent"
-            v-if="!isLoadingPrivacy"
-            :id-site-specific="theSite.idsite"
-            v-bind="anonymisationSettings"
-            @updated="onPrivacyUpdated"
-            @cancel="cancelEditSite(site)"
-          ></component>
-        </template>
 
       </div>
     </div>
@@ -237,6 +238,7 @@ interface SiteFieldsState {
   settingValues: Record<string, unknown>;
   showRemoveDialog: boolean;
   deleteSiteExplanation: string;
+  triggerSavePrivacySettings: boolean;
 }
 
 interface CreateEditSiteResponse {
@@ -289,6 +291,7 @@ export default defineComponent({
       settingValues: {},
       showRemoveDialog: false,
       deleteSiteExplanation: '',
+      triggerSavePrivacySettings: false,
     };
   },
   components: {
@@ -388,6 +391,7 @@ export default defineComponent({
     },
     onPrivacyUpdated() {
       this.editMode = false;
+      this.triggerSavePrivacySettings = false;
       this.anonymisationSettings = [];
     },
     saveSite() {
@@ -437,43 +441,49 @@ export default defineComponent({
         });
       });
 
-      AjaxHelper.post<CreateEditSiteResponse>(
-        {
-          method: apiMethod,
-        },
-        values,
-      ).then((response) => {
-        this.editMode = false;
+      const saveSitePromise = Promise
+        .resolve(AjaxHelper.post<CreateEditSiteResponse>(
+          {
+            method: apiMethod,
+          },
+          values,
+        )).then((response) => {
+          this.editMode = false;
 
-        if (!this.theSite.idsite && response && response.value) {
-          this.theSite.idsite = `${response.value}`;
-        }
+          if (!this.theSite.idsite && response && response.value) {
+            this.theSite.idsite = `${response.value}`;
+          }
 
-        const timezoneInfo = TimezoneStore.timezones.value.find(
-          (t) => t.code === this.theSite.timezone,
-        );
-        this.theSite.timezone_name = timezoneInfo?.label || this.theSite.timezone;
+          const timezoneInfo = TimezoneStore.timezones.value.find(
+            (t) => t.code === this.theSite.timezone,
+          );
+          this.theSite.timezone_name = timezoneInfo?.label || this.theSite.timezone;
 
-        if (this.theSite.currency) {
-          this.theSite.currency_name = CurrencyStore.currencies.value[this.theSite.currency];
-        }
-
-        const notificationId = NotificationsStore.show({
-          message: isNew
-            ? translate('SitesManager_WebsiteCreated')
-            : translate('SitesManager_WebsiteUpdated'),
-          context: 'success',
-          id: 'websitecreated',
-          type: 'transient',
+          if (this.theSite.currency) {
+            this.theSite.currency_name = CurrencyStore.currencies.value[this.theSite.currency];
+          }
         });
-        NotificationsStore.scrollToNotification(notificationId);
 
-        SiteTypesStore.removeEditSiteIdParameterFromHash();
+      const savePrivacySettingsPromise = this.triggerPrivacySettingsSave();
 
-        this.$emit('save', { site: this.theSite, settingValues: values.settingValues, isNew });
-      }).finally(() => {
-        this.isSaving = false;
-      });
+      Promise.all([saveSitePromise, savePrivacySettingsPromise])
+        .then(() => {
+          const notificationId = NotificationsStore.show({
+            message: isNew
+              ? translate('SitesManager_WebsiteCreated')
+              : translate('SitesManager_WebsiteUpdated'),
+            context: 'success',
+            id: 'websitecreated',
+            type: 'transient',
+          });
+          NotificationsStore.scrollToNotification(notificationId);
+
+          SiteTypesStore.removeEditSiteIdParameterFromHash();
+
+          this.$emit('save', { site: this.theSite, settingValues: values.settingValues, isNew });
+        }).finally(() => {
+          this.isSaving = false;
+        });
     },
     cancelEditSite(site: Site) {
       this.editMode = false;
@@ -506,6 +516,21 @@ export default defineComponent({
           this.deleteSiteExplanation += response.join('<br>');
         }
         this.showRemoveDialog = true;
+      });
+    },
+    triggerPrivacySettingsSave() {
+      return new Promise((resolve) => {
+        const unwatch = this.$watch(
+          'triggerSavePrivacySettings',
+          (val) => {
+            if (val === false) {
+              unwatch();
+              resolve(true);
+            }
+          },
+          { immediate: false },
+        );
+        this.triggerSavePrivacySettings = true;
       });
     },
   },
