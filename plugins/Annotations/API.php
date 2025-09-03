@@ -56,7 +56,7 @@ class API extends \Piwik\Plugin\API
 
         $model = new Model();
         $idNote = $model->createAnnotation($annotation);
-        $this->sanitizeAnnotation($annotation);
+        $this->decorateAnnotation($annotation);
 
         return [
             'idNote' => $idNote,
@@ -116,7 +116,7 @@ class API extends \Piwik\Plugin\API
             $model = new Model();
             $originalAnnotation = $model->updateAnnotation($idNote, $updatedValues);
         }
-        $this->sanitizeAnnotation($originalAnnotation);
+        $this->decorateAnnotation($originalAnnotation);
 
         return $originalAnnotation;
     }
@@ -185,7 +185,7 @@ class API extends \Piwik\Plugin\API
         if (empty($annotation)) {
             throw new Exception("There is no note with id '$idNote' for site with id '$idSite'.");
         }
-        $this->sanitizeAnnotation($annotation);
+        $this->decorateAnnotation($annotation);
 
         return $annotation;
     }
@@ -226,7 +226,7 @@ class API extends \Piwik\Plugin\API
         foreach ($ids as $id) {
             $annotations[$id] = $model->getAllAnnotationsForSiteInRange($id, $startDate->toString(), $endDate->toString());
             for ($i = 0; $i < count($annotations[$id]); $i++) {
-                $this->sanitizeAnnotation($annotations[$id][$i]);
+                $this->decorateAnnotation($annotations[$id][$i]);
             }
         }
 
@@ -245,7 +245,7 @@ class API extends \Piwik\Plugin\API
      * @return array An array mapping site IDs to arrays holding dates & the count of
      *               annotations made for those dates. eg,
      *               array(
-     *                 5 => array(
+     *                  => array(
      *                   array('2012-01-02', array('count' => 4, 'starred' => 2)),
      *                   array('2012-01-03', array('count' => 0, 'starred' => 0)),
      *                   array('2012-01-04', array('count' => 2, 'starred' => 0)),
@@ -388,7 +388,7 @@ class API extends \Piwik\Plugin\API
         return $note;
     }
 
-    private function sanitizeAnnotation(array &$annotation): void
+    private function decorateAnnotation(array &$annotation): void
     {
         $annotation['date'] = substr($annotation['date'], 0, 10);
         $annotation['note'] = Common::sanitizeInputValue($annotation['note']);
