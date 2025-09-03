@@ -908,7 +908,7 @@ class Url
         }
         $newParams = [
             'mtm_campaign' => $campaign ?? 'Matomo_App',
-            'mtm_source' => $source ?? 'Matomo_App_' . (\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('Cloud') ? 'Cloud' : 'OnPremise'),
+            'mtm_source' => $source ?? 'Matomo_App_' . (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Cloud') ? 'Cloud' : 'OnPremise'),
             'mtm_medium' => $medium
             ];
 
