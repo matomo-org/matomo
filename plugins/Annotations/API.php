@@ -220,7 +220,7 @@ class API extends \Piwik\Plugin\API
             return [];
         }
 
-        $ids = $this->processIdSiteStringIntoList($idSite);
+        $ids = Site::getIdSitesFromIdSitesString($idSite);
         $model = new Model();
         $annotations = [];
         foreach ($ids as $id) {
@@ -286,7 +286,7 @@ class API extends \Piwik\Plugin\API
         // we add one for the end of the last period (used in for loop below to bound annotation dates)
         $dates[] = $startDate;
 
-        $siteIds = $this->processIdSiteStringIntoList($idSite);
+        $siteIds = Site::getIdSitesFromIdSitesString($idSite);
 
         $model = new Model();
         $result = [];
@@ -393,19 +393,5 @@ class API extends \Piwik\Plugin\API
         $annotation['date'] = substr($annotation['date'], 0, 10);
         $annotation['note'] = Common::sanitizeInputValue($annotation['note']);
         $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($annotation);
-    }
-
-    /**
-     * @param string $idSite either 'all', or comma separated ids '1,2,3'
-     * @return array<int> of site ids [1,2,3]
-     */
-    private function processIdSiteStringIntoList(string $idSite): array
-    {
-        if ($idSite === 'all') {
-            return Access::getInstance()->getSitesIdWithAtLeastViewAccess();
-        }
-        // convert possible id list into array of int ids
-        $idStrings = explode(',', $idSite);
-        return array_map('intval', $idStrings);
     }
 }
