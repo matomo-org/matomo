@@ -17,9 +17,9 @@ use Piwik\Updates as PiwikUpdates;
 use Piwik\Updater\Migration;
 
 /**
- * Update for version 5.5.0-b1
+ * Update for version 5.5.0-b2
  */
-class Updates_5_5_0_b1 extends PiwikUpdates
+class Updates_5_5_0_b2 extends PiwikUpdates
 {
     /**
      * Migrations
