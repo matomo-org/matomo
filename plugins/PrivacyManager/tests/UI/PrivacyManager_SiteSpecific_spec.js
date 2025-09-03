@@ -56,11 +56,11 @@ describe("PrivacyManager_SiteSpecific", function () {
     }
 
     function cancelSitePrivacySettingsButton(idSite) {
-        return sitePrefix(idSite, '.anonymizeSettings .footer-buttons button.cancel');
+        return sitePrefix(idSite, '.editingSiteFooter button');
     }
 
     function saveSitePrivacySettingsButton(idSite) {
-        return sitePrefix(idSite, '.anonymizeSettings .footer-buttons input[value="Save"]');
+        return sitePrefix(idSite, '.editingSiteFooter input[value="Save"]');
     }
 
     it('should show privacy settings for multiple sites at the same time on lock icon click', async function() {
