@@ -404,6 +404,6 @@ class API extends \Piwik\Plugin\API
         $annotation['date'] = substr($annotation['date'], 0, 10);
         $annotation['note'] = Common::sanitizeInputValue($annotation['note']);
         $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($annotation);
-        $annotation['idNote'] = $annotation['id'];
+        $annotation['idNote'] = $annotation['id']; // for API backward compatibility
     }
 }
