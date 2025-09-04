@@ -105,7 +105,7 @@
         name="randomizeConfigId"
         :title="translate('PrivacyManager_UseRandomizeConfigId')"
         v-model="actualRandomizeConfigId"
-        :inline-help="translate('PrivacyManager_RandomizeConfigIdNote')"
+        :inline-help="getRandomiseConfigIdHelpText"
       >
       </Field>
     </div>
@@ -223,6 +223,12 @@ export default defineComponent({
       }).finally(() => {
         this.isLoading = false;
       });
+    },
+    getRandomiseConfigIdHelpText() {
+      const helpText = translate('PrivacyManager_RandomizeConfigIdNote');
+      const helpTextWarning = translate('PrivacyManager_RandomizeConfigIdNoteWarning');
+
+      return `${helpText}<br><br>${helpTextWarning}`;
     },
   },
   computed: {
