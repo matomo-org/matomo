@@ -44,12 +44,10 @@ class API extends \Piwik\Plugin\API
         $this->checkSiteExists($idSite);
         $this->checkDateIsValid($date);
 
-        $note = $this->filterNote($note);
-
         $annotation = [
             'idsite' => $idSite,
             'date' => $date,
-            'note' => $note,
+            'note' => $this->filterNote($note),
             'starred' => (int) $starred,
             'user' => Piwik::getCurrentUserLogin(),
         ];
@@ -102,9 +100,6 @@ class API extends \Piwik\Plugin\API
 
         // check if current user has the right to update the annotation
         $this->checkUserCanModifyOrDelete($originalAnnotation);
-
-        // $note is used via $$column further down
-        $note = $this->filterNote($note);
 
         if (isset($starred)) {
             $starred = intval($starred);
