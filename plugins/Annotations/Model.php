@@ -16,6 +16,7 @@ class Model
 {
     private const TABLE_NAME = 'annotations';
     private const EDITABLE_COLS = ['note', 'date', 'starred'];
+    /** @var string */
     private $table;
 
     public function __construct()
@@ -24,6 +25,7 @@ class Model
     }
 
     /**
+     * @param array<string,mixed> $annotation
      * @throws \Exception
      */
     public function createAnnotation(array $annotation): int
@@ -35,6 +37,7 @@ class Model
     }
 
     /**
+     * @return array<string,string|int|bool>
      * @throws \Exception
      */
     public function getAnnotation(int $annotationId, int $idSite): array
@@ -47,6 +50,7 @@ class Model
     }
 
     /**
+     * @return array<int,array<string,string|int|bool>>
      * @throws \Exception
      */
     public function getAllAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate, ?int $limit = null): array
@@ -92,9 +96,9 @@ class Model
      *
      * @param int $annotationId id of the annotation being updated
      * @param int $idSite the site of the annotation
-     * @param array $updatedColumns an associative array containing columns to update,
+     * @param array<string,string|int|bool> $updatedColumns an associative array containing columns to update,
      *              only columns matching $this->getEditableColumns() are used.
-     * @return array the updated annotation
+     * @return array<string,string|int|bool> the updated annotation
      * @throws \Exception
      */
     public function updateAnnotation(int $annotationId, int $idSite, array $updatedColumns): array
