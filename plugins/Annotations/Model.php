@@ -62,7 +62,7 @@ class Model
             $endDate,
         ];
 
-        return $db->fetchAll($query, $bind) ?: [];
+        return $db->fetchAll($query, $bind);
     }
 
     /**
