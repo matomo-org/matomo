@@ -115,7 +115,9 @@ class API extends \Piwik\Plugin\API
                     'note' => $this->filterNote($note),
                     'starred' => $starred,
                 ],
-                fn($value) => isset($value)
+                function ($value) {
+                    return isset($value);
+                }
             ),
             $originalAnnotation
         );
@@ -222,13 +224,13 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $ids = array_map('intval',Site::getIdSitesFromIdSitesString($idSite));
+        $ids = array_map('intval', Site::getIdSitesFromIdSitesString($idSite));
         $model = new Model();
         $annotations = [];
         foreach ($ids as $id) {
             [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date, $period, $lastN ?? false, $id);
             if (!($startDate && $endDate)) {
-                continue; 
+                continue;
             }
             $annotations[$id] = $model->getAllAnnotationsForSiteInRange($id, $startDate->toString(), $endDate->toString());
             for ($i = 0; $i < count($annotations[$id]); $i++) {
