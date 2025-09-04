@@ -104,13 +104,21 @@ class API extends \Piwik\Plugin\API
         // $note is used via $$column further down
         $note = $this->filterNote($note);
 
-        $updatedValues = [];
-        foreach ($originalAnnotation as $columnName => $originalValue) {
-            // double $$ intentional
-            if (isset($$columnName) && !is_null($$columnName) && $$columnName !== $originalValue) {
-                $updatedValues[$columnName] = $$columnName;
-            }
+        if (isset($starred)) {
+            $starred = intval($starred);
         }
+
+        $updatedValues = array_diff_assoc(
+            array_filter(
+                [
+                    'date' => $date,
+                    'note' => $this->filterNote($note),
+                    'starred' => $starred,
+                ],
+                fn($value) => isset($value)
+            ),
+            $originalAnnotation
+        );
 
         if (!empty($updatedValues)) {
             $model = new Model();
