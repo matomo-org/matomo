@@ -79,6 +79,7 @@
         "WidgetSearchKeywords": "Site Search Keywords",
         "WidgetSearchNoResultKeywords": "Search Keywords with No Results",
         "ActionType": "Action Type",
+        "ActionTypeSegmentHelp": "A type of action, such as: %s",
         "ActionTypes": "Action Types",
         "Behaviour": "Behaviour",
         "TimeSpentInReferringAction": "Time Spent in Referring Action",
