@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Annotations;
 use Exception;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Site;
 
@@ -85,6 +86,7 @@ class API extends \Piwik\Plugin\API
      * @return array Returns an array of two elements. The first element (indexed by
      *               'annotation') is the new annotation. The second element (indexed
      *               by 'idNote' is the new note's ID).
+     * @throws UnexpectedWebsiteFoundException
      */
     public function save(int $idSite, int $idNote, ?string $date = null, ?string $note = null, ?bool $starred = null): array
     {
@@ -142,6 +144,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The site ID to add the annotation to.
      * @param int $idNote The ID of the note to delete.
+     * @throws UnexpectedWebsiteFoundException
      */
     public function delete(int $idSite, int $idNote): void
     {
@@ -156,9 +159,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Removes all annotations for a single site. Only super users can use this method.
+     * Removes all annotations for a single site. Only superusers can use this method.
      *
      * @param int $idSite The ID of the site to remove annotations for.
+     * @throws UnexpectedWebsiteFoundException when the required site doesn't exist
+     * @throws Exception when user is not a superuser
      */
     public function deleteAll(int $idSite): void
     {
@@ -219,6 +224,7 @@ class API extends \Piwik\Plugin\API
      *                 ),
      *                 8 => array(...)
      *               )
+     * @throws Exception when user is not a superuser
      */
     public function getAll(string $idSite, ?string $date = null, string $period = 'day', ?int $lastN = null): array
     {
@@ -265,6 +271,7 @@ class API extends \Piwik\Plugin\API
      *                 ),
      *                 ...
      *               )
+     * @throws Exception when user is not a superuser
      */
     public function getAnnotationCountForDates(
         string $idSite,
@@ -362,7 +369,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @return void
-     * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
+     * @throws UnexpectedWebsiteFoundException
      */
     private function checkSiteExists(int $idSite): void
     {
