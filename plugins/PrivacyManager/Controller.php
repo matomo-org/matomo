@@ -23,7 +23,6 @@ use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\ConfigIdRandomisation;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
@@ -49,15 +48,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /** @var SiteContentDetector */
     private $siteContentDetector;
 
-    /** @var FeatureFlagManager */
-    private $featureFlagManager;
-
-    public function __construct(ReferrerAnonymizer $referrerAnonymizer, SiteContentDetector $siteContentDetector, FeatureFlagManager $featureFlagManager)
+    public function __construct(ReferrerAnonymizer $referrerAnonymizer, SiteContentDetector $siteContentDetector)
     {
         parent::__construct();
         $this->referrerAnonymizer = $referrerAnonymizer;
         $this->siteContentDetector = $siteContentDetector;
-        $this->featureFlagManager = $featureFlagManager;
     }
 
     private function checkDataPurgeAdminSettingsIsEnabled()
