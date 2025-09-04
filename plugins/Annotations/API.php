@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\Annotations;
 
 use Exception;
-use Piwik\Access;
 use Piwik\Common;
 use Piwik\Date;
 use Piwik\Piwik;
@@ -122,7 +121,7 @@ class API extends \Piwik\Plugin\API
 
         if (!empty($updatedValues)) {
             $model = new Model();
-            $originalAnnotation = $model->updateAnnotation($idNote, $updatedValues);
+            $originalAnnotation = $model->updateAnnotation($idNote, $idSite, $updatedValues);
         }
         $this->decorateAnnotation($originalAnnotation);
 
@@ -150,7 +149,7 @@ class API extends \Piwik\Plugin\API
         $this->checkUserCanModifyOrDelete($annotation);
 
         $model = new Model();
-        $model->deleteAnnotation($idNote);
+        $model->deleteAnnotation($idNote, $idSite);
     }
 
     /**
@@ -189,7 +188,7 @@ class API extends \Piwik\Plugin\API
         $this->checkSiteExists($idSite);
 
         $model = new Model();
-        $annotation = $model->getAnnotation($idNote);
+        $annotation = $model->getAnnotation($idNote, $idSite);
         if (empty($annotation)) {
             throw new Exception("There is no note with id '$idNote' for site with id '$idSite'.");
         }

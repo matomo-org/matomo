@@ -5,8 +5,6 @@
  *
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- *
- *
  */
 
 namespace Piwik\Plugins\Annotations;
@@ -39,11 +37,11 @@ class Model
     /**
      * @throws \Exception
      */
-    public function getAnnotation(int $annotationId): array
+    public function getAnnotation(int $annotationId, int $idSite): array
     {
         $db = $this->getDb();
-        $query = "SELECT * FROM $this->table WHERE id = ?";
-        $bind = [$annotationId];
+        $query = "SELECT * FROM $this->table WHERE id = ? AND idsite = ?";
+        $bind = [$annotationId, $idSite];
 
         return $db->fetchRow($query, $bind) ?: [];
     }
@@ -104,12 +102,13 @@ class Model
      * Update existing annotation with provided data
      *
      * @param int $annotationId id of the annotation being updated
+     * @param int $idSite the site of the annotation
      * @param array $updatedColumns an associative array containing columns to update,
      *              only columns matching $this->getEditableColumns() are used.
      * @return array the updated annotation
      * @throws \Exception
      */
-    public function updateAnnotation(int $annotationId, array $updatedColumns): array
+    public function updateAnnotation(int $annotationId, int $idSite, array $updatedColumns): array
     {
         $db = $this->getDb();
         $query = "UPDATE $this->table SET";
@@ -121,21 +120,22 @@ class Model
             }
         }
         $query = rtrim($query, ',');
-        $query .= " WHERE id = ?";
+        $query .= " WHERE id = ? AND idsite = ?";
         $bind[] = $annotationId;
+        $bind[] = $idSite;
         $db->query($query, $bind);
 
-        return $this->getAnnotation($annotationId);
+        return $this->getAnnotation($annotationId, $idSite);
     }
 
     /**
      * @throws \Exception
      */
-    public function deleteAnnotation(int $annotationId): void
+    public function deleteAnnotation(int $annotationId, int $idsite): void
     {
         $db = $this->getDb();
-        $query = "DELETE FROM $this->table WHERE id = ?";
-        $bind = [$annotationId];
+        $query = "DELETE FROM $this->table WHERE id = ? AND idsite = ?";
+        $bind = [$annotationId, $idsite];
         $db->query($query, $bind);
     }
 
