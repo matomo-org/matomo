@@ -9,6 +9,7 @@
 			<starred>1</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>1</idNote>
 		</row>
 		<row>
 			<id>3</id>
@@ -18,6 +19,7 @@
 			<starred>0</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>3</idNote>
 		</row>
 		<row>
 			<id>5</id>
@@ -27,6 +29,7 @@
 			<starred>0</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>5</idNote>
 		</row>
 		<row>
 			<id>7</id>
@@ -36,6 +39,7 @@
 			<starred>1</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>7</idNote>
 		</row>
 		<row>
 			<id>9</id>
@@ -45,6 +49,7 @@
 			<starred>0</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>9</idNote>
 		</row>
 		<row>
 			<id>11</id>
@@ -54,6 +59,7 @@
 			<starred>0</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>11</idNote>
 		</row>
 		<row>
 			<id>13</id>
@@ -63,6 +69,7 @@
 			<starred>1</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>13</idNote>
 		</row>
 		<row>
 			<id>15</id>
@@ -72,6 +79,7 @@
 			<starred>0</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>15</idNote>
 		</row>
 		<row>
 			<id>17</id>
@@ -81,6 +89,7 @@
 			<starred>0</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>17</idNote>
 		</row>
 		<row>
 			<id>19</id>
@@ -90,6 +99,7 @@
 			<starred>1</starred>
 			<user>superUserLogin</user>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>19</idNote>
 		</row>
 	</row>
 </result>

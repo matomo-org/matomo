@@ -206,25 +206,27 @@ class AnnotationsTest extends SystemTestCase
             'user'              => 'superUserLogin',
             'id'                => 1,
             'idsite'            => 1,
-            'canEditOrDelete'   => true
+            'canEditOrDelete'   => true,
+            'idNote'            => 1
         );
         $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 1));
     }
 
     public function testSaveNoChangesSuccess()
     {
-        API::getInstance()->save(self::$fixture->idSite1, 2);
+        API::getInstance()->save(self::$fixture->idSite1, 3);
 
         $expectedAnnotation = array(
-            'date'            => '2011-12-01',
-            'note'            => '0: Site 2 annotation for 2011-12-01',
-            'starred'         => 1,
+            'date'            => '2011-12-02',
+            'note'            => '1: Site 1 annotation for 2011-12-02',
+            'starred'         => 0,
             'user'            => 'superUserLogin',
-            'id'              => 2,
-            'idsite'          => 2,
-            'canEditOrDelete' => true
+            'id'              => 3,
+            'idsite'          => 1,
+            'canEditOrDelete' => true,
+            'idNote'          => 3
         );
-        $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 2));
+        $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 3));
     }
 
     public function testDeleteSuccess()
