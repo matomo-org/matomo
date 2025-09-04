@@ -268,7 +268,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $view->dbUser = PiwikConfig::getInstance()->database['username'];
             $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);
             $view->activateNonce   = Nonce::getNonce(self::ACTIVATE_DNT_NONCE);
-            $view->configRandomisationFeatureFlag = $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class);
 
             $view->maskLengthOptions = [
                 ['key' => '1',
