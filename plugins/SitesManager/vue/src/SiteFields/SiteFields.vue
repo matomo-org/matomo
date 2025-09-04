@@ -464,9 +464,12 @@ export default defineComponent({
           }
         });
 
-      const savePrivacySettingsPromise = this.triggerPrivacySettingsSave();
+      const savePromises = [saveSitePromise];
+      if (!isNew) {
+        savePromises.push(this.triggerPrivacySettingsSave() as Promise<void>);
+      }
 
-      Promise.all([saveSitePromise, savePrivacySettingsPromise])
+      Promise.all(savePromises)
         .then(() => {
           const notificationId = NotificationsStore.show({
             message: isNew
