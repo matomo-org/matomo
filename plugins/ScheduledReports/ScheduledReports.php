@@ -135,7 +135,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_NoRecipients';
         $translationKeys[] = 'ScheduledReports_SendReportNow';
         $translationKeys[] = 'ScheduledReports_CreateAndScheduleReport';
-        $translationKeys[] = 'ScheduledReports_DescriptionOnFirstPageScheduleReport';
+        $translationKeys[] = 'ScheduledReports_DescriptionOnFirstPageScheduledReport';
         $translationKeys[] = 'SegmentEditor_ChooseASegment';
         $translationKeys[] = 'ScheduledReports_WeeklyScheduleHelp';
         $translationKeys[] = 'ScheduledReports_MonthlyScheduleHelp';
@@ -150,7 +150,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_ReportIncludeNWebsites';
         $translationKeys[] = 'SegmentEditor_LoadingSegmentedDataMayTakeSomeTime';
         $translationKeys[] = 'General_Download';
-        $translationKeys[] = 'ScheduledReports_Segment_HelpScheduleReport';
+        $translationKeys[] = 'ScheduledReports_Segment_HelpScheduledReport';
         $translationKeys[] = 'SegmentEditor_AddNewSegment';
         $translationKeys[] = 'ScheduledReports_SentToMe';
         $translationKeys[] = 'ScheduledReports_AlsoSendReportToTheseEmails';

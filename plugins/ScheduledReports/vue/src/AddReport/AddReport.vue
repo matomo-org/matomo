@@ -33,7 +33,7 @@
           :title="translate('General_Description')"
           :model-value="report.description"
           @update:model-value="$emit('change', { prop: 'description', value: $event })"
-          :inline-help="translate('ScheduledReports_DescriptionOnFirstPageScheduleReport')"
+          :inline-help="translate('ScheduledReports_DescriptionOnFirstPageScheduledReport')"
         >
         </Field>
       </div>
@@ -475,7 +475,7 @@ export default defineComponent({
     },
     reportSegmentInlineHelp() {
       return translate(
-        'ScheduledReports_Segment_HelpScheduleReport',
+        'ScheduledReports_Segment_HelpScheduledReport',
         '<a href="./" rel="noreferrer noopener" target="_blank">',
         '</a>',
         translate('SegmentEditor_DefaultAllVisits'),
