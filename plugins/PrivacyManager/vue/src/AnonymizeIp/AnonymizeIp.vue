@@ -104,21 +104,33 @@
         name="randomizeConfigId"
         :title="translate('PrivacyManager_UseRandomizeConfigId')"
         v-model="actualRandomizeConfigId"
-        :inline-help="getRandomiseConfigIdHelpText"
+        :inline-help="randomiseConfigIdHelpText"
       >
       </Field>
     </div>
     <SaveButton
-      @confirm="save()"
+      @confirm="shouldSave()"
       :saving="isLoading"
     />
+    <PasswordConfirmation
+      v-model="showPasswordConfirmation"
+      @confirmed="save()"
+    >
+      <h2>{{ translate('PrivacyManager_ConfirmConfigRandomisationEnabled') }}</h2>
+      <p>{{ translate('PrivacyManager_ConfirmConfigRandomisationExplanation') }}</p>
+    </PasswordConfirmation>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { translate, AjaxHelper, NotificationsStore } from 'CoreHome';
-import { Form, Field, SaveButton } from 'CorePluginsAdmin';
+import {
+  Form,
+  Field,
+  PasswordConfirmation,
+  SaveButton,
+} from 'CorePluginsAdmin';
 
 interface AnonymizeIpState {
   isLoading: boolean;
@@ -130,6 +142,7 @@ interface AnonymizeIpState {
   actualForceCookielessTracking: boolean;
   actualAnonymizeReferrer?: string;
   actualRandomizeConfigId: boolean;
+  showPasswordConfirmation: boolean;
 }
 
 function configBoolToInt(value?: string|number|boolean): number {
@@ -172,6 +185,7 @@ export default defineComponent({
   },
   components: {
     Field,
+    PasswordConfirmation,
     SaveButton,
   },
   directives: {
@@ -190,9 +204,17 @@ export default defineComponent({
       actualForceCookielessTracking: !!this.forceCookielessTracking,
       actualAnonymizeReferrer: this.anonymizeReferrer,
       actualRandomizeConfigId: !!this.randomizeConfigId,
+      showPasswordConfirmation: false,
     };
   },
   methods: {
+    shouldSave() {
+      if (this.actualRandomizeConfigId) {
+        this.showPasswordConfirmation = true;
+      } else {
+        this.save();
+      }
+    },
     save() {
       this.isLoading = true;
       AjaxHelper.post(
@@ -222,7 +244,7 @@ export default defineComponent({
         this.isLoading = false;
       });
     },
-    getRandomiseConfigIdHelpText() {
+    randomiseConfigIdHelpText() {
       const helpText = translate('PrivacyManager_RandomizeConfigIdNote');
       const helpTextWarning = translate('PrivacyManager_RandomizeConfigIdNoteWarning');
 
