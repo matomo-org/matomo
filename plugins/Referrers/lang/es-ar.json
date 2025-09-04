@@ -44,7 +44,7 @@
         "SearchEnginesDocumentation": "Un visitante fue enviado a tu sitio web por un motor de búsqueda. %1$s Leé el %2$s informe para más detalles.",
         "SearchEnginesReportDocumentation": "Este informe muestra qué motores de búsqueda enviaron usuarios a tu sitio web. %s Haciendo clic en una fila en la tabla, podés ver qué estaban buscando los usuarios en un motor de búsqueda específico.",
         "Socials": "Redes sociales",
-        "SocialsReportDocumentation": "Este informe muestra qué red social envió visitantes a tu sitio web.<br \/>Haciendo clic en una fila de la tabla, podés ver desde qué páginas de determinada red social provienen tus visitantes.",
+        "SocialsReportDocumentation": "Este informe muestra qué red social envió visitantes a tu sitio web.%sHaciendo clic en una fila de la tabla, podés ver desde qué páginas de determinada red social provienen tus visitantes.",
         "SubmenuSearchEngines": "Motores de búsqueda y palabras clave",
         "SubmenuWebsitesOnly": "Sitios web",
         "Type": "Tipo de canal",

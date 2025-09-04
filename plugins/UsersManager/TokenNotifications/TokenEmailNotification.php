@@ -36,7 +36,7 @@ abstract class TokenEmailNotification extends TokenNotification
     ) {
         parent::__construct($tokenId, $tokenName, $tokenCreationDate);
 
-        $this->recipients = $recipients;
+        $this->recipients = array_filter($recipients);
         $this->emailData = $emailData;
     }
 

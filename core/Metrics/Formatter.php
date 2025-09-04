@@ -120,7 +120,7 @@ class Formatter
     /**
      * Returns a prettified memory size value.
      *
-     * @param number $size The size in bytes.
+     * @param string|int|float $size The size in bytes.
      * @param string $unit The specific unit to use, if any. If null, the unit is determined by $size.
      * @param int $precision The precision to use when rounding.
      * @return string eg, `'128 M'` or `'256 K'`.

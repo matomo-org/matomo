@@ -65,7 +65,7 @@
         "SearchEnginesSubcategoryHelp1": "本节帮助您分析搜索引擎优化和性能。您可以使用组合关键字报告分析最热门的关键字，或者查看哪些关键字在特定搜索引擎上表现良好，以进行更有针对性的分析和优化。",
         "SearchEnginesSubcategoryHelp2": "%1$sMatomo Cloud%2$s 和 %3$s搜索引擎关键字性能%4$s 插件用户将从该报告中获得最佳结果。",
         "Socials": "社交网络",
-        "SocialsReportDocumentation": "此报告显示哪些社交网络引导访问者访问您的网站。<br>通过单击表中的一行，您可以查看访问者从哪些社交网络页面访问您的网站。",
+        "SocialsReportDocumentation": "此报告显示哪些社交网络引导访问者访问您的网站。%s通过单击表中的一行，您可以查看访问者从哪些社交网络页面访问您的网站。",
         "SocialsSubcategoryHelp": "在此表中，您可以查看哪些网站将访问者引荐至您的网站。",
         "SubmenuSearchEngines": "搜索引擎和关键词",
         "SubmenuWebsitesOnly": "网站",

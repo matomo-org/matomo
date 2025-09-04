@@ -737,7 +737,7 @@
 		<category>Acquisition</category>
 		<name>Channel Type</name>
 		<segment>referrerType</segment>
-		<acceptedValues>direct, search, website, campaign</acceptedValues>
+		<acceptedValues>direct, search, website, campaign, ai</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>
