@@ -367,4 +367,108 @@ describe("PrivacyManager", function () {
         await findDataSubjects();
         expect(await page.screenshotSelector('.manageGdpr')).to.matchImage('gdpr_tools_userid');
     });
-});
+
+    it('should load compliance page when feature flag enabled', async function() {
+        testEnvironment.overrideConfig('FeatureFlags', {
+          PrivacyCompliance_feature: 'enabled',
+        });
+        testEnvironment.save();
+
+        await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
+        await page.waitForNetworkIdle();
+
+        await page.waitForTimeout(150);
+
+        await (await page.jQuery('li.menuTab:contains(Privacy) > a')).click();
+
+        await page.waitForTimeout(150);
+
+        const complianceMenuSelector = 'li.menuTab.active li a[href*="compliance"]';
+
+        await page.waitForSelector(complianceMenuSelector);
+        await page.click(complianceMenuSelector);
+
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('.compliance', { visible: true });
+        await page.waitForSelector('table.dataTable.compliance', { visible: true });
+
+        expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance');
+    });
+
+    it('should not be able to navigate to compliance page with feature flag disabled', async function() {
+      testEnvironment.overrideConfig('FeatureFlags', {
+        PrivacyCompliance_feature: 'disabled',
+      });
+      testEnvironment.save();
+
+      await page.goto('?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+
+      await (await page.jQuery('li.menuTab:contains(Privacy) > a')).click();
+
+      // Not in menu
+      const complianceMenuItem = await page.$('li.menuTab.active li a[href*="compliance"]');
+      expect(complianceMenuItem).to.be.null;
+
+      // Not accessible directly - empty body
+      await loadActionPage('compliance');
+      const isBodyEmpty = await page.evaluate(() => {
+        const body = document.body;
+        return body && body.children.length === 0 && body.innerText.trim() === '';
+      });
+
+      expect(isBodyEmpty).to.be.true;
+    });
+
+    async function confirmPassword() {
+      await page.$('.confirm-password-modal.open', { visible: true });
+      await page.waitForTimeout(300);
+
+      await page.evaluate((superUserPassword) => {
+        $('.confirm-password-modal input[name=currentUserPassword]:visible')
+          .val(superUserPassword)
+          .change();
+      }, superUserPassword);
+
+      await page.waitForTimeout(250);
+      await (await page.jQuery('.confirm-password-modal.open .modal-close:not(.modal-no):visible')).click();
+      await page.$('.confirm-password-modal.open', { hidden: true });
+      await page.waitForTimeout(300);
+      await page.waitForNetworkIdle();
+    }
+
+    it('should show compliance is enforced when checkbox is selected', async function() {
+      testEnvironment.overrideConfig('FeatureFlags', {
+        PrivacyCompliance_feature: 'enabled',
+      });
+      testEnvironment.save();
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+
+      await page.waitForSelector('.compliance', { visible: true });
+      await (await page.jQuery('#site-1-cnil-enableFeature')).click();
+      await page.waitForTimeout(150);
+      await (await page.jQuery('.site-1-cnil-save input')).click();
+      await page.waitForTimeout(150);
+      await confirmPassword();
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_enforced');
+    });
+
+    it('should load a new compliance page when site selector is changed', async function() {
+      testEnvironment.overrideConfig('FeatureFlags', {
+        PrivacyCompliance_feature: 'enabled',
+      });
+      testEnvironment.save();
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
+      await page.waitForNetworkIdle();
+      await (await page.jQuery('#complianceSite a')).click();
+      await page.waitForTimeout(150);
+      await (await page.jQuery('#complianceSite li:nth-child(2)')).click();
+      await page.waitForNetworkIdle();
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_different_site');
+    });
+  });

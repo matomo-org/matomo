@@ -24,6 +24,7 @@ use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\ConfigIdRandomisation;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
@@ -225,6 +226,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $forceEstimate = Common::getRequestVar('forceEstimate', 0);
         $view->dbStats = $this->getDeleteDBSizeEstimate($getSettingsFromQuery = true, $forceEstimate);
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
+
+        return $view->render();
+    }
+
+    public function compliance(): string
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if (!$featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            return '';
+        }
+
+        $view = new View('@PrivacyManager/compliance');
+        $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
+        $this->setBasicVariablesView($view);
 
         return $view->render();
     }

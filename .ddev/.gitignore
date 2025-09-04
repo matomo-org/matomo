@@ -6,6 +6,7 @@
 /.importdb*
 /.sshimageBuild
 /.webimageBuild
+/apache/apache-static-sites.conf
 /commands/.gitattributes
 /config.local.y*ml
 /config.*.local.y*ml

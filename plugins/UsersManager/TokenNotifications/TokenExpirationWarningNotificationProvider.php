@@ -25,13 +25,15 @@ class TokenExpirationWarningNotificationProvider extends TokenNotificationProvid
     protected function getTokensToNotify(string $periodThreshold): array
     {
         $db = Db::get();
-        $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth')
-            . " WHERE date_expired IS NOT null"
-            . " AND (date_expired <= ?)"
-            . " AND (date_created <= ?)"
-            . " AND ts_expiration_warning_notified IS NULL"
-            . " AND system_token = 0"
-            . " AND login != ?";
+        // Join on user table is done, to ensure we only fetch tokens, where the user still exists
+        $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth') . " t"
+            . " JOIN  " . Common::prefixTable('user') . " u ON t.login = u.login"
+            . " WHERE t.date_expired IS NOT null"
+            . " AND (t.date_expired <= ?)"
+            . " AND (t.date_created <= ?)"
+            . " AND t.ts_expiration_warning_notified IS NULL"
+            . " AND t.system_token = 0"
+            . " AND t.login != ?";
 
         $tokensToNotify = $db->fetchAll($sql, [
             $periodThreshold,

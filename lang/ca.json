@@ -329,6 +329,7 @@
         "No": "No",
         "NoDataForGraph": "No hi ha dades...",
         "NoDataForTagCloud": "No hi ha dades...",
+        "NotAvailable": "N/A",
         "NotDefined": "%s sense definir",
         "NotInstalled": "No instal·lat",
         "NotPossibleWithoutHttps": "Atenció: fer això sense haver configurat un certificat SSL per utilitzar HTTPS rebentarà Matomo.",

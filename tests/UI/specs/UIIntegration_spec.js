@@ -184,7 +184,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             testEnvironment.save();
 
             // use columns query param to make sure columns works when supplied in URL fragment
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions");
+            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=General_Overview&columns=nb_visits,nb_actions,hits");
             await page.waitForNetworkIdle();
             await page.evaluate(() => { // give table headers constant width so the screenshot stays the same
               $('.dataTableScroller').css('overflow-x', 'scroll');
@@ -603,8 +603,16 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await screenshotPageWrap()).to.matchImage('admin_home');
         });
 
+        it('should not render the Admin when resized below 200x200', async function () {
+            await page.webpage.setViewport({ width: 199, height: 199 });
+            await page.waitForTimeout(100);
+
+            expect(await page.screenshot({fullPage: true})).to.matchImage('admin_home_low_size');
+        });
+
         // Admin user settings (plugins not displayed)
         it('should load the Manage > Websites admin page correctly', async function () {
+            await page.webpage.setViewport({ width: 1350, height: 768 });
             await page.goto("?" + generalParams + "&module=SitesManager&action=index");
             await page.evaluate(function () {
                 $('.form-help:contains(UTC time is)').hide();

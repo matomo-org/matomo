@@ -329,6 +329,7 @@
         "No": "Ní hea",
         "NoDataForGraph": "Níl aon sonraí don ghraf seo.",
         "NoDataForTagCloud": "Níl aon sonraí don scamall clibe seo.",
+        "NotAvailable": "N/B",
         "NotDefined": "%s gan sainmhíniú",
         "NotInstalled": "Gan a bheith suiteáilte",
         "NotPossibleWithoutHttps": "Aird: Má dhéanann tú é seo gan deimhniú SSL a bheith curtha ar bun agat chun HTTPS a úsáid, brisfidh sé Matomo.",

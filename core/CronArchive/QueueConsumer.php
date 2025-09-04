@@ -9,7 +9,6 @@
 
 namespace Piwik\CronArchive;
 
-use Piwik\ArchiveProcessor\Loader;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\CronArchive;
@@ -275,13 +274,6 @@ class QueueConsumer
                 continue;
             }
 
-            if ($this->canSkipArchiveBecauseNoPoint($invalidatedArchive)) {
-                $this->logger->debug("Found invalidated archive we can skip (no visits): $invalidationDesc");
-                $this->addInvalidationToExclude($invalidatedArchive);
-                $this->model->deleteInvalidations([$invalidatedArchive]);
-                continue;
-            }
-
             $reason = $this->shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress($invalidatedArchive);
             if ($reason !== null) {
                 $this->logger->debug("Skipping invalidated archive, $reason: $invalidationDesc");
@@ -400,26 +392,6 @@ class QueueConsumer
         }
 
         return false;
-    }
-
-    // public for tests
-    public function canSkipArchiveBecauseNoPoint(array $invalidatedArchive): bool
-    {
-        $site = new Site($invalidatedArchive['idsite']);
-
-        $periodLabel = $this->periodIdsToLabels[$invalidatedArchive['period']];
-        $dateStr = $periodLabel == 'range' ? ($invalidatedArchive['date1'] . ',' . $invalidatedArchive['date2']) : $invalidatedArchive['date1'];
-        $period = PeriodFactory::build($periodLabel, $dateStr);
-
-        $segment = new Segment($invalidatedArchive['segment'], [$invalidatedArchive['idsite']]);
-
-        $params = new Parameters($site, $period, $segment);
-        if (!empty($invalidatedArchive['plugin'])) {
-            $params->setRequestedPlugin($invalidatedArchive['plugin']);
-        }
-
-        $loader = new Loader($params);
-        return $loader->canSkipThisArchive(); // if no point in archiving, skip
     }
 
     public function shouldSkipArchiveBecauseLowerPeriodOrSegmentIsInProgress(array $archiveToProcess): ?string

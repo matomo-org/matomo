@@ -154,11 +154,11 @@
         <slot name="report-parameters"></slot>
       </div>
       <div
-        v-show="report.type === 'email'
-              && report.formatemail !== 'csv'
-              && report.formatemail !== 'tsv'"
+        v-show="report[`format${report.type}`] === 'pdf' ||
+                report[`format${report.type}`] === 'html'
+               "
       >
-        <div class="email">
+        <div :class="report.type">
           <Field
             uicontrol="select"
             name="display_format"

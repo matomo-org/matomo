@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<complianceModeEnforced>0</complianceModeEnforced>
+	<complianceRequirements>
+		<row>
+			<name>IP Anonymisation</name>
+			<value>compliant</value>
+			<notes>Set to at least 2 byte masking</notes>
+		</row>
+		<row>
+			<name>Data retention period</name>
+			<value>non_compliant</value>
+			<notes>Retention period is set to 365 days</notes>
+		</row>
+		<row>
+			<name>Visits Log and Visitors Profile</name>
+			<value>non_compliant</value>
+			<notes>Visits log is still enabled</notes>
+		</row>
+		<row>
+			<name>Ecommerce analytics</name>
+			<value>non_compliant</value>
+			<notes>Ecommerce analytics is enabled for this site</notes>
+		</row>
+		<row>
+			<name>Opt out</name>
+			<value>unknown</value>
+			<notes>Opt out must be manually set up and configured</notes>
+		</row>
+	</complianceRequirements>
+</result>

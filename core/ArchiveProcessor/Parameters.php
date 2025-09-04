@@ -53,7 +53,7 @@ class Parameters
     /**
      * @var bool
      */
-    private $isArchiveOnlyReportHandled;
+    private $isArchiveOnlyReportHandled = false;
 
     /**
      * @var string[]|null
@@ -290,6 +290,10 @@ class Parameters
             return false;
         }
 
+        if (!empty($this->getArchiveOnlyReport())) {
+            return true;
+        }
+
         return $this->isArchiveOnlyReportHandled;
     }
 
@@ -299,6 +303,7 @@ class Parameters
      * in an Archiver's __construct method.
      *
      * @param bool $isArchiveOnlyReportHandled
+     * @deprecated use `setArchiveOnlyReport` instead
      */
     public function setIsPartialArchive($isArchiveOnlyReportHandled)
     {

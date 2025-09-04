@@ -65,7 +65,7 @@
         "SearchEnginesSubcategoryHelp1": "Esta seção ajuda você a analisar a otimização e o desempenho do seu mecanismo de pesquisa. Você pode analisar suas palavras-chave mais populares com os relatórios de palavras-chave combinados ou ver quais palavras-chave têm bom desempenho em mecanismos de pesquisa específicos para uma análise e otimização mais direcionadas.",
         "SearchEnginesSubcategoryHelp2": "Os usuários dos plugins %1$sMatomo Cloud%2$s e %3$sDesempenho de palavras-chave do mecanismo de pesquisa%4$s receberão os melhores resultados deste relatório.",
         "Socials": "Redes sociais",
-        "SocialsReportDocumentation": "Este relatório mostra quais as redes sociais levaram visitantes ao seu site. <br> Ao clicar em uma linha na tabela, você pode ver de quais páginas os visitantes de redes sociais vieram para o seu site.",
+        "SocialsReportDocumentation": "Este relatório mostra quais as redes sociais levaram visitantes ao seu site.%sAo clicar em uma linha na tabela, você pode ver de quais páginas os visitantes de redes sociais vieram para o seu site.",
         "SocialsSubcategoryHelp": "Nesta tabela, você pode ver quais sites encaminharam os visitantes ao seu site.",
         "SubmenuSearchEngines": "Motores de Busca e Palavras-Chave",
         "SubmenuWebsitesOnly": "Sites",
