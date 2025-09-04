@@ -27,7 +27,7 @@ class MigrateAnnotations extends ConsoleCommand
         $this->setName('core:matomo550-migrate-annotations');
         $this->addOptionalValueOption('chunk-size', null, 'How many annotations to migrate per SQL insert per site', 20);
         $this->setDescription(
-            'Only needed for Matomo 5.5.0-b1 upgrade. ' .
+            'Only needed for Matomo 5.5.0-b2 upgrade. ' .
             'Migrate annotations from option table to a separate annotations table. ' .
             'By default creates inserts of 20 annotations per SQL insert per site. You can lower this if you have annotations with long content.'
         );

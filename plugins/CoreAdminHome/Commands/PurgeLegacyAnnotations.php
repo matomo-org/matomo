@@ -23,8 +23,10 @@ class PurgeLegacyAnnotations extends ConsoleCommand
     protected function configure()
     {
         $this->setName('core:matomo550-purge-legacy-annotations');
-        $this->setDescription('Purge legacy annotations from option table after migrating them to a separate annotations table. ');
-        $this->setDescription('Only needed for Matomo 5.5.0-b1 upgrade');
+        $this->setDescription(
+            'Only needed for Matomo 5.5.0-b2 upgrade. ' .
+            'Purge legacy annotations from option table after migrating them to a separate annotations table.'
+        );
     }
 
     protected function doExecute(): int
