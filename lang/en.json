@@ -525,7 +525,7 @@
         "VisitorID": "Visitor ID",
         "VisitorIDSegmentHelp": "%1$s - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function %2$s",
         "VisitorIP": "Visitor IP",
-        "VisitorIPSegmentHelp": "$1%s. Select IP ranges with notation: %2$s",
+        "VisitorIPSegmentHelp": "%1$s. Select IP ranges with notation: %2$s",
         "VisitorIPs": "Visitor IPs",
         "VisitorSettings": "Visitor Settings",
         "Visitors": "Visitors",

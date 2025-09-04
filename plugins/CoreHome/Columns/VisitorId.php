@@ -35,7 +35,7 @@ class VisitorId extends VisitDimension
 
     public function getAcceptValues()
     {
-        return Piwik::translate('General_VisitorIdSegmentHelp', ['34c31e04394bdc63', 'getVisitorId()']);
+        return Piwik::translate('General_VisitorIDSegmentHelp', ['34c31e04394bdc63', 'getVisitorId()']);
     }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
