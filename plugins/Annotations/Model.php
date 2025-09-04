@@ -16,12 +16,13 @@ use Piwik\Db;
 
 class Model
 {
-    private static $rawPrefix = 'annotations';
+    private const TABLE_NAME = 'annotations';
+    private const EDITABLE_COLS = ['note', 'date', 'starred'];
     private $table;
 
     public function __construct()
     {
-        $this->table = Common::prefixTable(self::$rawPrefix);
+        $this->table = Common::prefixTable(self::TABLE_NAME);
     }
 
     /**
@@ -113,7 +114,7 @@ class Model
         $db = $this->getDb();
         $query = "UPDATE $this->table SET";
         $bind = [];
-        foreach ($this->getEditableColumns() as $columnName) {
+        foreach (self::EDITABLE_COLS as $columnName) {
             if (isset($updatedColumns[$columnName])) {
                 $query .= " $columnName = ?,";
                 $bind[] = $updatedColumns[$columnName];
@@ -155,13 +156,5 @@ class Model
     private function getDb()
     {
         return Db::get();
-    }
-
-    /**
-     * @return array of columns which are permitted to be modified
-     */
-    private function getEditableColumns(): array
-    {
-        return ['note', 'date', 'starred'];
     }
 }
