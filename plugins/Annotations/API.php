@@ -55,6 +55,7 @@ class API extends \Piwik\Plugin\API
 
         $model = new Model();
         $idNote = $model->createAnnotation($annotation);
+        $annotation['id'] = $idNote;
         $this->decorateAnnotation($annotation);
 
         return [
@@ -221,16 +222,14 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date, $period, $lastN ?? false);
-
-        if (!($startDate && $endDate)) {
-            return [];
-        }
-
-        $ids = Site::getIdSitesFromIdSitesString($idSite);
+        $ids = array_map('intval',Site::getIdSitesFromIdSitesString($idSite));
         $model = new Model();
         $annotations = [];
         foreach ($ids as $id) {
+            [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date, $period, $lastN ?? false, $id);
+            if (!($startDate && $endDate)) {
+                continue; 
+            }
             $annotations[$id] = $model->getAllAnnotationsForSiteInRange($id, $startDate->toString(), $endDate->toString());
             for ($i = 0; $i < count($annotations[$id]); $i++) {
                 $this->decorateAnnotation($annotations[$id][$i]);
@@ -274,8 +273,13 @@ class API extends \Piwik\Plugin\API
     ): array {
         Piwik::checkUserHasViewAccess($idSite);
 
+        $siteIds = array_map('intval', Site::getIdSitesFromIdSitesString($idSite));
+        if (empty($siteIds)) {
+            return [];
+        }
+
         // get start & end date for request. lastN is ignored if $period == 'range'
-        [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date, $period, $lastN ?? false);
+        [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date, $period, $lastN ?? false, $siteIds[0]);
 
         if (!($startDate && $endDate)) {
             return [];
@@ -292,8 +296,6 @@ class API extends \Piwik\Plugin\API
         }
         // we add one for the end of the last period (used in for loop below to bound annotation dates)
         $dates[] = $startDate;
-
-        $siteIds = Site::getIdSitesFromIdSitesString($idSite);
 
         $model = new Model();
         $result = [];
@@ -400,5 +402,6 @@ class API extends \Piwik\Plugin\API
         $annotation['date'] = substr($annotation['date'], 0, 10);
         $annotation['note'] = Common::sanitizeInputValue($annotation['note']);
         $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($annotation);
+        $annotation['idNote'] = $annotation['id'];
     }
 }

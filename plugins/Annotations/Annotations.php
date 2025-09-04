@@ -64,10 +64,11 @@ class Annotations extends \Piwik\Plugin
      * @param string $period The period type ('day', 'week', 'month', 'year' or 'range').
      * @param bool|int $lastN Whether to include the last N periods in the range or not.
      *                         Ignored if period == range.
+     * @param int|null $idSite the id of the current site, used to get timezone
      *
      * @return Date[]|bool[]   array of Date objects or array(false, false)
      */
-    public static function getDateRangeForPeriod($date, $period, $lastN = false): array
+    public static function getDateRangeForPeriod($date, $period, $lastN = false, ?int $idSite = null): array
     {
         if ($date === false) {
             return [false, false];
@@ -86,7 +87,7 @@ class Annotations extends \Piwik\Plugin
             $endDate = $oPeriod->getDateEnd();
         } else { // if the range includes the last N periods or is a multiple period
             if (!$isMultiplePeriod) {
-                [$date, $lastN] = EvolutionViz::getDateRangeAndLastN($period, $date, $lastN);
+                [$date, $lastN] = EvolutionViz::getDateRangeAndLastN($period, $date, $lastN, $idSite);
             }
             [$startDate, $endDate] = explode(',', $date);
 
