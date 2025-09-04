@@ -49,17 +49,6 @@ class Model
     /**
      * @throws \Exception
      */
-    public function getAllAnnotations(): array
-    {
-        $db = $this->getDb();
-        $query = "SELECT * FROM $this->table";
-
-        return $db->fetchAll($query) ?: [];
-    }
-
-    /**
-     * @throws \Exception
-     */
     public function getAllAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate, ?int $limit = null): array
     {
         $db = $this->getDb();
