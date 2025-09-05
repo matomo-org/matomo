@@ -230,6 +230,9 @@ describe("PrivacyManager", function () {
     });
 
     it('should anonymize ip and visit column', async function() {
+        await loadActionPage('privacySettings');
+        await page.waitForNetworkIdle();
+
         await page.waitForSelector('[name="anonymizeIp"] label');
         await page.click('[name="anonymizeIp"] label');
         await selectVisitColumn('config_browser_name');
