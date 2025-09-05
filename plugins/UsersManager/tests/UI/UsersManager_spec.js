@@ -592,10 +592,11 @@ describe("UsersManager", function () {
       await (await page.jQuery('#superuser_access')).hover();
       await page.waitForSelector('.ui-tooltip');
 
-      // Tooltip would somehow be missing on a screenshot, so we only test the tooltip content
+      // Use DOM comparison to check tooltip text since image comparison is overkill
       const toolTipHtml = await page.evaluate(() => $('.ui-tooltip').html());
       expect(toolTipHtml).to.equal('<div class="ui-tooltip-content">You cannot revoke your own superuser access.</div>');
 
+      // Move mouse away from input for the screenshot
       await page.mouse.move(0, 0);
       await page.waitForTimeout(100);
 
