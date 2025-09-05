@@ -157,7 +157,7 @@ abstract class RecordBuilder
         foreach ($numericRecords as $record) {
             if (
                 empty($record->getCountOfRecordName())
-                || !$this->isNameInRequestedReport($record->getName(), $requestedReports)
+                || !$this->isReportNameInRequestedReports($record->getName(), $requestedReports)
             ) {
                 continue;
             }
@@ -178,7 +178,7 @@ abstract class RecordBuilder
         foreach ($blobRecords as $record) {
             if (
                 !empty($requestedReports)
-                && (!$this->isNameInRequestedReport($record->getName(), $requestedReports)
+                && (!$this->isReportNameInRequestedReports($record->getName(), $requestedReports)
                     || in_array($record->getName(), $foundRequestedReports))
             ) {
                 continue;
@@ -230,7 +230,7 @@ abstract class RecordBuilder
 
                 // Keep only requested reports
                 $autoAggregateMetrics = array_filter($autoAggregateMetrics, function ($name) use ($requestedReports) {
-                    return $this->isNameInRequestedReport($name, $requestedReports);
+                    return $this->isReportNameInRequestedReports($name, $requestedReports);
                 });
             }
 
@@ -272,28 +272,32 @@ abstract class RecordBuilder
         }
     }
 
-
-    private function isNameInRequestedReport(string $name, array $requestedReports): bool
+    /**
+     * Check if report name or related metric (for CustomReports with evolutions) is in the requestedReports array.
+     */
+    private function isReportNameInRequestedReports(string $reportName, array $requestedReports): bool
     {
-        // Do process if this is a metric matching the report we specifically asked for
-        if (in_array($name, $requestedReports)) {
+        // Exact match
+        if (in_array($reportName, $requestedReports)) {
             return true;
         }
-        // Do process if this is a metric for that specific report
+
+        // Check if reportName is a metric for a requested report.
         //
-        // We name custom reports like CustomReports_customreport_1_1 (<Plugin>_customreport_<customreportid>_<revisionid>).
+        // We name custom reports like CustomReports_customreport_1_1
+        //(<Plugin>_customreport_<customreportid>_<revisionid>).
+        //
         // We need to reprocess individual metrics for the requested report.
+        //
         // These are named like CustomReports_customreport_1_1_nb_visits
         // (<Plugin>_customreport_<customreportid>_<revisionid>_<metricname>).
-        //
-        // So we want to reprocess reports named <reportname>_* to capture all needed metrics.
         foreach ($requestedReports as $requestedReport) {
             $requestedReportWithUnderscore = $requestedReport . '_';
-            if (strncmp($name, $requestedReportWithUnderscore, strlen($requestedReportWithUnderscore)) === 0) {
+            if (strncmp($reportName, $requestedReportWithUnderscore, strlen($requestedReportWithUnderscore)) === 0) {
                 return true;
             }
         }
-        // Do not process if we did not ask for this.
+
         return false;
     }
 

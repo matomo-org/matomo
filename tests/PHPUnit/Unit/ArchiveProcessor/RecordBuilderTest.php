@@ -247,7 +247,6 @@ class RecordBuilderTest extends TestCase
         $this->assertEmpty($this->blobRecordsInserted);
     }
 
-    // here
     public function testBuildForNonDayPeriodAggregatesAllChildReportsIfNoRequestedReportsAreSpecified()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
@@ -300,7 +299,6 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
-    // here
     public function testBuildForNonDayPeriodAggregatesOnlyRequestedReportsIfRequestedReportsSpecifiedAndNoneAlreadyExist()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
