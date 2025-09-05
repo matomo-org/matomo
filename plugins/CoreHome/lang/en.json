@@ -117,6 +117,7 @@
         "SeeAvailableVersions": "See Available Versions",
         "QuickLinks": "Quick Links",
         "Profilable": "Profilable",
+        "ProfilableSegmentHelp": "1 for profilable (eg cookies were used), 0 for not profilable (eg no cookies were used)",
         "SearchOnMatomo": "Search '%1$s' on Matomo.org",
         "TechDeprecationWarning": "Starting in version Matomo %1$s, Matomo will be ending support for %2$s. For more information %3$ssee our blog post.%4$s",
         "ReportingCategoryHelpPrefix": "How does the \"%1$s → %2$s\" reporting page help me?",
