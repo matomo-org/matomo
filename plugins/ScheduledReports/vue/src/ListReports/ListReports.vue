@@ -17,7 +17,7 @@
       <thead>
       <tr>
         <th class="first">{{ translate('General_Description') }}</th>
-        <th>{{ translate('ScheduledReports_EmailSchedule') }}</th>
+        <th>{{ translate('ScheduledReports_ReportSchedule') }}</th>
         <th>{{ translate('ScheduledReports_ReportFormat') }}</th>
         <th>{{ translate('ScheduledReports_SendReportTo') }}</th>
         <th>{{ translate('General_Download') }}</th>
