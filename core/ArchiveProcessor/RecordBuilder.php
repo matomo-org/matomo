@@ -157,13 +157,13 @@ abstract class RecordBuilder
         foreach ($numericRecords as $record) {
             if (
                 empty($record->getCountOfRecordName())
-                || !in_array($record->getName(), $requestedReports) // Wrong?
+                || !$this->isNameInRequestedReport($record->getName(), $requestedReports)
             ) {
                 continue;
             }
 
             $dependentRecordName = $record->getCountOfRecordName();
-            if (!in_array($dependentRecordName, $requestedReports)) { // Wrong?
+            if (!in_array($dependentRecordName, $requestedReports)) {
                 $requestedReports[] = $dependentRecordName;
             }
 
@@ -178,7 +178,7 @@ abstract class RecordBuilder
         foreach ($blobRecords as $record) {
             if (
                 !empty($requestedReports)
-                && (!in_array($record->getName(), $requestedReports)
+                && (!$this->isNameInRequestedReport($record->getName(), $requestedReports)
                     || in_array($record->getName(), $foundRequestedReports))
             ) {
                 continue;
@@ -225,8 +225,13 @@ abstract class RecordBuilder
             }, $autoAggregateMetrics);
 
             if (!empty($requestedReports)) {
-                $autoAggregateMetrics = $this->removeFoundReports($autoAggregateMetrics, $foundRequestedReports);
-                $autoAggregateMetrics = $this->keepOnlyRequestedReports($autoAggregateMetrics, $requestedReports);
+                // Remove found reports.
+                $autoAggregateMetrics = array_diff($autoAggregateMetrics, $foundRequestedReports);
+
+                // Keep only requested reports
+                $autoAggregateMetrics = array_filter($autoAggregateMetrics, function ($name) use ($requestedReports) {
+                    return $this->isNameInRequestedReport($name, $requestedReports);
+                });
             }
 
             $autoAggregateMetrics = array_values($autoAggregateMetrics);
@@ -267,31 +272,29 @@ abstract class RecordBuilder
         }
     }
 
-    public function removeFoundReports(array $autoAggregateMetrics, array $foundRequestedReports): array
-    {
-        return array_filter($autoAggregateMetrics, function ($name) use ($foundRequestedReports) {
-            // Don't process if we already found the metric
-            return !in_array($name, $foundRequestedReports);
-        });
-    }
 
-    public function keepOnlyRequestedReports(array $autoAggregateMetrics, array $requestedReports): array
+    private function isNameInRequestedReport(string $name, array $requestedReports): bool
     {
-        return array_filter($autoAggregateMetrics, function ($name) use ($requestedReports) {
-            // Do process if this is a metric matching the report we specifically asked for
-            if (in_array($name, $requestedReports)) {
+        // Do process if this is a metric matching the report we specifically asked for
+        if (in_array($name, $requestedReports)) {
+            return true;
+        }
+        // Do process if this is a metric for that specific report
+        //
+        // We name custom reports like CustomReports_customreport_1_1 (<Plugin>_customreport_<customreportid>_<revisionid>).
+        // We need to reprocess individual metrics for the requested report.
+        // These are named like CustomReports_customreport_1_1_nb_visits
+        // (<Plugin>_customreport_<customreportid>_<revisionid>_<metricname>).
+        //
+        // So we want to reprocess reports named <reportname>_* to capture all needed metrics.
+        foreach ($requestedReports as $requestedReport) {
+            $requestedReportWithUnderscore = $requestedReport . '_';
+            if (strncmp($name, $requestedReportWithUnderscore, strlen($requestedReportWithUnderscore)) === 0) {
                 return true;
             }
-            // Do process if this is a metric for that specific report
-            foreach ($requestedReports as $requestedReport) {
-                $requestedReportWithUnderscore = $requestedReport . '_';
-                if (strncmp($name, $requestedReportWithUnderscore, strlen($requestedReportWithUnderscore)) === 0) {
-                    return true;
-                }
-            }
-            // Do not process if we did not ask for this.
-            return false;
-        });
+        }
+        // Do not process if we did not ask for this.
+        return false;
     }
 
     /**

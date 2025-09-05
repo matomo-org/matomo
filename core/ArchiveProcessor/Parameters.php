@@ -310,7 +310,7 @@ class Parameters
         $this->isArchiveOnlyReportHandled = $isArchiveOnlyReportHandled;
     }
 
-    public function getArchiveOnlyReportAsArray()
+    public function getArchiveOnlyReportAsArray(): array
     {
         $requestedReport = $this->getArchiveOnlyReport();
         if (empty($requestedReport)) {

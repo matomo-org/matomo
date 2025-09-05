@@ -247,6 +247,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEmpty($this->blobRecordsInserted);
     }
 
+    // here
     public function testBuildForNonDayPeriodAggregatesAllChildReportsIfNoRequestedReportsAreSpecified()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
@@ -299,6 +300,7 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
+    // here
     public function testBuildForNonDayPeriodAggregatesOnlyRequestedReportsIfRequestedReportsSpecifiedAndNoneAlreadyExist()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
@@ -382,6 +384,42 @@ class RecordBuilderTest extends TestCase
                 ],
             ],
         ];
+
+        $this->assertEquals($expectedNumericRecords, $this->numericRecordsInserted);
+        $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
+    }
+
+    public function testBuildForNonDayPeriodAggregatesMetricsRelatedToRequestedReport()
+    {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
+            public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
+            {
+                return [
+                    Record::make(Record::TYPE_NUMERIC, 'CustomReports_customreport_1_1_nb_visits'),
+                    Record::make(Record::TYPE_NUMERIC, 'CustomReports_customreport_1_1_other_metric'),
+                ];
+            }
+
+            protected function aggregate(ArchiveProcessor $archiveProcessor): array
+            {
+                return [
+                    'CustomReports_customreport_1_1_nb_visits' => 50,
+                    'CustomReports_customreport_1_1_other_metric' => 100,
+                ];
+            }
+        };
+
+        $mockArchiveProcessor = $this->getMockArchiveProcessor(
+            'week',
+            ['CustomReports_customreport_1_1']
+        );
+        $recordBuilder->buildForNonDayPeriod($mockArchiveProcessor);
+
+        $expectedNumericRecords = [
+            'CustomReports_customreport_1_1_nb_visits' => 9000,
+            'CustomReports_customreport_1_1_other_metric' => 10500,
+        ];
+        $expectedBlobRecords = [];
 
         $this->assertEquals($expectedNumericRecords, $this->numericRecordsInserted);
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
