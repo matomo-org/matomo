@@ -424,6 +424,8 @@ class API extends \Piwik\Plugin\API
     {
         if ($idSite === 'all') {
             $idSite = null;
+        } else {
+            $idSite = intval($idSite);
         }
 
         if (false === $this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
@@ -494,6 +496,14 @@ class API extends \Piwik\Plugin\API
         }
 
         Piwik::checkUserHasSuperUserAccess();
+
+        if ($idSite === 'all') {
+            $idSite = null;
+        } else {
+            $idSite = intval($idSite);
+        }
+        
+        CnilPolicy::setActiveStatus($idSite, $enforce);
 
         return $enforce;
     }

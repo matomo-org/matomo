@@ -13,17 +13,4 @@ class CnilPolicy extends CompliancePolicy
     {
         return 'test description';
     }
-
-    public static function isActive(?int $idSite): bool
-    {
-        if (null === $idSite) {
-            return true;
-        }
-
-        if (1 === $idSite) {
-            return false;
-        }
-
-        return true;
-    }
 }
