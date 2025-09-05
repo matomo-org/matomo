@@ -567,7 +567,7 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
 
-  // admin user tests
+  // Superuser test for editing their own user
   describe('UsersManager_000newuser_view', function () {
     before(async function () {
       testEnvironment.fakeIdentity = '000newuser';
