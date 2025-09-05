@@ -738,12 +738,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "4e6bdf8a6d831fa179b0743803feb6a3deffee90"
+                "reference": "4a0558b1ef137f4ed4efa59de65d3b2c02dfa63c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/4e6bdf8a6d831fa179b0743803feb6a3deffee90",
-                "reference": "4e6bdf8a6d831fa179b0743803feb6a3deffee90",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/4a0558b1ef137f4ed4efa59de65d3b2c02dfa63c",
+                "reference": "4a0558b1ef137f4ed4efa59de65d3b2c02dfa63c",
                 "shasum": ""
             },
             "replace": {
@@ -760,7 +760,7 @@
                 "issues": "https://github.com/matomo-org/searchengine-and-social-list/issues",
                 "source": "https://github.com/matomo-org/searchengine-and-social-list/tree/master"
             },
-            "time": "2025-05-27T12:49:16+00:00"
+            "time": "2025-09-03T07:03:28+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -5445,16 +5445,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.13.2",
+            "version": "3.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "5b5e3821314f947dd040c70f7992a64eac89025c"
+                "reference": "5be16e10d07a2b0c629a8fc52c653fd57458bdf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/5b5e3821314f947dd040c70f7992a64eac89025c",
-                "reference": "5b5e3821314f947dd040c70f7992a64eac89025c",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/5be16e10d07a2b0c629a8fc52c653fd57458bdf8",
+                "reference": "5be16e10d07a2b0c629a8fc52c653fd57458bdf8",
                 "shasum": ""
             },
             "require": {
@@ -5525,7 +5525,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-06-17T22:17:01+00:00"
+            "time": "2025-09-04T19:19:52+00:00"
         },
         {
             "name": "symfony/yaml",
