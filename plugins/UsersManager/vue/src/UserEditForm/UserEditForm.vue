@@ -354,7 +354,6 @@ export default defineComponent({
   },
   created() {
     this.onUserChange({ ...this.user } as User);
-    console.log('Logins', this.theUser.login, Matomo.userLogin);
   },
   methods: {
     onUserChange(newVal: User) {
