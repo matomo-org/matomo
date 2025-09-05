@@ -2,7 +2,6 @@
 
 namespace Piwik\Policy;
 
-use Exception;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
@@ -26,7 +25,6 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
 
     abstract public static function getName(): string;
     abstract public static function getDescription(): string;
-
 
     /**
      * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
@@ -96,9 +94,6 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         return FieldConfig::TYPE_BOOL;
     }
 
-    /**
-     * @throws \Exception when $idSite is not a valid id or 'all'
-     */
     public static function setActiveStatus(?int $idSite, bool $isActive): void
     {
         if (isset($idSite)) {
