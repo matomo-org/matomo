@@ -567,6 +567,43 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('manage_users_back');
     });
 
+  // Superuser test for editing their own user
+  describe('UsersManager_000newuser_view', function () {
+    before(async function () {
+      testEnvironment.fakeIdentity = '000newuser';
+      await testEnvironment.save();
+    });
+
+    after(async () => {
+      delete testEnvironment.fakeIdentity;
+      testEnvironment.save();
+    });
+
+    it('should disable the superuser access checkbox when editing own user', async function () {
+      testEnvironment.fakeIdentity = '000newuser';
+      await testEnvironment.save();
+
+      await page.reload();
+      await page.waitForNetworkIdle();
+      await (await page.jQuery('.usersManager table td:contains("000newuser") ~ td.actions-cell .icon-edit', { waitFor: true })).click();
+      await page.waitForSelector('.userEditForm .menuSuperuser');
+      await page.click('.userEditForm .menuSuperuser a');
+
+      await (await page.jQuery('#superuser_access')).hover();
+      await page.waitForSelector('.ui-tooltip');
+
+      // Use DOM comparison to check tooltip text since image comparison is overkill
+      const toolTipHtml = await page.evaluate(() => $('.ui-tooltip').html());
+      expect(toolTipHtml).to.equal('<div class="ui-tooltip-content">You cannot revoke your own superuser access.</div>');
+
+      // Move mouse away from input for the screenshot
+      await page.mouse.move(0, 0);
+      await page.waitForTimeout(100);
+
+      expect(await page.screenshotSelector('.usersManager')).to.matchImage('superuser_tab_current_user');
+    });
+  });
+
     it('should display the superuser access tab when the superuser tab is clicked with ActivityLog', async function () {
       testEnvironment.pluginsToLoad = ['ActivityLog'];
       await testEnvironment.save();
