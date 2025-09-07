@@ -41,7 +41,6 @@
         "Settings_ValidatePhoneNumber": "Bekräfta",
         "Settings_VerificationCodeJustSent": "Vi skickade precis ett SMS till det här numret med en kod: ange den här koden ovan och klicka på \"Validera\".",
         "TopLinkTooltip": "Få webbanalysrapporter levererade till din epost eller din mobiltelefon.",
-        "TopMenu": "E-post &amp; SMS-rapporter",
         "UserKey": "Användarnyckel",
         "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Matomos SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Matomo → %2$s → %3$s."
     }
