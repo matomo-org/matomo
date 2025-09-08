@@ -246,7 +246,11 @@ export default defineComponent({
     },
     randomiseConfigIdHelpText() {
       const helpText = translate('PrivacyManager_RandomizeConfigIdNote');
-      const helpTextWarning = translate('PrivacyManager_RandomizeConfigIdNoteWarning');
+      const helpTextWarning = translate(
+        'PrivacyManager_RandomizeConfigIdNoteWarning',
+        '<strong>',
+        '</strong>',
+      );
 
       return `${helpText}<br><br>${helpTextWarning}`;
     },
