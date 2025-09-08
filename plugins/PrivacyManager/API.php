@@ -502,7 +502,7 @@ class API extends \Piwik\Plugin\API
         } else {
             $idSite = intval($idSite);
         }
-        
+
         CnilPolicy::setActiveStatus($idSite, $enforce);
 
         return $enforce;
