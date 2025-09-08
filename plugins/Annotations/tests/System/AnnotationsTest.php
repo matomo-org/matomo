@@ -126,6 +126,27 @@ class AnnotationsTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
+    public function testAddSuccess()
+    {
+        $addResponse = API::getInstance()->add(
+            self::$fixture->idSite1,
+            $date = '2011-04-01',
+            $note = 'new note text single add',
+        );
+
+        $expectedAddResponse = [
+            'date'              => '2011-04-01',
+            'note'              => 'new note text single add',
+            'starred'           => 0,
+            'user'              => 'superUserLogin',
+            'id'                => 53,
+            'idsite'            => 1,
+            'canEditOrDelete'   => true,
+            'idNote'            => 53,
+        ];
+        $this->assertEquals($expectedAddResponse, $addResponse);
+    }
+
     public function testAddMultipleSitesFail()
     {
         self::expectError();
