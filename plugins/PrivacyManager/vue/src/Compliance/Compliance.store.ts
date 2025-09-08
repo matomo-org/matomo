@@ -78,7 +78,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
   function saveComplianceStatus(enforce: boolean) {
     state.loading = true;
     state.saveComplianceError = null;
-    AjaxHelper.fetch<boolean>(
+    AjaxHelper.post<boolean>(
       {
         idSite: state.idSite,
         complianceType: state.complianceType,
