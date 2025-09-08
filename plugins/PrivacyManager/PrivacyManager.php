@@ -26,6 +26,7 @@ use Piwik\Plugin;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
+use Piwik\Request;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
@@ -728,7 +729,7 @@ class PrivacyManager extends Plugin
     {
         // if range, only look at the first date
         if ($strPeriod === 'range') {
-            $idSite = Common::getRequestVar('idSite', '0', 'int');
+            $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
 
             if ($idSite) {
                 $site     = new Site($idSite);

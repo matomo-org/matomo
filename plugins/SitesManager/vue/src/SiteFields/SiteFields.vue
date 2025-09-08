@@ -155,7 +155,7 @@
         </div>
 
         <template v-if="privacyManagerEnabled && theSite && theSite.idsite">
-          <h3 class="">{{ translate('PrivacyManager_UseAnonymizeTrackingDataForThisSite') }}</h3>
+          <h3 class="">{{ translate('PrivacyManager_TrackingDataAnonymizationSettings') }}</h3>
 
           <ActivityIndicator :loading="isLoadingPrivacy"/>
 

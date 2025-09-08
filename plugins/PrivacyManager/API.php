@@ -230,6 +230,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Provide tracker file name and whether it's writable
+     *
+     * @return array{0: string, 1: bool}
      */
     private function getTrackerFileDetails(): array
     {
