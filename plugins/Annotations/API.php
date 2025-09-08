@@ -57,10 +57,7 @@ class API extends \Piwik\Plugin\API
         $annotation['id'] = $idNote;
         $this->decorateAnnotation($annotation);
 
-        return [
-            'idNote' => $idNote,
-            'annotation' => $annotation,
-        ];
+        return $annotation;
     }
 
     /**
