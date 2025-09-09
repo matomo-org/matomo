@@ -1,6 +1,7 @@
 {
     "UserId": {
         "UserId": "UserId",
+        "UserIdSegmentHelp": "any non empty unique string identifying the user (such as an email address or a username).",
         "UserReportTitle": "User IDs",
         "UserReportDocumentation": "Shows visits and other general metrics for every individual User ID.",
         "PluginDescription": "Shows user reports",
