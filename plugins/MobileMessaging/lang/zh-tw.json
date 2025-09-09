@@ -41,7 +41,6 @@
         "Settings_ValidatePhoneNumber": "驗證",
         "Settings_VerificationCodeJustSent": "我們剛給這個號碼傳送了包含代碼的簡訊：請在上面輸入代碼，然後點按「認證」。",
         "TopLinkTooltip": "從信箱或手機取得網頁分析報表。",
-        "TopMenu": "Email 和簡訊報告",
         "UserKey": "使用者金鑰",
         "VerificationText": "驗證碼為 %1$s。請將此驗證碼填入 Matomo → %2$s → %3$s 的表單中來完成手機驗證。"
     }

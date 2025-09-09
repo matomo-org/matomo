@@ -47,7 +47,6 @@
         "Settings_VerificationCodeJustSent": "Bu telefon numarasına bir kod içeren bir SMS gönderildi. Lütfen gönderilen kodu yukarıya yazıp \"Doğrula\" üzerine tıklayın.",
         "TooManyUnverifiedNumbersError": "3 taneden fazla doğrulanmamış telefon numarası ekleyemezsiniz!",
         "TopLinkTooltip": "Site istatistikleri raporlarını e-postanıza ya da cep telefonunuza gönderin.",
-        "TopMenu": "E-posta ve SMS raporları",
         "UserKey": "Kullanıcı anahtarı",
         "VerificationCodeRecentlySentError": "Kısa süre önce %1$s telefon numarası için bir doğrulama kodu zaten istendi.",
         "VerificationText": "Kod: %1$s. Telefon numaranızı doğrulamak ve Matomo SMS raporlarını almak için lütfen Matomo → %2$s → %3$s bölümüne bu kodu kopyalayın."

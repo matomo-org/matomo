@@ -41,7 +41,6 @@
         "Settings_ValidatePhoneNumber": "有效",
         "Settings_VerificationCodeJustSent": "我们刚刚给这个号码发了一条短信，上面有一个代码：请在上面输入这个代码，然后单击“验证”。",
         "TopLinkTooltip": "设置网站分析报表发送到邮箱或者手机!",
-        "TopMenu": "邮件和短信报表",
         "UserKey": "用户密钥",
         "VerificationText": "代码为 %1$s。要验证电话号码及接收 Matomo 短信报表，请复制本代码到 Matomo → %2$s → %3$s 的表格中。"
     }

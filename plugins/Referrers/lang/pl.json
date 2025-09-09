@@ -1,5 +1,6 @@
 {
     "Referrers": {
+        "Acquisition": "Linki",
         "AllReferrersReportDocumentation": "Raport prezentuje wszystkie Twoje Odnośniki w pojedynczym, zunifikowanym raporcie, zawierającym Wszystkie serwisy, frazy Wyszukiwania i Kampanie wykorzystane przez odwiedzających aby do Ciebie dotrzeć.",
         "Campaigns": "Kampanie",
         "CampaignsDocumentation": "Odwiedzający, którzy dotarli na Twoją stronę dzięki kampanii. %1$sZobacz%2$sszczegółowy raport.",
@@ -25,10 +26,10 @@
         "Referrer": "Odnośnik",
         "ReferrerName": "Nazwa odnośnika",
         "ReferrerNames": "Nazwy odnośników",
-        "Referrers": "Odnośniki",
-        "ReferrersOverview": "Przegląd odnośników",
         "ReferrerTypes": "Typy Kanałów",
         "ReferrerURLs": "Adresy odnośników",
+        "Referrers": "Odnośniki",
+        "ReferrersOverview": "Przegląd odnośników",
         "SearchEngines": "Wyszukiwarki",
         "SearchEnginesDocumentation": "Odwiedzający trafił na Twoją stronę dzięki odnośnikowi w wyszukiwarce. %1$sZobacz%2$s szczegółowy raport.",
         "SearchEnginesReportDocumentation": "Raport pokazuje odnośniki, których wyszukiwarek sprowadziły Twoich odwiedzających. %s Kliknij na rząd w tabeli, aby zobaczyć, czego odwiedzający szukali w danej wyszukiwarce.",
@@ -52,7 +53,6 @@
         "WidgetGetAll": "Wszystkie Kanały",
         "WidgetSocials": "Lista sieci społecznościowych",
         "WidgetTopKeywordsForPages": "Najpopularniejsze słowa kluczowe dla tej strony",
-        "XPercentOfVisits": "%s wizyt",
-        "Acquisition": "Linki"
+        "XPercentOfVisits": "%s wizyt"
     }
 }
