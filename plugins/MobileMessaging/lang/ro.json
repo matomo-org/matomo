@@ -31,7 +31,6 @@
         "Settings_UpdateOrDeleteAccount": "Puteți, de asemenea %1$sactualiza%2$s sau %3$ssterge%4$s acest cont.",
         "Settings_ValidatePhoneNumber": "Verifică",
         "TopLinkTooltip": "Web Analytics Rapoarte livrate pe email-ul sau telefonul mobil!",
-        "TopMenu": "Email & SMS Rapoarte",
         "VerificationText": "Codul este de %1$s. Pentru a valida numărul dvs. de telefon și pentru a primi rapoarte SMS Matomo vă rugăm să copiați acest cod în formă accesibilă prin intermediul Matomo → %2$s → %3$s."
     }
 }

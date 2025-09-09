@@ -47,7 +47,6 @@
         "Settings_VerificationCodeJustSent": "Wir haben Ihnen eine SMS mit einem Code an diese Nummer geschickt: Bitte geben Sie den Code oben ein und klicken auf \"Validieren\".",
         "TooManyUnverifiedNumbersError": "Sie können nicht mehr als 3 nicht verifizierte Telefonnummern hinzufügen!",
         "TopLinkTooltip": "Erhalten Sie Webanalytik-Berichte direkt in Ihren E-Mail Posteingang oder auf Ihr Mobiltelefon.",
-        "TopMenu": "E-Mail und SMS-Berichte",
         "UserKey": "Userkey/Benutzerschlüssel",
         "VerificationCodeRecentlySentError": "Ein Bestätigungscode für die Telefonnummer %1$s wurde bereits kürzlich angefordert.",
         "VerificationText": "Der Code lautet %1$s. Um Ihre Telefonnummer zu validieren und Matomo SMS-Berichte zu erhalten, kopieren Sie bitte diesen Code in das via Matomo verfügbare Formular → %2$s → %3$s."
