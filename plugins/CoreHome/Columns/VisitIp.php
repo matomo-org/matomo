@@ -13,6 +13,7 @@ use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Common;
 use Piwik\Metrics\Formatter;
 use Matomo\Network\IPUtils;
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Segment\SegmentsList;
@@ -29,8 +30,12 @@ class VisitIp extends VisitDimension
     protected $segmentName = 'visitIp';
     protected $nameSingular = 'General_VisitorIP';
     protected $namePlural = 'General_VisitorIPs';
-    protected $acceptValues = '13.54.122.1. </code>Select IP ranges with notation: <code>visitIp>13.54.122.0;visitIp<13.54.122.255';
     protected $sqlFilterValue = array('Matomo\Network\IPUtils', 'stringToBinaryIP');
+
+    public function getAcceptValues()
+    {
+        return Piwik::translate('General_VisitorIPSegmentHelp', ['13.54.122.1', '<code>visitIp>13.54.122.0;visitIp<13.54.122.255</code>']);
+    }
 
     public function formatValue($value, $idSite, Formatter $formatter)
     {

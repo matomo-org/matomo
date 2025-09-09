@@ -33,7 +33,7 @@
           :title="translate('General_Description')"
           :model-value="report.description"
           @update:model-value="$emit('change', { prop: 'description', value: $event })"
-          :inline-help="translate('ScheduledReports_DescriptionOnFirstPage')"
+          :inline-help="translate('ScheduledReports_DescriptionOnFirstPageScheduledReport')"
         >
         </Field>
       </div>
@@ -66,7 +66,7 @@
               prop: 'periodParam',
               value: report.period === 'never' ? null : report.period,
             })"
-          :title="translate('ScheduledReports_EmailSchedule')"
+          :title="translate('ScheduledReports_ReportSchedule')"
           :options="periods"
         >
           <template v-slot:inline-help>
@@ -95,9 +95,9 @@
               id="emailReportPeriodInlineHelp"
               class="inline-help-node"
             >
-              {{ translate('ScheduledReports_ReportPeriodHelp') }}
+              {{ translate('ScheduledReports_ScheduleReportPeriodHelp') }}
               <br /><br />
-              {{ translate('ScheduledReports_ReportPeriodHelp2') }}
+              {{ translate('ScheduledReports_ScheduleReportPeriodHelp2') }}
             </div>
           </template>
         </Field>
@@ -475,7 +475,7 @@ export default defineComponent({
     },
     reportSegmentInlineHelp() {
       return translate(
-        'ScheduledReports_Segment_Help',
+        'ScheduledReports_Segment_HelpScheduledReport',
         '<a href="./" rel="noreferrer noopener" target="_blank">',
         '</a>',
         translate('SegmentEditor_DefaultAllVisits'),

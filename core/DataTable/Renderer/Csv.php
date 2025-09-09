@@ -230,6 +230,7 @@ class Csv extends Renderer
             if (
                 strpos($value, '"') !== false
                 || strpos($value, $this->separator) !== false
+                || strpos($value, $this->lineEnd) !== false
                 || strpos($value, ',') !== false
                 || strpos($value, ';') !== false
             ) {
