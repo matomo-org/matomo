@@ -131,7 +131,7 @@ class AnnotationsTest extends SystemTestCase
         $addResponse = API::getInstance()->add(
             self::$fixture->idSite1,
             $date = '2011-04-01',
-            $note = 'new note text single add',
+            $note = 'new note text single add'
         );
 
         $expectedAddResponse = [
