@@ -322,10 +322,10 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 if ($('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).length) {
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
                         $('.' + settings.categorylistClass, widgetPreview).position().top +
-                        ($('.dashboard-manager .addWidget').outerHeight() || 0);
+                        $('.dashboard-manager .addWidgetsSubmenu').position().top;
 
                     if (!$('#content.admin').length) {
-                        position += 5; // + padding defined in dashboard view
+                        position += 3; // + padding defined in dashboard view
                     }
 
                     $('.' + settings.widgetlistClass, widgetPreview).css({

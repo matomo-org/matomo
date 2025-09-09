@@ -53,13 +53,15 @@
             </li>
           </ul>
         </li>
-        <li>
+        <li class="addWidgetsSubmenu">
           <div class="addWidget">{{ translate('Dashboard_AddAWidget') }}</div>
           <ul class="widgetpreview-categorylist"></ul>
         </li>
       </ul>
-      <ul class="widgetpreview-widgetlist"></ul>
-      <div class="widgetpreview-preview"></div>
+      <div>
+        <ul class="widgetpreview-widgetlist"></ul>
+        <div class="widgetpreview-preview"></div>
+      </div>
     </div>
   </div>
 </template>
