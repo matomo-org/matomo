@@ -72,8 +72,8 @@ class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterfa
     public static function getPolicyRequirements(): array
     {
         $policyValues = [];
-        $policyValues[CnilPolicy::class] = 90;
-        $policyValues[HipaaPolicy::class] = 120;
+        $policyValues[CnilPolicy::class] = 180;
+        $policyValues[HipaaPolicy::class] = 180;
 
         return $policyValues;
     }
