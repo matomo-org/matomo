@@ -320,9 +320,11 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 }
 
                 if ($('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).length) {
+                    var addWidgetsSubmenu = $('.dashboard-manager .addWidgetsSubmenu');
+
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
                         $('.' + settings.categorylistClass, widgetPreview).position().top +
-                        $('.dashboard-manager .addWidgetsSubmenu').position().top;
+                        (addWidgetsSubmenu.length ? addWidgetsSubmenu.position().top : 0);
 
                     if (!$('#content.admin').length) {
                         position += 3; // + padding defined in dashboard view
