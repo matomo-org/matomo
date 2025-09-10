@@ -188,12 +188,11 @@
             <li v-html="$sanitize(accountabilityRisk)"></li>
             <li v-html="$sanitize(translateSuperUserRiskString('Compliance'))"></li>
           </ul>
-          <div
-            :class="{ 'disabled': isCurrentUser }" :title="superUserAccessTooltipText">
+          <div>
             <Field
               v-model="superUserAccessChecked"
-              @update:model-value="confirmSuperUserChange()"
-              :disabled="isCurrentUser"
+              @click="confirmSuperUserChange()"
+              :disabled="isSavingUserInfo"
               uicontrol="checkbox"
               name="superuser_access"
               :title="translate('UsersManager_HasSuperUserAccess')"
@@ -512,16 +511,6 @@ export default defineComponent({
       }
 
       return pluginInfo ? `${riskInfo} ${pluginInfo}` : riskInfo;
-    },
-    isCurrentUser(): boolean {
-      return this.theUser.login === Matomo.userLogin;
-    },
-    superUserAccessTooltipText() {
-      if (this.isCurrentUser) {
-        return translate('UsersManager_CannotRevokeOwnSuperuserAccess');
-      }
-
-      return '';
     },
   },
 });
