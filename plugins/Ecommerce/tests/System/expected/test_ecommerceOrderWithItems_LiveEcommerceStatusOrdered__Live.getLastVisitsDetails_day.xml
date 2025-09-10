@@ -103,8 +103,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode>pl</languageCode>
 		<language>Polish</language>
 		<deviceType>Desktop</deviceType>
@@ -341,8 +339,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode>pl</languageCode>
 		<language>Polish</language>
 		<deviceType>Desktop</deviceType>

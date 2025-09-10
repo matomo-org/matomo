@@ -42,7 +42,6 @@ class Referrers extends RecordBuilder
         return [
             Record::make(Record::TYPE_BLOB, Archiver::SEARCH_ENGINES_RECORD_NAME),
             Record::make(Record::TYPE_BLOB, Archiver::SOCIAL_NETWORKS_RECORD_NAME),
-            Record::make(Record::TYPE_BLOB, Archiver::AI_ASSISTANTS_RECORD_NAME),
             Record::make(Record::TYPE_BLOB, Archiver::KEYWORDS_RECORD_NAME),
             Record::make(Record::TYPE_BLOB, Archiver::CAMPAIGNS_RECORD_NAME),
             Record::make(Record::TYPE_BLOB, Archiver::WEBSITES_RECORD_NAME),
@@ -52,8 +51,6 @@ class Referrers extends RecordBuilder
                 ->setIsCountOfBlobRecordRows(Archiver::SEARCH_ENGINES_RECORD_NAME),
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME)
                 ->setIsCountOfBlobRecordRows(Archiver::SOCIAL_NETWORKS_RECORD_NAME),
-            Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_AI_ASSISTANT_RECORD_NAME)
-                ->setIsCountOfBlobRecordRows(Archiver::AI_ASSISTANTS_RECORD_NAME),
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME)
                 ->setIsCountOfBlobRecordRows(Archiver::KEYWORDS_RECORD_NAME),
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME)
@@ -87,14 +84,15 @@ class Referrers extends RecordBuilder
         $numericRecords = [
             Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME => count($records[Archiver::SEARCH_ENGINES_RECORD_NAME]->getRows()),
             Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME => count($records[Archiver::SOCIAL_NETWORKS_RECORD_NAME]->getRows()),
-            Archiver::METRIC_DISTINCT_AI_ASSISTANT_RECORD_NAME => count($records[Archiver::AI_ASSISTANTS_RECORD_NAME]->getRows()),
-            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME      => count($records[Archiver::KEYWORDS_RECORD_NAME]->getRows()),
-            Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME     => count($records[Archiver::CAMPAIGNS_RECORD_NAME]->getRows()),
-            Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME      => count($records[Archiver::WEBSITES_RECORD_NAME]->getRows()),
-            Archiver::METRIC_DISTINCT_URLS_RECORD_NAME         => count($distinctUrls),
+            Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME => count($records[Archiver::KEYWORDS_RECORD_NAME]->getRows()),
+            Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME => count($records[Archiver::CAMPAIGNS_RECORD_NAME]->getRows()),
+            Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME => count($records[Archiver::WEBSITES_RECORD_NAME]->getRows()),
+            Archiver::METRIC_DISTINCT_URLS_RECORD_NAME => count($distinctUrls),
         ];
 
-        return array_merge($records, $numericRecords);
+        $records = array_merge($records, $numericRecords);
+
+        return $records;
     }
 
     protected function getRecordNames()
@@ -104,7 +102,6 @@ class Referrers extends RecordBuilder
             Archiver::KEYWORDS_RECORD_NAME,
             Archiver::SEARCH_ENGINES_RECORD_NAME,
             Archiver::SOCIAL_NETWORKS_RECORD_NAME,
-            Archiver::AI_ASSISTANTS_RECORD_NAME,
             Archiver::WEBSITES_RECORD_NAME,
             Archiver::CAMPAIGNS_RECORD_NAME,
         ];
@@ -158,11 +155,6 @@ class Referrers extends RecordBuilder
 
             case Common::REFERRER_TYPE_SOCIAL_NETWORK:
                 $topLevelRow = $reports[Archiver::SOCIAL_NETWORKS_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
-                $topLevelRow->sumRowWithLabelToSubtable($row['referer_url'], $columns);
-                break;
-
-            case Common::REFERRER_TYPE_AI_ASSISTANT:
-                $topLevelRow = $reports[Archiver::AI_ASSISTANTS_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
                 $topLevelRow->sumRowWithLabelToSubtable($row['referer_url'], $columns);
                 break;
 
@@ -238,10 +230,6 @@ class Referrers extends RecordBuilder
 
             case Common::REFERRER_TYPE_SOCIAL_NETWORK:
                 $reports[Archiver::SOCIAL_NETWORKS_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
-                break;
-
-            case Common::REFERRER_TYPE_AI_ASSISTANT:
-                $reports[Archiver::AI_ASSISTANTS_RECORD_NAME]->sumRowWithLabel($row['referer_name'], $columns);
                 break;
 
             case Common::REFERRER_TYPE_WEBSITE:

@@ -107,17 +107,6 @@
 		<result prettyDate="Wednesday, February 3, 2010" />
 		<result prettyDate="Thursday, February 4, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -141,17 +130,6 @@
 			</row>
 		</result>
 		<result prettyDate="Friday, February 5, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -177,17 +155,6 @@
 		</result>
 		<result prettyDate="Saturday, February 6, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -211,17 +178,6 @@
 			</row>
 		</result>
 		<result prettyDate="Sunday, February 7, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -247,17 +203,6 @@
 		</result>
 		<result prettyDate="Monday, February 8, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -281,17 +226,6 @@
 			</row>
 		</result>
 		<result prettyDate="Tuesday, February 9, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -317,17 +251,6 @@
 		</result>
 		<result prettyDate="Wednesday, February 10, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -351,17 +274,6 @@
 			</row>
 		</result>
 		<result prettyDate="Thursday, February 11, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -387,17 +299,6 @@
 		</result>
 		<result prettyDate="Friday, February 12, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -421,17 +322,6 @@
 			</row>
 		</result>
 		<result prettyDate="Saturday, February 13, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -457,17 +347,6 @@
 		</result>
 		<result prettyDate="Sunday, February 14, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -491,17 +370,6 @@
 			</row>
 		</result>
 		<result prettyDate="Monday, February 15, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -527,17 +395,6 @@
 		</result>
 		<result prettyDate="Tuesday, February 16, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -561,17 +418,6 @@
 			</row>
 		</result>
 		<result prettyDate="Wednesday, February 17, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -597,17 +443,6 @@
 		</result>
 		<result prettyDate="Thursday, February 18, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -631,17 +466,6 @@
 			</row>
 		</result>
 		<result prettyDate="Friday, February 19, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -667,17 +491,6 @@
 		</result>
 		<result prettyDate="Saturday, February 20, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -701,17 +514,6 @@
 			</row>
 		</result>
 		<result prettyDate="Sunday, February 21, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -737,17 +539,6 @@
 		</result>
 		<result prettyDate="Monday, February 22, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -771,17 +562,6 @@
 			</row>
 		</result>
 		<result prettyDate="Tuesday, February 23, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -807,17 +587,6 @@
 		</result>
 		<result prettyDate="Wednesday, February 24, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -841,17 +610,6 @@
 			</row>
 		</result>
 		<result prettyDate="Thursday, February 25, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -877,17 +635,6 @@
 		</result>
 		<result prettyDate="Friday, February 26, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -911,17 +658,6 @@
 			</row>
 		</result>
 		<result prettyDate="Saturday, February 27, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -947,17 +683,6 @@
 		</result>
 		<result prettyDate="Sunday, February 28, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -981,17 +706,6 @@
 			</row>
 		</result>
 		<result prettyDate="Monday, March 1, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -1017,17 +731,6 @@
 		</result>
 		<result prettyDate="Tuesday, March 2, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -1051,17 +754,6 @@
 			</row>
 		</result>
 		<result prettyDate="Wednesday, March 3, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -1087,17 +779,6 @@
 		</result>
 		<result prettyDate="Thursday, March 4, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -1122,17 +803,6 @@
 		</result>
 		<result prettyDate="Friday, March 5, 2010">
 			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
-			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_visits>1</nb_visits>
@@ -1156,17 +826,6 @@
 			</row>
 		</result>
 		<result prettyDate="Saturday, March 6, 2010">
-			<row>
-				<label>AI Assistants</label>
-				<nb_uniq_visitors>1</nb_uniq_visitors>
-				<nb_visits>1</nb_visits>
-				<nb_actions>1</nb_actions>
-				<nb_users>0</nb_users>
-				<nb_actions_per_visit>1</nb_actions_per_visit>
-				<avg_time_on_site>00:00:00</avg_time_on_site>
-				<bounce_rate>100%</bounce_rate>
-				<revenue>$0</revenue>
-			</row>
 			<row>
 				<label>Search Engines</label>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
@@ -1232,11 +891,6 @@
 		<result prettyDate="Wednesday, February 3, 2010" />
 		<result prettyDate="Thursday, February 4, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1248,11 +902,6 @@
 			</row>
 		</result>
 		<result prettyDate="Friday, February 5, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1266,11 +915,6 @@
 		</result>
 		<result prettyDate="Saturday, February 6, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1282,11 +926,6 @@
 			</row>
 		</result>
 		<result prettyDate="Sunday, February 7, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1300,11 +939,6 @@
 		</result>
 		<result prettyDate="Monday, February 8, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1316,11 +950,6 @@
 			</row>
 		</result>
 		<result prettyDate="Tuesday, February 9, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1334,11 +963,6 @@
 		</result>
 		<result prettyDate="Wednesday, February 10, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1350,11 +974,6 @@
 			</row>
 		</result>
 		<result prettyDate="Thursday, February 11, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1368,11 +987,6 @@
 		</result>
 		<result prettyDate="Friday, February 12, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1384,11 +998,6 @@
 			</row>
 		</result>
 		<result prettyDate="Saturday, February 13, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1402,11 +1011,6 @@
 		</result>
 		<result prettyDate="Sunday, February 14, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1418,11 +1022,6 @@
 			</row>
 		</result>
 		<result prettyDate="Monday, February 15, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1436,11 +1035,6 @@
 		</result>
 		<result prettyDate="Tuesday, February 16, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1452,11 +1046,6 @@
 			</row>
 		</result>
 		<result prettyDate="Wednesday, February 17, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1470,11 +1059,6 @@
 		</result>
 		<result prettyDate="Thursday, February 18, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1486,11 +1070,6 @@
 			</row>
 		</result>
 		<result prettyDate="Friday, February 19, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1504,11 +1083,6 @@
 		</result>
 		<result prettyDate="Saturday, February 20, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1520,11 +1094,6 @@
 			</row>
 		</result>
 		<result prettyDate="Sunday, February 21, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1538,11 +1107,6 @@
 		</result>
 		<result prettyDate="Monday, February 22, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1554,11 +1118,6 @@
 			</row>
 		</result>
 		<result prettyDate="Tuesday, February 23, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1572,11 +1131,6 @@
 		</result>
 		<result prettyDate="Wednesday, February 24, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1588,11 +1142,6 @@
 			</row>
 		</result>
 		<result prettyDate="Thursday, February 25, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1606,11 +1155,6 @@
 		</result>
 		<result prettyDate="Friday, February 26, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1622,11 +1166,6 @@
 			</row>
 		</result>
 		<result prettyDate="Saturday, February 27, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1640,11 +1179,6 @@
 		</result>
 		<result prettyDate="Sunday, February 28, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1656,11 +1190,6 @@
 			</row>
 		</result>
 		<result prettyDate="Monday, March 1, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1674,11 +1203,6 @@
 		</result>
 		<result prettyDate="Tuesday, March 2, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1690,11 +1214,6 @@
 			</row>
 		</result>
 		<result prettyDate="Wednesday, March 3, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1708,11 +1227,6 @@
 		</result>
 		<result prettyDate="Thursday, March 4, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1725,11 +1239,6 @@
 		</result>
 		<result prettyDate="Friday, March 5, 2010">
 			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
-			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
 				<idsubdatatable>2</idsubdatatable>
@@ -1741,11 +1250,6 @@
 			</row>
 		</result>
 		<result prettyDate="Saturday, March 6, 2010">
-			<row>
-				<segment>referrerType==ai</segment>
-				<referrer_type>8</referrer_type>
-				<idsubdatatable>8</idsubdatatable>
-			</row>
 			<row>
 				<segment>referrerType==search</segment>
 				<referrer_type>2</referrer_type>
@@ -1763,13 +1267,13 @@
 		<result prettyDate="Wednesday, March 10, 2010" />
 	</reportMetadata>
 	<reportTotal>
-		<nb_uniq_visitors>93</nb_uniq_visitors>
-		<nb_visits>93</nb_visits>
-		<nb_actions>93</nb_actions>
+		<nb_uniq_visitors>62</nb_uniq_visitors>
+		<nb_visits>62</nb_visits>
+		<nb_actions>62</nb_actions>
 		<nb_users>0</nb_users>
 		<max_actions>1</max_actions>
 		<sum_visit_length>11315</sum_visit_length>
-		<bounce_count>93</bounce_count>
+		<bounce_count>62</bounce_count>
 		<nb_visits_converted>31</nb_visits_converted>
 		<goals>
 			<row idgoal="1">

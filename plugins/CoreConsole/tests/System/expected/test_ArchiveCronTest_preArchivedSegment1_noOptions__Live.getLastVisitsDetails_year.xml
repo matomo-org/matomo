@@ -317,8 +317,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Unknown</deviceType>
@@ -455,8 +453,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -597,8 +593,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -739,8 +733,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -877,8 +869,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1015,8 +1005,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1153,8 +1141,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>

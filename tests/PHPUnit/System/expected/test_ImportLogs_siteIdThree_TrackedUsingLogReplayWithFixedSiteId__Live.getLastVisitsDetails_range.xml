@@ -76,8 +76,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -238,8 +236,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -358,8 +354,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -532,8 +526,6 @@
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -671,8 +663,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -812,8 +802,6 @@
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -961,8 +949,6 @@
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1100,8 +1086,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Smartphone</deviceType>
@@ -1231,8 +1215,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1428,8 +1410,6 @@
 		<referrerSearchEngineIcon>plugins/Morpheus/icons/dist/searchEngines/google.com.png</referrerSearchEngineIcon>
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1563,8 +1543,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1706,8 +1684,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1852,8 +1828,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -1985,8 +1959,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
@@ -2184,8 +2156,6 @@
 		<referrerSearchEngineIcon />
 		<referrerSocialNetworkUrl />
 		<referrerSocialNetworkIcon />
-		<referrerAIAssistantUrl />
-		<referrerAIAssistantIcon />
 		<languageCode />
 		<language>Unknown</language>
 		<deviceType>Desktop</deviceType>
