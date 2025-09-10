@@ -86,25 +86,6 @@ class ReferrerAttributionTest extends IntegrationTestCase
         'attributionCookieValues' => ['_ref' => 'https://l.instagram.com/?u=https%3A%2F%2Fexample.com%2Fexample.com'],
     ];
 
-    public static $AIAssistantReferrer = [
-        'siteUrl'                 => 'https://chatgpt.com/',
-        'referrerUrl'             => 'https://chatgpt.com/',
-        'referrerName'            => 'ChatGPT',
-        'referrerKeyword'         => '',
-        'referrerType' => Common::REFERRER_TYPE_AI_ASSISTANT,
-        'attributionCookieValues' => ['_ref' => 'https://chatgpt.com/'],
-    ];
-
-    public static $AIAssistantReferrer2 = [
-        'siteUrl'            => '',
-        'referrerUrl'        => '',
-        'campaignParameters' => 'utm_source=chatgpt.com',
-        'referrerName'       => 'ChatGPT',
-        'referrerKeyword'    => '',
-        'referrerType' => Common::REFERRER_TYPE_AI_ASSISTANT,
-        'attributionCookieValues' => [],
-    ];
-
     public static $campaignReferrer = [
         'siteUrl' => 'https://some.external.page/',
         'referrerUrl' => 'https://some.external.page/referrer',
@@ -245,7 +226,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
             $referrerAttributionCookieValuesAfterReturn !== null
             && !(
                 $referrerAttributionCookieValuesAfterReturn === $secondReferrer
-                && ($addSecondReferrerAsSiteUrl || empty($secondReferrer['siteUrl']))
+                && $addSecondReferrerAsSiteUrl
             )
         ) {
             // The conversion will be attributed to the last value of the attribution cookie (if the host of this referrer wasn't added to the site urls)
@@ -264,7 +245,6 @@ class ReferrerAttributionTest extends IntegrationTestCase
             self::$websiteReferrer,
             self::$searchEngineReferrer,
             self::$socialNetworkReferrer,
-            self::$AIAssistantReferrer,
             self::$campaignReferrer,
         ];
 
@@ -273,7 +253,6 @@ class ReferrerAttributionTest extends IntegrationTestCase
             self::$websiteReferrer2,
             self::$searchEngineReferrer2,
             self::$socialNetworkReferrer2,
-            self::$AIAssistantReferrer2,
             self::$campaignReferrer2,
         ];
 
@@ -305,11 +284,6 @@ class ReferrerAttributionTest extends IntegrationTestCase
                                         )
                                     ) {
                                         // skip tests, adding host of direct entry or campaign has no effect
-                                        continue;
-                                    }
-
-                                    if (true === $addSecondReferrerAsSiteUrl && empty($secondReferrer['siteUrl'])) {
-                                        // skip tests, adding host, that is not provided has no effect (ChatGPT referrer with utm_source param only)
                                         continue;
                                     }
 

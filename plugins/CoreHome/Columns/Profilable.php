@@ -21,7 +21,8 @@ class Profilable extends VisitDimension
     protected $nameSingular = 'CoreHome_Profilable';
     protected $segmentName = 'profilable';
     protected $type = self::TYPE_BOOL;
-    protected $acceptValues = 'CoreHome_ProfilableSegmentHelp';
+
+    protected $acceptValues = '1 for profilable (eg cookies were used), 0 for not profilable (eg no cookies were used)';
 
     public function __construct()
     {

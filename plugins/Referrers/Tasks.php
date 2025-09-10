@@ -24,7 +24,6 @@ class Tasks extends \Piwik\Plugin\Tasks
         ) {
             $this->weekly('updateSearchEngines');
             $this->weekly('updateSocials');
-            $this->weekly('updateAIAssistants');
         }
     }
 
@@ -33,13 +32,10 @@ class Tasks extends \Piwik\Plugin\Tasks
      *
      * @see https://github.com/matomo-org/searchengine-and-social-list
      */
-    public function updateSearchEngines(): void
+    public function updateSearchEngines()
     {
         $url = 'https://raw.githubusercontent.com/matomo-org/searchengine-and-social-list/master/SearchEngines.yml';
         $list = Http::sendHttpRequest($url, 30);
-        if (!is_string($list)) {
-            return;
-        }
         $searchEngines = SearchEngine::getInstance()->loadYmlData($list);
         if (count($searchEngines) < 200) {
             return;
@@ -52,36 +48,14 @@ class Tasks extends \Piwik\Plugin\Tasks
      *
      * @see https://github.com/matomo-org/searchengine-and-social-list
      */
-    public function updateSocials(): void
+    public function updateSocials()
     {
         $url = 'https://raw.githubusercontent.com/matomo-org/searchengine-and-social-list/master/Socials.yml';
         $list = Http::sendHttpRequest($url, 30);
-        if (!is_string($list)) {
-            return;
-        }
         $socials = Social::getInstance()->loadYmlData($list);
         if (count($socials) < 50) {
             return;
         }
         Option::set(Social::OPTION_STORAGE_NAME, base64_encode(serialize($socials)));
-    }
-
-    /**
-     * Update the AI definitions
-     *
-     * @see https://github.com/matomo-org/searchengine-and-social-list
-     */
-    public function updateAIAssistants(): void
-    {
-        $url = 'https://raw.githubusercontent.com/matomo-org/searchengine-and-social-list/master/AIAssistants.yml';
-        $list = Http::sendHttpRequest($url, 30);
-        if (!is_string($list)) {
-            return;
-        }
-        $aiAssistants = AIAssistant::getInstance()->loadYmlData($list);
-        if (count($aiAssistants) < 5) {
-            return;
-        }
-        Option::set(AIAssistant::OPTION_STORAGE_NAME, base64_encode(serialize($aiAssistants)));
     }
 }

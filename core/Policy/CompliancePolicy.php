@@ -1,0 +1,168 @@
+<?php
+
+namespace Piwik\Policy;
+
+use Exception;
+use Piwik\Plugin\Manager;
+use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Interfaces\MeasurableSettingInterface;
+use Piwik\Settings\Interfaces\PolicyComparisonInterface;
+use Piwik\Settings\Interfaces\SettingValueInterface;
+use Piwik\Settings\Interfaces\SystemSettingInterface;
+use Piwik\Settings\Interfaces\Traits\Setters\MeasurableSetterTrait;
+use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
+
+/**
+ * @implements SystemSettingInterface<bool>
+ * @implements MeasurableSettingInterface<bool>
+ */
+abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSettingInterface
+{
+    /**
+     * @use SystemSetterTrait<bool>
+     */
+    use SystemSetterTrait;
+
+    /**
+     * @use MeasurableSetterTrait<bool>
+     */
+    use MeasurableSetterTrait;
+
+    abstract public static function getName(): string;
+    abstract public static function getDescription(): string;
+    abstract public static function getTitle(): string;
+
+    /**
+     * @return array<string>
+     */
+    abstract protected static function getMinimumRequiredPlugins(): array;
+
+    /**
+     * @return array<string, string>
+     */
+    public static function getDetails(): array
+    {
+        return [
+            'id' => static::getName(),
+            'title' => static::getTitle(),
+            'description' => static::getDescription()
+        ];
+    }
+
+    /**
+     * @throws \Exception when required plugins are not active
+     */
+    protected static function checkRequiredPluginsActive(): void
+    {
+        $plugins = static::getMinimumRequiredPlugins();
+        $pluginManager = Manager::getInstance();
+
+        foreach ($plugins as $plugin) {
+            if (!$pluginManager->isPluginActivated($plugin)) {
+                throw new Exception("Plugin $plugin is not activated");
+            }
+        }
+    }
+
+    /**
+     * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
+     */
+    public static function getAllControlledSettings(?int $idSite = null): array
+    {
+        $settings = self::getAllSettings($idSite);
+        $underPolicy = [];
+
+        foreach ($settings as $setting) {
+            if (!$setting::isControlledBySpecificPolicy(static::class, $idSite)) {
+                continue;
+            }
+
+            $underPolicy[] = $setting;
+        }
+
+        return $underPolicy;
+    }
+
+    /**
+     * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
+     */
+    public static function getAllSettings(?int $idSite = null): array
+    {
+        $settings = Manager::getInstance()->findMultipleComponents('Settings', SettingValueInterface::class);
+        $underPolicy = [];
+
+        foreach ($settings as $setting) {
+            if (!is_a($setting, PolicyComparisonInterface::class, true)) {
+                continue;
+            }
+
+            $underPolicy[] = $setting;
+        }
+
+        return $underPolicy;
+    }
+
+    protected static function getSystemDefaultValue()
+    {
+        return false;
+    }
+
+    protected static function getSystemName(): string
+    {
+        // TODO
+        return 'cnil_policy_enabled';
+    }
+
+    protected static function getSystemType(): string
+    {
+        return FieldConfig::TYPE_BOOL;
+    }
+
+    protected static function getMeasurableDefaultValue()
+    {
+        return false;
+    }
+
+    protected static function getMeasurableName(): string
+    {
+        // TODO
+        return 'cnil_policy_enabled';
+    }
+
+    protected static function getMeasurableType(): string
+    {
+        return FieldConfig::TYPE_BOOL;
+    }
+
+    /**
+     * If the policy is active at the instance level,
+     * disabling the policy for a site will also disable it
+     * for the instance.
+     */
+    public static function setActiveStatus(?int $idSite, bool $isActive): void
+    {
+        if (isset($idSite)) {
+            self::setMeasurableValue($idSite, $isActive);
+            if (self::getSystemValue() && !$isActive) {
+                self::setSystemValue($isActive);
+            }
+            return;
+        }
+        self::setSystemValue($isActive);
+    }
+
+    /**
+     * If the policy is active at the instance level, then
+     * this function will return true for all sites.
+     */
+    public static function isActive(?int $idSite): bool
+    {
+        self::checkRequiredPluginsActive();
+
+        $instanceLevel = self::getSystemValue();
+        if (!$instanceLevel && isset($idSite)) {
+            return self::getMeasurableValue($idSite);
+        }
+        return $instanceLevel;
+    }
+}

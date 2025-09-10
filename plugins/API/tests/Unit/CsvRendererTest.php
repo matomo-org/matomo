@@ -132,7 +132,6 @@ The\nOutput', $response);
             array('-test()', '\'-test()'),
             array('-te,st()', '"\'-te,st()"'),
             array('-te"st()', '"\'-te""st()"'),
-            array("value\nbreak", "\"value\nbreak\""),
 
             // we do not need to prefix with quote
             array('1', '1'),

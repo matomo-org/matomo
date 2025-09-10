@@ -144,7 +144,7 @@ class Category
 
     /**
      * Get the help text (if any) for this category.
-     * @return null|string
+     * @return null
      */
     public function getHelp()
     {

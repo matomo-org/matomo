@@ -39,7 +39,7 @@ abstract class UserEmailNotification extends UserNotification
     ) {
         parent::__construct($users);
 
-        $this->recipients = array_filter($recipients);
+        $this->recipients = $recipients;
         $this->emailData = $emailData;
     }
 

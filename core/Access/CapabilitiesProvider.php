@@ -26,7 +26,6 @@ class CapabilitiesProvider
         $cache   = PiwikCache::getTransientCache();
 
         if (!$cache->contains($cacheId)) {
-            /** @var Capability[] $capabilities */
             $capabilities = [];
 
             /**
@@ -71,12 +70,11 @@ class CapabilitiesProvider
             return $capabilities;
         }
 
-        /** @var Capability[] */
         return $cache->fetch($cacheId);
     }
 
     /**
-     * @param string $capabilityId
+     * @param $capabilityId
      * @return Capability|null
      * @throws Exception
      */
@@ -105,11 +103,11 @@ class CapabilitiesProvider
     }
 
     /**
-     * @param string $capabilityId
+     * @param $capabilityId
      * @return bool
      * @throws Exception
      */
-    public function isValidCapability(string $capabilityId): bool
+    public function isValidCapability($capabilityId): bool
     {
         $capabilities = $this->getAllCapabilityIds();
 
@@ -117,10 +115,10 @@ class CapabilitiesProvider
     }
 
     /**
-     * @param string $capabilityId
+     * @param $capabilityId
      * @throws Exception
      */
-    public function checkValidCapability(string $capabilityId): void
+    public function checkValidCapability($capabilityId): void
     {
         if (!$this->isValidCapability($capabilityId)) {
             $capabilities = $this->getAllCapabilityIds();

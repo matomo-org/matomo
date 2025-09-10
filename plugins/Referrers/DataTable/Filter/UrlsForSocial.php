@@ -15,6 +15,24 @@ use Piwik\DataTable;
 class UrlsForSocial extends BaseFilter
 {
     /**
+     * @var bool
+     */
+    private $sortRecursive;
+
+    /**
+     * Constructor.
+     *
+     * @param DataTable $table The table to eventually filter.
+     * @param bool $sortRecursive Whether to sort recursive or not
+     */
+    public function __construct($table, $sortRecursive)
+    {
+        parent::__construct($table);
+
+        $this->sortRecursive = $sortRecursive;
+    }
+
+    /**
      * @param DataTable $table
      */
     public function filter($table)

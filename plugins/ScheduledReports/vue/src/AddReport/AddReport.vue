@@ -33,7 +33,7 @@
           :title="translate('General_Description')"
           :model-value="report.description"
           @update:model-value="$emit('change', { prop: 'description', value: $event })"
-          :inline-help="translate('ScheduledReports_DescriptionOnFirstPageScheduledReport')"
+          :inline-help="translate('ScheduledReports_DescriptionOnFirstPage')"
         >
         </Field>
       </div>
@@ -66,7 +66,7 @@
               prop: 'periodParam',
               value: report.period === 'never' ? null : report.period,
             })"
-          :title="translate('ScheduledReports_ReportSchedule')"
+          :title="translate('ScheduledReports_EmailSchedule')"
           :options="periods"
         >
           <template v-slot:inline-help>
@@ -95,9 +95,9 @@
               id="emailReportPeriodInlineHelp"
               class="inline-help-node"
             >
-              {{ translate('ScheduledReports_ScheduleReportPeriodHelp') }}
+              {{ translate('ScheduledReports_ReportPeriodHelp') }}
               <br /><br />
-              {{ translate('ScheduledReports_ScheduleReportPeriodHelp2') }}
+              {{ translate('ScheduledReports_ReportPeriodHelp2') }}
             </div>
           </template>
         </Field>
@@ -154,11 +154,11 @@
         <slot name="report-parameters"></slot>
       </div>
       <div
-        v-show="report[`format${report.type}`] === 'pdf' ||
-                report[`format${report.type}`] === 'html'
-               "
+        v-show="report.type === 'email'
+              && report.formatemail !== 'csv'
+              && report.formatemail !== 'tsv'"
       >
-        <div :class="report.type">
+        <div class="email">
           <Field
             uicontrol="select"
             name="display_format"
@@ -475,7 +475,7 @@ export default defineComponent({
     },
     reportSegmentInlineHelp() {
       return translate(
-        'ScheduledReports_Segment_HelpScheduledReport',
+        'ScheduledReports_Segment_Help',
         '<a href="./" rel="noreferrer noopener" target="_blank">',
         '</a>',
         translate('SegmentEditor_DefaultAllVisits'),

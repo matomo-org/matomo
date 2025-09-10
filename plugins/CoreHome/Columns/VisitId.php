@@ -25,7 +25,7 @@ use Piwik\Segment\SegmentsList;
 class VisitId extends VisitDimension
 {
     protected $columnName = 'idvisit';
-    protected $acceptValues = 'General_AnyPositiveInteger';
+    protected $acceptValues = 'Any integer.';
     protected $nameSingular = 'General_Visit';
     protected $namePlural = 'General_ColumnNbVisits';
     protected $segmentName = 'visitId';
