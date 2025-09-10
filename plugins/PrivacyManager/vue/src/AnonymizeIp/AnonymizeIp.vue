@@ -114,7 +114,7 @@
     />
     <PasswordConfirmation
       v-model="showPasswordConfirmation"
-      @confirmed="save()"
+      @confirmed="save"
     >
       <h2>{{ translate('PrivacyManager_ConfirmConfigRandomisationEnabled') }}</h2>
       <p>{{ translate('PrivacyManager_ConfirmConfigRandomisationExplanation') }}</p>
@@ -215,23 +215,30 @@ export default defineComponent({
         this.save();
       }
     },
-    save() {
+    save(password?: string) {
       this.isLoading = true;
+
+      const postParams: QueryParameters = {
+        anonymizeIPEnable: this.actualEnabled ? '1' : '0',
+        anonymizeUserId: this.actualAnonymizeUserId ? '1' : '0',
+        anonymizeOrderId: this.actualAnonymizeOrderId ? '1' : '0',
+        forceCookielessTracking: this.actualForceCookielessTracking ? '1' : '0',
+        anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
+        maskLength: this.actualMaskLength,
+        useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
+        randomizeConfigId: this.actualRandomizeConfigId ? '1' : '0',
+      };
+
+      if (password) {
+        postParams.passwordConfirmation = password;
+      }
+
       AjaxHelper.post(
         {
           module: 'API',
           method: 'PrivacyManager.setAnonymizeIpSettings',
         },
-        {
-          anonymizeIPEnable: this.actualEnabled ? '1' : '0',
-          anonymizeUserId: this.actualAnonymizeUserId ? '1' : '0',
-          anonymizeOrderId: this.actualAnonymizeOrderId ? '1' : '0',
-          forceCookielessTracking: this.actualForceCookielessTracking ? '1' : '0',
-          anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
-          maskLength: this.actualMaskLength,
-          useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
-          randomizeConfigId: this.actualRandomizeConfigId ? '1' : '0',
-        },
+        postParams,
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
@@ -240,6 +247,12 @@ export default defineComponent({
           type: 'toast',
         });
         NotificationsStore.scrollToNotification(notificationInstanceId);
+      }).catch(() => {
+        // reset the config ID randomisation checkbox so that it does not appear as enabled
+        // when an incorrect password was used to confirm the change
+        if (postParams.randomizeConfigId === '1') {
+          this.actualRandomizeConfigId = false;
+        }
       }).finally(() => {
         this.isLoading = false;
       });
