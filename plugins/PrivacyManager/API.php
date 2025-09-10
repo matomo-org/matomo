@@ -27,6 +27,9 @@ use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Plugins\PrivacyManager\Settings\ReportRetention;
 use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\CompliancePolicy;
+use Piwik\Policy\HipaaPolicy;
+use Piwik\Policy\PolicyManager;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 
@@ -416,6 +419,11 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    public function getCompliancePolicies(): array
+    {
+        return PolicyManager::getAllPoliciesDecorated();
+    }
+
     /**
      * @internal
      * @param int|string $idSite
@@ -432,18 +440,20 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Feature not available');
         }
 
-        if ($complianceType !== 'cnil') {
+        $policy = PolicyManager::getPolicyByName($complianceType);
+
+        if (is_null($policy) || !is_a($policy, CompliancePolicy::class, true)) {
             throw new Exception('Invalid compliance type');
         }
 
         Piwik::checkUserHasSuperUserAccess();
 
-        $payload['complianceModeEnforced']  = CnilPolicy::isActive($idSite);
-        $settingsUnderPolicy = CnilPolicy::getAllControlledSettings($idSite);
+        $payload['complianceModeEnforced']  = $policy::isActive($idSite);
+        $settingsUnderPolicy = $policy::getAllControlledSettings($idSite);
         foreach ($settingsUnderPolicy as $setting) {
             $payload['complianceRequirements'][] = [
                 'name' => $setting::getTitle(),
-                'value' => $setting::isCompliant(CnilPolicy::class, $idSite) ? 'compliant' : 'non_compliant',
+                'value' => $setting::isCompliant($policy, $idSite) ? 'compliant' : 'non_compliant',
                 'notes' => $setting::getComplianceRequirementNote(),
             ];
         }
@@ -491,7 +501,9 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Feature not available');
         }
 
-        if ($complianceType !== 'cnil') {
+        $policy = PolicyManager::getPolicyByName($complianceType);
+
+        if (is_null($policy) || !is_a($policy, CompliancePolicy::class, true)) {
             throw new Exception('Invalid compliance type');
         }
 
@@ -503,7 +515,7 @@ class API extends \Piwik\Plugin\API
             $idSite = intval($idSite);
         }
 
-        CnilPolicy::setActiveStatus($idSite, $enforce);
+        $policy::setActiveStatus($idSite, $enforce);
 
         return $enforce;
     }

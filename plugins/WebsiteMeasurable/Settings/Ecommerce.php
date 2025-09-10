@@ -62,7 +62,7 @@ class Ecommerce implements MeasurableSettingInterface, PolicyComparisonInterface
 
     public static function getTitle(): string
     {
-        return 'Ecommerce Enabled per site';
+        return 'Ecommerce Disabled per site';
     }
 
     public static function getComplianceRequirementNote(): string

@@ -13,4 +13,18 @@ class HipaaPolicy extends CompliancePolicy
     {
         return 'test description';
     }
+
+    public static function getTitle(): string
+    {
+        return 'HIPAA';
+    }
+
+    protected static function getMinimumRequiredPlugins(): array
+    {
+        return [
+            'PrivacyManager',
+            'Live',
+            'WebsiteMeasurable',
+        ];
+    }
 }
