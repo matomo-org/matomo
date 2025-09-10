@@ -13,7 +13,7 @@ class HipaaPolicy extends CompliancePolicy
     {
         return 'test description';
     }
-
+  
     public static function getTitle(): string
     {
         return 'HIPAA';

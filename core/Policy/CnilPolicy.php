@@ -28,5 +28,4 @@ class CnilPolicy extends CompliancePolicy
             'Live',
             'WebsiteMeasurable'
         ];
-    }
 }
