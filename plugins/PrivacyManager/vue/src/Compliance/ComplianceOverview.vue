@@ -93,6 +93,16 @@ export default defineComponent({
   setup(props) {
     const store = createComplianceStore(props.complianceType);
     store.setIdSite(props.idSite);
+
+    // mirror store.complianceModeEnforced into a local writable ref
+    const shouldEnforceComplianceMode = ref(false);
+    // keep local ref in sync with store (on first load and any later fetches)
+    watch(
+      () => store.state.complianceModeEnforced,
+      (val) => { shouldEnforceComplianceMode.value = val; },
+      { immediate: true },
+    );
+
     watch(
       () => props.idSite,
       (newSite) => {
@@ -106,7 +116,7 @@ export default defineComponent({
     return {
       state: store.state,
       saveComplianceStatus: store.saveComplianceStatus,
-      shouldEnforceComplianceMode: store.state.complianceModeEnforced,
+      shouldEnforceComplianceMode,
       showPasswordConfirmation: ref(false),
     };
   },

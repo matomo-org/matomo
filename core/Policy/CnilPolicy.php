@@ -2,6 +2,8 @@
 
 namespace Piwik\Policy;
 
+use Piwik\Piwik;
+
 class CnilPolicy extends CompliancePolicy
 {
     public static function getName(): string
@@ -11,19 +13,20 @@ class CnilPolicy extends CompliancePolicy
 
     public static function getDescription(): string
     {
-        return 'test description';
+        return Piwik::translate('General_ComplianceCNILDescription');
     }
 
-    public static function isActive(?int $idSite): bool
+    public static function getTitle(): string
     {
-        if (null === $idSite) {
-            return true;
-        }
+        return Piwik::translate('General_ComplianceCNILTitle');
+    }
 
-        if (1 === $idSite) {
-            return false;
-        }
-
-        return true;
+    protected static function getMinimumRequiredPlugins(): array
+    {
+        return [
+            'PrivacyManager',
+            'Live',
+            'WebsiteMeasurable'
+        ];
     }
 }

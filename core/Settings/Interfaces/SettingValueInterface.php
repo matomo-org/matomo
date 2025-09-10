@@ -7,6 +7,9 @@ namespace Piwik\Settings\Interfaces;
  */
 interface SettingValueInterface
 {
+    /**
+     * @return self<T>
+     */
     public static function getInstance(?int $idSite = null);
 
     /**

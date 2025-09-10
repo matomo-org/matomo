@@ -14,16 +14,17 @@ class HipaaPolicy extends CompliancePolicy
         return 'test description';
     }
 
-    public static function isActive(?int $idSite): bool
+    public static function getTitle(): string
     {
-        if (null === $idSite) {
-            return true;
-        }
+        return 'HIPAA';
+    }
 
-        if (1 === $idSite) {
-            return false;
-        }
-
-        return true;
+    protected static function getMinimumRequiredPlugins(): array
+    {
+        return [
+            'PrivacyManager',
+            'Live',
+            'WebsiteMeasurable',
+        ];
     }
 }
