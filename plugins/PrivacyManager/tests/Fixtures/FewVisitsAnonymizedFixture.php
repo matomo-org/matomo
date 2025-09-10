@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Fixtures;
 
+use MatomoTracker;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config;
@@ -56,14 +57,35 @@ class FewVisitsAnonymizedFixture extends Fixture
         }
     }
 
+    /**
+     * Returns a pre-configured MatomoTracker
+     *
+     * @param int $idSite
+     * @param string $dateTime
+     * @param string $urlPath
+     * @param string $ip
+     * @return MatomoTracker
+     * @throws \Exception
+     */
+    private static function prepareTracker(int $idSite, string $dateTime, string $urlPath = '', string $ip = ''): MatomoTracker
+    {
+        $t = self::getTracker($idSite, $dateTime, $defaultInit = true);
+        $t->setForceVisitDateTime(Date::factory($dateTime)->addHour(0.1)->getDatetime());
+        $t->setUrl('http://example.com/' . $urlPath);
+
+        if ('' !== $ip) {
+            $t->setIp($ip);
+        }
+
+        return $t;
+    }
+
     protected function trackAnonymizedUserId()
     {
         $this->getPrivacyConfig()->anonymizeUserId = true;
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t = self::prepareTracker($this->idSite, $this->dateTime);
         $t->setUserId('foobar');
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
-        $t->setUrl('http://example.com/');
         self::checkResponse($t->doTrackPageView('Viewing homepage'));
     }
 
@@ -71,10 +93,7 @@ class FewVisitsAnonymizedFixture extends Fixture
     {
         $this->getPrivacyConfig()->anonymizeOrderId = true;
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        $t->setIp('56.11.55.73');
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
-        $t->setUrl('http://example.com/myorder');
+        $t = self::prepareTracker($this->idSite, $this->dateTime, 'myorder', '56.11.55.73');
         self::checkResponse($t->doTrackPageView('Viewing homepage'));
 
         $t->doTrackEcommerceOrder('myorderid', 10, 7, 2, 1, 0);
@@ -84,11 +103,8 @@ class FewVisitsAnonymizedFixture extends Fixture
     {
         $this->getPrivacyConfig()->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        $t->setIp('56.11.55.74');
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
+        $t = self::prepareTracker($this->idSite, $this->dateTime, 'exclude_all', '56.11.55.74');
         $t->setUrlReferrer('https://www.foo.com/bar/?baz=exclude_all');
-        $t->setUrl('http://example.com/exclude_all');
         self::checkResponse($t->doTrackPageView('Exclude all referrer website'));
     }
 
@@ -96,11 +112,8 @@ class FewVisitsAnonymizedFixture extends Fixture
     {
         $this->getPrivacyConfig()->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_PATH;
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        $t->setIp('56.11.55.75');
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
+        $t = self::prepareTracker($this->idSite, $this->dateTime, 'exclude_path_website', '56.11.55.75');
         $t->setUrlReferrer('https://www.foo.com/bar/?baz=exclude_path_website');
-        $t->setUrl('http://example.com/exclude_path_website');
         self::checkResponse($t->doTrackPageView('Exclude path website'));
     }
 
@@ -108,11 +121,8 @@ class FewVisitsAnonymizedFixture extends Fixture
     {
         $this->getPrivacyConfig()->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        $t->setIp('56.11.55.76');
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
+        $t = self::prepareTracker($this->idSite, $this->dateTime, 'exclude_all_search', '56.11.55.76');
         $t->setUrlReferrer('http://google.com/search?q=exclude_all_search');
-        $t->setUrl('http://example.com/exclude_all_search');
         self::checkResponse($t->doTrackPageView('Exclude all search'));
     }
 
@@ -120,11 +130,8 @@ class FewVisitsAnonymizedFixture extends Fixture
     {
         $this->getPrivacyConfig()->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_QUERY;
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        $t->setIp('56.11.55.77');
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
+        $t = self::prepareTracker($this->idSite, $this->dateTime, 'exclude_query_social', '56.11.55.77');
         $t->setUrlReferrer('https://www.facebook.com/profile?id=exclude_query_social');
-        $t->setUrl('http://example.com/exclude_query_social');
         self::checkResponse($t->doTrackPageView('Exclude query social'));
     }
 
@@ -132,11 +139,8 @@ class FewVisitsAnonymizedFixture extends Fixture
     {
         $this->getPrivacyConfig()->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        $t->setIp('56.11.55.78');
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
+        $t = self::prepareTracker($this->idSite, $this->dateTime, 'exclude_query_social', '56.11.55.78');
         $t->setUrlReferrer('https://www.facebook.com/profile?id=exclude_query_social');
-        $t->setUrl('http://example.com/exclude_query_social');
         self::checkResponse($t->doTrackPageView('Exclude query social'));
     }
 
@@ -144,11 +148,13 @@ class FewVisitsAnonymizedFixture extends Fixture
     {
         $this->getPrivacyConfig()->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
 
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
-        $t->setIp('56.11.55.78');
-        $t->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(0.1)->getDatetime());
+        $t = self::prepareTracker(
+            $this->idSite,
+            $this->dateTime,
+            'exclude_query_social?mtm_kwd=campaignkeyword&mtm_campaign=campaign',
+            '56.11.55.78'
+        );
         $t->setUrlReferrer('https://www.example.com/exclude_all_campaign');
-        $t->setUrl('http://example.com/exclude_query_social?mtm_kwd=campaignkeyword&mtm_campaign=campaign');
         self::checkResponse($t->doTrackPageView('Exclude query social'));
     }
 }
