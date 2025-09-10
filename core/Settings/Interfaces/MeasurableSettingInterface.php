@@ -2,6 +2,7 @@
 
 namespace Piwik\Settings\Interfaces;
 
+use Piwik\Settings\Measurable\MeasurableProperty;
 use Piwik\Settings\Measurable\MeasurableSetting;
 
 /**
@@ -9,7 +10,10 @@ use Piwik\Settings\Measurable\MeasurableSetting;
  */
 interface MeasurableSettingInterface
 {
-    public static function getMeasurableSetting(int $idSite): MeasurableSetting;
+    /**
+     * @return MeasurableSetting|MeasurableProperty
+     */
+    public static function getMeasurableSetting(int $idSite);
 
     /**
      * @return T

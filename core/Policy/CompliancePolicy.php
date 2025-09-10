@@ -12,6 +12,10 @@ use Piwik\Settings\Interfaces\SystemSettingInterface;
 use Piwik\Settings\Interfaces\Traits\Setters\MeasurableSetterTrait;
 use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
 
+/**
+ * @implements SystemSettingInterface<bool>
+ * @implements MeasurableSettingInterface<bool>
+ */
 abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSettingInterface
 {
     /**
@@ -26,7 +30,39 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
 
     abstract public static function getName(): string;
     abstract public static function getDescription(): string;
+    abstract public static function getTitle(): string;
 
+    /**
+     * @return array<string>
+     */
+    abstract protected static function getMinimumRequiredPlugins(): array;
+
+    /**
+     * @return array<string, string>
+     */
+    public static function getDetails(): array
+    {
+        return [
+            'id' => static::getName(),
+            'title' => static::getTitle(),
+            'description' => static::getDescription()
+        ];
+    }
+
+    /**
+     * @throws \Exception when required plugins are not active
+     */
+    protected static function checkRequiredPluginsActive(): void
+    {
+        $plugins = static::getMinimumRequiredPlugins();
+        $pluginManager = Manager::getInstance();
+
+        foreach ($plugins as $plugin) {
+            if (!$pluginManager->isPluginActivated($plugin)) {
+                throw new Exception("Plugin $plugin is not activated");
+            }
+        }
+    }
 
     /**
      * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
@@ -73,6 +109,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
 
     protected static function getSystemName(): string
     {
+        // TODO
         return 'cnil_policy_enabled';
     }
 
@@ -88,6 +125,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
 
     protected static function getMeasurableName(): string
     {
+        // TODO
         return 'cnil_policy_enabled';
     }
 
@@ -97,22 +135,34 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     }
 
     /**
-     * @throws \Exception when $idSite is not a valid id or 'all'
+     * If the policy is active at the instance level,
+     * disabling the policy for a site will also disable it
+     * for the instance.
      */
     public static function setActiveStatus(?int $idSite, bool $isActive): void
     {
         if (isset($idSite)) {
             self::setMeasurableValue($idSite, $isActive);
+            if (self::getSystemValue() && !$isActive) {
+                self::setSystemValue($isActive);
+            }
             return;
         }
         self::setSystemValue($isActive);
     }
 
+    /**
+     * If the policy is active at the instance level, then
+     * this function will return true for all sites.
+     */
     public static function isActive(?int $idSite): bool
     {
-        if (isset($idSite)) {
+        self::checkRequiredPluginsActive();
+
+        $instanceLevel = self::getSystemValue();
+        if (!$instanceLevel && isset($idSite)) {
             return self::getMeasurableValue($idSite);
         }
-        return self::getSystemValue();
+        return $instanceLevel;
     }
 }

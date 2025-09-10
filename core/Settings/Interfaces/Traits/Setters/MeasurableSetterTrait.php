@@ -9,14 +9,17 @@ use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
  */
 trait MeasurableSetterTrait
 {
+    /**
+     * @use MeasurableGetterTrait<T>
+     */
     use MeasurableGetterTrait;
 
     /**
      * @param T $value
      */
-    public static function setMeasurableValue(int $idSite, $value): void
+    public static function setMeasurableValue(int $idSite, $value, bool $isProperty = false): void
     {
-        $setting = self::getMeasurableSetting($idSite);
+        $setting = self::getMeasurableSetting($idSite, $isProperty);
         $setting->setValue($value);
         $setting->save();
     }

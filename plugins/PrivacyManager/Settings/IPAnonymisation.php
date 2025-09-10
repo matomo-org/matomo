@@ -70,7 +70,7 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
 
     public static function getInstance(?int $idSite = null): self
     {
-        $optionValue = self::getOptionValue();
+        $optionValue = intval(self::getOptionValue());
 
         $values = self::getPolicyValues($idSite);
         $values['option'] = $optionValue;

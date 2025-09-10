@@ -28,7 +28,7 @@ trait PolicyComparisonTrait
     }
 
     /**
-     * @param array<string, T> $policies
+     * @param array<string, T|null> $policies
      *
      * @return T
      */
@@ -46,10 +46,10 @@ trait PolicyComparisonTrait
     }
 
     /**
-     * @param T $value1
-     * @param T $value2
+     * @param T|null $value1
+     * @param T|null $value2
      *
-     * @return T
+     * @return T|null
      */
     abstract protected static function compareStrictness($value1, $value2);
 }
