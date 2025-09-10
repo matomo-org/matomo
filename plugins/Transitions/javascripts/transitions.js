@@ -215,7 +215,7 @@ function Piwik_Transitions(actionType, actionName, rowAction, overrideParams) {
     this.ajax = new Piwik_Transitions_Ajax();
     this.model = new Piwik_Transitions_Model(this.ajax);
 
-    this.leftGroups = ['previousPages', 'previousSiteSearches', 'searchEngines', 'socialNetworks', 'websites', 'campaigns'];
+    this.leftGroups = ['previousPages', 'previousSiteSearches', 'searchEngines', 'socialNetworks', 'aiAssistants', 'websites', 'campaigns'];
     this.rightGroups = ['followingPages', 'followingSiteSearches', 'downloads', 'outlinks'];
 }
 
@@ -264,7 +264,7 @@ Piwik_Transitions.prototype.showPopover = function (showEmbeddedInReport) {
         self.model.htmlLoaded();
 
         if (self.model.searchEnginesNbTransitions > 0 && self.model.websitesNbTransitions > 0 && self.model.socialNetworksNbTransitions > 0
-            && self.model.campaignsNbTransitions > 0) {
+            && self.model.aiAssistantsNbTransitions > 0 && self.model.campaignsNbTransitions > 0) {
             self.canvas.narrowMode();
         }
 
@@ -485,6 +485,7 @@ Piwik_Transitions.prototype.renderCenterBox = function () {
     showMetric('PreviousPages', 'previousPagesNbTransitions', 'left', true);
     showMetric('SearchEngines', 'searchEnginesNbTransitions', 'left', true);
     showMetric('SocialNetworks', 'socialNetworksNbTransitions', 'left', true);
+    showMetric('AIAssistants', 'aiAssistantsNbTransitions', 'left', true);
     showMetric('Websites', 'websitesNbTransitions', 'left', true);
     showMetric('Campaigns', 'campaignsNbTransitions', 'left', true);
 
@@ -1367,6 +1368,7 @@ Piwik_Transitions_Model.prototype.htmlLoaded = function () {
         followingSiteSearches: Piwik_Transitions_Translations.toFollowingSiteSearchesInline,
         searchEngines: Piwik_Transitions_Translations.fromSearchEnginesInline,
         socialNetworks: Piwik_Transitions_Translations.fromSocialNetworksInline,
+        aiAssistants: Piwik_Transitions_Translations.fromAIAssistantsInline,
         websites: Piwik_Transitions_Translations.fromWebsitesInline,
         campaigns: Piwik_Transitions_Translations.fromCampaignsInline,
         outlinks: Piwik_Transitions_Translations.outlinksInline,
@@ -1388,6 +1390,9 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, o
 
     this.socialNetworksNbTransitions = 0;
     this.socialNetworks = [];
+
+    this.aiAssistantsNbTransitions = 0;
+    this.aiAssistants = [];
 
     this.websitesNbTransitions = 0;
     this.websites = [];
@@ -1446,6 +1451,10 @@ Piwik_Transitions_Model.prototype.loadData = function (actionType, actionName, o
                     self.socialNetworksNbTransitions = referrer.visits;
                     self.socialNetworks = referrer.details;
                     self.groupTitles.socialNetworks = referrer.label;
+                } else if (referrer.shortName == 'ai') {
+                    self.aiAssistantsNbTransitions = referrer.visits;
+                    self.aiAssistants = referrer.details;
+                    self.groupTitles.aiAssistants = referrer.label;
                 } else if (referrer.shortName == 'website') {
                     self.websitesNbTransitions = referrer.visits;
                     self.websites = referrer.details;

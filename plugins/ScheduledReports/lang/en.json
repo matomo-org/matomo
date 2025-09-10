@@ -10,14 +10,11 @@
         "CreateAndScheduleReport": "Create and Schedule a report",
         "CreateReport": "Create Report",
         "CustomVisitorSegment": "Custom Visitor Segment:",
-        "DescriptionOnFirstPage": "The report description will be displayed in the email message, as well as on the first page of the report.",
+        "DescriptionOnFirstPageScheduledReport": "The report description will be displayed in the scheduled report message, as well as on the first page of the report.",
         "DisplayFormat_TablesOnly": "Display Tables only (no graphs)",
         "EmailHello": "Hello,",
-        "EmailReports": "Email Reports",
-        "EmailSchedule": "Email Schedule",
         "EvolutionGraph": "Show Historical Graphs for the top %s values",
         "FrontPage": "Front Page",
-        "PersonalEmailReports": "Personal Email Reports",
         "MonthlyScheduleHelp": "Monthly schedule: report will be sent the first day of each month.",
         "MustBeLoggedIn": "You must be logged in to create and schedule custom reports.",
         "NoRecipients": "This report has no recipients",
@@ -36,7 +33,7 @@
         "ReportType": "Send report via",
         "ReportUpdated": "Report updated",
         "Segment_Deletion_Error": "This segment cannot be deleted or made invisible to other users because it is used to generate email report(s) %s. Please retry after removing this segment from this report(s).",
-        "Segment_Help": "You can select an existing custom segment to apply to data in this email report. You may create and edit custom segments in your dashboard %1$s(click here to open)%2$s, then click on the \"%3$s\" box, then \"%4$s\".",
+        "Segment_HelpScheduledReport": "You can select an existing custom segment to apply to data in this scheduled report. You may create and edit custom segments in your dashboard %1$s(click here to open)%2$s, then click on the \"%3$s\" box, then \"%4$s\".",
         "SegmentAppliedToReports": "The segment '%s' is applied to the reports.",
         "SegmentDeleted": "Segment deleted",
         "SendReportNow": "Send Report now",
@@ -58,7 +55,10 @@
         "EvolutionGraphsShowForEachInPeriod": "Evolution graphs show the evolution for %1$seach day%2$s in the last %3$s",
         "EvolutionGraphsShowForPreviousN": "Evolution graphs show the evolution over the previous N %s",
         "ReportPeriod": "Report Period",
-        "ReportPeriodHelp": "The period of data covered by this report. By default this is the same as the email schedule, so if the report is sent weekly, it will contain information regarding the last week.",
-        "ReportPeriodHelp2": "You can change this, however, if you want to see different information and still retain the email schedule. For example, if the email schedule is weekly, and the report period is 'day', you will get information for the last day, every week."
+        "ScheduleReportPeriodHelp": "The period of data covered by this report. By default this is the same as the report schedule, so if the report is sent weekly, it will contain information regarding the last week.",
+        "ScheduleReportPeriodHelp2": "You can change this, however, if you want to see different information and still retain the report schedule. For example, if the report schedule is weekly, and the report period is 'day', you will get information for the last day, every week.",
+        "ScheduleReports": "Schedule Reports",
+        "PersonalScheduledReports": "Personal Scheduled Reports",
+        "ReportSchedule": "Report Schedule"
     }
 }

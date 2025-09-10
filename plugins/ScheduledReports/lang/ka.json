@@ -2,8 +2,6 @@
     "ScheduledReports": {
         "AlsoSendReportToTheseEmails": "რეპორტი ასევე გააგზავნეთ ელ.ფოსტის ამ მისამართებზე (ერთი მისამართი ერთ ხაზზე):",
         "EmailHello": "სალამი,",
-        "EmailReports": "რეპორტები ელ.ფოსტაზე",
-        "EmailSchedule": "ელ.ფოსტაზე გაგზავნის განრიგი",
         "MonthlyScheduleHelp": "ყოველთვიური განრიგი: რეპორტი გაიგზავნება ყოველი თვის პირველ დღეს.",
         "PiwikReports": "Matomo რეპორტები",
         "SendReportNow": "გაგზავნეთ რეპორტი ახლა",

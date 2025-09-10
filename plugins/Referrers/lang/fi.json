@@ -39,7 +39,7 @@
         "SearchEnginesDocumentation": "Kävijä tuli sivullesi hakukoneesta. %1$s Katso %2$s raportista lisätietoja.",
         "SearchEnginesReportDocumentation": "Tämä raportti näyttää, mitkä hakukoneet viittasivat kävijöitä sivuillesi. %s Näet hakusanat klikkaamalla hakukoneen nimeä.",
         "Socials": "Sosiaaliset verkostot",
-        "SocialsReportDocumentation": "Tämä raportti näyttää mitkä sosiaaliset verkostot johtivat kävijöitä verkkosivullesi.<br>Klikkaamalla riviä taulukossa näet mistä sosiaalisesta verkostosta kävijät tulivat verkkosivullesi.",
+        "SocialsReportDocumentation": "Tämä raportti näyttää mitkä sosiaaliset verkostot johtivat kävijöitä verkkosivullesi.%sKlikkaamalla riviä taulukossa näet mistä sosiaalisesta verkostosta kävijät tulivat verkkosivullesi.",
         "SubmenuSearchEngines": "Hakukoneet ja avainsanat",
         "SubmenuWebsitesOnly": "Sivustot",
         "Type": "Kanavatyyppi",

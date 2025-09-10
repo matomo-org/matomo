@@ -3,8 +3,6 @@
         "AlsoSendReportToTheseEmails": "นอกจากนี้ ส่งรายงานไปยังอีเมล์ของเหล่านี้ (หนึ่งอีเมล์ต่อบรรทัด):",
         "CreateReport": "สร้างรายงาน",
         "EmailHello": "สวัสดี",
-        "EmailReports": "รายงานอีเมล์",
-        "EmailSchedule": "ตารางการทำงานของอีเมล์",
         "MonthlyScheduleHelp": "ตารางเวลารายเดือน: รายงานจะถูกส่งไปวันแรกของแต่ละเดือน",
         "Pagination": "หน้า %1$s จาก %2$s",
         "PiwikReports": "รายงาน Matomo",

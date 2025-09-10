@@ -65,7 +65,7 @@
         "SearchEnginesSubcategoryHelp1": "Deze sectie helpt u bij het analyseren van uw zoekmachineoptimalisatie en prestaties. U kunt uw populairste trefwoorden analyseren met de gecombineerde trefwoordrapporten of zien welke trefwoorden goed presteren op specifieke zoekmachines voor meer gerichte analyse en optimalisatie.",
         "SearchEnginesSubcategoryHelp2": "Gebruikers van %1$sMatomo Cloud%2$s en de %3$sSearch Engine Keywords Performance%4$s plugin krijgen de beste resultaten voor dit rapport.",
         "Socials": "Sociale netwerken",
-        "SocialsReportDocumentation": "Dit rapport toont welke sociale netwerken bezoekers naar uw website hebben geleid. <br>Door te klikken op een rij in de tabel, kunt u zien via welke sociale netwerkpagina's bezoekers naar uw website kwamen.",
+        "SocialsReportDocumentation": "Dit rapport toont welke sociale netwerken bezoekers naar uw website hebben geleid.%sDoor te klikken op een rij in de tabel, kunt u zien via welke sociale netwerkpagina's bezoekers naar uw website kwamen.",
         "SocialsSubcategoryHelp": "In deze tafel kunt u bekijken welke websites bezoekers naar uw site verwijzen.",
         "SubmenuSearchEngines": "Zoekmachines &amp; sleutelwoorden",
         "SubmenuWebsitesOnly": "Websites",

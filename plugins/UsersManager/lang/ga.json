@@ -40,6 +40,7 @@
         "BackToUser": "Ar ais chuig Úsáideoirí",
         "BasicInformation": "Eolas Bunúsach",
         "BulkActions": "Bulcghníomhartha",
+        "CannotRevokeOwnSuperuserAccess": "Ní féidir leat do rochtain fhorúsáideora féin a chúlghairm.",
         "Capabilities": "Cumais",
         "CapabilitiesHelp": "Is cumais aonair iad cumais ar féidir le húsáideoirí iad a dheonú. Féadfaidh róil, de réir réamhshocraithe, cumais áirithe a dheonú. Mar shampla, ligfidh an ról Riaracháin go huathoibríoch d'úsáideoirí clibeanna a chur in eagar sa Bhainisteoir Clib. I gcás úsáideoirí nach bhfuil chomh cumhachtach, áfach, is féidir leat cumais úsáideoirí a thabhairt go sainráite.",
         "Capability": "Cumas",

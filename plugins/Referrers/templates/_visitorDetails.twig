@@ -10,9 +10,19 @@
         <span>{{ 'Referrers_ColumnCampaign'|translate }}: {{ visitInfo.getColumn('referrerName') }}
             {% if visitInfo.getColumn('referrerKeyword') is not empty %} - {{ visitInfo.getColumn('referrerKeyword') }}{% endif %}</span>
     {% endif %}
+    {% if visitInfo.getColumn('referrerType') == 'ai' %}
+        <span>{{ 'Referrers_ColumnAIAssistant'|translate }}:</span>
+        {% if visitInfo.getColumn('referrerAIAssistantIcon') %}
+            <img width="16" src="{{ visitInfo.getColumn('referrerAIAssistantIcon') }}" alt="{{ visitInfo.getColumn('referrerName') }}"/>
+        {% endif %}
+        <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl')|e('html')|e('html') }}"
+           style="text-decoration:underline;">
+            {{ visitInfo.getColumn('referrerName') }}
+        </a>
+    {% endif %}
     {% if visitInfo.getColumn('referrerType') == 'social' %}
         <span>{{ 'Referrers_ColumnSocial'|translate }}:</span>
-        {% if visitInfo.getColumn('referrerSearchEngineIcon') %}
+        {% if visitInfo.getColumn('referrerSocialNetworkIcon') %}
             <img width="16" src="{{ visitInfo.getColumn('referrerSocialNetworkIcon') }}" alt="{{ visitInfo.getColumn('referrerName') }}"/>
         {% endif %}
         <a href="{{ visitInfo.getColumn('referrerUrl')|safelink|e('html_attr') }}" rel="noreferrer" target="_blank" class="visitorLogTooltip" title="{{ visitInfo.getColumn('referrerUrl')|e('html')|e('html') }}"

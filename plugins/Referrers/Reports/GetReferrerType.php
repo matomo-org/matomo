@@ -95,6 +95,9 @@ class GetReferrerType extends Base
             case Common::REFERRER_TYPE_SOCIAL_NETWORK:
                 $labelColumnTitle = Piwik::translate('Referrers_ColumnSocial');
                 break;
+            case Common::REFERRER_TYPE_AI_ASSISTANT:
+                $labelColumnTitle = Piwik::translate('Referrers_ColumnAIAssistant');
+                break;
             case Common::REFERRER_TYPE_WEBSITE:
                 $labelColumnTitle = Piwik::translate('Referrers_ColumnWebsite');
                 break;

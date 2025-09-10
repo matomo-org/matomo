@@ -49,6 +49,9 @@ class Referrers extends \Piwik\Plugin
         $translations['Referrers_visitorsFromSocialNetworks'] = Piwik::translate('Referrers_VisitorsFromSocialNetworks');
         $translations['Referrers_visitorsFromSocialNetworks_percent'] = Piwik::translate('Referrers_PercentOfX', $translations['Referrers_visitorsFromSocialNetworks']);
 
+        $translations['Referrers_visitorsFromAIAssistants'] = Piwik::translate('Referrers_VisitorsFromAIAssistants');
+        $translations['Referrers_visitorsFromAIAssistants_percent'] = Piwik::translate('Referrers_PercentOfX', $translations['Referrers_visitorsFromAIAssistants']);
+
         $translations['Referrers_visitorsFromDirectEntry'] = Piwik::translate('Referrers_VisitorsFromDirectEntry');
         $translations['Referrers_visitorsFromDirectEntry_percent'] = Piwik::translate('Referrers_PercentOfX', $translations['Referrers_visitorsFromDirectEntry']);
 
@@ -60,6 +63,7 @@ class Referrers extends \Piwik\Plugin
 
         $translations[Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctSearchEngines'));
         $translations[Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctSocialNetworks'));
+        $translations[Archiver::METRIC_DISTINCT_AI_ASSISTANT_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctAIAssistants'));
         $translations[Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctWebsites'));
         $translations[Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctKeywords'));
         $translations[Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME] = ucfirst(Piwik::translate('Referrers_DistinctCampaigns'));
@@ -73,6 +77,9 @@ class Referrers extends \Piwik\Plugin
         $types['Referrers_visitorsFromSocialNetworks'] = Dimension::TYPE_NUMBER;
         $types['Referrers_visitorsFromSocialNetworks_percent'] = Dimension::TYPE_PERCENT;
 
+        $types['Referrers_visitorsFromAIAssistants'] = Dimension::TYPE_NUMBER;
+        $types['Referrers_visitorsFromAIAssistants_percent'] = Dimension::TYPE_PERCENT;
+
         $types['Referrers_visitorsFromDirectEntry'] = Dimension::TYPE_NUMBER;
         $types['Referrers_visitorsFromDirectEntry_percent'] = Dimension::TYPE_PERCENT;
 
@@ -84,6 +91,7 @@ class Referrers extends \Piwik\Plugin
 
         $types[Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME] = Dimension::TYPE_NUMBER;
         $types[Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME] = Dimension::TYPE_NUMBER;
+        $types[Archiver::METRIC_DISTINCT_AI_ASSISTANT_RECORD_NAME] = Dimension::TYPE_NUMBER;
         $types[Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME] = Dimension::TYPE_NUMBER;
         $types[Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME] = Dimension::TYPE_NUMBER;
         $types[Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME] = Dimension::TYPE_NUMBER;
@@ -151,6 +159,7 @@ class Referrers extends \Piwik\Plugin
         $reports['Referrers_getCampaigns'] = array();
         $reports['Referrers_getSocials']   = array();
         $reports['Referrers_getSearchEngines'] = array();
+        $reports['Referrers_getAIAssistants'] = [];
     }
 
     /**
@@ -173,6 +182,9 @@ class Referrers extends \Piwik\Plugin
                 break;
             case Common::REFERRER_TYPE_SOCIAL_NETWORK:
                 $indexTranslation = 'Referrers_ColumnSocial';
+                break;
+            case Common::REFERRER_TYPE_AI_ASSISTANT:
+                $indexTranslation = 'Referrers_ColumnAIAssistant';
                 break;
             case Common::REFERRER_TYPE_WEBSITE:
                 $indexTranslation = 'Referrers_ColumnWebsite';
