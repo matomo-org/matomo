@@ -9,6 +9,9 @@ use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
  */
 trait MeasurableSetterTrait
 {
+    /**
+     * @use MeasurableGetterTrait<T>
+     */
     use MeasurableGetterTrait;
 
     /**

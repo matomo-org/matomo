@@ -4,6 +4,9 @@ namespace Piwik\Policy;
 
 class PolicyManager
 {
+    /**
+     * @return array<class-string<CompliancePolicy>>
+     */
     public static function getAllPolicies(): array
     {
         return [
@@ -12,14 +15,20 @@ class PolicyManager
         ];
     }
 
+    /**
+     * @return array<array<string, string>>
+     */
     public static function getAllPoliciesDecorated(): array
     {
         $policies = self::getAllPolicies();
-        return array_map(function($policyClass) {
+        return array_map(function ($policyClass) {
             return $policyClass::getDetails();
         }, $policies);
     }
 
+    /**
+     * @return class-string<CompliancePolicy>
+     */
     public static function getPolicyByName(string $policyName): ?string
     {
         $policies = self::getAllPolicies();
@@ -28,7 +37,7 @@ class PolicyManager
                 return $policyClass;
             }
         }
-        
+
         return null;
     }
 }

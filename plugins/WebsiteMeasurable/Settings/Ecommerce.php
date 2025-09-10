@@ -21,12 +21,12 @@ use Piwik\Site;
 class Ecommerce implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
     /**
-     * @use MeasurableGetterTrait<bool>
+     * @use MeasurableGetterTrait<int>
      */
     use MeasurableGetterTrait;
 
     /**
-     * @use PolicyComparisonTrait<bool>
+     * @use PolicyComparisonTrait<int>
      */
     use PolicyComparisonTrait;
 
@@ -52,7 +52,7 @@ class Ecommerce implements MeasurableSettingInterface, PolicyComparisonInterface
 
     protected static function getMeasurableDefaultValue()
     {
-        return false;
+        return 0;
     }
 
     protected static function getMeasurableType(): string
@@ -97,7 +97,7 @@ class Ecommerce implements MeasurableSettingInterface, PolicyComparisonInterface
 
             $anyActive = array_sum($settingStatesPerMeasurable) !== 0;
 
-            $values['system'] = $anyActive;
+            $values['system'] = intval($anyActive);
         } else {
             $values['measurable'] = self::getMeasurableValue($idSite, true);
         }

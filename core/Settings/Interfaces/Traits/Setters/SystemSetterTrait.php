@@ -9,6 +9,9 @@ use Piwik\Settings\Interfaces\Traits\Getters\SystemGetterTrait;
  */
 trait SystemSetterTrait
 {
+    /**
+     * @use SystemGetterTrait<T>
+     */
     use SystemGetterTrait;
 
     /**

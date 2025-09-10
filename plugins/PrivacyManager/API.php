@@ -26,9 +26,7 @@ use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Plugins\PrivacyManager\Settings\ReportRetention;
-use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\CompliancePolicy;
-use Piwik\Policy\HipaaPolicy;
 use Piwik\Policy\PolicyManager;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
@@ -419,6 +417,10 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    /**
+     * @internal
+     * @return array<array<string,string>>
+     */
     public function getCompliancePolicies(): array
     {
         return PolicyManager::getAllPoliciesDecorated();
@@ -427,6 +429,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      * @param int|string $idSite
+     * @return array<string,bool|array<int, array<string,string>>>
      */
     public function getComplianceStatus($idSite, string $complianceType): array
     {
@@ -526,15 +529,6 @@ class API extends \Piwik\Plugin\API
         $value2 = VisitorLog::getInstance(1)->getValue();
         $value3 = IPAnonymisation::getInstance()->getValue();
         $value4 = IpAddressMaskLength::getInstance()->getValue();
-
-        $settings = CnilPolicy::getAllControlledSettings();
-
-        $policySettingValues = [];
-        foreach ($settings as $setting) {
-            $policySettingValues[$setting] = $setting::getInstance(1)->getValue();
-        }
-
-        return [$value, $value2, $value3, $value4, $policySettingValues];
     }
 
     private function savePurgeDataSettings($settings)

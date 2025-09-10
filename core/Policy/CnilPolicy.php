@@ -20,7 +20,7 @@ class CnilPolicy extends CompliancePolicy
     {
         return Piwik::translate('General_ComplianceCNILTitle');
     }
-    
+
     protected static function getMinimumRequiredPlugins(): array
     {
         return [
