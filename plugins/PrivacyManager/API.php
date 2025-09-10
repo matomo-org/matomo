@@ -23,17 +23,11 @@ use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
-<<<<<<< HEAD
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Plugins\PrivacyManager\Settings\ReportRetention;
 use Piwik\Policy\CompliancePolicy;
 use Piwik\Policy\PolicyManager;
-=======
-use Piwik\Policy\Compliance\PolicyEngine;
-use Piwik\Policy\SettingsManager;
-use Piwik\Settings\FieldConfig;
->>>>>>> 62c9e74b (saving progress)
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 
@@ -531,14 +525,10 @@ class API extends \Piwik\Plugin\API
 
     public function testGetSetting()
     {
-<<<<<<< HEAD
         $value = ReportRetention::getInstance()->getValue();
         $value2 = VisitorLog::getInstance(1)->getValue();
         $value3 = IPAnonymisation::getInstance()->getValue();
         $value4 = IpAddressMaskLength::getInstance()->getValue();
-=======
-        SettingsManager::getSetting('PrivacyManager.ReportRetentionPeriod', FieldConfig::TYPE_INT);
->>>>>>> 62c9e74b (saving progress)
     }
 
     private function savePurgeDataSettings($settings)
