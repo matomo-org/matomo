@@ -38,6 +38,7 @@ class FewVisitsAnonymizedFixture extends Fixture
         $this->trackAnonymizedReferrerExcludeQuerySocial();
         $this->trackAnonymizedReferrerExcludeAllSocial();
         $this->trackAnonymizedReferrerExcludeAllCampaign();
+        $this->trackAnonymizedIp();
     }
 
     public function tearDown(): void
@@ -220,5 +221,28 @@ class FewVisitsAnonymizedFixture extends Fixture
         );
         $t->setUrlReferrer('https://www.example.com/exclude_all_campaign');
         self::checkResponse($t->doTrackPageView('Exclude query social'));
+    }
+
+    protected function trackAnonymizedIp()
+    {
+        $pc = $this->getPrivacyConfig();
+        $pc->ipAnonymizerEnabled = true;
+        $pc->ipAddressMaskLength = 3;
+
+        $t = self::prepareTracker($this->idSite, $this->dateTime);
+        $t->setForceNewVisit();
+        self::checkResponse($t->doTrackPageView('Viewing homepage'));
+
+        $pc->ipAnonymizerEnabled = false;
+
+        $pc2 = $this->getPrivacyConfig($this->idSite2);
+        $pc2->ipAnonymizerEnabled = true;
+        $pc2->ipAddressMaskLength = 4;
+
+        $t = self::prepareTracker($this->idSite2, $this->dateTime);
+        $t->setForceNewVisit();
+        self::checkResponse($t->doTrackPageView('Viewing homepage'));
+
+        $pc2->ipAnonymizerEnabled = false;
     }
 }
