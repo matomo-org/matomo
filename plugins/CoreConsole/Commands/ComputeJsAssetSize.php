@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\CoreConsole\Commands;
 
 use Piwik\AssetManager;
-use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
 use Piwik\Development;
 use Piwik\Metrics\Formatter;
 use Piwik\Plugin;
@@ -20,18 +19,9 @@ use Piwik\ProxyHttp;
 use Piwik\SettingsPiwik;
 use Piwik\Theme;
 
-/**
- * @phpstan-type TotalsType array{merged: int, gzip: int}
- */
 class ComputeJsAssetSize extends ConsoleCommand
 {
-    /**
-     * @var TotalsType
-     */
-    private $totals = [
-        'merged' => 0,
-        'gzip'   => 0,
-    ];
+    private $totals = [];
 
     protected function configure()
     {
@@ -51,12 +41,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         $input = $this->getInput();
         $output = $this->getOutput();
         $noDelete = $input->getOption('no-delete');
-        /** @var null|string $plugin */
         $plugin = $input->getOption('plugin');
-
-        if (!empty($plugin) && !Manager::getInstance()->isValidPluginName($plugin)) {
-            throw new \Exception('Invalid plugin name: ' . $plugin);
-        }
 
         $this->checkDevelopmentModeDisabled();
 
@@ -69,11 +54,11 @@ class ComputeJsAssetSize extends ConsoleCommand
         $this->deleteMergedAssets();
         $this->buildAssets($fetcher);
 
-        $output->writeln('');
+        $output->writeln("");
 
         $this->printCurrentGitHashAndBranch($plugin);
 
-        $output->writeln('');
+        $output->writeln("");
         $this->printFilesizes($fetcher);
 
         if (!$noDelete) {
@@ -83,7 +68,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         return self::SUCCESS;
     }
 
-    private function ensureThirdPartyPluginsActivated(?string $plugin = null): void
+    private function ensureThirdPartyPluginsActivated($plugin = null)
     {
         $expectedPluginsLoadedAndActivated = [
             "CorePluginsAdmin",
@@ -195,7 +180,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         }
     }
 
-    private function buildAssets(PluginUmdAssetFetcher $fetcher): void
+    private function buildAssets(AssetManager\UIAssetFetcher\PluginUmdAssetFetcher $fetcher)
     {
         AssetManager::getInstance()->getMergedCoreJavaScript();
         AssetManager::getInstance()->getMergedNonCoreJavaScript();
@@ -206,12 +191,12 @@ class ComputeJsAssetSize extends ConsoleCommand
         }
     }
 
-    private function deleteMergedAssets(): void
+    private function deleteMergedAssets()
     {
         AssetManager::getInstance()->removeMergedAssets();
     }
 
-    private function printFilesizes(PluginUmdAssetFetcher $fetcher): void
+    private function printFilesizes(AssetManager\UIAssetFetcher\PluginUmdAssetFetcher $fetcher)
     {
         $fileSizes = [];
 
@@ -233,30 +218,28 @@ class ComputeJsAssetSize extends ConsoleCommand
         $this->renderTable(['File', 'Size', 'Size (gzipped)'], $fileSizes);
     }
 
-    /**
-     * @param key-of<TotalsType> $type
-     */
-    private function getFileSize(string $fileLocation, string $type): string
+    private function getFileSize($fileLocation, $type)
     {
-        $size = (int)filesize($fileLocation);
-        $this->totals[$type] += $size;
+        $size = filesize($fileLocation);
+        $this->totals[$type] = ($this->totals[$type] ?? 0) + $size;
         return $this->getFormattedSize($size);
     }
 
-    private function getFormattedSize(int $size): string
+    private function getFormattedSize($size)
     {
         $formatter = new Formatter();
-        return $formatter->getPrettySizeFromBytes($size, 'K', 2);
+        $size = $formatter->getPrettySizeFromBytes($size, 'K', 2);
+        return $size;
     }
 
-    private function checkDevelopmentModeDisabled(): void
+    private function checkDevelopmentModeDisabled()
     {
         if (Development::isEnabled()) {
             throw new \Exception("This command is to estimate production build sizes, so development mode must be disabled for it.");
         }
     }
 
-    private function getGzippedFileSize(string $path): string
+    private function getGzippedFileSize($path)
     {
         $data = file_get_contents($path);
         $data = ProxyHttp::gzencode($data);
@@ -270,17 +253,17 @@ class ComputeJsAssetSize extends ConsoleCommand
         return $this->getFileSize($compressedPath, 'gzip');
     }
 
-    private function printCurrentGitHashAndBranch(?string $plugin = null): void
+    private function printCurrentGitHashAndBranch($plugin = null)
     {
-        $branchName = trim(shell_exec("git rev-parse --abbrev-ref HEAD") ?: '');
-        $lastCommit = trim(shell_exec("git log --pretty=format:'%h' -n 1") ?: '');
+        $branchName = trim(`git rev-parse --abbrev-ref HEAD`);
+        $lastCommit = trim(`git log --pretty=format:'%h' -n 1`);
 
         $pluginSuffix = '';
         if ($plugin) {
-            $prefix = 'cd ' . escapeshellarg(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin) . '; ';
+            $prefix = 'cd "' . addslashes(PIWIK_INCLUDE_PATH . '/plugins/' . $plugin) . '"; ';
 
-            $pluginBranchName = trim(shell_exec($prefix . 'git rev-parse --abbrev-ref HEAD') ?: '');
-            $pluginLastCommit = trim(shell_exec($prefix . 'git log --pretty=format:\'%h\' -n 1') ?: '');
+            $pluginBranchName = trim(`$prefix git rev-parse --abbrev-ref HEAD`);
+            $pluginLastCommit = trim(`$prefix git log --pretty=format:'%h' -n 1`);
 
             $pluginSuffix = " [$plugin: $pluginBranchName ($pluginLastCommit)]";
         }
@@ -288,7 +271,7 @@ class ComputeJsAssetSize extends ConsoleCommand
         $this->getOutput()->writeln("<info>$branchName ($lastCommit)$pluginSuffix</info>");
     }
 
-    private function makeUmdFetcher(): PluginUmdAssetFetcher
+    private function makeUmdFetcher()
     {
         $plugins = Manager::getInstance()->getPluginsLoadedAndActivated();
         $pluginNames = array_map(function ($p) {
@@ -300,14 +283,11 @@ class ComputeJsAssetSize extends ConsoleCommand
             $theme = new Theme();
         }
 
-        return new PluginUmdAssetFetcher($pluginNames, $theme, null);
+        $fetcher = new AssetManager\UIAssetFetcher\PluginUmdAssetFetcher($pluginNames, $theme, null);
+        return $fetcher;
     }
 
-
-    /**
-     * @return array{0: string, 1: string, 2: string}
-     */
-    private function getFileSizeRow(AssetManager\UIAsset $asset): array
+    private function getFileSizeRow(AssetManager\UIAsset $asset)
     {
         return [$asset->getRelativeLocation(), $this->getFileSize($asset->getAbsoluteLocation(), 'merged'), $this->getGzippedFileSize($asset->getAbsoluteLocation())];
     }
