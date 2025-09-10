@@ -154,7 +154,7 @@ abstract class Dimension
      *
      * If the closure returns NULL, then Piwik assumes the segment sub-string will not match any visitor.
      *
-     * @var string|\Closure|callable
+     * @var string|\Closure
      * @api since Piwik 3.2.0
      */
     protected $sqlFilter;
@@ -621,15 +621,11 @@ abstract class Dimension
      */
     public function getAcceptValues()
     {
-        if (!empty($this->acceptValues) && strpos($this->acceptValues, '_')) {
-            return Piwik::translate($this->acceptValues);
-        }
-
         return $this->acceptValues;
     }
 
     /**
-     * @return callable|\Closure|string|null
+     * @return \Closure|string|null
      * @ignore
      */
     public function getSqlFilter()

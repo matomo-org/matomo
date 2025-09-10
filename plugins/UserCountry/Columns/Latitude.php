@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\UserCountry\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -24,11 +23,7 @@ class Latitude extends Base
     protected $segmentName = 'latitude';
     protected $nameSingular = 'UserCountry_Latitude';
     protected $namePlural = 'UserCountry_Latitudes';
-
-    public function getAcceptValues()
-    {
-        return Piwik::translate('UserCountry_LatitudeSegmentHelp', '&segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N');
-    }
+    protected $acceptValues = '-33.578, 40.830, etc.<br/>You can select visitors within a lat/long range using &segment=lat&gt;X;lat&lt;Y;long&gt;M;long&lt;N.';
 
     /**
      * @param Request $request

@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\UserCountry\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
@@ -24,11 +23,7 @@ class Region extends Base
     protected $segmentName = 'regionCode';
     protected $nameSingular = 'UserCountry_Region';
     protected $namePlural = 'UserCountryMap_Regions';
-
-    public function getAcceptValues()
-    {
-        return '01, 02, OR, P8,…<br/>' . Piwik::translate('General_ForExampleShort') . ' region=BFC;country=fr';
-    }
+    protected $acceptValues = '01 02, OR, P8, etc.<br/>eg. region=BFC;country=fr';
 
     /**
      * @param Request $request

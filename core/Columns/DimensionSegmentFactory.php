@@ -9,7 +9,6 @@
 
 namespace Piwik\Columns;
 
-use Piwik\Piwik;
 use Piwik\Plugin\Segment;
 
 /**
@@ -157,7 +156,7 @@ class DimensionSegmentFactory
         if (!empty($enum)) {
             $enumValues = array_values($enum);
             $enumValues = array_slice($enumValues, 0, 20);
-            $acceptValues = Piwik::translate('General_ForExampleShort') . ' ' . implode(', ', $enumValues);
+            $acceptValues = 'Eg. ' . implode(', ', $enumValues);
         }
 
         return $acceptValues;

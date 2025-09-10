@@ -21,7 +21,7 @@ class VisitTotalInteractions extends VisitDimension
     protected $type = self::TYPE_NUMBER;
     protected $segmentName = 'interactions';
     protected $nameSingular = 'General_NbInteractions';
-    protected $acceptValues = 'General_AnyPositiveInteger';
+    protected $acceptValues = 'Any positive integer';
 
     public function __construct()
     {
