@@ -27,6 +27,7 @@ use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
+use Piwik\Plugins\WebsiteMeasurable\Settings\Ecommerce;
 
 /**
  *
@@ -129,7 +130,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $this->setGoalOptions($view);
         $view->onlyShowAddNewGoal = true;
-        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
+        $view->ecommerceEnabled = Ecommerce::getInstance($this->site->getId())->getValue();
         $this->execAndSetResultsForTwigEvents($view);
         return $view->render();
     }
@@ -224,7 +225,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $selectableColumns = array('nb_conversions', 'conversion_rate', 'revenue');
         $goalSelectableColumns = $selectableColumns;
-        if ($this->site->isEcommerceEnabled()) {
+        if (Ecommerce::getInstance($this->site->getId())->getValue() === 1) {
             $selectableColumns[] = 'items';
             $selectableColumns[] = 'avg_order_revenue';
         }
@@ -451,7 +452,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $view->goalsJSON = json_encode($goals);
-        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
+        $view->ecommerceEnabled = Ecommerce::getInstance($this->site->getId())->getValue() === 1;
     }
 
     private function setGoalOptions(View $view)

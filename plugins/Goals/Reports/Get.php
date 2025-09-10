@@ -27,6 +27,7 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
 use Piwik\Plugins\Goals\Goals;
 use Piwik\Plugins\Goals\Pages;
+use Piwik\Plugins\WebsiteMeasurable\Settings\Ecommerce;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Site;
 use Piwik\Tracker\GoalManager;
@@ -100,8 +101,7 @@ class Get extends Base
             return false;
         }
 
-        $site = new Site($idSite);
-        return $site->isEcommerceEnabled();
+        return Ecommerce::getInstance($idSite)->getValue() === 1;
     }
 
     public function configureView(ViewDataTable $view)
