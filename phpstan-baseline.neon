@@ -6534,7 +6534,7 @@ parameters:
 			path: plugins/UsersManager/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$n of method Piwik\\\\Date\\:\\:addHour\\(\\) expects int, string given\\.$#"
+			message: "#^Parameter \\#1 \\$n of method Piwik\\\\Date\\:\\:addHour\\(\\) expects float\\|int, string given\\.$#"
 			count: 1
 			path: plugins/UsersManager/API.php
 
