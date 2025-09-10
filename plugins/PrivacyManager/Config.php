@@ -113,7 +113,7 @@ class Config
     {
         $value = Option::get($this->prefix($name));
         // fallback to global settings if we don't have specific site settings saved
-        if (false === $value && !$this->hasSiteSpecificSettings()) {
+        if (false === $value && !$this->hasSiteSpecificSettings($name)) {
             $value = Option::get($this->prefix($name, false));
         }
 
@@ -167,9 +167,9 @@ class Config
         }
     }
 
-    private function hasSiteSpecificSettings(): bool
+    private function hasSiteSpecificSettings(string $name = '%'): bool
     {
-        return $this->idSite && count(Option::getLike($this->prefix('%'))) > 0;
+        return $this->idSite && count(Option::getLike($this->prefix($name))) > 0;
     }
 
     public function useSiteSpecificSettings(): bool
