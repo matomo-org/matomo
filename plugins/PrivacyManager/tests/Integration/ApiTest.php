@@ -53,7 +53,7 @@ class ApiTest extends IntegrationTestCase
         $this->expectExceptionMessage('Feature not available');
         $this->api->setComplianceStatus(
             (string) $this->siteId,
-            'cnil',
+            'cnil_v1',
             true
         );
     }
@@ -83,7 +83,7 @@ class ApiTest extends IntegrationTestCase
 
         $this->api->setComplianceStatus(
             (string) $this->siteId,
-            'cnil',
+            'cnil_v1',
             true
         );
     }
@@ -95,7 +95,7 @@ class ApiTest extends IntegrationTestCase
 
         $result = $this->api->setComplianceStatus(
             (string) $this->siteId,
-            'cnil',
+            'cnil_v1',
             true
         );
 
