@@ -452,7 +452,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $payload['complianceModeEnforced']  = $policy::isActive($idSite);
-        $settingsUnderPolicy = $policy::getAllControlledSettings($idSite);
+        $settingsUnderPolicy = PolicyManager::getAllControlledSettings($policy, $idSite);
         foreach ($settingsUnderPolicy as $setting) {
             $payload['complianceRequirements'][] = [
                 'name' => $setting::getTitle(),
