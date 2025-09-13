@@ -301,8 +301,8 @@ class Archive implements ArchiveQuery
         }
 
         // was a usable archive created today already?
-        $sql = sprintf('
-            SELECT ts_archived 
+        $sql = sprintf(
+            'SELECT ts_archived 
             FROM %s
             WHERE 
                 name = ? AND 
@@ -310,7 +310,7 @@ class Archive implements ArchiveQuery
                 period = ? AND
                 date1 = ? AND
                 date2 = ?
-                ',
+            ',
             ArchiveTableCreator::getNumericTable($period->getDateStart())
         );
         $bind = [
