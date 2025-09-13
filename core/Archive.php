@@ -17,7 +17,9 @@ use Piwik\Archive\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
+use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\Period\Day;
 use Piwik\Plugins\CoreAdminHome\API;
 
 /**
@@ -283,9 +285,50 @@ class Archive implements ArchiveQuery
 
     public static function shouldSkipArchiveIfSkippingSegmentArchiveForToday(Site $site, Period $period, Segment $segment)
     {
-        $now = Date::factory('now', $site->getTimezone());
-        return !$segment->isEmpty()
-            && $period->getDateStart()->toString() === $now->toString();
+        if ($segment->isEmpty()) {
+            return false;
+        }
+
+        // is today the first day of the period?
+        $today = Date::factory('today', $site->getTimezone());
+        if ($period->getDateStart()->toString() === $today->toString()) {
+            return true;
+        }
+
+        // if not today and we have a day period, don't skip
+        if ($period->getId() === Day::PERIOD_ID) {
+            return false;
+        }
+
+        // was a usable archive created today already?
+        $sql = sprintf('
+            SELECT ts_archived 
+            FROM %s
+            WHERE 
+                name = ? AND 
+                idsite = ? AND 
+                period = ? AND
+                date1 = ? AND
+                date2 = ?
+                ',
+            ArchiveTableCreator::getNumericTable($period->getDateStart())
+        );
+        $bind = [
+            Rules::getDoneFlagArchiveContainsAllPlugins($segment),
+            $site->getId(),
+            $period->getId(),
+            $period->getDateStart(),
+            $period->getDateEnd(),
+        ];
+
+        $lastArchived = Db::get()->fetchOne($sql, $bind);
+
+        // is ts_archived NOT earlier than today (i.e. it is equal or later than today)?
+        if ($lastArchived && !Date::factory($lastArchived, $site->getTimezone())->isEarlier($today)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
