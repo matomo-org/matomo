@@ -7,7 +7,6 @@ use Piwik\Tests\Framework\Mock\Policy\TestPolicy;
 
 class CompliancePolicyTest extends TestCase
 {
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -27,13 +26,13 @@ class CompliancePolicyTest extends TestCase
      * @dataProvider possibleStatesForPolicyActive
      */
     public function testSetActiveStatusInstanceLevel(
-        $idSite, 
-        $newActiveState, 
-        $currentInstanceState, 
-        $currentSiteState, 
-        $expectedInstanceState, 
-        $expectedSiteState): void
-    {
+        $idSite,
+        $newActiveState,
+        $currentInstanceState,
+        $currentSiteState,
+        $expectedInstanceState,
+        $expectedSiteState
+    ): void {
         TestPolicy::setState($currentInstanceState, $currentSiteState ? 99 : false);
         TestPolicy::setActiveStatus($idSite, $newActiveState);
         $this->assertSame(TestPolicy::isActive(null), $expectedInstanceState, "Instance status $expectedInstanceState is incorrect");
@@ -44,11 +43,11 @@ class CompliancePolicyTest extends TestCase
     {
         /*
             [
-                idSite, 
-                newActiveState, 
-                currentInstanceState, 
-                currentSiteState, 
-                expectedInstanceState, 
+                idSite,
+                newActiveState,
+                currentInstanceState,
+                currentSiteState,
+                expectedInstanceState,
                 expectedSiteState
             ]
          */

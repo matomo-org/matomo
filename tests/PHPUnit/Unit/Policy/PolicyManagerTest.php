@@ -19,7 +19,7 @@ class PolicyManagerTest extends TestCase
     public function testGetAllPolicies()
     {
         $policies = PolicyManager::getAllPolicies();
-        
+
         foreach ($policies as $policy) {
             $this->assertTrue(is_a($policy, CompliancePolicy::class, true));
         }
@@ -29,9 +29,9 @@ class PolicyManagerTest extends TestCase
     {
         $decoratedPolicies = PolicyManager::getAllPoliciesDecorated();
         foreach ($decoratedPolicies as $decoratedPolicy) {
-            $this->assertArrayHasKey('id',$decoratedPolicy);
-            $this->assertArrayHasKey('title',$decoratedPolicy);
-            $this->assertArrayHasKey('description',$decoratedPolicy);
+            $this->assertArrayHasKey('id', $decoratedPolicy);
+            $this->assertArrayHasKey('title', $decoratedPolicy);
+            $this->assertArrayHasKey('description', $decoratedPolicy);
         }
     }
 
