@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\tests\PHPUnit\Framework\Mock\Policy;
+namespace Piwik\Tests\Framework\Mock\Policy;
 
 use Piwik\Tests\Framework\Mock\Plugin\Manager;
 

@@ -6,8 +6,6 @@ use Exception;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
-use Piwik\Settings\Interfaces\PolicyComparisonInterface;
-use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\SystemSettingInterface;
 use Piwik\Settings\Interfaces\Traits\Setters\MeasurableSetterTrait;
 use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
@@ -109,13 +107,13 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     public static function setActiveStatus(?int $idSite, bool $isActive): void
     {
         if (isset($idSite)) {
-            self::setMeasurableValue($idSite, $isActive);
-            if (self::getSystemValue() && !$isActive) {
-                self::setSystemValue($isActive);
+            static::setMeasurableValue($idSite, $isActive);
+            if (static::getSystemValue() && !$isActive) {
+                static::setSystemValue($isActive);
             }
             return;
         }
-        self::setSystemValue($isActive);
+        static::setSystemValue($isActive);
     }
 
     /**
@@ -126,9 +124,9 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     {
         self::checkRequiredPluginsActive();
 
-        $instanceLevel = self::getSystemValue();
+        $instanceLevel = static::getSystemValue();
         if (!$instanceLevel && isset($idSite)) {
-            return self::getMeasurableValue($idSite);
+            return static::getMeasurableValue($idSite);
         }
         return $instanceLevel;
     }

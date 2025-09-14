@@ -4,7 +4,7 @@ namespace Piwik\Tests\Framework\Mock\Settings;
 
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
-use Piwik\tests\PHPUnit\Framework\Mock\Policy\TestPolicy;
+use Piwik\tests\Framework\Mock\Policy\TestPolicy;
 
 class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterface
 {

@@ -1,10 +1,9 @@
 <?php
 
+namespace Piwik\Tests\Unit\Policy;
 
-namespace Piwik\tests\PHPUnit\Unit\Policy;
 use PHPUnit\Framework\TestCase;
-use Piwik\Plugin\Manager;
-use Piwik\Policy\CompliancePolicy;
+use Piwik\Tests\Framework\Mock\Policy\TestPolicy;
 
 class CompliancePolicyTest extends TestCase
 {
@@ -37,8 +36,8 @@ class CompliancePolicyTest extends TestCase
     {
         TestPolicy::setState($currentInstanceState, $currentSiteState ? 99 : false);
         TestPolicy::setActiveStatus($idSite, $newActiveState);
-        $this->assertSame(TestPolicy::isActive($idSite), $expectedInstanceState);
-        $this->assertSame(TestPolicy::isActive(99), $expectedSiteState);
+        $this->assertSame(TestPolicy::isActive(null), $expectedInstanceState, "Instance status $expectedInstanceState is incorrect");
+        $this->assertSame(TestPolicy::isActive(99), $expectedSiteState, "Site status $expectedSiteState is incorrect");
     }
 
     public function possibleStatesForPolicyActive()
@@ -57,9 +56,9 @@ class CompliancePolicyTest extends TestCase
         yield [null, true, true, false, true, true];
         yield [null, true, false, true, true, true];
         yield [null, true, false, false, true, true];
-        yield [null, false, true, true, false, false];
+        yield [null, false, true, true, false, true];
         yield [null, false, true, false, false, false];
-        yield [null, false, false, true, false, false];
+        yield [null, false, false, true, false, true];
         yield [null, false, false, false, false, false];
         yield [99, true, true, true, true, true];
         yield [99, true, true, false, true, true];

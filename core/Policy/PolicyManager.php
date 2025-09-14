@@ -24,7 +24,7 @@ class PolicyManager
      */
     public static function getAllPoliciesDecorated(): array
     {
-        $policies = self::getAllPolicies();
+        $policies = static::getAllPolicies();
         return array_map(function ($policyClass) {
             return $policyClass::getDetails();
         }, $policies);
@@ -35,7 +35,7 @@ class PolicyManager
      */
     public static function getPolicyByName(string $policyName): ?string
     {
-        $policies = self::getAllPolicies();
+        $policies = static::getAllPolicies();
         foreach ($policies as $policyClass) {
             if ($policyName === $policyClass::getName()) {
                 return $policyClass;
@@ -70,7 +70,7 @@ class PolicyManager
      */
     public static function getAllControlledSettings(string $policyClass, ?int $idSite = null): array
     {
-        $settings = self::getAllSettings($idSite);
+        $settings = static::getAllSettings($idSite);
         $underPolicy = [];
 
         foreach ($settings as $setting) {
