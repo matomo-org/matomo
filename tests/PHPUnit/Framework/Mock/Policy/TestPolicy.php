@@ -10,7 +10,7 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
     /** @var bool */
     private static $system = false;
 
-    /** @var array<int,bool> */ 
+    /** @var array<int,bool> */
     private static $perSite = [];
 
     public static function reset(): void
@@ -48,7 +48,7 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
     {
         self::$system = (bool) $value;
     }
-    
+
     public static function getMeasurableValue($idSite, $isProperty = null)
     {
         return self::$perSite[$idSite] ?? false;

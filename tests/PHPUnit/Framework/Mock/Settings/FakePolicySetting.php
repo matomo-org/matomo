@@ -39,7 +39,7 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
 
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool
     {
-        return true; 
+        return true;
     }
 
     public static function getComplianceRequirementNote(): string
@@ -54,7 +54,7 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
 
     public function getValue()
     {
-        return $this->value;  
+        return $this->value;
     }
 
     public static function getTitle(): string

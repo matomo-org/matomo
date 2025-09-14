@@ -12,11 +12,10 @@ class PolicyManager extends \Piwik\Policy\PolicyManager
             TestPolicy::class
         ];
     }
-    
+
     public static function getAllSettings(?int $idSite = null): array
     {
         $settings[] = FakePolicySetting::class;
         return $settings;
-
     }
 }
