@@ -2,7 +2,8 @@
 
 namespace Piwik\Tests\Framework\Mock\Policy;
 
-use Piwik\Tests\Framework\Mock\Plugin\Manager;
+use Piwik\Tests\Framework\Mock\Plugin\Manager as MockManager;
+use Piwik\Plugin\Manager;
 
 class TestPolicy extends \Piwik\Policy\CompliancePolicy
 {
@@ -60,7 +61,7 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
 
     protected static function getPluginManagerInstance(): Manager
     {
-        $manager = new Manager();
+        $manager = new MockManager();
         $manager->setActivatedPlugins([]);
         return $manager;
     }

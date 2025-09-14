@@ -53,7 +53,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     protected static function checkRequiredPluginsActive(): void
     {
         $plugins = static::getMinimumRequiredPlugins();
-        $pluginManager = self::getPluginManagerInstance();
+        $pluginManager = static::getPluginManagerInstance();
 
         foreach ($plugins as $plugin) {
             if (!$pluginManager->isPluginActivated($plugin)) {
