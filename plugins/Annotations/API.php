@@ -90,11 +90,6 @@ class API extends \Piwik\Plugin\API
 
         $originalAnnotation = $this->get($idSite, $idNote);
 
-        // check if original note even exists, throw if doesn't
-        if (empty($originalAnnotation)) {
-            throw new Exception("Note ID $idNote not found");
-        }
-
         // check if current user has the right to update the annotation
         $this->checkUserCanModifyOrDelete($originalAnnotation);
 
