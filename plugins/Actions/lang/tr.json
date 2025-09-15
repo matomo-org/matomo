@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "İşlem türü",
+        "ActionTypeSegmentHelp": "Bir işlem türü. Şunun gibi: %s",
         "ActionTypes": "İşlem türleri",
         "ActionsInVisit": "Ziyaret sırasındaki işlemler",
         "AvgGenerationTimeTooltip": "Ortalama %1$s %2$s ortalama tıklamaya göre %3$s ile %4$s arasında",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Gezinmek için soldaki artı ve eksi simgelerini kullanın.",
         "PluginDescription": "Bu raporlar, sayfa ziyaretleri ve sayfa başlıkları hakkında bilgiler içerir. Sitenin iç arama motorunun ölçülebilmesini sağlar. Dış bağlantı ve dosya indirme bağlantılarına tıklamalar otomatik olarak izlenir.",
         "RevisitedPages": "Bir kereden çok görüntülenen sayfalar",
+        "SearchesSegmentHelp": "Sitenin iç aramasını kullanan tüm ziyaretleri seçmek için şunu kullanın: %s",
         "SiteSearchCategories": "Kategori (site araması)",
         "SiteSearchCategories1": "Bu rapor, ziyaretçilerin sitede arama yaparken seçtiği kategori bilgilerini içerir.",
         "SiteSearchCategories2": "Örnek olarak, e-ticaret sitelerinde tipik bir \"Kategori\" seçicisi bulunur. Ziyaretçiler bu seçiciyi kullanarak aramalarını belirli bir kategori içindeki ürünleri görüntüleyecek şekilde süzebilir.",

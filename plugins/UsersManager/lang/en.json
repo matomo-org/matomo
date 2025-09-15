@@ -276,6 +276,7 @@
         "DisablingThisNotification": "Disabling this notification",
         "LastLoginDate": "Last login date",
         "LastAPIUsageDate": "Last API usage date",
-        "XAgo": "%1$s ago"
+        "XAgo": "%1$s ago",
+        "CannotRevokeOwnSuperuserAccess": "You cannot revoke your own superuser access."
     }
 }

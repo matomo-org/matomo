@@ -237,9 +237,23 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeReferrer = '', $forceCookielessTracking = false, $randomizeConfigId = false)
-    {
+    public function setAnonymizeIpSettings(
+        $anonymizeIPEnable,
+        $maskLength,
+        $useAnonymizedIpForVisitEnrichment,
+        $anonymizeUserId = false,
+        $anonymizeOrderId = false,
+        $anonymizeReferrer = '',
+        $forceCookielessTracking = false,
+        $randomizeConfigId = false,
+        #[\SensitiveParameter]
+        $passwordConfirmation = ''
+    ) {
         Piwik::checkUserHasSuperUserAccess();
+
+        if ($randomizeConfigId == '1') {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         if ($anonymizeIPEnable == '1') {
             IPAnonymizer::activate();

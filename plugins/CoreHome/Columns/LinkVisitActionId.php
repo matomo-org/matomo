@@ -18,7 +18,7 @@ use Piwik\Plugin\Dimension\ActionDimension;
 class LinkVisitActionId extends ActionDimension
 {
     protected $columnName = 'idlink_va';
-    protected $acceptValues = 'Any integer.';
+    protected $acceptValues = 'General_AnyPositiveInteger';
     protected $category = 'General_Actions';
     protected $nameSingular = 'General_Actions';
     protected $metricId = 'hits';

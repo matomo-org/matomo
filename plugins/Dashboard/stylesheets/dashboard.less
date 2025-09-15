@@ -170,6 +170,8 @@ body#standalone {
 .dashboardSettings.expanded .dropdown {
   min-width: 800px;
   background-color: @theme-color-background-contrast;
+  display: grid;
+  grid-template-columns: auto 1fr;
 }
 
 .dashboardSettings ul.submenu > li {
@@ -360,6 +362,10 @@ div.widgetpreview-preview {
 .dashboardSettings.expanded .widgetpreview-preview {
   display: block;
   z-index: 333999;
+}
+
+.dashboardSettings.expanded .widgetpreview-preview {
+  margin-top: 10px;
 }
 
 .widgetPlaceholder {
