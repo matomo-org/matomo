@@ -88,6 +88,8 @@ class AnnotationsTest extends SystemTestCase
                                               'date'       => '2012-01-01',
                                               'periods'    => array('month'),
                                               'testSuffix' => '_multipleSites')),
+            array('Annotations.getAll', array('idSite'     => $idSite1,
+                                              'testSuffix' => '_noDate')),
 
             // getAnnotationCountForDates
             array('Annotations.getAnnotationCountForDates', array('idSite'  => $idSite1,
