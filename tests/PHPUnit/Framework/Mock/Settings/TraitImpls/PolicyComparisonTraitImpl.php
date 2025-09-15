@@ -27,7 +27,7 @@ class PolicyComparisonTraitImpl implements PolicyComparisonInterface
 
     public static function isCompliant(string $policy, ?int $idSite = null): bool
     {
-        return true; 
+        return true;
     }
 
     public static function getComplianceRequirementNote(): string

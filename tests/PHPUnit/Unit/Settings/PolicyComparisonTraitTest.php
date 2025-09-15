@@ -30,4 +30,11 @@ class PolicyComparisonTraitTest extends TestCase
         $this->assertArrayHasKey(TestPolicy::class, $values);
         $this->assertNull($values[TestPolicy::class]);
     }
+
+    public function testIsControlledBySpecificPolicy()
+    {
+        $this->assertTrue(
+            PolicyComparisonTraitImpl::isControlledBySpecificPolicy(TestPolicy::class)
+        );
+    }
 }
