@@ -18,7 +18,6 @@ export interface CompliancePolicy {
   description: string;
 }
 
-
 interface ComplianceStoreState {
   idSite: string | null;
   loading: boolean;

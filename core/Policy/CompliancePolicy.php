@@ -6,8 +6,6 @@ use Exception;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
-use Piwik\Settings\Interfaces\PolicyComparisonInterface;
-use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\SystemSettingInterface;
 use Piwik\Settings\Interfaces\Traits\Setters\MeasurableSetterTrait;
 use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
@@ -55,7 +53,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     protected static function checkRequiredPluginsActive(): void
     {
         $plugins = static::getMinimumRequiredPlugins();
-        $pluginManager = Manager::getInstance();
+        $pluginManager = static::getPluginManagerInstance();
 
         foreach ($plugins as $plugin) {
             if (!$pluginManager->isPluginActivated($plugin)) {
@@ -64,42 +62,9 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         }
     }
 
-    /**
-     * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
-     */
-    public static function getAllControlledSettings(?int $idSite = null): array
+    protected static function getPluginManagerInstance(): Manager
     {
-        $settings = self::getAllSettings($idSite);
-        $underPolicy = [];
-
-        foreach ($settings as $setting) {
-            if (!$setting::isControlledBySpecificPolicy(static::class, $idSite)) {
-                continue;
-            }
-
-            $underPolicy[] = $setting;
-        }
-
-        return $underPolicy;
-    }
-
-    /**
-     * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
-     */
-    public static function getAllSettings(?int $idSite = null): array
-    {
-        $settings = Manager::getInstance()->findMultipleComponents('Settings', SettingValueInterface::class);
-        $underPolicy = [];
-
-        foreach ($settings as $setting) {
-            if (!is_a($setting, PolicyComparisonInterface::class, true)) {
-                continue;
-            }
-
-            $underPolicy[] = $setting;
-        }
-
-        return $underPolicy;
+        return Manager::getInstance();
     }
 
     protected static function getSystemDefaultValue()
@@ -142,13 +107,13 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     public static function setActiveStatus(?int $idSite, bool $isActive): void
     {
         if (isset($idSite)) {
-            self::setMeasurableValue($idSite, $isActive);
-            if (self::getSystemValue() && !$isActive) {
-                self::setSystemValue($isActive);
+            static::setMeasurableValue($idSite, $isActive);
+            if (static::getSystemValue() && !$isActive) {
+                static::setSystemValue($isActive);
             }
             return;
         }
-        self::setSystemValue($isActive);
+        static::setSystemValue($isActive);
     }
 
     /**
@@ -157,11 +122,15 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
      */
     public static function isActive(?int $idSite): bool
     {
-        self::checkRequiredPluginsActive();
+        try {
+            self::checkRequiredPluginsActive();
+        } catch (Exception $e) {
+            return false;
+        }
 
-        $instanceLevel = self::getSystemValue();
+        $instanceLevel = static::getSystemValue();
         if (!$instanceLevel && isset($idSite)) {
-            return self::getMeasurableValue($idSite);
+            return static::getMeasurableValue($idSite);
         }
         return $instanceLevel;
     }

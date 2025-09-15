@@ -41,7 +41,6 @@ import {
   MatomoUrl,
   SiteSelector,
   SiteRef,
-  translate,
 } from 'CoreHome';
 import { fetchCompliancePolicies, CompliancePolicy } from './Compliance.store';
 import ComplianceOverview from './ComplianceOverview.vue';
