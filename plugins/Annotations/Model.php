@@ -53,18 +53,25 @@ class Model
      * @return array<int,array<string,string|int|bool>>
      * @throws \Exception
      */
-    public function getAllAnnotationsForSiteInRange(int $idSite, string $startDate, string $endDate, ?int $limit = null): array
+    public function getAllAnnotationsForSiteInRange(int $idSite, ?string $startDate = null, ?string $endDate = null, ?int $limit = null): array
     {
         $db = $this->getDb();
-        $query = "SELECT * FROM $this->table WHERE idsite = ? AND date >= ? AND date <= ?";
+        $query = "SELECT * FROM $this->table WHERE idsite = ?";
+        $bind = [
+            $idSite,
+        ];
+
+        if (null !== $startDate) {
+            $query .= " AND date >= ?";
+            $bind[] = $startDate;
+        }
+        if (null !== $endDate) {
+            $query .= " AND date <= ?";
+            $bind[] = $endDate;
+        }
         if (null !== $limit) {
             $query .= " LIMIT $limit";
         }
-        $bind = [
-            $idSite,
-            $startDate,
-            $endDate,
-        ];
 
         return $db->fetchAll($query, $bind);
     }

@@ -221,11 +221,13 @@ class API extends \Piwik\Plugin\API
         $model = new Model();
         $annotations = [];
         foreach ($ids as $id) {
-            [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date, $period, $lastN ?? false, $id);
-            if (!($startDate && $endDate)) {
-                continue;
-            }
-            $annotations[$id] = $model->getAllAnnotationsForSiteInRange($id, $startDate->toString(), $endDate->toString());
+            [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date ?: false, $period, $lastN ?? false, $id);
+
+            $annotations[$id] = $model->getAllAnnotationsForSiteInRange(
+                $id,
+                $startDate ? $startDate->toString() : null,
+                $endDate ? $endDate->toString() : null
+            );
             for ($i = 0; $i < count($annotations[$id]); $i++) {
                 $this->decorateAnnotation($annotations[$id][$i]);
             }
