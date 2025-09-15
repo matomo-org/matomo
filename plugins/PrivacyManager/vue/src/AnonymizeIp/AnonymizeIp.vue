@@ -247,12 +247,6 @@ export default defineComponent({
           type: 'toast',
         });
         NotificationsStore.scrollToNotification(notificationInstanceId);
-      }).catch(() => {
-        // reset the config ID randomisation checkbox so that it does not appear as enabled
-        // when an incorrect password was used to confirm the change
-        if (postParams.randomizeConfigId === '1') {
-          this.actualRandomizeConfigId = false;
-        }
       }).finally(() => {
         this.isLoading = false;
       });
