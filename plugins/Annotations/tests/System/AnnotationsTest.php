@@ -128,25 +128,37 @@ class AnnotationsTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
-    public function testAddSuccess()
+    /**
+     * @dataProvider getTestAddSuccessData
+     */
+    public function testAddSuccess(string $date, string $expectedDate)
     {
         $addResponse = API::getInstance()->add(
             self::$fixture->idSite1,
-            $date = '2011-04-01',
+            $date,
             $note = 'new note text single add'
         );
+        unset($addResponse['id']); // unsetting id for comparison
+        unset($addResponse['idNote']);
 
         $expectedAddResponse = [
-            'date'              => '2011-04-01',
+            'date'              => $expectedDate,
             'note'              => 'new note text single add',
             'starred'           => 0,
             'user'              => 'superUserLogin',
-            'id'                => 53,
             'idsite'            => 1,
             'canEditOrDelete'   => true,
-            'idNote'            => 53,
         ];
+
         $this->assertEquals($expectedAddResponse, $addResponse);
+    }
+
+    public function getTestAddSuccessData(): iterable
+    {
+        yield 'specific date' => ['2012-04-01', '2012-04-01'];
+        yield 'today'         => ['today', '2012-03-03']; // based on fixed date in the test
+        yield 'yesterday'     => ['yesterday', '2012-03-02'];
+        yield 'tomorrow'      => ['tomorrow', '2012-03-04'];
     }
 
     public function testAddMultipleSitesFail()
@@ -226,6 +238,52 @@ class AnnotationsTest extends SystemTestCase
             'date'              => '2011-04-01',
             'note'              => 'new note text',
             'starred'           => 1,
+            'user'              => 'superUserLogin',
+            'id'                => 1,
+            'idsite'            => 1,
+            'canEditOrDelete'   => true,
+            'idNote'            => 1
+        );
+        $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 1));
+    }
+
+    public function testSaveSuccessWithoutDate()
+    {
+        API::getInstance()->save(
+            self::$fixture->idSite1,
+            1,
+            $date = null,
+            $note = 'new note text',
+            $starred = 1
+        );
+
+        $expectedAnnotation = array(
+            'date'              => '2011-04-01',
+            'note'              => 'new note text',
+            'starred'           => 1,
+            'user'              => 'superUserLogin',
+            'id'                => 1,
+            'idsite'            => 1,
+            'canEditOrDelete'   => true,
+            'idNote'            => 1
+        );
+        $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 1));
+    }
+
+    public function testSaveSuccessChangesDateToTomorrow()
+    {
+        API::getInstance()->save(
+            self::$fixture->idSite1,
+            1,
+            $date = 'tomorrow',
+            $note = 'updated note text for tomorrow, not starred',
+            $starred = 0
+        );
+
+        $expectedAnnotation = array(
+            'date'              => '2012-03-04',
+            'note'              => 'updated note text for tomorrow, not starred',
+            'starred'           => 0,
             'user'              => 'superUserLogin',
             'id'                => 1,
             'idsite'            => 1,
