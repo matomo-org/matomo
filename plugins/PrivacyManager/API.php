@@ -447,11 +447,11 @@ class API extends \Piwik\Plugin\API
 
         $policy = PolicyManager::getPolicyByName($complianceType);
 
-        if (is_null($policy) || !is_a($policy, CompliancePolicy::class, true)) {
+        if (is_null($policy)) {
             throw new Exception('Invalid compliance type');
         }
 
-        $payload['complianceModeEnforced']  = $policy::isActive($idSite);
+        $payload['complianceModeEnforced'] = PolicyManager::isPolicyActive($policy, $idSite);
         $settingsUnderPolicy = PolicyManager::getAllControlledSettings($policy, $idSite);
         foreach ($settingsUnderPolicy as $setting) {
             $payload['complianceRequirements'][] = [

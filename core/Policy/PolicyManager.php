@@ -2,6 +2,7 @@
 
 namespace Piwik\Policy;
 
+use Exception;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
@@ -31,7 +32,7 @@ class PolicyManager
     }
 
     /**
-     * @return class-string<CompliancePolicy>
+     * @return class-string<CompliancePolicy>|null
      */
     public static function getPolicyByName(string $policyName): ?string
     {
@@ -82,5 +83,17 @@ class PolicyManager
         }
 
         return $underPolicy;
+    }
+
+    /**
+     * @param class-string<CompliancePolicy> $policyClass
+     * @throws \Exception when $policyClass is not a valid policy
+     */
+    public static function isPolicyActive(string $policyClass, ?int $idSite = null): bool
+    {
+        if (!is_a($policyClass, CompliancePolicy::class, true)) {
+            throw new Exception('Invalid compliance policy.');
+        }
+        return $policyClass::isActive($idSite);
     }
 }
