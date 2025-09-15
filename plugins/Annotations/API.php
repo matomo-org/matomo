@@ -211,7 +211,7 @@ class API extends \Piwik\Plugin\API
      *                 ),
      *                 8 => array(...)
      *               )
-     * @throws Exception when user is not a superuser
+     * @throws \Exception
      */
     public function getAll(string $idSite, ?string $date = null, string $period = 'day', ?int $lastN = null): array
     {
@@ -246,7 +246,7 @@ class API extends \Piwik\Plugin\API
      * @return array An array mapping site IDs to arrays holding dates & the count of
      *               annotations made for those dates. eg,
      *               array(
-     *                  => array(
+     *                 5 => array(
      *                   array('2012-01-02', array('count' => 4, 'starred' => 2)),
      *                   array('2012-01-03', array('count' => 0, 'starred' => 0)),
      *                   array('2012-01-04', array('count' => 2, 'starred' => 0)),
