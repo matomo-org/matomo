@@ -43,6 +43,7 @@ class API extends \Piwik\Plugin\API
         $this->checkUserCanAddNotesFor($idSite);
         $this->checkSiteExists($idSite);
         $this->checkDateIsValid($date);
+        $date = Date::factory($date)->toString(); // ensure we handle today/yesterday correctly
 
         $annotation = [
             'idsite' => $idSite,
@@ -87,6 +88,9 @@ class API extends \Piwik\Plugin\API
     {
         $this->checkSiteExists($idSite);
         $this->checkDateIsValid($date, $canBeNull = true);
+        if (null !== $date) {
+            $date = Date::factory($date)->toString(); // ensure we handle today/yesterday correctly
+        }
 
         $originalAnnotation = $this->get($idSite, $idNote);
 
