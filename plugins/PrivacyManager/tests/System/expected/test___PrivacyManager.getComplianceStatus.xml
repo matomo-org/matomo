@@ -13,7 +13,7 @@
 			<notes>Visits log is required to be disabled.</notes>
 		</row>
 		<row>
-			<name>IP Anonymisation Enabled</name>
+			<name>IP Anonymization Enabled</name>
 			<value>non_compliant</value>
 			<notes>Anonymisation of Visitor's IP addresses must be enabled</notes>
 		</row>
@@ -25,7 +25,7 @@
 		<row>
 			<name>Data retention period</name>
 			<value>compliant</value>
-			<notes>Retention period is set to 365 days</notes>
+			<notes>Retention period is set to 180 days</notes>
 		</row>
 	</complianceRequirements>
 </result>
