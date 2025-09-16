@@ -125,7 +125,7 @@ class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterfac
 
         $currentValue = self::getInstance($idSite)->getValue();
 
-        return !$policyValues[$policy] || $currentValue;
+        return $currentValue === $policyValues[$policy];
     }
 
     protected static function compareStrictness($value1, $value2)
