@@ -15,7 +15,7 @@
 		<row>
 			<name>IP Anonymization Enabled</name>
 			<value>non_compliant</value>
-			<notes>Anonymisation of Visitor's IP addresses must be enabled</notes>
+			<notes>Anonymization of Visitor's IP addresses must be enabled</notes>
 		</row>
 		<row>
 			<name>IP Address Mask Length</name>
