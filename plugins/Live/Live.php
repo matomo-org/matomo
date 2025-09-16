@@ -13,7 +13,6 @@ use Piwik\Cache;
 use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
-use Piwik\Plugins\Live\Settings\VisitorLog;
 use Piwik\Site;
 
 /**
