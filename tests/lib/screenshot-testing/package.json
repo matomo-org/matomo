@@ -16,5 +16,9 @@
     "url-parse": "^1.5.3",
     "@testomatio/reporter": "^1.0.9",
     "mocha-multi-reporters": "^1.5.1"
+  },
+  "overrides": {
+    "shell-quote": "^1.8.3",
+    "axios": "^1.12.2"
   }
 }
