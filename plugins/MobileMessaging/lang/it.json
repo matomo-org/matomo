@@ -41,7 +41,6 @@
         "Settings_ValidatePhoneNumber": "Convalida",
         "Settings_VerificationCodeJustSent": "Abbiamo appena inviato un SMS a questo numero con un codice: inserisci questo codice qui sopra e fai clic su \"Convalida\".",
         "TopLinkTooltip": "Ricevi i Rapporti delle Statistiche Web sulla tua casella di posta elettronica o sul tuo cellulare!",
-        "TopMenu": "Rapporti via email &amp; SMS",
         "UserKey": "Userkey",
         "VerificationText": "Il codice è %1$s. Per convalidare il tuo numero di telefono e ricevere i report di Matomo via SMS copia questo codice nel modulo accessibile da Matomo → %2$s → %3$s."
     }

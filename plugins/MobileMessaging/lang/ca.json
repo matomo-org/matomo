@@ -47,7 +47,6 @@
         "Settings_VerificationCodeJustSent": "Acabem d'enviar un SMS a aquest número amb un codi: introduïu aquest codi a dalt i feu clic a \"Validar\".",
         "TooManyUnverifiedNumbersError": "No podeu afegir més de 3 números de telèfon no verificats!",
         "TopLinkTooltip": "Obteniu informes d'anàlisi web a la vostra safata d'entrada de correu electrònic o al vostre telèfon mòbil.",
-        "TopMenu": "Informes per Email i SMS",
         "UserKey": "Clau d'usuari",
         "VerificationCodeRecentlySentError": "Ja s'ha sol·licitat recentment un codi de verificació per al número de telèfon %1$s.",
         "VerificationText": "El codi és %1$s. Per validar el vostre número de telèfon i rebre informes SMS de Matomo, copieu aquest codi en el formulari disponible mitjançant Matomo → %2$s → %3$s."

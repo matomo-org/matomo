@@ -38,7 +38,6 @@
         :tracker-writable="trackerWritable"
         :referrer-anonymization-options="referrerAnonymizationOptions"
         :randomize-config-id="randomizeConfigId"
-        :config-randomisation-feature-flag="configRandomisationFeatureFlag"
       />
     </ContentBlock>
 
@@ -159,7 +158,6 @@ export default defineComponent({
     },
     isSuperUser: Boolean,
     randomizeConfigId: Boolean,
-    configRandomisationFeatureFlag: Boolean,
   },
   components: {
     AnonymizeIp,

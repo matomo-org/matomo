@@ -18,6 +18,8 @@ use Piwik\Metrics\Formatter;
 use Piwik\Nonce;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
@@ -26,6 +28,7 @@ use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstr
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\SiteContentDetector;
 use Piwik\Scheduler\Scheduler;
+use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\View;
 
 /**
@@ -37,13 +40,18 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public const ACTIVATE_DNT_NONCE = 'PrivacyManager.activateDnt';
     public const DEACTIVATE_DNT_NONCE = 'PrivacyManager.deactivateDnt';
 
+    /**
+     * @var ReferrerAnonymizer
+     */
+    private $referrerAnonymizer;
 
     /** @var SiteContentDetector */
     private $siteContentDetector;
 
-    public function __construct(SiteContentDetector $siteContentDetector)
+    public function __construct(ReferrerAnonymizer $referrerAnonymizer, SiteContentDetector $siteContentDetector)
     {
         parent::__construct();
+        $this->referrerAnonymizer = $referrerAnonymizer;
         $this->siteContentDetector = $siteContentDetector;
     }
 
@@ -238,16 +246,57 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = new View('@PrivacyManager/privacySettings');
 
         if (Piwik::hasUserSuperUserAccess()) {
-            $api = API::getInstance();
+            $jsCodeGenerator = new TrackerCodeGenerator();
+            $file = new File(PIWIK_DOCUMENT_ROOT . '/' . $jsCodeGenerator->getJsTrackerEndpoint());
+            $filename = $jsCodeGenerator->getJsTrackerEndpoint();
 
+            if (Manager::getInstance()->isPluginActivated('CustomJsTracker')) {
+                $file = StaticContainer::get('Piwik\Plugins\CustomJsTracker\TrackerUpdater')->getToFile();
+                $filename = $file->getName();
+            }
+
+            $view->trackerFileName = $filename;
+            $view->trackerWritable = $file->hasWriteAccess();
             $view->deleteData = $this->getDeleteDataInfo();
-            $view->anonymisationSettings = $api->getAnonymisationSettings();
+            $view->anonymizeIP = $this->getAnonymizeIPInfo();
             $view->canDeleteLogActions = Db::isLockPrivilegeGranted();
             $view->dbUser = PiwikConfig::getInstance()->database['username'];
             $view->deactivateNonce = Nonce::getNonce(self::DEACTIVATE_DNT_NONCE);
             $view->activateNonce   = Nonce::getNonce(self::ACTIVATE_DNT_NONCE);
-            $view->scheduleDeletionOptions = PrivacyManager::getScheduleDeletionOptions();
-            $view->referrerAnonymizationOptions = ReferrerAnonymizer::getAvailableAnonymizationOptions();
+
+            $view->maskLengthOptions = [
+                ['key' => '1',
+                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["1","192.168.100.xxx"]),
+                      'description' => ''],
+                ['key' => '2',
+                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["2","192.168.xxx.xxx"]),
+                      'description' => Piwik::translate('General_Recommended')],
+                ['key' => '3',
+                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["3","192.xxx.xxx.xxx"]),
+                      'description' => ''],
+                ['key' => '4',
+                      'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskFully'),
+                      'description' => '']
+            ];
+            $view->useAnonymizedIpForVisitEnrichmentOptions = [
+                ['key' => '1',
+                      'value' => Piwik::translate('General_Yes'),
+                      'description' => Piwik::translate('PrivacyManager_RecommendedForPrivacy')],
+                [
+                      'key' => '0',
+                      'value' => Piwik::translate('General_No'),
+                      'description' => ''
+                ]
+            ];
+            $view->scheduleDeletionOptions = [
+                ['key' => '1',
+                      'value' => Piwik::translate('Intl_PeriodDay')],
+                ['key' => '7',
+                      'value' => Piwik::translate('Intl_PeriodWeek')],
+                ['key' => '30',
+                      'value' => Piwik::translate('Intl_PeriodMonth')]
+            ];
+            $view->referrerAnonymizationOptions = $this->referrerAnonymizer->getAvailableAnonymizationOptions();
         }
         $view->language = LanguagesManager::getLanguageCodeForCurrentUser();
         $this->setBasicVariablesView($view);
@@ -313,6 +362,27 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         }
 
         return $result;
+    }
+
+    private function getAnonymizeIPInfo()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $anonymizeIP = [];
+
+        $privacyConfig = new Config();
+        $anonymizeIP["enabled"] = IPAnonymizer::isActive();
+        $anonymizeIP["maskLength"] = $privacyConfig->ipAddressMaskLength;
+        $anonymizeIP["forceCookielessTracking"] = $privacyConfig->forceCookielessTracking;
+        $anonymizeIP["anonymizeOrderId"] = $privacyConfig->anonymizeOrderId;
+        $anonymizeIP["anonymizeUserId"] = $privacyConfig->anonymizeUserId;
+        $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $privacyConfig->useAnonymizedIpForVisitEnrichment;
+        $anonymizeIP["anonymizeReferrer"] = $privacyConfig->anonymizeReferrer;
+        if (!$anonymizeIP["useAnonymizedIpForVisitEnrichment"]) {
+            $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = '0';
+        }
+        $anonymizeIP["randomizeConfigId"] = $privacyConfig->randomizeConfigId;
+
+        return $anonymizeIP;
     }
 
     private function getDeleteDataInfo()
