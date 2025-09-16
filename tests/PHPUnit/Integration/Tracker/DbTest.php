@@ -145,7 +145,7 @@ class DbTest extends IntegrationTestCase
         $this->insertRowId(3);
         $val = $db->fetchRow('SELECT option_value from `' . $this->tableName . '` where option_name = "rowid"');
         $this->assertEquals(array(
-            'option_value' => '3'
+            'option_value' => '3',
         ), $val);
     }
 
@@ -162,7 +162,7 @@ class DbTest extends IntegrationTestCase
         $this->insertRowId(3);
         $val = $db->fetch('SELECT option_value from `' . $this->tableName . '` where option_name = "rowid"');
         $this->assertEquals(array(
-            'option_value' => '3'
+            'option_value' => '3',
         ), $val);
     }
 
@@ -180,8 +180,8 @@ class DbTest extends IntegrationTestCase
         $val = $db->fetchAll('SELECT option_value from `' . $this->tableName . '` where option_name = "rowid"');
         $this->assertEquals(array(
             array(
-                'option_value' => '3'
-            )
+                'option_value' => '3',
+            ),
         ), $val);
     }
 

@@ -37,7 +37,7 @@ class PluginUpdatesFixture extends Fixture
 JSON;
 
         return [
-            'dev.forced_plugin_update_result' => json_decode($updates, true)
+            'dev.forced_plugin_update_result' => json_decode($updates, true),
         ];
     }
 }

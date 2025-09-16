@@ -101,7 +101,7 @@ class GetCustomDimension extends Report
             $view->config->show_goals = true;
 
             $view->config->columns_to_display = array(
-                'label', 'nb_visits', 'nb_uniq_visitors', 'nb_users', 'nb_actions', 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate'
+                'label', 'nb_visits', 'nb_uniq_visitors', 'nb_users', 'nb_actions', 'nb_actions_per_visit', 'avg_time_on_site', 'bounce_rate',
             );
 
             if ($view->isViewDataTableId(HtmlTable::ID)) {
@@ -118,7 +118,7 @@ class GetCustomDimension extends Report
             }
         } elseif ($this->scopeOfDimension === CustomDimensions::SCOPE_ACTION) {
             $view->config->columns_to_display = array(
-                'label', 'nb_hits', 'nb_visits', 'bounce_rate', 'avg_time_on_dimension', 'exit_rate', 'avg_time_generation'
+                'label', 'nb_hits', 'nb_visits', 'bounce_rate', 'avg_time_on_dimension', 'exit_rate', 'avg_time_generation',
             );
 
             $formatter = new Metrics\Formatter();
@@ -133,15 +133,15 @@ class GetCustomDimension extends Report
                     $hits,
                     "<br />",
                     $formatter->getPrettyTimeFromSeconds($min, true),
-                    $formatter->getPrettyTimeFromSeconds($max, true)
+                    $formatter->getPrettyTimeFromSeconds($max, true),
                 ));
             };
             $view->config->filters[] = array('ColumnCallbackAddMetadata',
                 array(
                     array('nb_hits_with_time_generation', 'min_time_generation', 'max_time_generation'),
                     'avg_time_generation_tooltip',
-                    $tooltipCallback
-                )
+                    $tooltipCallback,
+                ),
             );
         }
 
@@ -208,7 +208,7 @@ class GetCustomDimension extends Report
                 new AverageTimeOnDimension(),
                 new BounceRate(),
                 new ExitRate(),
-                new AveragePageGenerationTime()
+                new AveragePageGenerationTime(),
             );
         } elseif ($this->scopeOfDimension === CustomDimensions::SCOPE_VISIT) {
             $this->categoryId = 'General_Visitors';
@@ -217,7 +217,7 @@ class GetCustomDimension extends Report
             $this->processedMetrics = array(
                 new AverageTimeOnSite(),
                 new BounceRate(),
-                new ActionsPerVisit()
+                new ActionsPerVisit(),
             );
         } else {
             return false;

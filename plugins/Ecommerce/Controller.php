@@ -127,13 +127,13 @@ class Controller extends \Piwik\Plugins\Goals\Controller
             'nb_conversions' => Piwik::translate('General_EcommerceOrders'),
             'nb_visits_converted' => Piwik::translate('General_NVisits'),
             'conversion_rate' => Piwik::translate('Goals_ConversionRate', Piwik::translate('General_EcommerceOrders')),
-            'revenue' => Piwik::translate('General_TotalRevenue')
+            'revenue' => Piwik::translate('General_TotalRevenue'),
         ];
 
         if ($idGoal == Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER) {
             $metrics = array_merge($metrics, [
                 'items' => Piwik::translate('General_PurchasedProducts'),
-                'avg_order_revenue' => Piwik::translate('General_AverageOrderValue')
+                'avg_order_revenue' => Piwik::translate('General_AverageOrderValue'),
             ]);
         }
 

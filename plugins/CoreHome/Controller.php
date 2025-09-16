@@ -321,7 +321,7 @@ class Controller extends \Piwik\Plugin\Controller
             }
         }
         $paypalParameters = [
-            "cmd" => "_s-xclick"
+            "cmd" => "_s-xclick",
         ];
         if (empty($parameters["onetime"]) || $parameters["onetime"] != "true") {
             $paypalParameters["hosted_button_id"] = "DVKLY73RS7JTE";

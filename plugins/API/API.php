@@ -161,7 +161,7 @@ class API extends \Piwik\Plugin\API
                 'description' => Piwik::translate($type->getDescription()),
                 'longDescription' => Piwik::translate($type->getLongDescription()),
                 'howToSetupUrl' => $type->getHowToSetupUrl(),
-                'settings' => $settingsMetadata->formatSettings($measurableSettings)
+                'settings' => $settingsMetadata->formatSettings($measurableSettings),
             );
         }
 
@@ -610,7 +610,7 @@ class API extends \Piwik\Plugin\API
                 'segment' => '',
                 'filter_offset' => 0,
                 'flat' => (int) $flat,
-                'filter_limit' => $maxSuggestionsToReturn
+                'filter_limit' => $maxSuggestionsToReturn,
             ));
 
             if ($table && $table instanceof DataTable && $table->getRowsCount()) {
@@ -619,7 +619,7 @@ class API extends \Piwik\Plugin\API
                     $segment = $row->getMetadata('segment');
                     $remove = array(
                         $segmentName . Segment\SegmentExpression::MATCH_EQUAL,
-                        $segmentName . Segment\SegmentExpression::MATCH_STARTS_WITH
+                        $segmentName . Segment\SegmentExpression::MATCH_STARTS_WITH,
                     );
                     // we don't look at row columns since this could include rows that won't work eg Other summary rows. etc
                     // and it is generally not reliable.
@@ -809,7 +809,7 @@ class API extends \Piwik\Plugin\API
             'pageUrl', 'pageTitle', 'siteSearchKeyword', 'siteSearchCategory', 'siteSearchCount',
             'entryPageTitle', 'entryPageUrl', 'exitPageTitle', 'exitPageUrl',
             'outlinkUrl', 'downloadUrl', 'eventUrl', 'orderId', 'revenueOrder', 'revenueAbandonedCart', 'productViewName', 'productViewSku', 'productViewPrice',
-            'productViewCategory1', 'productViewCategory2', 'productViewCategory3', 'productViewCategory4', 'productViewCategory5'
+            'productViewCategory1', 'productViewCategory2', 'productViewCategory3', 'productViewCategory4', 'productViewCategory5',
         );
         $isCustomVariablePage = stripos($segmentName, 'customVariablePage') !== false;
         $isEventSegment = stripos($segmentName, 'event') !== false;
@@ -843,7 +843,7 @@ class API extends \Piwik\Plugin\API
         foreach ($values as $value => $count) {
             $sortArray[] = [
                 'value' => $value,
-                'count' => $count
+                'count' => $count,
             ];
         }
 
@@ -896,7 +896,7 @@ class Plugin extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Template.jsGlobalVariables' => 'getJsGlobalVariables',
-            'Platform.initialized' => 'detectIsApiRequest'
+            'Platform.initialized' => 'detectIsApiRequest',
         );
     }
 

@@ -171,7 +171,7 @@ class LoginAllowlistTest extends IntegrationTestCase
             '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
             '204.93.240.*',
             '204.93.177.0/25',
-            '2001:db9::/48'
+            '2001:db9::/48',
         ];
         $this->setGeneralConfig('login_allowlist_ip', $ipsAllowlisted);
         $this->assertSame($expectedIsAllowlisted, $this->allowlist->isIpAllowed($ipString));
@@ -196,7 +196,7 @@ class LoginAllowlistTest extends IntegrationTestCase
             '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
             '204.93.240.*',
             '204.93.177.0/25',
-            '2001:db9::/48'
+            '2001:db9::/48',
         ];
         $this->setGeneralConfig('login_allowlist_ip', $ipsAllowed);
 
@@ -243,7 +243,7 @@ class LoginAllowlistTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

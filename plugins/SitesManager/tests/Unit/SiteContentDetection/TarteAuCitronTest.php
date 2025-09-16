@@ -34,28 +34,28 @@ class TarteAuCitronTest extends \PHPUnit\Framework\TestCase
             false,
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no TarteAuCitron content' => [
             false,
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'TarteAuCitron content found' => [
             true,
             false,
             '<html lang="en"><head><title>A site</title></head><script src="tarteaucitron.js"></script></head><body>A site</body></html>',
-            []
+            [],
         ];
 
         yield 'TarteAuCitron connected' => [
             true,
             true,
             "<html lang='en'><head><title>A site</title></head><script src='tarteaucitron.js'></script><script>tarteaucitron.user.matomoHost = 'http://localhost';</script></><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

@@ -50,7 +50,7 @@ abstract class VisitDimension extends Dimension
         }
 
         $changes = array(
-            $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType")
+            $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType"),
         );
 
         if ($this->isHandlingLogConversion()) {

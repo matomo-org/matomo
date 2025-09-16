@@ -134,7 +134,7 @@ class Controller extends \Piwik\Plugin\Controller
 
                 $data[] = array(
                     'name'  => $translations[$metric],
-                    'value' => $value
+                    'value' => $value,
                 );
             }
         }

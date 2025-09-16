@@ -85,7 +85,7 @@ class BaseSettingsTestCase extends IntegrationTestCase
 
         $expected = array(
             'myName1' => $setting1,
-            'myName3' => $setting3
+            'myName3' => $setting3,
         );
         $this->assertSame($expected, $this->settings->getSettingsWritableByCurrentUser());
     }

@@ -300,7 +300,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $this->renderTemplate('bruteForceLog', [
           'blockedIps'     => $this->bruteForceDetection->getCurrentlyBlockedIps(),
-          'disallowedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue()
+          'disallowedIps' => $this->systemSettings->blacklistedBruteForceIps->getValue(),
         ]);
     }
 
@@ -500,7 +500,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'errorMessage' => $errorMessage,
             'loginPlugin' => Piwik::getLoginPluginName(),
             'login' => $login,
-            'resetToken' => $resetToken
+            'resetToken' => $resetToken,
         ], 'basic');
     }
 

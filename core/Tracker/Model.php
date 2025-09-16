@@ -136,7 +136,7 @@ class Model
         $bind = [
             $goal['idvisit'],
             isset($goal['idorder']) ? $goal['idorder'] : $defaultIdOrder,
-            $defaultIdOrder
+            $defaultIdOrder,
         ];
 
         $itemsInDb = $this->getDb()->fetchAll($sql, $bind);
@@ -507,7 +507,7 @@ class Model
         $configIdbindSql = [
             $timeLookBack,
             $timeLookAhead,
-            $idSite
+            $idSite,
         ];
 
         $visitorIdWhere = 'idsite = ? AND visit_last_action_time <= ?';

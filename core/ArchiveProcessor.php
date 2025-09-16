@@ -552,7 +552,7 @@ class ArchiveProcessor
 
         $metrics = array(
             Metrics::INDEX_NB_USERS,
-            $uniqueVisitorsMetric
+            $uniqueVisitorsMetric,
         );
 
         $uniques = $this->computeNbUniques($metrics, $sites);

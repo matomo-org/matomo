@@ -31,7 +31,7 @@ class CorePluginsAdmin extends Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Updater.componentUpdated'               => 'addPluginChanges',
             'PluginManager.pluginActivated'          => 'onPluginActivated',
-            'PluginManager.pluginDeactivated'        => 'removePluginChanges'
+            'PluginManager.pluginDeactivated'        => 'removePluginChanges',
         );
     }
 

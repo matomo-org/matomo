@@ -497,7 +497,7 @@ class Php extends GeoIp2
         $view->geoIPDatabasesInstalled = $geoIPDatabasesInstalled;
         $view->updatePeriodOptions = [
             'month' => Piwik::translate('Intl_PeriodMonth'),
-            'week' => Piwik::translate('Intl_PeriodWeek')
+            'week' => Piwik::translate('Intl_PeriodWeek'),
         ];
 
 

@@ -115,7 +115,7 @@ class SubscriptionModelTest extends IntegrationTestCase
         $parameters   = [
             ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
             ScheduledReports::EMAIL_ME_PARAMETER => $emailMe,
-            ScheduledReports::ADDITIONAL_EMAILS_PARAMETER => $additionalEmails
+            ScheduledReports::ADDITIONAL_EMAILS_PARAMETER => $additionalEmails,
         ];
 
         $reportId = API::getInstance()->addReport(1, 'description', 'day', 3, $reportType, $reportFormat, $reports, $parameters);
@@ -134,7 +134,7 @@ class SubscriptionModelTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

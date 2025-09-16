@@ -188,7 +188,7 @@ class ArchiveCronTest extends SystemTestCase
                                                       'testSuffix' => '_nonPreArchivedSegment'));
 
         $segments = array(ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED,
-                          ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED
+                          ManySitesImportedLogs::SEGMENT_PRE_ARCHIVED_CONTAINS_ENCODED,
         );
         foreach ($segments as $index => $segment) {
             // Test with a pre-processed segment
@@ -199,12 +199,12 @@ class ArchiveCronTest extends SystemTestCase
                                      'segment'    => $segment,
                                      'testSuffix' => '_preArchivedSegment' . $index,
                                      'otherRequestParameters' => array(
-                                        'hideColumns' => 'latitude,longitude'
+                                        'hideColumns' => 'latitude,longitude',
                                      ),
                                      'xmlFieldsToRemove' => array(
-                                         'fingerprint'
-                                     )
-                               )
+                                         'fingerprint',
+                                     ),
+                               ),
             );
         }
 
@@ -536,7 +536,7 @@ class ArchiveCronTest extends SystemTestCase
 
             CronArchive\SegmentArchiving::class => \Piwik\DI::autowire()
                 // Oldest reports are for 2012, so ensure segments are processed for that year
-                ->constructorParameter('beginningOfTimeLastNInYears', date('Y') - 2012)
+                ->constructorParameter('beginningOfTimeLastNInYears', date('Y') - 2012),
         );
     }
 

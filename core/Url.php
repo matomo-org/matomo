@@ -909,7 +909,7 @@ class Url
         $newParams = [
             'mtm_campaign' => $campaign ?? 'Matomo_App',
             'mtm_source' => $source ?? 'Matomo_App_' . (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Cloud') ? 'Cloud' : 'OnPremise'),
-            'mtm_medium' => $medium
+            'mtm_medium' => $medium,
             ];
 
         // Add parameters to the link, overriding any existing campaign parameters while preserving the path and query string

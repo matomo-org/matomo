@@ -179,7 +179,7 @@ class API extends \Piwik\Plugin\API
                 Common::REFERRER_TYPE_SOCIAL_NETWORK => 'social',
                 Common::REFERRER_TYPE_AI_ASSISTANT => 'ai',
                 Common::REFERRER_TYPE_WEBSITE        => 'website',
-            ]
+            ],
         ]);
 
         // set referrer type column to readable value
@@ -325,14 +325,14 @@ class API extends \Piwik\Plugin\API
                 'url',
                 function ($url) {
                     return SearchEngine::getInstance()->getUrlFromName($url);
-                }
+                },
             ]);
             $dataTable->filter('MetadataCallbackAddMetadata', [
                 'url',
                 'logo',
                 function ($url) {
                     return SearchEngine::getInstance()->getLogoFromUrl($url);
-                }
+                },
             ]);
             $dataTable->filterSubtables(
                 'Piwik\Plugins\Referrers\DataTable\Filter\KeywordsFromSearchEngineId',
@@ -346,14 +346,14 @@ class API extends \Piwik\Plugin\API
                 'url',
                 function ($url) {
                     return SearchEngine::getInstance()->getUrlFromName($url);
-                }
+                },
             ]);
             $dataTable->queueFilter('MetadataCallbackAddMetadata', [
                 'url',
                 'logo',
                 function ($url) {
                     return SearchEngine::getInstance()->getLogoFromUrl($url);
-                }
+                },
             ]);
         }
 
@@ -468,7 +468,7 @@ class API extends \Piwik\Plugin\API
             'logo',
             function ($url) {
                 return Social::getInstance()->getLogoFromUrl($url);
-            }
+            },
         ]);
 
         $dataTable->filter('AddSegmentByLabel', ['referrerName']);
@@ -671,7 +671,7 @@ class API extends \Piwik\Plugin\API
                     'label',
                     function ($url) use ($social) {
                         return !Social::getInstance()->isSocialUrl($url, $social);
-                    }
+                    },
                 ]
             );
 

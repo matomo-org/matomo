@@ -96,7 +96,7 @@ class GenerateIntl extends ConsoleCommand
                 'pt' => 'pt-PT',
                 'pt-br' => 'pt',
                 'zh-cn' => 'zh-Hans',
-                'zh-tw' => 'zh-Hant'
+                'zh-tw' => 'zh-Hant',
             );
 
             if (array_key_exists($langCode, $localFixes)) {
@@ -307,7 +307,7 @@ class GenerateIntl extends ConsoleCommand
             "ant" => "AQ",
             "asi" => "142",
             "eur" => "150",
-            "oce" => "009"
+            "oce" => "009",
         );
 
         try {
@@ -364,7 +364,7 @@ class GenerateIntl extends ConsoleCommand
                 4 => 'thu',
                 5 => 'fri',
                 6 => 'sat',
-                7 => 'sun'
+                7 => 'sun',
             );
 
             foreach ($days as $nr => $day) {

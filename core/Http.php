@@ -312,10 +312,10 @@ class Http
             'userAgent' => $userAgent,
             'timeout' => $timeout,
             'headers' => array_map('trim', array_filter(array_merge([
-                $rangeHeader, $via, $httpAuth, $acceptLanguage
+                $rangeHeader, $via, $httpAuth, $acceptLanguage,
             ], $additionalHeaders))),
             'verifySsl' => !$acceptInvalidSslCertificate,
-            'destinationPath' => $destinationPath
+            'destinationPath' => $destinationPath,
         );
 
         /**
@@ -352,7 +352,7 @@ class Http
                 return array(
                     'status'  => $status,
                     'headers' => $headers,
-                    'data'    => $response
+                    'data'    => $response,
                 );
             } else {
                 return trim($response);
@@ -591,7 +591,7 @@ class Http
                             . $rangeHeader,
                         'max_redirects' => 5, // PHP 5.1.0
                         'timeout'       => $timeout, // PHP 5.2.1
-                    )
+                    ),
                 );
 
                 if (!empty($proxyHost) && !empty($proxyPort)) {
@@ -669,7 +669,7 @@ class Http
                 CURLOPT_USERAGENT      => $userAgent,
                 CURLOPT_HTTPHEADER     => array_merge(array(
                     $via,
-                    $acceptLanguage
+                    $acceptLanguage,
                 ), $additionalHeaders),
                 // only get header info if not saving directly to file
                 CURLOPT_HEADER         => is_resource($file) ? false : true,
@@ -827,7 +827,7 @@ class Http
             return array(
                 'status'  => $status,
                 'headers' => $headers,
-                'data'    => $response
+                'data'    => $response,
             );
         }
     }

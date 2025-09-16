@@ -273,7 +273,7 @@ class UnprocessedSegmentsTest extends IntegrationTestCase
             }),
 
             SegmentArchiving::class => \Piwik\DI::autowire()
-                ->constructorParameter('beginningOfTimeLastNInYears', 15)
+                ->constructorParameter('beginningOfTimeLastNInYears', 15),
         ];
     }
 

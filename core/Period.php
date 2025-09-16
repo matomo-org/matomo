@@ -423,7 +423,7 @@ abstract class Period
         $intervalTokens = array(
             array('d', 'E', 'C'),
             array('M', 'L'),
-            array('y')
+            array('y'),
         );
 
         $offset = strlen($format);

@@ -32,13 +32,13 @@ class GoogleAnalytics4Test extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no GA4 content' => [
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'GA4 js code found' => [
@@ -52,19 +52,19 @@ class GoogleAnalytics4Test extends \PHPUnit\Framework\TestCase
                             gtag('config', 'GA_TRACKING_ID');
                     </script>
                     </head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'G number found' => [
             true,
             "<html><head></head><body>G-12345ABC</body></html>",
-            []
+            [],
         ];
 
         yield 'GA4 properties found' => [
             true,
             "<html><head></head><body>properties/1234</body></html>",
-            []
+            [],
         ];
     }
 }

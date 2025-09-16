@@ -117,7 +117,7 @@ class FailuresTest extends IntegrationTestCase
                 'solution_url' => 'https://matomo.org/faq/how-to/faq_30838/',
                 'problem' => 'CoreAdminHome_TrackingFailureInvalidSiteProblem',
                 'solution' => 'CoreAdminHome_TrackingFailureInvalidSiteSolution',
-            )
+            ),
         );
 
         $this->logFailure(1, array());
@@ -297,7 +297,7 @@ class FailuresTest extends IntegrationTestCase
 
         $summary = $this->getFailureSummary();
         $this->assertEquals(array(
-            array(2,1), array(2,2), array(2,3), array(3,1), array(3,2)
+            array(2,1), array(2,2), array(2,3), array(3,1), array(3,2),
         ), $summary);
     }
 

@@ -39,7 +39,7 @@ class ResponseCode extends \PHPUnit\Framework\Constraint\Constraint
             CURLOPT_URL            => $other,
             CURLOPT_HEADER         => true,
             CURLOPT_TIMEOUT        => 1,
-            CURLOPT_RETURNTRANSFER => true
+            CURLOPT_RETURNTRANSFER => true,
         );
 
         $ch = curl_init();

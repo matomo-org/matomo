@@ -24,32 +24,32 @@ class UnnecassaryWhitepsacesTest extends \PHPUnit\Framework\TestCase
                 array(),
                 array(),
                 array(),
-                array()
+                array(),
             ),
             // no entites - nothing to filter
             array(
                 array(
                     'test' => array(
                         'key' => "val\n\n\r\n\nue",
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
                         'key' => "base val\n\nue",
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
                         'key' => "val\n\nue",
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
                         'key' => "val\n\n\r\n\nue",
-                    )
+                    ),
 
                 ),
             ),
@@ -57,88 +57,88 @@ class UnnecassaryWhitepsacesTest extends \PHPUnit\Framework\TestCase
             array(
                 array(
                     'test' => array(
-                        'test' => 'test                        palim'
-                    )
-                ),
-                array(
-                    'test' => array(
-                        'test' => 'no line breaks'
-                    )
-                ),
-                array(
-                    'test' => array(
-                        'test' => 'test palim'
-                    )
-                ),
-                array(
-                    'test' => array(
-                        'test' => 'test                        palim'
-                    )
-                ),
-            ),
-            array(
-                array(
-                    'empty' => array(
-                        'test' => "test\n\n\ntest"
+                        'test' => 'test                        palim',
                     ),
                 ),
                 array(
-                    'empty' => array(
-                        'test' => 'no line break'
+                    'test' => array(
+                        'test' => 'no line breaks',
                     ),
                 ),
                 array(
-                    'empty' => array(
-                        'test' => 'test test'
+                    'test' => array(
+                        'test' => 'test palim',
                     ),
                 ),
                 array(
-                    'empty' => array(
-                        'test' => "test\n\n\ntest"
+                    'test' => array(
+                        'test' => 'test                        palim',
                     ),
                 ),
             ),
             array(
                 array(
                     'empty' => array(
-                        'test' => "test\n         \n\n      test"
+                        'test' => "test\n\n\ntest",
                     ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => 'no line break'
+                        'test' => 'no line break',
                     ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => 'test test'
+                        'test' => 'test test',
                     ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => "test\n         \n\n      test"
+                        'test' => "test\n\n\ntest",
                     ),
                 ),
             ),
             array(
                 array(
                     'empty' => array(
-                        'test' => "test\n         \n\n      test"
+                        'test' => "test\n         \n\n      test",
                     ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => "line\n break"
+                        'test' => 'no line break',
                     ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => "test\n\ntest"
+                        'test' => 'test test',
                     ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => "test\n         \n\n      test"
+                        'test' => "test\n         \n\n      test",
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    'empty' => array(
+                        'test' => "test\n         \n\n      test",
+                    ),
+                ),
+                array(
+                    'empty' => array(
+                        'test' => "line\n break",
+                    ),
+                ),
+                array(
+                    'empty' => array(
+                        'test' => "test\n\ntest",
+                    ),
+                ),
+                array(
+                    'empty' => array(
+                        'test' => "test\n         \n\n      test",
                     ),
                 ),
             ),

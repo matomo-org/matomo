@@ -65,7 +65,7 @@ class VisitTotalActions extends VisitDimension
             Action::TYPE_DOWNLOAD,
             Action::TYPE_OUTLINK,
             Action::TYPE_SITE_SEARCH,
-            Action::TYPE_EVENT
+            Action::TYPE_EVENT,
         );
 
         // if visit starts with something else (e.g. ecommerce order), don't record as an action

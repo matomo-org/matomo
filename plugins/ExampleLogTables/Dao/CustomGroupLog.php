@@ -50,7 +50,7 @@ class CustomGroupLog
     {
         $columns = array(
             'group' => $group,
-            'is_admin' => $isAdmin
+            'is_admin' => $isAdmin,
         );
 
         $bind = array_values($columns);

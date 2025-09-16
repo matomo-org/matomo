@@ -40,19 +40,19 @@ class TrackJsTest extends TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no trackjs content' => [
             false,
             'nothing special',
-            []
+            [],
         ];
 
         yield 'trackjs used' => [
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://cdn.trackjs.com/js/some.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

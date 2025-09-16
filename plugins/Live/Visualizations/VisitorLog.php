@@ -134,10 +134,10 @@ class VisitorLog extends Visualization
                         array(
                             'id'    => static::ID,
                             'title' => Piwik::translate('Live_LinkVisitorLog'),
-                            'icon'  => 'plugins/Morpheus/images/table.png'
-                        )
-                    )
-                )
+                            'icon'  => 'plugins/Morpheus/images/table.png',
+                        ),
+                    ),
+                ),
             );
         } else {
             // It's opening in a popover, just show a few records and don't give the user any actions to play with

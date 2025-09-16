@@ -280,7 +280,7 @@ class ActionSiteSearch extends Action
             $actionName,
             $url,
             $categoryName,
-            $count
+            $count,
         );
     }
 }

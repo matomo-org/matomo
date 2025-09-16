@@ -32,7 +32,7 @@ class Glossary
             if (isset($report['documentation'])) {
                 $docReport = array(
                     'name' => sprintf("%s (%s)", $report['name'], $report['category']),
-                    'documentation' => $report['documentation']
+                    'documentation' => $report['documentation'],
                 );
 
                 if (isset($report['onlineGuideUrl'])) {

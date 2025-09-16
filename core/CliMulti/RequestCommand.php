@@ -68,7 +68,7 @@ class RequestCommand extends ConsoleCommand
                 'observers.global' => \Piwik\DI::add(array(
                     array('Environment.bootstrapped', \Piwik\DI::value(function () {
                         Access::getInstance()->setSuperUserAccess(true);
-                    }))
+                    })),
                 )),
             ));
         }

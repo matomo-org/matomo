@@ -170,8 +170,8 @@ class ApiTest extends IntegrationTestCase
                 'displayFormat'    => '1',
                 'emailMe'          => true,
                 'additionalEmails' => array('test@test.com', 't2@test.com'),
-                'evolutionGraph'   => true
-            )
+                'evolutionGraph'   => true,
+            ),
         );
 
         $dataWebsiteTwo = $data;
@@ -478,7 +478,7 @@ class ApiTest extends IntegrationTestCase
                 'VisitsSummary_get',
             ],
             [
-                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
             ]
         );
 
@@ -585,7 +585,7 @@ class ApiTest extends IntegrationTestCase
                 'VisitsSummary_get',
             ],
             [
-                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
             ]
         );
 
@@ -924,8 +924,8 @@ class ApiTest extends IntegrationTestCase
                 'displayFormat'    => '1',
                 'emailMe'          => true,
                 'additionalEmails' => array('test@test.com', 'test@test.com', 't2@test.com', 'test@test.com'),
-                'evolutionGraph'   => true
-            )
+                'evolutionGraph'   => true,
+            ),
         );
 
         self::addReport($data);
@@ -981,8 +981,8 @@ class ApiTest extends IntegrationTestCase
                 'displayFormat'    => '1',
                 'emailMe'          => true,
                 'additionalEmails' => array('test@test.com', 't2@test.com'),
-                'evolutionGraph'   => false
-            )
+                'evolutionGraph'   => false,
+            ),
         );
     }
 
@@ -1000,8 +1000,8 @@ class ApiTest extends IntegrationTestCase
                 'displayFormat'    => '1',
                 'emailMe'          => false,
                 'additionalEmails' => array('blabla@ec.fr'),
-                'evolutionGraph'   => false
-            )
+                'evolutionGraph'   => false,
+            ),
         );
     }
 
@@ -1029,7 +1029,7 @@ class ApiTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 

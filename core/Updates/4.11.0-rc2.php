@@ -94,7 +94,7 @@ class Updates_4_11_0_rc2 extends PiwikUpdates
                   'invitedUser'  => $user,
                   'siteName'     => $siteName,
                   'token'        => $generatedToken,
-                  'expiryInDays' => 7
+                  'expiryInDays' => 7,
                 ]);
                 $email->safeSend();
             }

@@ -216,7 +216,7 @@ class Model
     {
         $fieldsToSet = array(
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         );
 
         $db = $this->getDb();

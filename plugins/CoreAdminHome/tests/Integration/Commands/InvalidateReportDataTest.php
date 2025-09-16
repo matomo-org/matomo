@@ -87,8 +87,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '-vvv' => true,
             ],
             [
-                'Invalid date or date range specifier'
-            ]
+                'Invalid date or date range specifier',
+            ],
         ];
 
         yield 'invalid dates parameter format' => [
@@ -100,8 +100,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '-vvv' => true,
             ],
             [
-                'Invalid date or date range specifier'
-            ]
+                'Invalid date or date range specifier',
+            ],
         ];
 
         yield 'dates parameter with too many dates in range' => [
@@ -113,8 +113,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '-vvv' => true,
             ],
             [
-                "The date '2019-01-01,2019-01-09,2019-01-12,2019-01-15' is not a correct date range"
-            ]
+                "The date '2019-01-01,2019-01-09,2019-01-12,2019-01-15' is not a correct date range",
+            ],
         ];
 
         yield 'invalid period parameter' => [
@@ -126,8 +126,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '-vvv' => true,
             ],
             [
-                'Invalid period type'
-            ]
+                'Invalid period type',
+            ],
         ];
 
         yield 'non numeric sites parameter' => [
@@ -139,8 +139,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '-vvv' => true,
             ],
             [
-                'Invalid --sites value'
-            ]
+                'Invalid --sites value',
+            ],
         ];
 
         yield 'idSite list without values' => [
@@ -152,8 +152,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '-vvv' => true,
             ],
             [
-                'Invalid --sites value'
-            ]
+                'Invalid --sites value',
+            ],
         ];
 
         yield 'not existing idSite included in list' => [
@@ -165,8 +165,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '-vvv' => true,
             ],
             [
-                'Invalid --sites value'
-            ]
+                'Invalid --sites value',
+            ],
         ];
 
         yield 'invalid segment provided' => [
@@ -179,8 +179,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '-vvv' => true,
             ],
             [
-                "The segment condition 'ablksdjfdslkjf' is not valid"
-            ]
+                "The segment condition 'ablksdjfdslkjf' is not valid",
+            ],
         ];
 
         yield 'segment name provided that does not exist for given site' => [
@@ -195,7 +195,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             [
                 "'custom dimension' did not match any stored segment, but invalidating it anyway.",
                 "The segment condition 'custom dimension' is not valid.",
-            ]
+            ],
         ];
 
         yield 'segment provided that does not exist for given site' => [
@@ -209,8 +209,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             ],
             [
                 "'dimension1==test' did not match any stored segment, but invalidating it anyway.",
-                "Segment 'dimension1' is not a supported segment."
-            ]
+                "Segment 'dimension1' is not a supported segment.",
+            ],
         ];
     }
 
@@ -540,7 +540,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a single day works for all visits segment only, one website" => [
@@ -554,7 +554,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a single day works for specific segment only, one website" => [
@@ -568,7 +568,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a single day works for multiple segments, one website" => [
@@ -586,7 +586,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating plugin for a single day works for all visits segment only, one website" => [
@@ -594,21 +594,21 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 '--dates' => ['2012-01-01'],
                 '--sites' => '1',
                 '--segment' => [''],
-                '--plugin' => 'Actions'
+                '--plugin' => 'Actions',
             ],
             [
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating plugin for a single day works for all segments, one website" => [
             [
                 '--dates' => ['2012-01-01'],
                 '--sites' => '1',
-                '--plugin' => 'Actions'
+                '--plugin' => 'Actions',
             ],
             [
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
@@ -623,7 +623,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done9aedf9b6022140586347897209404279.Actions', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a single day as period works for segment, one website" => [
@@ -637,7 +637,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a period works for all segments, one website" => [
@@ -697,7 +697,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating multiple dates works for all segments, one website" => [
@@ -730,7 +730,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating multiple periods works for all segments, one website" => [
@@ -778,7 +778,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a single day works for all segments, multiple websites" => [
@@ -808,7 +808,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
                 // second segment is only valid for idsite 1, so missing here
-            ]
+            ],
         ];
 
         yield "Invalidating a week period works for specific segment only, one website" => [
@@ -822,7 +822,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-08', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a week period accross years should not cascade up, one website" => [
@@ -834,7 +834,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             ],
             [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a week period accross months should not cascade up, one website" => [
@@ -846,7 +846,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             ],
             [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-30', 'date2' => '2012-02-05', 'period' => 2, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a month period works for specific segment only, one website" => [
@@ -859,7 +859,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a year period works for specific segment only, one website" => [
@@ -871,7 +871,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             ],
             [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a month period works for specific segment only, one website, cascade down" => [
@@ -922,7 +922,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-30', 'date2' => '2012-02-05', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a week period accross years should not cascade up, one website, cascade down" => [
@@ -946,7 +946,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-01-01', 'date2' => '2011-12-31', 'period' => 4, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating a week period should not invalidate dates before website creation, one website, cascade down" => [
@@ -962,7 +962,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating multiple periods works for specific segment only, one website, no cascade" => [
@@ -975,7 +975,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
 
         yield "Invalidating plugin for multiple periods works for specific multiple segments, multiple websites, no cascade" => [
@@ -998,7 +998,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-02', 'date2' => '2012-01-08', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
-            ]
+            ],
         ];
     }
 

@@ -246,7 +246,7 @@ class RankingQuery
             }
             $data = array(
                 'result'            => &$result,
-                'excludedFromLimit' => &$excludedFromLimit
+                'excludedFromLimit' => &$excludedFromLimit,
             );
         }
 

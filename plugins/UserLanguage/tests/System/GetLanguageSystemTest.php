@@ -44,7 +44,7 @@ class GetLanguageSystemTest extends SystemTestCase
     {
         $apiToCall = [
             "UserLanguage.getLanguage",
-            "UserLanguage.getLanguageCode"
+            "UserLanguage.getLanguageCode",
         ];
 
         $apiToTest = [];
@@ -54,8 +54,8 @@ class GetLanguageSystemTest extends SystemTestCase
                             [
                                 'idSite'  => self::$fixture->idSite,
                                 'date'    => self::$fixture->dateTime,
-                                'periods' => ['day']
-                            ]
+                                'periods' => ['day'],
+                            ],
                        ];
 
         return $apiToTest;

@@ -43,14 +43,14 @@ class GenerateVisualizationPlugin extends GeneratePlugin
             'simpleTable'  => lcfirst($visualizationName),
             'Simple Table' => $this->makeTranslationIfPossible($pluginName, $visualizationName),
             'ExampleVisualization'            => $pluginName,
-            'ExampleVisualizationDescription' => $description
+            'ExampleVisualizationDescription' => $description,
         );
 
         $this->copyTemplateToPlugin($exampleFolder, $pluginName, $replace, $allowListFiles = array());
 
         $this->writeSuccessMessage(array(
              sprintf('Visualization plugin %s %s generated.', $pluginName, $version),
-             'Enjoy!'
+             'Enjoy!',
         ));
 
         return self::SUCCESS;

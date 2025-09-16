@@ -38,7 +38,7 @@ class TokenExpirationWarningNotificationProvider extends TokenNotificationProvid
         $tokensToNotify = $db->fetchAll($sql, [
             $periodThreshold,
             $this->today,
-            'anonymous'
+            'anonymous',
         ]);
 
         return $tokensToNotify;

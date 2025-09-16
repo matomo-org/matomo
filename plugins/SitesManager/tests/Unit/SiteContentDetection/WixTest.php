@@ -32,19 +32,19 @@ class WixTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no webflow content' => [
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'X-Wix-Published-Version is found' => [
             true,
             '<html lang="en"><head><title>A site</title><meta http-equiv="X-Wix-Published-Version" content="29"/><script>console.log(\'abc\');</script></head><body>A site</body></html>',
-            []
+            [],
         ];
     }
 }

@@ -42,7 +42,7 @@ class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
     {
         $fieldsThatShouldNotOverflow = array(
             'log_visit' => 'idvisit',
-            'log_link_visit_action' => 'idlink_va'
+            'log_link_visit_action' => 'idlink_va',
         );
         $this->assertGreaterThan(4294967294, self::$fixture->maxUnsignedIntegerValue);
 
@@ -67,7 +67,7 @@ class SimulateAutoIncrementIntegerOverflowTest extends SystemTestCase
                 'idSite' => self::$fixture->idSite,
                 'date' => self::$fixture->dateTime,
                 'compareAgainst' => 'OneVisitorTwoVisits_withCookieSupport',
-            ))
+            )),
         );
     }
 

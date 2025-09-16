@@ -32,7 +32,7 @@ class ApiGetReportMetadataYearTest extends SystemTestCase
         return array(
             array('API.getProcessedReport', $params),
             array('LanguagesManager.getAvailableLanguageNames', $params),
-            array('SitesManager.getJavascriptTag', $params)
+            array('SitesManager.getJavascriptTag', $params),
         );
     }
 

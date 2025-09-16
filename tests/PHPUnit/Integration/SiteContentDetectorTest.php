@@ -36,7 +36,7 @@ class SiteContentDetectorTest extends IntegrationTestCase
                         <body>A site<img src='/wp-content/uploads/images.gif'</body>
                        </html>",
             'headers' => [
-                'CF-RAY' => 'test'
+                'CF-RAY' => 'test',
             ],
         ]);
 

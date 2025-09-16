@@ -69,7 +69,7 @@ class Updates_1_2_rc1 extends Updates
             $this->migration->db->addColumns('log_link_visit_action', array(
                 'idsite' => 'INT( 10 ) UNSIGNED NOT NULL',
                 'idvisitor' => 'BINARY(8) NOT NULL',
-                'idaction_name_ref' => 'INT UNSIGNED NOT NULL'
+                'idaction_name_ref' => 'INT UNSIGNED NOT NULL',
             ), 'idlink_va'),
 
             $this->migration->db->addColumn('log_link_visit_action', 'server_time', 'DATETIME', 'idsite'),

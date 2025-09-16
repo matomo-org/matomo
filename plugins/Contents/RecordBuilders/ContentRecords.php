@@ -70,18 +70,18 @@ class ContentRecords extends RecordBuilder
             array(
                 "table"      => "log_action",
                 "tableAlias" => "log_action_content_piece",
-                "joinOn"     => "log_link_visit_action.idaction_content_piece = log_action_content_piece.idaction"
+                "joinOn"     => "log_link_visit_action.idaction_content_piece = log_action_content_piece.idaction",
             ),
             array(
                 "table"      => "log_action",
                 "tableAlias" => "log_action_content_target",
-                "joinOn"     => "log_link_visit_action.idaction_content_target = log_action_content_target.idaction"
+                "joinOn"     => "log_link_visit_action.idaction_content_target = log_action_content_target.idaction",
             ),
             array(
                 "table"      => "log_action",
                 "tableAlias" => "log_action_content_name",
-                "joinOn"     => "log_link_visit_action.idaction_content_name = log_action_content_name.idaction"
-            )
+                "joinOn"     => "log_link_visit_action.idaction_content_name = log_action_content_name.idaction",
+            ),
         );
 
         $where = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
@@ -125,18 +125,18 @@ class ContentRecords extends RecordBuilder
             array(
                 "table"      => "log_action",
                 "tableAlias" => "log_action_content_piece",
-                "joinOn"     => "log_link_visit_action.idaction_content_piece = log_action_content_piece.idaction"
+                "joinOn"     => "log_link_visit_action.idaction_content_piece = log_action_content_piece.idaction",
             ),
             array(
                 "table"      => "log_action",
                 "tableAlias" => "log_action_content_interaction",
-                "joinOn"     => "log_link_visit_action.idaction_content_interaction = log_action_content_interaction.idaction"
+                "joinOn"     => "log_link_visit_action.idaction_content_interaction = log_action_content_interaction.idaction",
             ),
             array(
                 "table"      => "log_action",
                 "tableAlias" => "log_action_content_name",
-                "joinOn"     => "log_link_visit_action.idaction_content_name = log_action_content_name.idaction"
-            )
+                "joinOn"     => "log_link_visit_action.idaction_content_name = log_action_content_name.idaction",
+            ),
         );
 
         $where  = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');
@@ -267,7 +267,7 @@ class ContentRecords extends RecordBuilder
     {
         return array(
             Archiver::CONTENTS_PIECE_NAME_RECORD_NAME => array('contentPiece', 'contentName'),
-            Archiver::CONTENTS_NAME_PIECE_RECORD_NAME => array('contentName', 'contentPiece')
+            Archiver::CONTENTS_NAME_PIECE_RECORD_NAME => array('contentName', 'contentPiece'),
         );
     }
 }

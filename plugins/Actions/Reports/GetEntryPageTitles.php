@@ -35,7 +35,7 @@ class GetEntryPageTitles extends Base
             new AverageTimeOnPage(),
             new BounceRate(),
             new ExitRate(),
-            new AveragePageGenerationTime()
+            new AveragePageGenerationTime(),
         );
         $this->order   = 6;
         $this->actionToLoadSubTables = $this->action;
@@ -89,7 +89,7 @@ class GetEntryPageTitles extends Base
     {
         return array(
             ReportsProvider::factory('Actions', 'getPageTitles'),
-            ReportsProvider::factory('Actions', 'getEntryPageUrls')
+            ReportsProvider::factory('Actions', 'getEntryPageUrls'),
         );
     }
 }

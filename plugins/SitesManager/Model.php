@@ -389,7 +389,7 @@ class Model
         $db = $this->getDb();
         $db->insert(Common::prefixTable("site_url"), array(
                 'idsite' => (int) $idSite,
-                'url'    => $url
+                'url'    => $url,
             ));
     }
 

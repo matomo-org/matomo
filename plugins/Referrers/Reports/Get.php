@@ -107,7 +107,7 @@ class Get extends Base
                             $date,
                             Piwik::translate('General_NVisits', $pastValueFormatted),
                             $lastPeriodDate,
-                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)
+                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1),
                         )),
                     ];
                 };

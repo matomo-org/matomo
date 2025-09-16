@@ -35,7 +35,7 @@ class Updates_1_5_b5 extends Updates
                 'modified' => 'INTEGER',
                 'lifetime' => 'INTEGER',
                 'data' => 'TEXT',
-            ), $primary = 'id')
+            ), $primary = 'id'),
         );
     }
 

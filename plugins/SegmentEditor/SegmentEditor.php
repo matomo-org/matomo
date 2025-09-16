@@ -431,7 +431,7 @@ class SegmentEditor extends \Piwik\Plugin
                 if ($segment['login'] === $userLogin) {
                     $model->updateSegment($segment['idsegment'], array(
                         'login' => $superUserLogin,
-                        'ts_last_edit' => $updatedAt
+                        'ts_last_edit' => $updatedAt,
                     ));
                 }
             }

@@ -95,7 +95,7 @@ class DataSubjectsTest extends IntegrationTestCase
             'log_visit' => 2,
             'log_foo_bar_baz' => 2,
             'log_foo_bar' => 2,
-            'log_foo' => 2
+            'log_foo' => 2,
         ), $result);
 
         $this->assertEmpty($this->getVisit(1, 1));
@@ -142,7 +142,7 @@ class DataSubjectsTest extends IntegrationTestCase
             'log_visit' => 2,
             'log_foo_bar_baz' => 2,
             'log_foo_bar' => 2,
-            'log_foo' => 2
+            'log_foo' => 2,
         ), $result);
 
         $this->assertEmpty($this->getVisit(1, 1));
@@ -182,7 +182,7 @@ class DataSubjectsTest extends IntegrationTestCase
             'log_visit' => 1,
             'log_foo_bar_baz' => 2,
             'log_foo_bar' => 2,
-            'log_foo' => 2
+            'log_foo' => 2,
         ), $result);
 
         $this->assertEmpty($this->getVisit(1, 1));
@@ -219,7 +219,7 @@ class DataSubjectsTest extends IntegrationTestCase
             'log_visit' => 64,
             'log_foo_bar_baz' => 2,
             'log_foo_bar' => 3,
-            'log_foo' => 3
+            'log_foo' => 3,
         ), $result);
 
         $this->assertSame(array(), $this->getAllVisits());

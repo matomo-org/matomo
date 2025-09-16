@@ -16,7 +16,7 @@ class ExampleLogTables extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'Db.getTablesInstalled' => 'getTablesInstalled'
+            'Db.getTablesInstalled' => 'getTablesInstalled',
         ];
     }
 

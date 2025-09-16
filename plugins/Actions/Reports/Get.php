@@ -22,7 +22,7 @@ class Get extends Base
         $this->documentation = Piwik::translate('Actions_MainMetricsReportDocumentation');
         $this->order = 1;
         $this->processedMetrics = array(
-            new AveragePageGenerationTime()
+            new AveragePageGenerationTime(),
         );
         $this->metrics  = array(
             'nb_pageviews',

@@ -140,7 +140,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $this->devices[$deviceType] = array(
                 'count'   => 0,
                 'icon'    => $deviceTypeIcon,
-                'devices' => array()
+                'devices' => array(),
             );
         }
 
@@ -171,7 +171,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             foreach ($devicesData['devices'] as $name => $count) {
                 $typeDevices[] = [
                     'name'  => $name,
-                    'count' => $count
+                    'count' => $count,
                 ];
             }
             $devices[] = [

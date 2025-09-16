@@ -39,7 +39,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
 
         array(
@@ -50,7 +50,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-01',
             'date2' => '2015-02-31',
             'period' => 3,
-            'ts_archived' => '2015-02-18 10:10:10'
+            'ts_archived' => '2015-02-18 10:10:10',
         ),
 
         array(
@@ -61,7 +61,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-04',
             'date2' => '2015-02-10',
             'period' => 2,
-            'ts_archived' => '2015-02-10 12:34:56'
+            'ts_archived' => '2015-02-10 12:34:56',
         ),
 
         array(
@@ -72,7 +72,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-15',
             'date2' => '2015-02-15',
             'period' => 1,
-            'ts_archived' => '2015-02-15 08:12:13'
+            'ts_archived' => '2015-02-15 08:12:13',
         ),
 
         // valid temporary
@@ -84,7 +84,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-27',
             'date2' => '2015-02-27',
             'period' => 1,
-            'ts_archived' => '2015-02-27 08:08:08'
+            'ts_archived' => '2015-02-27 08:08:08',
         ),
 
         array(
@@ -95,7 +95,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-26',
             'date2' => '2015-02-26',
             'period' => 1,
-            'ts_archived' => '2015-02-26 07:07:07'
+            'ts_archived' => '2015-02-26 07:07:07',
         ),
 
         array(
@@ -106,7 +106,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-01',
             'date2' => '2015-02-28',
             'period' => 3,
-            'ts_archived' => '2015-02-15 00:00:00'
+            'ts_archived' => '2015-02-15 00:00:00',
         ),
 
         // custom ranges
@@ -118,7 +118,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-14',
             'period' => 5,
-            'ts_archived' => '2015-02-27 00:00:00'
+            'ts_archived' => '2015-02-27 00:00:00',
         ),
 
         array(
@@ -129,7 +129,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-05',
             'date2' => '2015-02-14',
             'period' => 5,
-            'ts_archived' => '2015-02-15 00:00:00'
+            'ts_archived' => '2015-02-15 00:00:00',
         ),
 
         array(
@@ -140,7 +140,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-05',
             'date2' => '2015-03-05',
             'period' => 5,
-            'ts_archived' => '2015-02-26 00:00:00'
+            'ts_archived' => '2015-02-26 00:00:00',
         ),
 
         // invalidated
@@ -152,7 +152,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-10',
             'date2' => '2015-02-10',
             'period' => 1,
-            'ts_archived' => '2015-02-10 12:13:14'
+            'ts_archived' => '2015-02-10 12:13:14',
         ),
 
         array(
@@ -163,7 +163,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-08',
             'date2' => '2015-02-14',
             'period' => 2,
-            'ts_archived' => '2015-02-15 00:00:00'
+            'ts_archived' => '2015-02-15 00:00:00',
         ),
 
         array(
@@ -174,7 +174,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-01',
             'date2' => '2015-02-28',
             'period' => 3,
-            'ts_archived' => '2015-02-27 13:13:13'
+            'ts_archived' => '2015-02-27 13:13:13',
         ),
 
         array(
@@ -185,7 +185,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-28',
             'date2' => '2015-02-28',
             'period' => 1,
-            'ts_archived' => '2015-02-28 12:12:12'
+            'ts_archived' => '2015-02-28 12:12:12',
         ),
 
         array(
@@ -196,7 +196,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-27',
             'date2' => '2015-02-27',
             'period' => 1,
-            'ts_archived' => '2015-02-28 12:12:12'
+            'ts_archived' => '2015-02-28 12:12:12',
         ),
 
         // reprocessed invalidated
@@ -208,7 +208,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-10',
             'date2' => '2015-02-10',
             'period' => 1,
-            'ts_archived' => '2015-02-11 12:13:14'
+            'ts_archived' => '2015-02-11 12:13:14',
         ),
 
         array(
@@ -219,7 +219,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-08',
             'date2' => '2015-02-14',
             'period' => 2,
-            'ts_archived' => '2015-02-15 14:00:00'
+            'ts_archived' => '2015-02-15 14:00:00',
         ),
         array(
             'idarchive' => 18,
@@ -229,7 +229,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-08',
             'date2' => '2015-02-14',
             'period' => 2,
-            'ts_archived' => '2015-02-16 00:00:00'
+            'ts_archived' => '2015-02-16 00:00:00',
         ),
 
         array(
@@ -240,7 +240,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-01',
             'date2' => '2015-02-28',
             'period' => 3,
-            'ts_archived' => '2015-02-28 13:13:13'
+            'ts_archived' => '2015-02-28 13:13:13',
         ),
 
         array(
@@ -251,7 +251,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-28',
             'date2' => '2015-02-28',
             'period' => 1,
-            'ts_archived' => '2015-02-28 16:12:12' // must be late so it doesn't screw up the purgeOutdatedArchives test
+            'ts_archived' => '2015-02-28 16:12:12', // must be late so it doesn't screw up the purgeOutdatedArchives test
         ),
 
         // newer done_ok
@@ -263,7 +263,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-10',
             'date2' => '2015-02-10',
             'period' => 1,
-            'ts_archived' => '2015-02-09 14:13:14'
+            'ts_archived' => '2015-02-09 14:13:14',
         ),
 
         // old done partial (should be purged)
@@ -275,7 +275,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-10',
             'date2' => '2015-02-10',
             'period' => 1,
-            'ts_archived' => '2015-02-11 10:13:14'
+            'ts_archived' => '2015-02-11 10:13:14',
         ),
 
         // new done partial (should not be purged)
@@ -287,7 +287,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-10',
             'date2' => '2015-02-10',
             'period' => 1,
-            'ts_archived' => '2015-02-11 16:13:14'
+            'ts_archived' => '2015-02-11 16:13:14',
         ),
     );
 
@@ -300,7 +300,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
         array(
             'idarchive' => 25,
@@ -310,7 +310,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
         array(
             'idarchive' => 26,
@@ -320,7 +320,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
         array(
             'idarchive' => 27,
@@ -330,7 +330,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
         array(
             'idarchive' => 28,
@@ -340,7 +340,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
         array(
             'idarchive' => 29,
@@ -350,7 +350,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
         array(
             'idarchive' => 30,
@@ -360,7 +360,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
         array(
             'idarchive' => 31,
@@ -370,7 +370,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
         array(
             'idarchive' => 32,
@@ -380,7 +380,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-03 12:12:12'
+            'ts_archived' => '2015-02-03 12:12:12',
         ),
         array(
             'idarchive' => 33,
@@ -390,7 +390,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-03',
             'date2' => '2015-02-03',
             'period' => 1,
-            'ts_archived' => '2015-02-27 12:12:12'
+            'ts_archived' => '2015-02-27 12:12:12',
         ),
     );
 
@@ -404,7 +404,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-11',
             'date2' => '2015-02-11',
             'period' => 1,
-            'ts_archived' => '2015-02-27 10:12:12'
+            'ts_archived' => '2015-02-27 10:12:12',
         ],
         [
             'idarchive' => 35,
@@ -414,7 +414,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
             'date1' => '2015-02-11',
             'date2' => '2015-02-11',
             'period' => 1,
-            'ts_archived' => '2015-02-27 12:12:12'
+            'ts_archived' => '2015-02-27 12:12:12',
         ],
     ];
 

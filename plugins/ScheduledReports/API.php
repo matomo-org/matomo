@@ -475,7 +475,7 @@ class API extends \Piwik\Plugin\API
                     'idGoal' => false,
                     'language' => $language,
                     'serialize' => 0,
-                    'format' => 'original'
+                    'format' => 'original',
                 ];
 
                 if ($segment != null) {
@@ -714,7 +714,7 @@ class API extends \Piwik\Plugin\API
                         $reportTitle,
                         $additionalFiles,
                         \Piwik\Period\Factory::build($report['period_param'], $date),
-                        $force
+                        $force,
                     ]
                 );
 

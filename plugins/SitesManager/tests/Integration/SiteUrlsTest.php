@@ -136,8 +136,8 @@ class SiteUrlsTest extends IntegrationTestCase
                 'http://www.example.com',  // should remove www.
                 'https://example.org',     // should handle https or other protocol
                 'http://apache.piwik/',    // same as initial one but with slash at the end, should not add idsite twice
-                'http://third.www.com'     // should not remove www. in the middle of a domain
-            ]
+                'http://third.www.com',     // should not remove www. in the middle of a domain
+            ],
         ];
 
         $expected = [
@@ -160,13 +160,13 @@ class SiteUrlsTest extends IntegrationTestCase
 
         $urls = [
             $idSite => [
-                'http://apache.piwik/test', 'http://apache.piWik', 'http://apache.piwik/foo/bAr/', 'http://apache.piwik/Foo/SECOND'
+                'http://apache.piwik/test', 'http://apache.piWik', 'http://apache.piwik/foo/bAr/', 'http://apache.piwik/Foo/SECOND',
             ],
             $idSite2 => [
-                'http://apache.piwik/test/', 'http://example.oRg', 'http://apache.piwik/foo/secOnd'
+                'http://apache.piwik/test/', 'http://example.oRg', 'http://apache.piwik/foo/secOnd',
             ],
             $idSite3 => [
-                'http://apache.piwik/', 'http://apache.piwik/third', 'http://exampLe.com', 'http://example.org/foo/test/two'
+                'http://apache.piwik/', 'http://apache.piwik/third', 'http://exampLe.com', 'http://example.org/foo/test/two',
             ],
             $idSite4 => [],
             $idSite5 => ['invalidUrl', 'ftp://example.org/'],
@@ -178,14 +178,14 @@ class SiteUrlsTest extends IntegrationTestCase
                 '/foo/bar/' => [$idSite],
                 '/third/' => [$idSite3],
                 '/test/' => [$idSite, $idSite2],
-                '/' => [$idSite, $idSite3]
+                '/' => [$idSite, $idSite3],
             ],
             'example.org' => [
                 '/foo/test/two/' => [$idSite3],
-                '/' => [$idSite2, $idSite5]
+                '/' => [$idSite2, $idSite5],
             ],
             'example.com' => [
-                '/' => [$idSite3]
+                '/' => [$idSite3],
             ],
         ];
 
@@ -204,22 +204,22 @@ class SiteUrlsTest extends IntegrationTestCase
                 '/foo/bar/' => [1],
                 '/third/' => [3],
                 '/test/' => [1, 2],
-                '/' => [1, 3]
+                '/' => [1, 3],
             ],
             'example.org' => [
                 '/foo/test/two/' => [3],
                 '/foo/second/' => [6],
-                '/' => [2, 5]
+                '/' => [2, 5],
             ],
             'example.com' => [
-                '/' => [3]
+                '/' => [3],
             ],
             'my.site.com' => [
-                '/path/' => [2]
+                '/path/' => [2],
             ],
             '.site.com' => [
-                '/' => [3]
-            ]
+                '/' => [3],
+            ],
         ];
         $matchedSites = $this->siteUrls->getIdSitesMatchingUrl($parsedUrl, $urlsGroupedByHost);
 
@@ -266,12 +266,12 @@ class SiteUrlsTest extends IntegrationTestCase
                 '/foo/bar/' => [1],
                 '/third/' => [3],
                 '/test/' => [1, 2],
-                '/' => [1, 3]
+                '/' => [1, 3],
             ],
             'example.org' => [
                 '/foo/test/two/' => [3],
                 '/foo/second/' => [6],
-                '/' => [2, 5]
+                '/' => [2, 5],
             ],
         ];
         $matchedSites = $this->siteUrls->getPathMatchingUrl($parsedUrl, $urlsGroupedByHost);

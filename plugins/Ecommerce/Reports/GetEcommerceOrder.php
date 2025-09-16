@@ -28,7 +28,7 @@ class GetEcommerceOrder extends Base
             'revenue_subtotal',
             'revenue_tax',
             'revenue_shipping',
-            'revenue_discount'
+            'revenue_discount',
         );
 
         $this->parameters = array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER);

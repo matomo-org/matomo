@@ -452,7 +452,7 @@ class ProcessedReport
             'columns'        => $columns,
             'reportData'     => $newReport,
             'reportMetadata' => $rowsMetadata,
-            'reportTotal'    => $totals
+            'reportTotal'    => $totals,
         );
         if ($showTimer) {
             $return['timerMillis'] = $timer->getTimeMs(0);
@@ -550,7 +550,7 @@ class ProcessedReport
             $newReport,
             $columns,
             $rowsMetadata,
-            $totals
+            $totals,
         );
     }
 
@@ -772,7 +772,7 @@ class ProcessedReport
 
         return array(
             $enhancedDataTable,
-            $rowsMetadata
+            $rowsMetadata,
         );
     }
 

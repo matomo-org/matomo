@@ -542,12 +542,12 @@ class DataSubjects
             if ($joinTable->getColumnToJoinOnIdVisit()) {
                 $from[] = [
                     'table' => $joinTable->getName(),
-                    'joinOn' => sprintf('%s.%s = %s.%s', $logTableName, $joinColumn, $joinTable->getName(), $joinColumn)
+                    'joinOn' => sprintf('%s.%s = %s.%s', $logTableName, $joinColumn, $joinTable->getName(), $joinColumn),
                 ];
                 if ($joinTable->getName() !== 'log_visit') {
                     $from[] = [
                         'table' => 'log_visit',
-                        'joinOn' => sprintf('%s.%s = %s.%s', $joinTable->getName(), $joinTable->getColumnToJoinOnIdVisit(), 'log_visit', $joinTable->getColumnToJoinOnIdVisit())
+                        'joinOn' => sprintf('%s.%s = %s.%s', $joinTable->getName(), $joinTable->getColumnToJoinOnIdVisit(), 'log_visit', $joinTable->getColumnToJoinOnIdVisit()),
                     ];
                 }
                 $tableToSelect = 'log_visit';
@@ -558,7 +558,7 @@ class DataSubjects
                 if ($tableToSelect) {
                     $from[] = [
                         'table' => $joinTable->getName(),
-                        'joinOn' => sprintf('%s.%s = %s.%s', $logTableName, $joinColumn, $joinTable->getName(), $joinColumn)
+                        'joinOn' => sprintf('%s.%s = %s.%s', $logTableName, $joinColumn, $joinTable->getName(), $joinColumn),
                     ];
                     foreach ($subFroms as $subFrom) {
                         $from[] = $subFrom;

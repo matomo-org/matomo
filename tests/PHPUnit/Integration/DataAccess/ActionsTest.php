@@ -38,7 +38,7 @@ class ActionsTest extends IntegrationTestCase
         $this->actionsAccess->delete(array(2,3,4,5));
 
         $expectedActions = array(
-            array('name' => 'action1')
+            array('name' => 'action1'),
         );
         $actualActions = Db::fetchAll("SELECT name FROM " . Common::prefixTable('log_action'));
         $this->assertEquals($expectedActions, $actualActions);
@@ -50,7 +50,7 @@ class ActionsTest extends IntegrationTestCase
 
         $expectedActions = array(
             array('name' => 'action1'),
-            array('name' => 'action3')
+            array('name' => 'action3'),
         );
         $actualActions = Db::fetchAll("SELECT name FROM " . Common::prefixTable('log_action'));
         $this->assertEquals($expectedActions, $actualActions);

@@ -45,7 +45,7 @@ class GetDonateForm extends Widget
         }
 
         return $this->renderTemplate('getDonateForm', array(
-            'footerMessage' => $footerMessage
+            'footerMessage' => $footerMessage,
         ));
     }
 }

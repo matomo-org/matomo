@@ -76,7 +76,7 @@ class API extends \Piwik\Plugin\API
                     $row = $table->getRowFromLabel($requiredRow);
                     if (empty($row)) {
                         $table->addRowsFromSimpleArray([
-                            ['label' => $requiredRow, $key => 0]
+                            ['label' => $requiredRow, $key => 0],
                         ]);
                     }
                 }

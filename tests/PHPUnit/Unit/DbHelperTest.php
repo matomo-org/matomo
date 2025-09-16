@@ -39,7 +39,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
     {
         yield 'no clause' => [
             'SELECT my_column FROM my_table',
-            null
+            null,
         ];
 
         yield 'simple order by' => [
@@ -52,7 +52,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
             '
                 column_one DESC,
                 column_two ASC
-            '
+            ',
         ];
 
         yield 'multiple order by' => [
@@ -65,7 +65,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                 ) AS my_data
                 ORDER BY column_one
             ',
-            'column_one'
+            'column_one',
         ];
 
         yield 'nested order by ignored' => [
@@ -77,7 +77,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                     ORDER BY column_two
                 ) AS my_data
             ',
-            null
+            null,
         ];
 
         yield 'query terminated by ;' => [
@@ -86,7 +86,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                 FROM my_table
                 ORDER BY column_one DESC;
             ',
-            'column_one DESC'
+            'column_one DESC',
         ];
 
         yield 'order by with following limit' => [
@@ -96,12 +96,12 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
                 ORDER BY column_one
                 LIMIT 1
             ',
-            'column_one'
+            'column_one',
         ];
 
         yield 'unbalanced parentheses' => [
             'SELECT my_column FROM my_table ORDER BY column_one, (, column_two',
-            null
+            null,
         ];
     }
 
@@ -120,27 +120,27 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
         return array(
             'simpleDbName' => array(
                 'dbName' => 'FirstPiwikDb',
-                'expectation' => true
+                'expectation' => true,
             ),
             'containsNumbers' => array(
                 'dbName' => 'FirstPiw1kDb',
-                'expectation' => true
+                'expectation' => true,
             ),
             'startsWithNumber' => array(
                 'dbName' => '1stPiwikDb',
-                'expectation' => true
+                'expectation' => true,
             ),
             'containsAllowedSpecialCharacters' => array(
                 'dbName' => 'MyPiwikDb-with.More+compleX_N4M3',
-                'expectation' => true
+                'expectation' => true,
             ),
             'containsSpace' => array(
                 'dbName' => '1st PiwikDb',
-                'expectation' => false
+                'expectation' => false,
             ),
             'startWithNonAlphaNumericSign' => array(
                 'dbName' => ';FirstPiwikDb',
-                'expectation' => false
+                'expectation' => false,
             ),
         );
     }
@@ -308,7 +308,7 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
         yield 'hint without parenthesis' => [
             'SELECT /*+ STRAIGHT_JOIN HINT_ONE(1) */ * FROM table',
             'SELECT /*+ HINT_ONE(1) */ * FROM table',
-            'STRAIGHT_JOIN'
+            'STRAIGHT_JOIN',
         ];
 
         yield 'not a SELECT query' => [

@@ -356,7 +356,7 @@ class Controller extends ControllerAdmin
 
                 $params = array(
                     'site_idSite' => $result,
-                    'site_name' => urlencode($name)
+                    'site_name' => urlencode($name),
                 );
 
                 $this->redirectToNextStep(__FUNCTION__, $params);
@@ -535,7 +535,7 @@ class Controller extends ControllerAdmin
             'node_modules/@materializecss/materialize/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
-            'plugins/Installation/stylesheets/installation.css'
+            'plugins/Installation/stylesheets/installation.css',
         );
 
         return AssetManager::compileCustomStylesheets($files);
@@ -813,7 +813,7 @@ class Controller extends ControllerAdmin
                 "\n<br/>" .
                 Piwik::translate('Installation_ErrorExpired7', [
                     '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/manage-secure-access-to-the-matomo-installer/') . '" rel="noreferrer noopener" target="_blank">',
-                    '</a>'
+                    '</a>',
                 ])
             );
         }

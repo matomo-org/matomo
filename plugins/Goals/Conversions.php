@@ -25,7 +25,7 @@ class Conversions
             'date'      => $date,
             'idSite'    => $idSite,
             'serialize' => 0,
-            'segment'   => false
+            'segment'   => false,
         ));
 
         // we ignore the segment even if there is one set. We still want to show conversion overview if there are conversions

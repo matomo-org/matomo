@@ -141,7 +141,7 @@ class API extends \Piwik\Plugin\API
         $email = $container->make(SettingsChangedEmail::class, array(
             'login' => Piwik::getCurrentUserLogin(),
             'emailAddress' => Piwik::getCurrentUserEmail(),
-            'pluginNames' => $pluginNames
+            'pluginNames' => $pluginNames,
         ));
         $email->safeSend();
 
@@ -154,7 +154,7 @@ class API extends \Piwik\Plugin\API
                 'login' => Piwik::translate('Installation_SuperUser'),
                 'emailAddress' => $address,
                 'pluginNames' => $pluginNames,
-                'superuser' => Piwik::getCurrentUserLogin()
+                'superuser' => Piwik::getCurrentUserLogin(),
             ));
             $superUserEmail->addTo($address);
         }

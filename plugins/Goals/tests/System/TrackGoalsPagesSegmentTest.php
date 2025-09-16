@@ -37,26 +37,26 @@ class TrackGoalsPagesSegmentTest extends SystemTestCase
         return [
             ['Actions.getPageUrls',        ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
                                             'idGoal' => 1, 'period' => 'week',
-                                            'segment' => 'countryCode==' . self::$fixture->segmentCountryCode
+                                            'segment' => 'countryCode==' . self::$fixture->segmentCountryCode,
             ]],
             ['Actions.getPageTitles',      ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
                                             'idGoal' => 1, 'period' => 'week',
-                                            'segment' => 'countryCode==' . self::$fixture->segmentCountryCode
+                                            'segment' => 'countryCode==' . self::$fixture->segmentCountryCode,
             ]],
             ['Actions.getEntryPageUrls',   ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
                                             'idGoal' => 1, 'period' => 'week',
                                             'segment' => 'countryCode==' . self::$fixture->segmentCountryCode,
                                             'otherRequestParameters' => [
-                                                'filter_update_columns_when_show_all_goals' => 1
-                                            ]
+                                                'filter_update_columns_when_show_all_goals' => 1,
+                                            ],
             ]],
             ['Actions.getEntryPageTitles', ['idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime,
                                             'idGoal' => 1, 'period' => 'week',
                                             'segment' => 'countryCode==' . self::$fixture->segmentCountryCode,
                                             'otherRequestParameters' => [
-                                                'filter_update_columns_when_show_all_goals' => 1
-                                            ]
-            ]]
+                                                'filter_update_columns_when_show_all_goals' => 1,
+                                            ],
+            ]],
         ];
     }
 

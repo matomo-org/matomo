@@ -52,7 +52,7 @@ class RemoveUserIfNeededTest extends IntegrationTestCase
         $dataTable->addRowsFromArray(array(
             array(Row::COLUMNS => array('label' => 'val1', Metrics::INDEX_NB_USERS => 0)),
             array(Row::COLUMNS => array('label' => 'val2')),
-            array(Row::COLUMNS => array('label' => 'val2 5w ö?', Metrics::INDEX_NB_USERS => $withUser))
+            array(Row::COLUMNS => array('label' => 'val2 5w ö?', Metrics::INDEX_NB_USERS => $withUser)),
         ));
 
         $dataTable->filter($this->filter, array($idSite = 1, $period = 'day', $date = 'today'));
