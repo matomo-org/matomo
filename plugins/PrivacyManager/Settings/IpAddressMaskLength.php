@@ -2,6 +2,7 @@
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
+use Piwik\Piwik;
 use Piwik\Settings\Interfaces\OptionSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
@@ -44,19 +45,19 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
 
     public static function getTitle(): string
     {
-        return 'IP Address Mask Length';
+        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingTitle');
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        // TODO add dynamic messaging
-        return 'Must be set to at least 2 bytes.';
+        // TODO add in logic for generating message for different policy requirements
+        $currentValue = self::getInstance($idSite)->getValue();
+        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingRequirementNote', [ 2, $currentValue ]);
     }
 
     public static function getInlineHelp(): string
     {
-        // TODO
-        return '';
+        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengtDescription');
     }
 
     public static function getPolicyRequirements(): array

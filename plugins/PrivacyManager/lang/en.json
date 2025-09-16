@@ -10,6 +10,8 @@
         "AnonymizeIpMaskLengtDescription": "Select how many bytes of the visitors' IPs should be masked.",
         "AnonymizeIpMaskLength": "%1$s byte(s) - e.g. %2$s",
         "AnonymizeIpMaskFully": "Fully mask IP address",
+        "AnonymizeIpMaskLengthSettingTitle": "IP Address Mask Length",
+        "AnonymizeIpMaskLengthSettingRequirementNote": "Must be set to at least %1$s byte(s), currently %2$s byte(s).",
         "AnonymizeReferrer": "Anonymize Referrer",
         "AnonymizeReferrerNote": "Matomo stores from which URL (referrer) a user comes to your site. In some cases such a URL may contain information that can be considered personal information. If you want to prevent such information to be tracked you can restrict the amount of referrer data that Matomo will store when a visitor enters your website. The more information is removed from the referrer information, the less likely personal information will be recorded. The more information you remove from the referrer, the less clear it will be how a visitor came to your website.",
         "AskingForConsent": "Asking for consent",
