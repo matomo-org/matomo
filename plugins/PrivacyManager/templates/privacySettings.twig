@@ -18,7 +18,7 @@
     use-anonymized-ip-for-visit-enrichment-options="{{ anonymisationSettings.useAnonymizedIpForVisitEnrichmentOptions|default(null)|json_encode }}"
     tracker-file-name="{{ anonymisationSettings.trackerFileName|default(null)|json_encode }}"
     tracker-writable="{{ anonymisationSettings.trackerWritable|default(null)|json_encode }}"
-    referrer-anonymization-options="{{ referrerAnonymizationOptions|default(null)|json_encode }}"
+    referrer-anonymization-options="{{ anonymisationSettings.referrerAnonymizationOptions|default(null)|json_encode }}"
     is-data-purge-settings-enabled="{{ isDataPurgeSettingsEnabled|default(null)|json_encode }}"
     delete-data="{{ deleteData|default(null)|json_encode }}"
     schedule-deletion-options="{{ scheduleDeletionOptions|default(null)|json_encode }}"

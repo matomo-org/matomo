@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CustomJsTracker\File;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Live;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
@@ -23,6 +24,7 @@ use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
 use Piwik\Site;
+use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Validators\BaseValidator;
 
 /**
@@ -48,11 +50,6 @@ class API extends \Piwik\Plugin\API
     private $logDataAnonymizer;
 
     /**
-     * @var ReferrerAnonymizer
-     */
-    private $referrerAnonymizer;
-
-    /**
      * @var FeatureFlagManager
      */
     private $featureFlagManager;
@@ -62,13 +59,11 @@ class API extends \Piwik\Plugin\API
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
         LogDataAnonymizer $logDataAnonymizer,
-        ReferrerAnonymizer $referrerAnonymizer,
         FeatureFlagManager $featureFlagManager
     ) {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
-        $this->referrerAnonymizer = $referrerAnonymizer;
         $this->featureFlagManager = $featureFlagManager;
     }
 
@@ -235,6 +230,67 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Provide tracker file name and whether it's writable
+     *
+     * @return array{0: string, 1: bool}
+     */
+    private function getTrackerFileDetails(): array
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            $jsCodeGenerator = new TrackerCodeGenerator();
+            $file = new File(PIWIK_DOCUMENT_ROOT . '/' . $jsCodeGenerator->getJsTrackerEndpoint());
+            $filename = $jsCodeGenerator->getJsTrackerEndpoint();
+
+            if (Manager::getInstance()->isPluginActivated('CustomJsTracker')) {
+                $file = StaticContainer::get('Piwik\Plugins\CustomJsTracker\TrackerUpdater')->getToFile();
+                $filename = $file->getName();
+            }
+
+            return [$filename, $file->hasWriteAccess()];
+        }
+
+        return ['', false];
+    }
+
+    /**
+     * Provide anonymisation settings to Matomo UI only
+     *
+     * @internal
+     */
+    public function getAnonymisationSettings(?int $idSiteSpecific = null): array
+    {
+        if (is_numeric($idSiteSpecific)) {
+            $idSite = intval($idSiteSpecific);
+            Piwik::checkUserHasAdminAccess($idSiteSpecific);
+        } else {
+            $idSite = null;
+            Piwik::checkUserHasSuperUserAccess();
+        }
+
+        $privacyConfig = new Config($idSite);
+        $settings = [];
+        foreach ($privacyConfig->getConfigPropertyNames() as $propertyName) {
+            $settings[$propertyName] = $privacyConfig->{$propertyName};
+        }
+        $settings['useSiteSpecificSettings'] = $privacyConfig->useSiteSpecificSettings();
+
+        // provide extra settings
+        [$trackerFilename, $trackerFileWritable] = $this->getTrackerFileDetails();
+        $settings = array_merge($settings, [
+            'maskLengthOptions' => PrivacyManager::getMaskLengthOptions(),
+            'useAnonymizedIpForVisitEnrichmentOptions' =>
+                PrivacyManager::getUseAnonymizedIpForVisitEnrichmentOptions(),
+            'referrerAnonymizationOptions' => ReferrerAnonymizer::getAvailableAnonymizationOptions(),
+            'configRandomisationFeatureFlag' =>
+                $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class),
+            'trackerFileName' => $trackerFilename,
+            'trackerWritable' => $trackerFileWritable,
+        ]);
+
+        return $settings;
+    }
+
+    /**
      * @internal
      */
     public function setAnonymizeIpSettings(
@@ -246,10 +302,27 @@ class API extends \Piwik\Plugin\API
         $anonymizeReferrer = '',
         $forceCookielessTracking = false,
         $randomizeConfigId = false,
+        ?int $idSiteSpecific = null,
+        bool $useSiteSpecificSettings = false,
         #[\SensitiveParameter]
         $passwordConfirmation = ''
     ) {
-        Piwik::checkUserHasSuperUserAccess();
+        if (null !== $idSiteSpecific) {
+            $idSite = $idSiteSpecific;
+            Piwik::checkUserHasAdminAccess($idSiteSpecific);
+        } else {
+            $idSite = null;
+            Piwik::checkUserHasSuperUserAccess();
+        }
+
+        // if we receive a specific site ID, and it's set not to use custom site settings, we need to remove them
+        // so that the behaviour defaults to the system settings
+        if ($idSite && !$useSiteSpecificSettings) {
+            $privacyConfig = new Config($idSite);
+            $privacyConfig->removeForSite();
+
+            return true;
+        }
 
         if ($randomizeConfigId == '1') {
             $this->confirmCurrentUserPassword($passwordConfirmation);
@@ -259,39 +332,30 @@ class API extends \Piwik\Plugin\API
             IPAnonymizer::activate();
         } elseif ($anonymizeIPEnable == '0') {
             IPAnonymizer::deactivate();
-        } else {
-            // pass
         }
 
         if (
             !empty($anonymizeReferrer)
-            && !array_key_exists($anonymizeReferrer, $this->referrerAnonymizer->getAvailableAnonymizationOptions())
+            && !array_key_exists($anonymizeReferrer, ReferrerAnonymizer::getAvailableAnonymizationOptions())
         ) {
             $anonymizeReferrer = '';
         }
 
-        $privacyConfig = new Config();
-        $privacyConfig->ipAddressMaskLength = (int) $maskLength;
-        $privacyConfig->useAnonymizedIpForVisitEnrichment = (bool) $useAnonymizedIpForVisitEnrichment;
+        $privacyConfig = new Config($idSite);
+        $privacyConfig->ipAddressMaskLength = $maskLength;
+        $privacyConfig->useAnonymizedIpForVisitEnrichment = $useAnonymizedIpForVisitEnrichment;
         $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
+        $privacyConfig->anonymizeUserId = $anonymizeUserId;
+        $privacyConfig->anonymizeOrderId = $anonymizeOrderId;
+        $privacyConfig->randomizeConfigId = $randomizeConfigId;
 
-        if (false !== $anonymizeUserId) {
-            $privacyConfig->anonymizeUserId = (bool) $anonymizeUserId;
-        }
-
-        if (false !== $anonymizeOrderId) {
-            $privacyConfig->anonymizeOrderId = (bool) $anonymizeOrderId;
-        }
-
-        if (false !== $forceCookielessTracking) {
-            $privacyConfig->forceCookielessTracking = (bool) $forceCookielessTracking;
+        if (!$idSite) {
+            // only allow setting 'force cookieless tracking' instance-wide and skip it for site as it applies
+            // changes to JS tracker files that we can't currently support on a per-site basis
+            $privacyConfig->forceCookielessTracking = $forceCookielessTracking;
 
             // update tracker files
             Piwik::postEvent('CustomJsTracker.updateTracker');
-        }
-
-        if (false !== $randomizeConfigId) {
-            $privacyConfig->randomizeConfigId = (bool) $randomizeConfigId;
         }
 
         return true;
