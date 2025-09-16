@@ -27,7 +27,7 @@ class PolicyManagerTest extends TestCase
 
     public function testGetAllPoliciesDecorated()
     {
-        $decoratedPolicies = PolicyManager::getAllPoliciesDecorated();
+        $decoratedPolicies = PolicyManager::getAllPoliciesDetails();
         foreach ($decoratedPolicies as $decoratedPolicy) {
             $this->assertArrayHasKey('id', $decoratedPolicy);
             $this->assertArrayHasKey('title', $decoratedPolicy);

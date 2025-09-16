@@ -616,6 +616,7 @@ class Manager
 
     /**
      * @template T of object
+     * @param string $directoryWithinPlugin
      * @param class-string<T> $expectedSubclass
      * @return array<class-string<T>>
      */

@@ -4,7 +4,6 @@ namespace Piwik\Plugins\WebsiteMeasurable\Settings;
 
 use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
-use Piwik\Policy\HipaaPolicy;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
@@ -62,31 +61,31 @@ class Ecommerce implements MeasurableSettingInterface, PolicyComparisonInterface
 
     public static function getTitle(): string
     {
-        return 'Ecommerce Disabled per site';
+        return Piwik::translate('WebsiteMeasurable_EcommercePolicySettingTitle');
     }
 
-    public static function getComplianceRequirementNote(): string
+    public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return 'Ecommerce must be disabled';
+        // TODO add dynamic messaging
+        return Piwik::translate('WebsiteMeasurable_EcommercePolicySettingRequirementNote');
     }
 
     public static function getInlineHelp(): string
     {
-        return Piwik::translate('Live_DisableVisitsLogAndProfileDescription');
+        return Piwik::translate('SitesManager_EcommerceHelp');
     }
 
     public static function getPolicyRequirements(): array
     {
         $policyValues = [];
         $policyValues[CnilPolicy::class] = 0;
-        $policyValues[HipaaPolicy::class] = 0;
 
         return $policyValues;
     }
 
     public static function getInstance(?int $idSite = null): self
     {
-        $values = self::getPolicyValues($idSite);
+        $values = self::getPolicyRequiredValues($idSite);
         if (is_null($idSite)) {
             $values['measurable'] = null;
 

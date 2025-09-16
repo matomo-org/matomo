@@ -2,13 +2,13 @@
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
+use Piwik\Piwik;
 use Piwik\Settings\Interfaces\ConfigSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Settings\Interfaces\Traits\Getters\ConfigGetterTrait;
 use Piwik\Policy\CnilPolicy;
-use Piwik\Policy\HipaaPolicy;
 
 /**
  * @implements ConfigSettingInterface<int|null>
@@ -54,18 +54,17 @@ class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterfa
 
     public static function getTitle(): string
     {
-        return 'Data retention period';
+        return Piwik::translate('PrivacyManager_RetentionPeriodPolicySettingTitle');
     }
 
-    public static function getComplianceRequirementNote(): string
+    public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        // TODO add in dynamic messaging
-        return 'Retention period is set to 365 days';
+        $currentValue = self::getInstance($idSite)->getValue();
+        return Piwik::translate('PrivacyManager_RetentionPeriodPolicySettingRequirementNote', $currentValue);
     }
 
     public static function getInlineHelp(): string
     {
-        // TODO
         return '';
     }
 
@@ -73,14 +72,13 @@ class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterfa
     {
         $policyValues = [];
         $policyValues[CnilPolicy::class] = 180;
-        $policyValues[HipaaPolicy::class] = 180;
 
         return $policyValues;
     }
 
     public static function getInstance(?int $idSite = null): self
     {
-        $values = self::getPolicyValues($idSite);
+        $values = self::getPolicyRequiredValues($idSite);
         $values['config'] = self::getConfigValue();
         $strictest = self::getStrictestValueFromArray($values);
         return new self($strictest);

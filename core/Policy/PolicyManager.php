@@ -16,14 +16,13 @@ class PolicyManager
     {
         return [
             CnilPolicy::class,
-            HipaaPolicy::class
         ];
     }
 
     /**
      * @return array<array<string, string>>
      */
-    public static function getAllPoliciesDecorated(): array
+    public static function getAllPoliciesDetails(): array
     {
         $policies = static::getAllPolicies();
         return array_map(function ($policyClass) {

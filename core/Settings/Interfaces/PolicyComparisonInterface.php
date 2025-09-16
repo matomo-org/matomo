@@ -17,11 +17,11 @@ interface PolicyComparisonInterface
     /**
      * @return array<class-string<CompliancePolicy>, T|null>
      */
-    public static function getPolicyValues(?int $idSite = null): array;
+    public static function getPolicyRequiredValues(?int $idSite = null): array;
 
     public static function isCompliant(string $policy, ?int $idSite = null): bool;
 
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool;
 
-    public static function getComplianceRequirementNote(): string;
+    public static function getComplianceRequirementNote(?int $idSite = null): string;
 }

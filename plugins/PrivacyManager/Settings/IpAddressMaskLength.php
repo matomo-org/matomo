@@ -8,7 +8,6 @@ use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Settings\Interfaces\Traits\Getters\OptionGetterTrait;
 use Piwik\Policy\CnilPolicy;
-use Piwik\Policy\HipaaPolicy;
 
 /**
  * @implements PolicyComparisonInterface<int|null>
@@ -48,8 +47,9 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
         return 'IP Address Mask Length';
     }
 
-    public static function getComplianceRequirementNote(): string
+    public static function getComplianceRequirementNote(?int $idSite = null): string
     {
+        // TODO add dynamic messaging
         return 'Must be set to at least 2 bytes.';
     }
 
@@ -63,14 +63,13 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
     {
         $policies = [];
         $policies[CnilPolicy::class] = 2;
-        $policies[HipaaPolicy::class] = 2;
 
         return $policies;
     }
 
     public static function getInstance(?int $idSite = null): self
     {
-        $values = self::getPolicyValues($idSite);
+        $values = self::getPolicyRequiredValues($idSite);
         $values['option'] = intval(self::getOptionValue());
         return new self(self::getStrictestValueFromArray($values));
     }

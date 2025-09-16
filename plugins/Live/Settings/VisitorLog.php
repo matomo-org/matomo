@@ -4,7 +4,6 @@ namespace Piwik\Plugins\Live\Settings;
 
 use Piwik\Piwik;
 use Piwik\Policy\CnilPolicy;
-use Piwik\Policy\HipaaPolicy;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SystemSettingInterface;
@@ -87,9 +86,10 @@ class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterfac
         return Piwik::translate('Live_DisableVisitsLogAndProfile');
     }
 
-    public static function getComplianceRequirementNote(): string
+    public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return 'Visits log is required to be disabled.';
+        // TODO add dynamic messaging
+        return Piwik::translate('Live_VisitorLogPolicySettingRequirementNote');
     }
 
     public static function getInlineHelp(): string
@@ -101,14 +101,13 @@ class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterfac
     {
         $policyValues = [];
         $policyValues[CnilPolicy::class] = true;
-        $policyValues[HipaaPolicy::class] = true;
 
         return $policyValues;
     }
 
     public static function getInstance(?int $idSite = null): self
     {
-        $values = self::getPolicyValues($idSite);
+        $values = self::getPolicyRequiredValues($idSite);
         $values['measurable'] = $idSite === null ? null : self::getMeasurableValue($idSite);
         $values['system'] = self::getSystemValue();
 

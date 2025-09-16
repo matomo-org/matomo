@@ -63,7 +63,9 @@ class Live extends \Piwik\Plugin
      */
     public static function checkIsVisitorLogEnabled($idSite = null): void
     {
-        if (VisitorLog::getInstance()->getValue()) {
+        $systemSettings = new SystemSettings();
+
+        if ($systemSettings->disableVisitorLog->getValue() === true) {
             throw new \Exception('Visits log is deactivated globally. A user with super user access can enable this feature in the general settings.');
         }
 
@@ -75,7 +77,8 @@ class Live extends \Piwik\Plugin
             $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
             foreach ($idSites as $idSite) {
-                if (VisitorLog::getInstance($idSite)->getValue()) {
+                $settings = new MeasurableSettings($idSite);
+                if ($settings->disableVisitorLog->getValue() === true) {
                     throw new \Exception('Visits log is deactivated in website settings. A user with at least admin access can enable this feature in the settings for this website (idSite=' . $idSite . ').');
                 }
             }

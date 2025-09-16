@@ -16,7 +16,7 @@ class PolicyComparisonTraitTest extends TestCase
     public function testGetPolicyValuesPolicyActive()
     {
         TestPolicy::setActiveStatus(null, true);
-        $values = PolicyComparisonTraitImpl::getPolicyValues();
+        $values = PolicyComparisonTraitImpl::getPolicyRequiredValues();
         $this->assertCount(1, $values);
         $this->assertArrayHasKey(TestPolicy::class, $values);
         $this->assertNotNull($values[TestPolicy::class]);
@@ -25,7 +25,7 @@ class PolicyComparisonTraitTest extends TestCase
     public function testGetPolicyValuesPolicyInactive()
     {
         TestPolicy::setActiveStatus(null, false);
-        $values = PolicyComparisonTraitImpl::getPolicyValues();
+        $values = PolicyComparisonTraitImpl::getPolicyRequiredValues();
         $this->assertCount(1, $values);
         $this->assertArrayHasKey(TestPolicy::class, $values);
         $this->assertNull($values[TestPolicy::class]);

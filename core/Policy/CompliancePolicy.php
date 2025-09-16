@@ -31,7 +31,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     abstract public static function getTitle(): string;
 
     /**
-     * @return array<string>
+     * @return array<string> of plugin names that are required for this policy to function
      */
     abstract protected static function getMinimumRequiredPlugins(): array;
 
@@ -43,7 +43,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         return [
             'id' => static::getName(),
             'title' => static::getTitle(),
-            'description' => static::getDescription()
+            'description' => static::getDescription(),
         ];
     }
 
@@ -74,8 +74,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
 
     protected static function getSystemName(): string
     {
-        // TODO
-        return 'cnil_policy_enabled';
+        return preg_replace('/\s+/', '', static::getName()) . '_policy_enabled';
     }
 
     protected static function getSystemType(): string
@@ -90,8 +89,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
 
     protected static function getMeasurableName(): string
     {
-        // TODO
-        return 'cnil_policy_enabled';
+        return preg_replace('/\s+/', '', static::getName()) . '_policy_enabled';
     }
 
     protected static function getMeasurableType(): string

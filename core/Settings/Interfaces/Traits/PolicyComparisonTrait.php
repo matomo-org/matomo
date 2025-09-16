@@ -14,7 +14,7 @@ trait PolicyComparisonTrait
     /**
      * @return array<class-string<CompliancePolicy>, T|null>
      */
-    public static function getPolicyValues(?int $idSite = null): array
+    public static function getPolicyRequiredValues(?int $idSite = null): array
     {
         $policyValues = self::getPolicyRequirements();
 
@@ -42,7 +42,7 @@ trait PolicyComparisonTrait
 
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool
     {
-        return array_key_exists($policy, self::getPolicyValues($idSite));
+        return array_key_exists($policy, self::getPolicyRequiredValues($idSite));
     }
 
     /**

@@ -2,13 +2,13 @@
 
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
+use Piwik\Piwik;
 use Piwik\Settings\Interfaces\OptionSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Settings\Interfaces\Traits\Getters\OptionGetterTrait;
 use Piwik\Policy\CnilPolicy;
-use Piwik\Policy\HipaaPolicy;
 
 /**
  * @implements PolicyComparisonInterface<int|null>
@@ -45,25 +45,24 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
 
     public static function getTitle(): string
     {
-        return 'IP Anonymisation Enabled';
+        return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingTitle');
     }
 
-    public static function getComplianceRequirementNote(): string
+    public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return "Anonymisation of Visitor's IP addresses must be enabled";
+        // TODO add dynamic messaging
+        return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingRequirementNote');
     }
 
     public static function getInlineHelp(): string
     {
-        // TODO maybe make this only required for system/measurable settings
-        return '';
+        return Piwik::translate('PrivacyManager_AnonymizeIpInlineHelp');
     }
 
     public static function getPolicyRequirements(): array
     {
         $policies = [];
         $policies[CnilPolicy::class] = 1;
-        $policies[HipaaPolicy::class] = 1;
 
         return $policies;
     }
@@ -72,7 +71,7 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
     {
         $optionValue = intval(self::getOptionValue());
 
-        $values = self::getPolicyValues($idSite);
+        $values = self::getPolicyRequiredValues($idSite);
         $values['option'] = $optionValue;
 
         $x = self::getStrictestValueFromArray($values);

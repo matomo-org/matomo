@@ -26,7 +26,7 @@ class CnilPolicy extends CompliancePolicy
         return [
             'PrivacyManager',
             'Live',
-            'WebsiteMeasurable'
+            'WebsiteMeasurable',
         ];
     }
 }

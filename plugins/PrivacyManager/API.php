@@ -423,7 +423,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getCompliancePolicies(): array
     {
-        return PolicyManager::getAllPoliciesDecorated();
+        return PolicyManager::getAllPoliciesDetails();
     }
 
     /**
@@ -457,7 +457,7 @@ class API extends \Piwik\Plugin\API
             $payload['complianceRequirements'][] = [
                 'name' => $setting::getTitle(),
                 'value' => $setting::isCompliant($policy, $idSite) ? 'compliant' : 'non_compliant',
-                'notes' => $setting::getComplianceRequirementNote(),
+                'notes' => $setting::getComplianceRequirementNote($idSite),
             ];
         }
         return $payload;
@@ -489,14 +489,6 @@ class API extends \Piwik\Plugin\API
         $policy::setActiveStatus($idSite, $enforce);
 
         return $enforce;
-    }
-
-    public function testGetSetting()
-    {
-        $value = ReportRetention::getInstance()->getValue();
-        $value2 = VisitorLog::getInstance(1)->getValue();
-        $value3 = IPAnonymisation::getInstance()->getValue();
-        $value4 = IpAddressMaskLength::getInstance()->getValue();
     }
 
     private function savePurgeDataSettings($settings)
