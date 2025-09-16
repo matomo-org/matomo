@@ -147,6 +147,23 @@ describe("PrivacyManager", function () {
         expect(await modal.screenshot()).to.matchImage(screenshotName);
     }
 
+    async function confirmPassword() {
+        await page.$('.confirm-password-modal.open', { visible: true });
+        await page.waitForTimeout(300);
+
+        await page.evaluate((superUserPassword) => {
+            $('.confirm-password-modal input[name=currentUserPassword]:visible')
+                .val(superUserPassword)
+                .change();
+        }, superUserPassword);
+
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal.open .modal-close:not(.modal-no):visible')).click();
+        await page.$('.confirm-password-modal.open', { hidden: true });
+        await page.waitForTimeout(300);
+        await page.waitForNetworkIdle();
+    }
+
     it('should load privacy opt out page', async function() {
         await loadActionPage('usersOptOut');
         await capturePage('users_opt_out_default');
@@ -177,28 +194,45 @@ describe("PrivacyManager", function () {
         await capturePage('gdpr_overview_no_retention');
     });
 
-    it('should load privacy settings page with config ID randomisation setting visible', async function() {
-        testEnvironment.overrideConfig('FeatureFlags', {
-          ConfigIdRandomisation_feature: 'enabled',
-        });
-        testEnvironment.save();
-
-        await loadActionPage('privacySettings');
-        await page.waitForNetworkIdle();
-
-        delete testEnvironment.configOverride.FeatureFlags.ConfigIdRandomisation_feature;
-        testEnvironment.save();
-
-        await capturePage('privacy_settings_default_with_randomisation');
-    });
-
     it('should load privacy settings page', async function() {
         await loadActionPage('privacySettings');
         await page.waitForNetworkIdle();
         await capturePage('privacy_settings_default');
     });
 
+    it('should require password when setting config id randomisation on', async function() {
+        await loadActionPage('privacySettings');
+        await page.waitForNetworkIdle();
+
+        await page.waitForSelector('div.randomizeConfigIdField label');
+        await page.click('div.randomizeConfigIdField label');
+        await page.click('#anonymizeIPAnchor input.btn[value=Save]');
+
+        await capturePage('config_id_randomisation_on_password_required');
+    });
+
+    it('should save config id randomisation setting after entering password', async function() {
+        await confirmPassword();
+        await page.waitForNetworkIdle();
+
+        await capturePage('config_id_randomisation_on');
+    });
+
+    it('should not require password when setting config id randomisation off', async function() {
+        await loadActionPage('privacySettings');
+        await page.waitForNetworkIdle();
+
+        await page.waitForSelector('div.randomizeConfigIdField label');
+        await page.click('div.randomizeConfigIdField label');
+        await page.click('#anonymizeIPAnchor input.btn[value=Save]');
+
+        await capturePage('config_id_randomisation_off_password_not_required');
+    });
+
     it('should anonymize ip and visit column', async function() {
+        await loadActionPage('privacySettings');
+        await page.waitForNetworkIdle();
+
         await page.waitForSelector('[name="anonymizeIp"] label');
         await page.click('[name="anonymizeIp"] label');
         await selectVisitColumn('config_browser_name');
@@ -419,23 +453,6 @@ describe("PrivacyManager", function () {
 
       expect(isBodyEmpty).to.be.true;
     });
-
-    async function confirmPassword() {
-      await page.$('.confirm-password-modal.open', { visible: true });
-      await page.waitForTimeout(300);
-
-      await page.evaluate((superUserPassword) => {
-        $('.confirm-password-modal input[name=currentUserPassword]:visible')
-          .val(superUserPassword)
-          .change();
-      }, superUserPassword);
-
-      await page.waitForTimeout(250);
-      await (await page.jQuery('.confirm-password-modal.open .modal-close:not(.modal-no):visible')).click();
-      await page.$('.confirm-password-modal.open', { hidden: true });
-      await page.waitForTimeout(300);
-      await page.waitForNetworkIdle();
-    }
 
     it('should show compliance is enforced when checkbox is selected', async function() {
       testEnvironment.overrideConfig('FeatureFlags', {
