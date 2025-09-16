@@ -6,8 +6,8 @@
 -->
 
 <template>
-  <div v-form>
-    <div>
+  <div v-form class="anonymizeSettings">
+    <div class="anonymizeIpSettingsField">
       <Field
         uicontrol="checkbox"
         name="anonymizeIpSettings"
@@ -18,7 +18,7 @@
       </Field>
     </div>
     <div v-show="actualEnabled">
-      <div>
+      <div class="maskLengthField">
         <Field
           uicontrol="radio"
           name="maskLength"
@@ -29,7 +29,7 @@
         >
         </Field>
       </div>
-      <div>
+      <div class="useAnonymizedIpForVisitEnrichmentField">
         <Field
           uicontrol="radio"
           name="useAnonymizedIpForVisitEnrichment"
@@ -41,7 +41,7 @@
         </Field>
       </div>
     </div>
-    <div>
+    <div class="anonymizeUserIdField">
       <Field
         uicontrol="checkbox"
         name="anonymizeUserId"
@@ -55,7 +55,7 @@
         </template>
       </Field>
     </div>
-    <div>
+    <div class="anonymizeOrderIdField">
       <Field
         uicontrol="checkbox"
         name="anonymizeOrderId"
@@ -65,7 +65,7 @@
       >
       </Field>
     </div>
-    <div>
+    <div class="forceCookielessTrackingField">
       <Field
         uicontrol="checkbox"
         name="forceCookielessTracking"
@@ -87,7 +87,7 @@
         </template>
       </Field>
     </div>
-    <div>
+    <div class="anonymizeReferrerField">
       <Field
         uicontrol="select"
         name="anonymizeReferrer"
@@ -98,28 +98,39 @@
       >
       </Field>
     </div>
-    <div>
+    <div class="randomizeConfigIdField">
       <Field
-        v-if="configRandomisationFeatureFlag"
         uicontrol="checkbox"
         name="randomizeConfigId"
         :title="translate('PrivacyManager_UseRandomizeConfigId')"
         v-model="actualRandomizeConfigId"
-        :inline-help="translate('PrivacyManager_RandomizeConfigIdNote')"
+        :inline-help="randomiseConfigIdHelpText"
       >
       </Field>
     </div>
     <SaveButton
-      @confirm="save()"
+      @confirm="shouldSave()"
       :saving="isLoading"
     />
+    <PasswordConfirmation
+      v-model="showPasswordConfirmation"
+      @confirmed="save"
+    >
+      <h2>{{ translate('PrivacyManager_ConfirmConfigRandomisationEnabled') }}</h2>
+      <p>{{ translate('PrivacyManager_ConfirmConfigRandomisationExplanation') }}</p>
+    </PasswordConfirmation>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { translate, AjaxHelper, NotificationsStore } from 'CoreHome';
-import { Form, Field, SaveButton } from 'CorePluginsAdmin';
+import {
+  Form,
+  Field,
+  PasswordConfirmation,
+  SaveButton,
+} from 'CorePluginsAdmin';
 
 interface AnonymizeIpState {
   isLoading: boolean;
@@ -131,6 +142,7 @@ interface AnonymizeIpState {
   actualForceCookielessTracking: boolean;
   actualAnonymizeReferrer?: string;
   actualRandomizeConfigId: boolean;
+  showPasswordConfirmation: boolean;
 }
 
 function configBoolToInt(value?: string|number|boolean): number {
@@ -170,10 +182,10 @@ export default defineComponent({
       required: true,
     },
     randomizeConfigId: Boolean,
-    configRandomisationFeatureFlag: Boolean,
   },
   components: {
     Field,
+    PasswordConfirmation,
     SaveButton,
   },
   directives: {
@@ -192,26 +204,41 @@ export default defineComponent({
       actualForceCookielessTracking: !!this.forceCookielessTracking,
       actualAnonymizeReferrer: this.anonymizeReferrer,
       actualRandomizeConfigId: !!this.randomizeConfigId,
+      showPasswordConfirmation: false,
     };
   },
   methods: {
-    save() {
+    shouldSave() {
+      if (this.actualRandomizeConfigId) {
+        this.showPasswordConfirmation = true;
+      } else {
+        this.save();
+      }
+    },
+    save(password?: string) {
       this.isLoading = true;
+
+      const postParams: QueryParameters = {
+        anonymizeIPEnable: this.actualEnabled ? '1' : '0',
+        anonymizeUserId: this.actualAnonymizeUserId ? '1' : '0',
+        anonymizeOrderId: this.actualAnonymizeOrderId ? '1' : '0',
+        forceCookielessTracking: this.actualForceCookielessTracking ? '1' : '0',
+        anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
+        maskLength: this.actualMaskLength,
+        useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
+        randomizeConfigId: this.actualRandomizeConfigId ? '1' : '0',
+      };
+
+      if (password) {
+        postParams.passwordConfirmation = password;
+      }
+
       AjaxHelper.post(
         {
           module: 'API',
           method: 'PrivacyManager.setAnonymizeIpSettings',
         },
-        {
-          anonymizeIPEnable: this.actualEnabled ? '1' : '0',
-          anonymizeUserId: this.actualAnonymizeUserId ? '1' : '0',
-          anonymizeOrderId: this.actualAnonymizeOrderId ? '1' : '0',
-          forceCookielessTracking: this.actualForceCookielessTracking ? '1' : '0',
-          anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
-          maskLength: this.actualMaskLength,
-          useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
-          randomizeConfigId: this.actualRandomizeConfigId ? '1' : '0',
-        },
+        postParams,
       ).then(() => {
         const notificationInstanceId = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
@@ -223,6 +250,16 @@ export default defineComponent({
       }).finally(() => {
         this.isLoading = false;
       });
+    },
+    randomiseConfigIdHelpText() {
+      const helpText = translate('PrivacyManager_RandomizeConfigIdNote');
+      const helpTextWarning = translate(
+        'PrivacyManager_RandomizeConfigIdNoteWarning',
+        '<strong>',
+        '</strong>',
+      );
+
+      return `${helpText}<br><br>${helpTextWarning}`;
     },
   },
   computed: {
