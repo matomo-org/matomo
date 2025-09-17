@@ -219,7 +219,7 @@ class Model
         $message = Piwik::translate('Live_QueryMaxExecutionTimeExceeded') . ' ' . $message;
 
         $params = array_merge($parameters, [
-            'segment' => $segment, 'limit' => $limit
+            'segment' => $segment, 'limit' => $limit,
         ]);
 
         /**
@@ -555,7 +555,7 @@ class Model
             $visitorId = $readerDb->fetchOne($sql, $bind);
         } catch (Exception $e) {
             $this->handleMaxExecutionTimeError($readerDb, $e, $segment->getOriginalString(), Date::now(), Date::now(), null, 1, [
-                'sql' => $sql, 'bind' => $bind
+                'sql' => $sql, 'bind' => $bind,
             ]);
             throw $e;
         }

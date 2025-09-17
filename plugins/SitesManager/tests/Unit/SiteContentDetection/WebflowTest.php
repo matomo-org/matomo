@@ -32,25 +32,25 @@ class WebflowTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no webflow content' => [
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'data-wf-domain is found' => [
             true,
             "<html lang=\"en\" data-wf-domain='http://localhost'><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'data-wf-page is found' => [
             true,
             "<html lang=\"en\" data-wf-page='My webpage'><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

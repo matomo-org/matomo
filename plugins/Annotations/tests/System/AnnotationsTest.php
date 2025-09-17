@@ -204,7 +204,7 @@ class AnnotationsTest extends SystemTestCase
             'starred'         => 1,
             'user'            => 'superUserLogin',
             'idNote'          => 0,
-            'canEditOrDelete' => true
+            'canEditOrDelete' => true,
         );
         $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 0));
     }
@@ -219,7 +219,7 @@ class AnnotationsTest extends SystemTestCase
             'starred'         => 0,
             'user'            => 'superUserLogin',
             'idNote'          => 1,
-            'canEditOrDelete' => true
+            'canEditOrDelete' => true,
         );
         $this->assertEquals($expectedAnnotation, API::getInstance()->get(self::$fixture->idSite1, 1));
     }
@@ -290,7 +290,7 @@ class AnnotationsTest extends SystemTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

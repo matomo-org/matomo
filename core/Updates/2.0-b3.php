@@ -38,8 +38,8 @@ class Updates_2_0_b3 extends Updates
             $this->migration->db->addColumn('log_visit', 'visit_total_events', 'SMALLINT(5) UNSIGNED NOT NULL', 'visit_total_searches'),
             $this->migration->db->addColumns('log_link_visit_action', array(
                 'idaction_event_category' => 'INTEGER(10) UNSIGNED',
-                'idaction_event_action' => 'INTEGER(10) UNSIGNED'
-            ), $placeAfter = 'idaction_name_ref')
+                'idaction_event_action' => 'INTEGER(10) UNSIGNED',
+            ), $placeAfter = 'idaction_name_ref'),
         );
     }
 

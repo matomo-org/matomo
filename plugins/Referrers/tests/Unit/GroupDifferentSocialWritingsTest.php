@@ -27,7 +27,7 @@ class GroupDifferentSocialWritingsTest extends \PHPUnit\Framework\TestCase
         $table->addRowsFromArray(array(
                                       array(Row::COLUMNS => array('label' => 'instagram', 'count' => 100)),
                                       array(Row::COLUMNS => array('label' => 'Facebook', 'count' => 5)),
-                                      array(Row::COLUMNS => array('label' => 'Instagram', 'count' => 10)
+                                      array(Row::COLUMNS => array('label' => 'Instagram', 'count' => 10),
                                       )));
         $filter = new GroupDifferentSocialWritings($table);
         $filter->filter($table);

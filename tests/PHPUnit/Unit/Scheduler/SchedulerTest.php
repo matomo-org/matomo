@@ -51,7 +51,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
         return array(
             array(1355529607, 'CoreAdminHome', 'purgeOutdatedArchives', null, $timetable),
             array(1322229607, 'PrivacyManager', 'deleteReportData', 1, $timetable),
-            array(false, 'ScheduledReports', 'weeklySchedule', null, $timetable)
+            array(false, 'ScheduledReports', 'weeklySchedule', null, $timetable),
         );
     }
 
@@ -123,7 +123,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
                 $caseOneExpectedTable,
                 // methods that should be executed
                 array(
-                    __CLASS__ . '.scheduledTaskOne'
+                    __CLASS__ . '.scheduledTaskOne',
                 ),
                 // timetable before task execution
                 array(
@@ -135,7 +135,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
                     $scheduledTaskOne,
                     $scheduledTaskTwo,
                     $scheduledTaskThree,
-                )
+                ),
             ),
 
             // case 2) follows case 1) with :
@@ -146,11 +146,11 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
                 // expected timetable
                 array(
                     __CLASS__ . '.scheduledTaskOne'   => $scheduledTaskOne->getRescheduledTime(),
-                    __CLASS__ . '.scheduledTaskThree' => $scheduledTaskThree->getRescheduledTime()
+                    __CLASS__ . '.scheduledTaskThree' => $scheduledTaskThree->getRescheduledTime(),
                 ),
                 // methods that should be executed
                 array(
-                    __CLASS__ . '.scheduledTaskThree'
+                    __CLASS__ . '.scheduledTaskThree',
                 ),
                 // timetable before task execution
                 $caseTwoTimetableBeforeExecution,
@@ -159,7 +159,7 @@ class SchedulerTest extends \PHPUnit\Framework\TestCase
                     $scheduledTaskOne,
 //                    $scheduledTaskTwo, Not configured anymore (ie. not returned after TaskScheduler::GET_TASKS_EVENT is issued)
                     $scheduledTaskThree,
-                )
+                ),
             ),
         );
     }

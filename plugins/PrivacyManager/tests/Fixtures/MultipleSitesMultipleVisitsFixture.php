@@ -145,7 +145,7 @@ class TestLogFoo extends LogTable
 class MultipleSitesMultipleVisitsFixture extends Fixture
 {
     private static $countryCode = array(
-        'CA', 'CN', 'DE', 'ES', 'FR', 'IE', 'IN', 'IT', 'MX', 'PT', 'RU', 'GB', 'US'
+        'CA', 'CN', 'DE', 'ES', 'FR', 'IE', 'IN', 'IT', 'MX', 'PT', 'RU', 'GB', 'US',
     );
 
     private static $performanceTimes = [
@@ -359,7 +359,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
                 'date1' => $archiveDate->toString('Y-m-d'),
                 'date2' => $archiveDate->toString('Y-m-d'),
                 'period' => 1,
-                'ts_archived' => $archiveDate->getDatetime()
+                'ts_archived' => $archiveDate->getDatetime(),
             );
             $this->insertArchiveRow($archiveDate, $doneRow);
         }

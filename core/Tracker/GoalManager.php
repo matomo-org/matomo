@@ -466,7 +466,7 @@ class GoalManager
                 $itemToUpdate = array_merge(
                     $itemInDb,
                     array('deleted'                => 1,
-                          'idorder_original_value' => $itemInDbOriginal['idorder_original_value']
+                          'idorder_original_value' => $itemInDbOriginal['idorder_original_value'],
                     )
                 );
 
@@ -558,7 +558,7 @@ class GoalManager
                 self::INTERNAL_ITEM_CATEGORY4 => $category4,
                 self::INTERNAL_ITEM_CATEGORY5 => $category5,
                 self::INTERNAL_ITEM_PRICE     => $price,
-                self::INTERNAL_ITEM_QUANTITY  => $quantity
+                self::INTERNAL_ITEM_QUANTITY  => $quantity,
             );
         }
 
@@ -695,7 +695,7 @@ class GoalManager
             'idsite'             => $goal['idsite'],
             'idvisitor'          => $goal['idvisitor'],
             'server_time'        => $goal['server_time'],
-            'idvisit'            => $goal['idvisit']
+            'idvisit'            => $goal['idvisit'],
         );
         return $newRow;
     }

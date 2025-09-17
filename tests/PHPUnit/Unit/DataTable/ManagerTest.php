@@ -175,7 +175,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
             5 => null,
             6 => $tables[6], // ignored as well
             7 => null,
-            8 => null
+            8 => null,
         ));
     }
 

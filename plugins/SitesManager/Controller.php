@@ -67,7 +67,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->renderTemplate(
             'globalSettings',
             [
-                'commonSensitiveQueryParams' => Config::getInstance()->SitesManager['CommonPIIParams']
+                'commonSensitiveQueryParams' => Config::getInstance()->SitesManager['CommonPIIParams'],
             ]
         );
     }
@@ -291,7 +291,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         Json::sendHeaderJSON();
         echo json_encode([
             'trackingMethods' => $trackingMethods,
-            'recommendedMethod' => $recommendedMethod
+            'recommendedMethod' => $recommendedMethod,
         ]);
         exit;
     }
@@ -416,7 +416,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             [
                 $detectedCms::getName(),
                 '<a target="_blank" rel="noreferrer noopener" href="' . $detectedCms::getInstructionUrl() . '">',
-                '</a>'
+                '</a>',
             ]
         );
     }

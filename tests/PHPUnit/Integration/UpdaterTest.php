@@ -55,7 +55,7 @@ class UpdaterTest extends IntegrationTestCase
         $path = PIWIK_INCLUDE_PATH . '/tests/resources/Updater/testpluginUpdates/';
         $expectedInOrder = array(
             $path . '0.1beta2.php' => '0.1beta2',
-            $path . '0.1.php'      => '0.1'
+            $path . '0.1.php'      => '0.1',
         );
         $this->assertEquals($expectedInOrder, array_map("basename", $updateFiles));
     }
@@ -72,7 +72,7 @@ class UpdaterTest extends IntegrationTestCase
 
         $componentsWithUpdateFile = $updater->getComponentsWithUpdateFile(array(
             'testpluginUpdates' => '0.1',
-            'core' => '0.3'
+            'core' => '0.3',
         ));
         $this->assertEquals(2, count($componentsWithUpdateFile));
         reset($componentsWithUpdateFile);

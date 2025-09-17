@@ -12,16 +12,16 @@ return array(
         if ($generate) {
             $previous->setNow(\Piwik\Date::factory('2018-07-07 01:02:03'));
             $previous->logFailure(Failures::FAILURE_ID_INVALID_SITE, new Request(array(
-                'idsite' => 998, 'rec' => '1'
+                'idsite' => 998, 'rec' => '1',
             )));
             $previous->logFailure(Failures::FAILURE_ID_NOT_AUTHENTICATED, new Request(array(
                 'idsite' => 1,
                 'url' => 'https://www.example.com/foo/bar?x=1',
                 'action_name' => 'foobar',
-                'rec' => '1'
+                'rec' => '1',
             )));
             $previous->logFailure(Failures::FAILURE_ID_INVALID_SITE, new Request(array(
-                'idsite' => 999, 'rec' => '1'
+                'idsite' => 999, 'rec' => '1',
             )));
         }
 

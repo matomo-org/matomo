@@ -51,7 +51,7 @@ class AllWebsitesTest extends SystemTestCase
                                      'date' => $dateTime,
                                      'period' => 'day',
                                      'format' => 'csv'], [
-                                     'testSuffix' => 'superuser']
+                                     'testSuffix' => 'superuser'],
             ],
 
             // should only return results for sites the user has access to (2,3)
@@ -60,7 +60,7 @@ class AllWebsitesTest extends SystemTestCase
                                      'period' => 'day',
                                      'format' => 'csv',
                                      'token_auth' => self::$userTokenAuth], [
-                                     'testSuffix' => 'user']
+                                     'testSuffix' => 'user'],
             ],
         ];
     }

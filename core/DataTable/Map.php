@@ -474,7 +474,7 @@ class Map implements DataTableInterface
             $row = new Row(array(
                                 Row::COLUMNS              => $columns,
                                 Row::METADATA             => $fromRow->getMetadata(),
-                                Row::DATATABLE_ASSOCIATED => $fromRow->getIdSubDataTable()
+                                Row::DATATABLE_ASSOCIATED => $fromRow->getIdSubDataTable(),
                            ));
             $toTable->addRow($row);
         }

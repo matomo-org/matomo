@@ -991,7 +991,7 @@ class Model
             $period->getDateStart()->toString(),
             $period->getDateEnd()->toString(),
             $period->getId(),
-            $doneFlag
+            $doneFlag,
         ];
 
         if (!empty($report)) {

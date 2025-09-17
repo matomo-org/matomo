@@ -84,7 +84,7 @@ class ArchiveWriter
 
     private $recordsToWriteSpool = [
         'numeric' => [],
-        'blob' => []
+        'blob' => [],
     ];
 
     public const MAX_SPOOL_SIZE = 50;
@@ -314,7 +314,7 @@ class ArchiveWriter
         $valueType = $this->isRecordNumeric($value) ? 'numeric' : 'blob';
         $this->recordsToWriteSpool[$valueType][] = [
             0 => $name,
-            1 => $value
+            1 => $value,
         ];
 
         if (count($this->recordsToWriteSpool[$valueType]) >= self::MAX_SPOOL_SIZE) {

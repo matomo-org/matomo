@@ -45,7 +45,7 @@ class CustomLogTablesTest extends SystemTestCase
             'setDateLastN' => false,
             'format'       => 'JSON',
             'segment'      => $segment,
-            'testSuffix'   => ''
+            'testSuffix'   => '',
         ];
 
         $testConfig = new ApiTestConfig($params);
@@ -78,49 +78,49 @@ class CustomLogTablesTest extends SystemTestCase
             [[
                 'Actions.get',
                 'UserId.getUsers',
-                'VisitsSummary.get'
+                'VisitsSummary.get',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
                 'segment'      => 'attrgender==men',
-                'testSuffix'   => '_men']
+                'testSuffix'   => '_men'],
             ],
             [[
                 'Actions.get',
                 'UserId.getUsers',
-                'VisitsSummary.get'
+                'VisitsSummary.get',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
                 'segment'      => 'attrgender==women',
-                'testSuffix'   => '_women']
+                'testSuffix'   => '_women'],
             ],
             [[
                 'Actions.get',
                 'UserId.getUsers',
-                'VisitsSummary.get'
+                'VisitsSummary.get',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
                 'segment'      => 'isadmin==1',
-                'testSuffix'   => '_admin']
+                'testSuffix'   => '_admin'],
             ],
             [[
                 'Actions.get',
                 'UserId.getUsers',
-                'VisitsSummary.get'
+                'VisitsSummary.get',
             ], [
                 'idSite'       => $idSite1,
                 'date'         => $dateTime,
                 'periods'      => 'month',
                 'setDateLastN' => false,
-                'testSuffix'   => '_all']
+                'testSuffix'   => '_all'],
             ],
         ];
 

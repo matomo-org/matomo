@@ -36,7 +36,7 @@ class GenerateArchiver extends GeneratePluginBase
         $this->writeSuccessMessage(array(
              sprintf('Archiver.php for %s generated.', $pluginName),
              'You can now start implementing Archiver methods',
-             'Enjoy!'
+             'Enjoy!',
         ));
 
         return self::SUCCESS;

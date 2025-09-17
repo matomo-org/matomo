@@ -202,7 +202,7 @@ class Log extends Singleton
 
         if (is_object($message) || is_array($message) || is_resource($message)) {
             $this->logger->warning('Trying to log a message that is not a string', array(
-                'exception' => new \InvalidArgumentException('Trying to log a message that is not a string')
+                'exception' => new \InvalidArgumentException('Trying to log a message that is not a string'),
             ));
             return;
         }

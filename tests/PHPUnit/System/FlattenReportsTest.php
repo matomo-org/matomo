@@ -59,8 +59,8 @@ class FlattenReportsTest extends SystemTestCase
                 'date'                   => $dateTime,
                 'otherRequestParameters' => array(
                     'flat'     => '1',
-                    'expanded' => '0'
-                )
+                    'expanded' => '0',
+                ),
             ));
 
         // urls
@@ -72,8 +72,8 @@ class FlattenReportsTest extends SystemTestCase
                 'period'                 => 'week',
                 'otherRequestParameters' => array(
                     'flat'     => '1',
-                    'expanded' => '0'
-                )
+                    'expanded' => '0',
+                ),
             ));
         $return[] = array(
             'Actions.getPageUrls',
@@ -85,8 +85,8 @@ class FlattenReportsTest extends SystemTestCase
                 'otherRequestParameters' => array(
                     'flat'                   => '1',
                     'include_aggregate_rows' => '1',
-                    'expanded'               => '0'
-                )
+                    'expanded'               => '0',
+                ),
             ));
 
         // custom variables for multiple days
@@ -99,9 +99,9 @@ class FlattenReportsTest extends SystemTestCase
                         'date'                   => '2010-03-05,2010-03-08',
                         'flat'                   => '1',
                         'include_aggregate_rows' => '1',
-                        'expanded'               => '0'
-                    )
-                )
+                        'expanded'               => '0',
+                    ),
+                ),
             );
         }
 
@@ -133,7 +133,7 @@ class FlattenReportsTest extends SystemTestCase
                                                        'otherRequestParameters' => array(
                                                            'flat'                     => '1',
                                                            'expanded'                 => '0',
-                                                           'filter_pattern_recursive' => 'dir2/'
+                                                           'filter_pattern_recursive' => 'dir2/',
                                                        )));
 
         return $return;

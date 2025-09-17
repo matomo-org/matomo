@@ -80,7 +80,7 @@ class Visit implements VisitInterface
         'region',
         'country',
         'lat',
-        'long'
+        'long',
     );
 
     public function __construct()

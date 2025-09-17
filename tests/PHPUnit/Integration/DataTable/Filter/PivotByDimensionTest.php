@@ -137,7 +137,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $expectedRows = array(
             array('label' => 'row 1', 'col 1' => 2, 'col 2' => false, 'col 3' => false, 'col 4' => false),
             array('label' => 'row 2', 'col 1' => 4, 'col 2' => 6, 'col 3' => false, 'col 4' => false),
-            array('label' => 'row 3', 'col 1' => false, 'col 2' => 8, 'col 3' => 31, 'col 4' => 33)
+            array('label' => 'row 3', 'col 1' => false, 'col 2' => 8, 'col 3' => 31, 'col 4' => 33),
         );
         $this->assertTableRowsEquals($expectedRows, $table);
     }
@@ -157,7 +157,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $expectedRows = array(
             array('label' => 'row 1', 'col 0' => 2, 'col 1' => false, 'col 2' => false),
             array('label' => 'row 2', 'col 0' => 2, 'col 1' => 4, 'col 2' => false),
-            array('label' => 'row 3', 'col 0' => 2, 'col 1' => 4, 'col 2' => 6)
+            array('label' => 'row 3', 'col 0' => 2, 'col 1' => 4, 'col 2' => 6),
         );
         $this->assertTableRowsEquals($expectedRows, $table);
     }
@@ -179,7 +179,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $expectedSegmentParams = array(
             'asegment==value;referrerKeyword==row+1',
             'asegment==value;referrerKeyword==row+2',
-            'asegment==value;referrerKeyword==row+3'
+            'asegment==value;referrerKeyword==row+3',
         );
         $this->assertEquals($expectedSegmentParams, $this->segmentUsedToGetIntersected);
     }
@@ -196,7 +196,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $expectedRows = array(
             array('label' => 'row 1', 'col 1' => false, 'col 2' => false, 'col 3' => false, 'col 4' => false),
             array('label' => 'row 2', 'col 1' => false, 'col 2' => false, 'col 3' => false, 'col 4' => false),
-            array('label' => 'row 3', 'col 1' => false, 'col 2' => false, 'col 3' => false, 'col 4' => false)
+            array('label' => 'row 3', 'col 1' => false, 'col 2' => false, 'col 3' => false, 'col 4' => false),
         );
         $this->assertTableRowsEquals($expectedRows, $table);
     }
@@ -225,7 +225,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $expectedRows = array(
             array('label' => 'row 1'),
             array('label' => 'row 2'),
-            array('label' => 'row 3')
+            array('label' => 'row 3'),
         );
 
         Cache::clearCacheGeneral();
@@ -244,7 +244,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $expectedRows = array(
             array('label' => 'row 1', 'col 1' => 1, 'col 2' => false, 'col 3' => false, 'col 4' => false),
             array('label' => 'row 2', 'col 1' => 3, 'col 2' => 5, 'col 3' => false, 'col 4' => false),
-            array('label' => 'row 3', 'col 1' => false, 'col 2' => 7, 'col 3' => 9, 'col 4' => 32)
+            array('label' => 'row 3', 'col 1' => false, 'col 2' => 7, 'col 3' => 9, 'col 4' => 32),
         );
         $this->assertTableRowsEquals($expectedRows, $table);
     }
@@ -261,7 +261,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $expectedRows = array(
             array('label' => 'row 1', 'col 2' => false, 'col 4' => false, 'Others' => 1),
             array('label' => 'row 2', 'col 2' => 5, 'col 4' => false, 'Others' => 3),
-            array('label' => 'row 3', 'col 2' => 7, 'col 4' => 32, 'Others' => 9)
+            array('label' => 'row 3', 'col 2' => 7, 'col 4' => 32, 'Others' => 9),
         );
         $this->assertTableRowsEquals($expectedRows, $table);
     }
@@ -271,7 +271,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $row1 = new Row(array(Row::COLUMNS => array(
             'label' => 'row 1',
             'nb_visits' => 10,
-            'nb_actions' => 15
+            'nb_actions' => 15,
         )));
         if ($addSubtables) {
             $row1->setSubtable($this->getRow1Subtable());
@@ -280,7 +280,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $row2 = new Row(array(Row::COLUMNS => array(
             'label' => 'row 2',
             'nb_visits' => 13,
-            'nb_actions' => 18
+            'nb_actions' => 18,
         )));
         if ($addSubtables) {
             $row2->setSubtable($this->getRow2Subtable());
@@ -289,7 +289,7 @@ class PivotByDimensionTest extends IntegrationTestCase
         $row3 = new Row(array(Row::COLUMNS => array(
             'label' => 'row 3',
             'nb_visits' => 20,
-            'nb_actions' => 25
+            'nb_actions' => 25,
         )));
         if ($addSubtables) {
             $row3->setSubtable($this->getRow3Subtable());
@@ -307,8 +307,8 @@ class PivotByDimensionTest extends IntegrationTestCase
             new Row(array(Row::COLUMNS => array(
                 'label' => 'col 1',
                 'nb_visits' => 1,
-                'nb_actions' => 2
-            )))
+                'nb_actions' => 2,
+            ))),
         ));
         return $table;
     }
@@ -320,13 +320,13 @@ class PivotByDimensionTest extends IntegrationTestCase
             new Row(array(Row::COLUMNS => array(
                 'label' => 'col 1',
                 'nb_visits' => 3,
-                'nb_actions' => 4
+                'nb_actions' => 4,
             ))),
             new Row(array(Row::COLUMNS => array(
                 'label' => 'col 2',
                 'nb_visits' => 5,
-                'nb_actions' => 6
-            )))
+                'nb_actions' => 6,
+            ))),
         ));
         return $table;
     }
@@ -338,18 +338,18 @@ class PivotByDimensionTest extends IntegrationTestCase
             new Row(array(Row::COLUMNS => array(
                 'label' => 'col 2',
                 'nb_visits' => 7,
-                'nb_actions' => 8
+                'nb_actions' => 8,
             ))),
             new Row(array(Row::COLUMNS => array(
                 'label' => 'col 3',
                 'nb_visits' => 9,
-                'nb_actions' => 31
+                'nb_actions' => 31,
             ))),
             new Row(array(Row::COLUMNS => array(
                 'label' => 'col 4',
                 'nb_visits' => 32,
-                'nb_actions' => 33
-            )))
+                'nb_actions' => 33,
+            ))),
         ));
         return $table;
     }
@@ -363,7 +363,7 @@ class PivotByDimensionTest extends IntegrationTestCase
             $row = new Row(array(Row::COLUMNS => array(
                 'label' => 'col ' . $i,
                 'nb_visits' => ($i + 1) * 2,
-                'nb_actions' => ($i + 1) * 3
+                'nb_actions' => ($i + 1) * 3,
             )));
             $table->addRow($row);
         }

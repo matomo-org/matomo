@@ -190,7 +190,7 @@ class DefaultProvider extends LocationProvider
     {
         $comment = Piwik::translate('UserCountry_DefaultLocationProviderDesc1') . ' ';
         $comment .= Piwik::translate('UserCountry_DefaultLocationProviderDesc2', [
-            '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '" rel="noreferrer noopener" target="_blank">', '', '', '</a>'
+            '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '" rel="noreferrer noopener" target="_blank">', '', '', '</a>',
         ]);
 
         return $comment;

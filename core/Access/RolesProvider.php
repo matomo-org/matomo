@@ -25,7 +25,7 @@ class RolesProvider
         return array(
             new View(),
             new Write(),
-            new Admin()
+            new Admin(),
         );
     }
 

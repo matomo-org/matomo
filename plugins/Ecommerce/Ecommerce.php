@@ -29,7 +29,7 @@ class Ecommerce extends \Piwik\Plugin
         return [
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics' => 'addComputedMetrics',
-            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields',
         ];
     }
 

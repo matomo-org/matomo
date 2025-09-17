@@ -41,7 +41,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'pivotBy' => 'Referrers.SearchEngine',
             'pivotByColumn' => 'nb_visits',
             'pivotByColumnLimit' => -1,
-            'disable_queued_filters' => 1 // test that prepending doesn't happen w/ this
+            'disable_queued_filters' => 1, // test that prepending doesn't happen w/ this
         ));
     }
 
@@ -54,7 +54,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'pivotBy' => 'Referrers.SearchEngine',
             'pivotByColumn' => '', // also test default pivot column
             'pivotByColumnLimit' => -1,
-            'expanded' => 0
+            'expanded' => 0,
         ));
     }
 
@@ -64,7 +64,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'idSite' => self::$fixture->idSite,
             'date' => '2009-12-29,2010-01-10',
             'period' => 'range',
-            'pivotBy' => 'Referrers.SearchEngine'
+            'pivotBy' => 'Referrers.SearchEngine',
         ));
     }
 
@@ -76,7 +76,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'period' => 'week',
             'pivotBy' => 'UserCountry.City',
             'pivotByColumn' => 'nb_visits',
-            'pivotByColumnLimit' => -1
+            'pivotByColumnLimit' => -1,
         ));
     }
 
@@ -89,7 +89,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'segment' => 'browserCode==FF',
             'pivotBy' => 'UserCountry.City',
             'pivotByColumn' => 'nb_visits',
-            'pivotByColumnLimit' => -1
+            'pivotByColumnLimit' => -1,
         ));
     }
 
@@ -99,7 +99,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'idSite' => self::$fixture->idSite,
             'date' => '2009-12-29,2010-01-10',
             'period' => 'range',
-            'pivotBy' => 'UserCountry.City'
+            'pivotBy' => 'UserCountry.City',
         ));
     }
 
@@ -116,7 +116,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'totals' => 1,
             'disable_queued_filters' => 1,
             'disable_generic_filters' => 1,
-            'showColumns' => 'Google,Bing'
+            'showColumns' => 'Google,Bing',
         ));
     }
 
@@ -131,7 +131,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'period' => 'week',
             'pivotBy' => 'UserCountry.City', // testing w/ report that has no subtable report
             'pivotByColumn' => 'nb_visits',
-            'pivotByColumnLimit' => -1
+            'pivotByColumnLimit' => -1,
         ));
     }
 
@@ -143,7 +143,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'period' => 'week',
             'pivotBy' => 'Actions.PageUrl',
             'pivotByColumn' => 'nb_hits',
-            'pivotByColumnLimit' => -1
+            'pivotByColumnLimit' => -1,
         ));
     }
 
@@ -155,7 +155,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'period' => 'week',
             'pivotBy' => 'UserCountry.City',
             'pivotByColumn' => 'nb_visits',
-            'pivotByColumnLimit' => 2
+            'pivotByColumnLimit' => 2,
         ));
     }
 
@@ -168,7 +168,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'format' => 'json',
             'pivotBy' => 'UserCountry.City',
             'pivotByColumn' => 'nb_visits',
-            'pivotByColumnLimit' => -1
+            'pivotByColumnLimit' => -1,
         ));
     }
 
@@ -181,7 +181,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'format' => 'csv',
             'pivotBy' => 'UserCountry.City',
             'pivotByColumn' => 'nb_visits',
-            'pivotByColumnLimit' => -1
+            'pivotByColumnLimit' => -1,
         ));
     }
 
@@ -193,7 +193,7 @@ class PivotByQueryParamTest extends SystemTestCase
             'period' => 'day',
             'pivotBy' => 'UserCountry.City',
             'pivotByColumn' => 'nb_visits',
-            'pivotByColumnLimit' => -1
+            'pivotByColumnLimit' => -1,
         ));
     }
 

@@ -43,7 +43,7 @@ class Updates_2_1_1_b11 extends Updates
             'sum_visit_length_returning',
             'bounce_count_returning',
             'nb_visits_converted_returning',
-            'nb_uniq_visitors_returning'
+            'nb_uniq_visitors_returning',
         );
 
         $now = Date::factory('now')->getDatetime();

@@ -42,17 +42,17 @@ class ManyUsers extends Fixture
         'login7' => ['view' => [2, 1, 6, 3], 'admin' => []], // access to a couple of sites with view
         'login8' => ['view' => [4, 7], 'admin' => [2, 5]], // access to a couple of sites with admin and view
         'login9' => ['view' => [5, 6], 'admin' => [8, 9]],
-        'login10' => ['superuser' => 1]
+        'login10' => ['superuser' => 1],
     ];
 
     public $pendingUser = [
       'login' => '000pendingUser1',
-      'email' => 'pendinguser1light@example.com'
+      'email' => 'pendinguser1light@example.com',
     ];
 
     public $pendingUser2 = [
       'login' => 'zzzpendingUser2',
-      'email' => 'zpendinguser2light@example.com'
+      'email' => 'zpendinguser2light@example.com',
     ];
 
     public $baseSites = [

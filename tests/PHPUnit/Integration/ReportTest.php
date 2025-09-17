@@ -173,7 +173,7 @@ class ReportTest extends IntegrationTestCase
     {
         $expected = array(
             'nb_visits'  => 'General_ColumnNbVisits',
-            'nb_actions' => 'General_ColumnNbActions'
+            'nb_actions' => 'General_ColumnNbActions',
         );
         $this->assertEquals($expected, $this->advancedReport->getMetrics());
     }
@@ -199,7 +199,7 @@ class ReportTest extends IntegrationTestCase
     {
         $expected = array(
             'conversion_rate' => 'General_ColumnConversionRate',
-            'bounce_rate'     => 'General_ColumnBounceRate'
+            'bounce_rate'     => 'General_ColumnBounceRate',
         );
         $this->assertEquals($expected, $this->advancedReport->getProcessedMetrics());
     }
@@ -243,7 +243,7 @@ class ReportTest extends IntegrationTestCase
                     'nb_visits' => 'General_ColumnNbVisits',
                     'nb_uniq_visitors' => 'General_ColumnNbUniqVisitors',
                     'nb_actions' => 'General_ColumnNbActions',
-                    'nb_users' => 'General_ColumnNbUsers'
+                    'nb_users' => 'General_ColumnNbUsers',
                 ),
                 'metricsDocumentation' => array(
                     'nb_visits' => 'General_ColumnNbVisitsDocumentation',
@@ -274,7 +274,7 @@ class ReportTest extends IntegrationTestCase
                     'bounce_rate' => 'percent',
                     'conversion_rate' => 'percent',
                 ],
-            )
+            ),
         ), $reports);
     }
 
@@ -289,14 +289,14 @@ class ReportTest extends IntegrationTestCase
                 'module' => 'TestPlugin',
                 'action' => 'getAdvancedReport',
                 'parameters' => array(
-                    'idGoal' => 1
+                    'idGoal' => 1,
                 ),
                 'dimension' => 'Actions_ColumnExitPageURL',
                 'documentation' => 'ExampleReportDocumentation',
                 'isSubtableReport' => true,
                 'metrics' => array(
                     'nb_actions' => 'General_ColumnNbActions',
-                    'nb_visits' => 'General_ColumnNbVisits'
+                    'nb_visits' => 'General_ColumnNbVisits',
                 ),
                 'metricsDocumentation' => array(
                     'nb_actions' => 'General_ColumnNbActionsDocumentation',
@@ -318,7 +318,7 @@ class ReportTest extends IntegrationTestCase
                     'conversion_rate' => 'percent',
                     'bounce_rate' => 'percent',
                 ],
-            )
+            ),
         ), $reports);
     }
 

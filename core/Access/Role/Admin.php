@@ -30,7 +30,7 @@ class Admin extends Role
     public function getDescription(): string
     {
         return Piwik::translate('UsersManager_PrivAdminDescription', [
-            Piwik::translate('UsersManager_PrivWrite')
+            Piwik::translate('UsersManager_PrivWrite'),
         ]);
     }
 

@@ -87,7 +87,7 @@ class SubscriptionModel
         if ($emailFound) {
             $reportModel = new Model();
             $reportModel->updateReport($report['idreport'], array(
-                'parameters' => json_encode($report['parameters'])
+                'parameters' => json_encode($report['parameters']),
             ));
             // Reset the cache manually since we didn't call the API method which would do it for us
             APIScheduledReports::$cache = array();
@@ -142,7 +142,7 @@ class SubscriptionModel
                 $subscription = [
                     'idreport' => $idReport,
                     'token' => $token,
-                    'email' => $email
+                    'email' => $email,
                 ];
                 // remove possible "unsubscribe" entry
                 $this->getDb()->query('DELETE FROM ' . $this->table . ' WHERE idreport = ? AND email = ?', [$idReport, $email]);

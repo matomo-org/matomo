@@ -441,7 +441,7 @@ class Updater
             if ($isComponentOutdated || $currentVersion === false) {
                 $componentsToUpdate[$name] = array(
                     self::INDEX_CURRENT_VERSION => $currentVersion,
-                    self::INDEX_NEW_VERSION     => $version
+                    self::INDEX_NEW_VERSION     => $version,
                 );
             }
         }
@@ -524,7 +524,7 @@ class Updater
             'warnings'  => $warnings,
             'errors'    => $errors,
             'coreError' => $coreError,
-            'deactivatedPlugins' => $deactivatedPlugins
+            'deactivatedPlugins' => $deactivatedPlugins,
         );
 
         /**
@@ -544,7 +544,7 @@ class Updater
     public function getComponentUpdates()
     {
         $componentsToCheck = array(
-            'core' => Version::VERSION
+            'core' => Version::VERSION,
         );
 
         $manager = \Piwik\Plugin\Manager::getInstance();

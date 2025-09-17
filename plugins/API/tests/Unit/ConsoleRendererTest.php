@@ -92,7 +92,7 @@ class ConsoleRendererTest extends \PHPUnit\Framework\TestCase
         $dataTable->setMetadata('processedRows', [
             new AverageTimeOnSite(),
             new \stdClass(),
-            Date::factory('2016-01-01 00:00:00')
+            Date::factory('2016-01-01 00:00:00'),
         ]);
 
         $response = $this->builder->renderDataTable($dataTable);

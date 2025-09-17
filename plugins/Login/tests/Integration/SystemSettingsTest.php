@@ -28,7 +28,7 @@ class SystemSettingsTest extends IntegrationTestCase
         '14.14.14.14',
         '15.15.15.*',
         '2001:db8::/40',
-        '2001:0db8:85a3:0000:0000:8a2e:0370:7334'
+        '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
     );
 
     public function setUp(): void
@@ -70,7 +70,7 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->expectExceptionMessage('SitesManager_ExceptionInvalidIPFormat');
 
         $this->settings->whitelisteBruteForceIps->setValue(array(
-            '127.0.0.1', 'foobar'
+            '127.0.0.1', 'foobar',
         ));
     }
 
@@ -106,7 +106,7 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->expectExceptionMessage('SitesManager_ExceptionInvalidIPFormat');
 
         $this->settings->blacklistedBruteForceIps->setValue(array(
-            '127.0.0.1', 'foobar'
+            '127.0.0.1', 'foobar',
         ));
     }
 

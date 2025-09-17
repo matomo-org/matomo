@@ -83,7 +83,7 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
                                                   'apiAction'              => 'getPageUrls',
                                                   'testSuffix'             => '_sortByProcessedMetric',
                                                   'otherRequestParameters' => array(
-                                                      'filter_sort_column' => 'nb_actions_per_visit'
+                                                      'filter_sort_column' => 'nb_actions_per_visit',
                                                   ))),
 
             // make sure it is possible to sort getProcessedReport by a processed metric
@@ -95,25 +95,25 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
                                                   'apiAction'              => 'getVisitInformationPerServerTime',
                                                   'testSuffix'             => '_sortByProcessedMetric_constantRowsCountShouldKeepEmptyRows',
                                                   'otherRequestParameters' => array(
-                                                      'filter_sort_column' => 'nb_actions_per_visit'
+                                                      'filter_sort_column' => 'nb_actions_per_visit',
                                                   ))),
 
             array(array('UserCountry.getLocationFromIP', 'Live.getLastVisitsDetails'), array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateTime,
                 'periods'                => array('month'),
-                'otherRequestParameters' => array('ip' => '194.57.91.215')
+                'otherRequestParameters' => array('ip' => '194.57.91.215'),
             )),
 
             array(array('UserCountry.getLocationFromIP'), array(
-                'otherRequestParameters' => array('ip' => '194.57.91.215')
+                'otherRequestParameters' => array('ip' => '194.57.91.215'),
             )),
 
             array(array('UserCountry.getLocationFromIP'), array(
                 'testSuffix' => '_IPv6',
                 'otherRequestParameters' => array(
                     'ip' => '2003:f6:93bf:26f:9ec7:a6ff:fe29:27df',
-                )
+                ),
             )),
         );
 
@@ -122,7 +122,7 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             'date'                   => $dateString,
             'periods'                => 'month',
             'testSuffix'             => '_Live.getLastVisitsDetails_sortDesc',
-            'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_limit' => 7)
+            'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_limit' => 7),
         ));
 
         // #5950
@@ -131,7 +131,7 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             'date'                   => $dateString,
             'periods'                => 'month',
             'testSuffix'             => '_Live.getLastVisitsDetails_sortByIdVisit',
-            'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_sort_column' => 'idVisit', 'filter_limit' => 7)
+            'otherRequestParameters' => array('filter_sort_order' => 'desc', 'filter_sort_column' => 'idVisit', 'filter_limit' => 7),
         ));
 
         // #7458
@@ -140,14 +140,14 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             'date'                   => $dateString,
             'periods'                => 'month',
             'testSuffix'             => '_Live.getLastVisitsDetails_offsetAndLimit_1',
-            'otherRequestParameters' => array('filter_offset' => '1', 'filter_limit' => 3)
+            'otherRequestParameters' => array('filter_offset' => '1', 'filter_limit' => 3),
         ));
         $apiToTest[] = array('Live.getLastVisitsDetails', array(
             'idSite'                 => $idSite,
             'date'                   => $dateString,
             'periods'                => 'month',
             'testSuffix'             => '_Live.getLastVisitsDetails_offsetAndLimit_2',
-            'otherRequestParameters' => array('filter_offset' => '4', 'filter_limit' => 3)
+            'otherRequestParameters' => array('filter_offset' => '4', 'filter_limit' => 3),
         ));
 
         // #13785
@@ -157,14 +157,14 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             'date'                   => $dateString,
             'periods'                => 'month',
             'testSuffix'             => '_pageurlNotContainsSegment',
-            'segment'                => 'pageUrl!@quest'
+            'segment'                => 'pageUrl!@quest',
         ));
         $apiToTest[] = array('Live.getLastVisitsDetails', array(
             'idSite'                 => $idSite,
             'date'                   => $dateString,
             'periods'                => 'month',
             'testSuffix'             => '_siteSearchCategoryNotEqualsSegment',
-            'segment'                => 'siteSearchCategory!=CAT'
+            'segment'                => 'siteSearchCategory!=CAT',
         ));
 
         // #8324
@@ -174,7 +174,7 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             'date'                   => $dateString,
             'periods'                => 'month',
             'testSuffix'             => '_getCountry_with_filter_excludelowpop',
-            'otherRequestParameters' => array('filter_excludelowpop' => 'nb_visits', 'filter_excludelowpop_value' => 5)
+            'otherRequestParameters' => array('filter_excludelowpop' => 'nb_visits', 'filter_excludelowpop_value' => 5),
         ));
 
         $apiToTest[] = array('Live.getLastVisitsDetails', array(
@@ -182,7 +182,7 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             'date'                   => $dateString,
             'periods'                => 'month',
             'testSuffix'             => '_Live.getLastVisitsDetails_sortAsc',
-            'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_limit' => 7)
+            'otherRequestParameters' => array('filter_sort_order' => 'asc', 'filter_limit' => 7),
         ));
 
         return $apiToTest;

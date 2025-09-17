@@ -62,17 +62,17 @@ class ArchivingInstanceStatistics extends ConsoleCommand
             "SELECT COUNT(*) FROM " . Common::prefixTable("log_link_visit_action") . " WHERE server_time >= ? AND server_time <= ?",
             [
                 Date::now()->setDay(1)->subMonth(1)->setTime('00:00:00')->toString('Y-m-d H:i:s'),
-                Date::now()->setDay(1)->subDay(1)->setTime('23:59:59')->toString('Y-m-d H:i:s')
+                Date::now()->setDay(1)->subDay(1)->setTime('23:59:59')->toString('Y-m-d H:i:s'),
             ]
-        )
+        ),
         ];
         $stats[] = ['Last 12 Month Hits', (int) Db::fetchOne(
             "SELECT COUNT(*) FROM " . Common::prefixTable("log_link_visit_action") . " WHERE server_time >= ? AND server_time <= ?",
             [
                 Date::now()->setDay(1)->subMonth(12)->setTime('00:00:00')->toString('Y-m-d H:i:s'),
-                Date::now()->setDay(1)->subDay(1)->setTime('23:59:59')->toString('Y-m-d H:i:s')
+                Date::now()->setDay(1)->subDay(1)->setTime('23:59:59')->toString('Y-m-d H:i:s'),
             ]
-        )
+        ),
         ];
         return $stats;
     }

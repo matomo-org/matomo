@@ -30,7 +30,7 @@ class Events extends \Piwik\Plugin
             'Metrics.getDefaultMetricSemanticTypes' => 'addMetricSemanticTypes',
             'ViewDataTable.configure'   => 'configureViewDataTable',
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
-            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields',
         );
     }
 
@@ -253,11 +253,11 @@ class Events extends \Piwik\Plugin
                     'nb_events',
                     'min_event_value',
                     'max_event_value',
-                    'avg_event_value'
+                    'avg_event_value',
                 ),
                 'sum_event_value_tooltip',
-                $tooltipCallback
-            )
+                $tooltipCallback,
+            ),
         );
     }
 

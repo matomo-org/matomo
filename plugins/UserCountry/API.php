@@ -46,7 +46,7 @@ class API extends \Piwik\Plugin\API
                             return 'cn';
                         }
                         return $label;
-                    }
+                    },
                 ));
             }
         });
@@ -62,7 +62,7 @@ class API extends \Piwik\Plugin\API
             'logoHeight',
             function () {
                 return 16;
-            }
+            },
         ));
 
         return $dataTable;
@@ -125,7 +125,7 @@ class API extends \Piwik\Plugin\API
                         }
 
                         return implode($separator, $splitLabel);
-                    }
+                    },
                 ));
             } elseif ($dt->getRowFromLabel('1|ti')) {
                 $dt->filter('GroupBy', array(
@@ -135,7 +135,7 @@ class API extends \Piwik\Plugin\API
                             return '14|cn';
                         }
                         return $label;
-                    }
+                    },
                 ));
             }
         });
@@ -221,7 +221,7 @@ class API extends \Piwik\Plugin\API
                         }
 
                         return implode($separator, $splitLabel);
-                    }
+                    },
                 ));
             } else {
                 $dt->filter('GroupBy', array(
@@ -231,7 +231,7 @@ class API extends \Piwik\Plugin\API
                             return substr($label, 0, -5) . '|14|cn';
                         }
                         return $label;
-                    }
+                    },
                 ));
             }
         });

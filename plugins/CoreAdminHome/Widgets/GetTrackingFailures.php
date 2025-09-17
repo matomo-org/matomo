@@ -34,7 +34,7 @@ class GetTrackingFailures extends Widget
         $numFailures = count($failures);
 
         return $this->renderTemplate('getTrackingFailures', array(
-            'numFailures' => $numFailures
+            'numFailures' => $numFailures,
         ));
     }
 }

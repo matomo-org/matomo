@@ -75,7 +75,7 @@ class FeatureFlagManager
             $this->logger->debug(
                 'isFeatureActive failed due to class not implementing FeatureFlagInterface',
                 [
-                    'featureFlag' => $featureFlag
+                    'featureFlag' => $featureFlag,
                 ]
             );
             return null;

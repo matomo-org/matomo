@@ -47,7 +47,7 @@ class GetDatabaseUsageSummary extends Base
             'tracker_data' => 'DBStats_TrackerTables',
             'report_data'  => 'DBStats_ReportTables',
             'metric_data'  => 'DBStats_MetricTables',
-            'other_data'   => 'DBStats_OtherTables'
+            'other_data'   => 'DBStats_OtherTables',
         );
 
         $translateSummaryLabel = function ($value) use ($valueToTranslationStr) {

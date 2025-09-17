@@ -27,7 +27,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         array(7, 10),
         array(10, 15),
         array(15, 30),
-        array(30)
+        array(30),
     );
     public static $pageGap = array(
         array(1, 1),
@@ -39,7 +39,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         array(8, 10),
         array(11, 14),
         array(15, 20),
-        array(20)
+        array(20),
     );
     /**
      * The set of ranges used when calculating the 'visitors who visited at least N times' report.
@@ -58,7 +58,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         array(26, 50),
         array(51, 100),
         array(101, 200),
-        array(200)
+        array(200),
     );
     /**
      * The set of ranges used when calculating the 'days since last visit' report.
@@ -77,7 +77,7 @@ class Archiver extends \Piwik\Plugin\Archiver
         array(31, 60),
         array(61, 120),
         array(121, 364),
-        array(364)
+        array(364),
     );
 
     /**

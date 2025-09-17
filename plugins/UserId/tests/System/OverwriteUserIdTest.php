@@ -46,8 +46,8 @@ class OverwriteUserIdTest extends SystemTestCase
                 'date' => $startDate,
                 'periods' => array('day'),
                 'idSite'     => 1,
-                'testSuffix' => ''
-            )
+                'testSuffix' => '',
+            ),
         );
         $apiToTest[] = array(
             $api,
@@ -55,8 +55,8 @@ class OverwriteUserIdTest extends SystemTestCase
                 'date' => "$startDate,$endDate",
                 'periods' => array('range'),
                 'idSite'     => 1,
-                'testSuffix' => ''
-            )
+                'testSuffix' => '',
+            ),
         );
 
         // we expext to always see 1 action only per visitor as visitorId changes every time ...
@@ -69,7 +69,7 @@ class OverwriteUserIdTest extends SystemTestCase
                 'idSite'     => 1,
                 'testSuffix' => '',
                 'otherRequestParameters' => array('doNotFetchActions' => '1', 'showColumns' => 'idVisit,userId,visitIp,actions'),
-            )
+            ),
         );
 
         return $apiToTest;

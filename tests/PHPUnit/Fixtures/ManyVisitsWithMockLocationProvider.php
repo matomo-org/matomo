@@ -114,13 +114,13 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         $userAgents = [
             $linuxFirefoxA, $linuxFirefoxA, $win7FirefoxA, $win7ChromeA, $linuxChromeA, $linuxSafariA,
             $iPadSafariA, $iPadFirefoxB, $androidFirefoxB, $androidChromeB, $androidIEA, $iPhoneOperaA,
-            $win8IEB, $winVistaIEB, $osxOperaB
+            $win8IEB, $winVistaIEB, $osxOperaB,
         ];
 
         $resolutions = [
             "1920x1080", "1920x1080", "1920x1080", "1920x1080", "1366x768", "1366x768", "1366x768",
             "1280x1024", "1280x1024", "1280x1024", "1680x1050", "1680x1050", "1024x768", "800x600",
-            "320x480"
+            "320x480",
         ];
 
         $referrers = [
@@ -155,7 +155,7 @@ class ManyVisitsWithMockLocationProvider extends Fixture
         ];
         $downloadCustomVars = [
             'size' => [1024, 1024, 1024, 2048, 2048, 3072, 3072, 3072, 3072, 4096, 4096, 4096,
-                            512, 512, 256, 128, 64, 32, 48, 48]
+                            512, 512, 256, 128, 64, 32, 48, 48],
         ];
 
         $visitorCounter = $random;

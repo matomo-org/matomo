@@ -80,13 +80,13 @@ class ReportEmailGeneratorTest extends IntegrationTestCase
                 'content' => 'content 1',
                 'filename' => 'file1.txt',
                 'mimetype' => 'mimetype1',
-                'cid' => null
+                'cid' => null,
             ],
             [
                 'content' => 'content 2',
                 'filename' => 'file2.txt',
                 'mimetype' => 'mimetype2',
-                'cid' => 'file1'
+                'cid' => 'file1',
             ],
         ], $attachments);
     }

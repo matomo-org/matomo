@@ -205,7 +205,7 @@ class OmniFixture extends Fixture
                 'excludedReferrers' => $properties['excluded_referrers'],
                 'keepURLFragments' => $properties['keep_url_fragment'],
                 'type' => $properties['type'],
-                'excludeUnknownUrls' => $properties['exclude_unknown_urls']
+                'excludeUnknownUrls' => $properties['exclude_unknown_urls'],
             ));
         }
     }

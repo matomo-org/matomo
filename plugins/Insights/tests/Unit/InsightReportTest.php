@@ -70,7 +70,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
             array(Row::COLUMNS => array('label' => 'val9', 'nb_visits' => 7)),
             array(Row::COLUMNS => array('label' => 'val10', 'nb_visits' => 89)),
             array(Row::COLUMNS => array('label' => 'val11', 'nb_visits' => 170)),
-            array(Row::COLUMNS => array('label' => 'val12', 'nb_visits' => 14))
+            array(Row::COLUMNS => array('label' => 'val12', 'nb_visits' => 14)),
         ));
 
         $this->pastTable = new DataTable();
@@ -85,7 +85,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
             array(Row::COLUMNS => array('label' => 'val107', 'nb_visits' => 150)),
             array(Row::COLUMNS => array('label' => 'val10', 'nb_visits' => 0)),
             array(Row::COLUMNS => array('label' => 'val11', 'nb_visits' => 5)),
-            array(Row::COLUMNS => array('label' => 'val12', 'nb_visits' => 5))
+            array(Row::COLUMNS => array('label' => 'val12', 'nb_visits' => 5)),
         ));
 
         $this->insightReport = new InsightReport();
@@ -185,7 +185,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
             array(2, array('val11', 'val10', 'val1', 'val12', 'val6', 'val9', 'val8', 'val4')),
             array(20, array('val11', 'val10', 'val6', 'val9', 'val8')),
             array(80, array('val11', 'val6')),
-            array(10000, array())
+            array(10000, array()),
         );
     }
 
@@ -213,7 +213,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
             array(22, array('val7', 'val3', 'val2')),
             array(36, array('val7', 'val3')),
             array(66, array('val7')),
-            array(10000, array())
+            array(10000, array()),
         );
     }
 
@@ -241,7 +241,7 @@ class InsightReportTest extends \PHPUnit\Framework\TestCase
             array(15, array('val107')),
             array(75, array('val107')),
             array(76, array()),
-            array(10000, array())
+            array(10000, array()),
         );
     }
 

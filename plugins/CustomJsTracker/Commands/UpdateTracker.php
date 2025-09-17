@@ -58,7 +58,7 @@ class UpdateTracker extends ConsoleCommand
         }
 
         $updater = StaticContainer::getContainer()->make('Piwik\Plugins\CustomJsTracker\TrackerUpdater', array(
-            'fromFile' => $sourceFile, 'toFile' => $targetFile
+            'fromFile' => $sourceFile, 'toFile' => $targetFile,
         ));
         $updater->setTrackerFiles($pluginTrackerFiles);
         $updater->checkWillSucceed();

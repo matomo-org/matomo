@@ -64,7 +64,7 @@ class LocationSummary extends ProfileSummaryAbstract
             'realtimeWindow'     => 'false',
             'showFooterMessage'  => 0,
             'showDateTime'       => 0,
-            'doNotRefreshVisits' => 1
+            'doNotRefreshVisits' => 1,
         );
         return Url::getCurrentQueryStringWithParametersModified($params);
     }

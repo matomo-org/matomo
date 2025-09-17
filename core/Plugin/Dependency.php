@@ -56,7 +56,7 @@ class Dependency
                     'requirement'     => $name,
                     'actualVersion'   => $currentVersion,
                     'requiredVersion' => $requiredVersion,
-                    'causedBy'        => implode(', ', $missingVersions)
+                    'causedBy'        => implode(', ', $missingVersions),
                 );
             }
         }

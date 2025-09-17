@@ -30,7 +30,7 @@ class Updates_1_9_1_b2 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->dropColumn('site', 'feedburnerName')
+            $this->migration->db->dropColumn('site', 'feedburnerName'),
         );
     }
 

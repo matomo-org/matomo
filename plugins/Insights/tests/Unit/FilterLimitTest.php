@@ -34,7 +34,7 @@ class FilterLimitTest extends BaseUnitTest
             array(Row::COLUMNS => array('label' => 'pos4', 'growth' => 9)),
             array(Row::COLUMNS => array('label' => 'pos5', 'growth' => 10)),
             array(Row::COLUMNS => array('label' => 'neg4', 'growth' => -7)),
-            array(Row::COLUMNS => array('label' => 'neg5', 'growth' => -8))
+            array(Row::COLUMNS => array('label' => 'neg5', 'growth' => -8)),
         ));
     }
 

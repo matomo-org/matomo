@@ -91,8 +91,8 @@ class SqlDump extends Fixture
         $testVars = new TestingEnvironmentVariables();
         $testVars->configOverride = array(
             'database' => array(
-                'tables_prefix' => $this->tablesPrefix
-            )
+                'tables_prefix' => $this->tablesPrefix,
+            ),
         );
         $testVars->save();
     }

@@ -34,28 +34,28 @@ class OsanoTest extends \PHPUnit\Framework\TestCase
             false,
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no osano content' => [
             false,
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'osano content found' => [
             true,
             false,
             '<html lang="en"><head><title>A site</title></head><script src="https://osano.com/uhs9879874hthg.js"></script></head><body>A site</body></html>',
-            []
+            [],
         ];
 
         yield 'osano connected' => [
             true,
             true,
             "<html lang='en'><head><title>A site</title></head><script src='https://osano.com/uhs9879874hthg.js'></script><script>Osano.cm.addEventListener('osano-cm-consent-changed', (change) => { console.log('cm-change'); consentSet(change); });</script></><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

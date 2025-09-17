@@ -107,7 +107,7 @@ class LogQueryBuilder
         }
         return array(
             'sql' => $sql,
-            'bind' => $bind
+            'bind' => $bind,
         );
     }
 

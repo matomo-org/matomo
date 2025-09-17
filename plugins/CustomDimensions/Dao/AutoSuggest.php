@@ -34,7 +34,7 @@ class AutoSuggest
             'filter_limit' => $maxValuesToReturn,
             'period' => 'range',
             'date' => $date,
-            'disable_queued_filters' => 1
+            'disable_queued_filters' => 1,
         ), array());
 
         $labels = $report->getColumn('label');

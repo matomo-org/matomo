@@ -135,7 +135,7 @@ class API extends \Piwik\Plugin\API
             'period' => 'range',
             'date' => '1998-01-01,today',
             'filter_limit' => 401,
-            'doNotFetchActions' => 1
+            'doNotFetchActions' => 1,
         ]);
 
         $columnsToKeep = [
@@ -227,7 +227,7 @@ class API extends \Piwik\Plugin\API
         foreach ($columns as $column => $default) {
             $formatted[] = array(
                 'column_name' => $column,
-                'default_value' => $default
+                'default_value' => $default,
             );
         }
 
@@ -332,7 +332,7 @@ class API extends \Piwik\Plugin\API
         $this->confirmCurrentUserPassword($passwordConfirmation);
 
         return $this->savePurgeDataSettings(array(
-            'delete_logs_schedule_lowest_interval' => (int) $deleteLowestInterval
+            'delete_logs_schedule_lowest_interval' => (int) $deleteLowestInterval,
         ));
     }
 
@@ -445,29 +445,29 @@ class API extends \Piwik\Plugin\API
                 [
                     'name' => 'IP Anonymisation',
                     'value' => 'compliant',
-                    'notes' => 'Set to at least 2 byte masking'
+                    'notes' => 'Set to at least 2 byte masking',
                 ],
                 [
                     'name' => 'Data retention period',
                     'value' => 'non_compliant',
-                    'notes' => 'Retention period is set to 365 days'
+                    'notes' => 'Retention period is set to 365 days',
                 ],
                 [
                     'name' => 'Visits Log and Visitors Profile',
                     'value' => 'non_compliant',
-                    'notes' => 'Visits log is still enabled'
+                    'notes' => 'Visits log is still enabled',
                 ],
                 [
                     'name' => 'Ecommerce analytics',
                     'value' => 'non_compliant',
-                    'notes' => 'Ecommerce analytics is enabled for this site'
+                    'notes' => 'Ecommerce analytics is enabled for this site',
                 ],
                 [
                     'name' => 'Opt out',
                     'value' => 'unknown',
-                    'notes' => 'Opt out must be manually set up and configured'
+                    'notes' => 'Opt out must be manually set up and configured',
                 ],
-            ]
+            ],
         ];
     }
 

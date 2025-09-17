@@ -83,7 +83,7 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
                 'user2',
                 'user2',
                 'user2',
-                'user2'
+                'user2',
             ],
             array_column($this->capturedNotifications, 1)
         );
@@ -141,7 +141,7 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
                 '2025-05-29 00:00:00',
                 '2025-05-29 00:00:00',
                 '2025-05-29 00:00:00',
-                '2025-05-29 00:00:00'
+                '2025-05-29 00:00:00',
             ],
             array_column($this->capturedNotifications, 3)
         );

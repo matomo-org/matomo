@@ -89,7 +89,7 @@ class UpdateRegionCodes extends ConsoleCommand
             $newRegions[$countryCode][$regionCode] = [
                 'name' => $region['name'],
                 'altNames' => [],
-                'current' => true
+                'current' => true,
             ];
         }
 

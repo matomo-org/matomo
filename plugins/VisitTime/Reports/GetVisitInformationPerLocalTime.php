@@ -48,7 +48,7 @@ class GetVisitInformationPerLocalTime extends Base
     public function getRelatedReports()
     {
         return array(
-            ReportsProvider::factory('VisitTime', 'getByDayOfWeek')
+            ReportsProvider::factory('VisitTime', 'getByDayOfWeek'),
         );
     }
 }

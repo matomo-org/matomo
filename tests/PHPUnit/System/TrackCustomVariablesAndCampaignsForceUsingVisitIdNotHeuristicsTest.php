@@ -40,7 +40,7 @@ class TrackCustomVariablesAndCampaignsForceUsingVisitIdNotHeuristicsTest extends
 
         return array(
             // TOTAL should be: 1 visit, 1 converted goal, 1 page view
-            array($apiToCall, array('idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime))
+            array($apiToCall, array('idSite' => self::$fixture->idSite, 'date' => self::$fixture->dateTime)),
         );
     }
 

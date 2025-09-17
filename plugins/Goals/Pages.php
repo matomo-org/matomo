@@ -77,7 +77,7 @@ class Pages
         $this->buildGoalByDimensionView('', $config);
         $config->setMiddlewareParameters(array(
             'module' => 'Goals',
-            'action' => 'hasConversions'
+            'action' => 'hasConversions',
         ));
 
         return array($container, $config);
@@ -126,7 +126,7 @@ class Pages
         $config->setMiddlewareParameters(array(
             'module' => 'Goals',
             'action' => 'hasConversions',
-            'idGoal' => $idGoal
+            'idGoal' => $idGoal,
         ));
 
         $widgets[] = $config;
@@ -199,7 +199,7 @@ class Pages
         $config->setMiddlewareParameters(array(
             'module' => 'Goals',
             'action' => 'hasConversions',
-            'idGoal' => $idGoal
+            'idGoal' => $idGoal,
         ));
         $widgets[] = $config;
 
@@ -216,7 +216,7 @@ class Pages
         $config->setMiddlewareParameters(array(
             'module' => 'Goals',
             'action' => 'hasConversions',
-            'idGoal' => $idGoal
+            'idGoal' => $idGoal,
         ));
         $this->buildGoalByDimensionView($idGoal, $config);
 

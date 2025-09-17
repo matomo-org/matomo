@@ -102,7 +102,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
             [
                 'var1' => 'val1',
                 'var3' => 'val5',
-                'arr' => [1, 2]
+                'arr' => [1, 2],
             ],
             $request->getParameters()
         );
@@ -408,7 +408,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         yield 'array value' => ['{"a":"b\u0000","0":"c"}', ['a' => 'b', 'c']];
         yield 'multidim array' => [
             '{"a":"b","b":{"0":false,"1":1.22,"key":{}}}',
-            ['a' => 'b', 'b' => [false, 1.22, 'key' => []]]
+            ['a' => 'b', 'b' => [false, 1.22, 'key' => []]],
         ];
     }
 

@@ -40,37 +40,37 @@ class RaygunCrashReportingTest extends TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no raygun.min.js content' => [
             false,
             'nothing special',
-            []
+            [],
         ];
 
         yield 'raygun.min.js, crash reporting unconfigured' => [
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/raygun.min.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'raygun.min.js, crash reporting disabled' => [
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>rg4js('enableCrashReporting', false);</script><script src='https://localhost.com/js/raygun.min.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'raygun.min.js, crash reporting enabled, double quote' => [
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>rg4js(\"enableCrashReporting\", true);</script><script src='https://localhost.com/js/raygun.min.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'raygun.min.js, crash reporting enabled, single quote' => [
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>rg4js('enableCrashReporting', true);</script><script src='https://localhost.com/js/raygun.min.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

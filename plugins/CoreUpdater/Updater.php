@@ -168,7 +168,7 @@ class Updater
             $environment->setPiwikVersion($newVersion);
             /** @var \Piwik\Plugins\Marketplace\Api\Client $marketplaceClient */
             $marketplaceClient = StaticContainer::getContainer()->make('Piwik\Plugins\Marketplace\Api\Client', [
-                'environment' => $environment
+                'environment' => $environment,
             ]);
 
             try {
@@ -275,7 +275,7 @@ class Updater
             '/core/Piwik.php',
             '/piwik.php',
             '/matomo.php',
-            '/plugins/API/API.php'
+            '/plugins/API/API.php',
         );
         foreach ($someExpectedFiles as $file) {
             if (!is_file($extractedArchiveDirectory . $file)) {

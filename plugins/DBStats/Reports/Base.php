@@ -58,7 +58,7 @@ abstract class Base extends \Piwik\Plugin\Report
             'total_size'     => Piwik::translate('DBStats_TotalSize'),
             'row_count'      => Piwik::translate('DBStats_RowCount'),
             'percent_total'  => '%&nbsp;' . Piwik::translate('DBStats_DBSize'),
-            'estimated_size' => Piwik::translate('DBStats_EstimatedSize')
+            'estimated_size' => Piwik::translate('DBStats_EstimatedSize'),
         ));
     }
 
@@ -95,7 +95,7 @@ abstract class Base extends \Piwik\Plugin\Report
                     'ColumnCallbackAddColumnPercentage',
                     array('percent_total', 'total_size', 'total_size', $quotientPrecision = 0,
                           $shouldSkipRows = false, $getDivisorFromSummaryRow = true),
-                    $isPriority = false
+                    $isPriority = false,
                 );
 
                 $view->requestConfig->filter_sort_column = 'percent_total';

@@ -39,7 +39,7 @@ class Updates_3_6_0_b3 extends Updates
         );
         return array(
             $this->migration->db->createTable('report_subscriptions', $columns, ['idreport', 'email']),
-            $this->migration->db->addUniqueKey('report_subscriptions', 'token', 'unique_token')
+            $this->migration->db->addUniqueKey('report_subscriptions', 'token', 'unique_token'),
         );
     }
 

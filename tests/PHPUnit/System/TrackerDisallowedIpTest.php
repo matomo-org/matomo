@@ -64,7 +64,7 @@ class TrackerDisallowedIpTest extends IntegrationTestCase
                 array('Environment.bootstrapped', \Piwik\DI::value(function () {
                     // ensure tracking request uses an IP that is not local or on allow list
                     $_SERVER['REMOTE_ADDR'] = '3.3.3.3';
-                }))
+                })),
             )),
             Config::class => \Piwik\DI::decorate(function (Config $config) {
                 $config->General['login_allowlist_ip'] = ['1.1.1.1'];

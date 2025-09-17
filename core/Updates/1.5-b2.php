@@ -45,7 +45,7 @@ class Updates_1_5_b2 extends Updates
         );
 
         return array(
-            $this->migration->db->addColumns('log_link_visit_action', $customVarColumns, 'time_spent_ref_action')
+            $this->migration->db->addColumns('log_link_visit_action', $customVarColumns, 'time_spent_ref_action'),
         );
     }
 

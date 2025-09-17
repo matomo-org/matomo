@@ -1980,7 +1980,7 @@ class LoaderTest extends IntegrationTestCase
             $sql = "INSERT INTO `$table` (idsite, date1, date2, period, `name`, status, ts_invalidated, ts_started, report) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             Db::query($sql, [
                 $invalidation['idsite'] ?? 1, $invalidation['date1'], $invalidation['date2'], $invalidation['period'], $invalidation['name'],
-                $invalidation['status'] ?? 0, $invalidation['ts_invalidated'] ?? $now, $invalidation['ts_started'] ?? null, $invalidation['report'] ?? null
+                $invalidation['status'] ?? 0, $invalidation['ts_invalidated'] ?? $now, $invalidation['ts_started'] ?? null, $invalidation['report'] ?? null,
             ]);
         }
     }

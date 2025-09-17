@@ -68,7 +68,7 @@ class StackedBarEvolution extends JqplotDataGenerator\Evolution
         foreach ($columnsToDisplay as $columnName) {
             $seriesMetadata[$columnName] = [
                 'internalLabel' => $columnName,
-                'label' => @$this->properties['translations'][$columnName] ?: $columnName
+                'label' => @$this->properties['translations'][$columnName] ?: $columnName,
             ];
         }
 

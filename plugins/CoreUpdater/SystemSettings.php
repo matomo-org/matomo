@@ -133,7 +133,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                 '�',
                 '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>',
                 '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/') . '" rel="noreferrer noopener" target="_blank">',
-                '</a>'
+                '</a>',
             ]);
         });
     }

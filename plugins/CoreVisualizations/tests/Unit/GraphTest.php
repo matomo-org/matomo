@@ -48,7 +48,7 @@ class GraphTest extends \PHPUnit\Framework\TestCase
             'label' => 'abc',
             'nb_visits' => 5,
             'nb_uniq_visitors' => 2,
-            'nb_something_else' => 1
+            'nb_something_else' => 1,
         ));
 
         $bar->afterAllFiltersAreApplied();
@@ -62,7 +62,7 @@ class GraphTest extends \PHPUnit\Framework\TestCase
         $bar = $this->getMockGraph(array(
             'label' => 'abc',
             'foo' => 5,
-            'bar' => 2
+            'bar' => 2,
         ));
 
         $bar->afterAllFiltersAreApplied();
@@ -75,7 +75,7 @@ class GraphTest extends \PHPUnit\Framework\TestCase
     {
         $bar = $this->getMockGraph(array(
             'foo' => 5,
-            'bar' => 2
+            'bar' => 2,
         ));
 
         $bar->afterAllFiltersAreApplied();
@@ -89,7 +89,7 @@ class GraphTest extends \PHPUnit\Framework\TestCase
         $bar = $this->getMockGraph(array(
             'label' => 'abc',
             'foo' => 5,
-            'bar' => 2
+            'bar' => 2,
         ));
         $bar->config->selectable_columns = array();
 
@@ -103,7 +103,7 @@ class GraphTest extends \PHPUnit\Framework\TestCase
         $bar = $this->getMockGraph(array(
             'label' => 'abc',
             'nb_visits' => 25,
-            'nb_actions' => 80
+            'nb_actions' => 80,
         ));
         // Not present in the dataset = should be thrown out and replaced with first value from dataset
         $bar->config->columns_to_display = array('nb_uniq_visitors');
@@ -118,7 +118,7 @@ class GraphTest extends \PHPUnit\Framework\TestCase
         $bar = $this->getMockGraph(array(
             'label' => 'abc',
             'nb_visits' => 25,
-            'nb_actions' => 80
+            'nb_actions' => 80,
         ));
         // columns_to_display is not present in selectable_columbs, but as long as it's in the data set that's OK
         $bar->config->selectable_columns = array('nb_visits');
@@ -135,7 +135,7 @@ class GraphTest extends \PHPUnit\Framework\TestCase
     private function getMockGraph(array $firstDataRow)
     {
         $row = new DataTable\Row(array(
-            DataTable\Row::COLUMNS => $firstDataRow
+            DataTable\Row::COLUMNS => $firstDataRow,
         ));
         $dataTable = new DataTable();
         $dataTable->setRows(array($row));

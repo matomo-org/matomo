@@ -329,7 +329,7 @@ class RequestTest extends IntegrationTestCase
         $this->access = $this->createAccessMock($this->auth);
         return array(
             'Piwik\Auth'     => $this->auth,
-            'Piwik\Access' => $this->access
+            'Piwik\Access' => $this->access,
         );
     }
 }

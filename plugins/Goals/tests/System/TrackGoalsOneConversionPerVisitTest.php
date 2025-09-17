@@ -42,7 +42,7 @@ class TrackGoalsOneConversionPerVisitTest extends SystemTestCase
                 'periods'      => array('day'))),
             array($apiToCall, array(
                 'otherRequestParameters' => array(
-                    'showAllGoalSpecificMetrics' => 1
+                    'showAllGoalSpecificMetrics' => 1,
                 ),
                 'testSuffix' => 'showAllGoalSpecificMetrics',
                 'idSite'       => self::$fixture->idSite,
@@ -51,7 +51,7 @@ class TrackGoalsOneConversionPerVisitTest extends SystemTestCase
             array($apiToCall, array(
                 'otherRequestParameters' => array(
                     'showAllGoalSpecificMetrics' => 1,
-                    'columns' => 'goal_1_conversion_rate'
+                    'columns' => 'goal_1_conversion_rate',
                 ),
                 'testSuffix' => 'showAllGoalSpecificMetrics_requestedColumns',
                 'idSite'       => self::$fixture->idSite,
@@ -62,13 +62,13 @@ class TrackGoalsOneConversionPerVisitTest extends SystemTestCase
                 'idSite' => self::$fixture->idSite,
                 'date' => self::$fixture->dateTime,
                 'segment' => 'pageUrl=@/',
-                'testSuffix' => '_withLogLinkVisitActionSegment'
+                'testSuffix' => '_withLogLinkVisitActionSegment',
             )),
             array($apiToCall, array(
                 'idSite' => self::$fixture->idSite,
                 'date' => self::$fixture->dateTime,
                 'segment' => 'visitCount>=1;pageUrl=@/',
-                'testSuffix' => '_withLogLinkVisitActionAndLogVisitSegment'
+                'testSuffix' => '_withLogLinkVisitActionAndLogVisitSegment',
             )),
 
             ['API.getProcessedReport', [

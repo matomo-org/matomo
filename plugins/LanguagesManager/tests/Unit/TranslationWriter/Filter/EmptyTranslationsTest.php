@@ -23,12 +23,12 @@ class EmptyTranslationsTest extends \PHPUnit\Framework\TestCase
             array(
                 array(),
                 array(),
-                array()
+                array(),
             ),
             // empty plugin is removed
             array(
                 array(
-                    'test' => array()
+                    'test' => array(),
                 ),
                 array(),
                 array(),
@@ -38,30 +38,30 @@ class EmptyTranslationsTest extends \PHPUnit\Framework\TestCase
                 array(
                     'test' => array(
                         'empty' => '',
-                        'whitespace' => '    '
-                    )
+                        'whitespace' => '    ',
+                    ),
                 ),
                 array(),
                 array(
                     'test' => array(
                         'empty' => '',
-                        'whitespace' => '    '
-                    )
+                        'whitespace' => '    ',
+                    ),
                 ),
             ),
             // no change if no empty value
             array(
                 array(
                     'test' => array(
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
-                array()
+                array(),
             ),
             // empty values are removed, others stay
             array(
@@ -70,18 +70,18 @@ class EmptyTranslationsTest extends \PHPUnit\Framework\TestCase
                     'test' => array(
                         'test' => 'test',
                         'empty' => '     ',
-                    )
+                    ),
                 ),
                 array(
                     'test' => array(
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
                         'empty' => '     ',
-                    )
-                )
+                    ),
+                ),
             ),
         );
     }

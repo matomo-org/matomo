@@ -32,7 +32,7 @@ class DatabaseHandler extends AbstractProcessingHandler
             $record['extra']['class'],
             $record['datetime']->format('Y-m-d H:i:s'),
             $record['level_name'],
-            trim($record['formatted'])
+            trim($record['formatted']),
         ));
 
         Db::enableQueryLog($queryLog);

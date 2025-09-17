@@ -504,41 +504,41 @@ class Loader
         if ($canSkipArchiveForSegment[0]) {
             return [
                 true,
-                'Skip archive for segment: ' . $canSkipArchiveForSegment[1]
+                'Skip archive for segment: ' . $canSkipArchiveForSegment[1],
             ];
         }
 
         if (!$isWebsiteUsingTracker) {
             return [
                 false,
-                'Site is not using the JavaScript tracker'
+                'Site is not using the JavaScript tracker',
             ];
         }
 
         if ($isArchivingForcedWhenNoVisits) {
             return [
                 false,
-                'Archiving is forced when no visits'
+                'Archiving is forced when no visits',
             ];
         }
 
         if ($hasSiteVisitsBetweenTimeframe) {
             return [
                 false,
-                'Site has visits between start and end date'
+                'Site has visits between start and end date',
             ];
         }
 
         if ($hasChildArchivesInPeriod) {
             return [
                 false,
-                'There are child archives in the period'
+                'There are child archives in the period',
             ];
         }
 
         return [
             true,
-            'Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period'
+            'Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period',
         ];
     }
 

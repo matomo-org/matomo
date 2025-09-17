@@ -42,7 +42,7 @@ class Factory
     public function activate($pluginName)
     {
         return $this->container->make('Piwik\Updater\Migration\Plugin\Activate', array(
-            'pluginName' => $pluginName
+            'pluginName' => $pluginName,
         ));
     }
 
@@ -57,7 +57,7 @@ class Factory
     public function deactivate($pluginName)
     {
         return $this->container->make('Piwik\Updater\Migration\Plugin\Deactivate', array(
-            'pluginName' => $pluginName
+            'pluginName' => $pluginName,
         ));
     }
 
@@ -72,7 +72,7 @@ class Factory
     public function uninstall($pluginName)
     {
         return $this->container->make('Piwik\Updater\Migration\Plugin\Uninstall', array(
-            'pluginName' => $pluginName
+            'pluginName' => $pluginName,
         ));
     }
 }

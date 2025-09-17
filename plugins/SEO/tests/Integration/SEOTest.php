@@ -73,7 +73,7 @@ class SEOTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-          'Piwik\Access' => new FakeAccess()
+          'Piwik\Access' => new FakeAccess(),
         ];
     }
 }

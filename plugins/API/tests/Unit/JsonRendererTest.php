@@ -282,7 +282,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
     {
         $input = array(
             array('nb_visits' => 6, 'nb_random' => 8),
-            array('nb_visits' => 3, 'nb_random' => 4)
+            array('nb_visits' => 3, 'nb_random' => 4),
         );
 
         $response = $this->jsonBuilder->renderArray($input);
@@ -329,7 +329,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
     {
         $input = array(
             "fistElement" => "isFirst",
-            "secondElement" => "isSecond"
+            "secondElement" => "isSecond",
         );
 
         $expected = json_encode($input);
@@ -366,7 +366,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
             "thirdElement" => array(
                 "firstElement"  => "isFirst",
                 "secondElement" => "isSecond",
-            )
+            ),
         );
 
         $expected = json_encode($input);
@@ -380,7 +380,7 @@ class JsonRendererTest extends \PHPUnit\Framework\TestCase
     {
         $input = array(
             "firstElement" => "isFirst",
-            "secondElement" => "isSecond"
+            "secondElement" => "isSecond",
         );
 
         $expected = '{"firstElement":"isFirst","secondElement":"isSecond"}';

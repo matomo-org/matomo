@@ -215,24 +215,24 @@ abstract class Controller
         $periodNames = array(
             'day'   => array(
                 'singular' => Piwik::translate('Intl_PeriodDay'),
-                'plural' => Piwik::translate('Intl_PeriodDays')
+                'plural' => Piwik::translate('Intl_PeriodDays'),
             ),
             'week'  => array(
                 'singular' => Piwik::translate('Intl_PeriodWeek'),
-                'plural' => Piwik::translate('Intl_PeriodWeeks')
+                'plural' => Piwik::translate('Intl_PeriodWeeks'),
             ),
             'month' => array(
                 'singular' => Piwik::translate('Intl_PeriodMonth'),
-                'plural' => Piwik::translate('Intl_PeriodMonths')
+                'plural' => Piwik::translate('Intl_PeriodMonths'),
             ),
             'year'  => array(
                 'singular' => Piwik::translate('Intl_PeriodYear'),
-                'plural' => Piwik::translate('Intl_PeriodYears')
+                'plural' => Piwik::translate('Intl_PeriodYears'),
             ),
             // Note: plural is not used for date range
             'range' => array(
                 'singular' => Piwik::translate('General_DateRangeInPeriodList'),
-                'plural' => Piwik::translate('General_DateRangeInPeriodList')
+                'plural' => Piwik::translate('General_DateRangeInPeriodList'),
             ),
         );
 
@@ -901,13 +901,13 @@ abstract class Controller
             $changeTrustedHostsUrl = "index.php"
                 . Url::getCurrentQueryStringWithParametersModified(array(
                                                                         'module' => 'CoreAdminHome',
-                                                                        'action' => 'generalSettings'
+                                                                        'action' => 'generalSettings',
                                                                    ))
                 . "#trustedHostsSection";
 
             $warningStart = Piwik::translate('CoreHome_InjectedHostWarningIntro', array(
                                                                                       '<strong>' . $invalidUrl . '</strong>',
-                                                                                      '<strong>' . $validUrl . '</strong>'
+                                                                                      '<strong>' . $validUrl . '</strong>',
                                                                                  )) . ' <br/>';
 
             if (Piwik::hasUserSuperUserAccess()) {
@@ -918,7 +918,7 @@ abstract class Controller
                                                                                     '</a>',
                                                                                     "<br/><a href=\"$validUrl\">",
                                                                                     Common::sanitizeInputValue($validHost),
-                                                                                    '</a>'
+                                                                                    '</a>',
                                                                                ));
             } elseif (Piwik::isUserIsAnonymous()) {
                 $view->invalidHostMessage = $warningStart . ' '
@@ -926,7 +926,7 @@ abstract class Controller
                         "<br/><a href=\"$validUrl\">",
                         '</a>',
                         '<span style="display:none">',
-                        '</span>'
+                        '</span>',
                     ));
             } else {
                 $view->invalidHostMessage = $warningStart . ' '
@@ -934,7 +934,7 @@ abstract class Controller
                                                                                        "<br/><a href=\"$validUrl\">",
                                                                                        '</a>',
                                                                                        $mailLinkStart,
-                                                                                       '</a>'
+                                                                                       '</a>',
                                                                                   ));
             }
             $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Matomo Super User can manually edit the file /path/to/matomo/config/config.ini.php

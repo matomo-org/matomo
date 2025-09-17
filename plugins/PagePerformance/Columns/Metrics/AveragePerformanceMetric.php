@@ -78,7 +78,7 @@ abstract class AveragePerformanceMetric extends ProcessedMetric
                 'sum_' . static::ID,
                 'nb_hits_with_' . static::ID,
                 'min_' . static::ID,
-                'max_' . static::ID
+                'max_' . static::ID,
             )));
 
             if ($table instanceof DataTable) {

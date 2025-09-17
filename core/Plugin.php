@@ -481,7 +481,7 @@ if (!class_exists('Piwik\Plugin')) {
 
             return Piwik::translate("CorePluginsAdmin_PluginRequirement", array(
             $this->getPluginName(),
-            implode(', ', $causedBy)
+            implode(', ', $causedBy),
             ));
         }
 

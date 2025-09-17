@@ -30,7 +30,7 @@ class GetSiteSearchNoResultKeywords extends SiteSearchBase
             new AverageTimeOnPage(),
             new BounceRate(),
             new ExitRate(),
-            new AveragePageGenerationTime()
+            new AveragePageGenerationTime(),
         );
         $this->order = 18;
 
@@ -40,14 +40,14 @@ class GetSiteSearchNoResultKeywords extends SiteSearchBase
     public function getMetrics()
     {
         return array(
-            'nb_visits' => Piwik::translate('Actions_ColumnSearches')
+            'nb_visits' => Piwik::translate('Actions_ColumnSearches'),
         );
     }
 
     public function getProcessedMetrics()
     {
         return array(
-            'exit_rate' => Piwik::translate('Actions_ColumnSearchExits')
+            'exit_rate' => Piwik::translate('Actions_ColumnSearchExits'),
         );
     }
 

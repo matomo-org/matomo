@@ -150,7 +150,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 'description' => Piwik::translate('General_Recommended')],
             ['key' => '0',
                 'value' => Piwik::translate('PrivacyManager_DoNotTrack_Disable'),
-                'description' => Piwik::translate('General_NotRecommended')]
+                'description' => Piwik::translate('General_NotRecommended')],
         ];
 
         $dntChecker = new DoNotTrackHeaderChecker();
@@ -160,7 +160,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         foreach ($languages as $language) {
             $languageOptions[] = [
                 'key' => $language['code'],
-                'value' => $language['name']
+                'value' => $language['name'],
             ];
         }
 
@@ -169,7 +169,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'currentLanguageCode' => LanguagesManager::getLanguageCodeForCurrentUser(),
             'languageOptions' => $languageOptions,
             'doNotTrackOptions' => $doNotTrackOptions,
-            'dntSupport' => $dntChecker->isActive()
+            'dntSupport' => $dntChecker->isActive(),
         ]);
     }
 
@@ -276,7 +276,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                       'description' => ''],
                 ['key' => '4',
                       'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskFully'),
-                      'description' => '']
+                      'description' => ''],
             ];
             $view->useAnonymizedIpForVisitEnrichmentOptions = [
                 ['key' => '1',
@@ -285,8 +285,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 [
                       'key' => '0',
                       'value' => Piwik::translate('General_No'),
-                      'description' => ''
-                ]
+                      'description' => '',
+                ],
             ];
             $view->scheduleDeletionOptions = [
                 ['key' => '1',
@@ -294,7 +294,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 ['key' => '7',
                       'value' => Piwik::translate('Intl_PeriodWeek')],
                 ['key' => '30',
-                      'value' => Piwik::translate('Intl_PeriodMonth')]
+                      'value' => Piwik::translate('Intl_PeriodMonth')],
             ];
             $view->referrerAnonymizationOptions = $this->referrerAnonymizer->getAvailableAnonymizationOptions();
         }
@@ -330,7 +330,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $formatter = new Formatter();
         $result = [
-            'currentSize' => $formatter->getPrettySizeFromBytes($totalBytes)
+            'currentSize' => $formatter->getPrettySizeFromBytes($totalBytes),
         ];
 
         // if the db size estimate feature is enabled, get the estimate

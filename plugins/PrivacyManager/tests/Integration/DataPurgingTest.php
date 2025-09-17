@@ -220,7 +220,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => -1
+            Common::prefixTable('archive_blob_2012_01')    => -1,
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -270,7 +270,7 @@ class DataPurgingTest extends IntegrationTestCase
     {
         PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_logs_enable'    => 0,
-                                                         'delete_reports_enable' => 0
+                                                         'delete_reports_enable' => 0,
                                                     ));
 
         // get purge data prediction
@@ -330,7 +330,7 @@ class DataPurgingTest extends IntegrationTestCase
     public function testPurgeDataDeleteReportsKeepBasicMetrics()
     {
         PrivacyManager::savePurgeDataSettings(array(
-                                                         'delete_reports_keep_basic_metrics' => 1
+                                                         'delete_reports_keep_basic_metrics' => 1,
                                                     ));
 
         // get purge data prediction
@@ -345,7 +345,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => 1, // remove the garbage metric
-            Common::prefixTable('archive_blob_2012_01')    => -1
+            Common::prefixTable('archive_blob_2012_01')    => -1,
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -385,7 +385,7 @@ class DataPurgingTest extends IntegrationTestCase
     public function testPurgeDataDeleteReportsKeepDailyReports()
     {
         PrivacyManager::savePurgeDataSettings(array(
-                                                         'delete_reports_keep_day_reports' => 1
+                                                         'delete_reports_keep_day_reports' => 1,
                                                     ));
 
         // get purge data prediction
@@ -400,7 +400,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 10  // removing 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 10,  // removing 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -420,7 +420,7 @@ class DataPurgingTest extends IntegrationTestCase
     public function testPurgeDataDeleteReportsKeepWeeklyReports()
     {
         PrivacyManager::savePurgeDataSettings(array(
-                                                         'delete_reports_keep_week_reports' => 1
+                                                         'delete_reports_keep_week_reports' => 1,
                                                     ));
 
         // get purge data prediction
@@ -435,7 +435,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 11 // 5 days, 1 month & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 11, // 5 days, 1 month & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -455,7 +455,7 @@ class DataPurgingTest extends IntegrationTestCase
     public function testPurgeDataDeleteReportsKeepMonthlyReports()
     {
         PrivacyManager::savePurgeDataSettings(array(
-                                                         'delete_reports_keep_month_reports' => 1
+                                                         'delete_reports_keep_month_reports' => 1,
                                                     ));
 
         // get purge data prediction
@@ -470,7 +470,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 14 // 5 days, 4 weeks, 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 14, // 5 days, 4 weeks, 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -490,7 +490,7 @@ class DataPurgingTest extends IntegrationTestCase
     public function testPurgeDataDeleteReportsKeepYearlyReports()
     {
         PrivacyManager::savePurgeDataSettings(array(
-                                                         'delete_reports_keep_year_reports' => 1
+                                                         'delete_reports_keep_year_reports' => 1,
                                                     ));
 
         // get purge data prediction
@@ -505,7 +505,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 14  // 5 days, 4 weeks & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 14,  // 5 days, 4 weeks & 1 year to remove + 1 garbage report + 2 range reports + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -557,7 +557,7 @@ class DataPurgingTest extends IntegrationTestCase
     public function testPurgeDataDeleteReportsKeepRangeReports()
     {
         PrivacyManager::savePurgeDataSettings(array(
-                                                         'delete_reports_keep_range_reports' => 1
+                                                         'delete_reports_keep_range_reports' => 1,
                                                     ));
 
         // get purge data prediction
@@ -572,7 +572,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 13  // 5 days, 4 weeks, 1 month & 1 year + 1 garbage report + 1 segmented report
+            Common::prefixTable('archive_blob_2012_01')    => 13,  // 5 days, 4 weeks, 1 month & 1 year + 1 garbage report + 1 segmented report
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -593,7 +593,7 @@ class DataPurgingTest extends IntegrationTestCase
     {
         PrivacyManager::savePurgeDataSettings(array(
                                                          'delete_reports_keep_day_reports'     => 1,
-                                                         'delete_reports_keep_segment_reports' => 1
+                                                         'delete_reports_keep_segment_reports' => 1,
                                                     ));
 
         // get purge data prediction
@@ -608,7 +608,7 @@ class DataPurgingTest extends IntegrationTestCase
             Common::prefixTable('log_visit')               => 3,
             Common::prefixTable('log_conversion_item')     => 3,
             Common::prefixTable('archive_numeric_2012_01') => -1,
-            Common::prefixTable('archive_blob_2012_01')    => 9 // 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports
+            Common::prefixTable('archive_blob_2012_01')    => 9, // 4 weeks, 1 month & 1 year + 1 garbage report + 2 range reports
         );
         $this->assertEquals($expectedPrediction, $prediction);
 
@@ -782,7 +782,7 @@ class DataPurgingTest extends IntegrationTestCase
             'nb_actions',
             Archiver::getRecordName('revenue'),
             Archiver::getRecordName('nb_conversions', 1),
-            Archiver::getRecordName('revenue', GoalManager::IDGOAL_ORDER)
+            Archiver::getRecordName('revenue', GoalManager::IDGOAL_ORDER),
         );
 
         $archiveTables = self::getArchiveTableNames();
@@ -943,12 +943,12 @@ class DataPurgingTest extends IntegrationTestCase
         return array(
             'numeric' => array(
                 'archive_numeric_2012_01',
-                'archive_numeric_2012_02'
+                'archive_numeric_2012_02',
             ),
             'blob'    => array(
                 'archive_blob_2012_01',
-                'archive_blob_2012_02'
-            )
+                'archive_blob_2012_02',
+            ),
         );
     }
 

@@ -297,7 +297,7 @@ class Console extends Application
     private function getDefaultPiwikCommands()
     {
         $commands = array(
-            'Piwik\CliMulti\RequestCommand'
+            'Piwik\CliMulti\RequestCommand',
         );
 
         $commandsFromPluginsMarkedInConfig = $this->getCommandsFromPluginsMarkedInConfig();

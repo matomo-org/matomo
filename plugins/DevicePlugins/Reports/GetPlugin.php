@@ -46,7 +46,7 @@ class GetPlugin extends Base
 
         $view->config->addTranslations(array(
             'nb_visits_percentage' =>
-            str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'))
+            str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits')),
         ));
 
         $view->config->show_offset_information = false;

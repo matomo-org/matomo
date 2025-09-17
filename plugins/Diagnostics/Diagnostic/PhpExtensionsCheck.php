@@ -76,7 +76,7 @@ class PhpExtensionsCheck implements Diagnostic
             'json'    => 'Installation_SystemCheckWarnJsonHelp',
             'filter'  => 'Installation_SystemCheckFilterHelp',
             'hash'    => 'Installation_SystemCheckHashHelp',
-            'session' => 'Installation_SystemCheckSessionHelp'
+            'session' => 'Installation_SystemCheckSessionHelp',
         );
 
         return $this->translator->translate($messages[$missingExtension]);

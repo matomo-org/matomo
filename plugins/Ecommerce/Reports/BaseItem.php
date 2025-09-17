@@ -31,10 +31,10 @@ abstract class BaseItem extends Base
         $this->processedMetrics = array(
             new AveragePrice(),
             new AverageQuantity(),
-            new ProductConversionRate()
+            new ProductConversionRate(),
         );
         $this->metrics = array(
-            'revenue', 'quantity', 'orders', 'nb_visits'
+            'revenue', 'quantity', 'orders', 'nb_visits',
         );
     }
 

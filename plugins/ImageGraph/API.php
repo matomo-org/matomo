@@ -169,7 +169,7 @@ class API extends \Piwik\Plugin\API
                 'period' => $period,
                 'date' => $date,
                 'hideMetricsDoc' => false,
-                'showSubtableReports' => true
+                'showSubtableReports' => true,
             );
 
             $metadata = Request::processRequest('API.getMetadata', $parameters);
@@ -323,7 +323,7 @@ class API extends \Piwik\Plugin\API
                     'idGoal' => $idGoal,
                     'idDimension' => $idDimension,
                     'legendAppendMetric' => $legendAppendMetric,
-                    'labelUseAbsoluteUrl' => false
+                    'labelUseAbsoluteUrl' => false,
                 );
                 $processedReport = Request::processRequest('API.getRowEvolution', $parameters);
 
@@ -383,7 +383,7 @@ class API extends \Piwik\Plugin\API
                     'showTimer' => true,
                     'hideMetricsDoc' => false,
                     'idSubtable' => $idSubtable,
-                    'showRawMetrics' => false
+                    'showRawMetrics' => false,
                 );
                 $processedReport = Request::processRequest('API.getProcessedReport', $parameters);
             }

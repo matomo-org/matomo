@@ -65,7 +65,7 @@ class DomainAge implements MetricsProvider
         }
 
         return array(
-            new Metric('domain-age', 'SEO_DomainAge', $value, 'plugins/Morpheus/icons/dist/SEO/whois.png')
+            new Metric('domain-age', 'SEO_DomainAge', $value, 'plugins/Morpheus/icons/dist/SEO/whois.png'),
         );
     }
 

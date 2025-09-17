@@ -26,7 +26,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
         $table->addRowsFromArray(array(
                                       array(Row::COLUMNS => array('label' => 'ask', 'count' => 100)),
                                       array(Row::COLUMNS => array('label' => 'nintendo', 'count' => 0)),
-                                      array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10)
+                                      array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10),
                                       )));
         $filter = new Sort($table, 'count', 'desc');
         $filter->filter($table);
@@ -41,7 +41,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
         $table->addRowsFromArray(array(
                                       array(Row::COLUMNS => array('label' => 'ask', 'count' => 100.5)),
                                       array(Row::COLUMNS => array('label' => 'nintendo', 'count' => 0.5)),
-                                      array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10.5)
+                                      array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10.5),
                                       )));
         $filter = new Sort($table, 'count', 'asc');
         $filter->filter($table);
@@ -58,7 +58,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
                                       array(Row::COLUMNS => array('label' => 'nocolumnbis')),
                                       array(Row::COLUMNS => array('label' => 'ask', 'count' => 2)),
                                       array(Row::COLUMNS => array('label' => 'amazing')),
-                                      DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 10)
+                                      DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 10),
                                       )));
         $filter = new Sort($table, 'count', 'asc');
         $filter->filter($table);
@@ -74,7 +74,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
                                       array(Row::COLUMNS => array('label' => 'nintendo', 'count' => 1)),
                                       array(Row::COLUMNS => array('label' => 'ask', 'count' => 2)),
                                       array(Row::COLUMNS => array('label' => 'amazing')),
-                                      DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 10)
+                                      DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 10),
                                       )));
         $filter = new Sort($table, 'count', 'desc');
         $filter->filter($table);
@@ -96,7 +96,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'yahoo')), //3
             array($idcol => array('label' => 'amazon')), //4
             array($idcol => array('label' => '238975247578949')), //5
-            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')) //6
+            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')), //6
         );
         $table->addRowsFromArray($rows);
         $expectedtable = new DataTable();
@@ -107,7 +107,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'google')), //0
             array($idcol => array('label' => 'piwik')), //2
             array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')), //6
-            array($idcol => array('label' => 'yahoo')) //3
+            array($idcol => array('label' => 'yahoo')), //3
         );
         $expectedtable->addRowsFromArray($rows);
         $expectedtableReverse = new DataTable();
@@ -134,7 +134,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
             array('label' => 'yahoo', 'nb_visits' => 154), //3
             array('label' => 'amazon', 'nb_visits' => 30), //4
             array('label' => '238949', 'nb_visits' => 0), //5
-            array('label' => 'Q*(%&*', 'nb_visits' => 1) //6
+            array('label' => 'Q*(%&*', 'nb_visits' => 1), //6
         ));
 
         $rows = array(
@@ -144,7 +144,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
             array('label' => 'piwik', 'nb_visits' => 1.5), //2
             array('label' => 'amazon', 'nb_visits' => 30), //4
             array('label' => 'yahoo', 'nb_visits' => 154), //3
-            array('label' => 'google', 'nb_visits' => 897) //0
+            array('label' => 'google', 'nb_visits' => 897), //0
         );
 
         $expectedtable = $this->createDataTable($rows);
@@ -172,7 +172,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
             array('label' => 'zzzzz', 'nb_visits' => false),
             array('label' => 'amazon', 'nb_visits' => 154),
             array('label' => '238949', 'nb_visits' => 154),
-            array('label' => 'Q*(%&*', 'nb_visits' => 1)
+            array('label' => 'Q*(%&*', 'nb_visits' => 1),
         );
         $table = $this->createDataTable($rows);
 
@@ -184,7 +184,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
             array('label' => 'Q*(%&*', 'nb_visits' => 1),
             array('label' => 'ask', 'nb_visits' => false),
             array('label' => 'google', 'nb_visits' => array()),
-            array('label' => 'zzzzz', 'nb_visits' => false)
+            array('label' => 'zzzzz', 'nb_visits' => false),
         );
 
         $expectedtable        = $this->createDataTable($rows);
@@ -206,7 +206,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
         $table->addRowsFromArray(array(
             array(Row::COLUMNS => array('label' => 'ask', 'count_array' => array(100, 1, 2) )),
             array(Row::COLUMNS => array('label' => 'nintendo', 'count_array' => array(0, 'hello'))),
-            array(Row::COLUMNS => array('label' => 'yahoo', 'count_array' => array(10, 'test'))
+            array(Row::COLUMNS => array('label' => 'yahoo', 'count_array' => array(10, 'test')),
             )));
 
         $tableOriginal = clone $table;
@@ -229,7 +229,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
             array('label' => '9'),
             array('label' => '999yahoo'),
             array('label' => '494'),
-            array('label' => 'Q*(%&*("$&%*(&"$*")"))')
+            array('label' => 'Q*(%&*("$&%*(&"$*")"))'),
         ));
 
         $rows = array(
@@ -239,7 +239,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
             array('label' => '013494'),
             array('label' => '238975247578949'),
             array('label' => 'google'),
-            array('label' => 'Q*(%&*("$&%*(&"$*")"))')
+            array('label' => 'Q*(%&*("$&%*(&"$*")"))'),
         );
 
         $expectedtable = $this->createDataTable($rows);
@@ -260,7 +260,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
         $table->addRowsFromArray(array(
             array(Row::COLUMNS => array('label' => 'ask', 'count' => 10, 'count2' => 10)),
             array(Row::COLUMNS => array('label' => 'nintendo', 'count' => 10, 'count2' => 5)),
-            array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10, 'count2' => 100)
+            array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10, 'count2' => 100),
             )));
         $filter = new Sort($table, 'count', 'desc', true, true, function () {
             return 'count2';
@@ -276,7 +276,7 @@ class SortTest extends \PHPUnit\Framework\TestCase
         $table->addRowsFromArray(array(
             array(Row::COLUMNS => array('label' => 'ask', 'count' => 1, 'count2' => 10)),
             array(Row::COLUMNS => array('label' => 'nintendo', 'count' => 10, 'count2' => 5)),
-            array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10, 'count2' => 100)
+            array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10, 'count2' => 100),
             )));
         $filter = new Sort($table, 'count', 'desc', true, true, function () {
             return 'count2';

@@ -137,7 +137,7 @@ class DocumentationGenerator
         $parametersToSet = array(
             'idSite' => Common::getRequestVar('idSite', 1, 'int'),
             'period' => Common::getRequestVar('period', 'day', 'string'),
-            'date' => Common::getRequestVar('date', 'today', 'string')
+            'date' => Common::getRequestVar('date', 'today', 'string'),
         );
         $str = '';
         $str .= "<span class=\"example\">";
@@ -252,7 +252,7 @@ class DocumentationGenerator
             'updateGoal',
             'deleteGoal',
             //Marketplace
-            'deleteLicenseKey'
+            'deleteLicenseKey',
         );
 
         if (in_array($methodName, $doNotPrintExampleForTheseMethods)) {

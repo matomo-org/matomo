@@ -292,7 +292,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     public function testCheckThatGivenPluginsAreDisabledByDefault()
     {
         $pluginsShouldBeDisabled = array(
-            'DBStats'
+            'DBStats',
         );
         foreach ($pluginsShouldBeDisabled as $pluginName) {
             $this->assertNotContains(
@@ -1045,7 +1045,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*phpstan.neon.dist',
             '*phpstan-baseline.neon',
             '*package.xml',
-            '*.stylelintrc.json'
+            '*.stylelintrc.json',
         ];
 
         return $this->isFilePathFoundInArray($file, $filesAndFoldersToDeleteFromPackage);

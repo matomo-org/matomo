@@ -32,13 +32,13 @@ class GoogleTagManagerTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no GTM content' => [
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'GTM js code found' => [
@@ -52,19 +52,19 @@ class GoogleTagManagerTest extends \PHPUnit\Framework\TestCase
                      })(window,document,'script','dataLayer','GTM-NRTVJJC');</script>
                      <!-- End Google Tag Manager -->                     
                      </head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'gtm.start found' => [
             true,
             'it contains gtm.start somewhere',
-            []
+            [],
         ];
 
         yield 'googletagmanager.js found' => [
             true,
             'foo bar googletagmanager.js ffoo',
-            []
+            [],
         ];
     }
 }

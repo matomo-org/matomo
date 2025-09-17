@@ -166,7 +166,7 @@ class InvalidLicenses
     private function getSubscritionSummaryMessage()
     {
         $url = Url::getCurrentQueryStringWithParametersModified(array(
-            'module' => 'Marketplace', 'action' => 'subscriptionOverview'
+            'module' => 'Marketplace', 'action' => 'subscriptionOverview',
         ));
 
         $link = '<a href="' . $url . '">';
@@ -179,7 +179,7 @@ class InvalidLicenses
         $pluginNames = array(
             'exceeded' => array(),
             'expired' => array(),
-            'noLicense' => array()
+            'noLicense' => array(),
         );
 
         try {

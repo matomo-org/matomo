@@ -127,7 +127,7 @@ class CoreArchiverProcessSignal extends Fixture
                 [
                     'ScheduledTasks.shouldExecuteTask',
                     DI::value(Closure::fromCallable([$this->stepControl, 'handleScheduledTasksShouldExecute'])),
-                ]
+                ],
             ]),
         ];
     }

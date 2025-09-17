@@ -1470,7 +1470,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $rows = Common::safe_unserialize($serialized, [
             Row::class,
             DataTableSummaryRow::class,
-            \Piwik_DataTable_SerializedRow::class
+            \Piwik_DataTable_SerializedRow::class,
         ]);
 
         if ($rows === false) {

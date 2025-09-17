@@ -256,7 +256,7 @@ class Get extends Base
                                 $currentPrettyDate,
                                 $pastValueFormatted . ' ' . $columnTranslation,
                                 $lastPrettyDate,
-                                CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)
+                                CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1),
                             ]),
                         ];
                     };
@@ -271,7 +271,7 @@ class Get extends Base
                     'viewDataTable' => null,
                     'showtitle' => null,
                     'random' => null,
-                    'format_metrics' => 0
+                    'format_metrics' => 0,
                 ]);
             }
 

@@ -43,7 +43,7 @@ class OneVisitorSeveralDaysImportedInRandomOrderTest extends SystemTestCase
                                     'periods'                => 'month',
                                     'testSuffix'             => '_shouldShowOneVisit_InEachOfThreeDays',
                                     'otherRequestParameters' => array('hideColumns' => 'visitorId'),
-                                    'keepLiveDates'          => true
+                                    'keepLiveDates'          => true,
 
             )),
         );

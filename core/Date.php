@@ -77,7 +77,7 @@ class Date
         '9' => 30,
         '10' => 31,
         '11' => 30,
-        '12' => 31
+        '12' => 31,
     );
 
     /**
@@ -164,7 +164,7 @@ class Date
             $message = Piwik::translate('General_ExceptionInvalidDateBeforeFirstWebsite', array(
                 $date->toString(),
                 $dateOfFirstWebsite->getLocalized(self::DATE_FORMAT_SHORT),
-                $dateOfFirstWebsite->getTimestamp()
+                $dateOfFirstWebsite->getTimestamp(),
             ));
             throw new Exception($message . ": $dateString");
         }

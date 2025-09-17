@@ -608,7 +608,7 @@ JS;
             $reloadUrl = Url::getCurrentQueryStringWithParametersModified(array(
                 'showConfirmOnly' => 1,
                 'setCookieInNewWindow' => 0,
-                'nonce' => $nonce ? : ''
+                'nonce' => $nonce ? : '',
             ));
         } else {
             $reloadUrl = false;
@@ -633,7 +633,7 @@ JS;
             'action' => 'optOut',
             'language' => $lang,
             'setCookieInNewWindow' => 1,
-            'nonce' => $nonce
+            'nonce' => $nonce,
         ), false);
 
         if (Common::getRequestVar('applyStyling', 1, 'int')) {
@@ -691,7 +691,7 @@ JS;
 
         $hexstrings = array(
             'fontColor' => $cssfontcolour,
-            'backgroundColor' => $cssbackgroundcolor
+            'backgroundColor' => $cssbackgroundcolor,
         );
         foreach ($hexstrings as $key => $testcase) {
             if ($testcase && !(ctype_xdigit($testcase) && in_array(strlen($testcase), array(3,6), true))) {

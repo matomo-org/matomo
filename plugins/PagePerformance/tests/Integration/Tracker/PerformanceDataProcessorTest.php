@@ -122,7 +122,7 @@ class PerformanceDataProcessorTest extends IntegrationTestCase
             'time_transfer' => $transfer,
             'time_dom_processing' => $domProcessing,
             'time_dom_completion' => $domCompletion,
-            'time_on_load' => $onload
+            'time_on_load' => $onload,
         ], $result);
     }
 }

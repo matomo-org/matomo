@@ -42,8 +42,8 @@ class ApiTest extends SystemTestCase
                 'idSite'     => 1,
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['day'],
-                'otherRequestParameters' => ['pattern' => 'SiteTest1']
-            ]
+                'otherRequestParameters' => ['pattern' => 'SiteTest1'],
+            ],
         ];
         $apiToTest[] = [['SitesManager.getPatternMatchSites'],
             [
@@ -51,21 +51,21 @@ class ApiTest extends SystemTestCase
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['day'],
                 'otherRequestParameters' => ['pattern' => 'SiteTest1', 'limit' => 2],
-                'testSuffix' => 'withLimit'
-            ]
+                'testSuffix' => 'withLimit',
+            ],
         ];
         $apiToTest[] = [['SitesManager.getNumWebsitesToDisplayPerPage'],
             [
                 'idSite'     => 1,
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['day'],
-                'otherRequestParameters' => ['pattern' => 'SiteTest1']
-            ]
+                'otherRequestParameters' => ['pattern' => 'SiteTest1'],
+            ],
         ];
         $apiToTest[] = [['SitesManager.getSiteSettings'],
             [
-                'idSite' => 1
-            ]
+                'idSite' => 1,
+            ],
         ];
 
         return $apiToTest;
@@ -76,7 +76,7 @@ class ApiTest extends SystemTestCase
         $this->setInstallVersion('3.6.0');
         $this->runApiTests(['SitesManager.getJavascriptTag', 'SitesManager.getImageTrackingCode'], [
             'idSite' => 1,
-            'testSuffix' => '_prior3_7_0'
+            'testSuffix' => '_prior3_7_0',
         ]);
     }
 
@@ -86,7 +86,7 @@ class ApiTest extends SystemTestCase
         $this->runApiTests(['SitesManager.getJavascriptTag', 'SitesManager.getImageTrackingCode'], [
             'idSite' => 1,
             'otherRequestParameters' => ['forceMatomoEndpoint' => 1],
-            'testSuffix' => '_prior3_7_0_but_forced'
+            'testSuffix' => '_prior3_7_0_but_forced',
         ]);
     }
 
@@ -95,7 +95,7 @@ class ApiTest extends SystemTestCase
         $this->setInstallVersion('3.7.0');
         $this->runApiTests(['SitesManager.getJavascriptTag', 'SitesManager.getImageTrackingCode'], [
             'idSite' => 1,
-            'testSuffix' => '_after3_7_0'
+            'testSuffix' => '_after3_7_0',
         ]);
     }
 

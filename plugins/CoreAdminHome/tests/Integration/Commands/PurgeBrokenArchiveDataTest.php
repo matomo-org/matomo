@@ -83,7 +83,7 @@ class PurgeBrokenArchiveDataTest extends IntegrationTestCase
         $result = $this->applicationTester->run([
             'command' => 'core:purge-broken-archive-data',
             'startMonth' => '2015-01',
-            'endMonth' => '2015-02'
+            'endMonth' => '2015-02',
         ]);
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -103,7 +103,7 @@ class PurgeBrokenArchiveDataTest extends IntegrationTestCase
         $result = $this->applicationTester->run([
             'command' => 'core:purge-broken-archive-data',
             'startMonth' => '2015-01',
-            'endMonth' => '201-001'
+            'endMonth' => '201-001',
         ]);
 
         $this->assertEquals(2, $result, $this->getCommandDisplayOutputErrorMessage());

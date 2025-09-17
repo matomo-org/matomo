@@ -1457,7 +1457,7 @@ class CronArchive
         // and make sure it's pre-archived
         $allUsersPreferences = APIUsersManager::getInstance()->getAllUsersPreferences([
             APIUsersManager::PREFERENCE_DEFAULT_REPORT_DATE,
-            APIUsersManager::PREFERENCE_DEFAULT_REPORT
+            APIUsersManager::PREFERENCE_DEFAULT_REPORT,
         ]);
 
         foreach ($allUsersPreferences as $userLogin => $userPreferences) {

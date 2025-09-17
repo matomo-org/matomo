@@ -38,7 +38,7 @@ class CustomPluginsArchiver extends PluginsArchiver
     protected static function getPluginArchivers()
     {
         return array(
-            'MyPluginName' => 'Piwik\Tests\Integration\Archive\CustomArchiver'
+            'MyPluginName' => 'Piwik\Tests\Integration\Archive\CustomArchiver',
         );
     }
 }

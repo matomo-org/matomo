@@ -180,7 +180,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $fields = array(
             'MyPlugin.field1' => 3,
             'MyPlugin.field2' => '3983',
-            'MyPlugin.field3' => 0.235
+            'MyPlugin.field3' => 0.235,
         );
 
         $writer = $this->buildWriter($period, $date);

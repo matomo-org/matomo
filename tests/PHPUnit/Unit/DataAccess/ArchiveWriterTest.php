@@ -40,7 +40,7 @@ class ArchiveWriterTest extends \PHPUnit\Framework\TestCase
 
         $expectedBlobs = array(
             array($this->recordName, $this->getSerializedBlob('_0')),
-            array($this->recordName . '_chunk_0_99', serialize($this->generateBlobs(1, 44)))
+            array($this->recordName . '_chunk_0_99', serialize($this->generateBlobs(1, 44))),
         );
 
         $this->assertInsertBlobRecordInsertedRecordsInBulk($expectedBlobs, $blobs);

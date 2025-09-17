@@ -47,7 +47,7 @@ class ReactJs extends SiteContentDetectionAbstract
                     'react-jsx-dev-runtime.development.min.js', 'react-jsx-dev-runtime.production.min.js',
                     'react-jsx-dev-runtime.profiling.min.js', 'react-jsx-runtime.development.js', 'react-jsx-runtime.development.min.js',
                     'react-jsx-runtime.production.min.js', 'react-jsx-runtime.profiling.min.js', 'react.shared-subset.development.js',
-                    'react.shared-subset.development.min.js', 'react.shared-subset.production.min.js', 'react.profiling.min.js'
+                    'react.shared-subset.development.min.js', 'react.shared-subset.production.min.js', 'react.profiling.min.js',
         ];
         $hasReactNative = (stripos($data, 'react-native') !== false);
 

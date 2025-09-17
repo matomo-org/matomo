@@ -45,13 +45,13 @@ class Get extends \Piwik\Plugin\Report
         $this->processedMetrics = array(
             new BounceRate(),
             new ActionsPerVisit(),
-            new AverageTimeOnSite()
+            new AverageTimeOnSite(),
         );
         $this->metrics = array(
             'nb_visits',
             $this->usersColumn,
             'nb_actions',
-            'max_actions'
+            'max_actions',
         );
 
         $period = Piwik::getPeriod('day');
@@ -163,7 +163,7 @@ class Get extends \Piwik\Plugin\Report
                             $currentPrettyDate,
                             $pastValueFormatted . ' ' . $columnTranslation,
                             $lastPrettyDate,
-                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)])
+                            CalculateEvolutionFilter::calculate($value, $pastValue, $precision = 1)]),
                     ];
                 };
             }

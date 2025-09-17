@@ -78,7 +78,7 @@ class AttachedFileReportEmailGeneratorTest extends IntegrationTestCase
                 'generic/thing',
                 true,
                 'attachment',
-                0
+                0,
             ],
         ], $attachments);
     }

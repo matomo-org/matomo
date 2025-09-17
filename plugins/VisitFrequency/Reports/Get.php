@@ -35,7 +35,7 @@ class Get extends \Piwik\Plugin\Report
             new ReturningMetric(new BounceRate(), API::RETURNING_COLUMN_SUFFIX),
             new ReturningMetric(new AverageTimeOnSite(), API::NEW_COLUMN_SUFFIX),
             new ReturningMetric(new ActionsPerVisit(), API::NEW_COLUMN_SUFFIX),
-            new ReturningMetric(new BounceRate(), API::NEW_COLUMN_SUFFIX)
+            new ReturningMetric(new BounceRate(), API::NEW_COLUMN_SUFFIX),
         ];
         $this->metrics       = [
             'nb_visits_returning',
@@ -111,7 +111,7 @@ class Get extends \Piwik\Plugin\Report
             'avg_time_on_site',
             'nb_actions_per_visit',
             'bounce_rate',
-            'nb_actions'
+            'nb_actions',
         ];
 
         $i = 1;

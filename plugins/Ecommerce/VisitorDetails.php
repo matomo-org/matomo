@@ -165,7 +165,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             'totalEcommerceItems'        => $ecommerceOrders['lifeTimeEcommerceItems'],
             'totalAbandonedCartsRevenue' => $abandonedCarts['lifeTimeRevenue'],
             'totalAbandonedCarts'        => $abandonedCarts['lifeTimeConversions'],
-            'totalAbandonedCartsItems'   => $abandonedCarts['lifeTimeEcommerceItems']
+            'totalAbandonedCartsItems'   => $abandonedCarts['lifeTimeEcommerceItems'],
         );
     }
 

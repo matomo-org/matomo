@@ -30,8 +30,8 @@ class Updates_1_14 extends Updates
         return array(
             $this->migration->db->changeColumnTypes('log_visit', array(
                 'config_os_version' => 'VARCHAR( 100 ) DEFAULT NULL',
-                'config_device_type' => 'VARCHAR( 100 ) DEFAULT NULL'
-            ))
+                'config_device_type' => 'VARCHAR( 100 ) DEFAULT NULL',
+            )),
         );
     }
 

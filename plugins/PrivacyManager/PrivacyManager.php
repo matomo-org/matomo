@@ -189,7 +189,7 @@ class PrivacyManager extends Plugin
             'Db.getTablesInstalled'                   => 'getTablesInstalled',
             'Visualization.beforeRender'              => 'onConfigureVisualisation',
             'CustomJsTracker.shouldAddTrackerFile'    => 'shouldAddTrackerFile',
-            'Request.shouldDisablePostProcessing'     => 'shouldDisablePostProcessing'
+            'Request.shouldDisablePostProcessing'     => 'shouldDisablePostProcessing',
         ];
     }
 
@@ -517,7 +517,7 @@ class PrivacyManager extends Plugin
             'anonymise_ip',
             null,
             [
-                'content' => '<div class="form-help">' . Piwik::translate('PrivacyManager_AnonymizeIpExtendedHelp', ['213.34.51.91', '213.34.0.0']) . '</div> &nbsp;&nbsp;' . Piwik::translate('PrivacyManager_AnonymizeIpInlineHelp')
+                'content' => '<div class="form-help">' . Piwik::translate('PrivacyManager_AnonymizeIpExtendedHelp', ['213.34.51.91', '213.34.0.0']) . '</div> &nbsp;&nbsp;' . Piwik::translate('PrivacyManager_AnonymizeIpInlineHelp'),
             ]
         );
 
