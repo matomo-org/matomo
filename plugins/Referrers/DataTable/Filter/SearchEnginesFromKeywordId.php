@@ -50,14 +50,14 @@ class SearchEnginesFromKeywordId extends BaseFilter
             'url',
             function ($url) {
                 return SearchEngine::getInstance()->getUrlFromName($url);
-            }
+            },
         ));
         $table->queueFilter('MetadataCallbackAddMetadata', array(
             'url',
             'logo',
             function ($url) {
                 return SearchEngine::getInstance()->getLogoFromUrl($url);
-            }
+            },
         ));
 
         // get the keyword and create the URL to the search result page
@@ -69,7 +69,7 @@ class SearchEnginesFromKeywordId extends BaseFilter
                 function ($url, $keyword) {
                     return SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword($url, $keyword);
                 },
-                array($keyword)
+                array($keyword),
             ));
             $table->queueFilter(function (DataTable $table) {
                 $row = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);

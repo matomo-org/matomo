@@ -76,7 +76,7 @@ class ServerModule extends GeoIp2
         ) {
             Common::printDebug("The request is for IP address: " . $info['ip'] . " but your IP is: $myIP. GeoIP 2 (Server Module) does not support this use case... ");
             $fallbacks = array(
-                Php::ID
+                Php::ID,
             );
             foreach ($fallbacks as $fallbackProviderId) {
                 $otherProvider = LocationProvider::getProviderById($fallbackProviderId);
@@ -253,7 +253,7 @@ class ServerModule extends GeoIp2
         }
 
         $configUrl = Url::getCurrentQueryStringWithParametersModified(array(
-            'module' => 'CoreAdminHome', 'action' => 'generalSettings'
+            'module' => 'CoreAdminHome', 'action' => 'generalSettings',
         ));
         if (!SettingsServer::isTrackerApiRequest()) {
             // can't render in tracking mode as there is no theme
@@ -355,7 +355,7 @@ class ServerModule extends GeoIp2
     {
         $comment = Piwik::translate('GeoIp2_GeoIPLocationProviderNotRecommended') . ' ';
         $comment .= Piwik::translate('GeoIp2_LocationProviderDesc_ServerModule2', array(
-            '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '" rel="noreferrer noopener" target="_blank">', '', '', '</a>'
+            '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '" rel="noreferrer noopener" target="_blank">', '', '', '</a>',
         ));
 
         return $comment;

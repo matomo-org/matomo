@@ -82,8 +82,8 @@ class ActionDimensionTest extends IntegrationTestCase
     {
         $expected = array(
             'log_link_visit_action' => array(
-                "ADD COLUMN `fake_action_dimension_column` VARCHAR (255) DEFAULT 0"
-            )
+                "ADD COLUMN `fake_action_dimension_column` VARCHAR (255) DEFAULT 0",
+            ),
         );
 
         $this->assertEquals($expected, $this->dimension->install());
@@ -93,8 +93,8 @@ class ActionDimensionTest extends IntegrationTestCase
     {
         $expected = array(
             'log_link_visit_action' => array(
-                "MODIFY COLUMN `fake_action_dimension_column` VARCHAR (255) DEFAULT 0"
-            )
+                "MODIFY COLUMN `fake_action_dimension_column` VARCHAR (255) DEFAULT 0",
+            ),
         );
 
         $this->assertEquals($expected, $this->dimension->update(array()));

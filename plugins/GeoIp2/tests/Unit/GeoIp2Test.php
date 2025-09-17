@@ -78,7 +78,7 @@ class GeoIp2Test extends \PHPUnit\Framework\TestCase
 
         GeoIp2::$dbNames = [
             'loc' => ['DBIP-City.mmdb'],
-            'isp' => ['DBIP-ISP.mmdb']
+            'isp' => ['DBIP-ISP.mmdb'],
         ];
     }
 

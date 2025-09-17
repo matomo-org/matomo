@@ -151,7 +151,7 @@ class UserRepository
             'invitedUser'  => $user,
             'siteName'     => $siteName,
             'token'        => $inviteToken,
-            'expiryInDays' => $expiryInDays
+            'expiryInDays' => $expiryInDays,
         ]);
         $email->safeSend();
     }

@@ -199,7 +199,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         // Insert an archive/invalidation that is currently in progress
         $this->insertArchiveRow(1, '2020-03-03', 'day', $doneValue = ArchiveWriter::DONE_ERROR, '', false);
         $this->insertInvalidations([
-            ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-03', 'date2' => '2020-03-03', 'period' => 1, 'report' => null, 'ts_started' => Date::now()->getDatetime(), 'status' => 1]
+            ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-03', 'date2' => '2020-03-03', 'period' => 1, 'report' => null, 'ts_started' => Date::now()->getDatetime(), 'status' => 1],
         ]);
 
         /** @var ArchiveInvalidator $archiveInvalidator */
@@ -217,7 +217,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $invalidatedArchives = $this->getAvailableArchives();
         $expectedArchives = [
             '2020_03' => [
-                ['idsite' => 1, 'date1' => '2020-03-03', 'date2' => '2020-03-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR_INVALIDATED]
+                ['idsite' => 1, 'date1' => '2020-03-03', 'date2' => '2020-03-03', 'period' => 1, 'name' => 'done', 'value' => ArchiveWriter::DONE_ERROR_INVALIDATED],
             ],
         ];
 
@@ -232,7 +232,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'date1' => '2020-03-03',
                 'date2' => '2020-03-03',
                 'report' => null,
-                'status' => '1'
+                'status' => '1',
             ],
             [
                 'idarchive' => '1',
@@ -242,7 +242,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'date1' => '2020-03-03',
                 'date2' => '2020-03-03',
                 'report' => null,
-                'status' => '0'
+                'status' => '0',
             ],
             [
                 'idarchive' => null,
@@ -252,7 +252,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'date1' => '2020-03-02',
                 'date2' => '2020-03-08',
                 'report' => null,
-                'status' => '0'
+                'status' => '0',
             ],
             [
                 'idarchive' => null,
@@ -262,7 +262,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'date1' => '2020-03-01',
                 'date2' => '2020-03-31',
                 'report' => null,
-                'status' => '0'
+                'status' => '0',
             ],
             [
                 'idarchive' => null,
@@ -272,7 +272,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'date1' => '2020-01-01',
                 'date2' => '2020-12-31',
                 'report' => null,
-                'status' => '0'
+                'status' => '0',
             ],
         ];
 
@@ -666,7 +666,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $expected = array(
             '2014-04-05' => array(1, 2, 4),
             '2014-05-05' => array(2, 5),
-            '2014-04-06' => array(3)
+            '2014-04-06' => array(3),
         );
         $this->assertSameReports($expected, $reports);
     }
@@ -1407,7 +1407,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 '2015_02' => [
                     '1.2015-02-04.2015-02-04.1.done',
                     '1.2015-02-02.2015-02-08.2.done',
-                    '1.2015-02-01.2015-02-28.3.done.VisitsSummary'
+                    '1.2015-02-01.2015-02-28.3.done.VisitsSummary',
                 ],
             ],
             [
@@ -2409,7 +2409,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             '2014-12-05,2015-01-01',
             '2015-03-05,2015-03-10',
             '2015-01-01,2015-01-10',
-            '2014-10-15,2014-10-20'
+            '2014-10-15,2014-10-20',
         );
         foreach ($rangePeriods as $dateRange) {
             $this->insertArchiveRow($idSite = 1, $dateRange, 'range');

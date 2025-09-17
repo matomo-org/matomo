@@ -41,7 +41,7 @@ class RowEvolution
         'getPageUrlsFollowingSiteSearch',
         'getEntryPageUrls',
         'getExitPageUrls',
-        'getPageUrl'
+        'getPageUrl',
     ];
 
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $apiParameters = [], $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $labelSeries = '', $showGoalMetricsForGoal = false)

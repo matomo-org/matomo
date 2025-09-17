@@ -64,19 +64,19 @@ abstract class SystemTestCase extends TestCase
     private static $apisToFilterResponse = array(
         'API.getReportMetadata' => array(
             'actionName' => 'API.getReportMetadata.end',
-            'filterKey' => 'module'
+            'filterKey' => 'module',
         ),
         'API.getSegmentsMetadata' => array(
             'actionName' => 'API.API.getSegmentsMetadata.end',
-            'filterKey' => 'category'
+            'filterKey' => 'category',
         ),
         'API.getReportPagesMetadata' => array(
             'actionName' => 'API.API.getReportPagesMetadata.end',
-            'filterKey' => 'category'
+            'filterKey' => 'category',
         ),
         'API.getWidgetMetadata' => array(
             'actionName' => 'API.API.getWidgetMetadata.end',
-            'filterKey' => 'module'
+            'filterKey' => 'module',
         ),
     );
 
@@ -200,8 +200,8 @@ abstract class SystemTestCase extends TestCase
                         'reportFormat' => ReportRenderer::HTML_FORMAT,
                         'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                         'serialize' => 0,
-                    )
-                )
+                    ),
+                ),
             )
         );
 
@@ -221,8 +221,8 @@ abstract class SystemTestCase extends TestCase
                         'reportFormat' => ReportRenderer::CSV_FORMAT,
                         'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                         'serialize' => 0,
-                    )
-                )
+                    ),
+                ),
             )
         );
 
@@ -242,8 +242,8 @@ abstract class SystemTestCase extends TestCase
                         'reportFormat' => ReportRenderer::TSV_FORMAT,
                         'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                         'serialize' => 0,
-                    )
-                )
+                    ),
+                ),
             )
         );
 
@@ -265,8 +265,8 @@ abstract class SystemTestCase extends TestCase
                              'reportFormat' => ReportRenderer::PDF_FORMAT,
                              'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                              'serialize' => 0,
-                         )
-                     )
+                         ),
+                     ),
                 )
             );
         }
@@ -286,8 +286,8 @@ abstract class SystemTestCase extends TestCase
                          'idReport'   => 2,
                          'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                          'serialize' => 0,
-                     )
-                 )
+                     ),
+                 ),
             )
         );
 
@@ -306,8 +306,8 @@ abstract class SystemTestCase extends TestCase
                          'idReport'   => 3,
                          'outputType' => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                          'serialize' => 0,
-                     )
-                 )
+                     ),
+                 ),
             )
         );
 
@@ -328,8 +328,8 @@ abstract class SystemTestCase extends TestCase
                              'reportFormat' => ReportRenderer::HTML_FORMAT,
                              'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                              'serialize' => 0,
-                         )
-                     )
+                         ),
+                     ),
                 )
             );
 
@@ -348,8 +348,8 @@ abstract class SystemTestCase extends TestCase
                              'idReport'     => 5,
                              'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                              'serialize' => 0,
-                         )
-                     )
+                         ),
+                     ),
                 )
             );
 
@@ -368,8 +368,8 @@ abstract class SystemTestCase extends TestCase
                             'idReport'     => 6,
                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                             'serialize' => 0,
-                        )
-                    )
+                        ),
+                    ),
                 )
             );
 
@@ -388,8 +388,8 @@ abstract class SystemTestCase extends TestCase
                             'idReport'     => 7,
                             'outputType'   => \Piwik\Plugins\ScheduledReports\API::OUTPUT_RETURN,
                             'serialize' => 0,
-                        )
-                    )
+                        ),
+                    ),
                 )
             );
         }
@@ -661,7 +661,7 @@ abstract class SystemTestCase extends TestCase
             'periods' => $queryParams['period'],
             'format' => isset($queryParams['format']) ? $queryParams['format'] : 'xml',
             'testSuffix' => '_' . $this->getName(), // TODO: instead of using a test suffix, the whole file name should just be the test method
-            'otherRequestParameters' => $queryParams
+            'otherRequestParameters' => $queryParams,
         ));
     }
 

@@ -34,35 +34,35 @@ class KlaroTest extends \PHPUnit\Framework\TestCase
             false,
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no klaro content' => [
             false,
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'klaro.js found' => [
             true,
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script src='/klaro.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'kiprotect.com found' => [
             true,
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script src='//kiprotect.com/java.script'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'klaro connected' => [
             true,
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script src='/klaro.js'></script><script>KlaroWatcher()</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'klaro connected 2' => [
@@ -71,7 +71,7 @@ class KlaroTest extends \PHPUnit\Framework\TestCase
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script src='//kiprotect.com/java.script'></script><script>var x = {
     title: 'Matomo',
 };</script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

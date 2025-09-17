@@ -889,7 +889,7 @@ class LogAggregator
     {
         $bind = [
             $this->dateStart->toString(Date::DATE_TIME_FORMAT),
-            $this->dateEnd->toString(Date::DATE_TIME_FORMAT)
+            $this->dateEnd->toString(Date::DATE_TIME_FORMAT),
         ];
         return array_merge($bind, $this->sites);
     }
@@ -962,7 +962,7 @@ class LogAggregator
                         'CASE log_conversion_item.idorder WHEN \'0\' THEN %d ELSE %d END AS ecommerceType',
                         GoalManager::IDGOAL_CART,
                         GoalManager::IDGOAL_ORDER
-                    )
+                    ),
                 )
             ),
             // FROM ...
@@ -970,8 +970,8 @@ class LogAggregator
                 "log_conversion_item",
                 array(
                     "table" => "log_action",
-                    "joinOn" => sprintf("log_conversion_item.%s = log_action.idaction", $dimension)
-                )
+                    "joinOn" => sprintf("log_conversion_item.%s = log_action.idaction", $dimension),
+                ),
             ),
             // WHERE ... AND ...
             implode(
@@ -980,7 +980,7 @@ class LogAggregator
                     'log_conversion_item.server_time >= ?',
                     'log_conversion_item.server_time <= ?',
                     'log_conversion_item.idsite IN (' . Common::getSqlStringFieldsArray($this->sites) . ')',
-                    'log_conversion_item.deleted = 0'
+                    'log_conversion_item.deleted = 0',
                 )
             ),
             // GROUP BY ...
@@ -1082,7 +1082,7 @@ class LogAggregator
                 $from[] = array(
                     'table'      => 'log_action',
                     'tableAlias' => $tableAlias,
-                    'joinOn'     => $joinOn
+                    'joinOn'     => $joinOn,
                 );
             }
         }
@@ -1254,7 +1254,7 @@ class LogAggregator
                 ['table' => 'log_link_visit_action', 'tableAlias' => 'logva', 'join' => 'RIGHT JOIN',
                             'joinOn' => 'log_conversion.idvisit = logva.idvisit'],
                 ['table' => 'log_action', 'tableAlias' => 'lac',
-                            'joinOn' => 'logva.' . $linkField . ' = lac.idaction']
+                            'joinOn' => 'logva.' . $linkField . ' = lac.idaction'],
         ];
 
         $where = $this->getWhereStatement('log_conversion', 'server_time');
@@ -1298,7 +1298,7 @@ class LogAggregator
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_shipping)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_SHIPPING),
                     sprintf('%s AS `%d`', self::getSqlRevenue('SUM(log_conversion.revenue_discount)'), Metrics::INDEX_GOAL_ECOMMERCE_REVENUE_DISCOUNT),
                     sprintf('SUM(log_conversion.items) AS `%d`', Metrics::INDEX_GOAL_ECOMMERCE_ITEMS),
-                    sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY)
+                    sprintf('COUNT(*) AS `%d`', Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY),
                 ]
         );
 
@@ -1306,12 +1306,12 @@ class LogAggregator
             $tableName,
                 [
                     "table"  => "log_visit",
-                    "joinOn" => "log_visit.idvisit = log_conversion.idvisit"
+                    "joinOn" => "log_visit.idvisit = log_conversion.idvisit",
                 ],
                 [
                     "table" => "log_action",
-                    "joinOn" => "log_action.idaction = log_visit." . $linkField
-                ]
+                    "joinOn" => "log_action.idaction = log_visit." . $linkField,
+                ],
         ];
 
         $where   = $linkField . ' IS NOT NULL AND log_conversion.idgoal >= 0';

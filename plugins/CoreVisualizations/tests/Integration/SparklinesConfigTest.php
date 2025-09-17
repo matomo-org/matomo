@@ -66,7 +66,7 @@ class SparklinesConfigTest extends IntegrationTestCase
     {
         $tooltip = $this->config->generateSparklineTooltip([
             'period' => 'week', 'date' => '2022-02-02,2022-05-05',
-            'comparePeriods' => ['week', 'week'], 'compareDates' => ['2021-02-02,2021-05-05', '2020-02-02,2020-05-05']
+            'comparePeriods' => ['week', 'week'], 'compareDates' => ['2021-02-02,2021-05-05', '2020-02-02,2020-05-05'],
         ]);
 
         $expected = 'Each data point in the sparkline represents a week. Period: Feb 2 – May 5, 2022. Period 2: Feb 2 – May 5, 2021. Period 3: Feb 2 – May 5, 2020.';
@@ -139,7 +139,7 @@ class SparklinesConfigTest extends IntegrationTestCase
 
         $expectedSparkline = array(
             array ('value' => 10, 'description' => 'Visits', 'column' => 'nb_visits'),
-            array ('value' => 20, 'description' => 'Actions', 'column' => 'nb_actions')
+            array ('value' => 20, 'description' => 'Actions', 'column' => 'nb_actions'),
         );
 
         $sparklines = $this->config->getSortedSparklines();
@@ -166,7 +166,7 @@ class SparklinesConfigTest extends IntegrationTestCase
             'percent'  => '-52.4%',
             'isLowerValueBetter' => false,
             'tooltip' => '1 visit compared to 2 visits',
-            'trend' => -11
+            'trend' => -11,
         ), $sparklines[''][0]['evolution']);
     }
 
@@ -183,7 +183,7 @@ class SparklinesConfigTest extends IntegrationTestCase
             'percent'  => '-51.2%',
             'isLowerValueBetter' => true,
             'tooltip' => '2 bounces compared to 1 bounce',
-            'trend' => -21
+            'trend' => -21,
         ), $sparklines[''][0]['evolution']);
     }
 
@@ -386,7 +386,7 @@ class SparklinesConfigTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

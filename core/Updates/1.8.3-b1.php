@@ -109,7 +109,7 @@ class Updates_1_8_3_b1 extends Updates
                          json_encode($parameters),
                          $ts_created,
                          $ts_last_sent,
-                         $deleted
+                         $deleted,
                     )
                 );
             }

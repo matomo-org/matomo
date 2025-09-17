@@ -17,5 +17,5 @@ return array(
                 $tagManagerTeaser->reset();
             }
         })),
-    ))
+    )),
 );

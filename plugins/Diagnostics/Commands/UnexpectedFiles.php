@@ -90,7 +90,7 @@ class UnexpectedFiles extends ConsoleCommand
             '/^config\/common.config.ini.php$/', // multi-tenant config file
             '/\.htaccess$/',                     // apache directory access rules
             '/^config\/config.php$/',            // DI customisation
-            '/^misc\/.*$/'                       // everything in the misc/ directory (geo databases, multi-tenant, etc)
+            '/^misc\/.*$/',                       // everything in the misc/ directory (geo databases, multi-tenant, etc)
         ];
 
         $files = FileIntegrity::getUnexpectedFilesList();

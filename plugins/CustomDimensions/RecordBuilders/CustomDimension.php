@@ -290,12 +290,12 @@ class CustomDimension extends RecordBuilder
             "log_link_visit_action",
             [
                 "table"  => "log_visit",
-                "joinOn" => "log_visit.idvisit = log_link_visit_action.idvisit"
+                "joinOn" => "log_visit.idvisit = log_link_visit_action.idvisit",
             ],
             [
                 "table"  => "log_action",
-                "joinOn" => "log_link_visit_action.idaction_url = log_action.idaction"
-            ]
+                "joinOn" => "log_link_visit_action.idaction_url = log_action.idaction",
+            ],
         ];
 
         $where  = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');

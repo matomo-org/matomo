@@ -198,7 +198,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'yahoo')), //3
             array($idcol => array('label' => 'amazon')), //4
             array($idcol => array('label' => '238975247578949')), //5
-            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')) //6
+            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')), //6
         );
 
         $table->addRowsFromArray($rows);
@@ -230,7 +230,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'yahoo')), //3
             array($idcol => array('label' => 'amazon')), //4
             array($idcol => array('label' => '238975247578949')), //5
-            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')) //6
+            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')), //6
         );
 
         $table->addRowsFromArray($rows);
@@ -262,7 +262,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'yahoo')), //3
             array($idcol => array('label' => 'amazon')), //4
             array($idcol => array('label' => '238975247578949')), //5
-            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')) //6
+            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')), //6
         );
 
         $table->addRowsFromArray($rows);
@@ -293,7 +293,7 @@ class LimitTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'yahoo')), //3
             array($idcol => array('label' => 'amazon')), //4
             array($idcol => array('label' => '238975247578949')), //5
-            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')) //6
+            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')), //6
         );
 
         $table->addRowsFromArray($rows);

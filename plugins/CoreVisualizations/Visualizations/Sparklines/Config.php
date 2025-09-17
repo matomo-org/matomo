@@ -250,7 +250,7 @@ class Config extends \Piwik\ViewDataTable\Config
                 foreach ($values as $index => $value) {
                     $metrics[] = array(
                         'value' => $value,
-                        'description' => $description[$index]
+                        'description' => $description[$index],
                     );
                 }
             } else {

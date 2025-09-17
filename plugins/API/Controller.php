@@ -174,12 +174,12 @@ class Controller extends \Piwik\Plugin\Controller
         $glossaryItems = array(
             'metrics' => array(
                 'title' => Piwik::translate('General_Metrics'),
-                'entries' => $metrics
+                'entries' => $metrics,
             ),
             'reports' => array(
                 'title' => Piwik::translate('General_Reports'),
-                'entries' => $reports
-            )
+                'entries' => $reports,
+            ),
         );
 
         /**

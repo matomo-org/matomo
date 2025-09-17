@@ -110,7 +110,7 @@ class MapTest extends \PHPUnit\Framework\TestCase
 
         $result->addRowsFromArray(array(
                                        array(Row::COLUMNS => array('label' => 'row1', 'col1' => 1)),
-                                       array(Row::COLUMNS => array('label' => 'row2', 'col1' => 2))
+                                       array(Row::COLUMNS => array('label' => 'row2', 'col1' => 2)),
                                   ));
 
         return $result;

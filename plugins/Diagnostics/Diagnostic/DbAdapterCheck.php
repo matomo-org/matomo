@@ -88,7 +88,7 @@ class DbAdapterCheck implements Diagnostic
                 'Installation_SystemCheckPdoAndMysqliHelp',
                 array(
                     '<br /><br /><code>--with-mysqli</code><br /><code>--with-pdo-mysql</code><br /><br />',
-                    '<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />'
+                    '<br /><br /><code>extension=mysqli.so</code><br /><code>extension=pdo.so</code><br /><code>extension=pdo_mysql.so</code><br />',
                 )
             );
         }

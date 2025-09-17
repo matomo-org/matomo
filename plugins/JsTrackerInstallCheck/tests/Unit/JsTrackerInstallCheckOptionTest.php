@@ -50,7 +50,7 @@ class JsTrackerInstallCheckOptionTest extends TestCase
             ],
         ];
         $this->optionsArray = [
-            JsTrackerInstallCheckOption::OPTION_NAME_PREFIX . 1 => json_encode($this->site1Nonces)
+            JsTrackerInstallCheckOption::OPTION_NAME_PREFIX . 1 => json_encode($this->site1Nonces),
         ];
         $mock = $this->getMockBuilder('stdClass')
             ->addMethods(['getValue', 'setValue'])

@@ -110,21 +110,21 @@ class SegmentTest extends IntegrationTestCase
             // IS NOT NULL
             array('browserCode==ff;referrerKeyword!=', array(
                 'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NOT NULL AND log_visit.referer_keyword <> \'\' AND log_visit.referer_keyword <> \'0\' ) ',
-                'bind'  => array('ff')
+                'bind'  => array('ff'),
             )),
             array('referrerKeyword!=,browserCode==ff', array(
                 'where' => ' (( log_visit.referer_keyword IS NOT NULL AND log_visit.referer_keyword <> \'\' AND log_visit.referer_keyword <> \'0\' ) OR log_visit.config_browser_name = ? )',
-                'bind'  => array('ff')
+                'bind'  => array('ff'),
             )),
 
             // IS NULL
             array('browserCode==ff;referrerKeyword==', array(
                 'where' => ' log_visit.config_browser_name = ? AND ( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' OR log_visit.referer_keyword = \'0\' ) ',
-                'bind'  => array('ff')
+                'bind'  => array('ff'),
             )),
             array('referrerKeyword==,browserCode==ff', array(
                 'where' => ' (( log_visit.referer_keyword IS NULL OR log_visit.referer_keyword = \'\' OR log_visit.referer_keyword = \'0\' ) OR log_visit.config_browser_name = ? )',
-                'bind'  => array('ff')
+                'bind'  => array('ff'),
             )),
 
             array(urlencode('browserCode!=' . $encodedComplexValue . ',browserCode==' . $encodedComplexValue . ';browserCode!=' . $encodedComplexValue), [
@@ -134,7 +134,7 @@ class SegmentTest extends IntegrationTestCase
                     's#2&#--_*+?#  #5"\'&<>.22,3',
                     's#2&#--_*+?#  #5"\'&<>.22,3',
                 ],
-            ])
+            ]),
         );
     }
 
@@ -154,7 +154,7 @@ class SegmentTest extends IntegrationTestCase
                     ' . Common::prefixTable('log_visit') . ' AS log_visit
                 WHERE
                     ' . $expected['where'],
-            'bind' => $expected['bind']
+            'bind' => $expected['bind'],
         );
 
         $segment = new Segment($segment, $idSites = array());
@@ -291,7 +291,7 @@ class SegmentTest extends IntegrationTestCase
                     ' . Common::prefixTable('log_visit') . ' AS log_visit
                 WHERE
                     ' . $expected['where'],
-            'bind' => $expected['bind']
+            'bind' => $expected['bind'],
         );
 
         $segment = new Segment($segment, $idSites = array(), Date::factory($segmentFrom));
@@ -603,7 +603,7 @@ class SegmentTest extends IntegrationTestCase
             'log_link_visit_action',
             array('table' => 'log_visit', 'joinOn' => 'log_visit.idvisit = log_link_visit_action.idvisit'),
             array('table' => 'log_action', 'joinOn' => 'log_link_visit_action.idaction_url = log_action.idaction'),
-            'log_visit'
+            'log_visit',
         );
         $where = 'log_link_visit_action.server_time >= ?
                   AND log_link_visit_action.server_time <= ?
@@ -665,22 +665,22 @@ class SegmentTest extends IntegrationTestCase
             array(
                 'table' => 'log_link_visit_action',
                 'tableAlias' => 'log_link_visit_action_bar',
-                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit"
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_bar.idvisit",
             ),
             array(
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_bar',
-                'joinOn' => "log_link_visit_action_bar.idaction_url = log_action_bar.idaction"
+                'joinOn' => "log_link_visit_action_bar.idaction_url = log_action_bar.idaction",
             ),
             array(
                 'table' => 'log_link_visit_action',
                 'tableAlias' => 'log_link_visit_action_baz',
-                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit"
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_baz.idvisit",
             ),
             array(
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_baz',
-                'joinOn' => "log_link_visit_action_baz.idaction_url = log_action_baz.idaction"
+                'joinOn' => "log_link_visit_action_baz.idaction_url = log_action_baz.idaction",
             ),
             'log_action',
         );
@@ -735,7 +735,7 @@ class SegmentTest extends IntegrationTestCase
         $from  = array(
             'log_link_visit_action',
             array('table' => 'log_visit', 'joinOn' => 'log_visit.idvisit = log_link_visit_action.idvisit'),
-            array('table' => 'log_action', 'joinOn' => 'log_link_visit_action.idaction_name = log_action.idaction')
+            array('table' => 'log_action', 'joinOn' => 'log_link_visit_action.idaction_name = log_action.idaction'),
         );
         $where = 'log_link_visit_action.server_time >= ?
                   AND log_link_visit_action.server_time <= ?
@@ -899,7 +899,7 @@ class SegmentTest extends IntegrationTestCase
         $from  = array(
             'log_link_visit_action',
              array('table' => 'log_visit', 'tableAlias' => 'visitAlias', 'joinOn' => 'visitAlias.idvisit = log_link_visit_action.idvisit'),
-             array('table' => 'log_action', 'tableAlias' => 'actionAlias', 'joinOn' => 'log_link_visit_action.idaction_url = actionAlias.idaction')
+             array('table' => 'log_action', 'tableAlias' => 'actionAlias', 'joinOn' => 'log_link_visit_action.idaction_url = actionAlias.idaction'),
         );
         $where = 'log_link_visit_action.server_time >= ?
                   AND log_link_visit_action.server_time <= ?
@@ -1229,7 +1229,7 @@ class SegmentTest extends IntegrationTestCase
         return array(
             array('referrerType==not'),
             array('someRandomSegment==not'),
-            array('A=B')
+            array('A=B'),
         );
     }
 
@@ -2402,7 +2402,7 @@ SQL;
     private function insertPageUrlAsAction($pageUrlFoundInDb, $idActionColumn = 'idaction_url', $idActionType = Action::TYPE_PAGE_URL)
     {
         TableLogAction::loadIdsAction(array(
-            $idActionColumn => array($pageUrlFoundInDb, $idActionType)
+            $idActionColumn => array($pageUrlFoundInDb, $idActionType),
         ));
 
         $actionIdFoundInDb = Db::fetchOne("SELECT idaction from " . Common::prefixTable('log_action') . " WHERE name = ?", $pageUrlFoundInDb);

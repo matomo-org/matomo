@@ -35,7 +35,7 @@ class FilterExcludeLowValueTest extends BaseUnitTest
             array(Row::COLUMNS => array('label' => 'val8', 'growth' => 20, 'isFooBar' => false)),
             array(Row::COLUMNS => array('label' => 'val9', 'growth' => 0, 'isFooBar' => false)),
             array(Row::COLUMNS => array('label' => 'val10', 'growth' => 15, 'isFooBar' => false)),
-            array(Row::COLUMNS => array('label' => 'val11', 'growth' => 16, 'isFooBar' => true))
+            array(Row::COLUMNS => array('label' => 'val11', 'growth' => 16, 'isFooBar' => true)),
         ));
     }
 

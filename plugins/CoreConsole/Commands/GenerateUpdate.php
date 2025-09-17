@@ -42,7 +42,7 @@ class GenerateUpdate extends GeneratePluginBase
         $this->writeSuccessMessage(array(
             sprintf('Updates/%s.php for %s generated.', $version, $component),
             'You should have a look at the method update() or getSql() now.',
-            'Enjoy!'
+            'Enjoy!',
         ));
 
         return self::SUCCESS;

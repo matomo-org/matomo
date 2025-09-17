@@ -52,7 +52,7 @@ class DevelopmentManageTestFiles extends ConsoleCommand
         $guesses = array(
             '/' . $file,
             $prefix . $file,
-            $prefix . $file . '.xml'
+            $prefix . $file . '.xml',
         );
 
         foreach ($guesses as $guess) {

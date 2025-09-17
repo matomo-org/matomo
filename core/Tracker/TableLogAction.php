@@ -233,7 +233,7 @@ class TableLogAction
             'productName'        => Action::TYPE_ECOMMERCE_ITEM_NAME,
             'productSku'         => Action::TYPE_ECOMMERCE_ITEM_SKU,
             'productViewName'    => Action::TYPE_ECOMMERCE_ITEM_NAME,
-            'productViewSku'     => Action::TYPE_ECOMMERCE_ITEM_SKU
+            'productViewSku'     => Action::TYPE_ECOMMERCE_ITEM_SKU,
         );
 
         if (!empty($exactMatch[$segmentName])) {

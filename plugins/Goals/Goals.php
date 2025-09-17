@@ -236,7 +236,7 @@ class Goals extends \Piwik\Plugin
             'revenue_tax'       => 'General_Tax',
             'revenue_shipping'  => 'General_Shipping',
             'revenue_discount'  => 'General_Discount',
-            'avg_order_revenue' => 'General_AverageOrderValue'
+            'avg_order_revenue' => 'General_AverageOrderValue',
         );
 
         $metrics = array_map(array('\\Piwik\\Piwik', 'translate'), $metrics);
@@ -289,7 +289,7 @@ class Goals extends \Piwik\Plugin
         $goalMetrics = array(
             'nb_conversions'  => Piwik::translate('Goals_ColumnConversions'),
             'conversion_rate' => Piwik::translate('General_ColumnConversionRate'),
-            'revenue'         => Piwik::translate('General_ColumnRevenue')
+            'revenue'         => Piwik::translate('General_ColumnRevenue'),
         );
 
         $goalMetricTypes = [
@@ -405,7 +405,7 @@ class Goals extends \Piwik\Plugin
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
-                    'parameters' => $report->getParameters()
+                    'parameters' => $report->getParameters(),
                 );
             }
         }

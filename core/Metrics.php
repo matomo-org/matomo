@@ -166,7 +166,7 @@ class Metrics
 
         // Contents
         Metrics::INDEX_CONTENT_NB_IMPRESSIONS                => 'nb_impressions',
-        Metrics::INDEX_CONTENT_NB_INTERACTIONS               => 'nb_interactions'
+        Metrics::INDEX_CONTENT_NB_INTERACTIONS               => 'nb_interactions',
     );
 
     public static $mappingFromIdToNameGoal = array(
@@ -292,7 +292,7 @@ class Metrics
         }
 
         $lowerIsBetterPatterns = array(
-            'bounce', 'exit'
+            'bounce', 'exit',
         );
 
         foreach ($lowerIsBetterPatterns as $pattern) {
@@ -316,7 +316,7 @@ class Metrics
         $nameToUnit = array(
             '_rate'   => '%',
             'revenue' => Site::getCurrencySymbolFor($idSite),
-            '_time_'  => 's'
+            '_time_'  => 's',
         );
 
         $unit = null;
@@ -544,7 +544,7 @@ class Metrics
             self::INDEX_PAGE_ENTRY_NB_ACTIONS,
             self::INDEX_PAGE_EXIT_NB_VISITS,
             self::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
-            self::INDEX_REVENUE
+            self::INDEX_REVENUE,
         );
     }
 

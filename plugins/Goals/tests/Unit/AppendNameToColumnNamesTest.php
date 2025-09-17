@@ -64,7 +64,7 @@ class AppendNameToColumnNamesTest extends \PHPUnit\Framework\TestCase
             'nb_visits' . $nameToAppend => 1,
             'nb_conversions' . $nameToAppend => 5,
             'revenue' . $nameToAppend => 10,
-            'conversion_rate' . $nameToAppend => 20
+            'conversion_rate' . $nameToAppend => 20,
         );
 
         $this->assertColumnsOfRowIdEquals($expected, $rowId = 0);
@@ -81,7 +81,7 @@ class AppendNameToColumnNamesTest extends \PHPUnit\Framework\TestCase
             'nb_visits' . $nameToAppend => 1,
             'nb_conversions' . $nameToAppend => 5,
             'revenue' . $nameToAppend => 10,
-            'conversion_rate' . $nameToAppend => 20
+            'conversion_rate' . $nameToAppend => 20,
         );
 
         $expectedRow2 = array(

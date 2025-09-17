@@ -42,7 +42,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
                  array(Row::COLUMNS => array('label' => 'ten', 'count' => 10)),
                  array(Row::COLUMNS => array('label' => 'ninety', 'count' => 90)),
                  array(Row::COLUMNS => array('label' => 'hundred', 'count' => 100)),
-                 DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 200))
+                 DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 200)),
             )
         );
         $table->setTotalsRow(new Row(array(Row::COLUMNS => array('label' => 'Total', 'count' => 200))));
@@ -57,7 +57,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
                 array(Row::COLUMNS => array('label' => 'ten', 'count' => 10)),
                 array(Row::COLUMNS => array('label' => 'ninety', 'count' => 20)),
                 array(Row::COLUMNS => array('label' => 'hundred', 'count' => 30)),
-                DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 60))
+                DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 60)),
             )
         );
         $table->setTotalsRow(new Row(array(Row::COLUMNS => array('label' => 'Total', 'count' => 60))));
@@ -80,7 +80,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
                 array(Row::COLUMNS => array('label' => 'ten', 'count' => 20)),
                 array(Row::COLUMNS => array('label' => 'ninety', 'count' => 110)),
                 array(Row::COLUMNS => array('label' => 'hundred', 'count' => 130)),
-                DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 260))
+                DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => 'summary', 'count' => 260)),
             ]
         );
 
@@ -210,7 +210,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'yahoo')),
             array($idcol => array('label' => 'amazon')),
             array($idcol => array('label' => '238975247578949')),
-            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))'))
+            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')),
         );
 
         $table->addRowsFromArray($rows);
@@ -880,7 +880,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'google', 'visits' => 1)),
             array($idcol => array('label' => 'ask', 'visits' => 2)),
             array($idcol => array('label' => '123', 'visits' => 2)),
-            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
+            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 7)),
         );
         $table = new DataTable();
         $table->addRowsFromArray($rows);
@@ -902,7 +902,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => '123', 'visits' => 4)),
             array($idcol => array('label' => 'test', 'visits' => 1)),
             array($idcol => array('label' => ' google ', 'visits' => 5)),
-            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
+            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 7)),
         );
         $tableExpected = new DataTable();
         $tableExpected->addRowsFromArray($rowsExpected);
@@ -921,7 +921,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'google', 'visits' => 1)),
             array($idcol => array('label' => 'ask', 'visits' => 2)),
             array($idcol => array('label' => '123', 'visits' => 2)),
-            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 7))
+            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 7)),
         );
         $table = new DataTable();
         $table->addRowsFromArray($rows);
@@ -930,7 +930,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'google', 'visits' => -1)),
             array($idcol => array('label' => 'ask', 'visits' => 0)),
             array($idcol => array('label' => '123', 'visits' => 1.5)),
-            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 8))
+            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 8)),
         );
         $table2 = new DataTable();
         $table2->addRowsFromArray($rows2);
@@ -941,7 +941,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'google', 'visits' => 0)),
             array($idcol => array('label' => 'ask', 'visits' => 2)),
             array($idcol => array('label' => '123', 'visits' => 3.5)),
-            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 15))
+            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 15)),
         );
         $tableExpected = new DataTable();
         $tableExpected->addRowsFromArray($rowsExpected);
@@ -960,7 +960,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'google', 'visits' => 1)),
             array($idcol => array('label' => 'ask', 'visits' => 0)),
             array($idcol => array('label' => '123', 'visits' => 2)),
-            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 1))
+            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 1)),
         );
         $table = new DataTable();
         $table->addRowsFromArray($rows);
@@ -977,7 +977,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'google2', 'visits' => -1)),
             array($idcol => array('label' => 'ask', 'visits' => -10)),
             array($idcol => array('label' => '123ab', 'visits' => 1.5)),
-            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 3))
+            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 3)),
         );
         $table3 = new DataTable();
         $table3->addRowsFromArray($rows3);
@@ -993,7 +993,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'google2', 'visits' => -2)),
             array($idcol => array('label' => '123456', 'visits' => 1.5)),
             array($idcol => array('label' => '123ab', 'visits' => 1.5)),
-            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 4))
+            DataTable::ID_SUMMARY_ROW => array($idcol => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 4)),
         );
         $tableExpected = new DataTable();
         $tableExpected->addRowsFromArray($rowsExpected);
@@ -1352,7 +1352,7 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
             array(Row::COLUMNS => array('label' => 'google', 'visits' => 1)),
             array(Row::COLUMNS => array('label' => 'ask', 'visits' => 2)),
             array(Row::COLUMNS => array('label' => '123', 'visits' => 2)),
-            DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 4))
+            DataTable::ID_SUMMARY_ROW => array(Row::COLUMNS => array('label' => DataTable::LABEL_SUMMARY_ROW, 'visits' => 4)),
 
         );
         return $rows;

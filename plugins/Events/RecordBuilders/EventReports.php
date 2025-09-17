@@ -102,18 +102,18 @@ class EventReports extends RecordBuilder
             [
                 "table"      => "log_action",
                 "tableAlias" => "log_action_event_category",
-                "joinOn"     => "log_link_visit_action.idaction_event_category = log_action_event_category.idaction"
+                "joinOn"     => "log_link_visit_action.idaction_event_category = log_action_event_category.idaction",
             ],
             [
                 "table"      => "log_action",
                 "tableAlias" => "log_action_event_action",
-                "joinOn"     => "log_link_visit_action.idaction_event_action = log_action_event_action.idaction"
+                "joinOn"     => "log_link_visit_action.idaction_event_action = log_action_event_action.idaction",
             ],
             [
                 "table"      => "log_action",
                 "tableAlias" => "log_action_event_name",
-                "joinOn"     => "log_link_visit_action.idaction_name = log_action_event_name.idaction"
-            ]
+                "joinOn"     => "log_link_visit_action.idaction_name = log_action_event_name.idaction",
+            ],
         ];
 
         $where  = $logAggregator->getWhereStatement('log_link_visit_action', 'server_time');

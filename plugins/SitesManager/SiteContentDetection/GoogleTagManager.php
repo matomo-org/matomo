@@ -71,7 +71,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
             'SitesManager.getJavascriptTag',
             [
                 'idSite' => \Piwik\Request::fromRequest()->getIntegerParameter('idSite'),
-                'piwikUrl' => $piwikUrl
+                'piwikUrl' => $piwikUrl,
             ]
         );
         $view = new View('@SitesManager/_gtmTabInstructions');
@@ -93,7 +93,7 @@ class GoogleTagManager extends SiteContentDetectionAbstract
                 'SitesManager_SiteWithoutDataGoogleTagManagerDescription',
                 [
                     '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-within-gtm-google-tag-manager') . '">',
-                    '</a>'
+                    '</a>',
                 ]
             )
         );

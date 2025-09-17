@@ -172,7 +172,7 @@ class SegmentUnavailableTest extends IntegrationTestCase
                     'auto_archive' => 1,
                     'ts_last_edit' => null,
                     'deleted' => 0,
-                ]
+                ],
             ];
         }
 

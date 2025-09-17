@@ -696,7 +696,7 @@ class FrontController extends Singleton
                 Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebase', array($current, $dbSchemaVersion)),
                 Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebaseWait'),
                 // we cannot fill in the Super User emails as we are failing before Authentication was ready
-                Piwik::translate('General_ExceptionContactSupportGeneric', array('', ''))
+                Piwik::translate('General_ExceptionContactSupportGeneric', array('', '')),
             );
             throw new DatabaseSchemaIsNewerThanCodebaseException(implode(" ", $messages));
         }

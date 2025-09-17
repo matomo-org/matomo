@@ -32,19 +32,19 @@ class CloudflareTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no cloudflare headers' => [
             false,
             "<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>",
-            ['server' => 'apache']
+            ['server' => 'apache'],
         ];
 
         yield 'cloudflare server header' => [
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script></head><body>A site</body></html>",
-            ['server' => 'cloudflare']
+            ['server' => 'cloudflare'],
         ];
 
         yield 'cloudflare Server header' => [

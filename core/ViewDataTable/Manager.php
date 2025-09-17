@@ -393,14 +393,14 @@ class Manager
                 'id' => 'ecommerceOrder',
                 'title' => Piwik::translate('General_EcommerceOrders'),
                 'icon' => 'icon-ecommerce-order',
-                'text' => Piwik::translate('General_EcommerceOrders')
+                'text' => Piwik::translate('General_EcommerceOrders'),
             );
 
             $normalViewIcons['buttons'][] = array(
                 'id' => 'ecommerceAbandonedCart',
                 'title' => Piwik::translate('General_AbandonedCarts'),
                 'icon' => 'icon-ecommerce-abandoned-cart',
-                'text' => Piwik::translate('General_AbandonedCarts')
+                'text' => Piwik::translate('General_AbandonedCarts'),
             );
         }
 

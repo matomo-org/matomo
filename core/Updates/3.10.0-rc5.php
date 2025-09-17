@@ -33,7 +33,7 @@ class Updates_3_10_0_rc5 extends PiwikUpdates
         $migration1 = $this->migration->plugin->activate('Tour');
 
         return array(
-            $migration1
+            $migration1,
         );
     }
 

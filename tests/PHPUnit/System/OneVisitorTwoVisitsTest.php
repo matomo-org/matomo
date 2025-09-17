@@ -77,7 +77,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
             "idSite=" . $idSite . "&date=2010-03-06,2010-03-07&expanded=1&period=day&method=VisitsSummary.get",
             "idSite=" . $idSite . ",$idSiteBis,$idSiteTer&date=2010-03-06,2010-03-07&expanded=1&period=day&method=VisitsSummary.get",
             "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=VisitorInterest.getNumberOfVisitsPerVisitDuration",
-            "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=UsersManager.getUserPreference&preferenceName=defaultReportDate&userLogin=" . Fixture::ADMIN_USER_LOGIN
+            "idSite=" . $idSite . "&date=2010-03-06&expanded=1&period=day&method=UsersManager.getUserPreference&preferenceName=defaultReportDate&userLogin=" . Fixture::ADMIN_USER_LOGIN,
         );
         foreach ($bulkUrls as &$url) {
             $url = urlencode($url);
@@ -88,7 +88,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                                'date' => $dateTime,
                                'otherRequestParameters' => array(
                                    'hideColumns' => OneVisitorTwoVisits::getValueForHideColumns(),
-                               )
+                               ),
             )),
 
             array('all', array('idSite' => $idSite,
@@ -141,19 +141,19 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                                              'testSuffix'             => '_hideColumns_',
                                              'otherRequestParameters' => array(
                                                  'hideColumns' => 'nb_visits_converted,max_actions,bounce_count,nb_hits,'
-                                                     . 'nb_visits,nb_actions,sum_visit_length,avg_time_on_site'
+                                                     . 'nb_visits,nb_actions,sum_visit_length,avg_time_on_site',
                                              ))),
             array('VisitsSummary.get', array('idSite'                 => $idSite, 'date' => $dateTime, 'periods' => 'day',
                                              'testSuffix'             => '_showColumns_',
                                              'otherRequestParameters' => array(
-                                                 'showColumns' => 'nb_visits,nb_actions,nb_hits'
+                                                 'showColumns' => 'nb_visits,nb_actions,nb_hits',
                                              ))),
             array('VisitsSummary.get', array('idSite'                 => $idSite, 'date' => $dateTime, 'periods' => 'day',
                                              'testSuffix'             => '_hideAllColumns_',
                                              'otherRequestParameters' => array(
                                                  'hideColumns' => 'nb_visits_converted,max_actions,bounce_count,nb_hits,'
                                                      . 'nb_visits,nb_actions,sum_visit_length,avg_time_on_site,'
-                                                     . 'bounce_rate,nb_uniq_visitors,nb_actions_per_visit,'
+                                                     . 'bounce_rate,nb_uniq_visitors,nb_actions_per_visit,',
                                              ))),
 
             // test hideColumns w/ API.getProcessedReport
@@ -163,7 +163,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                                                   'otherRequestParameters' => array(
                                                       'hideColumns' => 'nb_visits_converted,xyzaug,entry_nb_visits,' .
                                                           'bounce_rate,nb_hits,nb_visits,avg_time_on_page,' .
-                                                          'avg_time_generation,nb_hits_with_time_generation'
+                                                          'avg_time_generation,nb_hits_with_time_generation',
                                                   ))),
 
             array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
@@ -171,14 +171,14 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                                                   'apiAction'              => 'getPageTitles', 'testSuffix' => '_showColumns_',
                                                   'otherRequestParameters' => array(
                                                       'showColumns' => 'nb_visits_converted,xuena,entry_nb_visits,' .
-                                                          'bounce_rate,nb_hits'
+                                                          'bounce_rate,nb_hits',
                                                   ))),
             array('API.getProcessedReport', array('idSite'                 => $idSite, 'date' => $dateTime,
                                                   'periods'                => 'day', 'apiModule' => 'VisitTime',
                                                   'apiAction'              => 'getVisitInformationPerServerTime',
                                                   'testSuffix'             => '_showColumnsWithProcessedMetrics_',
                                                   'otherRequestParameters' => array(
-                                                      'showColumns' => 'nb_visits,revenue'
+                                                      'showColumns' => 'nb_visits,revenue',
                                                   ))),
 
             // showColumns with only one column and report having no dimension
@@ -187,7 +187,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                                                   'apiAction'              => 'get',
                                                   'testSuffix'             => '_showColumns_onlyOne',
                                                   'otherRequestParameters' => array(
-                                                      'showColumns'        => 'nb_visits'
+                                                      'showColumns'        => 'nb_visits',
                                                   ))),
 
             // test hideColumns w/ expanded=1
@@ -199,7 +199,7 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                                                          'entry_sum_visit_length,entry_bounce_count,exit_nb_visits,' .
                                                          'entry_nb_uniq_visitors,exit_nb_uniq_visitors,entry_nb_actions,' .
                                                          'avg_time_generation,nb_hits_with_time_generation',
-                                                     'expanded'    => '1'
+                                                     'expanded'    => '1',
                                                  ))),
 
             // test showColumns on API.get
@@ -209,8 +209,8 @@ class OneVisitorTwoVisitsTest extends SystemTestCase
                 'periods'                => 'day',
                 'testSuffix'             => '_showColumns',
                 'otherRequestParameters' => array(
-                    'showColumns'        => 'nb_uniq_visitors,nb_pageviews,bounce_rate'
-                )
+                    'showColumns'        => 'nb_uniq_visitors,nb_pageviews,bounce_rate',
+                ),
             )),
         );
     }

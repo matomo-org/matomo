@@ -62,7 +62,7 @@ class ArchiveStateTest extends TestCase
             '2020-01-31',
             '2020-02-01 10:00:00',
             ArchiveWriter::DONE_OK,
-            ArchiveState::COMPLETE
+            ArchiveState::COMPLETE,
         ];
 
         yield 'invalidated archive' => [
@@ -70,7 +70,7 @@ class ArchiveStateTest extends TestCase
             '2020-01-31',
             '2020-02-01 10:00:00',
             ArchiveWriter::DONE_INVALIDATED,
-            ArchiveState::INVALIDATED
+            ArchiveState::INVALIDATED,
         ];
 
         yield 'archive date matching date end exactly' => [
@@ -78,7 +78,7 @@ class ArchiveStateTest extends TestCase
             '2020-01-31',
             '2020-01-31 23:59:59',
             ArchiveWriter::DONE_OK,
-            ArchiveState::INCOMPLETE
+            ArchiveState::INCOMPLETE,
         ];
 
         yield 'archive date one second before date end' => [
@@ -86,7 +86,7 @@ class ArchiveStateTest extends TestCase
             '2020-01-31',
             '2020-01-31 23:59:58',
             ArchiveWriter::DONE_OK,
-            ArchiveState::INCOMPLETE
+            ArchiveState::INCOMPLETE,
         ];
 
         yield 'archive date one second past date end' => [
@@ -94,7 +94,7 @@ class ArchiveStateTest extends TestCase
             '2020-01-31',
             '2020-02-01 00:00:00',
             ArchiveWriter::DONE_OK,
-            ArchiveState::COMPLETE
+            ArchiveState::COMPLETE,
         ];
     }
 

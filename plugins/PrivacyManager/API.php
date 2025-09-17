@@ -137,7 +137,7 @@ class API extends \Piwik\Plugin\API
             'period' => 'range',
             'date' => '1998-01-01,today',
             'filter_limit' => 401,
-            'doNotFetchActions' => 1
+            'doNotFetchActions' => 1,
         ]);
 
         $columnsToKeep = [
@@ -229,7 +229,7 @@ class API extends \Piwik\Plugin\API
         foreach ($columns as $column => $default) {
             $formatted[] = array(
                 'column_name' => $column,
-                'default_value' => $default
+                'default_value' => $default,
             );
         }
 
@@ -334,7 +334,7 @@ class API extends \Piwik\Plugin\API
         $this->confirmCurrentUserPassword($passwordConfirmation);
 
         return $this->savePurgeDataSettings(array(
-            'delete_logs_schedule_lowest_interval' => (int) $deleteLowestInterval
+            'delete_logs_schedule_lowest_interval' => (int) $deleteLowestInterval,
         ));
     }
 

@@ -462,7 +462,7 @@ class ArchiveProcessingTest extends IntegrationTestCase
             [
                 'max_actions',
                 4,
-            ]
+            ],
         ];
 
         $this->assertEquals($expected, $capturedInserts);
@@ -796,7 +796,7 @@ END;
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 

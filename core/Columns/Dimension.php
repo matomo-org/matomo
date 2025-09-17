@@ -279,7 +279,7 @@ abstract class Dimension
         // we need to do this in column updater etc!
 
         return array(
-            $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType")
+            $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType"),
         );
     }
 
@@ -308,7 +308,7 @@ abstract class Dimension
         }
 
         return array(
-            $this->dbTableName => array("MODIFY COLUMN `$this->columnName` $this->columnType")
+            $this->dbTableName => array("MODIFY COLUMN `$this->columnName` $this->columnType"),
         );
     }
 

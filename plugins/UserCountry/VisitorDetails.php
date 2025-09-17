@@ -174,7 +174,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             $profile['continents'][] = array(
                 'continent'  => $continentCode,
                 'nb_visits'  => $nbVisits,
-                'prettyName' => \Piwik\Plugins\UserCountry\continentTranslate($continentCode)
+                'prettyName' => \Piwik\Plugins\UserCountry\continentTranslate($continentCode),
             );
         }
 
@@ -186,7 +186,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 'country'    => $countryCode,
                 'nb_visits'  => $nbVisits,
                 'flag'       => \Piwik\Plugins\UserCountry\getFlagFromCode($countryCode),
-                'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode)
+                'prettyName' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode),
             );
             if (!empty($this->cities[$countryCode])) {
                 $countryInfo['cities'] = array_unique($this->cities[$countryCode]);

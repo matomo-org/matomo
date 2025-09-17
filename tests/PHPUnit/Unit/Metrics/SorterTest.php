@@ -82,7 +82,7 @@ class SorterTest extends UnitTestCase
     public function testGetPrimaryColumnToSortShouldPickCorrectPrimaryColumnAndMapMetricNameToIdIfNeededAndReverse($expectedUsedColumn, $columnToSortBy)
     {
         $table = $this->createDataTable(array(
-            array('label' => 'nintendo', 'nb_visits' => false, 'nb_hits' => 0, Metrics::INDEX_NB_VISITS_CONVERTED => false, Metrics::INDEX_BOUNCE_COUNT => 5)
+            array('label' => 'nintendo', 'nb_visits' => false, 'nb_hits' => 0, Metrics::INDEX_NB_VISITS_CONVERTED => false, Metrics::INDEX_BOUNCE_COUNT => 5),
         ));
 
         $this->assertSame($expectedUsedColumn, $this->sorter->getPrimaryColumnToSort($table, $columnToSortBy));
@@ -103,7 +103,7 @@ class SorterTest extends UnitTestCase
     public function testGetPrimaryColumnToSortShouldFallbackToNbVisitsIfPossible()
     {
         $table = $this->createDataTable(array(
-            array('label' => 'nintendo', 'nb_visits' => false)
+            array('label' => 'nintendo', 'nb_visits' => false),
         ));
 
         $this->assertSame('nb_visits', $this->sorter->getPrimaryColumnToSort($table, 'any_random_column_that_doesnt_exist'));
@@ -197,7 +197,7 @@ class SorterTest extends UnitTestCase
         $table = $this->createDataTable(array(
             array('label' => 'nintendo1', 'nb_visits' => false, 'nb_hits' => 0, Metrics::INDEX_NB_VISITS_CONVERTED => false, Metrics::INDEX_BOUNCE_COUNT => 5),
             array('label' => 'nintendo2', 'nb_visits' => 100, 'nb_pageviews' => 100, Metrics::INDEX_NB_VISITS_CONVERTED => null, 'sum_visit_length' => '5.5s'),
-            array('label' => 'nintendo2', Metrics::INDEX_NB_VISITS_CONVERTED => array(), 'min_time_generation' => '5.5')
+            array('label' => 'nintendo2', Metrics::INDEX_NB_VISITS_CONVERTED => array(), 'min_time_generation' => '5.5'),
         ));
 
         $this->assertSame($expectedSortFlags, $this->sorter->getBestSortFlags($table, $columnToReadFrom));
@@ -212,7 +212,7 @@ class SorterTest extends UnitTestCase
             array(SORT_NATURAL | SORT_FLAG_CASE, Metrics::INDEX_NB_VISITS_CONVERTED, true), // should not find any value in any row and use default value, natural preferred
             array(SORT_STRING | SORT_FLAG_CASE, 'sum_visit_length'), // it is not numeric so should use string as natural is disabled
             array(SORT_NATURAL | SORT_FLAG_CASE, 'sum_visit_length', true), // it is not numeric but natural is preferred so should use natural sort
-            array(SORT_NUMERIC, 'min_time_generation') // value is a string but numeric so should use numeric
+            array(SORT_NUMERIC, 'min_time_generation'), // value is a string but numeric so should use numeric
         );
     }
 

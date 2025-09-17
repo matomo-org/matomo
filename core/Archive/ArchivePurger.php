@@ -101,13 +101,13 @@ class ArchivePurger
         }
 
         $this->logger->info("Found {countArchiveIds} invalidated archives safe to delete in {table}.", array(
-            'table' => $numericTable, 'countArchiveIds' => count($archiveIds)
+            'table' => $numericTable, 'countArchiveIds' => count($archiveIds),
         ));
 
         $deletedRowCount = $this->deleteArchiveIds($date, $archiveIds);
 
         $this->logger->debug("Deleted {count} rows in {table} and its associated blob table.", array(
-            'table' => $numericTable, 'count' => $deletedRowCount
+            'table' => $numericTable, 'count' => $deletedRowCount,
         ));
 
         return $deletedRowCount;
@@ -133,7 +133,7 @@ class ArchivePurger
 
             $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for {date}.", array(
                 'count' => $deletedRowCount,
-                'date' => $dateStart
+                'date' => $dateStart,
             ));
         } else {
             $this->logger->debug("No outdated archives found in archive numeric table for {date}.", array('date' => $dateStart));
@@ -177,7 +177,7 @@ class ArchivePurger
 
                 $this->logger->info("Deleted {count} rows in archive tables (numeric + blob) for month starting {monthStart}.", [
                     'count' => $deletedRowCount,
-                    'monthStart' => $currentMonthStart->toString('Y-m')
+                    'monthStart' => $currentMonthStart->toString('Y-m'),
                 ]);
             } else {
                 $this->logger->debug("No broken archives found in archive numeric table for month starting {monthStart}.", ['monthStart' => $currentMonthStart->toString('Y-m')]);
@@ -186,7 +186,7 @@ class ArchivePurger
             $numRowsDeleted += $deletedRowCount;
             $this->logger->debug("Purging broken archives: done [ purged archives in {yearMonth} ] [Deleted IDs count: {deletedIds}]", [
                 'yearMonth' => $currentMonthStart->toString('Y-m'),
-                'deletedIds' => $deletedRowCount
+                'deletedIds' => $deletedRowCount,
             ]);
             $currentMonth = new Month($currentMonthStart->addMonth(1));
             $currentMonthStart = $currentMonth->getDateStart();
@@ -236,7 +236,7 @@ class ArchivePurger
                 array(
                     'count' => $deletedRowCount,
                     'date' => $dateStart,
-                    'reason' => $reason
+                    'reason' => $reason,
                 )
             );
 
@@ -321,7 +321,7 @@ class ArchivePurger
         $this->logger->$level("Purged {count} range archive rows from {numericTable} & {blobTable}.", array(
             'count' => $deletedCount,
             'numericTable' => $numericTable,
-            'blobTable' => $blobTable
+            'blobTable' => $blobTable,
         ));
 
         $this->logger->debug("  [ purged archives older than {threshold} ]", array('threshold' => $this->purgeCustomRangesOlderThan));

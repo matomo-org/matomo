@@ -28,7 +28,7 @@ class Updates_2_15_0_b3 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('site', 'exclude_unknown_urls', 'TINYINT(1) DEFAULT 0', 'currency')
+            $this->migration->db->addColumn('site', 'exclude_unknown_urls', 'TINYINT(1) DEFAULT 0', 'currency'),
         );
     }
 

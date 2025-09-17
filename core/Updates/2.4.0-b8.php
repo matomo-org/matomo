@@ -28,7 +28,7 @@ class Updates_2_4_0_b8 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->changeColumnType('session', 'id', 'VARCHAR( 255 ) NOT NULL')
+            $this->migration->db->changeColumnType('session', 'id', 'VARCHAR( 255 ) NOT NULL'),
         );
     }
 

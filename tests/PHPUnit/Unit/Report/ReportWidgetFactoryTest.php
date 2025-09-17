@@ -83,7 +83,7 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(
             'module' => 'TestPlugin',
             'action' => 'getBasicReport',
-            'idGoal' => '1'
+            'idGoal' => '1',
         ), $config->getParameters());
     }
 
@@ -103,7 +103,7 @@ class ReportWidgetFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(
             'module' => 'TestPlugin',
             'action' => 'customAction',
-            'idGoal' => '1'
+            'idGoal' => '1',
         ), $config->getParameters());
     }
 }

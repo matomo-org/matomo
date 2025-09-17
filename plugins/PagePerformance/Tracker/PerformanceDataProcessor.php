@@ -56,7 +56,7 @@ class PerformanceDataProcessor extends RequestProcessor
             new TimeTransfer(),
             new TimeDomProcessing(),
             new TimeDomCompletion(),
-            new TimeOnLoad()
+            new TimeOnLoad(),
         ];
 
         $valuesToUpdate = [];

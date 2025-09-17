@@ -24,15 +24,15 @@ class NoScriptsTest extends \PHPUnit\Framework\TestCase
             ),
             array(
                 array(
-                    'test' => array()
+                    'test' => array(),
                 ),
             ),
             array(
                 array(
                     'test' => array(
                         'key' => 'val%sue',
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
             ),
         );
@@ -55,40 +55,40 @@ class NoScriptsTest extends \PHPUnit\Framework\TestCase
             array(
                 array(
                     'test' => array(
-                        'test' => 'test text <script'
-                    )
+                        'test' => 'test text <script',
+                    ),
                 ),
             ),
             array(
                 array(
                     'empty' => array(
-                        'test' => 't&uuml;sest'
+                        'test' => 't&uuml;sest',
                     ),
                     'test' => array(
                         'test' => 'bla <a href="javascript:alert();"> link </a>',
                         'empty' => '&tilde;',
-                    )
+                    ),
                 ),
             ),
             array(
                 array(
                     'test' => array(
-                        'test' => 'bla <a onload="alert(\'test\');">link</a>'
-                    )
+                        'test' => 'bla <a onload="alert(\'test\');">link</a>',
+                    ),
                 ),
             ),
             array(
                 array(
                     'test' => array(
-                        'test' => 'no <img src="test" />'
-                    )
+                        'test' => 'no <img src="test" />',
+                    ),
                 ),
             ),
             array(
                 array(
                     'test' => array(
-                        'test' => 'bla <a background="yellow">link</a>'
-                    )
+                        'test' => 'bla <a background="yellow">link</a>',
+                    ),
                 ),
             ),
         );

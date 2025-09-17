@@ -39,8 +39,8 @@ class Updates_4_11_0_b1 extends PiwikUpdates
 
         return [
           $this->migration->db->addColumns('user', [
-            'invite_status' => "ENUM('accept','pending','decline','expired') DEFAULT 'accept'"
-          ])
+            'invite_status' => "ENUM('accept','pending','decline','expired') DEFAULT 'accept'",
+          ]),
         ];
     }
 

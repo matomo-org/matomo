@@ -216,7 +216,7 @@ class API extends \Piwik\Plugin\API
             foreach ($keys as $key => $value) {
                 $languageInfo[] = array(
                     'label' => sprintf("%s_%s", $module, $key),
-                    'value' => $value
+                    'value' => $value,
                 );
             }
         }
@@ -262,7 +262,7 @@ class API extends \Piwik\Plugin\API
             foreach ($keys as $key => $value) {
                 $languageInfo[] = array(
                     'label' => sprintf("%s_%s", $module, $key),
-                    'value' => $value
+                    'value' => $value,
                 );
             }
         }
@@ -379,7 +379,7 @@ class API extends \Piwik\Plugin\API
                 $languagesInfo[] = array(
                     'code'         => $languageCode,
                     'name'         => $translations['Intl']['OriginalLanguageName'],
-                    'english_name' => $translations['Intl']['EnglishLanguageName']
+                    'english_name' => $translations['Intl']['EnglishLanguageName'],
                 );
             }
 

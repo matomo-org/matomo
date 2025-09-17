@@ -78,7 +78,7 @@ class CronArchivingLastRunCheck implements Diagnostic
                 'Diagnostics_CronArchivingRunDetails',
                 [$coreArchiveShort, $mailto, $commandToRerun,
                     '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">',
-                    '</a>'
+                    '</a>',
                 ]
             );
 

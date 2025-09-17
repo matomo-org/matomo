@@ -192,7 +192,7 @@ class HtmlTable extends Visualization
                     'combinedLabel',
                     function ($label) {
                         return $label;
-                    }
+                    },
                 ));
                 $this->dataTable->filter('ColumnDelete', array('label'));
                 $this->dataTable->filter('ReplaceColumnNames', array(array($firstDimension => 'label')));

@@ -52,7 +52,7 @@ class Factory
         }
 
         return $this->container->make('Piwik\Updater\Migration\Db\Sql', array(
-            'sql' => $sql, 'errorCodesToIgnore' => $errorCodesToIgnore
+            'sql' => $sql, 'errorCodesToIgnore' => $errorCodesToIgnore,
         ));
     }
 
@@ -79,7 +79,7 @@ class Factory
         }
 
         return $this->container->make('Piwik\Updater\Migration\Db\BoundSql', array(
-            'sql' => $sql, 'errorCodesToIgnore' => $errorCodesToIgnore, 'bind' => $bind
+            'sql' => $sql, 'errorCodesToIgnore' => $errorCodesToIgnore, 'bind' => $bind,
         ));
     }
 
@@ -100,7 +100,7 @@ class Factory
         }
 
         return $this->container->make('Piwik\Updater\Migration\Db\CreateTable', array(
-            'table' => $table, 'columnNames' => $columnNames, 'primaryKey' => $primaryKey
+            'table' => $table, 'columnNames' => $columnNames, 'primaryKey' => $primaryKey,
         ));
     }
 
@@ -114,7 +114,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\DropTable', array(
-            'table' => $table
+            'table' => $table,
         ));
     }
 
@@ -134,7 +134,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\AddColumn', array(
-            'table' => $table, 'columnName' => $columnName, 'columnType' => $columnType, 'placeColumnAfter' => $placeColumnAfter
+            'table' => $table, 'columnName' => $columnName, 'columnType' => $columnType, 'placeColumnAfter' => $placeColumnAfter,
         ));
     }
 
@@ -158,7 +158,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\AddColumns', array(
-            'table' => $table, 'columns' => $columns, 'placeColumnAfter' => $placeColumnAfter
+            'table' => $table, 'columns' => $columns, 'placeColumnAfter' => $placeColumnAfter,
         ));
     }
 
@@ -174,7 +174,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\DropColumn', array(
-            'table' => $table, 'columnName' => $columnName
+            'table' => $table, 'columnName' => $columnName,
         ));
     }
 
@@ -190,7 +190,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\DropColumns', array(
-            'tableName' => $table, 'columnNames' => $columnNames
+            'tableName' => $table, 'columnNames' => $columnNames,
         ));
     }
 
@@ -210,7 +210,7 @@ class Factory
 
         return $this->container->make('Piwik\Updater\Migration\Db\ChangeColumn', array(
             'table' => $table, 'oldColumnName' => $oldColumnName,
-            'newColumnName' => $newColumnName, 'columnType' => $columnType
+            'newColumnName' => $newColumnName, 'columnType' => $columnType,
         ));
     }
 
@@ -228,7 +228,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\ChangeColumnType', array(
-            'table' => $table, 'columnName' => $columnName, 'columnType' => $columnType
+            'table' => $table, 'columnName' => $columnName, 'columnType' => $columnType,
         ));
     }
 
@@ -249,7 +249,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\ChangeColumnTypes', array(
-            'table' => $table, 'columns' => $columns
+            'table' => $table, 'columns' => $columns,
         ));
     }
 
@@ -279,7 +279,7 @@ class Factory
         }
 
         return $this->container->make('Piwik\Updater\Migration\Db\AddIndex', array(
-            'table' => $table, 'columnNames' => $columnNames, 'indexName' => $indexName
+            'table' => $table, 'columnNames' => $columnNames, 'indexName' => $indexName,
         ));
     }
 
@@ -308,7 +308,7 @@ class Factory
         }
 
         return $this->container->make('Piwik\Updater\Migration\Db\AddUniqueKey', array(
-            'table' => $table, 'columnNames' => $columnNames, 'indexName' => $indexName
+            'table' => $table, 'columnNames' => $columnNames, 'indexName' => $indexName,
         ));
     }
 
@@ -324,7 +324,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\DropIndex', array(
-            'table' => $table, 'indexName' => $indexName
+            'table' => $table, 'indexName' => $indexName,
         ));
     }
 
@@ -339,7 +339,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\DropPrimaryKey', array(
-            'table' => $table
+            'table' => $table,
         ));
     }
 
@@ -360,7 +360,7 @@ class Factory
         }
 
         return $this->container->make('Piwik\Updater\Migration\Db\AddPrimaryKey', array(
-            'table' => $table, 'columnNames' => $columnNames
+            'table' => $table, 'columnNames' => $columnNames,
         ));
     }
 
@@ -380,7 +380,7 @@ class Factory
         $table = $this->prefixTable($table);
 
         return $this->container->make('Piwik\Updater\Migration\Db\Insert', array(
-            'table' => $table, 'columnValuePairs' => $columnValuePairs
+            'table' => $table, 'columnValuePairs' => $columnValuePairs,
         ));
     }
 
@@ -405,7 +405,7 @@ class Factory
 
         return $this->container->make('Piwik\Updater\Migration\Db\BatchInsert', array(
             'table' => $table, 'columnNames' => $columnNames, 'values' => $values,
-            'throwException' => $throwException, 'charset' => $charset
+            'throwException' => $throwException, 'charset' => $charset,
         ));
     }
 

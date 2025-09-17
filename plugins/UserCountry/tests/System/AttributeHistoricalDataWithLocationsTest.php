@@ -41,7 +41,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
             'location_region' => 'NULL',
             'location_city' => 'NULL',
             'location_latitude' => 'NULL',
-            'location_longitude' => 'NULL'
+            'location_longitude' => 'NULL',
         );
 
         foreach ($tablesToUpdate as $table) {
@@ -99,7 +99,7 @@ class AttributeHistoricalDataWithLocationsTest extends IntegrationTestCase
             'idSite'  => self::$fixture->idSite,
             'date'    => self::$fixture->dateTime,
             'period'  => 'month',
-            'hideColumns' => 'sum_visit_length' // for unknown reasons this field is different in MySQLI only for this system test
+            'hideColumns' => 'sum_visit_length', // for unknown reasons this field is different in MySQLI only for this system test
         );
 
         // we need to manually reload the translations since they get reset for some reason in IntegrationTestCase::tearDown();

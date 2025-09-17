@@ -38,7 +38,7 @@ class SegmentFormatter
         SegmentExpression::MATCH_CONTAINS => 'General_OperationContains',
         SegmentExpression::MATCH_DOES_NOT_CONTAIN => 'General_OperationDoesNotContain',
         SegmentExpression::MATCH_STARTS_WITH => 'General_OperationStartsWith',
-        SegmentExpression::MATCH_ENDS_WITH => 'General_OperationEndsWith'
+        SegmentExpression::MATCH_ENDS_WITH => 'General_OperationEndsWith',
     );
 
     private $operators = array(

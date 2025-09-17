@@ -72,7 +72,7 @@ class AuthTokenExpirationWarningNotificationEmail extends Mail
         return Piwik::translate(
             'UsersManager_AuthTokenExpirationWarningEmailSubject',
             [
-                $this->getExpirationWarningPeriodPretty()
+                $this->getExpirationWarningPeriodPretty(),
             ]
         );
     }

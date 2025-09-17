@@ -77,7 +77,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
     public function testSendNotificationIfUpdatesAvailable($latestVersion, $lastSentVersion, $expects, $expectedLastSentVersion)
     {
         $pluginsHavingUpdate = array(
-            array('name' => 'MyTest', 'latestVersion' => $latestVersion, 'isTheme' => false)
+            array('name' => 'MyTest', 'latestVersion' => $latestVersion, 'isTheme' => false),
         );
         $this->setLastSentVersion('MyTest', $lastSentVersion);
 

@@ -40,7 +40,7 @@ class GetTransitions extends Widget
         $isWidgetized = Common::getRequestVar('widget', 0, 'int') === 1;
 
         return $this->renderTemplate('transitions', array(
-            'isWidget' => $isWidgetized
+            'isWidget' => $isWidgetized,
         ));
     }
 }

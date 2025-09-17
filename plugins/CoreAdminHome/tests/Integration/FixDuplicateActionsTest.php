@@ -46,7 +46,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
         $result = $this->applicationTester->run(array(
             'command' => 'core:fix-duplicate-log-actions',
             '--invalidate-archives' => 0,
-            '-vvv' => false
+            '-vvv' => false,
         ));
 
         $this->assertEquals(0, $result, "Command failed: " . $this->applicationTester->getDisplay());
@@ -95,7 +95,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
             'idaction_content_interaction',
             'idaction_content_name',
             'idaction_content_piece',
-            'idaction_content_target'
+            'idaction_content_target',
         );
         $rows = Db::fetchAll("SELECT " . implode(',', $columns) . " FROM " . Common::prefixTable('log_link_visit_action'));
         $expectedRows = array(
@@ -109,7 +109,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
                 'idaction_content_interaction' => '5',
                 'idaction_content_name' => '8',
                 'idaction_content_piece' => '4',
-                'idaction_content_target' => '6'
+                'idaction_content_target' => '6',
             ),
             array(
                 'idaction_url_ref' => '1',
@@ -121,8 +121,8 @@ class FixDuplicateActionsTest extends IntegrationTestCase
                 'idaction_content_interaction' => '5',
                 'idaction_content_name' => '5',
                 'idaction_content_piece' => '6',
-                'idaction_content_target' => '6'
-            )
+                'idaction_content_target' => '6',
+            ),
         );
         $this->assertEquals($expectedRows, $rows);
     }
@@ -132,7 +132,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
         $rows = Db::fetchAll("SELECT idaction_url FROM " . Common::prefixTable('log_conversion'));
         $expectedRows = array(
             array('idaction_url' => 4),
-            array('idaction_url' => 5)
+            array('idaction_url' => 5),
         );
         $this->assertEquals($expectedRows, $rows);
     }
@@ -146,7 +146,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
             'idaction_category2',
             'idaction_category3',
             'idaction_category4',
-            'idaction_category5'
+            'idaction_category5',
         );
         $rows = Db::fetchAll("SELECT " . implode(',', $columns) . " FROM " . Common::prefixTable('log_conversion_item'));
         $expectedRows = array(
@@ -157,7 +157,7 @@ class FixDuplicateActionsTest extends IntegrationTestCase
                 'idaction_category2' => '4',
                 'idaction_category3' => '5',
                 'idaction_category4' => '6',
-                'idaction_category5' => '5'
+                'idaction_category5' => '5',
             ),
             array(
                 'idaction_sku' => '1',
@@ -166,8 +166,8 @@ class FixDuplicateActionsTest extends IntegrationTestCase
                 'idaction_category2' => '5',
                 'idaction_category3' => '8',
                 'idaction_category4' => '4',
-                'idaction_category5' => '6'
-            )
+                'idaction_category5' => '6',
+            ),
         );
         $this->assertEquals($expectedRows, $rows);
     }

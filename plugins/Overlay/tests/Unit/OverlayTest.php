@@ -108,19 +108,19 @@ class OverlayTest extends \PHPUnit\Framework\TestCase
               'Referer',
               'get',
               '',
-              'https://demo.matomo.cloud/index.php?module=Overlay&period=month&date=today&idSite=1'
+              'https://demo.matomo.cloud/index.php?module=Overlay&period=month&date=today&idSite=1',
             ],
             [ // invalid api method
               'API',
               'index',
               'VisitsSummary.get',
-              'https://demo.matomo.cloud/index.php?module=Overlay&period=month&date=today&idSite=1'
+              'https://demo.matomo.cloud/index.php?module=Overlay&period=month&date=today&idSite=1',
             ],
             [ // invalid referer
               'API',
               'index',
               'Transitions.get',
-              'https://demo.matomo.cloud/index.php?module=Overlay&module=CoreHome&action=index&period=month&date=today&idSite=1'
+              'https://demo.matomo.cloud/index.php?module=Overlay&module=CoreHome&action=index&period=month&date=today&idSite=1',
             ],
         ];
     }

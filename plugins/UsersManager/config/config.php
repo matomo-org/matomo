@@ -1,5 +1,5 @@
 <?php
 
 return array(
-    'usersmanager.user_preference_names' => []
+    'usersmanager.user_preference_names' => [],
 );

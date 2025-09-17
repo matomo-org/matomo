@@ -44,7 +44,7 @@ class MySQLMetadataDataAccess
                 'Flush tables'           => $fullStatus['Flush_commands']['Value'],
                 'Open tables'            => $fullStatus['Open_tables']['Value'],
                 'Opens'                  => 'unavailable', // not available via SHOW STATUS
-                'Queries per second avg' => 'unavailable' // not available via SHOW STATUS
+                'Queries per second avg' => 'unavailable', // not available via SHOW STATUS
             );
         }
 

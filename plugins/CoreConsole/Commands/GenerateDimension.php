@@ -81,7 +81,7 @@ class GenerateDimension extends GeneratePluginBase
         $this->writeSuccessMessage(array(
             sprintf('Columns/%s.php for %s generated.', ucfirst($dimensionClassName), $pluginName),
             'You should now implement the events within this file',
-            'Enjoy!'
+            'Enjoy!',
         ));
 
         return self::SUCCESS;

@@ -34,7 +34,7 @@ class ReportSubscription extends Fixture
         $parameters   = [
             ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
             ScheduledReports::EMAIL_ME_PARAMETER => true,
-            ScheduledReports::ADDITIONAL_EMAILS_PARAMETER => ['any@matomo.org']
+            ScheduledReports::ADDITIONAL_EMAILS_PARAMETER => ['any@matomo.org'],
         ];
 
         API::getInstance()->addReport($this->idSite, 'description', 'day', 3, $reportType, $reportFormat, $reports, $parameters);

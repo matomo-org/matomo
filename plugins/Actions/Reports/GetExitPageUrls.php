@@ -35,7 +35,7 @@ class GetExitPageUrls extends Base
             new AverageTimeOnPage(),
             new BounceRate(),
             new ExitRate(),
-            new AveragePageGenerationTime()
+            new AveragePageGenerationTime(),
         );
         $this->actionToLoadSubTables = $this->action;
 

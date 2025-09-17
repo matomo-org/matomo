@@ -34,21 +34,21 @@ class ComplianzTest extends \PHPUnit\Framework\TestCase
             false,
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no complianz content' => [
             false,
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'complianz-gdpr content found' => [
             true,
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script>complianz-gdpr</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'complianz-gdpr connected' => [
@@ -57,7 +57,7 @@ class ComplianzTest extends \PHPUnit\Framework\TestCase
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script>// complianz-gdpr; 
 // if (!cmplz_in_array( 'statistics', consentedCategories )) {
 		_paq.push(['forgetCookieConsentGiven']);</script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

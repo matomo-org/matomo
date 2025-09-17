@@ -51,8 +51,8 @@ class AnonymizationTest extends SystemTestCase
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['year'],
                 'otherRequestParameters' => ['doNotFetchActions' => '1', 'filter_limit' => '-1'],
-                'testSuffix' => 'userIdAnonymized'
-            ]
+                'testSuffix' => 'userIdAnonymized',
+            ],
         ];
 
         return $apiToTest;

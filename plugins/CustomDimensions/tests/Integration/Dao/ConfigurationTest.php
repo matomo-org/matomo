@@ -44,7 +44,7 @@ class ConfigurationTest extends IntegrationTestCase
         $columns = array_keys($columns);
 
         $expected = array(
-            'idcustomdimension', 'idsite', 'name', 'index', 'scope', 'active', 'extractions', 'case_sensitive'
+            'idcustomdimension', 'idsite', 'name', 'index', 'scope', 'active', 'extractions', 'case_sensitive',
         );
         $this->assertSame($expected, $columns);
     }

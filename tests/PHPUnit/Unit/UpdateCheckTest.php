@@ -65,14 +65,14 @@ class UpdateCheckTest extends TestCase
         $releaseChannel = $this->createConfiguredMock(
             ReleaseChannel::class,
             [
-                'getUrlToCheckForLatestAvailableVersion' => 'https://matomo.org'
+                'getUrlToCheckForLatestAvailableVersion' => 'https://matomo.org',
             ]
         );
 
         $releaseChannels = $this->createconfiguredMock(
             ReleaseChannels::class,
             [
-                'getActiveReleaseChannel' => $releaseChannel
+                'getActiveReleaseChannel' => $releaseChannel,
             ]
         );
 

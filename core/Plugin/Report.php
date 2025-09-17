@@ -649,7 +649,7 @@ class Report
             'subcategory' => $this->getSubcategoryId(),
             'name'     => $this->getName(),
             'module'   => $this->getModule(),
-            'action'   => $this->getAction()
+            'action'   => $this->getAction(),
         );
 
         if (null !== $this->parameters) {

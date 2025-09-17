@@ -24,7 +24,7 @@ class DeleteFeatureFlagCommandTest extends ConsoleCommandTestCase
 
         $this->applicationTester->run([
             'command' => 'featureflags:delete',
-            'featureFlagName' => 'ExampleFeatureThatDoesntExistAsClass'
+            'featureFlagName' => 'ExampleFeatureThatDoesntExistAsClass',
         ]);
 
         $flags = $container->get(Config::class)->FeatureFlags;

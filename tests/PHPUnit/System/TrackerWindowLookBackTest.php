@@ -39,7 +39,7 @@ class TrackerWindowLookBackTest extends SystemTestCase
             array('VisitsSummary.getVisits', array( 'date'    => '2010-12-01,2011-01-31',
                                                     'periods' => array('range'),
                                                     'idSite' => $idSite,
-            ))
+            )),
         );
     }
 

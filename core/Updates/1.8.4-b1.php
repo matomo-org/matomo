@@ -190,7 +190,7 @@ class Updates_1_8_4_b1 extends Updates
             ),
 
             // remove the duplicates table
-            $this->migration->db->dropTable('log_action_duplicates')
+            $this->migration->db->dropTable('log_action_duplicates'),
         );
     }
 

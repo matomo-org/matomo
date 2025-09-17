@@ -42,7 +42,7 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
                 'idaction_content_interaction',
                 'idaction_content_name',
                 'idaction_content_piece',
-                'idaction_content_target'
+                'idaction_content_target',
             ),
             'log_conversion' => array(
                 'idaction_url',
@@ -71,14 +71,14 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
     {
         $dimensionMetadataProvider = new DimensionMetadataProvider(array(
             'log_link_visit_action' => array('idaction_url',
-                'idaction_event_category'
+                'idaction_event_category',
             ),
 
             'log_conversion' => array(),
 
             'log_conversion_item' => array('some_unknown_idaction_column'),
 
-            'log_custom_table' => array('some_column1', 'some_column2')
+            'log_custom_table' => array('some_column1', 'some_column2'),
         ));
 
         $actualColumns = $dimensionMetadataProvider->getActionReferenceColumnsByTable();
@@ -94,7 +94,7 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
                 'idaction_content_interaction',
                 'idaction_content_name',
                 'idaction_content_piece',
-                'idaction_content_target'
+                'idaction_content_target',
             ),
             'log_conversion' => array(
                 'idaction_url',
@@ -113,12 +113,12 @@ class DimensionMetadataProviderTest extends IntegrationTestCase
                 'idaction_category3',
                 'idaction_category4',
                 'idaction_category5',
-                'some_unknown_idaction_column'
+                'some_unknown_idaction_column',
             ),
             'log_custom_table' => array(
                 'some_column1',
-                'some_column2'
-            )
+                'some_column2',
+            ),
         );
 
         $this->assertEquals($expectedColumns, $actualColumns);

@@ -35,7 +35,7 @@ class HttpsUpdateCheck implements Diagnostic
     {
         $faqLink = [
           '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/faq-how-to-disable-https-for-matomo-org-and-api-matomo-org-requests') . '" rel="noreferrer noopener" target="_blank">',
-          '</a>'
+          '</a>',
         ];
         $label = $this->translator->translate('Installation_SystemCheckUpdateHttps');
 

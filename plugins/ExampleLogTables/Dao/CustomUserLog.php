@@ -52,7 +52,7 @@ class CustomUserLog
         $columns = array(
             'user_id' => $userId,
             'group' => $group,
-            'gender' => $gender
+            'gender' => $gender,
         );
 
         $bind = array_values($columns);

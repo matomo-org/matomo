@@ -32,24 +32,24 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
         $this->sitesInfo = array(
             1 => array(
                 'idsite' => '1',
-                'currency' => 'EUR'
+                'currency' => 'EUR',
             ),
             2 => array(
                 'idsite' => '2',
-                'currency' => 'DKK'
+                'currency' => 'DKK',
             ),
             3 => array(
                 'idsite' => '3',
-                'currency' => 'PLN'
+                'currency' => 'PLN',
             ),
             4 => array(
                 'idsite' => '4',
-                'currency' => 'NZD'
+                'currency' => 'NZD',
             ),
             5 => array(
                 'idsite' => '5',
-                'currency' => 'JPY'
-            )
+                'currency' => 'JPY',
+            ),
         );
 
         $this->formatter = new Formatter();
@@ -133,7 +133,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
             array(0.14567, '0.15'),
             array(100.1234, '100.12'),
             array(1000.45, '1,000.45'),
-            array(23456789.00, '23,456,789')
+            array(23456789.00, '23,456,789'),
         );
     }
 
@@ -161,7 +161,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
             array(1.25 * 1024 * 1024 * 1024 * 1024 * 1024, null, '1280 T'),
             array(1.25 * 1024 * 1024, 'M', '1.3 M'),
             array(1.25 * 1024 * 1024 * 1024, 'M', '1280 M'),
-            array(0, null, '0 M')
+            array(0, null, '0 M'),
         );
     }
 
@@ -214,7 +214,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
             array(1.2, array('1.2s', '00:00:01.20')),
             array(122.1, array('2 min 2.1s', '00:02:02.10')),
             array(-122.1, array('-2 min 2.1s', '-00:02:02.10')),
-            array(86400 * -365, array('-365 days 0 hours', '-365 days 00:00:00'))
+            array(86400 * -365, array('-365 days 0 hours', '-365 days 00:00:00')),
         );
     }
 

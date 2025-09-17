@@ -40,19 +40,19 @@ class RollbarTest extends TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no rollbar.min.js content' => [
             false,
             'nothing special',
-            []
+            [],
         ];
 
         yield 'rollbar.min.js used' => [
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/rollbar.min.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

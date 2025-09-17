@@ -31,7 +31,7 @@ class Feedback extends \Piwik\Plugin
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Controller.CoreHome.index.end'          => 'renderViewsAndAddToPage'
+            'Controller.CoreHome.index.end'          => 'renderViewsAndAddToPage',
         );
     }
 

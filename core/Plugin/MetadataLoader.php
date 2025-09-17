@@ -88,7 +88,7 @@ class MetadataLoader
             'license'          => 'GPL v3+',
             'version'          => Version::VERSION,
             'theme'            => false,
-            'require'          => []
+            'require'          => [],
         ];
     }
 
@@ -147,7 +147,7 @@ class MetadataLoader
         $licenseFiles = array(
             'LICENSE',
             'LICENSE.md',
-            'LICENSE.txt'
+            'LICENSE.txt',
         );
         foreach ($licenseFiles as $licenseFile) {
             $pathToLicense = $prefixPath . $licenseFile;

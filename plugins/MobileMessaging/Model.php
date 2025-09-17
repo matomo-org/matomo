@@ -208,7 +208,7 @@ class Model
         // fallback for older values, where api key has been stored as string value
         if (!empty($credentials) && !is_array($credentials)) {
             $credentials = [
-                'apiKey' => $credentials
+                'apiKey' => $credentials,
             ];
         }
 

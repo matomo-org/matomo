@@ -45,7 +45,7 @@ class API extends \Piwik\Plugin\API
 
         $visitTypes = array(
             self::NEW_COLUMN_SUFFIX => self::NEW_VISITOR_SEGMENT,
-            self::RETURNING_COLUMN_SUFFIX => self::RETURNING_VISITOR_SEGMENT
+            self::RETURNING_COLUMN_SUFFIX => self::RETURNING_VISITOR_SEGMENT,
         );
 
         $columns = Piwik::getArrayFromApiParameter($columns);
@@ -79,7 +79,7 @@ class API extends \Piwik\Plugin\API
                 'segment'   => $modifiedSegment,
                 'columns'   => implode(',', $columnsForVisitType),
                 'format'    => 'original',
-                'format_metrics' => 0
+                'format_metrics' => 0,
             );
 
             /** @var \Piwik\DataTable\Map $response */

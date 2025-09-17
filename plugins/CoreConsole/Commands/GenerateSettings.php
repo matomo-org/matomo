@@ -40,7 +40,7 @@ class GenerateSettings extends GeneratePluginBase
         $this->writeSuccessMessage(array(
              sprintf('%s for %s generated.', $settingsFilename, $pluginName),
              'You can now start defining your ' . $settingsType,
-             'Enjoy!'
+             'Enjoy!',
         ));
 
         return self::SUCCESS;

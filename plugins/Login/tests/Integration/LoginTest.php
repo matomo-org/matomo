@@ -346,7 +346,7 @@ class LoginTest extends IntegrationTestCase
           'login'            => 'user',
           'password'         => 'geqgeagae',
           'email'            => 'test@test.com',
-          'superuser_access' => 0
+          'superuser_access' => 0,
         );
 
         API::getInstance()->addUser($user['login'], $user['password'], $user['email']);
@@ -396,7 +396,7 @@ class LoginTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-          'Piwik\Access' => new FakeAccess()
+          'Piwik\Access' => new FakeAccess(),
         );
     }
 }

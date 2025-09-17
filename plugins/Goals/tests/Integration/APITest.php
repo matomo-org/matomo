@@ -284,7 +284,7 @@ class APITest extends IntegrationTestCase
         $this->assertEqualsCanonicalizing(
             [
                 $this->api->getGoal($this->idSite, $idGoal),
-                $this->api->getGoal($this->idSiteTwo, $idGoalTwo)
+                $this->api->getGoal($this->idSiteTwo, $idGoalTwo),
             ],
             $goals
         );
@@ -360,7 +360,7 @@ class APITest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

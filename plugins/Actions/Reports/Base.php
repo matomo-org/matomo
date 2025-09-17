@@ -69,7 +69,7 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         $view->config->addTranslations(array(
             'nb_hits'             => Piwik::translate('General_ColumnPageviews'),
-            'nb_visits'           => Piwik::translate('General_ColumnUniquePageviews')
+            'nb_visits'           => Piwik::translate('General_ColumnUniquePageviews'),
         ));
 
         $formatter = new Formatter();
@@ -84,15 +84,15 @@ abstract class Base extends \Piwik\Plugin\Report
                 $hits,
                 "<br />",
                 $formatter->getPrettyTimeFromSeconds($min, true),
-                $formatter->getPrettyTimeFromSeconds($max, true)
+                $formatter->getPrettyTimeFromSeconds($max, true),
             ));
         };
         $view->config->filters[] = array('ColumnCallbackAddMetadata',
             array(
                 array('nb_hits_with_time_generation', 'min_time_generation', 'max_time_generation'),
                 'avg_time_generation_tooltip',
-                $tooltipCallback
-            )
+                $tooltipCallback,
+            ),
         );
 
         $this->addExcludeLowPopDisplayProperties($view);

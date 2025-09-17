@@ -142,7 +142,7 @@ class Controller extends Plugin\ControllerAdmin
             'name'        => $pluginMetadata->name,
             'version'     => $pluginMetadata->version,
             'isTheme'     => !empty($pluginMetadata->theme),
-            'isActivated' => $this->pluginManager->isPluginActivated($pluginMetadata->name)
+            'isActivated' => $this->pluginManager->isPluginActivated($pluginMetadata->name),
         );
 
         return $view->render();
@@ -360,7 +360,7 @@ class Controller extends Plugin\ControllerAdmin
             $lastError = array(
                 'message' => Common::getRequestVar('error_message', null, 'string'),
                 'file'    => Common::getRequestVar('error_file', null, 'string'),
-                'line'    => Common::getRequestVar('error_line', null, 'integer')
+                'line'    => Common::getRequestVar('error_line', null, 'integer'),
             );
         } elseif (empty($lastError)) {
             throw new Exception('Safemode not available');

@@ -71,7 +71,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',
             'dates' => array('all'),
-            '-vvv' => true
+            '-vvv' => true,
         ));
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -89,7 +89,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',
-            '-vvv' => true
+            '-vvv' => true,
         ));
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -108,7 +108,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
         $result = $this->applicationTester->run(array(
             'command' => 'core:purge-old-archive-data',
             'dates' => array('2015-01-14'),
-            '-vvv' => true
+            '-vvv' => true,
         ));
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -131,7 +131,7 @@ class PurgeOldArchiveDataTest extends IntegrationTestCase
             '--exclude-invalidated' => true,
             '--exclude-ranges' => true,
             '--skip-optimize-tables' => true,
-            '-vvv' => true
+            '-vvv' => true,
         ));
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());

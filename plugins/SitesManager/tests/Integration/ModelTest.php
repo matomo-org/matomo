@@ -75,32 +75,32 @@ class ModelTest extends IntegrationTestCase
         $expected = [
             [
                 'idsite' => $idSite,
-                'url' => 'http://apache.piwik'
+                'url' => 'http://apache.piwik',
             ],
             [
                 'idsite' => $idSite2,
-                'url' => 'http://piwik.net'
+                'url' => 'http://piwik.net',
             ],
             [
                 'idsite' => $idSite3,
-                'url' => 'http://example.pro'
+                'url' => 'http://example.pro',
             ],
             [
                 'idsite' => $idSite,
-                'url' => 'http://example.apache.piwik'
+                'url' => 'http://example.apache.piwik',
             ],
             [
                 'idsite' => $idSite,
-                'url' => 'http://example.org'
+                'url' => 'http://example.org',
             ],
             [
                 'idsite' => $idSite2,
-                'url' => 'http://example.com'
+                'url' => 'http://example.com',
             ],
             [
                 'idsite' => $idSite2,
-                'url' => 'http://example.org'
-            ]
+                'url' => 'http://example.org',
+            ],
 
         ];
         $this->assertEquals($expected, $this->model->getAllKnownUrlsForAllSites());

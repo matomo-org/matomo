@@ -32,19 +32,19 @@ class JoomlaTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no joomla content' => [
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script></script></head><body>A site</body></html>",
-            ['expires' => 'Wed, 17 Aug 2019 00:02:00 GMT']
+            ['expires' => 'Wed, 17 Aug 2019 00:02:00 GMT'],
         ];
 
         yield 'Joomla header found' => [
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title></head><body>A site</body></html>",
-            ['expires' => 'Wed, 17 Aug 2005 00:00:00 GMT']
+            ['expires' => 'Wed, 17 Aug 2005 00:00:00 GMT'],
         ];
     }
 }

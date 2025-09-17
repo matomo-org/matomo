@@ -64,7 +64,7 @@ class MultiSitesTest extends IntegrationTestCase
             'idSite' => $this->idSiteAccess,
             'period' => 'month',
             'date'   => 'last10',
-            'format'   => 'rss'
+            'format'   => 'rss',
         ];
 
         $output = FrontController::getInstance()->fetchDispatch('API');

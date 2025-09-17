@@ -34,7 +34,7 @@ class GetDownloads extends Base
     {
         return array(
             'nb_visits' => Piwik::translate('Actions_ColumnUniqueDownloads'),
-            'nb_hits'   => Piwik::translate('General_Downloads')
+            'nb_hits'   => Piwik::translate('General_Downloads'),
         );
     }
 
@@ -42,7 +42,7 @@ class GetDownloads extends Base
     {
         return array(
             'nb_visits' => Piwik::translate('Actions_ColumnUniqueClicksDocumentation'),
-            'nb_hits'   => Piwik::translate('Actions_ColumnClicksDocumentation')
+            'nb_hits'   => Piwik::translate('Actions_ColumnClicksDocumentation'),
         );
     }
 

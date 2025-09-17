@@ -88,8 +88,8 @@ abstract class SMSProvider
             array(
                 'type' => 'text',
                 'name' => 'apiKey',
-                'title' => 'MobileMessaging_Settings_APIKey'
-            )
+                'title' => 'MobileMessaging_Settings_APIKey',
+            ),
         );
     }
 

@@ -31,7 +31,7 @@ class GetPageTitlesFollowingSiteSearch extends SiteSearchBase
             new AverageTimeOnPage(),
             new BounceRate(),
             new ExitRate(),
-            new AveragePageGenerationTime()
+            new AveragePageGenerationTime(),
         );
         $this->order = 19;
 

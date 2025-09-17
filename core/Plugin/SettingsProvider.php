@@ -159,7 +159,7 @@ class SettingsProvider
             if ($component) {
                 return StaticContainer::getContainer()->make($component, array(
                     'idSite' => $idSite,
-                    'idMeasurableType' => $idType
+                    'idMeasurableType' => $idType,
                 ));
             }
         }

@@ -32,7 +32,7 @@ class CheckDirectDependencyUseCommandTest extends SystemTestCase
         $command = $console->find('tests:check-direct-dependency-use');
         $arguments = array(
             'command' => 'tests:check-direct-dependency-use',
-            '--plugin' => $pluginName
+            '--plugin' => $pluginName,
         );
         $inputObject = new ArrayInput($arguments);
         $command->run($inputObject, new NullOutput());
@@ -59,7 +59,7 @@ class CheckDirectDependencyUseCommandTest extends SystemTestCase
                     ],
                     'Symfony\Component\Console' => [
                         'Provider/tests/System/CheckDirectDependencyUseCommandTest.php',
-                    ]
+                    ],
                 ],
             ],
         ];

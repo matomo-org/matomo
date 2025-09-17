@@ -39,7 +39,7 @@ class FilterOrderByTest extends BaseUnitTest
             array(Row::COLUMNS => array('label' => 'pos5', 'growth' => 10)),
             array(Row::COLUMNS => array('label' => 'pos6', 'growth' => 0)),
             array(Row::COLUMNS => array('label' => 'neg4', 'growth' => -7)),
-            array(Row::COLUMNS => array('label' => 'neg5', 'growth' => -8))
+            array(Row::COLUMNS => array('label' => 'neg5', 'growth' => -8)),
         ));
 
         $this->applyOrderByFilter();
@@ -59,7 +59,7 @@ class FilterOrderByTest extends BaseUnitTest
             array(Row::COLUMNS => array('label' => 'neg1', 'nb_visits' => 33, 'growth' => -5)),
             array(Row::COLUMNS => array('label' => 'neg2', 'nb_visits' => 34, 'growth' => -5)),
             array(Row::COLUMNS => array('label' => 'neg3', 'nb_visits' => 99, 'growth' => -5)),
-            array(Row::COLUMNS => array('label' => 'neg4', 'nb_visits' => 20, 'growth' => -5))
+            array(Row::COLUMNS => array('label' => 'neg4', 'nb_visits' => 20, 'growth' => -5)),
         ));
 
         $this->applyOrderByFilter();
@@ -79,7 +79,7 @@ class FilterOrderByTest extends BaseUnitTest
             array(Row::COLUMNS => array('label' => 'neg1', 'nb_visits' => -33, 'growth' => -5)),
             array(Row::COLUMNS => array('label' => 'neg2', 'nb_visits' => -34, 'growth' => -5)),
             array(Row::COLUMNS => array('label' => 'neg3', 'nb_visits' => -99, 'growth' => -5)),
-            array(Row::COLUMNS => array('label' => 'neg4', 'nb_visits' => -20, 'growth' => -5))
+            array(Row::COLUMNS => array('label' => 'neg4', 'nb_visits' => -20, 'growth' => -5)),
         ));
 
         $this->applyOrderByFilter();

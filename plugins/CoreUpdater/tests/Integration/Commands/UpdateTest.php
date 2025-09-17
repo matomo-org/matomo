@@ -55,7 +55,7 @@ class UpdateTest extends ConsoleCommandTestCase
     {
         $result = $this->applicationTester->run(array(
             'command' => 'core:update',
-            '--yes' => true
+            '--yes' => true,
         ));
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -71,7 +71,7 @@ class UpdateTest extends ConsoleCommandTestCase
         $this->applicationTester->setInputs(['N']);
 
         $result = $this->applicationTester->run(array(
-            'command' => 'core:update'
+            'command' => 'core:update',
         ));
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -88,7 +88,7 @@ class UpdateTest extends ConsoleCommandTestCase
 
         $result = $this->applicationTester->run(array(
             'command' => 'core:update',
-            '--yes' => true
+            '--yes' => true,
         ));
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -106,7 +106,7 @@ class UpdateTest extends ConsoleCommandTestCase
 
         $result = $this->applicationTester->run(array(
             'command' => 'core:update',
-            '--yes' => true
+            '--yes' => true,
         ));
 
         $this->assertEquals(1, $result, $this->getCommandDisplayOutputErrorMessage());

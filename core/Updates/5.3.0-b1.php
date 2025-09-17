@@ -31,7 +31,7 @@ class Updates_5_3_0_b1 extends Updates
             $this->migration->db->addColumns('archive_invalidations', [
                 'processing_host' => 'VARCHAR(100) NULL DEFAULT NULL',
                 'process_id' => 'VARCHAR(15) NULL DEFAULT NULL',
-            ])
+            ]),
         ];
     }
 

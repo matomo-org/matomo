@@ -132,7 +132,7 @@ abstract class MenuAbstract extends Singleton
             $onclick,
             $attribute,
             $help,
-            $badgeCount
+            $badgeCount,
         );
     }
 
@@ -147,7 +147,7 @@ abstract class MenuAbstract extends Singleton
     {
         $this->menuEntriesToRemove[] = array(
             $menuName,
-            $subMenuName
+            $subMenuName,
         );
     }
 
@@ -175,7 +175,7 @@ abstract class MenuAbstract extends Singleton
         if (!isset($this->menu[$menuName])) {
             $this->menu[$menuName] = array(
                 '_hasSubmenu' => false,
-                '_order' => $order
+                '_order' => $order,
             );
         }
 

@@ -28,7 +28,7 @@ class TrackerCodeGeneratorTest extends IntegrationTestCase
         $urls = array(
             'http://localhost/piwik',
             'http://another-domain/piwik',
-            'https://another-domain/piwik'
+            'https://another-domain/piwik',
         );
         $idSite = \Piwik\Plugins\SitesManager\API::getInstance()->addSite('Site name here <-->', $urls);
         $jsTag = $generator->generate(

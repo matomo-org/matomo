@@ -107,7 +107,7 @@ class FingerprintSaltTest extends IntegrationTestCase
         $this->assertSame(array(
             'fingerprint_salt_1_2020-05-06',
             'fingerprint_salt_2_2020-05-05',
-            'fingerprint_salt_2_2020-05-06'
+            'fingerprint_salt_2_2020-05-06',
         ), $this->fingerprintSalt->deleteOldSalts());
 
         // executing it again wont delete anything

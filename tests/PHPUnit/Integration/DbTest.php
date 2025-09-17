@@ -298,7 +298,7 @@ class DbTest extends IntegrationTestCase
     {
         return array(
             array('Mysqli', 'Piwik\Db\Adapter\Mysqli'),
-            array('PDO\MYSQL', 'Piwik\Db\Adapter\Pdo\Mysql')
+            array('PDO\MYSQL', 'Piwik\Db\Adapter\Pdo\Mysql'),
         );
     }
 

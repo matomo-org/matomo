@@ -55,14 +55,14 @@ class VisitTest extends IntegrationTestCase
                 '12.12.12.11'     => false,
                 '12.12.12.13'     => false,
                 '0.0.0.0'         => false,
-                '255.255.255.255' => false
+                '255.255.255.255' => false,
             )),
             array('12.12.12.12/32', array(
                 '12.12.12.12'     => true,
                 '12.12.12.11'     => false,
                 '12.12.12.13'     => false,
                 '0.0.0.0'         => false,
-                '255.255.255.255' => false
+                '255.255.255.255' => false,
             )),
             array('12.12.12.*', array(
                 '12.12.12.0'      => true,
@@ -183,7 +183,7 @@ class VisitTest extends IntegrationTestCase
             $visitExclude = new VisitExcluded(new Request(array(
                 'idsite' => $siteId,
                 'rec'    => 1,
-                'url'    => $url
+                'url'    => $url,
             )));
             $this->assertEquals($isTracked, !$visitExclude->isExcluded(), $url . ' is not returning expected result');
         }
@@ -264,7 +264,7 @@ class VisitTest extends IntegrationTestCase
                 'Mozilla/5.0 (compatible; Yahoo! Slurp/3.0; http://help.yahoo.com/help/us/ysearch/slurp)' => false,
                 'Wget/1.13.4 (linux-gnu)' => false,
                 'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)' => false,
-            ))
+            )),
         );
     }
 
@@ -325,7 +325,7 @@ class VisitTest extends IntegrationTestCase
             $spamUrl = urlencode($spamUrl);
             $request = new Request(array(
                 'idsite' => $idsite,
-                'urlref' => $spamUrl
+                'urlref' => $spamUrl,
             ));
             $excluded = new VisitExcludedPublic($request);
 
@@ -445,7 +445,7 @@ class VisitTest extends IntegrationTestCase
         $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
 
         $expectedRemembered = array(
-            substr($currentActionTime, 0, 10) => array($idsite)
+            substr($currentActionTime, 0, 10) => array($idsite),
         );
 
         $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
@@ -487,7 +487,7 @@ class VisitTest extends IntegrationTestCase
             'idsite' => $idsite,
             'rec' => 1,
             'cip' => '156.146.156.146',
-            'token_auth' => Fixture::getTokenAuth()
+            'token_auth' => Fixture::getTokenAuth(),
         ), $requestDate);
 
         $visit->handle();
@@ -529,7 +529,7 @@ class VisitTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }
