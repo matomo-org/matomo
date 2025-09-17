@@ -472,6 +472,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_RandomizeConfigIdNote';
         $translationKeys[] = 'PrivacyManager_RandomizeConfigIdNoteWarning';
         $translationKeys[] = 'PrivacyManager_ConfirmConfigRandomisationEnabled';
+        $translationKeys[] = 'PrivacyManager_ConfirmConfigRandomisationEnabledPerSite';
         $translationKeys[] = 'PrivacyManager_ConfirmConfigRandomisationExplanation';
         $translationKeys[] = 'PrivacyManager_SiteAnonymizationConfig';
         $translationKeys[] = 'PrivacyManager_UseSystemSettings';

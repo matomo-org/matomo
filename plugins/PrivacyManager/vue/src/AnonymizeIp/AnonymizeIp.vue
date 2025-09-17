@@ -126,14 +126,15 @@
         @confirm="shouldSave()"
         :saving="isLoading"
       />
-      <PasswordConfirmation
-        v-model="showPasswordConfirmation"
-        @confirmed="save"
-      >
-        <h2>{{ translate('PrivacyManager_ConfirmConfigRandomisationEnabled') }}</h2>
-        <p>{{ translate('PrivacyManager_ConfirmConfigRandomisationExplanation') }}</p>
-      </PasswordConfirmation>
     </div>
+    <PasswordConfirmation
+      v-model="showPasswordConfirmation"
+      @confirmed="save"
+      @aborted="abortPasswordConfirmation"
+    >
+      <h2>{{ passwordConfirmationTitle }}</h2>
+      <p>{{ translate('PrivacyManager_ConfirmConfigRandomisationExplanation') }}</p>
+    </PasswordConfirmation>
   </div>
 </template>
 
@@ -229,7 +230,7 @@ export default defineComponent({
   directives: {
     Form,
   },
-  emits: ['updated'],
+  emits: ['updated', 'aborted'],
   data(): AnonymizeIpState {
     return {
       isLoading: false,
@@ -254,6 +255,9 @@ export default defineComponent({
       } else {
         this.save();
       }
+    },
+    abortPasswordConfirmation() {
+      this.$emit('aborted');
     },
     save(password?: string) {
       this.isLoading = true;
@@ -296,6 +300,8 @@ export default defineComponent({
           NotificationsStore.scrollToNotification(notificationInstanceId);
         }
         this.$emit('updated');
+      }).catch(() => {
+        this.$emit('aborted');
       }).finally(() => {
         this.isLoading = false;
       });
@@ -321,6 +327,12 @@ export default defineComponent({
       const inlineHelp1 = translate('PrivacyManager_AnonymizeIpInlineHelp');
       const inlineHelp2 = translate('PrivacyManager_AnonymizeIpDescription');
       return `${inlineHelp1} ${inlineHelp2}`;
+    },
+    passwordConfirmationTitle() {
+      if (this.idSiteSpecific) {
+        return translate('PrivacyManager_ConfirmConfigRandomisationEnabledPerSite');
+      }
+      return translate('PrivacyManager_ConfirmConfigRandomisationEnabled');
     },
     useSiteSpecificSettingsHelpText(): string {
       const link = `?${MatomoUrl.stringify({
@@ -359,9 +371,8 @@ export default defineComponent({
   },
   watch: {
     triggerSave(newValue) {
-      console.log('trigger save changed', newValue);
       if (newValue) {
-        this.save();
+        this.shouldSave();
       }
     },
   },

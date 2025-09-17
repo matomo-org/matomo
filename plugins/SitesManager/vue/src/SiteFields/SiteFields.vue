@@ -163,9 +163,10 @@
             :is="anonymizeIpComponent"
             v-if="!isLoadingPrivacy"
             :id-site-specific="theSite.idsite"
-            :trigger-save="triggerSavePrivacySettings"
+            :trigger-save="triggerSavePrivacySettings == 'save'"
             v-bind="anonymisationSettings"
             @updated="onPrivacyUpdated"
+            @aborted="onPrivacyAborted"
             @cancel="cancelEditSite(site)"
           ></component>
         </template>
@@ -238,7 +239,7 @@ interface SiteFieldsState {
   settingValues: Record<string, unknown>;
   showRemoveDialog: boolean;
   deleteSiteExplanation: string;
-  triggerSavePrivacySettings: boolean;
+  triggerSavePrivacySettings: string;
 }
 
 interface CreateEditSiteResponse {
@@ -291,7 +292,7 @@ export default defineComponent({
       settingValues: {},
       showRemoveDialog: false,
       deleteSiteExplanation: '',
-      triggerSavePrivacySettings: false,
+      triggerSavePrivacySettings: '',
     };
   },
   components: {
@@ -390,9 +391,12 @@ export default defineComponent({
       }
     },
     onPrivacyUpdated() {
-      this.editMode = false;
-      this.triggerSavePrivacySettings = false;
+      this.triggerSavePrivacySettings = 'done';
       this.anonymisationSettings = [];
+    },
+    onPrivacyAborted() {
+      this.triggerSavePrivacySettings = 'abort';
+      this.isSaving = false;
     },
     saveSite() {
       if (this.isSaving) {
@@ -441,15 +445,33 @@ export default defineComponent({
         });
       });
 
-      const saveSitePromise = Promise
+      const showNotificationAndEmitSave = () => {
+        const notificationId = NotificationsStore.show({
+          message: isNew
+            ? translate('SitesManager_WebsiteCreated')
+            : translate('SitesManager_WebsiteUpdated'),
+          context: 'success',
+          id: 'websitecreated',
+          type: 'transient',
+        });
+        NotificationsStore.scrollToNotification(notificationId);
+
+        SiteTypesStore.removeEditSiteIdParameterFromHash();
+
+        this.$emit('save', {
+          site: this.theSite,
+          settingValues: values.settingValues,
+          isNew,
+        });
+      };
+
+      const saveSitePromise = () => Promise
         .resolve(AjaxHelper.post<CreateEditSiteResponse>(
           {
             method: apiMethod,
           },
           values,
         )).then((response) => {
-          this.editMode = false;
-
           if (!this.theSite.idsite && response && response.value) {
             this.theSite.idsite = `${response.value}`;
           }
@@ -464,29 +486,28 @@ export default defineComponent({
           }
         });
 
-      const savePromises = [saveSitePromise];
       if (!isNew) {
-        savePromises.push(this.triggerPrivacySettingsSave() as Promise<void>);
-      }
-
-      Promise.all(savePromises)
-        .then(() => {
-          const notificationId = NotificationsStore.show({
-            message: isNew
-              ? translate('SitesManager_WebsiteCreated')
-              : translate('SitesManager_WebsiteUpdated'),
-            context: 'success',
-            id: 'websitecreated',
-            type: 'transient',
-          });
-          NotificationsStore.scrollToNotification(notificationId);
-
-          SiteTypesStore.removeEditSiteIdParameterFromHash();
-
-          this.$emit('save', { site: this.theSite, settingValues: values.settingValues, isNew });
-        }).finally(() => {
+        const savePrivacySettingsPromise = this.getTriggerPrivacySettingsSavePromise();
+        savePrivacySettingsPromise.then(
+          () => saveSitePromise().then(() => {
+            showNotificationAndEmitSave();
+            // disable edit mode when saved successfully
+            this.editMode = false;
+          }).catch(() => {
+            // enable saving again on error
+            this.isSaving = false;
+          }),
+        ).catch(() => {
+          // on privacy settings password confirmation abort or wrong password
           this.isSaving = false;
         });
+      } else {
+        saveSitePromise().then(() => {
+          showNotificationAndEmitSave();
+          this.isSaving = false;
+          this.editMode = false;
+        });
+      }
     },
     cancelEditSite(site: Site) {
       this.editMode = false;
@@ -521,19 +542,23 @@ export default defineComponent({
         this.showRemoveDialog = true;
       });
     },
-    triggerPrivacySettingsSave() {
-      return new Promise((resolve) => {
-        const unwatch = this.$watch(
+    getTriggerPrivacySettingsSavePromise() {
+      return new Promise((resolve, reject) => {
+        const unwatchTrigger = this.$watch(
           'triggerSavePrivacySettings',
           (val) => {
-            if (val === false) {
-              unwatch();
+            if (val === 'done') {
+              unwatchTrigger();
               resolve(true);
+            }
+            if (val === 'abort') {
+              unwatchTrigger();
+              reject();
             }
           },
           { immediate: false },
         );
-        this.triggerSavePrivacySettings = true;
+        this.triggerSavePrivacySettings = 'save';
       });
     },
   },
