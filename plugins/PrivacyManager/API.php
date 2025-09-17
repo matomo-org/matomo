@@ -292,18 +292,18 @@ class API extends \Piwik\Plugin\API
      * @internal
      */
     public function setAnonymizeIpSettings(
-        $anonymizeIPEnable,
-        $maskLength,
-        $useAnonymizedIpForVisitEnrichment,
-        $anonymizeUserId = false,
-        $anonymizeOrderId = false,
-        $anonymizeReferrer = '',
-        $forceCookielessTracking = false,
-        $randomizeConfigId = false,
+        bool $anonymizeIPEnable,
+        int $ipAddressMaskLength,
+        bool $useAnonymizedIpForVisitEnrichment,
+        bool $anonymizeUserId = false,
+        bool $anonymizeOrderId = false,
+        string $anonymizeReferrer = '',
+        bool $forceCookielessTracking = false,
+        bool $randomizeConfigId = false,
         ?int $idSiteSpecific = null,
         bool $useSiteSpecificSettings = false,
         #[\SensitiveParameter]
-        $passwordConfirmation = ''
+        string $passwordConfirmation = ''
     ) {
         if (null !== $idSiteSpecific) {
             $idSite = $idSiteSpecific;
@@ -322,14 +322,14 @@ class API extends \Piwik\Plugin\API
             return true;
         }
 
-        if ($randomizeConfigId == '1') {
+        if ($randomizeConfigId) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
-        if ($anonymizeIPEnable == '1') {
-            IPAnonymizer::activate();
-        } elseif ($anonymizeIPEnable == '0') {
-            IPAnonymizer::deactivate();
+        if ($anonymizeIPEnable) {
+            IPAnonymizer::activate($idSite);
+        } else {
+            IPAnonymizer::deactivate($idSite);
         }
 
         if (
