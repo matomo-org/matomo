@@ -316,27 +316,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $result;
     }
 
-    private function getAnonymizeIPInfo()
-    {
-        Piwik::checkUserHasSuperUserAccess();
-        $anonymizeIP = [];
-
-        $privacyConfig = new Config();
-        $anonymizeIP["enabled"] = IPAnonymizer::isActive();
-        $anonymizeIP["maskLength"] = $privacyConfig->ipAddressMaskLength;
-        $anonymizeIP["forceCookielessTracking"] = $privacyConfig->forceCookielessTracking;
-        $anonymizeIP["anonymizeOrderId"] = $privacyConfig->anonymizeOrderId;
-        $anonymizeIP["anonymizeUserId"] = $privacyConfig->anonymizeUserId;
-        $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = $privacyConfig->useAnonymizedIpForVisitEnrichment;
-        $anonymizeIP["anonymizeReferrer"] = $privacyConfig->anonymizeReferrer;
-        if (!$anonymizeIP["useAnonymizedIpForVisitEnrichment"]) {
-            $anonymizeIP["useAnonymizedIpForVisitEnrichment"] = '0';
-        }
-        $anonymizeIP["randomizeConfigId"] = $privacyConfig->randomizeConfigId;
-
-        return $anonymizeIP;
-    }
-
     private function getDeleteDataInfo()
     {
         Piwik::checkUserHasSuperUserAccess();
