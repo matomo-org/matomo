@@ -20,7 +20,7 @@
 		<row>
 			<name>IP Address Mask Length</name>
 			<value>non_compliant</value>
-			<notes>Must be set to at least 2 bytes.</notes>
+			<notes>Must be set to at least 2 byte(s), currently 0 byte(s).</notes>
 		</row>
 		<row>
 			<name>Data retention period</name>

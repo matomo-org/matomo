@@ -99,15 +99,6 @@ class ReportRetention implements ConfigSettingInterface, PolicyComparisonInterfa
 
     protected static function compareStrictness($value1, $value2)
     {
-        if (is_null($value1)) {
-            if (is_null($value2)) {
-                return null;
-            }
-            return $value2;
-        }
-        if (is_null($value2)) {
-            return $value1;
-        }
         if ($value1 <= $value2) {
             return $value1;
         }

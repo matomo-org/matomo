@@ -94,12 +94,6 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
 
     protected static function compareStrictness($value1, $value2)
     {
-        if (is_null($value1)) {
-            return $value2;
-        }
-        if (is_null($value2)) {
-            return $value1;
-        }
         if ($value1 > $value2) {
             return $value1;
         }
