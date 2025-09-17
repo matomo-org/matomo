@@ -281,8 +281,6 @@ class API extends \Piwik\Plugin\API
             'useAnonymizedIpForVisitEnrichmentOptions' =>
                 PrivacyManager::getUseAnonymizedIpForVisitEnrichmentOptions(),
             'referrerAnonymizationOptions' => ReferrerAnonymizer::getAvailableAnonymizationOptions(),
-            'configRandomisationFeatureFlag' =>
-                $this->featureFlagManager->isFeatureActive(ConfigIdRandomisation::class),
             'trackerFileName' => $trackerFilename,
             'trackerWritable' => $trackerFileWritable,
         ]);

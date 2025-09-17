@@ -50,7 +50,6 @@
 		<exclude_path>Keep only the domain of a referrer URL</exclude_path>
 		<exclude_all>Don't record the referrer URL but still detect the type of referrer</exclude_all>
 	</referrerAnonymizationOptions>
-	<configRandomisationFeatureFlag>0</configRandomisationFeatureFlag>
 	<trackerFileName>matomo.js</trackerFileName>
 	<trackerWritable>1</trackerWritable>
 </result>
