@@ -21,7 +21,7 @@ class PolicyComparisonTraitImpl implements PolicyComparisonInterface
     public static function getPolicyRequirements(): array
     {
         return [
-            TestPolicy::class => true
+            TestPolicy::class => true,
         ];
     }
 

@@ -9,7 +9,7 @@ class PolicyManager extends \Piwik\Policy\PolicyManager
     public static function getAllPolicies(): array
     {
         return [
-            TestPolicy::class
+            TestPolicy::class,
         ];
     }
 

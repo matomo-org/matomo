@@ -21,14 +21,14 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
     public static function getPolicyRequirements(): array
     {
         return [
-            TestPolicy::class => TestPolicy::isActive(null)
+            TestPolicy::class => TestPolicy::isActive(null),
         ];
     }
 
     public static function getPolicyRequiredValues(?int $idSite = null): array
     {
         return [
-            TestPolicy::class => true
+            TestPolicy::class => true,
         ];
     }
 
