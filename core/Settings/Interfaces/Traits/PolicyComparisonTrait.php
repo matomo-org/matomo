@@ -57,7 +57,7 @@ trait PolicyComparisonTrait
 
         return static::compareStrictness($value1, $value2);
     }
- 
+
     public static function isControlledBySpecificPolicy(string $policy, ?int $idSite = null): bool
     {
         return array_key_exists($policy, self::getPolicyRequiredValues($idSite));
