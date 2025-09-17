@@ -21,8 +21,11 @@ class RandomizedConfigIdVisitsFixture extends Fixture
     public static $dateTimeNormalConfig = '2015-01-01 01:00:00';
     public static $dateTimeRandomizedConfig = '2015-02-01 01:00:00'; // as above + 1 month
 
+    public static $dateTimeRandomizedConfigPerSite = '2015-03-01 01:00:00'; // as above + 1 month
+
     public $dateTime;
     public $idSite = 1;
+    public $idSite2 = 2;
 
     /** @var PrivacyManagerConfig */
     private $privacyManagerConfig;
@@ -36,16 +39,25 @@ class RandomizedConfigIdVisitsFixture extends Fixture
 
         $this->privacyManagerConfig = new PrivacyManagerConfig();
 
-        $this->setUpWebsite();
+        $this->setUpWebsites();
 
-        // config off
+        // config off globally
         // should NOT randomize
-        $this->trackVisits(false);
+        $this->trackVisits(false, $this->idSite);
 
-        // config on
+        // config on globally
         // should randomize
         $this->dateTime = self::$dateTimeRandomizedConfig;
-        $this->trackVisits(true);
+        $this->trackVisits(true, $this->idSite);
+
+        // config off globally
+        // config on specifically for second site
+        // should randomize for second site
+        // should NOT randomize for first site
+        $this->setConfigIdRandomisationPrivacyConfig(false);
+        $this->dateTime = self::$dateTimeRandomizedConfigPerSite;
+        $this->trackVisits(false, $this->idSite, true);
+        $this->trackVisits(true, $this->idSite2, true);
     }
 
     public function tearDown(): void
@@ -53,8 +65,11 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         // empty
     }
 
-    private function setConfigIdRandomisationPrivacyConfig(bool $config)
+    private function setConfigIdRandomisationPrivacyConfig(bool $config, int $idSite = null, bool $useSiteSpecificConfig = false)
     {
+        if ($useSiteSpecificConfig) {
+            $this->privacyManagerConfig->setIdSite($idSite);
+        }
         $this->privacyManagerConfig->randomizeConfigId = $config;
     }
 
@@ -63,17 +78,21 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         $this->dateTime = Date::factory($this->dateTime)->addPeriod(1, 'hour')->getDatetime();
     }
 
-    private function setUpWebsite()
+    private function setUpWebsites()
     {
         if (!self::siteCreated($this->idSite)) {
             $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
             $this->assertSame($this->idSite, $idSite);
         }
+        if (!self::siteCreated($this->idSite2)) {
+            $idSite = self::createWebsite($this->dateTime, $ecommerce = 1);
+            $this->assertSame($this->idSite2, $idSite);
+        }
     }
 
-    protected function trackStandardVisits(int $visits)
+    protected function trackStandardVisits(int $visits, int $idSite)
     {
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t = self::getTracker($idSite, $this->dateTime, $defaultInit = true);
         $t->setUrl('http://example.com/');
         for ($v = 1; $v <= $visits; $v++) {
             $dt = Date::factory($this->dateTime)->addPeriod($v, 'minute')->getDatetime();
@@ -82,10 +101,10 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         }
     }
 
-    protected function trackVisitsWithMultipleActions(int $visits, int $actions)
+    protected function trackVisitsWithMultipleActions(int $visits, int $actions, int $idSite)
     {
         for ($v = 1; $v <= $visits; $v++) {
-            $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+            $t = self::getTracker($idSite, $this->dateTime, $defaultInit = true);
             $t->setUrl('http://example.com/');
             $t->setForceVisitDateTime(Date::factory($this->dateTime)->addPeriod($v, 'minute')->getDatetime());
 
@@ -101,9 +120,9 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         }
     }
 
-    protected function trackVisitsWithUserId(int $visits)
+    protected function trackVisitsWithUserId(int $visits, int $idSite)
     {
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t = self::getTracker($idSite, $this->dateTime, $defaultInit = true);
         $t->setUserId('foobar');
         $t->setUrl('http://example.com/');
         for ($v = 1; $v <= $visits; $v++) {
@@ -113,9 +132,9 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         }
     }
 
-    protected function trackEcommerceOrder(int $orders)
+    protected function trackEcommerceOrder(int $orders, int $idSite)
     {
-        $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
+        $t = self::getTracker($idSite, $this->dateTime, $defaultInit = true);
         $t->setUrl('http://example.com/myorder');
         self::checkResponse($t->doTrackPageView('Visit with ecommerce order'));
 
@@ -126,23 +145,23 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         }
     }
 
-    protected function trackVisits(bool $randomizeConfigId)
+    protected function trackVisits(bool $randomizeConfigId, int $idSite, bool $useSiteSpecificConfig = false)
     {
-        $this->setConfigIdRandomisationPrivacyConfig($randomizeConfigId);
+        $this->setConfigIdRandomisationPrivacyConfig($randomizeConfigId, $idSite, $useSiteSpecificConfig);
 
         // track visits
-        $this->trackStandardVisits(2);
+        $this->trackStandardVisits(2, $idSite);
         $this->addHour();
 
         // track visits with multiple actions
-        $this->trackVisitsWithMultipleActions(3, 2);
+        $this->trackVisitsWithMultipleActions(3, 2, $idSite);
         $this->addHour();
 
         // track visits with set UserID
-        $this->trackVisitsWithUserId(2);
+        $this->trackVisitsWithUserId(2, $idSite);
         $this->addHour();
 
         // track ecommerce order
-        $this->trackEcommerceOrder(3);
+        $this->trackEcommerceOrder(3, $idSite);
     }
 }
