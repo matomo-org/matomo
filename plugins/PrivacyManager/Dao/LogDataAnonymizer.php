@@ -20,6 +20,7 @@ use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Tracker\Model;
 use Exception;
+use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
 
 class LogDataAnonymizer
 {
@@ -60,9 +61,8 @@ class LogDataAnonymizer
             return 0;
         }
 
-        $privacyConfig = new Config();
         $minimumIpAddressMaskLength = 2;
-        $ipMask = max($minimumIpAddressMaskLength, $privacyConfig->ipAddressMaskLength);
+        $ipMask = max($minimumIpAddressMaskLength, IpAddressMaskLengthSetting::getInstance()->getValue());
 
         $numRecordsUpdated = 0;
         $trackerModel = new Model();

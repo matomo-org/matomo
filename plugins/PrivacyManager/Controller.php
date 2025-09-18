@@ -30,6 +30,7 @@ use Piwik\SiteContentDetector;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\View;
+use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
 
 /**
  *
@@ -371,7 +372,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $privacyConfig = new Config();
         $anonymizeIP["enabled"] = IPAnonymizer::isActive();
-        $anonymizeIP["maskLength"] = $privacyConfig->ipAddressMaskLength;
+        $anonymizeIP["maskLength"] = IpAddressMaskLengthSetting::getInstance()->getValue();
         $anonymizeIP["forceCookielessTracking"] = $privacyConfig->forceCookielessTracking;
         $anonymizeIP["anonymizeOrderId"] = $privacyConfig->anonymizeOrderId;
         $anonymizeIP["anonymizeUserId"] = $privacyConfig->anonymizeUserId;
