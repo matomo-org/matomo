@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Live;
 use Piwik\Piwik;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Plugin\SystemSetting;
+use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;
 
 class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 {
@@ -29,14 +30,15 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
 
     private function makeVisitorLogSetting(): SystemSetting
     {
-        $defaultValue = false;
-        $type = FieldConfig::TYPE_BOOL;
-
-        return $this->makeSetting('disable_visitor_log', $defaultValue, $type, function (FieldConfig $field) {
-            $field->title = Piwik::translate('Live_DisableVisitsLogAndProfile');
-            $field->inlineHelp = Piwik::translate('Live_DisableVisitsLogAndProfileDescription');
+        $setting = VisitorLogDisabledSetting::getSystemSetting();
+        $setting->setConfigureCallback(function (FieldConfig $field) {
+            $field->title = VisitorLogDisabledSetting::getTitle();
+            $field->inlineHelp = VisitorLogDisabledSetting::getInlineHelp();
             $field->uiControl = FieldConfig::UI_CONTROL_CHECKBOX;
         });
+
+        $this->addSetting($setting);
+        return $setting;
     }
 
     private function makeVisitorProfileSetting(): SystemSetting
