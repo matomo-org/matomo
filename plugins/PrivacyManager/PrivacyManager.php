@@ -972,7 +972,7 @@ class PrivacyManager extends Plugin
             [
                 'key' => '4',
                 'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskFully'),
-                'description' => ''
+                'description' => '',
             ],
         ];
     }
@@ -989,7 +989,7 @@ class PrivacyManager extends Plugin
                 'key' => '0',
                 'value' => Piwik::translate('General_No'),
                 'description' => '',
-            ]
+            ],
         ];
     }
 
