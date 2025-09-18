@@ -19,7 +19,6 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Plugins\SitesManager;
 use Exception;
-use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 
