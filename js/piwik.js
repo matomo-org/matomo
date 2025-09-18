@@ -2496,7 +2496,9 @@ if (typeof window.Matomo !== 'object') {
 
                 configBrowserFeatureDetection = true,
 
-                configFileTracking = false;
+                configFileTracking = false,
+
+                configReferralUrlMaxLength = 1024;
 
             // Document title
             try {
@@ -3935,7 +3937,7 @@ if (typeof window.Matomo !== 'object') {
                     nowTs = Math.round(now.getTime() / 1000),
                     referralTs,
                     referralUrl,
-                    referralUrlMaxLength = 1024,
+                    referralUrlMaxLength = configReferralUrlMaxLength,
                     currentReferrerHostName,
                     originalReferrerHostName,
                     cookieSessionName = getCookieName('ses'),
@@ -7483,6 +7485,15 @@ if (typeof window.Matomo !== 'object') {
            */
             this.enableFileTracking = function () {
                 configFileTracking = true;
+            };
+
+            /**
+             * Set referral URL max length
+             *
+             * @param {int} length
+             */
+            this.setReferralUrlMaxLength = function (length) {
+                configReferralUrlMaxLength = length;
             };
 
             /**
