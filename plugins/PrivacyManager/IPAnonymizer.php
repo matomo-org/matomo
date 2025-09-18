@@ -80,6 +80,6 @@ class IPAnonymizer
      */
     public static function isActive()
     {
-        return IPAnonymisationSetting::getInstance()->getValue() === true;
+        return IPAnonymisationSetting::getInstance()->getValue() === 1;
     }
 }
