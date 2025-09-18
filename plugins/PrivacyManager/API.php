@@ -340,7 +340,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $privacyConfig = new Config($idSite);
-        $privacyConfig->ipAddressMaskLength = $maskLength;
+        $privacyConfig->ipAddressMaskLength = $ipAddressMaskLength;
         $privacyConfig->useAnonymizedIpForVisitEnrichment = $useAnonymizedIpForVisitEnrichment;
         $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
         $privacyConfig->anonymizeUserId = $anonymizeUserId;
