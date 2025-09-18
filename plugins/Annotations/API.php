@@ -316,7 +316,7 @@ class API extends \Piwik\Plugin\API
                     [
                         'count' => $totalCount,
                         'starred' => $starredCount,
-                    ]
+                    ],
                 ];
 
                 if ($getAnnotationText && $totalCount === 1) {
