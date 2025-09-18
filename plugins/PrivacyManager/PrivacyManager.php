@@ -30,6 +30,7 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\View;
+use Piwik\Plugins\PrivacyManager\Settings\ReportRetention as ReportRetentionSetting;
 
 /**
  * Specifically include this for Tracker API (which does not use autoloader)
@@ -569,6 +570,10 @@ class PrivacyManager extends Plugin
             if ($value !== false) {
                 $settings[$configName] = (int) $value;
             }
+        }
+
+        if (!empty($settings['delete_logs_older_than'])) {
+            $settings['delete_logs_older_than'] = ReportRetentionSetting::getInstance()->getValue();
         }
 
         return $settings;
