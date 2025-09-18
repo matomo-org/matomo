@@ -270,7 +270,7 @@ export default defineComponent({
           ? undefined
           : boolToInt(this.actualForceCookielessTracking),
         anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
-        maskLength: this.actualMaskLength,
+        ipAddressMaskLength: this.actualMaskLength,
         useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
         randomizeConfigId: boolToInt(this.actualRandomizeConfigId),
         idSiteSpecific: this.idSiteSpecific ? this.idSiteSpecific : undefined,
