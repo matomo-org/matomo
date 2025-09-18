@@ -61,7 +61,7 @@ class DistributedList
             if (is_array($item)) {
                 $this->logger->info("Found array item in DistributedList option value '{name}': {data}", array(
                     'name' => $this->optionName,
-                    'data' => var_export($result, true)
+                    'data' => var_export($result, true),
                 ));
 
                 unset($result[$key]);

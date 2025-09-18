@@ -268,7 +268,7 @@ b\td\tf\tg",
             },
             "\"col, 1\"\t\"col;2\"
 \"val\"\"1\"\t\"val\"\" 2\"
-val	val#2"
+val	val#2",
         ];
     }
 

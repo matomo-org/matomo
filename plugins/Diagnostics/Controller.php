@@ -37,7 +37,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $configValues = $this->sortConfigValues($configValues);
 
         return $this->renderTemplate('configfile', array(
-            'allConfigValues' => $configValues
+            'allConfigValues' => $configValues,
         ));
     }
 

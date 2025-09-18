@@ -63,7 +63,7 @@ class Configuration
                 'name'        => $name,
                 'active'      => $active,
                 'extractions' => $extractions,
-                'case_sensitive' => $caseSensitive
+                'case_sensitive' => $caseSensitive,
             ),
             "idcustomdimension = " . (int) $idCustomDimension . " and idsite = " . (int) $idSite
         );

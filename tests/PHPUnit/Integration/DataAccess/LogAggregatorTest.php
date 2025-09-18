@@ -85,37 +85,37 @@ class LogAggregatorTest extends IntegrationTestCase
         yield 'normal column names' => [
             ['column', 'column2'],
             'log_visit',
-            ['log_visit.column AS `column`', 'log_visit.column2 AS `column2`']
+            ['log_visit.column AS `column`', 'log_visit.column2 AS `column2`'],
         ];
 
         yield 'normal column names with alias' => [
             ['alias' => 'column', 'alias2' => 'column2'],
             'log_conversion',
-            ['log_conversion.column AS `alias`', 'log_conversion.column2 AS `alias2`']
+            ['log_conversion.column AS `alias`', 'log_conversion.column2 AS `alias2`'],
         ];
 
         yield 'normal column names with and without alias' => [
             ['alias' => 'column', 'column2'],
             'log_conversion',
-            ['log_conversion.column AS `alias`', 'log_conversion.column2 AS `column2`']
+            ['log_conversion.column AS `alias`', 'log_conversion.column2 AS `column2`'],
         ];
 
         yield 'column expression' => [
             ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
             'log_conversion',
-            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"]
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
         ];
 
         yield 'column expression with alias' => [
             ['alias' => "CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
             'log_conversion',
-            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, '')) AS `alias`"]
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, '')) AS `alias`"],
         ];
 
         yield 'mixed dimension content' => [
             ['alias' => "CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))", 'mycolumn', 'newalias' => 'column2'],
             'log_conversion',
-            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, '')) AS `alias`", 'log_conversion.mycolumn AS `mycolumn`', 'log_conversion.column2 AS `newalias`']
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, '')) AS `alias`", 'log_conversion.mycolumn AS `mycolumn`', 'log_conversion.column2 AS `newalias`'],
         ];
     }
 
@@ -137,37 +137,37 @@ class LogAggregatorTest extends IntegrationTestCase
         yield 'normal column names' => [
             ['column', 'column2'],
             'log_visit',
-            ['log_visit.column', 'log_visit.column2']
+            ['log_visit.column', 'log_visit.column2'],
         ];
 
         yield 'normal column names with alias' => [
             ['alias' => 'column', 'alias2' => 'column2'],
             'log_conversion',
-            ['alias', 'alias2']
+            ['alias', 'alias2'],
         ];
 
         yield 'normal column names with and without alias' => [
             ['alias' => 'column', 'column2'],
             'log_conversion',
-            ['alias', 'log_conversion.column2']
+            ['alias', 'log_conversion.column2'],
         ];
 
         yield 'column expression' => [
             ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
             'log_conversion',
-            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"]
+            ["CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
         ];
 
         yield 'column expression with alias' => [
             ['alias' => "CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))"],
             'log_conversion',
-            ['alias']
+            ['alias'],
         ];
 
         yield 'mixed dimension content' => [
             ['alias' => "CONCAT(log_visit.config_os, ';', COALESCE(log_visit.config_os_version, ''))", 'mycolumn', 'newalias' => 'column2'],
             'log_conversion',
-            ['alias', 'log_conversion.mycolumn', 'newalias']
+            ['alias', 'log_conversion.mycolumn', 'newalias'],
         ];
     }
 
@@ -187,8 +187,8 @@ class LogAggregatorTest extends IntegrationTestCase
             'bind' => array (
                 0 => '2010-03-01 00:00:00',
                 1 => '2010-03-31 23:59:59',
-                2 => 1
-            )
+                2 => 1,
+            ),
         );
         $this->assertSame($expected, $query);
     }
@@ -217,8 +217,8 @@ class LogAggregatorTest extends IntegrationTestCase
                 '2010-03-01 00:00:00',
                 '2010-03-31 23:59:59',
                 1,
-                '1'
-            )
+                '1',
+            ),
         );
         $this->assertSame($expected, $query);
     }
@@ -246,7 +246,7 @@ class LogAggregatorTest extends IntegrationTestCase
                 '2010-03-01 00:00:00',
                 '2010-03-31 23:59:59',
                 1,
-            )
+            ),
         );
         $this->assertSame($expected, $query);
     }
@@ -283,7 +283,7 @@ class LogAggregatorTest extends IntegrationTestCase
                 '2010-03-01 00:00:00',
                 '2010-03-31 23:59:59',
                 1,
-            ]
+            ],
         ];
         $this->assertSame($expected, $query);
     }
@@ -320,7 +320,7 @@ class LogAggregatorTest extends IntegrationTestCase
                 '2010-03-01 00:00:00',
                 '2010-03-31 23:59:59',
                 1,
-            ]
+            ],
         ];
         $this->assertSame($expected, $query);
     }
@@ -404,7 +404,7 @@ class LogAggregatorTest extends IntegrationTestCase
                 '2010-03-01 00:00:00',
                 '2010-03-31 23:59:59',
                 1,
-            )
+            ),
         );
         $this->assertSame($expected, $query);
     }
@@ -463,8 +463,8 @@ class LogAggregatorTest extends IntegrationTestCase
                 '2010-03-01 00:00:00',
                 '2010-03-31 23:59:59',
                 1,
-                '1'
-            ]
+                '1',
+            ],
         ];
         $this->assertSame($expected, $query);
     }
@@ -492,8 +492,8 @@ class LogAggregatorTest extends IntegrationTestCase
                 '2010-03-01 00:00:00',
                 '2010-03-31 23:59:59',
                 1,
-                '1'
-            ]
+                '1',
+            ],
         ];
         $this->assertSame($expected, $query);
     }
@@ -523,8 +523,8 @@ class LogAggregatorTest extends IntegrationTestCase
             'bind' => array (
                 0 => '2010-03-01 00:00:00',
                 1 => '2010-03-31 23:59:59',
-                2 => 1
-            )
+                2 => 1,
+            ),
         );
         $this->assertSame($expected, $query);
     }
@@ -547,8 +547,8 @@ class LogAggregatorTest extends IntegrationTestCase
             'bind' => [
                 0 => '2010-03-01 00:00:00',
                 1 => '2010-03-31 23:59:59',
-                2 => 1
-            ]
+                2 => 1,
+            ],
         ];
         $this->assertSame($expected, $query);
     }
@@ -600,8 +600,8 @@ class LogAggregatorTest extends IntegrationTestCase
             'bind' => [
                 0 => '2010-03-01 00:00:00',
                 1 => '2010-03-31 23:59:59',
-                2 => 1
-            ]
+                2 => 1,
+            ],
         ];
         $this->assertSame($expected, $query);
     }

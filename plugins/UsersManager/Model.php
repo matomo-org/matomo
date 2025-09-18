@@ -408,7 +408,7 @@ class Model
     {
         return array(
           'sql'  => ' (date_expired is null or date_expired > ?)',
-          'bind' => array(Date::now()->getDatetime())
+          'bind' => array(Date::now()->getDatetime()),
         );
     }
 
@@ -548,7 +548,7 @@ class Model
             }
 
             $this->updateTokenAuthTable($token['idusertokenauth'], array(
-              'last_used' => $dateLastUsed
+              'last_used' => $dateLastUsed,
             ));
         }
     }
@@ -660,7 +660,7 @@ class Model
     {
         $this->updateUserFields($userLogin, [
           'invite_token'      => $this->hashTokenAuth($token),
-          'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime()
+          'invite_expired_at' => Date::now()->addDay($expiryInDays)->getDatetime(),
         ]);
     }
 
@@ -675,7 +675,7 @@ class Model
     public function setSuperUserAccess($userLogin, $hasSuperUserAccess)
     {
         $this->updateUserFields($userLogin, array(
-          'superuser_access' => $hasSuperUserAccess ? 1 : 0
+          'superuser_access' => $hasSuperUserAccess ? 1 : 0,
         ));
     }
 

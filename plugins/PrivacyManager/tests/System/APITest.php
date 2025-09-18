@@ -110,8 +110,8 @@ class APITest extends SystemTestCase
                 'idSite'     => 1,
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['day'],
-                'testSuffix' => ''
-            ]
+                'testSuffix' => '',
+            ],
         ];
 
         $apiToTest[] = [['Live.getLastVisitsDetails'],
@@ -120,8 +120,8 @@ class APITest extends SystemTestCase
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['year'],
                 'otherRequestParameters' => ['filter_limit' => '-1'],
-                'testSuffix' => 'allSites'
-            ]
+                'testSuffix' => 'allSites',
+            ],
         ];
 
         $apiToTest[] = [['Live.getLastVisitsDetails'],
@@ -130,8 +130,8 @@ class APITest extends SystemTestCase
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['year'],
                 'otherRequestParameters' => ['doNotFetchActions' => '1', 'filter_limit' => '-1'],
-                'testSuffix' => 'allSites_noActions'
-            ]
+                'testSuffix' => 'allSites_noActions',
+            ],
         ];
 
         return $apiToTest;
@@ -182,8 +182,8 @@ class APITest extends SystemTestCase
             'testSuffix' => 'featureFlagDisabled',
             'otherRequestParameters' => [
                 'idSite' => '1',
-                'complianceType' => 'cnil'
-            ]
+                'complianceType' => 'cnil',
+            ],
         ]);
     }
 
@@ -195,8 +195,8 @@ class APITest extends SystemTestCase
             'testSuffix' => 'complianceTypeNotCnil',
             'otherRequestParameters' => [
                 'idSite' => '1',
-                'complianceType' => 'something else not valid'
-            ]
+                'complianceType' => 'something else not valid',
+            ],
         ]);
     }
 
@@ -214,8 +214,8 @@ class APITest extends SystemTestCase
                 'testSuffix' => 'notSuperAdmin',
                 'otherRequestParameters' => [
                     'idSite' => '1',
-                    'complianceType' => 'cnil'
-                ]
+                    'complianceType' => 'cnil',
+                ],
             ]);
         } finally {
             $access->setSuperUserAccess($originalAccess);
@@ -229,8 +229,8 @@ class APITest extends SystemTestCase
         $this->runApiTests('PrivacyManager.getComplianceStatus', [
             'otherRequestParameters' => [
                 'idSite' => '1',
-                'complianceType' => 'cnil'
-            ]
+                'complianceType' => 'cnil',
+            ],
         ]);
     }
 

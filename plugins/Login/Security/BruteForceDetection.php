@@ -196,7 +196,7 @@ class BruteForceDetection
             $email = StaticContainer::getContainer()->make(SuspiciousLoginAttemptsInLastHourEmail::class, [
                 'login' => $login,
                 'countOverall' => $countOverall,
-                'countDistinctIps' => $distinctIps
+                'countDistinctIps' => $distinctIps,
             ]);
             $email->send();
 

@@ -348,7 +348,7 @@ class ReferrerAttributionTest extends IntegrationTestCase
                                         $referrerAttributionCookieValuesAfterReturn,
                                         $createNewVisitWhenWebsiteReferrerChanges,
                                         $addSecondReferrerAsSiteUrl,
-                                        $createNewVisitWhenCampaignChanges
+                                        $createNewVisitWhenCampaignChanges,
                                     ];
 
                                     $dataSet++;

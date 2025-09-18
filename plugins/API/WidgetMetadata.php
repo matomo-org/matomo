@@ -310,7 +310,7 @@ class WidgetMetadata
             'uniqueId' => $this->buildPageId($category->getId(), $subcategory->getId()),
             'category' => $this->buildCategoryMetadata($category),
             'subcategory' => $this->buildSubcategoryMetadata($subcategory),
-            'widgets' => array()
+            'widgets' => array(),
         );
 
         foreach ($widgetConfigs as $config) {

@@ -63,7 +63,7 @@ class MigrateTokenAuths extends ConsoleCommand
                     'description' => 'Created by Matomo 4 migration',
                     'password' => $userModel->hashTokenAuth($user['token_auth']),
                     'date_created' => Date::now()->getDatetime(),
-                    'hash_algo' => 'sha512'
+                    'hash_algo' => 'sha512',
                 ));
             }
         }

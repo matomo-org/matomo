@@ -162,7 +162,7 @@ class ApiTest extends SystemTestCase
             'nb_total_overall_bandwidth',
             'nb_total_pageview_bandwidth',
             'nb_total_download_bandwidth',
-            'nb_visits_converted'
+            'nb_visits_converted',
         ];
 
         $apiToTest = array();
@@ -183,8 +183,8 @@ class ApiTest extends SystemTestCase
                             'flat' => '0',
                         ),
                         'testSuffix' => "{$period}_site_{$idSite}_dimension_{$idDimension}",
-                        'xmlFieldsToRemove' => $removeColumns
-                    )
+                        'xmlFieldsToRemove' => $removeColumns,
+                    ),
                 );
             }
         }
@@ -199,7 +199,7 @@ class ApiTest extends SystemTestCase
                 'flat' => '0',
             ),
             'testSuffix' => "day_site_1_dimension_3_expanded",
-            'xmlFieldsToRemove' => $removeColumns
+            'xmlFieldsToRemove' => $removeColumns,
         ));
 
         $apiToTest[] = array($api, array(
@@ -212,7 +212,7 @@ class ApiTest extends SystemTestCase
                 'flat' => '1',
             ),
             'testSuffix' => "day_site_1_dimension_3_flat",
-            'xmlFieldsToRemove' => $removeColumns
+            'xmlFieldsToRemove' => $removeColumns,
         ));
 
         $apiToTest[] = array($api,
@@ -225,8 +225,8 @@ class ApiTest extends SystemTestCase
                     'idDimension' => 1,
                 ),
                 'testSuffix' => "year_site_1_dimension_1_withsegment",
-                'xmlFieldsToRemove' => $removeColumns
-            )
+                'xmlFieldsToRemove' => $removeColumns,
+            ),
         );
 
         $apiToTest[] = array(array('API.getProcessedReport'),
@@ -237,11 +237,11 @@ class ApiTest extends SystemTestCase
                                  'otherRequestParameters' => array(
                                      'apiModule' => 'CustomDimensions',
                                      'apiAction' => 'getCustomDimension',
-                                     'idDimension' => '3'
+                                     'idDimension' => '3',
                                  ),
                                  'testSuffix' => '_actionDimension',
-                                 'xmlFieldsToRemove' => ['idsubdatatable']
-                             )
+                                 'xmlFieldsToRemove' => ['idsubdatatable'],
+                             ),
         );
 
         $apiToTest[] = array(array('API.getProcessedReport'),
@@ -252,11 +252,11 @@ class ApiTest extends SystemTestCase
                 'otherRequestParameters' => array(
                     'apiModule' => 'CustomDimensions',
                     'apiAction' => 'getCustomDimension',
-                    'idDimension' => '1'
+                    'idDimension' => '1',
                 ),
                 'testSuffix' => '_visitDimension',
-                'xmlFieldsToRemove' => ['nb_visits_converted']
-           )
+                'xmlFieldsToRemove' => ['nb_visits_converted'],
+           ),
         );
 
         $removeColumns = [
@@ -266,7 +266,7 @@ class ApiTest extends SystemTestCase
             'totalEcommerceItems',
             'totalAbandonedCarts',
             'totalAbandonedCartsRevenue',
-            'totalAbandonedCartsItems'
+            'totalAbandonedCartsItems',
         ];
 
         $apiToTest[] = array(
@@ -275,8 +275,8 @@ class ApiTest extends SystemTestCase
                 'idSite'                 => 1,
                 'date'                   => self::$fixture->dateTime,
                 'periods'                => array('year'),
-                'xmlFieldsToRemove'      => $removeColumns
-            )
+                'xmlFieldsToRemove'      => $removeColumns,
+            ),
         );
 
         return $apiToTest;
@@ -291,8 +291,8 @@ class ApiTest extends SystemTestCase
             array(
                 'idSite'  => 1,
                 'date'    => self::$fixture->dateTime,
-                'periods' => array('day')
-            )
+                'periods' => array('day'),
+            ),
         );
 
         $apiToTest[] = array(array('API.getSegmentsMetadata'),
@@ -301,9 +301,9 @@ class ApiTest extends SystemTestCase
                 'date' => self::$fixture->dateTime,
                 'periods' => array('year'),
                 'otherRequestParameters' => [
-                    'hideColumns' => 'acceptedValues' // hide accepted values as they might change
-                ]
-            )
+                    'hideColumns' => 'acceptedValues', // hide accepted values as they might change
+                ],
+            ),
         );
 
         $apiToTest[] = array(
@@ -311,16 +311,16 @@ class ApiTest extends SystemTestCase
             array(
                 'idSite'  => 1,
                 'date'    => self::$fixture->dateTime,
-                'periods' => array('day')
-            )
+                'periods' => array('day'),
+            ),
         );
 
         $apiToTest[] = array(array('CustomDimensions.getAvailableExtractionDimensions'),
             array(
                 'idSite'  => 1,
                 'date'    => self::$fixture->dateTime,
-                'periods' => array('day')
-            )
+                'periods' => array('day'),
+            ),
         );
 
         foreach (array(1, 2, 99) as $idSite) {
@@ -331,8 +331,8 @@ class ApiTest extends SystemTestCase
                     'idSite'     => $idSite,
                     'date'       => self::$fixture->dateTime,
                     'periods'    => array('day'),
-                    'testSuffix' => '_' . $idSite
-                )
+                    'testSuffix' => '_' . $idSite,
+                ),
             );
 
             $apiToTest[] = array('CustomDimensions.getConfiguredCustomDimensionsHavingScope',
@@ -353,8 +353,8 @@ class ApiTest extends SystemTestCase
             array(
                 'idSite'  => 1,
                 'date'    => self::$fixture->dateTime,
-                'periods' => array('day')
-            )
+                'periods' => array('day'),
+            ),
         );
 
         return $apiToTest;
@@ -416,7 +416,7 @@ class ApiTest extends SystemTestCase
                 $rowsTableTopLevel,
                 $rowsTableSubTable,
                 $testSuffix . '_expanded',
-                ['expanded' => 1]
+                ['expanded' => 1],
             ];
         }
     }
@@ -431,7 +431,7 @@ class ApiTest extends SystemTestCase
                 $rowsTableTopLevel,
                 $rowsTableSubTable,
                 $testSuffix . '_expanded',
-                ['expanded' => 1]
+                ['expanded' => 1],
             ];
         }
     }

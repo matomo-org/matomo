@@ -126,7 +126,7 @@ class Nonce
             if (empty($allowedReferrerHost) && !Url::isLocalUrl($referrer)) {
                 return Piwik::translate('Login_InvalidNonceReferrer', array(
                         '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/faq_98') . '">',
-                        '</a>'
+                        '</a>',
                     )) . $additionalErrors;
             }
 

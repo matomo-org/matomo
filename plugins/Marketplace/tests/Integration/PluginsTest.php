@@ -68,7 +68,7 @@ class PluginsTest extends IntegrationTestCase
     public function testGetAllAvailablePluginNames()
     {
         $this->service->returnFixture([
-            'v2.0_themes.json', 'v2.0_plugins.json'
+            'v2.0_themes.json', 'v2.0_plugins.json',
         ]);
         $pluginNames = $this->plugins->getAllAvailablePluginNames();
         $expected =  [
@@ -307,7 +307,7 @@ class PluginsTest extends IntegrationTestCase
             'missingRequirements' => [],
             'isMissingLicense' => false,
             'changelog' => [
-                'url' => 'http://plugins.piwik.org/Barometer/changelog'
+                'url' => 'http://plugins.piwik.org/Barometer/changelog',
             ],
             'canBePurchased' => false,
             'isEligibleForFreeTrial' => false,
@@ -499,7 +499,7 @@ class PluginsTest extends IntegrationTestCase
             'emptyObjectResponse.json',
             'emptyObjectResponse.json',
             'emptyObjectResponse.json',
-            'v2.0_plugins_TreemapVisualization_info.json'
+            'v2.0_plugins_TreemapVisualization_info.json',
         ]);
         $apis = [];
         $this->service->setOnFetchCallback(function ($action, $params) use (&$apis) {
@@ -527,7 +527,7 @@ class PluginsTest extends IntegrationTestCase
             'plugins/QueuedTracking/info',
             'plugins/SecurityInfo/info',
             'plugins/TasksTimetable/info',
-            'plugins/TreemapVisualization/info'
+            'plugins/TreemapVisualization/info',
         ];
         $this->assertSame($expectedApiCalls, $apis);
     }
@@ -581,7 +581,7 @@ class PluginsTest extends IntegrationTestCase
             'TrackingCodeCustomizer',
             'TreemapVisualization',
             'UptimeRobotMonitor',
-            'VisitorAvatar'
+            'VisitorAvatar',
         ];
     }
 }

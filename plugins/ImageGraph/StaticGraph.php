@@ -345,7 +345,7 @@ abstract class StaticGraph extends BaseFactory
             array(
                  'Alpha'    => 0,
                  'FontSize' => $fontSize,
-                 'FontName' => $this->font
+                 'FontName' => $this->font,
             )
         );
 
@@ -394,7 +394,7 @@ abstract class StaticGraph extends BaseFactory
             return array(
                 'R' => hexdec($matches[1]),
                 'G' => hexdec($matches[2]),
-                'B' => hexdec($matches[3])
+                'B' => hexdec($matches[3]),
             );
         } else {
             return [];

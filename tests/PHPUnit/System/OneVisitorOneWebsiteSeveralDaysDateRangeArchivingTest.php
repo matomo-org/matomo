@@ -73,7 +73,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
                                                     'segment' => $segment,
                                                     'otherRequestParameters' => array(
                                                         'flat'                   => '0',
-                                                        'expanded'               => '0'
+                                                        'expanded'               => '0',
                                                     ),
                 ));
             }
@@ -85,18 +85,18 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeArchivingTest extends SystemTestCa
                                                        'periods' => array('range'),
                                                        'otherRequestParameters' => array(
                                                            'flat'                   => '1',
-                                                           'expanded'               => '0'
+                                                           'expanded'               => '0',
                                                        ),
-                                                       'testSuffix' => '_periodIsRange_flattened_')
+                                                       'testSuffix' => '_periodIsRange_flattened_'),
         );
         // testing the same with expanded=1 should not create new archive records
         $result[] = array('Actions.getPageUrls', array('idSite'  => $idSite, 'date' => '2011-01-01,2011-02-01',
                                                        'periods' => array('range'),
                                                        'otherRequestParameters' => array(
                                                            'flat'                   => '0',
-                                                           'expanded'               => '1'
+                                                           'expanded'               => '1',
                                                        ),
-                                                       'testSuffix' => '_periodIsRange_expanded_')
+                                                       'testSuffix' => '_periodIsRange_expanded_'),
         );
         return $result;
     }

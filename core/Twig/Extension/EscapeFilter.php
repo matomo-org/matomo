@@ -18,7 +18,7 @@ class EscapeFilter extends AbstractExtension
     {
         return [
             new TwigFilter('e', '\Piwik\piwik_escape_filter', ['needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe']),
-            new TwigFilter('escape', '\Piwik\piwik_escape_filter', ['needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe'])
+            new TwigFilter('escape', '\Piwik\piwik_escape_filter', ['needs_environment' => true, 'is_safe_callback' => 'twig_escape_filter_is_safe']),
         ];
     }
 

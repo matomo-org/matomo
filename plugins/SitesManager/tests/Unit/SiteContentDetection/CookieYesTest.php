@@ -34,21 +34,21 @@ class CookieYesTest extends \PHPUnit\Framework\TestCase
             false,
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no cookieyes content' => [
             false,
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'cookieyes content found' => [
             true,
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script src='://cookieyes.com/bla.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'cookieyes connected' => [
@@ -57,7 +57,7 @@ class CookieYesTest extends \PHPUnit\Framework\TestCase
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script src='://cookieyes.com/bla.js'></script><script>
 document.addEventListener(\"cookieyes_consent_update\", function (eventData) { });
 </script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

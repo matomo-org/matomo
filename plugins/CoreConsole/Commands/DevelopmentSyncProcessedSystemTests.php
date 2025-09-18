@@ -98,7 +98,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
         if ($tar->extract($targetDir)) {
             $this->writeSuccessMessage(array(
                 'All processed system test results were copied to <comment>' . $targetDir . '</comment>',
-                'Compare them with the expected test results and commit them if needed.'
+                'Compare them with the expected test results and commit them if needed.',
             ));
         } else {
             $output->write('<error>' . $tar->errorInfo() . '.</error>');
@@ -158,7 +158,7 @@ class DevelopmentSyncProcessedSystemTests extends ConsoleCommand
 
         $this->writeSuccessMessage(array(
             'All processed plugin system test results were copied to <comment>' . $targetDir . '</comment>',
-            'Compare them with the expected test results and commit them if needed.'
+            'Compare them with the expected test results and commit them if needed.',
         ));
 
         unlink($tarFile);

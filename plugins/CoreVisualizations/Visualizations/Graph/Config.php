@@ -110,12 +110,12 @@ class Config extends VisualizationConfig
             'allow_multi_select_series_picker',
             'selectable_columns',
             'selectable_rows',
-            'display_percentage_in_tooltip'
+            'display_percentage_in_tooltip',
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(
             'show_all_ticks',
-            'show_series_picker'
+            'show_series_picker',
         ));
     }
 }

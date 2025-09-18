@@ -27,7 +27,7 @@ class RssWidget extends \Piwik\Plugin
         return array(
             'AssetManager.getStylesheetFiles' => 'getStylesheetFiles',
             'Request.getRenamedModuleAndAction' => 'renameExampleRssWidgetModule',
-            'Widget.filterWidgets' => 'filterWidgets'
+            'Widget.filterWidgets' => 'filterWidgets',
         );
     }
 

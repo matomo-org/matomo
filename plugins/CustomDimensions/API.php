@@ -251,7 +251,7 @@ class API extends \Piwik\Plugin\API
                 'numSlotsAvailable' => count($indexes),
                 'numSlotsUsed' => count($configs),
                 'numSlotsLeft' => count($indexes) - count($configs),
-                'supportsExtractions' => CustomDimensions::doesScopeSupportExtractions($scope)
+                'supportsExtractions' => CustomDimensions::doesScopeSupportExtractions($scope),
             );
         }
 

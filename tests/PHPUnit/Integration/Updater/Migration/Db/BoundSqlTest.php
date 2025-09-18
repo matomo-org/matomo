@@ -40,7 +40,7 @@ class BoundSqlTest extends IntegrationTestCase
     public function testToStringShouldReplacePlaceHolders()
     {
         $sql = $this->boundSql('DELETE FROM table WHERE x=?, foobar = ?, xyz = ?', array(
-            'my value 1', 5, 'test\' val\ue"'
+            'my value 1', 5, 'test\' val\ue"',
         ));
 
         $this->assertSame("DELETE FROM table WHERE x='my value 1', foobar = 5, xyz = 'test\' val\\\\ue\\\"';", '' . $sql);

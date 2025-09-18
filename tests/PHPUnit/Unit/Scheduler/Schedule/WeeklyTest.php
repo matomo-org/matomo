@@ -133,7 +133,7 @@ class WeeklyTest extends \PHPUnit\Framework\TestCase
             array('monday', 'JANUARY_11_1971_00_00_00'),
             array('Monday', 'JANUARY_11_1971_00_00_00'),
             array('FRIDAY', 'JANUARY_08_1971_00_00_00'),
-            array('FrIdAy', 'JANUARY_08_1971_00_00_00')
+            array('FrIdAy', 'JANUARY_08_1971_00_00_00'),
         );
     }
 

@@ -111,7 +111,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
 
         $expected = array(
             'licenses' => array(),
-            'loginUrl' => 'https://shop.piwik.org/my-account'
+            'loginUrl' => 'https://shop.piwik.org/my-account',
         );
 
         $this->assertSame($expected, $this->buildConsumer()->getConsumer());
@@ -130,7 +130,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
         return array(
             array('v2.0_consumer_validate-access_token-consumer1_paid2_custom1.json'),
             array('v2.0_consumer_validate-access_token-consumer2_paid1.json'),
-            array('v2.0_consumer_validate-access_token-validbutnolicense.json') // valid token but no license
+            array('v2.0_consumer_validate-access_token-validbutnolicense.json'), // valid token but no license
         );
     }
 

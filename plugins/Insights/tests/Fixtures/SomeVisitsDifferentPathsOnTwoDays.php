@@ -47,7 +47,7 @@ class SomeVisitsDifferentPathsOnTwoDays extends Fixture
             '/Old1' => 9,
             '/Mover2' => 24,
             '/Mover3' => 21,
-            '/Old2' => 3
+            '/Old2' => 3,
         ));
 
         $this->trackPageViews($this->date1, array(
@@ -55,7 +55,7 @@ class SomeVisitsDifferentPathsOnTwoDays extends Fixture
             '/New1' => 5,
             '/Mover2' => 13,
             '/Mover3' => 20,
-            '/New2' => 2
+            '/New2' => 2,
         ));
     }
 

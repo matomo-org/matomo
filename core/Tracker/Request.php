@@ -343,7 +343,7 @@ class Request
         $localTimes = array(
             'h' => (string)Common::getRequestVar('h', $this->getCurrentDate("H"), 'int', $this->params),
             'i' => (string)Common::getRequestVar('m', $this->getCurrentDate("i"), 'int', $this->params),
-            's' => (string)Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params)
+            's' => (string)Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params),
         );
         if ($localTimes['h'] < 0 || $localTimes['h'] > 23) {
             $localTimes['h'] = 0;

@@ -171,7 +171,7 @@ class UITestFixture extends SqlDump
             'loadRealTranslations' => 1,
         ];
         $this->extraPluginsToLoad = [
-            'CustomDirPlugin'
+            'CustomDirPlugin',
         ];
 
         parent::performSetUp($setupEnvironmentOnly);
@@ -317,7 +317,7 @@ class UITestFixture extends SqlDump
             'page-3.html',
             'page-4.html',
             'page-5.html',
-            'page-6.html'
+            'page-6.html',
         ];
 
         // copy templates to overlay-test-site-real
@@ -396,12 +396,12 @@ class UITestFixture extends SqlDump
                         'module' => 'VisitsSummary',
                         'action' => 'getEvolutionGraph',
                         'forceView' => '1',
-                        'viewDataTable' => 'graphEvolution'
-                    ]
-                ]
+                        'viewDataTable' => 'graphEvolution',
+                    ],
+                ],
             ],
             [],
-            []
+            [],
         ];
 
         $_GET['name'] = 'D4';
@@ -424,7 +424,7 @@ class UITestFixture extends SqlDump
 
         // collect widgets & sort them so widget order is not important
         $allWidgets = Request::processRequest('API.getWidgetMetadata', [
-            'idSite' => 1
+            'idSite' => 1,
         ]);
 
         usort($allWidgets, function ($lhs, $rhs) {
@@ -449,7 +449,7 @@ class UITestFixture extends SqlDump
 
             $widgetEntry = [
                 'uniqueId' => $widget['uniqueId'],
-                'parameters' => $widget['parameters']
+                'parameters' => $widget['parameters'],
             ];
 
             // for realtime map, disable some randomness
@@ -587,7 +587,7 @@ class UITestFixture extends SqlDump
             }),
 
             SegmentArchiving::class => \Piwik\DI::autowire()
-                ->constructorParameter('beginningOfTimeLastNInYears', 15)
+                ->constructorParameter('beginningOfTimeLastNInYears', 15),
         ];
     }
 

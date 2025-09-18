@@ -180,7 +180,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $email = $container->make(JsTrackingCodeMissingEmail::class, array(
             'login' => $user['login'],
             'emailAddress' => $user['email'],
-            'idSite' => $idSite
+            'idSite' => $idSite,
         ));
         $email->send();
     }

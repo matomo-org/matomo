@@ -68,7 +68,7 @@ class GenerateReport extends GeneratePluginBase
             sprintf('plugins/%s/Reports/%s.php for %s generated.', $pluginName, ucfirst($apiName), $pluginName),
             'You should now implement the method called <comment>"' . lcfirst($apiName) . '()"</comment> in API.php',
            // 'Read more about this here: link to developer guide',
-            'Enjoy!'
+            'Enjoy!',
         ));
 
         return self::SUCCESS;

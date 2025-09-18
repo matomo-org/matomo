@@ -137,7 +137,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'hasLicenseKey' => $hasLicenseKey,
             'subscriptions' => $subscriptions,
             'loginUrl' => $loginUrl,
-            'numUsers' => $this->environment->getNumUsers()
+            'numUsers' => $this->environment->getNumUsers(),
         ));
     }
 
@@ -274,7 +274,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
             'premium' => Piwik::translate('Marketplace_PaidPlugins'),
-            'themes' => Piwik::translate('CorePluginsAdmin_Themes')
+            'themes' => Piwik::translate('CorePluginsAdmin_Themes'),
         );
         $view->pluginSortOptions = array(
             Sort::METHOD_LAST_UPDATED => Piwik::translate('Marketplace_SortByLastUpdated'),
@@ -358,7 +358,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $params = array(
             'module' => 'Marketplace',
             'action' => 'installAllPaidPlugins',
-            'nonce' => Common::getRequestVar('nonce')
+            'nonce' => Common::getRequestVar('nonce'),
         );
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             Nonce::checkNonce(static::INSTALL_NONCE);
@@ -463,7 +463,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'action' => 'installPlugin',
             'mode' => 'admin',
             'pluginName' => Common::getRequestVar('pluginName'),
-            'nonce' => Common::getRequestVar('nonce')
+            'nonce' => Common::getRequestVar('nonce'),
         );
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             $view = $this->createUpdateOrInstallView('installPlugin', static::INSTALL_NONCE);

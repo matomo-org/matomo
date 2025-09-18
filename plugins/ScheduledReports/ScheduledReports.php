@@ -58,7 +58,7 @@ class ScheduledReports extends \Piwik\Plugin
     );
 
     private static $managedReportTypes = array(
-        self::EMAIL_TYPE => 'plugins/Morpheus/images/email.png'
+        self::EMAIL_TYPE => 'plugins/Morpheus/images/email.png',
     );
 
     private static $managedReportFormats = array(
@@ -97,7 +97,7 @@ class ScheduledReports extends \Piwik\Plugin
             'SegmentEditor.update'                      => 'segmentUpdated',
             'Translate.getClientSideTranslationKeys'    => 'getClientSideTranslationKeys',
             'Request.getRenamedModuleAndAction'         => 'renameDeprecatedModuleAndAction',
-            'Db.getTablesInstalled'                     => 'getTablesInstalled'
+            'Db.getTablesInstalled'                     => 'getTablesInstalled',
         );
     }
 

@@ -155,7 +155,7 @@ class WidgetsListTest extends \PHPUnit\Framework\TestCase
             array('Actions', 'index', $isDefined = true),
             array('Actions', 'renderMe', $isDefined = false),
             array('AnyThiNg', 'renderMe', $isDefined = false),
-            array('CoreHome', 'index', $isDefined = false)
+            array('CoreHome', 'index', $isDefined = false),
         );
     }
 

@@ -181,37 +181,37 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         // compare with previous
         $this->assertSetSparklineDatePeriods([
             'period' => 'day','date' => '2022-05-02,2022-05-02',
-            'comparePeriods' => ['day'], 'compareDates' => ['2022-05-01,2022-05-01']
+            'comparePeriods' => ['day'], 'compareDates' => ['2022-05-01,2022-05-01'],
         ], $day, [$dayPrevious]);
 
         $this->assertSetSparklineDatePeriods([
             'period' => 'day','date' => $week->getRangeString(),
-            'comparePeriods' => ['day'], 'compareDates' => [$weekPrevious->getRangeString()]
+            'comparePeriods' => ['day'], 'compareDates' => [$weekPrevious->getRangeString()],
         ], $week, [$weekPrevious]);
 
         $this->assertSetSparklineDatePeriods([
             'period' => 'day','date' => $month->getRangeString(),
-            'comparePeriods' => ['day'], 'compareDates' => [$monthPrevious->getRangeString()]
+            'comparePeriods' => ['day'], 'compareDates' => [$monthPrevious->getRangeString()],
         ], $month, [$monthPrevious]);
 
         $this->assertSetSparklineDatePeriods([
             'period' => 'week','date' => $year->getRangeString(),
-            'comparePeriods' => ['week'], 'compareDates' => [$yearPrevious->getRangeString()]
+            'comparePeriods' => ['week'], 'compareDates' => [$yearPrevious->getRangeString()],
         ], $year, [$yearPrevious]);
 
         $this->assertSetSparklineDatePeriods([
             'period' => 'day','date' => $shortRange->getRangeString(),
-            'comparePeriods' => ['day'], 'compareDates' => [$shortRangePrevious->getRangeString()]
+            'comparePeriods' => ['day'], 'compareDates' => [$shortRangePrevious->getRangeString()],
         ], $shortRange, [$shortRangePrevious]);
 
         $this->assertSetSparklineDatePeriods([
             'period' => 'week','date' => $mediumRange->getRangeString(),
-            'comparePeriods' => ['week'], 'compareDates' => [$mediumRangePrevious->getRangeString()]
+            'comparePeriods' => ['week'], 'compareDates' => [$mediumRangePrevious->getRangeString()],
         ], $mediumRange, [$mediumRangePrevious]);
 
         $this->assertSetSparklineDatePeriods([
             'period' => 'month','date' => $largeRange->getRangeString(),
-            'comparePeriods' => ['month'], 'compareDates' => [$largeRangePrevious->getRangeString()]
+            'comparePeriods' => ['month'], 'compareDates' => [$largeRangePrevious->getRangeString()],
         ], $largeRange, [$largeRangePrevious]);
 
         // MIXED LENGTH PERIODS GIVEN SHOULD USE LOWEST PERIOD IN COMMON
@@ -219,25 +219,25 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         // largeRange would usually use period months but because there is a year it should use lower period week
         $this->assertSetSparklineDatePeriods([
             'period' => 'week','date' => $year->getRangeString(),
-            'comparePeriods' => ['week'], 'compareDates' => [$largeRangePrevious->getRangeString()]
+            'comparePeriods' => ['week'], 'compareDates' => [$largeRangePrevious->getRangeString()],
         ], $year, [$largeRangePrevious]);
 
         // largeRange would usually use period months but because there is a year it should use lower period week
         $this->assertSetSparklineDatePeriods([
             'period' => 'week','date' => $largeRangePrevious->getRangeString(),
-            'comparePeriods' => ['week'], 'compareDates' => [$year->getRangeString()]
+            'comparePeriods' => ['week'], 'compareDates' => [$year->getRangeString()],
         ], $largeRangePrevious, [$year]);
 
         // largeRange would usually use period months but because there is a day it should use lower period day
         $this->assertSetSparklineDatePeriods([
             'period' => 'day','date' => $day->getRangeString(),
-            'comparePeriods' => ['day'], 'compareDates' => [$largeRange->getRangeString()]
+            'comparePeriods' => ['day'], 'compareDates' => [$largeRange->getRangeString()],
         ], $day, [$largeRange]);
 
         // largeRange would usually use period months but because there is a day it should use lower period day
         $this->assertSetSparklineDatePeriods([
             'period' => 'day','date' => $largeRange->getRangeString(),
-            'comparePeriods' => ['day'], 'compareDates' => [$day->getRangeString()]
+            'comparePeriods' => ['day'], 'compareDates' => [$day->getRangeString()],
         ], $largeRange, [$day]);
 
         // USING MULTIPLE COMPARISON PERIODS
@@ -245,12 +245,12 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
         // largeRange would usually use period months but because the lowest comparison period is a day it should use lower period day
         $this->assertSetSparklineDatePeriods([
             'period' => 'day','date' => $year->getRangeString(),
-            'comparePeriods' => ['day', 'day'], 'compareDates' => [$largeRangePrevious->getRangeString(), $weekPrevious->getRangeString()]
+            'comparePeriods' => ['day', 'day'], 'compareDates' => [$largeRangePrevious->getRangeString(), $weekPrevious->getRangeString()],
         ], $year, [$largeRangePrevious, $weekPrevious]);
 
         $this->assertSetSparklineDatePeriods([
             'period' => 'week','date' => $year->getRangeString(),
-            'comparePeriods' => ['week', 'week'], 'compareDates' => [$largeRangePrevious->getRangeString(), $mediumRangePrevious->getRangeString()]
+            'comparePeriods' => ['week', 'week'], 'compareDates' => [$largeRangePrevious->getRangeString(), $mediumRangePrevious->getRangeString()],
         ], $year, [$largeRangePrevious, $mediumRangePrevious]);
     }
 
@@ -276,7 +276,7 @@ class EvolutionPeriodSelectorTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

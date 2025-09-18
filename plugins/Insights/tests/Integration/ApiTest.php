@@ -114,7 +114,7 @@ class ApiTest extends SystemTestCase
                 'isNew' => 0,
                 'isMover' => 0,
                 'isMoverAndShaker' => 0,
-            ]
+            ],
         );
 
         self::assertIsArray($metadata['report']);
@@ -154,7 +154,7 @@ class ApiTest extends SystemTestCase
             '/Mover2',
             '/Old1',
             '/Old2',
-            '/Mover3'
+            '/Mover3',
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -184,7 +184,7 @@ class ApiTest extends SystemTestCase
             '/Mover2',
             '/Old1',
             '/Old2',
-            '/Mover3'
+            '/Mover3',
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -200,7 +200,7 @@ class ApiTest extends SystemTestCase
             '/Old1',
             '/Old2',
             '/Mover2',
-            '/Mover3'
+            '/Mover3',
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -216,7 +216,7 @@ class ApiTest extends SystemTestCase
             '/New1',
             '/Old2',
             '/New2',
-            '/Mover3'
+            '/Mover3',
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -227,7 +227,7 @@ class ApiTest extends SystemTestCase
 
         $expectedLabels = array(
             '/Mover1',
-            '/Mover2'
+            '/Mover2',
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -239,7 +239,7 @@ class ApiTest extends SystemTestCase
         $expectedLabels = array(
             '/Mover1',
             '/Mover2',
-            '/Mover3'
+            '/Mover3',
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -250,7 +250,7 @@ class ApiTest extends SystemTestCase
 
         $expectedLabels = array(
             '/New1',
-            '/New2'
+            '/New2',
         );
         $this->assertRows($expectedLabels, $insights);
     }
@@ -261,7 +261,7 @@ class ApiTest extends SystemTestCase
 
         $expectedLabels = array(
             '/Old1',
-            '/Old2'
+            '/Old2',
         );
         $this->assertRows($expectedLabels, $insights);
     }

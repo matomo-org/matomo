@@ -67,8 +67,8 @@ class DuplicateActionsTest extends SystemTestCase
                               'compareAgainst' => 'OneVisitorTwoVisits',
                               'otherRequestParameters' => array(
                                    'hideColumns' => OneVisitorTwoVisits::getValueForHideColumns(),
-                              )
-            ))
+                              ),
+            )),
         );
     }
 

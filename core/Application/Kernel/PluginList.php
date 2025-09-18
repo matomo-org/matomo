@@ -46,12 +46,12 @@ class PluginList
         'ExampleAPI',
         'ExampleVue',
         'MobileAppMeasurable',
-        'TagManager'
+        'TagManager',
     );
 
     // Themes bundled with core package, disabled by default
     private $coreThemesDisabledByDefault = array(
-        'ExampleTheme'
+        'ExampleTheme',
     );
 
     public function __construct(GlobalSettingsProvider $settings)

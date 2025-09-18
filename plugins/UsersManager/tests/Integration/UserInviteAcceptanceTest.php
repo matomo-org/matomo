@@ -30,7 +30,7 @@ class UserInviteAcceptanceTest extends IntegrationTestCase
      */
     private $pendingUser = [
         'login' => '000pendingUser4',
-        'email' => 'pendinguser4light@example.com'
+        'email' => 'pendinguser4light@example.com',
     ];
 
     private $invitedUserLanguage = 'de';

@@ -45,8 +45,8 @@ class AutoSuggestTest extends SystemTestCase
                     'segmentName' => 'dimension1',
                     'idSite' => self::$fixture->idSite,
                 ),
-                'testSuffix' => '_visitScope'
-            )
+                'testSuffix' => '_visitScope',
+            ),
         );
 
         $apiToTest[] = array(array('API.getSuggestedValuesForSegment'),
@@ -58,8 +58,8 @@ class AutoSuggestTest extends SystemTestCase
                     'segmentName' => 'dimension3',
                     'idSite' => self::$fixture->idSite,
                 ),
-                'testSuffix' => '_actionScope'
-            )
+                'testSuffix' => '_actionScope',
+            ),
         );
 
         return $apiToTest;

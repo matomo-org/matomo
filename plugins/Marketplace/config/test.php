@@ -210,5 +210,5 @@ return array(
         });
 
         return $service;
-    })
+    }),
 );

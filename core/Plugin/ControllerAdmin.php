@@ -108,7 +108,7 @@ abstract class ControllerAdmin extends Controller
         }
 
         $pluginsLink = Url::getCurrentQueryStringWithParametersModified([
-            'module' => 'CorePluginsAdmin', 'action' => 'plugins'
+            'module' => 'CorePluginsAdmin', 'action' => 'plugins',
         ]);
 
         $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', [
@@ -117,7 +117,7 @@ abstract class ControllerAdmin extends Controller
             . "<br/>"
             . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', [
                 '<a href="' . $pluginsLink . '"/>',
-                '</a>'
+                '</a>',
             ]);
 
         $notification = new Notification($invalidPluginsWarning);

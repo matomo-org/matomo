@@ -25,7 +25,7 @@ class ArchivesToPurgeDistributedListTest extends IntegrationTestCase
             '2013_02' => array(3),
             3 => '2015_03',
             '2014_01' => array(),
-            4 => '2015_06'
+            4 => '2015_06',
         );
         Option::set(ArchivesToPurgeDistributedList::OPTION_INVALIDATED_DATES_SITES_TO_PURGE, serialize($oldItems));
 

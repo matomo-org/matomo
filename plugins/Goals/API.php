@@ -408,7 +408,7 @@ class API extends \Piwik\Plugin\API
         $reportToNotDefinedString = array(
             'Goals_ItemsSku' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductSKU')), // Note: this should never happen
             'Goals_ItemsName' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductName')),
-            'Goals_ItemsCategory' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductCategory'))
+            'Goals_ItemsCategory' => Piwik::translate('General_NotDefined', Piwik::translate('Goals_ProductCategory')),
         );
         $notDefinedStringPretty = $reportToNotDefinedString[$recordName];
         $this->renameNotDefinedRow($dataTable, $notDefinedStringPretty);
@@ -538,7 +538,7 @@ class API extends \Piwik\Plugin\API
         $segments = array(
             '' => false,
             '_new_visit' => VisitFrequencyAPI::NEW_VISITOR_SEGMENT,
-            '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT
+            '_returning_visit' => VisitFrequencyAPI::RETURNING_VISITOR_SEGMENT,
         );
 
         foreach ($segments as $appendToMetricName => $predefinedSegment) {

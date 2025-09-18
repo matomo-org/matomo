@@ -54,7 +54,7 @@ class KeywordsFromSearchEngineId extends BaseFilter
                 function ($keyword, $url) {
                     return SearchEngine::getInstance()->getBackLinkFromUrlAndKeyword($url, $keyword);
                 },
-                array($searchEngineUrl)
+                array($searchEngineUrl),
             ));
             $table->queueFilter(function (DataTable $table) {
                 $row = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);

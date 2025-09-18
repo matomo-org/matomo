@@ -230,7 +230,7 @@ class ClientTest extends SystemTestCase
             'php' => $this->environment->getPhpVersion(),
             'mysql' => $this->environment->getMySQLVersion(),
             'num_users' => $this->environment->getNumUsers(),
-            'num_websites' => $this->environment->getNumWebsites()
+            'num_websites' => $this->environment->getNumWebsites(),
         );
         $id = 'marketplace.api.2.0.plugins.' . md5(Http::buildQuery($params));
 

@@ -203,7 +203,7 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
              * Expected :
              *  getRescheduledTime returns Sunday February 28 1971 00:00:00 UTC
              */
-            array('JANUARY_15_1971_09_00_00', 31, 'FEBRUARY_28_1971_00_00_00')
+            array('JANUARY_15_1971_09_00_00', 31, 'FEBRUARY_28_1971_00_00_00'),
         );
     }
 
@@ -225,7 +225,7 @@ class MonthlyTest extends \PHPUnit\Framework\TestCase
     {
         return array(
             array('first wednesday', 'FEBRUARY_03_1971_09_00_00'),
-            array('ThIrD sUnDaY', 'FEBRUARY_21_1971_09_00_00')
+            array('ThIrD sUnDaY', 'FEBRUARY_21_1971_09_00_00'),
         );
     }
 

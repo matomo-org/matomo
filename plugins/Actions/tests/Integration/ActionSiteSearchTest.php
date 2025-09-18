@@ -42,7 +42,7 @@ class ActionSiteSearchTest extends IntegrationTestCase
         $defaultWebsite = [
             'idSite' => 1,
             'sitesearch_keyword_parameters' => ['q','k'],
-            'sitesearch_category_parameters' => ['cat','cc']
+            'sitesearch_category_parameters' => ['cat','cc'],
         ];
 
         return [

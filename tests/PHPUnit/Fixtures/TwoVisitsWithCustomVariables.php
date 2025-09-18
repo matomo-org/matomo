@@ -73,7 +73,7 @@ class TwoVisitsWithCustomVariables extends Fixture
             '',
             '',
             1302306504,
-            'http://www.google.com/search?q=piwik&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-GB:official&client=firefox-a'
+            'http://www.google.com/search?q=piwik&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-GB:official&client=firefox-a',
         );
         $visitorA->setAttributionInfo(json_encode($attribution));
 
@@ -146,7 +146,7 @@ class TwoVisitsWithCustomVariables extends Fixture
             ' CAMPAIGN NAME -%20YEAH! ',
             ' CAMPAIGN%20KEYWORD - RIGHT... ',
             1302306504,
-            'http://www.example.org/test/really?q=yes'
+            'http://www.example.org/test/really?q=yes',
         );
         $visitorB->setAttributionInfo(json_encode($attribution));
         $visitorB->setResolution($this->resolutionWidthToUse, $this->resolutionHeightToUse);

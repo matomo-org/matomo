@@ -76,7 +76,7 @@ class CacheTest extends IntegrationTestCase
         return [
             ['foo..test'],
             ['foo\test'],
-            ['']
+            [''],
         ];
     }
 

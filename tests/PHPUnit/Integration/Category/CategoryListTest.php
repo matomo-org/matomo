@@ -56,7 +56,7 @@ class CategoryListTest extends IntegrationTestCase
             'ProfessionalServices_PromoMediaAnalytics',
             'ProfessionalServices_PromoSessionRecording',
             'ExampleUI_UiFramework',
-            'CustomVariables_CustomVariables'
+            'CustomVariables_CustomVariables',
         ), array_keys($list->getCategories()));
     }
 
@@ -98,7 +98,7 @@ class CategoryListTest extends IntegrationTestCase
             'Goals_Goals',
             'Goals_Ecommerce',
             'Referrers_Referrers',
-            'General_AnyThingNotExist' // should be created dynamically as none exists
+            'General_AnyThingNotExist', // should be created dynamically as none exists
         );
         $this->assertSame($categoryNames, array_keys($list->getCategories()));
 
@@ -140,7 +140,7 @@ class CategoryListTest extends IntegrationTestCase
         $this->categories = new Categories(StaticContainer::get('Piwik\Plugin\Manager'));
 
         return array(
-            'Piwik\Plugin\Categories' => $this->categories
+            'Piwik\Plugin\Categories' => $this->categories,
         );
     }
 }

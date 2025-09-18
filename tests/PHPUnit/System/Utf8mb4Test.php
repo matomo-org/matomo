@@ -28,7 +28,7 @@ class Utf8mb4Test extends SystemTestCase
         $this->runApiTests(['Live.getLastVisitsDetails'], [
             'idSite'            => self::$fixture->idSite,
             'date'              => '2010-01-04',
-            'period'            => 'year'
+            'period'            => 'year',
         ]);
     }
 

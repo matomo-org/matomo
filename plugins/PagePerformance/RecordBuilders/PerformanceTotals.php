@@ -61,7 +61,7 @@ class PerformanceTotals extends RecordBuilder
             new TimeTransfer(),
             new TimeDomProcessing(),
             new TimeDomCompletion(),
-            new TimeOnLoad()
+            new TimeOnLoad(),
         ];
 
         foreach ($performanceDimensions as $dimension) {

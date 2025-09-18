@@ -79,7 +79,7 @@ class TokenSecureOnlyTest extends IntegrationTestCase
     {
         $url = Fixture::getTestRootUrl() . '?' . http_build_query([
                 'module' => 'API',
-                'method' => 'API.getMatomoVersion'
+                'method' => 'API.getMatomoVersion',
             ]);
 
         $ch = curl_init();

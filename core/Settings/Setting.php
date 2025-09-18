@@ -341,7 +341,7 @@ class Setting
             FieldConfig::TYPE_FLOAT,
             FieldConfig::TYPE_STRING,
             FieldConfig::TYPE_BOOL,
-            FieldConfig::TYPE_ARRAY
+            FieldConfig::TYPE_ARRAY,
         );
 
         if (!in_array($this->type, $types)) {

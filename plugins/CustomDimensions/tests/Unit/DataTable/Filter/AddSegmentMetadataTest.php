@@ -30,7 +30,7 @@ class AddSegmentMetadataTest extends \PHPUnit\Framework\TestCase
             array(Row::COLUMNS => array('label' => 'val1', 'nb_visits' => 120)), // normal case
             array(Row::COLUMNS => array('nb_visits' => 90)), // no label should not add segment metadata
             array(Row::COLUMNS => array('label' => 'val2 5w ö?', 'nb_visits' => 99)), // should encode label
-            array(Row::COLUMNS => array('label' => Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED, 'nb_visits' => 99)) // should set no label
+            array(Row::COLUMNS => array('label' => Archiver::LABEL_CUSTOM_VALUE_NOT_DEFINED, 'nb_visits' => 99)), // should set no label
         ));
 
         $dataTable->filter($this->filter, array($idDimension = 5));
@@ -41,7 +41,7 @@ class AddSegmentMetadataTest extends \PHPUnit\Framework\TestCase
             'dimension5==val1',
             false,
             'dimension5==val2+5w+%C3%B6%3F',
-            'dimension5=='
+            'dimension5==',
         );
         $this->assertSame($expected, $metadata);
     }

@@ -47,7 +47,7 @@ class PagePerformance extends \Piwik\Plugin
             'Metrics.getDefaultMetricTranslations'   => 'addMetricTranslations',
             'Metrics.getDefaultMetricSemanticTypes' => 'addMetricSemanticTypes',
             'Metrics.isLowerValueBetter'             => 'isLowerValueBetter',
-            'API.Request.dispatch.end'               => 'enrichApi'
+            'API.Request.dispatch.end'               => 'enrichApi',
         ];
     }
 

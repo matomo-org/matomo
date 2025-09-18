@@ -1347,7 +1347,7 @@ class APITest extends IntegrationTestCase
                 'userLogin' => 'foobar',
                 'email' => 'foobar@matomo.org',
                 'initialIdSite' => 1,
-                'expiryInDays' => 7
+                'expiryInDays' => 7,
             ]
         );
     }

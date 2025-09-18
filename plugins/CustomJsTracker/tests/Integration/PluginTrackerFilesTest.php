@@ -67,7 +67,7 @@ class PluginTrackerFilesTest extends IntegrationTestCase
         $mock = self::getMockBuilder(PluginTrackerFiles::class)->onlyMethods(['getDirectoriesToLook']);
         $trackerFiles = $mock->getMock();
         $trackerFiles->method('getDirectoriesToLook')->willReturn([
-            'CustomJsTracker' => PIWIK_DOCUMENT_ROOT . '/plugins/CustomJsTracker/tests/resources/'
+            'CustomJsTracker' => PIWIK_DOCUMENT_ROOT . '/plugins/CustomJsTracker/tests/resources/',
         ]);
 
         return $trackerFiles;

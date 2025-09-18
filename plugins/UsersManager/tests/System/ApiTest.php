@@ -56,7 +56,7 @@ class ApiTest extends SystemTestCase
         $logins = [
             'login1' => 'when_superuseraccess',
             'login2' => 'when_adminaccess',
-            'login4' => 'when_viewaccess'
+            'login4' => 'when_viewaccess',
         ];
 
         // login1 = super user, login2 = some admin access, login4 = only view access
@@ -85,12 +85,12 @@ class ApiTest extends SystemTestCase
     public function testGetUserPreferenceLoginIsOptional()
     {
         $response = Request::processRequest('UsersManager.getUserPreference', array(
-            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT,
         ));
         $this->assertEquals('1', $response);
 
         $response = Request::processRequest('UsersManager.getUserPreference', array(
-            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE,
         ));
         $this->assertEquals('yesterday', $response);
     }
@@ -99,14 +99,14 @@ class ApiTest extends SystemTestCase
     {
         $response = Request::processRequest('UsersManager.getUserPreference', array(
             'userLogin' => Piwik::getCurrentUserLogin(),
-            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE,
         ));
         $this->assertEquals('yesterday', $response);
 
         // user not exists
         $response = Request::processRequest('UsersManager.getUserPreference', array(
             'userLogin' => 'foo',
-            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE,
         ));
         $this->assertEquals('yesterday', $response);
     }

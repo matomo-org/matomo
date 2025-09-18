@@ -127,7 +127,7 @@ class APITest extends \Piwik\Tests\Framework\TestCase\IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

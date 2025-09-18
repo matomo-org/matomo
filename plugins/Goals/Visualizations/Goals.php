@@ -205,7 +205,7 @@ class Goals extends HtmlTable
         $this->config->translations = array_merge($this->config->translations, [
             'goal_ecommerceOrder_nb_conversions'    => Piwik::translate('General_EcommerceOrders'),
             'goal_ecommerceOrder_revenue'           => Piwik::translate('General_TotalRevenue'),
-            'goal_ecommerceOrder_revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit')
+            'goal_ecommerceOrder_revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit'),
         ]);
 
         $goalName = Piwik::translate('General_EcommerceOrders');
@@ -363,7 +363,7 @@ class Goals extends HtmlTable
                 $ecommerceGoal = [
                     'idgoal'      => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
                     'name'        => Piwik::translate('Goals_EcommerceOrder'),
-                    'quoted_name' => false
+                    'quoted_name' => false,
                 ];
                 $allGoals[$ecommerceGoal['idgoal']] = $ecommerceGoal;
             }

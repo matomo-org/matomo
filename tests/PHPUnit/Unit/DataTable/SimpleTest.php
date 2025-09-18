@@ -23,7 +23,7 @@ class SimpleTest extends \PHPUnit\Framework\TestCase
             'column2' => 'value2',
         ]);
         $dataTable->addSummaryRow(new Row([
-            Row::COLUMNS => ['column1' => 'total1', 'column2' => 'total2']
+            Row::COLUMNS => ['column1' => 'total1', 'column2' => 'total2'],
         ]));
         $dataTable->setAllTableMetadata([
             'metadataKey1' => 10,

@@ -43,7 +43,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeTest extends SystemTestCase
 
             // range test
             array('MultiSites.getAll', array('date'    => '2010-12-15,2011-01-15',
-                                             'periods' => array('range')
+                                             'periods' => array('range'),
                 // Testing without &pattern= so should return all sites
             )),
 
@@ -60,7 +60,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeTest extends SystemTestCase
                                              'periods'                => array('day'),
                                              'testSuffix'             => '_IndexedByDate',
                 // Testing the pattern to getAll restrict websites using name matching
-                                             'otherRequestParameters' => array('pattern' => 'aAa')
+                                             'otherRequestParameters' => array('pattern' => 'aAa'),
             )),
 
             // test getOne call used in MobileMessaging SMS reports
@@ -80,7 +80,7 @@ class OneVisitorOneWebsiteSeveralDaysDateRangeTest extends SystemTestCase
             array('MultiSites.getAll', array('date'       => '2010-12-15',
                                              'periods'    => array('day'),
                                              'testSuffix' => '_showColumns',
-                                             'otherRequestParameters' => array('showColumns' => 'nb_visits,visits_evolution')
+                                             'otherRequestParameters' => array('showColumns' => 'nb_visits,visits_evolution'),
             )),
 
             //---------------------------------------

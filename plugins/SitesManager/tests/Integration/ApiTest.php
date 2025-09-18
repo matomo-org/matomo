@@ -376,7 +376,7 @@ class ApiTest extends IntegrationTestCase
                        "http://localhost/test",
                        "http://localho5.st/test",
                        "http://l42578gqege.f4",
-                       "http://super.com/test/test/atqata675675/te"
+                       "http://super.com/test/test/atqata675675/te",
         ];
         $toAddValid = ["http://piwik1.net",
                             "http://piwik2.net",
@@ -1750,7 +1750,7 @@ class ApiTest extends IntegrationTestCase
             'matomo_recommended_pii',
             null,
             implode(',', ['common_one','common_two','common_three']),
-            'matomo_recommended_pii'
+            'matomo_recommended_pii',
         ];
         yield 'custom' => ['custom', 'one,two', 'one,two', 'custom'];
     }

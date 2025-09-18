@@ -36,7 +36,7 @@ class Controller extends \Piwik\Plugin\Controller
                     // Title
                     $report['category'] . ' › ' . $report['name'],
                     //URL
-                    SettingsPiwik::getPiwikUrl() . $report['imageGraphUrl']
+                    SettingsPiwik::getPiwikUrl() . $report['imageGraphUrl'],
                 );
             }
         }

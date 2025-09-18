@@ -115,7 +115,7 @@ class DataArray
                             Metrics::INDEX_MAX_ACTIONS,
                             Metrics::INDEX_SUM_VISIT_LENGTH,
                             Metrics::INDEX_BOUNCE_COUNT,
-                            Metrics::INDEX_NB_VISITS_CONVERTED
+                            Metrics::INDEX_NB_VISITS_CONVERTED,
             );
             foreach ($toZero as $metric) {
                 $oldRowToUpdate[$metric] = 0;

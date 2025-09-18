@@ -152,7 +152,7 @@ class Adapter
             '[2006]'                        => Piwik::translate('General_ExceptionDatabaseUnavailable'),
             'MySQL server has gone away'    => Piwik::translate('General_ExceptionDatabaseUnavailable'),
             '[1698]'                        => Piwik::translate('General_ExceptionDatabaseAccess'),
-            'Access denied'                 => Piwik::translate('General_ExceptionDatabaseAccess')
+            'Access denied'                 => Piwik::translate('General_ExceptionDatabaseAccess'),
         );
 
         foreach ($safeMessageMap as $search_term => $safeMessage) {

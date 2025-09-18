@@ -23,15 +23,15 @@ class EncodedEntitiesTest extends \PHPUnit\Framework\TestCase
             array(
                 array(),
                 array(),
-                array()
+                array(),
             ),
             // empty plugin is removed
             array(
                 array(
-                    'test' => array()
+                    'test' => array(),
                 ),
                 array(
-                    'test' => array()
+                    'test' => array(),
                 ),
                 array(),
             ),
@@ -40,14 +40,14 @@ class EncodedEntitiesTest extends \PHPUnit\Framework\TestCase
                 array(
                     'test' => array(
                         'key' => 'val%sue',
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
                         'key' => 'val%sue',
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(),
             ),
@@ -55,46 +55,46 @@ class EncodedEntitiesTest extends \PHPUnit\Framework\TestCase
             array(
                 array(
                     'test' => array(
-                        'test' => 'te&amp;st'
-                    )
+                        'test' => 'te&amp;st',
+                    ),
                 ),
                 array(
                     'test' => array(
-                        'test' => 'te&st'
-                    )
+                        'test' => 'te&st',
+                    ),
                 ),
                 array(
                     'test' => array(
-                        'test' => 'te&amp;st'
-                    )
+                        'test' => 'te&amp;st',
+                    ),
                 ),
             ),
             array(
                 array(
                     'empty' => array(
-                        'test' => 't&uuml;sest'
+                        'test' => 't&uuml;sest',
                     ),
                     'test' => array(
                         'test' => '%1$stest',
                         'empty' => '&tilde;',
-                    )
+                    ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => 'tüsest'
+                        'test' => 'tüsest',
                     ),
                     'test' => array(
                         'test' => '%1$stest',
                         'empty' => '˜',
-                    )
+                    ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => 't&uuml;sest'
+                        'test' => 't&uuml;sest',
                     ),
                     'test' => array(
                         'empty' => '&tilde;',
-                    )
+                    ),
                 ),
             ),
         );

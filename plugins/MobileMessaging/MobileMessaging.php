@@ -41,11 +41,11 @@ class MobileMessaging extends \Piwik\Plugin
     );
 
     private static $managedReportTypes = array(
-        self::MOBILE_TYPE => 'plugins/MobileMessaging/images/phone.png'
+        self::MOBILE_TYPE => 'plugins/MobileMessaging/images/phone.png',
     );
 
     private static $managedReportFormats = array(
-        self::SMS_FORMAT => 'plugins/MobileMessaging/images/phone.png'
+        self::SMS_FORMAT => 'plugins/MobileMessaging/images/phone.png',
     );
 
     private static $availableReports = array(

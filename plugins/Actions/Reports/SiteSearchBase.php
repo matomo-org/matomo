@@ -58,7 +58,7 @@ abstract class SiteSearchBase extends Base
         $view->config->addTranslations(array(
             'nb_visits'           => Piwik::translate('Actions_ColumnSearches'),
             'exit_rate'           => str_replace("% ", "%&nbsp;", Piwik::translate('Actions_ColumnSearchExits')),
-            'nb_pages_per_search' => Piwik::translate('Actions_ColumnPagesPerSearch')
+            'nb_pages_per_search' => Piwik::translate('Actions_ColumnPagesPerSearch'),
         ));
 
         $view->config->show_bar_chart         = false;

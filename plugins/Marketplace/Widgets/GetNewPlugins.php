@@ -56,7 +56,7 @@ class GetNewPlugins extends Widget
         });
 
         return $this->renderTemplate($template, array(
-            'plugins' => array_splice($plugins, 0, 3)
+            'plugins' => array_splice($plugins, 0, 3),
         ));
     }
 }

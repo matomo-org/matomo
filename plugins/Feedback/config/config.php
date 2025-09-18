@@ -9,5 +9,5 @@ return [
         ['title' => 'Feedback_HowToGetStartedWithMtm', 'url' => 'https://matomo.org/guide/tag-manager/getting-started-with-tag-manager/'],
         ['title' => 'Feedback_HowToMigrateFromGtm', 'url' => 'https://matomo.org/faq/tag-manager/migrating-from-google-tag-manager/'],
         ['title' => 'Feedback_HowToTrackEcommerce', 'url' => 'https://matomo.org/docs/ecommerce-analytics/'],
-    ]
+    ],
 ];

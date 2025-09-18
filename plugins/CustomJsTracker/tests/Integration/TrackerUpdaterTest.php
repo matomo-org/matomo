@@ -146,7 +146,7 @@ class TrackerUpdaterTest extends IntegrationTestCase
 
         $updater = $this->makeUpdater($source, $target);
         $updater->setTrackerFiles(new PluginTrackerFilesMock(array(
-            $this->dir . 'tracker.js', $this->dir . 'tracker.min.js'
+            $this->dir . 'tracker.js', $this->dir . 'tracker.min.js',
         )));
         $content = $updater->getUpdatedTrackerFileContent();
 
@@ -209,7 +209,7 @@ var myArray = [];
 
         $updater = $this->makeUpdater($this->dir . 'testpiwik.js', $target);
         $updater->setTrackerFiles(new PluginTrackerFilesMock(array(
-            $this->dir . 'tracker.js', $this->dir . 'tracker.min.js'
+            $this->dir . 'tracker.js', $this->dir . 'tracker.min.js',
         )));
         $updater->update();
 

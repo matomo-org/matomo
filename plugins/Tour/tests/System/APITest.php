@@ -42,7 +42,7 @@ class APITest extends SystemTestCase
         $apiToTest[] = array(array('Tour.getLevel', 'Tour.getChallenges'),
             array(
                 'idSite'  => 1,
-            )
+            ),
         );
 
         return $apiToTest;
@@ -87,7 +87,7 @@ class APITest extends SystemTestCase
             }
         });
         $this->runApiTests(array('Tour.getLevel'), array(
-            'testSuffix' => 'nothingCompleted'
+            'testSuffix' => 'nothingCompleted',
         ));
     }
 

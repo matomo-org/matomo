@@ -962,7 +962,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -980,7 +980,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -998,7 +998,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -1015,7 +1015,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -1059,7 +1059,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -1082,7 +1082,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => "login",
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -1112,20 +1112,20 @@ class UsersManagerTest extends IntegrationTestCase
             'id'          => 'view',
             'name'        => 'UsersManager_PrivView',
             'description' => 'UsersManager_PrivViewDescription',
-            'helpUrl'     => 'https://matomo.org/faq/general/faq_70/'
+            'helpUrl'     => 'https://matomo.org/faq/general/faq_70/',
           ),
           array(
             'id'          => 'write',
             'name'        => 'UsersManager_PrivWrite',
             'description' => 'UsersManager_PrivWriteDescription',
-            'helpUrl'     => 'https://matomo.org/faq/general/faq_26910'
+            'helpUrl'     => 'https://matomo.org/faq/general/faq_26910',
           ),
           array(
             'id'          => 'admin',
             'name'        => 'UsersManager_PrivAdmin',
             'description' => 'UsersManager_PrivAdminDescription',
             'helpUrl'     => 'https://matomo.org/faq/general/faq_69/',
-          )
+          ),
         );
         $this->assertEquals($expected, $roles);
     }
@@ -1157,7 +1157,7 @@ class UsersManagerTest extends IntegrationTestCase
             'helpUrl'         => '',
             'includedInRoles' => array('admin'),
             'category'        => 'TagManager_TagManager',
-          )
+          ),
         ), $this->api->getAvailableCapabilities());
     }
 
@@ -1166,7 +1166,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->addSites(1);
         $user = array(
           'login' => "login",
-          'email' => "test@test.com"
+          'email' => "test@test.com",
         );
 
         $this->api->inviteUser($user['login'], $user['email'], 1);
@@ -1193,7 +1193,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-          'Piwik\Access' => new FakeAccess()
+          'Piwik\Access' => new FakeAccess(),
         );
     }
 

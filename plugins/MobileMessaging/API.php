@@ -158,7 +158,7 @@ class API extends \Piwik\Plugin\API
             array(
                 $verificationCode,
                 Piwik::translate('General_Settings'),
-                Piwik::translate('MobileMessaging_SettingsMenu')
+                Piwik::translate('MobileMessaging_SettingsMenu'),
             )
         );
 

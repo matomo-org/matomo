@@ -49,7 +49,7 @@ class Tokens extends Fixture
             [['user3, expired user token, secure only, used', '2024-01-01 00:00:00', '2024-02-01 00:00:00', '0', '1'], '2024-09-01 00:00:00'],
             [['user3, not expired system token, secure only, not used', '2024-01-01 00:00:00', null, '1', '1'], null],
             [['user3, not expired system token, secure only, used', '2024-01-01 00:00:00', null, '1', '1'], '2024-09-01 00:00:00'],
-        ]
+        ],
     ];
 
     public function setUp(): void

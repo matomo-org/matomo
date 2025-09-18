@@ -165,7 +165,7 @@ class Config
 
         $locations = array(
             array('file' => $perHostFilename, 'path' => $pathDomainConfig),
-            array('file' => $standardConfigName, 'path' => $pathDomainMiscUser)
+            array('file' => $standardConfigName, 'path' => $pathDomainMiscUser),
         );
 
         return $locations;

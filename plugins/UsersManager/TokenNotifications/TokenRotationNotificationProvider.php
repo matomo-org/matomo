@@ -37,7 +37,7 @@ class TokenRotationNotificationProvider extends TokenNotificationProvider
         $tokensToNotify = $db->fetchAll($sql, [
             $this->today,
             $periodThreshold,
-            'anonymous'
+            'anonymous',
         ]);
 
         return $tokensToNotify;

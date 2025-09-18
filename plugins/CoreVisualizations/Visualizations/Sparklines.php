@@ -224,7 +224,7 @@ class Sparklines extends ViewDataTable
             $sparklineUrlParams = array_merge($this->config->custom_parameters, [
                 'columns' => $column,
                 'module'  => $this->requestConfig->getApiModuleToRequest(),
-                'action'  => $this->requestConfig->getApiMethodToRequest()
+                'action'  => $this->requestConfig->getApiMethodToRequest(),
             ]);
 
             $periodObj = Factory::build($originalPeriod, $originalDate);

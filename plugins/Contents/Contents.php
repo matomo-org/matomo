@@ -25,7 +25,7 @@ class Contents extends \Piwik\Plugin
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
             'Metrics.getDefaultMetricSemanticTypes' => 'addMetricSemanticTypes',
             'AssetManager.getJavaScriptFiles' => 'getJsFiles',
-            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields'
+            'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields',
         );
     }
 

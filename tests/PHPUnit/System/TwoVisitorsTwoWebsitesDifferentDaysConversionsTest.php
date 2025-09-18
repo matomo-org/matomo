@@ -41,7 +41,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
     public function getApiToCall()
     {
         return array('Goals.getDaysToConversion',
-                     'MultiSites.getAll'
+                     'MultiSites.getAll',
         );
     }
 
@@ -60,7 +60,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
                 'day',
                 'week',
                 'month',
-                'year'
+                'year',
         );
 
         $result = array();
@@ -79,7 +79,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         $result[] = array($apiToCall, array('idSite'       => 'all',
                                     'date'         => $dateTime,
                                     'periods'      => $periods,
-                                    'setDateLastN' => true
+                                    'setDateLastN' => true,
         ));
 
         // Request data for the last 6 periods and idSite=1
@@ -87,7 +87,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
                                     'date'         => $dateTime,
                                     'periods'      => $periods,
                                     'setDateLastN' => true,
-                                    'testSuffix'   => '_idSiteOne_'
+                                    'testSuffix'   => '_idSiteOne_',
         ));
 
         // We also test a single period to check that this use case (Reports per idSite in the response) works
@@ -95,7 +95,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
                                           'date'         => $dateTime,
                                           'periods'      => array('day', 'month'),
                                           'setDateLastN' => false,
-                                          'testSuffix'   => '_NotLastNPeriods'
+                                          'testSuffix'   => '_NotLastNPeriods',
         ));
 
         // testing metadata API for multiple periods
@@ -110,7 +110,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
                                                 'setDateLastN' => true,
                                                 'apiModule'    => $apiModule,
                                                 'apiAction'    => $apiAction,
-                                                'testSuffix'   => '_' . $api . '_firstSite_lastN')
+                                                'testSuffix'   => '_' . $api . '_firstSite_lastN'),
             );
         }
 
@@ -136,7 +136,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
         $this->assertEquals(
             array(
                 'nb_visits' => 5,
-                'Goal_nb_conversions' => 6
+                'Goal_nb_conversions' => 6,
             ),
             $result
         );

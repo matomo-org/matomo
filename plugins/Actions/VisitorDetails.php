@@ -116,7 +116,7 @@ class VisitorDetails extends VisitorDetailsAbstract
             Action::TYPE_SITE_SEARCH,
             Action::TYPE_EVENT,
             Action::TYPE_OUTLINK,
-            Action::TYPE_DOWNLOAD
+            Action::TYPE_DOWNLOAD,
         );
 
         return in_array($action['type'], $actionTypesToHandle) || !empty($action['eventType']);
@@ -389,7 +389,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         foreach ($this->visitedPageUrls as $visitedPageUrl => $count) {
             $profile['visitedPages'][] = [
                 'url' => $visitedPageUrl,
-                'count' => $count
+                'count' => $count,
             ];
         }
 
@@ -472,7 +472,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         foreach ($this->siteSearchKeywords as $keyword => $searchCount) {
             $profile['searches'][] = array(
                 'keyword'  => $keyword,
-                'searches' => $searchCount
+                'searches' => $searchCount,
             );
         }
     }

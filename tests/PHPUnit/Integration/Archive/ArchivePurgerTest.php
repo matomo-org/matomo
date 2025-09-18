@@ -165,7 +165,7 @@ class ArchivePurgerTest extends IntegrationTestCase
             ['definition' => '9876fedc5432abcd', 'enable_only_idsite' => 0, 'hash' => Segment::getSegmentHash('9876fedc5432abcd')],
             ['definition' => 'hash3', 'enable_only_idsite' => 0, 'hash' => Segment::getSegmentHash('hash3')],
             // This segment also has archives for idsite = 1, which will be retained
-            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 2, 'hash' => Segment::getSegmentHash('abcd1234abcd5678')]
+            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 2, 'hash' => Segment::getSegmentHash('abcd1234abcd5678')],
         ];
 
         //Archive #29 also has a deleted segment but it's before the purge threshold so it stays for now.
@@ -181,7 +181,7 @@ class ArchivePurgerTest extends IntegrationTestCase
 
         $segmentsToDelete = [
             // This segment also has archives for idsite = 1, which will be retained
-            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 0, 'idsites_to_preserve' => [2], 'hash' => Segment::getSegmentHash('abcd1234abcd5678')]
+            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 0, 'idsites_to_preserve' => [2], 'hash' => Segment::getSegmentHash('abcd1234abcd5678')],
         ];
 
         // Archives for idsite=1 should be purged, but those for idsite=2 can stay
@@ -193,7 +193,7 @@ class ArchivePurgerTest extends IntegrationTestCase
     public function testPurgeNoSegmentArchivesBlankSegmentName()
     {
         $segmentsToDelete = array(
-            array('definition' => '', 'enable_only_idsite' => 0)
+            array('definition' => '', 'enable_only_idsite' => 0),
         );
 
         // Should not purge all the "done%" archives!

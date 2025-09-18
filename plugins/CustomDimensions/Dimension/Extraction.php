@@ -64,7 +64,7 @@ class Extraction
         return array(
             'url' => Piwik::translate('Actions_ColumnPageURL'),
             'urlparam' => Piwik::translate('CustomDimensions_PageUrlParam'),
-            'action_name' => Piwik::translate('Goals_PageTitle')
+            'action_name' => Piwik::translate('Goals_PageTitle'),
         );
     }
 

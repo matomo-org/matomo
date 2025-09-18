@@ -28,7 +28,7 @@ class Updates_2_11_0_b5 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->plugin->activate('Monolog')
+            $this->migration->plugin->activate('Monolog'),
         );
     }
 
