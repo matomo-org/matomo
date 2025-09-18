@@ -11,8 +11,8 @@ namespace Piwik\Plugins\Ecommerce\Widgets;
 
 use Piwik\Common;
 use Piwik\Plugins\CoreHome\CoreHome;
-use Piwik\Site;
 use Piwik\Widget\WidgetContainerConfig;
+use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 
 class ProductsByDimension extends WidgetContainerConfig
 {
@@ -29,7 +29,6 @@ class ProductsByDimension extends WidgetContainerConfig
             return false;
         }
 
-        $site = new Site($idSite);
-        return $site->isEcommerceEnabled();
+        return EcommerceEnabledSetting::getInstance($idSite)->getValue() === 1;
     }
 }

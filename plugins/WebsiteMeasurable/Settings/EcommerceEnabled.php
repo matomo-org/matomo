@@ -17,7 +17,7 @@ use Piwik\Site;
  * @implements PolicyComparisonInterface<int>
  * @implements SettingValueInterface<int>
  */
-class Ecommerce implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface
+class EcommerceEnabled implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
     /**
      * @use MeasurableGetterTrait<int>

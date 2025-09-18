@@ -13,7 +13,7 @@ use Piwik\Common;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Live\Live;
 use Piwik\Widget\WidgetConfig;
-use Piwik\Site;
+use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 
 class GetEcommerceLog extends \Piwik\Widget\Widget
 {
@@ -29,8 +29,7 @@ class GetEcommerceLog extends \Piwik\Widget\Widget
             return;
         }
 
-        $site  = new Site($idSite);
-        $config->setIsEnabled($site->isEcommerceEnabled());
+        $config->setIsEnabled(EcommerceEnabledSetting::getInstance($idSite)->getValue() === 1);
 
         if (!Manager::getInstance()->isPluginActivated('Live') || !Live::isVisitorLogEnabled($idSite)) {
             $config->disable();
