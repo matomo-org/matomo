@@ -22,6 +22,8 @@ use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
+use Piwik\Policy\CompliancePolicy;
+use Piwik\Policy\PolicyManager;
 use Piwik\Site;
 use Piwik\Validators\BaseValidator;
 
@@ -427,48 +429,48 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @internal
+     * @return array<array<string,string>>
      */
-    public function getComplianceStatus(string $idSite, string $complianceType): array
+    public function getCompliancePolicies(): array
     {
+        return PolicyManager::getAllPoliciesDetails();
+    }
+
+    /**
+     * @internal
+     * @param int|string $idSite
+     * @return array<string,bool|array<int, array<string,string>>>
+     */
+    public function getComplianceStatus($idSite, string $complianceType): array
+    {
+        if ($idSite === 'all') {
+            $idSite = null;
+        } else {
+            $idSite = intval($idSite);
+        }
+
         if (false === $this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             throw new Exception('Feature not available');
         }
 
-        if ($complianceType !== 'cnil') {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $policy = PolicyManager::getPolicyByName($complianceType);
+
+        if (is_null($policy)) {
             throw new Exception('Invalid compliance type');
         }
 
-        Piwik::checkUserHasSuperUserAccess();
-        return [
-            'complianceModeEnforced' => false,
-            'complianceRequirements' => [
-                [
-                    'name' => 'IP Anonymisation',
-                    'value' => 'compliant',
-                    'notes' => 'Set to at least 2 byte masking',
-                ],
-                [
-                    'name' => 'Data retention period',
-                    'value' => 'non_compliant',
-                    'notes' => 'Retention period is set to 365 days',
-                ],
-                [
-                    'name' => 'Visits Log and Visitors Profile',
-                    'value' => 'non_compliant',
-                    'notes' => 'Visits log is still enabled',
-                ],
-                [
-                    'name' => 'Ecommerce analytics',
-                    'value' => 'non_compliant',
-                    'notes' => 'Ecommerce analytics is enabled for this site',
-                ],
-                [
-                    'name' => 'Opt out',
-                    'value' => 'unknown',
-                    'notes' => 'Opt out must be manually set up and configured',
-                ],
-            ],
-        ];
+        $payload['complianceModeEnforced'] = PolicyManager::isPolicyActive($policy, $idSite);
+        $settingsUnderPolicy = PolicyManager::getAllControlledSettings($policy, $idSite);
+        foreach ($settingsUnderPolicy as $setting) {
+            $payload['complianceRequirements'][] = [
+                'name' => $setting::getTitle(),
+                'value' => $setting::isCompliant($policy, $idSite) ? 'compliant' : 'non_compliant',
+                'notes' => $setting::getComplianceRequirementNote($idSite),
+            ];
+        }
+        return $payload;
     }
 
     /**
@@ -480,11 +482,21 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Feature not available');
         }
 
-        if ($complianceType !== 'cnil') {
+        Piwik::checkUserHasSuperUserAccess();
+
+        $policy = PolicyManager::getPolicyByName($complianceType);
+
+        if (is_null($policy) || !is_a($policy, CompliancePolicy::class, true)) {
             throw new Exception('Invalid compliance type');
         }
 
-        Piwik::checkUserHasSuperUserAccess();
+        if ($idSite === 'all') {
+            $idSite = null;
+        } else {
+            $idSite = intval($idSite);
+        }
+
+        $policy::setActiveStatus($idSite, $enforce);
 
         return $enforce;
     }

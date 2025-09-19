@@ -4,12 +4,18 @@ import { AjaxHelper } from 'CoreHome';
 export interface ComplianceRequirement {
   name: string;
   value: string;
-  notes: string
+  notes: string;
 }
 
 interface ComplianceStatus {
   complianceModeEnforced: boolean;
   complianceRequirements: ComplianceRequirement[];
+}
+
+export interface CompliancePolicy {
+  id: string;
+  title: string;
+  description: string;
 }
 
 interface ComplianceStoreState {
@@ -26,6 +32,17 @@ export interface ComplianceStore {
   state: DeepReadonly<ComplianceStoreState>;
   setIdSite: (idSite: string) => void;
   saveComplianceStatus: (enabled: boolean) => void;
+}
+
+export async function fetchCompliancePolicies(): Promise<CompliancePolicy[]> {
+  return AjaxHelper.fetch<CompliancePolicy[]>(
+    {
+      method: 'PrivacyManager.getCompliancePolicies',
+    },
+    {
+      createErrorNotification: false,
+    },
+  );
 }
 
 export function createComplianceStore(initialType: string): ComplianceStore {
@@ -78,7 +95,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
   function saveComplianceStatus(enforce: boolean) {
     state.loading = true;
     state.saveComplianceError = null;
-    AjaxHelper.fetch<boolean>(
+    AjaxHelper.post<boolean>(
       {
         idSite: state.idSite,
         complianceType: state.complianceType,
