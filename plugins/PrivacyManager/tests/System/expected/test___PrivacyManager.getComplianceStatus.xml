@@ -3,7 +3,7 @@
 	<complianceModeEnforced>0</complianceModeEnforced>
 	<complianceRequirements>
 		<row>
-			<name>Ecommerce Disabled per site</name>
+			<name>Ecommerce</name>
 			<value>non_compliant</value>
 			<notes>Ecommerce must be disabled</notes>
 		</row>
