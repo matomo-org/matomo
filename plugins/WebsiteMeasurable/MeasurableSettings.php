@@ -394,7 +394,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     private function makeEcommerce()
     {
-        $property = EcommerceEnabledSetting::getMeasurableSetting($this->idSite);
+        $property = EcommerceEnabledSetting::getMeasurableSetting($this->idSite, $isProperty = true);
         $property->setConfigureCallback(function (FieldConfig $field) {
             $field->title = EcommerceEnabledSetting::getTitle();
             $field->inlineHelp = EcommerceEnabledSetting::getInlineHelp();
