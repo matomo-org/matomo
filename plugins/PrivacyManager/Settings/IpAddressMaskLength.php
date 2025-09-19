@@ -71,7 +71,8 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
-        $values['option'] = intval(self::getOptionValue());
+        $optionValue = self::getOptionValue();
+        $values['option'] = isset($optionValue) ? (int) $optionValue : null; 
         return new self(self::getStrictestValueFromArray($values));
     }
 

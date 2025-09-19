@@ -69,10 +69,9 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
 
     public static function getInstance(?int $idSite = null): self
     {
-        $optionValue = intval(self::getOptionValue());
-
         $values = self::getPolicyRequiredValues($idSite);
-        $values['option'] = $optionValue;
+        $optionValue = self::getOptionValue();
+        $values['option'] = isset($optionValue) ? (int) $optionValue : null;
 
         $x = self::getStrictestValueFromArray($values);
 
