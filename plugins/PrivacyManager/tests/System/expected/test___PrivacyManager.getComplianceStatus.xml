@@ -3,29 +3,29 @@
 	<complianceModeEnforced>0</complianceModeEnforced>
 	<complianceRequirements>
 		<row>
-			<name>IP Anonymisation</name>
-			<value>compliant</value>
-			<notes>Set to at least 2 byte masking</notes>
+			<name>Ecommerce Disabled per site</name>
+			<value>non_compliant</value>
+			<notes>Ecommerce must be disabled</notes>
+		</row>
+		<row>
+			<name>Turn off visits log and visitor profiles</name>
+			<value>non_compliant</value>
+			<notes>Visits log is required to be disabled.</notes>
+		</row>
+		<row>
+			<name>IP Anonymization Enabled</name>
+			<value>non_compliant</value>
+			<notes>Anonymization of Visitor's IP addresses must be enabled.</notes>
+		</row>
+		<row>
+			<name>IP Address Mask Length</name>
+			<value>non_compliant</value>
+			<notes>Must be set to at least 2 byte(s), currently 0 byte(s).</notes>
 		</row>
 		<row>
 			<name>Data retention period</name>
-			<value>non_compliant</value>
-			<notes>Retention period is set to 365 days</notes>
-		</row>
-		<row>
-			<name>Visits Log and Visitors Profile</name>
-			<value>non_compliant</value>
-			<notes>Visits log is still enabled</notes>
-		</row>
-		<row>
-			<name>Ecommerce analytics</name>
-			<value>non_compliant</value>
-			<notes>Ecommerce analytics is enabled for this site</notes>
-		</row>
-		<row>
-			<name>Opt out</name>
-			<value>unknown</value>
-			<notes>Opt out must be manually set up and configured</notes>
+			<value>compliant</value>
+			<notes>Retention period is set to 180 days</notes>
 		</row>
 	</complianceRequirements>
 </result>

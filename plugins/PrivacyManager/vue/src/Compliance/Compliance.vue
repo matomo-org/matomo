@@ -29,15 +29,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import {
+  defineComponent,
+  ref,
+  watch,
+  onMounted,
+} from 'vue';
 import {
   EnrichedHeadline,
   Matomo,
   MatomoUrl,
   SiteSelector,
   SiteRef,
-  translate,
 } from 'CoreHome';
+import { fetchCompliancePolicies, CompliancePolicy } from './Compliance.store';
 import ComplianceOverview from './ComplianceOverview.vue';
 
 export default defineComponent({
@@ -57,13 +62,10 @@ export default defineComponent({
       siteId.value = newSite?.id != null ? String(newSite.id) : '';
     });
 
-    const complianceTypes = [
-      {
-        id: 'cnil',
-        title: translate('PrivacyManager_ComplianceCNILTitle'),
-        description: translate('PrivacyManager_ComplianceCNILDescription'),
-      },
-    ];
+    const complianceTypes = ref<CompliancePolicy[]>([]);
+    onMounted(async () => {
+      complianceTypes.value = await fetchCompliancePolicies();
+    });
 
     return {
       site,

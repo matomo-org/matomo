@@ -614,6 +614,12 @@ class Manager
         return $components;
     }
 
+    /**
+     * @template T of object
+     * @param string $directoryWithinPlugin
+     * @param class-string<T> $expectedSubclass
+     * @return array<class-string<T>>
+     */
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
     {
         $plugins = $this->getPluginsLoadedAndActivated();

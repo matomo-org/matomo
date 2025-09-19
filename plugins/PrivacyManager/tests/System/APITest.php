@@ -182,7 +182,7 @@ class APITest extends SystemTestCase
             'testSuffix' => 'featureFlagDisabled',
             'otherRequestParameters' => [
                 'idSite' => '1',
-                'complianceType' => 'cnil',
+                'complianceType' => 'cnil_v1',
             ],
         ]);
     }
@@ -214,7 +214,7 @@ class APITest extends SystemTestCase
                 'testSuffix' => 'notSuperAdmin',
                 'otherRequestParameters' => [
                     'idSite' => '1',
-                    'complianceType' => 'cnil',
+                    'complianceType' => 'cnil_v1',
                 ],
             ]);
         } finally {
@@ -229,7 +229,7 @@ class APITest extends SystemTestCase
         $this->runApiTests('PrivacyManager.getComplianceStatus', [
             'otherRequestParameters' => [
                 'idSite' => '1',
-                'complianceType' => 'cnil',
+                'complianceType' => 'cnil_v1',
             ],
         ]);
     }
