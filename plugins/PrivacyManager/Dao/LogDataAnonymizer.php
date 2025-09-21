@@ -62,7 +62,7 @@ class LogDataAnonymizer
 
         $privacyConfig = new Config();
         $minimumIpAddressMaskLength = 2;
-        $ipMask = max($minimumIpAddressMaskLength, $privacyConfig->IpAddressMaskLength);
+        $ipMask = max($minimumIpAddressMaskLength, $privacyConfig->ipAddressMaskLength);
 
         $numRecordsUpdated = 0;
         $trackerModel = new Model();
