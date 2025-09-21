@@ -12,7 +12,6 @@ namespace Piwik\Plugins\PrivacyManager;
 use Piwik\Common;
 use Matomo\Network\IP;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
-use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
@@ -48,8 +47,7 @@ class IPAnonymizer
 
         $privacyConfig = new Config();
 
-        $ipMaskLength = IpAddressMaskLengthSetting::getInstance()->getValue();
-        $newIpObject = self::applyIPMask($ipObject, $ipMaskLength);
+        $newIpObject = self::applyIPMask($ipObject, $privacyConfig->ipAddressMaskLength);
         $ip = $newIpObject->toBinary();
 
         Common::printDebug("Visitor IP (was: " . $ipObject->toString() . ") has been anonymized: " . $newIpObject->toString());

@@ -13,13 +13,13 @@ use Piwik\Common;
 use Piwik\Db;
 use Piwik\DbHelper;
 use Matomo\Network\IP;
+use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Plugins\PrivacyManager\Tracker\RequestProcessor;
 use Piwik\Plugins\UserCountry\LocationProvider;
 use Piwik\Plugins\UserCountry\VisitorGeolocator;
 use Piwik\Tracker\Model;
 use Exception;
-use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
 
 class LogDataAnonymizer
 {
@@ -60,8 +60,9 @@ class LogDataAnonymizer
             return 0;
         }
 
+        $privacyConfig = new Config();
         $minimumIpAddressMaskLength = 2;
-        $ipMask = max($minimumIpAddressMaskLength, IpAddressMaskLengthSetting::getInstance()->getValue());
+        $ipMask = max($minimumIpAddressMaskLength, $privacyConfig->IpAddressMaskLength);
 
         $numRecordsUpdated = 0;
         $trackerModel = new Model();
