@@ -4306,6 +4306,41 @@ if (typeof window.Matomo !== 'object') {
             }
 
             /*
+             * Delay log of page view / visit
+             * Wait until PerformanceMetrics are available or visitor leaves page.
+             */
+            function delayLogPageViewWithPerformanceMetrics(request, configTrackerPause, callback) {
+                // - Ensure page view is only logged once.
+                // - Matomo context might change in the meantime: Store request in closure to ensure original context.
+                var logOnce = (function() {
+                    /*property request, configTrackerPause, callback */
+                    var store = {
+                        request: request, configTrackerPause: configTrackerPause, callback: callback
+                    };
+                    var hasRunOnce = false;
+                    return function() {
+                        if (!hasRunOnce) {
+                            hasRunOnce = true;
+                            store.request = appendAvailablePerformanceMetrics(store.request);
+                            sendRequest(store.request, store.configTrackerPause, store.callback);
+                        }
+                    };
+                }());
+
+                /* Performance metrics are available, once onload event has finished */
+                trackCallbackOnLoad(function(){
+                    setTimeout(logOnce, 0);
+                });
+                /* Visitor leaves page */
+                addEventListener(windowAlias, 'visibilitychange', function () {
+                    // if not visible
+                    if (documentAlias.visibilityState === 'hidden') {
+                        logOnce();
+                    }
+                }, false);
+            }
+
+            /*
              * Log the page view / visit
              */
             function logPageView(customTitle, customData, callback) {
@@ -4317,6 +4352,10 @@ if (typeof window.Matomo !== 'object') {
 
                 // append already available performance metrics if they were not already tracked (or appended)
                 if (configPerformanceTrackingEnabled && !performanceTracked) {
+                    if (!performanceAvailable && configAlwaysUseSendBeacon && supportsSendBeacon()) {
+                        delayLogPageViewWithPerformanceMetrics(request, configTrackerPause, callback);
+                        return;
+                    }
                     request = appendAvailablePerformanceMetrics(request);
                 }
 
