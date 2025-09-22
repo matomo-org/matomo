@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Cuir giuirléid leis",
+        "AddAWidget": "Cuir giuirléid leis an deais seo",
         "AddPreviewedWidget": "Cliceáil chun giuirléid a chur leis an deais",
         "ChangeDashboardLayout": "Athraigh leagan amach an deais",
         "CopyDashboardToUser": "Cóipeáil an painéal chuig an úsáideoir",
@@ -15,7 +15,7 @@
         "DeleteWidgetConfirm": "An bhfuil tú cinnte gur mhaith leat an ghiuirléid seo a scriosadh ón deais?",
         "EmptyDashboard": "Deais folamh - Roghnaigh na giuirléidí is fearr leat",
         "LoadingWidget": "Giuirléid á lódáil, fan go fóill…",
-        "ManageDashboard": "Bainistigh deais",
+        "ManageDashboard": "Bainistigh an painéal seo",
         "Maximise": "Uasmhéadaigh",
         "Minimise": "Íoslaghdaigh",
         "NotUndo": "Ní bheidh tú in ann an oibríocht seo a chealú.",

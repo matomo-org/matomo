@@ -464,9 +464,9 @@ describe("PrivacyManager", function () {
       await page.waitForNetworkIdle();
 
       await page.waitForSelector('.compliance', { visible: true });
-      await (await page.jQuery('#site-1-cnil-enableFeature')).click();
+      await (await page.jQuery('#site-1-cnil_v1-enableFeature')).click();
       await page.waitForTimeout(150);
-      await (await page.jQuery('.site-1-cnil-save input')).click();
+      await (await page.jQuery('.site-1-cnil_v1-save input')).click();
       await page.waitForTimeout(150);
       await confirmPassword();
 

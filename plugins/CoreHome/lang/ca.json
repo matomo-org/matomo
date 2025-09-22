@@ -78,6 +78,7 @@
         "PeriodRange": "Rang",
         "PivotBySubtable": "Aquest informe no està orientat %1$s Gira per %2$s",
         "Profilable": "Perfilable",
+        "ProfilableSegmentHelp": "1 per a perfilable (per exemple, s'han utilitzat cookies), 0 per a no perfilable (per exemple, no s'han utilitzat cookies)",
         "QuickAccessTitle": "Cerca %s. Utilitzeu les tecles de direcció per navegar pels resultats de la cerca. Drecera: premeu 'f' per cercar.",
         "QuickLinks": "Enllaços ràpids",
         "ReadMoreOnlineGuide": "Llegiu més sobre aquest tema a la guia en línia.",
