@@ -63,7 +63,7 @@ class Live extends \Piwik\Plugin
      */
     public static function checkIsVisitorLogEnabled($idSite = null): void
     {
-        if (VisitorLogDisabledSetting::getInstance(null)->getValue() === true) {
+        if (VisitorLogDisabledSetting::getInstance()->getValue() === true) {
             throw new \Exception('Visits log is deactivated globally. A user with super user access can enable this feature in the general settings.');
         }
 
