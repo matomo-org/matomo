@@ -3,6 +3,7 @@
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Settings\Interfaces\OptionSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
@@ -40,7 +41,7 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
 
     protected static function getOptionName(): string
     {
-        return 'PrivacyManager.ipAnonymizerEnabled';
+        return Config::prefix('ipAnonymizerEnabled');
     }
 
     public static function getTitle(): string

@@ -64,14 +64,14 @@ class Config
         return $this->getFromTrackerCache($name, $this->properties[$name]);
     }
 
-    private function prefix($optionName)
+    public static function prefix($optionName): string
     {
         return 'PrivacyManager.' . $optionName;
     }
 
     private function getFromTrackerCache($name, $config)
     {
-        $name  = $this->prefix($name);
+        $name  = self::prefix($name);
         $cache = Cache::getCacheGeneral();
 
         if (array_key_exists($name, $cache)) {
@@ -91,7 +91,7 @@ class Config
         } elseif ($name === 'ipAnonymizerEnabled') {
             $value = IPAnonymisationSetting::getInstance()->getValue();
         } else {
-            $name  = $this->prefix($name);
+            $name  = self::prefix($name);
             $value = Option::get($name);
         }
 
@@ -112,14 +112,14 @@ class Config
             settype($value, $config['type']);
         }
 
-        Option::set($this->prefix($name), $value);
+        Option::set(self::prefix($name), $value);
         Cache::clearCacheGeneral();
     }
 
     public function setTrackerCacheGeneral($cacheContent)
     {
         foreach ($this->properties as $name => $config) {
-            $cacheContent[$this->prefix($name)] = $this->getFromOption($name, $config);
+            $cacheContent[self::prefix($name)] = $this->getFromOption($name, $config);
         }
 
         return $cacheContent;

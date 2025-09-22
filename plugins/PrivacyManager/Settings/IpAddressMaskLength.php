@@ -3,6 +3,7 @@
 namespace Piwik\Plugins\PrivacyManager\Settings;
 
 use Piwik\Piwik;
+use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Settings\Interfaces\OptionSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
@@ -40,7 +41,7 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
 
     protected static function getOptionName(): string
     {
-        return 'PrivacyManager.ipAddressMaskLength';
+        return Config::prefix('ipAddressMaskLength');
     }
 
     public static function getTitle(): string
