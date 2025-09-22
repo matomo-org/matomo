@@ -11,7 +11,6 @@ namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Common;
 use Matomo\Network\IP;
-use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
 
 /**
  * Anonymize visitor IP addresses to comply with the privacy laws/guidelines in countries, such as Germany.
@@ -78,6 +77,7 @@ class IPAnonymizer
      */
     public static function isActive()
     {
-        return IPAnonymisationSetting::getInstance()->getValue() === 1;
+        $privacyConfig = new Config();
+        return $privacyConfig->isAnonymizerEnabled;
     }
 }

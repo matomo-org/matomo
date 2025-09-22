@@ -12,6 +12,7 @@ namespace Piwik\Plugins\PrivacyManager;
 use Piwik\Option;
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
+use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
 
 /**
  * @property bool $doNotTrackEnabled    Enable / Disable Do Not Track {@see DoNotTrackHeaderChecker}
@@ -86,12 +87,15 @@ class Config
     private function getFromOption($name, $config)
     {
         if ($name === 'ipAddressMaskLength') {
-            return IpAddressMaskLengthSetting::getInstance()->getValue();
+            $value = IpAddressMaskLengthSetting::getInstance()->getValue();
+        } else if ($name === 'ipAnonymizerEnabled') {
+            $value = IPAnonymisationSetting::getInstance()->getValue();
+        } else {
+            $name  = $this->prefix($name);
+            $value = Option::get($name);
         }
-        $name  = $this->prefix($name);
-        $value = Option::get($name);
 
-        if (false !== $value) {
+        if (isset($value) && false !== $value) {
             settype($value, $config['type']);
         } else {
             $value = $config['default'];
