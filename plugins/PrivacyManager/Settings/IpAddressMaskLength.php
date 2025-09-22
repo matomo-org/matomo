@@ -40,7 +40,7 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
 
     protected static function getOptionName(): string
     {
-        return 'PrivacyManager.IpAddressMaskLength';
+        return 'PrivacyManager.ipAddressMaskLength';
     }
 
     public static function getTitle(): string
