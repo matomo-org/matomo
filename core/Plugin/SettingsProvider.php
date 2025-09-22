@@ -179,7 +179,7 @@ class SettingsProvider
      */
     public function getAllMeasurableSettings($idSite, $idMeasurableType = null)
     {
-        $this->pluginManager->loadActivatedPlugins();
+        //$this->pluginManager->loadActivatedPlugins();
         $pluginNames = $this->pluginManager->getActivatedPlugins();
         $byPluginName = array();
 
