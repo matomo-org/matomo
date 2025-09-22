@@ -250,7 +250,7 @@ export default defineComponent({
   },
   methods: {
     shouldSave() {
-      if (this.actualRandomizeConfigId) {
+      if (this.showSettings && this.actualRandomizeConfigId) {
         this.showPasswordConfirmation = true;
       } else {
         this.save();
