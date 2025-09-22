@@ -64,7 +64,7 @@ class Config
         return $this->getFromTrackerCache($name, $this->properties[$name]);
     }
 
-    public static function prefix($optionName): string
+    public static function prefix(string $optionName): string
     {
         return 'PrivacyManager.' . $optionName;
     }
