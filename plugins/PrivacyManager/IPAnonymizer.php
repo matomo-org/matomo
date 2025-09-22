@@ -78,6 +78,6 @@ class IPAnonymizer
     public static function isActive()
     {
         $privacyConfig = new Config();
-        return $privacyConfig->isAnonymizerEnabled;
+        return $privacyConfig->ipAnonymizerEnabled;
     }
 }

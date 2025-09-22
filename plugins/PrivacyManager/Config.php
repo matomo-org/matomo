@@ -88,7 +88,7 @@ class Config
     {
         if ($name === 'ipAddressMaskLength') {
             $value = IpAddressMaskLengthSetting::getInstance()->getValue();
-        } else if ($name === 'ipAnonymizerEnabled') {
+        } elseif ($name === 'ipAnonymizerEnabled') {
             $value = IPAnonymisationSetting::getInstance()->getValue();
         } else {
             $name  = $this->prefix($name);
