@@ -458,6 +458,9 @@ export default defineComponent({
 
         SiteTypesStore.removeEditSiteIdParameterFromHash();
 
+        this.isSaving = false;
+        this.editMode = false;
+
         this.$emit('save', {
           site: this.theSite,
           settingValues: values.settingValues,
@@ -491,8 +494,6 @@ export default defineComponent({
         savePrivacySettingsPromise.then(
           () => saveSitePromise().then(() => {
             showNotificationAndEmitSave();
-            // disable edit mode when saved successfully
-            this.editMode = false;
           }).catch(() => {
             // enable saving again on error
             this.isSaving = false;
@@ -504,8 +505,6 @@ export default defineComponent({
       } else {
         saveSitePromise().then(() => {
           showNotificationAndEmitSave();
-          this.isSaving = false;
-          this.editMode = false;
         });
       }
     },
