@@ -55,7 +55,7 @@ abstract class Base extends Report
         }
     }
 
-    private function isEcommerceEnabledByInfos($infos)
+    private function isEcommerceEnabledByInfos(array $infos): bool
     {
         $idSite = $infos['idSite'];
 
@@ -63,10 +63,10 @@ abstract class Base extends Report
             return false;
         }
 
-        return $this->isEcommerceEnabled($idSite);
+        return $this->isEcommerceEnabled((int) $idSite);
     }
 
-    private function isEcommerceEnabled($idSite)
+    private function isEcommerceEnabled(int $idSite): bool
     {
         return EcommerceEnabledSetting::getInstance($idSite)->getValue() === 1;
     }
