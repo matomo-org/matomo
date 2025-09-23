@@ -40,6 +40,7 @@
         "BackToUser": "Tornar a Usuaris",
         "BasicInformation": "Informació bàsica",
         "BulkActions": "Accions massives",
+        "CannotRevokeOwnSuperuserAccess": "No podeu revocar el vostre propi accés de superusuari.",
         "Capabilities": "Capacitats",
         "CapabilitiesHelp": "Les capacitats són habilitats individuals que es poden concedir als usuaris. Els rols poden, per defecte, atorgar determinades capacitats. Per exemple, la funció d'administrador permetrà automàticament als usuaris editar etiquetes al Gestor d'etiquetes. Tanmateix, per als usuaris menys potents, podeu oferir-los de manera explícita les capacitats.",
         "Capability": "Capacitat",

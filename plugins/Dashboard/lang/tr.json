@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Pano bileşeni ekle",
+        "AddAWidget": "Bu panoya bir pano bileşeni ekle",
         "AddPreviewedWidget": "Bileşeni panoya eklemek için tıklayın",
         "ChangeDashboardLayout": "Pano düzenini değiştir",
         "CopyDashboardToUser": "Panoyu kullanıcıya kopyala",
@@ -15,7 +15,7 @@
         "DeleteWidgetConfirm": "Bu bileşeni panodan silmek istediğinize emin misiniz?",
         "EmptyDashboard": "Boş pano - Kullanmak istediğiniz pano bileşenlerini seçin",
         "LoadingWidget": "Lütfen pano bileşeni yüklenirken bekleyin…",
-        "ManageDashboard": "Pano yönetimi",
+        "ManageDashboard": "Bu panoyu yönet",
         "Maximise": "Büyüt",
         "Minimise": "Küçült",
         "NotUndo": "Bu işlem geri alınamaz.",
