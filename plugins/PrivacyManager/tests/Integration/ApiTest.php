@@ -93,13 +93,16 @@ class ApiTest extends IntegrationTestCase
         $container = StaticContainer::getContainer();
         $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
 
+        $complianceType = 'cnil_v1';
+
         $result = $this->api->setComplianceStatus(
             (string) $this->siteId,
-            'cnil_v1',
+            $complianceType,
             true
         );
 
-        $this->assertTrue($result);
+        $complianceStatus = $this->api->getComplianceStatus($this->siteId, $complianceType);
+        $this->assertTrue($complianceStatus['complianceModeEnforced']);
     }
 
     public function provideContainerConfig()
