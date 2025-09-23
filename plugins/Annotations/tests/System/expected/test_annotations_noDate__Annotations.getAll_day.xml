@@ -261,5 +261,55 @@
 			<canEditOrDelete>1</canEditOrDelete>
 			<idNote>51</idNote>
 		</row>
+		<row>
+			<id>53</id>
+			<idsite>1</idsite>
+			<date>2012-04-01</date>
+			<note>&lt;h1&gt;Test&lt;/h1&gt;</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>53</idNote>
+		</row>
+		<row>
+			<id>54</id>
+			<idsite>1</idsite>
+			<date>2012-04-01</date>
+			<note>&lt;script&gt;alert(1)&lt;/script&gt;</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>54</idNote>
+		</row>
+		<row>
+			<id>55</id>
+			<idsite>1</idsite>
+			<date>2012-04-01</date>
+			<note>{{ 1+1 }}</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>55</idNote>
+		</row>
+		<row>
+			<id>56</id>
+			<idsite>1</idsite>
+			<date>2012-04-01</date>
+			<note>&lt;div vue-entry=&quot;Dashboard.DashboardSettings&quot;&gt;&lt;/div&gt;</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>56</idNote>
+		</row>
+		<row>
+			<id>57</id>
+			<idsite>1</idsite>
+			<date>2012-04-01</date>
+			<note>1' or '1' = '1'))/*</note>
+			<starred>0</starred>
+			<user>superUserLogin</user>
+			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>57</idNote>
+		</row>
 	</row>
 </result>
