@@ -6,6 +6,7 @@
         "CopyDashboardToUser": "Copiar panel al usuario",
         "CreateNewDashboard": "Crear nuevo panel",
         "Dashboard": "Panel",
+        "DashboardCategoryHelp": "Esta es una página de panel. Los paneles son una colección de widgets de Matomo que agregas vos mismo para cubrir tus necesidades específicas. Mezclá y combiná cualquiera de los widgets de Matomo para obtener los datos que %1$sVOS%2$s necesitás de un saque.",
         "DashboardCopied": "Se copió exitosamente el panel actual al usuario seleccionado.",
         "DashboardEmptyNotification": "Tu panel no contiene ningún widget. Comenzá agregando alguno o simplemente reiniciá el panel a la selección predeterminada de widgets.",
         "DashboardName": "Nombre del panel:",
@@ -32,7 +33,6 @@
         "SetAsDefaultWidgetsConfirmHelp": "Esta selección de widgets y diseño de columnas del panel será usada cuando un usuario cree un nuevo panel o cuando se use la función \"%s\".",
         "TopLinkTooltip": "Ver informes de análisis web para %s.",
         "WidgetNotFound": "Widget no encontrado",
-        "WidgetPreview": "Previsualización del Widget",
-        "DashboardCategoryHelp": "Esta es una página de panel. Los paneles son una colección de widgets de Matomo que agregas vos mismo para cubrir tus necesidades específicas. Mezclá y combiná cualquiera de los widgets de Matomo para obtener los datos que %1$sVOS%2$s necesitás de un saque."
+        "WidgetPreview": "Previsualización del Widget"
     }
 }
