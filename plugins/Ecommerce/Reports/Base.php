@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Url;
 use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
+use Piwik\Site;
 
 abstract class Base extends Report
 {
@@ -68,6 +69,7 @@ abstract class Base extends Report
 
     private function isEcommerceEnabled(int $idSite): bool
     {
-        return EcommerceEnabledSetting::getInstance($idSite)->getValue() === 1;
+        $site = new Site($idSite);
+        return $site->isEcommerceEnabled();
     }
 }

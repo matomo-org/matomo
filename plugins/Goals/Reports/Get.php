@@ -101,7 +101,8 @@ class Get extends Base
             return false;
         }
 
-        return EcommerceEnabledSetting::getInstance($idSite)->getValue() === 1;
+        $site = new Site($idSite);
+        return $site->isEcommerceEnabled();
     }
 
     public function configureView(ViewDataTable $view)

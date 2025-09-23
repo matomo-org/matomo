@@ -130,7 +130,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setGeneralVariablesView($view);
         $this->setGoalOptions($view);
         $view->onlyShowAddNewGoal = true;
-        $view->ecommerceEnabled = EcommerceEnabledSetting::getInstance($this->idSite)->getValue() === 1;
+        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
         $this->execAndSetResultsForTwigEvents($view);
         return $view->render();
     }
@@ -225,7 +225,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $selectableColumns = array('nb_conversions', 'conversion_rate', 'revenue');
         $goalSelectableColumns = $selectableColumns;
-        if (EcommerceEnabledSetting::getInstance($this->idSite)->getValue() === 1) {
+        if ($this->site->isEcommerceEnabled()) {
             $selectableColumns[] = 'items';
             $selectableColumns[] = 'avg_order_revenue';
         }
@@ -452,7 +452,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         $view->goalsJSON = json_encode($goals);
-        $view->ecommerceEnabled = EcommerceEnabledSetting::getInstance($this->idSite)->getValue() === 1;
+        $view->ecommerceEnabled = $this->site->isEcommerceEnabled();
     }
 
     private function setGoalOptions(View $view)
