@@ -66,8 +66,12 @@ class TwoSitesWithAnnotations extends Fixture
 
     private function addSpecialCharsAnnotations()
     {
-        $api = API::getInstance();
         $date = '2012-04-01';
+        $t = self::getTracker($this->idSite1, $date, $defaultInit = true);
+        $t->setUrl('http://example.org/index.htm');
+        self::checkResponse($t->doTrackPageView('0'));
+
+        $api = API::getInstance();
         $api->add($this->idSite1, $date, '<h1>Test</h1>');
         $api->add($this->idSite1, $date, '<script>alert(1)</script>');
         $api->add($this->idSite1, $date, '{{ 1+1 }}');
