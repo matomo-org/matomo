@@ -9,6 +9,8 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests;
 
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\API;
@@ -69,6 +71,9 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     public function testIpAnonymizerEnabledCnilPolicyDisabled()
     {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = false);
         $this->assertTrue($this->config->ipAnonymizerEnabled);
 
@@ -78,6 +83,9 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     public function testIpAnonymizerEnabledCnilPolicyEnabled()
     {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
         $this->assertTrue($this->config->ipAnonymizerEnabled);
 
@@ -96,6 +104,9 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     public function testIpAddressMaskLengthCnilPolicyDisabled()
     {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = false);
         $this->assertSame(2, $this->config->ipAddressMaskLength);
 
@@ -105,6 +116,9 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     public function testIpAddressMaskLengthCnilPolicyEnabled()
     {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
         $this->assertSame(2, $this->config->ipAddressMaskLength);
 

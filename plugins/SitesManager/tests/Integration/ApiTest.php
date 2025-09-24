@@ -608,6 +608,9 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetSiteFromIdWithEcommerceSiteCnilPolicyDisabled()
     {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
         $name = "website ecommerce enabled";
         // site with ecommerce enabled
         $idsite = API::getInstance()->addSite($name, ["http://piwik.net", "http://piwik.com/test/"], $ecommerce = 1);
@@ -621,6 +624,9 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetSiteFromIdWithEcommerceSiteCnilPolicyEnabled()
     {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
         $name = "website ecommerce enabled";
         // site with ecommerce enabled
         $idsite = API::getInstance()->addSite($name, ["http://piwik.net", "http://piwik.com/test/"], $ecommerce = 1);
