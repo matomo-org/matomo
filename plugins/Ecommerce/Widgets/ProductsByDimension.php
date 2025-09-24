@@ -12,7 +12,6 @@ namespace Piwik\Plugins\Ecommerce\Widgets;
 use Piwik\Common;
 use Piwik\Plugins\CoreHome\CoreHome;
 use Piwik\Widget\WidgetContainerConfig;
-use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 use Piwik\Site;
 
 class ProductsByDimension extends WidgetContainerConfig

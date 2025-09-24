@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Plugins\Ecommerce\tests\Integration;
+
+use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+
+/**
+ * @group Ecommerce
+ * @group ApiTest
+ * @group Plugins
+ */
+class ApiTest extends IntegrationTestCase
+{
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        // set up your test here if needed
+    }
+
+    public function tearDown(): void
+    {
+        // clean up your test here if needed
+
+        parent::tearDown();
+    }
+
+    /**
+     * All your actual test methods should start with the name "test"
+     */
+    public function testSimpleAddition()
+    {
+        $this->assertEquals(2, 1 + 1);
+    }
+}

@@ -27,7 +27,6 @@ use Piwik\Translation\Translator;
 use Piwik\View;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
-use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 
 /**
  *

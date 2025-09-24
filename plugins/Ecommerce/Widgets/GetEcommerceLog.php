@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\Live\Live;
 use Piwik\Widget\WidgetConfig;
-use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 use Piwik\Site;
 
 class GetEcommerceLog extends \Piwik\Widget\Widget

@@ -23,7 +23,6 @@ use Piwik\Plugins\Actions\Metrics;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
-use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 
 class ActionReports extends ArchiveProcessor\RecordBuilder
 {
@@ -554,7 +553,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $goals = $this->getGoalsForSite($site->getId());
 
         // Add orders and abandoned cart codes if the site is enabled for ecommerce
-        if (EcommerceEnabledSetting::getInstance($site->getId())->getValue() === 1) {
+        if ($site->isEcommerceEnabled()) {
             $goals[] = GoalManager::IDGOAL_CART;
             $goals[] = GoalManager::IDGOAL_ORDER;
         }

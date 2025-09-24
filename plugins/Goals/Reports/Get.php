@@ -32,7 +32,6 @@ use Piwik\Site;
 use Piwik\Tracker\GoalManager;
 use Piwik\Url;
 use Piwik\Widget\WidgetsList;
-use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 
 class Get extends Base
 {

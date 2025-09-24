@@ -15,9 +15,9 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\View;
-use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
@@ -216,8 +216,8 @@ class Controller extends \Piwik\Plugin\Controller
         $liveRefreshAfterMs = (int)Config::getInstance()->General['live_widget_refresh_after_seconds'] * 1000;
 
         $goals = Request::processRequest('Goals.getGoals', ['idSite' => $this->idSite, 'filter_limit' => '-1'], $default = []);
-        $ecommerceEnabled = EcommerceEnabledSetting::getInstance($this->idSite)->getValue() === 1;
-        $hasGoals = !empty($goals) || $ecommerceEnabled;
+        $site = new Site($this->idSite);
+        $hasGoals = !empty($goals) || $site->isEcommerceEnabled();
 
         // maximum number of visits to be displayed in the map
         $maxVisits = Common::getRequestVar('filter_limit', 100, 'int');
