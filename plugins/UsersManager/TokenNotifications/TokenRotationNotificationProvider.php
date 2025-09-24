@@ -9,10 +9,8 @@
 
 namespace Piwik\Plugins\UsersManager\TokenNotifications;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Db;
 
 class TokenRotationNotificationProvider extends TokenNotificationProvider
 {
@@ -27,17 +25,15 @@ class TokenRotationNotificationProvider extends TokenNotificationProvider
         return $this->userModel->getTokensRequiringRotation($periodThreshold);
     }
 
-    protected function createNotification(array $token): TokenNotification
+    protected function createNotification(string $login, array $tokens): TokenNotification
     {
-        $user = $this->userModel->getUser($token['login']);
+        $user = $this->userModel->getUser($login);
         $email = $user['email'];
 
         return new AuthTokenRotationEmailNotification(
-            $token['idusertokenauth'],
-            $token['description'],
-            $token['date_created'],
+            $tokens,
             [$email],
-            [$email => ['login' => $token['login']]]
+            [$email => ['login' => $login]]
         );
     }
 

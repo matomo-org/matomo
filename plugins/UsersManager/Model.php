@@ -983,7 +983,11 @@ class Model
         $db = $this->getDb();
         // Join on user table is done to ensure we only fetch tokens where the user still exists
         $sql = "
-            SELECT * 
+            SELECT
+                t.login,
+                t.idusertokenauth as tokenId,
+                t.description as tokenName,
+                t.date_created as tokenDate
             FROM " . Common::prefixTable('user_token_auth') . " t
             JOIN  " . Common::prefixTable('user') . " u ON t.login = u.login
             WHERE
@@ -1006,20 +1010,28 @@ class Model
         $db = $this->getDb();
         // Join on user table is done to ensure we only fetch tokens where the user still exists
         $sql = "
-            SELECT *
+            SELECT
+                t.login,
+                t.idusertokenauth as tokenId,
+                t.description as tokenName,
+                t.date_expired as tokenDate
             FROM " . Common::prefixTable('user_token_auth') . " t
             JOIN  " . Common::prefixTable('user') . " u ON t.login = u.login
             WHERE
                 t.date_expired IS NOT NULL AND
                 (t.date_created <= ?) AND
+                (t.date_expired > ?) AND
                 (t.date_expired <= ?) AND
                 t.ts_expiration_warning_notified IS NULL AND
                 t.system_token = 0 AND
                 t.login != ?
         ";
 
+        $now = Date::factory('now')->getDatetime();
+
         return $db->fetchAll($sql, [
-            Date::factory('now')->getDatetime(),
+            $now,
+            $now,
             $periodThreshold,
             'anonymous',
         ]);

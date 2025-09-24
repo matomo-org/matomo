@@ -30,7 +30,7 @@ abstract class TokenNotificationProvider implements TokenNotificationProviderInt
 
     abstract protected function getTokensToNotify(string $periodThreshold): array;
 
-    abstract protected function createNotification(array $token): TokenNotification;
+    abstract protected function createNotification(string $login, array $tokens): TokenNotification;
 
     public function getTokenNotificationsForDispatch(): array
     {
@@ -41,10 +41,14 @@ abstract class TokenNotificationProvider implements TokenNotificationProviderInt
 
         $tokensToNotify = $this->getTokensToNotify($periodThreshold);
 
-        $notifications = [];
-
+        $tokensToNotifyPerUser = [];
         foreach ($tokensToNotify as $t) {
-            $notifications[] = $this->createNotification($t);
+            $tokensToNotifyPerUser[$t['login']][] = $t;
+        }
+
+        $notifications = [];
+        foreach ($tokensToNotifyPerUser as $login => $tokens) {
+            $notifications[] = $this->createNotification($login, $tokens);
         }
 
         return $notifications;

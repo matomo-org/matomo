@@ -9,10 +9,8 @@
 
 namespace Piwik\Plugins\UsersManager\TokenNotifications;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Db;
 
 class TokenExpirationWarningNotificationProvider extends TokenNotificationProvider
 {
@@ -27,23 +25,20 @@ class TokenExpirationWarningNotificationProvider extends TokenNotificationProvid
         return $this->userModel->getTokensExpiringSoon($periodThreshold);
     }
 
-    protected function createNotification(array $token): TokenNotification
+    protected function createNotification(string $login, array $tokens): TokenNotification
     {
-        $user = $this->userModel->getUser($token['login']);
+        $user = $this->userModel->getUser($login);
         $email = $user['email'];
 
         return new AuthTokenExpirationWarningEmailNotification(
-            $token['idusertokenauth'],
-            $token['description'],
-            $token['date_created'],
+            $tokens,
             [$email],
-            [$email => ['login' => $token['login']]],
-            $token['date_expired']
+            [$email => ['login' => $login]]
         );
     }
 
     public function setTokenNotificationDispatched(string $tokenId): void
     {
-        $this->userModel->setExpirationWarningNotificationWasSentForToken($tokenId, Date::factory('now')->getDatetime());
+        $this->userModel->setExpirationWarningNotificationWasSentForToken($tokenId, $this->today);
     }
 }
