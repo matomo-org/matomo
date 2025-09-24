@@ -240,7 +240,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
             if (!empty($session['id']) && mb_strlen($session['id']) != 128) {
                 $bind = [ hash('sha512', $session['id'] . $salt), $session['id'] ];
                 try {
-                    Db::query(sprintf('UPDATE %s SET id = ? WHERE id = ?', Common::prefixTable('session')), $bind);
+                    Db::query(sprintf('UPDATE `%s` SET id = ? WHERE id = ?', Common::prefixTable('session')), $bind);
                 } catch (\Exception $e) {
                     // ignore possible duplicate key errors
                 }

@@ -164,7 +164,7 @@ class MeasurableSettingsTable extends BaseSettingsTable
     public static function removeAllSettingsForSite($idSite)
     {
         try {
-            $query = sprintf('DELETE FROM %s WHERE idsite = ?', Common::prefixTable('site_setting'));
+            $query = sprintf('DELETE FROM `%s` WHERE idsite = ?', Common::prefixTable('site_setting'));
             Db::query($query, array($idSite));
         } catch (Exception $e) {
             if ($e->getCode() != 42) {
@@ -182,7 +182,7 @@ class MeasurableSettingsTable extends BaseSettingsTable
     public static function removeAllSettingsForPlugin($pluginName)
     {
         try {
-            $query = sprintf('DELETE FROM %s WHERE plugin_name = ?', Common::prefixTable('site_setting'));
+            $query = sprintf('DELETE FROM `%s` WHERE plugin_name = ?', Common::prefixTable('site_setting'));
             Db::query($query, array($pluginName));
         } catch (Exception $e) {
             if ($e->getCode() != 42) {

@@ -47,7 +47,7 @@ class TestLogFooBarBaz extends LogTable
 
     public function insertEntry($idLogFooBarBaz, $idLogFooBar)
     {
-        Db::query(sprintf('INSERT INTO %s VALUES(?,?)', Common::prefixTable($this->getName())), array($idLogFooBarBaz, $idLogFooBar));
+        Db::query(sprintf('INSERT INTO `%s` VALUES(?,?)', Common::prefixTable($this->getName())), array($idLogFooBarBaz, $idLogFooBar));
     }
 
     public function getName()
@@ -79,7 +79,7 @@ class TestLogFooBar extends LogTable
 
     public function insertEntry($idLogFooBar, $idLogFoo)
     {
-        Db::query(sprintf('INSERT INTO %s VALUES(?,?)', Common::prefixTable($this->getName())), array($idLogFooBar, $idLogFoo));
+        Db::query(sprintf('INSERT INTO `%s` VALUES(?,?)', Common::prefixTable($this->getName())), array($idLogFooBar, $idLogFoo));
     }
 
     public function uninstall()
@@ -117,7 +117,7 @@ class TestLogFoo extends LogTable
 
     public function insertEntry($idLogFoo, $idSite, $idVisit)
     {
-        Db::query(sprintf('INSERT INTO %s VALUES(?,?,?)', Common::prefixTable($this->getName())), array($idLogFoo, $idSite, $idVisit));
+        Db::query(sprintf('INSERT INTO `%s` VALUES(?,?,?)', Common::prefixTable($this->getName())), array($idLogFoo, $idSite, $idVisit));
     }
 
     public function uninstall()
@@ -368,7 +368,7 @@ class MultipleSitesMultipleVisitsFixture extends Fixture
     private function insertArchiveRow($date, $row)
     {
         $table = ArchiveTableCreator::getNumericTable($date);
-        $sql = "INSERT INTO %s (idarchive, idsite, name, value, date1, date2, period, ts_archived) VALUES ('%s')";
+        $sql = "INSERT INTO `%s` (idarchive, idsite, name, value, date1, date2, period, ts_archived) VALUES ('%s')";
 
         $row['period'] = Day::PERIOD_ID;
         Db::exec(sprintf($sql, $table, implode("','", $row)));

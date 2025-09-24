@@ -165,8 +165,8 @@ class Model
         $siteTable = Common::prefixTable('site');
 
         $sql = sprintf("SELECT access.idsite, access.access 
-    FROM %s access 
-    LEFT JOIN %s site 
+    FROM `%s` access 
+    LEFT JOIN `%s` site 
     ON access.idsite=site.idsite
      WHERE access.login = ? and site.idsite is not null", $accessTable, $siteTable);
         $db = $this->getDb();

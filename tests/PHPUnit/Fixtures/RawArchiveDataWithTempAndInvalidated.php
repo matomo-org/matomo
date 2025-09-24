@@ -609,7 +609,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
     private function insertTestArchiveRow($table, $row)
     {
-        $insertSqlTemplate = "INSERT INTO %s (idarchive, idsite, name, value, date1, date2, period, ts_archived) VALUES ('%s')";
+        $insertSqlTemplate = "INSERT INTO `%s` (idarchive, idsite, name, value, date1, date2, period, ts_archived) VALUES ('%s')";
 
         Db::exec(sprintf($insertSqlTemplate, $table, implode("','", $row)));
     }

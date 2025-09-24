@@ -46,8 +46,8 @@ class Updates_3_0_0_b1 extends Updates
     public function getMigrations(Updater $updater)
     {
         $db = Db::get();
-        $allGoals = $db->fetchAll(sprintf("SELECT DISTINCT idgoal FROM %s", Common::prefixTable('goal')));
-        $allDashboards = $db->fetchAll(sprintf("SELECT * FROM %s", Common::prefixTable('user_dashboard')));
+        $allGoals = $db->fetchAll(sprintf("SELECT DISTINCT idgoal FROM `%s`", Common::prefixTable('goal')));
+        $allDashboards = $db->fetchAll(sprintf("SELECT * FROM `%s`", Common::prefixTable('user_dashboard')));
 
         $migrations = $this->getDashboardMigrations($allDashboards, $allGoals);
         $migrations = $this->getPluginSettingsMigrations($migrations);
@@ -489,7 +489,7 @@ class Updates_3_0_0_b1 extends Updates
         }
 
         $table = Common::prefixTable('user_dashboard');
-        $sql = sprintf('UPDATE %s SET layout = ? WHERE iddashboard = ?', $table);
+        $sql = sprintf('UPDATE `%s` SET layout = ? WHERE iddashboard = ?', $table);
 
         foreach ($allDashboards as $dashboard) {
             $dashboardLayout = json_decode($dashboard['layout']);

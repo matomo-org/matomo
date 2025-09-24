@@ -429,7 +429,7 @@ class Model
             StaticContainer::get(LoggerInterface::class)->info('deleteArchivesWithPeriod: ' . $numericTable . ' with period = ' . $period . ' and date = ' . $date);
         }
 
-        $query = "DELETE FROM %s WHERE period = ? AND ts_archived < ?";
+        $query = "DELETE FROM `%s` WHERE period = ? AND ts_archived < ?";
         $bind  = array($period, $date);
 
         $queryObj = Db::query(sprintf($query, $numericTable), $bind);
@@ -454,7 +454,7 @@ class Model
         $idsToDelete = array_values($idsToDelete);
 
         $idsToDelete = array_map('intval', $idsToDelete);
-        $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
+        $query = "DELETE FROM `%s` WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
 
         $queryObj = Db::query(sprintf($query, $numericTable), array());
         $deletedRows = $queryObj->rowCount();
@@ -1147,7 +1147,7 @@ class Model
         $requestedRecords = is_string($requestedRecords) ? [$requestedRecords] : $requestedRecords;
         $placeholders = Common::getSqlStringFieldsArray($requestedRecords);
 
-        $countSql = "SELECT DISTINCT name FROM %s WHERE idarchive IN ($idArchives) AND name IN ($placeholders) LIMIT " . count($requestedRecords);
+        $countSql = "SELECT DISTINCT name FROM `%s` WHERE idarchive IN ($idArchives) AND name IN ($placeholders) LIMIT " . count($requestedRecords);
 
         $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate);
         $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate);

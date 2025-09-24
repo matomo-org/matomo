@@ -800,7 +800,7 @@ class DataPurgingTest extends IntegrationTestCase
         $janDate1 = '2012-01-05';
         $febDate1 = '2012-02-04';
 
-        $sql = "INSERT INTO %s (idarchive,name,idsite,date1,date2,period,ts_archived,value)
+        $sql = "INSERT INTO `%s` (idarchive,name,idsite,date1,date2,period,ts_archived,value)
                         VALUES (10000,?,1,?,?,?,?,?)";
 
         // one metric for jan & one for feb

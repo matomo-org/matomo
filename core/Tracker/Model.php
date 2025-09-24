@@ -634,7 +634,7 @@ class Model
      */
     public function isSiteEmpty($siteId)
     {
-        $sql = sprintf('SELECT idsite FROM %s WHERE idsite = ? limit 1', Common::prefixTable('log_visit'));
+        $sql = sprintf('SELECT idsite FROM `%s` WHERE idsite = ? limit 1', Common::prefixTable('log_visit'));
 
         $result = \Piwik\Db::fetchOne($sql, [$siteId]);
 
