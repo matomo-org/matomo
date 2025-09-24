@@ -2102,7 +2102,7 @@ function PiwikTest() {
     });
 
     test("API methods", function() {
-        expect(124);
+        expect(125);
 
         equal( typeof Piwik.addPlugin, 'function', 'addPlugin' );
         equal( typeof Piwik.addPlugin, 'function', 'addTracker' );
@@ -2162,6 +2162,7 @@ function PiwikTest() {
         equal( typeof tracker.setRequestContentType, 'function', 'setRequestContentType' );
         equal( typeof tracker.setGenerationTimeMs, 'function', 'setGenerationTimeMs' );
         equal( typeof tracker.setReferrerUrl, 'function', 'setReferrerUrl' );
+        equal( typeof tracker.setReferrerUrlMaxLength, 'function', 'setReferrerUrlMaxLength' );
         equal( typeof tracker.setExcludedReferrers, 'function', 'setExcludedReferrers' );
         equal( typeof tracker.getExcludedReferrers, 'function', 'getExcludedReferrers' );
         equal( typeof tracker.setCustomUrl, 'function', 'setCustomUrl' );
@@ -3404,6 +3405,34 @@ function PiwikTest() {
         ok(litp.getLastInteractionType() !== 'sitesearch');
         tracker.trackSiteSearch("search Keyword");
         ok(litp.getLastInteractionType() === 'sitesearch');
+    });
+
+    test("Tracker setReferrerUrlMaxLength()", function() {
+
+        expect(1);
+
+        deleteCookies();
+
+        var tracker = Piwik.getTracker("trackerUrl", "42");
+
+        var customUrl = 'https://www.example.com/test';
+        tracker.setCustomUrl(customUrl);
+
+        var maxLength = 100;
+
+        tracker.setReferrerUrlMaxLength(maxLength);
+
+        var referrerUrl = 'https://external.example.com/test?test=';
+        while (referrerUrl.length < maxLength) {
+            referrerUrl += '1';
+        }
+        referrerUrl += 'should-be-trimmed';
+        tracker.setReferrerUrl(referrerUrl);
+        
+        var requestString = tracker.getRequest('hello=world');
+        var requestParams = new URLSearchParams(requestString);
+        
+        equal(requestParams.get('_ref'), referrerUrl.slice(0, maxLength));
     });
 
     test("prefixPropertyName()", function() {

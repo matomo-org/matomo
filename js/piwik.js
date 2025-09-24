@@ -117,7 +117,7 @@
      "", "\b", "\t", "\n", "\f", "\r", "\"", "\\", apply, call, charCodeAt, getUTCDate, getUTCFullYear, getUTCHours,
     getUTCMinutes, getUTCMonth, getUTCSeconds, hasOwnProperty, join, lastIndex, length, parse, prototype, push, replace,
     sort, slice, stringify, test, toJSON, toString, valueOf, objectToJSON, addTracker, removeAllAsyncTrackersButFirst,
-    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, enableFileTracking
+    optUserOut, forgetUserOptOut, isUserOptedOut, withCredentials, visibilityState, enableFileTracking, setReferrerUrlMaxLength
  */
 /*global _paq:true */
 /*members push */
@@ -2496,7 +2496,9 @@ if (typeof window.Matomo !== 'object') {
 
                 configBrowserFeatureDetection = true,
 
-                configFileTracking = false;
+                configFileTracking = false,
+
+                configReferralUrlMaxLength = 1024;
 
             // Document title
             try {
@@ -3935,7 +3937,7 @@ if (typeof window.Matomo !== 'object') {
                     nowTs = Math.round(now.getTime() / 1000),
                     referralTs,
                     referralUrl,
-                    referralUrlMaxLength = 1024,
+                    referralUrlMaxLength = configReferralUrlMaxLength,
                     currentReferrerHostName,
                     originalReferrerHostName,
                     cookieSessionName = getCookieName('ses'),
@@ -7486,6 +7488,15 @@ if (typeof window.Matomo !== 'object') {
             };
 
             /**
+             * Set referral URL max length
+             *
+             * @param {int} length
+             */
+            this.setReferrerUrlMaxLength = function (length) {
+                configReferralUrlMaxLength = length;
+            };
+
+            /**
              * Mark performance metrics as available, once onload event has finished
              */
             trackCallbackOnLoad(function(){
@@ -7563,7 +7574,7 @@ if (typeof window.Matomo !== 'object') {
          * Constructor
          ************************************************************/
 
-        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
+        var applyFirst = ['addTracker', 'enableFileTracking', 'forgetCookieConsentGiven', 'requireCookieConsent', 'disableBrowserFeatureDetection', 'disableCampaignParameters', 'disableCookies', 'setTrackerUrl', 'setAPIUrl', 'enableCrossDomainLinking', 'setCrossDomainLinkingTimeout', 'setSessionCookieTimeout', 'setVisitorCookieTimeout', 'setCookieNamePrefix', 'setCookieSameSite', 'setSecureCookie', 'setCookiePath', 'setCookieDomain', 'setReferrerUrlMaxLength', 'setDomains', 'setUserId', 'setVisitorId', 'setSiteId', 'alwaysUseSendBeacon', 'disableAlwaysUseSendBeacon', 'enableLinkTracking', 'setCookieConsentGiven', 'requireConsent', 'setConsentGiven', 'disablePerformanceTracking', 'setPagePerformanceTiming', 'setExcludedQueryParams', 'setExcludedReferrers'];
 
         function createFirstTracker(matomoUrl, siteId)
         {
