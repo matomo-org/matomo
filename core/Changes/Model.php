@@ -83,7 +83,7 @@ class Model
         $table = Common::prefixTable('changes');
 
         try {
-            $this->db->query("DELETE FROM " . $table . " WHERE plugin_name = ?", [$pluginName]);
+            $this->db->query("DELETE FROM `" . $table . "` WHERE plugin_name = ?", [$pluginName]);
         } catch (\Exception $e) {
             if (Db::get()->isErrNo($e, Migration\Db::ERROR_CODE_TABLE_NOT_EXISTS)) {
                 return;
@@ -195,7 +195,7 @@ class Model
         }
 
         $table = Common::prefixTable('changes');
-        $selectSql = "SELECT * FROM " . $table . " WHERE title IS NOT NULL AND created_time > ? ORDER BY idchange DESC";
+        $selectSql = "SELECT * FROM `" . $table . "` WHERE title IS NOT NULL AND created_time > ? ORDER BY idchange DESC";
 
         try {
             $changes = $this->db->fetchAll($selectSql, [Date::now()->subMonth(6)]);

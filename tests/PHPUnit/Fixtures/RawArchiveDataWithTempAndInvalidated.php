@@ -729,7 +729,7 @@ class RawArchiveDataWithTempAndInvalidated extends Fixture
 
     private function getArchiveRowCountWithId($table, $archiveIds)
     {
-        return Db::fetchOne("SELECT COUNT(*) FROM $table WHERE idarchive IN (" . implode(',', $archiveIds) . ")");
+        return Db::fetchOne("SELECT COUNT(*) FROM `$table` WHERE idarchive IN (" . implode(',', $archiveIds) . ")");
     }
 
     public function assertInvalidatedArchivesPurged(Date $date)

@@ -73,7 +73,7 @@ class RawLogDao
     public function countVisitsWithDatesLimit($from, $to)
     {
         $sql = "SELECT COUNT(*) AS num_rows"
-             . " FROM " . Common::prefixTable('log_visit')
+            . " FROM `" . Common::prefixTable('log_visit') . "`"
              . " WHERE visit_last_action_time >= ? AND visit_last_action_time < ?";
 
         $bind = array($from, $to);
@@ -132,7 +132,7 @@ class RawLogDao
             };
         }
 
-        list($query, $bind) = $this->createLogIterationQuery($logTable, $idField, $fields, $conditions, $iterationStep);
+        [$query, $bind] = $this->createLogIterationQuery($logTable, $idField, $fields, $conditions, $iterationStep);
 
         do {
             $rows = Db::fetchAll($query, call_user_func($bindFunction, $bind, $lastId));
@@ -209,7 +209,7 @@ class RawLogDao
     public function hasSiteVisitsBetweenTimeframe($fromDateTime, $toDateTime, $idSite)
     {
         $sites = Db::fetchOne("SELECT 1
-                FROM " . Common::prefixTable('log_visit') . "
+                FROM `" . Common::prefixTable('log_visit') . "`
                 WHERE idsite = ?
                 AND visit_last_action_time >= ?
                 AND visit_last_action_time <= ?
@@ -272,7 +272,7 @@ class RawLogDao
         }
 
         foreach ($conditions as $condition) {
-            list($column, $operator, $value) = $condition;
+            [$column, $operator, $value] = $condition;
 
             if (is_array($value)) {
                 $parts[] = "$column IN (" . Common::getSqlStringFieldsArray($value) . ")";
@@ -323,7 +323,7 @@ class RawLogDao
         $result = array();
         foreach ($tables as $table) {
             $idCol = $idColumns[$table];
-            $result[$table] = Db::fetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
+            $result[$table] = Db::fetchOne("SELECT MAX($idCol) FROM `" . Common::prefixTable($table) . "`");
         }
 
         return $result;
@@ -353,15 +353,15 @@ class RawLogDao
         foreach ($this->dimensionMetadataProvider->getActionReferenceColumnsByTable() as $table => $columns) {
             $idCol = $idColumns[$table];
             // Create select query for requesting ALL needed fields at once
-            $sql = "SELECT " . implode(',', $columns) . " FROM " . Common::prefixTable($table) . " WHERE $idCol >= ? AND $idCol < ?";
+            $sql = "SELECT " . implode(',', $columns) . " FROM `" . Common::prefixTable($table) . "` WHERE $idCol >= ? AND $idCol < ?";
 
             if ($olderThan) {
                // Why start on zero? When running for a couple of months, this will generate about 10000+ queries with zero result. Use the lowest value instead.... saves a LOT of waiting time!
-                $start = (int) Db::fetchOne("SELECT MIN($idCol) FROM " . Common::prefixTable($table));
+                $start = (int)Db::fetchOne("SELECT MIN($idCol) FROM `" . Common::prefixTable($table) . "`");
                 $finish = $maxIds[$table];
             } else {
                 $start = $maxIds[$table];
-                $finish = (int) Db::fetchOne("SELECT MAX($idCol) FROM " . Common::prefixTable($table));
+                $finish = (int)Db::fetchOne("SELECT MAX($idCol) FROM `" . Common::prefixTable($table) . "`");
             }
             // Borrowed from Db::segmentedFetchAll
             // Request records per $insertIntoTempIterationStep amount
@@ -413,11 +413,11 @@ class RawLogDao
 
     private function deleteUnusedActions()
     {
-        list($logActionTable, $tempTableName) = Common::prefixTables("log_action", self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
+        [$logActionTable, $tempTableName] = Common::prefixTables("log_action", self::DELETE_UNUSED_ACTIONS_TEMP_TABLE_NAME);
 
-        $deleteSql = "DELETE LOW_PRIORITY QUICK IGNORE $logActionTable
-						FROM $logActionTable
-				   LEFT JOIN $tempTableName tmp ON tmp.idaction = $logActionTable.idaction
+        $deleteSql = "DELETE LOW_PRIORITY QUICK IGNORE `$logActionTable`
+						FROM `$logActionTable`
+				   LEFT JOIN `$tempTableName` tmp ON tmp.idaction = `$logActionTable`.idaction
 					   WHERE tmp.idaction IS NULL";
 
         Db::query($deleteSql);

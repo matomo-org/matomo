@@ -54,13 +54,13 @@ class Updates_2_1_1_b11 extends Updates
         // returning visit segment
         foreach ($archiveNumericTables as $table) {
             // get archives w/ *._returning
-            $sql = "SELECT idarchive, idsite, period, date1, date2 FROM $table
+            $sql = "SELECT idarchive, idsite, period, date1, date2 FROM `$table`
                     WHERE name IN ('" . implode("','", $returningMetrics) . "')
                     GROUP BY idarchive";
             $idArchivesWithReturning = Db::fetchAll($sql);
 
             // get archives for visitssummary returning visitor segment
-            $sql = "SELECT idarchive, idsite, period, date1, date2 FROM $table
+            $sql = "SELECT idarchive, idsite, period, date1, date2 FROM `$table`
                     WHERE name = ?  GROUP BY idarchive";
             $visitSummaryReturningSegmentDone = Rules::getDoneFlagArchiveContainsOnePlugin(
                 new Segment(VisitFrequencyApi::RETURNING_VISITOR_SEGMENT, $idSites = array()),
@@ -92,7 +92,7 @@ class Updates_2_1_1_b11 extends Updates
 
             // if there are missing idarchives, fill out new archive row values
             if (!empty($missingIdArchives)) {
-                $newIdArchiveStart = Db::fetchOne("SELECT MAX(idarchive) FROM $table") + 1;
+                $newIdArchiveStart = Db::fetchOne("SELECT MAX(idarchive) FROM `$table`") + 1;
                 foreach ($missingIdArchives as $withMetricsIdArchive => &$rowToInsert) {
                     $idArchiveMappings[$withMetricsIdArchive] = $newIdArchiveStart;
 

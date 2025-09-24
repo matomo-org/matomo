@@ -198,7 +198,7 @@ class DbHelper
      */
     public static function tableHasIndex($table, $indexName)
     {
-        $result = Db::get()->fetchOne('SHOW INDEX FROM ' . $table . ' WHERE Key_name = ?', [$indexName]);
+        $result = Db::get()->fetchOne('SHOW INDEX FROM `' . $table . '` WHERE Key_name = ?', [$indexName]);
         return !empty($result);
     }
 

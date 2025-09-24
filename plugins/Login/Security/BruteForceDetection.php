@@ -89,7 +89,7 @@ class BruteForceDetection
         $db = Db::get();
 
         $startTime = $this->getStartTimeRange();
-        $sql = 'SELECT count(*) as numLogins FROM ' . $this->tablePrefixed . ' WHERE ip_address = ? AND attempted_at > ?';
+        $sql = 'SELECT count(*) as numLogins FROM `' . $this->tablePrefixed . '` WHERE ip_address = ? AND attempted_at > ?';
         $numLogins = $db->fetchOne($sql, array($ipAddress, $startTime));
 
         return empty($numLogins) || $numLogins <= $this->maxLogAttempts;
@@ -98,7 +98,7 @@ class BruteForceDetection
     public function getCurrentlyBlockedIps()
     {
         $sql = 'SELECT ip_address
-                FROM ' . $this->tablePrefixed . ' 
+                FROM `' . $this->tablePrefixed . '`
                 WHERE attempted_at > ?
                 GROUP BY ip_address 
                 HAVING count(*) > ' . (int) $this->maxLogAttempts;
@@ -118,7 +118,7 @@ class BruteForceDetection
     public function unblockIp($ip)
     {
         // we only delete where attempted_at was recent and keep other IPs for history purposes
-        Db::get()->query('DELETE FROM ' . $this->tablePrefixed . ' WHERE ip_address = ? and attempted_at > ?', array($ip, $this->getStartTimeRange()));
+        Db::get()->query('DELETE FROM `' . $this->tablePrefixed . '` WHERE ip_address = ? and attempted_at > ?', [$ip, $this->getStartTimeRange()]);
     }
 
     public function cleanupOldEntries()
@@ -128,7 +128,7 @@ class BruteForceDetection
 
         $minutes = max($minutesAutoDelete, $this->minutesTimeRange);
         $deleteOlderDate = $this->getDateTimeSubMinutes($minutes);
-        Db::get()->query('DELETE FROM ' . $this->tablePrefixed . ' WHERE attempted_at < ?', array($deleteOlderDate));
+        Db::get()->query('DELETE FROM `' . $this->tablePrefixed . '` WHERE attempted_at < ?', [$deleteOlderDate]);
     }
 
     /**
@@ -136,7 +136,7 @@ class BruteForceDetection
      */
     public function deleteAll()
     {
-        return Db::query('DELETE FROM ' . $this->tablePrefixed);
+        return Db::query('DELETE FROM `' . $this->tablePrefixed . '`');
     }
 
     /**
@@ -144,7 +144,7 @@ class BruteForceDetection
      */
     public function getAll()
     {
-        return Db::get()->fetchAll('SELECT * FROM ' . $this->tablePrefixed);
+        return Db::get()->fetchAll('SELECT * FROM `' . $this->tablePrefixed . '`');
     }
 
     protected function getNow()

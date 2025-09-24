@@ -40,7 +40,7 @@ class Environment
     public function getNumUsers()
     {
         if (!isset($this->usersCache)) {
-            $this->usersCache = (int) Db::get()->fetchOne('SELECT count(login) FROM ' . Common::prefixTable('user') . ' WHERE login <> "anonymous" ');
+            $this->usersCache = (int)Db::get()->fetchOne('SELECT count(login) FROM `' . Common::prefixTable('user') . '` WHERE login <> "anonymous" ');
         }
 
         return $this->usersCache;
@@ -49,7 +49,7 @@ class Environment
     public function getNumWebsites()
     {
         if (!isset($this->websitesCache)) {
-            $this->websitesCache = (int) Db::get()->fetchOne('SELECT count(idsite) FROM ' . Common::prefixTable('site'));
+            $this->websitesCache = (int)Db::get()->fetchOne('SELECT count(idsite) FROM `' . Common::prefixTable('site') . '`');
         }
 
         return $this->websitesCache;

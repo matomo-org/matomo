@@ -234,7 +234,7 @@ class Updates_4_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $salt = SettingsPiwik::getSalt();
-        $sessions = Db::fetchAll('SELECT id from ' . Common::prefixTable('session'));
+        $sessions = Db::fetchAll('SELECT id from `' . Common::prefixTable('session') . '`');
 
         foreach ($sessions as $session) {
             if (!empty($session['id']) && mb_strlen($session['id']) != 128) {
