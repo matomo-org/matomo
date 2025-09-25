@@ -15,7 +15,8 @@ abstract class TokenNotification implements TokenNotificationInterface
     private $tokens;
 
 
-    public function __construct(array $tokens) {
+    public function __construct(array $tokens)
+    {
         $this->tokens = $tokens;
     }
 
