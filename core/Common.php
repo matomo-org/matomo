@@ -1246,4 +1246,24 @@ class Common
         }
         return $validLanguages;
     }
+
+    /**
+     * Flatten variously nested arrays into a single flat list of values
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function flattenArray(array $array): array
+    {
+        $result = [];
+        foreach ($array as $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, static::flattenArray($value));
+            } else {
+                $result[] = $value;
+            }
+        }
+
+        return $result;
+    }
 }

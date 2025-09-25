@@ -12,13 +12,9 @@ namespace Piwik\Plugins\Annotations;
 use Exception;
 use Piwik\Common;
 use Piwik\Date;
+use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Piwik;
 use Piwik\Site;
-
-/**
- * @see plugins/Annotations/AnnotationList.php
- */
-require_once PIWIK_INCLUDE_PATH . '/plugins/Annotations/AnnotationList.php';
 
 /**
  * API for annotations plugin. Provides methods to create, modify, delete & query
@@ -47,16 +43,22 @@ class API extends \Piwik\Plugin\API
         $this->checkUserCanAddNotesFor($idSite);
         $this->checkSiteExists($idSite);
         $this->checkDateIsValid($date);
+        $date = Date::factory($date)->toString(); // ensure we handle today/yesterday correctly
 
-        $note = $this->filterNote($note);
+        $annotation = [
+            'idsite' => $idSite,
+            'date' => $date,
+            'note' => $this->filterNote($note),
+            'starred' => (int) $starred,
+            'user' => Piwik::getCurrentUserLogin(),
+        ];
 
-        // add, save & return a new annotation
-        $annotations = new AnnotationList($idSite);
+        $model = new Model();
+        $idNote = $model->createAnnotation($annotation);
+        $annotation['id'] = $idNote;
+        $this->decorateAnnotation($annotation);
 
-        $newAnnotation = $annotations->add($idSite, $date, $note, $starred);
-        $annotations->save($idSite);
-
-        return $newAnnotation;
+        return $annotation;
     }
 
     /**
@@ -80,25 +82,46 @@ class API extends \Piwik\Plugin\API
      * @return array Returns an array of two elements. The first element (indexed by
      *               'annotation') is the new annotation. The second element (indexed
      *               by 'idNote' is the new note's ID).
+     * @throws UnexpectedWebsiteFoundException
      */
     public function save(int $idSite, int $idNote, ?string $date = null, ?string $note = null, ?bool $starred = null): array
     {
         $this->checkSiteExists($idSite);
         $this->checkDateIsValid($date, $canBeNull = true);
+        if (null !== $date) {
+            $date = Date::factory($date)->toString(); // ensure we handle today/yesterday correctly
+        }
 
-        // get the annotations for the site
-        $annotations = new AnnotationList($idSite);
+        $originalAnnotation = $this->get($idSite, $idNote);
 
-        // check permissions
-        $this->checkUserCanModifyOrDelete($annotations->get($idSite, $idNote));
+        // check if current user has the right to update the annotation
+        $this->checkUserCanModifyOrDelete($originalAnnotation);
 
-        $note = $this->filterNote($note);
+        if (isset($starred)) {
+            $starred = intval($starred);
+        }
 
-        // modify the annotation, and save the whole list
-        $annotations->update($idSite, $idNote, $date, $note, $starred);
-        $annotations->save($idSite);
+        $updatedValues = array_diff_assoc(
+            array_filter(
+                [
+                    'date' => $date,
+                    'note' => $this->filterNote($note),
+                    'starred' => $starred,
+                ],
+                function ($value) {
+                    return isset($value);
+                }
+            ),
+            $originalAnnotation
+        );
 
-        return $annotations->get($idSite, $idNote);
+        if (!empty($updatedValues)) {
+            $model = new Model();
+            $originalAnnotation = $model->updateAnnotation($idNote, $idSite, $updatedValues);
+        }
+        $this->decorateAnnotation($originalAnnotation);
+
+        return $originalAnnotation;
     }
 
     /**
@@ -112,25 +135,26 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite The site ID to add the annotation to.
      * @param int $idNote The ID of the note to delete.
+     * @throws UnexpectedWebsiteFoundException
      */
     public function delete(int $idSite, int $idNote): void
     {
         $this->checkSiteExists($idSite);
 
-        $annotations = new AnnotationList($idSite);
-
+        $annotation = $this->get($idSite, $idNote);
         // check permissions
-        $this->checkUserCanModifyOrDelete($annotations->get($idSite, $idNote));
+        $this->checkUserCanModifyOrDelete($annotation);
 
-        // remove the note & save the list
-        $annotations->remove($idSite, $idNote);
-        $annotations->save($idSite);
+        $model = new Model();
+        $model->deleteAnnotation($idNote, $idSite);
     }
 
     /**
-     * Removes all annotations for a single site. Only super users can use this method.
+     * Removes all annotations for a single site. Only superusers can use this method.
      *
      * @param int $idSite The ID of the site to remove annotations for.
+     * @throws UnexpectedWebsiteFoundException when the required site doesn't exist
+     * @throws Exception when user is not a superuser
      */
     public function deleteAll(int $idSite): void
     {
@@ -138,35 +162,38 @@ class API extends \Piwik\Plugin\API
 
         $this->checkSiteExists($idSite);
 
-        $annotations = new AnnotationList($idSite);
-
-        // remove the notes & save the list
-        $annotations->removeAll($idSite);
-        $annotations->save($idSite);
+        $model = new Model();
+        $model->deleteAllAnnotationsForSite($idSite);
     }
 
     /**
-     * Returns a single note for one site.
+     * Returns a single annotation for one site.
      *
-     * @param int $idSite The site ID to add the annotation to.
-     * @param int $idNote The ID of the note to get.
+     * @param int $idSite The site ID the annotation is linked to.
+     * @param int $idNote The ID of the annotation to get.
      * @return array The annotation. It will contain the following properties:
+     *               - id: the ID of the annotation
+     *               - idsite: the site the annotation is linked to
      *               - date: The date the annotation was recorded for.
      *               - note: The note text.
      *               - starred: Whether the note is starred or not.
      *               - user: The user that created the note.
-     *               - canEditOrDelete: Whether the user that called this method can edit or
-     *                                  delete the annotation returned.
+     *               - canEditOrDelete: Whether the current user is permitted to edit or delete this annotation
+     * @throws Exception if the $idNote does not correspond to an existing annotation
      */
     public function get(int $idSite, int $idNote): array
     {
         Piwik::checkUserHasViewAccess($idSite);
-
         $this->checkSiteExists($idSite);
 
-        // get single annotation
-        $annotations = new AnnotationList($idSite);
-        return $annotations->get($idSite, $idNote);
+        $model = new Model();
+        $annotation = $model->getAnnotation($idNote, $idSite);
+        if (empty($annotation)) {
+            throw new Exception("There is no note with id '$idNote' for site with id '$idSite'.");
+        }
+        $this->decorateAnnotation($annotation);
+
+        return $annotation;
     }
 
     /**
@@ -188,17 +215,29 @@ class API extends \Piwik\Plugin\API
      *                 ),
      *                 8 => array(...)
      *               )
+     * @throws \Exception
      */
     public function getAll(string $idSite, ?string $date = null, string $period = 'day', ?int $lastN = null): array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $annotations = new AnnotationList($idSite);
+        $ids = array_map('intval', Site::getIdSitesFromIdSitesString($idSite));
+        $model = new Model();
+        $annotations = [];
+        foreach ($ids as $id) {
+            [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date ?: false, $period, $lastN ?? false, $id);
 
-        // if date/period are supplied, determine start/end date for search
-        list($startDate, $endDate) = Annotations::getDateRangeForPeriod($date ?? false, $period, $lastN ?? false);
+            $annotations[$id] = $model->getAllAnnotationsForSiteInRange(
+                $id,
+                $startDate ? $startDate->toString() : null,
+                $endDate ? $endDate->toString() : null
+            );
+            for ($i = 0; $i < count($annotations[$id]); $i++) {
+                $this->decorateAnnotation($annotations[$id][$i]);
+            }
+        }
 
-        return $annotations->search($startDate, $endDate);
+        return $annotations;
     }
 
     /**
@@ -208,7 +247,7 @@ class API extends \Piwik\Plugin\API
      * @param string $idSite The site ID(s) to get the annotation count for.
      * @param string $date The date of the period.
      * @param string $period The period type.
-     * @param int|bool $lastN Whether to get counts for the last N number of periods or not.
+     * @param int|null $lastN Whether to get counts for the last N number of periods or not.
      * @param bool $getAnnotationText
      * @return array An array mapping site IDs to arrays holding dates & the count of
      *               annotations made for those dates. eg,
@@ -225,6 +264,7 @@ class API extends \Piwik\Plugin\API
      *                 ),
      *                 ...
      *               )
+     * @throws Exception when user is not a superuser
      */
     public function getAnnotationCountForDates(
         string $idSite,
@@ -235,8 +275,18 @@ class API extends \Piwik\Plugin\API
     ): array {
         Piwik::checkUserHasViewAccess($idSite);
 
+        $siteIds = array_map('intval', Site::getIdSitesFromIdSitesString($idSite));
+        if (empty($siteIds)) {
+            return [];
+        }
+
         // get start & end date for request. lastN is ignored if $period == 'range'
-        list($startDate, $endDate) = Annotations::getDateRangeForPeriod($date, $period, $lastN ?? false);
+        [$startDate, $endDate] = Annotations::getDateRangeForPeriod($date, $period, $lastN ?? false, $siteIds[0]);
+
+        if (!($startDate && $endDate)) {
+            return [];
+        }
+
         if ($period == 'range') {
             $period = 'day';
         }
@@ -249,44 +299,35 @@ class API extends \Piwik\Plugin\API
         // we add one for the end of the last period (used in for loop below to bound annotation dates)
         $dates[] = $startDate;
 
-        // get annotations for the site
-        $annotations = new AnnotationList($idSite);
-
-        // create result w/ 0-counts
+        $model = new Model();
         $result = [];
-        for ($i = 0; $i != count($dates) - 1; ++$i) {
-            $date = $dates[$i];
-            $nextDate = $dates[$i + 1];
-            $strDate = $date->toString();
+        foreach ($siteIds as $siteId) {
+            $result[$siteId] = [];
+            for ($i = 0; $i < count($dates) - 1; $i++) {
+                $date = $dates[$i];
+                $nextDate = $dates[$i + 1];
+                $strDate = $date->toString();
+                $strNextDate = $nextDate->toString();
 
-            foreach ($annotations->getIdSites() as $idSite) {
-                $result[$idSite][$strDate] = $annotations->count($idSite, $date, $nextDate);
+                [$totalCount, $starredCount] = $model->getCountAnnotationsForSiteInRange($siteId, $strDate, $strNextDate);
 
-                // if only one annotation, return the one annotation's text w/ the counts
-                if (
-                    $getAnnotationText
-                    && $result[$idSite][$strDate]['count'] == 1
-                ) {
-                    $annotationsForSite = $annotations->search(
-                        $date,
-                        Date::factory($nextDate->getTimestamp() - 1),
-                        $idSite
-                    );
-                    $annotation = reset($annotationsForSite[$idSite]);
+                $result[$siteId][] = [
+                    $strDate,
+                    [
+                        'count' => $totalCount,
+                        'starred' => $starredCount,
+                    ],
+                ];
 
-                    $result[$idSite][$strDate]['note'] = $annotation['note'];
+                if ($getAnnotationText && $totalCount === 1) {
+                    [$annotation] = $model->getAllAnnotationsForSiteInRange($siteId, $strDate, $strNextDate, 1);
+                    // 1 for the second array to add the note to
+                    $result[$siteId][$i][1]['note'] = $annotation['note'];
                 }
             }
         }
 
-        // convert associative array into array of pairs (so it can be traversed by index)
-        $pairResult = [];
-        foreach ($result as $idSite => $counts) {
-            foreach ($counts as $date => $count) {
-                $pairResult[$idSite][] = [$date, $count];
-            }
-        }
-        return $pairResult;
+        return $result;
     }
 
     /**
@@ -295,10 +336,10 @@ class API extends \Piwik\Plugin\API
      * @param array $annotation The annotation.
      * @throws Exception if the current user is not allowed to modify/delete $annotation.
      */
-    private function checkUserCanModifyOrDelete($annotation): void
+    private function checkUserCanModifyOrDelete(array $annotation): void
     {
-        if (!$annotation['canEditOrDelete']) {
-            throw new Exception(Piwik::translate('Annotations_YouCannotModifyThisNote'));
+        if (!Annotations::canUserModifyOrDelete($annotation)) {
+            throw new Exception("The current user is not allowed to modify or delete notes for site #{$annotation['idSite']}");
         }
     }
 
@@ -309,7 +350,7 @@ class API extends \Piwik\Plugin\API
      * @throws Exception if the current user is anonymous or does not have view access
      *                   for site w/ id=$idSite.
      */
-    private static function checkUserCanAddNotesFor($idSite): void
+    private static function checkUserCanAddNotesFor(int $idSite): void
     {
         if (!Piwik::isUserHasViewAccess($idSite) || Piwik::isUserIsAnonymous()) {
             throw new Exception("The current user is not allowed to add notes for site #$idSite.");
@@ -321,7 +362,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite
      * @return void
-     * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
+     * @throws UnexpectedWebsiteFoundException
      */
     private function checkSiteExists(int $idSite): void
     {
@@ -355,8 +396,14 @@ class API extends \Piwik\Plugin\API
             $note = mb_substr($note, 0, 254) . '…';
         }
 
-        // @todo store message unsanitized, sanitize on output instead.
-        // can be changed when migrating annotations to a separate table.
-        return Common::sanitizeInputValue($note);
+        return $note;
+    }
+
+    private function decorateAnnotation(array &$annotation): void
+    {
+        $annotation['date'] = substr($annotation['date'], 0, 10);
+        $annotation['note'] = Common::sanitizeInputValue($annotation['note']);
+        $annotation['canEditOrDelete'] = Annotations::canUserModifyOrDelete($annotation);
+        $annotation['idNote'] = $annotation['id']; // for API backward compatibility
     }
 }
