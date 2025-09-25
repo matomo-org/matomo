@@ -9,7 +9,10 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
@@ -86,10 +89,16 @@ class Config
 
     private function getFromOption($name, $config)
     {
-        if ($name === 'ipAddressMaskLength') {
-            $value = IpAddressMaskLengthSetting::getInstance()->getValue();
-        } elseif ($name === 'ipAnonymizerEnabled') {
-            $value = IPAnonymisationSetting::getInstance()->getValue();
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            if ($name === 'ipAddressMaskLength') {
+                $value = IpAddressMaskLengthSetting::getInstance()->getValue();
+            } elseif ($name === 'ipAnonymizerEnabled') {
+                $value = IPAnonymisationSetting::getInstance()->getValue();
+            } else {
+                $name  = self::prefix($name);
+                $value = Option::get($name);
+            }
         } else {
             $name  = self::prefix($name);
             $value = Option::get($name);

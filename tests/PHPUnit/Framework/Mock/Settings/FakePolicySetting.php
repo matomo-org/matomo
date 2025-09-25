@@ -34,7 +34,7 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
 
     public static function getPolicyValuesAgainstProvided($settingValue, ?int $idSite = null)
     {
-        return $settingValue; 
+        return $settingValue;
     }
 
     public static function isCompliant(string $policy, ?int $idSite = null): bool
