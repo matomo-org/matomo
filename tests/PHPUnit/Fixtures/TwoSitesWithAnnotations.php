@@ -26,6 +26,7 @@ class TwoSitesWithAnnotations extends Fixture
     {
         $this->setUpWebsitesAndGoals();
         $this->addAnnotations();
+        $this->addSpecialCharsAnnotations();
     }
 
     public function tearDown(): void
@@ -61,6 +62,21 @@ class TwoSitesWithAnnotations extends Fixture
             $dateStart = $dateStart->addPeriod(1, 'WEEK');
             ++$count;
         }
+    }
+
+    private function addSpecialCharsAnnotations()
+    {
+        $date = '2012-04-01';
+        $t = self::getTracker($this->idSite1, $date, $defaultInit = true);
+        $t->setUrl('http://example.org/index.htm');
+        self::checkResponse($t->doTrackPageView('0'));
+
+        $api = API::getInstance();
+        $api->add($this->idSite1, $date, '<h1>Test</h1>');
+        $api->add($this->idSite1, $date, '<script>alert(1)</script>');
+        $api->add($this->idSite1, $date, '{{ 1+1 }}');
+        $api->add($this->idSite1, $date, '<div vue-entry="Dashboard.DashboardSettings"></div>');
+        $api->add($this->idSite1, $date, "1' or '1' = '1'))/*");
     }
 
     private function setUpWebsitesAndGoals()
