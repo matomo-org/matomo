@@ -687,7 +687,7 @@ class API extends \Piwik\Plugin\API
         }
 
         // update ecommerce through setting
-        $site['ecommerce'] = EcommerceEnabled::getInstance($site['idsite'])->getValue();
+        $site['ecommerce'] = EcommerceEnabled::getPolicyValuesAgainstProvided($site['ecommerce'], $site['idsite']);
     }
 
     /**
