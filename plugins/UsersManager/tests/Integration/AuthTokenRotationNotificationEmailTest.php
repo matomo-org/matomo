@@ -69,9 +69,12 @@ class AuthTokenRotationNotificationEmailTest extends IntegrationTestCase
 
         // for standard 180 days, we have one token notification for each of two users
         $this->clearCaptureAndDispatch();
-        self::assertEquals(5, count($this->capturedNotifications));
-        self::assertEquals(['user1', 'user2', 'user3', 'user3', 'superUserLogin'], array_column($this->capturedNotifications, 1));
-        self::assertEquals(['2024-01-01 00:00:00'], array_unique(array_column($this->capturedNotifications, 3)));
+        self::assertEquals(4, count($this->capturedNotifications));
+        self::assertEquals(['user1', 'user2', 'user3', 'superUserLogin'], array_keys($this->capturedNotifications));
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user1'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user2'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user3'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['superUserLogin'][0]['tokenDate']);
 
         // all notifications sent already, should be zero now
         $this->clearCaptureAndDispatch();
@@ -79,8 +82,12 @@ class AuthTokenRotationNotificationEmailTest extends IntegrationTestCase
 
         // after removing the notification timestamp, we should have two notifications again, both in 2024
         $this->clearCaptureAndDispatch(true);
-        self::assertEquals(5, count($this->capturedNotifications));
-        self::assertEquals(['2024-01-01 00:00:00'], array_unique(array_column($this->capturedNotifications, 3)));
+        self::assertEquals(4, count($this->capturedNotifications));
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user1'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user2'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user3'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['superUserLogin'][0]['tokenDate']);
+
 
         // change rotation notification interval to 30 days
         Config::getInstance()->General['auth_token_rotation_notification_days'] = 30;
@@ -88,7 +95,8 @@ class AuthTokenRotationNotificationEmailTest extends IntegrationTestCase
         // after changing the date, we get extra two notifications in 2025
         $this->clearCaptureAndDispatch();
         self::assertEquals(2, count($this->capturedNotifications));
-        self::assertEquals(['2025-01-01 00:00:00', '2025-01-01 00:00:00'], array_column($this->capturedNotifications, 3));
+        self::assertEquals('2025-01-01', $this->capturedNotifications['user1'][0]['tokenDate']);
+        self::assertEquals('2025-01-01', $this->capturedNotifications['user2'][0]['tokenDate']);
     }
 
     /**
@@ -125,10 +133,22 @@ class AuthTokenRotationNotificationEmailTest extends IntegrationTestCase
                 ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
                     $body = $mail->createBody();
                     $body = preg_replace("/=[\r\n]+/", '', $body);
-                    preg_match('|Hello, (.*?)!.*your <strong>(.*)</strong>.*since <strong>([0-9-:\s]+)</strong>|isu', $body, $matches);
-                    if (count($matches) === 4) {
-                        unset($matches[0]);
-                        $this->capturedNotifications[] = $matches;
+                    preg_match('|Hello, (.*?)!.*Rotate your.*<tbody>(.*)</tbody>|isu', $body, $matches);
+                    if (count($matches) === 3) {
+                        $username = $matches[1];
+                        preg_match_all('|<tr>(.*?)</tr>|isu', $matches[2], $tableRows);
+                        if (count($tableRows) > 0) {
+                            foreach ($tableRows[1] as $tableRow) {
+                                preg_match_all('|<td.*?>(.*?)</td>|isu', $tableRow, $tableCells);
+                                if (count($tableCells) === 2) {
+                                    $tokenInfo = [
+                                        'tokenName' => $tableCells[1][0],
+                                        'tokenDate' => $tableCells[1][1],
+                                    ];
+                                    $this->capturedNotifications[$username][] = $tokenInfo;
+                                }
+                            }
+                        }
                     }
                 })],
             ]),
