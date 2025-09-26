@@ -124,7 +124,7 @@ abstract class API
     ) {
         $loginCurrentUser = Piwik::getCurrentUserLogin();
 
-        if (!Piwik::doesUserRequirePasswordConfirmation($loginCurrentUser)) {
+        if (!Piwik::doesUserRequirePasswordConfirmation($loginCurrentUser, $passwordConfirmation)) {
             return; // password confirmation disabled for user
         }
 

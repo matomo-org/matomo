@@ -148,6 +148,45 @@ class Controller extends Plugin\ControllerAdmin
         return $view->render();
     }
 
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function reAuthSSO(): string
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $request = \Piwik\Request::fromRequest();
+        $reAuthToken = $request->getStringParameter("reAuthToken", '');
+        if (empty($reAuthToken)) {
+            throw new Exception('ReAuthToken is empty');
+        }
+        $url = '';
+        Piwik::postEvent('PasswordConfirmation.getReAuthURL', [&$url, $reAuthToken]);
+        if (empty($url)) {
+            throw new Exception('No ReAuth URL specified');
+        }
+
+        return json_encode(['url' => $url]);
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function reAuthSSOStatus(): string
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $request = \Piwik\Request::fromRequest();
+        $reAuthToken = $request->getStringParameter("reAuthToken", '');
+        if (empty($reAuthToken)) {
+            throw new Exception('Invalid Token');
+        }
+        $status = 0;
+        Piwik::postEvent('PasswordConfirmation.reAuthSSOStatus', [&$status, $reAuthToken]);
+
+        return json_encode(['status' => $status]);
+    }
+
     public function tagManagerTeaser()
     {
         $this->dieIfPluginsAdminIsDisabled();

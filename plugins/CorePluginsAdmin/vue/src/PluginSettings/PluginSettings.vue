@@ -38,6 +38,7 @@
     </div>
     <PasswordConfirmation
       v-model="showPasswordConfirmModal"
+      :is-re-auth-enabled="isReAuthEnabled"
       @confirmed="confirmPassword"
     />
   </div>
@@ -71,6 +72,11 @@ interface PluginSettingsState {
 export default defineComponent({
   props: {
     mode: String,
+    isReAuthEnabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   components: {
     PasswordConfirmation,

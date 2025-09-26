@@ -292,10 +292,14 @@ class Piwik
      * Returns if the given user needs to confirm his password in UI and for certain API methods
      *
      * @param string $login
+     * @param string $passwordConfirmation
      * @return bool
      */
-    public static function doesUserRequirePasswordConfirmation(string $login)
-    {
+    public static function doesUserRequirePasswordConfirmation(
+        string $login,
+        #[\SensitiveParameter]
+        string $passwordConfirmation = ''
+    ) {
         $requiresPasswordConfirmation = true;
 
         /**
@@ -309,7 +313,7 @@ class Piwik
          * @param bool $requiresPasswordConfirmation Indicates if the password should be checked or not
          * @param string $login Login of a user the password should be confirmed for
          */
-        Piwik::postEvent('Login.userRequiresPasswordConfirmation', [&$requiresPasswordConfirmation, $login]);
+        Piwik::postEvent('Login.userRequiresPasswordConfirmation', [&$requiresPasswordConfirmation, $login, $passwordConfirmation]);
 
         return $requiresPasswordConfirmation;
     }

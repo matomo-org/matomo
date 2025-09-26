@@ -36,6 +36,12 @@
       </div>
     </div>
     <div class="modal-footer">
+      <a href=""
+      v-if="isReAuthEnabled"
+      class="modal-action btn"
+      style="margin-right: 1rem;"
+      @click="onClickReAuth($event)">
+        ReAuth via SSO</a>
       <a
         href=""
         class="modal-action modal-close btn"
@@ -53,11 +59,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Matomo, AutoClearPassword } from 'CoreHome';
+import { Matomo, AutoClearPassword, AjaxHelper } from 'CoreHome';
 import Field from '../Field/Field.vue';
 import KeyPressEvent = JQuery.KeyPressEvent;
 
 const { $ } = window;
+
+let refreshIntervalId = 0;
 
 interface PasswordConfirmationState {
   passwordConfirmation: string;
@@ -77,6 +85,11 @@ export default defineComponent({
       type: String,
       default: () => 'currentUserPassword',
     },
+    isReAuthEnabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data(): PasswordConfirmationState {
     return {
@@ -95,8 +108,45 @@ export default defineComponent({
     this.$emit('update:modelValue', false);
   },
   methods: {
+    onClickReAuth(event: MouseEvent) {
+      event.preventDefault();
+      // open a new Tab to reAuth
+      const token = `reAuth_${Math.random().toString(16).slice(2)}`;
+      AjaxHelper.fetch(
+        { module: 'CorePluginsAdmin', action: 'reAuthSSO', reAuthToken: token },
+      ).then((resp) => {
+        if (resp && resp.url) {
+          const newWindow = window.open(resp.url, '_blank');
+          if (newWindow) {
+            newWindow.focus();
+          }
+          // Also start calling an Ajax endpoint to check if reAuth successful
+          refreshIntervalId = setInterval(this.checkSSOStatus, 2000, token);
+        }
+      }).catch(() => {
+        console.log('error');
+      });
+    },
+    checkSSOStatus(token: string) {
+      AjaxHelper.fetch(
+        { module: 'CorePluginsAdmin', action: 'reAuthSSOStatus', reAuthToken: token },
+      ).then((response) => {
+        if (response && response.status === 1) {
+          const root = this.$refs.root as HTMLElement;
+          const $root = $(root);
+          $root.modal('close');
+          this.$emit('confirmed', token);
+          clearInterval(refreshIntervalId);
+        }
+      }).catch(() => {
+        clearInterval(refreshIntervalId);
+      });
+    },
     onClickConfirm(event: MouseEvent) {
       event.preventDefault();
+      if (refreshIntervalId) {
+        clearInterval(refreshIntervalId);
+      }
       const root = this.$refs.root as HTMLElement;
       const $root = $(root);
       $root.modal('close');
@@ -105,6 +155,9 @@ export default defineComponent({
     },
     onClickCancel(event: MouseEvent) {
       event.preventDefault();
+      if (refreshIntervalId) {
+        clearInterval(refreshIntervalId);
+      }
       const root = this.$refs.root as HTMLElement;
       const $root = $(root);
       $root.modal('close');
@@ -138,6 +191,15 @@ export default defineComponent({
     },
   },
   computed: {
+    isReAuthPossibleM() {
+      const parameters = {
+        isAllowed: false,
+      };
+      Matomo.postEvent('CorePluginsAdmin.isReAuthPossible', parameters);
+      console.log(parameters, 'parameters');
+
+      return parameters.isAllowed;
+    },
     requiresPasswordConfirmation() {
       return !!Matomo.requiresPasswordConfirmation;
     },
