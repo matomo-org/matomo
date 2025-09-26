@@ -393,6 +393,17 @@ class Mysql implements SchemaInterface
                                       UNIQUE KEY unique_plugin_version_title (`plugin_name`, `version`, `title`(100))                            
                                   ) $tableOptions
             ",
+            'annotations'         => "CREATE TABLE `{$prefixTables}annotations` (
+                                      `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `idsite` INTEGER UNSIGNED NOT NULL,
+                                      `date` DATETIME NOT NULL,
+                                      `note` TEXT NOT NULL,
+                                      `starred` TINYINT(1) NOT NULL DEFAULT 0,
+                                      `user` VARCHAR(100) NOT NULL,
+                                      PRIMARY KEY(`id`),
+                                      INDEX index_idsite_date (`idsite`, `date`)                            
+                                  ) $tableOptions
+            ",
         );
 
         return $tables;

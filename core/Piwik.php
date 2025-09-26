@@ -599,7 +599,7 @@ class Piwik
     /**
      * Checks that the current user has view access to the requested list of sites
      *
-     * @param int|array $idSites The list of site IDs to check access for.
+     * @param int|array|string $idSites The list of site IDs to check access for.
      * @throws Exception if the current user does not have view access to every site in the list.
      * @api
      */

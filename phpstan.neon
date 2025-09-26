@@ -34,3 +34,4 @@ parameters:
         - Piwik\Config
         - Piwik\View
         - Piwik\ViewDataTable\Config
+        - Piwik\Session\SessionNamespace

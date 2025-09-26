@@ -1726,59 +1726,9 @@ parameters:
 			path: core/Metrics/Sorter.php
 
 		-
-			message: "#^Access to an undefined property Piwik\\\\Session\\\\SessionNamespace\\:\\:\\$nonce\\.$#"
-			count: 3
-			path: core/Nonce.php
-
-		-
 			message: "#^Parameter \\#1 \\$default of static method Piwik\\\\Url\\:\\:getCurrentHost\\(\\) expects string, null given\\.$#"
 			count: 1
 			path: core/Nonce.php
-
-		-
-			message: "#^Property Piwik\\\\Notification\\:\\:\\$priority \\(int\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: core/Notification.php
-
-		-
-			message: "#^Access to an undefined property Piwik\\\\Session\\\\SessionNamespace\\:\\:\\$notifications\\.$#"
-			count: 7
-			path: core/Notification/Manager.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/Notification/Manager.php
-
-		-
-			message: "#^Method Piwik\\\\Notification\\\\Manager\\:\\:getAllNotificationsToDisplay\\(\\) should return ArrayObject but returns array\\.$#"
-			count: 1
-			path: core/Notification/Manager.php
-
-		-
-			message: "#^Static property Piwik\\\\Notification\\\\Manager\\:\\:\\$session \\(Piwik\\\\Session\\\\SessionNamespace\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: core/Notification/Manager.php
-
-		-
-			message: "#^Unsafe access to private property Piwik\\\\Notification\\\\Manager\\:\\:\\$session through static\\:\\:\\.$#"
-			count: 5
-			path: core/Notification/Manager.php
-
-		-
-			message: "#^Unsafe call to private method Piwik\\\\Notification\\\\Manager\\:\\:getAllNotifications\\(\\) through static\\:\\:\\.$#"
-			count: 2
-			path: core/Notification/Manager.php
-
-		-
-			message: "#^Unsafe call to private method Piwik\\\\Notification\\\\Manager\\:\\:getSession\\(\\) through static\\:\\:\\.$#"
-			count: 4
-			path: core/Notification/Manager.php
-
-		-
-			message: "#^Unsafe call to private method Piwik\\\\Notification\\\\Manager\\:\\:removeNotification\\(\\) through static\\:\\:\\.$#"
-			count: 1
-			path: core/Notification/Manager.php
 
 		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$maximumFractionDigits$#"
@@ -3719,31 +3669,6 @@ parameters:
 			path: plugins/Actions/VisitorDetails.php
 
 		-
-			message: "#^PHPDoc tag @param for parameter \\$lastN with type bool\\|int is not subtype of native type int\\|null\\.$#"
-			count: 1
-			path: plugins/Annotations/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:checkUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
-			count: 2
-			path: plugins/Annotations/API.php
-
-		-
-			message: "#^Parameter \\#5 \\$starred of method Piwik\\\\Plugins\\\\Annotations\\\\AnnotationList\\:\\:update\\(\\) expects int\\|null, bool\\|null given\\.$#"
-			count: 1
-			path: plugins/Annotations/API.php
-
-		-
-			message: "#^Cannot call method getTimestamp\\(\\) on string\\|false\\.$#"
-			count: 1
-			path: plugins/Annotations/AnnotationList.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Annotations\\\\Annotations\\:\\:getDateRangeForPeriod\\(\\) should return array\\<Piwik\\\\Date\\> but returns array\\<int, false\\>\\.$#"
-			count: 1
-			path: plugins/Annotations/Annotations.php
-
-		-
 			message: "#^Parameter \\#1 \\$array of function reset is passed by reference, so it expects variables only\\.$#"
 			count: 1
 			path: plugins/Annotations/Controller.php
@@ -4494,11 +4419,6 @@ parameters:
 			path: plugins/Dashboard/Categories/DashboardCategory.php
 
 		-
-			message: "#^Access to an undefined property Piwik\\\\Session\\\\SessionNamespace\\:\\:\\$dashboardLayout\\.$#"
-			count: 2
-			path: plugins/Dashboard/Controller.php
-
-		-
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 3
 			path: plugins/Dashboard/Controller.php
@@ -4857,11 +4777,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\VisitorDetails\\:\\:renderAction\\(\\) should return string but empty return statement found\\.$#"
 			count: 1
 			path: plugins/Events/VisitorDetails.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:checkUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
-			count: 3
-			path: plugins/ExamplePlugin/API.php
 
 		-
 			message: "#^Parameter \\#3 \\$escapeComment of static method Piwik\\\\Plugins\\\\Diagnostics\\\\Diagnostic\\\\DiagnosticResult\\:\\:informationalResult\\(\\) expects bool, string given\\.$#"
@@ -5949,11 +5864,6 @@ parameters:
 			path: plugins/Referrers/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:checkUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
-			count: 3
-			path: plugins/Referrers/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\:\\:getColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Referrers/API.php
@@ -6212,11 +6122,6 @@ parameters:
 			message: "#^Variable \\$excludedQueryParameters on left side of \\?\\? always exists and is always null\\.$#"
 			count: 1
 			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^Access to an undefined property Piwik\\\\Session\\\\SessionNamespace\\:\\:\\$ignoreMessage\\.$#"
-			count: 1
-			path: plugins/SitesManager/Controller.php
 
 		-
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
@@ -6675,11 +6580,6 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Archive\\\\ArchiveQuery\\:\\:getParams\\(\\)\\.$#"
-			count: 1
-			path: plugins/VisitTime/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$idSites of static method Piwik\\\\Piwik\\:\\:checkUserHasViewAccess\\(\\) expects array\\|int, string given\\.$#"
 			count: 1
 			path: plugins/VisitTime/API.php
 

@@ -108,10 +108,10 @@ class Collection
      */
     protected function generateApiUrls()
     {
-        $parametersToSet = array(
+        $parametersToSet = [
             'idSite'         => $this->testConfig->idSite,
-            'date'           => ($this->testConfig->periods == array('range') || strpos($this->testConfig->date, ',') !== false || preg_match('/last[ -]?(week|month|year)/i', $this->testConfig->date) || preg_match('/(today|yesterday)/i', $this->testConfig->date)) ?
-                                    $this->testConfig->date : date('Y-m-d', strtotime($this->testConfig->date)),
+            // updated below if provided
+            'date'           => null,
             'expanded'       => '1',
             'piwikUrl'       => 'http://example.org/piwik/',
             // Used in getKeywordsForPageUrl
@@ -130,7 +130,11 @@ class Collection
 
             'language'       => $this->testConfig->language ?: 'en',
             'idSites'        => $this->testConfig->idSite,
-        );
+        ];
+        if ($this->testConfig->date) {
+            $parametersToSet['date'] = ($this->testConfig->periods == ['range'] || strpos($this->testConfig->date, ',') !== false || preg_match('/last[ -]?(week|month|year)/i', $this->testConfig->date) || preg_match('/(today|yesterday)/i', $this->testConfig->date)) ?
+                $this->testConfig->date : date('Y-m-d', strtotime($this->testConfig->date));
+        }
         $parametersToSet = array_merge($parametersToSet, $this->testConfig->otherRequestParameters);
         if (!empty($this->testConfig->apiModule)) {
             $parametersToSet['apiModule'] = $this->testConfig->apiModule;
