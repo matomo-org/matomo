@@ -80,20 +80,20 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
         // notifications for user 1
         self::assertEquals(
             [
-                '2025-04-03 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-04-30 00:00:00',
+                '2025-04-03',
+                '2025-04-03',
+                '2025-04-30',
+                '2025-04-30',
             ],
             array_column($this->capturedNotifications['user1'], 'tokenDate')
         );
         // notifications for user 2
         self::assertEquals(
             [
-                '2025-04-03 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-04-30 00:00:00',
+                '2025-04-03',
+                '2025-04-03',
+                '2025-04-30',
+                '2025-04-30',
             ],
             array_column($this->capturedNotifications['user2'], 'tokenDate')
         );
@@ -107,19 +107,19 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
         self::assertEquals(2, count($this->capturedNotifications));
         self::assertEquals(
             [
-                '2025-04-03 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-04-30 00:00:00',
+                '2025-04-03',
+                '2025-04-03',
+                '2025-04-30',
+                '2025-04-30',
             ],
             array_column($this->capturedNotifications['user1'], 'tokenDate')
         );
         self::assertEquals(
             [
-                '2025-04-03 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-04-30 00:00:00',
+                '2025-04-03',
+                '2025-04-03',
+                '2025-04-30',
+                '2025-04-30',
             ],
             array_column($this->capturedNotifications['user2'], 'tokenDate')
         );
@@ -132,15 +132,15 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
         self::assertEquals(['user1', 'user2'], array_keys($this->capturedNotifications));
         self::assertEquals(
             [
-                '2025-05-29 00:00:00',
-                '2025-05-29 00:00:00',
+                '2025-05-29',
+                '2025-05-29',
             ],
             array_column($this->capturedNotifications['user1'], 'tokenDate')
         );
         self::assertEquals(
             [
-                '2025-05-29 00:00:00',
-                '2025-05-29 00:00:00',
+                '2025-05-29',
+                '2025-05-29',
             ],
             array_column($this->capturedNotifications['user2'], 'tokenDate')
         );
