@@ -71,10 +71,10 @@ class AuthTokenRotationNotificationEmailTest extends IntegrationTestCase
         $this->clearCaptureAndDispatch();
         self::assertEquals(4, count($this->capturedNotifications));
         self::assertEquals(['user1', 'user2', 'user3', 'superUserLogin'], array_keys($this->capturedNotifications));
-        self::assertEquals('2024-01-01 00:00:00', $this->capturedNotifications['user1'][0]['tokenDate']);
-        self::assertEquals('2024-01-01 00:00:00', $this->capturedNotifications['user2'][0]['tokenDate']);
-        self::assertEquals('2024-01-01 00:00:00', $this->capturedNotifications['user3'][0]['tokenDate']);
-        self::assertEquals('2024-01-01 00:00:00', $this->capturedNotifications['superUserLogin'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user1'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user2'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user3'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['superUserLogin'][0]['tokenDate']);
 
         // all notifications sent already, should be zero now
         $this->clearCaptureAndDispatch();
@@ -83,10 +83,10 @@ class AuthTokenRotationNotificationEmailTest extends IntegrationTestCase
         // after removing the notification timestamp, we should have two notifications again, both in 2024
         $this->clearCaptureAndDispatch(true);
         self::assertEquals(4, count($this->capturedNotifications));
-        self::assertEquals('2024-01-01 00:00:00', $this->capturedNotifications['user1'][0]['tokenDate']);
-        self::assertEquals('2024-01-01 00:00:00', $this->capturedNotifications['user2'][0]['tokenDate']);
-        self::assertEquals('2024-01-01 00:00:00', $this->capturedNotifications['user3'][0]['tokenDate']);
-        self::assertEquals('2024-01-01 00:00:00', $this->capturedNotifications['superUserLogin'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user1'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user2'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['user3'][0]['tokenDate']);
+        self::assertEquals('2024-01-01', $this->capturedNotifications['superUserLogin'][0]['tokenDate']);
 
 
         // change rotation notification interval to 30 days
@@ -95,8 +95,8 @@ class AuthTokenRotationNotificationEmailTest extends IntegrationTestCase
         // after changing the date, we get extra two notifications in 2025
         $this->clearCaptureAndDispatch();
         self::assertEquals(2, count($this->capturedNotifications));
-        self::assertEquals('2025-01-01 00:00:00', $this->capturedNotifications['user1'][0]['tokenDate']);
-        self::assertEquals('2025-01-01 00:00:00', $this->capturedNotifications['user2'][0]['tokenDate']);
+        self::assertEquals('2025-01-01', $this->capturedNotifications['user1'][0]['tokenDate']);
+        self::assertEquals('2025-01-01', $this->capturedNotifications['user2'][0]['tokenDate']);
     }
 
     /**
