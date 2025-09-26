@@ -160,13 +160,20 @@ class Controller extends Plugin\ControllerAdmin
         if (empty($reAuthToken)) {
             throw new Exception('ReAuthToken is empty');
         }
-        $url = '';
-        Piwik::postEvent('PasswordConfirmation.getReAuthURL', [&$url, $reAuthToken]);
+        $url = $this->getReAuthURL($reAuthToken);
         if (empty($url)) {
             throw new Exception('No ReAuth URL specified');
         }
 
         return json_encode(['url' => $url]);
+    }
+
+    private function getReAuthURL(string $reAuthToken): string
+    {
+        $url = '';
+        Piwik::postEvent('PasswordConfirmation.getReAuthURL', [&$url, $reAuthToken]);
+
+        return $url;
     }
 
     /**
