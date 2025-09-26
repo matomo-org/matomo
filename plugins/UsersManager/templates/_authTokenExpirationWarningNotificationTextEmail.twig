@@ -7,7 +7,7 @@
 
 {{ 'UsersManager_TokenDescription'|translate }} | {{ 'UsersManager_TokenExpirationDate'|translate }}
 {% for token in tokens %}
-{{ token.tokenName }} | {{ token.tokenDate }}
+{{ token.tokenName }} | {{ token.tokenDate|date("Y-m-d") }}
 {% endfor %}
 
 {{ 'UsersManager_AuthTokenExpirationWarningEmail02'|translate }}

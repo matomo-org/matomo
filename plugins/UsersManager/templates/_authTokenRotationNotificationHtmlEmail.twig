@@ -14,7 +14,7 @@
     {% for token in tokens %}
         <tr>
             <td style="border: 1px solid #ccc; padding: 10px;">{{ token.tokenName }}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">{{ token.tokenDate }}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ token.tokenDate|date("Y-m-d") }}</td>
         </tr>
     {% endfor %}
     </tbody>

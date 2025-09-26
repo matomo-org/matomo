@@ -9,7 +9,7 @@
 
 {{ 'UsersManager_TokenDescription'|translate }} | {{ 'UsersManager_TokenCreationDate'|translate }}
 {% for token in tokens %}
-{{ token.tokenName }} | {{ token.tokenDate }}
+{{ token.tokenName }} | {{ token.tokenDate|date("Y-m-d") }}
 {% endfor %}
 
 {{ 'UsersManager_AuthTokenNotificationEmail03'|translate }}
