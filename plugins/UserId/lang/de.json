@@ -3,6 +3,7 @@
         "PluginDescription": "Zeigt Benutzer-Berichte",
         "ThereIsNoDataForThisReportHelp": "%1$sLesen Sie das Benutzerhandbuch, um zu erfahren, wie Sie Daten für diesen Bericht erstellen.%2$s",
         "UserId": "Benutzer-ID",
+        "UserIdSegmentHelp": "jeder nicht leere einzigartige String, der den Benutzer identifiziert (wie eine E-Mail-Adresse oder ein Benutzername).",
         "UserReportDocumentation": "Zeigt Besuche und andere allgemeine Metriken für jede individuelle Benutzer-ID.",
         "UserReportTitle": "Benutzer IDs",
         "VisitorsUserSubcategoryHelp": "Der Bericht zur Benutzer-ID zeigt die Besuche, die mit allen registrierten und angemeldeten Benutzern in Verbindung stehen. Verstehen Sie die Nutzung der Webseite durch bestimmte Nutzer und finden Sie heraus, wer Ihre aktivsten und am wenigsten aktiven Nutzer sind."

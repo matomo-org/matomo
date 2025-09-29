@@ -10,6 +10,7 @@
         "CreateAndScheduleReport": "Einen Bericht erstellen und planen",
         "CreateReport": "Bericht erstellen",
         "CustomVisitorSegment": "Benutzerdefiniertes Besuchersegment:",
+        "DescriptionOnFirstPageScheduledReport": "Die Berichtsbeschreibung wird sowohl in der Nachricht des geplanten Berichts als auch auf der ersten Seite des Berichts angezeigt.",
         "DisplayFormat_TablesOnly": "Nur Tabellen anzeigen (keine Grafiken)",
         "EmailHello": "Hallo,",
         "EvolutionGraph": "Zeige historischen Graph für die Top %s Werte",
