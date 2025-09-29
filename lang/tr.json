@@ -103,6 +103,8 @@
         "ComparisonCardTooltip2": "Ziyaret sayısı %2$s ile %3$s karşılaştırıldığında %1$s kadar farklı.",
         "ComparisonRatioTooltip": "%3$s üzerindeki '%2$s' dilimine göre %1$s değişiklikliği var.",
         "Comparisons": "Karşılaştırmalar",
+        "ComplianceCNILDescription": "Bu tablo, belirli ayarların CNIL rehberiyle uyumlu olup olmadığını gösterir. Tam yasal uyumluluğu garanti etmez. CNIL kuralları kapsamında rıza dışında kalmaya hak kazanmak için gerekli tüm yapılandırmaların uygulanması gerekir. Herhangi bir ayar \"Uyumsuz\" olarak gösteriliyorsa, dışarıda kalma koşulları karşılanmaz ve kullanıcılardan rıza alınmalıdır. Herhangi bir ayar \"Bilinmiyor\" olarak görüntüleniyorsa Matomo, bu gereksinimin uygulanıp uygulanmadığını belirleyemez. Bu gibi durumlarda, bu önlemler el ile doğrulanmalıdır.",
+        "ComplianceCNILTitle": "CNIL site istatistikleri rızasının dışında kalan koşullar",
         "ComputedMetricAverage": "Ortalama %1$s her %2$s için",
         "ComputedMetricAverageDocumentation": "Her \"%2$s\" için \"%1$s\" ortalama değeri.",
         "ComputedMetricAverageShortDocumentation": "\"%1$s\" ortalama değeri.",

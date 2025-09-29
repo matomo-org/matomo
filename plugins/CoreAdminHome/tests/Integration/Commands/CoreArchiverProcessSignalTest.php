@@ -334,7 +334,7 @@ class CoreArchiverProcessSignalTest extends IntegrationTestCase
     {
         $actualInProgress = $this->dataAccessModel->getInvalidationsInProgress([self::$fixture->idSite]);
         $actualTotal = (int) Db::fetchOne(
-            'SELECT COUNT(*) FROM ' . Common::prefixTable('archive_invalidations') . ' WHERE idsite = ?',
+            'SELECT COUNT(*) FROM `' . Common::prefixTable('archive_invalidations') . '` WHERE idsite = ?',
             [self::$fixture->idSite]
         );
 

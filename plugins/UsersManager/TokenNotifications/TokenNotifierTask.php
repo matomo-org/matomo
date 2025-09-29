@@ -67,7 +67,9 @@ class TokenNotifierTask extends Task
                 foreach ($providerTokenNotificationsForDispatch as $tokenNotification) {
                     $dispatched = $tokenNotification->dispatch();
                     if ($dispatched) {
-                        $provider->setTokenNotificationDispatched($tokenNotification->getTokenId());
+                        foreach ($tokenNotification->getTokenIds() as $tokenId) {
+                            $provider->setTokenNotificationDispatched($tokenId);
+                        }
                         $notificationsDispatchedCount++;
                     }
                 }

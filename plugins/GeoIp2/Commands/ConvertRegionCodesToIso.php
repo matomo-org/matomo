@@ -89,12 +89,12 @@ class ConvertRegionCodesToIso extends ConsoleCommand
         $activationDateTime = date('Y-m-d H:i:s', $activationTime);
 
         // fix country and region of tibet so it will be updated correctly afterwards
-        $tibetFixQuery = 'UPDATE %s SET location_country = "cn", location_region = "14" WHERE location_country = "ti"';
+        $tibetFixQuery = 'UPDATE `%s` SET location_country = "cn", location_region = "14" WHERE location_country = "ti"';
 
         // replace invalid country codes used by GeoIP Legacy
-        $fixInvalidCountriesQuery = 'UPDATE %s SET location_country = "" WHERE location_country IN("AP", "EU", "A1", "A2")';
+        $fixInvalidCountriesQuery = 'UPDATE `%s` SET location_country = "" WHERE location_country IN("AP", "EU", "A1", "A2")';
 
-        $query = "UPDATE %s INNER JOIN %s ON location_country = country_code AND location_region = fips_code SET location_region = iso_code
+        $query = "UPDATE `%s` INNER JOIN %s ON location_country = country_code AND location_region = fips_code SET location_region = iso_code
                   WHERE `%s` < ?";
 
         $logTables = ['log_visit' => 'visit_first_action_time', 'log_conversion' => 'server_time'];

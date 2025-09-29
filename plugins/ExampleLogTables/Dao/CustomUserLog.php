@@ -59,7 +59,7 @@ class CustomUserLog
         $placeholder = Common::getSqlStringFieldsArray($columns);
 
         $sql = sprintf(
-            'INSERT INTO %s (`%s`) VALUES(%s)',
+            'INSERT INTO `%s` (`%s`) VALUES(%s)',
             $this->tablePrefixed,
             implode('`,`', array_keys($columns)),
             $placeholder

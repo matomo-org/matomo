@@ -69,40 +69,33 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
 
         // for 30 days, there should be 6 per user, <30 days, =30 days and already expired (<0 days)
         $this->clearCaptureAndDispatch();
-        self::assertEquals(12, count($this->capturedNotifications));
+        self::assertEquals(2, count($this->capturedNotifications));
         self::assertEquals(
             [
                 'user1',
-                'user1',
-                'user1',
-                'user1',
-                'user1',
-                'user1',
-                'user2',
-                'user2',
-                'user2',
-                'user2',
-                'user2',
                 'user2',
             ],
-            array_column($this->capturedNotifications, 1)
+            array_keys($this->capturedNotifications)
         );
+        // notifications for user 1
         self::assertEquals(
             [
-                '2025-04-03 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-02-01 00:00:00',
-                '2025-02-01 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-02-01 00:00:00',
-                '2025-02-01 00:00:00',
+                '2025-04-03',
+                '2025-04-03',
+                '2025-04-30',
+                '2025-04-30',
             ],
-            array_column($this->capturedNotifications, 3)
+            array_column($this->capturedNotifications['user1'], 'tokenDate')
+        );
+        // notifications for user 2
+        self::assertEquals(
+            [
+                '2025-04-03',
+                '2025-04-03',
+                '2025-04-30',
+                '2025-04-30',
+            ],
+            array_column($this->capturedNotifications['user2'], 'tokenDate')
         );
 
         // all notifications sent already, should be zero now
@@ -111,23 +104,24 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
 
         // after removing the notification timestamp, we should get the same 12 notifications
         $this->clearCaptureAndDispatch(true);
-        self::assertEquals(12, count($this->capturedNotifications));
+        self::assertEquals(2, count($this->capturedNotifications));
         self::assertEquals(
             [
-                '2025-04-03 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-02-01 00:00:00',
-                '2025-02-01 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-03 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-04-30 00:00:00',
-                '2025-02-01 00:00:00',
-                '2025-02-01 00:00:00',
+                '2025-04-03',
+                '2025-04-03',
+                '2025-04-30',
+                '2025-04-30',
             ],
-            array_column($this->capturedNotifications, 3)
+            array_column($this->capturedNotifications['user1'], 'tokenDate')
+        );
+        self::assertEquals(
+            [
+                '2025-04-03',
+                '2025-04-03',
+                '2025-04-30',
+                '2025-04-30',
+            ],
+            array_column($this->capturedNotifications['user2'], 'tokenDate')
         );
 
         // change expiration notification period to 60 days
@@ -135,15 +129,20 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
 
         // after changing the date, we get extra four notifications
         $this->clearCaptureAndDispatch();
-        self::assertEquals(4, count($this->capturedNotifications));
+        self::assertEquals(['user1', 'user2'], array_keys($this->capturedNotifications));
         self::assertEquals(
             [
-                '2025-05-29 00:00:00',
-                '2025-05-29 00:00:00',
-                '2025-05-29 00:00:00',
-                '2025-05-29 00:00:00',
+                '2025-05-29',
+                '2025-05-29',
             ],
-            array_column($this->capturedNotifications, 3)
+            array_column($this->capturedNotifications['user1'], 'tokenDate')
+        );
+        self::assertEquals(
+            [
+                '2025-05-29',
+                '2025-05-29',
+            ],
+            array_column($this->capturedNotifications['user2'], 'tokenDate')
         );
     }
 
@@ -180,11 +179,24 @@ class AuthTokenExpirationWarningNotificationEmailTest extends IntegrationTestCas
             'observers.global' => \Piwik\DI::add([
                 ['Test.Mail.send', \Piwik\DI::value(function (PHPMailer $mail) {
                     $body = $mail->createBody();
-                    $body = preg_replace('/=[\r\n]+/', '', $body);
-                    preg_match('|Hello, (.*?)!.*your <strong>(.*)</strong>.*expire on <strong>([0-9-:\s]+)</strong>|isu', $body, $matches);
-                    if (count($matches) === 4) {
-                        unset($matches[0]);
-                        $this->capturedNotifications[] = $matches;
+                    $body = preg_replace("/=[\r\n]+/", '', $body);
+
+                    preg_match('|Hello, (.*?)!.*will expire.*<tbody>(.*)</tbody>|isu', $body, $matches);
+                    if (count($matches) === 3) {
+                        $username = $matches[1];
+                        preg_match_all('|<tr>(.*?)</tr>|isu', $matches[2], $tableRows);
+                        if (count($tableRows) > 0) {
+                            foreach ($tableRows[1] as $tableRow) {
+                                preg_match_all('|<td.*?>(.*?)</td>|isu', $tableRow, $tableCells);
+                                if (count($tableCells) === 2) {
+                                    $tokenInfo = [
+                                        'tokenName' => $tableCells[1][0],
+                                        'tokenDate' => $tableCells[1][1],
+                                    ];
+                                    $this->capturedNotifications[$username][] = $tokenInfo;
+                                }
+                            }
+                        }
                     }
                 })],
             ]),

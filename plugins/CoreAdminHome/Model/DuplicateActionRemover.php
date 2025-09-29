@@ -147,7 +147,7 @@ class DuplicateActionRemover
         $idactionColumns = array_values($idactionColumns[$table]);
         $table = Common::prefixTable($table);
 
-        $sql = "SELECT idsite, DATE(server_time) as server_time FROM $table ";
+        $sql = "SELECT idsite, DATE(server_time) as server_time FROM `$table` ";
         $sql .= $this->getWhereToGetRowsUsingDuplicateActions($idactionColumns, $duplicateIdActions);
         return Db::fetchAll($sql);
     }

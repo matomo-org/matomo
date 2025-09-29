@@ -25,7 +25,7 @@ class Model
     private function getNextIdGoal($idSite)
     {
         $db     = $this->getDb();
-        $idGoal = $db->fetchOne("SELECT max(idgoal) + 1 FROM " . $this->table . "
+        $idGoal = $db->fetchOne("SELECT max(idgoal) + 1 FROM `" . $this->table . "`
                                  WHERE idsite = ?", $idSite);
 
         if (empty($idGoal)) {
@@ -69,7 +69,7 @@ class Model
     {
         $idSite = (int) $idSite;
         $idGoal = (int) $idGoal;
-        $goals  = Db::fetchRow("SELECT * FROM " . $this->table . "
+        $goals = Db::fetchRow("SELECT * FROM `" . $this->table . "`
                                 WHERE idsite = $idSite AND idgoal = $idGoal
                                       AND deleted = 0 LIMIT 1");
 
@@ -79,7 +79,7 @@ class Model
     public function getActiveGoals($idSite)
     {
         $idSite = array_map('intval', $idSite);
-        $goals  = Db::fetchAll("SELECT * FROM " . $this->table . "
+        $goals = Db::fetchAll("SELECT * FROM `" . $this->table . "`
                                 WHERE idsite IN (" . implode(", ", $idSite) . ")
                                       AND deleted = 0");
 
@@ -88,7 +88,7 @@ class Model
 
     public function deleteGoalsForSite($idSite)
     {
-        Db::query("DELETE FROM " . $this->table . " WHERE idsite = ? ", array($idSite));
+        Db::query("DELETE FROM `" . $this->table . "` WHERE idsite = ? ", [$idSite]);
     }
 
     public function deleteGoal($idSite, $idGoal)
@@ -102,7 +102,7 @@ class Model
 
     public function getActiveGoalCount()
     {
-        return (int) Db::fetchOne("SELECT count(*) FROM " . $this->table . "
+        return (int)Db::fetchOne("SELECT count(*) FROM `" . $this->table . "`
                                 WHERE deleted = 0");
     }
 
@@ -121,7 +121,7 @@ class Model
      */
     public function doesGoalExist(int $idGoal, int $idSite): bool
     {
-        return (bool) Db::fetchOne("SELECT COUNT(*) FROM " . $this->table . "
+        return (bool)Db::fetchOne("SELECT COUNT(*) FROM `" . $this->table . "`
                                 WHERE deleted = 0 AND idsite = ? AND idgoal = ?", [$idSite, $idGoal]);
     }
 }

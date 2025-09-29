@@ -79,10 +79,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 						log_conversion.referer_type as referrerType,
 						log_conversion.referer_name as referrerName,
 						log_conversion.referer_keyword as referrerKeyword
-				FROM " . Common::prefixTable('log_conversion') . " AS log_conversion
-				LEFT JOIN " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
+				FROM `" . Common::prefixTable('log_conversion') . "` AS log_conversion
+				LEFT JOIN `" . Common::prefixTable('log_link_visit_action') . "` AS log_link_visit_action
 				    ON log_link_visit_action.idlink_va = log_conversion.idlink_va
-				LEFT JOIN " . Common::prefixTable('goal') . " AS goal
+				LEFT JOIN `" . Common::prefixTable('goal') . "` AS goal
 					ON (goal.idsite = log_conversion.idsite
 						AND
 						goal.idgoal = log_conversion.idgoal)

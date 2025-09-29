@@ -51,7 +51,7 @@ class Updates_2_9_0_b7 extends Updates
             $type = ArchiveTableCreator::getTypeFromTableName($table);
 
             if ($type === ArchiveTableCreator::NUMERIC_TABLE) {
-                $maxId = Db::fetchOne('SELECT MAX(idarchive) FROM ' . $table);
+                $maxId = Db::fetchOne('SELECT MAX(idarchive) FROM `' . $table . '`');
 
                 if (!empty($maxId)) {
                     $maxId = (int) $maxId + 500;

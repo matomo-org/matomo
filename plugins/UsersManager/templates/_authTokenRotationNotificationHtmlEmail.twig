@@ -1,7 +1,25 @@
 <p>{{ 'General_HelloUser'|translate(login) }}</p>
-<p><strong>{{ 'UsersManager_AuthTokenNotificationEmailReminder'|translate(rotationPeriod)|raw }}</strong></p>
-<p>{{ 'UsersManager_AuthTokenNotificationEmail01'|translate('<strong>', rotationPeriod, '</strong>')|raw }}</p>
-<p>{{ 'UsersManager_AuthTokenNotificationEmail02'|translate('<strong>', tokenName|escape, '</strong>', '<strong>', tokenCreationDate, '</strong>')|raw }}</p>
-<p>{{ 'UsersManager_AuthTokenNotificationEmail03'|translate|raw }}</p>
-<p>{{ 'UsersManager_AuthTokenNotificationEmail04'|translate|raw }}</p>
+<p><strong>{{ 'UsersManager_AuthTokenNotificationEmailReminder'|translate(rotationPeriod) }}</strong></p>
+<p>{{ 'UsersManager_AuthTokenNotificationEmail01All'|translate('<strong>' ~ rotationPeriod ~ '</strong>')|raw }}</p>
+<p>{{ 'UsersManager_AuthTokenNotificationEmail02All'|translate(instanceUrl, rotationPeriod) }}</p>
+
+<table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse;">
+    <thead>
+    <tr>
+        <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">{{ 'UsersManager_TokenDescription'|translate }}</th>
+        <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">{{ 'UsersManager_TokenCreationDate'|translate }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for token in tokens %}
+        <tr>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ token.tokenName }}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ token.tokenDate|date("Y-m-d") }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<p>{{ 'UsersManager_AuthTokenNotificationEmail03'|translate }}</p>
+<p>{{ 'UsersManager_AuthTokenNotificationEmail04'|translate }}</p>
 <a href="{{ manageAuthTokensLink|escape('html_attr') }}">{{ 'UsersManager_AuthTokenNotificationEmail05'|translate|raw }}</a>

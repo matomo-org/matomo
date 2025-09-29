@@ -151,7 +151,7 @@ class Model
         }
 
         $dateTime = $readerDb->fetchOne(sprintf(
-            'SELECT visit_last_action_time from %s WHERE %s ORDER BY visit_last_action_time DESC LIMIT 1',
+            'SELECT visit_last_action_time FROM `%s` WHERE %s ORDER BY visit_last_action_time DESC LIMIT 1',
             Common::prefixTable('log_visit'),
             $where
         ), $bind);

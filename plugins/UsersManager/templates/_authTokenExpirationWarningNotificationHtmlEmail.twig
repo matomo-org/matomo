@@ -1,6 +1,25 @@
 <p>{{ 'General_HelloUser'|translate(login) }}</p>
-<p><strong>{{ 'UsersManager_AuthTokenExpirationWarningEmailReminder'|translate(expirationWarningPeriod) }}</strong></p>
-<p>{{ 'UsersManager_AuthTokenExpirationWarningEmail01'|translate('<strong>' ~ tokenName|escape ~ '</strong>', '<strong>' ~ tokenExpirationDate ~ '</strong>')|raw }}</p>
+<p><strong>{{ 'UsersManager_AuthTokenExpirationWarningEmailReminderAll'|translate(instanceUrl, expirationWarningPeriod) }}</strong></p>
+
+<p>{{ 'UsersManager_AuthTokenExpirationWarningEmail01All'|translate(expirationWarningPeriod) }}</p>
+
+<table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse;">
+    <thead>
+    <tr>
+        <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">{{ 'UsersManager_TokenDescription'|translate }}</th>
+        <th style="border: 1px solid #ccc; padding: 10px; text-align: left;">{{ 'UsersManager_TokenExpirationDate'|translate }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for token in tokens %}
+        <tr>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ token.tokenName|escape }}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">{{ token.tokenDate|date("Y-m-d") }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 <p>{{ 'UsersManager_AuthTokenExpirationWarningEmail02'|translate }}</p>
 <p>{{ 'UsersManager_AuthTokenExpirationWarningEmail03'|translate }}</p>
 <a href="{{ manageAuthTokensLink|escape('html_attr') }}">{{ 'UsersManager_AuthTokenExpirationWarningEmail04'|translate }}</a>

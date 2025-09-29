@@ -1,9 +1,14 @@
 {% autoescape false %}
 {{ 'General_HelloUser'|translate(login) }}
 
-{{ 'UsersManager_AuthTokenExpirationWarningEmailReminder'|translate(expirationWarningPeriod) }}
+{{ 'UsersManager_AuthTokenExpirationWarningEmailReminderAll'|translate(instanceUrl, expirationWarningPeriod) }}
 
-{{ 'UsersManager_AuthTokenExpirationWarningEmail01'|translate(tokenName, tokenExpirationDate) }}
+{{ 'UsersManager_AuthTokenExpirationWarningEmail01All'|translate(expirationWarningPeriod) }}
+
+{{ 'UsersManager_TokenDescription'|translate }} | {{ 'UsersManager_TokenExpirationDate'|translate }}
+{% for token in tokens %}
+{{ token.tokenName }} | {{ token.tokenDate|date("Y-m-d") }}
+{% endfor %}
 
 {{ 'UsersManager_AuthTokenExpirationWarningEmail02'|translate }}
 

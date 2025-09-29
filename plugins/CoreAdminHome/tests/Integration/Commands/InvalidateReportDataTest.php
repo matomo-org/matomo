@@ -1095,7 +1095,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
 
     private static function assertInvalidationsPresent(array $expectedInvalidations): void
     {
-        $existingInvalidations = Db::fetchAll('SELECT name, idsite, date1, date2, period, report from ' . Common::prefixTable('archive_invalidations') . ' ORDER BY idsite, name, period, date1');
+        $existingInvalidations = Db::fetchAll('SELECT name, idsite, date1, date2, period, report from `' . Common::prefixTable('archive_invalidations') . '` ORDER BY idsite, name, period, date1');
 
         self::assertEquals($expectedInvalidations, $existingInvalidations);
     }

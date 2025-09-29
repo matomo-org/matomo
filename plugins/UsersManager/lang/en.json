@@ -244,10 +244,10 @@
         "AuthTokenSecureOnlyHelpForced": "The system administrator has configured Matomo to only allow tokens to be created for use in secure way (e.g. via POST requests), you cannot change this token option.",
         "OnlyAllowSecureRequests": "Only allow secure requests",
         "SecureUseOnly": "Secure use only",
-        "AuthTokenNotificationEmailSubject": "Reminder: Rotate your Matomo personal access token",
+        "AuthTokenNotificationEmailSubjectAll": "Reminder: Rotate your personal auth token for Matomo instance %1$s",
         "AuthTokenNotificationEmailReminder": "Reminder: Rotate your auth tokens every %1$s",
-        "AuthTokenNotificationEmail01": "To improve security, we recommend rotating your personal access tokens every %1$s%2$s%3$s.",
-        "AuthTokenNotificationEmail02": "You’re receiving this email because your %1$s%2$s%3$s personal access token has not been rotated since %4$s%5$s%6$s.",
+        "AuthTokenNotificationEmail01All": "To improve security, we recommend rotating your personal auth tokens every %1$s.",
+        "AuthTokenNotificationEmail02All": "You’re receiving this email because some of your personal auth tokens for Matomo instance %1$s have not been rotated for at least %2$s.",
         "AuthTokenNotificationEmail03": "To generate a new token and delete the old one, go to Personal > Security settings in your Matomo instance.",
         "AuthTokenNotificationEmail04": "If you believe you received this email in error, please contact your Matomo administrator.",
         "AuthTokenNotificationEmail05": "Manage your access tokens",
@@ -255,9 +255,9 @@
         "TokenExpireDateCheckboxHelp": "Enable this option and set a custom token expiration date. Regularly rotating auth tokens is a recommended security practice. You will receive an email notification %1$s days before the token expires. After the expiry date, the token will be rejected by the system and you will need to create a new one.",
         "TokenExpireDateHelpText": "The initial token expiration is set to %1$s days from today, and you can select a custom date. You will receive a reminder %2$s days before the selected token expiration date.",
         "InvalidTokenExpireDateFormat": "Invalid format of the expire date, please use YYYY-MM-DD. The date also needs to be in the future.",
-        "AuthTokenExpirationWarningEmailSubject": "Reminder: Your Matomo personal access token will expire within the next %1$s",
-        "AuthTokenExpirationWarningEmailReminder": "Reminder: Your auth token will expire within the next %1$s",
-        "AuthTokenExpirationWarningEmail01": "You’re receiving this email because your %1$s personal access token will expire on %2$s.",
+        "AuthTokenExpirationWarningEmailSubjectAll": "Reminder: Some of your personal auth tokens for Matomo instance %1$s will expire within the next %2$s",
+        "AuthTokenExpirationWarningEmailReminderAll": "Reminder: Some of your personal auth tokens for Matomo instance %1$s will expire within the next %2$s.",
+        "AuthTokenExpirationWarningEmail01All": "You’re receiving this email because one or more personal auth tokens (see below) will expire within the next %1$s.",
         "AuthTokenExpirationWarningEmail02": "To generate a new token and delete the old one, go to Personal > Security settings in your Matomo instance.",
         "AuthTokenExpirationWarningEmail03": "If you believe you received this email in error, please contact your Matomo administrator.",
         "AuthTokenExpirationWarningEmail04": "Manage your access tokens",
@@ -277,6 +277,9 @@
         "LastLoginDate": "Last login date",
         "LastAPIUsageDate": "Last API usage date",
         "XAgo": "%1$s ago",
-        "CannotRevokeOwnSuperuserAccess": "You cannot revoke your own superuser access."
+        "CannotRevokeOwnSuperuserAccess": "You cannot revoke your own superuser access.",
+        "TokenDescription": "Token description",
+        "TokenExpirationDate": "Token expiration date",
+        "TokenCreationDate": "Token creation date"
     }
 }

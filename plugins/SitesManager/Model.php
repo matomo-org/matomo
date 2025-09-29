@@ -116,10 +116,10 @@ class Model
 
         $db = $this->getDb();
         $ids = $db->fetchAll(
-            'SELECT idsite FROM ' . $this->table . '
+            'SELECT idsite FROM `' . $this->table . '`
                     WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ' .
             'UNION
-                SELECT idsite FROM ' . $siteUrlTable . '
+                SELECT idsite FROM `' . $siteUrlTable . '`
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ',
             // Bind
             array_merge($urls, $urls)
@@ -143,12 +143,12 @@ class Model
         $db = $this->getDb();
         $ids = $db->fetchAll(
             'SELECT idsite
-                FROM ' . $this->table . '
+                FROM `' . $this->table . '`
                     WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ') ' .
             'UNION
                 SELECT idsite
-                FROM ' . $siteUrlTable . '
+                FROM `' . $siteUrlTable . '`
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ')',
             // Bind
@@ -172,7 +172,7 @@ class Model
      */
     public function getSitesFromTimezones($timezones)
     {
-        $query = 'SELECT idsite FROM ' . $this->table . '
+        $query = 'SELECT idsite FROM `' . $this->table . '`
                   WHERE timezone IN (' . Common::getSqlStringFieldsArray($timezones) . ')
                   ORDER BY idsite ASC';
         $db = $this->getDb();
@@ -185,9 +185,9 @@ class Model
     {
         $db = $this->getDb();
 
-        $db->query("DELETE FROM " . $this->table . " WHERE idsite = ?", $idSite);
-        $db->query("DELETE FROM " . Common::prefixTable("site_url") . " WHERE idsite = ?", $idSite);
-        $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ?", $idSite);
+        $db->query("DELETE FROM `" . $this->table . "` WHERE idsite = ?", $idSite);
+        $db->query("DELETE FROM `" . Common::prefixTable("site_url") . "` WHERE idsite = ?", $idSite);
+        $db->query("DELETE FROM `" . Common::prefixTable("access") . "` WHERE idsite = ?", $idSite);
     }
 
     /**

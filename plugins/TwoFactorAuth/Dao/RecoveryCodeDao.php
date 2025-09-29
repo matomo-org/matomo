@@ -51,7 +51,7 @@ class RecoveryCodeDao
     {
         // we do not really care about duplicates as it is very unlikely to happen, that's why we don't even use a
         // unique login,recovery_code index
-        $sql = sprintf('INSERT INTO %s (`login`, `recovery_code`) VALUES(?,?)', $this->tablePrefixed);
+        $sql = sprintf('INSERT INTO `%s` (`login`, `recovery_code`) VALUES(?,?)', $this->tablePrefixed);
         Db::query($sql, array($login, $recoveryCode));
     }
 
@@ -65,7 +65,7 @@ class RecoveryCodeDao
 
     public function getAllRecoveryCodesForLogin($login)
     {
-        $sql = sprintf('SELECT recovery_code FROM %s WHERE login = ?', $this->tablePrefixed);
+        $sql = sprintf('SELECT recovery_code FROM `%s` WHERE login = ?', $this->tablePrefixed);
         $rows = Db::fetchAll($sql, array($login));
         $codes = array_column($rows, 'recovery_code');
         return $codes;
@@ -73,14 +73,14 @@ class RecoveryCodeDao
 
     public function deleteRecoveryCode($login, $recoveryCode)
     {
-        $sql = sprintf('DELETE FROM %s WHERE login = ? and recovery_code = ?', $this->tablePrefixed);
+        $sql = sprintf('DELETE FROM `%s` WHERE login = ? and recovery_code = ?', $this->tablePrefixed);
         $query = Db::query($sql, array($login, $recoveryCode));
         return $query->rowCount();
     }
 
     public function deleteAllRecoveryCodesForLogin($login)
     {
-        $query = sprintf('DELETE FROM %s WHERE login = ?', $this->tablePrefixed);
+        $query = sprintf('DELETE FROM `%s` WHERE login = ?', $this->tablePrefixed);
 
         Db::query($query, array($login));
     }

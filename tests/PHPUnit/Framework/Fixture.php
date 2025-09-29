@@ -984,12 +984,12 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     public static function siteCreated($idSite)
     {
-        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('site') . " WHERE idsite = ?", [$idSite]) != 0;
+        return Db::fetchOne("SELECT COUNT(*) FROM `" . Common::prefixTable('site') . "` WHERE idsite = ?", [$idSite]) != 0;
     }
 
     public static function goalExists($idSite, $idGoal)
     {
-        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('goal') . " WHERE idgoal = ? AND idsite = ?", [$idGoal, $idSite]) != 0;
+        return Db::fetchOne("SELECT COUNT(*) FROM `" . Common::prefixTable('goal') . "` WHERE idgoal = ? AND idsite = ?", [$idGoal, $idSite]) != 0;
     }
 
     /**
