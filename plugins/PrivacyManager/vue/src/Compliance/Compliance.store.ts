@@ -31,7 +31,7 @@ interface ComplianceStoreState {
 export interface ComplianceStore {
   state: DeepReadonly<ComplianceStoreState>;
   setIdSite: (idSite: string) => void;
-  saveComplianceStatus: (enabled: boolean) => void;
+  saveComplianceStatus: (enabled: boolean, password: string) => void;
 }
 
 export async function fetchCompliancePolicies(): Promise<CompliancePolicy[]> {
