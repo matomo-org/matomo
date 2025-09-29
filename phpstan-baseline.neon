@@ -5694,6 +5694,11 @@ parameters:
 			path: plugins/PagePerformance/Visualizations/JqplotGraph/StackedBarEvolution.php
 
 		-
+			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
+			count: 1
+			path: plugins/PrivacyManager/API.php
+
+		-
 			message: "#^Property Piwik\\\\Plugins\\\\PrivacyManager\\\\Config\\:\\:\\$anonymizeOrderId \\(int\\) does not accept bool\\.$#"
 			count: 1
 			path: plugins/PrivacyManager/API.php
