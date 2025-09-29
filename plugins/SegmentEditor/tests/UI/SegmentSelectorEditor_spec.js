@@ -198,7 +198,7 @@ describe("SegmentSelectorEditorTest", function () {
             await page.waitForTimeout(250);
         }
 
-        await page.type('input.edit_segment_name', 'new segment');
+        await page.type('input.edit_segment_name', 'new șégmênt');
         await page.click('.segmentRow0 .segment-or'); // click somewhere else to save new name
 
         await page.waitForTimeout(200);
@@ -223,6 +223,12 @@ describe("SegmentSelectorEditorTest", function () {
         await page.reload();
         await page.click('.segmentationContainer .title');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved');
+    });
+
+    it("should find the segment also when searching with diacritics", async function() {
+        await page.evaluate(() => $('.segmentationContainer .segmentFilter').val('segment').trigger('keyup'));
+        await page.waitForTimeout(500); // wait for search to be applied
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('searched');
     });
 
     it("should correctly load the new segment's details when the new segment is edited", async function() {
