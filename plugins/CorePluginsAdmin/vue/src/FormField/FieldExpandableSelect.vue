@@ -30,7 +30,8 @@
           v-for="(options, index) in availableOptions"
           class="collection-item"
           v-show="options.values.filter(x =>
-           x.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1).length"
+           normalize(x.value).indexOf(searchTerm) !== -1
+           || x.value.indexOf(searchTerm) !== -1).length"
           :key="index"
         >
           <h4
@@ -50,8 +51,10 @@
           <ul v-show="showCategory === options.group || searchTerm" class="collection secondLevel">
             <li
               class="expandableListItem collection-item valign-wrapper"
-              v-for="children in options.values.filter(x =>
-              x.value.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)"
+              v-for="children in options.values.filter(
+                x => normalize(x.value).indexOf(searchTerm) !== -1
+                    || x.value.indexOf(searchTerm) !== -1
+              )"
               :key="children.key"
               @click="onValueClicked(children)"
             >
@@ -71,7 +74,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { FocusAnywhereButHere, FocusIf } from 'CoreHome';
+import { Matomo, FocusAnywhereButHere, FocusIf } from 'CoreHome';
 import AbortableModifiers from './AbortableModifiers';
 
 interface SelectValueInfo {
@@ -174,6 +177,9 @@ export default defineComponent({
     },
   },
   methods: {
+    normalize(value: string) {
+      return Matomo.helper.normalize(value);
+    },
     onBlur() {
       this.showSelect = false;
     },
