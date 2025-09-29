@@ -11,6 +11,7 @@ namespace Piwik\Plugins\PrivacyManager;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
@@ -476,13 +477,21 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setComplianceStatus(string $idSite, string $complianceType, bool $enforce): bool
-    {
+    public function setComplianceStatus(
+        string $idSite,
+        string $complianceType,
+        bool $enforce,
+        string $passwordConfirmation = null
+    ): bool {
         if (!$this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             throw new Exception('Feature not available');
         }
 
         Piwik::checkUserHasSuperUserAccess();
+
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         $policy = PolicyManager::getPolicyByName($complianceType);
 

@@ -18,30 +18,29 @@
         <ComplianceTable
           :results="state.complianceRequirements"
         />
+        <Field
+          uicontrol="checkbox"
+          :name="'site-' + idSite + '-' + complianceType +  '-enableFeature'"
+          :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
+          :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
+          :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
+          v-model="shouldEnforceComplianceMode"
+        />
         <div v-if="state.saveComplianceError" class="notification system notification-error">
             {{ translate('General_ErrorTryAgain') }}
             {{ translate('General_ExceptionContactSupportGeneric', ['','']) }}
         </div>
-        <template v-else>
-          <Field
-            uicontrol="checkbox"
-            :name="'site-' + idSite + '-' + complianceType +  '-enableFeature'"
-            :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
-            :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
-            :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
-            v-model="shouldEnforceComplianceMode"
-          />
-          <SaveButton
-            :class="'site-' + idSite + '-' + complianceType +  '-save'"
-            @confirm="this.showPasswordConfirmation = true"
-            :value="translate('General_Save')"
-          />
-          <PasswordConfirmation
-            :model-value="this.showPasswordConfirmation"
-            :passwordFieldId="'password' + complianceType"
-            @confirmed="saveSettings"
-          />
-        </template>
+        <SaveButton
+          :class="'site-' + idSite + '-' + complianceType +  '-save'"
+          @confirm="this.showPasswordConfirmation = true"
+          :value="translate('General_Save')"
+        />
+        <PasswordConfirmation
+          :model-value="this.showPasswordConfirmation"
+          :passwordFieldId="'password' + complianceType"
+          @confirmed="saveSettings"
+          @aborted="resetSave"
+        />
       </template>
     </template>
   </ContentBlock>
@@ -85,8 +84,11 @@ export default defineComponent({
     ContentBlock,
   },
   methods: {
-    saveSettings() {
-      this.saveComplianceStatus(this.shouldEnforceComplianceMode);
+    saveSettings(password: string) {
+      this.saveComplianceStatus(this.shouldEnforceComplianceMode, password);
+      this.showPasswordConfirmation = false;
+    },
+    resetSave() {
       this.showPasswordConfirmation = false;
     },
   },
