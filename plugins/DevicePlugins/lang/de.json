@@ -2,6 +2,7 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s mit keinen aktivierten Plugins",
         "BrowserWithPluginsEnabled": "%1$s mit den Plugins %2$s aktiviert",
+        "ColumnPercentageVisitsDocumentation": "Der Prozentsatz alle Besuche, bei denen das Plugin erkannt wurde. Ein Besuch kann mehrere Plugins umfassen. Der Wert wird auf ganze Zahlen abgerundet.",
         "PluginDescription": "Zeigt die Liste der Plugins an, welche in den Browsern der Benutzer unterstützt werden.",
         "PluginDetectionDoesNotWorkInIE": "Hinweis: Die Erkennung von Plugins funktioniert nicht im Internet Explorer vor Version 11. Diese Statistik beruht nur auf Nicht-IE Browsern sowie neueren Version des IE.",
         "WidgetPlugins": "Browser-Plugins",
