@@ -1,8 +1,5 @@
 {% extends 'dashboard.twig' %}
 
-{% set test_piwikUrl='http://demo.matomo.org/' %}
-{% set isPiwikDemo %}{{ piwikUrl == 'http://demo.matomo.org/' or piwikUrl == 'https://demo.matomo.org/'}}{% endset %}
-
 {% set headline %}{{ 'General_AboutPiwikX'|translate(piwikVersion) }}{% endset %}
 
 {% block content %}

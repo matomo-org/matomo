@@ -401,8 +401,8 @@ class UrlTest extends \PHPUnit\Framework\TestCase
 
     public function testGetRFCValidHostname()
     {
-        $_SERVER['HTTP_HOST'] = 'demo.matomo.org';
-        $this->assertEquals('demo.matomo.org', Url::getRFCValidHostname());
+        $_SERVER['HTTP_HOST'] = 'demo.matomo.cloud';
+        $this->assertEquals('demo.matomo.cloud', Url::getRFCValidHostname());
         unset($_SERVER['HTTP_HOST']);
         $this->assertEquals('matomo.org', Url::getRFCValidHostname('matomo.org'));
         $this->assertEquals(false, Url::getRFCValidHostname('matomo org'));

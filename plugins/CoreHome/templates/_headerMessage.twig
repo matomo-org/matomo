@@ -1,5 +1,3 @@
-{% set isPiwikDemo %}{{ piwikUrl == 'http://demo.matomo.org/' or piwikUrl == 'https://demo.matomo.org/' or piwikUrl == 'https://demo.matomo.cloud/' or piwikUrl == 'http://demo.matomo.cloud/' }}{% endset %}
-
 {% set updateCheck %}
     <span id="updateCheckLinkContainer">
         <span class="icon icon-fixed icon-reload"></span>
@@ -9,7 +7,7 @@
 
 {% if
     isAutoUpdateEnabled and (
-        (latest_version_available and not isPiwikDemo and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser)
+        (latest_version_available and hasSomeViewAccess and not isUserIsAnonymous and showUpdateNotificationToUser)
         or (
             isSuperUser
             and (
@@ -23,7 +21,6 @@
     last-update-check-failed="{{ lastUpdateCheckFailed|default(false)|json_encode }}"
     latest-version-available="{{ latest_version_available|default(null)|json_encode }}"
     is-multi-server-environment="{{ isMultiServerEnvironment|default(false)|json_encode }}"
-    is-piwik-demo="{{ isPiwikDemo|default(false)|json_encode }}"
     is-super-user="{{ isSuperUser|default(false)|json_encode }}"
     is-admin-area="{{ isAdminArea|default(false)|json_encode }}"
     is-internet-enabled="{{ isInternetEnabled|default(false)|json_encode }}"

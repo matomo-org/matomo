@@ -19,7 +19,7 @@ class OverlayTest extends \PHPUnit\Framework\TestCase
     public function testIsOverlayRequestWithValidReferredRequests($module, $action, $method)
     {
         $this->assertSame(true, Overlay::isOverlayRequest($module, $action, $method, 'https://demo.matomo.cloud/index.php?module=Overlay&period=month&date=today&idSite=1'));
-        $this->assertSame(false, Overlay::isOverlayRequest($module, $action, $method, 'https://demo.matomo.org'));
+        $this->assertSame(false, Overlay::isOverlayRequest($module, $action, $method, 'https://demo.matomo.cloud'));
     }
 
     public function getOverlayRequestTestData()
