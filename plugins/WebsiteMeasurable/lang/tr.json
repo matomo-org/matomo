@@ -1,7 +1,6 @@
 {
     "WebsiteMeasurable": {
         "EcommercePolicySettingRequirementNote": "E-ticaret kullanımdan kaldırılmalıdır",
-        "EcommercePolicySettingTitle": "Her site için ayrı e-ticaret kapalı",
         "Website": "Site",
         "WebsiteDescription": "Bir site, sayfalarını genellikle tek bir etki alanı üzerinden sunar.",
         "WebsiteLongDescription": "Sayfa görüntülemeleri, tıklamalar, indirmeler ve herkese açık bir sitedeki olaylar gibi ziyaretçi etkileşimleri izleyin. Tek bir ölçülebilirde birden fazla etki alanı ve alt etki alanları bulunabilir ya da her biri için ayrı ölçülebilirler oluşturabilirsiniz.",
