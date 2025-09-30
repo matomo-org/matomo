@@ -9,6 +9,10 @@
   <div class="emailReports" ref="root">
     <div ref="reportSentSuccess" />
     <div ref="reportUpdatedSuccess" />
+    <div v-show="loading" class="loadingPiwik">
+      <img src="plugins/Morpheus/images/loading-blue.gif" />
+      {{ translate('ScheduledReports_SendingData') }}
+    </div>
     <div>
       <div id="ajaxError" style="display:none"></div>
 
@@ -92,6 +96,7 @@ interface ManageScheduledReportState {
   showReportsList: boolean;
   report: Report;
   selectedReports: Record<string, Record<string, boolean>>;
+  loading: boolean;
 }
 
 function scrollToTop() {
@@ -218,12 +223,13 @@ export default defineComponent({
       showReportsList: true,
       report: {} as unknown as Report,
       selectedReports: {},
+      loading: false,
     };
   },
   methods: {
     sendReportNow(idReport: string|number) {
       scrollToTop();
-
+      this.loading = true;
       AjaxHelper.post(
         {
           method: 'ScheduledReports.sendReport',
@@ -233,11 +239,14 @@ export default defineComponent({
           force: true,
         },
       ).then(() => {
+        this.loading = false;
         this.fadeInOutSuccessMessage(
           this.$refs.reportSentSuccess as HTMLElement,
           translate('ScheduledReports_ReportSent'),
           false,
         );
+      }).finally(() => {
+        this.loading = false;
       });
     },
     formSetEditReport(idReport: number) {

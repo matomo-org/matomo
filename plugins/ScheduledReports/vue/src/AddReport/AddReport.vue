@@ -134,24 +134,24 @@
         >
         </Field>
       </div>
-      <div
-        v-for="(reportFormats, reportType) in reportFormatsByReportTypeOptions"
-        :key="reportType"
-      >
-        <Field
-          uicontrol="select"
-          name="report_format"
-          :title="translate('ScheduledReports_ReportFormat')"
-          :class="reportType"
-          v-show="report.type === reportType"
-          :model-value="report[`format${reportType}`]"
-          @update:model-value="$emit('change', { prop: `format${reportType}`, value: $event })"
-          :options="reportFormats"
-        >
-        </Field>
-      </div>
       <div ref="reportParameters">
         <slot name="report-parameters"></slot>
+      </div>
+      <div
+          v-for="(reportFormats, reportType) in reportFormatsByReportTypeOptions"
+          :key="reportType"
+      >
+        <Field
+            uicontrol="select"
+            name="report_format"
+            :title="translate('ScheduledReports_ReportFormat')"
+            :class="reportType"
+            v-show="report.type === reportType"
+            :model-value="report[`format${reportType}`]"
+            @update:model-value="$emit('change', { prop: `format${reportType}`, value: $event })"
+            :options="reportFormats"
+        >
+        </Field>
       </div>
       <div
         v-show="report[`format${report.type}`] === 'pdf' ||
