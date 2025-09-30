@@ -60,6 +60,6 @@
         "ScheduleReports": "Schedule Reports",
         "PersonalScheduledReports": "Personal Scheduled Reports",
         "ReportSchedule": "Report Schedule",
-        "SendingData": "Sending data…"
+        "SendingReport": "Sending report…"
     }
 }

@@ -11,7 +11,7 @@
     <div ref="reportUpdatedSuccess" />
     <div v-show="loading" class="loadingPiwik">
       <img src="plugins/Morpheus/images/loading-blue.gif" />
-      {{ translate('ScheduledReports_SendingData') }}
+      {{ translate('ScheduledReports_SendingReport') }}
     </div>
     <div>
       <div id="ajaxError" style="display:none"></div>
