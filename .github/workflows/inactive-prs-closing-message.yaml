@@ -19,7 +19,7 @@ jobs:
   stale:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/stale@v9
+      - uses: actions/stale@v10
         with:
           debug-only: false
           start-date: 2021-03-01T00:00:00Z
