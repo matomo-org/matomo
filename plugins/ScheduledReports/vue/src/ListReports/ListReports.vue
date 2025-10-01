@@ -88,6 +88,11 @@
               />
               {{ translate('ScheduledReports_SendReportNow') }}
             </a>
+            <span v-if="sendingReports && sendingReports.includes(report.idreport)"
+                  class="loadingPiwik">
+               <img src="plugins/Morpheus/images/loading-blue.gif" />
+              {{ translate('ScheduledReports_SendingReport') }}
+            </span>
           </td>
           <td>
             <form
@@ -219,6 +224,10 @@ export default defineComponent({
     reportTypes: {
       type: Object,
       required: true,
+    },
+    sendingReports: {
+      type: Array,
+      required: false,
     },
   },
   components: {

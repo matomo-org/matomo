@@ -9,10 +9,6 @@
   <div class="emailReports" ref="root">
     <div ref="reportSentSuccess" />
     <div ref="reportUpdatedSuccess" />
-    <div v-show="loading" class="loadingPiwik">
-      <img src="plugins/Morpheus/images/loading-blue.gif" />
-      {{ translate('ScheduledReports_SendingReport') }}
-    </div>
     <div>
       <div id="ajaxError" style="display:none"></div>
 
@@ -42,6 +38,7 @@
         :download-output-type="downloadOutputType"
         :language="language"
         :report-formats-by-report-type="reportFormatsByReportType"
+        :sending-reports="sendingReports"
         @create="createReport()"
         @edit="editReport($event)"
         @delete="deleteReport($event)"
@@ -96,7 +93,7 @@ interface ManageScheduledReportState {
   showReportsList: boolean;
   report: Report;
   selectedReports: Record<string, Record<string, boolean>>;
-  loading: boolean;
+  sendingReports: Array<string|number>;
 }
 
 function scrollToTop() {
@@ -223,13 +220,13 @@ export default defineComponent({
       showReportsList: true,
       report: {} as unknown as Report,
       selectedReports: {},
-      loading: false,
+      sendingReports: [],
     };
   },
   methods: {
     sendReportNow(idReport: string|number) {
       scrollToTop();
-      this.loading = true;
+      this.sendingReports.push(idReport);
       AjaxHelper.post(
         {
           method: 'ScheduledReports.sendReport',
@@ -239,14 +236,15 @@ export default defineComponent({
           force: true,
         },
       ).then(() => {
-        this.loading = false;
         this.fadeInOutSuccessMessage(
           this.$refs.reportSentSuccess as HTMLElement,
           translate('ScheduledReports_ReportSent'),
           false,
         );
       }).finally(() => {
-        this.loading = false;
+        this.sendingReports = this.sendingReports.filter(
+          (report: string | number) => report !== idReport,
+        );
       });
     },
     formSetEditReport(idReport: number) {
