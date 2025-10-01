@@ -127,7 +127,7 @@ class Profiler
         }
         $tableName = Common::prefixTable('log_profiling');
 
-        $all = $db->fetchAll('SELECT * FROM ' . $tableName);
+        $all = $db->fetchAll('SELECT * FROM `' . $tableName . '`');
         if ($all === false) {
             return;
         }

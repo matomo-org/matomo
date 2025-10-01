@@ -50,7 +50,7 @@ class Updates_4_11_0_rc2 extends PiwikUpdates
     {
         try {
             $this->pendingUsers = Db::fetchAll(
-                "SELECT * FROM $this->userTable WHERE invite_status = ? ",
+                "SELECT * FROM `$this->userTable` WHERE invite_status = ? ",
                 ['pending']
             );
         } catch (\Exception $e) {

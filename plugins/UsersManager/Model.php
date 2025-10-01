@@ -165,8 +165,8 @@ class Model
         $siteTable = Common::prefixTable('site');
 
         $sql = sprintf("SELECT access.idsite, access.access 
-    FROM %s access 
-    LEFT JOIN %s site 
+    FROM `%s` access 
+    LEFT JOIN `%s` site 
     ON access.idsite=site.idsite
      WHERE access.login = ? and site.idsite is not null", $accessTable, $siteTable);
         $db = $this->getDb();
@@ -213,7 +213,7 @@ class Model
         }
 
         $sql = 'SELECT s.idsite as idsite, s.name as site_name, GROUP_CONCAT(' . $selector . ' SEPARATOR "|") as access
-                  FROM ' . Common::prefixTable('access') . " a
+                  FROM `' . Common::prefixTable('access') . "` a
                 $joins
                 $where
               GROUP BY s.idsite
@@ -227,7 +227,7 @@ class Model
         }
 
         $sql = 'SELECT COUNT(DISTINCT s.idsite)
-                 FROM ' . Common::prefixTable('access') . " a
+                 FROM `' . Common::prefixTable('access') . "` a
                 $joins
                 $where";
 
@@ -245,7 +245,7 @@ class Model
         [$where, $whereBind] = $siteAccessFilter->getWhere();
         $bind = array_merge($bind, $whereBind);
 
-        $sql = 'SELECT s.idsite FROM ' . Common::prefixTable('access') . " a $joins $where";
+        $sql = 'SELECT s.idsite FROM `' . Common::prefixTable('access') . "` a $joins $where";
 
         $db = $this->getDb();
 
@@ -859,7 +859,7 @@ class Model
         }
 
         $sql = 'SELECT u.*, GROUP_CONCAT(a.access SEPARATOR "|") as access
-                  FROM ' . $this->userTable . " u
+                  FROM `' . $this->userTable . "` u
                 $joins
                 $where
               GROUP BY u.login
@@ -874,7 +874,7 @@ class Model
         }
 
         $sql = 'SELECT COUNT(DISTINCT u.login)
-                  FROM ' . $this->userTable . " u
+                  FROM `' . $this->userTable . "` u
                 $joins
                 $where";
 
@@ -896,7 +896,7 @@ class Model
     {
         $idSites = array_map('intval', $idSites);
 
-        $loginSql = 'SELECT DISTINCT ia.login FROM ' . Common::prefixTable('access') . ' ia WHERE ia.idsite IN ('
+        $loginSql = 'SELECT DISTINCT ia.login FROM `' . Common::prefixTable('access') . '` ia WHERE ia.idsite IN ('
           . implode(',', $idSites) . ')';
 
         $logins = \Piwik\Db::fetchAll($loginSql);

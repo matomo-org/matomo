@@ -234,13 +234,13 @@ class Updates_4_0_0_b1 extends PiwikUpdates
     public function doUpdate(Updater $updater)
     {
         $salt = SettingsPiwik::getSalt();
-        $sessions = Db::fetchAll('SELECT id from ' . Common::prefixTable('session'));
+        $sessions = Db::fetchAll('SELECT id from `' . Common::prefixTable('session') . '`');
 
         foreach ($sessions as $session) {
             if (!empty($session['id']) && mb_strlen($session['id']) != 128) {
                 $bind = [ hash('sha512', $session['id'] . $salt), $session['id'] ];
                 try {
-                    Db::query(sprintf('UPDATE %s SET id = ? WHERE id = ?', Common::prefixTable('session')), $bind);
+                    Db::query(sprintf('UPDATE `%s` SET id = ? WHERE id = ?', Common::prefixTable('session')), $bind);
                 } catch (\Exception $e) {
                     // ignore possible duplicate key errors
                 }

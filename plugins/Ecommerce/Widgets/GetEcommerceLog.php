@@ -29,7 +29,7 @@ class GetEcommerceLog extends \Piwik\Widget\Widget
             return;
         }
 
-        $site  = new Site($idSite);
+        $site = new Site($idSite);
         $config->setIsEnabled($site->isEcommerceEnabled());
 
         if (!Manager::getInstance()->isPluginActivated('Live') || !Live::isVisitorLogEnabled($idSite)) {

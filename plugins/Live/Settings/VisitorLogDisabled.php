@@ -19,7 +19,7 @@ use Piwik\Settings\Interfaces\SettingValueInterface;
  * @implements SettingValueInterface<bool>
  * @implements SystemSettingInterface<bool>
  */
-class VisitorLog implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface, SystemSettingInterface
+class VisitorLogDisabled implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface, SystemSettingInterface
 {
     /**
      * @use MeasurableGetterTrait<bool>

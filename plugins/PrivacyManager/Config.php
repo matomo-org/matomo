@@ -9,8 +9,13 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Tracker\Cache;
+use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
+use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
 
 /**
  * @property bool $doNotTrackEnabled    Enable / Disable Do Not Track {@see DoNotTrackHeaderChecker}
@@ -74,7 +79,7 @@ class Config
         return $this->getFromTrackerCache($name, $this->properties[$name]);
     }
 
-    private function prefix(string $optionName, bool $addIdSite = true): string
+    public function prefix(string $optionName, bool $addIdSite = true): string
     {
         // if requested, adding the site ID in the middle to have all the site-specific settings together
         return 'PrivacyManager.' . (($addIdSite && $this->idSite) ? "idSite($this->idSite)." : '') . $optionName;
@@ -111,13 +116,25 @@ class Config
 
     private function getFromOption(string $name, array $config)
     {
-        $value = Option::get($this->prefix($name));
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            if ($name === 'ipAddressMaskLength') {
+                $value = IpAddressMaskLengthSetting::getInstance()->getValue();
+            } elseif ($name === 'ipAnonymizerEnabled') {
+                $value = IPAnonymisationSetting::getInstance()->getValue();
+            } else {
+                $value = Option::get($this->prefix($name));
+            }
+        } else {
+            $value = Option::get($this->prefix($name));
+        }
+
         // fallback to global settings if we don't have specific site settings saved
         if (false === $value && !$this->hasSiteSpecificSettings($name)) {
             $value = Option::get($this->prefix($name, false));
         }
 
-        if (false !== $value) {
+        if (isset($value) && false !== $value) {
             settype($value, $config['type']);
         } else {
             $value = $config['default'];

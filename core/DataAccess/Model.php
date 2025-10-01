@@ -369,7 +369,7 @@ class Model
             $nameCondition = "(name = '$doneFlag' OR name LIKE '$doneFlag.%')";
         }
 
-        $sql = "SELECT idarchive FROM $archiveTable "
+        $sql = "SELECT idarchive FROM `$archiveTable` "
              . " WHERE $nameCondition
                    AND idsite IN (" . implode(", ", $idSites) . ")
                    AND (" . implode(" OR ", $periodConditions) . ")";
@@ -382,13 +382,13 @@ class Model
 
         $idArchives = array_map('intval', array_column($recordsToUpdate, 'idarchive'));
 
-        $updateSql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_INVALIDATED
+        $updateSql = "UPDATE `$archiveTable` SET value = " . ArchiveWriter::DONE_INVALIDATED
             . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition"
             . " AND value NOT IN (" . ArchiveWriter::DONE_ERROR . ", " . ArchiveWriter::DONE_ERROR_INVALIDATED . ")";
 
         Db::query($updateSql);
 
-        $updateSql = "UPDATE $archiveTable SET value = " . ArchiveWriter::DONE_ERROR_INVALIDATED
+        $updateSql = "UPDATE `$archiveTable` SET value = " . ArchiveWriter::DONE_ERROR_INVALIDATED
                    . " WHERE idarchive IN (" . implode(', ', $idArchives) . ") AND $nameCondition AND value = " . ArchiveWriter::DONE_ERROR;
 
         Db::query($updateSql);
@@ -402,7 +402,7 @@ class Model
             ArchiveWriter::DONE_ERROR_INVALIDATED,
         ];
 
-        $query = "SELECT idarchive FROM $archiveTable
+        $query = "SELECT idarchive FROM `$archiveTable`
                   WHERE name LIKE 'done%'
                         AND ts_archived < ?
                         AND value IN (" . implode(', ', $temporaryArchiveValues) . ")";
@@ -413,10 +413,10 @@ class Model
     public function getArchivesMissingDoneFlag(string $archiveTable): array
     {
         $query = "SELECT DISTINCT idarchive
-                    FROM $archiveTable
+                    FROM `$archiveTable`
                     WHERE idarchive NOT IN (
                             SELECT DISTINCT idarchive
-                            FROM $archiveTable
+                            FROM `$archiveTable`
                             WHERE name LIKE 'done%'
                         )";
 
@@ -429,7 +429,7 @@ class Model
             StaticContainer::get(LoggerInterface::class)->info('deleteArchivesWithPeriod: ' . $numericTable . ' with period = ' . $period . ' and date = ' . $date);
         }
 
-        $query = "DELETE FROM %s WHERE period = ? AND ts_archived < ?";
+        $query = "DELETE FROM `%s` WHERE period = ? AND ts_archived < ?";
         $bind  = array($period, $date);
 
         $queryObj = Db::query(sprintf($query, $numericTable), $bind);
@@ -454,7 +454,7 @@ class Model
         $idsToDelete = array_values($idsToDelete);
 
         $idsToDelete = array_map('intval', $idsToDelete);
-        $query = "DELETE FROM %s WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
+        $query = "DELETE FROM `%s` WHERE idarchive IN (" . implode(',', $idsToDelete) . ")";
 
         $queryObj = Db::query(sprintf($query, $numericTable), array());
         $deletedRows = $queryObj->rowCount();
@@ -522,9 +522,9 @@ class Model
 
         // NOTE: we can't predict how many segments there will be so there could be lots of nb_visits/nb_visits_converted rows... have to select everything.
         $sqlQuery = "SELECT arc1.idarchive, arc1.value, arc1.name, arc1.ts_archived, arc1.date1 as startDate, arc2.value as " . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . ", arc3.value as " . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "
-                     FROM $numericTable arc1
-                     LEFT JOIN $numericTable arc2 on arc2.idarchive = arc1.idarchive and (arc2.name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "')
-                     LEFT JOIN $numericTable arc3 on arc3.idarchive = arc1.idarchive and (arc3.name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
+                     FROM `$numericTable` arc1
+                     LEFT JOIN `$numericTable` arc2 on arc2.idarchive = arc1.idarchive and (arc2.name = '" . ArchiveSelector::NB_VISITS_RECORD_LOOKED_UP . "')
+                     LEFT JOIN `$numericTable` arc3 on arc3.idarchive = arc1.idarchive and (arc3.name = '" . ArchiveSelector::NB_VISITS_CONVERTED_RECORD_LOOKED_UP . "')
                      WHERE arc1.idsite = ?
                          AND arc1.date1 = ?
                          AND arc1.date2 = ?
@@ -607,7 +607,7 @@ class Model
     public function getArchiveStatus($numericTable, $archiveId, $doneFlag): int
     {
         return (int) Db::fetchOne(
-            "SELECT value FROM $numericTable WHERE idarchive = ? AND `name` = ?",
+            "SELECT value FROM `$numericTable` WHERE idarchive = ? AND `name` = ?",
             [$archiveId, $doneFlag]
         );
     }
@@ -615,7 +615,7 @@ class Model
     public function insertRecord($tableName, $fields, $record, $name, $value)
     {
         // duplicate idarchives are Ignored, see https://github.com/piwik/piwik/issues/987
-        $query = "INSERT IGNORE INTO " . $tableName . " (" . implode(", ", $fields) . ")
+        $query = "INSERT IGNORE INTO `$tableName` (" . implode(", ", $fields) . ")
                   VALUES (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE " . end($fields) . " = ?";
 
         $bindSql   = $record;
@@ -655,7 +655,7 @@ class Model
      */
     public function getArchiveIdsForDeletedSites($archiveTableName)
     {
-        $sql = "SELECT DISTINCT idsite FROM " . $archiveTableName;
+        $sql = "SELECT DISTINCT idsite FROM `$archiveTableName`";
         $rows = Db::getReader()->fetchAll($sql, array());
 
         if (empty($rows)) {
@@ -675,7 +675,7 @@ class Model
         $deletedSites = array_values($deletedSites);
         $deletedSites = array_map('intval', $deletedSites);
 
-        $sql = "SELECT DISTINCT idarchive FROM " . $archiveTableName . " WHERE idsite IN (" . implode(',', $deletedSites) . ")";
+        $sql = "SELECT DISTINCT idarchive FROM `$archiveTableName` WHERE idsite IN (" . implode(',', $deletedSites) . ")";
 
         $rows = Db::getReader()->fetchAll($sql, array());
 
@@ -705,7 +705,7 @@ class Model
 
         $segmentClauses = implode(' OR ', $segmentClauses);
 
-        $sql = 'SELECT idarchive FROM ' . $archiveTableName
+        $sql = 'SELECT idarchive FROM `' . $archiveTableName . '`'
             . ' WHERE ts_archived < ?'
             . ' AND (' . $segmentClauses . ')';
 
@@ -1058,13 +1058,13 @@ class Model
         $table = Common::prefixTable('archive_invalidations');
         $changedCount = 0;
 
-        $sql = "SELECT * FROM $table WHERE idinvalidation IN (" . implode(',', $idinvalidations) . ")";
+        $sql = "SELECT * FROM `$table` WHERE idinvalidation IN (" . implode(',', $idinvalidations) . ")";
         $invalidations = Db::fetchAll($sql);
 
         // Check invalidations one by one, to ensure we safely remove invalidations in cases where two identical ones are requested to reset
         foreach ($invalidations as $invalidation) {
             // Look for other identical invalidations that are either not started or started after the current one had been invalidated
-            $query = "SELECT COUNT(*) FROM $table WHERE name = ? AND idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND "
+            $query = "SELECT COUNT(*) FROM `$table` WHERE name = ? AND idsite = ? AND date1 = ? AND date2 = ? AND period = ? AND "
                    . "(status = ? OR (status = ? AND ts_started > ?)) AND idinvalidation != ?";
             $bind = [
                 $invalidation['name'],
@@ -1093,7 +1093,7 @@ class Model
                     $invalidation
                 );
 
-                $sql = "DELETE FROM $table WHERE status = ? AND idinvalidation = ?";
+                $sql = "DELETE FROM `$table` WHERE status = ? AND idinvalidation = ?";
 
                 $bind = [
                     ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
@@ -1103,7 +1103,7 @@ class Model
                 $query = Db::query($sql, $bind);
                 $changedCount += $query->rowCount();
             } else {
-                $sql = "UPDATE $table SET status = ?, processing_host = NULL, process_id = NULL, ts_started = NULL WHERE status = ? AND idinvalidation = ?";
+                $sql = "UPDATE `$table` SET status = ?, processing_host = NULL, process_id = NULL, ts_started = NULL WHERE status = ? AND idinvalidation = ?";
 
                 $bind = [
                     ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
@@ -1147,7 +1147,7 @@ class Model
         $requestedRecords = is_string($requestedRecords) ? [$requestedRecords] : $requestedRecords;
         $placeholders = Common::getSqlStringFieldsArray($requestedRecords);
 
-        $countSql = "SELECT DISTINCT name FROM %s WHERE idarchive IN ($idArchives) AND name IN ($placeholders) LIMIT " . count($requestedRecords);
+        $countSql = "SELECT DISTINCT name FROM `%s` WHERE idarchive IN ($idArchives) AND name IN ($placeholders) LIMIT " . count($requestedRecords);
 
         $numericTable = ArchiveTableCreator::getNumericTable($archiveStartDate);
         $blobTable = ArchiveTableCreator::getBlobTable($archiveStartDate);

@@ -94,7 +94,7 @@ class Updates_2_10_0_b5 extends Updates
             array('module' => 'UserSettings', 'action' => 'getScreenType', 'params' => array()),
         );
 
-        $allDashboards = Db::get()->fetchAll(sprintf("SELECT * FROM %s", Common::prefixTable('user_dashboard')));
+        $allDashboards = Db::get()->fetchAll(sprintf("SELECT * FROM `%s`", Common::prefixTable('user_dashboard')));
 
         $dashboardTable = Common::prefixTable('user_dashboard');
         $dashboardQuery = "UPDATE $dashboardTable SET layout = ? WHERE iddashboard = ?";
@@ -162,7 +162,7 @@ class Updates_2_10_0_b5 extends Updates
             $deviceDetectionBlobAvailableDate = null;
             foreach ($archiveBlobTables as $table) {
                 // Look for all day archives and try to find that with the lowest date
-                $deviceDetectionBlobAvailableDate = Db::get()->fetchOne(sprintf("SELECT date1 FROM %s WHERE name = 'DevicesDetection_browserVersions' AND period = 1 ORDER BY date1 ASC LIMIT 1", $table));
+                $deviceDetectionBlobAvailableDate = Db::get()->fetchOne(sprintf("SELECT date1 FROM `%s` WHERE name = 'DevicesDetection_browserVersions' AND period = 1 ORDER BY date1 ASC LIMIT 1", $table));
 
                 if (!empty($deviceDetectionBlobAvailableDate)) {
                     break;
@@ -183,36 +183,36 @@ class Updates_2_10_0_b5 extends Updates
     public static function updateBrowserArchives($table)
     {
         // rename old UserSettings archives where no DeviceDetection archives exists
-        Db::exec(sprintf("UPDATE IGNORE %s SET name='DevicesDetection_browserVersions' WHERE name = 'UserSettings_browser'", $table));
+        Db::exec(sprintf("UPDATE IGNORE `%s` SET name='DevicesDetection_browserVersions' WHERE name = 'UserSettings_browser'", $table));
 
         /*
          * check dates of remaining (non-day) archives with calculated safe date
          * archives before or within that week/month/year of that date will be replaced
          */
-        $oldBrowserBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM %s WHERE name = 'UserSettings_browser' AND `period` > 1", $table));
+        $oldBrowserBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM `%s` WHERE name = 'UserSettings_browser' AND `period` > 1", $table));
         foreach ($oldBrowserBlobs as $blob) {
             // if start date of blob is before calculated date us old usersettings archive instead of already existing DevicesDetection archive
             if (strtotime($blob['date1']) < self::getFirstDayOfArchivedDeviceDetectorData()) {
-                Db::get()->query(sprintf("DELETE FROM %s WHERE idarchive = ? AND name = ?", $table), array($blob['idarchive'], 'DevicesDetection_browserVersions'));
-                Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE idarchive = ? AND name = ?", $table), array('DevicesDetection_browserVersions', $blob['idarchive'], 'UserSettings_browser'));
+                Db::get()->query(sprintf("DELETE FROM `%s` WHERE idarchive = ? AND name = ?", $table), [$blob['idarchive'], 'DevicesDetection_browserVersions']);
+                Db::get()->query(sprintf("UPDATE `%s` SET name = ? WHERE idarchive = ? AND name = ?", $table), ['DevicesDetection_browserVersions', $blob['idarchive'], 'UserSettings_browser']);
             }
         }
     }
 
     public static function updateOsArchives($table)
     {
-        Db::exec(sprintf("UPDATE IGNORE %s SET name='DevicesDetection_osVersions' WHERE name = 'UserSettings_os'", $table));
+        Db::exec(sprintf("UPDATE IGNORE `%s` SET name='DevicesDetection_osVersions' WHERE name = 'UserSettings_os'", $table));
 
         /*
          * check dates of remaining (non-day) archives with calculated safe date
          * archives before or within that week/month/year of that date will be replaced
          */
-        $oldOsBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM %s WHERE name = 'UserSettings_os' AND `period` > 1", $table));
+        $oldOsBlobs = Db::get()->fetchAll(sprintf("SELECT * FROM `%s` WHERE name = 'UserSettings_os' AND `period` > 1", $table));
         foreach ($oldOsBlobs as $blob) {
             // if start date of blob is before calculated date us old usersettings archive instead of already existing DevicesDetection archive
             if (strtotime($blob['date1']) < self::getFirstDayOfArchivedDeviceDetectorData()) {
-                Db::get()->query(sprintf("DELETE FROM %s WHERE idarchive = ? AND name = ?", $table), array($blob['idarchive'], 'DevicesDetection_osVersions'));
-                Db::get()->query(sprintf("UPDATE %s SET name = ? WHERE idarchive = ? AND name = ?", $table), array('DevicesDetection_osVersions', $blob['idarchive'], 'UserSettings_os'));
+                Db::get()->query(sprintf("DELETE FROM `%s` WHERE idarchive = ? AND name = ?", $table), [$blob['idarchive'], 'DevicesDetection_osVersions']);
+                Db::get()->query(sprintf("UPDATE `%s` SET name = ? WHERE idarchive = ? AND name = ?", $table), ['DevicesDetection_osVersions', $blob['idarchive'], 'UserSettings_os']);
             }
         }
     }

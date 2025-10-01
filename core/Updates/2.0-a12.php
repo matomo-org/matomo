@@ -40,7 +40,7 @@ class Updates_2_0_a12 extends Updates
             $tableName = Common::prefixTable($table);
 
             try {
-                $rows = Db::fetchOne("SELECT COUNT(*) FROM $tableName");
+                $rows = Db::fetchOne("SELECT COUNT(*) FROM `$tableName`");
                 if ($rows == 0) {
                     $result[] = $this->migration->db->dropTable($table);
                 }

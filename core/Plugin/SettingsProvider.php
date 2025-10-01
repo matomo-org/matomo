@@ -44,7 +44,7 @@ class SettingsProvider
      * @param string $pluginName
      * @return SystemSettings|null
      */
-    public function getSystemSettings($pluginName)
+    public function getSystemSettings(string $pluginName): ?SystemSettings
     {
         $plugin = $this->getLoadedAndActivated($pluginName);
 
@@ -55,6 +55,8 @@ class SettingsProvider
                 return StaticContainer::get($settings);
             }
         }
+
+        return null;
     }
 
     /**
@@ -62,7 +64,7 @@ class SettingsProvider
      * @param string $pluginName
      * @return UserSettings|null
      */
-    public function getUserSettings($pluginName)
+    public function getUserSettings(string $pluginName): ?UserSettings
     {
         $plugin = $this->getLoadedAndActivated($pluginName);
 
@@ -73,6 +75,8 @@ class SettingsProvider
                 return StaticContainer::get($settings);
             }
         }
+
+        return null;
     }
 
     /**
@@ -82,7 +86,7 @@ class SettingsProvider
      *
      * @return SystemSettings[]   An array containing array([pluginName] => [setting instance]).
      */
-    public function getAllSystemSettings()
+    public function getAllSystemSettings(): array
     {
         $cacheId = CacheId::languageAware('AllSystemSettings');
         $cache = PiwikCache::getTransientCache();
@@ -112,7 +116,7 @@ class SettingsProvider
      *
      * @return UserSettings[]   An array containing array([pluginName] => [setting instance]).
      */
-    public function getAllUserSettings()
+    public function getAllUserSettings(): array
     {
         $cacheId = CacheId::languageAware('AllUserSettings');
         $cache = PiwikCache::getTransientCache();
@@ -157,12 +161,14 @@ class SettingsProvider
             $component = $plugin->findComponent('MeasurableSettings', 'Piwik\\Settings\\Measurable\\MeasurableSettings');
 
             if ($component) {
-                return StaticContainer::getContainer()->make($component, array(
+                return StaticContainer::getContainer()->make($component, [
                     'idSite' => $idSite,
                     'idMeasurableType' => $idType,
-                ));
+                ]);
             }
         }
+
+        return null;
     }
 
     /**
@@ -193,21 +199,21 @@ class SettingsProvider
         return $byPluginName;
     }
 
-    private function getLoadedAndActivated($pluginName)
+    private function getLoadedAndActivated(string $pluginName): ?Plugin
     {
         if (!$this->pluginManager->isPluginLoaded($pluginName)) {
-            return;
+            return null;
         }
 
         try {
             if (!$this->pluginManager->isPluginActivated($pluginName)) {
-                return;
+                return null;
             }
 
             $plugin = $this->pluginManager->getLoadedPlugin($pluginName);
         } catch (\Exception $e) {
             // we are not allowed to use possible settings from this plugin, plugin is not active
-            return;
+            return null;
         }
 
         return $plugin;

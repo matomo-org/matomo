@@ -412,7 +412,7 @@ class ArchiveCronTest extends SystemTestCase
         $blobTable = ArchiveTableCreator::getBlobTable(Date::factory('2012-08-09'));
 
         // remove existing range archives
-        $idArchives = Db::fetchAll("SELECT DISTINCT idarchive FROM $table WHERE period = 5");
+        $idArchives = Db::fetchAll("SELECT DISTINCT idarchive FROM `$table` WHERE period = 5");
         $idArchives = array_column($idArchives, 'idarchive');
 
         $model = new Model();

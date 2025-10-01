@@ -148,7 +148,7 @@ class AIAssistant extends Singleton
     public function isAIAssistantUrl(string $url, ?string $aiAssistantName = null): bool
     {
         foreach ($this->getDefinitions() as $domain => $name) {
-            if (preg_match('/(^|[\.\/])' . $domain . '([\.\/]|$)/', $url) && ($aiAssistantName === null || $name === $aiAssistantName)) {
+            if (preg_match('#(^|[\.\/])' . preg_quote($domain) . '(\/|$)#', $url) && ($aiAssistantName === null || $name === $aiAssistantName)) {
                 return true;
             }
         }
@@ -163,7 +163,7 @@ class AIAssistant extends Singleton
     public function getAIAssistantFromDomain(string $url): string
     {
         foreach ($this->getDefinitions() as $domain => $name) {
-            if (preg_match('/(^|[\.\/])' . $domain . '([\.\/]|$)/', $url)) {
+            if (preg_match('#(^|[\.\/])' . preg_quote($domain) . '(\/|$)#', $url)) {
                 return $name;
             }
         }
@@ -204,9 +204,9 @@ class AIAssistant extends Singleton
      *
      * @see plugins/Morpheus/icons/dist/aiAssistants/
      */
-    public function getLogoFromUrl(string $domain): string
+    public function getLogoFromUrl(string $url): string
     {
-        $ai = $this->getAIAssistantFromDomain($domain);
+        $ai = $this->getAIAssistantFromDomain($url);
         $ais = $this->getDefinitions();
 
         $filePattern = 'plugins/Morpheus/icons/dist/aiAssistants/%s.png';

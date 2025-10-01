@@ -330,10 +330,10 @@ class VisitorDetails extends VisitorDetailsAbstract
 					log_link_visit_action.search_cat,
 					log_link_visit_action.search_count
 					" . $customActionDimensionFields . "
-				FROM " . Common::prefixTable('log_link_visit_action') . " AS log_link_visit_action
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action
+				FROM `" . Common::prefixTable('log_link_visit_action') . "` AS log_link_visit_action
+					LEFT JOIN `" . Common::prefixTable('log_action') . "` AS log_action
 					ON  log_link_visit_action.idaction_url = log_action.idaction
-					LEFT JOIN " . Common::prefixTable('log_action') . " AS log_action_title
+					LEFT JOIN `" . Common::prefixTable('log_action') . "` AS log_action_title
 					ON  log_link_visit_action.idaction_name = log_action_title.idaction
 					" . implode(" ", $customJoins) . "
 				WHERE log_link_visit_action.idvisit IN ('" . implode("','", $idVisits) . "')

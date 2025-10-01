@@ -40,7 +40,7 @@ class Updates_4_10_0_b1 extends PiwikUpdates
     {
         $table        = Common::prefixTable('report');
         $invalidCount = Db::fetchOne(
-            "SELECT COUNT(*) FROM $table WHERE reports = ? OR parameters = ?",
+            "SELECT COUNT(*) FROM `$table` WHERE reports = ? OR parameters = ?",
             ['Array', 'Array']
         );
 
@@ -49,7 +49,7 @@ class Updates_4_10_0_b1 extends PiwikUpdates
         }
 
         return [
-            $this->migration->db->sql("DELETE FROM " . $table . " WHERE reports = 'Array' OR parameters = 'Array'"),
+            $this->migration->db->sql("DELETE FROM `$table` WHERE reports = 'Array' OR parameters = 'Array'"),
         ];
     }
 

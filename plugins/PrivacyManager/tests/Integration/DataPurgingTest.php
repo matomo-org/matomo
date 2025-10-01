@@ -788,19 +788,19 @@ class DataPurgingTest extends IntegrationTestCase
         $archiveTables = self::getArchiveTableNames();
         foreach ($archiveTables['numeric'] as $table) {
             $realTable = Common::prefixTable($table);
-            $sql = "DELETE FROM $realTable WHERE name NOT IN ('" . implode("','", $metricsToSave) . "') AND name NOT LIKE 'done%'";
+            $sql = "DELETE FROM `$realTable` WHERE name NOT IN ('" . implode("','", $metricsToSave) . "') AND name NOT LIKE 'done%'";
             Db::query($sql);
         }
         foreach ($archiveTables['blob'] as $table) {
             $realTable = Common::prefixTable($table);
-            Db::query("DELETE FROM $realTable WHERE name NOT IN ('VisitorInterest_timeGap')");
+            Db::query("DELETE FROM `$realTable` WHERE name NOT IN ('VisitorInterest_timeGap')");
         }
 
         // add garbage metrics
         $janDate1 = '2012-01-05';
         $febDate1 = '2012-02-04';
 
-        $sql = "INSERT INTO %s (idarchive,name,idsite,date1,date2,period,ts_archived,value)
+        $sql = "INSERT INTO `%s` (idarchive,name,idsite,date1,date2,period,ts_archived,value)
                         VALUES (10000,?,1,?,?,?,?,?)";
 
         // one metric for jan & one for feb

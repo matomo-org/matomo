@@ -9,9 +9,12 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Plugins\PrivacyManager\PrivacyManager;
+use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -22,6 +25,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 class PrivacyManagerTest extends IntegrationTestCase
 {
     public const DELETE_LOGS_OLDER_THAN = 270;
+    public const DELETE_LOGS_OLDER_THAN_CNIL = 180;
 
     /**
      * @var PrivacyManager
@@ -64,6 +68,42 @@ class PrivacyManagerTest extends IntegrationTestCase
 
         $expected['delete_logs_enable'] = 1;
         $expected['delete_logs_older_than'] = self::DELETE_LOGS_OLDER_THAN;
+        $expected['delete_reports_keep_week_reports'] = 1;
+
+        $this->assertEquals($expected, $settings);
+    }
+
+    public function testGetPurgeDataSettingsCnilPolicyDisabled()
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        $this->setUIEnabled(true);
+
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = false);
+
+        $settings = $this->manager->getPurgeDataSettings();
+        $expected = $this->getDefaultPurgeSettings();
+        $expected['delete_logs_enable'] = 1;
+        $expected['delete_logs_older_than'] = self::DELETE_LOGS_OLDER_THAN;
+        $expected['delete_reports_keep_week_reports'] = 1;
+
+        $this->assertEquals($expected, $settings);
+    }
+
+    public function testGetPurgeDataSettingsCnilPolicyEnabled()
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        $this->setUIEnabled(true);
+
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+
+        $settings = $this->manager->getPurgeDataSettings();
+        $expected = $this->getDefaultPurgeSettings();
+        $expected['delete_logs_enable'] = 1;
+        $expected['delete_logs_older_than'] = self::DELETE_LOGS_OLDER_THAN_CNIL;
         $expected['delete_reports_keep_week_reports'] = 1;
 
         $this->assertEquals($expected, $settings);

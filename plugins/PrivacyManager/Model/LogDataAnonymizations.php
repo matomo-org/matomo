@@ -71,21 +71,21 @@ class LogDataAnonymizations
 
     public function getAllEntries()
     {
-        $entries = Db::fetchAll(sprintf('SELECT * FROM %s', $this->tablePrefixed));
+        $entries = Db::fetchAll(sprintf('SELECT * FROM `%s`', $this->tablePrefixed));
 
         return $this->enrichEntries($entries);
     }
 
     public function getEntry($idLogData)
     {
-        $scheduled = Db::fetchRow(sprintf('SELECT * FROM %s WHERE idlogdata_anonymization = ?', $this->tablePrefixed), array($idLogData));
+        $scheduled = Db::fetchRow(sprintf('SELECT * FROM `%s` WHERE idlogdata_anonymization = ?', $this->tablePrefixed), [$idLogData]);
 
         return $this->enrichEntry($scheduled);
     }
 
     public function getNextScheduledAnonymizationId()
     {
-        $scheduled = Db::fetchOne(sprintf('SELECT idlogdata_anonymization FROM %s WHERE job_start_date is null ORDER BY idlogdata_anonymization asc LIMIT 1', $this->tablePrefixed));
+        $scheduled = Db::fetchOne(sprintf('SELECT idlogdata_anonymization FROM `%s` WHERE job_start_date is null ORDER BY idlogdata_anonymization asc LIMIT 1', $this->tablePrefixed));
 
         if (!empty($scheduled)) {
             return (int) $scheduled;
@@ -152,7 +152,7 @@ class LogDataAnonymizations
     {
         BaseValidator::check('date', $dateString, [new NotEmpty()]);
 
-        list($startDate, $endDate) = $this->getStartAndEndDate($dateString); // make sure valid date
+        [$startDate, $endDate] = $this->getStartAndEndDate($dateString); // make sure valid date
 
         if (!empty($unsetVisitColumns)) {
             $this->logDataAnonymizer->checkAllVisitColumns($unsetVisitColumns);
@@ -194,7 +194,7 @@ class LogDataAnonymizations
         $columns = implode('`,`', array_keys($values));
         $fields = Common::getSqlStringFieldsArray($values);
 
-        $sql = sprintf('INSERT INTO %s (`%s`) VALUES(%s)', $this->tablePrefixed, $columns, $fields);
+        $sql = sprintf('INSERT INTO `%s` (`%s`) VALUES(%s)', $this->tablePrefixed, $columns, $fields);
         $bind = array_values($values);
 
         $db->query($sql, $bind);
@@ -206,7 +206,7 @@ class LogDataAnonymizations
 
     private function updateEntry($idLogDataAnonymization, $field, $value)
     {
-        $query = sprintf('UPDATE %s SET %s = ? WHERE idlogdata_anonymization = ?', $this->tablePrefixed, $field);
+        $query = sprintf('UPDATE `%s` SET %s = ? WHERE idlogdata_anonymization = ?', $this->tablePrefixed, $field);
 
         Db::query($query, array($value, $idLogDataAnonymization));
     }

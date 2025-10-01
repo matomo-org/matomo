@@ -28,6 +28,17 @@ trait PolicyComparisonTrait
     }
 
     /**
+     * @param T|null $settingValue
+     * @return T|null
+     */
+    public static function getPolicyValuesAgainstProvided($settingValue, int $idSite = null)
+    {
+        $values = static::getPolicyRequiredValues($idSite);
+        $values[] = $settingValue;
+        return static::getStrictestValueFromArray($values);
+    }
+
+    /**
      * @param array<string, T|null> $policies
      *
      * @return T|null

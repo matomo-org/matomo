@@ -21,7 +21,7 @@ class DatabaseHandler extends AbstractProcessingHandler
     protected function write(array $record)
     {
         $sql = sprintf(
-            'INSERT INTO %s (tag, timestamp, level, message) VALUES (?, ?, ?, ?)',
+            'INSERT INTO `%s` (tag, timestamp, level, message) VALUES (?, ?, ?, ?)',
             Common::prefixTable('logger_message')
         );
 

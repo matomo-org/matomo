@@ -64,7 +64,7 @@ class MySQLMetadataDataAccess
     public function getRowCountsByArchiveName($tableName, $extraCols)
     {
         // otherwise, create data table & cache it
-        $sql = "SELECT name as 'label', COUNT(*) as 'row_count'$extraCols FROM $tableName GROUP BY name";
+        $sql = "SELECT name as 'label', COUNT(*) as 'row_count'$extraCols FROM `$tableName` GROUP BY name";
         return Db::fetchAll($sql);
     }
 

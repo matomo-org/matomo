@@ -258,7 +258,7 @@ class CalculateConversionPages extends ConsoleCommand
             $sql = "
                     SELECT MIN(s.t) FROM (
                     SELECT c.server_time AS t
-                    FROM " . Common::prefixTable('log_conversion') . " c                                 
+                    FROM `" . Common::prefixTable('log_conversion') . "` c                                 
                     ";
 
             $where = '';
@@ -303,7 +303,7 @@ class CalculateConversionPages extends ConsoleCommand
 
             if ($idGoal === null) {
                 // All goals
-                $gids = Db::fetchAll("SELECT idgoal FROM " . Common::prefixTable('goal') . "
+                $gids = Db::fetchAll("SELECT idgoal FROM `" . Common::prefixTable('goal') . "`
                                         WHERE idsite = ? AND deleted = 0", [$site]);
                 $goals = array_column($gids, 'idgoal');
 
@@ -343,11 +343,11 @@ class CalculateConversionPages extends ConsoleCommand
                 UPDATE " . Common::prefixTable('log_conversion') . " c
                 LEFT JOIN (                
                     SELECT c.idvisit, c.idgoal, COUNT(a.idvisit) AS pagesbefore, c.idlink_va, c.server_time
-                    FROM " . Common::prefixTable('log_conversion') . " c
+                    FROM `" . Common::prefixTable('log_conversion') . "` c
                     LEFT JOIN (
                         SELECT va.idvisit, va.server_time
-                        FROM " . Common::prefixTable('log_link_visit_action') . " va
-                        INNER JOIN " . Common::prefixTable('log_action') . " a ON a.idaction = va.idaction_url
+                        FROM `" . Common::prefixTable('log_link_visit_action') . "` va
+                        INNER JOIN `" . Common::prefixTable('log_action') . "` a ON a.idaction = va.idaction_url
                         WHERE a.type = 1
                         AND va.idsite = ?
                         AND va.server_time >= ?
