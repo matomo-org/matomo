@@ -51,17 +51,17 @@ class Config
         $this->setIdSite($idSite);
     }
 
-    private $properties = array(
-        'useAnonymizedIpForVisitEnrichment' => array('type' => 'boolean', 'default' => false),
-        'ipAddressMaskLength'               => array('type' => 'integer', 'default' => 2),
-        'doNotTrackEnabled'                 => array('type' => 'boolean', 'default' => false),
-        'ipAnonymizerEnabled'               => array('type' => 'boolean', 'default' => true),
-        'forceCookielessTracking'           => array('type' => 'boolean', 'default' => false),
-        'anonymizeUserId'                   => array('type' => 'boolean', 'default' => false),
-        'anonymizeOrderId'                  => array('type' => 'boolean', 'default' => false),
-        'anonymizeReferrer'                 => array('type' => 'string', 'default' => ''),
-        'randomizeConfigId'                 => array('type' => 'boolean', 'default' => false),
-    );
+    private $properties = [
+        'useAnonymizedIpForVisitEnrichment' => ['type' => 'boolean', 'default' => false],
+        'ipAddressMaskLength'               => ['type' => 'integer', 'default' => 2],
+        'doNotTrackEnabled'                 => ['type' => 'boolean', 'default' => false],
+        'ipAnonymizerEnabled'               => ['type' => 'boolean', 'default' => true],
+        'forceCookielessTracking'           => ['type' => 'boolean', 'default' => false],
+        'anonymizeUserId'                   => ['type' => 'boolean', 'default' => false],
+        'anonymizeOrderId'                  => ['type' => 'boolean', 'default' => false],
+        'anonymizeReferrer'                 => ['type' => 'string', 'default' => ''],
+        'randomizeConfigId'                 => ['type' => 'boolean', 'default' => false],
+    ];
 
     public function __set($name, $value)
     {
@@ -146,21 +146,26 @@ class Config
      * if there's no option stored for the given name yet
      *
      * @param string $name
-     * @param array $config
      * @return false|int|mixed|string|null
      * @throws DependencyException
      * @throws NotFoundException
      */
-    private function getFromOption(string $name, array $config)
+    public function getFromOption(string $name, bool $allowPolicyComplianceOverride = true)
     {
         $optionValue = Option::get($this->prefix($name));
-        $value = $this->getOptionValueWithPrivacyComplianceOverride($name, $this->idSite, $optionValue);
+        $value = $allowPolicyComplianceOverride
+            ? $this->getOptionValueWithPrivacyComplianceOverride($name, $this->idSite, $optionValue)
+            : $optionValue;
 
         // fallback to global settings if we don't have specific site settings saved
         if (false === $value && !$this->hasSiteSpecificSettings($name)) {
             $optionValue = Option::get($this->prefix($name, false));
-            $value = $this->getOptionValueWithPrivacyComplianceOverride($name, null, $optionValue);
+            $value = $allowPolicyComplianceOverride
+                ? $this->getOptionValueWithPrivacyComplianceOverride($name, null, $optionValue)
+                : $optionValue;
         }
+
+        $config = $this->getPropertyConfig($name);
 
         if (isset($value) && false !== $value) {
             settype($value, $config['type']);
@@ -192,9 +197,9 @@ class Config
 
     public function setTrackerCache(array &$cacheContent): array
     {
-        foreach ($this->properties as $name => $config) {
+        foreach ($this->getConfigPropertyNames() as $name) {
             // when setting tracker cache, we always want generic name
-            $cacheContent[$this->prefix($name, false)] = $this->getFromOption($name, $config);
+            $cacheContent[$this->prefix($name, false)] = $this->getFromOption($name);
         }
 
         return $cacheContent;
@@ -203,6 +208,11 @@ class Config
     public function getConfigPropertyNames(): array
     {
         return array_keys($this->properties);
+    }
+
+    private function getPropertyConfig(string $name): array
+    {
+        return $this->properties[$name] ?? [];
     }
 
     public function removeForSite(): void
