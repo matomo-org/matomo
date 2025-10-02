@@ -16,8 +16,8 @@ trait SystemGetterTrait
     {
         return new SystemSetting(
             self::getSystemName(),
-            self::getMeasurableDefaultValue(),
-            self::getMeasurableType(),
+            self::getSystemDefaultValue(),
+            self::getSystemType(),
             Piwik::getPluginNameOfMatomoClass(static::class)
         );
     }
