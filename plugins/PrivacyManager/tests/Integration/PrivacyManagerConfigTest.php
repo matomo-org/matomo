@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PrivacyManager\tests;
+namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
