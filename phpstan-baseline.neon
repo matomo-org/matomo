@@ -2206,6 +2206,11 @@ parameters:
 			path: core/QuickForm2.php
 
 		-
+			message: "#^PHPDoc tag @throws with type HTML_QuickForm2_InvalidArgumentException\\|HTML_QuickForm2_NotFoundException is not subtype of Throwable$#"
+			count: 1
+			path: core/QuickForm2.php
+
+		-
 			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
 			count: 1
 			path: core/RankingQuery.php
