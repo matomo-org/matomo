@@ -122,6 +122,7 @@ class Config
      *
      * @param string $name
      * @param int|null $idSite
+     * @param false|string $optionValue
      * @return int|mixed|null
      * @throws DependencyException
      * @throws NotFoundException
@@ -141,16 +142,24 @@ class Config
     }
 
     /**
-     * @throws NotFoundException
+     * Get a value from the option table, with a potential compliance policy override and a fallback value
+     * if there's no option stored for the given name yet
+     *
+     * @param string $name
+     * @param array $config
+     * @return false|int|mixed|string|null
      * @throws DependencyException
+     * @throws NotFoundException
      */
     private function getFromOption(string $name, array $config)
     {
-        $value = $this->getOptionValueWithPrivacyComplianceOverride($name, $this->idSite, Option::get($this->prefix($name)));
+        $optionValue = Option::get($this->prefix($name));
+        $value = $this->getOptionValueWithPrivacyComplianceOverride($name, $this->idSite, $optionValue);
 
         // fallback to global settings if we don't have specific site settings saved
         if (false === $value && !$this->hasSiteSpecificSettings($name)) {
-            $value = $this->getOptionValueWithPrivacyComplianceOverride($name, null, Option::get($this->prefix($name, false)));
+            $optionValue = Option::get($this->prefix($name, false));
+            $value = $this->getOptionValueWithPrivacyComplianceOverride($name, null, $optionValue);
         }
 
         if (isset($value) && false !== $value) {
