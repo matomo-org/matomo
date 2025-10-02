@@ -113,7 +113,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = false);
         $this->assertSame(2, $this->config->ipAddressMaskLength);
 
-        $this->config->ipAddressMaskLength = '1';
+        $this->config->ipAddressMaskLength = 1;
         $this->assertSame(1, $this->config->ipAddressMaskLength);
     }
 
@@ -125,7 +125,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
         $this->assertSame(2, $this->config->ipAddressMaskLength);
 
-        $this->config->ipAddressMaskLength = '1';
+        $this->config->ipAddressMaskLength = 1;
         $this->assertSame(2, $this->config->ipAddressMaskLength);
     }
 
