@@ -7,5 +7,5 @@ interface OptionSettingInterface
     /**
      * @return string|false
      */
-    public static function getOptionValue();
+    public static function getOptionValue(?int $idSite = null);
 }

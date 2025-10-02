@@ -39,9 +39,9 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
         return $this->value;
     }
 
-    protected static function getOptionName(): string
+    protected static function getOptionName(?int $idSite = null): string
     {
-        return (new Config())->prefix('ipAnonymizerEnabled');
+        return (new Config($idSite))->prefix('ipAnonymizerEnabled');
     }
 
     public static function getTitle(): string
@@ -71,7 +71,7 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
-        $optionValue = self::getOptionValue();
+        $optionValue = self::getOptionValue($idSite);
         $values['option'] = isset($optionValue) ? (int) $optionValue : null;
 
         $x = self::getStrictestValueFromArray($values);

@@ -10,6 +10,8 @@
 namespace Piwik\Plugins\PrivacyManager;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\DI\DependencyException;
+use Piwik\Exception\DI\NotFoundException;
 use Piwik\Option;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
@@ -114,24 +116,41 @@ class Config
         return $valueSite ?? $valueGeneralWithFallback;
     }
 
-    private function getFromOption(string $name, array $config)
+    /**
+     * If PrivacyCompliance is enabled and specific settings are requested, return their value, otherwise
+     * return a provided option value
+     *
+     * @param string $name
+     * @param int|null $idSite
+     * @return int|mixed|null
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
+    private function getOptionValueWithPrivacyComplianceOverride(string $name, ?int $idSite, $optionValue)
     {
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             if ($name === 'ipAddressMaskLength') {
-                $value = IpAddressMaskLengthSetting::getInstance()->getValue();
+                return IpAddressMaskLengthSetting::getInstance($idSite)->getValue();
             } elseif ($name === 'ipAnonymizerEnabled') {
-                $value = IPAnonymisationSetting::getInstance()->getValue();
-            } else {
-                $value = Option::get($this->prefix($name));
+                return IPAnonymisationSetting::getInstance($idSite)->getValue();
             }
-        } else {
-            $value = Option::get($this->prefix($name));
         }
+
+        return $optionValue;
+    }
+
+    /**
+     * @throws NotFoundException
+     * @throws DependencyException
+     */
+    private function getFromOption(string $name, array $config)
+    {
+        $value = $this->getOptionValueWithPrivacyComplianceOverride($name, $this->idSite, Option::get($this->prefix($name)));
 
         // fallback to global settings if we don't have specific site settings saved
         if (false === $value && !$this->hasSiteSpecificSettings($name)) {
-            $value = Option::get($this->prefix($name, false));
+            $value = $this->getOptionValueWithPrivacyComplianceOverride($name, null, Option::get($this->prefix($name, false)));
         }
 
         if (isset($value) && false !== $value) {

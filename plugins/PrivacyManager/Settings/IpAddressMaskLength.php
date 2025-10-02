@@ -39,9 +39,9 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
         return $this->value;
     }
 
-    protected static function getOptionName(): string
+    protected static function getOptionName(?int $idSite = null): string
     {
-        return (new Config())->prefix('ipAddressMaskLength');
+        return (new Config($idSite))->prefix('ipAddressMaskLength');
     }
 
     public static function getTitle(): string
@@ -72,7 +72,7 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
-        $optionValue = self::getOptionValue();
+        $optionValue = self::getOptionValue($idSite);
         $values['option'] = isset($optionValue) ? (int) $optionValue : null;
         return new self(self::getStrictestValueFromArray($values));
     }

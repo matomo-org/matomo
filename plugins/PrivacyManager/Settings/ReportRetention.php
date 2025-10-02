@@ -60,7 +60,7 @@ class ReportRetention implements
         return 'Deletelogs';
     }
 
-    protected static function getOptionName(): string
+    protected static function getOptionName(?int $idSite = null): string
     {
         return 'delete_logs_older_than';
     }
@@ -92,7 +92,7 @@ class ReportRetention implements
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
-        $optionValue = self::getOptionValue();
+        $optionValue = self::getOptionValue($idSite);
         $values['option'] = isset($optionValue) ? (int) $optionValue : null;
         if (is_null($values['option'])) {
             $values['config'] = self::getConfigValue();
