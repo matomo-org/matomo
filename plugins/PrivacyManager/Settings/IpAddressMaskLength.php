@@ -44,12 +44,6 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
         return (new Config($idSite))->prefix('ipAddressMaskLength');
     }
 
-    public static function getOptionValue(?int $idSite = null): ?string
-    {
-        // disallowing compliance override to prevent indefinite loop in getting the value
-        return (new Config($idSite))->getFromOption('ipAddressMaskLength', $allowPolicyComplianceOverride = false);
-    }
-
     public static function getTitle(): string
     {
         return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingTitle');

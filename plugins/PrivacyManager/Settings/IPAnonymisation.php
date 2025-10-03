@@ -44,12 +44,6 @@ class IPAnonymisation implements OptionSettingInterface, PolicyComparisonInterfa
         return (new Config($idSite))->prefix('ipAnonymizerEnabled');
     }
 
-    public static function getOptionValue(?int $idSite = null): ?string
-    {
-        // disallowing compliance override to prevent indefinite loop in getting the value
-        return (new Config($idSite))->getFromOption('ipAnonymizerEnabled', $allowPolicyComplianceOverride = false);
-    }
-
     public static function getTitle(): string
     {
         return Piwik::translate('PrivacyManager_AnonymizeIpPolicySettingTitle');
