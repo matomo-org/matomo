@@ -3,6 +3,7 @@
 namespace Piwik\Policy;
 
 use Exception;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
@@ -109,9 +110,11 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
             if (static::getSystemValue() && !$isActive) {
                 static::setSystemValue($isActive);
             }
-            return;
+        } else {
+            static::setSystemValue($isActive);
         }
-        static::setSystemValue($isActive);
+
+        Piwik::postEvent('Policy.setActiveStatus', [static::class, $idSite, $isActive]);
     }
 
     /**
