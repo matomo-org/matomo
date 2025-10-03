@@ -132,11 +132,9 @@ class Config
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             if ($name === 'ipAddressMaskLength') {
-                $value = IpAddressMaskLengthSetting::getInstance($idSite)->getValue();
-                return (null === $value) ? false : $value;
+                return IpAddressMaskLengthSetting::getInstance($idSite)->getValue();
             } elseif ($name === 'ipAnonymizerEnabled') {
-                $value = IPAnonymisationSetting::getInstance($idSite)->getValue();
-                return (null === $value) ? false : $value;
+                return IPAnonymisationSetting::getInstance($idSite)->getValue();
             }
         }
 
@@ -152,15 +150,19 @@ class Config
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function getFromOption(string $name)
+    public function getFromOption(string $name, bool $allowPolicyComplianceOverride = true)
     {
         $optionValue = Option::get($this->prefix($name));
-        $value = $this->getOptionValueWithPrivacyComplianceOverride($name, $this->idSite, $optionValue);
+        $value = $allowPolicyComplianceOverride
+            ? $this->getOptionValueWithPrivacyComplianceOverride($name, $this->idSite, $optionValue)
+            : $optionValue;
 
         // fallback to global settings if we don't have specific site settings saved
         if (false === $value && !$this->hasSiteSpecificSettings($name)) {
             $optionValue = Option::get($this->prefix($name, false));
-            $value = $this->getOptionValueWithPrivacyComplianceOverride($name, null, $optionValue);
+            $value = $allowPolicyComplianceOverride
+                ? $this->getOptionValueWithPrivacyComplianceOverride($name, null, $optionValue)
+                : $optionValue;
         }
 
         $config = $this->getPropertyConfig($name);
