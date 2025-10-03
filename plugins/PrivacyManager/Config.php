@@ -146,7 +146,8 @@ class Config
      * if there's no option stored for the given name yet
      *
      * @param string $name
-     * @return false|int|mixed|string|null
+     * @param bool $allowPolicyComplianceOverride
+     * @return mixed
      * @throws DependencyException
      * @throws NotFoundException
      */

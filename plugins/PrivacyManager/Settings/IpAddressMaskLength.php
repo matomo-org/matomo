@@ -4,21 +4,18 @@ namespace Piwik\Plugins\PrivacyManager\Settings;
 
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Config;
-use Piwik\Settings\Interfaces\OptionSettingInterface;
+use Piwik\Settings\Interfaces\CustomSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
-use Piwik\Settings\Interfaces\Traits\Getters\OptionGetterTrait;
 use Piwik\Policy\CnilPolicy;
 
 /**
  * @implements PolicyComparisonInterface<int|null>
  * @implements SettingValueInterface<int|null>
  */
-class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInterface, SettingValueInterface
+class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
-    use OptionGetterTrait;
-
     /**
      * @use PolicyComparisonTrait<int|null>
      */
@@ -39,12 +36,7 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
         return $this->value;
     }
 
-    protected static function getOptionName(?int $idSite = null): string
-    {
-        return (new Config($idSite))->prefix('ipAddressMaskLength');
-    }
-
-    public static function getOptionValue(?int $idSite = null): ?string
+    public static function getCustomValue(?int $idSite = null)
     {
         // disallowing compliance override to prevent indefinite loop in getting the value
         return (new Config($idSite))->getFromOption('ipAddressMaskLength', $allowPolicyComplianceOverride = false);
@@ -78,8 +70,8 @@ class IpAddressMaskLength implements OptionSettingInterface, PolicyComparisonInt
     public static function getInstance(?int $idSite = null): self
     {
         $values = self::getPolicyRequiredValues($idSite);
-        $optionValue = self::getOptionValue($idSite);
-        $values['option'] = isset($optionValue) ? (int) $optionValue : null;
+        $customValue = self::getCustomValue($idSite);
+        $values['custom'] = isset($customValue) ? (int) $customValue : null;
         return new self(self::getStrictestValueFromArray($values));
     }
 
