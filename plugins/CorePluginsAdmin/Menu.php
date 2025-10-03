@@ -68,7 +68,9 @@ class Menu extends \Piwik\Plugin\Menu
             $menu->addPluginItem(
                 Piwik::translate('General_ManagePlugins') . $pluginsUpdateMessage,
                 $this->urlForAction('plugins', ['activated' => '']),
-                10
+                10,
+                false,
+                'manage-plugins'
             );
         }
     }
