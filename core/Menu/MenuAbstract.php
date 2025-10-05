@@ -135,7 +135,7 @@ abstract class MenuAbstract extends Singleton
             $attribute,
             $help,
             $badgeCount,
-            $cssClass
+            $cssClass,
         ];
     }
 
