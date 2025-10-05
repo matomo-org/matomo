@@ -15,6 +15,7 @@ use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\Emails\SettingsChangedEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\SecurityNotificationEmail;
+use Piwik\Plugins\Marketplace\Marketplace;
 
 /**
  * API for plugin CorePluginsAdmin
@@ -126,6 +127,26 @@ class API extends \Piwik\Plugin\API
         $userSettings = $this->settingsProvider->getAllUserSettings();
 
         return $this->settingsMetadata->formatSettings($userSettings);
+    }
+
+    /**
+     * @internal
+     * @return int
+     */
+    public function getNumberOfPluginUpdates(): int
+    {
+        try {
+            Piwik::checkUserHasSuperUserAccess();
+
+            if (!Marketplace::isMarketplaceEnabled()) {
+                return 0;
+            }
+
+            $marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+            return count($marketplacePlugins->getPluginsHavingUpdate());
+        } catch (Exception $e) {
+            return 0;
+        }
     }
 
     private function sendNotificationEmails($sendSettingsChangedNotificationEmailPlugins)
