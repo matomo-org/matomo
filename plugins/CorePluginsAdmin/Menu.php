@@ -27,14 +27,11 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $hasSuperUserAccess   = Piwik::hasUserSuperUserAccess();
-        $isAnonymous          = Piwik::isUserIsAnonymous();
-
-        if (!$isAnonymous) {
+        if (!Piwik::isUserIsAnonymous()) {
             $menu->addPlatformItem('', [], 7);
         }
 
-        if ($hasSuperUserAccess) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $menu->addPluginItem(
                 Piwik::translate('General_ManagePlugins'),
                 $this->urlForAction('plugins', ['activated' => '']),
