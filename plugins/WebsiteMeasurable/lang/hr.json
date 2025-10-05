@@ -1,5 +1,9 @@
 {
     "WebsiteMeasurable": {
-        "Website": "Web stranica"
+        "EcommercePolicySettingRequirementNote": "E-trgovina mora biti deaktivirana",
+        "Website": "Web-stranica",
+        "WebsiteDescription": "Web-stranica se sastoji od stranica koje se obično poslužuju s jedne domene na webu.",
+        "WebsiteLongDescription": "Prati interakcije posjetitelja kao što su pregledi stranica, klikovi, preuzimanja i događaji na javno dostupnoj web-stranici. Jedna mjerljiva jedinica može obuhvaćati više domena i poddomena ili stvori zasebne mjerljive jedinice za svaku od njih.",
+        "Websites": "Web-stranice"
     }
 }
