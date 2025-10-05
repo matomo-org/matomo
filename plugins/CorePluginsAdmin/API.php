@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Piwik\Cache;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Exception;
@@ -142,8 +143,18 @@ class API extends \Piwik\Plugin\API
                 return 0;
             }
 
+            $cacheKey = 'CorePluginsAdmin_NumberOfPluginUpdates';
+            $cache = Cache::getLazyCache();
+
+            if ($cache->contains($cacheKey)) {
+                return $cache->fetch($cacheKey);
+            }
+
             $marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
-            return count($marketplacePlugins->getPluginsHavingUpdate());
+            $updatesCount = count($marketplacePlugins->getPluginsHavingUpdate());
+            $cache->save($cacheKey, $updatesCount, 300);
+
+            return $updatesCount;
         } catch (Exception $e) {
             return 0;
         }
