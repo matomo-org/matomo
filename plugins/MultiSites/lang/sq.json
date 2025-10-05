@@ -16,6 +16,7 @@
         "EvolutionFromPreviousWeek": "Nga java e mëparshme",
         "EvolutionFromPreviousYear": "Nga viti i mëparshëm",
         "LoadingWebsites": "Po ngarkohen sajte",
+        "MetricDocumentationEvolution": "Ndryshimi si përqindje i kësaj matjeje, krahasuar me periudhën e mëparshme për këtë sajt. Një vlerë pozitive tregon rritje, ndërsa një vlerë negative flet për ulje.",
         "MetricDocumentationHits": "Numri gjithsej i veprimeve të regjistruara për këtë sajt, përfshi parje faqesh, shkarkime dhe lidhje për jashtë.",
         "MetricDocumentationPageviews": "Numri gjithsej i faqeve të para në këtë sajt. Kjo përfshin parme të shumëfishta të të njëjtës faqe nga një vizitor i vetëm.",
         "MetricDocumentationRevenue": "Të ardhurat gjithsej të ndjekura për këtë sajt. Kjo matje mund të kihet nëse është aktivizuar ndjekja për Etregti dhe pasqyron blerje nga të ardhura apo me bazë synime.",
