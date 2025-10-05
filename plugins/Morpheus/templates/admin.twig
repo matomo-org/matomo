@@ -52,7 +52,7 @@
             {% import '@CoreHome/_menu.twig' as menu %}
             {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, hasSomeAdminAccess) }}
             {% if hasSomeAdminAccess %}
-                <div vue-entry="CorePluginsAdmin.PluginsUpdateCount" selector=".item.manage-plugins"></div>
+                <div vue-entry="CorePluginsAdmin.PluginsUpdateCount" selector=".item.manage-plugins" class="hidden"></div>
             {%  endif %}
         {% endif %}
 
