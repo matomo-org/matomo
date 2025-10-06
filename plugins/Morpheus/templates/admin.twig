@@ -50,10 +50,8 @@
 
         {% if showMenu is not defined or showMenu %}
             {% import '@CoreHome/_menu.twig' as menu %}
-            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, hasSomeAdminAccess) }}
-            {% if hasSomeAdminAccess %}
-                <div vue-entry="CorePluginsAdmin.PluginsUpdateCount" selector=".item.manage-plugins" class="hidden"></div>
-            {%  endif %}
+            {% set collapsibleMenu = hasSomeAdminAccess %}
+            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, collapsibleMenu, hasSomeAdminAccess) }}
         {% endif %}
 
 
