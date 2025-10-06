@@ -89,7 +89,7 @@
               {{ translate('ScheduledReports_SendReportNow') }}
             </a>
             <div v-if="sendingReports.includes(report.idreport)" class="loadingPiwik">
-              <MatomoLoader></MatomoLoader>
+              <MatomoLoader />
               {{ translate('ScheduledReports_SendingReport') }}
             </div>
           </td>
