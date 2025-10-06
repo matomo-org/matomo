@@ -88,8 +88,7 @@
               />
               {{ translate('ScheduledReports_SendReportNow') }}
             </a>
-            <div v-if="sendingReports && sendingReports.includes(report.idreport)"
-                  class="loadingPiwik">
+            <div v-if="sendingReports.includes(report.idreport)" class="loadingPiwik">
                <img src="plugins/Morpheus/images/loading-blue.gif" />
               {{ translate('ScheduledReports_SendingReport') }}
             </div>

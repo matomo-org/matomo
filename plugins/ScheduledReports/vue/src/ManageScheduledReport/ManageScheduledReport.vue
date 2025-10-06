@@ -225,6 +225,9 @@ export default defineComponent({
   },
   methods: {
     sendReportNow(idReport: string|number) {
+      if (this.sendingReports.includes(idReport)) {
+        return;
+      }
       scrollToTop();
       this.sendingReports.push(idReport);
       AjaxHelper.post(
