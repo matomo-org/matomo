@@ -298,6 +298,7 @@ export default defineComponent({
         style: {
           display: 'inline-block',
           marginTop: '10px',
+          width: '100%',
         },
         id: 'scheduledReportSuccess',
       });
