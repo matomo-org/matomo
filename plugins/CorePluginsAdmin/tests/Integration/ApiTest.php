@@ -24,6 +24,11 @@ class ApiTest extends IntegrationTestCase
     public const TEST_USER = 'atestuser';
     public const TEST_PASSWORD = 'testpassword';
 
+    /**
+     * @var PluginUpdatesFixture
+     */
+    public static $fixture;
+
     private $testSystemSettingsPayload = [
         'CoreUpdater' => [
             ['name' => 'release_channel', 'value' => 'latest_beta'],
