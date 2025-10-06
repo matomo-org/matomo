@@ -89,7 +89,7 @@
               {{ translate('ScheduledReports_SendReportNow') }}
             </a>
             <div v-if="sendingReports.includes(report.idreport)" class="loadingPiwik">
-               <img src="plugins/Morpheus/images/loading-blue.gif" />
+              <MatomoLoader></MatomoLoader>
               {{ translate('ScheduledReports_SendingReport') }}
             </div>
           </td>
@@ -177,6 +177,7 @@ import {
   ContentTable,
   MatomoUrl,
   Matomo,
+  MatomoLoader,
 } from 'CoreHome';
 import { Report } from '../types';
 
@@ -230,6 +231,7 @@ export default defineComponent({
     },
   },
   components: {
+    MatomoLoader,
     ContentBlock,
   },
   directives: {
