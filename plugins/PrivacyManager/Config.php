@@ -9,8 +9,13 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Tracker\Cache;
+use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
+use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
 
 /**
  * @property bool $doNotTrackEnabled    Enable / Disable Do Not Track {@see DoNotTrackHeaderChecker}
@@ -62,14 +67,14 @@ class Config
         return $this->getFromTrackerCache($name, $this->properties[$name]);
     }
 
-    private function prefix($optionName)
+    public static function prefix(string $optionName): string
     {
         return 'PrivacyManager.' . $optionName;
     }
 
     private function getFromTrackerCache($name, $config)
     {
-        $name  = $this->prefix($name);
+        $name  = self::prefix($name);
         $cache = Cache::getCacheGeneral();
 
         if (array_key_exists($name, $cache)) {
@@ -84,10 +89,22 @@ class Config
 
     private function getFromOption($name, $config)
     {
-        $name  = $this->prefix($name);
-        $value = Option::get($name);
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            if ($name === 'ipAddressMaskLength') {
+                $value = IpAddressMaskLengthSetting::getInstance()->getValue();
+            } elseif ($name === 'ipAnonymizerEnabled') {
+                $value = IPAnonymisationSetting::getInstance()->getValue();
+            } else {
+                $name  = self::prefix($name);
+                $value = Option::get($name);
+            }
+        } else {
+            $name  = self::prefix($name);
+            $value = Option::get($name);
+        }
 
-        if (false !== $value) {
+        if (isset($value) && false !== $value) {
             settype($value, $config['type']);
         } else {
             $value = $config['default'];
@@ -104,14 +121,14 @@ class Config
             settype($value, $config['type']);
         }
 
-        Option::set($this->prefix($name), $value);
+        Option::set(self::prefix($name), $value);
         Cache::clearCacheGeneral();
     }
 
     public function setTrackerCacheGeneral($cacheContent)
     {
         foreach ($this->properties as $name => $config) {
-            $cacheContent[$this->prefix($name)] = $this->getFromOption($name, $config);
+            $cacheContent[self::prefix($name)] = $this->getFromOption($name, $config);
         }
 
         return $cacheContent;

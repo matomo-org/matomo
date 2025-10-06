@@ -1,7 +1,6 @@
 {
     "WebsiteMeasurable": {
         "EcommercePolicySettingRequirementNote": "E-Commerce muss deaktiviert werden",
-        "EcommercePolicySettingTitle": "E-Commerce deaktiviert je Seite",
         "Website": "Webseite",
         "WebsiteDescription": "Eine Webseite besteht aus mehreren Webseiten die typischerweise von einer einzelnen Domain ausgeliefert werden.",
         "Websites": "Webseiten"

@@ -11,13 +11,14 @@ use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Site;
+use Piwik\Url;
 
 /**
  * @implements MeasurableSettingInterface<int>
  * @implements PolicyComparisonInterface<int>
  * @implements SettingValueInterface<int>
  */
-class Ecommerce implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface
+class EcommerceEnabled implements MeasurableSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
     /**
      * @use MeasurableGetterTrait<int>
@@ -61,7 +62,7 @@ class Ecommerce implements MeasurableSettingInterface, PolicyComparisonInterface
 
     public static function getTitle(): string
     {
-        return Piwik::translate('WebsiteMeasurable_EcommercePolicySettingTitle');
+        return Piwik::translate('Goals_Ecommerce');
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
@@ -72,7 +73,12 @@ class Ecommerce implements MeasurableSettingInterface, PolicyComparisonInterface
 
     public static function getInlineHelp(): string
     {
-        return Piwik::translate('SitesManager_EcommerceHelp');
+        return Piwik::translate('SitesManager_EcommerceHelp')
+                . '<br />'
+                . Piwik::translate(
+                    'SitesManager_PiwikOffersEcommerceAnalytics',
+                    ["<a href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/ecommerce-analytics/') . "' target='_blank'>", '</a>']
+                );
     }
 
     public static function getPolicyRequirements(): array

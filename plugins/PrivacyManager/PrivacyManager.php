@@ -23,13 +23,16 @@ use Piwik\Period;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugin;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\View;
+use Piwik\Plugins\PrivacyManager\Settings\ReportRetention as ReportRetentionSetting;
 
 /**
  * Specifically include this for Tracker API (which does not use autoloader)
@@ -568,6 +571,13 @@ class PrivacyManager extends Plugin
             $value = Option::get($configName);
             if ($value !== false) {
                 $settings[$configName] = (int) $value;
+            }
+        }
+
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            if (!empty($settings['delete_logs_older_than'])) {
+                $settings['delete_logs_older_than'] = ReportRetentionSetting::getInstance()->getValue();
             }
         }
 

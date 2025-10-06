@@ -31,7 +31,7 @@ interface ComplianceStoreState {
 export interface ComplianceStore {
   state: DeepReadonly<ComplianceStoreState>;
   setIdSite: (idSite: string) => void;
-  saveComplianceStatus: (enabled: boolean) => void;
+  saveComplianceStatus: (enabled: boolean, password: string) => void;
 }
 
 export async function fetchCompliancePolicies(): Promise<CompliancePolicy[]> {
@@ -92,7 +92,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     fetchCompliance();
   }
 
-  function saveComplianceStatus(enforce: boolean) {
+  function saveComplianceStatus(enforce: boolean, password: string) {
     state.loading = true;
     state.saveComplianceError = null;
     AjaxHelper.post<boolean>(
@@ -104,6 +104,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
       },
       {
         createErrorNotification: false,
+        passwordConfirmation: password,
       },
     ).then(() => {
       fetchCompliance();

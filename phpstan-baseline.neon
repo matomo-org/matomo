@@ -2036,21 +2036,6 @@ parameters:
 			path: core/Plugin/ReportsProvider.php
 
 		-
-			message: "#^Method Piwik\\\\Plugin\\\\SettingsProvider\\:\\:getMeasurableSettings\\(\\) should return Piwik\\\\Settings\\\\Measurable\\\\MeasurableSettings\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Plugin/SettingsProvider.php
-
-		-
-			message: "#^Method Piwik\\\\Plugin\\\\SettingsProvider\\:\\:getSystemSettings\\(\\) should return Piwik\\\\Settings\\\\Plugin\\\\SystemSettings\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Plugin/SettingsProvider.php
-
-		-
-			message: "#^Method Piwik\\\\Plugin\\\\SettingsProvider\\:\\:getUserSettings\\(\\) should return Piwik\\\\Settings\\\\Plugin\\\\UserSettings\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Plugin/SettingsProvider.php
-
-		-
 			message: "#^Call to function is_null\\(\\) with Piwik\\\\DataTable will always evaluate to false\\.$#"
 			count: 2
 			path: core/Plugin/ViewDataTable.php
@@ -5707,6 +5692,11 @@ parameters:
 			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/PagePerformance/Visualizations/JqplotGraph/StackedBarEvolution.php
+
+		-
+			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
+			count: 1
+			path: plugins/PrivacyManager/API.php
 
 		-
 			message: "#^Property Piwik\\\\Plugins\\\\PrivacyManager\\\\Config\\:\\:\\$anonymizeOrderId \\(int\\) does not accept bool\\.$#"

@@ -9,8 +9,11 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests;
 
+use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -66,6 +69,30 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertFalse($this->config->ipAnonymizerEnabled);
     }
 
+    public function testIpAnonymizerEnabledCnilPolicyDisabled()
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = false);
+        $this->assertTrue($this->config->ipAnonymizerEnabled);
+
+        $this->config->ipAnonymizerEnabled = false;
+        $this->assertFalse($this->config->ipAnonymizerEnabled);
+    }
+
+    public function testIpAnonymizerEnabledCnilPolicyEnabled()
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+        $this->assertTrue($this->config->ipAnonymizerEnabled);
+
+        $this->config->ipAnonymizerEnabled = false;
+        $this->assertTrue($this->config->ipAnonymizerEnabled);
+    }
+
     public function testIpAddressMaskLength()
     {
         $this->assertSame(2, $this->config->ipAddressMaskLength);
@@ -73,6 +100,30 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->config->ipAddressMaskLength = '19';
 
         $this->assertSame(19, $this->config->ipAddressMaskLength);
+    }
+
+    public function testIpAddressMaskLengthCnilPolicyDisabled()
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = false);
+        $this->assertSame(2, $this->config->ipAddressMaskLength);
+
+        $this->config->ipAddressMaskLength = '1';
+        $this->assertSame(1, $this->config->ipAddressMaskLength);
+    }
+
+    public function testIpAddressMaskLengthCnilPolicyEnabled()
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+        $this->assertSame(2, $this->config->ipAddressMaskLength);
+
+        $this->config->ipAddressMaskLength = '1';
+        $this->assertSame(2, $this->config->ipAddressMaskLength);
     }
 
     public function testAnonymizeOrderId()
