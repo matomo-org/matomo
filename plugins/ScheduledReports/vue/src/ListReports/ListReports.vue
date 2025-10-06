@@ -75,7 +75,7 @@
             </span>
 
             <a
-              v-if="report.recipients.length !== 0"
+              v-if="report.recipients.length !== 0 && !sendingReports.includes(report.idreport)"
               href="#"
               name="linkSendNow"
               class="link_but withIcon"
