@@ -1,1 +1,22 @@
-{}
+{
+    "Tour": {
+        "AddAnnotation": "Dodaj napomenu",
+        "AddAnotherWebsite": "Dodaj jednu drugu web-stranicu",
+        "AddReport": "Dodaj zakazani izvještaj",
+        "AddSegment": "Dodaj segment",
+        "BrowseMarketplace": "Pregledaj tržnicu",
+        "Engagement": "Angažman",
+        "InviteUser": "Pozovi korisnika",
+        "NextChallenges": "Sljedeći izazovi",
+        "PluginDescription": "Postani stručnjak ispunjavanjem izazova kako bi upoznao/la Matoma.",
+        "PreviousChallenges": "Prethodni izazovi",
+        "RowEvolution": "Razvoj retka",
+        "SelectDateRange": "Odaberi raspon datuma",
+        "SelectDateRangeDescription": "Odaberi vremenski raspon u kalendaru.",
+        "SetupX": "Postavi %s",
+        "Tour": "Obilazak",
+        "UploadLogo": "Prenesi tvoj logotip",
+        "ViewVisitsLogDescription": "Prikazuje sve pojedinačne posjete i radnje koje je svaki posjetitelj izvršio na tvojoj web-stranici.",
+        "ViewX": "Prikaži %s"
+    }
+}

@@ -1,6 +1,8 @@
 {
     "Marketplace": {
         "ActionInstall": "Instaliraj",
-        "SubscriptionType": "Vrsta"
+        "SubscriptionType": "Vrsta",
+        "TrialStartNoLicenseCreateAccount": "Stvori račun",
+        "TrialStartNoLicenseLegalHint": "Stvaranjem računa prihvaćaš %1$sUvjete i odredbe Matomo Marketplacea%2$s. Tvoje osobne podatke ćemo obraditi u skladu s našom %3$sPolitikom privatnosti%4$s."
     }
 }

@@ -1,5 +1,10 @@
 {
     "SitesManager": {
+        "AddMeasurable": "Dodaj novu mjerljivu jedinicu",
+        "AddSite": "Dodaj novu web-stranicu",
+        "ChooseMeasurableTypeHeadline": "Što želiš mjeriti?",
+        "ChooseMeasurableTypeSubheader": "Mjerljiva jedinica je bilo koja web stranica, aplikacija ili online sustav koji želiš pratiti i analizirati. Mjerljive jedinice su temelj za prikupljanje podataka i generiranje izvještaja u Matomou.",
+        "ChooseMeasurableTypeSubheaderRollUp": "Također možeš grupirati više mjerljivih jedinica pomoću akumuliranja za jedinstveni prikaz.",
         "Currency": "Valuta",
         "DefaultCurrencyForNewWebsites": "Pretpostavljena valuta za nove stranice",
         "DefaultTimezoneForNewWebsites": "Pretpostavljena vremenska zona za nove stranice",
