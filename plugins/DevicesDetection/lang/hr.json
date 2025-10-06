@@ -1,9 +1,10 @@
 {
     "DevicesDetection": {
-        "Browsers": "Pretraživači",
         "BrowserVersion": "Verzija pretraživača",
+        "Browsers": "Pretraživači",
         "ColumnOperatingSystem": "Operativni sustav",
-        "dataTableLabelTypes": "Vrsta",
-        "WidgetBrowsers": "Pretraživać posjetitelja"
+        "MobileApp": "Mobilna aplikacija",
+        "WidgetBrowsers": "Pretraživać posjetitelja",
+        "dataTableLabelTypes": "Vrsta"
     }
 }

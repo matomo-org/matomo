@@ -1,5 +1,28 @@
 {
     "PrivacyManager": {
-        "ClickHereSettings": "Klikni za pristup %s postavkama."
+        "AddUserIdToSearch": "Klikni za dodavanje ovog korisničkog ID-a u pretragu",
+        "AnonymizePreviousDataOnlySuperUser": "Samo korisnik s pristupom super korisnika može anonimizirati prethodno praćene neobrađene podatke.",
+        "AnonymizeUserId": "Zamijeni korisnički ID s pseudonimom",
+        "ClickHereSettings": "Klikni za pristup %s postavkama.",
+        "ConsentManager": "Upravitelj pristanka",
+        "ConsentManagerConnected": "Čini se da je %1$s već konfiguriran za rad s Matomom.",
+        "ConsentManagerDetected": "Na tvojoj je web stranici otkriven %1$s upravitelj pristanka. Saznaj više o konfiguriranju Matoma za rad s %1$s u %2$sovom vodiču%3$s",
+        "FindMatchingDataSubjects": "Pronađi poklapajuće subjekte podataka",
+        "LastAction": "Zadnja radnja",
+        "PrivacyPolicy": "Politika privatnosti",
+        "PrivacyPolicyUrl": "URL stranice Politika privatnosti",
+        "PrivacyPolicyUrlDescription": "Poveznica na tvoju stranicu Politika privatnosti.",
+        "PrivacyPolicyUrlDescriptionSuffix": "Ako ovo postaviš, prikazat će se na dnu stranice za prijavu i na stranicama kojima korisnik „%1$s” može pristupiti.",
+        "PseudonymizeUserId": "Zamijeni korisnički ID s pseudonimom",
+        "RetentionPeriodPolicySettingRequirementNote": "Razdoblje zadržavanja podataka je postavljeno na %1$s dana",
+        "RetentionPeriodPolicySettingTitle": "Razdoblje zadržavanja podataka",
+        "ShowInEmbeddedWidgets": "Prikaži u ugrađenim widgetima",
+        "ShowInEmbeddedWidgetsDescription": "Ako je označeno, pri dnu ugrađenih widgeta prikazat će se poveznica na stranice Politika privatnosti i Uvjeti i odredbe.",
+        "TermsAndConditionUrl": "URL stranice Uvjeti i odredbe",
+        "TermsAndConditionUrlDescription": "Poveznica na stranicu Uvjeti i odredbe.",
+        "TermsAndConditions": "Uvjeti i odredbe",
+        "UseAnonymizeUserId": "Anonimiziraj korisnički ID",
+        "VisitsSuccessfullyDeleted": "Posjeti su uspješno izbrisani",
+        "VisitsSuccessfullyExported": "Posjeti su uspješno izvezeni"
     }
 }

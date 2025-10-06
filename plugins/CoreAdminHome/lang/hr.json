@@ -2,8 +2,13 @@
     "CoreAdminHome": {
         "Administration": "Administracija",
         "EmailServerSettings": "Postavke email servera",
+        "JSTracking_ConsentManagerConnected": "Čini se da je %1$s već konfiguriran za rad s Matomom.",
         "LogoUpload": "Odaberi logo za upload",
+        "MenuDevelopment": "Razvoj",
+        "MenuDiagnostic": "Dijagnostika",
         "MenuGeneralSettings": "Opće postavke",
+        "MenuMeasurables": "Mjerljive jedinice",
+        "MenuSystem": "Sustav",
         "TrackingCode": "Kod za praćenje"
     }
 }

@@ -1,1 +1,11 @@
-{}
+{
+    "DevicePlugins": {
+        "BrowserWithNoPluginsEnabled": "%1$s s nijednim aktiviranim dodatkom",
+        "BrowserWithPluginsEnabled": "%1$s s aktiviranim dodacima %2$s",
+        "ColumnPercentageVisitsDocumentation": "Postotak ukupnog broja posjeta u kojima je otkriven dodatak. Posjet može uključivati više dodataka. Vrijednost se zaokružuje na cijele brojeve.",
+        "PluginDescription": "Prikazuje popis dodataka koji su podržani u preglednicima posjetitelja.",
+        "PluginDetectionDoesNotWorkInIE": "Napomena: Otkrivanje dodataka ne radi u Internet Exploreru starijem od verzije 11. Ovaj se izvještaj temelji samo na preglednicima koji nisu IE i novijim IE verzijama.",
+        "WidgetPlugins": "Dodaci preglednika",
+        "WidgetPluginsDocumentation": "Ovaj izvještaj prikazuje koje su dodatke preglednika tvoji posjetitelji aktivirali. Ove informacije mogu biti važne za biranje pravog načina isporuke tvog sadržaja."
+    }
+}

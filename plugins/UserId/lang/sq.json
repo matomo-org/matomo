@@ -3,6 +3,7 @@
         "PluginDescription": "Shfaq raporte përdoruesi",
         "ThereIsNoDataForThisReportHelp": "%1$sLexoni udhërrëfyesin për përdorues, që të mësoni si të prodhohen të dhëna për këtë raport.%2$s",
         "UserId": "ID përdoruesi",
+        "UserIdSegmentHelp": "çfarëdo varg unik jo i zbrazët që identifikon përdoruesin (fjala vjen një adresë email, apo një emër përdoruesi).",
         "UserReportDocumentation": "Shfaq vizita dhe vlera të tjera të përgjithshme për çdo ID individuale Përdoruesi.",
         "UserReportTitle": "ID-ra përdoruesish",
         "VisitorsUserSubcategoryHelp": "Raporti i ID-ve të përdoruesve shfaq vizitat e përshoqëruara me krejt përdoruesit tuaj të regjistruar dhe të futur në llogaritë e tyre. Kuptoni përdorimin e sajtit nga përdorues të dhënë dhe shihni se cilët janë përdoruesit tuaj më aktivë dhe më pak aktivë."
