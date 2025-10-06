@@ -149,4 +149,7 @@ return array(
     )),
 
     'test.vars.forceCliMultiViaCurl' => false,
+
+    // disable check for plugin updates during system tests, only override for relevant tests
+    'dev.forced_plugin_update_result' => [],
 );
