@@ -75,7 +75,7 @@
             </span>
 
             <a
-              v-if="report.recipients.length !== 0"
+              v-if="report.recipients.length !== 0 && !sendingReports.includes(report.idreport)"
               href="#"
               name="linkSendNow"
               class="link_but withIcon"
@@ -88,6 +88,10 @@
               />
               {{ translate('ScheduledReports_SendReportNow') }}
             </a>
+            <div v-if="sendingReports.includes(report.idreport)" class="loadingPiwik">
+              <MatomoLoader />
+              {{ translate('ScheduledReports_SendingReport') }}
+            </div>
           </td>
           <td>
             <form
@@ -173,6 +177,7 @@ import {
   ContentTable,
   MatomoUrl,
   Matomo,
+  MatomoLoader,
 } from 'CoreHome';
 import { Report } from '../types';
 
@@ -220,8 +225,13 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    sendingReports: {
+      type: Array,
+      required: false,
+    },
   },
   components: {
+    MatomoLoader,
     ContentBlock,
   },
   directives: {

@@ -59,6 +59,7 @@
         "ScheduleReportPeriodHelp2": "You can change this, however, if you want to see different information and still retain the report schedule. For example, if the report schedule is weekly, and the report period is 'day', you will get information for the last day, every week.",
         "ScheduleReports": "Schedule Reports",
         "PersonalScheduledReports": "Personal Scheduled Reports",
-        "ReportSchedule": "Report Schedule"
+        "ReportSchedule": "Report Schedule",
+        "SendingReport": "Sending report…"
     }
 }

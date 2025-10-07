@@ -13,6 +13,7 @@ use Piwik\Access;
 use Piwik\Auth;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Plugins\CorePluginsAdmin\tests\Fixtures\PluginUpdatesFixture;
 use Piwik\Plugins\CoreUpdater\SystemSettings;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Tests\Framework\Fixture;
@@ -22,6 +23,11 @@ class ApiTest extends IntegrationTestCase
 {
     public const TEST_USER = 'atestuser';
     public const TEST_PASSWORD = 'testpassword';
+
+    /**
+     * @var PluginUpdatesFixture
+     */
+    public static $fixture;
 
     private $testSystemSettingsPayload = [
         'CoreUpdater' => [
@@ -139,6 +145,12 @@ class ApiTest extends IntegrationTestCase
         self::assertEquals([], $pluginSettings->getSetting('browsers')->getValue());
     }
 
+    public function testGetNumberOfPluginUpdates()
+    {
+        $updates = \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->getNumberOfPluginUpdates();
+        self::assertEquals(2, $updates);
+    }
+
     private function getPluginSettings(string $pluginName, string $settingName): array
     {
         $settings = \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->getSystemSettings();
@@ -162,3 +174,5 @@ class ApiTest extends IntegrationTestCase
         $fixture->createSuperUser = true;
     }
 }
+
+ApiTest::$fixture = new PluginUpdatesFixture();

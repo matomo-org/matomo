@@ -1,4 +1,4 @@
-{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction, collapsible) %}
+{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction, collapsible, hasSomeAdminAccess) %}
     <div id="secondNavBar" class="{{ cssClass }} z-depth-1">
         <ul class="navbar {% if collapsible %}collapsible collapsible-accordion{% endif %} hide-on-med-and-down" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
             {% for level1,level2 in menu %}
@@ -27,7 +27,7 @@
                                     <li {% if isActive %}class="active"{% endif %}
                                         role="menuitem"
                                     >
-                                        <a class="item" tabindex="5" target="_self"
+                                        <a class="item{% if urlParameters._cssClass %} {{ urlParameters._cssClass|e('html_attr') }}{% endif %}" tabindex="5" target="_self"
                                            title="{{ urlParameters._tooltip|default('')|translate|e('html_attr') }}"
                                             {% if urlParameters._onclick is defined and urlParameters._onclick %}
                                                 onclick="{{ urlParameters._onclick|e('html_attr') }};return false;"
@@ -53,5 +53,8 @@
             {% endfor %}
         </ul>
         <div vue-entry="CoreHome.MobileLeftMenu" menu="{{ menu|json_encode }}"></div>
+        {% if hasSomeAdminAccess %}
+            <div vue-entry="CorePluginsAdmin.PluginsUpdateCount" selector=".item.manage-plugins" class="hidden"></div>
+        {%  endif %}
     </div>
 {% endmacro %}
