@@ -11,6 +11,7 @@ use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Policy\CnilPolicy;
 
 /**
+ * @implements CustomSettingInterface<int|null>
  * @implements PolicyComparisonInterface<int|null>
  * @implements SettingValueInterface<int|null>
  */
