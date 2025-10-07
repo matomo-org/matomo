@@ -195,6 +195,7 @@ class PrivacyManager extends Plugin
             'Visualization.beforeRender'              => 'onConfigureVisualisation',
             'CustomJsTracker.shouldAddTrackerFile'    => 'shouldAddTrackerFile',
             'Request.shouldDisablePostProcessing'     => 'shouldDisablePostProcessing',
+            'SitesManager.deleteSite.end'             => 'deleteSiteSpecificAnonymisationSettings',
         ];
     }
 
@@ -1019,5 +1020,13 @@ class PrivacyManager extends Plugin
                 'value' => Piwik::translate('Intl_PeriodMonth'),
             ],
         ];
+    }
+
+    /**
+     * Delete site-specific anonymisation settings (option values) for a given site
+     */
+    public function deleteSiteSpecificAnonymisationSettings(int $idSite): void
+    {
+        (new Config($idSite))->removeForSite();
     }
 }
