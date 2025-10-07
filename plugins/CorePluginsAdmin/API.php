@@ -9,12 +9,14 @@
 
 namespace Piwik\Plugins\CorePluginsAdmin;
 
+use Piwik\Cache;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Exception;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\Emails\SettingsChangedEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\SecurityNotificationEmail;
+use Piwik\Plugins\Marketplace\Marketplace;
 
 /**
  * API for plugin CorePluginsAdmin
@@ -126,6 +128,36 @@ class API extends \Piwik\Plugin\API
         $userSettings = $this->settingsProvider->getAllUserSettings();
 
         return $this->settingsMetadata->formatSettings($userSettings);
+    }
+
+    /**
+     * @internal
+     * @return int
+     */
+    public function getNumberOfPluginUpdates(): int
+    {
+        try {
+            Piwik::checkUserHasSuperUserAccess();
+
+            if (!Marketplace::isMarketplaceEnabled()) {
+                return 0;
+            }
+
+            $cacheKey = 'CorePluginsAdmin_NumberOfPluginUpdates';
+            $cache = Cache::getLazyCache();
+
+            if ($cache->contains($cacheKey)) {
+                return $cache->fetch($cacheKey);
+            }
+
+            $marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
+            $updatesCount = count($marketplacePlugins->getPluginsHavingUpdate());
+            $cache->save($cacheKey, $updatesCount, 300);
+
+            return $updatesCount;
+        } catch (Exception $e) {
+            return 0;
+        }
     }
 
     private function sendNotificationEmails($sendSettingsChangedNotificationEmailPlugins)
