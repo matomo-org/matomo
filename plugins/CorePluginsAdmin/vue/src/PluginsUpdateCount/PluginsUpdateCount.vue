@@ -33,21 +33,19 @@ export default defineComponent({
   },
   methods: {
     async fetchAndUpdate(el: Element) {
-      try {
-        await AjaxHelper.fetch<{ value: number }>({
-          module: 'API',
-          method: 'CorePluginsAdmin.getNumberOfPluginUpdates',
-        }).then((response) => {
-          const count = response.value || 0;
+      await AjaxHelper.fetch<{ value: number }>({
+        module: 'API',
+        method: 'CorePluginsAdmin.getNumberOfPluginUpdates',
+      }).then((response) => {
+        const count = response.value || 0;
 
-          if (count) {
-            const originalText = el.textContent?.trim() ?? '';
-            el.textContent = `${originalText} (${count})`;
-          }
-        });
-      } catch (error) {
-        console.error('Failed to fetch number of plugin updates:', error);
-      }
+        if (count) {
+          const originalText = el.textContent?.trim() ?? '';
+          el.textContent = `${originalText} (${count})`;
+        }
+      }).catch((error) => {
+        console.error('Failed to fetch number of plugin updates:', error.message || error);
+      });
     },
     maybeUpdate() {
       const el = document.querySelector(this.selector);

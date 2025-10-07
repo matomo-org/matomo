@@ -18925,21 +18925,19 @@ UploadPluginDialogvue_type_script_lang_ts.render = UploadPluginDialogvue_type_te
   },
   methods: {
     async fetchAndUpdate(el) {
-      try {
-        await external_CoreHome_["AjaxHelper"].fetch({
-          module: 'API',
-          method: 'CorePluginsAdmin.getNumberOfPluginUpdates'
-        }).then(response => {
-          const count = response.value || 0;
-          if (count) {
-            var _el$textContent$trim, _el$textContent;
-            const originalText = (_el$textContent$trim = (_el$textContent = el.textContent) === null || _el$textContent === void 0 ? void 0 : _el$textContent.trim()) !== null && _el$textContent$trim !== void 0 ? _el$textContent$trim : '';
-            el.textContent = `${originalText} (${count})`;
-          }
-        });
-      } catch (error) {
-        console.error('Failed to fetch number of plugin updates:', error);
-      }
+      await external_CoreHome_["AjaxHelper"].fetch({
+        module: 'API',
+        method: 'CorePluginsAdmin.getNumberOfPluginUpdates'
+      }).then(response => {
+        const count = response.value || 0;
+        if (count) {
+          var _el$textContent$trim, _el$textContent;
+          const originalText = (_el$textContent$trim = (_el$textContent = el.textContent) === null || _el$textContent === void 0 ? void 0 : _el$textContent.trim()) !== null && _el$textContent$trim !== void 0 ? _el$textContent$trim : '';
+          el.textContent = `${originalText} (${count})`;
+        }
+      }).catch(error => {
+        console.error('Failed to fetch number of plugin updates:', error.message || error);
+      });
     },
     maybeUpdate() {
       const el = document.querySelector(this.selector);
