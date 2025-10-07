@@ -920,7 +920,7 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      */
     public function deleteSite(
-        $idSite,
+        int $idSite,
         #[\SensitiveParameter]
         $passwordConfirmation = null
     ) {
