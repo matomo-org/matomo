@@ -155,6 +155,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_SentToMe';
         $translationKeys[] = 'ScheduledReports_AlsoSendReportToTheseEmails';
         $translationKeys[] = 'ScheduledReports_ReportSchedule';
+        $translationKeys[] = 'ScheduledReports_SendingReport';
     }
 
     /**
