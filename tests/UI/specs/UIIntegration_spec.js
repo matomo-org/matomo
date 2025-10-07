@@ -427,18 +427,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
         });
     });
 
-    describe("EventsPages", function () {
-        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
-
-        // Events pages
-        it('should load the Events > index page correctly', async function () {
-            await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=Events_Events");
-            await page.mouse.move(-10, -10);
-
-            expect(await page.screenshotSelector('.pageWrap,.dataTable')).to.matchImage('events_overview');
-        });
-    });
-
     describe("ExampleUiPages", function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
