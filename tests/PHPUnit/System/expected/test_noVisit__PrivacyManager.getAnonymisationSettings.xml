@@ -3,7 +3,7 @@
 	<useAnonymizedIpForVisitEnrichment>0</useAnonymizedIpForVisitEnrichment>
 	<ipAddressMaskLength>2</ipAddressMaskLength>
 	<doNotTrackEnabled>0</doNotTrackEnabled>
-	<ipAnonymizerEnabled>0</ipAnonymizerEnabled>
+	<ipAnonymizerEnabled>1</ipAnonymizerEnabled>
 	<forceCookielessTracking>0</forceCookielessTracking>
 	<anonymizeUserId>0</anonymizeUserId>
 	<anonymizeOrderId>0</anonymizeOrderId>
