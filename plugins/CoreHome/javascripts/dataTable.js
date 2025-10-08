@@ -1764,6 +1764,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // modify parameters
                 self.resetAllFilters();
                 var newParams = broadcast.getValuesFromUrl(url);
+                var isSecondaryDimensionReport = self.param.module === newParams.module && self.param.action === newParams.action && newParams.secondaryDimension;
 
                 for (var key in newParams) {
                     self.param[key] = decodeURIComponent(newParams[key]);
@@ -1775,14 +1776,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var relatedReportName = $this.text();
 
                 // do ajax request
-                self.reloadAjaxDataTable(true, (function (relatedReportName) {
+                self.reloadAjaxDataTable(true, (function (relatedReportName, isSecondaryDimensionReport) {
 
                     return function (newReport) {
                         var newDomElem = self.dataTableLoaded(newReport, self.workingDivId);
                         hideShowRelatedReports(clicked);
-                        replaceReportTitleAndHelp(newDomElem, relatedReportName);
+                        if (!isSecondaryDimensionReport) {
+                            replaceReportTitleAndHelp(newDomElem, relatedReportName);
+                        }
                     }
-                })(relatedReportName));
+                })(relatedReportName, isSecondaryDimensionReport));
             });
         });
     },
