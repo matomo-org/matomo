@@ -1,4 +1,4 @@
-{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction, collapsible, hasSomeAdminAccess) %}
+{% macro menu(menu, anchorlink, cssClass, currentModule, currentAction, collapsible, isSuperUser) %}
     <div id="secondNavBar" class="{{ cssClass }} z-depth-1">
         <ul class="navbar {% if collapsible %}collapsible collapsible-accordion{% endif %} hide-on-med-and-down" aria-label="{{ 'CoreHome_MainNavigation'|translate|e('html_attr') }}" role="menu">
             {% for level1,level2 in menu %}
@@ -53,7 +53,7 @@
             {% endfor %}
         </ul>
         <div vue-entry="CoreHome.MobileLeftMenu" menu="{{ menu|json_encode }}"></div>
-        {% if hasSomeAdminAccess %}
+        {% if isSuperUser %}
             <div vue-entry="CorePluginsAdmin.PluginsUpdateCount" selector=".item.manage-plugins" class="hidden"></div>
         {%  endif %}
     </div>
