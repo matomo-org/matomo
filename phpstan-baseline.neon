@@ -16,11 +16,6 @@ parameters:
 			path: core/API/DataTableGenericFilter.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/API/DataTableGenericFilter.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: core/API/DataTableManipulator.php
@@ -56,11 +51,6 @@ parameters:
 			path: core/API/DataTableManipulator/LabelFilter.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/API/DataTableManipulator/LabelFilter.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between Piwik\\\\DataTable and null will always evaluate to false\\.$#"
 			count: 1
 			path: core/API/DataTableManipulator/LabelFilter.php
@@ -73,11 +63,6 @@ parameters:
 		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
-			path: core/API/DataTableManipulator/ReportTotalsCalculator.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
 			path: core/API/DataTableManipulator/ReportTotalsCalculator.php
 
 		-
@@ -141,26 +126,6 @@ parameters:
 			path: core/API/DataTablePostProcessor.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, array given\\.$#"
-			count: 1
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 4
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 5
-			path: core/API/DataTablePostProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/API/DocumentationGenerator.php
-
-		-
 			message: "#^Call to an undefined method ReflectionType\\:\\:getName\\(\\)\\.$#"
 			count: 1
 			path: core/API/Proxy.php
@@ -176,32 +141,12 @@ parameters:
 			path: core/API/Request.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 3
-			path: core/API/Request.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/API/Request.php
-
-		-
 			message: "#^Method Piwik\\\\API\\\\ResponseBuilder\\:\\:decorateExceptionWithDebugTrace\\(\\) should return Exception but returns Throwable\\.$#"
 			count: 1
 			path: core/API/ResponseBuilder.php
 
 		-
 			message: "#^Parameter \\#1 \\$exception of static method Piwik\\\\Plugins\\\\Monolog\\\\Processor\\\\ExceptionToTextProcessor\\:\\:getMessageAndWholeBacktrace\\(\\) expects array\\|Exception, Throwable given\\.$#"
-			count: 1
-			path: core/API/ResponseBuilder.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/API/ResponseBuilder.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: core/API/ResponseBuilder.php
 
@@ -264,11 +209,6 @@ parameters:
 			message: "#^Method Piwik\\\\Application\\\\Kernel\\\\PluginList\\:\\:sortPluginsAndRespectDependencies\\(\\) should return array\\<string\\> but returns array\\<string\\>\\.$#"
 			count: 1
 			path: core/Application/Kernel/PluginList.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/Archive.php
 
 		-
 			message: "#^Parameter \\#3 \\$idSubtable of method Piwik\\\\Archive\\:\\:get\\(\\) expects int\\|null, string given\\.$#"
@@ -626,11 +566,6 @@ parameters:
 			path: core/CliMulti.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/CliMulti.php
-
-		-
 			message: "#^Variable \\$response in empty\\(\\) always exists and is always falsy\\.$#"
 			count: 1
 			path: core/CliMulti.php
@@ -843,11 +778,6 @@ parameters:
 		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
-			path: core/CronArchive/Performance/Logger.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
 			path: core/CronArchive/Performance/Logger.php
 
 		-
@@ -1216,11 +1146,6 @@ parameters:
 			path: core/DataTable/Filter/PivotByDimension.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/DataTable/Filter/PivotByDimension.php
-
-		-
 			message: "#^Property Piwik\\\\DataTable\\\\Filter\\\\PivotByDimension\\:\\:\\$pivotByDimension \\(Piwik\\\\Columns\\\\Dimension\\) in empty\\(\\) is not falsy\\.$#"
 			count: 1
 			path: core/DataTable/Filter/PivotByDimension.php
@@ -1281,11 +1206,6 @@ parameters:
 			path: core/DataTable/Renderer/Csv.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: core/DataTable/Renderer/Csv.php
-
-		-
 			message: "#^Parameter \\#1 \\$table of method Piwik\\\\DataTable\\\\Renderer\\\\Html\\:\\:buildTableStructure\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
 			count: 1
 			path: core/DataTable/Renderer/Html.php
@@ -1314,11 +1234,6 @@ parameters:
 			message: "#^Result of \\|\\| is always false\\.$#"
 			count: 2
 			path: core/DataTable/Renderer/Json.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/DataTable/Renderer/Rss.php
 
 		-
 			message: "#^Comparison operation \"\\!\\=\" between array and 0 results in an error\\.$#"
@@ -1571,16 +1486,6 @@ parameters:
 			path: core/FrontController.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: core/FrontController.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/FrontController.php
-
-		-
 			message: "#^Result of && is always false\\.$#"
 			count: 2
 			path: core/FrontController.php
@@ -1709,11 +1614,6 @@ parameters:
 			message: "#^Variable \\$unit in empty\\(\\) always exists and is always falsy\\.$#"
 			count: 1
 			path: core/Metrics.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/Metrics/Formatter.php
 
 		-
 			message: "#^Method Piwik\\\\Metrics\\\\Sorter\\:\\:getPrimaryColumnToSort\\(\\) should return int but returns string\\.$#"
@@ -1851,11 +1751,6 @@ parameters:
 			path: core/Plugin/ArchivedMetric.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/Plugin/ArchivedMetric.php
-
-		-
 			message: "#^Invoking callable on an unknown class Piwik\\\\Plugin\\\\callback\\.$#"
 			count: 1
 			path: core/Plugin/ComponentFactory.php
@@ -1872,11 +1767,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Plugin/ComputedMetric.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: core/Plugin/ComputedMetric.php
 
@@ -1907,11 +1797,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$action of method Piwik\\\\FrontController\\:\\:dispatch\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: core/Plugin/Controller.php
 
@@ -2006,29 +1891,9 @@ parameters:
 			path: core/Plugin/Menu.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: core/Plugin/Menu.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/Plugin/Report.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/Plugin/Report.php
-
-		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$dimension \\(Piwik\\\\Columns\\\\Dimension\\) in empty\\(\\) is not falsy\\.$#"
 			count: 1
 			path: core/Plugin/Report.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: core/Plugin/ReportsProvider.php
 
 		-
 			message: "#^Call to function is_null\\(\\) with Piwik\\\\DataTable will always evaluate to false\\.$#"
@@ -2038,11 +1903,6 @@ parameters:
 		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 138$#"
 			count: 1
-			path: core/Plugin/ViewDataTable.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
 			path: core/Plugin/ViewDataTable.php
 
 		-
@@ -2093,16 +1953,6 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$return of function print_r expects bool, int given\\.$#"
 			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
 			path: core/Plugin/Visualization.php
 
 		-
@@ -2639,11 +2489,6 @@ parameters:
 			path: core/Tracker.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 6
-			path: core/Tracker.php
-
-		-
 			message: "#^Static property Piwik\\\\Tracker\\:\\:\\$db \\(Piwik\\\\Db\\) does not accept null\\.$#"
 			count: 2
 			path: core/Tracker.php
@@ -2884,16 +2729,6 @@ parameters:
 			path: core/Tracker/Request.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, array given\\.$#"
-			count: 1
-			path: core/Tracker/Request.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
-			path: core/Tracker/Request.php
-
-		-
 			message: "#^Variable \\$access in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: core/Tracker/Request.php
@@ -3119,21 +2954,6 @@ parameters:
 			path: core/Validators/IpRanges.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/View.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
-			path: core/View.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/View/HtmlReportEmailHeaderView.php
-
-		-
 			message: "#^Call to an undefined method Twig\\\\Node\\\\Node\\:\\:getKeyValuePairs\\(\\)\\.$#"
 			count: 1
 			path: core/View/MethodCallExpression.php
@@ -3142,11 +2962,6 @@ parameters:
 			message: "#^Property Piwik\\\\View\\\\UIControl\\:\\:\\$htmlAttributes \\(string\\) does not accept default value of type array\\.$#"
 			count: 1
 			path: core/View/UIControl.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 3
-			path: core/ViewDataTable/Config.php
 
 		-
 			message: "#^Property Piwik\\\\ViewDataTable\\\\Config\\:\\:\\$onlineGuideUrl \\(string\\) does not accept default value of type false\\.$#"
@@ -3184,11 +2999,6 @@ parameters:
 			path: core/ViewDataTable/Manager.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/ViewDataTable/Manager.php
-
-		-
 			message: "#^Unsafe call to private method Piwik\\\\ViewDataTable\\\\Manager\\:\\:getFooterIconFor\\(\\) through static\\:\\:\\.$#"
 			count: 9
 			path: core/ViewDataTable/Manager.php
@@ -3202,11 +3012,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between mixed and 0 will always evaluate to false\\.$#"
 			count: 1
 			path: core/ViewDataTable/Request.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: core/ViewDataTable/RequestConfig.php
 
 		-
 			message: "#^Property Piwik\\\\ViewDataTable\\\\RequestConfig\\:\\:\\$filter_excludelowpop_value \\(Closure\\|string\\) does not accept default value of type false\\.$#"
@@ -3241,11 +3046,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$str of function strtolower expects string, bool given\\.$#"
 			count: 4
-			path: core/Visualization/Sparkline.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
 			path: core/Visualization/Sparkline.php
 
 		-
@@ -3294,18 +3094,8 @@ parameters:
 			path: plugins/API/API.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/API/API.php
-
-		-
 			message: "#^Call to function is_array\\(\\) with Piwik\\\\API\\\\Map\\|Piwik\\\\DataTable\\|string will always evaluate to false\\.$#"
 			count: 1
-			path: plugins/API/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
 			path: plugins/API/Controller.php
 
 		-
@@ -3331,11 +3121,6 @@ parameters:
 		-
 			message: "#^Cannot call method getStringParameter\\(\\) on array\\.$#"
 			count: 12
-			path: plugins/API/Filter/DataComparisonFilter.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, array given\\.$#"
-			count: 6
 			path: plugins/API/Filter/DataComparisonFilter.php
 
 		-
@@ -3429,16 +3214,6 @@ parameters:
 			path: plugins/API/ProcessedReport.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
 			message: "#^Result of && is always true\\.$#"
 			count: 1
 			path: plugins/API/ProcessedReport.php
@@ -3470,11 +3245,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
-			count: 1
-			path: plugins/API/RowEvolution.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/API/RowEvolution.php
 
@@ -3609,29 +3379,14 @@ parameters:
 			path: plugins/Actions/DataTable/Filter/Actions.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Actions/DataTable/Filter/Actions.php
-
-		-
 			message: "#^Parameter \\#1 \\$idSite of method Piwik\\\\Plugins\\\\Actions\\\\RecordBuilders\\\\ActionReports\\:\\:getGoalsForSite\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Actions/RecordBuilders/ActionReports.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Actions/Reports/Base.php
-
-		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
 			count: 1
 			path: plugins/Actions/Reports/Base.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
-			path: plugins/Actions/Reports/SiteSearchBase.php
 
 		-
 			message: "#^Variable \\$action in empty\\(\\) always exists and is not falsy\\.$#"
@@ -3656,11 +3411,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
 			count: 2
-			path: plugins/Annotations/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 4
 			path: plugins/Annotations/Controller.php
 
 		-
@@ -3689,16 +3439,6 @@ parameters:
 			path: plugins/BulkTracking/Tracker/Handler.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/BulkTracking/Tracker/Requests.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, true given\\.$#"
-			count: 1
-			path: plugins/BulkTracking/Tracker/Requests.php
-
-		-
 			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
 			count: 1
 			path: plugins/Contents/RecordBuilders/ContentRecords.php
@@ -3712,11 +3452,6 @@ parameters:
 			message: "#^Variable \\$subLabel in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/Contents/RecordBuilders/ContentRecords.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Contents/Reports/Base.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Contents\\\\VisitorDetails\\:\\:renderAction\\(\\) should return string but empty return statement found\\.$#"
@@ -3849,16 +3584,6 @@ parameters:
 			path: plugins/CoreAdminHome/Menu.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 4
-			path: plugins/CoreAdminHome/OptOutManager.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 6
-			path: plugins/CoreAdminHome/OptOutManager.php
-
-		-
 			message: "#^Parameter \\#1 \\$idSegments of method Piwik\\\\CronArchive\\\\ArchiveFilter\\:\\:setSegmentsToForceFromSegmentIds\\(\\) expects array\\<int\\>, array\\<int, string\\> given\\.$#"
 			count: 1
 			path: plugins/CoreConsole/Commands/CoreArchiver.php
@@ -3914,16 +3639,6 @@ parameters:
 			path: plugins/CoreHome/Controller.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: plugins/CoreHome/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/CoreHome/Controller.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\CoreHome\\\\Controller\\:\\:\\$translator is never read, only written\\.$#"
 			count: 1
 			path: plugins/CoreHome/Controller.php
@@ -3969,11 +3684,6 @@ parameters:
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, array given\\.$#"
-			count: 3
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
@@ -3982,11 +3692,6 @@ parameters:
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$visitor$#"
 			count: 1
 			path: plugins/CoreHome/Tracker/VisitRequestProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/CoreHome/Widgets/GetDonateForm.php
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\|Piwik\\\\Db\\\\AdapterInterface\\|Piwik\\\\Tracker\\\\Db\\:\\:getServerVersion\\(\\)\\.$#"
@@ -4002,16 +3707,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugins\\\\CoreHome\\\\Widgets\\\\GetSystemSummary\\:\\:\\$storedSegmentService is never read, only written\\.$#"
 			count: 1
 			path: plugins/CoreHome/Widgets/GetSystemSummary.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: plugins/CorePluginsAdmin/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/CorePluginsAdmin/Controller.php
 
 		-
 			message: "#^Right side of && is always true\\.$#"
@@ -4049,11 +3744,6 @@ parameters:
 			path: plugins/CoreUpdater/Commands/Update.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
-			path: plugins/CoreUpdater/Controller.php
-
-		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: plugins/CoreUpdater/Controller.php
@@ -4085,11 +3775,6 @@ parameters:
 
 		-
 			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: plugins/CoreVisualizations/JqplotDataGenerator/Evolution.php
 
@@ -4134,22 +3819,12 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Graph.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Graph.php
-
-		-
 			message: "#^Variable \\$dataTable in PHPDoc tag @var does not match any variable in the foreach loop\\: \\$row$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Graph.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\HtmlTable\\:\\:getCellHtmlAttributes\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
 
@@ -4164,32 +3839,12 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable/RequestConfig.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable/RequestConfig.php
-
-		-
 			message: "#^Property Piwik\\\\ViewDataTable\\\\RequestConfig\\:\\:\\$filter_excludelowpop_value \\(Closure\\|string\\) does not accept false\\.$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable/RequestConfig.php
 
 		-
 			message: "#^Parameter \\#2 \\$lastN of static method Piwik\\\\Period\\\\Range\\:\\:getRelativeToEndDate\\(\\) expects int, string given\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/JqplotGraph/Evolution.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: plugins/CoreVisualizations/Visualizations/JqplotGraph/Evolution.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/JqplotGraph/Evolution.php
 
@@ -4209,16 +3864,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, array given\\.$#"
-			count: 2
-			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
-			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
-
-		-
 			message: "#^Call to function is_null\\(\\) with Piwik\\\\DataTable will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
@@ -4230,11 +3875,6 @@ parameters:
 
 		-
 			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
 
@@ -4299,11 +3939,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Widgets/SingleMetricView.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\CoreVue\\\\Commands\\\\Build\\:\\:buildFiles\\(\\) should return int but returns bool\\.$#"
 			count: 1
 			path: plugins/CoreVue/Commands/Build.php
@@ -4324,11 +3959,6 @@ parameters:
 			path: plugins/CustomDimensions/API.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 3
-			path: plugins/CustomDimensions/CustomDimensions.php
-
-		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\:\\:deleteColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/CustomDimensions/DataTable/Filter/RemoveUserIfNeeded.php
@@ -4342,16 +3972,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\CustomDimensions\\\\Dimension\\\\Index\\:\\:getConfiguration\\(\\) is unused\\.$#"
 			count: 1
 			path: plugins/CustomDimensions/Dimension/Index.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 4
-			path: plugins/CustomDimensions/GetCustomDimension.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, bool\\|int given\\.$#"
-			count: 1
-			path: plugins/CustomDimensions/Menu.php
 
 		-
 			message: "#^Parameter \\#3 \\$additionalSelects of method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:queryConversionsByDimension\\(\\) expects array, false given\\.$#"
@@ -4399,59 +4019,9 @@ parameters:
 			path: plugins/Dashboard/Categories/DashboardCategory.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 3
-			path: plugins/Dashboard/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, bool\\|int given\\.$#"
-			count: 1
-			path: plugins/Dashboard/Menu.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Dashboard\\\\Model\\:\\:getLayoutForUser\\(\\) should return bool\\|string but returns array\\.$#"
 			count: 1
 			path: plugins/Dashboard/Model.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/Columns/PluginCookie.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/Columns/PluginFlash.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/Columns/PluginJava.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/Columns/PluginPdf.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/Columns/PluginQuickTime.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/Columns/PluginRealPlayer.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/Columns/PluginSilverlight.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/Columns/PluginWindowsMedia.php
 
 		-
 			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
@@ -4639,11 +4209,6 @@ parameters:
 			path: plugins/Diagnostics/Diagnostic/RequiredPhpSetting.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Diagnostics/Diagnostic/TrackerCheck.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\Diagnostics\\\\Diagnostic\\\\UserInformational\\:\\:\\$translator is never read, only written\\.$#"
 			count: 1
 			path: plugins/Diagnostics/Diagnostic/UserInformational.php
@@ -4674,16 +4239,6 @@ parameters:
 			path: plugins/Ecommerce/Controller.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Reports/Base.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Reports/BaseItem.php
-
-		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
 			count: 1
 			path: plugins/Ecommerce/Reports/GetDaysToConversionAbandonedCart.php
@@ -4697,16 +4252,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
 			count: 1
 			path: plugins/Ecommerce/Reports/GetVisitsUntilConversionAbandonedCart.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Widgets/GetEcommerceLog.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Widgets/ProductsByDimension.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\API\\:\\:getSecondaryDimensions\\(\\) should return array but returns false\\.$#"
@@ -4724,29 +4269,9 @@ parameters:
 			path: plugins/Events/Columns/TotalEvents.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: plugins/Events/Events.php
-
-		-
 			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
 			count: 1
 			path: plugins/Events/RecordBuilders/EventReports.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Events/Reports/GetAction.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Events/Reports/GetCategory.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Events/Reports/GetName.php
 
 		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
@@ -4769,24 +4294,9 @@ parameters:
 			path: plugins/ExamplePlugin/RecordBuilders/ExampleMetric2.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/ExampleTracker/Columns/ExampleActionDimension.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/ExampleTracker/Columns/ExampleConversionDimension.php
-
-		-
 			message: "#^Property Piwik\\\\Notification\\:\\:\\$flags \\(int\\) does not accept null\\.$#"
 			count: 1
 			path: plugins/ExampleUI/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/ExampleUI/Reports/GetTemperaturesEvolution.php
 
 		-
 			message: "#^Property Piwik\\\\Plugins\\\\FeatureFlags\\\\FeatureFlagManager\\:\\:\\$logger \\(Piwik\\\\Log\\\\Logger\\) does not accept Piwik\\\\Log\\\\LoggerInterface\\.$#"
@@ -4819,11 +4329,6 @@ parameters:
 			path: plugins/Feedback/Feedback.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Feedback/Feedback.php
-
-		-
 			message: "#^Parameter \\#2 \\$parameters of static method Piwik\\\\Db\\:\\:query\\(\\) expects array, string given\\.$#"
 			count: 1
 			path: plugins/GeoIp2/Commands/ConvertRegionCodesToIso.php
@@ -4837,11 +4342,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, true given\\.$#"
 			count: 1
 			path: plugins/GeoIp2/Commands/ConvertRegionCodesToIso.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, true given\\.$#"
-			count: 2
-			path: plugins/GeoIp2/Controller.php
 
 		-
 			message: "#^Call to an undefined method Matomo\\\\Decompress\\\\DecompressInterface\\:\\:extractInString\\(\\)\\.$#"
@@ -4861,11 +4361,6 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
 			count: 1
-			path: plugins/GeoIp2/GeoIP2AutoUpdater.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 3
 			path: plugins/GeoIp2/GeoIP2AutoUpdater.php
 
 		-
@@ -4979,24 +4474,9 @@ parameters:
 			path: plugins/Goals/Commands/CalculateConversionPages.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Goals/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Goals/Controller.php
-
-		-
 			message: "#^Variable \\$site in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/Goals/DataTable/Filter/CalculateConversionPageRate.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 4
-			path: plugins/Goals/Goals.php
 
 		-
 			message: "#^Property Piwik\\\\Plugins\\\\Goals\\\\Pages\\:\\:\\$conversions is never read, only written\\.$#"
@@ -5034,11 +4514,6 @@ parameters:
 			path: plugins/Goals/RecordBuilders/ProductRecord.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 4
-			path: plugins/Goals/Reports/Get.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept array\\<string, float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\>\\.$#"
 			count: 1
 			path: plugins/Goals/Reports/Get.php
@@ -5054,27 +4529,7 @@ parameters:
 			path: plugins/Goals/Tracker/GoalsRequestProcessor.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
-			path: plugins/Goals/Visualizations/Goals.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Goals/Widgets/AddNewGoal.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Goals/Widgets/EditGoals.php
-
-		-
 			message: "#^Binary operation \"\\+\" between float\\|int and non\\-empty\\-string results in an error\\.$#"
-			count: 1
-			path: plugins/ImageGraph/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: plugins/ImageGraph/API.php
 
@@ -5090,11 +4545,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$lastN of static method Piwik\\\\Period\\\\Range\\:\\:getRelativeToEndDate\\(\\) expects int, string given\\.$#"
-			count: 1
-			path: plugins/ImageGraph/ImageGraph.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/ImageGraph/ImageGraph.php
 
@@ -5180,11 +4630,6 @@ parameters:
 
 		-
 			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: plugins/Installation/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/Installation/Controller.php
 
@@ -5294,27 +4739,7 @@ parameters:
 			path: plugins/Live/API.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: plugins/Live/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
-			path: plugins/Live/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 3
-			path: plugins/Live/Controller.php
-
-		-
 			message: "#^Parameter \\#1 \\$str of function urldecode expects string, array\\|true given\\.$#"
-			count: 1
-			path: plugins/Live/Live.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/Live/Live.php
 
@@ -5404,26 +4829,6 @@ parameters:
 			path: plugins/Live/VisitorFactory.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Live/Visualizations/VisitorLog.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
-			path: plugins/Live/Visualizations/VisitorLog.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Live/Widgets/GetVisitorProfilePopup.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Live/Widgets/Widget.php
-
-		-
 			message: "#^Parameter \\#2 \\$login of class Piwik\\\\AuthResult constructor expects string, null given\\.$#"
 			count: 1
 			path: plugins/Login/Auth.php
@@ -5460,11 +4865,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$infoMessage of method Piwik\\\\Plugins\\\\Login\\\\Controller\\:\\:login\\(\\) expects bool, string given\\.$#"
-			count: 1
-			path: plugins/Login/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/Login/Controller.php
 
@@ -5539,11 +4939,6 @@ parameters:
 			path: plugins/Login/PasswordVerifier.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Login/Security/BruteForceDetection.php
-
-		-
 			message: "#^Binary operation \"\\+\" between int\\<1, max\\> and string results in an error\\.$#"
 			count: 1
 			path: plugins/Login/SessionInitializer.php
@@ -5565,11 +4960,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Marketplace/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
 			count: 1
 			path: plugins/Marketplace/Controller.php
 
@@ -5597,11 +4987,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
 			count: 2
 			path: plugins/Marketplace/Plugins.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Marketplace/Widgets/GetNewPlugins.php
 
 		-
 			message: "#^Variable \\$previous in PHPDoc tag @var does not match assigned variable \\$domain\\.$#"
@@ -5649,19 +5034,9 @@ parameters:
 			path: plugins/MobileMessaging/SMSProvider/StubbedProvider.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 4
-			path: plugins/Monolog/Handler/WebNotificationHandler.php
-
-		-
 			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
 			count: 2
 			path: plugins/Monolog/Processor/ExceptionToTextProcessor.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/PagePerformance/Controller.php
 
 		-
 			message: "#^Parameter \\#2 \\$seriesMetadata of method Piwik\\\\Plugins\\\\CoreVisualizations\\\\JqplotDataGenerator\\\\Chart\\:\\:setAxisYValues\\(\\) expects null, array\\<array\\<string, mixed\\>\\> given\\.$#"
@@ -5684,16 +5059,6 @@ parameters:
 			path: plugins/PagePerformance/Tracker/PerformanceDataProcessor.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/PagePerformance/Visualizations/JqplotGraph/StackedBarEvolution.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/PrivacyManager/API.php
-
-		-
 			message: "#^Binary operation \"\\+\" between non\\-falsy\\-string and int results in an error\\.$#"
 			count: 1
 			path: plugins/PrivacyManager/Controller.php
@@ -5701,11 +5066,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
 			count: 1
-			path: plugins/PrivacyManager/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 14
 			path: plugins/PrivacyManager/Controller.php
 
 		-
@@ -5750,11 +5110,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
-			count: 5
-			path: plugins/PrivacyManager/PrivacyManager.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 5
 			path: plugins/PrivacyManager/PrivacyManager.php
 
@@ -5824,11 +5179,6 @@ parameters:
 			path: plugins/ProfessionalServices/Categories/PromoSessionRecordingCategory.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/ProfessionalServices.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<1, max\\> given\\.$#"
 			count: 1
 			path: plugins/ProfessionalServices/PromoWidgetDismissal.php
@@ -5894,11 +5244,6 @@ parameters:
 			path: plugins/Referrers/Columns/Metrics/VisitorsFromReferrerPercent.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 3
-			path: plugins/Referrers/Controller.php
-
-		-
 			message: "#^Negated boolean expression is always false\\.$#"
 			count: 1
 			path: plugins/Referrers/DataTable/Filter/SetGetReferrerTypeSubtables.php
@@ -5909,16 +5254,6 @@ parameters:
 			path: plugins/Referrers/RecordBuilders/Referrers.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/Referrers/Reports/GetReferrerType.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Referrers/Reports/GetWebsites.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\SearchEngine\\:\\:getBackLinkFromUrlAndKeyword\\(\\) should return string but returns false\\.$#"
 			count: 1
 			path: plugins/Referrers/SearchEngine.php
@@ -5927,11 +5262,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\Social\\:\\:getMainUrlFromName\\(\\) should return string but returns null\\.$#"
 			count: 1
 			path: plugins/Referrers/Social.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Referrers/Widgets/GetCampaignUrlBuilder.php
 
 		-
 			message: "#^Function Piwik\\\\Plugins\\\\Referrers\\\\getReferrerTypeFromShortName\\(\\) should return string but returns int\\.$#"
@@ -5965,11 +5295,6 @@ parameters:
 
 		-
 			message: "#^Empty array passed to foreach\\.$#"
-			count: 1
-			path: plugins/ScheduledReports/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/ScheduledReports/API.php
 
@@ -6094,11 +5419,6 @@ parameters:
 			path: plugins/SitesManager/API.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
 			message: "#^Result of && is always true\\.$#"
 			count: 1
 			path: plugins/SitesManager/API.php
@@ -6107,16 +5427,6 @@ parameters:
 			message: "#^Variable \\$excludedQueryParameters on left side of \\?\\? always exists and is always null\\.$#"
 			count: 1
 			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 6
-			path: plugins/SitesManager/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/SitesManager/Controller.php
 
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(string Date to set as creation date\\.\\)\\: Unexpected token \"Date\", expected variable at offset 154$#"
@@ -6155,11 +5465,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/SitesManager/SitesManager.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: plugins/SitesManager/SitesManager.php
 
@@ -6219,11 +5524,6 @@ parameters:
 			path: plugins/Tour/Engagement/Challenges.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, float given\\.$#"
-			count: 1
-			path: plugins/Tour/Widgets/GetEngagement.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\Tour\\\\Widgets\\\\GetEngagement\\:\\:\\$challenges is never read, only written\\.$#"
 			count: 1
 			path: plugins/Tour/Widgets/GetEngagement.php
@@ -6259,16 +5559,6 @@ parameters:
 			path: plugins/Transitions/API.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Transitions/Transitions.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 2
-			path: plugins/Transitions/Widgets/GetTransitions.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\TwoFactorAuth\\\\Controller\\:\\:setupTwoFactorAuth\\(\\) should return string but empty return statement found\\.$#"
 			count: 1
 			path: plugins/TwoFactorAuth/Controller.php
@@ -6284,11 +5574,6 @@ parameters:
 			path: plugins/TwoFactorAuth/Dao/RecoveryCodeStaticGenerator.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/TwoFactorAuth/TwoFactorAuth.php
-
-		-
 			message: "#^Default value of the parameter \\#1 \\$ip \\(false\\) of method Piwik\\\\Plugins\\\\UserCountry\\\\API\\:\\:getLocationFromIP\\(\\) is incompatible with type string\\.$#"
 			count: 1
 			path: plugins/UserCountry/API.php
@@ -6302,11 +5587,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between Piwik\\\\Plugins\\\\UserCountry\\\\LocationProvider and false will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/UserCountry/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/UserCountry/Columns/Base.php
 
 		-
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
@@ -6334,16 +5614,6 @@ parameters:
 			path: plugins/UserCountry/LocationProvider.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/UserCountry/LocationProvider/DefaultProvider.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/UserCountry/ProfileSummary/LocationSummary.php
-
-		-
 			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
 			count: 1
 			path: plugins/UserCountry/RecordBuilders/Locations.php
@@ -6362,26 +5632,6 @@ parameters:
 			message: "#^Function Piwik\\\\Plugins\\\\UserCountry\\\\getPrettyRegionName\\(\\) never returns false so it can be removed from the return type\\.$#"
 			count: 1
 			path: plugins/UserCountry/functions.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, bool given\\.$#"
-			count: 1
-			path: plugins/UserCountryMap/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: plugins/UserCountryMap/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/UserCountryMap/Controller.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, true given\\.$#"
-			count: 5
-			path: plugins/UserCountryMap/Controller.php
 
 		-
 			message: "#^Parameter \\#3 \\$strDate of static method Piwik\\\\Archive\\:\\:build\\(\\) expects Piwik\\\\Date\\|string, int given\\.$#"
@@ -6426,11 +5676,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$n of method Piwik\\\\Date\\:\\:addHour\\(\\) expects float\\|int, string given\\.$#"
 			count: 1
-			path: plugins/UsersManager/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, int given\\.$#"
-			count: 5
 			path: plugins/UsersManager/API.php
 
 		-
@@ -6554,11 +5799,6 @@ parameters:
 			path: plugins/VisitFrequency/API.php
 
 		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: plugins/VisitFrequency/Controller.php
-
-		-
 			message: "#^Parameter \\#1 \\$view of method Piwik\\\\Plugins\\\\VisitFrequency\\\\Reports\\\\Get\\:\\:addSparklineColumns\\(\\) expects Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines, Piwik\\\\Plugin\\\\ViewDataTable given\\.$#"
 			count: 1
 			path: plugins/VisitFrequency/Reports/Get.php
@@ -6582,11 +5822,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$label of method Piwik\\\\DataTable\\:\\:getRowFromLabel\\(\\) expects string, int\\<0, 23\\> given\\.$#"
 			count: 1
 			path: plugins/VisitTime/RecordBuilders/Base.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 3
-			path: plugins/VisitTime/Reports/GetByDayOfWeek.php
 
 		-
 			message: "#^Function Piwik\\\\Plugins\\\\VisitTime\\\\dayOfWeekFromDate\\(\\) should return int but returns string\\.$#"
@@ -6617,11 +5852,6 @@ parameters:
 			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: plugins/VisitsSummary/API.php
-
-		-
-			message: "#^Parameter \\#2 \\$varDefault of static method Piwik\\\\Common\\:\\:getRequestVar\\(\\) expects string\\|null, false given\\.$#"
-			count: 2
-			path: plugins/VisitsSummary/Controller.php
 
 		-
 			message: "#^Comparison operation \"\\=\\=\" between \\(array\\|float\\|int\\) and 0 results in an error\\.$#"
