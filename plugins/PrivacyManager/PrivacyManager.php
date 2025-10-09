@@ -28,6 +28,7 @@ use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
+use Piwik\Request;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
@@ -183,6 +184,7 @@ class PrivacyManager extends Plugin
         return [
             'AssetManager.getStylesheetFiles'         => 'getStylesheetFiles',
             'Tracker.setTrackerCacheGeneral'          => 'setTrackerCacheGeneral',
+            'Tracker.Cache.getSiteAttributes'         => 'setTrackerCacheSiteAttributes',
             'Tracker.isExcludedVisit'                 => [$this->dntChecker, 'checkHeaderInTracker'],
             'Tracker.setVisitorIp'                    => [$this->ipAnonymizer, 'setVisitorIpAddress'],
             'Installation.defaultSettingsForm.init'   => 'installationFormInit',
@@ -193,6 +195,7 @@ class PrivacyManager extends Plugin
             'Visualization.beforeRender'              => 'onConfigureVisualisation',
             'CustomJsTracker.shouldAddTrackerFile'    => 'shouldAddTrackerFile',
             'Request.shouldDisablePostProcessing'     => 'shouldDisablePostProcessing',
+            'SitesManager.deleteSite.end'             => 'deleteSiteSpecificAnonymisationSettings',
         ];
     }
 
@@ -209,15 +212,20 @@ class PrivacyManager extends Plugin
     public function onConfigureVisualisation(Plugin\Visualization $view)
     {
         if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
-            $config = new Config();
+            $idSite = $view->requestConfig->getRequestParam('idsite');
+            if (!is_numeric($idSite) || !$idSite) {
+                $idSite = null;
+            } else {
+                $idSite = (int) $idSite;
+            }
+            $config = new Config($idSite);
             if ($config->anonymizeReferrer == ReferrerAnonymizer::EXCLUDE_NONE) {
                 return;
             }
             if (!$view->config->show_footer_message) {
                 $view->config->show_footer_message = '';
             }
-            $anonymizer = StaticContainer::get(ReferrerAnonymizer::class);
-            $methods = $anonymizer->getAvailableAnonymizationOptions();
+            $methods = ReferrerAnonymizer::getAvailableAnonymizationOptions();
             if (!empty($methods[$config->anonymizeReferrer])) {
                 $view->config->show_footer_message .= Piwik::translate('PrivacyManager_InfoSomeReferrerInfoMayBeAnonymized', $methods[$config->anonymizeReferrer]);
             }
@@ -468,7 +476,12 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_RandomizeConfigIdNote';
         $translationKeys[] = 'PrivacyManager_RandomizeConfigIdNoteWarning';
         $translationKeys[] = 'PrivacyManager_ConfirmConfigRandomisationEnabled';
+        $translationKeys[] = 'PrivacyManager_ConfirmConfigRandomisationEnabledPerSite';
         $translationKeys[] = 'PrivacyManager_ConfirmConfigRandomisationExplanation';
+        $translationKeys[] = 'PrivacyManager_SiteAnonymizationConfig';
+        $translationKeys[] = 'PrivacyManager_UseSystemSettings';
+        $translationKeys[] = 'PrivacyManager_UseSiteSpecificSettings';
+        $translationKeys[] = 'PrivacyManager_UseSiteSpecificSettingsHelpText';
         $translationKeys[] = 'PrivacyManager_Compliance';
         $translationKeys[] = 'PrivacyManager_ComplianceSelectSite';
         $translationKeys[] = 'PrivacyManager_ComplianceEnforceCheckboxIntro';
@@ -488,14 +501,20 @@ class PrivacyManager extends Plugin
 
     public function setTrackerCacheGeneral(&$cacheContent)
     {
-        $config       = new Config();
-        $cacheContent = $config->setTrackerCacheGeneral($cacheContent);
+        $config = new Config();
+        $config->setTrackerCache($cacheContent);
         $cacheContent[self::OPTION_USERID_SALT] = self::getUserIdSalt();
 
         $purgeSettings = PrivacyManager::getPurgeDataSettings();
         $cacheContent['delete_logs_enable'] = $purgeSettings['delete_logs_enable'];
         $cacheContent['delete_logs_schedule_lowest_interval'] = $purgeSettings['delete_logs_schedule_lowest_interval'];
         $cacheContent['delete_logs_older_than'] = $purgeSettings['delete_logs_older_than'];
+    }
+
+    public function setTrackerCacheSiteAttributes(&$cacheContent, int $idSite): void
+    {
+        $config = new Config($idSite);
+        $config->setTrackerCache($cacheContent);
     }
 
     public function getStylesheetFiles(&$stylesheets)
@@ -532,7 +551,7 @@ class PrivacyManager extends Plugin
     }
 
     /**
-     * Process the submit on the Installation "default settings" form.
+     * Process the Installation "default settings" form submission
      *
      * @param FormDefaultSettings $form
      */
@@ -725,9 +744,9 @@ class PrivacyManager extends Plugin
     {
         // if range, only look at the first date
         if ($strPeriod === 'range') {
-            $idSite = Common::getRequestVar('idSite', '');
+            $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
 
-            if (intval($idSite) != 0) {
+            if ($idSite) {
                 $site     = new Site($idSite);
                 $timezone = $site->getTimezone();
             } else {
@@ -937,9 +956,77 @@ class PrivacyManager extends Plugin
      *
      * @return bool
      */
-    public static function isCookieLessTrackingForced()
+    public static function isCookieLessTrackingForced(): bool
     {
         $config = new Config();
-        return !!$config->forceCookielessTracking;
+        return $config->forceCookielessTracking;
+    }
+
+    public static function getMaskLengthOptions(): array
+    {
+        return [
+            [
+                'key' => '1',
+                'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["1","192.168.100.xxx"]),
+                'description' => '',
+            ],
+            [
+                'key' => '2',
+                'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["2","192.168.xxx.xxx"]),
+                'description' => Piwik::translate('General_Recommended'),
+            ],
+            [
+                'key' => '3',
+                'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskLength', ["3","192.xxx.xxx.xxx"]),
+                'description' => '',
+            ],
+            [
+                'key' => '4',
+                'value' => Piwik::translate('PrivacyManager_AnonymizeIpMaskFully'),
+                'description' => '',
+            ],
+        ];
+    }
+
+    public static function getUseAnonymizedIpForVisitEnrichmentOptions(): array
+    {
+        return [
+            [
+                'key' => '1',
+                'value' => Piwik::translate('General_Yes'),
+                'description' => Piwik::translate('PrivacyManager_RecommendedForPrivacy'),
+            ],
+            [
+                'key' => '0',
+                'value' => Piwik::translate('General_No'),
+                'description' => '',
+            ],
+        ];
+    }
+
+    public static function getScheduleDeletionOptions(): array
+    {
+        return [
+            [
+                'key' => '1',
+                'value' => Piwik::translate('Intl_PeriodDay'),
+            ],
+            [
+                'key' => '7',
+                'value' => Piwik::translate('Intl_PeriodWeek'),
+            ],
+            [
+                'key' => '30',
+                'value' => Piwik::translate('Intl_PeriodMonth'),
+            ],
+        ];
+    }
+
+    /**
+     * Delete site-specific anonymisation settings (option values) for a given site
+     */
+    public function deleteSiteSpecificAnonymisationSettings(int $idSite): void
+    {
+        (new Config($idSite))->removeForSite();
     }
 }

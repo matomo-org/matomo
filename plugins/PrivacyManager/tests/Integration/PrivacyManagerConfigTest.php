@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\PrivacyManager\tests;
+namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -15,6 +15,7 @@ use Piwik\Option;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -30,8 +31,15 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+        Fixture::createWebsite('2024-01-01 00:00:00');
+        Fixture::createWebsite('2025-01-01 00:00:00');
 
         $this->config = new PrivacyManagerConfig();
+    }
+
+    private function setConfigSiteId(?int $siteId): void
+    {
+        $this->config->setIdSite($siteId);
     }
 
     public function testUseAnonymizedIpForVisitEnrichment()
@@ -79,6 +87,10 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
         $this->config->ipAnonymizerEnabled = false;
         $this->assertFalse($this->config->ipAnonymizerEnabled);
+
+        $this->setConfigSiteId(2);
+        // site specific value missing, fallback to global
+        $this->assertFalse($this->config->ipAnonymizerEnabled);
     }
 
     public function testIpAnonymizerEnabledCnilPolicyEnabled()
@@ -91,26 +103,44 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
         $this->config->ipAnonymizerEnabled = false;
         $this->assertTrue($this->config->ipAnonymizerEnabled);
+
+        $this->setConfigSiteId(2);
+        // site specific value missing, fallback to global previously set to false, but policy overridden to true again
+        $this->assertTrue($this->config->ipAnonymizerEnabled);
+
+        $this->config->ipAnonymizerEnabled = false;
+        $this->assertTrue($this->config->ipAnonymizerEnabled);
     }
 
     public function testIpAddressMaskLength()
     {
         $this->assertSame(2, $this->config->ipAddressMaskLength);
 
-        $this->config->ipAddressMaskLength = '19';
+        $this->config->ipAddressMaskLength = 19;
 
         $this->assertSame(19, $this->config->ipAddressMaskLength);
     }
 
     public function testIpAddressMaskLengthCnilPolicyDisabled()
     {
+        $this->setConfigSiteId(null);
+
         $container = StaticContainer::getContainer();
         $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
 
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = false);
         $this->assertSame(2, $this->config->ipAddressMaskLength);
 
-        $this->config->ipAddressMaskLength = '1';
+        $this->config->ipAddressMaskLength = 1;
+        $this->assertSame(1, $this->config->ipAddressMaskLength);
+
+        $this->config->ipAddressMaskLength = 3;
+        $this->setConfigSiteId(2);
+        // site specific value missing, fallback to global
+        $this->assertSame(3, $this->config->ipAddressMaskLength);
+
+        // set weaker value than the policy requires
+        $this->config->ipAddressMaskLength = 1;
         $this->assertSame(1, $this->config->ipAddressMaskLength);
     }
 
@@ -122,7 +152,16 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
         $this->assertSame(2, $this->config->ipAddressMaskLength);
 
-        $this->config->ipAddressMaskLength = '1';
+        $this->config->ipAddressMaskLength = 1;
+        $this->assertSame(2, $this->config->ipAddressMaskLength);
+
+        $this->setConfigSiteId(2);
+        // set stronger value than the policy requires
+        $this->config->ipAddressMaskLength = 3;
+        $this->assertSame(3, $this->config->ipAddressMaskLength);
+
+        // set weaker value than the policy requires
+        $this->config->ipAddressMaskLength = 1;
         $this->assertSame(2, $this->config->ipAddressMaskLength);
     }
 
@@ -155,9 +194,10 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
 
     public function testSetTrackerCacheContent()
     {
-        $content = $this->config->setTrackerCacheGeneral(array('existingEntry' => 'test'));
+        $trackerCache = ['existingEntry' => 'test'];
+        $content = $this->config->setTrackerCache($trackerCache);
 
-        $expected = array(
+        $expected = [
             'existingEntry' => 'test',
             'PrivacyManager.ipAddressMaskLength' => 2,
             'PrivacyManager.ipAnonymizerEnabled' => true,
@@ -168,7 +208,7 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
             'PrivacyManager.useAnonymizedIpForVisitEnrichment' => false,
             'PrivacyManager.forceCookielessTracking' => false,
             'PrivacyManager.randomizeConfigId' => false,
-        );
+        ];
 
         $this->assertEquals($expected, $content);
     }
@@ -177,8 +217,40 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
     {
         Option::set('PrivacyManager.ipAddressMaskLength', '232');
 
-        $content = $this->config->setTrackerCacheGeneral(array('existingEntry' => 'test'));
+        $trackerCache = ['existingEntry' => 'test'];
+        $content = $this->config->setTrackerCache($trackerCache);
 
         $this->assertEquals(232, $content['PrivacyManager.ipAddressMaskLength']);
+    }
+
+    public function testSetTrackerCacheContentShouldGetValuesFromConfigForSite()
+    {
+        Option::set('PrivacyManager.idSite(1).ipAddressMaskLength', '345');
+
+        $trackerCache = ['existingEntry' => 'test'];
+        $this->config->setIdSite(1);
+        $content = $this->config->setTrackerCache($trackerCache);
+
+        $this->assertEquals(345, $content['PrivacyManager.ipAddressMaskLength']);
+    }
+
+    public function testSetTrackerCacheContentForSiteShouldFallbackToGlobalSettings()
+    {
+        Option::set('PrivacyManager.anonymizeReferrer', ReferrerAnonymizer::EXCLUDE_QUERY);
+
+        $trackerCache = ['existingEntry' => 'test'];
+        $this->config->setIdSite(1);
+        $content = $this->config->setTrackerCache($trackerCache);
+
+        $this->assertEquals(ReferrerAnonymizer::EXCLUDE_QUERY, $content['PrivacyManager.anonymizeReferrer']);
+    }
+
+    public function testDirectSettingGlobalConfigIsReflectedViaFallbackForSite()
+    {
+        $this->config->setIdSite(null);
+        $this->config->randomizeConfigId = true;
+        $this->config->setIdSite(2);
+
+        $this->assertEquals(true, $this->config->randomizeConfigId);
     }
 }

@@ -10,17 +10,14 @@ use Piwik\Settings\Interfaces\OptionSettingInterface;
  */
 trait OptionGetterTrait
 {
-    /**
-     * @return string|null
-     */
-    public static function getOptionValue()
+    public static function getOptionValue(?int $idSite = null): ?string
     {
-        $optionValue = Option::get(self::getOptionName());
+        $optionValue = Option::get(self::getOptionName($idSite));
         if ($optionValue !== false) {
             return $optionValue;
         }
         return null;
     }
 
-    abstract protected static function getOptionName(): string;
+    abstract protected static function getOptionName(?int $idSite = null): string;
 }

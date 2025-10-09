@@ -25,9 +25,9 @@
        :content-title="translate('PrivacyManager_UseAnonymizeTrackingData')"
     >
       <AnonymizeIp
-        :anonymize-ip-enabled="anonymizeIpEnabled"
+        :ip-anonymizer-enabled="ipAnonymizerEnabled"
         :anonymize-user-id="anonymizeUserId"
-        :mask-length="maskLength"
+        :ip-address-mask-length="ipAddressMaskLength"
         :use-anonymized-ip-for-visit-enrichment="useAnonymizedIpForVisitEnrichment"
         :anonymize-order-id="anonymizeOrderId"
         :force-cookieless-tracking="forceCookielessTracking"
@@ -113,9 +113,9 @@ import PreviousAnonymizations from '../AnonymizeLogData/PreviousAnonymizations.v
 
 export default defineComponent({
   props: {
-    anonymizeIpEnabled: Boolean,
+    ipAnonymizerEnabled: Boolean,
     anonymizeUserId: Boolean,
-    maskLength: {
+    ipAddressMaskLength: {
       type: Number,
       required: true,
     },

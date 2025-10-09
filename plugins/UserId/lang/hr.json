@@ -1,5 +1,11 @@
 {
     "UserId": {
-        "UserReportTitle": "Korisnici"
+        "PluginDescription": "Prikazuje izvještaje o korisniku",
+        "ThereIsNoDataForThisReportHelp": "%1$sPročitaj korisnički priručnik i saznaj kako generirati podatke za ovaj izvještaj.%2$s",
+        "UserId": "Korisnički ID",
+        "UserIdSegmentHelp": "bilo koji neprazan jedinstveni znakovni niz koji identificira korisnika (kao što je e-mail adresa ili korisničko ime).",
+        "UserReportDocumentation": "Prikazuje posjete i ostale opće metrike za svaki pojedinačni korisnički ID.",
+        "UserReportTitle": "Korisnički ID-evi",
+        "VisitorsUserSubcategoryHelp": "Izvještaj o korisničkom ID-u prikazuje posjete povezane sa svim tvojim registriranim i prijavljenim korisnicima. Dobij uvid u korištenje web-stranice od strane njenih specifičnih korisnika i saznaj tko su tvoji najaktivniji i najmanje aktivni korisnici."
     }
 }

@@ -186,6 +186,7 @@
         "AnonymizeOrderIdNote": "Because an Order ID can be cross-referenced with another system, typically an ecommerce shop, the Order ID may count as personal information under the GDPR. When you enable this option, an Order ID will be automatically anonymized so no personal information will be tracked.",
         "UseAnonymizeIp": "Anonymize Visitors' IP addresses",
         "UseAnonymizeTrackingData": "Anonymize Tracking Data",
+        "TrackingDataAnonymizationSettings": "Tracking data anonymization settings",
         "UseAnonymizeUserId": "Anonymize User ID",
         "PseudonymizeUserId": "Replace User ID with a pseudonym",
         "OptOutAppearance": "Customize the opt-out appearance",
@@ -255,6 +256,12 @@
         "RetentionPeriodPolicySettingRequirementNote": "Retention period is set to %1$s days",
         "RandomizeConfigIdNoteWarning": "%1$sPlease note: %2$sWith this setting enabled, every action will be tracked as a new visit.",
         "ConfirmConfigRandomisationEnabled": "Are you sure you want to enable config_ID randomization?",
-        "ConfirmConfigRandomisationExplanation": "Randomizing the config_ID for every request disables mechanisms that rely on user-agent data, cookies, or other identifiers that require explicit consent, allowing for anonymized tracking while respecting user privacy. Every action will be tracked as a new visit."
+        "ConfirmConfigRandomisationEnabledPerSite": "Are you sure you want to save the site's settings and enable config_ID randomization?",
+        "ConfirmConfigRandomisationExplanation": "Randomizing the config_ID for every request disables mechanisms that rely on user-agent data, cookies, or other identifiers that require explicit consent, allowing for anonymized tracking while respecting user privacy. Every action will be tracked as a new visit.",
+        "SiteAnonymizationConfig": "Anonymization configuration for this site",
+        "UseSystemSettings": "Use system settings",
+        "UseSiteSpecificSettings": "Use custom settings specific to this site",
+        "UseSiteSpecificSettingsHelpText": "By default, each site uses anonymization settings defined for the whole Matomo instance in %1$ssystem settings%2$s. If you select the '%3$s' option, you can override each of the settings for this specific site.",
+        "ManagePrivacySettings": "Manage privacy settings"
     }
 }

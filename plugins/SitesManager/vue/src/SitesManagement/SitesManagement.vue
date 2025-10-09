@@ -109,8 +109,10 @@
           :timezone-support-enabled="timezoneSupportEnabled"
           :utc-time="utcTime"
           :global-settings="globalSettings"
+          :privacy-manager-enabled="privacyManagerEnabled"
           @edit-site="this.isSiteBeingEdited = true"
           @cancel-edit-site="afterCancelEdit($event)"
+          @cancel-edit-privacy="afterCancelEdit($event)"
           @delete="afterDelete($event)"
           @save="afterSave($event.site, $event.settingValues, index, $event.isNew)"
         />
@@ -176,6 +178,7 @@ interface SitesManagementState {
 export default defineComponent({
   props: {
     rollUpEnabled: Boolean,
+    privacyManagerEnabled: Boolean,
   },
   components: {
     ContentBlock,

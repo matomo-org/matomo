@@ -10,7 +10,7 @@
     class="site card hoverable"
     :idsite="theSite.idsite"
     :type="theSite.type"
-    :class="{ 'editingSite': !!editMode }"
+    :class="{ 'editingSite': editMode }"
     ref="root"
   >
     <div class="card-content">
@@ -78,28 +78,22 @@
             </li>
           </ul>
         </div>
-        <div class="col m1 text-right">
-          <ul>
-            <li>
-              <button
-                class="table-action"
-                @click="editSite()"
-                :title="translate('General_Edit')"
-              >
-                <span class="icon-edit"></span>
-              </button>
-            </li>
-            <li>
-              <button
-                class="table-action"
-                v-show="theSite.idsite"
-                @click="getMessagesToWarnOnSiteRemoval()"
-                :title="translate('General_Delete')"
-              >
-                <span class="icon-delete"></span>
-              </button>
-            </li>
-          </ul>
+        <div class="col m1 right-align">
+          <button
+            class="table-action"
+            @click="editSite()"
+            :title="translate('General_Edit')"
+          >
+            <span class="icon-edit"></span>
+          </button>
+          <button
+            class="table-action"
+            v-show="theSite.idsite"
+            @click="getMessagesToWarnOnSiteRemoval()"
+            :title="translate('General_Delete')"
+          >
+            <span class="icon-delete"></span>
+          </button>
         </div>
       </div>
 
@@ -143,11 +137,11 @@
           name="timezone"
           v-model="theSite.timezone"
           :title="translate('SitesManager_Timezone')"
-          :inline-help="'#timezoneHelpText'"
+          :inline-help="`#timezoneHelpText-${theSite.idsite}`"
           :options="timezones"
         />
 
-        <div id="timezoneHelpText" class="inline-help-node">
+        <div :id="`timezoneHelpText-${theSite.idsite}`" class="inline-help-node">
           <div>
             <span v-if="!timezoneSupportEnabled">
               {{ translate('SitesManager_AdvancedTimezoneSupportNotFound') }}
@@ -159,6 +153,23 @@
             {{ translate('SitesManager_ChangingYourTimezoneWillOnlyAffectDataForward') }}
           </div>
         </div>
+
+        <template v-if="privacyManagerEnabled && theSite && theSite.idsite">
+          <h3 class="">{{ translate('PrivacyManager_TrackingDataAnonymizationSettings') }}</h3>
+
+          <ActivityIndicator :loading="isLoadingPrivacy"/>
+
+          <component
+            :is="anonymizeIpComponent"
+            v-if="!isLoadingPrivacy"
+            :id-site-specific="theSite.idsite"
+            :trigger-save="triggerSavePrivacySettings == 'save'"
+            v-bind="anonymisationSettings"
+            @updated="onPrivacyUpdated"
+            @aborted="onPrivacyAborted"
+            @cancel="cancelEditSite(site)"
+          ></component>
+        </template>
 
         <div class="editingSiteFooter">
           <input
@@ -203,6 +214,7 @@ import {
   translate,
   AjaxHelper,
   NotificationsStore,
+  useExternalPluginComponent,
 } from 'CoreHome';
 import {
   Field,
@@ -218,13 +230,16 @@ import SiteType from '../SiteTypesStore/SiteType';
 
 interface SiteFieldsState {
   isLoading: boolean;
+  isLoadingPrivacy: boolean;
   isSaving: boolean;
   editMode: boolean;
   theSite: Site;
   measurableSettings: DeepReadonly<SettingsForSinglePlugin[]>;
+  anonymisationSettings: DeepReadonly<SettingsForSinglePlugin[]>;
   settingValues: Record<string, unknown>;
   showRemoveDialog: boolean;
   deleteSiteExplanation: string;
+  triggerSavePrivacySettings: string;
 }
 
 interface CreateEditSiteResponse {
@@ -260,17 +275,24 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    privacyManagerEnabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data(): SiteFieldsState {
     return {
       isLoading: false,
+      isLoadingPrivacy: false,
       isSaving: false,
       editMode: false,
       theSite: { ...(this.site as Site) },
       measurableSettings: [],
+      anonymisationSettings: [],
       settingValues: {},
       showRemoveDialog: false,
       deleteSiteExplanation: '',
+      triggerSavePrivacySettings: '',
     };
   },
   components: {
@@ -329,9 +351,11 @@ export default defineComponent({
     editSite() {
       this.editMode = true;
 
-      this.$emit('editSite', { idSite: this.theSite.idsite });
+      const idSite = this.theSite.idsite;
+      this.$emit('editSite', { idSite });
 
       this.measurableSettings = [];
+      this.anonymisationSettings = [];
 
       if (isSiteNew(this.theSite)) {
         if (!this.currentType) {
@@ -345,12 +369,34 @@ export default defineComponent({
       this.isLoading = true;
       AjaxHelper.fetch<SettingsForSinglePlugin[]>({
         method: 'SitesManager.getSiteSettings',
-        idSite: this.theSite.idsite,
+        idSite,
       }).then((settings) => {
         this.measurableSettings = settings;
       }).finally(() => {
         this.isLoading = false;
       });
+
+      if (this.privacyManagerEnabled && idSite) {
+        this.isLoadingPrivacy = true;
+        AjaxHelper.fetch<SettingsForSinglePlugin[]>({
+          method: 'PrivacyManager.getAnonymisationSettings',
+          idSiteSpecific: idSite,
+        })
+          .then((settings) => {
+            this.anonymisationSettings = settings;
+          })
+          .finally(() => {
+            this.isLoadingPrivacy = false;
+          });
+      }
+    },
+    onPrivacyUpdated() {
+      this.triggerSavePrivacySettings = 'done';
+      this.anonymisationSettings = [];
+    },
+    onPrivacyAborted() {
+      this.triggerSavePrivacySettings = 'abort';
+      this.isSaving = false;
     },
     saveSite() {
       if (this.isSaving) {
@@ -399,27 +445,7 @@ export default defineComponent({
         });
       });
 
-      AjaxHelper.post<CreateEditSiteResponse>(
-        {
-          method: apiMethod,
-        },
-        values,
-      ).then((response) => {
-        this.editMode = false;
-
-        if (!this.theSite.idsite && response && response.value) {
-          this.theSite.idsite = `${response.value}`;
-        }
-
-        const timezoneInfo = TimezoneStore.timezones.value.find(
-          (t) => t.code === this.theSite.timezone,
-        );
-        this.theSite.timezone_name = timezoneInfo?.label || this.theSite.timezone;
-
-        if (this.theSite.currency) {
-          this.theSite.currency_name = CurrencyStore.currencies.value[this.theSite.currency];
-        }
-
+      const showNotificationAndEmitSave = () => {
         const notificationId = NotificationsStore.show({
           message: isNew
             ? translate('SitesManager_WebsiteCreated')
@@ -432,10 +458,55 @@ export default defineComponent({
 
         SiteTypesStore.removeEditSiteIdParameterFromHash();
 
-        this.$emit('save', { site: this.theSite, settingValues: values.settingValues, isNew });
-      }).finally(() => {
         this.isSaving = false;
-      });
+        this.editMode = false;
+
+        this.$emit('save', {
+          site: this.theSite,
+          settingValues: values.settingValues,
+          isNew,
+        });
+      };
+
+      const saveSitePromise = () => Promise
+        .resolve(AjaxHelper.post<CreateEditSiteResponse>(
+          {
+            method: apiMethod,
+          },
+          values,
+        )).then((response) => {
+          if (!this.theSite.idsite && response && response.value) {
+            this.theSite.idsite = `${response.value}`;
+          }
+
+          const timezoneInfo = TimezoneStore.timezones.value.find(
+            (t) => t.code === this.theSite.timezone,
+          );
+          this.theSite.timezone_name = timezoneInfo?.label || this.theSite.timezone;
+
+          if (this.theSite.currency) {
+            this.theSite.currency_name = CurrencyStore.currencies.value[this.theSite.currency];
+          }
+        });
+
+      if (!isNew) {
+        const savePrivacySettingsPromise = this.getTriggerPrivacySettingsSavePromise();
+        savePrivacySettingsPromise.then(
+          () => saveSitePromise().then(() => {
+            showNotificationAndEmitSave();
+          }).catch(() => {
+            // enable saving again on error
+            this.isSaving = false;
+          }),
+        ).catch(() => {
+          // on privacy settings password confirmation abort or wrong password
+          this.isSaving = false;
+        });
+      } else {
+        saveSitePromise().then(() => {
+          showNotificationAndEmitSave();
+        });
+      }
     },
     cancelEditSite(site: Site) {
       this.editMode = false;
@@ -468,6 +539,25 @@ export default defineComponent({
           this.deleteSiteExplanation += response.join('<br>');
         }
         this.showRemoveDialog = true;
+      });
+    },
+    getTriggerPrivacySettingsSavePromise() {
+      return new Promise((resolve, reject) => {
+        const unwatchTrigger = this.$watch(
+          'triggerSavePrivacySettings',
+          (val) => {
+            if (val === 'done') {
+              unwatchTrigger();
+              resolve(true);
+            }
+            if (val === 'abort') {
+              unwatchTrigger();
+              reject();
+            }
+          },
+          { immediate: false },
+        );
+        this.triggerSavePrivacySettings = 'save';
       });
     },
   },
@@ -539,6 +629,12 @@ export default defineComponent({
         'SitesManager_DeleteConfirm',
         `"${this.theSite.name}" (idSite = ${this.theSite.idsite})`,
       );
+    },
+    anonymizeIpComponent() {
+      if (this.privacyManagerEnabled) {
+        return useExternalPluginComponent('PrivacyManager', 'AnonymizeIp');
+      }
+      return '';
     },
   },
 });

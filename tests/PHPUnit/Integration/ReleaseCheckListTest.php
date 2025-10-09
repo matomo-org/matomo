@@ -621,7 +621,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
-        $maximumTotalFilesizesExpectedInMb = 62;
+        $maximumTotalFilesizesExpectedInMb = 63;
         $minimumTotalFilesizesExpectedInMb = 38;
         $minimumExpectedFilesCount = 7000;
 

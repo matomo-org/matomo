@@ -98,23 +98,25 @@ abstract class MenuAbstract extends Singleton
      * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
      * @param bool|string $icon An icon classname, such as "icon-add". Only supported by admin menu
      * @param bool|string $onclick Will execute the on click handler instead of executing the link. Only supported by admin menu.
-     * @param string $attribute Will add this string as a link attribute.
+     * @param bool|string $attribute Will add this string as a link attribute.
      * @param bool|string $help Will display a help icon that will pop a notification with help information.
      * @param int $badgeCount If non-zero then a badge will be overlaid on the icon showing the provided count
+     * @param string $cssClass If a string is provided, it will be added as an extra CSS class to the menu item
      * @since 2.7.0
      * @api
      */
     public function addItem(
-        $menuName,
-        $subMenuName,
+        string $menuName,
+        ?string $subMenuName,
         $url,
-        $order = 50,
+        int $order = 50,
         $tooltip = false,
         $icon = false,
         $onclick = false,
         $attribute = false,
         $help = false,
-        $badgeCount = 0
+        int $badgeCount = 0,
+        string $cssClass = ''
     ) {
         // make sure the idSite value used is numeric (hack-y fix for #3426)
         if (isset($url['idSite']) && !is_numeric($url['idSite'])) {
@@ -122,7 +124,7 @@ abstract class MenuAbstract extends Singleton
             $url['idSite'] = reset($idSites);
         }
 
-        $this->menuEntries[] = array(
+        $this->menuEntries[] = [
             $menuName,
             $subMenuName,
             $url,
@@ -133,7 +135,8 @@ abstract class MenuAbstract extends Singleton
             $attribute,
             $help,
             $badgeCount,
-        );
+            $cssClass,
+        ];
     }
 
     /**
@@ -155,22 +158,29 @@ abstract class MenuAbstract extends Singleton
      * Builds a single menu item
      *
      * @param string $menuName
-     * @param string $subMenuName
-     * @param string $url
+     * @param string|null $subMenuName
+     * @param string|array $url
      * @param int $order
      * @param bool|string $tooltip Tooltip to display.
+     * @param bool|string $icon
+     * @param bool|string $onclick
+     * @param bool|string $attribute
+     * @param bool|string $help
+     * @param int $badgeCount
+     * @param string $cssClass
      */
     private function buildMenuItem(
-        $menuName,
-        $subMenuName,
+        string $menuName,
+        ?string $subMenuName,
         $url,
-        $order = 50,
+        int $order = 50,
         $tooltip = false,
         $icon = false,
         $onclick = false,
         $attribute = false,
         $help = false,
-        $badgeCount = 0
+        int $badgeCount = 0,
+        string $cssClass = ''
     ) {
         if (!isset($this->menu[$menuName])) {
             $this->menu[$menuName] = array(
@@ -195,6 +205,7 @@ abstract class MenuAbstract extends Singleton
             }
             $this->menu[$menuName]['_help'] = $help ?: '';
             $this->menu[$menuName]['_badgecount'] = $badgeCount;
+            $this->menu[$menuName]['_cssClass'] = $cssClass;
         }
         if (!empty($subMenuName)) {
             $this->menu[$menuName][$subMenuName]['_url'] = $url;
@@ -206,6 +217,7 @@ abstract class MenuAbstract extends Singleton
             $this->menu[$menuName][$subMenuName]['_onclick'] = $onclick;
             $this->menu[$menuName][$subMenuName]['_help'] = $help ?: '';
             $this->menu[$menuName][$subMenuName]['_badgecount'] = $badgeCount;
+            $this->menu[$menuName][$subMenuName]['_cssClass'] = $cssClass;
             $this->menu[$menuName]['_hasSubmenu'] = true;
 
             if (!array_key_exists('_tooltip', $this->menu[$menuName])) {
@@ -220,18 +232,7 @@ abstract class MenuAbstract extends Singleton
     private function buildMenu()
     {
         foreach ($this->menuEntries as $menuEntry) {
-            $this->buildMenuItem(
-                $menuEntry[0],
-                $menuEntry[1],
-                $menuEntry[2],
-                $menuEntry[3],
-                $menuEntry[4],
-                $menuEntry[5],
-                $menuEntry[6],
-                $menuEntry[7],
-                $menuEntry[8],
-                $menuEntry[9]
-            );
+            $this->buildMenuItem(...$menuEntry);
         }
     }
 

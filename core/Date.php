@@ -1008,7 +1008,7 @@ class Date
     /**
      * Adds `$n` hours to `$this` date and returns the result in a new Date.
      *
-     * @param int $n Number of hours to add. Can be less than 0.
+     * @param int|float $n Number of hours to add. Can be less than 0, can be decimal (will get converted to minutes)
      * @return \Piwik\Date
      */
     public function addHour($n)
@@ -1022,7 +1022,7 @@ class Date
      * this static function instead of {@link addHour()} will be faster since a
      * Date instance does not have to be created.
      *
-     * @param int $timestamp The timestamp to add to.
+     * @param int|float $timestamp The timestamp to add to.
      * @param number $n Number of hours to add, must be > 0.
      * @return int The result as a UNIX timestamp.
      */

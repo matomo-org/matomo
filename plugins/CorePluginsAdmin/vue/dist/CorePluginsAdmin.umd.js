@@ -1726,6 +1726,7 @@ __webpack_require__.d(__webpack_exports__, "PluginsTableWithUpdates", function()
 __webpack_require__.d(__webpack_exports__, "UploadPluginDialog", function() { return /* reexport */ UploadPluginDialog; });
 __webpack_require__.d(__webpack_exports__, "InstallAllPaidPluginsButton", function() { return /* reexport */ InstallAllPaidPluginsButton; });
 __webpack_require__.d(__webpack_exports__, "FieldPassword", function() { return /* reexport */ FieldPassword; });
+__webpack_require__.d(__webpack_exports__, "PluginsUpdateCount", function() { return /* reexport */ PluginsUpdateCount; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -18902,6 +18903,85 @@ function UploadPluginDialogvue_type_template_id_9cf1785e_render(_ctx, _cache, $p
 UploadPluginDialogvue_type_script_lang_ts.render = UploadPluginDialogvue_type_template_id_9cf1785e_render
 
 /* harmony default export */ var UploadPluginDialog = (UploadPluginDialogvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CorePluginsAdmin/vue/src/PluginsUpdateCount/PluginsUpdateCount.vue?vue&type=script&lang=ts
+
+
+/* harmony default export */ var PluginsUpdateCountvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    selector: {
+      type: String,
+      required: true
+    },
+    observerSelector: {
+      type: String,
+      default: '#secondNavBar'
+    }
+  },
+  data() {
+    return {
+      observer: null,
+      pending: false
+    };
+  },
+  methods: {
+    async fetchAndUpdate(el) {
+      await external_CoreHome_["AjaxHelper"].fetch({
+        module: 'API',
+        method: 'CorePluginsAdmin.getNumberOfPluginUpdates'
+      }).then(response => {
+        const count = response.value || 0;
+        if (count) {
+          var _el$textContent$trim, _el$textContent;
+          const originalText = (_el$textContent$trim = (_el$textContent = el.textContent) === null || _el$textContent === void 0 ? void 0 : _el$textContent.trim()) !== null && _el$textContent$trim !== void 0 ? _el$textContent$trim : '';
+          el.textContent = `${originalText} (${count})`;
+        }
+      }).catch(error => {
+        console.error('Failed to fetch number of plugin updates:', error.message || error);
+      });
+    },
+    maybeUpdate() {
+      const el = document.querySelector(this.selector);
+      if (!el) return;
+      if (this.observer) {
+        this.observer.disconnect();
+        this.observer = null;
+      }
+      if (this.pending) return;
+      this.pending = true;
+      this.fetchAndUpdate(el).finally(() => {
+        this.pending = false;
+      });
+    }
+  },
+  mounted() {
+    const root = document.querySelector(this.observerSelector);
+    if (!root) {
+      return;
+    }
+    this.maybeUpdate();
+    this.observer = new MutationObserver(() => this.maybeUpdate());
+    this.observer.observe(root, {
+      childList: true,
+      subtree: true
+    });
+  },
+  beforeUnmount() {
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
+    }
+  },
+  render() {
+    return null;
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginsUpdateCount/PluginsUpdateCount.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/PluginsUpdateCount/PluginsUpdateCount.vue
+
+
+
+/* harmony default export */ var PluginsUpdateCount = (PluginsUpdateCountvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CorePluginsAdmin/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -18909,6 +18989,7 @@ UploadPluginDialogvue_type_script_lang_ts.render = UploadPluginDialogvue_type_te
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
 */
+
 
 
 

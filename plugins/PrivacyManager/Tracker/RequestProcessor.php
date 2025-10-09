@@ -29,8 +29,18 @@ class RequestProcessor extends Tracker\RequestProcessor
         $this->referrerAnonymizer = $referrerAnonymizer;
     }
 
+    private function provideIdSiteToPrivacyManagerConfig(Request $request): void
+    {
+        $idSite = $request->getIdSiteIfExists();
+        if (is_numeric($idSite) && $idSite) {
+            $this->config->setIdSite((int) $idSite);
+        }
+    }
+
     public function manipulateRequest(Request $request)
     {
+        $this->provideIdSiteToPrivacyManagerConfig($request);
+
         if ($this->config->anonymizeUserId) {
             $userId = $request->getParam('uid');
             if ($this->isValueSet($userId)) {
@@ -50,6 +60,8 @@ class RequestProcessor extends Tracker\RequestProcessor
 
     public function onNewVisit(VisitProperties $visitProperties, Request $request)
     {
+        $this->provideIdSiteToPrivacyManagerConfig($request);
+
         $type = $visitProperties->getProperty('referer_type');
 
         // we do not anonymise the referrer url in manipulateRequest because otherwise the referrer would not be detected
@@ -69,6 +81,8 @@ class RequestProcessor extends Tracker\RequestProcessor
 
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
+        $this->provideIdSiteToPrivacyManagerConfig($request);
+
         if (isset($valuesToUpdate['referer_type'])) {
             $type = $valuesToUpdate['referer_type'];
         } else {

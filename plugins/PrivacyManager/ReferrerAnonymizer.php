@@ -19,15 +19,15 @@ class ReferrerAnonymizer
     public const EXCLUDE_ALL = 'exclude_all';
     public const EXCLUDE_NONE = '';
 
-    public function getAvailableAnonymizationOptions()
+    public static function getAvailableAnonymizationOptions(): array
     {
-        return array(
+        return [
             self::EXCLUDE_NONE => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeNone'),
             self::EXCLUDE_QUERY => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeQuery'),
             self::EXCLUDE_PATH => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludePath'),
             self::EXCLUDE_ALL => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeAll'),
             // but try to track the type still
-        );
+        ];
     }
 
     // referer_keyword: searched keyword or campaign keyword

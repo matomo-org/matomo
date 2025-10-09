@@ -584,4 +584,11 @@ class PluginsTest extends IntegrationTestCase
             'VisitorAvatar',
         ];
     }
+
+    public function provideContainerConfig()
+    {
+        return [
+            'dev.forced_plugin_update_result' => null,
+        ];
+    }
 }

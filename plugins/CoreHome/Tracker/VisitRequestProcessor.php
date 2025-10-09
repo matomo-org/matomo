@@ -108,7 +108,7 @@ class VisitRequestProcessor extends RequestProcessor
             return true;
         }
 
-        $privacyConfig = new PrivacyManagerConfig();
+        $privacyConfig = new PrivacyManagerConfig($request->getIdSiteIfExists());
 
         if ($privacyConfig->randomizeConfigId) {
             // always new visit when randomising config id
@@ -155,8 +155,9 @@ class VisitRequestProcessor extends RequestProcessor
          * This event is primarily used by the **PrivacyManager** plugin to anonymize IP addresses.
          *
          * @param string &$ip The visitor's IP address.
+         * @param int $idSite The site ID we're tracking the visit for.
          */
-        $this->eventDispatcher->postEvent('Tracker.setVisitorIp', array(&$ip));
+        $this->eventDispatcher->postEvent('Tracker.setVisitorIp', [&$ip, (int) $request->getIdSiteIfExists()]);
 
         $visitProperties->setProperty('location_ip', $ip);
 

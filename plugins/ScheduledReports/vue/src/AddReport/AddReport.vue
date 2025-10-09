@@ -134,6 +134,9 @@
         >
         </Field>
       </div>
+      <div ref="reportParameters">
+        <slot name="report-parameters"></slot>
+      </div>
       <div
         v-for="(reportFormats, reportType) in reportFormatsByReportTypeOptions"
         :key="reportType"
@@ -149,9 +152,6 @@
           :options="reportFormats"
         >
         </Field>
-      </div>
-      <div ref="reportParameters">
-        <slot name="report-parameters"></slot>
       </div>
       <div
         v-show="report[`format${report.type}`] === 'pdf' ||

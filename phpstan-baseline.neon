@@ -1686,11 +1686,6 @@ parameters:
 			path: core/Measurable/Type/TypeManager.php
 
 		-
-			message: "#^Default value of the parameter \\#8 \\$attribute \\(false\\) of method Piwik\\\\Menu\\\\MenuAbstract\\:\\:addItem\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: core/Menu/MenuAbstract.php
-
-		-
 			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\.$#"
 			count: 7
 			path: core/Menu/MenuAbstract.php
@@ -3844,7 +3839,7 @@ parameters:
 			path: plugins/CoreAdminHome/CustomLogo.php
 
 		-
-			message: "#^Parameter \\#8 \\$attribute of method Piwik\\\\Menu\\\\MenuAbstract\\:\\:addItem\\(\\) expects string, null given\\.$#"
+			message: "#^Parameter \\#8 \\$attribute of method Piwik\\\\Menu\\\\MenuAbstract\\:\\:addItem\\(\\) expects bool\\|string, null given\\.$#"
 			count: 1
 			path: plugins/CoreAdminHome/Menu.php
 
@@ -5699,16 +5694,6 @@ parameters:
 			path: plugins/PrivacyManager/API.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\PrivacyManager\\\\Config\\:\\:\\$anonymizeOrderId \\(int\\) does not accept bool\\.$#"
-			count: 1
-			path: plugins/PrivacyManager/API.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\PrivacyManager\\\\Config\\:\\:\\$anonymizeUserId \\(int\\) does not accept bool\\.$#"
-			count: 1
-			path: plugins/PrivacyManager/API.php
-
-		-
 			message: "#^Binary operation \"\\+\" between non\\-falsy\\-string and int results in an error\\.$#"
 			count: 1
 			path: plugins/PrivacyManager/Controller.php
@@ -6439,7 +6424,7 @@ parameters:
 			path: plugins/UsersManager/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$n of method Piwik\\\\Date\\:\\:addHour\\(\\) expects int, string given\\.$#"
+			message: "#^Parameter \\#1 \\$n of method Piwik\\\\Date\\:\\:addHour\\(\\) expects float\\|int, string given\\.$#"
 			count: 1
 			path: plugins/UsersManager/API.php
 

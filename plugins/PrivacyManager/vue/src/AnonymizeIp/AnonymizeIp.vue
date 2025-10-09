@@ -7,116 +7,132 @@
 
 <template>
   <div v-form class="anonymizeSettings">
-    <div class="anonymizeIpSettingsField">
+    <template v-if="idSiteSpecific">
       <Field
-        uicontrol="checkbox"
-        name="anonymizeIpSettings"
-        :title="translate('PrivacyManager_UseAnonymizeIp')"
-        v-model="actualEnabled"
-        :inline-help="anonymizeIpEnabledHelp"
+        uicontrol="radio"
+        :name="`useSiteSpecificSettings${idSiteSpecific}`"
+        :title="translate('PrivacyManager_SiteAnonymizationConfig')"
+        v-model="actualUseSiteSpecificSettings"
+        :options="useSiteSpecificSettingsOptions"
+        :inline-help="useSiteSpecificSettingsHelpText"
       >
       </Field>
-    </div>
-    <div v-show="actualEnabled">
-      <div class="maskLengthField">
+    </template>
+    <template v-if="showSettings">
+      <div class="anonymizeIpSettingsField">
         <Field
-          uicontrol="radio"
-          name="maskLength"
-          :title="translate('PrivacyManager_AnonymizeIpMaskLengtDescription')"
-          v-model="actualMaskLength"
-          :options="maskLengthOptions"
-          :inline-help="translate('PrivacyManager_GeolocationAnonymizeIpNote')"
+          uicontrol="checkbox"
+          :name="`anonymizeIpSettings${idSiteSpecific}`"
+          :title="translate('PrivacyManager_UseAnonymizeIp')"
+          v-model="actualEnabled"
+          :inline-help="anonymizeIpEnabledHelp"
         >
         </Field>
       </div>
-      <div class="useAnonymizedIpForVisitEnrichmentField">
+      <div v-show="actualEnabled">
+        <div class="maskLengthField">
+          <Field
+            uicontrol="radio"
+            :name="`maskLength${idSiteSpecific}`"
+            :title="translate('PrivacyManager_AnonymizeIpMaskLengtDescription')"
+            v-model="actualMaskLength"
+            :options="maskLengthOptions"
+            :inline-help="translate('PrivacyManager_GeolocationAnonymizeIpNote')"
+          >
+          </Field>
+        </div>
+        <div class="useAnonymizedIpForVisitEnrichmentField">
+          <Field
+            uicontrol="radio"
+            :name="`useAnonymizedIpForVisitEnrichment${idSiteSpecific}`"
+            :title="translate('PrivacyManager_UseAnonymizedIpForVisitEnrichment')"
+            v-model="actualUseAnonymizedIpForVisitEnrichment"
+            :options="useAnonymizedIpForVisitEnrichmentOptions"
+            :inline-help="translate('PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote')"
+          >
+          </Field>
+        </div>
+      </div>
+      <div class="anonymizeUserIdField">
         <Field
-          uicontrol="radio"
-          name="useAnonymizedIpForVisitEnrichment"
-          :title="translate('PrivacyManager_UseAnonymizedIpForVisitEnrichment')"
-          v-model="actualUseAnonymizedIpForVisitEnrichment"
-          :options="useAnonymizedIpForVisitEnrichmentOptions"
-          :inline-help="translate('PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote')"
+          uicontrol="checkbox"
+          :name="`anonymizeUserId${idSiteSpecific}`"
+          :title="translate('PrivacyManager_PseudonymizeUserId')"
+          v-model="actualAnonymizeUserId"
+        >
+          <template v-slot:inline-help>
+            {{ translate('PrivacyManager_PseudonymizeUserIdNote') }}
+            <br/><br/>
+            <em>{{ translate('PrivacyManager_PseudonymizeUserIdNote2') }}</em>
+          </template>
+        </Field>
+      </div>
+      <div class="anonymizeOrderIdField">
+        <Field
+          uicontrol="checkbox"
+          :name="`anonymizeOrderId${idSiteSpecific}`"
+          :title="translate('PrivacyManager_UseAnonymizeOrderId')"
+          v-model="actualAnonymizeOrderId"
+          :inline-help="translate('PrivacyManager_AnonymizeOrderIdNote')"
         >
         </Field>
       </div>
-    </div>
-    <div class="anonymizeUserIdField">
-      <Field
-        uicontrol="checkbox"
-        name="anonymizeUserId"
-        :title="translate('PrivacyManager_PseudonymizeUserId')"
-        v-model="actualAnonymizeUserId"
-      >
-        <template v-slot:inline-help>
-          {{ translate('PrivacyManager_PseudonymizeUserIdNote') }}
-          <br/><br/>
-          <em>{{ translate('PrivacyManager_PseudonymizeUserIdNote2') }}</em>
-        </template>
-      </Field>
-    </div>
-    <div class="anonymizeOrderIdField">
-      <Field
-        uicontrol="checkbox"
-        name="anonymizeOrderId"
-        :title="translate('PrivacyManager_UseAnonymizeOrderId')"
-        v-model="actualAnonymizeOrderId"
-        :inline-help="translate('PrivacyManager_AnonymizeOrderIdNote')"
-      >
-      </Field>
-    </div>
-    <div class="forceCookielessTrackingField">
-      <Field
-        uicontrol="checkbox"
-        name="forceCookielessTracking"
-        :title="translate('PrivacyManager_ForceCookielessTracking')"
-        v-model="actualForceCookielessTracking"
-      >
-        <template v-slot:inline-help>
-          {{ translate('PrivacyManager_ForceCookielessTrackingDescription', trackerFileName) }}
-          <br/><br/><em>{{ translate('PrivacyManager_ForceCookielessTrackingDescription2') }}</em>
-          <span v-if="!trackerWritable">
-            <br /><br />
-            <p class='alert-warning alert'>
-              {{ translate(
+      <div v-if="!idSiteSpecific" class="forceCookielessTrackingField">
+        <Field
+          uicontrol="checkbox"
+          name="forceCookielessTracking"
+          :title="translate('PrivacyManager_ForceCookielessTracking')"
+          v-model="actualForceCookielessTracking"
+        >
+          <template v-slot:inline-help>
+            {{ translate('PrivacyManager_ForceCookielessTrackingDescription', trackerFileName) }}
+            <br/><br/><em>{{ translate('PrivacyManager_ForceCookielessTrackingDescription2') }}</em>
+            <span v-if="!trackerWritable">
+              <br /><br />
+              <p class='alert-warning alert'>
+                {{ translate(
                 'PrivacyManager_ForceCookielessTrackingDescriptionNotWritable',
                 trackerFileName,
               ) }}
-            </p>
-          </span>
-        </template>
-      </Field>
+              </p>
+            </span>
+          </template>
+        </Field>
+      </div>
+      <div class="anonymizeReferrerField">
+        <Field
+          uicontrol="select"
+          :name="`anonymizeReferrer${idSiteSpecific}`"
+          :title="translate('PrivacyManager_AnonymizeReferrer')"
+          v-model="actualAnonymizeReferrer"
+          :options="referrerAnonymizationOptions"
+          :inline-help="translate('PrivacyManager_AnonymizeReferrerNote')"
+        >
+        </Field>
+      </div>
+      <div class="randomizeConfigIdField">
+        <Field
+          uicontrol="checkbox"
+          :name="`randomizeConfigId${idSiteSpecific}`"
+          :title="translate('PrivacyManager_UseRandomizeConfigId')"
+          v-model="actualRandomizeConfigId"
+          :inline-help="randomiseConfigIdHelpText"
+        >
+        </Field>
+      </div>
+    </template>
+    <div class="footer-buttons" v-if="!idSiteSpecific">
+      <SaveButton
+        @confirm="shouldSave()"
+        :saving="isLoading"
+      />
     </div>
-    <div class="anonymizeReferrerField">
-      <Field
-        uicontrol="select"
-        name="anonymizeReferrer"
-        :title="translate('PrivacyManager_AnonymizeReferrer')"
-        v-model="actualAnonymizeReferrer"
-        :options="referrerAnonymizationOptions"
-        :inline-help="translate('PrivacyManager_AnonymizeReferrerNote')"
-      >
-      </Field>
-    </div>
-    <div class="randomizeConfigIdField">
-      <Field
-        uicontrol="checkbox"
-        name="randomizeConfigId"
-        :title="translate('PrivacyManager_UseRandomizeConfigId')"
-        v-model="actualRandomizeConfigId"
-        :inline-help="randomiseConfigIdHelpText"
-      >
-      </Field>
-    </div>
-    <SaveButton
-      @confirm="shouldSave()"
-      :saving="isLoading"
-    />
     <PasswordConfirmation
       v-model="showPasswordConfirmation"
       @confirmed="save"
+      @aborted="abortPasswordConfirmation"
     >
-      <h2>{{ translate('PrivacyManager_ConfirmConfigRandomisationEnabled') }}</h2>
+      <h2>{{ passwordConfirmationTitle }}</h2>
       <p>{{ translate('PrivacyManager_ConfirmConfigRandomisationExplanation') }}</p>
     </PasswordConfirmation>
   </div>
@@ -124,7 +140,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { translate, AjaxHelper, NotificationsStore } from 'CoreHome';
+import {
+  translate,
+  AjaxHelper,
+  MatomoUrl,
+  NotificationsStore,
+} from 'CoreHome';
 import {
   Form,
   Field,
@@ -135,6 +156,7 @@ import {
 interface AnonymizeIpState {
   isLoading: boolean;
   actualEnabled: boolean;
+  actualUseSiteSpecificSettings: string;
   actualMaskLength: number;
   actualUseAnonymizedIpForVisitEnrichment: number;
   actualAnonymizeUserId: boolean;
@@ -145,19 +167,25 @@ interface AnonymizeIpState {
   showPasswordConfirmation: boolean;
 }
 
-function configBoolToInt(value?: string|number|boolean): number {
+function boolToInt(value?: string|number|boolean): number {
   return value === true || value === 1 || value === '1' ? 1 : 0;
 }
 
+const SYSTEM_SETTINGS = 'system';
+const SITE_SPECIFIC_SETTINGS = 'site-specific';
+
 export default defineComponent({
   props: {
-    anonymizeIpEnabled: Boolean,
+    ipAnonymizerEnabled: Boolean,
     anonymizeUserId: Boolean,
-    maskLength: {
-      type: Number,
+    ipAddressMaskLength: {
+      type: [Number, String],
       required: true,
     },
-    useAnonymizedIpForVisitEnrichment: [Boolean, String, Number],
+    useAnonymizedIpForVisitEnrichment: {
+      type: [Boolean, String, Number],
+      default: 0,
+    },
     anonymizeOrderId: Boolean,
     forceCookielessTracking: Boolean,
     anonymizeReferrer: String,
@@ -182,6 +210,17 @@ export default defineComponent({
       required: true,
     },
     randomizeConfigId: Boolean,
+    idSiteSpecific: {
+      type: [String, Number],
+    },
+    useSiteSpecificSettings: {
+      type: Boolean,
+      default: false,
+    },
+    triggerSave: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     Field,
@@ -191,12 +230,14 @@ export default defineComponent({
   directives: {
     Form,
   },
+  emits: ['updated', 'aborted'],
   data(): AnonymizeIpState {
     return {
       isLoading: false,
-      actualEnabled: this.anonymizeIpEnabled,
-      actualMaskLength: this.maskLength,
-      actualUseAnonymizedIpForVisitEnrichment: configBoolToInt(
+      actualEnabled: this.ipAnonymizerEnabled,
+      actualUseSiteSpecificSettings: this.getActualUseSiteSpecificSettings(),
+      actualMaskLength: +this.ipAddressMaskLength,
+      actualUseAnonymizedIpForVisitEnrichment: boolToInt(
         this.useAnonymizedIpForVisitEnrichment,
       ),
       actualAnonymizeUserId: !!this.anonymizeUserId,
@@ -209,24 +250,33 @@ export default defineComponent({
   },
   methods: {
     shouldSave() {
-      if (this.actualRandomizeConfigId) {
+      if (this.showSettings && this.actualRandomizeConfigId) {
         this.showPasswordConfirmation = true;
       } else {
         this.save();
       }
     },
+    abortPasswordConfirmation() {
+      this.$emit('aborted');
+    },
     save(password?: string) {
       this.isLoading = true;
 
       const postParams: QueryParameters = {
-        anonymizeIPEnable: this.actualEnabled ? '1' : '0',
-        anonymizeUserId: this.actualAnonymizeUserId ? '1' : '0',
-        anonymizeOrderId: this.actualAnonymizeOrderId ? '1' : '0',
-        forceCookielessTracking: this.actualForceCookielessTracking ? '1' : '0',
+        anonymizeIPEnable: boolToInt(this.actualEnabled),
+        anonymizeUserId: boolToInt(this.actualAnonymizeUserId),
+        anonymizeOrderId: boolToInt(this.actualAnonymizeOrderId),
+        forceCookielessTracking: this.idSiteSpecific
+          ? undefined
+          : boolToInt(this.actualForceCookielessTracking),
         anonymizeReferrer: this.actualAnonymizeReferrer ? this.actualAnonymizeReferrer : '',
-        maskLength: this.actualMaskLength,
+        ipAddressMaskLength: this.actualMaskLength,
         useAnonymizedIpForVisitEnrichment: this.actualUseAnonymizedIpForVisitEnrichment,
-        randomizeConfigId: this.actualRandomizeConfigId ? '1' : '0',
+        randomizeConfigId: boolToInt(this.actualRandomizeConfigId),
+        idSiteSpecific: this.idSiteSpecific ? this.idSiteSpecific : undefined,
+        useSiteSpecificSettings: this.idSiteSpecific
+          ? boolToInt(this.isSiteSpecificSettingsEnabled)
+          : undefined,
       };
 
       if (password) {
@@ -240,16 +290,26 @@ export default defineComponent({
         },
         postParams,
       ).then(() => {
-        const notificationInstanceId = NotificationsStore.show({
-          message: translate('CoreAdminHome_SettingsSaveSuccess'),
-          context: 'success',
-          id: 'privacyManagerSettings',
-          type: 'toast',
-        });
-        NotificationsStore.scrollToNotification(notificationInstanceId);
+        if (!this.idSiteSpecific) {
+          const notificationInstanceId = NotificationsStore.show({
+            message: translate('CoreAdminHome_SettingsSaveSuccess'),
+            context: 'success',
+            id: 'privacyManagerSettings',
+            type: 'toast',
+          });
+          NotificationsStore.scrollToNotification(notificationInstanceId);
+        }
+        this.$emit('updated');
+      }).catch(() => {
+        this.$emit('aborted');
       }).finally(() => {
         this.isLoading = false;
       });
+    },
+    getActualUseSiteSpecificSettings(): string {
+      return (this.idSiteSpecific && this.useSiteSpecificSettings)
+        ? SITE_SPECIFIC_SETTINGS
+        : SYSTEM_SETTINGS;
     },
     randomiseConfigIdHelpText() {
       const helpText = translate('PrivacyManager_RandomizeConfigIdNote');
@@ -267,6 +327,53 @@ export default defineComponent({
       const inlineHelp1 = translate('PrivacyManager_AnonymizeIpInlineHelp');
       const inlineHelp2 = translate('PrivacyManager_AnonymizeIpDescription');
       return `${inlineHelp1} ${inlineHelp2}`;
+    },
+    passwordConfirmationTitle() {
+      if (this.idSiteSpecific) {
+        return translate('PrivacyManager_ConfirmConfigRandomisationEnabledPerSite');
+      }
+      return translate('PrivacyManager_ConfirmConfigRandomisationEnabled');
+    },
+    useSiteSpecificSettingsHelpText(): string {
+      const link = `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        module: 'PrivacyManager',
+        action: 'privacySettings',
+      })}`;
+      return translate(
+        'PrivacyManager_UseSiteSpecificSettingsHelpText',
+        `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
+        '</a>',
+        translate('PrivacyManager_UseSiteSpecificSettings'),
+      );
+    },
+    showSettings(): boolean {
+      return !this.idSiteSpecific || this.isSiteSpecificSettingsEnabled;
+    },
+    isSiteSpecificSettingsEnabled(): boolean {
+      return (
+        this.idSiteSpecific
+        && (this.actualUseSiteSpecificSettings === SITE_SPECIFIC_SETTINGS)
+      ) as boolean;
+    },
+    useSiteSpecificSettingsOptions() {
+      return [
+        {
+          value: translate('PrivacyManager_UseSystemSettings'),
+          key: SYSTEM_SETTINGS,
+        },
+        {
+          value: translate('PrivacyManager_UseSiteSpecificSettings'),
+          key: SITE_SPECIFIC_SETTINGS,
+        },
+      ];
+    },
+  },
+  watch: {
+    triggerSave(newValue) {
+      if (newValue) {
+        this.shouldSave();
+      }
     },
   },
 });

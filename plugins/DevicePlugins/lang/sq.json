@@ -2,6 +2,7 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s pa shtojca të aktivizuara",
         "BrowserWithPluginsEnabled": "%1$s me shtojca %2$s të aktivizuara",
+        "ColumnPercentageVisitsDocumentation": "Përqindja e vizitave në të cilat u pikas shtojca. Një vizitë mund të përfshijë shtojca të shumta. Vlera përafrohet në numra të plotë.",
         "PluginDescription": "Raporton listën e shtojcave që mbulohen nga shfletuesit e përdoruesve.",
         "PluginDetectionDoesNotWorkInIE": "Shënim: Zbulimi i shtojcave nuk funksionon nën Internet Explorer më të hershëm se 11. Ky raport bazohet vetëm në shfletues jo-IE dhe versione IE më të rinj.",
         "WidgetPlugins": "Shtojca Shfletuesish",

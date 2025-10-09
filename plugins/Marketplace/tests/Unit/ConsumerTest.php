@@ -34,7 +34,7 @@ class ConsumerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getConsumerNotAuthenticated
      */
-    public function testIsValidConsumerShouldReturnFalseWhenNotAuthenticedBecauseNoTokenSetOrInvalidToken($fixture)
+    public function testIsValidConsumerShouldReturnFalseWhenNotAuthenticatedBecauseNoTokenSetOrInvalidToken($fixture)
     {
         $this->service->returnFixture($fixture);
         $this->assertFalse($this->buildConsumer()->isValidConsumer());
