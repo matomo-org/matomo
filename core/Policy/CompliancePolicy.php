@@ -110,11 +110,9 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
             if (static::getSystemValue() && !$isActive) {
                 static::setSystemValue($isActive);
             }
-        } else {
-            static::setSystemValue($isActive);
+            return;
         }
-
-        Piwik::postEvent('Policy.setActiveStatus', [static::class, $idSite, $isActive]);
+        static::setSystemValue($isActive);
     }
 
     /**
