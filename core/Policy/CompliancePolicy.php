@@ -3,7 +3,6 @@
 namespace Piwik\Policy;
 
 use Exception;
-use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
