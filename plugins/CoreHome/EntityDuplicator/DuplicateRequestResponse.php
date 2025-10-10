@@ -146,7 +146,7 @@ class DuplicateRequestResponse
         }
 
         // If the flag is set to post the even and the request was successful, post the event for the duplication
-        if ($this->activityLogDataObject !== null && method_exists($this->activityLogDataObject, 'postActivityEvent')) {
+        if ($this->success && $this->activityLogDataObject !== null && method_exists($this->activityLogDataObject, 'postActivityEvent')) {
             $this->activityLogDataObject->postActivityEvent();
         }
 
