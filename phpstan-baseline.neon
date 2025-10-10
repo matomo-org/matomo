@@ -3439,11 +3439,6 @@ parameters:
 			path: plugins/BulkTracking/Tracker/Handler.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Contents/RecordBuilders/ContentRecords.php
-
-		-
 			message: "#^Result of && is always false\\.$#"
 			count: 1
 			path: plugins/Contents/RecordBuilders/ContentRecords.php
@@ -3979,11 +3974,6 @@ parameters:
 			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
-
-		-
 			message: "#^Variable \\$value in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
@@ -4024,11 +4014,6 @@ parameters:
 			path: plugins/Dashboard/Model.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/RecordBuilders/DevicePlugins.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\DataTableInterface\\:\\:getDataTables\\(\\)\\.$#"
 			count: 1
 			path: plugins/DevicesDetection/API.php
@@ -4062,11 +4047,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
 			count: 1
 			path: plugins/DevicesDetection/Columns/Os.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/RecordBuilders/Base.php
 
 		-
 			message: "#^Variable \\$label in empty\\(\\) always exists and is not falsy\\.$#"
@@ -4267,11 +4247,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\Columns\\\\TotalEvents\\:\\:onExistingVisit\\(\\) should return int but returns string\\.$#"
 			count: 1
 			path: plugins/Events/Columns/TotalEvents.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Events/RecordBuilders/EventReports.php
 
 		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
@@ -5249,11 +5224,6 @@ parameters:
 			path: plugins/Referrers/DataTable/Filter/SetGetReferrerTypeSubtables.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Referrers/RecordBuilders/Referrers.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\SearchEngine\\:\\:getBackLinkFromUrlAndKeyword\\(\\) should return string but returns false\\.$#"
 			count: 1
 			path: plugins/Referrers/SearchEngine.php
@@ -5267,16 +5237,6 @@ parameters:
 			message: "#^Function Piwik\\\\Plugins\\\\Referrers\\\\getReferrerTypeFromShortName\\(\\) should return string but returns int\\.$#"
 			count: 1
 			path: plugins/Referrers/functions.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Resolution/RecordBuilders/Configuration.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Resolution/RecordBuilders/Resolution.php
 
 		-
 			message: "#^Parameter \\#1 \\$data of function simplexml_load_string expects string, bool given\\.$#"
@@ -5614,11 +5574,6 @@ parameters:
 			path: plugins/UserCountry/LocationProvider.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/UserCountry/RecordBuilders/Locations.php
-
-		-
 			message: "#^Parameter \\#6 \\$willDelete of method Piwik\\\\DataAccess\\\\RawLogDao\\:\\:forAllLogs\\(\\) expects string, false given\\.$#"
 			count: 1
 			path: plugins/UserCountry/VisitorGeolocator.php
@@ -5644,22 +5599,12 @@ parameters:
 			path: plugins/UserId/RecordBuilders/Users.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/UserId/RecordBuilders/Users.php
-
-		-
 			message: "#^Property Piwik\\\\ViewDataTable\\\\RequestConfig\\:\\:\\$filter_excludelowpop_value \\(Closure\\|string\\) does not accept 2\\.$#"
 			count: 1
 			path: plugins/UserId/Reports/GetUsers.php
 
 		-
 			message: "#^Binary operation \"\\.\" between non\\-falsy\\-string and array results in an error\\.$#"
-			count: 1
-			path: plugins/UserLanguage/RecordBuilders/Languages.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
 			count: 1
 			path: plugins/UserLanguage/RecordBuilders/Languages.php
 
