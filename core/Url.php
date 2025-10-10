@@ -281,7 +281,7 @@ class Url
         $untrustedHost = mb_strtolower($host);
         $untrustedHost = rtrim($untrustedHost, '.');
 
-        $hostRegex = mb_strtolower('/(^|\.)' . implode('$|', $trustedHosts) . '$/');
+        $hostRegex = mb_strtolower('/(^|\.)(' . implode('|', $trustedHosts) . ')$/');
 
         $result = preg_match($hostRegex, $untrustedHost);
         return 0 !== $result;
