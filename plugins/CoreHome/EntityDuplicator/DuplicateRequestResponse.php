@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\CoreHome\EntityDuplicator;
 
 /**
- *
+ * The object for building a consistent response to the duplication of an entity.
  */
 class DuplicateRequestResponse
 {
@@ -35,6 +35,16 @@ class DuplicateRequestResponse
      * @var array|null
      */
     protected $additionalData;
+
+    /**
+     * @var \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData|null Optional object defining the
+     * structure of the data needed for the EntityDuplicated activity log. It will only be set if the class exists. If
+     * set, the event to record the activity will be triggered when the getResponseArray method is called.
+     *
+     * @see self::setRequestDataForActivity()
+     * @see self::getResponseArray()
+     */
+    protected $activityLogDataObject;
 
     /**
      * Get an instance of the object and store it's initial state for comparison later
@@ -135,6 +145,11 @@ class DuplicateRequestResponse
             throw new \Exception('No duplicate request response properties were set.');
         }
 
+        // If the flag is set to post the even and the request was successful, post the event for the duplication
+        if ($this->activityLogDataObject !== null && method_exists($this->activityLogDataObject, 'postActivityEvent')) {
+            $this->activityLogDataObject->postActivityEvent();
+        }
+
         return $responseArray;
     }
 
@@ -145,9 +160,39 @@ class DuplicateRequestResponse
     {
         // Get an array of all the property values
         $state = get_object_vars($this);
-        // Exclude the state property
+        // Exclude the state property and activityLogDataObject
         unset($state['initialState']);
+        unset($state['activityLogDataObject']);
 
         return $state;
+    }
+
+    /**
+     * If the correct class exists, instantiate it with the provided arguments so that it can post the event to record
+     * the activity log when the response array is built.
+     *
+     * @param string $entityTypeTranslation See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$entityTypeTranslation}
+     * @param string $entityName See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$entityName}
+     * @param int|null $idEntity See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$idEntity}
+     * @param int|null $idSite See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$idSite}
+     * @param array|null $idDestinationSites See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$idDestinationSites}
+     * @param array|null $additionalData See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$additionalData}
+     *
+     * @return void
+     */
+    public function setRequestDataForActivity(string $entityTypeTranslation, string $entityName, ?int $idEntity = null, ?int $idSite = null, ?array $idDestinationSites = null, ?array $additionalData = null): void
+    {
+        if (!class_exists(\Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::class)) {
+            return;
+        }
+
+        $this->activityLogDataObject = new \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData(
+            $entityTypeTranslation,
+            $entityName,
+            $idEntity,
+            $idSite,
+            $idDestinationSites,
+            $additionalData
+        );
     }
 }
