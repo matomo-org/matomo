@@ -2,9 +2,7 @@
   {
     "title": "New Copy function - Custom Reports, Heatmaps, and more",
     "description": "A new a copy function is available across multiple features to make your setup faster and easier. Simply duplicate an existing item and settings are automatically copied - ready for you to adjust!",
-    "version": "5.5.0",
-    "link_name": "Learn more about how to copy Custom Reports",
-    "link": "https://matomo.org/faq/reports/create-and-analyse-custom-reports/"
+    "version": "5.5.0"
   },
   {
     "title": "CustomReports - Now supports more than 3 dimensions",
