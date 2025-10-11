@@ -1,5 +1,11 @@
 {
     "PagePerformance": {
-        "ColumnTimeServer": "Vrijeme servera"
+        "ColumnTimeServer": "Vrijeme servera",
+        "ColumnViewsWithTimeDomCompletion": "Prikazi stranica s vremenom dovršetka DOM-a",
+        "ColumnViewsWithTimeDomProcessing": "Prikazi stranica s vremenom obrade DOM-a",
+        "ColumnViewsWithTimeNetwork": "Prikazi stranica s vremenom mreže",
+        "ColumnViewsWithTimeOnLoad": "Prikazi stranica s vremenom učitavanja",
+        "ColumnViewsWithTimeServer": "Prikazi stranica s vremenom servera",
+        "ColumnViewsWithTimeTransfer": "Prikazi stranica s vremenom prijenosa"
     }
 }

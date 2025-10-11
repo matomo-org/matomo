@@ -1,5 +1,8 @@
 {
     "Installation": {
+        "Email": "E-Mail",
+        "Extension": "proširenje",
+        "Filesystem": "Datotečni sustav",
         "Password": "Lozinka"
     }
 }
