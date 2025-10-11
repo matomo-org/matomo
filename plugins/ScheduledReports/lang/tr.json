@@ -48,6 +48,7 @@
         "Segment_HelpScheduledReport": "Bu zamanlanmış rapordaki verilere uygulanacak var olan özel bir parça seçebilirsiniz. %1$s(Açmak için buraya tıklayın)%2$s panonuzda özel parçalar oluşturabilir ve düzenleyebilir, \"%3$s\" kutusuna ve ardından \"%4$s\" üzerine tıklayabilirsiniz.",
         "SendReportNow": "Raporu gönder",
         "SendReportTo": "Raporu şuraya gönder",
+        "SendingReport": "Rapor gönderiliyor…",
         "SentFromX": "%s tarafından gönderilmiş.",
         "SentToMe": "Bana gönder",
         "SuccessfullyUnsubscribed": "%1$s raporunun aboneliğinden ayrıldınız.",
