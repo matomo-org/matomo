@@ -161,9 +161,9 @@ class DuplicateRequestResponse
     {
         // Get an array of all the property values
         $state = get_object_vars($this);
-        // Exclude the state property and activityLogDataObject
+        // Exclude the state property and eventDataToPost
         unset($state['initialState']);
-        unset($state['activityLogDataObject']);
+        unset($state['eventDataToPost']);
 
         return $state;
     }
