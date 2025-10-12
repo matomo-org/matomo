@@ -45,7 +45,7 @@ class DuplicateRequestResponse
      * @see self::setRequestDataForEvent()
      * @see self::getResponseArray()
      */
-    protected $activityLogDataObject;
+    protected $eventDataToPost;
 
     /**
      * Get an instance of the object and store it's initial state for comparison later
@@ -147,8 +147,8 @@ class DuplicateRequestResponse
         }
 
         // If the flag is set to post the event and the request was successful, post the event for the duplication
-        if ($this->success && $this->activityLogDataObject !== null) {
-            Piwik::postEvent('EntityDuplicator.DuplicationSuccessful', $this->activityLogDataObject);
+        if ($this->success && $this->eventDataToPost !== null) {
+            Piwik::postEvent('EntityDuplicator.DuplicationSuccessful', $this->eventDataToPost);
         }
 
         return $responseArray;
@@ -195,9 +195,8 @@ class DuplicateRequestResponse
         ?int $idSite = null,
         ?array $idDestinationSites = null,
         ?array $additionalData = null
-    ): void
-    {
-        $this->activityLogDataObject = [
+    ): void {
+        $this->eventDataToPost = [
             $entityTypeTranslation,
             $entityName,
             $idEntity,
