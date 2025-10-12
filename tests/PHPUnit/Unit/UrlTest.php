@@ -328,6 +328,8 @@ class UrlTest extends \PHPUnit\Framework\TestCase
             [false, '.example.com', ['piwik.example.com'], 'Invalid subdomain'],
             [false, 'example-com', ['example.com'], 'Regex should match . literally'],
             [false, 'www.attacker.com?example.com', ['example.com'], 'Spoofed host'],
+            [false, 'aexample.com', ['example.com', 'example2.com'], 'other host, matching first'],
+            [false, 'aexample2.com', ['example.com', 'example2.com'], 'another host, matching second'],
             [false, 'example.com.attacker.com', ['example.com'], 'Spoofed subdomain'],
             [true, 'example.com.', ['example.com'], 'Trailing . on host is actually valid'],
             [true, 'www-dev.example.com', ['example.com'], 'host with dashes is valid'],
