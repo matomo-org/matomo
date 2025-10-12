@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\CoreHome\EntityDuplicator;
 
+use Piwik\Piwik;
+
 /**
  * The object for building a consistent response to the duplication of an entity.
  */
@@ -37,11 +39,10 @@ class DuplicateRequestResponse
     protected $additionalData;
 
     /**
-     * @var \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData|null Optional object defining the
-     * structure of the data needed for the EntityDuplicated activity log. It will only be set if the class exists. If
-     * set, the event to record the activity will be triggered when the getResponseArray method is called.
+     * @var array Optional array containing the data required for the event to be posted on success. If set, the event
+     * to record the activity will be triggered when the getResponseArray method is called.
      *
-     * @see self::setRequestDataForActivity()
+     * @see self::setRequestDataForEvent()
      * @see self::getResponseArray()
      */
     protected $activityLogDataObject;
@@ -145,9 +146,9 @@ class DuplicateRequestResponse
             throw new \Exception('No duplicate request response properties were set.');
         }
 
-        // If the flag is set to post the even and the request was successful, post the event for the duplication
-        if ($this->success && $this->activityLogDataObject !== null && method_exists($this->activityLogDataObject, 'postActivityEvent')) {
-            $this->activityLogDataObject->postActivityEvent();
+        // If the flag is set to post the event and the request was successful, post the event for the duplication
+        if ($this->success && $this->activityLogDataObject !== null) {
+            Piwik::postEvent('EntityDuplicator.DuplicationSuccessful', $this->activityLogDataObject);
         }
 
         return $responseArray;
@@ -171,28 +172,38 @@ class DuplicateRequestResponse
      * If the correct class exists, instantiate it with the provided arguments so that it can post the event to record
      * the activity log when the response array is built.
      *
-     * @param string $entityTypeTranslation See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$entityTypeTranslation}
-     * @param string $entityName See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$entityName}
-     * @param int|null $idEntity See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$idEntity}
-     * @param int|null $idSite See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$idSite}
-     * @param array|null $idDestinationSites See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$idDestinationSites}
-     * @param array|null $additionalData See {@see \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::$additionalData}
+     * @param string $entityTypeTranslation Translation key for the name of the type of entity. E.g. Goals_Goal,
+     * Heatmaps_Heatmap, etc.
+     * @param string $entityName The name of the entity being copied. E.g. 'Goal that does thing' or
+     * 'Home page heatmap'. This will be used in conjunction with the entity type translation to describe the entity
+     * being copied.
+     * @param int|null $idEntity The ID of the entity being copied. E.g. 2 or 900. It's optional since some entities
+     * might only have a string identifier which should be provided as the entityName. If provided, this will be used in
+     * conjunction with the entity type translation and entity name to describe the entity being copied.
+     * @param int|null $idSite ID of the source site. It's optional in case the entity being copied is not site scoped,
+     * like a system-wide configuration.
+     * @param array|null $idDestinationSites IDs of the destination sites. This is optional for the same reason as
+     * idSite but also because it doesn't need to be provided if the only destination site is the source site (idSite).
+     * @param array|null $additionalData Optional array of additional data relating to the entity being copied.
      *
      * @return void
      */
-    public function setRequestDataForActivity(string $entityTypeTranslation, string $entityName, ?int $idEntity = null, ?int $idSite = null, ?array $idDestinationSites = null, ?array $additionalData = null): void
+    public function setRequestDataForEvent(
+        string $entityTypeTranslation,
+        string $entityName,
+        ?int $idEntity = null,
+        ?int $idSite = null,
+        ?array $idDestinationSites = null,
+        ?array $additionalData = null
+    ): void
     {
-        if (!class_exists(\Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData::class)) {
-            return;
-        }
-
-        $this->activityLogDataObject = new \Piwik\Plugins\ActivityLog\ActivityParamObject\EntityDuplicatedData(
+        $this->activityLogDataObject = [
             $entityTypeTranslation,
             $entityName,
             $idEntity,
             $idSite,
             $idDestinationSites,
-            $additionalData
-        );
+            $additionalData,
+        ];
     }
 }
