@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\AIAgents\Columns;
 
 use Piwik\Plugin\Dimension\VisitDimension;
+use Piwik\Plugins\AIAgents\AIAgents;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
@@ -22,6 +23,14 @@ class AIAgentName extends VisitDimension
 
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
+        $providers = AIAgents::getAvailableAgentProviders();
+
+        foreach ($providers as $provider) {
+            if ($provider->isDetectedForTrackerRequest($request)) {
+                return $provider->getId();
+            }
+        }
+
         return false;
     }
 }
