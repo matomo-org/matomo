@@ -12,7 +12,18 @@ declare(strict_types=1);
 namespace Piwik\Plugins\AIAgents;
 
 use Piwik\Plugin;
+use Piwik\Plugins\AIAgents\Providers\AgentAbstract;
+use Piwik\Plugins\AIAgents\Providers\ChatGPT;
 
 class AIAgents extends Plugin
 {
+    /**
+     * @return array<AgentAbstract>
+     */
+    public static function getAvailableAgentProviders(): array
+    {
+        return [
+            ChatGPT::getInstance(),
+        ];
+    }
 }
