@@ -71,40 +71,34 @@ class Model
         $remainingOffset = $offset;
 
         foreach ($queries as $queryRange) {
-            // Calculate limit based on already found visits
             $updatedLimit = $limit;
             if (!empty($limit) && (int)$limit > -1) {
                 $updatedLimit = $limit - count($foundVisits);
-
                 if ($updatedLimit <= 0) {
-                    break; // Found enough visits
+                    break;
                 }
             }
 
-            // Use the remaining offset for this query
             [$sql, $bind] = $this->makeLogVisitsQueryString($idSite, $queryRange[0], $queryRange[1], $segment, $remainingOffset, $updatedLimit, $visitorId, $minTimestamp, $filterSortOrder);
-
             $visits = $this->executeLogVisitsQuery($sql, $bind, $segment, $dateStart, $dateEnd, $minTimestamp, $limit);
 
-            if (!empty($remainingOffset) && empty($visits)) {
-                // No results with offset - count total visits in this time range efficiently
-                $totalInRange = $this->countLogVisitsInRange($idSite, $queryRange[0], $queryRange[1], $segment, $visitorId, $minTimestamp, $filterSortOrder);
-
-                // Adjust offset for next queries
-                $remainingOffset = max(0, $remainingOffset - $totalInRange);
-
-                // Continue to next query
-                continue;
+            if (!empty($remainingOffset)) {
+                if (empty($visits)) {
+                    // No visits returned - need to count total in range to adjust offset
+                    $totalInRange = $this->countLogVisitsInRange($idSite, $queryRange[0], $queryRange[1], $segment, $visitorId, $minTimestamp, $filterSortOrder);
+                    $remainingOffset = max(0, $remainingOffset - $totalInRange);
+                    continue;
+                } else {
+                    // Visits returned - these are already AFTER the offset was applied by SQL
+                    // So the offset is now fulfilled
+                    $remainingOffset = 0;
+                }
             }
 
             if (!empty($visits)) {
                 $foundVisits = array_merge($foundVisits, $visits);
-
-                // After first successful find, offset is fulfilled
-                $remainingOffset = 0;
             }
 
-            // Check if enough visits have been found
             if ($limit > 0 && count($foundVisits) >= $limit) {
                 if (count($foundVisits) > $limit) {
                     $foundVisits = array_slice($foundVisits, 0, $limit);
