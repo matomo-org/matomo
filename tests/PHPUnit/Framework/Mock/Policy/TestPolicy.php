@@ -82,7 +82,7 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
             [
                 'title' => 'Unknown setting title',
                 'note' => 'Unknown setting note',
-            ]
+            ],
         ];
     }
 }
