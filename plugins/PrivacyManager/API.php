@@ -538,7 +538,7 @@ class API extends \Piwik\Plugin\API
             $payload['complianceRequirements'][] = [
                 'name' => $unknownSetting['title'],
                 'value' => 'unknown',
-                'notes' => $unknownSetting['note']
+                'notes' => $unknownSetting['note'],
             ];
         }
         return $payload;
