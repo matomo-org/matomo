@@ -12,12 +12,18 @@ declare(strict_types=1);
 namespace Piwik\Plugins\AIAgents\tests\Fixtures;
 
 use MatomoTracker;
+use Piwik\Config;
 use Piwik\Date;
 use Piwik\Plugins\AIAgents\Providers\ChatGPT as ChatGPTAgent;
+use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Tests\Framework\Fixture;
 
 class AIAgents extends Fixture
 {
+    public const SEGMENT_AI_AGENT_NAME_EMPTY   = 'aiAgentName==';
+    public const SEGMENT_AI_AGENT_NAME_ANY     = 'aiAgentName!=';
+    public const SEGMENT_AI_AGENT_NAME_CHATGPT = 'aiAgentName==ChatGPT';
+
     public $dateTime = '2025-07-18 00:00:00';
     public $idSite = 1;
 
@@ -26,7 +32,33 @@ class AIAgents extends Fixture
         parent::setUp();
 
         $this->setUpWebsite();
+        $this->setUpSegments();
         $this->trackVisits();
+    }
+
+    private function setUpSegments(): void
+    {
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+
+        SegmentEditorAPI::getInstance()->add(
+            'AI Agent Name Empty',
+            self::SEGMENT_AI_AGENT_NAME_EMPTY,
+            $this->idSite
+        );
+
+        SegmentEditorAPI::getInstance()->add(
+            'AI Agent Name Any',
+            self::SEGMENT_AI_AGENT_NAME_ANY,
+            $this->idSite
+        );
+
+        SegmentEditorAPI::getInstance()->add(
+            'AI Agent Name ChatGPT',
+            self::SEGMENT_AI_AGENT_NAME_CHATGPT,
+            $this->idSite
+        );
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 1;
     }
 
     private function setUpWebsite(): void

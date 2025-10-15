@@ -18,8 +18,11 @@ use Piwik\Tracker\Visitor;
 
 class AIAgentName extends VisitDimension
 {
-    protected $columnName = 'ai_agent_name';
-    protected $columnType = 'VARCHAR(40) NULL';
+    protected $columnName   = 'ai_agent_name';
+    protected $columnType   = 'VARCHAR(40) NULL';
+    protected $nameSingular = 'AIAgents_AIAgentName';
+    protected $segmentName  = 'aiAgentName';
+    protected $type         = self::TYPE_TEXT;
 
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
