@@ -98,7 +98,7 @@ class PolicyManager
 
     /**
      * @param class-string<CompliancePolicy> $policyClass
-     * @return array<array<string>> of tuples of unknown setting title and notes
+     * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
      * @throws \Exception when $policyClass is not a valid policy
      */
     public static function getAllUnknownSettings(string $policyClass): array

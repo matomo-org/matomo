@@ -536,9 +536,9 @@ class API extends \Piwik\Plugin\API
         $unknownSettings = PolicyManager::getAllUnknownSettings($policy);
         foreach ($unknownSettings as $unknownSetting) {
             $payload['complianceRequirements'][] = [
-                'name' => $unknownSetting[0],
+                'name' => $unknownSetting['title'],
                 'value' => 'unknown',
-                'notes' => $unknownSetting[1]
+                'notes' => $unknownSetting['note']
             ];
         }
         return $payload;
