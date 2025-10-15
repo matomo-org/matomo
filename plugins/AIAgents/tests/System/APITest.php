@@ -13,6 +13,7 @@ namespace Piwik\Plugins\AIAgents\tests\System;
 
 use Piwik\Date;
 use Piwik\Plugins\AIAgents\tests\Fixtures\AIAgents;
+use Piwik\Plugins\AIAgents\Columns\AIAgentName;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -44,7 +45,7 @@ class APITest extends SystemTestCase
                     'idSite'     => self::$fixture->idSite,
                     'date'       => Date::factory(self::$fixture->dateTime)->toString(),
                     'period'     => 'day',
-                    'segment'    => AIAgents::SEGMENT_AI_AGENT_NAME_EMPTY,
+                    'segment'    => AIAgentName::SEGMENT_EMPTY,
                     'testSuffix' => '_aiAgentName_empty',
                 ],
             ],
@@ -54,7 +55,7 @@ class APITest extends SystemTestCase
                     'idSite'     => self::$fixture->idSite,
                     'date'       => Date::factory(self::$fixture->dateTime)->toString(),
                     'period'     => 'day',
-                    'segment'    => AIAgents::SEGMENT_AI_AGENT_NAME_ANY,
+                    'segment'    => AIAgentName::SEGMENT_ANY,
                     'testSuffix' => '_aiAgentName_any',
                 ],
             ],

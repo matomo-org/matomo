@@ -14,14 +14,13 @@ namespace Piwik\Plugins\AIAgents\tests\Fixtures;
 use MatomoTracker;
 use Piwik\Config;
 use Piwik\Date;
+use Piwik\Plugins\AIAgents\Columns\AIAgentName;
 use Piwik\Plugins\AIAgents\Providers\ChatGPT as ChatGPTAgent;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Tests\Framework\Fixture;
 
 class AIAgents extends Fixture
 {
-    public const SEGMENT_AI_AGENT_NAME_EMPTY   = 'aiAgentName==';
-    public const SEGMENT_AI_AGENT_NAME_ANY     = 'aiAgentName!=';
     public const SEGMENT_AI_AGENT_NAME_CHATGPT = 'aiAgentName==ChatGPT';
 
     public $dateTime = '2025-07-18 00:00:00';
@@ -42,13 +41,13 @@ class AIAgents extends Fixture
 
         SegmentEditorAPI::getInstance()->add(
             'AI Agent Name Empty',
-            self::SEGMENT_AI_AGENT_NAME_EMPTY,
+            AIAgentName::SEGMENT_EMPTY,
             $this->idSite
         );
 
         SegmentEditorAPI::getInstance()->add(
             'AI Agent Name Any',
-            self::SEGMENT_AI_AGENT_NAME_ANY,
+            AIAgentName::SEGMENT_ANY,
             $this->idSite
         );
 
