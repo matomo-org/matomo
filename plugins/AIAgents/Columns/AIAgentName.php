@@ -18,6 +18,9 @@ use Piwik\Tracker\Visitor;
 
 class AIAgentName extends VisitDimension
 {
+    public const SEGMENT_ANY   = 'aiAgentName!=';
+    public const SEGMENT_EMPTY = 'aiAgentName==';
+
     protected $columnName   = 'ai_agent_name';
     protected $columnType   = 'VARCHAR(40) NULL';
     protected $nameSingular = 'AIAgents_AIAgentName';
