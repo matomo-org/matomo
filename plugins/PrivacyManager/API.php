@@ -533,6 +533,14 @@ class API extends \Piwik\Plugin\API
                 'notes' => $setting::getComplianceRequirementNote($idSite),
             ];
         }
+        $unknownSettings = PolicyManager::getAllUnknownSettings($policy);
+        foreach ($unknownSettings as $unknownSetting) {
+            $payload['complianceRequirements'][] = [
+                'name' => $unknownSetting[0],
+                'value' => 'unknown',
+                'notes' => $unknownSetting[1]
+            ];
+        }
         return $payload;
     }
 
