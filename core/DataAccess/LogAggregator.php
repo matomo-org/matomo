@@ -454,7 +454,7 @@ class LogAggregator
         return $segmentSql;
     }
 
-    protected function getVisitsMetricFields()
+    public function getVisitsMetricFields()
     {
         return array(
             Metrics::INDEX_NB_UNIQ_VISITORS               => "count(distinct " . self::LOG_VISIT_TABLE . ".idvisitor)",
