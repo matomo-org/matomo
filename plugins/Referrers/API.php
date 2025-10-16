@@ -11,11 +11,9 @@ namespace Piwik\Plugins\Referrers;
 
 use Exception;
 use Piwik\API\Request;
-use Piwik\API\ResponseBuilder;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\ArchivingHelper;
@@ -34,7 +32,7 @@ use Piwik\Tracker\Action;
  */
 class API extends \Piwik\Plugin\API
 {
-    public function get($idSite, $period, $date, $segment = false, $columns = false)
+    public function get($idSite, string $period, string $date, ?string $segment = null, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -86,16 +84,15 @@ class API extends \Piwik\Plugin\API
      * @param string $name
      * @param int|string $idSite
      * @param string $period
-     * @param string|Date $date
+     * @param string $date
      * @param null|string $segment
      * @param bool $expanded
      * @param int|null $idSubtable
-     * @return DataTable
+     * @return DataTable|DataTable\Map
      */
-    protected function getDataTable($name, $idSite, $period, $date, $segment, $expanded = false, $idSubtable = null)
+    protected function getDataTable(string $name, $idSite, string $period, string $date, ?string $segment, bool $expanded = false, ?int $idSubtable = null)
     {
-        $dataTable = Archive::createDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, $flat = false, $idSubtable);
-        return $dataTable;
+        return Archive::createDataTableFromArchive($name, $idSite, $period, $date, $segment, $expanded, false, $idSubtable);
     }
 
     /**
@@ -109,10 +106,10 @@ class API extends \Piwik\Plugin\API
      * @param string $period The period to get data for, either 'day', 'week', 'month', 'year',
      *                       or 'range'.
      * @param string $date The date of the period.
-     * @param bool|string $segment The segment to use.
+     * @param null|string $segment The segment to use.
      * @param bool|int $typeReferrer (deprecated) If you want to get data only for a specific referrer
      *                         type, supply a type for this parameter.
-     * @param bool|int $idSubtable For this report this value is a referrer type ID and not an actual
+     * @param null|int $idSubtable For this report this value is a referrer type ID and not an actual
      *                        subtable ID. The result when using this parameter will be the
      *                        specific report for the given referrer type.
      * @param bool $expanded Whether to get report w/ subtables loaded or not.
@@ -120,20 +117,20 @@ class API extends \Piwik\Plugin\API
      */
     public function getReferrerType(
         $idSite,
-        $period,
-        $date,
-        $segment = false,
+        string $period,
+        string $date,
+        ?string $segment = null,
         $typeReferrer = false,
-        $idSubtable = false,
-        $expanded = false,
-        $_setReferrerTypeLabel = true
+        ?int $idSubtable = null,
+        bool $expanded = false,
+        bool $_setReferrerTypeLabel = true
     ) {
         Piwik::checkUserHasViewAccess($idSite);
 
         $this->checkSingleSite($idSite, 'getReferrerType');
 
         // if idSubtable is supplied, interpret idSubtable as referrer type and return correct report
-        if ($idSubtable !== false) {
+        if ($idSubtable !== null) {
             $result = false;
             switch ($idSubtable) {
                 case Common::REFERRER_TYPE_SEARCH_ENGINE:
@@ -185,7 +182,7 @@ class API extends \Piwik\Plugin\API
         ]);
 
         // set referrer type column to readable value
-        if ($_setReferrerTypeLabel == 1) {
+        if ($_setReferrerTypeLabel) {
             $dataTable->filter(DataTable\Filter\ColumnCallbackAddMetadata::class, ['label', 'referrer_type']);
             $dataTable->filter('ColumnCallbackReplace', ['label', __NAMESPACE__ . '\getReferrerTypeLabel']);
         }
@@ -193,7 +190,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    private function checkSingleSite($idSite, $method)
+    private function checkSingleSite($idSite, string $method): void
     {
         $idSites = Site::getIdSitesFromIdSitesString($idSite);
 
@@ -205,7 +202,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a report that shows
      */
-    public function getAll($idSite, $period, $date, $segment = false)
+    public function getAll($idSite, string $period, string $date, ?string $segment = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -232,7 +229,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getKeywords($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
+    public function getKeywords($idSite, string $period, string $date, ?string $segment = null, bool $expanded = false, bool $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -255,7 +252,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    public static function getKeywordNotDefinedString()
+    public static function getKeywordNotDefinedString(): string
     {
         return Piwik::translate('General_NotDefined', Piwik::translate('General_ColumnKeyword'));
     }
@@ -263,49 +260,17 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    public static function getCleanKeyword($label)
+    public static function getCleanKeyword(?string $label): ?string
     {
         return $label == self::LABEL_KEYWORD_NOT_DEFINED
             ? self::getKeywordNotDefinedString()
             : $label;
     }
 
-    /**
-     * @param DataTable $table
-     */
-    private function filterOutKeywordNotDefined($table)
-    {
-        if ($table instanceof DataTable) {
-            $row = $table->getRowIdFromLabel('');
-            if ($row) {
-                $table->deleteRow($row);
-            }
-        }
-    }
-
-    protected function getLabelsFromTable($table)
-    {
-        $request = $_GET;
-        $request['serialize'] = 0;
-
-        // Apply generic filters
-        $response = new ResponseBuilder($format = 'original', $request);
-        $table = $response->getResponse($table);
-
-        // If period=lastX we only keep the first resultset as we want to return a plain list
-        if ($table instanceof DataTable\Map) {
-            $tables = $table->getDataTables();
-            $table = current($tables);
-        }
-        // Keep the response simple, only include keywords
-        $keywords = $table->getColumn('label');
-        return $keywords;
-    }
-
-    public function getSearchEnginesFromKeywordId($idSite, $period, $date, $idSubtable, $segment = false)
+    public function getSearchEnginesFromKeywordId($idSite, string $period, string $date, int $idSubtable, ?string $segment = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $dataTable = $this->getDataTable(Archiver::KEYWORDS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable(Archiver::KEYWORDS_RECORD_NAME, $idSite, $period, $date, $segment, false, $idSubtable);
         $keywords  = $this->getKeywords($idSite, $period, $date, $segment);
         $keyword   = $keywords->getRowFromIdSubDataTable($idSubtable)->getColumn('label');
 
@@ -316,7 +281,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getSearchEngines($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
+    public function getSearchEngines($idSite, string $period, string $date, ?string $segment = null, bool $expanded = false, bool $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $dataTable = Archive::createDataTableFromArchive(Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
@@ -362,11 +327,11 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getKeywordsFromSearchEngineId($idSite, $period, $date, $idSubtable, $segment = false)
+    public function getKeywordsFromSearchEngineId($idSite, string $period, string $date, int $idSubtable, ?string $segment = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $dataTable = $this->getDataTable(Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable(Archiver::SEARCH_ENGINES_RECORD_NAME, $idSite, $period, $date, $segment, false, $idSubtable);
 
         // get the search engine and create the URL to the search result page
         $searchEngines = $this->getSearchEngines($idSite, $period, $date, $segment);
@@ -384,7 +349,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getCampaigns($idSite, $period, $date, $segment = false, $expanded = false)
+    public function getCampaigns($idSite, string $period, string $date, ?string $segment = null, bool $expanded = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded);
@@ -395,7 +360,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getKeywordsFromCampaignId($idSite, $period, $date, $idSubtable, $segment = false)
+    public function getKeywordsFromCampaignId($idSite, string $period, string $date, int $idSubtable, ?string $segment = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $campaigns = $this->getCampaigns($idSite, $period, $date, $segment);
@@ -403,16 +368,16 @@ class API extends \Piwik\Plugin\API
         $row = $campaigns->getRowFromIdSubDataTable($idSubtable);
         $campaign = $row ? $row->getColumn('label') : '';
 
-        $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
+        $dataTable = $this->getDataTable(Archiver::CAMPAIGNS_RECORD_NAME, $idSite, $period, $date, $segment, false, $idSubtable);
         $dataTable->filter('AddSegmentByLabel', ['referrerKeyword']);
         $dataTable->queueFilter('PrependSegment', ['referrerName==' . $campaign . ';referrerType==campaign;']);
         return $dataTable;
     }
 
-    public function getWebsites($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
+    public function getWebsites($idSite, string $period, string $date, ?string $segment = null, bool $expanded = false, bool $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $dataTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat, $idSubtable = null);
+        $dataTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat, null);
 
         if ($flat) {
             $dataTable->filterSubtables('Piwik\Plugins\Referrers\DataTable\Filter\UrlsFromWebsiteId');
@@ -423,7 +388,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getUrlsFromWebsiteId($idSite, $period, $date, $idSubtable, $segment = false)
+    public function getUrlsFromWebsiteId($idSite, string $period, string $date, int $idSubtable, ?string $segment = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $dataTable = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = false, $idSubtable);
@@ -444,12 +409,12 @@ class API extends \Piwik\Plugin\API
      * @param string $idSite
      * @param string $period
      * @param string $date
-     * @param string|bool $segment
+     * @param string|null $segment
      * @param bool $expanded
      * @param bool $flat
-     * @return DataTable
+     * @return DataTable|DataTable\Map
      */
-    public function getSocials($idSite, $period, $date, $segment = false, $expanded = false, $flat = false)
+    public function getSocials($idSite, string $period, string $date, ?string $segment = null, bool $expanded = false, bool $flat = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -534,7 +499,7 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    private function completeSocialTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded, $flat)
+    private function completeSocialTablesWithOldReports($dataTable, $idSite, string $period, string $date, ?string $segment, bool $expanded, bool $flat)
     {
         return $this->combineDataTables($dataTable, function () use ($idSite, $period, $date, $segment, $expanded, $flat) {
             $dataTableFiltered = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, false);
@@ -556,6 +521,11 @@ class API extends \Piwik\Plugin\API
         });
     }
 
+    /**
+     * @param DataTable|DataTable\Map $dataTable
+     * @param $callbackForAdditionalData
+     * @return DataTable|DataTable\Map
+     */
     protected function combineDataTables($dataTable, $callbackForAdditionalData)
     {
         $isMap = false;
@@ -581,7 +551,7 @@ class API extends \Piwik\Plugin\API
                 $dataTable = $dataTablesForCompletion;
             } else {
                 $filteredTables = $dataTablesForCompletion->getDataTables();
-                foreach ($dataTable as $label => $table) {
+                foreach ($dataTables as $label => $table) {
                     if ($table instanceof DataTable && !$table->getRowsCountWithoutSummaryRow() && !empty($filteredTables[$label])) {
                         $dataTable->addTable($filteredTables[$label], $label);
                     }
@@ -593,9 +563,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param DataTable $dataTable
+     * @param DataTable|DataTable\Map $dataTable
      */
-    protected function filterWebsitesForSocials($dataTable, $idSite, $period, $date, $segment, $expanded, $flat)
+    protected function filterWebsitesForSocials($dataTable, $idSite, string $period, string $date, ?string $segment, bool $expanded, bool $flat): void
     {
         $dataTable->filter('ColumnCallbackDeleteRow', [
             'label', function ($url) {
@@ -652,28 +622,28 @@ class API extends \Piwik\Plugin\API
      * @param string $idSite
      * @param string $period
      * @param string $date
-     * @param bool|string $segment
-     * @param bool|int $idSubtable This ID does not reference a real DataTable record. Instead, it
-     *                              is the array index of an item in the Socials list file.
-     *                              The urls are filtered by the social network at this index.
-     *                              If false, no filtering is done and every social URL is returned.
-     * @return DataTable
+     * @param null|string $segment
+     * @param null|int $idSubtable This ID does not reference a real DataTable record. Instead, it
+     *                             is the array index of an item in the Socials list file.
+     *                             The urls are filtered by the social network at this index.
+     *                             If false, no filtering is done and every social URL is returned.
+     * @return DataTable|DataTable\Map
      */
-    public function getUrlsForSocial($idSite, $period, $date, $segment = false, $idSubtable = false)
+    public function getUrlsForSocial($idSite, string $period, string $date, ?string $segment = null, ?int $idSubtable = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $dataTable = $this->getDataTable(Archiver::SOCIAL_NETWORKS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true, $idSubtable);
+        $dataTable = $this->getDataTable(Archiver::SOCIAL_NETWORKS_RECORD_NAME, $idSite, $period, $date, $segment, true, $idSubtable);
 
         if (!$idSubtable) {
             $dataTable = $dataTable->mergeSubtables();
         }
 
         $dataTable = $this->combineDataTables($dataTable, function () use ($idSite, $period, $date, $segment, $idSubtable) {
-            $dataTableFiltered = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
+            $dataTableFiltered = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, true);
 
             $socialNetworks = array_values(Social::getInstance()->getDefinitions());
-            $social = isset($socialNetworks[$idSubtable - 1]) ? $socialNetworks[$idSubtable - 1] : false;
+            $social = $socialNetworks[$idSubtable - 1] ?? false;
 
             // filter out everything but social network indicated by $idSubtable
             $dataTableFiltered->filter(
@@ -703,9 +673,9 @@ class API extends \Piwik\Plugin\API
      * @param string $date
      * @param null|string $segment
      * @param null|int $idSubtable This ID does not reference a real DataTable record. Instead, it
-     *                              is the array index of an item in the AI list file.
-     *                              The urls are filtered by the AI at this index.
-     *                              If false, no filtering is done and every AI assistant URL is returned.
+     *                             is the array index of an item in the AI list file.
+     *                             The urls are filtered by the AI at this index.
+     *                             If false, no filtering is done and every AI assistant URL is returned.
      * @return DataTable|DataTable\Map
      */
     public function getEntryPageUrlsForAIAssistant($idSite, string $period, string $date, ?string $segment = null, ?int $idSubtable = null)
@@ -716,7 +686,7 @@ class API extends \Piwik\Plugin\API
         $row       = $aiAssistants->getRowFromIdSubDataTable($idSubtable);
         $assistant = $row ? $row->getColumn('label') : '';
 
-        $dataTable = $this->getDataTable(Archiver::AI_ASSISTANTS_ENTRY_URL_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true, $idSubtable);
+        $dataTable = $this->getDataTable(Archiver::AI_ASSISTANTS_ENTRY_URL_RECORD_NAME, $idSite, $period, $date, $segment, true, $idSubtable);
 
         if (!$idSubtable) {
             $dataTable = $dataTable->mergeSubtables();
@@ -750,7 +720,7 @@ class API extends \Piwik\Plugin\API
         $row       = $aiAssistants->getRowFromIdSubDataTable($idSubtable);
         $assistant = $row ? $row->getColumn('label') : '';
 
-        $dataTable = $this->getDataTable(Archiver::AI_ASSISTANTS_ENTRY_TITLE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true, $idSubtable);
+        $dataTable = $this->getDataTable(Archiver::AI_ASSISTANTS_ENTRY_TITLE_RECORD_NAME, $idSite, $period, $date, $segment, true, $idSubtable);
 
         if (!$idSubtable) {
             $dataTable = $dataTable->mergeSubtables();
@@ -769,42 +739,42 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
-    public function getNumberOfDistinctSearchEngines($idSite, $period, $date, $segment = false)
+    public function getNumberOfDistinctSearchEngines($idSite, string $period, string $date, ?string $segment = null)
     {
         return $this->getNumeric(Archiver::METRIC_DISTINCT_SEARCH_ENGINE_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
-    public function getNumberOfDistinctSocialNetworks($idSite, $period, $date, $segment = false)
+    public function getNumberOfDistinctSocialNetworks($idSite, string $period, string $date, ?string $segment = null)
     {
         return $this->getNumeric(Archiver::METRIC_DISTINCT_SOCIAL_NETWORK_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
-    public function getNumberOfDistinctKeywords($idSite, $period, $date, $segment = false)
+    public function getNumberOfDistinctKeywords($idSite, string $period, string $date, ?string $segment = null)
     {
         return $this->getNumeric(Archiver::METRIC_DISTINCT_KEYWORD_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
-    public function getNumberOfDistinctCampaigns($idSite, $period, $date, $segment = false)
+    public function getNumberOfDistinctCampaigns($idSite, string $period, string $date, ?string $segment = null)
     {
         return $this->getNumeric(Archiver::METRIC_DISTINCT_CAMPAIGN_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
-    public function getNumberOfDistinctWebsites($idSite, $period, $date, $segment = false)
+    public function getNumberOfDistinctWebsites($idSite, string $period, string $date, ?string $segment = null)
     {
         return $this->getNumeric(Archiver::METRIC_DISTINCT_WEBSITE_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
-    public function getNumberOfDistinctAIAssistants($idSite, $period, $date, $segment = false)
+    public function getNumberOfDistinctAIAssistants($idSite, string $period, string $date, ?string $segment = null)
     {
         return $this->getNumeric(Archiver::METRIC_DISTINCT_AI_ASSISTANT_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
-    public function getNumberOfDistinctWebsitesUrls($idSite, $period, $date, $segment = false)
+    public function getNumberOfDistinctWebsitesUrls($idSite, string $period, string $date, ?string $segment = null)
     {
         return $this->getNumeric(Archiver::METRIC_DISTINCT_URLS_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
-    private function getNumeric($name, $idSite, $period, $date, $segment)
+    private function getNumeric(string $name, $idSite, string $period, string $date, ?string $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
@@ -817,7 +787,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param DataTable|DataTable\Map $dataTable
      */
-    private function removeSubtableMetadata($dataTable)
+    private function removeSubtableMetadata($dataTable): void
     {
         if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $childTable) {
@@ -837,7 +807,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param DataTable|DataTable\Map $dataTable
      */
-    private function setSocialIdSubtables($dataTable)
+    private function setSocialIdSubtables($dataTable): void
     {
         if ($dataTable instanceof DataTable\Map) {
             foreach ($dataTable->getDataTables() as $childTable) {
@@ -867,7 +837,7 @@ class API extends \Piwik\Plugin\API
      * recurse when trying to get a flat report).
      *
      * @param DataTable|DataTable\Map $table
-     * @return DataTable Returns $table for convenience.
+     * @return DataTable|DataTable\Map Returns $table for convenience.
      */
     private function removeSubtableIds($table)
     {
@@ -888,13 +858,13 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite
      * @param string $period
      * @param string $date
-     * @param string|false $segment
+     * @param string|null $segment
      * @param bool $expanded
      * @param DataTable|DataTable\Map $dataTable
      */
-    private function buildExpandedTableForFlattenGetSocials($idSite, $period, $date, $segment, $expanded, $dataTable)
+    private function buildExpandedTableForFlattenGetSocials($idSite, string $period, string $date, ?string $segment, bool $expanded, $dataTable)
     {
-        $urlsTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat = true);
+        $urlsTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, true);
         $urlsTable->filter('ColumnCallbackDeleteRow', [
             'label', function ($url) {
                 return !Social::getInstance()->isSocialUrl($url);
@@ -981,14 +951,18 @@ class API extends \Piwik\Plugin\API
         return $result;
     }
 
-    private function mergeNumericArchives(DataTable\DataTableInterface $table, ?DataTable\DataTableInterface $numericArchives = null)
+    /**
+     * @template T of DataTable|DataTable\Map
+     * @param T $table
+     * @param T|null $numericArchives
+     */
+    private function mergeNumericArchives(DataTable\DataTableInterface $table, ?DataTable\DataTableInterface $numericArchives = null): void
     {
-        if ($table instanceof DataTable) {
-            /** @var DataTable $numericArchives */
-            if (empty($numericArchives)) {
-                return;
-            }
+        if (empty($numericArchives)) {
+            return;
+        }
 
+        if ($table instanceof DataTable) {
             $table->setAllTableMetadata($numericArchives->getAllTableMetadata());
 
             if ($numericArchives->getRowsCount() == 0) {
@@ -1008,8 +982,6 @@ class API extends \Piwik\Plugin\API
                 $numericArchiveChildTable = $numericArchives->getTable($label);
                 $this->mergeNumericArchives($childTable, $numericArchiveChildTable);
             }
-        } else {
-            throw new \Exception("Unexpected DataTable type: " . get_class($table)); // sanity check
         }
     }
 }
