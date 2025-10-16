@@ -18,9 +18,11 @@ use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Metrics;
 use Piwik\Piwik;
+use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Referrers\Columns\Metrics\VisitorsFromReferrerPercent;
 use Piwik\Plugins\Referrers\DataTable\Filter\GroupDifferentSocialWritings;
 use Piwik\Site;
+use Piwik\Tracker\Action;
 
 /**
  * The Referrers API lets you access reports about Websites, Search engines, Keywords, Campaigns used to access your website.
@@ -488,13 +490,20 @@ class API extends \Piwik\Plugin\API
      * @param string|null $segment
      * @param bool $expanded
      * @param bool $flat
-     * @return DataTable
+     * @param 'entryPageTitle'|'entryPageUrl'|null $secondaryDimension defaults to entryPageUrl if not provided
+     * @return DataTable|DataTable\Map
      */
-    public function getAIAssistants($idSite, string $period, string $date, ?string $segment = null, bool $expanded = false, bool $flat = false)
+    public function getAIAssistants($idSite, string $period, string $date, ?string $segment = null, bool $expanded = false, bool $flat = false, ?string $secondaryDimension = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $dataTable = Archive::createDataTableFromArchive(Archiver::AI_ASSISTANTS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat);
+        $archiveName = Archiver::AI_ASSISTANTS_ENTRY_URL_RECORD_NAME;
+
+        if ($secondaryDimension === 'entryPageTitle') {
+            $archiveName = Archiver::AI_ASSISTANTS_ENTRY_TITLE_RECORD_NAME;
+        }
+
+        $dataTable = Archive::createDataTableFromArchive($archiveName, $idSite, $period, $date, $segment, $expanded, $flat);
 
         $dataTable->filter('ColumnCallbackAddMetadata', [
             'label', 'url', function ($name) {
@@ -502,7 +511,7 @@ class API extends \Piwik\Plugin\API
             },
         ]);
 
-        $dataTable = $this->completeAIAssistantTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded, $flat);
+        $dataTable = $this->completeAIAssistantTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded);
 
         $dataTable->filter('MetadataCallbackAddMetadata', [
             'url',
@@ -511,6 +520,13 @@ class API extends \Piwik\Plugin\API
                 return AIAssistant::getInstance()->getLogoFromUrl($url);
             },
         ]);
+
+        if ($flat) {
+            $dataTable->filterSubtables('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForAIAssistant');
+            // don't link flattened report
+            $dataTable->filterSubtables('ColumnCallbackDeleteMetadata', ['url']);
+            $dataTable->filter('ColumnCallbackDeleteMetadata', ['url']);
+        }
 
         $dataTable->filter('AddSegmentByLabel', ['referrerName']);
         $dataTable->queueFilter('PrependSegment', ['referrerType==ai;']);
@@ -529,12 +545,12 @@ class API extends \Piwik\Plugin\API
         });
     }
 
-    private function completeAIAssistantTablesWithOldReports($dataTable, $idSite, $period, $date, $segment, $expanded, $flat)
+    private function completeAIAssistantTablesWithOldReports($dataTable, $idSite, string $period, string $date, ?string $segment, bool $expanded)
     {
-        return $this->combineDataTables($dataTable, function () use ($idSite, $period, $date, $segment, $expanded, $flat) {
+        return $this->combineDataTables($dataTable, function () use ($idSite, $period, $date, $segment, $expanded) {
             $dataTableFiltered = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, false);
 
-            $this->filterWebsitesForAIAssistants($dataTableFiltered, $idSite, $period, $date, $segment, $expanded, $flat);
+            $this->filterWebsitesForAIAssistants($dataTableFiltered);
 
             return $dataTableFiltered;
         });
@@ -606,9 +622,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param DataTable $dataTable
+     * @param DataTable|DataTable\Map $dataTable
      */
-    protected function filterWebsitesForAIAssistants($dataTable, $idSite, $period, $date, $segment, $expanded, $flat)
+    protected function filterWebsitesForAIAssistants($dataTable): void
     {
         $dataTable->filter('ColumnCallbackDeleteRow', [
             'label', function ($url) {
@@ -626,12 +642,7 @@ class API extends \Piwik\Plugin\API
             },
         ]);
 
-        $this->setAIAssistantIdSubtables($dataTable);
         $this->removeSubtableMetadata($dataTable);
-
-        if ($flat) {
-            $this->buildExpandedTableForFlattenGetAIAssistants($idSite, $period, $date, $segment, $expanded, $dataTable);
-        }
     }
 
     /**
@@ -685,7 +696,41 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns report containing individual referrer URLs for a specific AI assistant.
+     * Returns report containing individual entry page URLs for a specific AI assistant.
+     *
+     * @param string|int|int[] $idSite
+     * @param string $period
+     * @param string $date
+     * @param null|string $segment
+     * @param null|int $idSubtable This ID does not reference a real DataTable record. Instead, it
+     *                              is the array index of an item in the AI list file.
+     *                              The urls are filtered by the AI at this index.
+     *                              If false, no filtering is done and every AI assistant URL is returned.
+     * @return DataTable|DataTable\Map
+     */
+    public function getEntryPageUrlsForAIAssistant($idSite, string $period, string $date, ?string $segment = null, ?int $idSubtable = null)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+        $aiAssistants = $this->getAIAssistants($idSite, $period, $date, $segment);
+        $aiAssistants->applyQueuedFilters();
+        $row       = $aiAssistants->getRowFromIdSubDataTable($idSubtable);
+        $assistant = $row ? $row->getColumn('label') : '';
+
+        $dataTable = $this->getDataTable(Archiver::AI_ASSISTANTS_ENTRY_URL_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true, $idSubtable);
+
+        if (!$idSubtable) {
+            $dataTable = $dataTable->mergeSubtables();
+        }
+
+        $dataTable->filter('AddSegmentByLabel', ['entryPageUrl']);
+        $dataTable->queueFilter('PrependSegment', ['referrerName==' . $assistant . ';referrerType==ai;']);
+        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForAIAssistant');
+        $dataTable->queueFilter('ReplaceColumnNames');
+        return $dataTable;
+    }
+
+    /**
+     * Returns report containing individual entry page names for a specific AI assistant.
      *
      * @param string|int|int[] $idSite
      * @param string $period
@@ -697,38 +742,29 @@ class API extends \Piwik\Plugin\API
      *                              If false, no filtering is done and every AI assistant URL is returned.
      * @return DataTable
      */
-    public function getUrlsForAIAssistant($idSite, string $period, string $date, ?string $segment = null, ?int $idSubtable = null)
+    public function getEntryPageTitlesForAIAssistant($idSite, string $period, string $date, ?string $segment = null, ?int $idSubtable = null)
     {
         Piwik::checkUserHasViewAccess($idSite);
+        $aiAssistants = $this->getAIAssistants($idSite, $period, $date, $segment);
+        $aiAssistants->applyQueuedFilters();
+        $row       = $aiAssistants->getRowFromIdSubDataTable($idSubtable);
+        $assistant = $row ? $row->getColumn('label') : '';
 
-        $dataTable = $this->getDataTable(Archiver::AI_ASSISTANTS_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true, $idSubtable);
+        $dataTable = $this->getDataTable(Archiver::AI_ASSISTANTS_ENTRY_TITLE_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true, $idSubtable);
 
         if (!$idSubtable) {
             $dataTable = $dataTable->mergeSubtables();
         }
 
-        $dataTable = $this->combineDataTables($dataTable, function () use ($idSite, $period, $date, $segment, $idSubtable) {
-            $dataTableFiltered = $this->getDataTable(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded = true);
+        $dataTable->filter('AddSegmentByLabel', ['entryPageTitle']);
+        $dataTable->queueFilter('PrependSegment', ['referrerName==' . $assistant . ';referrerType==ai;']);
+        $dataTable->filter(function (DataTable $table) {
+            $emptyUrlRRow = $table->getRowFromLabel('');
 
-            $AIs = array_values(AIAssistant::getInstance()->getDefinitions());
-            $aiAssistant = $AIs[$idSubtable - 1] ?? null;
-
-            // filter out everything but AI assistant indicated by $idSubtable
-            $dataTableFiltered->filter(
-                'ColumnCallbackDeleteRow',
-                [
-                    'label',
-                    function ($url) use ($aiAssistant) {
-                        return !AIAssistant::getInstance()->isAIAssistantUrl($url, $aiAssistant);
-                    },
-                ]
-            );
-
-            return $dataTableFiltered->mergeSubtables();
+            if ($emptyUrlRRow) {
+                $emptyUrlRRow->setColumn('label', ArchivingHelper::getUnknownActionName(Action::TYPE_PAGE_TITLE));
+            }
         });
-
-        $dataTable->filter('AddSegmentByLabel', ['referrerUrl']);
-        $dataTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForAIAssistant');
         $dataTable->queueFilter('ReplaceColumnNames');
         return $dataTable;
     }
@@ -825,36 +861,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Sets the subtable IDs for the DataTable returned by getAIAssistant.
-     *
-     * The IDs are int indexes into the array in of defined AI assistants.
-     *
-     * @param DataTable|DataTable\Map $dataTable
-     */
-    private function setAIAssistantIdSubtables($dataTable)
-    {
-        if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $childTable) {
-                $this->setAIAssistantIdSubtables($childTable);
-            }
-        } else {
-            foreach ($dataTable->getRows() as $row) {
-                $aiAssistantName = $row->getColumn('label');
-
-                $i = 1; // start at one because idSubtable=0 is equivalent to idSubtable=false
-                foreach (AIAssistant::getInstance()->getDefinitions() as $name) {
-                    if ($name == $aiAssistantName) {
-                        $row->setNonLoadedSubtableId($i);
-                        break;
-                    }
-
-                    ++$i;
-                }
-            }
-        }
-    }
-
-    /**
      * Utility function that removes the subtable IDs for the subtables of the
      * getReferrerType report. This avoids infinite recursion in said report (ie,
      * the grandchildren of the report will be the original report, and it will
@@ -922,59 +928,6 @@ class API extends \Piwik\Plugin\API
 
                 if ($newTable->getRowsCount()) {
                     $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForSocial');
-                    $row->setSubtable($newTable);
-                }
-            }
-        }
-
-        Common::destroy($urlsTable);
-        $urlsTable = null;
-    }
-
-    /**
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param string|false $segment
-     * @param bool $expanded
-     * @param DataTable|DataTable\Map $dataTable
-     */
-    private function buildExpandedTableForFlattenGetAIAssistants($idSite, $period, $date, $segment, $expanded, $dataTable)
-    {
-        $urlsTable = Archive::createDataTableFromArchive(Archiver::WEBSITES_RECORD_NAME, $idSite, $period, $date, $segment, $expanded, $flat = true);
-        $urlsTable->filter('ColumnCallbackDeleteRow', [
-            'label', function ($url) {
-                return !AIAssistant::getInstance()->isAIAssistantUrl($url);
-            },
-        ]);
-        $urlsTable = $urlsTable->mergeSubtables();
-
-        if ($dataTable instanceof DataTable\Map) {
-            $dataTables = $dataTable->getDataTables();
-            $urlsTables = $urlsTable->getDataTables();
-        } else {
-            $dataTables = [$dataTable];
-            $urlsTables = [$urlsTable];
-        }
-
-        foreach ($dataTables as $label => $dataTable) {
-            foreach ($dataTable->getRows() as $row) {
-                $row->removeSubtable();
-
-                $ai = $row->getColumn('label');
-                $newTable = $urlsTables[$label]->getEmptyClone();
-
-                $rows = $urlsTables[$label]->getRows();
-                foreach ($rows as $id => $urlsTableRow) {
-                    $url = $urlsTableRow->getColumn('label');
-                    if (AIAssistant::getInstance()->isAIAssistantUrl($url, $ai)) {
-                        $newTable->addRow($urlsTableRow);
-                        $urlsTables[$label]->deleteRow($id);
-                    }
-                }
-
-                if ($newTable->getRowsCount()) {
-                    $newTable->filter('Piwik\Plugins\Referrers\DataTable\Filter\UrlsForAIAssistant');
                     $row->setSubtable($newTable);
                 }
             }
