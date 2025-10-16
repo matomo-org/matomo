@@ -11,18 +11,16 @@ namespace Piwik\Plugins\Referrers\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\Referrers\Columns\WebsitePage;
+use Piwik\Plugins\Actions\Columns\EntryPageUrl;
 
-class GetUrlsForAIAssistant extends Base
+class GetEntryPageUrlsForAIAssistant extends Base
 {
     protected function init()
     {
         parent::init();
-        $this->dimension     = new WebsitePage();
+        $this->dimension = new EntryPageUrl();
         $this->name = Piwik::translate('Referrers_AIAssistants');
-        $this->documentation = Piwik::translate('Referrers_WebsitesReportDocumentation', '<br />');
         $this->isSubtableReport = true;
-        $this->order = 14;
     }
 
     public function configureView(ViewDataTable $view)
