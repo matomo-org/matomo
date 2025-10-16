@@ -14,6 +14,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
+use Piwik\Plugins\Goals\Visualizations\Goals;
 use Piwik\Plugins\Referrers\Columns\AIAssistant;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Request;
@@ -58,31 +59,34 @@ class GetAIAssistants extends Base
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_subtable_when_show_goals = true;
-            $view->config->show_related_reports = true;
 
-            $secondaryDimension = 'entryPageUrl';
-            if ('entryPageTitle' === Request::fromRequest()->getStringParameter('secondaryDimension', '')) {
-                $secondaryDimension = 'entryPageTitle';
-            }
+            if (!$view->isViewDataTableId(Goals::ID)) {
+                $view->config->show_related_reports = true;
 
-            $secondaryDimensionTranslation       = $this->getDimensionLabel($secondaryDimension);
-            $view->config->related_reports_title =
-                Piwik::translate('Events_SecondaryDimension', $secondaryDimensionTranslation)
-                . "<br/>"
-                . Piwik::translate('Events_SwitchToSecondaryDimension', '');
-
-            foreach (['entryPageUrl', 'entryPageTitle'] as $dimension) {
-                if ($dimension === $secondaryDimension) {
-                    // don't show as related report the currently selected dimension
-                    continue;
+                $secondaryDimension = 'entryPageUrl';
+                if ('entryPageTitle' === Request::fromRequest()->getStringParameter('secondaryDimension', '')) {
+                    $secondaryDimension = 'entryPageTitle';
                 }
 
-                $dimensionTranslation = $this->getDimensionLabel($dimension);
-                $view->config->addRelatedReport(
-                    $view->requestConfig->apiMethodToRequestDataTable,
-                    $dimensionTranslation,
-                    ['secondaryDimension' => $dimension]
-                );
+                $secondaryDimensionTranslation       = $this->getDimensionLabel($secondaryDimension);
+                $view->config->related_reports_title =
+                    Piwik::translate('Events_SecondaryDimension', $secondaryDimensionTranslation)
+                    . "<br/>"
+                    . Piwik::translate('Events_SwitchToSecondaryDimension', '');
+
+                foreach (['entryPageUrl', 'entryPageTitle'] as $dimension) {
+                    if ($dimension === $secondaryDimension) {
+                        // don't show as related report the currently selected dimension
+                        continue;
+                    }
+
+                    $dimensionTranslation = $this->getDimensionLabel($dimension);
+                    $view->config->addRelatedReport(
+                        $view->requestConfig->apiMethodToRequestDataTable,
+                        $dimensionTranslation,
+                        ['secondaryDimension' => $dimension]
+                    );
+                }
             }
         }
     }
