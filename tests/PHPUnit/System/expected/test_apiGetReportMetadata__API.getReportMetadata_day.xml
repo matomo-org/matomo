@@ -2737,7 +2737,7 @@
 		<documentation>This report shows which AI assistants led visitors to your website.&lt;br /&gt;By clicking on a row in the table, you can see from which AI assistant pages visitors came to your website.</documentation>
 		<dimensions>
 			<Referrers_AIAssistant>AI Assistant</Referrers_AIAssistant>
-			<Referrers_WebsitePage>Website Page</Referrers_WebsitePage>
+			<Actions_EntryPageUrl>Entry Page URL</Actions_EntryPageUrl>
 		</dimensions>
 		<metrics>
 			<nb_visits>Visits</nb_visits>
@@ -2770,7 +2770,7 @@
 			<bounce_rate>percent</bounce_rate>
 			<conversion_rate>percent</conversion_rate>
 		</metricTypes>
-		<actionToLoadSubTables>getUrlsForAIAssistant</actionToLoadSubTables>
+		<actionToLoadSubTables>getEntryPageUrlsForAIAssistant</actionToLoadSubTables>
 		<metricsGoal>
 			<nb_conversions>Conversions</nb_conversions>
 			<revenue>Revenue</revenue>
