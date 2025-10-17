@@ -132,4 +132,9 @@ class VisitorLogDisabled implements MeasurableSettingInterface, PolicyComparison
     {
         return ($value1 || $value2);
     }
+
+    public static function getSettingName(): string
+    {
+        return self::getSystemName(); 
+    }
 }
