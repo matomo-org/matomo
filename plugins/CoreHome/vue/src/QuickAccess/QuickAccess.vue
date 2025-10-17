@@ -11,22 +11,23 @@
     class="quickAccessInside"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
-    <span
-      class="icon-search"
-      @mouseenter="searchActive = true"
-    />
-    <input
-      class="s"
-      @keydown="onKeypress($event)"
-      @focus="searchActive = true"
-      v-model="searchTerm"
-      type="text"
-      tabindex="2"
-      v-focus-if="{ focused: searchActive }"
-      :title="quickAccessTitle"
-      :placeholder="translate('General_Search')"
-      ref="input"
-    />
+    <div v-tooltips="{ content: quickAccessTitle }">
+      <span
+        class="icon-search"
+        @mouseenter="searchActive = true"
+      />
+      <input
+        class="s"
+        @keydown="onKeypress($event)"
+        @focus="searchActive = true"
+        v-model="searchTerm"
+        type="text"
+        tabindex="2"
+        v-focus-if="{ focused: searchActive }"
+        :placeholder="translate('General_Search')"
+        ref="input"
+      />
+    </div>
     <div
       class="dropdown"
       v-show="searchTerm && searchActive"
@@ -105,6 +106,7 @@ import SitesStore from '../SiteSelector/SitesStore';
 import Site from '../SiteSelector/Site';
 import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
+import Tooltips from '../Tooltips/Tooltips';
 
 const { ListingFormatter } = window;
 
@@ -158,6 +160,7 @@ export default defineComponent({
   directives: {
     FocusAnywhereButHere,
     FocusIf,
+    Tooltips,
   },
   watch: {
     searchActive(newValue: boolean) {
