@@ -523,10 +523,10 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param DataTable|DataTable\Map $dataTable
-     * @param $callbackForAdditionalData
+     * @param callable $callbackForAdditionalData
      * @return DataTable|DataTable\Map
      */
-    protected function combineDataTables($dataTable, $callbackForAdditionalData)
+    protected function combineDataTables($dataTable, callable $callbackForAdditionalData)
     {
         $isMap = false;
         $hasEmptyTable = false;
@@ -564,6 +564,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param DataTable|DataTable\Map $dataTable
+     * @param int|string $idSite
      */
     protected function filterWebsitesForSocials($dataTable, $idSite, string $period, string $date, ?string $segment, bool $expanded, bool $flat): void
     {
@@ -789,15 +790,11 @@ class API extends \Piwik\Plugin\API
      */
     private function removeSubtableMetadata($dataTable): void
     {
-        if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $childTable) {
-                $this->removeSubtableMetadata($childTable);
-            }
-        } else {
-            foreach ($dataTable->getRows() as $row) {
+        $dataTable->filter(function (DataTable $table) {
+            foreach ($table->getRows() as $row) {
                 $row->deleteMetadata('idsubdatatable_in_db');
             }
-        }
+        });
     }
 
     /**
@@ -809,12 +806,8 @@ class API extends \Piwik\Plugin\API
      */
     private function setSocialIdSubtables($dataTable): void
     {
-        if ($dataTable instanceof DataTable\Map) {
-            foreach ($dataTable->getDataTables() as $childTable) {
-                $this->setSocialIdSubtables($childTable);
-            }
-        } else {
-            foreach ($dataTable->getRows() as $row) {
+        $dataTable->filter(function (DataTable $table) {
+            foreach ($table->getRows() as $row) {
                 $socialName = $row->getColumn('label');
 
                 $i = 1; // start at one because idSubtable=0 is equivalent to idSubtable=false
@@ -827,7 +820,7 @@ class API extends \Piwik\Plugin\API
                     ++$i;
                 }
             }
-        }
+        });
     }
 
     /**
@@ -836,22 +829,18 @@ class API extends \Piwik\Plugin\API
      * the grandchildren of the report will be the original report, and it will
      * recurse when trying to get a flat report).
      *
-     * @param DataTable|DataTable\Map $table
+     * @param DataTable|DataTable\Map $dataTable
      * @return DataTable|DataTable\Map Returns $table for convenience.
      */
-    private function removeSubtableIds($table)
+    private function removeSubtableIds($dataTable)
     {
-        if ($table instanceof DataTable\Map) {
-            foreach ($table->getDataTables() as $childTable) {
-                $this->removeSubtableIds($childTable);
-            }
-        } else {
+        $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRows() as $row) {
                 $row->removeSubtable();
             }
-        }
+        });
 
-        return $table;
+        return $dataTable;
     }
 
     /**

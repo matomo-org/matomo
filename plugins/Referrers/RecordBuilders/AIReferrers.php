@@ -73,7 +73,7 @@ class AIReferrers extends RecordBuilder
         return array_merge($records, $numericRecords);
     }
 
-    protected function getRecordNames()
+    protected function getRecordNames(): array
     {
         return [
             Archiver::AI_ASSISTANTS_ENTRY_URL_RECORD_NAME,
@@ -81,7 +81,7 @@ class AIReferrers extends RecordBuilder
         ];
     }
 
-    private function aggregateFromVisits(LogAggregator $logAggregator, DataTable $report, string $field): void
+    protected function aggregateFromVisits(LogAggregator $logAggregator, DataTable $report, string $field): void
     {
         $resultSet = $this->queryAIReferrerEntryPages($logAggregator, $field);
 
@@ -132,7 +132,7 @@ class AIReferrers extends RecordBuilder
         }
     }
 
-    public function makeVisitRow(array $row)
+    protected function makeVisitRow(array $row)
     {
         $metricIds = [
             Metrics::INDEX_NB_UNIQ_VISITORS,
@@ -160,6 +160,7 @@ class AIReferrers extends RecordBuilder
     {
         $where = 'referer_type = ' . Common::REFERRER_TYPE_AI_ASSISTANT;
         $query = $logAggregator->queryConversionsByDimension($dimensions, $where);
+
         while ($row = $query->fetch()) {
             $idGoal = (int) $row['idgoal'];
             $columns = [
@@ -249,8 +250,8 @@ class AIReferrers extends RecordBuilder
     private function addMetricsToSelect(string $select, array $metricsConfig): string
     {
         if (!empty($metricsConfig)) {
-            foreach ($metricsConfig as $metric => $query) {
-                $select .= ', ' . $query . " as `" . $metric . "`";
+            foreach ($metricsConfig as $metric => $config) {
+                $select .= ', ' . $config['query'] . " as `" . $metric . "`";
             }
         }
 
