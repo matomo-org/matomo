@@ -20,6 +20,4 @@ interface SettingValueInterface
     public static function getTitle(): string;
 
     public static function getInlineHelp(): string;
-
-    public static function getSettingName(): string;
 }

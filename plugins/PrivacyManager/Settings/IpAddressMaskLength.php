@@ -37,15 +37,10 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
         return $this->value;
     }
 
-    private static function getCustomSettingName(): string
-    {
-        return 'ipAddressMaskLength';
-    }
-
     public static function getCustomValue(?int $idSite = null)
     {
         // disallowing compliance override to prevent indefinite loop in getting the value
-        return (new Config($idSite))->getFromOption(self::getCustomSettingName(), $allowPolicyComplianceOverride = false);
+        return (new Config($idSite))->getFromOption('ipAddressMaskLength', $allowPolicyComplianceOverride = false);
     }
 
     public static function getTitle(): string
@@ -100,10 +95,5 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
             return $value1;
         }
         return $value2;
-    }
-
-    public static function getSettingName(): string
-    {
-        return self::getCustomSettingName();
     }
 }

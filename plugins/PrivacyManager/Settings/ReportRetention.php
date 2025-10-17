@@ -121,9 +121,4 @@ class ReportRetention implements
         }
         return $value2;
     }
-
-    public static function getSettingName(): string
-    {
-        return self::getConfigSettingName();
-    }
 }

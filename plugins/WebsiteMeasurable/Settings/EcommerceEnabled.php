@@ -131,9 +131,4 @@ class EcommerceEnabled implements MeasurableSettingInterface, PolicyComparisonIn
         }
         return $value2;
     }
-
-    public static function getSettingName(): string
-    {
-        return self::getMeasurableName();
-    }
 }

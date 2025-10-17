@@ -71,9 +71,4 @@ class FakePolicySetting implements PolicyComparisonInterface, SettingValueInterf
     {
         return 'Fake policy setting inline help text';
     }
-
-    public static function getSettingName(): string
-    {
-        return 'fake_setting_name';
-    }
 }

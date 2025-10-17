@@ -37,15 +37,10 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
         return $this->value;
     }
 
-    private static function getCustomSettingName(): string
-    {
-        return 'ipAnonymizerEnabled';
-    }
-
     public static function getCustomValue(?int $idSite = null)
     {
         // disallowing compliance override to prevent indefinite loop in getting the value
-        return (new Config($idSite))->getFromOption(self::getCustomSettingName(), $allowPolicyComplianceOverride = false);
+        return (new Config($idSite))->getFromOption('ipAnonymizerEnabled', $allowPolicyComplianceOverride = false);
     }
 
     public static function getTitle(): string
@@ -102,10 +97,5 @@ class IPAnonymisation implements CustomSettingInterface, PolicyComparisonInterfa
             return $value1;
         }
         return $value2;
-    }
-
-    public static function getSettingName(): string
-    {
-        return self::getCustomSettingName();
     }
 }
