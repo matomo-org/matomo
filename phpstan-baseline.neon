@@ -1141,11 +1141,6 @@ parameters:
 			path: core/DataTable/Filter/PivotByDimension.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
-			count: 1
-			path: core/DataTable/Filter/PivotByDimension.php
-
-		-
 			message: "#^Property Piwik\\\\DataTable\\\\Filter\\\\PivotByDimension\\:\\:\\$pivotByDimension \\(Piwik\\\\Columns\\\\Dimension\\) in empty\\(\\) is not falsy\\.$#"
 			count: 1
 			path: core/DataTable/Filter/PivotByDimension.php
@@ -1273,11 +1268,6 @@ parameters:
 		-
 			message: "#^Method Piwik\\\\DataTable\\\\Row\\:\\:compareElements\\(\\) should return bool but returns int\\<\\-1, 1\\>\\.$#"
 			count: 1
-			path: core/DataTable/Row.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 2
 			path: core/DataTable/Row.php
 
 		-
@@ -3309,11 +3299,6 @@ parameters:
 			path: plugins/Actions/ArchivingHelper.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 3
-			path: plugins/Actions/ArchivingHelper.php
-
-		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:setColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Actions/ArchivingHelper.php
@@ -4374,11 +4359,6 @@ parameters:
 			path: plugins/Goals/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Goals/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$oldName of method Piwik\\\\DataTable\\\\Row\\:\\:renameColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Goals/API.php
@@ -5179,11 +5159,6 @@ parameters:
 			path: plugins/Referrers/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Referrers/API.php
-
-		-
 			message: "#^Variable \\$numericArchives in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/Referrers/API.php
@@ -5501,11 +5476,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$label of function Piwik\\\\Plugins\\\\Referrers\\\\getReferrerTypeLabel expects string, int given\\.$#"
 			count: 1
-			path: plugins/Transitions/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 2
 			path: plugins/Transitions/API.php
 
 		-
