@@ -1,3 +1,7 @@
+.modal {
+  background: @theme-color-background-base;
+}
+
 .modal.open {
     display: flex !important;
     flex-direction: column;
@@ -6,9 +10,11 @@
 .modal .modal-content {
     flex: auto;
     overflow-y: auto;
-    .vertical-scroll-shadows();
+
+    .vertical-scroll-shadows(@theme-color-background-base);
 }
 
 .modal .modal-footer {
+    background: @theme-color-background-base;
     flex: none;
 }
