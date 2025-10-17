@@ -17,7 +17,6 @@ use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\Plugins\Goals\Visualizations\Goals;
 use Piwik\Plugins\Referrers\Columns\AIAssistant;
 use Piwik\Report\ReportWidgetFactory;
-use Piwik\Request;
 use Piwik\Widget\WidgetsList;
 
 class GetAIAssistants extends Base
@@ -61,42 +60,12 @@ class GetAIAssistants extends Base
             $view->config->disable_subtable_when_show_goals = true;
 
             if (!$view->isViewDataTableId(Goals::ID)) {
-                $view->config->show_related_reports = true;
-
-                $secondaryDimension = 'entryPageUrl';
-                if ('entryPageTitle' === Request::fromRequest()->getStringParameter('secondaryDimension', '')) {
-                    $secondaryDimension = 'entryPageTitle';
-                }
-
-                $secondaryDimensionTranslation       = $this->getDimensionLabel($secondaryDimension);
-                $view->config->related_reports_title =
-                    Piwik::translate('Events_SecondaryDimension', $secondaryDimensionTranslation)
-                    . "<br/>"
-                    . Piwik::translate('Events_SwitchToSecondaryDimension', '');
-
-                foreach (['entryPageUrl', 'entryPageTitle'] as $dimension) {
-                    if ($dimension === $secondaryDimension) {
-                        // don't show as related report the currently selected dimension
-                        continue;
-                    }
-
-                    $dimensionTranslation = $this->getDimensionLabel($dimension);
-                    $view->config->addRelatedReport(
-                        $view->requestConfig->apiMethodToRequestDataTable,
-                        $dimensionTranslation,
-                        ['secondaryDimension' => $dimension]
-                    );
-                }
+                $secondaryDimensions = [
+                    'entryPageUrl'   => Piwik::translate('Actions_ColumnEntryPageURL'),
+                    'entryPageTitle' => Piwik::translate('Actions_ColumnEntryPageTitle'),
+                ];
+                $view->config->setSecondaryDimensions($secondaryDimensions, 'entryPageUrl');
             }
         }
-    }
-
-    private function getDimensionLabel(string $dimension): string
-    {
-        if ($dimension === 'entryPageTitle') {
-            return Piwik::translate('Actions_ColumnEntryPageTitle');
-        }
-
-        return Piwik::translate('Actions_ColumnEntryPageURL');
     }
 }
