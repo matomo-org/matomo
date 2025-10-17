@@ -124,6 +124,6 @@ class ReportRetention implements
 
     public static function getSettingName(): string
     {
-        return self::getConfigSettingName(); 
+        return self::getConfigSettingName();
     }
 }
