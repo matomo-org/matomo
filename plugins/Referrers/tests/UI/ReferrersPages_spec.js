@@ -117,4 +117,29 @@ describe("ReferrersPages", function () {
     pageWrap = await page.$('.pageWrap');
     expect(await pageWrap.screenshot()).to.matchImage('campaigns');
   });
+
+  it('should load the referrers > ai assistants page correctly', async function () {
+    await page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_AIAssistants");
+    await page.waitForNetworkIdle();
+
+    await (await page.jQuery('.subDataTable:eq(2) .label')).click();
+    await page.mouse.move(-10, -10);
+    await page.waitForNetworkIdle();
+
+    pageWrap = await page.$('.pageWrap');
+    expect(await pageWrap.screenshot()).to.matchImage('aiassistants');
+  });
+
+  it('should load the referrers > ai assistants with secondary dimension', async function () {
+    const visibleSpan = await page.jQuery('.datatableRelatedReports li>span:visible');
+    await visibleSpan.click();
+    await page.waitForNetworkIdle();
+
+    await (await page.jQuery('.subDataTable:eq(2) .label')).click();
+    await page.mouse.move(-10, -10);
+    await page.waitForNetworkIdle();
+
+    pageWrap = await page.$('.pageWrap');
+    expect(await pageWrap.screenshot()).to.matchImage('aiassistants_titles');
+  });
 });

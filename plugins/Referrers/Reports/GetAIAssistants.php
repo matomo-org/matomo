@@ -13,7 +13,6 @@ use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
 use Piwik\Plugins\Goals\Visualizations\Goals;
 use Piwik\Plugins\Referrers\Columns\AIAssistant;
 use Piwik\Report\ReportWidgetFactory;
@@ -46,7 +45,7 @@ class GetAIAssistants extends Base
 
     public function getDefaultTypeViewDataTable()
     {
-        return Pie::ID;
+        return HtmlTable\AllColumns::ID;
     }
 
     public function configureView(ViewDataTable $view)
