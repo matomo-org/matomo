@@ -497,6 +497,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'General_ExceptionContactSupportGeneric';
         $translationKeys[] = 'PrivacyManager_ComplianceCNILTitle';
         $translationKeys[] = 'PrivacyManager_ComplianceCNILDescription';
+        $translationKeys[] = 'General_MultiSitesSummary';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)

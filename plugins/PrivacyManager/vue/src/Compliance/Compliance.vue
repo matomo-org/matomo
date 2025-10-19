@@ -41,6 +41,7 @@ import {
   MatomoUrl,
   SiteSelector,
   SiteRef,
+  translate,
 } from 'CoreHome';
 import { fetchCompliancePolicies, CompliancePolicy } from './Compliance.store';
 import ComplianceOverview from './ComplianceOverview.vue';
@@ -54,7 +55,7 @@ export default defineComponent({
   setup() {
     const site = ref<SiteRef>({
       id: Matomo.idSite ?? MatomoUrl.urlParsed.value.idSite,
-      name: Matomo.helper.htmlDecode(Matomo.siteName),
+      name: Matomo.siteName ? Matomo.helper.htmlDecode(Matomo.siteName) : translate('General_MultiSitesSummary'),
     });
     const siteId = ref(String(Matomo.idSite ?? MatomoUrl.urlParsed.value.idSite));
 

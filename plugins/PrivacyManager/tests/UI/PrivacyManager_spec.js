@@ -474,10 +474,7 @@ describe("PrivacyManager", function () {
     });
 
     it('should load a new compliance page when site selector is changed', async function() {
-      testEnvironment.overrideConfig('FeatureFlags', {
-        PrivacyCompliance_feature: 'enabled',
-      });
-      testEnvironment.save();
+      // feature flag enabled from previous test
 
       await page.goto('?module=PrivacyManager&action=compliance&idSite=1&period=day&date=yesterday');
       await page.waitForNetworkIdle();
@@ -487,5 +484,31 @@ describe("PrivacyManager", function () {
       await page.waitForNetworkIdle();
 
       expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_different_site');
+    });
+
+    it('should select All Websites when idSite is not provided', async function() {
+      // feature flag enabled from previous test
+
+      await page.goto('?module=PrivacyManager&action=compliance');
+      await page.waitForNetworkIdle();
+
+      const siteSelectorContent = await page.evaluate(() => {
+        return $('#complianceSite a.title').text();
+      });
+
+      expect(siteSelectorContent).to.be.equal('All Websites');
+    });
+
+    it('should select All Websites when idSite equals all', async function() {
+      // feature flag enabled from previous test
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
+      await page.waitForNetworkIdle();
+
+      const siteSelectorContent = await page.evaluate(() => {
+        return $('#complianceSite a.title').text();
+      });
+
+      expect(siteSelectorContent).to.be.equal('All Websites');
     });
   });
