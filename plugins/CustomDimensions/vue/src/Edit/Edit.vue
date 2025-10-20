@@ -48,7 +48,7 @@
             <div class="col s12 m6">
               <div
                 v-for="(extraction, index) in dimension.extractions"
-                :class="`${index}extraction `"
+                :class="`extraction${index}`"
                 :key="index"
               >
                 <div class="row">
@@ -56,7 +56,7 @@
                     <div>
                       <Field
                         uicontrol="select"
-                        :name="`${index}dimension`"
+                        :name="`dimension${index}`"
                         v-model="extraction.dimension"
                         :full-width="true"
                         :options="extractionDimensionsOptions"
@@ -68,7 +68,7 @@
                     <div>
                       <Field
                         uicontrol="text"
-                        :name="`${index}pattern`"
+                        :name="`pattern${index}`"
                         v-model="extraction.pattern"
                         :full-width="true"
                         :title="extraction.dimension === 'urlparam'
