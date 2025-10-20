@@ -14,7 +14,7 @@ namespace Piwik\Plugins\AIAgents\tests\Fixtures;
 use MatomoTracker;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Plugins\AIAgents\Columns\AIAgentName;
+use Piwik\Plugins\AIAgents\API;
 use Piwik\Plugins\AIAgents\Providers\ChatGPT as ChatGPTAgent;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
 use Piwik\Tests\Framework\Fixture;
@@ -40,14 +40,14 @@ class AIAgents extends Fixture
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
 
         SegmentEditorAPI::getInstance()->add(
-            'AI Agent Name Empty',
-            AIAgentName::SEGMENT_EMPTY,
+            'AI Agent Visitors',
+            API::AI_AGENT_SEGMENT,
             $this->idSite
         );
 
         SegmentEditorAPI::getInstance()->add(
-            'AI Agent Name Any',
-            AIAgentName::SEGMENT_ANY,
+            'Human Visitors',
+            API::HUMAN_SEGMENT,
             $this->idSite
         );
 

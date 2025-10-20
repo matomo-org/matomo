@@ -18,6 +18,7 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\Plugins\AIAgents;
 use Piwik\Plugins\CoreAdminHome\API;
 
 /**
@@ -934,6 +935,11 @@ class Archive implements ArchiveQuery
             strrpos($report, '_new') === strlen($report) - strlen('_new')
         ) { // HACK
             $report = 'VisitFrequency_Metrics';
+        } elseif (
+            strrpos($report, AIAgents\API::AI_AGENT_COLUMN_SUFFIX) === strlen($report) - strlen(AIAgents\API::AI_AGENT_COLUMN_SUFFIX) ||
+            strrpos($report, AIAgents\API::HUMAN_COLUMN_SUFFIX) === strlen($report) - strlen(AIAgents\API::HUMAN_COLUMN_SUFFIX)
+        ) { // HACK
+            $report = 'AIAgents_Metrics';
         }
 
         $plugin = substr($report, 0, strpos($report, '_'));
