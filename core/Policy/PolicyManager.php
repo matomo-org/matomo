@@ -6,6 +6,7 @@ use Exception;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
+use ReflectionMethod;
 
 class PolicyManager
 {
@@ -158,5 +159,39 @@ class PolicyManager
         throw new Exception(
             sprintf("No suitable method found for privacy policy controlled setting class '%s' to get its name.", $controlledSettingClass)
         );
+    }
+
+    /**
+     * For a given setting name, return an information on policies that may control the setting and its required value.
+     *
+     * @param string $settingName
+     * @param int|null $idSite
+     * @return array<string, array{
+     *      requiredValue: mixed
+     *  }>
+     * @throws \ReflectionException
+     */
+    public static function getCompliancePoliciesControllingASetting(string $settingName, ?int $idSite = null): array
+    {
+        $policies = static::getAllPolicies();
+        $settings = [];
+
+        foreach ($policies as $policyClass) {
+            if (false === $policyClass::isActive($idSite)) {
+                continue;
+            }
+            $controlledSettings = self::getAllControlledSettings($policyClass, $idSite);
+
+            foreach ($controlledSettings as $controlledSetting) {
+                // TODO: For Matomo 6, use `getSettingName` from `SettingValueInterface` and remove `self::getControlledSettingName` implementation
+                if ($settingName === self::getControlledSettingName($controlledSetting)) {
+                    $settings[$policyClass::getName()] = [
+                        'requiredValue' => $controlledSetting::getPolicyRequirements()[$policyClass],
+                    ];
+                }
+            }
+        }
+
+        return $settings;
     }
 }
