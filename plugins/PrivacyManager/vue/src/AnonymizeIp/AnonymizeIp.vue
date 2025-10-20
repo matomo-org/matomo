@@ -26,6 +26,7 @@
           :title="translate('PrivacyManager_UseAnonymizeIp')"
           v-model="actualEnabled"
           :inline-help="anonymizeIpEnabledHelp"
+          :extra-metadata="getExtraMetadataForField('ipAnonymizerEnabled')"
         >
         </Field>
       </div>
@@ -38,6 +39,7 @@
             v-model="actualMaskLength"
             :options="maskLengthOptions"
             :inline-help="translate('PrivacyManager_GeolocationAnonymizeIpNote')"
+            :extra-metadata="getExtraMetadataForField('ipAddressMaskLength')"
           >
           </Field>
         </div>
@@ -49,6 +51,7 @@
             v-model="actualUseAnonymizedIpForVisitEnrichment"
             :options="useAnonymizedIpForVisitEnrichmentOptions"
             :inline-help="translate('PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote')"
+            :extra-metadata="getExtraMetadataForField('useAnonymizedIpForVisitEnrichment')"
           >
           </Field>
         </div>
@@ -59,6 +62,7 @@
           :name="`anonymizeUserId${idSiteSpecific}`"
           :title="translate('PrivacyManager_PseudonymizeUserId')"
           v-model="actualAnonymizeUserId"
+          :extra-metadata="getExtraMetadataForField('anonymizeUserId')"
         >
           <template v-slot:inline-help>
             {{ translate('PrivacyManager_PseudonymizeUserIdNote') }}
@@ -74,6 +78,7 @@
           :title="translate('PrivacyManager_UseAnonymizeOrderId')"
           v-model="actualAnonymizeOrderId"
           :inline-help="translate('PrivacyManager_AnonymizeOrderIdNote')"
+          :extra-metadata="getExtraMetadataForField('anonymizeOrderId')"
         >
         </Field>
       </div>
@@ -83,6 +88,7 @@
           name="forceCookielessTracking"
           :title="translate('PrivacyManager_ForceCookielessTracking')"
           v-model="actualForceCookielessTracking"
+          :extra-metadata="getExtraMetadataForField('forceCookielessTracking')"
         >
           <template v-slot:inline-help>
             {{ translate('PrivacyManager_ForceCookielessTrackingDescription', trackerFileName) }}
@@ -107,6 +113,7 @@
           v-model="actualAnonymizeReferrer"
           :options="referrerAnonymizationOptions"
           :inline-help="translate('PrivacyManager_AnonymizeReferrerNote')"
+          :extra-metadata="getExtraMetadataForField('anonymizeReferrer')"
         >
         </Field>
       </div>
@@ -117,6 +124,7 @@
           :title="translate('PrivacyManager_UseRandomizeConfigId')"
           v-model="actualRandomizeConfigId"
           :inline-help="randomiseConfigIdHelpText"
+          :extra-metadata="getExtraMetadataForField('randomizeConfigId')"
         >
         </Field>
       </div>
@@ -166,6 +174,8 @@ interface AnonymizeIpState {
   actualRandomizeConfigId: boolean;
   showPasswordConfirmation: boolean;
 }
+
+type TMaybeObject = Record<string, unknown> | undefined;
 
 function boolToInt(value?: string|number|boolean): number {
   return value === true || value === 1 || value === '1' ? 1 : 0;
@@ -220,6 +230,10 @@ export default defineComponent({
     triggerSave: {
       type: Boolean,
       default: false,
+    },
+    extraMetadata: {
+      type: Object,
+      default: () => ({}),
     },
   },
   components: {
@@ -320,6 +334,9 @@ export default defineComponent({
       );
 
       return `${helpText}<br><br>${helpTextWarning}`;
+    },
+    getExtraMetadataForField(fieldName: string): TMaybeObject {
+      return this.extraMetadata?.[fieldName];
     },
   },
   computed: {

@@ -68,6 +68,10 @@ export default defineComponent({
     min: Number,
     max: Number,
     component: null,
+    extraMetadata: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   emits: ['update:modelValue', 'check:isValid'],
   components: {
@@ -115,6 +119,7 @@ export default defineComponent({
         },
         fullWidth: this.fullWidth,
         uiControlOptions: this.uiControlOptions,
+        extraMetadata: this.extraMetadata,
       };
     },
   },

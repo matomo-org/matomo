@@ -38,6 +38,7 @@
         :tracker-writable="trackerWritable"
         :referrer-anonymization-options="referrerAnonymizationOptions"
         :randomize-config-id="randomizeConfigId"
+        :extra-metadata="extraMetadata"
       />
     </ContentBlock>
 
@@ -158,6 +159,10 @@ export default defineComponent({
     },
     isSuperUser: Boolean,
     randomizeConfigId: Boolean,
+    extraMetadata: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   components: {
     AnonymizeIp,

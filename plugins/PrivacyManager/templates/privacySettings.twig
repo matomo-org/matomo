@@ -25,6 +25,7 @@
     anonymizations="{{ anonymizations|json_encode }}"
     is-super-user="{{ isSuperUser|json_encode }}"
     randomize-config-id="{{ anonymisationSettings.randomizeConfigId|json_encode }}"
+    extra-metadata="{{ anonymisationSettings.extraMetadata|default([])|json_encode }}"
 ></div>
 
 {% endblock %}

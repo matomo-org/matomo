@@ -263,6 +263,8 @@
         "UseSiteSpecificSettings": "Use custom settings specific to this site",
         "UseSiteSpecificSettingsHelpText": "By default, each site uses anonymization settings defined for the whole Matomo instance in %1$ssystem settings%2$s. If you select the '%3$s' option, you can override each of the settings for this specific site.",
         "ManagePrivacySettings": "Manage privacy settings",
+        "PolicyControlledSetting": "A privacy compliance policy overrides this settings, so changing it has no effect right now.",
+        "ViewPrivacyComplianceOverview": "View privacy compliance overview",
         "CampaignTrackingParametersDisabledSettingTitle": "Campaign tracking parameters disabled",
         "CampaignTrackingParametersDisabledSettingRequirementNote": "All campaign tracking parameters must be discarded"
     }

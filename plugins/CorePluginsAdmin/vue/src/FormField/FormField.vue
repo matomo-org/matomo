@@ -72,6 +72,15 @@
           <span>{{ defaultValuePrettyTruncated }}</span>
         </span>
       </div>
+      <Notification
+        v-if="isPrivacyPolicyControlled"
+        :noclear="true"
+        context="info"
+      >
+        {{ translate('PrivacyManager_PolicyControlledSetting') }} <a :href="privacyPolicyLink">
+          {{ translate('PrivacyManager_ViewPrivacyComplianceOverview') }}
+        </a>
+      </Notification>
     </div>
   </div>
 </template>
@@ -85,7 +94,7 @@ import {
   Component,
   markRaw,
 } from 'vue';
-import { useExternalPluginComponent } from 'CoreHome';
+import { useExternalPluginComponent, MatomoUrl, Notification } from 'CoreHome';
 import FieldCheckbox from './FieldCheckbox.vue';
 import FieldCheckboxArray from './FieldCheckboxArray.vue';
 import FieldExpandableSelect, {
@@ -172,6 +181,7 @@ export default defineComponent({
   },
   emits: ['update:modelValue', 'check:isValid'],
   components: {
+    Notification,
     FieldCheckbox,
     FieldCheckboxArray,
     FieldExpandableSelect,
@@ -389,6 +399,20 @@ export default defineComponent({
     },
     fieldId() {
       return this.formField.id ? this.formField.id : this.formField.name;
+    },
+    getExtraMetadataIdSite() {
+      return this.formField.extraMetadata?.idSite;
+    },
+    isPrivacyPolicyControlled() {
+      return this.formField.extraMetadata?.compliancePolicyControlled !== undefined;
+    },
+    privacyPolicyLink() {
+      return `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        module: 'PrivacyManager',
+        action: 'compliance',
+        idSite: this.getExtraMetadataIdSite ?? 'all',
+      })}`;
     },
   },
   methods: {
