@@ -109,4 +109,54 @@ class PolicyManager
 
         return $policyClass::getUnknownSettings();
     }
+
+    /**
+     * Get a name from a policy controlled setting based on which method is available
+     *
+     * Note: used this cascading mechanism as some settings have already been implemented and released
+     * in premium plugins, so it's harder to provide a new single method that would return a setting name.
+     *
+     * @param class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>> $controlledSettingClass
+     * @param int|null $idSite
+     * @return string
+     * @throws \ReflectionException
+     * @throws Exception
+     * @deprecated will be removed in Matomo 6 in favour of `public static function getSettingName` on `SettingValueInterface`
+     */
+    public static function getControlledSettingName(string $controlledSettingClass, ?int $idSite = null): string
+    {
+        $methodName = null;
+        $args = [];
+
+        // list of methods to check for and whether they take idSite as param
+        $methods = [
+            'getSystemName' => false,
+            'getMeasurableName' => false,
+            'getCustomSettingName' => false,
+            'getOptionName' => true,
+            'getConfigSettingName' => false,
+        ];
+
+        foreach ($methods as $method => $hasIdSiteParam) {
+            if (method_exists($controlledSettingClass, $method)) {
+                $methodName = $method;
+                if ($hasIdSiteParam) {
+                    $args = [$idSite];
+                }
+                break;
+            }
+        }
+
+        // if we found a method name, use reflection to make it accessible and then call it
+        if ($methodName) {
+            $reflection = new ReflectionMethod($controlledSettingClass, $methodName);
+            $reflection->setAccessible(true);
+
+            return $reflection->invokeArgs(null, $args);
+        }
+
+        throw new Exception(
+            sprintf("No suitable method found for privacy policy controlled setting class '%s' to get its name.", $controlledSettingClass)
+        );
+    }
 }
