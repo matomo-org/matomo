@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2adb258907cd42cc356bb58185170000",
+    "content-hash": "68602361dfbffa669afd2a2085e11726",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -667,23 +667,23 @@
         },
         {
             "name": "matomo/network",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-network.git",
-                "reference": "ff654b8fc7778b80279815d06a368f7b41249501"
+                "reference": "e17dc8d688c27182b608a16efd3f1715b27b28e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/ff654b8fc7778b80279815d06a368f7b41249501",
-                "reference": "ff654b8fc7778b80279815d06a368f7b41249501",
+                "url": "https://api.github.com/repos/matomo-org/component-network/zipball/e17dc8d688c27182b608a16efd3f1715b27b28e1",
+                "reference": "e17dc8d688c27182b608a16efd3f1715b27b28e1",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4"
+                "php": ">=7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.36"
+                "phpunit/phpunit": "^8 || ^9 || ^10 || ^11 || ^12"
             },
             "type": "library",
             "autoload": {
@@ -697,9 +697,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matomo-org/component-network/issues",
-                "source": "https://github.com/matomo-org/component-network/tree/2.0.1"
+                "source": "https://github.com/matomo-org/component-network/tree/2.0.2"
             },
-            "time": "2020-10-05T06:09:39+00:00"
+            "time": "2025-10-08T15:01:12+00:00"
         },
         {
             "name": "matomo/referrer-spam-list",
@@ -738,12 +738,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "6487a125a1cbf8d957931921165c6f66dd6a092f"
+                "reference": "10c5fcdda6d0785863f401905164caf881a45f6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/6487a125a1cbf8d957931921165c6f66dd6a092f",
-                "reference": "6487a125a1cbf8d957931921165c6f66dd6a092f",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/10c5fcdda6d0785863f401905164caf881a45f6d",
+                "reference": "10c5fcdda6d0785863f401905164caf881a45f6d",
                 "shasum": ""
             },
             "replace": {
@@ -760,7 +760,7 @@
                 "issues": "https://github.com/matomo-org/searchengine-and-social-list/issues",
                 "source": "https://github.com/matomo-org/searchengine-and-social-list/tree/master"
             },
-            "time": "2025-09-11T10:57:38+00:00"
+            "time": "2025-10-14T11:47:54+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -1477,16 +1477,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.11.1",
+            "version": "v7.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "d9e3b36b47f04b497a0164c5a20f92acb4593284"
+                "reference": "c7111310c6116ba508a6a170a89eaaed2129bd42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/d9e3b36b47f04b497a0164c5a20f92acb4593284",
-                "reference": "d9e3b36b47f04b497a0164c5a20f92acb4593284",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/c7111310c6116ba508a6a170a89eaaed2129bd42",
+                "reference": "c7111310c6116ba508a6a170a89eaaed2129bd42",
                 "shasum": ""
             },
             "require": {
@@ -1547,7 +1547,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.11.1"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v7.0.0"
             },
             "funding": [
                 {
@@ -1555,7 +1555,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-30T11:54:53+00:00"
+            "time": "2025-10-15T16:40:02+00:00"
         },
         {
             "name": "psr/container",

@@ -27,5 +27,10 @@
 			<value>compliant</value>
 			<notes>Retention period is set to 180 days</notes>
 		</row>
+        <row>
+            <name>Opt out</name>
+            <value>unknown</value>
+            <notes>Opt out must be manually set up and configured</notes>
+        </row>
 	</complianceRequirements>
 </result>

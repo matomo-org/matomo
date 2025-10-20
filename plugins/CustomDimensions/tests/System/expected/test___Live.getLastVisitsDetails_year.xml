@@ -474,7 +474,7 @@
 			</row>
 			<row>
 				<type>action</type>
-				<url>http://example.com/sub_en/page?test=343&amp;param=23</url>
+				<url>http://example.com/sub_en/page?test=%22%3E%3Cimg+src%3Dx+onerror%3D%22document.write%28%27test%27%29%22%3E&amp;param=23</url>
 				<pageTitle>Second page view</pageTitle>
 				<pageIdAction>4</pageIdAction>
 				
@@ -485,12 +485,12 @@
 				<timeSpentPretty>6 min 0s</timeSpentPretty>
 				<pageviewPosition>2</pageviewPosition>
 				<title>Second page view</title>
-				<subtitle>http://example.com/sub_en/page?test=343&amp;param=23</subtitle>
+				<subtitle>http://example.com/sub_en/page?test=%22%3E%3Cimg+src%3Dx+onerror%3D%22document.write%28%27test%27%29%22%3E&amp;param=23</subtitle>
 				<icon />
 				<iconSVG>plugins/Morpheus/images/action.svg</iconSVG>
 				
 				<dimension3>en</dimension3>
-				<dimension5>343</dimension5>
+				<dimension5>&quot;&gt;&lt;img src=x onerror=&quot;document.write('test')&quot;&gt;</dimension5>
 				<bandwidth_pretty>0 M</bandwidth_pretty>
 			</row>
 			<row>
@@ -501,7 +501,7 @@
 				<revenue>0</revenue>
 				<goalPageId>2</goalPageId>
 				
-				<url>http://example.com/sub_en/page?test=343&amp;param=23</url>
+				<url>http://example.com/sub_en/page?test=%22%3E%3Cimg+src%3Dx+onerror%3D%22document.write%28%27test%27%29%22%3E&amp;param=23</url>
 				<referrerType>direct</referrerType>
 				<referrerName />
 				<referrerKeyword />

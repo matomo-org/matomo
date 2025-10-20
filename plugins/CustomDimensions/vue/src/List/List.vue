@@ -23,6 +23,7 @@
       v-show="!isLoading"
       v-for="scope in availableScopes"
       :key="scope.value"
+      :class="`scope-${scope.value}`"
     >
       <ContentBlock
         :content-title="translate(`CustomDimensions_ScopeTitle${ucfirst(scope.value)}`)"
@@ -51,7 +52,7 @@
             <tr
               class="customdimension"
               v-for="customDimension in sortedCustomDimensionsByScope[scope.value]"
-              :class="customDimension.idcustomdimension"
+              :class="`customdimension-${customDimension.idcustomdimension}`"
               :key="customDimension.idcustomdimension"
             >
               <td class="index">{{ customDimension.idcustomdimension }}</td>

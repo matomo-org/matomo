@@ -75,4 +75,14 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
             self::$perSite = [];
         }
     }
+
+    public static function getUnknownSettings(): array
+    {
+        return [
+            [
+                'title' => 'Unknown setting title',
+                'note' => 'Unknown setting note',
+            ],
+        ];
+    }
 }

@@ -1,5 +1,10 @@
 [
   {
+    "title": "New Copy function - Custom Reports, Heatmaps, and more",
+    "description": "A new a copy function is available across multiple features to make your setup faster and easier. Simply duplicate an existing item and settings are automatically copied - ready for you to adjust!",
+    "version": "5.5.0"
+  },
+  {
     "title": "CustomReports - Now supports more than 3 dimensions",
     "description": "On-Premise Matomo users can now configure the maximum number of dimensions allowed in a custom report at the instance level. For example, you can adjust the maximum number of dimensions from 3 (default) to 6 or 10.",
     "version": "5.3.3",

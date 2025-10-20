@@ -202,6 +202,7 @@
         "ThereAreCurrentlyNRegisteredUsers": "Det finns just nu %s registrerade användare.",
         "TokenAuth": "API-autentiseringstoken",
         "TokenAuthIntro": "Tokens du har genererat kan användas för att komma åt API för Matomo-rapportering, API för Matomo-spårning och exporterade Matomo-widgetar och ha samma behörigheter som din vanliga användarinloggning. Du kan även använda dessa tokens för Matomos mobil-app.",
+        "TokenExpireDate": "Tokens utgångsdatum",
         "TokenRegenerateConfirmSelf": "Ändring av API-autentiseringstoken ogiltigförklarar ditt egna token. Om detta token är i användning, måste du uppdatera alla API-klienter med det nygenererade tokenet. Vill du verkligen ändra ditt autentiseringstoken?",
         "TokenRegenerateTitle": "Återskapa",
         "TokenSuccessfullyDeleted": "Token har tagits bort",

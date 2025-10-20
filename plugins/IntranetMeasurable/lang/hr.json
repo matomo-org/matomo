@@ -1,6 +1,6 @@
 {
     "IntranetMeasurable": {
-        "Intranet": "Intranet web stranica",
+        "Intranet": "Intranet web-stranica",
         "IntranetDescription": "Mjerljivi intranet je baš kao web-stranica, ali smješten na internoj mreži.",
         "IntranetLongDescription": "Prati interne stranice koje su dostupne isključivo unutar mreže tvoje organizacije. Matomo koristi kolačiće kako bi preciznije identificirao jedinstvene posjetitelje u intranet okruženjima.",
         "Intranets": "Intranet web-stranice"

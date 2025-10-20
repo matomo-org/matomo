@@ -29,6 +29,10 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     abstract public static function getName(): string;
     abstract public static function getDescription(): string;
     abstract public static function getTitle(): string;
+    /**
+     * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
+     */
+    abstract public static function getUnknownSettings(): array;
 
     /**
      * @return array<string> of plugin names that are required for this policy to function

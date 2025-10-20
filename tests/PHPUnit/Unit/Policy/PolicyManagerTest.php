@@ -47,4 +47,14 @@ class PolicyManagerTest extends TestCase
         $this->assertCount(1, $settings);
         $this->assertTrue(is_a($settings[0], FakePolicySetting::class, true));
     }
+
+    public function testGetAllUnknownSettings()
+    {
+        $settings = MockPolicyManager::getAllUnknownSettings(TestPolicy::class);
+        $this->assertCount(1, $settings);
+        foreach ($settings as $unknownSetting) {
+            $this->assertArrayHasKey('title', $unknownSetting);
+            $this->assertArrayHasKey('note', $unknownSetting);
+        }
+    }
 }

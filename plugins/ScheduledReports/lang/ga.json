@@ -48,6 +48,7 @@
         "Segment_HelpScheduledReport": "Is féidir leat deighleog saincheaptha atá ann cheana a roghnú le cur i bhfeidhm ar shonraí sa tuarascáil sceidealaithe seo. Is féidir leat deighleoga saincheaptha a chruthú agus a chur in eagar i do phainéal %1$s(cliceáil anseo le hoscailt)%2$s, ansin cliceáil ar an mbosca \"%3$s\", ansin \"%4$s\".",
         "SendReportNow": "Seol Tuairisc anois",
         "SendReportTo": "Seol tuairisc chuig",
+        "SendingReport": "Ag seoladh tuairisce…",
         "SentFromX": "Seolta ó %s.",
         "SentToMe": "Seol chugam",
         "SuccessfullyUnsubscribed": "D'éirigh leat díliostáil ón tuarascáil %1$s.",

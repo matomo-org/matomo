@@ -48,6 +48,7 @@
         "Segment_HelpScheduledReport": "Podeu seleccionar un segment personalitzat existent per aplicar-lo a les dades d'aquest informe programat. Podeu crear i editar segments personalitzats al vostre tauler de control %1$s(feu clic aquí per obrir-lo)%2$s i, a continuació, fer clic a la casella \"%3$s\" i, a continuació, a \"%4$s\".",
         "SendReportNow": "Envia l'informe ara",
         "SendReportTo": "Envia l'informe a",
+        "SendingReport": "Enviant l'informe…",
         "SentFromX": "Enivat des de %s.",
         "SentToMe": "Enviam l'informe a mi",
         "SuccessfullyUnsubscribed": "Heu cancel·lat correctament la subscripció a l'informe %1$s.",

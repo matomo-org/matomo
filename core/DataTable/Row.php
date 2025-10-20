@@ -188,7 +188,7 @@ class Row extends \ArrayObject
     /**
      * Returns a column by name.
      *
-     * @param string $name The column name.
+     * @param string|int $name The column name.
      * @return mixed|false  The column value or false if it doesn't exist.
      */
     public function getColumn($name)

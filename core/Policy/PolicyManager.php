@@ -95,4 +95,18 @@ class PolicyManager
         }
         return $policyClass::isActive($idSite);
     }
+
+    /**
+     * @param class-string<CompliancePolicy> $policyClass
+     * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
+     * @throws \Exception when $policyClass is not a valid policy
+     */
+    public static function getAllUnknownSettings(string $policyClass): array
+    {
+        if (!is_a($policyClass, CompliancePolicy::class, true)) {
+            throw new Exception('Invalid compliance policy.');
+        }
+
+        return $policyClass::getUnknownSettings();
+    }
 }

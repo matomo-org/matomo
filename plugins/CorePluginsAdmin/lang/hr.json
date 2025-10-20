@@ -1,1 +1,19 @@
-{}
+{
+    "CorePluginsAdmin": {
+        "ActionUninstall": "Deinstaliraj",
+        "Activate": "Aktiviraj",
+        "Activated": "Aktivirano",
+        "Active": "Aktivno",
+        "Activity": "Aktivnost",
+        "AlwaysActivatedPluginsList": "Sljedeći dodaci su uvijek aktivirani i ne mogu se deaktivirati: %s",
+        "AuthorHomepage": "Web-stranica autora",
+        "Changelog": "Dnevnik promjena",
+        "Deactivate": "Deaktiviraj",
+        "History": "Povijest",
+        "Inactive": "Neaktivno",
+        "InstallNewPlugins": "Instaliraj nove dodatke",
+        "InstallNewThemes": "Instaliraj nove teme",
+        "InstalledPlugins": "Instalirani dodaci",
+        "InstalledThemes": "Instalirane teme"
+    }
+}
