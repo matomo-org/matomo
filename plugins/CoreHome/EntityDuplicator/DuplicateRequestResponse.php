@@ -40,7 +40,7 @@ class DuplicateRequestResponse
 
     /**
      * @var array Optional array containing the data required for the event to be posted on success. If set, the event
-     * to record the activity will be triggered when the getResponseArray method is called.
+     *   will be triggered when the getResponseArray method is called.
      *
      * @see self::setRequestDataForEvent()
      * @see self::getResponseArray()
@@ -169,21 +169,18 @@ class DuplicateRequestResponse
     }
 
     /**
-     * If the correct class exists, instantiate it with the provided arguments so that it can post the event to record
-     * the activity log when the response array is built.
+     * Set the arguments to be used while posting the event when the response array is built. This is used by plugins
+     *   which use this class while generating the response to a duplication request.
      *
      * @param string $entityTypeTranslation Translation key for the name of the type of entity. E.g. Goals_Goal,
-     * Heatmaps_Heatmap, etc.
-     * @param string $entityName The name of the entity being copied. E.g. 'Goal that does thing' or
-     * 'Home page heatmap'. This will be used in conjunction with the entity type translation to describe the entity
-     * being copied.
+     *   Heatmaps_Heatmap, etc.
+     * @param string $entityName The name of the entity being copied. E.g. 'Goal that does thing' or'Home page heatmap'.
      * @param int|null $idEntity The ID of the entity being copied. E.g. 2 or 900. It's optional since some entities
-     * might only have a string identifier which should be provided as the entityName. If provided, this will be used in
-     * conjunction with the entity type translation and entity name to describe the entity being copied.
+     *   might only have a string identifier which should be provided as the entityName.
      * @param int|null $idSite ID of the source site. It's optional in case the entity being copied is not site scoped,
-     * like a system-wide configuration.
+     *   like a system-wide configuration.
      * @param array|null $idDestinationSites IDs of the destination sites. This is optional for the same reason as
-     * idSite but also because it doesn't need to be provided if the only destination site is the source site (idSite).
+     *   idSite but also since it doesn't need to be provided if the only destination site is the source site (idSite).
      * @param array|null $additionalData Optional array of additional data relating to the entity being copied.
      *
      * @return void
