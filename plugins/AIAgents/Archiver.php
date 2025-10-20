@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\AIAgents;
 
-use Piwik\Plugins\AIAgents\Columns\AIAgentName;
 use Piwik\Plugin\Archiver as PluginArchiver;
 
 class Archiver extends PluginArchiver
@@ -22,8 +21,8 @@ class Archiver extends PluginArchiver
     public function getDependentSegmentsToArchive(): array
     {
         return [
-            ['plugin' => 'VisitsSummary', 'segment' => AIAgentName::SEGMENT_ANY],
-            ['plugin' => 'VisitsSummary', 'segment' => AIAgentName::SEGMENT_EMPTY],
+            ['plugin' => 'VisitsSummary', 'segment' => API::AI_AGENT_SEGMENT],
+            ['plugin' => 'VisitsSummary', 'segment' => API::HUMAN_SEGMENT],
         ];
     }
 }

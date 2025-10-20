@@ -18,14 +18,25 @@ use Piwik\Tracker\Visitor;
 
 class AIAgentName extends VisitDimension
 {
-    public const SEGMENT_ANY   = 'aiAgentName!=';
-    public const SEGMENT_EMPTY = 'aiAgentName==';
-
     protected $columnName   = 'ai_agent_name';
     protected $columnType   = 'VARCHAR(40) NULL';
     protected $nameSingular = 'AIAgents_AIAgentName';
     protected $segmentName  = 'aiAgentName';
     protected $type         = self::TYPE_TEXT;
+
+    public function __construct()
+    {
+        $this->suggestedValuesCallback = function () {
+            $values    = [];
+            $providers = AIAgents::getAvailableAgentProviders();
+
+            foreach ($providers as $provider) {
+                $values[] = $provider->getId();
+            }
+
+            return $values;
+        };
+    }
 
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
