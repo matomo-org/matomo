@@ -9,9 +9,12 @@
 
 namespace Piwik\Plugins\SitesManager\tests\System;
 
+use Piwik\Config;
 use Piwik\Db\Schema\Mysql;
 use Piwik\Option;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\tests\Fixtures\ManySites;
+use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -102,6 +105,48 @@ class ApiTest extends SystemTestCase
     private function setInstallVersion($installVersion)
     {
         Option::set(Mysql::OPTION_NAME_MATOMO_INSTALL_VERSION, $installVersion);
+    }
+
+    private function setComplianceFeatureFlag(bool $enableFlag): void
+    {
+        $config = Config::getInstance();
+        $featureFlag = new PrivacyCompliance();
+        $featureFlagConfig = $featureFlag->getName() . '_feature';
+
+        if ($enableFlag) {
+            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
+        } else {
+            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+        }
+    }
+
+    public function testGetSiteSettingsIfFeatureFlagEnabled(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+
+        $this->runApiTests('SitesManager.getSiteSettings', [
+            'testSuffix' => '_compliancePolicyFeatureFlagEnabled',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+            ],
+        ]);
+
+        $this->setComplianceFeatureFlag(false);
+    }
+
+    public function testGetSiteSettingsIfFeatureFlagEnabledAndPolicyEnforced(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+        CnilPolicy::setActiveStatus(null, true);
+
+        $this->runApiTests('SitesManager.getSiteSettings', [
+            'testSuffix' => '_compliancePolicyEnforced',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+            ],
+        ]);
+
+        $this->setComplianceFeatureFlag(false);
     }
 
     public static function getOutputPrefix()

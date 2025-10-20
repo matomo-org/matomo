@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\Plugins\PrivacyManager\API;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\tests\Fixtures\MultipleSitesMultipleVisitsFixture;
+use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -232,6 +233,45 @@ class APITest extends SystemTestCase
                 'complianceType' => 'cnil_v1',
             ],
         ]);
+    }
+
+    public function testGetAnonymisationSettingsDoesNotReturnsExtraMetadataForSystemSettingsWhenFeatureFlagEnabled(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+
+        // fixture disables all anonymisation, so we expect ipAddressMaskLength = 0 and ipAnonymizerEnabled = 0 in the response
+        $this->runApiTests('PrivacyManager.getAnonymisationSettings', [
+            'testSuffix' => '_compliancePolicyFeatureFlagEnabled',
+        ]);
+    }
+
+    public function testGetAnonymisationSettingsReturnsExtraMetadataForSystemSettingsWhenPolicyEnforced(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+        CnilPolicy::setActiveStatus(null, true);
+
+        $this->runApiTests('PrivacyManager.getAnonymisationSettings', [
+            'testSuffix' => '_compliancePolicyEnforcedSystem',
+        ]);
+
+        CnilPolicy::setActiveStatus(null, false);
+        $this->setComplianceFeatureFlag(false);
+    }
+
+    public function testGetAnonymisationSettingsReturnsExtraMetadataForWebsiteSettingsWhenPolicyEnforced(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+        CnilPolicy::setActiveStatus(1, true);
+
+        $this->runApiTests('PrivacyManager.getAnonymisationSettings', [
+            'testSuffix' => '_compliancePolicyEnforcedWebsite',
+            'otherRequestParameters' => [
+                'idSiteSpecific' => '1',
+            ],
+        ]);
+
+        CnilPolicy::setActiveStatus(1, false);
+        $this->setComplianceFeatureFlag(false);
     }
 
     public static function getOutputPrefix()

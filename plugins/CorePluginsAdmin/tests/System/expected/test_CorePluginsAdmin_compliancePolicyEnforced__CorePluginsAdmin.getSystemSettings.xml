@@ -1,0 +1,1747 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<pluginName>CoreAdminHome</pluginName>
+		<title> </title>
+		<settings>
+			<row>
+				<name>trusted_hosts</name>
+				<title />
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>field-array</uiControl>
+				<uiControlAttributes>
+					<field>
+						<title>Valid Matomo Hostname</title>
+						<uiControl>text</uiControl>
+						<component />
+						<availableValues />
+					</field>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction>Trusted Matomo Hostname</introduction>
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>cors_domains</name>
+				<title />
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>field-array</uiControl>
+				<uiControlAttributes>
+					<field>
+						<title>Domain</title>
+						<uiControl>text</uiControl>
+						<component />
+						<availableValues />
+					</field>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>You can define domains or subdomains like http://example.com or http://stats.example.com. Or to allow cross domain requests for all domains simply add a *</inlineHelp>
+				<introduction>Cross-Origin Resource Sharing (CORS) domains</introduction>
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>GeoIp2</pluginName>
+		<title>Configuration for server variables used by GeoIP 2 server modules</title>
+		<settings>
+			<row>
+				<name>geoip2usecustom</name>
+				<title>I use the Geoip2 server module (Nginx, Apache…) and want to configure server variables</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_continent_code</name>
+				<title>Server variable for &lt;strong&gt;continent code&lt;/strong&gt;</title>
+				<value>MM_CONTINENT_CODE</value>
+				<defaultValue>MM_CONTINENT_CODE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_continent_name</name>
+				<title>Server variable for &lt;strong&gt;continent name&lt;/strong&gt;</title>
+				<value>MM_CONTINENT_NAME</value>
+				<defaultValue>MM_CONTINENT_NAME</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_country_code</name>
+				<title>Server variable for &lt;strong&gt;country code&lt;/strong&gt;</title>
+				<value>MM_COUNTRY_CODE</value>
+				<defaultValue>MM_COUNTRY_CODE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_country_name</name>
+				<title>Server variable for &lt;strong&gt;country name&lt;/strong&gt;</title>
+				<value>MM_COUNTRY_NAME</value>
+				<defaultValue>MM_COUNTRY_NAME</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_region_code</name>
+				<title>Server variable for &lt;strong&gt;region code&lt;/strong&gt;</title>
+				<value>MM_REGION_CODE</value>
+				<defaultValue>MM_REGION_CODE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_region_name</name>
+				<title>Server variable for &lt;strong&gt;region name&lt;/strong&gt;</title>
+				<value>MM_REGION_NAME</value>
+				<defaultValue>MM_REGION_NAME</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_lat</name>
+				<title>Server variable for &lt;strong&gt;lat&lt;/strong&gt;</title>
+				<value>MM_LATITUDE</value>
+				<defaultValue>MM_LATITUDE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_long</name>
+				<title>Server variable for &lt;strong&gt;long&lt;/strong&gt;</title>
+				<value>MM_LONGITUDE</value>
+				<defaultValue>MM_LONGITUDE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_postal_code</name>
+				<title>Server variable for &lt;strong&gt;postal code&lt;/strong&gt;</title>
+				<value>MM_POSTAL_CODE</value>
+				<defaultValue>MM_POSTAL_CODE</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_city_name</name>
+				<title>Server variable for &lt;strong&gt;city name&lt;/strong&gt;</title>
+				<value>MM_CITY_NAME</value>
+				<defaultValue>MM_CITY_NAME</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_isp</name>
+				<title>Server variable for &lt;strong&gt;isp&lt;/strong&gt;</title>
+				<value>MM_ISP</value>
+				<defaultValue>MM_ISP</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>geoip2var_org</name>
+				<title>Server variable for &lt;strong&gt;org&lt;/strong&gt;</title>
+				<value>MM_ORG</value>
+				<defaultValue>MM_ORG</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition>geoip2usecustom==1</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>Login</pluginName>
+		<title>Login</title>
+		<settings>
+			<row>
+				<name>enableBruteForceDetection</name>
+				<title>Enable Brute-force Detection</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Logs out users making too many password guesses within a timeframe for a while. This prevents anyone from testing all combinations. Getting a shared IP blocked also locks out its other users.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>maxAllowedRetries</name>
+				<title>Number of allowed login retries within a given time frame</title>
+				<value>20</value>
+				<defaultValue>20</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Blocks the IP if more than this number of failed logins are recorded within the time frame set below.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>allowedRetriesTimeRange</name>
+				<title>Count login retries within this time range in minutes</title>
+				<value>60</value>
+				<defaultValue>60</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Enter a number of minutes.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>blacklistedBruteForceIps</name>
+				<title>Always block these IPs from logging in</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Enter one IP address or one IP range per line. You can use CIDR notation e.g: 1.2.3.4/24 or you can use wildcards, e.g: 1.2.3.* or 1.2.*.* If an IP is on both the list of IPs to block and never block, it is blocked.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>whitelisteBruteForceIps</name>
+				<title>Never block these IPs from logging in</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Enter one IP address or one IP range per line. You can use CIDR notation e.g: 1.2.3.4/24 or you can use wildcards, e.g: 1.2.3.* or 1.2.*.* If an IP is on both the list of IPs to block and never block, it is blocked.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>enablePasswordStrengthCheck</name>
+				<title>Force strong passwords to be used</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Forces users to create strong passwords by requiring them to meet a series of complex rules: &lt;ul class='browser-default'&gt;&lt;li&gt;At least 12 characters&lt;/li&gt;&lt;li&gt;Contains a lowercase letter&lt;/li&gt;&lt;li&gt;Contains an uppercase letter&lt;/li&gt;&lt;li&gt;Contains a number&lt;/li&gt;&lt;li&gt;Contains a special character&lt;/li&gt;&lt;/ul&gt;</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>TwoFactorAuth</pluginName>
+		<title>TwoFactorAuth</title>
+		<settings>
+			<row>
+				<name>twoFactorAuthRequired</name>
+				<title>Require two-factor authentication for everyone</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Requires other users also log in with 2FA by using an OTP app on their mobile device. (As a prerequisite, you must use 2FA yourself.)</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>twoFactorAuthName</name>
+				<title>Two-factor authentication title</title>
+				<value>Analytics - localhost</value>
+				<defaultValue>Analytics - localhost</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>The name of the title to display that will be displayed in the Authenticator app.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>UsersManager</pluginName>
+		<title>UsersManager</title>
+		<settings>
+			<row>
+				<name>allowedEmailDomains</name>
+				<title>Restrict login email domains</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>field-array</uiControl>
+				<uiControlAttributes>
+					<field>
+						<title>Allowed email domain</title>
+						<uiControl>text</uiControl>
+						<component />
+						<availableValues />
+					</field>
+				</uiControlAttributes>
+				<availableValues />
+				<description>This feature restricts the email domains that can be used when inviting, adding or updating users. This is good for privacy protection as it can prevent data sharing with third parties. It can also improve security by preventing users from changing their email address to a personal email. Additionally, it can act as an extra layer of protection against security attacks. For example, accidental typos in the email address.</description>
+				<inlineHelp>&lt;br&gt;&lt;strong&gt;Currently, these email domains are in use and would need to be allowed:&lt;/strong&gt;&lt;br&gt;example.org</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>enableInactiveUsersNotifications</name>
+				<title>Send monthly security email with list of inactive users</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>For security reasons, Matomo can notify all Superusers once a month with a list of accounts that haven’t logged in for more than 6 months. This helps you review and remove old user accounts that may no longer be needed.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>CoreUpdater</pluginName>
+		<title>Update settings</title>
+		<settings>
+			<row>
+				<name>release_channel</name>
+				<title />
+				<value>latest_stable</value>
+				<defaultValue>latest_stable</defaultValue>
+				<type>string</type>
+				<uiControl>radio</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<latest_stable>Latest stable release (Recommended)</latest_stable>
+					<latest_beta>Latest beta release</latest_beta>
+					<latest_5x_stable>Latest stable 5.X (Long Term Support version)</latest_5x_stable>
+					<latest_5x_beta>Latest beta 5.X (Long Term Support version)</latest_5x_beta>
+				</availableValues>
+				<description />
+				<inlineHelp>While our development process includes thousands of automated tests, Beta Testers play a key role in achieving the &quot;No bug policy&quot; in Matomo.&lt;br/&gt;If Matomo is a critical part of your business, we recommend you use the latest stable release. If you use the latest beta and you find a bug or have a suggestion, please &lt;a target='_blank' rel='noreferrer noopener' href='https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'&gt;see here&lt;/a&gt;.&lt;br/&gt;LTS (Long Term Support) versions receive only security and bug-fixes.</inlineHelp>
+				<introduction>Release channel</introduction>
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>enable_plugin_update_communication</name>
+				<title />
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>radio</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<row key="1">Yes (Default)</row>
+					<row key="0">No</row>
+				</availableValues>
+				<description />
+				<inlineHelp>An email will be sent to Super Users when there is a new version available for a plugin.</inlineHelp>
+				<introduction>Send an email when a plugin update is available</introduction>
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>Live</pluginName>
+		<title>Live</title>
+		<settings>
+			<row>
+				<name>disable_visitor_log</name>
+				<title>Turn off visits log and visitor profiles</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Also removes features that depend on these, like the e-commerce log, the segmented visits-log, the real-time map or the real-time widget. May be required to comply with local privacy laws/guidelines.</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+				<extraMetadata>
+					<compliancePolicyControlled>
+						<cnil_v1>
+							<requiredValue>1</requiredValue>
+						</cnil_v1>
+					</compliancePolicyControlled>
+                    <idSite/>
+				</extraMetadata>
+			</row>
+			<row>
+				<name>disable_visitor_profile</name>
+				<title>Turn off visitor profiles</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>All visits-log related features always function.</inlineHelp>
+				<introduction />
+				<condition>disable_visitor_log==0</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>PrivacyManager</pluginName>
+		<title>PrivacyManager</title>
+		<settings>
+			<row>
+				<name>ImprintUrl</name>
+				<title>Imprint URL</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>A link to your Imprint page. If you set this, it will be displayed at the bottom of the login page and on pages that the 'anonymous' user can access.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>privacyPolicyUrl</name>
+				<title>Privacy Policy URL</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>A link to your Privacy Policy page. If you set this, it will be displayed at the bottom of the login page and on pages that the 'anonymous' user can access.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>termsAndConditionUrl</name>
+				<title>Terms &amp; Conditions URL</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>A link to your Terms &amp; Conditions page. If you set this, it will be displayed at the bottom of the login page and on pages that the 'anonymous' user can access.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>showInEmbeddedWidgets</name>
+				<title>Show in embedded widgets</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If checked, a link to your Privacy Policy and your Terms &amp; Conditions will be displayed at the bottom of embedded widgets.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>ExampleSettingsPlugin</pluginName>
+		<title>ExampleSettingsPlugin</title>
+		<settings>
+			<row>
+				<name>metric</name>
+				<title>Metric to display</title>
+				<value>nb_visits</value>
+				<defaultValue>nb_visits</defaultValue>
+				<type>string</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<nb_visits>Visits</nb_visits>
+					<nb_actions>Actions</nb_actions>
+					<visitors>Visitors</visitors>
+				</availableValues>
+				<description>Choose the metric that should be displayed in the browser tab</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>browsers</name>
+				<title>Supported Browsers</title>
+				<value>
+					<row>firefox</row>
+					<row>chromium</row>
+					<row>safari</row>
+				</value>
+				<defaultValue>
+					<row>firefox</row>
+					<row>chromium</row>
+					<row>safari</row>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>multiselect</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<firefox>Firefox</firefox>
+					<chromium>Chromium</chromium>
+					<safari>safari</safari>
+				</availableValues>
+				<description>The value will be only displayed in the following browsers</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>description</name>
+				<title>Description for value</title>
+				<value>This is the value: 
+Another line</value>
+				<defaultValue>This is the value: 
+Another line</defaultValue>
+				<type>string</type>
+				<uiControl>textarea</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>This description will be displayed next to the value</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>password</name>
+				<title>API password</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>password</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Password for the 3rd API where we fetch the value</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>TagManager</pluginName>
+		<title>TagManager</title>
+		<settings>
+			<row>
+				<name>restrictTagManagerAccess</name>
+				<title>Restrict access to Matomo Tag Manager</title>
+				<value>view</value>
+				<defaultValue>view</defaultValue>
+				<type>string</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<view>Users with at least view permission</view>
+					<write>Users with at least write permission</write>
+					<admin>Users with at least admin permission</admin>
+					<superuser>Users with at least superuser permission</superuser>
+				</availableValues>
+				<description>Define who can see the Matomo Tag Manager section. This can be helpful when you have many users with the View permission, or if your Tag Manager configuration is very complex.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>restrictCustomTemplates</name>
+				<title>Restrict usage of custom templates</title>
+				<value>admin</value>
+				<defaultValue>admin</defaultValue>
+				<type>string</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<disabled>Disabled, nobody can use them</disabled>
+					<admin>Users with at least admin permission can use them</admin>
+					<superuser>Only Super Users can use them</superuser>
+				</availableValues>
+				<description>This setting defines who can use custom templates or whether they should be completely disabled. Changing this setting can improve the security on your website. When you configure a trigger, tag, or a variable, some of them may allow a Matomo user to enter HTML or JavaScript which will be executed on your website. Entering custom code cannot only break the container in case there is an error, but also allows them to execute any JavaScript code on your website. This can be misused to steal for example sensitive information on your website. If you do not want to allow your team members to enter any JavaScript code, you may want to disable this setting.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>environments</name>
+				<title>Environments</title>
+				<value>
+					<row>
+						<environment>dev</environment>
+					</row>
+					<row>
+						<environment>staging</environment>
+					</row>
+				</value>
+				<defaultValue>
+					<row>
+						<environment>dev</environment>
+					</row>
+					<row>
+						<environment>staging</environment>
+					</row>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>multituple</uiControl>
+				<uiControlAttributes>
+					<field1>
+						<key>environment</key>
+						<title>Environment</title>
+						<uiControl>text</uiControl>
+						<component />
+						<availableValues />
+					</field1>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Define one or multiple additional environments. Please note that if you remove any environment, generated container files that exist for a specific environment will be removed and will be no longer available.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>AnonymousPiwikUsageMeasurement</pluginName>
+		<title>AnonymousPiwikUsageMeasurement</title>
+		<settings>
+			<row>
+				<name>canUserOptOut</name>
+				<title>Let users disable anonymous tracking</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If enabled, logged in users can opt out in their plugin settings. Anonymous users cannot opt out.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>ownPiwikSiteId</name>
+				<title>Site Id</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If specified, anonymized usage data will be sent to the specified site in this Matomo. This lets you analyze how you and your colleagues are using Matomo.</description>
+				<inlineHelp />
+				<introduction>Send usage data to this Matomo</introduction>
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>anonymizeSelfPiwik</name>
+				<title>Anonymize tracking requests</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>customSiteUrl</name>
+				<title>Matomo Url</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<placeHolder>eg. http://example.com/matomo</placeHolder>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction>Send usage data to a custom Matomo</introduction>
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>customSiteId</name>
+				<title>Site Id</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<placeHolder>eg. &quot;2&quot;</placeHolder>
+				</uiControlAttributes>
+				<availableValues />
+				<description>If a URL and Site Id is specified, usage data will be sent to the custom Matomo instance.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>anonymizeCustomPiwik</name>
+				<title>Anonymize tracking requests</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>QueuedTracking</pluginName>
+		<title>QueuedTracking</title>
+		<settings>
+			<row>
+				<name>backend</name>
+				<title>Backend</title>
+				<value>redis</value>
+				<defaultValue>redis</defaultValue>
+				<type>string</type>
+				<uiControl>select</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<redis>Redis</redis>
+					<mysql>MySQL</mysql>
+				</availableValues>
+				<description />
+				<inlineHelp>Select the backend you want to use for this feature. If you do not have any experience with Redis or it is not available on your server, we recommend using Mysql.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>useWhatRedisBackendType</name>
+				<title>Redis type</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>integer</type>
+				<uiControl>radio</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues>
+					<row key="1">Stand-alone</row>
+					<row key="2">Sentinel</row>
+					<row key="3">Cluster</row>
+				</availableValues>
+				<description />
+				<inlineHelp>Select which type of redis to use. Make sure to update host and port if needed. Once you have selected and saved the change, you will be able to specify multiple hosts and ports using comma separated lists for &quot;Sentinel&quot; and &quot;Cluster&quot; type only.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition>backend==&quot;redis&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>sentinelMasterName</name>
+				<title>Redis Sentinel Master name</title>
+				<value>mymaster</value>
+				<defaultValue>mymaster</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>200</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>The sentinel master name only needs to be configured if Sentinel is enabled.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition>backend==&quot;redis&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>usePasswordForSentinelInstances</name>
+				<title>Use password with Redis Sentinels</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Only relevant if Sentinel is enabled.&lt;/br&gt;&lt;/br&gt;If enabled, the Redis password will also be used when authenticating with Sentinel instances to obtain the master connection information. Otherwise, the password is only used to authenticate with the Redis master.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition>backend==&quot;redis&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>redisHost</name>
+				<title>Redis host or unix socket</title>
+				<value>127.0.0.1</value>
+				<defaultValue>127.0.0.1</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>500</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Remote host or unix socket of the Redis server. Max 500 characters are allowed.&lt;/br&gt;&lt;/br&gt;If your host requires a TLS connection, you can prepend the TLS protocol to your host like: tls://example-host.com. If that does not work, make sure that certificates are configured correctly on your Matomo server.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition>backend==&quot;redis&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>redisPort</name>
+				<title>Redis port</title>
+				<value>6379</value>
+				<defaultValue>6379</defaultValue>
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>100</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Port the Redis server is running on. Value should be between 1 and 65535. Use 0 if you are using unix socket to connect to Redis server.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition>backend==&quot;redis&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>redisDatabase</name>
+				<title>Redis database</title>
+				<value>15</value>
+				<defaultValue>0</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>5</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>In case you are using Redis for caching make sure to use a different database.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition>backend==&quot;redis&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>redisPassword</name>
+				<title>Redis password</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>password</uiControl>
+				<uiControlAttributes>
+					<size>128</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Password set on the Redis server, if any. Redis can be instructed to require a password before allowing clients to execute commands.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition>backend==&quot;redis&quot;</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>queueEnabled</name>
+				<title>Queue enabled</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>If enabled, all tracking requests will be written into a queue instead of the directly into the database. Requires a Redis server and phpredis PHP extension if using Redis as a backend.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>numQueueWorkers</name>
+				<title>Number of queue workers</title>
+				<value>4</value>
+				<defaultValue>1</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>5</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Number of allowed maximum queue workers. Accepts a number between 1 and 4096. Best practice is to set the number of CPUs you want to make available for queue processing. Be aware you need to make sure to start the workers manually. We recommend to not use 9-15 workers, rather use 8 or 16 as the queue might not be distributed evenly into different queues.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>numRequestsToProcess</name>
+				<title>Number of requests that are processed in one batch</title>
+				<value>25</value>
+				<defaultValue>25</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+					<size>3</size>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Defines how many requests will be picked out of the queue and processed at once. Enter a number which is &gt;= 1.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>processDuringTrackingRequest</name>
+				<title>Process during tracking request</title>
+				<value>1</value>
+				<defaultValue>1</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>If enabled, we will process all requests within a queue during a normal tracking request once there are enough requests in the queue. This will not slow down the tracking request. If disabled, you have to setup a cronjob that executes the &lt;code&gt;./console queuedtracking:process&lt;/code&gt; console command eg every minute to process the queue.&lt;/br&gt;</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+	<row>
+		<pluginName>TrackingSpamPrevention</pluginName>
+		<title>TrackingSpamPrevention</title>
+		<settings>
+			<row>
+				<name>block_clouds</name>
+				<title>Block tracking requests from the cloud</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Blocks tracking requests originating from cloud providers like AWS, Azure, Digital Ocean, Google Cloud and Oracle by fetching a list of their IP ranges. It should be safe to turn on if you are only tracking using the JavaScript tracker, as their tracking requests do not orginate from clouds, unless they use a VPN that routes data through cloud providers. The setting applies to all your sites.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>block_headless</name>
+				<title>Block headless browsers</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>These are browsers without a user interface, mostly used for automation. It should be safe to turn this on if you only have regular websites or apps. It can block additional bots and spam requests that otherwise would not be detected.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>blockServerSideLibraries</name>
+				<title>Block tracking requests from server-side libraries</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>boolean</type>
+				<uiControl>checkbox</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description />
+				<inlineHelp>Use this if only using &lt;strong&gt;JavaScript Tracker&lt;/strong&gt;, as other traffic will be attacks or spam anyway. It blocks tracking requests from cURL, HTTP, Guzzle, and Postman.&lt;br&gt;&lt;strong&gt;Note: Do not use it if track data using a server-side SDK like the Matomo PHP tracking SDK, Java SDK, Python SDK, Android or iOS SDK, or other server-side programming languages.&lt;/strong&gt;</inlineHelp>
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>max_actions_allowed</name>
+				<title>Max actions to record per visit</title>
+				<value>0</value>
+				<defaultValue>0</defaultValue>
+				<type>integer</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>A default of &quot;0&quot; records all actions. Most sites usually have no more than 100 to 300. It might be safe to assume other activity is tracking spam, a bot or an attack. Matomo stops recording further actions and blocks their IP addresses for up to 24 hours to reduce server load and preserve data accuracy.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>notification_email</name>
+				<title>Notification email</title>
+				<value />
+				<defaultValue />
+				<type>string</type>
+				<uiControl>text</uiControl>
+				<uiControlAttributes>
+				</uiControlAttributes>
+				<availableValues />
+				<description>This e-mail address will be notified whenever an IP is banned for having too many actions. In the future further notification reasons might be added.</description>
+				<inlineHelp />
+				<introduction />
+				<condition>max_actions_allowed&gt;0</condition>
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>excluded_countries</name>
+				<title>Exclude Countries</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>multituple</uiControl>
+				<uiControlAttributes>
+					<field1>
+						<key>country</key>
+						<title>Country</title>
+						<uiControl>select</uiControl>
+						<component />
+						<availableValues>
+							<af>Afghanistan</af>
+							<al>Albania</al>
+							<dz>Algeria</dz>
+							<as>American Samoa</as>
+							<ad>Andorra</ad>
+							<ao>Angola</ao>
+							<ai>Anguilla</ai>
+							<aq>Antarctica</aq>
+							<ag>Antigua &amp; Barbuda</ag>
+							<ar>Argentina</ar>
+							<am>Armenia</am>
+							<aw>Aruba</aw>
+							<au>Australia</au>
+							<at>Austria</at>
+							<az>Azerbaijan</az>
+							<bs>Bahamas</bs>
+							<bh>Bahrain</bh>
+							<bd>Bangladesh</bd>
+							<bb>Barbados</bb>
+							<by>Belarus</by>
+							<be>Belgium</be>
+							<bz>Belize</bz>
+							<bj>Benin</bj>
+							<bm>Bermuda</bm>
+							<bt>Bhutan</bt>
+							<bo>Bolivia</bo>
+							<ba>Bosnia &amp; Herzegovina</ba>
+							<bw>Botswana</bw>
+							<bv>Bouvet Island</bv>
+							<br>Brazil</br>
+							<io>British Indian Ocean Territory</io>
+							<vg>British Virgin Islands</vg>
+							<bn>Brunei</bn>
+							<bg>Bulgaria</bg>
+							<bf>Burkina Faso</bf>
+							<bi>Burundi</bi>
+							<kh>Cambodia</kh>
+							<cm>Cameroon</cm>
+							<ca>Canada</ca>
+							<cv>Cape Verde</cv>
+							<bq>Caribbean Netherlands</bq>
+							<ky>Cayman Islands</ky>
+							<cf>Central African Republic</cf>
+							<td>Chad</td>
+							<cl>Chile</cl>
+							<cn>China</cn>
+							<cx>Christmas Island</cx>
+							<cc>Cocos (Keeling) Islands</cc>
+							<co>Colombia</co>
+							<km>Comoros</km>
+							<cg>Congo - Brazzaville</cg>
+							<cd>Congo - Kinshasa</cd>
+							<ck>Cook Islands</ck>
+							<cr>Costa Rica</cr>
+							<hr>Croatia</hr>
+							<cu>Cuba</cu>
+							<cw>Curaçao</cw>
+							<cy>Cyprus</cy>
+							<cz>Czechia</cz>
+							<ci>Côte d’Ivoire</ci>
+							<dk>Denmark</dk>
+							<dj>Djibouti</dj>
+							<dm>Dominica</dm>
+							<do>Dominican Republic</do>
+							<ec>Ecuador</ec>
+							<eg>Egypt</eg>
+							<sv>El Salvador</sv>
+							<gq>Equatorial Guinea</gq>
+							<er>Eritrea</er>
+							<ee>Estonia</ee>
+							<sz>Eswatini</sz>
+							<et>Ethiopia</et>
+							<fk>Falkland Islands</fk>
+							<fo>Faroe Islands</fo>
+							<fj>Fiji</fj>
+							<fi>Finland</fi>
+							<fr>France</fr>
+							<gf>French Guiana</gf>
+							<pf>French Polynesia</pf>
+							<tf>French Southern Territories</tf>
+							<ga>Gabon</ga>
+							<gm>Gambia</gm>
+							<ge>Georgia</ge>
+							<de>Germany</de>
+							<gh>Ghana</gh>
+							<gi>Gibraltar</gi>
+							<gr>Greece</gr>
+							<gl>Greenland</gl>
+							<gd>Grenada</gd>
+							<gp>Guadeloupe</gp>
+							<gu>Guam</gu>
+							<gt>Guatemala</gt>
+							<gg>Guernsey</gg>
+							<gn>Guinea</gn>
+							<gw>Guinea-Bissau</gw>
+							<gy>Guyana</gy>
+							<ht>Haiti</ht>
+							<hm>Heard &amp; McDonald Islands</hm>
+							<hn>Honduras</hn>
+							<hk>Hong Kong SAR China</hk>
+							<hu>Hungary</hu>
+							<is>Iceland</is>
+							<in>India</in>
+							<id>Indonesia</id>
+							<ir>Iran</ir>
+							<iq>Iraq</iq>
+							<ie>Ireland</ie>
+							<im>Isle of Man</im>
+							<il>Israel</il>
+							<it>Italy</it>
+							<jm>Jamaica</jm>
+							<jp>Japan</jp>
+							<je>Jersey</je>
+							<jo>Jordan</jo>
+							<kz>Kazakhstan</kz>
+							<ke>Kenya</ke>
+							<ki>Kiribati</ki>
+							<kw>Kuwait</kw>
+							<kg>Kyrgyzstan</kg>
+							<la>Laos</la>
+							<lv>Latvia</lv>
+							<lb>Lebanon</lb>
+							<ls>Lesotho</ls>
+							<lr>Liberia</lr>
+							<ly>Libya</ly>
+							<li>Liechtenstein</li>
+							<lt>Lithuania</lt>
+							<lu>Luxembourg</lu>
+							<mo>Macao SAR China</mo>
+							<mg>Madagascar</mg>
+							<mw>Malawi</mw>
+							<my>Malaysia</my>
+							<mv>Maldives</mv>
+							<ml>Mali</ml>
+							<mt>Malta</mt>
+							<mh>Marshall Islands</mh>
+							<mq>Martinique</mq>
+							<mr>Mauritania</mr>
+							<mu>Mauritius</mu>
+							<yt>Mayotte</yt>
+							<mx>Mexico</mx>
+							<fm>Micronesia</fm>
+							<md>Moldova</md>
+							<mc>Monaco</mc>
+							<mn>Mongolia</mn>
+							<me>Montenegro</me>
+							<ms>Montserrat</ms>
+							<ma>Morocco</ma>
+							<mz>Mozambique</mz>
+							<mm>Myanmar (Burma)</mm>
+							<na>Namibia</na>
+							<nr>Nauru</nr>
+							<np>Nepal</np>
+							<nl>Netherlands</nl>
+							<nc>New Caledonia</nc>
+							<nz>New Zealand</nz>
+							<ni>Nicaragua</ni>
+							<ne>Niger</ne>
+							<ng>Nigeria</ng>
+							<nu>Niue</nu>
+							<nf>Norfolk Island</nf>
+							<kp>North Korea</kp>
+							<mk>North Macedonia</mk>
+							<mp>Northern Mariana Islands</mp>
+							<no>Norway</no>
+							<om>Oman</om>
+							<pk>Pakistan</pk>
+							<pw>Palau</pw>
+							<ps>Palestinian Territories</ps>
+							<pa>Panama</pa>
+							<pg>Papua New Guinea</pg>
+							<py>Paraguay</py>
+							<pe>Peru</pe>
+							<ph>Philippines</ph>
+							<pn>Pitcairn Islands</pn>
+							<pl>Poland</pl>
+							<pt>Portugal</pt>
+							<pr>Puerto Rico</pr>
+							<qa>Qatar</qa>
+							<ro>Romania</ro>
+							<ru>Russia</ru>
+							<rw>Rwanda</rw>
+							<re>Réunion</re>
+							<ws>Samoa</ws>
+							<sm>San Marino</sm>
+							<sa>Saudi Arabia</sa>
+							<sn>Senegal</sn>
+							<rs>Serbia</rs>
+							<sc>Seychelles</sc>
+							<sl>Sierra Leone</sl>
+							<sg>Singapore</sg>
+							<sx>Sint Maarten</sx>
+							<sk>Slovakia</sk>
+							<si>Slovenia</si>
+							<sb>Solomon Islands</sb>
+							<so>Somalia</so>
+							<za>South Africa</za>
+							<gs>South Georgia &amp; South Sandwich Islands</gs>
+							<kr>South Korea</kr>
+							<ss>South Sudan</ss>
+							<es>Spain</es>
+							<lk>Sri Lanka</lk>
+							<bl>St. Barthélemy</bl>
+							<sh>St. Helena</sh>
+							<kn>St. Kitts &amp; Nevis</kn>
+							<lc>St. Lucia</lc>
+							<mf>St. Martin</mf>
+							<pm>St. Pierre &amp; Miquelon</pm>
+							<vc>St. Vincent &amp; Grenadines</vc>
+							<sd>Sudan</sd>
+							<sr>Suriname</sr>
+							<sj>Svalbard &amp; Jan Mayen</sj>
+							<se>Sweden</se>
+							<ch>Switzerland</ch>
+							<sy>Syria</sy>
+							<st>São Tomé &amp; Príncipe</st>
+							<tw>Taiwan</tw>
+							<tj>Tajikistan</tj>
+							<tz>Tanzania</tz>
+							<th>Thailand</th>
+							<tl>Timor-Leste</tl>
+							<tg>Togo</tg>
+							<tk>Tokelau</tk>
+							<to>Tonga</to>
+							<tt>Trinidad &amp; Tobago</tt>
+							<tn>Tunisia</tn>
+							<tm>Turkmenistan</tm>
+							<tc>Turks &amp; Caicos Islands</tc>
+							<tv>Tuvalu</tv>
+							<tr>Türkiye</tr>
+							<um>U.S. Outlying Islands</um>
+							<vi>U.S. Virgin Islands</vi>
+							<ug>Uganda</ug>
+							<ua>Ukraine</ua>
+							<ae>United Arab Emirates</ae>
+							<gb>United Kingdom</gb>
+							<us>United States</us>
+							<uy>Uruguay</uy>
+							<uz>Uzbekistan</uz>
+							<vu>Vanuatu</vu>
+							<va>Vatican City</va>
+							<ve>Venezuela</ve>
+							<vn>Vietnam</vn>
+							<wf>Wallis &amp; Futuna</wf>
+							<eh>Western Sahara</eh>
+							<ye>Yemen</ye>
+							<zm>Zambia</zm>
+							<zw>Zimbabwe</zw>
+							<ax>Åland Islands</ax>
+						</availableValues>
+					</field1>
+				</uiControlAttributes>
+				<availableValues />
+				<description>Don't track visitors from these countries. Visitors outside your target area will likely be bots or spammers, or you can use it to avoid privacy laws in other jurisdictions.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+			<row>
+				<name>included_countries</name>
+				<title>Only track visitors from these countries</title>
+				<value>
+				</value>
+				<defaultValue>
+				</defaultValue>
+				<type>array</type>
+				<uiControl>multituple</uiControl>
+				<uiControlAttributes>
+					<field1>
+						<key>country</key>
+						<title>Country</title>
+						<uiControl>select</uiControl>
+						<component />
+						<availableValues>
+							<af>Afghanistan</af>
+							<al>Albania</al>
+							<dz>Algeria</dz>
+							<as>American Samoa</as>
+							<ad>Andorra</ad>
+							<ao>Angola</ao>
+							<ai>Anguilla</ai>
+							<aq>Antarctica</aq>
+							<ag>Antigua &amp; Barbuda</ag>
+							<ar>Argentina</ar>
+							<am>Armenia</am>
+							<aw>Aruba</aw>
+							<au>Australia</au>
+							<at>Austria</at>
+							<az>Azerbaijan</az>
+							<bs>Bahamas</bs>
+							<bh>Bahrain</bh>
+							<bd>Bangladesh</bd>
+							<bb>Barbados</bb>
+							<by>Belarus</by>
+							<be>Belgium</be>
+							<bz>Belize</bz>
+							<bj>Benin</bj>
+							<bm>Bermuda</bm>
+							<bt>Bhutan</bt>
+							<bo>Bolivia</bo>
+							<ba>Bosnia &amp; Herzegovina</ba>
+							<bw>Botswana</bw>
+							<bv>Bouvet Island</bv>
+							<br>Brazil</br>
+							<io>British Indian Ocean Territory</io>
+							<vg>British Virgin Islands</vg>
+							<bn>Brunei</bn>
+							<bg>Bulgaria</bg>
+							<bf>Burkina Faso</bf>
+							<bi>Burundi</bi>
+							<kh>Cambodia</kh>
+							<cm>Cameroon</cm>
+							<ca>Canada</ca>
+							<cv>Cape Verde</cv>
+							<bq>Caribbean Netherlands</bq>
+							<ky>Cayman Islands</ky>
+							<cf>Central African Republic</cf>
+							<td>Chad</td>
+							<cl>Chile</cl>
+							<cn>China</cn>
+							<cx>Christmas Island</cx>
+							<cc>Cocos (Keeling) Islands</cc>
+							<co>Colombia</co>
+							<km>Comoros</km>
+							<cg>Congo - Brazzaville</cg>
+							<cd>Congo - Kinshasa</cd>
+							<ck>Cook Islands</ck>
+							<cr>Costa Rica</cr>
+							<hr>Croatia</hr>
+							<cu>Cuba</cu>
+							<cw>Curaçao</cw>
+							<cy>Cyprus</cy>
+							<cz>Czechia</cz>
+							<ci>Côte d’Ivoire</ci>
+							<dk>Denmark</dk>
+							<dj>Djibouti</dj>
+							<dm>Dominica</dm>
+							<do>Dominican Republic</do>
+							<ec>Ecuador</ec>
+							<eg>Egypt</eg>
+							<sv>El Salvador</sv>
+							<gq>Equatorial Guinea</gq>
+							<er>Eritrea</er>
+							<ee>Estonia</ee>
+							<sz>Eswatini</sz>
+							<et>Ethiopia</et>
+							<fk>Falkland Islands</fk>
+							<fo>Faroe Islands</fo>
+							<fj>Fiji</fj>
+							<fi>Finland</fi>
+							<fr>France</fr>
+							<gf>French Guiana</gf>
+							<pf>French Polynesia</pf>
+							<tf>French Southern Territories</tf>
+							<ga>Gabon</ga>
+							<gm>Gambia</gm>
+							<ge>Georgia</ge>
+							<de>Germany</de>
+							<gh>Ghana</gh>
+							<gi>Gibraltar</gi>
+							<gr>Greece</gr>
+							<gl>Greenland</gl>
+							<gd>Grenada</gd>
+							<gp>Guadeloupe</gp>
+							<gu>Guam</gu>
+							<gt>Guatemala</gt>
+							<gg>Guernsey</gg>
+							<gn>Guinea</gn>
+							<gw>Guinea-Bissau</gw>
+							<gy>Guyana</gy>
+							<ht>Haiti</ht>
+							<hm>Heard &amp; McDonald Islands</hm>
+							<hn>Honduras</hn>
+							<hk>Hong Kong SAR China</hk>
+							<hu>Hungary</hu>
+							<is>Iceland</is>
+							<in>India</in>
+							<id>Indonesia</id>
+							<ir>Iran</ir>
+							<iq>Iraq</iq>
+							<ie>Ireland</ie>
+							<im>Isle of Man</im>
+							<il>Israel</il>
+							<it>Italy</it>
+							<jm>Jamaica</jm>
+							<jp>Japan</jp>
+							<je>Jersey</je>
+							<jo>Jordan</jo>
+							<kz>Kazakhstan</kz>
+							<ke>Kenya</ke>
+							<ki>Kiribati</ki>
+							<kw>Kuwait</kw>
+							<kg>Kyrgyzstan</kg>
+							<la>Laos</la>
+							<lv>Latvia</lv>
+							<lb>Lebanon</lb>
+							<ls>Lesotho</ls>
+							<lr>Liberia</lr>
+							<ly>Libya</ly>
+							<li>Liechtenstein</li>
+							<lt>Lithuania</lt>
+							<lu>Luxembourg</lu>
+							<mo>Macao SAR China</mo>
+							<mg>Madagascar</mg>
+							<mw>Malawi</mw>
+							<my>Malaysia</my>
+							<mv>Maldives</mv>
+							<ml>Mali</ml>
+							<mt>Malta</mt>
+							<mh>Marshall Islands</mh>
+							<mq>Martinique</mq>
+							<mr>Mauritania</mr>
+							<mu>Mauritius</mu>
+							<yt>Mayotte</yt>
+							<mx>Mexico</mx>
+							<fm>Micronesia</fm>
+							<md>Moldova</md>
+							<mc>Monaco</mc>
+							<mn>Mongolia</mn>
+							<me>Montenegro</me>
+							<ms>Montserrat</ms>
+							<ma>Morocco</ma>
+							<mz>Mozambique</mz>
+							<mm>Myanmar (Burma)</mm>
+							<na>Namibia</na>
+							<nr>Nauru</nr>
+							<np>Nepal</np>
+							<nl>Netherlands</nl>
+							<nc>New Caledonia</nc>
+							<nz>New Zealand</nz>
+							<ni>Nicaragua</ni>
+							<ne>Niger</ne>
+							<ng>Nigeria</ng>
+							<nu>Niue</nu>
+							<nf>Norfolk Island</nf>
+							<kp>North Korea</kp>
+							<mk>North Macedonia</mk>
+							<mp>Northern Mariana Islands</mp>
+							<no>Norway</no>
+							<om>Oman</om>
+							<pk>Pakistan</pk>
+							<pw>Palau</pw>
+							<ps>Palestinian Territories</ps>
+							<pa>Panama</pa>
+							<pg>Papua New Guinea</pg>
+							<py>Paraguay</py>
+							<pe>Peru</pe>
+							<ph>Philippines</ph>
+							<pn>Pitcairn Islands</pn>
+							<pl>Poland</pl>
+							<pt>Portugal</pt>
+							<pr>Puerto Rico</pr>
+							<qa>Qatar</qa>
+							<ro>Romania</ro>
+							<ru>Russia</ru>
+							<rw>Rwanda</rw>
+							<re>Réunion</re>
+							<ws>Samoa</ws>
+							<sm>San Marino</sm>
+							<sa>Saudi Arabia</sa>
+							<sn>Senegal</sn>
+							<rs>Serbia</rs>
+							<sc>Seychelles</sc>
+							<sl>Sierra Leone</sl>
+							<sg>Singapore</sg>
+							<sx>Sint Maarten</sx>
+							<sk>Slovakia</sk>
+							<si>Slovenia</si>
+							<sb>Solomon Islands</sb>
+							<so>Somalia</so>
+							<za>South Africa</za>
+							<gs>South Georgia &amp; South Sandwich Islands</gs>
+							<kr>South Korea</kr>
+							<ss>South Sudan</ss>
+							<es>Spain</es>
+							<lk>Sri Lanka</lk>
+							<bl>St. Barthélemy</bl>
+							<sh>St. Helena</sh>
+							<kn>St. Kitts &amp; Nevis</kn>
+							<lc>St. Lucia</lc>
+							<mf>St. Martin</mf>
+							<pm>St. Pierre &amp; Miquelon</pm>
+							<vc>St. Vincent &amp; Grenadines</vc>
+							<sd>Sudan</sd>
+							<sr>Suriname</sr>
+							<sj>Svalbard &amp; Jan Mayen</sj>
+							<se>Sweden</se>
+							<ch>Switzerland</ch>
+							<sy>Syria</sy>
+							<st>São Tomé &amp; Príncipe</st>
+							<tw>Taiwan</tw>
+							<tj>Tajikistan</tj>
+							<tz>Tanzania</tz>
+							<th>Thailand</th>
+							<tl>Timor-Leste</tl>
+							<tg>Togo</tg>
+							<tk>Tokelau</tk>
+							<to>Tonga</to>
+							<tt>Trinidad &amp; Tobago</tt>
+							<tn>Tunisia</tn>
+							<tm>Turkmenistan</tm>
+							<tc>Turks &amp; Caicos Islands</tc>
+							<tv>Tuvalu</tv>
+							<tr>Türkiye</tr>
+							<um>U.S. Outlying Islands</um>
+							<vi>U.S. Virgin Islands</vi>
+							<ug>Uganda</ug>
+							<ua>Ukraine</ua>
+							<ae>United Arab Emirates</ae>
+							<gb>United Kingdom</gb>
+							<us>United States</us>
+							<uy>Uruguay</uy>
+							<uz>Uzbekistan</uz>
+							<vu>Vanuatu</vu>
+							<va>Vatican City</va>
+							<ve>Venezuela</ve>
+							<vn>Vietnam</vn>
+							<wf>Wallis &amp; Futuna</wf>
+							<eh>Western Sahara</eh>
+							<ye>Yemen</ye>
+							<zm>Zambia</zm>
+							<zw>Zimbabwe</zw>
+							<ax>Åland Islands</ax>
+						</availableValues>
+					</field1>
+				</uiControlAttributes>
+				<availableValues />
+				<description>This excludes all other countries. The &quot;exclude countries&quot; setting has more info.</description>
+				<inlineHelp />
+				<introduction />
+				<condition />
+				<fullWidth>0</fullWidth>
+			</row>
+		</settings>
+	</row>
+</result>
