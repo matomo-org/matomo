@@ -14,7 +14,7 @@
         "CampaignId": "Identifiant de la campagne",
         "CampaignIdHelp": "Ce paramètre est utilisé pour suivre un identifiant de campagne : un identifiant unique pour la campagne composé d'au plus 100 chiffres, lettres ou symboles.",
         "CampaignKeywordHelp": "Si vous avez de multiples campagnes avec le même nom, vous pouvez les distinguer en spécifiant un mot-clé ou une sous-catégorie.",
-        "CampaignMedium": "Mëdia de la campagne",
+        "CampaignMedium": "Support de la campagne",
         "CampaignMediumHelp": "Utilisé pour décrire l'activité marketing, par exemple 'PPC' pour une campagne rénumérée au click ou 'SEM' pour des publicités de recherche, ou 'revue' pour suivre les revues d'un produit sur un site affilié.",
         "CampaignNameHelp": "Choisissez un nom qui décrit la campagne qui est en train d'être créée et qui la distingue d'autres campagnes. Par exemple 'DealsEte-Email' ou 'DealsEte-PubPay\".",
         "CampaignPageUrlHelp": "L'URL de la page sur laquelle se rend cette campagne, par exemple 'http://exemple.org/offre.html'.",
