@@ -876,7 +876,7 @@ class API extends \Piwik\Plugin\API
 
         $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite, $idMeasurableType = false);
 
-        return $this->settingsMetadata->formatSettings($measurableSettings);
+        return $this->settingsMetadata->formatSettings($measurableSettings, $idSite);
     }
 
     private function setAndValidateMeasurableSettings($idSite, $idType, $settingValues)
