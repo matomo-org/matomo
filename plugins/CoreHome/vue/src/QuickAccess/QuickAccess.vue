@@ -11,23 +11,23 @@
     class="quickAccessInside"
     v-focus-anywhere-but-here="{ blur: onBlur }"
   >
-    <div v-tooltips="{ content: quickAccessTitle }">
-      <span
-        class="icon-search"
-        @mouseenter="searchActive = true"
-      />
-      <input
-        class="s"
-        @keydown="onKeypress($event)"
-        @focus="searchActive = true"
-        v-model="searchTerm"
-        type="text"
-        tabindex="2"
-        v-focus-if="{ focused: searchActive }"
-        :placeholder="translate('General_Search')"
-        ref="input"
-      />
-    </div>
+    <span
+      class="icon-search"
+      @mouseenter="searchActive = true"
+    />
+    <input
+      class="s"
+      @keydown="onKeypress($event)"
+      @focus="searchActive = true"
+      v-model="searchTerm"
+      type="text"
+      tabindex="2"
+      v-focus-if="{ focused: searchActive }"
+      v-tooltips
+      :title="quickAccessTitle"
+      :placeholder="translate('General_Search')"
+      ref="input"
+    />
     <div
       class="dropdown"
       v-show="searchTerm && searchActive"
