@@ -1,7 +1,7 @@
 {
     "CoreHome": {
         "AdblockIsMaybeUsed": "Om du blockerar annonser vänligen inaktivera blockeringen på den här webbplatsen för att Matomo ska fungera utan några problem.",
-        "AddTotalsRowDataTable": "Rapporten visar inte totalt antal rader 1%s Visa totalt antal rader",
+        "AddTotalsRowDataTable": "Rapporten visar inte totalt antal rader %s Visa totalt antal rader",
         "CategoryNoData": "Inga data i den här kategorin. Försök att \"Inkludera all befolkning\".",
         "ChangeCurrentWebsite": "Välj en webbplats, vald webbplats just nu: %s",
         "ChangePeriod": "Ändra period",
@@ -40,7 +40,7 @@
         "ExpandSubtables": "Expandera undertabeller",
         "ExportFormat": "Format för exportering",
         "ExportTooltip": "Obs! För att kunna använda den genererade export-URL:en måste du ange en app-token-autentisering. Du kan konfigurera dessa tokens i Admin → Säkerhet → Token Auths.",
-        "ExportTooltipWithLink": "Obs! För att kunna använda den genererade export-URL:en måste du ange en app-token-autentisering. Du kan konfigurera dessa tokens i %1$s[Admin → Säkerhet → Auths-token]%2$s. Ersätt %3$s i Export URL:en med din Auth-token. Varning: Dela aldrig URL:en med den verkliga token med någon annan.",
+        "ExportTooltipWithLink": "Obs! För att kunna använda den genererade export-URL:en måste du ange en app-token-autentisering. Du kan konfigurera dessa tokens i %1$s[Admin → Säkerhet → Auth-token]%2$s. Ersätt %3$s i Export URL:en med din Auth-token. Varning: Dela aldrig URL:en med den verkliga token med någon annan.",
         "ExternalHelp": "Hjälp (öppnas i en ny flik)",
         "FlattenDataTable": "Rapporten är hierarkisk %s Gör den plan",
         "FlattenReport": "Platta till rapport",
