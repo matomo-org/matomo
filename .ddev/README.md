@@ -80,7 +80,7 @@ Then the environment should be created with that php version.
 You do not need to install a JavaScript tracking code.
 Instead, you can generate sample visits using the built-in VisitorGenerator plugin.
 
-Run the following commands on your local machine:
+Start by creating a site in the Matomo Dashboard. Then, run the following commands on your local machine:
 
 ```
 ddev matomo:console development:enable
