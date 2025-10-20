@@ -531,11 +531,6 @@ parameters:
 			path: core/Auth/Password.php
 
 		-
-			message: "#^Property Piwik\\\\Category\\\\Category\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: core/Category/Category.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:fetchAll\\(\\)\\.$#"
 			count: 1
 			path: core/Changes/Model.php
@@ -3574,16 +3569,6 @@ parameters:
 			path: plugins/CoreConsole/Commands/GenerateReport.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\ActionsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/CoreHome/Categories/ActionsCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\VisitorsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/CoreHome/Categories/VisitorsCategory.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: plugins/CoreHome/Columns/Metrics/EvolutionMetric.php
@@ -3989,11 +3974,6 @@ parameters:
 			path: plugins/Dashboard/API.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\Dashboard\\\\Categories\\\\DashboardCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/Dashboard/Categories/DashboardCategory.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Dashboard\\\\Model\\:\\:getLayoutForUser\\(\\) should return bool\\|string but returns array\\.$#"
 			count: 1
 			path: plugins/Dashboard/Model.php
@@ -4177,11 +4157,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugins\\\\Diagnostics\\\\Diagnostic\\\\UserInformational\\:\\:\\$translator is never read, only written\\.$#"
 			count: 1
 			path: plugins/Diagnostics/Diagnostic/UserInformational.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Ecommerce\\\\Categories\\\\EcommerceCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Categories/EcommerceCategory.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Ecommerce\\\\Columns\\\\BaseConversion\\:\\:roundRevenueIfNeeded\\(\\) should return float\\|int but returns false\\.$#"
@@ -4372,11 +4347,6 @@ parameters:
 			message: "#^Variable \\$table in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: plugins/Goals/API.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Goals\\\\Categories\\\\GoalsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/Goals/Categories/GoalsCategory.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between int and 'ecommerceOrder' will always evaluate to false\\.$#"
@@ -5094,46 +5064,6 @@ parameters:
 			path: plugins/PrivacyManager/ReportsPurger.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoAbTestingCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoAbTestingCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoCrashAnalytics\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoCrashAnalytics.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoCustomReportsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoCustomReportsCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoFormsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoFormsCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoFunnelsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoFunnelsCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoHeatmapCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoHeatmapCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoMediaCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoMediaCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoSessionRecordingCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoSessionRecordingCategory.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<1, max\\> given\\.$#"
 			count: 1
 			path: plugins/ProfessionalServices/PromoWidgetDismissal.php
@@ -5167,11 +5097,6 @@ parameters:
 			message: "#^Variable \\$requestedColumns in empty\\(\\) is never defined\\.$#"
 			count: 1
 			path: plugins/Referrers/API.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Referrers\\\\Categories\\\\ReferrersCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/Referrers/Categories/ReferrersCategory.php
 
 		-
 			message: "#^Offset 'referer_keyword' on array\\{referer_type\\: 1\\|3, referer_name\\: mixed, referer_keyword\\: '', referer_url\\: string\\} in empty\\(\\) always exists and is always falsy\\.$#"
