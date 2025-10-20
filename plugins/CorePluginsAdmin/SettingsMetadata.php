@@ -134,7 +134,7 @@ class SettingsMetadata
             $value = self::PASSWORD_PLACEHOLDER;
         }
 
-        $result = array(
+        $result = [
             'name' => $setting->getName(),
             'title' => $config->title,
             'value' => $value,
@@ -148,7 +148,7 @@ class SettingsMetadata
             'introduction' => $config->introduction,
             'condition' => $config->condition,
             'fullWidth' => $config->fullWidth,
-        );
+        ];
 
         if ($config->customFieldComponent) {
             $result['component'] = $config->customFieldComponent;

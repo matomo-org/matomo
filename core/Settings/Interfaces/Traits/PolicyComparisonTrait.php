@@ -18,6 +18,7 @@ trait PolicyComparisonTrait
     {
         $policyValues = self::getPolicyRequirements();
 
+        /** @var class-string<CompliancePolicy> $policy */
         foreach (array_keys($policyValues) as $policy) {
             if (!$policy::isActive($idSite)) {
                 $policyValues[$policy] = null;

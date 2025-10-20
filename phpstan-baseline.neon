@@ -2334,17 +2334,7 @@ parameters:
 			path: core/Settings/Plugin/UserSettings.php
 
 		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: core/Settings/Setting.php
-
-		-
 			message: "#^Property Piwik\\\\Settings\\\\FieldConfig\\:\\:\\$uiControl \\(string\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: core/Settings/Setting.php
-
-		-
-			message: "#^Property Piwik\\\\Settings\\\\Setting\\:\\:\\$config \\(Piwik\\\\Settings\\\\FieldConfig\\) does not accept null\\.$#"
 			count: 1
 			path: core/Settings/Setting.php
 
@@ -5704,17 +5694,7 @@ parameters:
 			path: plugins/WebsiteMeasurable/MeasurableSettings.php
 
 		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: plugins/WebsiteMeasurable/Settings/Urls.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(string\\|array urls\\)\\: Unexpected token \"urls\", expected variable at offset 172$#"
-			count: 1
-			path: plugins/WebsiteMeasurable/Settings/Urls.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: plugins/WebsiteMeasurable/Settings/Urls.php
 
