@@ -70,10 +70,11 @@ For more information about Matomo development, check out the official [Matomo De
 
 ## Update PHP or MySQL version
 
-You can also copy `.ddev/config.yaml`  to `.ddev/config.local.yaml` to adjust the environment configuration.
+You can create `.ddev/config.local.yaml` to adjust the environment configuration. This file will be automatically ignored by git.
 
-For example, you can adjust the `php_version` to `8.4` and the use the command `ddev restart`.
-Then the environment should be created with that php version.
+For example, you can adjust `php_version` to `8.4`. All configuration from `.ddev/config.yaml` can be overridden. Check [DDEV documentation](https://docs.ddev.com/en/stable/users/configuration/config/#managing-configuration) for more details.
+
+From your host, run `ddev restart` for the changes to take effect.
 
 ## Having a test dataset locally
 
