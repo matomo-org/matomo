@@ -85,7 +85,7 @@ Start by creating a site in the Matomo Dashboard. Then, run the following comman
 ```
 ddev matomo:console development:enable
 ddev matomo:console plugin:activate VisitorGenerator
-ddev matomo:console visitorgenerator:generate-visits --custom-matomo-url https://matomo.ddev.site/ —idsite 1
+ddev matomo:console visitorgenerator:generate-visits
 ```
 
 ## Known issues
