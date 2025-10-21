@@ -40,6 +40,18 @@ describe("PrivacyManager_SiteSpecific", function () {
         await page.waitForTimeout(200);
     }
 
+    async function setCnilPolicyEnforced(enforced) {
+        if (enforced) {
+            testEnvironment.overrideConfig('FeatureFlags', 'PrivacyCompliance_feature', 'enabled');
+            testEnvironment.overrideConfig('CnilPolicy', 'cnil_v1_policy_enabled', 1);
+        } else {
+            delete testEnvironment.configOverride.CnilPolicy;
+            delete testEnvironment.configOverride.FeatureFlags;
+        }
+        await testEnvironment.save();
+    }
+
+
     async function capturePage(screenshotName) {
         await page.waitForNetworkIdle();
         const pageWrap = await page.$('.pageWrap,#notificationContainer,.modal.open');
@@ -63,7 +75,7 @@ describe("PrivacyManager_SiteSpecific", function () {
         return sitePrefix(idSite, '.editingSiteFooter input[value="Save"]');
     }
 
-    it('should show privacy settings for multiple sites at the same time on lock icon click', async function() {
+    it('should show privacy settings for multiple sites at the same time', async function() {
         await loadBasePage();
         await page.click(openSitePrivacySettingsSelector(1));
         await page.waitForTimeout(200);
@@ -202,6 +214,20 @@ describe("PrivacyManager_SiteSpecific", function () {
         await hideUTCTimeInfo();
 
         await capturePage('load_site_specific_settings_site2');
+    });
+
+    it('should display compliance info for policy controlled settings for site 2', async function() {
+        await setCnilPolicyEnforced(true);
+
+        await loadBasePage();
+        await page.click(openSitePrivacySettingsSelector(2));
+        await page.waitForTimeout(300);
+        await page.waitForNetworkIdle();
+        await hideUTCTimeInfo();
+
+        await setCnilPolicyEnforced(false);
+
+        await capturePage('load_site_specific_settings_site2_compliance_info');
     });
 
     it('should not display the privacy settings when privacy manager plugin is disabled', async function() {
