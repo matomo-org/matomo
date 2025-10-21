@@ -10,9 +10,9 @@
 namespace Piwik\Plugins\CorePluginsAdmin\tests\System;
 
 use Piwik\Config;
-use Piwik\Plugins\CorePluginsAdmin\tests\Fixtures\PluginUpdatesFixture;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Policy\CnilPolicy;
+use Piwik\Tests\Fixtures\EmptySite;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -22,7 +22,7 @@ use Piwik\Tests\Framework\TestCase\SystemTestCase;
 class ApiTest extends SystemTestCase
 {
     /**
-     * @var PluginUpdatesFixture
+     * @var EmptySite
      */
     public static $fixture = null; // initialized below class definition
 
@@ -90,4 +90,4 @@ class ApiTest extends SystemTestCase
     }
 }
 
-ApiTest::$fixture = new PluginUpdatesFixture();
+ApiTest::$fixture = new EmptySite();
