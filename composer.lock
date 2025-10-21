@@ -738,12 +738,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "10c5fcdda6d0785863f401905164caf881a45f6d"
+                "reference": "dbc3c88e0400b4ab2af3a06b25a740bcec7c73cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/10c5fcdda6d0785863f401905164caf881a45f6d",
-                "reference": "10c5fcdda6d0785863f401905164caf881a45f6d",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/dbc3c88e0400b4ab2af3a06b25a740bcec7c73cc",
+                "reference": "dbc3c88e0400b4ab2af3a06b25a740bcec7c73cc",
                 "shasum": ""
             },
             "replace": {
@@ -760,7 +760,7 @@
                 "issues": "https://github.com/matomo-org/searchengine-and-social-list/issues",
                 "source": "https://github.com/matomo-org/searchengine-and-social-list/tree/master"
             },
-            "time": "2025-10-14T11:47:54+00:00"
+            "time": "2025-10-21T12:44:59+00:00"
         },
         {
             "name": "maxmind-db/reader",
