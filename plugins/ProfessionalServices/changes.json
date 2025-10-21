@@ -1,5 +1,12 @@
 [
   {
+    "title": "New: Share insights directly to Slack!",
+    "description": "With the new free Matomo Slack plugin, you can share scheduled reports and custom alerts directly to your favourite Slack channels. Ensure no one misses the data that matters most by setting up automated reports and tailored alerts that go directly to Slack. This keeps your team updated, saves time, and makes it easier to monitor changes and respond promptly.",
+    "link_name": "Learn more",
+    "link": "https://matomo.org/faq/reports/how-to-integrate-slack-and-matomo/",
+    "version": "5.5.0"
+  },
+  {
     "title": "New Copy function - Custom Reports, Heatmaps, and more",
     "description": "A new a copy function is available across multiple features to make your setup faster and easier. Simply duplicate an existing item and settings are automatically copied - ready for you to adjust!",
     "version": "5.5.0"
