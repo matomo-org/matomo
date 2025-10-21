@@ -233,8 +233,8 @@ class ArchiveTest extends IntegrationTestCase
         $expected = [
             ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['idarchive' => '5', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
-            ['idarchive' => '8', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ['idarchive' => '7', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_INVALIDATED],
+            ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
         ];
         $this->assertEquals($expected, $archives);
 
@@ -249,8 +249,8 @@ class ArchiveTest extends IntegrationTestCase
         $expected = [
             ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['idarchive' => '8', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
-            ['idarchive' => '9', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ['idarchive' => '13', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
         ];
         $this->assertEquals($expected, $archives);
 
@@ -263,9 +263,9 @@ class ArchiveTest extends IntegrationTestCase
         $expected = [
             ['idarchive' => '1', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_INVALIDATED],
             ['idarchive' => '2', 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
-            ['idarchive' => '8', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
-            ['idarchive' => '9', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
             ['idarchive' => '12', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ['idarchive' => '13', 'date1' => '2020-03-05', 'date2' => '2020-03-05', 'name' => 'done', 'value' => ArchiveWriter::DONE_OK],
+            ['idarchive' => '18', 'date1' => '2020-03-04', 'date2' => '2020-03-05', 'name' => 'done.VisitsSummary', 'value' => ArchiveWriter::DONE_PARTIAL],
         ];
         $this->assertEquals($expected, $archives);
     }

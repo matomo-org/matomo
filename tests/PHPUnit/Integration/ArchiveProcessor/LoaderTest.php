@@ -209,6 +209,22 @@ class LoaderTest extends IntegrationTestCase
                 'date2' => '2020-01-20',
                 'period' => '1',
             ],
+            [
+                'idarchive' => '6',
+                'name' => 'done6e9408519429f50e0541146e88fd262d.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '7',
+                'name' => 'done69c0d64c636303b5773a21832cf7e301.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
         ], $existingArchives);
 
         // clear all caches used in archiving to avoid falsely skipping an archive
@@ -273,10 +289,26 @@ class LoaderTest extends IntegrationTestCase
                 'date2' => '2020-01-20',
                 'period' => '1',
             ],
+            [
+                'idarchive' => '6',
+                'name' => 'done6e9408519429f50e0541146e88fd262d.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
+            [
+                'idarchive' => '7',
+                'name' => 'done69c0d64c636303b5773a21832cf7e301.VisitsSummary',
+                'value' => '1',
+                'date1' => '2020-01-20',
+                'date2' => '2020-01-20',
+                'period' => '1',
+            ],
 
             // start of new archives
             [
-                'idarchive' => '6',
+                'idarchive' => '8',
                 'name' => 'done.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-20',
@@ -284,7 +316,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '2',
             ],
             [
-                'idarchive' => '7',
+                'idarchive' => '9',
                 'name' => 'done.VisitsSummary',
                 'value' => '1',
                 'date1' => '2020-01-22',
@@ -292,7 +324,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '1',
             ],
             [
-                'idarchive' => '8',
+                'idarchive' => '10',
                 'name' => 'done.ExamplePlugin',
                 'value' => '5',
                 'date1' => '2020-01-20',
@@ -300,7 +332,7 @@ class LoaderTest extends IntegrationTestCase
                 'period' => '2',
             ],
             [
-                'idarchive' => '9',
+                'idarchive' => '11',
                 'name' => 'done.ExamplePlugin',
                 'value' => '5',
                 'date1' => '2020-01-22',
@@ -1874,7 +1906,7 @@ class LoaderTest extends IntegrationTestCase
         $loader = new Loader($params);
         $loader->prepareArchive('');
 
-        $this->assertEquals(5, $debugMessageCount);
+        $this->assertEquals(7, $debugMessageCount);
     }
 
     public function testDebugMessageNotLoggedWhenNoProcessingOfSubPeriods(): void

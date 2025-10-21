@@ -240,6 +240,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             // compare separately, as changes in columns
             'MultiSites.getAll',
             'MultiSites.getOne',
+
+            // did not exist before Matomo 5.6
+            'AIAgents.get',
         ];
 
         if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {

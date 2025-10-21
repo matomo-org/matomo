@@ -228,6 +228,7 @@ class LogDataAnonymizerTest extends IntegrationTestCase
             'config_realplayer' => null,
             'config_silverlight' => null,
             'config_windowsmedia' => null,
+            'ai_agent_name' => null,
             'location_city' => null,
             'location_country' => null,
             'location_latitude' => null,

@@ -81,6 +81,22 @@
 	<nb_searches>1</nb_searches>
 	<nb_keywords>1</nb_keywords>
 	<hits>4</hits>
+	<nb_visits_ai_agent>0</nb_visits_ai_agent>
+	<nb_actions_ai_agent>0</nb_actions_ai_agent>
+	<nb_uniq_visitors_ai_agent>0</nb_uniq_visitors_ai_agent>
+	<nb_users_ai_agent>0</nb_users_ai_agent>
+	<max_actions_ai_agent>0</max_actions_ai_agent>
+	<bounce_rate_ai_agent>0%</bounce_rate_ai_agent>
+	<nb_actions_per_visit_ai_agent>0</nb_actions_per_visit_ai_agent>
+	<avg_time_on_site_ai_agent>0</avg_time_on_site_ai_agent>
+	<nb_visits_human>2</nb_visits_human>
+	<nb_actions_human>4</nb_actions_human>
+	<nb_uniq_visitors_human>2</nb_uniq_visitors_human>
+	<nb_users_human>0</nb_users_human>
+	<max_actions_human>2</max_actions_human>
+	<bounce_rate_human>0%</bounce_rate_human>
+	<nb_actions_per_visit_human>2</nb_actions_per_visit_human>
+	<avg_time_on_site_human>361</avg_time_on_site_human>
 	<Referrers_visitorsFromDirectEntry_percent>100%</Referrers_visitorsFromDirectEntry_percent>
 	<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
 	<Referrers_visitorsFromAIAssistants_percent>0%</Referrers_visitorsFromAIAssistants_percent>
