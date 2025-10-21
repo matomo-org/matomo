@@ -6,9 +6,9 @@
 
 Before you begin, make sure you have DDEV installed. If you don't have it yet, follow the installation instructions in the official [DDEV documentation](https://ddev.readthedocs.io/en/stable/).
 
-You will need to start by choosing a Docker Manager. We recommend installing [Rancher Desktop](https://rancherdesktop.io/), as it is free and open source.
-However, it will use ports 80 and 443, which are useful for our local environment.
-To free them up, uncheck this box: Preferences > Kubernetes > Enable Traefik. 
+If you don't have a Docker provider already available, you will need to start by choosing one. We recommend installing [Rancher Desktop](https://rancherdesktop.io/), as it is free and open source.
+
+By default, Rancher Desktop will use ports 80 and 443 for Traefik router for Kubernetes. To make these ports available to DDEV, we recommend disabling Traefik by unchecking the checkbox: Preferences > Kubernetes > Enable Traefik.
 
 ## Setup steps
 
