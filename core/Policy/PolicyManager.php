@@ -151,8 +151,13 @@ class PolicyManager
         // if we found a method name, use reflection to make it accessible and then call it
         if ($methodName) {
             $reflection = new ReflectionMethod($controlledSettingClass, $methodName);
-            $reflection->setAccessible(true);
 
+            // making the method accessible is only needed for PHP before 8.1, then it's a no-op and from 8.5 it is deprecated
+            if (PHP_VERSION_ID < 80100) {
+                $reflection->setAccessible(true);
+            }
+
+            // invoking with null as it's a static method
             return $reflection->invokeArgs(null, $args);
         }
 
