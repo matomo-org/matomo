@@ -76,12 +76,11 @@ For example, you can adjust `php_version` to `8.4`. All configuration from `.dde
 
 From your host, run `ddev restart` for the changes to take effect.
 
-## Having a test dataset locally
+## Generating testing data locally
 
-You do not need to install a JavaScript tracking code.
-Instead, you can generate sample visits using the built-in VisitorGenerator plugin.
+To see some visits within your local Matomo instance, you don't need a website with the JavaScript tracking code installed. Instead, you can generate sample visits using the VisitorGenerator plugin.
 
-Start by creating a site in the Matomo Dashboard. Then, run the following commands on your local machine:
+Start by creating a site in the Matomo Dashboard. Then, run the following commands on your host machine:
 
 ```
 ddev matomo:console development:enable
