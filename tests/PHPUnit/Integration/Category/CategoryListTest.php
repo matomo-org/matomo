@@ -55,6 +55,7 @@ class CategoryListTest extends IntegrationTestCase
             'ProfessionalServices_PromoHeatmaps',
             'ProfessionalServices_PromoMediaAnalytics',
             'ProfessionalServices_PromoSessionRecording',
+            'AIAgents_AIAssistants',
             'ExampleUI_UiFramework',
             'CustomVariables_CustomVariables',
         ), array_keys($list->getCategories()));

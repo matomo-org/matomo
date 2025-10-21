@@ -93,6 +93,12 @@
 	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
+		<name>AI Agent Name</name>
+		<segment>aiAgentName</segment>
+	</row>
+	<row>
+		<type>dimension</type>
+		<category>Visitors</category>
 		<name>Browser</name>
 		<segment>browserName</segment>
 		<acceptedValues>FireFox, Internet Explorer, Chrome, Safari, Opera etc.</acceptedValues>

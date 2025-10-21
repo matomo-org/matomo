@@ -3545,6 +3545,54 @@
 		<uniqueId>Goals_getDaysToConversion_idGoal--3</uniqueId>
 	</row>
 	<row>
+		<category>AI Assistants</category>
+		<subcategory>Overview</subcategory>
+		<name>AI Agent Visits</name>
+		<module>AIAgents</module>
+		<action>get</action>
+		<metrics>
+			<nb_visits_ai_agent>AI Agent Visits</nb_visits_ai_agent>
+			<nb_actions_ai_agent>Actions by AI Agent Visits</nb_actions_ai_agent>
+			<nb_uniq_visitors_ai_agent>Unique AI Agent Visitors</nb_uniq_visitors_ai_agent>
+			<nb_users_ai_agent>AI Agent Users</nb_users_ai_agent>
+			<max_actions_ai_agent>Maximum Actions in AI Agent Visit</max_actions_ai_agent>
+			<nb_visits_human>Human Visits</nb_visits_human>
+			<nb_actions_human>Actions by Human Visits</nb_actions_human>
+			<nb_uniq_visitors_human>Unique Human Visitors</nb_uniq_visitors_human>
+			<nb_users_human>Human Users</nb_users_human>
+			<max_actions_human>Maximum Actions in one Human Visit</max_actions_human>
+		</metrics>
+		<processedMetrics>
+			<avg_time_on_site_ai_agent>Avg. Duration of an AI Agent Visit (in sec)</avg_time_on_site_ai_agent>
+			<nb_actions_per_visit_ai_agent>Avg. Actions per AI Agent Visit</nb_actions_per_visit_ai_agent>
+			<bounce_rate_ai_agent>Bounce Rate for AI Agent Visits</bounce_rate_ai_agent>
+			<avg_time_on_site_human>Avg. Duration of a Human Visit (in sec)</avg_time_on_site_human>
+			<nb_actions_per_visit_human>Avg. Actions per Human Visit</nb_actions_per_visit_human>
+			<bounce_rate_human>Bounce Rate for Human Visits</bounce_rate_human>
+		</processedMetrics>
+		<metricTypes>
+			<nb_visits_ai_agent>number</nb_visits_ai_agent>
+			<nb_actions_ai_agent>number</nb_actions_ai_agent>
+			<nb_uniq_visitors_ai_agent>number</nb_uniq_visitors_ai_agent>
+			<nb_users_ai_agent>number</nb_users_ai_agent>
+			<max_actions_ai_agent>number</max_actions_ai_agent>
+			<nb_visits_human>number</nb_visits_human>
+			<nb_actions_human>number</nb_actions_human>
+			<nb_uniq_visitors_human>number</nb_uniq_visitors_human>
+			<nb_users_human>number</nb_users_human>
+			<max_actions_human>number</max_actions_human>
+			<avg_time_on_site_ai_agent>duration_s</avg_time_on_site_ai_agent>
+			<nb_actions_per_visit_ai_agent>number</nb_actions_per_visit_ai_agent>
+			<bounce_rate_ai_agent>percent</bounce_rate_ai_agent>
+			<avg_time_on_site_human>duration_s</avg_time_on_site_human>
+			<nb_actions_per_visit_human>number</nb_actions_per_visit_human>
+			<bounce_rate_human>percent</bounce_rate_human>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=AIAgents&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=AIAgents&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>AIAgents_get</uniqueId>
+	</row>
+	<row>
 		<category>UI Framework</category>
 		<subcategory>Data tables</subcategory>
 		<name>Data tables</name>
@@ -3774,6 +3822,16 @@
 			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
 			<avg_time_on_load>Avg. on load time</avg_time_on_load>
 			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+			<nb_visits_ai_agent>AI Agent Visits</nb_visits_ai_agent>
+			<nb_actions_ai_agent>Actions by AI Agent Visits</nb_actions_ai_agent>
+			<nb_uniq_visitors_ai_agent>Unique AI Agent Visitors</nb_uniq_visitors_ai_agent>
+			<nb_users_ai_agent>AI Agent Users</nb_users_ai_agent>
+			<max_actions_ai_agent>Maximum Actions in AI Agent Visit</max_actions_ai_agent>
+			<nb_visits_human>Human Visits</nb_visits_human>
+			<nb_actions_human>Actions by Human Visits</nb_actions_human>
+			<nb_uniq_visitors_human>Unique Human Visitors</nb_uniq_visitors_human>
+			<nb_users_human>Human Users</nb_users_human>
+			<max_actions_human>Maximum Actions in one Human Visit</max_actions_human>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
@@ -3824,6 +3882,12 @@
 			<avg_time_dom_completion>Avg. DOM completion time</avg_time_dom_completion>
 			<avg_time_on_load>Avg. on load time</avg_time_on_load>
 			<avg_page_load_time>Avg. page load time</avg_page_load_time>
+			<avg_time_on_site_ai_agent>Avg. Duration of an AI Agent Visit (in sec)</avg_time_on_site_ai_agent>
+			<nb_actions_per_visit_ai_agent>Avg. Actions per AI Agent Visit</nb_actions_per_visit_ai_agent>
+			<bounce_rate_ai_agent>Bounce Rate for AI Agent Visits</bounce_rate_ai_agent>
+			<avg_time_on_site_human>Avg. Duration of a Human Visit (in sec)</avg_time_on_site_human>
+			<nb_actions_per_visit_human>Avg. Actions per Human Visit</nb_actions_per_visit_human>
+			<bounce_rate_human>Bounce Rate for Human Visits</bounce_rate_human>
 			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
@@ -3881,6 +3945,16 @@
 			<avg_time_dom_completion>duration_s</avg_time_dom_completion>
 			<avg_time_on_load>duration_s</avg_time_on_load>
 			<avg_page_load_time>duration_s</avg_page_load_time>
+			<nb_visits_ai_agent>number</nb_visits_ai_agent>
+			<nb_actions_ai_agent>number</nb_actions_ai_agent>
+			<nb_uniq_visitors_ai_agent>number</nb_uniq_visitors_ai_agent>
+			<nb_users_ai_agent>number</nb_users_ai_agent>
+			<max_actions_ai_agent>number</max_actions_ai_agent>
+			<nb_visits_human>number</nb_visits_human>
+			<nb_actions_human>number</nb_actions_human>
+			<nb_uniq_visitors_human>number</nb_uniq_visitors_human>
+			<nb_users_human>number</nb_users_human>
+			<max_actions_human>number</max_actions_human>
 			<nb_total_overall_bandwidth>number</nb_total_overall_bandwidth>
 			<nb_total_pageview_bandwidth>number</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>number</nb_total_download_bandwidth>
@@ -3895,6 +3969,12 @@
 			<avg_time_on_site_new>duration_s</avg_time_on_site_new>
 			<nb_actions_per_visit_new>number</nb_actions_per_visit_new>
 			<bounce_rate_new>percent</bounce_rate_new>
+			<avg_time_on_site_ai_agent>duration_s</avg_time_on_site_ai_agent>
+			<nb_actions_per_visit_ai_agent>number</nb_actions_per_visit_ai_agent>
+			<bounce_rate_ai_agent>percent</bounce_rate_ai_agent>
+			<avg_time_on_site_human>duration_s</avg_time_on_site_human>
+			<nb_actions_per_visit_human>number</nb_actions_per_visit_human>
+			<bounce_rate_human>percent</bounce_rate_human>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
