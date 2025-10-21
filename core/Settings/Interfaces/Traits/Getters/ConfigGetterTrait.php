@@ -29,4 +29,12 @@ trait ConfigGetterTrait
     abstract protected static function getConfigSection(): string;
 
     abstract protected static function getConfigSettingName(): string;
+
+    /**
+     * @deprecated Will be removed in 6.0 in favour of making getConfigSettingName public
+     */
+    public static function getConfigSettingShortName(): string
+    {
+        return self::getConfigSettingName();
+    }
 }

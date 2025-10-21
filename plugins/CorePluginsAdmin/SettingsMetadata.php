@@ -155,7 +155,8 @@ class SettingsMetadata
             $result['component'] = $config->customFieldComponent;
         }
 
-        $compliancePolicyControlled = PolicyManager::getCompliancePoliciesControllingASetting($setting->getName(), $idSite);
+        $settingType = PolicyManager::getSettingTypeFromSettingClass($setting);
+        $compliancePolicyControlled = PolicyManager::getCompliancePoliciesControllingASetting($setting->getName(), $idSite, $settingType);
         if (!empty($compliancePolicyControlled)) {
             $result['extraMetadata'] = [
                 'compliancePolicyControlled' => $compliancePolicyControlled,

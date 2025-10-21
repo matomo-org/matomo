@@ -6,10 +6,49 @@ use Exception;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
-use ReflectionMethod;
+use Piwik\Settings\Interfaces\Traits\Getters\ConfigGetterTrait;
+use Piwik\Settings\Interfaces\Traits\Getters\CustomGetterTrait;
+use Piwik\Settings\Interfaces\Traits\Getters\MeasurableGetterTrait;
+use Piwik\Settings\Interfaces\Traits\Getters\OptionGetterTrait;
+use Piwik\Settings\Interfaces\Traits\Getters\SystemGetterTrait;
+use Piwik\Settings\Measurable\MeasurableProperty;
+use Piwik\Settings\Measurable\MeasurableSetting;
+use Piwik\Settings\Plugin\SystemSetting;
+use Piwik\Settings\Setting;
 
 class PolicyManager
 {
+    public const SETTING_TYPE_SYSTEM = 'system';
+    public const SETTING_TYPE_MEASURABLE = 'measurable';
+    public const SETTING_TYPE_CUSTOM = 'custom';
+    public const SETTING_TYPE_OPTION = 'option';
+    public const SETTING_TYPE_CONFIG = 'config';
+
+    // TODO: In Matomo 6, get*Name methods will change visibility from protected to public,
+    //  so we will need to replace the method names here
+    private static $settingTypesMap = [
+        self::SETTING_TYPE_SYSTEM     => [
+            'trait' => SystemGetterTrait::class,
+            'method' => 'getSystemSettingShortName',
+        ],
+        self::SETTING_TYPE_MEASURABLE => [
+            'trait' => MeasurableGetterTrait::class,
+            'method' => 'getMeasurableSettingShortName',
+        ],
+        self::SETTING_TYPE_CUSTOM     => [
+            'trait' => CustomGetterTrait::class,
+            'method' => 'getCustomSettingShortName',
+        ],
+        self::SETTING_TYPE_OPTION     => [
+            'trait' => OptionGetterTrait::class,
+            'method' => 'getOptionSettingShortName',
+        ],
+        self::SETTING_TYPE_CONFIG     => [
+            'trait' => ConfigGetterTrait::class,
+            'method' => 'getConfigSettingShortName',
+        ],
+    ];
+
     /**
      * @return array<class-string<CompliancePolicy>>
      */
@@ -49,13 +88,16 @@ class PolicyManager
     /**
      * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
      */
-    public static function getAllSettings(?int $idSite = null): array
+    public static function getAllSettings(?int $idSite = null, ?string $settingType = null): array
     {
         $settings = Manager::getInstance()->findMultipleComponents('Settings', SettingValueInterface::class);
         $underPolicy = [];
 
         foreach ($settings as $setting) {
             if (!is_a($setting, PolicyComparisonInterface::class, true)) {
+                continue;
+            }
+            if ($settingType && !in_array(self::$settingTypesMap[$settingType]['trait'], class_uses($setting), true)) {
                 continue;
             }
 
@@ -69,9 +111,9 @@ class PolicyManager
      * @param class-string<CompliancePolicy> $policyClass
      * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
      */
-    public static function getAllControlledSettings(string $policyClass, ?int $idSite = null): array
+    public static function getAllControlledSettings(string $policyClass, ?int $idSite = null, ?string $settingType = null): array
     {
-        $settings = static::getAllSettings($idSite);
+        $settings = static::getAllSettings($idSite, $settingType);
         $underPolicy = [];
 
         foreach ($settings as $setting) {
@@ -112,58 +154,22 @@ class PolicyManager
     }
 
     /**
-     * Get a name from a policy controlled setting based on which method is available
+     * Return setting type from a given Setting instance
      *
-     * Note: used this cascading mechanism as some settings have already been implemented and released
-     * in premium plugins, so it's harder to provide a new single method that would return a setting name.
-     *
-     * @param class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>> $controlledSettingClass
-     * @param int|null $idSite
-     * @return string
-     * @throws \ReflectionException
-     * @throws Exception
-     * @deprecated will be removed in Matomo 6 in favour of `public static function getSettingName` on `SettingValueInterface`
+     * @param Setting $setting
+     * @return string|null
      */
-    public static function getControlledSettingName(string $controlledSettingClass, ?int $idSite = null): string
+    public static function getSettingTypeFromSettingClass(Setting $setting): ?string
     {
-        $methodName = null;
-        $args = [];
-
-        // list of methods to check for and whether they take idSite as param
-        $methods = [
-            'getSystemName' => false,
-            'getMeasurableName' => false,
-            'getCustomSettingName' => false,
-            'getOptionName' => true,
-            'getConfigSettingName' => false,
-        ];
-
-        foreach ($methods as $method => $hasIdSiteParam) {
-            if (method_exists($controlledSettingClass, $method)) {
-                $methodName = $method;
-                if ($hasIdSiteParam) {
-                    $args = [$idSite];
-                }
-                break;
-            }
+        switch (get_class($setting)) {
+            case MeasurableSetting::class:
+            case MeasurableProperty::class:
+                return self::SETTING_TYPE_MEASURABLE;
+            case SystemSetting::class:
+                return self::SETTING_TYPE_SYSTEM;
+            default:
+                return null;
         }
-
-        // if we found a method name, use reflection to make it accessible and then call it
-        if ($methodName) {
-            $reflection = new ReflectionMethod($controlledSettingClass, $methodName);
-
-            // making the method accessible is only needed for PHP before 8.1, then it's a no-op and from 8.5 it is deprecated
-            if (PHP_VERSION_ID < 80100) {
-                $reflection->setAccessible(true);
-            }
-
-            // invoking with null as it's a static method
-            return $reflection->invokeArgs(null, $args);
-        }
-
-        throw new Exception(
-            sprintf("No suitable method found for privacy policy controlled setting class '%s' to get its name.", $controlledSettingClass)
-        );
     }
 
     /**
@@ -171,13 +177,18 @@ class PolicyManager
      *
      * @param string $settingName
      * @param int|null $idSite
+     * @param string|null $settingType
      * @return array<string, array{
      *      requiredValue: mixed
      *  }>
-     * @throws \ReflectionException
+     * @throws Exception
      */
-    public static function getCompliancePoliciesControllingASetting(string $settingName, ?int $idSite = null): array
+    public static function getCompliancePoliciesControllingASetting(string $settingName, ?int $idSite = null, ?string $settingType = null): array
     {
+        if (!$settingType || !in_array($settingType, array_keys(self::$settingTypesMap), true)) {
+            return [];
+        }
+
         $policies = static::getAllPolicies();
         $settings = [];
 
@@ -185,11 +196,10 @@ class PolicyManager
             if (false === $policyClass::isActive($idSite)) {
                 continue;
             }
-            $controlledSettings = self::getAllControlledSettings($policyClass, $idSite);
+            $controlledSettings = self::getAllControlledSettings($policyClass, $idSite, $settingType);
 
             foreach ($controlledSettings as $controlledSetting) {
-                // TODO: For Matomo 6, use `getSettingName` from `SettingValueInterface` and remove `self::getControlledSettingName` implementation
-                if ($settingName === self::getControlledSettingName($controlledSetting)) {
+                if ($settingName === call_user_func([$controlledSetting, self::$settingTypesMap[$settingType]['method']])) {
                     $settings[$policyClass::getName()] = [
                         'requiredValue' => $controlledSetting::getPolicyRequirements()[$policyClass],
                     ];

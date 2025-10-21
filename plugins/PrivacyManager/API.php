@@ -276,7 +276,10 @@ class API extends \Piwik\Plugin\API
         foreach ($privacyConfig->getConfigPropertyNames() as $propertyName) {
             $settings[$propertyName] = $privacyConfig->{$propertyName};
 
-            $compliancePolicyControlled = PolicyManager::getCompliancePoliciesControllingASetting($propertyName, $idSite);
+            // using custom setting type here as config properties use custom getter mechanism
+            $settingType = PolicyManager::SETTING_TYPE_CUSTOM;
+            $compliancePolicyControlled = PolicyManager::getCompliancePoliciesControllingASetting($propertyName, $idSite, $settingType);
+
             if (!empty($compliancePolicyControlled)) {
                 $extraMetadata[$propertyName] = [
                     'compliancePolicyControlled' => $compliancePolicyControlled,

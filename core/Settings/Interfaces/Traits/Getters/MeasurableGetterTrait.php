@@ -49,4 +49,12 @@ trait MeasurableGetterTrait
     abstract protected static function getMeasurableName(): string;
 
     abstract protected static function getMeasurableType(): string;
+
+    /**
+     * @deprecated Will be removed in 6.0 in favour of making getMeasurableName public
+     */
+    public static function getMeasurableSettingShortName(): string
+    {
+        return self::getMeasurableName();
+    }
 }

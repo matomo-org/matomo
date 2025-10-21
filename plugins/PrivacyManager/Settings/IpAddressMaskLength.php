@@ -7,6 +7,7 @@ use Piwik\Plugins\PrivacyManager\Config;
 use Piwik\Settings\Interfaces\CustomSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
+use Piwik\Settings\Interfaces\Traits\Getters\CustomGetterTrait;
 use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Policy\CnilPolicy;
 
@@ -21,6 +22,11 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
      * @use PolicyComparisonTrait<int|null>
      */
     use PolicyComparisonTrait;
+
+    /**
+     * @use CustomGetterTrait<int|null>
+     */
+    use CustomGetterTrait;
 
     /**
      * @var int|null

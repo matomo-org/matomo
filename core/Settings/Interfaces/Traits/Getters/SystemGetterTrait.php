@@ -38,4 +38,12 @@ trait SystemGetterTrait
     abstract protected static function getSystemName(): string;
 
     abstract protected static function getSystemType(): string;
+
+    /**
+     * @deprecated Will be removed in 6.0 in favour of making getSystemName public
+     */
+    public static function getSystemSettingShortName(): string
+    {
+        return self::getSystemName();
+    }
 }

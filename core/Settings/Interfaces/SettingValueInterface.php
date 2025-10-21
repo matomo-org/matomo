@@ -4,6 +4,7 @@ namespace Piwik\Settings\Interfaces;
 
 /**
  * @template T of mixed
+ * @method static string getSettingName()
  */
 interface SettingValueInterface
 {
