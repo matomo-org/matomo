@@ -7,6 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Plugins\Referrers\RecordBuilders;
 
 use Piwik\ArchiveProcessor;
@@ -32,10 +34,10 @@ class AIReferrers extends RecordBuilder
         $this->columnToSortByBeforeTruncation = Metrics::INDEX_NB_VISITS;
 
         // Reading pre 2.0 config file settings
-        $this->maxRowsInTable = @Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
+        $this->maxRowsInTable    = @Config::getInstance()->General['datatable_archiving_maximum_rows_referers'];
         $this->maxRowsInSubtable = @Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referers'];
         if (empty($this->maxRowsInTable)) {
-            $this->maxRowsInTable = Config::getInstance()->General['datatable_archiving_maximum_rows_referrers'];
+            $this->maxRowsInTable    = Config::getInstance()->General['datatable_archiving_maximum_rows_referrers'];
             $this->maxRowsInSubtable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_referrers'];
         }
         $this->rankingQueryLimit = $this->getRankingQueryLimit();
@@ -66,13 +68,14 @@ class AIReferrers extends RecordBuilder
 
         $this->aggregateFromConversions($logAggregator, $records, ["referer_name"]);
 
-        $numericRecords = [
-            Archiver::METRIC_DISTINCT_AI_ASSISTANT_RECORD_NAME => count($records[Archiver::AI_ASSISTANTS_ENTRY_URL_RECORD_NAME]->getRows()),
-        ];
+        $records[Archiver::METRIC_DISTINCT_AI_ASSISTANT_RECORD_NAME] = count($records[Archiver::AI_ASSISTANTS_ENTRY_URL_RECORD_NAME]->getRows());
 
-        return array_merge($records, $numericRecords);
+        return $records;
     }
 
+    /**
+     * @return string[]
+     */
     protected function getRecordNames(): array
     {
         return [
@@ -132,7 +135,12 @@ class AIReferrers extends RecordBuilder
         }
     }
 
-    protected function makeVisitRow(array $row)
+
+    /**
+     * @param array<string|int, scalar> $row
+     * @return array<int, float>
+     */
+    protected function makeVisitRow(array $row): array
     {
         $metricIds = [
             Metrics::INDEX_NB_UNIQ_VISITORS,
@@ -162,7 +170,7 @@ class AIReferrers extends RecordBuilder
         $query = $logAggregator->queryConversionsByDimension($dimensions, $where);
 
         while ($row = $query->fetch()) {
-            $idGoal = (int) $row['idgoal'];
+            $idGoal  = (int)$row['idgoal'];
             $columns = [
                 Metrics::INDEX_GOALS => [
                     $idGoal => Metrics::makeGoalColumnsRow($idGoal, $row),
@@ -214,8 +222,8 @@ class AIReferrers extends RecordBuilder
             $where,
             $groupBy,
             $orderBy,
-            $limit = 0,
-            $offset = 0,
+            0,
+            0,
             true
         );
 
@@ -247,6 +255,9 @@ class AIReferrers extends RecordBuilder
         return $configLimit == 0 ? 0 : max($configLimit, $this->maxRowsInTable);
     }
 
+    /**
+     * @param array<int, array{aggregation: string, query: string}> $metricsConfig
+     */
     private function addMetricsToSelect(string $select, array $metricsConfig): string
     {
         if (!empty($metricsConfig)) {

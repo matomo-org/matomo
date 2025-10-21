@@ -7,15 +7,17 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Plugins\Referrers\Reports;
 
-use Piwik\Common;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
 use Piwik\Plugins\Goals\Visualizations\Goals;
 use Piwik\Plugins\Referrers\Columns\AIAssistant;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\Request;
 use Piwik\Widget\WidgetsList;
 
 class GetAIAssistants extends Base
@@ -30,7 +32,7 @@ class GetAIAssistants extends Base
         $this->order = 13;
         $this->subcategoryId = 'Referrers_AIAssistants';
 
-        if (Common::getRequestVar('secondaryDimension', false) == 'entryPageTitle') {
+        if (Request::fromRequest()->getStringParameter('secondaryDimension', '') === 'entryPageTitle') {
             $this->actionToLoadSubTables = 'getEntryPageTitlesForAIAssistant';
         } else {
             $this->actionToLoadSubTables = 'getEntryPageUrlsForAIAssistant';

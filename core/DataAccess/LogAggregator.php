@@ -455,7 +455,7 @@ class LogAggregator
     }
 
     /**
-     * @return array<int, array{aggregation: ?string, query: string}>
+     * @return array<int, array{aggregation: string, query: string}>
      */
     public function getVisitsMetricFields(): array
     {
