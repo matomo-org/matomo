@@ -67,11 +67,10 @@ class AIAssistantTest extends \PHPUnit\Framework\TestCase
             'ChatGPT',
         ];
 
-        # @todo enable this test once https://github.com/matomo-org/searchengine-and-social-list/pull/123 was merged
-        #yield 'Grok url with path is correctly detected' => [
-        #    'https://x.com/i/grok',
-        #    'Grok',
-        #];
+        yield 'Grok url with path is correctly detected' => [
+            'https://x.com/i/grok',
+            'Grok',
+        ];
 
         yield 'ChatGPT url with path is correctly detected' => [
             'http://chatgpt.com/i/16564-4345-5sdff-333',
