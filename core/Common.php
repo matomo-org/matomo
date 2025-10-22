@@ -18,7 +18,6 @@ use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Settings\CampaignTrackingParametersDisabled;
-use Piwik\Policy\PolicyManager;
 use Piwik\Tracker\Cache as TrackerCache;
 
 /**
