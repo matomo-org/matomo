@@ -27,6 +27,11 @@
 			<value>compliant</value>
 			<notes>Retention period is set to 180 days</notes>
 		</row>
+		<row>
+			<name>User ID disabled</name>
+			<value>non_compliant</value>
+			<notes>Collection of User ID while tracking must be disabled.</notes>
+		</row>
         <row>
             <name>Opt out</name>
             <value>unknown</value>

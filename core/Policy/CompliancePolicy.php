@@ -29,6 +29,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     abstract public static function getName(): string;
     abstract public static function getDescription(): string;
     abstract public static function getTitle(): string;
+
     /**
      * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
      */
@@ -125,7 +126,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     public static function isActive(?int $idSite): bool
     {
         try {
-            self::checkRequiredPluginsActive();
+            static::checkRequiredPluginsActive();
         } catch (Exception $e) {
             return false;
         }
