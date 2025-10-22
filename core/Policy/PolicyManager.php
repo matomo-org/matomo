@@ -162,24 +162,27 @@ class PolicyManager
     }
 
     /**
-     * Return setting type from a given Setting instance
+     * Return setting type from a given Setting instance, including subclasses
      *
      * @param Setting $setting
      * @return string|null
      */
     public static function getSettingTypeFromSettingClass(Setting $setting): ?string
     {
-        switch (get_class($setting)) {
-            case MeasurableSetting::class:
-            case MeasurableProperty::class:
-                return self::SETTING_TYPE_MEASURABLE;
-            case SystemSetting::class:
-                return self::SETTING_TYPE_SYSTEM;
-            case SystemConfigSetting::class:
-                return self::SETTING_TYPE_CONFIG;
-            default:
-                return null;
+        $map = [
+            MeasurableSetting::class   => self::SETTING_TYPE_MEASURABLE,
+            MeasurableProperty::class  => self::SETTING_TYPE_MEASURABLE,
+            SystemSetting::class       => self::SETTING_TYPE_SYSTEM,
+            SystemConfigSetting::class => self::SETTING_TYPE_CONFIG,
+        ];
+
+        foreach ($map as $class => $type) {
+            if ($setting instanceof $class) {
+                return $type;
+            }
         }
+
+        return null;
     }
 
     /**
