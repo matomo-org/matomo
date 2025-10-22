@@ -20,6 +20,7 @@ use Piwik\Settings\Interfaces\Traits\Getters\OptionGetterTrait;
 use Piwik\Settings\Interfaces\Traits\Getters\SystemGetterTrait;
 use Piwik\Settings\Measurable\MeasurableProperty;
 use Piwik\Settings\Measurable\MeasurableSetting;
+use Piwik\Settings\Plugin\SystemConfigSetting;
 use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Settings\Setting;
 
@@ -174,6 +175,8 @@ class PolicyManager
                 return self::SETTING_TYPE_MEASURABLE;
             case SystemSetting::class:
                 return self::SETTING_TYPE_SYSTEM;
+            case SystemConfigSetting::class:
+                return self::SETTING_TYPE_CONFIG;
             default:
                 return null;
         }
