@@ -3,6 +3,7 @@
 namespace Piwik\Policy;
 
 use Exception;
+use Piwik\Tracker\Cache;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
@@ -90,9 +91,7 @@ class PolicyManager
      */
     public static function isPolicyActive(string $policyClass, ?int $idSite = null): bool
     {
-        if (!is_a($policyClass, CompliancePolicy::class, true)) {
-            throw new Exception('Invalid compliance policy.');
-        }
+        self::checkPolicyIsValid($policyClass);
         return $policyClass::isActive($idSite);
     }
 
@@ -103,10 +102,43 @@ class PolicyManager
      */
     public static function getAllUnknownSettings(string $policyClass): array
     {
+        self::checkPolicyIsValid($policyClass);
+        return $policyClass::getUnknownSettings();
+    }
+
+    /**
+     * @param class-string<CompliancePolicy> $policyClass
+     * @throws \Exception when $policyClass is not a valid policy
+
+     */
+    private static function checkPolicyIsValid(string $policyClass): void
+    {
         if (!is_a($policyClass, CompliancePolicy::class, true)) {
             throw new Exception('Invalid compliance policy.');
         }
+    }
 
-        return $policyClass::getUnknownSettings();
+    /**
+     * @param class-string<CompliancePolicy> $policyClass
+     * @throws \Exception when $policyClass is not a valid policy
+     */
+    public static function setPolicyActiveStatus(string $policyClass, bool $isActive, ?int $idSite = null): void
+    {
+        self::checkPolicyIsValid($policyClass);
+        $policyClass::setActiveStatus($idSite, $isActive);
+        Cache::deleteTrackerCache();
+    }
+
+    public static function storePolicySettingValuesInTrackerCache(array &$cacheContent, int $idSite): array
+    {
+        $settings = static::getAllSettings($idSite);
+        foreach ($settings as $setting) {
+            try {
+                $cacheContent[$setting] = $setting::getInstance($idSite)->getValue();
+            } catch (\Exception $e) {
+                // unable to generate a setting name to use as key
+            }
+        }
+        return $cacheContent;
     }
 }

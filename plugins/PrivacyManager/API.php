@@ -575,7 +575,7 @@ class API extends \Piwik\Plugin\API
             $idSite = intval($idSite);
         }
 
-        $policy::setActiveStatus($idSite, $enforce);
+        PolicyManager::setPolicyActiveStatus($policy, $enforce, $idSite);
 
         return $enforce;
     }
