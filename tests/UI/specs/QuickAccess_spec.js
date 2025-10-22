@@ -32,7 +32,14 @@ describe("QuickAccess", function () {
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('initially');
     });
 
+    it('should display a styled tooltip on hover', async function () {
+        await page.hover('.quick-access input');
+        const content = await page.waitForFunction(() => $('.ui-tooltip:visible').text());
+        expect(content).to.match(/Search for Menu entries, Segments, and Websites\. Use the arrow keys to navigate through search results\. Shortcut: Press 'f' to search\./);
+    });
+
     it("should search for something and update view", async function () {
+        await page.mouse.move(0,0);
         await enterSearchTerm('s');
         await page.waitForTimeout(100);
         expect(await page.screenshotSelector(selectorToCapture)).to.matchImage('search_1');
