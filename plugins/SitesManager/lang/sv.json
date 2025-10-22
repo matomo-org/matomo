@@ -77,6 +77,7 @@
         "LogAnalytics": "Loggfilsanalys",
         "LogAnalyticsDescription": "Om Javascript-spårning inte är möjlig kan du %1$s använda loggfilsanalys %2$s som en alternativ metod för att spåra webbplatsens användare.",
         "MainDescription": "Dina rapporter kräver att du har webbplatser upplagda! Lägg till, uppdatera, ta bort webbplatser, och visa JavaScript spårningskoden för att inkludera den på din webbplats.",
+        "MatomoWillAutomaticallyExcludeCommonSessionParametersInAddition": "Matomo kommer även att automatiskt exkludera de vanliga sessionsparametrarna (%s).",
         "MenuManage": "Hantera",
         "MergedNotificationLine1": "%1$s upptäcktes på din webbplats.",
         "MergedNotificationLine2": "Lär dig mer om att konfigurera Matomo för att fungera med dessa genom att följa dessa guider: %1$s",

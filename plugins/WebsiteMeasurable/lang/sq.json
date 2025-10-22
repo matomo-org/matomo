@@ -1,7 +1,9 @@
 {
     "WebsiteMeasurable": {
+        "EcommercePolicySettingRequirementNote": "E-tregtia duhet çaktivizuar",
         "Website": "Sajt",
         "WebsiteDescription": "Një sajt përbëhet prej faqesh web, të cilat zakonisht shërbehen prej një përkatësie të vetme web.",
+        "WebsiteLongDescription": "Ndiq ndërveprime vizitorësh, bie fjala, parje faqesh, klikime, shkarkime dhe akte në një sajt publik. Një matje e vetme mund të përfshijë shumë përkatësi dhe nënpërkatësi, ose mund të krijoni matje më vete për secilën.",
         "Websites": "Sajte"
     }
 }

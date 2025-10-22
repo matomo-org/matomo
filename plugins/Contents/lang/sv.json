@@ -1,24 +1,27 @@
 {
     "Contents": {
-        "PluginDescription": "Innehålls- och bannertracking ger dig möjlighet att mäta prestanda (visningar, klick, CTR) för alla typer av innehåll på dina sidor (bannerannonser, bilder mm).",
-        "Impressions": "Visningar",
         "ContentImpression": "Innehållsintryck",
         "ContentInteraction": "Innehållsinteraktion",
         "ContentInteractions": "Innehållsinteraktioner",
-        "InteractionRate": "Andel interaktioner",
         "ContentName": "Namn på innehåll",
         "ContentNameReportDocumentation": "Denna rapport visar namnen på det innehåll som dina besökare tittade på och interagerade med.",
+        "ContentNameSegmentHelp": "Namnet på ett innehållsblock, till exempel \"Annons\"",
         "ContentNames": "Innehållsnamn",
         "ContentPiece": "Innehållsdel",
         "ContentPieceReportDocumentation": "Den här rapporten visar det innehåll som dina besökare tittade på och interagerade med.",
+        "ContentPieceSegmentHelp": "Det faktiska innehållet. Till exempel \"annons.jpg\" eller \"Min textannons\"",
         "ContentPieces": "Innehållsdelar",
         "ContentTarget": "Innehållsmål",
+        "ContentTargetSegmentHelp": "Till exempel URL:en till en landningssida: \"http://landningssida.exempel.se\"",
         "ContentTargets": "Innehållsmål",
         "Contents": "Innehåll",
-        "InteractionsMetricDocumentation": "Antalet gånger ett innehållsblock har interagerats med (t.ex. ett \"klick\" på en banner eller annons).",
-        "ImpressionsMetricDocumentation": "Antalet gånger ett innehållsblock såsom en banner eller en annons har visats på en sida.",
-        "InteractionRateMetricDocumentation": "Förhållandet mellan innehållsvisningar och interaktioner.",
         "ContentsSubcategoryHelp1": "Innehållsspårning hjälper dig att bestämma populariteten för specifika innehållsdelar på vilken sida som helst på din webbplats eller applikation. Detta avsnitt rapporterar antalet intryck och interaktioner som de olika innehållsdelarna på din webbplats får.",
-        "ContentsSubcategoryHelp2": "Läs mer i innehållsspårningsguiden."
+        "ContentsSubcategoryHelp2": "Läs mer i innehållsspårningsguiden.",
+        "Impressions": "Visningar",
+        "ImpressionsMetricDocumentation": "Antalet gånger ett innehållsblock såsom en banner eller en annons har visats på en sida.",
+        "InteractionRate": "Andel interaktioner",
+        "InteractionRateMetricDocumentation": "Förhållandet mellan innehållsvisningar och interaktioner.",
+        "InteractionsMetricDocumentation": "Antalet gånger ett innehållsblock har interagerats med (t.ex. ett \"klick\" på en banner eller annons).",
+        "PluginDescription": "Innehålls- och bannertracking ger dig möjlighet att mäta prestanda (visningar, klick, CTR) för alla typer av innehåll på dina sidor (bannerannonser, bilder mm)."
     }
 }

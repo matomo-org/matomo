@@ -39,6 +39,11 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         return [];
     }
 
+    protected static function checkRequiredPluginsActive(): void
+    {
+        return;
+    }
+
     public static function getSystemValue()
     {
         return self::$system;
@@ -74,5 +79,15 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         } else {
             self::$perSite = [];
         }
+    }
+
+    public static function getUnknownSettings(): array
+    {
+        return [
+            [
+                'title' => 'Unknown setting title',
+                'note' => 'Unknown setting note',
+            ],
+        ];
     }
 }

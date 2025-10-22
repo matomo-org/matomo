@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Shtoni një widget",
+        "AddAWidget": "Shtoje widget-in te ky pult",
         "AddPreviewedWidget": "Që widget-i të shtohet te pulti, klikojeni",
         "ChangeDashboardLayout": "Ndryshoni skemë pulti",
         "CopyDashboardToUser": "Kopjoje pultin te përdoruesi",
@@ -15,7 +15,7 @@
         "DeleteWidgetConfirm": "Jeni i sigurt se doni të fshihet ky “widget” prej pultit?",
         "EmptyDashboard": "Pult i zbrazët - Zgjidhni widget-et tuaj të parapëlqyer",
         "LoadingWidget": "Po ngarkohet widget-i, ju lutemi, prisni…",
-        "ManageDashboard": "Administroni pultin",
+        "ManageDashboard": "Administroni këtë pult",
         "Maximise": "Maksimizoje",
         "Minimise": "Minimizoje",
         "NotUndo": "S’do të jeni në gjendje ta zhbëni këtë veprim.",

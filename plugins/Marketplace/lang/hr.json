@@ -1,6 +1,13 @@
 {
     "Marketplace": {
+        "ActionActivatePlugin": "Aktiviraj dodatak",
+        "ActionActivateTheme": "Aktiviraj temu",
         "ActionInstall": "Instaliraj",
+        "ActivateLicenseKey": "Aktiviraj",
+        "Authors": "Autori",
+        "Browse": "Pregledaj",
+        "SubscriptionEndDate": "Datum kraja",
+        "SubscriptionStartDate": "Datum početka",
         "SubscriptionType": "Vrsta",
         "TrialStartNoLicenseCreateAccount": "Stvori račun",
         "TrialStartNoLicenseLegalHint": "Stvaranjem računa prihvaćaš %1$sUvjete i odredbe Matomo Marketplacea%2$s. Tvoje osobne podatke ćemo obraditi u skladu s našom %3$sPolitikom privatnosti%4$s."

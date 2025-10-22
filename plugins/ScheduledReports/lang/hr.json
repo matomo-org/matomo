@@ -1,1 +1,7 @@
-{}
+{
+    "ScheduledReports": {
+        "EvolutionGraph": "Prikaži povijesne dijagrame za prvih %s vrijednosti",
+        "EvolutionGraphsShowForEachInPeriod": "Dijagrami razvoja prikazuju razvoj za %1$ssvaki dan%2$s u zadnjih %3$s",
+        "EvolutionGraphsShowForPreviousN": "Dijagrami razvoja prikazuju razvoj tijekom prethodnih N %s"
+    }
+}

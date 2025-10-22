@@ -531,11 +531,6 @@ parameters:
 			path: core/Auth/Password.php
 
 		-
-			message: "#^Property Piwik\\\\Category\\\\Category\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: core/Category/Category.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:fetchAll\\(\\)\\.$#"
 			count: 1
 			path: core/Changes/Model.php
@@ -1141,11 +1136,6 @@ parameters:
 			path: core/DataTable/Filter/PivotByDimension.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
-			count: 1
-			path: core/DataTable/Filter/PivotByDimension.php
-
-		-
 			message: "#^Property Piwik\\\\DataTable\\\\Filter\\\\PivotByDimension\\:\\:\\$pivotByDimension \\(Piwik\\\\Columns\\\\Dimension\\) in empty\\(\\) is not falsy\\.$#"
 			count: 1
 			path: core/DataTable/Filter/PivotByDimension.php
@@ -1273,11 +1263,6 @@ parameters:
 		-
 			message: "#^Method Piwik\\\\DataTable\\\\Row\\:\\:compareElements\\(\\) should return bool but returns int\\<\\-1, 1\\>\\.$#"
 			count: 1
-			path: core/DataTable/Row.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 2
 			path: core/DataTable/Row.php
 
 		-
@@ -3309,11 +3294,6 @@ parameters:
 			path: plugins/Actions/ArchivingHelper.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 3
-			path: plugins/Actions/ArchivingHelper.php
-
-		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:setColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Actions/ArchivingHelper.php
@@ -3437,11 +3417,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$passwordHash of method Piwik\\\\Auth\\:\\:setPasswordHash\\(\\) expects string, null given\\.$#"
 			count: 1
 			path: plugins/BulkTracking/Tracker/Handler.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Contents/RecordBuilders/ContentRecords.php
 
 		-
 			message: "#^Result of && is always false\\.$#"
@@ -3592,16 +3567,6 @@ parameters:
 			message: "#^Variable \\$dimension in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/CoreConsole/Commands/GenerateReport.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\ActionsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/CoreHome/Categories/ActionsCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreHome\\\\Categories\\\\VisitorsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/CoreHome/Categories/VisitorsCategory.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -3979,11 +3944,6 @@ parameters:
 			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
-
-		-
 			message: "#^Variable \\$value in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: plugins/CustomDimensions/RecordBuilders/CustomDimension.php
@@ -4014,19 +3974,9 @@ parameters:
 			path: plugins/Dashboard/API.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\Dashboard\\\\Categories\\\\DashboardCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/Dashboard/Categories/DashboardCategory.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Dashboard\\\\Model\\:\\:getLayoutForUser\\(\\) should return bool\\|string but returns array\\.$#"
 			count: 1
 			path: plugins/Dashboard/Model.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/DevicePlugins/RecordBuilders/DevicePlugins.php
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\DataTableInterface\\:\\:getDataTables\\(\\)\\.$#"
@@ -4062,11 +4012,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
 			count: 1
 			path: plugins/DevicesDetection/Columns/Os.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/RecordBuilders/Base.php
 
 		-
 			message: "#^Variable \\$label in empty\\(\\) always exists and is not falsy\\.$#"
@@ -4214,11 +4159,6 @@ parameters:
 			path: plugins/Diagnostics/Diagnostic/UserInformational.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\Ecommerce\\\\Categories\\\\EcommerceCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Categories/EcommerceCategory.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Ecommerce\\\\Columns\\\\BaseConversion\\:\\:roundRevenueIfNeeded\\(\\) should return float\\|int but returns false\\.$#"
 			count: 1
 			path: plugins/Ecommerce/Columns/BaseConversion.php
@@ -4267,11 +4207,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\Columns\\\\TotalEvents\\:\\:onExistingVisit\\(\\) should return int but returns string\\.$#"
 			count: 1
 			path: plugins/Events/Columns/TotalEvents.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Events/RecordBuilders/EventReports.php
 
 		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
@@ -4399,11 +4334,6 @@ parameters:
 			path: plugins/Goals/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Goals/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$oldName of method Piwik\\\\DataTable\\\\Row\\:\\:renameColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Goals/API.php
@@ -4417,11 +4347,6 @@ parameters:
 			message: "#^Variable \\$table in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 1
 			path: plugins/Goals/API.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Goals\\\\Categories\\\\GoalsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/Goals/Categories/GoalsCategory.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between int and 'ecommerceOrder' will always evaluate to false\\.$#"
@@ -5139,46 +5064,6 @@ parameters:
 			path: plugins/PrivacyManager/ReportsPurger.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoAbTestingCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoAbTestingCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoCrashAnalytics\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoCrashAnalytics.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoCustomReportsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoCustomReportsCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoFormsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoFormsCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoFunnelsCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoFunnelsCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoHeatmapCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoHeatmapCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoMediaCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoMediaCategory.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Categories\\\\PromoSessionRecordingCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/Categories/PromoSessionRecordingCategory.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<1, max\\> given\\.$#"
 			count: 1
 			path: plugins/ProfessionalServices/PromoWidgetDismissal.php
@@ -5204,11 +5089,6 @@ parameters:
 			path: plugins/Referrers/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Referrers/API.php
-
-		-
 			message: "#^Variable \\$numericArchives in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/Referrers/API.php
@@ -5217,11 +5097,6 @@ parameters:
 			message: "#^Variable \\$requestedColumns in empty\\(\\) is never defined\\.$#"
 			count: 1
 			path: plugins/Referrers/API.php
-
-		-
-			message: "#^Property Piwik\\\\Plugins\\\\Referrers\\\\Categories\\\\ReferrersCategory\\:\\:\\$icon \\(int\\) does not accept default value of type string\\.$#"
-			count: 1
-			path: plugins/Referrers/Categories/ReferrersCategory.php
 
 		-
 			message: "#^Offset 'referer_keyword' on array\\{referer_type\\: 1\\|3, referer_name\\: mixed, referer_keyword\\: '', referer_url\\: string\\} in empty\\(\\) always exists and is always falsy\\.$#"
@@ -5249,11 +5124,6 @@ parameters:
 			path: plugins/Referrers/DataTable/Filter/SetGetReferrerTypeSubtables.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Referrers/RecordBuilders/Referrers.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\SearchEngine\\:\\:getBackLinkFromUrlAndKeyword\\(\\) should return string but returns false\\.$#"
 			count: 1
 			path: plugins/Referrers/SearchEngine.php
@@ -5267,16 +5137,6 @@ parameters:
 			message: "#^Function Piwik\\\\Plugins\\\\Referrers\\\\getReferrerTypeFromShortName\\(\\) should return string but returns int\\.$#"
 			count: 1
 			path: plugins/Referrers/functions.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Resolution/RecordBuilders/Configuration.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/Resolution/RecordBuilders/Resolution.php
 
 		-
 			message: "#^Parameter \\#1 \\$data of function simplexml_load_string expects string, bool given\\.$#"
@@ -5544,11 +5404,6 @@ parameters:
 			path: plugins/Transitions/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 2
-			path: plugins/Transitions/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$segmentCondition of class Piwik\\\\Segment constructor expects string, bool given\\.$#"
 			count: 1
 			path: plugins/Transitions/API.php
@@ -5614,11 +5469,6 @@ parameters:
 			path: plugins/UserCountry/LocationProvider.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/UserCountry/RecordBuilders/Locations.php
-
-		-
 			message: "#^Parameter \\#6 \\$willDelete of method Piwik\\\\DataAccess\\\\RawLogDao\\:\\:forAllLogs\\(\\) expects string, false given\\.$#"
 			count: 1
 			path: plugins/UserCountry/VisitorGeolocator.php
@@ -5644,22 +5494,12 @@ parameters:
 			path: plugins/UserId/RecordBuilders/Users.php
 
 		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
-			count: 1
-			path: plugins/UserId/RecordBuilders/Users.php
-
-		-
 			message: "#^Property Piwik\\\\ViewDataTable\\\\RequestConfig\\:\\:\\$filter_excludelowpop_value \\(Closure\\|string\\) does not accept 2\\.$#"
 			count: 1
 			path: plugins/UserId/Reports/GetUsers.php
 
 		-
 			message: "#^Binary operation \"\\.\" between non\\-falsy\\-string and array results in an error\\.$#"
-			count: 1
-			path: plugins/UserLanguage/RecordBuilders/Languages.php
-
-		-
-			message: "#^Property Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:\\$columnToSortByBeforeTruncation \\(string\\|null\\) does not accept int\\.$#"
 			count: 1
 			path: plugins/UserLanguage/RecordBuilders/Languages.php
 

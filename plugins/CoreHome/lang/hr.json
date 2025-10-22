@@ -1,5 +1,9 @@
 {
     "CoreHome": {
-        "CheckForUpdates": "Provjeri nadogradnje"
+        "CheckForUpdates": "Provjeri nadogradnje",
+        "EndDate": "Datum kraja",
+        "LearnMoreFullStop": "%1$sSaznaj više.%2$s",
+        "ReportLowercase": "izvještaj",
+        "StartDate": "Datum početka"
     }
 }

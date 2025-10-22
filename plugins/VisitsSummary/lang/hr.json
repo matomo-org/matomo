@@ -1,8 +1,30 @@
 {
     "VisitsSummary": {
-        "VisitsSummary": "Pregled posjeta",
+        "AverageGenerationTime": "prosječno vrijeme generiranja",
+        "AverageVisitDuration": "prosječno trajanje posjete",
+        "GenerateQueries": "Izvršenih upita: %s",
+        "GenerateTime": "Vrijeme za generiranje stranice u sekundama: %s",
+        "MaxNbActions": "maksimalni broj radnji u jednom posjetu",
+        "NbActionsDescription": "Broj radnji: %s",
+        "NbActionsPerVisit": "radnje (prikazi stranica, preuzimanja, vanjske poveznice i interne pretrage web-stranice) po posjetu",
+        "NbDownloadsDescription": "preuzimanja",
+        "NbKeywordsDescription": "jedinstvene ključne riječi",
+        "NbOutlinksDescription": "vanjske poveznice",
+        "NbPageviewsDescription": "prikazi stranice",
+        "NbSearchesDescription": "ukupni broj pretraga na tvojoj web-stranici",
+        "NbUniqueDownloadsDescription": "jedinstvena preuzimanja",
+        "NbUniqueOutlinksDescription": "jedinstvene vanjske poveznice",
+        "NbUniquePageviewsDescription": "jedinstveni prikazi stranica",
+        "NbUniqueVisitors": "jedinstveni posjetitelji",
+        "NbUsersDescription": "korisnici",
+        "NbVisitsBounced": "napuštanja (posjetioci koji su napustili web-stranicu nakon jedne stranice)",
+        "NbVisitsDescription": "posjete",
+        "PluginDescription": "Izvještava o općim analitičkim metrikama: posjete, jedinstveni posjetitelji, broj radnji, stopa napuštanja stranice itd.",
+        "VisitsSummary": "Sažetak posjeta",
+        "VisitsSummaryDocumentation": "Ovo je pregled razvoja posjeta.",
+        "VisitsSummaryReportDocumentation": "Ovaj izvještaj pruža vrlo općenit pregled ponašanja tvojih posjetitelja.",
         "WidgetLastVisits": "Posjete kroz vrijeme",
-        "WidgetOverviewGraph": "Pregled posjeta (sa grafom)",
+        "WidgetOverviewGraph": "Pregled posjeta (s dijagramom)",
         "WidgetVisits": "Pregled posjeta"
     }
 }

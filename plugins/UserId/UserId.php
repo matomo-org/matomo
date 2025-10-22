@@ -48,5 +48,7 @@ class UserId extends \Piwik\Plugin
     public function getClientSideTranslationKeys(&$translationKeys)
     {
         $translationKeys[] = "Live_ViewVisitorProfile";
+        $translationKeys[] = "UserId_UserIdDisabledSettingRequirementNote";
+        $translationKeys[] = "UserId_UserIdDisabledSettingTitle";
     }
 }

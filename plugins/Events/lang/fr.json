@@ -17,6 +17,7 @@
         "EventNames": "Noms d'évènement",
         "EventNamesReportDocumentation": "Ce rapport vous montre les noms associés à chaque évènement suivi et le nombre de fois qu'ils se sont produits. Vous pouvez voir les actions et les catégories d'évènements qui ont été suivis avec le nom de chaque évènement dans le sous-tableau de chaque ligne. Vous pouvez modifier ce qui est affiché en changeant la dimension secondaire avec le lien en bas du rapport.",
         "EventUrl": "URL d'évènement",
+        "EventUrlSegmentHelp": "L’URL doit être encodée (URL encoded), par exemple : %s",
         "EventUrls": "URLs d'évènements",
         "EventValue": "Valeur d'évènement",
         "EventValueTooltip": "La valeur totale de l'évènement est la somme des %1$s valeurs d'évènements %2$s entre un minimum de %3$s et un maximum de %4$s.",

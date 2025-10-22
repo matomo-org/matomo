@@ -13,6 +13,7 @@
         "AllWebsitesDashboard": "Tableau de bord de tous les sites web",
         "AllowPiwikArchivingToTriggerBrowser": "Archiver les rapports lorsqu'ils sont affichés depuis le navigateur",
         "And": "et",
+        "AnyPositiveInteger": "Tout entier positif",
         "Apply": "Appliquer",
         "ArchivingInlineHelp": "Pour les sites web au trafic moyen à élevé, il est recommandé de désactiver l'archivage de Matomo depuis le navigateur. Nous vous recommandons de mettre en place une tâche planifiée cron pour traiter les rapports Matomo toutes les heures.",
         "ArchivingTriggerDescription": "Recommandé pour les installations importantes de Matomo, vous devriez %1$s mettre en place une tâche planifiée cron %2$s pour générer les rapports automatiquement.",

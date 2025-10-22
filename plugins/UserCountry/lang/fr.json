@@ -7,6 +7,7 @@
         "Continents": "Continents",
         "Country": "Pays",
         "CountryCode": "Code pays",
+        "CountrySegmentHelp": "Codes pays ISO 3166-1 alpha-2 (de, us, fr, in, es, etc.)",
         "CurrentLocationIntro": "D'après ce fournisseur, votre emplacement actuel est",
         "DefaultLocationProviderDesc1": "Le fournisseur de localisation par défaut devine le pays d'un visiteur en se basant sur le langage de son navigateur.",
         "DefaultLocationProviderDesc2": "Ceci n'est pas très précis, %1$snous recommandons donc l'installation et l'utilisation d'une %2$sbase de données de géolocalisation%3$s.%4$s",
