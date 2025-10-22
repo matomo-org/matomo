@@ -95,7 +95,7 @@ class PolicyManager
     /**
      * @return array<class-string<PolicyComparisonInterface<mixed>&SettingValueInterface<mixed>>>
      */
-    public static function getAllSettings(?int $idSite = null, ?string $settingType = null): array
+    protected static function getAllSettings(?string $settingType = null): array
     {
         $settings = Manager::getInstance()->findMultipleComponents('Settings', SettingValueInterface::class);
         $underPolicy = [];
@@ -120,7 +120,7 @@ class PolicyManager
      */
     public static function getAllControlledSettings(string $policyClass, ?int $idSite = null, ?string $settingType = null): array
     {
-        $settings = static::getAllSettings($idSite, $settingType);
+        $settings = static::getAllSettings($settingType);
         $underPolicy = [];
 
         foreach ($settings as $setting) {

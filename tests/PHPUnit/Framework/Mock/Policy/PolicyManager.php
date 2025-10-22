@@ -13,7 +13,7 @@ class PolicyManager extends \Piwik\Policy\PolicyManager
         ];
     }
 
-    public static function getAllSettings(?int $idSite = null, ?string $settingType = null): array
+    protected static function getAllSettings(?string $settingType = null): array
     {
         $settings[] = FakePolicySetting::class;
         return $settings;
