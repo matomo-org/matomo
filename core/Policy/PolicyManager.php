@@ -182,13 +182,9 @@ class PolicyManager
 
     public static function storePolicySettingValuesInTrackerCache(array &$cacheContent, int $idSite): array
     {
-        $settings = static::getAllSettings($idSite);
+        $settings = static::getAllSettings();
         foreach ($settings as $setting) {
-            try {
-                $cacheContent[$setting] = $setting::getInstance($idSite)->getValue();
-            } catch (\Exception $e) {
-                // unable to generate a setting name to use as key
-            }
+            $cacheContent[$setting] = $setting::getInstance($idSite)->getValue();
         }
         return $cacheContent;
     }
