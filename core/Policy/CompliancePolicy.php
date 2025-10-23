@@ -133,7 +133,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     public static function isActive(?int $idSite): bool
     {
         try {
-            self::checkRequiredPluginsActive();
+            static::checkRequiredPluginsActive();
         } catch (Exception $e) {
             return false;
         }

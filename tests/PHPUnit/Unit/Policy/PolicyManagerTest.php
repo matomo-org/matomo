@@ -57,4 +57,11 @@ class PolicyManagerTest extends TestCase
             $this->assertArrayHasKey('note', $unknownSetting);
         }
     }
+
+    public function testStorePolicySettingValuesInTrackerCache()
+    {
+        $cacheContent = [];
+        MockPolicyManager::storePolicySettingValuesInTrackerCache($cacheContent, $idSite = 1);
+        $this->assertSame([FakePolicySetting::class => true], $cacheContent);
+    }
 }

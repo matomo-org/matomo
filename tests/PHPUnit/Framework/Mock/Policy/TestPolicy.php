@@ -39,6 +39,11 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         return [];
     }
 
+    protected static function checkRequiredPluginsActive(): void
+    {
+        return;
+    }
+
     public static function getSystemValue()
     {
         return self::$system;

@@ -25,6 +25,10 @@ use Piwik\ProxyHttp;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
+use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
 /**
  * The Request object holding the http parameters for this tracking request. Use getParam() to fetch a named parameter.
@@ -852,6 +856,16 @@ class Request
 
     public function getForcedUserId()
     {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $idSite = $this->getIdSite();
+            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+            $cacheKey = UserIdDisabled::class;
+            if (($cache[$cacheKey] ?? false) === true) {
+                return false;
+            }
+        }
+
         $userId = $this->getParam('uid');
         if (strlen($userId) > 0) {
             return $userId;
