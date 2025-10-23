@@ -1881,11 +1881,6 @@ parameters:
 			path: core/Plugin/Report.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with Piwik\\\\DataTable will always evaluate to false\\.$#"
-			count: 2
-			path: core/Plugin/ViewDataTable.php
-
-		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 138$#"
 			count: 1
 			path: core/Plugin/ViewDataTable.php
@@ -1896,32 +1891,17 @@ parameters:
 			path: core/Plugin/ViewDataTable.php
 
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: core/Plugin/ViewDataTable.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with Piwik\\\\DataTable will always evaluate to false\\.$#"
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: "#^Instanceof between \\*NEVER\\* and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
 			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 3
+			count: 1
 			path: core/Plugin/Visualization.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
+			message: "#^Instanceof between Piwik\\\\DataTable\\|null and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
+			count: 2
+			path: core/Plugin/Visualization.php
+
+		-
+			message: "#^Instanceof between null and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
 			count: 1
 			path: core/Plugin/Visualization.php
 
@@ -1941,17 +1921,7 @@ parameters:
 			path: core/Plugin/Visualization.php
 
 		-
-			message: "#^Property Piwik\\\\Plugin\\\\ViewDataTable\\:\\:\\$dataTable \\(Piwik\\\\DataTable\\) in empty\\(\\) is not falsy\\.$#"
-			count: 3
-			path: core/Plugin/Visualization.php
-
-		-
 			message: "#^Ternary operator condition is always true\\.$#"
-			count: 1
-			path: core/Plugin/Visualization.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: core/Plugin/Visualization.php
 
@@ -3784,11 +3754,6 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
 
 		-
-			message: "#^Property Piwik\\\\Plugin\\\\ViewDataTable\\:\\:\\$dataTable \\(Piwik\\\\DataTable\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
-
-		-
 			message: "#^Property Piwik\\\\Plugin\\\\Visualization\\:\\:\\$report \\(Piwik\\\\Plugin\\\\Report\\) in empty\\(\\) is not falsy\\.$#"
 			count: 2
 			path: plugins/CoreVisualizations/Visualizations/HtmlTable.php
@@ -3809,19 +3774,9 @@ parameters:
 			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
+			message: "#^Instanceof between Piwik\\\\DataTable\\|null and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
-
-		-
-			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparkline.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with Piwik\\\\DataTable will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
 
 		-
 			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
@@ -3846,11 +3801,6 @@ parameters:
 		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 2
-			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparklines.php
 
 		-
