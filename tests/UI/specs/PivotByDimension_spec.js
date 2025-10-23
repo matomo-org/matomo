@@ -21,6 +21,7 @@ describe("PivotByDimension", function () {
         await page.waitForNetworkIdle();
 
         await page.click('.dropdownConfigureIcon');
+        await page.waitForTimeout(100);
         await page.click('.dataTablePivotBySubtable');
         await page.waitForNetworkIdle();
 
