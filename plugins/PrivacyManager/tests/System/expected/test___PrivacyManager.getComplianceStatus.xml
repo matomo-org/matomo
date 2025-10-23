@@ -13,6 +13,11 @@
 			<notes>Visits log is required to be disabled.</notes>
 		</row>
 		<row>
+			<name>Campaign tracking parameters disabled</name>
+			<value>non_compliant</value>
+			<notes>All campaign tracking parameters must be discarded</notes>
+		</row>
+		<row>
 			<name>IP Anonymization Enabled</name>
 			<value>non_compliant</value>
 			<notes>Anonymization of Visitor's IP addresses must be enabled.</notes>
@@ -32,10 +37,10 @@
 			<value>non_compliant</value>
 			<notes>Collection of User ID while tracking must be disabled.</notes>
 		</row>
-        <row>
-            <name>Opt out</name>
-            <value>unknown</value>
-            <notes>Opt out must be manually set up and configured</notes>
-        </row>
+		<row>
+			<name>Opt out</name>
+			<value>unknown</value>
+			<notes>Opt out must be manually set up and configured</notes>
+		</row>
 	</complianceRequirements>
 </result>
