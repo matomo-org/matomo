@@ -523,7 +523,7 @@ class ArchiveInvalidator
             foreach ($idSites as $idSite) {
                 foreach (Rules::getSegmentsToProcess([$idSite]) as $segment) {
                     $this->markArchivesAsInvalidated(
-                        $idSites,
+                        [$idSite],
                         $dates,
                         'day',
                         new Segment($segment, [$idSite]),
