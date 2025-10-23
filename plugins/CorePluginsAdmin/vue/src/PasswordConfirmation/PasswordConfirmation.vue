@@ -14,13 +14,13 @@
           {{ translate('UsersManager_ConfirmThisChange') }}
         </h2>
         <h2 v-if="requiresPasswordConfirmation && !slotHasContent">
-          {{ translate('UsersManager_ConfirmWithPassword') }}
+          {{ translate('UsersManager_ConfirmWithReAuthentication') }}
         </h2>
         <div v-if="requiresPasswordConfirmation && slotHasContent">
-          {{ translate('UsersManager_ConfirmWithPassword') }}
+          {{ translate('UsersManager_ConfirmWithReAuthentication') }}
         </div>
       </div>
-      <div v-show="requiresPasswordConfirmation">
+      <div v-show="requiresPasswordConfirmation" id="password-confirmation-div">
         <Field
           v-model="passwordConfirmation"
           :uicontrol="'password'"
@@ -43,6 +43,7 @@
       ></component>
       <a
         href=""
+        id="confirm-password-btn"
         class="modal-action modal-close btn"
         :disabled="requiresPasswordConfirmation && !passwordConfirmation ? 'disabled' : undefined"
         @click="onClickConfirm($event)"

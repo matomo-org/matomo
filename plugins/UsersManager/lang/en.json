@@ -76,6 +76,7 @@
         "YourCurrentPassword": "Your current password",
         "CurrentPasswordNotCorrect": "The current password you entered is not correct.",
         "ConfirmWithPassword": "Please enter your password to confirm this change.",
+        "ConfirmWithReAuthentication": "Please re-authenticate to confirm this change.",
         "ConfirmThisChange": "Please confirm this change.",
         "InjectedHostCannotChangePwd": "You are currently visiting with an unknown host (%1$s). You cannot change your password until this problem is fixed.",
         "LastSeen": "Last seen",

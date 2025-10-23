@@ -956,7 +956,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function testUpdateUserFailsNoCurrentPassword()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 
         $login = "login";
         $user = array(

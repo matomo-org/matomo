@@ -309,6 +309,7 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_ConfirmThisChange';
         $translationKeys[] = 'UsersManager_ConfirmTokenCopied';
         $translationKeys[] = 'UsersManager_ConfirmWithPassword';
+        $translationKeys[] = 'UsersManager_ConfirmWithReAuthentication';
         $translationKeys[] = 'UsersManager_CopyDenied';
         $translationKeys[] = 'UsersManager_CopyDeniedHints';
         $translationKeys[] = 'UsersManager_CopyLink';

@@ -63,7 +63,7 @@ class ApiTest extends IntegrationTestCase
     public function testSetSystemSettingsThrowsIfNoPasswordConfirmation()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 
         $settingValues = $this->testSystemSettingsPayload;
         \Piwik\Plugins\CorePluginsAdmin\API::getInstance()->setSystemSettings($settingValues);

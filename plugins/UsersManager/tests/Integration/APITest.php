@@ -1125,7 +1125,7 @@ class APITest extends IntegrationTestCase
     public function testSetUserAccessCannotSetViewToAnonymousWithoutPassword()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 
         $_GET['force_api_session'] = 1;
         try {
