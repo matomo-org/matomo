@@ -142,4 +142,24 @@ describe("ReferrersPages", function () {
     pageWrap = await page.$('.pageWrap');
     expect(await pageWrap.screenshot()).to.matchImage('aiassistants_titles');
   });
+
+  it('should flatten the referrers > ai assistants report correctly', async function () {
+    await page.click('.dropdownConfigureIcon');
+    await page.click('.dataTableFlatten');
+    await page.waitForNetworkIdle();
+    await page.mouse.move(-10, -10);
+
+    pageWrap = await page.$('.pageWrap');
+    expect(await pageWrap.screenshot()).to.matchImage('aiassistants_titles_flat');
+  });
+
+  it('switching to goals view should disable flattening as its not supported', async function () {
+    await page.click('.dataTableHeaderControls .activateVisualizationSelection > span');
+    await page.click('.dataTableHeaderControls .tableIcon[data-footer-icon-id=tableGoals]');
+    await page.mouse.move(-10, -10);
+    await page.waitForNetworkIdle();
+
+    pageWrap = await page.$('.pageWrap');
+    expect(await pageWrap.screenshot()).to.matchImage('aiassistants_titles_flat_goals');
+  });
 });
