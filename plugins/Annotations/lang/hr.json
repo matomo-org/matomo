@@ -5,7 +5,18 @@
         "Annotations": "Interaktivne bilješke",
         "ClickToDelete": "Kliknite izbrisati ovu obavijest.",
         "ClickToEdit": "Klikni za urediti ovu obavijest.",
+        "ClickToEditOrAdd": "Klikni za uređivanje ili dodavanje nove bilješke.",
+        "ClickToStarOrUnstar": "Klikni za označavanje ili odznačavanje ove bilješke.",
+        "CreateNewAnnotation": "Stvori novu bilješku …",
         "EnterAnnotationText": "Upiši svoju bilješku …",
-        "LoginToAnnotate": "Prijavi se za objaviti obavijest."
+        "HideAnnotationsFor": "Sakrij bilješke za %s …",
+        "IconDesc": "Pobledaj bilješke za ovaj raspon datuma.",
+        "IconDescHideNotes": "Sakrij bilješke za ovaj raspon datuma.",
+        "InlineQuickHelp": "Možeš stvoriti bilješke za označavanje posebnih događaja (poput nove objave na blogu ili redizajn web stranice), za spremanje analiza podataka ili za spremanje bilo čega drugog što smatraš važnim.",
+        "LoginToAnnotate": "Prijavi se za objaviti obavijest.",
+        "NoAnnotations": "Nema bilješki za ovaj raspon datuma.",
+        "PluginDescription": "Omogućuje dodavanje bilješki različitim danima za označavanje promjena na tvojoj web stranici, čuvanje analize u vezi tvojih podataka i dijelila tvoja razmišljanja s kolegama. Dodavanjem biljžaka tojim podataka osiguravaš da se sjećaš zašto tvoji podaci izgledaju kako izgledaju.",
+        "ViewAndAddAnnotations": "Pogledaj i dodaj bilješke za %s …",
+        "YouCannotModifyThisNote": "Ovu bilješku ne možeš mijenjati jer je nisi stvorio/la, niti imaš administratorski pristup za ovu stranicu."
     }
 }

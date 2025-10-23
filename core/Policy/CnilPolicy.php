@@ -21,6 +21,16 @@ class CnilPolicy extends CompliancePolicy
         return Piwik::translate('General_ComplianceCNILTitle');
     }
 
+    public static function getUnknownSettings(): array
+    {
+        return [
+            [
+                'title' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutTitle'),
+                'note' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutNotes'),
+            ],
+        ];
+    }
+
     protected static function getMinimumRequiredPlugins(): array
     {
         return [

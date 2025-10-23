@@ -42,7 +42,7 @@ class Category
 
     /**
      * The icon for this category, eg 'icon-user'
-     * @var int
+     * @var string
      */
     protected $icon = '';
 

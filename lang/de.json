@@ -103,6 +103,8 @@
         "ComparisonCardTooltip2": "Die Besucheranzahl ist um %1$s verschieden verglichen mit %2$s über %3$s.",
         "ComparisonRatioTooltip": "Dies ist eine Änderung um %1$s verglichen mit dem Segment '%2$s' im Zeitraum %3$s.",
         "Comparisons": "Vergleiche",
+        "ComplianceCNILDescription": "Diese Tabelle gibt einen Hinweis darauf, ob bestimmte Einstellungen mit den CNIL-Richtlinien übereinstimmen. Sie garantiert jedoch keine vollständige Rechtskonformität. Um gemäß den CNIL-Vorschriften für eine Ausnahmeregelung hinsichtlich der Einwilligung in Frage zu kommen, müssen alle erforderlichen Konfigurationen implementiert sein. Wenn eine Einstellung als „nicht konform” angezeigt wird, sind die Ausnahmeregelungen nicht erfüllt und es muss die Einwilligung der Nutzer eingeholt werden. Wenn eine Einstellung als „unbekannt” angezeigt wird, kann Matomo nicht feststellen, ob diese Anforderung implementiert wurde. In solchen Fällen müssen diese Maßnahmen manuell überprüft werden.",
+        "ComplianceCNILTitle": "Bedingungen für die Befreiung von der Einwilligungspflicht bei der Analyse von Website-Daten durch die CN",
         "ComputedMetricAverage": "Mtlw. %1$s pro %2$s",
         "ComputedMetricAverageDocumentation": "Mittelwert von \"%1$s\" pro \"%2$s\".",
         "ComputedMetricAverageShortDocumentation": "Mittelwert von \"%1$s\".",

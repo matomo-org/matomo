@@ -30,7 +30,7 @@ abstract class RecordBuilder
     protected $maxRowsInSubtable;
 
     /**
-     * @var string|null
+     * @var string|int|null
      */
     protected $columnToSortByBeforeTruncation;
 

@@ -1,5 +1,11 @@
 {
     "SegmentEditor": {
-        "Test": "Test"
+        "DefaultAllVisits": "Sve posjete",
+        "OperatorAND": "I",
+        "OperatorOR": "ILI",
+        "SegmentDisplayedAllWebsites": "sve web-stranice",
+        "Test": "Test",
+        "ThisSegmentIsCompared": "Ovaj se segment trenutačno uspoređuje.",
+        "ThisSegmentIsSelectedAndCannotBeCompared": "Ovaj je segment trenutačno odabran, stoga se ne može odabrati za uspoređivanje."
     }
 }

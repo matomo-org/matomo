@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "增加一个小工具",
+        "AddAWidget": "向报表面板增加小工具",
         "AddPreviewedWidget": "添加小工具到报表面板",
         "ChangeDashboardLayout": "修改面板布局",
         "CopyDashboardToUser": "复制面板给用户",

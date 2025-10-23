@@ -6,5 +6,8 @@
         "UserReportDocumentation": "Shows visits and other general metrics for every individual User ID.",
         "PluginDescription": "Shows user reports",
         "VisitorsUserSubcategoryHelp": "The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.",
-        "ThereIsNoDataForThisReportHelp" : "%1$sRead the user guide to learn how to generate data for this report.%2$s"    }
+        "ThereIsNoDataForThisReportHelp" : "%1$sRead the user guide to learn how to generate data for this report.%2$s",
+        "UserIdDisabledSettingTitle": "User ID disabled",
+        "UserIdDisabledSettingRequirementNote": "Collection of User ID while tracking must be disabled."
+    }
 }

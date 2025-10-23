@@ -1,1 +1,26 @@
-{}
+{
+    "Insights": {
+        "ControlComparedToDescription": "Rast u usporedbi sa",
+        "DatePeriodCombinationNotSupported": "Nije moguće generirati uvide za ovu kombinaciju datuma i razdoblja.",
+        "DayComparedToPreviousDay": "prethodni dan",
+        "DayComparedToPreviousWeek": "isti dan u prethodnom tjednu",
+        "DayComparedToPreviousYear": "isti dan u prethodnoj godini",
+        "Filter": "Filtar",
+        "FilterOnlyNew": "Samo novi",
+        "MonthComparedToPreviousMonth": "prethodni mjesec",
+        "MonthComparedToPreviousYear": "isti mjesec u prethodnoj godini",
+        "NoResultMatchesCriteria": "Nijedan redak ne odgovara kriterijima",
+        "OverviewWidgetTitle": "Pregled uvida",
+        "PluginDescription": "Pruža uvid u tvoj promet. Uvidi su dostupni kao widgeti u nadzornoj ploči, kao i nova ikona u izvještajima, koji omogućuju prikaz najvažnijih trendova u tvojim podacima.",
+        "TitleConsideredInsightsChanges": "Redci su se povećali ili smanjili za najmanje %1$s posjeta (%2$s %% od ukupno %3$s posjeta).",
+        "TitleConsideredInsightsGrowth": "Sljedeći redci imaju rast od najmanje %1$s %% u usporedbi sa %2$s.",
+        "TitleConsideredMoversAndShakersGrowth": "%1$s se promijenio od %2$s na %3$s u usporedbi sa %4$s. Na temelju toga očekuje se razvoj od %5$s %% za svaki redak.",
+        "TitleRowChangeDetails": "„%1$s” se promijenio od %2$s (%3$s) na %4$s (%5$s) %6$s.",
+        "TitleRowDisappearedDetails": "„%1$s” se smanjio za %2$s i nestao u %3$s u usporedbi sa %4$s.",
+        "TitleRowMoverAndShaker": "Ovaj je redak imao veći utjecaj od prosjeka.",
+        "TitleRowNewDetails": "„%1$s” se povećao za %2$s i nov je u usporedbi sa %3$s.",
+        "WeekComparedToPreviousWeek": "prethodni tjedan",
+        "WidgetCategory": "Uvidi",
+        "YearComparedToPreviousYear": "prethodna godina"
+    }
+}

@@ -1,5 +1,21 @@
 {
     "DBStats": {
-        "Table": "Tablica"
+        "DBSize": "Veličina baze podataka",
+        "DataSize": "Količina podataka",
+        "DatabaseUsage": "Korištenje baze podataka",
+        "EstimatedSize": "Procijenjena veličina",
+        "IndexSize": "Veličina indeksa",
+        "LearnMore": "Za informacije o tome kako Matomo obrađuje podatke i kako ga postaviti za dobro funkcioniranje na web-stranicama s umjerenim i visokim prometom, pogledaj ovu dokumentaciju: %s.",
+        "MainDescription": "Matomo sprema sve tvoje podatke web analitike u MySQL bazu podataka. Matomo tablice trenutačno zauzimaju %s memorije.",
+        "MetricDataByYear": "Metričke tablice po godinama",
+        "MetricTables": "Metričke tablice",
+        "OtherTables": "Druge tablice",
+        "PluginDescription": "Pruža detaljne izvještaje o korištenju MySQL baze podataka. Dostupno super korisnicima pod opcijom „Dijagnoza”.",
+        "ReportDataByYear": "Izvještaj o tablicama po godini",
+        "ReportTables": "Tablice izvještaja",
+        "RowCount": "Broj redaka",
+        "Table": "Tablica",
+        "TotalSize": "Ukupna veličina",
+        "TrackerTables": "Tablice sustava praćenja"
     }
 }

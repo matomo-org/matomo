@@ -34,6 +34,7 @@ use Piwik\Tracker\Cache;
 use Piwik\Tracker\GoalManager;
 use Piwik\View;
 use Piwik\Plugins\PrivacyManager\Settings\ReportRetention as ReportRetentionSetting;
+use Piwik\Policy\PolicyManager;
 
 /**
  * Specifically include this for Tracker API (which does not use autoloader)
@@ -497,6 +498,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'General_ExceptionContactSupportGeneric';
         $translationKeys[] = 'PrivacyManager_ComplianceCNILTitle';
         $translationKeys[] = 'PrivacyManager_ComplianceCNILDescription';
+        $translationKeys[] = 'General_MultiSitesSummary';
     }
 
     public function setTrackerCacheGeneral(&$cacheContent)
@@ -515,6 +517,8 @@ class PrivacyManager extends Plugin
     {
         $config = new Config($idSite);
         $config->setTrackerCache($cacheContent);
+
+        PolicyManager::storePolicySettingValuesInTrackerCache($cacheContent, $idSite);
     }
 
     public function getStylesheetFiles(&$stylesheets)

@@ -1029,7 +1029,8 @@ class Common
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            if ($cache[CampaignTrackingParametersDisabled::class] === true) {
+            $cacheKey = CampaignTrackingParametersDisabled::class;
+            if (($cache[$cacheKey] ?? false) === true) {
                 return [[], []];
             }
         }

@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "Pour commencer à suivre les données et obtenir des informations sur vos utilisateurs, vous devez configurer le suivi sur votre site Web ou votre application mobile. Pour les sites Web, intégrez simplement le code de suivi juste avant la balise %s.",
         "JsTrackingCodeMissingEmail3": "Afin de trouver et de personnaliser votre code de suivi, %1$scliquez ici%2$s (or bien consultez le %3$sguide du client JavaScript de suivi %4$s).",
         "LearnMore": "En savoir plus",
+        "Login": "Identifiant",
         "LogoNotWriteableInstruction": "Afin d'utiliser votre logo personnalité au lieu du logo par défaut Matomo, modifiez des permissions de ce répertoire : %1$s Matomo a besoin d'un accès en écriture à vos logos stockés dans les fichiers %2$s.",
         "LogoUpload": "Sélectionnez le logo à téléverser",
         "LogoUploadFailed": "Le fichier téléversé n'a pas pu être traité. Veuillez vérifier que le fichier est d'un format valide.",

@@ -1,5 +1,14 @@
 {
     "ProfessionalServices": {
+        "FunnelsFeature01": "Identificiraj i riješi točke napuštanja za poboljšavanje stope konverzije.",
+        "FunnelsFeature02": "Analiziraj ponašanje posjetitelja prema različitim kriterijima i stekni vrijedne uvide u to kako različite skupine posjetitelja komuniciraju s tvojom stranicom.",
+        "FunnelsFeature03": "Donosi informirane odluke identificiranjem prilika za optimizaciju, povećanjem angažmana posjetitelja i poticanjem rasta prihoda kroz dublje razumijevanje putovanja posjetitelja.",
+        "PromoAbTesting": "A/B testovi",
+        "PromoFormAnalytics": "Obrasci",
+        "PromoFunnels": "Tokovi",
+        "PromoManage": "Upravljaj",
+        "PromoMediaAnalytics": "Mediji",
+        "PromoOverview": "Pregled",
         "WidgetPremiumServicesForPiwik": "Premium funkcije i usluge za Matomo"
     }
 }

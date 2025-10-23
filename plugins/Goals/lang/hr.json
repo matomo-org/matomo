@@ -1,5 +1,37 @@
 {
     "Goals": {
-        "CategoryTextGeneral_Visit": "angažman"
+        "CategoryTextGeneral_Visit": "angažman",
+        "ClickOutlink": "Klikni na poveznicu na eksternu web-stranicu",
+        "ColumnOverallRevenue": "Ukupni prihod",
+        "EntryPages": "Ulazne stranice",
+        "EntryPagesTitles": "Naslovi ulaznih stranica",
+        "ExternalWebsiteUrl": "URL eksterne web-stranice",
+        "Filename": "ime datoteke",
+        "GoalName": "Ime cilja",
+        "GoalX": "Cilj %s",
+        "Goals": "Ciljevi",
+        "GoalsOverview": "Pregled ciljeva",
+        "IsExactly": "je točno %s",
+        "ManageGoals": "Upravljaj ciljevima",
+        "Manually": "ručno",
+        "MatchesExpression": "odgovara izrazu %s",
+        "NGoals": "%s cilja",
+        "NItems": "%s stavke",
+        "NRevenue": "%s prihod",
+        "Optional": "(opcionalno)",
+        "OverallRevenue": "ukupni prihod",
+        "PageTitle": "Naslov stranice",
+        "PageTitles": "Naslovi stranica",
+        "ProductCategory": "Kategorija proizvoda",
+        "ProductName": "Ime proizvoda",
+        "ProductNames": "Imena proizvoda",
+        "ProductPrice": "Cijena proizvoda",
+        "ProductQuantity": "Količina proizvoda",
+        "ProductSKU": "Kod proizvoda u skladištu",
+        "ProductSKUs": "Kodovi proizvoda u skladištu",
+        "Products": "Proizvodi",
+        "URL": "URL",
+        "UpdateGoal": "Aktualiziraj cilj",
+        "ViewAndEditGoals": "Prikaži i uredi ciljeve"
     }
 }

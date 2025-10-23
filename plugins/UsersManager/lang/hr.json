@@ -1,9 +1,13 @@
 {
     "UsersManager": {
+        "Active": "Aktivno",
+        "AllWebsites": "Sve web-stranice",
+        "Email": "E-Mail",
         "ExceptionEmailExists": "Korisnik s e-mail adresom „%s” već postoji.",
         "ExceptionInvalidEmail": "Format e-mail adrese ne valja.",
         "MenuUserSettings": "Korisničke postavke",
         "MenuUsers": "Korisnici",
+        "PrivWriteDescription": "Korisnici s ovom ulogom mogu pregledavati sav sadržaj, kao i stvarati, upravljati i brisati entitete poput Ciljevi, Tokovi, Toplinske karte, Snimke sesija i Obrasci za ovu web-stranicu.",
         "TypeYourPasswordAgain": "Ponovo upiši svoju novu lozinku.",
         "Username": "Korisničko ime",
         "YourUsernameCannotBeChanged": "Tvoje se korisničko ime ne može promijeniti."
