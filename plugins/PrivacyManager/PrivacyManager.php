@@ -517,6 +517,7 @@ class PrivacyManager extends Plugin
     {
         $config = new Config($idSite);
         $config->setTrackerCache($cacheContent);
+
         PolicyManager::storePolicySettingValuesInTrackerCache($cacheContent, $idSite);
     }
 

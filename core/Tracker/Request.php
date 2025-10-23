@@ -860,7 +860,8 @@ class Request
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             $idSite = $this->getIdSite();
             $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            if ($cache[UserIdDisabled::class] === true) {
+            $cacheKey = UserIdDisabled::class;
+            if (($cache[$cacheKey] ?? false) === true) {
                 return false;
             }
         }
