@@ -698,7 +698,7 @@ class Http
                 @curl_setopt($ch, CURLOPT_NOBODY, true);
             }
 
-            if (strtolower($httpMethod) === 'post' && !empty($requestBodyQuery)) {
+            if (in_array(strtolower($httpMethod), ['post', 'put']) && !empty($requestBodyQuery)) {
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBodyQuery);
             }
