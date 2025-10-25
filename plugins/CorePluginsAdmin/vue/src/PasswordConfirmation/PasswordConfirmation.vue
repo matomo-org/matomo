@@ -20,7 +20,7 @@
           {{ translate('UsersManager_ConfirmWithReAuthentication') }}
         </div>
       </div>
-      <div v-show="requiresPasswordConfirmation" id="password-confirmation-div">
+      <div v-show="requiresPasswordConfirmation" class="password-confirmation-div">
         <Field
           v-model="passwordConfirmation"
           :uicontrol="'password'"
@@ -43,8 +43,7 @@
       ></component>
       <a
         href=""
-        id="confirm-password-btn"
-        class="modal-action modal-close btn"
+        class="modal-action modal-close btn confirm-password-btn"
         :disabled="requiresPasswordConfirmation && !passwordConfirmation ? 'disabled' : undefined"
         @click="onClickConfirm($event)"
       >{{ translate('General_Confirm') }}</a>
