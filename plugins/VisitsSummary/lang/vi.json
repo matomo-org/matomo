@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "Thời gian khởi tạo trung bình",
         "GenerateQueries": "Thực thi truy vấn %s",
         "GenerateTime": "%s giây để tạo trang",
         "NbActionsDescription": "Hành động %s",

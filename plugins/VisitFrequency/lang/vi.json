@@ -1,5 +1,6 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "Hành động các lượt truy cập mới",
         "ColumnActionsByReturningVisits": "Hành động các lượt truy cập quay lại",
         "ColumnAverageVisitDurationForReturningVisitors": "Trung bình. Thời gian truy cập quay lại (tính theo giây)",
         "ColumnAvgActionsPerReturningVisit": "Trung bình. Các hành động mỗi lượt truy cập quay lại",
