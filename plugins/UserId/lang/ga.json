@@ -3,6 +3,8 @@
         "PluginDescription": "Taispeáin tuairiscí úsáideoirí",
         "ThereIsNoDataForThisReportHelp": "%1$s Léigh an treoirleabhar úsáideora le fáil amach conas sonraí a ghiniúint don tuarascáil seo.%2$s",
         "UserId": "ID Úsáideora",
+        "UserIdDisabledSettingRequirementNote": "Ní mór bailiú aitheantais úsáideora agus rianú á dhíchumasú.",
+        "UserIdDisabledSettingTitle": "Aitheantas úsáideora díchumasaithe",
         "UserIdSegmentHelp": "aon teaghrán uathúil nach bhfuil folamh a shainaithníonn an t-úsáideoir (amhail seoladh ríomhphoist nó ainm úsáideora).",
         "UserReportDocumentation": "Taispeánann sé cuairteanna agus méadracht ghinearálta eile do gach ID Úsáideora aonair.",
         "UserReportTitle": "Aitheantais Úsáideora",
