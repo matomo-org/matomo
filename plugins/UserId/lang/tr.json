@@ -3,6 +3,8 @@
         "PluginDescription": "Kullanıcı raporlarını görüntüler",
         "ThereIsNoDataForThisReportHelp": "%1$sBu raporun verilerinin nasıl oluşturulacağını öğrenmek için kullanıcı rehberimize bakabilirsiniz.%2$s",
         "UserId": "Kullanıcı kimliği",
+        "UserIdDisabledSettingRequirementNote": "İzleme sırasında kullanıcı kimliğinin toplanması kapalı olmalıdır.",
+        "UserIdDisabledSettingTitle": "Kullanıcı kimliği kapalı",
         "UserIdSegmentHelp": "kullanıcıyı tanımlayan herhangi bir boş olmayan benzersiz dizge (bir e-posta adresi veya bir kullanıcı adı gibi).",
         "UserReportDocumentation": "Her kullanıcı kimliği için, ziyaretleri ve diğer genel ölçümleri görüntüler.",
         "UserReportTitle": "Kullanıcı kimlikleri",
