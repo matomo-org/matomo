@@ -4734,11 +4734,6 @@ parameters:
 			path: plugins/Login/Controller.php
 
 		-
-			message: "#^Variable \\$firstStepFromErrors in empty\\(\\) is never defined\\.$#"
-			count: 1
-			path: plugins/Login/Controller.php
-
-		-
 			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Login/Emails/LoginFromDifferentCountryEmail.php
