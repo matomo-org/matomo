@@ -1,5 +1,6 @@
 {
     "CoreAdminHome": {
+        "AddNewTrustedHost": "Thêm host tin tưởng mới",
         "Administration": "Quản trị",
         "ArchivingSettings": "Cấu hình archiving",
         "BrandingSettings": "Thiết lập Branding",

@@ -430,7 +430,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $firstStepFormErrors = $this->resetPasswordFirstStep($form);
 
-        if (!empty($firstStepFromErrors)) {
+        if (!empty($firstStepFormErrors)) {
             return $this->renderResetPasswordView([$firstStepFormErrors]);
         }
 

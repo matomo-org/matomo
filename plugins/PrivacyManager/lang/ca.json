@@ -49,6 +49,8 @@
         "AwarenessDocumentationIntro": "Informeu els vostres usuaris de manera clara i transparent, i feu que els vostres companys coneguin les dades que es recullen i com s'utilitzen:",
         "BackgroundColor": "Color de fons",
         "BuildYourOwn": "Construeix el teu propi",
+        "CampaignTrackingParametersDisabledSettingRequirementNote": "Cal descartar tots els paràmetres de seguiment de la campanya",
+        "CampaignTrackingParametersDisabledSettingTitle": "Paràmetres de seguiment de la campanya desactivats",
         "ClickHereSettings": "Feu clic aquí per accedir a la configuració de %s.",
         "Compliance": "Compliment",
         "ComplianceCNILDescription": "Aquesta taula proporciona una indicació de si certes configuracions s'alineen amb les directrius de la CNIL. No garanteix el compliment legal total. Per optar a l'exempció de consentiment segons les normes de la CNIL, cal implementar totes les configuracions necessàries. Si alguna configuració es mostra com a \"No conforme\", no es compleixen les condicions d'exempció i s'ha d'obtenir el consentiment dels usuaris. Si alguna configuració es mostra com a \"Desconeguda\", Matomo no pot determinar si s'ha implementat aquest requisit. En aquests casos, aquestes mesures s'han de verificar manualment.",

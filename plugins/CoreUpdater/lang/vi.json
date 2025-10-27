@@ -1,9 +1,10 @@
 {
     "CoreUpdater": {
+        "CheckingForPluginUpdates": "Đang kiểm tra cập nhật plugin mới",
         "CriticalErrorDuringTheUpgradeProcess": "Lỗi nghiêm trọng trong quá trình cập nhạt:",
         "DatabaseUpgradeRequired": "Nâng cấp cơ sở dữ liệu",
-        "DownloadingUpdateFromX": "Đang download để update từ %s",
         "DownloadX": "Tải xuống %s",
+        "DownloadingUpdateFromX": "Đang download để update từ %s",
         "EmptyDatabaseError": "Database %s rỗng. Bạn phải sửa hoặc xóa file cấu hình Matomo.",
         "ErrorDIYHelp": "Nếu bạn là người dùng thông thạo hệ thống (advanced user) và gặp phải lỗi trong quá trình cập nhật:",
         "ErrorDIYHelp_1": "phát hiện nguyên nhân và sửa lại (ví dụ memory_limit hay max_execution_time)",
@@ -28,22 +29,22 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Cơ sở dữ liệu Matomo sẽ được nâng cấp từ phiên bản %1$s lên phiên bản mới %2$s.",
         "ReadyToGo": "Sẵn sàng thực hiện?",
         "TheFollowingPluginsWillBeUpgradedX": "Các plugin sau sẽ được cập nhật: %s",
-        "ThereIsNewVersionAvailableForUpdate": "Có phiên bản mới của Matomo để cập nhật",
         "TheUpgradeProcessMayFailExecuteCommand": "Nếu bạn có database Matomo lớn, các gói cập nhật có mất rất nhiều khi chạy trên trình duyệt. Trong trường hợp này, bạn có thể tiến hành các gói cập nhật này từ chế độ dòng lệnh: %s",
         "TheUpgradeProcessMayTakeAWhilePleaseBePatient": "Quá trình cập nhật database có thể mất thời gian một chút, bạn vui lòng kiên nhẫn chờ đợi.",
+        "ThereIsNewVersionAvailableForUpdate": "Có phiên bản mới của Matomo để cập nhật",
         "UnpackingTheUpdate": "Đang giải nén gói cập nhật",
         "UpdateAutomatically": "Cập nhật tự động",
         "UpdateHasBeenCancelledExplanation": "Matomo One Click Update đã bị thoát. Nếu bạn không thể sửa được thông điệp lỗi ở trên, bạn có thể update Matomo bằng tay. %1$s Vui lòng xem %2$stài liệu cập nhật %3$s để bắt đầu!",
-        "UpdateTitle": "Cập nhật",
         "UpdateSuccessTitle": "Matomo vừa được cập nhật thành công!",
+        "UpdateTitle": "Cập nhật",
         "Updating": "Đang cập nhật",
         "UpgradeComplete": "Cập nhật xong!",
         "UpgradePiwik": "Cập nhật Matomo!",
         "VerifyingUnpackedFiles": "Xác minh các tập tin giải nén",
+        "ViewVersionChangelog": "Xem thay đổi cho phiên bản này:",
         "WarningMessages": "Cảnh báo:",
         "WeAutomaticallyDeactivatedTheFollowingPlugins": "Chúng tôi tự động tắt các plugin sau: %s",
         "YouCanUpgradeAutomaticallyOrDownloadPackage": "Bạn có thể cập nhật tự động phiên bản %s hoặc tải về gói cập nhật và tự cài dặt.",
-        "YourDatabaseIsOutOfDate": "Cơ sở dữ liệu Matomo của bạn đã lỗi thời, và phải được nâng cấp trước khi bạn có thể tiếp tục.",
-        "ViewVersionChangelog": "Xem thay đổi cho phiên bản này:"
+        "YourDatabaseIsOutOfDate": "Cơ sở dữ liệu Matomo của bạn đã lỗi thời, và phải được nâng cấp trước khi bạn có thể tiếp tục."
     }
 }

@@ -3,6 +3,8 @@
         "PluginDescription": "Mostra els informes d'usuari",
         "ThereIsNoDataForThisReportHelp": "%1$sLlegiu la guia de l'usuari per saber com generar dades per a aquest informe.%2$s",
         "UserId": "Id d'usuari",
+        "UserIdDisabledSettingRequirementNote": "La recopilació d'ID d'usuari durant el seguiment ha d'estar desactivada.",
+        "UserIdDisabledSettingTitle": "ID d'usuari desactivat",
         "UserIdSegmentHelp": "qualsevol cadena única no buida que identifiqui l'usuari (com ara una adreça de correu electrònic o un nom d'usuari).",
         "UserReportDocumentation": "Mostra les visites i altres mètriques generals per a cada identificador d'usuari individual.",
         "UserReportTitle": "Usuaris",

@@ -3,6 +3,8 @@
         "PluginDescription": "Shfaq raporte përdoruesi",
         "ThereIsNoDataForThisReportHelp": "%1$sLexoni udhërrëfyesin për përdorues, që të mësoni si të prodhohen të dhëna për këtë raport.%2$s",
         "UserId": "ID përdoruesi",
+        "UserIdDisabledSettingRequirementNote": "Duhet çaktivizuar grumbullimi i ID-ve të Përdoruesve teksa bëhet ndjekje.",
+        "UserIdDisabledSettingTitle": "ID Përdoruesi e çaktivizuar",
         "UserIdSegmentHelp": "çfarëdo varg unik jo i zbrazët që identifikon përdoruesin (fjala vjen një adresë email, apo një emër përdoruesi).",
         "UserReportDocumentation": "Shfaq vizita dhe vlera të tjera të përgjithshme për çdo ID individuale Përdoruesi.",
         "UserReportTitle": "ID-ra përdoruesish",

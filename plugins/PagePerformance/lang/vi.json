@@ -1,5 +1,6 @@
 {
     "PagePerformance": {
+        "ColumnAveragePageLoadTime": "Thời gian tải trang trung bình",
         "ColumnTimeServer": "Giờ máy chủ"
     }
 }

@@ -4609,43 +4609,8 @@ parameters:
 			path: plugins/Live/Live.php
 
 		-
-			message: "#^Comparison operation \"\\>\" between int\\<2, 5\\> and 0 is always true\\.$#"
-			count: 1
-			path: plugins/Live/Model.php
-
-		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: plugins/Live/Model.php
-
-		-
 			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Tracker\\\\Db\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
 			count: 3
-			path: plugins/Live/Model.php
-
-		-
-			message: "#^Parameter \\#2 \\$idSites of class Piwik\\\\Segment constructor expects array, int given\\.$#"
-			count: 1
-			path: plugins/Live/Model.php
-
-		-
-			message: "#^Variable \\$dateEnd in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/Live/Model.php
-
-		-
-			message: "#^Variable \\$dateStart in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/Live/Model.php
-
-		-
-			message: "#^Variable \\$endDate in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/Live/Model.php
-
-		-
-			message: "#^Variable \\$startDate in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
 			path: plugins/Live/Model.php
 
 		-
@@ -4730,11 +4695,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#2 \\$infoMessage of method Piwik\\\\Plugins\\\\Login\\\\Controller\\:\\:login\\(\\) expects bool, string given\\.$#"
-			count: 1
-			path: plugins/Login/Controller.php
-
-		-
-			message: "#^Variable \\$firstStepFromErrors in empty\\(\\) is never defined\\.$#"
 			count: 1
 			path: plugins/Login/Controller.php
 
