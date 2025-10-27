@@ -1026,12 +1026,14 @@ class Common
      */
     public static function getCampaignParameters(?int $idSite = null, bool $checkSetting = true)
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = CampaignTrackingParametersDisabled::class;
-            if (($cache[$cacheKey] ?? false) === true && $checkSetting) {
-                return [[], []];
+        if ($checkSetting) {
+            $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+            if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+                $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+                $cacheKey = CampaignTrackingParametersDisabled::class;
+                if (($cache[$cacheKey] ?? false) === true) {
+                    return [[], []];
+                }
             }
         }
 
