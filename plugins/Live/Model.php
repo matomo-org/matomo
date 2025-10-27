@@ -645,11 +645,11 @@ class Model
      * @param $idSite
      * @param $period
      * @param $date
-     * @return Date[]
+     * @return array{0: Date|null, 1: Date|null}
      * @throws Exception
      * @internal
      */
-    public function getStartAndEndDate($idSite, $period, $date)
+    public function getStartAndEndDate($idSite, $period, $date): array
     {
         $dateStart = null;
         $dateEnd = null;

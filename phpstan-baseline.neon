@@ -4629,16 +4629,6 @@ parameters:
 			path: plugins/Live/Model.php
 
 		-
-			message: "#^Variable \\$dateEnd in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/Live/Model.php
-
-		-
-			message: "#^Variable \\$dateStart in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/Live/Model.php
-
-		-
 			message: "#^Variable \\$endDate in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/Live/Model.php
