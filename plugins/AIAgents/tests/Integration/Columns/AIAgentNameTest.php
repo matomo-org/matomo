@@ -59,7 +59,7 @@ class AIAgentNameTest extends IntegrationTestCase
 
         $result = $this->aiAgentName->onNewVisit($request, $visitor, null);
 
-        self::assertFalse($result);
+        self::assertNull($result);
     }
 
     /**
