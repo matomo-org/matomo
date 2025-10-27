@@ -524,7 +524,7 @@ export default defineComponent({
       }));
     },
     addNewOrConditionLinkText() {
-      return `+${translate(
+      return `+ ${translate(
         'SegmentEditor_AddANDorORCondition',
         `<span>${translate('SegmentEditor_OperatorOR')}</span>`,
       )}`;
@@ -533,7 +533,7 @@ export default defineComponent({
       return this.conditions.length ? translate('SegmentEditor_OperatorAND') : '';
     },
     addNewAndConditionLinkText() {
-      return `+${translate('SegmentEditor_AddANDorORCondition', `<span>${this.andConditionLabel}</span>`)}`;
+      return `+ ${translate('SegmentEditor_AddANDorORCondition', `<span>${this.andConditionLabel}</span>`)}`;
     },
     isLoading() {
       return SegmentGeneratorStore.state.value.isLoading;
