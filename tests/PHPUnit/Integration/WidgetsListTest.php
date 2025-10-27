@@ -147,7 +147,7 @@ class WidgetsListTest extends IntegrationTestCase
 
         // number of main categories
         $widgetsPerCategory = $this->getWidgetsPerCategory($widgets);
-        $this->assertEquals(12, count($widgetsPerCategory));
+        $this->assertCount(12, $widgetsPerCategory);
 
         // no professional services promos
         foreach ($widgetsPerCategory as $category => $categoryWidgets) {
