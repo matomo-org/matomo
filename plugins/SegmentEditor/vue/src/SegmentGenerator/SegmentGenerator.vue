@@ -24,11 +24,9 @@
               class="segment-close"
               @click="removeOrCondition(condition, orCondition)"
             />
-            <a
-              href="#"
-              class="segment-loading"
-              v-show="conditionValuesLoading[orCondition.id]"
-            />
+            <div class="segment-loading">
+              <MatomoLoader v-show="conditionValuesLoading[orCondition.id]" />
+            </div>
             <div class="segment-row-inputs valign-wrapper">
               <div class="segment-input metricListBlock valign-wrapper">
                 <div style="width: 100%;">
@@ -112,6 +110,7 @@ import {
   AjaxHelper,
   ActivityIndicator,
   Matomo,
+  MatomoLoader,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import SegmentGeneratorStore from './SegmentGenerator.store';
@@ -263,6 +262,7 @@ export default defineComponent({
     },
   },
   components: {
+    MatomoLoader,
     ActivityIndicator,
     Field,
     ValueInput,
