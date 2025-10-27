@@ -31,14 +31,14 @@ class API extends PluginAPI
     /**
      * @param int|string $idSite
      * @param string $segment
-     * @param bool|string|array<string> $columns
+     * @param string|array<string> $columns
      */
     public function get(
         $idSite,
         string $period,
         string $date,
         string $segment = '',
-        $columns = false
+        $columns = ''
     ): DataTableInterface {
         Piwik::checkUserHasViewAccess($idSite);
 
