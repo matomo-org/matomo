@@ -141,7 +141,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { CopyToClipboard } from 'CoreHome';
+import { CopyToClipboard, MatomoUrl } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
 
 interface CampaignBuilderState {
@@ -189,6 +189,7 @@ export default defineComponent({
   },
   created() {
     this.reset();
+    this.websiteUrl = MatomoUrl.parsed.value.websiteUrl;
   },
   watch: {
     generatedUrl() {
@@ -197,7 +198,7 @@ export default defineComponent({
   },
   methods: {
     reset() {
-      this.websiteUrl = '';
+      this.websiteUrl = MatomoUrl.parsed.value.websiteUrl || '';
       this.campaignName = '';
       this.campaignKeyword = '';
       this.campaignSource = '';
