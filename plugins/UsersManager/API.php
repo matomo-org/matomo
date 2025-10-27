@@ -1720,7 +1720,7 @@ class API extends \Piwik\Plugin\API
             ]);
     }
 
-    private function executeConcurrencySafe(string $userLogin, ?callable $callback = null): void
+    private function executeConcurrencySafe(string $userLogin, callable $callback): void
     {
         $lock = new Lock(StaticContainer::get(LockBackend::class), 'UsersManager.changePermissions');
         $lock->execute($userLogin, $callback);
