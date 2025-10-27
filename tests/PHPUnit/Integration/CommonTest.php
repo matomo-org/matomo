@@ -73,4 +73,35 @@ class CommonTest extends IntegrationTestCase
         $expectedCampaignParameters = [[], []];
         $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite));
     }
+
+    public function testGetCampaignParametersCnilPolicyEnabledCheckSettingDisabled()
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        $idSite = 1;
+        CnilPolicy::setActiveStatus($idSite, true);
+        $expectedCampaignParameters = [
+           [
+            'pk_cpn',
+            'pk_campaign',
+            'piwik_campaign',
+            'mtm_campaign',
+            'matomo_campaign',
+            'utm_campaign',
+            'utm_source',
+            'utm_medium',
+           ],
+           [
+            'pk_kwd',
+            'pk_keyword',
+            'piwik_kwd',
+            'mtm_kwd',
+            'mtm_keyword',
+            'matomo_kwd',
+            'utm_term',
+           ],
+        ];
+        $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite, $checkSetting = false));
+    }
 }
