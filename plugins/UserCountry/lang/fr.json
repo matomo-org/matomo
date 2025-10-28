@@ -16,7 +16,6 @@
         "DistinctCountries": "%s pays différents",
         "FromDifferentCities": "villes différentes",
         "GeoIPDocumentationSuffix": "Afin de visualiser les données de ce rapport, vous devez installer GeoIP depuis l'onglet d'administration Géolocalisation. Les bases de données commerciales %1$sMaxmind%2$s sont plus précises que les gratuites. Pour voir à quelles points elles sont précises, cliquez %3$sici%4$s.",
-        "GeoIpDbIpAccuracyNote": "Remarque : les bases de données DBIP sont gratuites et peuvent être téléchargées automatiquement, mais les résultats de géolocalisation (surtout les villes) ne sont pas aussi précis que ceux de MaxMind. MaxMind nécessite cependant de créer un compte même pour la version gratuite de la base. Si vous souhaitez utiliser la base de géolocalisation MaxMind, vous pouvez %1$sdémarrer la procédure ici%2$s.",
         "Geolocation": "Géolocalisation",
         "GeolocationPageDesc": "Sur cette page vous pouvez changer la manière dont Matomo détermine la localisation des visiteurs.",
         "GeolocationProviderBroken": "Le fournisseur de géolocalisation configuré %1$s est défectueux. Veuillez corriger le fournisseur ou en configurer un autre pour que la géolocalisation fonctionne à nouveau.",

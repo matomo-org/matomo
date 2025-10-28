@@ -1,6 +1,6 @@
 {
     "Events": {
-        "AvgEventValue": "La valeur moyenne de l'évènement est : %s",
+        "AvgEventValue": "La valeur moyenne de l'évènement est : %s",
         "AvgValue": "Valeur moyenne",
         "AvgValueDocumentation": "Moyenne de toutes les valeurs pour cet évènement",
         "Category": "Catégorie",
