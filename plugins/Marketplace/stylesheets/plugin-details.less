@@ -173,6 +173,7 @@
         flex: 1;
         padding: 0;
         max-height: 80vh;
+        .remove-vertical-scroll-shadows();
 
         @media (max-width: 992px) {
             max-height: 90vh;
@@ -295,9 +296,11 @@
 
     .modal-content__main {
         position: relative;
-        overflow-y: scroll;
         max-height: calc(~"80vh - 250px");
         padding: 0 24px 24px;
+
+        overflow-y: scroll;
+        .vertical-scroll-shadows(white);
         color: #000;
 
         @media (max-width: 992px) {
