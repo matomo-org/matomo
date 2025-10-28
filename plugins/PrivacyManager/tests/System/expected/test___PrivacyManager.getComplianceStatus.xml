@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<complianceModeEnforced>0</complianceModeEnforced>
-	<complianceConfigControlled>1</complianceConfigControlled>
+	<complianceConfigControlled>0</complianceConfigControlled>
 	<complianceRequirements>
 		<row>
 			<name>Ecommerce</name>

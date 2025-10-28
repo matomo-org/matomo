@@ -263,7 +263,7 @@ class APITest extends SystemTestCase
                 'complianceType' => 'cnil_v1',
             ],
         ]);
-        Config::getInstance()->CnilPolicy = $default;
+        Config::getInstance()->CnilPolicy = null;
     }
 
     public function testGetComplianceStatusReturnsConfigControlledValueDisabled(): void
@@ -279,7 +279,7 @@ class APITest extends SystemTestCase
                 'complianceType' => 'cnil_v1',
             ],
         ]);
-        Config::getInstance()->CnilPolicy = $default;
+        Config::getInstance()->CnilPolicy = null;
     }
 
     public function testGetAnonymisationSettingsDoesNotReturnsExtraMetadataForSystemSettingsWhenFeatureFlagEnabled(): void
