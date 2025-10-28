@@ -95,7 +95,11 @@ class Updater
 
         $newVersion = $this->getLatestVersion();
         $url = $this->getArchiveUrl($newVersion, $https);
-        $messages = array();
+        $messages = [];
+
+        $pluginManager = PluginManager::getInstance();
+        $activatedPlugins = $pluginManager->getActivatedPlugins();
+        Option::set('OneClickUpdate_ActivatedPlugins', json_encode($activatedPlugins));
 
         try {
             $archiveFile = $this->downloadArchive($newVersion, $url);
@@ -194,6 +198,36 @@ class Updater
             } catch (Exception $e) {
                 throw new UpdaterException($e, $messages);
             }
+        }
+
+        // get a list of previously activated plugins and try to reactivate them if there are no missing requirements
+        try {
+            $previouslyActivePlugins = Option::get('OneClickUpdate_ActivatedPlugins');
+            if (false !== $previouslyActivePlugins) {
+                $previouslyActivePlugins = json_decode($previouslyActivePlugins, true);
+            } else {
+                $previouslyActivePlugins = [];
+            }
+
+            $reactivatedPlugins = [];
+            if (!empty($previouslyActivePlugins)) {
+                $pluginManager = PluginManager::getInstance();
+                foreach ($previouslyActivePlugins as $previouslyActivePluginName) {
+                    if (!$pluginManager->isPluginActivated($previouslyActivePluginName)) {
+                        $plugin = $pluginManager->loadPlugin($previouslyActivePluginName);
+                        if (empty($plugin->getMissingDependencies($newVersion))) {
+                            $plugin->activate();
+                            $reactivatedPlugins[] = $previouslyActivePluginName;
+                        }
+                    }
+                }
+            }
+
+            if (!empty($reactivatedPlugins)) {
+                $messages[] = $this->translator->translate('CoreUpdater_ReactivatedPlugins', implode(', ', $reactivatedPlugins));
+            }
+        } catch (Exception $e) {
+            throw new UpdaterException($e, $messages);
         }
 
         try {
