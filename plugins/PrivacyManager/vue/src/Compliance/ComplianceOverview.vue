@@ -18,29 +18,31 @@
         <ComplianceTable
           :results="state.complianceRequirements"
         />
-        <Field
-          uicontrol="checkbox"
-          :name="'site-' + idSite + '-' + complianceType +  '-enableFeature'"
-          :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
-          :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
-          :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
-          v-model="shouldEnforceComplianceMode"
-        />
-        <div v-if="state.saveComplianceError" class="notification system notification-error">
-            {{ translate('General_ErrorTryAgain') }}
-            {{ translate('General_ExceptionContactSupportGeneric', ['','']) }}
-        </div>
-        <SaveButton
-          :class="'site-' + idSite + '-' + complianceType +  '-save'"
-          @confirm="this.showPasswordConfirmation = true"
-          :value="translate('General_Save')"
-        />
-        <PasswordConfirmation
-          :model-value="this.showPasswordConfirmation"
-          :passwordFieldId="'password' + complianceType"
-          @confirmed="saveSettings"
-          @aborted="resetSave"
-        />
+        <template v-if="!state.complianceConfigControlled">
+          <Field
+            uicontrol="checkbox"
+            :name="'site-' + idSite + '-' + complianceType +  '-enableFeature'"
+            :title="translate('PrivacyManager_ComplianceEnforceCheckboxIntro')"
+            :introduction="translate('PrivacyManager_ComplianceEnforceCheckboxTitle')"
+            :inline-help="translate('PrivacyManager_ComplianceEnforceCheckboxHelp')"
+            v-model="shouldEnforceComplianceMode"
+          />
+          <div v-if="state.saveComplianceError" class="notification system notification-error">
+              {{ translate('General_ErrorTryAgain') }}
+              {{ translate('General_ExceptionContactSupportGeneric', ['','']) }}
+          </div>
+          <SaveButton
+            :class="'site-' + idSite + '-' + complianceType +  '-save'"
+            @confirm="this.showPasswordConfirmation = true"
+            :value="translate('General_Save')"
+          />
+          <PasswordConfirmation
+            :model-value="this.showPasswordConfirmation"
+            :passwordFieldId="'password' + complianceType"
+            @confirmed="saveSettings"
+            @aborted="resetSave"
+          />
+        </template>
       </template>
     </template>
   </ContentBlock>
