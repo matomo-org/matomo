@@ -148,6 +148,16 @@ class PolicyManager
 
     /**
      * @param class-string<CompliancePolicy> $policyClass
+     * @throws \Exception when $policyClass is not a valid policy
+     */
+    public static function isPolicyConfigControlled(string $policyClass): bool
+    {
+        self::checkPolicyIsValid($policyClass);
+        return $policyClass::isConfigControlled();
+    }
+
+    /**
+     * @param class-string<CompliancePolicy> $policyClass
      * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
      * @throws \Exception when $policyClass is not a valid policy
      */
