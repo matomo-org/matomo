@@ -134,7 +134,7 @@ class Updater
                 $messages = array_merge($messages, $responseCliMulti);
             } else {
                 // there was likely an error eg such as an invalid ssl certificate... let's try executing it directly
-                // in case this works. For explample $response is in this case not an array but a string because the "communcation"
+                // in case this works. For example $response is in this case not an array but a string because the "communication"
                 // with the controller went wrong: "Got invalid response from API request: https://ABC/?module=CoreUpdater&action=oneClickUpdatePartTwo&nonce=ABC. Response was \'curl_exec: SSL certificate problem: unable to get local issuer certificate. Hostname requested was: ABC"
                 try {
                     $response = $this->oneClickUpdatePartTwo($newVersion);
