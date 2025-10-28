@@ -12,22 +12,22 @@ namespace Piwik\UpdateCheck;
 /**
  * Base class to define a custom release channel. Plugins can add their own custom release channels by extending this
  * class in a `plugin/$plugin/ReleaseChannel` folder. Custom release channels can be useful for example to provide
- * nightly builds, to manage updates for clients via a central server, to package a special Piwik version for clients
+ * nightly builds, to manage updates for clients via a central server, to package a special Matomo version for clients
  * with custom plugins etc.
  *
- * This is not a public API and it may change without any announcement.
+ * This is not a public API, and it may change without any announcement.
  */
 abstract class ReleaseChannel
 {
     /**
-     * Get the ID for this release channel. This string will be eg saved in the config to identify the chosen release
+     * Get the ID for this release channel. E.g., this string will be saved in the config to identify the chosen release
      * channel
      * @return string
      */
     abstract public function getId();
 
     /**
-     * Get a human readable name for this release channel, will be visible in the UI. Should be already translated.
+     * Get a human-readable name for this release channel, will be visible in the UI. Should be already translated.
      * @return string
      */
     abstract public function getName();
@@ -50,7 +50,7 @@ abstract class ReleaseChannel
     abstract public function getUrlToCheckForLatestAvailableVersion();
 
     /**
-     * Get the URL to download a specific Piwik archive for the given version number. The returned URL should not
+     * Get the URL to download a specific Matomo archive for the given version number. The returned URL should not
      * include a URI scheme, meaning it should start with '://...'.
      *
      * @param string $version
