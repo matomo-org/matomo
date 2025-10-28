@@ -25,7 +25,12 @@ class ForceNewVisitTest extends IntegrationTestCase
     /**
      * @var int
      */
-    private $idSite = null;
+    private static $testNow;
+
+    /**
+     * @var int
+     */
+    private $idSite;
 
     /**
      * @var Date
@@ -35,15 +40,30 @@ class ForceNewVisitTest extends IntegrationTestCase
     /**
      * @var MatomoTracker
      */
-    protected $tracker = null;
+    private $tracker;
+
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        self::$testNow = strtotime('2025-07-18 12:00:00');
+    }
+
+    public static function provideContainerConfigBeforeClass()
+    {
+        return [
+            'Tests.now' => self::$testNow,
+        ];
+    }
 
     public function setUp(): void
     {
         parent::setUp();
+        Fixture::createSuperUser();
 
-        $this->testDate = Date::factory('now')->setTime('12:00:00');
+        $this->testDate = Date::factory(self::$testNow)->subHour(6);
 
-        $this->idSite  = Fixture::createWebsite('2025-07-18 00:00:00');
+        $this->idSite  = Fixture::createWebsite($this->testDate->subDay(1)->getDatetime());
         $this->tracker = Fixture::getTracker($this->idSite, $this->testDate->getDatetime());
     }
 
