@@ -244,38 +244,6 @@ class APITest extends SystemTestCase
         ]);
     }
 
-/*
-    public function testGetComplianceStatusReturnsConfigControlledValueEnabled(): void
-    {
-        $this->setComplianceFeatureFlag(true);
-        Config::getInstance()->CnilPolicy['cnil_v1_policy_enabled'] = 1;
-
-        $this->runApiTests('PrivacyManager.getComplianceStatus', [
-            'testSuffix' => 'configControlledEnabled',
-            'otherRequestParameters' => [
-                'idSite' => '1',
-                'complianceType' => 'cnil_v1',
-            ],
-        ]);
-        Config::getInstance()->CnilPolicy = null;
-    }
-
-    public function testGetComplianceStatusReturnsConfigControlledValueDisabled(): void
-    {
-        $this->setComplianceFeatureFlag(true);
-        Config::getInstance()->CnilPolicy['cnil_v1_policy_enabled'] = 0;
-
-        $this->runApiTests('PrivacyManager.getComplianceStatus', [
-            'testSuffix' => 'configControlledDisabled',
-            'otherRequestParameters' => [
-                'idSite' => '1',
-                'complianceType' => 'cnil_v1',
-            ],
-        ]);
-        Config::getInstance()->CnilPolicy = null;
-    }
-*/
-
     /**
      * @dataProvider getCompliancePolicyConfigValues
      */
