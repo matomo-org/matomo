@@ -36,13 +36,13 @@ class APITest extends SystemTestCase
      */
     private $api;
 
-    private $testVars;
+    private $testEnvironment;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();
-        $this->testVars = static::$fixture->getTestEnvironment();
+        $this->testEnvironment = static::$fixture->getTestEnvironment();
     }
 
     public function tearDown(): void
@@ -184,12 +184,6 @@ class APITest extends SystemTestCase
         }
     }
 
-    private function setComplianceConfigValue(?bool $enable): void
-    {
-        $this->testVars->overrideConfig('CnilPolicy', 'cnil_v1_policy_enabled', $enable);
-        $this->testVars->save();
-    }
-
     public function testGetComplianceStatusReturnsErrorIfFeatureFlagDisabled(): void
     {
         $this->setComplianceFeatureFlag(false);
@@ -250,10 +244,10 @@ class APITest extends SystemTestCase
         ]);
     }
 
+/*
     public function testGetComplianceStatusReturnsConfigControlledValueEnabled(): void
     {
         $this->setComplianceFeatureFlag(true);
-        $default = Config::getInstance()->CnilPolicy;
         Config::getInstance()->CnilPolicy['cnil_v1_policy_enabled'] = 1;
 
         $this->runApiTests('PrivacyManager.getComplianceStatus', [
@@ -269,7 +263,6 @@ class APITest extends SystemTestCase
     public function testGetComplianceStatusReturnsConfigControlledValueDisabled(): void
     {
         $this->setComplianceFeatureFlag(true);
-        $default = Config::getInstance()->CnilPolicy;
         Config::getInstance()->CnilPolicy['cnil_v1_policy_enabled'] = 0;
 
         $this->runApiTests('PrivacyManager.getComplianceStatus', [
@@ -280,6 +273,37 @@ class APITest extends SystemTestCase
             ],
         ]);
         Config::getInstance()->CnilPolicy = null;
+    }
+*/
+
+    /**
+     * @dataProvider compliancePolicyConfigValues
+     */
+    public function testGetComplianceStatusConfigControlled(
+        string $configSection,
+        string $policyIdentifier,
+        string $configKey,
+        int $configValToSet,
+        string $testSuffix
+    ): void {
+        $this->setComplianceFeatureFlag(true);
+        Config::getInstance()->{$configSection}[$configKey] = $configValToSet;
+
+        $this->runApiTests('PrivacyManager.getComplianceStatus', [
+            'testSuffix' => $testSuffix,
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'complianceType' => $policyIdentifier,
+            ],
+        ]);
+        Config::getInstance()->{$configSection} = null;
+    }
+
+
+    public function compliancePolicyConfigValues()
+    {
+        yield ['CnilPolicy', 'cnil_v1', 'cnil_v1_policy_enabled', 0, 'configControlledDisabled'];
+        yield ['CnilPolicy', 'cnil_v1', 'cnil_v1_policy_enabled', 1, 'configControlledEnabled'];
     }
 
     public function testGetAnonymisationSettingsDoesNotReturnsExtraMetadataForSystemSettingsWhenFeatureFlagEnabled(): void
