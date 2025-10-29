@@ -300,7 +300,7 @@ class APITest extends SystemTestCase
     }
 
 
-    public function compliancePolicyConfigValues()
+    public function getCompliancePolicyConfigValues()
     {
         yield ['CnilPolicy', 'cnil_v1', 'cnil_v1_policy_enabled', 0, 'configControlledDisabled'];
         yield ['CnilPolicy', 'cnil_v1', 'cnil_v1_policy_enabled', 1, 'configControlledEnabled'];
