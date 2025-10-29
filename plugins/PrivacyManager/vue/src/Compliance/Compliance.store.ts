@@ -53,6 +53,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     loading: false,
     complianceType: initialType,
     complianceModeEnforced: false,
+    complianceConfigControlled: false,
     complianceRequirements: [],
     fetchComplianceError: null,
     saveComplianceError: null,
