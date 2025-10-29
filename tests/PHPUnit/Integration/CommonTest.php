@@ -102,6 +102,6 @@ class CommonTest extends IntegrationTestCase
             'utm_term',
            ],
         ];
-        $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite, $checkSetting = false));
+        $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite, $skipCompliancePolicyCheck = true));
     }
 }
