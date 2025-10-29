@@ -13,6 +13,7 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -32,14 +33,22 @@ class CommonTest extends IntegrationTestCase
         parent::tearDown();
     }
 
-    public function testGetCampaignParametersCnilPolicyDisabled()
+    /**
+     * @dataProvider getExpectedCampaignParameters
+     */
+    public function testGetCampaignParameters(string $policyClass, bool $policyEnabled, bool $skipCompliancePolicyCheck, array $expectedCampaignParameters)
     {
         $container = StaticContainer::getContainer();
         $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
 
         $idSite = 1;
-        CnilPolicy::setActiveStatus($idSite, false);
-        $expectedCampaignParameters = [
+        PolicyManager::setPolicyActiveStatus($policyClass, $policyEnabled, $idSite);
+        $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite, $skipCompliancePolicyCheck));
+    }
+
+    public function getExpectedCampaignParameters()
+    {
+        $fullCampaignParameters = [
            [
             'pk_cpn',
             'pk_campaign',
@@ -60,48 +69,11 @@ class CommonTest extends IntegrationTestCase
             'utm_term',
            ],
         ];
-        $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite));
-    }
+        $emptyCampaignParameters = [[], []];
 
-    public function testGetCampaignParametersCnilPolicyEnabled()
-    {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
-        $idSite = 1;
-        CnilPolicy::setActiveStatus($idSite, true);
-        $expectedCampaignParameters = [[], []];
-        $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite));
-    }
-
-    public function testGetCampaignParametersCnilPolicyEnabledCheckSettingDisabled()
-    {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
-        $idSite = 1;
-        CnilPolicy::setActiveStatus($idSite, true);
-        $expectedCampaignParameters = [
-           [
-            'pk_cpn',
-            'pk_campaign',
-            'piwik_campaign',
-            'mtm_campaign',
-            'matomo_campaign',
-            'utm_campaign',
-            'utm_source',
-            'utm_medium',
-           ],
-           [
-            'pk_kwd',
-            'pk_keyword',
-            'piwik_kwd',
-            'mtm_kwd',
-            'mtm_keyword',
-            'matomo_kwd',
-            'utm_term',
-           ],
-        ];
-        $this->assertSame($expectedCampaignParameters, Common::getCampaignParameters($idSite, $skipCompliancePolicyCheck = true));
+        yield [CnilPolicy::class, false, false, $fullCampaignParameters];
+        yield [CnilPolicy::class, false, true, $fullCampaignParameters];
+        yield [CnilPolicy::class, true, false, $emptyCampaignParameters];
+        yield [CnilPolicy::class, true, true, $fullCampaignParameters];
     }
 }
