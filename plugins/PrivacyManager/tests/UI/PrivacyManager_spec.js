@@ -524,6 +524,6 @@ describe("PrivacyManager", function () {
       await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
       await page.waitForNetworkIdle();
 
-      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_different_site');
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_config_enabled');
     });
   });
