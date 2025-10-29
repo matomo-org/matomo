@@ -24,11 +24,9 @@
               class="segment-close"
               @click="removeOrCondition(condition, orCondition)"
             />
-            <a
-              href="#"
-              class="segment-loading"
-              v-show="conditionValuesLoading[orCondition.id]"
-            />
+            <div class="segment-loading">
+              <MatomoLoader v-show="conditionValuesLoading[orCondition.id]" />
+            </div>
             <div class="segment-row-inputs valign-wrapper">
               <div class="segment-input metricListBlock valign-wrapper">
                 <div style="width: 100%;">
@@ -112,6 +110,7 @@ import {
   AjaxHelper,
   ActivityIndicator,
   Matomo,
+  MatomoLoader,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import SegmentGeneratorStore from './SegmentGenerator.store';
@@ -263,6 +262,7 @@ export default defineComponent({
     },
   },
   components: {
+    MatomoLoader,
     ActivityIndicator,
     Field,
     ValueInput,
@@ -524,7 +524,7 @@ export default defineComponent({
       }));
     },
     addNewOrConditionLinkText() {
-      return `+${translate(
+      return `+ ${translate(
         'SegmentEditor_AddANDorORCondition',
         `<span>${translate('SegmentEditor_OperatorOR')}</span>`,
       )}`;
@@ -533,7 +533,7 @@ export default defineComponent({
       return this.conditions.length ? translate('SegmentEditor_OperatorAND') : '';
     },
     addNewAndConditionLinkText() {
-      return `+${translate('SegmentEditor_AddANDorORCondition', `<span>${this.andConditionLabel}</span>`)}`;
+      return `+ ${translate('SegmentEditor_AddANDorORCondition', `<span>${this.andConditionLabel}</span>`)}`;
     },
     isLoading() {
       return SegmentGeneratorStore.state.value.isLoading;

@@ -541,19 +541,19 @@ a.metric_category {
 
 .segment-element .segment-top a.dropdown {
     padding: 0;
+    margin-right: 0.5em;
     background: none !important;
 }
 
 .segment-element .segment-top a.dropdown:after {
-    content: " \25BC";
-    font-size: 0;
-    color: @theme-color-brand;
-    border-left: 4px solid rgba(0, 0, 0, 0);
-    border-right: 4px solid rgba(0, 0, 0, 0);
-    border-top: 5px solid @theme-color-brand;
-    margin-left: 7px;
+    content: "";
     display: inline-block;
-    vertical-align: sub;
+    border-left: 0.4em solid rgba(0, 0, 0, 0);
+    border-right: 0.4em solid rgba(0, 0, 0, 0);
+    border-top: 0.5em solid @theme-color-brand;
+    margin-left: 0.5em;
+    margin-bottom: 0.25em;
+    vertical-align: middle;
 }
 
 .segmentsVisibleToSuperUser, .segmentsSharedWithMeBySuperUser {
