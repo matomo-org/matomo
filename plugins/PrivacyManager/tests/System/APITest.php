@@ -267,7 +267,6 @@ class APITest extends SystemTestCase
         Config::getInstance()->{$configSection} = null;
     }
 
-
     public function getCompliancePolicyConfigValues()
     {
         yield ['CnilPolicy', 'cnil_v1', 'cnil_v1_policy_enabled', 0, 'configControlledDisabled'];
