@@ -277,7 +277,7 @@ class APITest extends SystemTestCase
 */
 
     /**
-     * @dataProvider compliancePolicyConfigValues
+     * @dataProvider getCompliancePolicyConfigValues
      */
     public function testGetComplianceStatusConfigControlled(
         string $configSection,
