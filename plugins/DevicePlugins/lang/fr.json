@@ -4,7 +4,7 @@
         "BrowserWithPluginsEnabled": "%1$s avec les plugins %2$s activés",
         "ColumnPercentageVisitsDocumentation": "Pourcentage du nombre total de visites où le plugin a été détecté. Une visite peut inclure plusieurs plugins. La valeur est arrondie à l’entier inférieur.",
         "PluginDescription": "Rapporte la liste des composants supportés par les navigateurs des visiteurs.",
-        "PluginDetectionDoesNotWorkInIE": "Note : la détections de plugins ne fonctionne pas avec Internet Explorer d'une version inférieure à 11. Ce Rapport est basé uniquement sur les utilsateurs non IE et les versions récentes d'IE.",
+        "PluginDetectionDoesNotWorkInIE": "Note : la détections de plugins ne fonctionne pas avec Internet Explorer d'une version inférieure à 11. Ce Rapport est basé uniquement sur les utilsateurs non IE et les versions récentes d'IE.",
         "WidgetPlugins": "Liste de Plugins",
         "WidgetPluginsDocumentation": "Ce rapport montre quels plugins du navigateur vos visiteurs ont activés. Cette information peut être importante pour choisir le bon moyen de délivrer le contenu."
     }
