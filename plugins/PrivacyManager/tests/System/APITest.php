@@ -184,12 +184,6 @@ class APITest extends SystemTestCase
         }
     }
 
-    private function setComplianceConfigValue(?bool $enable): void
-    {
-        $this->testVars->overrideConfig('CnilPolicy', 'cnil_v1_policy_enabled', $enable);
-        $this->testVars->save();
-    }
-
     public function testGetComplianceStatusReturnsErrorIfFeatureFlagDisabled(): void
     {
         $this->setComplianceFeatureFlag(false);
