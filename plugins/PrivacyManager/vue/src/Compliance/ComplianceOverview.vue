@@ -7,7 +7,7 @@
 
 <template>
   <ContentBlock :content-title="title">
-    <p>{{ description }}</p>
+  <p v-html="description" />
     <ActivityIndicator :loading="state.loading"/>
     <template v-if="!state.loading">
       <div v-if="state.fetchComplianceError" class="notification system notification-error">

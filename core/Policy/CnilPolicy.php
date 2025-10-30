@@ -20,7 +20,21 @@ class CnilPolicy extends CompliancePolicy
 
     public static function getDescription(): string
     {
-        return Piwik::translate('General_ComplianceCNILDescription');
+        $description = Piwik::translate('General_ComplianceCNILDescription');
+        
+        $isCloud = false;
+
+        /**
+         * This event should only be used by the cloud plugin, to determine that the 
+         * current instance is a cloud instance.
+         */
+        Piwik::postEvent('Policy.onCloudInstance', [$isCloud]);
+
+        if ($isCloud) {
+            $description .= ' ' . Piwik::translate('General_ComplianceDPALink',['<a href="https://matomo.org/matomo-cloud-dpa/">', '</a>']);
+        }
+
+        return $description;
     }
 
     public static function getTitle(): string
