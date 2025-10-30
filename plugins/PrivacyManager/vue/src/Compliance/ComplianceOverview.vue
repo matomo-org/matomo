@@ -7,7 +7,7 @@
 
 <template>
   <ContentBlock :content-title="title">
-  <p v-html="description" />
+  <p v-html="$sanitize(description)" />
     <ActivityIndicator :loading="state.loading"/>
     <template v-if="!state.loading">
       <div v-if="state.fetchComplianceError" class="notification system notification-error">
