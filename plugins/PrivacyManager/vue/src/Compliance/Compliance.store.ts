@@ -9,6 +9,7 @@ export interface ComplianceRequirement {
 
 interface ComplianceStatus {
   complianceModeEnforced: boolean;
+  complianceConfigControlled: boolean;
   complianceRequirements: ComplianceRequirement[];
 }
 
@@ -23,6 +24,7 @@ interface ComplianceStoreState {
   loading: boolean;
   complianceType: string;
   complianceModeEnforced: boolean;
+  complianceConfigControlled: boolean;
   complianceRequirements: ComplianceRequirement[];
   fetchComplianceError: string | null;
   saveComplianceError: string | null;
@@ -51,6 +53,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
     loading: false,
     complianceType: initialType,
     complianceModeEnforced: false,
+    complianceConfigControlled: false,
     complianceRequirements: [],
     fetchComplianceError: null,
     saveComplianceError: null,
@@ -71,6 +74,7 @@ export function createComplianceStore(initialType: string): ComplianceStore {
 
   function storeComplianceStatus(complianceData: ComplianceStatus) {
     state.complianceModeEnforced = complianceData.complianceModeEnforced;
+    state.complianceConfigControlled = complianceData.complianceConfigControlled;
     state.complianceRequirements = complianceData.complianceRequirements;
   }
 
