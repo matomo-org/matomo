@@ -76,7 +76,7 @@ class PageUrl
      */
     public static function getQueryParametersToExclude($idSite)
     {
-        $campaignTrackingParameters = Common::getCampaignParameters();
+        $campaignTrackingParameters = Common::getCampaignParameters(intval($idSite), $skipCompliancePolicyCheck = true);
 
         $campaignTrackingParameters = array_merge(
             $campaignTrackingParameters[0], // campaign name parameters

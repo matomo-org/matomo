@@ -10,10 +10,13 @@
 namespace Piwik\Policy;
 
 use Exception;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Interfaces\ConfigSettingInterface;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 use Piwik\Settings\Interfaces\SystemSettingInterface;
+use Piwik\Settings\Interfaces\Traits\Getters\ConfigGetterTrait;
 use Piwik\Settings\Interfaces\Traits\Setters\MeasurableSetterTrait;
 use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
 
@@ -21,7 +24,7 @@ use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
  * @implements SystemSettingInterface<bool>
  * @implements MeasurableSettingInterface<bool>
  */
-abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSettingInterface
+abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSettingInterface, ConfigSettingInterface
 {
     /**
      * @use SystemSetterTrait<bool>
@@ -32,6 +35,11 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
      * @use MeasurableSetterTrait<bool>
      */
     use MeasurableSetterTrait;
+
+    /**
+     * @use ConfigGetterTrait<bool>
+     */
+    use ConfigGetterTrait;
 
     abstract public static function getName(): string;
     abstract public static function getDescription(): string;
@@ -109,6 +117,15 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         return FieldConfig::TYPE_BOOL;
     }
 
+    protected static function getConfigSection(): string
+    {
+        return Piwik::getPluginNameOfMatomoClass(static::class);
+    }
+
+    protected static function getConfigSettingName(): string
+    {
+        return static::getSystemName();
+    }
     /**
      * If the policy is active at the instance level,
      * disabling the policy for a site will also disable it
@@ -143,5 +160,10 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
             return static::getMeasurableValue($idSite);
         }
         return $instanceLevel;
+    }
+
+    public static function isConfigControlled()
+    {
+        return !is_null(static::getConfigValue());
     }
 }

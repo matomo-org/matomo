@@ -19,7 +19,7 @@
         "NbUsersDescription": "utilisateurs",
         "NbVisitsBounced": "visiteurs ayant survolé (quitté le site après une page)",
         "NbVisitsDescription": "visites",
-        "PluginDescription": "Fournit des métriques d'analyse générales : visites, visiteurs uniques, nombre d'actions, taux de rebond, etc.",
+        "PluginDescription": "Fournit des métriques d'analyse générales : visites, visiteurs uniques, nombre d'actions, taux de rebond, etc.",
         "VisitsSummary": "Récapitulatif des visites",
         "VisitsSummaryDocumentation": "Ceci est un aperçu de l'évolution de la visite.",
         "VisitsSummaryReportDocumentation": "Ce rapport affiche un aperçu très général du comportement de vos visiteurs.",

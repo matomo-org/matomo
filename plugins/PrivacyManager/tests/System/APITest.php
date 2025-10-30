@@ -36,10 +36,19 @@ class APITest extends SystemTestCase
      */
     private $api;
 
+    private $testEnvironment;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->api = API::getInstance();
+        $this->testEnvironment = static::$fixture->getTestEnvironment();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        $this->setComplianceFeatureFlag(false);
     }
 
     public function testExportDataSubjectsFailsWhenNoVisitsGiven()
@@ -233,6 +242,35 @@ class APITest extends SystemTestCase
                 'complianceType' => 'cnil_v1',
             ],
         ]);
+    }
+
+    /**
+     * @dataProvider getCompliancePolicyConfigValues
+     */
+    public function testGetComplianceStatusConfigControlled(
+        string $configSection,
+        string $policyIdentifier,
+        string $configKey,
+        int $configValToSet,
+        string $testSuffix
+    ): void {
+        $this->setComplianceFeatureFlag(true);
+        Config::getInstance()->{$configSection}[$configKey] = $configValToSet;
+
+        $this->runApiTests('PrivacyManager.getComplianceStatus', [
+            'testSuffix' => $testSuffix,
+            'otherRequestParameters' => [
+                'idSite' => '1',
+                'complianceType' => $policyIdentifier,
+            ],
+        ]);
+        Config::getInstance()->{$configSection} = null;
+    }
+
+    public function getCompliancePolicyConfigValues()
+    {
+        yield ['CnilPolicy', 'cnil_v1', 'cnil_v1_policy_enabled', 0, 'configControlledDisabled'];
+        yield ['CnilPolicy', 'cnil_v1', 'cnil_v1_policy_enabled', 1, 'configControlledEnabled'];
     }
 
     public function testGetAnonymisationSettingsDoesNotReturnsExtraMetadataForSystemSettingsWhenFeatureFlagEnabled(): void

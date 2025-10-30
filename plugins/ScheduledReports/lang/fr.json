@@ -4,12 +4,12 @@
         "AggregateReportsFormat_GraphsOnly": "Afficher uniquement les graphiques (pas de tableau de valeur)",
         "AggregateReportsFormat_TablesAndGraphs": "Afficher les tableaux de rapport et les graphiques pour tous les rapports",
         "AggregateReportsFormat_TablesOnly": "(défaut) afficher les tableaux de rapport (Graphique uniquement pour les indicateurs clés)",
-        "AlsoSendReportToTheseEmails": "Envoyer le rapport aussi à ces adresses e-mail (une par ligne) :",
+        "AlsoSendReportToTheseEmails": "Envoyer le rapport aussi à ces adresses e-mail (une par ligne) :",
         "AreYouSureDeleteReport": "Êtes-vous sûr(e) de vouloir supprimer ce rapport et sa planification ?",
         "CancelAndReturnToReports": "Annuler et %1$s retourner à la liste des rapports%2$s",
         "CreateAndScheduleReport": "Créer et planifier un rapport",
         "CreateReport": "Créer le rapport",
-        "CustomVisitorSegment": "Segment de visiteur personnalisé :",
+        "CustomVisitorSegment": "Segment de visiteur personnalisé :",
         "DescriptionOnFirstPageScheduledReport": "La description du rapport sera affichée dans le message de rapport planifié, ainsi que sur la première page du rapport.",
         "DisplayFormat_TablesOnly": "Afficher uniquement les tableaux (pas de graphiques)",
         "EmailHello": "Bonjour,",
@@ -17,7 +17,7 @@
         "EvolutionGraphsShowForEachInPeriod": "Les graphiques d'évolution pour %1$s chaque jour %2$s dans le/la dernier(e) %3$s",
         "EvolutionGraphsShowForPreviousN": "Les graphiques d'évolution affichent une évolution depuis le dernier N %s",
         "FrontPage": "Première page",
-        "MonthlyScheduleHelp": "Planification mensuelle : le rapport sera envoyé le premier jour de chaque mois.",
+        "MonthlyScheduleHelp": "Planification mensuelle : le rapport sera envoyé le premier jour de chaque mois.",
         "MustBeLoggedIn": "Vous devez être connecté pour créer et planifier des rapports personnalisés.",
         "NoRecipients": "Ce rapport n'a aucun destinataire",
         "NoSubscriptionFound": "Aucun abonnement trouvé. Peut-être que l'abonnement a déjà été annulé ou bien le rapport supprimé.",
@@ -50,9 +50,9 @@
         "TopLinkTooltip": "Créer un rapport par courriel afin que les statistiques Matomo soient envoyées automatiquement à votre adresse courriel ou celles de vos clients automatiquement !",
         "TopOfReport": "Retour haut de page",
         "Unsubscribe": "Se désinscrire",
-        "UnsubscribeFooter": "Afin de vous désinscrire de ce rapport veuillez suivre ce lien : %1$s",
+        "UnsubscribeFooter": "Afin de vous désinscrire de ce rapport veuillez suivre ce lien : %1$s",
         "UnsubscribeReportConfirmation": "Êtes-vous sûr(e) de vouloir vous désinscrire du rapport %1$s ?",
         "UpdateReport": "Mettre à jour le rapport",
-        "WeeklyScheduleHelp": "Planification hebdomadaire : le rapport sera envoyé le Lundi de chaque semaine."
+        "WeeklyScheduleHelp": "Planification hebdomadaire : le rapport sera envoyé le Lundi de chaque semaine."
     }
 }

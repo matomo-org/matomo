@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<complianceModeEnforced>0</complianceModeEnforced>
-	<complianceConfigControlled>0</complianceConfigControlled>
+	<complianceModeEnforced>1</complianceModeEnforced>
+	<complianceConfigControlled>1</complianceConfigControlled>
 	<complianceRequirements>
 		<row>
 			<name>Ecommerce</name>
-			<value>non_compliant</value>
+			<value>compliant</value>
 			<notes>Ecommerce must be disabled</notes>
 		</row>
 		<row>
 			<name>Turn off visits log and visitor profiles</name>
-			<value>non_compliant</value>
+			<value>compliant</value>
 			<notes>Visits log is required to be disabled.</notes>
 		</row>
 		<row>
 			<name>Campaign tracking parameters disabled</name>
-			<value>non_compliant</value>
+			<value>compliant</value>
 			<notes>All campaign tracking parameters must be discarded</notes>
 		</row>
 		<row>
 			<name>IP Anonymization Enabled</name>
-			<value>non_compliant</value>
+			<value>compliant</value>
 			<notes>Anonymization of Visitor's IP addresses must be enabled.</notes>
 		</row>
 		<row>
 			<name>IP Address Mask Length</name>
-			<value>non_compliant</value>
-			<notes>Must be set to at least 2 byte(s), currently 0 byte(s).</notes>
+			<value>compliant</value>
+			<notes>Must be set to at least 2 byte(s), currently 2 byte(s).</notes>
 		</row>
 		<row>
 			<name>Data retention period</name>
@@ -35,7 +35,7 @@
 		</row>
 		<row>
 			<name>User ID disabled</name>
-			<value>non_compliant</value>
+			<value>compliant</value>
 			<notes>Collection of User ID while tracking must be disabled.</notes>
 		</row>
 		<row>
