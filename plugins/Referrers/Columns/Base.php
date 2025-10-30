@@ -479,7 +479,7 @@ abstract class Base extends VisitDimension
         ) {
             return;
         }
-        $campaignParameters = Common::getCampaignParameters();
+        $campaignParameters = Common::getCampaignParameters(intval($this->idsite));
         $this->campaignNames = $campaignParameters[0];
         $this->campaignKeywords = $campaignParameters[1];
 
@@ -510,7 +510,7 @@ abstract class Base extends VisitDimension
     protected function detectReferrerCampaignFromTrackerParams(Request $request): void
     {
         $campaignName = null;
-        $campaignParameters = Common::getCampaignParameters();
+        $campaignParameters = Common::getCampaignParameters(intval($request->getIdSite()));
         $allTrackingParams = $request->getRawParams();
 
         foreach ($campaignParameters[0] as $parameter) {

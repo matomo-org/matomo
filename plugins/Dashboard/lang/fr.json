@@ -9,7 +9,7 @@
         "DashboardCategoryHelp": "Ceci est une page de tableau de bord. Les tableaux de bord sont une collection de gadgets Matomo que vous agencez vous-même en fonction de vos besoins. Combinez et disposez les widgets de Matomo pour obtenir les données dont %1$svous%2$s avez besoin en un coup d'œil.",
         "DashboardCopied": "Tableau de bord actuel copié avec succès vers l'utilisateur sélectionné.",
         "DashboardEmptyNotification": "Votre tableau de bord ne contient aucun gadget. Commencez par ajouter quelques gadgets ou réinitialisez le tableau de bord à la sélection de gadgets par défaut.",
-        "DashboardName": "Nom du tableau de bord :",
+        "DashboardName": "Nom du tableau de bord :",
         "DashboardOf": "Tableau de bord de %s",
         "DefaultDashboard": "Tableau de bord par défaut - Utilisant la sélection de gadgets par défaut et la disposition des colonnes",
         "DeleteWidgetConfirm": "Êtes-vous sûr(e) de vouloir supprimer ce widget du tableau de bord ?",
