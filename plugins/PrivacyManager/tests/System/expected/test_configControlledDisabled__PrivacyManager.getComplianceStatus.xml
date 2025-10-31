@@ -28,6 +28,11 @@
 			<value>non_compliant</value>
 			<notes>Must be set to at least 2 byte(s), currently 0 byte(s).</notes>
 		</row>
+        <row>
+            <name>Referrer anonymisation</name>
+            <value>non_compliant</value>
+            <notes>Only the referrer host or referrer type may be collected.</notes>
+        </row>
 		<row>
 			<name>Data retention period</name>
 			<value>compliant</value>

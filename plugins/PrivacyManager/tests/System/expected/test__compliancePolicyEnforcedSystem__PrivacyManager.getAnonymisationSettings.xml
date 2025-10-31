@@ -7,7 +7,7 @@
 	<forceCookielessTracking>0</forceCookielessTracking>
 	<anonymizeUserId>0</anonymizeUserId>
 	<anonymizeOrderId>0</anonymizeOrderId>
-	<anonymizeReferrer />
+    <anonymizeReferrer>exclude_path</anonymizeReferrer>
 	<randomizeConfigId>0</randomizeConfigId>
 	<useSiteSpecificSettings>0</useSiteSpecificSettings>
 	<maskLengthOptions>
@@ -69,5 +69,13 @@
             </compliancePolicyControlled>
             <idSite/>
         </ipAnonymizerEnabled>
+        <anonymizeReferrer>
+            <compliancePolicyControlled>
+                <cnil_v1>
+                    <requiredValue>exclude_path</requiredValue>
+                </cnil_v1>
+            </compliancePolicyControlled>
+            <idSite/>
+        </anonymizeReferrer>
     </extraMetadata>
 </result>
