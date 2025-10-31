@@ -253,7 +253,7 @@
         "UseRandomizeConfigId": "Randomize config_ID for enhanced privacy",
         "RandomizeConfigIdNote": "By randomizing the config_ID for every request, this feature ensures that visitor tracking is compliant with the strictest privacy interpretations. This setting disables mechanisms that rely on user-agent data, cookies, or other identifiers that require explicit consent, allowing for anonymized tracking while respecting user privacy.",
         "RetentionPeriodPolicySettingTitle": "Data retention period",
-        "RetentionPeriodPolicySettingRequirementNote": "Retention period is set to %1$s days",
+        "RetentionPeriodPolicySettingRequirementNote": "Retention period is set to %1$s days.",
         "RandomizeConfigIdNoteWarning": "%1$sPlease note: %2$sWith this setting enabled, every action will be tracked as a new visit.",
         "ConfirmConfigRandomisationEnabled": "Are you sure you want to enable config_ID randomization?",
         "ConfirmConfigRandomisationEnabledPerSite": "Are you sure you want to save the site's settings and enable config_ID randomization?",
@@ -266,6 +266,6 @@
         "PolicyControlledSetting": "A privacy compliance policy overrides this settings, so changing it has no effect right now.",
         "ViewPrivacyComplianceOverview": "View privacy compliance overview",
         "CampaignTrackingParametersDisabledSettingTitle": "Campaign tracking parameters disabled",
-        "CampaignTrackingParametersDisabledSettingRequirementNote": "All campaign tracking parameters must be discarded"
+        "CampaignTrackingParametersDisabledSettingRequirementNote": "All campaign tracking parameters must be discarded."
     }
 }
