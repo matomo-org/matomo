@@ -546,7 +546,10 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->resetGlobalVariables();
         $_GET['module'] = 'CoreHomeAdmin';
         $_GET['action'] = 'trackingCodeGenerator';
-        $this->assertEquals($expected, Url::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium));
+        $this->assertSame($expected, Url::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium));
+
+        $expectedLink = '<a target="_blank" rel="noreferrer noopener" href="' . $expected . '">';
+        $this->assertSame($expectedLink, Url::getExternalLinkTag($url, $campaign, $source, $medium));
     }
 
     public function getCampaignParametersToMatomoLink()
@@ -612,6 +615,8 @@ class UrlTest extends \PHPUnit\Framework\TestCase
              'SomeCampaign', 'SomeSource', 'SomeMedium',
             ],
 
+            // Empty url
+            ['', '', null, null, null],
         ];
     }
 

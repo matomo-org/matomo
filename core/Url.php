@@ -916,4 +916,20 @@ class Url
         $pathAndQueryString = UrlHelper::getPathAndQueryFromUrl($url, $newParams, true);
         return 'https://' . $domain . '/' . $pathAndQueryString;
     }
+
+    /**
+     * Create an external link tag with optional campaign params if link goes to matomo.org
+     *
+     * @since 5.6.0
+     */
+    public static function getExternalLinkTag(
+        string $url,
+        ?string $campaign = null,
+        ?string $source = null,
+        ?string $medium = null
+    ): string {
+        $url = self::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium);
+
+        return '<a target="_blank" rel="noreferrer noopener" href="' . $url . '">';
+    }
 }
