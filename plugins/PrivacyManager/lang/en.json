@@ -266,6 +266,8 @@
         "PolicyControlledSetting": "A privacy compliance policy overrides this settings, so changing it has no effect right now.",
         "ViewPrivacyComplianceOverview": "View privacy compliance overview",
         "CampaignTrackingParametersDisabledSettingTitle": "Campaign tracking parameters disabled",
-        "CampaignTrackingParametersDisabledSettingRequirementNote": "All campaign tracking parameters must be discarded."
+        "CampaignTrackingParametersDisabledSettingRequirementNote": "All campaign tracking parameters must be discarded.",
+        "ReferrerAnonymizationSettingTitle": "Referrer anonymisation",
+        "ReferrerAnonymizationSettingRequirementNote": "Only the referrer host or referrer type may be collected."
     }
 }
