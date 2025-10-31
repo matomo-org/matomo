@@ -128,7 +128,7 @@ describe("OneClickUpdate", function () {
 
     it('should have a working cron archiving process', async function () {
         // track one action
-        const trackerUrl = config.piwikUrl + "latestStableInstall/piwik.php?";
+        const trackerUrl = config.piwikUrl + "/latestStableInstall/piwik.php?";
 
         await request({
             method: 'POST',
