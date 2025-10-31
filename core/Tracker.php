@@ -179,13 +179,25 @@ class Tracker
              */
             Piwik::postEvent('Tracker.isBotRequest', [&$isBot, $request]);
 
-            if ($isBot) {
+            $rawParams = $request->getRawParams();
+
+            /**
+             * The recMode param will for now be used to keep BC.
+             * If it is not set, which is currently the case for all tracking requests, it will be processed as Visit only
+             * When set to 1, only bot tracking will be processed. In case the request is not detected as bot, it will be discarded
+             * Setting it to 2 enables auto mode. Meaning it will be either processed as bot request or visit, depending on the detection
+             *
+             * @deprecated Remove this parameter handling with Matomo 6 and decide the tracking method based on the bot detection only.
+             */
+            $recMode = $rawParams['recMode'] ?? null;
+
+            if (((int)$recMode === 1 || (int)$recMode === 2) && $isBot) {
                 $botRequest = StaticContainer::get(BotRequest::class);
                 $botRequest->setRequest($request);
                 $botRequest->handle();
             }
 
-            if (!$isBot || $request->getParam('bots')) {
+            if (empty($recMode) || ((int)$recMode === 2 && !$isBot)) {
                 $visit = Visit\Factory::make();
                 $visit->setRequest($request);
                 $visit->handle();

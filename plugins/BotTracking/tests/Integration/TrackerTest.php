@@ -39,6 +39,7 @@ class TrackerTest extends IntegrationTestCase
         $t = Fixture::getTracker(1, '2025-02-02 12:00:00');
         $t->setUserAgent($userAgent);
         $t->setUrl('https://matomo.org/faq/123');
+        $t->setCustomTrackingParameter('recMode', '1');
 
         Fixture::checkResponse($t->doTrackPageView(''));
 
@@ -85,6 +86,7 @@ class TrackerTest extends IntegrationTestCase
         $t = Fixture::getTracker(1, '2025-02-02 12:00:00');
         $t->setUserAgent('ChatGPT-User/1.0');
         $t->setUrl('https://matomo.org/faq/123');
+        $t->setCustomTrackingParameter('recMode', '1');
 
         Fixture::checkResponse($t->doTrackPageView(''));
 
@@ -108,6 +110,7 @@ class TrackerTest extends IntegrationTestCase
         $t = Fixture::getTracker(1, '2025-02-02 12:00:00');
         $t->setUserAgent('Gemini-Deep-Research/1.0');
         $t->setUrl('https://matomo.org/faq/123');
+        $t->setCustomTrackingParameter('recMode', '1');
 
         Fixture::checkResponse($t->doTrackPageView(''));
 
@@ -152,6 +155,7 @@ class TrackerTest extends IntegrationTestCase
         $t = Fixture::getTracker(1, '2025-02-02 12:00:00');
         $t->setUserAgent('Gemini-Deep-Research/1.0');
         $t->setUrl('https://matomo.org/faq/123');
+        $t->setCustomTrackingParameter('recMode', '1');
 
         Fixture::checkResponse($t->doTrackPageView(''));
 

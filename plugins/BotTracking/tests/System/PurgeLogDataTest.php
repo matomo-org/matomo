@@ -42,16 +42,19 @@ class PurgeLogDataTest extends SystemTestCase
         $t = Fixture::getTracker(1, '2025-02-02 12:00:00');
         $t->setUserAgent('Mozilla/5.0 (compatible; ChatGPT-User/1.0)');
         $t->setUrl('https://matomo.org/faq/123');
+        $t->setCustomTrackingParameter('recMode', '1');
         Fixture::checkResponse($t->doTrackPageView(''));
 
         $t = Fixture::getTracker(1, '2025-02-02 17:00:00');
         $t->setUserAgent('Perplexity-User/1.0');
         $t->setUrl('https://matomo.org/faq/987');
+        $t->setCustomTrackingParameter('recMode', '1');
         Fixture::checkResponse($t->doTrackPageView(''));
 
         $t = Fixture::getTracker(1, '2025-02-03 01:00:00');
         $t->setUserAgent('MistralAI-User/2.0');
         $t->setUrl('https://matomo.org/faq/576');
+        $t->setCustomTrackingParameter('recMode', '1');
         Fixture::checkResponse($t->doTrackPageView(''));
 
         // check that all requests were tracked
