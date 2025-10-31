@@ -28,6 +28,7 @@ use Piwik\Plugins\Goals\Archiver;
 use Piwik\Plugins\Installation\FormDefaultSettings;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
+use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation;
 use Piwik\Request;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -543,7 +544,7 @@ class PrivacyManager extends Plugin
             'anonymise_ip',
             null,
             [
-                'content' => '<div class="form-help">' . Piwik::translate('PrivacyManager_AnonymizeIpExtendedHelp', ['213.34.51.91', '213.34.0.0']) . '</div> &nbsp;&nbsp;' . Piwik::translate('PrivacyManager_AnonymizeIpInlineHelp'),
+                'content' => '<div class="form-help">' . Piwik::translate('PrivacyManager_AnonymizeIpExtendedHelp', ['213.34.51.91', '213.34.0.0']) . '</div> &nbsp;&nbsp;' . IPAnonymisation::getInlineHelp(),
             ]
         );
 
