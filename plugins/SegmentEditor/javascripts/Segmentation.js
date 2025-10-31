@@ -6,6 +6,8 @@
  */
 
 Segmentation = (function($) {
+    const FORM_MODE_EDIT = 'edit';
+    const FORM_MODE_NEW = 'new';
 
     piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
         if (event.altKey) {
@@ -307,7 +309,7 @@ Segmentation = (function($) {
         };
 
         var openEditForm = function(segment){
-            addForm("edit", segment);
+            addForm(FORM_MODE_EDIT, segment);
 
             $(self.form).find(".segment-content > h3 > span")
                 .html( getSegmentName(segment) )
@@ -326,7 +328,7 @@ Segmentation = (function($) {
 
         var displayFormAddNewSegment = function (segment) {
             closeAllOpenLists();
-            addForm("new", segment);
+            addForm(FORM_MODE_NEW, segment);
         };
 
         function showAddNewSegmentForm(segment) {
@@ -568,7 +570,7 @@ Segmentation = (function($) {
         function openEditFormGivenSegment(option) {
             var idsegment = option.attr("data-idsegment");
 
-            if(idsegment.length == 0) {
+            if (idsegment.length == 0) {
                 displayFormAddNewSegment();
             } else {
                 var segment = getSegmentFromId(idsegment);
@@ -595,7 +597,6 @@ Segmentation = (function($) {
 
         // Mode = 'new' or 'edit'
         var addForm = function(mode, segment){
-
             self.target.find(".segment-element:visible").unbind().remove();
             closeForm();
             // remove any remaining forms
@@ -614,7 +615,7 @@ Segmentation = (function($) {
                 self.form.addClass('anchorRight');
             }
 
-            if(mode == "edit") {
+            if (mode === FORM_MODE_EDIT) {
                 $(self.form).find('.enable_all_users_select > option[value="' + segment.enable_all_users + '"]').prop("selected",true);
 
                 // Replace "Visible to me" by "Visible to $login" when user is super user
@@ -623,9 +624,13 @@ Segmentation = (function($) {
                 }
                 $(self.form).find('.visible_to_website_select > option[value="'+segment.enable_only_idsite+'"]').prop("selected",true);
                 $(self.form).find('.auto_archive_select > option[value="'+segment.auto_archive+'"]').prop("selected",true);
+                $(self.form).find('.segment-footer > .delete').show();
+            } else {
+                $(self.form).find(".editSegmentName").trigger('click');
+                $(self.form).find('.segment-footer > .delete').hide();
             }
 
-            if (segment !== undefined && segment.definition != ""){
+            if (segment !== undefined && segment.definition != "") {
                 self.currentSegmentStr = segment.definition;
                 self.form.find('.segment-generator-container').attr('model-value', JSON.stringify(segment.definition));
             }
@@ -642,10 +647,6 @@ Segmentation = (function($) {
                 testSegment();
             });
 
-            if(typeof mode !== "undefined" && mode == "new")
-            {
-                $(self.form).find(".editSegmentName").trigger('click');
-            }
             $(".segmentListContainer", self.target).hide();
 
             self.target.closest('.segmentEditorPanel').addClass('editing');
