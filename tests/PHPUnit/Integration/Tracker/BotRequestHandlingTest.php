@@ -20,6 +20,7 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\RequestProcessor;
 use Piwik\Tracker\Visit\VisitProperties;
+use Piwik\Version;
 
 /**
  * @group Core
@@ -106,9 +107,9 @@ class BotRequestHandlingTest extends IntegrationTestCase
                     'manipulateRequest',
                     'handleRequest',
                 ],
-                'RequestProcessor' => [
+                'RequestProcessor' => version_compare(Version::VERSION, '6.0.0-rc1', '<') ? [
                     'manipulateRequest', // currently still triggered for bc reasons
-                ],
+                ] : [],
             ],
         ];
 
@@ -133,9 +134,9 @@ class BotRequestHandlingTest extends IntegrationTestCase
                     'manipulateRequest',
                     'handleRequest',
                 ],
-                'RequestProcessor' => [
+                'RequestProcessor' => version_compare(Version::VERSION, '6.0.0-rc1', '<') ? [
                     'manipulateRequest', // currently still triggered for bc reasons
-                ],
+                ] : [],
             ],
         ];
 
