@@ -21,20 +21,22 @@ describe("OneClickLastForcedUpdate", function () {
 
     it('should show the new version available button in the admin screen', async function () {
         await page.goto(latestStableUrl);
+        await page.waitForNetworkIdle();
         await page.waitForSelector('#login_form_login', { visible: true });
 
         await page.type('#login_form_login', superUserLogin);
         await page.type('#login_form_password', superUserPassword);
-        await page.click('#login_form_submit');
+        await page.evaluate(function(){
+          $('#login_form_submit').click();
+        });
 
         await page.waitForNetworkIdle();
         await page.waitForSelector('.pageWrap');
 
         await page.goto(settingsUrl);
+        await page.waitForNetworkIdle();
 
         const element = await page.waitForSelector('#header_message', { visible: true });
-
-        await page.waitForTimeout(250);
 
         expect(await element.screenshot()).to.matchImage('latest_version_available');
     });
