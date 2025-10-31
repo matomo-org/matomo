@@ -25,7 +25,8 @@ class LastForcedInstall extends LatestStableInstall
 
     protected function getDownloadUrl()
     {
-        return 'http://builds.matomo.org/matomo-' . self::FORCED_VERSION . '.zip';
+        return 'https://builds.ctd.nz/matomo-' . self::FORCED_VERSION . '.zip';
+//        return 'http://builds.matomo.org/matomo-' . self::FORCED_VERSION . '.zip';
     }
 
     private function installAndActivateTreemapPlugin()
