@@ -79,6 +79,10 @@ class LatestStableInstall extends Fixture
         $installSubdirectory = $this->getInstallSubdirectoryPath();
         Filesystem::mkdir($installSubdirectory);
 
+        passthru('which zip');
+        passthru('zip -v');
+        passthru('php -m | grep zip');
+
         $archive = Unzip::factory('PclZip', $archiveFile);
         $archiveFiles = $archive->extract($installSubdirectory);
 
