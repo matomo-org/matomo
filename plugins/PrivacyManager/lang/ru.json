@@ -9,6 +9,8 @@
         "AnonymizeIpMaskLength": "%1$s байт(ов), например, %2$s",
         "AnonymizeUserId": "Заменить ID пользователя всевдонимом",
         "ClickHereSettings": "Нажмите здесь, чтобы перейти к настройкам: %s.",
+        "ComplianceTableSettingStatus": "Статус",
+        "ConsentManagerConnected": "%1$s похоже уже настроен для работы с Matomo.",
         "CurrentDBSize": "Текущий размер базы данных",
         "DBPurged": "База данных очищена.",
         "DeleteDataInterval": "Удалять старые данные каждые",
