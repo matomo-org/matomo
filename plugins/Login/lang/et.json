@@ -7,7 +7,7 @@
         "LoginPasswordNotCorrect": "Kasutajanimi & salasõna olid valed",
         "LostYourPassword": "Kaotasid oma salasõna?",
         "PasswordChanged": "Sinu salasõna on vahetatud.",
-        "PasswordRepeat": "Salasõna (kordus)",
+        "PasswordRepeat": "Parool (korda)",
         "PasswordsDoNotMatch": "Salasõnad ei kattu.",
         "RememberMe": "Pea meeles"
     }
