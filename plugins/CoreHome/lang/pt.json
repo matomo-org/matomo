@@ -79,6 +79,7 @@
         "RemoveTotalsRowDataTable": "O relatório está a apresentar a linha dos totais %s Remover a linha de totais",
         "ReportGeneratedOn": "Relatório gerado a %s",
         "ReportGeneratedXAgo": "Relatório gerado há %s",
+        "ReportLowercase": "relatório",
         "ReportType": "Tipo de relatório",
         "ReportWithMetadata": "Relatório com metadados",
         "ReportingCategoryHelpPrefix": "Como é que a página de relatório \"%1$s → %2$s\" pode ajudar-me?",
