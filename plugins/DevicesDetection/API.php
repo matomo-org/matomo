@@ -10,11 +10,14 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use DeviceDetector\Parser\Device\AbstractDeviceParser;
+use Exception;
 use Piwik\Archive;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use DeviceDetector\Parser\Client\Browser as BrowserParser;
+use Piwik\Plugins\DevicesDetection\Columns\DeviceModel;
 
 /**
  * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
@@ -111,6 +114,11 @@ class API extends \Piwik\Plugin\API
      */
     public function getModel($idSite, $period, $date, $segment = false)
     {
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        if (DeviceModel::isDisabledByCompliancePolicy($idSite)) {
+            throw new Exception($translator->translate('DevicesDetection_DeviceModelReportDisabledByCompliancePolicy'));
+        }
+
         $dataTable = $this->getDataTable('DevicesDetection_models', $idSite, $period, $date, $segment);
 
         $dataTable->filter(function (DataTable $table) {
