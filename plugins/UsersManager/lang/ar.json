@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "مث",
+        "Active": "مفعل",
         "AllWebsites": "كافة المواقع",
         "ApplyToAllWebsites": "تطبيق على كافة المواقع",
         "ClickHereToDeleteTheCookie": "انقر هنا لحذف الكوكيز وليتتبع Matomo زياراتك",
@@ -23,6 +24,7 @@
         "PrivView": "مشاهدة",
         "ReportDateToLoadByDefault": "تاريخ التقرير ليتم تحميله",
         "ReportToLoadByDefault": "التقرير الافتراضي",
+        "Status": "الحالة",
         "TheLoginScreen": "شاشة تسجيل الدخول",
         "ThereAreCurrentlyNRegisteredUsers": "يوجد حالياً %s مستخدم مسجل.",
         "TwoFactorAuthentication": "المصادقة الثنائية",
