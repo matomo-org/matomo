@@ -15,6 +15,7 @@ use Piwik\Columns\Dimension;
 use Piwik\Plugin;
 use Piwik\Plugins\AIAgents\Providers\AgentAbstract;
 use Piwik\Plugins\AIAgents\Providers\ChatGPT;
+use Piwik\Plugins\AIAgents\Providers\NovaAct;
 
 class AIAgents extends Plugin
 {
@@ -75,6 +76,7 @@ class AIAgents extends Plugin
     {
         return [
             ChatGPT::getInstance(),
+            NovaAct::getInstance(),
         ];
     }
 }
