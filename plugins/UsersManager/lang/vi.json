@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "2FA",
+        "Active": "Kích hoạt",
         "AllWebsites": "Tất cả các website",
         "AnonymousUser": "Người dùng ẩn danh",
         "AnonymousUserHasViewAccess": "Lưu ý: Người dùng %1$s có truy cập %2$s đến website này.",
@@ -37,6 +38,7 @@
         "PrivView": "Xem",
         "ReportDateToLoadByDefault": "Báo cáo theo ngày nạp mặc định",
         "ReportToLoadByDefault": "Báo cáo nạp mặc định",
+        "Status": "Trạng thái",
         "TheLoginScreen": "Màn hình đăng nhập",
         "ThereAreCurrentlyNRegisteredUsers": "Hiện tại có %s người dùng đăng ký.",
         "TypeYourPasswordAgain": "Gõ lại mật khẩu mới.",

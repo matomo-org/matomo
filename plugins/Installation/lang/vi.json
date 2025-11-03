@@ -13,6 +13,7 @@
         "DatabaseSetupLogin": "Đăng nhập",
         "DatabaseSetupServer": "Máy chủ cơ sở dữ liệu",
         "DatabaseSetupTablePrefix": "Bảng tiền tố",
+        "Email": "Email",
         "Extension": "Bổ sung",
         "Filesystem": "Tập tin hệ thống",
         "GoBackAndDefinePrefix": "Quay trở lại và xác định một số tiền tố cho các bảng Matomo",
