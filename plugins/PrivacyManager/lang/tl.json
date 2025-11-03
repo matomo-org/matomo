@@ -5,6 +5,7 @@
         "AnonymizeIpMaskLengtDescription": "Piliin kung gaano karaming byte ng IP ng bisita ang dapat na ikubli.",
         "AnonymizeIpMaskLength": "%1$s (na) byte - hal %2$s",
         "ClickHereSettings": "Mag-click dito upang i-access ang mga setting sa %s.",
+        "ComplianceTableSettingStatus": "Status",
         "CurrentDBSize": "Kasalukuyang laki ng database",
         "DBPurged": "DB purged",
         "DeleteDataInterval": "Tanggalin ang mga lumang data sa bawat",

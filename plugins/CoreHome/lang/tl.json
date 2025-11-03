@@ -3,6 +3,8 @@
         "CategoryNoData": "Walang data sa kategoryang ito. Subukan ang \"Isama ang lahat ng populasyon\".",
         "CheckForUpdates": "Suriin kung may mga update",
         "CheckPiwikOut": "Suriin ang Matomo!",
+        "ChooseWebsite": "Pumili ng website",
+        "ClickRowToExpandOrContract": "I-click ang hanay na ito, upang palawakin o ikontrata ang subtable",
         "CloseWidgetDirections": "Maaari mong isara ang widget na ito sa pamamagitan ng pag-click sa icon na 'X' na nasa tuktok ng widget.",
         "DataForThisReportHasBeenPurged": "Ang data para sa ulat na ito ay higit sa %s na buwang gulang at ito ay na-purge na.",
         "DataTableExcludeAggregateRows": "Ang pinagsama-samang mga hilera ay ipinapakita %s Itago ang mga ito",
@@ -21,6 +23,7 @@
         "InjectedHostWarningIntro": "Ina-access mo na ngayon Matomo mula sa %1$s, ngunit ang Matomo ay na-configure upang tumakbo sa address na ito: %2$s.",
         "NoPrivilegesAskPiwikAdmin": "Ikaw ay naka-log-in bilang '%1$s' ngunit mukhang wala kang anumang pahintulot na naka-set sa Matomo. %2$s Tanungin ang iyong Matomo administrator (i-click upang i-email) %3$s upang bigyan ka ng 'view' access sa website.",
         "PeriodRange": "Pagitan",
+        "PivotBySubtable": "Ang ulat na ito ay hindi umiikot %1$s Paikutin ng %2$s",
         "ReportGeneratedOn": "Ang ulat ay ginawa sa %s",
         "ReportGeneratedXAgo": "Ang ulat ay ginawa %s na ang nakalilipas",
         "SharePiwikShort": "Matomo! Libreng web analytics. Maging may-ari ng iyong data",
@@ -28,14 +31,13 @@
         "ShowJSCode": "Ipakita ang Javascript code upang ipasok",
         "SubscribeAndBecomePiwikSupporter": "Magpatuloy sa isang secure na pahina sa pagbabayad gamit ang credit card (PayPal) upang maging isang Matomo Supporter!",
         "SupportPiwik": "Suportahan ang Matomo!",
+        "SystemSummaryPhpVersion": "Bersyon ng PHP",
         "TableNoData": "Walang data para sa talahanayang ito.",
         "ThereIsNoDataForThisReport": "Walang data para sa ulat na ito.",
         "UnFlattenDataTable": "Ang ulat ay flat %s Gawin itong hierarchical",
+        "UndoPivotBySubtable": "Ang ulat na ito ay napaikot %s I-undo ang pagpaikot",
         "ViewAllPiwikVideoTutorials": "Tingnan ang lahat Matomo Video Tutorials",
         "WebAnalyticsReports": "Mga Ulat ng Analitiko ng Web",
-        "YouAreUsingTheLatestVersion": "Ginagamit mo ang pinaka bagong bersyon ng Matomo",
-        "ClickRowToExpandOrContract": "I-click ang hanay na ito, upang palawakin o ikontrata ang subtable",
-        "UndoPivotBySubtable": "Ang ulat na ito ay napaikot %s I-undo ang pagpaikot",
-        "PivotBySubtable": "Ang ulat na ito ay hindi umiikot %1$s Paikutin ng %2$s"
+        "YouAreUsingTheLatestVersion": "Ginagamit mo ang pinaka bagong bersyon ng Matomo"
     }
 }

@@ -41,6 +41,7 @@
         "JSTracking_VisitorCustomVars": "Subaybayan ang mga custom na variable para sa bisitang ito",
         "JSTracking_VisitorCustomVarsDesc": "Halimbawa, mayroong pangalan ng variable na \"Type\" at value na \"Customer\"",
         "JavaScriptTracking": "Pagsubaybay ng JavaScript",
+        "Login": "Login",
         "LogoNotWriteableInstruction": "Upang gamitin ang iyong pasadyang logo sa halip na ang default na Matomo logo, bigyan ng pahintulot na magsulat sa direktoryong ito: %1$s kailangan ng Matomo ng write access para sa iyong mga logo na naka-imbak sa mga file ng %2$s.",
         "LogoUpload": "Piliin ang Logo na i-upload",
         "LogoUploadHelp": "Mangyaring mag-upload ng isang file sa format na %1$s na may pinakamababang taas na %2$s na pixel.",
