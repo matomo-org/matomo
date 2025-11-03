@@ -9,6 +9,11 @@
 
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -27,11 +32,24 @@ class DeviceModel extends Base
      * @param Request $request
      * @param Visitor $visitor
      * @param Action|null $action
-     * @return mixed
+     * @return string
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $parser    = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
+        $parser = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
+        $genericDevice = '';
+
+        $deviceType = $parser->getDeviceName();
+        if (!empty($deviceType)) {
+            $genericDevice = 'generic ' . $deviceType;
+        } elseif ($parser->isMobile()) {
+            $genericDevice = 'generic mobile';
+        }
+
+        // in privacy compliance mode, we can only detect/return generic device type, but not the model
+        if (self::isDisabledByCompliancePolicy($request->getIdSiteIfExists())) {
+            return $genericDevice;
+        }
 
         $model = $parser->getModel();
 
@@ -39,17 +57,7 @@ class DeviceModel extends Base
             return mb_substr($model, 0, 100);
         }
 
-        $deviceType = $parser->getDeviceName();
-
-        if (!empty($deviceType)) {
-            return 'generic ' . $deviceType;
-        }
-
-        if ($parser->isMobile()) {
-            return 'generic mobile';
-        }
-
-        return '';
+        return $genericDevice;
     }
 
     /**
@@ -61,5 +69,26 @@ class DeviceModel extends Base
     public function onAnyGoalConversion(Request $request, Visitor $visitor, $action)
     {
         return $visitor->getVisitorColumn($this->columnName);
+    }
+
+    /**
+     * Check if compliance policy disables device model detection
+     *
+     * @param int|null $idSite
+     * @return bool
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
+     */
+    public static function isDisabledByCompliancePolicy(?int $idSite = null): bool
+    {
+        // in privacy compliance mode, we can only detect/return generic device type, but not the model
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+            $cacheKey = DeviceModelDetectionDisabled::class;
+            return (($cache[$cacheKey] ?? false) === true);
+        }
+
+        return false;
     }
 }
