@@ -31,6 +31,7 @@
         "ExcludedReferrersHelpExamples": "Např. \"%1$s\" by odpovídalo \"%2$s\" a \"%3$s\", ale ne \"%4$s\"",
         "ExcludedReferrersHelpSubDomains": "Chcete-li také vyloučit všechny subdomény určitého hostitelského jména, přidejte před něj tečku, např. \"%1$s\" vyloučí \"%2$s\", ale také všechny jeho subdomény jako \"%3$s\".",
         "ExcludedUserAgents": "Vyloučení uživatelští agenti",
+        "ExclusionTypeOptionCustom": "Vlastní",
         "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Vložte seznam uživatelských agentů, které mají být vyloučeny ze sledování Matomem.",
         "GlobalExcludedUserAgentHelp2": "Tuto funkci můžete využít k vyloučení některých robotů ze sledování.",

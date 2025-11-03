@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "2FA",
+        "Active": "Povolen",
         "AddExistingUser": "Přidat existujícího uživatele",
         "AddSuperuserAccessConfirm": "Přidělení superuživatelského přístupu uživateli umožní mít plnou kontrolu nad systémem Matomo a mělo by se provádět střídmě.",
         "AddUserNoInitialAccessError": "Novým uživatelům musí být přidělen přístup k webové stránce, nastavte prosím parametr 'initialIdSite'.",
@@ -148,6 +149,7 @@
         "SettingRestrictLoginEmailDomainsErrorOtherDomainsInUse": "Nastavení domén není možné, protože jiné domény (%s) již používají jiní uživatelé. Chcete-li toto nastavení změnit, musíte buď odstranit uživatele s jinými doménami, nebo musíte povolit i tyto domény.",
         "SettingRestrictLoginEmailDomainsHelp": "Tato funkce omezuje e-mailové domény, které lze použít při pozvání, přidání nebo aktualizaci uživatelů. To je dobré pro ochranu soukromí, protože to může zabránit sdílení dat s třetími stranami. Může také zlepšit zabezpečení tím, že zabrání uživatelům změnit e-mailovou adresu na osobní e-mail. Navíc může fungovat jako další vrstva ochrany proti bezpečnostním útokům. Například náhodným překlepem v e-mailové adrese.",
         "SettingRestrictLoginEmailDomainsHelpInUse": "V současné době se tyto e-mailové domény používají a bylo by třeba je povolit:",
+        "Status": "Stav",
         "SuperUserAccess": "Přístup superuživatele",
         "SuperUserAccessManagement": "Spravovat super-uživatelský přístup",
         "SuperUserAccessManagementGrantMore": "Zde můžete přidělovat super-uživatelský přístup jiným uživatelům Matoma. Používejte tuto funkci opatrně.",
