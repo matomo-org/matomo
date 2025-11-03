@@ -1,22 +1,25 @@
 {
     "Ecommerce": {
-        "PluginDescription": "電子商務讓你可以在使用者將產品放到購物車、或是轉換電子商務銷售時追蹤。也能追蹤產品、產品分類查看數，以及棄用的購物車。",
-        "Sales": "銷售",
+        "EcommerceLogSubcategoryHelp1": "電商紀錄提供工作階段級別粒度的資料讓您能夠貫覽每個用戶從下單或放棄購物車的全流程。這有助您瞭解用戶在下單前後的動作，找到作改善的機會。",
+        "EcommerceLogSubcategoryHelp2": "此頁面資料爲即時更新。",
+        "LifeTimeValue": "電子商務總期間價值",
+        "LifeTimeValueDescription": "這位顧客在所有訪問中的電子商務收益總計：屬於訪客 ID %s 的所有電子商務訂單收益總和。",
+        "NumberOfItems": "購物車中的項目數量",
         "Order": "訂單",
         "OrderId": "訂單 ID",
+        "OrderValue": "訂單值",
         "Orders": "訂單",
+        "PluginDescription": "電子商務讓你可以在使用者將產品放到購物車、或是轉換電子商務銷售時追蹤。也能追蹤產品、產品分類查看數，以及棄用的購物車。",
+        "ProductSubcategoryHelp": "產品視圖能幫您確定不同的產品與分類的表現是好還是差，讓您瞭解與您的挑選產品及商店頁面有關的趨勢與機遇。",
+        "Sales": "銷售",
+        "SalesAdjective": "銷售 %s",
+        "SalesBy": "由 %s 銷售",
         "ViewedProductCategory": "檢視的產品分類",
         "ViewedProductName": "檢視的產品名稱",
         "ViewedProductPrice": "檢視的產品價格",
         "ViewedProductSKU": "檢視的產品最小存貨單位",
-        "SalesBy": "由 %s 銷售",
-        "SalesAdjective": "銷售 %s",
-        "NumberOfItems": "購物車中的項目數量",
-        "OrderValue": "訂單值",
-        "LifeTimeValue": "電子商務總期間價值",
-        "LifeTimeValueDescription": "這位顧客在所有訪問中的電子商務收益總計：屬於訪客 ID %s 的所有電子商務訂單收益總和。",
-        "VisitorProfileLTV": "為 %1$s 產生總期間收益。",
+        "VisitorProfileAbandonedCartSummary": "棄用了 %1$s 個購物車，包含 %2$s 項商品，總價值 %3$s。",
         "VisitorProfileItemsAndOrders": "在 %2$s 個訂單中購買了 %1$s 項商品。",
-        "VisitorProfileAbandonedCartSummary": "棄用了 %1$s 個購物車，包含 %2$s 項商品，總價值 %3$s。"
+        "VisitorProfileLTV": "為 %1$s 產生總期間收益。"
     }
 }
