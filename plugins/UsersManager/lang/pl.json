@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "2SA",
+        "Active": "Aktywna",
         "AddExistingUser": "Dodaj istniejącego użytkownika",
         "AllWebsites": "Wszystkie strony",
         "AnonymousAccessConfirmation": "Zamierzasz przyznać anonimowemu użytkownikowi dostęp 'podgląd' do tego serwisu. To oznacza, że raporty analityczne i informacje o odwiedzających będą publicznie dostępne dla każdego nawet bez loginu. Czy na pewno chcesz kontynuować?",
@@ -76,6 +77,7 @@
         "ResetTwoFactorAuthenticationInfo": "Jeśli użytkownik nie może zalogować się po utracie kodów dostępu lub utracie tokena sprzętowego, możesz zresetować uwierzytelnianie 2 składnikowe dla niego, aby umożliwić ponowne logowanie.",
         "Role": "Funkcja",
         "SaveBasicInfo": "Zapisz Podstawowe Info",
+        "Status": "Status",
         "SuperUserAccessManagement": "Zarządzaj dostępem Super Użytkowników",
         "SuperUserAccessManagementGrantMore": "Możesz tu przydzielać dostęp Super Użytkownika innym użytkownikom Matomo'a. Proszę używaj z rozwagą.",
         "SuperUserAccessManagementMainDescription": "Super Użytkownicy mają najwyższe uprawnienia w systemie. Mogą zarządzać wszystkimi zadaniami jak: dodawanie strony do monitoringu, użytkowników, aktywowaći deaktywować wtyczki, zmieniać uprawnienia innym użytkownikom, a także instalować nowe wtyczki z Marketu.",
