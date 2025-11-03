@@ -7,6 +7,10 @@
         "CampaignContent": "Kandungan kempen",
         "CampaignContentHelp": "Parameter ini sering digunakan apabila anda menguji berbilang iklan dan akan memasukkan nama setiap iklan untuk melihat yang paling berkesan untuk mendorong trafik.",
         "CampaignGroup": "Kumpulan Kempen",
-        "ColumnWebsite": "Laman Web"
+        "CampaignMedium": "Medium Kempen",
+        "CampaignSource": "Sumber Kempen",
+        "ColumnWebsite": "Laman Web",
+        "SubmenuWebsitesOnly": "Laman web",
+        "Websites": "Laman web"
     }
 }
