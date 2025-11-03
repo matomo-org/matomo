@@ -14,10 +14,7 @@
 
       <div id="ajaxLoadingDiv" style="display:none;">
         <div class="loadingPiwik">
-          <img
-            src="plugins/Morpheus/images/loading-blue.gif"
-            :alt="translate('General_LoadingData')"
-          />
+          <MatomoLoader />
           {{ translate('General_LoadingData') }}
         </div>
         <div class="loadingSegment">
@@ -77,11 +74,12 @@
 <script lang="ts">
 import { defineComponent, nextTick } from 'vue';
 import {
-  translate,
-  Matomo,
-  NotificationsStore,
-  ContentTable,
   AjaxHelper,
+  ContentTable,
+  Matomo,
+  MatomoLoader,
+  NotificationsStore,
+  translate,
 } from 'CoreHome';
 import { Form } from 'CorePluginsAdmin';
 import AddReport from '../AddReport/AddReport.vue';
@@ -194,6 +192,7 @@ export default defineComponent({
     },
   },
   components: {
+    MatomoLoader,
     AddReport,
     ListReports,
   },

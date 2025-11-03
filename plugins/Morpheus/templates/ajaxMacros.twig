@@ -5,7 +5,8 @@
 {% macro loadingDiv(id='ajaxLoadingDiv') %}
 <div id="{{ id }}" style="display:none;">
     <div class="loadingPiwik">
-        <img src="plugins/Morpheus/images/loading-blue.gif" alt="{{ 'General_LoadingData'|translate }}" />{{ 'General_LoadingData'|translate }}
+        <span class="matomo-loader"><span></span><span></span><span></span></span>
+        {{ 'General_LoadingData'|translate }}
     </div>
     <div class="loadingSegment">
         {{ 'SegmentEditor_LoadingSegmentedDataMayTakeSomeTime'|translate }}
