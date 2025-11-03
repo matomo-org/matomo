@@ -21,6 +21,7 @@
         "Optional": "ოფციონალური",
         "Password": "პაროლი",
         "PasswordDoNotMatch": "პაროლი არ დაემთხვა",
+        "PasswordRepeat": "პაროლი (გამეორება)",
         "PercentDone": "%s %% შესრულდა",
         "PleaseFixTheFollowingErrors": "გთხოვთ, შეასწოროთ შემდეგი შეცდომები",
         "Requirements": "Matomo მოთხოვნები",
