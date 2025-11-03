@@ -261,9 +261,9 @@ export default defineComponent({
     },
   },
   components: {
-    MatomoLoader,
     ActivityIndicator,
     Field,
+    MatomoLoader,
     ValueInput,
   },
   data(): SegmentGeneratorState {
