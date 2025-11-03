@@ -284,7 +284,7 @@ class Twig
     private function addFunctionExternalLink()
     {
         $externalLink = new TwigFunction('externallink', function ($url) {
-            return Url::getExternalLink($url);
+            return Url::getExternalLinkTag($url);
         });
         $this->twig->addFunction($externalLink);
     }

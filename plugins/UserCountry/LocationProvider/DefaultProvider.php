@@ -180,7 +180,7 @@ class DefaultProvider extends LocationProvider
                 'UserCountry_DefaultLocationProviderDesc2',
                 ['<strong>', '', '', '</strong>']
             )
-            . '</p><p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_163') . '" rel="noreferrer noopener"  target="_blank">'
+            . '</p><p>' . Url::getExternalLinkTag('https://matomo.org/faq/how-to/faq_163')
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</a></p>';
         return ['id' => self::ID, 'title' => self::TITLE, 'description' => $desc, 'order' => 1];
@@ -190,7 +190,7 @@ class DefaultProvider extends LocationProvider
     {
         $comment = Piwik::translate('UserCountry_DefaultLocationProviderDesc1') . ' ';
         $comment .= Piwik::translate('UserCountry_DefaultLocationProviderDesc2', [
-            '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '" rel="noreferrer noopener" target="_blank">', '', '', '</a>',
+            Url::getExternalLinkTag('https://matomo.org/docs/geo-locate/'), '', '', '</a>',
         ]);
 
         return $comment;

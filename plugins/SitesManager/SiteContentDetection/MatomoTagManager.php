@@ -52,7 +52,7 @@ class MatomoTagManager extends SiteContentDetectionAbstract
         return '<h3>' . Piwik::translate('SitesManager_SiteWithoutDataMatomoTagManager') . '</h3>
             <p>' . Piwik::translate(
             'SitesManager_SiteWithoutDataMatomoTagManagerNotActive',
-            ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tag-manager/') . '" rel="noreferrer noopener" target="_blank">', '</a>']
+            [Url::getExternalLinkTag('https://matomo.org/docs/tag-manager/'), '</a>']
         ) . '</p>';
     }
 }

@@ -38,7 +38,7 @@ class GetCountry extends Base
             $footerMessage = Piwik::translate("General_Note") . ': '
                 . Piwik::translate(
                     'UserCountry_DefaultLocationProviderExplanation',
-                    ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '">', '</a>']
+                    [Url::getExternalLinkTag('https://matomo.org/docs/geo-locate/'), '</a>']
                 );
 
             $view->config->show_footer_message = $footerMessage;

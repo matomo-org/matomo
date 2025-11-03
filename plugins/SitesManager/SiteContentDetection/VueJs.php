@@ -69,8 +69,8 @@ class VueJs extends SiteContentDetectionAbstract
             Piwik::translate(
                 'SitesManager_SiteWithoutDataVueDescription',
                 [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://github.com/AmazingDreams/vue-matomo') . '">vue-matomo</a>',
-                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/') . '">',
+                    Url::getExternalLinkTag('https://github.com/AmazingDreams/vue-matomo') . 'vue-matomo</a>',
+                    Url::getExternalLinkTag('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/'),
                     '</a>',
                 ]
             )

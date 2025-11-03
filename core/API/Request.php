@@ -487,7 +487,7 @@ class Request
         if (Access::getInstance()->hasSuperUserAccess()) {
             $ex = new \Piwik\Exception\Exception(Piwik::translate(
                 'Widgetize_TooHighAccessLevel',
-                ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/') . '" rel="noreferrer noopener">', '</a>']
+                [Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/faq_147/'), '</a>']
             ));
             $ex->setIsHtmlMessage();
             throw $ex;
@@ -507,8 +507,7 @@ class Request
             // option is set.
             $ex = new \Piwik\Exception\Exception(Piwik::translate(
                 'Widgetize_ViewAccessRequired',
-                ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/') .
-                '" rel="noreferrer noopener">https://matomo.org/faq/troubleshooting/faq_147/</a>']
+                [Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/faq_147/') . 'https://matomo.org/faq/troubleshooting/faq_147/</a>']
             ));
             $ex->setIsHtmlMessage();
             throw $ex;

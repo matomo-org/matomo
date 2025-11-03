@@ -82,7 +82,7 @@ class WordPress extends SiteContentDetectionAbstract
             Piwik::translate(
                 'SitesManager_SiteWithoutDataWordpressDescription',
                 [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/') . '">',
+                    Url::getExternalLinkTag('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/'),
                     '</a>',
                 ]
             )

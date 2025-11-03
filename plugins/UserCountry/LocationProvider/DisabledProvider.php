@@ -89,7 +89,7 @@ class DisabledProvider extends LocationProvider
     {
         $comment = Piwik::translate('UserCountry_DefaultLocationProviderDesc1') . ' ';
         $comment .= Piwik::translate('UserCountry_DefaultLocationProviderDesc2', array(
-            '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/geo-locate/') . '" rel="noreferrer noopener" target="_blank">', '', '', '</a>',
+            Url::getExternalLinkTag('https://matomo.org/docs/geo-locate/'), '', '', '</a>',
         ));
 
         return $comment;

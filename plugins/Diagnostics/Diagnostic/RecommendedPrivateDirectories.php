@@ -31,7 +31,7 @@ class RecommendedPrivateDirectories extends AbstractPrivateDirectories
             DiagnosticResult::STATUS_INFORMATIONAL,
             $this->translator->translate('Diagnostics_UrlsAccessibleViaBrowser') . ' ' .
             $this->translator->translate('General_ReadThisToLearnMore', [
-                '<a target="_blank" rel="noopener noreferrer" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/') . '">',
+                Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/how-do-i-fix-the-error-private-directories-are-accessible/'),
                 '</a>',
             ])
         ));

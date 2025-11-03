@@ -60,7 +60,7 @@ class CronArchivingLastRunCheck implements Diagnostic
             $comment = $this->translator->translate('Diagnostics_CronArchivingHasNotRun')
                 . '<br/><br/>' . $this->translator->translate(
                     'Diagnostics_CronArchivingRunDetails',
-                    [$coreArchiveShort, $mailto, $commandToRerun, '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">', '</a>']
+                    [$coreArchiveShort, $mailto, $commandToRerun, Url::getExternalLinkTag('https://matomo.org/docs/setup-auto-archiving/'), '</a>']
                 );
             return [DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_ERROR, $comment)];
         }
@@ -77,7 +77,7 @@ class CronArchivingLastRunCheck implements Diagnostic
             $this->translator->translate(
                 'Diagnostics_CronArchivingRunDetails',
                 [$coreArchiveShort, $mailto, $commandToRerun,
-                    '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">',
+                    Url::getExternalLinkTag('https://matomo.org/docs/setup-auto-archiving/'),
                     '</a>',
                 ]
             );
