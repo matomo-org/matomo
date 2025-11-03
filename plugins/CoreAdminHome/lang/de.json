@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "Um damit zu beginnen, Daten aufzuzeichnen und Einblicke in das Benutzerverhalten zu bekommen, müssen Sie das Tracking in Ihrer Webseite oder mobilen App installieren. Für Webseiten betten Sie den Tracking Code direkt vor dem %s Tag ein.",
         "JsTrackingCodeMissingEmail3": "Um Ihren Tracking Code zu finden und zu personalisieren, %1$shier klicken%2$s (oder schauen Sie sich die %3$sJavaScript Tracking Client Anleitung%4$s an).",
         "LearnMore": "Mehr dazu",
+        "Login": "Benutzer",
         "LogoNotWriteableInstruction": "Um Ihr eigenes Logo anstelle des Matomo Logos verwenden zu können werden Schreibrechte auf diesen Ordner benötigt: %1$s Matomo benötigt Schreibzugriff auf Ihre Logos die gespeichert sind in %2$s.",
         "LogoUpload": "Wählen Sie ein Logo für den Upload aus",
         "LogoUploadFailed": "Die hochgeladene Datei konnte nicht verarbeitet werden. Bitte überprüfen Sie, ob die Datei ein gültiges Format hat.",
