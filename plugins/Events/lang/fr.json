@@ -22,6 +22,7 @@
         "EventValue": "Valeur d'évènement",
         "EventValueTooltip": "La valeur totale de l'évènement est la somme des %1$s valeurs d'évènements %2$s entre un minimum de %3$s et un maximum de %4$s.",
         "Events": "Evènements",
+        "EventsSegmentHelp": "Pour sélectionner toutes les visites ayant déclenché un événement, utilisez : %s",
         "EventsSubcategoryHelp1": "La page \"Évènements\" propose des rapports sur les évènements personnalisés associés à votre site. Les évènements nécessitent généralement une configuration personnalisée. Une fois configuré, vous pouvez consulter les rapports par catégorie, par action et par nom.",
         "EventsSubcategoryHelp2": "Pour en savoir plus sur le suivi d'évènements, cliquez ici.",
         "EventsWithValue": "Evènements avec une valeur",
