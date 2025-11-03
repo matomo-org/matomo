@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "Aktivno",
         "AllWebsites": "Svi sajtovi",
         "AnonymousUser": "Anonimni korisnik",
         "AnonymousUserHasViewAccess": "Pažnja: korisnik %1$s ima %2$s nivo pristupa ovom sajtu.",
@@ -54,6 +55,7 @@
         "RemoveUserAccess": "Ukloni pristup '%1$s' za %2$s.",
         "ReportDateToLoadByDefault": "Datum izveštaja koji podrazumevano treba prikazati",
         "ReportToLoadByDefault": "Izveštaj koji podrazumevano treba prikazati",
+        "Status": "Status",
         "SuperUserAccessManagement": "Upravljanje superkorisničkim pristupima",
         "SuperUserAccessManagementGrantMore": "Ovde možete dodeljivati superkorisnički pristup ostalim Matomo korisnicima. Molimo vas da budete pažljivi.",
         "SuperUserAccessManagementMainDescription": "Superkorisnici imaju najviše privilegije. Oni mogu da obavljaju sve administrativne zadatke poput dodavanja novih sajtova, korisnika, promene privilegija korisnika, aktivacije i deaktivacije dodataka kao i instaliranja novih dodataka sa Marketa.",

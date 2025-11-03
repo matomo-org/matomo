@@ -47,6 +47,7 @@
         "JSTracking_VisitorCustomVars": "Praćenje korisnički definisanih promenljivih za ovog korisnika",
         "JSTracking_VisitorCustomVarsDesc": "Na primer, pomoću promenljive sa nazivom \"Tip\" i vrednošću \"Korisnik\".",
         "JavaScriptTracking": "Praćenje pomoću JavaScript-a",
+        "Login": "korisničko ime",
         "LogoNotWriteableInstruction": "Ukoliko želite da koristite sopstveni logotip umesto Matomo logotipa, dodelite pravila upisivanja sledećem direktorijumu: %1$s Matomo-u je potrebna dozvola upisivanja za vaše logotipe koji se nalaze u datotekama %2$s.",
         "LogoUpload": "Izaberite logo za kačenje",
         "LogoUploadFailed": "Datoteku nije moguće obraditi. Molimo vas da proverite da li je format datoteke validan.",
