@@ -71,12 +71,12 @@ class Cache
     public static function getCacheWebsiteAttributes($idSite)
     {
         if ('all' === $idSite) {
-            return array();
+            return [];
         }
 
         $idSite = (int)$idSite;
         if ($idSite <= 0) {
-            return array();
+            return [];
         }
 
         $cache = self::getCache();
@@ -109,7 +109,7 @@ class Cache
 
         Tracker::initCorePiwikInTrackerMode();
 
-        $content = array();
+        $content = [];
         /*
          * Updating cached websites attributes might be triggered by various events, including actions performed by non super users.
          * Therefore we execute below code as super user, to ensure the cache is built without restrictions.
@@ -127,13 +127,13 @@ class Cache
              *     public function getSiteAttributes($content, $idSite)
              *     {
              *         $sql = "SELECT info FROM " . Common::prefixTable('myplugin_extra_site_info') . " WHERE idsite = ?";
-             *         $content['myplugin_site_data'] = Db::fetchOne($sql, array($idSite));
+             *         $content['myplugin_site_data'] = Db::fetchOne($sql, [$idSite]);
              *     }
              *
              * @param array &$content Array mapping of site attribute names with values.
              * @param int $idSite The site ID to get attributes for.
              */
-            Piwik::postEvent('Tracker.Cache.getSiteAttributes', array(&$content, $idSite));
+            Piwik::postEvent('Tracker.Cache.getSiteAttributes', [&$content, $idSite]);
 
             $logger = StaticContainer::get(LoggerInterface::class);
             $logger->debug("Website $idSite tracker cache was re-created.");
@@ -189,10 +189,10 @@ class Cache
     public static function updateGeneralCache()
     {
         Tracker::initCorePiwikInTrackerMode();
-        $cacheContent = array(
+        $cacheContent = [
             'isBrowserTriggerEnabled' => Rules::isBrowserTriggerEnabled(),
             'lastTrackerCronRun' => Option::get('lastTrackerCronRun'),
-        );
+        ];
 
         /**
          * Triggered before the [general tracker cache](/guides/all-about-tracking#the-tracker-cache)
@@ -214,7 +214,7 @@ class Cache
          * @param array &$cacheContent Array of cached data. Each piece of data must be
          *                             mapped by name.
          */
-        Piwik::postEvent('Tracker.setTrackerCacheGeneral', array(&$cacheContent));
+        Piwik::postEvent('Tracker.setTrackerCacheGeneral', [&$cacheContent]);
         self::setCacheGeneral($cacheContent);
 
         $logger = StaticContainer::get(LoggerInterface::class);
@@ -243,10 +243,10 @@ class Cache
      *
      * @param array|int $idSites Array of idSites to clear cache for
      */
-    public static function regenerateCacheWebsiteAttributes($idSites = array())
+    public static function regenerateCacheWebsiteAttributes($idSites = [])
     {
         if (!is_array($idSites)) {
-            $idSites = array($idSites);
+            $idSites = [$idSites];
         }
 
         foreach ($idSites as $idSite) {
