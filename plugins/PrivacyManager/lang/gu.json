@@ -46,6 +46,7 @@
         "BackgroundColor": "બેકગ્રાઉન્ડ રંગ",
         "BuildYourOwn": "તમારું પોતાનું બનાવો",
         "ClickHereSettings": "%s સેટિંગ્સને ઍક્સેસ કરવા માટે અહીં ક્લિક કરો.",
+        "ComplianceTableSettingStatus": "સ્થિતિ",
         "ConsentExplanation": "સંમતિનો અર્થ એ છે કે વ્યક્તિઓને તેમના વ્યક્તિગત ડેટા પર કેવી રીતે પ્રક્રિયા કરવામાં આવે છે તેના વિશે પસંદગી અને નિયંત્રણ પ્રદાન કરવું.",
         "ConsentManager": "સંમતિ મેનેજર",
         "ConsentManagerConnected": "Matomo સાથે કામ કરવા માટે %1$s પહેલેથી કન્ફિગર્ડ હોય તેવું લાગે છે.",
