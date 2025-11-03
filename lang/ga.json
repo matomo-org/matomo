@@ -105,7 +105,7 @@
         "Comparisons": "Comparáidí",
         "ComplianceCNILDescription": "Tugann an tábla seo léargas ar cibé an bhfuil socruithe áirithe ag teacht le treoirlínte an CNIL. Ní ráthaíonn sé comhlíonadh iomlán dlíthiúil. Chun cáiliú don díolúine toilithe faoi rialacha an CNIL, ní mór na cumraíochtaí riachtanacha go léir a chur i bhfeidhm. Mura gcomhlíontar aon socrú, ní chomhlíontar na coinníollacha díolúine, agus ní mór toiliú a fháil ó úsáideoirí. Mura gcomhlíontar aon socrú, ní féidir le Matomo a chinneadh an bhfuil an riachtanas seo curtha i bhfeidhm. I gcásanna den sórt sin, ní mór na bearta seo a fhíorú de láimh.",
         "ComplianceCNILTitle": "Coinníollacha díolúine maidir le toiliú anailísíochta láithreán gréasáin CNIL",
-        "ComplianceCNILUnknownSettingOptOutNotes": "Ní mór rogha an diúltaithe a shocrú agus a chumrú de láimh",
+        "ComplianceCNILUnknownSettingOptOutNotes": "Ní mór rogha an diúltaithe a shocrú agus a chumrú de láimh. %1$sFoghlaim tuilleadh%2$s",
         "ComplianceCNILUnknownSettingOptOutTitle": "Rogha amach",
         "ComputedMetricAverage": "Avg. %1$s in aghaidh an %2$s",
         "ComputedMetricAverageDocumentation": "Meánluach \"%1$s\" in aghaidh \"%2$s\".",
