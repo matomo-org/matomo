@@ -67,8 +67,6 @@ class BotDetectorTest extends TestCase
             ['Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Perplexity-User/1.0; +https://perplexity.ai/perplexity-user)', 'Perplexity-User', 'ai_assistant'],
             ['Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36; Devin/1.0; +devin.ai', 'Devin', 'ai_assistant'],
             ['Google-NotebookLM', 'Google-NotebookLM', 'ai_assistant'],
-            ['Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36 Agent-NovaAct/0.9', 'NovaAct', 'ai_assistant'],
-            ['GoogleAgent/1.0', 'GoogleAgent', 'ai_assistant'],
 
         ];
     }

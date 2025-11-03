@@ -32,10 +32,6 @@ class BotDetector
         'Perplexity-User'      => 'ai_assistant',
         'Google-NotebookLM'    => 'ai_assistant',
         'Devin'                => 'ai_assistant',
-
-        // should below be agents instead?
-        'GoogleAgent'          => 'ai_assistant',
-        'NovaAct'              => 'ai_assistant',
     ];
 
     public function __construct(string $userAgent)

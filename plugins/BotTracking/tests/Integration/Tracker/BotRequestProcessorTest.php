@@ -159,9 +159,7 @@ class BotRequestProcessorTest extends IntegrationTestCase
             ['Gemini-Deep-Research/1.0', 'Gemini-Deep-Research'],
             ['Claude-User/3.0', 'Claude-User'],
             ['Perplexity-User/1.0', 'Perplexity-User'],
-            ['GoogleAgent/1.0', 'GoogleAgent'],
             ['Devin/1.0', 'Devin'],
-            ['NovaAct/1.0', 'NovaAct'],
         ];
     }
 

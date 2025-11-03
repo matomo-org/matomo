@@ -75,9 +75,7 @@ class TrackerTest extends IntegrationTestCase
             ['Gemini-Deep-Research/1.0', 'Gemini-Deep-Research', 'ai_assistant'],
             ['Claude-User/3.0', 'Claude-User', 'ai_assistant'],
             ['Perplexity-User/1.0', 'Perplexity-User', 'ai_assistant'],
-            ['GoogleAgent/1.0', 'GoogleAgent', 'ai_assistant'],
             ['Devin/1.0', 'Devin', 'ai_assistant'],
-            ['NovaAct/1.0', 'NovaAct', 'ai_assistant'],
         ];
     }
 
