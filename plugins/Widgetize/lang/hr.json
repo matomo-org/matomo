@@ -1,5 +1,17 @@
 {
     "Widgetize": {
-        "OpenInNewWindow": "Otvori u novom prozoru"
+        "DirectLink": "› direktna poveznica",
+        "DisplayDashboardInIframe": "Također možeš prikazati cijelu Matomo nadzornu ploču u svojoj aplikaciji ili webistranici u IFRAME-u (%1$svidi primjer%2$s). Parametar datuma se može postaviti na određeni datum u kalendaru, na „danas” ili „jučer”. Parametar razdoblja se može postaviti na „dan”, „tjedan”, „mjesec” ili „godina”. Parametar jezika se može postaviti na jezični kod prijevoda, kao što je language=hr. Na primjer, za idSite=1 i date=yesterday, možeš napisati:",
+        "DisplayDashboardInIframeAllSites": "Također možeš izraditi nadzornu ploču svih web-stranica kao widget u IFRAME-u (%1$svidi primjer%2$s)",
+        "EmbedIframe": "&rsaquo; ugradi Iframe",
+        "Intro": "S Matomom možeš %1$sizvesti svoje izvještaje web analitike%2$s na svoj blog, web-stranicu ili nadzornu ploču intranet … jednim klikom.",
+        "OpenInNewWindow": "Otvori u novom prozoru",
+        "PluginDescription": "Prikaži bilo koji Matomo izvještaj na svojoj web-stranici ili aplikaciji jednostavnom HTML oznakom „embed”.",
+        "Reports": "Izradi izvještaje kao widgete",
+        "SelectAReport": "Odaberi izvještaj i kopiraj i zalijepi dolje navedeni kod za ugradnju widgeta na svoju stranicu:",
+        "TooHighAccessLevel": "Ovaj korisnik ima pristup superkorisnika. Ugrađivanje widgeta s autentifikacijom tokena superkorisnika nije dozvoljeno. %1$sViše informacija potraži u Često postavljanim pitanjima.%2$s",
+        "TopLinkTooltip": "Izvezi Matomo izvještaje kao widgete i ugradi nadzornu ploču u svoju aplikaciju kao iframe.",
+        "ViewAccessRequired": "Ovaj korisnik ima barem neka prava pisanja. Mogu se koristiti samo tokeni korisnika koji imaju samo pristup za prikaz. Za više informacija pogledaj %1$s.",
+        "ViewableAnonymously": "Ako želi da tvoji widgeti budu vidljivi svima, najprije moraš postaviti dozole za „prikaz” anonimnom korisniku u odjeljku %1$sUpravljanje korisnicima%2$s. <br>Alternativno, ako objavljuješ widgete na stranici koja je zaštićena lozinkom ili na privatnoj stranici, ne moraš nužno dozvoliti „anonimnom” korisniku prikaz tvojih izvještaja. U tom slučaju možeš dodati tajni parametar <code>token_auth</code> u URL widgeta. Svojim tokenima za autorizaciju možeš upravljati na svojoj %3$sstranici Sigurnost%4$s."
     }
 }

@@ -13,6 +13,7 @@
         "DeviceTypes": "Vrste uređaja",
         "DevicesDetection": "Uređaji posetitelja",
         "MobileApp": "Mobilna aplikacija",
+        "UserAgent": "Korisnički agent",
         "WidgetBrowsers": "Pretraživać posjetitelja",
         "dataTableLabelTypes": "Vrsta"
     }

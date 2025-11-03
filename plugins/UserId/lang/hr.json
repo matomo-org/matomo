@@ -3,6 +3,8 @@
         "PluginDescription": "Prikazuje izvještaje o korisniku",
         "ThereIsNoDataForThisReportHelp": "%1$sPročitaj korisnički priručnik i saznaj kako generirati podatke za ovaj izvještaj.%2$s",
         "UserId": "Korisnički ID",
+        "UserIdDisabledSettingRequirementNote": "Prikupljanje korisničkih ID-a tijekom praćenja mora biti deaktivirano.",
+        "UserIdDisabledSettingTitle": "Korisničiki ID deaktiviran",
         "UserIdSegmentHelp": "bilo koji neprazan jedinstveni znakovni niz koji identificira korisnika (kao što je e-mail adresa ili korisničko ime).",
         "UserReportDocumentation": "Prikazuje posjete i ostale opće metrike za svaki pojedinačni korisnički ID.",
         "UserReportTitle": "Korisnički ID-evi",
