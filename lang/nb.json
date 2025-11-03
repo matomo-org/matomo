@@ -282,6 +282,7 @@
         "Locale": "nb_NO.UTF-8",
         "Logout": "Logg ut",
         "MainMetrics": "Hovedmåltall",
+        "ManagePlugins": "Administrasjon av utvidelser",
         "Matches": "Treff",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, tidligere kjent som Piwik, er et samarbeidsprosjekt som har kommet deg i hende på vegne av %7$sMatomo-laget%8$s og andre bidragsytere. <br> Hvis du liker Matomo kan du bidra: finn ut hvordan du kan %3$sbidra til Matomo%4$s, eller %5$sdoner nå%6$s for å hjelpe til å kronerulle neste Matomo-utgave.",
         "MaximumNumberOfPeriodsComparedIs": "Maksimalt kan %s perioder sammenlignes samtidig.",
