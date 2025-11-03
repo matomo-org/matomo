@@ -1,6 +1,7 @@
 {
     "Referrers": {
         "AllReferrersReportDocumentation": "Acest raport arată toati referali într-un singur raport unificat, care listează toate site-urile, cuvintele cheie de căutare și campanii utilizate de vizitatorii dvs. pentru a găsi site-ul dumneavoastră.",
+        "CampaignSource": "Sursa",
         "Campaigns": "Campanii",
         "CampaignsDocumentation": "Vizitatorii care au venit pe site-ul dvs. ca rezultat al unei campanii. %1$s A se vedea raportul %2$s pentru mai multe detalii.",
         "ColumnCampaign": "Campanie",
@@ -18,9 +19,9 @@
         "KeywordsReportDocumentation": "Acest raport arată cuvintele cheie cu care utilizatorii au fost căutați pentru înainte de sa fie menționati la site-ul dumneavoastră. %s Făcând clic pe un rând din tabel, puteți vedea distribuția de motoare de căutare care au fost interogate pentru cuvântul cheie.",
         "Referrer": "referal",
         "ReferrerName": "Nume referal",
+        "ReferrerTypes": "Tipuri Canale",
         "Referrers": "Referenti",
         "ReferrersOverview": "Referenți Prezentare generală",
-        "ReferrerTypes": "Tipuri Canale",
         "SearchEngines": "Motoare căutare",
         "SearchEnginesDocumentation": "Un vizitator a fost menționat de site-ul dvs. cu un motor de căutare. %1$s A se vedea raportul %2$s pentru mai multe detalii.",
         "SearchEnginesReportDocumentation": "Acest raport arată care motoare de căutare folosite de utilizatorilor pe site-ul dumneavoastră. %s Făcând clic pe un rând din tabel, puteți vedea ce utilizatorii au fost în căutarea pentru utilizarea unui anumit motor de căutare.",
