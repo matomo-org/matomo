@@ -1,6 +1,9 @@
 {
     "Goals": {
+        "CategoryTextGeneral_Actions": "עמודים",
         "CategoryTextReferrers_Referrers": "הפניות",
-        "ColumnConversions": "המרות"
+        "ColumnConversions": "המרות",
+        "EntryPages": "עמודי כניסה",
+        "PageTitles": "כותרות עמוד"
     }
 }
