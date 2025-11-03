@@ -35,6 +35,7 @@
         "JSTracking_VisitorCustomVars": "इस आगंतुक के लिए कस्टम चर खोजे",
         "JSTracking_VisitorCustomVarsDesc": "उदाहरण के लिए, चर नाम \"प्रकार\" के साथ और मूल्य \"ग्राहक\".",
         "JavaScriptTracking": "जावास्क्रिप्ट ट्रैकिंग",
+        "Login": "लॉगिन",
         "LogoUpload": "अपलोड करने के लिए किसी लोगो को चुनें",
         "MenuDiagnostic": "डायग्नोस्टिक",
         "MenuGeneralSettings": "सामान्य सेटिंग्स",
