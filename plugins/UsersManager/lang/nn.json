@@ -1,5 +1,7 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
+        "Active": "Aktivt",
         "AllWebsites": "Alle nettstader",
         "ApplyToAllWebsites": "Gjer gjeldande for alle nettstader",
         "ClickHereToDeleteTheCookie": "Klikk her for å sletta informasjonskapselen slik at Matomo loggar dine vitjingar",
@@ -19,7 +21,9 @@
         "PrivAdmin": "Administrator",
         "PrivNone": "Inga tilgang",
         "PrivView": "Vis",
+        "Status": "Status",
         "TheLoginScreen": "Innloggingsskjermen",
+        "TwoFactorAuthentication": "To-faktor autentisering",
         "TypeYourPasswordAgain": "Skriv ditt nye passord på nytt.",
         "User": "Brukar",
         "Username": "Brukarnamn",
