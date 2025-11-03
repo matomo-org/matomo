@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "divfaktoru autentifikācija",
+        "Active": "Aktīvs",
         "AddExistingUser": "Pievienot esošu lietotāju",
         "AllWebsites": "Visas vietnes",
         "AnonymousAccessConfirmation": "Jūs gatavojaties piešķirt anonīmajam lietotājam “skata” piekļuvi šai tīmekļa vietnei. Tas nozīmē, ka jūsu analīzes atskaites un jūsu apmeklētāju informācija būs publiski skatāma ikvienam pat bez pieteikšanās. Vai tiešām vēlaties turpināt?",
@@ -54,6 +55,7 @@
         "ResetTwoFactorAuthentication": "Atiestatīt divfaktoru autentifikāciju",
         "ResetTwoFactorAuthenticationInfo": "Ja lietotājs pazaudējis atkopšanas kodus vai autentifikācijas ierīci, jūs varat atiestatīt lietotāja divfaktoru autentifikāciju, lai lietotājs varētu atkal pieslēgties.",
         "SaveBasicInfo": "Saglabāt pamatinformāciju",
+        "Status": "Statuss",
         "TheLoginScreen": "Pieteikšanās skats",
         "ThereAreCurrentlyNRegisteredUsers": "Pašlaik ir %s reģistrēti lietotāji.",
         "TokenSuccessfullyGenerated": "Žetons veiksmīgi izveidots",
