@@ -8,6 +8,11 @@
 			<value>non_compliant</value>
 			<notes>Ecommerce must be disabled</notes>
 		</row>
+        <row>
+            <name>Device model detection disabled</name>
+            <value>non_compliant</value>
+            <notes>Device model detection and device model report must be disabled.</notes>
+        </row>
 		<row>
 			<name>Turn off visits log and visitor profiles</name>
 			<value>non_compliant</value>
