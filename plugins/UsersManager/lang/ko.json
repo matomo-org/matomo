@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "활성",
         "AllWebsites": "모든 웹사이트",
         "AnonymousUser": "익명 사용자",
         "AnonymousUserHasViewAccess": "참고: %1$s 사용자는 이 웹사이트의 %2$s 접근을 가집니다.",
@@ -53,6 +54,7 @@
         "RemoveUserAccess": "%2$s의 '%1$s' 보기 권한 제거",
         "ReportDateToLoadByDefault": "기본 보고서 날짜",
         "ReportToLoadByDefault": "기본 보고서",
+        "Status": "상태",
         "SuperUserAccessManagement": "슈퍼 유저 권한 관리",
         "SuperUserAccessManagementGrantMore": "Matomo 내 다른 사용자에게 슈퍼 유저 권한을 줄 수 있습니다. 이 기능을 조심히 사용해주세요.",
         "SuperUserAccessManagementMainDescription": "슈퍼 유저는 가장 높은 권한을 가집니다. 그들은 모든 관리 업무를 수행할 수 있습니다. 여기에는 감시할 새로운 웹사이트 추가, 새로운 사용자 추가, 사용자 권한 변경, 플러그인 활성화 및 비활성화, 마켓플레이스에서 새로운 플러그인 설치까지 가능합니다.",

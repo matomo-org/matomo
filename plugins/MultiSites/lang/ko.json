@@ -1,8 +1,10 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardTitle": "전체 웹사이트",
         "Evolution": "변화 추이",
         "LoadingWebsites": "웹사이트 로딩중",
         "PluginDescription": "유용한 '모든 웹사이트' 대시보드에서 모든 웹사이트와 앱을 보고 비교함",
-        "TopLinkTooltip": "웹사이트의 모든 웹분석 통계를 비교합니다."
+        "TopLinkTooltip": "웹사이트의 모든 웹분석 통계를 비교합니다.",
+        "TotalPageviews": "전체 페이지뷰"
     }
 }

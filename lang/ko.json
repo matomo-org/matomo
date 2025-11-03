@@ -253,6 +253,7 @@
         "Locale": "ko_KR.UTF-8",
         "Logout": "로그아웃",
         "MainMetrics": "주요 지표",
+        "ManagePlugins": "플러그인 관리",
         "Measurable": "측정가능한",
         "Measurables": "측정가능한 것",
         "MediumToHighTrafficItIsRecommendedTo": "비교적 트래픽이 높은 웹사이트는 오늘의 보고서 처리 간격을 30분 (%1$s초) 또는 1시간 (%2$s초)로 설정하는 것이 좋습니다.",
