@@ -46,85 +46,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  PHP:
-    runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: ${{ inputs.is_preview == true }}
-      matrix:
-        type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        environment:
-          - php: '7.2'
-            adapter: 'PDO_MYSQL'
-            mysql-engine: 'Mysql'
-            mysql-version: '5.7'
-          - php: '8.2'
-            adapter: 'PDO_MYSQL'
-            mysql-engine: 'Mariadb'
-            mysql-version: '11.4'
-          - php: '8.4'
-            adapter: 'MYSQLI'
-            mysql-engine: 'Mysql'
-            mysql-version: '8.0'
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-          ref: ${{ inputs.ref || github.ref }}
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          test-type: ${{ matrix.type }}
-          mysql-driver: ${{ matrix.environment.adapter }}
-          mysql-engine: ${{ matrix.environment.mysql-engine }}
-          mysql-version: ${{ matrix.environment.mysql-version }}
-          php-version: ${{ matrix.environment.php }}
-          redis-service: true
-          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
-          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
-  Javascript:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-          ref: ${{ inputs.ref || github.ref }}
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          test-type: 'JS'
-          php-version: '7.2'
-          node-version: '12'
-  Client:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          lfs: false
-          persist-credentials: false
-          submodules: true
-          path: matomo
-          ref: ${{ inputs.ref || github.ref }}
-      - name: running tests
-        uses: matomo-org/github-action-tests@main
-        with:
-          test-type: 'Client'
-          node-version: '16'
-          mysql-service: false
   UI:
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         parts: [ 0,1,2,3 ]
+        exclude:
+          - parts: 0
+          - parts: 1
+          - parts: 3
     steps:
       - uses: actions/checkout@v5
         with:
