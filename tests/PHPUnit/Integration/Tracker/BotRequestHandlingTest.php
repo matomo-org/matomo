@@ -196,7 +196,7 @@ class BotRequestHandlingTest extends IntegrationTestCase
                                 {
                                     BotRequestHandlingTest::$eventsTriggered['RequestProcessor'][] = 'processRequestParams';
 
-                                    return false;
+                                    return true; // abort to avoid further processing
                                 }
                             },
                         ];
