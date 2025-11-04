@@ -12,6 +12,7 @@ namespace Piwik\Policy;
 use Exception;
 use Piwik\Tracker\Cache;
 use Piwik\Plugin\Manager;
+use Piwik\Policy\Exceptions\CompliancePolicyNotFoundException;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\Traits\Getters\ConfigGetterTrait;
@@ -138,7 +139,7 @@ class PolicyManager
 
     /**
      * @param class-string<CompliancePolicy> $policyClass
-     * @throws \Exception when $policyClass is not a valid policy
+     * @throws CompliancePolicyNotFoundException when $policyClass is not a valid policy
      */
     public static function isPolicyActive(string $policyClass, ?int $idSite = null): bool
     {
@@ -159,7 +160,7 @@ class PolicyManager
     /**
      * @param class-string<CompliancePolicy> $policyClass
      * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
-     * @throws \Exception when $policyClass is not a valid policy
+     * @throws CompliancePolicyNotFoundException when $policyClass is not a valid policy
      */
     public static function getAllUnknownSettings(string $policyClass): array
     {
@@ -169,24 +170,27 @@ class PolicyManager
 
     /**
      * @param class-string<CompliancePolicy> $policyClass
-     * @throws \Exception when $policyClass is not a valid policy
+     * @throws CompliancePolicyNotFoundException when $policyClass is not a valid policy
 
      */
     private static function checkPolicyIsValid(string $policyClass): void
     {
         if (!is_a($policyClass, CompliancePolicy::class, true)) {
-            throw new Exception('Invalid compliance policy.');
+            throw new CompliancePolicyNotFoundException('Invalid compliance policy.');
         }
     }
 
     /**
      * @param class-string<CompliancePolicy> $policyClass
-     * @throws \Exception when $policyClass is not a valid policy
+     * @throws CompliancePolicyNotFoundException when $policyClass is not a valid policy
      */
     public static function setPolicyActiveStatus(string $policyClass, bool $isActive, ?int $idSite = null): void
     {
         self::checkPolicyIsValid($policyClass);
         $policyClass::setActiveStatus($idSite, $isActive);
+        if (!is_null($idSite)) {
+            Cache::deleteCacheWebsiteAttributes($idSite);
+        }
         Cache::deleteTrackerCache();
     }
 
