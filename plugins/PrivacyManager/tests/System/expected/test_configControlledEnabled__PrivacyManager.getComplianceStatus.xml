@@ -43,6 +43,11 @@
 			<value>compliant</value>
 			<notes>Retention period is set to 180 days.</notes>
 		</row>
+        <row>
+            <name>Screen resolution detection disabled</name>
+            <value>compliant</value>
+            <notes>Screen resolution detection and screen resolution report must be disabled.</notes>
+        </row>
 		<row>
 			<name>User ID disabled</name>
 			<value>compliant</value>
