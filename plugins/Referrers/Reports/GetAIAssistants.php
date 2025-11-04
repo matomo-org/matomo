@@ -7,14 +7,17 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+declare(strict_types=1);
+
 namespace Piwik\Plugins\Referrers\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\CoreVisualizations\Visualizations\HtmlTable;
-use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Pie;
+use Piwik\Plugins\Goals\Visualizations\Goals;
 use Piwik\Plugins\Referrers\Columns\AIAssistant;
 use Piwik\Report\ReportWidgetFactory;
+use Piwik\Request;
 use Piwik\Widget\WidgetsList;
 
 class GetAIAssistants extends Base
@@ -25,11 +28,15 @@ class GetAIAssistants extends Base
         $this->dimension = new AIAssistant();
         $this->name = Piwik::translate('Referrers_AIAssistants');
         $this->documentation = Piwik::translate('Referrers_AIAssistantsReportDocumentation', '<br />');
-        $this->actionToLoadSubTables = 'getUrlsForAIAssistant';
         $this->hasGoalMetrics = true;
         $this->order = 13;
-
         $this->subcategoryId = 'Referrers_AIAssistants';
+
+        if (Request::fromRequest()->getStringParameter('secondaryDimension', '') === 'entryPageTitle') {
+            $this->actionToLoadSubTables = 'getEntryPageTitlesForAIAssistant';
+        } else {
+            $this->actionToLoadSubTables = 'getEntryPageUrlsForAIAssistant';
+        }
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
@@ -40,7 +47,7 @@ class GetAIAssistants extends Base
 
     public function getDefaultTypeViewDataTable()
     {
-        return Pie::ID;
+        return HtmlTable\AllColumns::ID;
     }
 
     public function configureView(ViewDataTable $view)
@@ -52,6 +59,14 @@ class GetAIAssistants extends Base
 
         if ($view->isViewDataTableId(HtmlTable::ID)) {
             $view->config->disable_subtable_when_show_goals = true;
+
+            if (!$view->isViewDataTableId(Goals::ID)) {
+                $secondaryDimensions = [
+                    'entryPageUrl'   => Piwik::translate('Actions_ColumnEntryPageURL'),
+                    'entryPageTitle' => Piwik::translate('Actions_ColumnEntryPageTitle'),
+                ];
+                $view->config->setSecondaryDimensions($secondaryDimensions, 'entryPageUrl');
+            }
         }
     }
 }
