@@ -11,6 +11,7 @@ namespace Piwik\Plugins\PrivacyManager\Settings;
 
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Config;
+use Piwik\Plugins\PrivacyManager\ReferrerAnonymizer;
 use Piwik\Settings\Interfaces\CustomSettingInterface;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
@@ -19,28 +20,28 @@ use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Policy\CnilPolicy;
 
 /**
- * @implements CustomSettingInterface<int|null>
- * @implements PolicyComparisonInterface<int|null>
- * @implements SettingValueInterface<int|null>
+ * @implements CustomSettingInterface<string|null>
+ * @implements PolicyComparisonInterface<string|null>
+ * @implements SettingValueInterface<string|null>
  */
-class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInterface, SettingValueInterface
+class ReferrerAnonymisation implements CustomSettingInterface, PolicyComparisonInterface, SettingValueInterface
 {
     /**
-     * @use PolicyComparisonTrait<int|null>
+     * @use PolicyComparisonTrait<string|null>
      */
     use PolicyComparisonTrait;
 
     /**
-     * @use CustomGetterTrait<int|null>
+     * @use CustomGetterTrait<string|null>
      */
     use CustomGetterTrait;
 
     /**
-     * @var int|null
+     * @var string|null
      */
     private $value;
 
-    private function __construct(?int $value)
+    private function __construct(?string $value)
     {
         $this->value = $value;
     }
@@ -52,7 +53,7 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
 
     protected static function getCustomSettingName(): string
     {
-        return 'ipAddressMaskLength';
+        return 'anonymizeReferrer';
     }
 
     public static function getCustomValue(?int $idSite = null)
@@ -63,26 +64,24 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
 
     public static function getTitle(): string
     {
-        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingTitle');
+        return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingTitle');
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        // TODO add in logic for generating message for different policy requirements
-        $currentValue = self::getInstance($idSite)->getValue();
-        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengthSettingRequirementNote', [ 2, $currentValue ]);
+        return Piwik::translate('PrivacyManager_ReferrerAnonymizationSettingRequirementNote');
     }
 
     public static function getInlineHelp(): string
     {
-        // custom vue component provides the text
+        // not used as not a true setting, help text part of FE vue component
         return '';
     }
 
     public static function getPolicyRequirements(): array
     {
         $policies = [];
-        $policies[CnilPolicy::class] = 2;
+        $policies[CnilPolicy::class] = ReferrerAnonymizer::EXCLUDE_PATH;
 
         return $policies;
     }
@@ -91,7 +90,7 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
     {
         $values = self::getPolicyRequiredValues($idSite);
         $customValue = self::getCustomValue($idSite);
-        $values['custom'] = isset($customValue) ? (int) $customValue : null;
+        $values['custom'] = $customValue ?? null;
         return new self(self::getStrictestValueFromArray($values));
     }
 
@@ -105,12 +104,19 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
 
         $currentValue = self::getInstance($idSite)->getValue();
 
-        return $currentValue >= $policyValues[$policy];
+        return $currentValue === self::compareStrictness($currentValue, $policyValues[$policy]);
     }
 
     protected static function compareStrictness($value1, $value2)
     {
-        if ($value1 > $value2) {
+        // the list of options in ReferrerAnonymizer::getAvailableAnonymizationOptions is ordered by strictness
+        // higher position in the array means stricter value
+        $options = array_keys(ReferrerAnonymizer::getAvailableAnonymizationOptions());
+
+        $posValue1 = array_search($value1, $options);
+        $posValue2 = array_search($value2, $options);
+
+        if ($posValue1 > $posValue2) {
             return $value1;
         }
         return $value2;

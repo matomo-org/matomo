@@ -15,6 +15,7 @@ use Piwik\Exception\DI\NotFoundException;
 use Piwik\Option;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation as ReferrerAnonymizationSettings;
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
@@ -135,6 +136,8 @@ class Config
                 return IpAddressMaskLengthSetting::getInstance($idSite)->getValue();
             } elseif ($name === 'ipAnonymizerEnabled') {
                 return IPAnonymisationSetting::getInstance($idSite)->getValue();
+            } elseif ($name === 'anonymizeReferrer') {
+                return ReferrerAnonymizationSettings::getInstance($idSite)->getValue();
             }
         }
 
