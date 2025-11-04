@@ -34,16 +34,6 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         return 'Test Policy';
     }
 
-    protected static function getMinimumRequiredPlugins(): array
-    {
-        return [];
-    }
-
-    protected static function checkRequiredPluginsActive(): void
-    {
-        return;
-    }
-
     public static function getSystemValue()
     {
         return self::$system;
