@@ -13,6 +13,7 @@ use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\Resolution\Columns\Resolution;
 use Piwik\Plugin\ReportsProvider;
+use Piwik\Request;
 
 class GetResolution extends Base
 {
@@ -37,5 +38,11 @@ class GetResolution extends Base
         return array(
             ReportsProvider::factory('Resolution', 'getConfiguration'),
         );
+    }
+
+    public function isEnabled()
+    {
+        $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
+        return false === Resolution::isDisabledByCompliancePolicy($idSite);
     }
 }
