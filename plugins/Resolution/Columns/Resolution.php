@@ -9,13 +9,9 @@
 
 namespace Piwik\Plugins\Resolution\Columns;
 
-use Piwik\Container\StaticContainer;
+use Piwik\Plugins\Resolution\Resolution as ResolutionPlugin;
 use Piwik\Plugin\Dimension\VisitDimension;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
-use Piwik\Plugins\Resolution\Settings\ScreenResolutionDetectionDisabled;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\Cache as TrackerCache;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 
@@ -38,7 +34,7 @@ class Resolution extends VisitDimension
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
         // in privacy compliance mode, we can't detect screen resolution
-        if (self::isDisabledByCompliancePolicy($request->getIdSiteIfExists())) {
+        if (ResolutionPlugin::isScreenResolutionDetectionDisabledByCompliancePolicy($request->getIdSiteIfExists())) {
             return Request::UNKNOWN_RESOLUTION;
         }
 
@@ -64,26 +60,5 @@ class Resolution extends VisitDimension
         } else {
             return false;
         }
-    }
-
-    /**
-     * Check if compliance policy disables screen resolution detection
-     *
-     * @param int|null $idSite
-     * @return bool
-     * @throws \Piwik\Exception\DI\DependencyException
-     * @throws \Piwik\Exception\DI\NotFoundException
-     */
-    public static function isDisabledByCompliancePolicy(?int $idSite = null): bool
-    {
-        // in privacy compliance mode, we can only detect/return generic device type, but not the model
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = ScreenResolutionDetectionDisabled::class;
-            return (($cache[$cacheKey] ?? false) === true);
-        }
-
-        return false;
     }
 }
