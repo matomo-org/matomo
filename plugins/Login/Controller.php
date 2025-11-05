@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\Login;
 
 use Exception;
+use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
@@ -26,6 +27,7 @@ use Piwik\Plugins\CoreAdminHome\Emails\UserDeclinedInvitationEmail;
 use Piwik\Plugins\LanguagesManager\LanguagesHelper;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\PrivacyManager\SystemSettings;
+use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
@@ -269,18 +271,43 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function logme()
     {
-        if (Config::getInstance()->General['login_allow_logme'] == 0) {
+        if (Config\GeneralConfig::getConfigValue('login_allow_logme') == 0) {
             throw new Exception('This functionality has been disabled in config');
         }
 
-        $password = Common::getRequestVar('password', null, 'string');
+        $request  = Request::fromRequest();
+        $password = $request->getStringParameter('password');
+        $login    = $request->getStringParameter('login');
 
-        $login = Common::getRequestVar('login', null, 'string');
-        if (Piwik::hasTheUserSuperUserAccess($login)) {
-            throw new Exception(
-                Piwik::translate('Login_ExceptionInvalidSuperUserAccessAuthenticationMethod', ["logme"])
-            );
-        }
+        $login = Access::doAsSuperUser(function () use ($login) {
+            try {
+                $user = \Piwik\Plugins\UsersManager\API::getInstance()->getUser($login);
+            } catch (\Exception $e) {
+                // if a user can't be found for any reason we throw a generic exception below to avoid enumeration
+            }
+
+            if (empty($user)) {
+                throw new Exception(Piwik::translate('Login_LoginPasswordNotCorrect'));
+            }
+
+            // Note: Not using Piwik::hasTheUserSuperUserAccess here on purpose as that would require
+            // a logged in user to work and wouldn't work correctly within Access::doAsSuperUser
+            try {
+                $superUsers = APIUsersManager::getInstance()->getUsersHavingSuperUserAccess();
+            } catch (\Exception $e) {
+                return false;
+            }
+
+            foreach ($superUsers as $superUser) {
+                if ($user['login'] === $superUser['login']) {
+                    throw new Exception(
+                        Piwik::translate('Login_ExceptionInvalidSuperUserAccessAuthenticationMethod', ["logme"])
+                    );
+                }
+            }
+
+            return $user['login'];
+        });
 
         $currentUrl = 'index.php';
 
@@ -288,8 +315,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             $currentUrl .= '?idSite=' . $this->idSite;
         }
 
-        $urlToRedirect = Common::getRequestVar('url', $currentUrl, 'string');
-        $urlToRedirect = Common::unsanitizeInputValue($urlToRedirect);
+        $urlToRedirect = $request->getStringParameter('url', $currentUrl);
 
         $this->authenticateAndRedirect($login, $password, $urlToRedirect, $passwordHashed = true);
     }
