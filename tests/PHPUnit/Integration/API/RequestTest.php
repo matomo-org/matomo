@@ -314,7 +314,10 @@ class RequestTest extends IntegrationTestCase
             // some tests require it)
             $reflection = new ReflectionClass(Access::class);
             $reflectionProperty = $reflection->getProperty('idsitesByAccess');
-            $reflectionProperty->setAccessible(true);
+
+            if (PHP_VERSION_ID < 80100) {
+                $reflectionProperty->setAccessible(true);
+            }
 
             $reflectionProperty->setValue($mock, $this->idSitesAccess);
         });

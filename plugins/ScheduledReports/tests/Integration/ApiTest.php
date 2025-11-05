@@ -396,7 +396,10 @@ class ApiTest extends IntegrationTestCase
             '\\Piwik\\Plugins\\ScheduledReports\\API',
             'getReportSubjectAndReportTitle'
         );
-        $getReportSubjectAndReportTitle->setAccessible(true);
+
+        if (PHP_VERSION_ID < 80100) {
+            $getReportSubjectAndReportTitle->setAccessible(true);
+        }
 
         [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke(APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);

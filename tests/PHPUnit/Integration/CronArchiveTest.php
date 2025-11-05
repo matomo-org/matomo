@@ -850,7 +850,10 @@ class CronArchiveTest extends IntegrationTestCase
 
         $class = new \ReflectionClass(CronArchive::class);
         $method = $class->getMethod('canWeSkipInvalidatingBecauseThereIsAUsablePeriod');
-        $method->setAccessible(true);
+
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
 
         $actual = $method->invoke($archiver, $params, $dayToArchive === 'yesterday');
         $this->assertSame($expected, $actual);
