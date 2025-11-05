@@ -13,7 +13,6 @@ use Exception;
 use Piwik\Archive;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Plugins\Resolution\Columns\Resolution;
 
 /**
  * @see plugins/Resolution/functions.php
@@ -38,7 +37,7 @@ class API extends \Piwik\Plugin\API
     public function getResolution($idSite, $period, $date, $segment = false)
     {
         $translator = StaticContainer::get('Piwik\Translation\Translator');
-        if (Resolution::isDisabledByCompliancePolicy($idSite)) {
+        if (Resolution::isScreenResolutionDetectionDisabledByCompliancePolicy($idSite)) {
             throw new Exception($translator->translate('Resolution_ScreenResolutionReportDisabledByCompliancePolicy'));
         }
 

@@ -17,7 +17,6 @@ use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
 use DeviceDetector\Parser\Client\Browser as BrowserParser;
-use Piwik\Plugins\DevicesDetection\Columns\DeviceModel;
 
 /**
  * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
@@ -115,7 +114,7 @@ class API extends \Piwik\Plugin\API
     public function getModel($idSite, $period, $date, $segment = false)
     {
         $translator = StaticContainer::get('Piwik\Translation\Translator');
-        if (DeviceModel::isDisabledByCompliancePolicy($idSite)) {
+        if (DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($idSite)) {
             throw new Exception($translator->translate('DevicesDetection_DeviceModelReportDisabledByCompliancePolicy'));
         }
 

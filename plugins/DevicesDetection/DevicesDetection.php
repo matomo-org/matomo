@@ -11,9 +11,10 @@ namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\DevicesDetection\Settings\OnlyMajorVersions;
+use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
-use Piwik\Tracker\Cache;
+use Piwik\Tracker\Cache as TrackerCache;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicesDetection/functions.php';
 
@@ -58,10 +59,31 @@ class DevicesDetection extends \Piwik\Plugin
     {
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $cache = Cache::getCacheWebsiteAttributes($idsite);
+            $cache = TrackerCache::getCacheWebsiteAttributes($idsite);
             $cacheKey = OnlyMajorVersions::class;
             return (($cache[$cacheKey] ?? false) === true);
         }
+        return false;
+    }
+ 
+    /**
+     * Check if compliance policy disables device model detection
+     *
+     * @param int|null $idSite
+     * @return bool
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
+     */
+    public static function isDeviceModelDetectionDisabledByCompliancePolicy(?int $idSite = null): bool
+    {
+        // in privacy compliance mode, we can only detect/return generic device type, but not the model
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+            $cacheKey = DeviceModelDetectionDisabled::class;
+            return (($cache[$cacheKey] ?? false) === true);
+        }
+
         return false;
     }
 }
