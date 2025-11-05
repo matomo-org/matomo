@@ -28,9 +28,11 @@ class DbHelperTest extends \PHPUnit\Framework\TestCase
     {
         $extractedOrderBy = DbHelper::extractOrderByFromQuery($sql);
 
-        // compare with collapsed whitespace
-        $expectedOrderBy = trim(preg_replace('/\s+/', ' ', $expectedOrderBy));
-        $extractedOrderBy = trim(preg_replace('/\s+/', ' ', $extractedOrderBy));
+        if (null !== $expectedOrderBy) {
+            // compare with collapsed whitespace
+            $expectedOrderBy  = trim(preg_replace('/\s+/', ' ', $expectedOrderBy));
+            $extractedOrderBy = trim(preg_replace('/\s+/', ' ', $extractedOrderBy));
+        }
 
         $this->assertSame($expectedOrderBy, $extractedOrderBy);
     }
