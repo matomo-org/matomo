@@ -26,7 +26,7 @@
             <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
         {% else %}
             <span class="loadingPiwik">
-                <span class="matomo-loader"><span></span><span></span><span></span></span>
+                {% include "@CoreHome/_loader.twig" %}
                 {{ 'General_LoadingData'|translate }}...
             </span>
         {% endif %}

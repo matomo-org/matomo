@@ -72,7 +72,7 @@
                     {% if visitorData.lastVisits.getRowsCount() >= constant("Piwik\\Plugins\\Live\\VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW") %}
                         <a href="#">{{ 'Live_LoadMoreVisits'|translate }}</a>
                         <span class="loadingPiwik" style="display:none;">
-                            <span class="matomo-loader"><span></span><span></span><span></span></span>
+                            {% include "@CoreHome/_loader.twig" %}
                         </span>
                     {% else %}
                         <span class="visitor-profile-no-visits">

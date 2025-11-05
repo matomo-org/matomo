@@ -38,7 +38,10 @@
     </div>
     <div class="col s12 m6">
         <div class="ajaxLoad" action="getIndividualReportsSummary">
-            <span class="loadingPiwik"><span class="matomo-loader"><span></span><span></span><span></span></span>{{ 'General_LoadingData'|translate }}</span>
+            <span class="loadingPiwik">
+                {% include "@CoreHome/_loader.twig" %}
+                {{ 'General_LoadingData'|translate }}
+            </span>
         </div>
     </div>
 </div>
@@ -49,7 +52,10 @@
     </div>
     <div class="col s12 m6">
         <div class="ajaxLoad" action="getIndividualMetricsSummary">
-            <span class="loadingPiwik"><span class="matomo-loader"><span></span><span></span><span></span></span>{{ 'General_LoadingData'|translate }}</span>
+            <span class="loadingPiwik">
+                {% include "@CoreHome/_loader.twig" %}
+                {{ 'General_LoadingData'|translate }}
+            </span>
         </div>
     </div>
 </div>

@@ -13,7 +13,7 @@
         {% include "@Annotations/_annotationList.twig" %}
 
         <span class="loadingPiwik" style="display:none;">
-            <span class="matomo-loader"><span></span><span></span><span></span></span>
+            {% include "@CoreHome/_loader.twig" %}
             {{ 'General_Loading'|translate }}
         </span>
 
