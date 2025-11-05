@@ -22,7 +22,7 @@
         "NewPassword": "Nové heslo",
         "NewPasswordRepeat": "Nové heslo (opakovat)",
         "PasswordChanged": "Vaše heslo bylo změněno.",
-        "PasswordRepeat": "Heslo (pro kontrolu)",
+        "PasswordRepeat": "Heslo (zopakujte)",
         "PasswordsDoNotMatch": "Hesla se neshodují.",
         "PluginDescription": "Poskytuje autentizaci jménem a heslem a funkcionalitu obnovy hesla. Metodu přihlašování můžete změnit pomocí zásuvného modulu přihlašování, kterým je například LoginLdap dostupný z obchodu.",
         "RememberMe": "Zapamatovat si"

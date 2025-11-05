@@ -31,6 +31,7 @@
         "AwarenessDocumentationIntro": "Poinformuj swoich użytkowników w przejrzysty sposób, a także uświadom współpracownikom, jakie dane są pozyskiwane i jak są one wykorzystywane:",
         "BackgroundColor": "Kolor tła",
         "ClickHereSettings": "Kliknij tutaj, aby uzyskać dostęp do %s ustawień.",
+        "ComplianceTableSettingStatus": "Status",
         "ConsentExplanation": "Zgoda oznacza zapewnianie osobom fizycznym możliwości wyboru i kontroli sposobu przetwarzania ich danych osobowych.",
         "CurrentDBSize": "Obecny rozmiar bazy danych",
         "DBPurged": "Baza danych wyczyszczona.",

@@ -47,6 +47,7 @@
         "BuildYourOwn": "Bouw zelf",
         "ClickHereSettings": "Klik hier om naar de %s-instellingen te gaan.",
         "Compliance": "Naleving",
+        "ComplianceTableSettingStatus": "Status",
         "ConsentExplanation": "Toestemming betekent dat individuen keuzemogelijkheden en controle krijgen over hoe hun persoonsgegevens worden verwerkt.",
         "ConsentManager": "Toestemmingsbeheer",
         "ConsentManagerConnected": "%1$s lijkt reeds geconfigureerd te zijn om te werken met Matomo.",

@@ -60,6 +60,8 @@ class Goals extends HtmlTable
 
         if ($this->config->disable_subtable_when_show_goals) {
             $this->config->subtable_controller_action = null;
+            $this->config->show_flatten_table = false;
+            $this->requestConfig->request_parameters_to_modify['flat'] = false;
         }
 
         $this->setShowGoalsColumnsProperties();
@@ -72,7 +74,6 @@ class Goals extends HtmlTable
         $this->config->show_goals_columns  = true;
         $this->config->datatable_css_class = 'dataTableVizGoals';
         $this->config->show_exclude_low_population = true;
-
 
         if (1 == Common::getRequestVar('documentationForGoalsPage', 0, 'int')) {
             // TODO: should not use query parameter

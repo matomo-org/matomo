@@ -1,7 +1,7 @@
 {
     "UsersManager": {
         "2FA": "2FA (tofaktor-autentisering)",
-        "Active": "Aktive",
+        "Active": "Aktiv",
         "AddExistingUser": "Legg til en eksisterende bruker",
         "AddNewUser": "Legg til ny bruker",
         "AddSuperuserAccessConfirm": "Å innvilge en bruker superbrukertilgang tillater den full kontroll over Matomo, så begrens det så langt det er mulig. Skriv inn passordet ditt for å fortsette.",

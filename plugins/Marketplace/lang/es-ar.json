@@ -1,1 +1,6 @@
-{}
+{
+    "Marketplace": {
+        "ActivateLicenseKey": "Activar",
+        "SubscriptionType": "Tipo"
+    }
+}

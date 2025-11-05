@@ -8,6 +8,8 @@
         "ConsentManagerConnected": "Čini se da je %1$s već konfiguriran za rad s Matomom.",
         "ConsentManagerDetected": "Na tvojoj je web stranici otkriven %1$s upravitelj pristanka. Saznaj više o konfiguriranju Matoma za rad s %1$s u %2$sovom vodiču%3$s",
         "FindMatchingDataSubjects": "Pronađi poklapajuće subjekte podataka",
+        "GDPR": "GDPR",
+        "IPAddress": "IP adresa",
         "LastAction": "Zadnja radnja",
         "PrivacyPolicy": "Politika privatnosti",
         "PrivacyPolicyUrl": "URL stranice Politika privatnosti",

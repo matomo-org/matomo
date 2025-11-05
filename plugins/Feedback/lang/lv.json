@@ -1,11 +1,12 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Vai Jums ir kļūdas ziņojums vai papildus funkcionalitātes pieprasījums?",
+        "Forums": "Forumi",
         "IWantTo": "Es vēlos:",
         "LearnWaysToParticipate": "Uzzināt vairāk par to, kā Jūs varat %1$s piedalīties%2$s",
         "ManuallySendEmailTo": "Lūdzu manuāli nosūtiet savu ziņu uz",
+        "RemindMeLater": "Atgādiniet man vēlāk",
         "SendFeedback": "Sūtīt atsauksmes",
-        "ThankYou": "Paldies, ka palīdzat uzlabot Matomo!",
-        "Forums": "Forumi"
+        "ThankYou": "Paldies, ka palīdzat uzlabot Matomo!"
     }
 }

@@ -1,6 +1,7 @@
 {
     "Referrers": {
         "Acquisition": "Birtokba vétel",
+        "CampaignSource": "Forrás",
         "Campaigns": "Kampányok",
         "ColumnCampaign": "Kampány",
         "ColumnSearchEngine": "Keresőoldal",

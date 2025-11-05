@@ -2,7 +2,9 @@
     "CoreHome": {
         "CheckForUpdates": "Provjeri nove verzije",
         "CheckPiwikOut": "Probajte Matomo!",
+        "ChooseWebsite": "Izaberite web sajt",
         "PeriodRange": "Domet",
+        "ReportLowercase": "izvještaj",
         "ShareThis": "Podijeli ovo"
     }
 }

@@ -321,6 +321,7 @@ class ColumnDimensionTest extends IntegrationTestCase
         'Piwik\Plugins\Actions\Columns\VisitTotalActions',
         'Piwik\Plugins\Actions\Columns\VisitTotalInteractions',
         'Piwik\Plugins\Actions\Columns\VisitTotalSearches',
+        'Piwik\Plugins\AIAgents\Columns\AIAgentName',
         'Piwik\Plugins\Bandwidth\Columns\Bandwidth',
         'Piwik\Plugins\Contents\Columns\ContentInteraction',
         'Piwik\Plugins\Contents\Columns\ContentName',

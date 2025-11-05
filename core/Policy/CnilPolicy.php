@@ -10,6 +10,7 @@
 namespace Piwik\Policy;
 
 use Piwik\Piwik;
+use Piwik\Url;
 
 class CnilPolicy extends CompliancePolicy
 {
@@ -33,7 +34,18 @@ class CnilPolicy extends CompliancePolicy
         return [
             [
                 'title' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutTitle'),
-                'note' => Piwik::translate('General_ComplianceCNILUnknownSettingOptOutNotes'),
+                'note' =>
+                    Piwik::translate('General_ComplianceCNILUnknownSettingOptOutNotes', [
+                        '<a href="' .
+                        Url::addCampaignParametersToMatomoLink(
+                            'https://matomo.org/faq/general/faq_20000/',
+                            null,
+                            null,
+                            'App.PrivacyManager.compliance'
+                        ) .
+                        '" target="_blank" rel="noreferrer noopener">',
+                        '</a>',
+                    ]),
             ],
         ];
     }

@@ -15,8 +15,8 @@
         "ExcludedParameters": "Izključeni Parametri",
         "JsTrackingTagHelp": "Tu je JavaScript sledilna koda, ki jo vključite v vse vaše strani",
         "ListOfIpsToBeExcludedOnAllWebsites": "Spodnji IP-ji bodo izključeni iz sledenja na vseh spletnih straneh.",
-        "NotFound": "Ni bilo najdenih spletnih strani za",
         "NoWebsites": "Nimate spletnih strani za urejanje",
+        "NotFound": "Ni bilo najdenih spletnih strani za",
         "OnlyOneSiteAtTime": "Sočasno lahko urejate zgolj eno spletno stran. Prosimo, shranite ali pa prekličite vaše trenutne spremembe za spletno stran %s.",
         "SelectACity": "Izberite mesto",
         "SelectDefaultCurrency": "Izberete lahko privzeto valuto. Ta bo uporabljena na vseh novo-dodanih spletnih straneh.",
@@ -24,8 +24,9 @@
         "Sites": "Spletne strani",
         "Timezone": "Časovno območje",
         "TrackingTags": "Sledilna koda za %s",
-        "Urls": "Povezave",
+        "Type": "Tip",
         "UTCTimeIs": "UTC čas je %s.",
+        "Urls": "Povezave",
         "WebsitesManagement": "Upravljanje spletnih strani",
         "YourCurrentIpAddressIs": "Vaš trenuten IP je %s"
     }

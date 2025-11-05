@@ -34,8 +34,7 @@
                     uicontrol="expandable-select"
                     name="segments"
                     :model-value="orCondition.segment"
-                    @update:model-value="orCondition.segment = $event;
-                      updateAutocomplete(orCondition); computeSegmentDefinition();"
+                    @update:model-value="onSegmentSelection($event, orCondition)"
                     :title="segments[orCondition.segment]?.name"
                     :full-width="true"
                     :options="segmentList"
@@ -344,6 +343,12 @@ export default defineComponent({
         this.updateAutocomplete(orCondition);
       });
     },
+    onSegmentSelection(event: string, orCondition: SegmentOrCondition) {
+      orCondition.segment = event;
+      this.updateAutocomplete(orCondition);
+      this.computeSegmentDefinition();
+      this.focusValueInput(orCondition);
+    },
     updateAutocomplete(orCondition: SegmentOrCondition) {
       this.conditionValuesLoading[orCondition.id!] = true;
 
@@ -490,6 +495,13 @@ export default defineComponent({
       });
 
       this.segmentDefinition = segmentStr;
+    },
+    focusValueInput(orCondition: SegmentOrCondition) {
+      const $input = $(`.orCondId${orCondition.id} .metricValueBlock input`);
+      $input.focus();
+      if ($input.val()) {
+        $input.select();
+      }
     },
   },
   computed: {

@@ -2,6 +2,7 @@
     "PrivacyManager": {
         "AnonymizeIpMaskLength": "%1$s bait(i) - nt. %2$s",
         "ClickHereSettings": "Vajuta siia, et minna %s seadete lehele.",
+        "ComplianceTableSettingStatus": "Olek",
         "CurrentDBSize": "Praegune andmebaasi suurus",
         "DBPurged": "Andmebaas tühjendatud.",
         "DeleteDataInterval": "Kustuta vanad andmed iga",

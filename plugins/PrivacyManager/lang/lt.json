@@ -2,24 +2,25 @@
     "PrivacyManager": {
         "AnonymizeData": "Anonimizuoti duomenis",
         "AnonymizeIpInlineHelp": "Paslėpkite savo lankytojų IP adresus, jei to reikalauja Jūsų vidaus taisyklės ar įstatymai.",
+        "ComplianceTableSettingStatus": "Būsena",
         "CurrentDBSize": "Esamas duomenų bazės dydis",
         "DeleteDataInterval": "Ištrinti senus duomenis kas",
-        "DeleteOldVisitorLogs": "Ištrinti senus lankytojų žurnalus",
-        "DeleteOldRawData": "Reguliariai ištrinti senus neapdorotus duomenis",
         "DeleteLogsOlderThan": "Ištrinti įrašus senesnius nei",
         "DeleteMaxRows": "Maksimalus vienu metu trinamų eilučių kiekis:",
+        "DeleteOldRawData": "Reguliariai ištrinti senus neapdorotus duomenis",
+        "DeleteOldVisitorLogs": "Ištrinti senus lankytojų žurnalus",
         "IndividualsRights": "Asmenų teisės",
         "LastDelete": "Paskutinis išvalymas atliktas",
         "MenuPrivacySettings": "Privatumas",
         "NextDelete": "Kitas suplanuotas ištrynimas po",
-        "ReportsDataSavedEstimate": "Duomenų bazės dydis",
-        "TeaserHeadline": "Privatumo nustatymai",
-        "UseAnonymizeIp": "Anonimizuoti lankytojų IP adresus",
+        "PrivacyPolicy": "Privatumo politika",
         "PrivacyPolicyUrl": "Privatumo politikos URL",
         "PrivacyPolicyUrlDescription": "Nuoroda į jūsų privatumo politikos puslapį.",
+        "ReportsDataSavedEstimate": "Duomenų bazės dydis",
+        "TeaserHeadline": "Privatumo nustatymai",
         "TermsAndConditionUrl": "Nuostatų ir sąlygų URL",
         "TermsAndConditionUrlDescription": "Nuoroda į jūsų nuostatų ir sąlygų puslapį.",
-        "PrivacyPolicy": "Privatumo politika",
-        "TermsAndConditions": "Nuostatos ir sąlygos"
+        "TermsAndConditions": "Nuostatos ir sąlygos",
+        "UseAnonymizeIp": "Anonimizuoti lankytojų IP adresus"
     }
 }

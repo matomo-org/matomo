@@ -1,13 +1,16 @@
 {
     "UsersManager": {
+        "2FA": "2FA",
         "Active": "Aktivno",
         "AllWebsites": "Sve web-stranice",
         "Email": "E-Mail",
         "ExceptionEmailExists": "Korisnik s e-mail adresom „%s” već postoji.",
         "ExceptionInvalidEmail": "Format e-mail adrese ne valja.",
+        "GoBackSecurityPage": "Idi natrag na stranicu sigurnosti.",
         "MenuUserSettings": "Korisničke postavke",
         "MenuUsers": "Korisnici",
         "PrivWriteDescription": "Korisnici s ovom ulogom mogu pregledavati sav sadržaj, kao i stvarati, upravljati i brisati entitete poput Ciljevi, Tokovi, Toplinske karte, Snimke sesija i Obrasci za ovu web-stranicu.",
+        "TwoFactorAuthentication": "Dvofaktorska autentifikacija",
         "TypeYourPasswordAgain": "Ponovo upiši svoju novu lozinku.",
         "Username": "Korisničko ime",
         "YourUsernameCannotBeChanged": "Tvoje se korisničko ime ne može promijeniti."

@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "Aktyvus",
         "AddExistingUser": "Pridėti esamą naudotoją",
         "AllWebsites": "Visos svetainės",
         "AnonymousUser": "Anoniminis naudotojas",
@@ -45,6 +46,7 @@
         "PrivAdmin": "Administruoti",
         "PrivNone": "Neleidžiama",
         "PrivView": "Matyti",
+        "Status": "Būsena",
         "TheLoginScreen": "Prisijungimo langas",
         "ThereAreCurrentlyNRegisteredUsers": "Šiuo metu yra %s registruotų naudotojų.",
         "TypeYourPasswordAgain": "Pakartokite savo naują slaptažodį.",

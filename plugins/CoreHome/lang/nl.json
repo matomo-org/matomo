@@ -84,6 +84,7 @@
         "RemoveTotalsRowDataTable": "Het rapport toont de rij totalen %s Verwijder rij totalen",
         "ReportGeneratedOn": "Rapport gegenereerd op %s",
         "ReportGeneratedXAgo": "Rapport %s geleden gegenereerd",
+        "ReportLowercase": "rapport",
         "ReportType": "Rapport type",
         "ReportWithMetadata": "Rapport met metadata",
         "ReportingCategoryHelpPrefix": "Hoe kan de \"%1$s → %2$s\" rapportpagina mij helpen?",

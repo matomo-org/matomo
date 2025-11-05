@@ -2,6 +2,8 @@
     "Marketplace": {
         "ActivateLicenseKey": "Aktivizēt",
         "PluginKeywords": "Atslēgvārdi",
+        "PluginVersionInfo": "%1$s no %2$s",
+        "StartFreeTrial": "Sākt bezmaksas izmēģinājumu",
         "SubscriptionType": "Tips"
     }
 }

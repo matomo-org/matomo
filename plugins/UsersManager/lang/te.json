@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "చేతనం",
         "AllWebsites": "అన్ని వెబ్‌సైట్లూ",
         "Email": "ఈమెయిలు",
         "ExceptionEmailExists": "'%s' అనే ఈమెయిలుతో వాడుకరి ఇప్పటికే ఉన్నారు.",
@@ -8,6 +9,7 @@
         "MenuAnonymousUserSettings": "ఆజ్ఞాత వాడుకరుల అమరికలు",
         "MenuUserSettings": "వాడుకరి అమరికలు",
         "MenuUsers": "వాడుకరులు",
+        "Status": "స్థితి",
         "User": "వాడుకరి",
         "Username": "వాడుకరి పేరు",
         "UsersManagement": "వాడుకరుల నిర్వహణ",

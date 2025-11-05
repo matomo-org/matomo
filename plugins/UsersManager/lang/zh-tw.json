@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "2FA",
+        "Active": "啟用",
         "AddExistingUser": "新增現有使用者",
         "AddUserNoInitialAccessError": "新使用者必須被授予存取網站的權限，請設定「initialIdSite」變數。",
         "AllWebsites": "所有網站",
@@ -116,6 +117,7 @@
         "SettingRestrictLoginEmailDomainsErrorOtherDomainsInUse": "無法設定域，因為其他域（%s）已被其他使用者使用。要更改此設定，您需要移除使用其他域的使用者，或者允許這些域。",
         "SettingRestrictLoginEmailDomainsHelp": "此功能限制能夠用於邀請、建立或更新使用者的電子信箱域。這能夠防止將資料共享給第三方而保護隱私權。也防止使用者將電子信箱地址改為個人信箱地址，從而提升安全。因此，也能作為防止攻擊的額外屏障。譬如，意外誤植的電子信箱地址。",
         "SettingRestrictLoginEmailDomainsHelpInUse": "目前，這些電子信箱域正在使用中而需要獲得許可：",
+        "Status": "狀態",
         "SuperUserAccess": "超級使用者權限",
         "SuperUserAccessManagement": "管理超級使用者訪問權限",
         "SuperUserAccessManagementGrantMore": "你可以在這裡授予超級使用者訪問其他 Matomo 使用者的權限。請小心使用此功能。",

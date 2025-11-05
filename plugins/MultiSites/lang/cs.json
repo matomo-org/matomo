@@ -1,9 +1,11 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Tento report poskytuje informační přehled pro každý z vašich webů a obsahuje nejobecnější metriky o návštěvnících.",
+        "AllWebsitesDashboardTitle": "Všechny weby",
         "Evolution": "Vývoj",
         "LoadingWebsites": "Načítání webových stránek",
         "PluginDescription": "Zobrazte a porovnejte všechny vaše stránky a aplikace na této užitečné nástěnce všech stránek.",
-        "TopLinkTooltip": "Porovnejte webové analytické statistiky pro všechny vaše weby."
+        "TopLinkTooltip": "Porovnejte webové analytické statistiky pro všechny vaše weby.",
+        "TotalPageviews": "Celkem zobrazených stránek"
     }
 }

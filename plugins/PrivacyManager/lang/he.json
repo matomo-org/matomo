@@ -1,6 +1,7 @@
 {
     "PrivacyManager": {
         "AnonymizeData": "הפוך מידע לאנונימי",
-        "AnonymizeIpInlineHelp": "הסתרת הספרות האחרונות של כתובת הIP של המבקרים בכדי להתיישר עם החוקים / תקנות המקומיים."
+        "AnonymizeIpInlineHelp": "הסתרת הספרות האחרונות של כתובת הIP של המבקרים בכדי להתיישר עם החוקים / תקנות המקומיים.",
+        "ComplianceTableSettingStatus": "מצב"
     }
 }

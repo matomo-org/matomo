@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpInlineHelp": "Hylja síðusta bæti gesta IP-tölu til samræðis við persónuverndarlaga þíns lands."
+        "AnonymizeIpInlineHelp": "Hylja síðusta bæti gesta IP-tölu til samræðis við persónuverndarlaga þíns lands.",
+        "ComplianceTableSettingStatus": "Staða"
     }
 }

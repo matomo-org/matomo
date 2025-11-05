@@ -13,7 +13,8 @@ class Archiver extends \Piwik\Plugin\Archiver
 {
     public const SEARCH_ENGINES_RECORD_NAME = 'Referrers_keywordBySearchEngine';
     public const SOCIAL_NETWORKS_RECORD_NAME = 'Referrers_urlBySocialNetwork';
-    public const AI_ASSISTANTS_RECORD_NAME = 'Referrers_urlByAIAssistant';
+    public const AI_ASSISTANTS_ENTRY_URL_RECORD_NAME = 'Referrers_entryUrlByAIAssistant';
+    public const AI_ASSISTANTS_ENTRY_TITLE_RECORD_NAME = 'Referrers_entryTitleByAIAssistant';
     public const KEYWORDS_RECORD_NAME = 'Referrers_searchEngineByKeyword';
     public const CAMPAIGNS_RECORD_NAME = 'Referrers_keywordByCampaign';
     public const WEBSITES_RECORD_NAME = 'Referrers_urlByWebsite';

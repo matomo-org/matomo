@@ -1,6 +1,8 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardTitle": "Kõik veebilehed",
         "Evolution": "Muutus ajas",
-        "LoadingWebsites": "Veebilehtede avamine"
+        "LoadingWebsites": "Veebilehtede avamine",
+        "TotalPageviews": "Lehe vaatamisi kokku"
     }
 }

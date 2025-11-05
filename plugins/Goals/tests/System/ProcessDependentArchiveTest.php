@@ -37,7 +37,7 @@ class ProcessDependentArchiveTest extends SystemTestCase
     public function testNumArchivesCreatedDay()
     {
         API::getInstance()->getMetrics(self::$fixture->idSite, 'day', '2009-01-04');
-        $this->assertNumRangeArchives(5, 1); // days;
+        $this->assertNumRangeArchives(7, 1); // days;
     }
 
     public function testNumArchivesCreated()

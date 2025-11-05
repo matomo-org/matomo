@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "२एफए",
+        "Active": "सक्रिय",
         "AllWebsites": "सभी वेबसाइटों",
         "AnonymousUser": "बेनामी उपयोगकर्ता",
         "AnonymousUserHasViewAccess2": "आपकी Analytics रिपोर्ट और अपने दर्शकों के बारे में जानकारी सार्वजनिक रूप से देखा जा सकता है।",
@@ -20,6 +21,7 @@
         "PrivAdmin": "व्यवस्थापक",
         "PrivNone": "प्रवेश नही",
         "PrivView": "देखना",
+        "Status": "स्थिति",
         "Username": "उपयोगकर्ता नाम"
     }
 }

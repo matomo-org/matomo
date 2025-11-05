@@ -1,5 +1,8 @@
 {
     "ProfessionalServices": {
+        "PromoFormAnalytics": "Skjemaer",
+        "PromoManage": "Behandle",
+        "PromoOverview": "Oversikt",
         "WidgetPremiumServicesForPiwik": "Premiumsfunksjoner og -tjenester for Matomo"
     }
 }

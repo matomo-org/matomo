@@ -102,6 +102,7 @@
         "ComparisonCardTooltip2": "Antalet besök avviker med %1$s jämfört med %2$s över %3$s.",
         "ComparisonRatioTooltip": "Det här är en förändring med %1$s jämfört med segmentet %2$s på %3$s.",
         "Comparisons": "Jämförelser",
+        "ComplianceCNILDescription": "Denna tabell ger en indikation på om vissa inställningar överensstämmer med CNIL:s riktlinjer. Den garanterar inte fullständig juridisk efterlevnad. För att kvalificera sig för undantaget från samtycke enligt CNIL:s regler måste alla nödvändiga konfigurationer implementeras. Om någon inställning visas som \"Ej efterlevd\" är villkoren för undantaget inte uppfyllda och samtycke måste inhämtas från användarna. Om någon inställning visas som \"Okänd\" kan Matomo inte avgöra om detta krav har implementerats. I sådana fall måste dessa åtgärder verifieras manuellt.",
         "ComputedMetricAverage": "Genomsnittlig %1$s per %2$s",
         "ComputedMetricAverageDocumentation": "Medelvärde för \"%1$s\" per \"%2$s\".",
         "ComputedMetricAverageShortDocumentation": "Medelvärde för \"%1$s\".",

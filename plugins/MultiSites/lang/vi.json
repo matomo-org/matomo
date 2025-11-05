@@ -1,8 +1,10 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardTitle": "Tất cả website",
         "Evolution": "Sự tiến triển",
         "LoadingWebsites": "Đang tải website",
         "PluginDescription": "Xem và so sánh toàn bộ các website bạn quản lý",
-        "TopLinkTooltip": "So sánh các số liệu thống kê Web Analytics cho tất cả các trang web của bạn."
+        "TopLinkTooltip": "So sánh các số liệu thống kê Web Analytics cho tất cả các trang web của bạn.",
+        "TotalPageviews": "Tổng số lượt xem trang"
     }
 }

@@ -44,6 +44,7 @@
         "ExcludedReferrersHelpExamples": "例如 “%1$s”将匹配“%2$s”和“%3$s”，但不匹配“%4$s”",
         "ExcludedReferrersHelpSubDomains": "要同时排除某个主机名的所有子域，请在其前面添加一个点。 例如 “%1$s”将排除“%2$s”，但也排除其所有子域，例如“%3$s”。",
         "ExcludedUserAgents": "排除这些用户代理",
+        "ExclusionTypeOptionCustom": "自定义",
         "ExtraInformationNeeded": "要在系统上设置Matomo，您可能需要以下信息：",
         "Format_Utc": "世界标准时间%s",
         "GADetected": "在您的网站上检测到%1$s。 您是否知道您可以轻松地将历史分析数据和设置从 %2$s 迁移到 Matomo？ %3$s%4$s%5$s通过本指南了解更多信息%6$s",

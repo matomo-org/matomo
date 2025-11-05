@@ -4,6 +4,8 @@
         "AddGoal": "Pievienot mērķi",
         "AddNewGoal": "Pievienot jaunu mērķi",
         "CaseSensitive": "Reģistrjūtīga saderība",
+        "CategoryTextGeneral_Actions": "Lapas",
+        "CategoryTextReferrers_Referrers": "Refereri",
         "ClickOutlink": "Klikšķis uz ārējas vietnes saites",
         "ColumnAveragePriceDocumentation": "Vidējie ienākumi %s.",
         "ColumnAverageQuantityDocumentation": "%s vidējais pārdotais skaits e-komercijas pasūtījumos.",

@@ -280,7 +280,7 @@ abstract class RecordBuilder
      * Derived classes should define this method to aggregate log data for a single day and return the records
      * to store indexed by record names.
      *
-     * @return (DataTable|int|float|string)[] Record values indexed by their record name, eg, `['MyPlugin_MyRecord' => new DataTable()]`
+     * @return array<string, DataTable|int|float|string> Record values indexed by their record name, eg, `['MyPlugin_MyRecord' => new DataTable()]`
      */
     abstract protected function aggregate(ArchiveProcessor $archiveProcessor): array;
 

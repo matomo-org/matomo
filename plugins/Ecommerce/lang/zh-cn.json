@@ -1,22 +1,26 @@
 {
     "Ecommerce": {
-        "PluginDescription": "电子商务使您可以跟踪用户何时将产品添加到购物车以及何时将其转换为电子商务销售。 还可以跟踪产品和产品类别视图以及废弃的购物车。",
-        "Sales": "销售",
+        "EcommerceLogSubcategoryHelp1": "电子商务日志提供精细的会话级数据，因此您可以查看每个进行购买或放弃购物车的用户的完整会话。这可以帮助您了解用户在购买之前和之后做了什么，以揭示优化机会。",
+        "EcommerceLogSubcategoryHelp2": "该页面上的数据是实时更新的。",
+        "EcommerceOverviewSubcategoryHelp2": "单击迷你图内的单个指标，即可在全尺寸演化图中关注该指标。",
+        "LifeTimeValue": "电商终生价值",
+        "LifeTimeValueDescription": "电子商务总收入由此客户的全部行为而来：访客编码%s的所有电商订单的收入总和。",
+        "NumberOfItems": "购物车中的物品数",
         "Order": "订单",
         "OrderId": "订单编号",
+        "OrderValue": "订单价格",
         "Orders": "订单管理",
+        "PluginDescription": "电子商务使您可以跟踪用户何时将产品添加到购物车以及何时将其转换为电子商务销售。 还可以跟踪产品和产品类别视图以及废弃的购物车。",
+        "ProductSubcategoryHelp": "产品视图可以帮助您识别表现出色或表现不佳的产品和类别，以揭示与您的产品选择和商店页面相关的趋势和机会。",
+        "Sales": "销售",
+        "SalesAdjective": "销售%s",
+        "SalesBy": "由%s销售",
         "ViewedProductCategory": "查看产品类别",
         "ViewedProductName": "查看产品名称",
         "ViewedProductPrice": "查看产品价格",
         "ViewedProductSKU": "查看的产品SKU",
-        "SalesBy": "由%s销售",
-        "SalesAdjective": "销售%s",
-        "NumberOfItems": "购物车中的物品数",
-        "OrderValue": "订单价格",
-        "LifeTimeValue": "电商终生价值",
-        "LifeTimeValueDescription": "电子商务总收入由此客户的全部行为而来：访客编码%s的所有电商订单的收入总和。",
-        "VisitorProfileLTV": "生成一个%1$s的终生收入。",
+        "VisitorProfileAbandonedCartSummary": "被放弃的%1$s购物车包含了%2$s个商品，总值%3$s。",
         "VisitorProfileItemsAndOrders": "在%2$s电商订单中共购买了%1$s个商品。",
-        "VisitorProfileAbandonedCartSummary": "被放弃的%1$s购物车包含了%2$s个商品，总值%3$s。"
+        "VisitorProfileLTV": "生成一个%1$s的终生收入。"
     }
 }

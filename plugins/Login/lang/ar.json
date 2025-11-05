@@ -6,7 +6,7 @@
         "LogIn": "تسجيل الدخول",
         "LoginPasswordNotCorrect": "اسم المستخدم أو كلمة المرور غير صحيحة",
         "LostYourPassword": "فقدت كلمة المرور؟",
-        "PasswordRepeat": "كلمة المرور (تأكيد)",
+        "PasswordRepeat": "كلمة المرور(كرّرها)",
         "PasswordsDoNotMatch": "كلمتي المرور غير متطابقتين.",
         "RememberMe": "تذكرني"
     }

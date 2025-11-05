@@ -16,7 +16,7 @@
 		<row>
 			<name>Campaign tracking parameters disabled</name>
 			<value>non_compliant</value>
-			<notes>All campaign tracking parameters must be discarded</notes>
+			<notes>All campaign tracking parameters must be discarded.</notes>
 		</row>
 		<row>
 			<name>IP Anonymization Enabled</name>
@@ -31,7 +31,7 @@
 		<row>
 			<name>Data retention period</name>
 			<value>compliant</value>
-			<notes>Retention period is set to 180 days</notes>
+			<notes>Retention period is set to 180 days.</notes>
 		</row>
 		<row>
 			<name>User ID disabled</name>
@@ -41,7 +41,7 @@
 		<row>
 			<name>Opt out</name>
 			<value>unknown</value>
-			<notes>Opt out must be manually set up and configured</notes>
+            <notes>Opt out must be manually set up and configured. &lt;a href="https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance" target="_blank" rel="noreferrer noopener"&gt;Learn more&lt;/a&gt;</notes>
 		</row>
 	</complianceRequirements>
 </result>
