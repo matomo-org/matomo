@@ -24,7 +24,7 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         return 'test_policy_v1';
     }
 
-    public static function getDescription(): string
+    protected static function generateDescription(): string
     {
         return 'Test policy description';
     }

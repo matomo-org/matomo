@@ -1941,11 +1941,6 @@ parameters:
 			path: core/Plugin/WidgetsProvider.php
 
 		-
-			message: "#^If condition is always false\\.$#"
-			count: 1
-			path: core/Policy/CnilPolicy.php
-
-		-
 			message: "#^Method Piwik\\\\ProfessionalServices\\\\Advertising\\:\\:getCampaignParametersForPromoUrl\\(\\) is unused\\.$#"
 			count: 1
 			path: core/ProfessionalServices/Advertising.php

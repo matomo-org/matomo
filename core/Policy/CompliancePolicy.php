@@ -49,7 +49,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     {
         $description = static::generateDescription();
 
-        Piwik::postEvent('CompliancePolicy.updatePolicyDescription', [static::class, $description]);
+        Piwik::postEvent('CompliancePolicy.updatePolicyDescription', [static::class, &$description]);
 
         return $description;
     }
