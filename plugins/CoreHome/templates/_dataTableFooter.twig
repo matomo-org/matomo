@@ -40,7 +40,10 @@
         {% endif %}
     </div>
 
-    <span class="loadingPiwik" style="display:none;"><img src="plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+    <span class="loadingPiwik" style="display:none;">
+        {% include "@CoreHome/_loader.twig" %}
+        {{ 'General_LoadingData'|translate }}
+    </span>
 
     {% if properties.show_footer_message is defined and properties.show_footer_message is not empty %}
         <div class='datatableFooterMessage'>{{ properties.show_footer_message | raw }}</div>
@@ -48,6 +51,9 @@
 
 </div>
 
-<span class="loadingPiwikBelow" style="display:none;"><img src="plugins/Morpheus/images/loading-blue.gif"/> {{ 'General_LoadingData'|translate }}</span>
+<span class="loadingPiwikBelow" style="display:none;">
+    {% include "@CoreHome/_loader.twig" %}
+    {{ 'General_LoadingData'|translate }}
+</span>
 
 <div class="dataTableSpacer"></div>

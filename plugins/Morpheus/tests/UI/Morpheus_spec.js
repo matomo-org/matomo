@@ -18,9 +18,9 @@ describe("Morpheus", function () {
 
     it("should show all UI components and CSS classes", async function() {
         await page.goto(url);
-        await page.waitForSelector('.progressbar img');
+        await page.waitForSelector('.progressbar .matomo-loader');
         await page.evaluate(() => {
-            $('img[src~=loading],.progressbar img').each(function () {
+            $('img[src~=loading],.progressbar .matomo-loader').each(function () {
                 $(this).hide();
             });
         });

@@ -35,10 +35,7 @@
     <div>
       <div :class="{ hide_only: !isLoading }">
         <div class="loadingPiwik">
-          <img
-            src="plugins/Morpheus/images/loading-blue.gif"
-            :alt="translate('General_LoadingData')"
-          />
+          <MatomoLoader />
           {{ translate('General_LoadingData') }}
         </div>
       </div>
@@ -144,15 +141,16 @@
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
 import {
-  Matomo,
-  MatomoDialog,
-  Site,
+  translate,
+  AjaxHelper,
   ContentBlock,
   ContentIntro,
   EnrichedHeadline,
-  AjaxHelper,
+  Matomo,
+  MatomoDialog,
+  MatomoLoader,
   MatomoUrl,
-  translate,
+  Site,
 } from 'CoreHome';
 import { Setting } from 'CorePluginsAdmin';
 import ButtonBar from './ButtonBar.vue';
@@ -181,11 +179,12 @@ export default defineComponent({
     privacyManagerEnabled: Boolean,
   },
   components: {
-    ContentBlock,
-    MatomoDialog,
     ButtonBar,
-    SiteFields,
+    ContentBlock,
     EnrichedHeadline,
+    MatomoDialog,
+    MatomoLoader,
+    SiteFields,
   },
   directives: {
     ContentIntro,
