@@ -9,14 +9,10 @@
 
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
-use Piwik\Container\StaticContainer;
-use Piwik\Plugins\DevicesDetection\Settings\OnlyMajorVersions;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\DevicesDetection\DevicesDetection;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
-use Piwik\Tracker\Cache;
 
 class BrowserVersion extends Base
 {
@@ -42,15 +38,8 @@ class BrowserVersion extends Base
 
         if (!empty($aBrowserInfo['version'])) {
             $version = substr($aBrowserInfo['version'], 0, 20);
-
-            $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-            if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-                $idSite = $request->getIdSite();
-                $cache = Cache::getCacheWebsiteAttributes($idSite);
-                $cacheKey = OnlyMajorVersions::class;
-                if (($cache[$cacheKey] ?? false) === true) {
-                    return explode('.', $version, 2)[0];
-                }
+            if (DevicesDetection::shouldOnlyStoreMajorVersions($request->getIdSiteIfExists())) {
+                return explode('.', $version, 2)[0];
             }
             return $version;
         }
