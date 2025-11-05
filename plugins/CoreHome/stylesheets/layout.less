@@ -14,6 +14,11 @@ ul.browser-default {
 nav {
   background-color: @theme-color-header-background !important;
 
+  a:focus-visible,
+  button:focus-visible {
+    outline-color: @theme-color-focus-ring-alternative;
+  }
+
   .brand-logo {
     font-size: 30px;
   }
