@@ -3849,11 +3849,6 @@ parameters:
 			path: plugins/CoreVue/Commands/Build.php
 
 		-
-			message: "#^Parameter \\#1 \\$idSite of static method Piwik\\\\Tracker\\\\Cache\\:\\:deleteCacheWebsiteAttributes\\(\\) expects string, int given\\.$#"
-			count: 2
-			path: plugins/CustomDimensions/API.php
-
-		-
 			message: "#^Parameter \\#5 \\$segment of static method Piwik\\\\Archive\\:\\:createDataTableFromArchive\\(\\) expects string, bool given\\.$#"
 			count: 2
 			path: plugins/CustomDimensions/API.php

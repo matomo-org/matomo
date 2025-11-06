@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Plugins\DevicesDetection\DevicesDetection;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -33,6 +34,11 @@ class OsVersion extends Base
     {
         $parser    = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
 
-        return $parser->getOs('version');
+        $osVersion = $parser->getOs('version');
+
+        if (DevicesDetection::shouldOnlyStoreMajorVersions($request->getIdSiteIfExists())) {
+            return explode('.', $osVersion, 2)[0];
+        }
+        return $osVersion;
     }
 }

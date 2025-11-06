@@ -14,6 +14,11 @@
             <notes>Device model detection and device model report must be disabled.</notes>
         </row>
 		<row>
+			<name>Only major versions</name>
+			<value>non_compliant</value>
+			<notes>Only major OS and browser versions are stored.</notes>
+		</row>
+		<row>
 			<name>Turn off visits log and visitor profiles</name>
 			<value>non_compliant</value>
 			<notes>Visits log is required to be disabled.</notes>
@@ -56,7 +61,7 @@
 		<row>
 			<name>Opt out</name>
 			<value>unknown</value>
-            <notes>Opt out must be manually set up and configured. &lt;a href="https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance" target="_blank" rel="noreferrer noopener"&gt;Learn more&lt;/a&gt;</notes>
+			<notes>Opt out must be manually set up and configured. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;</notes>
 		</row>
 	</complianceRequirements>
 </result>

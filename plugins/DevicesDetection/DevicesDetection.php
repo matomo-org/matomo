@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Plugins\DevicesDetection\Settings\OnlyMajorVersions;
 use Piwik\Plugins\DevicesDetection\Settings\DeviceModelDetectionDisabled;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
@@ -52,6 +53,17 @@ class DevicesDetection extends \Piwik\Plugin
     public function getStylesheetFiles(&$files)
     {
         $files[] = 'plugins/DevicesDetection/vue/src/DetectionPage/DetectionPage.less';
+    }
+
+    public static function shouldOnlyStoreMajorVersions(?int $idsite = null): bool
+    {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $cache = TrackerCache::getCacheWebsiteAttributes($idsite);
+            $cacheKey = OnlyMajorVersions::class;
+            return (($cache[$cacheKey] ?? false) === true);
+        }
+        return false;
     }
 
     /**

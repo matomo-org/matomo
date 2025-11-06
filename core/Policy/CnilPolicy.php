@@ -49,13 +49,4 @@ class CnilPolicy extends CompliancePolicy
             ],
         ];
     }
-
-    protected static function getMinimumRequiredPlugins(): array
-    {
-        return [
-            'PrivacyManager',
-            'Live',
-            'WebsiteMeasurable',
-        ];
-    }
 }

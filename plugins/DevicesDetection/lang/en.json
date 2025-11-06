@@ -38,6 +38,8 @@
         "DeviceTypes": "Device types",
         "DeviceTypeReportDocumentation": "This report shows the types of devices your visitors were using. This report will always show all device types Matomo is able to detect, even if there were no visits with a specific type.",
         "FeaturePhone": "Feature phone",
+        "OnlyMajorVersionsSettingTitle": "Only major versions",
+        "OnlyMajorVersionsSettingRequirementNote": "Only major OS and browser versions are stored.",
         "OperatingSystemFamilies": "Operating System families",
         "OperatingSystemFamily": "Operating system family",
         "OperatingSystemFamiliesReportDocumentation": "This report shows you the operating systems your visitors are using grouped by operating system family. An operating system family consists of different versions or distributions.",

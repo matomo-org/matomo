@@ -258,7 +258,7 @@ class Cache
     /**
      * Delete existing Tracker cache
      *
-     * @param string $idSite (website ID of the site to clear cache for
+     * @param string|int $idSite (website ID of the site to clear cache for
      */
     public static function deleteCacheWebsiteAttributes($idSite)
     {
