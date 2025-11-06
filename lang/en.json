@@ -437,6 +437,8 @@
         "SaveImageOnYourComputer": "To save the image on your computer, right click on the image and select \"Save Image As…\"",
         "Search": "Search",
         "SearchNoResults": "No results",
+        "SecondaryDimension": "Secondary dimension is %s.",
+        "SwitchToSecondaryDimension": "Switch to %s",
         "SecondsSinceFirstVisit": "Seconds since first visit",
         "SecondsSinceLastEcommerceOrder": "Seconds since last Ecommerce order",
         "SecondsSinceLastVisit": "Seconds since last visit",

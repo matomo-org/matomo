@@ -1455,7 +1455,7 @@
 				</parameters>
 				<uniqueId>widgetReferrersgetAIAssistants</uniqueId>
 				<isWide>0</isWide>
-				<viewDataTable>graphPie</viewDataTable>
+				<viewDataTable>tableAllColumns</viewDataTable>
 				<isReport>1</isReport>
 			</row>
 		</widgets>
