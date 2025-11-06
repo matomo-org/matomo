@@ -228,16 +228,31 @@ describe("Login", function () {
     });
 
     it("should show invalid host warning if redirect url is not trusted in logme", async function () {
+        await page.clearCookies(); // ensure user is logged out
         testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.save();
 
         await page.goto(formlessLoginUrl + "&url="+encodeURIComponent("https://www.matomo.org/security"));
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('logme_redirect_invalid');
+        expect(await page.getWholeCurrentUrl()).to.contain(formlessLoginUrl + "&url=" + encodeURIComponent("https://www.matomo.org/security")); // no redirect
+        expect(await page.evaluate(() => document.getElementsByClassName('content')[0].innerText)).to.contain('The redirect URL host is not valid, it is not a trusted host.');
+    });
+
+    it("should show error when superuser tries to use logme", async function () {
+        await page.clearCookies(); // ensure user is logged out
+        testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+
+        await page.goto('?module=Login&action=logme&login=' + superUserLogin + '&password=6495dcb1a3a3353b109562954b5514d3'); // md5 of superUserPassword
+
+        expect(await page.getWholeCurrentUrl()).to.contain('?module=Login&action=logme&login=' + superUserLogin + '&password=6495dcb1a3a3353b109562954b5514d3'); // no redirect
+        expect(await page.evaluate(() => document.getElementsByClassName('content')[0].innerText)).to.contain('A user with superuser access cannot be authenticated using the \'logme\' mechanism.');
     });
 
     it("should redirect if host is trusted in logme", async function () {
+        await page.clearCookies(); // ensure user is logged out
         testEnvironment.overrideConfig('General', 'login_allow_logme', '1');
         testEnvironment.overrideConfig('General', 'trusted_hosts', ["matomo.org"]);
         testEnvironment.testUseMockAuth = 0;
@@ -255,7 +270,7 @@ describe("Login", function () {
 
         await page.goto(formlessLoginUrl + "&url=//google.com\\@localhost/path");
 
-        expect(await page.getWholeCurrentUrl()).to.equal("http://localhost/path"); // username part is hidden
+        expect(await page.getWholeCurrentUrl()).to.match(/https?:\/\/localhost\/path/); // username part is hidden
     });
 
     it("should not redirect to invalid url", async function () {
