@@ -265,6 +265,7 @@ class DataSubjectsTest extends IntegrationTestCase
             'log_foo' => 6,
             'log_conversion_item' => 8,
             'log_conversion' => 32,
+            'log_bot_request' => 0,
         ], $result);
 
         // assert new counts
@@ -342,6 +343,7 @@ class DataSubjectsTest extends IntegrationTestCase
             'log_foo' => 3,
             'log_conversion_item' => 4,
             'log_conversion' => 16,
+            'log_bot_request' => 0,
         ], $result);
 
         // assert new counts

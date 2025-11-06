@@ -122,4 +122,25 @@ class BotRequestsDao
 
         return (int)Db::get()->rowCount($result);
     }
+
+    /**
+     * Delete bot telemetry records for specific sites
+     *
+     * @param array<int|string> $siteIds Delete records older than this date
+     * @return int Number of deleted records
+     */
+    public function deleteRecordsForIdSites(array $siteIds): int
+    {
+        $tableName = self::getPrefixedTableName();
+        $siteIds   = array_map('intval', $siteIds);
+
+        $sql = sprintf(
+            'DELETE FROM `%s` WHERE idsite IN (' . implode(', ', $siteIds) . ') LIMIT 25000',
+            $tableName
+        );
+
+        $result = Db::query($sql);
+
+        return (int)Db::get()->rowCount($result);
+    }
 }

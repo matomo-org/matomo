@@ -86,6 +86,25 @@ class DataSubjects
             }
         }
 
+        /**
+         * Lets you delete data subjects to make your plugin GDPR compliant.
+         * This can be useful if you have developed a plugin which stores any data for specific sites, not bound to a visit but doesn't
+         * use any core logic to store this data. If core API's are used, for example log tables, then the data may
+         * be deleted automatically.
+         *
+         * **Example**
+         *
+         *     public function deleteDataSubjectsForDeletedSites(&$result, $idSitesNoLongerExisting)
+         *     {
+         *         $numDeletes = $this->deleteDataForSites($idSitesNoLongerExisting)
+         *         $result['myplugin'] = $numDeletes;
+         *     }
+         *
+         * @param array &$results An array storing the result of how much data was deleted for.
+         * @param array &$idSitesNoLongerExisting An array with multiple site ids that were removed
+         */
+        Piwik::postEvent('PrivacyManager.deleteDataSubjectsForDeletedSites', [&$results, $idSitesNoLongerExisting]);
+
         krsort($results); // make sure test results are always in same order
         return $results;
     }

@@ -40,6 +40,7 @@ class BotTracking extends Plugin
     {
         return [
             'PrivacyManager.deleteLogsOlderThan' => 'deleteLogsOlderThan',
+            'PrivacyManager.deleteDataSubjectsForDeletedSites' => 'deleteDataSubjectsForDeletedSites',
             'Tracker.isBotRequest' => 'isBotRequest',
         ];
     }
@@ -63,6 +64,12 @@ class BotTracking extends Plugin
     public function deleteLogsOlderThan(Date $dateUpperLimit): void
     {
         (new BotRequestsDao())->deleteOldRecords($dateUpperLimit);
+    }
+
+    public function deleteDataSubjectsForDeletedSites(array &$result, array $idSitesNoLongerExisting): void
+    {
+        $dao                          = new BotRequestsDao();
+        $result[$dao::getTableName()] = $dao->deleteRecordsForIdSites($idSitesNoLongerExisting);
     }
 
     /**
