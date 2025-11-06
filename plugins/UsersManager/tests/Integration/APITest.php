@@ -1386,6 +1386,9 @@ class APITest extends IntegrationTestCase
             }
         );
 
+        $this->addUserWithAccess('test123', 'superuser', 1);
+        $this->setCurrentUser('test123', 'superuser', 1);
+
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $isPending = $this->model->isPendingUser('pendingLoginTest');
         self::assertTrue($isPending);
