@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\Tracker;
 
-use Piwik\Common;
 use Piwik\Date;
+use Piwik\Log\LoggerInterface;
 use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Tracker\Action;
@@ -30,9 +30,15 @@ class BotRequestProcessor extends \Piwik\Tracker\BotRequestProcessor
      */
     private $dao;
 
-    public function __construct(BotRequestsDao $dao)
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    public function __construct(BotRequestsDao $dao, LoggerInterface $logger)
     {
         $this->dao = $dao;
+        $this->logger = $logger;
     }
 
     public function handleRequest(Request $request): bool
@@ -94,9 +100,9 @@ class BotRequestProcessor extends \Piwik\Tracker\BotRequestProcessor
 
             $idRequest = $this->dao->insert($data);
 
-            Common::printDebug('Bot request recorded: idrequest=' . $idRequest);
+            $this->logger->debug('Bot request recorded: idrequest=' . $idRequest);
         } catch (\Exception $e) {
-            Common::printDebug('Error recording bot request: ' . $e->getMessage());
+            $this->logger->debug('Error recording bot request: ' . $e->getMessage());
             // Don't throw - we don't want to break tracking for other processors
         }
 
@@ -137,7 +143,7 @@ class BotRequestProcessor extends \Piwik\Tracker\BotRequestProcessor
                 return (int) $actionId;
             }
         } catch (\Exception $e) {
-            Common::printDebug('Error resolving action ID: ' . $e->getMessage());
+            $this->logger->debug('Error resolving action ID: ' . $e->getMessage());
         }
 
         return null;

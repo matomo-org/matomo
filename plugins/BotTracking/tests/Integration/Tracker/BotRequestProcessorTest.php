@@ -13,6 +13,7 @@ namespace Piwik\Plugins\BotTracking\tests\Integration\Tracker;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Log\NullLogger;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Tracker\BotRequestProcessor;
 use Piwik\Tests\Framework\Fixture;
@@ -43,7 +44,7 @@ class BotRequestProcessorTest extends IntegrationTestCase
 
         $this->idSite = Fixture::createWebsite('2025-01-01 00:00:00');
 
-        $this->requestProcessor = new BotRequestProcessor(new BotRequestsDao());
+        $this->requestProcessor = new BotRequestProcessor(new BotRequestsDao(), new NullLogger());
     }
 
     public function testProcessRequestParamsDetectsBotRequest(): void
