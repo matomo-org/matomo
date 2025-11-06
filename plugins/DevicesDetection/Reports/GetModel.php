@@ -12,6 +12,8 @@ namespace Piwik\Plugins\DevicesDetection\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\DevicesDetection\Columns\DeviceModel;
+use Piwik\Plugins\DevicesDetection\DevicesDetection;
+use Piwik\Request;
 
 class GetModel extends Base
 {
@@ -31,5 +33,11 @@ class GetModel extends Base
         $view->config->show_search = true;
         $view->config->show_exclude_low_population = false;
         $view->config->addTranslation('label', Piwik::translate("DevicesDetection_dataTableLabelModels"));
+    }
+
+    public function isEnabled()
+    {
+        $idSite = Request::fromRequest()->getIntegerParameter('idSite', 0);
+        return false === DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($idSite);
     }
 }

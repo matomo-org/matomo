@@ -67,6 +67,9 @@
         "Wearable": "Wearable",
         "WidgetBrowsers": "Visitor Browser",
         "WidgetBrowsersDocumentation": "This report contains information about what kind of browser your visitors were using.",
-        "WidgetBrowserVersionsDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately."
+        "WidgetBrowserVersionsDocumentation": "This report contains information about what kind of browser your visitors were using. Each browser version is listed separately.",
+        "DeviceModelDetectionDisabled": "Device model detection disabled",
+        "DeviceModelDetectionDisabledRequirementNote": "Device model detection and device model report must be disabled.",
+        "DeviceModelReportDisabledByCompliancePolicy": "Device model report is disabled by compliance policy."
     }
 }

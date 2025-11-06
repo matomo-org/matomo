@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\Resolution;
 
+use Exception;
 use Piwik\Archive;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 
 /**
@@ -34,6 +36,11 @@ class API extends \Piwik\Plugin\API
 
     public function getResolution($idSite, $period, $date, $segment = false)
     {
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        if (Resolution::isScreenResolutionDetectionDisabledByCompliancePolicy($idSite)) {
+            throw new Exception($translator->translate('Resolution_ScreenResolutionReportDisabledByCompliancePolicy'));
+        }
+
         $dataTable = $this->getDataTable(Archiver::RESOLUTION_RECORD_NAME, $idSite, $period, $date, $segment);
         $dataTable->filter('AddSegmentValue');
         return $dataTable;
