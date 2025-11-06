@@ -126,7 +126,7 @@ class UserRepository
 
     protected function sendUserCreationNotification(string $createdUserLogin): void
     {
-        if (Piwik::getCurrentUserLogin() !== 'anonymous') {
+        if (Piwik::getCurrentUserLogin() !== 'anonymous' && Piwik::getCurrentUserEmail() !== '') {
             $mail = StaticContainer::getContainer()->make(UserCreatedEmail::class, [
                 'login' => Piwik::getCurrentUserLogin(),
                 'emailAddress' => Piwik::getCurrentUserEmail(),
