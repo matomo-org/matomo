@@ -192,6 +192,51 @@ class PrivacyManagerConfigTest extends IntegrationTestCase
         $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->anonymizeReferrer);
     }
 
+    public function testAnonymizeReferrerCnilPolicyDisabled()
+    {
+        $this->setConfigSiteId(null);
+
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = false);
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_NONE, $this->config->anonymizeReferrer);
+
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_QUERY;
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_QUERY, $this->config->anonymizeReferrer);
+
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_PATH;
+        $this->setConfigSiteId(2);
+        // site specific value missing, fallback to global
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->anonymizeReferrer);
+
+        // set weaker value than the policy requires
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_QUERY;
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_QUERY, $this->config->anonymizeReferrer);
+    }
+
+    public function testAnonymizeReferrerCnilPolicyEnabled()
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        API::getInstance()->setComplianceStatus('all', 'cnil_v1', $enabled = true);
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->anonymizeReferrer);
+
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_QUERY;
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->anonymizeReferrer);
+
+        $this->setConfigSiteId(2);
+        // set stronger value than the policy requires
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_ALL;
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_ALL, $this->config->anonymizeReferrer);
+
+        // set weaker value than the policy requires
+        $this->config->anonymizeReferrer = ReferrerAnonymizer::EXCLUDE_QUERY;
+        $this->assertSame(ReferrerAnonymizer::EXCLUDE_PATH, $this->config->anonymizeReferrer);
+    }
+
+
     public function testSetTrackerCacheContent()
     {
         $trackerCache = ['existingEntry' => 'test'];
