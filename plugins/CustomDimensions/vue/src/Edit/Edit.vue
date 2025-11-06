@@ -12,7 +12,7 @@
     >
       <p v-show="isLoading || isUpdating">
         <span class="loadingPiwik">
-          <img src="plugins/Morpheus/images/loading-blue.gif" />
+          <MatomoLoader />
           {{ translate('General_LoadingData') }}
         </span>
       </p>
@@ -172,12 +172,13 @@ import { defineComponent } from 'vue';
 import {
   clone,
   translate,
-  Matomo,
   ContentBlock,
   CopyToClipboard,
+  Matomo,
+  MatomoLoader,
+  MatomoUrl,
   NotificationsStore,
   NotificationType,
-  MatomoUrl,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import CustomDimensionsStore from '../CustomDimensions.store';
@@ -202,6 +203,7 @@ export default defineComponent({
   components: {
     ContentBlock,
     Field,
+    MatomoLoader,
   },
   directives: {
     CopyToClipboard,

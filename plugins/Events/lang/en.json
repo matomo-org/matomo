@@ -28,8 +28,6 @@
         "MaxValueDocumentation": "The maximum value for this event",
         "MinValue": "Minimum Event value",
         "MinValueDocumentation": "The minimum value for this event",
-        "SecondaryDimension": "Secondary dimension is %s.",
-        "SwitchToSecondaryDimension": "Switch to %s",
         "TopEvents": "Top Events",
         "TotalEvents": "Total events",
         "TotalEventsDocumentation": "Total number of events",

@@ -56,9 +56,9 @@ describe("Theme", function () {
 
     it("should theme the UI demo page", async function () {
         await page.goto("?module=Morpheus&action=demo");
-        await page.waitForSelector('.progressbar img');
+        await page.waitForSelector('.progressbar .matomo-loader');
         await page.evaluate(() => {
-            $('img[src~=loading],.progressbar img').each(function () {
+            $('img[src~=loading],.progressbar .matomo-loader').each(function () {
                 $(this).hide();
             });
         });

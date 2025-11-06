@@ -71,7 +71,7 @@ jobs:
           php-version: '8.0'
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - name: Setup node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: '16'
           cache: 'npm'

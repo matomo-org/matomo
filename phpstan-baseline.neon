@@ -1116,11 +1116,6 @@ parameters:
 			path: core/DataTable/Filter/ColumnCallbackDeleteRow.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: core/DataTable/Filter/ExcludeLowPopulation.php
-
-		-
 			message: "#^Property Piwik\\\\DataTable\\\\Filter\\\\Pattern\\:\\:\\$patternToSearch is never read, only written\\.$#"
 			count: 1
 			path: core/DataTable/Filter/Pattern.php
@@ -4972,26 +4967,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Widgets\\\\PromoServices\\:\\:\\$advertising is never read, only written\\.$#"
 			count: 1
 			path: plugins/ProfessionalServices/Widgets/PromoServices.php
-
-		-
-			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\DataTableInterface\\:\\:getTable\\(\\)\\.$#"
-			count: 1
-			path: plugins/Referrers/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Referrers\\\\API\\:\\:filterOutKeywordNotDefined\\(\\) is unused\\.$#"
-			count: 1
-			path: plugins/Referrers/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\:\\:getColumn\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Referrers/API.php
-
-		-
-			message: "#^Variable \\$numericArchives in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/Referrers/API.php
 
 		-
 			message: "#^Variable \\$requestedColumns in empty\\(\\) is never defined\\.$#"

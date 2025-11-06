@@ -201,8 +201,6 @@ class Events extends \Piwik\Plugin
             return;
         }
 
-        $view->config->show_related_reports = true;
-
         $apiMethod = $view->requestConfig->getApiMethodToRequest();
         $secondaryDimensions = API::getInstance()->getSecondaryDimensions($apiMethod);
 
@@ -210,25 +208,12 @@ class Events extends \Piwik\Plugin
             return;
         }
 
-        $secondaryDimensionTranslation = $this->getDimensionLabel($secondaryDimension);
-        $view->config->related_reports_title =
-            Piwik::translate('Events_SecondaryDimension', $secondaryDimensionTranslation)
-            . "<br/>"
-            . Piwik::translate('Events_SwitchToSecondaryDimension', '');
-
+        $dimensions = [];
         foreach ($secondaryDimensions as $dimension) {
-            if ($dimension == $secondaryDimension) {
-                // don't show as related report the currently selected dimension
-                continue;
-            }
-
-            $dimensionTranslation = $this->getDimensionLabel($dimension);
-            $view->config->addRelatedReport(
-                $view->requestConfig->apiMethodToRequestDataTable,
-                $dimensionTranslation,
-                array('secondaryDimension' => $dimension)
-            );
+            $dimensions[$dimension] = $this->getDimensionLabel($dimension);
         }
+
+        $view->config->setSecondaryDimensions($dimensions, $secondaryDimension);
     }
 
     private function addTooltipEventValue(ViewDataTable $view)

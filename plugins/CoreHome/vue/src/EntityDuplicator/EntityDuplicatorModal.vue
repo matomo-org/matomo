@@ -116,8 +116,8 @@ export default defineComponent({
     Form,
   },
   components: {
-    MatomoLoader,
     Field,
+    MatomoLoader,
   },
   props: {
     /**
