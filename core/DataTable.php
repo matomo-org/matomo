@@ -957,7 +957,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * Returns an array containing all column values for the requested column.
      *
-     * @param string $name The column name.
+     * @param string|int $name The column name.
      * @return array The array of column values.
      */
     public function getColumn($name)

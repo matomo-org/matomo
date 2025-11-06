@@ -45,7 +45,7 @@
       style="display:none;"
       id="transitions_inline_loading"
     >
-      <img src="plugins/Morpheus/images/loading-blue.gif" alt/>
+      <MatomoLoader />
       <span>{{ translate('General_LoadingData') }}</span>
     </div>
     <div
@@ -93,8 +93,9 @@ import { defineComponent, onBeforeUnmount, ref } from 'vue';
 import {
   translate,
   AjaxHelper,
-  Matomo,
   ActivityIndicator,
+  Matomo,
+  MatomoLoader,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import TransitionExporter from '../TransitionExporter/TransitionExporter';
@@ -127,8 +128,9 @@ export default defineComponent({
     isWidget: Boolean,
   },
   components: {
-    Field,
     ActivityIndicator,
+    Field,
+    MatomoLoader,
   },
   directives: {
     TransitionExporter,

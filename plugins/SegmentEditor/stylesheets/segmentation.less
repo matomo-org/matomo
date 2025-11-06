@@ -141,6 +141,7 @@ div.scrollable {
     color: #505050;
     text-align: left;
     padding: 3px 7px 0 0;
+    margin-left: 6px;
 
     > * {
         vertical-align: top;
@@ -366,10 +367,17 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
 }
 
 .segmentEditorPanel.expanded .add_new_segment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 100%;
-    margin: 16px 0 8px 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin: 1rem 0 0.5rem 0;
     height: auto;
     min-height: 36px;
+    line-height: 1.5;
 }
 
 .segmentationContainer > ul.submenu > li {
