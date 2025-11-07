@@ -9,7 +9,11 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### New Features
 
 * Themes can now customize the focus ring colors using `@theme-color-focus-ring` (used globally) and `@theme-color-focus-ring-alternative` (used in header navigation on solid background).
+* New event `PrivacyManager.deleteDataSubjectsForDeletedSites` to enable plugins to be GDPR compliant, when tracking visit unrelated data.
 
+### HTTP Tracking API
+
+* The new Bot Tracking plugin now supports analyzing requests from AI bots. See https://developer.matomo.org/api-reference/tracking-api#tracking-bots for supported tracking parameters.
 
 ## Matomo 5.5.0
 
