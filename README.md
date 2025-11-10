@@ -76,7 +76,7 @@ and we need your help to make Matomo better… Why not participate in a useful p
 
 ## Careers at Matomo
 
-We're hiring! [Learn more in our Careers page.](https://matomo.org/jobs/)
+We're hiring! Learn more on our [Careers page](https://matomo.org/jobs/).
 
 ## Translations
 
