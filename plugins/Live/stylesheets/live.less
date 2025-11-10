@@ -149,12 +149,13 @@ ol.visitorLog {
 }
 
 ol.actionList > li:not(.pageviewActions) {
-    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
     line-height: 20px;
     position: relative;
     min-height: 30px;
 
-    &:before {
+    &::before {
         vertical-align: top;
         background-color: #424242;
         border: 5px solid #424242;
@@ -162,19 +163,20 @@ ol.actionList > li:not(.pageviewActions) {
         line-height: 0;
         font-size: 0;
         content: " ";
-        top: 10px;
-        position: relative;
+        top: 5px;
+        position: absolute;
         box-shadow: 0 0 0 7px #fff;
         left: -14px;
         z-index: 2;
     }
 
-    &:after {
+    &::after {
         content: " ";
         border-left: 2px solid #d2d2d2;
         position: absolute;
+        top: 0;
         left: -10px;
-        height: calc(~"100% - 20px");
+        height: 100%;
         margin-top: 20px;
         z-index: 1;
     }
@@ -473,9 +475,6 @@ a.visitor-log-visitor-profile-link {
 
 .actionList {
     > li > div {
-        display: inline-block;
-        width: 90%;
-
         > * {
             vertical-align: top;
         }
@@ -486,6 +485,7 @@ a.visitor-log-visitor-profile-link {
     display: inline;
     height: 18px;
     position: absolute;
+    top: 0;
     left: -18px;
     background-color: #fff;
     z-index: 3;
