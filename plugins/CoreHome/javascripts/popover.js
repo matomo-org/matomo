@@ -16,13 +16,13 @@ var Piwik_Popover = (function () {
         if (container === false) {
             container = $(document.createElement('div')).attr('id', 'Piwik_Popover');
         }
+        if (!$('#Piwik_Popover_Wrapper').length) {
+          $(document.createElement('div')).attr('id', 'Piwik_Popover_Wrapper').appendTo('body');
+        }
     };
 
     var openPopover = function (title, dialogClass) {
         createContainer();
-        if (!$('#Piwik_Popover_Wrapper').length) {
-          $(document.createElement('div')).attr('id', 'Piwik_Popover_Wrapper').appendTo('body');
-        }
 
         var options =
         {
