@@ -23,7 +23,7 @@ trait PolicyComparisonTrait
      */
     public static function getPolicyRequiredValues(?int $idSite = null): array
     {
-        $policyValues = self::getPolicyRequirements();
+        $policyValues = static::getPolicyRequirements();
 
         /** @var class-string<CompliancePolicy> $policy */
         foreach (array_keys($policyValues) as $policy) {
