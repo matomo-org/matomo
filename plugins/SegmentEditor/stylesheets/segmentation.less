@@ -233,6 +233,8 @@ div.scrollable {
 }
 
 .segmentationContainer .submenu ul {
+    display: flex;
+    flex-direction: column;
     color: @theme-color-text-light;
     float: none;
     font-size: 11px;
@@ -243,11 +245,19 @@ div.scrollable {
     padding-top: 10px;
 }
 
-
 .segmentationContainer .submenu ul li {
     padding: 2px 0 2px 0;
     margin: 3px 0 0 0;
     cursor: pointer;
+    order: 2;
+}
+
+.segmentationContainer .submenu ul li[data-idsegment=""] {
+    order: 0;
+}
+
+.segmentationContainer .submenu ul li.segmentStarred {
+    order: 1;
 }
 
 .segmentationContainer .submenu ul li:hover,
@@ -269,18 +279,25 @@ div.scrollable {
 }
 
 .segmentationContainer ul.submenu > li {
-    span.editSegment, span.compareSegment {
-        display: block;
-        float: right;
-        text-align: center;
-        margin-right: 4px;
-        font-weight: normal;
+    span.editSegment,
+    span.compareSegment,
+    .starSegment {
+        flex: none;
         width: 16px;
         height: 16px;
-        .opacity(0.5);
+
+        // Button reset
+        padding: 0;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+
+        font-weight: normal;
+        text-align: center;
+        opacity: 0.5;
 
         &:hover {
-            .opacity(1);
+          opacity: 1;
         }
     }
 
@@ -289,13 +306,22 @@ div.scrollable {
         order: 3;
     }
 
+    .starSegment {
+        order: 2;
+    }
+
+    .segmentStarred .starSegment path {
+        fill: black;
+    }
+
     span.compareSegment {
         background: url(plugins/Morpheus/images/compare.svg) no-repeat;
         background-size: cover;
         order: 2;
 
         &.allVisitsCompareSegment {
-            margin-right: 24px;
+            margin-left: 20px;
+            margin-right: 20px;
         }
     }
     span.compareSegment.no-click {
@@ -398,6 +424,8 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
 
     li {
         display: flex;
+        align-items: center;
+        gap: 4px;
     }
 }
 
@@ -523,9 +551,8 @@ a.metric_category {
 }
 
 .segname {
-    width: ~"calc(100% - 40px)";
+    flex: auto;
     padding-right: 10px;
-    display: inline-block;
     order: 1;
 }
 

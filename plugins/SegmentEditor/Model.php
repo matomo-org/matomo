@@ -282,6 +282,7 @@ class Model
                          `auto_archive` tinyint(4) NOT NULL default 0,
                          `ts_created` TIMESTAMP NULL,
                          `ts_last_edit` TIMESTAMP NULL,
+                         `starred` tinyint(4) NOT NULL default 0,
                          `deleted` tinyint(4) NOT NULL default 0,
                          PRIMARY KEY (`idsegment`)";
 

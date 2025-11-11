@@ -329,6 +329,7 @@ class API extends \Piwik\Plugin\API
             'enable_only_idsite' => (int) $idSite,
             'auto_archive'       => (int) $autoArchive,
             'ts_created'         => Date::now()->getDatetime(),
+            'starred'            => 0,
             'deleted'            => 0,
         );
 
@@ -346,6 +347,36 @@ class API extends \Piwik\Plugin\API
         }
 
         return $id;
+    }
+
+    /**
+     * Stars a stored segment.
+     *
+     * @param int $idSegment
+     * @throws Exception if the user is not logged in or does not have the required permissions.
+     */
+    public function star(int $idSegment): void
+    {
+        $segment = $this->getSegmentOrFail($idSegment);
+        $this->checkUserCanEditOrDeleteSegment($segment);
+        $bind = array('starred' => 1);
+
+        $this->getModel()->updateSegment($idSegment, $bind);
+    }
+
+    /**
+     * Unstars a stored segment.
+     *
+     * @param int $idSegment
+     * @throws Exception if the user is not logged in or does not have the required permissions.
+     */
+    public function unstar(int $idSegment): void
+    {
+        $segment = $this->getSegmentOrFail($idSegment);
+        $this->checkUserCanEditOrDeleteSegment($segment);
+        $bind = array('starred' => 0);
+
+        $this->getModel()->updateSegment($idSegment, $bind);
     }
 
     /**
