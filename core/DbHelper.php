@@ -465,4 +465,12 @@ class DbHelper
     {
         return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
     }
+
+    /**
+     * @return void
+     */
+    public static function resetSchema()
+    {
+        Schema::getInstance()->unsetSchema();
+    }
 }
