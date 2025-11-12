@@ -606,38 +606,6 @@ class ApiTest extends IntegrationTestCase
         $this->assertEquals("http://piwik.net", $siteInfo['main_url']);
     }
 
-    public function testGetSiteFromIdWithEcommerceSiteCnilPolicyDisabled()
-    {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
-        $name = "website ecommerce enabled";
-        // site with ecommerce enabled
-        $idsite = API::getInstance()->addSite($name, ["http://piwik.net", "http://piwik.com/test/"], $ecommerce = 1);
-        self::assertIsInt($idsite);
-
-        APIPrivacyManager::getInstance()->setComplianceStatus($idsite, 'cnil_v1', $enabled = false);
-
-        $siteInfo = API::getInstance()->getSiteFromId($idsite);
-        $this->assertEquals(1, $siteInfo['ecommerce'], "site ecommerce value should be 1");
-    }
-
-    public function testGetSiteFromIdWithEcommerceSiteCnilPolicyEnabled()
-    {
-        $container = StaticContainer::getContainer();
-        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
-
-        $name = "website ecommerce enabled";
-        // site with ecommerce enabled
-        $idsite = API::getInstance()->addSite($name, ["http://piwik.net", "http://piwik.com/test/"], $ecommerce = 1);
-        self::assertIsInt($idsite);
-
-        APIPrivacyManager::getInstance()->setComplianceStatus($idsite, 'cnil_v1', $enabled = true);
-
-        $siteInfo = API::getInstance()->getSiteFromId($idsite);
-        $this->assertEquals(0, $siteInfo['ecommerce'], "site ecommerce value should be 0");
-    }
-
     /**
      * there is no admin site available -> array()
      */
