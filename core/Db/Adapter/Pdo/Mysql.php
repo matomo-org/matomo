@@ -15,6 +15,7 @@ use PDOException;
 use Piwik\Config;
 use Piwik\Db;
 use Piwik\Db\AdapterInterface;
+use Piwik\Db\Schema;
 use Piwik\Piwik;
 use Zend_Config;
 use Zend_Db_Adapter_Pdo_Mysql;
@@ -140,12 +141,10 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      */
     public function checkServerVersion()
     {
-        $schemaInstance = Db\Schema::getInstance();
-        $requiredVersion = $schemaInstance->getMinimumSupportedVersion();
+        $requiredVersion = Schema::getInstance()->getMinimumSupportedVersion();
         $serverVersion   = $this->getServerVersion();
 
         if (version_compare($serverVersion, $requiredVersion) === -1) {
-            // unset schema so that we can recheck the version of the chosen schema after exception is thrown
             throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
         }
     }
