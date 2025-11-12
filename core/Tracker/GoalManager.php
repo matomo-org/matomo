@@ -20,7 +20,9 @@ use Piwik\Plugin\Dimension\ConversionDimension;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\CustomVariables\CustomVariables;
+use Piwik\Plugins\Ecommerce\Ecommerce;
 use Piwik\Plugins\Events\Actions\ActionEvent;
+use Piwik\SettingsPiwik;
 use Piwik\Tracker\Visit\VisitProperties;
 
 /**
@@ -355,6 +357,17 @@ class GoalManager
             $debugMessage = 'The conversion is an Ecommerce order';
 
             $orderId = $request->getParam('ec_id');
+            $idSite = $request->getIdSiteIfExists();
+
+            if (Ecommerce::isEcommerceRestrictedByCompliancePolicy($idSite)) {
+                // pseudonymize order ID if compliance policy restricts ecommerce tracking, because of these limitations:
+                // - we can't deal with this earlier or remove or nullify ec_id param as that would turn orders into cart updates
+                // - we can't discard or nullify order ID completely as it's used within a primary key for the order items
+                // - we can't set it to 0 or null as that would break the uniqueness constraint in log_conversion table and primary key in log_conversion_items
+                //
+                // limit to max 100 characters as that's the db column size for idorder (the hash is 64 chars long, so keeping it just to be safe)
+                $orderId = substr(hash_hmac('sha256', $idSite . '|' . $orderId, SettingsPiwik::getSalt()), 0, 100);
+            }
 
             $conversion['idorder'] = $orderId;
             $conversion['idgoal']  = self::IDGOAL_ORDER;
