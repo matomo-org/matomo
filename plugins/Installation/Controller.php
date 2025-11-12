@@ -158,13 +158,11 @@ class Controller extends ControllerAdmin
             try {
                 $dbInfos = $form->createDatabaseObject();
                 $this->createConfigFile($dbInfos);
+
                 DbHelper::unsetSchema();
                 DbHelper::checkDatabaseVersion();
 
-
                 Db::get()->checkClientVersion();
-
-
 
                 $this->redirectToNextStep(__FUNCTION__);
             } catch (Exception $e) {
