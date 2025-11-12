@@ -155,6 +155,7 @@ ol.actionList > li:not(.pageviewActions) {
     position: relative;
     min-height: 35px;
 
+    /* A custom bullet for each item */
     &::before {
         vertical-align: top;
         background-color: #424242;
@@ -170,6 +171,7 @@ ol.actionList > li:not(.pageviewActions) {
         z-index: 2;
     }
 
+    /* A thread between to visually links items */
     &::after {
         content: " ";
         border-left: 2px solid #d2d2d2;
@@ -181,8 +183,19 @@ ol.actionList > li:not(.pageviewActions) {
         z-index: 1;
     }
 
-    &:last-of-type:after {
-        border-left: none;
+    /* Double thread for collapsed items (main timeline and sub-timeline) */
+    &.collapsed-content-item::after {
+      border-right: 2px solid #d2d2d2;
+      width: 26px;
+      left: -34px;
+    }
+
+    /* No thread after the last item */
+    &:last-of-type::after,
+    &.last-collapsed-content::after,
+    &.last-collapsed-action::after,
+    &.last-action::after {
+        content: none;
     }
 
     &.duplicate {
@@ -259,12 +272,6 @@ ol.actionList > li.pageviewActions {
 // when last action group is just refreshes
 ol.actionList > li:nth-last-child(2).noPageviewActions:not(.refreshesExpanded):after {
     border-left: none;
-}
-
-ol.actionList > li:not(.pageviewActions).last-action {
-    &:after {
-        border-left: none;
-    }
 }
 
 .pageviewActions.last-action > ol.actionList > li.last-action {
