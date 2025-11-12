@@ -22,6 +22,10 @@ use Piwik\Piwik;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugin\ThemeStyles;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
+use Piwik\Segment\SegmentsList;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Tracker\Model as TrackerModel;
@@ -44,15 +48,16 @@ class CoreHome extends \Piwik\Plugin
     public function registerEvents()
     {
         return array(
-            'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'AssetManager.getJavaScriptFiles'        => 'getJsFiles',
-            'AssetManager.filterMergedJavaScripts'   => 'filterMergedJavaScripts',
-            'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Metric.addComputedMetrics'              => 'addComputedMetrics',
-            'Request.initAuthenticationObject' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
-            'AssetManager.addStylesheets' => 'addStylesheets',
+            'AssetManager.getStylesheetFiles'            => 'getStylesheetFiles',
+            'AssetManager.getJavaScriptFiles'            => 'getJsFiles',
+            'AssetManager.filterMergedJavaScripts'       => 'filterMergedJavaScripts',
+            'Translate.getClientSideTranslationKeys'     => 'getClientSideTranslationKeys',
+            'Metric.addComputedMetrics'                  =>  'addComputedMetrics',
+            'Request.initAuthenticationObject'           => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
+            'AssetManager.addStylesheets'                => 'addStylesheets',
             'Request.dispatchCoreAndPluginUpdatesScreen' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
-            'Tracker.setTrackerCacheGeneral' => 'setTrackerCacheGeneral',
+            'Tracker.setTrackerCacheGeneral'             => 'setTrackerCacheGeneral',
+            'Segment.filterSegments'                     => 'filterSegmentsForCNIL',
         );
     }
 
@@ -431,6 +436,35 @@ class CoreHome extends \Piwik\Plugin
                     }
                 }
             });
+        }
+    }
+
+    public function filterSegmentsForCNIL(SegmentsList &$list, array $idSites)
+    {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $limitSegmentsSettingEnabled = false;
+            if (!empty($idSites)) {
+                $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
+            } else {
+                foreach ($idSites as $idsite) {
+                    $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
+                }
+            }
+            if ($limitSegmentsSettingEnabled) {
+                $list->remove('userId');
+                $list->remove('visitId');
+                $list->remove('visitorId');
+                $list->remove('fingerprint');
+                $list->remove('adClickId'); // not sure which plugin provides this
+                $list->remove('campaignId');
+                $list->remove('actionServerHour');
+                $list->remove('actionServerMinute');
+                $list->remove('visitEndServerMinute');
+                $list->remove('visitEndServerSecond');
+                $list->remove('visitStartServerHour');
+                $list->remove('visitStartServerMinute');
+            }
         }
     }
 }
