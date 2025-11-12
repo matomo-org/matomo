@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Plugins\WebsiteMeasurable\Settings;
+namespace Piwik\Plugins\Ecommerce\Settings;
 
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Settings\CompliancePolicyEnforcedSetting;
