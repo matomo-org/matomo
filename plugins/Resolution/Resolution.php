@@ -55,7 +55,7 @@ class Resolution extends \Piwik\Plugin
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             $limitSegmentsSettingEnabled = false;
-            if (!empty($idSites)) {
+            if (empty($idSites)) {
                 $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
             } else {
                 foreach ($idSites as $idsite) {
