@@ -12,9 +12,14 @@ namespace Piwik\Plugins\Ecommerce;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
+use Piwik\Plugins\Ecommerce\Settings\EcommerceRestricted;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Tracker\Cache as TrackerCache;
 
 /**
  *
@@ -82,5 +87,26 @@ class Ecommerce extends \Piwik\Plugin
                 }
             }
         }
+    }
+
+    /**
+     * Check if compliance policy restricts ecommerce tracking and reporting
+     *
+     * @param int|null $idSite
+     * @return bool
+     * @throws \Piwik\Exception\DI\DependencyException
+     * @throws \Piwik\Exception\DI\NotFoundException
+     */
+    public static function isEcommerceRestrictedByCompliancePolicy(?int $idSite = null): bool
+    {
+        // in privacy compliance mode, we can only detect/return generic device type, but not the model
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+            $cacheKey = EcommerceRestricted::class;
+            return (($cache[$cacheKey] ?? false) === true);
+        }
+
+        return false;
     }
 }
