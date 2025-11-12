@@ -710,6 +710,7 @@ class GoalManager
     /**
      * Records a standard non-Ecommerce goal in the DB (URL/Title matching),
      * linking the conversion to the action that triggered it
+     *
      * @param VisitProperties $visitProperties
      * @param Request $request
      * @param array $goal
