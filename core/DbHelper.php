@@ -467,9 +467,10 @@ class DbHelper
     }
 
     /**
+     * Helper funtion to unset the schema
      * @return void
      */
-    public static function resetSchema()
+    public static function unsetSchema()
     {
         Schema::getInstance()->unsetSchema();
     }

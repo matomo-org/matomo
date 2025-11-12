@@ -158,7 +158,7 @@ class Controller extends ControllerAdmin
             try {
                 $dbInfos = $form->createDatabaseObject();
                 $this->createConfigFile($dbInfos);
-                DbHelper::resetSchema();
+                DbHelper::unsetSchema();
                 DbHelper::checkDatabaseVersion();
 
 
