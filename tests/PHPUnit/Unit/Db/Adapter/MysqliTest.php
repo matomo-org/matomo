@@ -47,7 +47,7 @@ class MysqliTest extends TestCase
      */
     private function createSchemaDouble(string $minimumVersion): Schema
     {
-        return new class($minimumVersion) extends Schema {
+        return new class ($minimumVersion) extends Schema {
             private $minimumVersion;
 
             public function __construct(string $minimumVersion)
