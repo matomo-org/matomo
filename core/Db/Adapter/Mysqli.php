@@ -99,8 +99,10 @@ class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
      */
     public function checkServerVersion()
     {
+        $schemaInstance = Db\Schema::getInstance();
+        $requiredVersion = $schemaInstance->getMinimumSupportedVersion();
         $serverVersion   = $this->getServerVersion();
-        $requiredVersion = Config::getInstance()->General['minimum_mysql_version'];
+//        $requiredVersion = Config::getInstance()->General['minimum_mysql_version'];
 
         if (version_compare($serverVersion, $requiredVersion) === -1) {
             throw new Exception(Piwik::translate('General_ExceptionDatabaseVersion', array('MySQL', $serverVersion, $requiredVersion)));
