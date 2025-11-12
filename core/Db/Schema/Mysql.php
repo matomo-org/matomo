@@ -32,10 +32,15 @@ class Mysql implements SchemaInterface
     public const MAX_TABLE_NAME_LENGTH = 64;
 
     private $tablesInstalled = null;
+    protected $minimumVersion = '5.10';
 
     public function getDatabaseType(): string
     {
         return 'MySQL';
+    }
+    public function getMinimumSupportedVersion(): string
+    {
+        return $this->minimumVersion;
     }
 
     /**

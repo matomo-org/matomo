@@ -209,4 +209,6 @@ interface SchemaInterface
      * @return bool
      */
     public function hasReachedEOL(): bool;
+
+    public function getMinimumSupportedVersion(): string;
 }
