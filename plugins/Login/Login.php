@@ -232,8 +232,7 @@ class Login extends \Piwik\Plugin
 
         if (Common::isXmlHttpRequest()) {
             http_response_code(401);
-            $msg = $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', array($exception->getMessage()));
-            echo $msg;
+            echo $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', array($exception->getMessage()));
             return;
         }
 
