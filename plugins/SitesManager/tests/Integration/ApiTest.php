@@ -24,7 +24,6 @@ use Piwik\Plugins\WebsiteMeasurable\Type as WebsiteType;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Plugins\SitesManager\Model;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Plugins\PrivacyManager\API as APIPrivacyManager;
 use Piwik\Measurable\Measurable;
 use Piwik\Site;
 use Piwik\Tests\Framework\Fixture;
