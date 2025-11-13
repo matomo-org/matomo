@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Piwik\Tracker;
 
-use Piwik\Common;
-use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
+use Piwik\Plugin\RequestProcessors;
 
 /**
  * Class used to handle a Bot request.
@@ -36,11 +36,16 @@ class BotRequest
      */
     protected $requestProcessors;
 
-    public function __construct()
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct(RequestProcessors $requestProcessors, LoggerInterface $logger)
     {
-        $requestProcessors          = StaticContainer::get('Piwik\Plugin\RequestProcessors');
         $this->requestProcessors    = $requestProcessors->getRequestProcessors();
         $this->botRequestProcessors = $requestProcessors->getBotRequestProcessors();
+        $this->logger = $logger;
     }
 
     /**
@@ -61,13 +66,13 @@ class BotRequest
          * @deprecated
          */
         foreach ($this->requestProcessors as $processor) {
-            Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");
+            $this->logger->debug("Executing " . get_class($processor) . "::manipulateRequest()...");
 
             $processor->manipulateRequest($this->request);
         }
 
         foreach ($this->botRequestProcessors as $processor) {
-            Common::printDebug("Executing " . get_class($processor) . "::manipulateRequest()...");
+            $this->logger->debug("Executing " . get_class($processor) . "::manipulateRequest()...");
 
             $processor->manipulateRequest($this->request);
         }
@@ -77,7 +82,7 @@ class BotRequest
         $wasHandled = false;
 
         foreach ($this->botRequestProcessors as $processor) {
-            Common::printDebug("Executing " . get_class($processor) . "::handleRequest()...");
+            $this->logger->debug("Executing " . get_class($processor) . "::handleRequest()...");
 
             $wasHandled |= $processor->handleRequest($this->request);
         }
