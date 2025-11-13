@@ -299,7 +299,7 @@ const {
       const mountPoint = document.createElement('div');
       app.mount(mountPoint);
       Piwik_Popover.showLoading('');
-      Piwik_Popover.setTitle(`${actionName.value} ${Object(external_CoreHome_["translate"])('Transitions_Transitions')}`);
+      Piwik_Popover.setTitle(`${external_CoreHome_["Matomo"].helper.htmlEntities(actionName.value)} ${Object(external_CoreHome_["translate"])('Transitions_Transitions')}`);
       Piwik_Popover.setContent(mountPoint);
       Piwik_Popover.onClose(() => {
         app.unmount();
