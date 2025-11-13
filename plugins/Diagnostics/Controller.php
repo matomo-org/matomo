@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\Diagnostics;
 
-use Piwik\Db\Schema;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 
