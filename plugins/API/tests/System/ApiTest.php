@@ -17,7 +17,7 @@ use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
- * @group SitesManager
+ * @group API
  * @group ApiTest
  * @group Plugins
  */

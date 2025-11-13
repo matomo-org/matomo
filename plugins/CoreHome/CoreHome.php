@@ -458,8 +458,8 @@ class CoreHome extends \Piwik\Plugin
                 $list->remove('General_Visitors', 'fingerprint');
                 $list->remove('adClickId'); // not sure which plugin provides this
                 $list->remove('Referrers_Referrers', 'campaignId');
-                $list->remove('General_Visitors', 'actionServerHour');
-                $list->remove('General_Visitors', 'actionServerMinute');
+                $list->remove('General_Actions', 'actionServerHour');
+                $list->remove('General_Actions', 'actionServerMinute');
                 $list->remove('General_Visitors', 'visitEndServerMinute');
                 $list->remove('General_Visitors', 'visitEndServerSecond');
                 $list->remove('General_Visitors', 'visitStartServerHour');
