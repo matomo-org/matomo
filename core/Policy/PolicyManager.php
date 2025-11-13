@@ -134,6 +134,7 @@ class PolicyManager
             $underPolicy[] = $setting;
         }
 
+        sort($underPolicy); // keep consistent order
         return $underPolicy;
     }
 
