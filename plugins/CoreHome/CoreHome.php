@@ -452,18 +452,18 @@ class CoreHome extends \Piwik\Plugin
                 }
             }
             if ($limitSegmentsSettingEnabled) {
-                $list->remove('userId');
-                $list->remove('visitId');
-                $list->remove('visitorId');
-                $list->remove('fingerprint');
+                $list->remove('General_Visitors', 'userId');
+                $list->remove('General_Visitors', 'visitId');
+                $list->remove('General_Visitors', 'visitorId');
+                $list->remove('General_Visitors', 'fingerprint');
                 $list->remove('adClickId'); // not sure which plugin provides this
-                $list->remove('campaignId');
-                $list->remove('actionServerHour');
-                $list->remove('actionServerMinute');
-                $list->remove('visitEndServerMinute');
-                $list->remove('visitEndServerSecond');
-                $list->remove('visitStartServerHour');
-                $list->remove('visitStartServerMinute');
+                $list->remove('Referrers_Referrers', 'campaignId');
+                $list->remove('General_Visitors', 'actionServerHour');
+                $list->remove('General_Visitors', 'actionServerMinute');
+                $list->remove('General_Visitors', 'visitEndServerMinute');
+                $list->remove('General_Visitors', 'visitEndServerSecond');
+                $list->remove('General_Visitors', 'visitStartServerHour');
+                $list->remove('General_Visitors', 'visitStartServerMinute');
             }
         }
     }

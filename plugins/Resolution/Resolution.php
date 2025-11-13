@@ -63,7 +63,7 @@ class Resolution extends \Piwik\Plugin
                 }
             }
             if ($limitSegmentsSettingEnabled) {
-                $list->remove('resolution');
+                $list->remove('General_Visitors', 'resolution');
             }
         }
     }

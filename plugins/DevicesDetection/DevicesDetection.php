@@ -103,7 +103,7 @@ class DevicesDetection extends \Piwik\Plugin
                 }
             }
             if ($limitSegmentsSettingEnabled) {
-                $list->remove('deviceModel');
+                $list->remove('General_Visitors', 'deviceModel');
             }
         }
     }

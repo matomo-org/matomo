@@ -551,7 +551,7 @@ class Goals extends \Piwik\Plugin
                 }
             }
             if ($limitSegmentsSettingEnabled) {
-                $list->remove('orderId');
+                $list->remove('Goals_Conversion', 'orderId');
             }
         }
     }

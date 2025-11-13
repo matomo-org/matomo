@@ -38,8 +38,8 @@ class VisitTime extends \Piwik\Plugin
                 }
             }
             if ($limitSegmentsSettingEnabled) {
-                $list->remove('visitLocalHour');
-                $list->remove('visitLocalMinute');
+                $list->remove('General_Visitors', 'visitLocalHour');
+                $list->remove('General_Visitors', 'visitLocalMinute');
             }
         }
     }
