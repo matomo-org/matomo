@@ -35,40 +35,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $configValues = $this->configReader->getConfigValuesFromFiles();
         $configValues = $this->configReader->addConfigValuesFromSystemSettings($configValues, $allSettings);
-        $configValues = $this->injectMinimumSupportedVersion($configValues);
         $configValues = $this->sortConfigValues($configValues);
         $configValues = array_filter($configValues);
 
         return $this->renderTemplate('configfile', array(
             'allConfigValues' => $configValues,
         ));
-    }
-
-    /**
-     * Returns the minimum supported version of the database schema.
-     * @return string
-     */
-    protected function getDbMinimumSupportedVersion()
-    {
-        return Schema::getInstance()->getMinimumSupportedVersion();
-    }
-
-    /**
-     * Since we removed the minimum supported version from the config file, we need to add it here.
-     * @param array $configValues
-     * @return array
-     */
-    protected function injectMinimumSupportedVersion($configValues)
-    {
-        $minimumSupportedVersion = $this->getDbMinimumSupportedVersion();
-        $valuesArray = [
-            'value' => $minimumSupportedVersion,
-            'description' => 'MySQL minimum required version note: timezone support added in 4.1.3',
-            'isCustomValue' => false,
-            'defaultValue' => $minimumSupportedVersion,
-        ];
-        $configValues['General']['minimum_mysql_version'] = $valuesArray;
-        return $configValues;
     }
 
     private function sortConfigValues($configValues)
