@@ -253,6 +253,15 @@ export default defineComponent({
           this.loadingFailedRateLimit = true;
         }
 
+        if (response.status === 401) {
+          console.log('I got 401 error, i will redirect to login page now');
+          Matomo.helper.redirect({
+            module: 'Login',
+            action: 'logout',
+          });
+          return;
+        }
+
         this.loadingFailed = true;
       });
     },
