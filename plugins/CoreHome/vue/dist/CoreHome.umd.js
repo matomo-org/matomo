@@ -1012,8 +1012,10 @@ window.globalAjaxQueue.abort = function globalAjaxQueueAbort() {
  * error callback to use by default
  */
 function defaultErrorCallback(deferred, status) {
-  // do not display error message if request was aborted
-  if (status === 'abort' || !deferred || deferred.status === 0) {
+  // do not display error message if request was aborted or is unauthorized.
+  // We redirect to login page if status is unauthorized.
+  const noErrorMsgStatus = [0, 401];
+  if (status === 'abort' || !deferred || noErrorMsgStatus.includes(deferred.status)) {
     return;
   }
   if (typeof Piwik_Popover === 'undefined') {
