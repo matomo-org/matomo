@@ -68,8 +68,10 @@ type AnyFunction = (...params:any[]) => any; // eslint-disable-line
  * error callback to use by default
  */
 function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
-  // do not display error message if request was aborted
-  if (status === 'abort' || !deferred || deferred.status === 0) {
+  // do not display error message if request was aborted or is unauthorized.
+  // We redirect to login page if status is unauthorized.
+  const noErrorMsgStatuses = [0, 401];
+  if (status === 'abort' || !deferred || noErrorMsgStatuses.includes(deferred.status)) {
     return;
   }
 
