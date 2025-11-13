@@ -4,11 +4,6 @@
 	<complianceConfigControlled>1</complianceConfigControlled>
 	<complianceRequirements>
 		<row>
-			<name>Ecommerce</name>
-			<value>compliant</value>
-			<notes>Ecommerce must be disabled</notes>
-		</row>
-		<row>
 			<name>Device model detection disabled</name>
 			<value>compliant</value>
 			<notes>Device model detection and device model report must be disabled.</notes>
@@ -17,6 +12,11 @@
 			<name>Only major versions</name>
 			<value>compliant</value>
 			<notes>Only major OS and browser versions are stored.</notes>
+		</row>
+		<row>
+			<name>Ecommerce</name>
+			<value>compliant</value>
+			<notes>Ecommerce must be disabled</notes>
 		</row>
 		<row>
 			<name>Turn off visits log and visitor profiles</name>
@@ -49,14 +49,14 @@
 			<notes>Retention period is set to 180 days.</notes>
 		</row>
 		<row>
-			<name>Limit available segments</name>
-			<value>compliant</value>
-			<notes>Limit the available segments to be compliant.</notes>
-		</row>
-		<row>
 			<name>Screen resolution detection disabled</name>
 			<value>compliant</value>
 			<notes>Screen resolution detection and screen resolution report must be disabled.</notes>
+		</row>
+		<row>
+			<name>Limit available segments</name>
+			<value>compliant</value>
+			<notes>Limit the available segments to be compliant.</notes>
 		</row>
 		<row>
 			<name>User ID disabled</name>
@@ -66,7 +66,7 @@
 		<row>
 			<name>Opt out</name>
 			<value>unknown</value>
-			<notes>Opt out must be manually set up and configured. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;</notes>
+			<notes>Opt out must be manually set up and configured. &lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot;&gt;Learn more&lt;/a&gt;</notes>
 		</row>
 	</complianceRequirements>
 </result>
