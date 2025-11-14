@@ -82,6 +82,7 @@ class SegmentEditorTest extends IntegrationTestCase
             'enable_only_idsite' => '0',
             'auto_archive' => '0',
             'ts_last_edit' => null,
+            'starred' => '0',
             'deleted' => '0',
         );
 
@@ -112,6 +113,7 @@ class SegmentEditorTest extends IntegrationTestCase
             'enable_only_idsite' => '1',
             'auto_archive' => '1',
             'ts_last_edit' => null,
+            'starred' => '0',
             'deleted' => '0',
         );
         unset($segment['ts_created']);
@@ -145,7 +147,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->clearReArchiveList();
 
         $updatedSegment = array(
-            'idsegment' => $idSegment2,
+            'idsegment' => '' . $idSegment2,
             'name' =>   'NEW name',
             'definition' =>  'searches==0',
             'hash' => md5('searches==0'),
@@ -155,6 +157,7 @@ class SegmentEditorTest extends IntegrationTestCase
             'ts_last_edit' => Date::now()->getDatetime(),
             'ts_created' => Date::now()->getDatetime(),
             'login' => Piwik::getCurrentUserLogin(),
+            'starred' => '0',
             'deleted' => '0',
         );
         API::getInstance()->update(
@@ -178,9 +181,27 @@ class SegmentEditorTest extends IntegrationTestCase
 
         $this->assertEquals($newSegment, $updatedSegment);
 
-        // Check the other segmenet was not updated
+        // Check the other segment was not updated
         $newSegment = API::getInstance()->get($idSegment1);
         $this->assertEquals($newSegment['name'], $nameSegment1);
+    }
+
+    public function testStarUnstarSegment()
+    {
+        // Set up initial conditions
+        $idSegment = API::getInstance()->add('hello', 'searches==0');
+        $segment = API::getInstance()->get($idSegment);
+        $this->assertEquals('0', $segment['starred']);
+
+        // Star segment
+        API::getInstance()->star($idSegment);
+        $starredSegment = API::getInstance()->get($idSegment);
+        $this->assertEquals('1', $starredSegment['starred']);
+
+        // Unstar segment
+        API::getInstance()->unstar($idSegment);
+        $unstarredSegment = API::getInstance()->get($idSegment);
+        $this->assertEquals('0', $unstarredSegment['starred']);
     }
 
     public function testDeleteSegment()

@@ -43,6 +43,18 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_open');
     });
 
+  it("should unstar all segments", async function() {
+    await page.click('.segmentList li:nth-child(2) .starSegment');
+    await page.click('.segmentList li:nth-child(3) .starSegment');
+    await page.click('.segmentList li:nth-child(4) .starSegment');
+    expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_unstarred');
+  });
+
+    it("should star last segment", async function() {
+      await page.click('.segmentList li:last-child .starSegment');
+      expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_starred');
+    });
+
     it("should open segment editor when edit link clicked for existing segment", async function() {
         await page.evaluate(function() {
             $('.segmentList .editSegment:first').click()
