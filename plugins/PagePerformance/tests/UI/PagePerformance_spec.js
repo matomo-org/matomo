@@ -32,14 +32,15 @@ describe("PagePerformance", function () {
     });
 
     it("should show new row action in pages reports", async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
 
         // hover first row
-        const row = await page.waitForSelector('.dataTable tbody tr:first-child');
+        const pageUrlsReportId = '#widgetActionsgetPageUrlsforceView1viewDataTabletablePerformanceColumnsperformance1';
+        const row = await page.waitForSelector(pageUrlsReportId + ' .dataTable tbody tr:first-child');
         await row.hover();
         await page.waitForTimeout(50);
 
-        pageWrap = await page.$('.pageWrap');
+        pageWrap = await page.$(pageUrlsReportId);
         expect(await pageWrap.screenshot()).to.matchImage('rowactions');
     });
 
