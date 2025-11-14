@@ -12,8 +12,6 @@ namespace Piwik\Plugins\API\tests\System;
 use Piwik\Config;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\tests\Fixtures\ManySites;
-use Piwik\Policy\CnilPolicy;
-use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
