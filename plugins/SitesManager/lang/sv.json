@@ -44,6 +44,7 @@
         "ExcludedReferrersHelpExamples": "e.g. \"%1$s\" skulle matcha \"%2$s\" och \"%3$s\" men inte \"%4$s\"",
         "ExcludedReferrersHelpSubDomains": "För att även exkludera alla subdomäner på en viss värd anger du en punkt som prefix, med andra ord \"%1$s\" skulle exkludera \"%2$s\", men också alla subdomäner som \"%3$s\".",
         "ExcludedUserAgents": "Uteslutna användaragenter",
+        "ExclusionTypeOptionCustom": "Anpassad",
         "ExtraInformationNeeded": "För att ställa in Matomo på ditt system kan du behöva följande information:",
         "Format_Utc": "UTC%s",
         "GADetected": "%1$s upptäcktes på din webbplats. Visste du om att du enkelt kan migrera dina historiska data och inställningar från %2$s till Matomo? %3$s%4$s%5$sTa reda på mer i denna guide%6$s",

@@ -1,5 +1,8 @@
 {
     "Referrers": {
-        "ColumnWebsite": "Web stranica"
+        "Campaigns": "Kampanje",
+        "ColumnWebsite": "Web stranica",
+        "SubmenuWebsitesOnly": "Web-stranice",
+        "Websites": "Web-stranice"
     }
 }

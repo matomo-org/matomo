@@ -1,8 +1,10 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardTitle": "Alle hjemmesider",
         "Evolution": "Udvikling",
         "LoadingWebsites": "Loading websites",
         "PluginDescription": "Se og sammenlign alle dine websider og apps i dette brugbare 'Alle websider' oversigtsbillede.",
-        "TopLinkTooltip": "Sammenlign analyse statistik for alle hjemmesider."
+        "TopLinkTooltip": "Sammenlign analyse statistik for alle hjemmesider.",
+        "TotalPageviews": "Totale sidevisninger"
     }
 }

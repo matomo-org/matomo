@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "2FA",
+        "Active": "Aktív",
         "AllWebsites": "Összes weboldal",
         "ApplyToAllWebsites": "Alkalmazás minden weboldalra",
         "ClickHereToDeleteTheCookie": "Kattints ide a szűrés érdekében lementett süti törléséhez, hogy a továbbiakban a Matomo regisztrálja látogatásaid.",
@@ -24,6 +25,7 @@
         "PrivView": "Megtekintés",
         "ReportDateToLoadByDefault": "Alapértelmezett időintervallum a betöltődő jelentésekhez",
         "ReportToLoadByDefault": "Alapértelmezettként betöltődő jelentés",
+        "Status": "Állapot",
         "TheLoginScreen": "Belépési képernyő",
         "TypeYourPasswordAgain": "Add meg az új jelszót még egyszer.",
         "User": "Felhasználó",

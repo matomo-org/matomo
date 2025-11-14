@@ -167,7 +167,7 @@ abstract class ControllerAdmin extends Controller
 
         $message .= Piwik::translate(
             'General_ReadThisToLearnMore',
-            ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_91/') . '">', '</a>']
+            [Url::getExternalLinkTag('https://matomo.org/faq/how-to/faq_91/'), '</a>']
         );
 
         $notification = new Notification($message);

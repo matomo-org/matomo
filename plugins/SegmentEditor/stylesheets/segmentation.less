@@ -141,6 +141,7 @@ div.scrollable {
     color: #505050;
     text-align: left;
     padding: 3px 7px 0 0;
+    margin-left: 6px;
 
     > * {
         vertical-align: top;
@@ -366,10 +367,17 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
 }
 
 .segmentEditorPanel.expanded .add_new_segment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 100%;
-    margin: 16px 0 8px 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin: 1rem 0 0.5rem 0;
     height: auto;
     min-height: 36px;
+    line-height: 1.5;
 }
 
 .segmentationContainer > ul.submenu > li {
@@ -541,19 +549,19 @@ a.metric_category {
 
 .segment-element .segment-top a.dropdown {
     padding: 0;
+    margin-right: 0.5em;
     background: none !important;
 }
 
 .segment-element .segment-top a.dropdown:after {
-    content: " \25BC";
-    font-size: 0;
-    color: @theme-color-brand;
-    border-left: 4px solid rgba(0, 0, 0, 0);
-    border-right: 4px solid rgba(0, 0, 0, 0);
-    border-top: 5px solid @theme-color-brand;
-    margin-left: 7px;
+    content: "";
     display: inline-block;
-    vertical-align: sub;
+    border-left: 0.4em solid rgba(0, 0, 0, 0);
+    border-right: 0.4em solid rgba(0, 0, 0, 0);
+    border-top: 0.5em solid @theme-color-brand;
+    margin-left: 0.5em;
+    margin-bottom: 0.25em;
+    vertical-align: middle;
 }
 
 .segmentsVisibleToSuperUser, .segmentsSharedWithMeBySuperUser {

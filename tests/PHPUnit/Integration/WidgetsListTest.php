@@ -52,6 +52,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Referrers_Referrers' => 11,
             'About Matomo' => 11,
             'Marketplace_Marketplace' => 3,
+            'AIAgents_AIAssistants' => 2,
 
             // widgets provided by Professional Services plugin for plugin promos
             'ProfessionalServices_PromoAbTesting' => 1,
@@ -108,7 +109,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(19, count($perCategory));
+        $this->assertEquals(20, count($perCategory));
         $this->assertEquals($initialGoalsWidgets + 2, count($perCategory['Goals_Goals'])); // make sure widgets for that goal were added
     }
 
@@ -122,7 +123,7 @@ class WidgetsListTest extends IntegrationTestCase
         $perCategory = $this->getWidgetsPerCategory(WidgetsList::get());
 
         // number of main categories
-        $this->assertEquals(20, count($perCategory));
+        $this->assertEquals(21, count($perCategory));
 
         // check if each category has the right number of widgets
         $numberOfWidgets = array(
@@ -146,7 +147,7 @@ class WidgetsListTest extends IntegrationTestCase
 
         // number of main categories
         $widgetsPerCategory = $this->getWidgetsPerCategory($widgets);
-        $this->assertEquals(count($widgetsPerCategory), 11);
+        $this->assertCount(12, $widgetsPerCategory);
 
         // no professional services promos
         foreach ($widgetsPerCategory as $category => $categoryWidgets) {
@@ -163,12 +164,12 @@ class WidgetsListTest extends IntegrationTestCase
 
         $list = WidgetsList::get();
 
-        $this->assertCount(20, $this->getWidgetsPerCategory($list));
+        $this->assertCount(21, $this->getWidgetsPerCategory($list));
 
         $list->remove('SEO', 'NoTeXiStInG');
 
         $perCategory = $this->getWidgetsPerCategory($list);
-        $this->assertCount(20, $perCategory);
+        $this->assertCount(21, $perCategory);
 
         $this->assertArrayHasKey('SEO', $perCategory);
         $this->assertCount(1, $perCategory['SEO']);

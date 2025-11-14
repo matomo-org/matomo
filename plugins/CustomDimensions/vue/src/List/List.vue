@@ -14,7 +14,7 @@
       <p v-html="$sanitize(contentIntroText)"></p>
       <p v-show="isLoading">
         <span class="loadingPiwik">
-          <img src="plugins/Morpheus/images/loading-blue.gif" />
+          <MatomoLoader />
           {{ translate('General_LoadingData') }}
         </span>
       </p>
@@ -97,12 +97,13 @@
 import { DeepReadonly, defineComponent } from 'vue';
 import {
   translate,
-  Matomo,
-  MatomoUrl,
-  ContentIntro,
-  EnrichedHeadline,
   ContentBlock,
+  ContentIntro,
   ContentTable,
+  EnrichedHeadline,
+  Matomo,
+  MatomoLoader,
+  MatomoUrl,
 } from 'CoreHome';
 import { ucfirst } from '../utilities';
 import CustomDimensionsStore from '../CustomDimensions.store';
@@ -111,6 +112,7 @@ import { CustomDimension } from '../types';
 export default defineComponent({
   name: 'listcustomdimensions',
   components: {
+    MatomoLoader,
     EnrichedHeadline,
     ContentBlock,
   },

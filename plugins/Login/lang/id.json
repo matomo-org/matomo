@@ -31,7 +31,7 @@
         "NewPasswordRepeat": "Kata sandi yang baru (ulangi)",
         "NotAllowListTakesPrecendence": "Jika IP cocok dengan daftar blokir dan daftar tidak pernah diblokir, maka daftar blokir lebih diutamakan dan IP tidak akan diizinkan.",
         "PasswordChanged": "Kata sandi Anda telah diubah.",
-        "PasswordRepeat": "Kata sandi (ulangi)",
+        "PasswordRepeat": "Kata Sandi (ulangi)",
         "PasswordResetAlreadySent": "Anda telah meminta terlalu banyak pengaturan ulang kata sandi baru-baru ini. Permintaan selanjutnya baru dapat dibuat satu jam lagi. Jika Anda mengalami masalah dalam menyetel ulang kata sandi, hubungi administrator Anda untuk mendapatkan bantuan.",
         "PasswordsDoNotMatch": "Kata sandi tak sesuai.",
         "PluginDescription": "Menyediakan autentikasi melalui nama pengguna dan kata sandi serta fungsi pengaturan ulang kata sandi. Metode autentikasi dapat diubah dengan menggunakan pengaya Log Masuk lain seperti LoginLdap yang tersedia di Lokapasar.",

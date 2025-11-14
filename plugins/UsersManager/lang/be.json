@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "Актыўныя",
         "AllWebsites": "Усе сайты",
         "ApplyToAllWebsites": "Ужыць да ўсіх сайтаў",
         "ClickHereToDeleteTheCookie": "Націсніце тут, каб выдаліць cookie і пачаць адсочванне вашых наведванняў Matomo",
@@ -22,6 +23,7 @@
         "PrivView": "Прагляд",
         "ReportDateToLoadByDefault": "Дата справаздачы для загрузкі па змаўчанні",
         "ReportToLoadByDefault": "Справаздача, якая загружаецца па змаўчанні",
+        "Status": "Статус",
         "TheLoginScreen": "Форма аўтарызацыі",
         "ThereAreCurrentlyNRegisteredUsers": "Зарэгістраваныя карыстальнікі %s.",
         "TypeYourPasswordAgain": "Калі ласка, увядзіце новы пароль яшчэ раз.",

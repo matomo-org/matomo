@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "二次认证",
+        "Active": "活跃",
         "AddExistingUser": "添加现有用户",
         "AddSuperuserAccessConfirm": "授予用户超级用户访问权限将允许用户完全控制Matomo，因此应谨慎执行。 输入密码以继续。",
         "AddUserNoInitialAccessError": "必须授予新用户访问网站的权限，请设置“ initialIdSite”参数。",
@@ -154,6 +155,7 @@
         "RolesHelp": "角色确定用户可以在Matomo中针对特定网站执行的操作。 了解有关%1$s视图%2$s和%3$s管理%4$s角色的更多信息。",
         "SaveBasicInfo": "保存基本信息",
         "SetPermission": "设定权限",
+        "Status": "状态",
         "SuperUserAccess": "超级用户访问",
         "SuperUserAccessManagement": "管理超级用户访问",
         "SuperUserAccessManagementGrantMore": "您可以在这里向Matomo的其他用户授予超级用户访问权限。 请谨慎使用此功能。",

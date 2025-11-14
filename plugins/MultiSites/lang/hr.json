@@ -25,6 +25,7 @@
         "PluginDescription": "Pogledaj i usporedi sve svoje web-stranice i aplikacije u ovoj korisnoj nadzornoj ploči „Sve web stranice”.",
         "SingleWebsitesDashboardDocumentation": "Ovaj izvještaj pruža informativni pregled za određenu web-stranicu, s najopćenitijim metrima o tvojim posjetiteljima.",
         "TopLinkTooltip": "Usporedi statistike web analitike za sve tvoje web-stranice.",
+        "TotalHits": "Ukupni broj zahtjeva za datotekama",
         "TotalPageviews": "Ukupni broj prikaza stranice",
         "TotalVisits": "Ukupni broj posjeta"
     }

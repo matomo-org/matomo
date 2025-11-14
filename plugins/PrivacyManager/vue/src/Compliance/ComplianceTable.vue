@@ -27,7 +27,7 @@
           <span :class="['icon', getIconClass(item.value)]"></span>
           {{ translate(getStatusText(item.value)) }}
         </td>
-        <td>{{ item.notes }}</td>
+        <td v-html="$sanitize(item.notes)" />
       </tr>
     </tbody>
   </table>

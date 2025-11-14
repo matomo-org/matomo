@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "ገባሪ",
         "AllWebsites": "ሁሉንም ድር ጣቢያዎች",
         "ApplyToAllWebsites": "በሁሉም ድር ጣቢያዎች ላይ ተግብር",
         "DeleteConfirm": "እርግጠኛ ነህ ተጠቃሚዎቹን መሰረዝ ትፈልጋለህ %s?",
@@ -13,6 +14,7 @@
         "PrivAdmin": "አስተዳዳሪ",
         "PrivNone": "መድረሻ የለም",
         "PrivView": "ትእይታ",
+        "Status": "ሁኔታ",
         "User": "ተጠቃሚ",
         "UsersManagement": "የተጠቃሚዎች ምነጃ",
         "UsersManagementMainDescription": "አዳዲስ ተጤቃሚዎችን ይፍጠሩ ወይም ያሉትን ያልቁ።ፈቃዳቸውን ከላይ ማዘጋጀት ይቻላል."

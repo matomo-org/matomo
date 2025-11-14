@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "2FA",
+        "Active": "Aktiv",
         "AddExistingUser": "Tilføj en eksisterende bruger",
         "AllWebsites": "Alle hjemmesider",
         "AnonymousUser": "Anonym bruger",
@@ -59,6 +60,7 @@
         "ResetTwoFactorAuthentication": "Nulstil tofaktorgodkendelse",
         "ResetTwoFactorAuthenticationInfo": "Hvis en bruger ikke længere kan logge ind pga. mistede genskabelseskoder eller mistet tofaktorgodkendelsesenhed, kan du nulstille tofaktorgodkendelse for brugeren, så de kan logge ind igen.",
         "SaveBasicInfo": "Gem basisoplysninger",
+        "Status": "Status",
         "SuperUserAccess": "Superbrugeradgang",
         "SuperUserAccessManagement": "Administrer superbrugeradgang",
         "SuperUserAccessManagementGrantMore": "Du kan give superbrugeradgang til andre brugere af Matomo. Brug denne funktion med omtanke.",

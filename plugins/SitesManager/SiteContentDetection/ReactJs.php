@@ -76,9 +76,9 @@ class ReactJs extends SiteContentDetectionAbstract
             Piwik::translate(
                 'SitesManager_SiteWithoutDataReactDescription',
                 [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/guide/tag-manager/') . '">',
+                    Url::getExternalLinkTag('https://matomo.org/guide/tag-manager/'),
                     '</a>',
-                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/') . '">',
+                    Url::getExternalLinkTag('https://matomo.org/faq/new-to-piwik/how-do-i-start-tracking-data-with-matomo-on-websites-that-use-react/'),
                     '</a>',
                 ]
             )

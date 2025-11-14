@@ -1300,6 +1300,7 @@ Plugins[] = PagePerformance
 Plugins[] = CustomDimensions
 Plugins[] = JsTrackerInstallCheck
 Plugins[] = FeatureFlags
+Plugins[] = AIAgents
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

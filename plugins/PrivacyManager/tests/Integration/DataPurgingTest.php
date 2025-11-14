@@ -68,7 +68,7 @@ class DataPurgingTest extends IntegrationTestCase
     public const JAN_METRIC_ARCHIVE_COUNT = 11; // 5 days + 4 weeks + 1 month + 1 year
     public const FEB_METRIC_ARCHIVE_COUNT = 11; // 6 days + 4 weeks + 1 month
 
-    public const JAN_DONE_FLAGS_COUNT = 61;
+    public const JAN_DONE_FLAGS_COUNT = 83;
 
     // fake metric/report name used to make sure unwanted metrics are purged
     public const GARBAGE_FIELD = 'abcdefg';
@@ -411,7 +411,7 @@ class DataPurgingTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 5, $janNumericRemaining = 87); // 5 blobs for 5 days
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 5, $janNumericRemaining = 109); // 5 blobs for 5 days
     }
 
     /**
@@ -446,7 +446,7 @@ class DataPurgingTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 4, $janNumericRemaining = 81); // 4 blobs for 4 weeks
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 4, $janNumericRemaining = 103); // 4 blobs for 4 weeks
     }
 
     /**
@@ -481,7 +481,7 @@ class DataPurgingTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 66);
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 88);
     }
 
     /**
@@ -516,7 +516,7 @@ class DataPurgingTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 66);
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 1, $janNumericRemaining = 88);
     }
 
     /**
@@ -583,7 +583,7 @@ class DataPurgingTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 2, $janNumericRemaining = 65); // 2 range blobs
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 2, $janNumericRemaining = 87); // 2 range blobs
     }
 
     /**
@@ -619,7 +619,7 @@ class DataPurgingTest extends IntegrationTestCase
 
         // perform checks
         $this->checkLogDataPurged();
-        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 124); // 1 segmented blob + 5 day blobs
+        $this->checkReportsAndMetricsPurged($janBlobsRemaining = 6, $janNumericRemaining = 166); // 1 segmented blob + 5 day blobs
     }
 
     // --- utility functions follow ---
@@ -960,8 +960,8 @@ class DataPurgingTest extends IntegrationTestCase
         // + 1 - VisitorInterest segment archive (just done flag)
         // + 6 - VisitsSummary archives for 2 ranges (done flag w/ 2 metrics each)
         // + 64 - 22 entries for dependent Goals segments (3 metrics for periods that have data for those segment combinations) (8 done flags without metrics, 14 done flags with 3 metrics each)
-        // + 69 - 23 entries for dependent VisitsSummary segments (done flag + 2 metrics each)
-        return self::JAN_METRIC_ARCHIVE_COUNT * 6 + 1 + 2 + 1 + 6 + 64 + 69;
+        // + 135 - 45 entries for dependent VisitsSummary segments (done flag + 2 metrics each)
+        return self::JAN_METRIC_ARCHIVE_COUNT * 6 + 1 + 2 + 1 + 6 + 64 + 135;
     }
 
     protected function getExpectedNumericArchiveCountFeb()
@@ -969,8 +969,8 @@ class DataPurgingTest extends IntegrationTestCase
         // (5 metrics per period w/ visits
         // + 1 garbage metric
         // + 55 - 22 entries for dependent Goals segments (3 metrics for periods that have data for those segment combinations) (11 done flags without metrics, 11 done flags with 3 metrics each)
-        // + 66 - 22 entries for dependent VisitsSummary segment + (done flags + 2 metrics each)
-        return self::FEB_METRIC_ARCHIVE_COUNT * 6 + 1 + 55 + 66;
+        // + 132 - 44 entries for dependent VisitsSummary segment + (done flags + 2 metrics each)
+        return self::FEB_METRIC_ARCHIVE_COUNT * 6 + 1 + 55 + 132;
     }
 
     /**

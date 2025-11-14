@@ -18,7 +18,9 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
 use Piwik\DataAccess\ArchiveSelector;
 use Piwik\DataAccess\ArchiveWriter;
+use Piwik\Plugins\AIAgents;
 use Piwik\Plugins\CoreAdminHome\API;
+use Piwik\Plugins\VisitFrequency;
 
 /**
  * The **Archive** class is used to query cached analytics statistics
@@ -926,14 +928,19 @@ class Archive implements ArchiveQuery
         if (in_array($report, Metrics::getVisitsMetricNames())) {
             // Core metrics are always processed in Core, for the requested date/period/segment
             $report = 'VisitsSummary_CoreMetrics';
-        } elseif (strpos($report, 'Goal_') === 0) {
+        } elseif (str_starts_with($report, 'Goal_')) {
             // Goal_* metrics are processed by the Goals plugin (HACK)
             $report = 'Goals_Metrics';
         } elseif (
-            strrpos($report, '_returning') === strlen($report) - strlen('_returning') ||
-            strrpos($report, '_new') === strlen($report) - strlen('_new')
+            str_ends_with($report, VisitFrequency\API::NEW_COLUMN_SUFFIX)
+            || str_ends_with($report, VisitFrequency\API::RETURNING_COLUMN_SUFFIX)
         ) { // HACK
             $report = 'VisitFrequency_Metrics';
+        } elseif (
+            str_ends_with($report, AIAgents\API::AI_AGENT_COLUMN_SUFFIX)
+            || str_ends_with($report, AIAgents\API::HUMAN_COLUMN_SUFFIX)
+        ) { // HACK
+            $report = 'AIAgents_Metrics';
         }
 
         $plugin = substr($report, 0, strpos($report, '_'));

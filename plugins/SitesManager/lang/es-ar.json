@@ -35,6 +35,7 @@
         "ExcludedIps": "IPs excluidas",
         "ExcludedParameters": "Parámetros de exclusión",
         "ExcludedUserAgents": "Agentes de usuario excluidos",
+        "ExclusionTypeOptionCustom": "Personalizado",
         "ExtraInformationNeeded": "Para instalar Matomo en tu sistema, necesitás la siguiente información:",
         "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Introducí la lista de agentes de usuario a excluir de ser rastreados por Matomo.",

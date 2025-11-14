@@ -4,6 +4,7 @@
         "ColumnAverageTimeNetwork": "Prům. síťový čas",
         "ColumnAverageTimeServer": "Prům. serverový čas",
         "ColumnAverageTimeTransfer": "Prům. čas přenosu",
-        "ColumnTimeServer": "Čas na serveru"
+        "ColumnTimeServer": "Čas na serveru",
+        "Performance": "Výkon"
     }
 }

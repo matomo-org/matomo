@@ -812,7 +812,7 @@ class Controller extends ControllerAdmin
                 Piwik::translate('Installation_ErrorExpired6') .
                 "\n<br/>" .
                 Piwik::translate('Installation_ErrorExpired7', [
-                    '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/manage-secure-access-to-the-matomo-installer/') . '" rel="noreferrer noopener" target="_blank">',
+                    Url::getExternalLinkTag('https://matomo.org/faq/how-to-install/manage-secure-access-to-the-matomo-installer/'),
                     '</a>',
                 ])
             );

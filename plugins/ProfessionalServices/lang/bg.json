@@ -1,5 +1,8 @@
 {
     "ProfessionalServices": {
+        "PromoFormAnalytics": "Форми",
+        "PromoManage": "Управление",
+        "PromoOverview": "Общ преглед",
         "WidgetPremiumServicesForPiwik": "Премиум функции &amp; Услуги за Matomo"
     }
 }

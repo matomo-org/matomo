@@ -9,7 +9,10 @@
 
 namespace Piwik\Plugins\DevicesDetection\tests\System;
 
+use Piwik\Config;
 use Piwik\Plugins\DevicesDetection\tests\Fixtures\MultiDeviceGoalConversions;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -31,6 +34,19 @@ class GoalReportForDevicesTest extends SystemTestCase
         return dirname(__FILE__);
     }
 
+    private function setComplianceFeatureFlag(bool $enableFlag): void
+    {
+        $config = Config::getInstance();
+        $featureFlag = new PrivacyCompliance();
+        $featureFlagConfig = $featureFlag->getName() . '_feature';
+
+        if ($enableFlag) {
+            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
+        } else {
+            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+        }
+    }
+
     public function getApiForTesting()
     {
         $idSite   = self::$fixture->idSite;
@@ -50,6 +66,21 @@ class GoalReportForDevicesTest extends SystemTestCase
     public function testApi($api, $params)
     {
         $this->runApiTests($api, $params);
+    }
+
+    public function testGetModelDoesNotReturnDataWhenPolicyEnforced(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+        CnilPolicy::setActiveStatus(null, true);
+
+        $this->runApiTests('DevicesDetection.getModel', [
+            'idSite' => self::$fixture->idSite,
+            'date' => self::$fixture->dateTime,
+            'testSuffix' => 'compliancePolicyEnforcedSystem',
+        ]);
+
+        CnilPolicy::setActiveStatus(null, false);
+        $this->setComplianceFeatureFlag(false);
     }
 }
 

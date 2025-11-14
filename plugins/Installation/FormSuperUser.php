@@ -64,7 +64,7 @@ class FormSuperUser extends QuickForm2
 
         );
 
-        $privacyNoticeLink = '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/privacy-policy/') . '" target="_blank" rel="noreferrer noopener">';
+        $privacyNoticeLink = Url::getExternalLinkTag('https://matomo.org/privacy-policy/');
         $privacyNotice = '<div class="form-help email-privacy-notice">' . Piwik::translate('Installation_EmailPrivacyNotice', [$privacyNoticeLink, '</a>'])
             . '</div>';
 

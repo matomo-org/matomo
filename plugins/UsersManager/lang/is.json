@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "Kveikt",
         "AllWebsites": "Allir vefir",
         "ApplyToAllWebsites": "Virkja fyrir alla vefi",
         "Email": "Netfang",
@@ -10,6 +11,7 @@
         "PrivNone": "Engin aðgangur",
         "PrivView": "Sýn",
         "ReportToLoadByDefault": "Skýrsla sem sjálfgefið er að sækja",
+        "Status": "Staða",
         "TheLoginScreen": "Skjár fyrir auðkenningu",
         "User": "Notandi",
         "Username": "Notandanafn",

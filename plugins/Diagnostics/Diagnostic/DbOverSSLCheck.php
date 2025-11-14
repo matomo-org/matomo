@@ -55,7 +55,7 @@ class DbOverSSLCheck implements Diagnostic
             }
         }
 
-        $comment .= '<br />' . '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/') . '"> FAQ on matomo.org</a>';
+        $comment .= '<br />' . Url::getExternalLinkTag('https://matomo.org/faq/') . 'FAQ on matomo.org</a>';
 
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));
     }

@@ -77,7 +77,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
                 $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetAvailableButNotUsed', '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>') .
                 '<br/><br/>' .
                 $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�',
-                    '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/') . '" rel="noreferrer noopener" target="_blank">', '</a>']) .
+                    Url::getExternalLinkTag('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/'), '</a>']) .
                 '<br/>'
             );
         }
@@ -88,7 +88,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
             $this->translator->translate('Diagnostics_DatabaseUtf8mb4CharsetRecommended') .
             '<br/><br/>' .
             $this->translator->translate('Diagnostics_DatabaseUtf8Requirement', ['�',
-                '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/') . '" rel="noreferrer noopener" target="_blank">', '</a>']) .
+                Url::getExternalLinkTag('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/'), '</a>']) .
             '<br/>'
         );
     }
@@ -161,7 +161,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
                 '<br/><strong>%s:</strong> %s<br/>%s',
                 $this->translator->translate('General_Error'),
                 $errorMessage,
-                'Troubleshooting: <a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_194') . '">FAQ on matomo.org</a>'
+                'Troubleshooting: ' . Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/faq_194') . 'FAQ on matomo.org</a>'
             );
         }
 
@@ -195,7 +195,7 @@ class DatabaseAbilitiesCheck implements Diagnostic
         } catch (\Exception $e) {
             $status = DiagnosticResult::STATUS_ERROR;
             $comment .= '<br/>' . $this->translator->translate('Diagnostics_MysqlTemporaryTablesWarning');
-            $comment .= '<br/>Troubleshooting: <a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/faq_23484/') . '">FAQ on matomo.org</a>';
+            $comment .= '<br/>Troubleshooting: ' . Url::getExternalLinkTag('https://matomo.org/faq/how-to-install/faq_23484/') . 'FAQ on matomo.org</a>';
         }
 
         return new DiagnosticResultItem($status, $comment);

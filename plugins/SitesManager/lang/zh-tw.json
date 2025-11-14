@@ -41,6 +41,7 @@
         "ExcludedReferrersHelpExamples": "例如，「%1$s」會匹配到「%2$s」與「%3$s」，但並不匹配到「%4$s」",
         "ExcludedReferrersHelpSubDomains": "要排除一個主機名下所有子域名，像「%1$s」一樣在前面加點號就能排除「%2$s」以及「%3$s」這種子域名。",
         "ExcludedUserAgents": "排除 User Agent",
+        "ExclusionTypeOptionCustom": "自訂",
         "ExtraInformationNeeded": "你可能需要以下資料來在你的系統上架設 Matomo。",
         "Format_Utc": "UTC%s",
         "GADetected": "在您的網站上偵測到 %1$s。您知道您可以輕鬆地將歷史分析資料與設定由 %2$s 遷移到 Matomo 嗎？%3$s%4$s%5$s在這份指南中瞭解更多%6$s",

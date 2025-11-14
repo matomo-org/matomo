@@ -1,12 +1,13 @@
 {
     "Transitions": {
-        "AvailableInOtherReports": "Le saviez-vous ? Les transitions sont également disponibles sous forme d'action en ligne dans les rapports suivants :",
+        "AvailableInOtherReports": "Le saviez-vous ? Les transitions sont également disponibles sous forme d'action en ligne dans les rapports suivants :",
         "AvailableInOtherReports2": "Il suffit de survoler une ligne dans l'un de ces rapports et de cliquer sur l'icône de transition %s pour le lancer.",
         "BouncesInline": "%s rebonds",
         "DirectEntries": "Entrées directes",
         "ErrorBack": "Retour à l'action précédente",
         "ExitsInline": "%s sorties",
         "FeatureDescription": "Les transitions sont un rapport montrant ce que vos visiteurs ont fait directement avant et après avoir consulté une page donnée. Cette page explique comment accéder, comprendre et utiliser le puissant rapport \"Transitions\".",
+        "FromAIAssistants": "Depuis les assistants IA",
         "FromCampaigns": "Depuis des campagnes",
         "FromPreviousPages": "Depuis des pages internes",
         "FromPreviousPagesInline": "%s depuis des pages internes",

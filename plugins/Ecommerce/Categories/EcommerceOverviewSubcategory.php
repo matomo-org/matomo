@@ -23,7 +23,7 @@ class EcommerceOverviewSubcategory extends Subcategory
     {
         return '<p>' . Piwik::translate('Ecommerce_EcommerceOverviewSubcategoryHelp1') . '</p>'
             . '<p>' . Piwik::translate('Ecommerce_EcommerceOverviewSubcategoryHelp2') . '</p>'
-            . '<p><a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/ecommerce-analytics/', null, null, 'App.Ecommerce.Overview')
-            . '" rel="noreferrer noopener" target="_blank">' . Piwik::translate('Ecommerce_EcommerceOverviewSubcategoryHelp3') . '</a></p>';
+            . '<p>' . Url::getExternalLinkTag('https://matomo.org/docs/ecommerce-analytics/', null, null, 'App.Ecommerce.Overview')
+            . Piwik::translate('Ecommerce_EcommerceOverviewSubcategoryHelp3') . '</a></p>';
     }
 }

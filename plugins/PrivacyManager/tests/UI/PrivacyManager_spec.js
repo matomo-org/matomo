@@ -511,4 +511,19 @@ describe("PrivacyManager", function () {
 
       expect(siteSelectorContent).to.be.equal('All Websites');
     });
+
+    it('should hide the policy controls when policy is enabled via config', async function() {
+      testEnvironment.overrideConfig('CnilPolicy', {
+        cnil_v1_policy_enabled: '1',
+      });
+      testEnvironment.overrideConfig('FeatureFlags', {
+        PrivacyCompliance_feature: 'enabled',
+      });
+      testEnvironment.save();
+
+      await page.goto('?module=PrivacyManager&action=compliance&idSite=all');
+      await page.waitForNetworkIdle();
+
+      expect(await page.screenshotSelector('.compliance')).to.matchImage('compliance_config_enabled');
+    });
   });

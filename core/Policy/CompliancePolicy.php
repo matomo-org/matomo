@@ -9,11 +9,13 @@
 
 namespace Piwik\Policy;
 
-use Exception;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Settings\FieldConfig;
+use Piwik\Settings\Interfaces\ConfigSettingInterface;
 use Piwik\Settings\Interfaces\MeasurableSettingInterface;
 use Piwik\Settings\Interfaces\SystemSettingInterface;
+use Piwik\Settings\Interfaces\Traits\Getters\ConfigGetterTrait;
 use Piwik\Settings\Interfaces\Traits\Setters\MeasurableSetterTrait;
 use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
 
@@ -21,7 +23,7 @@ use Piwik\Settings\Interfaces\Traits\Setters\SystemSetterTrait;
  * @implements SystemSettingInterface<bool>
  * @implements MeasurableSettingInterface<bool>
  */
-abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSettingInterface
+abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSettingInterface, ConfigSettingInterface
 {
     /**
      * @use SystemSetterTrait<bool>
@@ -33,19 +35,28 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
      */
     use MeasurableSetterTrait;
 
+    /**
+     * @use ConfigGetterTrait<bool>
+     */
+    use ConfigGetterTrait;
+
     abstract public static function getName(): string;
-    abstract public static function getDescription(): string;
     abstract public static function getTitle(): string;
+    abstract protected static function generateDescription(): string;
+
+    public static function getDescription(): string
+    {
+        $description = static::generateDescription();
+
+        Piwik::postEvent('CompliancePolicy.updatePolicyDescription', [&$description, static::class]);
+
+        return $description;
+    }
 
     /**
      * @return array<array<string>> of [['title' => (string) 'TITLE', 'note' => (string) 'NOTE']]
      */
     abstract public static function getUnknownSettings(): array;
-
-    /**
-     * @return array<string> of plugin names that are required for this policy to function
-     */
-    abstract protected static function getMinimumRequiredPlugins(): array;
 
     /**
      * @return array<string, string>
@@ -57,21 +68,6 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
             'title' => static::getTitle(),
             'description' => static::getDescription(),
         ];
-    }
-
-    /**
-     * @throws \Exception when required plugins are not active
-     */
-    protected static function checkRequiredPluginsActive(): void
-    {
-        $plugins = static::getMinimumRequiredPlugins();
-        $pluginManager = static::getPluginManagerInstance();
-
-        foreach ($plugins as $plugin) {
-            if (!$pluginManager->isPluginActivated($plugin)) {
-                throw new Exception("Plugin $plugin is not activated");
-            }
-        }
     }
 
     protected static function getPluginManagerInstance(): Manager
@@ -109,6 +105,15 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         return FieldConfig::TYPE_BOOL;
     }
 
+    protected static function getConfigSection(): string
+    {
+        return Piwik::getPluginNameOfMatomoClass(static::class);
+    }
+
+    protected static function getConfigSettingName(): string
+    {
+        return static::getSystemName();
+    }
     /**
      * If the policy is active at the instance level,
      * disabling the policy for a site will also disable it
@@ -132,16 +137,15 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
      */
     public static function isActive(?int $idSite): bool
     {
-        try {
-            static::checkRequiredPluginsActive();
-        } catch (Exception $e) {
-            return false;
-        }
-
         $instanceLevel = static::getSystemValue();
         if (!$instanceLevel && isset($idSite)) {
             return static::getMeasurableValue($idSite);
         }
         return $instanceLevel;
+    }
+
+    public static function isConfigControlled()
+    {
+        return !is_null(static::getConfigValue());
     }
 }

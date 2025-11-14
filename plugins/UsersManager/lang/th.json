@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "เปิดการทำงาน",
         "AllWebsites": "เว็บไซต์ทั้งหมด",
         "ApplyToAllWebsites": "กระทำกับเว็บไซต์ทั้งหมด",
         "ClickHereToDeleteTheCookie": "คลิกที่นี่เพื่อลบคุกกี้ และมี Matomo ติดตามเข้าชมของคุณ",
@@ -23,6 +24,7 @@
         "PrivView": "มุมมอง",
         "ReportDateToLoadByDefault": "รายงานวันที่โหลด โดยค่าเริ่มต้น",
         "ReportToLoadByDefault": "รายงานเพื่อโหลดตามค่าเริ่มต้น",
+        "Status": "สถานะ",
         "TheLoginScreen": "หน้าจอการเข้าสู่ระบบ",
         "TypeYourPasswordAgain": "พิมพ์รหัสผ่านของคุณใหม่อีกครั้ง",
         "User": "ผู้ใช้",

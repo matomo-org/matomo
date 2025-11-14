@@ -16,6 +16,7 @@
         "SelectACity": "Vel ein by",
         "ShowTrackingTag": "vis sporingskode",
         "Sites": "Nettstadar",
+        "Type": "Type",
         "Urls": "Adresser",
         "WebsitesManagement": "Nettstadsbehandling",
         "YourCurrentIpAddressIs": "Din gjeldande IP-adresse er %s"

@@ -1,16 +1,18 @@
 {
     "CoreHome": {
         "CategoryNoData": "Šioje kategorijoje duomenų nėra. Pabandykite \"Įtraukti visą populiaciją\"",
+        "ChangeCurrentWebsite": "Pasirinkite svetainę, šiuo metu pasirinkta svetainė: %s",
         "CheckForUpdates": "Tikrinti ar yra atnaujinimų",
+        "ChooseWebsite": "Pasirinkti svetainę",
         "ClickToSeeFullInformation": "Spustelėkite, norėdami matyti daugiau informacijos",
         "CloseSearch": "Užverti paiešką",
         "CloseWidgetDirections": "Galite užverti šį valdiklį, spusteldami ant valdiklio viršuje esančios \"X\" piktogramos.",
         "ExternalHelp": "Pagalba (atsiveria naujoje kortelėje)",
         "Menu": "Meniu",
-        "SharePiwikShort": "Matomo! Nemokama\/laisva saityno analitika. Būkite savo duomenų savininkais.",
+        "SharePiwikShort": "Matomo! Nemokama/laisva saityno analitika. Būkite savo duomenų savininkais.",
         "ShowJSCode": "Parodyti JavaScript kodą įvedimui",
+        "SystemSummaryPhpVersion": "PHP versija",
         "ThereIsNoDataForThisReport": "Nėra duomenų šiai ataskaitai.",
-        "WebAnalyticsReports": "Žiniatinklio analizės sprendimo ataskaitos",
-        "ChangeCurrentWebsite": "Pasirinkite svetainę, šiuo metu pasirinkta svetainė: %s"
+        "WebAnalyticsReports": "Žiniatinklio analizės sprendimo ataskaitos"
     }
 }

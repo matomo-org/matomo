@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "Activ",
         "AllWebsites": "Toate siteurile",
         "AnonymousUserHasViewAccess": "Notă: utilizatorul %1$s are acces %2$s la acest website.",
         "AnonymousUserHasViewAccess2": "Rapoartele de analiză și informațiile dvs. despre vizitatori sunt facute publice.",
@@ -36,6 +37,7 @@
         "PrivView": "Vezi",
         "ReportDateToLoadByDefault": "Data raportului pentru a încărca în mod implicit",
         "ReportToLoadByDefault": "Raport pentru a încărca în mod implicit",
+        "Status": "Stare",
         "SuperUserAccessManagement": "Gestionarea Super acces utilizator",
         "SuperUserAccessManagementGrantMore": "Puteți acorda Super accesul utilizatorului la alți utilizatori de Matomo aici. Vă rugăm să folosiți cu atenție această caracteristică.",
         "SuperUserAccessManagementMainDescription": "Super utilizatorii au cele mai mari permisiunile. Ele pot îndeplini toate sarcinile administrative, cum ar fi adăugarea de noi site-uri pentru a monitoriza, adăugarea de utilizatori, schimbarea permisiunilor de utilizator, activarea și dezactivarea plugin-uri și chiar instalarea de noi plugin-uri de pe piață.",

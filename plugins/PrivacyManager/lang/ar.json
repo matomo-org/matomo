@@ -1,5 +1,6 @@
 {
     "PrivacyManager": {
-        "AnonymizeIpInlineHelp": "قم بتشفير آخر بايت من عناوين IP للزوار للإلتزام بقوانين\/إرشادات الخصوصية المحلية."
+        "AnonymizeIpInlineHelp": "قم بتشفير آخر بايت من عناوين IP للزوار للإلتزام بقوانين/إرشادات الخصوصية المحلية.",
+        "ComplianceTableSettingStatus": "الحالة"
     }
 }

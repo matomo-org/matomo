@@ -75,7 +75,8 @@ class IpAddressMaskLength implements CustomSettingInterface, PolicyComparisonInt
 
     public static function getInlineHelp(): string
     {
-        return Piwik::translate('PrivacyManager_AnonymizeIpMaskLengtDescription');
+        // custom vue component provides the text
+        return '';
     }
 
     public static function getPolicyRequirements(): array

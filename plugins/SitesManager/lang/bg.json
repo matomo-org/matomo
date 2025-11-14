@@ -41,6 +41,7 @@
         "ExcludedReferrersHelpExamples": "напр. „%1$s“ ще съответства на „%2$s“ и „%3$s“, но не и на „%4$s“",
         "ExcludedReferrersHelpSubDomains": "За да изключите и всички поддомейни на определено име на хост, добавете точка пред него. напр. „%1$s“ ще изключи „%2$s“, но също и всички негови поддомейни като „%3$s“.",
         "ExcludedUserAgents": "Изключени потребителски агенти",
+        "ExclusionTypeOptionCustom": "Персонализирано",
         "ExtraInformationNeeded": "За да настройте Matomo на Вашата система, може да Ви е необходима следната информация:",
         "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Въведете списъка с потребителски агенти, които да изключите от проследяване от Matomo.",

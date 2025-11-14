@@ -442,7 +442,7 @@ class Php extends GeoIp2
             );
         }
 
-        $installDocs = '<a rel="noreferrer"  target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_163') . '">'
+        $installDocs = Url::getExternalLinkTag('https://matomo.org/faq/how-to/faq_163')
             . Piwik::translate('UserCountry_HowToInstallGeoIPDatabases')
             . '</a>';
 

@@ -79,6 +79,7 @@
         "RemoveTotalsRowDataTable": "Questo report sta mostrando la riga dei totali %s. Rimuovi la riga dei totali",
         "ReportGeneratedOn": "Report generato il %s",
         "ReportGeneratedXAgo": "Report generato %s fa",
+        "ReportLowercase": "rapporto",
         "ReportType": "Tipo di report",
         "ReportWithMetadata": "Report con metadati",
         "ReportingCategoryHelpPrefix": "In che modo la pagina dei report \"%1$s → %2$s\" può aiutarmi?",

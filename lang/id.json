@@ -282,6 +282,7 @@
         "Locale": "id_ID.UTF-8",
         "Logout": "Keluar",
         "MainMetrics": "Metrik utama",
+        "ManagePlugins": "Kelola Pengaya",
         "Matches": "Cocok",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, sebelumnya dikenal sebagai Piwik, adalah proyek kolaboratif yang dipersembahkan oleh anggota %7$stim Matomo%8$s serta banyak kontributor lain di seluruh dunia. <br> Jika Anda penggemar Matomo, Anda dapat membantu: cari tahu %3$sCara berpartisipasi di Matomo%4$s atau %5$sdonasi sekarang%6$s untuk membantu mendanai perilisan Matomo versi berikutnya!",
         "MaximumNumberOfPeriodsComparedIs": "Jumlah periode maksimum yang dapat dibandingkan secara bersamaan adalah %s unit.",

@@ -24,7 +24,7 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         return 'test_policy_v1';
     }
 
-    public static function getDescription(): string
+    protected static function generateDescription(): string
     {
         return 'Test policy description';
     }
@@ -32,16 +32,6 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
     public static function getTitle(): string
     {
         return 'Test Policy';
-    }
-
-    protected static function getMinimumRequiredPlugins(): array
-    {
-        return [];
-    }
-
-    protected static function checkRequiredPluginsActive(): void
-    {
-        return;
     }
 
     public static function getSystemValue()

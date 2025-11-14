@@ -19,8 +19,8 @@ use Piwik\Settings\Setting;
 use Piwik\Settings\FieldConfig;
 use Piwik\Plugins\SitesManager;
 use Exception;
+use Piwik\Url;
 use Piwik\UrlHelper;
-use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled as EcommerceEnabledSetting;
 
 /**
  * Defines Settings for ExampleSettingsPlugin.
@@ -394,19 +394,20 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
 
     private function makeEcommerce()
     {
-        $property = EcommerceEnabledSetting::getMeasurableSetting($this->idSite, $isProperty = true);
-        $property->setConfigureCallback(function (FieldConfig $field) {
-            $field->title = EcommerceEnabledSetting::getTitle();
-            $field->inlineHelp = EcommerceEnabledSetting::getInlineHelp();
+        return $this->makeProperty('ecommerce', $default = 0, FieldConfig::TYPE_INT, function (FieldConfig $field) {
+            $field->title = Piwik::translate('Goals_Ecommerce');
+            $field->inlineHelp = Piwik::translate('SitesManager_EcommerceHelp')
+                . '<br />'
+                . Piwik::translate(
+                    'SitesManager_PiwikOffersEcommerceAnalytics',
+                    ["<a href='" . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/ecommerce-analytics/') . "' target='_blank'>", '</a>']
+                );
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = [
                 0 => Piwik::translate('SitesManager_NotAnEcommerceSite'),
                 1 => Piwik::translate('SitesManager_EnableEcommerce'),
             ];
         });
-
-        $this->addSetting($property);
-        return $property;
     }
 
     public function checkAndReturnCommaSeparatedStringList($parameters)

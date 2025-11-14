@@ -4,6 +4,8 @@
         "GenerateQueries": "%s پرس و جو های اجرا شده",
         "GenerateTime": "%s ثانیه برای تولید صفحه",
         "NbActionsDescription": "فعالیت ها %s",
+        "NbPageviewsDescription": "نمایش‌های صفحه",
+        "NbUsersDescription": "کاربران",
         "VisitsSummary": "خلاصه بازدیدها",
         "VisitsSummaryDocumentation": "این مروری بر تکامل بازدید است.",
         "WidgetLastVisits": "نمودار آخرین بازدید ها",

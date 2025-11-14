@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "Lai sāktu datu izsekošanu un ieskatu gūšanu par saviem lietotājiem, izsekošana ir jāiestata savā tīmekļa vietnē vai mobilajā lietotnē. Vienkārši iegulstiet izsekošanas kodu tīmekļa vietnē tieši pirms %s taga.",
         "JsTrackingCodeMissingEmail3": "Lai atrastu un pielāgotu savu izsekošanas kodu, %1$sklikšķiniet šeit%2$s (vai aplūkojiet %3$sJavaScript izsekošanas rokasgrāmatu%4$s).",
         "LearnMore": "Uzzināt vairāk",
+        "Login": "lietotājvārds",
         "LogoNotWriteableInstruction": "Lai noklusējuma Matomo logotipa vietā izmantotu pielāgotu logotipu, piešķiriet rakstīšanas atļauju šim direktorijam: %1$sMatomo ir nepieciešama rakstīšanas piekļuve failos saglabātajiem logotipiem %2$s.",
         "LogoUpload": "Izvēlēties logo augšuplādei",
         "LogoUploadFailed": "Augšupielādēto failu nevarēja apstrādāt. Lūdzu, pārbaudiet, vai failam ir derīgs formāts.",

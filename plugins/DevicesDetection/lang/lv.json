@@ -8,6 +8,7 @@
         "ColumnBrowser": "Pārlūks",
         "ColumnOperatingSystem": "Operētājsistēma",
         "OperatingSystems": "Operētājsistēmas",
+        "UserAgent": "Lietotāja aģents",
         "WidgetBrowserVersionsDocumentation": "Šis ir ziņojums par to, kādus pārlūkus izmanto apmeklētāji. Katra pārlūka versija ir izdalīta atsevišķi.",
         "WidgetBrowsers": "Apmeklētāju pārlūki",
         "dataTableLabelTypes": "Tips"

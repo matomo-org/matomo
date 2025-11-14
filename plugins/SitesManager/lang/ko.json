@@ -25,6 +25,7 @@
         "ExcludedIps": "제외 IP",
         "ExcludedParameters": "제외 매개변수",
         "ExcludedUserAgents": "제외된 사용자 에이전트",
+        "ExclusionTypeOptionCustom": "사용자 설정",
         "GlobalExcludedUserAgentHelp1": "Matomo 추적에서 제외할 사용자 에이전트의 목록을 작성합니다.",
         "GlobalExcludedUserAgentHelp2": "일부 봇의 추적을 제외할 수 있습니다.",
         "GlobalListExcludedIps": "전체 제외 IP 목록",

@@ -41,6 +41,7 @@
         "ExcludedReferrersHelpExamples": "f.eks. «%1$s» ville samsvart med «%2$s» og «%3$s», men ikke «%4$s».",
         "ExcludedReferrersHelpSubDomains": "For å ekskludere alle underdomener tilhørende et gitt vertsnavn kan du innlede det med en dott. F.eks. «%1$s» vil ekskludere «%2$s», men også dets underdomener som f.eks. «%3$s».",
         "ExcludedUserAgents": "Ekskluderte brukeragenter",
+        "ExclusionTypeOptionCustom": "Egendefinert",
         "ExtraInformationNeeded": "Du trenger følgende info for å sette opp Matomo på ditt system:",
         "Format_Utc": "Koordinert universaltid %s",
         "GADetected": "%1$s ble oppdaget på nettsiden din. Du kan enkelt flytte historiske data og innstillinger fra %2$s til Matomo. %3$s%4$s%5$sLær mer i denne veiledningen%6$s",

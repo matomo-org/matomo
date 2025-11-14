@@ -29,7 +29,6 @@ use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
-use Piwik\Plugins\WebsiteMeasurable\Settings\EcommerceEnabled;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
 use Piwik\ProxyHttp;
 use Piwik\Scheduler\Scheduler;
@@ -685,9 +684,6 @@ class API extends \Piwik\Plugin\API
         if (!Piwik::hasUserSuperUserAccess()) {
             unset($site['creator_login']);
         }
-
-        // update ecommerce through setting
-        $site['ecommerce'] = EcommerceEnabled::getPolicyValuesAgainstProvided($site['ecommerce'], $site['idsite']);
     }
 
     /**

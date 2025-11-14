@@ -1024,14 +1024,16 @@ class Common
      *            1 => array( ... ) // campaign keyword parameters
      * );
      */
-    public static function getCampaignParameters(?int $idSite = null)
+    public static function getCampaignParameters(?int $idSite = null, bool $skipCompliancePolicyCheck = false)
     {
-        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
-        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
-            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
-            $cacheKey = CampaignTrackingParametersDisabled::class;
-            if (($cache[$cacheKey] ?? false) === true) {
-                return [[], []];
+        if (!$skipCompliancePolicyCheck) {
+            $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+            if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+                $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+                $cacheKey = CampaignTrackingParametersDisabled::class;
+                if (($cache[$cacheKey] ?? false) === true) {
+                    return [[], []];
+                }
             }
         }
 

@@ -1,1 +1,6 @@
-{}
+{
+    "TwoFactorAuth": {
+        "TwoFAShort": "تأیید دو مرحله‌ای (2FA)",
+        "TwoFactorAuthentication": "احراز هویت دو عاملی"
+    }
+}

@@ -1,1 +1,9 @@
-{}
+{
+    "Goals": {
+        "CategoryTextDevicesDetection_DevicesDetection": "Mga Device",
+        "CategoryTextGeneral_Actions": "pahina",
+        "CategoryTextReferrers_Referrers": "Mga Referrer",
+        "EntryPages": "Mga entry page",
+        "PageTitles": "Mga pamagat ng pahina"
+    }
+}

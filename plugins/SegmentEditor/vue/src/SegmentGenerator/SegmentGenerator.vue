@@ -24,11 +24,9 @@
               class="segment-close"
               @click="removeOrCondition(condition, orCondition)"
             />
-            <a
-              href="#"
-              class="segment-loading"
-              v-show="conditionValuesLoading[orCondition.id]"
-            />
+            <div class="segment-loading">
+              <MatomoLoader v-show="conditionValuesLoading[orCondition.id]" />
+            </div>
             <div class="segment-row-inputs valign-wrapper">
               <div class="segment-input metricListBlock valign-wrapper">
                 <div style="width: 100%;">
@@ -36,8 +34,7 @@
                     uicontrol="expandable-select"
                     name="segments"
                     :model-value="orCondition.segment"
-                    @update:model-value="orCondition.segment = $event;
-                      updateAutocomplete(orCondition); computeSegmentDefinition();"
+                    @update:model-value="onSegmentSelection($event, orCondition)"
                     :title="segments[orCondition.segment]?.name"
                     :full-width="true"
                     :options="segmentList"
@@ -112,6 +109,7 @@ import {
   AjaxHelper,
   ActivityIndicator,
   Matomo,
+  MatomoLoader,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import SegmentGeneratorStore from './SegmentGenerator.store';
@@ -265,6 +263,7 @@ export default defineComponent({
   components: {
     ActivityIndicator,
     Field,
+    MatomoLoader,
     ValueInput,
   },
   data(): SegmentGeneratorState {
@@ -343,6 +342,12 @@ export default defineComponent({
       nextTick(() => {
         this.updateAutocomplete(orCondition);
       });
+    },
+    onSegmentSelection(event: string, orCondition: SegmentOrCondition) {
+      orCondition.segment = event;
+      this.updateAutocomplete(orCondition);
+      this.computeSegmentDefinition();
+      this.focusValueInput(orCondition);
     },
     updateAutocomplete(orCondition: SegmentOrCondition) {
       this.conditionValuesLoading[orCondition.id!] = true;
@@ -491,6 +496,13 @@ export default defineComponent({
 
       this.segmentDefinition = segmentStr;
     },
+    focusValueInput(orCondition: SegmentOrCondition) {
+      const $input = $(`.orCondId${orCondition.id} .metricValueBlock input`);
+      $input.focus();
+      if ($input.val()) {
+        $input.select();
+      }
+    },
   },
   computed: {
     firstSegment() {
@@ -524,7 +536,7 @@ export default defineComponent({
       }));
     },
     addNewOrConditionLinkText() {
-      return `+${translate(
+      return `+ ${translate(
         'SegmentEditor_AddANDorORCondition',
         `<span>${translate('SegmentEditor_OperatorOR')}</span>`,
       )}`;
@@ -533,7 +545,7 @@ export default defineComponent({
       return this.conditions.length ? translate('SegmentEditor_OperatorAND') : '';
     },
     addNewAndConditionLinkText() {
-      return `+${translate('SegmentEditor_AddANDorORCondition', `<span>${this.andConditionLabel}</span>`)}`;
+      return `+ ${translate('SegmentEditor_AddANDorORCondition', `<span>${this.andConditionLabel}</span>`)}`;
     },
     isLoading() {
       return SegmentGeneratorStore.state.value.isLoading;

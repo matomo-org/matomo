@@ -39,6 +39,7 @@
         "JSTracking_VisitorCustomVars": "Urmăreşte variabile personalizate pentru acest vizitator",
         "JSTracking_VisitorCustomVarsDesc": "De exemplu, cu variabila nume \"Tip\" si valoare \"Client\".",
         "JavaScriptTracking": "Urmărire prin JavaScript",
+        "Login": "Logare",
         "LogoNotWriteableInstruction": "Pentru a folosi logo-ul tau custom in loc de logo-ul default Matomo, trebuie sa pui permisiuni de scriere pe acest director. %1$s Matomo are nevoie de drept de scriere pentru logo-urile tale salvate in fisiere %2$s.",
         "LogoUpload": "Alege logo-ul pentru încărcare",
         "LogoUploadHelp": "Te rugam sa incarci un fisier cu formaturile %1$s, cu o inaltime minima de %2$s pixeli.",

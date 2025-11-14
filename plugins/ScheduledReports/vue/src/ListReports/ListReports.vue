@@ -231,8 +231,8 @@ export default defineComponent({
     },
   },
   components: {
-    MatomoLoader,
     ContentBlock,
+    MatomoLoader,
   },
   directives: {
     ContentTable,

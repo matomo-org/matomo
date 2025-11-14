@@ -1,5 +1,6 @@
 {
     "Goals": {
+        "CategoryTextGeneral_Actions": "Stranice",
         "CategoryTextGeneral_Visit": "angažman",
         "ClickOutlink": "Klikni na poveznicu na eksternu web-stranicu",
         "ColumnOverallRevenue": "Ukupni prihod",

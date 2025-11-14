@@ -284,10 +284,7 @@ class Twig
     private function addFunctionExternalLink()
     {
         $externalLink = new TwigFunction('externallink', function ($url) {
-            // Add tracking parameters if a matomo.org link
-            $url = Url::addCampaignParametersToMatomoLink($url);
-
-            return "<a target='_blank' rel='noreferrer noopener' href='" . $url . "'>";
+            return Url::getExternalLinkTag($url);
         });
         $this->twig->addFunction($externalLink);
     }

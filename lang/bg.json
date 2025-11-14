@@ -279,6 +279,7 @@
         "Locale": "bg_BG.UTF-8",
         "Logout": "Изход",
         "MainMetrics": "Главни метрики",
+        "ManagePlugins": "Управление на плъгини",
         "Matches": "Съвпадения",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "%1$sMatomo%2$s, известен преди като Piwik, е съвместен проект, предоставен ви от членовете на %7$sMatomo%8$s, както и от много други сътрудници по целия свят. <br> Ако сте фен на Matomo, можете да помогнете: разберете %3$sКак да участвате в Matomo%4$s или %5$sдарете сега%6$s, за да помогнете за финансирането на следващото страхотно издание на Matomo!",
         "MaximumNumberOfPeriodsComparedIs": "Максималният брой периоди, които могат да бъдат сравнявани едновременно, е %s.",

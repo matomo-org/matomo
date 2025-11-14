@@ -61,7 +61,7 @@ jobs:
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mariadb'
             mysql-version: '11.4'
-          - php: '8.4'
+          - php: '8.5'
             adapter: 'MYSQLI'
             mysql-engine: 'Mysql'
             mysql-version: '8.0'
