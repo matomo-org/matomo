@@ -607,19 +607,6 @@
 		<segment>pageUrl</segment>
 	</row>
 	<row>
-		<type>dimension</type>
-		<category>Behaviour</category>
-		<name>Site time — hour</name>
-		<segment>actionServerHour</segment>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Behaviour</category>
-		<name>Time in UTC — minute</name>
-		<segment>actionServerMinute</segment>
-		<acceptedValues>0, 1, 2, 3, ..., 56, 57, 58, 59</acceptedValues>
-	</row>
-	<row>
 		<type>metric</type>
 		<category>Events</category>
 		<name>Event value</name>
