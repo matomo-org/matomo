@@ -27,7 +27,7 @@ class DevicesDetection extends \Piwik\Plugin
         return [
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
-            'Segment.filterSegments'                 => 'filterSegmentsForCNIL',
+            'Segment.filterSegments'                 => 'filterSegments',
         ];
     }
 
@@ -90,7 +90,7 @@ class DevicesDetection extends \Piwik\Plugin
         return false;
     }
 
-    public function filterSegmentsForCNIL(SegmentsList &$list, array $idSites)
+    public function filterSegments(SegmentsList &$list, array $idSites)
     {
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {

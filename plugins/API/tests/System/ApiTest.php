@@ -58,7 +58,8 @@ class ApiTest extends SystemTestCase
     public function testGetSegmentsMetadataIfFeatureFlagEnabledAndPolicyEnforced(): void
     {
         $this->setComplianceFeatureFlag(true);
-        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true);
+        $config = Config::getInstance();
+        $config->{'CnilPolicy'}['cnil_v1_policy_enabled'] = 1;
 
         $this->runApiTests('API.getSegmentsMetadata', [
             'testSuffix' => '_compliancePolicyEnforced',

@@ -25,7 +25,7 @@ class Resolution extends \Piwik\Plugin
     public function registerEvents()
     {
         return [
-            'Segment.filterSegments' => 'filterSegmentsForCNIL',
+            'Segment.filterSegments' => 'filterSegments',
         ];
     }
 
@@ -50,7 +50,7 @@ class Resolution extends \Piwik\Plugin
         return false;
     }
 
-    public function filterSegmentsForCNIL(SegmentsList &$list, array $idSites)
+    public function filterSegments(SegmentsList &$list, array $idSites)
     {
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {

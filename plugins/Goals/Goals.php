@@ -116,7 +116,7 @@ class Goals extends \Piwik\Plugin
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Archiver.addRecordBuilders'             => 'addRecordBuilders',
-            'Segment.filterSegments'                 => 'filterSegmentsForCNIL',
+            'Segment.filterSegments'                 => 'filterSegments',
         );
         return $hooks;
     }
@@ -538,7 +538,7 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'General_OrCancel';
     }
 
-    public function filterSegmentsForCNIL(SegmentsList &$list, array $idSites)
+    public function filterSegments(SegmentsList &$list, array $idSites)
     {
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {

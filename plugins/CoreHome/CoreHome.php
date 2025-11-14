@@ -57,7 +57,7 @@ class CoreHome extends \Piwik\Plugin
             'AssetManager.addStylesheets'                => 'addStylesheets',
             'Request.dispatchCoreAndPluginUpdatesScreen' => ['function' => 'checkAllowedIpsOnAuthentication', 'before' => true],
             'Tracker.setTrackerCacheGeneral'             => 'setTrackerCacheGeneral',
-            'Segment.filterSegments'                     => 'filterSegmentsForCNIL',
+            'Segment.filterSegments'                     => 'filterSegments',
         );
     }
 
@@ -439,7 +439,7 @@ class CoreHome extends \Piwik\Plugin
         }
     }
 
-    public function filterSegmentsForCNIL(SegmentsList &$list, array $idSites)
+    public function filterSegments(SegmentsList &$list, array $idSites)
     {
         $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
         if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
