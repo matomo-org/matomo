@@ -14,6 +14,7 @@ describe("PagePerformance", function () {
 
     const generalParams = 'idSite=1&period=day&date=2010-03-12',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
+    const pageUrlsReportId = '#widgetActionsgetPageUrlsforceView1viewDataTabletablePerformanceColumnsperformance1';
 
     async function ensureTooltipIsVisibleInScreenshot() {
         await page.evaluate(() => {
@@ -35,7 +36,6 @@ describe("PagePerformance", function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
 
         // hover first row
-        const pageUrlsReportId = '#widgetActionsgetPageUrlsforceView1viewDataTabletablePerformanceColumnsperformance1';
         const row = await page.waitForSelector(pageUrlsReportId + ' .dataTable tbody tr:first-child');
         await row.hover();
         await page.waitForTimeout(50);
@@ -45,17 +45,17 @@ describe("PagePerformance", function () {
     });
 
     it("should show rowaction for subtable rows", async function () {
-        const subtablerow = await page.jQuery('tr.subDataTable:eq(1) .label');
+        const subtablerow = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) .label');
         await subtablerow.click();
 
         await page.waitForNetworkIdle();
         await page.waitForTimeout(200);
 
         // hover first row
-        const row = await page.jQuery('tr.subDataTable:eq(1) + tr');
+        const row = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) + tr');
         await row.hover();
 
-        pageWrap = await page.$('.pageWrap');
+        pageWrap = await page.$(pageUrlsReportId);
         expect(await pageWrap.screenshot()).to.matchImage('rowactions_subtable');
     });
 
