@@ -24,8 +24,8 @@ class MysqlTest extends TestCase
 
     public function testCheckServerVersionThrowsWhenServerVersionTooLow(): void
     {
-        Schema::setSingletonInstance($this->createSchemaDouble('8.0.0'));
-        $adapter = $this->createAdapterDouble('5.7.0');
+        Schema::setSingletonInstance($this->createMockSchema('8.0.0'));
+        $adapter = $this->createMockAdapter('5.7.0');
 
         $this->expectException(Exception::class);
         $adapter->checkServerVersion();
@@ -33,8 +33,8 @@ class MysqlTest extends TestCase
 
     public function testCheckServerVersionAllowsSupportedVersion(): void
     {
-        Schema::setSingletonInstance($this->createSchemaDouble('5.7.0'));
-        $adapter = $this->createAdapterDouble('8.0.32');
+        Schema::setSingletonInstance($this->createMockSchema('5.7.0'));
+        $adapter = $this->createMockAdapter('8.0.32');
 
         $adapter->checkServerVersion();
         $this->addToAssertionCount(1);
@@ -45,7 +45,7 @@ class MysqlTest extends TestCase
      * @param string $minimumVersion
      * @return Schema
      */
-    private function createSchemaDouble(string $minimumVersion): Schema
+    private function createMockSchema(string $minimumVersion): Schema
     {
         return new class ($minimumVersion) extends Schema {
             private $minimumVersion;
@@ -63,7 +63,7 @@ class MysqlTest extends TestCase
         };
     }
 
-    private function createAdapterDouble(string $serverVersion): Mysql
+    private function createMockAdapter(string $serverVersion): Mysql
     {
         $adapter = $this->getMockBuilder(Mysql::class)
             ->disableOriginalConstructor()

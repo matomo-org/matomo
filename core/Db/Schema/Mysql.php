@@ -37,6 +37,7 @@ class Mysql implements SchemaInterface
     {
         return 'MySQL';
     }
+
     public function getMinimumSupportedVersion(): string
     {
         return $this->minimumSupportedVersion;
