@@ -26,6 +26,10 @@ describe('WidgetLoader', function () {
       $('#login_form_submit').click();
     });
     await page.waitForNetworkIdle();
+    // check dashboard is shown
+    await page.waitForSelector('#dashboard');
+    await page.waitForNetworkIdle();
+
     await page.clearCookies();
 
     await page.reload();
