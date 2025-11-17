@@ -15,6 +15,7 @@ describe("PagePerformance", function () {
     const generalParams = 'idSite=1&period=day&date=2010-03-12',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
     const pageUrlsReportId = '#widgetActionsgetPageUrlsforceView1viewDataTabletablePerformanceColumnsperformance1';
+    const pageTitleReportId = '#widgetActionsgetPageTitlesforceView1viewDataTabletablePerformanceColumnsperformance1';
 
     async function ensureTooltipIsVisibleInScreenshot() {
         await page.evaluate(() => {
@@ -155,31 +156,40 @@ describe("PagePerformance", function () {
         expect(await pageWrap.screenshot()).to.matchImage('pagetitle_overlay');
     });
 
-  it("should not show row evolution icon in pages reports when in Behaviour > Performance page", async function () {
+  it("should not show row evolution icon in page urls and page titles reports when in Behaviour > Performance page", async function () {
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
 
     // hover first row
-    const row = await page.waitForSelector(pageUrlsReportId + ' .dataTable tbody tr:first-child');
+    let row = await page.waitForSelector(pageUrlsReportId + ' .dataTable tbody tr:first-child');
     await row.hover();
     await page.waitForTimeout(50);
 
     pageWrap = await page.$(pageUrlsReportId);
-    expect(await pageWrap.screenshot()).to.matchImage('page_performance_rowactions');
+    let icon = await pageWrap.$('.actionRowEvolution');
+    expect(icon).to.equal(null);
+
+    row = await page.waitForSelector(pageTitleReportId + ' .dataTable tbody tr:first-child');
+    await row.hover();
+    await page.waitForTimeout(50);
+
+    pageWrap = await page.$(pageTitleReportId);
+    icon = await pageWrap.$('.actionRowEvolution');
+    expect(icon).to.equal(null);
   });
 
   it("should not show row evolution icon for subtable rows in Behaviour > Performance", async function () {
-    const subtablerow = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) .label');
+    // Check page url report
+    let subtablerow = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) .label');
     await subtablerow.click();
 
     await page.waitForNetworkIdle();
-    await page.waitForTimeout(200);
 
     // hover first row
-    const row = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) + tr');
+    let row = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) + tr');
     await row.hover();
+    await page.waitForTimeout(50);
 
-    pageWrap = await page.$(pageUrlsReportId);
-    expect(await pageWrap.screenshot()).to.matchImage('page_performance_rowactions_subtable');
+    let rowEvolutionIcon = await page.$(pageUrlsReportId + '.dataTableRowActions .actionRowEvolution');
+    expect(rowEvolutionIcon).to.equal(null);
   });
-
 });
