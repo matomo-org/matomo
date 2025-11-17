@@ -33,29 +33,29 @@ describe("PagePerformance", function () {
     });
 
     it("should show new row action in pages reports", async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=General_Pages");
 
         // hover first row
-        const row = await page.waitForSelector(pageUrlsReportId + ' .dataTable tbody tr:first-child');
+        const row = await page.waitForSelector('.dataTable tbody tr:first-child');
         await row.hover();
         await page.waitForTimeout(50);
 
-        pageWrap = await page.$(pageUrlsReportId);
+        pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('rowactions');
     });
 
     it("should show rowaction for subtable rows", async function () {
-        const subtablerow = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) .label');
+        const subtablerow = await page.jQuery('tr.subDataTable:eq(1) .label');
         await subtablerow.click();
 
         await page.waitForNetworkIdle();
         await page.waitForTimeout(200);
 
         // hover first row
-        const row = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) + tr');
+        const row = await page.jQuery('tr.subDataTable:eq(1) + tr');
         await row.hover();
 
-        pageWrap = await page.$(pageUrlsReportId);
+        pageWrap = await page.$('.pageWrap');
         expect(await pageWrap.screenshot()).to.matchImage('rowactions_subtable');
     });
 
@@ -155,5 +155,31 @@ describe("PagePerformance", function () {
         expect(await pageWrap.screenshot()).to.matchImage('pagetitle_overlay');
     });
 
+  it("should not show row evolution icon in pages reports when in Behaviour > Performance page", async function () {
+    await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
+
+    // hover first row
+    const row = await page.waitForSelector(pageUrlsReportId + ' .dataTable tbody tr:first-child');
+    await row.hover();
+    await page.waitForTimeout(50);
+
+    pageWrap = await page.$(pageUrlsReportId);
+    expect(await pageWrap.screenshot()).to.matchImage('page_performance_rowactions');
+  });
+
+  it("should not show row evolution icon for subtable rows in Behaviour > Performance", async function () {
+    const subtablerow = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) .label');
+    await subtablerow.click();
+
+    await page.waitForNetworkIdle();
+    await page.waitForTimeout(200);
+
+    // hover first row
+    const row = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) + tr');
+    await row.hover();
+
+    pageWrap = await page.$(pageUrlsReportId);
+    expect(await pageWrap.screenshot()).to.matchImage('page_performance_rowactions_subtable');
+  });
 
 });
