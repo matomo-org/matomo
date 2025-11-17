@@ -105,7 +105,7 @@
         "Comparisons": "Comparacions",
         "ComplianceCNILDescription": "Aquesta taula proporciona una indicació de si certes configuracions s'alineen amb les directrius de la CNIL. No garanteix el compliment legal total. Per optar a l'exempció de consentiment segons les normes de la CNIL, cal implementar totes les configuracions necessàries. Si alguna configuració es mostra com a \"No conforme\", no es compleixen les condicions d'exempció i s'ha d'obtenir el consentiment dels usuaris. Si alguna configuració es mostra com a \"Desconeguda\", Matomo no pot determinar si s'ha implementat aquest requisit. En aquests casos, aquestes mesures s'han de verificar manualment.",
         "ComplianceCNILTitle": "Condicions d'exempció del consentiment de l'anàlisi del lloc web de la CNIL",
-        "ComplianceCNILUnknownSettingOptOutNotes": "L'opció de baixa voluntària s'ha de definir i configurar manualment",
+        "ComplianceCNILUnknownSettingOptOutNotes": "L'opció de baixa voluntària s'ha de definir i configurar manualment. %1$sMés informació%2$s",
         "ComplianceCNILUnknownSettingOptOutTitle": "Baixa voluntària",
         "ComputedMetricAverage": "Mitjana %1$s per %2$s",
         "ComputedMetricAverageDocumentation": "Valor mitjà de \"%1$s\" per \"%2$s\".",
