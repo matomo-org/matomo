@@ -417,7 +417,9 @@ Segmentation = (function($) {
                     segment: $(e.target).closest('li').data('definition'),
                 });
 
-                self.markComparedSegments();
+                setTimeout(function () {
+                  self.markComparedSegments();
+                });
 
                 closeAllOpenLists();
             });
