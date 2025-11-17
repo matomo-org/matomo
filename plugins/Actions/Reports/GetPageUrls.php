@@ -82,11 +82,8 @@ class GetPageUrls extends Base
 
         $view->config->show_goals = true;
 
-        if ($view->requestConfig->getRequestParam('performance') === '1') {
-            // We remove the evolution graph as it is not useful for this report when in performance page
-            $view->config->disable_row_evolution = true;
-        } else {
-            // related reports are only shown on performance page
+        // related reports are only shown on performance page
+        if ($view->requestConfig->getRequestParam('performance') !== '1') {
             $view->config->related_reports = [];
         }
     }
