@@ -108,9 +108,14 @@ Segmentation = (function($) {
             let comparisonService = window.CoreHome.ComparisonsStoreInstance;
             let comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
             console.log('these are the available segments: ',this.availableSegments);
-            if (comparedSegmentsLength >= limit) {
-              // We need to disable all the other icons for click
-            }
+            console.log('comparedSegmentsLength', comparedSegmentsLength);
+            $('div.segmentList ul li[data-definition] span.compareSegment').each(function() {
+              if (comparedSegmentsLength >= limit) {
+                $(this).addClass('no-click');
+              } else {
+                $(this).removeClass('no-click');
+              }
+            });
             return false;
         };
 
@@ -430,7 +435,6 @@ Segmentation = (function($) {
 
                 setTimeout(function () {
                   self.markComparedSegments();
-                  console.log('number of segments (inside settimeout)', comparisonService.getSegmentComparisons());
                 });
                 closeAllOpenLists();
             });
