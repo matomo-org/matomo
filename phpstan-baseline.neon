@@ -581,11 +581,6 @@ parameters:
 			path: core/Columns/Dimension.php
 
 		-
-			message: "#^Method Piwik\\\\Columns\\\\DimensionsProvider\\:\\:factory\\(\\) should return Piwik\\\\Columns\\\\Dimension but returns null\\.$#"
-			count: 1
-			path: core/Columns/DimensionsProvider.php
-
-		-
 			message: "#^Property Piwik\\\\Columns\\\\Updater\\:\\:\\$actionDimensions \\(array\\<Piwik\\\\Plugin\\\\Dimension\\\\ActionDimension\\>\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Columns/Updater.php
