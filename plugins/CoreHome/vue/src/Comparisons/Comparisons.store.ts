@@ -321,6 +321,7 @@ export default class ComparisonsStore {
   }
 
   private parseSegmentComparisons(): SegmentComparison[] {
+    console.log('i will now try to parse segment comparisons:');
     const { availableSegments } = SegmentsStore.state;
 
     const compareSegments: string[] = [
