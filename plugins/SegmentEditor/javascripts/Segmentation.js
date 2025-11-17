@@ -101,6 +101,17 @@ Segmentation = (function($) {
             }).each(function () {
                 $(this).addClass('comparedSegment');
             });
+            self.checkIfComparedSegmentsHasReachedLimit();
+        };
+        segmentation.prototype.checkIfComparedSegmentsHasReachedLimit = function() {
+            const limit = 6;
+            let comparisonService = window.CoreHome.ComparisonsStoreInstance;
+            let comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
+            console.log('these are the available segments: ',this.availableSegments);
+            if (comparedSegmentsLength >= limit) {
+              // We need to disable all the other icons for click
+            }
+            return false;
         };
 
         segmentation.prototype.markCurrentSegment = function(){
@@ -419,8 +430,8 @@ Segmentation = (function($) {
 
                 setTimeout(function () {
                   self.markComparedSegments();
+                  console.log('number of segments (inside settimeout)', comparisonService.getSegmentComparisons());
                 });
-
                 closeAllOpenLists();
             });
 
