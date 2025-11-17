@@ -1,6 +1,5 @@
 {
     "Events": {
-        "PluginDescription": "Pratite događaje i dobijajte izveštaje o aktivnostima vaših posetilaca.",
         "AvgEventValue": "Prosečna vrednost događaja je: %s",
         "AvgValue": "Prosečna vrednost",
         "AvgValueDocumentation": "Prosek svih vrednosti ovog događaja",
@@ -11,14 +10,13 @@
         "EventCategory": "Kategorije događaja",
         "EventName": "Naziv događaja",
         "EventNames": "Nazivi događaja",
+        "EventValueTooltip": "Ukupna vrednost događaja je suma %1$s događaja sa vrednošću %2$s između minimum od %3$s i maksimum od %4$s",
         "Events": "Događaji",
         "EventsWithValue": "Događaji sa vrednošću",
         "EventsWithValueDocumentation": "Broj događaja u kojima je vrednost postavljena",
-        "EventValueTooltip": "Ukupna vrednost događaja je suma %1$s događaja sa vrednošću %2$s između minimum od %3$s i maksimum od %4$s",
         "MaxValueDocumentation": "Maksimalna vrednost za ovaj događaj",
         "MinValueDocumentation": "Minimalna vrednost za ovaj događaj",
-        "SecondaryDimension": "Sekundarna dimenzija je %s.",
-        "SwitchToSecondaryDimension": "Prebaci na %s",
+        "PluginDescription": "Pratite događaje i dobijajte izveštaje o aktivnostima vaših posetilaca.",
         "TopEvents": "Vodeći događaji",
         "TotalEvents": "Ukupno događaja",
         "TotalEventsDocumentation": "Ukupan broj događaja",
