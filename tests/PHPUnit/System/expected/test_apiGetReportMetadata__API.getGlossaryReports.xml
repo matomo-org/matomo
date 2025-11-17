@@ -5,6 +5,10 @@
 		<documentation>This report shows which AI assistants led visitors to your website.&lt;br /&gt;By clicking on a row in the table, you can see from which AI assistant pages visitors came to your website.</documentation>
 	</row>
 	<row>
+		<name>AI Assistants - Bots (AI Assistants)</name>
+		<documentation>Discover which AI assistants are crawling your site and how many hits each one generates. Expand a bot to review the most frequently requested pages or documents.</documentation>
+	</row>
+	<row>
 		<name>Actions - Main metrics (Actions)</name>
 		<documentation>This report provides a very basic overview of what actions your visitors take on your website.</documentation>
 	</row>

@@ -53,6 +53,7 @@ class Collection
         'Referrers.getKeywordNotDefinedString',
         'CorePluginsAdmin.getSystemSettings',
         'API.getPagesComparisonsDisabledFor',
+        'BotTracking',
     );
 
     /**

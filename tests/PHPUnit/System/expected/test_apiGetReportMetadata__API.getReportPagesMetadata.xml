@@ -6731,10 +6731,24 @@
 		</subcategory>
 		<widgets>
 			<row>
+				<name>AI Assistants - Bots</name>
+				<module>BotTracking</module>
+				<action>getAIAssistantRequests</action>
+				<order>30</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIAssistantRequests</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIAssistantRequests</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
 				<name>AI Agents Over Time</name>
 				<module>AIAgents</module>
 				<action>getEvolutionGraph</action>
-				<order>1</order>
+				<order>90</order>
 				<parameters>
 					<forceView>1</forceView>
 					<viewDataTable>graphEvolution</viewDataTable>
@@ -6750,7 +6764,7 @@
 				<name>AI Agent Overview</name>
 				<module>AIAgents</module>
 				<action>get</action>
-				<order>2</order>
+				<order>91</order>
 				<parameters>
 					<forceView>1</forceView>
 					<viewDataTable>sparklines</viewDataTable>
