@@ -8,6 +8,7 @@
 Segmentation = (function($) {
     const FORM_MODE_EDIT = 'edit';
     const FORM_MODE_NEW = 'new';
+    let currentComparedSegments = 0;
 
     piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
         if (event.altKey) {
@@ -92,7 +93,8 @@ Segmentation = (function($) {
             var comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
                 return comparison.params.segment;
             });
-
+            console.log('comparedSegments', comparedSegments);
+            console.log('comparisonService', comparisonService);
             $('div.segmentList ul li[data-definition]', this.target).removeClass('comparedSegment').filter(function () {
                 var definition = $(this).attr('data-definition');
                 return comparedSegments.indexOf(definition) !== -1 || comparedSegments.indexOf(decodeURIComponent(definition)) !== -1;
@@ -408,7 +410,8 @@ Segmentation = (function($) {
             self.target.on('click', '.compareSegment', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-
+                console.log('compareSegment was clicked');
+                console.log('i am saving this segment: ' + $(e.target).closest('li').data('definition'));
                 var comparisonService = window.CoreHome.ComparisonsStoreInstance;
                 comparisonService.addSegmentComparison({
                     segment: $(e.target).closest('li').data('definition'),
