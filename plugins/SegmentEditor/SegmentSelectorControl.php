@@ -127,6 +127,9 @@ class SegmentSelectorControl extends UIControl
             'General_DefaultAppended',
             'SegmentEditor_AddNewSegment',
             'General_Edit',
+            'General_AddToFavorites',
+            'General_RemoveFromFavorites',
+            'General_Edit',
             'General_Search',
             'General_SearchNoResults',
         );
