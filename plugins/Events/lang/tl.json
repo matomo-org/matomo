@@ -17,8 +17,6 @@
         "MaxValueDocumentation": "Ang maximum na halaga para sa kaganapang ito.",
         "MinValueDocumentation": "Ang minimum na halaga para sa kaganapang ito.",
         "PluginDescription": "Subaybayan ang mga kaganapan at kumuha ng mga balita sa aktibidad ng iyong mga bisita.",
-        "SecondaryDimension": "Pangalawang dimensyon ay %s.",
-        "SwitchToSecondaryDimension": "Lumipat sa %s",
         "TopEvents": "Mga nangungunang events",
         "TotalEvents": "Total events",
         "TotalEventsDocumentation": "Kabuuang bilang ng mga event",
