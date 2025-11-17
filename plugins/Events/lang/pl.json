@@ -28,8 +28,6 @@
         "MinValue": "Minimalna wartość Zdarzenia",
         "MinValueDocumentation": "Minimalna wartość tego wydarzenia",
         "PluginDescription": "Śledź zdarzenia i pobierz raporty aktywności Twoich odwiedzających,",
-        "SecondaryDimension": "Drugi wymiar to %s.",
-        "SwitchToSecondaryDimension": "Przełącz na %s",
         "TopEvents": "Najważniejsze wydarzenia",
         "TotalEvents": "Liczba zdarzeń",
         "TotalEventsDocumentation": "Łączna liczba zdarzeń",
