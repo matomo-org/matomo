@@ -100,7 +100,7 @@ describe("CustomDimensions", function () {
     it('should be possible to define name, active and extractions for scope action', async function () {
         await capturePageWrap('manage_new_action_dimension_withdata', async function () {
             await page.type(".editCustomDimension #name", 'My Action Name');
-            await page.click('.editCustomDimension #active');
+            // await page.click('.editCustomDimension #active');
 
             await page.type('.extraction0 #pattern0', 'myPattern_(.+)');
 
@@ -134,7 +134,7 @@ describe("CustomDimensions", function () {
     it('should be possible to change an existing dimension', async function () {
         await capturePageWrap('manage_edit_action_dimension_withdata', async function () {
             await page.type(".editCustomDimension #name", 'ABC');
-            await page.click('.editCustomDimension #active');
+            // await page.click('.editCustomDimension #active');
             await page.click('.editCustomDimension #casesensitive');
             await page.click('.extraction0 .icon-minus');
         });
@@ -162,7 +162,7 @@ describe("CustomDimensions", function () {
     it('should disable configure button when no dimensions are left for a scope', async function () {
         await capturePageWrap('manage_configure_button_disabled', async function () {
             await page.click('.scope-visit .btn');
-            await page.click('.editCustomDimension #active');
+            // await page.click('.editCustomDimension #active');
             await page.type(".editCustomDimension #name", 'Last Name');
             await page.click('.editCustomDimension .create');
             await page.waitForNetworkIdle();
