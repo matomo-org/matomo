@@ -33,7 +33,7 @@ class Get extends Report
         $this->name          = Piwik::translate('AIAgents_AIAgentVisits');
         $this->categoryId    = 'AIAgents_AIAssistants';
         $this->subcategoryId = 'General_Overview';
-        $this->order         = 10;
+        $this->order         = 90;
 
         $this->processedMetrics = [
             new AIAgentMetric(new AverageTimeOnSite(), API::AI_AGENT_COLUMN_SUFFIX),
@@ -66,14 +66,14 @@ class Get extends Report
                 ->setName('AIAgents_WidgetGraphAIAgents')
                 ->forceViewDataTable(Evolution::ID)
                 ->setAction('getEvolutionGraph')
-                ->setOrder(1)
+                ->setOrder(90)
         );
 
         $widgetsList->addWidgetConfig(
             $factory->createWidget()
                 ->forceViewDataTable(Sparklines::ID)
                 ->setName('AIAgents_WidgetOverviewAIAgents')
-                ->setOrder(2)
+                ->setOrder(91)
         );
     }
 
