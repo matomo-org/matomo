@@ -6,17 +6,18 @@
  */
 
 var Piwik_Popover = (function () {
-
     var container = false;
     var isOpen = false;
     var closeCallback = false;
     var isProgrammaticClose = false;
     var scrollTopPosition = 0;
     var ajaxLoadingRequest = null;
-
     var createContainer = function () {
         if (container === false) {
             container = $(document.createElement('div')).attr('id', 'Piwik_Popover');
+        }
+        if (!$('#Piwik_Popover_Wrapper').length) {
+          $(document.createElement('div')).attr('id', 'Piwik_Popover_Wrapper').appendTo('body');
         }
     };
 
@@ -27,9 +28,13 @@ var Piwik_Popover = (function () {
         {
             title: title,
             modal: true,
-            width: '1050px',
+            width: 1050,
             resizable: false,
             autoOpen: true,
+            classes: {
+              "ui-dialog": 'ui-dialog--responsive',
+            },
+            appendTo: '#Piwik_Popover_Wrapper',
             open: function (event, ui) {
                 if (dialogClass) {
                     $(this).parent().addClass(dialogClass).attr('style', '');
@@ -43,11 +48,8 @@ var Piwik_Popover = (function () {
 
                 // sometimes the modal can be displayed outside of the current viewport, in this case
                 // we scroll to it to make sure it's visible. this isn't a perfect workaround, since it
-                // doesn't center the modal.g
-                var self = this;
-
+                // doesn't center the modal.
                 scrollTopPosition = $(window).scrollTop();
-
                 $('#root').css({
                     position: 'fixed',
                     height: $(window).height + scrollTopPosition,
@@ -56,9 +58,6 @@ var Piwik_Popover = (function () {
                 });
 
                 window.scrollTo(0, 0);
-
-                centerPopover();
-
             },
             close: function (event, ui) {
                 container.find('div.jqplot-target').trigger('piwikDestroyPlot');
@@ -106,18 +105,6 @@ var Piwik_Popover = (function () {
         };
 
         isOpen = true;
-    };
-
-    var centerPopover = function () {
-        if (container !== false) {
-            $('.ui-dialog').css({margin: '0 0'});
-            container.dialog("option", "position", {my: 'center', at: 'center', of: '.ui-widget-overlay', collision: 'fit'});
-            // in some cases jQuery UI fails to place the dialog correctly and set the top values to something negative
-            if ($('.ui-dialog').position().top < 0) {
-                $('.ui-dialog').css('top', '0');
-            }
-            $('.ui-dialog').css({margin: '15px 0'});
-        }
     };
 
     return {
@@ -218,8 +205,6 @@ var Piwik_Popover = (function () {
             container.children().each(function (i, childNode) {
                 piwikHelper.compileVueEntryComponents(childNode);
             });
-
-            centerPopover();
         },
 
         /**
