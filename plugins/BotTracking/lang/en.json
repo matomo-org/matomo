@@ -1,5 +1,19 @@
 {
     "BotTracking": {
-        "PluginDescription": "Track and analyze visits from AI bots such as ChatGPT-User and similar. This plugin helps you understand how AI-driven tools interact with your website by logging and reporting bot-triggered requests."
+        "AIAssistantsReportDocumentation": "Discover which AI assistants are crawling your site and how many hits each one generates. Expand a bot to review the most frequently requested pages or documents.",
+        "AIAssistantsReportTitle": "AI Assistants - Bots",
+        "ColumnAIAssistantName": "AI Assistant Name",
+        "ColumnAcquiredVisits": "Acquired visits",
+        "ColumnAcquiredVisitsDocumentation": "Visits that started after someone clicked from an AI assistant (Referrers \u2192 AI Assistants).",
+        "ColumnDocumentRequests": "Document Requests",
+        "ColumnDocumentRequestsDocumentation": "Total number of bot requests to document URLs recorded during the selected period.",
+        "ColumnPageRequests": "Page Requests",
+        "ColumnPageRequestsDocumentation": "Total number of bot requests to page URLs recorded during the selected period.",
+        "ColumnRequests": "Requests",
+        "ColumnRequestsDocumentation": "Total number of bot requests recorded during the selected period. Includes both page and document URLs.",
+        "DocumentUrl": "Document URL",
+        "PageUrl": "Page URL",
+        "PluginDescription": "Track and analyze visits from AI bots such as ChatGPT-User and similar. This plugin helps you understand how AI-driven tools interact with your website by logging and reporting bot-triggered requests.",
+        "SegmentNotSupported": "Report does not support segmentation. The data displayed is your standard, unsegmented report data."
     }
 }
