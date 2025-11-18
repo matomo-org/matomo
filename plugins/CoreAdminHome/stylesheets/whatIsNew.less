@@ -2,9 +2,11 @@
     color: #1976d2 !important;
 }
 
-.what-is-new-popup {
-  width: calc(80%);
-  left: calc(10%) !important;
-  height: auto;
-  background: #fafafa;
+.ui-dialog.what-is-new-popup {
+  width: 80%;
+  background: @theme-color-background-tinyContrast;
+
+  @media (max-width: 992px) {
+    width: auto;
+  }
 }

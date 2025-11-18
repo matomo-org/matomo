@@ -149,12 +149,14 @@ ol.visitorLog {
 }
 
 ol.actionList > li:not(.pageviewActions) {
-    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
     line-height: 20px;
     position: relative;
-    min-height: 30px;
+    min-height: 35px;
 
-    &:before {
+    /* A custom bullet for each item */
+    &::before {
         vertical-align: top;
         background-color: #424242;
         border: 5px solid #424242;
@@ -162,25 +164,38 @@ ol.actionList > li:not(.pageviewActions) {
         line-height: 0;
         font-size: 0;
         content: " ";
-        top: 10px;
-        position: relative;
+        top: 5px;
+        position: absolute;
         box-shadow: 0 0 0 7px #fff;
         left: -14px;
         z-index: 2;
     }
 
-    &:after {
+    /* A thread between to visually links items */
+    &::after {
         content: " ";
         border-left: 2px solid #d2d2d2;
         position: absolute;
+        top: 0;
         left: -10px;
-        height: calc(~"100% - 20px");
+        height: 100%;
         margin-top: 20px;
         z-index: 1;
     }
 
-    &:last-of-type:after {
-        border-left: none;
+    /* Double thread for collapsed items (main timeline and sub-timeline) */
+    &.collapsed-content-item::after {
+      border-right: 2px solid #d2d2d2;
+      width: 26px;
+      left: -34px;
+    }
+
+    /* No thread after the last item */
+    &:last-of-type::after,
+    &.last-collapsed-content::after,
+    &.last-collapsed-action::after,
+    &.last-action::after {
+        content: none;
     }
 
     &.duplicate {
@@ -257,12 +272,6 @@ ol.actionList > li.pageviewActions {
 // when last action group is just refreshes
 ol.actionList > li:nth-last-child(2).noPageviewActions:not(.refreshesExpanded):after {
     border-left: none;
-}
-
-ol.actionList > li:not(.pageviewActions).last-action {
-    &:after {
-        border-left: none;
-    }
 }
 
 .pageviewActions.last-action > ol.actionList > li.last-action {
@@ -442,10 +451,16 @@ a.visitor-log-visitor-profile-link {
     position: absolute;
     right: 15px;
     top: 15px;
+    padding: 0 0 0.75em 0.75em;;
     font-style: italic;
     font-size: 13px;
     background-color: inherit !important;
     text-decoration: none;
+
+    @media (max-width: 600px) {
+      position: static;
+      display: block;
+    }
 
     .widget & {
         display: none;
@@ -467,9 +482,6 @@ a.visitor-log-visitor-profile-link {
 
 .actionList {
     > li > div {
-        display: inline-block;
-        width: 90%;
-
         > * {
             vertical-align: top;
         }
@@ -480,6 +492,7 @@ a.visitor-log-visitor-profile-link {
     display: inline;
     height: 18px;
     position: absolute;
+    top: 0;
     left: -18px;
     background-color: #fff;
     z-index: 3;
