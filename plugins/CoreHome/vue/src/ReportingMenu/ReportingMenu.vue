@@ -79,6 +79,7 @@
               :href="`#?${makeUrl(category, subcategory)}`"
               class="item"
               @click="loadSubcategory(category, subcategory, $event)"
+              tabindex="5"
             >
               {{ subcategory.name }}
             </a>
