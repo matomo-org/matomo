@@ -166,6 +166,7 @@ class DbHelper
      */
     public static function checkDatabaseVersion()
     {
+        Schema::getInstance()->unsetSchema();
         Db::get()->checkServerVersion();
     }
 
@@ -464,14 +465,5 @@ class DbHelper
     public static function isValidDbname($dbname)
     {
         return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
-    }
-
-    /**
-     * Helper funtion to unset the schema
-     * @return void
-     */
-    public static function unsetSchema()
-    {
-        Schema::getInstance()->unsetSchema();
     }
 }
