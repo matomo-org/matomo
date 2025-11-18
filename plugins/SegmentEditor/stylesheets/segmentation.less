@@ -278,6 +278,43 @@ div.scrollable {
     margin-bottom: 5px;
 }
 
+@keyframes starAnimation {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+  100% { transform: scale(1) rotate(360deg); }
+}
+
+@keyframes starAnimationPath {
+  0% { fill: black; }
+  50% { fill: @theme-color-brand; stroke: @theme-color-brand; }
+  100% { fill: black; }
+}
+
+@keyframes unstarAnimation {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(-180deg);}
+  100% { transform: scale(1) rotate(-360deg); }
+}
+
+@keyframes unstarAnimationPath {
+  0% { fill: black; }
+  100% { fill: transparent; }
+}
+
+@keyframes starErrorAnimation {
+  0% { opacity: 0.5; }
+  5%, 15%, 25%, 35%, 45% { transform: translate(-2px)}
+  10%, 20%, 30%, 40% { transform: translate(2px)}
+  50% { opacity: 1; }
+  100% { transform: translate(0px); opacity: 0.5; }
+}
+
+@keyframes starErrorAnimationPath {
+  0% { stroke: black; fill: black; }
+  25%, 75% { stroke: red; fill: red; }
+  100% { stroke: black; fill: transparent; }
+}
+
 .segmentationContainer ul.submenu > li {
     span.editSegment,
     span.compareSegment,
@@ -308,6 +345,34 @@ div.scrollable {
 
     .starSegment {
         order: 2;
+    }
+
+    .segmentStarAnimation .starSegment {
+      animation: unstarAnimation 0.5s 1;
+    }
+
+    .segmentStarAnimation .starSegment path {
+      animation: unstarAnimationPath 0.5s 1;
+    }
+
+    .segmentStarred.segmentStarAnimation .starSegment {
+      animation-name: starAnimation;
+    }
+
+    .segmentStarred.segmentStarAnimation .starSegment path {
+      animation-name: starAnimationPath;
+    }
+
+    .segmentStarErrorAnimation .starSegment {
+      animation: starErrorAnimation 2s 1;
+    }
+
+    .segmentStarErrorAnimation .starSegment path {
+      animation: starErrorAnimationPath 2s 1;
+    }
+
+    .segmentStarred.segmentStarErrorAnimation .starSegment path {
+      animation-direction: reverse;
     }
 
     .segmentStarred .starSegment path {

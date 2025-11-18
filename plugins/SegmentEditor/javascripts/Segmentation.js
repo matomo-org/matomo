@@ -433,18 +433,28 @@ Segmentation = (function($) {
                 e.preventDefault();
             });
 
+            function updateStarredSegment($segment, isStarred, isError = false) {
+              const $starButton = $segment.find('.starSegment');
+              const title = self.translations[isStarred ? 'General_RemoveFromFavorites' : 'General_AddToFavorites'].toLocaleLowerCase();
+              addTooltip($starButton, title);
+              $segment.toggleClass('segmentStarred', isStarred);
+              $segment.one('animationend', function avoidAnimationRepetion() {
+                $segment.removeClass('segmentStarAnimation');
+                $segment.removeClass('segmentStarErrorAnimation');
+              });
+              $segment.toggleClass('segmentStarAnimation', !isError);
+              $segment.toggleClass('segmentStarErrorAnimation', isError);
+            }
+
             self.target.on('click', '[data-star]', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
                 const $root = $(this).closest('li');
-                const $starButton = $root.find('.starSegment');
                 const idSegment = $root.data('idsegment');
                 const segment = getSegmentFromId(idSegment);
                 segment.starred = !segment.starred;
-                const title = self.translations[segment.starred ? 'General_RemoveFromFavorites' : 'General_AddToFavorites'].toLocaleLowerCase();
-                addTooltip($starButton, title);
                 const method = segment.starred ? 'star' : 'unstar';
-                $root.toggleClass('segmentStarred', segment.starred);
+                updateStarredSegment($root, segment.starred);
 
                 var ajaxHandler = new ajaxHelper();
                 ajaxHandler.addParams({
@@ -453,7 +463,11 @@ Segmentation = (function($) {
                   "method": 'SegmentEditor.' + method,
                   "userLogin": piwik.userLogin,
                   "idSegment": idSegment,
-                }, 'GET');
+                }, 'POST');
+                ajaxHandler.setErrorCallback(function (response) {
+                  segment.starred = !segment.starred;
+                  updateStarredSegment($root, segment.starred, true);
+                });
                 ajaxHandler.send();
             });
 

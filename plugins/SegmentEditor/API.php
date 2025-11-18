@@ -355,13 +355,13 @@ class API extends \Piwik\Plugin\API
      * @param int $idSegment
      * @throws Exception if the user is not logged in or does not have the required permissions.
      */
-    public function star(int $idSegment): void
+    public function star(int $idSegment): bool
     {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
         $bind = ['starred' => 1];
 
-        $this->getModel()->updateSegment($idSegment, $bind);
+        return $this->getModel()->updateSegment($idSegment, $bind);
     }
 
     /**
@@ -370,13 +370,13 @@ class API extends \Piwik\Plugin\API
      * @param int $idSegment
      * @throws Exception if the user is not logged in or does not have the required permissions.
      */
-    public function unstar(int $idSegment): void
+    public function unstar(int $idSegment): bool
     {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
         $bind = ['starred' => 0];
 
-        $this->getModel()->updateSegment($idSegment, $bind);
+        return $this->getModel()->updateSegment($idSegment, $bind);
     }
 
     /**
