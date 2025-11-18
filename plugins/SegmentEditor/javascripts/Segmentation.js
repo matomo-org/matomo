@@ -105,15 +105,22 @@ Segmentation = (function($) {
         };
         segmentation.prototype.checkIfComparedSegmentsHasReachedLimit = function() {
             const limit = 6;
-            let comparisonService = window.CoreHome.ComparisonsStoreInstance;
-            let comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
+            const comparisonService = window.CoreHome.ComparisonsStoreInstance;
+            const comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
             console.log('these are the available segments: ',this.availableSegments);
             console.log('comparedSegmentsLength', comparedSegmentsLength);
+            const that = this;
             $('div.segmentList ul li[data-definition] span.compareSegment').each(function() {
               if (comparedSegmentsLength >= limit) {
+                console.log('limit reached');
                 $(this).addClass('no-click');
+                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs'));
               } else {
+                console.log('removing class');
                 $(this).removeClass('no-click');
+                var idSegment = $(this).parent().attr('data-idsegment');
+                const title = getSegmentName(getSegmentFromId(idSegment));
+                $(this).parent().attr('title', title);
               }
             });
             return false;
