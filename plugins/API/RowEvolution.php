@@ -287,7 +287,7 @@ class RowEvolution
 
         // if we have a recursive label and no url, use the path
         if (!$urlFound) {
-            $label = \Piwik\Request::fromRequest()->getStringParameter('labelPretty', $label);
+            $label = Common::sanitizeInputValue(\Piwik\Request::fromRequest()->getStringParameter('labelPretty', '')) ?: $label;
             $actualLabel = $this->formatQueryLabelForDisplay($idSite, $apiModule, $apiAction, $label);
         }
 
@@ -566,7 +566,7 @@ class RowEvolution
             $column = reset($metrics);
         }
 
-        $labelPretty = \Piwik\Request::fromRequest()->getStringParameter('labelPretty', '');
+        $labelPretty = Common::sanitizeInputValue(\Piwik\Request::fromRequest()->getStringParameter('labelPretty', ''));
         $labelPretty = Piwik::getArrayFromApiParameter($labelPretty);
 
         // get the processed label and logo (if any) for every requested label
