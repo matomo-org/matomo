@@ -159,20 +159,33 @@ describe("PagePerformance", function () {
   it("should not show row evolution icon in page urls and page titles reports when in Behaviour > Performance page", async function () {
     await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
 
-    // hover first row
+    // Check page report
     let row = await page.waitForSelector(pageUrlsReportId + ' .dataTable tbody tr:first-child');
     await row.hover();
     await page.waitForTimeout(50);
-
     pageWrap = await page.$(pageUrlsReportId);
+
+    let rowActions = await row.$('.dataTableRowActions');
+    expect(rowActions).to.not.equal(null);
+
+    let rowActionLinks = await row.$$('.dataTableRowActions a');
+    expect(rowActionLinks.length).to.equal(4);
+
     let icon = await pageWrap.$('.actionRowEvolution');
     expect(icon).to.equal(null);
 
+    // Check Page Titles report
     row = await page.waitForSelector(pageTitleReportId + ' .dataTable tbody tr:first-child');
     await row.hover();
     await page.waitForTimeout(50);
-
     pageWrap = await page.$(pageTitleReportId);
+
+    rowActions = await row.$('.dataTableRowActions');
+    expect(rowActions).to.not.equal(null);
+
+    rowActionLinks = await row.$$('.dataTableRowActions a');
+    expect(rowActionLinks.length).to.equal(3);
+
     icon = await pageWrap.$('.actionRowEvolution');
     expect(icon).to.equal(null);
   });
@@ -182,12 +195,19 @@ describe("PagePerformance", function () {
     let subtableLabel = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable .label');
     await subtableLabel.click();
 
-    await page.waitForNetworkIdle();
+    let rowWithSubtable = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable');
+    let rowActionsSubtable = await rowWithSubtable.$('td .dataTableRowActions');
+    expect(rowActionsSubtable).to.not.equal(null);
+
+    let rowActionLinks = await rowActionsSubtable.$$('.dataTableRowActions a');
+    expect(rowActionLinks.length).to.equal(2);
 
     // hover first row
-    let row = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable + tr');
+    let row = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable.level0 + tr.level1');
     await row.hover();
     await page.waitForTimeout(50);
+    rowActionLinks = await row.$$('.dataTableRowActions a');
+    expect(rowActionLinks.length).to.equal(4);
 
     let rowEvolutionIcon = await row.$('.dataTableRowActions .actionRowEvolution');
     expect(rowEvolutionIcon).to.equal(null);
