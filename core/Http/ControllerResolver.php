@@ -61,7 +61,7 @@ class ControllerResolver
             return $controller;
         }
 
-        throw new Exception(sprintf("Action '%s' not found in the module '%s'", $action, $module));
+        throw new BadRequestException(sprintf("Action '%s' not found in the module '%s'", $action, $module), 404);
     }
 
     private function createPluginController($module, $action)
