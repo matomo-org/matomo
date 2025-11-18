@@ -13,7 +13,7 @@ use Piwik\Updater;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 
-class Updates_5_6_0_b2 extends Updates
+class Updates_5_6_0_b3 extends Updates
 {
     /**
      * @var MigrationFactory
@@ -28,10 +28,7 @@ class Updates_5_6_0_b2 extends Updates
     public function getMigrations(Updater $updater)
     {
         return [
-            $this->migration->db->addColumns('segment', [
-                'starred' => 'TINYINT(1) NOT NULL DEFAULT 0',
-                'starred_by' => 'VARCHAR(100) NULL DEFAULT NULL',
-            ]),
+            $this->migration->db->addColumn('segment', 'starred_by', 'VARCHAR(100)'),
         ];
     }
 

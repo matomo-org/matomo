@@ -82,8 +82,9 @@ class SegmentEditorTest extends IntegrationTestCase
             'enable_only_idsite' => '0',
             'auto_archive' => '0',
             'ts_last_edit' => null,
-            'starred' => '0',
             'deleted' => '0',
+            'starred' => '0',
+            'starred_by' => null,
         );
 
         $this->assertEquals($segment, $expected);
@@ -113,8 +114,9 @@ class SegmentEditorTest extends IntegrationTestCase
             'enable_only_idsite' => '1',
             'auto_archive' => '1',
             'ts_last_edit' => null,
-            'starred' => '0',
             'deleted' => '0',
+            'starred' => '0',
+            'starred_by' => null,
         );
         unset($segment['ts_created']);
         $this->assertEquals($segment, $expected);
@@ -157,8 +159,9 @@ class SegmentEditorTest extends IntegrationTestCase
             'ts_last_edit' => Date::now()->getDatetime(),
             'ts_created' => Date::now()->getDatetime(),
             'login' => Piwik::getCurrentUserLogin(),
-            'starred' => '0',
             'deleted' => '0',
+            'starred' => '0',
+            'starred_by' => null,
         );
         API::getInstance()->update(
             $idSegment2,

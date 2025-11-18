@@ -330,6 +330,7 @@ class API extends \Piwik\Plugin\API
             'auto_archive'       => (int) $autoArchive,
             'ts_created'         => Date::now()->getDatetime(),
             'starred'            => 0,
+            'starred_by'         => null,
             'deleted'            => 0,
         ];
 
@@ -355,13 +356,22 @@ class API extends \Piwik\Plugin\API
      * @param int $idSegment
      * @throws Exception if the user is not logged in or does not have the required permissions.
      */
-    public function star(int $idSegment): bool
+    public function star(int $idSegment): ?array
     {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
-        $bind = ['starred' => 1];
+        $login = Piwik::getCurrentUserLogin();
+        $bind = [
+            'starred' => 1,
+            'starred_by' => $login,
+        ];
 
-        return $this->getModel()->updateSegment($idSegment, $bind);
+        $result = $this->getModel()->updateSegment($idSegment, $bind);
+
+        return [
+            'result' => $result,
+            'starred_by' => $login,
+        ];
     }
 
     /**
@@ -370,13 +380,20 @@ class API extends \Piwik\Plugin\API
      * @param int $idSegment
      * @throws Exception if the user is not logged in or does not have the required permissions.
      */
-    public function unstar(int $idSegment): bool
+    public function unstar(int $idSegment): ?array
     {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
-        $bind = ['starred' => 0];
+        $bind = [
+            'starred' => 0,
+            'starred_by' => null,
+        ];
 
-        return $this->getModel()->updateSegment($idSegment, $bind);
+        $result = $this->getModel()->updateSegment($idSegment, $bind);
+
+        return [
+            'result' => $result,
+        ];
     }
 
     /**

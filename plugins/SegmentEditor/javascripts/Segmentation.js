@@ -244,7 +244,7 @@ Segmentation = (function($) {
                         '<span class="segname" tabindex="4" title="' + getSegmentTooltipEnrichedWithUsername(segment) + '" >' + getSegmentName(segment) + '</span>';
                     if (self.segmentAccess === "write") {
                         listHtml += '' +
-                          '<button data-star class="starSegment" title="' + self.translations[segment.starred ? 'General_RemoveFromFavorites' : 'General_AddToFavorites'].toLocaleLowerCase() + '">️' +
+                          '<button data-star class="starSegment" title="' + getStarSegmentTitle(segment) + '">️' +
                             '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">' +
                                 '<path stroke="black" stroke-width="3" fill="none" d="M9.153 5.408C10.42 3.136 11.053 2 12 2c.947 0 1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182.28.213.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506-.766.582-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452-.347 0-.674.15-1.329.452l-.595.274c-2.303 1.06-3.455 1.59-4.22 1.01-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882.293-.941 1.523-1.22 3.983-1.776l.636-.144c.699-.158 1.048-.237 1.329-.45.28-.213.46-.536.82-1.182l.328-.588Z"/>' +
                             '</svg>' +
@@ -433,19 +433,6 @@ Segmentation = (function($) {
                 e.preventDefault();
             });
 
-            function updateStarredSegment($segment, isStarred, isError = false) {
-              const $starButton = $segment.find('.starSegment');
-              const title = self.translations[isStarred ? 'General_RemoveFromFavorites' : 'General_AddToFavorites'].toLocaleLowerCase();
-              addTooltip($starButton, title);
-              $segment.toggleClass('segmentStarred', isStarred);
-              $segment.one('animationend', function avoidAnimationRepetion() {
-                $segment.removeClass('segmentStarAnimation');
-                $segment.removeClass('segmentStarErrorAnimation');
-              });
-              $segment.toggleClass('segmentStarAnimation', !isError);
-              $segment.toggleClass('segmentStarErrorAnimation', isError);
-            }
-
             self.target.on('click', '[data-star]', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -454,7 +441,7 @@ Segmentation = (function($) {
                 const segment = getSegmentFromId(idSegment);
                 segment.starred = !segment.starred;
                 const method = segment.starred ? 'star' : 'unstar';
-                updateStarredSegment($root, segment.starred);
+                updateStarredSegment($root, segment);
 
                 var ajaxHandler = new ajaxHelper();
                 ajaxHandler.addParams({
@@ -464,9 +451,13 @@ Segmentation = (function($) {
                   "userLogin": piwik.userLogin,
                   "idSegment": idSegment,
                 }, 'POST');
-                ajaxHandler.setErrorCallback(function (response) {
+                ajaxHandler.setErrorCallback(function () {
                   segment.starred = !segment.starred;
-                  updateStarredSegment($root, segment.starred, true);
+                  updateStarredSegment($root, segment, true);
+                });
+                ajaxHandler.setCallback(function (response) {
+                  segment.starred_by = response.starred_by;
+                  updateStarSegmentTooltip($root, segment);
                 });
                 ajaxHandler.send();
             });
@@ -617,11 +608,30 @@ Segmentation = (function($) {
                 }
             });
 
-            //
-            // segment manipulation events
-            //
-
         };
+
+        function getStarSegmentTitle(segment) {
+          if (segment.starred) {
+            return self.translations['General_StarredBy'] + ' ' + (segment.starred_by || '');
+          }
+          return self.translations['General_Star'];
+        }
+
+        function updateStarSegmentTooltip($segment, segment) {
+          const $starButton = $segment.find('.starSegment');
+          addTooltip($starButton, getStarSegmentTitle(segment));
+        }
+
+        function updateStarredSegment($segment, segment, isError = false) {
+          updateStarSegmentTooltip($segment, segment);
+          $segment.toggleClass('segmentStarred', segment.starred);
+          $segment.one('animationend', function avoidAnimationRepetition() {
+            $segment.removeClass('segmentStarAnimation');
+            $segment.removeClass('segmentStarErrorAnimation');
+          });
+          $segment.toggleClass('segmentStarAnimation', !isError);
+          $segment.toggleClass('segmentStarErrorAnimation', isError);
+        }
 
         function addTooltip(element, title) {
           $(element).attr('title', title).tooltip({
