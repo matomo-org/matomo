@@ -215,7 +215,7 @@ class API extends \Piwik\Plugin\API
          *
          * @param int $idSegment The ID of the segment being deleted.
          */
-        Piwik::postEvent('SegmentEditor.deactivate', array($idSegment));
+        Piwik::postEvent('SegmentEditor.deactivate', [$idSegment]);
 
         $this->getModel()->deleteSegment($idSegment);
 
@@ -263,14 +263,14 @@ class API extends \Piwik\Plugin\API
 
         $autoArchive     = $this->checkAutoArchive($autoArchive, $idSite);
 
-        $bind = array(
+        $bind = [
             'name'               => $name,
             'definition'         => $definition,
             'enable_all_users'   => (int) $enabledAllUsers,
             'enable_only_idsite' => (int) $idSite,
             'auto_archive'       => (int) $autoArchive,
             'ts_last_edit'       => Date::now()->getDatetime(),
-        );
+        ];
 
         /**
          * Triggered before a segment is modified.
@@ -280,7 +280,7 @@ class API extends \Piwik\Plugin\API
          *
          * @param int $idSegment The ID of the segment which visibility is reduced.
          */
-        Piwik::postEvent('SegmentEditor.update', array($idSegment, $bind));
+        Piwik::postEvent('SegmentEditor.update', [$idSegment, $bind]);
 
         $this->getModel()->updateSegment($idSegment, $bind);
 
@@ -321,7 +321,7 @@ class API extends \Piwik\Plugin\API
         $enabledAllUsers = $this->checkEnabledAllUsers($enabledAllUsers);
         $autoArchive = $this->checkAutoArchive($autoArchive, $idSite);
 
-        $bind = array(
+        $bind = [
             'name'               => $name,
             'definition'         => $definition,
             'login'              => Piwik::getCurrentUserLogin(),
@@ -331,7 +331,7 @@ class API extends \Piwik\Plugin\API
             'ts_created'         => Date::now()->getDatetime(),
             'starred'            => 0,
             'deleted'            => 0,
-        );
+        ];
 
         $id = $this->getModel()->createSegment($bind);
 
@@ -359,7 +359,7 @@ class API extends \Piwik\Plugin\API
     {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
-        $bind = array('starred' => 1);
+        $bind = ['starred' => 1];
 
         $this->getModel()->updateSegment($idSegment, $bind);
     }
@@ -374,7 +374,7 @@ class API extends \Piwik\Plugin\API
     {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
-        $bind = array('starred' => 0);
+        $bind = ['starred' => 0];
 
         $this->getModel()->updateSegment($idSegment, $bind);
     }
@@ -475,7 +475,7 @@ class API extends \Piwik\Plugin\API
      */
     private function sortSegmentsCreatedByUserFirst(array $segments): array
     {
-        $orderedSegments = array();
+        $orderedSegments = [];
         foreach ($segments as $id => &$segment) {
             if ($segment['login'] == Piwik::getCurrentUserLogin()) {
                 $orderedSegments[] = $segment;
