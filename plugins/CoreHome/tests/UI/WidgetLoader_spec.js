@@ -28,7 +28,7 @@ describe('WidgetLoader', function () {
     await page.waitForNetworkIdle();
     // check dashboard is shown
     await page.waitForSelector('#dashboard');
-    await page.waitForNetworkIdle();
+    expect(await page.$('#dashboard')).to.be.ok;
 
     await page.clearCookies();
 
