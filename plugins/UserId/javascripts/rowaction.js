@@ -24,12 +24,18 @@
         var visitorId = this.getRowMetadata($(tr)).idvisitor || '';
         visitorId = encodeURIComponent(visitorId);
         if (visitorId.length > 0) {
-            DataTable_RowAction.prototype.openPopover.apply(this, ['module=Live&action=getVisitorProfilePopup&visitorId=' + visitorId]);
+            DataTable_RowAction.prototype.openPopover.apply(this, [visitorId]);
         }
     };
 
     DataTable_RowActions_VisitorDetails.prototype.doOpenPopover = function (urlParam) {
-        Piwik_Popover.createPopupAndLoadUrl(urlParam, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup');
+        var legacyUrlMatch = urlParam.match(/^module=Live&action=getVisitorProfilePopup&visitorId=([a-f0-9]{16})$/i);
+        if (legacyUrlMatch && legacyUrlMatch.length === 2) {
+            urlParam = legacyUrlMatch[1];
+        }
+        if (urlParam.match(/^[a-f0-9]{16}$/i)) {
+            Piwik_Popover.createPopupAndLoadUrl('module=Live&action=getVisitorProfilePopup&visitorId=' + urlParam, _pk_translate('Live_VisitorProfile'), 'visitor-profile-popup');
+        }
     };
 
     DataTable_RowActions_Registry.register({
