@@ -9,6 +9,7 @@ namespace Piwik\Plugins\Dashboard;
 
 use Piwik\API\Request;
 use Piwik\Piwik;
+use Piwik\Common;
 
 /**
  * This API is the <a href='http://matomo.org/docs/analytics-api/reference/' rel='noreferrer' target='_blank'>Dashboard API</a>: it gives information about dashboards.
@@ -36,7 +37,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return array[]
      */
-    public function getDashboards($login = '', $returnDefaultIfEmpty = true)
+    public function getDashboards($login = '', $returnDefaultIfEmpty = true, $idSite = 0 )
     {
         $login = $login ? $login : Piwik::getCurrentUserLogin();
 
@@ -44,7 +45,7 @@ class API extends \Piwik\Plugin\API
 
         if (!Piwik::isUserIsAnonymous()) {
             Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
-            $dashboards = $this->getUserDashboards($login);
+            $dashboards = $this->getUserDashboards($login,$idSite);
         }
 
         if (empty($dashboards) && $returnDefaultIfEmpty) {
@@ -65,7 +66,7 @@ class API extends \Piwik\Plugin\API
      * @param bool $addDefaultWidgets  whether to add the current default widget collection or not
      * @return int|string
      */
-    public function createNewDashboardForUser($login, $dashboardName = '', $addDefaultWidgets = true)
+    public function createNewDashboardForUser($login, $dashboardName = '', $addDefaultWidgets = true, $idSite = 0)
     {
         $this->checkLoginIsNotAnonymous($login);
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($login);
@@ -76,7 +77,7 @@ class API extends \Piwik\Plugin\API
             $layout = $this->dashboard->getDefaultLayout();
         }
 
-        return $this->model->createNewDashboardForUser($login, $dashboardName, $layout);
+        return $this->model->createNewDashboardForUser($login, $dashboardName, $layout,$idSite);
     }
 
     /**

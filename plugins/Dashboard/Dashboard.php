@@ -211,7 +211,9 @@ class Dashboard extends \Piwik\Plugin
 
     public function getAllDashboards($login)
     {
-        $dashboards = $this->getModel()->getAllDashboardsForUser($login);
+        $idSite = Common::getRequestVar('idSite');
+
+        $dashboards = $this->getModel()->getAllDashboardsForUser($login,$idSite);
 
         $nameless = 1;
         foreach ($dashboards as &$dashboard) {
