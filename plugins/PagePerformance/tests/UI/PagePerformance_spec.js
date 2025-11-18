@@ -179,17 +179,17 @@ describe("PagePerformance", function () {
 
   it("should not show row evolution icon for subtable rows in Behaviour > Performance", async function () {
     // Check page url report
-    let subtablerow = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) .label');
-    await subtablerow.click();
+    let subtableLabel = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable .label');
+    await subtableLabel.click();
 
     await page.waitForNetworkIdle();
 
     // hover first row
-    let row = await page.jQuery(pageUrlsReportId + ' tr.subDataTable:eq(1) + tr');
+    let row = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable + tr');
     await row.hover();
     await page.waitForTimeout(50);
 
-    let rowEvolutionIcon = await page.$(pageUrlsReportId + '.dataTableRowActions .actionRowEvolution');
+    let rowEvolutionIcon = await row.$('.dataTableRowActions .actionRowEvolution');
     expect(rowEvolutionIcon).to.equal(null);
   });
 });
