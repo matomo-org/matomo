@@ -30,8 +30,6 @@
         "MinValue": "Minimale gebeurtenis waarde",
         "MinValueDocumentation": "De minimale waarde voor deze gebeurtenis",
         "PluginDescription": "Houd gebeurtenissen bij en ontvang rapporten over gebruikersactiviteiten.",
-        "SecondaryDimension": "Tweede dimensie is %s.",
-        "SwitchToSecondaryDimension": "Omschakelen naar %s",
         "TopEvents": "Top gebeurtenissen",
         "TotalEvents": "Totaal gebeurtenissen",
         "TotalEventsDocumentation": "Totaal aantal gebeurtenissen",
