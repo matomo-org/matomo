@@ -1,5 +1,6 @@
 {
     "Goals": {
+        "AbandonedCart": "السلات المهملة",
         "AddGoal": "أضف هدفاً",
         "AddNewGoal": "أضف هدفاً جديداً",
         "AddNewGoalOrEditExistingGoal": "%1$s أضف هدفاً جديداً %2$s أو %3$s حرر %4$s أهدافاً قائمة",
