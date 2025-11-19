@@ -28,8 +28,6 @@
         "MinValue": "Min. hendelsesverdi",
         "MinValueDocumentation": "Minimumsverdien for denne hendelsen",
         "PluginDescription": "Spor hendelser og få rapporter om dine brukeres aktiviteter.",
-        "SecondaryDimension": "Sekundær dimensjon er %s.",
-        "SwitchToSecondaryDimension": "Bytt til %s",
         "TopEvents": "Topphendelser",
         "TotalEvents": "Totalt antall hendelser",
         "TotalEventsDocumentation": "Totalt antall hendelser",
