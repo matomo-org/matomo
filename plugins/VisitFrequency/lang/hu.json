@@ -1,5 +1,6 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "Műveletek az Új Látogassa",
         "ColumnActionsByReturningVisits": "Ismétlődő látogatások akciói",
         "ColumnAverageVisitDurationForReturningVisitors": "Látogatások átlagos időtartama visszatérő látogatók esetén (másodpercekben)",
         "ColumnAvgActionsPerReturningVisit": "Akciók átlagos gyakorisága ismétlődő látogatások esetén",
