@@ -205,6 +205,8 @@
         "RawDataNeverRemoved": "të dhënat e papërpunuara të vizitave dhe veprimeve s’fshihen <strong>kurrë</strong>.",
         "RawDataRemovedAfter": "krejt të dhënat e papërpunuara mbi vizita dhe veprime fshihen pas %1$s.",
         "RecommendedForPrivacy": "E këshilluar për privatësi",
+        "ReferrerAnonymizationSettingRequirementNote": "Mund të grumbullohet vetëm streha e referuesit, ose lloji i referuesit.",
+        "ReferrerAnonymizationSettingTitle": "Anonimizim referuesish",
         "ReportsDataSavedEstimate": "Madhësi baze të dhënash",
         "ReportsNeverRemoved": "raportet e përbërë s’fshihen <strong>kurrë</strong>.",
         "ReportsRemovedAfter": "krejt raportet përmbledhës fshihen pas %1$s.",
