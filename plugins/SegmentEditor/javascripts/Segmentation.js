@@ -110,7 +110,7 @@ Segmentation = (function($) {
             self.checkIfComparedSegmentsHasReachedLimit();
         };
         segmentation.prototype.checkIfComparedSegmentsHasReachedLimit = function() {
-            const limit = 6;
+            const limit = piwik.config.data_comparison_segment_limit;
             const comparisonService = window.CoreHome.ComparisonsStoreInstance;
             const comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
             console.log('these are the available segments: ',this.availableSegments);
@@ -120,7 +120,7 @@ Segmentation = (function($) {
               if (comparedSegmentsLength >= limit) {
                 console.log('limit reached');
                 $(this).addClass('no-click');
-                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [6]));
+                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
               } else {
                 console.log('removing class');
                 $(this).removeClass('no-click');
