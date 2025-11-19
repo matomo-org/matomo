@@ -93,20 +93,24 @@
         "GeneralSettings": "ڕێکختنە گشتییەکان",
         "Locale": "ku_TR.UTF-8",
         "Measurables": "پێوانەکان",
+        "MoreDetails": "وردەکاریی زیاتر",
         "No": "نە",
         "Password": "تێپەڕوشە",
         "Save": "پاشەکەوتکردن",
         "Security": "پاراستن",
         "Table": "جەدوەل",
+        "TrackingScopeAction": "Çalakî",
         "TranslatorName": "-",
         "UsePlusMinusIconsDocumentation": "بۆ گەڕان لە لای چەپەوە ئایکۆنی کۆ و کەمکردن بەکار بێنە.",
         "UserIds": "پێناسەکانی بەکارهێنەر",
         "Username": "ناوی بەکارهێنەری",
         "View": "نیشاندان",
         "Website": "وێبسایت",
+        "WellDone": "دەست خۆش!",
         "Yes": "بەڵێ"
     },
     "Mobile": {
-        "ChooseSegment": "هەڵبژاردنی کەرت"
+        "ChooseSegment": "هەڵبژاردنی کەرت",
+        "ShowAll": "هەموویان نیشان بدە"
     }
 }
