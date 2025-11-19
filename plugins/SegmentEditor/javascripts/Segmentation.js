@@ -87,6 +87,12 @@ Segmentation = (function($) {
               content: title,
             });
         };
+        // We will listen to changes in the Segment Comparison Store
+        // so we can mark compared segments properly. This will now include deletion of compared segments.
+        piwik.on('piwikComparisonsChanged', function () {
+          console.log('there was a change in the compared segments');
+          self.markComparedSegments();
+        });
 
         segmentation.prototype.markComparedSegments = function() {
             var comparisonService = window.CoreHome.ComparisonsStoreInstance;
@@ -114,7 +120,7 @@ Segmentation = (function($) {
               if (comparedSegmentsLength >= limit) {
                 console.log('limit reached');
                 $(this).addClass('no-click');
-                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs'));
+                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [6]));
               } else {
                 console.log('removing class');
                 $(this).removeClass('no-click');
