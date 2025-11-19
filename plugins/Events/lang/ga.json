@@ -32,8 +32,6 @@
         "MinValue": "Íosluach Imeachta",
         "MinValueDocumentation": "An luach íosta don imeacht seo",
         "PluginDescription": "Rianaigh Imeachtaí agus faigh tuairiscí ar ghníomhaíocht do chuairteoirí.",
-        "SecondaryDimension": "Is é %s toise tánaisteach.",
-        "SwitchToSecondaryDimension": "Athraigh go %s",
         "TopEvents": "Imeachtaí is Fearr",
         "TotalEvents": "Imeachtaí iomlána",
         "TotalEventsDocumentation": "Líon iomlán na n-imeachtaí",

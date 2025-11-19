@@ -105,7 +105,7 @@
         "Comparisons": "Karşılaştırmalar",
         "ComplianceCNILDescription": "Bu tablo, belirli ayarların CNIL rehberiyle uyumlu olup olmadığını gösterir. Tam yasal uyumluluğu garanti etmez. CNIL kuralları kapsamında rıza dışında kalmaya hak kazanmak için gerekli tüm yapılandırmaların uygulanması gerekir. Herhangi bir ayar \"Uyumsuz\" olarak gösteriliyorsa, dışarıda kalma koşulları karşılanmaz ve kullanıcılardan rıza alınmalıdır. Herhangi bir ayar \"Bilinmiyor\" olarak görüntüleniyorsa Matomo, bu gereksinimin uygulanıp uygulanmadığını belirleyemez. Bu gibi durumlarda, bu önlemler el ile doğrulanmalıdır.",
         "ComplianceCNILTitle": "CNIL site istatistikleri rızasının dışında kalan koşullar",
-        "ComplianceCNILUnknownSettingOptOutNotes": "Abonelikten ayrılma el ile kurulup yapılandırılmalıdır",
+        "ComplianceCNILUnknownSettingOptOutNotes": "Abonelikten ayrılma el ile kurulup yapılandırılmalıdır. %1$sAyrıntılı bilgi alın%2$s",
         "ComplianceCNILUnknownSettingOptOutTitle": "Abonelikten ayrıl",
         "ComputedMetricAverage": "Ortalama %1$s her %2$s için",
         "ComputedMetricAverageDocumentation": "Her \"%2$s\" için \"%1$s\" ortalama değeri.",

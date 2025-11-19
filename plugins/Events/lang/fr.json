@@ -32,8 +32,6 @@
         "MinValue": "Valeur minimale d'évènement",
         "MinValueDocumentation": "Valeur minimale pour cet évènement",
         "PluginDescription": "Suivez les évènements et obtenez des rapports sur l'activité de vos visiteurs.",
-        "SecondaryDimension": "La seconde dimension est %s.",
-        "SwitchToSecondaryDimension": "Passer à %s",
         "TopEvents": "Principaux évènements",
         "TotalEvents": "Nombre total d'évènements",
         "TotalEventsDocumentation": "Nombre total des évènements",
