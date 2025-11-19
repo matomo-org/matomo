@@ -186,7 +186,7 @@ describe("PagePerformance", function () {
     rowActionLinks = await row.$$('.dataTableRowActions a');
     expect(rowActionLinks.length).to.equal(3);
 
-    icon = await pageWrap.$('.actionRowEvolution');
+    icon = await row.$('.actionRowEvolution');
     expect(icon).to.equal(null);
   });
 
