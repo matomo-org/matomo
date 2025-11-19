@@ -391,6 +391,7 @@ import {
   ReportingMenuStore,
   VueEntryContainer,
   externalLink,
+  NotificationsStore,
 } from 'CoreHome';
 import {
   Form,
@@ -654,6 +655,9 @@ export default defineComponent({
       this.isLoading = true;
 
       AjaxHelper.fetch(parameters, options).then(() => {
+        NotificationsStore.show({
+          id: 'Ako', message: 'Tilaw lng', context: 'success', type: 'toast',
+        });
         const subcategory = MatomoUrl.parsed.value.subcategory as string;
         if (subcategory === 'Goals_AddNewGoal'
           && Matomo.helper.isReportingPage()
