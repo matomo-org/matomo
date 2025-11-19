@@ -16,6 +16,8 @@ use Piwik\Date;
  */
 class Mariadb extends Mysql
 {
+    protected $minimumSupportedVersion = '5.5';
+
     public function getDatabaseType(): string
     {
         return 'MariaDB';

@@ -157,13 +157,11 @@ class Controller extends ControllerAdmin
         if ($form->validate()) {
             try {
                 $dbInfos = $form->createDatabaseObject();
+                $this->createConfigFile($dbInfos);
 
                 DbHelper::checkDatabaseVersion();
 
-
                 Db::get()->checkClientVersion();
-
-                $this->createConfigFile($dbInfos);
 
                 $this->redirectToNextStep(__FUNCTION__);
             } catch (Exception $e) {
