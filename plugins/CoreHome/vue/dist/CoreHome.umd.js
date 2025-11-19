@@ -3670,6 +3670,7 @@ class Comparisons_store_ComparisonsStore {
     });
   }
   parseSegmentComparisons() {
+    console.log('i will now try to parse segment comparisons:');
     const {
       availableSegments
     } = Segments_store.state;
