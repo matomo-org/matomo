@@ -28,8 +28,6 @@
         "MinValue": "最小事件值",
         "MinValueDocumentation": "此事件的最小值",
         "PluginDescription": "透過追蹤事件來取得訪客活動紀錄報表。",
-        "SecondaryDimension": "次要維度為 %s。",
-        "SwitchToSecondaryDimension": "切換至 %s",
         "TopEvents": "熱門事件",
         "TotalEvents": "所有事件",
         "TotalEventsDocumentation": "所有事件的數量",
