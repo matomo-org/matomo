@@ -446,9 +446,10 @@ Segmentation = (function($) {
                 closeAllOpenLists();
             });
 
-            self.target.on("click", ".segmentList li", function (e) {
-                if ($(e.currentTarget).hasClass("grayed") !== true) {
-                    var segmentDefinition = $(this).data("definition");
+            self.target.on("click", ".segmentList li span.segname", function (e) {
+                let parentLi = $(this).parent();
+                if (parentLi.hasClass("grayed") !== true) {
+                    var segmentDefinition = $(parentLi).data("definition");
 
                     if (!piwikHelper.isReportingPage()) {
                         // we update segment on location change success
