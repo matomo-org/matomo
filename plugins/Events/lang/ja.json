@@ -28,8 +28,6 @@
         "MinValue": "最小イベント値",
         "MinValueDocumentation": "このイベントの最小値",
         "PluginDescription": "イベントを追跡し、ビジターアクティビティのレポートを取得します。",
-        "SecondaryDimension": "セカンダリディメンションは %s です。",
-        "SwitchToSecondaryDimension": "%s へ切替",
         "TopEvents": "トップイベント",
         "TotalEvents": "イベントの合計",
         "TotalEventsDocumentation": "イベントの総数",
