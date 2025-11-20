@@ -34,6 +34,7 @@
         "NoCustomDimensionConfigured": "還沒有設定任何自訂維度，立即設定一個。",
         "NoValue": "無值",
         "PageUrlParam": "網頁網址參數",
+        "PluginDescription": "通过在作用域或访问范围内定义和跟踪自定义维度，将Matomo扩展到您的需求",
         "ScopeDescriptionAction": "「活動」範圍中的自訂維度可以和任何活動一起傳送（網頁瀏覽、下載、事件等等）。",
         "ScopeDescriptionActionMoreInfo": "提取可以定義以從網頁網址、網頁標題或是網頁網址查詢參數中提取自訂維度值。",
         "ScopeDescriptionVisit": "「訪問」範圍中的自訂維度可以和任何追蹤請求一起傳送，並會儲存在訪問中。",
