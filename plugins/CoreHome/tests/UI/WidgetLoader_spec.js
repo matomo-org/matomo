@@ -29,11 +29,11 @@ describe('WidgetLoader', function () {
     // check dashboard is shown
     await page.waitForSelector('#dashboard');
     expect(await page.$('#dashboard')).to.be.ok;
-
     await page.clearCookies();
 
-    await page.reload();
-    await page.waitForSelector('#login_form');
+    //Click on Dashboard menu item
+    await page.click('div.reportingMenu ul li[data-category-id="Dashboard_Dashboard"] ul li:nth-child(1) a');
+    await page.waitForNetworkIdle();
 
     const screenshot = await page.screenshot();
     expect(screenshot).to.matchImage('not_logged_in');
