@@ -134,6 +134,7 @@ describe("CustomDimensions", function () {
     it('should be possible to change an existing dimension', async function () {
         await capturePageWrap('manage_edit_action_dimension_withdata', async function () {
             await page.type(".editCustomDimension #name", 'ABC');
+            await page.click('.editCustomDimension #active');
             await page.click('.editCustomDimension #casesensitive');
             await page.click('.extraction0 .icon-minus');
         });
