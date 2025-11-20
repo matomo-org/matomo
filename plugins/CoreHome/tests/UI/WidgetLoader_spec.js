@@ -22,20 +22,30 @@ describe('WidgetLoader', function () {
     await page.goto("");
     await page.type("#login_form_login", superUserLogin);
     await page.type("#login_form_password", superUserPassword);
-    await page.evaluate(function(){
-      $('#login_form_submit').click();
-    });
+    await page.click('#login_form_submit');
     await page.waitForNetworkIdle();
+
     // check dashboard is shown
     await page.waitForSelector('#dashboard');
     expect(await page.$('#dashboard')).to.be.ok;
     await page.clearCookies();
 
     //Click on Dashboard menu item
-    await page.click('div.reportingMenu ul li[data-category-id="Dashboard_Dashboard"] ul li:nth-child(1) a');
+    const dashboardMenuSelector = 'div.reportingMenu ul li[data-category-id="Dashboard_Dashboard"] ul li:nth-child(1) a';
+    await page.click(dashboardMenuSelector);
     await page.waitForNetworkIdle();
 
-    const screenshot = await page.screenshot();
-    expect(screenshot).to.matchImage('not_logged_in');
+    const loginForm = await page.waitForSelector('#login_form');
+    expect(loginForm).to.be.ok;
+
+    const errorNotification = await page.waitForSelector('div.system.notification-error');
+    expect(errorNotification).to.be.ok;
+
+    const errorText = await page.evaluate(() => _pk_translate('General_Error'));
+    const expectedErrorNotificationText = await page.evaluate(() => _pk_translate('General_YourSessionHasExpired'));
+    const expectedText = errorText + ': ' + expectedErrorNotificationText;
+    const notificationText = await page.$eval('div.system.notification-error .notification-body', el => el.textContent.trim());
+    expect(notificationText).to.equal(expectedText);
+
   });
 });
