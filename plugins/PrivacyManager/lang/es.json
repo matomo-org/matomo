@@ -50,6 +50,7 @@
         "GdprTools": "Herramientas GDPR",
         "GeolocationAnonymizeIpNote": "Nota: Geolocalización tendrá aproximadamente los mismos resultados con 1 byte anónimo. Con 2 bytes o más, la Geolocalización será imprecisa.",
         "GetPurgeEstimate": "Obtener estimación de purga",
+        "IPAddress": "Dirección IP",
         "KeepBasicMetrics": "Mantener métricas básicas (visitantes, vistas de páginas, tasa de rebote, conversiones de meta, conversiones de comercio electrónico, etc.)",
         "KeepBasicMetricsReportsDetailedInfo": "Cuando habilita esta configuración, algunos indicadores de rendimiento de clave numérica no se eliminarán.",
         "KeepDataFor": "Mantener toda la información para",

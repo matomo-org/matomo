@@ -1,8 +1,11 @@
 {
     "Referrers": {
+        "AllReferrersSubcategory2": "Također možeš analizirati broj radnji koje je izvršio svaki od tvojih izvora prometa aktiviranjem tablice s prikazom mjernih podataka o interakciji posjetitelja.",
         "Campaigns": "Kampanje",
         "ColumnWebsite": "Web stranica",
+        "ReferrerName": "Ime uputitelja",
         "SubmenuWebsitesOnly": "Web-stranice",
+        "TypeReportDocumentation": "Ova tablica sadrži informacije o distribuciji vrsta kanala.",
         "Websites": "Web-stranice"
     }
 }

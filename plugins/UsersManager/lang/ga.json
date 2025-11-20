@@ -60,6 +60,7 @@
         "ConfirmThisChange": "Deimhnigh an t-athrú seo le do thoil.",
         "ConfirmTokenCopied": "Deimhním gur chóipeáil mé an comhartha agus tuigim nár chóir dom an comhartha seo a roinnt le duine ar bith eile.",
         "ConfirmWithPassword": "Iontráil do phasfhocal chun an t-athrú seo a dheimhniú.",
+        "ConfirmWithReAuthentication": "Athfhíordheimhnigh le do thoil chun an t-athrú seo a dheimhniú.",
         "CopyDenied": "Ní cheadaítear an t-iarratas mar gheall ar shocruithe do bhrabhsálaí.",
         "CopyDeniedHints": "Bain triail eile as trí bhrabhsálaithe a athrú nó an nasc seo a chóipeáil agus a roinnt go díreach ina ionad:%1$s",
         "CopyLink": "Cóipeáil nasc cuireadh",

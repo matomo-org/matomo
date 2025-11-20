@@ -30,12 +30,17 @@ class Mysql implements SchemaInterface
 {
     public const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
     public const MAX_TABLE_NAME_LENGTH = 64;
-
     private $tablesInstalled = null;
+    protected $minimumSupportedVersion = '5.5';
 
     public function getDatabaseType(): string
     {
         return 'MySQL';
+    }
+
+    public function getMinimumSupportedVersion(): string
+    {
+        return $this->minimumSupportedVersion;
     }
 
     /**

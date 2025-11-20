@@ -188,6 +188,7 @@
         "Mobile": "Mobil",
         "Monthly": "Kvar månad",
         "MonthlyReports": "Månadsrapportar",
+        "MoreDetails": "Meer details",
         "MultiSitesSummary": "Alle nettstadene",
         "NUniqueVisitors": "%s unike vitjarar",
         "NVisits": "%s vitjingar",
@@ -302,6 +303,7 @@
         "Weekly": "Kvar veke",
         "WeeklyReport": "kvar veke",
         "WeeklyReports": "Vekesrapportar",
+        "WellDone": "Goed gedaan!",
         "Widget": "Småprogram",
         "Widgets": "Småprogram",
         "XFromY": "%1$s van %2$s",
@@ -329,7 +331,8 @@
         "EnableGraphsLabel": "Vis grafar",
         "EvolutionGraph": "Historisk graf",
         "NavigationBack": "Tilbake",
-        "NetworkError": "Nettverksfeil"
+        "NetworkError": "Nettverksfeil",
+        "ShowAll": "Toon alle"
     },
     "RowEvolution": {
         "MetricBetweenText": "mellom %1$s og %2$s",

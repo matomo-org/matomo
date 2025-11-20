@@ -28,8 +28,6 @@
         "MinValue": "Минимална стойност на събитието",
         "MinValueDocumentation": "Минималната стойност за това събитие",
         "PluginDescription": "Проследи събития и получи отчети за действията на посетителите.",
-        "SecondaryDimension": "Второстепенното измерение е %s.",
-        "SwitchToSecondaryDimension": "Превключване към %s",
         "TopEvents": "Най-важните събития",
         "TotalEvents": "Общо събития",
         "TotalEventsDocumentation": "Общ брой събития",

@@ -32,8 +32,6 @@
         "MinValue": "Valor mínim de l'esdeveniment",
         "MinValueDocumentation": "El valor mínim per aquest esdeveniment",
         "PluginDescription": "Feu un seguiment dels esdeveniments i obteniu informes sobre l'activitat dels vostres visitants.",
-        "SecondaryDimension": "La dimensió secundària és %s.",
-        "SwitchToSecondaryDimension": "Canvia a %s",
         "TopEvents": "Esdeveniments principals",
         "TotalEvents": "Esdeveniments totals",
         "TotalEventsDocumentation": "Nombre total d'esdeveniments",

@@ -398,6 +398,7 @@
         "ToDeleteAllFilesRunThisCommand": "여기 모든 파일들을 한번에 지우기 위해서 다음의 명령어를 실행하세요:",
         "Total": "총",
         "TotalRevenue": "총 수익",
+        "TrackingScopeAction": "활동",
         "TrackingScopePage": "페이지",
         "TrackingScopeVisit": "방문",
         "TransitionsRowActionTooltip": "이 페이지를 조회하기 이전의 방문자 행동 추적",

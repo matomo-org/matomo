@@ -14,6 +14,8 @@ describe("PagePerformance", function () {
 
     const generalParams = 'idSite=1&period=day&date=2010-03-12',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
+    const pageUrlsReportId = '#widgetActionsgetPageUrlsforceView1viewDataTabletablePerformanceColumnsperformance1';
+    const pageTitleReportId = '#widgetActionsgetPageTitlesforceView1viewDataTabletablePerformanceColumnsperformance1';
 
     async function ensureTooltipIsVisibleInScreenshot() {
         await page.evaluate(() => {
@@ -154,5 +156,60 @@ describe("PagePerformance", function () {
         expect(await pageWrap.screenshot()).to.matchImage('pagetitle_overlay');
     });
 
+  it("should not show row evolution icon in page urls and page titles reports when in Behaviour > Performance page", async function () {
+    await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Actions&subcategory=PagePerformance_Performance");
 
+    // Check page report
+    let row = await page.waitForSelector(pageUrlsReportId + ' .dataTable tbody tr:first-child');
+    await row.hover();
+    await page.waitForTimeout(50);
+    pageWrap = await page.$(pageUrlsReportId);
+
+    let rowActions = await row.$('.dataTableRowActions');
+    expect(rowActions).to.not.equal(null);
+
+    let rowActionLinks = await row.$$('.dataTableRowActions a');
+    expect(rowActionLinks.length).to.equal(4);
+
+    let icon = await pageWrap.$('.actionRowEvolution');
+    expect(icon).to.equal(null);
+
+    // Check Page Titles report
+    row = await page.waitForSelector(pageTitleReportId + ' .dataTable tbody tr:first-child');
+    await row.hover();
+    await page.waitForTimeout(50);
+    pageWrap = await page.$(pageTitleReportId);
+
+    rowActions = await row.$('.dataTableRowActions');
+    expect(rowActions).to.not.equal(null);
+
+    rowActionLinks = await row.$$('.dataTableRowActions a');
+    expect(rowActionLinks.length).to.equal(3);
+
+    icon = await row.$('.actionRowEvolution');
+    expect(icon).to.equal(null);
+  });
+
+  it("should not show row evolution icon for subtable rows in Behaviour > Performance", async function () {
+    // Check page url report
+    let subtableLabel = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable .label');
+    await subtableLabel.click();
+
+    let rowWithSubtable = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable');
+    let rowActionsSubtable = await rowWithSubtable.$('td .dataTableRowActions');
+    expect(rowActionsSubtable).to.not.equal(null);
+
+    let rowActionLinks = await rowActionsSubtable.$$('.dataTableRowActions a');
+    expect(rowActionLinks.length).to.equal(2);
+
+    // hover first row
+    let row = await page.waitForSelector(pageUrlsReportId + ' tr.subDataTable.level0 + tr.level1');
+    await row.hover();
+    await page.waitForTimeout(50);
+    rowActionLinks = await row.$$('.dataTableRowActions a');
+    expect(rowActionLinks.length).to.equal(4);
+
+    let rowEvolutionIcon = await row.$('.dataTableRowActions .actionRowEvolution');
+    expect(rowEvolutionIcon).to.equal(null);
+  });
 });

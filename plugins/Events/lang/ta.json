@@ -30,8 +30,6 @@
         "MinValue": "குறைந்தபட்ச நிகழ்வு மதிப்பு",
         "MinValueDocumentation": "இந்த நிகழ்விற்கான குறைந்தபட்ச மதிப்பு",
         "PluginDescription": "நிகழ்வுகளைக் கண்காணித்து, உங்கள் பார்வையாளர்களின் செயல்பாடு குறித்த அறிக்கைகளைப் பெறவும்.",
-        "SecondaryDimension": "இரண்டாம் நிலை பரிமாணம் %s.",
-        "SwitchToSecondaryDimension": "%sக்கு மாறவும்",
         "TopEvents": "முக்கிய நிகழ்வுகள்",
         "TotalEvents": "மொத்த நிகழ்வுகள்",
         "TotalEventsDocumentation": "நிகழ்வுகளின் மொத்த எண்ணிக்கை",
