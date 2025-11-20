@@ -3,7 +3,7 @@
         "AIAssistants": "Cúntóirí AI",
         "AIAgentName": "Ainm an Ghníomhaire AI",
         "AIAgentVisits": "Cuairteanna Gníomhaire AI",
-        "AIAgentVisitsDocumentation": "Seo forbhreathnú ar chuairteanna Gníomhaire AI.",
+        "AIAgentVisitsDocumentation": "Seo forbhreathnú ar chuairteanna Gníomhaire AI. Ní chuimsíonn trácht gníomhaire AI ach cuairteanna ina n-osclaíonn AI do shuíomh i mbrabhsálaí fíor agus ina n-iompraíonn sé mar chuairteoir daonna. Ní chuimsíonn sé iarratais chúlra ó ChatGPT ná uirlisí AI eile a bhailíonn do leathanaigh gan brabhsálaí a úsáid.",
         "ColumnAIAgentActions": "Gníomhartha de réir Cuairteanna Gníomhaire AI",
         "ColumnAIAgentAverageVisitDuration": "Meánfhad Cuairte Gníomhaire AI (i soicindí)",
         "ColumnAIAgentAvgActionsPerVisit": "Meánghníomhartha in aghaidh Cuairte an Ghníomhaire AI",
