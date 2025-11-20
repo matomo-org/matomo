@@ -60,6 +60,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Déanfar bunachar sonraí Matomo a uasghrádú ó leagan %1$s go dtí an leagan nua %2$s.",
         "PostUpdateMessage": "Beidh Matomo saor in aisce i gcónaí le híoslódáil agus le húsáid, ach teastaíonn do thacaíocht leanúnach uaidh chun fás agus feabhsú.",
         "PostUpdateSupport": "Má theastaíonn cabhair uait ag baint úsáide as Matomo, is féidir leat tacaíocht a fháil óna chruthaitheoirí:",
+        "ReactivatedPlugins": "Breiseáin athghníomhachtaithe: %1$s",
         "ReadyToGo": "Réidh le dul?",
         "ReceiveEmailBecauseIsSuperUser": "Faigheann tú an ríomhphost seo toisc gur Sárúsáideoir thú ar an Matomo ag: %s",
         "ServicesSupport": "Seirbhísí agus tacaíocht",
