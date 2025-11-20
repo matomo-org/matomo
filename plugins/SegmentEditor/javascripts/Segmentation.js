@@ -8,7 +8,6 @@
 Segmentation = (function($) {
     const FORM_MODE_EDIT = 'edit';
     const FORM_MODE_NEW = 'new';
-    let currentComparedSegments = 0;
 
     piwikHelper.registerShortcut('s', _pk_translate('CoreHome_ShortcutSegmentSelector'), function (event) {
         if (event.altKey) {
@@ -90,7 +89,6 @@ Segmentation = (function($) {
         // We will listen to changes in the Segment Comparison Store
         // so we can mark compared segments properly. This will now include deletion of compared segments.
         piwik.on('piwikComparisonsChanged', function () {
-          console.log('there was a change in the compared segments');
           self.markComparedSegments();
         });
 
@@ -99,8 +97,6 @@ Segmentation = (function($) {
             var comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
                 return comparison.params.segment;
             });
-            console.log('comparedSegments', comparedSegments);
-            console.log('comparisonService', comparisonService);
             $('div.segmentList ul li[data-definition]', this.target).removeClass('comparedSegment').filter(function () {
                 var definition = $(this).attr('data-definition');
                 return comparedSegments.indexOf(definition) !== -1 || comparedSegments.indexOf(decodeURIComponent(definition)) !== -1;
@@ -113,16 +109,11 @@ Segmentation = (function($) {
             const limit = piwik.config.data_comparison_segment_limit;
             const comparisonService = window.CoreHome.ComparisonsStoreInstance;
             const comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
-            console.log('these are the available segments: ',this.availableSegments);
-            console.log('comparedSegmentsLength', comparedSegmentsLength);
-            const that = this;
             $('div.segmentList ul li[data-definition] span.compareSegment').each(function() {
               if (comparedSegmentsLength >= limit) {
-                console.log('limit reached');
                 $(this).addClass('no-click');
                 $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
               } else {
-                console.log('removing class');
                 $(this).removeClass('no-click');
                 var idSegment = $(this).parent().attr('data-idsegment');
                 const title = getSegmentName(getSegmentFromId(idSegment));
@@ -439,8 +430,6 @@ Segmentation = (function($) {
             self.target.on('click', '.compareSegment', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-                console.log('compareSegment was clicked');
-                console.log('i am saving this segment: ' + $(e.target).closest('li').data('definition'));
                 var comparisonService = window.CoreHome.ComparisonsStoreInstance;
                 comparisonService.addSegmentComparison({
                     segment: $(e.target).closest('li').data('definition'),
