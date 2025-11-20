@@ -354,4 +354,14 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segmentationContainer .title');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments_saved');
     });
+
+    it('should have 6 segments in the list at this point', async function() {
+      await page.goto(url);
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.segmentationContainer');
+      await page.click('.segmentationContainer .title');
+      await page.waitForTimeout(200);
+
+      expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('akon_tilaw');
+    });
 });
