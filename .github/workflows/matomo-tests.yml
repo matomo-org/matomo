@@ -13,6 +13,21 @@ on:
       - '**.x-dev'
       - 'next_release'
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      is_preview:
+        type: boolean
+        required: false
+        default: false
+      ref:
+        type: string
+        required: false
+        default: ''
+    secrets:
+      ARTIFACTS_PASS:
+        required: false
+      TESTOMATIO_INTEGRATION:
+        required: false
 
 permissions:
   actions: read
@@ -27,51 +42,56 @@ permissions:
   statuses: none
 
 concurrency:
-  group: php-${{ github.ref }}
+  group: php-${{ inputs.ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
   PHP:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
-      fail-fast: false
+      fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
-        php: [ '7.2', '8.2', '8.3' ]
-        adapter: [ 'PDO_MYSQL', 'MYSQLI' ]
-        exclude:
+        environment:
           - php: '7.2'
-            adapter: 'MYSQLI'
-          - php: '8.2'
             adapter: 'PDO_MYSQL'
+            mysql-engine: 'Mysql'
+            mysql-version: '5.7'
           - php: '8.3'
-            adapter: 'PDO_MYSQL'
+            adapter: 'MYSQLI'
+            mysql-engine: 'Mysql'
+            mysql-version: '8.0'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           lfs: false
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
           test-type: ${{ matrix.type }}
-          mysql-driver: ${{ matrix.adapter }}
-          php-version: ${{ matrix.php }}
+          mysql-driver: ${{ matrix.environment.adapter }}
+          mysql-engine: ${{ matrix.environment.mysql-engine }}
+          mysql-version: ${{ matrix.environment.mysql-version }}
+          php-version: ${{ matrix.environment.php }}
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
-          upload-artifacts: ${{ matrix.php == '7.2' }}
+          upload-artifacts: ${{ matrix.environment.php == '7.2' }}
+          testomatio: ${{ secrets.TESTOMATIO_INTEGRATION }}
   Javascript:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           lfs: false
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -79,15 +99,16 @@ jobs:
           php-version: '7.2'
           node-version: '12'
   Client:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           lfs: false
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -95,18 +116,19 @@ jobs:
           node-version: '16'
           mysql-service: false
   UI:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
-      fail-fast: false
+      fail-fast: ${{ inputs.is_preview == true }}
       matrix:
         parts: [ 0,1,2,3 ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
         with:
           lfs: true
           persist-credentials: false
           submodules: true
           path: matomo
+          ref: ${{ inputs.ref || github.ref }}
       - name: running tests
         uses: matomo-org/github-action-tests@main
         with:
@@ -117,3 +139,4 @@ jobs:
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
+          testomatio: ${{ secrets.TESTOMATIO }}
