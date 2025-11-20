@@ -146,11 +146,6 @@ parameters:
 			path: core/API/ResponseBuilder.php
 
 		-
-			message: "#^Parameter \\#1 \\$exception of static method Piwik\\\\Plugins\\\\Monolog\\\\Processor\\\\ExceptionToTextProcessor\\:\\:getMessageAndWholeBacktrace\\(\\) expects array\\|Exception, Throwable given\\.$#"
-			count: 1
-			path: core/API/ResponseBuilder.php
-
-		-
 			message: "#^Property Piwik\\\\API\\\\ResponseBuilder\\:\\:\\$outputFormat is never read, only written\\.$#"
 			count: 1
 			path: core/API/ResponseBuilder.php
@@ -1419,11 +1414,6 @@ parameters:
 			message: "#^Call to method rowCount\\(\\) on an unknown class Piwik\\\\Tracker\\\\PDOStatement\\.$#"
 			count: 1
 			path: core/DbHelper.php
-
-		-
-			message: "#^Parameter \\#1 \\$exception of static method Piwik\\\\Plugins\\\\Monolog\\\\Processor\\\\ExceptionToTextProcessor\\:\\:getMessageAndWholeBacktrace\\(\\) expects array\\|Exception, Throwable given\\.$#"
-			count: 1
-			path: core/ExceptionHandler.php
 
 		-
 			message: "#^Right side of && is always false\\.$#"
@@ -3162,16 +3152,6 @@ parameters:
 			message: "#^Variable \\$comparisons in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/API/ProcessedReport.php
-
-		-
-			message: "#^Parameter \\#1 \\$exception of static method Piwik\\\\Plugins\\\\Monolog\\\\Processor\\\\ExceptionToTextProcessor\\:\\:getMessageAndWholeBacktrace\\(\\) expects array\\|Exception, Throwable given\\.$#"
-			count: 1
-			path: plugins/API/Renderer/Json.php
-
-		-
-			message: "#^Parameter \\#1 \\$exception of static method Piwik\\\\Plugins\\\\Monolog\\\\Processor\\\\ExceptionToTextProcessor\\:\\:getMessageAndWholeBacktrace\\(\\) expects array\\|Exception, Throwable given\\.$#"
-			count: 1
-			path: plugins/API/Renderer/Original.php
 
 		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\$row Row\\)\\: Unexpected token \"\\$row\", expected type at offset 9$#"
