@@ -256,7 +256,7 @@ export default defineComponent({
         if (response.status === 401) {
           Matomo.helper.redirect({
             module: 'Login',
-            action: 'logout',
+            action: 'login',
           });
           return;
         }
