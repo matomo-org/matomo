@@ -86,6 +86,7 @@ describe("CustomDimensions", function () {
     it('should be possible to create new visit dimension', async function () {
         await capturePageWrap('manage_new_visit_dimension_created', async function () {
             await page.type(".editCustomDimension #name", 'My Custom Name');
+            await page.click('.editCustomDimension #active');
             await page.click('.editCustomDimension .create');
             await page.waitForNetworkIdle();
         });
