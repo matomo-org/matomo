@@ -660,11 +660,22 @@ export default defineComponent({
 
       this.isLoading = true;
 
-      AjaxHelper.fetch(parameters, options).then(async () => {
-        NotificationsStore.show({
-          id: 'Ako', message: 'Tilaw lng', context: 'success', type: 'toast',
-        });
+      AjaxHelper.fetch(parameters, options).then(async (response) => {
+        let idToUse = parameters.idGoal;
+        if (isCreate && response.value) {
+          idToUse = response.value;
+        }
+        let successMessage = 'Goal was successfully ';
+        if (isCreate) {
+          successMessage += 'created ';
+        } else {
+          successMessage += 'updated ';
+        }
+        successMessage += ` [goal url is ${idToUse} ]`;
         const subcategory = MatomoUrl.parsed.value.subcategory as string;
+        NotificationsStore.show({
+          id: 'ManageGoals.create', message: successMessage, context: 'success', type: 'toast',
+        });
         if (subcategory === 'Goals_AddNewGoal'
           && Matomo.helper.isReportingPage()
         ) {
