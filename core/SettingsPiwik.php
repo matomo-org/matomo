@@ -250,6 +250,10 @@ class SettingsPiwik
         if (empty(Config::getInstance()->database['username'])) {
             return false;
         }
+        // Check the database structure
+        if (!DbHelper::isInstalled()) {
+            return false;
+        }
         return true;
     }
 
