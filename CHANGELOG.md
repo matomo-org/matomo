@@ -11,6 +11,18 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Themes can now customize the focus ring colors using `@theme-color-focus-ring` (used globally) and `@theme-color-focus-ring-alternative` (used in header navigation on solid background).
 
 
+## Matomo 5.5.0
+
+### Breaking Changes
+
+* Annotations where move to their own database table. Plugins trying to access annotations without using the API might need to be updated.
+* AI Assistants are now detected as new referrer type (ID=8), which allows improved reports and better segmentation
+
+### JavaScript Tracker
+
+* A new method `setReferralUrlMaxLength` has been added. It allows limiting the referral cookie size.
+
+
 ## Matomo 5.4.0
 
 ### Authentication changes
