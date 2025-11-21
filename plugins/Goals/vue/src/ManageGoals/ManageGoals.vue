@@ -52,7 +52,7 @@
                   <br/><br/>
                 </td>
               </tr>
-              <tr v-for="goal in goals || []" :id="goal.idgoal" :key="goal.idgoal">
+              <tr v-for="goal in goalList || []" :id="goal.idgoal" :key="goal.idgoal">
                 <td class="first">{{ goal.idgoal }}</td>
                 <td>{{ goal.name }}</td>
                 <td>{{ goal.description }}</td>
@@ -412,6 +412,7 @@ interface ManageGoalsState {
   submitText: string;
   goalToDelete: Goal|null;
   addEditTableComponent: boolean;
+  goalList: Record<string, Goal>;
 }
 
 function ambiguousBoolToInt(n: string|number|boolean): 1|0 {
@@ -453,6 +454,7 @@ export default defineComponent({
       submitText: '',
       goalToDelete: null,
       addEditTableComponent: false,
+      goalList: {},
     };
   },
   components: {
@@ -469,11 +471,15 @@ export default defineComponent({
   },
   created() {
     ManageGoalsStore.setIdGoalShown(this.showGoal);
+    this.goalList = this.goals;
+    console.log('in created, this is the list', this.goalList);
   },
   unmounted() {
     ManageGoalsStore.setIdGoalShown(undefined);
   },
   mounted() {
+    console.log('Manage Goals was mounted');
+    console.log('amo ni akon mga ubra', this.showAddGoal, this.showGoal);
     if (this.showAddGoal) {
       this.createGoal();
     } else if (this.showGoal) {
@@ -654,7 +660,7 @@ export default defineComponent({
 
       this.isLoading = true;
 
-      AjaxHelper.fetch(parameters, options).then(() => {
+      AjaxHelper.fetch(parameters, options).then(async () => {
         NotificationsStore.show({
           id: 'Ako', message: 'Tilaw lng', context: 'success', type: 'toast',
         });
@@ -672,7 +678,10 @@ export default defineComponent({
             this.isLoading = false;
           });
         } else {
-          window.location.reload();
+          console.log('my parsed', { ...MatomoUrl.hashParsed.value });
+          await this.loadGoals();
+          this.showListOfReports();
+          // window.location.reload();
         }
       }).catch(() => {
         this.scrollToTop();
@@ -699,6 +708,25 @@ export default defineComponent({
     },
     goalNameChanged() {
       Matomo.postEvent('Goals.goalNameChanged', this.goal.name);
+    },
+    async loadGoals() {
+      return AjaxHelper.fetch({
+        module: 'API',
+        method: 'Goals.getGoals',
+        idSite: Matomo.idSite,
+        format: 'JSON',
+      }).then((response) => {
+        console.log('i loaded new goals', response);
+
+        const initial: Record<string, Goal> = {};
+        const goals = response as Goal[];
+        this.goalList = goals.reduce<Record<string, Goal>>((acc, goal) => {
+          acc[goal.idgoal] = goal;
+          return acc;
+        }, initial);
+        this.isLoading = false;
+        console.log('this is the new goalslist', this.goalList);
+      });
     },
   },
   computed: {
