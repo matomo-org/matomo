@@ -665,34 +665,38 @@ export default defineComponent({
         if (isCreate && response.value) {
           idToUse = response.value;
         }
-        let successMessage = 'Goal was successfully ';
-        if (isCreate) {
-          successMessage += 'created ';
-        } else {
-          successMessage += 'updated ';
-        }
-        successMessage += ` [goal url is ${idToUse} ]`;
+        const link = MatomoUrl.stringify({
+          ...MatomoUrl.urlParsed.value,
+          module: 'CoreHome',
+          action: 'index',
+        });
+        const hash = MatomoUrl.stringify({
+          ...MatomoUrl.hashParsed.value,
+          category: 'Goals_Goals',
+          subcategory: idToUse,
+        });
+        let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
+        const reportLink = `<a href="?${link}#${hash}">[${translate('Goals_ViewGoalReport')}]</a>`;
+        successMessage = `<div>${successMessage} ${reportLink}</div>`;
+
         const subcategory = MatomoUrl.parsed.value.subcategory as string;
         NotificationsStore.show({
           id: 'ManageGoals.create', message: successMessage, context: 'success', type: 'toast',
         });
+        await ReportingMenuStore.reloadMenuItems();
         if (subcategory === 'Goals_AddNewGoal'
           && Matomo.helper.isReportingPage()
         ) {
           // when adding a goal for the first time we need to load manage goals page afterwards
-          ReportingMenuStore.reloadMenuItems().then(() => {
-            MatomoUrl.updateHash({
-              ...MatomoUrl.hashParsed.value,
-              subcategory: 'Goals_ManageGoals',
-            });
-
-            this.isLoading = false;
+          MatomoUrl.updateHash({
+            ...MatomoUrl.hashParsed.value,
+            subcategory: 'Goals_ManageGoals',
           });
+          this.isLoading = false;
         } else {
-          console.log('my parsed', { ...MatomoUrl.hashParsed.value });
           await this.loadGoals();
           this.showListOfReports();
-          // window.location.reload();
+          this.isLoading = false;
         }
       }).catch(() => {
         this.scrollToTop();
@@ -727,8 +731,6 @@ export default defineComponent({
         idSite: Matomo.idSite,
         format: 'JSON',
       }).then((response) => {
-        console.log('i loaded new goals', response);
-
         const initial: Record<string, Goal> = {};
         const goals = response as Goal[];
         this.goalList = goals.reduce<Record<string, Goal>>((acc, goal) => {
@@ -736,7 +738,9 @@ export default defineComponent({
           return acc;
         }, initial);
         this.isLoading = false;
-        console.log('this is the new goalslist', this.goalList);
+      }).catch(() => {
+        this.scrollToTop();
+        this.isLoading = false;
       });
     },
   },
