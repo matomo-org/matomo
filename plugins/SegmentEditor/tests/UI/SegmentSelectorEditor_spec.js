@@ -361,6 +361,19 @@ describe("SegmentSelectorEditorTest", function () {
       await page.waitForSelector('.segmentationContainer');
       await page.click('.segmentationContainer .title');
       await page.waitForTimeout(200);
+      await page.click('.add_new_segment');
+      await page.waitForNetworkIdle();
+      await page.waitForSelector('.segmentRow0');
+      await page.type('input.edit_segment_name', 'bgo ko');
+      await (await page.jQuery('.segmentRow0 .segment-row:first')).click(); // click somewhere else to save new name
+
+      await selectDimension('.segmentRow1', 'Visitors', 'Browser');
+      await selectFieldValue('.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
+
+      await page.waitForTimeout(200);
+      await page.evaluate(function () {
+        $('.metricValueBlock input:eq(0)').val('new value ko').change();
+      });
 
       expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('akon_tilaw');
     });
