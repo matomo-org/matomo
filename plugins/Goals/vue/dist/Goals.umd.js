@@ -206,7 +206,7 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', $element => {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=dc6bdcf6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=2ce85bce
 
 const _hoisted_1 = {
   class: "manageGoals"
@@ -526,7 +526,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_59]);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=dc6bdcf6
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=2ce85bce
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -748,27 +748,40 @@ function ambiguousBoolToInt(n) {
         return;
       }
       this.isLoading = true;
-      external_CoreHome_["AjaxHelper"].fetch(parameters, options).then(async () => {
+      external_CoreHome_["AjaxHelper"].fetch(parameters, options).then(async response => {
+        let idToUse = parameters.idGoal;
+        if (isCreate && response.value) {
+          idToUse = response.value;
+        }
+        const link = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+          module: 'CoreHome',
+          action: 'index'
+        }));
+        const hash = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
+          category: 'Goals_Goals',
+          subcategory: idToUse
+        }));
+        let successMessage = Object(external_CoreHome_["translate"])(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
+        const reportLink = `<a href="?${link}#${hash}">[${Object(external_CoreHome_["translate"])('Goals_ViewGoalReport')}]</a>`;
+        successMessage = `<div>${successMessage} ${reportLink}</div>`;
+        const subcategory = external_CoreHome_["MatomoUrl"].parsed.value.subcategory;
         external_CoreHome_["NotificationsStore"].show({
-          id: 'Ako',
-          message: 'Tilaw lng',
+          id: 'ManageGoals.create',
+          message: successMessage,
           context: 'success',
           type: 'toast'
         });
-        const subcategory = external_CoreHome_["MatomoUrl"].parsed.value.subcategory;
+        await external_CoreHome_["ReportingMenuStore"].reloadMenuItems();
         if (subcategory === 'Goals_AddNewGoal' && external_CoreHome_["Matomo"].helper.isReportingPage()) {
           // when adding a goal for the first time we need to load manage goals page afterwards
-          external_CoreHome_["ReportingMenuStore"].reloadMenuItems().then(() => {
-            external_CoreHome_["MatomoUrl"].updateHash(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
-              subcategory: 'Goals_ManageGoals'
-            }));
-            this.isLoading = false;
-          });
+          external_CoreHome_["MatomoUrl"].updateHash(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
+            subcategory: 'Goals_ManageGoals'
+          }));
+          this.isLoading = false;
         } else {
-          console.log('my parsed', Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value));
           await this.loadGoals();
           this.showListOfReports();
-          // window.location.reload();
+          this.isLoading = false;
         }
       }).catch(() => {
         this.scrollToTop();
@@ -803,7 +816,6 @@ function ambiguousBoolToInt(n) {
         idSite: external_CoreHome_["Matomo"].idSite,
         format: 'JSON'
       }).then(response => {
-        console.log('i loaded new goals', response);
         const initial = {};
         const goals = response;
         this.goalList = goals.reduce((acc, goal) => {
@@ -811,7 +823,9 @@ function ambiguousBoolToInt(n) {
           return acc;
         }, initial);
         this.isLoading = false;
-        console.log('this is the new goalslist', this.goalList);
+      }).catch(() => {
+        this.scrollToTop();
+        this.isLoading = false;
       });
     }
   },
