@@ -12,6 +12,7 @@ namespace Piwik\Plugins\API\tests\System;
 use Piwik\Config;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\tests\Fixtures\ManySites;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -25,6 +26,12 @@ class ApiTest extends SystemTestCase
      * @var ManySites
      */
     public static $fixture = null; // initialized below class definition
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Fixture::clearInMemoryCaches();
+    }
 
     private function setComplianceFeatureFlag(bool $enableFlag): void
     {
