@@ -28,8 +28,6 @@
         "MinValue": "Minimum vlere Akti",
         "MinValueDocumentation": "Vlera minimum për këtë akt",
         "PluginDescription": "Ndiqni Akte dhe merrni raporte mbi veprimtarinë e vizitorëve tuaj.",
-        "SecondaryDimension": "Përmasa dytësore është %s.",
-        "SwitchToSecondaryDimension": "Kalo te %s",
         "TopEvents": "Aktet Kryesuese",
         "TotalEvents": "Akte gjithsej",
         "TotalEventsDocumentation": "Numri gjithsej i akteve",

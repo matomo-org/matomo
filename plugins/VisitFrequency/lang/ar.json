@@ -1,5 +1,6 @@
 {
     "VisitFrequency": {
+        "ColumnActionsByNewVisits": "الإجراءات بواسطة الزيارات الجديدة",
         "ColumnActionsByReturningVisits": "السلوكيات بواسطة الزيارات العائدة",
         "ColumnAverageVisitDurationForReturningVisitors": "متوسط طول الزيارة للزوار العائدين (بالثواني)",
         "ColumnAvgActionsPerReturningVisit": "متوسط السلوكيات لكل زيارة عائدة",

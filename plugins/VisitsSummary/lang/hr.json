@@ -19,7 +19,7 @@
         "NbUsersDescription": "korisnici",
         "NbVisitsBounced": "napuštanja (posjetioci koji su napustili web-stranicu nakon jedne stranice)",
         "NbVisitsDescription": "posjete",
-        "PluginDescription": "Izvještava o općim analitičkim metrikama: posjete, jedinstveni posjetitelji, broj radnji, stopa napuštanja stranice itd.",
+        "PluginDescription": "Izvještava o općim analitičkim mjernim podacima: posjeti, jedinstveni posjetitelji, broj radnji, stopa izravnog napuštanja stranice itd.",
         "VisitsSummary": "Sažetak posjeta",
         "VisitsSummaryDocumentation": "Ovo je pregled razvoja posjeta.",
         "VisitsSummaryReportDocumentation": "Ovaj izvještaj pruža vrlo općenit pregled ponašanja tvojih posjetitelja.",

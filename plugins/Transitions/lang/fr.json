@@ -1,7 +1,7 @@
 {
     "Transitions": {
         "AvailableInOtherReports": "Le saviez-vous ? Les transitions sont également disponibles sous forme d'action en ligne dans les rapports suivants :",
-        "AvailableInOtherReports2": "Il suffit de survoler une ligne dans l'un de ces rapports et de cliquer sur l'icône de transition %s pour le lancer.",
+        "AvailableInOtherReports2": "Lancez les transitions en cliquant sur leur icône (%s) après avoir survolé une ligne dans l'un de ces rapports.",
         "BouncesInline": "%s rebonds",
         "DirectEntries": "Entrées directes",
         "ErrorBack": "Retour à l'action précédente",
@@ -13,13 +13,13 @@
         "FromPreviousPagesInline": "%s depuis des pages internes",
         "FromPreviousSiteSearches": "Depuis des recherches internes",
         "FromPreviousSiteSearchesInline": "%s depuis des recherches internes",
-        "FromSearchEngines": "Depuis des moteurs de recherche",
+        "FromSearchEngines": "Depuis les moteurs de recherche",
         "FromSocialNetworks": "Depuis des réseaux sociaux",
         "FromWebsites": "Depuis des sites web",
         "IncomingTraffic": "Trafic entrant",
         "LoopsInline": "%s rechargements de pages",
         "NoDataForAction": "Aucune données pour %s",
-        "NoDataForActionDetails": "L'action n'a eu aucune visite de page durant la période ou bien elle est invalide.",
+        "NoDataForActionDetails": "Soit l'action n'a généré aucune vue de page pendant la période, soit elle est invalide.",
         "NumDownloads": "%s téléchargements",
         "NumOutlinks": "%s liens sortant",
         "NumPageviews": "%s pages vues",
@@ -35,7 +35,7 @@
         "ToFollowingSiteSearchesInline": "%s recherches internes",
         "TopX": "Top %s des étiquettes",
         "Transitions": "Transitions",
-        "TransitionsSubcategoryHelp1": "Transitions vous donne un rapport qui montre ce que vos visiteurs ont fait directement avant et après avoir vu une certaine page. Cette page explique comment accéder, comprendre et utiliser la puissance du rapport Transitions.",
+        "TransitionsSubcategoryHelp1": "Le rapport « Transitions » présente les actions de vos visiteurs juste avant et juste après la consultation d'une page. Cette page explique comment accéder à ce rapport, le comprendre et l'utiliser.",
         "TransitionsSubcategoryHelp2": "Plus de détails",
         "XOfAllPageviews": "%s de toutes les pages vues",
         "XOutOfYVisits": "%1$s (de %2$s)"

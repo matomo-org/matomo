@@ -103,7 +103,7 @@
         "OptOutComplete": "Cookie d'exclusion installé. Vos visites sur ce site web ne seront PAS enregistrées par notre outil d'analyse web.",
         "OptOutCompleteBis": "Note : si vous nettoyez vos cookies et supprimez le cookie d'exclusion, ou bien si vous changez d'ordinateur et/ou de navigateur, il vous faudra de nouveau effectuer la procédure d'exclusion.",
         "OptOutCustomOptOutLink": "Vous pouvez également créer un formulaire de désinscription entièrement personnalisé à l'aide de HTML et de JavaScript, comme expliqué dans ce %1$sguide%2$s du développeur.",
-        "OptOutDntFound": "Vous n'êtes pas suivi car votre navigateur signale que vous ne le souhaitez pas. Il s'agit d'un paramètre de votre navigateur, vous ne pourrez donc pas vous inscrire tant que vous n'aurez pas désactivé la fonction \"Ne pas suivre\".",
+        "OptOutDntFound": "Vous n'êtes pas suivi car votre navigateur indique que vous ne le souhaitez pas. Il s'agit d'un paramètre de votre navigateur ; vous ne pourrez donc pas activer le suivi tant que vous aurez activé la fonction « Ne pas suivre ».",
         "OptOutErrorNoCookies": "La fonctionnalité de désactivation du suivi nécessite que les cookies soient autorisés.",
         "OptOutErrorNoTracker": "La fonction de désactivation du suivi n'a pas pu trouver le code Matomo Tracker sur cette page",
         "OptOutErrorNotHttps": "La fonctionnalité de désactivation du suivi pourrait ne pas fonctionner car ce site n'a pas été chargé en HTTPS. Veuillez recharger la page pour vérifier que le statut de ce suivi a bien été changé.",

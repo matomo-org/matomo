@@ -206,6 +206,8 @@
         "RawDataNeverRemoved": "<strong>ní scriostar sonraí cuairteanna agus gníomhartha amhaa riamh</strong>.",
         "RawDataRemovedAfter": "Gach cuairt agus gníomh scriostar sonraí amha i ndiaidh %1$s.",
         "RecommendedForPrivacy": "Molta le haghaidh príobháideachais",
+        "ReferrerAnonymizationSettingRequirementNote": "Ní féidir ach an t-óstach tagróra nó an cineál tagróra a bhailiú.",
+        "ReferrerAnonymizationSettingTitle": "Anaithnidiú atreoraithe",
         "ReportsDataSavedEstimate": "Méid an bhunachair sonraí",
         "ReportsNeverRemoved": "ní scriostar tuairiscí comhiomlánaithe <strong>riamh</strong>.",
         "ReportsRemovedAfter": "Scriostar gach tuairisc chomhiomlánaithe i ndiaidh %1$s.",

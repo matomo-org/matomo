@@ -34,6 +34,7 @@
         "UpdateHasBeenCancelledExplanation": "การอัพเดต Matomo ในคลิกเดียวถูกยกเลิกแล้ว หากคุณไม่สามารถแก้ไขข้อความข้อผิดพลาด แนะนำให้คุณอัพเดต Matomo แบบ Manual %1$s กรุณาตรวจสอบ %2$s เอกสารการอัพเดต %3$s เพื่อเริ่มดำเนินการ",
         "UpdateSuccessTitle": "Matomo ได้รับการอัพเดตเรียบร้อยแล้ว",
         "UpdateTitle": "อัพเดต",
+        "Updating": "กำลังอัปเดต",
         "UpgradeComplete": "การอัพเดตเสร็จสมบูรณ์",
         "UpgradePiwik": "อัพเกรด Matomo",
         "VerifyingUnpackedFiles": "กำลังตรวจสอบแพคเกจของไฟล์",
