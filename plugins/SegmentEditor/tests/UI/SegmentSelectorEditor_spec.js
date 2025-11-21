@@ -356,25 +356,40 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it('should have 6 segments in the list at this point', async function() {
+      const maxSegments = 3;
+      testEnvironment.overrideConfig('General', 'data_comparison_segment_limit', maxSegments);
+      testEnvironment.save();
       await page.goto(url);
       await page.waitForNetworkIdle();
+      const message = await page.evaluate(
+        (limit) => _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]),
+      maxSegments);
+      console.log('max reached title: ' + message);
+      await page.waitForSelector('.segmentationContainer');
+      const lisLen = await page.$$eval('.segmentListContainer .segmentList li', (e) => e.length);
+      console.log('my list length is: ' + lisLen);
+      let comparedCount = await page.$$eval(
+        '.segmentListContainer .segmentList li.comparedSegment',
+        (nodes) => nodes.length,
+      );
+      console.log('my current compare count is: ' + comparedCount);
+
+      for (let i=0; i<lisLen; i++) {
+        await page.click('.segmentationContainer .title');
+        const segments = await page.$$('.segmentListContainer .segmentList li span.compareSegment');
+        await segments[i].click();
+        await page.waitForTimeout(50);
+      }
+      comparedCount = await page.$$eval(
+        '.segmentListContainer .segmentList li.comparedSegment',
+        (nodes) => nodes.length,
+      );
+      console.log('my current compare count is: ' + comparedCount);
       await page.waitForSelector('.segmentationContainer');
       await page.click('.segmentationContainer .title');
-      await page.waitForTimeout(200);
-      await page.click('.add_new_segment');
-      await page.waitForNetworkIdle();
-      await page.waitForSelector('.segmentRow0');
-      await page.type('input.edit_segment_name', 'bgo ko');
-      await (await page.jQuery('.segmentRow0 .segment-row:first')).click(); // click somewhere else to save new name
 
-      await selectDimension('.segmentRow1', 'Visitors', 'Browser');
-      await selectFieldValue('.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
-
-      await page.waitForTimeout(200);
-      await page.evaluate(function () {
-        $('.metricValueBlock input:eq(0)').val('new value ko').change();
-      });
-
+      const title = await page.getAttribute('.segmentListContainer .segmentList li:last-child', 'title');
+      console.log('the title is ', title);
       expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('akon_tilaw');
     });
 });
