@@ -46,7 +46,7 @@ function piwik_filter_truncate($string, $size)
  * @param string $string
  * @param int $minFractionDigits
  * @param int $maxFractionDigits
- * @return float|int|mixed|string
+ * @return mixed
  */
 function piwik_format_number($string, $minFractionDigits, $maxFractionDigits)
 {
@@ -252,7 +252,7 @@ class Twig
             }
 
             $assetType = strtolower($params['type']);
-            $deferJs           = boolval($params['defer'] ?? false);
+            $deferJs   = boolval($params['defer'] ?? false);
             switch ($assetType) {
                 case 'css':
                     return AssetManager::getInstance()->getCssInclusionDirective();
@@ -556,8 +556,7 @@ class Twig
     {
         $urlRewriteFilter = new TwigFilter('urlRewriteWithParameters', function ($parameters) {
             $parameters['updated'] = null;
-            $url          = Url::getCurrentQueryStringWithParametersModified($parameters);
-            return $url;
+            return Url::getCurrentQueryStringWithParametersModified($parameters);
         });
         $this->twig->addFilter($urlRewriteFilter);
     }
