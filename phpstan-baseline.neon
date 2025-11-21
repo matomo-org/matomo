@@ -2774,11 +2774,6 @@ parameters:
 			path: core/Translation/Translator.php
 
 		-
-			message: "#^Method Piwik\\\\Twig\\:\\:getProfessionalServicesAdvertising\\(\\) is unused\\.$#"
-			count: 1
-			path: core/Twig.php
-
-		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, bool given\\.$#"
 			count: 1
 			path: core/UpdateCheck.php

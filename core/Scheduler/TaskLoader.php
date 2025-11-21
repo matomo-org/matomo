@@ -11,7 +11,6 @@ namespace Piwik\Scheduler;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager as PluginManager;
-use Piwik\Plugin\Tasks;
 
 /**
  * Loads scheduled tasks.
