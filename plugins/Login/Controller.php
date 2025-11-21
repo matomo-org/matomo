@@ -54,7 +54,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     protected $passwordResetter;
 
     /**
-     * @var Auth
+     * @var \Piwik\Auth
      */
     protected $auth;
 

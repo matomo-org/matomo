@@ -25,7 +25,6 @@ class TaskLoader
     {
         $tasks = array();
 
-        /** @var Tasks[] $pluginTasks */
         $pluginTasks = PluginManager::getInstance()->findComponents('Tasks', 'Piwik\Plugin\Tasks');
 
         foreach ($pluginTasks as $pluginTask) {
