@@ -254,7 +254,7 @@ export default defineComponent({
         }
 
         if (response.status === 401) {
-          Matomo.helper.redirect();
+          Matomo.helper.refreshAfter(0);
           return;
         }
 
