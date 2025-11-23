@@ -12,6 +12,8 @@ namespace Piwik\Plugins\API\tests\System;
 use Piwik\Config;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\tests\Fixtures\ManySites;
+use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
@@ -30,7 +32,6 @@ class ApiTest extends SystemTestCase
     public function setUp(): void
     {
         parent::setUp();
-        Fixture::clearInMemoryCaches();
     }
 
     private function setComplianceFeatureFlag(bool $enableFlag): void
@@ -63,8 +64,7 @@ class ApiTest extends SystemTestCase
     public function testGetSegmentsMetadataIfFeatureFlagEnabledAndPolicyEnforced(): void
     {
         $this->setComplianceFeatureFlag(true);
-        $config = Config::getInstance();
-        $config->{'CnilPolicy'}['cnil_v1_policy_enabled'] = 1;
+        PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true);
 
         $this->runApiTests('API.getSegmentsMetadata', [
             'testSuffix' => '_compliancePolicyEnforced',
