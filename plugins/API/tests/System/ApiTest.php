@@ -9,12 +9,12 @@
 
 namespace Piwik\Plugins\API\tests\System;
 
+use Piwik\Cache;
 use Piwik\Config;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\tests\Fixtures\ManySites;
 use Piwik\Policy\CnilPolicy;
 use Piwik\Policy\PolicyManager;
-use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -63,6 +63,7 @@ class ApiTest extends SystemTestCase
 
     public function testGetSegmentsMetadataIfFeatureFlagEnabledAndPolicyEnforced(): void
     {
+        Cache::getTransientCache()->flushAll();
         $this->setComplianceFeatureFlag(true);
         PolicyManager::setPolicyActiveStatus(CnilPolicy::class, true);
 
