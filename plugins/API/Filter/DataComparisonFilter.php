@@ -144,7 +144,7 @@ class DataComparisonFilter
         $this->segmentName = $this->getSegmentNameFromReport($report);
 
         $this->compareSegments = self::getCompareSegments();
-        if (count($this->compareSegments) > $this->segmentCompareLimit) {
+        if (count($this->compareSegments) > $this->segmentCompareLimit + 1) {
             throw new BadRequestException(Piwik::translate('General_MaximumNumberOfSegmentsComparedIs', [$this->segmentCompareLimit]));
         }
 
