@@ -12,11 +12,6 @@ describe("ManageGoals", function () {
 
     const manageGoalsUrl = "?module=CoreHome&action=index&idSite=1&period=year&date=2009-01-01#?idSite=1&period=year&date=2009-01-01&category=Goals_Goals&subcategory=Goals_ManageGoals";
 
-    async function openManageGoalsPage() {
-        await page.goto(manageGoalsUrl);
-        await page.waitForNetworkIdle();
-    }
-
     async function fillField(selector, value) {
         await page.$eval(selector, (el) => {
             el.value = '';
@@ -27,7 +22,9 @@ describe("ManageGoals", function () {
     }
 
     it("should show correct notification when creating a new goal", async function () {
-        await openManageGoalsPage();
+        await page.goto(manageGoalsUrl);
+        await page.waitForNetworkIdle();
+
         await page.waitForSelector('#add-goal');
         await page.click('#add-goal');
         await page.waitForSelector('.addEditGoal', { visible: true });
@@ -41,7 +38,17 @@ describe("ManageGoals", function () {
 
         await page.waitForNetworkIdle();
         expect(await page.screenshot()).to.matchImage('goals_created');
-        await page.waitForNetworkIdle();
+
+        // We check that the created goal id is in the View Goal Report url
+        const createdGoalId = await page.$eval(
+          'div.manageGoals table.entityTable tbody tr:last-child td:first-child',
+          (cell) => cell.textContent.trim()
+        );
+        const viewGoalLinkHref = await page.$eval(
+          '.notification.notification-success a',
+          (link) => link.getAttribute('href')
+        );
+      expect(viewGoalLinkHref).to.include(`subcategory=${createdGoalId}`);
     });
     it("should show the correct notification when editing the goal", async function () {
       const goalEditButtonSelector = 'table.entityTable tbody tr:nth-last-child(1) button.icon-edit';
@@ -54,5 +61,16 @@ describe("ManageGoals", function () {
       await updateButton.click();
       await page.waitForNetworkIdle();
       expect(await page.screenshot()).to.matchImage('goals_updated');
+
+      // We check that the edited goal id is in the View Goal Report url
+      const editedGoalId = await page.$eval(
+        'div.manageGoals table.entityTable tbody tr:last-child td:first-child',
+        (cell) => cell.textContent.trim()
+      );
+      const viewGoalLinkHref = await page.$eval(
+        '.notification.notification-success a',
+        (link) => link.getAttribute('href')
+      );
+      expect(viewGoalLinkHref).to.include(`subcategory=${editedGoalId}`);
     });
 });
