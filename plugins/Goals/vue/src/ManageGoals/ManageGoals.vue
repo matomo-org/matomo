@@ -52,7 +52,7 @@
                   <br/><br/>
                 </td>
               </tr>
-              <tr v-for="goal in goalList || []" :id="goal.idgoal" :key="goal.idgoal">
+              <tr v-for="goal in goalsList || []" :id="goal.idgoal" :key="goal.idgoal">
                 <td class="first">{{ goal.idgoal }}</td>
                 <td>{{ goal.name }}</td>
                 <td>{{ goal.description }}</td>
@@ -412,7 +412,7 @@ interface ManageGoalsState {
   submitText: string;
   goalToDelete: Goal|null;
   addEditTableComponent: boolean;
-  goalList: Record<string, Goal>;
+  goalsList: Record<string, Goal>;
 }
 
 function ambiguousBoolToInt(n: string|number|boolean): 1|0 {
@@ -454,7 +454,7 @@ export default defineComponent({
       submitText: '',
       goalToDelete: null,
       addEditTableComponent: false,
-      goalList: {},
+      goalsList: {},
     };
   },
   components: {
@@ -471,8 +471,8 @@ export default defineComponent({
   },
   created() {
     ManageGoalsStore.setIdGoalShown(this.showGoal);
-    this.goalList = this.goals;
-    console.log('in created, this is the list', this.goalList);
+    this.goalsList = this.goals;
+    console.log('in created, this is the list', this.goalsList);
   },
   unmounted() {
     ManageGoalsStore.setIdGoalShown(undefined);
@@ -580,7 +580,7 @@ export default defineComponent({
     },
     editGoal(goalId: string|number) {
       this.showAddEditForm();
-      const goal = this.goals[`${goalId}`] as Goal;
+      const goal = (this.goalsList[`${goalId}`] || this.goals[`${goalId}`]) as Goal;
       this.initGoalForm(
         'Goals.updateGoal',
         translate('Goals_UpdateGoal'),
@@ -598,7 +598,7 @@ export default defineComponent({
       this.scrollToTop();
     },
     deleteGoal(goalId: string|number) {
-      this.goalToDelete = this.goals[`${goalId}`];
+      this.goalToDelete = this.goalsList[`${goalId}`] || this.goals[`${goalId}`];
       Matomo.helper.modalConfirm((this.$refs.confirm as HTMLElement), {
         yes: () => {
           this.isLoading = true;
@@ -696,7 +696,6 @@ export default defineComponent({
         } else {
           await this.loadGoals();
           this.showListOfReports();
-          this.isLoading = false;
         }
       }).catch(() => {
         this.scrollToTop();
@@ -733,7 +732,7 @@ export default defineComponent({
       }).then((response) => {
         const initial: Record<string, Goal> = {};
         const goals = response as Goal[];
-        this.goalList = goals.reduce<Record<string, Goal>>((acc, goal) => {
+        this.goalsList = goals.reduce<Record<string, Goal>>((acc, goal) => {
           acc[goal.idgoal] = goal;
           return acc;
         }, initial);
