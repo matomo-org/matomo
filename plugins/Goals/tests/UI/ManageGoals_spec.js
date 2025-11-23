@@ -15,7 +15,6 @@ describe("ManageGoals", function () {
     async function openManageGoalsPage() {
         await page.goto(manageGoalsUrl);
         await page.waitForNetworkIdle();
-        await page.waitForSelector('#add-goal');
     }
 
     async function fillField(selector, value) {
@@ -27,20 +26,33 @@ describe("ManageGoals", function () {
         await page.type(selector, value);
     }
 
-    it("should allow creating a new goal", async function () {
+    it("should show correct notification when creating a new goal", async function () {
         await openManageGoalsPage();
-
+        await page.waitForSelector('#add-goal');
         await page.click('#add-goal');
         await page.waitForSelector('.addEditGoal', { visible: true });
-        //
+
         const goalName = 'My name';
         await fillField('#goal_name', goalName);
         await fillField('#pattern', '/thank-you');
-        //
+
         const saveButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
         await saveButton.click();
 
         await page.waitForNetworkIdle();
-        expect(await page.screenshot()).to.matchImage('goals_by_pages');
+        expect(await page.screenshot()).to.matchImage('goals_created');
+        await page.waitForNetworkIdle();
+    });
+    it("should show the correct notification when editing the goal", async function () {
+      const goalEditButtonSelector = 'table.entityTable tbody tr:nth-last-child(1) button.icon-edit';
+      await page.click(goalEditButtonSelector);
+
+      const updatedGoalName = 'My edited name';
+      await fillField('#goal_name', updatedGoalName);
+
+      const updateButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
+      await updateButton.click();
+      await page.waitForNetworkIdle();
+      expect(await page.screenshot()).to.matchImage('goals_updated');
     });
 });
