@@ -472,14 +472,11 @@ export default defineComponent({
   created() {
     ManageGoalsStore.setIdGoalShown(this.showGoal);
     this.goalsList = this.goals;
-    console.log('in created, this is the list', this.goalsList);
   },
   unmounted() {
     ManageGoalsStore.setIdGoalShown(undefined);
   },
   mounted() {
-    console.log('Manage Goals was mounted');
-    console.log('amo ni akon mga ubra', this.showAddGoal, this.showGoal);
     if (this.showAddGoal) {
       this.createGoal();
     } else if (this.showGoal) {
@@ -694,6 +691,7 @@ export default defineComponent({
           });
           this.isLoading = false;
         } else {
+          // We now will just load the goals via ajax instead of reloading
           await this.loadGoals();
           this.showListOfReports();
         }
