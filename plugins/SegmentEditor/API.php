@@ -354,9 +354,10 @@ class API extends \Piwik\Plugin\API
      * Stars a stored segment.
      *
      * @param int $idSegment
+     * @return array{result: boolean, starred_by: string}
      * @throws Exception if the user is not logged in or does not have the required permissions.
      */
-    public function star(int $idSegment): ?array
+    public function star(int $idSegment): array
     {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
@@ -378,9 +379,10 @@ class API extends \Piwik\Plugin\API
      * Unstars a stored segment.
      *
      * @param int $idSegment
+     * @return array{result: boolean}
      * @throws Exception if the user is not logged in or does not have the required permissions.
      */
-    public function unstar(int $idSegment): ?array
+    public function unstar(int $idSegment): array
     {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);

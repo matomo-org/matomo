@@ -149,7 +149,7 @@ class SegmentEditorTest extends IntegrationTestCase
         $this->clearReArchiveList();
 
         $updatedSegment = array(
-            'idsegment' => '' . $idSegment2,
+            'idsegment' => (string) $idSegment2,
             'name' =>   'NEW name',
             'definition' =>  'searches==0',
             'hash' => md5('searches==0'),
