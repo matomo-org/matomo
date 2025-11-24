@@ -39,10 +39,7 @@ Segmentation = (function($) {
 
         self.editorTemplate = self.editorTemplate.detach();
 
-        self.timer = ""; // variable for further use in timing events
-        self.searchAllowed = true;
         self.filterTimer = "";
-        self.filterAllowed = true;
 
         self.availableMatches = [];
         self.availableMatches["metric"] = [];
@@ -372,25 +369,25 @@ Segmentation = (function($) {
         var filterSegmentList = function (keyword) {
             var curTitle;
             clearFilterSegmentList();
-            $(self.target).find(" .filterNoResults").remove();
+            $(self.target).find(".filterNoResults").remove();
 
             $(self.target).find(".segmentList li").each(function () {
-                curTitle = $(this).prop('title');
+                curTitle = $(this).find('.segname').prop('title');
                 $(this).hide();
                 if (curTitle.toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
                     $(this).show();
                 }
             });
 
-            if ($(self.target).find(".segmentList li:visible").length == 0) {
+            if ($(self.target).find(".segmentList li:visible").length === 0) {
                 $(self.target).find(".segmentList li:first")
                     .before("<li class=\"filterNoResults grayed\">" + self.translations['General_SearchNoResults'] + "</li>");
             }
 
-            if ($(self.target).find(".segmentList .segmentsVisibleToSuperUser li:visible").length == 0) {
+            if ($(self.target).find(".segmentList .segmentsVisibleToSuperUser li:visible").length === 0) {
                 $(self.target).find(".segmentList .segmentsVisibleToSuperUser").hide();
             }
-            if ($(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser li:visible").length == 0) {
+            if ($(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser li:visible").length === 0) {
                 $(self.target).find(".segmentList .segmentsSharedWithMeBySuperUser").hide();
             }
         };
@@ -521,20 +518,18 @@ Segmentation = (function($) {
 
             self.target.on('keyup', ".segmentFilter", function (e) {
                 var search = $(e.currentTarget).val();
-                if (search == self.translations['General_Search']) {
+                if (search === self.translations['General_Search']) {
                     search = "";
                 }
 
+                clearTimeout(self.filterTimer);
+                self.filterTimer = false;
                 if (search.length >= 2) {
-                    clearTimeout(self.filterTimer);
-                    self.filterAllowed = true;
                     self.filterTimer = setTimeout(function () {
                         filterSegmentList(search);
                     }, 500);
-                }
-                else {
-                    self.filterTimer = false;
-                    clearFilterSegmentList();
+                } else {
+                    self.filterTimer = setTimeout(clearFilterSegmentList, 500);
                 }
             });
 
@@ -787,10 +782,9 @@ Segmentation = (function($) {
             };
 
             // determine if save or update should be performed
-            if(segmentId === ""){
+            if (segmentId === "") {
                 self.addMethod(params);
-            }
-            else{
+            } else {
                 jQuery.extend(params, {
                     "idSegment": segmentId
                 });
@@ -921,7 +915,7 @@ Segmentation = (function($) {
 
             var html = getListHtml();
 
-            if(typeof self.content !== "undefined"){
+            if (typeof self.content !== "undefined") {
                 this.content.html($(html).html());
             } else {
                 this.target.append(html);
