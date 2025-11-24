@@ -786,12 +786,13 @@ const {
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
 function getReportingMenuStore() {
-  const coreHome = window.CoreHome;
-  return coreHome === null || coreHome === void 0 ? void 0 : coreHome.ReportingMenuStore;
+  return window.CoreHome.ReportingMenuStore;
 }
 function getComparisonsStore() {
-  const coreHome = window.CoreHome;
-  return coreHome === null || coreHome === void 0 ? void 0 : coreHome.ComparisonsStoreInstance;
+  // const coreHome = (window as unknown as
+  //   { CoreHome?: { ComparisonsStoreInstance?: ComparisonsStoreLike } }).CoreHome;
+  // return coreHome?.ComparisonsStoreInstance;
+  return window.CoreHome.ComparisonsStoreInstance;
 }
 function getActiveSegmentLabel(segment) {
   var _segmentationTitle$te;

@@ -6,7 +6,6 @@
  */
 
 import Periods from '../Periods/Periods';
-import type { ReportingMenuStore } from '../ReportingMenu/ReportingMenu.store';
 import { translate } from '../translate';
 
 let originalTitle: string;
@@ -14,21 +13,20 @@ let originalTitle: string;
 const { piwik, broadcast, piwikHelper } = window;
 
 type ComparisonsStoreLike = {
-  getSegmentComparisons: () => Array<{ params: { segment: string }, title: string }>;
+  getSegmentComparisons: () => Array<{params: { segment: string }, title: string, index: number}>;
 };
 
 piwik.helper = piwikHelper;
 piwik.broadcast = broadcast;
 function getReportingMenuStore() {
-  const coreHome = (window as unknown as
-    { CoreHome?: { ReportingMenuStore?: ReportingMenuStore } }).CoreHome;
-  return coreHome?.ReportingMenuStore;
+  return window.CoreHome.ReportingMenuStore;
 }
 
-function getComparisonsStore() {
-  const coreHome = (window as unknown as
-    { CoreHome?: { ComparisonsStoreInstance?: ComparisonsStoreLike } }).CoreHome;
-  return coreHome?.ComparisonsStoreInstance;
+function getComparisonsStore(): ComparisonsStoreLike|undefined {
+  // const coreHome = (window as unknown as
+  //   { CoreHome?: { ComparisonsStoreInstance?: ComparisonsStoreLike } }).CoreHome;
+  // return coreHome?.ComparisonsStoreInstance;
+  return window.CoreHome.ComparisonsStoreInstance;
 }
 
 function getActiveSegmentLabel(segment?: string): string|undefined {
