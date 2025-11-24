@@ -852,7 +852,7 @@ piwik.updateTitle = function updateTitle(date, period, c, s, segment) {
     const titlePath = [categoryName, subcategoryName].filter(label => !!label).filter((label, index, array) => array.indexOf(label) === index).map(label => Matomo_piwikHelper.htmlEntities(label));
     const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
     const segmentLabel = getActiveSegmentLabel(segment);
-    const segmentString = segmentLabel ? ` (${translate('General_Segment')}: ${Matomo_piwikHelper.htmlEntities(segmentLabel)})` : '';
+    const segmentString = segmentLabel ? ` - ${Matomo_piwikHelper.htmlEntities(segmentLabel)}` : '';
     document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(piwik.siteName.length)}`;
   }
 };

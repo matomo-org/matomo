@@ -110,9 +110,7 @@ piwik.updateTitle = function updateTitle(
       .map((label) => piwikHelper.htmlEntities(label));
     const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
     const segmentLabel = getActiveSegmentLabel(segment);
-    const segmentString = segmentLabel
-      ? ` (${translate('General_Segment')}: ${piwikHelper.htmlEntities(segmentLabel)})`
-      : '';
+    const segmentString = segmentLabel ? ` - ${piwikHelper.htmlEntities(segmentLabel)}` : '';
     document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(
       piwik.siteName.length,
     )}`;

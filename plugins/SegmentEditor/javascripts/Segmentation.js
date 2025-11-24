@@ -142,6 +142,7 @@ Segmentation = (function($) {
                 segmentationTitle.text(title);
                 this.setTooltip(title);
             }
+            piwik.updatePeriodParamsFromUrl();
         };
 
         function handleAddNewSegment() {
