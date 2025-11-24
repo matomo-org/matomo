@@ -23,9 +23,6 @@ function getReportingMenuStore() {
 }
 
 function getComparisonsStore(): ComparisonsStoreLike|undefined {
-  // const coreHome = (window as unknown as
-  //   { CoreHome?: { ComparisonsStoreInstance?: ComparisonsStoreLike } }).CoreHome;
-  // return coreHome?.ComparisonsStoreInstance;
   return window.CoreHome.ComparisonsStoreInstance;
 }
 
@@ -71,9 +68,9 @@ piwik.updateDateInTitle = function updateDateInTitle(date: string, period: strin
 
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
-  if (originalTitle.indexOf(piwik.siteName) === 0) {
+  if (originalTitle.indexOf(piwik.currentSiteName) === 0) {
     const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${piwik.siteName}${dateString}${originalTitle.slice(piwik.siteName.length)}`;
+    document.title = `${piwik.currentSiteName}${dateString}${originalTitle.slice(piwik.currentSiteName.length)}`;
   }
 };
 
@@ -99,7 +96,7 @@ piwik.updateTitle = function updateTitle(
 
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
-  if (originalTitle.indexOf(piwik.siteName) === 0) {
+  if (originalTitle.indexOf(piwik.currentSiteName) === 0) {
     const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
     // Try to get the correct title by combining the category and subcategory names
     const titlePath = [categoryName, subcategoryName]
@@ -109,8 +106,8 @@ piwik.updateTitle = function updateTitle(
     const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
     const segmentLabel = getActiveSegmentLabel(segment);
     const segmentString = segmentLabel ? ` - ${piwikHelper.htmlEntities(segmentLabel)}` : '';
-    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(
-      piwik.siteName.length,
+    document.title = `${piwik.currentSiteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(
+      piwik.currentSiteName.length,
     )}`;
   }
 };
