@@ -2635,6 +2635,9 @@ function expand(element, binding, event) {
 }
 function ExpandOnClick_close(element, binding, event) {
   var _binding$value2;
+  if (!element.classList.contains('expanded')) {
+    return;
+  }
   element.classList.remove('expanded');
   if ((_binding$value2 = binding.value) !== null && _binding$value2 !== void 0 && _binding$value2.onClosed) {
     binding.value.onClosed(event);

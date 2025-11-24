@@ -48,6 +48,9 @@ function close(
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: MouseEvent|KeyboardEvent,
 ) {
+  if (!element.classList.contains('expanded')) {
+    return;
+  }
   element.classList.remove('expanded');
 
   if (binding.value?.onClosed) {
