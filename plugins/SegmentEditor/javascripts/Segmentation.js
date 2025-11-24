@@ -142,7 +142,7 @@ Segmentation = (function($) {
                 segmentationTitle.text(title);
                 this.setTooltip(title);
             }
-            piwik.updatePeriodParamsFromUrl();
+            window.CoreHome.MatomoUrl.updatePageTitle();
         };
 
         function handleAddNewSegment() {
