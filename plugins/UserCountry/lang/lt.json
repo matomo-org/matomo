@@ -6,11 +6,8 @@
         "Continents": "Kontinentai",
         "Country": "Šalis",
         "CountryCode": "Šalies kodas",
-        "country_a1": "Anoniminis įgaliotasis serveris",
-        "country_a2": "Palydovinis tiekėjas",
-        "country_cat": "Kataloniškai kalbančios bendruomenės",
-        "country_o1": "Kita šalis",
         "DistinctCountries": "%s atskirti šalis",
+        "Geolocation": "Geografinė vietovė",
         "GeolocationPageDesc": "Šiame puslapyje galite keisti kaip Matomo nustato lankytojų geografines vietas.",
         "Latitude": "Platuma",
         "Latitudes": "Platumos",
@@ -18,6 +15,10 @@
         "Longitude": "Ilguma",
         "Longitudes": "Ilgumos",
         "Region": "Regionas",
-        "SubmenuLocations": "Vietovės"
+        "SubmenuLocations": "Vietovės",
+        "country_a1": "Anoniminis įgaliotasis serveris",
+        "country_a2": "Palydovinis tiekėjas",
+        "country_cat": "Kataloniškai kalbančios bendruomenės",
+        "country_o1": "Kita šalis"
     }
 }

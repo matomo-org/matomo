@@ -1,5 +1,6 @@
 {
     "Login": {
+        "ChangeYourPassword": "Keisti slaptažodį",
         "CurrentlyBlockedIPs": "Šiuo metu užblokuoti IP adresai",
         "CurrentlyBlockedIPsUnblockConfirm": "Ar tikrai norite atblokuoti visus šiuo metu užblokuotus IP adresus?",
         "IPsAlwaysBlocked": "Šie IP adresai yra visuomet užblokuoti",
