@@ -434,10 +434,6 @@ Segmentation = (function($) {
                 comparisonService.addSegmentComparison({
                     segment: $(e.target).closest('li').data('definition'),
                 });
-
-                setTimeout(function () {
-                  self.markComparedSegments();
-                });
                 closeAllOpenLists();
             });
 
