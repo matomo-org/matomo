@@ -185,10 +185,13 @@ Segmentation = (function($) {
                 + ' ' + self.translations['General_DefaultAppended']
                 + '</span>';
             var comparisonService = window.CoreHome.ComparisonsStoreInstance;
-            if (comparisonService.isComparisonEnabled()
-                || comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
+            if (
+                comparisonService.isComparisonEnabled() ||
+                comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
             ) {
-                listHtml += '<span class="compareSegment allVisitsCompareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></span>';
+                const className = 'compareSegment allVisitsCompareSegment ' + (self.segmentAccess === 'write' ? 'allVisitsCompareSegment--write' : '');
+                const title = _pk_translate('SegmentEditor_CompareThisSegment');
+                listHtml += '<span class="' + className + '" title="' + title + '"></span>';
             }
             listHtml += '</li>';
 
