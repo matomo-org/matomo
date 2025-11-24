@@ -167,18 +167,24 @@ class MatomoUrl {
       .replace(/\+/g, '%20');
   }
 
+  getMenuPathSuffix(): { c: string; s: string } {
+    const category = this.hashParsed.value.category as string;
+    const subcategory = this.hashParsed.value.subcategory as string;
+    return { c: category, s: subcategory };
+  }
+
   updatePeriodParamsFromUrl(): void {
-    let date = this.getSearchParam('date');
-    const period = this.getSearchParam('period');
+    let date = this.getSearchParam('date') || '';
+    const period = this.getSearchParam('period') || '';
     if (!isValidPeriod(period, date)) {
       // invalid data in URL
       return;
     }
 
-    if (piwik.period === period && piwik.currentDateString === date) {
-      // this period / date is already loaded
-      return;
-    }
+    // if (piwik.period === period && piwik.currentDateString === date) {
+    //   // this period / date is already loaded
+    //   return;
+    // }
 
     piwik.period = period;
 
@@ -186,8 +192,10 @@ class MatomoUrl {
     piwik.startDateString = format(dateRange[0]);
     piwik.endDateString = format(dateRange[1]);
 
-    piwik.updateDateInTitle(date, period);
-
+    const { c, s } = this.getMenuPathSuffix();
+    console.log('i got values for menu suffix: ', c, s, date, period);
+    piwik.updateTitle(date, period, c, s);
+    // this.getMenuPathSuffix();
     // do not set anything to previousN/lastN, as it's more useful to plugins
     // to have the dates than previousN/lastN.
     if (piwik.period === 'range') {

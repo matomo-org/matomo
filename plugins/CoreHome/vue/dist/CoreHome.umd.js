@@ -784,15 +784,43 @@ const {
 } = window;
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
+function getReportingMenuStore() {
+  const coreHome = window.CoreHome;
+  return coreHome === null || coreHome === void 0 ? void 0 : coreHome.ReportingMenuStore;
+}
 piwik.updateDateInTitle = function updateDateInTitle(date, period) {
-  if (!$('.top_controls #periodString').length) {
-    return;
-  }
+  // if (!$('.top_controls #periodString').length) {
+  //   return;
+  // }
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
   if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
     document.title = `${piwik.siteName}${dateString}${originalTitle.slice(piwik.siteName.length)}`;
+  }
+};
+piwik.updateTitle = function updateTitle(date, period, c, s) {
+  // if (!$('.top_controls #periodString').length) {
+  //   return;
+  // }
+  let categoryName;
+  let subcategoryName;
+  let subsubcategoryName;
+  const store = getReportingMenuStore();
+  if (store && c && s) {
+    var _found$category, _found$subcategory, _found$subsubcategory;
+    const found = store.findSubcategory(c, s);
+    categoryName = found === null || found === void 0 || (_found$category = found.category) === null || _found$category === void 0 ? void 0 : _found$category.name;
+    subcategoryName = found === null || found === void 0 || (_found$subcategory = found.subcategory) === null || _found$subcategory === void 0 ? void 0 : _found$subcategory.name;
+    subsubcategoryName = found === null || found === void 0 || (_found$subsubcategory = found.subsubcategory) === null || _found$subsubcategory === void 0 ? void 0 : _found$subsubcategory.name;
+  }
+  // Cache server-rendered page title
+  originalTitle = originalTitle || document.title;
+  if (originalTitle.indexOf(piwik.siteName) === 0) {
+    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
+    const titlePath = [categoryName, subcategoryName, subsubcategoryName].filter((label, index, array) => !!label && (index === 0 || label !== array[index - 1])).map(label => Matomo_piwikHelper.htmlEntities(label));
+    const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
+    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${originalTitle.slice(piwik.siteName.length)}`;
   }
 };
 piwik.hasUserCapability = function hasUserCapability(capability) {
@@ -945,22 +973,36 @@ class MatomoUrl_MatomoUrl {
     // decode it correctly, so we make sure to use %20 instead
     .replace(/\+/g, '%20');
   }
+  getMenuPathSuffix() {
+    const category = this.hashParsed.value.category;
+    const subcategory = this.hashParsed.value.subcategory;
+    return {
+      c: category,
+      s: subcategory
+    };
+  }
   updatePeriodParamsFromUrl() {
-    let date = this.getSearchParam('date');
-    const period = this.getSearchParam('period');
+    let date = this.getSearchParam('date') || '';
+    const period = this.getSearchParam('period') || '';
     if (!isValidPeriod(period, date)) {
       // invalid data in URL
       return;
     }
-    if (MatomoUrl_piwik.period === period && MatomoUrl_piwik.currentDateString === date) {
-      // this period / date is already loaded
-      return;
-    }
+    // if (piwik.period === period && piwik.currentDateString === date) {
+    //   // this period / date is already loaded
+    //   return;
+    // }
     MatomoUrl_piwik.period = period;
     const dateRange = Periods_Periods.parse(period, date).getDateRange();
     MatomoUrl_piwik.startDateString = format(dateRange[0]);
     MatomoUrl_piwik.endDateString = format(dateRange[1]);
-    MatomoUrl_piwik.updateDateInTitle(date, period);
+    const {
+      c,
+      s
+    } = this.getMenuPathSuffix();
+    console.log('i got values for menu suffix: ', c, s, date, period);
+    MatomoUrl_piwik.updateTitle(date, period, c, s);
+    // this.getMenuPathSuffix();
     // do not set anything to previousN/lastN, as it's more useful to plugins
     // to have the dates than previousN/lastN.
     if (MatomoUrl_piwik.period === 'range') {
