@@ -800,25 +800,24 @@ piwik.updateDateInTitle = function updateDateInTitle(date, period) {
   }
 };
 piwik.updateTitle = function updateTitle(date, period, c, s) {
-  // if (!$('.top_controls #periodString').length) {
-  //   return;
-  // }
+  if (!$('.top_controls #periodString').length) {
+    return;
+  }
   let categoryName;
   let subcategoryName;
-  let subsubcategoryName;
   const store = getReportingMenuStore();
   if (store && c && s) {
-    var _found$category, _found$subcategory, _found$subsubcategory;
+    var _found$category, _found$subcategory;
     const found = store.findSubcategory(c, s);
     categoryName = found === null || found === void 0 || (_found$category = found.category) === null || _found$category === void 0 ? void 0 : _found$category.name;
     subcategoryName = found === null || found === void 0 || (_found$subcategory = found.subcategory) === null || _found$subcategory === void 0 ? void 0 : _found$subcategory.name;
-    subsubcategoryName = found === null || found === void 0 || (_found$subsubcategory = found.subsubcategory) === null || _found$subsubcategory === void 0 ? void 0 : _found$subsubcategory.name;
   }
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
   if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-    const titlePath = [categoryName, subcategoryName, subsubcategoryName].filter((label, index, array) => !!label && (index === 0 || label !== array[index - 1])).map(label => Matomo_piwikHelper.htmlEntities(label));
+    // Try to get the correct title by combining the category and subcategory names
+    const titlePath = [categoryName, subcategoryName].filter((label, index, array) => !!label && (index === 0 || label !== array[index - 1])).map(label => Matomo_piwikHelper.htmlEntities(label));
     const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
     document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${originalTitle.slice(piwik.siteName.length)}`;
   }

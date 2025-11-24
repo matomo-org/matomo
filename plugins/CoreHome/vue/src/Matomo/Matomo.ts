@@ -34,26 +34,25 @@ piwik.updateDateInTitle = function updateDateInTitle(date: string, period: strin
 };
 
 piwik.updateTitle = function updateTitle(date: string, period: string, c: string, s: string) {
-  // if (!$('.top_controls #periodString').length) {
-  //   return;
-  // }
+  if (!$('.top_controls #periodString').length) {
+    return;
+  }
   let categoryName: string|undefined;
   let subcategoryName: string|undefined;
-  let subsubcategoryName: string|undefined;
 
   const store = getReportingMenuStore();
   if (store && c && s) {
     const found = store.findSubcategory(c, s);
     categoryName = found?.category?.name;
     subcategoryName = found?.subcategory?.name;
-    subsubcategoryName = found?.subsubcategory?.name;
   }
 
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
   if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
-    const titlePath = [categoryName, subcategoryName, subsubcategoryName]
+    // Try to get the correct title by combining the category and subcategory names
+    const titlePath = [categoryName, subcategoryName]
       .filter((label, index, array): label is string => !!label
         && (index === 0 || label !== array[index - 1]))
       .map((label) => piwikHelper.htmlEntities(label));
