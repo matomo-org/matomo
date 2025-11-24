@@ -135,11 +135,16 @@ body#standalone {
   top: 0 !important;
   left: 0 !important;
   margin: auto;
-  width: min-content;
+  width: 100%;
   max-width: 100%;
   height: min-content !important;
 
   pointer-events: auto;
+
+  @media (min-width: 570px) {
+    width: min-content;
+    min-width: 540px;
+  }
 }
 
 .menu {

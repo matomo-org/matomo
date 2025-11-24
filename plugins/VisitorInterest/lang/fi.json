@@ -16,7 +16,7 @@
         "WidgetLengthsDocumentation": "Tässä raportissa näet, kuinka moni käynti kesti tietyn ajan. Aluksi tämä raportti on tagipilvenä. Yleisimmät kestot näytetään isommalla fontilla.",
         "WidgetPages": "Sivuja / käynti",
         "WidgetPagesDocumentation": "Tässä raportissa näet, kuinka monella käynnillä oli tietty määrä sivunlatauksia. Aluksi tämä raportti on tagipilvenä. Yleisimmät sivumäärät näytetään isommalla fontilla.",
-        "WidgetVisitsByDaysSinceLast": "Päiviä edellisestä käynnistä",
+        "WidgetVisitsByDaysSinceLast": "Käynnit lajiteltuna aikavälillä edelliseen käyntiin",
         "WidgetVisitsByDaysSinceLastDocumentation": "Tässä raportissa näet, kuinka monen kävijän edellisestä käynnistä on valittu määrä päiviä.",
         "WidgetVisitsByNumDocumentation": "Tässä raportissa näet N:n kerran sivuilla olevien käyntien määrän, ts. vierailijat, jotka ovat käyneet sivuillasi vähintään N kertaa.",
         "visitsByVisitCount": "Käynnit käyntinumeron mukaan"

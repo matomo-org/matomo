@@ -1,1 +1,35 @@
-{}
+{
+    "AIAgents": {
+        "AIAgentName": "KI-Agentenname",
+        "AIAgentVisits": "KI-Agentenbesuche",
+        "AIAgentVisitsDocumentation": "Dies ist eine Übersicht über KI-Agenten-Besuche. Der Datenverkehr von KI-Agenten beinhaltet nur Besuche, bei denen ein KI Ihre Seite in einem echten Browser öffnet und sich wie ein menschlicher Besucher verhält. Es beinhaltet nicht Hintergrundanfragen von ChatGPT oder anderen KI-Tools, die Ihre Seiten abrufen, ohne einen Browser zu verwenden.",
+        "AIAssistants": "KI-Assistenten",
+        "ColumnAIAgentActions": "Aktionen von KI-Agentenbesuchen",
+        "ColumnAIAgentAverageVisitDuration": "Durchschnittliche Dauer eines KI-Agenten Besuchs (in Sekunden)",
+        "ColumnAIAgentAvgActionsPerVisit": "Durchschnittliche Aktionen pro KI-Agenten-Besuch",
+        "ColumnAIAgentBounceRate": "Absprungquote für KI-Agentenbesuche",
+        "ColumnAIAgentMaxActions": "Maximale Aktionen beim Besuch eines KI-Agenten",
+        "ColumnAIAgentUniqueVisitors": "Einzigartige KI-Agenten Besucher",
+        "ColumnAIAgentVisits": "KI-Agentenbesuche",
+        "ColumnHumanActions": "Aktionen durch menschliche Besuche",
+        "ColumnHumanAverageVisitDuration": "Durchschnittliche Dauer eines menschlichen Besuchs (in Sek.)",
+        "ColumnHumanAvgActionsPerVisit": "Durchschnittliche Aktionen pro menschlichem Besuch",
+        "ColumnHumanBounceRate": "Absprungquote für menschliche Besuche",
+        "ColumnHumanMaxActions": "Maximale Aktionen in einem einzigen menschlichen Besuch",
+        "ColumnHumanUniqueVisitors": "Einzigartige menschliche Besucher",
+        "ColumnHumanUsers": "Menschliche Benutzer",
+        "ColumnHumanVisits": "Menschliche Besuche",
+        "PluginDescription": "Berichte über die Aktivität von KI-Agenten.",
+        "SparklineAIAgentActions": "Aktionen von KI-Agentenbesuchen",
+        "SparklineAIAgentAverageVisitDuration": "durchschnittliche Besuchsdauer für KI-Agent Besucher",
+        "SparklineAIAgentAvgActionsPerVisit": "Aktionen pro KI-Agentenbesuch",
+        "SparklineAIAgentVisits": "KI-Agentenbesuche",
+        "SparklineHumanActions": "Aktionen durch menschliche Besuche",
+        "SparklineHumanAverageVisitDuration": "durchschnittliche Besuchsdauer für menschliche Besucher",
+        "SparklineHumanAvgActionsPerVisit": "Aktionen pro menschlichem Besuch",
+        "SparklineHumanBounceRate": "Menschliche Besucher sind abgesprungen (haben die Webseite nach einer Seite verlassen)",
+        "SparklineHumanVisits": "Menschliche Besuche",
+        "WidgetGraphAIAgents": "KI-Agenten im Laufe der Zeit",
+        "WidgetOverviewAIAgents": "Übersicht über KI-Agenten"
+    }
+}
