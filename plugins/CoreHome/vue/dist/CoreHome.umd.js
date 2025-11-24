@@ -932,8 +932,10 @@ class MatomoUrl_MatomoUrl {
     window.addEventListener('hashchange', event => {
       this.url.value = new URL(event.newURL);
       this.updatePeriodParamsFromUrl();
+      this.updatePageTitle();
     });
     this.updatePeriodParamsFromUrl();
+    this.updatePageTitle();
   }
   updateHashToUrl(urlWithoutLeadingHash) {
     const wholeHash = `#${urlWithoutLeadingHash}`;
@@ -1014,21 +1016,17 @@ class MatomoUrl_MatomoUrl {
       s: subcategory
     };
   }
-  updatePeriodParamsFromUrl() {
-    let date = this.getSearchParam('date') || '';
-    const period = this.getSearchParam('period') || '';
-    if (!isValidPeriod(period, date)) {
-      // invalid data in URL
-      return;
-    }
-    // if (piwik.period === period && piwik.currentDateString === date) {
-    //   // this period / date is already loaded
-    //   return;
-    // }
-    MatomoUrl_piwik.period = period;
-    const dateRange = Periods_Periods.parse(period, date).getDateRange();
-    MatomoUrl_piwik.startDateString = format(dateRange[0]);
-    MatomoUrl_piwik.endDateString = format(dateRange[1]);
+  getDateAndPeriodFromUrl() {
+    return {
+      date: this.getSearchParam('date') || '',
+      period: this.getSearchParam('period') || ''
+    };
+  }
+  updatePageTitle() {
+    const {
+      period,
+      date
+    } = this.getDateAndPeriodFromUrl();
     const {
       c,
       s
@@ -1036,7 +1034,25 @@ class MatomoUrl_MatomoUrl {
     const segment = this.getSearchParam('segment') || '';
     console.log('i got values for menu suffix: ', c, s, date, period);
     MatomoUrl_piwik.updateTitle(date, period, c, s, segment);
-    // this.getMenuPathSuffix();
+  }
+  updatePeriodParamsFromUrl() {
+    const {
+      period,
+      date: initialDate
+    } = this.getDateAndPeriodFromUrl();
+    let date = initialDate;
+    if (!isValidPeriod(period, date)) {
+      // invalid data in URL
+      return;
+    }
+    if (MatomoUrl_piwik.period === period && MatomoUrl_piwik.currentDateString === date) {
+      // this period / date is already loaded
+      return;
+    }
+    MatomoUrl_piwik.period = period;
+    const dateRange = Periods_Periods.parse(period, date).getDateRange();
+    MatomoUrl_piwik.startDateString = format(dateRange[0]);
+    MatomoUrl_piwik.endDateString = format(dateRange[1]);
     // do not set anything to previousN/lastN, as it's more useful to plugins
     // to have the dates than previousN/lastN.
     if (MatomoUrl_piwik.period === 'range') {

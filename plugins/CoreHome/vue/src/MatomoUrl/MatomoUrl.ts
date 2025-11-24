@@ -56,9 +56,11 @@ class MatomoUrl {
     window.addEventListener('hashchange', (event) => {
       this.url.value = new URL(event.newURL);
       this.updatePeriodParamsFromUrl();
+      this.updatePageTitle();
     });
 
     this.updatePeriodParamsFromUrl();
+    this.updatePageTitle();
   }
 
   updateHashToUrl(urlWithoutLeadingHash: string) {
@@ -173,30 +175,39 @@ class MatomoUrl {
     return { c: category, s: subcategory };
   }
 
+  getDateAndPeriodFromUrl(): { date: string; period: string } {
+    return {
+      date: this.getSearchParam('date') || '',
+      period: this.getSearchParam('period') || '',
+    };
+  }
+
+  updatePageTitle() {
+    const { period, date } = this.getDateAndPeriodFromUrl();
+    const { c, s } = this.getMenuPathSuffix();
+    const segment = this.getSearchParam('segment') || '';
+    console.log('i got values for menu suffix: ', c, s, date, period);
+    piwik.updateTitle(date, period, c, s, segment);
+  }
+
   updatePeriodParamsFromUrl(): void {
-    let date = this.getSearchParam('date') || '';
-    const period = this.getSearchParam('period') || '';
+    const { period, date: initialDate } = this.getDateAndPeriodFromUrl();
+    let date = initialDate;
     if (!isValidPeriod(period, date)) {
       // invalid data in URL
       return;
     }
 
-    // if (piwik.period === period && piwik.currentDateString === date) {
-    //   // this period / date is already loaded
-    //   return;
-    // }
+    if (piwik.period === period && piwik.currentDateString === date) {
+      // this period / date is already loaded
+      return;
+    }
 
     piwik.period = period;
 
     const dateRange = Periods.parse(period, date).getDateRange();
     piwik.startDateString = format(dateRange[0]);
     piwik.endDateString = format(dateRange[1]);
-
-    const { c, s } = this.getMenuPathSuffix();
-    const segment = this.getSearchParam('segment') || '';
-    console.log('i got values for menu suffix: ', c, s, date, period);
-    piwik.updateTitle(date, period, c, s, segment);
-    // this.getMenuPathSuffix();
     // do not set anything to previousN/lastN, as it's more useful to plugins
     // to have the dates than previousN/lastN.
     if (piwik.period === 'range') {
