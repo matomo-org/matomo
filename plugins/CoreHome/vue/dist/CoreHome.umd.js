@@ -786,10 +786,12 @@ const {
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
 function getReportingMenuStore() {
-  return window.CoreHome.ReportingMenuStore;
+  var _window$CoreHome;
+  return (_window$CoreHome = window.CoreHome) === null || _window$CoreHome === void 0 ? void 0 : _window$CoreHome.ReportingMenuStore;
 }
 function getComparisonsStore() {
-  return window.CoreHome.ComparisonsStoreInstance;
+  var _window$CoreHome2;
+  return (_window$CoreHome2 = window.CoreHome) === null || _window$CoreHome2 === void 0 ? void 0 : _window$CoreHome2.ComparisonsStoreInstance;
 }
 function getActiveSegmentLabel(segment) {
   var _segmentationTitle$te;
@@ -824,15 +826,12 @@ piwik.updateDateInTitle = function updateDateInTitle(date, period) {
   }
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
-  if (originalTitle.indexOf(piwik.currentSiteName) === 0) {
+  if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${piwik.currentSiteName}${dateString}${originalTitle.slice(piwik.currentSiteName.length)}`;
+    document.title = `${piwik.siteName}${dateString}${originalTitle.slice(piwik.siteName.length)}`;
   }
 };
 piwik.updateTitle = function updateTitle(date, period, c, s, segment) {
-  if (!$('.top_controls #periodString').length) {
-    return;
-  }
   let categoryName;
   let subcategoryName;
   const store = getReportingMenuStore();
@@ -844,14 +843,17 @@ piwik.updateTitle = function updateTitle(date, period, c, s, segment) {
   }
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
-  if (originalTitle.indexOf(piwik.currentSiteName) === 0) {
+  console.log('amo ni akon sitename', piwik.siteName);
+  console.log('isa pa ka check ', piwik.currentSiteName);
+  console.log('amo ni akon originalTitle', originalTitle);
+  if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
     // Try to get the correct title by combining the category and subcategory names
     const titlePath = [categoryName, subcategoryName].filter(label => !!label).filter((label, index, array) => array.indexOf(label) === index).map(label => Matomo_piwikHelper.htmlEntities(label));
     const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
     const segmentLabel = getActiveSegmentLabel(segment);
     const segmentString = segmentLabel ? ` - ${Matomo_piwikHelper.htmlEntities(segmentLabel)}` : '';
-    document.title = `${piwik.currentSiteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(piwik.currentSiteName.length)}`;
+    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(piwik.siteName.length)}`;
   }
 };
 piwik.hasUserCapability = function hasUserCapability(capability) {

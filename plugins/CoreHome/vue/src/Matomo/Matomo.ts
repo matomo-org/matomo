@@ -19,11 +19,11 @@ type ComparisonsStoreLike = {
 piwik.helper = piwikHelper;
 piwik.broadcast = broadcast;
 function getReportingMenuStore() {
-  return window.CoreHome.ReportingMenuStore;
+  return window.CoreHome?.ReportingMenuStore;
 }
 
 function getComparisonsStore(): ComparisonsStoreLike|undefined {
-  return window.CoreHome.ComparisonsStoreInstance;
+  return window.CoreHome?.ComparisonsStoreInstance;
 }
 
 function getActiveSegmentLabel(segment?: string): string|undefined {
@@ -68,9 +68,9 @@ piwik.updateDateInTitle = function updateDateInTitle(date: string, period: strin
 
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
-  if (originalTitle.indexOf(piwik.currentSiteName) === 0) {
+  if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${piwik.currentSiteName}${dateString}${originalTitle.slice(piwik.currentSiteName.length)}`;
+    document.title = `${piwik.siteName}${dateString}${originalTitle.slice(piwik.siteName.length)}`;
   }
 };
 
@@ -81,9 +81,6 @@ piwik.updateTitle = function updateTitle(
   s: string,
   segment?: string,
 ) {
-  if (!$('.top_controls #periodString').length) {
-    return;
-  }
   let categoryName: string|undefined;
   let subcategoryName: string|undefined;
 
@@ -96,7 +93,7 @@ piwik.updateTitle = function updateTitle(
 
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
-  if (originalTitle.indexOf(piwik.currentSiteName) === 0) {
+  if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
     // Try to get the correct title by combining the category and subcategory names
     const titlePath = [categoryName, subcategoryName]
@@ -106,8 +103,8 @@ piwik.updateTitle = function updateTitle(
     const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
     const segmentLabel = getActiveSegmentLabel(segment);
     const segmentString = segmentLabel ? ` - ${piwikHelper.htmlEntities(segmentLabel)}` : '';
-    document.title = `${piwik.currentSiteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(
-      piwik.currentSiteName.length,
+    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(
+      piwik.siteName.length,
     )}`;
   }
 };
