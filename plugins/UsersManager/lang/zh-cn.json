@@ -3,6 +3,7 @@
         "2FA": "二次认证",
         "Active": "活跃",
         "AddExistingUser": "添加现有用户",
+        "AddNewUser": "新增使用者",
         "AddSuperuserAccessConfirm": "授予用户超级用户访问权限将允许用户完全控制Matomo，因此应谨慎执行。 输入密码以继续。",
         "AddUserNoInitialAccessError": "必须授予新用户访问网站的权限，请设置“ initialIdSite”参数。",
         "AllUsersAreSelected": "所有%1$s个用户都被选中。",
