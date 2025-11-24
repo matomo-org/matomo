@@ -253,11 +253,6 @@ export default defineComponent({
           this.loadingFailedRateLimit = true;
         }
 
-        if (response.status === 401) {
-          Matomo.helper.refreshAfter(0);
-          return;
-        }
-
         this.loadingFailed = true;
       });
     },
