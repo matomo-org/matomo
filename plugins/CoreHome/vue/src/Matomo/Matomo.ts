@@ -7,10 +7,15 @@
 
 import Periods from '../Periods/Periods';
 import type { ReportingMenuStore } from '../ReportingMenu/ReportingMenu.store';
+import { translate } from '../translate';
 
 let originalTitle: string;
 
 const { piwik, broadcast, piwikHelper } = window;
+
+type ComparisonsStoreLike = {
+  getSegmentComparisons: () => Array<{ params: { segment: string }, title: string }>;
+};
 
 piwik.helper = piwikHelper;
 piwik.broadcast = broadcast;
@@ -20,10 +25,51 @@ function getReportingMenuStore() {
   return coreHome?.ReportingMenuStore;
 }
 
+function getComparisonsStore() {
+  const coreHome = (window as unknown as
+    { CoreHome?: { ComparisonsStoreInstance?: ComparisonsStoreLike } }).CoreHome;
+  return coreHome?.ComparisonsStoreInstance;
+}
+
+function getActiveSegmentLabel(segment?: string): string|undefined {
+  if (typeof segment !== 'string') {
+    return undefined;
+  }
+
+  const trimmedSegment = segment.trim();
+  const comparisonsStore = getComparisonsStore();
+
+  if (comparisonsStore) {
+    const comparisons = comparisonsStore.getSegmentComparisons();
+    if (!trimmedSegment && comparisons.length) {
+      return comparisons[0].title;
+    }
+
+    const found = comparisons.find(
+      (comparison) => comparison.params.segment === segment,
+    );
+    if (found) {
+      return found.title;
+    }
+  }
+
+  if (!trimmedSegment) {
+    return translate('SegmentEditor_DefaultAllVisits');
+  }
+
+  const segmentationTitle = document.querySelector('.segmentEditorPanel .segmentationTitle');
+  const fallbackName = segmentationTitle?.textContent?.trim();
+  if (fallbackName) {
+    return fallbackName;
+  }
+
+  return translate('SegmentEditor_CustomSegment');
+}
+
 piwik.updateDateInTitle = function updateDateInTitle(date: string, period: string) {
-  // if (!$('.top_controls #periodString').length) {
-  //   return;
-  // }
+  if (!$('.top_controls #periodString').length) {
+    return;
+  }
 
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
@@ -33,7 +79,13 @@ piwik.updateDateInTitle = function updateDateInTitle(date: string, period: strin
   }
 };
 
-piwik.updateTitle = function updateTitle(date: string, period: string, c: string, s: string) {
+piwik.updateTitle = function updateTitle(
+  date: string,
+  period: string,
+  c: string,
+  s: string,
+  segment?: string,
+) {
   if (!$('.top_controls #periodString').length) {
     return;
   }
@@ -53,11 +105,15 @@ piwik.updateTitle = function updateTitle(date: string, period: string, c: string
     const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
     // Try to get the correct title by combining the category and subcategory names
     const titlePath = [categoryName, subcategoryName]
-      .filter((label, index, array): label is string => !!label
-        && (index === 0 || label !== array[index - 1]))
+      .filter((label): label is string => !!label)
+      .filter((label, index, array) => array.indexOf(label) === index)
       .map((label) => piwikHelper.htmlEntities(label));
     const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
-    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${originalTitle.slice(
+    const segmentLabel = getActiveSegmentLabel(segment);
+    const segmentString = segmentLabel
+      ? ` (${translate('General_Segment')}: ${piwikHelper.htmlEntities(segmentLabel)})`
+      : '';
+    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(
       piwik.siteName.length,
     )}`;
   }

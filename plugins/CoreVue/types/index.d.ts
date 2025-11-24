@@ -178,7 +178,7 @@ declare global {
     visitorLogEnabled: boolean;
     updatePeriodParamsFromUrl(): void;
     updateDateInTitle(date: string, period: string): void;
-    updateTitle(date: string, period: string, c: string, s: string): void;
+    updateTitle(date: string, period: string, c: string, s: string, segment?: string): void;
     hasUserCapability(capability: string): boolean;
     getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;

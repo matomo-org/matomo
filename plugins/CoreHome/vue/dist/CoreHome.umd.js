@@ -776,6 +776,7 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+
 let originalTitle;
 const {
   piwik,
@@ -788,10 +789,41 @@ function getReportingMenuStore() {
   const coreHome = window.CoreHome;
   return coreHome === null || coreHome === void 0 ? void 0 : coreHome.ReportingMenuStore;
 }
+function getComparisonsStore() {
+  const coreHome = window.CoreHome;
+  return coreHome === null || coreHome === void 0 ? void 0 : coreHome.ComparisonsStoreInstance;
+}
+function getActiveSegmentLabel(segment) {
+  var _segmentationTitle$te;
+  if (typeof segment !== 'string') {
+    return undefined;
+  }
+  const trimmedSegment = segment.trim();
+  const comparisonsStore = getComparisonsStore();
+  if (comparisonsStore) {
+    const comparisons = comparisonsStore.getSegmentComparisons();
+    if (!trimmedSegment && comparisons.length) {
+      return comparisons[0].title;
+    }
+    const found = comparisons.find(comparison => comparison.params.segment === segment);
+    if (found) {
+      return found.title;
+    }
+  }
+  if (!trimmedSegment) {
+    return translate('SegmentEditor_DefaultAllVisits');
+  }
+  const segmentationTitle = document.querySelector('.segmentEditorPanel .segmentationTitle');
+  const fallbackName = segmentationTitle === null || segmentationTitle === void 0 || (_segmentationTitle$te = segmentationTitle.textContent) === null || _segmentationTitle$te === void 0 ? void 0 : _segmentationTitle$te.trim();
+  if (fallbackName) {
+    return fallbackName;
+  }
+  return translate('SegmentEditor_CustomSegment');
+}
 piwik.updateDateInTitle = function updateDateInTitle(date, period) {
-  // if (!$('.top_controls #periodString').length) {
-  //   return;
-  // }
+  if (!$('.top_controls #periodString').length) {
+    return;
+  }
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
   if (originalTitle.indexOf(piwik.siteName) === 0) {
@@ -799,7 +831,7 @@ piwik.updateDateInTitle = function updateDateInTitle(date, period) {
     document.title = `${piwik.siteName}${dateString}${originalTitle.slice(piwik.siteName.length)}`;
   }
 };
-piwik.updateTitle = function updateTitle(date, period, c, s) {
+piwik.updateTitle = function updateTitle(date, period, c, s, segment) {
   if (!$('.top_controls #periodString').length) {
     return;
   }
@@ -817,9 +849,11 @@ piwik.updateTitle = function updateTitle(date, period, c, s) {
   if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
     // Try to get the correct title by combining the category and subcategory names
-    const titlePath = [categoryName, subcategoryName].filter((label, index, array) => !!label && (index === 0 || label !== array[index - 1])).map(label => Matomo_piwikHelper.htmlEntities(label));
+    const titlePath = [categoryName, subcategoryName].filter(label => !!label).filter((label, index, array) => array.indexOf(label) === index).map(label => Matomo_piwikHelper.htmlEntities(label));
     const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
-    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${originalTitle.slice(piwik.siteName.length)}`;
+    const segmentLabel = getActiveSegmentLabel(segment);
+    const segmentString = segmentLabel ? ` (${translate('General_Segment')}: ${Matomo_piwikHelper.htmlEntities(segmentLabel)})` : '';
+    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(piwik.siteName.length)}`;
   }
 };
 piwik.hasUserCapability = function hasUserCapability(capability) {
@@ -999,8 +1033,9 @@ class MatomoUrl_MatomoUrl {
       c,
       s
     } = this.getMenuPathSuffix();
+    const segment = this.getSearchParam('segment') || '';
     console.log('i got values for menu suffix: ', c, s, date, period);
-    MatomoUrl_piwik.updateTitle(date, period, c, s);
+    MatomoUrl_piwik.updateTitle(date, period, c, s, segment);
     // this.getMenuPathSuffix();
     // do not set anything to previousN/lastN, as it's more useful to plugins
     // to have the dates than previousN/lastN.

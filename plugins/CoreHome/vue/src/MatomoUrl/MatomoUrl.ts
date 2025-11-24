@@ -193,8 +193,9 @@ class MatomoUrl {
     piwik.endDateString = format(dateRange[1]);
 
     const { c, s } = this.getMenuPathSuffix();
+    const segment = this.getSearchParam('segment') || '';
     console.log('i got values for menu suffix: ', c, s, date, period);
-    piwik.updateTitle(date, period, c, s);
+    piwik.updateTitle(date, period, c, s, segment);
     // this.getMenuPathSuffix();
     // do not set anything to previousN/lastN, as it's more useful to plugins
     // to have the dates than previousN/lastN.
