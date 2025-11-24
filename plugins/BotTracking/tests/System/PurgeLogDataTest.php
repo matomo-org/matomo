@@ -82,11 +82,6 @@ class PurgeLogDataTest extends SystemTestCase
 
     public function testDeleteDataSubjectsForDeletedSitesRemovesBotRequests(): void
     {
-        // track a normal visit that gets removed, otherwise bot requests won't be removed
-        $t = Fixture::getTracker(1, '2025-02-02 12:00:00');
-        $t->setUrl('https://matomo.org/faq/123');
-        Fixture::checkResponse($t->doTrackPageView(''));
-
         // track request for another site
         Fixture::createWebsite('2014-02-04');
 
@@ -109,11 +104,7 @@ class PurgeLogDataTest extends SystemTestCase
         $dataSubjects      = new DataSubjects($logTablesProvider);
         $result            = $dataSubjects->deleteDataSubjectsForDeletedSites([2]); // idsite 2 still exists
         $this->assertEquals([
-            'log_visit'             => 1,
-            'log_link_visit_action' => 1,
-            'log_conversion_item'   => 0,
-            'log_conversion'        => 0,
-            'log_bot_request'       => 3,
+            'log_bot_request' => 3,
         ], $result);
 
         // check that requests were correctly removed

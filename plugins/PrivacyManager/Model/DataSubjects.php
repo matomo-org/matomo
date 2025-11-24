@@ -65,24 +65,20 @@ class DataSubjects
 
         $idSitesNoLongerExisting = array_diff($idSitesUsed, $allExistingIdSites);
 
-        if (empty($idSitesNoLongerExisting)) {
-            // nothing to be deleted... if there is no entry for that table in log_visit or log_link_visit_action
-            // then there shouldn't be anything to be deleted in other tables either
-            return [];
-        }
-
-        $logTables = $this->getLogTablesToDeleteFrom();
-        // It's quicker to call the delete queries one site at a time instead of using the IN operator and potentially
-        // creating a huge result set
-        foreach ($idSitesNoLongerExisting as $idSiteNoLongerExisting) {
-            $r = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($idSiteNoLongerExisting) {
-                return [$tableToSelectFrom . '.idsite = ' . $idSiteNoLongerExisting, []];
-            });
-            foreach ($r as $k => $v) {
-                if (!array_key_exists($k, $results)) {
-                    $results[$k] = 0;
+        if (!empty($idSitesNoLongerExisting)) {
+            $logTables = $this->getLogTablesToDeleteFrom();
+            // It's quicker to call the delete queries one site at a time instead of using the IN operator and potentially
+            // creating a huge result set
+            foreach ($idSitesNoLongerExisting as $idSiteNoLongerExisting) {
+                $r = $this->deleteLogDataFrom($logTables, function ($tableToSelectFrom) use ($idSiteNoLongerExisting) {
+                    return [$tableToSelectFrom . '.idsite = ' . $idSiteNoLongerExisting, []];
+                });
+                foreach ($r as $k => $v) {
+                    if (!array_key_exists($k, $results)) {
+                        $results[$k] = 0;
+                    }
+                    $results[$k] += $v;
                 }
-                $results[$k] += $v;
             }
         }
 
@@ -94,16 +90,18 @@ class DataSubjects
          *
          * **Example**
          *
-         *     public function deleteDataSubjectsForDeletedSites(&$result, $idSitesNoLongerExisting)
+         *     public function deleteDataSubjectsForDeletedSites(&$result)
          *     {
-         *         $numDeletes = $this->deleteDataForSites($idSitesNoLongerExisting)
+         *         $existingSiteIds = SitesManager\API::getInstance()->getAllSitesId();
+         *         $idSitesInTable = $this->>getAllSiteIdsInLogTable();
+         *         $idSitesNoLongerExisting = array_diff($existingSiteIds, $idSitesInTable);
+         *         $numDeletes = $this->deleteDataForSites($idSitesNoLongerExisting);
          *         $result['myplugin'] = $numDeletes;
          *     }
          *
          * @param array &$results An array storing the result of how much data was deleted for.
-         * @param array &$idSitesNoLongerExisting An array with multiple site ids that were removed
          */
-        Piwik::postEvent('PrivacyManager.deleteDataSubjectsForDeletedSites', [&$results, $idSitesNoLongerExisting]);
+        Piwik::postEvent('PrivacyManager.deleteDataSubjectsForDeletedSites', [&$results]);
 
         krsort($results); // make sure test results are always in same order
         return $results;

@@ -33,7 +33,7 @@ class BotRequestsDao
      */
     public function createTable(): void
     {
-        $tableName = self::getTableName();
+        $tableName  = self::getTableName();
         $definition = '
             `idrequest` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `idsite` INT UNSIGNED NOT NULL,
@@ -80,12 +80,12 @@ class BotRequestsDao
         ];
 
         $values = [];
-        $bind = [];
+        $bind   = [];
 
         foreach ($fields as $field) {
             if (isset($data[$field])) {
                 $values[] = '?';
-                $bind[] = $data[$field];
+                $bind[]   = $data[$field];
             } else {
                 $values[] = 'NULL';
             }
@@ -142,5 +142,19 @@ class BotRequestsDao
         $result = Db::query($sql);
 
         return (int)Db::get()->rowCount($result);
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getDistinctIdSitesInTable(int $maxIdSite): array
+    {
+        $tableName       = self::getPrefixedTableName();
+        $idSitesLogTable = Db::fetchAll('SELECT DISTINCT idsite FROM ' . $tableName);
+        $idSitesLogTable = array_column($idSitesLogTable, 'idsite');
+        $idSitesLogTable = array_map('intval', $idSitesLogTable);
+        return array_filter($idSitesLogTable, function ($idSite) use ($maxIdSite) {
+            return !empty($idSite) && $idSite <= $maxIdSite;
+        });
     }
 }

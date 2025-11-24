@@ -14,6 +14,7 @@ namespace Piwik\Plugins\BotTracking;
 use Piwik\Date;
 use Piwik\Plugin;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
+use Piwik\Plugins\SitesManager\API;
 use Piwik\Tracker\Request;
 
 /**
@@ -66,10 +67,26 @@ class BotTracking extends Plugin
         (new BotRequestsDao())->deleteOldRecords($dateUpperLimit);
     }
 
-    public function deleteDataSubjectsForDeletedSites(array &$result, array $idSitesNoLongerExisting): void
+    /**
+     * @param array<string, int> $result
+     */
+    public function deleteDataSubjectsForDeletedSites(array &$result): void
     {
-        $dao                          = new BotRequestsDao();
-        $result[$dao::getTableName()] = $dao->deleteRecordsForIdSites($idSitesNoLongerExisting);
+        $allExistingIdSites = API::getInstance()->getAllSitesId();
+        $allExistingIdSites = array_map('intval', $allExistingIdSites);
+        $maxIdSite          = max($allExistingIdSites);
+
+        if (empty($maxIdSite)) {
+            return;
+        }
+
+        $dao                     = new BotRequestsDao();
+        $idSitesInTable          = $dao->getDistinctIdSitesInTable($maxIdSite);
+        $idSitesNoLongerExisting = array_diff($idSitesInTable, $allExistingIdSites);
+
+        if (count($idSitesNoLongerExisting) > 0) {
+            $result[$dao::getTableName()] = $dao->deleteRecordsForIdSites($idSitesNoLongerExisting);
+        }
     }
 
     /**
