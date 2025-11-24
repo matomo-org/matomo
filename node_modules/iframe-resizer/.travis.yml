@@ -1,6 +1,0 @@
-language: node_js
-node_js:
-  - "11.0"
-before_script:
-  - npm install -g grunt-cli
-sudo: false
