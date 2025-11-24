@@ -8,8 +8,6 @@
  */
 
 describe('Marketplace_OldModal', function () {
-    this.timeout(0);
-
     this.fixture = 'Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits';
 
     const urlBase = '?module=CoreAdminHome&action=home&popover=browsePluginDetail%243A';

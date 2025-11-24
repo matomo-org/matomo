@@ -8,8 +8,6 @@
  */
 
 describe("CustomDimensions", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Plugins\\CustomDimensions\\tests\\Fixtures\\TrackVisitsWithCustomDimensionsFixture";
 
     var generalParams = 'idSite=1&period=year&date=2013-01-23',

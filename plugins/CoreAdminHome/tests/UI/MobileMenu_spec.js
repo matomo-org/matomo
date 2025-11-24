@@ -8,7 +8,6 @@
  */
 
 describe("MobileMenu", function () {
-    this.timeout(0);
     before(function () {
       testEnvironment.pluginsToLoad = ['CorePluginsAdmin'];
       testEnvironment.save();

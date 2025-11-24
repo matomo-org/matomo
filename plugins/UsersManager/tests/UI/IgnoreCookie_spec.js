@@ -8,7 +8,6 @@
  */
 
 describe("IgnoreCookie", function () {
-    this.timeout(0);
     this.fixture = "Piwik\\Plugins\\UsersManager\\tests\\Fixtures\\ManyUsers";
 
     var userSettingsUrl = "?module=UsersManager&action=userSettings";

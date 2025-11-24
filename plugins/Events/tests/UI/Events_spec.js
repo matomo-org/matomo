@@ -1,6 +1,4 @@
 describe("Events", function () {
-    this.timeout(0);
-
     var generalParams = 'idSite=1&period=year&date=2012-08-09',
         urlBaseGeneric = 'module=CoreHome&action=index&',
         urlBase = urlBaseGeneric + generalParams;

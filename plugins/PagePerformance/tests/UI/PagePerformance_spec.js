@@ -8,8 +8,6 @@
  */
 
 describe("PagePerformance", function () {
-
-    this.timeout(0);
     this.fixture = "Piwik\\Plugins\\PagePerformance\\tests\\Fixtures\\VisitsWithPagePerformanceMetrics";
 
     const generalParams = 'idSite=1&period=day&date=2010-03-12',

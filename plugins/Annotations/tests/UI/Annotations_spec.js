@@ -8,8 +8,6 @@
  */
 
 describe("Annotations", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Tests\\Fixtures\\TwoSitesWithAnnotations";
 
     const generalParams = "idSite=1&period=day&date=2012-04-01";
