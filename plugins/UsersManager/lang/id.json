@@ -3,6 +3,7 @@
         "2FA": "2FA",
         "Active": "Aktif",
         "AddExistingUser": "Tambahkan pengguna yang sudah ada",
+        "AddNewUser": "Tambahkan pengguna baru",
         "AddSuperuserAccessConfirm": "Memberikan akses pengguna super kepada pengguna akan memungkinkan pengguna untuk memiliki kontrol penuh atas Matomo dan harus dilakukan dengan hemat. Masukkan kata sandi Anda untuk melanjutkan.",
         "AddUserNoInitialAccessError": "Pengguna baru harus diberikan akses ke situs web, harap setel parameter 'initialIdSite'.",
         "AllUsersAreSelected": "Semua pengguna %1$s dipilih.",

@@ -9,11 +9,11 @@
         "OnePage": "1 leht",
         "VisitNum": "Külastuste arv",
         "VisitsByDaysSinceLast": "Külastused viimase külastusaja järgi",
-        "visitsByVisitCount": "Külastused külastuste arvu järgi",
         "VisitsPerDuration": "Külastused külastuste pikkuse järgi",
         "VisitsPerNbOfPages": "Külastused külastatud lehtede arvu järgi",
         "WidgetLengths": "Külastuste kestvus",
-        "WidgetPages": "Erinevaid lehti külastuse kohta",
-        "WidgetVisitsByDaysSinceLast": "Külastused viimase külastusaja järgi"
+        "WidgetPages": "Lehekülgi külastuse jooksul",
+        "WidgetVisitsByDaysSinceLast": "Külastused viimase külastusaja järgi",
+        "visitsByVisitCount": "Külastused külastuste arvu järgi"
     }
 }

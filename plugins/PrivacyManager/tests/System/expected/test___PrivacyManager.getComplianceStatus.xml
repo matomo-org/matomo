@@ -8,11 +8,11 @@
 			<value>non_compliant</value>
 			<notes>Ecommerce must be disabled</notes>
 		</row>
-        <row>
-            <name>Device model detection disabled</name>
-            <value>non_compliant</value>
-            <notes>Device model detection and device model report must be disabled.</notes>
-        </row>
+		<row>
+			<name>Device model detection disabled</name>
+			<value>non_compliant</value>
+			<notes>Device model detection and device model report must be disabled.</notes>
+		</row>
 		<row>
 			<name>Only major versions</name>
 			<value>non_compliant</value>
@@ -38,21 +38,26 @@
 			<value>non_compliant</value>
 			<notes>Must be set to at least 2 byte(s), currently 0 byte(s).</notes>
 		</row>
-        <row>
-            <name>Referrer anonymisation</name>
-            <value>non_compliant</value>
-            <notes>Only the referrer host or referrer type may be collected.</notes>
-        </row>
+		<row>
+			<name>Referrer anonymisation</name>
+			<value>non_compliant</value>
+			<notes>Only the referrer host or referrer type may be collected.</notes>
+		</row>
 		<row>
 			<name>Data retention period</name>
 			<value>compliant</value>
 			<notes>Retention period is set to 180 days.</notes>
 		</row>
-        <row>
-            <name>Screen resolution detection disabled</name>
-            <value>non_compliant</value>
-            <notes>Screen resolution detection and screen resolution report must be disabled.</notes>
-        </row>
+		<row>
+			<name>Limit available segments</name>
+			<value>non_compliant</value>
+			<notes>Limit the available segments to be compliant.</notes>
+		</row>
+		<row>
+			<name>Screen resolution detection disabled</name>
+			<value>non_compliant</value>
+			<notes>Screen resolution detection and screen resolution report must be disabled.</notes>
+		</row>
 		<row>
 			<name>User ID disabled</name>
 			<value>non_compliant</value>

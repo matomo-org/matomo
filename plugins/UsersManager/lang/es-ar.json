@@ -1,7 +1,9 @@
 {
     "UsersManager": {
         "2FA": "2FA",
+        "Active": "Activo",
         "AddExistingUser": "Agregar un usuario existente",
+        "AddNewUser": "Agregar nuevo usuario",
         "AddSuperuserAccessConfirm": "Dar acceso de súperusuario a un usuario estándar permitirá que tenga control total sobre Matomo y debería hacerse con moderación. Ingresá tu contraseña para continuar.",
         "AddUserNoInitialAccessError": "Los nuevos usuarios tienen que darle acceso a tu sitio web. Por favor, establecé el parámetro \"initialIdSite\".",
         "AllUsersAreSelected": "Están seleccionados todos los %1$s usuarios.",
@@ -132,6 +134,7 @@
         "RolesHelp": "Los roles determinan lo que un usuario puede hacer en Matomo con respecto a un sitio web específico. Aprendé más sobre los roles de %1$svista%2$s y de %3$sadministración%4$s.",
         "SaveBasicInfo": "Guardar información básica",
         "SetPermission": "Establecer permiso",
+        "Status": "Estado",
         "SuperUserAccess": "Acceso de súperusuario",
         "SuperUserAccessManagement": "Administrar acceso de súperusuario",
         "SuperUserAccessManagementGrantMore": "Acá podés garantizar acceso de súperusuario a otros usuarios de Matomo. Por favor, usá esta función con cuidado.",
