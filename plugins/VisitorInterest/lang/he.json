@@ -9,11 +9,11 @@
         "OnePage": "עמוד 1",
         "VisitNum": "מספר ביקור",
         "VisitsByDaysSinceLast": "ביקורים לפי ימים מאז ביקור אחרון",
-        "visitsByVisitCount": "ביקורים לפי מספר ביקור",
         "VisitsPerDuration": "ביקורים למשך ביקור",
         "VisitsPerNbOfPages": "ביקורים למספר עמודים",
         "WidgetLengths": "משך ביקורים",
         "WidgetPages": "עמודים לביקור",
-        "WidgetVisitsByDaysSinceLast": "ביקורים לפי ימים מאז ביקור אחרון"
+        "WidgetVisitsByDaysSinceLast": "ביקורים לפי ימים מאז ביקור אחרון",
+        "visitsByVisitCount": "ביקורים לפי מספר ביקור"
     }
 }
