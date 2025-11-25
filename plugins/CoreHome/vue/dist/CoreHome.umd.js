@@ -777,7 +777,6 @@ var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
  */
 
 
-let originalTitle;
 const {
   piwik,
   broadcast: Matomo_broadcast,
@@ -820,20 +819,11 @@ function getActiveSegmentLabel(segment) {
   }
   return translate('SegmentEditor_CustomSegment');
 }
-piwik.updateDateInTitle = function updateDateInTitle(date, period) {
-  if (!$('.top_controls #periodString').length) {
-    return;
-  }
-  // Cache server-rendered page title
-  originalTitle = originalTitle || document.title;
-  if (originalTitle.indexOf(piwik.siteName) === 0) {
-    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${piwik.siteName}${dateString}${originalTitle.slice(piwik.siteName.length)}`;
-  }
-};
 piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
   let categoryName;
   let subcategoryName;
+  const dateString = `${Periods_Periods.parse(period, date).getPrettyString()} `;
+  const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
   const store = getReportingMenuStore();
   if (store && c && s) {
     var _found$category$name, _found, _found$subcategory$na, _found2;
@@ -844,24 +834,18 @@ piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
     }
     categoryName = (_found$category$name = (_found = found) === null || _found === void 0 || (_found = _found.category) === null || _found === void 0 ? void 0 : _found.name) !== null && _found$category$name !== void 0 ? _found$category$name : '';
     subcategoryName = (_found$subcategory$na = (_found2 = found) === null || _found2 === void 0 || (_found2 = _found2.subcategory) === null || _found2 === void 0 ? void 0 : _found2.name) !== null && _found$subcategory$na !== void 0 ? _found$subcategory$na : '';
-    console.log('i got catname here', categoryName);
-    console.log('i got subcatname here', subcategoryName);
     if (categoryName === subcategoryName) {
       subcategoryName = '';
     }
     categoryName = Matomo_piwikHelper.htmlEntities(categoryName);
     subcategoryName = Matomo_piwikHelper.htmlEntities(subcategoryName);
-    console.log('updateTitle', categoryName, subcategoryName);
-    // Cache server-rendered page title
-    originalTitle = originalTitle || document.title;
-    if (originalTitle.indexOf(piwik.siteName) === 0) {
-      const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-      // Try to get the correct title by combining the category and subcategory names
-      const categorySubcategoryString = categoryName ? `${categoryName}  ${subcategoryName ? `> ${subcategoryName}` : ''}` : '';
-      const segmentLabel = getActiveSegmentLabel(segment);
-      const segmentString = segmentLabel ? ` - ${Matomo_piwikHelper.htmlEntities(segmentLabel)}` : '';
-      document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(piwik.siteName.length)}`;
-    }
+    // Try to get the correct title by combining the category and subcategory names
+    const categorySubcategoryString = categoryName ? `${categoryName}  ${subcategoryName ? `> ${subcategoryName}` : ''}` : '';
+    const segmentLabel = getActiveSegmentLabel(segment);
+    const segmentString = segmentLabel ? `${Matomo_piwikHelper.htmlEntities(segmentLabel)}` : '';
+    document.title = `${piwik.siteName} - ${dateString} - ${categorySubcategoryString} - ${segmentString} - ${titleSuffix}`;
+  } else {
+    document.title = `${piwik.siteName} - ${dateString} - ${titleSuffix}`;
   }
 };
 piwik.hasUserCapability = function hasUserCapability(capability) {
@@ -1017,9 +1001,8 @@ class MatomoUrl_MatomoUrl {
     .replace(/\+/g, '%20');
   }
   getMenuPathSuffix() {
-    console.log('getMenuPathSuffix called ', this.hashParsed.value);
-    const category = this.hashParsed.value.category;
-    const subcategory = this.hashParsed.value.subcategory;
+    const category = this.getSearchParam('category');
+    const subcategory = this.getSearchParam('subcategory');
     return {
       c: category,
       s: subcategory
