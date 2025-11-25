@@ -831,21 +831,35 @@ piwik.updateDateInTitle = function updateDateInTitle(date, period) {
     document.title = `${piwik.siteName}${dateString}${originalTitle.slice(piwik.siteName.length)}`;
   }
 };
-piwik.updateTitle = function updateTitle(date, period, c, s, segment) {
+piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
   let categoryName;
   let subcategoryName;
   const store = getReportingMenuStore();
-  if (store && c && s) {
-    var _found$category, _found$subcategory;
-    const found = store.findSubcategory(c, s);
-    categoryName = found === null || found === void 0 || (_found$category = found.category) === null || _found$category === void 0 ? void 0 : _found$category.name;
-    subcategoryName = found === null || found === void 0 || (_found$subcategory = found.subcategory) === null || _found$subcategory === void 0 ? void 0 : _found$subcategory.name;
+  if (!store) {
+    return;
   }
+  console.log('storre is ', store);
+  console.log('c is ', c);
+  console.log('s is ', s);
+  if (store && c && s) {
+    var _found, _found2;
+    const activeCategory = store.activeCategory.value;
+    console.log('active category is ', activeCategory);
+    const activeSubcategory = store.activeSubcategory.value;
+    console.log('active subcategory is ', activeSubcategory);
+    let found = store.findSubcategory(activeCategory, activeSubcategory);
+    console.log('found is ', found);
+    if (!found.category) {
+      await store.reloadMenuItems();
+      found = store.findSubcategory(activeCategory, activeSubcategory);
+    }
+    categoryName = (_found = found) === null || _found === void 0 || (_found = _found.category) === null || _found === void 0 ? void 0 : _found.name;
+    subcategoryName = (_found2 = found) === null || _found2 === void 0 || (_found2 = _found2.subcategory) === null || _found2 === void 0 ? void 0 : _found2.name;
+  }
+  console.log('cat is ', categoryName);
+  console.log('subcat is ', subcategoryName);
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
-  console.log('amo ni akon sitename', piwik.siteName);
-  console.log('isa pa ka check ', piwik.currentSiteName);
-  console.log('amo ni akon originalTitle', originalTitle);
   if (originalTitle.indexOf(piwik.siteName) === 0) {
     const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
     // Try to get the correct title by combining the category and subcategory names
@@ -1009,6 +1023,7 @@ class MatomoUrl_MatomoUrl {
     .replace(/\+/g, '%20');
   }
   getMenuPathSuffix() {
+    console.log('getMenuPathSuffix called ', this.hashParsed.value);
     const category = this.hashParsed.value.category;
     const subcategory = this.hashParsed.value.subcategory;
     return {

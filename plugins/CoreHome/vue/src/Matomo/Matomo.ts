@@ -74,7 +74,7 @@ piwik.updateDateInTitle = function updateDateInTitle(date: string, period: strin
   }
 };
 
-piwik.updateTitle = function updateTitle(
+piwik.updateTitle = async function updateTitle(
   date: string,
   period: string,
   c: string,
@@ -85,12 +85,28 @@ piwik.updateTitle = function updateTitle(
   let subcategoryName: string|undefined;
 
   const store = getReportingMenuStore();
+  if (!store) {
+    return;
+  }
+  console.log('storre is ', store);
+  console.log('c is ', c);
+  console.log('s is ', s);
   if (store && c && s) {
-    const found = store.findSubcategory(c, s);
+    const activeCategory = store.activeCategory.value;
+    console.log('active category is ', activeCategory);
+    const activeSubcategory = store.activeSubcategory.value;
+    console.log('active subcategory is ', activeSubcategory);
+    let found = store.findSubcategory(activeCategory, activeSubcategory);
+    console.log('found is ', found);
+    if (!found.category) {
+      await store.reloadMenuItems();
+      found = store.findSubcategory(activeCategory, activeSubcategory);
+    }
     categoryName = found?.category?.name;
     subcategoryName = found?.subcategory?.name;
   }
-
+  console.log('cat is ', categoryName);
+  console.log('subcat is ', subcategoryName);
   // Cache server-rendered page title
   originalTitle = originalTitle || document.title;
   if (originalTitle.indexOf(piwik.siteName) === 0) {
