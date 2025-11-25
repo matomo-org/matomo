@@ -175,7 +175,7 @@
         "MenuUserSettings": "Configuració d'usuari",
         "MenuUsers": "Usuaris",
         "NewsletterSignupFailureMessage": "Vaja, alguna cosa ha fallat. No us hem pogut subscriure al butlletí.",
-        "NewsletterSignupMessage": "Subscriviu-vos al nostre butlletí per rebre informació regular sobre Matomo. Podeu donar-vos de baixa en qualsevol moment. Aquest servei utilitza MadMimi. Més informació al respecte a la %1$spàgina de política de privadesa de Matomo%2$s.",
+        "NewsletterSignupMessage": "Subscriviu-vos al nostre butlletí per rebre informació regular sobre Matomo. Podeu donar-vos de baixa en qualsevol moment. Més informació al respecte a la %1$spàgina de política de privadesa de Matomo%2$s.",
         "NewsletterSignupSuccessMessage": "Fantàstic, ja esteu inscrit! Ens posarem en contacte aviat.",
         "NewsletterSignupTitle": "Inscripció al butlletí",
         "NoAccessWarning": "Aquest usuari no té accés a cap lloc web. Quan iniciïn sessió veuran un missatge d'error. Per evitar-ho, afegiu accés a un lloc web a continuació.",
