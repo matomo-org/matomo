@@ -822,7 +822,10 @@ function getActiveSegmentLabel(segment) {
 piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
   let categoryName;
   let subcategoryName;
-  const dateString = `${Periods_Periods.parse(period, date).getPrettyString()} `;
+  let dateString = '';
+  if (period !== '' && date !== '') {
+    dateString = `${Periods_Periods.parse(period, date).getPrettyString()} `;
+  }
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
   const store = getReportingMenuStore();
   if (store && c && s) {

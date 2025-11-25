@@ -68,7 +68,10 @@ piwik.updateTitle = async function updateTitle(
 ) {
   let categoryName: string|undefined;
   let subcategoryName: string|undefined;
-  const dateString = `${Periods.parse(period, date).getPrettyString()} `;
+  let dateString = '';
+  if (period !== '' && date !== '') {
+    dateString = `${Periods.parse(period, date).getPrettyString()} `;
+  }
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
   const store = getReportingMenuStore();
   if (store && c && s) {
