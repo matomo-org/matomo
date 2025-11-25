@@ -835,39 +835,33 @@ piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
   let categoryName;
   let subcategoryName;
   const store = getReportingMenuStore();
-  if (!store) {
-    return;
-  }
-  console.log('storre is ', store);
-  console.log('c is ', c);
-  console.log('s is ', s);
   if (store && c && s) {
-    var _found, _found2;
-    const activeCategory = store.activeCategory.value;
-    console.log('active category is ', activeCategory);
-    const activeSubcategory = store.activeSubcategory.value;
-    console.log('active subcategory is ', activeSubcategory);
-    let found = store.findSubcategory(activeCategory, activeSubcategory);
-    console.log('found is ', found);
+    var _found$category$name, _found, _found$subcategory$na, _found2;
+    let found = store.findSubcategory(c, s);
     if (!found.category) {
       await store.reloadMenuItems();
-      found = store.findSubcategory(activeCategory, activeSubcategory);
+      found = store.findSubcategory(c, s);
     }
-    categoryName = (_found = found) === null || _found === void 0 || (_found = _found.category) === null || _found === void 0 ? void 0 : _found.name;
-    subcategoryName = (_found2 = found) === null || _found2 === void 0 || (_found2 = _found2.subcategory) === null || _found2 === void 0 ? void 0 : _found2.name;
-  }
-  console.log('cat is ', categoryName);
-  console.log('subcat is ', subcategoryName);
-  // Cache server-rendered page title
-  originalTitle = originalTitle || document.title;
-  if (originalTitle.indexOf(piwik.siteName) === 0) {
-    const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
-    // Try to get the correct title by combining the category and subcategory names
-    const titlePath = [categoryName, subcategoryName].filter(label => !!label).filter((label, index, array) => array.indexOf(label) === index).map(label => Matomo_piwikHelper.htmlEntities(label));
-    const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
-    const segmentLabel = getActiveSegmentLabel(segment);
-    const segmentString = segmentLabel ? ` - ${Matomo_piwikHelper.htmlEntities(segmentLabel)}` : '';
-    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(piwik.siteName.length)}`;
+    categoryName = (_found$category$name = (_found = found) === null || _found === void 0 || (_found = _found.category) === null || _found === void 0 ? void 0 : _found.name) !== null && _found$category$name !== void 0 ? _found$category$name : '';
+    subcategoryName = (_found$subcategory$na = (_found2 = found) === null || _found2 === void 0 || (_found2 = _found2.subcategory) === null || _found2 === void 0 ? void 0 : _found2.name) !== null && _found$subcategory$na !== void 0 ? _found$subcategory$na : '';
+    console.log('i got catname here', categoryName);
+    console.log('i got subcatname here', subcategoryName);
+    if (categoryName === subcategoryName) {
+      subcategoryName = '';
+    }
+    categoryName = Matomo_piwikHelper.htmlEntities(categoryName);
+    subcategoryName = Matomo_piwikHelper.htmlEntities(subcategoryName);
+    console.log('updateTitle', categoryName, subcategoryName);
+    // Cache server-rendered page title
+    originalTitle = originalTitle || document.title;
+    if (originalTitle.indexOf(piwik.siteName) === 0) {
+      const dateString = ` - ${Periods_Periods.parse(period, date).getPrettyString()} `;
+      // Try to get the correct title by combining the category and subcategory names
+      const categorySubcategoryString = categoryName ? `${categoryName}  ${subcategoryName ? `> ${subcategoryName}` : ''}` : '';
+      const segmentLabel = getActiveSegmentLabel(segment);
+      const segmentString = segmentLabel ? ` - ${Matomo_piwikHelper.htmlEntities(segmentLabel)}` : '';
+      document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(piwik.siteName.length)}`;
+    }
   }
 };
 piwik.hasUserCapability = function hasUserCapability(capability) {
@@ -1047,7 +1041,6 @@ class MatomoUrl_MatomoUrl {
       s
     } = this.getMenuPathSuffix();
     const segment = this.getSearchParam('segment') || '';
-    console.log('i got values for menu suffix: ', c, s, date, period);
     MatomoUrl_piwik.updateTitle(date, period, c, s, segment);
   }
   updatePeriodParamsFromUrl() {
