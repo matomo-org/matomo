@@ -36,8 +36,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $sendPluginUpdateEmail;
 
-    /** @var Setting */
-    public $updateToUtf8mb4;
+    /** @var Setting|null */
+    public $updateToUtf8mb4 = null;
 
     /**
      * @var ReleaseChannels
