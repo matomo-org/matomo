@@ -41,9 +41,7 @@ describe('WidgetLoader', function () {
     const errorNotification = await page.waitForSelector('div.system.notification-error');
     expect(errorNotification).to.be.ok;
 
-    const errorText = await page.evaluate(() => _pk_translate('General_Error'));
-    const expectedErrorNotificationText = await page.evaluate(() => _pk_translate('General_YourSessionHasExpired'));
-    const expectedText = errorText + ': ' + expectedErrorNotificationText;
+    const expectedText = 'Error: Your session has expired due to inactivity. Please log in to continue.';
     const notificationText = await page.$eval('div.system.notification-error .notification-body', el => el.textContent.trim());
     expect(notificationText).to.equal(expectedText);
 
