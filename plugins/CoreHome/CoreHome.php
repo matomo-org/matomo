@@ -413,6 +413,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_CopyModalNote';
         $translationKeys[] = 'CoreHome_CopyX';
         $translationKeys[] = 'CoreHome_CopyXDescription';
+        $translationKeys[] = 'CoreHome_WebAnalyticsReports';
 
         // add admin menu translations
         if (
