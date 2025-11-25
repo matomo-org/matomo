@@ -170,9 +170,8 @@ class MatomoUrl {
   }
 
   getMenuPathSuffix(): { c: string; s: string } {
-    console.log('getMenuPathSuffix called ', this.hashParsed.value);
-    const category = this.hashParsed.value.category as string;
-    const subcategory = this.hashParsed.value.subcategory as string;
+    const category = this.getSearchParam('category') as string;
+    const subcategory = this.getSearchParam('subcategory') as string;
     return { c: category, s: subcategory };
   }
 
