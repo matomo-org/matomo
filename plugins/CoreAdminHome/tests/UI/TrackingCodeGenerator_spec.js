@@ -8,8 +8,6 @@
  */
 
 describe("TrackingCodeGenerator", function () {
-  this.timeout(0);
-
   var generalParams = 'idSite=1&period=year&date=2023-08-09';
 
   before(async function () {

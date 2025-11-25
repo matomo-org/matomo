@@ -8,8 +8,6 @@
  */
 
 describe("TwoFactorAuth", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Plugins\\TwoFactorAuth\\tests\\Fixtures\\TwoFactorFixture";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',

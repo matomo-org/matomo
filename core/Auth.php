@@ -59,7 +59,7 @@ interface Auth
     /**
      * Sets the authentication token to authenticate with.
      *
-     * @param string $token_auth authentication token
+     * @param string|null $token_auth authentication token
      */
     public function setTokenAuth(
         #[\SensitiveParameter]

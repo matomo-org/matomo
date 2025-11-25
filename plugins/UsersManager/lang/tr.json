@@ -175,7 +175,7 @@
         "MenuUserSettings": "Kullanıcı ayarları",
         "MenuUsers": "Kullanıcılar",
         "NewsletterSignupFailureMessage": "Ne yazık ki bir sorun çıktı ve bülten aboneliğiniz yapılamadı.",
-        "NewsletterSignupMessage": "Matomo hakkında düzenli bilgi almak için haber bültenimize abone olabilirsiniz. Bülten aboneliğinden istediğiniz zaman çıkabilirsiniz. Bu hizmet için MadMimi kullanılır. Ayrıntılı bilgi almak için %1$sMatomo gizlilik ilkesi%2$s bölümüne bakabilirsiniz.",
+        "NewsletterSignupMessage": "Matomo hakkında düzenli bilgi almak için haber bültenimize abone olabilirsiniz. Bülten aboneliğinden istediğiniz zaman çıkabilirsiniz. Ayrıntılı bilgi almak için %1$sMatomo gizlilik ilkesi%2$s bölümüne bakabilirsiniz.",
         "NewsletterSignupSuccessMessage": "Harika, abone oldunuz! Yakında görüşürüz.",
         "NewsletterSignupTitle": "Bülten aboneliği",
         "NoAccessWarning": "Bu kullanıcıya bir siteye erişim izni verilmemiş. Oturum açtığında bir hata iletisi görecek. Bunu engellemek için aşağıdan bir siteye erişim izni verin.",

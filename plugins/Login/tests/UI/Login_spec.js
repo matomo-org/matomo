@@ -8,8 +8,6 @@
  */
 
 describe("Login", function () {
-    this.timeout(0);
-
     var md5Pass = "0adcc0d741277f74c64c8abab7330d1c", // md5("smarty-pants")
         formlessLoginUrl = "?module=Login&action=logme&login=oliverqueen&password=" + md5Pass,
         bruteForceLogUrl = "?module=Login&action=bruteForceLog",

@@ -214,7 +214,7 @@
         "PasswordChangeTerminatesOtherSessions": "When you change your password, any other active session of this account will be logged out.",
         "PasswordChangeDoesNotRevokeAuthTokens": "Changing your password won't revoke app-specific tokens. If you suspect unauthorized access, delete and regenerate them in the %1$s section at the bottom of the page.",
         "NewsletterSignupTitle": "Newsletter Signup",
-        "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. This service uses MadMimi. Learn more about it on %1$sMatomo's Privacy Policy page%2$s.",
+        "NewsletterSignupMessage": "Subscribe to our newsletter to receive regular information about Matomo. You can unsubscribe from it any time. Learn more about it on %1$sMatomo's Privacy Policy page%2$s.",
         "NewsletterSignupFailureMessage": "Whoops, something went wrong. We weren't able to sign you up for the newsletter.",
         "NewsletterSignupSuccessMessage": "Super, you're all signed up! We'll be in touch soon.",
         "FirstWebsitePermission": "First website permission",

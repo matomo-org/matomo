@@ -8,8 +8,6 @@
  */
 
 describe("ProfessionalServices_PluginPromo", function () {
-    this.timeout(0);
-
     var generalParams = 'idSite=1&period=day&date=2017-01-02',
         urlBase = '?module=CoreHome&' + generalParams + '&action=index&';
 

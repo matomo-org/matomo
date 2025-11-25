@@ -332,7 +332,7 @@ class Factory
      * Drops an existing index from a database table.
      *
      * @param string $table  Unprefixed database table name, eg 'log_visit'.
-     * @return DropIndex
+     * @return DropPrimaryKey
      */
     public function dropPrimaryKey($table)
     {

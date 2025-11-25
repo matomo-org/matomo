@@ -8,8 +8,6 @@
  */
 
 describe("PrivacyManager", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Plugins\\PrivacyManager\\tests\\Fixtures\\MultipleSitesMultipleVisitsFixture";
 
     var generalParams = 'idSite=1&period=day&date=2017-01-02',

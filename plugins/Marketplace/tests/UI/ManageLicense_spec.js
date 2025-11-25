@@ -8,8 +8,6 @@
  */
 
 describe("ManageLicense", function () {
-  this.timeout(0);
-
   this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
   const urlBase = '?module=Marketplace&action=manageLicenseKey';

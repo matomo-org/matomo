@@ -139,7 +139,7 @@
         "MenuUserSettings": "Definições de utilizadores",
         "MenuUsers": "Utilizadores",
         "NewsletterSignupFailureMessage": "Parece que algo correu mal. Não conseguimos concluir o seu processo de subscrição à newsletter.",
-        "NewsletterSignupMessage": "Se inscreva em nossa newsletter para receber informações regulares sobre o Matomo. Você pode cancelar a assinatura a qualquer momento. Este serviço usa MadMimi. Saiba mais sobre isso na %1$spágina de Política de Privacidade Matomo%2$s.",
+        "NewsletterSignupMessage": "Se inscreva em nossa newsletter para receber informações regulares sobre o Matomo. Você pode cancelar a assinatura a qualquer momento. Saiba mais sobre isso na %1$spágina de Política de Privacidade Matomo%2$s.",
         "NewsletterSignupSuccessMessage": "Fantástico, está subscrito. Entraremos em contacto em breve.",
         "NewsletterSignupTitle": "Subscrição da Newsletter",
         "NoAccessWarning": "Não foi dado acesso a um site a este utilizador. Quando este se autenticar, irá ver uma mensagem de erro. Para impedir que isto aconteça, dê acesso um site abaixo.",

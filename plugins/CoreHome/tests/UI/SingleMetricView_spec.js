@@ -8,8 +8,6 @@
  */
 
 describe('SingleMetricView', function () {
-    this.timeout(0);
-
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Dashboard&"
         + "actionToWidgetize=index&idDashboard=1";
     var rangeUrl = "?module=Widgetize&action=iframe&idSite=1&period=range&date=2012-08-07,2012-08-10&moduleToWidgetize=Dashboard&"

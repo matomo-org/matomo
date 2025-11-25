@@ -143,7 +143,7 @@
         "MenuUserSettings": "Impostazioni utente",
         "MenuUsers": "Utenti",
         "NewsletterSignupFailureMessage": "Oooops, qualcosa è andata storta. Non abbiamo potuto iscriverti alla newsletter.",
-        "NewsletterSignupMessage": "Iscriviti alla nostra newsletter per ricevere regolarmente informazioni su Matomo. È possibile annullare l'iscrizione in qualsiasi momento. Questo servizio utilizza MadMimi. Per saperne di più, consulta la pagina %1$sPolitiche sulla privacy di Matomo%2$s.",
+        "NewsletterSignupMessage": "Iscriviti alla nostra newsletter per ricevere regolarmente informazioni su Matomo. È possibile annullare l'iscrizione in qualsiasi momento. Per saperne di più, consulta la pagina %1$sPolitiche sulla privacy di Matomo%2$s.",
         "NewsletterSignupSuccessMessage": "Super, sei iscritto! Ci sentiremo presto.",
         "NewsletterSignupTitle": "Iscrizione alla Newsletter",
         "NoAccessWarning": "A questo utente non è stato concesso di accedere al sito web. Quando cercherà di accedere, vedrà un messaggio di errore. Per evitare ciò, aggiungi qui sotto l'accesso a un sito web.",

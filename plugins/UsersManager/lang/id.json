@@ -128,7 +128,7 @@
         "MenuUserSettings": "Pengaturan pengguna",
         "MenuUsers": "Pengguna",
         "NewsletterSignupFailureMessage": "Ups, ada yang tidak beres. Kami tidak dapat mendaftarkan Anda ke buletin.",
-        "NewsletterSignupMessage": "Berlangganan buletin kami untuk menerima informasi rutin tentang Matomo. Anda dapat berhenti berlangganan kapan saja. Layanan ini menggunakan MadMimi. Pelajari lebih lanjut di %1$shalaman Kebijakan Privasi Matomo%2$s.",
+        "NewsletterSignupMessage": "Berlangganan buletin kami untuk menerima informasi rutin tentang Matomo. Anda dapat berhenti berlangganan kapan saja. Pelajari lebih lanjut di %1$shalaman Kebijakan Privasi Matomo%2$s.",
         "NewsletterSignupSuccessMessage": "Super, Anda sudah mendaftar! Kami akan segera menghubungi Anda.",
         "NewsletterSignupTitle": "Pendaftaran Buletin",
         "NoAccessWarning": "Pengguna ini belum diberikan akses ke situs web. Ketika mereka log masuk, mereka akan melihat pesan kesalahan. Untuk mencegahnya, tambahkan akses ke situs web di bawah ini.",

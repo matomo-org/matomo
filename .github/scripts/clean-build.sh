@@ -111,10 +111,6 @@ rm -rf node_modules/chroma-js/test
 
 rm -rf node_modules/iframe-resizer/js/iframeResizer.contentWindow.js
 rm -rf node_modules/iframe-resizer/js/iframeResizer.js
-rm -rf node_modules/iframe-resizer/src/ie8.polyfils.js
-rm -rf node_modules/iframe-resizer/src/iframeResizer.contentWindow.js
-rm -rf node_modules/iframe-resizer/src/iframeResizer.js
-rm -rf node_modules/iframe-resizer/test-main.js
 
 rm -rf node_modules/jquery/dist/jquery.js
 rm -rf node_modules/jquery/src

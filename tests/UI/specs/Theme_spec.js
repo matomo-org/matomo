@@ -25,8 +25,6 @@ var removeTree = function(path) {
 }
 
 describe("Theme", function () {
-    this.timeout(0);
-
     function clearAssets() {
         removeTree(path.join(PIWIK_INCLUDE_PATH, 'tmp', 'assets'));
     }

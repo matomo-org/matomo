@@ -10,7 +10,6 @@ var fs = require('fs'),
     path = require('../../../../tests/lib/screenshot-testing/support/path');
 
 describe('Installation', function () {
-    this.timeout(0);
     this.fixture = 'Piwik\\Tests\\Fixtures\\EmptySite';
 
     /** Timestamp when first website came online - Tue, 06 Aug 1991 00:00:00 GMT. */

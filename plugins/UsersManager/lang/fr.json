@@ -176,7 +176,7 @@
         "MenuUserSettings": "Paramètres utilisateurs",
         "MenuUsers": "Utilisateurs",
         "NewsletterSignupFailureMessage": "Oops, il y a eu un problème. Nous ne somme pas parvenus à vous enregistrer à l'infolettre.",
-        "NewsletterSignupMessage": "Inscrivez-vous à notre newsletter pour recevoir régulièrement des informations sur Matomo. Vous pouvez vous en désabonner à tout moment. Ce service utilise MadMimi. Pour en savoir plus, consultez la page Politique de confidentialité de %1$sMatomo%2$s.",
+        "NewsletterSignupMessage": "Inscrivez-vous à notre newsletter pour recevoir régulièrement des informations sur Matomo. Vous pouvez vous en désabonner à tout moment. Pour en savoir plus, consultez la page Politique de confidentialité de %1$sMatomo%2$s.",
         "NewsletterSignupSuccessMessage": "Super, vous êtes enregistré(e) ! Nous aurez bientôt de nos nouvelles.",
         "NewsletterSignupTitle": "Enregistrement à l'infolettre",
         "NoAccessWarning": "Cet utilisateur n'a pas reçu d'accès à un site web. Quand il/elle s'identifie, il/elle verra un message d'erreur. Afin d'éviter cela, ajoutez un accès à un site web ci-dessous.",
