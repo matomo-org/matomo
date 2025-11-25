@@ -187,7 +187,6 @@ class MatomoUrl {
     const { period, date } = this.getDateAndPeriodFromUrl();
     const { c, s } = this.getMenuPathSuffix();
     const segment = this.getSearchParam('segment') || '';
-    console.log('i got values for menu suffix: ', c, s, date, period);
     piwik.updateTitle(date, period, c, s, segment);
   }
 

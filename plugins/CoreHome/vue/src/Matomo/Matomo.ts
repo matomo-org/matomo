@@ -85,43 +85,36 @@ piwik.updateTitle = async function updateTitle(
   let subcategoryName: string|undefined;
 
   const store = getReportingMenuStore();
-  if (!store) {
-    return;
-  }
-  console.log('storre is ', store);
-  console.log('c is ', c);
-  console.log('s is ', s);
   if (store && c && s) {
-    const activeCategory = store.activeCategory.value;
-    console.log('active category is ', activeCategory);
-    const activeSubcategory = store.activeSubcategory.value;
-    console.log('active subcategory is ', activeSubcategory);
-    let found = store.findSubcategory(activeCategory, activeSubcategory);
-    console.log('found is ', found);
+    let found = store.findSubcategory(c, s);
     if (!found.category) {
       await store.reloadMenuItems();
-      found = store.findSubcategory(activeCategory, activeSubcategory);
+      found = store.findSubcategory(c, s);
     }
-    categoryName = found?.category?.name;
-    subcategoryName = found?.subcategory?.name;
-  }
-  console.log('cat is ', categoryName);
-  console.log('subcat is ', subcategoryName);
-  // Cache server-rendered page title
-  originalTitle = originalTitle || document.title;
-  if (originalTitle.indexOf(piwik.siteName) === 0) {
-    const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
-    // Try to get the correct title by combining the category and subcategory names
-    const titlePath = [categoryName, subcategoryName]
-      .filter((label): label is string => !!label)
-      .filter((label, index, array) => array.indexOf(label) === index)
-      .map((label) => piwikHelper.htmlEntities(label));
-    const categorySubcategoryString = titlePath.length ? ` - ${titlePath.join(' > ')}` : '';
-    const segmentLabel = getActiveSegmentLabel(segment);
-    const segmentString = segmentLabel ? ` - ${piwikHelper.htmlEntities(segmentLabel)}` : '';
-    document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(
-      piwik.siteName.length,
-    )}`;
+    categoryName = found?.category?.name ?? '';
+    subcategoryName = found?.subcategory?.name ?? '';
+    console.log('i got catname here', categoryName);
+    console.log('i got subcatname here', subcategoryName);
+    if (categoryName === subcategoryName) {
+      subcategoryName = '';
+    }
+    categoryName = piwikHelper.htmlEntities(categoryName);
+    subcategoryName = piwikHelper.htmlEntities(subcategoryName);
+
+    console.log('updateTitle', categoryName, subcategoryName);
+    // Cache server-rendered page title
+    originalTitle = originalTitle || document.title;
+    if (originalTitle.indexOf(piwik.siteName) === 0) {
+      const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
+      // Try to get the correct title by combining the category and subcategory names
+      const categorySubcategoryString = categoryName
+        ? `${categoryName}  ${subcategoryName ? `> ${subcategoryName}` : ''}` : '';
+      const segmentLabel = getActiveSegmentLabel(segment);
+      const segmentString = segmentLabel ? ` - ${piwikHelper.htmlEntities(segmentLabel)}` : '';
+      document.title = `${piwik.siteName}${dateString}${categorySubcategoryString}${segmentString}${originalTitle.slice(
+        piwik.siteName.length,
+      )}`;
+    }
   }
 };
 
