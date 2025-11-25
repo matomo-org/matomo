@@ -8,8 +8,6 @@
  */
 
 describe("WidgetizedDashboard", function () {
-    this.timeout(0);
-
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Dashboard&"
             + "actionToWidgetize=index&idDashboard=1";
 

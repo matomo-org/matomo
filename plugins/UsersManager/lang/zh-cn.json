@@ -122,7 +122,7 @@
         "MenuUserSettings": "用户参数",
         "MenuUsers": "用户管理",
         "NewsletterSignupFailureMessage": "糟糕，出了点问题。 我们无法为您注册新闻通讯。",
-        "NewsletterSignupMessage": "订阅我们的时事通讯以接收有关Matomo的常规信息。 您可以随时取消订阅。 该服务使用MadMimi。在我们的%1$s隐私政策第%2$s页上了解更多信息。",
+        "NewsletterSignupMessage": "订阅我们的时事通讯以接收有关Matomo的常规信息。 您可以随时取消订阅。 在我们的%1$s隐私政策第%2$s页上了解更多信息。",
         "NewsletterSignupSuccessMessage": "太好了，你们都报名了！我们很快就会联系的。",
         "NewsletterSignupTitle": "通讯注册",
         "NoAccessWarning": "该用户尚未被授予访问网站的权限。 他们登录时将看到错误消息。 为防止这种情况，请在下面添加对网站的访问。",

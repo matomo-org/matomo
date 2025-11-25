@@ -1526,12 +1526,7 @@ parameters:
 			path: core/Http/ControllerResolver.php
 
 		-
-			message: "#^Method Piwik\\\\Intl\\\\Data\\\\Provider\\\\DateTimeFormatProvider\\:\\:getFormatPattern\\(\\) should return string but returns int\\.$#"
-			count: 1
-			path: core/Intl/Data/Provider/DateTimeFormatProvider.php
-
-		-
-			message: "#^Static property Piwik\\\\Log\\:\\:\\$instance \\(Piwik\\\\Log\\) does not accept null\\.$#"
+			message: "#^Method Piwik\\\\Log\\:\\:getInstance\\(\\) should return static\\(Piwik\\\\Log\\) but returns Piwik\\\\Log\\.$#"
 			count: 1
 			path: core/Log.php
 
@@ -2166,7 +2161,7 @@ parameters:
 			path: core/Scheduler/Scheduler.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, Piwik\\\\Plugin\\\\Tasks given\\.$#"
+			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
 			count: 1
 			path: core/Scheduler/TaskLoader.php
 
@@ -2777,11 +2772,6 @@ parameters:
 			message: "#^Variable \\$translationId on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: core/Translation/Translator.php
-
-		-
-			message: "#^Method Piwik\\\\Twig\\:\\:getProfessionalServicesAdvertising\\(\\) is unused\\.$#"
-			count: 1
-			path: core/Twig.php
 
 		-
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, bool given\\.$#"
@@ -4724,11 +4714,6 @@ parameters:
 			path: plugins/Login/PasswordVerifier.php
 
 		-
-			message: "#^Parameter \\#1 \\$token_auth of method Piwik\\\\Auth\\:\\:setTokenAuth\\(\\) expects string, null given\\.$#"
-			count: 1
-			path: plugins/Login/PasswordVerifier.php
-
-		-
 			message: "#^Binary operation \"\\+\" between int\\<1, max\\> and string results in an error\\.$#"
 			count: 1
 			path: plugins/Login/SessionInitializer.php
@@ -4812,11 +4797,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$callback of function preg_replace_callback expects callable\\(array\\<int\\|string, string\\>\\)\\: string, Closure\\(mixed\\)\\: float given\\.$#"
 			count: 1
 			path: plugins/MobileMessaging/ReportRenderer/Sms.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, Piwik\\\\Plugins\\\\MobileMessaging\\\\SMSProvider given\\.$#"
-			count: 1
-			path: plugins/MobileMessaging/SMSProvider.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\MobileMessaging\\\\SMSProvider\\\\StubbedProvider\\:\\:getCreditLeft\\(\\) should return string but returns int\\.$#"
@@ -5275,11 +5255,6 @@ parameters:
 
 		-
 			message: "#^Default value of the parameter \\#1 \\$ip \\(false\\) of method Piwik\\\\Plugins\\\\UserCountry\\\\API\\:\\:getLocationFromIP\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: plugins/UserCountry/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\UserCountry\\\\API\\:\\:getCountryCodeMapping\\(\\) has invalid return type string\\.$#"
 			count: 1
 			path: plugins/UserCountry/API.php
 

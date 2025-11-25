@@ -8,8 +8,6 @@
  */
 
 describe("ImageGraph", function () {
-    this.timeout(0);
-
     before(function () {
         testEnvironment.multiplicateTableResults = 169856;
         testEnvironment.save();

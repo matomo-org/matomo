@@ -8,8 +8,6 @@
  */
 
 describe("Marketplace", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Plugins\\Marketplace\\tests\\Fixtures\\SimpleFixtureTrackFewVisits";
 
     var urlBase = '?module=Marketplace&action=overview';

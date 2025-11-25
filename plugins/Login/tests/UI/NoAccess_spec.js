@@ -8,8 +8,6 @@
  */
 
 describe("NoAccess", function () {
-    this.timeout(0);
-
     before(async function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.overrideConfig('General', 'login_session_not_remembered_idle_timeout', 1)

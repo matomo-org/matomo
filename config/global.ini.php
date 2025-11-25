@@ -1296,6 +1296,7 @@ Plugins[] = CustomDimensions
 Plugins[] = JsTrackerInstallCheck
 Plugins[] = FeatureFlags
 Plugins[] = AIAgents
+Plugins[] = BotTracking
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

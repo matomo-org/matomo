@@ -8,7 +8,6 @@
  */
 
 describe("WhatIsNew", function () {
-  this.timeout(0);
   this.fixture = 'Piwik\\Tests\\Fixtures\\CreateChanges';
   this.optionsOverride = {
     'persist-fixture-data': false

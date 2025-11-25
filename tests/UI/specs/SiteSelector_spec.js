@@ -8,8 +8,6 @@
  */
 
 describe("SiteSelector", function () {
-    this.timeout(0);
-
     const selectorToCapture = '.siteSelector,.siteSelector .dropdown';
     const url = "?module=UsersManager&action=userSettings&idSite=1&period=day&date=yesterday";
 

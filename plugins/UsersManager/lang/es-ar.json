@@ -102,7 +102,7 @@
         "MenuUserSettings": "Configuración de usuario",
         "MenuUsers": "Usuarios",
         "NewsletterSignupFailureMessage": "Epa, algo salió mal. No pudimos suscribirte al boletín informativo.",
-        "NewsletterSignupMessage": "Suscribite a nuestro boletín informativo para recibir regularmente información sobre Matomo. Podés desuscribirte cuando quieras. Este servicio usa MadMini. Conocé más al respecto en nuestra %1$spágina de política de privacidad%2$s.",
+        "NewsletterSignupMessage": "Suscribite a nuestro boletín informativo para recibir regularmente información sobre Matomo. Podés desuscribirte cuando quieras. Conocé más al respecto en nuestra %1$spágina de política de privacidad%2$s.",
         "NewsletterSignupSuccessMessage": "¡Joya, ya estás registrado! Nos estaremos contactando pronto.",
         "NewsletterSignupTitle": "Registro en el boletín informativo",
         "NoAccessWarning": "A este usuario no se le garantizó acceso a un sitio web. Cuando inicie sesión, verá un mensaje de error. Para prevenir eso, concedele acceso a un sitio web, abajo.",

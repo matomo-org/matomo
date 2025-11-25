@@ -8,7 +8,6 @@
  */
 
 describe("ScheduledReports", function () {
-    this.timeout(0);
     this.fixture = "Piwik\\Plugins\\ScheduledReports\\tests\\Fixtures\\ReportSubscription";
 
     it("should show an error if no token was provided", async function () {

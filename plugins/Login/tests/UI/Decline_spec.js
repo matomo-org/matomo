@@ -8,7 +8,6 @@
  */
 
 describe('Decline', function () {
-  this.timeout(0);
   this.fixture = 'Piwik\\Plugins\\Login\\tests\\Fixtures\\PendingUsers';
   this.optionsOverride = {
     'persist-fixture-data': false
