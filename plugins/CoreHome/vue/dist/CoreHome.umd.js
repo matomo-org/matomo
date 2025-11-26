@@ -1007,8 +1007,8 @@ class MatomoUrl_MatomoUrl {
     const category = this.getSearchParam('category');
     const subcategory = this.getSearchParam('subcategory');
     return {
-      c: category,
-      s: subcategory
+      c: decodeURIComponent(category),
+      s: decodeURIComponent(subcategory)
     };
   }
   getDateAndPeriodFromUrl() {

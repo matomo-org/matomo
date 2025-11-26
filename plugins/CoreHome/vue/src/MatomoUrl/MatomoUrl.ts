@@ -172,7 +172,7 @@ class MatomoUrl {
   getMenuPathSuffix(): { c: string; s: string } {
     const category = this.getSearchParam('category') as string;
     const subcategory = this.getSearchParam('subcategory') as string;
-    return { c: category, s: subcategory };
+    return { c: decodeURIComponent(category), s: decodeURIComponent(subcategory) };
   }
 
   getDateAndPeriodFromUrl(): { date: string; period: string } {
