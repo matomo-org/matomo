@@ -28,7 +28,18 @@ on:
         required: false
       TESTOMATIO_INTEGRATION:
         required: false
-
+  schedule:
+    # Run every 2 hours from Saturday 00:00 (Germany) until Sunday 16:00 (Germany)
+    # Germany assumed CET (UTC+1):
+    # - Start: Sat 00:00 DE  -> Fri 23:00 UTC
+    # - End:   Sun 16:00 DE -> Sun 15:00 UTC
+    #
+    # Friday 23:00 UTC (Sat 00:00 DE)
+    - cron: "0 23 * * 5"
+    # All odd hours on Saturday UTC: 01,03,...,23
+    - cron: "0 1-23/2 * * 6"
+    # Sunday UTC hours: 01,03,05,07,09,11,13,15 (up to 16:00 DE)
+    - cron: "0 1-15/2 * * 0"
 permissions:
   actions: read
   checks: none
