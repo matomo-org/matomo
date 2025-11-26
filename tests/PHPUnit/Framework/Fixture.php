@@ -529,7 +529,7 @@ class Fixture extends \PHPUnit\Framework\Assert
      *
      * @param string      $dateTime eg '2010-01-01 12:34:56'
      * @param int         $ecommerce
-     * @param bool        $siteName
+     * @param bool|string $siteName
      * @param bool|string $siteUrl
      * @param int         $siteSearch
      * @param null|string $searchKeywordParameters

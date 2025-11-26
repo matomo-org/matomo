@@ -13,6 +13,7 @@ namespace Piwik\Plugins\BotTracking\tests\Integration;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -66,16 +67,16 @@ class TrackerTest extends IntegrationTestCase
     public function getBotUserAgents(): array
     {
         return [
-            ['ChatGPT-User/1.0', 'ChatGPT-User', 'ai_assistant'],
-            ['chatgpt-user/1.0', 'ChatGPT-User', 'ai_assistant'],
-            ['CHATGPT-USER/1.0', 'ChatGPT-User', 'ai_assistant'],
-            ['Mozilla/5.0 (compatible; ChatGPT-User/1.0)', 'ChatGPT-User', 'ai_assistant'],
-            ['Mozilla/5.0 (compatible; ChatGPT-User/1.0; +https://openai.com)', 'ChatGPT-User', 'ai_assistant'],
-            ['MistralAI-User/2.0', 'MistralAI-User', 'ai_assistant'],
-            ['Gemini-Deep-Research/1.0', 'Gemini-Deep-Research', 'ai_assistant'],
-            ['Claude-User/3.0', 'Claude-User', 'ai_assistant'],
-            ['Perplexity-User/1.0', 'Perplexity-User', 'ai_assistant'],
-            ['Devin/1.0', 'Devin', 'ai_assistant'],
+            ['ChatGPT-User/1.0', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['chatgpt-user/1.0', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['CHATGPT-USER/1.0', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['Mozilla/5.0 (compatible; ChatGPT-User/1.0)', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['Mozilla/5.0 (compatible; ChatGPT-User/1.0; +https://openai.com)', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['MistralAI-User/2.0', 'MistralAI-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['Gemini-Deep-Research/1.0', 'Gemini-Deep-Research', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['Claude-User/3.0', 'Claude-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['Perplexity-User/1.0', 'Perplexity-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['Devin/1.0', 'Devin', BotDetector::BOT_TYPE_AI_ASSISTANT],
         ];
     }
 
@@ -94,7 +95,7 @@ class TrackerTest extends IntegrationTestCase
 
         self::assertCount(1, $records);
         self::assertEquals('ChatGPT-User', $records[0]['bot_name']);
-        self::assertEquals('ai_assistant', $records[0]['bot_type']);
+        self::assertEquals(BotDetector::BOT_TYPE_AI_ASSISTANT, $records[0]['bot_type']);
 
         $tableName = Common::prefixTable('log_visit');
         $sql = "SELECT COUNT(*) FROM `{$tableName}` WHERE idsite = ?";
@@ -118,7 +119,7 @@ class TrackerTest extends IntegrationTestCase
 
         self::assertCount(2, $records);
         self::assertEquals('Gemini-Deep-Research', $records[1]['bot_name']);
-        self::assertEquals('ai_assistant', $records[1]['bot_type']);
+        self::assertEquals(BotDetector::BOT_TYPE_AI_ASSISTANT, $records[1]['bot_type']);
 
         $tableName = Common::prefixTable('log_visit');
         $sql = "SELECT COUNT(*) FROM `{$tableName}` WHERE idsite = ?";
@@ -163,7 +164,7 @@ class TrackerTest extends IntegrationTestCase
 
         self::assertCount(1, $records);
         self::assertEquals('Gemini-Deep-Research', $records[0]['bot_name']);
-        self::assertEquals('ai_assistant', $records[0]['bot_type']);
+        self::assertEquals(BotDetector::BOT_TYPE_AI_ASSISTANT, $records[0]['bot_type']);
 
         $tableName = Common::prefixTable('log_visit');
         $sql       = "SELECT COUNT(*) FROM `{$tableName}` WHERE idsite = ?";
