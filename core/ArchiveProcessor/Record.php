@@ -59,6 +59,11 @@ class Record
     private $countOfRecordNameIsRecursive = false;
 
     /**
+     * @var bool
+     */
+    private $countOfRecordNameIsForLeafs = false;
+
+    /**
      * @var array|null
      */
     private $columnToRenameAfterAggregation = null;
@@ -200,6 +205,13 @@ class Record
         return $this;
     }
 
+    public function setIsCountOfBlobRecordLeafRows(string $dependentRecordName): Record
+    {
+        $this->countOfRecordName           = $dependentRecordName;
+        $this->countOfRecordNameIsForLeafs = true;
+        return $this;
+    }
+
     /**
      * @return string|null
      */
@@ -214,6 +226,14 @@ class Record
     public function getCountOfRecordNameIsRecursive(): bool
     {
         return $this->countOfRecordNameIsRecursive;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCountOfRecordNameIsForLeafs(): bool
+    {
+        return $this->countOfRecordNameIsForLeafs;
     }
 
     /**

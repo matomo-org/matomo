@@ -20,12 +20,12 @@ use Piwik\Piwik;
 abstract class RecordBuilder
 {
     /**
-     * @var int
+     * @var int|null
      */
     protected $maxRowsInTable;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $maxRowsInSubtable;
 
@@ -40,7 +40,7 @@ abstract class RecordBuilder
     protected $columnAggregationOps;
 
     /**
-     * @var array|null
+     * @var array<string|int,string|int>|null
      */
     protected $columnToRenameAfterAggregation;
 
@@ -49,6 +49,7 @@ abstract class RecordBuilder
      * @param int|null $maxRowsInSubtable
      * @param string|null $columnToSortByBeforeTruncation
      * @param array|null $columnAggregationOps
+     * @param array<string|int,string|int>|null $columnToRenameAfterAggregation
      */
     public function __construct(
         ?int $maxRowsInTable = null,
@@ -190,15 +191,18 @@ abstract class RecordBuilder
             $columnToRenameAfterAggregation = $record->getColumnToRenameAfterAggregation() ?? $this->columnToRenameAfterAggregation;
             $columnAggregationOps = $record->getBlobColumnAggregationOps() ?? $this->columnAggregationOps;
 
-            // only do recursive row count if there is a numeric record that depends on it
-            $countRecursiveRows = false;
+            // only do recursive row counts if there is a numeric record that depends on it
+            $countRecursiveRows = $countLeafRows = [];
             foreach ($numericRecords as $numeric) {
                 if (
                     $numeric->getCountOfRecordName() == $record->getName()
-                    && $numeric->getCountOfRecordNameIsRecursive()
                 ) {
-                    $countRecursiveRows = true;
-                    break;
+                    if ($numeric->getCountOfRecordNameIsRecursive()) {
+                        $countRecursiveRows[] = $numeric->getCountOfRecordName();
+                    }
+                    if ($numeric->getCountOfRecordNameIsForLeafs()) {
+                        $countLeafRows[] = $numeric->getCountOfRecordName();
+                    }
                 }
             }
 
@@ -209,7 +213,8 @@ abstract class RecordBuilder
                 $columnToSortByBeforeTruncation,
                 $columnAggregationOps,
                 $columnToRenameAfterAggregation,
-                $countRecursiveRows
+                $countRecursiveRows,
+                $countLeafRows
             );
 
             $aggregatedCounts = array_merge($aggregatedCounts, $counts);
@@ -250,7 +255,9 @@ abstract class RecordBuilder
 
                 $count = $aggregatedCounts[$dependentRecordName];
 
-                if ($record->getCountOfRecordNameIsRecursive()) {
+                if ($record->getCountOfRecordNameIsForLeafs()) {
+                    $recordCountMetricValues[$record->getName()] = $count['leafs'];
+                } elseif ($record->getCountOfRecordNameIsRecursive()) {
                     $recordCountMetricValues[$record->getName()] = $count['recursive'];
                 } else {
                     $recordCountMetricValues[$record->getName()] = $count['level0'];
