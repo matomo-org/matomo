@@ -63,8 +63,8 @@ strong {
 }
 
 .vertical-scroll-shadows(@bg-color: @color-white) {
-  background: linear-gradient(@bg-color 30%, fade(@bg-color, 0)) center top no-repeat local,
-    linear-gradient(fade(@bg-color, 0), @bg-color 70%) center bottom no-repeat local,
+  background: linear-gradient(@bg-color 30%, transparent) center top no-repeat local,
+    linear-gradient(transparent, @bg-color 70%) center bottom no-repeat local,
     radial-gradient(farthest-side at 50% 0, fade(@color-silver, 60%), fade(@color-silver, 0%) ) center top no-repeat scroll,
     radial-gradient(farthest-side at 50% 100%, fade(@color-silver, 60%), fade(@color-silver, 0%) ) center bottom no-repeat scroll;
   background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;

@@ -1405,6 +1405,10 @@ class AjaxHelper_AjaxHelper {
         if (xhr.statusText === 'abort' || xhr.status === 0) {
           return;
         }
+        if (xhr.status === 401) {
+          Matomo_Matomo.helper.refreshAfter(0);
+          return;
+        }
         console.log(`Warning: the ${AjaxHelper_$.param(this.getParams)} request failed!`);
         reject(xhr);
       });

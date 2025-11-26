@@ -543,6 +543,11 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           return;
         }
 
+        if (xhr.status === 401) {
+          Matomo.helper.refreshAfter(0);
+          return;
+        }
+
         console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
 
         reject(xhr);
