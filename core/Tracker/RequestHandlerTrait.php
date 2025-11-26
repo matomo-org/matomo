@@ -31,7 +31,7 @@ trait RequestHandlerTrait
         try {
             $request->getIdSite();
         } catch (UnexpectedWebsiteFoundException $e) {
-            $idSite = $this->request->getRawParams()['idsite'] ?? null;
+            $idSite = $request->getRawParams()['idsite'] ?? null;
             if (is_numeric($idSite) && (string)(int)$idSite === (string)$idSite && (int)$idSite >= 0) {
                 // only log a failure in case the provided idsite was valid positive integer
                 StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $request);
