@@ -15,6 +15,7 @@ use Piwik\Date;
 use Piwik\Plugin;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Plugins\BotTracking\Metrics as BotMetrics;
 use Piwik\Tracker\Request;
 
 /**
@@ -40,9 +41,13 @@ class BotTracking extends Plugin
     public function registerEvents(): array
     {
         return [
-            'PrivacyManager.deleteLogsOlderThan' => 'deleteLogsOlderThan',
-            'PrivacyManager.deleteDataSubjectsForDeletedSites' => 'deleteDataSubjectsForDeletedSites',
-            'Tracker.isBotRequest' => 'isBotRequest',
+            'PrivacyManager.deleteLogsOlderThan'                => 'deleteLogsOlderThan',
+            'PrivacyManager.deleteDataSubjectsForDeletedSites'  => 'deleteDataSubjectsForDeletedSites',
+            'Tracker.isBotRequest'                              => 'isBotRequest',
+            'Metrics.getEvolutionUnit'                          => 'getEvolutionUnit',
+            'Metrics.getDefaultMetricTranslations'              => 'addMetricTranslations',
+            'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
+            'Metrics.getDefaultMetricSemanticTypes'             => 'addMetricSemanticTypes',
         ];
     }
 
@@ -99,5 +104,36 @@ class BotTracking extends Plugin
         if ($botDetector->isBot()) {
             $isBot = true;
         }
+    }
+
+    public function getEvolutionUnit(?string &$unit, string $column): void
+    {
+        if ($column === Metrics::METRIC_AI_ASSISTANTS_CLICK_THROUGH_RATE) {
+            $unit = '%';
+        }
+    }
+
+    /**
+     * @param array<string, string> $translations
+     */
+    public function addMetricTranslations(array &$translations): void
+    {
+        $translations = array_merge($translations, BotMetrics::getMetricTranslations());
+    }
+
+    /**
+     * @param array<string, string> $translations
+     */
+    public function addMetricDocumentationTranslations(array &$translations): void
+    {
+        $translations = array_merge($translations, BotMetrics::getMetricDocumentation());
+    }
+
+    /**
+     * @param array<string|int, string> $types
+     */
+    public function addMetricSemanticTypes(array &$types): void
+    {
+        $types = array_merge($types, BotMetrics::getMetricSemanticTypes());
     }
 }

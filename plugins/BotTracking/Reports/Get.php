@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+declare(strict_types=1);
+
+namespace Piwik\Plugins\BotTracking\Reports;
+
+use Piwik\API\Request;
+use Piwik\Piwik;
+use Piwik\Plugin\Report;
+use Piwik\Plugin\ViewDataTable;
+use Piwik\Plugins\BotTracking\Columns\Metrics\ClickThroughRate;
+use Piwik\Plugins\BotTracking\Metrics;
+use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
+use Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines;
+use Piwik\Report\ReportWidgetFactory;
+use Piwik\Widget\WidgetsList;
+
+class Get extends Report
+{
+    protected function init(): void
+    {
+        parent::init();
+        $this->categoryId       = 'AIAgents_AIAssistants';
+        $this->subcategoryId    = 'General_Overview';
+        $this->name             = Piwik::translate('BotTracking_ReportTitleBotsOverview');
+        $this->documentation    = '';
+        $this->metrics          = Metrics::getReportMetricColumns();
+        $this->processedMetrics = [
+            new ClickThroughRate(),
+        ];
+        $this->order            = 10;
+    }
+
+    public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
+    {
+        $widgetsList->addWidgetConfig(
+            $factory->createContainerWidget('AIAgents_AIAssistants')
+                ->setIsWide()
+                ->setOrder(10)
+        );
+
+        $widgetsList->addToContainerWidget(
+            'AIAgents_AIAssistants',
+            $factory->createWidget()
+                ->setName('BotTracking_ReportTitleBotsOverTime')
+                ->forceViewDataTable(Evolution::ID)
+                ->setAction('getEvolutionGraph')
+                ->setOrder(1)
+        );
+
+        $widgetsList->addToContainerWidget(
+            'AIAgents_AIAssistants',
+            $factory->createWidget()
+                ->setName('BotTracking_ReportTitleBotsOverview')
+                ->forceViewDataTable(Sparklines::ID)
+                ->setOrder(2)
+        );
+    }
+
+    public function configureView(ViewDataTable $view): void
+    {
+        if (!$view->isViewDataTableId(Sparklines::ID)) {
+            return;
+        }
+
+        /** @var Sparklines $view */
+        $view->config->title = Piwik::translate('BotTracking_ReportTitleBotsOverview');
+        $view->config->addTranslations(Metrics::getMetricTranslations());
+        $view->config->metrics_documentation = Metrics::getMetricDocumentation();
+
+        $order = 0;
+        foreach (Metrics::getSparklineMetricOrder() as $metric) {
+            $view->config->addSparklineMetric($metric, $order++);
+        }
+
+        $segment = Request::getRawSegmentFromRequest();
+        if (!empty($segment)) {
+            $view->config->show_footer_message = Piwik::translate('BotTracking_SegmentNotSupported');
+        }
+    }
+}

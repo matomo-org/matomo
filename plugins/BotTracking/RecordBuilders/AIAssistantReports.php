@@ -291,9 +291,9 @@ class AIAssistantReports extends RecordBuilder
 
         while ($record = $resultSet->fetch()) {
             /**
-             * @var array{requests: int, url: string, url_prefix: ?int} $row
+             * @var array{requests: int, url: string, url_prefix: ?int} $record
              */
-            $path = ArchivingHelper::getActionExplodedNames($row['url'], $actionType, $record['url_prefix']);
+            $path = ArchivingHelper::getActionExplodedNames($record['url'], $actionType, $record['url_prefix']);
             [$row, $level] = $table->walkPath($path, [Metrics::COLUMN_REQUESTS => 0], $this->maxRowsInSubtable);
 
             if ($row) {

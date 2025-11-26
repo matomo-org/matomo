@@ -62,6 +62,13 @@ class Get extends Report
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
         $widgetsList->addWidgetConfig(
+            $factory->createContainerWidget('AIAgents_AIAgentVisits')
+                ->setIsWide()
+                ->setOrder(90)
+        );
+
+        $widgetsList->addToContainerWidget(
+            'AIAgents_AIAgentVisits',
             $factory->createWidget()
                 ->setName('AIAgents_WidgetGraphAIAgents')
                 ->forceViewDataTable(Evolution::ID)
@@ -69,7 +76,8 @@ class Get extends Report
                 ->setOrder(1)
         );
 
-        $widgetsList->addWidgetConfig(
+        $widgetsList->addToContainerWidget(
+            'AIAgents_AIAgentVisits',
             $factory->createWidget()
                 ->forceViewDataTable(Sparklines::ID)
                 ->setName('AIAgents_WidgetOverviewAIAgents')

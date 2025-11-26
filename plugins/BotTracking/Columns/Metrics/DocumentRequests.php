@@ -34,6 +34,10 @@ class DocumentRequests extends AggregatedMetric
         return Piwik::translate('BotTracking_ColumnDocumentRequestsDocumentation');
     }
 
+    /**
+     * @param int $value
+     * @return string
+     */
     public function format($value, Formatter $formatter)
     {
         return $formatter->getPrettyNumber($value);
