@@ -19,7 +19,9 @@ use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
 use Piwik\Db;
+use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\BotTracking\Archiver;
+use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\RankingQuery;
@@ -60,7 +62,19 @@ class AIAssistantReports extends RecordBuilder
     {
         return [
             Record::make(Record::TYPE_BLOB, Archiver::AI_ASSISTANTS_PAGES_RECORD),
+            Record::make(Record::TYPE_BLOB, Archiver::AI_ASSISTANTS_REQUESTED_DOCUMENTS_RECORD),
+            Record::make(Record::TYPE_BLOB, Archiver::AI_ASSISTANTS_REQUESTED_PAGES_RECORD),
             Record::make(Record::TYPE_BLOB, Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD),
+            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_ASSISTANTS)
+                ->setIsCountOfBlobRecordRows(Archiver::AI_ASSISTANTS_PAGES_RECORD),
+            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_REQUESTS),
+            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_ACQUIRED_VISITS),
+            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS)
+                ->setIsCountOfBlobRecordLeafRows(Archiver::AI_ASSISTANTS_REQUESTED_PAGES_RECORD),
+            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS)
+                ->setIsCountOfBlobRecordLeafRows(Archiver::AI_ASSISTANTS_REQUESTED_DOCUMENTS_RECORD),
+            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_NOT_FOUND_REQUESTS),
+            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_SERVER_ERROR_REQUESTS),
         ];
     }
 
@@ -73,11 +87,14 @@ class AIAssistantReports extends RecordBuilder
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
         $tables = [
-            Archiver::AI_ASSISTANTS_PAGES_RECORD     => new DataTable(),
-            Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD => new DataTable(),
+            Archiver::AI_ASSISTANTS_PAGES_RECORD               => new DataTable(),
+            Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD           => new DataTable(),
+            Archiver::AI_ASSISTANTS_REQUESTED_PAGES_RECORD     => new DataTable(),
+            Archiver::AI_ASSISTANTS_REQUESTED_DOCUMENTS_RECORD => new DataTable(),
         ];
 
         $this->populateTables($archiveProcessor, $tables);
+        $this->populateNumerics($archiveProcessor, $tables);
 
         return $tables;
     }
@@ -88,17 +105,13 @@ class AIAssistantReports extends RecordBuilder
     private function populateTables(ArchiveProcessor $archiveProcessor, array &$tables): void
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
-        $params        = $archiveProcessor->getParams();
-        $sites         = $params->getIdSites();
+        $visits = $this->queryAcquiredVisitsByAIAssistant($logAggregator);
 
-        if (empty($sites)) {
-            return;
-        }
+        $this->populateAssistantTableForActionType($tables, Action::TYPE_PAGE_URL, $logAggregator, $visits);
+        $this->populateAssistantTableForActionType($tables, Action::TYPE_DOWNLOAD, $logAggregator, $visits);
 
-        $visits   = $this->queryAcquiredVisitsByAIAssistant($logAggregator);
-
-        $this->populateTableForActionType($tables, Action::TYPE_PAGE_URL, $logAggregator, $visits);
-        $this->populateTableForActionType($tables, Action::TYPE_DOWNLOAD, $logAggregator, $visits);
+        $this->populateRequestTableForActionType($tables[Archiver::AI_ASSISTANTS_REQUESTED_PAGES_RECORD], Action::TYPE_PAGE_URL, $logAggregator);
+        $this->populateRequestTableForActionType($tables[Archiver::AI_ASSISTANTS_REQUESTED_DOCUMENTS_RECORD], Action::TYPE_DOWNLOAD, $logAggregator);
     }
 
     /**
@@ -142,7 +155,7 @@ class AIAssistantReports extends RecordBuilder
      * @param array<string, int> $visits
      * @return void
      */
-    private function populateTableForActionType(array $tables, int $actionType, LogAggregator $logAggregator, array $visits): void
+    private function populateAssistantTableForActionType(array $tables, int $actionType, LogAggregator $logAggregator, array $visits): void
     {
         $resultSet  = $this->queryBotRequests($logAggregator, $actionType);
 
@@ -217,6 +230,7 @@ class AIAssistantReports extends RecordBuilder
              WHERE log_action.name IS NOT NULL
                AND log_action.name <> ''
                AND log_action.type = %d
+               AND bot.bot_type = ?
                AND %s
              GROUP BY bot.bot_name, url WITH ROLLUP) AS rollupQuery
              ORDER BY requests DESC, bot_name, url",
@@ -233,7 +247,7 @@ class AIAssistantReports extends RecordBuilder
             $sql = $rankingQuery->generateRankingQuery($sql, true);
         }
 
-        return Db::query($sql, $logAggregator->getGeneralQueryBindParams());
+        return Db::query($sql, array_merge([BotDetector::BOT_TYPE_AI_ASSISTANT], $logAggregator->getGeneralQueryBindParams()));
     }
 
     private function getRankingQueryLimit(): int
@@ -249,5 +263,93 @@ class AIAssistantReports extends RecordBuilder
         }
 
         return max($configLimit, $maxRowsInTable, $maxRowsInSubtable);
+    }
+
+    public function populateRequestTableForActionType(DataTable $table, int $actionType, LogAggregator $logAggregator): void
+    {
+        $where    = $logAggregator->getWhereStatement('bot', 'server_time');
+        $bindBase = $logAggregator->getGeneralQueryBindParams();
+
+        $sql = sprintf(
+            "SELECT log_action.name AS url, log_action.url_prefix, COUNT(*) AS requests
+             FROM %s AS bot
+             INNER JOIN %s AS log_action ON log_action.idaction = bot.idaction_url
+             WHERE log_action.name IS NOT NULL
+               AND log_action.name <> ''
+               AND log_action.type = %d
+               AND bot.bot_type = ?
+               AND %s
+             GROUP BY log_action.name
+             ORDER BY requests DESC, log_action.name",
+            BotRequestsDao::getPrefixedTableName(),
+            Common::prefixTable('log_action'),
+            $actionType,
+            $where
+        );
+
+        $resultSet = Db::query($sql, array_merge([BotDetector::BOT_TYPE_AI_ASSISTANT], $bindBase));
+
+        while ($record = $resultSet->fetch()) {
+            /**
+             * @var array{requests: int, url: string, url_prefix: ?int} $row
+             */
+            $path = ArchivingHelper::getActionExplodedNames($row['url'], $actionType, $record['url_prefix']);
+            [$row, $level] = $table->walkPath($path, [Metrics::COLUMN_REQUESTS => 0], $this->maxRowsInSubtable);
+
+            if ($row) {
+                $row->setColumn(Metrics::COLUMN_REQUESTS, $record['requests']);
+            }
+        }
+    }
+
+    /**
+     * @param array<string, DataTable> $tables
+     */
+    private function populateNumerics(ArchiveProcessor $archiveProcessor, array &$tables): void
+    {
+        $logAggregator = $archiveProcessor->getLogAggregator();
+
+        $table      = BotRequestsDao::getPrefixedTableName();
+        $visitTable = Common::prefixTable('log_visit');
+
+        $where = $logAggregator->getWhereStatement('bot', 'server_time');
+
+        $sql = <<<SQL
+SELECT
+    COUNT(*) AS requests,
+    SUM(CASE WHEN bot.http_status_code = 404 THEN 1 ELSE 0 END) AS not_found_requests,
+    SUM(CASE WHEN bot.http_status_code BETWEEN 500 AND 599 THEN 1 ELSE 0 END) AS server_error_requests
+FROM $table AS bot
+WHERE bot.bot_type = ? AND $where
+SQL;
+
+        $bind = [
+            BotDetector::BOT_TYPE_AI_ASSISTANT,
+        ];
+        $bind = array_merge($bind, $logAggregator->getGeneralQueryBindParams());
+
+        $row = Db::fetchRow($sql, $bind) ?: [];
+
+        $visitBind = [
+            Common::REFERRER_TYPE_AI_ASSISTANT,
+        ];
+        $visitBind = array_merge($visitBind, $logAggregator->getGeneralQueryBindParams());
+
+        $where = $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time');
+
+        $visitsSql = sprintf(
+            "SELECT COUNT(*) FROM %s log_visit WHERE referer_type = ? AND $where",
+            $visitTable
+        );
+
+        $acquiredVisits = (int)Db::fetchOne($visitsSql, $visitBind);
+
+        $tables[Metrics::METRIC_AI_ASSISTANTS_UNIQUE_ASSISTANTS]     = $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD]->getRowsCount();
+        $tables[Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS]      = $tables[Archiver::AI_ASSISTANTS_REQUESTED_PAGES_RECORD]->getLeafRowsCount();
+        $tables[Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS]  = $tables[Archiver::AI_ASSISTANTS_REQUESTED_DOCUMENTS_RECORD]->getLeafRowsCount();
+        $tables[Metrics::METRIC_AI_ASSISTANTS_REQUESTS]              = (int)($row['requests'] ?? 0);
+        $tables[Metrics::METRIC_AI_ASSISTANTS_ACQUIRED_VISITS]       = $acquiredVisits;
+        $tables[Metrics::METRIC_AI_ASSISTANTS_NOT_FOUND_REQUESTS]    = (int)($row['not_found_requests'] ?? 0);
+        $tables[Metrics::METRIC_AI_ASSISTANTS_SERVER_ERROR_REQUESTS] = (int)($row['server_error_requests'] ?? 0);
     }
 }

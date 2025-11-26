@@ -192,7 +192,7 @@ class ArchiveProcessor
      * @param array $columnsToRenameAfterAggregation Columns mapped to new names for columns that must change names
      *                                               when summed because they cannot be summed, eg,
      *                                               `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
-     * @param string[] $countRowsRecursive array of recordNames that defines for which ones you need a recursive row count.
+     * @param string[]|bool $countRowsRecursive array of recordNames that defines for which ones you need a recursive row count, or true if it should be done for all
      * @param string[] $countLeafRows array of recordNames that defines for which ones you need a leaf row count.
      * @return array Returns the row counts of each aggregated report before truncation, eg,
      *
@@ -212,7 +212,7 @@ class ArchiveProcessor
         $defaultColumnToSortByBeforeTruncation = null,
         &$columnsAggregationOperation = null,
         $columnsToRenameAfterAggregation = null,
-        array $countRowsRecursive = [],
+        $countRowsRecursive = true,
         array $countLeafRows = []
     ) {
         /** @var LoggerInterface $logger */
@@ -236,7 +236,7 @@ class ArchiveProcessor
             $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
 
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
-            if (in_array($recordName, $countRowsRecursive)) {
+            if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {
                 $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
             }
             if (in_array($recordName, $countLeafRows)) {
