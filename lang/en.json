@@ -473,6 +473,8 @@
         "Testing": "Testing…",
         "ThankYouForUsingMatomo": "Thank you for using Matomo",
         "TheMatomoTeam": "The Matomo Team",
+        "ThirdPartyCookieSettingTitle": "Third party cookies",
+        "ThirdPartyCookieSettingNote": "Third party cookies must be disabled",
         "TimeAgo": "%s ago",
         "TimeFormat": "Time format",
         "TimeOnPage": "Time on page",
