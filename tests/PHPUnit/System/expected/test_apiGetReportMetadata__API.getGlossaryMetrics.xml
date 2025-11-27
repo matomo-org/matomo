@@ -2,6 +2,11 @@
 <result>
 	<row>
 		<name>Acquired visits</name>
+		<id>BotTracking_AIAssistantsAcquiredVisits</id>
+		<documentation>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</documentation>
+	</row>
+	<row>
+		<name>Acquired visits</name>
 		<id>visits_acquired</id>
 		<documentation>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</documentation>
 	</row>
@@ -79,6 +84,11 @@
 		<name>Bounces</name>
 		<id>entry_bounce_count</id>
 		<documentation>Number of visits that started and ended on this page. This means that the visitor left the website after viewing only this page.</documentation>
+	</row>
+	<row>
+		<name>Click-through rate</name>
+		<id>BotTracking_AIAssistantsClickThroughRate</id>
+		<documentation>Share of AI assistant requests that resulted in acquired visits (acquired visits ÷ requests).</documentation>
 	</row>
 	<row>
 		<name>Clicked in search results</name>
@@ -161,6 +171,11 @@
 		<documentation>The minimum value for this event</documentation>
 	</row>
 	<row>
+		<name>Not found (404) requests</name>
+		<id>BotTracking_AIAssistantsNotFoundRequests</id>
+		<documentation>Number of bot requests that returned an HTTP 404 response, including document URLs.</documentation>
+	</row>
+	<row>
 		<name>Outlinks</name>
 		<id>nb_outlinks</id>
 		<documentation>The number of times this link was clicked.</documentation>
@@ -187,6 +202,11 @@
 	</row>
 	<row>
 		<name>Requests</name>
+		<id>BotTracking_AIAssistantsRequests</id>
+		<documentation>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</documentation>
+	</row>
+	<row>
+		<name>Requests</name>
 		<id>requests</id>
 		<documentation>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</documentation>
 	</row>
@@ -199,6 +219,16 @@
 		<name>Searches</name>
 		<id>nb_searches</id>
 		<documentation>The number of visits that searched for this keyword on your website's search engine.</documentation>
+	</row>
+	<row>
+		<name>Server error (5xx) requests</name>
+		<id>BotTracking_AIAssistantsServerErrorRequests</id>
+		<documentation>Number of bot requests that returned an HTTP 5xx response, including document URLs.</documentation>
+	</row>
+	<row>
+		<name>Unique AI chatbots</name>
+		<id>BotTracking_AIAssistantsUniqueAssistants</id>
+		<documentation>AI assistant user agents detected during the selected period.</documentation>
 	</row>
 	<row>
 		<name>Unique Downloads</name>
@@ -214,6 +244,16 @@
 		<name>Unique Pageviews</name>
 		<id>nb_uniq_pageviews</id>
 		<documentation>The number of visits that included this page. If a page was viewed multiple times during one visit, it is only counted once.</documentation>
+	</row>
+	<row>
+		<name>Unique document URLs</name>
+		<id>BotTracking_AIAssistantsUniqueDocumentUrls</id>
+		<documentation>Distinct download or document URLs requested by AI assistants.</documentation>
+	</row>
+	<row>
+		<name>Unique page URLs</name>
+		<id>BotTracking_AIAssistantsUniquePageUrls</id>
+		<documentation>Distinct page URLs requested by AI assistants.</documentation>
 	</row>
 	<row>
 		<name>Unique visitors</name>
