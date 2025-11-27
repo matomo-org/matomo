@@ -23,7 +23,7 @@ abstract class Base extends \Piwik\Plugin\Report
     protected function init()
     {
         $this->categoryId = 'General_Actions';
-        $this->processedMetrics = false;
+        $this->processedMetrics = [];
         $this->recursiveLabelSeparator = '/';
     }
 

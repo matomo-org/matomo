@@ -3284,11 +3284,6 @@ parameters:
 			path: plugins/Actions/RecordBuilders/ActionReports.php
 
 		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/Actions/Reports/Base.php
-
-		-
 			message: "#^Variable \\$action in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/Actions/Tracker/ActionsRequestProcessor.php
@@ -4074,21 +4069,6 @@ parameters:
 			path: plugins/Ecommerce/Controller.php
 
 		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Reports/GetDaysToConversionAbandonedCart.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Reports/GetDaysToConversionEcommerceOrder.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/Ecommerce/Reports/GetVisitsUntilConversionAbandonedCart.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\API\\:\\:getSecondaryDimensions\\(\\) should return array but returns false\\.$#"
 			count: 1
 			path: plugins/Events/API.php
@@ -4102,11 +4082,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\Columns\\\\TotalEvents\\:\\:onExistingVisit\\(\\) should return int but returns string\\.$#"
 			count: 1
 			path: plugins/Events/Columns/TotalEvents.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/Events/Reports/GetNameFromCategoryId.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\VisitorDetails\\:\\:renderAction\\(\\) should return string but empty return statement found\\.$#"
@@ -4337,11 +4312,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept array\\<string, float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\>\\.$#"
 			count: 1
 			path: plugins/Goals/Reports/Get.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/Goals/Reports/GetDaysToConversion.php
 
 		-
 			message: "#^Right side of && is always true\\.$#"
