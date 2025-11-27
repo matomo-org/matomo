@@ -58,7 +58,9 @@ class MatomoUrl {
       this.updatePeriodParamsFromUrl();
       this.updatePageTitle();
     });
-
+    window.addEventListener('load', () => {
+      this.updatePageTitle();
+    });
     this.updatePeriodParamsFromUrl();
     this.updatePageTitle();
   }

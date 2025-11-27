@@ -75,10 +75,11 @@ piwik.updateTitle = async function updateTitle(
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
   const store = getReportingMenuStore();
   if (store && c && s) {
-    let found = store.findSubcategory(c, s);
+    const found = store.findSubcategory(c, s);
     if (!found.category) {
-      await store.reloadMenuItems();
-      found = store.findSubcategory(c, s);
+      // This happens when the page loads initially
+      // We can just return here since the title will be updated when 'load' event happens
+      return;
     }
     categoryName = found?.category?.name ?? '';
     subcategoryName = found?.subcategory?.name ?? '';

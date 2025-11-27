@@ -829,14 +829,15 @@ piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
   const store = getReportingMenuStore();
   if (store && c && s) {
-    var _found$category$name, _found, _found$subcategory$na, _found2;
-    let found = store.findSubcategory(c, s);
+    var _found$category$name, _found$category, _found$subcategory$na, _found$subcategory;
+    const found = store.findSubcategory(c, s);
     if (!found.category) {
-      await store.reloadMenuItems();
-      found = store.findSubcategory(c, s);
+      // This happens when the page loads initially
+      // We can just return here since the title will be updated when 'load' event happens
+      return;
     }
-    categoryName = (_found$category$name = (_found = found) === null || _found === void 0 || (_found = _found.category) === null || _found === void 0 ? void 0 : _found.name) !== null && _found$category$name !== void 0 ? _found$category$name : '';
-    subcategoryName = (_found$subcategory$na = (_found2 = found) === null || _found2 === void 0 || (_found2 = _found2.subcategory) === null || _found2 === void 0 ? void 0 : _found2.name) !== null && _found$subcategory$na !== void 0 ? _found$subcategory$na : '';
+    categoryName = (_found$category$name = found === null || found === void 0 || (_found$category = found.category) === null || _found$category === void 0 ? void 0 : _found$category.name) !== null && _found$category$name !== void 0 ? _found$category$name : '';
+    subcategoryName = (_found$subcategory$na = found === null || found === void 0 || (_found$subcategory = found.subcategory) === null || _found$subcategory === void 0 ? void 0 : _found$subcategory.name) !== null && _found$subcategory$na !== void 0 ? _found$subcategory$na : '';
     if (categoryName === subcategoryName) {
       subcategoryName = '';
     }
@@ -927,6 +928,9 @@ class MatomoUrl_MatomoUrl {
     window.addEventListener('hashchange', event => {
       this.url.value = new URL(event.newURL);
       this.updatePeriodParamsFromUrl();
+      this.updatePageTitle();
+    });
+    window.addEventListener('load', () => {
       this.updatePageTitle();
     });
     this.updatePeriodParamsFromUrl();
