@@ -30,6 +30,7 @@
         "SparklineHumanBounceRate": "Menschliche Besucher sind abgesprungen (haben die Webseite nach einer Seite verlassen)",
         "SparklineHumanVisits": "Menschliche Besuche",
         "WidgetGraphAIAgents": "KI-Agenten im Laufe der Zeit",
-        "WidgetOverviewAIAgents": "Übersicht über KI-Agenten"
+        "WidgetOverviewAIAgents": "Übersicht über KI-Agenten",
+        "ColumnAIAgentUsers": "KI-Agent Benutzer"
     }
 }

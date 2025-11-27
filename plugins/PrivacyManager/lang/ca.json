@@ -206,6 +206,8 @@
         "RawDataNeverRemoved": "Les dades en brut de les visites i les accions no s'eliminen <strong>mai</strong> .",
         "RawDataRemovedAfter": "totes les dades en brut de visites i accions se suprimeixen després de %1$s.",
         "RecommendedForPrivacy": "Recomanat per privadesa",
+        "ReferrerAnonymizationSettingRequirementNote": "Només es pot recopilar l'amfitrió o el tipus de referent.",
+        "ReferrerAnonymizationSettingTitle": "Anonimització del referent",
         "ReportsDataSavedEstimate": "Mida de la base de dades",
         "ReportsNeverRemoved": "els informes agregats no s'eliminen <strong>mai</strong>.",
         "ReportsRemovedAfter": "tots els informes agregats se suprimeixen després de %1$s.",
