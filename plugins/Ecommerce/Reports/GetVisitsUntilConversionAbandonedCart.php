@@ -22,7 +22,7 @@ class GetVisitsUntilConversionAbandonedCart extends Base
         $this->name = Piwik::translate('General_AbandonedCarts') . ' - ' . Piwik::translate('Goals_VisitsUntilConv');
         $this->dimension = new VisitsUntilConversion();
         $this->constantRowsCount = true;
-        $this->processedMetrics = false;
+        $this->processedMetrics = [];
         $this->metrics = array('nb_conversions');
         $this->order = 20;
 

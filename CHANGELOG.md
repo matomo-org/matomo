@@ -26,7 +26,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 
-* Annotations where move to their own database table. Plugins trying to access annotations without using the API might need to be updated.
+* Annotations were moved to their own database table. Plugins trying to access annotations without using the API might need to be updated.
 * AI Assistants are now detected as new referrer type (ID=8), which allows improved reports and better segmentation
 
 ### JavaScript Tracker
