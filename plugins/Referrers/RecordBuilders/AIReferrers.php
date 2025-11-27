@@ -166,7 +166,7 @@ class AIReferrers extends RecordBuilder
      */
     protected function aggregateFromConversions(LogAggregator $logAggregator, array $reports, array $dimensions): void
     {
-        $where = 'referer_type = ' . Common::REFERRER_TYPE_AI_ASSISTANT;
+        $where = '%s.referer_type = ' . Common::REFERRER_TYPE_AI_ASSISTANT;
         $query = $logAggregator->queryConversionsByDimension($dimensions, $where);
 
         while ($row = $query->fetch()) {
