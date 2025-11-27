@@ -17,6 +17,7 @@
         "MysqlMaxPacketSize": "最大封包大小",
         "MysqlMaxPacketSizeWarning": "推薦將 MySQL 資料庫中的「%1$smax_allowed_packet%2$s」值至少設定為 %3$s。目前的設定為 %4$s。",
         "MysqlTemporaryTablesWarning": "Matomo 需要 MySQL CREATE TEMPORARY TABLES 權限以正常運作。",
+        "MysqlTransactionLevel": "不支持更改事务隔离级别。 归档仍然可以，但是可能会比较慢，因此建议将“ binlog_format”更改为“ row”。",
         "NoDataForReportArchivingNotRun": "你最近尚未執行彙整報表，%1$s 了解如何產生你的報表。%2$s",
         "Sections": "分區"
     }
