@@ -131,7 +131,10 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         }
 
         /**
-         * This event is triggered when the status of a compliance policy changes.
+         * This event is triggered when the status of a compliance policy changes, and
+         * is to be used to perform extra actions when a policy is activated/deactivated.
+         *
+         * The status of a policy cannot be changed via this event.
          *
          * @param bool $isActive Whether the policy is being activated or deactivated
          * @param int|null $idSite
