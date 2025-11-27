@@ -829,15 +829,14 @@ piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
   const store = getReportingMenuStore();
   if (store && c && s) {
-    var _found$category$name, _found$category, _found$subcategory$na, _found$subcategory;
-    const found = store.findSubcategory(c, s);
+    var _found$category$name, _found, _found$subcategory$na, _found2;
+    let found = store.findSubcategory(c, s);
     if (!found.category) {
-      // This happens when the page loads initially
-      // We can just return here since the title will be updated when 'load' event happens
-      return;
+      await store.fetchMenuItems();
+      found = store.findSubcategory(c, s);
     }
-    categoryName = (_found$category$name = found === null || found === void 0 || (_found$category = found.category) === null || _found$category === void 0 ? void 0 : _found$category.name) !== null && _found$category$name !== void 0 ? _found$category$name : '';
-    subcategoryName = (_found$subcategory$na = found === null || found === void 0 || (_found$subcategory = found.subcategory) === null || _found$subcategory === void 0 ? void 0 : _found$subcategory.name) !== null && _found$subcategory$na !== void 0 ? _found$subcategory$na : '';
+    categoryName = (_found$category$name = (_found = found) === null || _found === void 0 || (_found = _found.category) === null || _found === void 0 ? void 0 : _found.name) !== null && _found$category$name !== void 0 ? _found$category$name : '';
+    subcategoryName = (_found$subcategory$na = (_found2 = found) === null || _found2 === void 0 || (_found2 = _found2.subcategory) === null || _found2 === void 0 ? void 0 : _found2.name) !== null && _found$subcategory$na !== void 0 ? _found$subcategory$na : '';
     if (categoryName === subcategoryName) {
       subcategoryName = '';
     }
@@ -848,8 +847,6 @@ piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
     const segmentLabel = getActiveSegmentLabel(segment);
     const segmentString = segmentLabel ? `${Matomo_piwikHelper.htmlEntities(segmentLabel)}` : '';
     document.title = `${piwik.siteName} - ${dateString} - ${categorySubcategoryString} - ${segmentString} - ${titleSuffix}`;
-  } else {
-    document.title = `${piwik.siteName} - ${dateString} - ${titleSuffix}`;
   }
 };
 piwik.hasUserCapability = function hasUserCapability(capability) {
