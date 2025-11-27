@@ -130,6 +130,13 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
             static::setSystemValue($isActive);
         }
 
+        /**
+         * This event is triggered when the status of a compliance policy changes.
+         *
+         * @param bool $isActive Whether the policy is being activated or deactivated
+         * @param int|null $idSite
+         * @param class-string<CompliancePolicy> The compliance policy in question
+         */
         Piwik::postEvent('CompliancePolicy.setActiveStatus', [$isActive, $idSite, static::class]);
     }
 
