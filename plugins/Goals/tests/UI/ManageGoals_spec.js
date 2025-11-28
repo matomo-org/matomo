@@ -37,18 +37,23 @@ describe("ManageGoals", function () {
         await saveButton.click();
 
         await page.waitForNetworkIdle();
-        expect(await page.screenshot()).to.matchImage('goals_created');
 
         // We check that the created goal id is in the View Goal Report url
         const createdGoalId = await page.$eval(
           'div.manageGoals table.entityTable tbody tr:last-child td:first-child',
           (cell) => cell.textContent.trim()
         );
+        const notificationText = await page.$eval(
+          '.notification.notification-success .notification-message',
+          (el) => el.textContent.trim(),
+        );
         const viewGoalLinkHref = await page.$eval(
           '.notification.notification-success a',
           (link) => link.getAttribute('href')
         );
-      expect(viewGoalLinkHref).to.include(`subcategory=${createdGoalId}`);
+        const expectedNotificationText = "Goal successfully created [View Goal Report]";
+        expect(notificationText).to.equal(expectedNotificationText);
+        expect(viewGoalLinkHref).to.include(`subcategory=${createdGoalId}`);
     });
     it("should show the correct notification when editing the goal", async function () {
       const goalEditButtonSelector = 'table.entityTable tbody tr:nth-last-child(1) button.icon-edit';
@@ -60,7 +65,6 @@ describe("ManageGoals", function () {
       const updateButton = await page.waitForSelector('.addEditGoal .matomo-save-button .btn');
       await updateButton.click();
       await page.waitForNetworkIdle();
-      expect(await page.screenshot()).to.matchImage('goals_updated');
 
       // We check that the edited goal id is in the View Goal Report url
       const editedGoalId = await page.$eval(
@@ -71,6 +75,12 @@ describe("ManageGoals", function () {
         '.notification.notification-success a',
         (link) => link.getAttribute('href')
       );
+      const notificationText = await page.$eval(
+        '.notification.notification-success .notification-message',
+        (el) => el.textContent.trim(),
+      );
+      const expectedNotificationText = "Goal successfully updated [View Goal Report]";
+      expect(notificationText).to.equal(expectedNotificationText);
       expect(viewGoalLinkHref).to.include(`subcategory=${editedGoalId}`);
     });
 });
