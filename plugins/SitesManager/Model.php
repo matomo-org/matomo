@@ -305,7 +305,6 @@ class Model
      * Returns the list of alias URLs registered for the given idSite.
      * The website ID must be valid when calling this method!
      *
-     * @param int $idSite
      * @return array list of alias URLs
      */
     public function getAllKnownUrlsForAllSites()

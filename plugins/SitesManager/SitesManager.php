@@ -362,7 +362,6 @@ class SitesManager extends \Piwik\Plugin
 
     /**
      * Returns the hosts alias URLs
-     * @param int $idSite
      * @return array
      */
     private function getTrackerHosts($urls)
