@@ -784,13 +784,13 @@ const {
 } = window;
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
-function getReportingMenuStore() {
-  var _window$CoreHome;
-  return (_window$CoreHome = window.CoreHome) === null || _window$CoreHome === void 0 ? void 0 : _window$CoreHome.ReportingMenuStore;
+async function getReportingMenuStore() {
+  const coreHome = window.CoreHome;
+  return coreHome === null || coreHome === void 0 ? void 0 : coreHome.ReportingMenuStore;
 }
 function getComparisonsStore() {
-  var _window$CoreHome2;
-  return (_window$CoreHome2 = window.CoreHome) === null || _window$CoreHome2 === void 0 ? void 0 : _window$CoreHome2.ComparisonsStoreInstance;
+  const coreHome = window.CoreHome;
+  return coreHome === null || coreHome === void 0 ? void 0 : coreHome.ComparisonsStoreInstance;
 }
 function getActiveSegmentLabel(segment) {
   var _segmentationTitle$te;
@@ -820,21 +820,25 @@ function getActiveSegmentLabel(segment) {
   return translate('SegmentEditor_CustomSegment');
 }
 piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
-  let categoryName;
-  let subcategoryName;
+  let categoryName = '';
+  let subcategoryName = '';
   let dateString = '';
   if (period !== '' && date !== '') {
     dateString = `${Periods_Periods.parse(period, date).getPrettyString()} `;
   }
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
-  const store = getReportingMenuStore();
+  const store = await getReportingMenuStore();
   if (store && c && s) {
     var _found$category$name, _found, _found$subcategory$na, _found2;
-    let found = store.findSubcategory(c, s);
+    console.log('i got store ', store, 'c ', c, 's ', s, 'segment ', segment);
+    const categryId = c;
+    const subcategoryId = s;
+    let found = store.findSubcategory(categryId, subcategoryId);
     if (!found.category) {
       await store.fetchMenuItems();
-      found = store.findSubcategory(c, s);
+      found = store.findSubcategory(categryId, subcategoryId);
     }
+    console.log('found ', found, 'categryId ', categryId, 'subcategoryId ', subcategoryId, 'store ', store);
     categoryName = (_found$category$name = (_found = found) === null || _found === void 0 || (_found = _found.category) === null || _found === void 0 ? void 0 : _found.name) !== null && _found$category$name !== void 0 ? _found$category$name : '';
     subcategoryName = (_found$subcategory$na = (_found2 = found) === null || _found2 === void 0 || (_found2 = _found2.subcategory) === null || _found2 === void 0 ? void 0 : _found2.name) !== null && _found$subcategory$na !== void 0 ? _found$subcategory$na : '';
     if (categoryName === subcategoryName) {
@@ -897,7 +901,7 @@ function MatomoUrl_defineProperty(obj, key, value) { if (key in obj) { Object.de
  */
 
 
- // important to load all periods here
+
 const {
   piwik: MatomoUrl_piwik,
   broadcast: MatomoUrl_broadcast
@@ -925,9 +929,6 @@ class MatomoUrl_MatomoUrl {
     window.addEventListener('hashchange', event => {
       this.url.value = new URL(event.newURL);
       this.updatePeriodParamsFromUrl();
-      this.updatePageTitle();
-    });
-    window.addEventListener('load', () => {
       this.updatePageTitle();
     });
     this.updatePeriodParamsFromUrl();

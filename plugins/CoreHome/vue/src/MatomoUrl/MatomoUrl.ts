@@ -7,7 +7,7 @@
 
 import { computed, ref, readonly } from 'vue';
 import Matomo from '../Matomo/Matomo';
-import { Periods, format } from '../Periods'; // important to load all periods here
+import { Periods, format } from '../Periods';
 
 const { piwik, broadcast } = window;
 
@@ -58,9 +58,7 @@ class MatomoUrl {
       this.updatePeriodParamsFromUrl();
       this.updatePageTitle();
     });
-    window.addEventListener('load', () => {
-      this.updatePageTitle();
-    });
+
     this.updatePeriodParamsFromUrl();
     this.updatePageTitle();
   }

@@ -7,8 +7,6 @@
 
 import jqXHR = JQuery.jqXHR;
 import { ExtendedKeyboardEvent } from 'mousetrap';
-import { ReportingMenuStore } from "../../CoreHome/vue/src/ReportingMenu/ReportingMenu.store";
-import { ComparisonsStore } from "../../CoreHome/vue/src/Comparisons/Comparisons.store";
 
 declare global {
   import PlainObject = JQuery.PlainObject;
@@ -265,10 +263,6 @@ declare global {
     initTopControls(): void;
     vueSanitize(content: string): string;
     showEmptyDashboardNotification(): void;
-    CoreHome: {
-      ReportingMenuStore?: ReportingMenuStore
-      ComparisonsStoreInstance?: ComparisonsStore
-    }
   }
 }
 

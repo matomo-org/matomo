@@ -14,14 +14,29 @@ type ComparisonsStoreLike = {
   getSegmentComparisons: () => Array<{params: { segment: string }, title: string, index: number}>;
 };
 
+type ReportingMenuStoreLike = {
+  findSubcategory: (categoryId: string, subcategoryId: string) => {
+    category?: { name?: string };
+    subcategory?: { name?: string };
+  };
+  fetchMenuItems: () => Promise<unknown>;
+};
+
 piwik.helper = piwikHelper;
 piwik.broadcast = broadcast;
-function getReportingMenuStore() {
-  return window.CoreHome?.ReportingMenuStore;
+
+async function getReportingMenuStore(): Promise<ReportingMenuStoreLike|undefined> {
+  const coreHome = (window as unknown as {
+    CoreHome?: { ReportingMenuStore?: ReportingMenuStoreLike };
+  }).CoreHome;
+
+  return coreHome?.ReportingMenuStore;
 }
 
 function getComparisonsStore(): ComparisonsStoreLike|undefined {
-  return window.CoreHome?.ComparisonsStoreInstance;
+  const coreHome = (window as unknown as
+    { CoreHome?: { ComparisonsStoreInstance?: ComparisonsStoreLike } }).CoreHome;
+  return coreHome?.ComparisonsStoreInstance;
 }
 
 function getActiveSegmentLabel(segment?: string): string|undefined {
@@ -66,20 +81,24 @@ piwik.updateTitle = async function updateTitle(
   s: string,
   segment?: string,
 ) {
-  let categoryName: string|undefined;
-  let subcategoryName: string|undefined;
+  let categoryName = '';
+  let subcategoryName = '';
   let dateString = '';
   if (period !== '' && date !== '') {
     dateString = `${Periods.parse(period, date).getPrettyString()} `;
   }
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
-  const store = getReportingMenuStore();
+  const store = await getReportingMenuStore();
   if (store && c && s) {
-    let found = store.findSubcategory(c, s);
+    console.log('i got store ', store, 'c ', c, 's ', s, 'segment ', segment);
+    const categryId = c;
+    const subcategoryId = s;
+    let found = store.findSubcategory(categryId, subcategoryId);
     if (!found.category) {
       await store.fetchMenuItems();
-      found = store.findSubcategory(c, s);
+      found = store.findSubcategory(categryId, subcategoryId);
     }
+    console.log('found ', found, 'categryId ', categryId, 'subcategoryId ', subcategoryId, 'store ', store);
     categoryName = found?.category?.name ?? '';
     subcategoryName = found?.subcategory?.name ?? '';
     if (categoryName === subcategoryName) {
