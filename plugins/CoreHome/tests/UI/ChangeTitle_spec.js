@@ -1,7 +1,7 @@
 /*!
  * Matomo - free/libre analytics platform
  *
- * Dashboard screenshot tests.
+ * ChangeTitle UI tests.
  *
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
