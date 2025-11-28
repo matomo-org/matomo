@@ -674,7 +674,7 @@ export default defineComponent({
         });
         let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
         const reportLink = `<a href="?${link}#${hash}">[${translate('Goals_ViewGoalReport')}]</a>`;
-        successMessage = `<div>${successMessage} ${reportLink}</div>`;
+        successMessage = `<div class="notification-message">${successMessage} ${reportLink}</div>`;
 
         const subcategory = MatomoUrl.parsed.value.subcategory as string;
         NotificationsStore.show({
