@@ -529,7 +529,7 @@
 							<requiredValue>1</requiredValue>
 						</cnil_v1>
 					</compliancePolicyControlled>
-                    <idSite/>
+					<idSite />
 				</extraMetadata>
 			</row>
 			<row>
