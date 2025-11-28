@@ -26,10 +26,11 @@ describe("TwoFactorAuth", function () {
     async function loginUser(username, doAuth)
     {
         testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
-        testEnvironment.save();
+        await testEnvironment.save();
 
         // make sure to log out previous session
         await page.goto(logoutUrl);
+        await page.waitForNetworkIdle();
         await page.waitForSelector('.loginSection', {visible: true});
 
         await page.clearCookies();
@@ -56,36 +57,36 @@ describe("TwoFactorAuth", function () {
         });
     }
 
-    function requireTwoFa() {
+    async function requireTwoFa() {
         testEnvironment.requireTwoFa = 1;
-        testEnvironment.save();
+        await testEnvironment.save();
     }
 
-    function fakeCorrectAuthCode() {
+    async function fakeCorrectAuthCode() {
         testEnvironment.fakeCorrectAuthCode = 1;
-        testEnvironment.save();
+        await testEnvironment.save();
     }
 
-    before(function () {
+    before(async function () {
         testEnvironment.pluginsToLoad = ['TwoFactorAuth'];
         testEnvironment.queryParamOverride = { date: '2018-03-04' };
-        testEnvironment.save();
+        await testEnvironment.save();
     });
 
-    beforeEach(function () {
+    beforeEach(async function () {
         testEnvironment.testUseMockAuth = 0;
         testEnvironment.restoreRecoveryCodes = 1;
         testEnvironment.configOverride = { Development: { disable_merged_assets: 1 }};
-        testEnvironment.save();
+        await testEnvironment.save();
     });
 
-    afterEach(function () {
+    afterEach(async function () {
         delete testEnvironment.requireTwoFa;
         delete testEnvironment.restoreRecoveryCodes;
         delete testEnvironment.fakeCorrectAuthCode;
         delete testEnvironment.configOverride;
         testEnvironment.testUseMockAuth = 1;
-        testEnvironment.save();
+        await testEnvironment.save();
     });
 
     async function confirmPassword()
@@ -125,7 +126,7 @@ describe("TwoFactorAuth", function () {
 
     it('when logging in through logme and verifying screen it works to access ui', async function () {
         testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
-        testEnvironment.save();
+        await testEnvironment.save();
 
         await page.type('.loginTwoFaForm #form_authcode', '123456');
         await page.click('.loginTwoFaForm #login_form_submit');
@@ -160,7 +161,7 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should show user settings when two-fa enabled', async function () {
-        requireTwoFa();
+        await requireTwoFa();
         await page.goto(userSettings);
         await page.waitForSelector('.userSettings2FA', {visible: true});
         await page.waitForTimeout(200);
@@ -248,7 +249,7 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should not show step 3 if OTP codes modal just closed', async function () {
-        selectModalButton('Cancel');
+        await selectModalButton('Cancel');
         await page.waitForTimeout(500);
 
         const element = await page.$('#content');
@@ -260,7 +261,7 @@ describe("TwoFactorAuth", function () {
         await page.click('.setupTwoFactorAuthentication .showOtpCodes');
         await page.waitForSelector('.modal.open', {visible: true});
 
-        selectModalButton('Continue');
+        await selectModalButton('Continue');
         await page.waitForTimeout(250);
 
         const element = await page.$('#content');
@@ -268,7 +269,7 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should move to third step in setup - step 4 confirm', async function () {
-        fakeCorrectAuthCode();
+        await fakeCorrectAuthCode();
         await page.type('.setupConfirmAuthCodeForm input[type=text]', '123458');
         await page.evaluate(function () {
             $('.setupConfirmAuthCodeForm input[type=text]').change();
@@ -284,7 +285,7 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should force user to setup 2fa when not set up yet but enforced', async function () {
-        requireTwoFa();
+        await requireTwoFa();
         await loginUser('no2FA', false, true);
         expect(await page.screenshotSelector('.loginSection,#content,#notificationContainer')).to.matchImage('twofa_forced_step1');
     });
@@ -317,7 +318,7 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should force user to setup 2fa when not set up yet but enforced step 3', async function () {
-        selectModalButton('Continue');
+        await selectModalButton('Continue');
         await page.waitForTimeout(250);
 
         await page.mouse.move(-10, -10);
@@ -325,8 +326,8 @@ describe("TwoFactorAuth", function () {
     });
 
     it('should force user to setup 2fa when not set up yet but enforced confirm code', async function () {
-        requireTwoFa();
-        fakeCorrectAuthCode();
+        await requireTwoFa();
+        await fakeCorrectAuthCode();
         await page.type('.setupConfirmAuthCodeForm input[type=text]', '123458');
         await page.evaluate(function () {
             $('.setupConfirmAuthCodeForm input[type=text]').change();
