@@ -359,6 +359,7 @@ class API extends \Piwik\Plugin\API
      */
     public function star(int $idSegment): array
     {
+        Piwik::checkUserHasSomeViewAccess();
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
         $login = Piwik::getCurrentUserLogin();
@@ -384,6 +385,7 @@ class API extends \Piwik\Plugin\API
      */
     public function unstar(int $idSegment): array
     {
+        Piwik::checkUserHasSomeViewAccess();
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
         $bind = [

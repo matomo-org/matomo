@@ -207,6 +207,9 @@ Segmentation = (function($) {
                 {
                     segment = self.availableSegments[i];
 
+                    // starred is an int but it could be converted as string, and !"0" is false instead of true
+                    segment.starred = Boolean(parseInt(segment.starred, 10));
+
                     if(isSegmentSharedWithMeBySuperUser(segment) && !isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce) {
                         isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce = true;
                         isSharedWithMeBySuperUserNoticeShouldBeClosed = true;
