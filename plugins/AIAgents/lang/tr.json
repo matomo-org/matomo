@@ -1,5 +1,7 @@
 {
     "AIAgents": {
-        "AIAssistants": "Yapay zeka yardımcıları"
+        "AIAssistants": "Yapay zeka yardımcıları",
+        "AIAgentName": "Yapay zeka aracısı adı",
+        "AIAgentVisits": "Yapay zeka aracısı ziyaretleri"
     }
 }
