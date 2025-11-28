@@ -206,6 +206,8 @@
         "RawDataNeverRemoved": "ziyaret ve işlem ham verileri <strong>hiç</strong> silinmiyor.",
         "RawDataRemovedAfter": "tüm ziyaret ve işlem ham verileri %1$s sonra siliniyor.",
         "RecommendedForPrivacy": "Gizlilik için önerilir",
+        "ReferrerAnonymizationSettingRequirementNote": "Yalnızca gönderen sunucusu ya da gönderen türü toplanabilir.",
+        "ReferrerAnonymizationSettingTitle": "Gönderen anonimleştirme",
         "ReportsDataSavedEstimate": "Veri tabanı boyutu",
         "ReportsNeverRemoved": "derlenen raporlar <strong>hiç</strong> silinmiyor.",
         "ReportsRemovedAfter": "tüm derlenen raporlar %1$s sonra siliniyor.",
