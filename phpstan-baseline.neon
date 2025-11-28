@@ -5464,21 +5464,6 @@ parameters:
 			path: plugins/VisitorInterest/RecordBuilders/Engagement.php
 
 		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/VisitorInterest/Reports/GetNumberOfVisitsByDaysSinceLast.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/VisitorInterest/Reports/GetNumberOfVisitsPerPage.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/VisitorInterest/Reports/GetNumberOfVisitsPerVisitDuration.php
-
-		-
 			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: plugins/VisitsSummary/API.php
