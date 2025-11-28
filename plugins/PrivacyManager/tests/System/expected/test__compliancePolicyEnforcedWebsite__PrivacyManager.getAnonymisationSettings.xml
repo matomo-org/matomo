@@ -6,7 +6,7 @@
 	<ipAnonymizerEnabled>1</ipAnonymizerEnabled>
 	<forceCookielessTracking>0</forceCookielessTracking>
 	<anonymizeUserId>0</anonymizeUserId>
-	<anonymizeOrderId>0</anonymizeOrderId>
+	<anonymizeOrderId>1</anonymizeOrderId>
 	<anonymizeReferrer>exclude_path</anonymizeReferrer>
 	<randomizeConfigId>0</randomizeConfigId>
 	<useSiteSpecificSettings>0</useSiteSpecificSettings>
@@ -69,6 +69,14 @@
 			</compliancePolicyControlled>
 			<idSite>1</idSite>
 		</ipAnonymizerEnabled>
+		<anonymizeOrderId>
+			<compliancePolicyControlled>
+				<cnil_v1>
+					<requiredValue>1</requiredValue>
+				</cnil_v1>
+			</compliancePolicyControlled>
+			<idSite>1</idSite>
+		</anonymizeOrderId>
 		<anonymizeReferrer>
 			<compliancePolicyControlled>
 				<cnil_v1>

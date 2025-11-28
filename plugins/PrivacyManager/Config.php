@@ -19,6 +19,7 @@ use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation as ReferrerAnony
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
+use Piwik\Plugins\PrivacyManager\Settings\OrderIdAnonymization as OrderIdAnonymizationSetting;
 
 /**
  * @property bool $doNotTrackEnabled    Enable / Disable Do Not Track {@see DoNotTrackHeaderChecker}
@@ -138,6 +139,8 @@ class Config
                 return IPAnonymisationSetting::getInstance($idSite)->getValue();
             } elseif ($name === 'anonymizeReferrer') {
                 return ReferrerAnonymizationSettings::getInstance($idSite)->getValue();
+            } elseif ($name === 'anonymizeOrderId') {
+                return OrderIdAnonymizationSetting::getInstance($idSite)->getValue();
             }
         }
 

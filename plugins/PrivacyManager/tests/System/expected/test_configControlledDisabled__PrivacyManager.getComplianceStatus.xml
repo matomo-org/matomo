@@ -39,6 +39,11 @@
 			<notes>Must be set to at least 2 byte(s), currently 0 byte(s).</notes>
 		</row>
 		<row>
+			<name>Order ID anonymization</name>
+			<value>non_compliant</value>
+			<notes>Order IDs must be anonymized</notes>
+		</row>
+		<row>
 			<name>Referrer anonymisation</name>
 			<value>non_compliant</value>
 			<notes>Only the referrer host or referrer type may be collected.</notes>
