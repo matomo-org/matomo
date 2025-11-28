@@ -7,7 +7,7 @@
 
 import { computed, ref, readonly } from 'vue';
 import Matomo from '../Matomo/Matomo';
-import { Periods, format } from '../Periods';
+import { Periods, format } from '../Periods'; // important to load all periods here
 
 const { piwik, broadcast } = window;
 

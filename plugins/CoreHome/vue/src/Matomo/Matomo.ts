@@ -90,7 +90,6 @@ piwik.updateTitle = async function updateTitle(
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
   const store = await getReportingMenuStore();
   if (store && c && s) {
-    console.log('i got store ', store, 'c ', c, 's ', s, 'segment ', segment);
     const categryId = c;
     const subcategoryId = s;
     let found = store.findSubcategory(categryId, subcategoryId);
@@ -98,7 +97,6 @@ piwik.updateTitle = async function updateTitle(
       await store.fetchMenuItems();
       found = store.findSubcategory(categryId, subcategoryId);
     }
-    console.log('found ', found, 'categryId ', categryId, 'subcategoryId ', subcategoryId, 'store ', store);
     categoryName = found?.category?.name ?? '';
     subcategoryName = found?.subcategory?.name ?? '';
     if (categoryName === subcategoryName) {
