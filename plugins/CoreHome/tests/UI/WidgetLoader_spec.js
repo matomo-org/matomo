@@ -37,7 +37,7 @@ describe('WidgetLoader', function () {
     await page.click(dashboardMenuSelector);
     await page.waitForNetworkIdle();
 
-    const loginForm = await page.waitForSelector('#login_formss');
+    const loginForm = await page.waitForSelector('#login_form_login');
     expect(loginForm).to.be.ok;
 
     const errorNotification = await page.waitForSelector('div.system.notification-error');
