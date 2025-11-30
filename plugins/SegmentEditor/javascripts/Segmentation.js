@@ -112,7 +112,7 @@ Segmentation = (function($) {
             $('div.segmentList ul li[data-definition] span.compareSegment').each(function() {
               if (comparedSegmentsLength >= limit) {
                 $(this).addClass('no-click');
-                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
+                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit + 1]));
               } else {
                 $(this).removeClass('no-click');
                 var idSegment = $(this).parent().attr('data-idsegment');
