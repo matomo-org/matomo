@@ -353,10 +353,13 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it('should not allow comparing segments more than the limit set', async function() {
-      const maxSegments = 3;
-      testEnvironment.overrideConfig('General', 'data_comparison_segment_limit', maxSegments);
+      const configLimit = 2;
+      const maxSegments = configLimit + 1;
+      testEnvironment.overrideConfig('General', 'data_comparison_segment_limit', configLimit);
       testEnvironment.save();
-      await page.goto(url);
+      // Need to reload here since overrideConfig above does not really
+      // reflect well when the config is used in javascript
+      await page.reload();
       await page.waitForNetworkIdle();
       // We grab the max limit message
       const maxLimitMessage = await page.evaluate(
