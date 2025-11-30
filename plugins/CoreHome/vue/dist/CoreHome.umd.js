@@ -784,13 +784,19 @@ const {
 } = window;
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
-async function getReportingMenuStore() {
-  const coreHome = window.CoreHome;
-  return coreHome === null || coreHome === void 0 ? void 0 : coreHome.ReportingMenuStore;
+function getReportingMenuStore() {
+  console.log('this is no longer asynch');
+  const {
+    CoreHome
+  } = window;
+  return CoreHome === null || CoreHome === void 0 ? void 0 : CoreHome.ReportingMenuStore;
 }
 function getComparisonsStore() {
-  const coreHome = window.CoreHome;
-  return coreHome === null || coreHome === void 0 ? void 0 : coreHome.ComparisonsStoreInstance;
+  console.log('changed comparison store');
+  const {
+    CoreHome
+  } = window;
+  return CoreHome === null || CoreHome === void 0 ? void 0 : CoreHome.ComparisonStoreInstance;
 }
 function getActiveSegmentLabel(segment) {
   var _segmentationTitle$te;
@@ -827,7 +833,7 @@ piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
     dateString = `${Periods_Periods.parse(period, date).getPrettyString()} `;
   }
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
-  const store = await getReportingMenuStore();
+  const store = getReportingMenuStore();
   if (store && c && s) {
     var _found$category$name, _found, _found$subcategory$na, _found2;
     const categryId = c;

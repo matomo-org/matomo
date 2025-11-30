@@ -22,21 +22,26 @@ type ReportingMenuStoreLike = {
   fetchMenuItems: () => Promise<unknown>;
 };
 
+type MatomoWindow = Window & {
+  CoreHome?: {
+    ComparisonStoreInstance?: ComparisonsStoreLike,
+    ReportingMenuStore?: ReportingMenuStoreLike,
+  }
+}
+
 piwik.helper = piwikHelper;
 piwik.broadcast = broadcast;
 
-async function getReportingMenuStore(): Promise<ReportingMenuStoreLike|undefined> {
-  const coreHome = (window as unknown as {
-    CoreHome?: { ReportingMenuStore?: ReportingMenuStoreLike };
-  }).CoreHome;
-
-  return coreHome?.ReportingMenuStore;
+function getReportingMenuStore(): ReportingMenuStoreLike|undefined {
+  console.log('this is no longer asynch');
+  const { CoreHome } = window as MatomoWindow;
+  return CoreHome?.ReportingMenuStore;
 }
 
 function getComparisonsStore(): ComparisonsStoreLike|undefined {
-  const coreHome = (window as unknown as
-    { CoreHome?: { ComparisonsStoreInstance?: ComparisonsStoreLike } }).CoreHome;
-  return coreHome?.ComparisonsStoreInstance;
+  console.log('changed comparison store');
+  const { CoreHome } = window as MatomoWindow;
+  return CoreHome?.ComparisonStoreInstance;
 }
 
 function getActiveSegmentLabel(segment?: string): string|undefined {
@@ -88,7 +93,7 @@ piwik.updateTitle = async function updateTitle(
     dateString = `${Periods.parse(period, date).getPrettyString()} `;
   }
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
-  const store = await getReportingMenuStore();
+  const store = getReportingMenuStore();
   if (store && c && s) {
     const categryId = c;
     const subcategoryId = s;
