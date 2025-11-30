@@ -8,14 +8,16 @@
  */
 
 describe('WidgetLoader', function () {
-  this.timeout(0);
-
   this.fixture = "Piwik\\Tests\\Fixtures\\OneVisit";
-
   before(function () {
-      testEnvironment.testUseMockAuth = 0;
-      testEnvironment.save();
-    });
+    testEnvironment.testUseMockAuth = 0;
+    testEnvironment.save();
+  });
+
+  after(function () {
+    testEnvironment.testUseMockAuth = 1;
+    testEnvironment.save();
+  });
 
   it('should redirect to the landing page when the session cookie is cleared during widget loading', async function () {
     // We try to do an actual login
@@ -35,7 +37,7 @@ describe('WidgetLoader', function () {
     await page.click(dashboardMenuSelector);
     await page.waitForNetworkIdle();
 
-    const loginForm = await page.waitForSelector('#login_form');
+    const loginForm = await page.waitForSelector('#login_formss');
     expect(loginForm).to.be.ok;
 
     const errorNotification = await page.waitForSelector('div.system.notification-error');
