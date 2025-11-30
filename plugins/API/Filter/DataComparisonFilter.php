@@ -144,8 +144,9 @@ class DataComparisonFilter
         $this->segmentName = $this->getSegmentNameFromReport($report);
 
         $this->compareSegments = self::getCompareSegments();
-        if (count($this->compareSegments) > $this->segmentCompareLimit + 1) {
-            throw new BadRequestException(Piwik::translate('General_MaximumNumberOfSegmentsComparedIs', [$this->segmentCompareLimit]));
+        $segmentCompareLimitPlusMain = $this->segmentCompareLimit + 1;
+        if (count($this->compareSegments) > $segmentCompareLimitPlusMain) {
+            throw new BadRequestException(Piwik::translate('General_MaximumNumberOfSegmentsComparedIs', [$segmentCompareLimitPlusMain]));
         }
 
         $this->compareDates = self::getCompareDates($request);
@@ -155,8 +156,9 @@ class DataComparisonFilter
             throw new BadRequestException(Piwik::translate('General_CompareDatesParamMustMatchComparePeriods', ['compareDates', 'comparePeriods']));
         }
 
-        if (count($this->compareDates) > $this->periodCompareLimit + 1) {
-            throw new BadRequestException(Piwik::translate('General_MaximumNumberOfPeriodsComparedIs', [$this->periodCompareLimit]));
+        $periodCompareLimitPlusMain = $this->periodCompareLimit + 1;
+        if (count($this->compareDates) > $periodCompareLimitPlusMain) {
+            throw new BadRequestException(Piwik::translate('General_MaximumNumberOfPeriodsComparedIs', [$periodCompareLimitPlusMain]));
         }
 
         if (
