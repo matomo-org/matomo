@@ -7,7 +7,7 @@
 	<forceCookielessTracking>0</forceCookielessTracking>
 	<anonymizeUserId>0</anonymizeUserId>
 	<anonymizeOrderId>0</anonymizeOrderId>
-    <anonymizeReferrer>exclude_path</anonymizeReferrer>
+	<anonymizeReferrer>exclude_path</anonymizeReferrer>
 	<randomizeConfigId>0</randomizeConfigId>
 	<useSiteSpecificSettings>0</useSiteSpecificSettings>
 	<maskLengthOptions>
@@ -52,30 +52,30 @@
 	</referrerAnonymizationOptions>
 	<trackerFileName>matomo.js</trackerFileName>
 	<trackerWritable>1</trackerWritable>
-    <extraMetadata>
-        <ipAddressMaskLength>
-            <compliancePolicyControlled>
-                <cnil_v1>
-                    <requiredValue>2</requiredValue>
-                </cnil_v1>
-            </compliancePolicyControlled>
-            <idSite/>
-        </ipAddressMaskLength>
-        <ipAnonymizerEnabled>
-            <compliancePolicyControlled>
-                <cnil_v1>
-                    <requiredValue>1</requiredValue>
-                </cnil_v1>
-            </compliancePolicyControlled>
-            <idSite/>
-        </ipAnonymizerEnabled>
-        <anonymizeReferrer>
-            <compliancePolicyControlled>
-                <cnil_v1>
-                    <requiredValue>exclude_path</requiredValue>
-                </cnil_v1>
-            </compliancePolicyControlled>
-            <idSite/>
-        </anonymizeReferrer>
-    </extraMetadata>
+	<extraMetadata>
+		<ipAddressMaskLength>
+			<compliancePolicyControlled>
+				<cnil_v1>
+					<requiredValue>2</requiredValue>
+				</cnil_v1>
+			</compliancePolicyControlled>
+			<idSite />
+		</ipAddressMaskLength>
+		<ipAnonymizerEnabled>
+			<compliancePolicyControlled>
+				<cnil_v1>
+					<requiredValue>1</requiredValue>
+				</cnil_v1>
+			</compliancePolicyControlled>
+			<idSite />
+		</ipAnonymizerEnabled>
+		<anonymizeReferrer>
+			<compliancePolicyControlled>
+				<cnil_v1>
+					<requiredValue>exclude_path</requiredValue>
+				</cnil_v1>
+			</compliancePolicyControlled>
+			<idSite />
+		</anonymizeReferrer>
+	</extraMetadata>
 </result>

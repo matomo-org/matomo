@@ -60,6 +60,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "Matomo veri tabanı %1$s sürümünden %2$s sürümüne güncellenecek.",
         "PostUpdateMessage": "Matomo uygulaması her zaman özgür kalacak ve indirip kullanmak her zaman ücretsiz olacak. Ancak uygulamayı geliştirmek için sürekli desteğiniz gerekli.",
         "PostUpdateSupport": "Matomo uygulamasını kullanmak için yardıma gerek duyuyorsanız, geliştiricilerinden destek alabilirsiniz:",
+        "ReactivatedPlugins": "Yeniden etkinleştirilmiş eklentiler: %1$s",
         "ReadyToGo": "Hazır mısınız?",
         "ReceiveEmailBecauseIsSuperUser": "Bu e-posta şu sunucudaki Matomo uygulamasının süper kullanıcısı olduğunuz için gönderilmiştir: %s",
         "ServicesSupport": "Hizmetler ve destek",

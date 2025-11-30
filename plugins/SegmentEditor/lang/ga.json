@@ -24,6 +24,8 @@
         "DefaultAllVisits": "Gach cuairt",
         "DragDropCondition": "Tarraing &amp; Coinníoll titim",
         "HideMessageInFuture": "Folaigh an teachtaireacht seo amach anseo",
+        "LimitSegmentsSettingRequirementNote": "Teorainn a chur leis na codanna atá ar fáil le bheith comhlíontach.",
+        "LimitSegmentsSettingTitle": "Teorainn a chur ar na codanna atá ar fáil",
         "LoadingSegmentedDataMayTakeSomeTime": "Seans go dtógfaidh sé cúpla nóiméad sonraí cuairteoirí deighilte a phróiseáil…",
         "OperatorAND": "AGUS",
         "OperatorOR": "NÓ",

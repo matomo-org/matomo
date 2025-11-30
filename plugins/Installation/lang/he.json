@@ -14,6 +14,7 @@
         "Optional": "אופציונלי",
         "Password": "סיסמה",
         "PasswordDoNotMatch": "סיסמה לא תואמת",
+        "PasswordRepeat": "סיסמה (שוב)",
         "PercentDone": "%s %% עברו",
         "Requirements": "דרישות Matomo",
         "SetupWebsite": "הגדרת אתר",
