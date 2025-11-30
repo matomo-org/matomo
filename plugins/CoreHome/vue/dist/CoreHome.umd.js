@@ -785,14 +785,12 @@ const {
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
 function getReportingMenuStore() {
-  console.log('this is no longer asynch');
   const {
     CoreHome
   } = window;
   return CoreHome === null || CoreHome === void 0 ? void 0 : CoreHome.ReportingMenuStore;
 }
 function getComparisonsStore() {
-  console.log('changed comparison store');
   const {
     CoreHome
   } = window;
@@ -854,7 +852,7 @@ piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
     const categorySubcategoryString = categoryName ? `${categoryName}  ${subcategoryName ? `> ${subcategoryName}` : ''}` : '';
     const segmentLabel = getActiveSegmentLabel(segment);
     const segmentString = segmentLabel ? `${Matomo_piwikHelper.htmlEntities(segmentLabel)}` : '';
-    document.title = `${piwik.siteName} - ${dateString} - ${categorySubcategoryString} - ${segmentString} - ${titleSuffix}`;
+    document.title = [piwik.siteName, dateString, categorySubcategoryString, segmentString, titleSuffix].filter(Boolean).join(' - ');
   }
 };
 piwik.hasUserCapability = function hasUserCapability(capability) {
