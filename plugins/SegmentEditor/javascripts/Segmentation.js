@@ -106,13 +106,13 @@ Segmentation = (function($) {
             self.checkIfComparedSegmentsHasReachedLimit();
         };
         segmentation.prototype.checkIfComparedSegmentsHasReachedLimit = function() {
-            const limit = piwik.config.data_comparison_segment_limit;
+            const limit = piwik.config.data_comparison_segment_limit + 1;
             const comparisonService = window.CoreHome.ComparisonsStoreInstance;
             const comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
             $('div.segmentList ul li[data-definition] span.compareSegment').each(function() {
               if (comparedSegmentsLength >= limit) {
                 $(this).addClass('no-click');
-                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit + 1]));
+                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
               } else {
                 $(this).removeClass('no-click');
                 var idSegment = $(this).parent().attr('data-idsegment');
