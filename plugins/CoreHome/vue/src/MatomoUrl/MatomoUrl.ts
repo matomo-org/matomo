@@ -169,10 +169,10 @@ class MatomoUrl {
       .replace(/\+/g, '%20');
   }
 
-  getMenuPathSuffix(): { c: string; s: string } {
+  getMenuPathSuffix(): { category: string; subcategory: string } {
     const category = this.getSearchParam('category') as string;
     const subcategory = this.getSearchParam('subcategory') as string;
-    return { c: decodeURIComponent(category), s: decodeURIComponent(subcategory) };
+    return { category: decodeURIComponent(category), subcategory: decodeURIComponent(subcategory) };
   }
 
   getDateAndPeriodFromUrl(): { date: string; period: string } {
@@ -184,9 +184,9 @@ class MatomoUrl {
 
   updatePageTitle() {
     const { period, date } = this.getDateAndPeriodFromUrl();
-    const { c, s } = this.getMenuPathSuffix();
+    const { category, subcategory } = this.getMenuPathSuffix();
     const segment = this.getSearchParam('segment') || '';
-    piwik.updateTitle(date, period, c, s, segment);
+    piwik.updateTitle(date, period, category, subcategory, segment);
   }
 
   updatePeriodParamsFromUrl(): void {

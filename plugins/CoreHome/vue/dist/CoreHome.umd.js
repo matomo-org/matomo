@@ -823,7 +823,7 @@ function getActiveSegmentLabel(segment) {
   }
   return translate('SegmentEditor_CustomSegment');
 }
-piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
+piwik.updateTitle = async function updateTitle(date, period, category, subcategory, segment) {
   let categoryName = '';
   let subcategoryName = '';
   let dateString = '';
@@ -832,14 +832,12 @@ piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
   }
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
   const store = getReportingMenuStore();
-  if (store && c && s) {
+  if (store && category && subcategory) {
     var _found$category$name, _found, _found$subcategory$na, _found2;
-    const categryId = c;
-    const subcategoryId = s;
-    let found = store.findSubcategory(categryId, subcategoryId);
+    let found = store.findSubcategory(category, subcategory);
     if (!found.category) {
       await store.fetchMenuItems();
-      found = store.findSubcategory(categryId, subcategoryId);
+      found = store.findSubcategory(category, subcategory);
     }
     categoryName = (_found$category$name = (_found = found) === null || _found === void 0 || (_found = _found.category) === null || _found === void 0 ? void 0 : _found.name) !== null && _found$category$name !== void 0 ? _found$category$name : '';
     subcategoryName = (_found$subcategory$na = (_found2 = found) === null || _found2 === void 0 || (_found2 = _found2.subcategory) === null || _found2 === void 0 ? void 0 : _found2.name) !== null && _found$subcategory$na !== void 0 ? _found$subcategory$na : '';
@@ -851,7 +849,7 @@ piwik.updateTitle = async function updateTitle(date, period, c, s, segment) {
     // Try to get the correct title by combining the category and subcategory names
     const categorySubcategoryString = categoryName ? `${categoryName}  ${subcategoryName ? `> ${subcategoryName}` : ''}` : '';
     const segmentLabel = getActiveSegmentLabel(segment);
-    const segmentString = segmentLabel ? `${Matomo_piwikHelper.htmlEntities(segmentLabel)}` : '';
+    const segmentString = segmentLabel ? Matomo_piwikHelper.htmlEntities(segmentLabel) : '';
     document.title = [piwik.siteName, dateString, categorySubcategoryString, segmentString, titleSuffix].filter(Boolean).join(' - ');
   }
 };
@@ -1011,8 +1009,8 @@ class MatomoUrl_MatomoUrl {
     const category = this.getSearchParam('category');
     const subcategory = this.getSearchParam('subcategory');
     return {
-      c: decodeURIComponent(category),
-      s: decodeURIComponent(subcategory)
+      category: decodeURIComponent(category),
+      subcategory: decodeURIComponent(subcategory)
     };
   }
   getDateAndPeriodFromUrl() {
@@ -1027,11 +1025,11 @@ class MatomoUrl_MatomoUrl {
       date
     } = this.getDateAndPeriodFromUrl();
     const {
-      c,
-      s
+      category,
+      subcategory
     } = this.getMenuPathSuffix();
     const segment = this.getSearchParam('segment') || '';
-    MatomoUrl_piwik.updateTitle(date, period, c, s, segment);
+    MatomoUrl_piwik.updateTitle(date, period, category, subcategory, segment);
   }
   updatePeriodParamsFromUrl() {
     const {

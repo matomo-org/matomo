@@ -80,8 +80,8 @@ function getActiveSegmentLabel(segment?: string): string|undefined {
 piwik.updateTitle = async function updateTitle(
   date: string,
   period: string,
-  c: string,
-  s: string,
+  category: string,
+  subcategory: string,
   segment?: string,
 ) {
   let categoryName = '';
@@ -92,13 +92,11 @@ piwik.updateTitle = async function updateTitle(
   }
   const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
   const store = getReportingMenuStore();
-  if (store && c && s) {
-    const categryId = c;
-    const subcategoryId = s;
-    let found = store.findSubcategory(categryId, subcategoryId);
+  if (store && category && subcategory) {
+    let found = store.findSubcategory(category, subcategory);
     if (!found.category) {
       await store.fetchMenuItems();
-      found = store.findSubcategory(categryId, subcategoryId);
+      found = store.findSubcategory(category, subcategory);
     }
     categoryName = found?.category?.name ?? '';
     subcategoryName = found?.subcategory?.name ?? '';
@@ -112,7 +110,7 @@ piwik.updateTitle = async function updateTitle(
     const categorySubcategoryString = categoryName
       ? `${categoryName}  ${subcategoryName ? `> ${subcategoryName}` : ''}` : '';
     const segmentLabel = getActiveSegmentLabel(segment);
-    const segmentString = segmentLabel ? `${piwikHelper.htmlEntities(segmentLabel)}` : '';
+    const segmentString = segmentLabel ? piwikHelper.htmlEntities(segmentLabel) : '';
     document.title = [piwik.siteName, dateString, categorySubcategoryString,
       segmentString, titleSuffix].filter(Boolean).join(' - ');
   }
