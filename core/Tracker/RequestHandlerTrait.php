@@ -31,10 +31,12 @@ trait RequestHandlerTrait
         try {
             $request->getIdSite();
         } catch (UnexpectedWebsiteFoundException $e) {
-            // we allow 0... the request will fail anyway as the site won't exist... allowing 0 will help us
-            // reporting this tracking problem as it is a common issue. Otherwise we would not be able to report
-            // this problem in tracking failures
-            StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $request);
+            $idSite = $request->getRawParams()['idsite'] ?? null;
+            if (is_numeric($idSite) && (string)(int)$idSite === (string)$idSite && (int)$idSite >= 0) {
+                // only log a failure in case the provided idsite was valid positive integer
+                StaticContainer::get(Failures::class)->logFailure(Failures::FAILURE_ID_INVALID_SITE, $request);
+            }
+
             throw $e;
         }
     }

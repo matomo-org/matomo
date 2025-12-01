@@ -40,7 +40,7 @@ interface FeatureFlagStorageInterface
      * Delete a feature flag even if it doesn't exist in code as a class
      *
      * @internal
-     * @param string $feature
+     * @param string $featureName
      * @return void
      */
     public function deleteFeatureFlag(string $featureName): void;

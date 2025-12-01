@@ -13,6 +13,7 @@
         "Optional": "Izbirno",
         "Password": "Geslo",
         "PasswordDoNotMatch": "gesli se ne ujemata",
+        "PasswordRepeat": "Geslo (ponovno)",
         "PercentDone": "%s %% Končano",
         "PleaseFixTheFollowingErrors": "Prosimo, odpravite sledeče napake",
         "Requirements": "Matomo-ovi minimalni pogoji",

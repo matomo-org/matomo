@@ -893,7 +893,6 @@ class ProcessedReport
      * @param int $idSite The ID of the site the metric is for (used if the column value is an amount of money).
      * @param string $columnName The metric name.
      * @param mixed $value The metric value.
-     * @param bool $isHtml If true, replaces all spaces with `'&nbsp;'`.
      * @return string
      */
     public static function getPrettyValue(Formatter $formatter, $idSite, $columnName, $value)

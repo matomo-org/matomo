@@ -206,7 +206,7 @@
                     // icons
                     ico(r.countryFlag) + ico(r.browserIcon) + ico(r.operatingSystemIcon) + '<br/>' +
                     // device type, model, brand
-                    r.deviceType + ' (' + r.deviceModel + ')<br/>' +
+                    $('<span>').text(r.deviceType).html() + ' (' + $('<span>').text(r.deviceModel).html() + ')<br/>' +
                     // User ID
                     (r.userId ? _pk_translate('General_UserId') + ':&nbsp;' + $('<span>').text(r.userId).html() + '<br/>' : '') +
                     // last action

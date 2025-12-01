@@ -1,6 +1,7 @@
 {
     "Tour": {
         "AddAnnotation": "Añadir una anotación",
+        "AddAnotherWebsite": "Agregar otro sitio de internet",
         "AddReport": "Añadir un informe programado",
         "AddSegment": "Agrega un segmento",
         "BecomeMatomoExpert": "Conviértase en un experto en Matomo",
