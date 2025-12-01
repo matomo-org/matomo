@@ -55,8 +55,8 @@ class ProxyHttp
      *
      * @param string $file The location of the static file to serve
      * @param string $contentType The content type of the static file.
-     * @param bool $expireFarFuture Day in the far future to set the Expires header to.
-     *                              Should be set to false for files that should not be cached.
+     * @param int $expireFarFutureDays Day in the far future to set the Expires header to.
+     *                                 Should be set to false for files that should not be cached.
      * @param int|false $byteStart The starting byte in the file to serve. If false, the data from the beginning
      *                             of the file will be served.
      * @param int|false $byteEnd The ending byte in the file to serve. If false, the data from $byteStart to the

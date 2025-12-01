@@ -232,7 +232,7 @@ class VisitRequestProcessor extends RequestProcessor
 
     /**
      * Returns true if the last action was not today.
-     * @param VisitProperties $visitor
+     * @param VisitProperties $visitProperties
      * @return bool
      */
     private function wasLastActionNotToday(VisitProperties $visitProperties, Request $request, $lastKnownVisit)

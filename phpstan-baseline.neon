@@ -241,16 +241,6 @@ parameters:
 			path: core/Archive/ArchiveInvalidator.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$idSites$#"
-			count: 1
-			path: core/Archive/ArchiveInvalidator.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$string$#"
-			count: 1
-			path: core/Archive/ArchiveInvalidator.php
-
-		-
 			message: "#^Property Piwik\\\\Archive\\\\ArchiveInvalidator\\:\\:\\$allIdSitesCache \\(array\\<int\\>\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Archive/ArchiveInvalidator.php
@@ -346,11 +336,6 @@ parameters:
 			path: core/ArchiveProcessor.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$operationToApply$#"
-			count: 1
-			path: core/ArchiveProcessor.php
-
-		-
 			message: "#^Property Piwik\\\\ArchiveProcessor\\:\\:\\$archive \\(Piwik\\\\Archive\\) does not accept Piwik\\\\Archive\\\\ArchiveQuery\\.$#"
 			count: 1
 			path: core/ArchiveProcessor.php
@@ -369,11 +354,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between int and false will always evaluate to false\\.$#"
 			count: 1
 			path: core/ArchiveProcessor.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$params$#"
-			count: 1
-			path: core/ArchiveProcessor/ArchivingStatus.php
 
 		-
 			message: "#^Left side of && is always true\\.$#"
@@ -479,11 +459,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 2
 			path: core/AssetManager/UIAssetCacheBuster.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$uiAsset$#"
-			count: 1
-			path: core/AssetManager/UIAssetCatalog.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between mixed and null will always evaluate to false\\.$#"
@@ -851,11 +826,6 @@ parameters:
 			path: core/DataAccess/ArchiveSelector.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$isArchiveTemporary$#"
-			count: 1
-			path: core/DataAccess/ArchiveWriter.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: core/DataAccess/ArchivingDbAdapter.php
@@ -951,29 +921,9 @@ parameters:
 			path: core/DataAccess/Model.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$datesByPeriodType$#"
-			count: 1
-			path: core/DataAccess/Model.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$idSites$#"
-			count: 1
-			path: core/DataAccess/Model.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$oldestToKeep$#"
-			count: 1
-			path: core/DataAccess/Model.php
-
-		-
 			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: core/DataAccess/Model.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$onlyMetricsAvailableInActionsTable$#"
-			count: 2
-			path: core/DataArray.php
 
 		-
 			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
@@ -1007,11 +957,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(callable filter A function like `function \\(DataTable \\$thisTable, \\$otherTable1, \\$otherTable2\\) \\{\\}`\\.\\)\\: Unexpected token \"filter\", expected variable at offset 361$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$values$#"
 			count: 1
 			path: core/DataTable.php
 
@@ -1586,16 +1531,6 @@ parameters:
 			path: core/Nonce.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$maximumFractionDigits$#"
-			count: 2
-			path: core/NumberFormatter.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$minimumFractionDigits$#"
-			count: 2
-			path: core/NumberFormatter.php
-
-		-
 			message: "#^Parameter \\#1 \\$number of function round expects float, string given\\.$#"
 			count: 1
 			path: core/NumberFormatter.php
@@ -1621,17 +1556,7 @@ parameters:
 			path: core/Option.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$autoLoad$#"
-			count: 1
-			path: core/Option.php
-
-		-
 			message: "#^PHPDoc tag @param for parameter \\$timezone with type array\\<Piwik\\\\Date\\> is incompatible with native type string\\.$#"
-			count: 1
-			path: core/Period.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$today$#"
 			count: 1
 			path: core/Period.php
 
@@ -1731,11 +1656,6 @@ parameters:
 			path: core/Plugin/ComputedMetric.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$ouput$#"
-			count: 1
-			path: core/Plugin/ConsoleCommand.php
-
-		-
 			message: "#^Call to function is_null\\(\\) with Piwik\\\\Site will always evaluate to false\\.$#"
 			count: 1
 			path: core/Plugin/Controller.php
@@ -1743,16 +1663,6 @@ parameters:
 		-
 			message: "#^Default value of the parameter \\#3 \\$columnsToDisplay \\(false\\) of method Piwik\\\\Plugin\\\\Controller\\:\\:getLastUnitGraphAcrossPlugins\\(\\) is incompatible with type array\\.$#"
 			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$fetch$#"
-			count: 1
-			path: core/Plugin/Controller.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$viewType$#"
-			count: 2
 			path: core/Plugin/Controller.php
 
 		-
@@ -1969,11 +1879,6 @@ parameters:
 			message: "#^Method Piwik\\\\ProxyHeaders\\:\\:getProtocolInformation\\(\\) should return string but returns null\\.$#"
 			count: 1
 			path: core/ProxyHeaders.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$expireFarFuture$#"
-			count: 1
-			path: core/ProxyHttp.php
 
 		-
 			message: "#^Call to an undefined method HTML_QuickForm2_Renderer_Proxy\\:\\:toArray\\(\\)\\.$#"
@@ -2274,11 +2179,6 @@ parameters:
 			path: core/Settings/Plugin/SystemSettings.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$fieldConfigCallback$#"
-			count: 1
-			path: core/Settings/Plugin/UserSettings.php
-
-		-
 			message: "#^Property Piwik\\\\Settings\\\\FieldConfig\\:\\:\\$uiControl \\(string\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Settings/Setting.php
@@ -2549,42 +2449,12 @@ parameters:
 			path: core/Tracker/GoalManager.php
 
 		-
-			message: "#^Call to function is_null\\(\\) with Piwik\\\\Tracker\\\\Action will always evaluate to false\\.$#"
-			count: 1
-			path: core/Tracker/GoalManager.php
-
-		-
 			message: "#^Method Piwik\\\\Tracker\\\\GoalManager\\:\\:detectGoalMatch\\(\\) should return bool\\|null but returns string\\.$#"
 			count: 1
 			path: core/Tracker/GoalManager.php
 
 		-
 			message: "#^Method Piwik\\\\Tracker\\\\GoalManager\\:\\:getRevenue\\(\\) should return float\\|int but returns string\\.$#"
-			count: 1
-			path: core/Tracker/GoalManager.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$action$#"
-			count: 1
-			path: core/Tracker/GoalManager.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$visitCustomVariables$#"
-			count: 1
-			path: core/Tracker/GoalManager.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$visitInformation$#"
-			count: 1
-			path: core/Tracker/GoalManager.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$visitor$#"
-			count: 3
-			path: core/Tracker/GoalManager.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$visitorInformation$#"
 			count: 1
 			path: core/Tracker/GoalManager.php
 
@@ -2719,16 +2589,6 @@ parameters:
 			path: core/Tracker/TrackerCodeGenerator.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$action$#"
-			count: 3
-			path: core/Tracker/Visit.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$visitor$#"
-			count: 3
-			path: core/Tracker/Visit.php
-
-		-
 			message: "#^Property Piwik\\\\Tracker\\\\Visit\\:\\:\\$visitProperties \\(Piwik\\\\Tracker\\\\Visit\\\\VisitProperties\\) does not accept null\\.$#"
 			count: 1
 			path: core/Tracker/Visit.php
@@ -2787,11 +2647,6 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between string and false will always evaluate to false\\.$#"
 			count: 1
 			path: core/Updater.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$columnName$#"
-			count: 1
-			path: core/Updater/Migration/Db/Factory.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\<int\\>\\|int and false will always evaluate to false\\.$#"
@@ -3119,11 +2974,6 @@ parameters:
 			path: plugins/API/ProcessedReport.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$isHtml$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
 			message: "#^Parameter \\#2 \\$dataTable of method Piwik\\\\Plugins\\\\API\\\\ProcessedReport\\:\\:handleTableReport\\(\\) expects Piwik\\\\DataTable\\\\Map\\|Piwik\\\\DataTable\\\\Simple, Piwik\\\\DataTable given\\.$#"
 			count: 1
 			path: plugins/API/ProcessedReport.php
@@ -3272,11 +3122,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Actions\\\\Columns\\\\VisitTotalSearches\\:\\:onExistingVisit\\(\\) should return int but returns string\\.$#"
 			count: 1
 			path: plugins/Actions/Columns/VisitTotalSearches.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$isPageTitleType$#"
-			count: 1
-			path: plugins/Actions/DataTable/Filter/Actions.php
 
 		-
 			message: "#^Parameter \\#1 \\$idSite of method Piwik\\\\Plugins\\\\Actions\\\\RecordBuilders\\\\ActionReports\\:\\:getGoalsForSite\\(\\) expects string, int given\\.$#"
@@ -3574,11 +3419,6 @@ parameters:
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$visitor$#"
-			count: 1
-			path: plugins/CoreHome/Tracker/VisitRequestProcessor.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\|Piwik\\\\Db\\\\AdapterInterface\\|Piwik\\\\Tracker\\\\Db\\:\\:getServerVersion\\(\\)\\.$#"
 			count: 1
 			path: plugins/CoreHome/Widgets/GetSystemSummary.php
@@ -3780,11 +3620,6 @@ parameters:
 
 		-
 			message: "#^Offset 'group' on array\\{value\\: mixed, description\\: mixed, column\\: mixed\\} in isset\\(\\) does not exist\\.$#"
-			count: 1
-			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$value$#"
 			count: 1
 			path: plugins/CoreVisualizations/Visualizations/Sparklines/Config.php
 
@@ -4064,11 +3899,6 @@ parameters:
 			path: plugins/Ecommerce/Columns/BaseConversion.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$cart$#"
-			count: 1
-			path: plugins/Ecommerce/Columns/Revenue.php
-
-		-
 			message: "#^Ternary operator condition is always true\\.$#"
 			count: 1
 			path: plugins/Ecommerce/Controller.php
@@ -4134,17 +3964,7 @@ parameters:
 			path: plugins/FeatureFlags/FeatureFlagManager.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$feature$#"
-			count: 1
-			path: plugins/FeatureFlags/FeatureFlagStorageInterface.php
-
-		-
 			message: "#^Dead catch \\- Exception is never thrown in the try block\\.$#"
-			count: 1
-			path: plugins/FeatureFlags/Storage/ConfigFeatureFlagStorage.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$feature$#"
 			count: 1
 			path: plugins/FeatureFlags/Storage/ConfigFeatureFlagStorage.php
 
@@ -4679,11 +4499,6 @@ parameters:
 			path: plugins/Login/PasswordResetter.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$loginMail$#"
-			count: 1
-			path: plugins/Login/PasswordResetter.php
-
-		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 171$#"
 			count: 1
 			path: plugins/Login/PasswordResetter.php
@@ -4729,11 +4544,6 @@ parameters:
 			path: plugins/Login/SystemSettings.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$pluginName$#"
-			count: 1
-			path: plugins/Marketplace/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Marketplace/Controller.php
@@ -4752,11 +4562,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: plugins/Marketplace/Environment.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$displayName$#"
-			count: 1
-			path: plugins/Marketplace/PluginTrial/Request.php
 
 		-
 			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
@@ -5069,11 +4874,6 @@ parameters:
 			path: plugins/SitesManager/API.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$measurableSettings$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$theUser of static method Piwik\\\\Piwik\\:\\:hasTheUserSuperUserAccess\\(\\) expects string, true given\\.$#"
 			count: 1
 			path: plugins/SitesManager/API.php
@@ -5119,27 +4919,12 @@ parameters:
 			path: plugins/SitesManager/Model.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$idSite$#"
-			count: 1
-			path: plugins/SitesManager/Model.php
-
-		-
 			message: "#^Variable \\$id_val might not be defined\\.$#"
 			count: 1
 			path: plugins/SitesManager/Model.php
 
 		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$urls$#"
-			count: 1
-			path: plugins/SitesManager/SiteUrls.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\SitesManager\\\\SitesManager\\:\\:getTimezoneFromWebsite\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/SitesManager/SitesManager.php
-
-		-
-			message: "#^PHPDoc tag @param references unknown parameter\\: \\$idSite$#"
 			count: 1
 			path: plugins/SitesManager/SitesManager.php
 
@@ -5492,21 +5277,6 @@ parameters:
 			message: "#^Parameter \\#3 \\$lookForThisPrefix of static method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:makeArrayOneColumn\\(\\) expects bool, string given\\.$#"
 			count: 1
 			path: plugins/VisitorInterest/RecordBuilders/Engagement.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/VisitorInterest/Reports/GetNumberOfVisitsByDaysSinceLast.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/VisitorInterest/Reports/GetNumberOfVisitsPerPage.php
-
-		-
-			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$processedMetrics \\(array\\) does not accept false\\.$#"
-			count: 1
-			path: plugins/VisitorInterest/Reports/GetNumberOfVisitsPerVisitDuration.php
 
 		-
 			message: "#^Ternary operator condition is always true\\.$#"
