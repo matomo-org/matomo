@@ -65,7 +65,6 @@ class Revenue extends BaseConversion
      * @param $valueToMatch
      * @param $sqlField
      * @param $matchType
-     * @param false $cart
      * @return array
      */
     private function getRevenueQuery($valueToMatch, $sqlField, $matchType, $idGoal)

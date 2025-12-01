@@ -78,7 +78,6 @@ class DataArray
      *
      * @param array $newRowToAdd
      * @param array $oldRowToUpdate
-     * @param bool $onlyMetricsAvailableInActionsTable
      *
      * @return void
      */
@@ -135,7 +134,6 @@ class DataArray
      *
      * @param array $newRowToAdd
      * @param array $oldRowToUpdate
-     * @param bool $onlyMetricsAvailableInActionsTable
      *
      * @return void
      */
