@@ -25,7 +25,7 @@ class SiteUrls
     /**
      * Groups all URLs by host, path and idsite.
      *
-     * @param array $urls  An array containing URLs by idsite,
+     * @param array $siteUrls  An array containing URLs by idsite,
      *                     eg array(array($idSite = 1 => array('apache.piwik', 'apache2.piwik'), 2 => array(), ...))
      *                     as returned by {@link getAllCachedSiteUrls()} and {@link getAllSiteUrls}
      * @return array All urls grouped by host => path => idSites. Path having the most '/' will be listed first

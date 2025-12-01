@@ -52,7 +52,7 @@ jobs:
         with:
           script: |
             core.setFailed('User is not allowed to release.')
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           lfs: false
           fetch-tags: true

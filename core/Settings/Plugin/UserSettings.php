@@ -49,8 +49,8 @@ abstract class UserSettings extends Settings
      *                             specified type.
      * @param string $type         The PHP internal type the value of this setting should have.
      *                             Use one of FieldConfig::TYPE_* constants
-     * @param \Closure $fieldConfigCallback   A callback method to configure the field that shall be displayed in the
-     *                             UI to define the value for this setting
+     * @param \Closure $configureCallback   A callback method to configure the field that shall be displayed in the
+     *                                      UI to define the value for this setting
      * @return UserSetting   Returns an instance of the created measurable setting.
      */
     protected function makeSetting($name, $defaultValue, $type, $configureCallback)
