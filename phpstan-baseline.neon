@@ -1236,11 +1236,6 @@ parameters:
 			path: core/Date.php
 
 		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: core/Date.php
-
-		-
 			message: "#^Parameter \\#2 \\$min of function mktime expects int, string given\\.$#"
 			count: 4
 			path: core/Date.php
@@ -1566,16 +1561,6 @@ parameters:
 			path: core/Period.php
 
 		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 2
-			path: core/Period/Day.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 2
-			path: core/Period/Month.php
-
-		-
 			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: core/Period/Range.php
@@ -1589,11 +1574,6 @@ parameters:
 			message: "#^Binary operation \"\\-\" between string and 1 results in an error\\.$#"
 			count: 1
 			path: core/Period/Week.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: core/Period/Year.php
 
 		-
 			message: "#^Result of && is always true\\.$#"
@@ -1793,11 +1773,6 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$dataTable of method Piwik\\\\Plugin\\\\ViewDataTable\\:\\:setDataTable\\(\\) expects Piwik\\\\DataTable, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
 			count: 2
-			path: core/Plugin/Visualization.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
 			path: core/Plugin/Visualization.php
 
 		-
@@ -2427,11 +2402,6 @@ parameters:
 			message: "#^Variable \\$timer in isset\\(\\) always exists and is not nullable\\.$#"
 			count: 2
 			path: core/Tracker/Db/Pdo/Mysql.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: core/Tracker/Failures.php
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Tracker\\\\Action\\:\\:getEventAction\\(\\)\\.$#"
@@ -3139,18 +3109,8 @@ parameters:
 			path: plugins/Actions/VisitorDetails.php
 
 		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Actions/VisitorDetails.php
-
-		-
 			message: "#^Parameter \\#1 \\$array of function reset is passed by reference, so it expects variables only\\.$#"
 			count: 1
-			path: plugins/Annotations/Controller.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 2
 			path: plugins/Annotations/Controller.php
 
 		-
@@ -3679,11 +3639,6 @@ parameters:
 			path: plugins/CustomDimensions/Tracker/CustomDimensionsRequestProcessor.php
 
 		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/DBStats/Tasks.php
-
-		-
 			message: "#^Access to an undefined property object\\:\\:\\$action\\.$#"
 			count: 1
 			path: plugins/Dashboard/API.php
@@ -3792,11 +3747,6 @@ parameters:
 			message: "#^Binary operation \"\\-\" between int\\<1, max\\> and non\\-falsy\\-string results in an error\\.$#"
 			count: 1
 			path: plugins/Diagnostics/Diagnostic/CronArchivingCheck.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Diagnostics/Diagnostic/CronArchivingLastRunCheck.php
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\|Piwik\\\\Db\\\\AdapterInterface\\|Piwik\\\\Tracker\\\\Db\\:\\:getServerVersion\\(\\)\\.$#"
@@ -4389,11 +4339,6 @@ parameters:
 			path: plugins/Live/VisitorDetails.php
 
 		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 5
-			path: plugins/Live/VisitorDetails.php
-
-		-
 			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
 			count: 1
 			path: plugins/Live/VisitorFactory.php
@@ -4442,11 +4387,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$infoMessage of method Piwik\\\\Plugins\\\\Login\\\\Controller\\:\\:login\\(\\) expects bool, string given\\.$#"
 			count: 1
 			path: plugins/Login/Controller.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Login/Emails/LoginFromDifferentCountryEmail.php
 
 		-
 			message: "#^Parameter \\#1 \\$login of method Piwik\\\\Auth\\:\\:setLogin\\(\\) expects string, null given\\.$#"
@@ -4514,11 +4454,6 @@ parameters:
 			path: plugins/Login/SystemSettings.php
 
 		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/Marketplace/Controller.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\Marketplace\\\\Environment\\:\\:\\$releaseChannel \\(Piwik\\\\Plugins\\\\CoreUpdater\\\\ReleaseChannel\\) does not accept Piwik\\\\UpdateCheck\\\\ReleaseChannel\\.$#"
 			count: 1
 			path: plugins/Marketplace/Environment.php
@@ -4532,11 +4467,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: plugins/Marketplace/Environment.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
-			count: 2
-			path: plugins/Marketplace/Plugins.php
 
 		-
 			message: "#^Variable \\$previous in PHPDoc tag @var does not match assigned variable \\$domain\\.$#"
@@ -4605,11 +4535,6 @@ parameters:
 
 		-
 			message: "#^Binary operation \"\\+\" between non\\-falsy\\-string and int results in an error\\.$#"
-			count: 1
-			path: plugins/PrivacyManager/Controller.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/PrivacyManager/Controller.php
 
@@ -5110,11 +5035,6 @@ parameters:
 
 		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \\* \", expected type at offset 149$#"
-			count: 1
-			path: plugins/UsersManager/Controller.php
-
-		-
-			message: "#^Parameter \\#1 \\$template of method Piwik\\\\Date\\:\\:getLocalized\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/UsersManager/Controller.php
 

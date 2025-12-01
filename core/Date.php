@@ -780,13 +780,13 @@ class Date
      * Returns a localized date string using the given template.
      * The template should contain tags that will be replaced with localized date strings.
      *
-     * @param string $template eg. `"MMM y"`
+     * @param string|int $template eg. `"MMM y"` or any format constant defined in {@link DateTimeFormatProvider}
      * @param bool   $ucfirst  whether the first letter should be upper-cased
      * @return string eg. `"Aug 2009"`
      */
     public function getLocalized($template, $ucfirst = true)
     {
-        $dateTimeFormatProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
+        $dateTimeFormatProvider = StaticContainer::get(DateTimeFormatProvider::class);
 
         $template = $dateTimeFormatProvider->getFormatPattern($template);
 
