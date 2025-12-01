@@ -13,7 +13,7 @@
     transition: box-shadow 0s !important;
   }
 }
-@media screen and (max-width: 992px) {
+@media (max-width: 992px) {
   .languageSelection {
     padding: 0 32px;
     width: 100%;
@@ -32,6 +32,12 @@
   }
 }
 
-nav .nav-wrapper .languageSelection .menuDropdown {
-  padding-right: 0;
+nav .nav-wrapper .languageSelection {
+  .menuDropdown {
+    display: block;
+    padding-right: 0;
+  }
+  .title {
+    display: block;
+  }
 }
