@@ -10,11 +10,13 @@
 namespace Piwik\Tests\Integration\Tracker;
 
 use Piwik\Date;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Tracker\Failures;
 use Piwik\Tracker\Request;
+use Piwik\Tracker\Visit;
 
 /**
  * @group Failures
@@ -299,6 +301,112 @@ class FailuresTest extends IntegrationTestCase
         $this->assertEquals(array(
             array(2,1), array(2,2), array(2,3), array(3,1), array(3,2),
         ), $summary);
+    }
+
+
+    /**
+     * @dataProvider getInvalidSiteIds
+     */
+    public function testProvidingInvalidSiteIdForTrackingDoesLogFailure(string $idsite)
+    {
+        try {
+            $request = new Request(['idsite' => $idsite, 'rec' => '1', 'url' => 'https://matomo.org/index']);
+            $visit   = new Visit();
+            $visit->setRequest($request);
+            $visit->handle();
+            self::fail('expected exception not raised');
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // ignore, as we expect a UnexpectedWebsiteFoundException to be thrown
+        }
+
+        self::assertCount(1, $this->failures->getAllFailures());
+    }
+
+    public function getInvalidSiteIds(): array
+    {
+        return [
+            ['4'],
+            ['0'],
+            ['1234'],
+        ];
+    }
+
+    /**
+     * @dataProvider getMalFormedSiteIds
+     */
+    public function testProvidingMalformedSiteIdForTrackingDoesNotLogFailure(string $idsite)
+    {
+        try {
+            $request = new Request(['idsite' => $idsite, 'rec' => '1', 'url' => 'https://matomo.org/index']);
+            $visit   = new Visit();
+            $visit->setRequest($request);
+            $visit->handle();
+            self::fail('expected exception not raised');
+        } catch (UnexpectedWebsiteFoundException $e) {
+            // ignore, as we expect it to be thrown
+        }
+
+        self::assertCount(0, $this->failures->getAllFailures());
+    }
+
+    public function getMalFormedSiteIds(): array
+    {
+        return [
+            [''],
+            ['-4'],
+            ['1"; DROP TABLE'],
+            ['5,6'],
+            ['nan'],
+            ['test5'],
+        ];
+    }
+
+    public function testProvidingInvalidTokenAuthForTrackingDoesLogFailure()
+    {
+        try {
+            $request = new Request(['idsite' => '1', 'rec' => '1', 'url' => 'https://matomo.org/index', 'city' => 'Berlin'], '1d34ghdrg6j33uersadfg34defg342vs');
+            $visit   = new Visit();
+            $visit->setRequest($request);
+            $visit->handle();
+            self::fail('expected exception not raised');
+        } catch (InvalidRequestParameterException $e) {
+            // ignore, as we expect that exception
+        }
+
+        self::assertCount(1, $this->failures->getAllFailures());
+    }
+
+    /**
+     * @dataProvider getMalFormedTokenAuths
+     */
+    public function testProvidingMalformedTokenAuthForTrackingDoesNotLogFailure(string $tokenAuth)
+    {
+        try {
+            $request = new Request(['idsite' => '1', 'rec' => '1', 'url' => 'https://matomo.org/index', 'city' => 'Berlin'], $tokenAuth);
+            $visit   = new Visit();
+            $visit->setRequest($request);
+            $visit->handle();
+            self::fail('expected exception not raised');
+        } catch (InvalidRequestParameterException $e) {
+            // ignore, as we expect that exception
+        }
+
+        self::assertCount(0, $this->failures->getAllFailures());
+    }
+
+    public function getMalFormedTokenAuths(): iterable
+    {
+        yield 'too short token' => [
+            'abc',
+        ];
+
+        yield 'too long token' => [
+            'abc2435tgadetb356z2wq3er4gbrnz367634rahne735e5wqergwert245hw45h3gq45h',
+        ];
+
+        yield 'token with invalid chars' => [
+            '33dc3f!536d302$974cccb4b4d2-98f4',
+        ];
     }
 
     private function getFailureSummary()
