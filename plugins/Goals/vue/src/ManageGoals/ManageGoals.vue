@@ -52,7 +52,7 @@
                   <br/><br/>
                 </td>
               </tr>
-              <tr v-for="goal in goalsList || []" :id="goal.idgoal" :key="goal.idgoal">
+              <tr v-for="goal in goals || []" :id="goal.idgoal" :key="goal.idgoal">
                 <td class="first">{{ goal.idgoal }}</td>
                 <td>{{ goal.name }}</td>
                 <td>{{ goal.description }}</td>
@@ -412,7 +412,6 @@ interface ManageGoalsState {
   submitText: string;
   goalToDelete: Goal|null;
   addEditTableComponent: boolean;
-  goalsList: Record<string, Goal>;
 }
 
 function ambiguousBoolToInt(n: string|number|boolean): 1|0 {
@@ -454,7 +453,6 @@ export default defineComponent({
       submitText: '',
       goalToDelete: null,
       addEditTableComponent: false,
-      goalsList: {},
     };
   },
   components: {
@@ -471,7 +469,6 @@ export default defineComponent({
   },
   created() {
     ManageGoalsStore.setIdGoalShown(this.showGoal);
-    this.goalsList = this.goals;
   },
   unmounted() {
     ManageGoalsStore.setIdGoalShown(undefined);
@@ -577,7 +574,7 @@ export default defineComponent({
     },
     editGoal(goalId: string|number) {
       this.showAddEditForm();
-      const goal = (this.goalsList[`${goalId}`] || this.goals[`${goalId}`]) as Goal;
+      const goal = this.goals[`${goalId}`] as Goal;
       this.initGoalForm(
         'Goals.updateGoal',
         translate('Goals_UpdateGoal'),
@@ -595,7 +592,7 @@ export default defineComponent({
       this.scrollToTop();
     },
     deleteGoal(goalId: string|number) {
-      this.goalToDelete = this.goalsList[`${goalId}`] || this.goals[`${goalId}`];
+      this.goalToDelete = this.goals[`${goalId}`];
       Matomo.helper.modalConfirm((this.$refs.confirm as HTMLElement), {
         yes: () => {
           this.isLoading = true;
@@ -662,42 +659,43 @@ export default defineComponent({
         if (isCreate && response.value) {
           idToUse = response.value;
         }
-        const link = MatomoUrl.stringify({
-          ...MatomoUrl.urlParsed.value,
-          module: 'CoreHome',
-          action: 'index',
-        });
-        const hash = MatomoUrl.stringify({
-          ...MatomoUrl.hashParsed.value,
-          category: 'Goals_Goals',
-          subcategory: idToUse,
-        });
-        let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
-        const reportLink = `<a href="?${link}#${hash}">[${translate('Goals_ViewGoalReport')}]</a>`;
-        successMessage = `<div class="notification-message">${successMessage} ${reportLink}</div>`;
-
+        this.showNotificationMessage(idToUse, isCreate);
         const subcategory = MatomoUrl.parsed.value.subcategory as string;
-        NotificationsStore.show({
-          id: 'ManageGoals.create', message: successMessage, context: 'success', type: 'toast',
-        });
-        await ReportingMenuStore.reloadMenuItems();
         if (subcategory === 'Goals_AddNewGoal'
           && Matomo.helper.isReportingPage()
         ) {
           // when adding a goal for the first time we need to load manage goals page afterwards
+          await ReportingMenuStore.reloadMenuItems();
           MatomoUrl.updateHash({
             ...MatomoUrl.hashParsed.value,
             subcategory: 'Goals_ManageGoals',
           });
           this.isLoading = false;
         } else {
-          // We now will just load the goals via ajax instead of reloading
-          await this.loadGoals();
-          this.showListOfReports();
+          window.location.reload();
         }
       }).catch(() => {
         this.scrollToTop();
         this.isLoading = false;
+      });
+    },
+    showNotificationMessage(goalId, isCreate) {
+      const link = MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        module: 'CoreHome',
+        action: 'index',
+      });
+      const hash = MatomoUrl.stringify({
+        ...MatomoUrl.hashParsed.value,
+        category: 'Goals_Goals',
+        subcategory: goalId,
+      });
+      let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
+      const reportLink = `<a href="?${link}#${hash}">[${translate('Goals_ViewGoalReport')}]</a>`;
+      successMessage = `<div class="notification-message">${successMessage} ${reportLink}</div>`;
+
+      NotificationsStore.show({
+        id: 'ManageGoals.create', message: successMessage, context: 'success', type: 'toast',
       });
     },
     changedTriggerType() {
@@ -720,25 +718,6 @@ export default defineComponent({
     },
     goalNameChanged() {
       Matomo.postEvent('Goals.goalNameChanged', this.goal.name);
-    },
-    async loadGoals() {
-      return AjaxHelper.fetch({
-        module: 'API',
-        method: 'Goals.getGoals',
-        idSite: Matomo.idSite,
-        format: 'JSON',
-      }).then((response) => {
-        const initial: Record<string, Goal> = {};
-        const goals = response as Goal[];
-        this.goalsList = goals.reduce<Record<string, Goal>>((acc, goal) => {
-          acc[goal.idgoal] = goal;
-          return acc;
-        }, initial);
-        this.isLoading = false;
-      }).catch(() => {
-        this.scrollToTop();
-        this.isLoading = false;
-      });
     },
   },
   computed: {
