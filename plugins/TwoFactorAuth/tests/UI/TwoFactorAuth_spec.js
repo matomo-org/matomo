@@ -28,6 +28,8 @@ describe("TwoFactorAuth", function () {
         testEnvironment.overrideConfig('General', 'login_allow_logme', '1')
         await testEnvironment.save();
 
+        await page.goto('about:blank');
+
         // make sure to log out previous session
         await page.goto(logoutUrl);
         await page.waitForNetworkIdle();
