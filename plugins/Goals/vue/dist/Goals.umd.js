@@ -206,7 +206,7 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', $element => {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=46d05250
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=1b6eef7c
 
 const _hoisted_1 = {
   class: "manageGoals"
@@ -368,7 +368,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       innerHTML: _ctx.$sanitize(_ctx.youCanEnableEcommerceReports)
     }, null, 8, _hoisted_8)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("table", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("thead", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tr", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", _hoisted_9, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Id')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_GoalName')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Description')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_GoalIsTriggeredWhen')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("th", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ColumnRevenue')), 1), _ctx.beforeGoalListActionsHeadComponent ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(_ctx.beforeGoalListActionsHeadComponent), {
       key: 0
-    })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.userCanEditGoals ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Actions')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [!Object.keys(_ctx.goals || {}).length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_12, [_hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_ThereIsNoGoalToManage', _ctx.siteName)) + " ", 1), _hoisted_14, _hoisted_15])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.goalsList || [], goal => {
+    })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.userCanEditGoals ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("th", _hoisted_10, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Actions')), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("tbody", null, [!Object.keys(_ctx.goals || {}).length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("td", _hoisted_12, [_hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Goals_ThereIsNoGoalToManage', _ctx.siteName)) + " ", 1), _hoisted_14, _hoisted_15])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.goals || [], goal => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("tr", {
         id: goal.idgoal,
         key: goal.idgoal
@@ -526,7 +526,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_59]);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=46d05250
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=1b6eef7c
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -555,6 +555,7 @@ class ManageGoals_store_ManageGoalsStore {
 
 
 
+const notificationKey = 'Goals.ManageGoals.Notification';
 function ambiguousBoolToInt(n) {
   return !!n && n !== '0' ? 1 : 0;
 }
@@ -592,8 +593,7 @@ function ambiguousBoolToInt(n) {
       apiMethod: '',
       submitText: '',
       goalToDelete: null,
-      addEditTableComponent: false,
-      goalsList: {}
+      addEditTableComponent: false
     };
   },
   components: {
@@ -610,7 +610,6 @@ function ambiguousBoolToInt(n) {
   },
   created() {
     ManageGoals_store.setIdGoalShown(this.showGoal);
-    this.goalsList = this.goals;
   },
   unmounted() {
     ManageGoals_store.setIdGoalShown(undefined);
@@ -622,6 +621,10 @@ function ambiguousBoolToInt(n) {
       this.editGoal(this.showGoal);
     } else {
       this.showListOfReports();
+    }
+    const storedNotifications = this.getStoredNotification();
+    if (storedNotifications) {
+      this.showNotificationMessage(storedNotifications.goal, storedNotifications.create);
     }
   },
   methods: {
@@ -683,12 +686,12 @@ function ambiguousBoolToInt(n) {
     },
     editGoal(goalId) {
       this.showAddEditForm();
-      const goal = this.goalsList[`${goalId}`] || this.goals[`${goalId}`];
+      const goal = this.goals[`${goalId}`];
       this.initGoalForm('Goals.updateGoal', Object(external_CoreHome_["translate"])('Goals_UpdateGoal'), goal.name, goal.description, goal.match_attribute, goal.pattern, goal.pattern_type, !!goal.case_sensitive && goal.case_sensitive !== '0', parseInt(`${goal.revenue}`, 10), !!goal.allow_multiple && goal.allow_multiple !== '0', !!goal.event_value_as_revenue && goal.event_value_as_revenue !== '0', goalId);
       this.scrollToTop();
     },
     deleteGoal(goalId) {
-      this.goalToDelete = this.goalsList[`${goalId}`] || this.goals[`${goalId}`];
+      this.goalToDelete = this.goals[`${goalId}`];
       external_CoreHome_["Matomo"].helper.modalConfirm(this.$refs.confirm, {
         yes: () => {
           this.isLoading = true;
@@ -750,39 +753,75 @@ function ambiguousBoolToInt(n) {
         if (isCreate && response.value) {
           idToUse = response.value;
         }
-        const link = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
-          module: 'CoreHome',
-          action: 'index'
-        }));
-        const hash = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
-          category: 'Goals_Goals',
-          subcategory: idToUse
-        }));
-        let successMessage = Object(external_CoreHome_["translate"])(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
-        const reportLink = `<a href="?${link}#${hash}">[${Object(external_CoreHome_["translate"])('Goals_ViewGoalReport')}]</a>`;
-        successMessage = `<div class="notification-message">${successMessage} ${reportLink}</div>`;
+        this.storeNotification(idToUse, isCreate);
+        this.showNotificationMessage(idToUse, isCreate);
+        this.scrollToTop();
         const subcategory = external_CoreHome_["MatomoUrl"].parsed.value.subcategory;
-        external_CoreHome_["NotificationsStore"].show({
-          id: 'ManageGoals.create',
-          message: successMessage,
-          context: 'success',
-          type: 'toast'
-        });
-        await external_CoreHome_["ReportingMenuStore"].reloadMenuItems();
         if (subcategory === 'Goals_AddNewGoal' && external_CoreHome_["Matomo"].helper.isReportingPage()) {
           // when adding a goal for the first time we need to load manage goals page afterwards
+          await external_CoreHome_["ReportingMenuStore"].reloadMenuItems();
           external_CoreHome_["MatomoUrl"].updateHash(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
             subcategory: 'Goals_ManageGoals'
           }));
           this.isLoading = false;
         } else {
-          // We now will just load the goals via ajax instead of reloading
-          await this.loadGoals();
-          this.showListOfReports();
+          window.location.reload();
         }
       }).catch(() => {
         this.scrollToTop();
         this.isLoading = false;
+      });
+    },
+    storeNotification(goalId, isCreate) {
+      try {
+        sessionStorage.setItem(notificationKey, JSON.stringify({
+          goal: goalId,
+          create: isCreate
+        }));
+      } catch (e) {
+        // Do nothing
+      }
+    },
+    getStoredNotification() {
+      const pendingNotification = sessionStorage.getItem(notificationKey);
+      if (pendingNotification) {
+        sessionStorage.removeItem(notificationKey);
+        try {
+          let {
+            goal,
+            create
+          } = JSON.parse(pendingNotification);
+          if (goal) {
+            goal = parseInt(goal, 10); // we make sure this is an int
+          }
+          create = !!create; // we make sure this is a boolean
+          return {
+            goal,
+            create
+          };
+        } catch (e) {
+          return null;
+        }
+      }
+      return null;
+    },
+    showNotificationMessage(goalId, isCreate) {
+      const link = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+        module: 'CoreHome',
+        action: 'index'
+      }));
+      const hash = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
+        category: 'Goals_Goals',
+        subcategory: encodeURIComponent(goalId)
+      }));
+      let successMessage = Object(external_CoreHome_["translate"])(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
+      const reportLink = `<a href="?${link}#${hash}">[${Object(external_CoreHome_["translate"])('Goals_ViewGoalReport')}]</a>`;
+      successMessage = `<div class="notification-message">${successMessage} ${reportLink}</div>`;
+      external_CoreHome_["NotificationsStore"].show({
+        id: 'ManageGoals.create',
+        message: successMessage,
+        context: 'success',
+        type: 'toast'
       });
     },
     changedTriggerType() {
@@ -805,25 +844,6 @@ function ambiguousBoolToInt(n) {
     },
     goalNameChanged() {
       external_CoreHome_["Matomo"].postEvent('Goals.goalNameChanged', this.goal.name);
-    },
-    async loadGoals() {
-      return external_CoreHome_["AjaxHelper"].fetch({
-        module: 'API',
-        method: 'Goals.getGoals',
-        idSite: external_CoreHome_["Matomo"].idSite,
-        format: 'JSON'
-      }).then(response => {
-        const initial = {};
-        const goals = response;
-        this.goalsList = goals.reduce((acc, goal) => {
-          acc[goal.idgoal] = goal;
-          return acc;
-        }, initial);
-        this.isLoading = false;
-      }).catch(() => {
-        this.scrollToTop();
-        this.isLoading = false;
-      });
     }
   },
   computed: {

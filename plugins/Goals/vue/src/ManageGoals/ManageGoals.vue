@@ -401,6 +401,7 @@ import {
 import Goal from '../Goal';
 import ManageGoalsStore from './ManageGoals.store';
 
+const notificationKey = 'Goals.ManageGoals.Notification';
 interface ManageGoalsState {
   showEditGoal: boolean;
   showGoalList: boolean;
@@ -480,6 +481,10 @@ export default defineComponent({
       this.editGoal(this.showGoal);
     } else {
       this.showListOfReports();
+    }
+    const storedNotifications = this.getStoredNotification();
+    if (storedNotifications) {
+      this.showNotificationMessage(storedNotifications.goal, storedNotifications.create);
     }
   },
   methods: {
@@ -659,7 +664,9 @@ export default defineComponent({
         if (isCreate && response.value) {
           idToUse = response.value;
         }
+        this.storeNotification(idToUse, isCreate);
         this.showNotificationMessage(idToUse, isCreate);
+        this.scrollToTop();
         const subcategory = MatomoUrl.parsed.value.subcategory as string;
         if (subcategory === 'Goals_AddNewGoal'
           && Matomo.helper.isReportingPage()
@@ -679,7 +686,31 @@ export default defineComponent({
         this.isLoading = false;
       });
     },
-    showNotificationMessage(goalId, isCreate) {
+    storeNotification(goalId:string|number, isCreate:boolean) {
+      try {
+        sessionStorage.setItem(notificationKey, JSON.stringify({ goal: goalId, create: isCreate }));
+      } catch (e) {
+        // Do nothing
+      }
+    },
+    getStoredNotification() {
+      const pendingNotification = sessionStorage.getItem(notificationKey);
+      if (pendingNotification) {
+        sessionStorage.removeItem(notificationKey);
+        try {
+          let { goal, create } = JSON.parse(pendingNotification);
+          if (goal) {
+            goal = parseInt(goal, 10); // we make sure this is an int
+          }
+          create = !!create; // we make sure this is a boolean
+          return { goal, create };
+        } catch (e) {
+          return null;
+        }
+      }
+      return null;
+    },
+    showNotificationMessage(goalId:string|number, isCreate:boolean) {
       const link = MatomoUrl.stringify({
         ...MatomoUrl.urlParsed.value,
         module: 'CoreHome',
@@ -688,7 +719,7 @@ export default defineComponent({
       const hash = MatomoUrl.stringify({
         ...MatomoUrl.hashParsed.value,
         category: 'Goals_Goals',
-        subcategory: goalId,
+        subcategory: encodeURIComponent(goalId),
       });
       let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
       const reportLink = `<a href="?${link}#${hash}">[${translate('Goals_ViewGoalReport')}]</a>`;
