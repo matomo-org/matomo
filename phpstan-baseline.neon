@@ -1396,31 +1396,6 @@ parameters:
 			path: core/FrontController.php
 
 		-
-			message: "#^Method Piwik\\\\Http\\:\\:sendHttpRequestBy\\(\\) should return array\\|string but returns false\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Method Piwik\\\\Http\\:\\:sendHttpRequestBy\\(\\) should return array\\|string but returns true\\.$#"
-			count: 2
-			path: core/Http.php
-
-		-
-			message: "#^Offset 'data' does not exist on bool\\|string\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Offset 'data' does not exist on string\\|true\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Offset 'status' does not exist on string\\|true\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
 			message: "#^Parameter \\#1 \\$str of function trim expects string, null given\\.$#"
 			count: 1
 			path: core/Http.php
@@ -3714,16 +3689,6 @@ parameters:
 			path: plugins/Diagnostics/Commands/Run.php
 
 		-
-			message: "#^Offset 'data' does not exist on bool\\|string\\.$#"
-			count: 2
-			path: plugins/Diagnostics/Diagnostic/AbstractPrivateDirectories.php
-
-		-
-			message: "#^Offset 'status' does not exist on bool\\|string\\.$#"
-			count: 2
-			path: plugins/Diagnostics/Diagnostic/AbstractPrivateDirectories.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\Diagnostics\\\\Diagnostic\\\\ArchiveInvalidationsInformational\\:\\:\\$translator is never read, only written\\.$#"
 			count: 1
 			path: plugins/Diagnostics/Diagnostic/ArchiveInvalidationsInformational.php
@@ -4234,11 +4199,6 @@ parameters:
 			path: plugins/Installation/Onboarding.php
 
 		-
-			message: "#^Parameter \\#1 \\$json of function json_decode expects string, bool given\\.$#"
-			count: 14
-			path: plugins/Intl/Commands/GenerateIntl.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\LanguagesManager\\\\API\\:\\:getLanguageForUser\\(\\) should return string but returns false\\.$#"
 			count: 1
 			path: plugins/LanguagesManager/API.php
@@ -4664,11 +4624,6 @@ parameters:
 			path: plugins/Referrers/functions.php
 
 		-
-			message: "#^Parameter \\#1 \\$data of function simplexml_load_string expects string, bool given\\.$#"
-			count: 1
-			path: plugins/RssWidget/RssRenderer.php
-
-		-
 			message: "#^Variable \\$domain on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: plugins/SEO/Metric/DomainAge.php
@@ -4837,16 +4792,6 @@ parameters:
 			message: "#^Parameter \\#3 \\$default of method Piwik\\\\Plugin\\\\ConsoleCommand\\:\\:addOptionalArgument\\(\\) expects null, string given\\.$#"
 			count: 1
 			path: plugins/TestRunner/Commands/CodeCoverage.php
-
-		-
-			message: "#^Offset 'data' does not exist on bool\\|string\\.$#"
-			count: 2
-			path: plugins/TestRunner/Commands/SyncScreenshots.php
-
-		-
-			message: "#^Offset 'status' does not exist on bool\\|string\\.$#"
-			count: 1
-			path: plugins/TestRunner/Commands/SyncScreenshots.php
 
 		-
 			message: "#^Parameter \\#3 \\$default of method Piwik\\\\Plugin\\\\ConsoleCommand\\:\\:addOptionalArgument\\(\\) expects null, array\\<int, string\\> given\\.$#"
