@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Installation;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
+use Piwik\Config;
 
 class ServerFilesGenerator
 {
@@ -38,7 +39,8 @@ class ServerFilesGenerator
             "</Files>\n";
 
         $staticFileExtensions = array('gif', 'ico', 'jpg', 'png', 'svg', 'js', 'css', 'htm', 'html', 'mp3', 'mp4', 'wav', 'ogg', 'avi', 'ttf', 'eot', 'woff', 'woff2');
-        $allowVueSourceMaps = filter_var(getenv('MATOMO_ALLOW_VUE_SOURCEMAPS'), FILTER_VALIDATE_BOOLEAN);
+        $developmentConfig = Config::getInstance()->Development;
+        $allowVueSourceMaps = !empty($developmentConfig['allow_vue_sourcemaps']);
         if ($allowVueSourceMaps) {
             $staticFileExtensions[] = 'map';
         }
