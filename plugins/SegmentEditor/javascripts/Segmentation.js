@@ -195,11 +195,8 @@ Segmentation = (function($) {
             }
             listHtml += '</li>';
 
-            var isVisibleToSuperUserNoticeAlreadyDisplayedOnce = false;
-            var isVisibleToSuperUserNoticeShouldBeClosed = false;
-
-            var isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce = false;
-            var isSharedWithMeBySuperUserNoticeShouldBeClosed = false;
+            let isVisibleToSuperUserNoticeAlreadyDisplayedOnce = false;
+            let isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce = false;
 
             if (self.availableSegments.length > 0) {
 
@@ -207,25 +204,18 @@ Segmentation = (function($) {
                 {
                     segment = self.availableSegments[i];
 
-                    // starred is an int but it could be converted as string, and !"0" is false instead of true
+                    // starred should be an int, but it could be converted as string
+                    // and !"0" would then be false instead of true
                     segment.starred = Boolean(parseInt(segment.starred, 10));
 
-                    if(isSegmentSharedWithMeBySuperUser(segment) && !isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce) {
+                    if (isSegmentSharedWithMeBySuperUser(segment) && !isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce) {
                         isSharedWithMeBySuperUserNoticeAlreadyDisplayedOnce = true;
-                        isSharedWithMeBySuperUserNoticeShouldBeClosed = true;
-                        listHtml += '<span class="segmentsSharedWithMeBySuperUser"><hr> ' + _pk_translate('SegmentEditor_SharedWithYou') + ':<br/><br/>';
+                        listHtml += '<span class="segmentsSharedWithMeBySuperUser"><hr> ' + _pk_translate('SegmentEditor_SharedWithYou') + ':<br/></span>';
                     }
 
-                    if(isSegmentVisibleToSuperUserOnly(segment) && !isVisibleToSuperUserNoticeAlreadyDisplayedOnce) {
-                        // close <span class="segmentsSharedWithMeBySuperUser">
-                        if(isSharedWithMeBySuperUserNoticeShouldBeClosed) {
-                            isSharedWithMeBySuperUserNoticeShouldBeClosed = false;
-                            listHtml += '</span>';
-                        }
-
+                    if (isSegmentVisibleToSuperUserOnly(segment) && !isVisibleToSuperUserNoticeAlreadyDisplayedOnce) {
                         isVisibleToSuperUserNoticeAlreadyDisplayedOnce = true;
-                        isVisibleToSuperUserNoticeShouldBeClosed = true;
-                        listHtml += '<span class="segmentsVisibleToSuperUser"><hr> ' + _pk_translate('SegmentEditor_VisibleToSuperUser') + ':<br/><br/>';
+                        listHtml += '<span class="segmentsVisibleToSuperUser"><hr> ' + _pk_translate('SegmentEditor_VisibleToSuperUser') + ':<br/></span>';
                     }
 
 
@@ -245,15 +235,20 @@ Segmentation = (function($) {
                         'data-definition="' + escapedSegmentName + '"' +
                       '>' +
                         '<span class="segname" tabindex="4" title="' + getSegmentTooltipEnrichedWithUsername(segment) + '" >' + getSegmentName(segment) + '</span>';
-                    if (self.segmentAccess === "write") {
-                        listHtml += '' +
-                          '<button data-star class="starSegment" title="' + getStarSegmentTitle(segment) + '">️' +
-                            '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">' +
-                                '<path stroke="black" stroke-width="3" fill="none" d="M9.153 5.408C10.42 3.136 11.053 2 12 2c.947 0 1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182.28.213.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506-.766.582-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452-.347 0-.674.15-1.329.452l-.595.274c-2.303 1.06-3.455 1.59-4.22 1.01-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882.293-.941 1.523-1.22 3.983-1.776l.636-.144c.699-.158 1.048-.237 1.329-.45.28-.213.46-.536.82-1.182l.328-.588Z"/>' +
-                            '</svg>' +
-                          '</button>';
-                        listHtml += '<span class="editSegment" title="' + self.translations['General_Edit'].toLocaleLowerCase() + '"></span>';
+
+                    const canStarUnstarSegment = getIsUserCanStarUnstarSegment(segment);
+                    const disabledAttribute = canStarUnstarSegment ? '' : 'disabled';
+                    const titleAttribute = 'title="' + getStarSegmentTitle(segment, canStarUnstarSegment) + '"';
+                    listHtml += '' +
+                      '<button data-star class="starSegment" '+ titleAttribute + ' ' + disabledAttribute + '>️' +
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">' +
+                            '<path stroke="black" stroke-width="3" fill="none" d="M9.153 5.408C10.42 3.136 11.053 2 12 2c.947 0 1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182.28.213.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506-.766.582-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452-.347 0-.674.15-1.329.452l-.595.274c-2.303 1.06-3.455 1.59-4.22 1.01-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882.293-.941 1.523-1.22 3.983-1.776l.636-.144c.699-.158 1.048-.237 1.329-.45.28-.213.46-.536.82-1.182l.328-.588Z"/>' +
+                        '</svg>' +
+                      '</button>';
+                    if (self.segmentAccess === 'write') {
+                      listHtml += '<span class="editSegment" title="' + self.translations['General_Edit'].toLocaleLowerCase() + '"></span>';
                     }
+
                     if (
                       comparisonService.isComparisonEnabled() ||
                       comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
@@ -263,26 +258,16 @@ Segmentation = (function($) {
                     listHtml += '</li>';
                 }
 
-                if(isVisibleToSuperUserNoticeShouldBeClosed) {
-                    listHtml += '</span>';
-                }
-
-                if(isSharedWithMeBySuperUserNoticeShouldBeClosed) {
-                    listHtml += '</span>';
-                }
-
                 $(html).find(".segmentList > ul").append(listHtml);
-                if(self.segmentAccess === "write"){
+                if (self.segmentAccess === "write"){
                     $(html).find(".add_new_segment").html(self.translations['SegmentEditor_AddNewSegment']);
-                }
-                else {
+                } else {
                     $(html).find(".add_new_segment").hide();
                 }
-            }
-            else
-            {
+            } else {
                 $(html).find(".segmentList > ul").append(listHtml);
             }
+
             return html;
         };
 
@@ -610,6 +595,13 @@ Segmentation = (function($) {
             });
 
         };
+
+        function getIsUserCanStarUnstarSegment(segment) {
+          if (self.segmentAccess !== 'write') {
+            return false;
+          }
+          return true;
+        }
 
         function getStarSegmentTitle(segment) {
           if (segment.starred) {

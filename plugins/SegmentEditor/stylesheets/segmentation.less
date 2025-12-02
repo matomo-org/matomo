@@ -339,10 +339,15 @@ div.scrollable {
         &:hover {
           opacity: 1;
         }
+
+        &:disabled {
+          opacity: 0.2;
+        }
     }
 
     span.editSegment {
-        background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
+        background: url(plugins/SegmentEditor/images/edit_segment.svg) no-repeat;
+        background-size: cover;
         order: 3;
     }
 
@@ -401,7 +406,7 @@ div.scrollable {
     li.segmentSelected, li.comparedSegment {
         span.compareSegment {
             pointer-events: none;
-            opacity: 0.2;
+            opacity: 0.5;
         }
     }
 }
