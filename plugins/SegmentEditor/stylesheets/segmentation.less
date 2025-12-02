@@ -340,8 +340,17 @@ div.scrollable {
           opacity: 1;
         }
 
-        &:disabled {
+        &[data-state=disabled] {
           opacity: 0.2;
+          cursor: not-allowed;
+        }
+
+        &[data-state=active] {
+          border-radius: 50%;
+          background-color: white;
+          background-size: 70%;
+          background-position: center;
+          filter: invert(1);
         }
     }
 
@@ -397,16 +406,6 @@ div.scrollable {
         }
         &.allVisitsCompareSegment--write {
           margin-right: 20px;
-        }
-    }
-    .compareSegment.no-click {
-        pointer-events: none;
-    }
-
-    li.segmentSelected, li.comparedSegment {
-        .compareSegment {
-            pointer-events: none;
-            opacity: 0.5;
         }
     }
 }

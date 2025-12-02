@@ -83,15 +83,19 @@ Segmentation = (function($) {
         });
 
         segmentation.prototype.markComparedSegments = function() {
-            var comparisonService = window.CoreHome.ComparisonsStoreInstance;
-            var comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
+            const comparisonService = window.CoreHome.ComparisonsStoreInstance;
+            const comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
                 return comparison.params.segment;
             });
-            $('div.segmentList ul li[data-definition]', this.target).removeClass('comparedSegment').filter(function () {
-                var definition = $(this).attr('data-definition');
-                return comparedSegments.indexOf(definition) !== -1 || comparedSegments.indexOf(decodeURIComponent(definition)) !== -1;
-            }).each(function () {
-                $(this).addClass('comparedSegment');
+            $('div.segmentList ul li[data-definition]', this.target).each(function () {
+                const $segment = $(this);
+                const definition = $segment.attr('data-definition');
+                const isCompared = (
+                  comparedSegments.indexOf(definition) !== -1 ||
+                  comparedSegments.indexOf(decodeURIComponent(definition)) !== -1
+                );
+                $segment.toggleClass('comparedSegment', isCompared);
+                $segment.find('.compareSegment').attr('data-state', isCompared ? 'active' : '');
             });
             self.checkIfComparedSegmentsHasReachedLimit();
         };
@@ -99,15 +103,19 @@ Segmentation = (function($) {
             const limit = piwik.config.data_comparison_segment_limit + 1;
             const comparisonService = window.CoreHome.ComparisonsStoreInstance;
             const comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
-            $('div.segmentList ul li[data-definition] span.compareSegment').each(function() {
+            $('div.segmentList ul li[data-definition] .compareSegment').each(function() {
+              const $compareButton = $(this);
+              const $segment = $compareButton.parent();
+              const currentState = $compareButton.attr('data-state');
+              if (currentState === 'active') {
+                return;
+              }
               if (comparedSegmentsLength >= limit) {
-                $(this).addClass('no-click');
-                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
+                $compareButton.attr('data-state','disabled');
+                addTooltip($compareButton, _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
               } else {
-                $(this).removeClass('no-click');
-                var idSegment = $(this).parent().attr('data-idsegment');
-                const title = getSegmentName(getSegmentFromId(idSegment));
-                $(this).parent().attr('title', title);
+                $compareButton.attr('data-state','');
+                addTooltip($compareButton, _pk_translate('SegmentEditor_CompareThisSegment'));
               }
             });
             return false;
@@ -236,17 +244,19 @@ Segmentation = (function($) {
                       '>' +
                         '<span class="segname" tabindex="4" title="' + getSegmentTooltipEnrichedWithUsername(segment) + '" >' + getSegmentName(segment) + '</span>';
 
-                    const canStarUnstarSegment = getIsUserCanStarUnstarSegment(segment);
-                    const disabledAttribute = canStarUnstarSegment ? '' : 'disabled';
-                    const titleAttribute = 'title="' + getStarSegmentTitle(segment, canStarUnstarSegment) + '"';
+                    const canEdit = getIsUserCanEditSegment(segment);
+                    // We do not use "disabled" attribute here because it remove pointer events and we want to show tooltips
+                    const disabledAttribute = canEdit ? '' : 'data-state="disabled"';
+                    const starTitleAttribute = 'title="' + getStarSegmentTitle(segment, canEdit) + '"';
                     listHtml += '' +
-                      '<button data-star class="starSegment" '+ titleAttribute + ' ' + disabledAttribute + '>️' +
+                      '<button data-star class="starSegment" '+ starTitleAttribute + ' ' + disabledAttribute + '>️' +
                         '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">' +
                             '<path stroke="black" stroke-width="3" fill="none" d="M9.153 5.408C10.42 3.136 11.053 2 12 2c.947 0 1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182.28.213.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506-.766.582-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452-.347 0-.674.15-1.329.452l-.595.274c-2.303 1.06-3.455 1.59-4.22 1.01-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882.293-.941 1.523-1.22 3.983-1.776l.636-.144c.699-.158 1.048-.237 1.329-.45.28-.213.46-.536.82-1.182l.328-.588Z"/>' +
                         '</svg>' +
                       '</button>';
                     if (self.segmentAccess === 'write') {
-                      listHtml += '<button class="editSegment" title="' + self.translations['General_Edit'].toLocaleLowerCase() + '"></button>';
+                      const editTitleAttribute = 'title="' + getEditSegmentTitle(segment, canEdit) + '"';
+                      listHtml += '<button class="editSegment" ' + editTitleAttribute + ' ' + disabledAttribute + '>️</button>';
                     }
 
                     if (
@@ -413,10 +423,14 @@ Segmentation = (function($) {
             });
 
             self.target.on('click', '.editSegment', function(e) {
-                $(this).closest(".segmentationContainer").trigger("click");
-                var target = $(this).parent("li");
+                const $button = $(this);
+                if ($button.attr('data-state') === 'disabled') {
+                  return false;
+                }
+                const $segment = $button.parent("li");
+                $segment.closest(".segmentationContainer").trigger("click");
 
-                openEditFormGivenSegment(target);
+                openEditFormGivenSegment($segment);
                 e.stopPropagation();
                 e.preventDefault();
             });
@@ -424,7 +438,11 @@ Segmentation = (function($) {
             self.target.on('click', '[data-star]', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-                const $root = $(this).closest('li');
+                const $button = $(this);
+                if ($button.attr('data-state') === 'disabled') {
+                  return false;
+                }
+                const $root = $button.closest('li');
                 const idSegment = $root.data('idsegment');
                 const segment = getSegmentFromId(idSegment);
                 segment.starred = !segment.starred;
@@ -453,14 +471,18 @@ Segmentation = (function($) {
             self.target.on('click', '.compareSegment', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-                var comparisonService = window.CoreHome.ComparisonsStoreInstance;
+                const $button = $(this);
+                if ($button.attr('data-state') === 'disabled') {
+                  return false;
+                }
+                const comparisonService = window.CoreHome.ComparisonsStoreInstance;
                 comparisonService.addSegmentComparison({
-                    segment: $(e.target).closest('li').data('definition'),
+                  segment: $button.closest('li').data('definition'),
                 });
                 closeAllOpenLists();
             });
 
-            self.target.on("click", ".segmentList li span.segname", function (e) {
+            self.target.on("click", ".segmentList li .segname", function (e) {
                 let parentLi = $(this).parent();
                 if (parentLi.hasClass("grayed") !== true) {
                     var segmentDefinition = $(parentLi).data("definition");
@@ -485,7 +507,7 @@ Segmentation = (function($) {
             // emulate a click when pressing enter on one of the segments or the add button
             self.target.on("keyup", ".segmentList li, .add_new_segment", function (event) {
                 var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.key));
-                if(keycode == '13'){
+                if (keycode == '13'){
                     $(this).trigger('click');
                 }
             });
@@ -596,23 +618,71 @@ Segmentation = (function($) {
 
         };
 
-        function getIsUserCanStarUnstarSegment(segment) {
+        function getIsUserCanEditSegment(segment) {
           if (self.segmentAccess !== 'write') {
             return false;
           }
-          return true;
+          return (segment.login === piwik.userLogin || piwik.hasSuperUserAccess);
         }
 
-        function getStarSegmentTitle(segment) {
-          if (segment.starred) {
-            return self.translations['General_StarredBy'] + ' ' + (segment.starred_by || '');
+        function getStarredByTitlePart(segment) {
+          const login = segment.starred_by || '';
+          if (login === piwik.userLogin) {
+            return ' (' + self.translations['General_StarredByYou'] + ')'
           }
-          return self.translations['General_Star'];
+          return ' (' + self.translations['General_StarredBy'] + ' ' + login + ')'
+        }
+
+        function getStarSegmentTitle(segment, canEdit) {
+          // Site-specific segments
+          if (segment.enable_only_idsite) {
+            if (canEdit) {
+              if (segment.starred) {
+                return self.translations['General_CanUnstarSiteSegment'] + ' ' + getStarredByTitlePart(segment);
+              }
+              return self.translations['General_CanStarSiteSegment'];
+            } else {
+              if (segment.starred) {
+                return self.translations['General_CanNotUnstarSiteSegment'];
+              }
+              return self.translations['General_CanNotStarSiteSegment'];
+            }
+          }
+
+          // Global segments
+          if (canEdit) {
+            if (segment.starred) {
+              return self.translations['General_CanUnstarGlobalSegment'] + ' ' + getStarredByTitlePart(segment);
+            }
+            return self.translations['General_CanStarGlobalSegment'];
+          }
+          if (segment.starred) {
+            return self.translations['General_CanNotUnstarGlobalSegment'];
+          }
+          return self.translations['General_CanNotStarGlobalSegment'];
+        }
+
+        function getEditSegmentTitle(segment, canEdit) {
+          // Site-specific segments
+          if (segment.enable_only_idsite) {
+            if (canEdit) {
+              return self.translations['General_CanEditSiteSegment'];
+            } else {
+              return self.translations['General_CanNotEditSiteSegment'];
+            }
+          }
+
+          // Global segments
+          if (canEdit) {
+            return self.translations['General_CanEditGlobalSegment'];
+          }
+          return self.translations['General_CanNotEditGlobalSegment'];
         }
 
         function updateStarSegmentTooltip($segment, segment) {
           const $starButton = $segment.find('.starSegment');
-          addTooltip($starButton, getStarSegmentTitle(segment));
+          const canEdit = getIsUserCanEditSegment(segment);
+          addTooltip($starButton, getStarSegmentTitle(segment, canEdit));
         }
 
         function updateStarredSegment($segment, segment, isError = false) {
@@ -687,7 +757,7 @@ Segmentation = (function($) {
                 $(self.form).find('.enable_all_users_select > option[value="' + segment.enable_all_users + '"]').prop("selected",true);
 
                 // Replace "Visible to me" by "Visible to $login" when user is super user
-                if(hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)) {
+                if (hasSuperUserAccessAndSegmentCreatedByAnotherUser(segment)) {
                     $(self.form).find('.enable_all_users_select > option[value="' + 0 + '"]').text(segment.login);
                 }
                 $(self.form).find('.visible_to_website_select > option[value="'+segment.enable_only_idsite+'"]').prop("selected",true);
