@@ -56,6 +56,11 @@ ddev matomo:init:dev
 ```
 NOTE: You should tick 'Disable cache' on your browser developer tools to see the changes.
 
+To see help:
+```
+ddev help matomo:init:dev
+```
+
 ### 4. Set up the testing environment
 
 After Matomo is set up, you can initialize the testing environment by running:
