@@ -246,14 +246,14 @@ Segmentation = (function($) {
                         '</svg>' +
                       '</button>';
                     if (self.segmentAccess === 'write') {
-                      listHtml += '<span class="editSegment" title="' + self.translations['General_Edit'].toLocaleLowerCase() + '"></span>';
+                      listHtml += '<button class="editSegment" title="' + self.translations['General_Edit'].toLocaleLowerCase() + '"></button>';
                     }
 
                     if (
                       comparisonService.isComparisonEnabled() ||
                       comparisonService.isComparisonEnabled() === null // may not be initialized since this code is outside of Vue
                     ) {
-                        listHtml += '<span class="compareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></span>';
+                        listHtml += '<button class="compareSegment" title="' + _pk_translate('SegmentEditor_CompareThisSegment') + '"></button>';
                     }
                     listHtml += '</li>';
                 }

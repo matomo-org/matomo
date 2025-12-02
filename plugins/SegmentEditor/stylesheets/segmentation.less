@@ -318,8 +318,8 @@ div.scrollable {
 }
 
 .segmentationContainer ul.submenu > li {
-    span.editSegment,
-    span.compareSegment,
+    .editSegment,
+    .compareSegment,
     .starSegment {
         flex: none;
         display: flex;
@@ -345,7 +345,7 @@ div.scrollable {
         }
     }
 
-    span.editSegment {
+    .editSegment {
         background: url(plugins/SegmentEditor/images/edit_segment.svg) no-repeat;
         background-size: cover;
         order: 3;
@@ -387,7 +387,7 @@ div.scrollable {
         fill: black;
     }
 
-    span.compareSegment {
+    .compareSegment {
         background: url(plugins/Morpheus/images/compare.svg) no-repeat;
         background-size: cover;
         order: 2;
@@ -399,12 +399,12 @@ div.scrollable {
           margin-right: 20px;
         }
     }
-    span.compareSegment.no-click {
+    .compareSegment.no-click {
         pointer-events: none;
     }
 
     li.segmentSelected, li.comparedSegment {
-        span.compareSegment {
+        .compareSegment {
             pointer-events: none;
             opacity: 0.5;
         }
@@ -412,7 +412,7 @@ div.scrollable {
 }
 
 html.comparisonsDisabled .segmentationContainer ul.submenu {
-    span.compareSegment {
+    .compareSegment {
         display: none;
     }
 }
