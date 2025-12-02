@@ -183,8 +183,8 @@ class AIAssistantReports extends RecordBuilder
             ];
 
             // we add all records to both tables, so we in the end have the total count of pages & documents in the main table
-            $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD]->sumRowWithLabel($label, $metrics);
-            $tables[Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD]->sumRowWithLabel($label, $metrics);
+            $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
+            $tables[Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
         }
 
         $table = $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD];

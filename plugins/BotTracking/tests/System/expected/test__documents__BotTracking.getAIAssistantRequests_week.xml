@@ -48,10 +48,16 @@
 	</row>
 	<row>
 		<label>ChatGPT-User</label>
-		<requests>4</requests>
-		<document_requests>0</document_requests>
+		<requests>5</requests>
+		<document_requests>1</document_requests>
 		<page_requests>4</page_requests>
 		<visits_acquired>1</visits_acquired>
+		<subtable>
+			<row>
+				<label>example.com/resources/guide.pdf</label>
+				<requests>1</requests>
+			</row>
+		</subtable>
 	</row>
 	<row>
 		<label>Gemini-Deep-Research</label>

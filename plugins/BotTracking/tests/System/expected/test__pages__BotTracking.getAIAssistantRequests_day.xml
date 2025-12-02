@@ -2,8 +2,8 @@
 <result>
 	<row>
 		<label>ChatGPT-User</label>
-		<requests>1</requests>
-		<document_requests>0</document_requests>
+		<requests>2</requests>
+		<document_requests>1</document_requests>
 		<page_requests>1</page_requests>
 		<visits_acquired>1</visits_acquired>
 		<subtable>
