@@ -23,7 +23,7 @@ ddev matomo:console config:set Development.disable_merged_assets=1
 
 echo "Configure Vue source maps"
 ddev matomo:console config:set Development.allow_vue_sourcemaps=$MAP_FLAG_VALUE
-
+## recreate the htaccess files to include/exclude maps
 ddev matomo:console core:create-security-files
 
 echo "Done: Matomo dev setup initialisation finished."
