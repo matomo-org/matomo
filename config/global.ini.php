@@ -215,7 +215,7 @@ enabled = 0
 ; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Matomo URL
 disable_merged_assets = 0
 
-; is set to 1, the sourcemaps for built vue files will be allowed to be served.
+; if set to 1, the sourcemaps for built vue files will be allowed to be served.
 ; this is useful for debugging vue files in the browser
 allow_vue_sourcemaps = 0
 
