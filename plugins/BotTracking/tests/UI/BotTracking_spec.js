@@ -15,11 +15,6 @@ describe("BotTracking", function () {
     var generalParams = 'idSite=1&period=day&date=2025-02-02',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
-    before(function () {
-        testEnvironment.pluginsToLoad = ['BotTracking', 'AIAgents'];
-        testEnvironment.save();
-    });
-
     it('should render AI Assistants > Overview bot detail report', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=AIAgents_AIAssistants&subcategory=General_Overview");
         await page.waitForNetworkIdle();
