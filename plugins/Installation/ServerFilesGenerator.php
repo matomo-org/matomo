@@ -39,8 +39,7 @@ class ServerFilesGenerator
             "</Files>\n";
 
         $staticFileExtensions = ['gif', 'ico', 'jpg', 'png', 'svg', 'js', 'css', 'htm', 'html', 'mp3', 'mp4', 'wav', 'ogg', 'avi', 'ttf', 'eot', 'woff', 'woff2'];
-        $developmentConfig = Config::getInstance()->Development;
-        $allowVueSourceMaps = !empty($developmentConfig['allow_vue_sourcemaps']);
+        $allowVueSourceMaps = !empty(Config::getInstance()->Development['allow_vue_sourcemaps']);
         if ($allowVueSourceMaps) {
             $staticFileExtensions[] = 'map';
         }
