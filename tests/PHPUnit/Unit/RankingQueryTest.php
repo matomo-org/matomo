@@ -164,6 +164,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                     WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
                     ELSE `url`
                 END
+            ORDER BY counter, counterRollup
         ";
 
         if (!Schema::getInstance()->supportsSortingInSubquery()) {
@@ -294,6 +295,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                         WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
                         ELSE `url`
                     END
+                ORDER BY counter, counterRollup
             ";
         }
 

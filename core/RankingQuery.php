@@ -444,13 +444,13 @@ class RankingQuery
 			GROUP BY $groupBy
 		";
 
-        if (!Schema::getInstance()->supportsSortingInSubquery()) {
+        if ($withRollup) {
+            // Sort the final result if a rollup was used
+            // to ensure rollup values are returned first, and "Others" last
+            $groupOthers .= " ORDER BY counter, counterRollup";
+        } elseif (!Schema::getInstance()->supportsSortingInSubquery()) {
             // When subqueries aren't sorted, we need to sort the result manually again
             $groupOthers .= " ORDER BY counter";
-
-            if ($withRollup) {
-                $groupOthers .= ", counterRollup";
-            }
         }
 
         return $groupOthers;
