@@ -234,6 +234,8 @@ class CustomDimension extends RecordBuilder
         }
 
         if ($withRollup) {
+            $previousLabel = null;
+
             foreach ($actionRows as $row) {
                 if (!isset($row[Metrics::INDEX_NB_VISITS])) {
                     return;
@@ -261,6 +263,15 @@ class CustomDimension extends RecordBuilder
                     continue;
                 }
 
+                // skip subtable creation if only one "Others" row would appear
+                if (
+                    $label !== $previousLabel
+                    && $url === RankingQuery::LABEL_SUMMARY_ROW
+                ) {
+                    continue;
+                }
+
+                $previousLabel = $label;
                 $columns = [];
 
                 foreach ($metricIds as $id) {
