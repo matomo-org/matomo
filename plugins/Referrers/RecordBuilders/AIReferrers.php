@@ -88,40 +88,30 @@ class AIReferrers extends RecordBuilder
     {
         $resultSet = $this->queryAIReferrerEntryPages($logAggregator, $field);
 
-        $actionRows = [];
-
         while ($row = $resultSet->fetch()) {
             if (!isset($row[Metrics::INDEX_NB_VISITS])) {
                 return;
             }
 
             $label = $row['referer_name'];
-
             $pageUrlOrTitle = $row['action_name'];
 
-            if (is_null($label)) {
+            if ($label === null) {
+                // top-level rollup result
                 continue;
             }
 
-            if (!is_null($pageUrlOrTitle)) {
-                $actionRows[] = $row;
+            if ($pageUrlOrTitle === null) {
+                // second-level rollup result
+                $report->sumRowWithLabel($label, $this->makeVisitRow($row));
                 continue;
             }
-
-            $report->sumRowWithLabel($label, $this->makeVisitRow($row));
-        }
-
-        foreach ($actionRows as $row) {
-            if (!isset($row[Metrics::INDEX_NB_VISITS])) {
-                return;
-            }
-
-            $label          = $row['referer_name'];
-            $pageUrlOrTitle = $row['action_name'];
 
             $tableRow = $report->getRowFromLabel($label);
 
-            if (empty($tableRow)) {
+            if (false === $tableRow) {
+                // non-rollup row but rollup row is missing
+                // should not happen, but don't break
                 continue;
             }
 
@@ -129,6 +119,16 @@ class AIReferrers extends RecordBuilder
                 // make sure we always work with normalized URL no matter how the individual action stores it
                 $normalized     = PageUrl::normalizeUrl($pageUrlOrTitle);
                 $pageUrlOrTitle = $normalized['url'];
+            }
+
+            if (
+                $pageUrlOrTitle === RankingQuery::LABEL_SUMMARY_ROW
+                && !$tableRow->isSubtableLoaded()
+            ) {
+                // skip creating the subtable if:
+                // - we are using rollups
+                // - the only row would be "Others"
+                continue;
             }
 
             $tableRow->sumRowWithLabelToSubtable($pageUrlOrTitle, $this->makeVisitRow($row));
