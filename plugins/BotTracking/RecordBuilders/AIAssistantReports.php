@@ -146,7 +146,6 @@ class AIAssistantReports extends RecordBuilder
     {
         $resultSet  = $this->queryBotRequests($logAggregator, $actionType);
         $actionRows = [];
-        $botTotals  = [];
 
         while ($row = $resultSet->fetch()) {
             /**
@@ -159,28 +158,18 @@ class AIAssistantReports extends RecordBuilder
                 continue;
             }
 
-            if (is_null($url)) {
+            if (!is_null($url)) {
+                $actionRows[] = $row;
                 continue;
             }
 
-            $actionRows[] = $row;
+            $metrics = [
+                Metrics::COLUMN_REQUESTS          => $row['requests'],
+                Metrics::COLUMN_DOCUMENT_REQUESTS => $actionType === Action::TYPE_DOWNLOAD ? $row['requests'] : 0,
+                Metrics::COLUMN_PAGE_REQUESTS     => $actionType === Action::TYPE_PAGE_URL ? $row['requests'] : 0,
+                Metrics::COLUMN_ACQUIRED_VISITS   => $visits[$label] ?? 0,
+            ];
 
-            if (!isset($botTotals[$label])) {
-                $botTotals[$label] = [
-                    Metrics::COLUMN_REQUESTS          => 0,
-                    Metrics::COLUMN_DOCUMENT_REQUESTS => 0,
-                    Metrics::COLUMN_PAGE_REQUESTS     => 0,
-                    Metrics::COLUMN_ACQUIRED_VISITS   => 0,
-                ];
-            }
-
-            $botTotals[$label][Metrics::COLUMN_REQUESTS] += $row['requests'];
-            $botTotals[$label][Metrics::COLUMN_DOCUMENT_REQUESTS] += $actionType === Action::TYPE_DOWNLOAD ? $row['requests'] : 0;
-            $botTotals[$label][Metrics::COLUMN_PAGE_REQUESTS]     += $actionType === Action::TYPE_PAGE_URL ? $row['requests'] : 0;
-            $botTotals[$label][Metrics::COLUMN_ACQUIRED_VISITS]    = max($botTotals[$label][Metrics::COLUMN_ACQUIRED_VISITS], $visits[$label] ?? 0);
-        }
-
-        foreach ($botTotals as $label => $metrics) {
             $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
             $tables[Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
         }
@@ -222,19 +211,20 @@ class AIAssistantReports extends RecordBuilder
     private function queryBotRequests(LogAggregator $logAggregator, int $actionType)
     {
         $where  = $logAggregator->getWhereStatement('bot', 'server_time');
-        $where .= ' AND log_action.name IS NOT NULL
-            AND log_action.name <> \'\'
-            AND log_action.type = ' . $actionType;
 
         $sql = sprintf(
-            "SELECT bot.bot_name, log_action.name AS url, COUNT(*) AS requests
+            "SELECT * FROM (SELECT bot.bot_name, log_action.name AS url, COUNT(*) AS requests
              FROM %s AS bot
              INNER JOIN %s AS log_action ON log_action.idaction = bot.idaction_url
-             WHERE %s
-             GROUP BY bot.bot_name, url
-             ORDER BY bot.bot_name, requests DESC, url",
+             WHERE log_action.name IS NOT NULL
+               AND log_action.name <> ''
+               AND log_action.type = %d
+               AND %s
+             GROUP BY bot.bot_name, url WITH ROLLUP) AS rollupQuery
+             ORDER BY bot_name, requests DESC, url",
             BotRequestsDao::getPrefixedTableName(),
             Common::prefixTable('log_action'),
+            $actionType,
             $where
         );
 
@@ -242,7 +232,7 @@ class AIAssistantReports extends RecordBuilder
             $rankingQuery = new RankingQuery($this->rankingQueryLimit);
             $rankingQuery->addLabelColumn(['bot_name', 'url']);
             $rankingQuery->addColumn('requests', 'sum');
-            $sql = $rankingQuery->generateRankingQuery($sql);
+            $sql = $rankingQuery->generateRankingQuery($sql, true);
         }
 
         return Db::query($sql, $logAggregator->getGeneralQueryBindParams());
