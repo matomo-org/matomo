@@ -22,6 +22,7 @@ use Piwik\Db;
 use Piwik\Plugins\BotTracking\Archiver;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\BotTracking\Metrics;
+use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\PageUrl;
 
@@ -40,6 +41,11 @@ class AIAssistantReports extends RecordBuilder
         'Devin'                => '',
     ];
 
+    /**
+     * @var int
+     */
+    private $rankingQueryLimit;
+
     public function __construct()
     {
         parent::__construct();
@@ -47,6 +53,7 @@ class AIAssistantReports extends RecordBuilder
         $this->columnToSortByBeforeTruncation = Metrics::COLUMN_REQUESTS;
         $this->maxRowsInTable                 = (int)GeneralConfig::getConfigValue('datatable_archiving_maximum_rows_bots');
         $this->maxRowsInSubtable              = (int)GeneralConfig::getConfigValue('datatable_archiving_maximum_rows_subtable_bots');
+        $this->rankingQueryLimit              = $this->getRankingQueryLimit();
     }
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -137,27 +144,9 @@ class AIAssistantReports extends RecordBuilder
      */
     private function populateTableForActionType(array $tables, int $actionType, LogAggregator $logAggregator, array $visits): void
     {
-        $where    = $logAggregator->getWhereStatement('bot', 'server_time');
-        $bindBase = $logAggregator->getGeneralQueryBindParams();
-
-        $sql = sprintf(
-            "SELECT * FROM (SELECT bot.bot_name, log_action.name AS url, COUNT(*) AS requests
-             FROM %s AS bot
-             INNER JOIN %s AS log_action ON log_action.idaction = bot.idaction_url
-             WHERE log_action.name IS NOT NULL
-               AND log_action.name <> ''
-               AND log_action.type = %d
-               AND %s
-             GROUP BY bot.bot_name, url WITH ROLLUP) AS rollupQuery
-             ORDER BY bot_name, requests DESC, url",
-            BotRequestsDao::getPrefixedTableName(),
-            Common::prefixTable('log_action'),
-            $actionType,
-            $where
-        );
-
-        $resultSet  = Db::query($sql, $bindBase);
+        $resultSet  = $this->queryBotRequests($logAggregator, $actionType);
         $actionRows = [];
+        $botTotals  = [];
 
         while ($row = $resultSet->fetch()) {
             /**
@@ -170,19 +159,28 @@ class AIAssistantReports extends RecordBuilder
                 continue;
             }
 
-            if (!is_null($url)) {
-                $actionRows[] = $row;
+            if (is_null($url)) {
                 continue;
             }
 
-            $metrics = [
-                Metrics::COLUMN_REQUESTS          => $row['requests'],
-                Metrics::COLUMN_DOCUMENT_REQUESTS => $actionType === Action::TYPE_DOWNLOAD ? $row['requests'] : 0,
-                Metrics::COLUMN_PAGE_REQUESTS     => $actionType === Action::TYPE_PAGE_URL ? $row['requests'] : 0,
-                Metrics::COLUMN_ACQUIRED_VISITS   => $visits[$label] ?? 0,
-            ];
+            $actionRows[] = $row;
 
-            // we add all records to both tables, so we in the end have the total count of pages & documents in the main table
+            if (!isset($botTotals[$label])) {
+                $botTotals[$label] = [
+                    Metrics::COLUMN_REQUESTS          => 0,
+                    Metrics::COLUMN_DOCUMENT_REQUESTS => 0,
+                    Metrics::COLUMN_PAGE_REQUESTS     => 0,
+                    Metrics::COLUMN_ACQUIRED_VISITS   => 0,
+                ];
+            }
+
+            $botTotals[$label][Metrics::COLUMN_REQUESTS] += $row['requests'];
+            $botTotals[$label][Metrics::COLUMN_DOCUMENT_REQUESTS] += $actionType === Action::TYPE_DOWNLOAD ? $row['requests'] : 0;
+            $botTotals[$label][Metrics::COLUMN_PAGE_REQUESTS]     += $actionType === Action::TYPE_PAGE_URL ? $row['requests'] : 0;
+            $botTotals[$label][Metrics::COLUMN_ACQUIRED_VISITS]    = max($botTotals[$label][Metrics::COLUMN_ACQUIRED_VISITS], $visits[$label] ?? 0);
+        }
+
+        foreach ($botTotals as $label => $metrics) {
             $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
             $tables[Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
         }
@@ -202,6 +200,10 @@ class AIAssistantReports extends RecordBuilder
             $label = $row['bot_name'];
             $url   = $row['url'];
 
+            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
+                continue;
+            }
+
             $tableRow = $table->getRowFromLabel($label);
 
             if (empty($tableRow)) {
@@ -215,5 +217,49 @@ class AIAssistantReports extends RecordBuilder
                 Metrics::COLUMN_REQUESTS => $row['requests'],
             ]);
         }
+    }
+
+    private function queryBotRequests(LogAggregator $logAggregator, int $actionType)
+    {
+        $where  = $logAggregator->getWhereStatement('bot', 'server_time');
+        $where .= ' AND log_action.name IS NOT NULL
+            AND log_action.name <> \'\'
+            AND log_action.type = ' . $actionType;
+
+        $sql = sprintf(
+            "SELECT bot.bot_name, log_action.name AS url, COUNT(*) AS requests
+             FROM %s AS bot
+             INNER JOIN %s AS log_action ON log_action.idaction = bot.idaction_url
+             WHERE %s
+             GROUP BY bot.bot_name, url
+             ORDER BY bot.bot_name, requests DESC, url",
+            BotRequestsDao::getPrefixedTableName(),
+            Common::prefixTable('log_action'),
+            $where
+        );
+
+        if ($this->rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($this->rankingQueryLimit);
+            $rankingQuery->addLabelColumn(['bot_name', 'url']);
+            $rankingQuery->addColumn('requests', 'sum');
+            $sql = $rankingQuery->generateRankingQuery($sql);
+        }
+
+        return Db::query($sql, $logAggregator->getGeneralQueryBindParams());
+    }
+
+    private function getRankingQueryLimit(): int
+    {
+        $maxRowsInTable    = (int)$this->maxRowsInTable;
+        $maxRowsInSubtable = (int)$this->maxRowsInSubtable;
+
+        $configLimit = (int)GeneralConfig::getConfigValue('archiving_ranking_query_row_limit');
+        $configLimit = max($configLimit, 10 * $maxRowsInTable);
+
+        if ($configLimit === 0) {
+            return 0;
+        }
+
+        return max($configLimit, $maxRowsInTable, $maxRowsInSubtable);
     }
 }
