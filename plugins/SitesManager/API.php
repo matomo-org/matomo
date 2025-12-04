@@ -27,6 +27,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Plugins\SitesManager\Settings\FilterPIIParameters;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
@@ -1185,9 +1186,13 @@ class API extends \Piwik\Plugin\API
      *
      * @return string Comma separated list of URL parameters
      */
-    public function getExcludedQueryParametersGlobal(): string
+    public function getExcludedQueryParametersGlobal(?int $idSite = null, bool $checkCompliancePolicy = true): string
     {
         Piwik::checkUserHasSomeViewAccess();
+
+        if ($checkCompliancePolicy) {
+            return FilterPIIParameters::getInstance($idSite)->getValue();
+        }
 
         switch ($this->getExclusionTypeForQueryParams()) {
             case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS:
