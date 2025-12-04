@@ -8,7 +8,10 @@
  */
 
 describe('LanguagesManager_TopNavigation', function () {
-    this.fixture = "Piwik\\Tests\\Fixtures\\UITestFixture";
+    this.fixture = "Piwik\\Tests\\Fixtures\\OneVisit";
+    this.optionsOverride = {
+      'persist-fixture-data': false
+    };
 
     const reportingUrl = '?module=CoreHome&action=index&idSite=1&period=day&date=2012-08-09';
 
@@ -26,12 +29,6 @@ describe('LanguagesManager_TopNavigation', function () {
     after(async function () {
         testEnvironment.testUseMockAuth = 1;
         testEnvironment.save();
-
-        await testEnvironment.callApi('UsersManager.setUserAccess', {
-            userLogin: 'anonymous',
-            access: 'noaccess',
-            idSites: [1],
-        });
     });
 
     it('should display the language selector in the top navigation for anonymous users', async function () {
