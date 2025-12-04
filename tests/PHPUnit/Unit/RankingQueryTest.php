@@ -12,12 +12,13 @@ namespace Piwik\Tests\Unit;
 use Piwik\Db\Schema;
 use Piwik\RankingQuery;
 
+/**
+ * @group Core
+ * @group RankingQuery
+ */
 class RankingQueryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @group Core
-     */
-    public function testBasic()
+    public function testBasic(): void
     {
         $query = new RankingQuery();
         $query->setOthersLabel('Others');
@@ -82,10 +83,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $this->checkQuery($query, $innerQuery, $expected);
     }
 
-    /**
-     * @group Core
-     */
-    public function testBasicWithRollup()
+    public function testBasicWithRollup(): void
     {
         $query = new RankingQuery();
         $query->setOthersLabel('Others');
@@ -302,10 +300,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $this->checkQuery($query, $innerQuery, $expected, true);
     }
 
-    /**
-     * @group Core
-     */
-    public function testExcludeRows()
+    public function testExcludeRows(): void
     {
 
         $query = new RankingQuery(20);
@@ -373,10 +368,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $this->checkQuery($query, $innerQuery, $expected);
     }
 
-    /**
-     * @group Core
-     */
-    public function testPartitionResult()
+    public function testPartitionResult(): void
     {
         $query = new RankingQuery(1000);
         $query->setOthersLabel('Others');
