@@ -13,7 +13,8 @@ use Piwik\Settings\Interfaces\CustomSettingInterface;
 use Piwik\Settings\Interfaces\Traits\Getters\CustomGetterTrait;
 
 /**
- * @implements PolicyComparisonInterface<array|null>
+ * @implements CustomSettingInterface<array<string>|null>
+ * @implements PolicyComparisonInterface<array<string>|null>
  * @implements SettingValueInterface<string>
  */
 class FilterPIIParameters implements
@@ -21,10 +22,10 @@ class FilterPIIParameters implements
     PolicyComparisonInterface,
     SettingValueInterface
 {
-    /** @use CustomGetterTrait<array> */
+    /** @use CustomGetterTrait<array<string>> */
     use CustomGetterTrait;
 
-    /** @use PolicyComparisonTrait<array> */
+    /** @use PolicyComparisonTrait<array<string>> */
     use PolicyComparisonTrait;
 
     /** @var string $value */
@@ -45,7 +46,10 @@ class FilterPIIParameters implements
         $values = self::getPolicyRequiredValues($idSite);
         $values['custom'] = self::getCustomValue($idSite);
         $strictest = self::getStrictestValueFromArray($values);
-        return new self(implode(',', $strictest));
+        if (is_null($strictest)) {
+            $strictest = [];
+        }
+        return new static(implode(',', $strictest));
     }
 
     public static function getInlineHelp(): string
@@ -56,7 +60,7 @@ class FilterPIIParameters implements
     public static function getPolicyRequirements(): array
     {
         return [
-            CnilPolicy::class => static::getMatomoPIIValue(),
+            CnilPolicy::class => self::getMatomoPIIValue(),
         ];
     }
 
@@ -77,6 +81,10 @@ class FilterPIIParameters implements
             return true;
         }
 
+        if (is_null($policyValues[$policy])) {
+            return false;
+        }
+
         $currentValue = explode(',', self::getInstance($idSite)->getValue());
 
         // current value is compliant if it contains all values defined in the policy requirements
@@ -95,9 +103,16 @@ class FilterPIIParameters implements
         return explode(',', API::getInstance()->getExcludedQueryParametersGlobal($idSite, $checkComplaincePolicy = false));
     }
 
-    private static function getMatomoPIIValue()
+    /**
+     * @return array<string>
+     */
+    private static function getMatomoPIIValue(): array
     {
-        return Config::getInstance()->SitesManager['CommonPIIParams'];
+        $config = Config::getInstance();
+        if (!is_array($config->SitesManager) || !array_key_exists('CommonPIIParams', $config->SitesManager)) {
+            return [];
+        }
+        return $config->SitesManager['CommonPIIParams'];
     }
 
     protected static function getCustomSettingName(): string
