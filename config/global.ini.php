@@ -636,6 +636,11 @@ datatable_archiving_maximum_rows_subtable_events = 500
 ; maximum number of rows for the Products reports
 datatable_archiving_maximum_rows_products = 10000
 
+; maximum number of AI Assistants listed in Bot Tracking reports
+datatable_archiving_maximum_rows_bots = 250
+; maximum number of page/document rows listed per AI Assistant in Bot Tracking reports
+datatable_archiving_maximum_rows_subtable_bots = 250
+
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
 
