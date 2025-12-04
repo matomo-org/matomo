@@ -19,6 +19,11 @@
 			<notes>Only major OS and browser versions are stored.</notes>
 		</row>
 		<row>
+			<name>PII data filtered</name>
+			<value>non_compliant</value>
+			<notes>PII data must not be stored.</notes>
+		</row>
+		<row>
 			<name>Turn off visits log and visitor profiles</name>
 			<value>non_compliant</value>
 			<notes>Visits log is required to be disabled.</notes>

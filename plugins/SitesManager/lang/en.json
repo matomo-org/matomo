@@ -216,6 +216,6 @@
         "ExceptionNonEmptyQueryParamsForNonCustomType": "Query parameters to exclude must not be provided when exclusion type is not custom",
         "AddSensibleExclusionsToMyCustomListButtonText": "Add Matomo-recommended PII parameters",
         "FilterPIIParametersSettingTitle": "PII data filtered",
-        "FilterPiiParametersSettingRequirementNote": "TODO: requirement note"
+        "FilterPiiParametersSettingRequirementNote": "PII data must not be stored."
     }
 }
