@@ -40,13 +40,14 @@ describe("NoAccess", function () {
 
     it("should show session timeout error", async function() {
         await page.clearCookies();
-        await page.goto("?module=CoreHome&action=index&idSite=1&period=day&date=yesterday#?idSite=1&period=day&date=yesterday&category=General_Visitors&subcategory=General_Overview");
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=day&date=yesterday#?idSite=1&period=day&date=yesterday&category=General_Visitors&subcategory=UserId_UserReportTitle");
         await page.waitForNetworkIdle();
         await page.type("#login_form_login", "oliverqueen");
         await page.type("#login_form_password", "smartypants");
         await page.evaluate(function(){
             $('#login_form_submit').click();
         });
+        await page.waitForNetworkIdle();
 
         await page.waitForTimeout(60500); // wait for session timeout
 

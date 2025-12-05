@@ -105,7 +105,7 @@
         "SiteWithoutDataGoogleTagManager": "Google Tag Manager",
         "SiteWithoutDataGoogleTagManagerDescription": "Du kan bruke Matomo med Google Tag Manager. For å sette opp Matomo-sporing i Google Tag Manager følger du %1$sdenne instruksen%2$s.",
         "SiteWithoutDataMatomoTagManager": "Matomo taggbehandler",
-        "SiteWithoutDataMatomoTagManagerNotActive": "Vet du ikke hva en taggbehandler er? Sjekk %1$sveiledningen%2$s. Hvis du bygger inn flere ressurser fra tredjepartsnettsider i din nettside vil sporing på den ved bruk av taggbehandler være et bedre valg for deg, sammenlignet med vanlig JavaScript-sporing.",
+        "SiteWithoutDataMatomoTagManagerNotActive": "Vet du ikke hva en etikettbehandler er? Sjekk %1$sveiledningen%2$s. Hvis du bygger inn flere ressurser fra tredjepartsnettsider i din nettside vil sporing på den ved bruk av etikettbehandler være et bedre valg for deg, sammenlignet med vanlig JavaScript-sporing.",
         "SiteWithoutDataOtherIntegrations": "Annen integrasjon",
         "SiteWithoutDataOtherWays": "Andre vis",
         "SiteWithoutDataSinglePageApplication": "Enkeltsideanvendelse eller progressivt vev-program",

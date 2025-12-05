@@ -12,26 +12,61 @@ import DirectiveUtilities from '../directiveUtilities';
 interface ExpandOnClickArgs {
   // input (specified by user)
   expander: string | HTMLElement,
-  onClosed?: () => void;
+  onClosed?: (event: MouseEvent|KeyboardEvent) => void;
+  onExpand?: (event: MouseEvent|KeyboardEvent) => void;
 
   // state
   isMouseDown?: boolean;
   hasScrolled?: boolean;
 
-  // event handlers
-  onExpand?: () => void;
+  // internal event handlers
+  onClickOnExpander?: (event: MouseEvent|KeyboardEvent) => void;
   onClickOutsideElement?: (event: MouseEvent) => void;
   onScroll?: () => void;
   onMouseDown?: () => void;
   onEscapeHandler?: (event: KeyboardEvent) => void;
 }
 
-function onExpand(element: HTMLElement) {
-  element.classList.toggle('expanded');
+function expand(
+  element: HTMLElement,
+  binding: DirectiveBinding<ExpandOnClickArgs>,
+  event: MouseEvent|KeyboardEvent,
+) {
+  element.classList.add('expanded');
+  if (binding.value?.onExpand) {
+    binding.value.onExpand(event);
+  }
 
   const positionElement = element.querySelector('.dropdown.positionInViewport');
   if (positionElement) {
     Matomo.helper.setMarginLeftToBeInViewport(positionElement);
+  }
+}
+
+function close(
+  element: HTMLElement,
+  binding: DirectiveBinding<ExpandOnClickArgs>,
+  event: MouseEvent|KeyboardEvent,
+) {
+  if (!element.classList.contains('expanded')) {
+    return;
+  }
+  element.classList.remove('expanded');
+
+  if (binding.value?.onClosed) {
+    binding.value.onClosed(event);
+  }
+}
+
+function onClickOnExpander(
+  element: HTMLElement,
+  binding: DirectiveBinding<ExpandOnClickArgs>,
+  event: MouseEvent|KeyboardEvent,
+) {
+  if (element.classList.contains('expanded')) {
+    close(element, binding, event);
+  } else {
+    expand(element, binding, event);
   }
 }
 
@@ -49,11 +84,7 @@ function onClickOutsideElement(
   }
 
   if (!element.contains(event.target as HTMLElement)) {
-    element.classList.remove('expanded');
-
-    if (binding.value?.onClosed) {
-      binding.value.onClosed();
-    }
+    close(element, binding, event);
   }
 }
 
@@ -71,15 +102,14 @@ function onEscapeHandler(
   binding: DirectiveBinding<ExpandOnClickArgs>,
   event: KeyboardEvent,
 ) {
-  if (event.which === 27) {
+  if (event.key === 'Escape') {
     binding.value.isMouseDown = false;
     binding.value.hasScrolled = false;
-    element.classList.remove('expanded');
+    close(element, binding, event);
   }
 }
 
 const doc = document.documentElement;
-const { $ } = window;
 
 /**
  * Usage (in a component):
@@ -93,7 +123,7 @@ export default {
   mounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
     binding.value.isMouseDown = false;
     binding.value.hasScrolled = false;
-    binding.value.onExpand = onExpand.bind(null, el);
+    binding.value.onClickOnExpander = onClickOnExpander.bind(null, el, binding);
     binding.value.onEscapeHandler = onEscapeHandler.bind(null, el, binding);
     binding.value.onMouseDown = onMouseDown.bind(null, binding);
     binding.value.onClickOutsideElement = onClickOutsideElement.bind(null, el, binding);
@@ -102,7 +132,7 @@ export default {
     setTimeout(() => {
       const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
       if (expander) {
-        $(expander).on('click', binding.value.onExpand!);
+        expander.addEventListener('click', binding.value.onClickOnExpander!);
       }
     });
     doc.addEventListener('keyup', binding.value.onEscapeHandler);
@@ -113,7 +143,7 @@ export default {
   unmounted(el: HTMLElement, binding: DirectiveBinding<ExpandOnClickArgs>): void {
     const expander = DirectiveUtilities.getRef(binding.value.expander, binding);
     if (expander) {
-      $(expander).off('click', binding.value.onExpand!);
+      doc.removeEventListener('click', binding.value.onClickOnExpander!);
     }
     doc.removeEventListener('keyup', binding.value.onEscapeHandler!);
     doc.removeEventListener('mousedown', binding.value.onMouseDown!);

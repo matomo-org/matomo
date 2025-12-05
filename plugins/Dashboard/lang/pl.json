@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Dodaj widżet",
+        "AddAWidget": "Dodaj widget do tego pulpitu",
         "AddPreviewedWidget": "Kliknij, aby dodać widżet do pulpitu",
         "ChangeDashboardLayout": "Zmień układ pulpitu",
         "CopyDashboardToUser": "Kopiuj pulpit do użytkownika",
@@ -15,7 +15,7 @@
         "DeleteWidgetConfirm": "Czy jesteś pewien, że chcesz usunąć ten widżet z pulpitu?",
         "EmptyDashboard": "Pusty pulpit - wybierz swoje ulubione widżety",
         "LoadingWidget": "Ładowanie widżetu, proszę czekać…",
-        "ManageDashboard": "Zarządzaj pulpitem",
+        "ManageDashboard": "Zarządzaj tym pulpitem",
         "Maximise": "Maksymalizuj",
         "Minimise": "Minimalizuj",
         "NotUndo": "Nie będziesz mógł cofnąć tej operacji.",
