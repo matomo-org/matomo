@@ -2,30 +2,28 @@
 
 namespace Piwik\Plugins\SitesManager\Settings;
 
-use Piwik\Config;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Plugins\SitesManager\SitesManager;
 use Piwik\Settings\Interfaces\PolicyComparisonInterface;
 use Piwik\Settings\Interfaces\SettingValueInterface;
 use Piwik\Settings\Interfaces\Traits\PolicyComparisonTrait;
 use Piwik\Policy\CnilPolicy;
-use Piwik\Settings\Interfaces\CustomSettingInterface;
-use Piwik\Settings\Interfaces\Traits\Getters\CustomGetterTrait;
+use Piwik\Settings\Interfaces\OptionSettingInterface;
+use Piwik\Settings\Interfaces\Traits\Getters\OptionGetterTrait;
 
 /**
- * @implements CustomSettingInterface<array<string>|null>
- * @implements PolicyComparisonInterface<array<string>|null>
+ * @implements PolicyComparisonInterface<string>
  * @implements SettingValueInterface<string>
  */
 class FilterPIIParameters implements
-    CustomSettingInterface,
+    OptionSettingInterface,
     PolicyComparisonInterface,
     SettingValueInterface
 {
-    /** @use CustomGetterTrait<array<string>> */
-    use CustomGetterTrait;
+    use OptionGetterTrait;
 
-    /** @use PolicyComparisonTrait<array<string>> */
+    /** @use PolicyComparisonTrait<string> */
     use PolicyComparisonTrait;
 
     /** @var string $value */
@@ -44,12 +42,9 @@ class FilterPIIParameters implements
     public static function getInstance(?int $idSite = null)
     {
         $values = self::getPolicyRequiredValues($idSite);
-        $values['custom'] = self::getCustomValue($idSite);
+        $values['option'] = self::getOptionValue($idSite) ?? '';
         $strictest = self::getStrictestValueFromArray($values);
-        if (is_null($strictest)) {
-            $strictest = [];
-        }
-        return new static(implode(',', $strictest));
+        return new static($strictest);
     }
 
     public static function getInlineHelp(): string
@@ -60,7 +55,7 @@ class FilterPIIParameters implements
     public static function getPolicyRequirements(): array
     {
         return [
-            CnilPolicy::class => self::getMatomoPIIValue(),
+            CnilPolicy::class => SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII,
         ];
     }
 
@@ -81,42 +76,34 @@ class FilterPIIParameters implements
             return true;
         }
 
-        if (is_null($policyValues[$policy])) {
-            return false;
-        }
+        $currentValue = self::getInstance($idSite)->getValue();
 
-        $currentValue = explode(',', self::getInstance($idSite)->getValue());
-
-        // current value is compliant if it contains all values defined in the policy requirements
-        return !array_diff($policyValues[$policy], $currentValue);
+        return $currentValue === $policyValues[$policy];
     }
 
     protected static function compareStrictness($value1, $value2)
     {
-        // stricter value doesn't really apply here, instead this function
-        // will merge the arrays to create a stricter value
-        return array_merge($value1, $value2);
-    }
+        /* strictest is simply defined as if a value equals matomo recommended PII
+         * there are two possible values that matter:
+         *    - matomo_PII
+         *    - everything else
+         */
 
-    public static function getCustomValue(?int $idSite = null)
-    {
-        return explode(',', API::getInstance()->getExcludedQueryParametersGlobal($idSite, $checkComplaincePolicy = false));
-    }
+        $matomoPII =  SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII;
 
-    /**
-     * @return array<string>
-     */
-    private static function getMatomoPIIValue(): array
-    {
-        $config = Config::getInstance();
-        if (!is_array($config->SitesManager) || !array_key_exists('CommonPIIParams', $config->SitesManager)) {
-            return [];
+        if ($value1 === $matomoPII) {
+            return $value1;
+        } elseif ($value2 === $matomoPII) {
+            return $value2;
+        } elseif ($value1 === $value2) {
+            return $value1;
+        } else {
+            return $value2;
         }
-        return $config->SitesManager['CommonPIIParams'];
     }
 
-    protected static function getCustomSettingName(): string
+    protected static function getOptionName(?int $idSite = null): string
     {
-        return '';
+        return API::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL;
     }
 }
