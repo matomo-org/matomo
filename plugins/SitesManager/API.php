@@ -1472,7 +1472,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return string
      */
-    public function getExclusionTypeForQueryParams(?int $idSite): string
+    public function getExclusionTypeForQueryParams(?int $idSite = null): string
     {
         Piwik::checkUserHasSomeViewAccess();
 
