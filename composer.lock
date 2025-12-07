@@ -707,12 +707,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/referrer-spam-list.git",
-                "reference": "76a95371c68529c1e385d16bfbb895a27ceb486d"
+                "reference": "09bc14923ebac69c00fb928f9a8a5a8563f861a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/76a95371c68529c1e385d16bfbb895a27ceb486d",
-                "reference": "76a95371c68529c1e385d16bfbb895a27ceb486d",
+                "url": "https://api.github.com/repos/matomo-org/referrer-spam-list/zipball/09bc14923ebac69c00fb928f9a8a5a8563f861a6",
+                "reference": "09bc14923ebac69c00fb928f9a8a5a8563f861a6",
                 "shasum": ""
             },
             "replace": {
@@ -730,7 +730,7 @@
                 "issues": "https://github.com/matomo-org/referrer-spam-list/issues",
                 "source": "https://github.com/matomo-org/referrer-spam-list/tree/master"
             },
-            "time": "2025-11-26T17:15:32+00:00"
+            "time": "2025-12-02T03:59:19+00:00"
         },
         {
             "name": "matomo/searchengine-and-social-list",
@@ -4515,16 +4515,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.48",
+            "version": "8.5.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "75f469c1948b91aa566206f88412c88f08090b32"
+                "reference": "2605ccb4744dbcc20e00a12b7082c86ab3431071"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/75f469c1948b91aa566206f88412c88f08090b32",
-                "reference": "75f469c1948b91aa566206f88412c88f08090b32",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2605ccb4744dbcc20e00a12b7082c86ab3431071",
+                "reference": "2605ccb4744dbcc20e00a12b7082c86ab3431071",
                 "shasum": ""
             },
             "require": {
@@ -4593,7 +4593,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.48"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/8.5.49"
             },
             "funding": [
                 {
@@ -4617,7 +4617,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-24T06:27:39+00:00"
+            "time": "2025-12-01T07:15:02+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -5682,5 +5682,5 @@
     "platform-overrides": {
         "php": "7.2.9"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

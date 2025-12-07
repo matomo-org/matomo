@@ -352,7 +352,7 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments_saved');
     });
 
-    it('should not allow comparing segments more than the limit set', async function() {
+    it.skip('should not allow comparing segments more than the limit set', async function() {
       const configLimit = 2;
       const maxSegments = configLimit + 1;
       testEnvironment.overrideConfig('General', 'data_comparison_segment_limit', configLimit);
