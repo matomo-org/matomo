@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Aggiungi un widget",
+        "AddAWidget": "Aggiungi widget a questa dashboard",
         "AddPreviewedWidget": "Clicca per aggiungere un widget alla dashboard",
         "ChangeDashboardLayout": "Cambia il layout della dashboard",
         "CopyDashboardToUser": "Copia la dashboard a un utente",
@@ -15,7 +15,7 @@
         "DeleteWidgetConfirm": "Sei sicuro di voler eliminare il widget dalla dashboard?",
         "EmptyDashboard": "Dashboard vuota - Scegli i tuoi widget preferiti",
         "LoadingWidget": "Caricamento widget, attendere…",
-        "ManageDashboard": "Gestione dashboard",
+        "ManageDashboard": "Gestisci questa dashboard",
         "Maximise": "Espandi",
         "Minimise": "Minimizza",
         "NotUndo": "Non sarà possibile annullare questa operazione.",
