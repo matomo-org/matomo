@@ -12,9 +12,14 @@ namespace Piwik\Plugins\Ecommerce;
 use Piwik\Columns\ComputedMetricFactory;
 use Piwik\Columns\MetricsList;
 use Piwik\Common;
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ArchivedMetric;
 use Piwik\Plugin\ComputedMetric;
 use Piwik\Plugins\Ecommerce\Columns\ProductCategory;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
+use Piwik\Segment\SegmentsList;
 
 /**
  *
@@ -30,6 +35,7 @@ class Ecommerce extends \Piwik\Plugin
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Metric.addComputedMetrics' => 'addComputedMetrics',
             'Actions.getCustomActionDimensionFieldsAndJoins' => 'provideActionDimensionFields',
+            'Segment.filterSegments' => 'filterSegments',
         ];
     }
 
@@ -80,6 +86,28 @@ class Ecommerce extends \Piwik\Plugin
                     $metric = $computedMetricFactory->createComputedMetric($metric->getName(), 'nb_uniq_orders', ComputedMetric::AGGREGATION_AVG);
                     $list->addMetric($metric);
                 }
+            }
+        }
+    }
+
+    public function filterSegments(SegmentsList &$list, array $idSites)
+    {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $limitSegmentsSettingEnabled = false;
+            if (empty($idSites)) {
+                $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
+            } else {
+                foreach ($idSites as $idsite) {
+                    $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
+                }
+            }
+            if ($limitSegmentsSettingEnabled) {
+                $list->remove('Goals_Ecommerce', 'orderId');
+                $list->remove('Goals_Ecommerce', 'revenueOrder');
+                $list->remove('Goals_Ecommerce', 'productPrice');
+                $list->remove('Goals_Ecommerce', 'productName');
+                $list->remove('Goals_Ecommerce', 'productSku');
             }
         }
     }

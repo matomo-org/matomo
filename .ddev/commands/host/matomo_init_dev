@@ -1,8 +1,18 @@
 #!/usr/bin/env bash
 
 ## Description: Initialize Matomo environment for development
-## Usage: matomo:init:dev
-## Example: ddev matomo:init:dev
+## Usage: matomo:init:dev [--with-sourcemaps]
+## Example: ddev matomo:init:dev --with-sourcemaps
+
+WITH_MAPS=0
+for arg in "$@"; do
+  if [ "$arg" = "--with-sourcemaps" ]; then
+    WITH_MAPS=1
+  fi
+done
+
+MAP_FLAG_VALUE=$([ "$WITH_MAPS" -eq 1 ] && echo 1 || echo 0)
+
 
 echo "Run npm install ..."
 ddev npm install
@@ -11,6 +21,10 @@ echo "Enable development mode and disable assets merging ..."
 ddev matomo:console development:enable
 ddev matomo:console config:set Development.disable_merged_assets=1
 
+echo "Configure Vue source maps"
+ddev matomo:console config:set Development.allow_vue_sourcemaps=$MAP_FLAG_VALUE
+## recreate the htaccess files to include/exclude maps
+ddev matomo:console core:create-security-files
+
 echo "Done: Matomo dev setup initialisation finished."
 echo ""
-

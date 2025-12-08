@@ -12,6 +12,7 @@ namespace Piwik\Plugins\Installation;
 use Piwik\Container\StaticContainer;
 use Piwik\Filesystem;
 use Piwik\SettingsServer;
+use Piwik\Config;
 
 class ServerFilesGenerator
 {
@@ -37,6 +38,13 @@ class ServerFilesGenerator
             "\t" . $allow . "\n" .
             "</Files>\n";
 
+        $staticFileExtensions = ['gif', 'ico', 'jpg', 'png', 'svg', 'js', 'css', 'htm', 'html', 'mp3', 'mp4', 'wav', 'ogg', 'avi', 'ttf', 'eot', 'woff', 'woff2'];
+        $allowVueSourceMaps = !empty(Config::getInstance()->Development['allow_vue_sourcemaps']);
+        if ($allowVueSourceMaps) {
+            $staticFileExtensions[] = 'map';
+        }
+        $staticFileExtensionsPattern = implode('|', $staticFileExtensions);
+
         $allowStaticAssets =
             "# Serve HTML files as text/html mime type - Note: requires mod_mime apache module!\n" .
             "<IfModule mod_mime.c>\n" .
@@ -45,7 +53,7 @@ class ServerFilesGenerator
             "</IfModule>\n\n" .
 
             "# Allow to serve static files which are safe\n" .
-            "<Files ~ \"\\.(gif|ico|jpg|png|svg|js|css|htm|html|mp3|mp4|wav|ogg|avi|ttf|eot|woff|woff2)$\">\n" .
+            "<Files ~ \"\\.(" . $staticFileExtensionsPattern . ")$\">\n" .
             $allow . "\n" .
             "</Files>\n";
 

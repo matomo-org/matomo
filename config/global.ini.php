@@ -215,6 +215,10 @@ enabled = 0
 ; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Matomo URL
 disable_merged_assets = 0
 
+; if set to 1, the sourcemaps for built vue files will be allowed to be served.
+; this is useful for debugging vue files in the browser
+allow_vue_sourcemaps = 0
+
 [General]
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Matomo instances
