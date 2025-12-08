@@ -476,6 +476,8 @@
         "Testing": "Γίνεται δοκιμή…",
         "ThankYouForUsingMatomo": "Ευχαριστούμε που χρησιμοποιείτε το Matomo",
         "TheMatomoTeam": "Η ομάδα του Matomo",
+        "ThirdPartyCookieSettingNote": "Τα cookies τρίτων πρέπει να είναι ανενεργά",
+        "ThirdPartyCookieSettingTitle": "Cookies τρίτων",
         "TimeAgo": "πριν από %s",
         "TimeFormat": "Μορφή ώρας",
         "TimeOnPage": "Χρόνος στη σελίδα",
