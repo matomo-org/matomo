@@ -186,8 +186,6 @@ class CustomDimension extends RecordBuilder
         $metricIds[] = Metrics::INDEX_BOUNCE_COUNT;
         $metricIds[] = Metrics::INDEX_PAGE_EXIT_NB_VISITS;
 
-        $actionRows = [];
-
         while ($row = $resultSet->fetch()) {
             if (!isset($row[Metrics::INDEX_NB_VISITS])) {
                 return;
@@ -195,80 +193,58 @@ class CustomDimension extends RecordBuilder
 
             $label = $row[$valueField];
 
-            if ($withRollup) {
-                $url = $row['url'];
-
-                if (is_null($label)) {
-                    continue;
-                }
-
-                if (!is_null($url)) {
-                    $actionRows[] = $row;
-                    continue;
-                }
+            if ($withRollup && $label === null) {
+                // top-level rollup result
+                continue;
             }
 
             $columns = [];
+
             foreach ($metricIds as $id) {
                 $columns[$id] = (float) ($row[$id] ?? 0);
             }
+
             $label = $this->cleanCustomDimensionValue($label);
-            $tableRow = $report->sumRowWithLabel($label, $columns);
+            $url = $row['url'];
 
             if (!$withRollup) {
-                $url = $row['url'];
-                if (empty($url)) {
+                $tableRow = $report->sumRowWithLabel($label, $columns);
+            } else {
+                if ($url === null) {
+                    // second-level rollup result
+                    $report->sumRowWithLabel($label, $columns);
                     continue;
                 }
 
-                // make sure we always work with normalized URL no matter how the individual action stores it
-                $normalized = Tracker\PageUrl::normalizeUrl($url);
-                $url = $normalized['url'];
-
-                if (empty($url)) {
-                    continue;
-                }
-
-                $tableRow->sumRowWithLabelToSubtable($url, $columns);
-            }
-        }
-
-        if ($withRollup) {
-            foreach ($actionRows as $row) {
-                if (!isset($row[Metrics::INDEX_NB_VISITS])) {
-                    return;
-                }
-
-                $label = $row[$valueField];
-                $url = $row['url'];
-
-                if (is_null($label) || is_null($url)) {
-                    continue;
-                }
-
-                $label = $this->cleanCustomDimensionValue($label);
                 $tableRow = $report->getRowFromLabel($label);
 
-                if (empty($tableRow)) {
+                if (false === $tableRow) {
+                    // non-rollup row but rollup row is missing
+                    // should not happen, but don't break
                     continue;
                 }
-
-                // make sure we always work with normalized URL no matter how the individual action stores it
-                $normalized = Tracker\PageUrl::normalizeUrl($url);
-                $url = $normalized['url'];
-
-                if (empty($url)) {
-                    continue;
-                }
-
-                $columns = [];
-
-                foreach ($metricIds as $id) {
-                    $columns[$id] = (float) ($row[$id] ?? 0);
-                }
-
-                $tableRow->sumRowWithLabelToSubtable($url, $columns);
             }
+
+            // make sure we always work with normalized URL no matter how the individual action stores it
+            $normalized = Tracker\PageUrl::normalizeUrl($url);
+            $url = $normalized['url'];
+
+            if (empty($url)) {
+                continue;
+            }
+
+            if (
+                $withRollup
+                && $url === RankingQuery::LABEL_SUMMARY_ROW
+                && !$tableRow->isSubtableLoaded()
+            ) {
+                // skip creating the subtable if:
+                // - we are using rollups
+                // - the only row would be "Others"
+                continue;
+            }
+
+            $tableRow->sumRowWithLabelToSubtable($url, $columns);
         }
     }
 
