@@ -33,6 +33,26 @@ describe("SegmentSelectorEditorTest", function () {
         await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList .secondLevel li:contains(' + name + ')', { waitFor: true })).click();
     }
 
+    async function switchToAnonymousUser() {
+        await testEnvironment.callApi('UsersManager.setUserAccess', {
+            userLogin: 'anonymous',
+            access: 'view',
+            idSites: [1],
+        });
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+    }
+
+    async function switchToConnectedUser() {
+        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.save();
+        await testEnvironment.callApi('UsersManager.setUserAccess', {
+            userLogin: 'anonymous',
+            access: 'noaccess',
+            idSites: [1],
+        });
+    }
+
     it("should load correctly", async function() {
         await page.goto(url);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('0_initial');
@@ -43,21 +63,39 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_open');
     });
 
-    it("should unstar all segments", async function() {
-      await page.click('.segmentList li:nth-child(2) .starSegment');
-      await page.click('.segmentList li:nth-child(3) .starSegment');
-      await page.click('.segmentList li:nth-child(4) .starSegment');
-      expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_unstarred');
+    it("should star all segments", async function() {
+        await page.click('.segmentList li:nth-child(2) .starSegment');
+        await page.click('.segmentList li:nth-child(3) .starSegment');
+        await page.click('.segmentList li:nth-child(4) .starSegment');
+        const firstSegment = await page.$('.segmentList li:nth-child(2)');
+        expect(firstSegment.className).to.contain('segmentStarred');
+        expect(firstSegment.find('.starSegment').attr('data-state')).to.equal('');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_starred');
     });
 
-    it("should star last segment", async function() {
-      await page.click('.segmentList li:last-child .starSegment');
-      expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_starred');
+    it("should unstar first segment", async function() {
+        await page.click('.segmentList li:nth-child(2) .starSegment');
+        const firstSegment = await page.$('.segmentList li:nth-child(2)');
+        expect(firstSegment.className).to.not.contain('segmentStarred');
+        expect(firstSegment.find('.starSegment').attr('data-state')).to.equal('');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1b_selector_unstarred');
+    });
+
+    it("should have disabled star for anonymous users", async function() {
+        await switchToAnonymousUser();
+        await page.goto(url);
+        await page.click('.segmentationContainer .title');
+        const firstSegment = await page.$('.segmentList li:nth-child(2)');
+        expect(firstSegment.className).to.contain('segmentStarred');
+        expect(firstSegment.find('.starSegment').attr('data-state')).to.equal('');
     });
 
     it("should open segment editor when edit link clicked for existing segment", async function() {
+        await switchToConnectedUser();
+        await page.goto(url);
+        await page.click('.segmentationContainer .title');
         await page.evaluate(function() {
-            $('.segmentList .editSegment:first').click()
+            $('.segmentList .editSegment:first').click();
         });
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('2_segment_editor_update');
@@ -127,10 +165,10 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should save a new segment and add it to the segment list when the form is filled out and the save button is clicked", async function() {
         for (let i = 0; i < 3; i += 1) {
-          await page.evaluate(function (i) {
-            $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
-          }, i);
-          await page.waitForTimeout(250);
+            await page.evaluate(function (i) {
+               $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
+            }, i);
+            await page.waitForTimeout(250);
         }
 
         await page.type('input.edit_segment_name', 'new segment');

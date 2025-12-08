@@ -264,6 +264,10 @@ div.scrollable {
     order: 1;
 }
 
+.segmentationContainer .submenu ul li.comparedSegment {
+  font-weight: bold;
+}
+
 .segmentationContainer .submenu ul li:hover {
     color: #255792;
     background: @color-silver-l95;
@@ -344,14 +348,6 @@ div.scrollable {
           opacity: 0.2;
           cursor: not-allowed;
         }
-
-        &[data-state=active] {
-          border-radius: 50%;
-          background-color: white;
-          background-size: 70%;
-          background-position: center;
-          filter: invert(1);
-        }
     }
 
     .editSegment {
@@ -390,6 +386,11 @@ div.scrollable {
 
     .segmentStarred.segmentStarErrorAnimation .starSegment path {
       animation-direction: reverse;
+    }
+
+    /* We do not want filled & transparent stars, design wanted by Matthieu */
+    .segmentStarred .starSegment[data-state=disabled] {
+      opacity: 0.5;
     }
 
     .segmentStarred .starSegment path {

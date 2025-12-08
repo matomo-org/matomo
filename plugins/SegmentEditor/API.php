@@ -192,7 +192,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
         }
 
-        if ((int) $segment['enable_only_idsite'] === 0 && !Piwik::hasUserSuperUserAccess()) {
+        if ((int) $segment['enable_only_idsite'] === 0) {
             throw new Exception(Piwik::translate('SegmentEditor_UpdatingAllSitesSegmentPermittedToSuperUser'));
         }
     }

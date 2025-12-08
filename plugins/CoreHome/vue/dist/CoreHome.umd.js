@@ -3610,6 +3610,20 @@ class Comparisons_store_ComparisonsStore {
     }
     this.updateQueryParamsFromComparisons(newComparisons, this.periodComparisons.value, extraParams);
   }
+  removeSegmentComparisonByDefinition(segmentDefinition) {
+    if (!this.isComparisonEnabled()) {
+      throw new Error('Comparison disabled.');
+    }
+    let segmentIndex = null;
+    this.getSegmentComparisons().forEach((segment, index) => {
+      if (segment && segment.params && segment.params.segment === segmentDefinition) {
+        segmentIndex = index;
+      }
+    });
+    if (segmentIndex !== null) {
+      this.removeSegmentComparison(segmentIndex);
+    }
+  }
   addSegmentComparison(params) {
     if (!this.isComparisonEnabled()) {
       throw new Error('Comparison disabled.');

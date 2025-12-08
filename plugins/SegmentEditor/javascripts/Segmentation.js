@@ -105,7 +105,6 @@ Segmentation = (function($) {
             const comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
             $('div.segmentList ul li[data-definition] .compareSegment').each(function() {
               const $compareButton = $(this);
-              const $segment = $compareButton.parent();
               const currentState = $compareButton.attr('data-state');
               if (currentState === 'active') {
                 return;
@@ -126,8 +125,7 @@ Segmentation = (function($) {
 
             var segmentationTitle = $(this.content).find(".segmentationTitle");
             var title;
-            if( current != "")
-            {
+            if (current != "") {
                 // this code is mad, and may drive you mad.
                 // the whole segmentation editor needs to be rewritten in Vue with clean code
                 var selector = 'div.segmentList ul li[data-definition="'+current+'"]';
@@ -368,6 +366,7 @@ Segmentation = (function($) {
         }
 
         var filterSegmentList = function (keyword) {
+            var search = normalizeSearchString(keyword);
             var curTitle;
             clearFilterSegmentList();
             $(self.target).find(".filterNoResults").remove();
@@ -375,7 +374,7 @@ Segmentation = (function($) {
             $(self.target).find(".segmentList li").each(function () {
                 curTitle = $(this).find('.segname').prop('title');
                 $(this).hide();
-                if (curTitle.toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
+                if (normalizeSearchString(curTitle).indexOf(search) !== -1) {
                     $(this).show();
                 }
             });
@@ -476,9 +475,14 @@ Segmentation = (function($) {
                   return false;
                 }
                 const comparisonService = window.CoreHome.ComparisonsStoreInstance;
-                comparisonService.addSegmentComparison({
-                  segment: $button.closest('li').data('definition'),
-                });
+                const segmentDefinition = $button.closest('li').data('definition');
+                if ($button.attr('data-state') === 'active') {
+                  comparisonService.removeSegmentComparisonByDefinition(segmentDefinition);
+                } else {
+                  comparisonService.addSegmentComparison({
+                    segment: segmentDefinition,
+                  });
+                }
                 closeAllOpenLists();
             });
 
@@ -622,18 +626,28 @@ Segmentation = (function($) {
           if (self.segmentAccess !== 'write') {
             return false;
           }
-          return (segment.login === piwik.userLogin || piwik.hasSuperUserAccess);
+          if (piwik.hasSuperUserAccess || piwik.userCurrentRole === 'admin' || piwik.userCurrentRole === 'write') {
+            return true;
+          }
+
+          return (segment.login === piwik.userLogin);
         }
 
         function getStarredByTitlePart(segment) {
           const login = segment.starred_by || '';
           if (login === piwik.userLogin) {
-            return ' (' + self.translations['General_StarredByYou'] + ')'
+            return ' (' + self.translations['General_StarredByYou'] + ')';
           }
-          return ' (' + self.translations['General_StarredBy'] + ' ' + login + ')'
+
+          return ' (' + self.translations['General_StarredBy'] + ' ' + login + ')';
         }
 
         function getStarSegmentTitle(segment, canEdit) {
+          // Anonymous users do not have any action
+          if (piwik.isUserAnonymous) {
+            return '';
+          }
+
           // Site-specific segments
           if (segment.enable_only_idsite) {
             if (canEdit) {
