@@ -1405,7 +1405,8 @@ class AjaxHelper_AjaxHelper {
         if (xhr.statusText === 'abort' || xhr.status === 0) {
           return;
         }
-        if (xhr.status === 401) {
+        const isInApp = !document.querySelector('#login_form');
+        if (xhr.status === 401 && isInApp) {
           Matomo_Matomo.helper.refreshAfter(0);
           return;
         }
