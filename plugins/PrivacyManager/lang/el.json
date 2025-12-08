@@ -185,6 +185,8 @@
         "OptOutRememberToTestStep4": "Η επιλογή του checkbox για το opt-in θα εμφανίσει το μήνυμα opt-in.",
         "OptOutUseStandalone": "Χρήση αυτο-περιεχόμενου κώδικα για τον ορισμό του opt out",
         "OptOutUseTracker": "Χρήση του κώδικα ιχνηλάτησης του Matomo για τον ορισμό του opt out",
+        "OrderIdAnonymizationSettingRequirementNote": "Τα αναγνωριστικά παραγγελιών πρέπει να ανωνυμοποιούνται",
+        "OrderIdAnonymizationSettingTitle": "Ανωνυμοποίηση αναγνωριστικού παραγγελίας",
         "Output": "Έξοδος: %1$s",
         "PleaseEnableVisitorLogsProfiles": "Αν χρειάζεται να προσπελάσετε τα δεδομένα για αυτόν τον ιστοτόπο, ενεργοποιήστε τα ημερολόγια ή το προφίλ επισκέπτη στις %1$sρυθμίσεις του ιστοτόπου%2$s.",
         "PleaseEnableVisitorLogsProfilesSites": "Αν χρειάζεται να προσπελάσετε τα δεδομένα για αυτούς τους ιστοτόπους, ενεργοποιήστε τα ημερολόγια ή το προφίλ επισκέπτη στις %1$sρυθμίσεις των ιστοτόπων%2$s.",
