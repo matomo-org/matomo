@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -1595,6 +1596,29 @@ Done invalidating
 LOG;
 
         self::assertStringContainsString($expected, $logger->output);
+    }
+
+    public function testShouldSkipYearPeriodWhenDisabled()
+    {
+        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = [
+            '/method=API.get/' => json_encode([['nb_visits' => 1]]),
+        ];
+
+        GeneralConfig::setConfigValue('enabled_periods_API', 'day,week,month,range');
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        $tracker = Fixture::getTracker(1, '2020-02-03 12:01:02');
+        Fixture::checkResponse($tracker->doTrackPageView('test'));
+
+        $logger = new FakeLogger();
+
+        $archiver                              = new CronArchive($logger);
+        $archiver->shouldArchiveSpecifiedSites = [1];
+        $archiver->init();
+        $archiver->run();
+
+        self::assertStringNotContainsString('year', $logger->output);
     }
 
     public function provideContainerConfig()
