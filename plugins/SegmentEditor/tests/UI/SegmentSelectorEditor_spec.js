@@ -8,6 +8,8 @@
  */
 
 describe("SegmentSelectorEditorTest", function () {
+    const getSegmentQuery = n => '.segmentList li:nth-of-type(' + (n+1) + ')';
+    const getSegmentStarQuery = n => getSegmentQuery(n) + ' .starSegment';
     var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
@@ -64,20 +66,22 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should star all segments", async function() {
-        await page.click('.segmentList li:nth-child(2) .starSegment');
-        await page.click('.segmentList li:nth-child(3) .starSegment');
-        await page.click('.segmentList li:nth-child(4) .starSegment');
-        const firstSegment = await page.$('.segmentList li:nth-child(2)');
-        expect(firstSegment.className).to.contain('segmentStarred');
-        expect(firstSegment.find('.starSegment').attr('data-state')).to.equal('');
+        await page.click(getSegmentStarQuery(1));
+        await page.click(getSegmentStarQuery(2));
+        await page.click(getSegmentStarQuery(3));
+        const firstSegmentClassName = await page.evaluate(() => $('.segmentList li:nth-of-type(2)').attr('class'));
+        expect(firstSegmentClassName).to.match(/segmentStarred/);
+        const firstSegmentStarState = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').attr('data-state') || '');
+        expect(firstSegmentStarState).to.equal('');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_starred');
     });
 
     it("should unstar first segment", async function() {
-        await page.click('.segmentList li:nth-child(2) .starSegment');
-        const firstSegment = await page.$('.segmentList li:nth-child(2)');
-        expect(firstSegment.className).to.not.contain('segmentStarred');
-        expect(firstSegment.find('.starSegment').attr('data-state')).to.equal('');
+        await page.click(getSegmentStarQuery(1));
+        const firstSegmentClassName = await page.evaluate(() => $('.segmentList li:nth-of-type(2)').attr('class'));
+        expect(firstSegmentClassName).to.not.match(/segmentStarred/);
+        const firstSegmentStarState = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').attr('data-state') || '');
+        expect(firstSegmentStarState).to.equal('');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1b_selector_unstarred');
     });
 
@@ -85,9 +89,8 @@ describe("SegmentSelectorEditorTest", function () {
         await switchToAnonymousUser();
         await page.goto(url);
         await page.click('.segmentationContainer .title');
-        const firstSegment = await page.$('.segmentList li:nth-child(2)');
-        expect(firstSegment.className).to.contain('segmentStarred');
-        expect(firstSegment.find('.starSegment').attr('data-state')).to.equal('');
+        const firstSegmentStarState = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').attr('data-state') || '');
+        expect(firstSegmentStarState).to.equal('disabled');
     });
 
     it("should open segment editor when edit link clicked for existing segment", async function() {

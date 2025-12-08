@@ -4659,11 +4659,6 @@ parameters:
 			path: plugins/ScheduledReports/ScheduledReports.php
 
 		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: plugins/SegmentEditor/API.php
-
-		-
 			message: "#^Parameter \\#2 \\$idSites of class Piwik\\\\Segment constructor expects array, int\\|null given\\.$#"
 			count: 1
 			path: plugins/SegmentEditor/API.php
