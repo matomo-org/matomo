@@ -251,8 +251,8 @@ class AIReferrers extends RecordBuilder
     private function getRankingQueryLimit(): int
     {
         $configGeneral = Config::getInstance()->General;
-        $configLimit   = max($configGeneral['archiving_ranking_query_row_limit'], 10 * $this->maxRowsInTable);
-        return $configLimit == 0 ? 0 : max($configLimit, $this->maxRowsInTable);
+        $configLimit = max((int)$configGeneral['archiving_ranking_query_row_limit'], 10 * $this->maxRowsInTable);
+        return $configLimit === 0 ? 0 : max($configLimit, $this->maxRowsInTable);
     }
 
     /**

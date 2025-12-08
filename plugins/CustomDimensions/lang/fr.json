@@ -36,7 +36,7 @@
         "NoValue": "aucune valeur",
         "PageUrlParam": "Paramètre d'URL de page",
         "PluginDescription": "Étendez Matomo à vos besoins en définissant et en suivant les dimensions personnalisées dans le cadre de l'action ou de la visite",
-        "ScopeDescriptionAction": "Les dimensions personnalisées dans la portée \"Action\" peuvent être transmises avec n'importe quelle action (vue de page, téléchargement, évènement, etc...).",
+        "ScopeDescriptionAction": "Les dimensions personnalisées dans la portée \"Action\" peuvent être transmises avec n'importe quelle action (vue de page, téléchargement, événement, etc...).",
         "ScopeDescriptionActionMoreInfo": "Des extractions peuvent être définies de manière à ce que la valeur soit extraite depuis l'URL, le titre ou des paramètres d'URL de la page.",
         "ScopeDescriptionVisit": "Les dimensions personnalisées dans la portée « Visite » peuvent être envoyées avec toute demande de suivi et sont stockées dans la visite.",
         "ScopeDescriptionVisitMoreInfo": "Si vous définissez différentes valeurs pour une dimension donnée lors d'une visite, la dernière valeur définie sera utilisée.",
