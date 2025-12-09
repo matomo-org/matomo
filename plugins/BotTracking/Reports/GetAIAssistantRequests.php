@@ -32,8 +32,8 @@ class GetAIAssistantRequests extends Report
 
         $this->name              = Piwik::translate('BotTracking_AIAssistantsReportTitle');
         $this->documentation     = Piwik::translate('BotTracking_AIAssistantsReportDocumentation');
-        $this->categoryId        = 'AIAgents_AIAssistants';
-        $this->subcategoryId     = 'General_Overview';
+        $this->categoryId        = 'General_AIAssistants';
+        $this->subcategoryId     = 'BotTracking_AIBotsOverview';
         $this->dimension         = new AIAssistantName();
         $this->metrics           = [
             new Requests(),
