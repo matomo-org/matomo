@@ -50,6 +50,45 @@ table.entityTable {
       }
     }
   }
+
+  th.entityTable_Numeric {
+    text-align: right !important;
+  }
+  td.entityTable_Numeric {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .entityTable_Sparkline {
+    padding: 0;
+    width: 100px;
+  }
+}
+
+.entityTable_StarCell,
+table.entityTable tbody tr .entityTable_StarCell {
+  width: 40px;
+  padding-right: 0;
+}
+
+.entityTable_Filler,
+table.entityTable tbody tr .entityTable_Filler {
+  padding: 0;
+}
+
+.entityTable_ActionCell,
+table.entityTable tbody tr .entityTable_ActionCell {
+  padding: 0 16px;
+}
+
+.entityTable_ActionCell-1,
+table.entityTable tbody tr .entityTable_ActionCell-1 {
+  width: 80px;
+}
+
+.entityTable_ActionCell-3,
+table.entityTable tbody tr .entityTable_ActionCell-3 {
+  width: 170px;
 }
 
 .table-action {
@@ -71,6 +110,15 @@ table.entityTable {
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16), 0 1px 5px 0 rgba(0,0,0,0.12);
     cursor: pointer;
   }
+
+  &[data-state="disabled"] {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+
+  .entityTable_ActionCell & {
+    display: inline-block;
+  }
 }
 
 .card .tableActionBar {
@@ -80,6 +128,11 @@ table.entityTable {
       background-color: @theme-color-background-contrast;
     }
   }
+}
+
+.tableFooterLabel {
+  margin-bottom: 16px;
+  font-style: italic;
 }
 
 .tableActionBar {
@@ -105,12 +158,14 @@ table.entityTable {
     text-transform: uppercase;
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;
+
     &:hover {
       text-decoration: none;
     }
   }
 
-  button:first-child, a:first-child {
+  button:first-child,
+  a:first-child {
     background-color: @theme-color-brand !important;
     color: @color-white;
   }
