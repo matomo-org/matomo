@@ -2,6 +2,7 @@
     "General": {
         "12HourClock": "Ρολόι σε μορφή 12 ωρών",
         "24HourClock": "Ρολόι σε μορφή 24 ωρών",
+        "AIAssistants": "Βοηθοί ΤΝ",
         "API": "API",
         "AbandonedCarts": "Εγκαταλελειμμένα Καλάθια Αγορών",
         "AboutPiwikX": "Σχετικά με το Matomo %s",
