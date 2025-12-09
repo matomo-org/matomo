@@ -1528,6 +1528,37 @@
 		</widgets>
 	</row>
 	<row>
+		<uniqueId>General_Visitors.CoreHome_Segments</uniqueId>
+		<category>
+			<id>General_Visitors</id>
+			<name>Visitors</name>
+			<order>5</order>
+			<icon>icon-reporting-visitors</icon>
+			<help>&lt;p&gt;The Visitors pages tell you things about who your visitors are. Things like where your visitors came from, what devices and browsers they're using and when they generally visit your website. Understand, in the aggregate, who your audience is, and look for outliers to see how your audience could grow.&lt;/p&gt;&lt;p&gt;In addition to general information about your visitors, you can also use the &lt;a href="#" onclick="this.href=broadcast.buildReportingUrl('category=General_Visitors&amp;subcategory=Live_VisitorLog')"&gt;Visits Log&lt;/a&gt; to see what occurred in every individual visit.&lt;/p&gt;</help>
+			<widget/>
+		</category>
+		<subcategory>
+			<id>CoreHome_Segments</id>
+			<name>Segments</name>
+			<order>99</order>
+			<help/>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>Segments</name>
+				<module>SegmentEditor</module>
+				<action>manageSegments</action>
+				<order>99</order>
+				<parameters>
+					<module>SegmentEditor</module>
+					<action>manageSegments</action>
+				</parameters>
+				<uniqueId>widgetSegmentEditormanageSegments</uniqueId>
+				<isWide>0</isWide>
+			</row>
+		</widgets>
+	</row>
+	<row>
 		<uniqueId>Dashboard_Dashboard.1</uniqueId>
 		<category>
 			<id>Dashboard_Dashboard</id>
