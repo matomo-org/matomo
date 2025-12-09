@@ -1,6 +1,5 @@
 {
     "AIAgents": {
-        "AIAssistants": "Assistants IA",
         "AIAgentName": "Nom de l'agent IA",
         "AIAgentVisits": "Visites de l'agent IA",
         "AIAgentVisitsDocumentation": "Aperçu des visites des agents IA.",
