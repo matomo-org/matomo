@@ -3651,7 +3651,7 @@
 	<row>
 		<name>AI Agents Over Time</name>
 		<category>
-			<id>AIAgents_AIAssistants</id>
+			<id>General_AIAssistants</id>
 			<name>AI Assistants</name>
 			<order>80</order>
 			<icon>icon-admin-platform</icon>
@@ -3659,10 +3659,10 @@
 			<widget />
 		</category>
 		<subcategory>
-			<id>General_Overview</id>
-			<name>Overview</name>
+			<id>AIAgents_AIAgentsOverview</id>
+			<name>AI Agents Overview</name>
 			<order>10</order>
-			<help>&lt;p&gt;The AI Assistant Overview page provide insights into website traffic originating from AI Assistants such as ChatGPT and other large language model–based assistants. These reports track key metrics including the number of requests made by these bots, the pages and documents they access, and any errors encountered. They also offer detailed breakdowns showing which bots visit specific page URLs, helping you understand how AI assistants interact with your content and identify opportunities to improve visibility and accessibility for AI-driven users.&lt;/p&gt;&lt;p&gt;It’s important to note that none of these pages were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.&lt;/p&gt;&lt;p&gt;Currently, these reports exclusively include requests from AI bots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.&lt;/p&gt;</help>
+			<help>&lt;p&gt;Review how AI agents and human visitors engage with your site at a glance. This overview surfaces combined metrics and trends so you can quickly spot changes before exploring detailed reports.&lt;/p&gt;</help>
 		</subcategory>
 		<module>AIAgents</module>
 		<action>getEvolutionGraph</action>
@@ -3681,7 +3681,7 @@
 	<row>
 		<name>AI Agent Overview</name>
 		<category>
-			<id>AIAgents_AIAssistants</id>
+			<id>General_AIAssistants</id>
 			<name>AI Assistants</name>
 			<order>80</order>
 			<icon>icon-admin-platform</icon>
@@ -3689,10 +3689,10 @@
 			<widget />
 		</category>
 		<subcategory>
-			<id>General_Overview</id>
-			<name>Overview</name>
+			<id>AIAgents_AIAgentsOverview</id>
+			<name>AI Agents Overview</name>
 			<order>10</order>
-			<help>&lt;p&gt;The AI Assistant Overview page provide insights into website traffic originating from AI Assistants such as ChatGPT and other large language model–based assistants. These reports track key metrics including the number of requests made by these bots, the pages and documents they access, and any errors encountered. They also offer detailed breakdowns showing which bots visit specific page URLs, helping you understand how AI assistants interact with your content and identify opportunities to improve visibility and accessibility for AI-driven users.&lt;/p&gt;&lt;p&gt;It’s important to note that none of these pages were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.&lt;/p&gt;&lt;p&gt;Currently, these reports exclusively include requests from AI bots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.&lt;/p&gt;</help>
+			<help>&lt;p&gt;Review how AI agents and human visitors engage with your site at a glance. This overview surfaces combined metrics and trends so you can quickly spot changes before exploring detailed reports.&lt;/p&gt;</help>
 		</subcategory>
 		<module>AIAgents</module>
 		<action>get</action>

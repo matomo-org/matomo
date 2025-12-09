@@ -2,6 +2,7 @@
     "General": {
         "12HourClock": "12-hour clock",
         "24HourClock": "24-hour clock",
+        "AIAssistants": "AI Assistants",
         "API": "API",
         "AbandonedCarts": "Abandoned Carts",
         "AboutPiwikX": "About Matomo %s",

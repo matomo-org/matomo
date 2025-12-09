@@ -10,7 +10,7 @@
 describe('AIAgents', function () {
   this.fixture = 'Piwik\\Plugins\\AIAgents\\tests\\Fixtures\\AIAgents';
 
-  const url = '?module=CoreHome&action=index&category=AIAgents_AIAssistants&subcategory=General_Overview&idSite=1&period=day&date=2025-07-20';
+  const url = '?module=CoreHome&action=index&category=General_AIAssistants&subcategory=AIAgents_AIAgentsOverview&idSite=1&period=day&date=2025-07-20';
 
   it('should display the AI agents overview', async function () {
     await page.goto(url);
