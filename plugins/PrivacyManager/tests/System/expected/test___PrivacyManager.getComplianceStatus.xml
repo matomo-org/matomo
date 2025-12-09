@@ -17,8 +17,8 @@
 			<name>Ecommerce Restricted</name>
 			<value>non_compliant</value>
 			<notes>Non compliant because ecommerce analytics is enabled unrestricted.</notes>
-    </row>
-    <row>
+		</row>
+		<row>
 			<name>PII data filtered</name>
 			<value>non_compliant</value>
 			<notes>PII data must be filtered by the Matomo-recommended PII exclusion list.</notes>
