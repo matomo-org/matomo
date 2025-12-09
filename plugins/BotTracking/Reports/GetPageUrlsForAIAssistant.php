@@ -23,7 +23,7 @@ class GetPageUrlsForAIAssistant extends Report
         parent::init();
 
         $this->name             = Piwik::translate('BotTracking_AIAssistantsReportTitle');
-        $this->categoryId       = 'AIAgents_AIAssistants';
+        $this->categoryId       = 'General_AIAssistants';
         $this->metrics          = [new Requests()];
         $this->processedMetrics = [];
         $this->dimension        = new PageUrl();

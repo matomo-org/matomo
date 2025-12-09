@@ -16,7 +16,7 @@ describe("BotTracking", function () {
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
     it('should render AI Assistants > Overview bot detail report', async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=AIAgents_AIAssistants&subcategory=General_Overview");
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview");
         await page.waitForNetworkIdle();
 
         const row = await page.jQuery('tr.subDataTable:first');
