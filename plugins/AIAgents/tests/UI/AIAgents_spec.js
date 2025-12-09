@@ -17,7 +17,7 @@ describe('AIAgents', function () {
     await page.waitForNetworkIdle();
 
     const widgets = await page.$$('.matomo-widget');
-    expect(widgets.length).to.equal(3);
+    expect(widgets.length).to.equal(2);
   });
 
   it('should show the AI assistants report menu items', async function () {

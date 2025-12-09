@@ -52,6 +52,39 @@
 		</widgets>
 	</row>
 	<row>
+		<uniqueId>General_AIAssistants.BotTracking_AIBotsOverview</uniqueId>
+		<category>
+			<id>General_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>80</order>
+			<icon>icon-admin-platform</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>BotTracking_AIBotsOverview</id>
+			<name>AI Bots Overview</name>
+			<order>20</order>
+			<help>&lt;p&gt;The AI Assistant Overview page provide insights into website traffic originating from AI Assistants such as ChatGPT and other large language model–based assistants. These reports track key metrics including the number of requests made by these bots, the pages and documents they access, and any errors encountered. They also offer detailed breakdowns showing which bots visit specific page URLs, helping you understand how AI assistants interact with your content and identify opportunities to improve visibility and accessibility for AI-driven users.&lt;/p&gt;&lt;p&gt;It’s important to note that none of these pages were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.&lt;/p&gt;&lt;p&gt;Currently, these reports exclusively include requests from AI bots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.&lt;/p&gt;</help>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>AI Assistants - Bots</name>
+				<module>BotTracking</module>
+				<action>getAIAssistantRequests</action>
+				<order>30</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIAssistantRequests</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIAssistantRequests</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
 		<uniqueId>General_Actions.VisitorInterest_Engagement</uniqueId>
 		<category>
 			<id>General_Actions</id>
