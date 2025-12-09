@@ -107,13 +107,14 @@ class MenuAdmin extends MenuAbstract
      * @param string $menuName
      * @param array $url
      * @param int $order
-     * @param bool|string $tooltip
+     * @param false|string $tooltip
+     * @param false|string $icon
      * @api
      * @since 3.0.0
      */
-    public function addMeasurableItem($menuName, $url, $order = 50, $tooltip = false)
+    public function addMeasurableItem($menuName, $url, $order = 50, $tooltip = false, $icon = false)
     {
-        $this->addItem('CoreAdminHome_MenuMeasurables', $menuName, $url, $order, $tooltip);
+        $this->addItem('CoreAdminHome_MenuMeasurables', $menuName, $url, $order, $tooltip, $icon);
     }
 
     /**

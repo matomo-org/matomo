@@ -378,6 +378,7 @@ class API extends \Piwik\Plugin\API
 
         return [
             'result' => $result,
+            'starred' => 1,
             'starred_by' => $login,
         ];
     }
@@ -401,6 +402,7 @@ class API extends \Piwik\Plugin\API
         $result = $this->getModel()->updateSegment($idSegment, $bind);
 
         return [
+            'starred' => 0,
             'result' => $result,
         ];
     }
