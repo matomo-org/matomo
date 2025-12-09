@@ -145,7 +145,6 @@ class AIAssistantReports extends RecordBuilder
     private function populateTableForActionType(array $tables, int $actionType, LogAggregator $logAggregator, array $visits): void
     {
         $resultSet  = $this->queryBotRequests($logAggregator, $actionType);
-        $actionRows = [];
 
         while ($row = $resultSet->fetch()) {
             /**
@@ -154,48 +153,47 @@ class AIAssistantReports extends RecordBuilder
             $label = $row['bot_name'];
             $url   = $row['url'];
 
-            if (is_null($label)) {
+            if ($label === null) {
+                // top-level rollup result
                 continue;
             }
 
-            if (!is_null($url)) {
-                $actionRows[] = $row;
+            if ($url === null) {
+                // second-level rollup result
+                $metrics = [
+                    Metrics::COLUMN_REQUESTS          => $row['requests'],
+                    Metrics::COLUMN_DOCUMENT_REQUESTS => $actionType === Action::TYPE_DOWNLOAD ? $row['requests'] : 0,
+                    Metrics::COLUMN_PAGE_REQUESTS     => $actionType === Action::TYPE_PAGE_URL ? $row['requests'] : 0,
+                    Metrics::COLUMN_ACQUIRED_VISITS   => $visits[$label] ?? 0,
+                ];
+
+                $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
+                $tables[Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
                 continue;
             }
 
-            $metrics = [
-                Metrics::COLUMN_REQUESTS          => $row['requests'],
-                Metrics::COLUMN_DOCUMENT_REQUESTS => $actionType === Action::TYPE_DOWNLOAD ? $row['requests'] : 0,
-                Metrics::COLUMN_PAGE_REQUESTS     => $actionType === Action::TYPE_PAGE_URL ? $row['requests'] : 0,
-                Metrics::COLUMN_ACQUIRED_VISITS   => $visits[$label] ?? 0,
-            ];
 
-            $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
-            $tables[Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
-        }
+            $table = $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD];
 
-        $table = $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD];
-
-        if ($actionType === Action::TYPE_DOWNLOAD) {
-            $table = $tables[Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD];
-        }
-
-        // use while / array_shift combination instead of foreach to save memory
-        while (is_array($actionRows) && count($actionRows)) {
-            /**
-             * @var array{requests: int, bot_name: string, url: string} $row
-             */
-            $row   = array_shift($actionRows);
-            $label = $row['bot_name'];
-            $url   = $row['url'];
-
-            if ($label === RankingQuery::LABEL_SUMMARY_ROW) {
-                continue;
+            if ($actionType === Action::TYPE_DOWNLOAD) {
+                $table = $tables[Archiver::AI_ASSISTANTS_DOCUMENTS_RECORD];
             }
 
             $tableRow = $table->getRowFromLabel($label);
 
-            if (empty($tableRow)) {
+            if (false === $tableRow) {
+                // non-rollup row but rollup row is missing
+                // should not happen, but don't break
+                continue;
+            }
+
+            if (
+                $url === RankingQuery::LABEL_SUMMARY_ROW
+                && !$tableRow->isSubtableLoaded()
+            ) {
+                // skip creating the subtable if:
+                // - we are using rollups
+                // - the only row would be "Others"
                 continue;
             }
 

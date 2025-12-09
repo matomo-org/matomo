@@ -2,8 +2,8 @@
 <result>
 	<row>
 		<label>Claude-User</label>
-		<requests>4</requests>
-		<document_requests>2</document_requests>
+		<requests>5</requests>
+		<document_requests>3</document_requests>
 		<page_requests>2</page_requests>
 		<visits_acquired>2</visits_acquired>
 		<subtable>

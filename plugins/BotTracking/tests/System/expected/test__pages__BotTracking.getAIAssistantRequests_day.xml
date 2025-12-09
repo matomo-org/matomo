@@ -28,8 +28,8 @@
 	</row>
 	<row>
 		<label>Claude-User</label>
-		<requests>2</requests>
-		<document_requests>2</document_requests>
+		<requests>3</requests>
+		<document_requests>3</document_requests>
 		<page_requests>0</page_requests>
 		<visits_acquired>0</visits_acquired>
 	</row>
