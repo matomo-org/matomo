@@ -27,8 +27,8 @@ class Get extends Report
     protected function init(): void
     {
         parent::init();
-        $this->categoryId       = 'AIAgents_AIAssistants';
-        $this->subcategoryId    = 'General_Overview';
+        $this->categoryId       = 'General_AIAssistants';
+        $this->subcategoryId    = 'BotTracking_AIBotsOverview';
         $this->name             = Piwik::translate('BotTracking_ReportTitleBotsOverview');
         $this->documentation    = '';
         $this->metrics          = Metrics::getReportMetricColumns();
