@@ -36,7 +36,7 @@
         "ReportUpdated": "Report updated",
         "ReportAdded": "Report added",
         "Segment_Deletion_Error": "This segment cannot be deleted or made invisible to other users because it is used to generate email report(s) %s. Please retry after removing this segment from this report(s).",
-        "Segment_HelpScheduledReport": "You can select an existing custom segment to apply to data in this scheduled report. You may create and edit custom segments in your dashboard %1$s(click here to open)%2$s, then click on the \"%3$s\" box, then \"%4$s\".",
+        "HelpSegmentManagement": "You can select an existing custom segment to apply to data in this scheduled report. You may create and edit custom segments in the dedicated segments management page %1$s(click here to open)%2$s.",
         "SegmentAppliedToReports": "The segment '%s' is applied to the reports.",
         "SegmentDeleted": "Segment deleted",
         "SendReportNow": "Send Report now",

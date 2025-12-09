@@ -83,6 +83,7 @@ declare global {
   interface PiwikHelperGlobal {
     escape(text: string): string;
     redirect(params?: any);
+    getCurrentQueryStringWithParametersModified(newparams: string);
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
     modalConfirm(element: JQuery|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);

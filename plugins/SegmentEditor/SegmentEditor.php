@@ -55,7 +55,12 @@ class SegmentEditor extends \Piwik\Plugin
             'Db.getTablesInstalled'                      => 'getTablesInstalled',
             'SitesManager.deleteSite.end'                => 'onDeleteSite',
             'UsersManager.deleteUser'                    => 'onDeleteUser',
+            'API.getPagesComparisonsDisabledFor'         => 'getPagesComparisonsDisabledFor',
         );
+    }
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = 'General_Visitors.CoreHome_Segments';
     }
 
     public function onDeleteSite($idSite): void
@@ -332,6 +337,7 @@ class SegmentEditor extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles): void
     {
         $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/manageSegmentsPage.js";
     }
 
     public function getStylesheetFiles(&$stylesheets): void
@@ -368,6 +374,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_OperatorOR';
         $translationKeys[] = 'SegmentEditor_AddANDorORCondition';
         $translationKeys[] = 'SegmentEditor_DefaultAllVisits';
+        $translationKeys[] = 'SegmentEditor_AreYouSureDeleteSegment';
         $translationKeys[] = 'General_OperationEquals';
         $translationKeys[] = 'General_OperationNotEquals';
         $translationKeys[] = 'General_OperationAtMost';
