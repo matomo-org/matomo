@@ -41,13 +41,6 @@ class Get extends Report
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
     {
         $widgetsList->addWidgetConfig(
-            $factory->createContainerWidget('AIAgents_AIAssistants')
-                ->setIsWide()
-                ->setOrder(10)
-        );
-
-        $widgetsList->addToContainerWidget(
-            'AIAgents_AIAssistants',
             $factory->createWidget()
                 ->setName('BotTracking_ReportTitleBotsOverTime')
                 ->forceViewDataTable(Evolution::ID)
@@ -55,8 +48,7 @@ class Get extends Report
                 ->setOrder(1)
         );
 
-        $widgetsList->addToContainerWidget(
-            'AIAgents_AIAssistants',
+        $widgetsList->addWidgetConfig(
             $factory->createWidget()
                 ->setName('BotTracking_ReportTitleBotsOverview')
                 ->forceViewDataTable(Sparklines::ID)

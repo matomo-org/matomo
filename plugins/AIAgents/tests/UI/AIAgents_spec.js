@@ -16,7 +16,7 @@ describe('AIAgents', function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
 
-    const widgets = await page.$$('#widgetAIAgents_AIAgentVisits .matomo-widget');
+    const widgets = await page.$$('.matomo-widget');
     expect(widgets.length).to.equal(2);
   });
 
@@ -25,28 +25,28 @@ describe('AIAgents', function () {
   });
 
   it('should display the list of supported evolution metrics', async function () {
-    await page.hover('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker');
+    await page.hover('.jqplot-seriespicker');
 
-    const selectedMetrics = await page.$$('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker input.select:checked');
+    const selectedMetrics = await page.$$('.jqplot-seriespicker input.select:checked');
     expect(selectedMetrics.length).to.equal(1);
 
-    const selectedMetricLabel = await page.$('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker input.select:checked ~ span');
+    const selectedMetricLabel = await page.$('.jqplot-seriespicker input.select:checked ~ span');
     expect(await selectedMetricLabel.getProperty('textContent')).to.match(/AI Agent Visits/);
   });
 
   it('should allow changing displayed metric using sparklines', async function () {
-    const sparklines = await page.$$('#widgetAIAgents_AIAgentVisits .sparkline.linked');
+    const sparklines = await page.$$('.sparkline.linked');
 
     expect(sparklines.length).to.equal(10);
     await sparklines[5].click();
     await page.waitForNetworkIdle();
 
-    await page.hover('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker');
+    await page.hover('.jqplot-seriespicker');
 
-    const selectedMetrics = await page.$$('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker input.select:checked');
+    const selectedMetrics = await page.$$('.jqplot-seriespicker input.select:checked');
     expect(selectedMetrics.length).to.equal(1);
 
-    const selectedMetricLabel = await page.$('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker input.select:checked ~ span');
+    const selectedMetricLabel = await page.$('.jqplot-seriespicker input.select:checked ~ span');
     expect(await selectedMetricLabel.getProperty('textContent')).to.match(/Human Visits/);
   });
 
@@ -54,29 +54,29 @@ describe('AIAgents', function () {
     let metricLabels;
 
     // add "AI Agent Visits"
-    await page.hover('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker');
+    await page.hover('.jqplot-seriespicker');
 
-    metricLabels = await page.$$('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker label');
+    metricLabels = await page.$$('.jqplot-seriespicker label');
 
     await metricLabels[0].click();
     await page.waitForNetworkIdle();
 
     // add "Visits"
-    await page.hover('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker');
+    await page.hover('.jqplot-seriespicker');
 
-    metricLabels = await page.$$('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker label');
+    metricLabels = await page.$$('.jqplot-seriespicker label');
 
     await metricLabels[12].click();
     await page.waitForNetworkIdle();
 
     // check three metrics are selected/visible
-    await page.hover('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker');
+    await page.hover('.jqplot-seriespicker');
 
-    const selectedMetrics = await page.$$('#widgetAIAgents_AIAgentVisits .jqplot-seriespicker input.select:checked');
+    const selectedMetrics = await page.$$('.jqplot-seriespicker input.select:checked');
     expect(selectedMetrics.length).to.equal(3);
 
     await page.mouse.move(-10, -10);
 
-    expect(await page.screenshotSelector('#widgetAIAgents_AIAgentVisits')).to.matchImage('overview');
+    expect(await page.screenshotSelector('#content')).to.matchImage('overview');
   });
 });

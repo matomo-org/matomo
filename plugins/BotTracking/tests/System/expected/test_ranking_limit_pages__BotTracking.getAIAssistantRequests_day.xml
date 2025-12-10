@@ -8,7 +8,7 @@
 		<visits_acquired>1</visits_acquired>
 		<subtable>
 			<row>
-				<label>example.com/article-2</label>
+				<label>example.com/article/1/page/2</label>
 				<requests>1</requests>
 			</row>
 		</subtable>
@@ -21,7 +21,7 @@
 		<visits_acquired>1</visits_acquired>
 		<subtable>
 			<row>
-				<label>example.com/article-3</label>
+				<label>example.com/article/2</label>
 				<requests>2</requests>
 			</row>
 		</subtable>
@@ -41,7 +41,7 @@
 		<visits_acquired>0</visits_acquired>
 		<subtable>
 			<row>
-				<label>example.com/article-3</label>
+				<label>example.com/article/2</label>
 				<requests>1</requests>
 			</row>
 			<row>

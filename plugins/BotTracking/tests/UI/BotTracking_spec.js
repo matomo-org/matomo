@@ -15,15 +15,15 @@ describe("BotTracking", function () {
     var generalParams = 'idSite=1&period=day&date=2025-02-02',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
-    it('should render AI Assistants > Overview page with evolution and sparkline', async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=AIAgents_AIAssistants&subcategory=BotTracking_Overview");
+    it('should render AI Assistants > AI Bots Overview page with evolution and sparkline', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview");
         await page.waitForNetworkIdle();
 
         var elem = await page.$('.pageWrap');
         expect(await elem.screenshot()).to.matchImage('bot_overview');
     });
 
-    it('should render AI Assistants > Overview bot detail report', async function () {
+    it('should render AI Assistants > AI Bots Overview bot detail report', async function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview");
         await page.waitForNetworkIdle();
 

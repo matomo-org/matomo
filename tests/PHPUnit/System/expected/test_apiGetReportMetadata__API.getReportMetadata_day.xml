@@ -3546,88 +3546,7 @@
 	</row>
 	<row>
 		<category>AI Assistants</category>
-<<<<<<< HEAD
 		<subcategory>AI Agents Overview</subcategory>
-=======
-		<subcategory>Overview</subcategory>
-		<name>AI Assistants - Bots Overview</name>
-		<module>BotTracking</module>
-		<action>get</action>
-		<metrics>
-			<BotTracking_AIAssistantsRequests>Requests</BotTracking_AIAssistantsRequests>
-			<BotTracking_AIAssistantsAcquiredVisits>Acquired visits</BotTracking_AIAssistantsAcquiredVisits>
-			<BotTracking_AIAssistantsUniquePageUrls>Unique page URLs</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Not found (404) requests</BotTracking_AIAssistantsNotFoundRequests>
-			<BotTracking_AIAssistantsUniqueAssistants>Unique AI chatbots</BotTracking_AIAssistantsUniqueAssistants>
-			<BotTracking_AIAssistantsUniqueDocumentUrls>Unique document URLs</BotTracking_AIAssistantsUniqueDocumentUrls>
-			<BotTracking_AIAssistantsServerErrorRequests>Server error (5xx) requests</BotTracking_AIAssistantsServerErrorRequests>
-		</metrics>
-		<metricsDocumentation>
-			<BotTracking_AIAssistantsRequests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</BotTracking_AIAssistantsRequests>
-			<BotTracking_AIAssistantsAcquiredVisits>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</BotTracking_AIAssistantsAcquiredVisits>
-			<BotTracking_AIAssistantsUniquePageUrls>Distinct page URLs requested by AI assistants.</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Number of bot requests that returned an HTTP 404 response, including document URLs.</BotTracking_AIAssistantsNotFoundRequests>
-			<BotTracking_AIAssistantsUniqueAssistants>AI assistant user agents detected during the selected period.</BotTracking_AIAssistantsUniqueAssistants>
-			<BotTracking_AIAssistantsUniqueDocumentUrls>Distinct download or document URLs requested by AI assistants.</BotTracking_AIAssistantsUniqueDocumentUrls>
-			<BotTracking_AIAssistantsServerErrorRequests>Number of bot requests that returned an HTTP 5xx response, including document URLs.</BotTracking_AIAssistantsServerErrorRequests>
-			<BotTracking_AIAssistantsClickThroughRate>Share of AI assistant requests that resulted in acquired visits (acquired visits ÷ requests).</BotTracking_AIAssistantsClickThroughRate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<BotTracking_AIAssistantsClickThroughRate>Click-through rate</BotTracking_AIAssistantsClickThroughRate>
-		</processedMetrics>
-		<metricTypes>
-			<BotTracking_AIAssistantsRequests>number</BotTracking_AIAssistantsRequests>
-			<BotTracking_AIAssistantsAcquiredVisits>number</BotTracking_AIAssistantsAcquiredVisits>
-			<BotTracking_AIAssistantsUniquePageUrls>number</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>number</BotTracking_AIAssistantsNotFoundRequests>
-			<BotTracking_AIAssistantsUniqueAssistants>number</BotTracking_AIAssistantsUniqueAssistants>
-			<BotTracking_AIAssistantsUniqueDocumentUrls>number</BotTracking_AIAssistantsUniqueDocumentUrls>
-			<BotTracking_AIAssistantsServerErrorRequests>number</BotTracking_AIAssistantsServerErrorRequests>
-			<BotTracking_AIAssistantsClickThroughRate>percent</BotTracking_AIAssistantsClickThroughRate>
-		</metricTypes>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>BotTracking_get</uniqueId>
-	</row>
-	<row>
-		<category>AI Assistants</category>
-		<subcategory>Overview</subcategory>
-		<name>AI Assistants - Bots</name>
-		<module>BotTracking</module>
-		<action>getAIAssistantRequests</action>
-		<dimension>AI Assistant Name</dimension>
-		<documentation>Discover which AI assistants are crawling your site and how many hits each one generates. Expand a bot to review the most frequently requested pages or documents.</documentation>
-		<dimensions>
-			<BotTracking_AIAssistantName>AI Assistant Name</BotTracking_AIAssistantName>
-			<BotTracking_PageUrl>Page URL</BotTracking_PageUrl>
-		</dimensions>
-		<metrics>
-			<requests>Requests</requests>
-			<page_requests>Page Requests</page_requests>
-			<document_requests>Document Requests</document_requests>
-			<visits_acquired>Acquired visits</visits_acquired>
-		</metrics>
-		<metricsDocumentation>
-			<requests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</requests>
-			<page_requests>Total number of bot requests to page URLs recorded during the selected period.</page_requests>
-			<document_requests>Total number of bot requests to document URLs recorded during the selected period.</document_requests>
-			<visits_acquired>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</visits_acquired>
-		</metricsDocumentation>
-		<metricTypes>
-			<requests>number</requests>
-			<page_requests>number</page_requests>
-			<document_requests>number</document_requests>
-			<visits_acquired>number</visits_acquired>
-		</metricTypes>
-		<actionToLoadSubTables>getPageUrlsForAIAssistant</actionToLoadSubTables>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIAssistantRequests&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIAssistantRequests&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>BotTracking_getAIAssistantRequests</uniqueId>
-	</row>
-	<row>
-		<category>AI Assistants</category>
-		<subcategory>Overview</subcategory>
->>>>>>> 9c8bc14c7e (updates expected test files)
 		<name>AI Agent Visits</name>
 		<module>AIAgents</module>
 		<action>get</action>
@@ -3672,6 +3591,48 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=AIAgents&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=AIAgents&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>AIAgents_get</uniqueId>
+	</row>
+	<row>
+		<category>AI Assistants</category>
+		<subcategory>AI Bots Overview</subcategory>
+		<name>AI Assistants - Bots Overview</name>
+		<module>BotTracking</module>
+		<action>get</action>
+		<metrics>
+			<BotTracking_AIAssistantsRequests>Requests</BotTracking_AIAssistantsRequests>
+			<BotTracking_AIAssistantsAcquiredVisits>Acquired visits</BotTracking_AIAssistantsAcquiredVisits>
+			<BotTracking_AIAssistantsUniquePageUrls>Unique page URLs</BotTracking_AIAssistantsUniquePageUrls>
+			<BotTracking_AIAssistantsNotFoundRequests>Not found (404) requests</BotTracking_AIAssistantsNotFoundRequests>
+			<BotTracking_AIAssistantsUniqueAssistants>Unique AI chatbots</BotTracking_AIAssistantsUniqueAssistants>
+			<BotTracking_AIAssistantsUniqueDocumentUrls>Unique document URLs</BotTracking_AIAssistantsUniqueDocumentUrls>
+			<BotTracking_AIAssistantsServerErrorRequests>Server error (5xx) requests</BotTracking_AIAssistantsServerErrorRequests>
+		</metrics>
+		<metricsDocumentation>
+			<BotTracking_AIAssistantsRequests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</BotTracking_AIAssistantsRequests>
+			<BotTracking_AIAssistantsAcquiredVisits>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</BotTracking_AIAssistantsAcquiredVisits>
+			<BotTracking_AIAssistantsUniquePageUrls>Distinct page URLs requested by AI assistants.</BotTracking_AIAssistantsUniquePageUrls>
+			<BotTracking_AIAssistantsNotFoundRequests>Number of bot requests that returned an HTTP 404 response, including document URLs.</BotTracking_AIAssistantsNotFoundRequests>
+			<BotTracking_AIAssistantsUniqueAssistants>AI assistant user agents detected during the selected period.</BotTracking_AIAssistantsUniqueAssistants>
+			<BotTracking_AIAssistantsUniqueDocumentUrls>Distinct download or document URLs requested by AI assistants.</BotTracking_AIAssistantsUniqueDocumentUrls>
+			<BotTracking_AIAssistantsServerErrorRequests>Number of bot requests that returned an HTTP 5xx response, including document URLs.</BotTracking_AIAssistantsServerErrorRequests>
+			<BotTracking_AIAssistantsClickThroughRate>Share of AI assistant requests that resulted in acquired visits (acquired visits ÷ requests).</BotTracking_AIAssistantsClickThroughRate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<BotTracking_AIAssistantsClickThroughRate>Click-through rate</BotTracking_AIAssistantsClickThroughRate>
+		</processedMetrics>
+		<metricTypes>
+			<BotTracking_AIAssistantsRequests>number</BotTracking_AIAssistantsRequests>
+			<BotTracking_AIAssistantsAcquiredVisits>number</BotTracking_AIAssistantsAcquiredVisits>
+			<BotTracking_AIAssistantsUniquePageUrls>number</BotTracking_AIAssistantsUniquePageUrls>
+			<BotTracking_AIAssistantsNotFoundRequests>number</BotTracking_AIAssistantsNotFoundRequests>
+			<BotTracking_AIAssistantsUniqueAssistants>number</BotTracking_AIAssistantsUniqueAssistants>
+			<BotTracking_AIAssistantsUniqueDocumentUrls>number</BotTracking_AIAssistantsUniqueDocumentUrls>
+			<BotTracking_AIAssistantsServerErrorRequests>number</BotTracking_AIAssistantsServerErrorRequests>
+			<BotTracking_AIAssistantsClickThroughRate>percent</BotTracking_AIAssistantsClickThroughRate>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>BotTracking_get</uniqueId>
 	</row>
 	<row>
 		<category>AI Assistants</category>
