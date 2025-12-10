@@ -53,7 +53,8 @@ class Model
         }
 
         // If no other filter, only look at the last 24 hours of stats
-        if (empty($visitorId)
+        if (
+            empty($visitorId)
             && empty($limit)
             && empty($offset)
             && empty($period)
@@ -85,7 +86,7 @@ class Model
             if (!empty($remainingOffset)) {
                 if (empty($visits)) {
                     // No visits returned - need to count total in range to adjust offset
-                    $totalInRange = $this->countLogVisitsInRange($idSite, $queryRange[0], $queryRange[1], $segment, $visitorId, $minTimestamp, $filterSortOrder);
+                    $totalInRange = $this->countLogVisitsInRange($idSite, $queryRange[0], $queryRange[1], $segment, $visitorId, $minTimestamp);
                     $remainingOffset = max(0, $remainingOffset - $totalInRange);
                     continue;
                 } else {
@@ -129,11 +130,10 @@ class Model
      * @param string $segment
      * @param string $visitorId
      * @param int $minTimestamp
-     * @param string $filterSortOrder
      * @return int
      * @throws Exception
      */
-    private function countLogVisitsInRange($idSite, $dateStart, $dateEnd, $segment, $visitorId, $minTimestamp, $filterSortOrder)
+    private function countLogVisitsInRange($idSite, $dateStart, $dateEnd, $segment, $visitorId, $minTimestamp)
     {
         [$whereClause, $bindIdSites] = $this->getIdSitesWhereClause($idSite);
         [$whereBind, $where] = $this->getWhereClauseAndBind($whereClause, $bindIdSites, $dateStart, $dateEnd, $visitorId, $minTimestamp);
