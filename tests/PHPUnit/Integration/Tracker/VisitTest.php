@@ -541,7 +541,7 @@ class VisitTest extends IntegrationTestCase
         return $visitProperties;
     }
 
-    private function getMajorVersionPolicyControlledData()
+    public function getMajorVersionPolicyControlledData()
     {
         yield [CnilPolicy::class, false, 'config_browser_version', '5.0'];
         yield [CnilPolicy::class, true, 'config_browser_version', '5'];
