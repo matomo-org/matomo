@@ -2,6 +2,7 @@
     "General": {
         "12HourClock": "Rellotge 12 hores",
         "24HourClock": "Rellotge 24 hores",
+        "AIAssistants": "Assistents d'IA",
         "API": "API",
         "AbandonedCarts": "Cistelles abandonades",
         "AboutPiwikX": "Sobre Matomo %s",
@@ -476,6 +477,8 @@
         "Testing": "Provant…",
         "ThankYouForUsingMatomo": "Gràcies per utilitzar Matomo",
         "TheMatomoTeam": "L'equip Matomo",
+        "ThirdPartyCookieSettingNote": "Cal desactivar les galetes de tercers",
+        "ThirdPartyCookieSettingTitle": "Galetes de tercers",
         "TimeAgo": "fa %s",
         "TimeFormat": "Format horari",
         "TimeOnPage": "Temps a la pàgina",
