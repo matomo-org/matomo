@@ -2,6 +2,7 @@
     "General": {
         "12HourClock": "orë 12-orëshe",
         "24HourClock": "orë 24-orëshe",
+        "AIAssistants": "Asistentë IA",
         "API": "API",
         "AbandonedCarts": "Shporta të Braktisura",
         "AboutPiwikX": "Rreth Matomo-s %s",
@@ -476,6 +477,8 @@
         "Testing": "Po testohet…",
         "ThankYouForUsingMatomo": "Faleminderit që përdorni Matomo-n",
         "TheMatomoTeam": "Ekipi i Matomo-s",
+        "ThirdPartyCookieSettingNote": "“Cookies” nga palë të treta duhen çaktivizuar",
+        "ThirdPartyCookieSettingTitle": "“Cookies” palësh të treta",
         "TimeAgo": "%s më parë",
         "TimeFormat": "Format kohe",
         "TimeOnPage": "Koha në faqe",
