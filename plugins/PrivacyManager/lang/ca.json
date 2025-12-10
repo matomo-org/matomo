@@ -185,6 +185,8 @@
         "OptOutRememberToTestStep4": "Si marqueu la casella de selecció per activar-se, hauria de mostrar el missatge d'activació.",
         "OptOutUseStandalone": "Utilitzeu un codi autocontingut per configurar la desactivació",
         "OptOutUseTracker": "Utilitzeu el codi de seguiment de Matomo per configurar la desactivació",
+        "OrderIdAnonymizationSettingRequirementNote": "Els ID de comanda han de ser anonimitzats",
+        "OrderIdAnonymizationSettingTitle": "Anonimització de l'ID de la comanda",
         "Output": "Sortida: %1$s",
         "PleaseEnableVisitorLogsProfiles": "Si necessiteu accedir a les dades d'aquest lloc, activeu els registres de visitants o els perfils de visitants a la %1$sconfiguració del lloc%2$s.",
         "PleaseEnableVisitorLogsProfilesSites": "Si necessiteu accedir a les dades d'aquests llocs, activeu els registres de visitants o els perfils de visitants a la %1$sconfiguració del lloc%2$s.",
