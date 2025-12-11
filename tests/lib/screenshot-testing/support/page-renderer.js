@@ -108,6 +108,12 @@ PageRenderer.prototype.createPage = async function () {
     this.browserContext = await this.browser.createIncognitoBrowserContext();
     this.webpage = await this.browserContext.newPage();
 
+    if (this.activeRequestCount > 0) {
+      console.log('! activeRequestCount is ' + this.activeRequestCount + '. Resetting it as new browserContext has started.');
+      // unset active request count, to ensure unresolved requests from previous suites don't cause any issues
+      this.activeRequestCount = 0;
+    }
+
     PAGE_PROPERTIES_TO_PROXY.forEach((propertyName) => {
       Object.defineProperty(this, propertyName, {
         value: this.webpage[propertyName],
