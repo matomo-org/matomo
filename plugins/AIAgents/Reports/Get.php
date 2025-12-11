@@ -31,8 +31,8 @@ class Get extends Report
         parent::init();
 
         $this->name          = Piwik::translate('AIAgents_AIAgentVisits');
-        $this->categoryId    = 'AIAgents_AIAssistants';
-        $this->subcategoryId = 'General_Overview';
+        $this->categoryId    = 'General_AIAssistants';
+        $this->subcategoryId = 'AIAgents_AIAgentsOverview';
         $this->order         = 10;
 
         $this->processedMetrics = [

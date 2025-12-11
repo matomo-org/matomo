@@ -9,9 +9,6 @@
 
 describe("SegmentSelectorEditorTest", function () {
     var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
-
-    this.timeout(0);
-
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
@@ -353,5 +350,55 @@ describe("SegmentSelectorEditorTest", function () {
 
         await page.click('.segmentationContainer .title');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments_saved');
+    });
+
+    it.skip('should not allow comparing segments more than the limit set', async function() {
+      const configLimit = 2;
+      const maxSegments = configLimit + 1;
+      testEnvironment.overrideConfig('General', 'data_comparison_segment_limit', configLimit);
+      testEnvironment.save();
+      // Need to reload here since overrideConfig above does not really
+      // reflect well when the config is used in javascript
+      await page.reload();
+      await page.waitForNetworkIdle();
+      // We grab the max limit message
+      const maxLimitMessage = await page.evaluate(
+        (limit) => _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]),
+      maxSegments);
+
+      // We check that the title attribute is still not the max limit message
+      let title = await page.$eval('.segmentationContainer .segmentList li:last-child', (el) => el.getAttribute('title'));
+      expect(title).to.not.equal(maxLimitMessage);
+
+      await page.waitForSelector('.segmentationContainer');
+      // We check that the number of <li> elements is greater than the limit we set
+      const liElemLength = await page.$$eval('.segmentListContainer .segmentList li', (e) => e.length);
+      expect(liElemLength).to.be.greaterThan(maxSegments);
+
+      // We check that the number of segments compared is 1 at the start
+      let comparedCount = await page.$$eval(
+        '.segmentListContainer .segmentList li.comparedSegment',
+        (nodes) => nodes.length,
+      );
+      expect(comparedCount).to.equal(1);
+
+      // We want to click all the segments so that we can check that it stops at the limit
+      for (let i=0; i<liElemLength; i++) {
+        await page.click('.segmentationContainer .title');
+        const segments = await page.$$('.segmentListContainer .segmentList li span.compareSegment');
+        await segments[i].click();
+        await page.waitForTimeout(50);
+      }
+
+      // We check that the number of segments compared is now equal to the limit we set
+      comparedCount = await page.$$eval(
+        '.segmentListContainer .segmentList li.comparedSegment',
+        (nodes) => nodes.length,
+      );
+      expect(comparedCount).to.equal(maxSegments);
+
+      // Last we check that the title attribute has changed to reflect the limit has been reached
+      title = await page.$eval('.segmentationContainer .segmentList li:last-child', (el) => el.getAttribute('title'));
+      expect(title).to.equal(maxLimitMessage);
     });
 });

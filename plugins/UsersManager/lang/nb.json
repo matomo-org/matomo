@@ -138,7 +138,7 @@
         "MenuUserSettings": "Brukerinnstillinger",
         "MenuUsers": "Brukere",
         "NewsletterSignupFailureMessage": "Noe gikk galt. Kunne ikke melde deg på nyhetsbrevet.",
-        "NewsletterSignupMessage": "Abonner på nyhetsbrevet vårt for regelmessig info om Matomo. Du kan oppheve abonnementet når som helst. Denne tjenesten bruker MadMimi. Lær mer om det på %1$sMatomo sin personvernspraksis-side%2$s.",
+        "NewsletterSignupMessage": "Abonner på nyhetsbrevet vårt for regelmessig info om Matomo. Du kan oppheve abonnementet når som helst. Lær mer om det på %1$sMatomo sin personvernspraksis-side%2$s.",
         "NewsletterSignupSuccessMessage": "Topp, du har registrert deg. Du vil bli kontaktet snart.",
         "NewsletterSignupTitle": "Nyhetsbrevsregistrering",
         "NoAccessWarning": "Denne brukeren har ikke blitt innvilget tilgang til en nettside. Når vedkommende prøver å logge inn vil kun en feilmelding vises. Forhindre dette ved å legge til tilgang til en nettside nedenfor.",

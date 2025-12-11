@@ -4,11 +4,34 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 5.7.0
+
+### New Features
+
+* New event `PrivacyManager.deleteDataSubjectsForDeletedSites` to enable plugins to be GDPR compliant, when tracking visit unrelated data.
+
+### HTTP Tracking API
+
+* The new Bot Tracking plugin now supports analyzing requests from AI bots. See https://developer.matomo.org/api-reference/tracking-api#tracking-bots for supported tracking parameters.
+
+
 ## Matomo 5.6.0
 
 ### New Features
 
 * Themes can now customize the focus ring colors using `@theme-color-focus-ring` (used globally) and `@theme-color-focus-ring-alternative` (used in header navigation on solid background).
+
+
+## Matomo 5.5.0
+
+### Breaking Changes
+
+* Annotations were moved to their own database table. Plugins trying to access annotations without using the API might need to be updated.
+* AI Assistants are now detected as new referrer type (ID=8), which allows improved reports and better segmentation
+
+### JavaScript Tracker
+
+* A new method `setReferralUrlMaxLength` has been added. It allows limiting the referral cookie size.
 
 
 ## Matomo 5.4.0

@@ -268,6 +268,8 @@
         "CampaignTrackingParametersDisabledSettingTitle": "Campaign tracking parameters disabled",
         "CampaignTrackingParametersDisabledSettingRequirementNote": "All campaign tracking parameters must be discarded.",
         "ReferrerAnonymizationSettingTitle": "Referrer anonymisation",
-        "ReferrerAnonymizationSettingRequirementNote": "Only the referrer host or referrer type may be collected."
+        "ReferrerAnonymizationSettingRequirementNote": "Only the referrer host or referrer type may be collected.",
+        "OrderIdAnonymizationSettingTitle": "Order ID anonymization",
+        "OrderIdAnonymizationSettingRequirementNote": "Order IDs must be anonymized"
     }
 }

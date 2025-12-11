@@ -1,8 +1,8 @@
 {
     "Annotations": {
         "AddAnnotationsFor": "Dodaj bilješke za %s…",
-        "AnnotationOnDate": "Interaktivne bilješke na %1$s: %2$s",
-        "Annotations": "Interaktivne bilješke",
+        "AnnotationOnDate": "Bilješke za %1$s: %2$s",
+        "Annotations": "Bilješke",
         "ClickToDelete": "Kliknite izbrisati ovu obavijest.",
         "ClickToEdit": "Klikni za urediti ovu obavijest.",
         "ClickToEditOrAdd": "Klikni za uređivanje ili dodavanje nove bilješke.",

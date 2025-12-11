@@ -3,6 +3,7 @@
         "2FA": "2FA",
         "Active": "Povolen",
         "AddExistingUser": "Přidat existujícího uživatele",
+        "AddNewUser": "Přidat novéhoho uživatele",
         "AddSuperuserAccessConfirm": "Přidělení superuživatelského přístupu uživateli umožní mít plnou kontrolu nad systémem Matomo a mělo by se provádět střídmě.",
         "AddUserNoInitialAccessError": "Novým uživatelům musí být přidělen přístup k webové stránce, nastavte prosím parametr 'initialIdSite'.",
         "AllUsersAreSelected": "Všech %1$s je vybráno.",

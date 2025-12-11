@@ -1,0 +1,5 @@
+{
+    "BotTracking": {
+        "PluginDescription": "Track and analyze visits from AI bots such as ChatGPT-User and similar. This plugin helps you understand how AI-driven tools interact with your website by logging and reporting bot-triggered requests."
+    }
+}

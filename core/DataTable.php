@@ -1800,7 +1800,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * Sets metadata, erasing existing values.
      *
-     * @param array $values Array mapping metadata names with metadata values.
+     * @param array $metadata Array mapping metadata names with metadata values.
      */
     public function setAllTableMetadata($metadata)
     {

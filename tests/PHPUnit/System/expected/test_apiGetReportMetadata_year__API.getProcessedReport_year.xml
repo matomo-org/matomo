@@ -22,7 +22,7 @@
 			<nb_actions_per_visit>Nombre moyen d'actions (affichages de page, recherches, téléchargements ou liens sortants) qui ont été effectuées durant les visites.</nb_actions_per_visit>
 			<avg_time_on_site>Durée moyenne d'une visite.</avg_time_on_site>
 			<bounce_rate>Pourcentage de visites qui ont eu un affichage unique de page. Cela signifie que le visiteur a quitté le site directement depuis la page d'entrée.</bounce_rate>
-			<conversion_rate>Le pourcentage de visites qui ont déclenché une conversion d'objectif.</conversion_rate>
+			<conversion_rate>Le taux de conversion correspond au pourcentage de visites ayant généré une conversion. Il est calculé à partir du nombre de visites ayant permis d'atteindre au moins un objectif. Les visites ayant permis d'atteindre plusieurs objectifs ne sont comptabilisées qu'une seule fois dans le calcul du taux de conversion.</conversion_rate>
 		</metricsDocumentation>
 		<processedMetrics>
 			<nb_actions_per_visit>Actions par visite</nb_actions_per_visit>

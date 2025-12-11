@@ -257,7 +257,7 @@ export default defineComponent({
           this.dimension = {
             idsite: Matomo.idSite,
             name: '',
-            active: false,
+            active: true,
             extractions: [],
             scope: this.dimensionScope,
             case_sensitive: true,

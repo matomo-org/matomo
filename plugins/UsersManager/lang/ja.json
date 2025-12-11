@@ -139,7 +139,7 @@
         "MenuUserSettings": "ユーザー設定",
         "MenuUsers": "ユーザー",
         "NewsletterSignupFailureMessage": "登録に失敗しました。",
-        "NewsletterSignupMessage": "ニュースレターを購読して、Matomoに関する定期的な情報を入手してください。 いつでも退会することができます。 このサービスはMadMimiを使用しています。 詳細については、%1$sMatomoのプライバシーポリシーページ%2$sをご覧ください。",
+        "NewsletterSignupMessage": "ニュースレターを購読して、Matomoに関する定期的な情報を入手してください。 いつでも退会することができます。 詳細については、%1$sMatomoのプライバシーポリシーページ%2$sをご覧ください。",
         "NewsletterSignupSuccessMessage": "登録が完了しました。",
         "NewsletterSignupTitle": "ニュースレターに登録",
         "NoAccessWarning": "このユーザーはウェブサイトへのアクセスを許可されていません。 ログインすると、エラーメッセージが表示されます。 これを防ぐには、以下のウェブサイトへのアクセスを追加します。",

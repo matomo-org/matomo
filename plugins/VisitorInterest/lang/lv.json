@@ -7,10 +7,10 @@
         "NPages": "%s lapas",
         "OnePage": "1 lapa",
         "VisitNum": "Apmeklējuma numurs",
-        "visitsByVisitCount": "Apmeklējumu pēc apmeklējuma numura",
         "VisitsPerDuration": "Apmeklējumi pēc apmeklējuma ilguma",
         "VisitsPerNbOfPages": "Apmeklējumi pēc lapu skaita",
         "WidgetLengths": "Apmeklējumu garums",
-        "WidgetPages": "Lapas apmeklējumā"
+        "WidgetPages": "Lapas apmeklējumā",
+        "visitsByVisitCount": "Apmeklējumu pēc apmeklējuma numura"
     }
 }

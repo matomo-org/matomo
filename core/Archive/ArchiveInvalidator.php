@@ -101,7 +101,7 @@ class ArchiveInvalidator
         foreach ($values as $name => $value) {
             $suffix = substr($name, strpos($name, $this->rememberArchivedReportIdStart));
             $suffix = str_replace($this->rememberArchivedReportIdStart, '', $suffix);
-            list($idSite, $dateStr) = explode('_', $suffix);
+            [$idSite, $dateStr] = explode('_', $suffix);
 
             $all[$idSite][$dateStr] = $value;
         }
@@ -285,7 +285,7 @@ class ArchiveInvalidator
     ) {
         $plugin = null;
         if ($name && strpos($name, '.') !== false) {
-            list($plugin) = explode('.', $name);
+            [$plugin] = explode('.', $name);
         } elseif ($name) {
             $plugin = $name;
         }
@@ -542,7 +542,7 @@ class ArchiveInvalidator
      * your plugin is deactivated or a report deleted.
      *
      * @param int|int[] $idSite one or more site IDs or 'all' for all site IDs
-     * @param string $string
+     * @param string $plugin
      * @param string|null $report
      */
     public function removeInvalidations($idSite, $plugin, $report = null)
@@ -700,7 +700,7 @@ class ArchiveInvalidator
 
     /**
      * @param int[] $idSites
-     * @param string[][][] $dates
+     * @param array<string, array<string, Period>> $dates
      * @throws \Exception
      */
     private function markArchivesInvalidated(
@@ -778,7 +778,6 @@ class ArchiveInvalidator
     }
 
     /**
-     * @param array $idSites
      * @param array $yearMonths
      */
     private function markInvalidatedArchivesForReprocessAndPurge($yearMonths)

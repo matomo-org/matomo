@@ -467,7 +467,7 @@ class PasswordResetter
      *
      * Derived classes can override this method to provide custom user querying logic.
      *
-     * @param string $loginMail user login or email address
+     * @param string $loginOrMail user login or email address
      * @return array `array("login" => '...', "email" => '...', "password" => '...')` or null, if user not found.
      */
     protected function getUserInformation($loginOrMail)

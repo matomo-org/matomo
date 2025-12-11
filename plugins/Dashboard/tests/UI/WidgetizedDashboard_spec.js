@@ -8,8 +8,6 @@
  */
 
 describe("WidgetizedDashboard", function () {
-    this.timeout(0);
-
     var url = "?module=Widgetize&action=iframe&idSite=1&period=year&date=2012-08-09&moduleToWidgetize=Dashboard&"
             + "actionToWidgetize=index&idDashboard=1";
 
@@ -171,7 +169,7 @@ describe("WidgetizedDashboard", function () {
     it("should remove widget when remove widget icon is clicked", async function() {
         await page.click('.ui-dialog-titlebar-close'); // close row evolution
 
-        var widget = '[id="widgetActionsgetPageUrls"]';
+        var widget = '#dashboardWidgetsArea [id="widgetActionsgetPageUrls"]';
 
         var titlebar = await page.$(widget + ' .widgetTop');
         await titlebar.hover();

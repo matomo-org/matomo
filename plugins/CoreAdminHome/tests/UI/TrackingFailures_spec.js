@@ -6,8 +6,6 @@
  */
 
 describe("TrackingFailures", function () {
-    this.timeout(0);
-
     this.fixture = 'Piwik\\Tests\\Fixtures\\InvalidVisits';
 
     var manageUrl = '?module=CoreAdminHome&action=trackingFailures&idSite=1&period=day&date=today';

@@ -2,11 +2,42 @@
   padding: 0 15px;
   display: inline-block;
 
+  .menuDropdown .title .title-label{
+    padding-right: 5px;
+  }
   .items {
     margin-left: -50px;
   }
 
   .borderedControl {
     transition: box-shadow 0s !important;
+  }
+}
+@media (max-width: 992px) {
+  .languageSelection {
+    padding: 0 32px;
+    width: 100%;
+    .items {
+      margin-left: 0;
+    }
+    .menuDropdown .title {
+      .title-label{
+        color: #212121;
+        font-size: 14px;
+      }
+      .icon-chevron-down {
+        color: #212121;
+      }
+    }
+  }
+}
+
+nav .nav-wrapper .languageSelection {
+  .menuDropdown {
+    display: block;
+    padding-right: 0;
+  }
+  .title {
+    display: block;
   }
 }

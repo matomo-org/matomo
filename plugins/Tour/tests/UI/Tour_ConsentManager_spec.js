@@ -5,8 +5,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 describe("Tour_ConsentManager", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Tests\\Fixtures\\EmptySite";
 
     var generalParams = 'idSite=1&period=day&date=2010-01-03',

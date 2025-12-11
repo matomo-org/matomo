@@ -1,10 +1,11 @@
 {
     "CoreHome": {
-        "CheckForUpdates": "Provjeri nadogradnje",
+        "CheckForUpdates": "Traži nove verzije",
         "ChooseWebsite": "Odaberi web-stranicu",
         "Default": "standardno",
         "EndDate": "Datum kraja",
         "LearnMoreFullStop": "%1$sSaznaj više.%2$s",
+        "ReadMoreOnlineGuide": "Saznaj više o ovoj temi u online vodiču.",
         "ReportLowercase": "izvještaj",
         "StartDate": "Datum početka"
     }

@@ -3,6 +3,7 @@
         "Email": "E-Mail",
         "Extension": "proširenje",
         "Filesystem": "Datotečni sustav",
-        "Password": "Lozinka"
+        "Password": "Lozinka",
+        "SystemCheckGDHelp": "Mali linijski dijagrami i slikovni dijagrami (u mobilnoj Matomo aplikaciji i izvještajima putem e-pošte) neće raditi."
     }
 }

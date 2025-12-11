@@ -270,10 +270,8 @@ class GoalManager
     /**
      * Records one or several goals matched in this request.
      *
-     * @param Visitor $visitor
-     * @param array $visitorInformation
-     * @param array $visitCustomVariables
-     * @param Action $action
+     * @param VisitProperties $visitProperties
+     * @param Request $request
      */
     public function recordGoals(VisitProperties $visitProperties, Request $request)
     {
@@ -338,10 +336,10 @@ class GoalManager
      * Records an Ecommerce conversion in the DB. Deals with Items found in the request.
      * Will deal with 2 types of conversions: Ecommerce Order and Ecommerce Cart update (Add to cart, Update Cart etc).
      *
+     * @param VisitProperties $visitProperties
+     * @param Request $request
      * @param array $conversion
-     * @param Visitor $visitor
-     * @param Action $action
-     * @param array $visitInformation
+     * @param Action|null $action
      */
     protected function recordEcommerceGoal(VisitProperties $visitProperties, Request $request, $conversion, $action)
     {
@@ -712,10 +710,10 @@ class GoalManager
     /**
      * Records a standard non-Ecommerce goal in the DB (URL/Title matching),
      * linking the conversion to the action that triggered it
-     * @param $goal
-     * @param Visitor $visitor
-     * @param Action $action
-     * @param $visitorInformation
+     * @param VisitProperties $visitProperties
+     * @param Request $request
+     * @param array $goal
+     * @param Action|null $action
      */
     protected function recordStandardGoals(VisitProperties $visitProperties, Request $request, $goal, $action)
     {

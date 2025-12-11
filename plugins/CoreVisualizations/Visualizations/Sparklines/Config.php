@@ -207,7 +207,7 @@ class Config extends \Piwik\ViewDataTable\Config
      *
      * @param array $requestParamsForSparkline You need to at least set a module / action eg
      *                                         array('columns' => array('nb_visit'), 'module' => '', 'action' => '')
-     * @param int|float|string|array $value Either the metric value or an array of values.
+     * @param int|float|string|array $metricInfos Either the metric value or an array of values.
      * @param string|array $description Either one description or an array of descriptions. If an array, both
      *                                         $value and $description need the same amount of array entries.
      *                                         $description[0] should be the description for $value[0].

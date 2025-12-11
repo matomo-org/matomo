@@ -8,8 +8,6 @@
  */
 
 describe("CoreUpdaterDb", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Plugins\\CoreUpdater\\tests\\Fixtures\\DbUpdaterTestFixture";
 
     const updateDetailsToken = 'uiTestUpdateDetailsToken'

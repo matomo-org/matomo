@@ -35,6 +35,7 @@
         "Optional": "वैकल्पिक",
         "Password": "पासवर्ड",
         "PasswordDoNotMatch": "पासवर्ड मेल नहीं खाते",
+        "PasswordRepeat": "पासवर्ड (दोहराने)",
         "PercentDone": "%s %% समाप्त",
         "PleaseFixTheFollowingErrors": "निम्न त्रुटियों को ठीक करें",
         "Requirements": "Matomo आवश्यकताएँ",

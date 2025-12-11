@@ -3,6 +3,9 @@
         "PluginDescription": "Mostra i report utente",
         "ThereIsNoDataForThisReportHelp": "%1$sLeggi la guida utente per imparare come generare dati per questo report.%2$s",
         "UserId": "Id Utente",
+        "UserIdDisabledSettingRequirementNote": "La raccolta dell'ID utente durante il tracciamento deve essere disattivata.",
+        "UserIdDisabledSettingTitle": "ID utente disabilitato",
+        "UserIdSegmentHelp": "qualsiasi stringa univoca non vuota che identifichi l'utente (ad esempio un indirizzo email o un nome utente).",
         "UserReportDocumentation": "Mostra le visite e altre metriche generali per ogni singolo ID utente.",
         "UserReportTitle": "ID Utente",
         "VisitorsUserSubcategoryHelp": "Il report ID Utente mostra le visite associate a tutti gli utenti registrati e connessi. Aiuta a comprendere l'utilizzo del sito web da parte di utenti specifici e ad identificare gli utenti più e meno attivi."

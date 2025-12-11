@@ -22,9 +22,15 @@ trait ConfigGetterTrait
     /**
      * @return T|null
      */
-    public static function getConfigValue()
+    public static function getConfigValue(int $idSite = null)
     {
-        $config = Config::getInstance()->{self::getConfigSection()};
+        $configKey = self::getConfigSection();
+
+        if ($idSite !== null) {
+            $configKey .= '_' . $idSite;
+        }
+
+        $config = Config::getInstance()->{$configKey};
 
         if (is_null($config) || !array_key_exists(self::getConfigSettingName(), $config)) {
             return null;

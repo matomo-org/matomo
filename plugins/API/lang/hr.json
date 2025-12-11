@@ -7,7 +7,7 @@
         "KeepTokenSecret": "Ovaj token_auth je jednako tajan poput tvoje prijave i lozinke, %1$s nemoj ga dijeliti%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Saznaj više o često korištenim pojmovima za maksimalno korištenje Matomo analitika.",
         "LoadedAPIs": "%s API-ji su učitani",
-        "MainMetricsReportDocumentation": "Ovaj izvještaj pruža pregled najvažnijih metričnih podataka u svim kategorijama i dodacima.",
+        "MainMetricsReportDocumentation": "Ovaj izvještaj pruža pregled najvažnijih mjernih podataka u svim kategorijama i dodacima.",
         "MoreInformation": "Više informacija o dostupnim Matomo API-jima potraži na stranicama %1$sUvodu u Matomo API%2$s i %3$sReferenca Matomo API-ja%4$s.",
         "PluginDescription": "Svi podaci u Matomo dostupni su putem jednostavnih API-ja. Ovaj dodatak je ulazna točka web-usluge koju možeš pozvati za dobivanje tvojih podataka web analitike u formatima XML, JSON, PHP, CSV i sl.",
         "ReportingApiReference": "Referenca API-ja za izvještavanje",

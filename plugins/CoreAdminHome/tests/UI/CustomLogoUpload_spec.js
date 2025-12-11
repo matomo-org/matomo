@@ -21,8 +21,6 @@ describe("CustomLogoUpload", function () {
     const logoTmpPath = path.join(PIWIK_INCLUDE_PATH, "/tmp/logos/ba16a2cfb817c43df28fde559b8ee4774f422602/logo.png");
     const faviconTmpPath = path.join(PIWIK_INCLUDE_PATH, "/tmp/logos/ba16a2cfb817c43df28fde559b8ee4774f422602/favicon.png");
 
-    this.timeout(0);
-
     before(function () {
         testEnvironment.optionsOverride = {
             branding_use_custom_logo: '1'

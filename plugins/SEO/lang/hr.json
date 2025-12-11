@@ -2,7 +2,7 @@
     "SEO": {
         "Bing_IndexedPages": "Indeksirane stranice na Bingu",
         "DomainAge": "Starost domene",
-        "PluginDescription": "Ovaj dodatak izdvaja i prikazuje SEO metrike: Google Pagerank, broj indeksiranih stranica i povratne poveznice trenutačno odabrane web-stranice.",
+        "PluginDescription": "Ovaj dodatak izdvaja i prikazuje mjerne podatke zs SEO: Google Pagerank, broj indeksiranih stranica i povratne poveznice trenutačno odabrane web-stranice.",
         "Rank": "Rang",
         "SEORankingsFor": "SEO rangiranja za %s",
         "SeoRankings": "SEO rangiranja"

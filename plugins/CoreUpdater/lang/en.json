@@ -101,6 +101,7 @@
         "SkipCacheClear": "Skipping clearing caches.",
         "UpdateDetailsHidden1": "Update details are hidden for security. To view them:",
         "UpdateDetailsHidden2": "Add the %1$s GET parameter to the URL (%2$s in %3$s), or",
-        "UpdateDetailsHidden3": "Run the update via command line."
+        "UpdateDetailsHidden3": "Run the update via command line.",
+        "ReactivatedPlugins": "Reactivated plugins: %1$s"
     }
 }

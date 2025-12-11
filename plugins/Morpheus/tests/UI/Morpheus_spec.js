@@ -6,8 +6,6 @@
  */
 
 describe("Morpheus", function () {
-    this.timeout(0);
-
     var url = "?module=Morpheus&action=demo";
 
     before(function () {

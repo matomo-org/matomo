@@ -182,7 +182,7 @@ class Factory
      * Drops an existing database table column.
      *
      * @param string $table  Unprefixed database table name, eg 'log_visit'.
-     * @param array $columnName  An array of column names that should be dropped eg ['column1', 'column2'].
+     * @param array $columnNames  An array of column names that should be dropped eg ['column1', 'column2'].
      * @return DropColumns
      */
     public function dropColumns($table, $columnNames)
@@ -332,7 +332,7 @@ class Factory
      * Drops an existing index from a database table.
      *
      * @param string $table  Unprefixed database table name, eg 'log_visit'.
-     * @return DropIndex
+     * @return DropPrimaryKey
      */
     public function dropPrimaryKey($table)
     {

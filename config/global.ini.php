@@ -215,6 +215,10 @@ enabled = 0
 ; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Matomo URL
 disable_merged_assets = 0
 
+; if set to 1, the sourcemaps for built vue files will be allowed to be served.
+; this is useful for debugging vue files in the browser
+allow_vue_sourcemaps = 0
+
 [General]
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Matomo instances
@@ -426,11 +430,6 @@ enable_sql_optimize_queries = 1
 ; If you are pre-processing custom ranges using CLI task to make them easily available in UI,
 ; you can prevent this action from happening by setting this parameter to value bigger than 1
 purge_date_range_archives_after_X_days = 1
-
-; MySQL minimum required version
-; note: timezone support added in 4.1.3
-minimum_mysql_version = 4.1
-
 
 ; Minimum advised memory limit in Mb in php.ini file (see memory_limit value)
 ; Set to "-1" to always use the configured memory_limit value in php.ini file.
@@ -1301,6 +1300,7 @@ Plugins[] = CustomDimensions
 Plugins[] = JsTrackerInstallCheck
 Plugins[] = FeatureFlags
 Plugins[] = AIAgents
+Plugins[] = BotTracking
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics

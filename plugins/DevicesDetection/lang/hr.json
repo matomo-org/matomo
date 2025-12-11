@@ -14,7 +14,9 @@
         "DevicesDetection": "Uređaji posetitelja",
         "MobileApp": "Mobilna aplikacija",
         "UserAgent": "Korisnički agent",
+        "WidgetBrowserVersionsDocumentation": "Ovaj izvještaj sadrži informacije o vrsti preglednika koji su tvoji posjetitelji koristili. Svaka verzija preglednika je navedena zasebno.",
         "WidgetBrowsers": "Pretraživać posjetitelja",
+        "WidgetBrowsersDocumentation": "Ovaj izvještaj sadrži informacije o vrsti preglednika koji su tvoji posjetitelji koristili.",
         "dataTableLabelTypes": "Vrsta"
     }
 }

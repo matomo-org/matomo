@@ -10,8 +10,6 @@
 describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     var parentSuite = this;
 
-    this.timeout(0);
-
     var generalParams = 'idSite=1&period=year&date=2012-08-09',
         idSite2Params = 'idSite=2&period=year&date=2012-08-09',
         idSite3Params = 'idSite=3&period=year&date=2012-08-09',

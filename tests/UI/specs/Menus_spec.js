@@ -92,32 +92,46 @@ describe("Menus", function () {
         expect(await element.screenshot()).to.matchImage('admin_changed');
     });
 
-    // top menu on mobile
-    it('should load the admin reporting menu correctly on mobile', async function() {
-        page.webpage.setViewport({ width: 768, height: 512 });
-        await page.goto("?" + generalParams + "&module=CoreAdminHome&action=index");
-        await page.waitForSelector('.pageWrap');
+    it('should load the admin left menu correctly on mobile', async function() {
+        await page.webpage.setViewport({ width: 815, height: 1500 });
+        await page.goto("?module=CoreAdminHome&action=home");
+        await page.waitForNetworkIdle();
+        await page.click('[data-target="mobile-left-menu"]');
+        await page.waitForTimeout(150);
+        await page.click('ul#mobile-left-menu > li:nth-child(1) a');
+        await page.click('ul#mobile-left-menu > li:nth-child(2) a');
+        await page.click('ul#mobile-left-menu > li:nth-child(3) a');
+        await page.click('ul#mobile-left-menu > li:nth-child(4) a');
+        await page.click('ul#mobile-left-menu > li:nth-child(5) a');
+        await page.click('ul#mobile-left-menu > li:nth-child(6) a');
+        await page.waitForTimeout(500);
+
+        expect(await page.screenshotSelector('#mobile-left-menu')).to.matchImage('mobile_left_admin');
+    });
+
+    it('should load the admin top menu correctly on mobile', async function() {
+        await page.webpage.setViewport({ width: 768, height: 512 });
+        await page.reload();
+        await page.waitForNetworkIdle();
         await page.evaluate(function(){
             $('.activateTopMenu>span').click();
         });
         await page.waitForTimeout(250);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_top');
+        expect(await page.screenshotSelector('#mobile-top-menu')).to.matchImage('mobile_top');
     });
 
-    // left menu on mobile
-    it('should load the admin reporting menu correctly on mobile', async function() {
-        page.webpage.setViewport({ width: 768, height: 512 });
-        await page.goto("?" + generalParams + "&module=CoreHome&action=index");
-        await page.waitForSelector('.widget');
+    it('should load the left reporting menu correctly on mobile', async function() {
+        await page.webpage.setViewport({ width: 768, height: 1200 });
+        await page.goto("?" + generalParams + "&module=CoreHome&action=index#?category=General_Visitors&subcategory=General_Overview");
         await page.waitForNetworkIdle();
         await page.evaluate(function(){
             $('.activateLeftMenu>span').click();
         });
         await page.waitForTimeout(250);
         await (await page.jQuery('#mobile-left-menu>li>ul:contains(Goals)')).click();
-        await page.waitForTimeout(300);
+        await page.waitForTimeout(500);
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('mobile_left');
+        expect(await page.screenshotSelector('#mobile-left-menu')).to.matchImage('mobile_left');
     });
 });

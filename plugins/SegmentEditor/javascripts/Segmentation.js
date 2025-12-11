@@ -86,19 +86,41 @@ Segmentation = (function($) {
               content: title,
             });
         };
+        // We will listen to changes in the Segment Comparison Store
+        // so we can mark compared segments properly. This will now include deletion of compared segments.
+        piwik.on('piwikComparisonsChanged', function () {
+          self.markComparedSegments();
+        });
 
         segmentation.prototype.markComparedSegments = function() {
             var comparisonService = window.CoreHome.ComparisonsStoreInstance;
             var comparedSegments = comparisonService.getSegmentComparisons().map(function (comparison) {
                 return comparison.params.segment;
             });
-
             $('div.segmentList ul li[data-definition]', this.target).removeClass('comparedSegment').filter(function () {
                 var definition = $(this).attr('data-definition');
                 return comparedSegments.indexOf(definition) !== -1 || comparedSegments.indexOf(decodeURIComponent(definition)) !== -1;
             }).each(function () {
                 $(this).addClass('comparedSegment');
             });
+            self.checkIfComparedSegmentsHasReachedLimit();
+        };
+        segmentation.prototype.checkIfComparedSegmentsHasReachedLimit = function() {
+            const limit = piwik.config.data_comparison_segment_limit + 1;
+            const comparisonService = window.CoreHome.ComparisonsStoreInstance;
+            const comparedSegmentsLength = comparisonService.getSegmentComparisons().length;
+            $('div.segmentList ul li[data-definition] span.compareSegment').each(function() {
+              if (comparedSegmentsLength >= limit) {
+                $(this).addClass('no-click');
+                $(this).parent().attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
+              } else {
+                $(this).removeClass('no-click');
+                var idSegment = $(this).parent().attr('data-idsegment');
+                const title = getSegmentName(getSegmentFromId(idSegment));
+                $(this).parent().attr('title', title);
+              }
+            });
+            return false;
         };
 
         segmentation.prototype.markCurrentSegment = function(){
@@ -408,20 +430,17 @@ Segmentation = (function($) {
             self.target.on('click', '.compareSegment', function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-
                 var comparisonService = window.CoreHome.ComparisonsStoreInstance;
                 comparisonService.addSegmentComparison({
                     segment: $(e.target).closest('li').data('definition'),
                 });
-
-                self.markComparedSegments();
-
                 closeAllOpenLists();
             });
 
-            self.target.on("click", ".segmentList li", function (e) {
-                if ($(e.currentTarget).hasClass("grayed") !== true) {
-                    var segmentDefinition = $(this).data("definition");
+            self.target.on("click", ".segmentList li span.segname", function (e) {
+                let parentLi = $(this).parent();
+                if (parentLi.hasClass("grayed") !== true) {
+                    var segmentDefinition = $(parentLi).data("definition");
 
                     if (!piwikHelper.isReportingPage()) {
                         // we update segment on location change success

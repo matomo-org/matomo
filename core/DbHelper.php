@@ -166,6 +166,7 @@ class DbHelper
      */
     public static function checkDatabaseVersion()
     {
+        Schema::getInstance()->unsetSchema();
         Db::get()->checkServerVersion();
     }
 

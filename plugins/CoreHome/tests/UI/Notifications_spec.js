@@ -8,8 +8,6 @@
  */
 
 describe('Notifications', function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Tests\\Fixtures\\OneVisit";
 
     var url = "?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday";

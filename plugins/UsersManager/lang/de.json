@@ -170,7 +170,7 @@
         "MenuUserSettings": "Benutzereinstellungen",
         "MenuUsers": "Benutzer",
         "NewsletterSignupFailureMessage": "Hoppla, etwas ist schief gelaufen. Wir konnten Sie nicht für unseren Newsletter registrieren.",
-        "NewsletterSignupMessage": "Abonnieren Sie unseren Newsletter, um regelmäßig Informationen über Matomo zu erhalten. Deabonnieren ist jederzeit möglich. Dieser Dienst verwendet MadMimi. Erfahren Sie mehr in der %1$sDatenschutzerklärung%2$s.",
+        "NewsletterSignupMessage": "Abonnieren Sie unseren Newsletter, um regelmäßig Informationen über Matomo zu erhalten. Deabonnieren ist jederzeit möglich. Erfahren Sie mehr in der %1$sDatenschutzerklärung%2$s.",
         "NewsletterSignupSuccessMessage": "Super, Sie wurden erfolgreich registriert! Wir werden in Kürze von uns hören lassen.",
         "NewsletterSignupTitle": "Newsletter-Anmeldung",
         "NoAccessWarning": "Dieser Benutzer hat keinen Zugriff auf eine Webseite. Nach dem anmelden wird ihm eine Fehlermeldung angezeigt. Um dies zu verhindern, fügen Sie Zugriff zu einer untenstehenden Webseite hinzu.",

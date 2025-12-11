@@ -8,8 +8,6 @@
  */
 
 describe("Diagnostics", function () {
-    this.timeout(0);
-
     const url = "?module=Installation&action=systemCheckPage&idSite=1&period=day&date=yesterday";
 
     it("should load correctly", async function() {

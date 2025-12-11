@@ -37,7 +37,7 @@
     "chroma-js": "^0.6.3",
     "core-js": "^3.16.3",
     "css-loader": "^6.2.0",
-    "iframe-resizer": "^4.2.11",
+    "iframe-resizer": "~4.3.11",
     "jquery": "^3.6.3",
     "jquery-mousewheel": "^3.1.13",
     "jquery-ui-dist": "^1.13.1",

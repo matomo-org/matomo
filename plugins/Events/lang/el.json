@@ -32,8 +32,6 @@
         "MinValue": "Ελάχιστη Τιμή Συμβάντος",
         "MinValueDocumentation": "Ελάχιστη τιμή για το συμβάν",
         "PluginDescription": "Παρακολούθηση Συμβάντων και λήψη αναφορών για την δραστηριότητα των επισκεπτών σας.",
-        "SecondaryDimension": "Η δευτερεύουσα διάσταση είναι %s.",
-        "SwitchToSecondaryDimension": "Αλλαγή σε %s",
         "TopEvents": "Κορυφαία Γεγονότα",
         "TotalEvents": "Σύνολο συμβάντων",
         "TotalEventsDocumentation": "Συνολικός αριθμός συμβάντων",

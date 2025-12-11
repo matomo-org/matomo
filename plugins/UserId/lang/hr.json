@@ -6,7 +6,7 @@
         "UserIdDisabledSettingRequirementNote": "Prikupljanje korisničkih ID-a tijekom praćenja mora biti deaktivirano.",
         "UserIdDisabledSettingTitle": "Korisničiki ID deaktiviran",
         "UserIdSegmentHelp": "bilo koji neprazan jedinstveni znakovni niz koji identificira korisnika (kao što je e-mail adresa ili korisničko ime).",
-        "UserReportDocumentation": "Prikazuje posjete i ostale opće metrike za svaki pojedinačni korisnički ID.",
+        "UserReportDocumentation": "Prikazuje posjete i ostale opće mjerne podatke za svaki pojedinačni korisnički ID.",
         "UserReportTitle": "Korisnički ID-evi",
         "VisitorsUserSubcategoryHelp": "Izvještaj o korisničkom ID-u prikazuje posjete povezane sa svim tvojim registriranim i prijavljenim korisnicima. Dobij uvid u korištenje web-stranice od strane njenih specifičnih korisnika i saznaj tko su tvoji najaktivniji i najmanje aktivni korisnici."
     }

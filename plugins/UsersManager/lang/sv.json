@@ -143,7 +143,7 @@
         "MenuUserSettings": "Användarinställningar",
         "MenuUsers": "Användare",
         "NewsletterSignupFailureMessage": "Oj, något gick fel. Vi kunde inte registrera dig för nyhetsbrevet.",
-        "NewsletterSignupMessage": "Prenumerera på vårt nyhetsbrev för att få regelbunden information om Matomo. Du kan när som helst avsluta prenumerationen. Den här tjänsten använder MadMimi. Läs mer om det i %1$sMatomos integritetspolicy-sida%2$s.",
+        "NewsletterSignupMessage": "Prenumerera på vårt nyhetsbrev för att få regelbunden information om Matomo. Du kan när som helst avsluta prenumerationen. Läs mer om det i %1$sMatomos integritetspolicy-sida%2$s.",
         "NewsletterSignupSuccessMessage": "Super, du har registrerat dig! Vi kommer snart att höra av oss.",
         "NewsletterSignupTitle": "Registrering av nyhetsbrev",
         "NoAccessWarning": "Den här användare har inte fått tillgång till en webbplats. När de loggar in kommer de att se ett felmeddelande. För att förhindra detta så behöver du lägga till åtkomst till en webbplats nedan.",

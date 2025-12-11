@@ -10,7 +10,6 @@
         "PluginDescription": "Rapporter om besøkeres interesse: antall sider som ble vist, tid brukt på nettstedet, dager siden siste besøk, og mer.",
         "VisitNum": "Besøksnummer",
         "VisitsByDaysSinceLast": "Besøk etter dager siden siste besøk",
-        "visitsByVisitCount": "Besøk etter besøksnummer",
         "VisitsPerDuration": "Besøk per besøksvarighet",
         "VisitsPerNbOfPages": "Besøk per antall sider",
         "WidgetLengths": "Besøkslengde",
@@ -19,6 +18,7 @@
         "WidgetPagesDocumentation": "I denne rapporten kan du se hvor mange besøk som involverte et bestemt antall sidevisninger. I utgangspunktet vises rapporten som en stikkordsky, hvor mer vanlige antall sidevisninger vises med større skrift.",
         "WidgetVisitsByDaysSinceLast": "Besøk etter dager siden siste besøk",
         "WidgetVisitsByDaysSinceLastDocumentation": "I denne rapporten kan du se hvor mange besøk som kom fra besøkere som var på nettstedet for et visst antall dager siden.",
-        "WidgetVisitsByNumDocumentation": "I denne rapporten kan du se antallet besøk som var det N-te besøket, altså besøkere som besøkte ditt nettsted minst N ganger."
+        "WidgetVisitsByNumDocumentation": "I denne rapporten kan du se antallet besøk som var det N-te besøket, altså besøkere som besøkte ditt nettsted minst N ganger.",
+        "visitsByVisitCount": "Besøk etter besøksnummer"
     }
 }

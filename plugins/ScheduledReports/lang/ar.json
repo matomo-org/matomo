@@ -1,5 +1,6 @@
 {
     "ScheduledReports": {
+        "AggregateReportsFormat": "خيارات العرض",
         "AlsoSendReportToTheseEmails": "أرسل التقرير إلى هذه العناوين أيضاً (عنوان لكل سطر):",
         "AreYouSureDeleteReport": "هل ترغب حقاً في حذف هذا التقرير وجدولته الزمنية؟",
         "CancelAndReturnToReports": "إلغاء و%1$s رجوع إلى قائمة التقارير%2$s",

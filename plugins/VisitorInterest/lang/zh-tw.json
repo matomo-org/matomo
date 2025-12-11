@@ -14,9 +14,9 @@
         "VisitsPerNbOfPages": "單次訪問網頁瀏覽數",
         "WidgetLengths": "訪問停留時間",
         "WidgetLengthsDocumentation": "在這個報表中你可以看到網站停留時間的統計結果。預設以標籤雲格式來顯示，較多次的時間會顯示較大字體。",
-        "WidgetPages": "單次訪問瀏覽網頁數",
+        "WidgetPages": "每次访问浏览的页面数",
         "WidgetPagesDocumentation": "在這個報表中你可以看到網頁瀏覽數的統計結果。預設以標籤雲格式來顯示，較多次的時間會顯示較大字體。",
-        "WidgetVisitsByDaysSinceLast": "訪問間隔時間",
+        "WidgetVisitsByDaysSinceLast": "基于距离上次访问天数的统计",
         "WidgetVisitsByDaysSinceLastDocumentation": "在這個報表中你可以看到每次訪問與上次訪問間隔日期的統計列表。",
         "WidgetVisitsByNumDocumentation": "在這個報表中你可以看到訪客到訪次數的統計列表。",
         "visitsByVisitCount": "訪問次數"

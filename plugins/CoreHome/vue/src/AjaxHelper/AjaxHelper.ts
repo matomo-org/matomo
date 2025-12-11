@@ -543,6 +543,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
           return;
         }
 
+        const isInApp = !document.querySelector('#login_form');
+
+        if (xhr.status === 401 && isInApp) {
+          Matomo.helper.refreshAfter(0);
+          return;
+        }
+
         console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
 
         reject(xhr);

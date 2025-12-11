@@ -339,7 +339,7 @@ class SitesManager extends \Piwik\Plugin
     public static function getTrackerExcludedQueryParameters($website)
     {
         $excludedQueryParameters = $website['excluded_parameters'];
-        $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
+        $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal($website['idsite']);
 
         $excludedQueryParameters .= ',' . $globalExcludedQueryParameters;
         return self::filterBlankFromCommaSepList($excludedQueryParameters);
@@ -362,7 +362,6 @@ class SitesManager extends \Piwik\Plugin
 
     /**
      * Returns the hosts alias URLs
-     * @param int $idSite
      * @return array
      */
     private function getTrackerHosts($urls)

@@ -209,4 +209,10 @@ interface SchemaInterface
      * @return bool
      */
     public function hasReachedEOL(): bool;
+
+    /**
+     * Returns the minimum supported version set for the schema
+     * @return string
+     */
+    public function getMinimumSupportedVersion(): string;
 }

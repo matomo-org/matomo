@@ -55,7 +55,7 @@
         "VisitSummaryWithActionDetails": "Proveo/la je ukupno %1$s%2$s na web-stranici%3$s i izvršio/la %4$s radnji%5$s (%6$s) u %7$s posjetima%8$s.",
         "VisitedPages": "Posjećene stranice",
         "VisitorLog": "Dnevnik posjeta",
-        "VisitorLogDocumentation": "Ova tablica prikazuje najnovije posjete unutar odabranog datumskog raspona. Zadrži pokazivač miša iznad datuma posjeta i saznaj kada se dogodio najnoviji posjet. %1$s Ako datumski raspon uključuje danas, posjetitelje možeš vidjeti u stvarnom vremenu. %2$s Ovdje podazani poodaci su uvijek aktivni, bez obzira je li i koliko često koristiš arhiviranje cron-joba.",
+        "VisitorLogDocumentation": "Ova tablica prikazuje najnovije posjete unutar odabranog datumskog raspona. Zadrži pokazivač miša iznad datuma posjeta i saznaj kada se dogodio najnoviji posjet. %1$s Ako datumski raspon uključuje danas, posjetitelje možeš vidjeti u stvarnom vremenu. %2$s Ovdje prikazani poodaci su uvijek aktivni, bez obzira je li i koliko često koristiš arhiviranje cron-joba.",
         "VisitorLogNoDataMessagePurged": "Podaci su vjerojatno izbrisani jer je uključeno redovno brisanje starih neobrađenih podataka, a datum ovog izvještaja je stariji od %s dana. Superkorisnik može promijeniti ovu postavku u Administracija → Privatnost.",
         "VisitorLogPolicySettingRequirementNote": "Dnevnik posjeta mora biti deaktiviran.",
         "VisitorLogSubcategoryHelp1": "Dnevnik posjeta detaljno prikazuje svaki posjet koji tvoja web-stranica primi. Saznaj koje su radnje pojedinačni posjetitelji izvršili, kako su dospjeli na tvoju stranicu, ponešto o tome tko su i još više (uz istovremeno pridržavanje lokalnih propisa o privatnosti).",

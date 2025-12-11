@@ -27,7 +27,7 @@ class DateTimeFormatProvider
     /**
      * Returns the format pattern for the given format type
      *
-     * @param int $format  one of the format constants
+     * @param int|string $format one of the format constants
      *
      * @return string
      */
@@ -62,7 +62,7 @@ class DateTimeFormatProvider
                 return 'HH:mm:ss';
         }
 
-        return $format;
+        return (string)$format;
     }
 
     /**

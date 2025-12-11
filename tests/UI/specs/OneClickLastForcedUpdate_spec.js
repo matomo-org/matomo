@@ -18,23 +18,26 @@ describe("OneClickLastForcedUpdate", function () {
 
     var latestStableUrl = config.piwikUrl + '/latestStableInstall/index.php';
     var settingsUrl = latestStableUrl + '?module=CoreAdminHome&action=home&idSite=1&period=day&date=yesterday';
+    var pluginsUrl = latestStableUrl + '?module=CorePluginsAdmin&action=plugins';
 
     it('should show the new version available button in the admin screen', async function () {
         await page.goto(latestStableUrl);
+        await page.waitForNetworkIdle();
         await page.waitForSelector('#login_form_login', { visible: true });
 
         await page.type('#login_form_login', superUserLogin);
         await page.type('#login_form_password', superUserPassword);
-        await page.click('#login_form_submit');
+        await page.evaluate(function(){
+          $('#login_form_submit').click();
+        });
 
         await page.waitForNetworkIdle();
         await page.waitForSelector('.pageWrap');
 
         await page.goto(settingsUrl);
+        await page.waitForNetworkIdle();
 
         const element = await page.waitForSelector('#header_message', { visible: true });
-
-        await page.waitForTimeout(250);
 
         expect(await element.screenshot()).to.matchImage('latest_version_available');
     });
@@ -93,6 +96,15 @@ describe("OneClickLastForcedUpdate", function () {
         // avoid taking an unnecessary screenshot, as knowing we land on #site-without-data is enough
         await page.waitForSelector('#site-without-data', { visible: true });
         await page.evaluate(() => window.stop()); // stop ongoing requests
+    });
+
+    it('should have TreemapVisualization plugin active after the update', async function () {
+        await page.goto(pluginsUrl);
+        await page.waitForNetworkIdle();
+        await page.waitForSelector('#plugins', { visible: true });
+
+        const activatedPluginRow = page.$('tr.active-plugin:has(td.name a[name="TreemapVisualization"])');
+        expect(activatedPluginRow).to.be.ok;
     });
 
     it('should have a working cron archiving process', async function () {

@@ -99,7 +99,7 @@
         "MenuUserSettings": "Käyttäjäasetukset",
         "MenuUsers": "Käyttäjät",
         "NewsletterSignupFailureMessage": "Hups, jokin meni pieleen. Uutiskirjeen tilaus ei onnistunut.",
-        "NewsletterSignupMessage": "Tilaa uutiskirje saadaksesi säännöllisesti Matomoon liittyvää tietoa. Voit lopettaa uutiskirjeen tilauksen milloin hyvänsä. Tämä palvelu käyttää MadMimiä. Lisätietoja MadMimistä annetaan %1$stietosuojasivullamme%2$s.",
+        "NewsletterSignupMessage": "Tilaa uutiskirje saadaksesi säännöllisesti Matomoon liittyvää tietoa. Voit lopettaa uutiskirjeen tilauksen milloin hyvänsä. Lisätietoja annetaan %1$stietosuojasivullamme%2$s.",
         "NewsletterSignupSuccessMessage": "Tilaus onnistui! Olemme yhteydessä pian.",
         "NewsletterSignupTitle": "Uutiskirjeen tilaus",
         "NoAccessWarning": "Tälle käyttäjälle ei ole määritetty pääsyä sivustolle. Kun käyttäjä kirjautuu, hän näkee virheviestin. Estääksesi virheviestin näkymsen, lisää pääsy sivustolle alapuolelta.",

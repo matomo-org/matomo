@@ -24,7 +24,7 @@ class Actions extends BaseFilter
      * Constructor.
      *
      * @param DataTable $table The table to eventually filter.
-     * @param bool $isPageTitleType Whether we are handling page title or regular URL
+     * @param int $actionType The action type being processed.
      */
     public function __construct($table, $actionType)
     {

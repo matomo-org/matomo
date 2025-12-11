@@ -8,7 +8,6 @@
  */
 
 describe("UserSettings", function () {
-    this.timeout(0);
     this.fixture = "Piwik\\Plugins\\UsersManager\\tests\\Fixtures\\ManyUsersPastDate";
 
     var userSettingsUrl = "?module=UsersManager&action=userSettings";

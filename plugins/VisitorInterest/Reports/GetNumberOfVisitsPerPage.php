@@ -30,7 +30,7 @@ class GetNumberOfVisitsPerPage extends Base
         $this->documentation = Piwik::translate('VisitorInterest_WidgetPagesDocumentation')
                              . '<br />' . Piwik::translate('General_ChangeTagCloudView');
         $this->metrics       = array('nb_visits');
-        $this->processedMetrics  = false;
+        $this->processedMetrics = [];
         $this->constantRowsCount = true;
         $this->order = 20;
     }

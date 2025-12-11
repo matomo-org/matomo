@@ -134,14 +134,13 @@ abstract class SMSProvider
      */
     public static function findAvailableSmsProviders()
     {
-        /** @var SMSProvider[] $smsProviders */
         $smsProviders = Plugin\Manager::getInstance()->findMultipleComponents('SMSProvider', 'Piwik\Plugins\MobileMessaging\SMSProvider');
 
         $providers = array();
 
-        foreach ($smsProviders as $provider) {
+        foreach ($smsProviders as $providerName) {
             /** @var SMSProvider $provider */
-            $provider = StaticContainer::get($provider);
+            $provider = StaticContainer::get($providerName);
             if ($provider->isAvailable()) {
                 $providers[$provider->getId()] = $provider;
             }

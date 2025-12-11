@@ -14,9 +14,9 @@
         "VisitsPerNbOfPages": "基于浏览页面数的访问次数",
         "WidgetLengths": "访问停留时间",
         "WidgetLengthsDocumentation": "本报表显示某停留时间段的访客量。报表默认以标签云形式显示，常见的停留时间段用较大的字体显示。",
-        "WidgetPages": "每次访问查看的页面数",
+        "WidgetPages": "單次訪問瀏覽網頁數",
         "WidgetPagesDocumentation": "本报表显示查看了某个数量的页面的访客数。报表默认以标签云形式显示，常见的页面数量用较大的字体显示。",
-        "WidgetVisitsByDaysSinceLast": "距离上次访问天数的访问量",
+        "WidgetVisitsByDaysSinceLast": "訪問間隔時間",
         "WidgetVisitsByDaysSinceLastDocumentation": "本报表显示距离上次访问特定天数的访客量。",
         "WidgetVisitsByNumDocumentation": "本报表显示第N次访问的访客量。",
         "visitsByVisitCount": "基于访问次数的统计"

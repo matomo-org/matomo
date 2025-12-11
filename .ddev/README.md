@@ -44,6 +44,23 @@ ddev matomo:init:dev
 
 This command will set up the environment for development, installing the additional dependencies required.
 
+We have also added a parameter to the `ddev matomo:init:dev` command to enable source maps for Vue components. 
+To enable them, you can run:
+```
+ddev matomo:init:dev --with-sourcemaps
+```
+
+You can also disable sourcemaps at any time if you want to, just run the default command again:
+```
+ddev matomo:init:dev
+```
+NOTE: You should tick 'Disable cache' on your browser developer tools to see the changes.
+
+To see help:
+```
+ddev help matomo:init:dev
+```
+
 ### 4. Set up the testing environment
 
 After Matomo is set up, you can initialize the testing environment by running:

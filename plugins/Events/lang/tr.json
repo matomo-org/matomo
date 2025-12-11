@@ -32,8 +32,6 @@
         "MinValue": "En küçük etkinlik değeri",
         "MinValueDocumentation": "Bu etkinliğin en küçük değeri",
         "PluginDescription": "Etkinlikleri izler ve ziyaretçilerin yaptığı işlemler hakkında raporlar oluşturur.",
-        "SecondaryDimension": "İkincil boyut %s.",
-        "SwitchToSecondaryDimension": "%s geç",
         "TopEvents": "En yoğun etkinlikler",
         "TotalEvents": "Toplam etkinlik",
         "TotalEventsDocumentation": "Toplam etkinlik sayısı",

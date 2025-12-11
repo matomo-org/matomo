@@ -1,7 +1,9 @@
 {
     "PrivacyManager": {
+        "Anonymize": "Anonimizuoti",
         "AnonymizeData": "Anonimizuoti duomenis",
         "AnonymizeIpInlineHelp": "Paslėpkite savo lankytojų IP adresus, jei to reikalauja Jūsų vidaus taisyklės ar įstatymai.",
+        "ComplianceTableSettingNotes": "Lapeliai",
         "ComplianceTableSettingStatus": "Būsena",
         "CurrentDBSize": "Esamas duomenų bazės dydis",
         "DeleteDataInterval": "Ištrinti senus duomenis kas",
@@ -9,6 +11,8 @@
         "DeleteMaxRows": "Maksimalus vienu metu trinamų eilučių kiekis:",
         "DeleteOldRawData": "Reguliariai ištrinti senus neapdorotus duomenis",
         "DeleteOldVisitorLogs": "Ištrinti senus lankytojų žurnalus",
+        "FontColor": "Teksto spalva",
+        "FontSize": "Šrifto dydis",
         "IndividualsRights": "Asmenų teisės",
         "LastDelete": "Paskutinis išvalymas atliktas",
         "MenuPrivacySettings": "Privatumas",
@@ -17,6 +21,7 @@
         "PrivacyPolicyUrl": "Privatumo politikos URL",
         "PrivacyPolicyUrlDescription": "Nuoroda į jūsų privatumo politikos puslapį.",
         "ReportsDataSavedEstimate": "Duomenų bazės dydis",
+        "Scheduled": "Suplanuota",
         "TeaserHeadline": "Privatumo nustatymai",
         "TermsAndConditionUrl": "Nuostatų ir sąlygų URL",
         "TermsAndConditionUrlDescription": "Nuoroda į jūsų nuostatų ir sąlygų puslapį.",

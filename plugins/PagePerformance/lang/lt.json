@@ -1,5 +1,6 @@
 {
     "PagePerformance": {
-        "ColumnTimeServer": "Serverio laikas"
+        "ColumnTimeServer": "Serverio laikas",
+        "Performance": "Greitaveika"
     }
 }

@@ -30,8 +30,6 @@
         "MinValue": "Minimální hodnota události",
         "MinValueDocumentation": "Minimální hodnota pro tuto událost",
         "PluginDescription": "Sledujte události a získejte reporty o aktivitě vašich návštěvníků.",
-        "SecondaryDimension": "Sekundární dimenze je %s.",
-        "SwitchToSecondaryDimension": "Přepnout na %s",
         "TopEvents": "Nejčastější události",
         "TotalEvents": "Celkem událostí",
         "TotalEventsDocumentation": "Celkový počet událostí",

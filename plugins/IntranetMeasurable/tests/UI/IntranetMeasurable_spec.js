@@ -7,7 +7,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 describe("IntranetMeasurable", function () {
-    this.timeout(0);
     this.fixture = "Piwik\\Plugins\\SitesManager\\tests\\Fixtures\\ManySites";
 
     var url = "?module=SitesManager&action=index&idSite=1&period=day&date=yesterday&showaddsite=false";

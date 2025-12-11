@@ -1,7 +1,9 @@
 {
     "UsersManager": {
         "2FA": "2FA",
+        "Active": "Activo",
         "AddExistingUser": "Agregar un usuario existente",
+        "AddNewUser": "Agregar nuevo usuario",
         "AddSuperuserAccessConfirm": "Dar acceso de súperusuario a un usuario estándar permitirá que tenga control total sobre Matomo y debería hacerse con moderación. Ingresá tu contraseña para continuar.",
         "AddUserNoInitialAccessError": "Los nuevos usuarios tienen que darle acceso a tu sitio web. Por favor, establecé el parámetro \"initialIdSite\".",
         "AllUsersAreSelected": "Están seleccionados todos los %1$s usuarios.",
@@ -100,7 +102,7 @@
         "MenuUserSettings": "Configuración de usuario",
         "MenuUsers": "Usuarios",
         "NewsletterSignupFailureMessage": "Epa, algo salió mal. No pudimos suscribirte al boletín informativo.",
-        "NewsletterSignupMessage": "Suscribite a nuestro boletín informativo para recibir regularmente información sobre Matomo. Podés desuscribirte cuando quieras. Este servicio usa MadMini. Conocé más al respecto en nuestra %1$spágina de política de privacidad%2$s.",
+        "NewsletterSignupMessage": "Suscribite a nuestro boletín informativo para recibir regularmente información sobre Matomo. Podés desuscribirte cuando quieras. Conocé más al respecto en nuestra %1$spágina de política de privacidad%2$s.",
         "NewsletterSignupSuccessMessage": "¡Joya, ya estás registrado! Nos estaremos contactando pronto.",
         "NewsletterSignupTitle": "Registro en el boletín informativo",
         "NoAccessWarning": "A este usuario no se le garantizó acceso a un sitio web. Cuando inicie sesión, verá un mensaje de error. Para prevenir eso, concedele acceso a un sitio web, abajo.",
@@ -132,6 +134,7 @@
         "RolesHelp": "Los roles determinan lo que un usuario puede hacer en Matomo con respecto a un sitio web específico. Aprendé más sobre los roles de %1$svista%2$s y de %3$sadministración%4$s.",
         "SaveBasicInfo": "Guardar información básica",
         "SetPermission": "Establecer permiso",
+        "Status": "Estado",
         "SuperUserAccess": "Acceso de súperusuario",
         "SuperUserAccessManagement": "Administrar acceso de súperusuario",
         "SuperUserAccessManagementGrantMore": "Acá podés garantizar acceso de súperusuario a otros usuarios de Matomo. Por favor, usá esta función con cuidado.",
