@@ -741,7 +741,7 @@ class Manager
         }
 
         if (!$this->isPluginInFilesystem($pluginName)) {
-            throw new PluginNotFoundException("Plugin '$pluginName' cannot be found in the filesystem in plugins/ directory.");
+            throw new PluginNotFoundException($pluginName);
         }
         $this->deactivateThemeIfTheme($pluginName);
 

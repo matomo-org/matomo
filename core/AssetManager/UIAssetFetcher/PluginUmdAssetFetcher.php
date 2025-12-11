@@ -203,7 +203,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             }
 
             if (!$foundChunk) {
-                throw new BadRequestException("Could not find chunk {$this->requestedChunk}", 416);
+                throw new BadRequestException("Could not find chunk {$this->requestedChunk}", 404);
             }
 
             foreach ($foundChunk->getFiles() as $file) {

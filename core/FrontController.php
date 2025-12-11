@@ -115,7 +115,7 @@ class FrontController extends Singleton
      */
     public static function generateSafeModeOutputFromException($e)
     {
-        if ($e instanceof HttpCodeException && in_array($e->getCode(), [403, 404])) {
+        if ($e instanceof HttpCodeException && $e->getCode() >= 400 && $e->getCode() < 500) {
             StaticContainer::get(LoggerInterface::class)->debug('Uncaught exception: {exception}', [
                 'exception'            => $e,
                 'ignoreInScreenWriter' => true,
