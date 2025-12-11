@@ -1161,7 +1161,7 @@ class LogAggregator
             %s
           ) AS r
           LEFT JOIN ".Common::prefixTable('log_conversion')." lvcon ON lvcon.idgoal = ".$idGoal." AND lvcon.idvisit = r.idvisit
-          RIGHT JOIN ".Common::prefixTable('log_link_visit_action')." logv ON logv.idvisit = r.idvisit
+          RIGHT JOIN ".Common::prefixTable('log_link_visit_action')." logv USE INDEX (index_idvisit) ON logv.idvisit = r.idvisit
           LEFT JOIN ".Common::prefixTable('log_action')." lac ON logv.".$linkField." = lac.idaction
           WHERE logv.server_time >= '%s'
             AND logv.server_time <= '%s'
