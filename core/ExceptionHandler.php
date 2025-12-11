@@ -88,8 +88,8 @@ class ExceptionHandler
 
         // Log the error with an appropriate loglevel.
         switch (true) {
-            case ($exception instanceof HttpCodeException && $exception->getCode() > 400 && $exception->getCode() < 500):
-                // Do not log exception that results in 4xx HTTP status codes
+            case ($exception instanceof HttpCodeException && $exception->getCode() >= 400 && $exception->getCode() < 500):
+                // Log exceptions, resulting in 4xx HTTP status code, only at debug level
                 self::logException($exception, Log::DEBUG);
                 break;
             default:
