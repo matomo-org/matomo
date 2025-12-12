@@ -317,8 +317,9 @@ class AIAssistantReports extends RecordBuilder
     {
         $logAggregator = $archiveProcessor->getLogAggregator();
 
-        $table      = BotRequestsDao::getPrefixedTableName();
-        $visitTable = Common::prefixTable('log_visit');
+        $table       = BotRequestsDao::getPrefixedTableName();
+        $visitTable  = Common::prefixTable('log_visit');
+        $actionTable = Common::prefixTable('log_action');
 
         $where = $logAggregator->getWhereStatement('bot', 'server_time');
 
@@ -326,12 +327,18 @@ class AIAssistantReports extends RecordBuilder
 SELECT
     COUNT(*) AS requests,
     SUM(CASE WHEN bot.http_status_code = 404 THEN 1 ELSE 0 END) AS not_found_requests,
-    SUM(CASE WHEN bot.http_status_code BETWEEN 500 AND 599 THEN 1 ELSE 0 END) AS server_error_requests
+    SUM(CASE WHEN bot.http_status_code BETWEEN 500 AND 599 THEN 1 ELSE 0 END) AS server_error_requests,
+    COUNT(DISTINCT bot.bot_name) AS uniq_bots,
+    COUNT(DISTINCT(CASE WHEN log_action.type = ? THEN log_action.name END)) AS uniq_pages,
+    COUNT(DISTINCT(CASE WHEN log_action.type = ? THEN log_action.name END)) AS uniq_downloads
 FROM `$table` AS bot
+LEFT JOIN `$actionTable` AS log_action ON log_action.idaction = bot.idaction_url
 WHERE bot.bot_type = ? AND $where
 SQL;
 
         $bind = [
+            Action::TYPE_PAGE_URL,
+            Action::TYPE_DOWNLOAD,
             BotDetector::BOT_TYPE_AI_ASSISTANT,
         ];
         $bind = array_merge($bind, $logAggregator->getGeneralQueryBindParams());
@@ -352,9 +359,9 @@ SQL;
 
         $acquiredVisits = (int)Db::fetchOne($visitsSql, $visitBind);
 
-        $tables[Metrics::METRIC_AI_ASSISTANTS_UNIQUE_ASSISTANTS]     = $tables[Archiver::AI_ASSISTANTS_PAGES_RECORD]->getRowsCount();
-        $tables[Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS]      = $tables[Archiver::AI_ASSISTANTS_REQUESTED_PAGES_RECORD]->getLeafRowsCount();
-        $tables[Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS]  = $tables[Archiver::AI_ASSISTANTS_REQUESTED_DOCUMENTS_RECORD]->getLeafRowsCount();
+        $tables[Metrics::METRIC_AI_ASSISTANTS_UNIQUE_ASSISTANTS]     = (int)($row['uniq_bots'] ?? 0);
+        $tables[Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS]      = (int)($row['uniq_pages'] ?? 0);
+        $tables[Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS]  = (int)($row['uniq_downloads'] ?? 0);
         $tables[Metrics::METRIC_AI_ASSISTANTS_REQUESTS]              = (int)($row['requests'] ?? 0);
         $tables[Metrics::METRIC_AI_ASSISTANTS_ACQUIRED_VISITS]       = $acquiredVisits;
         $tables[Metrics::METRIC_AI_ASSISTANTS_NOT_FOUND_REQUESTS]    = (int)($row['not_found_requests'] ?? 0);
