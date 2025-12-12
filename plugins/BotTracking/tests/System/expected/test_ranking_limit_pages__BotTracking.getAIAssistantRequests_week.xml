@@ -42,16 +42,8 @@
 				<requests>1</requests>
 			</row>
 			<row>
-				<label>example.com/article-2</label>
-				<requests>1</requests>
-			</row>
-			<row>
-				<label>example.com/article-4</label>
-				<requests>1</requests>
-			</row>
-			<row>
-				<label>example.com/article-5</label>
-				<requests>1</requests>
+				<label>Others</label>
+				<requests>3</requests>
 			</row>
 		</subtable>
 	</row>
@@ -67,12 +59,8 @@
 				<requests>1</requests>
 			</row>
 			<row>
-				<label>example.com/article-5</label>
-				<requests>1</requests>
-			</row>
-			<row>
-				<label>example.com/article-6</label>
-				<requests>1</requests>
+				<label>Others</label>
+				<requests>2</requests>
 			</row>
 		</subtable>
 	</row>
@@ -108,12 +96,8 @@
 				<requests>2</requests>
 			</row>
 			<row>
-				<label>example.com/article-4</label>
-				<requests>1</requests>
-			</row>
-			<row>
-				<label>example.com/article-5</label>
-				<requests>1</requests>
+				<label>Others</label>
+				<requests>2</requests>
 			</row>
 		</subtable>
 	</row>

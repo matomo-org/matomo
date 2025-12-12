@@ -20,7 +20,7 @@
 	</row>
 	<row>
 		<label>Perplexity-User - example.com/article-3</label>
-		<requests>1</requests>
+		<requests>2</requests>
 		<BotTracking_AIAssistantName>Perplexity-User</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article-3</BotTracking_PageUrl>
 	</row>
