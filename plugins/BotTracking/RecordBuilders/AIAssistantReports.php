@@ -219,7 +219,7 @@ class AIAssistantReports extends RecordBuilder
                AND log_action.type = %d
                AND %s
              GROUP BY bot.bot_name, url WITH ROLLUP) AS rollupQuery
-             ORDER BY bot_name, requests DESC, url",
+             ORDER BY requests DESC, bot_name, url",
             BotRequestsDao::getPrefixedTableName(),
             Common::prefixTable('log_action'),
             $actionType,

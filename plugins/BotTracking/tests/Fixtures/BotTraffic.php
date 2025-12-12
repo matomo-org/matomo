@@ -77,6 +77,7 @@ class BotTraffic extends Fixture
                 ['ChatGPT-User/1.0', $pages[1], 500, 25896, false],
                 ['ChatGPT-User/1.0', $downloads[1], 200, 33658, true],
                 ['Perplexity-User/1.0', $pages[2], 200, 36985, false],
+                ['Perplexity-User/1.0', $pages[2], 200, 36985, false],
                 ['MistralAI-User/2.0', $pages[3], 200, 85236, false],
                 ['Claude-User/3.0', $downloads[3], 200, 12456, true],
                 ['Claude-User/3.0', $downloads[4], 200, 35562, true],

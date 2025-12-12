@@ -23,9 +23,9 @@
 	</row>
 	<row>
 		<label>Perplexity-User</label>
-		<requests>6</requests>
+		<requests>7</requests>
 		<document_requests>5</document_requests>
-		<page_requests>1</page_requests>
+		<page_requests>2</page_requests>
 		<visits_acquired>2</visits_acquired>
 		<subtable>
 			<row>
