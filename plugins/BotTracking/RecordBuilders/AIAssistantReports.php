@@ -225,8 +225,8 @@ class AIAssistantReports extends RecordBuilder
 
         $sql = sprintf(
             "SELECT * FROM (SELECT bot.bot_name, log_action.name AS url, COUNT(*) AS requests
-             FROM %s AS bot
-             INNER JOIN %s AS log_action ON log_action.idaction = bot.idaction_url
+             FROM `%s` AS bot
+             INNER JOIN `%s` AS log_action ON log_action.idaction = bot.idaction_url
              WHERE log_action.name IS NOT NULL
                AND log_action.name <> ''
                AND log_action.type = %d
@@ -272,20 +272,28 @@ class AIAssistantReports extends RecordBuilder
 
         $sql = sprintf(
             "SELECT log_action.name AS url, log_action.url_prefix, COUNT(*) AS requests
-             FROM %s AS bot
-             INNER JOIN %s AS log_action ON log_action.idaction = bot.idaction_url
+             FROM `%s` AS bot
+             INNER JOIN `%s` AS log_action ON log_action.idaction = bot.idaction_url
              WHERE log_action.name IS NOT NULL
                AND log_action.name <> ''
                AND log_action.type = %d
                AND bot.bot_type = ?
                AND %s
              GROUP BY log_action.name
-             ORDER BY requests DESC, log_action.name",
+             ORDER BY requests DESC, url",
             BotRequestsDao::getPrefixedTableName(),
             Common::prefixTable('log_action'),
             $actionType,
             $where
         );
+
+        if ($this->rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($this->rankingQueryLimit);
+            $rankingQuery->addLabelColumn(['url']);
+            $rankingQuery->addColumn('requests');
+            $rankingQuery->addColumn('url_prefix', 'sum');
+            $sql = $rankingQuery->generateRankingQuery($sql, true);
+        }
 
         $resultSet = Db::query($sql, array_merge([BotDetector::BOT_TYPE_AI_ASSISTANT], $bindBase));
 
@@ -319,7 +327,7 @@ SELECT
     COUNT(*) AS requests,
     SUM(CASE WHEN bot.http_status_code = 404 THEN 1 ELSE 0 END) AS not_found_requests,
     SUM(CASE WHEN bot.http_status_code BETWEEN 500 AND 599 THEN 1 ELSE 0 END) AS server_error_requests
-FROM $table AS bot
+FROM `$table` AS bot
 WHERE bot.bot_type = ? AND $where
 SQL;
 
@@ -338,7 +346,7 @@ SQL;
         $where = $logAggregator->getWhereStatement('log_visit', 'visit_last_action_time');
 
         $visitsSql = sprintf(
-            "SELECT COUNT(*) FROM %s log_visit WHERE referer_type = ? AND $where",
+            "SELECT COUNT(*) FROM `%s` log_visit WHERE referer_type = ? AND $where",
             $visitTable
         );
 
