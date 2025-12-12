@@ -665,7 +665,6 @@ export default defineComponent({
           idToUse = response.value;
         }
         this.storeNotification(idToUse, isCreate);
-        this.showNotificationMessage(idToUse, isCreate);
         this.scrollToTop();
         const subcategory = MatomoUrl.parsed.value.subcategory as string;
         if (subcategory === 'Goals_AddNewGoal'
