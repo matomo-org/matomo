@@ -44,7 +44,7 @@ describe("ManageGoals", function () {
           (cell) => cell.textContent.trim()
         );
         const notificationText = await page.$eval(
-          '.notification.notification-success .notification-message',
+          '.notification.notification-success .notification-body div',
           (el) => el.textContent.trim(),
         );
         const viewGoalLinkHref = await page.$eval(
@@ -76,7 +76,7 @@ describe("ManageGoals", function () {
         (link) => link.getAttribute('href')
       );
       const notificationText = await page.$eval(
-        '.notification.notification-success .notification-message',
+        '.notification.notification-success .notification-body div',
         (el) => el.textContent.trim(),
       );
       const expectedNotificationText = "Goal successfully updated [View Goal Report]";

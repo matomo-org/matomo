@@ -723,7 +723,8 @@ export default defineComponent({
       });
       let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
       const reportLink = `<a href="?${link}#${hash}">[${translate('Goals_ViewGoalReport')}]</a>`;
-      successMessage = `<div class="notification-message">${successMessage} ${reportLink}</div>`;
+      //successMessage = `${successMessage} ${reportLink}`;
+      successMessage = `${successMessage} ${reportLink}`;
 
       NotificationsStore.show({
         id: 'ManageGoals.create', message: successMessage, context: 'success', type: 'toast',
