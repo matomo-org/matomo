@@ -3602,7 +3602,7 @@
 			<BotTracking_AIAssistantsRequests>Requests</BotTracking_AIAssistantsRequests>
 			<BotTracking_AIAssistantsAcquiredVisits>Acquired visits</BotTracking_AIAssistantsAcquiredVisits>
 			<BotTracking_AIAssistantsUniquePageUrls>Unique page URLs</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Not found (404) requests</BotTracking_AIAssistantsNotFoundRequests>
+			<BotTracking_AIAssistantsNotFoundRequests>Not found requests</BotTracking_AIAssistantsNotFoundRequests>
 			<BotTracking_AIAssistantsUniqueAssistants>Unique AI chatbots</BotTracking_AIAssistantsUniqueAssistants>
 			<BotTracking_AIAssistantsUniqueDocumentUrls>Unique document URLs</BotTracking_AIAssistantsUniqueDocumentUrls>
 			<BotTracking_AIAssistantsServerErrorRequests>Server error (5xx) requests</BotTracking_AIAssistantsServerErrorRequests>
@@ -3611,7 +3611,7 @@
 			<BotTracking_AIAssistantsRequests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</BotTracking_AIAssistantsRequests>
 			<BotTracking_AIAssistantsAcquiredVisits>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</BotTracking_AIAssistantsAcquiredVisits>
 			<BotTracking_AIAssistantsUniquePageUrls>Distinct page URLs requested by AI assistants.</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Number of bot requests that returned an HTTP 404 response, including document URLs.</BotTracking_AIAssistantsNotFoundRequests>
+			<BotTracking_AIAssistantsNotFoundRequests>Number of bot requests that returned an HTTP 404 or 410 response, including document URLs.</BotTracking_AIAssistantsNotFoundRequests>
 			<BotTracking_AIAssistantsUniqueAssistants>AI assistant user agents detected during the selected period.</BotTracking_AIAssistantsUniqueAssistants>
 			<BotTracking_AIAssistantsUniqueDocumentUrls>Distinct download or document URLs requested by AI assistants.</BotTracking_AIAssistantsUniqueDocumentUrls>
 			<BotTracking_AIAssistantsServerErrorRequests>Number of bot requests that returned an HTTP 5xx response, including document URLs.</BotTracking_AIAssistantsServerErrorRequests>
@@ -3912,7 +3912,7 @@
 			<BotTracking_AIAssistantsRequests>Requests</BotTracking_AIAssistantsRequests>
 			<BotTracking_AIAssistantsAcquiredVisits>Acquired visits</BotTracking_AIAssistantsAcquiredVisits>
 			<BotTracking_AIAssistantsUniquePageUrls>Unique page URLs</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Not found (404) requests</BotTracking_AIAssistantsNotFoundRequests>
+			<BotTracking_AIAssistantsNotFoundRequests>Not found requests</BotTracking_AIAssistantsNotFoundRequests>
 			<BotTracking_AIAssistantsUniqueAssistants>Unique AI chatbots</BotTracking_AIAssistantsUniqueAssistants>
 			<BotTracking_AIAssistantsUniqueDocumentUrls>Unique document URLs</BotTracking_AIAssistantsUniqueDocumentUrls>
 			<BotTracking_AIAssistantsServerErrorRequests>Server error (5xx) requests</BotTracking_AIAssistantsServerErrorRequests>
@@ -3944,7 +3944,7 @@
 			<BotTracking_AIAssistantsRequests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</BotTracking_AIAssistantsRequests>
 			<BotTracking_AIAssistantsAcquiredVisits>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</BotTracking_AIAssistantsAcquiredVisits>
 			<BotTracking_AIAssistantsUniquePageUrls>Distinct page URLs requested by AI assistants.</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Number of bot requests that returned an HTTP 404 response, including document URLs.</BotTracking_AIAssistantsNotFoundRequests>
+			<BotTracking_AIAssistantsNotFoundRequests>Number of bot requests that returned an HTTP 404 or 410 response, including document URLs.</BotTracking_AIAssistantsNotFoundRequests>
 			<BotTracking_AIAssistantsUniqueAssistants>AI assistant user agents detected during the selected period.</BotTracking_AIAssistantsUniqueAssistants>
 			<BotTracking_AIAssistantsUniqueDocumentUrls>Distinct download or document URLs requested by AI assistants.</BotTracking_AIAssistantsUniqueDocumentUrls>
 			<BotTracking_AIAssistantsServerErrorRequests>Number of bot requests that returned an HTTP 5xx response, including document URLs.</BotTracking_AIAssistantsServerErrorRequests>

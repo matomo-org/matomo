@@ -171,9 +171,9 @@
 		<documentation>The minimum value for this event</documentation>
 	</row>
 	<row>
-		<name>Not found (404) requests</name>
+		<name>Not found requests</name>
 		<id>BotTracking_AIAssistantsNotFoundRequests</id>
-		<documentation>Number of bot requests that returned an HTTP 404 response, including document URLs.</documentation>
+		<documentation>Number of bot requests that returned an HTTP 404 or 410 response, including document URLs.</documentation>
 	</row>
 	<row>
 		<name>Outlinks</name>
