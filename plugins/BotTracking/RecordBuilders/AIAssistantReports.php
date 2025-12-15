@@ -326,7 +326,7 @@ class AIAssistantReports extends RecordBuilder
         $sql = <<<SQL
 SELECT
     COUNT(*) AS requests,
-    SUM(CASE WHEN bot.http_status_code = 404 THEN 1 ELSE 0 END) AS not_found_requests,
+    SUM(CASE WHEN bot.http_status_code IN (404, 410) THEN 1 ELSE 0 END) AS not_found_requests,
     SUM(CASE WHEN bot.http_status_code BETWEEN 500 AND 599 THEN 1 ELSE 0 END) AS server_error_requests,
     COUNT(DISTINCT bot.bot_name) AS uniq_bots,
     COUNT(DISTINCT(CASE WHEN log_action.type = ? THEN log_action.name END)) AS uniq_pages,
