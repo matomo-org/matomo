@@ -4,11 +4,6 @@
 	<complianceConfigControlled>1</complianceConfigControlled>
 	<complianceRequirements>
 		<row>
-			<name>Ecommerce</name>
-			<value>compliant</value>
-			<notes>Ecommerce must be disabled</notes>
-		</row>
-		<row>
 			<name>Device model detection disabled</name>
 			<value>compliant</value>
 			<notes>Device model detection and device model report must be disabled.</notes>
@@ -17,6 +12,16 @@
 			<name>Only major versions</name>
 			<value>compliant</value>
 			<notes>Only major OS and browser versions are stored.</notes>
+		</row>
+		<row>
+			<name>Ecommerce Restricted</name>
+			<value>compliant</value>
+			<notes>Ecommerce analytics is enabled, but specific segments are disabled (Order ID, Order revenue, Product price, Product name, Product SKU). If you prefer, you can completely disable Ecommerce tracking &lt;a href=&quot;index.php?module=SitesManager&amp;action=index&amp;idSite=1&quot;&gt;here&lt;/a&gt;.</notes>
+    </row>
+    <row>
+      <name>PII data filtered</name>
+			<value>compliant</value>
+			<notes>PII data must be filtered by the Matomo-recommended PII exclusion list.</notes>
 		</row>
 		<row>
 			<name>Turn off visits log and visitor profiles</name>
@@ -37,6 +42,11 @@
 			<name>IP Address Mask Length</name>
 			<value>compliant</value>
 			<notes>Must be set to at least 2 byte(s), currently 2 byte(s).</notes>
+		</row>
+		<row>
+			<name>Order ID anonymization</name>
+			<value>compliant</value>
+			<notes>Order IDs must be anonymized</notes>
 		</row>
 		<row>
 			<name>Referrer anonymisation</name>
@@ -62,6 +72,11 @@
 			<name>User ID disabled</name>
 			<value>compliant</value>
 			<notes>Collection of User ID while tracking must be disabled.</notes>
+		</row>
+		<row>
+			<name>Third party cookies</name>
+			<value>compliant</value>
+			<notes>Third party cookies must be disabled</notes>
 		</row>
 		<row>
 			<name>Opt out</name>

@@ -3,7 +3,6 @@
         "AIAgentName": "KI-Agentenname",
         "AIAgentVisits": "KI-Agentenbesuche",
         "AIAgentVisitsDocumentation": "Dies ist eine Übersicht über KI-Agenten-Besuche. Der Datenverkehr von KI-Agenten beinhaltet nur Besuche, bei denen ein KI Ihre Seite in einem echten Browser öffnet und sich wie ein menschlicher Besucher verhält. Es beinhaltet nicht Hintergrundanfragen von ChatGPT oder anderen KI-Tools, die Ihre Seiten abrufen, ohne einen Browser zu verwenden.",
-        "AIAssistants": "KI-Assistenten",
         "ColumnAIAgentActions": "Aktionen von KI-Agentenbesuchen",
         "ColumnAIAgentAverageVisitDuration": "Durchschnittliche Dauer eines KI-Agenten Besuchs (in Sekunden)",
         "ColumnAIAgentAvgActionsPerVisit": "Durchschnittliche Aktionen pro KI-Agenten-Besuch",

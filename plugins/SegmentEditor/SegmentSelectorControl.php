@@ -109,6 +109,18 @@ class SegmentSelectorControl extends UIControl
     private function getTranslations()
     {
         $translationKeys = array(
+            'General_CanNotEditGlobalSegment',
+            'General_CanNotStarGlobalSegment',
+            'General_CanNotUnstarGlobalSegment',
+            'General_CanEditGlobalSegment',
+            'General_CanStarGlobalSegment',
+            'General_CanUnstarGlobalSegment',
+            'General_CanNotEditSiteSegment',
+            'General_CanNotStarSiteSegment',
+            'General_CanNotUnstarSiteSegment',
+            'General_CanEditSiteSegment',
+            'General_CanStarSiteSegment',
+            'General_CanUnstarSiteSegment',
             'General_OperationEquals',
             'General_OperationNotEquals',
             'General_OperationAtMost',
@@ -126,6 +138,9 @@ class SegmentSelectorControl extends UIControl
             'SegmentEditor_DefaultAllVisits',
             'General_DefaultAppended',
             'SegmentEditor_AddNewSegment',
+            'General_Edit',
+            'General_StarredBy',
+            'General_StarredByYou',
             'General_Edit',
             'General_Search',
             'General_SearchNoResults',

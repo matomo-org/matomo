@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Tipo di Azione",
+        "ActionTypeSegmentHelp": "Un tipo di azione, come: %s",
         "ActionTypes": "Tipi di Azione",
         "ActionsInVisit": "Azioni su Visita",
         "AvgGenerationTimeTooltip": "Media basata su %1$s hits %2$s tra %3$s e %4$s",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Usa le icone + e - per navigare.",
         "PluginDescription": "Rapporto relativo a viste e i titoli pagina. Ti consente di misurare il motore di ricerca interno al tuo sito. Traccia in automatico i click sui link esterni e i download dei files.",
         "RevisitedPages": "Pagine viste più di una volta.",
+        "SearchesSegmentHelp": "Per selezionare tutte le visite che hanno utilizzato la Ricerca interna del sito, utilizzare: %s",
         "SiteSearchCategories": "Categorie (Ricerca nel Sito)",
         "SiteSearchCategories1": "Questo report elenca le Categorie che i visitatori hanno selezionato nel fare una ricerca sul vostro sito.",
         "SiteSearchCategories2": "Per esempio, i siti di Ecommerce hanno tipicamente un selettore di \"Categoria\", così che i visitatori possano restringere le ricerche ai prodotti in una Categoria specifica.",

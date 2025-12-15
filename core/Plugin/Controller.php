@@ -726,6 +726,7 @@ abstract class Controller
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
+        $view->userCurrentRole = Access::getInstance()->getRoleForSite($this->idSite);
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
         $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();

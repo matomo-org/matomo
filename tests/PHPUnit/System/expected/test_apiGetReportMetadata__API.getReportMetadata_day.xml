@@ -3546,7 +3546,7 @@
 	</row>
 	<row>
 		<category>AI Assistants</category>
-		<subcategory>Overview</subcategory>
+		<subcategory>AI Agents Overview</subcategory>
 		<name>AI Agent Visits</name>
 		<module>AIAgents</module>
 		<action>get</action>

@@ -1,9 +1,10 @@
 {
   "AIAgents": {
     "AIAgentName": "AI Agent Name",
+    "AIAgentsOverview": "AI Agents Overview",
     "AIAgentVisits": "AI Agent Visits",
     "AIAgentVisitsDocumentation": "This is an overview of AI Agent visits. AI agent traffic only includes visits where an AI opens your site in a real browser and behaves like a human visitor. It does not include background requests from ChatGPT or other AI tools that fetch your pages without using a browser.",
-    "AIAssistants": "AI Assistants",
+    "AIAgentsOverviewSubcategoryDescription": "Review how AI agents and human visitors engage with your site at a glance. This overview surfaces combined metrics and trends so you can quickly spot changes before exploring detailed reports.",
     "AIAssistantsOverviewHelp1": "The AI Assistant Overview page provide insights into website traffic originating from AI Assistants such as ChatGPT and other large language model–based assistants. These reports track key metrics including the number of requests made by these bots, the pages and documents they access, and any errors encountered. They also offer detailed breakdowns showing which bots visit specific page URLs, helping you understand how AI assistants interact with your content and identify opportunities to improve visibility and accessibility for AI-driven users.",
     "AIAssistantsOverviewHelp2": "It’s important to note that none of these pages were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.",
     "AIAssistantsOverviewHelp3": "Currently, these reports exclusively include requests from AI bots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.",

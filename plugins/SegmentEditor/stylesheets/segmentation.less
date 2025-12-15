@@ -232,7 +232,13 @@ div.scrollable {
     min-width: 206px;
 }
 
+.segmentationContainer hr {
+  margin: 10px 0;
+}
+
 .segmentationContainer .submenu ul {
+    display: flex;
+    flex-direction: column;
     color: @theme-color-text-light;
     float: none;
     font-size: 11px;
@@ -243,16 +249,26 @@ div.scrollable {
     padding-top: 10px;
 }
 
-
 .segmentationContainer .submenu ul li {
     padding: 2px 0 2px 0;
     margin: 3px 0 0 0;
     cursor: pointer;
+    order: 2;
 }
 
-.segmentationContainer .submenu ul li:hover,
-.segmentationContainer .submenu ul li:focus,
-.segmentationContainer .submenu ul li:focus-within {
+.segmentationContainer .submenu ul li[data-idsegment=""] {
+    order: 0;
+}
+
+.segmentationContainer .submenu ul li.segmentStarred {
+    order: 1;
+}
+
+.segmentationContainer .submenu ul li.comparedSegment {
+  font-weight: bold;
+}
+
+.segmentationContainer .submenu ul li:hover {
     color: #255792;
     background: @color-silver-l95;
     outline: none;
@@ -268,47 +284,135 @@ div.scrollable {
     margin-bottom: 5px;
 }
 
+@keyframes starAnimation {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+  100% { transform: scale(1) rotate(360deg); }
+}
+
+@keyframes starAnimationPath {
+  0% { fill: black; }
+  50% { fill: @theme-color-brand; stroke: @theme-color-brand; }
+  100% { fill: black; }
+}
+
+@keyframes unstarAnimation {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(-180deg);}
+  100% { transform: scale(1) rotate(-360deg); }
+}
+
+@keyframes unstarAnimationPath {
+  0% { fill: black; }
+  100% { fill: transparent; }
+}
+
+@keyframes starErrorAnimation {
+  0% { opacity: 0.5; }
+  5%, 15%, 25%, 35%, 45% { transform: translate(-2px)}
+  10%, 20%, 30%, 40% { transform: translate(2px)}
+  50% { opacity: 1; }
+  100% { transform: translate(0); opacity: 0.5; }
+}
+
+@keyframes starErrorAnimationPath {
+  0% { stroke: black; fill: black; }
+  25%, 75% { stroke: red; fill: red; }
+  100% { stroke: black; fill: transparent; }
+}
+
 .segmentationContainer ul.submenu > li {
-    span.editSegment, span.compareSegment {
-        display: block;
-        float: right;
-        text-align: center;
-        margin-right: 4px;
-        font-weight: normal;
+    .editSegment,
+    .compareSegment,
+    .starSegment {
+        flex: none;
+        display: flex;
         width: 16px;
         height: 16px;
-        .opacity(0.5);
+
+        // Button reset
+        padding: 0;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+
+        font-weight: normal;
+        text-align: center;
+        opacity: 0.5;
 
         &:hover {
-            .opacity(1);
+          opacity: 1;
+        }
+
+        &[data-state=disabled] {
+          opacity: 0.2;
+          cursor: not-allowed;
         }
     }
 
-    span.editSegment {
-        background: url(plugins/SegmentEditor/images/edit_segment.png) no-repeat;
+    .editSegment {
+        background: url(plugins/SegmentEditor/images/edit_segment.svg) no-repeat;
+        background-size: cover;
         order: 3;
     }
 
-    span.compareSegment {
+    .starSegment {
+        order: 2;
+    }
+
+    .segmentStarAnimation .starSegment {
+      animation: unstarAnimation 0.5s 1;
+    }
+
+    .segmentStarAnimation .starSegment path {
+      animation: unstarAnimationPath 0.5s 1;
+    }
+
+    .segmentStarred.segmentStarAnimation .starSegment {
+      animation-name: starAnimation;
+    }
+
+    .segmentStarred.segmentStarAnimation .starSegment path {
+      animation-name: starAnimationPath;
+    }
+
+    .segmentStarErrorAnimation .starSegment {
+      animation: starErrorAnimation 2s 1;
+    }
+
+    .segmentStarErrorAnimation .starSegment path {
+      animation: starErrorAnimationPath 2s 1;
+    }
+
+    .segmentStarred.segmentStarErrorAnimation .starSegment path {
+      animation-direction: reverse;
+    }
+
+    /* We do not want filled & transparent stars, design wanted by Matthieu */
+    .segmentStarred .starSegment[data-state=disabled] {
+      opacity: 0.5;
+    }
+
+    .segmentStarred .starSegment path {
+        fill: black;
+    }
+
+    .compareSegment {
         background: url(plugins/Morpheus/images/compare.svg) no-repeat;
         background-size: cover;
         order: 2;
 
         &.allVisitsCompareSegment {
-            margin-right: 24px;
+            margin-left: 20px;
         }
-    }
-
-    li.segmentSelected, li.comparedSegment {
-        span.compareSegment {
-            pointer-events: none;
-            opacity: 0.2;
+        &.allVisitsCompareSegment--write {
+          margin-right: 20px;
         }
     }
 }
 
 html.comparisonsDisabled .segmentationContainer ul.submenu {
-    span.compareSegment {
+    .compareSegment {
         display: none;
     }
 }
@@ -395,6 +499,8 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
 
     li {
         display: flex;
+        align-items: center;
+        gap: 4px;
     }
 }
 
@@ -443,9 +549,7 @@ a.metric_category {
 
 .segmentSelected,
 .segmentSelected:hover,
-.segmentEditorPanel .segmentationContainer .submenu li .segmentSelected,
-.segmentEditorPanel .segmentationContainer .submenu li:focus,
-.segmentEditorPanel .segmentationContainer .submenu li:focus-within {
+.segmentEditorPanel .segmentationContainer .submenu li .segmentSelected {
     font-weight: bold;
 }
 
@@ -520,9 +624,8 @@ a.metric_category {
 }
 
 .segname {
-    width: ~"calc(100% - 40px)";
+    flex: auto;
     padding-right: 10px;
-    display: inline-block;
     order: 1;
 }
 

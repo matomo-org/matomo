@@ -185,6 +185,8 @@
         "OptOutRememberToTestStep4": "Má sheiceálann tú an ticbhosca chun rogha an diúltaithe a dhéanamh, ba chóir go dtaispeánfaí an teachtaireacht roghnaithe.",
         "OptOutUseStandalone": "Bain úsáid as cód féinchuimsitheach chun an díliostáil a leagan amach",
         "OptOutUseTracker": "Bain úsáid as an gcód rianaithe Matomo chun an rogha an diúltaithe a leagan amach",
+        "OrderIdAnonymizationSettingRequirementNote": "Ní mór aitheantóirí orduithe a bheith gan ainm",
+        "OrderIdAnonymizationSettingTitle": "Anaithnidiú ID Ordaithe",
         "Output": "Aschur:%1$s",
         "PleaseEnableVisitorLogsProfiles": "Má theastaíonn uait sonraí a rochtain don suíomh seo, cumasaigh logaí Cuairteanna nó Próifíl Chuairteoirí i socruithe an tsuímh %1$s%2$s.",
         "PleaseEnableVisitorLogsProfilesSites": "Má theastaíonn uait sonraí a rochtain do na suíomhanna seo, cumasaigh logaí Cuairteanna nó Próifíl Chuairteoirí i socruithe an tsuímh %1$s%2$s.",

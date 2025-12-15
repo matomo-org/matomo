@@ -57,6 +57,8 @@
         "ExclusionTypeOptionMatomoRecommendedPII": "Matomo-molta PII",
         "ExclusionViewListLink": "Féach ar liosta na n-eisiamh",
         "ExtraInformationNeeded": "Chun Matomo a shocrú ar do chóras, b'fhéidir go mbeidh an fhaisnéis seo a leanas ag teastáil uait:",
+        "FilterPIIParametersSettingTitle": "Sonraí PII scagtha",
+        "FilterPiiParametersSettingRequirementNote": "Ní mór sonraí PII a scagadh de réir an liosta eisiaimh PII atá molta ag Matomo.",
         "Format_Utc": "UTC%s",
         "GADetected": "Braitheadh %1$s ar do láithreán gréasáin. An raibh a fhios agat gur féidir leat do shonraí agus do shocruithe anailísíochta stairiúla a aistriú go héasca ó %2$s go Matomo? %3$s%4$s%5$sLearn níos mó sa treoir seo%6$s",
         "GADetectedEmail": "Braitheadh %1$s ar do láithreán gréasáin. An raibh a fhios agat gur féidir leat do shonraí agus do shocruithe anailísíochta stairiúla a aistriú go héasca ó %2$s go Matomo? Tuilleadh eolais anseo:%3$s",

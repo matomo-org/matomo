@@ -68,6 +68,8 @@
 
     piwik.hasSuperUserAccess = {{ hasSuperUserAccess|default(0)|e('js')}};
     piwik.userHasSomeAdminAccess = {{ userHasSomeAdminAccess|json_encode|raw }};
+    piwik.userCurrentRole = "{{ userCurrentRole|default('view')|e('js') }}";
+    piwik.isUserIsAnonymous = {{ isUserIsAnonymous|default(0)|e('js') }};
     piwik.userCapabilities = {{ userCapabilities|default([])|json_encode|raw }};
     piwik.config = {};
 {% if clientSideConfig is defined %}

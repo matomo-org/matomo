@@ -214,6 +214,8 @@
         "ExclusionViewListLink": "View list of exclusions",
         "ExceptionEmptyQueryParamsForCustomType": "Query parameters to exclude must be provided when exclusion type is custom",
         "ExceptionNonEmptyQueryParamsForNonCustomType": "Query parameters to exclude must not be provided when exclusion type is not custom",
-        "AddSensibleExclusionsToMyCustomListButtonText": "Add Matomo-recommended PII parameters"
+        "AddSensibleExclusionsToMyCustomListButtonText": "Add Matomo-recommended PII parameters",
+        "FilterPIIParametersSettingTitle": "PII data filtered",
+        "FilterPiiParametersSettingRequirementNote": "PII data must be filtered by the Matomo-recommended PII exclusion list."
     }
 }

@@ -25,6 +25,7 @@ use Piwik\Settings\Measurable\MeasurableSetting;
 use Piwik\Settings\Plugin\SystemConfigSetting;
 use Piwik\Settings\Plugin\SystemSetting;
 use Piwik\Settings\Setting;
+use Piwik\Tracker\Config\ThirdPartyCookies;
 
 class PolicyManager
 {
@@ -102,6 +103,9 @@ class PolicyManager
     {
         $settings = Manager::getInstance()->findMultipleComponents('Settings', SettingValueInterface::class);
         $underPolicy = [];
+
+        // Add core specific settings
+        $settings[] = ThirdPartyCookies::class;
 
         foreach ($settings as $setting) {
             if (!is_a($setting, PolicyComparisonInterface::class, true)) {

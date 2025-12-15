@@ -1,6 +1,5 @@
 {
     "AIAgents": {
-        "AIAssistants": "Assistents AI",
         "AIAgentName": "Nom de l'agent d'IA",
         "AIAgentVisits": "Visites de l'agent d'IA",
         "AIAgentVisitsDocumentation": "Aquesta és una descripció general de les visites dels agents d'IA. El trànsit dels agents d'IA només inclou les visites en què una IA obre el vostre lloc web en un navegador real i es comporta com un visitant humà. No inclou les sol·licituds en segon pla de ChatGPT ni d'altres eines d'IA que recuperen les vostres pàgines sense utilitzar un navegador.",
@@ -35,6 +34,8 @@
         "SparklineHumanBounceRate": "les visites humanes han rebotat (han abandonat el lloc web després d'una pàgina)",
         "SparklineHumanVisits": "visites humanes",
         "WidgetGraphAIAgents": "Agents d'IA en el temps",
-        "WidgetOverviewAIAgents": "Visió general de l'agent d'IA"
+        "WidgetOverviewAIAgents": "Visió general de l'agent d'IA",
+        "AIAgentsOverview": "Visió general dels agents d'IA",
+        "AIAgentsOverviewSubcategoryDescription": "Revisa d'un cop d'ull com els agents d'IA i els visitants humans interactuen amb el teu lloc web. Aquesta visió general mostra mètriques i tendències combinades perquè puguis detectar ràpidament els canvis abans d'explorar informes detallats."
     }
 }

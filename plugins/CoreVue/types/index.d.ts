@@ -171,6 +171,8 @@ declare global {
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
     userLogin?: string;
+    userCurrentRole: string;
+    isUserAnonymous: boolean;
     userHasSomeAdminAccess: boolean;
     requiresPasswordConfirmation: boolean;
     disableTrackingMatomoAppLinks: boolean;

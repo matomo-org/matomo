@@ -12,12 +12,13 @@ namespace Piwik\Tests\Unit;
 use Piwik\Db\Schema;
 use Piwik\RankingQuery;
 
+/**
+ * @group Core
+ * @group RankingQuery
+ */
 class RankingQueryTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @group Core
-     */
-    public function testBasic()
+    public function testBasic(): void
     {
         $query = new RankingQuery();
         $query->setOthersLabel('Others');
@@ -82,10 +83,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $this->checkQuery($query, $innerQuery, $expected);
     }
 
-    /**
-     * @group Core
-     */
-    public function testBasicWithRollup()
+    public function testBasicWithRollup(): void
     {
         $query = new RankingQuery();
         $query->setOthersLabel('Others');
@@ -109,13 +107,13 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                 CASE
                     WHEN counterRollup = 11 THEN 'Others'
                     WHEN counterRollup > 0 THEN `label`
+                    WHEN counter = 11 AND counterRollup = 0 THEN `label`
                     WHEN counter = 11 THEN 'Others'
                     ELSE `label`
                 END AS `label`,
                 CASE
-                    WHEN counterRollup = 11 THEN NULL 
-                    WHEN counterRollup > 0 THEN `url`
-                    WHEN counter = 11 THEN 'Others'
+                    WHEN `url` IS NULL THEN NULL
+                    WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
                     ELSE `url`
                 END AS `url`,
                 `column`,
@@ -151,7 +149,20 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                         ORDER BY `column`
                     ) actualQuery
             ) AS withCounter
-            GROUP BY counter, counterRollup
+            GROUP BY counter, counterRollup,
+                CASE
+                    WHEN counterRollup = 11 THEN 'Others'
+                    WHEN counterRollup > 0 THEN `label`
+                    WHEN counter = 11 AND counterRollup = 0 THEN `label`
+                    WHEN counter = 11 THEN 'Others'
+                    ELSE `label`
+                END,
+                CASE
+                    WHEN `url` IS NULL THEN NULL
+                    WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
+                    ELSE `url`
+                END
+            ORDER BY counter, counterRollup
         ";
 
         if (!Schema::getInstance()->supportsSortingInSubquery()) {
@@ -160,13 +171,13 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                     CASE
                         WHEN counterRollup = 11 THEN 'Others'
                         WHEN counterRollup > 0 THEN `label`
+                        WHEN counter = 11 AND counterRollup = 0 THEN `label`
                         WHEN counter = 11 THEN 'Others'
                         ELSE `label`
                     END AS `label`,
                     CASE
-                        WHEN counterRollup = 11 THEN NULL
-                        WHEN counterRollup > 0 THEN `url`
-                        WHEN counter = 11 THEN 'Others'
+                        WHEN `url` IS NULL THEN NULL
+                        WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
                         ELSE `url`
                     END AS `url`,
                     `column`,
@@ -203,7 +214,19 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                             LIMIT 18446744073709551615
                         ) actualQuery
                 ) AS withCounter
-                GROUP BY counter, counterRollup
+                GROUP BY counter, counterRollup,
+                    CASE
+                        WHEN counterRollup = 11 THEN 'Others'
+                        WHEN counterRollup > 0 THEN `label`
+                        WHEN counter = 11 AND counterRollup = 0 THEN `label`
+                        WHEN counter = 11 THEN 'Others'
+                        ELSE `label`
+                    END,
+                    CASE
+                        WHEN `url` IS NULL THEN NULL
+                        WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
+                        ELSE `url`
+                    END
                 ORDER BY counter, counterRollup
             ";
         }
@@ -214,13 +237,13 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                     CASE
                         WHEN counterRollup = 11 THEN 'Others'
                         WHEN counterRollup > 0 THEN `label`
+                        WHEN counter = 11 AND counterRollup = 0 THEN `label`
                         WHEN counter = 11 THEN 'Others'
                         ELSE `label`
                     END AS `label`,
                     CASE
-                        WHEN counterRollup = 11 THEN NULL
-                        WHEN counterRollup > 0 THEN `url`
-                        WHEN counter = 11 THEN 'Others'
+                        WHEN `url` IS NULL THEN NULL
+                        WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
                         ELSE `url`
                     END AS `url`,
                     `column`,
@@ -257,17 +280,27 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
                         ) actualQuery
                     ORDER BY `label` IS NULL, `url` IS NULL, `column`
                 ) AS withCounter
-                GROUP BY counter, counterRollup
+                GROUP BY counter, counterRollup,
+                    CASE
+                        WHEN counterRollup = 11 THEN 'Others'
+                        WHEN counterRollup > 0 THEN `label`
+                        WHEN counter = 11 AND counterRollup = 0 THEN `label`
+                        WHEN counter = 11 THEN 'Others'
+                        ELSE `label`
+                    END,
+                    CASE
+                        WHEN `url` IS NULL THEN NULL
+                        WHEN counter = 11 AND counterRollup = 0 THEN 'Others'
+                        ELSE `url`
+                    END
+                ORDER BY counter, counterRollup
             ";
         }
 
         $this->checkQuery($query, $innerQuery, $expected, true);
     }
 
-    /**
-     * @group Core
-     */
-    public function testExcludeRows()
+    public function testExcludeRows(): void
     {
 
         $query = new RankingQuery(20);
@@ -335,10 +368,7 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $this->checkQuery($query, $innerQuery, $expected);
     }
 
-    /**
-     * @group Core
-     */
-    public function testPartitionResult()
+    public function testPartitionResult(): void
     {
         $query = new RankingQuery(1000);
         $query->setOthersLabel('Others');

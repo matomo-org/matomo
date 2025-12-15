@@ -27,6 +27,9 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\SitesManager\Settings\FilterPIIParameters;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
@@ -1181,11 +1184,11 @@ class API extends \Piwik\Plugin\API
      *
      * @return string Comma separated list of URL parameters
      */
-    public function getExcludedQueryParametersGlobal(): string
+    public function getExcludedQueryParametersGlobal(?int $idSite = null): string
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        switch ($this->getExclusionTypeForQueryParams()) {
+        switch ($this->getExclusionTypeForQueryParams($idSite)) {
             case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS:
                 return '';
             case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII:
@@ -1465,9 +1468,14 @@ class API extends \Piwik\Plugin\API
      *
      * @return string
      */
-    public function getExclusionTypeForQueryParams(): string
+    public function getExclusionTypeForQueryParams(?int $idSite = null): string
     {
         Piwik::checkUserHasSomeViewAccess();
+
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            return FilterPIIParameters::getInstance($idSite)->getValue();
+        }
 
         $result = Option::get(self::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL);
 
