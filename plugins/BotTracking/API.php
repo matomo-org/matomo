@@ -29,7 +29,15 @@ class API extends \Piwik\Plugin\API
 
         $archive = Archive::build($idSite, $period, $date, '');
 
-        $dataTable = $archive->getDataTableFromNumeric(Metrics::getReportMetricColumns());
+        $metrics = Metrics::getReportMetricColumns();
+
+        if ($period !== 'day') {
+            $metrics = array_filter($metrics, function ($metric) {
+                return !in_array($metric, [Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS]);
+            });
+        }
+
+        $dataTable = $archive->getDataTableFromNumeric($metrics);
 
         $this->filterColumns($dataTable, $columns);
 

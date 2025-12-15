@@ -38,11 +38,19 @@ class Controller extends \Piwik\Plugin\Controller
             $documentation .= sprintf('<b>%s:</b> %s<br />', $translations[$metric], $docs[$metric]);
         }
 
+        $metrics = Metrics::getSparklineMetricOrder();
+
+        if (Request::fromRequest()->getStringParameter('period', '') !== 'day') {
+            $metrics = array_filter($metrics, function ($metric) {
+                return !in_array($metric, [Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS]);
+            });
+        }
+
         $view = $this->getLastUnitGraphAcrossPlugins(
             $this->pluginName,
             __FUNCTION__,
             $columns,
-            Metrics::getSparklineMetricOrder(),
+            $metrics,
             $documentation
         );
 

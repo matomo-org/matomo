@@ -36,6 +36,12 @@ class Get extends Report
             new ClickThroughRate(),
         ];
         $this->order            = 10;
+
+        if (\Piwik\Request::fromRequest()->getStringParameter('period', '') !== 'day') {
+            $this->metrics = array_filter($this->metrics, function ($metric) {
+                return !in_array($metric, [Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS]);
+            });
+        }
     }
 
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory): void
@@ -69,6 +75,12 @@ class Get extends Report
 
         $order = 0;
         foreach (Metrics::getSparklineMetricOrder() as $metric) {
+            if (
+                \Piwik\Request::fromRequest()->getStringParameter('period', '') !== 'day'
+                && in_array($metric, [Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS])
+            ) {
+                continue;
+            }
             $view->config->addSparklineMetric($metric, $order++);
         }
 

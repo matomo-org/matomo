@@ -56,6 +56,10 @@ class AIAssistantReports extends RecordBuilder
         $this->maxRowsInTable                 = (int)GeneralConfig::getConfigValue('datatable_archiving_maximum_rows_bots');
         $this->maxRowsInSubtable              = (int)GeneralConfig::getConfigValue('datatable_archiving_maximum_rows_subtable_bots');
         $this->rankingQueryLimit              = $this->getRankingQueryLimit();
+        $this->columnAggregationOps           = [
+            Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS     => 'skip',
+            Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS => 'skip',
+        ];
     }
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
@@ -69,10 +73,8 @@ class AIAssistantReports extends RecordBuilder
                 ->setIsCountOfBlobRecordRows(Archiver::AI_ASSISTANTS_PAGES_RECORD),
             Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_REQUESTS),
             Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_ACQUIRED_VISITS),
-            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS)
-                ->setIsCountOfBlobRecordLeafRows(Archiver::AI_ASSISTANTS_REQUESTED_PAGES_RECORD),
-            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS)
-                ->setIsCountOfBlobRecordLeafRows(Archiver::AI_ASSISTANTS_REQUESTED_DOCUMENTS_RECORD),
+            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS),
+            Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS),
             Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_NOT_FOUND_REQUESTS),
             Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_ASSISTANTS_SERVER_ERROR_REQUESTS),
         ];
