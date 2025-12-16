@@ -257,7 +257,7 @@ export default defineComponent({
     },
     selectorLinkTitle() {
       return this.hasMultipleSites && this.displayedModelValue
-        ? translate('CoreHome_ChangeCurrentWebsite', this.displayedModelValue.name)
+        ? translate('CoreHome_ChangeCurrentWebsite', this.htmlEntities(this.displayedModelValue.name))
         : '';
     },
     hasMultipleSites() {
