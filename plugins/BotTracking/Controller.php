@@ -51,7 +51,8 @@ class Controller extends \Piwik\Plugin\Controller
             __FUNCTION__,
             $columns,
             $metrics,
-            $documentation
+            $documentation,
+            'BotTracking.get'
         );
 
         if (empty($view->config->columns_to_display)) {

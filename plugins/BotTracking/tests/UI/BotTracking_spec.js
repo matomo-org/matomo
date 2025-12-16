@@ -19,8 +19,31 @@ describe("BotTracking", function () {
         await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview");
         await page.waitForNetworkIdle();
 
+        await page.hover('.jqplot-seriespicker');
+
+        const availableMetrics = await page.$$('.jqplot-seriespicker input.select');
+        expect(availableMetrics.length).to.equal(8);
+
+        await page.mouse.move(0, 0);
+
+        const sparklines = await page.$$('.sparkline-metrics');
+        expect(sparklines.length).to.equal(8);
+
         var elem = await page.$('.pageWrap');
         expect(await elem.screenshot()).to.matchImage('bot_overview');
+    });
+
+    it('should not show unique pages and documents metric for higher periods', async function () {
+        await page.goto("?" + urlBase + "#?idSite=1&period=week&date=2025-02-02&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview");
+        await page.waitForNetworkIdle();
+
+        await page.hover('.jqplot-seriespicker');
+
+        const availableMetrics = await page.$$('.jqplot-seriespicker input.select');
+        expect(availableMetrics.length).to.equal(6);
+
+        const sparklines = await page.$$('.sparkline-metrics');
+        expect(sparklines.length).to.equal(6);
     });
 
     it('should render AI Assistants > AI Bots Overview bot detail report', async function () {
