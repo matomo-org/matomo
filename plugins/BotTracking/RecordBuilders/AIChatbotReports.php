@@ -19,6 +19,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
 use Piwik\Db;
+use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\BotTracking\Archiver;
 use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
@@ -64,6 +65,8 @@ class AIChatbotReports extends RecordBuilder
     {
         return [
             Record::make(Record::TYPE_BLOB, Archiver::AI_CHATBOTS_PAGES_RECORD),
+            Record::make(Record::TYPE_BLOB, Archiver::AI_CHATBOTS_REQUESTED_DOCUMENTS_RECORD),
+            Record::make(Record::TYPE_BLOB, Archiver::AI_CHATBOTS_REQUESTED_PAGES_RECORD),
             Record::make(Record::TYPE_BLOB, Archiver::AI_CHATBOTS_DOCUMENTS_RECORD),
             Record::make(Record::TYPE_NUMERIC, Metrics::METRIC_AI_CHATBOTS_UNIQUE_CHATBOTS)
                 ->setIsCountOfBlobRecordRows(Archiver::AI_CHATBOTS_PAGES_RECORD),
@@ -87,6 +90,8 @@ class AIChatbotReports extends RecordBuilder
         $tables = [
             Archiver::AI_CHATBOTS_PAGES_RECORD     => new DataTable(),
             Archiver::AI_CHATBOTS_DOCUMENTS_RECORD => new DataTable(),
+            Archiver::AI_CHATBOTS_REQUESTED_PAGES_RECORD     => new DataTable(),
+            Archiver::AI_CHATBOTS_REQUESTED_DOCUMENTS_RECORD => new DataTable(),
         ];
 
         $this->populateTables($archiveProcessor, $tables);
@@ -105,6 +110,9 @@ class AIChatbotReports extends RecordBuilder
 
         $this->populateChatbotTableForActionType($tables, Action::TYPE_PAGE_URL, $logAggregator, $visits);
         $this->populateChatbotTableForActionType($tables, Action::TYPE_DOWNLOAD, $logAggregator, $visits);
+
+        $this->populateRequestTableForActionType($tables[Archiver::AI_CHATBOTS_REQUESTED_PAGES_RECORD], Action::TYPE_PAGE_URL, $logAggregator);
+        $this->populateRequestTableForActionType($tables[Archiver::AI_CHATBOTS_REQUESTED_DOCUMENTS_RECORD], Action::TYPE_DOWNLOAD, $logAggregator);
     }
 
     /**
@@ -256,6 +264,51 @@ class AIChatbotReports extends RecordBuilder
         }
 
         return max($configLimit, $maxRowsInTable, $maxRowsInSubtable);
+    }
+
+    public function populateRequestTableForActionType(DataTable $table, int $actionType, LogAggregator $logAggregator): void
+    {
+        $where    = $logAggregator->getWhereStatement('bot', 'server_time');
+        $bindBase = $logAggregator->getGeneralQueryBindParams();
+
+        $sql = sprintf(
+            "SELECT log_action.name AS url, log_action.url_prefix, COUNT(*) AS requests
+             FROM `%s` AS bot
+             INNER JOIN `%s` AS log_action ON log_action.idaction = bot.idaction_url
+             WHERE log_action.name IS NOT NULL
+               AND log_action.name <> ''
+               AND log_action.type = %d
+               AND bot.bot_type = ?
+               AND %s
+             GROUP BY log_action.name
+             ORDER BY requests DESC, url",
+            BotRequestsDao::getPrefixedTableName(),
+            Common::prefixTable('log_action'),
+            $actionType,
+            $where
+        );
+
+        if ($this->rankingQueryLimit > 0) {
+            $rankingQuery = new RankingQuery($this->rankingQueryLimit);
+            $rankingQuery->addLabelColumn(['url']);
+            $rankingQuery->addColumn('requests');
+            $rankingQuery->addColumn('url_prefix', 'sum');
+            $sql = $rankingQuery->generateRankingQuery($sql, true);
+        }
+
+        $resultSet = Db::query($sql, array_merge([BotDetector::BOT_TYPE_AI_CHATBOT], $bindBase));
+
+        while ($record = $resultSet->fetch()) {
+            /**
+             * @var array{requests: int, url: string, url_prefix: ?int} $record
+             */
+            $path = ArchivingHelper::getActionExplodedNames($record['url'], $actionType, $record['url_prefix']);
+            [$row, $level] = $table->walkPath($path, [Metrics::COLUMN_REQUESTS => 0], $this->maxRowsInSubtable);
+
+            if ($row) {
+                $row->setColumn(Metrics::COLUMN_REQUESTS, $record['requests']);
+            }
+        }
     }
 
     /**
