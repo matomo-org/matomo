@@ -74,6 +74,7 @@ class Manager
 
     // These are always activated and cannot be deactivated
     protected static $pluginToAlwaysActivate = array(
+        'ArchivingMetrics',
         'FeatureFlags',
         'BulkTracking',
         'CoreVue',

@@ -1,0 +1,13 @@
+{
+    "name": "ArchivingMetrics",
+    "description": "Used for recording archiving metrics",
+    "version": "1.0.0",
+    "license": "GPL v3+",
+    "authors": [
+        {
+            "name": "Matomo",
+            "email": "hello@matomo.org",
+            "homepage": "https://matomo.org"
+        }
+    ]
+}
