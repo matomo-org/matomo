@@ -91,6 +91,6 @@ class GetAIAssistantRequests extends Report
      */
     public function configureWidgets(WidgetsList $widgetsList, ReportWidgetFactory $factory)
     {
-        $widgetsList->addWidgetConfig($factory->createWidget()->setOrder($this->order));
+        $widgetsList->addWidgetConfig($factory->createWidget()->setIsWide());
     }
 }

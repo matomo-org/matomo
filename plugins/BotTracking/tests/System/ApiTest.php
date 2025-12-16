@@ -37,6 +37,15 @@ class ApiTest extends SystemTestCase
         return [
             [
                 [
+                    'BotTracking.get',
+                ], [
+                    'idSite'                 => 1,
+                    'date'                   => '2025-02-03',
+                    'periods'                => ['day', 'week'],
+                ],
+            ],
+            [
+                [
                     'BotTracking.getAIAssistantRequests',
                 ],
                 [

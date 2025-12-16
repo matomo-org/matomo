@@ -37,19 +37,20 @@ class BotTraffic extends Fixture
     private function setUpWebsite(): void
     {
         if (!self::siteCreated($this->idSite)) {
-            self::createWebsite($this->dateTime, true, 'https://example.com');
+            self::createWebsite($this->dateTime, 1, 'https://example.com');
         }
     }
 
     private function trackBotRequests(): void
     {
         $pages = [
-            'https://example.com/article-1',
-            'https://example.com/article-2',
-            'https://example.com/article-3',
-            'https://example.com/article-4',
-            'https://example.com/article-5',
-            'https://example.com/article-6',
+            'https://example.com/article/1/page/1',
+            'https://example.com/article/1/page/2',
+            'https://example.com/article/2',
+            'https://example.com/article/3',
+            'https://example.com/article/4/page/1',
+            'https://example.com/article/4/page/2',
+            'https://example.com/overview',
         ];
 
         $downloads = [
@@ -85,11 +86,11 @@ class BotTraffic extends Fixture
             2 => [
                 ['Perplexity-User/1.0', $downloads[3], 200, 84269, true],
                 ['Gemini-Deep-Research/1.0', $pages[3], 200, 3265, false],
-                ['Devin/1.0', 'https://example.com/api', 200, 33366, false],
+                ['Devin/1.0', $pages[6], 200, 33366, false],
                 ['ChatGPT-User/1.0', $pages[3], 200, 5454, false],
                 ['Perplexity-User/1.0', $downloads[2], 200, 69856, true],
                 ['Gemini-Deep-Research/1.0', $pages[4], 200, 63256, false],
-                ['Devin/1.0', 'https://example.com/api', 200, 25486, false],
+                ['Devin/1.0', $pages[6], 200, 25486, false],
             ],
             3 => [
                 ['MistralAI-User/2.0', $pages[4], 200, 12568, false],

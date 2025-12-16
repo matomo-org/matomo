@@ -1129,6 +1129,26 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /**
+     * Returns the number of leaf rows in the entire DataTable hierarchy. Only rows that do not contain a subtables are counted
+     *
+     * @return int
+     */
+    public function getLeafRowsCount()
+    {
+        $totalCount = 0;
+        foreach ($this->rows as $row) {
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $totalCount += $subTable->getLeafRowsCount();
+            } else {
+                $totalCount++;
+            }
+        }
+
+        return $totalCount;
+    }
+
+    /**
      * Delete a column by name in every row. This change is NOT applied recursively to all
      * subtables.
      *
@@ -1839,10 +1859,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *                                      created for path labels that cannot be found.
      * @param int $maxSubtableRows The maximum number of allowed rows in new subtables. New
      *                             subtables are only created if `$missingRowColumns` is provided.
-     * @return array First element is the found row or `false`. Second element is
-     *               the number of path segments walked. If a row is found, this
-     *               will be == to `count($path)`. Otherwise, it will be the index
-     *               of the path segment that we could not find.
+     * @return array{0: false|Row, 1: int} First element is the found row or `false`. Second element is
+     *                                     the number of path segments walked. If a row is found, this
+     *                                     will be == to `count($path)`. Otherwise, it will be the index
+     *                                     of the path segment that we could not find.
      */
     public function walkPath($path, $missingRowColumns = false, $maxSubtableRows = 0)
     {

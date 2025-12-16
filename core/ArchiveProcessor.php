@@ -192,9 +192,8 @@ class ArchiveProcessor
      * @param array $columnsToRenameAfterAggregation Columns mapped to new names for columns that must change names
      *                                               when summed because they cannot be summed, eg,
      *                                               `array('nb_uniq_visitors' => 'sum_daily_nb_uniq_visitors')`.
-     * @param bool|array $countRowsRecursive if set to true, will calculate the recursive rows count for all record names
-     *                                       which makes it slower. If you only need it for some records pass an array of
-     *                                       recordNames that defines for which ones you need a recursive row count.
+     * @param string[]|bool $countRowsRecursive array of recordNames that defines for which ones you need a recursive row count, or true if it should be done for all
+     * @param string[] $countLeafRows array of recordNames that defines for which ones you need a leaf row count.
      * @return array Returns the row counts of each aggregated report before truncation, eg,
      *
      *                   array(
@@ -213,7 +212,8 @@ class ArchiveProcessor
         $defaultColumnToSortByBeforeTruncation = null,
         &$columnsAggregationOperation = null,
         $columnsToRenameAfterAggregation = null,
-        $countRowsRecursive = true
+        $countRowsRecursive = true,
+        array $countLeafRows = []
     ) {
         /** @var LoggerInterface $logger */
         $logger = StaticContainer::get(LoggerInterface::class);
@@ -238,6 +238,9 @@ class ArchiveProcessor
             $nameToCount[$recordName]['level0'] = $table->getRowsCount();
             if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {
                 $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
+            }
+            if (in_array($recordName, $countLeafRows)) {
+                $nameToCount[$recordName]['leafs'] = $table->getLeafRowsCount();
             }
 
             $columnToSortByBeforeTruncation = $defaultColumnToSortByBeforeTruncation;

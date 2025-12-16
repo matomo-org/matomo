@@ -69,16 +69,48 @@
 		</subcategory>
 		<widgets>
 			<row>
+				<name>AI Assistants - Bots Over Time</name>
+				<module>BotTracking</module>
+				<action>getEvolutionGraph</action>
+				<order>1</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>graphEvolution</viewDataTable>
+					<module>BotTracking</module>
+					<action>getEvolutionGraph</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>graphEvolution</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>AI Assistants - Bots Overview</name>
+				<module>BotTracking</module>
+				<action>get</action>
+				<order>2</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>sparklines</viewDataTable>
+					<module>BotTracking</module>
+					<action>get</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>sparklines</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
 				<name>AI Assistants - Bots</name>
 				<module>BotTracking</module>
 				<action>getAIAssistantRequests</action>
-				<order>30</order>
+				<order>130</order>
 				<parameters>
 					<module>BotTracking</module>
 					<action>getAIAssistantRequests</action>
 				</parameters>
 				<uniqueId>widgetBotTrackinggetAIAssistantRequests</uniqueId>
-				<isWide>0</isWide>
+				<isWide>1</isWide>
 				<viewDataTable>table</viewDataTable>
 				<isReport>1</isReport>
 			</row>

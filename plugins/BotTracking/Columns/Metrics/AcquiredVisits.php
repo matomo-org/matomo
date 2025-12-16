@@ -34,6 +34,10 @@ class AcquiredVisits extends AggregatedMetric
         return Piwik::translate('BotTracking_ColumnAcquiredVisitsDocumentation');
     }
 
+    /**
+     * @param int $value
+     * @return string
+     */
     public function format($value, Formatter $formatter)
     {
         return $formatter->getPrettyNumber($value);
