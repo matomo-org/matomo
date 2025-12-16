@@ -1306,6 +1306,7 @@ Plugins[] = JsTrackerInstallCheck
 Plugins[] = FeatureFlags
 Plugins[] = AIAgents
 Plugins[] = BotTracking
+Plugins[] = ArchivingMetrics
 
 [PluginsInstalled]
 PluginsInstalled[] = Diagnostics
@@ -1317,6 +1318,7 @@ PluginsInstalled[] = Installation
 PluginsInstalled[] = Monolog
 PluginsInstalled[] = Intl
 PluginsInstalled[] = JsTrackerInstallCheck
+PluginsInstalled[] = ArchivingMetrics
 
 [PagePerformance]
 ; The configuration below provides the possibility to enable capping of values used for generating 'sum/total' and 'average' metrics for page performance reports.

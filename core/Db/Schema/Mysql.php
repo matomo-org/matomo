@@ -334,6 +334,24 @@ class Mysql implements SchemaInterface
                                       ) $tableOptions
             ",
 
+            'archiving_metrics'     => "CREATE TABLE {$prefixTables}archiving_metrics (
+                                      metadataid BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      idarchive BIGINT UNSIGNED NULL,
+                                      idsite INTEGER UNSIGNED NOT NULL,
+                                      segment VARCHAR(255) NULL,
+                                      date1 DATE NOT NULL,
+                                      date2 DATE NOT NULL,
+                                      period VARCHAR(10) NOT NULL,
+                                      ts_started DATETIME NOT NULL,
+                                      ts_finished DATETIME NOT NULL,
+                                      total_time BIGINT UNSIGNED NOT NULL,
+                                      total_time_exclusive BIGINT UNSIGNED NOT NULL,
+                                        PRIMARY KEY(metadataid),
+                                        INDEX idx_archiving_metrics_idarchive(idarchive),
+                                        INDEX idx_archiving_metrics_site_date_period(idsite, date1, period)
+                                      ) $tableOptions
+            ",
+
             'archive_invalidations' => "CREATE TABLE `{$prefixTables}archive_invalidations` (
                                             idinvalidation BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                                             idarchive INTEGER UNSIGNED NULL,
