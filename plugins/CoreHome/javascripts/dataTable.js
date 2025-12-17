@@ -1431,8 +1431,6 @@ $.extend(DataTable.prototype, UIControl.prototype, {
               });
               ajaxRequest.setFormat('html');
               ajaxRequest.send();
-            } else {
-              console.log('Cannot save parameters for anonymous user.');
             }
         }
     },
