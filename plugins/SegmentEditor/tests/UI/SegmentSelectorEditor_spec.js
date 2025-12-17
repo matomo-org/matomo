@@ -410,12 +410,12 @@ describe("SegmentSelectorEditorTest", function () {
       const maxSegments = configLimit + 1;
       testEnvironment.overrideConfig('General', 'data_comparison_segment_limit', configLimit);
       await testEnvironment.save();
-
+      const dashUrl = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=1'
       // Need to reload here since overrideConfig above does not really
       // reflect well when the config is used in javascript
       // start a fresh navigation so the new config is injected
       await page.goto('about:blank');
-      await page.goto(url, { waitUntil: 'networkidle0' });
+      await page.goto(dashUrl, { waitUntil: 'networkidle0' });
       await page.waitForNetworkIdle();
       // We grab the max limit message
       const maxLimitMessage = await page.evaluate(
@@ -438,9 +438,21 @@ describe("SegmentSelectorEditorTest", function () {
       );
       expect(comparedCount).to.equal(1);
 
+      // Making sure that the list is closed initially before the loop starts
+      const segmentListIsExpanded = await page.evaluate(() => {
+        const panel = document.querySelector('.segmentEditorPanel');
+        return !!panel && panel.classList.contains('expanded');
+      });
+
+      if (segmentListIsExpanded) {
+        await page.click('.segmentationContainer .title');
+        await page.waitForTimeout(100);
+      }
+
       // We want to click all the segments so that we can check that it stops at the limit
       for (let i=0; i<liElemLength; i++) {
         await page.click('.segmentationContainer .title');
+        await page.waitForTimeout(100);
         const elements = await page.$$('.segmentListContainer .segmentList li button.compareSegment');
         if (!elements[i]) break;
         await elements[i].click();
