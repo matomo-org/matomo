@@ -10,7 +10,6 @@
 describe("SegmentSelectorEditorTest", function () {
     const getSegmentQuery = n => '.segmentList li:nth-of-type(' + (n+1) + ')';
     const getSegmentStarQuery = n => getSegmentQuery(n) + ' .starSegment';
-    const getSegmentCompareQuery = n => getSegmentQuery(n) + ' .compareSegment';
     var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
@@ -439,16 +438,6 @@ describe("SegmentSelectorEditorTest", function () {
       );
       expect(comparedCount).to.equal(1);
 
-      // Making sure that the list is closed initially before the loop starts
-      const segmentListIsExpanded = await page.evaluate(() => {
-        const panel = document.querySelector('.segmentEditorPanel');
-        return !!panel && panel.classList.contains('expanded');
-      });
-
-      if (segmentListIsExpanded) {
-        await page.click('.segmentationContainer .title');
-        await page.waitForTimeout(100);
-      }
       // We want to click all the segments so that we can check that it stops at the limit
       for (let i=0; i<liElemLength; i++) {
         await page.click('.segmentationContainer .title');
@@ -457,7 +446,6 @@ describe("SegmentSelectorEditorTest", function () {
         const elements = await page.$$('.segmentListContainer .segmentList li button.compareSegment');
         if (!elements[i]) break;
         await elements[i].click();
-        // await page.click(getSegmentCompareQuery(i));
         await page.waitForTimeout(100);
       }
 
@@ -467,6 +455,5 @@ describe("SegmentSelectorEditorTest", function () {
         (nodes) => nodes.length,
       );
       expect(comparedCount).to.equal(maxSegments);
-
     });
 });
