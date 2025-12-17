@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PluginDescription": "Feu un seguiment i analitzeu les visites de bots d'IA com ara ChatGPT-User i similars. Aquest complement us ajuda a entendre com les eines basades en IA interactuen amb el vostre lloc web registrant i informant de les sol·licituds activades per bots."
+        "PluginDescription": "Feu un seguiment i analitzeu les visites de bots d'IA com ara ChatGPT-User i similars. Aquest complement us ajuda a entendre com les eines basades en IA interactuen amb el vostre lloc web registrant i informant de les sol·licituds activades per bots.",
+        "PageUrl": "URL de la pàgina"
     }
 }
