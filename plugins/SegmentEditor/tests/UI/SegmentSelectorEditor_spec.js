@@ -42,17 +42,17 @@ describe("SegmentSelectorEditorTest", function () {
             idSites: [1],
         });
         testEnvironment.testUseMockAuth = 0;
-        await testEnvironment.save();
+        testEnvironment.save();
     }
 
     async function switchToConnectedUser() {
+        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.save();
         await testEnvironment.callApi('UsersManager.setUserAccess', {
             userLogin: 'anonymous',
             access: 'noaccess',
             idSites: [1],
         });
-      testEnvironment.testUseMockAuth = 1;
-      await testEnvironment.save();
     }
 
     it("should load correctly", async function() {
@@ -441,8 +441,6 @@ describe("SegmentSelectorEditorTest", function () {
       // We want to click all the segments so that we can check that it stops at the limit
       for (let i=0; i<liElemLength; i++) {
         await page.click('.segmentationContainer .title');
-        await page.waitForTimeout(100);
-        console.log('using i', i);
         const elements = await page.$$('.segmentListContainer .segmentList li button.compareSegment');
         if (!elements[i]) break;
         await elements[i].click();
