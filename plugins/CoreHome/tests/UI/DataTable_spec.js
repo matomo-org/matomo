@@ -8,6 +8,10 @@
  */
 
 describe('DataTable', function () {
+  this.optionsOverride = {
+    'persist-fixture-data': false
+  };
+
   const devicesUrl = "?module=CoreHome&action=index&idSite=3&period=day&date=yesterday&category=General_Visitors&subcategory=DevicesDetection_Devices";
   const widgetSelector = '#widgetDevicesDetectiongetType';
   const selectors = {
@@ -94,11 +98,6 @@ describe('DataTable', function () {
     }
   }
 
-  after(async function () {
-    testEnvironment.testUseMockAuth = 1;
-    testEnvironment.save();
-  });
-
   it('should allow saving of preference for normal user when changing sorting and table limits', async function () {
     await loadWidget();
     const reportPage = await page.$('.reporting-page');
@@ -139,12 +138,12 @@ describe('DataTable', function () {
         idSites: [3],
       });
       testEnvironment.testUseMockAuth = 0;
-      testEnvironment.save();
+      await testEnvironment.save();
     });
 
     after(async function () {
       testEnvironment.testUseMockAuth = 1;
-      testEnvironment.save();
+      await testEnvironment.save();
     });
 
     it('should not save preferences when anonymous user performs datatable actions', async function () {
