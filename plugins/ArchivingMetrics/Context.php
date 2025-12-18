@@ -9,22 +9,36 @@
 
 namespace Piwik\Plugins\ArchivingMetrics;
 
+use Piwik\Period;
+use Piwik\Segment;
+
 final class Context
 {
+    /**
+     * @var int
+     */
     public $idSite;
+
+    /**
+     * @var Period
+     */
     public $period;
+
+    /**
+     * @var Segment
+     */
     public $segment;
-    public $date1;
-    public $date2;
+
+    /**
+     * @var string
+     */
     public $plugin;
 
-    public function __construct($idSite, $period, $segment, $date1, $date2, $plugin)
+    public function __construct(int $idSite, Period $period, Segment $segment, string $plugin)
     {
         $this->idSite = $idSite;
         $this->period = $period;
         $this->segment = $segment;
-        $this->date1 = $date1;
-        $this->date2 = $date2;
         $this->plugin = $plugin;
     }
 
@@ -32,10 +46,10 @@ final class Context
     {
         return implode('|', [
             $this->idSite,
-            $this->period,
-            $this->segment,
-            $this->date1,
-            $this->date2,
+            $this->period->getLabel(),
+            $this->segment->getString(),
+            $this->period->getDateTimeStart()->toString('Y-m-d'),
+            $this->period->getDateTimeEnd()->toString('Y-m-d'),
             $this->plugin,
         ]);
     }
