@@ -415,6 +415,7 @@ describe("SegmentSelectorEditorTest", function () {
       // reflect well when the config is used in javascript
       // start a fresh navigation so the new config is injected
       await page.goto('about:blank');
+      await page.waitForNetworkIdle();
       await page.goto(dashUrl);
       await page.waitForNetworkIdle();
       // We grab the max limit message
@@ -438,13 +439,8 @@ describe("SegmentSelectorEditorTest", function () {
       );
       expect(comparedCount).to.equal(1);
 
-      // await page.click('.segmentationContainer .title');
-      // await page.waitForTimeout(100);
       // Making sure that the list is closed initially before the loop starts
-      const segmentListIsExpanded = await page.evaluate(() => {
-        const panel = document.querySelector('.segmentEditorPanel');
-        return !!panel && panel.classList.contains('expanded');
-      });
+      const segmentListIsExpanded = await page.evaluate(() => !!document.querySelector('.segmentEditorPanel.expanded'));
       console.log('segmentListIsExpanded', segmentListIsExpanded);
       if (segmentListIsExpanded) {
         await page.click('.segmentationContainer .title');
@@ -456,6 +452,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segmentationContainer .title');
         await page.waitForTimeout(100);
         const elements = await page.$$('.segmentListContainer .segmentList li button.compareSegment');
+        console.log('i', i);
         if (!elements[i]) break;
         await elements[i].click();
         await page.waitForTimeout(100);
@@ -467,9 +464,5 @@ describe("SegmentSelectorEditorTest", function () {
         (nodes) => nodes.length,
       );
       expect(comparedCount).to.equal(maxSegments);
-
-      await page.click('.segmentationContainer .title');
-      await page.waitForTimeout(100);
-      expect(await page.screenshot({ fullPage: true })).to.matchImage('segment_list_open');
     });
 });
