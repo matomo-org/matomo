@@ -11,6 +11,7 @@ describe('SegmentComparison', () => {
   this.optionsOverride = {
     'persist-fixture-data': false
   };
+  var generalParams = 'idSite=1&period=year&date=2012-08-09';
   it('should not allow comparing segments more than the limit set', async function() {
     const configLimit = 2;
     const maxSegments = configLimit + 1;
@@ -58,7 +59,6 @@ describe('SegmentComparison', () => {
       await page.click('.segmentationContainer .title');
       await page.waitForTimeout(100);
       const elements = await page.$$('.segmentListContainer .segmentList li button.compareSegment');
-      console.log('i', i);
       if (!elements[i]) break;
       await elements[i].click();
       await page.waitForTimeout(100);
