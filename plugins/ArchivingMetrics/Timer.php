@@ -127,10 +127,6 @@ final class Timer
             return false;
         }
 
-        if (!empty($context->plugin)) {
-            return false;
-        }
-
         $doneFlag = Rules::getDoneStringFlagFor(
             [$context->idSite],
             $context->segment,
