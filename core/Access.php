@@ -743,6 +743,7 @@ class Access
      */
     private function throwNoAccessException($message)
     {
+        $sessionExpired = false;
         if (Piwik::isUserIsAnonymous() && !Request::isRootRequestApiRequest()) {
             $message = Piwik::translate('General_YouMustBeLoggedIn');
 
@@ -754,10 +755,11 @@ class Access
                 strpos($referrer, $matomoUrl) === 0
             ) {
                 $message = Piwik::translate('General_YourSessionHasExpired');
+                $sessionExpired = true;
             }
         }
 
-        throw new NoAccessException($message);
+        throw new NoAccessException($message, 401, $sessionExpired);
     }
 
     /**
@@ -768,5 +770,12 @@ class Access
     public function isUserLoggedIn()
     {
         return !empty($this->login);
+    }
+
+    private function requestHadSessionCookie()
+    {
+        $sessionName = Session::$sessionName ?? Session::SESSION_NAME;
+
+        return !empty($_COOKIE[$sessionName] ?? null);
     }
 }
