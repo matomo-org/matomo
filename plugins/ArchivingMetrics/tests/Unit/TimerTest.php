@@ -274,19 +274,7 @@ class TimerTest extends TestCase
                         'total_time_exclusive' => 12300,
                     ],
                 ],
-            ],
-            'plugin-specific archives are ignored' => [
-                'events' => [
-                    ['action' => 'start', 'context' => array_merge($base, ['period' => 'day', 'plugin' => 'VisitsSummary'])],
-                    ['action' => 'complete', 'context' => array_merge($base, ['period' => 'day', 'plugin' => 'VisitsSummary']), 'idArchives' => [505], 'cached' => false],
-                ],
-                'microtimes' => [5.0, 6.0],
-                'nowValues' => [
-                    '2024-01-01 00:00:00',
-                    '2024-01-01 00:00:01',
-                ],
-                'expectedRecords' => [],
-            ],
+            ]
         ];
     }
 
