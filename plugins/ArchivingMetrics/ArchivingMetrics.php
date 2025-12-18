@@ -13,5 +13,39 @@ namespace Piwik\Plugins\ArchivingMetrics;
 
 class ArchivingMetrics extends \Piwik\Plugin
 {
-    // Tracking is performed manually via Tracker from CoreAdminHome API; no events registered here.
+    public function registerEvents()
+    {
+        return [
+            'CoreAdminHome.archiveReports.start' => 'onArchiveReportsStart',
+            'CoreAdminHome.archiveReports.complete' => 'onArchiveReportsComplete',
+        ];
+    }
+
+    public function onArchiveReportsStart(int $idSite, $period, $segment, string $plugin, bool $isArchivePhpTriggered): void
+    {
+        $timer = Timer::getInstance($isArchivePhpTriggered);
+        $context = $this->buildContext($idSite, $period, $segment, $plugin);
+
+        $timer->start($context);
+    }
+
+    public function onArchiveReportsComplete(
+        int $idSite,
+        $period,
+        $segment,
+        string $plugin,
+        bool $isArchivePhpTriggered,
+        array $idArchives,
+        bool $wasCached
+    ): void {
+        $timer = Timer::getInstance($isArchivePhpTriggered);
+        $context = $this->buildContext($idSite, $period, $segment, $plugin);
+
+        $timer->complete($context, $idArchives, $wasCached);
+    }
+
+    private function buildContext(int $idSite, $period, $segment, string $plugin): Context
+    {
+        return new Context($idSite, $period, $segment, $plugin);
+    }
 }

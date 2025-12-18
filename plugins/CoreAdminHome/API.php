@@ -24,8 +24,6 @@ use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
-use Piwik\Plugins\ArchivingMetrics\Context;
-use Piwik\Plugins\ArchivingMetrics\Timer;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsServer;
@@ -316,15 +314,13 @@ class API extends \Piwik\Plugin\API
             $parameters->setArchiveOnlyReport($report);
         }
 
-        $archivingMetricsTracker = Timer::getInstance($isArchivePhpTriggered);
-        $context = new Context(
+        Piwik::postEvent('CoreAdminHome.archiveReports.start', [
             $idSite,
             $period,
             $segmentObj,
-            (string) $plugin
-        );
-
-        $archivingMetricsTracker->start($context);
+            (string) $plugin,
+            $isArchivePhpTriggered,
+        ]);
 
         // TODO: need to test case when there are multiple plugin archives w/ only some data each. does purging remove some that we need?
         $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving);
@@ -337,7 +333,18 @@ class API extends \Piwik\Plugin\API
             ];
         }
 
-        $archivingMetricsTracker->complete($context, (array) $result['idarchives'], $archiveLoader->didReuseArchive());
+        $idArchives = isset($result['idarchives']) ? (array) $result['idarchives'] : [];
+        $wasCached = $archiveLoader->didReuseArchive();
+
+        Piwik::postEvent('CoreAdminHome.archiveReports.complete', [
+            $idSite,
+            $period,
+            $segmentObj,
+            (string) $plugin,
+            $isArchivePhpTriggered,
+            $idArchives,
+            $wasCached,
+        ]);
 
         return $result;
     }
