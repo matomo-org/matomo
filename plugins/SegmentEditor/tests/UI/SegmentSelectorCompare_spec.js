@@ -8,9 +8,6 @@
  */
 
 describe('SegmentComparison', () => {
-  this.optionsOverride = {
-    'persist-fixture-data': false
-  };
   var generalParams = 'idSite=1&period=year&date=2012-08-09';
   it('should not allow comparing segments more than the limit set', async function() {
     const configLimit = 2;
