@@ -45,7 +45,6 @@ describe('SegmentComparison', () => {
 
     // Making sure that the list is closed initially before the loop starts
     const segmentListIsExpanded = await page.evaluate(() => !!document.querySelector('.segmentEditorPanel.expanded'));
-    console.log('segmentListIsExpanded', segmentListIsExpanded);
     if (segmentListIsExpanded) {
       await page.click('.segmentationContainer .title');
       await page.waitForTimeout(100);
