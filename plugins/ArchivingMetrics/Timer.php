@@ -127,7 +127,17 @@ final class Timer
             return false;
         }
 
-        if (Rules::getDoneStringFlagFor([$context->idSite], $context->segment, $context->period->getLabel(), $context->plugin) !== 'done') {
+        if (!empty($context->plugin)) {
+            return false;
+        }
+
+        $doneFlag = Rules::getDoneStringFlagFor(
+            [$context->idSite],
+            $context->segment,
+            $context->period->getLabel(),
+            $context->plugin
+        );
+        if (strpos($doneFlag, '.') !== false) {
             return false;
         }
 

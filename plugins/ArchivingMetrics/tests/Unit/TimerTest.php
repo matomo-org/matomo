@@ -218,6 +218,75 @@ class TimerTest extends TestCase
                     ],
                 ],
             ],
+            'segments have timings recorded' => [
+                'events' => [
+                    ['action' => 'start', 'context' => array_merge($base, ['period' => 'year', 'date1' => '2024-01-01', 'date2' => '2025-01-01', 'segment' => 'browserCode==FF'])],
+                    ['action' => 'complete', 'context' => array_merge($base, ['period' => 'year', 'date1' => '2024-01-01', 'date2' => '2025-01-01', 'segment' => 'browserCode==FF']), 'idArchives' => [303], 'cached' => false],
+                    ['action' => 'start', 'context' => array_merge($base, ['period' => 'day', 'date1' => '2024-02-01', 'date2' => '2024-02-01'])],
+                    ['action' => 'complete', 'context' => array_merge($base, ['period' => 'day', 'date1' => '2024-02-01', 'date2' => '2024-02-01']), 'idArchives' => [204], 'cached' => false],
+                    ['action' => 'start', 'context' => array_merge($base, ['period' => 'month', 'date1' => '2024-02-01', 'date2' => '2024-02-29'])],
+                    ['action' => 'complete', 'context' => array_merge($base, ['period' => 'month', 'date1' => '2024-02-01', 'date2' => '2024-02-29']), 'idArchives' => [202], 'cached' => false],
+                ],
+                'microtimes' => [0.2, 6.5, 3.1, 8.5, 0.2, 12.5],
+                'nowValues' => [
+                    '2024-01-01 00:00:00',
+                    '2024-02-01 00:00:00',
+                    '2024-02-01 00:00:01',
+                    '2024-12-31 23:59:59',
+                    '2024-02-01 00:00:01',
+                    '2024-12-31 23:59:59',
+                ],
+                'expectedRecords' => [
+                    [
+                        'idarchive' => 303,
+                        'idsite' => 1,
+                        'segment' => 'browserCode==FF',
+                        'date1' => '2024-01-01',
+                        'date2' => '2024-12-31',
+                        'period' => 'year',
+                        'ts_started' => '2024-01-01 00:00:00',
+                        'ts_finished' => '2024-02-01 00:00:00',
+                        'total_time' => 6300,
+                        'total_time_exclusive' => 6300,
+                    ],
+                    [
+                        'idarchive' => 204,
+                        'idsite' => 1,
+                        'segment' => '',
+                        'date1' => '2024-02-01',
+                        'date2' => '2024-02-01',
+                        'period' => 'day',
+                        'ts_started' => '2024-02-01 00:00:01',
+                        'ts_finished' => '2024-12-31 23:59:59',
+                        'total_time' => 5400,
+                        'total_time_exclusive' => 5400,
+                    ],
+                    [
+                        'idarchive' => 202,
+                        'idsite' => 1,
+                        'segment' => '',
+                        'date1' => '2024-02-01',
+                        'date2' => '2024-02-29',
+                        'period' => 'month',
+                        'ts_started' => '2024-02-01 00:00:01',
+                        'ts_finished' => '2024-12-31 23:59:59',
+                        'total_time' => 12300,
+                        'total_time_exclusive' => 12300,
+                    ],
+                ],
+            ],
+            'plugin-specific archives are ignored' => [
+                'events' => [
+                    ['action' => 'start', 'context' => array_merge($base, ['period' => 'day', 'plugin' => 'VisitsSummary'])],
+                    ['action' => 'complete', 'context' => array_merge($base, ['period' => 'day', 'plugin' => 'VisitsSummary']), 'idArchives' => [505], 'cached' => false],
+                ],
+                'microtimes' => [5.0, 6.0],
+                'nowValues' => [
+                    '2024-01-01 00:00:00',
+                    '2024-01-01 00:00:01',
+                ],
+                'expectedRecords' => [],
+            ],
         ];
     }
 
@@ -225,12 +294,7 @@ class TimerTest extends TestCase
     {
         $period = Factory::build($data['period'], $data['date1']);
 
-        $segment = new Segment(
-            $data['segment'],
-            [$data['idSite']],
-            $period->getDateTimeStart(),
-            $period->getDateTimeEnd()
-        );
+        $segment = new TestSegment($data['segment']);
 
         return new Context(
             $data['idSite'],
@@ -272,5 +336,34 @@ class InMemoryWriter implements WriterInterface
     public function write(array $record): void
     {
         $this->records[] = $record;
+    }
+}
+
+class TestSegment extends Segment
+{
+    protected $string;
+
+    public function __construct(string $string)
+    {
+        $this->string = $string;
+    }
+
+    public function getString()
+    {
+        return $this->string;
+    }
+
+    public function isEmpty()
+    {
+        return $this->string === '';
+    }
+
+    public function getHash()
+    {
+        if ($this->isEmpty()) {
+            return '';
+        }
+
+        return md5(urldecode($this->string));
     }
 }
