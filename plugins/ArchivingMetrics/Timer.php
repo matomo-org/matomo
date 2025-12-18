@@ -14,7 +14,6 @@ use Piwik\Plugins\ArchivingMetrics\Clock\Clock;
 use Piwik\Plugins\ArchivingMetrics\Clock\ClockInterface;
 use Piwik\Plugins\ArchivingMetrics\Writer\DbWriter;
 use Piwik\Plugins\ArchivingMetrics\Writer\WriterInterface;
-use Piwik\Segment;
 
 final class Timer
 {
@@ -73,10 +72,10 @@ final class Timer
 
         $this->runs[$context->getKey()] = [
             'idsite' => $context->idSite,
-            'period' => $context->period,
-            'segment' => $context->segment,
-            'date1' => $context->date1,
-            'date2' => $context->date2,
+            'period' => $context->period->getLabel(),
+            'segment' => $context->segment->getString(),
+            'date1' => $context->period->getDateTimeStart()->toString('Y-m-d'),
+            'date2' => $context->period->getDateTimeEnd()->toString('Y-m-d'),
             'ts_started' => $this->clock->now(),
             'timeStarted' => $this->clock->microtime(),
         ];
@@ -128,8 +127,7 @@ final class Timer
             return false;
         }
 
-        $segment = new Segment($context->segment, [$context->idSite]);
-        if (Rules::getDoneStringFlagFor([$context->idSite], $segment, $context->period, $context->plugin) !== 'done') {
+        if (Rules::getDoneStringFlagFor([$context->idSite], $context->segment, $context->period->getLabel(), $context->plugin) !== 'done') {
             return false;
         }
 

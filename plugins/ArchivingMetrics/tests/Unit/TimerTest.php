@@ -10,10 +10,12 @@
 namespace Piwik\Plugins\ArchivingMetrics\tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Piwik\Period\Factory;
 use Piwik\Plugins\ArchivingMetrics\Clock\ClockInterface;
 use Piwik\Plugins\ArchivingMetrics\Context;
 use Piwik\Plugins\ArchivingMetrics\Timer;
 use Piwik\Plugins\ArchivingMetrics\Writer\WriterInterface;
+use Piwik\Segment;
 
 /**
  * @group ArchivingMetrics
@@ -109,7 +111,7 @@ class TimerTest extends TestCase
                         'idsite' => 1,
                         'segment' => '',
                         'date1' => '2024-01-01',
-                        'date2' => '2025-01-01',
+                        'date2' => '2024-12-31',
                         'period' => 'year',
                         'ts_started' => '2024-01-01 00:00:00',
                         'ts_finished' => '2024-02-01 00:00:00',
@@ -207,7 +209,7 @@ class TimerTest extends TestCase
                         'idsite' => 1,
                         'segment' => '',
                         'date1' => '2024-01-01',
-                        'date2' => '2025-01-01',
+                        'date2' => '2024-12-31',
                         'period' => 'year',
                         'ts_started' => '2024-01-01 00:00:00',
                         'ts_finished' => '2024-12-31 23:59:59',
@@ -221,12 +223,19 @@ class TimerTest extends TestCase
 
     private function createContext(array $data): Context
     {
+        $period = Factory::build($data['period'], $data['date1']);
+
+        $segment = new Segment(
+            $data['segment'],
+            [$data['idSite']],
+            $period->getDateTimeStart(),
+            $period->getDateTimeEnd()
+        );
+
         return new Context(
             $data['idSite'],
-            $data['period'],
-            $data['segment'],
-            $data['date1'],
-            $data['date2'],
+            $period,
+            $segment,
             $data['plugin']
         );
     }

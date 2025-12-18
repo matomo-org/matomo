@@ -10,11 +10,14 @@
 namespace Piwik\Plugins\ArchivingMetrics\tests\Integration;
 
 use Piwik\Common;
+use Piwik\Date;
 use Piwik\Db;
+use Piwik\Period;
 use Piwik\Plugins\ArchivingMetrics\Clock\Clock;
 use Piwik\Plugins\ArchivingMetrics\Context;
 use Piwik\Plugins\ArchivingMetrics\Timer;
 use Piwik\Plugins\ArchivingMetrics\Writer\DbWriter;
+use Piwik\Segment;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -31,7 +34,10 @@ class TimerDbTest extends IntegrationTestCase
 
     public function testItWritesAndReadsFromDatabase(): void
     {
-        $context = new Context(1, 'day', '', '2024-01-01', '2024-01-01', '');
+        $period = new Period\Day(Date::factory('2025-11-01'));
+        $segment = $this->createMock(Segment::class);
+
+        $context = new Context(1, $period, $segment, '');
 
         $timer = new Timer(true, new Clock(), new DbWriter());
         $timer->start($context);
