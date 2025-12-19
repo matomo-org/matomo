@@ -1154,6 +1154,10 @@ delete_reports_keep_year_reports     = 1
 delete_reports_keep_range_reports    = 0
 delete_reports_keep_segment_reports  = 0
 
+[ArchivingMetrics]
+; retention_days - delete archiving metrics older than this many days. Set to 0 to disable cleanup.
+retention_days = 180
+
 [mail]
 defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org ; default Email @hostname, if current host can't be read from system variables
 transport = ; smtp (using the configuration below) or empty (using built-in mail() function)
