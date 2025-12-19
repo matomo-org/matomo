@@ -23,6 +23,15 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class ArchiveReportsMetricsTimerTest extends IntegrationTestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        if (self::$fixture) {
+            self::$fixture->extraPluginsToLoad[] = 'ArchivingMetrics';
+        }
+
+        parent::setUpBeforeClass();
+    }
+
     public function setUp(): void
     {
         parent::setUp();
