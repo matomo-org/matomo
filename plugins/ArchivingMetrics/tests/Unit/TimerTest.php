@@ -50,6 +50,30 @@ class TimerTest extends TestCase
         $this->assertSame($expectedRecords, $writer->records);
     }
 
+    public function testItSkipsWhenArchivePhpNotTriggered(): void
+    {
+        $writer = new InMemoryWriter();
+        $clock = new FixedClock(
+            ['2024-01-01 00:00:00', '2024-01-01 00:00:02'],
+            [0.0, 1.0]
+        );
+        $timer = new Timer(false, $clock, $writer);
+
+        $context = $this->createContext([
+            'idSite' => 1,
+            'segment' => '',
+            'plugin' => '',
+            'date1' => '2024-01-01',
+            'date2' => '2024-01-01',
+            'period' => 'day',
+        ]);
+
+        $timer->start($context);
+        $timer->complete($context, [123], false);
+
+        $this->assertSame([], $writer->records);
+    }
+
     public function timerProvider(): array
     {
         // Blank segment ensures Rules::getDoneStringFlagFor returns "done" so the timer is active.
@@ -274,7 +298,7 @@ class TimerTest extends TestCase
                         'total_time_exclusive' => 12300,
                     ],
                 ],
-            ]
+            ],
         ];
     }
 
