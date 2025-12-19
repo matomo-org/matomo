@@ -12,8 +12,8 @@ namespace PHPUnit\Integration\AssetManager\UIAssetFetcher;
 use Piwik\AssetManager\UIAsset\OnDiskUIAsset;
 use Piwik\AssetManager\UIAssetFetcher\Chunk;
 use Piwik\AssetManager\UIAssetFetcher\PluginUmdAssetFetcher;
+use Piwik\Exception\ThingNotFoundException;
 use Piwik\Filesystem;
-use Piwik\Http\BadRequestException;
 use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\TestCase\UnitTestCase;
 
@@ -178,7 +178,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
         $plugins = array_keys(self::TEST_PLUGIN_DEPENDENCIES);
         $instance = new PluginUmdAssetFetcher($plugins, null, 'does-not-exist', false);
 
-        $this->expectException(BadRequestException::class);
+        $this->expectException(ThingNotFoundException::class);
         $this->expectExceptionCode(404);
 
         $instance->getCatalog();

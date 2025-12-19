@@ -15,6 +15,6 @@ class ThingNotFoundException extends \Piwik\Exception\Exception implements HttpC
 {
     public function __construct($message, $previous = null)
     {
-        parent::__construct($message, 400, $previous);
+        parent::__construct($message, 404, $previous);
     }
 }

@@ -27,7 +27,6 @@ use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionInitializer;
-use Piwik\SupportedBrowser;
 use Piwik\Log\LoggerInterface;
 
 /**
@@ -116,7 +115,7 @@ class FrontController extends Singleton
     public static function generateSafeModeOutputFromException($e)
     {
         if ($e instanceof HttpCodeException && $e->getCode() >= 400 && $e->getCode() < 500) {
-            StaticContainer::get(LoggerInterface::class)->debug('Uncaught exception: {exception}', [
+            StaticContainer::get(LoggerInterface::class)->debug('Uncaught client error: {exception}', [
                 'exception'            => $e,
                 'ignoreInScreenWriter' => true,
             ]);

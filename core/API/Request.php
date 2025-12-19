@@ -285,7 +285,7 @@ class Request
             });
         } catch (Exception $e) {
             if ($e instanceof HttpCodeException && $e->getCode() >= 400 && $e->getCode() < 500) {
-                StaticContainer::get(LoggerInterface::class)->debug('Uncaught exception in API: {exception}', [
+                StaticContainer::get(LoggerInterface::class)->debug('Uncaught client error in API: {exception}', [
                     'exception'            => $e,
                     'ignoreInScreenWriter' => true,
                 ]);
