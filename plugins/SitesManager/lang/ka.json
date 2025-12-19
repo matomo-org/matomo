@@ -19,7 +19,7 @@
         "ExcludedIps": "გამორიცხული IP მისამართები",
         "ExcludedParameters": "გამორიცხული პარამეტრები",
         "GlobalListExcludedIps": "გამორიცხული IP მისამართების გლობალური სია",
-        "GlobalListExcludedQueryParameters": "გამოსარიცხი Query URL პარამეტრების გლობალური სია",
+        "GlobalListExcludedQueryParameters": "გამოსარიცხი URL-ის მოთხოვნის პარამეტრების გლობალური სია",
         "GlobalWebsitesSettings": "ვებ საიტის გლობალური პარამეტრები",
         "JsTrackingTagHelp": "ეს არის JavaScript ტრეკირების ტეგი, რომელიც უნდა ჩასვათ თქვენს ყველა გვერდზე",
         "ListOfIpsToBeExcludedOnAllWebsites": "ქვემოთ მოცემული IP მისამართები გამორიცხული იქნება ყველა ვებ საიტის ტრეკირებიდან.",
