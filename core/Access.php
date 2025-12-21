@@ -743,6 +743,7 @@ class Access
      */
     private function throwNoAccessException($message)
     {
+        $sessionExpired = false;
         if (Piwik::isUserIsAnonymous() && !Request::isRootRequestApiRequest()) {
             $message = Piwik::translate('General_YouMustBeLoggedIn');
 
@@ -754,10 +755,13 @@ class Access
                 strpos($referrer, $matomoUrl) === 0
             ) {
                 $message = Piwik::translate('General_YourSessionHasExpired');
+                if ($this->login === null && $this->token_auth === null) {
+                    $sessionExpired = true;
+                }
             }
         }
 
-        throw new NoAccessException($message);
+        throw new NoAccessException($message, 401, $sessionExpired);
     }
 
     /**
