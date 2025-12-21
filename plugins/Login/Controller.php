@@ -336,9 +336,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      * @param string $errorMessage
      * @return string
      */
-    public function ajaxNoAccess($errorMessage)
+    public function ajaxNoAccess($errorMessage, $sessionExpired)
     {
-        http_response_code(401);
+        if ($sessionExpired === true) {
+            http_response_code(401);
+        }
         return sprintf(
             '<div class="alert alert-danger">
                 <p><strong>%s:</strong> %s</p>
