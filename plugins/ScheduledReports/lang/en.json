@@ -30,6 +30,8 @@
         "ReportIncludeNWebsites": "The report will include main metrics for all websites that have at least one visit (from the %s websites currently available).",
         "ReportSent": "Report sent",
         "ReportsIncluded": "Statistics included",
+        "SelectedReports": "Selected reports",
+        "SelectedReportsHelp": "Drag the selected reports below to change the order they appear in the report.",
         "ReportType": "Send report via",
         "ReportUpdated": "Report updated",
         "Segment_Deletion_Error": "This segment cannot be deleted or made invisible to other users because it is used to generate email report(s) %s. Please retry after removing this segment from this report(s).",
