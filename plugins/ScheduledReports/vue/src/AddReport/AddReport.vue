@@ -277,10 +277,14 @@
         <p class="selectedReportsHelp">
           {{ translate('ScheduledReports_SelectedReportsHelp') }}
         </p>
-        <ul class="selectedReportsList">
+        <ul
+          class="selectedReportsList"
+          ref="selectedReportsList"
+        >
           <li
             v-for="selectedReport in selectedReportsForCurrentType"
             :key="selectedReport.uniqueId"
+            :data-unique-id="selectedReport.uniqueId"
           >
             <span class="dragHandle" aria-hidden="true">::</span>
             <span class="selectedReportName">{{ decode(selectedReport.name) }}</span>
@@ -330,6 +334,10 @@ export default defineComponent({
       required: true,
     },
     selectedReports: Object,
+    selectedReportsOrder: {
+      type: Object,
+      default: () => ({}),
+    },
     paramPeriods: {
       type: Object,
       required: true,
@@ -373,7 +381,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['submit', 'change', 'toggleSelectedReport'],
+  emits: ['submit', 'change', 'toggleSelectedReport', 'reorderSelectedReports'],
   components: {
     ContentBlock,
     Field,
@@ -395,6 +403,82 @@ export default defineComponent({
     decode(s: string) {
       // report names can be encoded (mainly goals)
       return Matomo.helper.htmlDecode(s);
+    },
+    getSelectedReportsList() {
+      if (!this.$refs.selectedReportsList
+        || !this.allowMultipleReportsByReportType[this.report.type]
+        || !this.selectedReportsForCurrentType.length) {
+        return null;
+      }
+
+      return this.$refs.selectedReportsList as HTMLElement;
+    },
+    scheduleSelectedReportsSortableRefresh() {
+      this.$nextTick(() => {
+        this.refreshSelectedReportsSortable();
+      });
+    },
+    refreshSelectedReportsSortable() {
+      const list = this.getSelectedReportsList();
+      if (!list) {
+        this.destroySelectedReportsSortable();
+        return;
+      }
+
+      const $list = $(list);
+      if ($list.data('ui-sortable')) {
+        $list.sortable('refresh');
+        return;
+      }
+
+      this.initSelectedReportsSortable();
+    },
+    initSelectedReportsSortable() {
+      const list = this.getSelectedReportsList();
+      if (!list) {
+        return;
+      }
+
+      const $list = $(list);
+      if ($list.data('ui-sortable')) {
+        $list.sortable('destroy');
+      }
+
+      $list.sortable({
+        handle: '.dragHandle',
+        axis: 'y',
+        helper: 'clone',
+        placeholder: 'selectedReportPlaceholder',
+        stop: () => {
+          this.emitSelectedReportsOrder();
+        },
+      });
+    },
+    destroySelectedReportsSortable() {
+      const list = this.$refs.selectedReportsList as HTMLElement|undefined;
+      if (!list) {
+        return;
+      }
+
+      const $list = $(list);
+      if ($list.data('ui-sortable')) {
+        $list.sortable('destroy');
+      }
+    },
+    emitSelectedReportsOrder() {
+      const list = this.getSelectedReportsList();
+      if (!list) {
+        return;
+      }
+
+      const order = $(list).find('li').map(function mapSelected() {
+        return String($(this).data('uniqueId'));
+      }).get();
+
+      this.$emit('reorderSelectedReports', {
+        reportType: this.report.type,
+        order,
+      });
     },
   },
   setup(props, ctx) {
@@ -422,11 +506,29 @@ export default defineComponent({
       reportParameters,
     };
   },
+  mounted() {
+    this.scheduleSelectedReportsSortableRefresh();
+  },
   beforeUnmount() {
     const reportParameters = this.$refs.reportParameters as HTMLElement;
     Matomo.helper.destroyVueComponent(reportParameters);
+    this.destroySelectedReportsSortable();
   },
   computed: {
+    selectedReportsOrderNormalized() {
+      const normalized: Record<string, string[]> = {};
+      const allSelectedReports = this.selectedReports || {};
+      Object.keys(allSelectedReports).forEach((reportType) => {
+        const selectedForType = allSelectedReports[reportType] || {};
+        const ordered = ((this.selectedReportsOrder || {})[reportType] || [])
+          .filter((uniqueId: string) => selectedForType[uniqueId]);
+        const remaining = Object.keys(selectedForType).filter(
+          (uniqueId) => selectedForType[uniqueId] && ordered.indexOf(uniqueId) === -1,
+        );
+        normalized[reportType] = ordered.concat(remaining);
+      });
+      return normalized;
+    },
     reportsLookup() {
       const reportsByType = this.reportsByCategoryByReportType as
         Record<string, Record<string, Array<{ uniqueId: string, name: string }>>>;
@@ -449,16 +551,14 @@ export default defineComponent({
         return [];
       }
 
-      const selectedForType = (this.selectedReports || {})[type] as
-        Record<string, boolean>|undefined;
-      if (!selectedForType) {
+      const order = this.selectedReportsOrderNormalized[type] || [];
+      if (!order.length) {
         return [];
       }
 
       const lookup = this.reportsLookup[type] || {};
 
-      return Object.keys(selectedForType)
-        .filter((uniqueId) => selectedForType[uniqueId])
+      return order
         .map((uniqueId) => lookup[uniqueId])
         .filter((report): report is { uniqueId: string, name: string } => !!report);
     },
@@ -579,6 +679,14 @@ export default defineComponent({
 
       const isEditing = this.report.idreport > 0;
       return isEditing ? ReportPlugin.updateReportString : translate('ScheduledReports_CreateAndScheduleReport');
+    },
+  },
+  watch: {
+    selectedReportsForCurrentType() {
+      this.scheduleSelectedReportsSortableRefresh();
+    },
+    'report.type': function onReportTypeChange() {
+      this.scheduleSelectedReportsSortableRefresh();
     },
   },
 });

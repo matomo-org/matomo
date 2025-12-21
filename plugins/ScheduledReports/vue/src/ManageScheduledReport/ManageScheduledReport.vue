@@ -54,10 +54,12 @@
         :count-websites="countWebsites"
         :site-name="decodedSiteName"
         :selected-reports="selectedReports"
+        :selected-reports-order="selectedReportsOrder"
         :report-types="reportTypes"
         :segment-editor-activated="segmentEditorActivated"
         :saved-segments-by-id="savedSegmentsById"
         @toggle-selected-report="toggleSelectedReport($event.reportType, $event.uniqueId)"
+        @reorder-selected-reports="onReorderSelectedReports($event.reportType, $event.order)"
         @change="onChangeProperty($event.prop, $event.value)"
         @submit="submitReport()"
       >
@@ -91,6 +93,7 @@ interface ManageScheduledReportState {
   showReportsList: boolean;
   report: Report;
   selectedReports: Record<string, Record<string, boolean>>;
+  selectedReportsOrder: Record<string, string[]>;
   sendingReports: Array<string|number>;
 }
 
@@ -219,6 +222,7 @@ export default defineComponent({
       showReportsList: true,
       report: {} as unknown as Report,
       selectedReports: {},
+      selectedReportsOrder: {},
       sendingReports: [],
     };
   },
@@ -276,10 +280,14 @@ export default defineComponent({
       report.hour = adjustHourToTimezone(report.hour as string, timeZoneDifferenceInHours);
 
       this.selectedReports = {};
+      this.selectedReportsOrder = {};
       Object.values(report.reports).forEach((reportId) => {
         this.selectedReports[report.type] = this.selectedReports[report.type] || {};
         this.selectedReports[report.type][reportId] = true;
       });
+      this.selectedReportsOrder[report.type] = Object.values(report.reports).map(
+        (reportId) => reportId as string,
+      );
 
       report[`format${report.type}`] = report.format;
 
@@ -374,10 +382,17 @@ export default defineComponent({
       const { period } = this.report;
       const hour = adjustHourToTimezone(this.report.hour as string, -timeZoneDifferenceInHours);
 
-      const selectedReports = this.selectedReports[apiParameters.reportType as string] || {};
-      const reports = Object.keys(selectedReports).filter(
-        (name) => this.selectedReports[apiParameters.reportType as string][name],
+      const reportType = apiParameters.reportType as string;
+      const selectedReports = this.selectedReports[reportType] || {};
+      let reports = (this.selectedReportsOrder[reportType] || []).filter(
+        (name) => selectedReports[name],
       );
+
+      if (!reports.length) {
+        reports = Object.keys(selectedReports).filter(
+          (name) => selectedReports[name],
+        );
+      }
 
       if (reports.length > 0) {
         apiParameters.reports = reports;
@@ -411,7 +426,25 @@ export default defineComponent({
     },
     toggleSelectedReport(reportType: string, uniqueId: string) {
       this.selectedReports[reportType] = this.selectedReports[reportType] || {};
-      this.selectedReports[reportType][uniqueId] = !this.selectedReports[reportType][uniqueId];
+      const newValue = !this.selectedReports[reportType][uniqueId];
+      this.selectedReports[reportType][uniqueId] = newValue;
+
+      this.selectedReportsOrder[reportType] = this.selectedReportsOrder[reportType] || [];
+
+      if (newValue) {
+        if (this.selectedReportsOrder[reportType].indexOf(uniqueId) === -1) {
+          this.selectedReportsOrder[reportType].push(uniqueId);
+        }
+      } else {
+        this.selectedReportsOrder[reportType] = this.selectedReportsOrder[reportType].filter(
+          (reportId) => reportId !== uniqueId,
+        );
+      }
+    },
+    onReorderSelectedReports(reportType: string, order: string[]) {
+      this.selectedReportsOrder[reportType] = order.filter(
+        (uniqueId) => this.selectedReports[reportType]?.[uniqueId],
+      );
     },
   },
   computed: {
