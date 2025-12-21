@@ -266,6 +266,27 @@
           </div>
         </div>
       </div>
+      <div
+        class="selectedReportsWrapper"
+        v-if="allowMultipleReportsByReportType[report.type]
+          && selectedReportsForCurrentType.length"
+      >
+        <div class="selectedReportsHeading">
+          {{ translate('ScheduledReports_SelectedReports') }}
+        </div>
+        <p class="selectedReportsHelp">
+          {{ translate('ScheduledReports_SelectedReportsHelp') }}
+        </p>
+        <ul class="selectedReportsList">
+          <li
+            v-for="selectedReport in selectedReportsForCurrentType"
+            :key="selectedReport.uniqueId"
+          >
+            <span class="dragHandle" aria-hidden="true">::</span>
+            <span class="selectedReportName">{{ decode(selectedReport.name) }}</span>
+          </li>
+        </ul>
+      </div>
       <SaveButton
         :value="saveButtonTitle"
         @confirm="$emit('submit')"
@@ -406,6 +427,41 @@ export default defineComponent({
     Matomo.helper.destroyVueComponent(reportParameters);
   },
   computed: {
+    reportsLookup() {
+      const reportsByType = this.reportsByCategoryByReportType as
+        Record<string, Record<string, Array<{ uniqueId: string, name: string }>>>;
+      const lookup: Record<string, Record<string, { uniqueId: string, name: string }>> = {};
+
+      Object.entries(reportsByType).forEach(([reportType, reportsByCategory]) => {
+        lookup[reportType] = lookup[reportType] || {};
+        Object.values(reportsByCategory).forEach((reports) => {
+          reports.forEach((report) => {
+            lookup[reportType][report.uniqueId] = report;
+          });
+        });
+      });
+
+      return lookup;
+    },
+    selectedReportsForCurrentType() {
+      const type = this.report?.type as string;
+      if (!type) {
+        return [];
+      }
+
+      const selectedForType = (this.selectedReports || {})[type] as
+        Record<string, boolean>|undefined;
+      if (!selectedForType) {
+        return [];
+      }
+
+      const lookup = this.reportsLookup[type] || {};
+
+      return Object.keys(selectedForType)
+        .filter((uniqueId) => selectedForType[uniqueId])
+        .map((uniqueId) => lookup[uniqueId])
+        .filter((report): report is { uniqueId: string, name: string } => !!report);
+    },
     reportsByCategoryByReportTypeInColumns() {
       const reportsByCategoryByReportType = this.reportsByCategoryByReportType as
         Record<string, Record<string, unknown[]>>;
