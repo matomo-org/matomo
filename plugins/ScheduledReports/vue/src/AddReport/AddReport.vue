@@ -445,7 +445,6 @@ export default defineComponent({
       }
 
       $list.sortable({
-        handle: '.dragHandle',
         axis: 'y',
         helper: 'clone',
         placeholder: 'selectedReportPlaceholder',
