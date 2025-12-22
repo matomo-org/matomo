@@ -30,7 +30,9 @@ class TimerTest extends TestCase
     public function testItRecordsArchivingRunsWithCorrectTiming(array $events, array $microtimes, array $nowValues, array $expectedRecords): void
     {
         $writer = new InMemoryWriter();
-        $clock = new FixedClock($nowValues, $microtimes);
+        $clock = $this->createMock(ClockInterface::class);
+        $clock->method('microtime')->willReturnOnConsecutiveCalls(...$microtimes);
+        $clock->method('now')->willReturnOnConsecutiveCalls(...$nowValues);
         $timer = new Timer(true, $clock, $writer);
 
         foreach ($events as $event) {
@@ -53,10 +55,9 @@ class TimerTest extends TestCase
     public function testItSkipsWhenArchivePhpNotTriggered(): void
     {
         $writer = new InMemoryWriter();
-        $clock = new FixedClock(
-            ['2024-01-01 00:00:02'],
-            [0.0, 1.0]
-        );
+        $clock = $this->createMock(ClockInterface::class);
+        $clock->method('microtime')->willReturnOnConsecutiveCalls(0.0);
+        $clock->method('now')->willReturnOnConsecutiveCalls('2024-01-01 00:00:02');
         $timer = new Timer(false, $clock, $writer);
 
         $context = $this->createContext([
@@ -319,7 +320,7 @@ class TimerTest extends TestCase
     {
         $period = Factory::build($data['period'], $data['date1']);
 
-        $segment = new TestSegment($data['segment']);
+        $segment = $this->createSegment($data['segment']);
 
         return new Context(
             $data['idSite'],
@@ -328,29 +329,13 @@ class TimerTest extends TestCase
             $data['plugin']
         );
     }
-}
-
-class FixedClock implements ClockInterface
-{
-    private $nowValues;
-    private $microtimes;
-
-    public function __construct(array $nowValues, array $microtimes)
+    private function createSegment(string $segmentString): Segment
     {
-        $this->nowValues = $nowValues;
-        $this->microtimes = $microtimes;
-    }
-
-    public function now(): string
-    {
-        $next = array_shift($this->nowValues);
-        return $next !== null ? $next : '';
-    }
-
-    public function microtime(): float
-    {
-        $next = array_shift($this->microtimes);
-        return $next !== null ? $next : 0.0;
+        $segment = $this->createMock(Segment::class);
+        $segment->method('getString')->willReturn($segmentString);
+        $segment->method('getHash')->willReturn($segmentString === '' ? '' : md5(urldecode($segmentString)));
+        $segment->method('isEmpty')->willReturn($segmentString === '');
+        return $segment;
     }
 }
 
@@ -361,34 +346,5 @@ class InMemoryWriter implements WriterInterface
     public function write(array $record): void
     {
         $this->records[] = $record;
-    }
-}
-
-class TestSegment extends Segment
-{
-    protected $string;
-
-    public function __construct(string $string)
-    {
-        $this->string = $string;
-    }
-
-    public function getString()
-    {
-        return $this->string;
-    }
-
-    public function isEmpty()
-    {
-        return $this->string === '';
-    }
-
-    public function getHash()
-    {
-        if ($this->isEmpty()) {
-            return '';
-        }
-
-        return md5(urldecode($this->string));
     }
 }
