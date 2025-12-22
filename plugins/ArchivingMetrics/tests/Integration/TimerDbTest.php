@@ -36,6 +36,7 @@ class TimerDbTest extends IntegrationTestCase
     {
         $period = new Period\Day(Date::factory('2025-11-01'));
         $segment = $this->createMock(Segment::class);
+        $segment->method('getHash')->willReturn('');
 
         $context = new Context(1, $period, $segment, '');
 

@@ -40,7 +40,7 @@ class Updates_5_7_0_b2 extends PiwikUpdates
                 'metadataid' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
                 'idarchive' => 'BIGINT UNSIGNED NOT NULL',
                 'idsite' => 'INTEGER UNSIGNED NOT NULL',
-                'segment' => 'VARCHAR(255) NULL',
+                'segment' => 'VARCHAR(255) NOT NULL',
                 'date1' => 'DATE NOT NULL',
                 'date2' => 'DATE NOT NULL',
                 'period' => 'TINYINT UNSIGNED NOT NULL',
