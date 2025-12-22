@@ -9,19 +9,21 @@
 
 describe('WidgetLoader', function () {
   this.fixture = "Piwik\\Tests\\Fixtures\\OneVisit";
-  before(function () {
+  before(async function () {
     testEnvironment.testUseMockAuth = 0;
-    testEnvironment.save();
+    await testEnvironment.save();
   });
 
-  after(function () {
+  after(async function () {
     testEnvironment.testUseMockAuth = 1;
-    testEnvironment.save();
+    await testEnvironment.save();
   });
 
   it('should redirect to the landing page when the session cookie is cleared during widget loading', async function () {
     // We try to do an actual login
     await page.goto("");
+    await page.waitForNetworkIdle();
+
     await page.type("#login_form_login", superUserLogin);
     await page.type("#login_form_password", superUserPassword);
     await page.click('#login_form_submit');
