@@ -38,7 +38,7 @@ class Updates_5_7_0_b2 extends PiwikUpdates
         return [
             $this->migration->db->createTable('archiving_metrics', [
                 'metadataid' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
-                'idarchive' => 'BIGINT UNSIGNED NULL',
+                'idarchive' => 'BIGINT UNSIGNED NOT NULL',
                 'idsite' => 'INTEGER UNSIGNED NOT NULL',
                 'segment' => 'VARCHAR(255) NULL',
                 'date1' => 'DATE NOT NULL',
