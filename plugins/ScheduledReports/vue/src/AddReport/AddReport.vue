@@ -266,31 +266,11 @@
           </div>
         </div>
       </div>
-      <div
-        class="selectedReportsWrapper"
-        v-if="allowMultipleReportsByReportType[report.type]
-          && selectedReportsForCurrentType.length"
-      >
-        <div class="selectedReportsHeading">
-          {{ translate('ScheduledReports_SelectedReports') }}
-        </div>
-        <p class="selectedReportsHelp">
-          {{ translate('ScheduledReports_SelectedReportsHelp') }}
-        </p>
-        <ul
-          class="selectedReportsList"
-          ref="selectedReportsList"
-        >
-          <li
-            v-for="selectedReport in selectedReportsForCurrentType"
-            :key="selectedReport.uniqueId"
-            :data-unique-id="selectedReport.uniqueId"
-          >
-            <span class="dragHandle" aria-hidden="true">::</span>
-            <span class="selectedReportName">{{ decode(selectedReport.name) }}</span>
-          </li>
-        </ul>
-      </div>
+      <SelectedReportsList
+        :reports="selectedReportsForCurrentType"
+        :enabled="allowMultipleReportsByReportType[report.type]"
+        @reorder="onSelectedReportsReorder"
+      />
       <SaveButton
         :value="saveButtonTitle"
         @confirm="$emit('submit')"
@@ -319,13 +299,12 @@ import {
 } from 'CoreHome';
 import { Field, Form, SaveButton } from 'CorePluginsAdmin';
 import { adjustHourToTimezone } from '../utilities';
+import SelectedReportsList from './SelectedReportsList.vue';
 
 interface Option {
   key: string;
   value: string;
 }
-
-const { $ } = window;
 
 export default defineComponent({
   props: {
@@ -386,6 +365,7 @@ export default defineComponent({
     ContentBlock,
     Field,
     SaveButton,
+    SelectedReportsList,
   },
   directives: {
     Form,
@@ -404,75 +384,10 @@ export default defineComponent({
       // report names can be encoded (mainly goals)
       return Matomo.helper.htmlDecode(s);
     },
-    getSelectedReportsList() {
-      if (!this.$refs.selectedReportsList
-        || !this.allowMultipleReportsByReportType[this.report.type]
-        || !this.selectedReportsForCurrentType.length) {
-        return null;
-      }
-
-      return this.$refs.selectedReportsList as HTMLElement;
-    },
-    scheduleSelectedReportsSortableRefresh() {
-      this.$nextTick(() => {
-        this.refreshSelectedReportsSortable();
-      });
-    },
-    refreshSelectedReportsSortable() {
-      const list = this.getSelectedReportsList();
-      if (!list) {
-        this.destroySelectedReportsSortable();
+    onSelectedReportsReorder(order: string[]) {
+      if (!this.report || !this.report.type) {
         return;
       }
-
-      const $list = $(list);
-      if ($list.data('ui-sortable')) {
-        $list.sortable('refresh');
-        return;
-      }
-
-      this.initSelectedReportsSortable();
-    },
-    initSelectedReportsSortable() {
-      const list = this.getSelectedReportsList();
-      if (!list) {
-        return;
-      }
-
-      const $list = $(list);
-      if ($list.data('ui-sortable')) {
-        $list.sortable('destroy');
-      }
-
-      $list.sortable({
-        axis: 'y',
-        helper: 'clone',
-        placeholder: 'selectedReportPlaceholder',
-        stop: () => {
-          this.emitSelectedReportsOrder();
-        },
-      });
-    },
-    destroySelectedReportsSortable() {
-      const list = this.$refs.selectedReportsList as HTMLElement|undefined;
-      if (!list) {
-        return;
-      }
-
-      const $list = $(list);
-      if ($list.data('ui-sortable')) {
-        $list.sortable('destroy');
-      }
-    },
-    emitSelectedReportsOrder() {
-      const list = this.getSelectedReportsList();
-      if (!list) {
-        return;
-      }
-
-      const order = $(list).find('li').map(function mapSelected() {
-        return String($(this).data('uniqueId'));
-      }).get();
 
       this.$emit('reorderSelectedReports', {
         reportType: this.report.type,
@@ -505,13 +420,9 @@ export default defineComponent({
       reportParameters,
     };
   },
-  mounted() {
-    this.scheduleSelectedReportsSortableRefresh();
-  },
   beforeUnmount() {
     const reportParameters = this.$refs.reportParameters as HTMLElement;
     Matomo.helper.destroyVueComponent(reportParameters);
-    this.destroySelectedReportsSortable();
   },
   computed: {
     selectedReportsOrderNormalized() {
@@ -678,14 +589,6 @@ export default defineComponent({
 
       const isEditing = this.report.idreport > 0;
       return isEditing ? ReportPlugin.updateReportString : translate('ScheduledReports_CreateAndScheduleReport');
-    },
-  },
-  watch: {
-    selectedReportsForCurrentType() {
-      this.scheduleSelectedReportsSortableRefresh();
-    },
-    'report.type': function onReportTypeChange() {
-      this.scheduleSelectedReportsSortableRefresh();
     },
   },
 });
