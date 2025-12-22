@@ -27,11 +27,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class TimerDbTest extends IntegrationTestCase
 {
-    public function setUp(): void
-    {
-        Db::query('DELETE FROM ' . Common::prefixTable('archiving_metrics'));
-    }
-
     public function testItWritesAndReadsFromDatabase(): void
     {
         $period = new Period\Day(Date::factory('2025-11-01'));
@@ -46,6 +41,6 @@ class TimerDbTest extends IntegrationTestCase
 
         $rows = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archiving_metrics'));
 
-        $this->assertNotEmpty($rows, 'Expected archiving_metrics table to have at least one record.');
+        self::assertCount(1, $rows, 'Expected archiving_metrics table to have exactly one record.');
     }
 }
