@@ -341,7 +341,7 @@ class Mysql implements SchemaInterface
                                       segment VARCHAR(255) NULL,
                                       date1 DATE NOT NULL,
                                       date2 DATE NOT NULL,
-                                      period VARCHAR(10) NOT NULL,
+                                      period TINYINT UNSIGNED NOT NULL,
                                       ts_started DATETIME NOT NULL,
                                       ts_finished DATETIME NOT NULL,
                                       total_time BIGINT UNSIGNED NOT NULL,
