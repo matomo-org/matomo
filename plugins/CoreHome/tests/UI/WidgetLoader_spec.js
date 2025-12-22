@@ -9,6 +9,9 @@
 
 describe('WidgetLoader', function () {
   this.fixture = "Piwik\\Tests\\Fixtures\\OneVisit";
+  this.optionsOverride = {
+    'persist-fixture-data': true
+  };
 
   before(async function () {
     testEnvironment.testUseMockAuth = 0;
