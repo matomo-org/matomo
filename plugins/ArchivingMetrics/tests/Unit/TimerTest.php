@@ -54,7 +54,7 @@ class TimerTest extends TestCase
     {
         $writer = new InMemoryWriter();
         $clock = new FixedClock(
-            ['2024-01-01 00:00:00', '2024-01-01 00:00:02'],
+            ['2024-01-01 00:00:02'],
             [0.0, 1.0]
         );
         $timer = new Timer(false, $clock, $writer);
@@ -91,9 +91,11 @@ class TimerTest extends TestCase
                     ['action' => 'start', 'context' => array_merge($base, ['period' => 'day'])],
                     ['action' => 'complete', 'context' => array_merge($base, ['period' => 'day']), 'idArchives' => [101], 'cached' => false],
                 ],
-                'microtimes' => [10.0, 11.2],
+                'microtimes' => [
+                    strtotime('2024-01-01 00:00:00'),
+                    strtotime('2024-01-01 00:00:00') + 1.2,
+                ],
                 'nowValues' => [
-                    '2024-01-01 00:00:00',
                     '2024-01-01 00:00:02',
                 ],
                 'expectedRecords' => [
@@ -120,13 +122,17 @@ class TimerTest extends TestCase
                     ['action' => 'start', 'context' => array_merge($base, ['period' => 'month', 'date1' => '2024-02-01', 'date2' => '2024-02-29'])],
                     ['action' => 'complete', 'context' => array_merge($base, ['period' => 'month', 'date1' => '2024-02-01', 'date2' => '2024-02-29']), 'idArchives' => [202], 'cached' => false],
                 ],
-                'microtimes' => [0.2, 6.5, 3.1, 8.5, 0.2, 12.5],
+                'microtimes' => [
+                    strtotime('2024-01-01 00:00:00'),
+                    strtotime('2024-01-01 00:00:00') + 6.3,
+                    strtotime('2024-02-01 00:00:01'),
+                    strtotime('2024-02-01 00:00:01') + 5.4,
+                    strtotime('2024-02-01 00:00:01'),
+                    strtotime('2024-02-01 00:00:01') + 12.3,
+                ],
                 'nowValues' => [
-                    '2024-01-01 00:00:00',
                     '2024-02-01 00:00:00',
-                    '2024-02-01 00:00:01',
                     '2024-12-31 23:59:59',
-                    '2024-02-01 00:00:01',
                     '2024-12-31 23:59:59',
                 ],
                 'expectedRecords' => [
@@ -177,14 +183,14 @@ class TimerTest extends TestCase
                     ['action' => 'start', 'context' => array_merge($base, ['period' => 'month', 'date1' => '2024-02-01', 'date2' => '2024-02-29'])],
                     ['action' => 'complete', 'context' => array_merge($base, ['period' => 'month', 'date1' => '2024-02-01', 'date2' => '2024-02-29']), 'idArchives' => [202], 'cached' => true],
                 ],
-                'microtimes' => [11111, 5, 8, 0, 0],
+                'microtimes' => [
+                    strtotime('2024-01-01 00:00:00'),
+                    strtotime('2024-02-01 00:00:00'),
+                    strtotime('2024-02-01 00:00:00') + 3.0,
+                    strtotime('2024-02-01 00:00:01'),
+                ],
                 'nowValues' => [
-                    '2024-01-01 00:00:00',
-                    '2024-02-01 00:00:00',
                     '2024-02-01 00:00:01',
-                    '2024-12-31 23:59:59',
-                    '2024-02-01 00:00:01',
-                    '2024-12-31 23:59:59',
                 ],
                 'expectedRecords' => [
                     [
@@ -208,10 +214,13 @@ class TimerTest extends TestCase
                     ['action' => 'complete', 'context' => array_merge($base, ['period' => 'month', 'date1' => '2024-02-01', 'date2' => '2024-02-29']), 'idArchives' => [202], 'cached' => false],
                     ['action' => 'complete', 'context' => array_merge($base, ['period' => 'year', 'date1' => '2024-01-01', 'date2' => '2025-01-01']), 'idArchives' => [303], 'cached' => false],
                 ],
-                'microtimes' => [0.0, 0.5, 1.1, 2.5],
+                'microtimes' => [
+                    strtotime('2024-01-01 00:00:00'),
+                    strtotime('2024-01-01 00:00:00') + 0.5,
+                    strtotime('2024-01-01 00:00:00') + 1.1,
+                    strtotime('2024-01-01 00:00:00') + 2.5,
+                ],
                 'nowValues' => [
-                    '2024-01-01 00:00:00',
-                    '2024-02-01 00:00:00',
                     '2024-02-01 00:00:01',
                     '2024-12-31 23:59:59',
                 ],
@@ -223,7 +232,7 @@ class TimerTest extends TestCase
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-29',
                         'period' => 3,
-                        'ts_started' => '2024-02-01 00:00:00',
+                        'ts_started' => '2024-01-01 00:00:00',
                         'ts_finished' => '2024-02-01 00:00:01',
                         'total_time' => 600,
                         'total_time_exclusive' => 600,
@@ -251,13 +260,17 @@ class TimerTest extends TestCase
                     ['action' => 'start', 'context' => array_merge($base, ['period' => 'month', 'date1' => '2024-02-01', 'date2' => '2024-02-29'])],
                     ['action' => 'complete', 'context' => array_merge($base, ['period' => 'month', 'date1' => '2024-02-01', 'date2' => '2024-02-29']), 'idArchives' => [202], 'cached' => false],
                 ],
-                'microtimes' => [0.2, 6.5, 3.1, 8.5, 0.2, 12.5],
+                'microtimes' => [
+                    strtotime('2024-01-01 00:00:00'),
+                    strtotime('2024-01-01 00:00:00') + 6.3,
+                    strtotime('2024-02-01 00:00:01'),
+                    strtotime('2024-02-01 00:00:01') + 5.4,
+                    strtotime('2024-02-01 00:00:01'),
+                    strtotime('2024-02-01 00:00:01') + 12.3,
+                ],
                 'nowValues' => [
-                    '2024-01-01 00:00:00',
                     '2024-02-01 00:00:00',
-                    '2024-02-01 00:00:01',
                     '2024-12-31 23:59:59',
-                    '2024-02-01 00:00:01',
                     '2024-12-31 23:59:59',
                 ],
                 'expectedRecords' => [
