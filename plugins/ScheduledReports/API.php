@@ -419,10 +419,16 @@ class API extends \Piwik\Plugin\API
             $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
 
             // we need to lookup which reports metadata are registered in this report
-            $reportMetadata = [];
+            // and keep the order defined when saving the report
+            $reportMetadataByUniqueId = [];
             foreach ($availableReportMetadata as $metadata) {
-                if (in_array($metadata['uniqueId'], $report['reports'])) {
-                    $reportMetadata[] = $metadata;
+                $reportMetadataByUniqueId[$metadata['uniqueId']] = $metadata;
+            }
+
+            $reportMetadata = [];
+            foreach ($report['reports'] as $reportUniqueId) {
+                if (isset($reportMetadataByUniqueId[$reportUniqueId])) {
+                    $reportMetadata[] = $reportMetadataByUniqueId[$reportUniqueId];
                 }
             }
 
