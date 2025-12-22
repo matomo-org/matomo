@@ -35,7 +35,6 @@ describe('WidgetLoader', function () {
     await page.type("#login_form_password", superUserPassword);
     await page.click('#login_form_submit');
     await page.waitForNetworkIdle();
-    // expect(await page.screenshot()).to.matchImage('loaded');
 
     // check dashboard is shown
     await page.waitForSelector('#dashboard');
