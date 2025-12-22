@@ -72,7 +72,7 @@ final class Timer
 
         $this->runs[$context->getKey()] = [
             'idsite' => $context->idSite,
-            'period' => $context->period->getLabel(),
+            'period' => $context->period->getId(),
             'segment' => $context->segment->getString(),
             'date1' => $context->period->getDateTimeStart()->toString('Y-m-d'),
             'date2' => $context->period->getDateTimeEnd()->toString('Y-m-d'),
