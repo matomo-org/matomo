@@ -20,14 +20,18 @@ describe('WidgetLoader', function () {
   });
 
   it('should redirect to the landing page when the session cookie is cleared during widget loading', async function () {
+    var generalParams = 'idSite=1&period=day&date=yesterday',
+      urlBase = '?module=CoreHome&action=index&' + generalParams;
     // We try to do an actual login
-    await page.goto("");
+    await page.goto('about:blank');
+    await page.goto(urlBase);
     await page.waitForNetworkIdle();
 
     await page.type("#login_form_login", superUserLogin);
     await page.type("#login_form_password", superUserPassword);
     await page.click('#login_form_submit');
     await page.waitForNetworkIdle();
+    // expect(await page.screenshot()).to.matchImage('loaded');
 
     // check dashboard is shown
     await page.waitForSelector('#dashboard');
