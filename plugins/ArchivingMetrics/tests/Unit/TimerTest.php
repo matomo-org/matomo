@@ -264,7 +264,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 303,
                         'idsite' => 1,
-                        'segment' => 'browserCode==FF',
+                        'segment' => md5('browserCode==FF'),
                         'date1' => '2024-01-01',
                         'date2' => '2024-12-31',
                         'period' => 4,
