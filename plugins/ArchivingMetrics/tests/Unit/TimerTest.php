@@ -345,8 +345,18 @@ class InMemoryWriter implements WriterInterface
 {
     public $records = [];
 
-    public function write(array $record): void
+    public function write(Context $context, array $timing): void
     {
-        $this->records[] = $record;
+        $this->records[] = array_merge(
+            [
+                'idarchive' => $timing['idarchive'],
+                'idsite' => $context->idSite,
+                'segment' => $context->segment->getHash(),
+                'date1' => $context->period->getDateTimeStart()->toString('Y-m-d'),
+                'date2' => $context->period->getDateTimeEnd()->toString('Y-m-d'),
+                'period' => $context->period->getId(),
+            ],
+            $timing
+        );
     }
 }
