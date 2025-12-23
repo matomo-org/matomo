@@ -762,6 +762,7 @@ abstract class Controller
         $view->logoSVG = $customLogo->getSVGLogoUrl();
         $view->hasSVGLogo = $customLogo->hasSVGLogo();
         $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
+        // TODO: fetch dark mode preferences
         $view->themeStyles = ThemeStyles::get();
 
         $general = PiwikConfig::getInstance()->General;

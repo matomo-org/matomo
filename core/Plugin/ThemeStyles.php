@@ -13,6 +13,7 @@ use Piwik\Piwik;
 
 class ThemeStyles
 {
+
     // to maintain BC w/ old names that were defined in LESS
     private static $propertyNamesToLessVariableNames = [
         'fontFamilyBase' => 'theme-fontFamily-base',
@@ -49,162 +50,168 @@ class ThemeStyles
     ];
 
     /**
-     * @var string
+     * @var boolean
+     */
+    public $isDarkMode = false;
+
+    /**
+     * @var string|array<string>
      */
     public $fontFamilyBase = '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Oxygen-Sans, Cantarell, \'Helvetica Neue\', sans-serif';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBrand = '#43a047';
+    public $colorBrand = ['#43a047', '#778fd4'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBrandContrast = '#fff';
+    public $colorBrandContrast = ['#fff', '#ffffff'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorFocusRing = '#0969da';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorFocusRingAlternative;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorText = '#212121';
+    public $colorText = ['#212121', '#fff'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorTextLight = '#444';
+    public $colorTextLight = ['#444', '#ccc'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorTextLighter = '#666666';
+    public $colorTextLighter = ['#666666', '#aaa'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorTextContrast = '#37474f';
+    public $colorTextContrast = ['#37474f', '#fff'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorLink = '#1976D2';
+    public $colorLink = ['#1976D2', '#778fd4'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorBaseSeries = '#ee3024';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorHeadlineAlternative = '#4E4E4E';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorHeaderBackground = '#3450A3';
+    public $colorHeaderBackground = ['#3450A3', '#2b3138'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorHeaderText =  '#fff';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorMenuContrastText;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorMenuContrastTextSelected;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorMenuContrastTextActive = '#3450A3';
+    public $colorMenuContrastTextActive = ['#3450A3', '#fff'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorMenuContrastBackground;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetExportedBackgroundBase;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetTitleText;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetTitleBackground;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBackgroundBase = '#eff0f1';
+    public $colorBackgroundBase = ['#eff0f1', '#202329'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorBackgroundTinyContrast = '#f2f2f2';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorBackgroundLowContrast = '#d9d9d9';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
-    public $colorBackgroundContrast = '#fff';
+    public $colorBackgroundContrast = ['#fff', '#2b3138'];
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorBackgroundHighContrast = '#202020';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorBorder = '#cccccc';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorCode = '#f3f3f3';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorCodeBackground = '#4d4d4d';
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetBackground;
 
     /**
-     * @var string
+     * @var string|array<string>
      */
     public $colorWidgetBorder;
 
-    public function __construct()
+    public function __construct($isDarkMode)
     {
+        $this->isDarkMode = $isDarkMode;
         $this->colorFocusRingAlternative = $this->colorBrand;
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
@@ -219,9 +226,9 @@ class ThemeStyles
     /**
      * @return ThemeStyles
      */
-    public static function get()
+    public static function get($isDarkMode = true)
     {
-        $result = new self();
+        $result = new self($isDarkMode);
 
         /**
          * @ignore
@@ -235,6 +242,9 @@ class ThemeStyles
     {
         $result = '';
         foreach (get_object_vars($this) as $name => $value) {
+            if (is_array($value)) {
+                $value = $this->isDarkMode ? $value[1] : $value[0];
+            }
             $varName = isset(self::$propertyNamesToLessVariableNames[$name]) ? self::$propertyNamesToLessVariableNames[$name] : $this->getGenericThemeVarName($name);
             $result .= "@$varName: $value;\n";
         }

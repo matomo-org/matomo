@@ -78,6 +78,7 @@ class CoreHome extends \Piwik\Plugin
 
     public function addStylesheets(&$mergedContent)
     {
+        // TODO: fetch dark mode preferences
         $themeStyles = ThemeStyles::get();
         $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
     }
