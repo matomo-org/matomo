@@ -279,12 +279,9 @@ class Pdf extends ReportRenderer
             // Table-only reports with more than 2 columns are always landscape
             if ($tableOnlyManyColumnReport) {
                 $tableOnlyManyColumnReportRowCount = 0;
-                $this->orientation = self::LANDSCAPE;
-            } else {
-                // Graph-only reports are always portrait
-                $this->orientation = $graphOnlyReport ? self::PORTRAIT : ($columnCount > $this->maxColumnCountPortraitOrientation ? self::LANDSCAPE : self::PORTRAIT);
             }
-
+            // Scheduled reports should never switch to landscape layouts to keep a consistent portrait output
+            $this->orientation = self::PORTRAIT;
             $this->TCPDF->setPageOrientation($this->orientation, '', $this->bottomMargin);
         }
 
