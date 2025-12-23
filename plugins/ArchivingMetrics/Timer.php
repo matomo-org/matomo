@@ -40,7 +40,7 @@ final class Timer
     private $runs = [];
 
     /**
-     * @var Timer
+     * @var ?Timer
      */
     private static $instance;
 
