@@ -107,8 +107,15 @@ final class Timer
 
         /** @var Context $storedContext */
         $storedContext = $this->runs[$key]['context'];
+        $archiveName = Rules::getDoneStringFlagFor(
+            [$storedContext->idSite],
+            $storedContext->segment,
+            $storedContext->period->getLabel(),
+            $storedContext->plugin
+        );
         $this->writer->write($storedContext, [
             'idarchive' => reset($idArchives),
+            'archive_name' => $archiveName,
             'ts_started' => $this->runs[$key]['ts_started'],
             'ts_finished' => $this->runs[$key]['ts_finished'],
             'total_time' => (int) round($totalTimeMs * 1000),

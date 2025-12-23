@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Piwik\Plugins\ArchivingMetrics\tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Period\Factory;
 use Piwik\Plugins\ArchivingMetrics\Clock\ClockInterface;
 use Piwik\Plugins\ArchivingMetrics\Context;
@@ -105,7 +106,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 101,
                         'idsite' => 1,
-                        'segment' => '',
+                        'archive_name' => 'done',
                         'date1' => '2024-01-01',
                         'date2' => '2024-01-01',
                         'period' => 1,
@@ -142,7 +143,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 303,
                         'idsite' => 1,
-                        'segment' => '',
+                        'archive_name' => 'done',
                         'date1' => '2024-01-01',
                         'date2' => '2024-12-31',
                         'period' => 4,
@@ -154,7 +155,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 204,
                         'idsite' => 1,
-                        'segment' => '',
+                        'archive_name' => 'done',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-01',
                         'period' => 1,
@@ -166,7 +167,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 202,
                         'idsite' => 1,
-                        'segment' => '',
+                        'archive_name' => 'done',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-29',
                         'period' => 3,
@@ -199,7 +200,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 204,
                         'idsite' => 1,
-                        'segment' => '',
+                        'archive_name' => 'done',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-01',
                         'period' => 1,
@@ -231,7 +232,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 202,
                         'idsite' => 1,
-                        'segment' => '',
+                        'archive_name' => 'done',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-29',
                         'period' => 3,
@@ -243,7 +244,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 303,
                         'idsite' => 1,
-                        'segment' => '',
+                        'archive_name' => 'done',
                         'date1' => '2024-01-01',
                         'date2' => '2024-12-31',
                         'period' => 4,
@@ -280,7 +281,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 303,
                         'idsite' => 1,
-                        'segment' => md5('browserCode==FF'),
+                        'archive_name' => 'done' . md5('browserCode==FF'),
                         'date1' => '2024-01-01',
                         'date2' => '2024-12-31',
                         'period' => 4,
@@ -292,7 +293,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 204,
                         'idsite' => 1,
-                        'segment' => '',
+                        'archive_name' => 'done',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-01',
                         'period' => 1,
@@ -304,7 +305,7 @@ class TimerTest extends TestCase
                     [
                         'idarchive' => 202,
                         'idsite' => 1,
-                        'segment' => '',
+                        'archive_name' => 'done',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-29',
                         'period' => 3,
@@ -351,7 +352,12 @@ class InMemoryWriter implements WriterInterface
             [
                 'idarchive' => $timing['idarchive'],
                 'idsite' => $context->idSite,
-                'segment' => $context->segment->getHash(),
+                'archive_name' => Rules::getDoneStringFlagFor(
+                    [$context->idSite],
+                    $context->segment,
+                    $context->period->getLabel(),
+                    $context->plugin
+                ),
                 'date1' => $context->period->getDateTimeStart()->toString('Y-m-d'),
                 'date2' => $context->period->getDateTimeEnd()->toString('Y-m-d'),
                 'period' => $context->period->getId(),
