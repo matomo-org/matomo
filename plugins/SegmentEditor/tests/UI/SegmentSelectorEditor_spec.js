@@ -339,7 +339,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.goto(url);
 
         await page.click('.segmentationContainer .title');
-        await page.click('a.add_new_segment');
+        await page.click('button.add_new_segment');
         await page.type('input.edit_segment_name', 'complex segment');
 
         await page.waitForSelector('.segmentRow0');
