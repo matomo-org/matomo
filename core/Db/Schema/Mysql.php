@@ -338,7 +338,7 @@ class Mysql implements SchemaInterface
                                       metadataid BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                                       idarchive BIGINT UNSIGNED NOT NULL,
                                       idsite INTEGER UNSIGNED NOT NULL,
-                                      segment VARCHAR(255) NOT NULL,
+                                      archive_name VARCHAR(255) NOT NULL,
                                       date1 DATE NOT NULL,
                                       date2 DATE NOT NULL,
                                       period TINYINT UNSIGNED NOT NULL,
@@ -348,6 +348,7 @@ class Mysql implements SchemaInterface
                                       total_time_exclusive BIGINT UNSIGNED NOT NULL,
                                         PRIMARY KEY(metadataid),
                                         INDEX idx_archiving_metrics_idarchive(idarchive),
+                                        INDEX idx_archiving_metrics_site_archive_name(idsite, archive_name),
                                         INDEX idx_archiving_metrics_site_date_period(idsite, date1, period)
                                       ) $tableOptions
             ",

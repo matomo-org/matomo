@@ -40,7 +40,7 @@ class Updates_5_7_0_b2 extends PiwikUpdates
                 'metadataid' => 'BIGINT UNSIGNED NOT NULL AUTO_INCREMENT',
                 'idarchive' => 'BIGINT UNSIGNED NOT NULL',
                 'idsite' => 'INTEGER UNSIGNED NOT NULL',
-                'segment' => 'VARCHAR(255) NOT NULL',
+                'archive_name' => 'VARCHAR(255) NOT NULL',
                 'date1' => 'DATE NOT NULL',
                 'date2' => 'DATE NOT NULL',
                 'period' => 'TINYINT UNSIGNED NOT NULL',
@@ -50,6 +50,7 @@ class Updates_5_7_0_b2 extends PiwikUpdates
                 'total_time_exclusive' => 'BIGINT UNSIGNED NOT NULL',
             ], ['metadataid']),
             $this->migration->db->addIndex('archiving_metrics', ['idarchive'], 'idx_archiving_metrics_idarchive'),
+            $this->migration->db->addIndex('archiving_metrics', ['idsite', 'archive_name'], 'idx_archiving_metrics_site_archive_name'),
             $this->migration->db->addIndex('archiving_metrics', ['idsite', 'date1', 'period'], 'idx_archiving_metrics_site_date_period'),
         ];
     }
