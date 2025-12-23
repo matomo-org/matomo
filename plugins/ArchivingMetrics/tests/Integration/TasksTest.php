@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Plugins\ArchivingMetrics\Tasks;
+use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -23,24 +24,16 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class TasksTest extends IntegrationTestCase
 {
-    private $originalConfig;
-
     public function setUp(): void
     {
         parent::setUp();
-        $config = Config::getInstance();
-        $this->originalConfig = $config->ArchivingMetrics ?? null;
         Db::query('DELETE FROM ' . Common::prefixTable('archiving_metrics'));
     }
 
     public function tearDown(): void
     {
         $config = Config::getInstance();
-        if ($this->originalConfig !== null) {
-            $config->ArchivingMetrics = $this->originalConfig;
-        } else {
-            $config->ArchivingMetrics = [];
-        }
+        $config->ArchivingMetrics = [];
 
         parent::tearDown();
     }
@@ -74,19 +67,33 @@ class TasksTest extends IntegrationTestCase
         $this->assertSame(1, $count);
     }
 
-    private function insertRow(string $tsStarted): void
+    public function testPurgeMetricsForDeletedSitesRemovesOrphanedRows(): void
+    {
+        $idSite = Fixture::createWebsite('2024-01-01 00:00:00');
+
+        $this->insertRow(Date::now()->subDay(5)->getDatetime(), $idSite);
+        $this->insertRow(Date::now()->subDay(5)->getDatetime(), 9999);
+
+        $task = new Tasks();
+        $task->purgeMetricsForDeletedSites();
+
+        $count = (int) Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archiving_metrics'));
+        $this->assertSame(1, $count);
+    }
+
+    private function insertRow(string $tsStarted, int $idSite = 1): void
     {
         $table = Common::prefixTable('archiving_metrics');
         Db::query(
-            "INSERT INTO {$table} (idarchive, idsite, segment, date1, date2, period, ts_started, ts_finished, total_time, total_time_exclusive)
+            "INSERT INTO {$table} (idarchive, idsite, archive_name, date1, date2, period, ts_started, ts_finished, total_time, total_time_exclusive)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
-                null,
                 1,
-                null,
+                $idSite,
+                'done',
                 '2025-01-01',
                 '2025-01-01',
-                'day',
+                1,
                 $tsStarted,
                 $tsStarted,
                 123,

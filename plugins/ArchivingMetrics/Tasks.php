@@ -21,6 +21,7 @@ class Tasks extends \Piwik\Plugin\Tasks
     public function schedule()
     {
         $this->weekly('purgeOldMetrics');
+        $this->monthly('purgeMetricsForDeletedSites');
     }
 
     /**
@@ -37,6 +38,13 @@ class Tasks extends \Piwik\Plugin\Tasks
         $cutoff = Date::now()->subDay($retentionDays)->getDatetime();
         $table = Common::prefixTable('archiving_metrics');
         Db::query("DELETE FROM {$table} WHERE ts_started < ?", [$cutoff]);
+    }
+
+    public function purgeMetricsForDeletedSites()
+    {
+        $siteTable = Common::prefixTable('site');
+        $table = Common::prefixTable('archiving_metrics');
+        Db::query("DELETE a FROM {$table} a LEFT JOIN {$siteTable} s ON a.idsite = s.idsite WHERE s.idsite IS NULL");
     }
 
     private function getRetentionDays(): int
