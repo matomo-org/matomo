@@ -20,7 +20,7 @@ describe('WidgetLoader', function () {
     await testEnvironment.save();
   });
 
-  it('should show the session expired notification when the session cookie is cleared during widget loading', async function () {
+  it('should redirect to the landing page when the session cookie is cleared during widget loading', async function () {
     var generalParams = 'idSite=1&period=day&date=yesterday',
       urlBase = '?module=CoreHome&action=index&' + generalParams;
     // We try to do an actual login
@@ -48,6 +48,10 @@ describe('WidgetLoader', function () {
 
     const loginForm = await page.waitForSelector('#login_form_login', { visible: true });
     expect(loginForm).to.be.ok;
+
+    const expectedText = 'Error: Your session has expired due to inactivity. Please log in to continue.';
+    const notificationText = await page.$eval('div.system.notification-error .notification-body', el => el.textContent.trim());
+    expect(notificationText).to.equal(expectedText);
 
   });
 });
