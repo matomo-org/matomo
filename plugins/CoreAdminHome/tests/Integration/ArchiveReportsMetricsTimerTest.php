@@ -59,5 +59,4 @@ class ArchiveReportsMetricsTimerTest extends IntegrationTestCase
     {
         return (int) Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archiving_metrics'));
     }
-
 }
