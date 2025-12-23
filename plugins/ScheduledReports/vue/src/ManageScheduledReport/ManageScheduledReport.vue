@@ -118,6 +118,7 @@ window.updateReportParametersFunctions = window.updateReportParametersFunctions 
 window.getReportParametersFunctions = window.getReportParametersFunctions || {};
 
 const { $ } = window;
+const PENDING_NOTIFICATION_KEY = 'scheduledReports.pendingNotification';
 
 const timeZoneDifferenceInHours = Matomo.timezoneOffset / 3600;
 
@@ -211,6 +212,18 @@ export default defineComponent({
     Matomo.postEvent('ScheduledReports.ManageScheduledReport.mounted', {
       element: this.$refs.root,
     });
+
+    const pendingMessage = typeof sessionStorage !== 'undefined'
+      ? sessionStorage.getItem(PENDING_NOTIFICATION_KEY)
+      : null;
+    if (pendingMessage && this.$refs.reportUpdatedSuccess) {
+      sessionStorage.removeItem(PENDING_NOTIFICATION_KEY);
+      this.fadeInOutSuccessMessage(
+        this.$refs.reportUpdatedSuccess as HTMLElement,
+        pendingMessage,
+        false,
+      );
+    }
   },
   unmounted() {
     Matomo.postEvent('ScheduledReports.ManageScheduledReport.unmounted', {
@@ -314,6 +327,9 @@ export default defineComponent({
       });
 
       if (reload) {
+        if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem(PENDING_NOTIFICATION_KEY, message);
+        }
         Matomo.helper.refreshAfter(2);
       }
     },
@@ -401,10 +417,10 @@ export default defineComponent({
       const reportParams = window.getReportParametersFunctions[this.report.type](this.report);
       apiParameters.parameters = reportParams as unknown as QueryParameters;
 
-      const isCreate = this.report.idreport > 0;
+      const isUpdate = this.report.idreport > 0;
       AjaxHelper.post(
         {
-          method: isCreate ? 'ScheduledReports.updateReport' : 'ScheduledReports.addReport',
+          method: isUpdate ? 'ScheduledReports.updateReport' : 'ScheduledReports.addReport',
           period,
           hour,
         },
@@ -412,7 +428,9 @@ export default defineComponent({
       ).then(() => {
         this.fadeInOutSuccessMessage(
           this.$refs.reportUpdatedSuccess as HTMLElement,
-          translate('ScheduledReports_ReportUpdated'),
+          isUpdate
+            ? translate('ScheduledReports_ReportUpdated')
+            : translate('ScheduledReports_ReportAdded'),
         );
       });
       return false;
