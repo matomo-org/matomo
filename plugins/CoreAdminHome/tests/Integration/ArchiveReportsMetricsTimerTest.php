@@ -25,9 +25,7 @@ class ArchiveReportsMetricsTimerTest extends IntegrationTestCase
 {
     public static function setUpBeforeClass(): void
     {
-        if (self::$fixture) {
-            self::$fixture->extraPluginsToLoad[] = 'ArchivingMetrics';
-        }
+        self::$fixture->extraPluginsToLoad[] = 'ArchivingMetrics';
 
         parent::setUpBeforeClass();
     }
@@ -36,8 +34,7 @@ class ArchiveReportsMetricsTimerTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->resetTimerSingleton();
-        Db::query('DELETE FROM ' . Common::prefixTable('archiving_metrics'));
+        Timer::resetInstanceForTests();
     }
 
     public function testArchiveReportsWritesMetricsOnceAndDoesNotWriteAgainWhenReusingDbArchive(): void
@@ -63,11 +60,4 @@ class ArchiveReportsMetricsTimerTest extends IntegrationTestCase
         return (int) Db::fetchOne('SELECT COUNT(*) FROM ' . Common::prefixTable('archiving_metrics'));
     }
 
-    private function resetTimerSingleton(): void
-    {
-        $reflection = new \ReflectionClass(Timer::class);
-        $property = $reflection->getProperty('instance');
-        $property->setAccessible(true);
-        $property->setValue(null, null);
-    }
 }

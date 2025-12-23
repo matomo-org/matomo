@@ -69,6 +69,14 @@ final class Timer
         return self::$instance;
     }
 
+    /**
+     * @internal For tests only.
+     */
+    public static function resetInstanceForTests(): void
+    {
+        self::$instance = null;
+    }
+
     public function start(Context $context): void
     {
         if (false === $this->isApplicableForTiming($context)) {
