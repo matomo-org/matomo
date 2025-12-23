@@ -51,39 +51,36 @@ class LoaderTest extends IntegrationTestCase
     public function testDidReuseArchiveFlagIsOnlySetWhenReusingArchiveFromDb()
     {
         $oldGet = $_GET;
-        try {
-            Fixture::createSuperUser(true);
-            $_GET['trigger'] = 'archivephp';
+        Fixture::createSuperUser(true);
+        $_GET['trigger'] = 'archivephp';
 
-            $idSite = 1;
-            $dateTime = '2024-01-01 12:00:00';
-            $date = '2024-01-01';
+        $idSite = 1;
+        $dateTime = '2024-01-01 12:00:00';
+        $date = '2024-01-01';
 
-            $t = Fixture::getTracker($idSite, $dateTime);
-            $t->setUrl('http://example.com/');
-            Fixture::checkResponse($t->doTrackPageView('test'));
+        $t = Fixture::getTracker($idSite, $dateTime);
+        $t->setUrl('http://example.com/');
+        Fixture::checkResponse($t->doTrackPageView('test'));
 
-            $periodObj = Factory::build('day', $date);
+        $periodObj = Factory::build('day', $date);
 
-            $params = new Parameters(new Site($idSite), $periodObj, new Segment('', [$idSite]));
-            $loader = new Loader($params);
-            $result = $loader->prepareArchive('VisitsSummary');
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment('', [$idSite]));
+        $loader = new Loader($params);
+        $result = $loader->prepareArchive('VisitsSummary');
 
-            $this->assertFalse($loader->didReuseArchive(), 'Expected first archiving run to generate a new archive.');
-            $this->assertNotEmpty($result);
-            $this->assertNotEmpty($result[0]);
+        $this->assertFalse($loader->didReuseArchive(), 'Expected first archiving run to generate a new archive.');
+        $this->assertNotEmpty($result);
+        $this->assertNotEmpty($result[0]);
 
-            Cache::flushAll();
+        Cache::flushAll();
 
-            $params = new Parameters(new Site($idSite), $periodObj, new Segment('', [$idSite]));
-            $loader = new Loader($params);
-            $result = $loader->prepareArchive('VisitsSummary');
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment('', [$idSite]));
+        $loader = new Loader($params);
+        $result = $loader->prepareArchive('VisitsSummary');
 
-            $this->assertTrue($loader->didReuseArchive(), 'Expected second archiving run to reuse the existing DB archive.');
-            $this->assertSame(1, (int) $result[0][0], 'Expected second archiving run to return the same archive ids.');
-        } finally {
-            $_GET = $oldGet;
-        }
+        $this->assertTrue($loader->didReuseArchive(), 'Expected second archiving run to reuse the existing DB archive.');
+        $this->assertSame(1, (int) $result[0][0], 'Expected second archiving run to return the same archive ids.');
+        $_GET = $oldGet;
     }
 
     public function testPluginOnlyArchivingDoesNotRelaunchChildArchives()
