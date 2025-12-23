@@ -4,7 +4,7 @@
     v-if="shouldDisplay"
   >
     <div class="selectedReportsHeading">
-      {{ translate('ScheduledReports_SelectedReports') }}
+      <h3>{{ translate('ScheduledReports_SelectedReports') }}</h3>
     </div>
     <p class="selectedReportsHelp">
       {{ translate('ScheduledReports_SelectedReportsHelp') }}
