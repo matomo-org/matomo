@@ -13,25 +13,26 @@ namespace Piwik\Plugins\ArchivingMetrics\Writer;
 
 use Piwik\Common;
 use Piwik\Db;
+use Piwik\Plugins\ArchivingMetrics\Context;
 
 final class DbWriter implements WriterInterface
 {
-    public function write(array $record): void
+    public function write(Context $context, array $timing): void
     {
         Db::query(
             'INSERT INTO ' . Common::prefixTable('archiving_metrics') . ' (idarchive, idsite, segment, date1, date2, period, ts_started, ts_finished, total_time, total_time_exclusive)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
-                $record['idarchive'],
-                $record['idsite'],
-                $record['segment'],
-                $record['date1'],
-                $record['date2'],
-                $record['period'],
-                $record['ts_started'],
-                $record['ts_finished'],
-                $record['total_time'],
-                $record['total_time_exclusive'],
+                $timing['idarchive'],
+                $context->idSite,
+                $context->segment->getHash(),
+                $context->period->getDateTimeStart()->toString('Y-m-d'),
+                $context->period->getDateTimeEnd()->toString('Y-m-d'),
+                $context->period->getId(),
+                $timing['ts_started'],
+                $timing['ts_finished'],
+                $timing['total_time'],
+                $timing['total_time_exclusive'],
             ]
         );
     }

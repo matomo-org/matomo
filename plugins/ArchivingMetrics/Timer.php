@@ -73,11 +73,7 @@ final class Timer
         }
 
         $this->runs[$context->getKey()] = [
-            'idsite' => $context->idSite,
-            'period' => $context->period->getId(),
-            'segment' => $context->segment->getHash(),
-            'date1' => $context->period->getDateTimeStart()->toString('Y-m-d'),
-            'date2' => $context->period->getDateTimeEnd()->toString('Y-m-d'),
+            'context' => $context,
             'timeStarted' => $this->clock->microtime(),
         ];
     }
@@ -109,13 +105,10 @@ final class Timer
         $exclusiveTimeMs = $this->calculateExclusiveTime($key);
         $this->runs[$key]['exclusiveTime'] = $exclusiveTimeMs;
 
-        $this->writer->write([
+        /** @var Context $storedContext */
+        $storedContext = $this->runs[$key]['context'];
+        $this->writer->write($storedContext, [
             'idarchive' => reset($idArchives),
-            'idsite' => $this->runs[$key]['idsite'],
-            'segment' => $this->runs[$key]['segment'],
-            'date1' => $this->runs[$key]['date1'],
-            'date2' => $this->runs[$key]['date2'],
-            'period' => $this->runs[$key]['period'],
             'ts_started' => $this->runs[$key]['ts_started'],
             'ts_finished' => $this->runs[$key]['ts_finished'],
             'total_time' => (int) round($totalTimeMs * 1000),

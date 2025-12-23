@@ -11,7 +11,9 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\ArchivingMetrics\Writer;
 
+use Piwik\Plugins\ArchivingMetrics\Context;
+
 interface WriterInterface
 {
-    public function write(array $record): void;
+    public function write(Context $context, array $timing): void;
 }
