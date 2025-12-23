@@ -18,6 +18,7 @@
         :key="report.uniqueId"
         :data-unique-id="report.uniqueId"
       >
+        <span class="icon-menu-hamburger drag-icon"></span>
         <span class="selectedReportName">{{ decode(report.name) }}</span>
       </li>
     </ul>
