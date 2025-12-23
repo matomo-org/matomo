@@ -9,9 +9,6 @@
 
 describe('WidgetLoader', function () {
   this.fixture = "Piwik\\Tests\\Fixtures\\OneVisit";
-  this.optionsOverride = {
-    'persist-fixture-data': true
-  };
 
   before(async function () {
     testEnvironment.testUseMockAuth = 0;
@@ -23,7 +20,7 @@ describe('WidgetLoader', function () {
     await testEnvironment.save();
   });
 
-  it('should redirect to the login page when the session cookie is cleared during widget loading', async function () {
+  it('should show the session expired notification when the session cookie is cleared during widget loading', async function () {
     var generalParams = 'idSite=1&period=day&date=yesterday',
       urlBase = '?module=CoreHome&action=index&' + generalParams;
     // We try to do an actual login
@@ -41,18 +38,12 @@ describe('WidgetLoader', function () {
     expect(await page.$('#dashboard')).to.be.ok;
     await page.clearCookies();
 
-    //Click on Dashboard menu item
+    // Click on Dashboard menu item
     const dashboardMenuSelector = 'div.reportingMenu ul li[data-category-id="Dashboard_Dashboard"] ul li:nth-child(1) a';
     await page.click(dashboardMenuSelector);
     await page.waitForNetworkIdle();
 
-    const loginPage = await page.waitForSelector('body#loginPage', { visible: true });
-    expect(loginPage).to.be.ok;
-
-    const loginForm = await page.waitForSelector('#login_form_login', { visible: true });
-    expect(loginForm).to.be.ok;
-
-    const errorNotification = await page.waitForSelector('div.system.notification-error');
+    const errorNotification = await page.waitForSelector('div.system.notification-error .notification-body', { visible: true });
     expect(errorNotification).to.be.ok;
 
     const expectedText = 'Error: Your session has expired due to inactivity. Please log in to continue.';
