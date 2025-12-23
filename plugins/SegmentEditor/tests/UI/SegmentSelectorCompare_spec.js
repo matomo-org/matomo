@@ -28,7 +28,7 @@ describe('SegmentComparison', () => {
       maxSegments);
 
     // We check that the title attribute is still not the max limit message
-    let title = await page.$eval('.segmentationContainer .segmentList li:last-child', (el) => el.getAttribute('title'));
+    let title = await page.$eval('.segmentationContainer .segmentList li:last-child .compareSegment', (el) => el.getAttribute('title'));
     expect(title).to.not.equal(maxLimitMessage);
 
     await page.waitForSelector('.segmentationContainer');
