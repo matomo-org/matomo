@@ -8,7 +8,7 @@
  */
 
 describe('WidgetLoader', function () {
-  this.fixture = "Piwik\\Tests\\Fixtures\\OneVisit";
+  this.fixture = "Piwik\\Tests\\Fixtures\\OneVisitorTwoVisits";
 
   before(async function () {
     testEnvironment.testUseMockAuth = 0;
@@ -43,12 +43,11 @@ describe('WidgetLoader', function () {
     await page.click(dashboardMenuSelector);
     await page.waitForNetworkIdle();
 
-    const errorNotification = await page.waitForSelector('div.system.notification-error .notification-body', { visible: true });
-    expect(errorNotification).to.be.ok;
+    const loginPage = await page.waitForSelector('body#loginPage', { visible: true });
+    expect(loginPage).to.be.ok;
 
-    const expectedText = 'Error: Your session has expired due to inactivity. Please log in to continue.';
-    const notificationText = await page.$eval('div.system.notification-error .notification-body', el => el.textContent.trim());
-    expect(notificationText).to.equal(expectedText);
+    const loginForm = await page.waitForSelector('#login_form_login', { visible: true });
+    expect(loginForm).to.be.ok;
 
   });
 });
