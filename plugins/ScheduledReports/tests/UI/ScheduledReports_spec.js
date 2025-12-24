@@ -62,6 +62,14 @@ describe("ScheduledReports", function () {
             await page.waitForSelector('#addEditReport', { visible: true });
             await page.waitForSelector('.selectedReportsList li', { visible: true });
         }
+        async function addToDescriptionAndSave(description) {
+            await page.click('textarea[name="report_description"]');
+            await page.type('textarea[name="report_description"]', description);
+            await page.click('.matomo-save-button .btn');
+            await page.waitForNetworkIdle();
+            await page.waitForTimeout(500);
+            return;
+        }
 
         it("should show selected reports when creating a new report", async function () {
             await page.goto(manageReportsUrl);
@@ -89,11 +97,7 @@ describe("ScheduledReports", function () {
         });
 
         it ("should save the new report and redirect to manage reports with notification", async function () {
-            await page.click('textarea[name="report_description"]');
-            await page.type('textarea[name="report_description"]', createdReportName);
-            await page.click('.matomo-save-button .btn');
-            await page.waitForNetworkIdle();
-            await page.waitForTimeout(500);
+            await addToDescriptionAndSave(createdReportName);
             expect(await page.screenshot()).to.matchImage('new_report_created');
         });
 
@@ -147,11 +151,7 @@ describe("ScheduledReports", function () {
             expect(await selectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
         });
         it ("should update the new report and redirect to manage reports with notification", async function () {
-            await page.click('textarea[name="report_description"]');
-            await page.type('textarea[name="report_description"]', 'ss');
-            await page.click('.matomo-save-button .btn');
-            await page.waitForNetworkIdle();
-            await page.waitForTimeout(500);
+            await addToDescriptionAndSave('ss');
             expect(await page.screenshot()).to.matchImage('new_report_updated');
         });
     });
