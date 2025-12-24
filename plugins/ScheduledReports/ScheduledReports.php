@@ -45,6 +45,7 @@ class ScheduledReports extends \Piwik\Plugin
     public const EVOLUTION_GRAPH_PARAMETER = 'evolutionGraph';
     public const ADDITIONAL_EMAILS_PARAMETER = 'additionalEmails';
     public const DISPLAY_FORMAT_PARAMETER = 'displayFormat';
+    public const ENFORCE_ORDER_PARAMETER = 'enforceOrder';
     public const EMAIL_ME_PARAMETER_DEFAULT_VALUE = true;
     public const EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE = false;
 
@@ -55,6 +56,7 @@ class ScheduledReports extends \Piwik\Plugin
         self::EVOLUTION_GRAPH_PARAMETER   => false,
         self::ADDITIONAL_EMAILS_PARAMETER => false,
         self::DISPLAY_FORMAT_PARAMETER    => true,
+        self::ENFORCE_ORDER_PARAMETER     => false,
     );
 
     private static $managedReportTypes = array(
@@ -218,6 +220,12 @@ class ScheduledReports extends \Piwik\Plugin
         // additionalEmails is an optional parameter
         if (isset($parameters[self::ADDITIONAL_EMAILS_PARAMETER])) {
             $parameters[self::ADDITIONAL_EMAILS_PARAMETER] = self::checkAdditionalEmails($parameters[self::ADDITIONAL_EMAILS_PARAMETER]);
+        }
+
+        if (isset($parameters[self::ENFORCE_ORDER_PARAMETER])) {
+            $parameters[self::ENFORCE_ORDER_PARAMETER] = self::valueIsTrue($parameters[self::ENFORCE_ORDER_PARAMETER]);
+        } else {
+            $parameters[self::ENFORCE_ORDER_PARAMETER] = false;
         }
     }
 
