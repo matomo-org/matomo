@@ -549,14 +549,6 @@ class Pdf extends ReportRenderer
     {
         $initPosX = 10;
 
-        // Get the longest column name
-        $longestColumnName = '';
-        foreach ($this->reportColumns as $columnName) {
-            if (strlen($columnName) > strlen($longestColumnName)) {
-                $longestColumnName = $columnName;
-            }
-        }
-
         $columnsCount = count($this->reportColumns);
         // Computes available column width
         if (
@@ -585,8 +577,27 @@ class Pdf extends ReportRenderer
         $this->TCPDF->SetDrawColor(255);
 
         $posY = $this->TCPDF->GetY();
-        $this->TCPDF->MultiCell($this->cellWidth, $this->cellHeight, $longestColumnName, 1, 'C', true);
-        $maxCellHeight = $this->TCPDF->GetY() - $posY;
+        $columnData = array();
+        $maxCellHeight = $this->cellHeight;
+        $countColumns = 0;
+        foreach ($this->reportColumns as $columnName) {
+            $columnName = $this->formatText($columnName);
+            $columnWidth = ($countColumns == 0) ? $this->labelCellWidth : $this->cellWidth;
+            $textHeight = $this->TCPDF->getStringHeight($columnWidth, $columnName);
+            if ($textHeight < $this->cellHeight) {
+                $textHeight = $this->cellHeight;
+            }
+            $columnData[] = array(
+                'text' => $columnName,
+                'width' => $columnWidth,
+                'height' => $textHeight,
+            );
+            if ($textHeight > $maxCellHeight) {
+                $maxCellHeight = $textHeight;
+            }
+            $countColumns++;
+        }
+        $this->TCPDF->SetXY($initPosX, $posY);
 
         $this->TCPDF->SetFillColor($this->tableHeaderBackgroundColor[0], $this->tableHeaderBackgroundColor[1], $this->tableHeaderBackgroundColor[2]);
         $this->TCPDF->SetTextColor($this->tableHeaderTextColor[0], $this->tableHeaderTextColor[1], $this->tableHeaderTextColor[2]);
@@ -596,17 +607,39 @@ class Pdf extends ReportRenderer
 
         $countColumns = 0;
         $posX = $initPosX;
-        foreach ($this->reportColumns as $columnName) {
-            $columnName = $this->formatText($columnName);
+        $headerBottomPadding = 2;
+        foreach ($columnData as $columnInfo) {
+            $columnName = $columnInfo['text'];
+            $columnWidth = $columnInfo['width'];
+            $textHeight = $columnInfo['height'];
 
-            //Label column
-            if ($countColumns == 0) {
-                $this->TCPDF->MultiCell($this->labelCellWidth, $maxCellHeight, $columnName, $border = 0, $align = 'L', true);
-                $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
-            } else {
-                $this->TCPDF->MultiCell($this->cellWidth, $maxCellHeight, $columnName, $border = 0, $align = 'L', true);
-                $this->TCPDF->SetXY($posX + $this->cellWidth, $posY);
+            $this->TCPDF->Rect($posX, $posY, $columnWidth, $maxCellHeight, 'F');
+
+            $textPosY = $posY + max(0, $maxCellHeight - $textHeight) - $headerBottomPadding;
+            if ($textPosY < $posY) {
+                $textPosY = $posY;
             }
+
+            $this->TCPDF->SetXY($posX, $textPosY);
+            $this->TCPDF->MultiCell(
+                $columnWidth,
+                $this->cellHeight,
+                $columnName,
+                0,
+                'L',
+                false,
+                0,
+                '',
+                '',
+                true,
+                0,
+                false,
+                true,
+                0,
+                'T'
+            );
+            $this->TCPDF->SetXY($posX + $columnWidth, $posY);
+
             $countColumns++;
             $posX = $this->TCPDF->GetX();
         }
