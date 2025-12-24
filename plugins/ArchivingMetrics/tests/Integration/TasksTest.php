@@ -24,20 +24,6 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
  */
 class TasksTest extends IntegrationTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-        Db::query('DELETE FROM ' . Common::prefixTable('archiving_metrics'));
-    }
-
-    public function tearDown(): void
-    {
-        $config = Config::getInstance();
-        $config->ArchivingMetrics = [];
-
-        parent::tearDown();
-    }
-
     public function testPurgeOldMetricsDeletesRowsOlderThanRetention(): void
     {
         $config = Config::getInstance();
