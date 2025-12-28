@@ -28,7 +28,6 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/ScheduledReports/config/tcpdf_config
  */
 class Pdf extends ReportRenderer
 {
-    public const IMAGE_GRAPH_WIDTH_LANDSCAPE = 1050;
     public const IMAGE_GRAPH_WIDTH_PORTRAIT = 760;
     public const IMAGE_GRAPH_HEIGHT = 220;
 
@@ -51,11 +50,8 @@ class Pdf extends ReportRenderer
     private $cellHeight = 6;
     private $bottomMargin = 17;
     private $reportWidthPortrait = 195;
-    private $reportWidthLandscape = 270;
-    private $minWidthLabelCell = 100;
     private $minWidthLabelCellPortrait = 80;
     private $minWidthLabelCellPortraitShort = 65;
-    private $maxColumnCountPortraitOrientation = 6;
     private $logoWidth = 16;
     private $logoHeight = 16;
     private $totalWidth;
@@ -86,6 +82,8 @@ class Pdf extends ReportRenderer
     private $TCPDF;
     private $orientation = self::PORTRAIT;
     private $labelShortContentThreshold = 100;
+    private $columnCellWidths = array();
+    private $minMetricColumnWidth = 14;
 
     public function __construct()
     {
@@ -406,7 +404,8 @@ class Pdf extends ReportRenderer
                         0,
                         false,
                         true,
-                        $rowHeight
+                        $rowHeight,
+                        'M'
                     );
                     if ($url) {
                         $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $url);
@@ -442,7 +441,16 @@ class Pdf extends ReportRenderer
                     if (empty($rowMetrics[$columnId])) {
                         $rowMetrics[$columnId] = 0;
                     }
-                    $this->TCPDF->Cell($this->cellWidth, $rowHeight, NumberFormatter::getInstance()->format($rowMetrics[$columnId]), 'LR', 0, 'L', $fill);
+                    $columnWidth = $this->getColumnWidth($columnId);
+                    $this->TCPDF->Cell(
+                        $columnWidth,
+                        $rowHeight,
+                        NumberFormatter::getInstance()->format($rowMetrics[$columnId]),
+                        'LR',
+                        0,
+                        'L',
+                        $fill
+                    );
                 }
             }
 
@@ -458,7 +466,7 @@ class Pdf extends ReportRenderer
         }
     }
 
-    private function truncateLabelTextToLines($text, $availableWidth = null)
+    private function truncateLabelTextToLines(string $text, ?float $availableWidth = null): string
     {
         $width = $availableWidth ?: $this->labelCellWidth;
 
@@ -489,7 +497,7 @@ class Pdf extends ReportRenderer
         return $best !== '' ? $best : mb_substr($text, 0, $this->truncateAfter);
     }
 
-    private function getLabelRowHeight($text)
+    private function getLabelRowHeight(string $text): float
     {
         $maxHeight = $this->cellHeight * $this->maxLabelLines;
         $labelHeight = $this->TCPDF->getStringHeight($this->labelCellWidth, $text);
@@ -505,7 +513,7 @@ class Pdf extends ReportRenderer
         return $labelHeight;
     }
 
-    private function adjustLabelWidthForTableData($columnsCount)
+    private function adjustLabelWidthForTableData(int $columnsCount): void
     {
         if ($columnsCount <= 1 || !$this->reportHasData()) {
             return;
@@ -520,7 +528,95 @@ class Pdf extends ReportRenderer
         $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
     }
 
-    private function shouldUseShortLabelWidth()
+    private function getColumnWidth(string $columnId): float
+    {
+        if (isset($this->columnCellWidths[$columnId])) {
+            return (float) $this->columnCellWidths[$columnId];
+        }
+
+        if ($columnId === 'label') {
+            return (float) $this->labelCellWidth;
+        }
+
+        return (float) $this->cellWidth;
+    }
+
+    private function adjustMetricColumnWidthsForRevenue(): void
+    {
+        if (!$this->reportHasData()) {
+            return;
+        }
+
+        if (!array_key_exists('revenue', $this->reportColumns) || !isset($this->columnCellWidths['revenue'])) {
+            return;
+        }
+
+        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
+
+        $requiredWidth = $this->getMaxFormattedColumnWidth('revenue');
+        if ($requiredWidth <= 0) {
+            return;
+        }
+
+        $currentWidth = $this->columnCellWidths['revenue'];
+        if ($requiredWidth <= $currentWidth) {
+            return;
+        }
+
+        $additionalWidth = $requiredWidth - $currentWidth;
+        $remainingWidthToGain = $additionalWidth;
+
+        foreach ($this->columnCellWidths as $columnId => $width) {
+            if ($columnId === 'label' || $columnId === 'revenue') {
+                continue;
+            }
+            $availableReduction = $width - $this->minMetricColumnWidth;
+            if ($availableReduction <= 0) {
+                continue;
+            }
+            $reduction = min($availableReduction, $remainingWidthToGain);
+            if ($reduction <= 0) {
+                continue;
+            }
+            $this->columnCellWidths[$columnId] -= $reduction;
+            $remainingWidthToGain -= $reduction;
+            if ($remainingWidthToGain <= 0) {
+                break;
+            }
+        }
+
+        $appliedWidth = $additionalWidth - $remainingWidthToGain;
+        if ($appliedWidth <= 0) {
+            return;
+        }
+
+        $this->columnCellWidths['revenue'] += $appliedWidth;
+    }
+
+    private function getMaxFormattedColumnWidth(string $columnId): float
+    {
+        $maxWidth = 0;
+
+        foreach ($this->report->getRows() as $row) {
+            $value = $row->getColumn($columnId);
+            if ($value === false || $value === null) {
+                continue;
+            }
+            $formattedValue = NumberFormatter::getInstance()->format($value);
+            $width = $this->TCPDF->GetStringWidth($formattedValue);
+            if ($width > $maxWidth) {
+                $maxWidth = $width;
+            }
+        }
+
+        if ($maxWidth <= 0) {
+            return 0;
+        }
+
+        return $maxWidth + 2;
+    }
+
+    private function shouldUseShortLabelWidth(): bool
     {
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
 
@@ -622,6 +718,16 @@ class Pdf extends ReportRenderer
         $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
         $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
         $this->adjustLabelWidthForTableData($columnsCount);
+        $this->columnCellWidths = array();
+        foreach ($this->reportColumns as $columnId => $columnName) {
+            if ($columnId === 'label') {
+                $this->columnCellWidths[$columnId] = $this->labelCellWidth;
+            } else {
+                $this->columnCellWidths[$columnId] = $this->cellWidth;
+            }
+        }
+        $this->adjustMetricColumnWidthsForRevenue();
+        $this->totalWidth = array_sum($this->columnCellWidths);
 
         $this->TCPDF->SetFillColor($this->tableHeaderBackgroundColor[0], $this->tableHeaderBackgroundColor[1], $this->tableHeaderBackgroundColor[2]);
         $this->TCPDF->SetTextColor($this->tableHeaderTextColor[0], $this->tableHeaderTextColor[1], $this->tableHeaderTextColor[2]);
@@ -636,9 +742,9 @@ class Pdf extends ReportRenderer
         $columnData = array();
         $maxCellHeight = $this->cellHeight;
         $countColumns = 0;
-        foreach ($this->reportColumns as $columnName) {
+        foreach ($this->reportColumns as $columnId => $columnName) {
             $columnName = $this->formatText($columnName);
-            $columnWidth = ($countColumns == 0) ? $this->labelCellWidth : $this->cellWidth;
+            $columnWidth = $this->getColumnWidth($columnId);
             $textHeight = $this->TCPDF->getStringHeight($columnWidth, $columnName);
             if ($textHeight < $this->cellHeight) {
                 $textHeight = $this->cellHeight;
