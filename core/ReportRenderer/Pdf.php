@@ -383,43 +383,35 @@ class Pdf extends ReportRenderer
                     $posX = $this->TCPDF->GetX();
                     $posY = $this->TCPDF->GetY();
                     if (isset($rowMetrics[$columnId])) {
-                        $maxCharacters = $this->truncateAfter;
-                        if ($this->orientation == self::PORTRAIT) {
-                            $maxCharacters *= $this->maxLabelLines;
-                        }
+                        $maxCharacters = $this->truncateAfter * $this->maxLabelLines;
                         $text = mb_substr($rowMetrics[$columnId], 0, $maxCharacters);
                         if ($isLogoDisplayable) {
                             $text = $leftSpacesBeforeLogo . $text;
                         }
                     }
                     $text = $this->formatText($text);
-
-                    if ($this->orientation == self::PORTRAIT) {
-                        $text = $this->truncateLabelTextToLines($text);
-                        $rowHeight = $this->getLabelRowHeight($text);
-                        $this->TCPDF->MultiCell(
-                            $this->labelCellWidth,
-                            $this->cellHeight,
-                            $text,
-                            'LR',
-                            'L',
-                            $fill,
-                            0,
-                            '',
-                            '',
-                            true,
-                            0,
-                            false,
-                            true,
-                            $rowHeight
-                        );
-                        if ($url) {
-                            $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $url);
-                        }
-                        $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
-                    } else {
-                        $this->TCPDF->Cell($this->labelCellWidth, $this->cellHeight, $text, 'LR', 0, 'L', $fill, $url);
+                    $text = $this->truncateLabelTextToLines($text);
+                    $rowHeight = $this->getLabelRowHeight($text);
+                    $this->TCPDF->MultiCell(
+                        $this->labelCellWidth,
+                        $this->cellHeight,
+                        $text,
+                        'LR',
+                        'L',
+                        $fill,
+                        0,
+                        '',
+                        '',
+                        true,
+                        0,
+                        false,
+                        true,
+                        $rowHeight
+                    );
+                    if ($url) {
+                        $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $url);
                     }
+                    $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
 
                     if ($isLogoDisplayable) {
                         if (isset($rowMetadata['logoWidth'])) {
@@ -532,10 +524,7 @@ class Pdf extends ReportRenderer
     {
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
 
-        $maxCharacters = $this->truncateAfter;
-        if ($this->orientation == self::PORTRAIT) {
-            $maxCharacters *= $this->maxLabelLines;
-        }
+        $maxCharacters = $this->truncateAfter * $this->maxLabelLines;
 
         $rowsMetadata = array();
         if (!empty($this->reportRowsMetadata)) {
@@ -562,11 +551,7 @@ class Pdf extends ReportRenderer
                     return false;
                 }
             }
-
-            if (
-                $this->orientation == self::PORTRAIT
-                && isset($rowsMetadata[$rowId])
-            ) {
+            if ( isset($rowsMetadata[$rowId]) ) {
                 $rowMeta = $rowsMetadata[$rowId]->getColumns();
                 if (isset($rowMeta['logo'])) {
                     $visibleLabel = str_repeat(' ', $this->leftSpacesBeforeLogo) . $visibleLabel;
@@ -586,7 +571,7 @@ class Pdf extends ReportRenderer
     {
         $imageGraph = parent::getStaticGraph(
             $this->reportMetadata,
-            $this->orientation == self::PORTRAIT ? self::IMAGE_GRAPH_WIDTH_PORTRAIT : self::IMAGE_GRAPH_WIDTH_LANDSCAPE,
+            $this->orientation == self::IMAGE_GRAPH_WIDTH_PORTRAIT,
             self::IMAGE_GRAPH_HEIGHT,
             $this->evolutionGraph,
             $this->segment
@@ -626,24 +611,17 @@ class Pdf extends ReportRenderer
 
         $columnsCount = count($this->reportColumns);
         // Computes available column width
-        if (
-            $this->orientation == self::PORTRAIT
-            && $columnsCount <= 3
-        ) {
+        if ( $columnsCount <= 3 ) {
             $totalWidth = $this->reportWidthPortrait * 2 / 3;
-        } elseif ($this->orientation == self::LANDSCAPE) {
-            $totalWidth = $this->reportWidthLandscape;
         } else {
             $totalWidth = $this->reportWidthPortrait;
         }
         $this->totalWidth = $totalWidth;
-        $minLabelWidth = $this->orientation == self::PORTRAIT ? $this->minWidthLabelCellPortrait : $this->minWidthLabelCell;
+        $minLabelWidth =  $this->minWidthLabelCellPortrait;
         $this->labelCellWidth = max(round(($this->totalWidth / $columnsCount)), $minLabelWidth);
         $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
         $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
-        if ($this->orientation == self::PORTRAIT) {
-            $this->adjustLabelWidthForTableData($columnsCount);
-        }
+        $this->adjustLabelWidthForTableData($columnsCount);
 
         $this->TCPDF->SetFillColor($this->tableHeaderBackgroundColor[0], $this->tableHeaderBackgroundColor[1], $this->tableHeaderBackgroundColor[2]);
         $this->TCPDF->SetTextColor($this->tableHeaderTextColor[0], $this->tableHeaderTextColor[1], $this->tableHeaderTextColor[2]);
