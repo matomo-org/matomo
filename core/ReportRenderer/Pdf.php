@@ -54,6 +54,7 @@ class Pdf extends ReportRenderer
     private $reportWidthLandscape = 270;
     private $minWidthLabelCell = 100;
     private $minWidthLabelCellPortrait = 80;
+    private $minWidthLabelCellPortraitShort = 65;
     private $maxColumnCountPortraitOrientation = 6;
     private $logoWidth = 16;
     private $logoHeight = 16;
@@ -64,6 +65,8 @@ class Pdf extends ReportRenderer
     private $maxLabelLines = 3;
     private $leftSpacesBeforeLogo = 7;
     private $logoImagePosition = array(10, 40);
+    private $headerBottomPadding = 2;
+    private $headerBottomPaddingShort = 0.5;
     private $headerTextColor;
     private $reportTextColor;
     private $tableHeaderBackgroundColor;
@@ -82,6 +85,7 @@ class Pdf extends ReportRenderer
     private $reportFont = ReportRenderer::DEFAULT_REPORT_FONT_FAMILY;
     private $TCPDF;
     private $orientation = self::PORTRAIT;
+    private $labelShortContentThreshold = 100;
 
     public function __construct()
     {
@@ -462,9 +466,11 @@ class Pdf extends ReportRenderer
         }
     }
 
-    private function truncateLabelTextToLines($text)
+    private function truncateLabelTextToLines($text, $availableWidth = null)
     {
-        if ($this->TCPDF->getNumLines($text, $this->labelCellWidth) <= $this->maxLabelLines) {
+        $width = $availableWidth ?: $this->labelCellWidth;
+
+        if ($this->TCPDF->getNumLines($text, $width) <= $this->maxLabelLines) {
             return $text;
         }
 
@@ -480,7 +486,7 @@ class Pdf extends ReportRenderer
             if ($mid < $length) {
                 $candidate .= $suffix;
             }
-            if ($this->TCPDF->getNumLines($candidate, $this->labelCellWidth) > $this->maxLabelLines) {
+            if ($this->TCPDF->getNumLines($candidate, $width) > $this->maxLabelLines) {
                 $end = $mid - 1;
             } else {
                 $best = $candidate;
@@ -505,6 +511,75 @@ class Pdf extends ReportRenderer
         }
 
         return $labelHeight;
+    }
+
+    private function adjustLabelWidthForTableData($columnsCount)
+    {
+        if ($columnsCount <= 1 || !$this->reportHasData()) {
+            return;
+        }
+
+        if (!$this->shouldUseShortLabelWidth()) {
+            return;
+        }
+
+        $this->labelCellWidth = $this->minWidthLabelCellPortraitShort;
+        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
+        $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
+    }
+
+    private function shouldUseShortLabelWidth()
+    {
+        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
+
+        $maxCharacters = $this->truncateAfter;
+        if ($this->orientation == self::PORTRAIT) {
+            $maxCharacters *= $this->maxLabelLines;
+        }
+
+        $rowsMetadata = array();
+        if (!empty($this->reportRowsMetadata)) {
+            $rowsMetadata = $this->reportRowsMetadata->getRows();
+        }
+
+        $maxLength = 0;
+        foreach ($this->report->getRows() as $rowId => $row) {
+            $label = $row->getColumn('label');
+            if ($label === false || $label === null) {
+                continue;
+            }
+            $rawLabel = (string) $label;
+            $visibleLabel = mb_substr($rawLabel, 0, $maxCharacters);
+
+            if (mb_strlen($rawLabel) > mb_strlen($visibleLabel)) {
+                return false;
+            }
+
+            $length = mb_strlen($visibleLabel);
+            if ($length > $maxLength) {
+                $maxLength = $length;
+                if ($maxLength >= $this->labelShortContentThreshold) {
+                    return false;
+                }
+            }
+
+            if (
+                $this->orientation == self::PORTRAIT
+                && isset($rowsMetadata[$rowId])
+            ) {
+                $rowMeta = $rowsMetadata[$rowId]->getColumns();
+                if (isset($rowMeta['logo'])) {
+                    $visibleLabel = str_repeat(' ', $this->leftSpacesBeforeLogo) . $visibleLabel;
+                }
+            }
+
+            $formattedLabel = $this->formatText($visibleLabel);
+            if ($this->TCPDF->getNumLines($formattedLabel, $this->labelCellWidth) > 1) {
+                return false;
+            }
+        }
+
+        return $maxLength > 0;
     }
 
     private function paintGraph()
@@ -566,6 +641,9 @@ class Pdf extends ReportRenderer
         $this->labelCellWidth = max(round(($this->totalWidth / $columnsCount)), $minLabelWidth);
         $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
         $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
+        if ($this->orientation == self::PORTRAIT) {
+            $this->adjustLabelWidthForTableData($columnsCount);
+        }
 
         $this->TCPDF->SetFillColor($this->tableHeaderBackgroundColor[0], $this->tableHeaderBackgroundColor[1], $this->tableHeaderBackgroundColor[2]);
         $this->TCPDF->SetTextColor($this->tableHeaderTextColor[0], $this->tableHeaderTextColor[1], $this->tableHeaderTextColor[2]);
@@ -607,7 +685,6 @@ class Pdf extends ReportRenderer
 
         $countColumns = 0;
         $posX = $initPosX;
-        $headerBottomPadding = 2;
         foreach ($columnData as $columnInfo) {
             $columnName = $columnInfo['text'];
             $columnWidth = $columnInfo['width'];
@@ -615,7 +692,11 @@ class Pdf extends ReportRenderer
 
             $this->TCPDF->Rect($posX, $posY, $columnWidth, $maxCellHeight, 'F');
 
-            $textPosY = $posY + max(0, $maxCellHeight - $textHeight) - $headerBottomPadding;
+            $effectivePadding = $this->headerBottomPadding;
+            if ($textHeight <= $this->cellHeight) {
+                $effectivePadding = $this->headerBottomPaddingShort;
+            }
+            $textPosY = $posY + max(0, $maxCellHeight - $textHeight) - $effectivePadding;
             if ($textPosY < $posY) {
                 $textPosY = $posY;
             }
