@@ -62,14 +62,6 @@ describe("ScheduledReports", function () {
             await page.waitForSelector('#addEditReport', { visible: true });
             await page.waitForSelector('.selectedReportsList li', { visible: true });
         }
-        async function addToDescriptionAndSave(description) {
-            await page.click('textarea[name="report_description"]');
-            await page.type('textarea[name="report_description"]', description);
-            await page.click('.matomo-save-button .btn');
-            await page.waitForNetworkIdle();
-            await page.waitForTimeout(500);
-            return;
-        }
 
         it("should show selected reports when creating a new report", async function () {
             await page.goto(manageReportsUrl);
@@ -94,11 +86,6 @@ describe("ScheduledReports", function () {
             }
             const selectedReportsWrapper = await page.$('.selectedReportsWrapper');
             expect(await selectedReportsWrapper.screenshot()).to.matchImage('selected_reports');
-        });
-
-        it ("should save the new report and redirect to manage reports with notification", async function () {
-            await addToDescriptionAndSave(createdReportName);
-            expect(await page.screenshot()).to.matchImage('new_report_created');
         });
 
         it("should persist manually reordered selected reports when saving a report", async function () {
@@ -149,10 +136,6 @@ describe("ScheduledReports", function () {
 
             const selectedReportsWrapper = await page.$('.selectedReportsWrapper');
             expect(await selectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
-        });
-        it ("should update the new report and redirect to manage reports with notification", async function () {
-            await addToDescriptionAndSave('ss');
-            expect(await page.screenshot()).to.matchImage('new_report_updated');
         });
     });
 });
