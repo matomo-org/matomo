@@ -306,6 +306,19 @@ interface Option {
   value: string;
 }
 
+interface ReportMetadata {
+  uniqueId: string;
+  name: string;
+}
+
+interface ReportsByType {
+  [reportType: string]: Record<string, ReportMetadata[]>;
+}
+
+interface ReportsLookupByType {
+  [reportType: string]: Record<string, ReportMetadata>;
+}
+
 export default defineComponent({
   props: {
     report: {
@@ -425,6 +438,11 @@ export default defineComponent({
     Matomo.helper.destroyVueComponent(reportParameters);
   },
   computed: {
+
+    /**
+     * Ensures each report type has a flattened order array where every selected report
+     * appears exactly once (ordered first, then any remaining selections).
+     */
     selectedReportsOrderNormalized() {
       const normalized: Record<string, string[]> = {};
       const allSelectedReports = this.selectedReports || {};
@@ -439,10 +457,14 @@ export default defineComponent({
       });
       return normalized;
     },
+
+    /**
+     * Flattens the nested report metadata into a two-level lookup so we can access any report
+     * by its type and unique id without re-iterating the category structure.
+     */
     reportsLookup() {
-      const reportsByType = this.reportsByCategoryByReportType as
-        Record<string, Record<string, Array<{ uniqueId: string, name: string }>>>;
-      const lookup: Record<string, Record<string, { uniqueId: string, name: string }>> = {};
+      const reportsByType = this.reportsByCategoryByReportType as ReportsByType;
+      const lookup: ReportsLookupByType = {};
 
       Object.entries(reportsByType).forEach(([reportType, reportsByCategory]) => {
         lookup[reportType] = lookup[reportType] || {};
@@ -470,7 +492,7 @@ export default defineComponent({
 
       return order
         .map((uniqueId) => lookup[uniqueId])
-        .filter((report): report is { uniqueId: string, name: string } => !!report);
+        .filter((report): report is ReportMetadata => !!report);
     },
     reportsByCategoryByReportTypeInColumns() {
       const reportsByCategoryByReportType = this.reportsByCategoryByReportType as
