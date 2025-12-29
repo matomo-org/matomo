@@ -724,17 +724,19 @@ class Pdf extends ReportRenderer
         foreach ($this->reportColumns as $columnId => $columnName) {
             $columnName = $this->formatText($columnName);
             $columnWidth = $this->getColumnWidth($columnId);
-            $textHeight = $this->TCPDF->getStringHeight($columnWidth, $columnName);
-            if ($textHeight < $this->cellHeight) {
-                $textHeight = $this->cellHeight;
+            $stringHeight = $this->TCPDF->getStringHeight($columnWidth, $columnName);
+            $cellHeight = $stringHeight;
+            if ($cellHeight < $this->cellHeight) {
+                $cellHeight = $this->cellHeight;
             }
             $columnData[] = array(
                 'text' => $columnName,
                 'width' => $columnWidth,
-                'height' => $textHeight,
+                'height' => $cellHeight,
+                'textHeight' => $stringHeight,
             );
-            if ($textHeight > $maxCellHeight) {
-                $maxCellHeight = $textHeight;
+            if ($cellHeight > $maxCellHeight) {
+                $maxCellHeight = $cellHeight;
             }
             $countColumns++;
         }
@@ -751,17 +753,31 @@ class Pdf extends ReportRenderer
         foreach ($columnData as $columnInfo) {
             $columnName = $columnInfo['text'];
             $columnWidth = $columnInfo['width'];
-            $textHeight = $columnInfo['height'];
+            $columnHeight = $columnInfo['height'];
+            $textHeight = $columnInfo['textHeight'];
+            if ($textHeight <= 0) {
+                $textHeight = $columnHeight;
+            }
 
             $this->TCPDF->Rect($posX, $posY, $columnWidth, $maxCellHeight, 'F');
 
-            $effectivePadding = $this->headerBottomPadding;
+            $bottomPadding = $this->headerBottomPadding;
             if ($textHeight <= $this->cellHeight) {
-                $effectivePadding = $this->headerBottomPaddingShort;
+                $bottomPadding = 0;
+            } elseif ($textHeight <= $this->cellHeight * 2) {
+                $bottomPadding = $this->headerBottomPaddingShort;
             }
-            $textPosY = $posY + max(0, $maxCellHeight - $textHeight) - $effectivePadding;
+            $availableSpace = $maxCellHeight - $textHeight;
+            if ($availableSpace < 0) {
+                $availableSpace = 0;
+            }
+            $textPosY = $posY + $availableSpace - $bottomPadding;
             if ($textPosY < $posY) {
                 $textPosY = $posY;
+            }
+            $maxAllowedY = $posY + $maxCellHeight - $textHeight;
+            if ($textPosY > $maxAllowedY) {
+                $textPosY = $maxAllowedY;
             }
 
             $this->TCPDF->SetXY($posX, $textPosY);
