@@ -415,7 +415,6 @@ export default defineComponent({
       }
 
       const reportParams = window.getReportParametersFunctions[this.report.type](this.report);
-      reportParams['enforce-order'] = true;
       apiParameters.parameters = reportParams as unknown as QueryParameters;
 
       const isUpdate = this.report.idreport > 0;
