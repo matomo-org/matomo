@@ -171,6 +171,7 @@ class ApiTest extends IntegrationTestCase
                 'emailMe'          => true,
                 'additionalEmails' => array('test@test.com', 't2@test.com'),
                 'evolutionGraph'   => true,
+                'enforceOrder' => false,
             ),
         );
 
@@ -1004,6 +1005,7 @@ class ApiTest extends IntegrationTestCase
                 'emailMe'          => false,
                 'additionalEmails' => array('blabla@ec.fr'),
                 'evolutionGraph'   => false,
+                'enforceOrder' => false,
             ),
         );
     }
