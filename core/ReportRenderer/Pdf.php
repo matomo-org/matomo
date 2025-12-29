@@ -45,7 +45,7 @@ class Pdf extends ReportRenderer
     public const PDF_CONTENT_TYPE = 'pdf';
 
     private $reportFontStyle = '';
-    private $reportSimpleFontSize = 9;
+    private $reportSimpleFontSize = 8.5;
     private $reportHeaderFontSize = 16;
     private $cellHeight = 6;
     private $bottomMargin = 17;
@@ -57,8 +57,8 @@ class Pdf extends ReportRenderer
     private $totalWidth;
     private $cellWidth;
     private $labelCellWidth;
-    private $truncateAfter = 55;
-    private $maxLabelLines = 3;
+    private $maxRowHeight = 13;
+    private $maxLabelCharacter = 140;
     private $leftSpacesBeforeLogo = 7;
     private $logoImagePosition = array(10, 40);
     private $headerBottomPadding = 2;
@@ -381,18 +381,19 @@ class Pdf extends ReportRenderer
                     $posX = $this->TCPDF->GetX();
                     $posY = $this->TCPDF->GetY();
                     if (isset($rowMetrics[$columnId])) {
-                        $maxCharacters = $this->truncateAfter * $this->maxLabelLines;
-                        $text = mb_substr($rowMetrics[$columnId], 0, $maxCharacters);
+                        $text = $rowMetrics[$columnId];
+                        $maxCharacters = $this->maxLabelCharacter;
+                        $text = mb_substr($text, 0, $maxCharacters);
                         if ($isLogoDisplayable) {
                             $text = $leftSpacesBeforeLogo . $text;
                         }
                     }
                     $text = $this->formatText($text);
-                    $text = $this->truncateLabelTextToLines($text);
                     $rowHeight = $this->getLabelRowHeight($text);
+                    $maxHeight = $this->getLabelRowMaxHeight($rowHeight);
                     $this->TCPDF->MultiCell(
                         $this->labelCellWidth,
-                        $this->cellHeight,
+                        $rowHeight,
                         $text,
                         'LR',
                         'L',
@@ -404,7 +405,7 @@ class Pdf extends ReportRenderer
                         0,
                         false,
                         true,
-                        $rowHeight,
+                        $maxHeight,
                         'M'
                     );
                     if ($url) {
@@ -465,42 +466,11 @@ class Pdf extends ReportRenderer
             $fill = !$fill;
         }
     }
-
-    private function truncateLabelTextToLines(string $text, ?float $availableWidth = null): string
-    {
-        $width = $availableWidth ?: $this->labelCellWidth;
-
-        if ($this->TCPDF->getNumLines($text, $width) <= $this->maxLabelLines) {
-            return $text;
-        }
-
-        $suffix = '...';
-        $length = mb_strlen($text);
-        $start = 0;
-        $end = $length;
-        $best = '';
-
-        while ($start <= $end) {
-            $mid = (int) floor(($start + $end) / 2);
-            $candidate = mb_substr($text, 0, $mid);
-            if ($mid < $length) {
-                $candidate .= $suffix;
-            }
-            if ($this->TCPDF->getNumLines($candidate, $width) > $this->maxLabelLines) {
-                $end = $mid - 1;
-            } else {
-                $best = $candidate;
-                $start = $mid + 1;
-            }
-        }
-
-        return $best !== '' ? $best : mb_substr($text, 0, $this->truncateAfter);
-    }
-
     private function getLabelRowHeight(string $text): float
     {
-        $maxHeight = $this->cellHeight * $this->maxLabelLines;
+        $maxHeight = $this->maxRowHeight;
         $labelHeight = $this->TCPDF->getStringHeight($this->labelCellWidth, $text);
+        $labelHeight = ceil($labelHeight * 2) / 2; // round up to nearest 0.5 for stable row heights
 
         if ($labelHeight > $maxHeight) {
             return $maxHeight;
@@ -510,7 +480,20 @@ class Pdf extends ReportRenderer
             return $this->cellHeight;
         }
 
-        return $labelHeight;
+        return $labelHeight + 1;
+    }
+
+    /**
+     * This is only useful when label row is 3 lines,
+     * we needed to make max row bigger so that it can be centered vertically better
+     * @param float $rowHeight
+     * @return float
+     */
+    private function getLabelRowMaxHeight(float $rowHeight): float {
+        if ($rowHeight == $this->maxRowHeight) {
+            return 17;
+        }
+        return $rowHeight;
     }
 
     private function adjustLabelWidthForTableData(int $columnsCount): void
@@ -620,7 +603,7 @@ class Pdf extends ReportRenderer
     {
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
 
-        $maxCharacters = $this->truncateAfter * $this->maxLabelLines;
+        $maxCharacters = $this->maxLabelCharacter;
 
         $rowsMetadata = array();
         if (!empty($this->reportRowsMetadata)) {
