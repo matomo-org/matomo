@@ -489,7 +489,8 @@ class Pdf extends ReportRenderer
      * @param float $rowHeight
      * @return float
      */
-    private function getLabelRowMaxHeight(float $rowHeight): float {
+    private function getLabelRowMaxHeight(float $rowHeight): float
+    {
         if ($rowHeight == $this->maxRowHeight) {
             return 17;
         }
@@ -630,7 +631,7 @@ class Pdf extends ReportRenderer
                     return false;
                 }
             }
-            if ( isset($rowsMetadata[$rowId]) ) {
+            if (isset($rowsMetadata[$rowId])) {
                 $rowMeta = $rowsMetadata[$rowId]->getColumns();
                 if (isset($rowMeta['logo'])) {
                     $visibleLabel = str_repeat(' ', $this->leftSpacesBeforeLogo) . $visibleLabel;
@@ -689,12 +690,7 @@ class Pdf extends ReportRenderer
         $initPosX = 10;
 
         $columnsCount = count($this->reportColumns);
-        // Computes available column width
-        if ( $columnsCount <= 3 ) {
-            $totalWidth = $this->reportWidthPortrait * 2 / 3;
-        } else {
-            $totalWidth = $this->reportWidthPortrait;
-        }
+        $totalWidth = $this->reportWidthPortrait;
         $this->totalWidth = $totalWidth;
         $minLabelWidth =  $this->minWidthLabelCellPortrait;
         $this->labelCellWidth = max(round(($this->totalWidth / $columnsCount)), $minLabelWidth);
