@@ -426,6 +426,7 @@ export default defineComponent({
         },
         apiParameters,
       ).then(() => {
+        scrollToTop();
         this.fadeInOutSuccessMessage(
           this.$refs.reportUpdatedSuccess as HTMLElement,
           isUpdate

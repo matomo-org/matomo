@@ -48,6 +48,7 @@ class ScheduledReports extends \Piwik\Plugin
     public const ENFORCE_ORDER_PARAMETER = 'enforceOrder';
     public const EMAIL_ME_PARAMETER_DEFAULT_VALUE = true;
     public const EVOLUTION_GRAPH_PARAMETER_DEFAULT_VALUE = false;
+    public const ENFORCE_ORDER_PARAMETER_DEFAULT_VALUE = false;
 
     public const EMAIL_TYPE = 'email';
 
@@ -222,10 +223,10 @@ class ScheduledReports extends \Piwik\Plugin
             $parameters[self::ADDITIONAL_EMAILS_PARAMETER] = self::checkAdditionalEmails($parameters[self::ADDITIONAL_EMAILS_PARAMETER]);
         }
 
-        if (isset($parameters[self::ENFORCE_ORDER_PARAMETER])) {
-            $parameters[self::ENFORCE_ORDER_PARAMETER] = self::valueIsTrue($parameters[self::ENFORCE_ORDER_PARAMETER]);
+        if (!isset($parameters[self::ENFORCE_ORDER_PARAMETER])) {
+            $parameters[self::ENFORCE_ORDER_PARAMETER] = self::ENFORCE_ORDER_PARAMETER_DEFAULT_VALUE;
         } else {
-            $parameters[self::ENFORCE_ORDER_PARAMETER] = false;
+            $parameters[self::ENFORCE_ORDER_PARAMETER] = self::valueIsTrue($parameters[self::ENFORCE_ORDER_PARAMETER]);
         }
     }
 

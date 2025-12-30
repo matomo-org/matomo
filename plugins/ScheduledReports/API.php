@@ -427,7 +427,7 @@ class API extends \Piwik\Plugin\API
             $reportMetadata = [];
             if ($enforceCustomOrder) {
                 // we need to lookup which reports metadata are registered in this report
-                // and keep the order defined when saving the report
+                // and keep the order defined
                 $reportMetadataByUniqueId = [];
                 foreach ($availableReportMetadata as $metadata) {
                     $reportMetadataByUniqueId[$metadata['uniqueId']] = $metadata;

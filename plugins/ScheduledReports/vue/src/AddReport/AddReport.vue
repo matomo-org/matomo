@@ -438,12 +438,20 @@ export default defineComponent({
     Matomo.helper.destroyVueComponent(reportParameters);
   },
   computed: {
+    enforceSelectedReportOrder(): boolean {
+      const parameters = (this.report?.parameters || {}) as { enforceOrder?: boolean };
+      if (typeof parameters.enforceOrder !== 'undefined') {
+        return !!parameters.enforceOrder;
+      }
+
+      return false;
+    },
 
     /**
      * Ensures each report type has a flattened order array where every selected report
      * appears exactly once (ordered first, then any remaining selections).
      */
-    selectedReportsOrderNormalized() {
+    selectedReportsOrderNormalized(): Record<string, string[]> {
       const normalized: Record<string, string[]> = {};
       const allSelectedReports = this.selectedReports || {};
       Object.keys(allSelectedReports).forEach((reportType) => {
@@ -462,7 +470,7 @@ export default defineComponent({
      * Flattens the nested report metadata into a two-level lookup so we can access any report
      * by its type and unique id without re-iterating the category structure.
      */
-    reportsLookup() {
+    reportsLookup(): ReportsLookupByType {
       const reportsByType = this.reportsByCategoryByReportType as ReportsByType;
       const lookup: ReportsLookupByType = {};
 
@@ -477,13 +485,33 @@ export default defineComponent({
 
       return lookup;
     },
-    selectedReportsForCurrentType() {
+    selectedReportsForCurrentType(): ReportMetadata[] {
       const type = this.report?.type as string;
       if (!type) {
         return [];
       }
 
-      const order = this.selectedReportsOrderNormalized[type] || [];
+      const selectedForType = (this.selectedReports || {})[type] || {};
+      let order: string[] = [];
+      if (this.enforceSelectedReportOrder) {
+        order = this.selectedReportsOrderNormalized[type] || [];
+      } else {
+        const reportsByCategory = (this.reportsByCategoryByReportType as ReportsByType)[type] || {};
+        const ordered: string[] = [];
+        Object.values(reportsByCategory).forEach((reports) => {
+          reports.forEach((report) => {
+            if (selectedForType[report.uniqueId]) {
+              ordered.push(report.uniqueId);
+            }
+          });
+        });
+        order = ordered;
+      }
+
+      if (!order.length) {
+        order = Object.keys(selectedForType).filter((uniqueId) => selectedForType[uniqueId]);
+      }
+
       if (!order.length) {
         return [];
       }
