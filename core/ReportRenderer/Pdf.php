@@ -531,18 +531,26 @@ class Pdf extends ReportRenderer
             return;
         }
 
-        if (!array_key_exists('revenue', $this->reportColumns) || !isset($this->columnCellWidths['revenue'])) {
+        $revenueColumns = array('revenue', 'ecommerce_revenue');
+        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
+
+        foreach ($revenueColumns as $columnId) {
+            $this->adjustMetricColumnWidthToContent($columnId);
+        }
+    }
+
+    private function adjustMetricColumnWidthToContent(string $columnId): void
+    {
+        if (!array_key_exists($columnId, $this->reportColumns) || !isset($this->columnCellWidths[$columnId])) {
             return;
         }
 
-        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
-
-        $requiredWidth = $this->getMaxFormattedColumnWidth('revenue');
+        $requiredWidth = $this->getMaxFormattedColumnWidth($columnId);
         if ($requiredWidth <= 0) {
             return;
         }
 
-        $currentWidth = $this->columnCellWidths['revenue'];
+        $currentWidth = $this->columnCellWidths[$columnId];
         if ($requiredWidth <= $currentWidth) {
             return;
         }
@@ -550,23 +558,40 @@ class Pdf extends ReportRenderer
         $additionalWidth = $requiredWidth - $currentWidth;
         $remainingWidthToGain = $additionalWidth;
 
-        foreach ($this->columnCellWidths as $columnId => $width) {
-            if ($columnId === 'label' || $columnId === 'revenue') {
+        $adjustableColumns = array();
+        foreach ($this->columnCellWidths as $otherColumnId => $width) {
+            if ($otherColumnId === 'label' || $otherColumnId === $columnId) {
                 continue;
             }
-            $availableReduction = $width - $this->minMetricColumnWidth;
-            if ($availableReduction <= 0) {
+            if ($width <= 0) {
                 continue;
             }
-            $reduction = min($availableReduction, $remainingWidthToGain);
-            if ($reduction <= 0) {
-                continue;
+            $adjustableColumns[$otherColumnId] = $width;
+        }
+
+        while ($remainingWidthToGain > 0 && !empty($adjustableColumns)) {
+            $share = $remainingWidthToGain / count($adjustableColumns);
+            $updatedColumns = array();
+
+            foreach ($adjustableColumns as $otherColumnId => $availableWidth) {
+                $reduction = min($availableWidth, $share);
+                if ($reduction <= 0) {
+                    continue;
+                }
+                $this->columnCellWidths[$otherColumnId] -= $reduction;
+                $remainingWidthToGain -= $reduction;
+
+                $newWidth = $availableWidth - $reduction;
+                if ($newWidth > 0 && $remainingWidthToGain > 0) {
+                    $updatedColumns[$otherColumnId] = $newWidth;
+                }
+
+                if ($remainingWidthToGain <= 0) {
+                    break 2;
+                }
             }
-            $this->columnCellWidths[$columnId] -= $reduction;
-            $remainingWidthToGain -= $reduction;
-            if ($remainingWidthToGain <= 0) {
-                break;
-            }
+
+            $adjustableColumns = $updatedColumns;
         }
 
         $appliedWidth = $additionalWidth - $remainingWidthToGain;
@@ -574,7 +599,7 @@ class Pdf extends ReportRenderer
             return;
         }
 
-        $this->columnCellWidths['revenue'] += $appliedWidth;
+        $this->columnCellWidths[$columnId] += $appliedWidth;
     }
 
     private function getMaxFormattedColumnWidth(string $columnId): float
