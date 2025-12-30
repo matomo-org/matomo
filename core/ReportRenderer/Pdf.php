@@ -83,7 +83,6 @@ class Pdf extends ReportRenderer
     private $orientation = self::PORTRAIT;
     private $labelShortContentThreshold = 100;
     private $columnCellWidths = array();
-    private $minMetricColumnWidth = 14;
 
     public function __construct()
     {
