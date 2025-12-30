@@ -417,7 +417,13 @@ class Pdf extends ReportRenderer
                     if (empty($rowMetrics[$columnId])) {
                         $rowMetrics[$columnId] = 0;
                     }
-                    $this->TCPDF->Cell($this->cellWidth, $this->cellHeight, NumberFormatter::getInstance()->format($rowMetrics[$columnId]), 'LR', 0, 'L', $fill);
+
+                    if ($this->isTimeMetricColumn($columnId)) {
+                        $metricValue = $this->formatTimeMetricValue($columnId, $rowMetrics[$columnId]);
+                    } else {
+                        $metricValue = NumberFormatter::getInstance()->format($rowMetrics[$columnId]);
+                    }
+                    $this->TCPDF->Cell($this->cellWidth, $this->cellHeight, $metricValue, 'LR', 0, 'L', $fill);
                 }
             }
 
@@ -431,6 +437,76 @@ class Pdf extends ReportRenderer
 
             $fill = !$fill;
         }
+    }
+
+    private function formatTimeMetricValue($columnId, $value)
+    {
+        if (!$this->isTimeMetricColumn($columnId)) {
+            return null;
+        }
+
+        $seconds = null;
+
+        if (is_string($value)) {
+            $seconds = $this->convertPrettyTimeToSeconds($value);
+        }
+
+        if ($seconds === null && is_numeric($value)) {
+            $seconds = (float) $value;
+        }
+
+        if ($seconds === null) {
+            return null;
+        }
+
+        $formatter = NumberFormatter::getInstance();
+        $formattedSeconds = $formatter->formatNumber($seconds, 1, 1);
+        $localizedSeconds = sprintf(Piwik::translate('Intl_NSecondsShort'), $formattedSeconds);
+
+        return $localizedSeconds;
+    }
+
+    private function isTimeMetricColumn($columnId)
+    {
+        return $this->reportMetadata['metricTypes'][$columnId] == 'duration_s';
+    }
+
+    private function convertPrettyTimeToSeconds($value)
+    {
+        $stringValue = trim($value);
+        if ($stringValue === '') {
+            return null;
+        }
+
+        $isNegative = false;
+        if ($stringValue[0] === '-') {
+            $isNegative = true;
+            $stringValue = substr($stringValue, 1);
+        }
+
+        $days = 0;
+        if (preg_match('/^(\d+)\D+(\d{1,3}:\d{2}:\d{2}(?:\.\d+)?)$/u', $stringValue, $dayMatch)) {
+            $days = (int) $dayMatch[1];
+            $stringValue = $dayMatch[2];
+        }
+
+        if (!preg_match('/^(?P<hours>\d{1,3}):(?P<minutes>\d{2}):(?P<seconds>\d{2})(?:\.(?P<fraction>\d+))?$/', $stringValue, $timeMatch)) {
+            return null;
+        }
+
+        $hours = (int) $timeMatch['hours'];
+        $minutes = (int) $timeMatch['minutes'];
+        $seconds = (int) $timeMatch['seconds'];
+        $fraction = isset($timeMatch['fraction']) ? (float) ('0.' . $timeMatch['fraction']) : 0.0;
+
+        $hours += $days * 24;
+        $totalSeconds = (($hours * 60) + $minutes) * 60 + $seconds + $fraction;
+
+        if ($isNegative) {
+            $totalSeconds *= -1;
+        }
+
+        return $totalSeconds;
     }
 
     private function paintGraph()
