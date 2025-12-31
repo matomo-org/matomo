@@ -58,7 +58,7 @@ class Pdf extends ReportRenderer
     private $cellWidth;
     private $labelCellWidth;
     private $maxRowHeight = 13;
-    private $maxLabelCharacter = 140;
+    private $maxLabelCharacter = 135;
     private $leftSpacesBeforeLogo = 7;
     private $logoImagePosition = array(10, 40);
     private $headerBottomPadding = 2;
@@ -347,6 +347,12 @@ class Pdf extends ReportRenderer
     {
         return Common::unsanitizeInputValue($text);
     }
+    private function limitTextLength($text, $maxLength)
+    {   if (mb_strlen($text) < $maxLength) {
+            return $text;
+        }
+        return mb_substr($text, 0, $maxLength).'...';
+    }
 
     private function paintReportTable()
     {
@@ -367,6 +373,7 @@ class Pdf extends ReportRenderer
         // Draw a body of report table
         foreach ($this->report->getRows() as $rowId => $row) {
             $rowMetrics = $row->getColumns();
+            $url = false;
             $rowMetadata = isset($rowsMetadata[$rowId]) ? $rowsMetadata[$rowId]->getColumns() : array();
             if (isset($rowMetadata['url'])) {
                 $url = $rowMetadata['url'];
@@ -381,8 +388,11 @@ class Pdf extends ReportRenderer
                     $posY = $this->TCPDF->GetY();
                     if (isset($rowMetrics[$columnId])) {
                         $text = $rowMetrics[$columnId];
-                        $maxCharacters = $this->maxLabelCharacter;
-                        $text = mb_substr($text, 0, $maxCharacters);
+                        $urlString = $this->isUrl($text);
+                        if (!$url && $urlString !== false) {
+                            $url = $urlString;
+                        }
+                        $text = $this->limitTextLength($text, $this->maxLabelCharacter);
                         if ($isLogoDisplayable) {
                             $text = $leftSpacesBeforeLogo . $text;
                         }
@@ -480,6 +490,22 @@ class Pdf extends ReportRenderer
         }
 
         return $labelHeight + 1;
+    }
+
+    /**
+     * @param string $value
+     * @return false|string
+     */
+    private function isUrl(string $value)
+    {
+        $candidate = $value;
+        if (!preg_match('~^[a-z][a-z0-9+.-]*://~i', $candidate)) {
+            $candidate = 'https://' . $candidate;
+        }
+        $host = parse_url($candidate, PHP_URL_HOST);
+        $isValidHost = $host && strpos($host, '.') !== false;
+        $isValidUrl = filter_var($candidate, FILTER_VALIDATE_URL) !== false && $isValidHost;
+        return $isValidUrl ? $candidate : false;
     }
 
     /**
