@@ -348,10 +348,11 @@ class Pdf extends ReportRenderer
         return Common::unsanitizeInputValue($text);
     }
     private function limitTextLength($text, $maxLength)
-    {   if (mb_strlen($text) < $maxLength) {
+    {
+        if (mb_strlen($text) < $maxLength) {
             return $text;
         }
-        return mb_substr($text, 0, $maxLength).'...';
+        return mb_substr($text, 0, $maxLength) . '...';
     }
 
     private function paintReportTable()
@@ -750,7 +751,7 @@ class Pdf extends ReportRenderer
 
         $extraSpacing = 1;
         $this->TCPDF->Ln($extraSpacing);
-        $this->TCPDF->SetXY($initPosX, $posY + $maxCellHeight+ $extraSpacing);
+        $this->TCPDF->SetXY($initPosX, $posY + $maxCellHeight + $extraSpacing);
     }
 
     private function initializeTableColumnWidths(): void
