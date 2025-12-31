@@ -748,8 +748,9 @@ class Pdf extends ReportRenderer
         $this->TCPDF->SetXY($initPosX, $posY);
         $this->renderHeaderColumns($columnData, $initPosX, $posY, $maxCellHeight);
 
-        $this->TCPDF->Ln();
-        $this->TCPDF->SetXY($initPosX, $posY + $maxCellHeight);
+        $extraSpacing = 1;
+        $this->TCPDF->Ln($extraSpacing);
+        $this->TCPDF->SetXY($initPosX, $posY + $maxCellHeight+ $extraSpacing);
     }
 
     private function initializeTableColumnWidths(): void
@@ -792,7 +793,7 @@ class Pdf extends ReportRenderer
         );
         $this->TCPDF->SetLineWidth(.3);
         $this->setBorderColor();
-        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle);
+        $this->TCPDF->SetFont($this->reportFont, 'B');
         $this->TCPDF->SetFillColor(255);
         $this->TCPDF->SetTextColor(
             $this->tableHeaderBackgroundColor[0],
