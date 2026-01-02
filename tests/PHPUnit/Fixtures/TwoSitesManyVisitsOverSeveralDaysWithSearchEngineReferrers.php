@@ -22,11 +22,23 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
     public $dateTime = '2010-02-01 11:22:33';
     public $idSite = 1;
     public $idSite2 = 2;
-    public $keywords = array(
+    public $keywords = [
         'free > proprietary', // testing a keyword containing >
         'peace "," not war', // testing a keyword containing ,
         'justice )(&^#%$ NOT \'" corruption!',
-    );
+    ];
+
+    public $aiReferrers = [
+        'https://chat.openai.com/',
+        'https://chat.openai.com/share/5485594657885584684',
+        'https://matomo.chat.openai.com/',
+        'https://www.perplexity.ai/search?q=matomo',
+        'https://www.perplexity.ai/',
+        'https://claude.ai/',
+        'https://gemini.google.com/app',
+        'https://chat.mistral.ai/',
+    ];
+
     public const EXCLUDED_REFERRER_URL = 'https://excludedreferrer123.com';
 
     public function setUp(): void
@@ -108,6 +120,7 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
             $t->setForceVisitDateTime($visitDateTime);
             $t->setPerformanceTimings(35 + $daysIntoPast, 125 + $daysIntoPast, 356 + $daysIntoPast, 255 + $daysIntoPast, 351 + $daysIntoPast, 66 + $daysIntoPast);
             self::assertTrue($t->doTrackPageView('incredible title ' . ($daysIntoPast % 3)));
+            $t->setForceVisitDateTime(Date::factory($visitDateTime)->addPeriod(1, 'second')->getDatetime());
 
             // Trigger goal n°1 once
             self::assertTrue($t->doTrackGoal(1));
@@ -120,6 +133,12 @@ class TwoSitesManyVisitsOverSeveralDaysWithSearchEngineReferrers extends Fixture
             // VISIT 2: search engine
             $t->setForceVisitDateTime(Date::factory($visitDateTime)->addHour(3)->getDatetime());
             $t->setUrlReferrer('http://google.com/search?q=' . urlencode($this->keywords[$daysIntoPast % 3]));
+            $t->setPerformanceTimings(28 + $daysIntoPast, 215 + $daysIntoPast, 288 + $daysIntoPast, 155 + $daysIntoPast, 236 + $daysIntoPast, 50 + $daysIntoPast);
+            self::assertTrue($t->doTrackPageView('not an incredible title '));
+
+            // VISIT 3: ai assistant
+            $t->setForceVisitDateTime(Date::factory($visitDateTime)->addHour(5)->getDatetime());
+            $t->setUrlReferrer($this->aiReferrers[$daysIntoPast % 8]);
             $t->setPerformanceTimings(28 + $daysIntoPast, 215 + $daysIntoPast, 288 + $daysIntoPast, 155 + $daysIntoPast, 236 + $daysIntoPast, 50 + $daysIntoPast);
             self::assertTrue($t->doTrackPageView('not an incredible title '));
 

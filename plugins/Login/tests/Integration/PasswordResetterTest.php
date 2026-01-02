@@ -208,7 +208,7 @@ class PasswordResetterTest extends IntegrationTestCase
                 'userLogin' => 'pendingUser',
                 'email' => 'pending@user.io',
                 'initialIdSite' => 1,
-                'expiryInDays' => 7
+                'expiryInDays' => 7,
             ]
         );
 

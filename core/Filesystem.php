@@ -623,7 +623,7 @@ class Filesystem
         }
         $filesToCreate = array(
             $path . '/index.htm',
-            $path . '/index.php'
+            $path . '/index.php',
         );
         foreach ($filesToCreate as $file) {
             if (!is_file($file)) {

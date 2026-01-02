@@ -36,6 +36,10 @@ export default defineComponent({
     modelModifiers: Object,
     uicontrol: String,
     name: String,
+    id: {
+      type: String,
+      default: () => '',
+    },
     defaultValue: null,
     options: [Object, Array],
     description: String,
@@ -64,6 +68,10 @@ export default defineComponent({
     min: Number,
     max: Number,
     component: null,
+    extraMetadata: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   emits: ['update:modelValue', 'check:isValid'],
   components: {
@@ -87,6 +95,7 @@ export default defineComponent({
         uiControl: this.uicontrol,
         type: this.type,
         name: this.name,
+        id: this.id ? this.id : this.name,
         defaultValue: this.defaultValue,
         availableValues: this.options,
         description: this.description,
@@ -110,6 +119,7 @@ export default defineComponent({
         },
         fullWidth: this.fullWidth,
         uiControlOptions: this.uiControlOptions,
+        extraMetadata: this.extraMetadata,
       };
     },
   },

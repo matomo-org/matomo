@@ -91,7 +91,7 @@ class AveragePageGenerationTime extends ProcessedMetric
                 'sum_time_generation',
                 'nb_hits_with_time_generation',
                 'min_time_generation',
-                'max_time_generation'
+                'max_time_generation',
             )));
 
             if ($table instanceof DataTable) {

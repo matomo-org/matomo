@@ -57,7 +57,7 @@ class DataFinderTest extends SystemTestCase
         $this->assertFalse($this->dataFinder->hasAddedSegment(Fixture::ADMIN_USER_LOGIN));
 
         Request::processRequest('SegmentEditor.add', array(
-            'name' => 'foo', 'definition' => 'visitServerHour==5'
+            'name' => 'foo', 'definition' => 'visitServerHour==5',
         ));
         $this->assertTrue($this->dataFinder->hasAddedSegment(Fixture::ADMIN_USER_LOGIN));
     }
@@ -67,7 +67,7 @@ class DataFinderTest extends SystemTestCase
         $this->assertFalse($this->dataFinder->hasAddedOrCustomisedDashboard(Fixture::ADMIN_USER_LOGIN));
 
         Request::processRequest('Dashboard.createNewDashboardForUser', array(
-            'login' => Fixture::ADMIN_USER_LOGIN, 'dashboardName' => 'foo'
+            'login' => Fixture::ADMIN_USER_LOGIN, 'dashboardName' => 'foo',
         ));
         $this->assertTrue($this->dataFinder->hasAddedOrCustomisedDashboard(Fixture::ADMIN_USER_LOGIN));
     }
@@ -78,7 +78,7 @@ class DataFinderTest extends SystemTestCase
 
         Request::processRequest('ScheduledReports.addReport', array(
             'idSite' => self::$fixture->idSite, 'description' => 'foo', 'period' => 'week', 'hour' => 5,
-            'reportType' => 'email', 'reportFormat' => 'html', 'reports' => array('MultiSites_getAll'), 'parameters' => array('emailMe' => true, 'evolutionGraph' => false, 'displayFormat' => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS)
+            'reportType' => 'email', 'reportFormat' => 'html', 'reports' => array('MultiSites_getAll'), 'parameters' => array('emailMe' => true, 'evolutionGraph' => false, 'displayFormat' => ScheduledReports::DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS),
         ));
         $this->assertTrue($this->dataFinder->hasAddedNewEmailReport(Fixture::ADMIN_USER_LOGIN));
     }

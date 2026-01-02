@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Cineál Gnímh",
+        "ActionTypeSegmentHelp": "Cineál gnímh, amhail: %s",
         "ActionTypes": "Cineálacha Gníomhaíochta",
         "ActionsInVisit": "Gníomhartha ar Cuairt",
         "AvgGenerationTimeTooltip": "Meán bunaithe ar %1$s amas(í) %2$s idir %3$s agus%4$s",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Bain úsáid as na deilbhíní móide agus lúide ar chlé chun nascleanúint a dhéanamh.",
         "PluginDescription": "Tuairiscí faoi thuairimí an leathanaigh agus teidil na leathanach. Ligeann duit inneall cuardaigh do láithreán gréasáin inmheánach a thomhas. Rianta go huathoibríoch cad a tharlaíonn ar naisc sheachtracha agus íoslódálacha comhad.",
         "RevisitedPages": "Leathanaigh a breathnaíodh níos mó ná uair amháin",
+        "SearchesSegmentHelp": "Chun na cuairteanna uile a d'úsáid Cuardach Suímh inmheánach a roghnú, bain úsáid as: %s",
         "SiteSearchCategories": "Catagóirí (Cuardach Láithreáin)",
         "SiteSearchCategories1": "Liostaítear sa tuarascáil seo na Catagóirí a roghnaigh cuairteoirí nuair a rinne siad Cuardach ar do láithreán gréasáin.",
         "SiteSearchCategories2": "Mar shampla, de ghnáth bíonn roghnóir \"Catagóir\" ag láithreáin ghréasáin ríomhthráchtála ionas gur féidir le cuairteoirí a gcuardach a shrianadh do gach táirge i gCatagóir ar leith.",

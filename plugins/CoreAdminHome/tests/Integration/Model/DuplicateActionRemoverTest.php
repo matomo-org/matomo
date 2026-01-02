@@ -70,7 +70,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
                 'idaction_category2' => '4',
                 'idaction_category3' => '5',
                 'idaction_category4' => '5',
-                'idaction_category5' => '5'
+                'idaction_category5' => '5',
             ),
             array(
                 'idaction_sku' => '2',
@@ -79,7 +79,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
                 'idaction_category2' => '5',
                 'idaction_category3' => '8',
                 'idaction_category4' => '9',
-                'idaction_category5' => '5'
+                'idaction_category5' => '5',
             ),
         );
         $actualResult = Db::fetchAll("SELECT " . implode(", ", $columns) . " FROM " . Common::prefixTable('log_conversion_item'));
@@ -110,7 +110,7 @@ class DuplicateActionRemoverTest extends IntegrationTestCase
 
         $expectedResult = array(
             array('idsite' => 1, 'server_time' => '2012-02-01'),
-            array('idsite' => 3, 'server_time' => '2012-02-13')
+            array('idsite' => 3, 'server_time' => '2012-02-13'),
         );
         $actualResult = $this->duplicateActionRemover->getSitesAndDatesOfRowsUsingDuplicates('log_conversion_item', array(4, 6, 12));
         $this->assertEquals($expectedResult, $actualResult);

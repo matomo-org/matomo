@@ -314,7 +314,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
             'serialize' => 0,
             'filter_limit' => -1,
             'filter_column' => array('name', 'url'),
-            'filter_pattern' => 'piwik'
+            'filter_pattern' => 'piwik',
         ));
         $response = $builder->getResponse($input);
 
@@ -338,7 +338,7 @@ class ResponseBuilderTest extends \PHPUnit\Framework\TestCase
             'serialize' => 0,
             'filter_limit' => $limit,
             'filter_offset' => 3,
-            'showColumns' => 'test'
+            'showColumns' => 'test',
         ));
         $response = $builder->getResponse($input);
 

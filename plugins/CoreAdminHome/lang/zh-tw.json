@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "你必須在你的網站上或行動應用程式中設定追蹤程式碼以開始追蹤資料和深入了解你的使用者。以網站來說，只要將追蹤程式碼嵌入 %s 標籤之前即可。",
         "JsTrackingCodeMissingEmail3": "要尋找和自訂你的追蹤程式碼，%1$s點擊這裡%2$s（或看看%3$sJavaScript 追蹤客戶端指南%4$s）。",
         "LearnMore": "了解更多",
+        "Login": "資料庫帳號",
         "LogoNotWriteableInstruction": "要使用你的自訂標誌取代 Matomo 預設標誌，請給予此資料夾寫入權限：%1$s Matomo 需要寫入權限才能將你的標誌儲存為檔案 %2$s。",
         "LogoUpload": "選擇標誌上傳",
         "LogoUploadFailed": "無法處理上傳的檔案。請檢查該檔案是否為有效格式。",

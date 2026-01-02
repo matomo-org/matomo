@@ -33,7 +33,7 @@
           :title="translate('General_Description')"
           :model-value="report.description"
           @update:model-value="$emit('change', { prop: 'description', value: $event })"
-          :inline-help="translate('ScheduledReports_DescriptionOnFirstPage')"
+          :inline-help="translate('ScheduledReports_DescriptionOnFirstPageScheduledReport')"
         >
         </Field>
       </div>
@@ -66,7 +66,7 @@
               prop: 'periodParam',
               value: report.period === 'never' ? null : report.period,
             })"
-          :title="translate('ScheduledReports_EmailSchedule')"
+          :title="translate('ScheduledReports_ReportSchedule')"
           :options="periods"
         >
           <template v-slot:inline-help>
@@ -95,9 +95,9 @@
               id="emailReportPeriodInlineHelp"
               class="inline-help-node"
             >
-              {{ translate('ScheduledReports_ReportPeriodHelp') }}
+              {{ translate('ScheduledReports_ScheduleReportPeriodHelp') }}
               <br /><br />
-              {{ translate('ScheduledReports_ReportPeriodHelp2') }}
+              {{ translate('ScheduledReports_ScheduleReportPeriodHelp2') }}
             </div>
           </template>
         </Field>
@@ -134,6 +134,9 @@
         >
         </Field>
       </div>
+      <div ref="reportParameters">
+        <slot name="report-parameters"></slot>
+      </div>
       <div
         v-for="(reportFormats, reportType) in reportFormatsByReportTypeOptions"
         :key="reportType"
@@ -150,15 +153,12 @@
         >
         </Field>
       </div>
-      <div ref="reportParameters">
-        <slot name="report-parameters"></slot>
-      </div>
       <div
-        v-show="report.type === 'email'
-              && report.formatemail !== 'csv'
-              && report.formatemail !== 'tsv'"
+        v-show="report[`format${report.type}`] === 'pdf' ||
+                report[`format${report.type}`] === 'html'
+               "
       >
-        <div class="email">
+        <div :class="report.type">
           <Field
             uicontrol="select"
             name="display_format"
@@ -475,7 +475,7 @@ export default defineComponent({
     },
     reportSegmentInlineHelp() {
       return translate(
-        'ScheduledReports_Segment_Help',
+        'ScheduledReports_Segment_HelpScheduledReport',
         '<a href="./" rel="noreferrer noopener" target="_blank">',
         '</a>',
         translate('SegmentEditor_DefaultAllVisits'),

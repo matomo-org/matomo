@@ -76,7 +76,7 @@ class Updater extends \Piwik\Updates
         $changingColumns = $this->getUpdates($updater);
         $errorCodes = array(
             Migration\Db\Sql::ERROR_CODE_COLUMN_NOT_EXISTS,
-            Migration\Db\Sql::ERROR_CODE_DUPLICATE_COLUMN
+            Migration\Db\Sql::ERROR_CODE_DUPLICATE_COLUMN,
         );
 
         foreach ($changingColumns as $table => $columns) {

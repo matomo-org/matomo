@@ -10,6 +10,7 @@
     <input
       :type="uiControl"
       :name="name"
+      :id="id"
       :value="modelValue"
       @change="onChange($event)"
     />
@@ -25,6 +26,7 @@ export default defineComponent({
     modelModifiers: Object, // not actually supported
     uiControl: String,
     name: String,
+    id: String,
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],

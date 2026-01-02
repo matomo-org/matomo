@@ -53,8 +53,11 @@ class ArchivingStatus
      * Try to acquire the lock that is acquired before starting archiving. If it is acquired, it
      * means archiving is not ongoing. If it is not acquired, then archiving is ongoing.
      *
-     * @param Parameters $params
-     * @param $doneFlag
+     * @param int $idSite
+     * @param string $date1
+     * @param string $date2
+     * @param string $period
+     * @param string $doneFlag
      * @return Lock
      */
     public function acquireArchiveInProgressLock($idSite, $date1, $date2, $period, $doneFlag)

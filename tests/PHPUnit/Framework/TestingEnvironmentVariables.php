@@ -122,7 +122,7 @@ class TestingEnvironmentVariables
         $disabledPlugins[] = 'Provider';
 
         $disabledPlugins = array_diff($disabledPlugins, array(
-            'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin'
+            'DBStats', 'ExampleUI', 'ExampleCommand', 'ExampleSettingsPlugin',
         ));
 
         $plugins = array_filter($pluginManager->readPluginsDirectory(), function ($pluginName) use ($disabledPlugins, $pluginManager) {

@@ -58,15 +58,15 @@ class Metrics
         $metricsConfig = array(
             PiwikMetrics::INDEX_NB_VISITS => array(
                 'aggregation' => 'sum',
-                'query' => "count(distinct log_link_visit_action.idvisit)"
+                'query' => "count(distinct log_link_visit_action.idvisit)",
             ),
             PiwikMetrics::INDEX_NB_UNIQ_VISITORS => array(
                 'aggregation' => false,
-                'query' => "count(distinct log_link_visit_action.idvisitor)"
+                'query' => "count(distinct log_link_visit_action.idvisitor)",
             ),
             PiwikMetrics::INDEX_PAGE_NB_HITS => array(
                 'aggregation' => 'sum',
-                'query' => "count(*)"
+                'query' => "count(*)",
             ),
             PiwikMetrics::INDEX_PAGE_SUM_TIME_GENERATION => array(
                 'aggregation' => 'sum',
@@ -75,7 +75,7 @@ class Metrics
                             then 0
                             else " . Action::DB_COLUMN_CUSTOM_FLOAT . "
                         end
-                ) / 1000"
+                ) / 1000",
             ),
             PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION => array(
                 'aggregation' => 'sum',
@@ -84,15 +84,15 @@ class Metrics
                         then 0
                         else 1
                     end
-                )"
+                )",
             ),
             PiwikMetrics::INDEX_PAGE_MIN_TIME_GENERATION => array(
                 'aggregation' => 'min',
-                'query' => "min(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") / 1000"
+                'query' => "min(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") / 1000",
             ),
             PiwikMetrics::INDEX_PAGE_MAX_TIME_GENERATION => array(
                 'aggregation' => 'max',
-                'query' => "max(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") / 1000"
+                'query' => "max(" . Action::DB_COLUMN_CUSTOM_FLOAT . ") / 1000",
             ),
         );
 

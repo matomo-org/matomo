@@ -384,6 +384,7 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_ThisSegmentIsSelectedAndCannotBeCompared';
         $translationKeys[] = 'SegmentEditor_CompareThisSegment';
         $translationKeys[] = 'Live_VisitsLog';
+        $translationKeys[] = 'General_MaximumNumberOfSegmentsComparedIs';
     }
 
     public static function getAllSegmentsForSite($idSite)
@@ -431,7 +432,7 @@ class SegmentEditor extends \Piwik\Plugin
                 if ($segment['login'] === $userLogin) {
                     $model->updateSegment($segment['idsegment'], array(
                         'login' => $superUserLogin,
-                        'ts_last_edit' => $updatedAt
+                        'ts_last_edit' => $updatedAt,
                     ));
                 }
             }

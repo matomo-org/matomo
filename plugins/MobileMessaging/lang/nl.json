@@ -47,7 +47,6 @@
         "Settings_VerificationCodeJustSent": "We hebben naar dit nummer zonet een SMS met een code gestuurd. Voer die code hierboven in en klik \"Valideren\".",
         "TooManyUnverifiedNumbersError": "Je kunt niet meer dan 3 niet-geverifieerde telefoonnummers toevoegen!",
         "TopLinkTooltip": "Ontvang uw webanalyse-rapporten in uw mailbox of op uw mobiele telefoon.",
-        "TopMenu": "E-mail &amp; SMS-rapporten",
         "UserKey": "Userkey",
         "VerificationCodeRecentlySentError": "Er is recent reeds een verificatiecode voor telefoonnummer %1$s aangevraagd.",
         "VerificationText": "De code is %1$s. Om uw telefoonnummer te valideren en Matomo SMS-rapporten te ontvangen, moet u die code kopiëren in het formulier op Matomo → %2$s → %3$s."

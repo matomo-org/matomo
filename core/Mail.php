@@ -261,7 +261,7 @@ class Mail
             'content' => $body,
             'filename' => $filename,
             'mimetype' => $mimeType,
-            'cid' => $cid
+            'cid' => $cid,
         ];
     }
 

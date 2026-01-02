@@ -85,7 +85,7 @@ class Sms extends ReportRenderer
                         },
                         $value
                     );
-                }
+                },
             ]
         );
 
@@ -99,7 +99,7 @@ class Sms extends ReportRenderer
                 function ($value) use ($floatRegex) {
                     $matched = preg_match($floatRegex, $value, $matches);
                     return $matched ? (float)$matches[0] : $value;
-                }
+                },
             ]
         );
 

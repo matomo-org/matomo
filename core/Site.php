@@ -418,7 +418,7 @@ class Site
      * @param string|array $ids Comma separated idSite list, eg, `'1,2,3,4'` or an array of IDs, eg,
      *                          `array(1, 2, 3, 4)`.
      * @param bool|string $_restrictSitesToLogin Implementation detail. Used only when running as a scheduled task.
-     * @return array An array of valid, unique integers.
+     * @return array<string>|array<int> An array of valid, unique integers.
      */
     public static function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false)
     {

@@ -48,7 +48,7 @@ class GeneratePlugin extends GeneratePluginBase
                 'ExampleTheme'       => $pluginName,
                 $exampleDescription  => $description,
                 '0.1.0'              => $version,
-                '3.0.0-b1'           => Version::VERSION
+                '3.0.0-b1'           => Version::VERSION,
             );
             $whitelistFiles = array();
         } else {
@@ -57,7 +57,7 @@ class GeneratePlugin extends GeneratePluginBase
                 'ExamplePlugin'      => $pluginName,
                 $exampleDescription  => $description,
                 '0.1.0'              => $version,
-                '3.0.0-b1'           => Version::VERSION
+                '3.0.0-b1'           => Version::VERSION,
             );
             $whitelistFiles = array(
                 '/ExamplePlugin.php',
@@ -71,7 +71,7 @@ class GeneratePlugin extends GeneratePluginBase
                 '/docs/index.md',
                 '/config',
                 '/config/config.php',
-                '/config/tracker.php'
+                '/config/tracker.php',
             );
         }
 
@@ -82,14 +82,14 @@ class GeneratePlugin extends GeneratePluginBase
             $this->writeSuccessMessage(array(
                 sprintf('Theme %s %s generated.', $pluginName, $version),
                 'If you have not done yet check out our Theming guide <comment>https://developer.matomo.org/guides/theming</comment>',
-                'Enjoy!'
+                'Enjoy!',
             ));
         } else {
             $this->writeSuccessMessage(array(
                 sprintf('Plugin %s %s generated.', $pluginName, $version),
                 'Our developer guides will help you developing this plugin, check out <comment>https://developer.matomo.org/guides</comment>',
                 'To see a list of available generators execute <comment>./console list generate</comment>',
-                'Enjoy!'
+                'Enjoy!',
             ));
         }
 

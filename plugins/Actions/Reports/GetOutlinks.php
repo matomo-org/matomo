@@ -37,7 +37,7 @@ class GetOutlinks extends Base
     {
         return array(
             'nb_visits' => Piwik::translate('Actions_ColumnUniqueClicks'),
-            'nb_hits'   => Piwik::translate('Actions_ColumnClicks')
+            'nb_hits'   => Piwik::translate('Actions_ColumnClicks'),
         );
     }
 
@@ -45,7 +45,7 @@ class GetOutlinks extends Base
     {
         return array(
             'nb_visits' => Piwik::translate('Actions_ColumnUniqueClicksDocumentation'),
-            'nb_hits'   => Piwik::translate('Actions_ColumnClicksDocumentation')
+            'nb_hits'   => Piwik::translate('Actions_ColumnClicksDocumentation'),
         );
     }
 

@@ -448,7 +448,7 @@ class TrackerTest extends IntegrationTestCase
         $requestSet = $this->getEmptyRequestSet();
         $requestSet->setRequests([
             $this->buildRequest(['idsite' => '1', 'url' => 'http://localhost']),
-            $this->buildRequest(['idsite' => '1', 'url' => 'http://localhost/test'])
+            $this->buildRequest(['idsite' => '1', 'url' => 'http://localhost/test']),
         ]);
 
         return $requestSet;

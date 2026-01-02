@@ -60,6 +60,8 @@ class Goals extends HtmlTable
 
         if ($this->config->disable_subtable_when_show_goals) {
             $this->config->subtable_controller_action = null;
+            $this->config->show_flatten_table = false;
+            $this->requestConfig->request_parameters_to_modify['flat'] = false;
         }
 
         $this->setShowGoalsColumnsProperties();
@@ -73,12 +75,11 @@ class Goals extends HtmlTable
         $this->config->datatable_css_class = 'dataTableVizGoals';
         $this->config->show_exclude_low_population = true;
 
-
         if (1 == Common::getRequestVar('documentationForGoalsPage', 0, 'int')) {
             // TODO: should not use query parameter
             $this->config->documentation = Piwik::translate(
                 'Goals_ConversionByTypeReportDocumentation',
-                ['<br />', '<br />', '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tracking-goals-web-analytics/') . '" rel="noreferrer noopener" target="_blank">', '</a>']
+                ['<br />', '<br />', Url::getExternalLinkTag('https://matomo.org/docs/tracking-goals-web-analytics/'), '</a>']
             );
         }
 
@@ -205,7 +206,7 @@ class Goals extends HtmlTable
         $this->config->translations = array_merge($this->config->translations, [
             'goal_ecommerceOrder_nb_conversions'    => Piwik::translate('General_EcommerceOrders'),
             'goal_ecommerceOrder_revenue'           => Piwik::translate('General_TotalRevenue'),
-            'goal_ecommerceOrder_revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit')
+            'goal_ecommerceOrder_revenue_per_visit' => Piwik::translate('General_ColumnValuePerVisit'),
         ]);
 
         $goalName = Piwik::translate('General_EcommerceOrders');
@@ -363,7 +364,7 @@ class Goals extends HtmlTable
                 $ecommerceGoal = [
                     'idgoal'      => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER,
                     'name'        => Piwik::translate('Goals_EcommerceOrder'),
-                    'quoted_name' => false
+                    'quoted_name' => false,
                 ];
                 $allGoals[$ecommerceGoal['idgoal']] = $ecommerceGoal;
             }

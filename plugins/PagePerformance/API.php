@@ -64,56 +64,56 @@ class API extends \Piwik\Plugin\API
             ],
             function ($value) {
                 return $value / 1000;
-            }
+            },
         ]);
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
             $this->getMetricColumn(AverageTimeNetwork::class),
             Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_NETWORK_HITS,
-            $precision
+            $precision,
         ));
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
             $this->getMetricColumn(AverageTimeServer::class),
             Archiver::PAGEPERFORMANCE_TOTAL_SERVER_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_SERVER_HITS,
-            $precision
+            $precision,
         ));
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
             $this->getMetricColumn(AverageTimeTransfer::class),
             Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_TRANSFER_HITS,
-            $precision
+            $precision,
         ));
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
             $this->getMetricColumn(AverageTimeDomProcessing::class),
             Archiver::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_DOMPROCESSING_HITS,
-            $precision
+            $precision,
         ));
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
             $this->getMetricColumn(AverageTimeDomCompletion::class),
             Archiver::PAGEPERFORMANCE_TOTAL_DOMCOMPLETION_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_DOMCOMPLETION_HITS,
-            $precision
+            $precision,
         ));
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
             $this->getMetricColumn(AverageTimeOnLoad::class),
             Archiver::PAGEPERFORMANCE_TOTAL_ONLOAD_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_ONLOAD_HITS,
-            $precision
+            $precision,
         ));
 
         $dataTable->filter('ColumnCallbackAddColumnQuotient', array(
             $this->getMetricColumn(AveragePageLoadTime::class),
             Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_TIME,
             Archiver::PAGEPERFORMANCE_TOTAL_PAGE_LOAD_HITS,
-            $precision
+            $precision,
         ));
 
         $dataTable->queueFilter('ColumnDelete', array($columns));

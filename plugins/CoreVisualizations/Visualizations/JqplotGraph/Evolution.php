@@ -153,10 +153,11 @@ class Evolution extends JqplotGraph
      * @param string $endDate The end date.
      * @param int|null $defaultLastN The default lastN to use. If null, the result of
      *                               getDefaultLastN is used.
+     * @param int|null $idSite, the id of the site which provides the timezone
      * @return array An array w/ two elements. The first is a whole date range and the second
      *               is the lastN number used, ie, array('2010-01-01,2012-01-02', 2).
      */
-    public static function getDateRangeAndLastN($period, $endDate, $defaultLastN = null)
+    public static function getDateRangeAndLastN($period, $endDate, $defaultLastN = null, ?int $idSite = null)
     {
         if ($defaultLastN === null) {
             $defaultLastN = self::getDefaultLastN($period);
@@ -165,7 +166,8 @@ class Evolution extends JqplotGraph
         $lastNParamName = self::getLastNParamName($period);
         $lastN = Common::getRequestVar($lastNParamName, $defaultLastN, 'int');
 
-        $site = new Site(Common::getRequestVar('idSite'));
+        $idSite = $idSite ?? Common::getRequestVar('idSite');
+        $site = new Site($idSite);
 
         $dateRange = Range::getRelativeToEndDate($period, 'last' . $lastN, $endDate, $site);
 

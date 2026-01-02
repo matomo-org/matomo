@@ -112,12 +112,12 @@ class PluginsArchiver
         if (empty($metrics)) {
             return array(
                 'nb_visits' => false,
-                'nb_visits_converted' => false
+                'nb_visits_converted' => false,
             );
         }
         return array(
             'nb_visits' => $metrics['nb_visits'],
-            'nb_visits_converted' => $metrics['nb_visits_converted']
+            'nb_visits_converted' => $metrics['nb_visits_converted'],
         );
     }
 

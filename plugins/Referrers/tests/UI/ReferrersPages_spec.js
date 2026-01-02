@@ -117,4 +117,49 @@ describe("ReferrersPages", function () {
     pageWrap = await page.$('.pageWrap');
     expect(await pageWrap.screenshot()).to.matchImage('campaigns');
   });
+
+  it('should load the referrers > ai assistants page correctly', async function () {
+    await page.goto("?" + urlBase + "#?" + generalParams + "&category=Referrers_Referrers&subcategory=Referrers_AIAssistants");
+    await page.waitForNetworkIdle();
+
+    await (await page.jQuery('.subDataTable:eq(2) .label')).click();
+    await page.mouse.move(-10, -10);
+    await page.waitForNetworkIdle();
+
+    pageWrap = await page.$('.pageWrap');
+    expect(await pageWrap.screenshot()).to.matchImage('aiassistants');
+  });
+
+  it('should load the referrers > ai assistants with secondary dimension', async function () {
+    const visibleSpan = await page.jQuery('.datatableRelatedReports li>span:visible');
+    await visibleSpan.click();
+    await page.waitForNetworkIdle();
+
+    await (await page.jQuery('.subDataTable:eq(2) .label')).click();
+    await page.mouse.move(-10, -10);
+    await page.waitForNetworkIdle();
+
+    pageWrap = await page.$('.pageWrap');
+    expect(await pageWrap.screenshot()).to.matchImage('aiassistants_titles');
+  });
+
+  it('should flatten the referrers > ai assistants report correctly', async function () {
+    await page.click('.dropdownConfigureIcon');
+    await page.click('.dataTableFlatten');
+    await page.waitForNetworkIdle();
+    await page.mouse.move(-10, -10);
+
+    pageWrap = await page.$('.pageWrap');
+    expect(await pageWrap.screenshot()).to.matchImage('aiassistants_titles_flat');
+  });
+
+  it('switching to goals view should disable flattening as its not supported', async function () {
+    await page.click('.dataTableHeaderControls .activateVisualizationSelection > span');
+    await page.click('.dataTableHeaderControls .tableIcon[data-footer-icon-id=tableGoals]');
+    await page.mouse.move(-10, -10);
+    await page.waitForNetworkIdle();
+
+    pageWrap = await page.$('.pageWrap');
+    expect(await pageWrap.screenshot()).to.matchImage('aiassistants_titles_flat_goals');
+  });
 });

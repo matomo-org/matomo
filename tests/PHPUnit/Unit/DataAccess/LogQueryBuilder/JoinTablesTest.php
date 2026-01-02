@@ -303,13 +303,13 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
             array(
                 'table' => 'log_link_visit_action',
                 'tableAlias' => 'log_link_visit_action_foo',
-                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit"
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit",
             ),
             array(
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_foo',
-                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction"
-            )
+                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction",
+            ),
         );
 
         $tables = $this->makeTables($tables);
@@ -339,12 +339,12 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
             array(
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_foo',
-                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction"
+                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction",
             ),
             array(
                 'table' => 'log_link_visit_action',
                 'tableAlias' => 'log_link_visit_action_foo',
-                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit"
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit",
             ),
         );
 
@@ -360,12 +360,12 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
             array(
                 'table' => 'log_link_visit_action',
                 'tableAlias' => 'log_link_visit_action_foo',
-                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit"
+                'joinOn' => "log_link_visit_action.idvisit = log_link_visit_action_foo.idvisit",
             ),
             array(
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_foo',
-                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction"
+                'joinOn' => "log_link_visit_action_foo.idaction_url = log_action_foo.idaction",
             ),
         );
 
@@ -382,12 +382,12 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
             array(
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_idaction_event_action',
-                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction",
             ),
             array(
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_visit_entry_idaction_name',
-                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
+                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction",
             ),
         );
 
@@ -399,13 +399,13 @@ class JoinTablesTest extends \PHPUnit\Framework\TestCase
             array(
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_idaction_event_action',
-                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction"
+                'joinOn' => "log_link_visit_action.idaction_event_action = log_action_idaction_event_action.idaction",
             ),
             array(
                 'table' => 'log_action',
                 'tableAlias' => 'log_action_visit_entry_idaction_name',
-                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction"
-            )
+                'joinOn' => "log_visit.visit_entry_idaction_name = log_action_visit_entry_idaction_name.idaction",
+            ),
         );
 
         $this->assertEquals($expected, $tables->getTables());

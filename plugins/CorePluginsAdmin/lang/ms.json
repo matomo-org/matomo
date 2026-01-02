@@ -8,6 +8,7 @@
         "AlwaysActivatedPluginsList": "Pemalam berikut sentiasa diaktifkan dan tidak boleh dilumpuhkan: %s",
         "AuthorHomepage": "Laman Utama Pengarang",
         "Inactive": "Tidak Aktif",
-        "Version": "Versi"
+        "Version": "Versi",
+        "Websites": "Laman web"
     }
 }

@@ -61,7 +61,7 @@ class LogHelper
             'referer_type' => 0,
             'referer_name' => '',
             'visit_total_actions' => 0,
-            'visit_total_searches' => 0
+            'visit_total_searches' => 0,
         );
 
         $visit = array_merge($defaultProperties, $visit);
@@ -103,7 +103,7 @@ class LogHelper
             'visitor_count_visits' => 0,
             'visitor_returning' => 0,
             'visitor_seconds_since_order' => 0,
-            'visitor_seconds_since_first' => 0
+            'visitor_seconds_since_first' => 0,
         );
 
         $properties = array_merge($defaultProperties, $properties);
@@ -124,7 +124,7 @@ class LogHelper
             'idvisit' => $idVisit,
             'idaction_name_ref' => 1,
             'server_time' => '2012-01-01 00:00:00',
-            'time_spent_ref_action' => 1
+            'time_spent_ref_action' => 1,
         );
 
         $properties = array_merge($defaultProperties, $properties);
@@ -149,7 +149,7 @@ class LogHelper
             'idaction_category5' => 7,
             'price' => 40,
             'quantity' => 4,
-            'deleted' => 0
+            'deleted' => 0,
         );
 
         $properties = array_merge($defaultProperties, $properties);

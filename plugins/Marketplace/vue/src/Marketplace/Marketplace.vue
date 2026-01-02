@@ -76,10 +76,7 @@
   </ContentBlock>
 
   <ContentBlock v-if="loading">
-    <img
-      src="plugins/Morpheus/images/loading-blue.gif"
-      :alt="translate('General_LoadingData')"
-    />
+    <MatomoLoader />
     {{ loadingMessage }}
   </ContentBlock>
 </template>
@@ -87,7 +84,12 @@
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
 import {
-  translate, Matomo, MatomoUrl, AjaxHelper, ContentBlock,
+  translate,
+  AjaxHelper,
+  ContentBlock,
+  Matomo,
+  MatomoLoader,
+  MatomoUrl,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import PluginList from '../PluginList/PluginList.vue';
@@ -152,8 +154,9 @@ export default defineComponent({
   },
   components: {
     ContentBlock,
-    PluginList,
     Field,
+    MatomoLoader,
+    PluginList,
   },
   data(): MarketplaceState {
     return {

@@ -89,7 +89,7 @@ class Updates_4_6_0_b4 extends PiwikUpdates
                 $sqlPlaceholders = Common::getSqlStringFieldsArray($doneFlagsToMigrate);
                 $bind = array_keys($doneFlagsToMigrate);
 
-                $selectSql = sprintf('SELECT 1 FROM %s where `name` in (%s) LIMIT 1', $table, $sqlPlaceholders);
+                $selectSql = sprintf('SELECT 1 FROM `%s` where `name` in (%s) LIMIT 1', $table, $sqlPlaceholders);
                 $archiveTableHasDoneFlags = Db::fetchOne($selectSql, $bind);
                 if (!$archiveTableHasDoneFlags) {
                     continue;

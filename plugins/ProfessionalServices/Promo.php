@@ -25,13 +25,13 @@ class Promo
                 'campaignContent' => 'abTesting',
                 'title' => 'A/B Testing',
                 'url' => Url::addCampaignParametersToMatomoLink('https://matomo.org/recommends/ab-testing-learn-more'),
-                'text' => 'Ever wondered what A/B testing is and why it is so important? Check out how you can increase conversions and sales on your website and app.'
+                'text' => 'Ever wondered what A/B testing is and why it is so important? Check out how you can increase conversions and sales on your website and app.',
             ),
             array(
                 'campaignContent' => 'abTesting',
                 'title' => 'A/B Testing',
                 'url' => Url::addCampaignParametersToMatomoLink('https://matomo.org/recommends/ab-testing-website'),
-                'text' => 'Increase revenue and conversions by comparing different versions of your websites or apps, ad detect the winning variation that will grow your business!'
+                'text' => 'Increase revenue and conversions by comparing different versions of your websites or apps, ad detect the winning variation that will grow your business!',
             ),
 
             // Media Analytics
@@ -61,7 +61,7 @@ class Promo
                 'campaignContent' => 'funnels',
                 'title' => 'Funnels',
                 'url' => Url::addCampaignParametersToMatomoLink('https://matomo.org/recommends/conversion-funnels'),
-                'text' => 'Increase your conversions, sales and revenue by understanding your conversion funnels and where your visitors drop off with Funnels for Matomo.'
+                'text' => 'Increase your conversions, sales and revenue by understanding your conversion funnels and where your visitors drop off with Funnels for Matomo.',
             ),
 
             // Keywords performance
@@ -90,25 +90,25 @@ class Promo
                 'campaignContent' => 'bringEnterpriseLevel',
                 'title' => 'Enterprise',
                 'url' => Url::addCampaignParametersToMatomoLink('https://matomo.org/recommends/enterprise/'),
-                'text' => 'Bring your analytics to enterprise level. Upgrade your Matomo platform and receive access to numerous premium features and assistance from experts.'
+                'text' => 'Bring your analytics to enterprise level. Upgrade your Matomo platform and receive access to numerous premium features and assistance from experts.',
             ),
             array(
                 'campaignContent' => 'slowingDown',
                 'title' => 'Enterprise',
                 'url' => Url::addCampaignParametersToMatomoLink('https://matomo.org/recommends/enterprise/'),
-                'text' => 'Is your Matomo slowing down? Matomo experts can help with your server setup!'
+                'text' => 'Is your Matomo slowing down? Matomo experts can help with your server setup!',
             ),
             array(
                 'campaignContent' => 'discoverPower',
                 'title' => 'Enterprise',
                 'url' => Url::addCampaignParametersToMatomoLink('https://matomo.org/recommends/enterprise/'),
-                'text' => 'Discover the power of open-source combined with enterprise-grade support and premium functionalities.'
+                'text' => 'Discover the power of open-source combined with enterprise-grade support and premium functionalities.',
             ),
             array(
                 'campaignContent' => 'heatmapsAndSessionRecordings',
                 'title' => 'Heatmaps and for Session Recordings',
                 'url' => Url::addCampaignParametersToMatomoLink('https://matomo.org/recommends/heatmap-session-recording-learn-more/'),
-                'text' => 'Truly understand your visitors by seeing where they click, hover, type and scroll. Replay their actions in a video and ultimately increase conversions.'
+                'text' => 'Truly understand your visitors by seeing where they click, hover, type and scroll. Replay their actions in a video and ultimately increase conversions.',
             ),
         );
     }

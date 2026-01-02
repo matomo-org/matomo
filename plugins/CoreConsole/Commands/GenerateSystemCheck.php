@@ -48,7 +48,7 @@ class GenerateSystemCheck extends GeneratePluginBase
             sprintf('You should now implement the method called <comment>execute</comment> in %s.php', $className),
             'You also need to make the diagnostic check known to Matomo in your "plugins/' . $pluginName . '/config/config.php".',
             'Read more about this here: https://developer.matomo.org/guides/system-check',
-            'Enjoy!'
+            'Enjoy!',
         ));
 
         return self::SUCCESS;

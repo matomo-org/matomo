@@ -21,10 +21,11 @@ Matomo aims to be a Free software alternative to Google Analytics and is already
 
 ## Mission Statement
 
-> « To create, as a community, the leading international open source digital analytics platform, that gives every user full control of their data. »
+> « To create, as a community, the leading international open source digital analytics platform, that gives every user full control of their data, to empower better decisions. »
 
-Or in short:
-> « Liberate Web Analytics »
+Our purpose is to:
+
+> « Empower People Ethically »
 
 ## License
 
@@ -50,7 +51,7 @@ See https://matomo.org/docs/requirements/.
 
 See https://matomo.org/docs/installation/.
 
-### Develop for Matomo
+## Develop for Matomo
 
 When using Matomo for development you need to [install Matomo from the Git repository](https://matomo.org/faq/how-to-install/faq_18271/).
 
@@ -58,7 +59,7 @@ This will also give you access to a DDEV environment you can use. More details c
 
 ## Free trial 
 
-If you do not have a server or don't want to host yourself you can use our Matomo Cloud partner service (21 day free trial): https://matomo.org/start-free-analytics-trial/
+If you do not have a server or don't want to host yourself, you can use our Matomo Cloud service (21 day free trial): https://matomo.org/start-free-analytics-trial/
 
 ## Online Demo
 
@@ -72,6 +73,10 @@ For the list of all tickets closed in the current and past releases, see [matomo
 
 We believe in liberating Web Analytics, providing a free platform for simple and advanced analytics. Matomo was built by dozens of people like you,
 and we need your help to make Matomo better… Why not participate in a useful project today? [Learn how you can contribute to Matomo](https://matomo.org/get-involved).
+
+## Careers at Matomo
+
+We're hiring! Learn more on our [Careers page](https://matomo.org/jobs/).
 
 ## Translations
 
@@ -95,7 +100,7 @@ Security is a top priority at Matomo. As potential issues are discovered, we val
 
 For **Free support**, post a message in our community forums: [forum.matomo.org](https://forum.matomo.org/)
 
-For **Professional paid support**, purchase a Matomo On-Premises Support Plan: [matomo.org/support-plans](https://matomo.org/support-plans/)  
+For **Professional paid support**, purchase a Matomo On-Premise Support Plan: [matomo.org/support-plans](https://matomo.org/support-plans/)  
 
 ## Contact
 

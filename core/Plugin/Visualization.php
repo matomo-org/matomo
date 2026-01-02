@@ -862,7 +862,7 @@ class Visualization extends ViewDataTable
             'changedProperties' => $diff,
             'apiMethod'         => $this->requestConfig->apiMethodToRequestDataTable,
             'controller'        => $this->config->controllerName . '.' . $this->config->controllerAction,
-            'viewDataTable'     => static::getViewDataTableId()
+            'viewDataTable'     => static::getViewDataTableId(),
         );
 
         $message = 'Some ViewDataTable::requestConfig properties have changed after requesting the data table. '

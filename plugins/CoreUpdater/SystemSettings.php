@@ -36,8 +36,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
     /** @var Setting */
     public $sendPluginUpdateEmail;
 
-    /** @var Setting */
-    public $updateToUtf8mb4;
+    /** @var Setting|null */
+    public $updateToUtf8mb4 = null;
 
     /**
      * @var ReleaseChannels
@@ -104,8 +104,7 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
                             . '<br/>'
                             . Piwik::translate(
                                 'CoreAdminHome_StableReleases',
-                                ["<a target='_blank' rel='noreferrer noopener' href='" . Url::addCampaignParametersToMatomoLink('https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development') . "'>",
-                                "</a>"]
+                                [Url::getExternalLinkTag('https://developer.matomo.org/guides/core-team-workflow#influencing-piwik-development'), '</a>']
                             )
                             . '<br/>'
                             . Piwik::translate('CoreAdminHome_LtsReleases');
@@ -132,8 +131,8 @@ class SystemSettings extends \Piwik\Settings\Plugin\SystemSettings
             $field->inlineHelp = Piwik::translate('CoreUpdater_Utf8mb4ConversionHelp', [
                 '�',
                 '<code>' . PIWIK_INCLUDE_PATH . '/console core:convert-to-utf8mb4</code>',
-                '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/') . '" rel="noreferrer noopener" target="_blank">',
-                '</a>'
+                Url::getExternalLinkTag('https://matomo.org/faq/how-to-update/how-to-convert-the-database-to-utf8mb4-charset/'),
+                '</a>',
             ]);
         });
     }

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<complianceModeEnforced>0</complianceModeEnforced>
+	<complianceConfigControlled>1</complianceConfigControlled>
+	<complianceRequirements>
+		<row>
+			<name>Device model detection disabled</name>
+			<value>non_compliant</value>
+			<notes>Device model detection and device model report must be disabled.</notes>
+		</row>
+		<row>
+			<name>Only major versions</name>
+			<value>non_compliant</value>
+			<notes>Only major OS and browser versions are stored.</notes>
+		</row>
+		<row>
+			<name>Ecommerce Restricted</name>
+			<value>non_compliant</value>
+			<notes>Non compliant because ecommerce analytics is enabled unrestricted.</notes>
+    </row>
+    <row>
+			<name>PII data filtered</name>
+			<value>non_compliant</value>
+			<notes>PII data must be filtered by the Matomo-recommended PII exclusion list.</notes>
+		</row>
+		<row>
+			<name>Turn off visits log and visitor profiles</name>
+			<value>non_compliant</value>
+			<notes>Visits log is required to be disabled.</notes>
+		</row>
+		<row>
+			<name>Campaign tracking parameters disabled</name>
+			<value>non_compliant</value>
+			<notes>All campaign tracking parameters must be discarded.</notes>
+		</row>
+		<row>
+			<name>IP Anonymization Enabled</name>
+			<value>non_compliant</value>
+			<notes>Anonymization of Visitor's IP addresses must be enabled.</notes>
+		</row>
+		<row>
+			<name>IP Address Mask Length</name>
+			<value>non_compliant</value>
+			<notes>Must be set to at least 2 byte(s), currently 0 byte(s).</notes>
+		</row>
+		<row>
+			<name>Order ID anonymization</name>
+			<value>non_compliant</value>
+			<notes>Order IDs must be anonymized</notes>
+		</row>
+		<row>
+			<name>Referrer anonymisation</name>
+			<value>non_compliant</value>
+			<notes>Only the referrer host or referrer type may be collected.</notes>
+		</row>
+		<row>
+			<name>Data retention period</name>
+			<value>compliant</value>
+			<notes>Retention period is set to 180 days.</notes>
+		</row>
+		<row>
+			<name>Limit available segments</name>
+			<value>non_compliant</value>
+			<notes>Limit the available segments to be compliant.</notes>
+		</row>
+		<row>
+			<name>Screen resolution detection disabled</name>
+			<value>non_compliant</value>
+			<notes>Screen resolution detection and screen resolution report must be disabled.</notes>
+		</row>
+		<row>
+			<name>User ID disabled</name>
+			<value>non_compliant</value>
+			<notes>Collection of User ID while tracking must be disabled.</notes>
+		</row>
+		<row>
+			<name>Third party cookies</name>
+			<value>compliant</value>
+			<notes>Third party cookies must be disabled</notes>
+		</row>
+		<row>
+			<name>Opt out</name>
+			<value>unknown</value>
+			<notes>Opt out must be manually set up and configured. &lt;a href=&quot;https://matomo.org/faq/general/faq_20000/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.PrivacyManager.compliance&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more&lt;/a&gt;</notes>
+		</row>
+	</complianceRequirements>
+</result>

@@ -257,7 +257,7 @@ class TrackerTest extends IntegrationTestCase
     {
         return array(
             array(true),
-            array(false)
+            array(false),
         );
     }
 

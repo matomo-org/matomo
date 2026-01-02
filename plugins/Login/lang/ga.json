@@ -92,7 +92,7 @@
         "SettingBruteForceTimeRangeHelp": "Iontráil roinnt nóiméad.",
         "SettingBruteForceWhitelistIp": "Ná bac leis na IPanna seo ó logáil isteach",
         "SettingPasswordStrengthCheck": "Éigean úsáid pasfhocail láidre",
-        "SettingPasswordStrengthCheckHelp": "Cuireann sé iallach ar úsáideoirí pasfhocail láidre a chruthú trí cheangal a chur orthu sraith rialacha casta a chomhlíonadh.",
+        "SettingPasswordStrengthCheckHelp": "Cuireann sé iallach ar úsáideoirí pasfhocail láidre a chruthú trí cheangal a chur orthu sraith rialacha casta a chomhlíonadh: %1$s",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Rinneadh líon ard iarrachtaí logála isteach amhrasach ar do chuntas Matomo an uair dheireanach. Go sonrach iarrachtaí logála isteach %1$s ó sheoltaí IP ar leith %2$s. D'fhéadfadh duine éigin a bheith ag iarraidh briseadh isteach i do chuntas.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Déan an méid seo a leanas:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Cinntigh gur pasfhocal slán randamach de 30 carachtar ar a laghad é do phasfhocal.",

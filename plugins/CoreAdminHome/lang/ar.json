@@ -30,6 +30,7 @@
         "JSTracking_VisitorCustomVars": "تتبع متغيرات مخصصة عند زيارة هذا الزائر",
         "JSTracking_VisitorCustomVarsDesc": "على سبيل المثال، باسم متغير \"النوع\" وقيمته \"العميل\".",
         "JavaScriptTracking": "التتبع بجافاسكريبت",
+        "Login": "اسم المستخدم",
         "LogoUpload": "اختر شعاراً لرفعه",
         "MenuDiagnostic": "التشخيص",
         "MenuGeneralSettings": "الإعدادات العامة",

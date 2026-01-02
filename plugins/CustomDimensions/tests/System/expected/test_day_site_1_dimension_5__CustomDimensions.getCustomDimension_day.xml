@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>343</label>
+		<label>&quot;&gt;&lt;img src=x onerror=&quot;document.write('test')&quot;&gt;</label>
 		<nb_visits>1</nb_visits>
 		<nb_uniq_visitors>1</nb_uniq_visitors>
 		<nb_hits>1</nb_hits>
@@ -40,7 +40,7 @@
 		<avg_time_on_dimension>360</avg_time_on_dimension>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
-		<segment>dimension5==343</segment>
+		<segment>dimension5==%22%3E%3Cimg+src%3Dx+onerror%3D%22document.write%28%27test%27%29%22%3E</segment>
 	</row>
 	<row>
 		<label>en_US</label>

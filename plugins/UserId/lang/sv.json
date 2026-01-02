@@ -3,6 +3,7 @@
         "PluginDescription": "Visa användarrapporter",
         "ThereIsNoDataForThisReportHelp": "%1$sLäs användarguiden för att lära dig skapa data till denna rapport.%2$s",
         "UserId": "Användar ID",
+        "UserIdSegmentHelp": "en icke-tom unik sträng som identifierar användaren (såsom en e-postadress eller ett användarnamn).",
         "UserReportDocumentation": "Visar besök och andra allmänna mätvärden för varje enskilt användar-ID.",
         "UserReportTitle": "Besökar-ID",
         "VisitorsUserSubcategoryHelp": "Rapporten Användar-ID visar besök som är associerade med dina registrerade och inloggade användare. Förstå webbplatsanvändning av specifika användare och se vilka dina mest och minst aktiva användare är."

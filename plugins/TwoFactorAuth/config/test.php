@@ -66,5 +66,5 @@ return array(
         });
 
         return $previous;
-    })
+    }),
 );

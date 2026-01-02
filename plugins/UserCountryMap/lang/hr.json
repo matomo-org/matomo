@@ -1,6 +1,28 @@
 {
     "UserCountryMap": {
+        "AndNOthers": "i %s drugih",
+        "Cities": "Gradovi",
+        "Countries": "Zemlje",
+        "DaysAgo": "prije %s dana",
+        "GoalConversions": "%s konverzije cilja",
+        "HoursAgo": "prije %s sata",
+        "MinutesAgo": "prije %s minuta",
+        "NoVisit": "Nema posjeta",
+        "NoVisitsInfo": "Nema prikazanih posjeta jer nijedan posjet u ovom razdoblju nema ispravne geolokacijske podatke (geografska širina i dužina).",
+        "NoVisitsInfo2": "Riješi ovaj problem korištenjem GeoIP pružatelja usluge geolokacije s GeoIP bazom podataka za gradove. (Mada je malo vjerojatno) IP adrese se možda i dalje ne mogu geolocirati.",
+        "None": "Ništa",
+        "PluginDescription": "Omogućuje widgete „Karta posjetitelja” i „Karta uživo”. Zahtijeva dodatak „UserCountry”.",
         "RealTimeMap": "Karta uživo",
-        "VisitorMap": "Mapa posjetitelja"
+        "RealTimeMapHelp": "Prikazuje lokaciju posjetitelja web-stranice u zadnjih 30 minuta, a za nove posjete trepće. Nedavne posjete prikazuje kao velike narančaste mjehuriće, a starije kao manje sive. Automatski se osvježava svakih pet sekundi.",
+        "Regions": "Regije",
+        "Searches": "%s pretrage",
+        "SecondsAgo": "prije %s sekundi",
+        "ShowingVisits": "Geolocirane posjete u zadnjih",
+        "Unlocated": "<b>%1$s</b> %2$s posjeta od %3$s nije bilo moguće geolocirati.",
+        "VisitorMap": "Karta posjetitelja",
+        "WithUnknownCity": "%s iz nepoznatih gradova",
+        "WithUnknownRegion": "%s iz nepoznatih regija",
+        "WorldWide": "Širom svijeta",
+        "map": "karta"
     }
 }

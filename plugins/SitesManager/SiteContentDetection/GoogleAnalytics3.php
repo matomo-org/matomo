@@ -33,7 +33,7 @@ class GoogleAnalytics3 extends SiteContentDetectionAbstract
 
         $tests = [
             "/UA-\d{5,}-\d{1,}/", "/google\-analytics\.com\/analytics\.js/", "/window\.ga\s?=\s?window\.ga/",
-            "/google[ _\-]{0,1}analytics/i"
+            "/google[ _\-]{0,1}analytics/i",
         ];
 
         foreach ($tests as $test) {

@@ -32,13 +32,13 @@ class VueJsTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no vue.js content' => [
             false,
             'This is a blog about vue, not using it.',
-            []
+            [],
         ];
 
         $validVueJsFiles = [
@@ -74,14 +74,14 @@ class VueJsTest extends \PHPUnit\Framework\TestCase
             yield "$vueJsFile used" => [
                 true,
                 "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='$vueJsFile'></script></head><body>A site</body></html>",
-                []
+                [],
             ];
         }
 
         yield "unknown vue.js file used" => [
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vuetmp.runtime.global.prod.min.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

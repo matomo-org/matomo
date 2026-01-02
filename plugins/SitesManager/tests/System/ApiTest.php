@@ -9,9 +9,12 @@
 
 namespace Piwik\Plugins\SitesManager\tests\System;
 
+use Piwik\Config;
 use Piwik\Db\Schema\Mysql;
 use Piwik\Option;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SitesManager\tests\Fixtures\ManySites;
+use Piwik\Policy\CnilPolicy;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -42,8 +45,8 @@ class ApiTest extends SystemTestCase
                 'idSite'     => 1,
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['day'],
-                'otherRequestParameters' => ['pattern' => 'SiteTest1']
-            ]
+                'otherRequestParameters' => ['pattern' => 'SiteTest1'],
+            ],
         ];
         $apiToTest[] = [['SitesManager.getPatternMatchSites'],
             [
@@ -51,21 +54,21 @@ class ApiTest extends SystemTestCase
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['day'],
                 'otherRequestParameters' => ['pattern' => 'SiteTest1', 'limit' => 2],
-                'testSuffix' => 'withLimit'
-            ]
+                'testSuffix' => 'withLimit',
+            ],
         ];
         $apiToTest[] = [['SitesManager.getNumWebsitesToDisplayPerPage'],
             [
                 'idSite'     => 1,
                 'date'       => self::$fixture->dateTime,
                 'periods'    => ['day'],
-                'otherRequestParameters' => ['pattern' => 'SiteTest1']
-            ]
+                'otherRequestParameters' => ['pattern' => 'SiteTest1'],
+            ],
         ];
         $apiToTest[] = [['SitesManager.getSiteSettings'],
             [
-                'idSite' => 1
-            ]
+                'idSite' => 1,
+            ],
         ];
 
         return $apiToTest;
@@ -76,7 +79,7 @@ class ApiTest extends SystemTestCase
         $this->setInstallVersion('3.6.0');
         $this->runApiTests(['SitesManager.getJavascriptTag', 'SitesManager.getImageTrackingCode'], [
             'idSite' => 1,
-            'testSuffix' => '_prior3_7_0'
+            'testSuffix' => '_prior3_7_0',
         ]);
     }
 
@@ -86,7 +89,7 @@ class ApiTest extends SystemTestCase
         $this->runApiTests(['SitesManager.getJavascriptTag', 'SitesManager.getImageTrackingCode'], [
             'idSite' => 1,
             'otherRequestParameters' => ['forceMatomoEndpoint' => 1],
-            'testSuffix' => '_prior3_7_0_but_forced'
+            'testSuffix' => '_prior3_7_0_but_forced',
         ]);
     }
 
@@ -95,13 +98,55 @@ class ApiTest extends SystemTestCase
         $this->setInstallVersion('3.7.0');
         $this->runApiTests(['SitesManager.getJavascriptTag', 'SitesManager.getImageTrackingCode'], [
             'idSite' => 1,
-            'testSuffix' => '_after3_7_0'
+            'testSuffix' => '_after3_7_0',
         ]);
     }
 
     private function setInstallVersion($installVersion)
     {
         Option::set(Mysql::OPTION_NAME_MATOMO_INSTALL_VERSION, $installVersion);
+    }
+
+    private function setComplianceFeatureFlag(bool $enableFlag): void
+    {
+        $config = Config::getInstance();
+        $featureFlag = new PrivacyCompliance();
+        $featureFlagConfig = $featureFlag->getName() . '_feature';
+
+        if ($enableFlag) {
+            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
+        } else {
+            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+        }
+    }
+
+    public function testGetSiteSettingsIfFeatureFlagEnabled(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+
+        $this->runApiTests('SitesManager.getSiteSettings', [
+            'testSuffix' => '_compliancePolicyFeatureFlagEnabled',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+            ],
+        ]);
+
+        $this->setComplianceFeatureFlag(false);
+    }
+
+    public function testGetSiteSettingsIfFeatureFlagEnabledAndPolicyEnforced(): void
+    {
+        $this->setComplianceFeatureFlag(true);
+        CnilPolicy::setActiveStatus(null, true);
+
+        $this->runApiTests('SitesManager.getSiteSettings', [
+            'testSuffix' => '_compliancePolicyEnforced',
+            'otherRequestParameters' => [
+                'idSite' => '1',
+            ],
+        ]);
+
+        $this->setComplianceFeatureFlag(false);
     }
 
     public static function getOutputPrefix()

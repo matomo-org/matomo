@@ -31,4 +31,6 @@
         <exclude-pattern>tests/PHPUnit/*</exclude-pattern>
         <exclude-pattern>plugins/*/tests/*</exclude-pattern>
     </rule>
+
+    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"></rule>
 </ruleset>

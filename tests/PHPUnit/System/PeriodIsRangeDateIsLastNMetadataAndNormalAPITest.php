@@ -90,7 +90,7 @@ class PeriodIsRangeDateIsLastNMetadataAndNormalAPITest extends SystemTestCase
                                                         'visitorId' => $visitorId,
                                                         'hideColumns' => 'serverDate,lastActionTimestamp,lastActionDateTime,serverTimestamp,' .
                                                                          'firstActionTimestamp,serverTimePretty,serverDatePretty,' .
-                                                                         'serverDatePrettyFirstAction,serverTimePrettyFirstAction'
+                                                                         'serverDatePrettyFirstAction,serverTimePrettyFirstAction',
                                                     )));
             }
         }

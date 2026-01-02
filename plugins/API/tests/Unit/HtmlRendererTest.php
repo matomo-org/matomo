@@ -270,7 +270,7 @@ message', $response);
         $row->setMetadata('processedRows', [
             new AverageTimeOnSite(),
             new \stdClass(),
-            Date::factory('2016-01-01 00:00:00')
+            Date::factory('2016-01-01 00:00:00'),
         ]);
         $dataTable->addRow($row);
 
@@ -387,7 +387,7 @@ message', $response);
     {
         $input = array(
             array('nb_visits' => 6, 'nb_random' => 8),
-            array('nb_visits' => 3, 'nb_random' => 4)
+            array('nb_visits' => 3, 'nb_random' => 4),
         );
 
         $response = $this->builder->renderArray($input);
@@ -506,7 +506,7 @@ message', $response);
             "thirdElement" => array(
                 "firstElement"  => "isFirst",
                 "secondElement" => "isSecond",
-            )
+            ),
         );
 
         $this->builder->renderArray($input);

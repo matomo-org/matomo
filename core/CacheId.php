@@ -47,6 +47,15 @@ class CacheId
         return $cacheId;
     }
 
+    public static function getIdSiteListFromParams()
+    {
+        return array_merge(
+            self::getIdSiteList('idSite'),
+            self::getIdSiteList('idSites'),
+            self::getIdSiteList('idsite') // tracker param
+        );
+    }
+
     private static function getIdSiteList($queryParamName)
     {
         if (

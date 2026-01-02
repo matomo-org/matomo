@@ -83,7 +83,7 @@ class DataTableGenericFilter
             array('Pattern',
                   array(
                       'filter_column'  => array('string', 'label'),
-                      'filter_pattern' => array('string')
+                      'filter_pattern' => array('string'),
                   )),
             array('PatternRecursive',
                   array(
@@ -101,7 +101,7 @@ class DataTableGenericFilter
                       'filter_sort_order'  => array('string', 'desc'),
                       $naturalSort = true,
                       $recursiveSort = true,
-                      'filter_sort_column_secondary' => true
+                      'filter_sort_column_secondary' => true,
                   )),
             array('Truncate',
                   array(
@@ -112,7 +112,7 @@ class DataTableGenericFilter
                       'filter_offset'    => array('integer', '0'),
                       'filter_limit'     => array('integer'),
                       'keep_summary_row' => array('integer', '0'),
-                  ))
+                  )),
         );
     }
 
@@ -212,7 +212,7 @@ class DataTableGenericFilter
             'filter_column',
             'filter_column_recursive',
             'filter_excludelowpop',
-            'filter_sort_column'
+            'filter_sort_column',
         );
 
         foreach ($columnQueryParameters as $queryParamName) {

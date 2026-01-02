@@ -139,7 +139,7 @@ class CookieTest extends SystemTestCase
         $fakeAccess = new FakeAccess();
         $fakeAccess->setSuperUserAccess(true);
         return [
-            Access::class => $fakeAccess
+            Access::class => $fakeAccess,
         ];
     }
 }

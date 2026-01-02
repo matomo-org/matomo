@@ -62,7 +62,7 @@ class Metrics
             new AverageTimeDomProcessing(),
             new AverageTimeDomCompletion(),
             new AverageTimeOnLoad(),
-            new AveragePageLoadTime()
+            new AveragePageLoadTime(),
         ];
 
         $mappedMetrics = [];
@@ -106,14 +106,14 @@ class Metrics
             new TimeTransfer(),
             new TimeDomProcessing(),
             new TimeDomCompletion(),
-            new TimeOnLoad()
+            new TimeOnLoad(),
         ];
         foreach ($performanceDimensions as $dimension) {
             $id = $dimension->getColumnName();
             $column = $table . '.' . $id;
             $metricsConfig['sum_' . $id] = [
                 'aggregation' => 'sum',
-                'query' => "sum(" . sprintf($dimension->getSqlCappedValue(), $column) . ") / 1000"
+                'query' => "sum(" . sprintf($dimension->getSqlCappedValue(), $column) . ") / 1000",
             ];
             $metricsConfig['nb_hits_with_' . $id] = [
                 'aggregation' => 'sum',
@@ -122,15 +122,15 @@ class Metrics
                         then 0
                         else 1
                     end
-                )"
+                )",
             ];
             $metricsConfig['min_' . $id] = [
                 'aggregation' => 'min',
-                'query' => "min(" . $column . ") / 1000"
+                'query' => "min(" . $column . ") / 1000",
             ];
             $metricsConfig['max_' . $id] = [
                 'aggregation' => 'max',
-                'query' => "max(" . $column . ") / 1000"
+                'query' => "max(" . $column . ") / 1000",
             ];
         }
 

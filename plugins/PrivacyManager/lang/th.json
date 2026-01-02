@@ -2,6 +2,7 @@
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Anonymize มีขนาดเป็นไบต์ล่าสุดของที่อยู่ IP ของผู้เข้าชมเพื่อให้สอดคล้องกับนโยบายข้อมูลส่วนบุคคลภายในเครื่องของคุณ",
         "ClickHereSettings": "คลิกที่นี่เพื่อเข้าถึงการตั้งค่า %s",
+        "ComplianceTableSettingStatus": "สถานะ",
         "CurrentDBSize": "ขนาดฐานข้อมูลปัจจุบัน",
         "DBPurged": "ล้าง DB",
         "DeleteDataInterval": "ลบข้อมูลเก่าทุกๆ",

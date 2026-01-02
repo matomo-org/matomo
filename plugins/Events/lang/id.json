@@ -28,8 +28,6 @@
         "MinValue": "Nilai Peristiwa minimum",
         "MinValueDocumentation": "Nilai minimum untuk peristiwa ini",
         "PluginDescription": "Lacak Peristiwa dan dapatkan laporan tentang aktivitas pengunjung Anda.",
-        "SecondaryDimension": "Dimensi sekunder adalah %s.",
-        "SwitchToSecondaryDimension": "Beralih ke %s",
         "TopEvents": "Peristiwa Teratas",
         "TotalEvents": "Total peristiwa",
         "TotalEventsDocumentation": "Jumlah total peristiwa",

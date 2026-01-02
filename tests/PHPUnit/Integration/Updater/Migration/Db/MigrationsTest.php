@@ -169,7 +169,7 @@ class MigrationsTest extends IntegrationTestCase
         $values = array(
             'column1' => 'my text',
             'column2' => '554934',
-            'column3' => '1'
+            'column3' => '1',
         );
         $this->factory->insert($this->testTable, $values)->exec();
 

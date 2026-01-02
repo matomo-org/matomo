@@ -32,7 +32,7 @@ class StaticApiTest extends SystemTestCase
         $apiToTest[] = array(array('UserCountry.getCountryCodeMapping'),
                              array(
                                  'language' => 'en',
-                             )
+                             ),
         );
 
         return $apiToTest;

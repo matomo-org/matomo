@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Afegir un Giny",
+        "AddAWidget": "Afegiu un giny a aquest tauler de control",
         "AddPreviewedWidget": "Afegeix el giny al tauler",
         "ChangeDashboardLayout": "Canviar el disseny del tauler",
         "CopyDashboardToUser": "Copiar tauler a l'usuari",
@@ -15,7 +15,7 @@
         "DeleteWidgetConfirm": "Realment voleu esborrar aquest giny?",
         "EmptyDashboard": "Tauler buit - Seleccioneu els vostres ginys preferits",
         "LoadingWidget": "S'està carregant el giny…",
-        "ManageDashboard": "Administrar tauler",
+        "ManageDashboard": "Administreu aquest tauler de control",
         "Maximise": "Maximitza",
         "Minimise": "Minimitza",
         "NotUndo": "No podreu desfer aquesta operació.",

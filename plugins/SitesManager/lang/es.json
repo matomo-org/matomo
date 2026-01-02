@@ -34,6 +34,7 @@
         "ExcludedIps": "IPs excluidas",
         "ExcludedParameters": "Parámetros excluídos",
         "ExcludedUserAgents": "Agentes de usuario excluídos",
+        "ExclusionTypeOptionCustom": "Personalizado",
         "ExtraInformationNeeded": "Para configurar Matomo en su sistema, puede que necesite la siguiente información:",
         "Format_Utc": "UTC%s",
         "GADetected": "Se detectó %1$s en tu sitio web. ¿Sabías que puedes migrar fácilmente tus datos y configuraciones históricas de análisis de %2$s a Matomo? %3$s%4$s%5$sObtenga más información en esta guía%6$s",

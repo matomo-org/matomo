@@ -15,7 +15,7 @@ class Dimensions
     {
         $apiToRecord = array(
             'getContentNames'  => Archiver::CONTENTS_NAME_PIECE_RECORD_NAME,
-            'getContentPieces' => Archiver::CONTENTS_PIECE_NAME_RECORD_NAME
+            'getContentPieces' => Archiver::CONTENTS_PIECE_NAME_RECORD_NAME,
         );
 
         return $apiToRecord[$apiMethod];
@@ -25,7 +25,7 @@ class Dimensions
     {
         $labelToMethod = array(
             'getContentNames'  => 'Contents_ContentPiece',
-            'getContentPieces' => 'Contents_ContentName'
+            'getContentPieces' => 'Contents_ContentName',
         );
 
         return $labelToMethod[$apiMethod];

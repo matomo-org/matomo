@@ -46,6 +46,7 @@
         "BackgroundColor": "背景色",
         "BuildYourOwn": "自分で構築する",
         "ClickHereSettings": "%s設定にアクセスするには、ここをクリックしてください。",
+        "ComplianceTableSettingStatus": "ステータス",
         "ConsentExplanation": "同意とは、個人データの処理方法に関する選択と制御を個人に提供することを意味します。",
         "ConsentManager": "同意マネージャー",
         "ConsentManagerConnected": "%1$s は既に Matomoで動作するように構成されているようです。",

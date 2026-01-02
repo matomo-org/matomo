@@ -53,7 +53,7 @@ class TrackGoalsAllowMultipleConversionsPerVisitTest extends SystemTestCase
         $apiToCall = array(
             'VisitTime.getVisitInformationPerServerTime',
             'VisitsSummary.get',
-            'Goals.get'
+            'Goals.get',
         );
 
         return array(
@@ -62,7 +62,7 @@ class TrackGoalsAllowMultipleConversionsPerVisitTest extends SystemTestCase
                 'idSite' => self::$fixture->idSite,
                 'date' => self::$fixture->dateTime,
                 'segment' => 'pageUrl=@/',
-                'testSuffix' => '_withLogLinkVisitActionSegment'
+                'testSuffix' => '_withLogLinkVisitActionSegment',
             )),
 
         );

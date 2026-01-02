@@ -1412,23 +1412,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (widget && widget.length && widget[0].hasAttribute('widgetId')) {
             widget.trigger('setParameters', parameters);
         } else {
-            var containerId = widget && widget.length ? widget.attr('containerid') : undefined;
-            var reportId = $(domWidget).closest('[data-report]').attr('data-report');
+            if (!piwik.isUserIsAnonymous) {
+              var containerId = widget && widget.length ? widget.attr('containerid') : undefined;
+              var reportId = $(domWidget).closest('[data-report]').attr('data-report');
 
-            var ajaxRequest = new ajaxHelper();
-            ajaxRequest.addParams({
+              var ajaxRequest = new ajaxHelper();
+              ajaxRequest.addParams({
                 module: 'CoreHome',
                 action: 'saveViewDataTableParameters',
                 report_id: reportId,
                 containerId: containerId
-            }, 'get');
-            ajaxRequest.withTokenInUrl();
-            ajaxRequest.addParams({
+              }, 'get');
+              ajaxRequest.withTokenInUrl();
+              ajaxRequest.addParams({
                 parameters: JSON.stringify(parameters)
-            }, 'post');
-            ajaxRequest.setCallback(function () {});
-            ajaxRequest.setFormat('html');
-            ajaxRequest.send();
+              }, 'post');
+              ajaxRequest.setCallback(function () {
+              });
+              ajaxRequest.setFormat('html');
+              ajaxRequest.send();
+            }
         }
     },
 
@@ -1557,7 +1560,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                         '<tr class="subDataTableContainer">' +
                             '<td colspan="' + numberOfColumns + '" class="cellSubDataTable">' +
                             '<div id="' + divIdToReplaceWithSubTable + '">' +
-                            '<span class="loadingPiwik" style="display:inline"><img src="plugins/Morpheus/images/loading-blue.gif" />' + _pk_translate('General_Loading') + '</span>' +
+                            '<span class="loadingPiwik" style="display:inline"><span class="matomo-loader"><span></span><span></span><span></span></span>' + _pk_translate('General_Loading') + '</span>' +
                             '</div>' +
                             '</td>' +
                             '</tr>'
@@ -1764,6 +1767,7 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 // modify parameters
                 self.resetAllFilters();
                 var newParams = broadcast.getValuesFromUrl(url);
+                var isSecondaryDimensionReport = self.param.module === newParams.module && self.param.action === newParams.action && newParams.secondaryDimension;
 
                 for (var key in newParams) {
                     self.param[key] = decodeURIComponent(newParams[key]);
@@ -1775,14 +1779,16 @@ $.extend(DataTable.prototype, UIControl.prototype, {
                 var relatedReportName = $this.text();
 
                 // do ajax request
-                self.reloadAjaxDataTable(true, (function (relatedReportName) {
+                self.reloadAjaxDataTable(true, (function (relatedReportName, isSecondaryDimensionReport) {
 
                     return function (newReport) {
                         var newDomElem = self.dataTableLoaded(newReport, self.workingDivId);
                         hideShowRelatedReports(clicked);
-                        replaceReportTitleAndHelp(newDomElem, relatedReportName);
+                        if (!isSecondaryDimensionReport) {
+                            replaceReportTitleAndHelp(newDomElem, relatedReportName);
+                        }
                     }
-                })(relatedReportName));
+                })(relatedReportName, isSecondaryDimensionReport));
             });
         });
     },

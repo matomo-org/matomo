@@ -43,7 +43,7 @@ class OneVisitorLongUrlsTruncatedTest extends SystemTestCase
             array($apiToCall, array('idSite'                 => self::$fixture->idSite,
                                     'date'                   => self::$fixture->dateTime,
                                     'language'               => 'fr',
-                                    'otherRequestParameters' => array('expanded' => 1, 'filter_truncate' => 2)))
+                                    'otherRequestParameters' => array('expanded' => 1, 'filter_truncate' => 2))),
         );
     }
 

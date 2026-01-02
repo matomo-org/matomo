@@ -30,7 +30,7 @@ class Updates_1_5_b4 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('site', 'ecommerce', 'TINYINT DEFAULT 0')
+            $this->migration->db->addColumn('site', 'ecommerce', 'TINYINT DEFAULT 0'),
         );
     }
 

@@ -34,21 +34,21 @@ class CookiebotTest extends \PHPUnit\Framework\TestCase
             false,
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no cookiebot content' => [
             false,
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'cookiebot content found' => [
             true,
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script src='://cookiebot.com/bla.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'cookiebot connected' => [
@@ -57,7 +57,7 @@ class CookiebotTest extends \PHPUnit\Framework\TestCase
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script src='://cookiebot.com/bla.js'></script><script>
 typeof _paq === 'undefined' || typeof Cookiebot === 'undefined'
 </script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

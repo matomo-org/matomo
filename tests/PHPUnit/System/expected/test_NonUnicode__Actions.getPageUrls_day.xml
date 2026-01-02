@@ -25,7 +25,7 @@
 		<label>page</label>
 		<nb_visits>1</nb_visits>
 		<nb_hits>1</nb_hits>
-		<sum_time_spent>360</sum_time_spent>
+		<sum_time_spent>359</sum_time_spent>
 		<nb_hits_following_search>1</nb_hits_following_search>
 		<sum_bandwidth>0</sum_bandwidth>
 		<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
@@ -33,7 +33,7 @@
 		<max_bandwidth />
 		<avg_bandwidth>0</avg_bandwidth>
 		<avg_page_load_time>0</avg_page_load_time>
-		<avg_time_on_page>360</avg_time_on_page>
+		<avg_time_on_page>359</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
 		<segment>pageUrl=^http%253A%252F%252Fpiwik.net%252Fpage</segment>
@@ -43,13 +43,13 @@
 				<nb_visits>1</nb_visits>
 				<nb_uniq_visitors>1</nb_uniq_visitors>
 				<nb_hits>1</nb_hits>
-				<sum_time_spent>360</sum_time_spent>
+				<sum_time_spent>359</sum_time_spent>
 				<nb_hits_following_search>1</nb_hits_following_search>
 				<sum_bandwidth>0</sum_bandwidth>
 				<nb_hits_with_bandwidth>0</nb_hits_with_bandwidth>
 				<min_bandwidth />
 				<max_bandwidth />
-				<avg_time_on_page>360</avg_time_on_page>
+				<avg_time_on_page>359</avg_time_on_page>
 				<bounce_rate>0%</bounce_rate>
 				<exit_rate>0%</exit_rate>
 				<url>http://example.org/page/index.htm?whatever=%EC%E5%F8%EA%EE%E2%FB%E5</url>

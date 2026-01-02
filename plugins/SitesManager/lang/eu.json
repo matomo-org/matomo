@@ -44,6 +44,7 @@
         "ExcludedReferrersHelpExamples": "adibidez, \"%1$s\" bat dator hauekin: \"%2$s\" eta \"%3$s\", baina ez beste honekin: \"%4$s\"",
         "ExcludedReferrersHelpSubDomains": "Ostalari-izen zehatz baten azpi-domeinu guztiak ere baztertzeko, erabili puntua aurrizki bezala. Adibidez: \"%1$s\" jarrita \"%2$s\" baztertuko da, baina baita \"%3$s\" bezalako bere azpi-domeinu guztiak ere.",
         "ExcludedUserAgents": "Baztertutako erabiltzaile-agenteak",
+        "ExclusionTypeOptionCustom": "Pertsonalizatua",
         "ExtraInformationNeeded": "Matomo zure sisteman konfiguratzeko, ondorengo informazioa beharko duzu:",
         "Format_Utc": "UTC%s",
         "GADetected": "%1$s detektatu da zure webgunean. Bazenekien erraz migratu ditzakezula zure datu analitiko historikoak eta ezarpenak %2$s(e)tik Matomora? %3$s%4$s%5$sIkasi gehiago gida honetan%6$s",

@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "Aktívny",
         "AllWebsites": "Všetky webstránky",
         "AnonymousUser": "Anonymný používateľ",
         "ApplyToAllWebsites": "Použiť na všetky webstránky",
@@ -19,6 +20,7 @@
         "PrivAdmin": "Admin",
         "PrivNone": "Bez prístupu",
         "PrivView": "Zobrazenie",
+        "Status": "Stav",
         "TypeYourPasswordAgain": "Zadajte nové heslo znovu.",
         "User": "Používatelia",
         "Username": "Používateľské meno",

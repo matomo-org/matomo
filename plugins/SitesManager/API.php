@@ -27,13 +27,15 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\SitesManager\Settings\FilterPIIParameters;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
 use Piwik\ProxyHttp;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Settings\Measurable\MeasurableProperty;
-use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
@@ -410,6 +412,52 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Returns the list of websites, where the current user has at least the provided access level
+     *
+     * @param string $permission one of view, write or admin
+     * @param null|string $pattern pattern to match name against
+     * @param null|int $limit optional parameter to limit the amount of returned records
+     * @param int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
+     * @param string[] $siteTypesToExclude optional array of site types to exclude from the result.
+     * @return array for each site, an array of information (idsite, name, main_url, etc.)
+     */
+    public function getSitesWithMinimumAccess(string $permission, ?string $pattern = null, ?int $limit = null, array $sitesToExclude = [], array $siteTypesToExclude = []): array
+    {
+        switch (strtolower($permission)) {
+            case Access\Role\Admin::ID:
+                $sitesId = Access::getInstance()->getSitesIdWithAdminAccess();
+                break;
+            case Access\Role\Write::ID:
+                $sitesId = Access::getInstance()->getSitesIdWithAtLeastWriteAccess();
+                break;
+            case Access\Role\View::ID:
+                $sitesId = Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+                break;
+            default:
+                throw new Exception('Invalid permission provided');
+        }
+
+        // Remove the sites to exclude from the list of IDs.
+        if (is_array($sitesId) && is_array($sitesToExclude) && count($sitesToExclude)) {
+            $sitesId = array_diff($sitesId, $sitesToExclude);
+        }
+
+        if (empty($pattern)) {
+            $sites = $this->getSitesFromIds($sitesId, $limit, $siteTypesToExclude);
+        } else {
+            $sites = $this->getModel()->getPatternMatchSites($sitesId, $pattern, $limit, $siteTypesToExclude);
+
+            foreach ($sites as &$site) {
+                $this->enrichSite($site);
+            }
+
+            $sites = Site::setSitesFromArray($sites);
+        }
+
+        return $sites;
+    }
+
+    /**
      * Returns the messages to warn users on site deletion.
      *
      * @param int $idSite
@@ -542,11 +590,12 @@ class API extends \Piwik\Plugin\API
      *
      * @param array $idSites list of website ID
      * @param bool $limit
+     * @param string[] $siteTypesToExclude optional array of site types to exclude from the result.
      * @return array
      */
-    private function getSitesFromIds($idSites, $limit = false)
+    private function getSitesFromIds($idSites, $limit = false, array $siteTypesToExclude = [])
     {
-        $sites = $this->getModel()->getSitesFromIds($idSites, $limit);
+        $sites = $this->getModel()->getSitesFromIds($idSites, $limit, $siteTypesToExclude);
 
         foreach ($sites as &$site) {
             $this->enrichSite($site);
@@ -570,7 +619,7 @@ class API extends \Piwik\Plugin\API
             "http://" . $hostname,
             "http://www." . $hostname,
             "https://" . $hostname,
-            "https://www." . $hostname
+            "https://www." . $hostname,
         ];
     }
 
@@ -825,7 +874,7 @@ class API extends \Piwik\Plugin\API
 
         $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite, $idMeasurableType = false);
 
-        return $this->settingsMetadata->formatSettings($measurableSettings);
+        return $this->settingsMetadata->formatSettings($measurableSettings, $idSite);
     }
 
     private function setAndValidateMeasurableSettings($idSite, $idType, $settingValues)
@@ -837,9 +886,6 @@ class API extends \Piwik\Plugin\API
         return $measurableSettings;
     }
 
-    /**
-     * @param MeasurableSettings[] $measurableSettings
-     */
     private function saveMeasurableSettings($idSite, $idType, $settingValues)
     {
         $measurableSettings = $this->setAndValidateMeasurableSettings($idSite, $idType, $settingValues);
@@ -869,7 +915,7 @@ class API extends \Piwik\Plugin\API
      * @throws Exception
      */
     public function deleteSite(
-        $idSite,
+        int $idSite,
         #[\SensitiveParameter]
         $passwordConfirmation = null
     ) {
@@ -912,13 +958,16 @@ class API extends \Piwik\Plugin\API
 
     private function checkValidTimezone($timezone)
     {
-        $timezones = $this->getTimezonesList();
-        foreach (array_values($timezones) as $cities) {
-            foreach ($cities as $timezoneId => $city) {
-                if ($timezoneId == $timezone) {
-                    return true;
-                }
-            }
+        try {
+            Date::factory('today', $timezone);
+        } catch (\Exception $e) {
+            throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidTimezone', [$timezone]));
+        }
+
+        $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC);
+        $timezones = array_merge($timezones, array_keys($this->getTimezonesListUTCOffsets()));
+        if (in_array($timezone, $timezones)) {
+            return true;
         }
         throw new Exception($this->translator->translate('SitesManager_ExceptionInvalidTimezone', [$timezone]));
     }
@@ -1135,11 +1184,11 @@ class API extends \Piwik\Plugin\API
      *
      * @return string Comma separated list of URL parameters
      */
-    public function getExcludedQueryParametersGlobal(): string
+    public function getExcludedQueryParametersGlobal(?int $idSite = null): string
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        switch ($this->getExclusionTypeForQueryParams()) {
+        switch ($this->getExclusionTypeForQueryParams($idSite)) {
             case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS:
                 return '';
             case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII:
@@ -1419,9 +1468,14 @@ class API extends \Piwik\Plugin\API
      *
      * @return string
      */
-    public function getExclusionTypeForQueryParams(): string
+    public function getExclusionTypeForQueryParams(?int $idSite = null): string
     {
         Piwik::checkUserHasSomeViewAccess();
+
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            return FilterPIIParameters::getInstance($idSite)->getValue();
+        }
 
         $result = Option::get(self::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL);
 
@@ -1934,7 +1988,7 @@ class API extends \Piwik\Plugin\API
             $consentManager = $this->siteContentDetector->getSiteContentDetectionById(reset($consentManagers));
             return ['name' => $consentManager::getName(),
                     'url' => $consentManager::getInstructionUrl(),
-                    'isConnected' => in_array($consentManager::getId(), $this->siteContentDetector->connectedConsentManagers)
+                    'isConnected' => in_array($consentManager::getId(), $this->siteContentDetector->connectedConsentManagers),
             ];
         }
 

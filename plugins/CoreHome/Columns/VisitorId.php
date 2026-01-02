@@ -29,10 +29,14 @@ class VisitorId extends VisitDimension
     protected $nameSingular = 'General_VisitorID';
     protected $namePlural = 'General_Visitors';
     protected $segmentName = 'visitorId';
-    protected $acceptValues = '34c31e04394bdc63 - any 16 Hexadecimal chars ID, which can be fetched using the Tracking API function getVisitorId()';
     protected $allowAnonymous = false;
     protected $sqlFilterValue = ['Piwik\Common', 'convertVisitorIdToBin'];
     protected $type = self::TYPE_BINARY;
+
+    public function getAcceptValues()
+    {
+        return Piwik::translate('General_VisitorIDSegmentHelp', ['34c31e04394bdc63', 'getVisitorId()']);
+    }
 
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {

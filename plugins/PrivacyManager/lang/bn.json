@@ -1,1 +1,7 @@
-{}
+{
+    "PrivacyManager": {
+        "ComplianceTableSettingStatus": "অবস্থা",
+        "IPAddress": "আইপি ঠিকানা",
+        "PrivacyPolicy": "গোপনীয়তা নীতি"
+    }
+}

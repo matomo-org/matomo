@@ -13,6 +13,15 @@
 ></div>
 
 <div
+    vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"
+    plugins-having-update="{{ pluginsHavingUpdate|default({})|json_encode }}"
+    plugin-update-nonces="{{ pluginUpdateNonces|default({})|json_encode }}"
+    update-nonce="{{ updateNonce|json_encode }}"
+    is-multi-server-environment="{{ isMultiServerEnvironment|default(false)|json_encode }}"
+    is-plugins-admin-enabled="{{ isPluginsAdminEnabled|default(null)|json_encode }}"
+></div>
+
+<div
     vue-entry="CorePluginsAdmin.PluginsTable"
     title="{{ 'CorePluginsAdmin_InstalledThemes'|translate|json_encode }}"
     is-theme="true"

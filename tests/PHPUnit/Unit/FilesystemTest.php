@@ -162,7 +162,7 @@ class FilesystemTest extends \PHPUnit\Framework\TestCase
         $result = Filesystem::directoryDiff($target, $source);
         $this->assertEquals(array(
              '/DataTable/NotInTarget.php',
-             '/DataTable/Renderer/NotInTarget.php'
+             '/DataTable/Renderer/NotInTarget.php',
         ), $result);
     }
 

@@ -59,17 +59,17 @@ jobs:
     steps:
       - name: "Check release password"
         if: ${{ inputs.is_preview != true && github.event.inputs.password != env.RELEASE_PASSWORD }}
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
               core.setFailed('Release password didn\'t match.')
       - name: "Check if user is allowed"
         if: ${{ inputs.is_preview != true && github.actor != 'mattab' && github.actor != 'tsteur' && github.actor != 'sgiehl' && github.actor != 'mneudert' && github.actor != 'michalkleiner' && github.actor != 'caddoo'}}
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             core.setFailed('User is not allowed to release.')
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           lfs: false
           ref: ${{ inputs.ref || github.ref }}
@@ -173,7 +173,7 @@ jobs:
           chmod 755 ./.github/scripts/*.sh
           ./.github/scripts/build-package.sh $version
         shell: bash
-      - uses: ncipollo/release-action@bcfe5470707e8832e12347755757cec0eb3c22af
+      - uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b
         with:
           artifacts: "archives/matomo-${{ steps.tag.outputs.version }}.*,archives/piwik-${{ steps.tag.outputs.version }}.*"
           allowUpdates: ${{ steps.tag.outputs.update }}

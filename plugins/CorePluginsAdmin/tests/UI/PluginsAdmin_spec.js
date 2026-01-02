@@ -31,6 +31,15 @@ describe("PluginsAdmin", function () {
     expect(await screenshotPageWrap()).to.matchImage('plugins');
   });
 
+  it('should should show plugin update count in the menu', async function () {
+    await page.goto("?" + generalParams + "&module=CorePluginsAdmin&action=plugins");
+
+    await page.waitForNetworkIdle();
+    await page.waitForTimeout(200);
+
+    expect(await page.screenshotSelector('#secondNavBar')).to.matchImage('plugins_update_menu');
+  });
+
   it('should load the plugins admin page correctly when internet disabled', async function () {
     testEnvironment.overrideConfig('General', {
       enable_internet_features: 0

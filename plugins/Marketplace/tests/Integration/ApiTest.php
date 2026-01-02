@@ -68,7 +68,7 @@ class ApiTest extends IntegrationTestCase
             return [
                 'status' => 200,
                 'headers' => [],
-                'data' => json_encode(['license_key' => 'key'])
+                'data' => json_encode(['license_key' => 'key']),
             ];
         });
 
@@ -395,7 +395,7 @@ class ApiTest extends IntegrationTestCase
             return [
                 'status' => 201,
                 'headers' => [],
-                'data' => ''
+                'data' => '',
             ];
         });
 
@@ -479,7 +479,7 @@ class ApiTest extends IntegrationTestCase
 
         return array(
             'Piwik\Access' => new FakeAccess(),
-            'Piwik\Plugins\Marketplace\Api\Service' => $this->service
+            'Piwik\Plugins\Marketplace\Api\Service' => $this->service,
         );
     }
 

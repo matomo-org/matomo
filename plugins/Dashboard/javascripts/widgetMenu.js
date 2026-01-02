@@ -161,7 +161,7 @@ widgetsHelper.getWidgetNameFromUniqueId = function (uniqueId, callback) {
 };
 
 /**
- * Sends and ajax request to query for the widgets html
+ * Sends an ajax request to query for the widget's html
  *
  * @param {string} widgetUniqueId             unique id of the widget
  * @param {object} widgetParameters           parameters to be used for loading the widget
@@ -232,8 +232,8 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 /**
  * widgetPreview jQuery Extension
  *
- * Converts an dom element to a widget preview
- * Widget preview contains an categorylist, widgetlist and a preview
+ * Converts a dom element to a widget preview
+ * Widget preview contains a categorylist, a widgetlist and a preview
  */
 (function ($) {
     $.extend({
@@ -256,7 +256,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 onSelect: function () {},
                 /**
                  * callback used to determine if a widget is available or not
-                 * unavailable widgets aren't chooseable in widgetlist
+                 * unavailable widgets aren't selectable in widgetlist
                  * @type {function}
                  */
                 isWidgetAvailable: function (widgetUniqueId) { return true; },
@@ -279,8 +279,8 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
             /**
              * Returns the div to show category list in
-             * - if element doesn't exist it will be created and added
-             * - if element already exist it's content will be removed
+             * - if element doesn't exist, it will be created and added
+             * - if element already exists, its content will be removed
              *
              * @return {$} category list element
              */
@@ -303,8 +303,8 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
             /**
              * Returns the div to show widget list in
-             * - if element doesn't exist it will be created and added
-             * - if element already exist it's content will be removed
+             * - if element doesn't exist, it will be created and added
+             * - if element already exists, its content will be removed
              *
              * @return {$} widget list element
              */
@@ -320,12 +320,14 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                 }
 
                 if ($('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).length) {
+                    var addWidgetsSubmenu = $('.dashboard-manager .addWidgetsSubmenu');
+
                     var position = $('.' + settings.categorylistClass + ' .' + settings.choosenClass, widgetPreview).position().top -
                         $('.' + settings.categorylistClass, widgetPreview).position().top +
-                        ($('.dashboard-manager .addWidget').outerHeight() || 0);
+                        (addWidgetsSubmenu.length ? addWidgetsSubmenu.position().top : 0);
 
                     if (!$('#content.admin').length) {
-                        position += 5; // + padding defined in dashboard view
+                        position += 3; // + padding defined in dashboard view
                     }
 
                     $('.' + settings.widgetlistClass, widgetPreview).css({
@@ -363,7 +365,7 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
                     widgetList.append('<li class="' + widgetClass + '" uniqueid="' + widgetUniqueId + '">' + widgetName + '</li>');
                 }
 
-                // delay widget preview a few millisconds
+                // delay widget preview a few milliseconds
                 $('li', widgetList).on('mouseenter', function () {
                     var that = this,
                         widgetUniqueId = $(this).attr('uniqueid');
@@ -395,8 +397,8 @@ widgetsHelper.loadWidgetAjax = function (widgetUniqueId, widgetParameters, onWid
 
             /**
              * Returns the div to show widget preview in
-             * - if element doesn't exist it will be created and added
-             * - if element already exist it's content will be removed
+             * - if element doesn't exist, it will be created and added
+             * - if element already exists, its content will be removed
              *
              * @return {$} preview element
              */

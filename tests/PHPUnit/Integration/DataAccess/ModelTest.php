@@ -806,7 +806,7 @@ class ModelTest extends IntegrationTestCase
             $sql = "INSERT INTO `$table` (idarchive, idsite, date1, date2, period, `name`, `value`, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             Db::query($sql, [
                 $idarchive, 1, $archive['date1'], $archive['date2'], $archive['period'], $archive['name'], $archive['value'],
-                $archive['ts_archived'] ?? $now
+                $archive['ts_archived'] ?? $now,
             ]);
 
             ++$idarchive;

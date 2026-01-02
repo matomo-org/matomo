@@ -402,7 +402,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
                 'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
             ),
             'verifySsl' => true,
-            'destinationPath' => $destinationPath
+            'destinationPath' => $destinationPath,
         ), null, null, array()), $params);
 
         $this->assertNotEmpty($params2[4]);// headers
@@ -417,7 +417,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
                 'Via: ' . Version::VERSION . '  (Matomo/' . Version::VERSION . ')',
             ),
             'verifySsl' => true,
-            'destinationPath' => $destinationPath
+            'destinationPath' => $destinationPath,
         ), '{"adf2":"44","afc23":"ab12","method":"post"}', 200), $params2);
     }
 
@@ -450,7 +450,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array(
             'data' => '{test: true}',
             'status' => 204,
-            'headers' => array('content-length' => 948)
+            'headers' => array('content-length' => 948),
         ), $result);
     }
 
@@ -487,7 +487,7 @@ class HttpTest extends \PHPUnit\Framework\TestCase
         StaticContainer::getContainer()->set('http.blocklist.hosts', [
             '*.amazonaws.com',
             'matomo.org',
-            'piwik.*'
+            'piwik.*',
         ]);
 
         if (!$isValid) {

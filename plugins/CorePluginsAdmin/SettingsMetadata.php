@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CorePluginsAdmin;
 
 use Piwik\Common;
 use Piwik\Piwik;
+use Piwik\Policy\PolicyManager;
 use Piwik\Settings\FieldConfig;
 use Piwik\Settings\Setting;
 use Piwik\Settings\Settings;
@@ -92,7 +93,7 @@ class SettingsMetadata
      * @param Settings[] $allSettings A list of Settings instead by pluginname
      * @return array
      */
-    public function formatSettings($allSettings)
+    public function formatSettings(array $allSettings, ?int $idSite = null)
     {
         $metadata = array();
         foreach ($allSettings as $pluginName => $settings) {
@@ -105,11 +106,11 @@ class SettingsMetadata
             $plugin = array(
                 'pluginName' => $pluginName,
                 'title' => $settings->getTitle(),
-                'settings' => array()
+                'settings' => array(),
             );
 
             foreach ($writableSettings as $writableSetting) {
-                $plugin['settings'][] = $this->formatSetting($writableSetting);
+                $plugin['settings'][] = $this->formatSetting($writableSetting, $idSite);
             }
 
             $metadata[] = $plugin;
@@ -118,7 +119,7 @@ class SettingsMetadata
         return $metadata;
     }
 
-    public function formatSetting(Setting $setting)
+    public function formatSetting(Setting $setting, ?int $idSite = null)
     {
         $config = $setting->configureField();
 
@@ -134,7 +135,7 @@ class SettingsMetadata
             $value = self::PASSWORD_PLACEHOLDER;
         }
 
-        $result = array(
+        $result = [
             'name' => $setting->getName(),
             'title' => $config->title,
             'value' => $value,
@@ -148,10 +149,19 @@ class SettingsMetadata
             'introduction' => $config->introduction,
             'condition' => $config->condition,
             'fullWidth' => $config->fullWidth,
-        );
+        ];
 
         if ($config->customFieldComponent) {
             $result['component'] = $config->customFieldComponent;
+        }
+
+        $settingType = PolicyManager::getSettingTypeFromSettingClass($setting);
+        $compliancePolicyControlled = PolicyManager::getCompliancePoliciesControllingASetting($setting->getName(), $idSite, $settingType);
+        if (!empty($compliancePolicyControlled)) {
+            $result['extraMetadata'] = [
+                'compliancePolicyControlled' => $compliancePolicyControlled,
+                'idSite' => $idSite,
+            ];
         }
 
         return $result;

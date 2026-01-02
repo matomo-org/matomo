@@ -80,7 +80,7 @@ class Plugins
 
         return array(
             'hasExceededLicense' => !empty($plugin['hasExceededLicense']),
-            'isMissingLicense' => !empty($plugin['isMissingLicense'])
+            'isMissingLicense' => !empty($plugin['isMissingLicense']),
         );
     }
 

@@ -1,8 +1,18 @@
 
 #root {
   #logo {
-    padding-left: 16px;
-    padding-top: 6px;
+    display: block;
+    height: 100%;
+
+    & > a {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-left: 1rem;
+      padding-right: 1rem;
+
+      text-decoration: none;
+    }
 
     img {
       max-height: 32px;
@@ -11,10 +21,6 @@
         width: 150px;
       }
     }
-  }
-
-  #logo > a {
-    text-decoration: none;
   }
 }
 

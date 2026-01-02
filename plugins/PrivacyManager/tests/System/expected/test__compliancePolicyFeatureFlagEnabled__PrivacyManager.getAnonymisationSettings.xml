@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<useAnonymizedIpForVisitEnrichment>0</useAnonymizedIpForVisitEnrichment>
+	<ipAddressMaskLength>0</ipAddressMaskLength>
+	<doNotTrackEnabled>0</doNotTrackEnabled>
+	<ipAnonymizerEnabled>0</ipAnonymizerEnabled>
+	<forceCookielessTracking>0</forceCookielessTracking>
+	<anonymizeUserId>0</anonymizeUserId>
+	<anonymizeOrderId>0</anonymizeOrderId>
+	<anonymizeReferrer />
+	<randomizeConfigId>0</randomizeConfigId>
+	<useSiteSpecificSettings>0</useSiteSpecificSettings>
+	<maskLengthOptions>
+		<row>
+			<key>1</key>
+			<value>1 byte(s) - e.g. 192.168.100.xxx</value>
+			<description />
+		</row>
+		<row>
+			<key>2</key>
+			<value>2 byte(s) - e.g. 192.168.xxx.xxx</value>
+			<description>Recommended</description>
+		</row>
+		<row>
+			<key>3</key>
+			<value>3 byte(s) - e.g. 192.xxx.xxx.xxx</value>
+			<description />
+		</row>
+		<row>
+			<key>4</key>
+			<value>Fully mask IP address</value>
+			<description />
+		</row>
+	</maskLengthOptions>
+	<useAnonymizedIpForVisitEnrichmentOptions>
+		<row>
+			<key>1</key>
+			<value>Yes</value>
+			<description>Recommended for privacy</description>
+		</row>
+		<row>
+			<key>0</key>
+			<value>No</value>
+			<description />
+		</row>
+	</useAnonymizedIpForVisitEnrichmentOptions>
+	<referrerAnonymizationOptions>
+		<row key="">Don't anonymize the referrer</row>
+		<exclude_query>Remove query parameters from referrer URL</exclude_query>
+		<exclude_path>Keep only the domain of a referrer URL</exclude_path>
+		<exclude_all>Don't record the referrer URL but still detect the type of referrer</exclude_all>
+	</referrerAnonymizationOptions>
+	<trackerFileName>matomo.js</trackerFileName>
+	<trackerWritable>1</trackerWritable>
+</result>

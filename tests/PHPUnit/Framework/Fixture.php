@@ -529,7 +529,7 @@ class Fixture extends \PHPUnit\Framework\Assert
      *
      * @param string      $dateTime eg '2010-01-01 12:34:56'
      * @param int         $ecommerce
-     * @param bool        $siteName
+     * @param bool|string $siteName
      * @param bool|string $siteUrl
      * @param int         $siteSearch
      * @param null|string $searchKeywordParameters
@@ -671,6 +671,7 @@ class Fixture extends \PHPUnit\Framework\Assert
             $t = new MatomoTracker($idSite, self::getTrackerUrl());
         }
         $t->setForceVisitDateTime($dateTime);
+        $t->configCookieDomain = \Piwik\Url::getHost();
 
         if ($defaultInit) {
             $t->setTokenAuth(self::getTokenAuth());
@@ -983,12 +984,12 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     public static function siteCreated($idSite)
     {
-        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('site') . " WHERE idsite = ?", [$idSite]) != 0;
+        return Db::fetchOne("SELECT COUNT(*) FROM `" . Common::prefixTable('site') . "` WHERE idsite = ?", [$idSite]) != 0;
     }
 
     public static function goalExists($idSite, $idGoal)
     {
-        return Db::fetchOne("SELECT COUNT(*) FROM " . Common::prefixTable('goal') . " WHERE idgoal = ? AND idsite = ?", [$idGoal, $idSite]) != 0;
+        return Db::fetchOne("SELECT COUNT(*) FROM `" . Common::prefixTable('goal') . "` WHERE idgoal = ? AND idsite = ?", [$idGoal, $idSite]) != 0;
     }
 
     /**

@@ -39,6 +39,7 @@
 	<result defaultKeyName="Campaigns" />
 	<result defaultKeyName="Social Networks" />
 	<result defaultKeyName="Search Engines" />
+	<result defaultKeyName="AI Assistants" />
 	<result defaultKeyName="Country">
 		<row>
 			<label>France</label>

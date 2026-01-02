@@ -80,7 +80,7 @@ class GetByDayOfWeek extends Base
     public function getRelatedReports()
     {
         return array(
-            ReportsProvider::factory('VisitTime', 'getVisitInformationPerLocalTime')
+            ReportsProvider::factory('VisitTime', 'getVisitInformationPerLocalTime'),
         );
     }
 }

@@ -113,7 +113,7 @@ class TrackGoalsPagesTest extends SystemTestCase
             ['id' => 23, 'expected' => 4],
             ['id' => 27, 'expected' => 7],
             ['id' => 29, 'expected' => 1],
-            ['id' => 33, 'expected' => 3]
+            ['id' => 33, 'expected' => 3],
         ];
     }
 

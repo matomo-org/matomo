@@ -44,7 +44,7 @@ class FilterInsightTest extends BaseUnitTest
             array(Row::COLUMNS => array('label' => 'val7', 'nb_visits' => 134)),
             array(Row::COLUMNS => array('label' => 'val8', 'nb_visits' => 100)),
             array(Row::COLUMNS => array('label' => 'val9', 'nb_visits' => 7)),
-            array(Row::COLUMNS => array('label' => 'val10', 'nb_visits' => 89))
+            array(Row::COLUMNS => array('label' => 'val10', 'nb_visits' => 89)),
         ));
 
         $this->pastTable = new DataTable();
@@ -57,7 +57,7 @@ class FilterInsightTest extends BaseUnitTest
             array(Row::COLUMNS => array('label' => 'val8', 'nb_visits' => 140)),
             array(Row::COLUMNS => array('label' => 'val9', 'nb_visits' => 72)),
             array(Row::COLUMNS => array('label' => 'val107', 'nb_visits' => 415)),
-            array(Row::COLUMNS => array('label' => 'val10', 'nb_visits' => 0))
+            array(Row::COLUMNS => array('label' => 'val10', 'nb_visits' => 0)),
         ));
 
         $this->table = new DataTable();
@@ -161,7 +161,7 @@ class FilterInsightTest extends BaseUnitTest
             array('label' => 'val10', 'isNew' => false, 'isMover' => true, 'isDisappeared' => false),
             array('label' => 'val102', 'isNew' => false, 'isMover' => false, 'isDisappeared' => true),
             array('label' => 'val109', 'isNew' => false, 'isMover' => false, 'isDisappeared' => true),
-            array('label' => 'val107', 'isNew' => false, 'isMover' => false, 'isDisappeared' => true)
+            array('label' => 'val107', 'isNew' => false, 'isMover' => false, 'isDisappeared' => true),
         );
 
         $this->assertColumnValues($values);

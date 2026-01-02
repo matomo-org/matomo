@@ -91,22 +91,22 @@ class MysqlTest extends IntegrationTestCase
     {
         yield 'default charset, empty collation' => [
             ['collation' => ''],
-            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC'
+            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC',
         ];
 
         yield 'override charset, empty collation' => [
             ['charset' => 'utf8mb3', 'collation' => ''],
-            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb3'
+            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb3',
         ];
 
         yield 'default charset, override collation' => [
             ['collation' => 'utf8mb4_swedish_ci'],
-            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_swedish_ci ROW_FORMAT=DYNAMIC'
+            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_swedish_ci ROW_FORMAT=DYNAMIC',
         ];
 
         yield 'override charset and collation' => [
             ['charset' => 'utf8mb3', 'collation' => 'utf8mb3_general_ci'],
-            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci'
+            'ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci',
         ];
     }
 }

@@ -71,7 +71,7 @@ class ArchivingConfigTest extends ConsoleCommandTestCase
 OUTPUT;
 
         $this->applicationTester->run([
-            'command' => 'diagnostics:archiving-config'
+            'command' => 'diagnostics:archiving-config',
         ]);
         $actual = $this->applicationTester->getDisplay();
 
@@ -83,7 +83,7 @@ OUTPUT;
         $expected = '[["Total Invalidation Count","0"],["In Progress Invalidation Count","0"],["Scheduled Invalidation Count","0"],["Earliest invalidation ts_started",""],["Latest invalidation ts_started",""],["Earliest invalidation ts_invalidated",""],["Latest invalidation ts_invalidated",""],["Number of segment invalidations","0"],["Number of plugin invalidations","0"],["List of plugins being invalidated",""]]';
         $this->applicationTester->run([
             'command' => 'diagnostics:archiving-metrics',
-            '--json' => true
+            '--json' => true,
         ]);
         $actual = $this->applicationTester->getDisplay();
 

@@ -16,13 +16,24 @@ describe("UserId", function () {
     expect(await page.screenshotSelector('#widgetUserIdgetUsers')).to.matchImage('report');
   });
 
-    it('should switch to table with engagement metrics', async function () {
-      await page.click('.activateVisualizationSelection > span');
-      await page.click('.tableIcon[data-footer-icon-id=tableAllColumns]');
-      await page.mouse.move(-10, -10);
-      await page.waitForNetworkIdle();
-      expect(await page.screenshotSelector('#widgetUserIdgetUsers')).to.matchImage('report_engagement');
+  it('should switch to table with engagement metrics', async function () {
+    await page.click('.activateVisualizationSelection > span');
+    await page.click('.tableIcon[data-footer-icon-id=tableAllColumns]');
+    await page.mouse.move(-10, -10);
+    await page.waitForNetworkIdle();
+    expect(await page.screenshotSelector('#widgetUserIdgetUsers')).to.matchImage('report_engagement');
   });
 
-
+  it('should correctly open the visitor profile', async function () {
+    var rowToMatch = 'td.label:contains(user1):first';
+    await (await page.jQuery('table.dataTable tbody ' + rowToMatch)).hover();
+    await page.waitForTimeout(100);
+    await (await page.jQuery(rowToMatch + ' a.actionvisitorDetails:visible')).hover();
+    await (await page.jQuery(rowToMatch + ' a.actionvisitorDetails:visible')).click();
+    await page.mouse.move(-10, -10);
+    await page.waitForTimeout(250);
+    await page.waitForNetworkIdle();
+    expect(await page.getWholeCurrentUrl()).to.match(/&popover=RowAction%243AvisitorDetails%243A[a-f0-9]{16}$/);
+    expect(await page.screenshotSelector('#Piwik_Popover')).to.matchImage('visitor_profile_popup');
+  });
 });

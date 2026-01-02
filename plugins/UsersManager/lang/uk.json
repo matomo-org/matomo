@@ -1,5 +1,7 @@
 {
     "UsersManager": {
+        "2FA": "2ЕП",
+        "Active": "Активний",
         "AllWebsites": "Усі сайти",
         "AnonymousUser": "Анонімний користувач",
         "AnonymousUserHasViewAccess": "Примітка: користувач %1$s має %2$s доступ до цього сайту.",
@@ -56,6 +58,7 @@
         "RemoveUserAccess": "Видалити доступ '%1$s' для %2$s.",
         "ReportDateToLoadByDefault": "Звіт за замовчуванням за",
         "ReportToLoadByDefault": "Звіт за замовчуванням",
+        "Status": "Статус",
         "SuperUserAccessManagement": "Керування доступом суперкористувачів",
         "SuperUserAccessManagementGrantMore": "Ви можете надати права суперкористувача іншим користувачам Matomo тут. Будь ласка, використовуйте цю функцію з обережністю.",
         "SuperUserAccessManagementMainDescription": "Суперкористувачі мають найвищі дозволи. Вони можуть виконувати всі адміністративні завдання, такі як додавання нових сайтів для моніторингу, додавання користувачів, зміна прав доступу користувачів, активація і деактивація плагінів і навіть встановлення нових плагінів з Маркету.",
@@ -63,6 +66,7 @@
         "ThereAreCurrentlyNRegisteredUsers": "Зараз налічується %s зареєстрованих користувачів.",
         "TokenAuth": "API перевірка автентичності Токенів",
         "TokenRegenerateTitle": "Регенерувати",
+        "TwoFactorAuthentication": "Двоетапна перевірка",
         "TypeYourPasswordAgain": "Введіть ваш новий пароль знову.",
         "User": "Користувач",
         "UserHasNoPermission": "%1$s в даний час має %2$s до %3$s",

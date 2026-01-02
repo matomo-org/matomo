@@ -54,7 +54,7 @@ class PluginListTest extends \PHPUnit\Framework\TestCase
     {
         $pluginList = $this->makePluginList();
         $sorted = $pluginList->sortPluginsAndRespectDependencies(array(
-            'UsersManager', 'MyCustomPlugin', 'ExampleCommand', 'MyCustomPlugin2', 'CoreHome', 'Abcdef'
+            'UsersManager', 'MyCustomPlugin', 'ExampleCommand', 'MyCustomPlugin2', 'CoreHome', 'Abcdef',
         ));
         $this->assertSame(array(
             'CoreHome', // core plugins loaded first
@@ -71,7 +71,7 @@ class PluginListTest extends \PHPUnit\Framework\TestCase
         $pluginJsonInfo = array(
             'Abcdef' => array('require' => array('MyCustomPlugin2' => '2.2.1')),
             'MyCustomPlugin2' => array('require' => array('CoreHome' => '4.2.1', 'MyCustomPlugin3' => '3.0.3')),
-            'fooBar' => array('require' => array('Ast' => '1.2.1', 'MyCustomPlugin3' => '3.0.3'))
+            'fooBar' => array('require' => array('Ast' => '1.2.1', 'MyCustomPlugin3' => '3.0.3')),
         );
 
         $pluginList = $this->makePluginList();

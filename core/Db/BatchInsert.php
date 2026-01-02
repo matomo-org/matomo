@@ -114,7 +114,7 @@ class BatchInsert
                     },
                     'eol'              => "\r\n",
                     'null'             => 'NULL',
-                    'charset'          => $charset
+                    'charset'          => $charset,
                 );
 
                 self::createCSVFile($filePath, $fileSpec, $values);

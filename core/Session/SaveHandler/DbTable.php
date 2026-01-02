@@ -90,7 +90,7 @@ class DbTable implements \SessionHandlerInterface
     public function read($id)
     {
         $id = $this->hashSessionId($id);
-        $sql = 'SELECT ' . $this->config['dataColumn'] . ' FROM ' . $this->config['name']
+        $sql = 'SELECT ' . $this->config['dataColumn'] . ' FROM `' . $this->config['name'] . '`'
             . ' WHERE ' . $this->config['primary'] . ' = ?'
             . ' AND ' . $this->config['modifiedColumn'] . ' + ' . $this->config['lifetimeColumn'] . ' >= ?';
 
@@ -171,7 +171,7 @@ class DbTable implements \SessionHandlerInterface
     {
         $id = $this->hashSessionId($id);
 
-        $sql = 'DELETE FROM ' . $this->config['name'] . ' WHERE ' . $this->config['primary'] . ' = ?';
+        $sql = 'DELETE FROM `' . $this->config['name'] . '` WHERE ' . $this->config['primary'] . ' = ?';
 
         $this->query($sql, array($id));
 
@@ -188,7 +188,7 @@ class DbTable implements \SessionHandlerInterface
     #[\ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
-        $sql = 'DELETE FROM ' . $this->config['name']
+        $sql = 'DELETE FROM `' . $this->config['name'] . '`'
             . ' WHERE ' . $this->config['modifiedColumn'] . ' + ' . $this->config['lifetimeColumn'] . ' < ?';
 
         $this->query($sql, array(time()));

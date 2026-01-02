@@ -65,7 +65,7 @@ class Controller extends \Piwik\Plugin\Controller
             in_array($date, [
                 'today', date('Y-m-d'),
                 'yesterday', Date::factory('yesterday')->toString('Y-m-d'),
-                Date::factory('now', 'UTC+14')->toString('Y-m-d')
+                Date::factory('now', 'UTC+14')->toString('Y-m-d'),
             ])
         ) {
             $view->autoRefreshTodayReport = Config::getInstance()->General['multisites_refresh_after_seconds'];

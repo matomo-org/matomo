@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Aplicativo móvel",
         "MobileAppDescription": "Um aplicativo móvel nativo para iOS, Android ou qualquer outro sistema operacional móvel.",
+        "MobileAppLongDescription": "Rastreie a atividade do usuário dentro de aplicativos nativos iOS e Android. Os dados coletados podem incluir visualizações de tela, eventos no aplicativo, detalhes do dispositivo e sessões de usuário. Este mensurável é projetado para aplicativos que usam os SDKs móveis do Matomo.",
         "MobileApps": "Aplicativos móveis"
     }
 }

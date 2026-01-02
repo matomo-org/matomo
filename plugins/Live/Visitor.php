@@ -53,7 +53,7 @@ class Visitor implements VisitorInterface
 
         if (!$cache->contains($cacheId)) {
             $instances = [
-                new VisitorDetails() // needs to be first
+                new VisitorDetails(), // needs to be first
             ];
 
             /**
@@ -137,7 +137,7 @@ class Visitor implements VisitorInterface
                 'idvisitor',
                 'user_id',
                 'location_ip',
-                'config_id'
+                'config_id',
             );
 
             foreach ($toUnset as $keyName) {
@@ -204,7 +204,7 @@ class Visitor implements VisitorInterface
                 'outlink' => 'outlinkUrl',
                 'download' => 'downloadUrl',
                 'event' => 'eventUrl',
-                'action' => 'pageUrl'
+                'action' => 'pageUrl',
             );
             foreach ($flattenForActionType as $actionType => $flattenedKeyPrefix) {
                 if (

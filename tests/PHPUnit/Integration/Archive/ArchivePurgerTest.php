@@ -14,6 +14,7 @@ use Piwik\Config;
 use Piwik\DataAccess\ArchiveTableCreator;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Period\Month;
 use Piwik\Tests\Fixtures\RawArchiveDataWithTempAndInvalidated;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -83,6 +84,24 @@ class ArchivePurgerTest extends IntegrationTestCase
         $this->checkNoDuplicateArchives();
     }
 
+    public function testPurgeBrokenArchivesPurgesOnlyBrokenArchives()
+    {
+        $this->enableBrowserTriggeredArchiving();
+
+        $deletedRowCount = $this->archivePurger->purgeBrokenArchives(new Month($this->february));
+
+        self::$fixture->assertBrokenArchivesWithoutDoneFlagPurged($this->february);
+
+        self::$fixture->assertCustomRangesNotPurged($this->february, $includeTemporary = false);
+        self::$fixture->assertErrorInProgressArchivedNotPurged($this->february, $includeRecentInProgress = false);
+        self::$fixture->assertTemporaryArchivesNotPurged($this->january);
+        self::$fixture->assertErrorInProgressArchivesNotPurged($this->january);
+
+        $this->assertEquals(4 * RawArchiveDataWithTempAndInvalidated::ROWS_PER_ARCHIVE, $deletedRowCount);
+
+        $this->checkNoDuplicateArchives();
+    }
+
     public function testPurgeOutdatedArchivesPurgesCorrectTemporaryArchivesWhileKeepingNewerTemporaryArchivesWithBrowserTriggeringDisabled()
     {
         $this->disableBrowserTriggeredArchiving();
@@ -146,7 +165,7 @@ class ArchivePurgerTest extends IntegrationTestCase
             ['definition' => '9876fedc5432abcd', 'enable_only_idsite' => 0, 'hash' => Segment::getSegmentHash('9876fedc5432abcd')],
             ['definition' => 'hash3', 'enable_only_idsite' => 0, 'hash' => Segment::getSegmentHash('hash3')],
             // This segment also has archives for idsite = 1, which will be retained
-            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 2, 'hash' => Segment::getSegmentHash('abcd1234abcd5678')]
+            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 2, 'hash' => Segment::getSegmentHash('abcd1234abcd5678')],
         ];
 
         //Archive #29 also has a deleted segment but it's before the purge threshold so it stays for now.
@@ -162,7 +181,7 @@ class ArchivePurgerTest extends IntegrationTestCase
 
         $segmentsToDelete = [
             // This segment also has archives for idsite = 1, which will be retained
-            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 0, 'idsites_to_preserve' => [2], 'hash' => Segment::getSegmentHash('abcd1234abcd5678')]
+            ['definition' => 'abcd1234abcd5678', 'enable_only_idsite' => 0, 'idsites_to_preserve' => [2], 'hash' => Segment::getSegmentHash('abcd1234abcd5678')],
         ];
 
         // Archives for idsite=1 should be purged, but those for idsite=2 can stay
@@ -174,7 +193,7 @@ class ArchivePurgerTest extends IntegrationTestCase
     public function testPurgeNoSegmentArchivesBlankSegmentName()
     {
         $segmentsToDelete = array(
-            array('definition' => '', 'enable_only_idsite' => 0)
+            array('definition' => '', 'enable_only_idsite' => 0),
         );
 
         // Should not purge all the "done%" archives!

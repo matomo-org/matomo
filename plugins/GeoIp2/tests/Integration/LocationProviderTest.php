@@ -111,7 +111,7 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals([
             'isp' => 'Matomo Internet',
-            'org' => 'Innocraft'
+            'org' => 'Innocraft',
         ], $result);
     }
 
@@ -161,7 +161,7 @@ class LocationProviderTest extends \PHPUnit\Framework\TestCase
             'region_code' => 'BFC',
             'region_name' => 'Bourgogne-Franche-Comte',
             'isp' => 'Matomo Internet',
-            'org' => 'Innocraft'
+            'org' => 'Innocraft',
         ], $result);
     }
 

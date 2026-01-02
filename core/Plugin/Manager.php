@@ -308,7 +308,7 @@ class Manager
     /**
      * Returns `true` if plugin is loaded (in memory).
      *
-     * @param string $name Name of plugin, eg, `'Acions'`.
+     * @param string $name Name of plugin, eg, `'Actions'`.
      * @return bool
      * @api
      */
@@ -614,6 +614,12 @@ class Manager
         return $components;
     }
 
+    /**
+     * @template T of object
+     * @param string $directoryWithinPlugin
+     * @param class-string<T> $expectedSubclass
+     * @return array<class-string<T>>
+     */
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
     {
         $plugins = $this->getPluginsLoadedAndActivated();

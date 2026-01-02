@@ -23,6 +23,7 @@
       type="text"
       tabindex="2"
       v-focus-if="{ focused: searchActive }"
+      v-tooltips
       :title="quickAccessTitle"
       :placeholder="translate('General_Search')"
       ref="input"
@@ -105,6 +106,7 @@ import SitesStore from '../SiteSelector/SitesStore';
 import Site from '../SiteSelector/Site';
 import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
+import Tooltips from '../Tooltips/Tooltips';
 
 const { ListingFormatter } = window;
 
@@ -158,6 +160,7 @@ export default defineComponent({
   directives: {
     FocusAnywhereButHere,
     FocusIf,
+    Tooltips,
   },
   watch: {
     searchActive(newValue: boolean) {

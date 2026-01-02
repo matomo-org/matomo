@@ -68,7 +68,11 @@ class UserAccessFilterTest extends IntegrationTestCase
 
         $this->filter = new UserAccessFilter($this->model, $this->access);
         $method = new \ReflectionMethod($this->filter, 'isNonSuperUserAllowedToSeeThisLogin');
-        $method->setAccessible(true);
+
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+
         $this->isNonSuperUserAllowedToSeeThisLogin = $method;
     }
 

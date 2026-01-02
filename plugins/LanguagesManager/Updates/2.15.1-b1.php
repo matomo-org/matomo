@@ -28,7 +28,7 @@ class Updates_2_15_1_b1 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('user_language', 'use_12_hour_clock', 'TINYINT(1) NOT NULL DEFAULT 0', 'language')
+            $this->migration->db->addColumn('user_language', 'use_12_hour_clock', 'TINYINT(1) NOT NULL DEFAULT 0', 'language'),
         );
     }
 

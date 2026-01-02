@@ -103,7 +103,7 @@ class ReferrerUrlTest extends IntegrationTestCase
 
             // ensure custom url still keep those parameters
             ['http://www.example.com/index.php?s=test&e=val&h=param&cvid=custom',
-                'http://www.example.com/index.php?s=test&e=val&h=param&cvid=custom']
+                'http://www.example.com/index.php?s=test&e=val&h=param&cvid=custom'],
         ];
     }
 

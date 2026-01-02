@@ -232,7 +232,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
     {
         $input = array(
             array('nb_visits' => 6, 'nb_random' => 8),
-            array('nb_visits' => 3, 'nb_random' => 4)
+            array('nb_visits' => 3, 'nb_random' => 4),
         );
 
         $response = $this->builder->renderArray($input);
@@ -327,7 +327,7 @@ class XmlRendererTest extends \PHPUnit\Framework\TestCase
             "thirdElement" => array(
                 "firstElement"  => "isFirst",
                 "secondElement" => "isSecond",
-            )
+            ),
         );
 
         $actual = $this->builder->renderArray($input);

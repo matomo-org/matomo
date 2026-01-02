@@ -22,7 +22,7 @@ class ContentInteraction extends ActionDimension
     protected $columnName = 'idaction_content_interaction';
     protected $columnType = 'INTEGER(10) UNSIGNED DEFAULT NULL';
     protected $type = self::TYPE_TEXT;
-    protected $acceptValues = 'The type of interaction with the content. For instance "click" or "submit".';
+    protected $acceptValues = 'Contents_ContentInteractionSegmentHelp';
     protected $segmentName = 'contentInteraction';
     protected $nameSingular = 'Contents_ContentInteraction';
     protected $namePlural = 'Contents_ContentInteractions';

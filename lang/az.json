@@ -1,11 +1,20 @@
 {
     "General": {
-        "Actions": "hərəkətlər",
+        "12HourClock": "12 saatlıq vaxt rejimi",
+        "24HourClock": "24 saatlıq vaxt rejimi",
+        "AIAssistants": "Sİ Yardımçısı",
+        "API": "API",
+        "AboutPiwikX": "Matomo %s haqqında",
+        "Action": "Əməliyyat",
+        "Actions": "Əməliyyatlar",
         "Add": "Əlavə et",
+        "AfterEntry": "bura daxil olandan sonra",
+        "All": "Hamısı",
         "AllWebsitesDashboard": "Bütün saytların lövhəsi",
         "And": "və",
-        "API": "API",
+        "AnyPositiveInteger": "İstənilən müsbət tam ədəd",
         "Apply": "Tətbiq et",
+        "BackToPiwik": "Matomoya qayıt",
         "Cancel": "Ləğv et",
         "ChangePassword": "Şifrəni Dəyiş",
         "Close": "Bağla",
@@ -68,7 +77,7 @@
         "RatingNotNow": "Hal Hazırda Yox",
         "RatingNow": "Yaxşı, Mən indi qiymətləndirəcəm",
         "ShowAll": "Hamısını göstər",
-        "TryIt": "Cəhd Et"
+        "TryIt": "Yoxla!"
     },
     "RowEvolution": {
         "CompareRows": "Qeydləri müqayisə et"

@@ -61,7 +61,7 @@ class RssExportTest extends SystemTestCase
                     'otherRequestParameters' => [
                         'pageUrl' => '/sub1/sub2/sub3/index',
                     ],
-                    'testSuffix'             => '_subdir'
+                    'testSuffix'             => '_subdir',
                 ],
             ],
             [
@@ -74,7 +74,7 @@ class RssExportTest extends SystemTestCase
                         'pageUrl' => '/page',
                         'date'                   => 'last7',
                     ],
-                    'testSuffix'             => '_empty'
+                    'testSuffix'             => '_empty',
                 ],
             ],
             [
@@ -87,7 +87,7 @@ class RssExportTest extends SystemTestCase
                         'pageUrl' => '/page',
                         'date'                   => 'last3',
                     ],
-                    'testSuffix'             => '_empty'
+                    'testSuffix'             => '_empty',
                 ],
             ],
         ];

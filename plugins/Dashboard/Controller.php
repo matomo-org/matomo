@@ -203,7 +203,7 @@ class Controller extends \Piwik\Plugin\Controller
             array(100),
             array(50, 50), array(67, 33), array(33, 67),
             array(33, 33, 33), array(40, 30, 30), array(30, 40, 30), array(30, 30, 40),
-            array(25, 25, 25, 25)
+            array(25, 25, 25, 25),
         );
     }
 }

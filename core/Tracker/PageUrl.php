@@ -28,7 +28,7 @@ class PageUrl
         'http://www.'  => 1,
         'http://'      => 0,
         'https://www.' => 3,
-        'https://'     => 2
+        'https://'     => 2,
     );
 
     /**
@@ -76,7 +76,7 @@ class PageUrl
      */
     public static function getQueryParametersToExclude($idSite)
     {
-        $campaignTrackingParameters = Common::getCampaignParameters();
+        $campaignTrackingParameters = Common::getCampaignParameters(intval($idSite), $skipCompliancePolicyCheck = true);
 
         $campaignTrackingParameters = array_merge(
             $campaignTrackingParameters[0], // campaign name parameters
@@ -396,7 +396,7 @@ class PageUrl
             if (strtolower(substr($url, 0, strlen($prefix))) == $prefix) {
                 return array(
                     'url'      => substr($url, strlen($prefix)),
-                    'prefixId' => $id
+                    'prefixId' => $id,
                 );
             }
         }

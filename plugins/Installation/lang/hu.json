@@ -22,6 +22,7 @@
         "Optional": "Opcionális",
         "Password": "Jelszó",
         "PasswordDoNotMatch": "jelszó nem egyezik",
+        "PasswordRepeat": "Jelszó (ismét)",
         "PercentDone": "%s %% kész",
         "PleaseFixTheFollowingErrors": "Kérjük, javítsd a következő hibákat",
         "Requirements": "Matomo Rendszerkövetelmények",

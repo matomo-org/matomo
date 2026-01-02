@@ -56,24 +56,26 @@ class ApiTest extends SystemTestCase
         $logins = [
             'login1' => 'when_superuseraccess',
             'login2' => 'when_adminaccess',
-            'login4' => 'when_viewaccess'
+            'login4' => 'when_viewaccess',
         ];
 
         // login1 = super user, login2 = some admin access, login4 = only view access
         foreach ($logins as $login => $appendix) {
             $params['token_auth'] = self::$fixture->users[$login]['token'];
             $xmlFieldsToRemove = [
-              'date_registered',
-              'invite_token',
-              'invite_accept_at',
-              'invite_expired_at',
-              'last_seen',
-              'password',
-              'token_auth',
-              'ts_password_modified',
-              'idchange_last_viewed',
-              'invite_status',
-              'ts_changes_shown'
+                'date_registered',
+                'invite_token',
+                'invite_accept_at',
+                'invite_expired_at',
+                'last_seen',
+                'last_seen_ago',
+                'password',
+                'token_auth',
+                'ts_password_modified',
+                'idchange_last_viewed',
+                'invite_status',
+                'ts_changes_shown',
+                'ts_last_seen',
             ];
 
             $this->runAnyApiTest($api, $apiId . '_' . $appendix, $params, array('xmlFieldsToRemove' => $xmlFieldsToRemove));
@@ -83,12 +85,12 @@ class ApiTest extends SystemTestCase
     public function testGetUserPreferenceLoginIsOptional()
     {
         $response = Request::processRequest('UsersManager.getUserPreference', array(
-            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT,
         ));
         $this->assertEquals('1', $response);
 
         $response = Request::processRequest('UsersManager.getUserPreference', array(
-            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE,
         ));
         $this->assertEquals('yesterday', $response);
     }
@@ -97,14 +99,14 @@ class ApiTest extends SystemTestCase
     {
         $response = Request::processRequest('UsersManager.getUserPreference', array(
             'userLogin' => Piwik::getCurrentUserLogin(),
-            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE,
         ));
         $this->assertEquals('yesterday', $response);
 
         // user not exists
         $response = Request::processRequest('UsersManager.getUserPreference', array(
             'userLogin' => 'foo',
-            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE
+            'preferenceName' => API::PREFERENCE_DEFAULT_REPORT_DATE,
         ));
         $this->assertEquals('yesterday', $response);
     }

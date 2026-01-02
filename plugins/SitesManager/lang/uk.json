@@ -25,6 +25,7 @@
         "ExcludedIps": "Виключені IP",
         "ExcludedParameters": "Виключені параметри",
         "ExcludedUserAgents": "Виключені User Agents",
+        "ExclusionTypeOptionCustom": "Користувацький",
         "GlobalExcludedUserAgentHelp1": "Введіть список користувацьких агентів, щоб виключити відстеження за допомогою Matomo.",
         "GlobalExcludedUserAgentHelp2": "Ви можете використовувати це, щоб виключити відстеження якихось ботів.",
         "GlobalListExcludedIps": "Загальний список виключених IP",

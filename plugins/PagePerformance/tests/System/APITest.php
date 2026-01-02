@@ -46,8 +46,8 @@ class APITest extends SystemTestCase
                 'idSite'     => 1,
                 'date'       => self::$fixture->dateTime,
                 'periods'    => array('day', 'month'),
-                'testSuffix' => ''
-            )
+                'testSuffix' => '',
+            ),
         );
 
         return $apiToTest;

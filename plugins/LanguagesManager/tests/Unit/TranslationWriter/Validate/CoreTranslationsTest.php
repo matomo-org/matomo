@@ -23,10 +23,10 @@ class CoreTranslationsTest extends \PHPUnit\Framework\TestCase
                 array(
                     'General' => array_merge(array_fill(0, 251, 'test'), array(
                                                                               'Locale'          => 'de_DE.UTF-8',
-                                                                              'TranslatorName'  => 'name'
-                                                                         ))
+                                                                              'TranslatorName'  => 'name',
+                                                                         )),
                 ),
-            )
+            ),
         );
     }
 
@@ -47,45 +47,45 @@ class CoreTranslationsTest extends \PHPUnit\Framework\TestCase
             array(
                 array(
                     'General' => array(
-                        'bla' => 'test text'
-                    )
+                        'bla' => 'test text',
+                    ),
                 ),
-                CoreTranslations::ERRORSTATE_LOCALEREQUIRED
+                CoreTranslations::ERRORSTATE_LOCALEREQUIRED,
             ),
             array(
                 array(
                     'General' => array(
-                        'Locale' => 'de_DE.UTF-8'
-                    )
+                        'Locale' => 'de_DE.UTF-8',
+                    ),
                 ),
-                CoreTranslations::ERRORSTATE_TRANSLATORINFOREQUIRED
+                CoreTranslations::ERRORSTATE_TRANSLATORINFOREQUIRED,
             ),
             array(
                 array(
                     'General' => array(
                         'Locale' => 'invalid',
-                        'TranslatorName' => 'name'
-                    )
+                        'TranslatorName' => 'name',
+                    ),
                 ),
-                CoreTranslations::ERRORSTATE_LOCALEINVALID
+                CoreTranslations::ERRORSTATE_LOCALEINVALID,
             ),
             array(
                 array(
                     'General' => array(
                         'Locale' => 'xx_DE.UTF-8',
-                        'TranslatorName' => 'name'
-                    )
+                        'TranslatorName' => 'name',
+                    ),
                 ),
-                CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE
+                CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE,
             ),
             array(
                 array(
                     'General' => array(
                         'Locale' => 'de_XX.UTF-8',
-                        'TranslatorName' => 'name'
-                    )
+                        'TranslatorName' => 'name',
+                    ),
                 ),
-                CoreTranslations::ERRORSTATE_LOCALEINVALIDCOUNTRY
+                CoreTranslations::ERRORSTATE_LOCALEINVALIDCOUNTRY,
             ),
         );
     }

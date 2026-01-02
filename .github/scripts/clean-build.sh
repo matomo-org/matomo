@@ -111,10 +111,6 @@ rm -rf node_modules/chroma-js/test
 
 rm -rf node_modules/iframe-resizer/js/iframeResizer.contentWindow.js
 rm -rf node_modules/iframe-resizer/js/iframeResizer.js
-rm -rf node_modules/iframe-resizer/src/ie8.polyfils.js
-rm -rf node_modules/iframe-resizer/src/iframeResizer.contentWindow.js
-rm -rf node_modules/iframe-resizer/src/iframeResizer.js
-rm -rf node_modules/iframe-resizer/test-main.js
 
 rm -rf node_modules/jquery/dist/jquery.js
 rm -rf node_modules/jquery/src
@@ -205,7 +201,7 @@ for x in .gitignore .gitmodules .gitattributes .git-blame-ignore-revs .bowerrc .
     .phpstorm.meta.php .lfsconfig .travis.sh tsconfig.json tsconfig.spec.json \
     .eslintrc.js .eslintignore .eslintrc .browserslistrc babel.config.js jest.config.js \
     karma.conf.js karma-conf.js vue.config.js .npmignore .ncurc.json .prettierrc .jscsrc \
-    phpstan.neon phpstan.neon.dist package.xml .stylelintrc.json; do
+    phpstan.neon phpstan.neon.dist phpstan-baseline.neon package.xml .stylelintrc.json; do
     find . -name "$x" -exec rm -f {} \;
 done
 

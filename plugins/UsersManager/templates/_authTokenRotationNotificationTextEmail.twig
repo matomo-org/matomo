@@ -3,9 +3,14 @@
 
 {{ 'UsersManager_AuthTokenNotificationEmailReminder'|translate(rotationPeriod) }}
 
-{{ 'UsersManager_AuthTokenNotificationEmail01'|translate('<strong>', rotationPeriod, '</strong>')|raw }}
+{{ 'UsersManager_AuthTokenNotificationEmail01All'|translate(rotationPeriod) }}
 
-{{ 'UsersManager_AuthTokenNotificationEmail02'|translate('<strong>', tokenName, '</strong>', '<strong>', tokenCreationDate, '</strong>')|raw }}
+{{ 'UsersManager_AuthTokenNotificationEmail02All'|translate(instanceUrl, rotationPeriod) }}
+
+{{ 'UsersManager_TokenDescription'|translate }} | {{ 'UsersManager_TokenCreationDate'|translate }}
+{% for token in tokens %}
+{{ token.tokenName }} | {{ token.tokenDate|date("Y-m-d") }}
+{% endfor %}
 
 {{ 'UsersManager_AuthTokenNotificationEmail03'|translate }}
 

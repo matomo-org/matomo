@@ -132,6 +132,7 @@ The\nOutput', $response);
             array('-test()', '\'-test()'),
             array('-te,st()', '"\'-te,st()"'),
             array('-te"st()', '"\'-te""st()"'),
+            array("value\nbreak", "\"value\nbreak\""),
 
             // we do not need to prefix with quote
             array('1', '1'),
@@ -260,7 +261,7 @@ string
     {
         $input = array(
             array('nb_visits' => 6, 'nb_random' => 8),
-            array('nb_visits' => 3, 'nb_random' => 4)
+            array('nb_visits' => 3, 'nb_random' => 4),
         );
 
         $response = $this->builder->renderArray($input);
@@ -340,7 +341,7 @@ firstElement,secondElement,
             "thirdElement" => array(
                 "firstElement"  => "isFirst",
                 "secondElement" => "isSecond",
-            )
+            ),
         );
 
         $this->builder->renderArray($input);

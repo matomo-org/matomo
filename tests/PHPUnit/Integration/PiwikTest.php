@@ -148,7 +148,7 @@ class PiwikTest extends IntegrationTestCase
             array(array(4 => 'a', 5 => 'a', 6 => 'a', 7 => 'a', 8 => 'a'), true),
             array(array(0 => 'a', 2 => 'a', 3 => 'a', 4 => 'a', 5 => 'a'), true),
             array(array('abc' => 'a', 0 => 'b', 'sdfds' => 'd'), true),
-            array(array('abc' => 'def'), true)
+            array(array('abc' => 'def'), true),
         );
     }
 

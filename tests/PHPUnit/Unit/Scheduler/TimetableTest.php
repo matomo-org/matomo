@@ -50,7 +50,7 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
                     'CoreAdminHome.purgeOutdatedArchives' => 1355529607,
                     'PrivacyManager.deleteReportData'     => 1355529607,
                 ),
-                'a:2:{s:35:"CoreAdminHome.purgeOutdatedArchives";i:1355529607;s:31:"PrivacyManager.deleteReportData";i:1355529607;}'
+                'a:2:{s:35:"CoreAdminHome.purgeOutdatedArchives";i:1355529607;s:31:"PrivacyManager.deleteReportData";i:1355529607;}',
             ),
         );
     }
@@ -104,7 +104,7 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
         return array(
             array(true, 'CoreAdminHome.purgeOutdatedArchives', $this->timetable),
             array(true, 'PrivacyManager.deleteReportData_1', $this->timetable),
-            array(false, 'ScheduledReports.weeklySchedule"', $this->timetable)
+            array(false, 'ScheduledReports.weeklySchedule"', $this->timetable),
         );
     }
 
@@ -132,7 +132,7 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
         return array(
             array(1355529607, 'CoreAdminHome', 'purgeOutdatedArchives', null, $timetable),
             array(1322229607, 'PrivacyManager', 'deleteReportData', 1, $timetable),
-            array(false, 'ScheduledReports', 'weeklySchedule', null, $timetable)
+            array(false, 'ScheduledReports', 'weeklySchedule', null, $timetable),
         );
     }
 
@@ -152,7 +152,7 @@ class TimetableTest extends \PHPUnit\Framework\TestCase
         return array(
             array(false, 'CoreAdminHome.purgeOutdatedArchives', $timetable),
             array(true, 'PrivacyManager.deleteReportData_1', $timetable),
-            array(false, 'ScheduledReports.weeklySchedule"', $timetable)
+            array(false, 'ScheduledReports.weeklySchedule"', $timetable),
         );
     }
 

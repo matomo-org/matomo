@@ -55,7 +55,7 @@ class Controller extends \Piwik\Plugin\Controller
         $this->setBasicVariablesView($view);
 
         $view->properties = array(
-            'order_by' => InsightReport::ORDER_BY_ABSOLUTE
+            'order_by' => InsightReport::ORDER_BY_ABSOLUTE,
         );
 
         return $view;

@@ -112,7 +112,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
             null,
             null,
             ArchiveState::INCOMPLETE,
-            ArchiveState::INCOMPLETE
+            ArchiveState::INCOMPLETE,
         ];
 
         yield 'yesterday, all ok' => [
@@ -120,7 +120,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
             null,
             null,
             ArchiveState::COMPLETE,
-            ArchiveState::COMPLETE
+            ArchiveState::COMPLETE,
         ];
 
         yield 'today, everything invalidated' => [
@@ -128,7 +128,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
             null,
             [],
             ArchiveState::INCOMPLETE,
-            ArchiveState::INVALIDATED
+            ArchiveState::INVALIDATED,
         ];
 
         yield 'yesterday, everything invalidated' => [
@@ -136,7 +136,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
             null,
             [],
             ArchiveState::COMPLETE,
-            ArchiveState::INVALIDATED
+            ArchiveState::INVALIDATED,
         ];
 
         yield 'segmented, everything invalidated' => [
@@ -144,7 +144,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
             'visitorType==new',
             [],
             ArchiveState::COMPLETE,
-            ArchiveState::INVALIDATED
+            ArchiveState::INVALIDATED,
         ];
 
         yield 'segmented, partially invalidated' => [
@@ -152,7 +152,7 @@ class ArchiveStateMetadataTest extends IntegrationTestCase
             'visitorType==new',
             ['Goals'],
             ArchiveState::COMPLETE,
-            ArchiveState::INVALIDATED
+            ArchiveState::INVALIDATED,
         ];
     }
 

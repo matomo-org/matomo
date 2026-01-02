@@ -180,7 +180,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $fields = array(
             'MyPlugin.field1' => 3,
             'MyPlugin.field2' => '3983',
-            'MyPlugin.field3' => 0.235
+            'MyPlugin.field3' => 0.235,
         );
 
         $writer = $this->buildWriter($period, $date);
@@ -269,7 +269,7 @@ class ArchiveWriterTest extends IntegrationTestCase
         $params  = new Parameters(new Site($this->idSite), $oPeriod, $segment);
         if ($isPartial) {
             $params->setRequestedPlugin('ExamplePlugin');
-            $params->setIsPartialArchive(true);
+            $params->setArchiveOnlyReport('report');
         }
         $writer  = new TestArchiveWriter($params);
         return $writer;

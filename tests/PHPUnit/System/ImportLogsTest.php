@@ -102,9 +102,9 @@ class ImportLogsTest extends SystemTestCase
             'date'    => '2012-08-09,2014-04-01',
             'periods' => 'range',
             'otherRequestParameters' => array(
-                'filter_limit' => 1000
+                'filter_limit' => 1000,
             ),
-            'xmlFieldsToRemove' => array('fingerprint')
+            'xmlFieldsToRemove' => array('fingerprint'),
         ));
 
         // imported via --replay-tracking --idsite=3  should ignore idSite from logs and use fixed idSite instead
@@ -113,9 +113,9 @@ class ImportLogsTest extends SystemTestCase
             'date'    => '2012-08-09,2014-04-01',
             'periods' => 'range',
             'otherRequestParameters' => array(
-                'filter_limit' => 1000
+                'filter_limit' => 1000,
             ),
-            'testSuffix' => '_siteIdThree_TrackedUsingLogReplayWithFixedSiteId'
+            'testSuffix' => '_siteIdThree_TrackedUsingLogReplayWithFixedSiteId',
         ));
 
         return $apis;
@@ -162,7 +162,7 @@ class ImportLogsTest extends SystemTestCase
             '--idsite'                    => self::$fixture->idSite,
             '--token-auth'                => Fixture::getTokenAuth(),
             '--retry-max-attempts'        => 5,
-            '--retry-delay'               => 1
+            '--retry-delay'               => 1,
         );
 
         $output = Fixture::executeLogImporter($logFile, $options, $allowFailure = true);

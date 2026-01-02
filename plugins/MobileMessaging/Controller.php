@@ -70,7 +70,7 @@ class Controller extends ControllerAdmin
         $view->accountManagedByCurrentUser = $view->isSuperUser || $view->delegatedManagement;
         $view->strHelpAddPhone = $this->translator->translate('MobileMessaging_Settings_PhoneNumbers_HelpAdd', array(
             $this->translator->translate('General_Settings'),
-            $this->translator->translate('MobileMessaging_SettingsMenu')
+            $this->translator->translate('MobileMessaging_SettingsMenu'),
         ));
         $view->credentialError = null;
         $view->creditLeft = 0;
@@ -91,7 +91,7 @@ class Controller extends ControllerAdmin
                                    Piwik::translate('MobileMessaging_Settings_LetUsersManageAPICredential_No_Help')),
             array('key' => '1',
                   'value' => Piwik::translate('General_Yes'),
-                  'description' => Piwik::translate('MobileMessaging_Settings_LetUsersManageAPICredential_Yes_Help'))
+                  'description' => Piwik::translate('MobileMessaging_Settings_LetUsersManageAPICredential_Yes_Help')),
         );
 
         $providers = array();
@@ -126,7 +126,7 @@ class Controller extends ControllerAdmin
 
                 $countries[] = array(
                     'key' => CountryCallingCodes::$countryCallingCodes[$countryCode],
-                    'value' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode)
+                    'value' => \Piwik\Plugins\UserCountry\countryTranslate($countryCode),
                 );
             }
         }

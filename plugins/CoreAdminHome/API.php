@@ -461,7 +461,7 @@ class API extends \Piwik\Plugin\API
 
         $model = new UsersModel();
         $user = $model->getUser(Piwik::getCurrentUserLogin());
-        if (is_array($user)) {
+        if (!empty($user)) {
             $userChanges = new UserChanges($user);
             $userChanges->markChangesAsRead();
             return true;

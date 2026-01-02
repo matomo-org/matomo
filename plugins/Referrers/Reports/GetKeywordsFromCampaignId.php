@@ -23,7 +23,7 @@ class GetKeywordsFromCampaignId extends Base
         $this->name          = Piwik::translate('Referrers_Campaigns');
         $this->documentation = Piwik::translate(
             'Referrers_CampaignsReportDocumentation',
-            ['<br />', '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/tracking-campaigns/') . '" rel="noreferrer noopener" target="_blank">', '</a>']
+            ['<br />', Url::getExternalLinkTag('https://matomo.org/docs/tracking-campaigns/'), '</a>']
         );
         $this->isSubtableReport = true;
         $this->order = 10;

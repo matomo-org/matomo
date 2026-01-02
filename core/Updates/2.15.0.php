@@ -28,7 +28,7 @@ class Updates_2_15_0 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->plugin->activate('Heartbeat')
+            $this->migration->plugin->activate('Heartbeat'),
         );
     }
 

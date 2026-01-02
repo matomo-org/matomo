@@ -27,6 +27,7 @@ class PerformanceColumns extends HtmlTable
     public function beforeRender()
     {
         parent::beforeRender();
+        $this->config->disable_row_evolution = true;
     }
 
     public static function canDisplayViewDataTable($viewDataTable)

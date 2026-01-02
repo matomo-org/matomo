@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s–%2$sm",
         "BetweenXYSeconds": "%1$s–%2$ss",
         "ColumnPagesPerVisit": "Faqe për vizitë",
+        "ColumnPercentageVisitsDocumentation": "Përqindja e vizitave gjithsej, kur vizitorët patën këtë sasi vizitash gjithsej.",
         "ColumnVisitDuration": "Kohëzgjatje vizite",
         "Engagement": "Angazhim",
         "NPages": "%s faqe",

@@ -23,6 +23,11 @@ use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Plugins\Goals\RecordBuilders\ProductRecord;
 use Piwik\Tracker\GoalManager;
 use Piwik\Category\Subcategory;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
+use Piwik\Segment\SegmentsList;
 
 /**
  *
@@ -111,6 +116,7 @@ class Goals extends \Piwik\Plugin
             'Metric.addComputedMetrics'              => 'addComputedMetrics',
             'System.addSystemSummaryItems'           => 'addSystemSummaryItems',
             'Archiver.addRecordBuilders'             => 'addRecordBuilders',
+            'Segment.filterSegments'                 => 'filterSegments',
         );
         return $hooks;
     }
@@ -236,7 +242,7 @@ class Goals extends \Piwik\Plugin
             'revenue_tax'       => 'General_Tax',
             'revenue_shipping'  => 'General_Shipping',
             'revenue_discount'  => 'General_Discount',
-            'avg_order_revenue' => 'General_AverageOrderValue'
+            'avg_order_revenue' => 'General_AverageOrderValue',
         );
 
         $metrics = array_map(array('\\Piwik\\Piwik', 'translate'), $metrics);
@@ -289,7 +295,7 @@ class Goals extends \Piwik\Plugin
         $goalMetrics = array(
             'nb_conversions'  => Piwik::translate('Goals_ColumnConversions'),
             'conversion_rate' => Piwik::translate('General_ColumnConversionRate'),
-            'revenue'         => Piwik::translate('General_ColumnRevenue')
+            'revenue'         => Piwik::translate('General_ColumnRevenue'),
         );
 
         $goalMetricTypes = [
@@ -405,7 +411,7 @@ class Goals extends \Piwik\Plugin
                     'name'     => $report->getName(),
                     'module'   => $report->getModule(),
                     'action'   => $report->getAction(),
-                    'parameters' => $report->getParameters()
+                    'parameters' => $report->getParameters(),
                 );
             }
         }
@@ -530,5 +536,26 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'General_Yes';
         $translationKeys[] = 'General_No';
         $translationKeys[] = 'General_OrCancel';
+        $translationKeys[] = 'Goals_GoalCreated';
+        $translationKeys[] = 'Goals_GoalUpdated';
+        $translationKeys[] = 'Goals_ViewGoalReport';
+    }
+
+    public function filterSegments(SegmentsList &$list, array $idSites)
+    {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $limitSegmentsSettingEnabled = false;
+            if (empty($idSites)) {
+                $limitSegmentsSettingEnabled = LimitSegments::getInstance()->getValue();
+            } else {
+                foreach ($idSites as $idsite) {
+                    $limitSegmentsSettingEnabled |= LimitSegments::getInstance($idsite)->getValue();
+                }
+            }
+            if ($limitSegmentsSettingEnabled) {
+                $list->remove('Goals_Conversion', 'orderId');
+            }
+        }
     }
 }

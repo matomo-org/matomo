@@ -41,7 +41,6 @@
         "Settings_ValidatePhoneNumber": "Verificar",
         "Settings_VerificationCodeJustSent": "Te acabamos de enviar un mensaje de texto a este número con un código. Por favor, ingresá ese código arriba y hacé clic en \"Validar\".",
         "TopLinkTooltip": "¡Obtené informes de análisis de tu sitio web enviados a tu casilla de correo electrónico o a tu teléfono celular!",
-        "TopMenu": "Informes por correo electrónico y mensajes de texto",
         "UserKey": "Clave de usuario",
         "VerificationText": "El código es: %1$s. Para validar tu número telefónico y recibir informes de Matomo vía mensajes de texto, por favor, copiá este código en el formulario que se encuentra en Matomo → %2$s → %3$s."
     }

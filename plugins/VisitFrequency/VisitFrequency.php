@@ -41,7 +41,7 @@ class VisitFrequency extends \Piwik\Plugin
             'bounce_rate_new'      => 'VisitFrequency_ColumnBounceRateForNewVisits',
             'nb_actions_per_visit_new' => 'VisitFrequency_ColumnAvgActionsPerNewVisit',
             'nb_uniq_visitors_new'     => 'VisitFrequency_ColumnUniqueNewVisitors',
-            'nb_users_new' => 'VisitFrequency_ColumnNewUsers'
+            'nb_users_new' => 'VisitFrequency_ColumnNewUsers',
         );
 
         $translations = array_merge($translations, $metrics);

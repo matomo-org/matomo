@@ -27,7 +27,7 @@ class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
             'datetime'   => DateTime::createFromFormat('U', 0),
             'level_name' => 'ERROR',
             'extra'      => array(
-                'class' => 'Foo'
+                'class' => 'Foo',
             ),
         );
 
@@ -45,7 +45,7 @@ class LineMessageFormatterTest extends \PHPUnit\Framework\TestCase
             'datetime'   => DateTime::createFromFormat('U', 0),
             'level_name' => 'ERROR',
             'extra'      => array(
-                'request_id' => 'request id'
+                'request_id' => 'request id',
             ),
         );
 
@@ -82,7 +82,7 @@ LOG;
             'message'    => "Hello world\ntest\ntest",
             'datetime'   => DateTime::createFromFormat('U', 0),
             'level_name' => 'ERROR',
-            'extra'      => array('request_id' => '1234')
+            'extra'      => array('request_id' => '1234'),
         );
 
         $formatted = <<<LOG

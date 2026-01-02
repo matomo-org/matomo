@@ -41,7 +41,6 @@
         "Settings_ValidatePhoneNumber": "Valider",
         "Settings_VerificationCodeJustSent": "En SMS med en kode har blitt sendt til dette nummeret. Skriv denne koden ovenfor og klikk «Bekreft».",
         "TopLinkTooltip": "Få vev-analyserapporter levert i innboksen til e-posten din, eller din mobiltelefon.",
-        "TopMenu": "E-post- og SMS-rapporter",
         "UserKey": "Brukernøkkel",
         "VerificationText": "Koden er %1$s. For å bekrefte telefonnummeret ditt og motta Matomo-SMS-rapporter kan du kopiere denne koden i skjemaet tilgjengelig i Matomo → %2$s → %3$s."
     }

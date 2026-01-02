@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\DevicesDetection\Columns;
 
+use Piwik\Plugins\DevicesDetection\DevicesDetection;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
@@ -27,11 +28,24 @@ class DeviceModel extends Base
      * @param Request $request
      * @param Visitor $visitor
      * @param Action|null $action
-     * @return mixed
+     * @return string
      */
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        $parser    = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
+        $parser = $this->getUAParser($request->getUserAgent(), $request->getClientHints());
+        $genericDevice = '';
+
+        $deviceType = $parser->getDeviceName();
+        if (!empty($deviceType)) {
+            $genericDevice = 'generic ' . $deviceType;
+        } elseif ($parser->isMobile()) {
+            $genericDevice = 'generic mobile';
+        }
+
+        // in privacy compliance mode, we can only detect/return generic device type, but not the model
+        if (DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($request->getIdSiteIfExists())) {
+            return $genericDevice;
+        }
 
         $model = $parser->getModel();
 
@@ -39,17 +53,7 @@ class DeviceModel extends Base
             return mb_substr($model, 0, 100);
         }
 
-        $deviceType = $parser->getDeviceName();
-
-        if (!empty($deviceType)) {
-            return 'generic ' . $deviceType;
-        }
-
-        if ($parser->isMobile()) {
-            return 'generic mobile';
-        }
-
-        return '';
+        return $genericDevice;
     }
 
     /**

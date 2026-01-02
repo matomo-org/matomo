@@ -1,6 +1,9 @@
 {
     "PrivacyManager": {
         "AnonymizeIpInlineHelp": "Anonymiser siste del av IPen til vitjarane for å overhalda lokale lovar og retningsliner for personvern.",
+        "ComplianceTableSettingStatus": "Status",
+        "GDPR": "GDPR",
+        "IPAddress": "IP-adresse",
         "KeepBasicMetrics": "Behald standardverdiar (vitjingar, sidevisningar, hoppfrekvens, målkonverteringar, netthandelkonverteringar, osb)"
     }
 }

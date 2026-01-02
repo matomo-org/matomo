@@ -106,8 +106,8 @@ class WriterTest extends \PHPUnit\Framework\TestCase
             [['General' => ['Locale' => 'de_DE.UTF-8']] + $translations, CoreTranslations::ERRORSTATE_TRANSLATORINFOREQUIRED],
             [['General' => [
                      'Locale'         => 'invalid',
-                     'TranslatorName' => 'name'
-                 ]
+                     'TranslatorName' => 'name',
+                 ],
                   ] + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALID],
             [['General' => ['Locale' => 'xx_DE.UTF-8',
                                            'TranslatorName' => 'name']] + $translations, CoreTranslations::ERRORSTATE_LOCALEINVALIDLANGUAGE],
@@ -152,7 +152,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
 
         $translationsToWrite['General']['Yes'] = 'string with %1$s';
         $translationsToWrite['Plugin'] = [
-            'Body' => "Message\nBody"
+            'Body' => "Message\nBody",
         ];
 
         $translationWriter = new Writer('fr');

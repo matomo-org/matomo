@@ -25,6 +25,7 @@
         "ExcludedIps": "Wykluczone adresy IP",
         "ExcludedParameters": "Wykluczone parametry",
         "ExcludedUserAgents": "Wykluczone User Agent",
+        "ExclusionTypeOptionCustom": "Dostosowane",
         "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Wprowadź listę user agent'ów, które mają zostać wykluczone ze śledzenia przez Matomo.",
         "GlobalExcludedUserAgentHelp2": "Możesz użyć tej funkcjonalności, aby wykluczyć ze śledzenia niektóre boty.",

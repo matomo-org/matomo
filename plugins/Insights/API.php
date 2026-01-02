@@ -140,7 +140,7 @@ class API extends \Piwik\Plugin\API
 
         $defaultParams = array(
             'limitIncreaser' => 4,
-            'limitDecreaser' => 4
+            'limitDecreaser' => 4,
         );
 
         $map = $this->generateOverviewReport('getMoversAndShakers', $idSite, $period, $date, $segment, $defaultParams);

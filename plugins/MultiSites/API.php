@@ -66,7 +66,7 @@ class API extends \Piwik\Plugin\API
             self::METRIC_RECORD_NAME_KEY        => self::NB_ACTIONS_METRIC,
             self::METRIC_COL_NAME_KEY           => self::NB_ACTIONS_METRIC,
             self::METRIC_IS_ECOMMERCE_KEY       => false,
-        ]
+        ],
     ];
 
     protected $autoSanitizeInputParams = false;
@@ -178,7 +178,7 @@ class API extends \Piwik\Plugin\API
                 [
                     'pattern' => $pattern,
                     'limit'   => SettingsPiwik::getWebsitesCountToDisplay(),
-                    'format'  => 'original'
+                    'format'  => 'original',
                 ],
                 []
             );
@@ -268,7 +268,7 @@ class API extends \Piwik\Plugin\API
             'numSites' => $dashboard->getNumSites(),
             'totals'   => $dashboard->getTotals(),
             'lastDate' => $dashboard->getLastDate(),
-            'sites'    => $dashboard->getSites($request, $filter_limit)
+            'sites'    => $dashboard->getSites($request, $filter_limit),
         ];
 
         return $response;
@@ -353,7 +353,7 @@ class API extends \Piwik\Plugin\API
                     return '';
                 }
                 return Site::getGroupFor($idSite);
-            }, []
+            }, [],
         ]);
         $dataTable->queueFilter('MetadataCallbackAddMetadata', [
             'idsite', 'main_url', function ($idSite) {
@@ -361,7 +361,7 @@ class API extends \Piwik\Plugin\API
                     return '';
                 }
                 return Site::getMainUrlFor($idSite);
-            }, []
+            }, [],
         ]);
 
         // set the label of each row to the site name
@@ -372,7 +372,7 @@ class API extends \Piwik\Plugin\API
                         return Piwik::translate('General_Others');
                     }
                     return Site::getNameFor($idSite);
-                }
+                },
             ]);
         } else {
             $dataTable->queueFilter('ColumnDelete', ['label']);
@@ -392,7 +392,7 @@ class API extends \Piwik\Plugin\API
                     self::NB_VISITS_METRIC,
                     function ($value) {
                         return $value == 0;
-                    }
+                    },
                 ]
             );
         }
@@ -672,7 +672,7 @@ class API extends \Piwik\Plugin\API
         return in_array($metricSettings[self::METRIC_EVOLUTION_COL_NAME_KEY], [
             self::GOAL_REVENUE_METRIC . '_evolution',
             self::ECOMMERCE_ORDERS_METRIC . '_evolution',
-            self::ECOMMERCE_REVENUE_METRIC . '_evolution'
+            self::ECOMMERCE_REVENUE_METRIC . '_evolution',
         ]);
     }
 }

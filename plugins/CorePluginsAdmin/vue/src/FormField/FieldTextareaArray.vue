@@ -9,12 +9,13 @@
   <!-- note: @change is used in case the change event is programmatically triggered -->
   <div>
     <label
-      :for="name"
+      :for="id"
       v-html="$sanitize(title)"
     ></label>
     <textarea
       ref="textarea"
       :name="name"
+      :id="id"
       v-bind="uiControlAttributes"
       :value="concattedValue"
       @keydown="onKeydown($event)"
@@ -35,6 +36,7 @@ export default defineComponent({
   props: {
     name: String,
     title: String,
+    id: String,
     uiControlAttributes: Object,
     modelValue: [Array, String],
     modelModifiers: Object,

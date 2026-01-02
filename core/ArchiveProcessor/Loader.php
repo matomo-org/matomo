@@ -137,7 +137,7 @@ class Loader
         if (sizeof($data) == 2) {
             return $data;
         }
-        list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
+        [$idArchives, $visits, $visitsConverted, $foundRecords] = $data;
 
         // only lock meet those conditions
         if (ArchiveProcessor::$isRootArchivingRequest && !SettingsServer::isArchivePhpTriggered()) {
@@ -156,7 +156,7 @@ class Loader
                     return $data;
                 }
 
-                list($idArchives, $visits, $visitsConverted, $foundRecords) = $data;
+                [$idArchives, $visits, $visitsConverted, $foundRecords] = $data;
 
                 return $this->insertArchiveData($visits, $visitsConverted, $idArchives, $foundRecords);
             } finally {
@@ -171,7 +171,7 @@ class Loader
     /**
      * @param $visits
      * @param $visitsConverted
-     * @return array|false[]
+     * @return int[]
      */
     protected function insertArchiveData($visits, $visitsConverted, $existingArchives, $foundRecords)
     {
@@ -183,21 +183,15 @@ class Loader
             $this->params->setFoundRequestedReports($foundRecords);
         }
 
-        list($visits, $visitsConverted) = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
-        list($idArchive, $visits) = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        [$visits, $visitsConverted] = $this->prepareCoreMetricsArchive($visits, $visitsConverted);
+        [$idArchive, $visits] = $this->prepareAllPluginsArchive($visits, $visitsConverted);
+        $idArchivesToQuery = [$idArchive];
 
-        if (
-            $this->isThereSomeVisits($visits)
-            || PluginsArchiver::doesAnyPluginArchiveWithoutVisits()
-        ) {
-            $idArchivesToQuery = [$idArchive];
-            if (!empty($foundRecords)) {
-                $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives ?: []);
-            }
-            return [$idArchivesToQuery, $visits];
+        if (!empty($foundRecords)) {
+            $idArchivesToQuery = array_merge($idArchivesToQuery, $existingArchives ?: []);
         }
 
-        return [false, false];
+        return [$idArchivesToQuery, $visits];
     }
 
     /**
@@ -282,11 +276,9 @@ class Loader
         if ($createSeparateArchiveForCoreMetrics) {
             $requestedPlugin = $this->params->getRequestedPlugin();
             $requestedReport = $this->params->getArchiveOnlyReport();
-            $isPartialArchive = $this->params->isPartialArchive();
 
             $this->params->setRequestedPlugin('VisitsSummary');
             $this->params->setArchiveOnlyReport(null);
-            $this->params->setIsPartialArchive(false);
 
             $metrics = Context::executeWithQueryParameters(['requestedReport' => ''], function () {
                 $pluginsArchiver = new PluginsArchiver($this->params);
@@ -297,7 +289,6 @@ class Loader
 
             $this->params->setRequestedPlugin($requestedPlugin);
             $this->params->setArchiveOnlyReport($requestedReport);
-            $this->params->setIsPartialArchive($isPartialArchive);
 
             $visits = $metrics['nb_visits'];
             $visitsConverted = $metrics['nb_visits_converted'];
@@ -513,41 +504,41 @@ class Loader
         if ($canSkipArchiveForSegment[0]) {
             return [
                 true,
-                'Skip archive for segment: ' . $canSkipArchiveForSegment[1]
+                'Skip archive for segment: ' . $canSkipArchiveForSegment[1],
             ];
         }
 
         if (!$isWebsiteUsingTracker) {
             return [
                 false,
-                'Site is not using the JavaScript tracker'
+                'Site is not using the JavaScript tracker',
             ];
         }
 
         if ($isArchivingForcedWhenNoVisits) {
             return [
                 false,
-                'Archiving is forced when no visits'
+                'Archiving is forced when no visits',
             ];
         }
 
         if ($hasSiteVisitsBetweenTimeframe) {
             return [
                 false,
-                'Site has visits between start and end date'
+                'Site has visits between start and end date',
             ];
         }
 
         if ($hasChildArchivesInPeriod) {
             return [
                 false,
-                'There are child archives in the period'
+                'There are child archives in the period',
             ];
         }
 
         return [
             true,
-            'Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period'
+            'Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period',
         ];
     }
 
@@ -687,6 +678,9 @@ class Loader
             $currentPeriod = $period;
             do {
                 $parentPeriodLabel = $currentPeriod->getParentPeriodLabel();
+                if (!Period\Factory::isPeriodEnabledForAPI($parentPeriodLabel)) {
+                    $parentPeriodLabel = null;
+                }
                 if ($parentPeriodLabel) {
                     $parentPeriod = Period\Factory::build($parentPeriodLabel, $date1);
                     $cacheKey = CacheId::siteAware(sprintf($cacheKeyStr, $parentPeriod->getLabel(), $parentPeriod->getRangeString()), [$idSite]);

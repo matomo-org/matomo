@@ -85,7 +85,7 @@ class PluginUmdAssetFetcherTest extends UnitTestCase
                 'description' => "---",
                 'version' => "1.0.0",
                 'require' => [
-                    'matomo' => ">=4.0.0-b1"
+                    'matomo' => ">=4.0.0-b1",
                 ],
                 'license' => "GPL v3+",
             ]));

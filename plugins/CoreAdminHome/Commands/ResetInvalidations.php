@@ -118,7 +118,7 @@ Use this command with caution, especially when resetting invalidations while arc
 
             $header = [
                 'name', 'idsite', 'report', 'date1', 'date2', 'period',
-                'ts_invalidated', 'ts_started', 'processing_host', 'process_id'
+                'ts_invalidated', 'ts_started', 'processing_host', 'process_id',
             ];
             $rows = [];
 

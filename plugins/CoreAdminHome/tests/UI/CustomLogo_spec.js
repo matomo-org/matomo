@@ -9,8 +9,6 @@ var fs = require('fs'),
     path = require('../../../../tests/lib/screenshot-testing/support/path');
 
 describe("CustomLogo", function () {
-    this.timeout(0);
-
     before(function () {
         testEnvironment.optionsOverride = {
             branding_use_custom_logo: '1'

@@ -8,8 +8,6 @@
  */
 
 describe("DBStats", function () {
-    this.timeout(0);
-
     const url = "?module=DBStats&action=index&idSite=1&period=day&date=yesterday";
 
     it("should load correctly", async function() {

@@ -1,1 +1,18 @@
-{}
+{
+    "VisitFrequency": {
+        "ColumnBounceCountForReturningVisits": "Broj napuštanja za povratne posjete",
+        "ColumnBounceRateForNewVisits": "Stope napuštanja za nove posjete",
+        "ColumnBounceRateForReturningVisits": "Stope napuštanja za povratne posjete",
+        "ColumnNewUsers": "Novi korisnici",
+        "ColumnReturningUsers": "Povratni korisnici",
+        "ColumnReturningVisits": "Ponovni posjeti",
+        "ColumnSumVisitLengthReturning": "Ukupno vrijeme koje su proveli povratni posjetitelji (u sekundama)",
+        "ColumnUniqueNewVisitors": "Jedinstveni novi posjetitelji",
+        "ColumnUniqueReturningVisitors": "Jedinstveni povratni posjetitelji",
+        "NewBounceRate": "novi posjeti su napustili web-stranicu nakon jedne stranice",
+        "ReturnBounceRate": "ponovni posjeti su napustili web-stranicu nakon jedne stranice",
+        "ReturnVisits": "ponovni posjeti",
+        "ReturningVisitsDocumentation": "Ovo je pregled ponovnih posjeta.",
+        "WidgetGraphReturning": "Ponovni posjeti kroz vrijeme"
+    }
+}

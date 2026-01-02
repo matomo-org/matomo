@@ -149,7 +149,7 @@ abstract class ViewDataTable implements ViewInterface
     /**
      * DataTable loaded from the API for this ViewDataTable.
      *
-     * @var DataTable
+     * @var DataTable|null
      */
     protected $dataTable = null;
 

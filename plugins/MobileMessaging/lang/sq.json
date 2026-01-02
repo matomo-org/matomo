@@ -47,7 +47,6 @@
         "Settings_VerificationCodeJustSent": "Sapo dërguam një SMS me një kod te ky numër: ju lutemi, jepeni këtë kod më sipër dhe klikoni mbi “Vleftësoje”.",
         "TooManyUnverifiedNumbersError": "S’mund të shtoni më tepër se 3 numra të paverifikuar telefonash!",
         "TopLinkTooltip": "Merrni Raporte Analizash Web drejt e te email-i ose celulari juaj.",
-        "TopMenu": "Raporte me Email &amp; SMS",
         "UserKey": "Kyç përdoruesi",
         "VerificationCodeRecentlySentError": "Është kërkuar tashmë së fundi një kod verifikimi për numrin e telefonit %1$s.",
         "VerificationText": "Kodi është %1$s. Që të vleftësohet numri i telefonit tuaj dhe të merrni raporte Matomo me SMS, ju lutemi, kopjojeni këtë kod te formulari përkatës përmes Matomo → %2$s → %3$s."

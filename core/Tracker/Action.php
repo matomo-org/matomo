@@ -50,7 +50,7 @@ abstract class Action
         self::TYPE_CONTENT,
         self::TYPE_EVENT,
         self::TYPE_OUTLINK,
-        self::TYPE_DOWNLOAD
+        self::TYPE_DOWNLOAD,
     );
 
     /**
@@ -391,7 +391,7 @@ abstract class Action
             'idvisitor'         => $visitor->getVisitorColumn('idvisitor'),
             'idaction_url'      => $this->getIdActionUrl(),
             'idaction_url_ref'  => $idReferrerActionUrl,
-            'idaction_name_ref' => $idReferrerActionName
+            'idaction_name_ref' => $idReferrerActionName,
         );
 
         /** @var ActionDimension[] $dimensions */

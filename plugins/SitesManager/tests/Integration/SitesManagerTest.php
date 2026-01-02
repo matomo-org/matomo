@@ -75,7 +75,7 @@ class SitesManagerTest extends IntegrationTestCase
         $this->manager->onSiteDeleted($this->siteId);
 
         $expected = [
-            '2014-04-05' => [4949]
+            '2014-04-05' => [4949],
         ];
         $this->assertEquals($expected, $archive->getRememberedArchivedReportsThatShouldBeInvalidated());
     }
@@ -185,7 +185,7 @@ class SitesManagerTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return [
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         ];
     }
 }

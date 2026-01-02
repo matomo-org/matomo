@@ -30,7 +30,7 @@ class Updates_1_7_2_rc5 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->changeColumn('pdf', 'aggregate_reports_format', 'display_format', 'TINYINT(1) NOT NULL')
+            $this->migration->db->changeColumn('pdf', 'aggregate_reports_format', 'display_format', 'TINYINT(1) NOT NULL'),
         );
     }
 

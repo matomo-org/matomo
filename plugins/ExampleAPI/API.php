@@ -146,7 +146,7 @@ class API extends \Piwik\Plugin\API
         $return = array(
             'Limitation'       => array(
                 "Multi dimensional arrays is only supported by format=JSON",
-                "Known limitation"
+                "Known limitation",
             ),
             'Second Dimension' => array(true, false, 1, 0, 152, 'test', array(42 => 'end')),
         );

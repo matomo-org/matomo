@@ -1,6 +1,7 @@
 {
     "CoreHome": {
         "CategoryNoData": "ამ კატეგორიაში მონაცემები არ არის. ცადეთ \"ყველა მონაწილის ჩართვა\".",
+        "ChooseWebsite": "აირჩიეთ ვებ საიტი",
         "ShowJSCode": "JavaScript კოდის ნახვა, რომელიც უნდა ჩაისვას ვებ გვერდზე",
         "SystemSummaryPhpVersion": "PHP ვერსია",
         "ThereIsNoDataForThisReport": "რეპორტისთვის მონაცემები არ არის.",

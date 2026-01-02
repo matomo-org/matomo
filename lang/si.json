@@ -5,6 +5,8 @@
         "Actions": "ක්‍රියාමාර්ග",
         "Add": "එකතු",
         "All": "සියල්ල",
-        "Locale": "si_LK.UTF-8"
+        "ColumnNbActions": "ක්‍රියාමාර්ග",
+        "Locale": "si_LK.UTF-8",
+        "TrackingScopeAction": "ක්‍රියාමාර්ගය"
     }
 }

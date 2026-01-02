@@ -52,24 +52,19 @@ class WordPress extends SiteContentDetectionAbstract
     public function renderInstructionsTab(SiteContentDetector $detector): string
     {
         $view     = new View("@SitesManager/_wordpressTabInstructions");
-        $faqLink  = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/faq_114/');
-        $authLink = '';
-        if (Piwik::isUserHasSomeViewAccess()) {
-            $request  = \Piwik\Request::fromRequest();
-            $idSite   = $request->getIntegerParameter('idSite', 0);
-            $period   = $request->getStringParameter('period', 'day');
-            $date     = $request->getStringParameter('date', 'yesterday');
-            $authLink = SettingsPiwik::getPiwikUrl() . 'index.php?' .
-                Url::getQueryStringFromParameters([
-                                                      'idSite' => $idSite,
-                                                      'date'   => urlencode($date),
-                                                      'period' => urlencode($period),
-                                                      'module' => 'UsersManager',
-                                                      'action' => 'addNewToken',
-                                                  ]);
-        }
-        $view->authLink = $authLink;
-        $view->faqLink  = $faqLink;
+        $request = \Piwik\Request::fromRequest();
+        $idSite = $request->getIntegerParameter('idSite', 0);
+        $period = $request->getStringParameter('period', 'day');
+        $date = $request->getStringParameter('date', 'yesterday');
+        $view->authLink = SettingsPiwik::getPiwikUrl() . 'index.php?' .
+            Url::getQueryStringFromParameters([
+                'idSite' => $idSite,
+                'date'   => urlencode($date),
+                'period' => urlencode($period),
+                'module' => 'UsersManager',
+                'action' => 'addNewToken',
+            ]);
+        $view->faqLink = Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/general/faq_114/');
         $view->sendHeadersWhenRendering = false;
         $view->site = ['id' => $idSite, 'name' => ''];
         $view->isJsTrackerInstallCheckAvailable = Manager::getInstance()->isPluginActivated('JsTrackerInstallCheck');
@@ -87,7 +82,7 @@ class WordPress extends SiteContentDetectionAbstract
             Piwik::translate(
                 'SitesManager_SiteWithoutDataWordpressDescription',
                 [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/') . '">',
+                    Url::getExternalLinkTag('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-wordpress/'),
                     '</a>',
                 ]
             )

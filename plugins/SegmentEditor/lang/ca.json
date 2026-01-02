@@ -24,6 +24,8 @@
         "DefaultAllVisits": "Totes les visites",
         "DragDropCondition": "Condició Drag &amp; Drop",
         "HideMessageInFuture": "Amaga aquest missatge en el futur",
+        "LimitSegmentsSettingRequirementNote": "Limita els segments disponibles perquè compleixin la normativa.",
+        "LimitSegmentsSettingTitle": "Limita els segments disponibles",
         "LoadingSegmentedDataMayTakeSomeTime": "El processament de les dades segmentades dels visitants pot trigar uns minuts…",
         "OperatorAND": "AND",
         "OperatorOR": "OR",

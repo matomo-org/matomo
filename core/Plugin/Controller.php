@@ -215,24 +215,24 @@ abstract class Controller
         $periodNames = array(
             'day'   => array(
                 'singular' => Piwik::translate('Intl_PeriodDay'),
-                'plural' => Piwik::translate('Intl_PeriodDays')
+                'plural' => Piwik::translate('Intl_PeriodDays'),
             ),
             'week'  => array(
                 'singular' => Piwik::translate('Intl_PeriodWeek'),
-                'plural' => Piwik::translate('Intl_PeriodWeeks')
+                'plural' => Piwik::translate('Intl_PeriodWeeks'),
             ),
             'month' => array(
                 'singular' => Piwik::translate('Intl_PeriodMonth'),
-                'plural' => Piwik::translate('Intl_PeriodMonths')
+                'plural' => Piwik::translate('Intl_PeriodMonths'),
             ),
             'year'  => array(
                 'singular' => Piwik::translate('Intl_PeriodYear'),
-                'plural' => Piwik::translate('Intl_PeriodYears')
+                'plural' => Piwik::translate('Intl_PeriodYears'),
             ),
             // Note: plural is not used for date range
             'range' => array(
                 'singular' => Piwik::translate('General_DateRangeInPeriodList'),
-                'plural' => Piwik::translate('General_DateRangeInPeriodList')
+                'plural' => Piwik::translate('General_DateRangeInPeriodList'),
             ),
         );
 
@@ -348,7 +348,6 @@ abstract class Controller
      *                                      an instance of an report.
      * @param bool $controllerAction The name of the Controller action name  that is rendering the report. Defaults
      *                               to the `$apiAction`.
-     * @param bool $fetch If `true`, the rendered string is returned, if `false` it is `echo`'d.
      * @throws \Exception if `$pluginName` is not an existing plugin or if `$apiAction` is not an
      *                    existing method of the plugin's API.
      * @return string|void See `$fetch`.
@@ -615,7 +614,6 @@ abstract class Controller
      * Will exit on error.
      *
      * @param View $view
-     * @param string|null $viewType 'basic' or 'admin'. If null, set based on the type of controller.
      * @return void
      * @api
      */
@@ -728,6 +726,7 @@ abstract class Controller
     {
         $view->clientSideConfig = PiwikConfig::getInstance()->getClientSideOptions();
         $view->isSuperUser = Access::getInstance()->hasSuperUserAccess();
+        $view->userCurrentRole = Access::getInstance()->getRoleForSite($this->idSite);
         $view->hasSomeAdminAccess = Piwik::isUserHasSomeAdminAccess();
         $view->hasSomeViewAccess  = Piwik::isUserHasSomeViewAccess();
         $view->isUserIsAnonymous  = Piwik::isUserIsAnonymous();
@@ -812,7 +811,6 @@ abstract class Controller
      * Also calls {@link setHostValidationVariablesView()}.
      *
      * @param View $view
-     * @param string $viewType 'basic' or 'admin'. Used by ControllerAdmin.
      * @api
      */
     protected function setBasicVariablesView($view)
@@ -901,13 +899,13 @@ abstract class Controller
             $changeTrustedHostsUrl = "index.php"
                 . Url::getCurrentQueryStringWithParametersModified(array(
                                                                         'module' => 'CoreAdminHome',
-                                                                        'action' => 'generalSettings'
+                                                                        'action' => 'generalSettings',
                                                                    ))
                 . "#trustedHostsSection";
 
             $warningStart = Piwik::translate('CoreHome_InjectedHostWarningIntro', array(
                                                                                       '<strong>' . $invalidUrl . '</strong>',
-                                                                                      '<strong>' . $validUrl . '</strong>'
+                                                                                      '<strong>' . $validUrl . '</strong>',
                                                                                  )) . ' <br/>';
 
             if (Piwik::hasUserSuperUserAccess()) {
@@ -918,7 +916,7 @@ abstract class Controller
                                                                                     '</a>',
                                                                                     "<br/><a href=\"$validUrl\">",
                                                                                     Common::sanitizeInputValue($validHost),
-                                                                                    '</a>'
+                                                                                    '</a>',
                                                                                ));
             } elseif (Piwik::isUserIsAnonymous()) {
                 $view->invalidHostMessage = $warningStart . ' '
@@ -926,7 +924,7 @@ abstract class Controller
                         "<br/><a href=\"$validUrl\">",
                         '</a>',
                         '<span style="display:none">',
-                        '</span>'
+                        '</span>',
                     ));
             } else {
                 $view->invalidHostMessage = $warningStart . ' '
@@ -934,7 +932,7 @@ abstract class Controller
                                                                                        "<br/><a href=\"$validUrl\">",
                                                                                        '</a>',
                                                                                        $mailLinkStart,
-                                                                                       '</a>'
+                                                                                       '</a>',
                                                                                   ));
             }
             $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Matomo Super User can manually edit the file /path/to/matomo/config/config.ini.php

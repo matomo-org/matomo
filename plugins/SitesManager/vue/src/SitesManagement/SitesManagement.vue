@@ -35,10 +35,7 @@
     <div>
       <div :class="{ hide_only: !isLoading }">
         <div class="loadingPiwik">
-          <img
-            src="plugins/Morpheus/images/loading-blue.gif"
-            :alt="translate('General_LoadingData')"
-          />
+          <MatomoLoader />
           {{ translate('General_LoadingData') }}
         </div>
       </div>
@@ -109,8 +106,10 @@
           :timezone-support-enabled="timezoneSupportEnabled"
           :utc-time="utcTime"
           :global-settings="globalSettings"
+          :privacy-manager-enabled="privacyManagerEnabled"
           @edit-site="this.isSiteBeingEdited = true"
           @cancel-edit-site="afterCancelEdit($event)"
+          @cancel-edit-privacy="afterCancelEdit($event)"
           @delete="afterDelete($event)"
           @save="afterSave($event.site, $event.settingValues, index, $event.isNew)"
         />
@@ -142,15 +141,16 @@
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
 import {
-  Matomo,
-  MatomoDialog,
-  Site,
+  translate,
+  AjaxHelper,
   ContentBlock,
   ContentIntro,
   EnrichedHeadline,
-  AjaxHelper,
+  Matomo,
+  MatomoDialog,
+  MatomoLoader,
   MatomoUrl,
-  translate,
+  Site,
 } from 'CoreHome';
 import { Setting } from 'CorePluginsAdmin';
 import ButtonBar from './ButtonBar.vue';
@@ -176,13 +176,15 @@ interface SitesManagementState {
 export default defineComponent({
   props: {
     rollUpEnabled: Boolean,
+    privacyManagerEnabled: Boolean,
   },
   components: {
-    ContentBlock,
-    MatomoDialog,
     ButtonBar,
-    SiteFields,
+    ContentBlock,
     EnrichedHeadline,
+    MatomoDialog,
+    MatomoLoader,
+    SiteFields,
   },
   directives: {
     ContentIntro,

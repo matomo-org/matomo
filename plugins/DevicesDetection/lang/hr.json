@@ -1,9 +1,22 @@
 {
     "DevicesDetection": {
-        "Browsers": "Pretraživači",
         "BrowserVersion": "Verzija pretraživača",
+        "Browsers": "Pretraživači",
         "ColumnOperatingSystem": "Operativni sustav",
-        "dataTableLabelTypes": "Vrsta",
-        "WidgetBrowsers": "Pretraživać posjetitelja"
+        "Device": "Uređaj",
+        "DeviceBrand": "Marka uređaja",
+        "DeviceBrands": "Marke uređaja",
+        "DeviceDetection": "Prepoznavanje uređaja",
+        "DeviceModel": "Model uređaja",
+        "DeviceModels": "Modeli uređaja",
+        "DeviceType": "Vrsta uređaja",
+        "DeviceTypes": "Vrste uređaja",
+        "DevicesDetection": "Uređaji posetitelja",
+        "MobileApp": "Mobilna aplikacija",
+        "UserAgent": "Korisnički agent",
+        "WidgetBrowserVersionsDocumentation": "Ovaj izvještaj sadrži informacije o vrsti preglednika koji su tvoji posjetitelji koristili. Svaka verzija preglednika je navedena zasebno.",
+        "WidgetBrowsers": "Pretraživać posjetitelja",
+        "WidgetBrowsersDocumentation": "Ovaj izvještaj sadrži informacije o vrsti preglednika koji su tvoji posjetitelji koristili.",
+        "dataTableLabelTypes": "Vrsta"
     }
 }

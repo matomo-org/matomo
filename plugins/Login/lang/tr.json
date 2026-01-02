@@ -91,6 +91,8 @@
         "SettingBruteForceTimeRange": "Oturum açma girişimlerinin sayılacağı zaman aralığı",
         "SettingBruteForceTimeRangeHelp": "Dakika olarak bir sayı yazın.",
         "SettingBruteForceWhitelistIp": "Her zaman oturum açabilecek IP adresleri",
+        "SettingPasswordStrengthCheck": "Güçlü parola kullanımı dayatılsın",
+        "SettingPasswordStrengthCheckHelp": "Kullanıcıları bir dizi karmaşık kurala uygun güçlü parolalar kullanmaya zorlar: %1$s",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Son bir saat içinde Matomo hesabınızda şüphe uyandıracak kadar çok sayıda oturum açma girişimi yapıldı. %2$s farklı IP adresinden %1$s oturum açma girişiminde bulunuldu. Birileri hesabınızı ele geçirmeye çalışıyor olabilir.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Şu işlemleri yapın:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Parolanızın güvenli olduğundan emin olun. En az 30 karakter uzunluğunda rastgele bir parola kullanın.",

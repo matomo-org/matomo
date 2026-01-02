@@ -20,10 +20,9 @@ describe("PivotByDimension", function () {
         await element.click();
         await page.waitForNetworkIdle();
 
-        await page.evaluate(function(){
-            $('.dropdownConfigureIcon').click();
-            $('.dataTablePivotBySubtable').click();
-        });
+        await page.click('.dropdownConfigureIcon');
+        await page.waitForTimeout(100);
+        await page.click('.dataTablePivotBySubtable');
         await page.waitForNetworkIdle();
 
         await page.mouse.move(-150, -150); // make sure nothing is highlighted

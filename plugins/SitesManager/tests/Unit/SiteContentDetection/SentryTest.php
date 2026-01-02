@@ -40,19 +40,19 @@ class SentryTest extends TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no sentry content' => [
             false,
             'nothing special',
-            []
+            [],
         ];
 
         yield 'sentry used' => [
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://js.sentry-cdn.com/js/some.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

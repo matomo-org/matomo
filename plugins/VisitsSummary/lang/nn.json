@@ -2,6 +2,9 @@
     "VisitsSummary": {
         "GenerateQueries": "%s spørjingar køyrd",
         "GenerateTime": "%s sekundar å generera denne siden",
+        "NbOutlinksDescription": "lenker ut",
+        "NbPageviewsDescription": "sidevisingar",
+        "NbUsersDescription": "brukarar",
         "WidgetLastVisits": "Siste vitjingar",
         "WidgetOverviewGraph": "Oversikt med graf",
         "WidgetVisits": "Vitjingsoversikt"

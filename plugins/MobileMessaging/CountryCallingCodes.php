@@ -264,6 +264,6 @@ class CountryCallingCodes
         'yt' => '262',
         'za' => '27',
         'zm' => '260',
-        'zw' => '263'
+        'zw' => '263',
     );
 }

@@ -72,8 +72,8 @@ class APITest extends IntegrationTestCase
             'name' => 'any name',
             'id' => 1,
             'widgets' => [
-                ['module' => 'Live', 'action' => 'widget']
-            ]
+                ['module' => 'Live', 'action' => 'widget'],
+            ],
         ];
 
         $this->assertCount(1, $result);
@@ -321,7 +321,7 @@ class APITest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

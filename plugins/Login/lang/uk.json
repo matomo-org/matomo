@@ -26,6 +26,7 @@
         "InvitationDeclineTitle": "Відхилити запрошення",
         "InvitationTitle": "Прийняти запрошення",
         "LogIn": "Увійти",
+        "LoginFromDifferentCountryEmailLinkResetPassword": "Скинути ваш пароль",
         "LoginNotAllowedBecauseBlocked": "Занадто багато невдалих спроб входу. Зачекайте і спробуйте увійти ще раз пізніше.",
         "LoginNotAllowedBecauseUserLoginBlocked": "Вхід в систему було вимкнено, оскільки за останню годину було зроблено підозрілу кількість невдалих спроб.",
         "LoginOrEmail": "Ім'я користувача або пошта",

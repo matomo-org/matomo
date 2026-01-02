@@ -76,7 +76,7 @@ class VisitorRecognizerTest extends IntegrationTestCase
             'visit_last_action_time' => Date::now()->getDatetime(),
             'visit_first_action_time' => Date::now()->getDatetime(),
             'idvisitor' => $request->getVisitorId(),
-            'location_ip' => IP::fromStringIP('1.1.1.1')->toBinary()
+            'location_ip' => IP::fromStringIP('1.1.1.1')->toBinary(),
         ));
 
         return $configId;

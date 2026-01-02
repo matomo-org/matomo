@@ -8,8 +8,6 @@
  */
 
 describe("RateFeature", function () {
-    this.timeout(0);
-
     var url = "?module=CoreHome&action=index&idSite=1&period=day&date=yesterday#?idSite=1&period=day&date=yesterday&segment=&category=General_Visitors&subcategory=General_Overview";
 
     before(async function() {

@@ -65,8 +65,8 @@ class LabelFilterTest extends SystemTestCase
                 'date'                   => $dateTime,
                 'otherRequestParameters' => array(
                     'label'    => urlencode($label),
-                    'expanded' => 0
-                )
+                    'expanded' => 0,
+                ),
             ));
         }
 
@@ -78,8 +78,8 @@ class LabelFilterTest extends SystemTestCase
             'otherRequestParameters' => array(
                 'date'     => '2010-03-06,2010-03-08',
                 'label'    => urlencode($label),
-                'expanded' => 0
-            )
+                'expanded' => 0,
+            ),
         ));
 
         $return[] = array('Actions.getPageTitles', array(
@@ -89,8 +89,8 @@ class LabelFilterTest extends SystemTestCase
             'otherRequestParameters' => array(
                 // note: title has no blank prefixed here. in the report it has.
                 'label'    => urlencode('incredible title! <>,;'),
-                'expanded' => 0
-            )
+                'expanded' => 0,
+            ),
         ));
 
         $return[] = array('Actions.getPageTitles', array(
@@ -104,8 +104,8 @@ class LabelFilterTest extends SystemTestCase
                         '>' .
                     urlencode('subtitle <>,;')
                 ),
-                'expanded' => 0
-            )
+                'expanded' => 0,
+            ),
         ));
 
         $keyword = '&lt;&gt;&amp;\&quot;the pdo extension is required for this adapter but the extension is not loaded';
@@ -115,8 +115,8 @@ class LabelFilterTest extends SystemTestCase
             'date'                   => $dateTime,
             'otherRequestParameters' => array(
                 'label'    => urlencode('Google>' . urlencode($keyword)),
-                'expanded' => 0
-            )
+                'expanded' => 0,
+            ),
         );
         $return[] = array('Referrers.getSearchEngines', $searchEngineTest);
 
@@ -130,8 +130,8 @@ class LabelFilterTest extends SystemTestCase
             'date'                      => $dateTime,
             'otherRequestParameters'    => array(
                 'label'     => urlencode(urlencode('check <>') . '> @  ' . urlencode('@one@')),
-                'expanded'  => 0
-            )
+                'expanded'  => 0,
+            ),
         ));
 
         $return[] = array('Actions.getPageTitles', array(
@@ -140,8 +140,8 @@ class LabelFilterTest extends SystemTestCase
             'date'                      => $dateTime,
             'otherRequestParameters'    => array(
                 'label'     => urlencode(urlencode('check <>') . '>  ' . urlencode('@one@')),
-                'expanded'  => 0
-            )
+                'expanded'  => 0,
+            ),
         ));
 
         $return[] = array('Actions.getPageUrls', array(
@@ -150,8 +150,8 @@ class LabelFilterTest extends SystemTestCase
             'date'                      => $dateTime,
             'otherRequestParameters'    => array(
                 'label'     => urlencode('dir> @ /subdir'),
-                'expanded'  => 0
-            )
+                'expanded'  => 0,
+            ),
         ));
 
         // test that filter_limit & filter_truncate are ignored when label is used
@@ -163,8 +163,8 @@ class LabelFilterTest extends SystemTestCase
                 'label'           => urlencode('incredible title! <>,;'),
                 'expanded'        => 0,
                 'filter_limit'    => 1,
-                'filter_truncate' => 1
-            )
+                'filter_truncate' => 1,
+            ),
         ));
 
         $return[] = array('Actions.getPageUrls', array(

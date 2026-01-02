@@ -3,6 +3,7 @@
         "BetweenXYMinutes": "%1$s-%2$s min",
         "BetweenXYSeconds": "%1$s–%2$ss",
         "ColumnPagesPerVisit": "Sidor per besök",
+        "ColumnPercentageVisitsDocumentation": "Procentandelen av totala besök, där besökare hade denna mängd besök totalt hittills.",
         "ColumnVisitDuration": "Besökstid",
         "Engagement": "Engagemang",
         "NPages": "%s sidor",

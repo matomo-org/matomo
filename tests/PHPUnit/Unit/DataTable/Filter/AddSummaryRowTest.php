@@ -28,7 +28,7 @@ class AddSummaryRowTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(6, $dataTable->getRowsCount());
         $expectedColumns = array(
             'label' => '-1',
-            'nb' => 11111
+            'nb' => 11111,
         );
         $this->assertEquals($expectedColumns, $dataTable->getLastRow()->getColumns());
     }

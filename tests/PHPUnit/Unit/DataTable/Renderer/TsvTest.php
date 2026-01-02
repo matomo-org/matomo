@@ -251,13 +251,24 @@ b\td\tf\tg",
             "'\0%00\0%00=@A1\n'%00\0%00%00=SUM(A)",
         ];
 
+        yield "line break in value should be escaped" => [
+            function () {
+                return [
+                    "header\nbreak" => "value",
+                    "header"        => "value\nbreak",
+                ];
+            },
+            "\"header\nbreak\"\theader\nvalue\t\"value\nbreak\"",
+        ];
+
+
         yield 'renders headers and values correctly escaped' => [
             function () {
                 return self::getDataTableSimpleWithCommasInCells();
             },
             "\"col, 1\"\t\"col;2\"
 \"val\"\"1\"\t\"val\"\" 2\"
-val	val#2"
+val	val#2",
         ];
     }
 

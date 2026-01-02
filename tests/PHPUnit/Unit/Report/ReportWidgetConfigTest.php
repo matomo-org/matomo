@@ -129,12 +129,12 @@ class ReportWidgetConfigTest extends \PHPUnit\Framework\TestCase
     {
         $this->config->setMiddlewareParameters(array(
             'module' => 'Goals',
-            'action' => 'hasConversions'
+            'action' => 'hasConversions',
         ));
 
         $this->assertSame(array(
             'module' => 'Goals',
-            'action' => 'hasConversions'
+            'action' => 'hasConversions',
         ), $this->config->getMiddlewareParameters());
     }
 

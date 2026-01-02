@@ -1,6 +1,7 @@
 {
     "Tour": {
         "AddAnnotation": "Добавить аннотацию",
+        "AddAnotherWebsite": "Добавить другой сайт",
         "AddReport": "Добавить запланированный отчет",
         "AddSegment": "Добавить сегмент",
         "BrowseMarketplace": "Обзор Marketplace",
@@ -19,6 +20,7 @@
         "ShareYourAchievementOn": "Поделитесь своими достижениями на %1$s.",
         "SkipThisChallenge": "Пропустить этот вызов",
         "Tour": "Тур",
-        "UploadLogo": "Загрузите свой логотип"
+        "UploadLogo": "Загрузите свой логотип",
+        "ViewX": "Посмотреть %s"
     }
 }

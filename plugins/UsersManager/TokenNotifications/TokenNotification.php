@@ -11,38 +11,23 @@ namespace Piwik\Plugins\UsersManager\TokenNotifications;
 
 abstract class TokenNotification implements TokenNotificationInterface
 {
-    /** @var string */
-    private $tokenId;
+    /** @var array{login: string, tokenId: string, tokenName: string, tokenDate: string} */
+    private $tokens;
 
-    /** @var string */
-    private $tokenName;
 
-    /** @var string */
-    private $tokenCreationDate;
-
-    public function __construct(
-        string $tokenId,
-        string $tokenName,
-        string $tokenCreationDate
-    ) {
-        $this->tokenId = $tokenId;
-        $this->tokenName = $tokenName;
-        $this->tokenCreationDate = $tokenCreationDate;
+    public function __construct(array $tokens)
+    {
+        $this->tokens = $tokens;
     }
 
-    public function getTokenId(): string
+    public function getTokens(): array
     {
-        return $this->tokenId;
+        return $this->tokens;
     }
 
-    public function getTokenName(): string
+    public function getTokenIds(): array
     {
-        return $this->tokenName;
-    }
-
-    public function getTokenCreationDate(): string
-    {
-        return $this->tokenCreationDate;
+        return array_column($this->tokens, 'tokenId');
     }
 
     abstract public function dispatch(): bool;

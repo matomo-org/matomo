@@ -36,7 +36,7 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
             'command' => 'core:calculate-conversion-pages',
             '--dates' => '2009-01-05,2009-01-31',
             '--idsite' => self::$fixture->idSite,
-            '-vvv' => true
+            '-vvv' => true,
         ]);
 
         // Check command completed ok
@@ -55,7 +55,7 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
             'command' => 'core:calculate-conversion-pages',
             '--last-n' => 2,
             '--idsite' => self::$fixture->idSite,
-            '-vvv' => true
+            '-vvv' => true,
         ]);
 
         // Check command completed ok

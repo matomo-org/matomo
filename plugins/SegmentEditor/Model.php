@@ -34,7 +34,7 @@ class Model
      */
     public function getAllSegmentsAndIgnoreVisibility()
     {
-        $sql = "SELECT * FROM " . $this->getTable() . " WHERE deleted = 0";
+        $sql = "SELECT * FROM `" . $this->getTable() . "` WHERE deleted = 0";
 
         $segments = $this->getDb()->fetchAll($sql);
 
@@ -140,7 +140,7 @@ class Model
     public function getSegmentsDeletedSince(Date $date)
     {
         $dateStr = $date->getDatetime();
-        $sql = "SELECT DISTINCT `definition`, `enable_only_idsite`, `hash` FROM " . Common::prefixTable('segment')
+        $sql = "SELECT DISTINCT `definition`, `enable_only_idsite`, `hash` FROM `" . Common::prefixTable('segment') . "`"
             . " WHERE deleted = 1 AND ts_last_edit >= ?";
         $deletedSegments = Db::fetchAll($sql, array($dateStr));
 
@@ -207,7 +207,7 @@ class Model
         $whereClauses = implode(' OR ', $whereClauses);
 
         // Check for any non-deleted segments with the same definition
-        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM " . Common::prefixTable('segment')
+        $sql = "SELECT DISTINCT definition, enable_only_idsite FROM `" . Common::prefixTable('segment') . "`"
             . " WHERE deleted = 0 AND (" . $whereClauses . ")";
         return Db::fetchAll($sql, $bind);
     }
@@ -216,7 +216,7 @@ class Model
     {
         $fieldsToSet = array(
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         );
 
         $db = $this->getDb();
@@ -250,7 +250,7 @@ class Model
     public function getSegment($idSegment)
     {
         $db = $this->getDb();
-        $segment = $db->fetchRow("SELECT * FROM " . $this->getTable() . " WHERE idsegment = ?", $idSegment);
+        $segment = $db->fetchRow("SELECT * FROM `" . $this->getTable() . "` WHERE idsegment = ?", $idSegment);
 
         return $segment;
     }
@@ -262,7 +262,7 @@ class Model
 
     private function buildQuerySortedByName($where)
     {
-        return "SELECT * FROM " . $this->getTable() . " WHERE $where ORDER BY name ASC";
+        return "SELECT * FROM `" . $this->getTable() . "` WHERE $where ORDER BY name ASC";
     }
 
     private function createHash($definition)
@@ -282,6 +282,8 @@ class Model
                          `auto_archive` tinyint(4) NOT NULL default 0,
                          `ts_created` TIMESTAMP NULL,
                          `ts_last_edit` TIMESTAMP NULL,
+                         `starred` tinyint(4) NOT NULL default 0,
+                         `starred_by` VARCHAR(100) NULL default NULL,
                          `deleted` tinyint(4) NOT NULL default 0,
                          PRIMARY KEY (`idsegment`)";
 

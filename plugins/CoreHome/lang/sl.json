@@ -5,6 +5,7 @@
         "ChangeVisualization": "Spremenite način prikazovanja",
         "CheckForUpdates": "Preveri za posodobitve",
         "CheckPiwikOut": "Preverite Matomo!",
+        "ChooseWebsite": "Izberite spletno stran",
         "ChooseX": "Izberite %1$s",
         "ClickToEditX": "Kliknite za urejanje %s",
         "ClickToSeeFullInformation": "Kliknite za ogled vseh informacij",
@@ -30,6 +31,7 @@
         "ReportGeneratedOn": "Poročilo ustvarjano na %s",
         "ReportGeneratedXAgo": "Poročilo ustvarjano pred %s",
         "ShowJSCode": "Prikaži JavaScript kodo za vstavljanje",
+        "SystemSummaryPhpVersion": "Različica PHP",
         "ThereIsNoDataForThisReport": "Za to poročilo ni podatkov."
     }
 }

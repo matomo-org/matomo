@@ -104,7 +104,7 @@ class DuplicateActions extends Fixture
                 'visitor_seconds_since_order' => 1,
                 'visitor_seconds_since_first' => 1,
                 'idaction_url' => 7,
-            )
+            ),
         ),
         'log_conversion_item' => array(
             array(
@@ -140,8 +140,8 @@ class DuplicateActions extends Fixture
                 'idaction_category3' => 8,
                 'idaction_category4' => 9,
                 'idaction_category5' => 10,
-            )
-        )
+            ),
+        ),
     );
 
     public function setUp(): void

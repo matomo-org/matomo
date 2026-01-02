@@ -82,8 +82,8 @@ class ConversionDimensionTest extends IntegrationTestCase
     {
         $expected = array(
             'log_conversion' => array(
-                "ADD COLUMN `fake_conversion_dimension_column` VARCHAR (255) DEFAULT 0"
-            )
+                "ADD COLUMN `fake_conversion_dimension_column` VARCHAR (255) DEFAULT 0",
+            ),
         );
 
         $this->assertEquals($expected, $this->dimension->install());
@@ -93,8 +93,8 @@ class ConversionDimensionTest extends IntegrationTestCase
     {
         $expected = array(
             'log_conversion' => array(
-                "MODIFY COLUMN `fake_conversion_dimension_column` VARCHAR (255) DEFAULT 0"
-            )
+                "MODIFY COLUMN `fake_conversion_dimension_column` VARCHAR (255) DEFAULT 0",
+            ),
         );
 
         $this->assertEquals($expected, $this->dimension->update(array()));

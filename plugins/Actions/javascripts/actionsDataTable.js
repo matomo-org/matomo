@@ -196,7 +196,10 @@
                 $insertAfter.after('\
                 <tr id="' + divIdToReplaceWithSubTable + '" class="cellSubDataTable">\
                     <td colspan="' + numberOfColumns + '">\
-                            <span class="loadingPiwik" style="display:inline"><img src="plugins/Morpheus/images/loading-blue.gif" /> Loading...</span>\
+                        <span class="loadingPiwik" style="display:inline">\
+                            <span class="matomo-loader"><span></span><span></span><span></span></span>\
+                            Loading...\
+                        </span>\
                     </td>\
                 </tr>\
                 ');

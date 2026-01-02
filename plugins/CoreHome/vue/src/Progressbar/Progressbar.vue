@@ -15,7 +15,7 @@
       />
     </div>
     <span v-show="!!label">
-      <img src="plugins/Morpheus/images/loading-blue.gif" style="margin-right: 3.5px" />
+      <MatomoLoader />
       <span class="label" v-html="$sanitize(label)" />
     </span>
   </div>
@@ -23,8 +23,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import MatomoLoader from '../MatomoLoader/MatomoLoader.vue';
 
 export default defineComponent({
+  components: { MatomoLoader },
   props: {
     progress: {
       type: Number,

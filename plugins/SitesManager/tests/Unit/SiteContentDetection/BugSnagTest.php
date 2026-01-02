@@ -40,19 +40,19 @@ class BugSnagTest extends TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no bugsnag.min.js content' => [
             false,
             'nothing special',
-            []
+            [],
         ];
 
         yield 'bugsnag.min.js used' => [
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script><script>console.log('abc');</script><script src='https://localhost.com/js/bugsnag.min.js'></script></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

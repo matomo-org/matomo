@@ -112,6 +112,8 @@ class UsersManagerTest extends IntegrationTestCase
         unset($userAfter['invite_link_token']);
         unset($userAfter['invite_accept_at']);
         unset($userAfter['invited_by']);
+        unset($userAfter['ts_last_seen']);
+        unset($userAfter['ts_inactivity_notified']);
 
         // implicitly checks password!
         $user['email'] = $newEmail;
@@ -406,8 +408,8 @@ class UsersManagerTest extends IntegrationTestCase
         // add the same user
         $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com");
 
-        //checks access have been deleted
-        //to do so we recreate the same user login and check if the rights are still there
+        // check access has been deleted
+        // to do so we recreate the same user login and check if the rights are still there
         $this->assertEquals(array(), $this->api->getSitesAccessFromUser("geggeqgeqag"));
     }
 
@@ -462,6 +464,7 @@ class UsersManagerTest extends IntegrationTestCase
     /**
      * normal case
      * as well as selecting specific user names, comma separated
+     * also tests setting and getting 'last seen' for the user
      */
     public function testGetUsers()
     {
@@ -469,7 +472,8 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser("geggeqge632ge56a4qag", "geqgegeagae", "tesggt@tesgt.com");
         $this->api->addUser("geggeqgeqagqegg", "geqgeaggggae", "tesgggt@tesgt.com");
 
-        Option::set('UsersManager.lastSeen.gegg4564eqgeqag', $now = time());
+        $nowDt = Date::getDatetimeFromTimestamp(time());
+        $this->model->setLastSeenDatetime('gegg4564eqgeqag', $nowDt);
 
         $users = $this->api->getUsers();
         $users = $this->removeNonTestableFieldsFromUsers($users);
@@ -477,17 +481,18 @@ class UsersManagerTest extends IntegrationTestCase
                        'email'            => "tegst@tesgt.com",
                        'superuser_access' => 0,
                        'uses_2fa'         => false,
-                       'last_seen'        => Date::getDatetimeFromTimestamp($now)
+                       'last_seen'        => $nowDt,
+                       'last_seen_ago'    => '00:00:00',
         );
         $user2 = array('login'            => "geggeqge632ge56a4qag",
                        'email'            => "tesggt@tesgt.com",
                        'superuser_access' => 0,
-                       'uses_2fa'         => false
+                       'uses_2fa'         => false,
         );
         $user3 = array('login'            => "geggeqgeqagqegg",
                        'email'            => "tesgggt@tesgt.com",
                        'superuser_access' => 0,
-                       'uses_2fa'         => false
+                       'uses_2fa'         => false,
         );
         $expectedUsers = array($user1, $user2, $user3);
         $this->assertEquals($expectedUsers, $users);
@@ -951,13 +956,13 @@ class UsersManagerTest extends IntegrationTestCase
     public function testUpdateUserFailsNoCurrentPassword()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 
         $login = "login";
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -975,7 +980,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -993,7 +998,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -1010,7 +1015,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -1054,7 +1059,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => $login,
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -1077,7 +1082,7 @@ class UsersManagerTest extends IntegrationTestCase
         $user = array(
           'login'    => "login",
           'password' => "geqgeagae",
-          'email'    => "test@test.com"
+          'email'    => "test@test.com",
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
@@ -1107,20 +1112,20 @@ class UsersManagerTest extends IntegrationTestCase
             'id'          => 'view',
             'name'        => 'UsersManager_PrivView',
             'description' => 'UsersManager_PrivViewDescription',
-            'helpUrl'     => 'https://matomo.org/faq/general/faq_70/'
+            'helpUrl'     => 'https://matomo.org/faq/general/faq_70/',
           ),
           array(
             'id'          => 'write',
             'name'        => 'UsersManager_PrivWrite',
             'description' => 'UsersManager_PrivWriteDescription',
-            'helpUrl'     => 'https://matomo.org/faq/general/faq_26910'
+            'helpUrl'     => 'https://matomo.org/faq/general/faq_26910',
           ),
           array(
             'id'          => 'admin',
             'name'        => 'UsersManager_PrivAdmin',
             'description' => 'UsersManager_PrivAdminDescription',
             'helpUrl'     => 'https://matomo.org/faq/general/faq_69/',
-          )
+          ),
         );
         $this->assertEquals($expected, $roles);
     }
@@ -1152,7 +1157,7 @@ class UsersManagerTest extends IntegrationTestCase
             'helpUrl'         => '',
             'includedInRoles' => array('admin'),
             'category'        => 'TagManager_TagManager',
-          )
+          ),
         ), $this->api->getAvailableCapabilities());
     }
 
@@ -1161,7 +1166,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->addSites(1);
         $user = array(
           'login' => "login",
-          'email' => "test@test.com"
+          'email' => "test@test.com",
         );
 
         $this->api->inviteUser($user['login'], $user['email'], 1);
@@ -1188,7 +1193,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-          'Piwik\Access' => new FakeAccess()
+          'Piwik\Access' => new FakeAccess(),
         );
     }
 

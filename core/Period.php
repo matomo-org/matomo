@@ -253,7 +253,7 @@ abstract class Period
      *
      * Note: the time component of the period's dates and `$date` is ignored.
      *
-     * @param Date $today
+     * @param Date $date
      * @return bool
      */
     public function isDateInPeriod(Date $date)
@@ -423,7 +423,7 @@ abstract class Period
         $intervalTokens = array(
             array('d', 'E', 'C'),
             array('M', 'L'),
-            array('y')
+            array('y'),
         );
 
         $offset = strlen($format);

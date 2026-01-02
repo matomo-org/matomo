@@ -70,9 +70,10 @@
                 </div>
                 <div class="visitor-profile-more-info">
                     {% if visitorData.lastVisits.getRowsCount() >= constant("Piwik\\Plugins\\Live\\VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW") %}
-                        <a href="#">{{ 'Live_LoadMoreVisits'|translate }}</a> <img class="loadingPiwik"
-                                                                                   style="display:none;"
-                                                                                   src="plugins/Morpheus/images/loading-blue.gif"/>
+                        <a href="#">{{ 'Live_LoadMoreVisits'|translate }}</a>
+                        <span class="loadingPiwik" style="display:none;">
+                            {% include "@CoreHome/_loader.twig" %}
+                        </span>
                     {% else %}
                         <span class="visitor-profile-no-visits">
                             {% if visitorData.hasMoreVisits %}

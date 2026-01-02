@@ -69,22 +69,22 @@ class VueJs extends SiteContentDetectionAbstract
             Piwik::translate(
                 'SitesManager_SiteWithoutDataVueDescription',
                 [
-                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://github.com/AmazingDreams/vue-matomo') . '">vue-matomo</a>',
-                    '<a target="_blank" rel="noreferrer noopener" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/') . '">',
-                    '</a>'
+                    Url::getExternalLinkTag('https://github.com/AmazingDreams/vue-matomo') . 'vue-matomo</a>',
+                    Url::getExternalLinkTag('https://matomo.org/faq/new-to-piwik/how-do-i-install-the-matomo-tracking-code-on-websites-that-use-vue-js/'),
+                    '</a>',
                 ]
             )
         );
     }
 
-    private function getVueInitializeCode($vueVersion = '3')
+    private function getVueInitializeCode(int $vueVersion = 3): string
     {
         $request = \Piwik\Request::fromRequest();
         $piwikUrl = Url::getCurrentUrlWithoutFileName();
         $siteId = $request->getIntegerParameter('idSite', 1);
         $configureComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentConfigureMatomo');
         $trackViewComment = Piwik::translate('SitesManager_SiteWithoutDataVueFollowStep2ExampleCodeCommentTrackPageView');
-        if ($vueVersion == 2) {
+        if ($vueVersion === 2) {
             return <<<INST
 import { createApp } from 'vue'
 import VueMatomo from 'vue-matomo'

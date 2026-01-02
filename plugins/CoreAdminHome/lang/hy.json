@@ -1,6 +1,7 @@
 {
     "CoreAdminHome": {
         "Administration": "Ադմինիստրատիվ",
+        "DeleteAllFailures": "ջնջել բոլոր ձախողումները",
         "MenuGeneralSettings": "Ընդհանուր կայանքները"
     }
 }

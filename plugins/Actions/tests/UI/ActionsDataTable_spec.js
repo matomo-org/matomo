@@ -72,14 +72,14 @@ describe("ActionsDataTable", function () {
     });
 
     it("should display pageview percentages when hovering over pageviews column", async function() {
-        const elem = await page.jQuery('tr:contains("thankyou") td.column:eq(1)');
+        const elem = await page.jQuery('tr:contains("index.htm") td.column:eq(1)');
         await elem.hover();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('pageview_percentages');
     });
 
     it("should generate a proper title for the visitor log segmented by the current row", async function() {
         await page.mouse.move(-10, -10);
-        const row = 'tr:contains("thankyou") ';
+        const row = 'tr:contains("index.htm") ';
         const first = await page.jQuery(row + 'td.column:first');
         await first.hover();
         const second = await page.jQuery(row + 'td.label .actionSegmentVisitorLog');
@@ -89,7 +89,7 @@ describe("ActionsDataTable", function () {
 
     it("should open the visitor log segmented by the current row", async function() {
         await page.evaluate(function(){
-            $('tr:contains("thankyou") td.label .actionSegmentVisitorLog').click();
+            $('tr:contains("index.htm") td.label .actionSegmentVisitorLog').click();
         });
         await page.mouse.move(-10, -10);
         await page.waitForSelector('.ui-dialog');
@@ -100,7 +100,7 @@ describe("ActionsDataTable", function () {
 
     it("should display unique pageview percentages when hovering over unique pageviews column", async function() {
         await page.click('.ui-widget .ui-dialog-titlebar-close');
-        const elem = await page.jQuery('tr:contains("thankyou") td.column:eq(2)');
+        const elem = await page.jQuery('tr:contains("index.htm") td.column:eq(2)');
         await elem.hover();
         await page.waitForTimeout(100);
         expect(await page.screenshot({ fullPage: true })).to.matchImage('unique_pageview_percentages');

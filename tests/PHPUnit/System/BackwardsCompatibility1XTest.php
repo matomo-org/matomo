@@ -142,7 +142,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'disableArchiving' => true,
             'otherRequestParameters' => [
                 // when changing this, might also need to change the same line in OneVisitorTwoVisitsTest.php
-                'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth'
+                'hideColumns' => 'nb_users,sum_bandwidth,nb_hits_with_bandwidth,min_bandwidth,max_bandwidth',
             ],
             'xmlFieldsToRemove' => array_merge([
                 'entry_sum_visit_length',
@@ -180,7 +180,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             'UserCountry.getCountry',
 
             'Tour.getLevel',
-            'Tour.getChallenges'
+            'Tour.getChallenges',
         ];
 
         $apiNotToCall = [
@@ -240,6 +240,9 @@ class BackwardsCompatibility1XTest extends SystemTestCase
             // compare separately, as changes in columns
             'MultiSites.getAll',
             'MultiSites.getOne',
+
+            // did not exist before Matomo 5.6
+            'AIAgents.get',
         ];
 
         if (!Manager::getInstance()->isPluginActivated('CustomVariables')) {

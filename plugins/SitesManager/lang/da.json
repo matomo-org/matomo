@@ -25,6 +25,7 @@
         "ExcludedIps": "Udeluk IP-adresser",
         "ExcludedParameters": "Udeluk parametre",
         "ExcludedUserAgents": "Ekskluderede User Agents",
+        "ExclusionTypeOptionCustom": "Brugerdefineret",
         "Format_Utc": "UTC %s",
         "GlobalExcludedUserAgentHelp1": "Angiv listen over brugeragenter der ikke skal spores af Matomo.",
         "GlobalExcludedUserAgentHelp2": "Brug dette til at udelukke nogle bots fra at blive sporet.",

@@ -42,7 +42,7 @@ class CronArchivingCheck implements Diagnostic
             $isBrowserTriggerEnabled = Rules::isBrowserTriggerEnabled();
             if ($isBrowserTriggerEnabled) {
                 $comment = $this->translator->translate('Diagnostics_BrowserTriggeredArchivingEnabled', [
-                    '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">', '</a>']);
+                    Url::getExternalLinkTag('https://matomo.org/docs/setup-auto-archiving/'), '</a>']);
                 $result[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment);
 
                 $archiveLastStarted = Option::get(CronArchive::OPTION_ARCHIVING_STARTED_TS);
@@ -54,7 +54,7 @@ class CronArchivingCheck implements Diagnostic
                     $lastStarted = $formatter->getPrettyTimeFromSeconds(time() - $archiveLastStarted, true);
                     $label = $this->translator->translate('Diagnostics_BrowserAndAutoArchivingEnabledLabel');
                     $comment = $this->translator->translate('Diagnostics_BrowserAndAutoArchivingEnabledComment', [
-                        '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/setup-auto-archiving/') . '" target="_blank" rel="noreferrer noopener">', '</a>', $lastStarted]);
+                        Url::getExternalLinkTag('https://matomo.org/docs/setup-auto-archiving/'), '</a>', $lastStarted]);
                     $result[] = DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment);
                 }
             }
@@ -78,7 +78,7 @@ class CronArchivingCheck implements Diagnostic
                 . ' (' . $this->translator->translate('General_Reasons') . ': ' . $reasonText . ')'
                 . $this->translator->translate(
                     'General_LearnMore',
-                    [' <a target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/') . '">', '</a>']
+                    [' ' . Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/') . '">', '</a>']
                 );
             $status = DiagnosticResult::STATUS_INFORMATIONAL;
         }

@@ -95,6 +95,7 @@ return [
      */
     'DocumentationGenerator.customParameters' => [],
 
+    \Piwik\Log\Logger::class => Piwik\DI::create(\Piwik\Log\NullLogger::class),
     \Piwik\Log\LoggerInterface::class => Piwik\DI::create(\Piwik\Log\NullLogger::class),
 
     'Piwik\Translation\Loader\LoaderInterface' => Piwik\DI::autowire('Piwik\Translation\Loader\LoaderCache')

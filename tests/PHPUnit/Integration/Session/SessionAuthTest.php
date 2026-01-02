@@ -173,7 +173,7 @@ class MockUsersModel extends UsersModel
         $this->userData = $userData;
     }
 
-    public function getUser($userLogin, $pending = false)
+    public function getUser($userLogin, $pending = false): array
     {
         return $this->userData;
     }

@@ -273,6 +273,15 @@ class FakeAccess extends Access
         return array_merge(self::$idSitesView, self::$idSitesWrite, self::$idSitesAdmin);
     }
 
+    public function getSitesIdWithAtLeastWriteAccess()
+    {
+        if (self::$superUser) {
+            return API::getInstance()->getAllSitesId();
+        }
+
+        return array_merge(self::$idSitesWrite, self::$idSitesAdmin);
+    }
+
     public function getRawSitesWithSomeViewAccess($login)
     {
         $result = array();

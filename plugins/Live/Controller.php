@@ -225,7 +225,7 @@ class Controller extends \Piwik\Plugin\Controller
                                                                                 'filter_limit'            => VisitorProfile::VISITOR_PROFILE_MAX_VISITS_TO_SHOW,
                                                                                 'filter_offset'           => $filterLimit,
                                                                                 'period'                  => false,
-                                                                                'date'                    => false
+                                                                                'date'                    => false,
                                                                            ));
 
         if (empty($nextVisits)) {
@@ -248,7 +248,7 @@ class Controller extends \Piwik\Plugin\Controller
                                                                      'action'   => 'index',
                                                                      'method'   => 'Live.getVisitorProfile',
                                                                      'format'   => 'XML',
-                                                                     'expanded' => 1
+                                                                     'expanded' => 1,
                                                                 ));
     }
 
@@ -259,7 +259,7 @@ class Controller extends \Piwik\Plugin\Controller
                                                                                           'module'            => 'Widgetize',
                                                                                           'action'            => 'iframe',
                                                                                           'moduleToWidgetize' => 'Live',
-                                                                                          'actionToWidgetize' => 'getVisitorProfilePopup'
+                                                                                          'actionToWidgetize' => 'getVisitorProfilePopup',
                                                                                      ));
         }
     }

@@ -344,6 +344,8 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     protected $maximumAllowedRows = 0;
 
+    protected $isBuiltWithoutArchives = true;
+
     /**
      * Constructor. Creates an empty DataTable.
      */
@@ -955,7 +957,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * Returns an array containing all column values for the requested column.
      *
-     * @param string $name The column name.
+     * @param string|int $name The column name.
      * @return array The array of column values.
      */
     public function getColumn($name)
@@ -1123,6 +1125,26 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         }
 
         $totalCount += $this->getRowsCount();
+        return $totalCount;
+    }
+
+    /**
+     * Returns the number of leaf rows in the entire DataTable hierarchy. Only rows that do not contain a subtables are counted
+     *
+     * @return int
+     */
+    public function getLeafRowsCount()
+    {
+        $totalCount = 0;
+        foreach ($this->rows as $row) {
+            $subTable = $row->getSubtable();
+            if ($subTable) {
+                $totalCount += $subTable->getLeafRowsCount();
+            } else {
+                $totalCount++;
+            }
+        }
+
         return $totalCount;
     }
 
@@ -1468,7 +1490,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
         $rows = Common::safe_unserialize($serialized, [
             Row::class,
             DataTableSummaryRow::class,
-            \Piwik_DataTable_SerializedRow::class
+            \Piwik_DataTable_SerializedRow::class,
         ]);
 
         if ($rows === false) {
@@ -1798,7 +1820,7 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * Sets metadata, erasing existing values.
      *
-     * @param array $values Array mapping metadata names with metadata values.
+     * @param array $metadata Array mapping metadata names with metadata values.
      */
     public function setAllTableMetadata($metadata)
     {
@@ -1837,10 +1859,10 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *                                      created for path labels that cannot be found.
      * @param int $maxSubtableRows The maximum number of allowed rows in new subtables. New
      *                             subtables are only created if `$missingRowColumns` is provided.
-     * @return array First element is the found row or `false`. Second element is
-     *               the number of path segments walked. If a row is found, this
-     *               will be == to `count($path)`. Otherwise, it will be the index
-     *               of the path segment that we could not find.
+     * @return array{0: false|Row, 1: int} First element is the found row or `false`. Second element is
+     *                                     the number of path segments walked. If a row is found, this
+     *                                     will be == to `count($path)`. Otherwise, it will be the index
+     *                                     of the path segment that we could not find.
      */
     public function walkPath($path, $missingRowColumns = false, $maxSubtableRows = 0)
     {
@@ -2132,5 +2154,15 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             $existingRow->sumRow($tableRow, true, $aggregationOps);
         }
         return $existingRow;
+    }
+
+    public function setAsBuiltWithoutArchives(bool $flag): void
+    {
+        $this->isBuiltWithoutArchives = $flag;
+    }
+
+    public function wasBuiltWithoutArchives(): bool
+    {
+        return $this->isBuiltWithoutArchives;
     }
 }

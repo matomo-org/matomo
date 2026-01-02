@@ -64,7 +64,7 @@
         "SearchEnginesSubcategoryHelp1": "Atal honek bilatzaileen optimizazioa eta errendimendua analizatzen laguntzen dizu. Gako-hitz erabilienak aztertu ditzakezu konbinatutako gako-hitzen txostenekin edo bilatzaile zehatzetan zein gako-hitzek funtzionatzen duten ondo, gehiago bideratutako analisi eta optimizaziorako.",
         "SearchEnginesSubcategoryHelp2": "%1$sMatomo Cloud%2$s eta %3$sBilatzaileetako gako-hitzen errendimendua%4$s pluginen erabiltzaileek jasoko dituzte emaitzarik onenak txosten honetatik.",
         "Socials": "Sare sozialak",
-        "SocialsReportDocumentation": "Txosten honek erakusten du zein sare sozialek bideratzen dituzten bisitariak zure webgunera.<br>Taulako errenkada batean klik eginez gero, ikus dezakezu bisitariak zein sare sozialetako orritatik etorri diren zure webgunera.",
+        "SocialsReportDocumentation": "Txosten honek erakusten du zein sare sozialek bideratzen dituzten bisitariak zure webgunera.%sTaulako errenkada batean klik eginez gero, ikus dezakezu bisitariak zein sare sozialetako orritatik etorri diren zure webgunera.",
         "SocialsSubcategoryHelp": "Taula honetan ikus dezakezu ze webgunek eraman dituzten bisitariak zure gunera.",
         "SubmenuSearchEngines": "Bilatzaileak eta gako-hitzak",
         "SubmenuWebsitesOnly": "Webguneak",

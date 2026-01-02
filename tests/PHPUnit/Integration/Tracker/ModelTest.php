@@ -88,7 +88,7 @@ class ModelTest extends IntegrationTestCase
             array('name' => 'action1', 'type' => 1),
             array('name' => 'ACTION1', 'type' => 1),
             array('name' => 'action1', 'type' => 2),
-            array('name' => 'action2', 'type' => 2)
+            array('name' => 'action2', 'type' => 2),
         ));
 
         // The order might differ depending on the database, so sort by 'idaction'
@@ -100,22 +100,22 @@ class ModelTest extends IntegrationTestCase
             array(
                 'idaction' => '2',
                 'type' => '1',
-                'name' => 'action1'
+                'name' => 'action1',
             ),
             array(
                 'idaction' => '3',
                 'type' => '1',
-                'name' => 'ACTION1'
+                'name' => 'ACTION1',
             ),
             array(
                 'idaction' => '4',
                 'type' => '2',
-                'name' => 'action1'
+                'name' => 'action1',
             ),
             array(
                 'idaction' => '5',
                 'type' => '2',
-                'name' => 'action2'
+                'name' => 'action2',
             ),
         );
         $this->assertEquals($expectedResult, $result);
@@ -127,20 +127,20 @@ class ModelTest extends IntegrationTestCase
 
         $result = $this->model->getIdsAction(array(
             array('name' => 'action1', 'type' => 1),
-            array('name' => 'action2', 'type' => 2)
+            array('name' => 'action2', 'type' => 2),
         ));
 
         $expectedResult = array(
             array(
                 'idaction' => '1',
                 'type' => '1',
-                'name' => 'action1'
+                'name' => 'action1',
             ),
             array(
                 'idaction' => '4',
                 'type' => '2',
-                'name' => 'action2'
-            )
+                'name' => 'action2',
+            ),
         );
         $this->assertEquals($expectedResult, $result);
     }
@@ -172,7 +172,7 @@ class ModelTest extends IntegrationTestCase
             'idaction_category5' => '7',
             'price' => '10.00',
             'quantity' => '1',
-            'deleted' => '0'
+            'deleted' => '0',
         );
         $item2 = [
             'idsite' => '1',
@@ -189,7 +189,7 @@ class ModelTest extends IntegrationTestCase
             'idaction_category5' => '7',
             'price' => '20.00',
             'quantity' => '1',
-            'deleted' => '0'
+            'deleted' => '0',
         ];
         $this->model->createEcommerceItems([$item]);
         $this->model->createEcommerceItems([$item, $item2]);
@@ -220,8 +220,8 @@ class ModelTest extends IntegrationTestCase
                 'idaction' => $idaction,
                 'name' => self::TEST_ACTION_NAME,
                 'type' => self::TEST_ACTION_TYPE,
-                'url_prefix' => self::TEST_ACTION_URL_PREFIX
-            )
+                'url_prefix' => self::TEST_ACTION_URL_PREFIX,
+            ),
         );
         $this->assertEquals($expectedRows, Db::fetchAll("SELECT idaction, name, type, url_prefix FROM " . Common::prefixTable('log_action')));
     }

@@ -43,7 +43,7 @@ class NonUnicodeTest extends SystemTestCase
         return array(
             array($apiToCall, array('idSite'  => self::$fixture->idSite1,
                                     'date'    => self::$fixture->dateTime,
-                                    'periods' => 'day'))
+                                    'periods' => 'day')),
         );
     }
 

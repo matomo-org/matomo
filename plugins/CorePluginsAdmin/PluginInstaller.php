@@ -129,7 +129,7 @@ class PluginInstaller
     {
         $dirs = array(
             StaticContainer::get('path.tmp') . self::PATH_TO_DOWNLOAD,
-            Manager::getPluginsDirectory()
+            Manager::getPluginsDirectory(),
         );
         // we do not require additional plugin directories to be writeable ({@link Manager::getPluginsDirectories()})
         // as we only upload to core plugins directory anyway

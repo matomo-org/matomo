@@ -49,8 +49,8 @@ class RowEvolutionTest extends SystemTestCase
                 'apiModule' => 'Referrers',
                 'apiAction' => 'getWebsites',
                 'label'     => 'www.referrer2.com',
-                'expanded'  => 0
-            )
+                'expanded'  => 0,
+            ),
         );
 
         $return[] = array('API.getRowEvolution', $config);
@@ -153,7 +153,7 @@ class RowEvolutionTest extends SystemTestCase
                 'apiModule' => 'Referrers',
                 'apiAction' => 'getKeywords',
                 // no label
-            )
+            ),
         ));
 
         // test that reports that process row labels are treated correctly
@@ -167,8 +167,8 @@ class RowEvolutionTest extends SystemTestCase
                 'period'    => 'month',
                 'apiModule' => 'DevicesDetection',
                 'apiAction' => 'getBrowsers',
-                'label'     => 'Firefox,Chrome,Opera'
-            )
+                'label'     => 'Firefox,Chrome,Opera',
+            ),
         ));
 
         // test Row Evolution on Desktop VS Mobile, special "view" report
@@ -182,8 +182,8 @@ class RowEvolutionTest extends SystemTestCase
                 'period'    => 'month',
                 'apiModule' => 'DevicesDetection',
                 'apiAction' => 'getType',
-                'label'     => 'Desktop,Mobile'
-            )
+                'label'     => 'Desktop,Mobile',
+            ),
         ));
 
         // test multi row evolution w/ filter_limit to limit all available labels
@@ -198,7 +198,7 @@ class RowEvolutionTest extends SystemTestCase
                 'apiModule'    => 'Referrers',
                 'apiAction'    => 'getWebsites',
                 'filter_limit' => 3, // only 3 labels should show up
-            )
+            ),
         ));
 
         // test multi row evolution when there is no data
@@ -213,7 +213,7 @@ class RowEvolutionTest extends SystemTestCase
                 'apiModule' => 'Referrers',
                 'apiAction' => 'getWebsites',
                 // no label
-            )
+            ),
         ));
 
         // (non-rowevolution test) test flattener w/ search engines to make sure
@@ -225,8 +225,8 @@ class RowEvolutionTest extends SystemTestCase
             'date'                   => '2010-02-01',
             'otherRequestParameters' => array(
                 'flat'               => 1,
-                'expanded'           => '0'
-            )
+                'expanded'           => '0',
+            ),
         ));
 
         return $return;

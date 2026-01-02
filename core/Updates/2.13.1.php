@@ -39,7 +39,7 @@ class Updates_2_13_1 extends Updates
         $removeEmptyDefaultReportsSql = "delete from `$optionTable` where option_name like '%defaultReport%' and option_value=''";
 
         return array(
-            $this->migration->db->sql($removeEmptyDefaultReportsSql)
+            $this->migration->db->sql($removeEmptyDefaultReportsSql),
         );
     }
 

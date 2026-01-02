@@ -124,7 +124,7 @@ class AutoSuggestAPITest extends SystemTestCase
             // need to make sure data is archived before disabling the archiving
             Request::processRequest('API.get', array(
                 'date' => '2018-01-10', 'period' => 'year', 'idSite' => $params['idSite'],
-                'trigger' => 'archivephp'
+                'trigger' => 'archivephp',
             ));
         }
 

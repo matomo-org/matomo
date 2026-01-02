@@ -39,7 +39,7 @@ class ApiTest extends SystemTestCase
     public function getApiForTesting()
     {
         $api = [
-            'API.getProcessedReport'
+            'API.getProcessedReport',
         ];
 
         $apiToTest   = [];
@@ -53,8 +53,8 @@ class ApiTest extends SystemTestCase
                 'date'       => '2010-01-01,2010-03-10',
                 'periods'    => ['day'],
                 'testSuffix' => 'Referrers_getReferrerType',
-                'otherRequestParameters' => ['expanded' => 0]
-            ]
+                'otherRequestParameters' => ['expanded' => 0],
+            ],
         ];
 
         $apiToTest[] = [

@@ -143,7 +143,7 @@
         "MenuUserSettings": "Configurações de usuário",
         "MenuUsers": "Usuários",
         "NewsletterSignupFailureMessage": "Ops, algo deu errado. Nós não conseguimos te inscrever no boletim informativo.",
-        "NewsletterSignupMessage": "Inscreva-se em nosso boletim informativo para receber informações regulares sobre o Matomo. Você pode cancelar a inscrição a qualquer momento. Este serviço usa o MadMimi. Saiba mais sobre ele em nossa %1$spágina da Política de Privacidade%2$s.",
+        "NewsletterSignupMessage": "Inscreva-se em nosso boletim informativo para receber informações regulares sobre o Matomo. Você pode cancelar a inscrição a qualquer momento. Saiba mais sobre ele em nossa %1$spágina da Política de Privacidade%2$s.",
         "NewsletterSignupSuccessMessage": "Parabéns, você está inscrito! Entraremos em contato em breve.",
         "NewsletterSignupTitle": "Inscrição em boletim informativo",
         "NoAccessWarning": "Este usuário não tem acesso a um site. Quando ele fizer login, ele verá uma mensagem de erro. Para evitar isto, conceda acesso a um site abaixo.",

@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
+use Piwik\Access\Role\Admin;
+use Piwik\Access\Role\View;
+use Piwik\Access\Role\Write;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Option;
@@ -27,6 +30,9 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Exception;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\PolicyManager;
 
 /**
  * Class Plugins_SitesManagerTest
@@ -42,6 +48,7 @@ class ApiTest extends IntegrationTestCase
         parent::setUp();
 
         Plugin\Manager::getInstance()->activatePlugin('MobileAppMeasurable');
+        Plugin\Manager::getInstance()->activatePlugin('WebsiteMeasurable');
 
         // setup the access layer
         FakeAccess::$superUser = true;
@@ -373,7 +380,7 @@ class ApiTest extends IntegrationTestCase
                        "http://localhost/test",
                        "http://localho5.st/test",
                        "http://l42578gqege.f4",
-                       "http://super.com/test/test/atqata675675/te"
+                       "http://super.com/test/test/atqata675675/te",
         ];
         $toAddValid = ["http://piwik1.net",
                             "http://piwik2.net",
@@ -1667,6 +1674,58 @@ class ApiTest extends IntegrationTestCase
         yield 'option doesnt exist and excluded query parameters has no data' => [null, '', 'common_session_parameters'];
     }
 
+    /**
+     * @dataProvider getExclusionTypesWithPolicyStatuses
+     */
+    public function testGetExclusionTypeForQueryParamsReturnsCorrectTypeWithCnilPolicy(bool $featureFlagEnabled, string $policy, bool $policyEnabled, string $exclusionTypeToSet, string $expectedExclusionType)
+    {
+        $config = Config::getInstance();
+        $featureFlag = new PrivacyCompliance();
+        $featureFlagConfig = $featureFlag->getName() . '_feature';
+
+        if ($featureFlagEnabled) {
+            $config->FeatureFlags = [$featureFlagConfig => 'enabled'];
+        } else {
+            $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+        }
+
+        Option::set(API::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL, $exclusionTypeToSet);
+
+        PolicyManager::setPolicyActiveStatus($policy, $policyEnabled);
+
+        $this->assertEquals(
+            $expectedExclusionType,
+            API::getInstance()->getExclusionTypeForQueryParams()
+        );
+
+        $config->FeatureFlags = [$featureFlagConfig => 'disabled'];
+    }
+
+    public function getExclusionTypesWithPolicyStatuses()
+    {
+        /*
+         *  [
+         *      $featureFlagEnabled,
+         *      $policy,
+         *      $policyEnabled,
+         *      $exclusionTypeToSet,
+         *      $expectedExclusionType
+         *  ]
+         */
+        yield [false, CnilPolicy::class, false, 'common_session_parameters', 'common_session_parameters'];
+        yield [false, CnilPolicy::class, false, 'matomo_recommended_pii',  'matomo_recommended_pii'];
+        yield [false, CnilPolicy::class, false, 'custom', 'custom'];
+        yield [false, CnilPolicy::class, true, 'common_session_parameters', 'common_session_parameters'];
+        yield [false, CnilPolicy::class, true, 'matomo_recommended_pii',  'matomo_recommended_pii'];
+        yield [false, CnilPolicy::class, true, 'custom', 'custom'];
+        yield [true, CnilPolicy::class, false, 'common_session_parameters', 'common_session_parameters'];
+        yield [true, CnilPolicy::class, false, 'matomo_recommended_pii',  'matomo_recommended_pii'];
+        yield [true, CnilPolicy::class, false, 'custom', 'custom'];
+        yield [true, CnilPolicy::class, true, 'common_session_parameters', 'matomo_recommended_pii'];
+        yield [true, CnilPolicy::class, true, 'matomo_recommended_pii',  'matomo_recommended_pii'];
+        yield [true, CnilPolicy::class, true, 'custom', 'matomo_recommended_pii'];
+    }
+
     public function testSetGlobalQueryParamExclusionThrowsExceptionWhenInvalidExclusionTypeProvided(): void
     {
         $this->expectExceptionMessage('General_ValidatorErrorXNotWhitelisted');
@@ -1747,7 +1806,7 @@ class ApiTest extends IntegrationTestCase
             'matomo_recommended_pii',
             null,
             implode(',', ['common_one','common_two','common_three']),
-            'matomo_recommended_pii'
+            'matomo_recommended_pii',
         ];
         yield 'custom' => ['custom', 'one,two', 'one,two', 'custom'];
     }
@@ -1767,6 +1826,108 @@ class ApiTest extends IntegrationTestCase
     {
         yield 'non empty list of exclusions' => ['one,two,three', 'custom'];
         yield 'empty list of exclusions' => ['', 'common_session_parameters'];
+    }
+
+    /**
+     * @dataProvider getSitesWithMinimumAccessTestData
+     */
+    public function testGetSitesWithMinimumAccess(
+        string $permission,
+        ?string $pattern,
+        ?int $limit,
+        array $sitesToExclude,
+        array $siteTypesToExclude,
+        array $expectedSites
+    ) {
+        // view permission
+        API::getInstance()->addSite("first site", ["http://first.site", "http://first.com/test/"]);
+        // write permission
+        API::getInstance()->addSite("second site", ["http://second.site/test/"]);
+        // no permission
+        API::getInstance()->addSite("third site", ["http://third.site/"]);
+        // admin permission
+        API::getInstance()->addSite("fourth site", ["http://fourth.site"]);
+        // write permission, intranet site
+        API::getInstance()->addSite("intranet", ["intranet.page"], null, null, null, null, null, null, 'Asia/Tokyo', null, null, null, null, null, IntranetType::ID);
+
+        FakeAccess::clearAccess(false, [4], [1], 'login', [2, 5]);
+
+        $result = Api::getInstance()->getSitesWithMinimumAccess($permission, $pattern, $limit, $sitesToExclude, $siteTypesToExclude);
+        self::assertEquals($expectedSites, array_column($result, 'idsite'));
+    }
+
+    public function getSitesWithMinimumAccessTestData(): iterable
+    {
+        yield 'get all sites with at least view access' => [
+            View::ID, null, null, [], [], [1, 2, 4, 5],
+        ];
+        yield 'get all sites with at least view access with search' => [
+            View::ID, 'site', null, [], [], [1, 2, 4],
+        ];
+        yield 'get all sites with at least view access with search and limit' => [
+            View::ID, 'site', 2, [], [], [1, 2],
+        ];
+        yield 'get all sites with at least write access' => [
+            Write::ID, null, null, [], [], [2, 4, 5],
+        ];
+        yield 'get all sites with at least write access and excluded site' => [
+            Write::ID, null, null, [4], [], [2, 5],
+        ];
+        yield 'get all sites with at least write access, without intranet sites' => [
+            Write::ID, null, null, [], [IntranetType::ID], [2, 4],
+        ];
+        yield 'get all sites with at least write access, without website sites' => [
+            Write::ID, null, null, [], [WebsiteType::ID], [5],
+        ];
+        yield 'get all sites with admin access' => [
+            Admin::ID, null, null, [], [], [4],
+        ];
+    }
+
+    /**
+     * @dataProvider getTimezonesToTest
+     */
+    public function testAddSiteWithLegacyTimezoneWorks($timezone)
+    {
+        if (in_array($timezone, ['leapseconds', 'tzdata.zi'])) {
+            $this->markTestSkipped('Unsupported legacy timezone');
+        }
+
+        $idSite = API::getInstance()->addSite(
+            "site1",
+            ['http://example.org'],
+            $ecommerce = 0,
+            $siteSearch = 1,
+            $searchKeywordParameters = null,
+            $searchCategoryParameters = null,
+            $ip = '',
+            $params = '',
+            $timezone
+        );
+
+        $site = new Site($idSite);
+
+        self::assertSame($timezone, $site->getTimezone());
+    }
+
+    public function getTimezonesToTest(): iterable
+    {
+        $timezoneListFromApi = API::getInstance()->getTimezonesList();
+
+        foreach ($timezoneListFromApi as $countries) {
+            foreach ($countries as $timezone => $timezoneName) {
+                yield $timezone => [$timezone];
+            }
+        }
+
+        $timezones = array_diff(
+            \DateTimeZone::listIdentifiers(\DateTimeZone::ALL_WITH_BC),
+            \DateTimeZone::listIdentifiers(\DateTimeZone::ALL)
+        );
+
+        foreach ($timezones as $timezone) {
+            yield $timezone => [$timezone];
+        }
     }
 
     private function setCommonPIIParamsInConfig(array $urlParams): void

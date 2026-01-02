@@ -44,16 +44,16 @@ class TrackingTest extends SystemTestCase
                 'idSite'     => self::$fixture->idSite,
                 'date'       => self::$fixture->dateTime,
                 'periods'    => array('day'),
-                'testSuffix' => '_intranet'
-            )
+                'testSuffix' => '_intranet',
+            ),
         );
         $apiToTest[] = array($api,
             array(
                 'idSite'     => self::$fixture->idSiteNotIntranet,
                 'date'       => self::$fixture->dateTime,
                 'periods'    => array('day'),
-                'testSuffix' => '_notIntranet'
-            )
+                'testSuffix' => '_notIntranet',
+            ),
         );
 
         return $apiToTest;

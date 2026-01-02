@@ -1,5 +1,7 @@
 {
     "Overlay": {
+        "Domain": "Domena",
+        "Link": "Poveznica",
         "Location": "Lokacija"
     }
 }

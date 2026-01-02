@@ -58,7 +58,7 @@ class Request
         // - the format = original specifies that we want to get the original DataTable structure itself, not rendered
         $requestArray = array(
             'method' => $this->requestConfig->apiMethodToRequestDataTable,
-            'format' => 'original'
+            'format' => 'original',
         );
 
         $toSetEventually = array_merge(array(

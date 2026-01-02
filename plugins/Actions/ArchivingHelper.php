@@ -353,7 +353,7 @@ class ArchivingHelper
         $dataTable->filter('ColumnDelete', array(
                                                 $columnsToRemove = array(PiwikMetrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS),
                                                 $columnsToKeep = array(),
-                                                $deleteIfZeroOnly = true
+                                                $deleteIfZeroOnly = true,
                                            ));
     }
 
@@ -734,7 +734,7 @@ class ArchivingHelper
     {
         $summaryRow = new Row(array(
                             Row::COLUMNS =>
-                                array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns()
+                                array('label' => DataTable::LABEL_SUMMARY_ROW) + self::getDefaultRowColumns(),
                        ));
         $summaryRow->setIsSummaryRow(); // this should be set in DataTable::addSummaryRow(), but we set it here as well to be safe
         return $summaryRow;

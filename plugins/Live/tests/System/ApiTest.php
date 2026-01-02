@@ -237,7 +237,7 @@ class ApiTest extends SystemTestCase
                 'otherRequestParameters' => [
                     'segmentName' => 'pageTitle',
                 ],
-            ]
+            ],
         ];
         $apiToTest[] = [
             ['Live.getLastVisitsDetails', 'Live.getVisitorProfile'],
@@ -245,7 +245,7 @@ class ApiTest extends SystemTestCase
                 'idSite'                 => 1,
                 'date'                   => self::$fixture->dateTime,
                 'periods'                => ['day'],
-            ]
+            ],
         ];
         $apiToTest[] = [
             ['API.getBulkRequest'],
@@ -256,9 +256,9 @@ class ApiTest extends SystemTestCase
                         urlencode("idSite=1&date=" . self::$fixture->dateTime . "&period=day&method=Live.getLastVisitsDetails"),
                         urlencode("idSite=1&date=" . self::$fixture->dateTime . "&period=day&method=API.getSuggestedValuesForSegment&segmentName=pageTitle"),
                         urlencode("idSite=1&date=" . self::$fixture->dateTime . "&period=day&method=Live.getVisitorProfile"),
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ];
 
         return $apiToTest;
@@ -289,7 +289,7 @@ class ApiTest extends SystemTestCase
             'otherRequestParameters' => [
                 'segmentName' => 'visitorId',
             ],
-            'testSuffix' => 'disabledProfile'
+            'testSuffix' => 'disabledProfile',
         ]);
 
         $this->runApiTests('API.getSuggestedValuesForSegment', [
@@ -299,7 +299,7 @@ class ApiTest extends SystemTestCase
             'otherRequestParameters' => [
                 'segmentName' => 'visitorId',
             ],
-            'testSuffix' => 'disabledProfile2'
+            'testSuffix' => 'disabledProfile2',
         ]);
 
         // user id segment should be disabled if visitor profile isn't available

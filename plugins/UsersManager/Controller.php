@@ -143,13 +143,24 @@ class Controller extends ControllerAdmin
             $capabilityEntry = [
                 'key' => $capability['id'],
                 'value' => $capability['category'] . ': ' . $capability['name'],
-                'type' => 'capability'
+                'type' => 'capability',
             ];
             $view->accessLevels[] = $capabilityEntry;
             $view->filterAccessLevels[] = $capabilityEntry;
         }
 
         $view->activatedPlugins = $this->pluginManager->getActivatedPlugins();
+
+        /** @var array{'inviteComponent': string, 'resendInviteComponent': string } $inviteVueComponents */
+        $inviteVueComponents = [
+            'inviteComponent' => 'UsersManager.UserInvite',
+            'resendInviteComponent' => 'UsersManager.ResendInviteModal',
+        ];
+        Piwik::postEvent('UsersManager.getInviteVueComponents', [&$inviteVueComponents]);
+
+        $view->inviteComponent = $inviteVueComponents['inviteComponent'];
+        $view->resendInviteComponent = $inviteVueComponents['resendInviteComponent'];
+
         $view->passwordStrengthValidationRules = $this->passwordStrength->getRules();
 
         $this->setBasicVariablesView($view);
@@ -278,7 +289,7 @@ class Controller extends ControllerAdmin
         foreach ($languages as $language) {
             $languageOptions[] = array(
                 'key' => $language['code'],
-                'value' => $language['name']
+                'value' => $language['name'],
             );
         }
 
@@ -291,7 +302,7 @@ class Controller extends ControllerAdmin
 
         $view->timeFormats = array(
             '1' => Piwik::translate('General_12HourClock'),
-            '0' => Piwik::translate('General_24HourClock')
+            '0' => Piwik::translate('General_24HourClock'),
         );
 
         return $view->render();
@@ -340,7 +351,7 @@ class Controller extends ControllerAdmin
                 'module' => 'UsersManager',
                 'action' => 'deleteToken',
                 'idtokenauth' => $idTokenAuth,
-                'nonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN)
+                'nonce' => Nonce::getNonce(self::NONCE_DELETE_AUTH_TOKEN),
             );
 
             if (!$this->passwordVerify->requirePasswordVerifiedRecently($params)) {
@@ -361,7 +372,7 @@ class Controller extends ControllerAdmin
                     'login' => Piwik::getCurrentUserLogin(),
                     'emailAddress' => Piwik::getCurrentUserEmail(),
                     'tokenDescription' => '',
-                    'all' => true
+                    'all' => true,
                 ));
                 $email->safeSend();
             } elseif (is_numeric($idTokenAuth)) {
@@ -376,7 +387,7 @@ class Controller extends ControllerAdmin
                 $email = $container->make(TokenAuthDeletedEmail::class, array(
                     'login' => Piwik::getCurrentUserLogin(),
                     'emailAddress' => Piwik::getCurrentUserEmail(),
-                    'tokenDescription' => $description
+                    'tokenDescription' => $description,
                 ));
                 $email->safeSend();
             }
@@ -685,7 +696,7 @@ class Controller extends ControllerAdmin
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
             'email' => $email,
-            'passwordConfirmation' => $passwordCurrent
+            'passwordConfirmation' => $passwordCurrent,
         ], $default = []);
     }
 
@@ -723,7 +734,7 @@ class Controller extends ControllerAdmin
         Request::processRequest('UsersManager.updateUser', [
             'userLogin' => $userLogin,
             'password' => $newPassword,
-            'passwordConfirmation' => $passwordCurrent
+            'passwordConfirmation' => $passwordCurrent,
         ], $default = []);
 
         // logs the user in with the new password

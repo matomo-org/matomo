@@ -339,7 +339,7 @@ class ManySitesImportedLogs extends Fixture
             $opts['--regex-group-to-visit-cvar'] = 'userid=User Name';
             $opts['--regex-group-to-page-cvar'] = array(
                 'generation_time_milli=Generation Time',
-                'win32_status=Windows Status Code'
+                'win32_status=Windows Status Code',
             );
             $opts['--ignore-groups'] = 'userid';
             $opts['--w3c-field-regex'] = 'sc-win32-status=(?P<win32_status>\S+)';

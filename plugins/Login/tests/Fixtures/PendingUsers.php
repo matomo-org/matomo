@@ -25,7 +25,7 @@ class PendingUsers extends Fixture
 
     public $pendingUser = [
       'login' => '000pendingUser',
-      'email' => 'pendinguser2light@example.com'
+      'email' => 'pendinguser2light@example.com',
     ];
 
     public $token = "13cb9dcef6cc70b02a640cee30dc8ce9";

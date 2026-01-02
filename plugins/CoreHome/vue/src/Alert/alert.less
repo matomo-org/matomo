@@ -14,14 +14,26 @@
   border-radius: 2px;
   font-size: 14px;
   position: relative;
-  &:before {
+
+  @media (max-width: 480px) {
+    padding: 15px;
+  }
+
+  &::before {
     font-family: "matomo";
     content: "\e88f";
     position: absolute;
     left: 20px;
     line-height: 100%; // line-height = font-size
     font-size: 24px;
-    margin-top: -3px
+    margin-top: -3px;
+
+    @media (max-width: 480px) {
+      position: static;
+      display: block;
+      margin-bottom: 0.5em;
+      text-align: center;
+    }
   }
 
   a {

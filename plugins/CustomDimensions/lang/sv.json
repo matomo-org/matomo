@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "En Anpassad Dimension kan inte tas bort bara inaktiveras.",
         "ColumnAvgTimeOnDimension": "Genomsnittlig tid på Dimension",
+        "ColumnAvgTimeOnDimensionDocumentation": "Genomsnittlig tid för anpassad åtkomstdimension är den genomsnittliga tid besökare tillbringade på en specifik anpassad åtgärd innan de gick vidare till en annan spårad åtgärd. Beräknas genom att summera tiden som spenderats på åtgärden över alla besök och dividera den med antalet gånger åtgärden utfördes.",
         "ColumnUniqueActions": "Unika åtgärder",
         "ConfigureDimension": "Konfigurera %1$s Anpassad Dimension %2$s",
         "ConfigureNewDimension": "Konfigurera en ny dimension",

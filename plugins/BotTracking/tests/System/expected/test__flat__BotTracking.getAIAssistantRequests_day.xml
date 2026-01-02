@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>ChatGPT-User - example.com/article/1/page/2</label>
+		<requests>1</requests>
+		<BotTracking_AIAssistantName>ChatGPT-User</BotTracking_AIAssistantName>
+		<BotTracking_PageUrl>example.com/article/1/page/2</BotTracking_PageUrl>
+	</row>
+	<row>
+		<label>MistralAI-User - example.com/article/2</label>
+		<requests>1</requests>
+		<BotTracking_AIAssistantName>MistralAI-User</BotTracking_AIAssistantName>
+		<BotTracking_PageUrl>example.com/article/2</BotTracking_PageUrl>
+	</row>
+	<row>
+		<label>MistralAI-User - example.com/article/3</label>
+		<requests>1</requests>
+		<BotTracking_AIAssistantName>MistralAI-User</BotTracking_AIAssistantName>
+		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
+	</row>
+	<row>
+		<label>Perplexity-User - example.com/article/2</label>
+		<requests>2</requests>
+		<BotTracking_AIAssistantName>Perplexity-User</BotTracking_AIAssistantName>
+		<BotTracking_PageUrl>example.com/article/2</BotTracking_PageUrl>
+	</row>
+</result>

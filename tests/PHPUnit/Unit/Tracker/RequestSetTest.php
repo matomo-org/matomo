@@ -55,7 +55,7 @@ class RequestSetTest extends UnitTestCase
         $this->assertEquals(array(
             $this->buildRequest(1),
             $this->buildRequest(2),
-            $this->buildRequest(3)
+            $this->buildRequest(3),
         ), $this->buildRequests(3));
     }
 
@@ -95,7 +95,7 @@ class RequestSetTest extends UnitTestCase
             array('idsite' => 9),
             $this->buildRequest(2),
             array('idsite' => 3),
-            $this->buildRequest(6)
+            $this->buildRequest(6),
         );
 
         $this->requestSet->setRequests($requests);
@@ -126,7 +126,7 @@ class RequestSetTest extends UnitTestCase
             $request2,
             0,
             $request3,
-            []
+            [],
         ];
 
         $this->requestSet->setRequests($requests);
@@ -208,7 +208,7 @@ class RequestSetTest extends UnitTestCase
     {
         $this->assertEquals(array(
             'server' => $_SERVER,
-            'cookie' => $_COOKIE
+            'cookie' => $_COOKIE,
         ), $this->requestSet->getEnvironment());
     }
 
@@ -267,7 +267,7 @@ class RequestSetTest extends UnitTestCase
 
         $expectedRequests = array(
             array('idsite' => 1),
-            array('idsite' => 2)
+            array('idsite' => 2),
         );
 
         $this->assertEquals($expectedRequests, $state['requests']);
@@ -290,7 +290,7 @@ class RequestSetTest extends UnitTestCase
         unset($_SERVER['HTTP_REFERER']);
 
         $expectedRequests = array(
-            array('idsite' => 1)
+            array('idsite' => 1),
         );
 
         $this->assertEquals($expectedRequests, $state['requests']);
@@ -307,7 +307,7 @@ class RequestSetTest extends UnitTestCase
             'requests' => array(array('idsite' => 1), array('idsite' => 2), array('idsite' => 3)),
             'time' => $this->time,
             'tokenAuth' => 'tokenAuthRestored',
-            'env' => $this->getFakeEnvironment()
+            'env' => $this->getFakeEnvironment(),
         );
 
         $this->requestSet->restoreState($state);

@@ -25,6 +25,10 @@ use Piwik\ProxyHttp;
 use Piwik\Segment\SegmentExpression;
 use Piwik\Tracker;
 use Piwik\Cache as PiwikCache;
+use Piwik\Tracker\Cache as TrackerCache;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\UserId\Settings\UserIdDisabled;
 
 /**
  * The Request object holding the http parameters for this tracking request. Use getParam() to fetch a named parameter.
@@ -202,7 +206,10 @@ class Request
             if ($this->isAuthenticated) {
                 Common::printDebug("token_auth is authenticated!");
             } else {
-                StaticContainer::get('Piwik\Tracker\Failures')->logFailure(Failures::FAILURE_ID_NOT_AUTHENTICATED, $this);
+                if (preg_match('/^\w{28,36}$/', $tokenAuth) || empty($tokenAuth)) {
+                    // only log a failure if the token auth looks partial valid or is completely missing
+                    StaticContainer::get('Piwik\Tracker\Failures')->logFailure(Failures::FAILURE_ID_NOT_AUTHENTICATED, $this);
+                }
             }
         } else {
             $this->isAuthenticated = true;
@@ -343,7 +350,7 @@ class Request
         $localTimes = array(
             'h' => (string)Common::getRequestVar('h', $this->getCurrentDate("H"), 'int', $this->params),
             'i' => (string)Common::getRequestVar('m', $this->getCurrentDate("i"), 'int', $this->params),
-            's' => (string)Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params)
+            's' => (string)Common::getRequestVar('s', $this->getCurrentDate("s"), 'int', $this->params),
         );
         if ($localTimes['h'] < 0 || $localTimes['h'] > 23) {
             $localTimes['h'] = 0;
@@ -852,6 +859,16 @@ class Request
 
     public function getForcedUserId()
     {
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            $idSite = $this->getIdSite();
+            $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+            $cacheKey = UserIdDisabled::class;
+            if (($cache[$cacheKey] ?? false) === true) {
+                return false;
+            }
+        }
+
         $userId = $this->getParam('uid');
         if (strlen($userId) > 0) {
             return $userId;

@@ -1,6 +1,8 @@
 {
     "Referrers": {
+        "Acquisition": "Nguồn tiếp cận",
         "AllReferrersReportDocumentation": "Báo cáo này cho thấy tất cả sự chỉ dẫn của bạn trong một báo cáo, liệt kê tất cả các trang web, từ khóa tìm kiếm và Chiến dịch được sử dụng bởi khách truy cập để tìm trang web của bạn.",
+        "CampaignSource": "Mã nguồn",
         "Campaigns": "Các chiến dịch",
         "CampaignsDocumentation": "Khách truy cập đã tới trang web của bạn như là kết quả của một chiến dịch. %1$s Xem báo cáo %2$s để biết thêm chi tiết.",
         "ColumnCampaign": "Chiến dịch",
@@ -24,7 +26,7 @@
         "SearchEnginesDocumentation": "Một du khách được chỉ dẫn đến trang web của bạn bởi một công cụ tìm kiếm. %1$s Xem báo cáo %2$s để biết thêm chi tiết.",
         "SearchEnginesReportDocumentation": "Báo cáo này cho thấy những công cụ tìm kiếm đã chỉ dẫn người dùng tới website của bạn. %s bằng cách click trên một hàng trong bảng, bạn có thể thấy những người dùng đã tìm kiếm để sử dụng một công cụ tìm kiếm cụ thể.",
         "Socials": "Các mạng xã hội",
-        "SocialsReportDocumentation": "Báo cáo này cho thấy những mạng xã hội dẫn khách truy cập vào trang web của bạn.<br\/> bằng cách click trên một hàng trong bảng, bạn có thể thấy các trang mạng xã hội đã đến website của bạn.",
+        "SocialsReportDocumentation": "Báo cáo này cho thấy những mạng xã hội dẫn khách truy cập vào trang web của bạn.%sbằng cách click trên một hàng trong bảng, bạn có thể thấy các trang mạng xã hội đã đến website của bạn.",
         "SubmenuSearchEngines": "Các công cụ tìm kiếm và từ khóa",
         "SubmenuWebsitesOnly": "Websites",
         "TypeCampaigns": "%s từ các chiến dịch",

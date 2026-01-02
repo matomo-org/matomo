@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Laporan ini memberikan Anda gambaran umum mengenai informasi untuk setiap situs web Anda, berisi metrik paling umum tentang pengunjung Anda.",
+        "AllWebsitesDashboardTitle": "Semua Situs",
         "Evolution": "Evolusi",
         "EvolutionComparisonDay": "%1$s %2$s hari ini dibandingkan dengan %3$s %2$s pada periode parsial sebelumnya (%4$s) Evolusi: %5$s",
         "EvolutionComparisonIncomplete": "Jangka waktu yang dipilih saat ini adalah %1$s selesai.",
@@ -11,6 +12,7 @@
         "LoadingWebsites": "Memuat situs web",
         "PluginDescription": "Lihat dan bandingkan semua situs web dan aplikasi Anda di dasbor 'Semua Situs Web' yang berguna ini.",
         "SingleWebsitesDashboardDocumentation": "Laporan ini memberikan Anda gambaran umum tentang informasi untuk situs web tertentu. Laporan ini berisi metrik paling umum tentang pengunjung Anda.",
-        "TopLinkTooltip": "Bandingkan statistik Analisis Web untuk semua Situs Web Anda."
+        "TopLinkTooltip": "Bandingkan statistik Analisis Web untuk semua Situs Web Anda.",
+        "TotalPageviews": "Total Halaman Ditampilkan"
     }
 }

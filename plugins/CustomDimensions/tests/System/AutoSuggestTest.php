@@ -45,8 +45,8 @@ class AutoSuggestTest extends SystemTestCase
                     'segmentName' => 'dimension1',
                     'idSite' => self::$fixture->idSite,
                 ),
-                'testSuffix' => '_visitScope'
-            )
+                'testSuffix' => '_visitScope',
+            ),
         );
 
         $apiToTest[] = array(array('API.getSuggestedValuesForSegment'),
@@ -58,8 +58,8 @@ class AutoSuggestTest extends SystemTestCase
                     'segmentName' => 'dimension3',
                     'idSite' => self::$fixture->idSite,
                 ),
-                'testSuffix' => '_actionScope'
-            )
+                'testSuffix' => '_actionScope',
+            ),
         );
 
         return $apiToTest;
@@ -90,7 +90,7 @@ class AutoSuggestTest extends SystemTestCase
     {
         $autoSuggest = new AutoSuggest();
         $values = $autoSuggest->getMostUsedActionDimensionValues(array('idcustomdimension' => 5), $idSite = 1, $limit = 10);
-        $this->assertEquals(array('en_US', '343', 'value5', 'value5 5'), $values);
+        $this->assertEquals(array('en_US', '"><img src=x onerror="document.write(\'test\')">', 'value5', 'value5 5'), $values);
     }
 
     public static function getOutputPrefix()

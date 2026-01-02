@@ -50,14 +50,14 @@ class CustomGroupLog
     {
         $columns = array(
             'group' => $group,
-            'is_admin' => $isAdmin
+            'is_admin' => $isAdmin,
         );
 
         $bind = array_values($columns);
         $placeholder = Common::getSqlStringFieldsArray($columns);
 
         $sql = sprintf(
-            'INSERT INTO %s (`%s`) VALUES(%s)',
+            'INSERT INTO `%s` (`%s`) VALUES(%s)',
             $this->tablePrefixed,
             implode('`,`', array_keys($columns)),
             $placeholder

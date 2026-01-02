@@ -30,7 +30,7 @@ class Updates_1_10_2_b2 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('site', 'keep_url_fragment', 'TINYINT NOT NULL DEFAULT 0', 'group')
+            $this->migration->db->addColumn('site', 'keep_url_fragment', 'TINYINT NOT NULL DEFAULT 0', 'group'),
         );
     }
 

@@ -281,7 +281,7 @@ class Url
         $untrustedHost = mb_strtolower($host);
         $untrustedHost = rtrim($untrustedHost, '.');
 
-        $hostRegex = mb_strtolower('/(^|\.)' . implode('$|', $trustedHosts) . '$/');
+        $hostRegex = mb_strtolower('/(^|\.)(' . implode('|', $trustedHosts) . ')$/');
 
         $result = preg_match($hostRegex, $untrustedHost);
         return 0 !== $result;
@@ -332,7 +332,7 @@ class Url
      *
      * @param bool $checkIfTrusted Whether to do trusted host check. Should ALWAYS be true,
      *                             except in Controller.
-     * @return string|bool eg, `"demo.matomo.org"` or false if no host found.
+     * @return string|bool eg, `"demo.matomo.cloud"` or false if no host found.
      */
     public static function getHost($checkIfTrusted = true)
     {
@@ -872,7 +872,7 @@ class Url
      * @param string|null $medium   Optional campaign medium, defaults to App.[module].[action] where module and action are
      *                              taken from the currently viewed application page, eg. 'CoreAdminHome.trackingCodeGenerator'
      *
-     * @return string|null      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreAdminHome.trackingCodeGenerator
+     * @return ($url is string ? string : null)      www.matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreAdminHome.trackingCodeGenerator
      */
     public static function addCampaignParametersToMatomoLink(
         ?string $url = null,
@@ -908,12 +908,28 @@ class Url
         }
         $newParams = [
             'mtm_campaign' => $campaign ?? 'Matomo_App',
-            'mtm_source' => $source ?? 'Matomo_App_' . (\Piwik\Plugin\Manager::getInstance()->isPluginLoaded('Cloud') ? 'Cloud' : 'OnPremise'),
-            'mtm_medium' => $medium
+            'mtm_source' => $source ?? 'Matomo_App_' . (\Piwik\Plugin\Manager::getInstance()->isPluginActivated('Cloud') ? 'Cloud' : 'OnPremise'),
+            'mtm_medium' => $medium,
             ];
 
         // Add parameters to the link, overriding any existing campaign parameters while preserving the path and query string
         $pathAndQueryString = UrlHelper::getPathAndQueryFromUrl($url, $newParams, true);
         return 'https://' . $domain . '/' . $pathAndQueryString;
+    }
+
+    /**
+     * Create an external link tag with optional campaign params if link goes to matomo.org
+     *
+     * @since 5.6.0
+     */
+    public static function getExternalLinkTag(
+        string $url,
+        ?string $campaign = null,
+        ?string $source = null,
+        ?string $medium = null
+    ): string {
+        $url = self::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium);
+
+        return '<a target="_blank" rel="noreferrer noopener" href="' . $url . '">';
     }
 }

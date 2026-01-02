@@ -8,8 +8,6 @@
  */
 
 describe("TagManagerTeaser", function () {
-    this.timeout(0);
-
     var urlBase = '?module=CorePluginsAdmin&action=tagManagerTeaser&idSite=1&period=day&date=2019-01-03',
         pageSelector = '.activateTagManager';
 
@@ -66,6 +64,8 @@ describe("TagManagerTeaser", function () {
         await page.waitForSelector('.manageContainer');
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250);
+
+        await page.evaluate(() => $('.containers .index').text('redacted'));
 
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('super_user_activate_plugin');
     });

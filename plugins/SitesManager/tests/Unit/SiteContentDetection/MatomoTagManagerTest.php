@@ -32,13 +32,13 @@ class MatomoTagManagerTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no MTM content' => [
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'MTM js code found' => [
@@ -53,7 +53,7 @@ class MatomoTagManagerTest extends \PHPUnit\Framework\TestCase
                 </script>
                 <!-- End Matomo Tag Manager -->                  
                 </head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

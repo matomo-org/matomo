@@ -31,7 +31,7 @@ class API extends \Piwik\Plugin\API
             'oneClick'         => 'Overlay_OneClick',
             'clicks'           => 'Overlay_Clicks',
             'clicksFromXLinks' => 'Overlay_ClicksFromXLinks',
-            'link'             => 'Overlay_Link'
+            'link'             => 'Overlay_Link',
         );
 
         return array_map(array('\\Piwik\\Piwik','translate'), $translations);

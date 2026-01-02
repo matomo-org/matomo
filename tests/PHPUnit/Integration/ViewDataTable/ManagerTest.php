@@ -52,7 +52,7 @@ class ManagerTest extends IntegrationTestCase
         $params = array(
             'flat' => '0',
             'translations' => 'this is not overridable param and should fail',
-            'viewDataTable' => 'tableAllColumns'
+            'viewDataTable' => 'tableAllColumns',
         );
 
         ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
@@ -68,7 +68,7 @@ class ManagerTest extends IntegrationTestCase
         $params = array(
             'flat' => '0',
             'filters' => 'this is not overridable param and should fail',
-            'viewDataTable' => 'tableAllColumns'
+            'viewDataTable' => 'tableAllColumns',
         );
 
         ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
@@ -84,7 +84,7 @@ class ManagerTest extends IntegrationTestCase
         $params = array(
             'flat' => '0',
             'apiMethodToRequestDataTable' => 'this is not overridable in RequestConfig param and should fail',
-            'viewDataTable' => 'tableAllColumns'
+            'viewDataTable' => 'tableAllColumns',
         );
 
         ViewDataTableManager::saveViewDataTableParameters($login, $method, $params);
@@ -95,13 +95,13 @@ class ManagerTest extends IntegrationTestCase
         $params = array(
             'flat' => '0',
             'filters' => 'this is not overridable param and should fail',
-            'viewDataTable' => 'tableAllColumns'
+            'viewDataTable' => 'tableAllColumns',
         );
 
         // 'filters' was removed
         $paramsExpectedWhenFetched = array(
             'flat' => '0',
-            'viewDataTable' => 'tableAllColumns'
+            'viewDataTable' => 'tableAllColumns',
         );
 
         $login  = 'mylogin';

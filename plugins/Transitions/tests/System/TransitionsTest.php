@@ -40,7 +40,7 @@ class TransitionsTest extends SystemTestCase
             'testSuffix'             => '_noLimit',
             'otherRequestParameters' => array(
                 'pageUrl'            => 'http://example.org/page/one.html',
-            )
+            ),
         ));
         $return[] = array('Transitions.getTransitionsForPageTitle', array(
             'idSite'                 => self::$fixture->idSite,
@@ -49,7 +49,7 @@ class TransitionsTest extends SystemTestCase
             'testSuffix'             => '_noLimit',
             'otherRequestParameters' => array(
                 'pageTitle'          => 'page title - page/one.html',
-            )
+            ),
         ));
 
         // test w/ pages that don't exist
@@ -60,7 +60,7 @@ class TransitionsTest extends SystemTestCase
             'testSuffix'             => '_noData',
             'otherRequestParameters' => array(
                 'pageUrl'            => 'http://example.org/not/a/page.html',
-            )
+            ),
         ));
         $return[] = array('Transitions.getTransitionsForPageTitle', array(
             'idSite'                 => self::$fixture->idSite,
@@ -69,7 +69,7 @@ class TransitionsTest extends SystemTestCase
             'testSuffix'             => '_noData',
             'otherRequestParameters' => array(
                 'pageTitle'          => 'not a page title',
-            )
+            ),
         ));
 
         $return[] = array('Transitions.getTransitionsForPageUrl', array( // test w/ limiting
@@ -78,8 +78,8 @@ class TransitionsTest extends SystemTestCase
             'periods'                => array('day', 'month'),
             'otherRequestParameters' => array(
                 'pageUrl'             => 'http://example.org/page/one.html',
-                'limitBeforeGrouping' => 2
-            )
+                'limitBeforeGrouping' => 2,
+            ),
         ));
 
         $return[] = array('Transitions.getTransitionsForPageUrl', array( // test w/ segment
@@ -90,8 +90,8 @@ class TransitionsTest extends SystemTestCase
             'segment'                => 'visitConvertedGoalId!%3D2',
             'otherRequestParameters' => array(
                 'pageUrl'             => 'http://example.org/page/one.html',
-                'limitBeforeGrouping' => 2
-            )
+                'limitBeforeGrouping' => 2,
+            ),
         ));
         $return[] = array('Transitions.getTransitionsForPageTitle', array(
             'idSite'                 => self::$fixture->idSite,
@@ -100,7 +100,7 @@ class TransitionsTest extends SystemTestCase
             'testSuffix'             => '_withSegment',
             'otherRequestParameters' => array(
                 'pageTitle'          => 'page title - page/one.html',
-            )
+            ),
         ));
         return $return;
     }

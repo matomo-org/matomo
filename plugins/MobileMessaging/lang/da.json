@@ -33,7 +33,6 @@
         "Settings_UpdateOrDeleteAccount": "Du kan også %1$sopdatere%2$s eller %3$sslette%4$s denne konto.",
         "Settings_ValidatePhoneNumber": "Bekræft",
         "TopLinkTooltip": "Få web analyse rapporter leveret til din indbakke eller din mobiltelefon!",
-        "TopMenu": "E-mail- & sms-rapporter",
         "VerificationText": "Koden er %1$s. For at validere dit telefonnummer og modtage Matomos sms-rapporter, kopier koden til formularen på Matomo → %2$s → %3$s."
     }
 }

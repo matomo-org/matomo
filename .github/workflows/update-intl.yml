@@ -42,11 +42,11 @@ jobs:
         shell: bash
       - name: "Check CLDR version"
         if: steps.cldr.outputs.cldr-version == ''
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             core.setFailed('Unable to find current CLDR version')
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           lfs: false
           persist-credentials: false

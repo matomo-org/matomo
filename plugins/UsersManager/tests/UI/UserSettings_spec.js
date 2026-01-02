@@ -8,7 +8,6 @@
  */
 
 describe("UserSettings", function () {
-    this.timeout(0);
     this.fixture = "Piwik\\Plugins\\UsersManager\\tests\\Fixtures\\ManyUsersPastDate";
 
     var userSettingsUrl = "?module=UsersManager&action=userSettings";
@@ -121,7 +120,7 @@ describe("UserSettings", function () {
     });
 
     it('should allow user to subscribe to newsletter', async function () {
-        await page.click('#newsletterSignupCheckbox input');
+        await page.click('#newsletterSignupCheckbox');
         await page.click('#newsletterSignupBtn input');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('signup_success');

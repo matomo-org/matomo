@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "Aktiivne",
         "AllWebsites": "Kõik veebilehed",
         "AnonymousUser": "Anonüümne kasutaja",
         "ApplyToAllWebsites": "Laienda kõigile veebilehtedele",
@@ -26,6 +27,7 @@
         "PrivView": "Vaata",
         "ReportDateToLoadByDefault": "Vaikimisi laetav raporti kuupäev",
         "ReportToLoadByDefault": "Vaikimisi laetav raport",
+        "Status": "Olek",
         "SuperUserAccessManagement": "Halda peakasutaja ligipääse",
         "TheLoginScreen": "Sisselogimise vaade",
         "ThereAreCurrentlyNRegisteredUsers": "Hetkel on %s registreeritud kasutajat.",

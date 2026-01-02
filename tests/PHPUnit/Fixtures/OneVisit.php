@@ -10,6 +10,7 @@
 namespace Piwik\Tests\Fixtures;
 
 use Piwik\Date;
+use Piwik\DbHelper;
 use Piwik\Tests\Framework\Fixture;
 
 /**
@@ -22,6 +23,7 @@ class OneVisit extends Fixture
     public function setUp(): void
     {
         Fixture::createSuperUser();
+        DbHelper::createAnonymousUser();
         $this->setUpWebsites();
         $this->trackVisits();
     }

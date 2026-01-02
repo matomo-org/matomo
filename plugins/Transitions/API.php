@@ -102,7 +102,7 @@ class API extends \Piwik\Plugin\API
 
         // prepare the report
         $report = array(
-            'date' => Period\Factory::build($period->getLabel(), $date)->getLocalizedShortString()
+            'date' => Period\Factory::build($period->getLabel(), $date)->getLocalizedShortString(),
         );
 
         try {
@@ -146,7 +146,7 @@ class API extends \Piwik\Plugin\API
             'followingPages'        => true,
             'followingSiteSearches' => false,
             'outlinks'              => true,
-            'downloads'             => true
+            'downloads'             => true,
         );
         foreach ($reportNames as $reportName => $replaceLabel) {
             if (isset($report[$reportName])) {
@@ -316,7 +316,7 @@ class API extends \Piwik\Plugin\API
 					' /* following download or outlink: use url */ . '
 					ELSE log_action1.type
 				END AS `type`',
-                'NULL AS `url_prefix`'
+                'NULL AS `url_prefix`',
             );
         }
 
@@ -380,19 +380,21 @@ class API extends \Piwik\Plugin\API
 				WHEN ' . Common::REFERRER_TYPE_DIRECT_ENTRY . ' THEN \'\'
 				WHEN ' . Common::REFERRER_TYPE_SEARCH_ENGINE . ' THEN log_visit.referer_name
 				WHEN ' . Common::REFERRER_TYPE_SOCIAL_NETWORK . ' THEN log_visit.referer_name
+				WHEN ' . Common::REFERRER_TYPE_AI_ASSISTANT . ' THEN log_visit.referer_name
 				WHEN ' . Common::REFERRER_TYPE_WEBSITE . ' THEN log_visit.referer_url
-				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT(log_visit.referer_name, \' \', log_visit.referer_keyword)
+				WHEN ' . Common::REFERRER_TYPE_CAMPAIGN . ' THEN CONCAT_WS(\' \', log_visit.referer_name, log_visit.referer_keyword)
 			END', 'referer_type');
         $rankingQuery->addLabelColumn('referrer_data');
 
         // get one limited group per referrer type
         $rankingQuery->partitionResultIntoMultipleGroups('referer_type', array(
-                                                                              Common::REFERRER_TYPE_DIRECT_ENTRY,
-                                                                              Common::REFERRER_TYPE_SEARCH_ENGINE,
-                                                                              Common::REFERRER_TYPE_SOCIAL_NETWORK,
-                                                                              Common::REFERRER_TYPE_WEBSITE,
-                                                                              Common::REFERRER_TYPE_CAMPAIGN
-                                                                         ));
+            Common::REFERRER_TYPE_DIRECT_ENTRY,
+            Common::REFERRER_TYPE_SEARCH_ENGINE,
+            Common::REFERRER_TYPE_SOCIAL_NETWORK,
+            Common::REFERRER_TYPE_AI_ASSISTANT,
+            Common::REFERRER_TYPE_WEBSITE,
+            Common::REFERRER_TYPE_CAMPAIGN,
+        ));
 
         $type = $this->getColumnTypeSuffix($actionType);
         $where = 'visit_entry_idaction_' . $type . ' = ' . intval($idaction);
@@ -402,11 +404,12 @@ class API extends \Piwik\Plugin\API
 
         // array is prefilled with available keys and empty values are removed in the end to ensure the order is static
         $referrerData = [
-            Common::REFERRER_TYPE_DIRECT_ENTRY => [],
+            Common::REFERRER_TYPE_DIRECT_ENTRY  => [],
             Common::REFERRER_TYPE_SEARCH_ENGINE => [],
             Common::REFERRER_TYPE_SOCIAL_NETWORK => [],
-            Common::REFERRER_TYPE_WEBSITE => [],
-            Common::REFERRER_TYPE_CAMPAIGN => [],
+            Common::REFERRER_TYPE_AI_ASSISTANT  => [],
+            Common::REFERRER_TYPE_WEBSITE       => [],
+            Common::REFERRER_TYPE_CAMPAIGN      => [],
         ];
         $referrerSubData = array();
 
@@ -426,7 +429,7 @@ class API extends \Piwik\Plugin\API
                 $label = $row['referrer_data'];
                 if ($label) {
                     $referrerSubData[$referrerType][$label] = array(
-                        Metrics::INDEX_NB_VISITS => $row[Metrics::INDEX_NB_VISITS]
+                        Metrics::INDEX_NB_VISITS => $row[Metrics::INDEX_NB_VISITS],
                     );
                 }
             }
@@ -477,7 +480,7 @@ class API extends \Piwik\Plugin\API
                 WHEN log_action.type = ' . $mainActionType . ' THEN ' . $keyIsPageUrlAction . '
                         WHEN log_action.type = ' . Action::TYPE_SITE_SEARCH . ' THEN ' . $keyIsSiteSearchAction . '
                         ELSE ' . $keyIsOther . '
-                    END AS `action_partition`'
+                    END AS `action_partition`',
         );
 
         $where = ' log_link_visit_action.idaction_' . $type . ' = ' . intval($idaction);
@@ -512,8 +515,8 @@ class API extends \Piwik\Plugin\API
                 $previousPagesDataTable->addRow(new Row(array(
                                                              Row::COLUMNS => array(
                                                                  'label'                   => $this->getPageLabel($page, Action::TYPE_PAGE_URL),
-                                                                 Metrics::INDEX_NB_ACTIONS => $nbActions
-                                                             )
+                                                                 Metrics::INDEX_NB_ACTIONS => $nbActions,
+                                                             ),
                                                         )));
                 $nbPageviews += $nbActions;
             }
@@ -526,8 +529,8 @@ class API extends \Piwik\Plugin\API
                 $previousSearchesDataTable->addRow(new Row(array(
                                                                 Row::COLUMNS => array(
                                                                     'label'                   => $search['name'],
-                                                                    Metrics::INDEX_NB_ACTIONS => $nbActions
-                                                                )
+                                                                    Metrics::INDEX_NB_ACTIONS => $nbActions,
+                                                                ),
                                                            )));
                 $nbPageviews += $nbActions;
             }
@@ -548,7 +551,7 @@ class API extends \Piwik\Plugin\API
             'pageviews'            => $nbPageviews,
             'previousPages'        => $previousPagesDataTable,
             'previousSiteSearches' => $previousSearchesDataTable,
-            'loops'                => $loops
+            'loops'                => $loops,
         );
     }
 
@@ -621,7 +624,7 @@ class API extends \Piwik\Plugin\API
                     foreach ($subTable->getRows() as $subRow) {
                         $details[] = array(
                             'label'     => $subRow->getColumn('label'),
-                            'referrals' => $subRow->getColumn(Metrics::INDEX_NB_VISITS)
+                            'referrals' => $subRow->getColumn(Metrics::INDEX_NB_VISITS),
                         );
                     }
                 }
@@ -629,7 +632,7 @@ class API extends \Piwik\Plugin\API
                     'label'     => $this->getReferrerLabel($referrerId),
                     'shortName' => \Piwik\Plugins\Referrers\getReferrerTypeFromShortName($referrerId),
                     'visits'    => $visits,
-                    'details'   => $details
+                    'details'   => $details,
                 );
                 $report['pageMetrics']['entries'] += $visits;
             }
@@ -642,7 +645,7 @@ class API extends \Piwik\Plugin\API
             $report['referrers'][] = array(
                 'label'     => $this->getReferrerLabel(Common::REFERRER_TYPE_DIRECT_ENTRY),
                 'shortName' => \Piwik\Plugins\Referrers\getReferrerTypeLabel(Common::REFERRER_TYPE_DIRECT_ENTRY),
-                'visits'    => 0
+                'visits'    => 0,
             );
         }
     }
@@ -656,6 +659,8 @@ class API extends \Piwik\Plugin\API
                 return Controller::getTranslation('fromSearchEngines');
             case Common::REFERRER_TYPE_SOCIAL_NETWORK:
                 return Controller::getTranslation('fromSocialNetworks');
+            case Common::REFERRER_TYPE_AI_ASSISTANT:
+                return Controller::getTranslation('fromAIAssistants');
             case Common::REFERRER_TYPE_WEBSITE:
                 return Controller::getTranslation('fromWebsites');
             case Common::REFERRER_TYPE_CAMPAIGN:
@@ -683,8 +688,8 @@ class API extends \Piwik\Plugin\API
                     $dataTable->addRow(new Row(array(
                                                     Row::COLUMNS => array(
                                                         'label'                   => $this->getPageLabel($record, $type),
-                                                        Metrics::INDEX_NB_ACTIONS => $actions
-                                                    )
+                                                        Metrics::INDEX_NB_ACTIONS => $actions,
+                                                    ),
                                                )));
 
                     $this->processTransitionsToFollowingPages($type, $actions);
@@ -701,7 +706,7 @@ class API extends \Piwik\Plugin\API
         $actionTypesNotExitActions = array(
             Action::TYPE_SITE_SEARCH,
             Action::TYPE_PAGE_TITLE,
-            Action::TYPE_PAGE_URL
+            Action::TYPE_PAGE_URL,
         );
         if (in_array($type, $actionTypesNotExitActions)) {
             $this->totalTransitionsToFollowingPages += $actions;

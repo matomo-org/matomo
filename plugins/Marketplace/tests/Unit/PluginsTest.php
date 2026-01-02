@@ -28,7 +28,10 @@ class PluginsTest extends \PHPUnit\Framework\TestCase
 
         $pluginsReflection = new ReflectionClass($pluginsClass);
         $method = $pluginsReflection->getMethod('prettifyNumberOfDownloads');
-        $method->setAccessible(true);
+
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
 
         $plugin = ['numDownloads' => $numDownloads];
         $method->invokeArgs($pluginsClass, [&$plugin]);

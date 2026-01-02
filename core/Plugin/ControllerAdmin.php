@@ -108,7 +108,7 @@ abstract class ControllerAdmin extends Controller
         }
 
         $pluginsLink = Url::getCurrentQueryStringWithParametersModified([
-            'module' => 'CorePluginsAdmin', 'action' => 'plugins'
+            'module' => 'CorePluginsAdmin', 'action' => 'plugins',
         ]);
 
         $invalidPluginsWarning = Piwik::translate('CoreAdminHome_InvalidPluginsWarning', [
@@ -117,7 +117,7 @@ abstract class ControllerAdmin extends Controller
             . "<br/>"
             . Piwik::translate('CoreAdminHome_InvalidPluginsYouCanUninstall', [
                 '<a href="' . $pluginsLink . '"/>',
-                '</a>'
+                '</a>',
             ]);
 
         $notification = new Notification($invalidPluginsWarning);
@@ -167,7 +167,7 @@ abstract class ControllerAdmin extends Controller
 
         $message .= Piwik::translate(
             'General_ReadThisToLearnMore',
-            ['<a rel="noreferrer noopener" target="_blank" href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to/faq_91/') . '">', '</a>']
+            [Url::getExternalLinkTag('https://matomo.org/faq/how-to/faq_91/'), '</a>']
         );
 
         $notification = new Notification($message);

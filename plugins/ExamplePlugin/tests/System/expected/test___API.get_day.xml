@@ -25,11 +25,13 @@
 	<avg_time_on_site_returning>0</avg_time_on_site_returning>
 	<Referrers_visitorsFromSearchEngines>0</Referrers_visitorsFromSearchEngines>
 	<Referrers_visitorsFromSocialNetworks>0</Referrers_visitorsFromSocialNetworks>
+	<Referrers_visitorsFromAIAssistants>0</Referrers_visitorsFromAIAssistants>
 	<Referrers_visitorsFromDirectEntry>2</Referrers_visitorsFromDirectEntry>
 	<Referrers_visitorsFromWebsites>0</Referrers_visitorsFromWebsites>
 	<Referrers_visitorsFromCampaigns>0</Referrers_visitorsFromCampaigns>
 	<Referrers_distinctSearchEngines>0</Referrers_distinctSearchEngines>
 	<Referrers_distinctSocialNetworks>0</Referrers_distinctSocialNetworks>
+	<Referrers_distinctAIAssistants>0</Referrers_distinctAIAssistants>
 	<Referrers_distinctKeywords>0</Referrers_distinctKeywords>
 	<Referrers_distinctWebsites>0</Referrers_distinctWebsites>
 	<Referrers_distinctWebsitesUrls>0</Referrers_distinctWebsitesUrls>
@@ -67,6 +69,13 @@
 	<nb_visits_converted_returning_visit>0</nb_visits_converted_returning_visit>
 	<revenue_returning_visit>0</revenue_returning_visit>
 	<conversion_rate_returning_visit>0%</conversion_rate_returning_visit>
+	<BotTracking_AIAssistantsRequests>0</BotTracking_AIAssistantsRequests>
+	<BotTracking_AIAssistantsAcquiredVisits>0</BotTracking_AIAssistantsAcquiredVisits>
+	<BotTracking_AIAssistantsUniquePageUrls>0</BotTracking_AIAssistantsUniquePageUrls>
+	<BotTracking_AIAssistantsNotFoundRequests>0</BotTracking_AIAssistantsNotFoundRequests>
+	<BotTracking_AIAssistantsUniqueAssistants>0</BotTracking_AIAssistantsUniqueAssistants>
+	<BotTracking_AIAssistantsUniqueDocumentUrls>0</BotTracking_AIAssistantsUniqueDocumentUrls>
+	<BotTracking_AIAssistantsServerErrorRequests>0</BotTracking_AIAssistantsServerErrorRequests>
 	<nb_total_overall_bandwidth>0</nb_total_overall_bandwidth>
 	<nb_total_pageview_bandwidth>0</nb_total_pageview_bandwidth>
 	<nb_total_download_bandwidth>0</nb_total_download_bandwidth>
@@ -79,12 +88,30 @@
 	<nb_searches>1</nb_searches>
 	<nb_keywords>1</nb_keywords>
 	<hits>4</hits>
+	<nb_visits_ai_agent>0</nb_visits_ai_agent>
+	<nb_actions_ai_agent>0</nb_actions_ai_agent>
+	<nb_uniq_visitors_ai_agent>0</nb_uniq_visitors_ai_agent>
+	<nb_users_ai_agent>0</nb_users_ai_agent>
+	<max_actions_ai_agent>0</max_actions_ai_agent>
+	<bounce_rate_ai_agent>0%</bounce_rate_ai_agent>
+	<nb_actions_per_visit_ai_agent>0</nb_actions_per_visit_ai_agent>
+	<avg_time_on_site_ai_agent>0</avg_time_on_site_ai_agent>
+	<nb_visits_human>2</nb_visits_human>
+	<nb_actions_human>4</nb_actions_human>
+	<nb_uniq_visitors_human>2</nb_uniq_visitors_human>
+	<nb_users_human>0</nb_users_human>
+	<max_actions_human>2</max_actions_human>
+	<bounce_rate_human>0%</bounce_rate_human>
+	<nb_actions_per_visit_human>2</nb_actions_per_visit_human>
+	<avg_time_on_site_human>632</avg_time_on_site_human>
 	<Referrers_visitorsFromDirectEntry_percent>100%</Referrers_visitorsFromDirectEntry_percent>
 	<Referrers_visitorsFromSearchEngines_percent>0%</Referrers_visitorsFromSearchEngines_percent>
+	<Referrers_visitorsFromAIAssistants_percent>0%</Referrers_visitorsFromAIAssistants_percent>
 	<Referrers_visitorsFromCampaigns_percent>0%</Referrers_visitorsFromCampaigns_percent>
 	<Referrers_visitorsFromSocialNetworks_percent>0%</Referrers_visitorsFromSocialNetworks_percent>
 	<Referrers_visitorsFromWebsites_percent>0%</Referrers_visitorsFromWebsites_percent>
 	<bounce_rate>0%</bounce_rate>
 	<nb_actions_per_visit>2</nb_actions_per_visit>
 	<avg_time_on_site>632</avg_time_on_site>
+	<BotTracking_AIAssistantsClickThroughRate>0</BotTracking_AIAssistantsClickThroughRate>
 </result>

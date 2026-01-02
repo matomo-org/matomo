@@ -55,7 +55,7 @@ class GenerateWidget extends GeneratePluginBase
         $this->writeSuccessMessage(array(
              sprintf('plugins/%s/Widgets/%s.php generated.', $pluginName, $widgetClass),
              'You can now start implementing the <comment>render()</comment> method.',
-             'Enjoy!'
+             'Enjoy!',
         ));
 
         return self::SUCCESS;

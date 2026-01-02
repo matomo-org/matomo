@@ -28,8 +28,6 @@
         "MinValue": "最小事件值",
         "MinValueDocumentation": "此事件的最小值",
         "PluginDescription": "跟踪活动并获取有关访客活动的报告。",
-        "SecondaryDimension": "次要维度为%s。",
-        "SwitchToSecondaryDimension": "切换到%s",
         "TopEvents": "热门活动",
         "TotalEvents": "总事件",
         "TotalEventsDocumentation": "事件总数",

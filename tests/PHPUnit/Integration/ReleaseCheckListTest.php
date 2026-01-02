@@ -292,7 +292,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
     public function testCheckThatGivenPluginsAreDisabledByDefault()
     {
         $pluginsShouldBeDisabled = array(
-            'DBStats'
+            'DBStats',
         );
         foreach ($pluginsShouldBeDisabled as $pluginName) {
             $this->assertNotContains(
@@ -621,7 +621,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             // Don't run the test on local dev machine, as we may have other files (not in GIT) that would fail this test
             $this->markTestSkipped("Skipped this test on local dev environment.");
         }
-        $maximumTotalFilesizesExpectedInMb = 62;
+        $maximumTotalFilesizesExpectedInMb = 63;
         $minimumTotalFilesizesExpectedInMb = 38;
         $minimumExpectedFilesCount = 7000;
 
@@ -929,10 +929,7 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             'node_modules/chroma-js/test',
             'node_modules/iframe-resizer/js/iframeResizer.contentWindow.js',
             'node_modules/iframe-resizer/js/iframeResizer.js',
-            'node_modules/iframe-resizer/src/ie8.polyfils.js',
-            'node_modules/iframe-resizer/src/iframeResizer.contentWindow.js',
-            'node_modules/iframe-resizer/src/iframeResizer.js',
-            'node_modules/iframe-resizer/test-main.js',
+            'node_modules/iframe-resizer/bin/post.js',
             'node_modules/jquery/dist/jquery.js',
             'node_modules/jquery/src',
             'node_modules/jquery/external',
@@ -1043,8 +1040,9 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
             '*.jscsrc',
             '*phpstan.neon',
             '*phpstan.neon.dist',
+            '*phpstan-baseline.neon',
             '*package.xml',
-            '*.stylelintrc.json'
+            '*.stylelintrc.json',
         ];
 
         return $this->isFilePathFoundInArray($file, $filesAndFoldersToDeleteFromPackage);

@@ -11,14 +11,9 @@ namespace Piwik\Plugins\ScheduledReports;
 
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
-use Piwik\Plugins\MobileMessaging\MobileMessaging;
-use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    public const MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY = 'MobileMessaging_TopMenu';
-    public const PDF_REPORTS_TOP_MENU_TRANSLATION_KEY = 'ScheduledReports_EmailReports';
-
     public function configureAdminMenu(MenuAdmin $menu)
     {
         $tooltip = Piwik::translate(
@@ -27,52 +22,10 @@ class Menu extends \Piwik\Plugin\Menu
         );
 
         $menu->addPersonalItem(
-            $this->getTopMenuTranslationKey(),
+            'ScheduledReports_ScheduleReports',
             $this->urlForAction('index', array('segment' => false)),
             7,
             $tooltip
         );
-    }
-
-    public function getTopMenuTranslationKey()
-    {
-        // if MobileMessaging is not activated, display 'Email reports'
-        if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated('MobileMessaging')) {
-            return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
-        }
-
-        if (Piwik::isUserIsAnonymous()) {
-            return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
-        }
-
-        try {
-            $reports = API::getInstance()->getReports();
-            $reportCount = count($reports);
-
-            // if there are no reports and the mobile account is
-            //  - not configured: display 'Email reports'
-            //  - configured: display 'Email & SMS reports'
-            if ($reportCount == 0) {
-                return APIMobileMessaging::getInstance()->areSMSAPICredentialProvided() ?
-                    self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY : self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
-            }
-        } catch (\Exception $e) {
-            return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
-        }
-
-        $anyMobileReport = false;
-        foreach ($reports as $report) {
-            if ($report['type'] == MobileMessaging::MOBILE_TYPE) {
-                $anyMobileReport = true;
-                break;
-            }
-        }
-
-        // if there is at least one sms report, display 'Email & SMS reports'
-        if ($anyMobileReport) {
-            return self::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY;
-        }
-
-        return self::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY;
     }
 }

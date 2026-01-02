@@ -68,11 +68,11 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
     public function getInvalidDates(): iterable
     {
         yield 'invalid newer than date' => [
-            'inValid', '', 'Invalid value for --newer-than provided.'
+            'inValid', '', 'Invalid value for --newer-than provided.',
         ];
 
         yield 'invalid older than date' => [
-            '', 'inValid', 'Invalid value for --older-than provided.'
+            '', 'inValid', 'Invalid value for --older-than provided.',
         ];
     }
 
@@ -123,7 +123,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | done.VisitsSummary                           | 3      |        | 2025-02-01 | 2025-02-28 | 3      | 2025-02-20 19:15:01 | 2025-02-23 18:35:00 | random          | 8558       |
 +----------------------------------------------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            4
+            4,
         ];
 
         yield 'limiting by all sites works as expected' => [
@@ -138,7 +138,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | done.VisitsSummary                           | 3      |        | 2025-02-01 | 2025-02-28 | 3      | 2025-02-20 19:15:01 | 2025-02-23 18:35:00 | random          | 8558       |
 +----------------------------------------------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            4
+            4,
         ];
 
         yield 'limiting by site works as expected' => [
@@ -151,7 +151,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | donec7445c35d0f9b340f5851df27a15c5ef.Actions | 1      |        | 2025-01-01 | 2025-12-31 | 4      | 2025-01-01 16:00:02 | 2025-02-05 16:44:22 | anotherhost     | 662        |
 +----------------------------------------------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            2
+            2,
         ];
 
         yield 'limiting by another site works as expected' => [
@@ -163,7 +163,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | done | 2      |        | 2024-12-30 | 2025-01-05 | 2      | 2025-01-01 19:15:01 | 2025-02-05 09:11:00 | host1           | 2333       |
 +------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            1
+            1,
         ];
 
 
@@ -178,14 +178,14 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | done.VisitsSummary                           | 3      |        | 2025-02-01 | 2025-02-28 | 3      | 2025-02-20 19:15:01 | 2025-02-23 18:35:00 | random          | 8558       |
 +----------------------------------------------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            3
+            3,
         ];
 
 
         yield 'limiting by a site without records works as expected' => [
             ['--idsite' => [4]],
             "No invalidations found.",
-            0
+            0,
         ];
 
         yield 'limiting by host works as expected' => [
@@ -198,7 +198,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | done | 1      |        | 2025-01-01 | 2025-01-01 | 1      | 2025-01-01 16:00:00 | 2025-02-05 11:30:00 | host1           | 1256       |
 +------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            2
+            2,
         ];
 
         yield 'limiting by multiple hosts works as expected' => [
@@ -212,13 +212,13 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | done.VisitsSummary | 3      |        | 2025-02-01 | 2025-02-28 | 3      | 2025-02-20 19:15:01 | 2025-02-23 18:35:00 | random          | 8558       |
 +--------------------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            3
+            3,
         ];
 
         yield 'limiting by hosts without records works as expected' => [
             ['--processing-host' => ['unknown']],
             "No invalidations found.",
-            0
+            0,
         ];
 
         yield 'limiting by newer-than works as expected' => [
@@ -231,7 +231,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | done.VisitsSummary                           | 3      |        | 2025-02-01 | 2025-02-28 | 3      | 2025-02-20 19:15:01 | 2025-02-23 18:35:00 | random          | 8558       |
 +----------------------------------------------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            2
+            2,
         ];
 
         yield 'limiting by older-than works as expected' => [
@@ -244,7 +244,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | done | 1      |        | 2025-01-01 | 2025-01-01 | 1      | 2025-01-01 16:00:00 | 2025-02-05 11:30:00 | host1           | 1256       |
 +------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            2
+            2,
         ];
 
         yield 'limiting by older-than and newer-than works as expected' => [
@@ -256,7 +256,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | donec7445c35d0f9b340f5851df27a15c5ef.Actions | 1      |        | 2025-01-01 | 2025-12-31 | 4      | 2025-01-01 16:00:02 | 2025-02-05 16:44:22 | anotherhost     | 662        |
 +----------------------------------------------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            1
+            1,
         ];
 
         yield 'limiting by everything works as expected' => [
@@ -268,7 +268,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
 | done | 1      |        | 2025-01-01 | 2025-01-01 | 1      | 2025-01-01 16:00:00 | 2025-02-05 11:30:00 | host1           | 1256       |
 +------+--------+--------+------------+------------+--------+---------------------+---------------------+-----------------+------------+
 ",
-            1
+            1,
         ];
     }
 
@@ -278,12 +278,12 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
             [
                 'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
                 'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256,
             ],
             [
                 'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
                 'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-03 02:55:55', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_QUEUED,
-                'report' => null, 'ts_started' => null, 'processing_host' => null, 'process_id' => null
+                'report' => null, 'ts_started' => null, 'processing_host' => null, 'process_id' => null,
             ],
         ];
 
@@ -335,12 +335,12 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
             [
                 'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
                 'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256,
             ],
             [
                 'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
                 'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-03 02:55:55', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-01-02 08:00:00', 'processing_host' => 'host4', 'process_id' => 22555
+                'report' => null, 'ts_started' => '2025-01-02 08:00:00', 'processing_host' => 'host4', 'process_id' => 22555,
             ],
         ];
 
@@ -393,12 +393,12 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
             [
                 'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
                 'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256,
             ],
             [
                 'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
                 'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-03 02:55:55', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-01-01 08:00:00', 'processing_host' => 'host4', 'process_id' => 22555
+                'report' => null, 'ts_started' => '2025-01-01 08:00:00', 'processing_host' => 'host4', 'process_id' => 22555,
             ],
         ];
 
@@ -449,12 +449,12 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
             [
                 'idarchive' => 7, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
                 'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-01 16:00:00', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256
+                'report' => null, 'ts_started' => '2025-02-05 11:30:00', 'processing_host' => 'host1', 'process_id' => 1256,
             ],
             [
                 'idarchive' => null, 'name' => 'done', 'idsite' => 1, 'date1' => '2025-01-01', 'date2' => '2025-01-01',
                 'period' => Day::PERIOD_ID, 'ts_invalidated' => '2025-01-03 02:55:55', 'status' => ArchiveInvalidator::INVALIDATION_STATUS_IN_PROGRESS,
-                'report' => null, 'ts_started' => '2025-01-01 08:00:00', 'processing_host' => 'host4', 'process_id' => 22555
+                'report' => null, 'ts_started' => '2025-01-01 08:00:00', 'processing_host' => 'host4', 'process_id' => 22555,
             ],
         ];
 
@@ -547,7 +547,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
                 'report' => null,
                 'ts_started' => '2025-02-05 11:30:00',
                 'processing_host' => 'host1',
-                'process_id' => 1256
+                'process_id' => 1256,
             ],
             [
                 'idarchive' => null,
@@ -561,7 +561,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
                 'report' => null,
                 'ts_started' => null,
                 'processing_host' => null,
-                'process_id' => null
+                'process_id' => null,
             ],
             [
                 'idarchive' => 66,
@@ -575,7 +575,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
                 'report' => null,
                 'ts_started' => '2025-02-05 16:44:22',
                 'processing_host' => 'anotherhost',
-                'process_id' => 662
+                'process_id' => 662,
             ],
 
             // invalidations idsite 2
@@ -591,7 +591,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
                 'report' => null,
                 'ts_started' => null,
                 'processing_host' => null,
-                'process_id' => null
+                'process_id' => null,
             ],
             [
                 'idarchive' => null,
@@ -605,7 +605,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
                 'report' => null,
                 'ts_started' => '2025-02-05 09:11:00',
                 'processing_host' => 'host1',
-                'process_id' => 2333
+                'process_id' => 2333,
             ],
             [
                 'idarchive' => 66,
@@ -619,7 +619,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
                 'report' => null,
                 'ts_started' => null,
                 'processing_host' => null,
-                'process_id' => null
+                'process_id' => null,
             ],
 
             // invalidations idsite 3
@@ -635,7 +635,7 @@ class ResetInvalidationsTest extends ConsoleCommandTestCase
                 'report' => null,
                 'ts_started' => '2025-02-23 18:35:00',
                 'processing_host' => 'random',
-                'process_id' => 8558
+                'process_id' => 8558,
             ],
         ];
 

@@ -352,7 +352,7 @@ class DashboardTest extends IntegrationTestCase
                 'label' => 'Site1',
                 'nb_visits' => 10,
                 'group' => 'group1',
-            ]
+            ],
         ];
 
         $this->assertEquals($expectedSites, $this->dashboard->getSites(['filter_offset' => 3], $limit = 4));

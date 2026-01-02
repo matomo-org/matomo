@@ -1,0 +1,21 @@
+.modal {
+    background: @theme-color-background-tinyContrast;
+    color: @theme-color-text;
+}
+
+.modal.open {
+    display: flex !important;
+    flex-direction: column;
+}
+
+.modal .modal-content {
+    flex: auto;
+    overflow-y: auto;
+
+    .vertical-scroll-shadows(@theme-color-background-tinyContrast);
+}
+
+.modal .modal-footer {
+    flex: none;
+    background: @theme-color-background-tinyContrast;
+}

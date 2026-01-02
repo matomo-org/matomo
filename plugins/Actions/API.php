@@ -166,7 +166,7 @@ class API extends \Piwik\Plugin\API
             PiwikMetrics::INDEX_PAGE_IS_FOLLOWING_SITE_SEARCH_NB_HITS,
             function ($value) {
                 return $value <= 0;
-            }
+            },
         ]);
     }
 
@@ -363,7 +363,7 @@ class API extends \Piwik\Plugin\API
                 PiwikMetrics::INDEX_SITE_SEARCH_HAS_NO_RESULT,
                 function ($value) {
                     return $value < 1;
-                }
+                },
             ]
         );
         $dataTable->deleteRow(DataTable::ID_SUMMARY_ROW);
@@ -536,7 +536,7 @@ class API extends \Piwik\Plugin\API
                 PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS,
                 function ($visits) {
                     return !strlen($visits);
-                }
+                },
             ]
         );
     }
@@ -554,7 +554,7 @@ class API extends \Piwik\Plugin\API
                 PiwikMetrics::INDEX_PAGE_EXIT_NB_VISITS,
                 function ($visits) {
                     return !strlen($visits);
-                }
+                },
             ]
         );
     }

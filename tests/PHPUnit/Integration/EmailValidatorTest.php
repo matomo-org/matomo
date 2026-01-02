@@ -89,7 +89,7 @@ class EmailValidatorTest extends \PHPUnit\Framework\TestCase
             'xn--fd67as67fdsa', //no such idn punycode
             '!@#-inavlid-chars-in-tld',
             'no spaces in tld allowed',
-            'no--double--hypens--allowed'
+            'no--double--hypens--allowed',
         ];
         if (count($tlds) === 0) {
             $this->markTestSkipped("Couldn't get TLD list");

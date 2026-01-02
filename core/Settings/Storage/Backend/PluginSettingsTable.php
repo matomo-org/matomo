@@ -105,7 +105,7 @@ class PluginSettingsTable extends BaseSettingsTable
     {
         $this->initDbIfNeeded();
 
-        $sql  = "SELECT `setting_name`, `setting_value`, `json_encoded` FROM " . $this->getTableName() . " WHERE plugin_name = ? and user_login = ?";
+        $sql = "SELECT `setting_name`, `setting_value`, `json_encoded` FROM `" . $this->getTableName() . "` WHERE plugin_name = ? and user_login = ?";
         $bind = array($this->pluginName, $this->userLogin);
 
         try {
@@ -114,7 +114,7 @@ class PluginSettingsTable extends BaseSettingsTable
             // we catch an exception since json_encoded might not be present before matomo is updated to 3.5.0+ but the updater
             // may run this query
             if ($this->jsonEncodedMissingError($e)) {
-                $sql  = "SELECT `setting_name`, `setting_value` FROM " . $this->getTableName() . " WHERE plugin_name = ? and user_login = ?";
+                $sql = "SELECT `setting_name`, `setting_value` FROM `" . $this->getTableName() . "` WHERE plugin_name = ? and user_login = ?";
                 $settings = $this->db->fetchAll($sql, $bind);
             } else {
                 throw $e;
@@ -150,7 +150,7 @@ class PluginSettingsTable extends BaseSettingsTable
         $this->initDbIfNeeded();
 
         $table = $this->getTableName();
-        $sql   = "DELETE FROM $table WHERE `plugin_name` = ? and `user_login` = ?";
+        $sql = "DELETE FROM `$table` WHERE `plugin_name` = ? and `user_login` = ?";
         $bind  = array($this->pluginName, $this->userLogin);
 
         $this->db->query($sql, $bind);
@@ -172,7 +172,7 @@ class PluginSettingsTable extends BaseSettingsTable
 
         try {
             $table = Common::prefixTable('plugin_setting');
-            Db::get()->query(sprintf('DELETE FROM %s WHERE user_login = ?', $table), array($userLogin));
+            Db::get()->query(sprintf('DELETE FROM `%s` WHERE user_login = ?', $table), array($userLogin));
         } catch (Exception $e) {
             if ($e->getCode() != 42) {
                 // ignore table not found error, which might occur when updating from an older version of Piwik
@@ -193,7 +193,7 @@ class PluginSettingsTable extends BaseSettingsTable
     {
         try {
             $table = Common::prefixTable('plugin_setting');
-            Db::get()->query(sprintf('DELETE FROM %s WHERE plugin_name = ?', $table), array($pluginName));
+            Db::get()->query(sprintf('DELETE FROM `%s` WHERE plugin_name = ?', $table), array($pluginName));
         } catch (Exception $e) {
             if ($e->getCode() != 42) {
                 // ignore table not found error, which might occur when updating from an older version of Piwik

@@ -46,6 +46,7 @@
         "BackgroundColor": "Atzeko planoko kolorea",
         "BuildYourOwn": "Eraiki zurea",
         "ClickHereSettings": "Egin klik hemen %s ezarpenetara sartzeko.",
+        "ComplianceTableSettingStatus": "Egoera",
         "ConsentExplanation": "Baimenak esan nahi du norbanakoei beren datu pertsonalak prozesatzearen gaineko aukera eta kontrola ematea.",
         "ConsentManager": "Baimen-kudeatzailea",
         "ConsentManagerConnected": "Dirudienez %1$s dagoeneko konfiguratuta dago Matomorekin lan egiteko.",

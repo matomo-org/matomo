@@ -14,7 +14,7 @@
         :value="1"
         :checked="isChecked"
         type="checkbox"
-        :id="name"
+        :id="id"
         :name="name"
       />
 
@@ -34,6 +34,7 @@ export default defineComponent({
     uiControlAttributes: Object,
     name: String,
     title: String,
+    id: String,
   },
   inheritAttrs: false,
   emits: ['update:modelValue'],

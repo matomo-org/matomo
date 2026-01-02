@@ -132,7 +132,7 @@ class Evolution extends JqplotDataGenerator
                     'idSite'  => $idSite,
                     'period'  => $periodLabel,
                     'date'    => $dateInUrl->toString(),
-                    'segment' => \Piwik\API\Request::getRawSegmentFromRequest()
+                    'segment' => \Piwik\API\Request::getRawSegmentFromRequest(),
                 );
                 $link = Url::getQueryStringFromParameters($parameters);
                 $axisXOnClick[] = $link;

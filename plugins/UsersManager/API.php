@@ -411,7 +411,7 @@ class API extends \Piwik\Plugin\API
                     } else {
                         [
                           $user['role'],
-                          $user['capabilities']
+                          $user['capabilities'],
                         ] = $this->getRoleAndCapabilitiesFromAccess($user['access']);
                         $user['role'] = empty($user['role']) ? 'noaccess' : reset($user['role']);
                     }
@@ -422,7 +422,6 @@ class API extends \Piwik\Plugin\API
         }
 
         $users = $this->userRepository->enrichUsers($users);
-        $users = $this->userRepository->enrichUsersWithLastSeen($users);
 
         foreach ($users as &$user) {
             unset($user['password']);
@@ -606,7 +605,7 @@ class API extends \Piwik\Plugin\API
             foreach ($sites as $site) {
                 $return[] = [
                   'site'   => $site['idsite'],
-                  'access' => 'admin'
+                  'access' => 'admin',
                 ];
             }
             return $return;
@@ -667,7 +666,7 @@ class API extends \Piwik\Plugin\API
         foreach ($sites as &$siteAccess) {
             [
               $siteAccess['role'],
-              $siteAccess['capabilities']
+              $siteAccess['capabilities'],
             ] = $this->getRoleAndCapabilitiesFromAccess($siteAccess['access']);
             $siteAccess['role'] = empty($siteAccess['role']) ? 'noaccess' : reset($siteAccess['role']);
             unset($siteAccess['access']);
@@ -1050,7 +1049,7 @@ class API extends \Piwik\Plugin\API
         $email = $container->make(UserDeletedEmail::class, [
           'login'        => Piwik::getCurrentUserLogin(),
           'emailAddress' => Piwik::getCurrentUserEmail(),
-          'userLogin'    => $userLogin
+          'userLogin'    => $userLogin,
         ]);
         $email->safeSend();
 
@@ -1220,7 +1219,7 @@ class API extends \Piwik\Plugin\API
                     $email = $container->make(AnonymousAccessEnabledEmail::class, array(
                         'login' => $login,
                         'emailAddress' => $email,
-                        'siteName' => implode(', ', $siteNames)
+                        'siteName' => implode(', ', $siteNames),
                     ));
                     $email->safeSend();
                 }
@@ -1721,7 +1720,7 @@ class API extends \Piwik\Plugin\API
             ]);
     }
 
-    private function executeConcurrencySafe(string $userLogin, callable $callback = null)
+    private function executeConcurrencySafe(string $userLogin, callable $callback): void
     {
         $lock = new Lock(StaticContainer::get(LockBackend::class), 'UsersManager.changePermissions');
         $lock->execute($userLogin, $callback);

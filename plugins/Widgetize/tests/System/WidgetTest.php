@@ -771,7 +771,7 @@ class WidgetTest extends SystemTestCase
                     array (
                         'module' => 'ExampleUI',
                         'action' => 'getPlanetRatiosWithLogos',
-                    )
+                    ),
             ),array (
                 'name' => 'Continent',
                 'uniqueId' => 'widgetUserCountrygetContinent',
@@ -1366,7 +1366,7 @@ class WidgetTest extends SystemTestCase
                             'module' => 'ProfessionalServices',
                             'action' => 'promoServices',
                         ),
-                )
+                ),
         );
     }
 }

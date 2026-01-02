@@ -195,7 +195,7 @@ class OptionTest extends IntegrationTestCase
         $values = Option::getLike("adefaultRepo%"); // the underscore should not match a character
         $this->assertSame(array(
             'adefaultRepo' => '1',
-            'adefaultReport' => '1'
+            'adefaultReport' => '1',
         ), $values);
     }
 

@@ -2,7 +2,9 @@
     "General": {
         "Actions": "գործողություն",
         "ColumnNbActions": "գործողություն",
+        "Export": "Արտահանել",
         "GeneralSettings": "Ընդհանուր կայանքները",
+        "IP": "Այփի",
         "Locale": "hy_AM.UTF-8"
     }
 }

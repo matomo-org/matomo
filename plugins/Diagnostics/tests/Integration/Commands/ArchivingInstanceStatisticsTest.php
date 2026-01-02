@@ -60,7 +60,7 @@ class ArchivingInstanceStatisticsTest extends ConsoleCommandTestCase
 OUTPUT;
 
         $this->applicationTester->run([
-            'command' => 'diagnostics:archiving-instance-statistics'
+            'command' => 'diagnostics:archiving-instance-statistics',
         ]);
         $actual = $this->applicationTester->getDisplay();
 
@@ -72,7 +72,7 @@ OUTPUT;
         $expected = '[["Site Count",3],["Segment Count",1],["Database Version","mysql-version-redacted"],["Last full Month Hits",8],["Last 12 Month Hits",8]]';
         $this->applicationTester->run([
             'command' => 'diagnostics:archiving-instance-statistics',
-            '--json' => true
+            '--json' => true,
         ]);
         $actual = $this->applicationTester->getDisplay();
 

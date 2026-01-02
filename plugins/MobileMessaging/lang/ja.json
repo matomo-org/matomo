@@ -41,7 +41,6 @@
         "Settings_ValidatePhoneNumber": "検証",
         "Settings_VerificationCodeJustSent": "この番号に SMS でコードを送信しました。上記のコードを入力して \" 確認 \" をクリックしてください。",
         "TopLinkTooltip": "メール受信箱または携帯電話に届けられたアクセス解析レポートを取得する。",
-        "TopMenu": "メール&amp;SMSレポート",
         "UserKey": "ユーザーキー",
         "VerificationText": "コードは %1$s です。 電話番号を確認して Matomo SMS レポートを受信するには、このコードを Matomo → %2$s → %3$s からアクセスできるフォームにコピーしてください。"
     }

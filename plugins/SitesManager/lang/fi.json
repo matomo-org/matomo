@@ -34,6 +34,7 @@
         "ExcludedIps": "Seurannasta poistetut IP:t",
         "ExcludedParameters": "Seurannasta poistetut parametrit",
         "ExcludedUserAgents": "Poissuljetut käyttäjäagentit",
+        "ExclusionTypeOptionCustom": "Mukautettu",
         "ExtraInformationNeeded": "Kun asetat Matomon järjestelmääsi, saatat tarvita seuraavia tietoja:",
         "GlobalExcludedUserAgentHelp1": "Ilmoita lista käyttäjäagenteista, jotka suljetaan pois Matomon seurannasta.",
         "GlobalExcludedUserAgentHelp2": "Voit käyttää tätä sulkeaksesi joitakin botteja pois seurannasta.",

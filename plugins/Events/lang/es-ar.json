@@ -1,6 +1,5 @@
 {
     "Events": {
-        "PluginDescription": "Rastreá eventos y obtené informes de la actividad de tus visitantes.",
         "AvgEventValue": "El valor promedio del evento es: %s",
         "AvgValue": "Valor promedio",
         "AvgValueDocumentation": "El promedio de todos los valores para este evento",
@@ -17,24 +16,23 @@
         "EventNamesReportDocumentation": "Este informe muestra las nombres de cada evento rastreado y cuántas veces ocurrieron. Podés ver las acciones de los eventos y las categorías que fueron rastreados junto con cada nombre en cada subtabla de la fila. Podés cambiar cuál es mostrada al cambiar la dimensión secundaria con el enlace en la parte inferior del informe.",
         "EventUrl": "Dirección web del evento",
         "EventUrls": "Direcciones web del evento",
-        "Events": "Eventos",
-        "EventsWithValue": "Eventos con un valor",
-        "EventsWithValueDocumentation": "Número de eventos en el cual se estableció un valor de evento",
         "EventValue": "Valor del evento",
         "EventValueTooltip": "El valor total del evento es la suma de los %1$svalores de eventos%2$s entre un mínimo de %3$s y un máximo de %4$s.",
+        "Events": "Eventos",
+        "EventsSubcategoryHelp1": "La sección de eventos ofrece informes sobre los eventos personalizados asociados a tu sitio. Los eventos típicamente requieren una configuración personalizada. Una vez configurados, podés revisar informes divididos en categoría, acción y nombre.",
+        "EventsSubcategoryHelp2": "Aprendé más sobre rastreo de eventos acá.",
+        "EventsWithValue": "Eventos con un valor",
+        "EventsWithValueDocumentation": "Número de eventos en el cual se estableció un valor de evento",
         "MaxValue": "Valor máximo del evento",
         "MaxValueDocumentation": "El valor máximo para este evento",
         "MinValue": "Valor mínimo del evento",
         "MinValueDocumentation": "El valor mínimo para este evento",
-        "SecondaryDimension": "La dimensión secundaria es %s.",
-        "SwitchToSecondaryDimension": "Cambiar a %s",
+        "PluginDescription": "Rastreá eventos y obtené informes de la actividad de tus visitantes.",
         "TopEvents": "Eventos principales",
         "TotalEvents": "Eventos totales",
         "TotalEventsDocumentation": "Número total de eventos",
         "TotalValue": "Valor del evento",
         "TotalValueDocumentation": "La suma de los valores del evento",
-        "ViewEvents": "Ver eventos",
-        "EventsSubcategoryHelp1": "La sección de eventos ofrece informes sobre los eventos personalizados asociados a tu sitio. Los eventos típicamente requieren una configuración personalizada. Una vez configurados, podés revisar informes divididos en categoría, acción y nombre.",
-        "EventsSubcategoryHelp2": "Aprendé más sobre rastreo de eventos acá."
+        "ViewEvents": "Ver eventos"
     }
 }

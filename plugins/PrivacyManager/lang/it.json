@@ -46,6 +46,7 @@
         "BackgroundColor": "Colore Background",
         "BuildYourOwn": "Costruisci il tuo",
         "ClickHereSettings": "Accedi alle impostazioni %s.",
+        "ComplianceTableSettingStatus": "Stato",
         "ConsentExplanation": "Consenso significa offrire alle singole persone la scelta e il controllo su come vengono trattati i loro dati personali.",
         "ConsentManager": "Gestione dei Consensi",
         "ConsentManagerConnected": "Sembra che %1$s sia già configurato per funzionare con Matomo.",

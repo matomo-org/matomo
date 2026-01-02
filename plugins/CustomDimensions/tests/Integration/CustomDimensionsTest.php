@@ -100,7 +100,7 @@ class CustomDimensionsTest extends IntegrationTestCase
             'custom_dimension_2',
             'custom_dimension_3',
             'custom_dimension_4',
-            'custom_dimension_5'
+            'custom_dimension_5',
         );
         $this->assertSame($expected, $fields);
     }
@@ -222,7 +222,7 @@ class CustomDimensionsTest extends IntegrationTestCase
         $expected = array(
             'idSite' => 1,
             'dimension1' => 'my value 1',
-            'dimension6' => 'my value 4'
+            'dimension6' => 'my value 4',
         );
         $this->assertSame($expected, $visitor);
     }

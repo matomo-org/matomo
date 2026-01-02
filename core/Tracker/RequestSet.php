@@ -144,7 +144,7 @@ class RequestSet
             'requests'  => array(),
             'env'       => $this->getEnvironment(),
             'tokenAuth' => $this->getTokenAuth(),
-            'time'      => time()
+            'time'      => time(),
         );
 
         foreach ($this->getRequests() as $request) {
@@ -209,7 +209,7 @@ class RequestSet
     {
         return array(
             'server' => $_SERVER,
-            'cookie' => $_COOKIE
+            'cookie' => $_COOKIE,
         );
     }
 }

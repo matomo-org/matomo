@@ -40,7 +40,7 @@ class ContentsTest extends SystemTestCase
             'Contents.getContentPieces',
             'Actions.get',
             'Actions.getPageUrls',
-            'Live.getLastVisitsDetails'
+            'Live.getLastVisitsDetails',
         );
     }
 
@@ -81,7 +81,7 @@ class ContentsTest extends SystemTestCase
                 'periods'      => $dayPeriod,
                 'segment'      => "contentName==ImageAd,contentPiece==" . urlencode('Click to download Piwik now'),
                 'setDateLastN' => false,
-                'testSuffix'   => 'contentNameOrPieceMatch')
+                'testSuffix'   => 'contentNameOrPieceMatch'),
             ),
 
             array($apisToTest, array(
@@ -90,7 +90,7 @@ class ContentsTest extends SystemTestCase
                 'periods'      => $dayPeriod,
                 'segment'      => "contentTarget==" . urlencode('http://www.example.com'),
                 'setDateLastN' => false,
-                'testSuffix'   => '_contentTargetMatch')
+                'testSuffix'   => '_contentTargetMatch'),
             ),
 
             array($apisToTest, array(
@@ -99,13 +99,13 @@ class ContentsTest extends SystemTestCase
                 'periods'      => $dayPeriod,
                 'segment'      => "contentInteraction==click",
                 'setDateLastN' => false,
-                'testSuffix'   => '_contentInteractionMatch')
-            )
+                'testSuffix'   => '_contentInteractionMatch'),
+            ),
         );
 
         $apiToCallProcessedReportMetadata = array(
             'Contents.getContentNames',
-            'Contents.getContentPieces'
+            'Contents.getContentPieces',
         );
         // testing metadata API for Contents reports
         foreach ($apiToCallProcessedReportMetadata as $api) {
@@ -118,7 +118,7 @@ class ContentsTest extends SystemTestCase
                                                 'setDateLastN' => true,
                                                 'apiModule'    => $apiModule,
                                                 'apiAction'    => $apiAction,
-                                                'testSuffix'   => '_' . $api . '_lastN')
+                                                'testSuffix'   => '_' . $api . '_lastN'),
             );
         }
 

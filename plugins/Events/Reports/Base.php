@@ -29,7 +29,7 @@ abstract class Base extends \Piwik\Plugin\Report
         $this->onlineGuideUrl = Url::addCampaignParametersToMatomoLink('https://matomo.org/docs/event-tracking/');
 
         $this->processedMetrics = array(
-            new AverageEventValue()
+            new AverageEventValue(),
         );
     }
 
@@ -47,7 +47,7 @@ abstract class Base extends \Piwik\Plugin\Report
     {
         if (!$this->isSubtableReport) {
             $widget = $factory->createWidget()->setParameters(array(
-                'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($this->action)
+                'secondaryDimension' => API::getInstance()->getDefaultSecondaryDimension($this->action),
             ));
 
             $widgetsList->addToContainerWidget('Events', $widget);

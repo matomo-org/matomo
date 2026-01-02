@@ -237,7 +237,7 @@ return [
         '02' => 'SRP',
 
         // invalid codes  [used by maxmind]
-        '03' => 'BRC' //  Brčko distrikt was added in 2010. See https://en.wikipedia.org/wiki/ISO_3166-2:BA#Changes
+        '03' => 'BRC', //  Brčko distrikt was added in 2010. See https://en.wikipedia.org/wiki/ISO_3166-2:BA#Changes
     ],
     'BB' => [
         '01' => '01',
@@ -261,7 +261,7 @@ return [
         '86' => 'G',
 
         // invalid codes  [used by maxmind]
-        '87' => 'F' // Rangpur added in 2011. See https://en.wikipedia.org/wiki/ISO_3166-2:BD#Changes
+        '87' => 'F', // Rangpur added in 2011. See https://en.wikipedia.org/wiki/ISO_3166-2:BD#Changes
     ],
     'BE' => [
         '01' => 'VAN',
@@ -278,7 +278,7 @@ return [
 
         // Conventional FIPS codes that are not listed on wikidata
         '13' => 'VLG',  // Flanders
-        '14' => 'WAL'  // Wallonia
+        '14' => 'WAL',  // Wallonia
     ],
     'BF' => [
         '15' => 'BAM', // Bam
@@ -358,7 +358,7 @@ return [
         '65' => '28',
 
         // Mikhaylovgrad seems to be a city in the region Montana
-        '33' => '12'
+        '33' => '12',
     ],
     'BH' => [
         '01' => '15', // Al Hadd => Muharraq Governorate (https://en.wikipedia.org/wiki/Al_Hidd)

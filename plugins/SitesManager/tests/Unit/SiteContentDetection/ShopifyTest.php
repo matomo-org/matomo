@@ -32,25 +32,25 @@ class ShopifyTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no shopify content' => [
             false,
             'nothing special',
-            []
+            [],
         ];
 
         yield 'Shopify.theme is found' => [
             true,
             'contains Shopify.theme text',
-            []
+            [],
         ];
 
         yield 'Shopify.theme in incorrect case' => [
             false,
             'contains shopify.Theme text',
-            []
+            [],
         ];
     }
 }

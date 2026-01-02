@@ -12,7 +12,7 @@
     >
       <p v-show="isLoading || isUpdating">
         <span class="loadingPiwik">
-          <img src="plugins/Morpheus/images/loading-blue.gif" />
+          <MatomoLoader />
           {{ translate('General_LoadingData') }}
         </span>
       </p>
@@ -48,7 +48,7 @@
             <div class="col s12 m6">
               <div
                 v-for="(extraction, index) in dimension.extractions"
-                :class="`${index}extraction `"
+                :class="`extraction${index}`"
                 :key="index"
               >
                 <div class="row">
@@ -56,7 +56,7 @@
                     <div>
                       <Field
                         uicontrol="select"
-                        :name="`${index}dimension`"
+                        :name="`dimension${index}`"
                         v-model="extraction.dimension"
                         :full-width="true"
                         :options="extractionDimensionsOptions"
@@ -68,7 +68,7 @@
                     <div>
                       <Field
                         uicontrol="text"
-                        :name="`${index}pattern`"
+                        :name="`pattern${index}`"
                         v-model="extraction.pattern"
                         :full-width="true"
                         :title="extraction.dimension === 'urlparam'
@@ -172,12 +172,13 @@ import { defineComponent } from 'vue';
 import {
   clone,
   translate,
-  Matomo,
   ContentBlock,
   CopyToClipboard,
+  Matomo,
+  MatomoLoader,
+  MatomoUrl,
   NotificationsStore,
   NotificationType,
-  MatomoUrl,
 } from 'CoreHome';
 import { Field } from 'CorePluginsAdmin';
 import CustomDimensionsStore from '../CustomDimensions.store';
@@ -202,6 +203,7 @@ export default defineComponent({
   components: {
     ContentBlock,
     Field,
+    MatomoLoader,
   },
   directives: {
     CopyToClipboard,
@@ -255,7 +257,7 @@ export default defineComponent({
           this.dimension = {
             idsite: Matomo.idSite,
             name: '',
-            active: false,
+            active: true,
             extractions: [],
             scope: this.dimensionScope,
             case_sensitive: true,

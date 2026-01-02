@@ -154,7 +154,7 @@ class InsightReport
                 $metric,
                 $considerMovers = (-1 !== $minMoversPercent),
                 $considerNew = (-1 !== $minNewPercent),
-                $considerDisappeared = (-1 !== $minDisappearedPercent)
+                $considerDisappeared = (-1 !== $minDisappearedPercent),
             )
         );
 
@@ -163,7 +163,7 @@ class InsightReport
             array(
                 'growth_percent_numeric',
                 $minGrowthPercentPositive,
-                $minGrowthPercentNegative
+                $minGrowthPercentNegative,
             )
         );
 
@@ -173,7 +173,7 @@ class InsightReport
                 array(
                     'difference',
                     $minIncreaseNew,
-                    'isNew'
+                    'isNew',
                 )
             );
         }
@@ -184,7 +184,7 @@ class InsightReport
                 array(
                     'difference',
                     $minChangeMovers,
-                    'isMover'
+                    'isMover',
                 )
             );
         }
@@ -195,7 +195,7 @@ class InsightReport
                 array(
                     'difference',
                     $minDecreaseDisappeared,
-                    'isDisappeared'
+                    'isDisappeared',
                 )
             );
         }
@@ -205,7 +205,7 @@ class InsightReport
             array(
                 $this->getOrderByColumn($orderBy),
                 $orderBy === self::ORDER_BY_RELATIVE ? $this->getOrderByColumn(self::ORDER_BY_ABSOLUTE) : $this->getOrderByColumn(self::ORDER_BY_RELATIVE),
-                $metric
+                $metric,
             )
         );
 
@@ -214,7 +214,7 @@ class InsightReport
             array(
                 'growth_percent_numeric',
                 $limitIncreaser,
-                $limitDecreaser
+                $limitDecreaser,
             )
         );
 
@@ -240,7 +240,7 @@ class InsightReport
             'minGrowthPercentNegative' => $minGrowthPercentNegative,
             'minMoversPercent' => $minMoversPercent,
             'minNewPercent' => $minNewPercent,
-            'minDisappearedPercent' => $minDisappearedPercent
+            'minDisappearedPercent' => $minDisappearedPercent,
         ));
 
         return $dataTable;

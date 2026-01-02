@@ -160,13 +160,13 @@ class InvalidLicenses
             return '';
         }
 
-        return '<a href="' . $info['loginUrl'] . '" target="_blank" rel="noreferrer noopener">';
+        return Url::getExternalLinkTag($info['loginUrl']);
     }
 
     private function getSubscritionSummaryMessage()
     {
         $url = Url::getCurrentQueryStringWithParametersModified(array(
-            'module' => 'Marketplace', 'action' => 'subscriptionOverview'
+            'module' => 'Marketplace', 'action' => 'subscriptionOverview',
         ));
 
         $link = '<a href="' . $url . '">';
@@ -179,7 +179,7 @@ class InvalidLicenses
         $pluginNames = array(
             'exceeded' => array(),
             'expired' => array(),
-            'noLicense' => array()
+            'noLicense' => array(),
         );
 
         try {

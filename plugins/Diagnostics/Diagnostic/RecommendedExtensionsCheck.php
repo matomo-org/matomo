@@ -62,7 +62,7 @@ class RecommendedExtensionsCheck implements Diagnostic
             'libxml',
             'dom',
             'SimpleXML',
-            'openssl'
+            'openssl',
         );
     }
 
@@ -73,7 +73,7 @@ class RecommendedExtensionsCheck implements Diagnostic
             'libxml'    => 'Installation_SystemCheckWarnLibXmlHelp',
             'dom'       => 'Installation_SystemCheckWarnDomHelp',
             'SimpleXML' => 'Installation_SystemCheckWarnSimpleXMLHelp',
-            'openssl'   => 'Installation_SystemCheckWarnOpensslHelp'
+            'openssl'   => 'Installation_SystemCheckWarnOpensslHelp',
         );
 
         return $this->translator->translate($messages[$missingExtension]);

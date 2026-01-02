@@ -30,4 +30,8 @@ interface DataTableInterface
     public function getColumn($name);
     public function getColumns();
     public function deleteRowsMetadata($name, $deleteRecursiveInSubtables = false);
+
+    public function setAsBuiltWithoutArchives(bool $flag): void;
+
+    public function wasBuiltWithoutArchives(): bool;
 }

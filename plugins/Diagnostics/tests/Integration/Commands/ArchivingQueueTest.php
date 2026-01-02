@@ -52,7 +52,7 @@ class ArchivingQueueTest extends ConsoleCommandTestCase
 OUTPUT;
 
         $this->applicationTester->run([
-            'command' => 'diagnostics:archiving-queue'
+            'command' => 'diagnostics:archiving-queue',
         ]);
         $actual = $this->applicationTester->getDisplay();
 
@@ -64,7 +64,7 @@ OUTPUT;
         $expected = '[{"Invalidation":1,"Segment":null,"Site":1,"Period":"Day","Date":"2010-03-06","TimeQueued":"2010-03-07 01:00:00","Waiting":18000,"Started":null,"Processing":"","Status":"Queued"},{"Invalidation":2,"Segment":null,"Site":1,"Period":"Week","Date":"2010-03-01 - 2010-03-07","TimeQueued":"2010-03-07 01:00:00","Waiting":18000,"Started":null,"Processing":"","Status":"Queued"},{"Invalidation":3,"Segment":null,"Site":1,"Period":"Month","Date":"2010-03","TimeQueued":"2010-03-07 01:00:00","Waiting":18000,"Started":null,"Processing":"","Status":"Queued"},{"Invalidation":4,"Segment":null,"Site":1,"Period":"Year","Date":"2010","TimeQueued":"2010-03-07 01:00:00","Waiting":18000,"Started":null,"Processing":"","Status":"Queued"}]';
         $this->applicationTester->run(array(
             'command' => 'diagnostics:archiving-queue',
-            '--json' => true
+            '--json' => true,
         ));
         $actual = $this->applicationTester->getDisplay();
 

@@ -27,6 +27,7 @@
           :placeholder="' '"
           :uicontrol="field1.uiControl"
           :name="`${name}-p1-${index}`"
+          :id="`${id}-p1-${index}`"
           :title="field1.title"
           :template-file="field1.templateFile"
           :component="field1.component"
@@ -46,6 +47,7 @@
           :placeholder="' '"
           :uicontrol="field2.uiControl"
           :name="`${name}-p2-${index}`"
+          :id="`${id}-p2-${index}`"
           :title="field2.title"
           :template-file="field2.templateFile"
           :component="field2.component"
@@ -64,6 +66,8 @@
           :model-modifiers="field3.modelModifiers"
           :placeholder="' '"
           :uicontrol="field3.uiControl"
+          :name="`${name}-p3-${index}`"
+          :id="`${id}-p3-${index}`"
           :title="field3.title"
           :template-file="field3.templateFile"
           :component="field3.component"
@@ -82,6 +86,8 @@
           :model-modifiers="field4.modelModifiers"
           :placeholder="' '"
           :uicontrol="field4.uiControl"
+          :name="`${name}-p4-${index}`"
+          :id="`${id}-p4-${index}`"
           :title="field4.title"
           :template-file="field4.templateFile"
           :component="field4.component"
@@ -109,6 +115,7 @@ export default defineComponent({
   props: {
     modelValue: Array,
     name: String,
+    id: String,
     field1: Object,
     field2: Object,
     field3: Object,

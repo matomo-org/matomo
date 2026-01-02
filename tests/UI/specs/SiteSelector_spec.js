@@ -8,8 +8,6 @@
  */
 
 describe("SiteSelector", function () {
-    this.timeout(0);
-
     const selectorToCapture = '.siteSelector,.siteSelector .dropdown';
     const url = "?module=UsersManager&action=userSettings&idSite=1&period=day&date=yesterday";
 
@@ -20,6 +18,13 @@ describe("SiteSelector", function () {
         dialog = await page.$(selectorToCapture);
         await page.waitForTimeout(500);
         expect(await dialog.screenshot()).to.matchImage('loaded');
+    });
+
+    it("should show tooltip when hovering the element", async function() {
+        await page.hover('.sites_autocomplete .title');
+        const tooltip = await page.waitForSelector('.ui-tooltip', { visible: true })
+
+        expect(await tooltip.getProperty('textContent')).to.match(/Choose a website, currently selected website: <script>_x\(0\)<\/script>/);
     });
 
     it("should display expanded when clicked", async function() {

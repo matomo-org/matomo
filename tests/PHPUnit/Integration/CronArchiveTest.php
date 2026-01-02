@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Common;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive;
 use Piwik\DataAccess\ArchiveTableCreator;
@@ -532,7 +533,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime(),
                     ],
                 ],
                 [],
@@ -553,7 +554,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime(),
                     ],
                 ],
                 [
@@ -583,7 +584,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime(),
                     ],
                 ],
                 [
@@ -621,7 +622,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime(),
                     ],
                     [
                         'idarchive' => 1,
@@ -633,7 +634,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-03 00:12:33')->subSeconds($offset)->getDatetime(),
                     ],
                 ],
                 [
@@ -663,7 +664,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime(),
                     ],
                 ],
                 [
@@ -693,7 +694,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime(),
                     ],
                 ],
                 [
@@ -731,7 +732,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime(),
                     ], // different period, so should be ignored
                     [
                         'idarchive' => 1,
@@ -743,7 +744,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-02 23:48:33')->subSeconds($offset)->getDatetime(),
                     ], // started too early, so should be ignored
                     [
                         'idarchive' => 1,
@@ -755,7 +756,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime(),
                     ], // partial archive, so should be ignored
                     [
                         'idarchive' => 2,
@@ -767,7 +768,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime(),
                     ], // different site, so should be ignored
                     [
                         'idarchive' => 2,
@@ -779,7 +780,7 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-02-02 21:00:00',
                         'status' => 1,
-                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime()
+                        'ts_started' => Date::factory('2020-02-03 00:10:33')->subSeconds($offset)->getDatetime(),
                     ], // should be considered and invalidation skipped
                 ],
                 [
@@ -843,14 +844,17 @@ class CronArchiveTest extends IntegrationTestCase
 
         $archiveTable = ArchiveTableCreator::getNumericTable($period->getDateStart());
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1, $period::PERIOD_ID, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), 'done', $archiveStatus, $tsArchived
+            1, 1, $period::PERIOD_ID, $period->getDateStart()->toString(), $period->getDateEnd()->toString(), 'done', $archiveStatus, $tsArchived,
         ]);
 
         // $skipWhenRunningOrNewEnoughArchiveExists is set to true when running invalidateRecentDate('yesterday');
 
         $class = new \ReflectionClass(CronArchive::class);
         $method = $class->getMethod('canWeSkipInvalidatingBecauseThereIsAUsablePeriod');
-        $method->setAccessible(true);
+
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
 
         $actual = $method->invoke($archiver, $params, $dayToArchive === 'yesterday');
         $this->assertSame($expected, $actual);
@@ -878,7 +882,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-04 23:45:40')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                false
+                false,
             ];
 
             yield "Invalidating yesterday should not be skipped if an archive for yesterday was built some time before midnight in site's timezone ($timezone)" => [
@@ -888,7 +892,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-04 18:25:35')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                false
+                false,
             ];
 
             yield "Invalidating yesterday should not be skipped if an archive for yesterday was built long before midnight in site's timezone ($timezone)" => [
@@ -898,7 +902,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-04 09:25:35')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                false
+                false,
             ];
 
             yield "Invalidating yesterday should be skipped if an archive for yesterday was built after midnight in site's timezone ($timezone)" => [
@@ -908,7 +912,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-05 00:05:40')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                true
+                true,
             ];
 
             yield "Invalidating yesterday should be skipped if an archive for yesterday was built some time after midnight in site's timezone ($timezone)" => [
@@ -918,7 +922,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-05 09:05:40')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                true
+                true,
             ];
 
             yield "Invalidating yesterday should be skipped if an archive for yesterday was built long after midnight in site's timezone ($timezone)" => [
@@ -928,7 +932,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-05 19:05:40')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                true
+                true,
             ];
 
             yield "Invalidation should be skipped when checking an older date that was archived within ttl, as invalidation will be processed later ($timezone)" => [
@@ -938,7 +942,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-04 23:49:44')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                true
+                true,
             ];
 
             yield "Invalidation should not be skipped when checking an older period that was not archived within ttl ($timezone)" => [
@@ -948,7 +952,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'week',
                 Date::factory('2020-04-03 23:49:44')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                false
+                false,
             ];
 
             yield "Invalidation should be skipped when checking an older period that was archived within ttl, as invalidation will be processed later ($timezone)" => [
@@ -958,7 +962,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'week',
                 Date::factory('2020-04-05 03:55:44')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                true
+                true,
             ];
 
             // ttl is defined by time_before_today_archive_considered_outdated (default = 900)
@@ -969,7 +973,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-05 19:05:00')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                true
+                true,
             ];
 
             // ttl is defined by time_before_today_archive_considered_outdated (default = 900)
@@ -980,7 +984,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'day',
                 Date::factory('2020-04-05 16:05:00')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                false
+                false,
             ];
 
             yield "Invalidating current week should be skipped if a recently built archive is valid ($timezone)" => [
@@ -990,7 +994,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'week',
                 Date::factory('2020-04-05 19:13:40')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                true
+                true,
             ];
 
             yield "Invalidating current week should also be skipped if a recently built archive is already invalidated ($timezone)" => [
@@ -1000,7 +1004,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'week',
                 Date::factory('2020-04-05 19:13:40')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_INVALIDATED,
-                true
+                true,
             ];
 
             yield "Invalidating current week should not be skipped if a recently built archive is older than ttl ($timezone)" => [
@@ -1010,7 +1014,7 @@ class CronArchiveTest extends IntegrationTestCase
                 'week',
                 Date::factory('2020-04-05 18:28:40')->subSeconds($offset)->getDatetime(),
                 ArchiveWriter::DONE_OK,
-                false
+                false,
             ];
         }
     }
@@ -1028,6 +1032,7 @@ class CronArchiveTest extends IntegrationTestCase
         $api = API::getInstance();
 
         $cronarchive = new TestCronArchive();
+        $cronarchive->skipInvalidatingRecentDates = true;
         $cronarchive->init();
         $cronarchive->setApiToInvalidateArchivedReport($api);
         $cronarchive->invalidateArchivedReportsForSitesThatNeedToBeArchivedAgain(1);
@@ -1128,6 +1133,30 @@ class CronArchiveTest extends IntegrationTestCase
                 false,
                 false,
             ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                'actions>=1',
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
         ];
         self::assertEquals($expectedInvalidations, $requestedInvalidations);
 
@@ -1184,6 +1213,30 @@ class CronArchiveTest extends IntegrationTestCase
             [
                 1,
                 Date::now()->toString(),
+                'day',
+                'actions>=2',
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                false,
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
+                'day',
+                'actions>=1',
+                false,
+                false,
+            ],
+            [
+                1,
+                Date::yesterday()->toString(),
                 'day',
                 'actions>=2',
                 false,
@@ -1280,7 +1333,7 @@ class CronArchiveTest extends IntegrationTestCase
     public function testOutput()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1))),
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -1288,6 +1341,9 @@ class CronArchiveTest extends IntegrationTestCase
         SegmentAPI::getInstance()->add('foo', 'actions>=2', 1, true, true);
         SegmentAPI::getInstance()->add('burr', 'actions>=4', 1, true, true);
         Rules::setBrowserTriggerArchiving(true);
+
+        // remove invalidations that were created by adding the segments
+        Option::delete(CronArchive\ReArchiveList::OPTION_NAME);
 
         $tracker = Fixture::getTracker(1, '2019-12-12 02:03:00');
         $tracker->setUrl('http://someurl.com');
@@ -1308,6 +1364,7 @@ class CronArchiveTest extends IntegrationTestCase
         $logger = new FakeLogger();
 
         $archiver = new CronArchive($logger);
+        $archiver->skipInvalidatingRecentDates = true;
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiveFilter->setSegmentsToForce(['actions>=2;browserCode=FF', 'actions>=2']);
@@ -1340,8 +1397,6 @@ Checking for queued invalidations...
   Will invalidate archived reports for 2019-12-11 for following websites ids: 1
   Will invalidate archived reports for 2019-12-10 for following websites ids: 1
   Will invalidate archived reports for 2019-12-02 for following websites ids: 1
-  Today archive can be skipped for period for idSite = 1 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
-  Yesterday archive can be skipped for period for idSite = 1 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
 Done invalidating
 Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-12 - 2019-12-12), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 Processing invalidation: [idinvalidation = %d, idsite = 1, period = day(2019-12-11 - 2019-12-11), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
@@ -1392,7 +1447,7 @@ LOG;
     public function testOutputWithSkipIdSites()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1))),
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -1423,6 +1478,7 @@ LOG;
         $sequence->create();
 
         $archiver = new CronArchive($logger);
+        $archiver->skipInvalidatingRecentDates = true;
 
         $archiveFilter = new CronArchive\ArchiveFilter();
         $archiver->setArchiveFilter($archiveFilter);
@@ -1450,8 +1506,6 @@ Start processing archives for site 2.
 Checking for queued invalidations...
   Will invalidate archived reports for 2019-12-11 for following websites ids: 2
   Will invalidate archived reports for 2019-12-10 for following websites ids: 2
-  Today archive can be skipped for period for idSite = 2 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
-  Yesterday archive can be skipped for period for idSite = 2 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
 Done invalidating
 Processing invalidation: [idinvalidation = %d, idsite = 2, period = day(2019-12-11 - 2019-12-11), name = done, segment = ].
 Processing invalidation: [idinvalidation = %d, idsite = 2, period = day(2019-12-10 - 2019-12-10), name = done, segment = ].
@@ -1515,7 +1569,7 @@ LOG;
     public function testShouldNotStopProcessingWhenOneSiteIsInvalid()
     {
         \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = array(
-            '/method=API.get/' => json_encode(array(array('nb_visits' => 1)))
+            '/method=API.get/' => json_encode(array(array('nb_visits' => 1))),
         );
 
         Fixture::createWebsite('2014-12-12 00:01:02');
@@ -1536,13 +1590,35 @@ Starting Matomo reports archiving...
 Applying queued rearchiving...
 Start processing archives for site 1.
 Checking for queued invalidations...
-  Today archive can be skipped for period for idSite = 1 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
-  Yesterday archive can be skipped for period for idSite = 1 because: Site is using tracker & archiving is not forced when no visits & site has has no visits between start and end date & there are no child archives in the period
+  Will invalidate archived reports for today in site ID = 1's timezone (2020-02-03 00:00:00).
+  Will invalidate archived reports for yesterday in site ID = 1's timezone (2020-02-02 00:00:00).
 Done invalidating
-No next invalidated archive.
 LOG;
 
         self::assertStringContainsString($expected, $logger->output);
+    }
+
+    public function testShouldSkipYearPeriodWhenDisabled()
+    {
+        \Piwik\Tests\Framework\Mock\FakeCliMulti::$specifiedResults = [
+            '/method=API.get/' => json_encode([['nb_visits' => 1]]),
+        ];
+
+        GeneralConfig::setConfigValue('enabled_periods_API', 'day,week,month,range');
+
+        Fixture::createWebsite('2014-12-12 00:01:02');
+
+        $tracker = Fixture::getTracker(1, '2020-02-03 12:01:02');
+        Fixture::checkResponse($tracker->doTrackPageView('test'));
+
+        $logger = new FakeLogger();
+
+        $archiver                              = new CronArchive($logger);
+        $archiver->shouldArchiveSpecifiedSites = [1];
+        $archiver->init();
+        $archiver->run();
+
+        self::assertStringNotContainsString('year', $logger->output);
     }
 
     public function provideContainerConfig()
@@ -1550,7 +1626,7 @@ LOG;
         Date::$now = strtotime('2020-02-03 04:05:06');
 
         return array(
-            'Piwik\CliMulti' => \Piwik\DI::create('Piwik\Tests\Framework\Mock\FakeCliMulti')
+            'Piwik\CliMulti' => \Piwik\DI::create('Piwik\Tests\Framework\Mock\FakeCliMulti'),
         );
     }
 

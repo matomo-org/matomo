@@ -32,7 +32,7 @@ class Marketplace extends \Piwik\Plugin
             'Request.dispatch' => 'createPluginTrialNotification',
             'PluginManager.pluginInstalled' => 'removePluginTrialRequest',
             'PluginManager.pluginActivated' => 'removePluginTrialRequest',
-            'Widget.filterWidgets' => 'filterWidgets'
+            'Widget.filterWidgets' => 'filterWidgets',
         );
     }
 

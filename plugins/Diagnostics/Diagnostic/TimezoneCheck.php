@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Diagnostics\Diagnostic;
 
 use Piwik\SettingsServer;
 use Piwik\Translation\Translator;
+use Piwik\Url;
 
 /**
  * Check that the PHP timezone setting is set.
@@ -38,7 +39,7 @@ class TimezoneCheck implements Diagnostic
         $comment = sprintf(
             '%s<br />%s.',
             $this->translator->translate('SitesManager_AdvancedTimezoneSupportNotFound'),
-            '<a href="https://php.net/manual/en/datetime.installation.php" rel="noreferrer noopener" target="_blank">Timezone PHP documentation</a>'
+            Url::getExternalLinkTag('https://php.net/manual/en/datetime.installation.php') . 'Timezone PHP documentation</a>'
         );
 
         return array(DiagnosticResult::singleResult($label, DiagnosticResult::STATUS_WARNING, $comment));

@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Events\Columns;
 
 use Piwik\Columns\Discriminator;
 use Piwik\Columns\Join\ActionNameJoin;
+use Piwik\Piwik;
 use Piwik\Plugin\Dimension\ActionDimension;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\TableLogAction;
@@ -22,9 +23,13 @@ class EventUrl extends ActionDimension
     protected $nameSingular = 'Events_EventUrl';
     protected $namePlural = 'Events_EventUrls';
     protected $type = self::TYPE_URL;
-    protected $acceptValues = 'The URL must be URL encoded, for example: http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery';
     protected $category = 'Events_Events';
     protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
+
+    public function getAcceptValues()
+    {
+        return Piwik::translate('Events_EventUrlSegmentHelp', 'http%3A%2F%2Fexample.com%2Fpath%2Fpage%3Fquery');
+    }
 
     public function getDbColumnJoin()
     {

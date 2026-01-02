@@ -24,7 +24,7 @@ class EnvironmentValidationTest extends SystemTestCase
             array('tracker'),
             array('web'),
             array('console'),
-            array('archive_web')
+            array('archive_web'),
         );
     }
 

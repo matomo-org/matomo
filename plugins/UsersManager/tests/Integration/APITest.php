@@ -1125,7 +1125,7 @@ class APITest extends IntegrationTestCase
     public function testSetUserAccessCannotSetViewToAnonymousWithoutPassword()
     {
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 
         $_GET['force_api_session'] = 1;
         try {
@@ -1347,7 +1347,7 @@ class APITest extends IntegrationTestCase
                 'userLogin' => 'foobar',
                 'email' => 'foobar@matomo.org',
                 'initialIdSite' => 1,
-                'expiryInDays' => 7
+                'expiryInDays' => 7,
             ]
         );
     }
@@ -1385,6 +1385,9 @@ class APITest extends IntegrationTestCase
                 $eventWasFired = true;
             }
         );
+
+        $this->addUserWithAccess('test123', 'superuser', 1);
+        $this->setCurrentUser('test123', 'superuser', 1);
 
         $this->api->inviteUser('pendingLoginTest', 'pendingLoginTest@matomo.org', 1);
         $isPending = $this->model->isPendingUser('pendingLoginTest');

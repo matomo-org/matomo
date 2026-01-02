@@ -5,7 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import { createVueApp, translate } from 'CoreHome';
+import { createVueApp, translate, Matomo } from 'CoreHome';
 import TransitionExporterPopover from './TransitionExporterPopover';
 import { actionName } from './transitionParams';
 
@@ -38,7 +38,9 @@ export default {
       app.mount(mountPoint);
 
       Piwik_Popover.showLoading('');
-      Piwik_Popover.setTitle(`${actionName.value} ${translate('Transitions_Transitions')}`);
+      Piwik_Popover.setTitle(
+        `${Matomo.helper.htmlEntities(actionName.value)} ${translate('Transitions_Transitions')}`,
+      );
       Piwik_Popover.setContent(mountPoint);
 
       Piwik_Popover.onClose(() => {

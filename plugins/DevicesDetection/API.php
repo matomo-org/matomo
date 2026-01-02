@@ -10,7 +10,9 @@
 namespace Piwik\Plugins\DevicesDetection;
 
 use DeviceDetector\Parser\Device\AbstractDeviceParser;
+use Exception;
 use Piwik\Archive;
+use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Metrics;
 use Piwik\Piwik;
@@ -76,7 +78,7 @@ class API extends \Piwik\Plugin\API
                     $row = $table->getRowFromLabel($requiredRow);
                     if (empty($row)) {
                         $table->addRowsFromSimpleArray([
-                            ['label' => $requiredRow, $key => 0]
+                            ['label' => $requiredRow, $key => 0],
                         ]);
                     }
                 }
@@ -111,6 +113,11 @@ class API extends \Piwik\Plugin\API
      */
     public function getModel($idSite, $period, $date, $segment = false)
     {
+        $translator = StaticContainer::get('Piwik\Translation\Translator');
+        if (DevicesDetection::isDeviceModelDetectionDisabledByCompliancePolicy($idSite)) {
+            throw new Exception($translator->translate('DevicesDetection_DeviceModelReportDisabledByCompliancePolicy'));
+        }
+
         $dataTable = $this->getDataTable('DevicesDetection_models', $idSite, $period, $date, $segment);
 
         $dataTable->filter(function (DataTable $table) {

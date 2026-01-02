@@ -73,7 +73,7 @@ class FingerprintSalt
         if (empty($salt['value'])) {
             $salt = array(
                 'value' => $this->generateSalt(),
-                'time' => Date::getNowTimestamp()
+                'time' => Date::getNowTimestamp(),
             );
             Option::set($fingerprintSaltKey, $this->encode($salt));
         }

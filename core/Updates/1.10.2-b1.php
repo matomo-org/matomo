@@ -30,7 +30,7 @@ class Updates_1_10_2_b1 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('report', 'hour', 'TINYINT NOT NULL DEFAULT 0', 'period')
+            $this->migration->db->addColumn('report', 'hour', 'TINYINT NOT NULL DEFAULT 0', 'period'),
         );
     }
 

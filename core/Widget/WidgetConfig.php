@@ -155,7 +155,7 @@ class WidgetConfig
     {
         $defaultParams = array(
             'module' => $this->getModule(),
-            'action' => $this->getAction()
+            'action' => $this->getAction(),
         );
 
         return $defaultParams + $this->parameters;

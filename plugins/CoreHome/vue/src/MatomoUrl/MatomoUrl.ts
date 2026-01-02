@@ -56,9 +56,11 @@ class MatomoUrl {
     window.addEventListener('hashchange', (event) => {
       this.url.value = new URL(event.newURL);
       this.updatePeriodParamsFromUrl();
+      this.updatePageTitle();
     });
 
     this.updatePeriodParamsFromUrl();
+    this.updatePageTitle();
   }
 
   updateHashToUrl(urlWithoutLeadingHash: string) {
@@ -167,9 +169,29 @@ class MatomoUrl {
       .replace(/\+/g, '%20');
   }
 
+  getMenuPathSuffix(): { category: string; subcategory: string } {
+    const category = this.getSearchParam('category') as string;
+    const subcategory = this.getSearchParam('subcategory') as string;
+    return { category: decodeURIComponent(category), subcategory: decodeURIComponent(subcategory) };
+  }
+
+  getDateAndPeriodFromUrl(): { date: string; period: string } {
+    return {
+      date: this.getSearchParam('date') || '',
+      period: this.getSearchParam('period') || '',
+    };
+  }
+
+  updatePageTitle() {
+    const { period, date } = this.getDateAndPeriodFromUrl();
+    const { category, subcategory } = this.getMenuPathSuffix();
+    const segment = this.getSearchParam('segment') || '';
+    piwik.updateTitle(date, period, category, subcategory, segment);
+  }
+
   updatePeriodParamsFromUrl(): void {
-    let date = this.getSearchParam('date');
-    const period = this.getSearchParam('period');
+    const { period, date: initialDate } = this.getDateAndPeriodFromUrl();
+    let date = initialDate;
     if (!isValidPeriod(period, date)) {
       // invalid data in URL
       return;
@@ -185,9 +207,6 @@ class MatomoUrl {
     const dateRange = Periods.parse(period, date).getDateRange();
     piwik.startDateString = format(dateRange[0]);
     piwik.endDateString = format(dateRange[1]);
-
-    piwik.updateDateInTitle(date, period);
-
     // do not set anything to previousN/lastN, as it's more useful to plugins
     // to have the dates than previousN/lastN.
     if (piwik.period === 'range') {

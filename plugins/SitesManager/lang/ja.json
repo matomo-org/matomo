@@ -43,6 +43,7 @@
         "ExcludedReferrersHelpExamples": "例えば \"%1$s\"は\"%2$s\"と\"%3$s\"に一致しますが、\"%4$s\"には一致しません",
         "ExcludedReferrersHelpSubDomains": "特定のホスト名のすべてのサブドメインも除外するには、先頭にドットを付けます。 例えば \"%1$s\"は\"%2$s\"を除外しますが、\"%3$s\"などのすべてのサブドメインも除外します。",
         "ExcludedUserAgents": "除外されたユーザーエージェント",
+        "ExclusionTypeOptionCustom": "カスタム",
         "ExtraInformationNeeded": "システムにMatomoをセットアップするには、次の情報が必要になる場合があります：",
         "Format_Utc": "UTC%s",
         "GADetected": "あなたのウェブサイトで %1$s が検出されました。 過去の分析データと設定を %2$s から Matomo に簡単に移行できることをご存知ですか? %3$s%4$s%5$sこのガイドで詳細を確認%6$s",

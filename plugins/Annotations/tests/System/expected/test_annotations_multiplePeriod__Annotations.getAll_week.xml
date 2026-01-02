@@ -2,84 +2,104 @@
 <result>
 	<row key="1">
 		<row>
+			<id>33</id>
+			<idsite>1</idsite>
 			<date>2012-01-26</date>
 			<note>16: Site 1 annotation for 2012-01-26</note>
 			<starred>0</starred>
 			<user>superUserLogin</user>
-			<idNote>16</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>33</idNote>
 		</row>
 		<row>
+			<id>35</id>
+			<idsite>1</idsite>
 			<date>2012-01-27</date>
 			<note>17: Site 1 annotation for 2012-01-27</note>
 			<starred>0</starred>
 			<user>superUserLogin</user>
-			<idNote>17</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>35</idNote>
 		</row>
 		<row>
+			<id>37</id>
+			<idsite>1</idsite>
 			<date>2012-02-02</date>
 			<note>18: Site 1 annotation for 2012-02-02</note>
 			<starred>1</starred>
 			<user>superUserLogin</user>
-			<idNote>18</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>37</idNote>
 		</row>
 		<row>
+			<id>39</id>
+			<idsite>1</idsite>
 			<date>2012-02-03</date>
 			<note>19: Site 1 annotation for 2012-02-03</note>
 			<starred>0</starred>
 			<user>superUserLogin</user>
-			<idNote>19</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>39</idNote>
 		</row>
 		<row>
+			<id>41</id>
+			<idsite>1</idsite>
 			<date>2012-02-09</date>
 			<note>20: Site 1 annotation for 2012-02-09</note>
 			<starred>0</starred>
 			<user>superUserLogin</user>
-			<idNote>20</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>41</idNote>
 		</row>
 		<row>
+			<id>43</id>
+			<idsite>1</idsite>
 			<date>2012-02-10</date>
 			<note>21: Site 1 annotation for 2012-02-10</note>
 			<starred>1</starred>
 			<user>superUserLogin</user>
-			<idNote>21</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>43</idNote>
 		</row>
 		<row>
+			<id>45</id>
+			<idsite>1</idsite>
 			<date>2012-02-16</date>
 			<note>22: Site 1 annotation for 2012-02-16</note>
 			<starred>0</starred>
 			<user>superUserLogin</user>
-			<idNote>22</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>45</idNote>
 		</row>
 		<row>
+			<id>47</id>
+			<idsite>1</idsite>
 			<date>2012-02-17</date>
 			<note>23: Site 1 annotation for 2012-02-17</note>
 			<starred>0</starred>
 			<user>superUserLogin</user>
-			<idNote>23</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>47</idNote>
 		</row>
 		<row>
+			<id>49</id>
+			<idsite>1</idsite>
 			<date>2012-02-23</date>
 			<note>24: Site 1 annotation for 2012-02-23</note>
 			<starred>1</starred>
 			<user>superUserLogin</user>
-			<idNote>24</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>49</idNote>
 		</row>
 		<row>
+			<id>51</id>
+			<idsite>1</idsite>
 			<date>2012-02-24</date>
 			<note>25: Site 1 annotation for 2012-02-24</note>
 			<starred>0</starred>
 			<user>superUserLogin</user>
-			<idNote>25</idNote>
 			<canEditOrDelete>1</canEditOrDelete>
+			<idNote>51</idNote>
 		</row>
 	</row>
 </result>

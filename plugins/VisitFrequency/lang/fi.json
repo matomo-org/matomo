@@ -32,6 +32,7 @@
         "ReturningVisitDocumentation": "Palaava käynti (vs. uusi käynti) on kävijä, joka on käynyt sivulla vähintään kerran aikaisemminkin.",
         "ReturningVisitsDocumentation": "Tämä on palaavien käyntien yleiskatsaus.",
         "SubmenuFrequency": "Yleisyys",
+        "VisitFrequencyReportDocumentation": "Tämä raportti näyttää yleisiä mittareita, kuten palaavien kävijöiden vierailut, rinnakkain uusien kävijöiden samojen mittareiden kanssa. Lue, miten palaavat kävijät suoriutuvat kokonaisuudessaan verrattuna uusiin kävijöihin.",
         "WidgetGraphReturning": "Palaavat käynnit",
         "WidgetOverview": "Yleiskatsaus käynneistä"
     }

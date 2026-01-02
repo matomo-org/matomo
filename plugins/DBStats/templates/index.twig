@@ -38,7 +38,10 @@
     </div>
     <div class="col s12 m6">
         <div class="ajaxLoad" action="getIndividualReportsSummary">
-            <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
+            <span class="loadingPiwik">
+                {% include "@CoreHome/_loader.twig" %}
+                {{ 'General_LoadingData'|translate }}
+            </span>
         </div>
     </div>
 </div>
@@ -49,7 +52,10 @@
     </div>
     <div class="col s12 m6">
         <div class="ajaxLoad" action="getIndividualMetricsSummary">
-            <span class="loadingPiwik"><img src="plugins/Morpheus/images/loading-blue.gif"/>{{ 'General_LoadingData'|translate }}</span>
+            <span class="loadingPiwik">
+                {% include "@CoreHome/_loader.twig" %}
+                {{ 'General_LoadingData'|translate }}
+            </span>
         </div>
     </div>
 </div>

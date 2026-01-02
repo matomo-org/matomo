@@ -60,7 +60,7 @@ class TableLogAction
     {
         // now, we handle the cases =@ (contains) and !@ (does not contain)
         // build the expression based on the match type
-        $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE %s AND type = ' . $actionType . ' )';
+        $sql = 'SELECT idaction FROM `' . Common::prefixTable('log_action') . '` WHERE %s AND type = ' . $actionType . ' )';
 
         switch ($matchType) {
             case SegmentExpression::MATCH_CONTAINS:
@@ -176,7 +176,7 @@ class TableLogAction
         if ($segmentName === 'actionType') {
             $actionType   = (int) $valueToMatch;
             $valueToMatch = array();
-            $sql = 'SELECT idaction FROM ' . Common::prefixTable('log_action') . ' WHERE type = ' . $actionType . ' )';
+            $sql = 'SELECT idaction FROM `' . Common::prefixTable('log_action') . '` WHERE type = ' . $actionType . ' )';
         } else {
             $actionType = self::guessActionTypeFromSegment($segmentName);
             $valueToMatch = self::removeProtocolIfSegmentStoredWithoutIt($valueToMatch, $actionType, $segmentName);
@@ -233,7 +233,7 @@ class TableLogAction
             'productName'        => Action::TYPE_ECOMMERCE_ITEM_NAME,
             'productSku'         => Action::TYPE_ECOMMERCE_ITEM_SKU,
             'productViewName'    => Action::TYPE_ECOMMERCE_ITEM_NAME,
-            'productViewSku'     => Action::TYPE_ECOMMERCE_ITEM_SKU
+            'productViewSku'     => Action::TYPE_ECOMMERCE_ITEM_SKU,
         );
 
         if (!empty($exactMatch[$segmentName])) {

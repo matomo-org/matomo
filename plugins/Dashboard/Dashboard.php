@@ -34,7 +34,7 @@ class Dashboard extends \Piwik\Plugin
             'Widget.addWidgetConfigs'                => 'addWidgetConfigs',
             'Category.addSubcategories'              => 'addSubcategories',
             'Widgetize.shouldEmbedIframeEmpty'       => 'shouldEmbedIframeEmpty',
-            'Db.getTablesInstalled'                  => 'getTablesInstalled'
+            'Db.getTablesInstalled'                  => 'getTablesInstalled',
         );
     }
 
@@ -254,14 +254,14 @@ class Dashboard extends \Piwik\Plugin
         if (is_array($layoutObject)) {
             $layoutObject = (object)array(
                 'config'  => array('layout' => '33-33-33'),
-                'columns' => $layoutObject
+                'columns' => $layoutObject,
             );
         }
 
         if (empty($layoutObject) || empty($layoutObject->columns)) {
             $layoutObject = (object)array(
                 'config'  => array('layout' => '33-33-33'),
-                'columns' => array()
+                'columns' => array(),
             );
         }
 

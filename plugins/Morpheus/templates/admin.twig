@@ -11,6 +11,22 @@
     {{ postEvent("Template.header", "admin") }}
     {{ parent() }}
     {{ postEvent("Template.footer", "admin") }}
+
+    <div id="sizewarning" class="notification system notification-error">
+        This page can't be rendered on screens with width or height below 200px.
+    </div>
+    <style>
+        {# Inlined to ensure it is only applied in the admin area #}
+        @media (max-width: 200px), (max-height: 200px) {
+            #sizewarning {
+                display: block;
+            }
+
+            body > #root {
+                display: none!important;
+            }
+        }
+    </style>
 {% endblock %}
 
 
@@ -34,7 +50,8 @@
 
         {% if showMenu is not defined or showMenu %}
             {% import '@CoreHome/_menu.twig' as menu %}
-            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, hasSomeAdminAccess) }}
+            {% set collapsibleMenu = hasSomeAdminAccess %}
+            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, collapsibleMenu, isSuperUser) }}
         {% endif %}
 
 

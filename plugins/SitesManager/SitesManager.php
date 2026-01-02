@@ -46,7 +46,7 @@ class SitesManager extends \Piwik\Plugin
     public const URL_PARAM_EXCLUSION_TYPES =  [
         self::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS,
         self::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII,
-        self::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM
+        self::URL_PARAM_EXCLUSION_TYPE_NAME_CUSTOM,
     ];
 
     /**
@@ -339,7 +339,7 @@ class SitesManager extends \Piwik\Plugin
     public static function getTrackerExcludedQueryParameters($website)
     {
         $excludedQueryParameters = $website['excluded_parameters'];
-        $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal();
+        $globalExcludedQueryParameters = API::getInstance()->getExcludedQueryParametersGlobal($website['idsite']);
 
         $excludedQueryParameters .= ',' . $globalExcludedQueryParameters;
         return self::filterBlankFromCommaSepList($excludedQueryParameters);
@@ -362,7 +362,6 @@ class SitesManager extends \Piwik\Plugin
 
     /**
      * Returns the hosts alias URLs
-     * @param int $idSite
      * @return array
      */
     private function getTrackerHosts($urls)
@@ -395,6 +394,8 @@ class SitesManager extends \Piwik\Plugin
         $translationKeys[] = 'General_Share';
         $translationKeys[] = 'Goals_Ecommerce';
         $translationKeys[] = 'Goals_Optional';
+        $translationKeys[] = 'PrivacyManager_ManagePrivacySettings';
+        $translationKeys[] = 'PrivacyManager_TrackingDataAnonymizationSettings';
         $translationKeys[] = 'SitesManager_AddMeasurable';
         $translationKeys[] = 'SitesManager_AddSite';
         $translationKeys[] = 'SitesManager_AdvancedTimezoneSupportNotFound';

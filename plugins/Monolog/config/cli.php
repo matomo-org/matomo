@@ -35,7 +35,7 @@ return array(
         $handler->setFormatter(new \Piwik\Plugins\Monolog\Formatter\ConsoleFormatter([
             'date_format' => 'Y-m-d H:i:s',
             'format' => $c->get('log.console.format'),
-            'multiline' => true
+            'multiline' => true,
         ]));
         return $handler;
     },

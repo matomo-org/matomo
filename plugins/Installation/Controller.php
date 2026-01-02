@@ -157,13 +157,11 @@ class Controller extends ControllerAdmin
         if ($form->validate()) {
             try {
                 $dbInfos = $form->createDatabaseObject();
+                $this->createConfigFile($dbInfos);
 
                 DbHelper::checkDatabaseVersion();
 
-
                 Db::get()->checkClientVersion();
-
-                $this->createConfigFile($dbInfos);
 
                 $this->redirectToNextStep(__FUNCTION__);
             } catch (Exception $e) {
@@ -356,7 +354,7 @@ class Controller extends ControllerAdmin
 
                 $params = array(
                     'site_idSite' => $result,
-                    'site_name' => urlencode($name)
+                    'site_name' => urlencode($name),
                 );
 
                 $this->redirectToNextStep(__FUNCTION__, $params);
@@ -535,7 +533,7 @@ class Controller extends ControllerAdmin
             'node_modules/@materializecss/materialize/dist/css/materialize.min.css',
             'plugins/Morpheus/stylesheets/base.less',
             'plugins/Morpheus/stylesheets/general/_forms.less',
-            'plugins/Installation/stylesheets/installation.css'
+            'plugins/Installation/stylesheets/installation.css',
         );
 
         return AssetManager::compileCustomStylesheets($files);
@@ -812,8 +810,8 @@ class Controller extends ControllerAdmin
                 Piwik::translate('Installation_ErrorExpired6') .
                 "\n<br/>" .
                 Piwik::translate('Installation_ErrorExpired7', [
-                    '<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/how-to-install/manage-secure-access-to-the-matomo-installer/') . '" rel="noreferrer noopener" target="_blank">',
-                    '</a>'
+                    Url::getExternalLinkTag('https://matomo.org/faq/how-to-install/manage-secure-access-to-the-matomo-installer/'),
+                    '</a>',
                 ])
             );
         }

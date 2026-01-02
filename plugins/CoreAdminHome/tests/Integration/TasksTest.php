@@ -135,6 +135,7 @@ class TasksTest extends IntegrationTestCase
             'deleteOldFingerprintSalts.',
             'purgeOutdatedArchives.',
             'purgeInvalidatedArchives.',
+            'purgeBrokenArchivesCurrentMonth.',
             'purgeInvalidationsForDeletedSites.',
             'purgeOrphanedArchives.',
             'optimizeArchiveTable.',

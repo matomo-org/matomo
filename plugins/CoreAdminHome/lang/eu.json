@@ -83,6 +83,7 @@
         "JsTrackingCodeMissingEmail2": "Datuen jarraipena egin eta zure erabiltzaileei buruzko informazioa eskuratzen hasteko, jarraipena konfiguratu behar duzu zure webgunean edo mugikorreko aplikazioan. Webguneen kasuan nahikoa da jarraipen-kodea gehitzea justu %s etiketaren aurretik.",
         "JsTrackingCodeMissingEmail3": "Zure jarraipen-kodea aurkitu eta pertsonalizatzeko, %1$segin klik hemen%2$s (edo begiratu %3$sJavaScript jarraipen bezeroaren gida%4$s).",
         "LearnMore": "Ikasi gehiago",
+        "Login": "Saio-hasiera",
         "LogoNotWriteableInstruction": "Matomoren logo lehenetsiaren ordez zure logo pertsonalizatua erabiltzeko, eman idazteko baimenak direktorio honi: %1$s Matomok idazteko baimena behar du %2$s fitxategietan gordetako zure logoentzat.",
         "LogoUpload": "Hautatu logo bat igotzeko",
         "LogoUploadFailed": "Igotako fitxategia ezin izan da prozesatu. Egiaztatu fitxategiak baliozko formatua duen.",

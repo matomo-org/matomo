@@ -14,7 +14,7 @@
       <p v-html="$sanitize(contentIntroText)"></p>
       <p v-show="isLoading">
         <span class="loadingPiwik">
-          <img src="plugins/Morpheus/images/loading-blue.gif" />
+          <MatomoLoader />
           {{ translate('General_LoadingData') }}
         </span>
       </p>
@@ -23,6 +23,7 @@
       v-show="!isLoading"
       v-for="scope in availableScopes"
       :key="scope.value"
+      :class="`scope-${scope.value}`"
     >
       <ContentBlock
         :content-title="translate(`CustomDimensions_ScopeTitle${ucfirst(scope.value)}`)"
@@ -51,7 +52,7 @@
             <tr
               class="customdimension"
               v-for="customDimension in sortedCustomDimensionsByScope[scope.value]"
-              :class="customDimension.idcustomdimension"
+              :class="`customdimension-${customDimension.idcustomdimension}`"
               :key="customDimension.idcustomdimension"
             >
               <td class="index">{{ customDimension.idcustomdimension }}</td>
@@ -96,12 +97,13 @@
 import { DeepReadonly, defineComponent } from 'vue';
 import {
   translate,
-  Matomo,
-  MatomoUrl,
-  ContentIntro,
-  EnrichedHeadline,
   ContentBlock,
+  ContentIntro,
   ContentTable,
+  EnrichedHeadline,
+  Matomo,
+  MatomoLoader,
+  MatomoUrl,
 } from 'CoreHome';
 import { ucfirst } from '../utilities';
 import CustomDimensionsStore from '../CustomDimensions.store';
@@ -110,6 +112,7 @@ import { CustomDimension } from '../types';
 export default defineComponent({
   name: 'listcustomdimensions',
   components: {
+    MatomoLoader,
     EnrichedHeadline,
     ContentBlock,
   },

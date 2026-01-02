@@ -25,6 +25,7 @@
         "ExcludedIps": "IP adrese koje su izuzete",
         "ExcludedParameters": "Parametri za izuzeće",
         "ExcludedUserAgents": "Korisnički agenti koji su isključeni",
+        "ExclusionTypeOptionCustom": "Обичај",
         "GlobalExcludedUserAgentHelp1": "Unesite spisak korisničkih agenata koje želite da isključite iz praćenja.",
         "GlobalExcludedUserAgentHelp2": "Možete isključiti botove iz praćenja.",
         "GlobalListExcludedIps": "Globalna lista izuzetih IP adresa",

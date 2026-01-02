@@ -26,7 +26,7 @@ class RangeCheckTest extends \PHPUnit\Framework\TestCase
                                       array(Row::COLUMNS => array('label' => 'nintendo', 'count' => 5)), // --> 5
                                       array(Row::COLUMNS => array('label' => 'test', 'count' => 7.5)), // --> 7.5
                                       array(Row::COLUMNS => array('label' => 'google', 'count' => 9)), // --> 9
-                                      array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10.1) // --> 10
+                                      array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 10.1), // --> 10
                                       )));
         $filter = new RangeCheck($table, 'count', 5, 10);
         $filter->filter($table);
@@ -44,7 +44,7 @@ class RangeCheckTest extends \PHPUnit\Framework\TestCase
                                       array(Row::COLUMNS => array('label' => 'test', 'count' => 0x1232)), // number is over maximum
                                       array(Row::COLUMNS => array('label' => 'piwik', 'count' => 0x005)), // converted to 5 is ok
                                       array(Row::COLUMNS => array('label' => 'google', 'count' => '9test')), // converted to 9 is ok, so string will be kept
-                                      array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 'test4') // can't be converted to number
+                                      array(Row::COLUMNS => array('label' => 'yahoo', 'count' => 'test4'), // can't be converted to number
                                       )));
         $filter = new RangeCheck($table, 'count', 3.97, 10);
         $filter->filter($table);

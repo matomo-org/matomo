@@ -8,8 +8,6 @@
  */
 
 describe("PrivacyManager_ConsentManager", function () {
-    this.timeout(0);
-
     this.fixture = "Piwik\\Tests\\Fixtures\\EmptySite";
 
     var generalParams = 'idSite=1&period=day&date=2017-01-02',

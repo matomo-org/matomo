@@ -105,7 +105,7 @@ class GetSystemSummary extends Widget
         $systemSummary = array_filter($systemSummary);
 
         return $this->renderTemplate('getSystemSummary', array(
-            'items' => $systemSummary
+            'items' => $systemSummary,
         ));
     }
 

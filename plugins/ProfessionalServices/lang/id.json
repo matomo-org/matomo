@@ -1,5 +1,8 @@
 {
     "ProfessionalServices": {
+        "PromoFormAnalytics": "Formulir",
+        "PromoManage": "Kelola",
+        "PromoOverview": "Ikhtisar",
         "WidgetPremiumServicesForPiwik": "Fitur Premium &amp; Layanan untuk Matomo"
     }
 }

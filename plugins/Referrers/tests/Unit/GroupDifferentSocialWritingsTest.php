@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-namespace Piwik\Plugins\Referrers\tests;
+namespace Piwik\Plugins\Referrers\tests\Unit;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
@@ -27,7 +27,7 @@ class GroupDifferentSocialWritingsTest extends \PHPUnit\Framework\TestCase
         $table->addRowsFromArray(array(
                                       array(Row::COLUMNS => array('label' => 'instagram', 'count' => 100)),
                                       array(Row::COLUMNS => array('label' => 'Facebook', 'count' => 5)),
-                                      array(Row::COLUMNS => array('label' => 'Instagram', 'count' => 10)
+                                      array(Row::COLUMNS => array('label' => 'Instagram', 'count' => 10),
                                       )));
         $filter = new GroupDifferentSocialWritings($table);
         $filter->filter($table);

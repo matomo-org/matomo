@@ -32,7 +32,7 @@ class Updates_1_7_2_rc7 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('user_dashboard', 'name', 'VARCHAR( 100 ) NULL DEFAULT NULL', 'iddashboard')
+            $this->migration->db->addColumn('user_dashboard', 'name', 'VARCHAR( 100 ) NULL DEFAULT NULL', 'iddashboard'),
         );
     }
 

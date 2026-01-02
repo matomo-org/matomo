@@ -24,12 +24,12 @@ class ByParameterCountTest extends \PHPUnit\Framework\TestCase
                 array(),
                 array(),
                 array(),
-                array()
+                array(),
             ),
             // empty plugin is removed
             array(
                 array(
-                    'test' => array()
+                    'test' => array(),
                 ),
                 array(),
                 array(),
@@ -40,69 +40,69 @@ class ByParameterCountTest extends \PHPUnit\Framework\TestCase
                 array(
                     'test' => array(
                         'key' => 'val%sue',
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
                         'key' => 'value',
-                    )
+                    ),
                 ),
                 array(),
                 array(
                     'test' => array(
                         'key' => 'val%sue',
-                    )
+                    ),
                 ),
             ),
             // no change if placeholder count is the same
             array(
                 array(
                     'test' => array(
-                        'test' => 'te%sst'
-                    )
+                        'test' => 'te%sst',
+                    ),
                 ),
                 array(
                     'test' => array(
-                        'test' => 'test%s'
-                    )
+                        'test' => 'test%s',
+                    ),
                 ),
                 array(
                     'test' => array(
-                        'test' => 'te%sst'
-                    )
+                        'test' => 'te%sst',
+                    ),
                 ),
-                array()
+                array(),
             ),
             // missing placeholder will be removed
             array(
                 array(
                     'empty' => array(
-                        'test' => 't%1$sest'
+                        'test' => 't%1$sest',
                     ),
                     'test' => array(
                         'test' => '%1$stest',
                         'empty' => '     ',
-                    )
+                    ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => 'test%1$s'
+                        'test' => 'test%1$s',
                     ),
                     'test' => array(
                         'test' => '%1$stest%2$s',
-                    )
+                    ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => 't%1$sest'
+                        'test' => 't%1$sest',
                     ),
                 ),
                 array(
                     'test' => array(
                         'test' => '%1$stest',
-                    )
-                )
+                    ),
+                ),
             ),
         );
     }

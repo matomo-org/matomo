@@ -68,7 +68,7 @@ class ModelTest extends IntegrationTestCase
     {
         $this->model->addUserAccess($this->login, Write::ID, array(2));
         $this->assertEquals(array(
-            array('site' => '2', 'access' => Write::ID)
+            array('site' => '2', 'access' => Write::ID),
         ), $this->model->getSitesAccessFromUser($this->login));
     }
 
@@ -291,7 +291,7 @@ class ModelTest extends IntegrationTestCase
 
         $this->assertSame(array(
             '2265daba0872fc3aef169d079365e590f0cbc8ed46c2a7984c8a642803cfd96cb47804a63cf22a79f6ca469268c29ee9e72a5059b62d0a598fe42dfc8dcc51bc',
-            '02c2e43dcb393097a1221465812a4e9b1e1e80f16e92b313fd4ce8c5ee5b8272a17cd8cdc1ce63578494eaba739c6f7abba7890506ef6bf8d607538778f2a849'
+            '02c2e43dcb393097a1221465812a4e9b1e1e80f16e92b313fd4ce8c5ee5b8272a17cd8cdc1ce63578494eaba739c6f7abba7890506ef6bf8d607538778f2a849',
         ), $this->model->getAllHashedTokensForLogins(array('foo', $this->login, 'bar')));
     }
 

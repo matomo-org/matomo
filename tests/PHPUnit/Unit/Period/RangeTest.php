@@ -94,7 +94,7 @@ class RangeTest extends BasePeriodTest
 
         $correct = array(
             $today->toString(),
-            $today->subDay(1)->toString()
+            $today->subDay(1)->toString(),
         );
         $correct = array_reverse($correct);
 
@@ -326,7 +326,7 @@ class RangeTest extends BasePeriodTest
                     '2006-12-07',
                     '2006-12-08',
                     '2006-12-09',
-                    '2006-12-10'
+                    '2006-12-10',
                 )),
                 implode(',', array(
                     '2006-12-11',
@@ -335,7 +335,7 @@ class RangeTest extends BasePeriodTest
                     '2006-12-14',
                     '2006-12-15',
                     '2006-12-16',
-                    '2006-12-17'
+                    '2006-12-17',
                 )),
                 implode(',', array(
                     '2006-12-18',
@@ -344,7 +344,7 @@ class RangeTest extends BasePeriodTest
                     '2006-12-21',
                     '2006-12-22',
                     '2006-12-23',
-                    '2006-12-24'
+                    '2006-12-24',
                 )),
                 implode(',', array(
                     '2006-12-25',
@@ -353,7 +353,7 @@ class RangeTest extends BasePeriodTest
                     '2006-12-28',
                     '2006-12-29',
                     '2006-12-30',
-                    '2006-12-31'
+                    '2006-12-31',
                 )),
             )),
             implode(',', array(
@@ -364,7 +364,7 @@ class RangeTest extends BasePeriodTest
                     '2007-01-04',
                     '2007-01-05',
                     '2007-01-06',
-                    '2007-01-07'
+                    '2007-01-07',
                 )),
                 implode(',', array(
                     '2007-01-08',
@@ -373,7 +373,7 @@ class RangeTest extends BasePeriodTest
                     '2007-01-11',
                     '2007-01-12',
                     '2007-01-13',
-                    '2007-01-14'
+                    '2007-01-14',
                 )),
                 implode(',', array(
                     '2007-01-15',
@@ -391,7 +391,7 @@ class RangeTest extends BasePeriodTest
                     '2007-01-25',
                     '2007-01-26',
                     '2007-01-27',
-                    '2007-01-28'
+                    '2007-01-28',
                 )),
                 '2007-01-29',
                 '2007-01-30',
@@ -659,7 +659,7 @@ class RangeTest extends BasePeriodTest
                 "2005-12-22",
                 "2005-12-23",
                 "2005-12-24",
-                "2005-12-25"
+                "2005-12-25",
             )),
             "2005-12-26",
             "2005-12-27",
@@ -754,7 +754,7 @@ class RangeTest extends BasePeriodTest
 
         $correct = array(
             '2013-10-29',
-            '2013-10-30'
+            '2013-10-30',
         );
 
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
@@ -768,7 +768,7 @@ class RangeTest extends BasePeriodTest
         $correct = array(
             '2013-10-29',
             '2013-10-30',
-            '2013-10-31'
+            '2013-10-31',
         );
 
         $this->assertEquals(count($correct), $range->getNumberOfSubperiods());
@@ -943,7 +943,7 @@ class RangeTest extends BasePeriodTest
                     "2011-10-06",
                     "2011-10-07",
                     "2011-10-08",
-                    "2011-10-09"
+                    "2011-10-09",
                 )),
                 implode(',', array(
                     "2011-10-10",
@@ -952,7 +952,7 @@ class RangeTest extends BasePeriodTest
                     "2011-10-13",
                     "2011-10-14",
                     "2011-10-15",
-                    "2011-10-16"
+                    "2011-10-16",
                 )),
                 implode(',', array(
                     "2011-10-17",
@@ -961,7 +961,7 @@ class RangeTest extends BasePeriodTest
                     "2011-10-20",
                     "2011-10-21",
                     "2011-10-22",
-                    "2011-10-23"
+                    "2011-10-23",
                 )),
                 implode(',', array(
                     "2011-10-24",
@@ -970,7 +970,7 @@ class RangeTest extends BasePeriodTest
                     "2011-10-27",
                     "2011-10-28",
                     "2011-10-29",
-                    "2011-10-30"
+                    "2011-10-30",
                 )),
                 "2011-10-31",
             )),
@@ -991,7 +991,7 @@ class RangeTest extends BasePeriodTest
             Date::factory('2011-11-01'),
             Date::factory('2011-11-30'),
             Date::factory('2011-12-31'),
-            Date::factory('2021-10-18')
+            Date::factory('2021-10-18'),
         );
         foreach ($todays as $today) {
             $range = new Range('range', '2011-08-01,2011-10-17', 'UTC', $today);
@@ -1006,7 +1006,7 @@ class RangeTest extends BasePeriodTest
                         "2011-08-04",
                         "2011-08-05",
                         "2011-08-06",
-                        "2011-08-07"
+                        "2011-08-07",
                     )),
                     implode(',', array(
                         "2011-08-08",
@@ -1015,7 +1015,7 @@ class RangeTest extends BasePeriodTest
                         "2011-08-11",
                         "2011-08-12",
                         "2011-08-13",
-                        "2011-08-14"
+                        "2011-08-14",
                     )),
                     implode(',', array(
                         "2011-08-15",
@@ -1024,7 +1024,7 @@ class RangeTest extends BasePeriodTest
                         "2011-08-18",
                         "2011-08-19",
                         "2011-08-20",
-                        "2011-08-21"
+                        "2011-08-21",
                     )),
                     implode(',', array(
                         "2011-08-22",
@@ -1033,7 +1033,7 @@ class RangeTest extends BasePeriodTest
                         "2011-08-25",
                         "2011-08-26",
                         "2011-08-27",
-                        "2011-08-28"
+                        "2011-08-28",
                     )),
                     "2011-08-29",
                     "2011-08-30",
@@ -1051,7 +1051,7 @@ class RangeTest extends BasePeriodTest
                         "2011-09-08",
                         "2011-09-09",
                         "2011-09-10",
-                        "2011-09-11"
+                        "2011-09-11",
                     )),
                     implode(',', array(
                         "2011-09-12",
@@ -1060,7 +1060,7 @@ class RangeTest extends BasePeriodTest
                         "2011-09-15",
                         "2011-09-16",
                         "2011-09-17",
-                        "2011-09-18"
+                        "2011-09-18",
                     )),
                     implode(',', array(
                         "2011-09-19",
@@ -1069,7 +1069,7 @@ class RangeTest extends BasePeriodTest
                         "2011-09-22",
                         "2011-09-23",
                         "2011-09-24",
-                        "2011-09-25"
+                        "2011-09-25",
                     )),
                     "2011-09-26",
                     "2011-09-27",
@@ -1123,7 +1123,7 @@ class RangeTest extends BasePeriodTest
                     "2011-09-08",
                     "2011-09-09",
                     "2011-09-10",
-                    "2011-09-11"
+                    "2011-09-11",
                 )),
                 implode(',', array(
                     "2011-09-12",
@@ -1132,7 +1132,7 @@ class RangeTest extends BasePeriodTest
                     "2011-09-15",
                     "2011-09-16",
                     "2011-09-17",
-                    "2011-09-18"
+                    "2011-09-18",
                 )),
                 implode(',', array(
                     "2011-09-19",
@@ -1141,7 +1141,7 @@ class RangeTest extends BasePeriodTest
                     "2011-09-22",
                     "2011-09-23",
                     "2011-09-24",
-                    "2011-09-25"
+                    "2011-09-25",
                 )),
                 "2011-09-26",
                 "2011-09-27",
@@ -1177,7 +1177,7 @@ class RangeTest extends BasePeriodTest
                 "2011-08-04",
                 "2011-08-05",
                 "2011-08-06",
-                "2011-08-07"
+                "2011-08-07",
                 )),
                 implode(',', array(
                     "2011-08-08",
@@ -1186,7 +1186,7 @@ class RangeTest extends BasePeriodTest
                     "2011-08-11",
                     "2011-08-12",
                     "2011-08-13",
-                    "2011-08-14"
+                    "2011-08-14",
                 )),
                 implode(',', array(
                     "2011-08-15",
@@ -1195,7 +1195,7 @@ class RangeTest extends BasePeriodTest
                     "2011-08-18",
                     "2011-08-19",
                     "2011-08-20",
-                    "2011-08-21"
+                    "2011-08-21",
                 )),
                 implode(',', array(
                     "2011-08-22",
@@ -1204,7 +1204,7 @@ class RangeTest extends BasePeriodTest
                     "2011-08-25",
                     "2011-08-26",
                     "2011-08-27",
-                    "2011-08-28"
+                    "2011-08-28",
                 )),
                 "2011-08-29",
                 "2011-08-30",

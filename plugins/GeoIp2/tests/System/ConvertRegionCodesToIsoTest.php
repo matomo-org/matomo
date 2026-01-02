@@ -122,7 +122,7 @@ class ConvertRegionCodesToIsoTest extends IntegrationTestCase
             'idSite'  => self::$idSite,
             'date'    => '2017-05-05',
             'period'  => 'month',
-            'hideColumns' => 'sum_visit_length' // for unknown reasons this field is different in MySQLI only for this system test
+            'hideColumns' => 'sum_visit_length', // for unknown reasons this field is different in MySQLI only for this system test
         );
 
         // we need to manually reload the translations since they get reset for some reason in IntegrationTestCase::tearDown();

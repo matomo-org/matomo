@@ -4,6 +4,7 @@
         "AnonymizeIpMaskLengtDescription": "Vyberte koľko bajtov IP adresy návštevníkov by malo byť maskovaných.",
         "AnonymizeIpMaskLength": "%1$s bajt(y) - napr. %2$s",
         "ClickHereSettings": "Kliknite sem pre prístup k %s nastaveniam.",
+        "ComplianceTableSettingStatus": "Stav",
         "CurrentDBSize": "Aktuálna veľkosť databázy",
         "DBPurged": "Databáza vyčistená."
     }

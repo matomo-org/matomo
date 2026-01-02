@@ -17,7 +17,7 @@
       <thead>
       <tr>
         <th class="first">{{ translate('General_Description') }}</th>
-        <th>{{ translate('ScheduledReports_EmailSchedule') }}</th>
+        <th>{{ translate('ScheduledReports_ReportSchedule') }}</th>
         <th>{{ translate('ScheduledReports_ReportFormat') }}</th>
         <th>{{ translate('ScheduledReports_SendReportTo') }}</th>
         <th>{{ translate('General_Download') }}</th>
@@ -75,7 +75,7 @@
             </span>
 
             <a
-              v-if="report.recipients.length !== 0"
+              v-if="report.recipients.length !== 0 && !sendingReports.includes(report.idreport)"
               href="#"
               name="linkSendNow"
               class="link_but withIcon"
@@ -88,6 +88,10 @@
               />
               {{ translate('ScheduledReports_SendReportNow') }}
             </a>
+            <div v-if="sendingReports.includes(report.idreport)" class="loadingPiwik">
+              <MatomoLoader />
+              {{ translate('ScheduledReports_SendingReport') }}
+            </div>
           </td>
           <td>
             <form
@@ -173,6 +177,7 @@ import {
   ContentTable,
   MatomoUrl,
   Matomo,
+  MatomoLoader,
 } from 'CoreHome';
 import { Report } from '../types';
 
@@ -220,9 +225,14 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    sendingReports: {
+      type: Array,
+      required: false,
+    },
   },
   components: {
     ContentBlock,
+    MatomoLoader,
   },
   directives: {
     ContentTable,

@@ -319,7 +319,7 @@ class GeoIP2AutoUpdater extends Task
 
             $customDbNames = array(
                 'loc' => array(),
-                'isp' => array()
+                'isp' => array(),
             );
             $customDbNames[$dbType] = array($outputPath);
 
@@ -499,7 +499,7 @@ class GeoIP2AutoUpdater extends Task
 
         if (true !== $isValidHost) {
             throw new Exception(Piwik::translate('GeoIp2_InvalidGeoIPUpdateHost', [
-                '<i>' . $url . '</i>', '<i>' . implode(', ', $validHosts) . '</i>', '<i>geolocation_download_from_trusted_hosts</i>'
+                '<i>' . $url . '</i>', '<i>' . implode(', ', $validHosts) . '</i>', '<i>geolocation_download_from_trusted_hosts</i>',
             ]));
         }
     }
@@ -670,7 +670,7 @@ class GeoIP2AutoUpdater extends Task
             $customNames = array(
                 'loc' => array(),
                 'isp' => array(),
-                'org' => array()
+                'org' => array(),
             );
             $customNames[$type] = LocationProviderGeoIp2::$dbNames[$type];
 

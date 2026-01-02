@@ -35,7 +35,7 @@ class RequestConfig extends VisualizationRequestConfig
             'filter_by',
             'limit_increaser',
             'limit_decreaser',
-            'filter_limit'
+            'filter_limit',
         );
 
         $this->addPropertiesThatShouldBeAvailableClientSide($properties);

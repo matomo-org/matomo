@@ -171,13 +171,15 @@ declare global {
     languageName: string;
     isPagesComparisonApiDisabled: boolean; // can be set to avoid checks on Api.getPagesComparisonsDisabledFor
     userLogin?: string;
+    userCurrentRole: string;
+    isUserAnonymous: boolean;
     userHasSomeAdminAccess: boolean;
     requiresPasswordConfirmation: boolean;
     disableTrackingMatomoAppLinks: boolean;
 
     visitorLogEnabled: boolean;
     updatePeriodParamsFromUrl(): void;
-    updateDateInTitle(date: string, period: string): void;
+    updateTitle(date: string, period: string, c: string, s: string, segment?: string): void;
     hasUserCapability(capability: string): boolean;
     getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;

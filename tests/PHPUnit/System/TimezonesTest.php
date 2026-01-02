@@ -123,9 +123,9 @@ class TimezonesTest extends SystemTestCase
                         'segment'                => 'pageUrl=@example.org;pageUrl!@index',
                         'testSuffix'             => '_today_nomatch' . $appendix, // this segment should match nothing
                         'xmlFieldsToRemove'      => [
-                            'date'
-                        ]
-                    ]
+                            'date',
+                        ],
+                    ],
                 ];
                 $testcases[] = [
                     'Transitions.getTransitionsForAction',
@@ -139,9 +139,9 @@ class TimezonesTest extends SystemTestCase
                         ],
                         'testSuffix'             => '_today' . $appendix, // this segment should match nothing
                         'xmlFieldsToRemove'      => [
-                            'date'
-                        ]
-                    ]
+                            'date',
+                        ],
+                    ],
                 ];
             }
             $testcases[] = [

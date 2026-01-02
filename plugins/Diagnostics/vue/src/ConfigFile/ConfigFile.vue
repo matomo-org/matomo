@@ -77,6 +77,7 @@ import {
   translate,
   ContentTable,
   Passthrough,
+  Matomo,
 } from 'CoreHome';
 
 interface ConfigFileState {
@@ -132,7 +133,7 @@ export default defineComponent({
         return `<div class="pre">${JSON.stringify(value, null, 4)}</div>`;
       }
 
-      return `${value}`;
+      return Matomo.helper.htmlEntities(`${value}`);
     },
     onHideUnchanged(event: Event) {
       if ((event.target as HTMLElement).tagName !== 'A') {

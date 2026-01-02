@@ -33,7 +33,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
         $configMock = $this->createMock(Config::class);
         $configMock->method('__get')->willReturn([
             'SomeOther_feature' => 'enabled',
-            'AnotherOne_feature' => 'disabled'
+            'AnotherOne_feature' => 'disabled',
         ]);
 
         $sut = new ConfigFeatureFlagStorage($configMock);
@@ -48,7 +48,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
         $configMock = $this->createMock(Config::class);
         $configMock->method('__get')->willReturn([
             'Other_feature' => 'disabled',
-            'UnitTest_feature' => 'enabled'
+            'UnitTest_feature' => 'enabled',
         ]);
 
         $sut = new ConfigFeatureFlagStorage($configMock);
@@ -63,7 +63,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
         $configMock = $this->createMock(Config::class);
         $configMock->method('__get')->willReturn([
             'Other_feature' => 'disabled',
-            'UnitTest_feature' => 'disabled'
+            'UnitTest_feature' => 'disabled',
         ]);
 
         $sut = new ConfigFeatureFlagStorage($configMock);
@@ -93,9 +93,9 @@ class ConfigFeatureFlagStorageTest extends TestCase
                 'configValues' => [
                     'FeatureFlags' =>
                     [
-                        'TestFeature_feature' => 'enabled'
-                    ]
-                ]
+                        'TestFeature_feature' => 'enabled',
+                    ],
+                ],
             ])
             ->getMock();
 
@@ -109,7 +109,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
 
         $this->assertEquals(
             [
-                'TestFeature_feature' => 'disabled'
+                'TestFeature_feature' => 'disabled',
             ],
             $configMock->FeatureFlags
         );
@@ -120,7 +120,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
         $configMock = $this->getMockBuilder(FakeConfig::class)
             ->setMethodsExcept(['__get', '__set', '__construct'])
             ->setConstructorArgs([
-                'configValues' => []
+                'configValues' => [],
             ])
             ->getMock();
 
@@ -134,7 +134,7 @@ class ConfigFeatureFlagStorageTest extends TestCase
 
         $this->assertEquals(
             [
-                'TestFeature_feature' => 'enabled'
+                'TestFeature_feature' => 'enabled',
             ],
             $configMock->FeatureFlags
         );
@@ -157,9 +157,9 @@ class ConfigFeatureFlagStorageTest extends TestCase
                 'configValues' => [
                     'FeatureFlags' =>
                         [
-                            'TestFeature_feature' => 'enabled'
-                        ]
-                ]
+                            'TestFeature_feature' => 'enabled',
+                        ],
+                ],
             ])
             ->getMock();
         $configMock->expects($this->once())->method('forceSave');

@@ -148,7 +148,7 @@ class Notification
      * The notification's priority. The higher the priority, the higher the order. See `PRIORITY_*`
      * constants in {@link Notification} to see possible priority values.
      *
-     * @var int
+     * @var ?int
      */
     public $priority;
 

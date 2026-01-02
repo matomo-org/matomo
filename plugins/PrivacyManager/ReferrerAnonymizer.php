@@ -19,15 +19,15 @@ class ReferrerAnonymizer
     public const EXCLUDE_ALL = 'exclude_all';
     public const EXCLUDE_NONE = '';
 
-    public function getAvailableAnonymizationOptions()
+    public static function getAvailableAnonymizationOptions(): array
     {
-        return array(
+        return [
             self::EXCLUDE_NONE => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeNone'),
             self::EXCLUDE_QUERY => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeQuery'),
             self::EXCLUDE_PATH => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludePath'),
-            self::EXCLUDE_ALL => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeAll')
+            self::EXCLUDE_ALL => Piwik::translate('PrivacyManager_AnonymizeReferrerExcludeAll'),
             // but try to track the type still
-        );
+        ];
     }
 
     // referer_keyword: searched keyword or campaign keyword
@@ -62,8 +62,8 @@ class ReferrerAnonymizer
             return $name; // we always want to keep the keyword since it is from the viewed page url, not the referrer
         }
 
-        if ($referrerType == Common::REFERRER_TYPE_SOCIAL_NETWORK || $referrerType == Common::REFERRER_TYPE_SEARCH_ENGINE) {
-            return $name; // we also keep the name of the social network or search engine since it should not be personal information
+        if ($referrerType == Common::REFERRER_TYPE_SOCIAL_NETWORK || $referrerType == Common::REFERRER_TYPE_SEARCH_ENGINE || $referrerType == Common::REFERRER_TYPE_AI_ASSISTANT) {
+            return $name; // we also keep the name of the ai assistant, social network or search engine since it should not be personal information
         }
 
         if ($anonymizeOption == self::EXCLUDE_ALL) {

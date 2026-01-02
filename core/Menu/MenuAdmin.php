@@ -84,12 +84,25 @@ class MenuAdmin extends MenuAbstract
      * @param array $url
      * @param int $order
      * @param bool|string $tooltip
+     * @param string $cssClass
      * @api
      * @since 5.0.0
      */
-    public function addPluginItem(string $menuName, array $url, int $order = 50, $tooltip = false)
+    public function addPluginItem(string $menuName, array $url, int $order = 50, $tooltip = false, string $cssClass = '')
     {
-        $this->addItem('General_Plugins', $menuName, $url, $order, $tooltip);
+        $this->addItem(
+            'General_Plugins',
+            $menuName,
+            $url,
+            $order,
+            $tooltip,
+            $icon = false,
+            $onclick = false,
+            $attribute = false,
+            $help = false,
+            $badgeCount = 0,
+            $cssClass
+        );
     }
 
     /**

@@ -752,7 +752,7 @@ export default defineComponent({
                 'minus',
                 'archive',
                 'add1',
-                'remove'
+                'remove',
             ],
             'Alerts' => [
                 'error',
@@ -760,7 +760,7 @@ export default defineComponent({
                 'info',
                 'success',
                 'help',
-                'ok'
+                'ok',
             ],
             'Navigation' => [
                 'arrow-left',
@@ -790,7 +790,7 @@ export default defineComponent({
                 'close',
                 'maximise',
                 'refresh',
-                'reload'
+                'reload',
             ],
             'Reports' => [
                 'table',
@@ -810,35 +810,35 @@ export default defineComponent({
                 'user',
                 'user-add',
                 'users',
-                'user-personal'
+                'user-personal',
             ],
             'Date-picker' => [
                 'calendar',
                 'datepicker-arr-l',
-                'datepicker-arr-r'
+                'datepicker-arr-r',
             ],
             'Annotations' => [
-                'annotation'
+                'annotation',
             ],
             'E-commerce' => [
                 'ecommerce-order',
-                'ecommerce-abandoned-cart'
+                'ecommerce-abandoned-cart',
             ],
             'Goals' => [
-                'goal'
+                'goal',
             ],
             'Insights' => [
-                'insights'
+                'insights',
             ],
             'Segments' => [
-                'segment'
+                'segment',
             ],
             'Visitors' => [
                 'visitor-profile',
-                'segmented-visits-log'
+                'segmented-visits-log',
             ],
             'Lock' => [
-                'locked'
+                'locked',
             ],
             'Media' => [
                 'audio',
@@ -849,7 +849,7 @@ export default defineComponent({
                 'fast-forward',
                 'fast-rewind',
                 'skip-next',
-                'skip-previous'
+                'skip-previous',
             ],
             'Other' => [
                 'configure',

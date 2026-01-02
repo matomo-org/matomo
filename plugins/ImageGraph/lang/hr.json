@@ -1,1 +1,6 @@
-{}
+{
+    "ImageGraph": {
+        "ColumnOrdinateMissing": "U ovom izvještaju nije pronađen stupac „%1$s”. Pokušaj s bilo kojim od %2$s.",
+        "PluginDescription": "Generiraj prekrasne statične PNG dijagrame za bilo koji izvještaj o podacima."
+    }
+}

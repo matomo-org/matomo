@@ -30,7 +30,7 @@ class Updates_0_2_35 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->changeColumnType('user_dashboard', 'layout', 'TEXT NOT NULL')
+            $this->migration->db->changeColumnType('user_dashboard', 'layout', 'TEXT NOT NULL'),
         );
     }
 

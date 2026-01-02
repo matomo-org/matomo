@@ -33,7 +33,7 @@ class Updates_2_0_b9 extends Updates
         $type = "VARCHAR(255) NOT NULL DEFAULT '" . Site::DEFAULT_SITE_TYPE . "'";
 
         return array(
-            $this->migration->db->addColumn('site', 'type', $type, 'group')
+            $this->migration->db->addColumn('site', 'type', $type, 'group'),
         );
     }
 

@@ -1,6 +1,6 @@
 {
     "Dashboard": {
-        "AddAWidget": "Lägg till en widget",
+        "AddAWidget": "Lägg till en widget till denna instrumentpanel",
         "AddPreviewedWidget": "Lägg till widget i instrumentpanelen",
         "ChangeDashboardLayout": "Ändra instrumentpanelens layout",
         "CopyDashboardToUser": "Kopiera instrumentpanel till användare",
@@ -15,7 +15,7 @@
         "DeleteWidgetConfirm": "Är du säker på att du vill ta bort denna widget från instrumentpanelen?",
         "EmptyDashboard": "Tom instrumentpanel - Välj dina favoritwidgets",
         "LoadingWidget": "Laddar widget, vänligen vänta…",
-        "ManageDashboard": "Hantera instrumentpanel",
+        "ManageDashboard": "Hantera denna instrumentpanel",
         "Maximise": "Maximera",
         "Minimise": "Minimera",
         "NotUndo": "Du kommer inte kunna ångra den här åtgärden.",

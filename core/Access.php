@@ -218,8 +218,8 @@ class Access
         $access    = Common::prefixTable('access');
         $siteTable = Common::prefixTable('site');
 
-        return "SELECT " . $select . " FROM " . $access . " as t1
-				JOIN " . $siteTable . " as t2 USING (idsite) WHERE login = ?";
+        return "SELECT " . $select . " FROM `" . $access . "` as t1
+				JOIN `" . $siteTable . "` as t2 USING (idsite) WHERE login = ?";
     }
 
     /**

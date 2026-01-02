@@ -84,7 +84,7 @@ class ArchiveWriter
 
     private $recordsToWriteSpool = [
         'numeric' => [],
-        'blob' => []
+        'blob' => [],
     ];
 
     public const MAX_SPOOL_SIZE = 50;
@@ -132,7 +132,6 @@ class ArchiveWriter
     /**
      * ArchiveWriter constructor.
      * @param ArchiveProcessor\Parameters $params
-     * @param bool $isArchiveTemporary Deprecated. Has no effect.
      * @throws Exception
      */
     public function __construct(ArchiveProcessor\Parameters $params)
@@ -276,11 +275,6 @@ class ArchiveWriter
 
         $valueSeen = false;
         foreach ($records as $record) {
-            // don't record zero
-            if (empty($record[1])) {
-                continue;
-            }
-
             $bind     = $bindSql;
             $bind[]   = $record[0]; // name
             $bind[]   = $record[1]; // value
@@ -316,14 +310,10 @@ class ArchiveWriter
      */
     public function insertRecord($name, $value)
     {
-        if ($this->isRecordZero($value)) {
-            return false;
-        }
-
         $valueType = $this->isRecordNumeric($value) ? 'numeric' : 'blob';
         $this->recordsToWriteSpool[$valueType][] = [
             0 => $name,
-            1 => $value
+            1 => $value,
         ];
 
         if (count($this->recordsToWriteSpool[$valueType]) >= self::MAX_SPOOL_SIZE) {
@@ -394,11 +384,6 @@ class ArchiveWriter
     protected function getInsertFields()
     {
         return $this->fields;
-    }
-
-    protected function isRecordZero($value)
-    {
-        return ($value === '0' || $value === false || $value === 0 || $value === 0.0);
     }
 
     private function isRecordNumeric($value)

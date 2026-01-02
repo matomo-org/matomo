@@ -36,7 +36,7 @@ class GenerateMenu extends GeneratePluginBase
         $this->writeSuccessMessage(array(
              sprintf('Menu.php for %s generated.', $pluginName),
              'You can now start defining your plugin menu',
-             'Enjoy!'
+             'Enjoy!',
         ));
 
         return self::SUCCESS;

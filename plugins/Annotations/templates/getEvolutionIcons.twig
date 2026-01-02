@@ -5,7 +5,7 @@
         <span data-date="{{ date }}" data-count="{{ counts.count }}" data-starred="{{ counts.starred }}"
               {% if counts.count == 0 %}title="{{ 'Annotations_AddAnnotationsFor'|translate(date) }}"
               {% elseif counts.count == 1 %}title="{{ 'Annotations_AnnotationOnDate'|translate(date,
-                  (counts.note|e('html_attr')))|raw }}
+                  (counts.note|e('html_attr'))) }}
 {{ 'Annotations_ClickToEditOrAdd'|translate }}"
               {% else %}title="{{ 'Annotations_ViewAndAddAnnotations'|translate(date) }}"{% endif %}>
             <span class="icon-annotation {% if counts.starred > 0 %}starred{% endif %}"></span>

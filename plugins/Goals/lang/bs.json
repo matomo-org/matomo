@@ -1,11 +1,14 @@
 {
     "Goals": {
+        "CategoryTextGeneral_Actions": "Stranice",
         "ColumnConversions": "Konverzije",
         "Contains": "sadrži %s",
         "Download": "Preuzmi datoteku",
+        "EntryPages": "Ulazne stranice",
         "GoalName": "Naziv cilja",
         "IsExactly": "je tačno %s",
         "Manually": "ručno",
+        "PageTitles": "Naslovi stranica",
         "ProductCategory": "Kategorija proizvoda",
         "ProductName": "Ime proizvoda",
         "Products": "Proizvodi",

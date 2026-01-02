@@ -2,6 +2,7 @@
     "CustomDimensions": {
         "CannotBeDeleted": "Një Përmasë Vetjake s’mund të fshihet, mundet vetëm të çaktivizohet.",
         "ColumnAvgTimeOnDimension": "Mesatare Kohëqëndrimi Në Përmasë",
+        "ColumnAvgTimeOnDimensionDocumentation": "Koha Mesatare për një përmasë veprimi vetjak është koha mesatare që vizitorët harxhuan me një veprim të dhënë vetjak, para s të kalonin në një tjetër veprim të ndjekur. E llogaritur si shumë e kohës së shpenzuar me veprimin gjatë krejt vizitave dhe duke e pjesëtuar me numrin e herëve që qe kryer veprimi.",
         "ColumnUniqueActions": "Veprime Unike",
         "ConfigureDimension": "Formësoni %1$s Përmasë Vetjake %2$s",
         "ConfigureNewDimension": "Formësoni një përmasë të re",
@@ -20,7 +21,7 @@
         "Extractions": "Përftime",
         "ExtractionsHelp": "Kjo është opsionale. Mund të përdoret një shprehje e rregullt për të përftuar vetvetiu vlerën për këtë Përmasë Vetjake nga një URL faqeje apo titull faqeje. Në këtë mënyrë, vlera e përmasës vetjake s’ka pse caktohet dorazi përmes një klienti Ndjekjeje. Vlera mund të caktohet edhe dorazi, përmes API-t të Ndjekësit Matomo. Vlerat e përmasave të caktuara dorazi në klientë ndjekjeje kanë përherë përparësi ndaj atyre të përftuara ndryshe. Nëse janë përcaktuar disa përftime njëherësh, përdoret përftimi i parë për të cilin gjendet përputhje. Nuk ju duhet të paraprini me diçka pjerraket përpara, ngaqë Matomo-ja e bën automatikisht këtë për ju. Për shembull, përdorni /lajme/, në vend se \\/lajme\\/.",
         "HowToCreateCustomDimension": "Që të krijoni një Përmasë të re Vetjake, përmbushni urdhrin vijues brenda instalimit tuaj të Matomo-s:",
-        "HowToManyCreateCustomDimensions": "Nëse doni të krijoni disa Përmasa të reja Vetjake njëherësh, thjesht shtoni numrin e përmasave që duhen krijuar. Meqë krejt ndryshimet e bazës së të dhënave do të kryhen brenda një here, mund të mos harxhohet kohë e gjatë duke shtuar disa Përmasa Vetjake njëherazi.",
+        "HowToManyCreateCustomDimensions": "Nëse doni të krijoni disa Përmasa të reja Vetjake njëherësh, thjesht shtoni numrin e përmasave që duhen krijuar. Meqë krejt ndryshimet e bazës së të dhënave do të kryhen brenda një deklarimi, mund të mos harxhohet kohë e gjatë duke shtuar disa Përmasa Vetjake njëherazi.",
         "HowToTrackManuallyTitle": "Ndjekje dorazi e një vlere për këtë përmasë",
         "HowToTrackManuallyViaHttp": "Për ndjekjen e një vlere përmes API-t të Ndjekësit HTTP, përdorni parametrin e ndjekjes 'dimension' pasuar nga ID-ja e Përmasës Vetjake:",
         "HowToTrackManuallyViaJs": "Për ndjekje të një vlere te Ndjekësi JavaScript jepni:",

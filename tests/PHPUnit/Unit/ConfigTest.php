@@ -164,7 +164,7 @@ class ConfigTest extends TestCase
                 array(),                                  // common
                 array(),
                 false,
-              )
+              ),
             ),
 
             array(
@@ -175,7 +175,7 @@ class ConfigTest extends TestCase
                 array(),                                  // common
                 array('General' => array('debug' => 1)),
                 false,
-              )
+              ),
             ),
 
             array(
@@ -186,7 +186,7 @@ class ConfigTest extends TestCase
                 array(),                                  // common
                 array('General' => array('debug' => 2)),
                 $header . "[General]\ndebug = 2\n\n",
-              )
+              ),
             ),
 
             array(
@@ -197,7 +197,7 @@ class ConfigTest extends TestCase
                 array(),                                  // common
                 array(),
                 false,
-              )
+              ),
             ),
 
             array(
@@ -208,7 +208,7 @@ class ConfigTest extends TestCase
                 array(),                                  // common
                 array('General' => array('debug' => 1)),
                 false,
-              )
+              ),
             ),
 
             array(
@@ -219,7 +219,7 @@ class ConfigTest extends TestCase
                 array(),                                    // common
                 array('General' => array('debug' => 2)),
                 $header . "[General]\ndebug = 2\n\n",
-              )
+              ),
             ),
 
             array(
@@ -230,7 +230,7 @@ class ConfigTest extends TestCase
                 array(),                                  // common
                 array(),
                 false,
-              )
+              ),
             ),
 
             array(
@@ -241,7 +241,7 @@ class ConfigTest extends TestCase
                 array(),                                  // common
                 array('General' => array('debug' => 2)),
                 false,
-              )
+              ),
             ),
 
             array(
@@ -252,7 +252,7 @@ class ConfigTest extends TestCase
                 array(),                                  // common
                 array('General' => array('debug' => 3)),
                 $header . "[General]\ndebug = 3\n\n",
-              )
+              ),
             ),
 
             array(
@@ -263,7 +263,7 @@ class ConfigTest extends TestCase
                 array(),                                      // common
                 array(),
                 false,
-              )
+              ),
             ),
 
             array(
@@ -274,7 +274,7 @@ class ConfigTest extends TestCase
                 array(),                                      // common
                 array('Tracker' => array('anonymize' => 1)),
                 false,
-              )
+              ),
             ),
 
             array(
@@ -285,7 +285,7 @@ class ConfigTest extends TestCase
                 array(),                                      // common
                 array('Tracker' => array('anonymize' => 2)),
                 $header . "[Tracker]\nanonymize = 2\n\n",
-              )
+              ),
             ),
 
             array(
@@ -296,7 +296,7 @@ class ConfigTest extends TestCase
                 array(),                                      // common
                 array('General' => array('debug' => 2), 'Tracker' => array('anonymize' => 1)),
                 $header . "[General]\ndebug = 2\n\n[Tracker]\nanonymize = 1\n\n",
-              )
+              ),
             ),
 
             array(
@@ -304,19 +304,19 @@ class ConfigTest extends TestCase
               array(
                 array(
                   'Tracker' => array('anonymize' => 1),   // local
-                  'General' => array('debug' => 1)
+                  'General' => array('debug' => 1),
                 ),
                 array(
                   'General' => array('debug' => 0),       // global
-                  'Tracker' => array('anonymize' => 0)
+                  'Tracker' => array('anonymize' => 0),
                 ),
                 array(),                                      // common
                 array(
                   'Tracker' => array('anonymize' => 2),
-                  'General' => array('debug' => 1)
+                  'General' => array('debug' => 1),
                 ),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 2\n\n",
-              )
+              ),
             ),
 
             array(
@@ -324,20 +324,20 @@ class ConfigTest extends TestCase
               array(
                 array(
                   'Tracker' => array('anonymize' => 1),   // local
-                  'General' => array('debug' => 1)
+                  'General' => array('debug' => 1),
                 ),
                 array(
                   'General' => array('debug' => 0),       // global
-                  'Tracker' => array('anonymize' => 0)
+                  'Tracker' => array('anonymize' => 0),
                 ),
                 array(),                                      // common
                 array(
                   'Segment' => array('dimension' => 'foo'),
                   'Tracker' => array('anonymize' => 1),   // local
-                  'General' => array('debug' => 1)
+                  'General' => array('debug' => 1),
                 ),
                 $header . "[General]\ndebug = 1\n\n[Tracker]\nanonymize = 1\n\n[Segment]\ndimension = \"foo\"\n\n",
-              )
+              ),
             ),
 
             array(
@@ -346,12 +346,12 @@ class ConfigTest extends TestCase
                 array('Tracker' => array('anonymize' => 1)),  // local
                 array(
                   'Tracker' => array('anonymize' => 0),   // global
-                  'General' => array('debug' => 1)
+                  'General' => array('debug' => 1),
                 ),
                 array(),                                        // common
                 array('Tracker' => array('anonymize' => 0)),
-                $header
-              )
+                $header,
+              ),
             ),
 
             array(
@@ -362,18 +362,18 @@ class ConfigTest extends TestCase
                   'General' => array(
                     'settingGlobal' => 'global',   // global
                     'settingCommon' => 'global',
-                    'trusted_hosts' => 'none'
-                  )
+                    'trusted_hosts' => 'none',
+                  ),
                 ),
                 array(
                   'General' => array(
                     'settingCommon'  => 'common',       // common
-                    'settingCommon2' => 'common'
-                  )
+                    'settingCommon2' => 'common',
+                  ),
                 ),
                 array('General' => array('trusted_hosts' => 'works')),
                 $header . "[General]\ntrusted_hosts = \"works\"\n\n",
-              )
+              ),
             ),
 
             // Same as above but without trusted_hosts default value in global.ini.php
@@ -385,25 +385,25 @@ class ConfigTest extends TestCase
                 array(
                   'General' => array(
                     'settingGlobal' => 'global',                   // global
-                    'settingCommon' => 'global'
-                  )
+                    'settingCommon' => 'global',
+                  ),
                 ),
                 array(
                   'General' => array(
                     'settingCommon'  => 'common',                   // common
                     'settingCommon2' => 'common',
-                    'settingCommon3' => 'common3'
-                  )
+                    'settingCommon3' => 'common3',
+                  ),
                 ),
                 array(
                   'General' => array(
                     'trusted_hosts'  => 'works',               // common
                     'settingCommon2' => 'common', // will be cleared since it's same as in common
-                    'settingCommon3' => 'commonOverridenByLocal'
-                  )
+                    'settingCommon3' => 'commonOverridenByLocal',
+                  ),
                 ),
                 $header . "[General]\ntrusted_hosts = \"works\"\nsettingCommon3 = \"commonOverridenByLocal\"\n\n",
-              )
+              ),
             ),
 
             // the value in [General]->key has changed
@@ -415,23 +415,23 @@ class ConfigTest extends TestCase
                 array('General' => array('key' => 'value')),                            // local
                 array(
                   'General'        => array('key' => 'global'),                            // global
-                  'CommonCategory' => array('settingGlobal' => 'valueGlobal')
+                  'CommonCategory' => array('settingGlobal' => 'valueGlobal'),
                 ),
                 array(
                   'CommonCategory' => array(
                     'settingCommon'  => 'common',            // common
-                    'settingCommon2' => 'common2'
-                  )
+                    'settingCommon2' => 'common2',
+                  ),
                 ),
                 array(
                   'CommonCategory' => array(
                     'settingCommon2' => 'common2',
-                    'newSetting'     => 'newValue'
+                    'newSetting'     => 'newValue',
                   ),
-                  'General'        => array('key' => 'value')
+                  'General'        => array('key' => 'value'),
                 ),
                 $header . "[General]\nkey = \"value\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
-              )
+              ),
             ),
 
             array(
@@ -440,23 +440,23 @@ class ConfigTest extends TestCase
                 array('General' => array('key' => '$value', 'key2' => '${value}')),      // local
                 array(
                   'General'        => array('key' => '$global'),                            // global
-                  'CommonCategory' => array('settingGlobal' => 'valueGlobal')
+                  'CommonCategory' => array('settingGlobal' => 'valueGlobal'),
                 ),
                 array(
                   'CommonCategory' => array(
                     'settingCommon'  => 'common',            // common
-                    'settingCommon2' => 'common2'
-                  )
+                    'settingCommon2' => 'common2',
+                  ),
                 ),
                 array(
                   'CommonCategory' => array(
                     'settingCommon2' => 'common2',
-                    'newSetting'     => 'newValue'
+                    'newSetting'     => 'newValue',
                   ),
-                  'General'        => array('key' => '$value', 'key2' => '${value}')
+                  'General'        => array('key' => '$value', 'key2' => '${value}'),
                 ),
                 $header . "[General]\nkey = \"&#36;value\"\nkey2 = \"&#36;{value}\"\n\n[CommonCategory]\nnewSetting = \"newValue\"\n\n",
-              )
+              ),
             ),
         );
     }

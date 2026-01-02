@@ -28,7 +28,7 @@ class Updates_2_13_0_b3 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->plugin->activate('Diagnostics')
+            $this->migration->plugin->activate('Diagnostics'),
         );
     }
 

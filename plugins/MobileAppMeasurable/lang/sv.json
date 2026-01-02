@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobilapp",
         "MobileAppDescription": "En inbyggd mobilapp för iOS, Android eller något annat mobiloperativsystem.",
+        "MobileAppLongDescription": "Spåra användaraktivitet i iOS- och Android-appar. Insamlad data kan inkludera skärmvisningar, händelser i appen, enhetsdetaljer och användarsessioner. Ett mätvärde utformad för appar som använder Matomos mobila SDK:er.",
         "MobileApps": "Mobilappar"
     }
 }

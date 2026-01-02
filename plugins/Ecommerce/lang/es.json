@@ -1,18 +1,22 @@
 {
     "Ecommerce": {
-        "PluginDescription": "Comercio electrónico le permite rastrear cuando los usuarios agregan productos a su carrito y cuando se transforman en una venta electrónica. También rastrea productos y visualiza las categorías de producto y sus carritos abandonados.",
-        "Sales": "Ventas",
-        "Order": "Pedido",
-        "OrderId": "ID Pedido",
-        "Orders": "Pedidos",
-        "SalesBy": "Ventas por %s",
-        "SalesAdjective": "Ventas %s",
-        "NumberOfItems": "Número de elementos en el carrito",
-        "OrderValue": "Valor del pedido",
+        "EcommerceLogSubcategoryHelp1": "El registro de comercio electrónico proporciona datos granulares a nivel de sesión para que pueda ver la sesión completa de cada usuario que haya realizado una compra o haya abandonado su carrito. Esto puede ayudarle a entender lo que los usuarios hacen antes y después de la compra para revelar oportunidades de optimización.",
+        "EcommerceLogSubcategoryHelp2": "Los datos de esta página se actualizan en tiempo real.",
+        "EcommerceOverviewSubcategoryHelp2": "Haga clic en una métrica individual dentro del gráfico de destellos para centrarse en ella dentro del gráfico de evolución a tamaño completo.",
         "LifeTimeValue": "Ingresos atribuidos al cliente durante el tiempo que fue cliente: \"Ecommerce Life Time Value\"",
         "LifeTimeValueDescription": "Ingresos totales por Ecommerce atribuidos a este cliente a lo largo de todas las visitas: la suma de los ingresos de todas las compras para el visitante %s",
-        "VisitorProfileLTV": "Generó un Life Time Revenue de %1$s.",
+        "NumberOfItems": "Número de elementos en el carrito",
+        "Order": "Pedido",
+        "OrderId": "ID Pedido",
+        "OrderValue": "Valor del pedido",
+        "Orders": "Pedidos",
+        "PluginDescription": "Comercio electrónico le permite rastrear cuando los usuarios agregan productos a su carrito y cuando se transforman en una venta electrónica. También rastrea productos y visualiza las categorías de producto y sus carritos abandonados.",
+        "ProductSubcategoryHelp": "La vista de productos puede ayudarle a identificar los productos y las categorías que tienen un rendimiento superior o inferior para revelar tendencias y oportunidades relacionadas con su selección de productos y las páginas de la tienda.",
+        "Sales": "Ventas",
+        "SalesAdjective": "Ventas %s",
+        "SalesBy": "Ventas por %s",
+        "VisitorProfileAbandonedCartSummary": "Abandonó %1$s carritos de compra que incluían %2$s artículos por un valor total de %3$s.",
         "VisitorProfileItemsAndOrders": "Compró %1$s artículos en %2$s compras ecommerce.",
-        "VisitorProfileAbandonedCartSummary": "Abandonó %1$s carritos de compra que incluían %2$s artículos por un valor total de %3$s."
+        "VisitorProfileLTV": "Generó un Life Time Revenue de %1$s."
     }
 }

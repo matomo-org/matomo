@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Denna rapport ger dig en informationsöversikt för var och en av dina webbplatser, som innehåller den mest allmänna statistiken om dina besökare.",
+        "AllWebsitesDashboardErrorMessage": "Data är för närvarande inte tillgänglig. Detta kan bero på ett tillfälligt serverproblem eller att rapporten innehåller för mycket data. Försök igen senare. Om problemet kvarstår, kontakta din Matomo-administratör för hjälp.",
         "AllWebsitesDashboardTitle": "Alla webbplatser",
         "Evolution": "Utveckling",
         "EvolutionComparisonDay": "%1$s %2$s denna dag jämfört med %3$s %2$s i den föregående delperioden (%4$s) Utveckling: %5$s",
@@ -15,6 +16,12 @@
         "EvolutionFromPreviousWeek": "Från föregående vecka",
         "EvolutionFromPreviousYear": "Från föregående år",
         "LoadingWebsites": "Laddar webbplatser",
+        "MetricDocumentationEvolution": "Den procentuella förändringen för detta mått jämfört med föregående period för denna webbplats. Ett positivt värde indikerar tillväxt medan ett negativt värde signalerar en minskning.",
+        "MetricDocumentationHits": "Det totala antalet registrerade händelser för denna webbplats, inklusive sidvisningar, nedladdningar och utgående länkar.",
+        "MetricDocumentationPageviews": "Det totala antalet sidor som visats på denna webbplats. Detta inkluderar flera visningar av samma sida av en enskild besökare.",
+        "MetricDocumentationRevenue": "Den totala intäkten som spårats för denna webbplats. Detta mått är tillgängligt om e-handelsuppföljning är aktiverad och visar köp eller målbaserade intäkter.",
+        "MetricDocumentationVisits": "Det totala antalet besök som registrerats för denna webbplats. Ett besök startar när en användare kommer åt webbplatsen och avslutas efter en period av inaktivitet eller när sessionen löper ut.",
+        "MetricDocumentationWebsite": "Lista över spårade webbplatser som visas i instrumentpanelen. Varje rad representerar en webbplats med dess motsvarande analysdata.",
         "PluginDescription": "Visa och jämför alla dina webbplatser i panelen 'Alla webbplatser'.",
         "SingleWebsitesDashboardDocumentation": "Denna rapport ger dig en informationsöversikt för en specifik webbplats, som innehåller den mest allmänna statistiken om dina besökare.",
         "TopLinkTooltip": "Jämför statistik för alla dina webbplatser.",

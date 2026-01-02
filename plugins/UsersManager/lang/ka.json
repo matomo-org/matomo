@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "აქტიური",
         "AllWebsites": "ყველა ვებ საიტი",
         "ApplyToAllWebsites": "ყველა ვებ საიტზე გამოყენება",
         "ClickHereToDeleteTheCookie": "დააწკაპუნეთ აქ, რომ წაშალოთ ქუქი და თქვენი ვიზიტების ტრეკირების საშუალება მისცეთ Matomo–ს",
@@ -23,6 +24,7 @@
         "PrivView": "დათვალიერება",
         "ReportDateToLoadByDefault": "ნაგულისხმევად ჩასატვირთი რეპორტის თარიღი",
         "ReportToLoadByDefault": "ნაგულისხმევად ჩასატვირთი რეპორტი",
+        "Status": "სტატუსი",
         "TheLoginScreen": "სისტემაში შესვლის ეკრანი",
         "TypeYourPasswordAgain": "აკრიფეთ ახალი პაროლი კიდევ ერთხელ.",
         "User": "მომხმარებელი",

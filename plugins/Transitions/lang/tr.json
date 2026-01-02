@@ -7,6 +7,7 @@
         "ErrorBack": "Önceki işleme dön",
         "ExitsInline": "%s çıkış",
         "FeatureDescription": "Geçişler raporu, kullanıcıların belirtilen bir sayfaya gelmeden önce ve sonra yaptıkları işlemleri görüntüler. Bu bölümde, güçlü \"Geçişler\" raporuna nasıl erişeceğinizi ve raporun içeriğini nasıl anlayıp kullanabileceğinizi anlatan bilgiler bulunur.",
+        "FromAIAssistants": "Yapay zeka yardımcılarından",
         "FromCampaigns": "Kampanyalardan",
         "FromPreviousPages": "İç sayfalardan",
         "FromPreviousPagesInline": "%s iç sayfalardan",

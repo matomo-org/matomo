@@ -1,5 +1,6 @@
 {
     "Login": {
+        "BruteForceLog": "Rekord ng Brute Force",
         "ExceptionInvalidSuperUserAccessAuthenticationMethod": "Ang isang user na may Super-access ay hindi maaaring e-authenticate gamit ang '%s' mechanism.",
         "ExceptionPasswordMD5HashExpected": "Ang parameter ng password ay inaasahan na maging isang MD5 hash ng password.",
         "InvalidOrExpiredToken": "Ang token ay hindi wasto o nag-expire.",

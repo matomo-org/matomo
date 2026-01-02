@@ -41,7 +41,7 @@ class NotEmptyTest extends \PHPUnit\Framework\TestCase
     public function getFailValues()
     {
         return array(
-            array(false), array(''), array(0)
+            array(false), array(''), array(0),
         );
     }
 

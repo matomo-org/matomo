@@ -32,19 +32,19 @@ class DrupalTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no drupal content' => [
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'Drupal found' => [
             true,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><meta name=\"Generator\" content=\"Drupal\" /></head><body>A site</body></html>",
-            []
+            [],
         ];
     }
 }

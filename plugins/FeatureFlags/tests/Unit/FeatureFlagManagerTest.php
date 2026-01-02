@@ -31,7 +31,7 @@ class FeatureFlagManagerTest extends TestCase
         $logger->expects($this->once())
             ->method('debug')
             ->with('isFeatureActive failed due to class not implementing FeatureFlagInterface', [
-                'featureFlag' => 'UnknownFeature'
+                'featureFlag' => 'UnknownFeature',
             ]);
 
         $sut = new FeatureFlagManager([], $logger);
@@ -70,10 +70,10 @@ class FeatureFlagManagerTest extends TestCase
                 // The return values for isFeatureActive on the storage
                 true,
                 false,
-                true
+                true,
             ],
             // Expected outcome
-            true
+            true,
         ];
 
         yield [
@@ -81,10 +81,10 @@ class FeatureFlagManagerTest extends TestCase
                 // The return values for isFeatureActive on the storage
                 false,
                 null,
-                false
+                false,
             ],
             // Expected outcome
-            false
+            false,
         ];
 
         yield [
@@ -92,10 +92,10 @@ class FeatureFlagManagerTest extends TestCase
                 // The return values for isFeatureActive on the storage
                 null,
                 null,
-                true
+                true,
             ],
             // Expected outcome
-            true
+            true,
         ];
 
         yield [
@@ -103,10 +103,10 @@ class FeatureFlagManagerTest extends TestCase
                 // The return values for isFeatureActive on the storage
                 true,
                 true,
-                false
+                false,
             ],
             // Expected outcome
-            false
+            false,
         ];
 
         yield [
@@ -114,16 +114,16 @@ class FeatureFlagManagerTest extends TestCase
                 // The return values for isFeatureActive on the storage
                 true,
                 true,
-                null
+                null,
             ],
             // Expected outcome
-            true
+            true,
         ];
 
         yield [
             [],
             // Expected outcome
-            false
+            false,
         ];
     }
 }

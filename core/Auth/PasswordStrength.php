@@ -43,23 +43,23 @@ class PasswordStrength
         return [
             [
                 'validationRegex' => '/^.{12,}$/',
-                'ruleText' => Piwik::translate('General_PasswordStrengthValidationLength')
+                'ruleText' => Piwik::translate('General_PasswordStrengthValidationLength'),
             ],
             [
                 'validationRegex' => '/^.*[a-z].*$/',
-                'ruleText' => Piwik::translate('General_PasswordStrengthValidationLowercase')
+                'ruleText' => Piwik::translate('General_PasswordStrengthValidationLowercase'),
             ],
             [
                 'validationRegex' => '/^.*[A-Z].*$/',
-                'ruleText' => Piwik::translate('General_PasswordStrengthValidationUppercase')
+                'ruleText' => Piwik::translate('General_PasswordStrengthValidationUppercase'),
             ],
             [
                 'validationRegex' => '/^.*[0-9].*$/',
-                'ruleText' => Piwik::translate('General_PasswordStrengthValidationNumber')
+                'ruleText' => Piwik::translate('General_PasswordStrengthValidationNumber'),
             ],
             [
                 'validationRegex' => '/^.*[!\"#$%&\\\'(\\\\)*+,\-.\/:;<=>?@[\\]^_\`{\|}\~].*$/',
-                'ruleText' => Piwik::translate('General_PasswordStrengthValidationSpecialChar')
+                'ruleText' => Piwik::translate('General_PasswordStrengthValidationSpecialChar'),
             ],
         ];
     }

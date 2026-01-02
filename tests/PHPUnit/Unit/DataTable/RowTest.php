@@ -103,7 +103,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
 
         $expected = array(
             Row::COLUMNS => $columns,
-            Row::METADATA => array('test1' => 'val1', 'url' => 'http://piwik.org')
+            Row::METADATA => array('test1' => 'val1', 'url' => 'http://piwik.org'),
         );
 
         // we cannot really test for exact match since the subtableId might change when other tests are changed
@@ -166,7 +166,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(array(
             'url' => 'http://piwik.org',
-            'segmentValue' => 'test==piwik'
+            'segmentValue' => 'test==piwik',
         ), $this->row->getMetadata());
     }
 
@@ -231,13 +231,13 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $this->row->setColumns(array(
             'nb_visits' => 4,
             'label'     => 'Test',
-            'goals'     => array(1 => array())
+            'goals'     => array(1 => array()),
         ));
 
         $expected = array(
             'nb_visits' => 4,
             'label'     => 'Test',
-            'goals'     => array(1 => array())
+            'goals'     => array(1 => array()),
         );
 
         $this->assertEquals($expected, $this->row->getColumns());
@@ -382,7 +382,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
             'nosuchcolumn' => 'max', // this metadata name does not exist and should be ignored
             'my_sum' => 'sum',
             'my_max' => 'max',
-            'my_array' => 'uniquearraymerge'
+            'my_array' => 'uniquearraymerge',
         );
         $this->row->sumRowMetadata($row, $aggregations);
 
@@ -390,7 +390,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $expected = array(
             'my_sum' => 12,
             'my_max' => 4,
-            'my_array' => array(array('test' => 1, 'value' => 1), array('test' => 2, 'value' => 2), array('test' => 3, 'value' => 3))
+            'my_array' => array(array('test' => 1, 'value' => 1), array('test' => 2, 'value' => 2), array('test' => 3, 'value' => 3)),
         );
         $this->assertSame($expected, $metadata);
     }
@@ -455,7 +455,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
         $testSubDataTable = $this->getTestSubDataTable();
 
         $testRow = new Row(array(
-             Row::DATATABLE_ASSOCIATED => $testSubDataTable
+             Row::DATATABLE_ASSOCIATED => $testSubDataTable,
         ));
 
         return $testRow;
@@ -474,7 +474,7 @@ class RowTest extends \PHPUnit\Framework\TestCase
     protected function getTestRowWithSubDataTableNotLoaded()
     {
         $testRow = new Row(array(
-             Row::DATATABLE_ASSOCIATED => 50
+             Row::DATATABLE_ASSOCIATED => 50,
         ));
 
         return $testRow;

@@ -43,8 +43,8 @@ class RandomizedConfigIdTest extends SystemTestCase
         // total => 14 rows of LLVA
         $count = Db::fetchOne(
             'SELECT COUNT(idlink_va) FROM ' . Common::prefixTable('log_link_visit_action') .
-            ' WHERE DATE(server_time) = DATE(?)',
-            [RandomizedConfigIdVisitsFixture::$dateTimeNormalConfig]
+            ' WHERE idsite = ? AND DATE(server_time) = DATE(?)',
+            [1, RandomizedConfigIdVisitsFixture::$dateTimeNormalConfig]
         );
         $this->assertEquals(14, $count);
 
@@ -53,6 +53,14 @@ class RandomizedConfigIdTest extends SystemTestCase
             'SELECT COUNT(user_id) FROM ' . Common::prefixTable('log_visit') .
             ' WHERE DATE(visit_last_action_time) = DATE(?)',
             [RandomizedConfigIdVisitsFixture::$dateTimeNormalConfig]
+        );
+        $this->assertEquals(1, $count);
+
+        // 1 row with user set for per-site settings date for site id 1 since not randomising
+        $count = Db::fetchOne(
+            'SELECT COUNT(user_id) FROM ' . Common::prefixTable('log_visit') .
+            ' WHERE idsite = ? AND DATE(visit_last_action_time) = DATE(?)',
+            [1, RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfigPerSite]
         );
         $this->assertEquals(1, $count);
 
@@ -75,8 +83,16 @@ class RandomizedConfigIdTest extends SystemTestCase
         // total => 17
         $count = Db::fetchOne(
             'SELECT COUNT(idvisitor) FROM ' . Common::prefixTable('log_visit') .
-            ' WHERE DATE(visit_last_action_time) = DATE(?)',
-            [RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig]
+            ' WHERE idsite = ? AND DATE(visit_last_action_time) = DATE(?)',
+            [1, RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig]
+        );
+        $this->assertEquals(17, $count);
+
+        // data randomised for second randomisation date for site 2
+        $count = Db::fetchOne(
+            'SELECT COUNT(idvisitor) FROM ' . Common::prefixTable('log_visit') .
+            ' WHERE idsite = ? AND DATE(visit_last_action_time) = DATE(?)',
+            [2, RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfigPerSite]
         );
         $this->assertEquals(17, $count);
 
@@ -87,16 +103,32 @@ class RandomizedConfigIdTest extends SystemTestCase
         // total => 14 rows of LLVA
         $count = Db::fetchOne(
             'SELECT COUNT(idlink_va) FROM ' . Common::prefixTable('log_link_visit_action') .
-            ' WHERE DATE(server_time) = DATE(?)',
-            [RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig]
+            ' WHERE idsite = ? AND DATE(server_time) = DATE(?)',
+            [1, RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig]
         );
         $this->assertEquals(14, $count);
 
-        // 2 rows with user set
+        // 14 rows randomised for second randomisation date for site 2
+        $count = Db::fetchOne(
+            'SELECT COUNT(idlink_va) FROM ' . Common::prefixTable('log_link_visit_action') .
+            ' WHERE idsite = ? AND DATE(server_time) = DATE(?)',
+            [2, RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfigPerSite]
+        );
+        $this->assertEquals(14, $count);
+
+        // 2 rows with user set for site 1 when using global settings
         $count = Db::fetchOne(
             'SELECT COUNT(user_id) FROM ' . Common::prefixTable('log_visit') .
-            ' WHERE DATE(visit_last_action_time) = DATE(?)',
-            [RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig]
+            ' WHERE idsite = ? AND DATE(visit_last_action_time) = DATE(?)',
+            [1, RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfig]
+        );
+        $this->assertEquals(2, $count);
+
+        // 2 rows with user set for site 2 when using per-site settings
+        $count = Db::fetchOne(
+            'SELECT COUNT(user_id) FROM ' . Common::prefixTable('log_visit') .
+            ' WHERE idsite = ? AND DATE(visit_last_action_time) = DATE(?)',
+            [2, RandomizedConfigIdVisitsFixture::$dateTimeRandomizedConfigPerSite]
         );
         $this->assertEquals(2, $count);
 

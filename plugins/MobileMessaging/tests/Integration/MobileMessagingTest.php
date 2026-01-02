@@ -154,7 +154,7 @@ class MobileMessagingTest extends IntegrationTestCase
             array(str_repeat('控', 197) . $UCS2AppendedString, $UCS2x201 . '控', 3, $UCS2AppendedString),
 
             // UCS-2, one '控' too many, appended with standard GSM characters
-            array(str_repeat('控', 193) . $stdGSMAppendedString, $UCS2x201 . '控', 3, $stdGSMAppendedString)
+            array(str_repeat('控', 193) . $stdGSMAppendedString, $UCS2x201 . '控', 3, $stdGSMAppendedString),
         );
     }
 
@@ -209,19 +209,19 @@ class MobileMessagingTest extends IntegrationTestCase
     public function getInvalidPhoneNumbers(): iterable
     {
         yield "not starting with +" => [
-            "123456789"
+            "123456789",
         ];
 
         yield "shorter than 5 numbers" => [
-            "+4526"
+            "+4526",
         ];
 
         yield "longer than 30 numbers" => [
-            "+452651234564565456545641893248932148632578905"
+            "+452651234564565456545641893248932148632578905",
         ];
 
         yield "invalid characters" => [
-            "+452d89#05"
+            "+452d89#05",
         ];
     }
 
@@ -330,7 +330,7 @@ class MobileMessagingTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

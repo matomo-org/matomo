@@ -33,7 +33,7 @@ class ActionPageview extends Action
     {
         return array(
             'idaction_name' => array($this->getActionName(), Action::TYPE_PAGE_TITLE),
-            'idaction_url'  => $this->getUrlAndType()
+            'idaction_url'  => $this->getUrlAndType(),
         );
     }
 

@@ -36,7 +36,7 @@ class SimpleSystemTest extends SystemTestCase
     {
         $api = array(
             'API.get',
-            'Goals.getItemsSku'
+            'Goals.getItemsSku',
         );
 
         $apiToTest   = array();
@@ -45,8 +45,8 @@ class SimpleSystemTest extends SystemTestCase
                 'idSite'     => 1,
                 'date'       => self::$fixture->dateTime,
                 'periods'    => array('day'),
-                'testSuffix' => ''
-            )
+                'testSuffix' => '',
+            ),
         );
 
         return $apiToTest;

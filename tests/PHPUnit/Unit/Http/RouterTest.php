@@ -36,15 +36,15 @@ class RouterTest extends \PHPUnit\Framework\TestCase
             // Filtered URLs
             array(
                 'http://localhost/index.php/.html',
-                'http://localhost/index.php'
+                'http://localhost/index.php',
             ),
             array(
                 'http://localhost/index.php/.html?module=CoreHome&action=index',
-                'http://localhost/index.php?module=CoreHome&action=index'
+                'http://localhost/index.php?module=CoreHome&action=index',
             ),
             array(
                 'http://localhost/index.php/test/test.html?module=CoreHome&action=index',
-                'http://localhost/index.php?module=CoreHome&action=index'
+                'http://localhost/index.php?module=CoreHome&action=index',
             ),
         );
     }

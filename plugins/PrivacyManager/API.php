@@ -9,17 +9,25 @@
 
 namespace Piwik\Plugins\PrivacyManager;
 
+use Exception;
 use Piwik\API\Request;
+use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Config as PiwikConfig;
 use Piwik\Plugin\Manager;
+use Piwik\Plugins\CustomJsTracker\File;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\Live\Live;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\PrivacyManager\Model\DataSubjects;
 use Piwik\Plugins\PrivacyManager\Dao\LogDataAnonymizer;
 use Piwik\Plugins\PrivacyManager\Model\LogDataAnonymizations;
 use Piwik\Plugins\PrivacyManager\Validators\VisitsDataSubject;
+use Piwik\Policy\CompliancePolicy;
+use Piwik\Policy\PolicyManager;
 use Piwik\Site;
+use Piwik\Tracker\TrackerCodeGenerator;
 use Piwik\Validators\BaseValidator;
 
 /**
@@ -45,20 +53,21 @@ class API extends \Piwik\Plugin\API
     private $logDataAnonymizer;
 
     /**
-     * @var ReferrerAnonymizer
+     * @var FeatureFlagManager
      */
-    private $referrerAnonymizer;
+    private $featureFlagManager;
+
 
     public function __construct(
         DataSubjects $gdpr,
         LogDataAnonymizations $logDataAnonymizations,
         LogDataAnonymizer $logDataAnonymizer,
-        ReferrerAnonymizer $referrerAnonymizer
+        FeatureFlagManager $featureFlagManager
     ) {
         $this->gdpr = $gdpr;
         $this->logDataAnonymizations = $logDataAnonymizations;
         $this->logDataAnonymizer = $logDataAnonymizer;
-        $this->referrerAnonymizer = $referrerAnonymizer;
+        $this->featureFlagManager = $featureFlagManager;
     }
 
     private function checkDataSubjectVisits($visits)
@@ -124,7 +133,7 @@ class API extends \Piwik\Plugin\API
             'period' => 'range',
             'date' => '1998-01-01,today',
             'filter_limit' => 401,
-            'doNotFetchActions' => 1
+            'doNotFetchActions' => 1,
         ]);
 
         $columnsToKeep = [
@@ -216,7 +225,7 @@ class API extends \Piwik\Plugin\API
         foreach ($columns as $column => $default) {
             $formatted[] = array(
                 'column_name' => $column,
-                'default_value' => $default
+                'default_value' => $default,
             );
         }
 
@@ -224,49 +233,145 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Provide tracker file name and whether it's writable
+     *
+     * @return array{0: string, 1: bool}
+     */
+    private function getTrackerFileDetails(): array
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            $jsCodeGenerator = new TrackerCodeGenerator();
+            $file = new File(PIWIK_DOCUMENT_ROOT . '/' . $jsCodeGenerator->getJsTrackerEndpoint());
+            $filename = $jsCodeGenerator->getJsTrackerEndpoint();
+
+            if (Manager::getInstance()->isPluginActivated('CustomJsTracker')) {
+                $file = StaticContainer::get('Piwik\Plugins\CustomJsTracker\TrackerUpdater')->getToFile();
+                $filename = $file->getName();
+            }
+
+            return [$filename, $file->hasWriteAccess()];
+        }
+
+        return ['', false];
+    }
+
+    /**
+     * Provide anonymisation settings to Matomo UI only
+     *
      * @internal
      */
-    public function setAnonymizeIpSettings($anonymizeIPEnable, $maskLength, $useAnonymizedIpForVisitEnrichment, $anonymizeUserId = false, $anonymizeOrderId = false, $anonymizeReferrer = '', $forceCookielessTracking = false, $randomizeConfigId = false)
+    public function getAnonymisationSettings(?int $idSiteSpecific = null): array
     {
-        Piwik::checkUserHasSuperUserAccess();
-
-        if ($anonymizeIPEnable == '1') {
-            IPAnonymizer::activate();
-        } elseif ($anonymizeIPEnable == '0') {
-            IPAnonymizer::deactivate();
+        if (is_numeric($idSiteSpecific)) {
+            $idSite = intval($idSiteSpecific);
+            Piwik::checkUserHasAdminAccess($idSiteSpecific);
         } else {
-            // pass
+            $idSite = null;
+            Piwik::checkUserHasSuperUserAccess();
+        }
+
+        $privacyConfig = new Config($idSite);
+        $settings = [];
+        $extraMetadata = [];
+        foreach ($privacyConfig->getConfigPropertyNames() as $propertyName) {
+            $settings[$propertyName] = $privacyConfig->{$propertyName};
+
+            // using custom setting type here as config properties use custom getter mechanism
+            $settingType = PolicyManager::SETTING_TYPE_CUSTOM;
+            $compliancePolicyControlled = PolicyManager::getCompliancePoliciesControllingASetting($propertyName, $idSite, $settingType);
+
+            if (!empty($compliancePolicyControlled)) {
+                $extraMetadata[$propertyName] = [
+                    'compliancePolicyControlled' => $compliancePolicyControlled,
+                    'idSite' => $idSite,
+                ];
+            }
+        }
+        $settings['useSiteSpecificSettings'] = $privacyConfig->useSiteSpecificSettings();
+
+        // provide extra settings
+        [$trackerFilename, $trackerFileWritable] = $this->getTrackerFileDetails();
+        $settings = array_merge($settings, [
+            'maskLengthOptions' => PrivacyManager::getMaskLengthOptions(),
+            'useAnonymizedIpForVisitEnrichmentOptions' =>
+                PrivacyManager::getUseAnonymizedIpForVisitEnrichmentOptions(),
+            'referrerAnonymizationOptions' => ReferrerAnonymizer::getAvailableAnonymizationOptions(),
+            'trackerFileName' => $trackerFilename,
+            'trackerWritable' => $trackerFileWritable,
+        ]);
+        if (!empty($extraMetadata)) {
+            $settings['extraMetadata'] = $extraMetadata;
+        }
+
+        return $settings;
+    }
+
+    /**
+     * @internal
+     */
+    public function setAnonymizeIpSettings(
+        bool $anonymizeIPEnable,
+        int $ipAddressMaskLength,
+        bool $useAnonymizedIpForVisitEnrichment,
+        bool $anonymizeUserId = false,
+        bool $anonymizeOrderId = false,
+        string $anonymizeReferrer = '',
+        bool $forceCookielessTracking = false,
+        bool $randomizeConfigId = false,
+        ?int $idSiteSpecific = null,
+        bool $useSiteSpecificSettings = false,
+        #[\SensitiveParameter]
+        string $passwordConfirmation = ''
+    ) {
+        if (null !== $idSiteSpecific) {
+            $idSite = $idSiteSpecific;
+            Piwik::checkUserHasAdminAccess($idSiteSpecific);
+        } else {
+            $idSite = null;
+            Piwik::checkUserHasSuperUserAccess();
+        }
+
+        // if we receive a specific site ID, and it's set not to use custom site settings, we need to remove them
+        // so that the behaviour defaults to the system settings
+        if ($idSite && !$useSiteSpecificSettings) {
+            $privacyConfig = new Config($idSite);
+            $privacyConfig->removeForSite();
+
+            return true;
+        }
+
+        if ($randomizeConfigId) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
+
+        if ($anonymizeIPEnable) {
+            IPAnonymizer::activate($idSite);
+        } else {
+            IPAnonymizer::deactivate($idSite);
         }
 
         if (
             !empty($anonymizeReferrer)
-            && !array_key_exists($anonymizeReferrer, $this->referrerAnonymizer->getAvailableAnonymizationOptions())
+            && !array_key_exists($anonymizeReferrer, ReferrerAnonymizer::getAvailableAnonymizationOptions())
         ) {
             $anonymizeReferrer = '';
         }
 
-        $privacyConfig = new Config();
-        $privacyConfig->ipAddressMaskLength = (int) $maskLength;
-        $privacyConfig->useAnonymizedIpForVisitEnrichment = (bool) $useAnonymizedIpForVisitEnrichment;
+        $privacyConfig = new Config($idSite);
+        $privacyConfig->ipAddressMaskLength = $ipAddressMaskLength;
+        $privacyConfig->useAnonymizedIpForVisitEnrichment = $useAnonymizedIpForVisitEnrichment;
         $privacyConfig->anonymizeReferrer = $anonymizeReferrer;
+        $privacyConfig->anonymizeUserId = $anonymizeUserId;
+        $privacyConfig->anonymizeOrderId = $anonymizeOrderId;
+        $privacyConfig->randomizeConfigId = $randomizeConfigId;
 
-        if (false !== $anonymizeUserId) {
-            $privacyConfig->anonymizeUserId = (bool) $anonymizeUserId;
-        }
-
-        if (false !== $anonymizeOrderId) {
-            $privacyConfig->anonymizeOrderId = (bool) $anonymizeOrderId;
-        }
-
-        if (false !== $forceCookielessTracking) {
-            $privacyConfig->forceCookielessTracking = (bool) $forceCookielessTracking;
+        if (!$idSite) {
+            // only allow setting 'force cookieless tracking' instance-wide and skip it for site as it applies
+            // changes to JS tracker files that we can't currently support on a per-site basis
+            $privacyConfig->forceCookielessTracking = $forceCookielessTracking;
 
             // update tracker files
             Piwik::postEvent('CustomJsTracker.updateTracker');
-        }
-
-        if (false !== $randomizeConfigId) {
-            $privacyConfig->randomizeConfigId = (bool) $randomizeConfigId;
         }
 
         return true;
@@ -307,7 +412,7 @@ class API extends \Piwik\Plugin\API
         $this->confirmCurrentUserPassword($passwordConfirmation);
 
         return $this->savePurgeDataSettings(array(
-            'delete_logs_schedule_lowest_interval' => (int) $deleteLowestInterval
+            'delete_logs_schedule_lowest_interval' => (int) $deleteLowestInterval,
         ));
     }
 
@@ -398,6 +503,97 @@ class API extends \Piwik\Plugin\API
             $reportsPurger = ReportsPurger::make($settings, PrivacyManager::getAllMetricsToKeep());
             $reportsPurger->purgeData(true);
         }
+    }
+
+    /**
+     * @internal
+     * @return array<array<string,string>>
+     */
+    public function getCompliancePolicies(): array
+    {
+        return PolicyManager::getAllPoliciesDetails();
+    }
+
+    /**
+     * @internal
+     * @param int|string $idSite
+     * @return array<string,bool|array<int, array<string,string>>>
+     */
+    public function getComplianceStatus($idSite, string $complianceType): array
+    {
+        if ($idSite === 'all') {
+            $idSite = null;
+        } else {
+            $idSite = intval($idSite);
+        }
+
+        if (false === $this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            throw new Exception('Feature not available');
+        }
+
+        Piwik::checkUserHasSuperUserAccess();
+
+        $policy = PolicyManager::getPolicyByName($complianceType);
+
+        if (is_null($policy)) {
+            throw new Exception('Invalid compliance type');
+        }
+
+        $payload['complianceModeEnforced'] = PolicyManager::isPolicyActive($policy, $idSite);
+        $payload['complianceConfigControlled'] = PolicyManager::isPolicyConfigControlled($policy);
+        $settingsUnderPolicy = PolicyManager::getAllControlledSettings($policy, $idSite);
+        foreach ($settingsUnderPolicy as $setting) {
+            $payload['complianceRequirements'][] = [
+                'name' => $setting::getTitle(),
+                'value' => $setting::isCompliant($policy, $idSite) ? 'compliant' : 'non_compliant',
+                'notes' => $setting::getComplianceRequirementNote($idSite),
+            ];
+        }
+        $unknownSettings = PolicyManager::getAllUnknownSettings($policy);
+        foreach ($unknownSettings as $unknownSetting) {
+            $payload['complianceRequirements'][] = [
+                'name' => $unknownSetting['title'],
+                'value' => 'unknown',
+                'notes' => $unknownSetting['note'],
+            ];
+        }
+        return $payload;
+    }
+
+    /**
+     * @internal
+     */
+    public function setComplianceStatus(
+        string $idSite,
+        string $complianceType,
+        bool $enforce,
+        string $passwordConfirmation = null
+    ): bool {
+        if (!$this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            throw new Exception('Feature not available');
+        }
+
+        Piwik::checkUserHasSuperUserAccess();
+
+        if (Common::getRequestVar('force_api_session', 0)) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
+
+        $policy = PolicyManager::getPolicyByName($complianceType);
+
+        if (is_null($policy) || !is_a($policy, CompliancePolicy::class, true)) {
+            throw new Exception('Invalid compliance type');
+        }
+
+        if ($idSite === 'all') {
+            $idSite = null;
+        } else {
+            $idSite = intval($idSite);
+        }
+
+        PolicyManager::setPolicyActiveStatus($policy, $enforce, $idSite);
+
+        return $enforce;
     }
 
     private function savePurgeDataSettings($settings)

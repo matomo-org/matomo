@@ -1,8 +1,10 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardTitle": "Wszystkie strony",
         "Evolution": "Postęp",
         "LoadingWebsites": "Ładowanie stron",
         "PluginDescription": "Przeglądaj i porównuj wszystkie swoje serwisy i aplikacje w tym użytecznym panelu 'Wszystkie serwisy'",
-        "TopLinkTooltip": "Porównaj statystyki stron wszystkich swoich Serwisów."
+        "TopLinkTooltip": "Porównaj statystyki stron wszystkich swoich Serwisów.",
+        "TotalPageviews": "Łącznie odsłon"
     }
 }

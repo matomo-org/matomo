@@ -60,11 +60,11 @@ class SomeVisitsManyPageviewsWithTransitions extends Fixture
         $this->trackPageView($tracker, 0.3, 'the/third_page.html?foo=bar');
         $this->trackPageView($tracker, 0.4, 'page/one.html');
         $this->trackPageView($tracker, 0.5, 'the/third_page.html?foo=bar');
-        $this->trackPageView($tracker, 0.5, 'the/third_page.html?foo=bar');
+        $this->trackPageView($tracker, 0.5003, 'the/third_page.html?foo=bar');
         $this->trackPageView($tracker, 0.6, 'page/one.html');
-        $this->trackPageView($tracker, 0.6, 'page/one.html');
+        $this->trackPageView($tracker, 0.6003, 'page/one.html');
         $this->trackPageView($tracker, 0.7, 'the/third_page.html?foo=baz#anchor1');
-        $this->trackPageView($tracker, 0.7, 'the/third_page.html?foo=baz#anchor1');
+        $this->trackPageView($tracker, 0.7003, 'the/third_page.html?foo=baz#anchor1');
         $this->trackPageView($tracker, 0.8, 'page/one.html');
         $this->trackPageView($tracker, 0.9, 'page/one.html');
         $this->trackPageView($tracker, 1.0, 'the/third_page.html?foo=baz#anchor2');

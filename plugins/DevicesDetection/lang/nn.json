@@ -5,8 +5,9 @@
         "Browsers": "Nettlesarar",
         "ColumnBrowser": "Nettlesar",
         "ColumnOperatingSystem": "Operativsystem",
-        "dataTableLabelTypes": "Type",
         "OperatingSystems": "Operativsystem",
-        "WidgetBrowsers": "Nytta nettlesarar"
+        "UserAgent": "Brukaragent",
+        "WidgetBrowsers": "Nytta nettlesarar",
+        "dataTableLabelTypes": "Type"
     }
 }

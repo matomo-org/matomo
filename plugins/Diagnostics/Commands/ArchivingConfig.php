@@ -57,7 +57,7 @@ class ArchivingConfig extends ConsoleCommand
         $configs = [
             'database' => [
                 'enable_segment_first_table_join_prefix',
-                'enable_first_table_join_prefix'
+                'enable_first_table_join_prefix',
                 ],
             'general' => [
                 'browser_archiving_disabled_enforce',
@@ -91,8 +91,8 @@ class ArchivingConfig extends ConsoleCommand
                 'datatable_archiving_maximum_rows_events',
                 'datatable_archiving_maximum_rows_subtable_events',
                 'datatable_archiving_maximum_rows_products',
-                'datatable_archiving_maximum_rows_standard'
-                ]
+                'datatable_archiving_maximum_rows_standard',
+                ],
             ];
 
         $data = [];

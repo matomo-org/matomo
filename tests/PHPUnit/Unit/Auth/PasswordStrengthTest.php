@@ -101,19 +101,19 @@ class PasswordStrengthTest extends \PHPUnit\Framework\TestCase
         yield ['Testpassword1', ['General_PasswordStrengthValidationSpecialChar']];
         yield ['testpassword1', [
             'General_PasswordStrengthValidationUppercase',
-            'General_PasswordStrengthValidationSpecialChar'
+            'General_PasswordStrengthValidationSpecialChar',
         ]];
         yield ['TESTWORD!', [
             'General_PasswordStrengthValidationLength',
             'General_PasswordStrengthValidationLowercase',
-            'General_PasswordStrengthValidationNumber'
+            'General_PasswordStrengthValidationNumber',
         ]];
         yield ['', [
                 'General_PasswordStrengthValidationLength',
                 'General_PasswordStrengthValidationLowercase',
                 'General_PasswordStrengthValidationUppercase',
                 'General_PasswordStrengthValidationNumber',
-                'General_PasswordStrengthValidationSpecialChar'
+                'General_PasswordStrengthValidationSpecialChar',
             ]];
     }
 }

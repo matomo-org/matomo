@@ -157,7 +157,7 @@ class LatestStableInstall extends Fixture
         return PIWIK_INCLUDE_PATH . DIRECTORY_SEPARATOR . 'test_latest_stable.zip';
     }
 
-    private function getInstallSubdirectoryPath()
+    protected function getInstallSubdirectoryPath()
     {
         return PIWIK_INCLUDE_PATH . DIRECTORY_SEPARATOR . $this->subdirToInstall;
     }

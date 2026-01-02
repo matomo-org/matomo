@@ -50,7 +50,7 @@ class SiteContentDetector
 
     private $siteResponse = [
         'data' => '',
-        'headers' => []
+        'headers' => [],
     ];
 
     /** @var Lazy */

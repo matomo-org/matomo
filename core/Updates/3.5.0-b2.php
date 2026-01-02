@@ -42,11 +42,11 @@ class Updates_3_5_0_b2 extends PiwikUpdates
             'scheduled_date' => 'DATETIME NULL',
             'job_start_date' => 'DATETIME NULL',
             'job_finish_date' => 'DATETIME NULL',
-            'requester' => "VARCHAR(100) NOT NULL DEFAULT ''"
+            'requester' => "VARCHAR(100) NOT NULL DEFAULT ''",
         );
         return array(
             $this->migration->db->createTable(LogDataAnonymizations::getDbTableName(), $columns, $primary = 'idlogdata_anonymization'),
-            $this->migration->db->addIndex(LogDataAnonymizations::getDbTableName(), array('job_start_date'))
+            $this->migration->db->addIndex(LogDataAnonymizations::getDbTableName(), array('job_start_date')),
         );
     }
 

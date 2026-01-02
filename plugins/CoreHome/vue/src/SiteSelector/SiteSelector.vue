@@ -121,7 +121,7 @@
 </template>
 
 <script lang="ts">
-import { DeepReadonly, defineComponent } from 'vue';
+import { DeepReadonly, defineComponent, PropType } from 'vue';
 import Tooltips from '../Tooltips/Tooltips';
 import FocusAnywhereButHere from '../FocusAnywhereButHere/FocusAnywhereButHere';
 import FocusIf from '../FocusIf/FocusIf';
@@ -179,6 +179,14 @@ export default defineComponent({
     sitesToExclude: {
       type: Array,
       default: () => [] as number[],
+    },
+    onlySitesWithAtLeastWriteAccess: {
+      type: Boolean,
+      default: false,
+    },
+    siteTypesToExclude: {
+      type: Array as PropType<string[]>,
+      default: () => [] as string[],
     },
   },
   emits: ['update:modelValue', 'blur'],
@@ -249,11 +257,17 @@ export default defineComponent({
     },
     selectorLinkTitle() {
       return this.hasMultipleSites && this.displayedModelValue
-        ? translate('CoreHome_ChangeCurrentWebsite', this.displayedModelValue.name)
+        ? translate('CoreHome_ChangeCurrentWebsite', this.htmlEntities(this.displayedModelValue.name))
         : '';
     },
     hasMultipleSites() {
-      const initialSites = SitesStore.initialSitesFiltered.value
+      const initialSites = SitesStore.matchesCurrentFilteredState(
+        this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[],
+        this.onlySitesWithAtLeastWriteAccess,
+        (this.siteTypesToExclude ? this.siteTypesToExclude : []) as string[],
+      )
+        && SitesStore.initialSitesFiltered.value
         && SitesStore.initialSitesFiltered.value.length
         ? SitesStore.initialSitesFiltered.value : SitesStore.initialSites.value;
       return initialSites && initialSites.length > 1;
@@ -379,16 +393,24 @@ export default defineComponent({
       return `${previousPart}<span class="autocompleteMatched">${this.searchTerm}</span>${lastPart}`;
     },
     loadInitialSites() {
-      return SitesStore.loadInitialSites(this.onlySitesWithAdminAccess,
-        (this.sitesToExclude ? this.sitesToExclude : []) as number[]).then((sites) => {
+      return SitesStore.loadInitialSites(
+        this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[],
+        this.onlySitesWithAtLeastWriteAccess,
+        (this.siteTypesToExclude ? this.siteTypesToExclude : []) as string[],
+      ).then((sites) => {
         this.sites = sites || [];
       });
     },
     searchSite(term: string) {
       this.isLoading = true;
 
-      SitesStore.searchSite(term, this.onlySitesWithAdminAccess,
-        (this.sitesToExclude ? this.sitesToExclude : []) as number[]).then((sites) => {
+      SitesStore.searchSite(
+        term, this.onlySitesWithAdminAccess,
+        (this.sitesToExclude ? this.sitesToExclude : []) as number[],
+        this.onlySitesWithAtLeastWriteAccess,
+        (this.siteTypesToExclude ? this.siteTypesToExclude : []) as string[],
+      ).then((sites) => {
         if (term !== this.searchTerm) {
           return; // search term changed in the meantime
         }

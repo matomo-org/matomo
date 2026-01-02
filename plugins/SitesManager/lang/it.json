@@ -44,6 +44,7 @@
         "ExcludedReferrersHelpExamples": "ad esempio, \"%1$s\" corrisponderebbe a \"%2$s\" e \"%3$s\" ma non a \"%4$s\"",
         "ExcludedReferrersHelpSubDomains": "Per escludere anche tutti i sottodomini di un determinato nome di host, anteponi un punto. Ad esempio, \"%1$s\" escluderebbe \"%2$s\", ma anche tutti i suoi sottodomini come \"%3$s\".",
         "ExcludedUserAgents": "User Agents Esclusi",
+        "ExclusionTypeOptionCustom": "Personalizzata",
         "ExtraInformationNeeded": "Per installare Matomo nel tuo sistema, potresti aver bisogno delle seguenti informazioni:",
         "Format_Utc": "UTC%s",
         "GADetected": "%1$s è stato rilevato sul tuo sito web. Sai che puoi migrare facilmente i tuoi dati e le impostazioni storiche di analisi da %2$s a Matomo? %3$s%4$s%5$sScopri di più in questa guida%6$s",

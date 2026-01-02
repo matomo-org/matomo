@@ -15,6 +15,9 @@ use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\LanguageDataProvider;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
 use Piwik\Log\LoggerInterface;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\PrivacyManager\Settings\CampaignTrackingParametersDisabled;
 use Piwik\Tracker\Cache as TrackerCache;
 
 /**
@@ -30,6 +33,7 @@ class Common
     public const REFERRER_TYPE_WEBSITE = 3;
     public const REFERRER_TYPE_CAMPAIGN = 6;
     public const REFERRER_TYPE_SOCIAL_NETWORK = 7;
+    public const REFERRER_TYPE_AI_ASSISTANT = 8;
 
     // Flag used with htmlspecialchar. See php.net/htmlspecialchars.
     public const HTML_ENCODING_QUOTE_STYLE = ENT_QUOTES;
@@ -486,15 +490,15 @@ class Common
      *
      * @param string $varName Name of the request parameter to get. By default, we look in `$_GET[$varName]`
      *                        and `$_POST[$varName]` for the value.
-     * @param string|null $varDefault The value to return if the request parameter cannot be found or has an empty value.
+     * @param mixed $varDefault The value to return if the request parameter cannot be found or has an empty value.
      * @param string|null $varType Expected type of the request variable. This parameters value must be one of the following:
      *                             `'array'`, `'int'`, `'integer'`, `'string'`, `'json'`.
      *
      *                             If `'json'`, the string value will be `json_decode`-d and then sanitized.
      * @param array|null $requestArrayToUse The array to use instead of `$_GET` and `$_POST`.
+     * @return mixed The sanitized request parameter.
      * @throws Exception If the request parameter doesn't exist and there is no default value, or if the request parameter
      *                   exists but has an incorrect type.
-     * @return mixed The sanitized request parameter.
      * @see Request::getParameter()
      * @deprecated Use Request class instead, which will return raw values instead.
      * @api
@@ -1020,8 +1024,19 @@ class Common
      *            1 => array( ... ) // campaign keyword parameters
      * );
      */
-    public static function getCampaignParameters()
+    public static function getCampaignParameters(?int $idSite = null, bool $skipCompliancePolicyCheck = false)
     {
+        if (!$skipCompliancePolicyCheck) {
+            $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+            if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+                $cache = TrackerCache::getCacheWebsiteAttributes($idSite);
+                $cacheKey = CampaignTrackingParametersDisabled::class;
+                if (($cache[$cacheKey] ?? false) === true) {
+                    return [[], []];
+                }
+            }
+        }
+
         $return = array(
             Config::getInstance()->Tracker['campaign_var_name'],
             Config::getInstance()->Tracker['campaign_keyword_var_name'],
@@ -1244,5 +1259,25 @@ class Common
             return $validLanguages;
         }
         return $validLanguages;
+    }
+
+    /**
+     * Flatten variously nested arrays into a single flat list of values
+     *
+     * @param array $array
+     * @return array
+     */
+    public static function flattenArray(array $array): array
+    {
+        $result = [];
+        foreach ($array as $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, static::flattenArray($value));
+            } else {
+                $result[] = $value;
+            }
+        }
+
+        return $result;
     }
 }

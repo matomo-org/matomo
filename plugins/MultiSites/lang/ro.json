@@ -1,7 +1,9 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardTitle": "Toate site-urile",
         "Evolution": "Evoluţie",
         "LoadingWebsites": "încărcare site-uri web",
-        "TopLinkTooltip": "Compara statisticiLE Web Analytics pentru toate site-urile dvs.."
+        "TopLinkTooltip": "Compara statisticiLE Web Analytics pentru toate site-urile dvs..",
+        "TotalPageviews": "Total Vizualizari"
     }
 }

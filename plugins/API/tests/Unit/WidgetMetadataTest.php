@@ -62,10 +62,10 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
             'order' => 99,
             'parameters' => array (
                 'module' => 'CoreHome',
-                'action' => 'render'
+                'action' => 'render',
             ),
             'uniqueId' => 'widgetCoreHomerender',
-            'isWide' => false
+            'isWide' => false,
         ), $metadata);
     }
 
@@ -162,7 +162,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'action' => 'render',
             ),
             'uniqueId' => 'widgetCoreHomerender',
-            'isWide' => false
+            'isWide' => false,
         ), $widget1);
         $this->assertSame(array(
             'name' => 'NestedName2',
@@ -188,7 +188,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                 'action' => 'render',
             ),
             'uniqueId' => 'widgetCoreHomerender',
-            'isWide' => false
+            'isWide' => false,
         ), $widget2);
     }
 
@@ -276,7 +276,7 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                         'action' => 'render',
                     ),
                     'uniqueId' => 'widgetCoreHomerender',
-                    'isWide' => false
+                    'isWide' => false,
                 ), array (
                     'name' => 'NestedName2',
                     'module' => 'CoreHome',
@@ -287,9 +287,9 @@ class WidgetMetadataTest extends \PHPUnit\Framework\TestCase
                         'action' => 'render',
                     ),
                     'uniqueId' => 'widgetCoreHomerender',
-                    'isWide' => false
-                )
-            )
+                    'isWide' => false,
+                ),
+            ),
         ), $metadata);
     }
 

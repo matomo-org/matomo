@@ -34,5 +34,10 @@ module.exports = {
     'no-undef': 'off',
     'no-undef-init': 'off',
     'import/extensions': 'off',
+
+    // error on imports using ../vue/src paths - use e.g. `from 'CoreHome'` instead
+    'no-restricted-imports': ['error', {
+      patterns: ['**/vue/src'],
+    }],
   },
 };

@@ -51,8 +51,8 @@ class ApiTest extends SystemTestCase
                 'date' => $startDate,
                 'periods' => array('day'),
                 'idSite'     => 1,
-                'testSuffix' => ''
-            )
+                'testSuffix' => '',
+            ),
         );
         // multi period
         $apiToTest[] = array(
@@ -61,8 +61,8 @@ class ApiTest extends SystemTestCase
                 'date' => "$startDate,$endDate",
                 'periods' => array('day'),
                 'idSite'     => 1,
-                'testSuffix' => 'multi_period'
-            )
+                'testSuffix' => 'multi_period',
+            ),
         );
         // multi sites
         $apiToTest[] = array(
@@ -71,8 +71,8 @@ class ApiTest extends SystemTestCase
                 'date' => "$startDate",
                 'periods' => array('month'),
                 'idSite'     => 'all',
-                'testSuffix' => 'multi_sites'
-            )
+                'testSuffix' => 'multi_sites',
+            ),
         );
         // multi sites & multi period
         $apiToTest[] = array(
@@ -81,8 +81,8 @@ class ApiTest extends SystemTestCase
                 'date' => "$startDate,$endDate",
                 'periods' => array('day'),
                 'idSite'     => 'all',
-                'testSuffix' => 'multi_periods_and_sites'
-            )
+                'testSuffix' => 'multi_periods_and_sites',
+            ),
         );
 
         return $apiToTest;

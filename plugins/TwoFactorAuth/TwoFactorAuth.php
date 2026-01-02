@@ -265,7 +265,7 @@ class TwoFactorAuth extends \Piwik\Plugin
         }
 
         $auth = StaticContainer::get('Piwik\Auth');
-        if ($auth && !$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
+        if (!$auth->getLogin() && method_exists($auth, 'getTokenAuth') && $auth->getTokenAuth()) {
             // when authenticated by token only, we do not require 2fa
             // needed eg for rendering exported widgets authenticated by token
             return false;

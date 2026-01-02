@@ -26,6 +26,7 @@
         "JSTracking_VisitorCustomVars": "이 방문자를 위한 추적 맞춤 변수",
         "JSTracking_VisitorCustomVarsDesc": "예를 들어, 변수 이름으로 \"Type\"이고 값은 \"Customer\"입니다.",
         "JavaScriptTracking": "자바스크립트 추적",
+        "Login": "로그인",
         "LogoUpload": "업로드 할 로고 선택",
         "LogoUploadFailed": "업로드된 파일에 문제가 있습니다. 적합한 포멧을 가진 파일인지 확인해주세요.",
         "LtsReleases": "LTS (Long Term Support, 오랜 기간동안 지원됨) 버전은 보안 및 버그 해결만 받습니다.",

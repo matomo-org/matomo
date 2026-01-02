@@ -28,8 +28,6 @@
         "MinValue": "Gutxieneko gertaera-balioa",
         "MinValueDocumentation": "Gertaera honen gutxieneko balioa",
         "PluginDescription": "Egin gertaeren jarraipena eta eskuratu zure bisitarien aktibitatearen txostenak.",
-        "SecondaryDimension": "Bigarren mailako dimentsioa %s da.",
-        "SwitchToSecondaryDimension": "Aldatu %s(e)ra",
         "TopEvents": "Gehienezko gertaerak",
         "TotalEvents": "Gertaerak guztira",
         "TotalEventsDocumentation": "Gertaeren guztizko kopurua",

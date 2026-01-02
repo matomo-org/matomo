@@ -157,7 +157,7 @@ class Response
             'visitorId',
             'nextVisitorId',
             'previousVisitorId',
-            'idvisitor'
+            'idvisitor',
         );
 
         return $this->removeXmlFields($apiResponse, $toRemove);
@@ -182,7 +182,7 @@ class Response
             'timestamp',
             'date',
             'prettyDate',
-            'serverDateTimePrettyFirstAction'
+            'serverDateTimePrettyFirstAction',
         );
         return $this->removeXmlFields($apiResponse, $toRemove);
     }

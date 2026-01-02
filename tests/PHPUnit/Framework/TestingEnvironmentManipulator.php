@@ -228,9 +228,9 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                                     }
                                 });
                             }
-                        })
-                    ]
-                ])
+                        }),
+                    ],
+                ]),
             ];
         }
 
@@ -279,7 +279,7 @@ class TestingEnvironmentManipulator implements EnvironmentManipulator
                 Plugin::getPluginNameFromBacktrace(debug_backtrace()),
                 Plugin::getPluginNameFromNamespace($this->vars->testCaseClass),
                 Plugin::getPluginNameFromNamespace($this->vars->fixtureClass),
-                Plugin::getPluginNameFromNamespace(get_called_class())
+                Plugin::getPluginNameFromNamespace(get_called_class()),
             ),
             $fixturePluginsToLoad
         );

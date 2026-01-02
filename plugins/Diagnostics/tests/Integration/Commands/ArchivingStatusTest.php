@@ -117,7 +117,7 @@ Archiving Configuration Settings
 OUTPUT;
 
         $this->applicationTester->run([
-            'command' => 'diagnostics:archiving-status'
+            'command' => 'diagnostics:archiving-status',
         ]);
         $actual = $this->applicationTester->getDisplay();
 
@@ -209,7 +209,7 @@ OUTPUT;
 
         $this->applicationTester->run(array(
             'command' => 'diagnostics:archiving-status',
-            '--with-stats' => true
+            '--with-stats' => true,
         ));
         $actual = $this->applicationTester->getDisplay();
 

@@ -24,17 +24,17 @@ class ByBaseTranslationsTest extends \PHPUnit\Framework\TestCase
                 array(),
                 array(),
                 array(),
-                array()
+                array(),
             ),
             // empty plugin is removed
             array(
                 array(
-                    'test' => array()
+                    'test' => array(),
                 ),
                 array(),
                 array(),
                 array(
-                    'test' => array()
+                    'test' => array(),
                 ),
             ),
             // not existing values/plugins are removed
@@ -42,109 +42,109 @@ class ByBaseTranslationsTest extends \PHPUnit\Framework\TestCase
                 array(
                     'test' => array(
                         'key' => 'value',
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
                         'key' => 'value',
-                        'x'   => 'y'
-                    )
+                        'x'   => 'y',
+                    ),
                 ),
                 array(
                     'test' => array(
                         'key' => 'value',
-                    )
+                    ),
                 ),
                 array(
                     'test' => array(
                         'test' => 'test',
-                    )
+                    ),
                 ),
             ),
             // no change if all exist
             array(
                 array(
                     'test' => array(
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
-                array()
+                array(),
             ),
             // unavailable removed, others stay
             array(
                 array(
                     'empty' => array(
-                        'test' => 'test'
+                        'test' => 'test',
                     ),
                     'test' => array(
                         'test' => 'test',
                         'empty' => '     ',
-                    )
+                    ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => 'test'
+                        'test' => 'test',
                     ),
                     'test' => array(
                         'test' => 'test',
-                    )
+                    ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => 'test'
+                        'test' => 'test',
                     ),
                     'test' => array(
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'test' => array(
                         'empty' => '     ',
-                    )
-                )
+                    ),
+                ),
             ),
             array(
                 array(
                     'empty' => array(
-                        'test' => 'test'
+                        'test' => 'test',
                     ),
                     'test' => array(
                         'test' => 'test',
                         'empty' => '     ',
-                    )
+                    ),
                 ),
                 array(
                     'empty' => array(
-                        'bla' => 'test'
+                        'bla' => 'test',
                     ),
                     'test' => array(
                         'test' => 'test',
-                    )
+                    ),
                 ),
                 array(
                     'test' => array(
-                        'test' => 'test'
-                    )
+                        'test' => 'test',
+                    ),
                 ),
                 array(
                     'empty' => array(
-                        'test' => 'test'
+                        'test' => 'test',
                     ),
                     'test' => array(
                         'empty' => '     ',
-                    )
-                )
+                    ),
+                ),
             ),
         );
     }

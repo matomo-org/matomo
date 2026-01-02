@@ -9,32 +9,13 @@
 
 namespace Piwik\Plugins\CorePluginsAdmin;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Menu\MenuTop;
 use Piwik\Piwik;
 use Piwik\Plugins\CorePluginsAdmin\Model\TagManagerTeaser;
-use Piwik\Plugins\Marketplace\Marketplace;
-use Piwik\Plugins\Marketplace\Plugins;
 
 class Menu extends \Piwik\Plugin\Menu
 {
-    private $marketplacePlugins;
-
-    /**
-     * Menu constructor.
-     * @param Plugins $marketplacePlugins
-     */
-    public function __construct($marketplacePlugins = null)
-    {
-        if (!empty($marketplacePlugins)) {
-            $this->marketplacePlugins = $marketplacePlugins;
-        } elseif (Marketplace::isMarketplaceEnabled()) {
-            // we load it manually as marketplace plugin might not be loaded
-            $this->marketplacePlugins = StaticContainer::get('Piwik\Plugins\Marketplace\Plugins');
-        }
-    }
-
     public function configureTopMenu(MenuTop $menu)
     {
         $tagManagerTeaser = new TagManagerTeaser(Piwik::getCurrentUserLogin());
@@ -46,29 +27,17 @@ class Menu extends \Piwik\Plugin\Menu
 
     public function configureAdminMenu(MenuAdmin $menu)
     {
-        $hasSuperUserAccess   = Piwik::hasUserSuperUserAccess();
-        $isAnonymous          = Piwik::isUserIsAnonymous();
-        $isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
-
-        $pluginsUpdateMessage = '';
-
-        if ($hasSuperUserAccess && $isMarketplaceEnabled && $this->marketplacePlugins) {
-            $pluginsHavingUpdate = $this->marketplacePlugins->getPluginsHavingUpdate();
-
-            if (!empty($pluginsHavingUpdate)) {
-                $pluginsUpdateMessage = sprintf(' (%d)', count($pluginsHavingUpdate));
-            }
-        }
-
-        if (!$isAnonymous) {
+        if (!Piwik::isUserIsAnonymous()) {
             $menu->addPlatformItem('', [], 7);
         }
 
-        if ($hasSuperUserAccess) {
+        if (Piwik::hasUserSuperUserAccess()) {
             $menu->addPluginItem(
-                Piwik::translate('General_ManagePlugins') . $pluginsUpdateMessage,
+                Piwik::translate('General_ManagePlugins'),
                 $this->urlForAction('plugins', ['activated' => '']),
-                10
+                10,
+                false,
+                'manage-plugins'
             );
         }
     }

@@ -52,14 +52,14 @@ class CustomUserLog
         $columns = array(
             'user_id' => $userId,
             'group' => $group,
-            'gender' => $gender
+            'gender' => $gender,
         );
 
         $bind = array_values($columns);
         $placeholder = Common::getSqlStringFieldsArray($columns);
 
         $sql = sprintf(
-            'INSERT INTO %s (`%s`) VALUES(%s)',
+            'INSERT INTO `%s` (`%s`) VALUES(%s)',
             $this->tablePrefixed,
             implode('`,`', array_keys($columns)),
             $placeholder

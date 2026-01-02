@@ -179,7 +179,7 @@ class Sparkline implements ViewInterface
             'minPointColor' => '#ff7f7f',
             'maxPointColor' => '#75BF7C',
             'lastPointColor' => '#55AAFF',
-            'fillColor' => '#ffffff'
+            'fillColor' => '#ffffff',
         );
 
         if (empty($colors) || !is_array($colors)) {

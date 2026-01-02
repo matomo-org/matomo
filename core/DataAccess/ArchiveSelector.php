@@ -274,7 +274,7 @@ class ArchiveSelector
 
         $getArchiveIdsSql = "SELECT idsite, date1, date2,
                                     GROUP_CONCAT(CONCAT(idarchive,'|',`name`,'|',`value`) ORDER BY idarchive DESC SEPARATOR ',') AS archives
-                               FROM %s
+                               FROM `%s`
                               WHERE idsite IN (" . implode(',', $siteIds) . ")
                                 AND " . self::getNameCondition($plugins, $segment, $includeInvalidated) . "
                                 AND %s
@@ -542,7 +542,7 @@ class ArchiveSelector
                 }
 
                 if (empty($archiveData[$metric])) {
-                    if (!empty($result[$metric]) || $result[$metric] === 0 || $result[$metric] === '0') {
+                    if (!empty($result[$metric]) || $result[$metric] === 0 || $result[$metric] === 0.0 || $result[$metric] === '0') {
                         $archiveData[$metric] = $result[$metric];
                     }
                 }
@@ -725,7 +725,7 @@ class ArchiveSelector
         }
 
         $getValuesSql = "SELECT value, name, idsite, date1, date2, ts_archived
-                                FROM %s
+                                FROM `%s`
                                 WHERE idarchive IN (%s)
                                   AND " . $whereNameIs . "
                              $orderBy"; // ascending order so we use the latest data found

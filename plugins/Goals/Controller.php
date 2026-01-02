@@ -459,7 +459,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->userCanEditGoals = Piwik::isUserHasWriteAccess($this->idSite);
         $view->goalTriggerTypeOptions = array(
             'visitors' => Piwik::translate('Goals_WhenVisitors'),
-            'manually' => Piwik::translate('Goals_Manually')
+            'manually' => Piwik::translate('Goals_Manually'),
         );
         $view->goalMatchAttributeOptions = array(
             array('key' => 'url', 'value' => Piwik::translate('Goals_VisitUrl')),
@@ -471,17 +471,17 @@ class Controller extends \Piwik\Plugin\Controller
         );
         $view->allowMultipleOptions = array(
             array('key' => '0', 'value' => Piwik::translate('Goals_DefaultGoalConvertedOncePerVisit')),
-            array('key' => '1', 'value' => Piwik::translate('Goals_AllowGoalConvertedMoreThanOncePerVisit'))
+            array('key' => '1', 'value' => Piwik::translate('Goals_AllowGoalConvertedMoreThanOncePerVisit')),
         );
         $view->eventTypeOptions = array(
             array('key' => 'event_category', 'value' => Piwik::translate('Events_EventCategory')),
             array('key' => 'event_action', 'value' => Piwik::translate('Events_EventAction')),
-            array('key' => 'event_name', 'value' => Piwik::translate('Events_EventName'))
+            array('key' => 'event_name', 'value' => Piwik::translate('Events_EventName')),
         );
         $view->patternTypeOptions = array(
             array('key' => 'contains', 'value' => Piwik::translate('Goals_Contains', '')),
             array('key' => 'exact', 'value' => Piwik::translate('Goals_IsExactly', '')),
-            array('key' => 'regex', 'value' => Piwik::translate('Goals_MatchesExpression', ''))
+            array('key' => 'regex', 'value' => Piwik::translate('Goals_MatchesExpression', '')),
         );
         $view->numericComparisonTypeOptions = [
             ['key' => 'greater_than', 'value' => Piwik::translate('General_OperationGreaterThan')],

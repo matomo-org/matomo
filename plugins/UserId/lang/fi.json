@@ -1,7 +1,10 @@
 {
     "UserId": {
+        "PluginDescription": "Näyttää käyttäjäraportit",
+        "ThereIsNoDataForThisReportHelp": "%1$sLue käyttöopas saadaksesi lisätietoja raportin tietojen luomisesta.%2$s",
         "UserId": "Käyttäjän ID",
+        "UserReportDocumentation": "Näyttää käynnit ja muut yleiset mittarit kullekin yksittäiselle käyttäjätunnukselle.",
         "UserReportTitle": "Käyttäjän ID:t",
-        "PluginDescription": "Näyttää käyttäjäraportit"
+        "VisitorsUserSubcategoryHelp": "Käyttäjätunnusraportti näyttää kaikkiin rekisteröityneisiin ja kirjautuneisiin käyttäjiisi liittyvät käynnit. Ymmärrä verkkosivuston käyttöä tiettyjen käyttäjien mukaan ja selvitä, ketkä ovat aktiivisimpia ja vähiten aktiivisia käyttäjiäsi."
     }
 }

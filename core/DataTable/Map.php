@@ -41,6 +41,8 @@ class Map implements DataTableInterface
      */
     protected $keyName = 'defaultKeyName';
 
+    protected $isBuiltWithoutArchives = true;
+
     /**
      * Returns a string description of the data used to index the DataTables.
      *
@@ -472,7 +474,7 @@ class Map implements DataTableInterface
             $row = new Row(array(
                                 Row::COLUMNS              => $columns,
                                 Row::METADATA             => $fromRow->getMetadata(),
-                                Row::DATATABLE_ASSOCIATED => $fromRow->getIdSubDataTable()
+                                Row::DATATABLE_ASSOCIATED => $fromRow->getIdSubDataTable(),
                            ));
             $toTable->addRow($row);
         }
@@ -568,5 +570,15 @@ class Map implements DataTableInterface
             }
         }
         return array();
+    }
+
+    public function setAsBuiltWithoutArchives(bool $flag): void
+    {
+        $this->isBuiltWithoutArchives = $flag;
+    }
+
+    public function wasBuiltWithoutArchives(): bool
+    {
+        return $this->isBuiltWithoutArchives;
     }
 }

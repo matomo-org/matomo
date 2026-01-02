@@ -36,7 +36,7 @@ class UserInviteTest extends IntegrationTestCase
 
     protected $pendingUser = [
         'login' => '000pendingUser3',
-        'email' => 'pendinguser3light@example.com'
+        'email' => 'pendinguser3light@example.com',
     ];
     protected $capturedToken = null;
 
@@ -64,7 +64,7 @@ class UserInviteTest extends IntegrationTestCase
                 'userLogin' => $this->pendingUser['login'],
                 'email' => $this->pendingUser['email'],
                 'initialIdSite' => 1,
-                'expiryInDays' => 7
+                'expiryInDays' => 7,
             ]
         );
 
@@ -72,7 +72,7 @@ class UserInviteTest extends IntegrationTestCase
             'UsersManager.generateInviteLink',
             [
                 'userLogin' => $this->pendingUser['login'],
-                'expiryInDays' => 7
+                'expiryInDays' => 7,
             ]
         );
 
@@ -92,7 +92,7 @@ class UserInviteTest extends IntegrationTestCase
                 'userLogin' => $this->pendingUser['login'],
                 'email' => $this->pendingUser['email'],
                 'initialIdSite' => 1,
-                'expiryInDays' => 7
+                'expiryInDays' => 7,
             ]
         );
 

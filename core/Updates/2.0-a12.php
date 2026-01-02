@@ -32,7 +32,7 @@ class Updates_2_0_a12 extends Updates
     public function getMigrations(Updater $updater)
     {
         $result = array(
-            $this->migration->db->sql('ALTER TABLE ' . Common::prefixTable('logger_message') . ' MODIFY level VARCHAR(16) NULL')
+            $this->migration->db->sql('ALTER TABLE ' . Common::prefixTable('logger_message') . ' MODIFY level VARCHAR(16) NULL'),
         );
 
         $unneededLogTables = array('logger_exception', 'logger_error', 'logger_api_call');
@@ -40,7 +40,7 @@ class Updates_2_0_a12 extends Updates
             $tableName = Common::prefixTable($table);
 
             try {
-                $rows = Db::fetchOne("SELECT COUNT(*) FROM $tableName");
+                $rows = Db::fetchOne("SELECT COUNT(*) FROM `$tableName`");
                 if ($rows == 0) {
                     $result[] = $this->migration->db->dropTable($table);
                 }

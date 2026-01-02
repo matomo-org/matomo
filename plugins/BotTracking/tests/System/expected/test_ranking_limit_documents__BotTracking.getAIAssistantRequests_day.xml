@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>ChatGPT-User</label>
+		<requests>2</requests>
+		<document_requests>1</document_requests>
+		<page_requests>1</page_requests>
+		<visits_acquired>1</visits_acquired>
+		<subtable>
+			<row>
+				<label>example.com/resources/guide.pdf</label>
+				<requests>1</requests>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>Perplexity-User</label>
+		<requests>2</requests>
+		<document_requests>0</document_requests>
+		<page_requests>2</page_requests>
+		<visits_acquired>1</visits_acquired>
+	</row>
+	<row>
+		<label>Claude-User</label>
+		<requests>3</requests>
+		<document_requests>3</document_requests>
+		<page_requests>0</page_requests>
+		<visits_acquired>0</visits_acquired>
+		<subtable>
+			<row>
+				<label>example.com/resources/case-study.pdf</label>
+				<requests>1</requests>
+			</row>
+			<row>
+				<label>Others</label>
+				<requests>2</requests>
+			</row>
+		</subtable>
+	</row>
+	<row>
+		<label>MistralAI-User</label>
+		<requests>2</requests>
+		<document_requests>0</document_requests>
+		<page_requests>2</page_requests>
+		<visits_acquired>0</visits_acquired>
+	</row>
+</result>

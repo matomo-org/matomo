@@ -24,6 +24,11 @@ input[type="submit"].btn,
     text-decoration: none;
   }
 
+  &:focus-visible {
+    outline: 2px solid @theme-color-focus-ring;
+    outline-offset: -2px;
+  }
+
   em {
     font-style: normal;
   }

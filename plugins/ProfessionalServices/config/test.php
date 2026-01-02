@@ -9,5 +9,5 @@ return array(
     },
     'Piwik\Plugins\ProfessionalServices\Promo' => function () {
         return new Promo();
-    }
+    },
 );

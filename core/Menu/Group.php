@@ -21,7 +21,7 @@ class Group
         $this->items[] = array(
             'name'    => $subTitleMenu,
             'url'     => $url,
-            'tooltip' => $tooltip
+            'tooltip' => $tooltip,
         );
     }
 

@@ -47,8 +47,8 @@ class ApiTest extends SystemTestCase
                 'date' => $startDate,
                 'periods' => array('day'),
                 'idSite'     => 1,
-                'testSuffix' => ''
-            )
+                'testSuffix' => '',
+            ),
         );
         $apiToTest[] = array(
             $api,
@@ -56,8 +56,8 @@ class ApiTest extends SystemTestCase
                 'date' => "$startDate,$endDate",
                 'periods' => array('range'),
                 'idSite'     => 1,
-                'testSuffix' => ''
-            )
+                'testSuffix' => '',
+            ),
         );
 
         $apiToTest[] = array(
@@ -70,8 +70,8 @@ class ApiTest extends SystemTestCase
                 'otherRequestParameters' => array(
                     'filter_limit' => '2',
                     'filter_offset' => '1',
-                )
-            )
+                ),
+            ),
         );
         $apiToTest[] = array(
             $api,
@@ -83,8 +83,8 @@ class ApiTest extends SystemTestCase
                 'otherRequestParameters' => array(
                     'filter_limit' => '2',
                     'filter_offset' => '1',
-                )
-            )
+                ),
+            ),
         );
 
         $apiToTest[] = array(
@@ -96,8 +96,8 @@ class ApiTest extends SystemTestCase
                 'testSuffix' => 'ascSortOrder',
                 'otherRequestParameters' => array(
                     'filter_sort_order' => 'asc',
-                )
-            )
+                ),
+            ),
         );
         $apiToTest[] = array(
             $api,
@@ -108,8 +108,8 @@ class ApiTest extends SystemTestCase
                 'testSuffix' => 'ascSortOrder',
                 'otherRequestParameters' => array(
                     'filter_sort_order' => 'asc',
-                )
-            )
+                ),
+            ),
         );
 
         $apiToTest[] = array(
@@ -120,9 +120,9 @@ class ApiTest extends SystemTestCase
                 'idSite'     => 1,
                 'testSuffix' => 'searchByUserId',
                 'otherRequestParameters' => array(
-                    'filter_pattern' => 'user2'
-                )
-            )
+                    'filter_pattern' => 'user2',
+                ),
+            ),
         );
         $apiToTest[] = array(
             $api,
@@ -132,9 +132,9 @@ class ApiTest extends SystemTestCase
                 'idSite'     => 1,
                 'testSuffix' => 'searchByUserId',
                 'otherRequestParameters' => array(
-                    'filter_pattern' => 'user2'
-                )
-            )
+                    'filter_pattern' => 'user2',
+                ),
+            ),
         );
 
         return $apiToTest;

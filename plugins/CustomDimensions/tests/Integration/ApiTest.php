@@ -88,9 +88,9 @@ class ApiTest extends IntegrationTestCase
             'scope' => 'action',
             'active' => true,
             'extractions' => array(
-                array ('dimension' => 'urlparam', 'pattern' => 'test')
+                array ('dimension' => 'urlparam', 'pattern' => 'test'),
             ),
-            'case_sensitive' => false
+            'case_sensitive' => false,
         );
         $this->assertSame(array($expectedDimension), $dimensions);
     }
@@ -249,7 +249,7 @@ class ApiTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 

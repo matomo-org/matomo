@@ -81,7 +81,7 @@ class SiteSearchTest extends SystemTestCase
                                                 'setDateLastN' => true,
                                                 'apiModule'    => $apiModule,
                                                 'apiAction'    => $apiAction,
-                                                'testSuffix'   => '_' . $api . '_firstSite_lastN')
+                                                'testSuffix'   => '_' . $api . '_firstSite_lastN'),
             );
         }
         return $result;

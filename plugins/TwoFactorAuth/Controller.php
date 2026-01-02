@@ -126,7 +126,7 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderTemplate('userSettings', array(
             'isEnabled' => TwoFactorAuthentication::isUserUsingTwoFactorAuthentication(Piwik::getCurrentUserLogin()),
             'isForced' => $this->twoFa->isUserRequiredToHaveTwoFactorEnabled(),
-            'disableNonce' => Nonce::getNonce(self::DISABLE_2FA_NONCE)
+            'disableNonce' => Nonce::getNonce(self::DISABLE_2FA_NONCE),
         ));
     }
 
@@ -152,12 +152,12 @@ class Controller extends \Piwik\Plugin\Controller
             $container = StaticContainer::getContainer();
             $email = $container->make(TwoFactorAuthDisabledEmail::class, array(
                 'login' => Piwik::getCurrentUserLogin(),
-                'emailAddress' => Piwik::getCurrentUserEmail()
+                'emailAddress' => Piwik::getCurrentUserEmail(),
             ));
             $email->safeSend();
 
             $this->redirectToIndex('UsersManager', 'userSecurity', null, null, null, array(
-                'disableNonce' => false
+                'disableNonce' => false,
             ));
         }
     }
@@ -231,7 +231,7 @@ class Controller extends \Piwik\Plugin\Controller
                 $container = StaticContainer::getContainer();
                 $email = $container->make(TwoFactorAuthEnabledEmail::class, array(
                     'login' => Piwik::getCurrentUserLogin(),
-                    'emailAddress' => Piwik::getCurrentUserEmail()
+                    'emailAddress' => Piwik::getCurrentUserEmail(),
                 ));
                 $email->safeSend();
 
@@ -305,7 +305,7 @@ class Controller extends \Piwik\Plugin\Controller
 
             $email = $container->make(RecoveryCodesRegeneratedEmail::class, array(
                 'login' => Piwik::getCurrentUserLogin(),
-                'emailAddress' => Piwik::getCurrentUserEmail()
+                'emailAddress' => Piwik::getCurrentUserEmail(),
             ));
             $email->safeSend();
             // no need to redirect as password was verified nonce
@@ -325,7 +325,7 @@ class Controller extends \Piwik\Plugin\Controller
         if (!$regenerateSuccess && !$regenerateError) {
             $email = $container->make(RecoveryCodesShowedEmail::class, array(
                 'login' => Piwik::getCurrentUserLogin(),
-                'emailAddress' => Piwik::getCurrentUserEmail()
+                'emailAddress' => Piwik::getCurrentUserEmail(),
             ));
             $email->safeSend();
         }
@@ -334,7 +334,7 @@ class Controller extends \Piwik\Plugin\Controller
             'codes' => $recoveryCodes,
             'regenerateNonce' => Nonce::getNonce(self::REGENERATE_CODES_2FA_NONCE),
             'regenerateError' => $regenerateError,
-            'regenerateSuccess' => $regenerateSuccess
+            'regenerateSuccess' => $regenerateSuccess,
         ));
     }
 

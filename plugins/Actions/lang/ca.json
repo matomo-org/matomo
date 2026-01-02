@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Tipus d'acció",
+        "ActionTypeSegmentHelp": "Un tipus d'acció, com ara: %s",
         "ActionTypes": "Tipus d'acció",
         "ActionsInVisit": "Accions a visites",
         "AvgGenerationTimeTooltip": "Promig basat en %1$s accessos %2$s entre %3$s i %4$s",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Fes servir les icones de més i menys a l'esquerra per navegar.",
         "PluginDescription": "Informes sobre les pàgines vistes i els títols de les pàgines. Permet mesurar el motor de cerca del teu lloc web intern. Fa un seguiment automàtic dels clics als enllaços externs i a les descàrregues de fitxers.",
         "RevisitedPages": "Pàgines vistes més d'una vegada",
+        "SearchesSegmentHelp": "Per seleccionar totes les visites que han utilitzat la cerca interna Site Search, utilitzeu: %s",
         "SiteSearchCategories": "Categories (cerca al lloc)",
         "SiteSearchCategories1": "Aquest informe mostra les categories que els visitants van seleccionar quan van fer una cerca al vostre lloc web.",
         "SiteSearchCategories2": "Per exemple, els llocs web de comerç electrònic solen tenir un selector de \"Categoria\" perquè els visitants puguin restringir les seves cerques a només els productes d'una categoria específica.",

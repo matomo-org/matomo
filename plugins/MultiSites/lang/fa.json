@@ -1,7 +1,9 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardTitle": "همه وب سايت ها",
         "Evolution": "تکامل",
         "LoadingWebsites": "درحال بارگزاری وب سایت ها",
-        "TopLinkTooltip": "اطلاعات آماری همه وب سایت هایتان را مقایسه کنید."
+        "TopLinkTooltip": "اطلاعات آماری همه وب سایت هایتان را مقایسه کنید.",
+        "TotalPageviews": "تمام بازدیدصفحه ها"
     }
 }

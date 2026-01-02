@@ -179,7 +179,7 @@ class IniFileChainTest extends TestCase
                 array( // default settings
                     __DIR__ . '/test_files/default_settings_1.ini.php',
                     __DIR__ . '/test_files/empty.ini.php',
-                    __DIR__ . '/test_files/default_settings_2.ini.php'
+                    __DIR__ . '/test_files/default_settings_2.ini.php',
                 ),
                 __DIR__ . '/test_files/empty.ini.php', // user settings
                 array( // expected
@@ -187,18 +187,18 @@ class IniFileChainTest extends TestCase
                         'var1' => 'overriddenValue1',
                         'var3' => array(
                             'overriddenValue2',
-                            'overriddenValue3'
-                        )
+                            'overriddenValue3',
+                        ),
                     ),
                     'Section2' => array(
-                        'var4' => 'val$ue5'
-                    )
-                )
+                        'var4' => 'val$ue5',
+                    ),
+                ),
             ),
 
             array('test user settings completely overwrite default',
                 array( // default settings
-                    __DIR__ . '/test_files/default_settings_1.ini.php'
+                    __DIR__ . '/test_files/default_settings_1.ini.php',
                 ),
                 __DIR__ . '/test_files/default_settings_2.ini.php', // user settings
                 array( // expected
@@ -206,14 +206,14 @@ class IniFileChainTest extends TestCase
                         'var1' => 'overriddenValue1',
                         'var3' => array(
                             'overriddenValue2',
-                            'overriddenValue3'
-                        )
+                            'overriddenValue3',
+                        ),
                     ),
                     'Section2' => array(
-                        'var4' => 'val$ue5'
-                    )
-                )
-            )
+                        'var4' => 'val$ue5',
+                    ),
+                ),
+            ),
         );
     }
 
@@ -300,7 +300,7 @@ class IniFileChainTest extends TestCase
         $fileChain = new IniFileChain(array(), $userSettingsPath);
 
         $this->assertEquals(array(
-            'value1' => 'a"bc', 'value2' => array('<script>', '${@piwik(crash))}'
+            'value1' => 'a"bc', 'value2' => array('<script>', '${@piwik(crash))}',
         )), $fileChain->getFrom($userSettingsPath, 'Section'));
     }
 
@@ -309,13 +309,13 @@ class IniFileChainTest extends TestCase
         return array(
             array(
                 array( // default settings
-                    __DIR__ . '/test_files/default_settings_1.ini.php'
+                    __DIR__ . '/test_files/default_settings_1.ini.php',
                 ),
                 __DIR__ . '/test_files/default_settings_2.ini.php', // user settings
                 "; some header\n",
                 "; some header\n[Section1]\nvar1 = \"overriddenValue1\"\nvar3[] = \"overriddenValue2\"\nvar3[] = \"overriddenValue3\"\n\n[Section2]\nvar4 = \"val&#36;ue5\"\n\n",
-                "; some header\n[Section1]\nvar1 = \"overriddenValue1\"\nvar3[] = \"overriddenValue2\"\nvar3[] = \"overriddenValue3\"\n\n"
-            )
+                "; some header\n[Section1]\nvar1 = \"overriddenValue1\"\nvar3[] = \"overriddenValue2\"\nvar3[] = \"overriddenValue3\"\n\n",
+            ),
         );
     }
 
@@ -365,11 +365,11 @@ class IniFileChainTest extends TestCase
                     'Settings0' => array('abc' => 'def2'),
                     'Section1' => array('var1' => '5$'),
                     'Settings3' => array('var1' => '2'),
-                    'Section2' => array('var4' => '9')
+                    'Section2' => array('var4' => '9'),
                 ),
                 "; some header\n",
-                "; some header\n[Settings3]\nvar1 = \"2\"\n\n[Settings0]\nabc = \"def2\"\n\n[Section1]\nvar1 = \"5&#36;\"\n\n[Section2]\nvar4 = \"9\"\n\n[Custom]\nvar = \"val\"\n\n"
-            )
+                "; some header\n[Settings3]\nvar1 = \"2\"\n\n[Settings0]\nabc = \"def2\"\n\n[Section1]\nvar1 = \"5&#36;\"\n\n[Section2]\nvar4 = \"9\"\n\n[Custom]\nvar = \"val\"\n\n",
+            ),
         );
     }
 

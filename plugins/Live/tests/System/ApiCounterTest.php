@@ -90,7 +90,7 @@ class ApiCounterTest extends SystemTestCase
     public function getInvalidLastMinutesValues()
     {
         return [
-            [-5], [0], [3000]
+            [-5], [0], [3000],
         ];
     }
 

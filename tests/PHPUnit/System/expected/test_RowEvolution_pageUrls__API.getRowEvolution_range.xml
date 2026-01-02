@@ -6,8 +6,8 @@
 		<result date="2010-03-02" />
 		<result date="2010-03-03">
 			<row>
-				<nb_visits>2</nb_visits>
-				<nb_hits>2</nb_hits>
+				<nb_visits>3</nb_visits>
+				<nb_hits>3</nb_hits>
 				<bounce_rate>100%</bounce_rate>
 				<avg_time_on_page>0</avg_time_on_page>
 				<exit_rate>100%</exit_rate>
@@ -22,12 +22,12 @@
 			<nb_hits>
 				<name>Pageviews</name>
 				<min>0</min>
-				<max>2</max>
+				<max>3</max>
 			</nb_hits>
 			<nb_visits>
 				<name>Unique Pageviews</name>
 				<min>0</min>
-				<max>2</max>
+				<max>3</max>
 			</nb_visits>
 			<avg_time_on_page>
 				<name>Avg. time on page</name>

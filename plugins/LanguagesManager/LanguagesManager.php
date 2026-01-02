@@ -46,7 +46,7 @@ class LanguagesManager extends \Piwik\Plugin
             'UsersManager.deleteUser'                    => 'deleteUserLanguage',
             'Template.topBar'                            => 'addLanguagesManagerToOtherTopBar',
             'Template.jsGlobalVariables'                 => 'jsGlobalVariables',
-            'Db.getTablesInstalled'                      => 'getTablesInstalled'
+            'Db.getTablesInstalled'                      => 'getTablesInstalled',
         );
     }
 

@@ -55,7 +55,9 @@ class Date
     public const DATE_FORMAT_YEAR        = DateTimeFormatProvider::DATE_FORMAT_YEAR;
     public const TIME_FORMAT             = DateTimeFormatProvider::TIME_FORMAT;
 
-    // for tests
+    /** for tests
+     * @var null|int
+     */
     public static $now = null;
 
     /**
@@ -75,7 +77,7 @@ class Date
         '9' => 30,
         '10' => 31,
         '11' => 30,
-        '12' => 31
+        '12' => 31,
     );
 
     /**
@@ -162,7 +164,7 @@ class Date
             $message = Piwik::translate('General_ExceptionInvalidDateBeforeFirstWebsite', array(
                 $date->toString(),
                 $dateOfFirstWebsite->getLocalized(self::DATE_FORMAT_SHORT),
-                $dateOfFirstWebsite->getTimestamp()
+                $dateOfFirstWebsite->getTimestamp(),
             ));
             throw new Exception($message . ": $dateString");
         }
@@ -778,13 +780,13 @@ class Date
      * Returns a localized date string using the given template.
      * The template should contain tags that will be replaced with localized date strings.
      *
-     * @param string $template eg. `"MMM y"`
+     * @param string|int $template eg. `"MMM y"` or any format constant defined in {@link DateTimeFormatProvider}
      * @param bool   $ucfirst  whether the first letter should be upper-cased
      * @return string eg. `"Aug 2009"`
      */
     public function getLocalized($template, $ucfirst = true)
     {
-        $dateTimeFormatProvider = StaticContainer::get('Piwik\Intl\Data\Provider\DateTimeFormatProvider');
+        $dateTimeFormatProvider = StaticContainer::get(DateTimeFormatProvider::class);
 
         $template = $dateTimeFormatProvider->getFormatPattern($template);
 
@@ -1006,7 +1008,7 @@ class Date
     /**
      * Adds `$n` hours to `$this` date and returns the result in a new Date.
      *
-     * @param int $n Number of hours to add. Can be less than 0.
+     * @param int|float $n Number of hours to add. Can be less than 0, can be decimal (will get converted to minutes)
      * @return \Piwik\Date
      */
     public function addHour($n)
@@ -1020,7 +1022,7 @@ class Date
      * this static function instead of {@link addHour()} will be faster since a
      * Date instance does not have to be created.
      *
-     * @param int $timestamp The timestamp to add to.
+     * @param int|float $timestamp The timestamp to add to.
      * @param number $n Number of hours to add, must be > 0.
      * @return int The result as a UNIX timestamp.
      */

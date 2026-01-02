@@ -32,25 +32,25 @@ class SharepointTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no sharepoint content' => [
             false,
             'nothing special',
-            []
+            [],
         ];
 
         yield 'sharepoint is found' => [
             true,
             'contains content="Microsoft SharePoint text',
-            []
+            [],
         ];
 
         yield 'sharepoint in incorrect case' => [
             false,
             'contains content="microsoft sharepoint text',
-            []
+            [],
         ];
     }
 }

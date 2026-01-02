@@ -116,7 +116,7 @@ class ConfigReader
     {
         $key = strtolower($key);
         $passwordFields = array(
-            'password', 'secret', 'apikey', 'privatekey', 'admin_pass', 'md5', 'sha1'
+            'password', 'secret', 'apikey', 'privatekey', 'admin_pass', 'md5', 'sha1',
         );
         foreach ($passwordFields as $value) {
             if (strpos($key, $value) !== false) {
@@ -184,7 +184,7 @@ class ConfigReader
                         'value' => $setting->getValue() != $setting->getDefaultValue() ? $setting->getValue() : null,
                         'description' => trim($description),
                         'isCustomValue' => $setting->getValue() != $setting->getDefaultValue(),
-                        'defaultValue' => $setting->getDefaultValue()
+                        'defaultValue' => $setting->getDefaultValue(),
                     );
                 }
 

@@ -328,6 +328,8 @@ class UrlTest extends \PHPUnit\Framework\TestCase
             [false, '.example.com', ['piwik.example.com'], 'Invalid subdomain'],
             [false, 'example-com', ['example.com'], 'Regex should match . literally'],
             [false, 'www.attacker.com?example.com', ['example.com'], 'Spoofed host'],
+            [false, 'aexample.com', ['example.com', 'example2.com'], 'other host, matching first'],
+            [false, 'aexample2.com', ['example.com', 'example2.com'], 'another host, matching second'],
             [false, 'example.com.attacker.com', ['example.com'], 'Spoofed subdomain'],
             [true, 'example.com.', ['example.com'], 'Trailing . on host is actually valid'],
             [true, 'www-dev.example.com', ['example.com'], 'host with dashes is valid'],
@@ -401,8 +403,8 @@ class UrlTest extends \PHPUnit\Framework\TestCase
 
     public function testGetRFCValidHostname()
     {
-        $_SERVER['HTTP_HOST'] = 'demo.matomo.org';
-        $this->assertEquals('demo.matomo.org', Url::getRFCValidHostname());
+        $_SERVER['HTTP_HOST'] = 'demo.matomo.cloud';
+        $this->assertEquals('demo.matomo.cloud', Url::getRFCValidHostname());
         unset($_SERVER['HTTP_HOST']);
         $this->assertEquals('matomo.org', Url::getRFCValidHostname('matomo.org'));
         $this->assertEquals(false, Url::getRFCValidHostname('matomo org'));
@@ -544,7 +546,10 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->resetGlobalVariables();
         $_GET['module'] = 'CoreHomeAdmin';
         $_GET['action'] = 'trackingCodeGenerator';
-        $this->assertEquals($expected, Url::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium));
+        $this->assertSame($expected, Url::addCampaignParametersToMatomoLink($url, $campaign, $source, $medium));
+
+        $expectedLink = '<a target="_blank" rel="noreferrer noopener" href="' . $expected . '">';
+        $this->assertSame($expectedLink, Url::getExternalLinkTag($url, $campaign, $source, $medium));
     }
 
     public function getCampaignParametersToMatomoLink()
@@ -553,63 +558,65 @@ class UrlTest extends \PHPUnit\Framework\TestCase
             // Matomo url
             ['https://matomo.org/faq/123',
              'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
-             null, null, null
+             null, null, null,
             ],
 
             // Matomo url, trailing ?
             ['https://matomo.org/faq/123?',
              'https://matomo.org/faq/123?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
-             null, null, null
+             null, null, null,
             ],
 
             // Matomo url, trailing ? and /
             ['https://matomo.org/faq/123/?',
              'https://matomo.org/faq/123/?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
-             null, null, null
+             null, null, null,
             ],
 
             // Matomo url, anchor
             ['https://matomo.org/faq/123#anchor',
              'https://matomo.org/faq/123#anchor?mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
-             null, null, null
+             null, null, null,
             ],
 
             // Matomo url, anchor and parameter
             ['https://matomo.org/faq/123/#anchor?abc=123',
              'https://matomo.org/faq/123/#anchor?abc=123&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
-             null, null, null
+             null, null, null,
             ],
 
             // Matomo url, one parameter
             ['https://matomo.org/faq/123?abc=123',
              'https://matomo.org/faq/123?abc=123&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
-             null, null, null
+             null, null, null,
             ],
 
             // Matomo url, two parameters
             ['https://matomo.org/faq/123?abc=123&def=456',
              'https://matomo.org/faq/123?abc=123&def=456&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
-             null, null, null
+             null, null, null,
             ],
 
             // Matomo url with www subdomain, anchor and two parameters
             ['https://www.matomo.org/faq/123#anchor?abc=123&def=456',
              'https://www.matomo.org/faq/123#anchor?abc=123&def=456&mtm_campaign=Matomo_App&mtm_source=Matomo_App_OnPremise&mtm_medium=App.CoreHomeAdmin.trackingCodeGenerator',
-             null, null, null
+             null, null, null,
             ],
 
             // Non-matomo URL, two parameters and anchor - no change expected
             ['https://example.org/faq/123#anchor?abc=123&def=456',
              'https://example.org/faq/123#anchor?abc=123&def=456',
-             null, null, null
+             null, null, null,
             ],
 
             // Matomo url, two parameters, campaign overrides
             ['https://matomo.org/faq/123?abc=123&def=456',
              'https://matomo.org/faq/123?abc=123&def=456&mtm_campaign=SomeCampaign&mtm_source=SomeSource&mtm_medium=SomeMedium',
-             'SomeCampaign', 'SomeSource', 'SomeMedium'
+             'SomeCampaign', 'SomeSource', 'SomeMedium',
             ],
 
+            // Empty url
+            ['', '', null, null, null],
         ];
     }
 

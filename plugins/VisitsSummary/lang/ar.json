@@ -1,5 +1,6 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "متوسط وقت التوليد",
         "AverageVisitDuration": "معدل طول الزيارة",
         "GenerateQueries": "%s استعلام تم تنفيذهم",
         "GenerateTime": "%s ثانية لإنشاء هذه الصفحة",

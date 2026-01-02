@@ -1,5 +1,8 @@
 {
     "ProfessionalServices": {
+        "PromoFormAnalytics": "Formularze",
+        "PromoManage": "Zarządzaj",
+        "PromoOverview": "Przegląd",
         "WidgetPremiumServicesForPiwik": "Funkcje &amp; usługi Matomo Premium"
     }
 }

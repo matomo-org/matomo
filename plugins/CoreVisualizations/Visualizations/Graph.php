@@ -125,7 +125,7 @@ abstract class Graph extends Visualization
                     $self->selectableRows[$rowIdentifier] = [
                         'label'     => $rowLabel,
                         'matcher'   => $rowIdentifier,
-                        'displayed' => $self->isRowVisible($rowLabel, $rowIdentifier)
+                        'displayed' => $self->isRowVisible($rowLabel, $rowIdentifier),
                     ];
                 }
             }
@@ -170,14 +170,14 @@ abstract class Graph extends Visualization
             $this->selectableRows['total'] = [
                 'label'     => $totalTranslation,
                 'matcher'   => 'total',
-                'displayed' => $this->isRowVisible($totalTranslation, 'total')
+                'displayed' => $this->isRowVisible($totalTranslation, 'total'),
             ];
         }
 
         if ($this->config->show_goals) {
             $this->config->addTranslations([
                 'nb_conversions' => Piwik::translate('Goals_ColumnConversions'),
-                'revenue'        => Piwik::translate('General_TotalRevenue')
+                'revenue'        => Piwik::translate('General_TotalRevenue'),
             ]);
         }
 
@@ -186,7 +186,7 @@ abstract class Graph extends Visualization
             $transformed[] = [
                 'column'      => $column,
                 'translation' => @$this->config->translations[$column],
-                'displayed'   => in_array($column, $this->config->columns_to_display)
+                'displayed'   => in_array($column, $this->config->columns_to_display),
             ];
         }
         $this->config->selectable_columns = $transformed;
@@ -269,7 +269,7 @@ abstract class Graph extends Visualization
             'nb_visits',
             'nb_actions',
             'nb_uniq_visitors',
-            'nb_users'
+            'nb_users',
         );
     }
 

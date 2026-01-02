@@ -353,7 +353,7 @@ class Segment
     {
         $requiresSubQuery = in_array($operator, [
                 SegmentExpression::MATCH_DOES_NOT_CONTAIN,
-                SegmentExpression::MATCH_NOT_EQUAL
+                SegmentExpression::MATCH_NOT_EQUAL,
             ]) && !$this->isVisitSegment($segmentName);
 
         if ($requiresSubQuery && empty($this->startDate) && empty($this->endDate)) {

@@ -171,7 +171,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->availableValues = [
                 '0' => $default . ' (' . Piwik::translate('General_Default') . ')',
                 '1' => Piwik::translate('General_Yes'),
-                '2' => Piwik::translate('General_No')
+                '2' => Piwik::translate('General_No'),
             ];
         });
     }
@@ -269,13 +269,13 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
                     'www.example.org',
                     'http://example.org/mypath',
                     'https://www.example.org/?param=1',
-                    'https://sub.example.org/'
+                    'https://sub.example.org/',
                 ])
                 . '<br /><br />'
                 . Piwik::translate('SitesManager_ExcludedReferrersHelpSubDomains', [
                     '.sub.example.org',
                     'http://sub.example.org/mypath',
-                    'https://new.sub.example.org/'
+                    'https://new.sub.example.org/',
                 ])
             ;
 
@@ -318,7 +318,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = [
                 1 => Piwik::translate('SitesManager_EnableSiteSearch'),
-                0 => Piwik::translate('SitesManager_DisableSiteSearch')
+                0 => Piwik::translate('SitesManager_DisableSiteSearch'),
             ];
         });
     }
@@ -405,7 +405,7 @@ class MeasurableSettings extends \Piwik\Settings\Measurable\MeasurableSettings
             $field->uiControl = FieldConfig::UI_CONTROL_SINGLE_SELECT;
             $field->availableValues = [
                 0 => Piwik::translate('SitesManager_NotAnEcommerceSite'),
-                1 => Piwik::translate('SitesManager_EnableEcommerce')
+                1 => Piwik::translate('SitesManager_EnableEcommerce'),
             ];
         });
     }

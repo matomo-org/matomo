@@ -47,7 +47,6 @@
         "Settings_VerificationCodeJustSent": "Táimid díreach tar éis SMS a sheoladh chuig an uimhir seo le cód: cuir isteach an cód seo thuas agus cliceáil \"Bailíochtaigh\".",
         "TooManyUnverifiedNumbersError": "Ní féidir leat níos mó ná 3 uimhir theileafóin neamhfhíoraithe a chur leis!",
         "TopLinkTooltip": "Faigh Tuairiscí Analytics Gréasáin seachadta chuig do bhosca isteach ríomhphoist nó chuig d’fhón póca.",
-        "TopMenu": "Ríomhphost &amp; Tuarascálacha SMS",
         "UserKey": "Eochair Úsáideora",
         "VerificationCodeRecentlySentError": "Iarradh cód fíorúcháin don uimhir theileafóin %1$s le déanaí.",
         "VerificationText": "Is é %1$s an cód. Chun d'uimhir theileafóin a bhailíochtú agus tuairiscí SMS Matomo a fháil, cóipeáil an cód seo san fhoirm atá inrochtana trí Matomo → %2$s → %3$s."

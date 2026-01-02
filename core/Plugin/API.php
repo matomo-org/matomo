@@ -129,7 +129,7 @@ abstract class API
         }
 
         if (empty($passwordConfirmation)) {
-            throw new Exception(Piwik::translate('UsersManager_ConfirmWithPassword'));
+            throw new Exception(Piwik::translate('UsersManager_ConfirmWithReAuthentication'));
         }
 
         try {

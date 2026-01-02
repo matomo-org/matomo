@@ -36,6 +36,7 @@
         "ExcludedIps": "Исключённые IP",
         "ExcludedParameters": "Исключённые параметры",
         "ExcludedUserAgents": "Исключённые User Agents",
+        "ExclusionTypeOptionCustom": "Пользовательский",
         "ExtraInformationNeeded": "Для настройки Matomo в вашей системе вам может потребоваться следующая информация:",
         "Format_Utc": "UTC%s",
         "GlobalExcludedUserAgentHelp1": "Введите список пользовательских агентов, чтобы исключить отслеживание с помощью Matomo.",

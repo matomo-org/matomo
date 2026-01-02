@@ -37,7 +37,7 @@ class TwigTest extends \PHPUnit\Framework\TestCase
             ['ab&amp;ef', 3, 'ab&amp;...'],
             ['some&#9660;thing', 5, 'some&#9660;...'],
             ['ab&ef ;', 3, 'ab&...'],
-            ['&lt;&gt;&#9660;&nbsp;', 4, '&lt;&gt;&#9660;&nbsp;']
+            ['&lt;&gt;&#9660;&nbsp;', 4, '&lt;&gt;&#9660;&nbsp;'],
         ];
     }
 

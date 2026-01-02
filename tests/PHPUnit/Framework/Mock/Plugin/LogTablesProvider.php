@@ -23,7 +23,7 @@ class LogTablesProvider extends \Piwik\Plugin\LogTablesProvider
             new ConversionItem(),
             new Conversion(),
             new CustomUserLogTable(),
-            new OtherCustomUserLogTable()
+            new OtherCustomUserLogTable(),
         );
     }
 }

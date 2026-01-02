@@ -1,1 +1,8 @@
-{}
+{
+    "MobileAppMeasurable": {
+        "MobileApp": "Mobilna aplikacija",
+        "MobileAppDescription": "Izvorna mobilna aplikacija za iOS, Android ili neki drugi mobilni operacijski sustav.",
+        "MobileAppLongDescription": "Prati aktivnost korisnika unutar izvornih iOS i Android aplikacija. Prikupljeni podaci mogu uključivati prikaze ekrana, događaje unutar aplikacije, detalje o uređaju i korisničke sesije. Ova je mjerljiva jedinica namijenjena aplikacijama koje koriste Matomove mobilne SDK-ove.",
+        "MobileApps": "Mobilne aplikacije"
+    }
+}

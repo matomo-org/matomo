@@ -42,7 +42,7 @@ class Updates_5_2_0_b6 extends Updates
             new CustomMigration(function () use ($startOfCurrentMonth) {
                 $invalidator = StaticContainer::get(ArchiveInvalidator::class);
                 $invalidator->scheduleReArchiving('all', 'Actions', 'Actions_hits', Date::factory($startOfCurrentMonth));
-            }, $commandToExecute)
+            }, $commandToExecute),
         ];
 
         return $migrations;

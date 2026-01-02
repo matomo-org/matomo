@@ -81,7 +81,7 @@ class Controller extends \Piwik\Plugin\Controller
             'plugins/Morpheus/stylesheets/simple_structure.css',
             'plugins/CoreHome/stylesheets/jquery.ui.autocomplete.css',
             'plugins/Dashboard/stylesheets/dashboard.less',
-            'plugins/CoreUpdater/stylesheets/updateLayout.css'
+            'plugins/CoreUpdater/stylesheets/updateLayout.css',
         );
 
         return AssetManager::compileCustomStylesheets($files);

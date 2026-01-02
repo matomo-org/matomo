@@ -46,7 +46,7 @@ class GoalsEcommerceTest extends SystemTestCase
                     'filter_show_goal_columns_process_goals' => 'ecommerceOrder',
                     'apiModule' => 'Referrers',
                     'apiAction' => 'getReferrerType',
-                    'idGoal' => 'ecommerceOrder'
+                    'idGoal' => 'ecommerceOrder',
                 ],
             ]],
             ['Actions.getPageUrls', [
@@ -59,7 +59,7 @@ class GoalsEcommerceTest extends SystemTestCase
                     'filter_show_goal_columns_process_goals' => 'ecommerceOrder',
                     'apiModule' => 'Actions',
                     'apiAction' => 'getPageUrls',
-                    'idGoal' => 'ecommerceOrder'
+                    'idGoal' => 'ecommerceOrder',
                 ],
             ]],
             ['Goals.getVisitsUntilConversion', [
@@ -70,7 +70,7 @@ class GoalsEcommerceTest extends SystemTestCase
                 'otherRequestParameters' => [
                     'apiModule' => 'Goals',
                     'apiAction' => 'getVisitsUntilConversion',
-                    'idGoal' => 'ecommerceOrder'
+                    'idGoal' => 'ecommerceOrder',
                 ],
             ]],
             ['UserCountry.getCountry', [
@@ -83,7 +83,7 @@ class GoalsEcommerceTest extends SystemTestCase
                     'filter_show_goal_columns_process_goals' => 'ecommerceOrder',
                     'apiModule' => 'UserCountry',
                     'apiAction' => 'getCountry',
-                    'idGoal' => 'ecommerceOrder'
+                    'idGoal' => 'ecommerceOrder',
                 ],
             ]],
         ];

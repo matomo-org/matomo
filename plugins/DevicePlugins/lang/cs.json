@@ -2,6 +2,7 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s bez povolených zásuvných modulů",
         "BrowserWithPluginsEnabled": "%1$s s povolenými zásuvnými moduly %2$s",
+        "ColumnPercentageVisitsDocumentation": "Procento z celkového počtu návštěv, u kterých byl zásuvný modul zjištěn. Jedna návštěva může zahrnovat více zásuvných modulů. Hodnota se zaokrouhluje na celá čísla směrem dolů.",
         "PluginDescription": "Hlásí podporované zásuvné moduly v prohlížečích návštěvníků.",
         "PluginDetectionDoesNotWorkInIE": "Poznámka: Detekce zásuvných modulů nepracuje v prohlížeči Interet Explorer před verzí 11. Toto hlášení je založeno na datech z ostatních prohlížečů a novějších verzích IE.",
         "WidgetPlugins": "Seznam zásuvných modulů",

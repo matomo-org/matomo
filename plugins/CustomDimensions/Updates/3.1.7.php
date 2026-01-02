@@ -35,7 +35,7 @@ class Updates_3_1_7 extends PiwikUpdates
 
         return array(
             $migration1,
-            $migration2
+            $migration2,
         );
     }
 

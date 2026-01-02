@@ -61,7 +61,7 @@ class API extends \Piwik\Plugin\API
                 'description' => $challenge->getDescription(),
                 'isCompleted' => $challenge->isCompleted($login),
                 'isSkipped' => $challenge->isSkipped($login),
-                'url' => $challenge->getUrl()
+                'url' => $challenge->getUrl(),
             ];
         }
 

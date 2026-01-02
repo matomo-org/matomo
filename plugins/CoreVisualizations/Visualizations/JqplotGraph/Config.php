@@ -56,7 +56,7 @@ class Config extends GraphConfig
 
         $this->addPropertiesThatShouldBeAvailableClientSide(array(
             'external_series_toggle',
-            'external_series_toggle_show_all'
+            'external_series_toggle_show_all',
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array('x_axis_step_size'));

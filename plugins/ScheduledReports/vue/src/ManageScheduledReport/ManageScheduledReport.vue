@@ -14,10 +14,7 @@
 
       <div id="ajaxLoadingDiv" style="display:none;">
         <div class="loadingPiwik">
-          <img
-            src="plugins/Morpheus/images/loading-blue.gif"
-            :alt="translate('General_LoadingData')"
-          />
+          <MatomoLoader />
           {{ translate('General_LoadingData') }}
         </div>
         <div class="loadingSegment">
@@ -38,6 +35,7 @@
         :download-output-type="downloadOutputType"
         :language="language"
         :report-formats-by-report-type="reportFormatsByReportType"
+        :sending-reports="sendingReports"
         @create="createReport()"
         @edit="editReport($event)"
         @delete="deleteReport($event)"
@@ -76,11 +74,12 @@
 <script lang="ts">
 import { defineComponent, nextTick } from 'vue';
 import {
-  translate,
-  Matomo,
-  NotificationsStore,
-  ContentTable,
   AjaxHelper,
+  ContentTable,
+  Matomo,
+  MatomoLoader,
+  NotificationsStore,
+  translate,
 } from 'CoreHome';
 import { Form } from 'CorePluginsAdmin';
 import AddReport from '../AddReport/AddReport.vue';
@@ -92,6 +91,7 @@ interface ManageScheduledReportState {
   showReportsList: boolean;
   report: Report;
   selectedReports: Record<string, Record<string, boolean>>;
+  sendingReports: Array<string|number>;
 }
 
 function scrollToTop() {
@@ -192,6 +192,7 @@ export default defineComponent({
     },
   },
   components: {
+    MatomoLoader,
     AddReport,
     ListReports,
   },
@@ -218,12 +219,16 @@ export default defineComponent({
       showReportsList: true,
       report: {} as unknown as Report,
       selectedReports: {},
+      sendingReports: [],
     };
   },
   methods: {
     sendReportNow(idReport: string|number) {
+      if (this.sendingReports.includes(idReport)) {
+        return;
+      }
       scrollToTop();
-
+      this.sendingReports.push(idReport);
       AjaxHelper.post(
         {
           method: 'ScheduledReports.sendReport',
@@ -237,6 +242,10 @@ export default defineComponent({
           this.$refs.reportSentSuccess as HTMLElement,
           translate('ScheduledReports_ReportSent'),
           false,
+        );
+      }).finally(() => {
+        this.sendingReports = this.sendingReports.filter(
+          (report: string | number) => report !== idReport,
         );
       });
     },
@@ -291,6 +300,7 @@ export default defineComponent({
         style: {
           display: 'inline-block',
           marginTop: '10px',
+          width: '100%',
         },
         id: 'scheduledReportSuccess',
       });

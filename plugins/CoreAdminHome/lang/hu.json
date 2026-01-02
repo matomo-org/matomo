@@ -44,6 +44,7 @@
         "JSTracking_VisitorCustomVars": "Saját változó kovetése látogatónként",
         "JSTracking_VisitorCustomVarsDesc": "Példa: változó: \"Típus\", érték: \"Ügyfél\".",
         "JavaScriptTracking": "JavaScript Követés",
+        "Login": "felhasználó",
         "LogoNotWriteableInstruction": "Egyedi logó használatához írási jogosultságra van szükség a következő könyvtárhoz: %1$s A logók tárolásához a következőfájlokhoz írási jogosultság szükséges: %2$s.",
         "LogoUpload": "Válasszon egy logót a feltöltéshez",
         "LogoUploadFailed": "A feltöltött fájl nem feldolgozható. Kérjük ellenőrizze, hogy a fájl formátuma érvényes-e.",

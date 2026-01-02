@@ -26,7 +26,7 @@ class ContentTarget extends ActionDimension
     protected $namePlural = 'Contents_ContentTargets';
     protected $segmentName = 'contentTarget';
     protected $category = 'General_Actions';
-    protected $acceptValues = 'For instance the URL of a landing page: "http://landingpage.example.com"';
+    protected $acceptValues = 'Contents_ContentTargetSegmentHelp';
     protected $sqlFilter = [TableLogAction::class, 'getOptimizedIdActionSqlMatch'];
 
     public function getDbColumnJoin()

@@ -1,6 +1,122 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<uniqueId>General_AIAssistants.AIAgents_AIAgentsOverview</uniqueId>
+		<category>
+			<id>General_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>80</order>
+			<icon>icon-admin-platform</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>AIAgents_AIAgentsOverview</id>
+			<name>AI Agents Overview</name>
+			<order>10</order>
+			<help>&lt;p&gt;Review how AI agents and human visitors engage with your site at a glance. This overview surfaces combined metrics and trends so you can quickly spot changes before exploring detailed reports.&lt;/p&gt;</help>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>AI Agents Over Time</name>
+				<module>AIAgents</module>
+				<action>getEvolutionGraph</action>
+				<order>1</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>graphEvolution</viewDataTable>
+					<module>AIAgents</module>
+					<action>getEvolutionGraph</action>
+				</parameters>
+				<uniqueId>widgetAIAgentsgetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>graphEvolution</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>AI Agent Overview</name>
+				<module>AIAgents</module>
+				<action>get</action>
+				<order>2</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>sparklines</viewDataTable>
+					<module>AIAgents</module>
+					<action>get</action>
+				</parameters>
+				<uniqueId>widgetAIAgentsgetforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>sparklines</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>General_AIAssistants.BotTracking_AIBotsOverview</uniqueId>
+		<category>
+			<id>General_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>80</order>
+			<icon>icon-admin-platform</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>BotTracking_AIBotsOverview</id>
+			<name>AI Bots Overview</name>
+			<order>20</order>
+			<help>&lt;p&gt;The AI Assistant Overview page provide insights into website traffic originating from AI Assistants such as ChatGPT and other large language model–based assistants. These reports track key metrics including the number of requests made by these bots, the pages and documents they access, and any errors encountered. They also offer detailed breakdowns showing which bots visit specific page URLs, helping you understand how AI assistants interact with your content and identify opportunities to improve visibility and accessibility for AI-driven users.&lt;/p&gt;&lt;p&gt;It’s important to note that none of these pages were actually viewed by humans in the traditional way — all requests originate from AI assistants fetching content automatically.&lt;/p&gt;&lt;p&gt;Currently, these reports exclusively include requests from AI bots that do not execute JavaScript. They do not include traffic from AI crawlers used for training AI models or from AI agents capable of executing JavaScript.&lt;/p&gt;</help>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>AI Assistants - Bots Over Time</name>
+				<module>BotTracking</module>
+				<action>getEvolutionGraph</action>
+				<order>1</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>graphEvolution</viewDataTable>
+					<module>BotTracking</module>
+					<action>getEvolutionGraph</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetEvolutionGraphforceView1viewDataTablegraphEvolution</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>graphEvolution</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>AI Assistants - Bots Overview</name>
+				<module>BotTracking</module>
+				<action>get</action>
+				<order>2</order>
+				<parameters>
+					<forceView>1</forceView>
+					<viewDataTable>sparklines</viewDataTable>
+					<module>BotTracking</module>
+					<action>get</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetforceView1viewDataTablesparklines</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>sparklines</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+			<row>
+				<name>AI Assistants - Bots</name>
+				<module>BotTracking</module>
+				<action>getAIAssistantRequests</action>
+				<order>130</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>getAIAssistantRequests</action>
+				</parameters>
+				<uniqueId>widgetBotTrackinggetAIAssistantRequests</uniqueId>
+				<isWide>1</isWide>
+				<viewDataTable>table</viewDataTable>
+				<isReport>1</isReport>
+			</row>
+		</widgets>
+	</row>
+	<row>
 		<uniqueId>General_Actions.VisitorInterest_Engagement</uniqueId>
 		<category>
 			<id>General_Actions</id>
@@ -121,7 +237,7 @@
 			<id>Transitions_Transitions</id>
 			<name>Transitions</name>
 			<order>46</order>
-			<help>&lt;p&gt;Transitions is a report showing the things your visitors did directly before and after viewing a given page. This page explains how to access, understand, and use the powerful &quot;Transitions&quot; report.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/transitions/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Transitions.getTransitions&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;More details&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;Transitions is a report showing the things your visitors did directly before and after viewing a given page. This page explains how to access, understand, and use the powerful &quot;Transitions&quot; report.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/transitions/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Transitions.getTransitions&quot;&gt;More details&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -378,7 +494,7 @@
 			<id>Actions_SubmenuSitesearch</id>
 			<name>Site Search</name>
 			<order>25</order>
-			<help>&lt;p&gt;The Site Search section shows which keywords visitors use when searching your website. It also displays which pages users view after performing a search and which on-site search keywords return no results at all.&lt;/p&gt;&lt;p&gt;These reports can give you ideas about missing content on your site, insight into what your visitors are looking for but can’t find easily, and more.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/site-search/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Actions.getSiteSearchCategories&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in the Site Search guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Site Search section shows which keywords visitors use when searching your website. It also displays which pages users view after performing a search and which on-site search keywords return no results at all.&lt;/p&gt;&lt;p&gt;These reports can give you ideas about missing content on your site, insight into what your visitors are looking for but can’t find easily, and more.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/site-search/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Actions.getSiteSearchCategories&quot;&gt;Learn more in the Site Search guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -467,7 +583,7 @@
 			<id>Events_Events</id>
 			<name>Events</name>
 			<order>40</order>
-			<help>&lt;p&gt;The Events section offers reports on the custom events associated with your site. Events typically require custom configuration. Once configured you can review reports broken down by category, action and name.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/event-tracking/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Events.getCategory&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more about event tracking here.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Events section offers reports on the custom events associated with your site. Events typically require custom configuration. Once configured you can review reports broken down by category, action and name.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/event-tracking/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Events.getCategory&quot;&gt;Learn more about event tracking here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -590,7 +706,7 @@
 			<id>Contents_Contents</id>
 			<name>Contents</name>
 			<order>45</order>
-			<help>&lt;p&gt;Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/content-tracking?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Contents.getContentNames&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in the Content Tracking guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;Content tracking helps you determine the popularity of specific pieces of content on any page of your website or app. This section reports the number of impressions and interactions the various pieces of content on your site receive.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/content-tracking?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Contents.getContentNames&quot;&gt;Learn more in the Content Tracking guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1307,7 +1423,7 @@
 			<id>Live_VisitorLog</id>
 			<name>Visits Log</name>
 			<order>5</order>
-			<help>&lt;p&gt;The visits log shows you every visit your website receives in detail. Find out which actions each visitor has performed, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the visits log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/real-time/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Live.getLastVisitsDetails&quot; target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot;&gt;Learn more in the visit-log guide.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The visits log shows you every visit your website receives in detail. Find out which actions each visitor has performed, how they got to your site, a bit about who they are, and more (while still complying with your local privacy regulations).&lt;/p&gt;&lt;p&gt;While other reports in Matomo show how your visitors behave at an aggregate level, the visits log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/real-time/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Live.getLastVisitsDetails&quot;&gt;Learn more in the visit-log guide.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1343,7 +1459,7 @@
 			<id>UserId_UserReportTitle</id>
 			<name>User IDs</name>
 			<order>40</order>
-			<help>&lt;p&gt;The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot; href=&quot;https://matomo.org/docs/user-id?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.UserId.getUsers&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The user ID report shows visits associated with all your registered and logged in users. Understand website usage by its specific users and find out who your most and least active users are.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/user-id?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.UserId.getUsers&quot;&gt;&lt;span class=&quot;icon-info&quot;&gt;&lt;/span&gt; Learn more&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -1424,6 +1540,39 @@
 				</parameters>
 				<uniqueId>widgetDashboardembeddedIndexidDashboard1</uniqueId>
 				<isWide>0</isWide>
+			</row>
+		</widgets>
+	</row>
+	<row>
+		<uniqueId>Referrers_Referrers.Referrers_AIAssistants</uniqueId>
+		<category>
+			<id>Referrers_Referrers</id>
+			<name>Acquisition</name>
+			<order>15</order>
+			<icon>icon-reporting-referer</icon>
+			<help />
+			<widget />
+		</category>
+		<subcategory>
+			<id>Referrers_AIAssistants</id>
+			<name>AI Assistants</name>
+			<order>18</order>
+			<help>&lt;p&gt;In this table, you can see which AI assistants referred visitors to your site.&lt;/p&gt;&lt;p&gt;By clicking on a row in the table, you can see which URLs the links to your website were on.&lt;/p&gt;</help>
+		</subcategory>
+		<widgets>
+			<row>
+				<name>AI Assistants</name>
+				<module>Referrers</module>
+				<action>getAIAssistants</action>
+				<order>113</order>
+				<parameters>
+					<module>Referrers</module>
+					<action>getAIAssistants</action>
+				</parameters>
+				<uniqueId>widgetReferrersgetAIAssistants</uniqueId>
+				<isWide>0</isWide>
+				<viewDataTable>tableAllColumns</viewDataTable>
+				<isReport>1</isReport>
 			</row>
 		</widgets>
 	</row>
@@ -1606,7 +1755,7 @@
 			<id>Referrers_SubmenuSearchEngines</id>
 			<name>Search Engines &amp; Keywords</name>
 			<order>10</order>
-			<help>&lt;p&gt;This section helps you analyse your search engine optimisation and performance. You can analyse your most popular keywords with the combined keyword reports or see which keywords perform well on specific search engines for more targeted analysis and optimisation.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/matomo-cloud/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Referrers.getSearchEngines&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Matomo Cloud&lt;/a&gt; and &lt;a href=&quot;https://plugins.matomo.org/SearchEngineKeywordsPerformance?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Referrers.getSearchEngines&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Search Engine Keywords Performance&lt;/a&gt; plugin users will receive the best results from this report.&lt;/p&gt;</help>
+			<help>&lt;p&gt;This section helps you analyse your search engine optimisation and performance. You can analyse your most popular keywords with the combined keyword reports or see which keywords perform well on specific search engines for more targeted analysis and optimisation.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/matomo-cloud/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Referrers.getSearchEngines&quot;&gt;Matomo Cloud&lt;/a&gt; and &lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://plugins.matomo.org/SearchEngineKeywordsPerformance?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Referrers.getSearchEngines&quot;&gt;Search Engine Keywords Performance&lt;/a&gt; plugin users will receive the best results from this report.&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -2465,6 +2614,38 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>AI Assistants</name>
+						<category>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getAIAssistants</action>
+						<order>6</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getAIAssistants</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>1</idGoal>
+						</parameters>
+						<uniqueId>widgetReferrersgetAIAssistantsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal1</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Goals by Referrers</id>
@@ -2482,7 +2663,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>6</order>
+						<order>7</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -3324,6 +3505,38 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>AI Assistants</name>
+						<category>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getAIAssistants</action>
+						<order>6</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getAIAssistants</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>2</idGoal>
+						</parameters>
+						<uniqueId>widgetReferrersgetAIAssistantsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal2</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Goals by Referrers</id>
@@ -3341,7 +3554,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>6</order>
+						<order>7</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4183,6 +4396,38 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>AI Assistants</name>
+						<category>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getAIAssistants</action>
+						<order>6</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getAIAssistants</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>3</idGoal>
+						</parameters>
+						<uniqueId>widgetReferrersgetAIAssistantsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal3</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Goals by Referrers</id>
@@ -4200,7 +4445,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>6</order>
+						<order>7</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -4296,7 +4541,7 @@
 			<id>General_Overview</id>
 			<name>Overview</name>
 			<order>2</order>
-			<help>&lt;p&gt;The Goals Overview reports on the performance of the goals defined for your website. You can access your goal’s conversion percentages, amount of revenue generated and full reports for each.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/tracking-goals-web-analytics/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Goals.Overview&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in our Goals guide here.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Goals Overview reports on the performance of the goals defined for your website. You can access your goal’s conversion percentages, amount of revenue generated and full reports for each.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/tracking-goals-web-analytics/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Goals.Overview&quot;&gt;Learn more in our Goals guide here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -5032,6 +5277,38 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>AI Assistants</name>
+						<category>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Goals by Referrers</id>
+							<name>Goals by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getAIAssistants</action>
+						<order>6</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getAIAssistants</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>0</idGoal>
+						</parameters>
+						<uniqueId>widgetReferrersgetAIAssistantsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoal0</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Goals by Referrers</id>
@@ -5049,7 +5326,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>6</order>
+						<order>7</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>
@@ -5145,7 +5422,7 @@
 			<id>Goals_ManageGoals</id>
 			<name>Manage Goals</name>
 			<order>9999</order>
-			<help>&lt;p&gt;This section allows you to create and edit Goals for specific actions which visitors take on your site, such as visiting a certain page or submitting a specific form. Goal reports vary but can help you track your website performance against business objectives such as lead generation, online sales and increased brand exposure.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/tracking-goals-web-analytics/&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in our Goals guide here.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;This section allows you to create and edit Goals for specific actions which visitors take on your site, such as visiting a certain page or submitting a specific form. Goal reports vary but can help you track your website performance against business objectives such as lead generation, online sales and increased brand exposure.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/tracking-goals-web-analytics/&quot;&gt;Learn more in our Goals guide here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -5207,7 +5484,7 @@
 			<id>General_Overview</id>
 			<name>Overview</name>
 			<order>2</order>
-			<help>&lt;p&gt;The Ecommerce Overview section is the best place to get a high-level view of your online store’s performance. At a glance, you can see how many sales you’re making, how much revenue you are generating, and your website’s conversion rate.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://matomo.org/docs/ecommerce-analytics/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Ecommerce.Overview&quot; rel=&quot;noreferrer noopener&quot; target=&quot;_blank&quot;&gt;Learn more in our Ecommerce guide here.&lt;/a&gt;&lt;/p&gt;</help>
+			<help>&lt;p&gt;The Ecommerce Overview section is the best place to get a high-level view of your online store’s performance. At a glance, you can see how many sales you’re making, how much revenue you are generating, and your website’s conversion rate.&lt;/p&gt;&lt;p&gt;Click on an individual metric within the sparkline chart to focus on it within the full-sized evolution graph.&lt;/p&gt;&lt;p&gt;&lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;https://matomo.org/docs/ecommerce-analytics/?mtm_campaign=Matomo_App&amp;mtm_source=Matomo_App_OnPremise&amp;mtm_medium=App.Ecommerce.Overview&quot;&gt;Learn more in our Ecommerce guide here.&lt;/a&gt;&lt;/p&gt;</help>
 		</subcategory>
 		<widgets>
 			<row>
@@ -6106,6 +6383,39 @@
 						<isReport>1</isReport>
 					</row>
 					<row>
+						<name>AI Assistants</name>
+						<category>
+							<id>Sales by Referrers</id>
+							<name>Sales by Referrers</name>
+							<order>99</order>
+							<icon />
+							<help />
+							<widget />
+						</category>
+						<subcategory>
+							<id>Sales by Referrers</id>
+							<name>Sales by Referrers</name>
+							<order>99</order>
+							<help />
+						</subcategory>
+						<module>Referrers</module>
+						<action>getAIAssistants</action>
+						<order>6</order>
+						<parameters>
+							<forceView>1</forceView>
+							<viewDataTable>tableGoals</viewDataTable>
+							<module>Referrers</module>
+							<action>getAIAssistants</action>
+							<documentationForGoalsPage>1</documentationForGoalsPage>
+							<idGoal>ecommerceOrder</idGoal>
+							<segmented_visitor_log_segment_suffix>visitEcommerceStatus==ordered</segmented_visitor_log_segment_suffix>
+						</parameters>
+						<uniqueId>widgetReferrersgetAIAssistantsforceView1viewDataTabletableGoalsdocumentationForGoalsPage1idGoalecommerceOrdersegmented_visitor_log_segment_suffixvisitEcommerceStatus3D3Dordered</uniqueId>
+						<isWide>0</isWide>
+						<viewDataTable>tableGoals</viewDataTable>
+						<isReport>1</isReport>
+					</row>
+					<row>
 						<name>Campaigns</name>
 						<category>
 							<id>Sales by Referrers</id>
@@ -6123,7 +6433,7 @@
 						</subcategory>
 						<module>Referrers</module>
 						<action>getCampaigns</action>
-						<order>6</order>
+						<order>7</order>
 						<parameters>
 							<forceView>1</forceView>
 							<viewDataTable>tableGoals</viewDataTable>

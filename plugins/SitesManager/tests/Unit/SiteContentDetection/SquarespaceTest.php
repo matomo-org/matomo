@@ -32,25 +32,25 @@ class SquarespaceTest extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no squarespace content' => [
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'squarespace comment is found' => [
             true,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body><!-- This is Squarespace. -->A site</body></html>",
-            []
+            [],
         ];
 
         yield 'squarespace comment not correctly found' => [
             false,
             "<html lang=\"en\"><head><title>A site</title><script>console.log('abc');</script></head><body>This is Squarespace, or not?</body></html>",
-            []
+            [],
         ];
     }
 }

@@ -18,6 +18,8 @@ class ThemeStyles
         'fontFamilyBase' => 'theme-fontFamily-base',
         'colorBrand' => 'theme-color-brand',
         'colorBrandContrast' => 'theme-color-brand-contrast',
+        'colorFocusRing' => 'theme-color-focus-ring',
+        'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
         'colorText' => 'theme-color-text',
         'colorTextLight' => 'theme-color-text-light',
         'colorTextLighter' => 'theme-color-text-lighter',
@@ -60,6 +62,16 @@ class ThemeStyles
      * @var string
      */
     public $colorBrandContrast = '#fff';
+
+    /**
+     * @var string
+     */
+    public $colorFocusRing = '#0969da';
+
+    /**
+     * @var string
+     */
+    public $colorFocusRingAlternative;
 
     /**
      * @var string
@@ -193,6 +205,7 @@ class ThemeStyles
 
     public function __construct()
     {
+        $this->colorFocusRingAlternative = $this->colorBrand;
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
         $this->colorMenuContrastBackground = $this->colorBackgroundContrast;

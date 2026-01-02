@@ -1,5 +1,7 @@
 {
     "UsersManager": {
+        "Active": "সক্রিয়",
+        "Status": "অবস্থা",
         "Username": "ব্যবহারকারীর নাম"
     }
 }

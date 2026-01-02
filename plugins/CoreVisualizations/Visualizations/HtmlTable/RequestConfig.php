@@ -58,7 +58,7 @@ class RequestConfig extends VisualizationRequestConfig
             'filter_sort_order',
             'keep_summary_row',
             'keep_totals_row',
-            'show_dimensions'
+            'show_dimensions',
         ));
 
         $this->addPropertiesThatCanBeOverwrittenByQueryParams(array(

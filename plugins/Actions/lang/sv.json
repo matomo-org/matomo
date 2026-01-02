@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Åtgärdstyp",
+        "ActionTypeSegmentHelp": "En typ av händelse, såsom: %s",
         "ActionTypes": "Typer av handlingar",
         "ActionsInVisit": "Aktiviteter under besök",
         "AvgGenerationTimeTooltip": "Medel baseras på %1$s träff(ar) %2$s mellan %3$s och %4$s",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Använd plus- och minusikonerna till höger för att navigera.",
         "PluginDescription": "Rapporter om sidvisningarna och sidtitlarna. Låter dig mäta din interna webbplats sökmotor. Spårar automatiskt klick på externa länkar och nedladdningar av filer.",
         "RevisitedPages": "Sidor visade fler än en gång",
+        "SearchesSegmentHelp": "För att välja alla besök som använde webbplatssökning, använd: %s",
         "SiteSearchCategories": "Kategorier (Sajtsökning)",
         "SiteSearchCategories1": "Den här rapporten listar kategorierna som besökarna valt när dom gjort en sökning på din webbplats.",
         "SiteSearchCategories2": "På e-handelswebbplatser finns det t.ex. vanligtvis en \"Kategori\"-väljare så att besökare kan begränsa sina sökningar till alla produkter i en viss Kategori.",

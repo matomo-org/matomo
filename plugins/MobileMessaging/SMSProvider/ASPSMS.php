@@ -60,12 +60,12 @@ class ASPSMS extends SMSProvider
             array(
                 'type'  => 'text',
                 'name'  => 'username',
-                'title' => 'MobileMessaging_UserKey'
+                'title' => 'MobileMessaging_UserKey',
             ),
             array(
                 'type'  => 'text',
                 'name'  => 'password',
-                'title' => 'General_Password'
+                'title' => 'General_Password',
             ),
         );
     }

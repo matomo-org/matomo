@@ -1,5 +1,9 @@
 {
     "ProfessionalServices": {
+        "CTAStartFreeTrial": "開始免費試用",
+        "PromoFormAnalytics": "表單",
+        "PromoManage": "管理",
+        "PromoOverview": "總覽",
         "WidgetPremiumServicesForPiwik": "Matomo 的高級功能與服務"
     }
 }

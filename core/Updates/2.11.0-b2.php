@@ -47,7 +47,7 @@ class Updates_2_11_0_b2 extends Updates
             array('module' => 'Ecommerce', 'action' => 'widgetGoalReport', 'params' => array('idGoal' => Piwik::LABEL_ID_GOAL_IS_ECOMMERCE_ORDER)),
         );
 
-        $allDashboards = Db::get()->fetchAll(sprintf("SELECT * FROM %s", Common::prefixTable('user_dashboard')));
+        $allDashboards = Db::get()->fetchAll(sprintf("SELECT * FROM `%s`", Common::prefixTable('user_dashboard')));
 
         $sql = "UPDATE " . Common::prefixTable('user_dashboard') . " SET layout = ? WHERE iddashboard = ?";
 

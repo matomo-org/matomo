@@ -1,14 +1,18 @@
 {
     "API": {
         "ChangeTokenHint": "Jos haluat vaihtaa tämän poletin, mene %1$shenkilökohtaiselle asetussivullesi%2$s.",
+        "EvolutionMetricName": "%s Evoluutio",
+        "GenerateVisits": "Jos sinulla ei ole dataa tältä päivältä, voit luoda sitä %1$s-liitännäisellä siirtymällä kohtaan 'Kehitys → Kävijägeneraattori' Matomon hallinta-alueella.",
         "Glossary": "Sanasto",
         "KeepTokenSecret": "Tämä token_auth on yhtä salainen kuin salasanasi, %1$s älä jaa sitä%2$s!",
         "LearnAboutCommonlyUsedTerms2": "Lue lisää usein käytetyistä termeistä saadaksesi kaiken irti Matomo-analytiikasta.",
         "LoadedAPIs": "Ladattiin %s API:a",
-        "MoreInformation": "Lisätietoa Matomon APIsta löytyy sivulta %1$sJohdatus Matomon APIin%2$s ja %3$sMatomon API%4$s.",
-        "PluginDescription": "Kaikki Matomossa olevat tiedot on saatavilla yksinkertaisten APIen kautta. Tämä lisäosa on API verkkosivuille. Tämän lisäosan kautta voit ladata tiedot xml:nä, json:ina, php:nä, csv:nä jne.",
+        "MainMetricsReportDocumentation": "Tämä raportti antaa yleiskatsauksen tärkeimmistä mittareista kaikissa luokissa ja liitännäisiä.",
+        "MoreInformation": "Lisätietoja Matomo-API-rajapinnoista on saatavilla osiossa %1$sJohdatus Matomo-APIin%2$s ja %3$sMatomo-API-viite%4$s.",
+        "PluginDescription": "Kaikki Matomon data on saatavilla yksinkertaisten API-rajapintojen kautta. Tämä liitännäinen on verkkopalvelun aloituspiste, johon voit hakea verkkoanalytiikkadataa XML-, JSON-, PHP-, CSV- jne. -muodossa.",
         "ReportingApiReference": "Raportointi-API:n referenssi",
         "TopLinkTooltip": "Hae analytiikkatietoja ohjelmallisesti rajapinnasta JSON-muodossa, XML:nä jne.",
-        "UserAuthentication": "Käyttäjän autentikointi"
+        "UserAuthentication": "Käyttäjän autentikointi",
+        "UsingTokenAuth": "Jos haluat %1$spyytää tietoja komentosarjasta, crontabista jne.%2$s, sinun on lisättävä URL-parametri '%3$s' API-kutsuihin URL-osoitteille, jotka vaativat todennusta."
     }
 }

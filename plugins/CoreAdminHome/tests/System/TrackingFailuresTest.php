@@ -42,8 +42,8 @@ class TrackingFailuresTest extends SystemTestCase
         $apiToTest   = array();
         $apiToTest[] = array($api,
             array(
-                'testSuffix' => ''
-            )
+                'testSuffix' => '',
+            ),
         );
 
         return $apiToTest;

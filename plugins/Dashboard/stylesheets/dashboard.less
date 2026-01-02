@@ -104,15 +104,47 @@ body#standalone {
   padding: 0 !important;
 }
 
+#Piwik_Popover_Wrapper {
+  position: absolute;
+  z-index: 1001;
+  inset: 0;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
 .ui-widget-overlay {
   opacity: 0.6;
   background: none #000;
   position: fixed;
   z-index: 1000;
+
+  pointer-events: auto;
 }
 
 .ui-dialog {
   z-index: 1001;
+}
+
+.ui-dialog--responsive {
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+  top: 0 !important;
+  left: 0 !important;
+  margin: auto;
+  width: 100%;
+  max-width: 100%;
+  height: min-content !important;
+
+  pointer-events: auto;
+
+  @media (min-width: 570px) {
+    width: min-content;
+    min-width: 540px;
+  }
 }
 
 .menu {
@@ -170,6 +202,8 @@ body#standalone {
 .dashboardSettings.expanded .dropdown {
   min-width: 800px;
   background-color: @theme-color-background-contrast;
+  display: grid;
+  grid-template-columns: auto 1fr;
 }
 
 .dashboardSettings ul.submenu > li {
@@ -360,6 +394,10 @@ div.widgetpreview-preview {
 .dashboardSettings.expanded .widgetpreview-preview {
   display: block;
   z-index: 333999;
+}
+
+.dashboardSettings.expanded .widgetpreview-preview {
+  margin-top: 10px;
 }
 
 .widgetPlaceholder {

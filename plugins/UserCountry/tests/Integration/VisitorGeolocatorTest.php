@@ -50,7 +50,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     {
         $location = array(
             'city' => 'Wroclaw',
-            'country_code' => 'pl'
+            'country_code' => 'pl',
         );
 
         $provider = $this->getProviderMock();
@@ -69,7 +69,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     public function testGetLocationShouldReturnLocationForProviderIfLocationCountryCodeIsNotSetShouldSetAsxx()
     {
         $location = array(
-            'city' => 'Wroclaw'
+            'city' => 'Wroclaw',
         );
 
         $provider = $this->getProviderMock();
@@ -83,7 +83,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             array_merge(
                 $location,
                 array(
-                    'country_code' => Visit::UNKNOWN_CODE
+                    'country_code' => Visit::UNKNOWN_CODE,
                 )
             ),
             $geolocator->getLocation(array('ip' => '127.0.0.2'))
@@ -95,12 +95,12 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $locations = array(
             'pl' => array(
                 'city' => 'Wroclaw',
-                'country_code' => 'pl'
+                'country_code' => 'pl',
             ),
 
             'nz' => array(
                 'city' => 'Wellington',
-                'country_code' => 'nz'
+                'country_code' => 'nz',
             ),
         );
 
@@ -124,7 +124,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             $locations,
             array(
                 'pl' => $geolocator->getLocation(array('ip' => '10.0.0.1')),
-                'nz' => $geolocator->getLocation(array('ip' => '10.0.0.2'))
+                'nz' => $geolocator->getLocation(array('ip' => '10.0.0.2')),
             )
         );
     }
@@ -152,7 +152,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             LocationProvider::REGION_CODE_KEY => 'rg',
             LocationProvider::CITY_NAME_KEY => 'the city',
             LocationProvider::LATITUDE_KEY => '29.959698',
-            LocationProvider::LONGITUDE_KEY => '-90.064880'
+            LocationProvider::LONGITUDE_KEY => '-90.064880',
         );
 
         // note: floating point values should be used for expected properties so floating point comparison is done
@@ -162,14 +162,14 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             'location_region' => 'rg',
             'location_city' => 'the city',
             'location_latitude' => 29.959698,
-            'location_longitude' => -90.064880
+            'location_longitude' => -90.064880,
         );
 
         return array(
             array( // test normal re-attribution
                 $basicTestLocation,
 
-                $basicExpectedVisitProperties
+                $basicExpectedVisitProperties,
             ),
 
             array( // test w/ garbage in location provider result
@@ -180,7 +180,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
                     LocationProvider::CITY_NAME_KEY => 'the city',
                     LocationProvider::LATITUDE_KEY => '29.959698',
                     LocationProvider::LONGITUDE_KEY => '-90.064880',
-                    'another' => 'garbage field'
+                    'another' => 'garbage field',
                 ),
 
                 array(
@@ -188,8 +188,8 @@ class VisitorGeolocatorTest extends IntegrationTestCase
                     'location_region' => 'rg',
                     'location_city' => 'the city',
                     'location_latitude' => 29.959698,
-                    'location_longitude' => -90.064880
-                )
+                    'location_longitude' => -90.064880,
+                ),
             ),
 
             array( // test when visit has some correct properties already
@@ -200,14 +200,14 @@ class VisitorGeolocatorTest extends IntegrationTestCase
                 array(
                     'location_country' => 'US',
                     'location_region' => 'rg',
-                    'location_city' => 'the city'
+                    'location_city' => 'the city',
                 ),
 
                 array(
                     'location_country' => 'us',
                     'location_latitude' => 29.959698,
-                    'location_longitude' => -90.064880
-                )
+                    'location_longitude' => -90.064880,
+                ),
             ),
 
             array( // test when visit has all correct properties already
@@ -217,8 +217,8 @@ class VisitorGeolocatorTest extends IntegrationTestCase
 
                 $basicExpectedVisitProperties,
 
-                array()
-            )
+                array(),
+            ),
         );
     }
 
@@ -274,7 +274,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
             foreach (array('2012-01-01', '2012-01-02', '2012-01-03', '2012-01-04') as $date) {
                 $this->insertVisit(array(
                     'visit_last_action_time' => $date,
-                    'idsite' => $idSite
+                    'idsite' => $idSite,
                 ));
             }
         }
@@ -282,7 +282,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
         $mockLocationProvider = $this->getProviderMockThatGeolocates(array(
             'location_country' => 'US',
             'location_region' => 'rg',
-            'location_city' => 'the city'
+            'location_city' => 'the city',
         ));
         $geolocator = new VisitorGeolocator($mockLocationProvider);
 
@@ -305,56 +305,56 @@ class VisitorGeolocatorTest extends IntegrationTestCase
                 'idsite' => '1',
                 'location_country' => 'xx',
                 'location_region' => null,
-                'location_city' => null
+                'location_city' => null,
             ),
             array(
                 'visit_last_action_time' => '2012-01-02 00:00:00',
                 'idsite' => '1',
                 'location_country' => 'xx',
                 'location_region' => null,
-                'location_city' => null
+                'location_city' => null,
             ),
             array(
                 'visit_last_action_time' => '2012-01-03 00:00:00',
                 'idsite' => '1',
                 'location_country' => 'xx',
                 'location_region' => null,
-                'location_city' => null
+                'location_city' => null,
             ),
             array(
                 'visit_last_action_time' => '2012-01-04 00:00:00',
                 'idsite' => '1',
                 'location_country' => 'xx',
                 'location_region' => null,
-                'location_city' => null
+                'location_city' => null,
             ),
             array(
                 'visit_last_action_time' => '2012-01-01 00:00:00',
                 'idsite' => '2',
                 'location_country' => 'xx',
                 'location_region' => null,
-                'location_city' => null
+                'location_city' => null,
             ),
             array(
                 'visit_last_action_time' => '2012-01-02 00:00:00',
                 'idsite' => '2',
                 'location_country' => 'us',
                 'location_region' => 'rg',
-                'location_city' => 'the city'
+                'location_city' => 'the city',
             ),
             array(
                 'visit_last_action_time' => '2012-01-03 00:00:00',
                 'idsite' => '2',
                 'location_country' => 'us',
                 'location_region' => 'rg',
-                'location_city' => 'the city'
+                'location_city' => 'the city',
             ),
             array(
                 'visit_last_action_time' => '2012-01-04 00:00:00',
                 'idsite' => '2',
                 'location_country' => 'xx',
                 'location_region' => null,
-                'location_city' => null
+                'location_city' => null,
             ),
         );
 
@@ -388,7 +388,7 @@ class VisitorGeolocatorTest extends IntegrationTestCase
     private function insertVisit($visit = array())
     {
         $defaultProperties = array(
-            'location_ip' => IPUtils::stringToBinaryIP(self::TEST_IP)
+            'location_ip' => IPUtils::stringToBinaryIP(self::TEST_IP),
         );
 
         return $this->logInserter->insertVisit(array_merge($defaultProperties, $visit));

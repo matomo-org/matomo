@@ -34,7 +34,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
             'command' => 'core:delete-logs-data',
             '--dates' => $dateRange,
             '--idsite' => self::$fixture->idSite,
-            '-vvv' => true
+            '-vvv' => true,
         ));
 
         $this->assertNotEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -48,7 +48,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
             array('2012-01-01,garbage'),
             array('garbage,2012-01-01'),
             array('2012-02-01,2012-01-01'), // first date is older than the last date
-            array(',')
+            array(','),
         );
     }
 
@@ -59,7 +59,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
             'command' => 'core:delete-logs-data',
             '--dates' => '2012-01-01,2012-01-02',
             '--idsite' => 43,
-            '-vvv' => true
+            '-vvv' => true,
         ));
 
         $this->assertNotEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -77,7 +77,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
             '--dates' => '2012-01-01,2012-01-02',
             '--idsite' => self::$fixture->idSite,
             '--limit' => $limit,
-            '-vvv' => true
+            '-vvv' => true,
         ));
 
         $this->assertNotEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -88,7 +88,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
     {
         return array(
             array(0),
-            array(-45)
+            array(-45),
         );
     }
 
@@ -102,7 +102,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
             'command' => 'core:delete-logs-data',
             '--dates' => $dateRange,
             '--idsite' => self::$fixture->idSite,
-            '-vvv' => true
+            '-vvv' => true,
         ));
 
         $this->assertEquals(1, $result, $this->getCommandDisplayOutputErrorMessage());
@@ -120,7 +120,7 @@ class DeleteLogsDataTest extends ConsoleCommandTestCase
             'command' => 'core:delete-logs-data',
             '--dates' => $dateRange,
             '--idsite' => self::$fixture->idSite,
-            '-vvv' => true
+            '-vvv' => true,
         ), $options);
 
         $this->assertEquals(0, $result, $this->getCommandDisplayOutputErrorMessage());

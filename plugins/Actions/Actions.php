@@ -36,7 +36,7 @@ class Actions extends \Piwik\Plugin
             'Metrics.getDefaultMetricTranslations' => 'addMetricTranslations',
             'Metrics.getDefaultMetricSemanticTypes' => 'addMetricSemanticTypes',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
-            'Actions.addActionTypes' => 'addActionTypes'
+            'Actions.addActionTypes' => 'addActionTypes',
         );
     }
 
@@ -98,7 +98,7 @@ class Actions extends \Piwik\Plugin
             'entry_nb_visits'     => 'General_ColumnEntrancesDocumentation',
             'entry_bounce_count'  => 'General_ColumnBouncesDocumentation',
             'exit_nb_visits'      => 'General_ColumnExitsDocumentation',
-            'exit_rate'           => 'General_ColumnExitRateDocumentation'
+            'exit_rate'           => 'General_ColumnExitRateDocumentation',
         );
 
         $translations = array_merge($translations, $metrics);
@@ -121,27 +121,27 @@ class Actions extends \Piwik\Plugin
     {
         $types[] = [
             'id' => Action::TYPE_PAGE_URL,
-            'name' => 'pageviews'
+            'name' => 'pageviews',
         ];
         $types[] = [
             'id' => Action::TYPE_CONTENT,
-            'name' => 'contents'
+            'name' => 'contents',
         ];
         $types[] = [
             'id' => Action::TYPE_SITE_SEARCH,
-            'name' => 'sitesearches'
+            'name' => 'sitesearches',
         ];
         $types[] = [
             'id' => Action::TYPE_EVENT,
-            'name' => 'events'
+            'name' => 'events',
         ];
         $types[] = [
             'id' => Action::TYPE_OUTLINK,
-            'name' => 'outlinks'
+            'name' => 'outlinks',
         ];
         $types[] = [
             'id' => Action::TYPE_DOWNLOAD,
-            'name' => 'downloads'
+            'name' => 'downloads',
         ];
     }
 

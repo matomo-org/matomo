@@ -64,6 +64,7 @@
         "VisitorLogSubcategoryHelp2": "While other reports in Matomo show how your visitors behave at an aggregate level, the visits log provides granular detail. You can also use segments to narrow it down to specific types of visits to understand your visitors better.",
         "VisitorLogSubcategoryHelp3": "Learn more in the visit-log guide.",
         "RealTimeHelp1": "The visits in the real-time report show the real-time flow of visits to your website. It includes a real-time counter of your visits and page views in the last 24 hours and the previous 30 minutes.",
-        "RealTimeHelp2": "This report refreshes every 5 seconds and displays new visits (or existing visitors that view a new page) at the top of the list with a fade-in effect."
+        "RealTimeHelp2": "This report refreshes every 5 seconds and displays new visits (or existing visitors that view a new page) at the top of the list with a fade-in effect.",
+        "VisitorLogPolicySettingRequirementNote": "Visits log is required to be disabled."
     }
 }

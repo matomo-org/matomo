@@ -9,10 +9,8 @@
 
 namespace Piwik\Plugins\UsersManager\TokenNotifications;
 
-use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
-use Piwik\Db;
 
 class TokenRotationNotificationProvider extends TokenNotificationProvider
 {
@@ -24,39 +22,23 @@ class TokenRotationNotificationProvider extends TokenNotificationProvider
 
     protected function getTokensToNotify(string $periodThreshold): array
     {
-        $db = Db::get();
-        $sql = "SELECT * FROM " . Common::prefixTable('user_token_auth')
-            . " WHERE (date_expired is null or date_expired > ?)"
-            . " AND (date_created <= ?)"
-            . " AND ts_rotation_notified is null"
-            . " AND system_token = 0"
-            . " AND login != ?";
-
-        $tokensToNotify = $db->fetchAll($sql, [
-            $this->today,
-            $periodThreshold,
-            'anonymous'
-        ]);
-
-        return $tokensToNotify;
+        return $this->userModel->getTokensRequiringRotation($periodThreshold);
     }
 
-    protected function createNotification(array $token): TokenNotification
+    protected function createNotification(string $login, array $tokens): TokenNotification
     {
-        $user = $this->userModel->getUser($token['login']);
+        $user = $this->userModel->getUser($login);
         $email = $user['email'];
 
         return new AuthTokenRotationEmailNotification(
-            $token['idusertokenauth'],
-            $token['description'],
-            $token['date_created'],
+            $tokens,
             [$email],
-            [$email => ['login' => $token['login']]]
+            [$email => ['login' => $login]]
         );
     }
 
     public function setTokenNotificationDispatched(string $tokenId): void
     {
-        $this->userModel->setRotationNotificationWasSentForToken($tokenId, Date::factory('now')->getDatetime());
+        $this->userModel->setRotationNotificationWasSentForToken($tokenId, $this->today);
     }
 }

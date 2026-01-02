@@ -1,1 +1,10 @@
-{}
+{
+    "JsTrackerInstallCheck": {
+        "JsTrackingCodeInstallCheckFailureMessage": "Provjera koda za praćenje nije uspjela. Provjeri je li kod ispravno instalirali. %1$sSaznaj više%2$s.",
+        "JsTrackingCodeInstallCheckFailureMessageWordpress": "Provjera koda za praćenje nije uspjela. Provjeri je li dodatak „%1$s” instaliran i da si slijedo/la sve korake. %2$sSaznaj više%3$s.",
+        "JsTrackingCodeInstallCheckSuccessMessage": "Kod za praćenje je uspješno instaliran! Ovaj će ekran nestati čim se počnu pratiti neki podaci za tvoju web-stranicu.",
+        "OptionalTestInstallationDescription": "Opcionalno: Za testiranje je li kod za praćenje može slati zahtjeve tvojoj Matomo instanci, unesi točan URL koji pratiš i klikni na „Testiraj instalaciju”. Otvorit će se nova kartica koja bi se trebala zatvoriti unutar 10 sekundi.",
+        "PluginDescription": "Provjeri je li kod za praćenje instaliran na tvojoj web-stranici i može li slati zahtjeve za praćenje natrag tvojoj Matomo instanci",
+        "TestInstallationBtnText": "Testiraj instalaciju"
+    }
+}

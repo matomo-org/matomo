@@ -56,7 +56,7 @@ class GetPremiumFeatures extends Widget
         }
 
         return $this->renderTemplate($template, array(
-            'plugins' => $plugins
+            'plugins' => $plugins,
         ));
     }
 }

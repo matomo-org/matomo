@@ -21,7 +21,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         // Render the Twig template templates/index.twig and assign the view variable answerToLife to the view.
         return $this->renderTemplate('index', array(
-            'answerToLife' => 42
+            'answerToLife' => 42,
         ));
     }
 }

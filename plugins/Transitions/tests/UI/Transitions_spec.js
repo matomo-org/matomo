@@ -8,8 +8,6 @@
  */
 
 describe("Transitions", function () {
-    this.timeout(0);
-
     var generalParams = 'idSite=1&period=year&date=2012-08-09',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
@@ -98,5 +96,27 @@ describe("Transitions", function () {
 
         testEnvironment.overrideConfig('Transitions_1', 'max_period_allowed', 'all');
         testEnvironment.save();
+    });
+
+    it('should escape the export overlay title correctly', async function () {
+        await page.goto("?" + urlBase + "#?idSite=1&period=day&date=2012-01-16&category=General_Actions&subcategory=Transitions_Transitions");
+        await page.waitForNetworkIdle();
+
+        await page.webpage.evaluate(() => {
+            $('[name="actionName"] input.select-dropdown').click()
+        });
+        await page.waitForTimeout(500);
+        await page.webpage.evaluate(() => {
+            $('[name="actionName"] .dropdown-content li:contains("script"):last').click()
+        });
+        await page.waitForNetworkIdle();
+
+        await page.click('.icon-export');
+        await page.waitForTimeout(100);
+
+        const title = await page.$('.ui-dialog-title');
+        const titleText = await title.getProperty('textContent');
+
+        expect(await titleText.jsonValue()).to.be.equal('http://example.org/<script>_x(6)</script> Transitions');
     });
 });

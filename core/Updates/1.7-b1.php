@@ -32,7 +32,7 @@ class Updates_1_7_b1 extends Updates
     {
         return array(
             $this->migration->db->addColumn('pdf', 'aggregate_reports_format', 'TINYINT(1) NOT NULL', 'reports'),
-            $this->migration->db->sql('UPDATE `' . Common::prefixTable('pdf') . '` SET `aggregate_reports_format` = 1')
+            $this->migration->db->sql('UPDATE `' . Common::prefixTable('pdf') . '` SET `aggregate_reports_format` = 1'),
         );
     }
 

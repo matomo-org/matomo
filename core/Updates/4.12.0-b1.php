@@ -37,7 +37,7 @@ class Updates_4_12_0_b1 extends PiwikUpdates
     public function getMigrations(Updater $updater)
     {
         return [
-            $this->migration->db->addColumn('site', 'excluded_referrers', 'TEXT NOT NULL', 'excluded_user_agents')
+            $this->migration->db->addColumn('site', 'excluded_referrers', 'TEXT NOT NULL', 'excluded_user_agents'),
         ];
     }
 

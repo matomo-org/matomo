@@ -49,7 +49,7 @@ class AddSegmentByLabelMappingTest extends \PHPUnit\Framework\TestCase
         return array(
             1 => 'Core',
             2 => 'plugins',
-            3 => 'pluginstests'
+            3 => 'pluginstests',
         );
     }
 
@@ -84,7 +84,7 @@ class AddSegmentByLabelMappingTest extends \PHPUnit\Framework\TestCase
     {
         $mapping = array(
             1 => 'Core tests',
-            3 => 'plugins tästs'
+            3 => 'plugins tästs',
         );
         $this->table->filter($this->filter, array('segmentName', $mapping));
 

@@ -41,7 +41,6 @@
         "Settings_ValidatePhoneNumber": "Balioztatu",
         "Settings_VerificationCodeJustSent": "SMS bat bidali dizugu zenbaki honetara kode batekin. Sartu kode hori goian eta egin klik \"Balioztatu\".",
         "TopLinkTooltip": "Bidali web analitika txostenak zure e-postara edo telefono mugikorrera.",
-        "TopMenu": "E-posta eta SMS txostenak",
         "UserKey": "Erabiltzaile-gakoa",
         "VerificationText": "Kodea %1$s da. Zure telefono zenbakia balioztatu eta Matomoren SMS txostenak jasotzeko, kopiatu kode hau Matomoko formularioan → %2$s → %3$s."
     }

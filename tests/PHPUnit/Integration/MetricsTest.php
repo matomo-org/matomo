@@ -126,7 +126,7 @@ class MetricsTest extends IntegrationTestCase
     public function testGetUnit($column, $expected)
     {
         Site::setSites(array(
-            1 => array('name' => 'TestSite', 'currency' => 'EUR')
+            1 => array('name' => 'TestSite', 'currency' => 'EUR'),
         ));
 
         FakeAccess::$superUser = true;
@@ -138,7 +138,7 @@ class MetricsTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

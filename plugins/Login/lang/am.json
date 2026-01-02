@@ -1,6 +1,6 @@
 {
     "Login": {
-        "InvalidUsernameEmail": "የተሳሳት የተጠቃሚ ስም እና\/ወይም ኢ-ሜይል አድራሻ",
+        "InvalidUsernameEmail": "የተሳሳት የተጠቃሚ ስም እና/ወይም ኢ-ሜይል አድራሻ",
         "LogIn": "ግባ",
         "LoginPasswordNotCorrect": "የተጠቃሚ ስም እና የይለፍ ቃል ትክክል አይደለም",
         "LostYourPassword": "የይለፍ ቃል ጠፋብህ?",

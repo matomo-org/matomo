@@ -85,7 +85,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     protected $dimensionRecord = [
         self::SKU_FIELD      => self::ITEMS_SKU_RECORD_NAME,
         self::NAME_FIELD     => self::ITEMS_NAME_RECORD_NAME,
-        self::CATEGORY_FIELD => self::ITEMS_CATEGORY_RECORD_NAME
+        self::CATEGORY_FIELD => self::ITEMS_CATEGORY_RECORD_NAME,
     ];
     protected $actionMapping = [
         self::SKU_FIELD      => 'idaction_product_sku',

@@ -42,7 +42,7 @@ class ModelTest extends IntegrationTestCase
             'definition' => 'country==Genovia',
             'auto_archive' => 1,
             'enable_only_idsite' => 0,
-            'enable_all_users' => 1
+            'enable_all_users' => 1,
         ));
         $this->idSegment3 = $this->model->createSegment(array(
             'name' => 'Hobbiton',
@@ -176,7 +176,7 @@ class ModelTest extends IntegrationTestCase
         $deletedAt = Date::factory('now')->subDay(9)->toString('Y-m-d H:i:s');
         $this->model->updateSegment($this->idSegment1, array(
             'deleted' => 1,
-            'ts_last_edit' => $deletedAt
+            'ts_last_edit' => $deletedAt,
         ));
 
         // The segment deleted above should not be included as it was more than 8 days ago
@@ -192,7 +192,7 @@ class ModelTest extends IntegrationTestCase
         $this->model->updateSegment($this->idSegment1, array(
             'definition' => 'country==Genovia',
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
 
         $date = Date::factory('now')->subDay(8);
@@ -208,7 +208,7 @@ class ModelTest extends IntegrationTestCase
             'definition' => 'country==Hobbiton',
             'enable_only_idsite' => 2,
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
 
         $date = Date::factory('now')->subDay(8);
@@ -226,7 +226,7 @@ class ModelTest extends IntegrationTestCase
             'definition' => 'country==Hobbiton',
             'enable_only_idsite' => 0,
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
 
         $date = Date::factory('now')->subDay(8);
@@ -245,7 +245,7 @@ class ModelTest extends IntegrationTestCase
             'definition' => 'country==Narnia',
             'enable_only_idsite' => 1,
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
 
         $date = Date::factory('now')->subDay(8);
@@ -262,25 +262,25 @@ class ModelTest extends IntegrationTestCase
             'definition' => 'actions >= 1',
             'enable_only_idsite' => 0,
             'deleted' => 0,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
         $this->model->updateSegment($this->idSegment2, array(
             'definition' => 'actions >= 1',
             'enable_only_idsite' => 0,
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
         $this->model->updateSegment($this->idSegment3, array(
             'definition' => 'actions >= 1',
             'enable_only_idsite' => 3,
             'deleted' => 0,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
         $this->idSegment4 = $this->model->createSegment(array(
             'definition' => 'actions >= 1',
             'enable_only_idsite' => 1,
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
 
         $date = Date::factory('now')->subDay(8);
@@ -296,7 +296,7 @@ class ModelTest extends IntegrationTestCase
             'definition' => 'country%3D%3DHobbiton',
             'enable_only_idsite' => 1,
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
 
         $date = Date::factory('now')->subDay(8);
@@ -313,13 +313,13 @@ class ModelTest extends IntegrationTestCase
         $this->model->updateSegment($this->idSegment1, array(
             'definition' => 'country==Narnia',
             'deleted' => 1,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
         // segment2 => url encoded version, not deleted
         $this->model->updateSegment($this->idSegment2, array(
             'definition' => 'country%3D%3DNarnia',
             'deleted' => 0,
-            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s')
+            'ts_last_edit' => Date::factory('now')->toString('Y-m-d H:i:s'),
         ));
 
         $date = Date::factory('now')->subDay(8);

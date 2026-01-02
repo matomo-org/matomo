@@ -2,6 +2,7 @@
     "WebsiteMeasurable": {
         "Website": "Sito web",
         "WebsiteDescription": "Un sito web consiste in pagine web provenienti, tipicamente, da un unico dominio internet.",
+        "WebsiteLongDescription": "Monitora le interazioni dei visitatori, come visualizzazioni di pagina, clic, download ed eventi, su un sito web pubblico. Un singolo parametro misurabile può includere più domini e sottodomini, oppure puoi creare parametri misurabili separati per ciascuno di essi.",
         "Websites": "Siti web"
     }
 }

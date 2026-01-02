@@ -1,0 +1,9 @@
+[
+  {
+    "title": "Analyse traffic from AI Assistants",
+    "description": "Matomo now includes a new referrer channel type, AI Assistant. This makes it easier to identify and segment traffic arriving from AI channels such as ChatGPT, Copilot, Gemini, Claude, and more.",
+    "version": "5.5.0-b1",
+    "link_name": "Read the guide on how to analyse traffic from AI Assistants.",
+    "link": "https://matomo.org/faq/reports/how-to-track-and-analyse-traffic-from-ai-assistants-like-chatgpt-in-matomo-reports/"
+  }
+]

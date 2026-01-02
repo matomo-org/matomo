@@ -41,7 +41,7 @@ class OneVisitorNoKeywordSpecifiedTest extends SystemTestCase
         return array(
             array($apiToCall, array('idSite'   => self::$fixture->idSite,
                                     'date'     => self::$fixture->dateTime,
-                                    'language' => 'fr'))
+                                    'language' => 'fr')),
         );
     }
 

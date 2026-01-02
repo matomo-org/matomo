@@ -30,12 +30,17 @@ class Mysql implements SchemaInterface
 {
     public const OPTION_NAME_MATOMO_INSTALL_VERSION = 'install_version';
     public const MAX_TABLE_NAME_LENGTH = 64;
-
     private $tablesInstalled = null;
+    protected $minimumSupportedVersion = '5.5';
 
     public function getDatabaseType(): string
     {
         return 'MySQL';
+    }
+
+    public function getMinimumSupportedVersion(): string
+    {
+        return $this->minimumSupportedVersion;
     }
 
     /**
@@ -64,6 +69,8 @@ class Mysql implements SchemaInterface
                           invite_expired_at TIMESTAMP NULL,
                           invite_accept_at TIMESTAMP NULL,
                           ts_changes_shown TIMESTAMP NULL,
+                          ts_last_seen TIMESTAMP NULL,
+                          ts_inactivity_notified TIMESTAMP NULL,
                             PRIMARY KEY(login),
                             UNIQUE INDEX `uniq_email` (`email`)
                           ) $tableOptions
@@ -391,6 +398,17 @@ class Mysql implements SchemaInterface
                                       UNIQUE KEY unique_plugin_version_title (`plugin_name`, `version`, `title`(100))                            
                                   ) $tableOptions
             ",
+            'annotations'         => "CREATE TABLE `{$prefixTables}annotations` (
+                                      `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                                      `idsite` INTEGER UNSIGNED NOT NULL,
+                                      `date` DATETIME NOT NULL,
+                                      `note` TEXT NOT NULL,
+                                      `starred` TINYINT(1) NOT NULL DEFAULT 0,
+                                      `user` VARCHAR(100) NOT NULL,
+                                      PRIMARY KEY(`id`),
+                                      INDEX index_idsite_date (`idsite`, `date`)                            
+                                  ) $tableOptions
+            ",
         );
 
         return $tables;
@@ -444,7 +462,7 @@ class Mysql implements SchemaInterface
     {
         $db = $this->getDb();
 
-        $allColumns = $db->fetchAll("SHOW COLUMNS FROM " . $tableName);
+        $allColumns = $db->fetchAll("SHOW COLUMNS FROM `$tableName`");
 
         $fields = array();
         foreach ($allColumns as $column) {

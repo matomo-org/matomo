@@ -124,7 +124,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
             'log_link_visit_action',
             array('table' => 'log_visit', 'joinOn' => 'log_visit.idvisit = log_link_visit_action.idvisit'),
             array('table' => 'log_action', 'joinOn' => 'log_link_visit_action.idaction_name = log_action.idaction'),
-            'log_action'
+            'log_action',
         ));
 
         $expected  = 'log_link_visit_action AS log_link_visit_action ';
@@ -138,7 +138,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $generator = $this->generate(array(
             'log_visit',
             array('table' => 'log_conversion', 'joinOn' => 'log_visit.idvisit2 = log_conversion.idvisit2'),
-            'log_conversion'
+            'log_conversion',
         ));
 
         $expected  = 'log_visit AS log_visit ';
@@ -152,7 +152,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
             'log_visit',
             array('table' => 'log_conversion', 'joinOn' => 'log_visit.idvisit2 = log_conversion.idvisit2'),
             'log_conversion',
-            'log_link_visit_action'
+            'log_link_visit_action',
         ));
 
         $expected  = 'log_visit AS log_visit ';
@@ -189,7 +189,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
             'log_link_visit_action',
             array('table' => 'log_visit', 'joinOn' => 'log_visit.idvisit = log_link_visit_action.idvisit'),
             array('table' => 'log_action', 'join' => 'LeFt JOIN', 'joinOn' => 'log_link_visit_action.idaction_name = log_action.idaction'),
-            'log_action'
+            'log_action',
         ));
 
         $expected  = 'log_link_visit_action AS log_link_visit_action ';
@@ -203,7 +203,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $generator = $this->generate(array(
             'log_visit',
             array('table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN'),
-            'log_action'
+            'log_action',
         ));
 
         $expected  = 'log_visit AS log_visit ';
@@ -217,7 +217,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
         $generator = $this->generate([
             ['table' => 'log_visit', 'useIndex' => 'index_idsite_datetime'],
             ['table' => 'log_link_visit_action', 'join' => 'RIGHT JOIN'],
-            'log_action'
+            'log_action',
         ]);
 
         $expected  = 'log_visit AS log_visit USE INDEX (index_idsite_datetime) ';
@@ -250,7 +250,7 @@ class JoinGeneratorTest extends \PHPUnit\Framework\TestCase
                   'tableAlias' => 'log_action_r',
                   'join' => 'RIGHT JOIN',
                   'joinOn' => 'log_link_visit_action.idaction_test = log_action_r.idaction'),
-            'log_action'
+            'log_action',
         ));
 
         $expected  = 'log_link_visit_action AS log_link_visit_action ';

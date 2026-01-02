@@ -58,7 +58,7 @@ class GetRank extends \Piwik\Widget\Widget
 
         return $this->renderTemplate('getRank', array(
             'urlToRank' => Url::getHostFromUrl($url),
-            'ranks' => json_decode($renderer->render(), true)
+            'ranks' => json_decode($renderer->render(), true),
         ));
     }
 }

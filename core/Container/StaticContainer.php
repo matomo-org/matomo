@@ -75,8 +75,9 @@ class StaticContainer
     /**
      * Proxy to Container::get()
      *
-     * @param string $name Container entry name.
-     * @return mixed
+     * @template T of object
+     * @param class-string<T>|string $name Container entry name.
+     * @return ($name is class-string<T> ? T : mixed)
      * @throws NotFoundException|DependencyException
      */
     public static function get($name)

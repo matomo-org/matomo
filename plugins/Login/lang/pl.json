@@ -15,7 +15,7 @@
         "NewPassword": "Nowe hasło",
         "NewPasswordRepeat": "Nowe hasło (powtórz)",
         "PasswordChanged": "Twoje hasło zostało zmienione.",
-        "PasswordRepeat": "Hasło (powtórz)",
+        "PasswordRepeat": "Hasło (powtórzone)",
         "PasswordsDoNotMatch": "Hasła nie pasują.",
         "PluginDescription": "Dostarcza funkcjonalności autentykacji przy pomocy nazwy użytkownika i hasła jak również resetu hasła. Metoda autentykacji może być zmieniona przy wykorzystaniu dodatkowej wtyczki Logowania jak choćby LoginLdap dostępnej w Sklepie.",
         "RememberMe": "Zapamiętaj mnie",

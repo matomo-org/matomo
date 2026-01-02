@@ -455,7 +455,7 @@ class PivotByDimension extends BaseFilter
             'disable_queued_filters' => 1,
             'disable_generic_filters' => 1,
             'showColumns' => '',
-            'hideColumns' => ''
+            'hideColumns' => '',
         );
 
         /** @var Site|false $site */

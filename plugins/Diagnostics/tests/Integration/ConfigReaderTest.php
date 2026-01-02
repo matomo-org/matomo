@@ -226,7 +226,7 @@ Another line',
                             'isCustomValue' => false,
                             'defaultValue' => null,
                         ),
-                    )
+                    ),
         );
 
         $configValues = $this->configReader->addConfigValuesFromSystemSettings($existing, array($settings));
@@ -250,7 +250,7 @@ Another line',
                             'isCustomValue' => false,
                             'defaultValue' => null,
                         ),
-                    )
+                    ),
         );
 
         $configValues = $this->configReader->addConfigValuesFromSystemSettings($existing, array($settings));

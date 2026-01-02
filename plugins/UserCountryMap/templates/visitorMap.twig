@@ -26,7 +26,7 @@
             <div class="pk-emptyDataTable">{{ 'CoreHome_ThereIsNoDataForThisReport'|translate }}</div>
         {% else %}
             <span class="loadingPiwik">
-                <img src="plugins/Morpheus/images/loading-blue.gif" />
+                {% include "@CoreHome/_loader.twig" %}
                 {{ 'General_LoadingData'|translate }}...
             </span>
         {% endif %}

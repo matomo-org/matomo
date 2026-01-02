@@ -1,6 +1,8 @@
 {
     "MultiSites": {
+        "AllWebsitesDashboardTitle": "Vse spletne strani",
         "Evolution": "Evolucija",
-        "LoadingWebsites": "Nalaganje strani"
+        "LoadingWebsites": "Nalaganje strani",
+        "TotalPageviews": "Vseh ogledov strani"
     }
 }

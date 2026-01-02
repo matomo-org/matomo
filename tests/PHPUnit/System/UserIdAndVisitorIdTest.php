@@ -65,7 +65,7 @@ class UserIdAndVisitorIdTest extends SystemTestCase
                                                      'otherRequestParameters' => array(
                                                          'showColumns' => 'idVisit,visitorId,userId,lastActionDateTime,actions,actionDetails',
                                                          'filter_sort_order' => 'asc',
-                                                     )
+                                                     ),
             )),
 
             // Testing userId segment matches both log_visits and log_conversion
@@ -85,7 +85,7 @@ class UserIdAndVisitorIdTest extends SystemTestCase
                                                'segment'    => 'visitEcommerceStatus==abandonedCart;userId==' . urlencode('new-email@example.com'),
                                                'testSuffix' => '_segmentUserIdAndCartAbandoned_getAbandonedCartItems',
                                                'otherRequestParameters' => array(
-                                                       'abandonedCarts' => 1
+                                                       'abandonedCarts' => 1,
                                                ),
             )),
         );

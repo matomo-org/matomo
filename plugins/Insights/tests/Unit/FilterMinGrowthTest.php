@@ -35,7 +35,7 @@ class FilterMinGrowthTest extends BaseUnitTest
             array(Row::COLUMNS => array('label' => 'pos5', 'growth' => 20)),
             array(Row::COLUMNS => array('label' => 'pos6', 'growth' => 0)),
             array(Row::COLUMNS => array('label' => 'neg4', 'growth' => -15)),
-            array(Row::COLUMNS => array('label' => 'neg5', 'growth' => -16))
+            array(Row::COLUMNS => array('label' => 'neg5', 'growth' => -16)),
         ));
     }
 

@@ -1,6 +1,7 @@
 {
     "GeoIp2": {
         "AssumingNonApache": "Nelze nalézt funkci apache_get_modules,př edpokládám jiný server než Apache.",
+        "AutomaticSetup": "Automatická konfigurace zeměpisné polohy pomocí databáze dbip",
         "CannotFindGeoIPServerVar": "Proměnná %s není nastavena. Váš webový server nemusí být správně nakonfigurován.",
         "CannotListContent": "Nepodařilo se vypsat obsah pro %1$s: %2$s",
         "DownloadNewDatabasesEvery": "Aktualizovat databáze každých",

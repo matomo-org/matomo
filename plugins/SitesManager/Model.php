@@ -116,10 +116,10 @@ class Model
 
         $db = $this->getDb();
         $ids = $db->fetchAll(
-            'SELECT idsite FROM ' . $this->table . '
+            'SELECT idsite FROM `' . $this->table . '`
                     WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ' .
             'UNION
-                SELECT idsite FROM ' . $siteUrlTable . '
+                SELECT idsite FROM `' . $siteUrlTable . '`
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ') ',
             // Bind
             array_merge($urls, $urls)
@@ -143,12 +143,12 @@ class Model
         $db = $this->getDb();
         $ids = $db->fetchAll(
             'SELECT idsite
-                FROM ' . $this->table . '
+                FROM `' . $this->table . '`
                     WHERE main_url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ') ' .
             'UNION
                 SELECT idsite
-                FROM ' . $siteUrlTable . '
+                FROM `' . $siteUrlTable . '`
                     WHERE url IN ( ' . Common::getSqlStringFieldsArray($urls) . ')' .
             'AND idsite IN (' . $sqlAccessSite . ')',
             // Bind
@@ -172,7 +172,7 @@ class Model
      */
     public function getSitesFromTimezones($timezones)
     {
-        $query = 'SELECT idsite FROM ' . $this->table . '
+        $query = 'SELECT idsite FROM `' . $this->table . '`
                   WHERE timezone IN (' . Common::getSqlStringFieldsArray($timezones) . ')
                   ORDER BY idsite ASC';
         $db = $this->getDb();
@@ -185,9 +185,9 @@ class Model
     {
         $db = $this->getDb();
 
-        $db->query("DELETE FROM " . $this->table . " WHERE idsite = ?", $idSite);
-        $db->query("DELETE FROM " . Common::prefixTable("site_url") . " WHERE idsite = ?", $idSite);
-        $db->query("DELETE FROM " . Common::prefixTable("access") . " WHERE idsite = ?", $idSite);
+        $db->query("DELETE FROM `" . $this->table . "` WHERE idsite = ?", $idSite);
+        $db->query("DELETE FROM `" . Common::prefixTable("site_url") . "` WHERE idsite = ?", $idSite);
+        $db->query("DELETE FROM `" . Common::prefixTable("access") . "` WHERE idsite = ?", $idSite);
     }
 
     /**
@@ -195,9 +195,10 @@ class Model
      *
      * @param array $idSites list of website ID
      * @param bool $limit
+     * @param string[] $siteTypesToExclude Optional list of site types to exclude. E.g. intranet or rollup.
      * @return array
      */
-    public function getSitesFromIds($idSites, $limit = false)
+    public function getSitesFromIds($idSites, $limit = false, $siteTypesToExclude = [])
     {
         if (count($idSites) === 0) {
             return array();
@@ -211,10 +212,17 @@ class Model
 
         $idSites = array_map('intval', $idSites);
 
+        $bind = [];
+        $typeWhere = '';
+        if (!empty($siteTypesToExclude)) {
+            $bind = $siteTypesToExclude;
+            $typeWhere = ' AND type NOT IN (' . Common::getSqlStringFieldsArray($siteTypesToExclude) . ') ';
+        }
+
         $db    = $this->getDb();
         $sites = $db->fetchAll("SELECT * FROM " . $this->table . "
-                                WHERE idsite IN (" . implode(", ", $idSites) . ")
-                                ORDER BY idsite ASC $limit");
+                                WHERE idsite IN (" . implode(", ", $idSites) . ") $typeWhere
+                                ORDER BY idsite ASC $limit", $bind);
 
         return $sites;
     }
@@ -297,7 +305,6 @@ class Model
      * Returns the list of alias URLs registered for the given idSite.
      * The website ID must be valid when calling this method!
      *
-     * @param int $idSite
      * @return array list of alias URLs
      */
     public function getAllKnownUrlsForAllSites()
@@ -381,11 +388,20 @@ class Model
         $db = $this->getDb();
         $db->insert(Common::prefixTable("site_url"), array(
                 'idsite' => (int) $idSite,
-                'url'    => $url
+                'url'    => $url,
             ));
     }
 
-    public function getPatternMatchSites($ids, $pattern, $limit)
+    /**
+     * Filter a list of site IDs based on the provided search pattern and return all columns for the remaining sites.
+     *
+     * @param int[] $ids
+     * @param string $pattern
+     * @param int $limit
+     * @param string[] $siteTypesToExclude Optional list of site types to exclude. E.g. intranet or rollup.
+     * @return array
+     */
+    public function getPatternMatchSites($ids, $pattern, $limit, $siteTypesToExclude = [])
     {
         $ids_str = '';
         foreach ($ids as $id_val) {
@@ -402,13 +418,19 @@ class Model
             $where  = 'OR s.idsite = ?';
         }
 
+        $typeWhere = '';
+        if (!empty($siteTypesToExclude)) {
+            $bind = array_merge($bind, $siteTypesToExclude);
+            $typeWhere = 'AND type NOT IN (' . Common::getSqlStringFieldsArray($siteTypesToExclude) . ')';
+        }
+
         $query = "SELECT *
                   FROM " . $this->table . " s
                   WHERE ( " . self::getPatternMatchSqlQuery('s') . "
-                          $where )
+                          $where ) $typeWhere
                      AND idsite in ($ids_str)";
 
-        if ($limit !== false) {
+        if ($limit && intval($limit) > 0) {
             $query .= " LIMIT " . (int) $limit;
         }
 

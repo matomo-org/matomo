@@ -1,6 +1,7 @@
 {
     "MultiSites": {
         "AllWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de cada um de seus sites, contendo as métricas mais gerais sobre seus visitantes.",
+        "AllWebsitesDashboardTitle": "Todos os sites",
         "Evolution": "Evolução",
         "EvolutionComparisonDay": "%1$s%2$s neste dia, comparado a %3$s%2$s no período parcial anterior (%4$s) Evolução: %5$s",
         "EvolutionComparisonIncomplete": "O período de tempo atualmente selecionado está %1$s concluído.",
@@ -11,6 +12,7 @@
         "LoadingWebsites": "Carregando sites",
         "PluginDescription": "Veja e compare todos os seus sites e aplicativos neste útil painel 'Todos os sites'.",
         "SingleWebsitesDashboardDocumentation": "Este relatório fornece uma visão geral informativa de um site específico, contendo as métricas mais gerais sobre seus visitantes.",
-        "TopLinkTooltip": "Comparar estatísticas de Web Analytics de todos os seus sites."
+        "TopLinkTooltip": "Comparar estatísticas de Web Analytics de todos os seus sites.",
+        "TotalPageviews": "Total de Exibições de Páginas"
     }
 }

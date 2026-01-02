@@ -1,5 +1,6 @@
 {
     "UsersManager": {
+        "Active": "Aktivno",
         "AllWebsites": "Vse spletne strani",
         "ApplyToAllWebsites": "Uveljavi za vse spletne strani",
         "DeleteConfirm": "Ste prepričani, da želite izbrisati uporabnika %s?",
@@ -17,6 +18,7 @@
         "PrivView": "Ogled",
         "ReportDateToLoadByDefault": "Privzet časovni obseg",
         "ReportToLoadByDefault": "Privzeto prikaži",
+        "Status": "Status",
         "TheLoginScreen": "Obrazec za vpis",
         "ThereAreCurrentlyNRegisteredUsers": "Trenutno je %s registriranih uporabnikov.",
         "TypeYourPasswordAgain": "Ponovno vpišite vaše novo geslo.",

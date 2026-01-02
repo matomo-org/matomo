@@ -538,9 +538,9 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $expectedInvalidationsFound = [
             array(
-                ['idarchive' => '1', 'idsite' => '1', 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => '3', 'name' => 'done', 'report' => null, 'plugin' => null, 'segment' => '', 'ts_started' => null, 'status' => '0', 'processing_host' => null, 'process_id' => null]
+                ['idarchive' => '1', 'idsite' => '1', 'date1' => '2018-03-04', 'date2' => '2018-03-04', 'period' => '3', 'name' => 'done', 'report' => null, 'plugin' => null, 'segment' => '', 'ts_started' => null, 'status' => '0', 'processing_host' => null, 'process_id' => null],
             ),
-            array()
+            array(),
         ];
 
         $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
@@ -814,7 +814,7 @@ class QueueConsumerTest extends IntegrationTestCase
                     'processing_host' => null,
                     'process_id' => null,
                 ],
-            ]
+            ],
         ];
 
         $this->assertEquals($expectedInvalidationsFound, $iteratedInvalidations, "Invalidations inserted:\n" . var_export($invalidations, true));
@@ -879,74 +879,11 @@ class QueueConsumerTest extends IntegrationTestCase
             $archive['date2'],
             $archive['period'],
             $archive['ts_archived'],
-            $archive['value']
+            $archive['value'],
         ];
 
         Db::query("INSERT INTO `$table` (idarchive, name, idsite, date1, date2, period, ts_archived, value)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)", $bind);
-    }
-
-    public function testCanSkipArchiveBecauseNoPointReturnsTrueIfDateRangeHasNoVisits()
-    {
-        Fixture::createWebsite('2010-04-06');
-
-        Date::$now = strtotime('2020-04-05');
-
-        $cronArchive = new CronArchive();
-        $cronArchive->init();
-
-        $archiveFilter = $this->makeTestArchiveFilter();
-
-        $queueConsumer = new QueueConsumer(
-            StaticContainer::get(LoggerInterface::class),
-            new FixedSiteIds([1]),
-            3,
-            24,
-            new Model(),
-            new SegmentArchiving(),
-            $cronArchive,
-            $archiveFilter
-        );
-
-        $invalidation = [
-            'idsite' => 1,
-            'period' => Day::PERIOD_ID,
-            'date1' => '2020-04-05',
-            'date2' => '2020-04-05',
-            'name' => 'done',
-            'segment' => '',
-        ];
-
-        $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
-        $this->assertTrue($result);
-    }
-
-    public function testCanSkipArchiveBecauseNoPointReturnsFalseIfDateRangeHasVisitsAndPeriodDoesNotIncludeToday()
-    {
-        $this->setUpSiteAndTrackVisit('2020-03-05 10:34:00');
-
-        $queueConsumer = new QueueConsumer(
-            StaticContainer::get(LoggerInterface::class),
-            new FixedSiteIds([1]),
-            3,
-            24,
-            new Model(),
-            new SegmentArchiving(),
-            new CronArchive(),
-            $this->makeTestArchiveFilter()
-        );
-
-        $invalidation = [
-            'idsite' => 1,
-            'period' => Day::PERIOD_ID,
-            'date1' => '2020-03-05',
-            'date2' => '2020-03-05',
-            'name' => 'done',
-            'segment' => '',
-        ];
-
-        $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
-        $this->assertFalse($result);
     }
 
     public function testUsableArchiveExistsReturnsTrueIfDateRangeHasVisitsAndPeriodIncludesTodayAndExistingArchiveIsRecent()
@@ -977,7 +914,7 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
+            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived,
         ]);
 
         $result = $queueConsumer->usableArchiveExists($invalidation);
@@ -1008,14 +945,14 @@ class QueueConsumerTest extends IntegrationTestCase
             'date2' => '2020-04-05',
             'name' => 'done' . $segmentHash . '.ExamplePlugin',
             'segment' => 'browserCode==IE',
-            'plugin' => 'ExamplePlugin'
+            'plugin' => 'ExamplePlugin',
         ];
 
         $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
 
         $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
         Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1,2, '2020-03-30', '2020-04-05', 'done' . $segmentHash . '.ExamplePlugin', ArchiveWriter::DONE_PARTIAL, $tsArchived
+            1, 1,2, '2020-03-30', '2020-04-05', 'done' . $segmentHash . '.ExamplePlugin', ArchiveWriter::DONE_PARTIAL, $tsArchived,
         ]);
 
         $result = $queueConsumer->usableArchiveExists($invalidation);
@@ -1141,75 +1078,6 @@ class QueueConsumerTest extends IntegrationTestCase
 
         $result = $queueConsumer->usableArchiveExists($invalidation);
         $this->assertEquals([true, '2020-04-04 23:58:20'], $result);
-    }
-
-    public function testCanSkipArchiveBecauseNoPointReturnsFalseIfDateRangeHasVisitsAndPeriodIncludesTodayAndOnlyExistingArchiveIsRecentButPartial()
-    {
-        $this->setUpSiteAndTrackVisit();
-
-        $queueConsumer = new QueueConsumer(
-            StaticContainer::get(LoggerInterface::class),
-            new FixedSiteIds([1]),
-            3,
-            24,
-            new Model(),
-            new SegmentArchiving(),
-            new CronArchive(),
-            $this->makeTestArchiveFilter()
-        );
-
-        $invalidation = [
-            'idsite' => 1,
-            'period' => Week::PERIOD_ID,
-            'date1' => '2020-03-30',
-            'date2' => '2020-04-05',
-            'name' => 'done',
-            'segment' => '',
-        ];
-
-        $tsArchived = Date::factory('now')->subSeconds(100)->getDatetime();
-
-        $archiveTable = ArchiveTableCreator::getNumericTable(Date::factory('2020-03-30'));
-        Db::query("INSERT INTO $archiveTable (idarchive, idsite, period, date1, date2, name, value, ts_archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
-            1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_PARTIAL, $tsArchived
-        ]);
-
-        $result = $queueConsumer->canSkipArchiveBecauseNoPoint($invalidation);
-        $this->assertFalse($result);
-    }
-
-    public function testCanSkipArchiveBecauseNoPointReturnsTrueSegmentArchivingForPluginIsDisabled()
-    {
-        $this->setUpSiteAndTrackVisit();
-
-        $queueConsumer = new QueueConsumer(
-            StaticContainer::get(LoggerInterface::class),
-            new FixedSiteIds([1]),
-            3,
-            24,
-            new Model(),
-            new SegmentArchiving(),
-            new CronArchive(),
-            $this->makeTestArchiveFilter()
-        );
-
-        $segmentHash = (new Segment('browserCode==IE', [1]))->getHash();
-
-        $invalidation = [
-            'idsite' => 1,
-            'period' => Week::PERIOD_ID,
-            'date1' => '2020-03-30',
-            'date2' => '2020-04-05',
-            'name' => 'done' . $segmentHash . '.ExamplePlugin',
-            'segment' => 'browserCode==IE',
-            'plugin' => 'ExamplePlugin'
-        ];
-
-        $this->assertFalse($queueConsumer->canSkipArchiveBecauseNoPoint($invalidation));
-
-        Config::getInstance()->General['disable_archiving_segment_for_plugins'] = 'ExamplePlugin';
-
-        $this->assertTrue($queueConsumer->canSkipArchiveBecauseNoPoint($invalidation));
     }
 
     private function setUpSiteAndTrackVisit($visitDateTime = '2020-04-05 10:34:00')
@@ -1342,7 +1210,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 3, 'date1' => '2022-03-04', 'date2' => '2022-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => null
+            'expected' => null,
         ];
 
         yield 'same period, but different idSite should not be detected as intersecting' => [
@@ -1350,7 +1218,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 3, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => null
+            'expected' => null,
         ];
 
         yield 'same day period should be detected as intersecting' => [
@@ -1358,7 +1226,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
         yield 'week period should be detected as intersecting when day is processed' => [
@@ -1366,7 +1234,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
         yield 'month period should be detected as intersecting when day is processed' => [
@@ -1374,7 +1242,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
         yield 'year period should be detected as intersecting when day is processed' => [
@@ -1382,7 +1250,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
         yield 'same week period should be detected as intersecting' => [
@@ -1390,7 +1258,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)'
+            'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)',
         ];
 
         yield 'day period should not be detected as intersecting when week is processed' => [
@@ -1398,7 +1266,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => null
+            'expected' => null,
         ];
 
         yield 'month period should be detected as intersecting when week is processed' => [
@@ -1406,7 +1274,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)'
+            'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)',
         ];
 
         yield 'year period should be detected as intersecting when week is processed' => [
@@ -1414,7 +1282,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)'
+            'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)',
         ];
 
         yield 'same month period should be detected as intersecting' => [
@@ -1422,7 +1290,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)'
+            'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)',
         ];
 
         yield 'day period should not be detected as intersecting when month is processed' => [
@@ -1430,7 +1298,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => null
+            'expected' => null,
         ];
 
         yield 'week period should not be detected as intersecting when month is processed' => [
@@ -1438,7 +1306,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID],
-            'expected' => null
+            'expected' => null,
         ];
 
         yield 'year period should be detected as intersecting when month is processed' => [
@@ -1446,7 +1314,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)'
+            'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)',
         ];
 
         yield 'same year period should be detected as intersecting' => [
@@ -1454,7 +1322,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = year, date = 2020-01-01)'
+            'expected' => 'lower or same period in progress (period = year, date = 2020-01-01)',
         ];
 
         yield 'day period should not be detected as intersecting when year is processed' => [
@@ -1462,7 +1330,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => null
+            'expected' => null,
         ];
 
         yield 'week period should not be detected as intersecting when year is processed' => [
@@ -1470,7 +1338,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID],
-            'expected' => null
+            'expected' => null,
         ];
 
         yield 'month period should be detected as intersecting when year is processed' => [
@@ -1478,7 +1346,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)'
+            'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)',
         ];
 
         yield 'plugin and normal invalidation for same day period should be detected as intersecting' => [
@@ -1486,7 +1354,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done.Actions', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
         // @todo is this needed?
@@ -1495,7 +1363,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done.VisitsSummary', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done.Actions', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
         yield 'week period should be detected as intersecting when day is processed for a segment' => [
@@ -1503,7 +1371,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
         yield 'plugin archive should be detected as intersecting when lower period is processed for a segment' => [
@@ -1511,7 +1379,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)'
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
         yield 'segment archiving during "all visits" archiving should be detected as intersecting with same period' => [
@@ -1519,7 +1387,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
+            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
         ];
 
         yield 'segment archiving for plugin during "all visits" archiving should be detected as intersecting with same period' => [
@@ -1527,7 +1395,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
+            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
         ];
 
         yield 'segment archiving during "all visits" plugin archiving should be detected as intersecting with same period' => [
@@ -1535,7 +1403,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
+            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
         ];
 
         yield 'segment archiving for plugin during "all visits" plugin archiving should be detected as intersecting with same period' => [
@@ -1543,7 +1411,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
+            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
         ];
 
         yield 'segment archiving during "all visits" archiving should be detected as intersecting with lower period' => [
@@ -1551,7 +1419,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)'
+            'expected' => 'all visits archive in progress for same site with lower or same period (period = day, date = 2020-03-04)',
         ];
 
         yield 'segment archiving during "all visits" archiving not should be detected as intersecting with different periods' => [
@@ -1559,7 +1427,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-04-01', 'date2' => '2020-04-30', 'period' => Month::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => null
+            'expected' => null,
         ];
 
         yield '"all visits" archiving, while running a segment should be detected as intersecting' => [
@@ -1567,7 +1435,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)'
+            'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)',
         ];
 
         yield '"all visits" plugin archiving, while running a segment should be detected as intersecting' => [
@@ -1575,7 +1443,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done.VisitsSummary', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID],
-            'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)'
+            'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)',
         ];
 
         yield '"all visits" archiving with bigger period, while running a segment should be detected as intersecting' => [
@@ -1583,7 +1451,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 1, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
-            'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)'
+            'expected' => 'segment archive in progress for same site with lower or same period (browserCode==IE, period = day, date = 2020-03-04)',
         ];
 
         yield 'same period, but different segments archiving should not be detected as intersecting' => [
@@ -1591,7 +1459,7 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done3736b708e4d20cfc10610e816a1b2341', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'segment' => 'browserCode==IE'],
-            'expected' => null
+            'expected' => null,
         ];
 
         yield 'day period should not be detected as intersecting when range is processed' => [

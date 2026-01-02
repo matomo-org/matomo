@@ -10,17 +10,15 @@
 namespace Piwik\Plugins\UsersManager;
 
 use Piwik\Common;
-use Piwik\Option;
+use Piwik\Date;
 use Piwik\Piwik;
 
 /**
- * Class that logs the time the current user is accessing the current resource (which
- * is 'now') so it can be retrieved later.
+ * Class that logs the time the current user is accessing the current resource (which is 'now')
+ * so it can be retrieved later.
  */
 class LastSeenTimeLogger
 {
-    public const OPTION_PREFIX = 'UsersManager.lastSeen.';
-
     /**
      * The amount of time in seconds that a last seen value is considered valid. We don't want
      * to update the database for every request made by every user, so we only do it if the time
@@ -29,13 +27,39 @@ class LastSeenTimeLogger
     public const LAST_TIME_SAVE_DELTA = 300;
 
     /**
+     * Returns the time a user was last seen or `null` if the user has never logged in
+     */
+    public static function getLastSeenTimeForUser($userName): ?int
+    {
+        try {
+            $userModel = new Model();
+            return $userModel->getLastSeenTimestamp($userName);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns the last seen time for all users if it has been set
+     */
+    public static function getLastSeenTimesForAllUsers(): array
+    {
+        try {
+            $userModel = new Model();
+            return $userModel->getLastSeenTimestampForAllSeenUsers();
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
+
+    /**
      * Saves the current time for a user as an option if the current request is for something
-     * in the reporting UI, the current user is not anonymous and the time hasn't been saved
+     * in the reporting UI, the current user is not anonymous, and the time hasn't been saved
      * in the last 5 minutes.
      */
-    public function logCurrentUserLastSeenTime()
+    public static function logCurrentUserLastSeenTime()
     {
-        $module = Common::getRequestVar('module', false);
+        $module = Common::getRequestVar('module', '');
         $currentUserLogin = Piwik::getCurrentUserLogin();
 
         // only log time for non-anonymous visits to the reporting UI
@@ -47,39 +71,21 @@ class LastSeenTimeLogger
             return;
         }
 
-        // get the last known time
-        $optionName = self::OPTION_PREFIX . $currentUserLogin;
-        $lastSeen = Option::get($optionName);
 
-        // do not log if last known time is less than N minutes from now (so we don't make too many
-        // queries)
-        if (time() - $lastSeen <= self::LAST_TIME_SAVE_DELTA) {
-            return;
-        }
+        try {
+            // get the last known time
+            $lastSeen = self::getLastSeenTimeForUser($currentUserLogin);
 
-        // log last seen time (Note: autoload is important so the Option::get above does not result in
-        // a separate query)
-        Option::set($optionName, time(), $autoload = 1);
-    }
-
-    /**
-     * Returns the time a user was last seen or `false` if the user has never logged in.
-     */
-    public static function getLastSeenTimeForUser($userName)
-    {
-        $optionName = self::OPTION_PREFIX . $userName;
-        return Option::get($optionName);
-    }
-
-    public static function getLastSeenTimesForAllUsers()
-    {
-        $results = [];
-        foreach (Option::getLike(self::OPTION_PREFIX . '%') as $name => $value) {
-            preg_match('/^' . preg_quote(self::OPTION_PREFIX) . '(.*)$/', $name, $matches);
-            if (isset($matches[1])) {
-                $results[$matches[1]] = $value;
+            // do not log if the last known time is less than N seconds from now (so we don't make too many queries)
+            if ($lastSeen && (time() - $lastSeen <= self::LAST_TIME_SAVE_DELTA)) {
+                return;
             }
+
+            // log last seen time
+            $userModel = new Model();
+            $userModel->setLastSeenDatetime($currentUserLogin, Date::factory('now')->getDatetime());
+        } catch (\Exception $e) {
+            // do nothing if getting or setting the timestamp fails, e.g. during an upgrade
         }
-        return $results;
     }
 }

@@ -1,5 +1,9 @@
 {
     "ProfessionalServices": {
+        "CTAStartFreeTrial": "Iniciar prueba gratuita",
+        "PromoFormAnalytics": "Formularios",
+        "PromoManage": "Administrar",
+        "PromoOverview": "General",
         "WidgetPremiumServicesForPiwik": "Funciones premium &amp; Servicios para Matomo"
     }
 }

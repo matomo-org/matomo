@@ -27,7 +27,7 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
             $subTable = $this->makeDataTable($appendRowWithSubtable = false);
             $table->addRowFromArray(array(
                 Row::COLUMNS => array('label' => 'row4', 'visits' => 3, 'arrayColumn' => array('visits' => 3, 'columnWithin' => 13)),
-                Row::DATATABLE_ASSOCIATED => $subTable
+                Row::DATATABLE_ASSOCIATED => $subTable,
             ));
         }
         return $table;
@@ -44,7 +44,7 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
             $subTable = $this->makeDataTableWithoutVisitsColumn($appendRowWithSubtable = false);
             $table->addRowFromArray(array(
                 Row::COLUMNS => array('label' => 'row4', 'arrayColumn' => array('columnWithin' => 13)),
-                Row::DATATABLE_ASSOCIATED => $subTable
+                Row::DATATABLE_ASSOCIATED => $subTable,
             ));
         }
         return $table;
@@ -61,7 +61,7 @@ class ColumnDeleteTest extends \PHPUnit\Framework\TestCase
             $subTable = $this->makeDataTableShowOnlyVisitColumn($appendRowWithSubtable = false);
             $table->addRowFromArray(array(
                 Row::COLUMNS => array('label' => 'row4', 'visits' => 3),
-                Row::DATATABLE_ASSOCIATED => $subTable
+                Row::DATATABLE_ASSOCIATED => $subTable,
             ));
         }
         return $table;

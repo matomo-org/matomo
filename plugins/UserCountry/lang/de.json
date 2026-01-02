@@ -7,6 +7,7 @@
         "Continents": "Kontinente",
         "Country": "Land",
         "CountryCode": "Länderkürzel",
+        "CountrySegmentHelp": "ISO 3166-1 Alpha-2 Ländercodes (de, us, fr, in, es usw.)",
         "CurrentLocationIntro": "Gemäß diesem Anbieter ist Ihr derzeitiger Standort",
         "DefaultLocationProviderDesc1": "Der Standard-Standortanbieter bestimmt das Land, aus dem die Besucher eine Verbindung herstellen, anhand der von ihnen gewählten Sprache.",
         "DefaultLocationProviderDesc2": "Dies ist nicht sehr genau, daher %1$sinstallieren und verwenden Sie eine %2$sGeolocation-Datenbank%3$s%4$s.",

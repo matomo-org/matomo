@@ -29,7 +29,7 @@ class SitesTable implements BackendInterface
         'excluded_user_agents',
         'excluded_parameters',
         'excluded_ips',
-        'excluded_referrers'
+        'excluded_referrers',
     );
 
     // these fields are standard fields of a site and cannot be adjusted via a setting
@@ -37,7 +37,7 @@ class SitesTable implements BackendInterface
         'ecommerce', 'sitesearch', 'sitesearch_keyword_parameters',
         'sitesearch_category_parameters', 'exclude_unknown_urls',
         'excluded_ips', 'excluded_parameters', 'excluded_referrers',
-        'excluded_user_agents', 'keep_url_fragment', 'urls'
+        'excluded_user_agents', 'keep_url_fragment', 'urls',
     );
 
     public function __construct($idSite)

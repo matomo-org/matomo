@@ -99,7 +99,7 @@ class TrackingFailuresEmail extends Mail
             'action' => 'trackingFailures',
             'period' => 'day',
             'date' => 'yesterday',
-            'idSite' => $idSite
+            'idSite' => $idSite,
         ]);
         return $view;
     }

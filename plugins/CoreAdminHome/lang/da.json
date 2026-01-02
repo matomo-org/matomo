@@ -74,6 +74,7 @@
         "JsTrackingCodeMissingEmail2": "For at påbegynde tracking og få indsigt i dine brugere, er det nødvendigt at tilslutte tracking til dit website eller mobil-app. For websites skal du blot tilføje trackingkoden lige før %s-taggen.",
         "JsTrackingCodeMissingEmail3": "For at finde og tilpasse din trackingkode, skal du %1$s klikke her %2$s (eller kigge nærmere på %3$s JavaScript Tracking Client guide %4$s).",
         "LearnMore": "Læs mere",
+        "Login": "Brugernavn",
         "LogoNotWriteableInstruction": "Hvis du vil bruge din brugerdefinerede logo i stedet for standard Matomo logoet, giver skriverettigheder til denne mappe: %1$s Matomo brug skriveadgang til dine logoer gemt i filer %2$s.",
         "LogoUpload": "Vælg et logo til overførelse",
         "LogoUploadFailed": "Den uploadede fil kunne ikke behandles. Kontroller at filen har et gyldigt format.",

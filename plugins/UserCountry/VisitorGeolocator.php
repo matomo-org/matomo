@@ -49,7 +49,7 @@ class VisitorGeolocator
         'location_region'    => LocationProvider::REGION_CODE_KEY,
         'location_city'      => LocationProvider::CITY_NAME_KEY,
         'location_latitude'  => LocationProvider::LATITUDE_KEY,
-        'location_longitude' => LocationProvider::LONGITUDE_KEY
+        'location_longitude' => LocationProvider::LONGITUDE_KEY,
     );
 
     /**
@@ -196,7 +196,7 @@ class VisitorGeolocator
             $this->logger->debug('Updating visit with idvisit = {idVisit} (IP = {ip}). Changes: {changes}', array(
                 'idVisit' => $idVisit,
                 'ip' => $ip,
-                'changes' => json_encode($valuesToUpdate)
+                'changes' => json_encode($valuesToUpdate),
             ));
 
             $this->dao->updateVisits($valuesToUpdate, $idVisit);
@@ -204,7 +204,7 @@ class VisitorGeolocator
         } else {
             $this->logger->debug('Nothing to update for idvisit = %s (IP = {ip}). Existing location info is same as geolocated.', array(
                 'idVisit' => $idVisit,
-                'ip' => $ip
+                'ip' => $ip,
             ));
         }
 
@@ -256,7 +256,7 @@ class VisitorGeolocator
 
         $conditions = array(
             array('visit_last_action_time', '>=', $from),
-            array('visit_last_action_time', '<', $to)
+            array('visit_last_action_time', '<', $to),
         );
 
         if (!empty($idSite)) {

@@ -1,6 +1,6 @@
 .visitor-profile-popup {
-
-  width: 1150px;
+  width: 100%;
+  max-width: 1150px;
   height: auto;
   padding: 0;
 
@@ -17,7 +17,6 @@
 
 .visitor-profile {
   position: relative;
-  width: 1150px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.22);
   text-align: left;
   font-size: 13px;
@@ -131,13 +130,17 @@
 
 .visitor-profile-visits-info,
 .visitor-profile-overview {
-  display: inline-block;
-  vertical-align: top;
+  display: block;
   height: auto;
   border: none;
   box-sizing: border-box;
   float: left;
   width: 50%;
+
+  @media (max-width: 768px) {
+    float: none;
+    width: auto;
+  }
 
   & > * {
     box-sizing: content-box;
@@ -185,14 +188,11 @@
 }
 
 .visitor-profile-header {
-  overflow: hidden;
+  display: flex;
   font-size: 14px;
 
-  > div {
-    float: left;
-  }
-
   .visitor-profile-avatar {
+    flex: none;
     width: 149px;
     height: 154px;
 
@@ -203,7 +203,7 @@
   }
 
   .visitor-profile-header-details {
-    width: 376px;
+    flex: auto;
   }
 
   .visitor-profile-prev-visitor {
@@ -358,6 +358,10 @@
     float: right;
     font-size: 13px;
     margin-top: 4px;
+
+    @media (max-width: 768px) {
+      float: none;
+    }
   }
 }
 
@@ -395,6 +399,10 @@
   .visitorDetails {
     display: inline-block;
     visibility: hidden;
+
+    @media (max-width: 768px) {
+      visibility: visible;
+    }
   }
 
   &:hover .visitorDetails {

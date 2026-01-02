@@ -76,17 +76,17 @@ class UpdaterTest extends IntegrationTestCase
 
         $visitDimensions = array(
             $this->getMockVisitDimension("test_visit_col_1", "INTEGER(10) UNSIGNED NOT NULL"),
-            $this->getMockVisitDimension("test_visit_col_2", "VARCHAR(32) NOT NULL")
+            $this->getMockVisitDimension("test_visit_col_2", "VARCHAR(32) NOT NULL"),
         );
 
         $actionDimensions = array(
             $this->getMockActionDimension("test_action_col_1", "VARCHAR(32) NOT NULL"),
-            $this->getMockActionDimension("test_action_col_2", "INTEGER(10) UNSIGNED DEFAULT NULL")
+            $this->getMockActionDimension("test_action_col_2", "INTEGER(10) UNSIGNED DEFAULT NULL"),
         );
 
         $conversionDimensions = array(
             $this->getMockConversionDimension("test_conv_col_1", "FLOAT DEFAULT NULL"),
-            $this->getMockConversionDimension("test_conv_col_2", "VARCHAR(32) NOT NULL")
+            $this->getMockConversionDimension("test_conv_col_2", "VARCHAR(32) NOT NULL"),
         );
 
         $this->columnsUpdater = new ColumnsUpdater($visitDimensions, $actionDimensions, $conversionDimensions);
@@ -137,7 +137,7 @@ class UpdaterTest extends IntegrationTestCase
             'log_link_visit_action.test_action_col_1' => 'VARCHAR(32) NOT NULL',
             'log_link_visit_action.test_action_col_2' => 'INTEGER(10) UNSIGNED DEFAULT NULL',
             'log_conversion.test_conv_col_1' => 'FLOAT DEFAULT NULL',
-            'log_conversion.test_conv_col_2' => 'VARCHAR(32) NOT NULL'
+            'log_conversion.test_conv_col_2' => 'VARCHAR(32) NOT NULL',
         );
         $this->assertEquals($actualVersions, $expectedVersions);
     }
@@ -159,7 +159,7 @@ class UpdaterTest extends IntegrationTestCase
             'log_link_visit_action.test_action_col_1' => 'VARCHAR(32) NOT NULL',
             'log_link_visit_action.test_action_col_2' => 'INTEGER(10) UNSIGNED DEFAULT NULL',
             'log_conversion.test_conv_col_1' => 'FLOAT DEFAULT NULL',
-            'log_conversion.test_conv_col_2' => 'VARCHAR(32) NOT NULL'
+            'log_conversion.test_conv_col_2' => 'VARCHAR(32) NOT NULL',
         );
         $this->assertEquals($actualVersions, $expectedVersions);
     }

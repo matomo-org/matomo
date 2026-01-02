@@ -4,6 +4,7 @@
         "AnonymizeIpMaskLengtDescription": "Izaberite koliko bajtova IP adrese treba da bude maskirano",
         "AnonymizeIpMaskLength": "%1$s bajt(ova) - npr. %2$s",
         "ClickHereSettings": "Kliknite ovde kako biste pristupili %s podešavanjima.",
+        "ComplianceTableSettingStatus": "Status",
         "CurrentDBSize": "Trenutna veličina baze",
         "DBPurged": "Baza je očišćena",
         "DeleteDataInterval": "Obriši stare posatke svakih",

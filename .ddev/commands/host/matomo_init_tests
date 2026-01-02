@@ -10,8 +10,7 @@ ddev matomo:console config:set \
   'database_tests.username="db"' \
   'database_tests.password="db"' \
   'tests.http_host="matomo.ddev.site"' \
-  'tests.request_uri="/"' \
-  'tests.port=80'
+  'tests.request_uri="/"'
 
 echo "Copy UI tests config file ..."
 echo "@see https://developer.matomo.org/guides/tests-ui#configuring-ui-tests"

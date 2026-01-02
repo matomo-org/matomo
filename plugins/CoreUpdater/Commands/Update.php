@@ -111,7 +111,7 @@ class Update extends ConsoleCommand
 
         $output->writeln(array(
             "",
-            "    *** " . Piwik::translate('CoreUpdater_UpdateTitle') . " ***"
+            "    *** " . Piwik::translate('CoreUpdater_UpdateTitle') . " ***",
         ));
 
         // handle case of existing database with no tables
@@ -126,14 +126,14 @@ class Update extends ConsoleCommand
             "",
             "    " . Piwik::translate('CoreUpdater_DatabaseUpgradeRequired'),
             "",
-            "    " . Piwik::translate('CoreUpdater_YourDatabaseIsOutOfDate')
+            "    " . Piwik::translate('CoreUpdater_YourDatabaseIsOutOfDate'),
         ));
 
         if ($this->isUpdatingCore($componentsWithUpdateFile)) {
             $currentVersion = $this->getCurrentVersionForCore($updater);
             $output->writeln(array(
                 "",
-                "    " . Piwik::translate('CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY', array($currentVersion, Version::VERSION))
+                "    " . Piwik::translate('CoreUpdater_PiwikWillBeUpgradedFromVersionXToVersionY', array($currentVersion, Version::VERSION)),
             ));
         }
 
@@ -141,7 +141,7 @@ class Update extends ConsoleCommand
         if (!empty($pluginsToUpdate)) {
             $output->writeln(array(
                 "",
-                "    " . Piwik::translate('CoreUpdater_TheFollowingPluginsWillBeUpgradedX', implode(', ', $pluginsToUpdate))
+                "    " . Piwik::translate('CoreUpdater_TheFollowingPluginsWillBeUpgradedX', implode(', ', $pluginsToUpdate)),
             ));
         }
 
@@ -149,7 +149,7 @@ class Update extends ConsoleCommand
         if (!empty($dimensionsToUpdate)) {
             $output->writeln(array(
                 "",
-                "    " . Piwik::translate('CoreUpdater_TheFollowingDimensionsWillBeUpgradedX', implode(', ', $dimensionsToUpdate))
+                "    " . Piwik::translate('CoreUpdater_TheFollowingDimensionsWillBeUpgradedX', implode(', ', $dimensionsToUpdate)),
             ));
         }
 
@@ -176,7 +176,7 @@ class Update extends ConsoleCommand
         if ($updater->hasMajorDbUpdate()) {
             $output->writeln(array(
                 "",
-                sprintf("<comment>%s \n</comment>", Piwik::translate('CoreUpdater_MajorUpdateWarning1'))
+                sprintf("<comment>%s \n</comment>", Piwik::translate('CoreUpdater_MajorUpdateWarning1')),
             ));
         }
 
@@ -219,7 +219,7 @@ class Update extends ConsoleCommand
             $output->writeln(array(
                 "    " . Piwik::translate('CoreUpdater_HelpMessageIntroductionWhenWarning'),
                 "",
-                "    * " . $this->getUpdateHelpMessage()
+                "    * " . $this->getUpdateHelpMessage(),
             ));
         }
     }
@@ -248,7 +248,7 @@ class Update extends ConsoleCommand
             "",
             "    " . Piwik::translate('CoreUpdater_HelpMessageIntroductionWhenError'),
             "",
-            "    * " . $this->getUpdateHelpMessage()
+            "    * " . $this->getUpdateHelpMessage(),
         ));
 
         if ($includeDiyHelp) {
@@ -260,7 +260,7 @@ class Update extends ConsoleCommand
                 "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_2'),
                 "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_3'),
                 "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_4'),
-                "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_5')
+                "    * " . Piwik::translate('CoreUpdater_ErrorDIYHelp_5'),
             ));
         }
 
@@ -273,7 +273,7 @@ class Update extends ConsoleCommand
         $output->writeln(array(
             "",
             "    [!] " . Piwik::translate('CoreUpdater_WarningMessages'),
-            ""
+            "",
         ));
 
         foreach ($warnings as $message) {
@@ -287,7 +287,7 @@ class Update extends ConsoleCommand
         $output->writeln(array(
             "",
             "    [X] " . Piwik::translate('CoreUpdater_ErrorDuringPluginsUpdates'),
-            ""
+            "",
         ));
 
         foreach ($errors as $message) {
@@ -297,7 +297,7 @@ class Update extends ConsoleCommand
         if (!empty($deactivatedPlugins)) {
             $output->writeln(array(
                 "",
-                "    [!] " . Piwik::translate('CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins', implode(', ', $deactivatedPlugins))
+                "    [!] " . Piwik::translate('CoreUpdater_WeAutomaticallyDeactivatedTheFollowingPlugins', implode(', ', $deactivatedPlugins)),
             ));
         }
     }
@@ -391,7 +391,7 @@ class Update extends ConsoleCommand
             sprintf("<comment>%s</comment>", Piwik::translate('CoreUpdater_ConsoleUpdateUnexpectedUserWarning', [
                 $processUserAndGroup,
                 $fileOwnerUserAndGroup,
-                Filechecks::getCommandToChangeOwnerOfPiwikFiles()
+                Filechecks::getCommandToChangeOwnerOfPiwikFiles(),
             ]))
         );
     }

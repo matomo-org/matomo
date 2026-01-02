@@ -1,7 +1,7 @@
 {
     "Actions": {
         "ColumnClicks": "Tıklamalar",
-        "ColumnClicksDocumentation": "Tıklama sayısı",
+        "ColumnClicksDocumentation": "Bu keçidin kliklənmə sayı.",
         "ColumnDownloadURL": "İndirme Sayfa Adresleri",
         "ColumnEntryPageTitle": "Giriş səhifəsi Başlığı",
         "ColumnEntryPageURL": "Giriş Sayfa Adresi",

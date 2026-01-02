@@ -52,7 +52,7 @@ class PatternTest extends \PHPUnit\Framework\TestCase
             array($idcol => array('label' => 'yahoo')),
             array(Row::METADATA => array('label' => 'amazon')),
             array($idcol => array('label' => '2389752/47578949')),
-            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))'))
+            array($idcol => array('label' => 'Q*(%&*("$&%*(&"$*")"))')),
         );
         $table->addRowsFromArray($rows);
         $rowIds = array_keys($rows);
@@ -77,7 +77,7 @@ class PatternTest extends \PHPUnit\Framework\TestCase
             array('label' => 'yahoo'),
             array('label' => 'amazon'),
             array('label' => '2389752/47578949'),
-            array('label' => 'Q*(%&*("$&%*(&"$*")"))')
+            array('label' => 'Q*(%&*("$&%*(&"$*")"))'),
         );
 
         $filter = new DataTable\Filter\Pattern(new DataTable(), array('label'), $pattern);
@@ -98,7 +98,7 @@ class PatternTest extends \PHPUnit\Framework\TestCase
             3 => array('randomcolumn' => 'com', 'name' => 'yahoo', 'url' => 'nz.yahoo.com'),
             4 => array('randomcolumn' => 'nz1', 'name' => 'amazon', 'url' => 'amazon.com'),
             5 => array('randomcolumn' => 'com', 'url' => 'nz.piwik.org'),
-            6 => array('randomcolumn' => 'com', 'name' => 'Piwik')
+            6 => array('randomcolumn' => 'com', 'name' => 'Piwik'),
         );
 
         $filter = new DataTable\Filter\Pattern(new DataTable(), array('name', 'url'), $pattern);

@@ -42,7 +42,7 @@ class TrackingFailures extends Fixture
 
         $t = self::getTracker($this->idSite, $this->dateTime, $defaultInit = true);
         $t->setIp('10.11.12.13');
-        $t->setTokenAuth('foobar'); //  wrong token
+        $t->setTokenAuth('123456789012345678901234567890ab'); //  wrong token
         $t->doTrackPageView('Invalid Token');
     }
 }

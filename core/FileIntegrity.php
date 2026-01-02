@@ -33,7 +33,7 @@ class FileIntegrity
 
             return array(
                 $success = false,
-                $messages
+                $messages,
             );
         }
 
@@ -46,7 +46,7 @@ class FileIntegrity
 
         return array(
             $success = empty($messages),
-            $messages
+            $messages,
         );
     }
 

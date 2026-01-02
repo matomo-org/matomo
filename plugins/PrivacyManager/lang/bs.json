@@ -1,1 +1,5 @@
-{}
+{
+    "PrivacyManager": {
+        "ComplianceTableSettingStatus": "Status"
+    }
+}

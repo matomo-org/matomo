@@ -30,7 +30,7 @@ class Updates_1_9_3_b8 extends Updates
     public function getMigrations(Updater $updater)
     {
         return array(
-            $this->migration->db->addColumn('site', 'excluded_user_agents', 'TEXT NOT NULL', 'excluded_parameters')
+            $this->migration->db->addColumn('site', 'excluded_user_agents', 'TEXT NOT NULL', 'excluded_parameters'),
         );
     }
 

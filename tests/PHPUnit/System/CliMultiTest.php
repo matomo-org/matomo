@@ -66,7 +66,7 @@ class CliMultiTest extends SystemTestCase
 
         $this->responses = [
             'getAnswerToLife' => '{"value":42}',
-            'getPiwikVersion' => '{"value":"' . Version::VERSION . '"}'
+            'getPiwikVersion' => '{"value":"' . Version::VERSION . '"}',
         ];
 
         \Piwik\Common::$isCliMode = true;

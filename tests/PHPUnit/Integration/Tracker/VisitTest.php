@@ -9,10 +9,13 @@
 
 namespace Piwik\Tests\Integration\Tracker;
 
+use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\SitesManager\API;
+use Piwik\Policy\CnilPolicy;
+use Piwik\Policy\PolicyManager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\Mock\Tracker\RequestAuthenticated;
@@ -20,6 +23,7 @@ use Piwik\Tracker\Request;
 use Piwik\Tracker\Visit;
 use Piwik\Tracker\VisitExcluded;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Tracker\Visit\VisitProperties;
 
 /**
  * @group Core
@@ -55,14 +59,14 @@ class VisitTest extends IntegrationTestCase
                 '12.12.12.11'     => false,
                 '12.12.12.13'     => false,
                 '0.0.0.0'         => false,
-                '255.255.255.255' => false
+                '255.255.255.255' => false,
             )),
             array('12.12.12.12/32', array(
                 '12.12.12.12'     => true,
                 '12.12.12.11'     => false,
                 '12.12.12.13'     => false,
                 '0.0.0.0'         => false,
-                '255.255.255.255' => false
+                '255.255.255.255' => false,
             )),
             array('12.12.12.*', array(
                 '12.12.12.0'      => true,
@@ -183,7 +187,7 @@ class VisitTest extends IntegrationTestCase
             $visitExclude = new VisitExcluded(new Request(array(
                 'idsite' => $siteId,
                 'rec'    => 1,
-                'url'    => $url
+                'url'    => $url,
             )));
             $this->assertEquals($isTracked, !$visitExclude->isExcluded(), $url . ' is not returning expected result');
         }
@@ -264,7 +268,7 @@ class VisitTest extends IntegrationTestCase
                 'Mozilla/5.0 (compatible; Yahoo! Slurp/3.0; http://help.yahoo.com/help/us/ysearch/slurp)' => false,
                 'Wget/1.13.4 (linux-gnu)' => false,
                 'Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)' => false,
-            ))
+            )),
         );
     }
 
@@ -325,7 +329,7 @@ class VisitTest extends IntegrationTestCase
             $spamUrl = urlencode($spamUrl);
             $request = new Request(array(
                 'idsite' => $idsite,
-                'urlref' => $spamUrl
+                'urlref' => $spamUrl,
             ));
             $excluded = new VisitExcludedPublic($request);
 
@@ -445,7 +449,7 @@ class VisitTest extends IntegrationTestCase
         $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
 
         $expectedRemembered = array(
-            substr($currentActionTime, 0, 10) => array($idsite)
+            substr($currentActionTime, 0, 10) => array($idsite),
         );
 
         $this->assertRememberedArchivedReportsThatShouldBeInvalidated($idsite, $currentActionTime, $expectedRemembered);
@@ -487,7 +491,7 @@ class VisitTest extends IntegrationTestCase
             'idsite' => $idsite,
             'rec' => 1,
             'cip' => '156.146.156.146',
-            'token_auth' => Fixture::getTokenAuth()
+            'token_auth' => Fixture::getTokenAuth(),
         ), $requestDate);
 
         $visit->handle();
@@ -496,6 +500,53 @@ class VisitTest extends IntegrationTestCase
         $remembered = $archive->getRememberedArchivedReportsThatShouldBeInvalidated();
 
         $this->assertSameReportsInvalidated($expectedRemeberedArchivedReports, $remembered);
+    }
+
+    /**
+     * @dataProvider getMajorVersionPolicyControlledData
+     */
+    public function testVisitMajorVersionPolicyControlled($policy, $policyEnabled, $propertyKey, $expectedVersionValue)
+    {
+        $idsite = API::getInstance()->addSite('name', 'http://piwik.net/');
+
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+        PolicyManager::setPolicyActiveStatus($policy, $policyEnabled, $idsite);
+
+        $visitProperties = $this->createVisitGetProperties($idsite);
+
+        PolicyManager::setPolicyActiveStatus($policy, false, $idsite);
+
+        $this->assertSame($expectedVersionValue, $visitProperties->getProperty($propertyKey));
+    }
+
+    private function createVisitGetProperties($idsite): VisitProperties
+    {
+        $default = $_SERVER['HTTP_USER_AGENT'] ?? '';
+        $_SERVER['HTTP_USER_AGENT'] = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; en-us) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1";
+
+        $midnight = Date::factoryInTimezone('today', 'UTC+5')->setTimezone('UTC+5');
+
+        /** @var VisitPublic */
+        [$visit] = $this->prepareVisitWithRequest(array(
+            'idsite' => $idsite,
+            'rec' => 1,
+            'cip' => '156.146.156.146',
+            'token_auth' => Fixture::getTokenAuth(),
+        ), $midnight, $isPublic = true);
+
+        $_SERVER['HTTP_USER_AGENT'] = $default;
+        /** @var VisitProperties */
+        $visitProperties = $visit->publicVisitProperties();
+        return $visitProperties;
+    }
+
+    public function getMajorVersionPolicyControlledData()
+    {
+        yield [CnilPolicy::class, false, 'config_browser_version', '5.0'];
+        yield [CnilPolicy::class, true, 'config_browser_version', '5'];
+        yield [CnilPolicy::class, false, 'config_os_version', '10.6'];
+        yield [CnilPolicy::class, true, 'config_os_version', '10'];
     }
 
     private function assertSameReportsInvalidated($expected, $actual)
@@ -513,12 +564,16 @@ class VisitTest extends IntegrationTestCase
         }
     }
 
-    private function prepareVisitWithRequest($requestParams, $requestDate)
+    private function prepareVisitWithRequest($requestParams, $requestDate, $isPublic = false)
     {
         $request = new Request($requestParams);
         $request->setCurrentTimestamp(Date::factory($requestDate)->getTimestamp());
 
-        $visit = new Visit();
+        if ($isPublic) {
+            $visit = new VisitPublic();
+        } else {
+            $visit = new Visit();
+        }
         $visit->setRequest($request);
 
         $visit->handle();
@@ -529,7 +584,7 @@ class VisitTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }
@@ -552,5 +607,13 @@ class VisitExcludedPublic extends VisitExcluded
     public function publicIsNonHumanBot()
     {
         return $this->isNonHumanBot();
+    }
+}
+
+class VisitPublic extends Visit
+{
+    public function publicVisitProperties()
+    {
+        return $this->visitProperties;
     }
 }

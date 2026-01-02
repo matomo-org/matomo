@@ -31,7 +31,6 @@
         "Settings_UpdateOrDeleteAccount": "Pwede mo ring %1$s i-update %2$s o %3$s tanggalin %4$s ang account na ito.",
         "Settings_ValidatePhoneNumber": "Validate",
         "TopLinkTooltip": "Kumuha ng Ulat para sa Web Analytics na mai-hahatid sa iyong email inbox o sa iyong mobile phone.",
-        "TopMenu": "Mga ulat ng Email at SMS",
         "VerificationText": "Ang code ay %1$s. Upang mapatunayan ang iyong numero at makatanggap ng Matomo SMS mangyaring kopyahin ang code na ito sa form sa pamamagitan ng Matomo → %2$s → %3$s"
     }
 }

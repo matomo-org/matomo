@@ -66,7 +66,7 @@ class Controller extends \Piwik\Plugin\Controller
         Piwik::checkUserHasSomeViewAccess();
 
         $ApiDocumentation = new DocumentationGenerator();
-        $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.org/', 'string');
+        $prefixUrls = Common::getRequestVar('prefixUrl', 'https://demo.matomo.cloud/', 'string');
         $parsedUrl = parse_url($prefixUrls);
         if (empty($parsedUrl['host']) || !UrlHelper::isLookLikeUrl($prefixUrls) || strpos($prefixUrls, 'http') !== 0 || !Url::isValidHost($parsedUrl['host'])) {
             $prefixUrls = '';
@@ -174,12 +174,12 @@ class Controller extends \Piwik\Plugin\Controller
         $glossaryItems = array(
             'metrics' => array(
                 'title' => Piwik::translate('General_Metrics'),
-                'entries' => $metrics
+                'entries' => $metrics,
             ),
             'reports' => array(
                 'title' => Piwik::translate('General_Reports'),
-                'entries' => $reports
-            )
+                'entries' => $reports,
+            ),
         );
 
         /**

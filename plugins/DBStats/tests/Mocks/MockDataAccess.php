@@ -60,7 +60,7 @@ class MockDataAccess extends MySQLMetadataDataAccess
             'Flush tables'           => 300,
             'Open tables'            => 2,
             'Opens'                  => 'unavailable',
-            'Queries per second avg' => 'unavailable'
+            'Queries per second avg' => 'unavailable',
         );
     }
 
@@ -86,7 +86,7 @@ class MockDataAccess extends MySQLMetadataDataAccess
             'Collation' => 'utf8_general_ci',
             'Checksum' => null,
             'Create_options' => "",
-            'Comment' => ""
+            'Comment' => "",
         );
     }
 

@@ -174,7 +174,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
             'custom_dimension_1' => 'value1',
             // there should be no value for dimension2 as nothing was set
             // there should be no value for dimension 3, 4 and 5 as they are in scope action
-            'custom_dimension_4' => 'value6'
+            'custom_dimension_4' => 'value6',
         );
         $this->assertSame($expected1, $visitProperties->getProperties());
         $this->assertSame(array(), $action->getCustomFields());
@@ -216,7 +216,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
             'custom_dimension_1' => 'value1',
             // there should be no value for dimension2 as nothing was set
             // there should be no value for dimension 3, 4 and 5 as they are in scope action
-            'custom_dimension_4' => 'value6'
+            'custom_dimension_4' => 'value6',
         );
         $this->assertSame($expected1, $visitProperties->getProperties());
         $this->assertSame(array(), $action->getCustomFields()); // should not set any action dimensions
@@ -265,7 +265,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
         $this->processor->onNewVisit($visitProperties, $request);
 
         $expected = array(
-            'custom_dimension_4' => 'value6'
+            'custom_dimension_4' => 'value6',
         );
         $this->assertSame($expected, $visitProperties->getProperties());
 
@@ -298,7 +298,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
     {
         $configuration = new Configuration();
         $extractions = array(
-            array('dimension' => 'url', 'pattern' => 'www(.+).com')
+            array('dimension' => 'url', 'pattern' => 'www(.+).com'),
         );
         $configuration->configureNewDimension($idSite = 1, 'MyName1', CustomDimensions::SCOPE_VISIT, 1, true, $extractions, $caseSensitive = true);
 
@@ -338,7 +338,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
     {
         $configuration = new Configuration();
         $extractions = array(
-            array('dimension' => 'url', 'pattern' => 'wwW(.+).com')
+            array('dimension' => 'url', 'pattern' => 'wwW(.+).com'),
         );
         $configuration->configureNewDimension($idSite = 1, 'MyName1', CustomDimensions::SCOPE_ACTION, 1, true, $extractions, $caseSensitive = true);
         $configuration->configureNewDimension($idSite = 1, 'MyName2', CustomDimensions::SCOPE_ACTION, 2, true, $extractions, $caseSensitive = false);
@@ -426,7 +426,7 @@ class CustomDimensionsRequestProcessorTest extends IntegrationTestCase
 
         $this->assertSame(array(
             'custom_dimension_1' => '11',
-            'custom_dimension_2' => 'test'
+            'custom_dimension_2' => 'test',
         ), $visitProperties->getProperties());
     }
 

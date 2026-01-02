@@ -45,7 +45,7 @@ class DimensionMetadataProvider
         $result = array(
             'log_link_visit_action' => array('idaction_url',
                 'idaction_url_ref',
-                'idaction_name_ref'
+                'idaction_name_ref',
             ),
 
             'log_conversion'        => array('idaction_url'),
@@ -61,7 +61,7 @@ class DimensionMetadataProvider
                 'idaction_category2',
                 'idaction_category3',
                 'idaction_category4',
-                'idaction_category5')
+                'idaction_category5'),
         );
 
         $dimensionIdActionColumns = $this->getVisitActionTableActionReferences();

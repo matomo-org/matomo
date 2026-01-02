@@ -32,13 +32,13 @@ class GoogleAnalytics3Test extends \PHPUnit\Framework\TestCase
         yield 'no content at all' => [
             false,
             '',
-            []
+            [],
         ];
 
         yield 'no GA3 content' => [
             false,
             "<!DOCTYPE HTML>\n<html lang=\"en\"><head><title>A site</title><script></script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'GA3 js code found' => [
@@ -51,31 +51,31 @@ class GoogleAnalytics3Test extends \PHPUnit\Framework\TestCase
                      ga('create', 'UA-xxxxxxxx-x', 'xxxxxx.com');
                      ga('send', 'pageview');
                      </script></head><body>A site</body></html>",
-            []
+            [],
         ];
 
         yield 'UA number found' => [
             true,
             "<html><head></head><body>UA-00000-00</body></html>",
-            []
+            [],
         ];
 
         yield 'GA3 JS file usage found' => [
             true,
             "<html><head></head><body><script src='google-analytics.com/analytics.js'/></body></html>",
-            []
+            [],
         ];
 
         yield 'GA3 JS window object used' => [
             true,
             "<html><head></head><body><script>window.ga=window.ga;</script></body></html>",
-            []
+            [],
         ];
 
         yield 'google-analytics found in content' => [
             true,
             "<html><head></head><body><script>google-ANALYTICS</script></body></html>",
-            []
+            [],
         ];
     }
 }

@@ -1,7 +1,13 @@
 {
     "Tour": {
+        "AddAnotherWebsite": "Přidat další web",
+        "AddReport": "Přidat naplánovaný report",
         "BrowseMarketplace": "Procházet obchod",
         "CompletionTitle": "Výborně.",
-        "Engagement": "Zapojení"
+        "Engagement": "Zapojení",
+        "InviteUser": "Pozvat uživatele",
+        "PluginDescription": "Staňte se expertem splněním výzev, díky kterým dobře poznáte Matomo.",
+        "Tour": "Prohlídka",
+        "UploadLogo": "Nahrajte své logo"
     }
 }

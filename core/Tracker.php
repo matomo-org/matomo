@@ -11,8 +11,10 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Container\StaticContainer;
+use Piwik\DeviceDetector\DeviceDetectorFactory;
 use Piwik\Plugins\BulkTracking\Tracker\Requests;
 use Piwik\Plugins\PrivacyManager\Config as PrivacyManagerConfig;
+use Piwik\Tracker\BotRequest;
 use Piwik\Tracker\Db as TrackerDb;
 use Piwik\Tracker\Db\DbException;
 use Piwik\Tracker\Handler;
@@ -166,14 +168,51 @@ class Tracker
                 'date' => date("Y-m-d H:i:s", $request->getCurrentTimestamp()),
             ]);
 
-            $visit = Visit\Factory::make();
-            $visit->setRequest($request);
-            $visit->handle();
+            $isBot = $this->isBotRequest($request);
+
+            /**
+             * Allows overwriting the Bot detection done using Device Detector
+             * Use this event if you want to have a request handled as bot request instead of a normal visit
+             *
+             * @param bool &$isBot Indicates if the request should be handled as Bot
+             * @param Request $request current tracking request
+             */
+            Piwik::postEvent('Tracker.isBotRequest', [&$isBot, $request]);
+
+            $rawParams = $request->getRawParams();
+
+            /**
+             * The recMode param will for now be used to keep BC.
+             * If it is not set, which is currently the case for all tracking requests, it will be processed as Visit only
+             * When set to 1, only bot tracking will be processed. In case the request is not detected as bot, it will be discarded
+             * Setting it to 2 enables auto mode. Meaning it will be either processed as bot request or visit, depending on the detection
+             *
+             * @deprecated Remove this parameter handling with Matomo 6 and decide the tracking method based on the bot detection only.
+             */
+            $recMode = $rawParams['recMode'] ?? null;
+
+            if (((int)$recMode === 1 || (int)$recMode === 2) && $isBot) {
+                $botRequest = StaticContainer::get(BotRequest::class);
+                $botRequest->setRequest($request);
+                $botRequest->handle();
+            }
+
+            if (empty($recMode) || ((int)$recMode === 2 && !$isBot)) {
+                $visit = Visit\Factory::make();
+                $visit->setRequest($request);
+                $visit->handle();
+            }
         }
 
         // increment successfully logged request count. make sure to do this after try-catch,
         // since an excluded visit is considered 'successfully logged'
         ++$this->countOfLoggedRequests;
+    }
+
+    private function isBotRequest(Request $request): bool
+    {
+        $deviceDetector = StaticContainer::get(DeviceDetectorFactory::class)->makeInstance($request->getUserAgent(), $request->getClientHints());
+        return $deviceDetector->isBot();
     }
 
     /**

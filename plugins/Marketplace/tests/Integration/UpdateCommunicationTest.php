@@ -19,6 +19,8 @@ use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Twig;
 use Piwik\View;
 
+use function Piwik\piwik_escape_filter;
+
 /**
  * @group Plugins
  * @group Marketplace
@@ -77,7 +79,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
     public function testSendNotificationIfUpdatesAvailable($latestVersion, $lastSentVersion, $expects, $expectedLastSentVersion)
     {
         $pluginsHavingUpdate = array(
-            array('name' => 'MyTest', 'latestVersion' => $latestVersion, 'isTheme' => false)
+            array('name' => 'MyTest', 'latestVersion' => $latestVersion, 'isTheme' => false),
         );
         $this->setLastSentVersion('MyTest', $lastSentVersion);
 
@@ -134,7 +136,7 @@ class UpdateCommunicationTest extends IntegrationTestCase
 
 <p>
 CoreUpdater_NotificationClickToUpdatePlugins<br/>
-<a href=\"" . twig_escape_filter($twig->getTwigEnvironment(), $rootUrl, 'html_attr') . "index.php?module=CorePluginsAdmin&action=plugins\">{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins</a>
+<a href=\"" . piwik_escape_filter($twig->getTwigEnvironment(), $rootUrl, 'html_attr') . "index.php?module=CorePluginsAdmin&action=plugins\">{$rootUrl}index.php?module=CorePluginsAdmin&action=plugins</a>
 </p>
 
 <p>

@@ -1,1 +1,8 @@
-{}
+{
+    "CustomJsTracker": {
+        "DiagnosticPiwikJsMakeWritable": "Preporučujemo da %1$s dobije dozvolu za pisanje pokretanjem ove naredbe: %2$s",
+        "DiagnosticPiwikJsNotWritable": "Matomo JavaScript datoteka praćenja %s bez dozvole za pisanje, što znači da je drugi dodaci ne mogu proširiti. U budućnosti čak ni neke osnovne funkcionalnosti možda neće raditi kao očekivano.",
+        "DiagnosticPiwikJsWritable": "JavaScript datoteka praćenja s dozvolom za pisanje (%s)",
+        "PluginDescription": "Dozvoljava bilo kojem dodatku da proširi Matomo JavaScript datoteku za praćenje (matomo.js) i doda novu funkcionalnost te mogućnosti mjerenja web-stranica."
+    }
+}

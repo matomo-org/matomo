@@ -51,7 +51,7 @@ class TableMetadataTest extends IntegrationTestCase
         return array(
             array('log_conversion', array('idaction_url')),
             array('log_conversion_item', array('idaction_sku', 'idaction_name', 'idaction_category', 'idaction_category2',
-                                               'idaction_category3', 'idaction_category4', 'idaction_category5'))
+                                               'idaction_category3', 'idaction_category4', 'idaction_category5')),
         );
     }
 }

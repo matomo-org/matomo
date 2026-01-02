@@ -80,7 +80,7 @@ class GetEngagement extends Widget
             'currentPage' => $page,
             'previousPage' => $page >= 1 ? $page - 1 : null,
             'nextPage' => $page < ($numPagesTotal) ? $page + 1 : null,
-            'level' => $level
+            'level' => $level,
         ));
     }
 }

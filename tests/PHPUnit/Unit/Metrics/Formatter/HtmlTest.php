@@ -31,8 +31,8 @@ class HtmlTest extends \PHPUnit\Framework\TestCase
         $this->sitesInfo = array(
             1 => array(
                 'idsite' => '1',
-                'currency' => 'EUR'
-            )
+                'currency' => 'EUR',
+            ),
         );
 
         $this->formatter = new Html();

@@ -49,6 +49,10 @@ function getReferrerTypeLabel($label)
         case Common::REFERRER_TYPE_SOCIAL_NETWORK:
             $indexTranslation = 'Referrers_Socials';
             break;
+        case 'ai':
+        case Common::REFERRER_TYPE_AI_ASSISTANT:
+            $indexTranslation = 'Referrers_AIAssistants';
+            break;
         case 'website':
         case Common::REFERRER_TYPE_WEBSITE:
             $indexTranslation = 'Referrers_Websites';
@@ -76,6 +80,7 @@ function getReferrerTypeFromShortName($name)
     $map = array(
         Common::REFERRER_TYPE_SEARCH_ENGINE  => 'search',
         Common::REFERRER_TYPE_SOCIAL_NETWORK => 'social',
+        Common::REFERRER_TYPE_AI_ASSISTANT => 'ai',
         Common::REFERRER_TYPE_WEBSITE        => 'website',
         Common::REFERRER_TYPE_DIRECT_ENTRY   => 'direct',
         Common::REFERRER_TYPE_CAMPAIGN       => 'campaign',

@@ -19,6 +19,7 @@
         "FromPreviousSiteSearchesInline": "%s from internal searches",
         "FromSearchEngines": "From search engines",
         "FromSocialNetworks": "From social networks",
+        "FromAIAssistants": "From AI assistants",
         "FromWebsites": "From websites",
         "IncomingTraffic": "Incoming traffic",
         "LoopsInline": "%s page reloads",

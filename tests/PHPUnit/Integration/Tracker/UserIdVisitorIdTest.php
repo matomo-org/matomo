@@ -102,11 +102,11 @@ class UserIdVisitorIdTest extends IntegrationTestCase
     public function getUserIdOverwritesVisitorIdSetting(): iterable
     {
         yield "enable_userid_overwrites_visitorid is enabled" => [
-            true
+            true,
         ];
 
         yield "enable_userid_overwrites_visitorid is disabled" => [
-            false
+            false,
         ];
     }
 

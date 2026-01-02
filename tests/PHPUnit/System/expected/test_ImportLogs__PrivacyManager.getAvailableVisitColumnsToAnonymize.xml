@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
+		<column_name>ai_agent_name</column_name>
+		<default_value />
+	</row>
+	<row>
 		<column_name>config_browser_engine</column_name>
 		<default_value />
 	</row>

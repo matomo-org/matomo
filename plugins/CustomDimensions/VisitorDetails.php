@@ -100,7 +100,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 $customDimensions[] = array(
                     'id'    => $dimension['idcustomdimension'],
                     'name'  => $dimension['name'],
-                    'value' => $visitorDetails[$column]
+                    'value' => $visitorDetails[$column],
                 );
             }
         }
@@ -252,13 +252,13 @@ class VisitorDetails extends VisitorDetailsAbstract
             foreach ($scopeDimensions as $name => $values) {
                 $dimension = [
                     'name' => $name,
-                    'values' => []
+                    'values' => [],
                 ];
 
                 foreach ($values as $value => $count) {
                     $dimension['values'][] = [
                         'value' => $value,
-                        'count' => $count
+                        'count' => $count,
                     ];
                 }
 

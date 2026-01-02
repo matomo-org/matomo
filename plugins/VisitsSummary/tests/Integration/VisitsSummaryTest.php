@@ -72,7 +72,7 @@ class VisitsSummaryTest extends IntegrationTestCase
 
         $response = $this->requestProcessedGetReport();
 
-        $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = 0);
+        $this->assertUsersNotRemovedFromProcessedReport($response, $expectedUsers = 0.0);
     }
 
     public function testIsUsedInAtLeastOneSiteShouldRemoveUsersIfNoneWereTracked()
@@ -128,7 +128,7 @@ class VisitsSummaryTest extends IntegrationTestCase
             'period' => 'day',
             'date'   => $this->date,
             'apiModule' => 'VisitsSummary',
-            'apiAction' => 'get'
+            'apiAction' => 'get',
         ));
     }
 
@@ -180,7 +180,7 @@ class VisitsSummaryTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

@@ -32,7 +32,7 @@ class HttpResponseText extends \PHPUnit\Framework\Constraint\Constraint
             CURLOPT_URL            => $url,
             CURLOPT_HEADER         => false,
             CURLOPT_TIMEOUT        => 1,
-            CURLOPT_RETURNTRANSFER => true
+            CURLOPT_RETURNTRANSFER => true,
         );
 
         $ch = curl_init();

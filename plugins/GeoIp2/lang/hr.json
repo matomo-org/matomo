@@ -1,1 +1,11 @@
-{}
+{
+    "GeoIp2": {
+        "GeoLiteCityLink": "Ako koristiš „dbip City Lite” bazu podataka, koristi ovu poveznicu: %1$s%2$s%3$s",
+        "HowToSetupGeoIP": "Kako postaviti točnu geolokaciju pomoću DBIP-a",
+        "HowToSetupGeoIP_Step1": "%1$sPreuzmi%2$s DBIP City Lite bazu podataka s %3$sdbip%4$s stranice.",
+        "HowToSetupGeoIP_Step2": "Raspakiraj ovu datoteku i kopiraj rezultat, %1$s u Matomo poddirektorij %2$smisc%3$s te je preimenuj u %4$s (to možeš učiniti putem FTP-a ili SSH-a).",
+        "HowToSetupGeoIP_Step3": "Ponovno učitaj ovaj ekran.Pružatelj usluge %1$sDBIP/GeoIP (PHP)%2$s će se sada %3$sinstalirati%4$s. Odaberi ga.",
+        "HowToSetupGeoIP_Step4": "I gotovo! Upravo je Matomo postavljen da koristi DBIP, što znači da ćeć moći vidjeti regije i gradove svojih posjetitelja, uz vrlo precizne informacije o njihovim zemljama.",
+        "LocationDatabaseHint": "Baza podataka lokacija je baza podataka zemalja, regija ili gradova."
+    }
+}

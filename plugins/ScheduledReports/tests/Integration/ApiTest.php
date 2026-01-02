@@ -15,10 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\Date;
 use Piwik\Piwik;
-use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
-use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
-use Piwik\Plugins\ScheduledReports\Menu;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
@@ -173,8 +170,8 @@ class ApiTest extends IntegrationTestCase
                 'displayFormat'    => '1',
                 'emailMe'          => true,
                 'additionalEmails' => array('test@test.com', 't2@test.com'),
-                'evolutionGraph'   => true
-            )
+                'evolutionGraph'   => true,
+            ),
         );
 
         $dataWebsiteTwo = $data;
@@ -292,118 +289,6 @@ class ApiTest extends IntegrationTestCase
     /**
      * @group Plugins
      */
-    public function testGetTopMenuTranslationKeyMobileMessagingInactive()
-    {
-        // unload MobileMessaging plugin
-        \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('ScheduledReports'));
-
-        $pdfReportPlugin = new Menu();
-        $this->assertEquals(
-            Menu::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY,
-            $pdfReportPlugin->getTopMenuTranslationKey()
-        );
-    }
-
-    /**
-     * @group Plugins
-     */
-    public function testGetTopMenuTranslationKeyUserIsAnonymous()
-    {
-        $this->setAnonymous();
-
-        $pdfReportPlugin = new Menu();
-        $this->assertEquals(
-            Menu::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
-            $pdfReportPlugin->getTopMenuTranslationKey()
-        );
-    }
-
-    /**
-     * top menu should display 'Email & SMS reports' when the user has set-up a valid mobile provider account
-     * even though there is no sms reports configured
-     *
-     * @group Plugins
-     */
-    public function testGetTopMenuTranslationKeyNoReportMobileAccountOK()
-    {
-        // set mobile provider account
-        self::setSuperUser();
-        APIMobileMessaging::getInstance()->setSMSAPICredential('StubbedProvider', []);
-
-        $pdfReportPlugin = new Menu();
-        $this->assertEquals(
-            Menu::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
-            $pdfReportPlugin->getTopMenuTranslationKey()
-        );
-    }
-
-    /**
-     * top menu should display 'Email reports' when the user has not set-up a valid mobile provider account
-     * and no reports at all have been configured
-     *
-     * @group Plugins
-     */
-    public function testGetTopMenuTranslationKeyNoReportMobileAccountKO()
-    {
-        $pdfReportPlugin = new Menu();
-        $this->assertEquals(
-            Menu::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY,
-            $pdfReportPlugin->getTopMenuTranslationKey()
-        );
-    }
-
-    /**
-     * top menu should display 'Email & SMS reports' if there is at least one sms report
-     * whatever the status of the mobile provider account
-     *
-     * @group Plugins
-     */
-    public function testGetTopMenuTranslationKeyOneSMSReportMobileAccountKO()
-    {
-        APIScheduledReports::getInstance()->addReport(
-            1,
-            '',
-            Schedule::PERIOD_DAY,
-            0,
-            MobileMessaging::MOBILE_TYPE,
-            MobileMessaging::SMS_FORMAT,
-            [],
-            [
-                 MobileMessaging::PHONE_NUMBERS_PARAMETER => []
-            ]
-        );
-
-        $pdfReportPlugin = new Menu();
-        $this->assertEquals(
-            Menu::MOBILE_MESSAGING_TOP_MENU_TRANSLATION_KEY,
-            $pdfReportPlugin->getTopMenuTranslationKey()
-        );
-    }
-
-    /**
-     * top menu should display 'Email reports' if there are no SMS reports and at least one email report
-     * whatever the status of the mobile provider account
-     *
-     * @group Plugins
-     */
-    public function testGetTopMenuTranslationKeyNoSMSReportAccountOK()
-    {
-        // set mobile provider account
-        self::setSuperUser();
-        APIMobileMessaging::getInstance()->setSMSAPICredential('StubbedProvider', []);
-
-        self::addReport(self::getMonthlyEmailReportData($this->idSite));
-
-        $pdfReportPlugin = new Menu();
-        $this->assertEquals(
-            Menu::PDF_REPORTS_TOP_MENU_TRANSLATION_KEY,
-            $pdfReportPlugin->getTopMenuTranslationKey()
-        );
-    }
-
-    /**
-     * @group Plugins
-     */
     public function testGetScheduledTasks()
     {
         // stub API to control getReports() return values
@@ -511,7 +396,10 @@ class ApiTest extends IntegrationTestCase
             '\\Piwik\\Plugins\\ScheduledReports\\API',
             'getReportSubjectAndReportTitle'
         );
-        $getReportSubjectAndReportTitle->setAccessible(true);
+
+        if (PHP_VERSION_ID < 80100) {
+            $getReportSubjectAndReportTitle->setAccessible(true);
+        }
 
         [$reportSubject, $reportTitle] = $getReportSubjectAndReportTitle->invoke(APIScheduledReports::getInstance(), $websiteName, $reports);
         $this->assertEquals($expectedReportSubject, $reportSubject);
@@ -593,7 +481,7 @@ class ApiTest extends IntegrationTestCase
                 'VisitsSummary_get',
             ],
             [
-                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
             ]
         );
 
@@ -700,7 +588,7 @@ class ApiTest extends IntegrationTestCase
                 'VisitsSummary_get',
             ],
             [
-                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY
+                ScheduledReports::DISPLAY_FORMAT_PARAMETER => ScheduledReports::DISPLAY_FORMAT_TABLES_ONLY,
             ]
         );
 
@@ -1039,8 +927,8 @@ class ApiTest extends IntegrationTestCase
                 'displayFormat'    => '1',
                 'emailMe'          => true,
                 'additionalEmails' => array('test@test.com', 'test@test.com', 't2@test.com', 'test@test.com'),
-                'evolutionGraph'   => true
-            )
+                'evolutionGraph'   => true,
+            ),
         );
 
         self::addReport($data);
@@ -1096,8 +984,8 @@ class ApiTest extends IntegrationTestCase
                 'displayFormat'    => '1',
                 'emailMe'          => true,
                 'additionalEmails' => array('test@test.com', 't2@test.com'),
-                'evolutionGraph'   => false
-            )
+                'evolutionGraph'   => false,
+            ),
         );
     }
 
@@ -1115,8 +1003,8 @@ class ApiTest extends IntegrationTestCase
                 'displayFormat'    => '1',
                 'emailMe'          => false,
                 'additionalEmails' => array('blabla@ec.fr'),
-                'evolutionGraph'   => false
-            )
+                'evolutionGraph'   => false,
+            ),
         );
     }
 
@@ -1144,7 +1032,7 @@ class ApiTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 

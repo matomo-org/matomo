@@ -21,7 +21,7 @@ class DatabaseHandler extends AbstractProcessingHandler
     protected function write(array $record)
     {
         $sql = sprintf(
-            'INSERT INTO %s (tag, timestamp, level, message) VALUES (?, ?, ?, ?)',
+            'INSERT INTO `%s` (tag, timestamp, level, message) VALUES (?, ?, ?, ?)',
             Common::prefixTable('logger_message')
         );
 
@@ -32,7 +32,7 @@ class DatabaseHandler extends AbstractProcessingHandler
             $record['extra']['class'],
             $record['datetime']->format('Y-m-d H:i:s'),
             $record['level_name'],
-            trim($record['formatted'])
+            trim($record['formatted']),
         ));
 
         Db::enableQueryLog($queryLog);

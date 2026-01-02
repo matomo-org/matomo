@@ -75,7 +75,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWithout2Fa,
             'passwordConfirmation' => $this->userPassword,
-            'description' => 'twofa test'
+            'description' => 'twofa test',
         ));
         $this->assertEquals(32, strlen($token));
     }
@@ -88,7 +88,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => 'invalidPAssword',
-            'description' => 'twofa test'
+            'description' => 'twofa test',
         ));
     }
 
@@ -101,7 +101,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
 
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => $this->userPassword,
-            'description' => 'twofa test'
+            'description' => 'twofa test',
         ));
     }
 
@@ -114,7 +114,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => $this->userPassword,
-            'description' => 'twofa test'
+            'description' => 'twofa test',
         ));
     }
 
@@ -124,7 +124,7 @@ class TwoFactorAuthTest extends IntegrationTestCase
         $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
             'userLogin' => $this->userWith2Fa,
             'passwordConfirmation' => $this->userPassword,
-            'description' => 'twofa test'
+            'description' => 'twofa test',
         ));
         $this->assertEquals(32, strlen($token));
     }

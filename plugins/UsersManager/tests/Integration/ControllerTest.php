@@ -73,7 +73,7 @@ class ControllerTest extends IntegrationTestCase
 
         // expect test to get past strength check and fail when checking existing password
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('UsersManager_ConfirmWithPassword');
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
         $this->controller->recordPasswordChange();
     }
 

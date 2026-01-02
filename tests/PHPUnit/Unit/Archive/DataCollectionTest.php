@@ -35,7 +35,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         $siteIds   = array($this->site1, $this->site2);
         $dataNames = array('Name1', 'Name2');
         $defaultRow = array(
-            'default' => 1
+            'default' => 1,
         );
 
         if ($onlyOnePeriod) {
@@ -83,7 +83,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
 
         $expected = array(
             'default' => '10',
-            'nb_visits' => '5'
+            'nb_visits' => '5',
         );
 
         $this->assertEquals($expected, $collection->getIndexedArray($resultIndices = array()));
@@ -100,7 +100,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(array(
             1 => array(),
-            2 => array()
+            2 => array(),
         ), $collection->getIndexedArray($this->getSiteResultIndices()));
     }
 
@@ -117,7 +117,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
                 'nb_unique_visits' => '10',
             ),
             2 => array(
-            )
+            ),
         );
 
         $this->assertEquals($expected, $collection->getIndexedArray($this->getSiteResultIndices()));
@@ -133,12 +133,12 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         $expected = array(
             1 => array(
                 'default' => '10',
-                'nb_visits' => '5'
+                'nb_visits' => '5',
             ),
             2 => array(
                 'default' => 1,
-                'nb_visits' => '15'
-            )
+                'nb_visits' => '15',
+            ),
         );
 
         $this->assertEquals($expected, $collection->getIndexedArray($this->getSiteResultIndices()));
@@ -155,7 +155,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(array(
             $this->date1 => array(),
-            $this->date2 => array()
+            $this->date2 => array(),
         ), $collection->getIndexedArray($this->getPeriodResultIndices()));
     }
 
@@ -172,7 +172,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
                 'nb_unique_visits' => '10',
             ),
             $this->date2 => array(
-            )
+            ),
         );
 
         $this->assertEquals($expected, $collection->getIndexedArray($this->getPeriodResultIndices()));
@@ -188,12 +188,12 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         $expected = array(
             $this->date1 => array(
                 'default' => '10',
-                'nb_visits' => '5'
+                'nb_visits' => '5',
             ),
             $this->date2 => array(
                 'default' => 1,
-                'nb_visits' => '15'
-            )
+                'nb_visits' => '15',
+            ),
         );
 
         $this->assertEquals($expected, $collection->getIndexedArray($this->getPeriodResultIndices()));
@@ -212,12 +212,12 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
         $expected = array(
             $this->site1 => array(
                 $this->date1 => array(),
-                $this->date2 => array()
+                $this->date2 => array(),
             ),
             $this->site2 => array(
                 $this->date1 => array(),
-                $this->date2 => array()
-            )
+                $this->date2 => array(),
+            ),
         );
 
         $this->assertEquals($expected, $collection->getIndexedArray($this->getPeriodAndSiteResultIndices()));
@@ -238,7 +238,7 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
                     'nb_visits' => '5',
                     'nb_unique_visits' => '10',
                 ),
-                $this->date2 => array()
+                $this->date2 => array(),
             ),
             $this->site2 => array(
                 $this->date1 => array(
@@ -248,8 +248,8 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
                 $this->date2 => array(
                     'default' => 1,
                     'nb_unique_visits' => '22',
-                )
-            )
+                ),
+            ),
         );
 
         $this->assertEquals($expected, $collection->getIndexedArray($this->getPeriodAndSiteResultIndices()));
@@ -268,12 +268,12 @@ class DataCollectionTest extends \PHPUnit\Framework\TestCase
                     'default' => 10,
                     'nb_visits' => '5',
                 ),
-                $this->date2 => array()
+                $this->date2 => array(),
             ),
             $this->site2 => array(
                 $this->date1 => array('default' => 21),
-                $this->date2 => array()
-            )
+                $this->date2 => array(),
+            ),
         );
 
         $this->assertEquals($expected, $collection->getIndexedArray($this->getPeriodAndSiteResultIndices()));

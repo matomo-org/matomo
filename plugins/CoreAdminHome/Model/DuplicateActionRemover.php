@@ -29,7 +29,7 @@ class DuplicateActionRemover
     public static $tablesWithIdActionColumns = array(
         'log_link_visit_action',
         'log_conversion',
-        'log_conversion_item'
+        'log_conversion_item',
     );
 
     /**
@@ -147,7 +147,7 @@ class DuplicateActionRemover
         $idactionColumns = array_values($idactionColumns[$table]);
         $table = Common::prefixTable($table);
 
-        $sql = "SELECT idsite, DATE(server_time) as server_time FROM $table ";
+        $sql = "SELECT idsite, DATE(server_time) as server_time FROM `$table` ";
         $sql .= $this->getWhereToGetRowsUsingDuplicateActions($idactionColumns, $duplicateIdActions);
         return Db::fetchAll($sql);
     }
@@ -161,7 +161,7 @@ class DuplicateActionRemover
 
                 $this->logger->debug("Found following idactions in {table}: {columns}", array(
                     'table' => $table,
-                    'columns' => implode(',', $columns)
+                    'columns' => implode(',', $columns),
                 ));
 
                 $this->idactionColumns[$table] = $columns;

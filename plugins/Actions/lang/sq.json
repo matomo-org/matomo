@@ -1,6 +1,7 @@
 {
     "Actions": {
         "ActionType": "Lloj Veprimi",
+        "ActionTypeSegmentHelp": "Një lloj veprimi, fjala vjen: %s",
         "ActionTypes": "Lloje Veprimesh",
         "ActionsInVisit": "Veprime Në Vizitë",
         "AvgGenerationTimeTooltip": "Mesatare e bazuar në %1$s “hit”(e) %2$s mes %3$s dhe %4$s",
@@ -66,6 +67,7 @@
         "PagesSubcategoryHelp3": "Për lëvizje përdorni ikonat plus dhe minus majtas.",
         "PluginDescription": "Raporte rreth parjes së faqeve dhe titujve të tyre. Ju lejon të matni gjëra për motorin e brendshëm të kërkimeve të sajtit tuaj. Ndjek vetvetiu klikimet drejt lidhjesh të jashtme dhe shkarkime kartelash.",
         "RevisitedPages": "Faqe të para më shumë se një herë",
+        "SearchesSegmentHelp": "Për të përzgjedhur krejt vizitat që përdorën Kërkimin e brendshëm të Sajtit, përdorni: %s",
         "SiteSearchCategories": "Kategori (Kërkim Në Sajt)",
         "SiteSearchCategories1": "Ky raport paraqet kategoritë që vizitorët kanë përzgjedhur kur bënë një Kërkim te sajti juaj.",
         "SiteSearchCategories2": "Për shembull, sajtet për e-tregti kanë zakonisht një përzgjedhës “Kategorish”, që kështu vizitorët të mund t’i ngushtojnë kërkimet e tyre nga krejt produktet te një Kategori specifike.",

@@ -130,12 +130,12 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
     {
         $this->config->setMiddlewareParameters(array(
             'module' => 'Goals',
-            'action' => 'hasConversions'
+            'action' => 'hasConversions',
         ));
 
         $this->assertSame(array(
             'module' => 'Goals',
-            'action' => 'hasConversions'
+            'action' => 'hasConversions',
         ), $this->config->getMiddlewareParameters());
     }
 
@@ -149,7 +149,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(
             'module' => 'CoreHome',
             'action' => 'renderWidgetContainer',
-            'containerId' => $this->id
+            'containerId' => $this->id,
         ), $this->config->getParameters());
     }
 
@@ -160,7 +160,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(
             'module' => 'CoreHome',
             'action' => 'renderWidgetContainer',
-            'containerId' => $this->id
+            'containerId' => $this->id,
         ), $this->config->getParameters());
     }
 
@@ -175,7 +175,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
             'action' => 'renderWidgetContainer',
             'test' => '3',
             'forceView' => '1',
-            'containerId' => $this->id
+            'containerId' => $this->id,
         ), $this->config->getParameters());
     }
 
@@ -188,7 +188,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
             'module' => 'CoreHome',
             'action' => 'renderWidgetContainer',
             'forceView' => '1',
-            'containerId' => $this->id
+            'containerId' => $this->id,
         ), $this->config->getParameters());
     }
 
@@ -268,7 +268,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
             $widget1,
             $widget2,
             $widget3,
-            $widget4
+            $widget4,
         ), $this->config->getWidgetConfigs());
     }
 
@@ -286,7 +286,7 @@ class WidgetContainerConfigTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(array(
             $widget2,
             $widget3,
-            $widget4
+            $widget4,
         ), $this->config->getWidgetConfigs());
     }
 

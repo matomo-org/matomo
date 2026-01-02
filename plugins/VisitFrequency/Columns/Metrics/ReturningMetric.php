@@ -31,7 +31,7 @@ class ReturningMetric extends ProcessedMetric
         'bounce_rate_returning' => 'VisitFrequency_ColumnBounceRateForReturningVisits',
         'bounce_rate_new'      => 'VisitFrequency_ColumnBounceRateForNewVisits',
         'nb_users_returning' => 'VisitFrequency_ColumnReturningUsers',
-        'nb_users_new' => 'VisitFrequency_ColumnNewUsers'
+        'nb_users_new' => 'VisitFrequency_ColumnNewUsers',
     );
 
     /**

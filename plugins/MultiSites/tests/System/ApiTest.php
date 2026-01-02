@@ -90,7 +90,7 @@ class ApiTest extends SystemTestCase
                     ],
                     'testSuffix' => 'multiplePeriods',
                 ],
-            ]
+            ],
         ];
     }
 

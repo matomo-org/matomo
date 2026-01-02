@@ -44,30 +44,28 @@ function initializeVisitorActions(elem) {
                 return;
             }
 
-            if (!$actions[index - 1]
-                || !$($actions[index - 1]).is('.content')
-                || !$actions[index - 2]
-                || !$($actions[index - 2]).is('.content')
-            ) {
+            var $firstContentItem = $li;
+            let countContentItemsInARow = 1;
+            while ($firstContentItem.prev().is('.content')) {
+                countContentItemsInARow++;
+                $firstContentItem = $firstContentItem.prev();
+            }
+
+            if (countContentItemsInARow < 3) {
                 return;
             }
 
-            var $collapsedContents = $li;
-            while ($collapsedContents.prev().is('.content')) {
-                $collapsedContents = $collapsedContents.prev();
+            if (!$firstContentItem.is('.collapsed-contents')) {
+                $firstContentItem = makeCollapsedContents($firstContentItem);
+                addContentItem($firstContentItem, $li.prev().prev());
+                addContentItem($firstContentItem, $li.prev());
             }
 
-            if (!$collapsedContents.is('.collapsed-contents')) {
-                $collapsedContents = makeCollapsedContents();
-                $collapsedContents.insertBefore($($actions[index - 2]));
+            addContentItem($firstContentItem, $li);
+            $li.addClass('last-collapsed-content');
+            $li.prev().removeClass('last-collapsed-content');
 
-                addContentItem($collapsedContents, $($actions[index - 2]));
-                addContentItem($collapsedContents, $($actions[index - 1]));
-            }
-
-            addContentItem($collapsedContents, $li);
-
-            function makeCollapsedContents() {
+            function makeCollapsedContents($beforeElement) {
                 var $li = $('<li/>')
                     .attr('class', 'content collapsed-contents')
                     .attr('title', _pk_translate('Live_ClickToSeeAllContents'));
@@ -77,6 +75,7 @@ function initializeVisitorActions(elem) {
                         ' <span class="content-impressions">0</span> content impressions <span class="content-interactions">0</span> interactions')
                     .appendTo($li);
 
+                $li.insertBefore($beforeElement);
                 return $li;
             }
 
@@ -171,22 +170,23 @@ function initializeVisitorActions(elem) {
     elem.on('click', '.show-less-actions,.show-more-actions', function (e) {
         e.preventDefault();
 
-        var actionsToDisplayCollapsed = +piwik.visitorLogActionsToDisplayCollapsed;
+        const $triggerItem = $(e.target).closest('li');
+        const $root = $triggerItem.parent();
+        const actionsToDisplayCollapsed = +piwik.visitorLogActionsToDisplayCollapsed;
+        const isExpanded = $triggerItem.toggleClass('expanded collapsed').hasClass('expanded');
 
-        var $actions = $(e.target).closest('.actionList').find('li:not(.duplicate):not(.actionsForPageExpander)');
+        const $actions = $root.find('li:not(.duplicate):not(.actionsForPageExpander)');
         $actions.each(function () {
-            if ($actions.index(this) >= actionsToDisplayCollapsed) {
-                $(this).toggle({
-                    duration: 250
-                });
+            const currentIndex = $actions.index(this);
+            if (currentIndex === actionsToDisplayCollapsed - 1) {
+                $(this).toggleClass('last-collapsed-action', !isExpanded);
+            } else if (currentIndex >= actionsToDisplayCollapsed) {
+                $(this).toggle({ duration: 250 }, !isExpanded);
             }
          });
 
-        $(e.target)
-            .parent().find('.show-less-actions,.show-more-actions').toggle();
-        $(e.target)
-            .closest('li')
-            .toggleClass('expanded collapsed');
+        $triggerItem.find('.show-more-actions').toggle(!isExpanded);
+        $triggerItem.find('.show-less-actions').toggle(isExpanded);
     });
 
     elem.find('.show-less-actions:visible').click();

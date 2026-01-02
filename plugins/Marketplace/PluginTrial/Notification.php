@@ -62,7 +62,7 @@ class Notification
 
         $marketplaceUrl = Url::getCurrentQueryStringWithParametersModified([
             'module' => 'Marketplace',
-            'action' => 'overview'
+            'action' => 'overview',
         ]);
         $link = sprintf('<a href="%s#?showPlugin=%s">', $marketplaceUrl, $this->pluginName);
         $message = '<b>' . Piwik::translate(

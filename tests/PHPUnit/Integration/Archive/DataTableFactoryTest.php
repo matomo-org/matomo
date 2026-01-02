@@ -38,7 +38,7 @@ class DataTableFactoryTest extends IntegrationTestCase
     private $date2 = '2012-12-13';
 
     private $defaultRow = array(
-        'nb_visits' => 97
+        'nb_visits' => 97,
     );
 
     public function setUp(): void
@@ -215,11 +215,11 @@ class DataTableFactoryTest extends IntegrationTestCase
         $index = array(
             $this->site1 => array(
                 $this->date1range => array(),
-                $this->date2range => array()
+                $this->date2range => array(),
             ),
             $this->site2 => array(
                 $this->date1range => array(),
-                $this->date2range => array()
+                $this->date2range => array(),
             ),
         );
 
@@ -254,11 +254,11 @@ class DataTableFactoryTest extends IntegrationTestCase
         $index = array(
             $this->site1 => array(
                 $this->date1range => $row1,
-                $this->date2range => array()
+                $this->date2range => array(),
             ),
             $this->site2 => array(
                 $this->date1range => $row2,
-                $this->date2range => $row3
+                $this->date2range => $row3,
             ),
         );
 
@@ -375,7 +375,7 @@ class DataTableFactoryTest extends IntegrationTestCase
     public function provideContainerConfig()
     {
         return array(
-            'Piwik\Access' => new FakeAccess()
+            'Piwik\Access' => new FakeAccess(),
         );
     }
 }

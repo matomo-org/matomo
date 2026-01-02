@@ -154,7 +154,7 @@ abstract class Dimension
      *
      * If the closure returns NULL, then Piwik assumes the segment sub-string will not match any visitor.
      *
-     * @var string|\Closure
+     * @var string|\Closure|callable
      * @api since Piwik 3.2.0
      */
     protected $sqlFilter;
@@ -279,7 +279,7 @@ abstract class Dimension
         // we need to do this in column updater etc!
 
         return array(
-            $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType")
+            $this->dbTableName => array("ADD COLUMN `$this->columnName` $this->columnType"),
         );
     }
 
@@ -308,7 +308,7 @@ abstract class Dimension
         }
 
         return array(
-            $this->dbTableName => array("MODIFY COLUMN `$this->columnName` $this->columnType")
+            $this->dbTableName => array("MODIFY COLUMN `$this->columnName` $this->columnType"),
         );
     }
 
@@ -621,11 +621,15 @@ abstract class Dimension
      */
     public function getAcceptValues()
     {
+        if (!empty($this->acceptValues) && strpos($this->acceptValues, '_')) {
+            return Piwik::translate($this->acceptValues);
+        }
+
         return $this->acceptValues;
     }
 
     /**
-     * @return \Closure|string|null
+     * @return callable|\Closure|string|null
      * @ignore
      */
     public function getSqlFilter()

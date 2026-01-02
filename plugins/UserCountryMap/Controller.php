@@ -153,7 +153,7 @@ class Controller extends \Piwik\Plugin\Controller
             'segment'                     => $segment,
             'token_auth'                  => $token_auth,
             'enable_filter_excludelowpop' => 1,
-            'filter_excludelowpop_value'  => -1
+            'filter_excludelowpop_value'  => -1,
         ]);
 
         $view->metrics = $config['metrics'] = $this->getMetrics($this->idSite, $period, $date, $token_auth);
@@ -178,7 +178,7 @@ class Controller extends \Piwik\Plugin\Controller
             'EU' => \Piwik\Plugins\UserCountry\continentTranslate('eur'),
             'NA' => \Piwik\Plugins\UserCountry\continentTranslate('amn'),
             'OC' => \Piwik\Plugins\UserCountry\continentTranslate('oce'),
-            'SA' => \Piwik\Plugins\UserCountry\continentTranslate('ams')
+            'SA' => \Piwik\Plugins\UserCountry\continentTranslate('ams'),
         ];
 
         return $view->render();
@@ -268,7 +268,7 @@ class Controller extends \Piwik\Plugin\Controller
             'showDateTime'       => Common::getRequestVar('showDateTime', true, 'int'),
             'doNotRefreshVisits' => Common::getRequestVar('doNotRefreshVisits', false, 'int'),
             'enableAnimation'    => Common::getRequestVar('enableAnimation', true, 'int'),
-            'forceNowValue'      => Common::getRequestVar('forceNowValue', false, 'int')
+            'forceNowValue'      => Common::getRequestVar('forceNowValue', false, 'int'),
         ];
 
         return $view->render();

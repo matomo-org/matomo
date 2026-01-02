@@ -20,7 +20,7 @@
           @change="onChange($index)"
           v-bind="uiControlAttributes"
           type="checkbox"
-          :id="`${name}${checkboxModel.key}`"
+          :id="`${id}${checkboxModel.key}`"
           :name="checkboxModel.name"
         />
         <span>{{ checkboxModel.value }}</span>
@@ -51,6 +51,7 @@ export default defineComponent({
     modelModifiers: Object,
     name: String,
     title: String,
+    id: String,
     availableOptions: Array,
     uiControlAttributes: Object,
     type: String,

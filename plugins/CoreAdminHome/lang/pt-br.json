@@ -85,6 +85,7 @@
         "JsTrackingCodeMissingEmail2": "Para começar a rastrear dados e obter insights sobre seus usuários, você precisa configurar o acompanhamento em seu site ou aplicativo para dispositivos móveis. Para sites, basta incorporar o código de acompanhamento antes da tag %s.",
         "JsTrackingCodeMissingEmail3": "Para encontrar e personalizar seu código de rastreamento, %1$s clicar aqui %2$s (ou dê uma olhada no %3$s guia de Rastreamento JavaScript do Cliente %4$s).",
         "LearnMore": "Saber mais",
+        "Login": "login",
         "LogoNotWriteableInstruction": "Para usar seu logotipo personalizado em vez do logotipo padrão do Matomo, conceda permissão de gravação a este diretório: %1$s O Matomo precisa de permissão para gravação dos seus logotipos armazenados %2$s.",
         "LogoUpload": "Selecione um logotipo para carregar",
         "LogoUploadFailed": "O arquivo enviado não pôde ser processado. Por favor, verifique se o arquivo tem um formato válido.",
