@@ -451,11 +451,6 @@ class Pdf extends ReportRenderer
         if (is_string($value)) {
             $seconds = $this->convertPrettyTimeToSeconds($value);
         }
-
-        if ($seconds === null && is_numeric($value)) {
-            $seconds = (float) $value;
-        }
-
         if ($seconds === null) {
             return null;
         }
@@ -475,6 +470,7 @@ class Pdf extends ReportRenderer
 
     /**
      * Converts 'duration' data to seconds so that we can convert it to new format
+     * Duration data format comes in as is 'HH:MM:SS'
      * @param $value
      * @return int
      */
@@ -501,7 +497,7 @@ class Pdf extends ReportRenderer
         $fraction = isset($timeMatch['fraction']) ? (float) ('0.' . $timeMatch['fraction']) : 0.0;
 
         $totalSeconds = (($hours * 60) + $minutes) * 60 + $seconds + $fraction;
-
+        $totalSeconds = (int)round($totalSeconds);
         if ($isNegative) {
             $totalSeconds *= -1;
         }
