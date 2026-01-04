@@ -11,6 +11,7 @@ namespace Piwik\ReportRenderer;
 
 use Piwik\Common;
 use Piwik\Filesystem;
+use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -439,7 +440,7 @@ class Pdf extends ReportRenderer
         }
     }
 
-    private function formatTimeMetricValue($columnId, $value)
+    private function formatTimeMetricValue($columnId, $value): ?string
     {
         if (!$this->isTimeMetricColumn($columnId)) {
             return null;
@@ -459,11 +460,8 @@ class Pdf extends ReportRenderer
             return null;
         }
 
-        $formatter = NumberFormatter::getInstance();
-        $formattedSeconds = $formatter->formatNumber($seconds, 1, 1);
-        $localizedSeconds = sprintf(Piwik::translate('Intl_NSecondsShort'), $formattedSeconds);
-
-        return $localizedSeconds;
+        $formatter = new Formatter();
+        return $formatter->getPrettyTimeFromSeconds($seconds, true);
     }
 
     private function isTimeMetricColumn($columnId)
@@ -471,7 +469,12 @@ class Pdf extends ReportRenderer
         return $this->reportMetadata['metricTypes'][$columnId] == 'duration_s';
     }
 
-    private function convertPrettyTimeToSeconds($value)
+    /**
+     * Converts 'duration' data to seconds so that we can convert it to new format
+     * @param $value
+     * @return int
+     */
+    private function convertPrettyTimeToSeconds($value): ?int
     {
         $stringValue = trim($value);
         if ($stringValue === '') {
@@ -484,12 +487,6 @@ class Pdf extends ReportRenderer
             $stringValue = substr($stringValue, 1);
         }
 
-        $days = 0;
-        if (preg_match('/^(\d+)\D+(\d{1,3}:\d{2}:\d{2}(?:\.\d+)?)$/u', $stringValue, $dayMatch)) {
-            $days = (int) $dayMatch[1];
-            $stringValue = $dayMatch[2];
-        }
-
         if (!preg_match('/^(?P<hours>\d{1,3}):(?P<minutes>\d{2}):(?P<seconds>\d{2})(?:\.(?P<fraction>\d+))?$/', $stringValue, $timeMatch)) {
             return null;
         }
@@ -499,7 +496,6 @@ class Pdf extends ReportRenderer
         $seconds = (int) $timeMatch['seconds'];
         $fraction = isset($timeMatch['fraction']) ? (float) ('0.' . $timeMatch['fraction']) : 0.0;
 
-        $hours += $days * 24;
         $totalSeconds = (($hours * 60) + $minutes) * 60 + $seconds + $fraction;
 
         if ($isNegative) {
