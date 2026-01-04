@@ -419,8 +419,8 @@ class Pdf extends ReportRenderer
                         $rowMetrics[$columnId] = 0;
                     }
 
-                    if ($this->isTimeMetricColumn($columnId)) {
-                        $metricValue = $this->formatTimeMetricValue($columnId, $rowMetrics[$columnId]);
+                    if ($this->isDurationMetricColumn($columnId)) {
+                        $metricValue = $this->formatDurationMetricValue($rowMetrics[$columnId]);
                     } else {
                         $metricValue = NumberFormatter::getInstance()->format($rowMetrics[$columnId]);
                     }
@@ -440,12 +440,12 @@ class Pdf extends ReportRenderer
         }
     }
 
-    private function formatTimeMetricValue($columnId, $value): ?string
+    /**
+     * @param $value
+     * @return string|null
+     */
+    private function formatDurationMetricValue($value): ?string
     {
-        if (!$this->isTimeMetricColumn($columnId)) {
-            return null;
-        }
-
         $seconds = null;
 
         if (is_string($value)) {
@@ -464,7 +464,11 @@ class Pdf extends ReportRenderer
         return $formatter->getPrettyTimeFromSeconds($seconds, true);
     }
 
-    private function isTimeMetricColumn($columnId)
+    /**
+     * @param $columnId
+     * @return bool
+     */
+    private function isDurationMetricColumn($columnId): bool
     {
         return $this->reportMetadata['metricTypes'][$columnId] == 'duration_s';
     }
