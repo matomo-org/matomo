@@ -343,11 +343,21 @@ class Pdf extends ReportRenderer
         }
     }
 
-    private function formatText($text)
+    /**
+     * @param $text
+     * @return string
+     */
+    private function formatText($text): string
     {
         return Common::unsanitizeInputValue($text);
     }
-    private function limitTextLength($text, $maxLength)
+
+    /**
+     * @param $text
+     * @param $maxLength
+     * @return string
+     */
+    private function limitTextLength($text, $maxLength): string
     {
         if (mb_strlen($text) < $maxLength) {
             return $text;
@@ -355,7 +365,10 @@ class Pdf extends ReportRenderer
         return mb_substr($text, 0, $maxLength) . '...';
     }
 
-    private function paintReportTable()
+    /**
+     * @return void
+     */
+    private function paintReportTable(): void
     {
         //Color and font restoration
         $this->TCPDF->SetFillColor($this->tableBackgroundColor[0], $this->tableBackgroundColor[1], $this->tableBackgroundColor[2]);
@@ -476,6 +489,13 @@ class Pdf extends ReportRenderer
             $fill = !$fill;
         }
     }
+
+    /**
+     * Gets the row height for a label. This will be the total height including wrapping
+     * but still having a maximum height
+     * @param string $text
+     * @return float
+     */
     private function getLabelRowHeight(string $text): float
     {
         $maxHeight = $this->maxRowHeight;
@@ -494,6 +514,8 @@ class Pdf extends ReportRenderer
     }
 
     /**
+     * Checks if a string might be a url or not
+     * Will return the string with an 'https' protocol if it is a valid url
      * @param string $value
      * @return false|string
      */
@@ -523,6 +545,11 @@ class Pdf extends ReportRenderer
         return $rowHeight;
     }
 
+    /**
+     * Will check whether label should use a shorter width or not
+     * @param int $columnsCount
+     * @return void
+     */
     private function adjustLabelWidthForTableData(int $columnsCount): void
     {
         if ($columnsCount <= 1 || !$this->reportHasData()) {
@@ -538,6 +565,11 @@ class Pdf extends ReportRenderer
         $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
     }
 
+    /**
+     * Grabs adjusted column widths
+     * @param string $columnId
+     * @return float
+     */
     private function getColumnWidth(string $columnId): float
     {
         if (isset($this->columnCellWidths[$columnId])) {
@@ -551,6 +583,11 @@ class Pdf extends ReportRenderer
         return (float) $this->cellWidth;
     }
 
+    /**
+     * This function will try to show all values for revenue columns.
+     * Will adjust other column widths to accommodate this
+     * @return void
+     */
     private function adjustMetricColumnWidthsForRevenue(): void
     {
         if (!$this->reportHasData()) {
@@ -565,6 +602,12 @@ class Pdf extends ReportRenderer
         }
     }
 
+    /**
+     * This function will try to adjust column width based on the content.
+     * This will try to make other columns smaller to accommodate this
+     * @param string $columnId
+     * @return void
+     */
     private function adjustMetricColumnWidthToContent(string $columnId): void
     {
         if (!array_key_exists($columnId, $this->reportColumns) || !isset($this->columnCellWidths[$columnId])) {
@@ -628,6 +671,11 @@ class Pdf extends ReportRenderer
         $this->columnCellWidths[$columnId] += $appliedWidth;
     }
 
+    /**
+     * Computes maximum column width for a given metric column
+     * @param string $columnId
+     * @return float
+     */
     private function getMaxFormattedColumnWidth(string $columnId): float
     {
         $maxWidth = 0;
@@ -651,6 +699,11 @@ class Pdf extends ReportRenderer
         return $maxWidth + 2;
     }
 
+    /**
+     * Will check if label column could use a shorter width.
+     * This is done so that we can fit more metrics in the same row for data table with no label that is too long
+     * @return bool
+     */
     private function shouldUseShortLabelWidth(): bool
     {
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
@@ -698,7 +751,11 @@ class Pdf extends ReportRenderer
         return $maxLength > 0;
     }
 
-    private function paintGraph()
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    private function paintGraph(): void
     {
         $imageGraph = parent::getStaticGraph(
             $this->reportMetadata,
@@ -736,7 +793,7 @@ class Pdf extends ReportRenderer
     /**
      * Draw the table header (first row)
      */
-    private function paintReportTableHeader()
+    private function paintReportTableHeader(): void
     {
         $initPosX = 10;
 
@@ -754,6 +811,11 @@ class Pdf extends ReportRenderer
         $this->TCPDF->SetXY($initPosX, $posY + $maxCellHeight + $extraSpacing);
     }
 
+    /**
+     * Will initialize table column widths,
+     * this will include adjusting label and revenue columns
+     * @return void
+     */
     private function initializeTableColumnWidths(): void
     {
         $columnsCount = count($this->reportColumns);
@@ -780,6 +842,9 @@ class Pdf extends ReportRenderer
         $this->totalWidth = array_sum($this->columnCellWidths);
     }
 
+    /**
+     * @return void
+     */
     private function setupHeaderRenderingStyle(): void
     {
         $this->TCPDF->SetFillColor(
@@ -804,6 +869,10 @@ class Pdf extends ReportRenderer
         $this->TCPDF->SetDrawColor(255);
     }
 
+    /**
+     * Will adjust table headers based on their column name and make them be closer to the table
+     * @return array
+     */
     private function buildHeaderColumnData(): array
     {
         $columnData = array();
@@ -830,6 +899,13 @@ class Pdf extends ReportRenderer
         return array($columnData, $maxCellHeight);
     }
 
+    /**
+     * @param array $columnData
+     * @param float $initPosX
+     * @param float $posY
+     * @param float $maxCellHeight
+     * @return void
+     */
     private function renderHeaderColumns(array $columnData, float $initPosX, float $posY, float $maxCellHeight): void
     {
         $this->TCPDF->SetFillColor(
@@ -879,6 +955,12 @@ class Pdf extends ReportRenderer
         }
     }
 
+    /**
+     * @param float $posY
+     * @param float $maxCellHeight
+     * @param float $textHeight
+     * @return float
+     */
     private function calculateHeaderTextY(float $posY, float $maxCellHeight, float $textHeight): float
     {
         if ($textHeight <= 0) {
@@ -913,7 +995,7 @@ class Pdf extends ReportRenderer
      * @param string $message
      * @return void
      */
-    private function paintMessage($message)
+    private function paintMessage($message): void
     {
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
         $this->TCPDF->SetTextColor($this->reportTextColor[0], $this->reportTextColor[1], $this->reportTextColor[2]);
@@ -930,7 +1012,7 @@ class Pdf extends ReportRenderer
      * @param $prettyDate
      * @return array
      */
-    public function getAttachments($report, $processedReports, $prettyDate)
+    public function getAttachments($report, $processedReports, $prettyDate): array
     {
         return array();
     }
