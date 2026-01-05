@@ -10,9 +10,11 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Exception;
+use Piwik\Columns\Dimension;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\DataTable;
 use Piwik\Log;
 use Piwik\Option;
 use Piwik\Period;
@@ -20,6 +22,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
+use Piwik\Plugins\ScheduledReports\DataTable\Filter\FormatDurationMetrics;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\SettingsPiwik;
@@ -305,7 +308,40 @@ class ScheduledReports extends \Piwik\Plugin
                 $processedReport['metadata'] = $metadata;
                 $processedReport['columns'] = $columns;
             }
+
+            $this->formatDurationMetrics($processedReport);
         }
+    }
+
+    /**
+     * Will go through processedReport and will grab columns with metric type == 'duration'
+     * and will pass those into the filter to reformat them into human readable format.
+     * @param array $processedReport
+     * @return void
+     */
+    private function formatDurationMetrics(array &$processedReport): void
+    {
+        if (empty($processedReport['metadata']['metricTypes'])) {
+            return;
+        }
+
+        $durationColumns = [];
+        foreach ($processedReport['metadata']['metricTypes'] as $columnId => $metricType) {
+            if ($metricType === Dimension::TYPE_DURATION_S) {
+                $durationColumns[] = $columnId;
+            }
+        }
+
+        if (empty($durationColumns)) {
+            return;
+        }
+
+        $reportData = $processedReport['reportData'] ?? null;
+        if (!$reportData instanceof DataTable) {
+            return;
+        }
+
+        $reportData->filter(FormatDurationMetrics::class, [$durationColumns]);
     }
 
     public function getRendererInstance(&$reportRenderer, $reportType, $outputType, $report)
