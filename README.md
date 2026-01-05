@@ -131,3 +131,4 @@ What makes Matomo unique from the competition:
 Documentation and more info on https://matomo.org.
 
 We are together creating the best open analytics platform in the world!
+
