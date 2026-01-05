@@ -218,6 +218,28 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    /**
+     * @dataProvider getConvertPrettyTimeToSecondsData
+     */
+    public function testConvertPrettyTimeToSeconds($value, $expected)
+    {
+        $this->assertSame($expected, $this->formatter->convertPrettyTimeToSeconds($value));
+    }
+
+    public function getConvertPrettyTimeToSecondsData()
+    {
+        return array(
+            array('00:05:00', 300),
+            array('001:00:00', 3600),
+            array(" 00:00:01.75 ", 1.75),
+            array('-00:10:00', -600),
+            array('999:59:59', (999 * 3600) + (59 * 60) + 59),
+            array('', null),
+            array('00:5:00', null),
+            array('not-time', null),
+        );
+    }
+
     private function unsetSiteManagerApiMock()
     {
         SitesManagerAPI::unsetInstance();
