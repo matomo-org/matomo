@@ -46,7 +46,7 @@ class Formatter
     /**
      * Returns a prettified time value (in seconds).
      *
-     * @param int $numberOfSeconds The number of seconds.
+     * @param int|float $numberOfSeconds The number of seconds.
      * @param bool $displayTimeAsSentence If set to true, will output `"5min 17s"`, if false `"00:05:17"`.
      * @param bool $round Whether to round to the nearest second or not.
      * @return string
@@ -115,6 +115,43 @@ class Formatter
         }
 
         return $return;
+    }
+
+    /**
+     * Converts 'pretty time' to seconds.
+     * Expects value in this format: 'HH:MM:SS' (optionally with milliseconds).
+     *
+     * @return null|float|int
+     * @param string $value
+     */
+    public function convertPrettyTimeToSeconds($value)
+    {
+        $stringValue = trim((string) $value);
+        if ($stringValue === '') {
+            return null;
+        }
+
+        $isNegative = false;
+        if ($stringValue[0] === '-') {
+            $isNegative = true;
+            $stringValue = substr($stringValue, 1);
+        }
+
+        if (!preg_match('/^(?P<hours>\d{1,3}):(?P<minutes>\d{2}):(?P<seconds>\d{2})(?:\.(?P<fraction>\d+))?$/', $stringValue, $timeMatch)) {
+            return null;
+        }
+
+        $hours = (int) $timeMatch['hours'];
+        $minutes = (int) $timeMatch['minutes'];
+        $seconds = (int) $timeMatch['seconds'];
+        $fraction = isset($timeMatch['fraction']) ? (float) ('0.' . $timeMatch['fraction']) : 0;
+
+        $totalSeconds = (($hours * 60) + $minutes) * 60 + $seconds + $fraction;
+        if ($isNegative) {
+            $totalSeconds *= -1;
+        }
+
+        return $totalSeconds;
     }
 
     /**

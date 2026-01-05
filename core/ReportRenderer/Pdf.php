@@ -11,7 +11,6 @@ namespace Piwik\ReportRenderer;
 
 use Piwik\Common;
 use Piwik\Filesystem;
-use Piwik\Metrics\Formatter;
 use Piwik\NumberFormatter;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
@@ -418,13 +417,7 @@ class Pdf extends ReportRenderer
                     if (empty($rowMetrics[$columnId])) {
                         $rowMetrics[$columnId] = 0;
                     }
-
-                    if ($this->isDurationMetricColumn($columnId)) {
-                        $metricValue = $this->formatDurationMetricValue($rowMetrics[$columnId]);
-                    } else {
-                        $metricValue = NumberFormatter::getInstance()->format($rowMetrics[$columnId]);
-                    }
-                    $this->TCPDF->Cell($this->cellWidth, $this->cellHeight, $metricValue, 'LR', 0, 'L', $fill);
+                    $this->TCPDF->Cell($this->cellWidth, $this->cellHeight, NumberFormatter::getInstance()->format($rowMetrics[$columnId]), 'LR', 0, 'L', $fill);
                 }
             }
 
@@ -438,71 +431,6 @@ class Pdf extends ReportRenderer
 
             $fill = !$fill;
         }
-    }
-
-    /**
-     * @param $value
-     * @return string|null
-     */
-    private function formatDurationMetricValue($value): ?string
-    {
-        $seconds = null;
-
-        if (is_string($value)) {
-            $seconds = $this->convertPrettyTimeToSeconds($value);
-        }
-        if ($seconds === null) {
-            return null;
-        }
-
-        $formatter = new Formatter();
-        return $formatter->getPrettyTimeFromSeconds($seconds, true);
-    }
-
-    /**
-     * @param $columnId
-     * @return bool
-     */
-    private function isDurationMetricColumn($columnId): bool
-    {
-        return $this->reportMetadata['metricTypes'][$columnId] == 'duration_s';
-    }
-
-    /**
-     * Converts 'duration' data to seconds so that we can convert it to new format
-     * Duration data format comes in as is 'HH:MM:SS'
-     * @param $value
-     * @return int
-     */
-    private function convertPrettyTimeToSeconds($value): ?int
-    {
-        $stringValue = trim($value);
-        if ($stringValue === '') {
-            return null;
-        }
-
-        $isNegative = false;
-        if ($stringValue[0] === '-') {
-            $isNegative = true;
-            $stringValue = substr($stringValue, 1);
-        }
-
-        if (!preg_match('/^(?P<hours>\d{1,3}):(?P<minutes>\d{2}):(?P<seconds>\d{2})(?:\.(?P<fraction>\d+))?$/', $stringValue, $timeMatch)) {
-            return null;
-        }
-
-        $hours = (int) $timeMatch['hours'];
-        $minutes = (int) $timeMatch['minutes'];
-        $seconds = (int) $timeMatch['seconds'];
-        $fraction = isset($timeMatch['fraction']) ? (float) ('0.' . $timeMatch['fraction']) : 0.0;
-
-        $totalSeconds = (($hours * 60) + $minutes) * 60 + $seconds + $fraction;
-        $totalSeconds = (int)round($totalSeconds);
-        if ($isNegative) {
-            $totalSeconds *= -1;
-        }
-
-        return $totalSeconds;
     }
 
     private function paintGraph()
