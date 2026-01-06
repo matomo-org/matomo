@@ -83,6 +83,7 @@ class Pdf extends ReportRenderer
     private $orientation = self::PORTRAIT;
     private $labelShortContentThreshold = 100;
     private $columnCellWidths = array();
+    private $labelThirdLinePadding = 4;
 
     public function __construct()
     {
@@ -540,7 +541,7 @@ class Pdf extends ReportRenderer
     private function getLabelRowMaxHeight(float $rowHeight): float
     {
         if ($rowHeight >= $this->maxRowHeight) {
-            return $rowHeight + 4;
+            return $rowHeight + $this->labelThirdLinePadding;
         }
         return $rowHeight;
     }
