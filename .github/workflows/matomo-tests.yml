@@ -64,10 +64,6 @@ jobs:
       matrix:
         type: [ 'UnitTests', 'SystemTestsPlugins', 'SystemTestsCore', 'IntegrationTestsCore', 'IntegrationTestsPlugins' ]
         environment:
-          - php: '7.2'
-            adapter: 'PDO_MYSQL'
-            mysql-engine: 'Mysql'
-            mysql-version: '5.7'
           - php: '8.2'
             adapter: 'PDO_MYSQL'
             mysql-engine: 'Mariadb'
