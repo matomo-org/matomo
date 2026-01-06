@@ -86,7 +86,7 @@ jobs:
           ref: ${{ inputs.ref || github.ref }}
 
       - name: Show doctrine initializer
-        run: cat /vendor/doctrine/instantiator/src/Doctrine/Instantiator/Intstantiator.php
+        run: cat /home/runner/work/matomo/matomo/matomo/vendor/doctrine/instantiator/src/Doctrine/Instantiator/Instantiator.php
 
       - name: running tests
         uses: matomo-org/github-action-tests@output_php_version
