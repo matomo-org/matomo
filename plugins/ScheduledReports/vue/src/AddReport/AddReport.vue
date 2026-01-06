@@ -10,6 +10,7 @@
     class="entityAddContainer"
     :content-title="contentTitle"
   >
+    <p>{{ translate('ScheduledReports_CreateTooltip') }}</p>
     <div class="clear" />
     <form
       id="addEditReport"
@@ -132,6 +133,14 @@
           :title="translate('ScheduledReports_ReportType')"
           :options="reportTypeOptions"
         >
+        <template v-slot:inline-help>
+          <div
+            id="emailScheduleInlineHelp"
+            class="inline-help-node"
+          >
+            {{ translate('ScheduledReports_MediumTooltip') }}
+          </div>
+        </template>
         </Field>
       </div>
       <div ref="reportParameters">

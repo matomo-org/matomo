@@ -13,6 +13,8 @@
     :feature="'true'"
     :content-title="contentTitle"
   >
+    test
+    <p>{{ translate('ScheduledReports_ManageTooltip' )}}</p>
     <table v-content-table>
       <thead>
       <tr>
