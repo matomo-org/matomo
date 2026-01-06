@@ -95,11 +95,6 @@ describe("ScheduledReports", function () {
               '.selectedReportsList li',
               (items) => items.map((item) => item.getAttribute('data-unique-id')),
             );
-
-            const reorderSelectedReports = async (order) => {
-
-            };
-
             const expectedOrder = initialOrder.slice().reverse();
 
             // Reorder the selected reports via DOM manipulation
