@@ -359,7 +359,7 @@ class Pdf extends ReportRenderer
      */
     private function limitTextLength($text, $maxLength): string
     {
-        if (mb_strlen($text) < $maxLength) {
+        if (mb_strlen($text) <= $maxLength) {
             return $text;
         }
         return mb_substr($text, 0, $maxLength) . '...';
@@ -539,8 +539,8 @@ class Pdf extends ReportRenderer
      */
     private function getLabelRowMaxHeight(float $rowHeight): float
     {
-        if ($rowHeight == $this->maxRowHeight) {
-            return 17;
+        if ($rowHeight >= $this->maxRowHeight) {
+            return $rowHeight + 4;
         }
         return $rowHeight;
     }
