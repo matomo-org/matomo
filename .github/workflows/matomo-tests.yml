@@ -84,8 +84,12 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
+
+      - name: Show doctrine initializer
+        run: cat /vendor/doctrine/instantiator/src/Doctrine/Instantiator/Intstantiator.php
+
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: matomo-org/github-action-tests@output_php_version
         with:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.environment.adapter }}
