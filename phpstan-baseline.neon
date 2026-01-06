@@ -546,11 +546,6 @@ parameters:
 			path: core/CliMulti/RequestCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Columns/Dimension.php
-
-		-
 			message: "#^Property Piwik\\\\Columns\\\\Updater\\:\\:\\$actionDimensions \\(array\\<Piwik\\\\Plugin\\\\Dimension\\\\ActionDimension\\>\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Columns/Updater.php
@@ -1586,11 +1581,6 @@ parameters:
 			path: core/Plugin.php
 
 		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Plugin/ArchivedMetric.php
-
-		-
 			message: "#^Invoking callable on an unknown class Piwik\\\\Plugin\\\\callback\\.$#"
 			count: 1
 			path: core/Plugin/ComponentFactory.php
@@ -1599,16 +1589,6 @@ parameters:
 			message: "#^Parameter \\$predicate of method Piwik\\\\Plugin\\\\ComponentFactory\\:\\:getComponentIf\\(\\) has invalid type Piwik\\\\Plugin\\\\callback\\.$#"
 			count: 1
 			path: core/Plugin/ComponentFactory.php
-
-		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, \\(float\\|false\\) given\\.$#"
-			count: 1
-			path: core/Plugin/ComputedMetric.php
-
-		-
-			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, float given\\.$#"
-			count: 1
-			path: core/Plugin/ComputedMetric.php
 
 		-
 			message: "#^Call to function is_null\\(\\) with Piwik\\\\Site will always evaluate to false\\.$#"
