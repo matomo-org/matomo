@@ -32,6 +32,10 @@
         "ViewedProductSKU": "Breathnaíodh ar SKU Táirge",
         "VisitorProfileAbandonedCartSummary": "Thréigthe %1$s cairt lena n-áirítear %2$s mír ar fiú %3$s san iomlán iad.",
         "VisitorProfileItemsAndOrders": "Ceannaíodh %1$s mír in orduithe ríomhthráchtála %2$s.",
-        "VisitorProfileLTV": "Gineadh Ioncam Saoil de %1$s."
+        "VisitorProfileLTV": "Gineadh Ioncam Saoil de %1$s.",
+        "AnonymizeOrderIdNote": "Toisc gur féidir ID Ordaithe a chrostagairt le córas eile, siopa ríomhthráchtála de ghnáth, d'fhéadfadh aitheantas an Ordaithe a áireamh mar fhaisnéis phearsanta faoin GDPR. Nuair a chumasaíonn tú an rogha seo, déanfar ID Ordaithe a anaithnidiú go huathoibríoch ionas nach ndéanfar aon fhaisnéis phearsanta a rianú.",
+        "UseAnonymizeOrderId": "Aitheantas ordaithe gan ainm",
+        "OrderIdAnonymizationSettingTitle": "Anaithnidiú ID Ordaithe",
+        "OrderIdAnonymizationSettingRequirementNote": "Ní mór aitheantóirí orduithe a bheith gan ainm"
     }
 }

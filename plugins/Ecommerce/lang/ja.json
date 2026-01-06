@@ -27,6 +27,8 @@
         "ViewedProductSKU": "表示された製品 SKU",
         "VisitorProfileAbandonedCartSummary": "合計 %3$s 中 %2$s アイテムを含む %1$s のカートを放棄しました。",
         "VisitorProfileItemsAndOrders": "%2$s の e コマース注文で %1$s アイテムを購入しました。",
-        "VisitorProfileLTV": "%1$s の通算収益を生成しました。"
+        "VisitorProfileLTV": "%1$s の通算収益を生成しました。",
+        "AnonymizeOrderIdNote": "注文 ID は他のシステム、通常は e コマースショップと相互参照できるため、注文 ID は GDPR の下で個人情報としてカウントされる場合があります。 このオプションを有効にすると、注文 ID は自動的に匿名化されるため、個人情報は追跡されません。",
+        "UseAnonymizeOrderId": "オーダー ID を匿名化"
     }
 }

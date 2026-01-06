@@ -27,6 +27,8 @@
         "ViewedProductSKU": "SKU do Produto Visualizado",
         "VisitorProfileAbandonedCartSummary": "Abandonou %1$s carrinhos que incluíam %2$s itens com um valor total de %3$s.",
         "VisitorProfileItemsAndOrders": "Adquiriu %1$s itens em %2$s pedidos de comércio eletrónico.",
-        "VisitorProfileLTV": "Gerou uma receita ao longo do tempo de vida de %1$s."
+        "VisitorProfileLTV": "Gerou uma receita ao longo do tempo de vida de %1$s.",
+        "AnonymizeOrderIdNote": "Dado que um ID de um pedido pode ser cruzado com outro sistema, habitualmente uma loja de comércio eletrónico, o ID de um pedido pode ser considerado como informação pessoal segundo o RGPD. Ao ativar esta opção, o ID de um pedido será automaticamente anonimizado, impedindo assim o registo de qualquer informação pessoal.",
+        "UseAnonymizeOrderId": "Anonimizar o ID de um pedido"
     }
 }

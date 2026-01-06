@@ -27,6 +27,8 @@
         "ViewedProductSKU": "SKU Produk yang Dilihat",
         "VisitorProfileAbandonedCartSummary": "Meninggalkan %1$s keranjang termasuk %2$s barang senilai total %3$s.",
         "VisitorProfileItemsAndOrders": "Membeli %1$s barang dalam %2$s pesanan niaga-el.",
-        "VisitorProfileLTV": "Menghasilkan Pendapatan Keseluruhan %1$s."
+        "VisitorProfileLTV": "Menghasilkan Pendapatan Keseluruhan %1$s.",
+        "AnonymizeOrderIdNote": "Karena ID Pesanan dapat direferensikan silang dengan sistem lain, biasanya di toko niaga-el, ID Pesanan dapat dihitung sebagai informasi pribadi menurut GDPR. Saat Anda mengaktifkan opsi ini, ID Pesanan akan secara otomatis dianonimkan sehingga tidak ada informasi pribadi yang akan dilacak.",
+        "UseAnonymizeOrderId": "Anonimkan ID Pesanan"
     }
 }

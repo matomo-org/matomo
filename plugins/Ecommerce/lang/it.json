@@ -27,6 +27,8 @@
         "ViewedProductSKU": "Codice SKU Prodotto Visualizzato",
         "VisitorProfileAbandonedCartSummary": "Abbandonati %1$s carrelli contenenti %2$s articoli per un valore di %3$s.",
         "VisitorProfileItemsAndOrders": "Acquistati %1$s articoli in %2$s ordini ecommerce.",
-        "VisitorProfileLTV": "Generato un Incasso Complessivo di %1$s."
+        "VisitorProfileLTV": "Generato un Incasso Complessivo di %1$s.",
+        "AnonymizeOrderIdNote": "Poiché un ID ordine può essere referenziato con un altro sistema, in genere un negozio e-commerce, l'ID dell'ordine può essere considerato come un'informazione personale, secondo il GDPR. Quando abiliti questa opzione, un ID ordine verrà automaticamente reso anonimo, quindi non verranno tracciate le informazioni personali.",
+        "UseAnonymizeOrderId": "Rendi anonimo l'ID dell'Ordine"
     }
 }

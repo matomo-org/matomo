@@ -21,6 +21,8 @@
         "ViewedProductSKU": "查看的产品SKU",
         "VisitorProfileAbandonedCartSummary": "被放弃的%1$s购物车包含了%2$s个商品，总值%3$s。",
         "VisitorProfileItemsAndOrders": "在%2$s电商订单中共购买了%1$s个商品。",
-        "VisitorProfileLTV": "生成一个%1$s的终生收入。"
+        "VisitorProfileLTV": "生成一个%1$s的终生收入。",
+        "AnonymizeOrderIdNote": "由于订单ID可以与另一个系统（通常是电子商务商店）进行交叉引用，因此该订单ID可以视为GDPR下的个人信息。 启用此选项后，订单ID将自动匿名，因此不会跟踪任何个人信息。",
+        "UseAnonymizeOrderId": "匿名订购ID"
     }
 }

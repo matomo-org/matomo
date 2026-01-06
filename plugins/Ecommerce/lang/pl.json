@@ -12,6 +12,7 @@
         "LifeTimeValueDescription": "Całkowita sprzedaż przypisana do tego użytkownika w trakcie wszystkich wizyt: suma sprzedaży dla użytkownika o numerze %s.",
         "VisitorProfileLTV": "Zakupił na łączną kwotę %1$s.",
         "VisitorProfileItemsAndOrders": "Zakupiono %1$s przedmiotów w %2$s zamówieniach.",
-        "VisitorProfileAbandonedCartSummary": "Porzucono %1$s koszyków zawierających %2$s przedmiotów o łącznej wartości %3$s."
+        "VisitorProfileAbandonedCartSummary": "Porzucono %1$s koszyków zawierających %2$s przedmiotów o łącznej wartości %3$s.",
+        "UseAnonymizeOrderId": "Anonimizuj ID zamówienia"
     }
 }

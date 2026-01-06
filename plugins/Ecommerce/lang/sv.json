@@ -27,6 +27,8 @@
         "ViewedProductSKU": "Visad produkt SKU",
         "VisitorProfileAbandonedCartSummary": "Har övergivit %1$s varukorgar med %2$s artiklar till ett totalt värde av %3$s.",
         "VisitorProfileItemsAndOrders": "Har köpt %1$s artiklar i %2$s e-handelsordrar.",
-        "VisitorProfileLTV": "Genererade Life Time Revenue för %1$s."
+        "VisitorProfileLTV": "Genererade Life Time Revenue för %1$s.",
+        "AnonymizeOrderIdNote": "Eftersom ett order-ID kan korsrefereras med ett annat system, vanligtvis en e-handelsbutik, kan order-ID räknas som personlig information enligt GDPR. När du aktiverar det här alternativet anonymiseras ett order-ID automatiskt så att ingen personlig information spåras.",
+        "UseAnonymizeOrderId": "Anonymisera order-ID"
     }
 }

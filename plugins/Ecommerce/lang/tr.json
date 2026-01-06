@@ -27,6 +27,8 @@
         "ViewedProductSKU": "Görüntülenecek ürün stok kodu",
         "VisitorProfileAbandonedCartSummary": "%3$s değerindeki %2$s ögeyi içeren %1$s sepet terk edilmiş.",
         "VisitorProfileItemsAndOrders": "%2$s e-ticaret siparişi ile %1$s öge satın almış.",
-        "VisitorProfileLTV": "%1$s tarafından ömür boyunca elde edilen gelir."
+        "VisitorProfileLTV": "%1$s tarafından ömür boyunca elde edilen gelir.",
+        "AnonymizeOrderIdNote": "Sipariş kimliği bir e-ticaret mağazası gibi başka bir sistemde referans olarak bulunacağından, Genel Veri Koruma Yönetmeliği kapsamındaki kişisel bilgilerin elde edilmesinde kullanılabilir. Bu seçenek açıldığında, sipariş kimliği otomatik olarak anonim kılınır böylece kişisel bilgiler izlenemez.",
+        "UseAnonymizeOrderId": "Sipariş kimliği anonim kılınsın"
     }
 }
