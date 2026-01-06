@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
+use Piwik\Category\CategoryList;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -247,8 +248,16 @@ class ProcessedReport
         $columnsToKeep   = $this->getColumnsToKeep();
         $columnsToRemove = $this->getColumnsToRemove();
 
+        $categoryList = CategoryList::get();
         foreach ($availableReports as &$availableReport) {
-            $availableReport['category']    = Piwik::translate($availableReport['category']);
+            $categoryId = $availableReport['category'];
+            $categoryObj = $categoryList->getCategory($categoryId);
+            if ($categoryObj) {
+                $availableReport['category'] = $categoryObj->getDisplayName();
+            } else {
+                $availableReport['category']    = Piwik::translate($categoryId);
+            }
+
             $availableReport['subcategory'] = Piwik::translate($availableReport['subcategory']);
 
             // Ensure all metrics have a translation
