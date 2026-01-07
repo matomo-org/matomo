@@ -21,7 +21,7 @@
 		<row>
 			<name>Ecommerce - Order ID anonymisation</name>
 			<value>compliant</value>
-			<notes>Order IDs must be anonymized</notes>
+			<notes>Order IDs must be anonymised.</notes>
 		</row>
         <row>
             <name>PII data filtered</name>
