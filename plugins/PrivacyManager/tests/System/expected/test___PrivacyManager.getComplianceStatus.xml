@@ -26,7 +26,7 @@
 		<row>
 			<name>PII data filtered</name>
 			<value>non_compliant</value>
-			<notes>Personally Identifiable Information (PII) must be filtered by the Matomo-recommended PII exclusion list.</notes>
+			<notes>Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list.</notes>
 		</row>
 		<row>
 			<name>Turn off visits log and visitor profiles</name>

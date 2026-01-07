@@ -35,7 +35,7 @@
         "ProductSubcategoryHelp": "The Products view can help you identify products and categories that are over-performing or under-performing to reveal trends and opportunities related to your product selection and store pages.",
         "AnonymizeOrderIdNote": "Because an Order ID can be cross-referenced with another system, typically an ecommerce shop, the Order ID may count as personal information under the GDPR. When you enable this option, an Order ID will be automatically anonymized so no personal information will be tracked.",
         "UseAnonymizeOrderId": "Anonymize Order ID",
-        "OrderIdAnonymizationSettingTitle": "Ecommerce - Order ID anonymization",
+        "OrderIdAnonymizationSettingTitle": "Ecommerce - Order ID anonymisation",
         "OrderIdAnonymizationSettingRequirementNote": "Order IDs must be anonymised."
     }
 }
