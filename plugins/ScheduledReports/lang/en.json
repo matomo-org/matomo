@@ -63,6 +63,6 @@
         "SendingReport": "Sending report…",
         "ManageTooltip": "Stay informed wherever you work. Send reports directly to Email, SMS, Slack, or Microsoft Teams by selecting your preferred channel when creating or editing a scheduled report.",
         "CreateTooltip": "You can send scheduled reports via Email, SMS, Slack, or Microsoft Teams. Choose your preferred delivery method when creating or updating a report.",
-        "MediumTooltip": "You can send scheduled reports via Email, SMS, Slack, or Microsoft Teams. Choose your preferred delivery method when creating or updating a report. @TODO add Learn more."
+        "MediumTooltip": "You can send scheduled reports via Email, SMS, Slack, or Microsoft Teams. Choose your preferred delivery method when creating or updating a report. %1$sLearn more%2$s."
     }
 }

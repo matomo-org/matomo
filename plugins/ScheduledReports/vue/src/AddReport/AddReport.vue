@@ -134,11 +134,11 @@
           :options="reportTypeOptions"
         >
         <template v-slot:inline-help>
-          <div
-            id="emailScheduleInlineHelp"
-            class="inline-help-node"
+          <div id="deliveryMediumnInlineHelp" class="inline-help-node">
+          <span
+            v-html="$sanitize(getDeliveryMediumInlineTooltip)"
           >
-            {{ translate('ScheduledReports_MediumTooltip') }}
+          </span>
           </div>
         </template>
         </Field>
@@ -532,6 +532,14 @@ export default defineComponent({
 
       const isEditing = this.report.idreport > 0;
       return isEditing ? ReportPlugin.updateReportString : translate('ScheduledReports_CreateAndScheduleReport');
+    },
+    getDeliveryMediumInlineTooltip() {
+      const link = 'https://matomo.org/faq/general/create-and-schedule-a-report/';
+      return translate(
+        'ScheduledReports_MediumTooltip',
+        `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
+        '</a>',
+      );
     },
   },
 });
