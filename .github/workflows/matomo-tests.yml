@@ -85,7 +85,7 @@ jobs:
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
       - name: running tests
-        uses: matomo-org/github-action-tests@output_php_version
+        uses: matomo-org/github-action-tests@fix-for-phpunit-issue
         with:
           test-type: ${{ matrix.type }}
           mysql-driver: ${{ matrix.environment.adapter }}
