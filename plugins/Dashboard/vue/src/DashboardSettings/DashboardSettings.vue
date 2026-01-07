@@ -42,6 +42,13 @@
 
           <ul>
             <li
+              class="exportDashboard"
+              data-action="exportDashboard"
+              @click="onClickExportDashboard()"
+            >
+              {{ translate('Dashboard_ExportThisDashboard') }}
+            </li>
+            <li
               v-for="(title, actionName) of dashboardActions"
               :key="actionName"
               @click="onClickAction($event, actionName)"
@@ -74,6 +81,7 @@ import {
   Tooltips,
   translate,
   WidgetType,
+  MatomoUrl,
 } from 'CoreHome';
 
 declare global {
@@ -224,6 +232,19 @@ export default defineComponent({
     },
     onClose() {
       this.rootJQuery.widgetPreview('reset');
+    },
+    onClickExportDashboard() {
+      const query = {
+        ...MatomoUrl.urlParsed.value,
+      } as QueryParameters;
+
+      delete query.category;
+      delete query.subcategory;
+      delete query.idDashboard;
+
+      query.module = 'ScheduledReports';
+      query.action = 'index';
+      MatomoUrl.updateUrl(query);
     },
   },
 });
