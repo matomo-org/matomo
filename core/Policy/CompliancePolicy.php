@@ -69,7 +69,10 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         Piwik::postEvent('CompliancePolicy.shouldShowWarnings', [&$shouldShowWarnings, static::class]);
 
         if ($shouldShowWarnings) {
-            $description .= ' ' . static::generateWarnings();
+            $warnings = static::generateWarnings();
+            if (!empty($warnings)) {
+                $description .= ' ' . static::generateWarnings();
+            }
         }
 
         return $description;

@@ -266,6 +266,11 @@ parameters:
 			path: core/Archive/ArchiveInvalidator.php
 
 		-
+			message: "#^Variable \\$entry might not be defined\\.$#"
+			count: 4
+			path: core/Archive/ArchiveInvalidator.php
+
+		-
 			message: "#^Method Piwik\\\\Archive\\\\ArchivePurger\\:\\:getOldestTemporaryArchiveToKeepThreshold\\(\\) should return bool\\|int but returns string\\.$#"
 			count: 2
 			path: core/Archive/ArchivePurger.php
