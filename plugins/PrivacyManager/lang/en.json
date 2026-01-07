@@ -265,7 +265,7 @@
         "ViewPrivacyComplianceOverview": "View privacy compliance overview",
         "CampaignTrackingParametersDisabledSettingTitle": "Campaign tracking parameters disabled",
         "CampaignTrackingParametersDisabledSettingRequirementNote": "All campaign tracking parameters must be discarded.",
-        "ReferrerAnonymizationSettingTitle": "Referrer anonymisation",
+        "ReferrerAnonymizationSettingTitle": "Referrer Anonymisation",
         "ReferrerAnonymizationSettingRequirementNote": "Only the referrer host or referrer type may be collected."
     }
 }
