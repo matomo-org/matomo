@@ -13,7 +13,6 @@ use Piwik\Piwik;
 
 class ThemeStyles
 {
-
     // to maintain BC w/ old names that were defined in LESS
     private static $propertyNamesToLessVariableNames = [
         'fontFamilyBase' => 'theme-fontFamily-base',
@@ -82,22 +81,22 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorText = ['#212121', '#fff'];
+    public $colorText = ['#212121', '#ccc'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextLight = ['#444', '#ccc'];
+    public $colorTextLight = ['#444', '#aaa'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextLighter = ['#666666', '#aaa'];
+    public $colorTextLighter = ['#666666', '#999'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextContrast = ['#37474f', '#fff'];
+    public $colorTextContrast = ['#37474f', '#bbb'];
 
     /**
      * @var string|array<string>
