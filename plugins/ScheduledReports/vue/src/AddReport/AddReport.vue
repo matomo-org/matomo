@@ -300,6 +300,7 @@ import {
   Matomo,
   translate,
   debounce,
+  externalLink,
 } from 'CoreHome';
 import { Field, Form, SaveButton } from 'CorePluginsAdmin';
 import { adjustHourToTimezone } from '../utilities';
@@ -533,13 +534,13 @@ export default defineComponent({
       const isEditing = this.report.idreport > 0;
       return isEditing ? ReportPlugin.updateReportString : translate('ScheduledReports_CreateAndScheduleReport');
     },
-    getDeliveryMediumInlineTooltip() {
-      const link = 'https://matomo.org/faq/general/create-and-schedule-a-report/';
-      return translate(
-        'ScheduledReports_MediumTooltip',
-        `<a href="${link}" rel="noreferrer noopener" target="_blank">`,
+    getDeliveryMediumInlineTooltip(): string {
+      const link = translate(
+        'General_LearnMore',
+        externalLink('https://matomo.org/faq/general/create-and-schedule-a-report/'),
         '</a>',
       );
+      return `${translate('ScheduledReports_CreateTooltip')} ${link}`;
     },
   },
 });
