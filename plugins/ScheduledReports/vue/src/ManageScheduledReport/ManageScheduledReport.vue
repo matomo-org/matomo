@@ -79,6 +79,7 @@ import {
   AjaxHelper,
   ContentTable,
   Matomo,
+  MatomoUrl,
   MatomoLoader,
   NotificationsStore,
   translate,
@@ -212,6 +213,7 @@ export default defineComponent({
     Matomo.postEvent('ScheduledReports.ManageScheduledReport.mounted', {
       element: this.$refs.root,
     });
+    this.applyActionFromUrl();
 
     const pendingMessage = typeof sessionStorage !== 'undefined'
       ? sessionStorage.getItem(PENDING_NOTIFICATION_KEY)
@@ -464,6 +466,17 @@ export default defineComponent({
       this.selectedReportsOrder[reportType] = order.filter(
         (uniqueId) => this.selectedReports[reportType]?.[uniqueId],
       );
+    },
+    applyActionFromUrl() {
+      const action = MatomoUrl.hashParsed.value.scheduledReportsAction as string|undefined;
+      if (action !== 'create') {
+        return;
+      }
+      this.createReport();
+      const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
+      delete nextHash.scheduledReportsAction;
+
+      MatomoUrl.updateHash(nextHash);
     },
   },
   computed: {

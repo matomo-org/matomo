@@ -233,7 +233,7 @@ export default defineComponent({
     onClose() {
       this.rootJQuery.widgetPreview('reset');
     },
-    onClickExportDashboard() {
+    redirectToCreateScheduledReports() {
       const query = {
         ...MatomoUrl.urlParsed.value,
       } as QueryParameters;
@@ -241,10 +241,32 @@ export default defineComponent({
       delete query.category;
       delete query.subcategory;
       delete query.idDashboard;
-
       query.module = 'ScheduledReports';
       query.action = 'index';
-      MatomoUrl.updateUrl(query);
+      const hash = {
+        ...MatomoUrl.hashParsed.value,
+        scheduledReportsAction: 'create',
+      } as QueryParameters;
+
+      delete hash.category;
+      delete hash.subcategory;
+      delete hash.idDashboard;
+      MatomoUrl.updateUrl(query, hash);
+    },
+
+    redirectToLoginPage() {
+      const loginQuery = {
+        module: 'Login',
+      } as QueryParameters;
+      MatomoUrl.updateUrl(loginQuery);
+    },
+
+    onClickExportDashboard() {
+      if (this.isUserNotAnonymous) {
+        this.redirectToCreateScheduledReports();
+      } else {
+        this.redirectToLoginPage();
+      }
     },
   },
 });
