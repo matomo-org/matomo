@@ -32,9 +32,6 @@
         "SparklineHumanVisits": "cuairteanna daonna",
         "WidgetGraphAIAgents": "Gníomhairí AI le himeacht ama",
         "WidgetOverviewAIAgents": "Forbhreathnú ar Ghníomhaire AI",
-        "AIAssistantsOverviewHelp1": "Tugann an leathanach Forbhreathnú ar Chúntóir AI léargas ar thrácht gréasáin a thagann ó Chúntóirí AI amhail ChatGPT agus cúntóirí móra eile atá bunaithe ar mhúnla teanga. Rianaíonn na tuarascálacha seo príomh-mhéadrachtaí lena n-áirítear líon na n-iarratas a dhéanann na róbait seo, na leathanaigh agus na doiciméid a bhfaigheann siad rochtain orthu, agus aon earráidí a bhíonn ann. Cuireann siad miondealú mionsonraithe ar fáil freisin a thaispeánann cé na róbait a thugann cuairt ar URLanna leathanaigh shonracha, rud a chabhraíonn leat tuiscint a fháil ar an gcaoi a n-idirghníomhaíonn cúntóirí AI le d’ábhar agus deiseanna a aithint chun infheictheacht agus inrochtaineacht a fheabhsú d’úsáideoirí atá á dtiomáint ag AI.",
-        "AIAssistantsOverviewHelp2": "Tá sé tábhachtach a thabhairt faoi deara nár fhéach daoine ar aon cheann de na leathanaigh seo ar an mbealach traidisiúnta — eascraíonn na hiarratais uile ó chúntóirí AI a bhailíonn ábhar go huathoibríoch.",
-        "AIAssistantsOverviewHelp3": "Faoi láthair, ní chuimsíonn na tuarascálacha seo ach iarratais ó róbait AI nach ndéanann JavaScript a fhorghníomhú. Ní chuimsíonn siad trácht ó chraoltóirí AI a úsáidtear chun samhlacha AI a oiliúint ná ó ghníomhairí AI atá in ann JavaScript a fhorghníomhú.",
         "AIAgentsOverview": "Forbhreathnú ar Ghníomhairí AI",
         "AIAgentsOverviewSubcategoryDescription": "Athbhreithnigh go hachomair an chaoi a mbíonn gníomhairí AI agus cuairteoirí daonna ag idirghníomhú le do shuíomh. Tugann an forbhreathnú seo léargas ar mhéadrachtaí agus treochtaí comhcheangailte ionas gur féidir leat athruithe a fheiceáil go tapa sula ndéanann tú iniúchadh ar thuairiscí mionsonraithe."
     }

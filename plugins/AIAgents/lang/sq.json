@@ -33,9 +33,6 @@
         "WidgetGraphAIAgents": "Agjentë IA Përgjatë Kohës",
         "WidgetOverviewAIAgents": "Përmbledhje Agjenti IA",
         "AIAgentsOverview": "Përmbledhje Agjentësh IA",
-        "AIAgentsOverviewSubcategoryDescription": "Shqyrtoni me një vështrim se si angazhohen me sajtin tuaj agjentë IA dhe vizitorë qenie njerëzore. Kjo përmbledhje shpërfaq matje të ndërthurura dhe prirje, që kështu të mund të pikasni shpejt ndryshime, para se të eksploroni raporte të hollësishëm.",
-        "AIAssistantsOverviewHelp1": "Faqja Përmbledhje Asistentësh IA jep të dhëna rreth trafiku sajti të ardhura nga Asistentë IA të tillë si ChatGPT dhe asistentë të tjerë të bazuar në LLM. Këto raporte ndjekin parametra kyçë, përfshi numrin e kërkesa të bëra nga këta robotë, faqet dhe dokumentet ku hyjnë dhe çfarëdo gabimesh të hasura. Ofrojnë gjithashtu zbërthime të hollësishme që shfaqin cilët robotë vizituan URL-ra faqesh specifike, duke ju ndihmuar të kuptoni se si ndërveprojnë asistentë IA me lëndën tuaj dhe të identifikoni mundësi për të përmirësuar dukshmërinë dhe përdorimin për përdorues të IA.",
-        "AIAssistantsOverviewHelp2": "Është e rëndësishme të vihet re se asnjë nga këto faqe s’qe parë nga qenie njerëzore, në rrugën tradicionale — tërë kërkesat e kanë fillin te asistentë IA që marrin faqe automatikisht.",
-        "AIAssistantsOverviewHelp3": "Aktualisht, këto raporte përfshijnë përjashtimisht kërkesa nga robotë IA që s’ekzekutojnë JavaScript. Në to nuk përfshihet trafik nga shërbime IA që krehin internetin, të përdorur për stërvitje modelesh IA, apo nga agjentë IA të aftë të ekzekutojnë JavaScript."
+        "AIAgentsOverviewSubcategoryDescription": "Shqyrtoni me një vështrim se si angazhohen me sajtin tuaj agjentë IA dhe vizitorë qenie njerëzore. Kjo përmbledhje shpërfaq matje të ndërthurura dhe prirje, që kështu të mund të pikasni shpejt ndryshime, para se të eksploroni raporte të hollësishëm."
     }
 }
