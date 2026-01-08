@@ -81,6 +81,8 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $passwordVerify;
 
+    private $paidPlugins;
+
     public function __construct(
         LicenseKey $licenseKey,
         Plugins $plugins,
@@ -98,6 +100,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $this->pluginManager = Plugin\Manager::getInstance();
         $this->environment = $environment;
         $this->passwordVerify = $passwordVerify;
+        $this->paidPlugins = null;
 
         parent::__construct();
     }
@@ -258,15 +261,30 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
         // we're fetching all available plugins to decide which tabs need to be shown in the UI and to know the number
-        // of total available plugins
-        $allPlugins = $this->plugins->getAllPlugins();
-        $allThemes   = $this->plugins->getAllThemes();
-        $paidPlugins = $this->plugins->getAllPaidPlugins();
+        // of total available plugin
+
+        $requests = [
+                ['requestName'=>'allPlugins','action'=>'plugins', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
+                ['requestName'=>'paidPlugins','action'=>'plugins', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_PAID)],
+                ['requestName'=>'allThemes','action'=>'themes', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)]
+        ];
+
+        $time_start = microtime(true);
+        $response=$this->plugins->getMultiplePluginsAndThemes($requests);
+
+        $allPlugins=$response['allPlugins']['plugins'];
+        $allThemes=$response['allThemes']['plugins'];
+        $this->paidPlugins = $response['paidPlugins']['plugins'];
+
+        $time_end = microtime(true);
+        $time = $time_end - $time_start;
+        print "With multi curl $time";
+
 
         $view->numAvailablePluginsByType = [
             'plugins' => count($allPlugins),
             'themes' => count($allThemes),
-            'premium' => count($paidPlugins),
+            'premium' => count($this->paidPlugins),
         ];
 
         $view->paidPluginsToInstallAtOnce = $this->getAllPaidPluginsToInstallAtOnce();
@@ -304,7 +322,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $paidPlugins = $this->plugins->getAllPaidPlugins();
+        $paidPlugins = $this->paidPlugins;
 
         $updateData = [
             'isValidConsumer' => $this->consumer->isValidConsumer(),
@@ -363,7 +381,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             Nonce::checkNonce(static::INSTALL_NONCE);
 
-            $paidPlugins = $this->plugins->getAllPaidPlugins();
+            $paidPlugins = $this->paidPlugins;
 
             $hasErrors = false;
             foreach ($paidPlugins as $paidPlugin) {
@@ -593,7 +611,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function getAllPaidPluginsToInstallAtOnce()
     {
-        $paidPlugins = $this->plugins->getAllPaidPlugins();
+        $paidPlugins = $this->paidPlugins;
 
         return $this->getPaidPluginsToInstallAtOnceData($paidPlugins);
     }

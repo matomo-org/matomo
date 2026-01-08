@@ -145,6 +145,12 @@ class Plugins
         return $this->searchPlugins($query = '', Sort::DEFAULT_SORT, $themes = false, PurchaseType::TYPE_ALL);
     }
 
+
+    public function getMultiplePluginsAndThemes($requests) {
+        return $this->marketplaceClient->searchForPluginsAndThemes($requests);
+    }
+
+
     private function getPluginUpdateInformation($plugin)
     {
         if (empty($plugin['name'])) {

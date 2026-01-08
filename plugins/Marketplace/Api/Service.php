@@ -190,6 +190,84 @@ class Service
         return $response;
     }
 
+
+    function fetchMany(array $requests) {
+        $result = [];
+        $timings = [];
+        if (!function_exists('curl_multi_init')) {
+            foreach ($requests as $request) {
+                $action=$request['action'];
+                $start = microtime(true);
+                $result[$action] = $this->fetch(
+                    $request['action'],
+                    $request['params']
+                );
+                $timings[$action] = microtime(true) - $start;
+                return $result;
+            }
+            print_r($timings);
+        }
+
+        $postData = null;
+        if ($this->accessToken) {
+            $postData = ['access_token' => $this->accessToken];
+        }
+
+        $curlHandles = [];
+        $multiHandle = curl_multi_init();
+        foreach ($requests as $request) {
+            $requestName = $request['requestName'];
+            $action = $request['action'];
+            $params = $request['params'];
+
+            if ($action && $requestName && $params) {
+                $endpoint = sprintf('%s/api/%s/', $this->domain, $this->version);
+                $query = Http::buildQuery($params);
+                $url   = sprintf('%s%s?%s', $endpoint, $action, $query);
+
+                $curlHandle = curl_init($url);
+                $curlHandles[$requestName]=$curlHandle;
+
+                curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, static::HTTP_REQUEST_TIMEOUT);
+                curl_setopt($curlHandle, CURLOPT_TIMEOUT, static::HTTP_REQUEST_TIMEOUT);
+
+                curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, 'POST');
+                if ($postData) {
+                    curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postData);
+                }
+
+                curl_multi_add_handle($multiHandle, $curlHandle);
+            }
+        }
+
+        $running = null;
+        do {
+            curl_multi_exec($multiHandle, $running);
+            if($running) {
+                curl_multi_select($multiHandle, 1.0);
+            }
+        } while ($running);
+
+
+        foreach ($curlHandles as $requestName=>$curlHandle) {
+            curl_multi_remove_handle($multiHandle, $curlHandle);
+
+            $response = curl_multi_getcontent($curlHandle);
+            $result[$requestName] = json_decode($response, true);
+            $timings[$requestName] = curl_getinfo($curlHandle, CURLINFO_TOTAL_TIME);
+
+            curl_close($curlHandle);
+        }
+
+        curl_multi_close($multiHandle);
+
+        print_r($timings);
+
+        return $result;
+    }
+
+
     /**
      * Get the domain that is used in order to access the Marketplace. Eg https://plugins.matomo.org
      * @return string

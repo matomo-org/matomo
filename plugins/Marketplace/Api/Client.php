@@ -236,6 +236,11 @@ class Client
         return array();
     }
 
+    public function searchForPluginsAndThemes($requests) {
+        return $this->fetchMany($requests);
+
+    }
+
     private function removeNotNeededPluginsFromResponse($response)
     {
         foreach ($response['plugins'] as $index => $plugin) {
@@ -296,6 +301,41 @@ class Client
         }
 
         $this->cache->save($cacheId, $result, self::CACHE_TIMEOUT_IN_SECONDS);
+
+        return $result;
+    }
+
+    private function fetchMany($requests)
+    {
+        foreach ($requests as &$request) {
+            $params = $request['params'];
+
+            ksort($params); // sort params so cache is reused more often even if param order is different
+
+            $releaseChannel = $this->environment->getReleaseChannel();
+
+            if (!empty($releaseChannel)) {
+                $params['release_channel'] = $releaseChannel;
+            }
+
+            $params['prefer_stable'] = (int)$this->environment->doesPreferStable();
+            $params['piwik'] = $this->environment->getPiwikVersion();
+            $params['php'] = $this->environment->getPhpVersion();
+            $params['mysql'] = $this->environment->getMySQLVersion();
+            $params['num_users'] = $this->environment->getNumUsers();
+            $params['num_websites'] = $this->environment->getNumWebsites();
+
+
+            $request['params'] = $params;
+        }
+
+        try {
+            $result = $this->service->fetchMany($requests);
+        } catch (Service\Exception $e) {
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+
+        //$this->cache->save($cacheId, $result, self::CACHE_TIMEOUT_IN_SECONDS);
 
         return $result;
     }
