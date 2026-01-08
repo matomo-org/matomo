@@ -145,9 +145,23 @@ class Plugins
         return $this->searchPlugins($query = '', Sort::DEFAULT_SORT, $themes = false, PurchaseType::TYPE_ALL);
     }
 
+    public function getMultiplePluginsAndThemes($requests, $enrich=false) {
+        $responses = $this->marketplaceClient->searchForPluginsAndThemes($requests);
 
-    public function getMultiplePluginsAndThemes($requests) {
-        return $this->marketplaceClient->searchForPluginsAndThemes($requests);
+        foreach ($responses as $requestName => $response) {
+            if (empty($response['plugins']) || !is_array($response['plugins'])) {
+                continue;
+            }
+
+            if($enrich) {
+                foreach ($response['plugins'] as $index => $plugin) {
+                    $response['plugins'][$index] = $this->enrichplugininformation($plugin);
+                }
+            }
+
+            $responses[$requestName] = array_values($response['plugins']);
+        }
+        return $responses;
     }
 
 

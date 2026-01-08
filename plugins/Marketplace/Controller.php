@@ -266,15 +266,15 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $requests = [
                 ['requestName'=>'allPlugins','action'=>'plugins', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
                 ['requestName'=>'paidPlugins','action'=>'plugins', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_PAID)],
-                ['requestName'=>'allThemes','action'=>'themes', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)]
+                ['requestName'=>'allThemes','action'=>'themes', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
         ];
 
         $time_start = microtime(true);
         $response=$this->plugins->getMultiplePluginsAndThemes($requests);
 
-        $allPlugins=$response['allPlugins']['plugins'];
-        $allThemes=$response['allThemes']['plugins'];
-        $this->paidPlugins = $response['paidPlugins']['plugins'];
+        $allPlugins=$response['allPlugins'];
+        $allThemes=$response['allThemes'];
+        $this->paidPlugins = $response['paidPlugins'];
 
         $time_end = microtime(true);
         $time = $time_end - $time_start;
@@ -289,6 +289,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->paidPluginsToInstallAtOnce = $this->getAllPaidPluginsToInstallAtOnce();
         $view->isValidConsumer = $this->consumer->isValidConsumer();
+
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
             'premium' => Piwik::translate('Marketplace_PaidPlugins'),
@@ -322,7 +323,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserIsNotAnonymous();
 
-        $paidPlugins = $this->paidPlugins;
+        $paidPlugins = $this->getPaidPlugins();
 
         $updateData = [
             'isValidConsumer' => $this->consumer->isValidConsumer(),
@@ -381,7 +382,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         if ($this->passwordVerify->requirePasswordVerifiedRecently($params)) {
             Nonce::checkNonce(static::INSTALL_NONCE);
 
-            $paidPlugins = $this->paidPlugins;
+            $paidPlugins = $this->getPaidPlugins();
 
             $hasErrors = false;
             foreach ($paidPlugins as $paidPlugin) {
@@ -611,8 +612,21 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
     private function getAllPaidPluginsToInstallAtOnce()
     {
-        $paidPlugins = $this->paidPlugins;
+        $paidPlugins = $this->getPaidPlugins();
 
         return $this->getPaidPluginsToInstallAtOnceData($paidPlugins);
+    }
+
+    private function getPaidPlugins(): array
+    {
+        if ($this->paidPlugins === null) {
+            $this->paidPlugins = $this->plugins->getAllPaidPlugins();
+        }
+
+        if (isset($this->paidPlugins['plugins'])) {
+            return $this->paidPlugins['plugins'];
+        }
+
+        return $this->paidPlugins;
     }
 }
