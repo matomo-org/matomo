@@ -77,6 +77,7 @@ import {
   AjaxHelper,
   ContentTable,
   Matomo,
+  MatomoUrl,
   MatomoLoader,
   NotificationsStore,
   translate,
@@ -208,6 +209,7 @@ export default defineComponent({
     Matomo.postEvent('ScheduledReports.ManageScheduledReport.mounted', {
       element: this.$refs.root,
     });
+    this.applyActionFromUrl();
   },
   unmounted() {
     Matomo.postEvent('ScheduledReports.ManageScheduledReport.unmounted', {
@@ -412,6 +414,17 @@ export default defineComponent({
     toggleSelectedReport(reportType: string, uniqueId: string) {
       this.selectedReports[reportType] = this.selectedReports[reportType] || {};
       this.selectedReports[reportType][uniqueId] = !this.selectedReports[reportType][uniqueId];
+    },
+    applyActionFromUrl() {
+      const action = MatomoUrl.hashParsed.value.scheduledReportsAction as string|undefined;
+      if (action !== 'create') {
+        return;
+      }
+      this.createReport();
+      const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
+      delete nextHash.scheduledReportsAction;
+
+      MatomoUrl.updateHash(nextHash);
     },
   },
   computed: {
