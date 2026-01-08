@@ -1,7 +1,6 @@
 {
     "VisitTime": {
         "SubmenuTimes": "اوقات",
-        "VisitsByDayOfWeek": "ہفتے کے دنوں کے حساب سے وزٹس",
-        "WidgetServerTime": "سرور کے وقت کے حساب سے وزٹس"
+        "VisitsByDayOfWeek": "ہفتے کے دنوں کے حساب سے وزٹس"
     }
 }
