@@ -16,7 +16,7 @@
 		<row>
 			<name>Ecommerce Restricted</name>
 			<value>non_compliant</value>
-			<notes>Non compliant because ecommerce analytics is enabled unrestricted.</notes>
+			<notes>Non compliant because Ecommerce analytics is enabled unrestricted.</notes>
         </row>
 		<row>
 			<name>Ecommerce - Order ID anonymisation</name>
