@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<name>AI Assistants (Referrers)</name>
+		<name>AI Assistants (Acquisition)</name>
 		<documentation>This report shows which AI assistants led visitors to your website.&lt;br /&gt;By clicking on a row in the table, you can see from which AI assistant pages visitors came to your website.</documentation>
 	</row>
 	<row>
@@ -9,7 +9,7 @@
 		<documentation>Discover which AI assistants are crawling your site and how many hits each one generates. Expand a bot to review the most frequently requested pages or documents.</documentation>
 	</row>
 	<row>
-		<name>Actions - Main metrics (Actions)</name>
+		<name>Actions - Main metrics (Behaviour)</name>
 		<documentation>This report provides a very basic overview of what actions your visitors take on your website.</documentation>
 	</row>
 	<row>
@@ -17,7 +17,7 @@
 		<documentation>This report shows a sample tab cloud.</documentation>
 	</row>
 	<row>
-		<name>All Channels (Referrers)</name>
+		<name>All Channels (Acquisition)</name>
 		<documentation>This report shows all your Referrers in one unified report, listing all Websites, Search keywords and Campaigns used by your visitors to find your website.</documentation>
 	</row>
 	<row>
@@ -41,12 +41,12 @@
 		<documentation>This report contains information about what kind of browser your visitors were using.</documentation>
 	</row>
 	<row>
-		<name>Campaigns (Referrers)</name>
+		<name>Campaigns (Acquisition)</name>
 		<documentation>This report shows which campaigns led visitors to your website.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/tracking-campaigns/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Channel Type (Referrers)</name>
+		<name>Channel Type (Acquisition)</name>
 		<documentation>This table contains information about the distribution of the channel types.&lt;br /&gt;&lt;b&gt;Direct Entry:&lt;/b&gt; A visitor has entered the URL in their browser and started browsing on your website - they entered the website directly.&lt;br /&gt;&lt;b&gt;Search Engines:&lt;/b&gt; A visitor was referred to your website by a search engine. &lt;br /&gt; See the &quot;Search Engines &amp; Keywords&quot; report for more details.&lt;br /&gt;&lt;b&gt;Websites:&lt;/b&gt; The visitor followed a link on another website that led to your site. &lt;br /&gt; See the &quot;Websites&quot; report for more details.&lt;br /&gt;&lt;b&gt;Campaigns:&lt;/b&gt; Visitors that came to your website as the result of a campaign. &lt;br /&gt; See the &quot;Campaigns&quot; report for more details.</documentation>
 	</row>
 	<row>
@@ -58,12 +58,12 @@
 		<documentation>This report shows the most common overall configurations that your visitors had. A configuration is the combination of an operating system, a browser type and a screen resolution.</documentation>
 	</row>
 	<row>
-		<name>Content Name (Actions)</name>
+		<name>Content Name (Behaviour)</name>
 		<documentation>This report shows the names of the content your visitors viewed and interacted with.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Content Piece (Actions)</name>
+		<name>Content Piece (Behaviour)</name>
 		<documentation>This report shows the pieces of content your visitors viewed and interacted with.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/content-tracking/</onlineGuideUrl>
 	</row>
@@ -102,38 +102,38 @@
 		<documentation>This report shows the types of devices your visitors were using. This report will always show all device types Matomo is able to detect, even if there were no visits with a specific type.</documentation>
 	</row>
 	<row>
-		<name>Downloads (Actions)</name>
+		<name>Downloads (Behaviour)</name>
 		<documentation>In this report, you can see which files your visitors have downloaded. &lt;br /&gt; What Matomo counts as a download is the click on a download link. Whether the download was completed or not isn't known to Matomo.</documentation>
 	</row>
 	<row>
-		<name>Entry page titles (Actions)</name>
+		<name>Entry page titles (Behaviour)</name>
 		<documentation>This report contains information about the titles of entry pages that were used during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
-		<name>Entry pages (Actions)</name>
+		<name>Entry pages (Behaviour)</name>
 		<documentation>This report contains information about the entry pages that were used during the specified period. An entry page is the first page that a user views during their visit. &lt;br /&gt; The entry URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
-		<name>Event Actions (Actions)</name>
+		<name>Event Actions (Behaviour)</name>
 		<documentation>This report shows you the number of times each event action occurred. You can view the event categories and names that were tracked along with each event action in the row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Event Categories (Actions)</name>
+		<name>Event Categories (Behaviour)</name>
 		<documentation>This report shows the categories of each tracked event and how many times they occurred. You can view the event actions and names that were tracked along with each event category in each row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Event Names (Actions)</name>
+		<name>Event Names (Behaviour)</name>
 		<documentation>This report shows you the names associated with each tracked event and how many times they occurred. You can view the event actions and categories that were tracked along with each event name in each row's subtable. You can change which is shown by changing the secondary dimension with the link at the bottom of the report.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/event-tracking/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Exit page titles (Actions)</name>
+		<name>Exit page titles (Behaviour)</name>
 		<documentation>This report contains information about the titles of exit pages that occurred during the specified period. Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
-		<name>Exit pages (Actions)</name>
+		<name>Exit pages (Behaviour)</name>
 		<documentation>This report contains information about the exit pages that occurred during the specified period. An exit page is the last page that a user views during their visit. &lt;br /&gt; The exit URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
@@ -192,7 +192,7 @@
 		<onlineGuideUrl>https://matomo.org/docs/tracking-goals-web-analytics/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Keywords (Referrers)</name>
+		<name>Keywords (Acquisition)</name>
 		<documentation>This report shows which keywords users were searching for before they were referred to your website. &lt;br /&gt;&lt;br /&gt; By clicking on a row in the table, you can see the distribution of search engines that were queried for the keyword.&lt;br /&gt;&lt;br /&gt;Note: This report lists most keywords as not defined, because most search engines do not send the exact keyword used on the search engine.</documentation>
 	</row>
 	<row>
@@ -200,7 +200,7 @@
 		<documentation>Shows which exact language code the visitor's browsers is set to. (e.g. &quot;German — Austria (de-at)&quot;)</documentation>
 	</row>
 	<row>
-		<name>Length of visits (Actions)</name>
+		<name>Length of visits (Behaviour)</name>
 		<documentation>How many visits had a certain total duration. Initially, the report is shown as a tag cloud, wherein more common durations have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
@@ -216,33 +216,33 @@
 		<documentation>This report shows you the operating systems your visitors are using. Each version and distribution is shown separately.</documentation>
 	</row>
 	<row>
-		<name>Outlinks (Actions)</name>
+		<name>Outlinks (Behaviour)</name>
 		<documentation>This report shows a hierarchical list of outlink URLs that were clicked by your visitors. An outlink is a link that leads the visitor away from your website (to another domain).&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
-		<name>Page Titles Following a Site Search (Actions)</name>
+		<name>Page Titles Following a Site Search (Behaviour)</name>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Page URLs (Actions)</name>
+		<name>Page URLs (Behaviour)</name>
 		<documentation>This report contains information about the page URLs that have been visited. &lt;br /&gt; The table is organized hierarchically, the URLs are displayed as a folder structure.&lt;br /&gt;Use the plus and minus icons on the left to navigate.</documentation>
 	</row>
 	<row>
-		<name>Page titles (Actions)</name>
+		<name>Page titles (Behaviour)</name>
 		<documentation>This report contains information about the titles of the pages that have been visited. &lt;br /&gt; The page title is the HTML &lt;title&gt; Tag that most browsers show in their window title.</documentation>
 	</row>
 	<row>
-		<name>Pages Following a Site Search (Actions)</name>
+		<name>Pages Following a Site Search (Behaviour)</name>
 		<documentation>When visitors search on your website, they are looking for a particular page, content, product, or service. This report lists the pages that were clicked the most after an internal search. In other words, the list of pages the most searched for by visitors already on your website.&lt;br/&gt;Use the plus and minus icons on the left to navigate.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Pages per visit (Actions)</name>
+		<name>Pages per visit (Behaviour)</name>
 		<documentation>How many visits involved a certain number of pageviews. Initially, the report is shown as a tag cloud, wherein more common numbers of pages have a larger font.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
-		<name>Performance overview (Actions)</name>
+		<name>Performance overview (Behaviour)</name>
 		<documentation>This report provides an overview of how fast your webpages become visible to your visitors. This includes both how long it takes for browsers to download your webpages and how long it takes for browsers to display them.</documentation>
 		<onlineGuideUrl>https://matomo.org/faq/how-to/how-do-i-see-page-performance-reports/</onlineGuideUrl>
 	</row>
@@ -251,7 +251,7 @@
 		<documentation>This report shows a sample Pie chart</documentation>
 	</row>
 	<row>
-		<name>Referrers Overview (Referrers)</name>
+		<name>Referrers Overview (Acquisition)</name>
 		<documentation>This report shows what acquisition channels your visitors used to get to your website, and the number of visits each channel type is responsible for.</documentation>
 	</row>
 	<row>
@@ -259,7 +259,7 @@
 		<documentation>Shows which region your visitors connected from when accessing website.&lt;br/&gt;Set up GeoIP in the Geolocation admin tab to provide data for this report. The commercial &lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;http://www.maxmind.com/?rId=piwik&quot;&gt;MaxMind&lt;/a&gt; GeoIP databases are more accurate than the gratis ones. &lt;a target=&quot;_blank&quot; rel=&quot;noreferrer noopener&quot; href=&quot;http://www.maxmind.com/en/city_accuracy?rId=piwik&quot;&gt;Click here&lt;/a&gt; to see how accurate they are.</documentation>
 	</row>
 	<row>
-		<name>Returning Visits (Actions)</name>
+		<name>Returning Visits (Behaviour)</name>
 		<documentation>This report shows general metrics like visits for returning visitors side by side with the same metrics for new visitors. Learn how returning visitors perform overall compared to new visitors.</documentation>
 	</row>
 	<row>
@@ -267,16 +267,16 @@
 		<documentation>This report shows the screen resolutions your visitors used when viewing your website.</documentation>
 	</row>
 	<row>
-		<name>Search Categories (Actions)</name>
+		<name>Search Categories (Behaviour)</name>
 		<documentation>This report lists the Categories that visitors selected when they made a Search on your website.&lt;br/&gt;For example, Ecommerce websites typically have a &quot;Category&quot; selector so that visitors can restrict their searches to all products in a specific Category.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Search Engines (Referrers)</name>
+		<name>Search Engines (Acquisition)</name>
 		<documentation>This report shows which search engines referred users to your website. &lt;br /&gt; By clicking on a row in the table, you can see what users were searching for using a specific search engine.</documentation>
 	</row>
 	<row>
-		<name>Search Keywords with No Results (Actions)</name>
+		<name>Search Keywords with No Results (Behaviour)</name>
 		<documentation>Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.&lt;br /&gt;&lt;br /&gt;This report lists the Search Keywords that did not return any Search result: maybe the search engine algorithm can be improved, or maybe your visitors are looking for content that is not (yet) on your website?</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
@@ -285,12 +285,12 @@
 		<documentation>This report gives you an informational overview for a specific website, containing the most general metrics about your visitors.</documentation>
 	</row>
 	<row>
-		<name>Site Search Keywords (Actions)</name>
+		<name>Site Search Keywords (Behaviour)</name>
 		<documentation>This report lists the Search Keywords that visitors searched for on your internal Search Engine.&lt;br/&gt;&lt;br/&gt;Tracking searches that visitors make on your website is a very effective way to learn more about what your audience is looking for, it can help find ideas for new content, new Ecommerce products that potential customers might be searching for, and generally improve the visitors' experience on your website.</documentation>
 		<onlineGuideUrl>https://matomo.org/docs/site-search/</onlineGuideUrl>
 	</row>
 	<row>
-		<name>Social Networks (Referrers)</name>
+		<name>Social Networks (Acquisition)</name>
 		<documentation>This report shows which social networks led visitors to your website.&lt;br /&gt;By clicking on a row in the table, you can see from which social network pages visitors came to your website.</documentation>
 	</row>
 	<row>
@@ -311,11 +311,11 @@
 		<documentation>This graph shows the number of visits your website received on each day of the week.</documentation>
 	</row>
 	<row>
-		<name>Visits by days since last visit (Actions)</name>
+		<name>Visits by days since last visit (Behaviour)</name>
 		<documentation>How many visits were from returning visitors whose last visit was a certain number of days ago.</documentation>
 	</row>
 	<row>
-		<name>Visits by visit number (Actions)</name>
+		<name>Visits by visit number (Behaviour)</name>
 		<documentation>The number of visitors reaching their Nth visit. I.e. the total amount of visitors visiting your website a given amount of times or more.&lt;br /&gt;Please note, that you can view the report in other ways than as a tag cloud. Use the controls at the bottom of the report to do so.</documentation>
 	</row>
 	<row>
@@ -336,7 +336,7 @@
 		<documentation>Shows which language the visitor's browsers are using. (e.g. &quot;French&quot;)</documentation>
 	</row>
 	<row>
-		<name>Websites (Referrers)</name>
+		<name>Websites (Acquisition)</name>
 		<documentation>In this table, you can see which websites referred visitors to your site. &lt;br /&gt; By clicking on a row in the table, you can see which URLs the links to your website were on.</documentation>
 	</row>
 	<row>
