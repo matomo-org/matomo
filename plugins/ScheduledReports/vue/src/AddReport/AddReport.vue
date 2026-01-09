@@ -535,7 +535,12 @@ export default defineComponent({
       return isEditing ? ReportPlugin.updateReportString : translate('ScheduledReports_CreateAndScheduleReport');
     },
     getDeliveryMediumInlineTooltip(): string {
-      return `${translate('ScheduledReports_CreateTooltip')} ${externalLink('https://matomo.org/faq/general/create-and-schedule-a-report/')}  ${translate('ScheduledReports_LearnMore')}.`;
+      const link = translate(
+        'CoreHome_LearnMoreFullStop',
+        externalLink('https://matomo.org/faq/general/create-and-schedule-a-report/'),
+        '</a>',
+      );
+      return `${translate('ScheduledReports_CreateTooltip')} ${link}`;
     },
   },
 });

@@ -158,7 +158,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_SendingReport';
         $translationKeys[] = 'ScheduledReports_ManageTooltip';
         $translationKeys[] = 'ScheduledReports_CreateTooltip';
-        $translationKeys[] = 'ScheduledReports_LearnMore';
+        $translationKeys[] = 'CoreHome_LearnMoreFullStop';
     }
 
     /**
