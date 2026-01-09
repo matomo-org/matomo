@@ -90,6 +90,67 @@ class ServiceTest extends SystemTestCase
         }
     }
 
+    public function testFetchManyShouldCallMarketplaceApiWithActionAndReturnArrays()
+    {
+        $service = $this->buildService();
+        $responses = $service->fetchMany([
+            ['requestName' => 'pluginsList', 'action' => 'plugins', 'params' => []],
+        ]);
+
+        $this->assertArrayHasKey('pluginsList', $responses);
+        $this->assertTrue(is_array($responses['pluginsList']));
+        $this->assertArrayHasKey('plugins', $responses['pluginsList']);
+        $this->assertGreaterThanOrEqual(30, count($responses['pluginsList']['plugins']));
+        foreach ($responses['pluginsList']['plugins'] as $plugin) {
+            $this->assertArrayHasKey('name', $plugin);
+        }
+    }
+
+    public function testFetchManyShouldCallMarketplaceApiWithGivenParamsAndReturnArrays()
+    {
+        $keyword = 'login';
+        $service = $this->buildService();
+        $responses = $service->fetchMany([
+            ['requestName' => 'pluginsList', 'action' => 'plugins', 'params' => ['keywords' => $keyword]],
+        ]);
+
+        $this->assertArrayHasKey('pluginsList', $responses);
+        $this->assertLessThan(20, count($responses['pluginsList']['plugins']));
+        foreach ($responses['pluginsList']['plugins'] as $plugin) {
+            self::assertTrue(in_array($keyword, $plugin['keywords']));
+        }
+    }
+
+    public function testFetchManyShouldReturnPlugins()
+    {
+        $service = $this->buildService();
+        $responses = $service->fetchMany([
+            ['requestName' => 'pluginsList', 'action' => 'plugins', 'params' => []],
+        ]);
+
+        $this->assertArrayHasKey('pluginsList', $responses);
+        $this->assertArrayHasKey('plugins', $responses['pluginsList']);
+        $this->assertGreaterThanOrEqual(30, count($responses['pluginsList']['plugins']));
+        foreach ($responses['pluginsList']['plugins'] as $plugin) {
+            $this->assertArrayHasKey('name', $plugin);
+        }
+    }
+
+    public function testFetchManyShouldReturnThemes()
+    {
+        $service = $this->buildService();
+        $responses = $service->fetchMany([
+            ['requestName' => 'themesList', 'action' => 'themes', 'params' => []],
+        ]);
+
+        $this->assertArrayHasKey('themesList', $responses);
+        $this->assertArrayHasKey('plugins', $responses['themesList']);
+        $this->assertGreaterThanOrEqual(1, count($responses['themesList']['plugins']));
+        foreach ($responses['themesList']['plugins'] as $theme) {
+            $this->assertArrayHasKey('name', $theme);
+        }
+    }
+
     public function testFetchShouldThrowExceptionWhenNotBeingAuthenticated()
     {
         $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
@@ -98,6 +159,18 @@ class ServiceTest extends SystemTestCase
 
         $service = $this->buildService();
         $service->fetch('consumer', array());
+    }
+
+    public function testFetchManyShouldThrowExceptionWhenNotBeingAuthenticated()
+    {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
+        $this->expectExceptionCode(101);
+        $this->expectExceptionMessage('Not authenticated');
+
+        $service = $this->buildService();
+        $service->fetchMany([
+            ['requestName' => 'consumerInfo', 'action' => 'consumer', 'params' => []],
+        ]);
     }
 
     public function testFetchShouldThrowExceptionWhenBeingAuthenticatedWithInvalidTokens()
@@ -109,6 +182,19 @@ class ServiceTest extends SystemTestCase
         $service = $this->buildService();
         $service->authenticate('1234567890');
         $service->fetch('consumer', array());
+    }
+
+    public function testFetchManyShouldThrowExceptionWhenBeingAuthenticatedWithInvalidTokens()
+    {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
+        $this->expectExceptionCode(101);
+        $this->expectExceptionMessage('Not authenticated');
+
+        $service = $this->buildService();
+        $service->authenticate('1234567890');
+        $service->fetchMany([
+            ['requestName' => 'consumerInfo', 'action' => 'consumer', 'params' => []],
+        ]);
     }
 
     public function testDownloadShouldReturnRawResultForAbsoluteUrl()

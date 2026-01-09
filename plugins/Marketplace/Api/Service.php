@@ -9,7 +9,9 @@
 
 namespace Piwik\Plugins\Marketplace\Api;
 
+use Piwik\Config;
 use Piwik\Http;
+use Piwik\Plugins\Marketplace\Api\Service\Exception;
 
 /**
  *
@@ -196,16 +198,16 @@ class Service
         $timings = [];
         if (!function_exists('curl_multi_init')) {
             foreach ($requests as $request) {
-                $action=$request['action'];
+                $action = $request['action'];
+                $requestName = $request['requestName'] ?? $action;
                 $start = microtime(true);
-                $result[$action] = $this->fetch(
+                $result[$requestName] = $this->fetch(
                     $request['action'],
                     $request['params']
                 );
-                $timings[$action] = microtime(true) - $start;
-                return $result;
+                $timings[$requestName] = microtime(true) - $start;
             }
-            print_r($timings);
+            return $result;
         }
 
         $postData = null;
@@ -213,20 +215,52 @@ class Service
             $postData = ['access_token' => $this->accessToken];
         }
 
+        list($multiHandle, $curlHandles) = $this->buildMultiHandles($requests, $postData);
+
+        $running = null;
+        try {
+            $this->execMultiHandle($multiHandle, $running);
+
+            foreach ($curlHandles as $requestName=>$curlHandle) {
+                curl_multi_remove_handle($multiHandle, $curlHandle);
+
+                $result[$requestName] = $this->parseMultiResponse($curlHandle);
+                $timings[$requestName] = curl_getinfo($curlHandle, CURLINFO_TOTAL_TIME);
+
+                curl_close($curlHandle);
+                unset($curlHandles[$requestName]);
+            }
+        } finally { // If an exception is thrown still need to clean up handles to avoid leak
+            foreach ($curlHandles as $curlHandle) {
+                curl_multi_remove_handle($multiHandle, $curlHandle);
+                curl_close($curlHandle);
+            }
+            curl_multi_close($multiHandle);
+        }
+
+        print_r($timings);
+
+        return $result;
+    }
+
+    private function buildMultiHandles(array $requests, ?array $postData): array
+    {
         $curlHandles = [];
         $multiHandle = curl_multi_init();
+        $allowedProtocols = Config::getInstance()->General['allowed_outgoing_protocols'];
+
         foreach ($requests as $request) {
             $requestName = $request['requestName'];
             $action = $request['action'];
             $params = $request['params'];
 
-            if ($action && $requestName && $params) {
+            if ($action && $requestName && is_array($params)) {
                 $endpoint = sprintf('%s/api/%s/', $this->domain, $this->version);
                 $query = Http::buildQuery($params);
                 $url   = sprintf('%s%s?%s', $endpoint, $action, $query);
 
                 $curlHandle = curl_init($url);
-                $curlHandles[$requestName]=$curlHandle;
+                $curlHandles[$requestName] = $curlHandle;
 
                 curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, static::HTTP_REQUEST_TIMEOUT);
@@ -237,34 +271,89 @@ class Service
                     curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $postData);
                 }
 
+                if ((string)ini_get('safe_mode') == '' && ini_get('open_basedir') == '') {
+                    $protocols = 0;
+                    foreach (explode(',', $allowedProtocols) as $protocol) {
+                        if (defined('CURLPROTO_' . strtoupper(trim($protocol)))) {
+                            $protocols |= constant('CURLPROTO_' . strtoupper(trim($protocol)));
+                        }
+                    }
+
+                    @curl_setopt_array($curlHandle, [
+                        CURLOPT_FOLLOWLOCATION  => true,
+                        CURLOPT_REDIR_PROTOCOLS => $protocols,
+                        CURLOPT_MAXREDIRS       => 5,
+                    ]);
+                }
+
                 curl_multi_add_handle($multiHandle, $curlHandle);
             }
         }
 
-        $running = null;
+        return [$multiHandle, $curlHandles];
+    }
+
+    private function execMultiHandle($multiHandle, &$running): void
+    {
         do {
             curl_multi_exec($multiHandle, $running);
             if($running) {
                 curl_multi_select($multiHandle, 1.0);
             }
         } while ($running);
+    }
 
+    /**
+     * @throws Exception
+     */
+    private function parseMultiResponse($curlHandle)
+    {
+        $response = curl_multi_getcontent($curlHandle);
+        $errno = curl_errno($curlHandle);
+        $httpStatus = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
+        return $this->parseMultiPayload($response, $errno, $httpStatus);
+    }
 
-        foreach ($curlHandles as $requestName=>$curlHandle) {
-            curl_multi_remove_handle($multiHandle, $curlHandle);
-
-            $response = curl_multi_getcontent($curlHandle);
-            $result[$requestName] = json_decode($response, true);
-            $timings[$requestName] = curl_getinfo($curlHandle, CURLINFO_TOTAL_TIME);
-
-            curl_close($curlHandle);
+    private function parseMultiPayload($response, int $errno, int $httpStatus)
+    {
+        if ($errno !== 0 || $response === false) {
+            throw new Service\Exception(
+                'There was an error reading the response from the Marketplace. Please try again later.',
+                Service\Exception::HTTP_ERROR
+            );
         }
 
-        curl_multi_close($multiHandle);
+        if (null === $response) {
+            throw new Service\Exception(
+                'There was an error reading the response from the Marketplace. Please try again later.',
+                Service\Exception::HTTP_ERROR
+            );
+        }
 
-        print_r($timings);
+        $decodedResponse = $response;
+        if ('' !== $response) {
+            $decodedResponse = json_decode($response, true);
 
-        return $result;
+            if (null === $decodedResponse) {
+                throw new Service\Exception(
+                    'There was an error reading the response from the Marketplace. Please try again later.',
+                    Service\Exception::HTTP_ERROR
+                );
+            }
+
+            if (!empty($decodedResponse['error'])) {
+                throw new Service\Exception($decodedResponse['error'], Service\Exception::API_ERROR);
+            }
+        }
+
+        if ($httpStatus < 200 || $httpStatus >= 400) {
+            throw new Service\Exception(
+                'There was an error reading the response from the Marketplace. Please try again later.',
+                Service\Exception::HTTP_ERROR
+            );
+        }
+
+        return $decodedResponse;
     }
 
 

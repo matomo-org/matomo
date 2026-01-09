@@ -237,8 +237,18 @@ class Client
     }
 
     public function searchForPluginsAndThemes($requests) {
-        return $this->fetchMany($requests);
+        $responses = $this->fetchMany($requests);
 
+        foreach ($responses as $requestName => $response) {
+            if (empty($response['plugins'])) {
+                continue;
+            }
+
+            $response['plugins'] = $this->removeNotNeededPluginsFromResponse($response);
+            $responses[$requestName] = $response;
+        }
+
+        return $responses;
     }
 
     private function removeNotNeededPluginsFromResponse($response)

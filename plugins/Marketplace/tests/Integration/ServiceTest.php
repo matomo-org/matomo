@@ -61,4 +61,38 @@ class ServiceTest extends IntegrationTestCase
         $this->assertTrue(is_array($consumer));
         $this->assertNotEmpty($consumer);
     }
+
+    public function testFetchManyThrowsApiErrorWhenMarketplaceReturnsAnError()
+    {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
+        $this->expectExceptionCode(101);
+        $this->expectExceptionMessage('Requested plugin does not exist.');
+
+        $payload = $this->service->getFixtureContent('v2.0_plugins_CustomPlugin1_info-access_token-notexistingtoken.json');
+        $this->callParseMultiPayload($payload, 0, 200);
+    }
+
+    public function testFetchManyThrowsHttpErrorWhenMarketplaceReturnsNoResultWhichMeansHttpError()
+    {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
+        $this->expectExceptionCode(100);
+        $this->expectExceptionMessage('There was an error reading the response from the Marketplace');
+
+        $this->callParseMultiPayload(null, 0, 200);
+    }
+
+    public function testFetchManyJsonDecodesTheHttpResponse()
+    {
+        $payload = $this->service->getFixtureContent('v2.0_consumer-access_token-consumer1_paid2_custom1.json');
+        $consumer = $this->callParseMultiPayload($payload, 0, 200);
+        $this->assertTrue(is_array($consumer));
+        $this->assertNotEmpty($consumer);
+    }
+
+    private function callParseMultiPayload($response, int $errno, int $httpStatus)
+    {
+        $method = new \ReflectionMethod($this->service, 'parseMultiPayload');
+        $method->setAccessible(true);
+        return $method->invoke($this->service, $response, $errno, $httpStatus);
+    }
 }
