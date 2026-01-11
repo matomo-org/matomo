@@ -1776,6 +1776,11 @@ parameters:
 			path: core/Plugin/WidgetsProvider.php
 
 		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: core/Policy/CompliancePolicy.php
+
+		-
 			message: "#^Method Piwik\\\\ProfessionalServices\\\\Advertising\\:\\:getCampaignParametersForPromoUrl\\(\\) is unused\\.$#"
 			count: 1
 			path: core/ProfessionalServices/Advertising.php
