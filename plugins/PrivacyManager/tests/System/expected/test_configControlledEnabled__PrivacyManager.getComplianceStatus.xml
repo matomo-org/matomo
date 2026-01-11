@@ -29,7 +29,7 @@
 			<notes>Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list.</notes>
 		</row>
 		<row>
-			<name>Turn off visits log and visitor profiles</name>
+			<name>Turn off Visits log and Visitor profiles</name>
 			<value>compliant</value>
 			<notes>Visits log is required to be disabled.</notes>
 		</row>
