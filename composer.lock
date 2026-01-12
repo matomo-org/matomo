@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68602361dfbffa669afd2a2085e11726",
+    "content-hash": "6bce3f3a5eea9980cfeca33ed264bd8e",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -611,21 +611,21 @@
         },
         {
             "name": "matomo/matomo-php-tracker",
-            "version": "3.4.0",
+            "version": "3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-php-tracker.git",
-                "reference": "9462dc6eb718c711545ea1b0f590b9ae892a4212"
+                "reference": "949259d7ffc833ae37bdec14394d13748ebccb64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/9462dc6eb718c711545ea1b0f590b9ae892a4212",
-                "reference": "9462dc6eb718c711545ea1b0f590b9ae892a4212",
+                "url": "https://api.github.com/repos/matomo-org/matomo-php-tracker/zipball/949259d7ffc833ae37bdec14394d13748ebccb64",
+                "reference": "949259d7ffc833ae37bdec14394d13748ebccb64",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": "~7.2 || ~7.3 || ~7.4 || ~8.0 || ~8.1 || ~8.2 || ~8.3 || ~8.4 || ~8.5"
+                "php": "^7.2 || ^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8.5 || ^9.3 || ^10.1"
@@ -663,7 +663,7 @@
                 "issues": "https://github.com/matomo-org/matomo-php-tracker/issues",
                 "source": "https://github.com/matomo-org/matomo-php-tracker"
             },
-            "time": "2025-12-20T18:55:41+00:00"
+            "time": "2024-10-09T08:10:30+00:00"
         },
         {
             "name": "matomo/network",
