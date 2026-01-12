@@ -14,7 +14,7 @@ use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
 use Piwik\Metrics\Formatter;
 
-class FormatDurationMetrics extends BaseFilter
+class ReformatToPrettyTimeAsSentence extends BaseFilter
 {
     /**
      * @var string[]

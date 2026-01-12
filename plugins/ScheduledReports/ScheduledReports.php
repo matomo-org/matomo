@@ -22,7 +22,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
-use Piwik\Plugins\ScheduledReports\DataTable\Filter\FormatDurationMetrics;
+use Piwik\Plugins\ScheduledReports\DataTable\Filter\ReformatToPrettyTimeAsSentence;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Schedule;
 use Piwik\SettingsPiwik;
@@ -324,10 +324,10 @@ class ScheduledReports extends \Piwik\Plugin
         if (empty($processedReport['metadata']['metricTypes'])) {
             return;
         }
-
+        $columnIdsToDisregard = ['avg_time_on_site', 'avg_time_on_page'];
         $durationColumns = [];
         foreach ($processedReport['metadata']['metricTypes'] as $columnId => $metricType) {
-            if ($metricType === Dimension::TYPE_DURATION_S) {
+            if (!in_array($columnId, $columnIdsToDisregard) && $metricType === Dimension::TYPE_DURATION_S) {
                 $durationColumns[] = $columnId;
             }
         }
@@ -341,7 +341,7 @@ class ScheduledReports extends \Piwik\Plugin
             return;
         }
 
-        $reportData->filter(FormatDurationMetrics::class, [$durationColumns]);
+        $reportData->filter(ReformatToPrettyTimeAsSentence::class, [$durationColumns]);
     }
 
     public function getRendererInstance(&$reportRenderer, $reportType, $outputType, $report)
