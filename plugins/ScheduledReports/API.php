@@ -49,6 +49,8 @@ use Piwik\Log\LoggerInterface;
  */
 class API extends \Piwik\Plugin\API
 {
+    public const ENFORCE_ORDER_PARAMETER = ScheduledReports::ENFORCE_ORDER_PARAMETER;
+
     public const VALIDATE_PARAMETERS_EVENT = 'ScheduledReports.validateReportParameters';
     public const GET_REPORT_PARAMETERS_EVENT = 'ScheduledReports.getReportParameters';
     public const GET_REPORT_METADATA_EVENT = 'ScheduledReports.getReportMetadata';
@@ -407,6 +409,10 @@ class API extends \Piwik\Plugin\API
             self::validateReportParameters($reportType, empty($parameters) ? $report['parameters'] : $parameters),
             true
         );
+        $parameters = $report['parameters'];
+        $enforceCustomOrder = is_array($parameters)
+            && array_key_exists(self::ENFORCE_ORDER_PARAMETER, $parameters)
+            && !empty($parameters[self::ENFORCE_ORDER_PARAMETER]);
 
         $originalShowEvolutionWithinSelectedPeriod = Config::getInstance()->General['graphs_show_evolution_within_selected_period'];
         $originalDefaultEvolutionGraphLastPeriodsAmount = Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
@@ -418,11 +424,26 @@ class API extends \Piwik\Plugin\API
             // available reports
             $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
 
-            // we need to lookup which reports metadata are registered in this report
             $reportMetadata = [];
-            foreach ($availableReportMetadata as $metadata) {
-                if (in_array($metadata['uniqueId'], $report['reports'])) {
-                    $reportMetadata[] = $metadata;
+            if ($enforceCustomOrder) {
+                // we need to lookup which reports metadata are registered in this report
+                // and keep the order defined
+                $reportMetadataByUniqueId = [];
+                foreach ($availableReportMetadata as $metadata) {
+                    $reportMetadataByUniqueId[$metadata['uniqueId']] = $metadata;
+                }
+
+                foreach ($report['reports'] as $reportUniqueId) {
+                    if (isset($reportMetadataByUniqueId[$reportUniqueId])) {
+                        $reportMetadata[] = $reportMetadataByUniqueId[$reportUniqueId];
+                    }
+                }
+            } else {
+                // fallback to default metadata order when the flag isn't set
+                foreach ($availableReportMetadata as $metadata) {
+                    if (in_array($metadata['uniqueId'], $report['reports'], true)) {
+                        $reportMetadata[] = $metadata;
+                    }
                 }
             }
 

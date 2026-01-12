@@ -27,6 +27,8 @@
         "ViewedProductSKU": "Angesehener Produkt SKU",
         "VisitorProfileAbandonedCartSummary": "%1$s verwaiste Warenkörbe mit %2$s Artikeln und einem Gesamtwert von %3$s.",
         "VisitorProfileItemsAndOrders": "%1$s Artikel in %2$s E-Commerce Bestellungen gekauft.",
-        "VisitorProfileLTV": "Generierter Gesamtumsatz von %1$s."
+        "VisitorProfileLTV": "Generierter Gesamtumsatz von %1$s.",
+        "AnonymizeOrderIdNote": "Da eine Bestellnummer mit einem anderen System referenziert sein kann, typischerweise einem E-Commerce Shop, könnte die Bestellnummer zu den persönlichen Informationen zählen, welche unter die DSGVO fallen. Wenn diese Einstellung aktiviert wird, dann wird die Bestellnummer automatisch anonymisiert, um keine persönlichen Informationen zu speichern.",
+        "UseAnonymizeOrderId": "Bestellnummer anonymisieren"
     }
 }

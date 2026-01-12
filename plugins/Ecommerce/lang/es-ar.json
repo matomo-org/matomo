@@ -24,6 +24,8 @@
         "SalesSubcategoryHelp2": "También podés aprender exactamente cuánto ingreso está asociado a cada dimensión, como tipos específicos de tráfico o campañas monitoreadas.",
         "EcommerceLogSubcategoryHelp1": "El registro de comercio electrónico ofrece datos granulares a nivel de sesión, así podés mirar la sesión completa de cada usuario, ya sea que hizo una compra o abandonó su changuito. Esto te puede ayudar a entender a entender lo que hicieron los usuarios antes y después de comprar, para revelar oportunidades de optimización.",
         "EcommerceLogSubcategoryHelp2": "Los datos en esta página se actualizan en tiempo real.",
-        "ProductSubcategoryHelp": "La vista de productos pueden ayudarte a identificar productos y categorías que están rindiendo por encima o por debajo de lo esperado, para revelar tendencias y oportunidades relacionadas a la selección de tu producto y a las páginas del local virtual."
+        "ProductSubcategoryHelp": "La vista de productos pueden ayudarte a identificar productos y categorías que están rindiendo por encima o por debajo de lo esperado, para revelar tendencias y oportunidades relacionadas a la selección de tu producto y a las páginas del local virtual.",
+        "AnonymizeOrderIdNote": "Debido a que una identificación de orden puede ser consultado con otro sistema —normalmente, un local de comercio electrónico—, la identificación de orden puede contar como información personal bajo el GDPR. Cuando habilités esta opción, una identificación de orden se anonimizará automáticamente así no se rastrea ninguna información personal.",
+        "UseAnonymizeOrderId": "Anonimizar identificación de orden"
     }
 }

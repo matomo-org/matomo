@@ -27,6 +27,8 @@
         "ViewedProductSKU": "Ikusitako produktuaren erreferentzia",
         "VisitorProfileAbandonedCartSummary": "%1$s saski utzi ditu, %2$s elementu barne eta balioa guztira: %3$s.",
         "VisitorProfileItemsAndOrders": "%1$s elementu erosi ditu merkataritza elektronikoko %2$s eskaeretan.",
-        "VisitorProfileLTV": "Sortutako bizialdi osoko diru-sarrera: %1$s."
+        "VisitorProfileLTV": "Sortutako bizialdi osoko diru-sarrera: %1$s.",
+        "AnonymizeOrderIdNote": "Eskaera IDaren erreferentzia beste sistema batekin gurutzatu daitekeenez, ohikoan merkataritza elektronikoko denda batekin, eskaeraren IDa datu pertsonaltzat hartu daiteke GDPR pean. Aukera hau gaitzen duzunean eskaeren IDa automatikoki anonimizatuko da eta ondorioz ez da informazio pertsonalaren jarraipenik egingo.",
+        "UseAnonymizeOrderId": "Anonimizatu eskaera IDa"
     }
 }

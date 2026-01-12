@@ -171,6 +171,7 @@ class ApiTest extends IntegrationTestCase
                 'emailMe'          => true,
                 'additionalEmails' => array('test@test.com', 't2@test.com'),
                 'evolutionGraph'   => true,
+                'enforceOrder'     => true,
             ),
         );
 
@@ -206,6 +207,18 @@ class ApiTest extends IntegrationTestCase
         $tmp = APIScheduledReports::getInstance()->getReports($idSite = false, $period = false, $idReport);
         $report = reset($tmp);
         $this->assertReportsEqual($report, $data);
+    }
+
+    public function testAddReportDefaultsEnforceOrderToFalse()
+    {
+        $data = self::getDailyPDFReportData($this->idSite);
+        $idReport = self::addReport($data);
+
+        $reports = APIScheduledReports::getInstance()->getReports($this->idSite, $data['period'], $idReport);
+        $report = reset($reports);
+
+        $this->assertArrayHasKey('enforceOrder', $report['parameters']);
+        $this->assertFalse($report['parameters']['enforceOrder']);
     }
 
     /**
@@ -1004,6 +1017,7 @@ class ApiTest extends IntegrationTestCase
                 'emailMe'          => false,
                 'additionalEmails' => array('blabla@ec.fr'),
                 'evolutionGraph'   => false,
+                'enforceOrder' => true,
             ),
         );
     }

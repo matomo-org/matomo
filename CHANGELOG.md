@@ -6,6 +6,15 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.7.0
 
+### Breaking Changes
+
+* Client-side faults now map to consistent 4xx responses:
+  - Missing/invalid API params return 400
+  - Invalid actions return 404
+  - Missing chunks return 404
+  - Missing plugins return 404
+  - Deactivated plugins return 403
+
 ### New Features
 
 * New event `PrivacyManager.deleteDataSubjectsForDeletedSites` to enable plugins to be GDPR compliant, when tracking visit unrelated data.

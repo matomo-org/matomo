@@ -266,6 +266,11 @@
           </div>
         </div>
       </div>
+      <SelectedReportsList
+        :reports="selectedReportsForCurrentType"
+        :enabled="allowMultipleReportsByReportType[report.type]"
+        @reorder="onSelectedReportsReorder"
+      />
       <SaveButton
         :value="saveButtonTitle"
         @confirm="$emit('submit')"
@@ -294,13 +299,25 @@ import {
 } from 'CoreHome';
 import { Field, Form, SaveButton } from 'CorePluginsAdmin';
 import { adjustHourToTimezone } from '../utilities';
+import SelectedReportsList from './SelectedReportsList.vue';
 
 interface Option {
   key: string;
   value: string;
 }
 
-const { $ } = window;
+interface ReportMetadata {
+  uniqueId: string;
+  name: string;
+}
+
+interface ReportsByType {
+  [reportType: string]: Record<string, ReportMetadata[]>;
+}
+
+interface ReportsLookupByType {
+  [reportType: string]: Record<string, ReportMetadata>;
+}
 
 export default defineComponent({
   props: {
@@ -309,6 +326,10 @@ export default defineComponent({
       required: true,
     },
     selectedReports: Object,
+    selectedReportsOrder: {
+      type: Object,
+      default: () => ({}),
+    },
     paramPeriods: {
       type: Object,
       required: true,
@@ -352,11 +373,12 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ['submit', 'change', 'toggleSelectedReport'],
+  emits: ['submit', 'change', 'toggleSelectedReport', 'reorderSelectedReports'],
   components: {
     ContentBlock,
     Field,
     SaveButton,
+    SelectedReportsList,
   },
   directives: {
     Form,
@@ -374,6 +396,16 @@ export default defineComponent({
     decode(s: string) {
       // report names can be encoded (mainly goals)
       return Matomo.helper.htmlDecode(s);
+    },
+    onSelectedReportsReorder(order: string[]) {
+      if (!this.report || !this.report.type) {
+        return;
+      }
+
+      this.$emit('reorderSelectedReports', {
+        reportType: this.report.type,
+        order,
+      });
     },
   },
   setup(props, ctx) {
@@ -406,6 +438,90 @@ export default defineComponent({
     Matomo.helper.destroyVueComponent(reportParameters);
   },
   computed: {
+    enforceSelectedReportOrder(): boolean {
+      const parameters = (this.report?.parameters || {}) as { enforceOrder?: boolean };
+      if (typeof parameters.enforceOrder !== 'undefined') {
+        return !!parameters.enforceOrder;
+      }
+
+      return false;
+    },
+
+    /**
+     * Ensures each report type has a flattened order array where every selected report
+     * appears exactly once (ordered first, then any remaining selections).
+     */
+    selectedReportsOrderNormalized(): Record<string, string[]> {
+      const normalized: Record<string, string[]> = {};
+      const allSelectedReports = this.selectedReports || {};
+      Object.keys(allSelectedReports).forEach((reportType) => {
+        const selectedForType = allSelectedReports[reportType] || {};
+        const ordered = ((this.selectedReportsOrder || {})[reportType] || [])
+          .filter((uniqueId: string) => selectedForType[uniqueId]);
+        const remaining = Object.keys(selectedForType).filter(
+          (uniqueId) => selectedForType[uniqueId] && ordered.indexOf(uniqueId) === -1,
+        );
+        normalized[reportType] = ordered.concat(remaining);
+      });
+      return normalized;
+    },
+
+    /**
+     * Flattens the nested report metadata into a two-level lookup so we can access any report
+     * by its type and unique id without re-iterating the category structure.
+     */
+    reportsLookup(): ReportsLookupByType {
+      const reportsByType = this.reportsByCategoryByReportType as ReportsByType;
+      const lookup: ReportsLookupByType = {};
+
+      Object.entries(reportsByType).forEach(([reportType, reportsByCategory]) => {
+        lookup[reportType] = lookup[reportType] || {};
+        Object.values(reportsByCategory).forEach((reports) => {
+          reports.forEach((report) => {
+            lookup[reportType][report.uniqueId] = report;
+          });
+        });
+      });
+
+      return lookup;
+    },
+    selectedReportsForCurrentType(): ReportMetadata[] {
+      const type = this.report?.type as string;
+      if (!type) {
+        return [];
+      }
+
+      const selectedForType = (this.selectedReports || {})[type] || {};
+      let order: string[] = [];
+      if (this.enforceSelectedReportOrder) {
+        order = this.selectedReportsOrderNormalized[type] || [];
+      } else {
+        const reportsByCategory = (this.reportsByCategoryByReportType as ReportsByType)[type] || {};
+        const ordered: string[] = [];
+        Object.values(reportsByCategory).forEach((reports) => {
+          reports.forEach((report) => {
+            if (selectedForType[report.uniqueId]) {
+              ordered.push(report.uniqueId);
+            }
+          });
+        });
+        order = ordered;
+      }
+
+      if (!order.length) {
+        order = Object.keys(selectedForType).filter((uniqueId) => selectedForType[uniqueId]);
+      }
+
+      if (!order.length) {
+        return [];
+      }
+
+      const lookup = this.reportsLookup[type] || {};
+
+      return order
+        .map((uniqueId) => lookup[uniqueId])
+        .filter((report): report is ReportMetadata => !!report);
+    },
     reportsByCategoryByReportTypeInColumns() {
       const reportsByCategoryByReportType = this.reportsByCategoryByReportType as
         Record<string, Record<string, unknown[]>>;

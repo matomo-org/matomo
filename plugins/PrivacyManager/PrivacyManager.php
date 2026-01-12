@@ -288,7 +288,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_AnonymizeIpMaskLengtDescription';
         $translationKeys[] = 'PrivacyManager_AnonymizeLocation';
         $translationKeys[] = 'PrivacyManager_AnonymizeLocationHelp';
-        $translationKeys[] = 'PrivacyManager_AnonymizeOrderIdNote';
+        $translationKeys[] = 'Ecommerce_AnonymizeOrderIdNote';
         $translationKeys[] = 'PrivacyManager_AnonymizeProcessInfo';
         $translationKeys[] = 'PrivacyManager_AnonymizeReferrer';
         $translationKeys[] = 'PrivacyManager_AnonymizeReferrerNote';
@@ -435,7 +435,7 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_UnsetVisitColumns';
         $translationKeys[] = 'PrivacyManager_UnsetVisitColumnsHelp';
         $translationKeys[] = 'PrivacyManager_UseAnonymizeIp';
-        $translationKeys[] = 'PrivacyManager_UseAnonymizeOrderId';
+        $translationKeys[] = 'Ecommerce_UseAnonymizeOrderId';
         $translationKeys[] = 'PrivacyManager_UseAnonymizeTrackingData';
         $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichment';
         $translationKeys[] = 'PrivacyManager_UseAnonymizedIpForVisitEnrichmentNote';

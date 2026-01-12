@@ -32,6 +32,10 @@
         "ViewedProductSKU": "SKU de producte vist",
         "VisitorProfileAbandonedCartSummary": "%1$s carretons abandonats que inclouen %2$s articles amb un valor total de %3$s.",
         "VisitorProfileItemsAndOrders": "%1$s articles adquirits en %2$s comandes de comerç electrònic.",
-        "VisitorProfileLTV": "S'han generat uns ingressos de per vida de %1$s."
+        "VisitorProfileLTV": "S'han generat uns ingressos de per vida de %1$s.",
+        "AnonymizeOrderIdNote": "Com que un identificador de comanda es pot creuar amb un altre sistema, normalment una botiga de comerç electrònic, l'identificador de la comanda pot comptar com a informació personal segons el RGPD. Quan activeu aquesta opció, un identificador de comanda es convertirà automàticament en anònim, de manera que no es farà un seguiment de cap informació personal.",
+        "UseAnonymizeOrderId": "Anonimitzar l'identificador de comanda",
+        "OrderIdAnonymizationSettingTitle": "Anonimització de l'ID de la comanda",
+        "OrderIdAnonymizationSettingRequirementNote": "Els ID de comanda han de ser anonimitzats"
     }
 }
