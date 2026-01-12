@@ -11,6 +11,27 @@
 
 {% set reportParametersScheduledReportsEvent %}{{ postEvent('Template.reportParametersScheduledReports') }}{% endset %}
 
+{% if widgetReportMapping|default(null) %}
+    <div class="widget-mapping">
+        <h3>Widget → Scheduled Report mapping (WidgetReportMapper) {{ widgetReportMapping|length }}</h3>
+        <pre>{{ widgetReportMapping|json_encode|raw }}</pre>
+    </div>
+{% endif %}
+
+{% if widgetReportMapping2|default(null) %}
+    <div class="widget-mapping">
+        <h3>Widget → Scheduled Report mapping (WidgetReportMapper2) {{ widgetReportMapping2|length }}</h3>
+        <pre>{{ widgetReportMapping2|json_encode|raw }}</pre>
+    </div>
+{% endif %}
+
+{% if widgetReportMapping2MissingKeys|default(null) %}
+    <div class="widget-mapping">
+        <h3>Widgets only mapped by WidgetReportMapper {{ widgetReportMapping2MissingKeys|length }}</h3>
+        <pre>{{ widgetReportMapping2MissingKeys|json_encode|raw }}</pre>
+    </div>
+{% endif %}
+
 <div
   vue-entry="ScheduledReports.ManageScheduledReport"
   content-title="{{ title|default(null)|json_encode }}"
@@ -32,6 +53,7 @@
   allow-multiple-reports-by-report-type="{{ allowMultipleReportsByReportType|default(null)|json_encode }}"
   count-websites="{{ countWebsites|default(null)|json_encode }}"
   report-types="{{ reportTypes|default(null)|json_encode }}"
+  widget-report-mapping="{{ widgetReportMapping|json_encode }}"
 >
     <template v-slot:report-parameters>
         {{ reportParametersScheduledReportsEvent|raw }}

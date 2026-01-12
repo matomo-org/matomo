@@ -17,8 +17,10 @@ use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
+use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\ScheduledReports\WidgetReportMapperComplex;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
@@ -29,7 +31,10 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@ScheduledReports/index');
         $this->setGeneralVariablesView($view);
+        $mapper2 = new WidgetReportMapper();
+        $widgetReportMapping2 = $mapper2->getMappingForSite($this->idSite);
 
+        $view->widgetReportMapping = $widgetReportMapping2;
         $view->countWebsites      = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
 
         // get report types
