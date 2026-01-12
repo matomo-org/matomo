@@ -14,10 +14,10 @@ use Piwik\Http\HttpCodeException;
 /**
  * Exception thrown when the requested plugin is not activated in the config file
  */
-class PluginDeactivatedException extends \Exception implements HttpCodeException
+class PluginNotFoundException extends \Exception implements HttpCodeException
 {
     public function __construct($module)
     {
-        parent::__construct("The plugin $module is not enabled. You can activate the plugin on Settings > Plugins page in Matomo.", 403);
+        parent::__construct("The plugin $module was not found.", 404);
     }
 }

@@ -118,6 +118,7 @@
         "Comparisons": "Comparisons",
         "ComplianceCNILTitle": "CNIL website analytics consent exemption conditions",
         "ComplianceCNILDescription": "This table provides an indication of whether certain settings align with CNIL guidance. It does not guarantee full legal compliance. To qualify for the consent exemption under CNIL rules, all required configurations must be implemented. If any setting is shown as “Non-Compliant,” the exemption conditions are not met, and consent must be obtained from users. If any setting is shown as “Unknown” Matomo cannot determine whether this requirement has been implemented. In such cases, these measures must be manually verified.",
+        "ComplianceCNILWarning": "<b>Compliance cannot be guaranteed with the use of third-party plugins.</b>",
         "ComplianceCNILUnknownSettingOptOutTitle": "Opt out",
         "ComplianceCNILUnknownSettingOptOutNotes": "Opt out must be manually set up and configured. %1$sLearn more%2$s",
         "ComputedMetricAverage": "Avg. %1$s per %2$s",
