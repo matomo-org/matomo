@@ -7,9 +7,9 @@
 
 <template>
   <div class="emailReports" ref="root">
-    <div ref="reportSentSuccess" />
-    <div ref="reportUpdatedSuccess" />
-    <div>
+      <div ref="reportSentSuccess" />
+      <div ref="reportUpdatedSuccess" />
+      <div>
       <div id="ajaxError" style="display:none"></div>
 
       <div id="ajaxLoadingDiv" style="display:none;">
@@ -93,6 +93,7 @@ interface ManageScheduledReportState {
   report: Report;
   selectedReports: Record<string, Record<string, boolean>>;
   sendingReports: Array<string|number>;
+  widgetsInDashboard: Array<string>;
 }
 
 function scrollToTop() {
@@ -191,6 +192,10 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    widgetReportMapping: {
+      type: Object,
+      required: true,
+    },
   },
   components: {
     MatomoLoader,
@@ -222,6 +227,7 @@ export default defineComponent({
       report: {} as unknown as Report,
       selectedReports: {},
       sendingReports: [],
+      widgetsInDashboard: [],
     };
   },
   methods: {
@@ -347,6 +353,9 @@ export default defineComponent({
       // entries are used
       nextTick(() => {
         this.formSetEditReport(0);
+        if (this.widgetReportIdsFromDashboard !== null) {
+          this.selectedReports = { ...this.widgetReportIdsFromDashboard };
+        }
       });
     },
     editReport(reportId: number) {
@@ -416,18 +425,35 @@ export default defineComponent({
       this.selectedReports[reportType][uniqueId] = !this.selectedReports[reportType][uniqueId];
     },
     applyActionFromUrl() {
-      const action = MatomoUrl.hashParsed.value.scheduledReportsAction as string|undefined;
-      if (action !== 'create') {
+      const action = MatomoUrl.getSearchParam('dashboardWidgets');
+      // const action2 = MatomoUrl.urlParsed.value.scheduledReportsAction as string|undefined;
+      if (action === '') {
         return;
       }
-      this.createReport();
+      console.log('amo ni akon dashwidgets', action);
+      this.widgetsInDashboard = JSON.parse(decodeURIComponent(action));
       const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
-      delete nextHash.scheduledReportsAction;
-
+      // const nextQuery = { ...MatomoUrl.urlParsed.value } as QueryParameters;
+      delete nextHash.dashboardWidgets;
+      // delete nextQuery.scheduledReportsAction;
       MatomoUrl.updateHash(nextHash);
+      this.createReport();
     },
   },
   computed: {
+    widgetReportIdsFromDashboard() {
+      if (this.widgetsInDashboard.length > 0) {
+        const arr: Record<string, boolean> = {};
+        this.widgetsInDashboard.forEach((widgetId) => {
+          const reportKey = this.widgetReportMapping[widgetId];
+          if (reportKey) {
+            arr[reportKey] = true;
+          }
+        });
+        return { email: arr };
+      }
+      return null;
+    },
     showReportForm() {
       return !this.showReportsList;
     },
