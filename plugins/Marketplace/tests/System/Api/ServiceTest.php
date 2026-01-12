@@ -151,6 +151,19 @@ class ServiceTest extends SystemTestCase
         }
     }
 
+    public function testFetchManyShouldThrowWhenOneRequestReturnsApiError()
+    {
+        $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);
+        $this->expectExceptionCode(101);
+        $this->expectExceptionMessage('Not authenticated');
+
+        $service = $this->buildService();
+        $service->fetchMany([
+            ['requestName' => 'pluginsList', 'action' => 'plugins', 'params' => []],
+            ['requestName' => 'consumerInfo', 'action' => 'consumer', 'params' => []],
+        ]);
+    }
+
     public function testFetchShouldThrowExceptionWhenNotBeingAuthenticated()
     {
         $this->expectException(\Piwik\Plugins\Marketplace\Api\Service\Exception::class);

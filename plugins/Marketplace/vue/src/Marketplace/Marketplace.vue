@@ -241,31 +241,31 @@ export default defineComponent({
       }
 
       this.fetchRequestAbortController = new AbortController();
-      // this.fetchRequest = AjaxHelper.post(
-      //   {
-      //     module: 'Marketplace',
-      //     action: 'searchPlugins',
-      //     format: 'JSON',
-      //   },
-      //   {
-      //     query: this.searchQuery,
-      //     sort: this.pluginSort,
-      //     themesOnly: this.showThemes,
-      //     purchaseType: this.pluginTypeFilter === 'premium' ? 'paid' : '',
-      //   },
-      //   {
-      //     withTokenInUrl: true,
-      //     abortController: this.fetchRequestAbortController,
-      //   },
-      // ).then((response) => {
-      //   this.pluginsToShow = response;
-      //   if (typeof cb === 'function') {
-      //     cb();
-      //   }
-      // }).finally(() => {
-      //   this.loading = false;
-      //   this.fetchRequestAbortController = null;
-      // });
+      this.fetchRequest = AjaxHelper.post(
+        {
+          module: 'Marketplace',
+          action: 'searchPlugins',
+          format: 'JSON',
+        },
+        {
+          query: this.searchQuery,
+          sort: this.pluginSort,
+          themesOnly: this.showThemes,
+          purchaseType: this.pluginTypeFilter === 'premium' ? 'paid' : '',
+        },
+        {
+          withTokenInUrl: true,
+          abortController: this.fetchRequestAbortController,
+        },
+      ).then((response) => {
+        this.pluginsToShow = response;
+        if (typeof cb === 'function') {
+          cb();
+        }
+      }).finally(() => {
+        this.loading = false;
+        this.fetchRequestAbortController = null;
+      });
     },
   },
   computed: {
