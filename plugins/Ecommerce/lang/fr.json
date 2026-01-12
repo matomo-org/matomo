@@ -27,6 +27,8 @@
         "ViewedProductSKU": "SKU du produit consulté",
         "VisitorProfileAbandonedCartSummary": "A abandonné %1$s paniers contenant %2$s articles avec une valeur totale de %3$s.",
         "VisitorProfileItemsAndOrders": "%1$s articles achetés en %2$s commandes e-commerce.",
-        "VisitorProfileLTV": "A généré un revenu total de %1$s."
+        "VisitorProfileLTV": "A généré un revenu total de %1$s.",
+        "AnonymizeOrderIdNote": "Parce qu'un identifiant de commande peut être référencé au travers de plusieurs systèmes, typiquement un magasin de commerce électronique, l'identifiant de commande pourrait compter comme donnée personnelle pour RGPD. En sélectionnant cette option, un identifiant de commande va être automatiquement anonymisé de sorte qu'aucune information personnelle ne sera enregistrée.",
+        "UseAnonymizeOrderId": "Anonymiser l'identifiant de la commande"
     }
 }

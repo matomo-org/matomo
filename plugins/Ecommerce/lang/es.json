@@ -17,6 +17,8 @@
         "SalesBy": "Ventas por %s",
         "VisitorProfileAbandonedCartSummary": "Abandonó %1$s carritos de compra que incluían %2$s artículos por un valor total de %3$s.",
         "VisitorProfileItemsAndOrders": "Compró %1$s artículos en %2$s compras ecommerce.",
-        "VisitorProfileLTV": "Generó un Life Time Revenue de %1$s."
+        "VisitorProfileLTV": "Generó un Life Time Revenue de %1$s.",
+        "AnonymizeOrderIdNote": "Debido a que un ID de pedido puede ser referenciado con otro sistema, generalmente una tienda de comercio electrónico, el ID de pedido puede contar como información personal bajo el GDPR. Cuando habilite esta opción, la identificación del pedido se anonimizará automáticamente, por lo que no se rastreará la información personal.",
+        "UseAnonymizeOrderId": "Anonimizar ID pedido"
     }
 }

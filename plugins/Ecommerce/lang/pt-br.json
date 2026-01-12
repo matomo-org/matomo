@@ -27,6 +27,8 @@
         "ViewedProductSKU": "SKU do produto visualizado",
         "VisitorProfileAbandonedCartSummary": "Abandonou %1$s carrinhos, incluindo %2$s itens no total de %3$s.",
         "VisitorProfileItemsAndOrders": "Comprou %1$s itens em %2$s pedidos na loja.",
-        "VisitorProfileLTV": "Gerou uma receita de tempo de vida de %1$s."
+        "VisitorProfileLTV": "Gerou uma receita de tempo de vida de %1$s.",
+        "AnonymizeOrderIdNote": "Como um ID de pedido pode ser cruzado com outro sistema, tipicamente uma loja de comércio eletrônico, o ID de pedido pode contar como informação pessoal sob a GDPR. Quando você habilita esta opção, um ID de pedido será automaticamente anonimizado para que nenhuma informação pessoal seja rastreada.",
+        "UseAnonymizeOrderId": "Anonimizar ID do pedido"
     }
 }

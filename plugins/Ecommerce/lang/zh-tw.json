@@ -20,6 +20,8 @@
         "ViewedProductSKU": "檢視的產品最小存貨單位",
         "VisitorProfileAbandonedCartSummary": "棄用了 %1$s 個購物車，包含 %2$s 項商品，總價值 %3$s。",
         "VisitorProfileItemsAndOrders": "在 %2$s 個訂單中購買了 %1$s 項商品。",
-        "VisitorProfileLTV": "為 %1$s 產生總期間收益。"
+        "VisitorProfileLTV": "為 %1$s 產生總期間收益。",
+        "AnonymizeOrderIdNote": "因為訂單 ID 可以與其他系統交叉使用，例如電子商務網站，訂單 ID 可能在 GDPR 中會被認定為個人資料。當你啟用這個選項，訂單 ID 將會自動被匿名化，所以不會記錄任何個人資訊。",
+        "UseAnonymizeOrderId": "訂單 ID 匿名化"
     }
 }
