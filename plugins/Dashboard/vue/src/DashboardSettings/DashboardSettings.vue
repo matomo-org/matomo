@@ -101,6 +101,13 @@ interface DashboardSettingsState {
   actionTooltips: Record<keyof Window, string|undefined>;
 }
 
+interface DashboardExportContext {
+  idDashboard?: number|string;
+  widgets?: string[];
+}
+
+type DashboardJQuery = JQuery & { dashboard?: (...args: unknown[]) => unknown };
+
 const { $ } = window;
 
 function isWidgetAvailable(widgetUniqueId: string) {
@@ -233,7 +240,7 @@ export default defineComponent({
     onClose() {
       this.rootJQuery.widgetPreview('reset');
     },
-    redirectToCreateScheduledReports() {
+    redirectToCreateScheduledReports(context: DashboardExportContext) {
       const query = {
         ...MatomoUrl.urlParsed.value,
       } as QueryParameters;
@@ -245,9 +252,11 @@ export default defineComponent({
       query.action = 'index';
       const hash = {
         ...MatomoUrl.hashParsed.value,
-        scheduledReportsAction: 'create',
       } as QueryParameters;
 
+      if (context.widgets?.length) {
+        hash.dashboardWidgets = JSON.stringify(context.widgets);
+      }
       delete hash.category;
       delete hash.subcategory;
       delete hash.idDashboard;
@@ -262,11 +271,53 @@ export default defineComponent({
     },
 
     onClickExportDashboard() {
+      const dashboardContext = this.getCurrentDashboardContext();
+
       if (this.isUserNotAnonymous) {
-        this.redirectToCreateScheduledReports();
-      } else {
-        this.redirectToLoginPage();
+        this.redirectToCreateScheduledReports(dashboardContext);
+        return;
       }
+
+      this.redirectToLoginPage();
+    },
+
+    getCurrentDashboardContext(): DashboardExportContext {
+      const dashboardArea = $('#dashboardWidgetsArea') as DashboardJQuery;
+      const context: DashboardExportContext = {};
+
+      if (!dashboardArea.length || typeof dashboardArea.dashboard !== 'function') {
+        return context;
+      }
+
+      try {
+        context.idDashboard = dashboardArea.dashboard('getDashboardId') as number|string;
+      } catch (error) {
+        // ignore when dashboard id cannot be determined
+      }
+
+      try {
+        const layout = dashboardArea.dashboard('getLayout') as { columns?: Array<Array<{ uniqueId?: string }>> };
+        if (layout?.columns?.length) {
+          const widgets: string[] = [];
+          const seen = new Set<string>();
+          layout.columns.forEach((column) => {
+            column.forEach((widget) => {
+              if (widget?.uniqueId) {
+                const { uniqueId } = widget;
+                if (!seen.has(uniqueId)) {
+                  seen.add(uniqueId);
+                  widgets.push(uniqueId);
+                }
+              }
+            });
+          });
+          context.widgets = widgets;
+        }
+      } catch (error) {
+        // ignore when layout data cannot be read
+      }
+
+      return context;
     },
   },
 });
