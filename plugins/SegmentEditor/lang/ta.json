@@ -24,6 +24,8 @@
         "DefaultAllVisits": "அனைத்து வருகைகளும்",
         "DragDropCondition": "இழுவை &amp; நிலைமை",
         "HideMessageInFuture": "இந்த செய்தியை எதிர்காலத்தில் மறைக்கவும்",
+        "LimitSegmentsSettingRequirementNote": "",
+        "LimitSegmentsSettingTitle": "",
         "LoadingSegmentedDataMayTakeSomeTime": "பிரிக்கப்பட்ட பார்வையாளர் தரவை செயலாக்க சில நிமிடங்கள் ஆகலாம்…",
         "OperatorAND": "மற்றும்",
         "OperatorOR": "அல்லது",
