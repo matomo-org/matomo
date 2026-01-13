@@ -1,5 +1,9 @@
 {
     "UserLanguage": {
-        "LanguageCode": "ⴰⵣⵡⵍ ⵏ ⵜⵓⵜⵍⴰⵢⵜ"
+        "BrowserLanguage": "",
+        "LanguageCode": "ⴰⵣⵡⵍ ⵏ ⵜⵓⵜⵍⴰⵢⵜ",
+        "PluginDescription": "",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }
