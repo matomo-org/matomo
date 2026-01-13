@@ -2,7 +2,6 @@
     "IntranetMeasurable": {
         "Intranet": "Intranet hjemmeside",
         "IntranetDescription": "En intranet webstatistik er det samme som for Internet-hjemmesider, blot hostet på et internt netværk.",
-        "IntranetLongDescription": "",
         "Intranets": "Intranet hjemmeside"
     }
 }

@@ -2,7 +2,6 @@
     "IntranetMeasurable": {
         "Intranet": "Вебсайт Інтранету",
         "IntranetDescription": "Інтранет вимірюваний так само, як вебсайт, але розміщений у внутрішній мережі.",
-        "IntranetLongDescription": "",
         "Intranets": "Вебсайти Інтранету"
     }
 }
