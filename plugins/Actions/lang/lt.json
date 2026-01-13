@@ -1,5 +1,7 @@
 {
     "Actions": {
+        "ActionType": "Veiksmo tipas",
+        "Behaviour": "Elgsena",
         "ColumnClicks": "Paspaudimai",
         "ColumnDownloadURL": "Atsisiuntimų URL",
         "ColumnPageName": "Puslapio pavadinimas",
@@ -8,12 +10,10 @@
         "ColumnSiteSearchKeywords": "Unikalūs raktažodžiai",
         "ColumnUniqueClicks": "Unikalūs spustelėjimai",
         "ColumnUniqueDownloads": "Unikalūs atsisiuntimai",
+        "PagesSubcategoryHelp3": "Naršymui naudokite kairėje esančias pliuso ir minuso piktogramas.",
+        "SubmenuPageTitles": "Puslapių antraštės",
         "SubmenuPagesEntry": "Užėjimo puslapiai",
         "SubmenuPagesExit": "Išėjimo puslapiai",
-        "SubmenuPageTitles": "Puslapių antraštės",
-        "WidgetSearchCategories": "Paieškos kategorijos",
-        "ActionType": "Veiksmo tipas",
-        "Behaviour": "Elgsena",
-        "PagesSubcategoryHelp3": "Naršymui naudokite kairėje esančias pliuso ir minuso piktogramas."
+        "WidgetSearchCategories": "Paieškos kategorijos"
     }
 }
