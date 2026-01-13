@@ -14,6 +14,9 @@
         "IconDescHideNotes": "Sakrij bilješke za ovaj vremenski period.",
         "InlineQuickHelp": "Možete napraviti bilješke kako bi markirali posebne događaje (kao na primjer pravljenje novog članka na blogu, ili ponovno dizajniranje internet stranice), sačuvali vašu analizu podataka ili da sačuvate bilo šta drugo što smatrate važnim.",
         "LoginToAnnotate": "Prijavite se da napravite novu bilješku.",
-        "NoAnnotations": "Nema bilješki za ovaj vremenski period."
+        "NoAnnotations": "Nema bilješki za ovaj vremenski period.",
+        "PluginDescription": "",
+        "ViewAndAddAnnotations": "",
+        "YouCannotModifyThisNote": ""
     }
 }
