@@ -241,7 +241,7 @@ class Client
      * @return array
      * @throws Exception
      */
-    public function searchForPluginsAndThemes($requests)
+    public function searchForPluginsAndThemes(array $requests)
     {
         $responses = $this->fetchMany($requests);
 
@@ -326,7 +326,7 @@ class Client
      * @return array
      * @throws Exception
      */
-    private function fetchMany($requests)
+    private function fetchMany(array $requests)
     {
         $responses = [];
         $uncachedRequests = [];
@@ -435,7 +435,7 @@ class Client
      * @param array $params
      * @return array
      */
-    private function decorateParams($params)
+    private function decorateParams(array $params)
     {
         ksort($params); // sort params so cache is reused more often even if param order is different
 

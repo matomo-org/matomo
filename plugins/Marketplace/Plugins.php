@@ -149,7 +149,7 @@ class Plugins
      * @param array $requests
      * @return array
      */
-    public function getMultiplePluginsAndThemes($requests)
+    public function getMultiplePluginsAndThemes(array $requests)
     {
         $requestsByName = [];
         foreach ($requests as $request) {

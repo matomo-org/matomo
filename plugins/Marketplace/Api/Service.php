@@ -194,6 +194,7 @@ class Service
 
 
     /**
+     * Execute multiple API actions on the Marketplace in parallel with given params using multicurl, and return the result for each
      * @param array $requests
      * @return array
      * @throws Service\Exception
@@ -202,7 +203,7 @@ class Service
     {
         $result = [];
         $timings = [];
-        if (!function_exists('curl_multi_init')) {
+        if (!function_exists('curl_multi_init')) { // Fallback to sequential
             foreach ($requests as $request) {
                 $action = $request['action'];
                 $requestName = $request['requestName'] ?? $action;
@@ -221,9 +222,10 @@ class Service
             $postData = ['access_token' => $this->accessToken];
         }
 
+        // Initialise each request and add to multicurl handle
         list($multiHandle, $curlHandles) = $this->buildMultiHandles($requests, $postData);
 
-        $running = null;
+        $running = 1;
         try {
             $this->execMultiHandle($multiHandle, $running);
 

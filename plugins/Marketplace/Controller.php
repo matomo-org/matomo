@@ -261,14 +261,13 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view = $this->configureViewAndCheckPermission('@Marketplace/overview');
 
         // we're fetching all available plugins to decide which tabs need to be shown in the UI and to know the number
-        // of total available plugin
+        // of total available plugins
 
         $requests = [
                 ['requestName' => 'allPlugins','action' => 'plugins', 'params' => array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
                 ['requestName' => 'paidPlugins','action' => 'plugins', 'params' => array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_PAID)],
                 ['requestName' => 'allThemes','action' => 'themes', 'enrich' => true, 'params' => array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
         ];
-
 
         $time_start = microtime(true);
         $response = $this->plugins->getMultiplePluginsAndThemes($requests);
@@ -290,7 +289,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         $view->paidPluginsToInstallAtOnce = $this->getAllPaidPluginsToInstallAtOnce();
         $view->isValidConsumer = $this->consumer->isValidConsumer();
-
         $view->pluginTypeOptions = array(
             'plugins' => Piwik::translate('General_Plugins'),
             'premium' => Piwik::translate('Marketplace_PaidPlugins'),
@@ -621,7 +619,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     /**
      * @return array
      */
-    private function getPaidPlugins(): array
+    private function getPaidPlugins()
     {
         if ($this->paidPlugins === null) {
             $this->paidPlugins = $this->plugins->getAllPaidPlugins();
