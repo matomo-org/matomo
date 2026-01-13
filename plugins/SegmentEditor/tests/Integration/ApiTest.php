@@ -298,6 +298,122 @@ class ApiTest extends IntegrationTestCase
         ]);
     }
 
+    public function testNormalUserCannotChangeSegmentScopeBetweenSites()
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        FakeAccess::$identity    = 'normalUser';
+        FakeAccess::$superUser   = false;
+        FakeAccess::$idSitesView = [1, 2];
+
+        $idSegment = Request::processRequest('SegmentEditor.add', [
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Changing value for enable_only_idsite is permitted to super users only and only between global and site-specific segments.');
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment'       => $idSegment,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 2,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+    }
+
+    public function testSuperUserCannotChangeSegmentScopeBetweenSites()
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        FakeAccess::$identity    = 'superUserLogin';
+        FakeAccess::$superUser   = true;
+        FakeAccess::$idSitesView = [1, 2];
+
+        $idSegment = Request::processRequest('SegmentEditor.add', [
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Changing value for enable_only_idsite is permitted to super users only and only between global and site-specific segments.');
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment'       => $idSegment,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 2,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+    }
+
+    public function testSuperUserCanChangeSegmentScopeFromSiteToAllSites()
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        FakeAccess::$identity    = 'superUserLogin';
+        FakeAccess::$superUser   = true;
+        FakeAccess::$idSitesView = [1];
+
+        $idSegment = Request::processRequest('SegmentEditor.add', [
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment'       => $idSegment,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 0,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        $updatedSegment = $this->api->get($idSegment);
+        $this->assertSame(0, (int) $updatedSegment['enable_only_idsite']);
+    }
+
+    public function testSuperUserCanChangeSegmentScopeFromAllSitesToSite()
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        FakeAccess::$identity    = 'superUserLogin';
+        FakeAccess::$superUser   = true;
+        FakeAccess::$idSitesView = [1];
+
+        $idSegment = Request::processRequest('SegmentEditor.add', [
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 0,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment'       => $idSegment,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        $updatedSegment = $this->api->get($idSegment);
+        $this->assertSame(1, (int) $updatedSegment['enable_only_idsite']);
+    }
+
 
     protected function setSuperUser($userName = 'superUserLogin')
     {
