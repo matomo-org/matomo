@@ -25,6 +25,7 @@ use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\ImageGraph;
+use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
@@ -243,6 +244,73 @@ class API extends \Piwik\Plugin\API
         ]);
 
         self::$cache = [];
+    }
+    public function getWidgetReportMap($dashId, $idSite)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $layout = $this->getDashboardLayout((int) $dashId);
+        if (empty($layout)) {
+            return [];
+        }
+        $widgetIds = $this->extractWidgetIdsFromLayout($layout);
+        $mapper = new WidgetReportMapper();
+        $widgetReportMapping = $mapper->getMappingForSite($idSite);
+        $reportMapping = [];
+        foreach ($widgetIds as $widgetId) {
+            $reportKey = $widgetReportMapping[$widgetId];
+            if ($reportKey) {
+                $reportMapping[$reportKey] = true;
+            }
+        }
+        return ['email' => $reportMapping];
+    }
+
+    private function getDashboardLayout(int $dashId)
+    {
+        $dashboard = new Dashboard();
+        if (Piwik::isUserIsAnonymous()) {
+            return null;
+        }
+        $login = Piwik::getCurrentUserLogin();
+        $layout = $dashboard->getLayoutForUser($login, $dashId);
+        if ($layout === false) {
+            return null;
+        }
+
+        return $dashboard->decodeLayout($layout);
+    }
+
+    private function extractWidgetIdsFromLayout($layout): array
+    {
+        $columns = $layout;
+        if (is_object($layout) && isset($layout->columns)) {
+            $columns = $layout->columns;
+        } elseif (is_array($layout) && array_key_exists('columns', $layout)) {
+            $columns = $layout['columns'];
+        }
+        if (is_object($columns)) {
+            $columns = get_object_vars($columns);
+        }
+        $widgets = [];
+        $seen = [];
+        foreach ($columns as $column) {
+            if (is_object($column)) {
+                $column = get_object_vars($column);
+            }
+            foreach ($column as $widget) {
+                if (!$widget) {
+                    continue;
+                }
+                $uniqueId = $widget->uniqueId ?? null;
+                if (!$uniqueId || isset($seen[$uniqueId])) {
+                    continue;
+                }
+                $seen[$uniqueId] = true;
+                $widgets[] = $uniqueId;
+            }
+        }
+        return $widgets;
     }
 
     /**
