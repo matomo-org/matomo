@@ -1,5 +1,18 @@
 {
     "API": {
-        "UserAuthentication": "Lietotāja autentifikācija"
+        "ChangeTokenHint": "",
+        "EvolutionMetricName": "",
+        "GenerateVisits": "",
+        "Glossary": "",
+        "KeepTokenSecret": "",
+        "LearnAboutCommonlyUsedTerms2": "",
+        "LoadedAPIs": "",
+        "MainMetricsReportDocumentation": "",
+        "MoreInformation": "",
+        "PluginDescription": "",
+        "ReportingApiReference": "",
+        "TopLinkTooltip": "",
+        "UserAuthentication": "Lietotāja autentifikācija",
+        "UsingTokenAuth": ""
     }
 }
