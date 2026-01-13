@@ -1,6 +1,30 @@
 {
     "VisitsSummary": {
+        "AverageGenerationTime": "",
+        "AverageVisitDuration": "",
+        "GenerateQueries": "",
+        "GenerateTime": "",
+        "MaxNbActions": "",
         "NbActionsDescription": "%s చర్యలు",
-        "VisitsSummary": "సందర్శనల సంగ్రహం"
+        "NbActionsPerVisit": "",
+        "NbDownloadsDescription": "",
+        "NbKeywordsDescription": "",
+        "NbOutlinksDescription": "",
+        "NbPageviewsDescription": "",
+        "NbSearchesDescription": "",
+        "NbUniqueDownloadsDescription": "",
+        "NbUniqueOutlinksDescription": "",
+        "NbUniquePageviewsDescription": "",
+        "NbUniqueVisitors": "",
+        "NbUsersDescription": "",
+        "NbVisitsBounced": "",
+        "NbVisitsDescription": "",
+        "PluginDescription": "",
+        "VisitsSummary": "సందర్శనల సంగ్రహం",
+        "VisitsSummaryDocumentation": "",
+        "VisitsSummaryReportDocumentation": "",
+        "WidgetLastVisits": "",
+        "WidgetOverviewGraph": "",
+        "WidgetVisits": ""
     }
 }

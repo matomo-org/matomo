@@ -1,5 +1,22 @@
 {
     "Annotations": {
-        "ClickToEdit": "మార్చడానికి నొక్కండి"
+        "AddAnnotationsFor": "",
+        "AnnotationOnDate": "",
+        "Annotations": "",
+        "ClickToDelete": "",
+        "ClickToEdit": "మార్చడానికి నొక్కండి",
+        "ClickToEditOrAdd": "",
+        "ClickToStarOrUnstar": "",
+        "CreateNewAnnotation": "",
+        "EnterAnnotationText": "",
+        "HideAnnotationsFor": "",
+        "IconDesc": "",
+        "IconDescHideNotes": "",
+        "InlineQuickHelp": "",
+        "LoginToAnnotate": "",
+        "NoAnnotations": "",
+        "PluginDescription": "",
+        "ViewAndAddAnnotations": "",
+        "YouCannotModifyThisNote": ""
     }
 }

@@ -1,5 +1,9 @@
 {
     "UserLanguage": {
-        "LanguageCode": "భాషా సంకేతం"
+        "BrowserLanguage": "",
+        "LanguageCode": "భాషా సంకేతం",
+        "PluginDescription": "",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }

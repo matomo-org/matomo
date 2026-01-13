@@ -1,7 +1,22 @@
 {
     "Overlay": {
         "Clicks": "%s నొక్కులు",
+        "ClicksFromXLinks": "",
+        "Domain": "",
+        "ErrorNoSiteUrls": "",
+        "ErrorNotLoading": "",
+        "ErrorNotLoadingDetails": "",
+        "ErrorNotLoadingDetailsSSL": "",
+        "ErrorNotLoadingLink": "",
         "Link": "లంకె",
-        "Location": "ప్రాంతం"
+        "Location": "ప్రాంతం",
+        "NoData": "",
+        "OneClick": "",
+        "OpenFullScreen": "",
+        "Overlay": "",
+        "PluginDescription": "",
+        "RedirectUrlError": "",
+        "RedirectUrlErrorAdmin": "",
+        "RedirectUrlErrorUser": ""
     }
 }
