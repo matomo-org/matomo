@@ -1,6 +1,9 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "Limba browser-ului",
-        "LanguageCode": "Cod limbă"
+        "LanguageCode": "Cod limbă",
+        "PluginDescription": "",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }

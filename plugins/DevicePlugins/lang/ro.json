@@ -2,6 +2,9 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s fără plugin-uri activate",
         "BrowserWithPluginsEnabled": "%1$s cu plugin-uri %2$s activate",
+        "ColumnPercentageVisitsDocumentation": "",
+        "PluginDescription": "",
+        "PluginDetectionDoesNotWorkInIE": "",
         "WidgetPlugins": "Lista pluginurilor",
         "WidgetPluginsDocumentation": "Acest raport arată ce plugin-uri de browser-ul au activat vizitatorii. Aceste informație ar putea fi importanta pentru a alege modul corect de a livra conținut."
     }

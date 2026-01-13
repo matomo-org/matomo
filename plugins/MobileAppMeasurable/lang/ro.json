@@ -1,5 +1,8 @@
 {
     "MobileAppMeasurable": {
-        "MobileApp": "Aplicație mobilă"
+        "MobileApp": "Aplicație mobilă",
+        "MobileAppDescription": "",
+        "MobileAppLongDescription": "",
+        "MobileApps": ""
     }
 }
