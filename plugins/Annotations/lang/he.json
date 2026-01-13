@@ -1,5 +1,7 @@
 {
     "Annotations": {
+        "AddAnnotationsFor": "",
+        "AnnotationOnDate": "",
         "Annotations": "הערות הסבר",
         "ClickToDelete": "לחץ כדי למחוק הערה זו.",
         "ClickToEdit": "לחץ כדי לערוך הערה זו.",
@@ -7,9 +9,14 @@
         "ClickToStarOrUnstar": "לחץ כדי לסמן או להוריד סימון מהערה זו.",
         "CreateNewAnnotation": "יצירת הערה חדשה…",
         "EnterAnnotationText": "הקלידו הערה…",
+        "HideAnnotationsFor": "",
         "IconDesc": "הראה הערות לטווח תאריכים המבוקש",
         "IconDescHideNotes": "הסתר הערות של טווח תאריכים זה",
+        "InlineQuickHelp": "",
         "LoginToAnnotate": "יש להתחבר כדי ליצור הערה.",
-        "NoAnnotations": "אין הסברים על טווח תאריכים זה"
+        "NoAnnotations": "אין הסברים על טווח תאריכים זה",
+        "PluginDescription": "",
+        "ViewAndAddAnnotations": "",
+        "YouCannotModifyThisNote": ""
     }
 }
