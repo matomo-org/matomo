@@ -84,10 +84,15 @@ final class Timer
             return;
         }
 
-        if (true === $wasCached || empty($idArchives)) {
+        if (true === $wasCached) {
             return;
         }
 
+        if (empty($idArchives) || count($idArchives) !== 1) {
+            return;
+        }
+
+        $idArchive = reset($idArchives);
         $key = $context->getKey();
 
         if (!isset($this->runs[$key]['timeStarted'])) {
@@ -114,7 +119,7 @@ final class Timer
             $storedContext->plugin
         );
         $this->writer->write($storedContext, [
-            'idarchive' => reset($idArchives),
+            'idarchive' => $idArchive,
             'archive_name' => $archiveName,
             'ts_started' => $this->runs[$key]['ts_started'],
             'ts_finished' => $this->runs[$key]['ts_finished'],
