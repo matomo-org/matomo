@@ -1,11 +1,14 @@
 {
     "MobileMessaging": {
         "Available_Credits": "ઉપલબ્ધ ક્રેડિટ્સ: %1$s",
+        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "પ્રદાતા નામ '%1$s' અજાણ્યું છે. તેને બદલે નીચેનામાંથી કોઈ પસંદ કરો: %2$s.",
+        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "તમે ઍક્સેસ કરીને વધુ ફોન નંબર ઉમેરી શકો છો",
         "MobileReport_MobileMessagingSettingsLink": "મોબાઇલ મેસેજિંગ સેટિંગ્સ પૃષ્ઠ",
         "MobileReport_NoPhoneNumbers": "કૃપા કરીને ઍક્સેસ કરીને ઓછામાં ઓછો એક ફોન નંબર સક્રિય કરો",
         "MultiSites_Must_Be_Activated": "તમારી વેબસાઇટના આંકડાઓના SMS ટેક્સ્ટ જનરેટ કરવા માટે, કૃપા કરીને Matomo માં MultiSites પ્લગઇનને સક્ષમ કરો.",
+        "NumberAlreadyAdded": "",
         "PhoneNumbers": "ફોન નંબરો",
         "PluginDescription": "કસ્ટમ SMS રિપોર્ટ્સ બનાવો અને ડાઉનલોડ કરો અને તેને તમારા મોબાઈલ પર દૈનિક, સાપ્તાહિક અથવા માસિક ધોરણે મોકલો.",
         "SMS_Content_Too_Long": "[ખૂબ લાંબું]",
@@ -25,6 +28,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "બધા વપરાશકર્તાઓ SMS અહેવાલો મેળવવા માટે સક્ષમ છે અને તેઓ તમારા એકાઉન્ટના ક્રેડિટ્સનો ઉપયોગ કરશે.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "દરેક વપરાશકર્તા પોતાનું સ્વતંત્ર SMS API એકાઉન્ટ સેટ કરી શકશે અને તેમણે તમારી ક્રેડિટ વાપરશે નહીં.",
         "Settings_ManagePhoneNumbers": "ફોન નંબર મેનેજ કરો",
+        "Settings_NewVerificationCodeSent": "",
         "Settings_PhoneActivated": "ફોન નંબર માન્ય કરવામાં આવ્યો છે! હવે તમે તમારા આંકડાઓ સાથે SMS પ્રાપ્ત કરી શકો છો.",
         "Settings_PhoneNumber": "ફોન નંબર",
         "Settings_PhoneNumbers_Add": "નવો ફોન નંબર ઉમેરો",
@@ -32,6 +36,7 @@
         "Settings_PhoneNumbers_Help": "ફોન પર SMS (ટેક્સ્ટ સંદેશો) અહેવાલો મેળવવા પહેલાં, નીચે ફોન નંબર દાખલ કરવો આવશ્યક છે.",
         "Settings_PhoneNumbers_HelpAdd": "જ્યારે તમે \"ઉમેરો\" પર ક્લિક કરો છો, ત્યારે ફોન પર કોડ ધરાવતો SMS મોકલવામાં આવશે. કોડ પ્રાપ્ત કરનાર વપરાશકર્તાએ પછી Matomo માં લોગિન કરવું જોઈએ, સેટિંગ્સ પર ક્લિક કરવું જોઈએ, પછી મોબાઈલ મેસેજિંગ પર ક્લિક કરવું જોઈએ. કોડ દાખલ કર્યા પછી, વપરાશકર્તા તેમના ફોન પર ટેક્સ્ટ રિપોર્ટ્સ પ્રાપ્ત કરી શકશે.",
         "Settings_PleaseSignUp": "SMS રિપોર્ટ્સ બનાવવા અને તમારા મોબાઇલ ફોન પર તમારી વેબસાઇટના આંકડા સાથે ટૂંકા ટેક્સ્ટ સંદેશા પ્રાપ્ત કરવા માટે, કૃપા કરીને SMS API સાથે સાઇન અપ કરો અને નીચે તમારી માહિતી દાખલ કરો.",
+        "Settings_ResendVerification": "",
         "Settings_SMSAPIAccount": "SMS API એકાઉન્ટ મેનેજ કરો",
         "Settings_SMSProvider": "SMS પ્રદાતા",
         "Settings_SelectCountry": "દેશ પસંદ કરો",
@@ -40,8 +45,10 @@
         "Settings_UpdateOrDeleteAccount": "તમે પણ આ એકાઉન્ટને %1$sઅપડેટ%2$s અથવા %3$sડિલીટ%4$s કરી શકો છો.",
         "Settings_ValidatePhoneNumber": "માન્ય કરો",
         "Settings_VerificationCodeJustSent": "અમે હમણાં જ આ નંબર પર કોડ સાથે એક SMS મોકલ્યો છે: કૃપા કરીને ઉપર આ કોડ દાખલ કરો અને \"માન્ય કરો\" ક્લિક કરો.",
+        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "વેબ એનાલિટિક્સ અહેવાલો તમારા ઇમેઇલ ઇનબોક્સ અથવા તમારા મોબાઇલ ફોન પર મેળવો.",
         "UserKey": "વપરાશકર્તા કી",
+        "VerificationCodeRecentlySentError": "",
         "VerificationText": "કોડ %1$s છે. તમારો ફોન નંબર માન્ય કરવા અને Matomo SMS અહેવાલો મેળવવા માટે કૃપા કરીને આ કોડની નકલ કરો જે ફોર્મ માટે ઉપલબ્ધ છે Matomo → %2$s → %3$s દ્વારા."
     }
 }
