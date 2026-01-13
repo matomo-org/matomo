@@ -1,6 +1,9 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "Böngésző nyelve",
-        "LanguageCode": "Nyelvi kód"
+        "LanguageCode": "Nyelvi kód",
+        "PluginDescription": "",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }
