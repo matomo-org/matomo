@@ -1,5 +1,9 @@
 {
     "UserLanguage": {
-        "LanguageCode": "የቋንቋ ኮድ"
+        "BrowserLanguage": "",
+        "LanguageCode": "የቋንቋ ኮድ",
+        "PluginDescription": "",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }

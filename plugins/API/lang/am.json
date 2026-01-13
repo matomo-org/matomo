@@ -1,5 +1,18 @@
 {
     "API": {
-        "LoadedAPIs": "ማስጋባት ተሳክቷል %s ኤፒአይዎች"
+        "ChangeTokenHint": "",
+        "EvolutionMetricName": "",
+        "GenerateVisits": "",
+        "Glossary": "",
+        "KeepTokenSecret": "",
+        "LearnAboutCommonlyUsedTerms2": "",
+        "LoadedAPIs": "ማስጋባት ተሳክቷል %s ኤፒአይዎች",
+        "MainMetricsReportDocumentation": "",
+        "MoreInformation": "",
+        "PluginDescription": "",
+        "ReportingApiReference": "",
+        "TopLinkTooltip": "",
+        "UserAuthentication": "",
+        "UsingTokenAuth": ""
     }
 }
