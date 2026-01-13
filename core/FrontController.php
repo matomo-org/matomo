@@ -751,7 +751,7 @@ class FrontController extends Singleton
         return null;
     }
 
-    private function makeAuthenticator(SessionAuth $auth = null)
+    private function makeAuthenticator(?SessionAuth $auth = null)
     {
         /**
          * Triggered before the user is authenticated, when the global authentication object

@@ -27,7 +27,7 @@ class RunScheduledTasks extends ConsoleCommand
      */
     private $scheduler = null;
 
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         parent::__construct();
 

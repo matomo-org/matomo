@@ -567,7 +567,7 @@ class API extends \Piwik\Plugin\API
         string $idSite,
         string $complianceType,
         bool $enforce,
-        string $passwordConfirmation = null
+        ?string $passwordConfirmation = null
     ): bool {
         if (!$this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             throw new Exception('Feature not available');
