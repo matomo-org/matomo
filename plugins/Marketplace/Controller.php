@@ -618,6 +618,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         return $this->getPaidPluginsToInstallAtOnceData($paidPlugins);
     }
 
+    /**
+     * @return array
+     */
     private function getPaidPlugins(): array
     {
         if ($this->paidPlugins === null) {

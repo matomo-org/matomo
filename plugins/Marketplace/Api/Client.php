@@ -236,6 +236,11 @@ class Client
         return array();
     }
 
+    /**
+     * @param array $requests
+     * @return array
+     * @throws Exception
+     */
     public function searchForPluginsAndThemes($requests)
     {
         $responses = $this->fetchMany($requests);
@@ -316,6 +321,11 @@ class Client
         return $result;
     }
 
+    /**
+     * @param array $requests
+     * @return array
+     * @throws Exception
+     */
     private function fetchMany($requests)
     {
         $responses = [];
@@ -422,8 +432,8 @@ class Client
     }
 
     /**
-     * @param $params
-     * @return mixed
+     * @param array $params
+     * @return array
      */
     private function decorateParams($params)
     {

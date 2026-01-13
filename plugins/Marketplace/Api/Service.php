@@ -193,7 +193,13 @@ class Service
     }
 
 
-    function fetchMany(array $requests) {
+    /**
+     * @param array $requests
+     * @return array
+     * @throws Service\Exception
+     */
+    public function fetchMany(array $requests)
+    {
         $result = [];
         $timings = [];
         if (!function_exists('curl_multi_init')) {
@@ -221,7 +227,7 @@ class Service
         try {
             $this->execMultiHandle($multiHandle, $running);
 
-            foreach ($curlHandles as $requestName=>$curlHandle) {
+            foreach ($curlHandles as $requestName => $curlHandle) {
                 curl_multi_remove_handle($multiHandle, $curlHandle);
 
                 $result[$requestName] = $this->parseMultiResponse($curlHandle);
@@ -243,7 +249,12 @@ class Service
         return $result;
     }
 
-    private function buildMultiHandles(array $requests, ?array $postData): array
+    /**
+     * @param array $requests
+     * @param array|null $postData
+     * @return array
+     */
+    private function buildMultiHandles(array $requests, ?array $postData)
     {
         $curlHandles = [];
         $multiHandle = curl_multi_init();
@@ -293,17 +304,24 @@ class Service
         return [$multiHandle, $curlHandles];
     }
 
-    private function execMultiHandle($multiHandle, &$running): void
+    /**
+     * @param resource $multiHandle
+     * @param int $running
+     * @return void
+     */
+    private function execMultiHandle($multiHandle, &$running)
     {
         do {
             curl_multi_exec($multiHandle, $running);
-            if($running) {
+            if ($running) {
                 curl_multi_select($multiHandle, 1.0);
             }
         } while ($running);
     }
 
     /**
+     * @param resource $curlHandle
+     * @return mixed
      * @throws Exception
      */
     private function parseMultiResponse($curlHandle)
@@ -314,6 +332,13 @@ class Service
         return $this->parseMultiPayload($response, $errno, $httpStatus);
     }
 
+    /**
+     * @param mixed $response
+     * @param int $errno
+     * @param int $httpStatus
+     * @return mixed
+     * @throws Exception
+     */
     private function parseMultiPayload($response, int $errno, int $httpStatus)
     {
         if ($errno !== 0 || $response === false) {

@@ -145,7 +145,12 @@ class Plugins
         return $this->searchPlugins($query = '', Sort::DEFAULT_SORT, $themes = false, PurchaseType::TYPE_ALL);
     }
 
-    public function getMultiplePluginsAndThemes($requests) {
+    /**
+     * @param array $requests
+     * @return array
+     */
+    public function getMultiplePluginsAndThemes($requests)
+    {
         $requestsByName = [];
         foreach ($requests as $request) {
             $requestName = $request['requestName'] ?? $request['action'] ?? null;
