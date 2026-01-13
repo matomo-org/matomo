@@ -339,6 +339,7 @@ class Mysql implements SchemaInterface
                                       idarchive BIGINT UNSIGNED NOT NULL,
                                       idsite INTEGER UNSIGNED NOT NULL,
                                       archive_name VARCHAR(255) NOT NULL,
+                                      report VARCHAR(255) NULL,
                                       date1 DATE NOT NULL,
                                       date2 DATE NOT NULL,
                                       period TINYINT UNSIGNED NOT NULL,
