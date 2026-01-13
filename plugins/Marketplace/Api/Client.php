@@ -236,7 +236,8 @@ class Client
         return array();
     }
 
-    public function searchForPluginsAndThemes($requests) {
+    public function searchForPluginsAndThemes($requests)
+    {
         $responses = $this->fetchMany($requests);
 
         foreach ($responses as $requestName => $response) {
@@ -280,7 +281,7 @@ class Client
 
     private function fetch($action, $params)
     {
-        ksort($params); // sort params so cache is reused more often even if param order is different
+        $params = $this->decorateParams($params);
 
         $releaseChannel = $this->environment->getReleaseChannel();
 
@@ -317,37 +318,54 @@ class Client
 
     private function fetchMany($requests)
     {
-        foreach ($requests as &$request) {
+        $responses = [];
+        $uncachedRequests = [];
+
+        foreach ($requests as $index => $request) {
             $params = $request['params'];
 
-            ksort($params); // sort params so cache is reused more often even if param order is different
+            $params = $this->decorateParams($params);
 
-            $releaseChannel = $this->environment->getReleaseChannel();
+            $action = $request['action'];
+            $requestName = $request['requestName'] ?? $action;
+            $query = Http::buildQuery($params);
+            $cacheId = $this->getCacheKey($action, $query);
 
-            if (!empty($releaseChannel)) {
-                $params['release_channel'] = $releaseChannel;
+            $cachedResponse = $this->cache->fetch($cacheId);
+            if ($cachedResponse !== false) {
+                $responses[$requestName] = $cachedResponse;
+                continue;
             }
 
-            $params['prefer_stable'] = (int)$this->environment->doesPreferStable();
-            $params['piwik'] = $this->environment->getPiwikVersion();
-            $params['php'] = $this->environment->getPhpVersion();
-            $params['mysql'] = $this->environment->getMySQLVersion();
-            $params['num_users'] = $this->environment->getNumUsers();
-            $params['num_websites'] = $this->environment->getNumWebsites();
-
-
             $request['params'] = $params;
+            $request['requestName'] = $requestName;
+            $request['_cacheId'] = $cacheId;
+            $uncachedRequests[$index] = $request;
+        }
+
+        if (empty($uncachedRequests)) {
+            return $responses;
         }
 
         try {
-            $result = $this->service->fetchMany($requests);
+            $result = $this->service->fetchMany(array_values($uncachedRequests));
         } catch (Service\Exception $e) {
             throw new Exception($e->getMessage(), $e->getCode());
         }
 
-        //$this->cache->save($cacheId, $result, self::CACHE_TIMEOUT_IN_SECONDS);
+        foreach ($uncachedRequests as $request) {
+            $requestName = $request['requestName'];
+            if (!array_key_exists($requestName, $result)) {
+                continue;
+            }
 
-        return $result;
+            $responses[$requestName] = $result[$requestName];
+
+            print '' . $request['_cacheId'];
+            $this->cache->save($request['_cacheId'], $result[$requestName], self::CACHE_TIMEOUT_IN_SECONDS);
+        }
+
+        return $responses;
     }
 
     public function clearAllCacheEntries()
@@ -401,5 +419,28 @@ class Client
         }
 
         return $url;
+    }
+
+    /**
+     * @param $params
+     * @return mixed
+     */
+    private function decorateParams($params)
+    {
+        ksort($params); // sort params so cache is reused more often even if param order is different
+
+        $releaseChannel = $this->environment->getReleaseChannel();
+
+        if (!empty($releaseChannel)) {
+            $params['release_channel'] = $releaseChannel;
+        }
+
+        $params['prefer_stable'] = (int)$this->environment->doesPreferStable();
+        $params['piwik'] = $this->environment->getPiwikVersion();
+        $params['php'] = $this->environment->getPhpVersion();
+        $params['mysql'] = $this->environment->getMySQLVersion();
+        $params['num_users'] = $this->environment->getNumUsers();
+        $params['num_websites'] = $this->environment->getNumWebsites();
+        return $params;
     }
 }

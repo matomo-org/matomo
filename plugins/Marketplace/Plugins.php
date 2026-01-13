@@ -145,7 +145,15 @@ class Plugins
         return $this->searchPlugins($query = '', Sort::DEFAULT_SORT, $themes = false, PurchaseType::TYPE_ALL);
     }
 
-    public function getMultiplePluginsAndThemes($requests, $enrich=false) {
+    public function getMultiplePluginsAndThemes($requests) {
+        $requestsByName = [];
+        foreach ($requests as $request) {
+            $requestName = $request['requestName'] ?? $request['action'] ?? null;
+            if ($requestName !== null) {
+                $requestsByName[$requestName] = $request;
+            }
+        }
+
         $responses = $this->marketplaceClient->searchForPluginsAndThemes($requests);
 
         foreach ($responses as $requestName => $response) {
@@ -153,9 +161,10 @@ class Plugins
                 continue;
             }
 
-            if($enrich) {
+            $currentRequest = $requestsByName[$requestName] ?? null;
+            if (!empty($currentRequest['enrich'])) {
                 foreach ($response['plugins'] as $index => $plugin) {
-                    $response['plugins'][$index] = $this->enrichplugininformation($plugin);
+                    $response['plugins'][$index] = $this->enrichPluginInformation($plugin);
                 }
             }
 

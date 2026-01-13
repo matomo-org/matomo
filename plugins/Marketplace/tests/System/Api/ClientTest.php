@@ -271,6 +271,74 @@ class ClientTest extends SystemTestCase
         $this->assertSame(array(array('name' => 'foobar')), $result);
     }
 
+    public function testSearchForPluginsAndThemesShouldCacheResponses()
+    {
+        $pluginParams = array(
+            'keywords' => 'login',
+            'purchase_type' => '',
+            'query' => '',
+            'sort' => '',
+        );
+        $themeParams = array(
+            'keywords' => '',
+            'purchase_type' => '',
+            'query' => '',
+            'sort' => '',
+        );
+
+        $cache = $this->getCache();
+        $pluginsCacheId = $this->buildCacheId('plugins', $pluginParams);
+        $themesCacheId = $this->buildCacheId('themes', $themeParams);
+
+        $this->assertFalse($cache->contains($pluginsCacheId));
+        $this->assertFalse($cache->contains($themesCacheId));
+
+        $responses = $this->client->searchForPluginsAndThemes([
+            ['requestName' => 'pluginsList', 'action' => 'plugins', 'params' => $pluginParams],
+            ['requestName' => 'themesList', 'action' => 'themes', 'params' => $themeParams],
+        ]);
+
+        $this->assertArrayHasKey('pluginsList', $responses);
+        $this->assertArrayHasKey('themesList', $responses);
+        $this->assertTrue($cache->contains($pluginsCacheId));
+        $this->assertTrue($cache->contains($themesCacheId));
+    }
+
+    public function testSearchForPluginsAndThemesShouldReturnCachedResponses()
+    {
+        $pluginParams = array(
+            'keywords' => 'login',
+            'purchase_type' => '',
+            'query' => '',
+            'sort' => '',
+        );
+        $themeParams = array(
+            'keywords' => '',
+            'purchase_type' => '',
+            'query' => '',
+            'sort' => '',
+        );
+
+        $cache = $this->getCache();
+        $pluginsCacheId = $this->buildCacheId('plugins', $pluginParams);
+        $themesCacheId = $this->buildCacheId('themes', $themeParams);
+
+        $cache->save($pluginsCacheId, array('plugins' => array(
+            array('name' => 'CachedPlugin', 'isCustomPlugin' => false),
+        )));
+        $cache->save($themesCacheId, array('plugins' => array(
+            array('name' => 'CachedTheme', 'isCustomPlugin' => false, 'isTheme' => true),
+        )));
+
+        $responses = $this->client->searchForPluginsAndThemes([
+            ['requestName' => 'pluginsList', 'action' => 'plugins', 'params' => $pluginParams],
+            ['requestName' => 'themesList', 'action' => 'themes', 'params' => $themeParams],
+        ]);
+
+        $this->assertSame('CachedPlugin', $responses['pluginsList']['plugins'][0]['name']);
+        $this->assertSame('CachedTheme', $responses['themesList']['plugins'][0]['name']);
+    }
+
     public function testGetInfoOfPluginsHavingUpdate()
     {
         $service = new TestService($this->domain);
@@ -316,5 +384,24 @@ class ClientTest extends SystemTestCase
     private function getCache()
     {
         return Cache::getLazyCache();
+    }
+
+    private function buildCacheId(string $action, array $params): string
+    {
+        ksort($params);
+
+        $releaseChannel = $this->environment->getReleaseChannel();
+        if (!empty($releaseChannel)) {
+            $params['release_channel'] = $releaseChannel;
+        }
+
+        $params['prefer_stable'] = (int)$this->environment->doesPreferStable();
+        $params['piwik'] = $this->environment->getPiwikVersion();
+        $params['php'] = $this->environment->getPhpVersion();
+        $params['mysql'] = $this->environment->getMySQLVersion();
+        $params['num_users'] = $this->environment->getNumUsers();
+        $params['num_websites'] = $this->environment->getNumWebsites();
+
+        return 'marketplace.api.2.0.' . str_replace('/', '.', $action) . '.' . md5(Http::buildQuery($params));
     }
 }

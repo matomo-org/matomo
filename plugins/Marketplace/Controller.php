@@ -264,22 +264,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         // of total available plugin
 
         $requests = [
-                ['requestName'=>'allPlugins','action'=>'plugins', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
-                ['requestName'=>'paidPlugins','action'=>'plugins', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_PAID)],
-                ['requestName'=>'allThemes','action'=>'themes', 'params'=>array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
+                ['requestName' => 'allPlugins','action' => 'plugins', 'params' => array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
+                ['requestName' => 'paidPlugins','action' => 'plugins', 'params' => array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_PAID)],
+                ['requestName' => 'allThemes','action' => 'themes', 'enrich' => true, 'params' => array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
         ];
 
-        $time_start = microtime(true);
-        $response=$this->plugins->getMultiplePluginsAndThemes($requests);
 
-        $allPlugins=$response['allPlugins'];
-        $allThemes=$response['allThemes'];
+        $time_start = microtime(true);
+        $response = $this->plugins->getMultiplePluginsAndThemes($requests);
+
+        $allPlugins = $response['allPlugins'];
+        $allThemes = $response['allThemes'];
+
         $this->paidPlugins = $response['paidPlugins'];
 
         $time_end = microtime(true);
         $time = $time_end - $time_start;
         print "With multi curl $time";
-
 
         $view->numAvailablePluginsByType = [
             'plugins' => count($allPlugins),
