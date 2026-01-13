@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Aplikasi Seluler",
         "MobileAppDescription": "Aplikasi seluler untuk iOS, Android, atau sistem operasi seluler lainnya.",
+        "MobileAppLongDescription": "",
         "MobileApps": "Aplikasi Seluler"
     }
 }
