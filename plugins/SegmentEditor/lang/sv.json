@@ -24,6 +24,8 @@
         "DefaultAllVisits": "Alla besök",
         "DragDropCondition": "Dra &amp; Droppa villkor",
         "HideMessageInFuture": "Dölj detta meddelande i framtiden",
+        "LimitSegmentsSettingRequirementNote": "",
+        "LimitSegmentsSettingTitle": "",
         "LoadingSegmentedDataMayTakeSomeTime": "Att processa data för segmenterade besökare kan ta några minuter…",
         "OperatorAND": "OCH",
         "OperatorOR": "ELLER",
