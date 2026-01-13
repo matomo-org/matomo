@@ -1,5 +1,21 @@
 {
     "DBStats": {
-        "Table": "Táboa"
+        "DBSize": "",
+        "DataSize": "",
+        "DatabaseUsage": "",
+        "EstimatedSize": "",
+        "IndexSize": "",
+        "LearnMore": "",
+        "MainDescription": "",
+        "MetricDataByYear": "",
+        "MetricTables": "",
+        "OtherTables": "",
+        "PluginDescription": "",
+        "ReportDataByYear": "",
+        "ReportTables": "",
+        "RowCount": "",
+        "Table": "Táboa",
+        "TotalSize": "",
+        "TrackerTables": ""
     }
 }

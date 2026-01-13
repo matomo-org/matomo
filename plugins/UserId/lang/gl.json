@@ -1,5 +1,13 @@
 {
     "UserId": {
-        "UserReportTitle": "Usuario"
+        "PluginDescription": "",
+        "ThereIsNoDataForThisReportHelp": "",
+        "UserId": "",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "Usuario",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }

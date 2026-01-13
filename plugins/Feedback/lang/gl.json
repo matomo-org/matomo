@@ -1,8 +1,8 @@
 {
     "Feedback": {
-        "IWantTo": "Quero:",
         "CommunityHelp": "Axuda da comunidade",
-        "ProfessionalHelp": "Axuda profesional",
-        "ContactUs": "Contacte connosco"
+        "ContactUs": "Contacte connosco",
+        "IWantTo": "Quero:",
+        "ProfessionalHelp": "Axuda profesional"
     }
 }
