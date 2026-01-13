@@ -49,12 +49,10 @@ class WidgetReportMapper
     {
         $reports = ReportsApi::getInstance()->getReportMetadata($idSite);
         $reportIndex = $this->indexReportsByModuleAndAction($reports);
-        $reportIndexByDimension = $this->indexReportsByModuleActionAndParameter($reports, 'idDimension');
-        $reportIndexByCustomReport = $this->indexReportsByModuleActionAndParameter($reports, 'idCustomReport');
 
         $mapping = [];
-
-        foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
+        $widgetsConfigs = WidgetsList::get()->getWidgetConfigs();
+        foreach ($widgetsConfigs as $widgetConfig) {
             if (!$this->shouldMapWidget($widgetConfig)) {
                 continue;
             }
@@ -63,26 +61,19 @@ class WidgetReportMapper
             $widgetAction = $widgetConfig->getAction();
             $widgetKey = $widgetModule . '.' . $widgetAction;
 
-            $reportId = $this->getReportIdForParameterWidget(
-                $widgetConfig,
-                $reportIndexByDimension,
-                'CustomDimensions',
-                'getCustomDimension',
-                'idDimension'
-            );
-
-            if (null === $reportId) {
-                $reportId = $this->getReportIdForParameterWidget(
-                    $widgetConfig,
-                    $reportIndexByCustomReport,
-                    'CustomReports',
-                    'getCustomReport',
-                    'idCustomReport'
-                );
-            }
-
-            if (null === $reportId) {
-                $reportId = $reportIndex[$widgetKey] ?? null;
+            // Checking if we have other parameters aside from module and action that we can use
+            $reportId = null;
+            if (count($widgetConfig->getParameters()) > 2) {
+                $parameters = $widgetConfig->getParameters();
+                unset($parameters['module']);
+                unset($parameters['action']);
+                foreach ($parameters as $parameter) {
+                    $widgetKey .= '.' . $parameter;
+                    if (isset($reportIndex[$widgetKey])) {
+                        $reportId = $reportIndex[$widgetKey];
+                        break;
+                    }
+                }
             }
 
             if (null === $reportId) {
@@ -175,6 +166,11 @@ class WidgetReportMapper
             }
 
             $key = $reportMeta['module'] . '.' . $reportMeta['action'];
+
+            if (!empty($reportMeta['parameters']) && is_array($reportMeta['parameters'])) {
+                $parameterValue = reset($reportMeta['parameters']);
+                $key .= '.'.$parameterValue;
+            }
 
             if (!isset($index[$key])) {
                 $index[$key] = $reportMeta['uniqueId'];
