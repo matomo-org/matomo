@@ -1,28 +1,7 @@
 {
     "Contents": {
-        "ContentImpression": "",
-        "ContentInteraction": "",
-        "ContentInteractionSegmentHelp": "",
-        "ContentInteractions": "",
         "ContentName": "Nome do contido",
-        "ContentNameReportDocumentation": "",
-        "ContentNameSegmentHelp": "",
-        "ContentNames": "",
-        "ContentPiece": "",
-        "ContentPieceReportDocumentation": "",
-        "ContentPieceSegmentHelp": "",
-        "ContentPieces": "",
-        "ContentTarget": "",
-        "ContentTargetSegmentHelp": "",
-        "ContentTargets": "",
         "Contents": "Contido",
-        "ContentsSubcategoryHelp1": "",
-        "ContentsSubcategoryHelp2": "",
-        "Impressions": "Impresións",
-        "ImpressionsMetricDocumentation": "",
-        "InteractionRate": "",
-        "InteractionRateMetricDocumentation": "",
-        "InteractionsMetricDocumentation": "",
-        "PluginDescription": ""
+        "Impressions": "Impresións"
     }
 }

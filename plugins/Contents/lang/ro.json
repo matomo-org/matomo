@@ -1,28 +1,9 @@
 {
     "Contents": {
-        "ContentImpression": "",
-        "ContentInteraction": "",
-        "ContentInteractionSegmentHelp": "",
-        "ContentInteractions": "",
         "ContentName": "Nume Continut",
-        "ContentNameReportDocumentation": "",
-        "ContentNameSegmentHelp": "",
-        "ContentNames": "",
-        "ContentPiece": "",
-        "ContentPieceReportDocumentation": "",
-        "ContentPieceSegmentHelp": "",
-        "ContentPieces": "",
         "ContentTarget": "Conţinut ţintă",
-        "ContentTargetSegmentHelp": "",
-        "ContentTargets": "",
         "Contents": "Conţinut",
-        "ContentsSubcategoryHelp1": "",
-        "ContentsSubcategoryHelp2": "",
         "Impressions": "Impresii",
-        "ImpressionsMetricDocumentation": "",
-        "InteractionRate": "Rata de interacţiune",
-        "InteractionRateMetricDocumentation": "",
-        "InteractionsMetricDocumentation": "",
-        "PluginDescription": ""
+        "InteractionRate": "Rata de interacţiune"
     }
 }

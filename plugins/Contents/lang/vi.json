@@ -1,28 +1,11 @@
 {
     "Contents": {
-        "ContentImpression": "",
-        "ContentInteraction": "",
-        "ContentInteractionSegmentHelp": "",
-        "ContentInteractions": "",
         "ContentName": "Tên nội dung",
-        "ContentNameReportDocumentation": "",
-        "ContentNameSegmentHelp": "",
-        "ContentNames": "",
         "ContentPiece": "Thành phần nội dung",
-        "ContentPieceReportDocumentation": "",
-        "ContentPieceSegmentHelp": "",
-        "ContentPieces": "",
         "ContentTarget": "Đối tượng nội dung",
-        "ContentTargetSegmentHelp": "",
-        "ContentTargets": "",
         "Contents": "Nội dung",
-        "ContentsSubcategoryHelp1": "",
-        "ContentsSubcategoryHelp2": "",
         "Impressions": "Lượt hiển thị cho người dùng",
-        "ImpressionsMetricDocumentation": "",
         "InteractionRate": "Tỷ lệ tương tác",
-        "InteractionRateMetricDocumentation": "",
-        "InteractionsMetricDocumentation": "",
         "PluginDescription": "Chức năng theo dõi nội dung và banner cho phép bạn đánh giá được hiệu quả (lượt xem, click, CTR) của bất kỳ trang web nào."
     }
 }
