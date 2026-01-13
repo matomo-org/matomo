@@ -65,7 +65,7 @@ class RandomizedConfigIdVisitsFixture extends Fixture
         // empty
     }
 
-    private function setConfigIdRandomisationPrivacyConfig(bool $config, int $idSite = null, bool $useSiteSpecificConfig = false)
+    private function setConfigIdRandomisationPrivacyConfig(bool $config, ?int $idSite = null, bool $useSiteSpecificConfig = false)
     {
         if ($useSiteSpecificConfig) {
             $this->privacyManagerConfig->setIdSite($idSite);
