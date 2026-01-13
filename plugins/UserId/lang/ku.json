@@ -1,8 +1,13 @@
 {
     "UserId": {
+        "PluginDescription": "ڕاپۆرتەکانی بەکارهێنەر نیشان دەدات",
+        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "پێناسەی بەکارهێنەر",
-        "UserReportTitle": "پێناسەکانی بەکارهێنەر",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
         "UserReportDocumentation": "ئەم ڕاپۆرتە سەردان و پێوانە گشتییەکانی تربۆ هەر پێناسەیەکی بەکارهێنەر نیشان دەدات.",
-        "PluginDescription": "ڕاپۆرتەکانی بەکارهێنەر نیشان دەدات"
+        "UserReportTitle": "پێناسەکانی بەکارهێنەر",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }
