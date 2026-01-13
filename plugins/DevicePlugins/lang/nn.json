@@ -1,5 +1,11 @@
 {
     "DevicePlugins": {
-        "WidgetPlugins": "Liste over innstikk"
+        "BrowserWithNoPluginsEnabled": "",
+        "BrowserWithPluginsEnabled": "",
+        "ColumnPercentageVisitsDocumentation": "",
+        "PluginDescription": "",
+        "PluginDetectionDoesNotWorkInIE": "",
+        "WidgetPlugins": "Liste over innstikk",
+        "WidgetPluginsDocumentation": ""
     }
 }
