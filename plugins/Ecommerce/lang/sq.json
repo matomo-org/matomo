@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "Ngaqë një ID Porosie mund të mund të përshoqërohet me një sistem tjetër, zakonisht një dyqan etregtie, ID-ja e Porosisë mund të shihet si hollësi personale, nën GDPR-në. Kur e aktivizoni këtë mundësi, një ID Porosie do të anonimizohet vetvetiu dhe kështu s’do të ketë ndjekje hollësish personale.",
         "EcommerceLogSubcategoryHelp1": "Regjistri Etregti furnizon të dhëna kapilare në shkallë niveli, që kështu të mund të shihni te sesioni i plotë për çdo përdorues që ose bëri një blerje, ose braktisi shportën e vet. Kjo mund t’ju ndihmojë të kuptoni se ç’bëjnë përdoruesit para dhe pasi blejnë, për të zbuluar mundësi optimizimi.",
         "EcommerceLogSubcategoryHelp2": "Të dhënat në këtë faqe përditësohen aty për aty.",
         "EcommerceOverviewSubcategoryHelp1": "Ndarja Përmbledhje Etregtie është vendi më i mirë për të pasur një pamje të thelluar të funksionimit të shitores tuaj internetore. Me një vështrim, mund të shihni se sa shitje po bëni, sa të ardhura po prodhoni dhe nivel shndërrimesh për sajtin tuaj.",
@@ -15,6 +16,8 @@
         "NumberOfItems": "Numër Artikujsh në Shportë",
         "Order": "Porosi",
         "OrderId": "ID Porosie",
+        "OrderIdAnonymizationSettingRequirementNote": "ID-të e porosive duhen anonimizuar",
+        "OrderIdAnonymizationSettingTitle": "Anonimizim ID-sh Porosish",
         "OrderRevenue": "Të ardhura Porosie",
         "OrderValue": "Vlerë porosie",
         "Orders": "Porosi",
@@ -26,16 +29,13 @@
         "SalesBy": "Shitje nga %s",
         "SalesSubcategoryHelp1": "Kjo ndarje përmban një koleksion të zgjeruar raportesh për t’ju ndihmuar të analizoni kushte të ndryshme që në shumicën e rasteve shpien në shitje, të tilla si trafiku dhe burime fushatash, kohë dhe vendndodhje përdoruesi dhe pajisje të përdorura për të hyrë në to.",
         "SalesSubcategoryHelp2": "Mund të njihni saktësisht edhe se si lidhen të ardhurat me çdo përmasë, bie fjala, lloje specifike trafiku, ose fushata të ndjekura.",
+        "UseAnonymizeOrderId": "Anonimizo ID Porosie",
         "ViewedProductCategory": "Kategori Produkti të Parë",
         "ViewedProductName": "Emër Produkti të Parë",
         "ViewedProductPrice": "Çmim Produkti të Parë",
         "ViewedProductSKU": "SKU Produkti të Parë",
         "VisitorProfileAbandonedCartSummary": "Braktisi %1$s shporta, përfshi %2$s artikuj me vlerë %3$s gjithsej.",
         "VisitorProfileItemsAndOrders": "Bleu %1$s artikuj në %2$s porosi e-tregtie.",
-        "VisitorProfileLTV": "Prodhoi Gjatë Ekzistencës Të ardhura sa %1$s.",
-        "AnonymizeOrderIdNote": "Ngaqë një ID Porosie mund të mund të përshoqërohet me një sistem tjetër, zakonisht një dyqan etregtie, ID-ja e Porosisë mund të shihet si hollësi personale, nën GDPR-në. Kur e aktivizoni këtë mundësi, një ID Porosie do të anonimizohet vetvetiu dhe kështu s’do të ketë ndjekje hollësish personale.",
-        "UseAnonymizeOrderId": "Anonimizo ID Porosie",
-        "OrderIdAnonymizationSettingTitle": "Anonimizim ID-sh Porosish",
-        "OrderIdAnonymizationSettingRequirementNote": "ID-të e porosive duhen anonimizuar"
+        "VisitorProfileLTV": "Prodhoi Gjatë Ekzistencës Të ardhura sa %1$s."
     }
 }
