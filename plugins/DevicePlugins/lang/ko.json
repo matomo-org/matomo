@@ -2,6 +2,7 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "플러그인이 활성화되지 않은 %1$s",
         "BrowserWithPluginsEnabled": "플러그인 %2$s가 활성화된 %1$s",
+        "ColumnPercentageVisitsDocumentation": "",
         "PluginDescription": "방문자 브라우저에서 지원되는 플러그인 목록을 보고합니다.",
         "PluginDetectionDoesNotWorkInIE": "참고: Internet Explorer 11 이전 버전에서는 플러그인 검색이 작동하지 않습니다. 이 보고서는 IE 브라우저가 아닌것과 새로운 버전의 IE에 기반합니다.",
         "WidgetPlugins": "플러그인 목록",
