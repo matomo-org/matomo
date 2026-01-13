@@ -1,11 +1,22 @@
 {
     "Annotations": {
+        "AddAnnotationsFor": "",
+        "AnnotationOnDate": "",
         "Annotations": "تشریحات",
+        "ClickToDelete": "",
         "ClickToEdit": "اس تشریح کی ترمیم کیلئے کلک کریں۔",
+        "ClickToEditOrAdd": "",
         "ClickToStarOrUnstar": "اس تشریح کو سٹار یا ان سٹار کرنے کیلئے کلک کریں۔",
+        "CreateNewAnnotation": "",
         "EnterAnnotationText": "اپنے نوٹ لکھیں…",
+        "HideAnnotationsFor": "",
         "IconDesc": "اس تاریخی حدود کے نوٹس دیکھیے۔",
+        "IconDescHideNotes": "",
+        "InlineQuickHelp": "",
         "LoginToAnnotate": "تشریح لکھنے کیلیے لاگ ان ہوں۔",
-        "ViewAndAddAnnotations": "%s کیلیے تشریح لکھیے اور دیکھیے…"
+        "NoAnnotations": "",
+        "PluginDescription": "",
+        "ViewAndAddAnnotations": "%s کیلیے تشریح لکھیے اور دیکھیے…",
+        "YouCannotModifyThisNote": ""
     }
 }
