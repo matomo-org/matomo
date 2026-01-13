@@ -261,6 +261,14 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Changing value for enabledAllUsers is permitted to super users only.');
         }
 
+        if (
+            ((int)$segment['enable_only_idsite'] !== (int)$idSite)
+            && !((int)$segment['enable_only_idsite'] === 0 && !empty($idSite) && Piwik::hasUserSuperUserAccess()) // changing from global to local segment is allowed for superuser
+            && !((int)$segment['enable_only_idsite'] > 0 && empty($idSite) && Piwik::hasUserSuperUserAccess()) // changing from site specific to global segment is allowed for superuser
+        ) {
+            throw new Exception('Changing value for enable_only_idsite is permitted to super users only and only between global and site-specific segments.');
+        }
+
         $autoArchive     = $this->checkAutoArchive($autoArchive, $idSite);
 
         $bind = [
