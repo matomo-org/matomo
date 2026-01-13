@@ -1,18 +1,6 @@
 {
     "API": {
-        "ChangeTokenHint": "",
-        "EvolutionMetricName": "",
-        "GenerateVisits": "",
-        "Glossary": "",
-        "KeepTokenSecret": "",
-        "LearnAboutCommonlyUsedTerms2": "",
         "LoadedAPIs": "%s کی APIs کامیابی سے لوڈ ہو چکی ہیں",
-        "MainMetricsReportDocumentation": "",
-        "MoreInformation": "",
-        "PluginDescription": "",
-        "ReportingApiReference": "",
-        "TopLinkTooltip": "",
-        "UserAuthentication": "صارف کی تصدیق",
-        "UsingTokenAuth": ""
+        "UserAuthentication": "صارف کی تصدیق"
     }
 }

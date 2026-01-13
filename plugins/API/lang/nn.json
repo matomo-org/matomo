@@ -1,18 +1,5 @@
 {
     "API": {
-        "ChangeTokenHint": "",
-        "EvolutionMetricName": "",
-        "GenerateVisits": "",
-        "Glossary": "",
-        "KeepTokenSecret": "",
-        "LearnAboutCommonlyUsedTerms2": "",
-        "LoadedAPIs": "Lasta vellykka %s APIar",
-        "MainMetricsReportDocumentation": "",
-        "MoreInformation": "",
-        "PluginDescription": "",
-        "ReportingApiReference": "",
-        "TopLinkTooltip": "",
-        "UserAuthentication": "",
-        "UsingTokenAuth": ""
+        "LoadedAPIs": "Lasta vellykka %s APIar"
     }
 }
