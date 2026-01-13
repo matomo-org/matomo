@@ -1,9 +1,5 @@
 {
     "UserLanguage": {
-        "BrowserLanguage": "",
-        "LanguageCode": "Kóði tungumáls",
-        "PluginDescription": "",
-        "getLanguageCodeDocumentation": "",
-        "getLanguageDocumentation": ""
+        "LanguageCode": "Kóði tungumáls"
     }
 }

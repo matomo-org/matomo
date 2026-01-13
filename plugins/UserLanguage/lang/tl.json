@@ -1,9 +1,6 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "wika ng browser",
-        "LanguageCode": "wika ng code",
-        "PluginDescription": "",
-        "getLanguageCodeDocumentation": "",
-        "getLanguageDocumentation": ""
+        "LanguageCode": "wika ng code"
     }
 }

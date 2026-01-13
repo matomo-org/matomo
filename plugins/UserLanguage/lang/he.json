@@ -1,9 +1,5 @@
 {
     "UserLanguage": {
-        "BrowserLanguage": "",
-        "LanguageCode": "קוד שפה",
-        "PluginDescription": "",
-        "getLanguageCodeDocumentation": "",
-        "getLanguageDocumentation": ""
+        "LanguageCode": "קוד שפה"
     }
 }

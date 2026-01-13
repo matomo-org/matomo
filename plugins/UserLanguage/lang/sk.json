@@ -2,8 +2,6 @@
     "UserLanguage": {
         "BrowserLanguage": "Jazyk prehliadača",
         "LanguageCode": "Kód jazyka",
-        "PluginDescription": "Informuje o jazyku použitom v prehliadači návštevníka.",
-        "getLanguageCodeDocumentation": "",
-        "getLanguageDocumentation": ""
+        "PluginDescription": "Informuje o jazyku použitom v prehliadači návštevníka."
     }
 }

@@ -1,9 +1,5 @@
 {
     "UserLanguage": {
-        "BrowserLanguage": "",
-        "LanguageCode": "ენის კოდი",
-        "PluginDescription": "",
-        "getLanguageCodeDocumentation": "",
-        "getLanguageDocumentation": ""
+        "LanguageCode": "ენის კოდი"
     }
 }
