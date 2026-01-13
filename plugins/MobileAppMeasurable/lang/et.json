@@ -1,6 +1,8 @@
 {
     "MobileAppMeasurable": {
         "MobileApp": "Mobiilirakendus",
+        "MobileAppDescription": "",
+        "MobileAppLongDescription": "",
         "MobileApps": "Mobiilirakendused"
     }
 }

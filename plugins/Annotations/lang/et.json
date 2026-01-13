@@ -12,8 +12,11 @@
         "HideAnnotationsFor": "Peida %s kommentaarid…",
         "IconDesc": "Vaata antud ajavahemiku märkmeid.",
         "IconDescHideNotes": "Peida antud ajavahemiku märkmed.",
+        "InlineQuickHelp": "",
         "LoginToAnnotate": "Sisene, et luua kommentaar.",
         "NoAnnotations": "Antud ajavahemiku kohta puuduvad märkmed.",
-        "ViewAndAddAnnotations": "Vaata ja lisa märkmeid %s kohta…"
+        "PluginDescription": "",
+        "ViewAndAddAnnotations": "Vaata ja lisa märkmeid %s kohta…",
+        "YouCannotModifyThisNote": ""
     }
 }

@@ -1,6 +1,9 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "Veebisirvija keel",
-        "LanguageCode": "Keele kood"
+        "LanguageCode": "Keele kood",
+        "PluginDescription": "",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }
