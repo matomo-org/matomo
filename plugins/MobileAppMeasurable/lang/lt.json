@@ -1,8 +1,5 @@
 {
     "MobileAppMeasurable": {
-        "MobileApp": "Mobilioji programa",
-        "MobileAppDescription": "",
-        "MobileAppLongDescription": "",
-        "MobileApps": ""
+        "MobileApp": "Mobilioji programa"
     }
 }

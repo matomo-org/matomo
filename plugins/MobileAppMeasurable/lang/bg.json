@@ -2,7 +2,6 @@
     "MobileAppMeasurable": {
         "MobileApp": "Мобилно приложение",
         "MobileAppDescription": "Мобилно приложение за iOS, Android или всяка друга мобилна операционна система.",
-        "MobileAppLongDescription": "",
         "MobileApps": "Мобилни приложения"
     }
 }

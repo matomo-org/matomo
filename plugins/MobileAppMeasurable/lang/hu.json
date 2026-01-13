@@ -2,7 +2,6 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobil alkalmazás",
         "MobileAppDescription": "Egy natív mobil alkalmazás iOS, Android vagy egyéb más mobil operációs rendszerekhez.",
-        "MobileAppLongDescription": "",
         "MobileApps": "Mobil alkalmazások"
     }
 }

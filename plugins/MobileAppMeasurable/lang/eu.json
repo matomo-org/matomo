@@ -2,7 +2,6 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mugikorreko aplikazioa",
         "MobileAppDescription": "iOS, Android edo mugikorretarako beste edozein sistema eragiletarako aplikazio natiboa.",
-        "MobileAppLongDescription": "",
         "MobileApps": "Mugikorreko aplikazioak"
     }
 }

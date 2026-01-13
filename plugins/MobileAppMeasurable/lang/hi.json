@@ -2,7 +2,6 @@
     "MobileAppMeasurable": {
         "MobileApp": "मोबाइल ऐप",
         "MobileAppDescription": "आईओएस, एंड्रॉइड या किसी अन्य मोबाइल ऑपरेटिंग सिस्टम के लिए एक देशी मोबाइल ऐप।",
-        "MobileAppLongDescription": "",
         "MobileApps": "मोबाइल ऐप्स"
     }
 }

@@ -2,7 +2,6 @@
     "MobileAppMeasurable": {
         "MobileApp": "Aplikacja mobilna",
         "MobileAppDescription": "Natywna aplikacja mobilna dostępna na iOS, Android'a i każdy inny mobilny system operacyjny.",
-        "MobileAppLongDescription": "",
         "MobileApps": "Aplikacje mobilne"
     }
 }
