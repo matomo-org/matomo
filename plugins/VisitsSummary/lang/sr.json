@@ -22,7 +22,6 @@
         "PluginDescription": "Prikaz osnovnih metrika: posete, jedinstveni posetioci, broj akcija, stepen odbijanja (bounce) itd.",
         "VisitsSummary": "Sumarno",
         "VisitsSummaryDocumentation": "Ovo je pregled razvoja poseta",
-        "VisitsSummaryReportDocumentation": "",
         "WidgetLastVisits": "Grafikon najskorijih poseta",
         "WidgetOverviewGraph": "Pregled sa grafikonom",
         "WidgetVisits": "Pregled poseta"

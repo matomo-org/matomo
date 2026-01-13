@@ -22,7 +22,6 @@
         "PluginDescription": "Rapportere generelle analyse målinger: besøg, unikke besøgende, antal handlinger, afvisningsrate, osv",
         "VisitsSummary": "Resumé af besøg",
         "VisitsSummaryDocumentation": "Oversigt over besøgsudviklingen.",
-        "VisitsSummaryReportDocumentation": "",
         "WidgetLastVisits": "Besøg over tid",
         "WidgetOverviewGraph": "Oversigt med diagrammer",
         "WidgetVisits": "Besøgsoversigt"

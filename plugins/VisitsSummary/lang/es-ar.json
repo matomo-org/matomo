@@ -22,7 +22,6 @@
         "PluginDescription": "Informa de mediciones en general: visitas, visitantes únicos, números de acciones, tasa de rebote, etc.",
         "VisitsSummary": "Resumen de visitas",
         "VisitsSummaryDocumentation": "Este es un pantallazo de la evolución de las visitas.",
-        "VisitsSummaryReportDocumentation": "",
         "WidgetLastVisits": "Visitas a través del tiempo",
         "WidgetOverviewGraph": "Pantallazo de visitas (con gráfico)",
         "WidgetVisits": "Pantallazo de visitas"
