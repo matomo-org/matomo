@@ -1,6 +1,13 @@
 {
     "UserId": {
+        "PluginDescription": "Zobraziť reporty užívateľa",
+        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "UserId",
-        "PluginDescription": "Zobraziť reporty užívateľa"
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }

@@ -22,6 +22,7 @@
         "PluginDescription": "Reportuje obecnú analýzu metrík: návštevy, unikátny návštevníci, počet akcií, mieru odskočenia, atď.",
         "VisitsSummary": "Všetky návštevy",
         "VisitsSummaryDocumentation": "Toto je prehľad vývoja návštev..",
+        "VisitsSummaryReportDocumentation": "",
         "WidgetLastVisits": "Návštevy v priebehu času",
         "WidgetOverviewGraph": "Prehľad návštev (s grafom)",
         "WidgetVisits": "Prehľad návštevníkov"

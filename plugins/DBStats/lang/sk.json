@@ -1,13 +1,21 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Využitie databázy",
-        "DataSize": "Veľkosť dát",
         "DBSize": "Veľkosť databázy",
+        "DataSize": "Veľkosť dát",
+        "DatabaseUsage": "Využitie databázy",
         "EstimatedSize": "Odhadovaná veľkosť",
         "IndexSize": "Veľkosť indexu",
+        "LearnMore": "",
         "MainDescription": "Matomo ukladá všetky vaše web analýzy do Mysql databázy. Aktuálne Matomo tabuľky používajú %s.",
+        "MetricDataByYear": "",
+        "MetricTables": "",
+        "OtherTables": "",
+        "PluginDescription": "",
+        "ReportDataByYear": "",
+        "ReportTables": "",
         "RowCount": "Počet riadkov",
         "Table": "Tabuľka",
-        "TotalSize": "Celková veľkosť"
+        "TotalSize": "Celková veľkosť",
+        "TrackerTables": ""
     }
 }
