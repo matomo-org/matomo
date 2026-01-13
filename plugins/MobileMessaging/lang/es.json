@@ -1,11 +1,14 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Créditos disponibles: %1$s",
+        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "Nombre del proveedor '%1$s' desconocido. Inténtalo con los siguientes: %2$s.",
+        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "Puede agregar más números telefónicos accediendo",
         "MobileReport_MobileMessagingSettingsLink": "página de configuraciones de mensajería móvil",
         "MobileReport_NoPhoneNumbers": "Por favor, active al menos un número telefónico accediendo",
         "MultiSites_Must_Be_Activated": "Para generar mensajes de texto (SMS) de las estadísticas de su sitio, por favor, habilite el complemento MultiSites en Matomo.",
+        "NumberAlreadyAdded": "",
         "PhoneNumbers": "Números telefónicos",
         "PluginDescription": "Cree informes personalizados y descárguelos vía SMS a su teléfono móvil de forma diaria, semanal o mensual.",
         "SMS_Content_Too_Long": "[demasiado largo]",
@@ -25,6 +28,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Todos los usuarios están habilitados a recibir Informes SMS y utilizarán los créditos de su cuenta de teléfono móvil.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Cada usuario será capaz de configurar su propia cuenta de SMS y no utilizará su crédito.",
         "Settings_ManagePhoneNumbers": "Administrar números telefónicos",
+        "Settings_NewVerificationCodeSent": "",
         "Settings_PhoneActivated": "¡Número telefónico convalidado! Ahora puede recibir sus estadísticas en sus mensajes de texto.",
         "Settings_PhoneNumber": "Número telefónico",
         "Settings_PhoneNumbers_Add": "Agregar un nuevo número telefónico",
@@ -32,6 +36,7 @@
         "Settings_PhoneNumbers_Help": "Antes de recibir los mensajes de texto (SMS) de los informes en un teléfono, debe introducirse el número de teléfono.",
         "Settings_PhoneNumbers_HelpAdd": "Cuando haga clic en \"Añadir\", un SMS con un código se enviará al teléfono. El usuario que reciba el código deberá conectarse a Matomo, haciendo clic en Configuración, y después en Mensajería Móvil. Después de introducir el código, el usuario podrá recibir informes de texto en el móvil.",
         "Settings_PleaseSignUp": "Para crear informes SMS y recibir mensajes cortos de texto con las estadísticas de sus sitios web en su teléfono móvil, por favor, regístrese en la API de SMS e introduzca sus datos a continuación.",
+        "Settings_ResendVerification": "",
         "Settings_SMSAPIAccount": "Administrar API de la cuenta SMS",
         "Settings_SMSProvider": "Proveedor SMS",
         "Settings_SelectCountry": "Seleccionar país",
@@ -40,8 +45,10 @@
         "Settings_UpdateOrDeleteAccount": "Puede también %1$sactualizar%2$s o %3$sborrar%4$s esta cuenta.",
         "Settings_ValidatePhoneNumber": "Convalidado",
         "Settings_VerificationCodeJustSent": "Le hemos enviado un mensaje de texto (SMS) con un código: por favor, introduzca este código arriba y haga clic en \"Validar\".",
+        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "Obtenga informes analíticos de su sitio de internet enviados a su casilla de correo electrónico o su teléfono móvil.",
         "UserKey": "Clave de usuario",
+        "VerificationCodeRecentlySentError": "",
         "VerificationText": "El código es %1$s. Para validar su número de teléfono y recibir los informes de Matomo vía mensaje de texto (SMS), por favor, copie este código en el formulario accesible vía Matomo → %2$s → %3$s."
     }
 }
