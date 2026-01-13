@@ -1,22 +1,7 @@
 {
     "Overlay": {
         "Clicks": "%s לחיצות",
-        "ClicksFromXLinks": "",
-        "Domain": "",
-        "ErrorNoSiteUrls": "",
-        "ErrorNotLoading": "",
-        "ErrorNotLoadingDetails": "",
-        "ErrorNotLoadingDetailsSSL": "",
-        "ErrorNotLoadingLink": "",
-        "Link": "",
         "Location": "מיקום",
-        "NoData": "",
-        "OneClick": "לחיצה 1",
-        "OpenFullScreen": "",
-        "Overlay": "",
-        "PluginDescription": "",
-        "RedirectUrlError": "",
-        "RedirectUrlErrorAdmin": "",
-        "RedirectUrlErrorUser": ""
+        "OneClick": "לחיצה 1"
     }
 }

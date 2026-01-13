@@ -3,20 +3,10 @@
         "Clicks": "%s klikki",
         "ClicksFromXLinks": "%1$s klikki %2$s lingilt",
         "Domain": "Domeen",
-        "ErrorNoSiteUrls": "",
-        "ErrorNotLoading": "",
-        "ErrorNotLoadingDetails": "",
-        "ErrorNotLoadingDetailsSSL": "",
-        "ErrorNotLoadingLink": "",
         "Link": "Link",
         "Location": "Asukoht",
-        "NoData": "",
         "OneClick": "1 klikk",
         "OpenFullScreen": "Ava täisekraani vaade (ilma külgribata)",
-        "Overlay": "Lehe statistika kiht",
-        "PluginDescription": "",
-        "RedirectUrlError": "",
-        "RedirectUrlErrorAdmin": "",
-        "RedirectUrlErrorUser": ""
+        "Overlay": "Lehe statistika kiht"
     }
 }

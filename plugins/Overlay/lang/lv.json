@@ -1,22 +1,5 @@
 {
     "Overlay": {
-        "Clicks": "",
-        "ClicksFromXLinks": "",
-        "Domain": "",
-        "ErrorNoSiteUrls": "",
-        "ErrorNotLoading": "",
-        "ErrorNotLoadingDetails": "",
-        "ErrorNotLoadingDetailsSSL": "",
-        "ErrorNotLoadingLink": "",
-        "Link": "",
-        "Location": "Lokācijas",
-        "NoData": "",
-        "OneClick": "",
-        "OpenFullScreen": "",
-        "Overlay": "",
-        "PluginDescription": "",
-        "RedirectUrlError": "",
-        "RedirectUrlErrorAdmin": "",
-        "RedirectUrlErrorUser": ""
+        "Location": "Lokācijas"
     }
 }
