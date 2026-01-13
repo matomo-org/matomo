@@ -3,9 +3,6 @@
         "PluginDescription": "ユーザーレポートを表示します",
         "ThereIsNoDataForThisReportHelp": "%1$sこのレポートのデータを生成する方法については、ユーザー ガイドをお読みください。%2$s",
         "UserId": "ユーザー ID",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
-        "UserIdSegmentHelp": "",
         "UserReportDocumentation": "個々のユーザー ID ごとにビジット数とその他の一般的な指標を表示します。",
         "UserReportTitle": "ユーザーID",
         "VisitorsUserSubcategoryHelp": "ユーザー ID レポートには、登録およびログインしているすべてのユーザーに関連付けられたビジットが表示されます。 特定のユーザーによる Web サイトの使用状況を理解し、最もアクティブなユーザーと最もアクティブでないユーザーを特定します。"

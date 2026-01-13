@@ -1,13 +1,7 @@
 {
     "UserId": {
         "PluginDescription": "Viser brugerrapporter",
-        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "Bruger-id",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
-        "UserIdSegmentHelp": "",
-        "UserReportDocumentation": "",
-        "UserReportTitle": "Bruger-id’er",
-        "VisitorsUserSubcategoryHelp": ""
+        "UserReportTitle": "Bruger-id’er"
     }
 }

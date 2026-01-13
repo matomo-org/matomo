@@ -1,13 +1,5 @@
 {
     "UserId": {
-        "PluginDescription": "",
-        "ThereIsNoDataForThisReportHelp": "",
-        "UserId": "",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
-        "UserIdSegmentHelp": "",
-        "UserReportDocumentation": "",
-        "UserReportTitle": "వాడుకరులు",
-        "VisitorsUserSubcategoryHelp": ""
+        "UserReportTitle": "వాడుకరులు"
     }
 }

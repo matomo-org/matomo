@@ -1,13 +1,7 @@
 {
     "UserId": {
         "PluginDescription": "Muestra informes de usuario",
-        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "Identificación",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
-        "UserIdSegmentHelp": "",
-        "UserReportDocumentation": "",
-        "UserReportTitle": "Identificadores de usuario",
-        "VisitorsUserSubcategoryHelp": ""
+        "UserReportTitle": "Identificadores de usuario"
     }
 }

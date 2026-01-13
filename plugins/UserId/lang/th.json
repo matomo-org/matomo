@@ -1,13 +1,5 @@
 {
     "UserId": {
-        "PluginDescription": "",
-        "ThereIsNoDataForThisReportHelp": "",
-        "UserId": "",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
-        "UserIdSegmentHelp": "",
-        "UserReportDocumentation": "",
-        "UserReportTitle": "ผู้ใช้",
-        "VisitorsUserSubcategoryHelp": ""
+        "UserReportTitle": "ผู้ใช้"
     }
 }

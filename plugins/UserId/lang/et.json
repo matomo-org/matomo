@@ -1,13 +1,6 @@
 {
     "UserId": {
-        "PluginDescription": "",
-        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "KasutajaID",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
-        "UserIdSegmentHelp": "",
-        "UserReportDocumentation": "",
-        "UserReportTitle": "KAsutaja ID-d",
-        "VisitorsUserSubcategoryHelp": ""
+        "UserReportTitle": "KAsutaja ID-d"
     }
 }

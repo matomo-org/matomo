@@ -3,8 +3,6 @@
         "PluginDescription": "Toont gebruikersrapporten",
         "ThereIsNoDataForThisReportHelp": "%1$sLees de gebruikershandleiding voor meer informatie over het genereren van data voor dit rapport.%2$s",
         "UserId": "Gebruiker-ID",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
         "UserIdSegmentHelp": "elke niet-lege unieke tekenreeks die een gebruiker identificeert (zoals een e-mailadres of een gebruikersnaam).",
         "UserReportDocumentation": "Toont bezoeken en andere algemene metingen voor elke individuele Gebruiker-ID.",
         "UserReportTitle": "Gebruiker-ID's",

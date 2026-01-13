@@ -1,13 +1,6 @@
 {
     "UserId": {
-        "PluginDescription": "",
-        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "شناسه کاربر",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
-        "UserIdSegmentHelp": "",
-        "UserReportDocumentation": "",
-        "UserReportTitle": "شناسه های کاربری",
-        "VisitorsUserSubcategoryHelp": ""
+        "UserReportTitle": "شناسه های کاربری"
     }
 }

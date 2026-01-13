@@ -1,11 +1,7 @@
 {
     "UserId": {
         "PluginDescription": "显示用户报告",
-        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "用户ID",
-        "UserIdDisabledSettingRequirementNote": "",
-        "UserIdDisabledSettingTitle": "",
-        "UserIdSegmentHelp": "",
         "UserReportDocumentation": "显示每个用户ID的访问量和其他常规指标。",
         "UserReportTitle": "用户ID",
         "VisitorsUserSubcategoryHelp": "用户ID报告显示所有注册和登录用户的访问。了解这些用户的网站使用情况，并确定哪些是您最活跃和最不活跃的用户。"
