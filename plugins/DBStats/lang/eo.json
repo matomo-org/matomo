@@ -1,5 +1,21 @@
 {
     "DBStats": {
-        "Table": "Tabelo"
+        "DBSize": "",
+        "DataSize": "",
+        "DatabaseUsage": "",
+        "EstimatedSize": "",
+        "IndexSize": "",
+        "LearnMore": "",
+        "MainDescription": "",
+        "MetricDataByYear": "",
+        "MetricTables": "",
+        "OtherTables": "",
+        "PluginDescription": "",
+        "ReportDataByYear": "",
+        "ReportTables": "",
+        "RowCount": "",
+        "Table": "Tabelo",
+        "TotalSize": "",
+        "TrackerTables": ""
     }
 }
