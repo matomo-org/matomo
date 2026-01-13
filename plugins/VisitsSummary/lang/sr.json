@@ -17,11 +17,12 @@
         "NbUniquePageviewsDescription": "jedinstveni prikazi stranica",
         "NbUniqueVisitors": "jedinstveni posetioci",
         "NbUsersDescription": "korisnici",
-        "NbVisitsDescription": "posete",
         "NbVisitsBounced": "posetioci koji su otišli posle samo jedne stranice",
+        "NbVisitsDescription": "posete",
         "PluginDescription": "Prikaz osnovnih metrika: posete, jedinstveni posetioci, broj akcija, stepen odbijanja (bounce) itd.",
         "VisitsSummary": "Sumarno",
         "VisitsSummaryDocumentation": "Ovo je pregled razvoja poseta",
+        "VisitsSummaryReportDocumentation": "",
         "WidgetLastVisits": "Grafikon najskorijih poseta",
         "WidgetOverviewGraph": "Pregled sa grafikonom",
         "WidgetVisits": "Pregled poseta"
