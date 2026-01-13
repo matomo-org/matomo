@@ -1,8 +1,28 @@
 {
     "Contents": {
-        "Impressions": "طباعة",
-        "InteractionRate": "نسبة المشاركة",
+        "ContentImpression": "",
+        "ContentInteraction": "",
+        "ContentInteractionSegmentHelp": "",
+        "ContentInteractions": "",
+        "ContentName": "",
+        "ContentNameReportDocumentation": "",
+        "ContentNameSegmentHelp": "",
+        "ContentNames": "",
         "ContentPiece": "جزء من المحتوى",
-        "Contents": "عنوان المحتوى"
+        "ContentPieceReportDocumentation": "",
+        "ContentPieceSegmentHelp": "",
+        "ContentPieces": "",
+        "ContentTarget": "",
+        "ContentTargetSegmentHelp": "",
+        "ContentTargets": "",
+        "Contents": "عنوان المحتوى",
+        "ContentsSubcategoryHelp1": "",
+        "ContentsSubcategoryHelp2": "",
+        "Impressions": "طباعة",
+        "ImpressionsMetricDocumentation": "",
+        "InteractionRate": "نسبة المشاركة",
+        "InteractionRateMetricDocumentation": "",
+        "InteractionsMetricDocumentation": "",
+        "PluginDescription": ""
     }
 }

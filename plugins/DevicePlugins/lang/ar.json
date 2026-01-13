@@ -1,5 +1,11 @@
 {
     "DevicePlugins": {
-        "WidgetPlugins": "قائمة الإضافات"
+        "BrowserWithNoPluginsEnabled": "",
+        "BrowserWithPluginsEnabled": "",
+        "ColumnPercentageVisitsDocumentation": "",
+        "PluginDescription": "",
+        "PluginDetectionDoesNotWorkInIE": "",
+        "WidgetPlugins": "قائمة الإضافات",
+        "WidgetPluginsDocumentation": ""
     }
 }

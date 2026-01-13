@@ -1,5 +1,13 @@
 {
     "UserId": {
-        "UserReportTitle": "معرّفات المستخدمين"
+        "PluginDescription": "",
+        "ThereIsNoDataForThisReportHelp": "",
+        "UserId": "",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "معرّفات المستخدمين",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }
