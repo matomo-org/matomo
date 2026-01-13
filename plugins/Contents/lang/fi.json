@@ -1,15 +1,28 @@
 {
     "Contents": {
-        "Impressions": "Näkymät",
+        "ContentImpression": "",
         "ContentInteraction": "Sisällön interaktio",
+        "ContentInteractionSegmentHelp": "",
         "ContentInteractions": "Sisällön interaktiot",
-        "InteractionRate": "Interaktioiden määrä",
         "ContentName": "Sisällön nimi",
+        "ContentNameReportDocumentation": "",
+        "ContentNameSegmentHelp": "",
         "ContentNames": "Sisällön nimet",
         "ContentPiece": "Sisällön osa",
+        "ContentPieceReportDocumentation": "",
+        "ContentPieceSegmentHelp": "",
         "ContentPieces": "Sisällön osat",
         "ContentTarget": "Sisällön kohde",
+        "ContentTargetSegmentHelp": "",
         "ContentTargets": "Sisällön kohteet",
-        "Contents": "Sisällöt"
+        "Contents": "Sisällöt",
+        "ContentsSubcategoryHelp1": "",
+        "ContentsSubcategoryHelp2": "",
+        "Impressions": "Näkymät",
+        "ImpressionsMetricDocumentation": "",
+        "InteractionRate": "Interaktioiden määrä",
+        "InteractionRateMetricDocumentation": "",
+        "InteractionsMetricDocumentation": "",
+        "PluginDescription": ""
     }
 }
