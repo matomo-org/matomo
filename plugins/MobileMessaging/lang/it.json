@@ -1,11 +1,14 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Crediti disponibili: %1$s",
+        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "Nome provider '%1$s' sconosciuto. Prova uno di questi: %2$s.",
+        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "Accedendo puoi aggiungere altri numeri telefonici",
         "MobileReport_MobileMessagingSettingsLink": "pagina delle impostazioni Messaggistica Mobile",
         "MobileReport_NoPhoneNumbers": "Si prega di attivare con l'accesso almeno un numero di telefono",
         "MultiSites_Must_Be_Activated": "Per generare SMS con le statistiche del tuo sito web, abilita il plugin MultiSites in Matomo",
+        "NumberAlreadyAdded": "",
         "PhoneNumbers": "Numeri di telefono",
         "PluginDescription": "Crea e invia report personalizzati via SMS, con cadenza giornaliera, settimanale o mensile.",
         "SMS_Content_Too_Long": "[troppo lungo]",
@@ -25,6 +28,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Tutti gli utenti potranno ricevere report SMS e utilizzeranno le credenziali del tuo account.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Ogni utente sarà in grado di impostare un proprio account API SMS e non utilizzerà il tuo credito.",
         "Settings_ManagePhoneNumbers": "Gestisci Numeri Telefonici",
+        "Settings_NewVerificationCodeSent": "",
         "Settings_PhoneActivated": "Numero di telefono convalidato! Ora puoi ricevere gli SMS con le tue statistiche.",
         "Settings_PhoneNumber": "Numero di telefomo",
         "Settings_PhoneNumbers_Add": "Aggiungi Numero Telefonico",
@@ -32,6 +36,7 @@
         "Settings_PhoneNumbers_Help": "Prima di ricevere SMS (messaggi di testo) su un telefono, bisogna inserirne qui sotto il numero.",
         "Settings_PhoneNumbers_HelpAdd": "Quando fai clic su \"Aggiungi\", un SMS contenente un codice verrà inviato al telefono. L'utente che riceve il codice deve quindi accedere a Matomo, cliccare su Impostazioni, quindi su Messaggisrtica Mobile. Dopo aver inserito il codice, l'utente sarà in grado di ricevere i rapporti testuali sul proprio telefono.",
         "Settings_PleaseSignUp": "Per creare SMS e ricevere brevi messaggi di testo con le statistiche dei tuoi siti web sul tuo cellulare, si prega di registrarsi con l'API SMS e immettere le informazioni qui di seguito.",
+        "Settings_ResendVerification": "",
         "Settings_SMSAPIAccount": "Gestisci Account SMS API",
         "Settings_SMSProvider": "Gestore SMS",
         "Settings_SelectCountry": "Scegli nazione",
@@ -40,8 +45,10 @@
         "Settings_UpdateOrDeleteAccount": "Puoi anche %1$saggiornare%2$s o %3$scancellare%4$s questo account.",
         "Settings_ValidatePhoneNumber": "Convalida",
         "Settings_VerificationCodeJustSent": "Abbiamo appena inviato un SMS a questo numero con un codice: inserisci questo codice qui sopra e fai clic su \"Convalida\".",
+        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "Ricevi i Rapporti delle Statistiche Web sulla tua casella di posta elettronica o sul tuo cellulare!",
         "UserKey": "Userkey",
+        "VerificationCodeRecentlySentError": "",
         "VerificationText": "Il codice è %1$s. Per convalidare il tuo numero di telefono e ricevere i report di Matomo via SMS copia questo codice nel modulo accessibile da Matomo → %2$s → %3$s."
     }
 }
