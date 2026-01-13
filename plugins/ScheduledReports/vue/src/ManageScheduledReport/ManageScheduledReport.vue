@@ -21,6 +21,10 @@
           {{ translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime') }}
         </div>
       </div>
+      <div v-if="isWidgetReportMappingLoading" class="loadingPiwik">
+        <MatomoLoader />
+        {{ translate('General_LoadingData') }}
+      </div>
       <ListReports
         v-show="showReportsList"
         :content-title="contentTitle"
@@ -94,6 +98,7 @@ interface ManageScheduledReportState {
   selectedReports: Record<string, Record<string, boolean>>;
   sendingReports: Array<string|number>;
   widgetsInDashboard: Array<string>;
+  isWidgetReportMappingLoading: boolean;
 }
 
 function scrollToTop() {
@@ -228,6 +233,7 @@ export default defineComponent({
       selectedReports: {},
       sendingReports: [],
       widgetsInDashboard: [],
+      isWidgetReportMappingLoading: false,
     };
   },
   methods: {
@@ -425,19 +431,31 @@ export default defineComponent({
       this.selectedReports[reportType][uniqueId] = !this.selectedReports[reportType][uniqueId];
     },
     applyActionFromUrl() {
-      const action = MatomoUrl.getSearchParam('dashboardWidgets');
-      // const action2 = MatomoUrl.urlParsed.value.scheduledReportsAction as string|undefined;
-      if (action === '') {
+      const dashboardId = MatomoUrl.getSearchParam('dashboardId');
+      if (dashboardId === '') {
         return;
       }
-      console.log('amo ni akon dashwidgets', action);
-      this.widgetsInDashboard = JSON.parse(decodeURIComponent(action));
       const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
-      // const nextQuery = { ...MatomoUrl.urlParsed.value } as QueryParameters;
-      delete nextHash.dashboardWidgets;
-      // delete nextQuery.scheduledReportsAction;
+      delete nextHash.dashboardId;
       MatomoUrl.updateHash(nextHash);
+      this.getWidgetReportMapping(dashboardId);
       this.createReport();
+    },
+    getWidgetReportMapping(dashboardId: string) {
+      this.isWidgetReportMappingLoading = true;
+      AjaxHelper.fetch(
+        {
+          method: 'ScheduledReports.getWidgetReportMap',
+          dashId: dashboardId,
+          idSite: Matomo.idSite,
+        },
+      ).then((e) => {
+        if (e && e.email) {
+          this.selectedReports = { ...e };
+        }
+      }).finally(() => {
+        this.isWidgetReportMappingLoading = false;
+      });
     },
   },
   computed: {
