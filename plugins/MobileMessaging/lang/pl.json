@@ -1,11 +1,14 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Dostępne kredyty: %1$s",
+        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "Nieznany dostawca '%1$s'. Zamiast tego wypróbuj dowolnego z następujących: %2$s.",
+        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "Dodaj więcej numerów telefonów odwiedzając",
         "MobileReport_MobileMessagingSettingsLink": "stronę ustawień Powiadomień Mobilnych",
         "MobileReport_NoPhoneNumbers": "Proszę aktywuj przynajmniej jeden numer telefonu odwiedzając",
         "MultiSites_Must_Be_Activated": "W celu otrzymywania SMS'em statystyk Twoich serwisów, włącz w Matomo'u wtyczkę MultiSites.",
+        "NumberAlreadyAdded": "",
         "PhoneNumbers": "Numery telefonów",
         "PluginDescription": "Twórz i pobieraj dopasowane raporty SMS, które będą do Ciebie wysyłane codziennie, co tydzień lub co miesiąc.",
         "SMS_Content_Too_Long": "[za długie]",
@@ -25,6 +28,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Wszyscy użytkownicy mogą odbierać Raporty SMS i korzystać ze środków dostępnych na Twoim koncie.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Każdy z użytkowników będzie miał możliwość skonfigurowania własnego konta SMS API i nie będzie wpływał na Twój bilans.",
         "Settings_ManagePhoneNumbers": "Zarządzaj numerami telefonów",
+        "Settings_NewVerificationCodeSent": "",
         "Settings_PhoneActivated": "Numer telefonu potwierdzony! Teraz możesz odbierać SMS'y ze statystykami.",
         "Settings_PhoneNumber": "Numer telefonu",
         "Settings_PhoneNumbers_Add": "Dodaj nowy numer telefonu",
@@ -32,6 +36,7 @@
         "Settings_PhoneNumbers_Help": "Zanim zaczniesz otrzymywać raporty SMS'em (wiadomość tekstowa), numer Twojego telefonu musi zostać wprowadzony poniżej.",
         "Settings_PhoneNumbers_HelpAdd": "Po kliknięciu \"Dodaj\", SMS zawierający kod zostanie wysłany na telefon. Użytkownik odbierający kod powinien zalogować się do Matomo, kliknąć w Ustawienia, potem kliknąć na Powiadomienia Mobilne. Po wprowadzeniu kodu użytkownik będzie miał możliwość odbioru raportów na telefonie.",
         "Settings_PleaseSignUp": "Aby stworzyć raport SMS i otrzymywać statystyki swoich serwisów w postaci wiadomości tekstowych, proszę wpisz poniżej dane dotyczące API SMS.",
+        "Settings_ResendVerification": "",
         "Settings_SMSAPIAccount": "Zarządzaj kontem SMS API",
         "Settings_SMSProvider": "Dostawca usługi SMS",
         "Settings_SelectCountry": "Wybierz kraj",
@@ -40,8 +45,10 @@
         "Settings_UpdateOrDeleteAccount": "Możesz również %1$szaktualizować%2$s lub %3$sskasować%4$s to konto.",
         "Settings_ValidatePhoneNumber": "Weryfikuj",
         "Settings_VerificationCodeJustSent": "Wysłaliśmy właśnie SMS'a na wskazany numer: wprowadź proszę ten kod powyżej i kliknij \"Weryfikuj\".",
+        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "Spraw aby Raporty z analizą serwisów internetowych były dostarczane do Twojej skrzynki odbiorczej lub na Twoją komórkę.",
         "UserKey": "Klucz użytkownika",
+        "VerificationCodeRecentlySentError": "",
         "VerificationText": "Kod to %1$s. W celu weryfikacji Twojego numeru telefonu i umożliwienia odbioru raportów Matomo przez SMS proszę skopiuj ten kod do formularza dostępnego w Matomo'u → %2$s → %3$s."
     }
 }
