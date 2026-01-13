@@ -269,17 +269,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 ['requestName' => 'allThemes','action' => 'themes', 'enrich' => true, 'params' => array('keywords' => '', 'query' => '', 'sort' => Sort::DEFAULT_SORT, 'purchase_type' => PurchaseType::TYPE_ALL)],
         ];
 
-        $time_start = microtime(true);
         $response = $this->plugins->getMultiplePluginsAndThemes($requests);
 
         $allPlugins = $response['allPlugins'];
         $allThemes = $response['allThemes'];
-
         $this->paidPlugins = $response['paidPlugins'];
-
-        $time_end = microtime(true);
-        $time = $time_end - $time_start;
-        print "With multi curl $time";
 
         $view->numAvailablePluginsByType = [
             'plugins' => count($allPlugins),

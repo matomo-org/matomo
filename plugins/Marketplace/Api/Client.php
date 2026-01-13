@@ -370,8 +370,6 @@ class Client
             }
 
             $responses[$requestName] = $result[$requestName];
-
-            print '' . $request['_cacheId'];
             $this->cache->save($request['_cacheId'], $result[$requestName], self::CACHE_TIMEOUT_IN_SECONDS);
         }
 

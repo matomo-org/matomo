@@ -202,7 +202,6 @@ class Service
     public function fetchMany(array $requests)
     {
         $result = [];
-        $timings = [];
         if (!function_exists('curl_multi_init')) { // Fallback to sequential
             foreach ($requests as $request) {
                 $action = $request['action'];
@@ -212,7 +211,6 @@ class Service
                     $request['action'],
                     $request['params']
                 );
-                $timings[$requestName] = microtime(true) - $start;
             }
             return $result;
         }
@@ -233,7 +231,6 @@ class Service
                 curl_multi_remove_handle($multiHandle, $curlHandle);
 
                 $result[$requestName] = $this->parseMultiResponse($curlHandle);
-                $timings[$requestName] = curl_getinfo($curlHandle, CURLINFO_TOTAL_TIME);
 
                 curl_close($curlHandle);
                 unset($curlHandles[$requestName]);
@@ -245,8 +242,6 @@ class Service
             }
             curl_multi_close($multiHandle);
         }
-
-        print_r($timings);
 
         return $result;
     }
