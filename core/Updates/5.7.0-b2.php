@@ -50,9 +50,9 @@ class Updates_5_7_0_b2 extends PiwikUpdates
                 'total_time' => 'BIGINT UNSIGNED NOT NULL',
                 'total_time_exclusive' => 'BIGINT UNSIGNED NOT NULL',
             ], ['metadataid']),
-            $this->migration->db->addIndex('archiving_metrics', ['idarchive'], 'idx_archiving_metrics_idarchive'),
+            $this->migration->db->addIndex('archiving_metrics', ['idarchive'], 'index_idarchive'),
             $this->migration->db->addIndex('archiving_metrics', ['idsite', 'archive_name'], 'idx_archiving_metrics_site_archive_name'),
-            $this->migration->db->addIndex('archiving_metrics', ['idsite', 'date1', 'period'], 'idx_archiving_metrics_site_date_period'),
+            $this->migration->db->addIndex('archiving_metrics', ['idsite', 'date1', 'period'], 'index_idsite_date_period'),
         ];
     }
 

@@ -348,9 +348,9 @@ class Mysql implements SchemaInterface
                                       total_time BIGINT UNSIGNED NOT NULL,
                                       total_time_exclusive BIGINT UNSIGNED NOT NULL,
                                         PRIMARY KEY(metadataid),
-                                        INDEX idx_archiving_metrics_idarchive(idarchive),
+                                        INDEX index_idarchive(idarchive),
                                         INDEX idx_archiving_metrics_site_archive_name(idsite, archive_name),
-                                        INDEX idx_archiving_metrics_site_date_period(idsite, date1, period)
+                                        INDEX index_idsite_date_period(idsite, date1, period)
                                       ) $tableOptions
             ",
 
