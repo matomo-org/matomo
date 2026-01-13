@@ -11,6 +11,8 @@ namespace Piwik;
 
 use Exception;
 use Piwik\API\Request;
+use Piwik\Exception\PluginNotFoundException;
+use Piwik\Http\HttpCodeException;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
@@ -25,7 +27,6 @@ use Piwik\Http\Router;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionInitializer;
-use Piwik\SupportedBrowser;
 use Piwik\Log\LoggerInterface;
 
 /**
@@ -113,10 +114,17 @@ class FrontController extends Singleton
      */
     public static function generateSafeModeOutputFromException($e)
     {
-        StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
-            'exception' => $e,
-            'ignoreInScreenWriter' => true,
-        ]);
+        if ($e instanceof HttpCodeException && $e->getCode() >= 400 && $e->getCode() < 500) {
+            StaticContainer::get(LoggerInterface::class)->debug('Uncaught client error: {exception}', [
+                'exception'            => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
+        } else {
+            StaticContainer::get(LoggerInterface::class)->error('Uncaught exception: {exception}', [
+                'exception'            => $e,
+                'ignoreInScreenWriter' => true,
+            ]);
+        }
 
         $error = array(
             'message' => $e->getMessage(),
@@ -496,6 +504,10 @@ class FrontController extends Singleton
 
         if (!SettingsPiwik::isInternetEnabled() && \Piwik\Plugin\Manager::getInstance()->doesPluginRequireInternetConnection($module)) {
             throw new PluginRequiresInternetException($module);
+        }
+
+        if (!\Piwik\Plugin\Manager::getInstance()->isPluginInFilesystem($module)) {
+            throw new PluginNotFoundException($module);
         }
 
         if (!\Piwik\Plugin\Manager::getInstance()->isPluginActivated($module)) {

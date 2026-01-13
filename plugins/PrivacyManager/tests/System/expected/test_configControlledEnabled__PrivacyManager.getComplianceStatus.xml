@@ -9,22 +9,27 @@
 			<notes>Device model detection and device model report must be disabled.</notes>
 		</row>
 		<row>
-			<name>Only major versions</name>
+			<name>Only Major versions</name>
 			<value>compliant</value>
-			<notes>Only major OS and browser versions are stored.</notes>
+			<notes>Only Major OS and browser versions are stored.</notes>
 		</row>
 		<row>
 			<name>Ecommerce Restricted</name>
 			<value>compliant</value>
 			<notes>Ecommerce analytics is enabled, but specific segments are disabled (Order ID, Order revenue, Product price, Product name, Product SKU). If you prefer, you can completely disable Ecommerce tracking &lt;a href=&quot;index.php?module=SitesManager&amp;action=index&amp;idSite=1&quot;&gt;here&lt;/a&gt;.</notes>
-    </row>
-    <row>
-      <name>PII data filtered</name>
+        </row>
+		<row>
+			<name>Ecommerce - Order ID anonymisation</name>
 			<value>compliant</value>
-			<notes>PII data must be filtered by the Matomo-recommended PII exclusion list.</notes>
+			<notes>Order IDs must be anonymised.</notes>
+		</row>
+        <row>
+            <name>PII data filtered</name>
+			<value>compliant</value>
+			<notes>Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list.</notes>
 		</row>
 		<row>
-			<name>Turn off visits log and visitor profiles</name>
+			<name>Turn off Visits log and Visitor profiles</name>
 			<value>compliant</value>
 			<notes>Visits log is required to be disabled.</notes>
 		</row>
@@ -34,9 +39,9 @@
 			<notes>All campaign tracking parameters must be discarded.</notes>
 		</row>
 		<row>
-			<name>IP Anonymization Enabled</name>
+			<name>IP Anonymisation Enabled</name>
 			<value>compliant</value>
-			<notes>Anonymization of Visitor's IP addresses must be enabled.</notes>
+			<notes>Anonymisation of Visitor's IP addresses must be enabled.</notes>
 		</row>
 		<row>
 			<name>IP Address Mask Length</name>
@@ -44,12 +49,7 @@
 			<notes>Must be set to at least 2 byte(s), currently 2 byte(s).</notes>
 		</row>
 		<row>
-			<name>Order ID anonymization</name>
-			<value>compliant</value>
-			<notes>Order IDs must be anonymized</notes>
-		</row>
-		<row>
-			<name>Referrer anonymisation</name>
+			<name>Referrer Anonymisation</name>
 			<value>compliant</value>
 			<notes>Only the referrer host or referrer type may be collected.</notes>
 		</row>
@@ -74,9 +74,9 @@
 			<notes>Collection of User ID while tracking must be disabled.</notes>
 		</row>
 		<row>
-			<name>Third party cookies</name>
+			<name>Third-party cookies</name>
 			<value>compliant</value>
-			<notes>Third party cookies must be disabled</notes>
+			<notes>Third-party cookies must be disabled</notes>
 		</row>
 		<row>
 			<name>Opt out</name>

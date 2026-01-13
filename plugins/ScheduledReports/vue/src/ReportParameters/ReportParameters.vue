@@ -103,6 +103,7 @@ export default defineComponent({
         emailMe: theReport.emailMe,
         evolutionGraph: theReport.evolutionGraph,
         additionalEmails: (theReport.additionalEmails || []),
+        enforceOrder: true,
       });
     }
   },

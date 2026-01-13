@@ -25,13 +25,17 @@
         "EcommerceOverviewSubcategoryHelp3": "Learn more in our Ecommerce guide here.",
         "EcommercePolicySettingRequirementNote": "Ecommerce analytics is enabled, but specific segments are disabled (Order ID, Order revenue, Product price, Product name, Product SKU). If you prefer, you can completely disable Ecommerce tracking %1$shere%2$s.",
         "EcommercePolicySettingTitle": "Ecommerce Restricted",
-        "EcommercePolicySettingCompliantSingle": "Compliant because ecommerce isn't active for this measurable.",
-        "EcommercePolicySettingCompliantAll": "Compliant because ecommerce isn't active for any sites.",
-        "EcommercePolicySettingNonCompliantNote": "Non compliant because ecommerce analytics is enabled unrestricted.",
+        "EcommercePolicySettingCompliantSingle": "Compliant because Ecommerce isn't active for this measurable.",
+        "EcommercePolicySettingCompliantAll": "Compliant because Ecommerce isn't active for any sites.",
+        "EcommercePolicySettingNonCompliantNote": "Non compliant because Ecommerce analytics is enabled unrestricted.",
         "SalesSubcategoryHelp1": "This section contains an extensive collection of reports to help you analyse the different conditions that most commonly lead to sales, such as the traffic and campaign sources, user time and location and devices used to access them.",
         "SalesSubcategoryHelp2": "You can also learn exactly how revenue is associated with each dimension, such as specific traffic types or tracked campaigns.",
         "EcommerceLogSubcategoryHelp1": "The Ecommerce log provides granular session-level data so you can look at the full session for each user that either made a purchase or abandoned their cart. This can help you understand what users do before and after purchasing to reveal optimisation opportunities.",
         "EcommerceLogSubcategoryHelp2": "Data on this page is updated in real-time.",
-        "ProductSubcategoryHelp": "The Products view can help you identify products and categories that are over-performing or under-performing to reveal trends and opportunities related to your product selection and store pages."
+        "ProductSubcategoryHelp": "The Products view can help you identify products and categories that are over-performing or under-performing to reveal trends and opportunities related to your product selection and store pages.",
+        "AnonymizeOrderIdNote": "Because an Order ID can be cross-referenced with another system, typically an ecommerce shop, the Order ID may count as personal information under the GDPR. When you enable this option, an Order ID will be automatically anonymized so no personal information will be tracked.",
+        "UseAnonymizeOrderId": "Anonymize Order ID",
+        "OrderIdAnonymizationSettingTitle": "Ecommerce - Order ID anonymisation",
+        "OrderIdAnonymizationSettingRequirementNote": "Order IDs must be anonymised."
     }
 }

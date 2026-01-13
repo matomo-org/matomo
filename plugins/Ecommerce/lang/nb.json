@@ -27,6 +27,8 @@
         "ViewedProductSKU": "Vist produkt-SKU",
         "VisitorProfileAbandonedCartSummary": "Forlot %1$s handlevogner med %2$s artikler verdt totalt %3$s.",
         "VisitorProfileItemsAndOrders": "Kjøpte %1$s artikler i totalt %2$s netthandler.",
-        "VisitorProfileLTV": "Genererte livstidsomsetning for %1$s."
+        "VisitorProfileLTV": "Genererte livstidsomsetning for %1$s.",
+        "AnonymizeOrderIdNote": "Fordi din ordre-ID kan krysssjekkes mot et annet system, typisk en e-handelsbutikk, vil bestillings-ID-en telle som personvernsinfo i henhold til GDPR. Når du skur på dette valget vil en bestillings-ID automatisk anonymiseres slik at ingen personvernsinfo kan spores.",
+        "UseAnonymizeOrderId": "Anonymiser ordre-ID"
     }
 }

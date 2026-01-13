@@ -9,7 +9,9 @@
 
 namespace Piwik\Exception;
 
-class NotSupportedBrowserException extends \Piwik\Exception\Exception
+use Piwik\Http\HttpCodeException;
+
+class NotSupportedBrowserException extends \Piwik\Exception\Exception implements HttpCodeException
 {
     public function __construct($message)
     {

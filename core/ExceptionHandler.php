@@ -16,6 +16,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\Container\ContainerDoesNotExistException;
 use Piwik\Container\StaticContainer;
 use Piwik\Exception\IRedirectException;
+use Piwik\Http\HttpCodeException;
 use Piwik\Plugins\CoreAdminHome\CustomLogo;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Log\LoggerInterface;
@@ -74,7 +75,7 @@ class ExceptionHandler
     {
         // Set an appropriate HTTP response code.
         switch (true) {
-            case ( ($exception instanceof \Piwik\Http\HttpCodeException || $exception instanceof \Piwik\Exception\NotSupportedBrowserException) && $exception->getCode() > 0):
+            case ($exception instanceof HttpCodeException && $exception->getCode() > 0):
                 // For these exception types, use the exception-provided error code.
                 http_response_code($exception->getCode());
                 break;
@@ -87,8 +88,8 @@ class ExceptionHandler
 
         // Log the error with an appropriate loglevel.
         switch (true) {
-            case ($exception instanceof \Piwik\Exception\NotSupportedBrowserException):
-                // These unsupported browsers are really a client-side problem, so log only at DEBUG level.
+            case ($exception instanceof HttpCodeException && $exception->getCode() >= 400 && $exception->getCode() < 500):
+                // Log exceptions, resulting in 4xx HTTP status code, only at debug level
                 self::logException($exception, Log::DEBUG);
                 break;
             default:
@@ -177,9 +178,8 @@ class ExceptionHandler
             }
         }
 
-        // Unsupported browser errors shouldn't be written to the web server log. At DEBUG logging level this error will
-        // be written to the application log instead
-        $writeErrorLog = !($ex instanceof \Piwik\Exception\NotSupportedBrowserException);
+        // Exceptions that should result in 4xx status code should not be logged
+        $writeErrorLog = !($ex instanceof HttpCodeException && $ex->getCode() >= 400 && $ex->getCode() < 500);
 
         $redirectUrl = null;
         $countdownToRedirect = null;

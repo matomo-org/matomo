@@ -1,1 +1,6 @@
-{}
+{
+    "Ecommerce": {
+        "AnonymizeOrderIdNote": "Tā kā pasūtījuma ID var saistīt ar citu sistēmu, parasti e-komercijas veikalu, pasūtījuma ID var tikt uzskatīts par personisku informāciju saskaņā ar VDAR. Iespējojot šo opciju, pasūtījuma ID tiks automātiski anonimizēts, lai netiktu izsekota personiskā informācija.",
+        "UseAnonymizeOrderId": "Anonimizēt pasūtījuma ID"
+    }
+}

@@ -27,6 +27,8 @@
         "ViewedProductSKU": "Bekeken product-SKU",
         "VisitorProfileAbandonedCartSummary": "%1$s verlaten winkelwagens inclusief %2$s items met een totale waarde van %3$s.",
         "VisitorProfileItemsAndOrders": "Gekochte %1$s items in %2$s ecommerce orders.",
-        "VisitorProfileLTV": "Gegenereerde levenslange omzet van %1$s."
+        "VisitorProfileLTV": "Gegenereerde levenslange omzet van %1$s.",
+        "AnonymizeOrderIdNote": "Omdat een bestel-ID kan worden gekoppeld aan een ander systeem, meestal een e-commercewinkel, kan de bestel-ID gelden als persoonlijke informatie onder de GDPR. Wanneer u deze optie inschakelt, wordt een bestel-ID automatisch geanonimiseerd, zodat er geen persoonlijke informatie wordt getraceerd.",
+        "UseAnonymizeOrderId": "Ordernummer anonimiseren"
     }
 }

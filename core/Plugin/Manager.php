@@ -19,6 +19,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\EventDispatcher;
 use Piwik\Exception\PluginDeactivatedException;
+use Piwik\Exception\PluginNotFoundException;
 use Piwik\Filesystem;
 use Piwik\Log;
 use Piwik\Notification;
@@ -296,10 +297,13 @@ class Manager
      * Checks whether the given plugin is activated, if not triggers an exception.
      *
      * @param  string $pluginName
-     * @throws PluginDeactivatedException
+     * @throws PluginDeactivatedException|PluginNotFoundException
      */
-    public function checkIsPluginActivated($pluginName)
+    public function checkIsPluginActivated($pluginName): void
     {
+        if (!$this->isPluginInFilesystem($pluginName)) {
+            throw new PluginNotFoundException($pluginName);
+        }
         if (!$this->isPluginActivated($pluginName)) {
             throw new PluginDeactivatedException($pluginName);
         }
@@ -737,7 +741,7 @@ class Manager
         }
 
         if (!$this->isPluginInFilesystem($pluginName)) {
-            throw new \Exception("Plugin '$pluginName' cannot be found in the filesystem in plugins/ directory.");
+            throw new PluginNotFoundException($pluginName);
         }
         $this->deactivateThemeIfTheme($pluginName);
 

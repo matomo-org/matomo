@@ -1,6 +1,6 @@
 <?php
 
-namespace Piwik\Plugins\PrivacyManager\Settings;
+namespace Piwik\Plugins\Ecommerce\Settings;
 
 use Piwik\Piwik;
 use Piwik\Plugins\PrivacyManager\Config;
@@ -52,12 +52,12 @@ class OrderIdAnonymization implements
 
     public static function getTitle(): string
     {
-        return Piwik::translate('PrivacyManager_OrderIdAnonymizationSettingTitle');
+        return Piwik::translate('Ecommerce_OrderIdAnonymizationSettingTitle');
     }
 
     public static function getComplianceRequirementNote(?int $idSite = null): string
     {
-        return Piwik::translate('PrivacyManager_OrderIdAnonymizationSettingRequirementNote');
+        return Piwik::translate('Ecommerce_OrderIdAnonymizationSettingRequirementNote');
     }
 
     public static function getInlineHelp(): string

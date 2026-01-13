@@ -1412,23 +1412,26 @@ $.extend(DataTable.prototype, UIControl.prototype, {
         if (widget && widget.length && widget[0].hasAttribute('widgetId')) {
             widget.trigger('setParameters', parameters);
         } else {
-            var containerId = widget && widget.length ? widget.attr('containerid') : undefined;
-            var reportId = $(domWidget).closest('[data-report]').attr('data-report');
+            if (!piwik.isUserIsAnonymous) {
+              var containerId = widget && widget.length ? widget.attr('containerid') : undefined;
+              var reportId = $(domWidget).closest('[data-report]').attr('data-report');
 
-            var ajaxRequest = new ajaxHelper();
-            ajaxRequest.addParams({
+              var ajaxRequest = new ajaxHelper();
+              ajaxRequest.addParams({
                 module: 'CoreHome',
                 action: 'saveViewDataTableParameters',
                 report_id: reportId,
                 containerId: containerId
-            }, 'get');
-            ajaxRequest.withTokenInUrl();
-            ajaxRequest.addParams({
+              }, 'get');
+              ajaxRequest.withTokenInUrl();
+              ajaxRequest.addParams({
                 parameters: JSON.stringify(parameters)
-            }, 'post');
-            ajaxRequest.setCallback(function () {});
-            ajaxRequest.setFormat('html');
-            ajaxRequest.send();
+              }, 'post');
+              ajaxRequest.setCallback(function () {
+              });
+              ajaxRequest.setFormat('html');
+              ajaxRequest.send();
+            }
         }
     },
 

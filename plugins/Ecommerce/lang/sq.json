@@ -32,6 +32,10 @@
         "ViewedProductSKU": "SKU Produkti të Parë",
         "VisitorProfileAbandonedCartSummary": "Braktisi %1$s shporta, përfshi %2$s artikuj me vlerë %3$s gjithsej.",
         "VisitorProfileItemsAndOrders": "Bleu %1$s artikuj në %2$s porosi e-tregtie.",
-        "VisitorProfileLTV": "Prodhoi Gjatë Ekzistencës Të ardhura sa %1$s."
+        "VisitorProfileLTV": "Prodhoi Gjatë Ekzistencës Të ardhura sa %1$s.",
+        "AnonymizeOrderIdNote": "Ngaqë një ID Porosie mund të mund të përshoqërohet me një sistem tjetër, zakonisht një dyqan etregtie, ID-ja e Porosisë mund të shihet si hollësi personale, nën GDPR-në. Kur e aktivizoni këtë mundësi, një ID Porosie do të anonimizohet vetvetiu dhe kështu s’do të ketë ndjekje hollësish personale.",
+        "UseAnonymizeOrderId": "Anonimizo ID Porosie",
+        "OrderIdAnonymizationSettingTitle": "Anonimizim ID-sh Porosish",
+        "OrderIdAnonymizationSettingRequirementNote": "ID-të e porosive duhen anonimizuar"
     }
 }
