@@ -4,8 +4,6 @@
         "AvgValue": "Durchschnittswert",
         "AvgValueDocumentation": "Der Durchschnitt aller Werte für dieses Ereigniss",
         "Category": "Kategorie",
-        "ColumnNbUniqVisitorsDocumentation": "",
-        "ColumnNbVisitsDocumentation": "",
         "Event": "Ereignis",
         "EventAction": "Ereignisaktion",
         "EventActions": "Ereignisaktionen",
