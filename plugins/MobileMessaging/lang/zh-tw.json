@@ -1,11 +1,14 @@
 {
     "MobileMessaging": {
         "Available_Credits": "可用額度：%1$s",
+        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "未知的供應商名稱「%1$s」。試試下面的代替：%2$s。",
+        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "你可以增加更多電話號碼，前往",
         "MobileReport_MobileMessagingSettingsLink": "手機簡訊設定頁面",
         "MobileReport_NoPhoneNumbers": "請啟用至少一個電話號碼，前往",
         "MultiSites_Must_Be_Activated": "要將網站數據產生簡訊，請先啟用 Matomo 中的 MultiSites 外掛。",
+        "NumberAlreadyAdded": "",
         "PhoneNumbers": "電話號碼",
         "PluginDescription": "建立和下載自訂簡訊報表，並令它們每日、每周或每月傳送至你的手機。",
         "SMS_Content_Too_Long": "[太長]",
@@ -25,6 +28,7 @@
         "Settings_LetUsersManageAPICredential_No_Help": "所有使用者都可以收到簡訊報表而且會使用你帳號的額度。",
         "Settings_LetUsersManageAPICredential_Yes_Help": "每位使用者將能夠設立自己的簡訊 API 帳號，且不會使用你的配額。",
         "Settings_ManagePhoneNumbers": "管理電話號碼",
+        "Settings_NewVerificationCodeSent": "",
         "Settings_PhoneActivated": "手機號碼已驗證！你現在可以透過簡訊接收你的統計資料了。",
         "Settings_PhoneNumber": "電話號碼",
         "Settings_PhoneNumbers_Add": "新增電話號碼",
@@ -32,6 +36,7 @@
         "Settings_PhoneNumbers_Help": "在接收簡訊（文字訊息）報表之前，必須先在下方輸入電話號碼。",
         "Settings_PhoneNumbers_HelpAdd": "當你點按「新增」，包含代碼的簡訊將會傳送至你的手機。收到代碼的使用者可以登入 Matomo，點按「設定」—「行動訊息」。在輸入代碼後，使用者的手機將能夠收到文字報告。",
         "Settings_PleaseSignUp": "要建立網站統計簡訊報表及在手機中接收簡訊，請先註冊簡訊 API，請在下方填入你的資訊。",
+        "Settings_ResendVerification": "",
         "Settings_SMSAPIAccount": "管理簡訊 API 帳號",
         "Settings_SMSProvider": "簡訊供應商",
         "Settings_SelectCountry": "選擇國家",
@@ -40,8 +45,10 @@
         "Settings_UpdateOrDeleteAccount": "你也可以%1$s更新%2$s或%3$s刪除%4$s此帳號。",
         "Settings_ValidatePhoneNumber": "驗證",
         "Settings_VerificationCodeJustSent": "我們剛給這個號碼傳送了包含代碼的簡訊：請在上面輸入代碼，然後點按「認證」。",
+        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "從信箱或手機取得網頁分析報表。",
         "UserKey": "使用者金鑰",
+        "VerificationCodeRecentlySentError": "",
         "VerificationText": "驗證碼為 %1$s。請將此驗證碼填入 Matomo → %2$s → %3$s 的表單中來完成手機驗證。"
     }
 }
