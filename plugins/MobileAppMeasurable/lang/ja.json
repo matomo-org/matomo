@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "モバイルアプリ",
         "MobileAppDescription": "IOS、Android や他のモバイル オペレーティング システムのネイティブ モバイル アプリケーション。",
+        "MobileAppLongDescription": "",
         "MobileApps": "モバイルアプリ"
     }
 }
