@@ -3,6 +3,7 @@
         "Clicks": "%s klik",
         "ClicksFromXLinks": "%1$s klik fra et af %2$s link",
         "Domain": "Domæne",
+        "ErrorNoSiteUrls": "",
         "ErrorNotLoading": "Sideoverlay session kunne ikke startes endnu.",
         "ErrorNotLoadingDetails": "Måske den indlæste side til højre ikke har Matomo sporingskode. I så tilfælde, kan du prøve at starte overlejring for en anden side fra siderapporter.",
         "ErrorNotLoadingDetailsSSL": "Da du bruger Matomo over HTTPS, er den mest sandsynlige årsag, at hjemmesiden ikke understøtter SSL. Prøv at bruge Matomo over HTTP.",

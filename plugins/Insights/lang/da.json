@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Få indsigt om din trafik. Indsigt er tilgængelig som dashboardwidgets såvel som et nyt ikon i rapporter, som giver dig mulighed for at se tendenser i dine data.",
         "ControlComparedToDescription": "Vækst i forhold til",
         "ControlFilterByDescription": "Vis alle, kun ændringer, kun nye eller kun forsvundne",
         "DatePeriodCombinationNotSupported": "Det er ikke muligt at generere rapporter til disse datoer og kombination af perioder.",
@@ -20,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "Op- og Nedgang",
         "NoResultMatchesCriteria": "Ingen rækker svarer til kriteriet",
         "OverviewWidgetTitle": "Indsigtsoversigt",
+        "PluginDescription": "Få indsigt om din trafik. Indsigt er tilgængelig som dashboardwidgets såvel som et nyt ikon i rapporter, som giver dig mulighed for at se tendenser i dine data.",
         "TitleConsideredInsightsChanges": "Rækkerne steget eller faldet med mindst %1$s besøg (%2$s%% af %3$s samlede antal besøg).",
         "TitleConsideredInsightsGrowth": "Følgende rækker har en vækst på mindst %1$s%% i forhold til %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Betragtes kun ændringer, hvis de voksede med mere end %1$s%% besøg eller faldt med mindre end %2$s%% besøg, nye poster hvis de er steget med mere end %3$s%% besøg (%4$s), og er forsvundne rækker, hvis de faldt med mindre end %5$s%% besøg (%6$s).",
