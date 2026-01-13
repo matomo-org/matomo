@@ -60,6 +60,7 @@
         "PiwikWillBeUpgradedFromVersionXToVersionY": "A base de dados do Matomo será atualizada da versão %1$s para a nova versão %2$s.",
         "PostUpdateMessage": "O Matomo será sempre gratuito para descarregar e utilizar, mas precisa do seu apoio contínuo para crescer e melhorar.",
         "PostUpdateSupport": "Se precisa de ajuda para utilizar o Matomo, pode obter apoio dos seus criadores:",
+        "ReactivatedPlugins": "",
         "ReadyToGo": "Pronto?",
         "ReceiveEmailBecauseIsSuperUser": "Recebeu este e-mail porque é um super-utilizador do Matomo em: %s",
         "ServicesSupport": "Serviços e suporte",
