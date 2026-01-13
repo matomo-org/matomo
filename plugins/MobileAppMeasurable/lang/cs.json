@@ -2,6 +2,7 @@
     "MobileAppMeasurable": {
         "MobileApp": "Mobilní aplikace",
         "MobileAppDescription": "Nativní mobilní aplikace pro iOS, Android nebo jiný mobilní operační systém.",
+        "MobileAppLongDescription": "",
         "MobileApps": "Mobilní aplikace"
     }
 }

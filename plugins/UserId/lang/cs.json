@@ -3,6 +3,9 @@
         "PluginDescription": "Zobrazí reporty uživatel",
         "ThereIsNoDataForThisReportHelp": "%1$sPřečtěte si uživatelskou příručku, kde se dozvíte, jak generovat data pro tuto zprávu.%2$s",
         "UserId": "UserId",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
         "UserReportDocumentation": "Zobrazuje návštěvy a další obecné metriky pro každé jednotlivé Uživatelské ID.",
         "UserReportTitle": "ID uživatelů",
         "VisitorsUserSubcategoryHelp": "Přehled uživatelských ID zobrazuje návštěvy spojené se všemi registrovanými a přihlášenými uživateli. Pochopte využívání webu podle jeho konkrétních uživatelů a zjistěte, kdo jsou vaši nejaktivnější a nejméně aktivní uživatelé."
