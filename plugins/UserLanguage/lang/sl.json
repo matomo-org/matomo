@@ -1,6 +1,9 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "Jezik brskalnika",
-        "LanguageCode": "Šifra jezika"
+        "LanguageCode": "Šifra jezika",
+        "PluginDescription": "",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }

@@ -1,10 +1,28 @@
 {
     "Contents": {
-        "Impressions": "Ogledi",
-        "InteractionRate": "Stopnja interakcij",
+        "ContentImpression": "",
+        "ContentInteraction": "",
+        "ContentInteractionSegmentHelp": "",
+        "ContentInteractions": "",
         "ContentName": "Ime vsebine",
+        "ContentNameReportDocumentation": "",
+        "ContentNameSegmentHelp": "",
+        "ContentNames": "",
         "ContentPiece": "Del vsebine",
+        "ContentPieceReportDocumentation": "",
+        "ContentPieceSegmentHelp": "",
+        "ContentPieces": "",
         "ContentTarget": "Cilj vsebine",
-        "Contents": "Vsebine"
+        "ContentTargetSegmentHelp": "",
+        "ContentTargets": "",
+        "Contents": "Vsebine",
+        "ContentsSubcategoryHelp1": "",
+        "ContentsSubcategoryHelp2": "",
+        "Impressions": "Ogledi",
+        "ImpressionsMetricDocumentation": "",
+        "InteractionRate": "Stopnja interakcij",
+        "InteractionRateMetricDocumentation": "",
+        "InteractionsMetricDocumentation": "",
+        "PluginDescription": ""
     }
 }
