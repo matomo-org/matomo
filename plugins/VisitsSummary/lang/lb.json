@@ -1,1 +1,30 @@
-{}
+{
+    "VisitsSummary": {
+        "AverageGenerationTime": "",
+        "AverageVisitDuration": "",
+        "GenerateQueries": "",
+        "GenerateTime": "",
+        "MaxNbActions": "",
+        "NbActionsDescription": "",
+        "NbActionsPerVisit": "",
+        "NbDownloadsDescription": "",
+        "NbKeywordsDescription": "",
+        "NbOutlinksDescription": "",
+        "NbPageviewsDescription": "",
+        "NbSearchesDescription": "",
+        "NbUniqueDownloadsDescription": "",
+        "NbUniqueOutlinksDescription": "",
+        "NbUniquePageviewsDescription": "",
+        "NbUniqueVisitors": "",
+        "NbUsersDescription": "",
+        "NbVisitsBounced": "",
+        "NbVisitsDescription": "",
+        "PluginDescription": "",
+        "VisitsSummary": "",
+        "VisitsSummaryDocumentation": "",
+        "VisitsSummaryReportDocumentation": "",
+        "WidgetLastVisits": "",
+        "WidgetOverviewGraph": "",
+        "WidgetVisits": ""
+    }
+}
