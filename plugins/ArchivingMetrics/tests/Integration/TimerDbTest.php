@@ -32,10 +32,9 @@ class TimerDbTest extends IntegrationTestCase
     public function testItWritesAndReadsFromDatabase(): void
     {
         $period = new Period\Day(Date::factory('2025-11-01'));
-        $segment = $this->createMock(Segment::class);
-        $segment->method('getHash')->willReturn('');
+        $segment = new Segment('', [1]);
 
-        $context = new Context(1, $period, $segment, '');
+        $context = new Context(1, $period, $segment, '', 'VisitsSummary_nb_visits');
 
         $timer = new Timer(true, new Clock(), new DbWriter());
         $timer->start($context);
@@ -44,5 +43,16 @@ class TimerDbTest extends IntegrationTestCase
         $rows = Db::fetchAll('SELECT * FROM ' . Common::prefixTable('archiving_metrics'));
 
         self::assertCount(1, $rows, 'Expected archiving_metrics table to have exactly one record.');
+        self::assertSame(999, (int) $rows[0]['idarchive']);
+        self::assertSame(1, (int) $rows[0]['idsite']);
+        self::assertNotEmpty($rows[0]['archive_name']);
+        self::assertSame('VisitsSummary_nb_visits', $rows[0]['report']);
+        self::assertSame('2025-11-01', $rows[0]['date1']);
+        self::assertSame('2025-11-01', $rows[0]['date2']);
+        self::assertIsNumeric($rows[0]['period']);
+        self::assertNotEmpty($rows[0]['ts_started']);
+        self::assertNotEmpty($rows[0]['ts_finished']);
+        self::assertIsNumeric($rows[0]['total_time']);
+        self::assertIsNumeric($rows[0]['total_time_exclusive']);
     }
 }

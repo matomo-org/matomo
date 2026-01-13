@@ -36,12 +36,18 @@ final class Context
      */
     public $plugin;
 
-    public function __construct(int $idSite, Period $period, Segment $segment, string $plugin)
+    /**
+     * @var string|null
+     */
+    public $report;
+
+    public function __construct(int $idSite, Period $period, Segment $segment, string $plugin, ?string $report = null)
     {
         $this->idSite = $idSite;
         $this->period = $period;
         $this->segment = $segment;
         $this->plugin = $plugin;
+        $this->report = $report;
     }
 
     public function getKey(): string
@@ -53,6 +59,7 @@ final class Context
             $this->period->getDateTimeStart()->toString('Y-m-d'),
             $this->period->getDateTimeEnd()->toString('Y-m-d'),
             $this->plugin,
+            $this->report ?? '',
         ]);
     }
 }
