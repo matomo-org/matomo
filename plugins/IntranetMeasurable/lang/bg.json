@@ -2,6 +2,7 @@
     "IntranetMeasurable": {
         "Intranet": "Интранет уебсайт",
         "IntranetDescription": "Измеримият интранет е точно като уебсайт, но се хоства във вътрешна мрежа.",
+        "IntranetLongDescription": "",
         "Intranets": "Интранет уебсайтове"
     }
 }
