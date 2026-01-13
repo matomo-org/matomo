@@ -11,12 +11,6 @@
         "EnterAnnotationText": "Gëff deng Notiz an…",
         "HideAnnotationsFor": "Annotatiounen fir %s net uweisen…",
         "IconDesc": "Notizen fir dës Daten Sammlung uweisen.",
-        "IconDescHideNotes": "Notizen fir dës Daten Sammlung net uweisen.",
-        "InlineQuickHelp": "",
-        "LoginToAnnotate": "",
-        "NoAnnotations": "",
-        "PluginDescription": "",
-        "ViewAndAddAnnotations": "",
-        "YouCannotModifyThisNote": ""
+        "IconDescHideNotes": "Notizen fir dës Daten Sammlung net uweisen."
     }
 }
