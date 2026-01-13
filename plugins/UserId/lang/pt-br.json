@@ -3,6 +3,9 @@
         "PluginDescription": "Mostra relatórios de usuários",
         "ThereIsNoDataForThisReportHelp": "%1$sLeia o guia do usuário para saber como gerar dados para este relatório.%2$s",
         "UserId": "UserId",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
         "UserReportDocumentation": "Mostra visitas e outras métricas gerais para cada ID de usuário individual.",
         "UserReportTitle": "IDs de usuário",
         "VisitorsUserSubcategoryHelp": "O relatório de ID do usuário mostra as visitas associadas a todos os seus usuários registrados e logados. Entenda o uso do site por seus usuários específicos e descubra quem são seus usuários mais e menos ativos."
