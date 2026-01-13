@@ -1,14 +1,11 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Tillgängliga krediter: %1$s",
-        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "Användarnamn '%1$s' är okänt. Försök med något av följande istället: %2$s.",
-        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "Du kan lägga till flera telefonnummer genom att ge dem tillgång",
         "MobileReport_MobileMessagingSettingsLink": "Sidan för Mobila meddelanden",
         "MobileReport_NoPhoneNumbers": "Aktivera minst ett telefonnummer genom att ge åtkomst",
         "MultiSites_Must_Be_Activated": "För att få SMS med din webbsidas status, var snäll och tillåt pluginet för MultiplaSidor i Matomo.",
-        "NumberAlreadyAdded": "",
         "PhoneNumbers": "Telefonnummer",
         "PluginDescription": "Skapa och ladda ner ett anpassade SMS rapporter och få dem skickade till din mobil dagligen, en gång i veckan eller en gång i månaden.",
         "SMS_Content_Too_Long": "[för långt]",
@@ -45,10 +42,8 @@
         "Settings_UpdateOrDeleteAccount": "Du kan också %1$suppdatera%2$s eller %3$sradera%4$s det här kontot.",
         "Settings_ValidatePhoneNumber": "Bekräfta",
         "Settings_VerificationCodeJustSent": "Vi skickade precis ett SMS till det här numret med en kod: ange den här koden ovan och klicka på \"Validera\".",
-        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "Få webbanalysrapporter levererade till din epost eller din mobiltelefon.",
         "UserKey": "Användarnyckel",
-        "VerificationCodeRecentlySentError": "",
         "VerificationText": "Koden är %1$s. För att verifiera ditt telefonnummer och få Matomos SMS rapporter ber vi dig kopiera den här koden i formuläret för åtkomlighet via Matomo → %2$s → %3$s."
     }
 }

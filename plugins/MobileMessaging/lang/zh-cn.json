@@ -1,14 +1,11 @@
 {
     "MobileMessaging": {
         "Available_Credits": "可用学分：%1$s",
-        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "服务商名字 '%1$s' 未知，请试试下面的: %2$s。",
-        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "通过访问，您可以添加多个电话号码",
         "MobileReport_MobileMessagingSettingsLink": "手机短信设置页",
         "MobileReport_NoPhoneNumbers": "激活至少一个电话号码，请访问",
         "MultiSites_Must_Be_Activated": "要生成网站统计的短信报表，请启用 Matomo 中的 MultiSites 插件。",
-        "NumberAlreadyAdded": "",
         "PhoneNumbers": "电话号码",
         "PluginDescription": "创建并下载自定义短信报表，每天、每周或每月发到您的手机。",
         "SMS_Content_Too_Long": "[太长]",
@@ -28,7 +25,6 @@
         "Settings_LetUsersManageAPICredential_No_Help": "所有用户都能用您的帐号接收短信报表。",
         "Settings_LetUsersManageAPICredential_Yes_Help": "每个用户将能够建立自己的短信API帐户，并不会使用你的信用。",
         "Settings_ManagePhoneNumbers": "管理电话号码",
-        "Settings_NewVerificationCodeSent": "",
         "Settings_PhoneActivated": "电话号码已验证! 您可以收到统计短信了。",
         "Settings_PhoneNumber": "电话号码",
         "Settings_PhoneNumbers_Add": "增加新的电话号码",
@@ -36,7 +32,6 @@
         "Settings_PhoneNumbers_Help": "在手机上接收短信报表前，需要在下面输入电话号码。",
         "Settings_PhoneNumbers_HelpAdd": "当您单击“添加”时，手机将收到包含代码的短信息。收到代码的用户应该登录到Matomo，单击“设置”，然后单击“移动消息”。输入代码后，用户将能够在手机上接收文本报告。",
         "Settings_PleaseSignUp": "要创建短信报表并在手机上通过短信接收网站的统计信息，请注册短信 API 并在下面输入资料。",
-        "Settings_ResendVerification": "",
         "Settings_SMSAPIAccount": "管理短信 API 帐户",
         "Settings_SMSProvider": "短信服务商",
         "Settings_SelectCountry": "选择国家",
@@ -45,10 +40,8 @@
         "Settings_UpdateOrDeleteAccount": "您也可以 %1$s修改%2$s 或 %3$s删除%4$s 这个帐号。",
         "Settings_ValidatePhoneNumber": "有效",
         "Settings_VerificationCodeJustSent": "我们刚刚给这个号码发了一条短信，上面有一个代码：请在上面输入这个代码，然后单击“验证”。",
-        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "设置网站分析报表发送到邮箱或者手机!",
         "UserKey": "用户密钥",
-        "VerificationCodeRecentlySentError": "",
         "VerificationText": "代码为 %1$s。要验证电话号码及接收 Matomo 短信报表，请复制本代码到 Matomo → %2$s → %3$s 的表格中。"
     }
 }

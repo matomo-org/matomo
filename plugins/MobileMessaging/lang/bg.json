@@ -1,14 +1,11 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Налични кредити: %1$s",
-        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "Името на доставчика '%1$s' е неизвестно. Пробвайте друго име вместо: %2$s.",
-        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "Могат да бъдат добавени повече телефонни номера достъпвайки",
         "MobileReport_MobileMessagingSettingsLink": "Страницата за настройка на мобилните съобщения",
         "MobileReport_NoPhoneNumbers": "Моля, активирайте поне един телефонен номер, достъпвайки",
         "MultiSites_Must_Be_Activated": "За да генерирате SMS текстове със статистиката на Вашия уебсайт, моля, активирайте плъгина MultiSites в Matomo.",
-        "NumberAlreadyAdded": "",
         "PhoneNumbers": "Телефонни номера",
         "PluginDescription": "Създавайте и изтегляйте персонализирани SMS отчети и ги изпращайте до мобилния си телефон на дневна, седмична или месечна база.",
         "SMS_Content_Too_Long": "[твърде дълго]",
@@ -28,7 +25,6 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Всички потребители могат да получават SMS отчети и ще използват кредитите на Вашия акаунт.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Всеки потребител ще може да създаде свой собствен SMS API акаунт и няма да използва Вашия кредит.",
         "Settings_ManagePhoneNumbers": "Управление на телефонните номера",
-        "Settings_NewVerificationCodeSent": "",
         "Settings_PhoneActivated": "Телефонният номер е потвърден! Вече имате възможност да получавате кратки съобщения (SMS) с вашите статистики.",
         "Settings_PhoneNumber": "Телефонен номер",
         "Settings_PhoneNumbers_Add": "Добави нов телефонен номер",
@@ -36,7 +32,6 @@
         "Settings_PhoneNumbers_Help": "Преди да получавате SMS (текстови съобщения) отчети на телефон, телефонният номер трябва да бъде въведен по-долу.",
         "Settings_PhoneNumbers_HelpAdd": "Когато кликнете върху „Добавяне“, на телефона ще бъде изпратен SMS, съдържащ код. След това потребителят, който получава кода, трябва да влезе в Matomo, да кликне върху Настройки и след това върху Mobile Messaging. След като въведе кода, потребителят ще може да получава текстови отчети на телефона си.",
         "Settings_PleaseSignUp": "За да създавате SMS отчети и да получавате кратки текстови съобщения със статистика на Вашите уебсайтове на мобилния си телефон, моля, регистрирайте се с API за SMS и въведете информацията си по-долу.",
-        "Settings_ResendVerification": "",
         "Settings_SMSAPIAccount": "Управление на профила за SMS приложно-програмен интерфейс",
         "Settings_SMSProvider": "Доставчик на SMS услуги",
         "Settings_SelectCountry": "Изберете държава",
@@ -45,10 +40,8 @@
         "Settings_UpdateOrDeleteAccount": "%1$sОбновяване%2$s или %3$sизтриване%4$s на този профил.",
         "Settings_ValidatePhoneNumber": "Валидиране",
         "Settings_VerificationCodeJustSent": "Изпратихме ви код със SMS на посочения номер, моля, въведете кода по-горе и натиснете \"Валидиране\".",
-        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "Вземете Web Analytics Reports доставен във Вашата пощенска кутия или във Вашия мобилен телефон.",
         "UserKey": "Потребителски ключ",
-        "VerificationCodeRecentlySentError": "",
         "VerificationText": "Кодът е %1$s. За да потвърдите Вашия телефонен номер и да получите Matomo SMS отчети, моля, копирайте този код във формата достъпна чрез Matomo → %2$s → %3$s."
     }
 }

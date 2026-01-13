@@ -1,14 +1,11 @@
 {
     "MobileMessaging": {
         "Available_Credits": "Tilgjengelig kreditt: %1$s",
-        "ConfirmRemovePhoneNumber": "",
         "Exception_UnknownProvider": "Tilbydernavnet «%1$s» er ukjent. Prøv ett av følgende istedenfor: %2$s.",
-        "IncorrectNumberFormat": "",
         "MobileReport_AdditionalPhoneNumbers": "Du kan legge til flere telefonnummer ved å gå til",
         "MobileReport_MobileMessagingSettingsLink": "innstillingssiden for mobilmeldinger",
         "MobileReport_NoPhoneNumbers": "Aktiver minst ett telefonnummer ved å besøke",
         "MultiSites_Must_Be_Activated": "For å generere SMS-er av din nettsidestatistikk må du skru på MultiSites-programtillegget i Matomo.",
-        "NumberAlreadyAdded": "",
         "PhoneNumbers": "Telefonnumre",
         "PluginDescription": "Opprett og last ned egendefinerte SMS-rapporter og få dem tilsendt mobiltelefonen din daglig, ukentlig, eller månedlig.",
         "SMS_Content_Too_Long": "[for lang]",
@@ -28,7 +25,6 @@
         "Settings_LetUsersManageAPICredential_No_Help": "Alle brukere vil kunne motta SMS-rapporter og bruke saldoen på kontoen din.",
         "Settings_LetUsersManageAPICredential_Yes_Help": "Hver bruker vil kunne sette opp sin egen SMS-API-konto, og ikke bruke din kreditt.",
         "Settings_ManagePhoneNumbers": "Administrer telefonnummer",
-        "Settings_NewVerificationCodeSent": "",
         "Settings_PhoneActivated": "Telefonnummer validert! Du kan nå motta SMS med dine statistikker.",
         "Settings_PhoneNumber": "Telefonnummer",
         "Settings_PhoneNumbers_Add": "Legg til et nytt telefonnummer",
@@ -36,7 +32,6 @@
         "Settings_PhoneNumbers_Help": "Før du mottar SMS-rapporter på en telefon, må telefonnummeret skrives inn nedenfor.",
         "Settings_PhoneNumbers_HelpAdd": "Når du klikker «Legg til» vil en SMS inneholdende en kode bli sendt til telefonen. Brukeren som mottar koden skal så logge inn på Matomo, klikke på «Innstillinger», og så «Mobil-meldingstjeneste». Etter å ha skrevet inn koden, skal brukeren kunne motta tekstrapporter på telefonen sin.",
         "Settings_PleaseSignUp": "For å motta SMS-rapporter og motta korte tekstmeldinger med statistikk fra dine nettsider på mobiltelefoner må du logge inn med SMS-API-et og skrive inn informasjonen din nedenfor.",
-        "Settings_ResendVerification": "",
         "Settings_SMSAPIAccount": "Behandle SMS API-konto",
         "Settings_SMSProvider": "SMS-leverandør",
         "Settings_SelectCountry": "Velg land",
@@ -45,10 +40,8 @@
         "Settings_UpdateOrDeleteAccount": "Du kan også %1$soppdatere%2$s eller %3$sslette%4$s denne kontoen.",
         "Settings_ValidatePhoneNumber": "Valider",
         "Settings_VerificationCodeJustSent": "En SMS med en kode har blitt sendt til dette nummeret. Skriv denne koden ovenfor og klikk «Bekreft».",
-        "TooManyUnverifiedNumbersError": "",
         "TopLinkTooltip": "Få vev-analyserapporter levert i innboksen til e-posten din, eller din mobiltelefon.",
         "UserKey": "Brukernøkkel",
-        "VerificationCodeRecentlySentError": "",
         "VerificationText": "Koden er %1$s. For å bekrefte telefonnummeret ditt og motta Matomo-SMS-rapporter kan du kopiere denne koden i skjemaet tilgjengelig i Matomo → %2$s → %3$s."
     }
 }
