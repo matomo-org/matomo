@@ -280,7 +280,7 @@ function onLoadDashboard(idDashboard) {
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=1a5e3314
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=44486333
 
 const _hoisted_1 = ["title"];
 const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
@@ -351,7 +351,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClosed: _ctx.onClose
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=1a5e3314
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=44486333
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=script&lang=ts
 
@@ -470,8 +470,7 @@ function widgetSelected(widget) {
     onClose() {
       this.rootJQuery.widgetPreview('reset');
     },
-    redirectToCreateScheduledReports(context) {
-      var _context$widgets;
+    redirectToCreateScheduledReports(dashboardId) {
       const query = Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value);
       delete query.category;
       delete query.subcategory;
@@ -479,77 +478,37 @@ function widgetSelected(widget) {
       query.module = 'ScheduledReports';
       query.action = 'index';
       const hash = Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value);
-      if ((_context$widgets = context.widgets) !== null && _context$widgets !== void 0 && _context$widgets.length) {
-        hash.dashboardWidgets = JSON.stringify(context.widgets);
-      }
+      hash.dashboardId = dashboardId;
       delete hash.category;
       delete hash.subcategory;
-      delete hash.idDashboard;
       external_CoreHome_["MatomoUrl"].updateUrl(query, hash);
     },
-    redirectToLoginPage(context) {
-      var _context$widgets2;
+    redirectToLoginPage() {
       const loginQuery = {
         module: 'Login'
       };
-      const hash = {
-        module: 'ScheduledReports',
-        action: 'index',
-        scheduledReportsAction: 'create',
-        loginMessage: 'Dashboard_LoginToExportDashboard'
-      };
-      if (typeof context.idDashboard !== 'undefined') {
-        hash.dashboardId = context.idDashboard;
-      }
-      if ((_context$widgets2 = context.widgets) !== null && _context$widgets2 !== void 0 && _context$widgets2.length) {
-        hash.dashboardWidgets = JSON.stringify(context.widgets);
-      }
-      external_CoreHome_["MatomoUrl"].updateUrl(loginQuery, hash);
+      external_CoreHome_["MatomoUrl"].updateUrl(loginQuery);
     },
     onClickExportDashboard() {
-      const dashboardContext = this.getCurrentDashboardContext();
-      if (this.isUserNotAnonymous) {
-        this.redirectToCreateScheduledReports(dashboardContext);
+      const dashboardId = this.getCurrentDashboardId();
+      if (this.isUserNotAnonymous && dashboardId !== null) {
+        this.redirectToCreateScheduledReports(dashboardId);
         return;
       }
-      this.redirectToLoginPage(dashboardContext);
+      this.redirectToLoginPage();
     },
-    getCurrentDashboardContext() {
+    getCurrentDashboardId() {
       const dashboardArea = DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea');
-      const context = {};
+      let dashId = null;
       if (!dashboardArea.length || typeof dashboardArea.dashboard !== 'function') {
-        return context;
+        return dashId;
       }
       try {
-        context.idDashboard = dashboardArea.dashboard('getDashboardId');
+        dashId = dashboardArea.dashboard('getDashboardId');
       } catch (error) {
         // ignore when dashboard id cannot be determined
       }
-      try {
-        var _layout$columns;
-        const layout = dashboardArea.dashboard('getLayout');
-        if (layout !== null && layout !== void 0 && (_layout$columns = layout.columns) !== null && _layout$columns !== void 0 && _layout$columns.length) {
-          const widgets = [];
-          const seen = new Set();
-          layout.columns.forEach(column => {
-            column.forEach(widget => {
-              if (widget !== null && widget !== void 0 && widget.uniqueId) {
-                const {
-                  uniqueId
-                } = widget;
-                if (!seen.has(uniqueId)) {
-                  seen.add(uniqueId);
-                  widgets.push(uniqueId);
-                }
-              }
-            });
-          });
-          context.widgets = widgets;
-        }
-      } catch (error) {
-        // ignore when layout data cannot be read
-      }
-      return context;
+      return dashId;
     }
   }
 }));

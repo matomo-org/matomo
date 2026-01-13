@@ -100,12 +100,6 @@ interface DashboardSettingsState {
   isActionDisabled: Record<keyof Window, boolean>;
   actionTooltips: Record<keyof Window, string|undefined>;
 }
-
-interface DashboardExportContext {
-  idDashboard?: number|string;
-  widgets?: string[];
-}
-
 type DashboardJQuery = JQuery & { dashboard?: (...args: unknown[]) => unknown };
 
 const { $ } = window;
@@ -240,7 +234,7 @@ export default defineComponent({
     onClose() {
       this.rootJQuery.widgetPreview('reset');
     },
-    redirectToCreateScheduledReports(context: DashboardExportContext) {
+    redirectToCreateScheduledReports(dashboardId: number|string) {
       const query = {
         ...MatomoUrl.urlParsed.value,
       } as QueryParameters;
@@ -254,12 +248,9 @@ export default defineComponent({
         ...MatomoUrl.hashParsed.value,
       } as QueryParameters;
 
-      if (context.widgets?.length) {
-        hash.dashboardWidgets = JSON.stringify(context.widgets);
-      }
+      hash.dashboardId = dashboardId;
       delete hash.category;
       delete hash.subcategory;
-      delete hash.idDashboard;
       MatomoUrl.updateUrl(query, hash);
     },
 
@@ -271,53 +262,29 @@ export default defineComponent({
     },
 
     onClickExportDashboard() {
-      const dashboardContext = this.getCurrentDashboardContext();
+      const dashboardId = this.getCurrentDashboardId();
 
-      if (this.isUserNotAnonymous) {
-        this.redirectToCreateScheduledReports(dashboardContext);
+      if (this.isUserNotAnonymous && dashboardId !== null) {
+        this.redirectToCreateScheduledReports(dashboardId);
         return;
       }
 
       this.redirectToLoginPage();
     },
 
-    getCurrentDashboardContext(): DashboardExportContext {
+    getCurrentDashboardId(): number|string|null {
       const dashboardArea = $('#dashboardWidgetsArea') as DashboardJQuery;
-      const context: DashboardExportContext = {};
-
+      let dashboardId = null;
       if (!dashboardArea.length || typeof dashboardArea.dashboard !== 'function') {
-        return context;
+        return dashboardId;
       }
 
       try {
-        context.idDashboard = dashboardArea.dashboard('getDashboardId') as number|string;
+        dashboardId = dashboardArea.dashboard('getDashboardId') as number|string;
       } catch (error) {
         // ignore when dashboard id cannot be determined
       }
-
-      try {
-        const layout = dashboardArea.dashboard('getLayout') as { columns?: Array<Array<{ uniqueId?: string }>> };
-        if (layout?.columns?.length) {
-          const widgets: string[] = [];
-          const seen = new Set<string>();
-          layout.columns.forEach((column) => {
-            column.forEach((widget) => {
-              if (widget?.uniqueId) {
-                const { uniqueId } = widget;
-                if (!seen.has(uniqueId)) {
-                  seen.add(uniqueId);
-                  widgets.push(uniqueId);
-                }
-              }
-            });
-          });
-          context.widgets = widgets;
-        }
-      } catch (error) {
-        // ignore when layout data cannot be read
-      }
-
-      return context;
+      return dashboardId;
     },
   },
 });
