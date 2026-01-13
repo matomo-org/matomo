@@ -150,7 +150,7 @@ final class Timer
 
         $current = $this->runs[$currentKey];
 
-        $totalTimeMs = $current['totalTime'] ?? 0.0;
+        $totalTimeMs = $current['totalTime'];
 
         // If the key is last in the array then it's probably not a nested archive so this calculation doesn't matter
         if ($currentKey === array_key_last($this->runs)) {
