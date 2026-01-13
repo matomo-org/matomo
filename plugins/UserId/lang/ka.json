@@ -1,5 +1,13 @@
 {
     "UserId": {
-        "UserReportTitle": "მომხმარებლები"
+        "PluginDescription": "",
+        "ThereIsNoDataForThisReportHelp": "",
+        "UserId": "",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "მომხმარებლები",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }
