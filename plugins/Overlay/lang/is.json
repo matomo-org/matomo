@@ -1,5 +1,22 @@
 {
     "Overlay": {
-        "Location": "Staðsetning"
+        "Clicks": "",
+        "ClicksFromXLinks": "",
+        "Domain": "",
+        "ErrorNoSiteUrls": "",
+        "ErrorNotLoading": "",
+        "ErrorNotLoadingDetails": "",
+        "ErrorNotLoadingDetailsSSL": "",
+        "ErrorNotLoadingLink": "",
+        "Link": "",
+        "Location": "Staðsetning",
+        "NoData": "",
+        "OneClick": "",
+        "OpenFullScreen": "",
+        "Overlay": "",
+        "PluginDescription": "",
+        "RedirectUrlError": "",
+        "RedirectUrlErrorAdmin": "",
+        "RedirectUrlErrorUser": ""
     }
 }

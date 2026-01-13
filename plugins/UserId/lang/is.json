@@ -1,5 +1,13 @@
 {
     "UserId": {
-        "UserReportTitle": "Notendur"
+        "PluginDescription": "",
+        "ThereIsNoDataForThisReportHelp": "",
+        "UserId": "",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
+        "UserReportTitle": "Notendur",
+        "VisitorsUserSubcategoryHelp": ""
     }
 }

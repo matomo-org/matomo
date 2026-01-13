@@ -1,8 +1,18 @@
 {
     "API": {
+        "ChangeTokenHint": "",
+        "EvolutionMetricName": "",
+        "GenerateVisits": "",
+        "Glossary": "",
         "KeepTokenSecret": "Þessi tókar auðkenning er eins leynd og þitt notendanafn og lykilorð %1$s deilið því ekki%2$s!",
+        "LearnAboutCommonlyUsedTerms2": "",
         "LoadedAPIs": "Tókst að hlaða %s API",
+        "MainMetricsReportDocumentation": "",
         "MoreInformation": "Fyrir frekari upplýsingar um Matomo API, Vinsamlegast skoðið %1$s Inngangur að Matomo API %2$s og %3$s Matomo API Tilvísunir %4$s.",
-        "UserAuthentication": "Notenda auðkenning"
+        "PluginDescription": "",
+        "ReportingApiReference": "",
+        "TopLinkTooltip": "",
+        "UserAuthentication": "Notenda auðkenning",
+        "UsingTokenAuth": ""
     }
 }
