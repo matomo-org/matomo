@@ -24,6 +24,8 @@
         "DefaultAllVisits": "Alle bezoeken",
         "DragDropCondition": "Sleep &amp; verplaats voorwaarde",
         "HideMessageInFuture": "Verberg dit bericht in de toekomst",
+        "LimitSegmentsSettingRequirementNote": "",
+        "LimitSegmentsSettingTitle": "",
         "LoadingSegmentedDataMayTakeSomeTime": "Verwerking van gesegmenteerde bezoeker gegevens kan enkele minuten duren …",
         "OperatorAND": "AND",
         "OperatorOR": "OR",

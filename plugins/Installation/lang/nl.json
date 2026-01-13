@@ -16,6 +16,7 @@
         "DatabaseSetup": "Database instellen",
         "DatabaseSetupAdapter": "Adapter",
         "DatabaseSetupDatabaseName": "Naam database",
+        "DatabaseSetupEngine": "",
         "DatabaseSetupLogin": "Inloggen",
         "DatabaseSetupServer": "Server database",
         "DatabaseSetupTablePrefix": "Voorvoegsel tabel",
