@@ -1,6 +1,9 @@
 {
     "UserLanguage": {
         "BrowserLanguage": "زبان مرورگر وب",
-        "LanguageCode": "کد زبان"
+        "LanguageCode": "کد زبان",
+        "PluginDescription": "",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }

@@ -3,7 +3,10 @@
         "Clicks": "%s کلیک",
         "ClicksFromXLinks": "%1$s کلیک از یکی از %2$s لینک",
         "Domain": "دامنه",
+        "ErrorNoSiteUrls": "",
         "ErrorNotLoading": "صفحه از دسترس خارج شد و نمی تواند راه اندازی می شود.",
+        "ErrorNotLoadingDetails": "",
+        "ErrorNotLoadingDetailsSSL": "",
         "ErrorNotLoadingLink": "اینجا کلیک کنید تا نکات بیشتری درباره عیب یابی بدانید",
         "Link": "لینک",
         "Location": "موقعیت",
@@ -11,6 +14,8 @@
         "OneClick": "1 کلیک",
         "OpenFullScreen": "به حالت تمام صفحه برو (بدون ستون کناری)",
         "Overlay": "صفحه از دسترس خارج شد",
+        "PluginDescription": "",
+        "RedirectUrlError": "",
         "RedirectUrlErrorAdmin": "شما توانید آدرس های جدیدی را اضافه نمایید URL %1$sin the settings%2$s.",
         "RedirectUrlErrorUser": "از مدیریت بخواهید که این دامنه را به عنوان دامنه اضافی بیافزاید."
     }
