@@ -57,6 +57,8 @@
         "ExclusionTypeOptionMatomoRecommendedPII": "Matomo tarafından önerilen PII",
         "ExclusionViewListLink": "Katılmayacakların listesini görüntüle",
         "ExtraInformationNeeded": "Sisteminize Matomo kurmak için şu bilgilere gerek duyabilirsiniz:",
+        "FilterPIIParametersSettingTitle": "",
+        "FilterPiiParametersSettingRequirementNote": "",
         "Format_Utc": "UTC%s",
         "GADetected": "Sitenizde %1$s algılandı. Geçmiş istatistik verilerinizi ve ayarlarınızı %2$s üzerinden kolayca Matomo üzerine taşıyabileceğinizi biliyor musunuz? %3$s %4$s %5$sAyrıntılı bilgi almak için bu rehbere bakabilirsiniz%6$s",
         "GADetectedEmail": "Sitenizde %1$s algılandı. Geçmiş istatistik verilerinizi ve ayarlarınızı %2$s üzerinden kolayca Matomo üzerine taşıyabileceğinizi biliyor musunuz? Ayrıntılı bilgi almak için şuraya bakabilirsiniz: %3$s",
