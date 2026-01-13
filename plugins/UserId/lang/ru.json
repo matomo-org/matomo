@@ -1,7 +1,13 @@
 {
     "UserId": {
+        "PluginDescription": "Показать пользовательские отчёты",
+        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "UserId",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
         "UserReportTitle": "ID пользователя",
-        "PluginDescription": "Показать пользовательские отчёты"
+        "VisitorsUserSubcategoryHelp": ""
     }
 }

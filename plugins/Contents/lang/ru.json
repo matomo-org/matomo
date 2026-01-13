@@ -1,20 +1,28 @@
 {
     "Contents": {
-        "PluginDescription": "Отслеживание контента и баннеров позволяет вам измерять эффективность (просмотры, клики, CTR) любой части контента на ваших страницах (баннер-реклама, изображение, любой элемент).",
-        "Impressions": "Показы",
         "ContentImpression": "Показы контента",
         "ContentInteraction": "Взаимодействие с контентом",
+        "ContentInteractionSegmentHelp": "",
         "ContentInteractions": "Взаимодействия с контентом",
-        "InteractionRate": "Коэффициент взаимодествия",
         "ContentName": "Название публикации",
+        "ContentNameReportDocumentation": "",
+        "ContentNameSegmentHelp": "",
         "ContentNames": "Названия публикаций",
         "ContentPiece": "Часть публикации",
+        "ContentPieceReportDocumentation": "",
+        "ContentPieceSegmentHelp": "",
         "ContentPieces": "Часть публикаций",
         "ContentTarget": "Цель публикации",
+        "ContentTargetSegmentHelp": "",
         "ContentTargets": "Цели публикаций",
         "Contents": "Публикации",
-        "InteractionsMetricDocumentation": "Сколько раз с блоком контента происходило взаимодействие (например, 'клик' по баннеру или рекламе).",
+        "ContentsSubcategoryHelp1": "",
+        "ContentsSubcategoryHelp2": "",
+        "Impressions": "Показы",
         "ImpressionsMetricDocumentation": "Сколько раз блок контента, такой как баннер или реклама, был показан на странице.",
-        "InteractionRateMetricDocumentation": "Соотношение представления контента и взаимодействий."
+        "InteractionRate": "Коэффициент взаимодествия",
+        "InteractionRateMetricDocumentation": "Соотношение представления контента и взаимодействий.",
+        "InteractionsMetricDocumentation": "Сколько раз с блоком контента происходило взаимодействие (например, 'клик' по баннеру или рекламе).",
+        "PluginDescription": "Отслеживание контента и баннеров позволяет вам измерять эффективность (просмотры, клики, CTR) любой части контента на ваших страницах (баннер-реклама, изображение, любой элемент)."
     }
 }
