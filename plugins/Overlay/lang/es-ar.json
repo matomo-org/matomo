@@ -3,6 +3,7 @@
         "Clicks": "%s clics",
         "ClicksFromXLinks": "%1$s clics desde uno de %2$s enlaces",
         "Domain": "Dominio",
+        "ErrorNoSiteUrls": "ADVERTENCIA: este sitio web no tiene dirección web del sitio definida en Matomo. Esto puede provocar que Overlay y otras funciones se rompan, o que tengan un comportamiento extraño. Para solucionar esto, agregá una dirección web en la configuración de este sitio web en la sección de Administración de Matomo.",
         "ErrorNotLoading": "Aún no se pudo lanzar la sesión de superposición de página.",
         "ErrorNotLoadingDetails": "Quizá la página cargada en la derecha no tiene el código de seguimiento de Matomo. De ser así, intentá lanzando la superposición para una página diferente desde el informe de páginas.",
         "ErrorNotLoadingDetailsSSL": "Debido a que estás usando Matomo sobre HTTPS, lo más probable es que tu sitio web no soporte SSL. Intentá usar Matomo sobre HTTP.",
@@ -16,7 +17,6 @@
         "PluginDescription": "Mirá tus datos analíticos sobre una superposición en tu sitio web real. Mirá cuántas veces tus usuarios hicieron clic en cada enlace. Nota: requiere que el plugin Transitions esté habilitado.",
         "RedirectUrlError": "Estás intentando abrir la superposición de página para la dirección web \"%1$s\". %2$s Ninguno de los dominios en la configuración de Matomo coincide con el enlace.",
         "RedirectUrlErrorAdmin": "Podés agregar el dominio como una dirección web %1$sen la configuración%2$s.",
-        "RedirectUrlErrorUser": "Pedile a tu administrador que agregue el dominio como una dirección web adicional.",
-        "ErrorNoSiteUrls": "ADVERTENCIA: este sitio web no tiene dirección web del sitio definida en Matomo. Esto puede provocar que Overlay y otras funciones se rompan, o que tengan un comportamiento extraño. Para solucionar esto, agregá una dirección web en la configuración de este sitio web en la sección de Administración de Matomo."
+        "RedirectUrlErrorUser": "Pedile a tu administrador que agregue el dominio como una dirección web adicional."
     }
 }

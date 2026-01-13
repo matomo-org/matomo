@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Databasebruk",
-        "DataSize": "Datastorleik",
         "DBSize": "DB-storleik",
+        "DataSize": "Datastorleik",
+        "DatabaseUsage": "Databasebruk",
         "EstimatedSize": "Omlag storleik",
         "IndexSize": "Indeksstorleik",
         "LearnMore": "For å læra meir om korleis Matomo prosesserer data, og korleis gjera at Matomo fungerer bra for nettstader med middels og høg trafikk, sjå dokumentasjonen %s.",

@@ -61,7 +61,6 @@
         "TermsAndConditionUrlDescription": "Ссылка на вашу страницу условий использования.",
         "TermsAndConditions": "Условия использования",
         "UseAnonymizeIp": "Скрыть IP-адреса посетителей",
-        "UseAnonymizeOrderId": "Анонимизировать ID заказа",
         "UseAnonymizeTrackingData": "Анонимизировать данные отслеживания",
         "UseDeleteReports": "Всегда удалять старые отчеты из баз данных",
         "WhenDoINeedConsent": "Когда мне нужно запрашивать согласие пользователя?"

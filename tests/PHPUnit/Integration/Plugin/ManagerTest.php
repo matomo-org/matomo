@@ -12,6 +12,8 @@ namespace Piwik\Tests\Integration\Plugin;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
+use Piwik\Exception\PluginDeactivatedException;
+use Piwik\Exception\PluginNotFoundException;
 use Piwik\Http\ControllerResolver;
 use Piwik\Plugin;
 use Piwik\Cache as PiwikCache;
@@ -158,6 +160,37 @@ class ManagerTest extends IntegrationTestCase
         Config::getInstance()->PluginsInstalled['PluginsInstalled'][] = 'FooBarBaz';
         $this->assertFalse($this->manager->isPluginInstalled('FooBarBaz', true));
         $this->assertTrue($this->manager->isPluginInstalled('FooBarBaz', false));
+    }
+
+    public function testCheckIsPluginActivatedThrows404WhenPluginMissing()
+    {
+        $this->expectException(PluginNotFoundException::class);
+        $this->expectExceptionCode(404);
+
+        $this->manager->checkIsPluginActivated('NotARealPlugin');
+    }
+
+    public function testCheckIsPluginActivatedThrows403WhenPluginDeactivated()
+    {
+        $pluginName = 'ExampleTheme';
+        $wasActivated = $this->manager->isPluginActivated($pluginName);
+
+        if ($wasActivated) {
+            $this->manager->deactivatePlugin($pluginName);
+        }
+
+        try {
+            $this->assertTrue($this->manager->isPluginInFilesystem($pluginName));
+
+            $this->expectException(PluginDeactivatedException::class);
+            $this->expectExceptionCode(403);
+
+            $this->manager->checkIsPluginActivated($pluginName);
+        } finally {
+            if ($wasActivated) {
+                $this->manager->activatePlugin($pluginName);
+            }
+        }
     }
 
     /**

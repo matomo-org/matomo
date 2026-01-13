@@ -21,7 +21,7 @@ class TsvTest extends RendererTestCase
     /**
      * @dataProvider getTestCases
      */
-    public function testRender(callable $tableCallback, string $expected, callable $rendererCallback = null)
+    public function testRender(callable $tableCallback, string $expected, ?callable $rendererCallback = null)
     {
         $renderer = new Tsv();
 

@@ -19,7 +19,7 @@ use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation as ReferrerAnony
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
-use Piwik\Plugins\PrivacyManager\Settings\OrderIdAnonymization as OrderIdAnonymizationSetting;
+use Piwik\Plugins\Ecommerce\Settings\OrderIdAnonymization as OrderIdAnonymizationSetting;
 
 /**
  * @property bool $doNotTrackEnabled    Enable / Disable Do Not Track {@see DoNotTrackHeaderChecker}

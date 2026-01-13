@@ -1,5 +1,6 @@
 {
     "Actions": {
+        "ActionType": "Akció típusa",
         "ColumnActionURL": "Akció URL",
         "ColumnClicks": "Kattintások",
         "ColumnClicksDocumentation": "Erre a linkre történt kattintások száma.",
@@ -10,9 +11,9 @@
         "ColumnExitPageURL": "Kilépő oldal hivatkozás",
         "ColumnNoResultKeyword": "Kulcszó keresőtalálat nélkül",
         "ColumnPageName": "Weblap címe",
+        "ColumnPageURL": "Weblap URL-je",
         "ColumnPagesPerSearch": "Kereső találati oldalai",
         "ColumnPagesPerSearchDocumentation": "A látogatók keresni fognak az ön weboldalán és néha rákattintanak a \"következő\" gombra a további találatok miatt. Ez az átlagosan megtekintett keresési találatok száma erre a kulcsszóra.",
-        "ColumnPageURL": "Weblap URL-je",
         "ColumnSearchCategory": "Kategória keresés",
         "ColumnSearches": "Keresések",
         "ColumnSiteSearchKeywords": "Egyedi kulcsszavak",
@@ -25,23 +26,22 @@
         "ExitPageTitles": "Kilépő oldal név",
         "ExitPageTitlesReportDocumentation": "Ez a jelentés az adott idő alatt felmerült kilépési oldalak címeit és statisztikáit foglalja össze.",
         "OneSearch": "1 keresés",
-        "PagesReportDocumentation": "Ez a jelentés a megtekintett URL-ekről tartalmaz információkat. %s A tábla hierarchigusan van szervezve, az URL-ek mappaként jelennek meg.",
         "PageTitlesReportDocumentation": "Ez a jelentés a megtekintett oldalak címéről tartalmaz információkat. %1$s Az oldal címe a %2$s HTML Tag, amit a legtöbb bönkésző az ablak címsorában mutat.",
         "PageUrls": "Oldal hivatkozások",
+        "PagesReportDocumentation": "Ez a jelentés a megtekintett URL-ekről tartalmaz információkat. %s A tábla hierarchigusan van szervezve, az URL-ek mappaként jelennek meg.",
+        "PagesSubcategoryHelp3": "Használd a baloldali plusz és mínusz ikonokat a navigációhoz.",
         "SiteSearchKeyword": "Kulcsszó (Oldal keresés)",
+        "SubmenuPageTitles": "Weblapok címei",
         "SubmenuPagesEntry": "Belépési lapok",
         "SubmenuPagesExit": "Kilépési lapok",
-        "SubmenuPageTitles": "Weblapok címei",
         "SubmenuSitesearch": "Oldal keresés",
         "WidgetEntryPageTitles": "Belépési lapok címe",
         "WidgetExitPageTitles": "Kilépési lapok címe",
+        "WidgetPageTitles": "Oldalak címe",
         "WidgetPagesEntry": "Belépési lapok",
         "WidgetPagesExit": "Kilépési lapok",
-        "WidgetPageTitles": "Oldalak címe",
         "WidgetSearchCategories": "Keresés kategóriák",
         "WidgetSearchKeywords": "Oldal keresés kulcsszavak",
-        "WidgetSearchNoResultKeywords": "Kulcsszavak, melyekre nincs találat",
-        "ActionType": "Akció típusa",
-        "PagesSubcategoryHelp3": "Használd a baloldali plusz és mínusz ikonokat a navigációhoz."
+        "WidgetSearchNoResultKeywords": "Kulcsszavak, melyekre nincs találat"
     }
 }

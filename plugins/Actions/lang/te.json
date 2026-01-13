@@ -8,11 +8,11 @@
         "ColumnExitPageTitle": "Exit పేజి పేరు",
         "ColumnExitPageURL": "Exit పేజి URL",
         "ColumnPageName": "పుట పేరు",
-        "ColumnPagesPerSearch": "శోధన ఫలితాల పేజీలు",
         "ColumnPageURL": "పుట చిరునామా",
+        "ColumnPagesPerSearch": "శోధన ఫలితాల పేజీలు",
         "ColumnSearchCategory": "శోధన వర్గం",
-        "ColumnSearches": "శోధనలు",
         "ColumnSearchResultsCount": "శోధన ఫలితాల కౌంట్",
+        "ColumnSearches": "శోధనలు",
         "ColumnSiteSearchKeywords": "ప్రత్యేక కీవర్డ్లు",
         "ColumnUniqueClicks": "ప్రత్యేక క్లిక్",
         "ColumnUniqueDownloads": "ప్రత్యేక డౌన్ లోడ్",
@@ -21,9 +21,9 @@
         "ExitPageTitles": "నిష్క్రమణ పేజీ శీర్షికలు",
         "OneSearch": "1 శోధన",
         "PageUrls": "పేజీ URL లు",
+        "SubmenuPageTitles": "పుటల శీర్షికలు",
         "SubmenuPagesEntry": "ప్రవేశ పుటలు",
         "SubmenuPagesExit": "నిష్క్రమణ పుటలు",
-        "SubmenuPageTitles": "పుటల శీర్షికలు",
         "WidgetPageTitles": "పేజీ శీర్షికలు"
     }
 }

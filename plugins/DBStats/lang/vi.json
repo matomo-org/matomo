@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Cơ sở dữ liệu đang sử dụng",
-        "DataSize": "kích thước dữ liệu",
         "DBSize": "Kích thước cơ sở dữ liệu",
+        "DataSize": "kích thước dữ liệu",
+        "DatabaseUsage": "Cơ sở dữ liệu đang sử dụng",
         "EstimatedSize": "kích thước đã ước tính",
         "IndexSize": "kích thước chỉ mục",
         "LearnMore": "Để tìm hiểu thêm về cách Matomo xử lý dữ liệu và cách làm cho Matomo làm việc tốt với các trang web có lượng truy cập trung bình và cao, hãy xem tài liệu này: %s.",

@@ -5,10 +5,6 @@
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Châu lục",
         "Country": "Quốc gia",
-        "country_a1": "Proxy ẩn danh",
-        "country_a2": "Nhà cung cấp truyền hình vệ tinh",
-        "country_cat": "Cộng đồng nói tiếng Catalan",
-        "country_o1": "Quốc gia khác",
         "CurrentLocationIntro": "Theo nhà cung cấp này, vị trí hiện tại của bạn là",
         "DefaultLocationProviderDesc1": "Nhà cung cấp vị trí mặc định phỏng đoán quốc gia của người truy cập dựa trên ngôn ngữ mà họ sử dụng.",
         "DefaultLocationProviderExplanation": "Bạn đang sử dụng các nhà cung cấp vị trí mặc định, có nghĩa là Matomo sẽ đoán vị trí của khách truy cập dựa trên ngôn ngữ mà họ sử dụng. %1$s đọc %2$s này để tìm hiểu cách thiết lập định vị chính xác hơn.",
@@ -17,10 +13,6 @@
         "GeoIPDocumentationSuffix": "Theo thứ tự xem dữ liệu báo cáo này, bạn phải thiết lập GeoIP trong tab quản trị định vị. Cơ sở dữ liệu GeoIP %1$sMaxmind%2$s thương mại chính xác hơn những bản miễn phí. Để xem cách chính xác họ đang có, click %3$s tại đây %4$s.",
         "Geolocation": "Định vị",
         "GeolocationPageDesc": "Trên trang này bạn có thể thay đổi cách Matomo xác định địa điểm khách truy cập.",
-        "getCityDocumentation": "Báo cáo này cho thấy các thành phố khách truy cập của bạn đã ở khi họ truy cập website của bạn.",
-        "getContinentDocumentation": "Báo cáo này cho thấy lục địa khách truy cập của bạn đã ở khi họ truy cập website của bạn.",
-        "getCountryDocumentation": "Báo cáo này cho thấy quốc gia khách truy cập của bạn đã ở khi họ truy cập website của bạn.",
-        "getRegionDocumentation": "Báo cáo này cho thấy vùng miền khách truy cập của bạn đã ở khi họ truy cập website của bạn.",
         "Latitude": "Miền",
         "Location": "Vị trí",
         "LocationProvider": "Nhà cung cấp vị trí",
@@ -30,6 +22,14 @@
         "Region": "Vùng",
         "SubmenuLocations": "Các vị trí",
         "ToGeolocateOldVisits": "Để có được dữ liệu vị trí cho các truy cập cũ của bạn, sử dụng đoạn mã được mô tả %1$s tại đây %2$s",
-        "WidgetLocation": "Vị trí khách truy cập"
+        "WidgetLocation": "Vị trí khách truy cập",
+        "country_a1": "Proxy ẩn danh",
+        "country_a2": "Nhà cung cấp truyền hình vệ tinh",
+        "country_cat": "Cộng đồng nói tiếng Catalan",
+        "country_o1": "Quốc gia khác",
+        "getCityDocumentation": "Báo cáo này cho thấy các thành phố khách truy cập của bạn đã ở khi họ truy cập website của bạn.",
+        "getContinentDocumentation": "Báo cáo này cho thấy lục địa khách truy cập của bạn đã ở khi họ truy cập website của bạn.",
+        "getCountryDocumentation": "Báo cáo này cho thấy quốc gia khách truy cập của bạn đã ở khi họ truy cập website của bạn.",
+        "getRegionDocumentation": "Báo cáo này cho thấy vùng miền khách truy cập của bạn đã ở khi họ truy cập website của bạn."
     }
 }
