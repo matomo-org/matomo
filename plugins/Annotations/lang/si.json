@@ -1,1 +1,22 @@
-{}
+{
+    "Annotations": {
+        "AddAnnotationsFor": "",
+        "AnnotationOnDate": "",
+        "Annotations": "",
+        "ClickToDelete": "",
+        "ClickToEdit": "",
+        "ClickToEditOrAdd": "",
+        "ClickToStarOrUnstar": "",
+        "CreateNewAnnotation": "",
+        "EnterAnnotationText": "",
+        "HideAnnotationsFor": "",
+        "IconDesc": "",
+        "IconDescHideNotes": "",
+        "InlineQuickHelp": "",
+        "LoginToAnnotate": "",
+        "NoAnnotations": "",
+        "PluginDescription": "",
+        "ViewAndAddAnnotations": "",
+        "YouCannotModifyThisNote": ""
+    }
+}
