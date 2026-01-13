@@ -19,6 +19,8 @@ use Piwik\Log;
 use Piwik\Option;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\PagePerformance\Metrics;
 use Piwik\Plugins\UsersManager\Model as UserModel;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
@@ -309,7 +311,7 @@ class ScheduledReports extends \Piwik\Plugin
                 $processedReport['columns'] = $columns;
             }
 
-            $this->formatDurationMetrics($processedReport);
+            $this->formatPagePerformanceDurationMetrics($processedReport);
         }
     }
 
@@ -319,29 +321,36 @@ class ScheduledReports extends \Piwik\Plugin
      * @param array $processedReport
      * @return void
      */
-    private function formatDurationMetrics(array &$processedReport): void
+    private function formatPagePerformanceDurationMetrics(array &$processedReport): void
     {
-        if (empty($processedReport['metadata']['metricTypes'])) {
+        $reportData = $processedReport['reportData'] ?? null;
+        if (empty($processedReport['metadata']['metricTypes']) || !$reportData instanceof DataTable) {
             return;
         }
-        $columnIdsToDisregard = ['avg_time_on_site', 'avg_time_on_page'];
+        $metricsToAllow = $this->getPagePerformanceDurationMetrics();
         $durationColumns = [];
-        foreach ($processedReport['metadata']['metricTypes'] as $columnId => $metricType) {
-            if (!in_array($columnId, $columnIdsToDisregard) && $metricType === Dimension::TYPE_DURATION_S) {
-                $durationColumns[] = $columnId;
+
+        if (count($metricsToAllow) > 0) {
+            $durationTypes = [Dimension::TYPE_DURATION_S, Dimension::TYPE_DURATION_MS];
+            foreach ($processedReport['metadata']['metricTypes'] as $columnId => $metricType) {
+                if (in_array($columnId, $metricsToAllow) && in_array($metricType, $durationTypes)) {
+                    $durationColumns[] = $columnId;
+                }
             }
         }
-
         if (empty($durationColumns)) {
             return;
         }
 
-        $reportData = $processedReport['reportData'] ?? null;
-        if (!$reportData instanceof DataTable) {
-            return;
-        }
-
         $reportData->filter(ReformatToPrettyTimeAsSentence::class, [$durationColumns]);
+    }
+    private function getPagePerformanceDurationMetrics(): array
+    {
+        $performanceMetricsToAllow = [];
+        if (Manager::getInstance()->isPluginActivated('PagePerformance')) {
+            $performanceMetricsToAllow = array_keys(Metrics::getAllPagePerformanceMetrics());
+        }
+        return$performanceMetricsToAllow;
     }
 
     public function getRendererInstance(&$reportRenderer, $reportType, $outputType, $report)
