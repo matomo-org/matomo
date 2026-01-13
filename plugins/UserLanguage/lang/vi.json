@@ -2,6 +2,8 @@
     "UserLanguage": {
         "BrowserLanguage": "Ngôn ngữ trình duyệt",
         "LanguageCode": "Mã ngôn ngữ",
-        "PluginDescription": "Các báo cáo ngôn ngữ được sử dụng bởi trình duyệt người dùng của bạn."
+        "PluginDescription": "Các báo cáo ngôn ngữ được sử dụng bởi trình duyệt người dùng của bạn.",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }

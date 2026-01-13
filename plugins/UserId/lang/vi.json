@@ -1,7 +1,13 @@
 {
     "UserId": {
+        "PluginDescription": "Hiển thị báo cáo người dùng",
+        "ThereIsNoDataForThisReportHelp": "",
         "UserId": "ID người dùng",
+        "UserIdDisabledSettingRequirementNote": "",
+        "UserIdDisabledSettingTitle": "",
+        "UserIdSegmentHelp": "",
+        "UserReportDocumentation": "",
         "UserReportTitle": "ID người dùng",
-        "PluginDescription": "Hiển thị báo cáo người dùng"
+        "VisitorsUserSubcategoryHelp": ""
     }
 }
