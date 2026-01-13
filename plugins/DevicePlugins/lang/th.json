@@ -1,11 +1,5 @@
 {
     "DevicePlugins": {
-        "BrowserWithNoPluginsEnabled": "",
-        "BrowserWithPluginsEnabled": "",
-        "ColumnPercentageVisitsDocumentation": "",
-        "PluginDescription": "",
-        "PluginDetectionDoesNotWorkInIE": "",
-        "WidgetPlugins": "รายการปลั้กอิน",
-        "WidgetPluginsDocumentation": ""
+        "WidgetPlugins": "รายการปลั้กอิน"
     }
 }

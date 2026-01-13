@@ -1,11 +1,5 @@
 {
     "DevicePlugins": {
-        "BrowserWithNoPluginsEnabled": "",
-        "BrowserWithPluginsEnabled": "",
-        "ColumnPercentageVisitsDocumentation": "",
-        "PluginDescription": "",
-        "PluginDetectionDoesNotWorkInIE": "",
-        "WidgetPlugins": "Sirviku lisatarkvarad",
-        "WidgetPluginsDocumentation": ""
+        "WidgetPlugins": "Sirviku lisatarkvarad"
     }
 }

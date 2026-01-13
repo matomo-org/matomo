@@ -1,10 +1,5 @@
 {
     "DevicePlugins": {
-        "BrowserWithNoPluginsEnabled": "",
-        "BrowserWithPluginsEnabled": "",
-        "ColumnPercentageVisitsDocumentation": "",
-        "PluginDescription": "",
-        "PluginDetectionDoesNotWorkInIE": "",
         "WidgetPlugins": "Спіс плагінаў",
         "WidgetPluginsDocumentation": "Гэтая справаздача паказвае, якія плагіны были ўключаны ў браўзэраў Вашых наведвальнікаў. Гэтая інфармацыя можа мець важнае значэнне для выбару правільнага спосабу дастаўкі кантэнту."
     }

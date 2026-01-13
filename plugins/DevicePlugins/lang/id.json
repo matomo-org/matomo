@@ -2,7 +2,6 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s tanpa pengaya yang diaktifkan",
         "BrowserWithPluginsEnabled": "%1$s dengan pengaya %2$s yang diaktifkan",
-        "ColumnPercentageVisitsDocumentation": "",
         "PluginDescription": "Melaporkan daftar pengaya yang didukung di peramban pengunjung.",
         "PluginDetectionDoesNotWorkInIE": "Catatan: Deteksi pengaya tidak berfungsi di Internet Explorer sebelum versi 11. Laporan ini hanya didasarkan pada peramban non-IE dan versi IE yang lebih baru.",
         "WidgetPlugins": "Pengaya Peramban",

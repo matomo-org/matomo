@@ -2,7 +2,6 @@
     "DevicePlugins": {
         "BrowserWithNoPluginsEnabled": "%1$s без активирани плъгини",
         "BrowserWithPluginsEnabled": "%1$s с активирани плъгини %2$s",
-        "ColumnPercentageVisitsDocumentation": "",
         "PluginDescription": "Отчита списъка с плъгини, които се поддържат в браузърите на посетителите.",
         "PluginDetectionDoesNotWorkInIE": "Забележка: Откриването на плъгини не работи в Internet Explorer преди версия 11. Този отчет се базира само на браузъри, различни от IE, и по-нови версии на IE.",
         "WidgetPlugins": "Плъгини за браузър",
