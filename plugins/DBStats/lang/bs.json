@@ -2,20 +2,7 @@
     "DBStats": {
         "DBSize": "Veličina baze podataka",
         "DataSize": "Veličina podataka",
-        "DatabaseUsage": "",
-        "EstimatedSize": "",
-        "IndexSize": "",
-        "LearnMore": "",
-        "MainDescription": "",
-        "MetricDataByYear": "",
-        "MetricTables": "",
-        "OtherTables": "",
-        "PluginDescription": "",
-        "ReportDataByYear": "",
-        "ReportTables": "",
-        "RowCount": "",
         "Table": "Tabla",
-        "TotalSize": "Ukupna velična",
-        "TrackerTables": ""
+        "TotalSize": "Ukupna velična"
     }
 }

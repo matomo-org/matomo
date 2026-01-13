@@ -1,18 +1,13 @@
 {
     "DBStats": {
-        "DBSize": "",
         "DataSize": "حجم البيانات",
         "DatabaseUsage": "استهلاك قاعدة البيانات",
         "EstimatedSize": "الحجم التقريبي",
         "IndexSize": "حجم السجل",
         "LearnMore": "للإطلاع على المزيد حول كيفية معالجة Matomo للبيانات وكيفية ضبطه ليعمل على المواقع المتوسطة والكبيرة، انظر مستندات الدعم %s.",
         "MainDescription": "يقوم Matomo بتخزين كافة بيانات تحليلات ويب في قاعدة بيانات MySQL. حالياً، استهلك Matomo %s.",
-        "MetricDataByYear": "",
         "MetricTables": "جداول المعيار",
-        "OtherTables": "",
-        "PluginDescription": "",
         "ReportDataByYear": "جداول التقرير بالسنة",
-        "ReportTables": "",
         "RowCount": "عدد السطور",
         "Table": "الجدول",
         "TotalSize": "الحجم الإجمالي",

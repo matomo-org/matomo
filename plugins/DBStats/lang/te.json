@@ -1,21 +1,6 @@
 {
     "DBStats": {
-        "DBSize": "",
-        "DataSize": "",
-        "DatabaseUsage": "",
-        "EstimatedSize": "",
-        "IndexSize": "",
-        "LearnMore": "",
-        "MainDescription": "",
-        "MetricDataByYear": "",
-        "MetricTables": "",
         "OtherTables": "ఇతర పట్టికలు",
-        "PluginDescription": "",
-        "ReportDataByYear": "",
-        "ReportTables": "",
-        "RowCount": "",
-        "Table": "పట్టిక",
-        "TotalSize": "",
-        "TrackerTables": ""
+        "Table": "పట్టిక"
     }
 }

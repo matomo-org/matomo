@@ -5,17 +5,9 @@
         "DatabaseUsage": "Uporaba podatkovne baze",
         "EstimatedSize": "Ocenjena velikost",
         "IndexSize": "Velikost indeksa",
-        "LearnMore": "",
         "MainDescription": "Matomo shranjuje vse vaše podatke v MySQL bazo podatkov. Trenutna poraba podatkovne baze je %s.",
-        "MetricDataByYear": "",
-        "MetricTables": "",
-        "OtherTables": "",
-        "PluginDescription": "",
-        "ReportDataByYear": "",
-        "ReportTables": "",
         "RowCount": "Število vrst",
         "Table": "Tabela",
-        "TotalSize": "Skupna velikost",
-        "TrackerTables": ""
+        "TotalSize": "Skupna velikost"
     }
 }

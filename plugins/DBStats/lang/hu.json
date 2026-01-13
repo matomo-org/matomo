@@ -1,21 +1,12 @@
 {
     "DBStats": {
-        "DBSize": "",
         "DataSize": "Adatméret",
         "DatabaseUsage": "Adatbázis-használat",
-        "EstimatedSize": "",
         "IndexSize": "Indexméret",
         "LearnMore": "Ha többet szeretnél megtudni arról, hogyan dolgozza fel a Matomo az adatokat, és hogyan lehet mindezt hatékonyan megoldani közepes és nagyobb forgalommal rendelkező weboldalak esetén is, olvasd el a vonatkozó dokumentációt: %s",
         "MainDescription": "A Matomo egy MySQL adatbázisban tárolja a webanalitikai adatokat. Jelenleg a Matomo táblák a következőket használják: %s.",
-        "MetricDataByYear": "",
-        "MetricTables": "",
-        "OtherTables": "",
-        "PluginDescription": "",
-        "ReportDataByYear": "",
-        "ReportTables": "",
         "RowCount": "Sorok száma",
         "Table": "Táblázat",
-        "TotalSize": "Teljes méret",
-        "TrackerTables": ""
+        "TotalSize": "Teljes méret"
     }
 }

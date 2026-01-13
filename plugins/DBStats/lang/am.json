@@ -1,21 +1,10 @@
 {
     "DBStats": {
-        "DBSize": "",
         "DataSize": "የውሂብ መጠን",
         "DatabaseUsage": "የውሂብ ጎታ አጠቃቀም",
-        "EstimatedSize": "",
         "IndexSize": "የመረጃ ጠቋሚ መጠን",
-        "LearnMore": "",
         "MainDescription": "ፒዊክ የድር ምዘናዎቹን ውሂብ በመይ ኤስ ኪው ኤል ይውሂብ ጎታ ውስጥ በማከማቸት ላይ ነው። በአሁን ወቅት የፒዊክ ሰንጠረዦች እየተጠቀሙ ያሉት %s።",
-        "MetricDataByYear": "",
-        "MetricTables": "",
-        "OtherTables": "",
-        "PluginDescription": "",
-        "ReportDataByYear": "",
-        "ReportTables": "",
-        "RowCount": "",
         "Table": "ሰንጠረዥ",
-        "TotalSize": "አጠቃላይ መጠን",
-        "TrackerTables": ""
+        "TotalSize": "አጠቃላይ መጠን"
     }
 }

@@ -1,21 +1,11 @@
 {
     "DBStats": {
-        "DBSize": "",
         "DataSize": "Gagnastærð",
         "DatabaseUsage": "Notkun gagnagrunns",
-        "EstimatedSize": "",
         "IndexSize": "stærð vísitöflu",
-        "LearnMore": "",
         "MainDescription": "Matomo vistar öll vefgreiningagögn inn í MySQL gagnagrunn. Núna eru Matomo töflurnar að nota %s.",
-        "MetricDataByYear": "",
-        "MetricTables": "",
-        "OtherTables": "",
-        "PluginDescription": "",
-        "ReportDataByYear": "",
-        "ReportTables": "",
         "RowCount": "Fjöldi raða",
         "Table": "Tafla",
-        "TotalSize": "Heildarstærð",
-        "TrackerTables": ""
+        "TotalSize": "Heildarstærð"
     }
 }

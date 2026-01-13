@@ -7,15 +7,10 @@
         "IndexSize": "Saiz indeks",
         "LearnMore": "Untuk mengetahui lebih lanjut tentang cara Matomo memproses data dan cara menjadikan Matomo berfungsi dengan baik dengan tapak web trafik sederhana dan tinggi, lihat dokumentasi ini: %s.",
         "MainDescription": "Matomo menyimpan semua data analitik web anda dalam pangkalan data MySQL. Pada masa ini, jadual Matomo menggunakan %s ruang.",
-        "MetricDataByYear": "",
         "MetricTables": "Jadual Metrik",
         "OtherTables": "Jadual Lain",
-        "PluginDescription": "",
-        "ReportDataByYear": "",
         "ReportTables": "Jadual Laporan",
-        "RowCount": "",
         "Table": "Jadual",
-        "TotalSize": "Jumlah saiz",
-        "TrackerTables": ""
+        "TotalSize": "Jumlah saiz"
     }
 }

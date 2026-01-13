@@ -1,21 +1,12 @@
 {
     "DBStats": {
-        "DBSize": "",
         "DataSize": "משקל מידע",
         "DatabaseUsage": "צריכת מסד נתונים",
-        "EstimatedSize": "",
         "IndexSize": "משקל מפתח (index)",
         "LearnMore": "בכדי ללמוד עוד אודות כיצד Matomo מעבדת מידע וכיצד לשפר את ביצועיה של Matomo עבור אתרים בעלי תעבורה בינונית עד גבוהה, מומלץ להציץ במדריך %s.",
         "MainDescription": "Matomo מאכסנת את כל המידע אודות ניתוח פעילות הרשת במסד נתונים. כרגע, טבלאות Matomo צורכות %s.",
-        "MetricDataByYear": "",
-        "MetricTables": "",
-        "OtherTables": "",
-        "PluginDescription": "",
-        "ReportDataByYear": "",
-        "ReportTables": "",
         "RowCount": "מספר שורות",
         "Table": "טבלה",
-        "TotalSize": "משקל כולל",
-        "TrackerTables": ""
+        "TotalSize": "משקל כולל"
     }
 }
