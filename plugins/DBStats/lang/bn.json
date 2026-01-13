@@ -1,5 +1,21 @@
 {
     "DBStats": {
-        "Table": "সারণি"
+        "DBSize": "",
+        "DataSize": "",
+        "DatabaseUsage": "",
+        "EstimatedSize": "",
+        "IndexSize": "",
+        "LearnMore": "",
+        "MainDescription": "",
+        "MetricDataByYear": "",
+        "MetricTables": "",
+        "OtherTables": "",
+        "PluginDescription": "",
+        "ReportDataByYear": "",
+        "ReportTables": "",
+        "RowCount": "",
+        "Table": "সারণি",
+        "TotalSize": "",
+        "TrackerTables": ""
     }
 }

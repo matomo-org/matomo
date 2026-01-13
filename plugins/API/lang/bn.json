@@ -1,5 +1,18 @@
 {
     "API": {
-        "Glossary": "শব্দকোষ"
+        "ChangeTokenHint": "",
+        "EvolutionMetricName": "",
+        "GenerateVisits": "",
+        "Glossary": "শব্দকোষ",
+        "KeepTokenSecret": "",
+        "LearnAboutCommonlyUsedTerms2": "",
+        "LoadedAPIs": "",
+        "MainMetricsReportDocumentation": "",
+        "MoreInformation": "",
+        "PluginDescription": "",
+        "ReportingApiReference": "",
+        "TopLinkTooltip": "",
+        "UserAuthentication": "",
+        "UsingTokenAuth": ""
     }
 }
