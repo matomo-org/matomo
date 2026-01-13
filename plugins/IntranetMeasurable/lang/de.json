@@ -1,7 +1,8 @@
 {
     "IntranetMeasurable": {
         "Intranet": "Intranet Webseite",
-        "Intranets": "Intranet Webseiten",
-        "IntranetDescription": "Ein messbares Intranet ist wie eine Webseite, allerdings in einem internen Netzwerk gehostet."
+        "IntranetDescription": "Ein messbares Intranet ist wie eine Webseite, allerdings in einem internen Netzwerk gehostet.",
+        "IntranetLongDescription": "",
+        "Intranets": "Intranet Webseiten"
     }
 }

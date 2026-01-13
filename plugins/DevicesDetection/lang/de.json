@@ -43,6 +43,7 @@
         "MediaPlayer": "Medienplayer",
         "MobileApp": "Mobil-App",
         "MobileDevice": "Mobilgerät",
+        "OnlyMajorVersionsSettingRequirementNote": "",
         "OnlyMajorVersionsSettingTitle": "Nur Hauptversionen",
         "OperatingSystemCode": "Betriebssystem-Code",
         "OperatingSystemFamilies": "Betriebssystem-Familien",

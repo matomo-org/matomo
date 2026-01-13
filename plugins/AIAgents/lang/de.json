@@ -30,6 +30,9 @@
         "SparklineHumanVisits": "Menschliche Besuche",
         "WidgetGraphAIAgents": "KI-Agenten im Laufe der Zeit",
         "WidgetOverviewAIAgents": "Übersicht über KI-Agenten",
-        "ColumnAIAgentUsers": "KI-Agent Benutzer"
+        "ColumnAIAgentUsers": "KI-Agent Benutzer",
+        "AIAgentsOverviewSubcategoryDescription": "",
+        "SparklineAIAgentBounceRate": "",
+        "AIAgentsOverview": ""
     }
 }

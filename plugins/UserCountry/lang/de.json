@@ -23,6 +23,7 @@
         "GeolocationProviderUnavailable": "Der konfigurierte Anbieter (%1$s) zur Standortbestimmung ist nicht mehr verfügbar. Bitte setzen Sie einen anderen ein.",
         "HowToInstallGeoIPDatabases": "Woher bekommt man die Geolocation-Datenbanken?",
         "Latitude": "Breitengrad",
+        "LatitudeSegmentHelp": "",
         "Latitudes": "Breitengrade",
         "Location": "Ort",
         "LocationProvider": "Standorterkennungsdienst",
