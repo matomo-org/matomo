@@ -1,5 +1,9 @@
 {
     "UserLanguage": {
-        "LanguageCode": "Код мовы"
+        "BrowserLanguage": "",
+        "LanguageCode": "Код мовы",
+        "PluginDescription": "",
+        "getLanguageCodeDocumentation": "",
+        "getLanguageDocumentation": ""
     }
 }
