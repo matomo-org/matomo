@@ -91,8 +91,6 @@
         "SettingBruteForceTimeRange": "இந்த நேர வரம்பிற்குள் உள்நுழைவு முயற்சிகளை நிமிடங்களில் எண்ணுங்கள்",
         "SettingBruteForceTimeRangeHelp": "பல நிமிடங்களை உள்ளிடவும்.",
         "SettingBruteForceWhitelistIp": "இந்த ஐபிக்களை உள்நுழைவதை ஒருபோதும் தடுக்க வேண்டாம்",
-        "SettingPasswordStrengthCheck": "",
-        "SettingPasswordStrengthCheckHelp": "",
         "SuspiciousLoginAttemptsInLastHourEmail1": "கடைசி மணிநேரத்தில் உங்கள் மாடோமோ கணக்கில் சந்தேகத்திற்கு இடமின்றி அதிக எண்ணிக்கையிலான உள்நுழைவு முயற்சிகள் மேற்கொள்ளப்பட்டன. குறிப்பாக %1$s உள்நுழைவு முயற்சிகள் %2$s தனித்துவமான ஐபி முகவரிகளிலிருந்து. யாராவது உங்கள் கணக்கில் உடைக்க முயற்சிக்கிறார்கள்.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "பின்வருவனவற்றைச் செய்யுங்கள்:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "உங்கள் கடவுச்சொல் குறைந்தது 30 எழுத்துகளின் பாதுகாப்பான, சீரற்ற கடவுச்சொல் என்பதை உறுதிப்படுத்தவும்.",
