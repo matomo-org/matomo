@@ -103,8 +103,10 @@ class SessionAuth implements Auth
 
         $this->checkIfSessionFailedToRead();
 
-        if ($this->isExpiredSession($sessionFingerprint) ||
-            $this->isSessionLoginPluginInactive($sessionFingerprint)) {
+        if (
+            $this->isExpiredSession($sessionFingerprint) ||
+            $this->isSessionLoginPluginInactive($sessionFingerprint)
+        ) {
             $sessionFingerprint->clear();
             return $this->makeAuthFailure();
         }
