@@ -27,19 +27,6 @@ use Piwik\Widget\WidgetsList;
 class WidgetReportMapper
 {
     /**
-     * Manual overrides for widgets that cannot be matched automatically.
-     *
-     * The array key is a widget module/action pair (eg, 'UserCountry.getDistinctCountries').
-     * The value is the report unique ID that Scheduled Reports uses (eg, 'UserCountry_getCountry').
-     *
-     * Add entries here whenever a new widget controller action cannot be resolved through
-     * the default heuristics.
-     */
-    private const SPECIAL_CASES = [
-        // 'UserCountry.getDistinctCountries' => 'UserCountry_getCountry',
-    ];
-
-    /**
      * Builds a widget => report map for the supplied site.
      *
      * @param string $idSite
@@ -78,10 +65,6 @@ class WidgetReportMapper
 
             if (null === $reportId) {
                 $reportId = $this->guessReportIdFromHeuristics($widgetModule, $widgetAction, $reportIndex);
-            }
-
-            if (null === $reportId) {
-                $reportId = self::SPECIAL_CASES[$widgetKey] ?? null;
             }
 
             if (null === $reportId) {
