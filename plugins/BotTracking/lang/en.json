@@ -33,6 +33,24 @@
         "ReportTitleChatbotsOverTime": "AI Chatbots Over Time",
         "ReportTitleChatbotsOverview": "AI Chatbots Overview",
         "ChatbotsOverTimeReportDocumentation": "This report charts the evolution of AI chatbot activity. Click any metric to enlarge its graph and review the underlying trend.",
-        "ColumnAIChatbotName": "AI Chatbot Name"
+        "ColumnAIChatbotName": "AI Chatbot Name",
+        "DetectingYourSite": "Detecting your site…",
+        "NoDataWordPressInstructions": "Placeholder instructions for configuring BotTracking on WordPress.",
+        "NoDataCloudflareInstructions": "Placeholder instructions for configuring BotTracking with Cloudflare.",
+        "NoDataCloudFrontInstructions": "Placeholder instructions for configuring BotTracking with CloudFront.",
+        "NoDataHttpTrackingApi": "HTTP Tracking API",
+        "NoDataHttpTrackingApiDescription": "Use the %1$sTracking API knowledge base%2$s for setup guidance, and the %3$sHTTP Tracking API reference%4$s for all available parameters.",
+        "NoDataMissingOneContactUs": "Missing one? Contact us",
+        "SiteWithoutDataBackToMatomo": "Back to Matomo",
+        "SiteWithoutDataChooseTrackingMethod": "Choose your AI Chatbot Tracking Method",
+        "SiteWithoutDataChooseTrackingMethodPreamble1": "Track AI chatbots accessing your website to understand how your content is discovered and consumed by AI-powered assistants.",
+        "SiteWithoutDataChooseTrackingMethodPreamble2": "AI chatbots typically do not execute JavaScript. As a result, they are not tracked by default JavaScript-based analytics, and additional tracking configuration is required.",
+        "SiteWithoutDataInstallWithX": "Install with %1$s",
+        "SiteWithoutDataInstallWithXRecommendation": "Install AI Chatbots tracking with %1$s (recommended for you)",
+        "SiteWithoutDataNotYetReady": "Not ready to set up AI Chatbot Tracking just yet?",
+        "SiteWithoutDataOtherInstallMethods": "Other methods to track AI Chatbots",
+        "SiteWithoutDataOtherInstallMethodsIntro": "We offer multiple tracking paths - select the one that matches your setup.",
+        "SiteWithoutDataRecommendationText": "We have detected that your website is using %1$s, so you can set up AI Chatbots tracking using our official %1$s integration.",
+        "SiteWithoutDataStepByStepGuide": "Step-by-step guide"
     }
 }

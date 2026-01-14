@@ -41,9 +41,11 @@ class BotTracking extends Plugin
     public function registerEvents(): array
     {
         return [
+            'AssetManager.getStylesheetFiles'                   => 'getStylesheetFiles',
             'PrivacyManager.deleteLogsOlderThan'                => 'deleteLogsOlderThan',
             'PrivacyManager.deleteDataSubjectsForDeletedSites'  => 'deleteDataSubjectsForDeletedSites',
             'Tracker.isBotRequest'                              => 'isBotRequest',
+            'Translate.getClientSideTranslationKeys'            => 'getClientSideTranslationKeys',
             'Metrics.getEvolutionUnit'                          => 'getEvolutionUnit',
             'Metrics.getDefaultMetricTranslations'              => 'addMetricTranslations',
             'Metrics.getDefaultMetricDocumentationTranslations' => 'addMetricDocumentationTranslations',
@@ -135,5 +137,28 @@ class BotTracking extends Plugin
     public function addMetricSemanticTypes(array &$types): void
     {
         $types = array_merge($types, BotMetrics::getMetricSemanticTypes());
+    }
+
+    public function getClientSideTranslationKeys(&$translationKeys)
+    {
+        $translationKeys[] = 'BotTracking_DetectingYourSite';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataBackToMatomo';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataChooseTrackingMethod';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataChooseTrackingMethodPreamble1';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataChooseTrackingMethodPreamble2';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataInstallWithX';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataNotYetReady';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataOtherInstallMethods';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataOtherInstallMethodsIntro';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataInstallWithXRecommendation';
+        $translationKeys[] = 'BotTracking_SiteWithoutDataRecommendationText';
+        $translationKeys[] = 'General_ErrorRequest';
+        $translationKeys[] = 'General_Refresh';
+        $translationKeys[] = 'Mobile_NavigationBack';
+    }
+
+    public function getStylesheetFiles(&$stylesheets)
+    {
+        $stylesheets[] = "plugins/BotTracking/stylesheets/BotTracking.less";
     }
 }
