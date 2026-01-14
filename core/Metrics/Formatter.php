@@ -124,7 +124,7 @@ class Formatter
      * @return null|float|int
      * @param string $value
      */
-    public function convertPrettyTimeToSeconds($value)
+    public function getSecondsFromPrettyTime($value)
     {
         $stringValue = trim((string) $value);
         if ($stringValue === '') {
@@ -152,6 +152,15 @@ class Formatter
         }
 
         return $totalSeconds;
+    }
+
+    /**
+     * @param $value
+     * @return float
+     */
+    public function normalizeDurationMsType($value): float
+    {
+        return round(($value / 1000), ($value / 1000) > 60 ? 0 : 2);
     }
 
     /**

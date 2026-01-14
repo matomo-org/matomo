@@ -126,6 +126,14 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($numericExpected, $this->formatter->getPrettyTimeFromSeconds($seconds, $sentence = false));
     }
 
+    /**
+     * @dataProvider getNormalizeDurationMsTypeData
+     */
+    public function testNormalizeDurationMsTypeReturnsCorrectResult($value, $expected)
+    {
+        $this->assertSame($expected, $this->formatter->normalizeDurationMsType($value));
+    }
+
     public function getPrettyNumberTestData()
     {
         return array(
@@ -218,12 +226,27 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function getNormalizeDurationMsTypeData()
+    {
+        return array(
+            array(null, 0.0),
+            array(0, 0.0),
+            array(1001, 1.0),
+            array(59999, 60.0),
+            array(60000, 60.0),
+            array(60001, 60.0),
+            array(60500, 61.0),
+            array(600000, 600.0),
+            array(-61000, -61.0),
+        );
+    }
+
     /**
      * @dataProvider getConvertPrettyTimeToSecondsData
      */
     public function testConvertPrettyTimeToSeconds($value, $expected)
     {
-        $this->assertSame($expected, $this->formatter->convertPrettyTimeToSeconds($value));
+        $this->assertSame($expected, $this->formatter->getSecondsFromPrettyTime($value));
     }
 
     public function getConvertPrettyTimeToSecondsData()
