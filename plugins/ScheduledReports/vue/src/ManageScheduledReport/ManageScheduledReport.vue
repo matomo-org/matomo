@@ -510,15 +510,20 @@ export default defineComponent({
           idSite: Matomo.idSite,
         },
       ).then((e) => {
-        if (e && e.email) {
-          this.selectedReports = { email: { ...e.email } };
-        }
-        if (e && e.unmappedWidgets && e.unmappedWidgets.length) {
-          this.showDashboardExportInfo(
-            this.$refs.reportUpdatedSuccess as HTMLElement,
-            translate('ScheduledReports_WidgetsNotMappedToReports', e.unmappedWidgets.join(', ')),
-            false,
-          );
+        if (e) {
+          if (e.email) {
+            this.selectedReports = { email: { ...e.email } };
+          }
+          if (e.unmappedWidgets && e.unmappedWidgets.length) {
+            this.showDashboardExportInfo(
+              this.$refs.reportUpdatedSuccess as HTMLElement,
+              translate('ScheduledReports_WidgetsNotMappedToReports', e.unmappedWidgets.join(', ')),
+              false,
+            );
+          }
+          if (e.dashboardName) {
+            this.report.description = Matomo.helper.htmlDecode(e.dashboardName);
+          }
         }
       }).finally(() => {
         this.isWidgetReportMappingLoading = false;
