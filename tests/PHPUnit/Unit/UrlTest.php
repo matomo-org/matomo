@@ -90,10 +90,22 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['HTTPS'] = 'on';
         $_SERVER['HTTP_X_FORWARDED_PROTO'] = $proto;
+        Config::getInstance()->General['proxy_scheme_headers'] = ['HTTP_X_FORWARDED_PROTO'];
         $this->assertEquals($proto, Url::getCurrentScheme());
 
         unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
         unset($_SERVER['HTTPS']);
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
+    }
+
+    public function testGetCurrentSchemeIgnoresProxyHeaderWhenNotConfigured()
+    {
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
+
+        $this->assertEquals('http', Url::getCurrentScheme());
+
+        unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
     }
 
     /**
@@ -102,6 +114,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     public function testGetCurrentSchemeShouldDetectSecureFromHttpsHeader()
     {
         $_SERVER['HTTPS'] = 'on';
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
         $this->assertEquals('https', Url::getCurrentScheme());
 
         unset($_SERVER['HTTPS']);
@@ -112,6 +125,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetCurrentSchemeShouldBeHttpByDefault()
     {
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
         $this->assertEquals('http', Url::getCurrentScheme());
     }
 

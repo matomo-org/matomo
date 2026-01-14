@@ -710,6 +710,18 @@ multi_server_environment = 0
 ; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
 
+; List of proxy headers for scheme (http/https) detection.
+; If unset, Matomo will ignore proxy scheme headers by default.
+;
+; de facto standard (X-Forwarded-Proto)
+;proxy_scheme_headers[] = HTTP_X_FORWARDED_PROTO
+;
+; alternative header (X-Forwarded-Scheme)
+;proxy_scheme_headers[] = HTTP_X_FORWARDED_SCHEME
+;
+; alternative header (X-Url-Scheme)
+;proxy_scheme_headers[] = HTTP_X_URL_SCHEME
+
 ; List of proxy IP addresses (or IP address ranges) to skip (if present in the above headers).
 ; Generally, only required if there's more than one proxy between the visitor and the backend web server.
 ;
