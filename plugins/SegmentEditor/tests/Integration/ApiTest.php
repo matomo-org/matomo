@@ -249,7 +249,7 @@ class ApiTest extends IntegrationTestCase
     }
 
 
-    public function testUserCanNoLongerEditSegmentAfterSuperUserSharedItAccrossSites()
+    public function testUserCanNoLongerEditSegmentAfterSuperUserSharedItAcrossSites()
     {
         $segment = 'pageUrl=@%252F1';
         Fixture::createWebsite('2020-03-03 00:00:00');
@@ -298,13 +298,13 @@ class ApiTest extends IntegrationTestCase
         ]);
     }
 
-    public function testNormalUserCannotChangeSegmentScopeBetweenSites()
+    public function testNormalUserCannotChangeSegmentScopeBetweenSitesWhenNoPermissionForTargetSite()
     {
         $segment = 'pageUrl=@%252F1';
 
         FakeAccess::$identity    = 'normalUser';
         FakeAccess::$superUser   = false;
-        FakeAccess::$idSitesView = [1, 2];
+        FakeAccess::$idSitesView = [1];
 
         $idSegment = Request::processRequest('SegmentEditor.add', [
             'name'            => 'test segment',
@@ -315,7 +315,7 @@ class ApiTest extends IntegrationTestCase
         ]);
 
         self::expectException(\Exception::class);
-        self::expectExceptionMessage('Changing value for enable_only_idsite is permitted to super users only and only between global and site-specific segments.');
+        self::expectExceptionMessage('Changing value for enable_only_idsite requires permission to add segments for the target site.');
 
         Request::processRequest('SegmentEditor.update', [
             'idSegment'       => $idSegment,
@@ -327,7 +327,7 @@ class ApiTest extends IntegrationTestCase
         ]);
     }
 
-    public function testSuperUserCannotChangeSegmentScopeBetweenSites()
+    public function testUserCanChangeSegmentScopeBetweenSites()
     {
         $segment = 'pageUrl=@%252F1';
 
@@ -343,9 +343,6 @@ class ApiTest extends IntegrationTestCase
             'enabledAllUsers' => 0,
         ]);
 
-        self::expectException(\Exception::class);
-        self::expectExceptionMessage('Changing value for enable_only_idsite is permitted to super users only and only between global and site-specific segments.');
-
         Request::processRequest('SegmentEditor.update', [
             'idSegment'       => $idSegment,
             'name'            => 'test segment',
@@ -354,6 +351,9 @@ class ApiTest extends IntegrationTestCase
             'autoArchive'     => 0,
             'enabledAllUsers' => 0,
         ]);
+
+        $updatedSegment = $this->api->get($idSegment);
+        $this->assertSame(2, (int)$updatedSegment['enable_only_idsite']);
     }
 
     public function testSuperUserCanChangeSegmentScopeFromSiteToAllSites()
