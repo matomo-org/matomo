@@ -17,10 +17,8 @@ use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
-use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
 use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Plugins\ScheduledReports\WidgetReportMapperComplex;
 use Piwik\View;
 
 /**

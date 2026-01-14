@@ -167,7 +167,7 @@ class WidgetReportMapper
 
             if (!empty($reportMeta['parameters']) && is_array($reportMeta['parameters'])) {
                 $parameterValue = reset($reportMeta['parameters']);
-                $key .= '.'.$parameterValue;
+                $key .= '.' . $parameterValue;
             }
 
             if (!isset($index[$key])) {
