@@ -68,6 +68,8 @@
         "CreateTooltip": "You can send scheduled reports via Email, SMS, Slack, or Microsoft Teams. Choose your preferred delivery method when creating or updating a report.",
         "ReportWillBeSentAt": "The report will be sent at the selected hour in your local time zone.",
         "ReportHourEqualsUtc": "This corresponds to %s.",
-        "NoteDeliveryTime": "Note: The exact delivery time may vary depending on report generation."
+        "NoteDeliveryTime": "Note: The exact delivery time may vary depending on report generation.",
+        "SendingReport": "Sending report…",
+        "WidgetsNotMappedToReports": "Some dashboard widgets could not be mapped to scheduled report items: %s."
     }
 }

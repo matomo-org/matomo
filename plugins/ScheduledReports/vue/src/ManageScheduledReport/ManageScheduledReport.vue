@@ -86,6 +86,7 @@ import {
   MatomoUrl,
   MatomoLoader,
   NotificationsStore,
+  NotificationType,
   translate,
 } from 'CoreHome';
 import { Form } from 'CorePluginsAdmin';
@@ -102,6 +103,9 @@ interface ManageScheduledReportState {
   sendingReports: Array<string|number>;
   isWidgetReportMappingLoading: boolean;
 }
+
+type NotificationContext = NotificationType['context'];
+type NotificationKind = NotificationType['type'];
 
 function scrollToTop() {
   Matomo.helper.lazyScrollTo('.emailReports', 200);
@@ -319,13 +323,18 @@ export default defineComponent({
       this.report = report;
       this.report.description = Matomo.helper.htmlDecode(report.description);
     },
-    fadeInOutSuccessMessage(selector: HTMLElement, message: string, reload = true) {
+    showNotificationMessage(
+      selector: HTMLElement,
+      message: string,
+      context: NotificationContext = 'success',
+      type: NotificationKind = 'toast',
+    ) {
       NotificationsStore.show({
         message,
         placeat: selector,
-        context: 'success',
+        context,
         noclear: true,
-        type: 'toast',
+        type,
         style: {
           display: 'inline-block',
           marginTop: '10px',
@@ -333,7 +342,15 @@ export default defineComponent({
         },
         id: 'scheduledReportSuccess',
       });
-
+    },
+    fadeInOutSuccessMessage(selector: HTMLElement, message: string, reload = true) {
+      this.showNotificationMessage(selector, message);
+      if (reload) {
+        Matomo.helper.refreshAfter(2);
+      }
+    },
+    showDashboardExportInfo(selector: HTMLElement, message: string, reload = true) {
+      this.showNotificationMessage(selector, message, 'info', 'persistent');
       if (reload) {
         if (typeof sessionStorage !== 'undefined') {
           sessionStorage.setItem(PENDING_NOTIFICATION_KEY, message);
@@ -494,7 +511,14 @@ export default defineComponent({
         },
       ).then((e) => {
         if (e && e.email) {
-          this.selectedReports = { ...e };
+          this.selectedReports = { email: { ...e.email } };
+        }
+        if (e && e.unmappedWidgets && e.unmappedWidgets.length) {
+          this.showDashboardExportInfo(
+            this.$refs.reportUpdatedSuccess as HTMLElement,
+            translate('ScheduledReports_WidgetsNotMappedToReports', e.unmappedWidgets.join(', ')),
+            false,
+          );
         }
       }).finally(() => {
         this.isWidgetReportMappingLoading = false;

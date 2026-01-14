@@ -251,19 +251,29 @@ class API extends \Piwik\Plugin\API
 
         $layout = $this->getDashboardLayout((int) $dashId);
         if (empty($layout)) {
-            return [];
+            return [
+                'email' => [],
+                'unmappedWidgets' => [],
+            ];
         }
         $widgetIds = $this->extractWidgetIdsFromLayout($layout);
         $mapper = new WidgetReportMapper();
         $widgetReportMapping = $mapper->getMappingForSite($idSite);
         $reportMapping = [];
+        $unmappedWidgets = [];
+        $widgetNamesById = $this->getWidgetNamesById($widgetIds);
         foreach ($widgetIds as $widgetId) {
-            $reportKey = $widgetReportMapping[$widgetId];
+            $reportKey = $widgetReportMapping[$widgetId] ?? null;
             if ($reportKey) {
                 $reportMapping[$reportKey] = true;
+            } else {
+                $unmappedWidgets[] = $widgetNamesById[$widgetId] ?? $widgetId;
             }
         }
-        return ['email' => $reportMapping];
+        return [
+            'email' => $reportMapping,
+            'unmappedWidgets' => $unmappedWidgets,
+        ];
     }
 
     private function getDashboardLayout(int $dashId)
@@ -311,6 +321,28 @@ class API extends \Piwik\Plugin\API
             }
         }
         return $widgets;
+    }
+
+    /**
+     * @param string[] $widgetIds
+     * @return array<string, string>
+     */
+    private function getWidgetNamesById(array $widgetIds): array
+    {
+        $namesById = [];
+        $widgetIdLookup = array_fill_keys($widgetIds, true);
+
+        foreach (\Piwik\Widget\WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
+            $uniqueId = $widgetConfig->getUniqueId();
+            if (!isset($widgetIdLookup[$uniqueId])) {
+                continue;
+            }
+
+            $widgetName = $widgetConfig->getName();
+            $namesById[$uniqueId] = $widgetName ? Piwik::translate($widgetName) : $uniqueId;
+        }
+
+        return $namesById;
     }
 
     /**
