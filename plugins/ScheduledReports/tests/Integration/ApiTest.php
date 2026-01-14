@@ -19,6 +19,7 @@ use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Plugins\Dashboard\Model as DashboardModel;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Schedule;
@@ -26,6 +27,7 @@ use Piwik\Scheduler\Task;
 use Piwik\Site;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
+use Piwik\Widget\WidgetsList;
 use Exception;
 use ReflectionMethod;
 
@@ -48,7 +50,7 @@ class ApiTest extends IntegrationTestCase
         // setup the access layer
         self::setSuperUser();
         \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API', 'UserCountry', 'ScheduledReports',
-            'MobileMessaging', 'VisitsSummary', 'Referrers'));
+            'MobileMessaging', 'VisitsSummary', 'Referrers', 'Dashboard', 'Live'));
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         APISitesManager::getInstance()->addSite("Test", array("http://piwik.net"));
@@ -150,6 +152,52 @@ class ApiTest extends IntegrationTestCase
 
         $expectedEventArgs = [];
         $this->assertEquals($expectedEventArgs, $eventCalledWith);
+    }
+
+    public function testGetWidgetReportMapIncludesUnmappedWidgets()
+    {
+        $layout = json_encode([
+            [
+                [
+                    'uniqueId' => WidgetsList::getWidgetUniqueId('VisitsSummary', 'get'),
+                    'parameters' => [
+                        'module' => 'VisitsSummary',
+                        'action' => 'get',
+                    ],
+                ],
+            ],
+            [
+                [
+                    'uniqueId' => WidgetsList::getWidgetUniqueId('Live', 'widget'),
+                    'parameters' => [
+                        'module' => 'Live',
+                        'action' => 'widget',
+                    ],
+                ],
+            ],
+        ]);
+
+        $dashboardModel = new DashboardModel();
+        $dashboardModel->updateLayoutForUser(Piwik::getCurrentUserLogin(), 1, $layout);
+
+        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite);
+
+        $this->assertArrayHasKey('email', $result);
+        $this->assertArrayHasKey('unmappedWidgets', $result);
+        $this->assertArrayHasKey('VisitsSummary_get', $result['email']);
+        $this->assertNotEmpty($result['unmappedWidgets']);
+
+        $liveWidgetName = null;
+        $liveWidgetId = WidgetsList::getWidgetUniqueId('Live', 'widget');
+        foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
+            if ($widgetConfig->getUniqueId() === $liveWidgetId) {
+                $liveWidgetName = Piwik::translate($widgetConfig->getName());
+                break;
+            }
+        }
+
+        $this->assertNotEmpty($liveWidgetName);
+        $this->assertContains($liveWidgetName, $result['unmappedWidgets']);
     }
 
     /**
