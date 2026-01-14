@@ -34,6 +34,9 @@ final class Timer
      */
     private $writer;
 
+    /**
+     * @var array<string, array<string, mixed>>
+     */
     private $runs = [];
 
     /**
