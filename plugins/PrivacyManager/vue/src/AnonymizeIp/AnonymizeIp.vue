@@ -75,9 +75,9 @@
         <Field
           uicontrol="checkbox"
           :name="`anonymizeOrderId${idSiteSpecific}`"
-          :title="translate('PrivacyManager_UseAnonymizeOrderId')"
+          :title="translate('Ecommerce_UseAnonymizeOrderId')"
           v-model="actualAnonymizeOrderId"
-          :inline-help="translate('PrivacyManager_AnonymizeOrderIdNote')"
+          :inline-help="translate('Ecommerce_AnonymizeOrderIdNote')"
           :extra-metadata="getExtraMetadataForField('anonymizeOrderId')"
         >
         </Field>

@@ -1,6 +1,7 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Mayroon ka bang iuulat na bug o hihilinging feature?",
+        "Forums": "Mga Forum",
         "HowToCreateTicket": "Mangyaring basahin ang rekomendasyon sa mahusay na pagsusulat %1$sbug report%2$s o %3$sfeature request%4$s. Pagkatapos magrehistro o mag-login sa %5$sour issue tracker%6$s at gumawa ng %7$snew issue%8$s.",
         "IWantTo": "Gusto kong:",
         "LearnWaysToParticipate": "Pag-aralan ang lahat ng daan upang %1$s makasali sa %2$s",
@@ -16,7 +17,6 @@
         "TopLinkTooltip": "Sabihin sa amin ang iyong iniisip o humiling ng Propesyonal na Suporta.",
         "ViewAnswersToFAQ": "Ipakita ang sagot sa %1$s Mga Madalas Itanong %2$s",
         "ViewUserGuides": "Alamin kung paano i-configure ang Matomo at kung paano epektibong pag-aralan ang iyong data sa aming %1$suser gabay sa %2$s.",
-        "VisitTheForums": "Bisitahin ang mga %1$s Forum %2$s at makakuha ng tulong mula sa komunidad ng mga Matomo user.",
-        "Forums": "Mga Forum"
+        "VisitTheForums": "Bisitahin ang mga %1$s Forum %2$s at makakuha ng tulong mula sa komunidad ng mga Matomo user."
     }
 }

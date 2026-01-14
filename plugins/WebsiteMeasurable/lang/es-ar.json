@@ -1,7 +1,7 @@
 {
     "WebsiteMeasurable": {
         "Website": "Sitio web",
-        "Websites": "Sitios web",
-        "WebsiteDescription": "Un sitio web consiste de páginas web típicamente ofrecidas desde un dominio único."
+        "WebsiteDescription": "Un sitio web consiste de páginas web típicamente ofrecidas desde un dominio único.",
+        "Websites": "Sitios web"
     }
 }

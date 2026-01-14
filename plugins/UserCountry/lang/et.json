@@ -4,10 +4,6 @@
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinent",
         "Country": "Riik",
-        "country_a1": "Anonüümne vahendusserver",
-        "country_a2": "Satelliidi pakkuja",
-        "country_cat": "Katalaani kommuunid",
-        "country_o1": "Muu riik",
         "CurrentLocationIntro": "Antud pakkuja andmete alusel on sinu praegune asukoht",
         "DistinctCountries": "%s eri riigist",
         "FromDifferentCities": "erinevad linnad",
@@ -20,6 +16,10 @@
         "NoDataForGeoIPReport1": "Antud raporti jaoks puuduvad andmed, kuna Matomo asukoha andmebaas on tühi või külastajate IP aadresse ei ole olnud võimalik kaardil tuvastada.",
         "Region": "Regioon",
         "SubmenuLocations": "Asukohad",
-        "WidgetLocation": "Külastajate asukohad"
+        "WidgetLocation": "Külastajate asukohad",
+        "country_a1": "Anonüümne vahendusserver",
+        "country_a2": "Satelliidi pakkuja",
+        "country_cat": "Katalaani kommuunid",
+        "country_o1": "Muu riik"
     }
 }

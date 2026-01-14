@@ -1,7 +1,7 @@
 {
     "MobileAppMeasurable": {
         "MobileApp": "Mobilna aplikacija",
-        "MobileApps": "Mobilne aplikacije",
-        "MobileAppDescription": "Nativne mobilne aplikacije za iOS, Android i ostale mobilne operativne sisteme."
+        "MobileAppDescription": "Nativne mobilne aplikacije za iOS, Android i ostale mobilne operativne sisteme.",
+        "MobileApps": "Mobilne aplikacije"
     }
 }

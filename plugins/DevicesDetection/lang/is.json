@@ -5,8 +5,8 @@
         "Browsers": "Vafrar",
         "ColumnBrowser": "Vafri",
         "ColumnOperatingSystem": "Stýrikerfi",
-        "dataTableLabelTypes": "Tegund",
         "OperatingSystems": "Stýrikerfi",
-        "WidgetBrowsers": "Vafrar gesta"
+        "WidgetBrowsers": "Vafrar gesta",
+        "dataTableLabelTypes": "Tegund"
     }
 }

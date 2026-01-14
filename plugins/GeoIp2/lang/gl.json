@@ -1,7 +1,7 @@
 {
     "GeoIp2": {
-        "DownloadingDb": "A descargar %s",
         "DownloadNewDatabasesEvery": "Actualizar as bases de datos cada",
+        "DownloadingDb": "A descargar %s",
         "UpdaterHasNotBeenRun": "O actualizador non foi executado nunca.",
         "UpdaterIsNotScheduledToRun": "Non está planificado para ser executado no futuro.",
         "UpdaterScheduledForNextRun": "Está planificado para ser executado durante a próxima execución da orde core:archive de cron.",

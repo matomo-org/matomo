@@ -3,18 +3,18 @@
         "BrowserEngine": "Brskalnik",
         "BrowserEngines": "Pogoni brskalnikov",
         "BrowserFamily": "Družina brskalnika",
-        "Browsers": "Brskalniki",
         "BrowserVersion": "Različica brskalnika",
+        "Browsers": "Brskalniki",
         "ColumnBrowser": "Brskalnik",
         "ColumnOperatingSystem": "Operacijski sistem",
-        "dataTableLabelTypes": "Tip",
         "DeviceBrand": "Znamka naprave",
         "DeviceModel": "Model naprave",
-        "DevicesDetection": "Naprave obiskovalcev",
         "DeviceType": "Tip naprave",
+        "Devices": "Naprave",
+        "DevicesDetection": "Naprave obiskovalcev",
         "OperatingSystemFamilies": "Družine operacijskih sistemov",
         "OperatingSystems": "Operacijski sistemi",
-        "Devices": "Naprave",
-        "WidgetBrowsers": "Brskalnik obiskovalca"
+        "WidgetBrowsers": "Brskalnik obiskovalca",
+        "dataTableLabelTypes": "Tip"
     }
 }

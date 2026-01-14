@@ -96,7 +96,6 @@
         "TermsAndConditions": "Käyttöehdot",
         "TrackingOptOut": "Anna käyttäjien poistua seurannasta",
         "UseAnonymizeIp": "Anonymisoi kävijöiden IP-osoitteet",
-        "UseAnonymizeOrderId": "Anonymisoi tilauksen ID",
         "UseAnonymizeTrackingData": "Anonymisoi seurantatiedot",
         "UseAnonymizeUserId": "Anonymisoi käyttäjän ID",
         "UseAnonymizedIpForVisitEnrichment": "Käytä piilotettuja IP-osoitteita myös käyntejä rikastettaessa.",

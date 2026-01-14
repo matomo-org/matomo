@@ -1,6 +1,6 @@
 {
     "Login": {
-        "InvalidUsernameEmail": "שם משתמש ו\/או אימייל לא תקניים",
+        "InvalidUsernameEmail": "שם משתמש ו/או אימייל לא תקניים",
         "LogIn": "התחברות",
         "LoginPasswordNotCorrect": "שם משתמש וסיסמה אינם תואמים",
         "LostYourPassword": "שכחת סיסמה?",

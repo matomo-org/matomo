@@ -2,12 +2,12 @@
     "UserCountry": {
         "Continent": "Kontinens",
         "Country": "Ország",
+        "DistinctCountries": "%s különböző ország",
+        "Location": "Hely",
+        "SubmenuLocations": "Helyek",
         "country_a1": "Anonim proxy",
         "country_a2": "Szatellit szolgáltató",
         "country_cat": "Katalán közösségek",
-        "country_o1": "Egyéb ország",
-        "DistinctCountries": "%s különböző ország",
-        "Location": "Hely",
-        "SubmenuLocations": "Helyek"
+        "country_o1": "Egyéb ország"
     }
 }

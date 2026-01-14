@@ -1,6 +1,7 @@
 {
     "Feedback": {
         "DoYouHaveBugReportOrFeatureRequest": "Doreşti să raportezi o problemă sau să propui o înbunătăţire?",
+        "Forums": "Forumuri",
         "IWantTo": "Doresc să:",
         "LearnWaysToParticipate": "Invata despre toate modalitatile in care poti %1$s participa%2$s",
         "ManuallySendEmailTo": "Va rugam trimiteti manual mesajul dvs catre",
@@ -15,7 +16,6 @@
         "TopLinkTooltip": "Transmiteti-ne parerea Dvs sau cereti Support Profesional.",
         "ViewAnswersToFAQ": "Vedeti raspunsurile la %1$sIntrebari Frecvente(FAQ)%2$s",
         "ViewUserGuides": "Invata cum sa configurezi Matomo si cum sa analizezi datele eficient cu %1$sghidurile de utilizare%2$s",
-        "VisitTheForums": "Vizitati %1$s Forumurile%2$s si primiti ajutor de la comunitatea de utilizatori Matomo.",
-        "Forums": "Forumuri"
+        "VisitTheForums": "Vizitati %1$s Forumurile%2$s si primiti ajutor de la comunitatea de utilizatori Matomo."
     }
 }

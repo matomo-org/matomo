@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Iskorišćenost baze",
-        "DataSize": "Veličina podatka",
         "DBSize": "Veličina baze",
+        "DataSize": "Veličina podatka",
+        "DatabaseUsage": "Iskorišćenost baze",
         "EstimatedSize": "Procenjena veličina",
         "IndexSize": "Veličina indeksa",
         "LearnMore": "Ukoliko želite da naučite više o tome kako Matomo procesira podatke i kako da ga naterate da dobro radi sa srednjim i velikim sajtovima, proučite dokumentaciju %s.",

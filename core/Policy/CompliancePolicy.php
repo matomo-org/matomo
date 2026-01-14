@@ -43,12 +43,37 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     abstract public static function getName(): string;
     abstract public static function getTitle(): string;
     abstract protected static function generateDescription(): string;
+    abstract protected static function generateWarnings(): string;
 
     public static function getDescription(): string
     {
         $description = static::generateDescription();
 
+        /**
+         * This event is triggered while the description of a compliance policy is
+         * being generated. The policy description can be modified via this event.
+         *
+         * @param string &$description of the policy.
+         */
         Piwik::postEvent('CompliancePolicy.updatePolicyDescription', [&$description, static::class]);
+
+        $shouldShowWarnings = true;
+
+        /**
+         * This event is triggered while the description of a compliance policy is
+         * being generated, and controls whether any warnings specific to the policy
+         * are displayed at the end of the description.
+         *
+         * @param bool &$shouldShowWarnings set to false if the warnings should be hidden
+         */
+        Piwik::postEvent('CompliancePolicy.shouldShowWarnings', [&$shouldShowWarnings, static::class]);
+
+        if ($shouldShowWarnings) {
+            $warnings = static::generateWarnings();
+            if (!empty($warnings)) {
+                $description .= ' ' . static::generateWarnings();
+            }
+        }
 
         return $description;
     }

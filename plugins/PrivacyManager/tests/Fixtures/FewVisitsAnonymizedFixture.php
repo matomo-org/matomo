@@ -46,7 +46,7 @@ class FewVisitsAnonymizedFixture extends Fixture
         // empty
     }
 
-    private function getPrivacyConfig(int $idSite = null)
+    private function getPrivacyConfig(?int $idSite = null)
     {
         return new Config($idSite);
     }

@@ -74,7 +74,7 @@ Segmentation = (function($) {
         segmentation.prototype.setTooltip = function (segmentDescription) {
           var title = _pk_translate('SegmentEditor_ChooseASegment') + '.';
           title += ' '+ _pk_translate('SegmentEditor_CurrentlySelectedSegment', [segmentDescription]);
-          addTooltip($('a.title', this.content), title);
+          $('a.title', this.content).attr('title', title);
         };
         // We will listen to changes in the Segment Comparison Store
         // so we can mark compared segments properly. This will now include deletion of compared segments.
@@ -111,10 +111,10 @@ Segmentation = (function($) {
               }
               if (comparedSegmentsLength >= limit) {
                 $compareButton.attr('data-state','disabled');
-                addTooltip($compareButton, _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
+                $compareButton.attr('title', _pk_translate('General_MaximumNumberOfSegmentsComparedIs', [limit]));
               } else {
                 $compareButton.attr('data-state','');
-                addTooltip($compareButton, _pk_translate('SegmentEditor_CompareThisSegment'));
+                $compareButton.attr('title', _pk_translate('SegmentEditor_CompareThisSegment'));
               }
             });
             return false;
@@ -697,7 +697,7 @@ Segmentation = (function($) {
         function updateStarSegmentTooltip($segment, segment) {
           const $starButton = $segment.find('.starSegment');
           const canEdit = getIsUserCanEditSegment(segment);
-          addTooltip($starButton, getStarSegmentTitle(segment, canEdit));
+          $starButton.attr('title', getStarSegmentTitle(segment, canEdit));
         }
 
         function updateStarredSegment($segment, segment, isError = false) {
@@ -710,15 +710,6 @@ Segmentation = (function($) {
           $segment.toggleClass('segmentStarAnimation', !isError);
           $segment.toggleClass('segmentStarErrorAnimation', isError);
         }
-
-        function addTooltip(element, title) {
-          $(element).attr('title', title).tooltip({
-            track: true,
-            show: { delay: 700, duration: 200 }, // default from Tooltips.js
-            hide: false,
-            content: title,
-          });
-        };
 
         function openEditFormGivenSegment(option) {
             var idsegment = option.attr("data-idsegment");
@@ -1015,8 +1006,10 @@ Segmentation = (function($) {
             var segmentIsSet = this.getSegment().length;
             toggleLoadingMessage(segmentIsSet);
 
-            self.target.find('[title]').each(function () {
-              addTooltip(this, this.getAttribute('title'));
+            $(self.target).tooltip({
+              track: true,
+              show: { delay: 700, duration: 200 }, // default from Tooltips.js
+              hide: false,
             });
         };
 

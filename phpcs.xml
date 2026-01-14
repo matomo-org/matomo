@@ -16,7 +16,7 @@
     <!-- exclude all plugins included as submodule as long as they might not fully follow this CS -->
     <exclude-pattern>plugins/(AnonymousPiwikUsageMeasurement|Bandwidth|CustomAlerts|CustomVariables|DeviceDetectorCache|LogViewer|LoginLdap|MarketingCampaignsReporting|Provider|QueuedTracking|SecurityInfo|TagManager|TasksTimetable|TrackingSpamPrevention|TreemapVisualization|VisitorGenerator)/*</exclude-pattern>
 
-    <rule ref="Matomo"></rule>
+    <rule ref="Matomo" />
 
     <rule ref="Generic.Files.LineLength">
         <properties>
@@ -32,5 +32,6 @@
         <exclude-pattern>plugins/*/tests/*</exclude-pattern>
     </rule>
 
-    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"></rule>
+    <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma" />
+    <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue" />
 </ruleset>
