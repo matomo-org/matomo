@@ -105,7 +105,7 @@ final class Timer
         $this->runs[$key]['ts_started'] = date('Y-m-d H:i:s', (int) $this->runs[$key]['timeStarted']);
         $this->runs[$key]['totalTime'] = $totalTimeMs;
         $this->runs[$key]['timeFinished'] = $finishedAt;
-        $this->runs[$key]['ts_finished'] = $this->clock->now();
+        $this->runs[$key]['ts_finished'] = date('Y-m-d H:i:s', (int) $this->runs[$key]['timeFinished']);
 
         $exclusiveTimeMs = $this->calculateExclusiveTime($key);
         $this->runs[$key]['exclusiveTime'] = $exclusiveTimeMs;
