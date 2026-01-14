@@ -40,7 +40,7 @@ final class Timer
     private $runs = [];
 
     /**
-     * @var Timer
+     * @var ?Timer
      */
     private static $instance;
 
@@ -67,6 +67,14 @@ final class Timer
 
         self::$instance = new self($isArchivePhpTriggered, $clock, $writer);
         return self::$instance;
+    }
+
+    /**
+     * @internal For tests only.
+     */
+    public static function resetInstanceForTests(): void
+    {
+        self::$instance = null;
     }
 
     public function start(Context $context): void
