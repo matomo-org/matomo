@@ -10,22 +10,29 @@
 namespace Piwik\Updates;
 
 use Piwik\Config;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 use Piwik\Updater;
 
 class Updates_5_7_0_b3 extends Updates
 {
-    public function doUpdate(Updater $updater)
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
+    public function getMigrations(Updater $updater)
     {
         $config = Config::getInstance();
         $generalLocal = $config->getFromLocalConfig('General');
 
         if (!is_array($generalLocal)) {
-            return;
-        }
-
-        if (array_key_exists('proxy_scheme_headers', $generalLocal)) {
-            return;
+            return [];
         }
 
         $proxyKeys = [
@@ -44,17 +51,24 @@ class Updates_5_7_0_b3 extends Updates
             }
         }
 
-        if (!$hasProxyConfig) {
-            return;
+        if (
+            !$hasProxyConfig
+            || array_key_exists('proxy_scheme_headers', $generalLocal)
+        ) {
+            return [];
         }
 
-        $general = $config->General;
-        $general['proxy_scheme_headers'] = [
-            'HTTP_X_FORWARDED_PROTO',
-            'HTTP_X_FORWARDED_SCHEME',
-            'HTTP_X_URL_SCHEME',
+        return [
+            $this->migration->config->set('General', 'proxy_scheme_headers', [
+                'HTTP_X_FORWARDED_PROTO',
+                'HTTP_X_FORWARDED_SCHEME',
+                'HTTP_X_URL_SCHEME',
+            ]),
         ];
-        $config->General = $general;
-        $config->forceSave();
+    }
+
+    public function doUpdate(Updater $updater)
+    {
+        $updater->executeMigrations(__FILE__, $this->getMigrations($updater));
     }
 }

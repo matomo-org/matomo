@@ -28,7 +28,7 @@ class Set extends Migration
     private $key;
 
     /**
-     * @var string
+     * @var scalar|scalar[]
      */
     private $value;
 
@@ -44,6 +44,12 @@ class Set extends Migration
     {
         $domain = Config::getLocalConfigPath() == Config::getDefaultLocalConfigPath() ? '' : Config::getHostname();
         $domainArg = !empty($domain) ? "--matomo-domain=\"$domain\" " : '';
+
+        if (is_array($this->value)) {
+            $assignment = sprintf('%s.%s=%s', $this->section, $this->key, json_encode($this->value));
+            $assignment = str_replace("'", "'\"'\"'", $assignment);
+            return sprintf("./console %sconfig:set '%s'", $domainArg, $assignment);
+        }
 
         return sprintf('./console %sconfig:set --section="%s" --key="%s" --value="%s"', $domainArg, $this->section, $this->key, $this->value);
     }

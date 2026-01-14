@@ -1831,11 +1831,6 @@ parameters:
 			path: core/Profiler.php
 
 		-
-			message: "#^Method Piwik\\\\ProxyHeaders\\:\\:getProtocolInformation\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: core/ProxyHeaders.php
-
-		-
 			message: "#^Call to an undefined method HTML_QuickForm2_Renderer_Proxy\\:\\:toArray\\(\\)\\.$#"
 			count: 1
 			path: core/QuickForm2.php
