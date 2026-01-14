@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\ScheduledReports;
 
 use Piwik\Plugins\API\API as ReportsApi;
+use Piwik\Plugins\Events\Widgets\EventsByDimension;
 use Piwik\Report\ReportWidgetConfig;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Widget\WidgetsList;
@@ -40,7 +41,11 @@ class WidgetReportMapper
         $mapping = [];
         $widgetsConfigs = WidgetsList::get()->getWidgetConfigs();
         foreach ($widgetsConfigs as $widgetConfig) {
-            if (!$this->shouldMapWidget($widgetConfig)) {
+            $widgetUniqueId = $widgetConfig->getUniqueId();
+            if ($widgetConfig instanceof EventsByDimension) {
+                $this->getEventsWidgetMapping($widgetConfig, $mapping);
+                continue;
+            } else if (!$this->shouldMapWidget($widgetConfig)) {
                 continue;
             }
 
@@ -68,15 +73,11 @@ class WidgetReportMapper
             }
 
             if (null === $reportId) {
-                $reportId = $this->mapFunnelsWidgetIdToReportId($widgetConfig->getUniqueId());
+                $reportId = $this->mapFunnelsWidgetIdToReportId($widgetUniqueId);
             }
 
             if (null === $reportId) {
-                $reportId = $this->mapGoalsWidgetIdToReportId($widgetConfig->getUniqueId());
-            }
-
-            if (null === $reportId) {
-                $reportId = $this->mapEventsWidgetIdToReportId($widgetConfig->getUniqueId());
+                $reportId = $this->mapGoalsWidgetIdToReportId($widgetUniqueId);
             }
 
             if (null === $reportId) {
@@ -95,7 +96,6 @@ class WidgetReportMapper
 
         return $mapping;
     }
-
     /**
      * Maps a JSON array of widget unique IDs to Scheduled Reports report IDs.
      *
@@ -237,7 +237,17 @@ class WidgetReportMapper
 
         return 'Goals_get_idGoal--' . $matches[1];
     }
-
+    private function getEventsWidgetMapping(EventsByDimension $widgetConfig, array &$mapping)
+    {
+        foreach ($widgetConfig->getWidgetConfigs() as $configs) {
+            $params = $configs->getParameters();
+            $widgetUniqueId = $configs->getUniqueId();
+            $reportId = $this->mapEventsWidgetIdToReportId($widgetUniqueId);
+            if ($reportId) {
+                $mapping[$widgetUniqueId] = $reportId;
+            }
+        }
+    }
     private function mapEventsWidgetIdToReportId(string $widgetId): ?string
     {
         if (!preg_match('/^widgetEventsget(Action|Name|Category)secondaryDimension/', $widgetId, $matches)) {
