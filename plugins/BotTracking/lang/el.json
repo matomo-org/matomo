@@ -16,6 +16,10 @@
         "ColumnPageRequests": "Αιτήσεις σελίδων",
         "ColumnPageRequestsDocumentation": "Συνολικός αριθμός αιτήσεων μποτ για διευθύνσεις URL σελίδων που καταγράφηκαν στην επιλεγμένη περίοδο.",
         "ColumnRequests": "Αιτήσεις",
-        "ColumnRequestsDocumentation": "Συνολικός αριθμός αιτήσεων μποτ που καταγράφηκαν στην επιλεγμένη περίοδο. Περιλαμβάνει τόσο τις διευθύνσεις URL για σελίδες και έγγραφα."
+        "ColumnRequestsDocumentation": "Συνολικός αριθμός αιτήσεων μποτ που καταγράφηκαν στην επιλεγμένη περίοδο. Περιλαμβάνει τόσο τις διευθύνσεις URL για σελίδες και έγγραφα.",
+        "ColumnUniquePageUrls": "Μοναδικές διευθύνσεις URL σελίδων",
+        "ColumnUniquePageUrlsDocumentation": "Μοναδικές διευθύνσεις URL που αιτήθηκαν οι βοηθοί ΤΝ.",
+        "ColumnUniqueDocumentUrls": "Μοναδικές διευθύνσεις URL εγγράφων",
+        "ColumnUniqueDocumentUrlsDocumentation": "Μοναδικές διευθύνσεις URL εγγράφων και μεταφορτώσεων που αιτούνται οι βοηθοί ΤΝ."
     }
 }
