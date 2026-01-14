@@ -59,6 +59,7 @@
         "JavascriptDisabled": "JavaScript muss aktiviert sein, um die Standardansicht von Matomo zu benutzen.<br>Es scheint jedoch so, als wäre JavaScript bei Ihnen deaktiviert bzw. würde nicht von Ihrem Browser unterstützt.<br>Um die Standardansicht zu benutzen, aktivieren Sie JavaScript in Ihren Browseroptionen und %1$sversuchen Sie es erneut%2$s.<br>",
         "JsDidntLoad": "Ihr Browser war nicht in der Lage die Skripte der Seite zu laden.",
         "LeadingAnalyticsPlatformRespectsYourPrivacy": "Die führende Open-Source-Analyseplattform, die Ihre Privatsphäre achtet.",
+        "LearnMoreFullStop": "%1$sErfahren Sie mehr.%2$s",
         "MacPageDown": "Fn + Pfeil nach Rechts",
         "MacPageUp": "Fn + Pfeil nach Links",
         "MainNavigation": "Hauptnavigation",
