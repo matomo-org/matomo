@@ -42,10 +42,10 @@ class WidgetReportMapper
     /**
      * Builds a widget => report map for the supplied site.
      *
-     * @param int $idSite
+     * @param string $idSite
      * @return array<string, string> map of widget unique IDs => report unique IDs
      */
-    public function getMappingForSite(int $idSite): array
+    public function getMappingForSite(string $idSite): array
     {
         $reports = ReportsApi::getInstance()->getReportMetadata($idSite);
         $reportIndex = $this->indexReportsByModuleAndAction($reports);
@@ -104,14 +104,12 @@ class WidgetReportMapper
     /**
      * Maps a JSON array of widget unique IDs to Scheduled Reports report IDs.
      *
-     * @param [] $dashboardWidgetsJson JSON array of widget unique IDs (eg, ["widgetId1","widgetId2"])
-     * @param int $idSite
+     * @param array $widgetIds
+     * @param string $idSite
      * @return string[]
      */
-    public function mapDashboardWidgetsJsonToReportIds(array $widgetIds, int $idSite): array
+    public function mapDashboardWidgetsJsonToReportIds(array $widgetIds, string $idSite): array
     {
-//        $widgetIds = json_decode($dashboardWidgetsJson, true);
-
         if (!is_array($widgetIds)) {
             return [];
         }
@@ -184,43 +182,6 @@ class WidgetReportMapper
      * @param array<string, mixed>[] $reports
      * @return array<string, string>
      */
-    private function indexReportsByModuleActionAndParameter(array $reports, string $parameterName): array
-    {
-        $index = [];
-
-        foreach ($reports as $reportMeta) {
-            if (empty($reportMeta['module']) || empty($reportMeta['action']) || empty($reportMeta['uniqueId'])) {
-                continue;
-            }
-
-            $parameterValue = $reportMeta[$parameterName] ?? null;
-            if (null === $parameterValue && !empty($reportMeta['parameters'][$parameterName])) {
-                $parameterValue = $reportMeta['parameters'][$parameterName];
-            }
-
-            if (null === $parameterValue) {
-                continue;
-            }
-
-            $parameterValue = (int) $parameterValue;
-            if ($parameterValue < 1) {
-                continue;
-            }
-
-            $key = $reportMeta['module'] . '.' . $reportMeta['action'] . '.' . $parameterValue;
-
-            if (!isset($index[$key])) {
-                $index[$key] = $reportMeta['uniqueId'];
-            }
-        }
-
-        return $index;
-    }
-
-    /**
-     * @param array<string, mixed>[] $reports
-     * @return array<string, string>
-     */
     private function buildMappingFromReportMetadata(array $reports): array
     {
         $mapping = [];
@@ -244,39 +205,6 @@ class WidgetReportMapper
         }
 
         return $mapping;
-    }
-
-    /**
-     * @param WidgetConfig $config
-     * @param array<string, string> $reportIndexByParameter
-     * @param string $module
-     * @param string $action
-     * @param string $parameterName
-     * @return string|null
-     */
-    private function getReportIdForParameterWidget(
-        WidgetConfig $config,
-        array $reportIndexByParameter,
-        string $module,
-        string $action,
-        string $parameterName
-    ): ?string {
-        if ($config->getModule() !== $module || $config->getAction() !== $action) {
-            return null;
-        }
-
-        $parameters = $config->getParameters();
-        if (empty($parameters[$parameterName])) {
-            return null;
-        }
-
-        $parameterValue = (int) $parameters[$parameterName];
-        if ($parameterValue < 1) {
-            return null;
-        }
-
-        $key = $module . '.' . $action . '.' . $parameterValue;
-        return $reportIndexByParameter[$key] ?? null;
     }
 
     /**
