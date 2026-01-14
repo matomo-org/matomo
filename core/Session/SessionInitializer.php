@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Auth as AuthInterface;
 use Piwik\AuthResult;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Session;
 
@@ -83,7 +84,17 @@ class SessionInitializer
     protected function processSuccessfulSession(AuthResult $authResult)
     {
         $sessionIdentifier = new SessionFingerprint();
-        $sessionIdentifier->initialize($authResult->getIdentity(), $authResult->getTokenAuth(), $this->isRemembered());
+
+        $authClassString = StaticContainer::get('Piwik\Auth')::class;
+        $currentLoginPluginName = Piwik::getPluginNameOfMatomoClass($authClassString);
+
+        $sessionIdentifier->initialize(
+            $authResult->getIdentity(),
+            $authResult->getTokenAuth(),
+            $this->isRemembered(),
+            $time = null,
+            $currentLoginPluginName
+        );
 
         // reload access
         Access::getInstance()->reloadAccess();

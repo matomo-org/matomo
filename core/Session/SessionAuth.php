@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Session;
 use Piwik\Log\LoggerInterface;
+use Piwik\Plugin\Manager;
 
 /**
  * Validates already authenticated sessions.
@@ -102,7 +103,8 @@ class SessionAuth implements Auth
 
         $this->checkIfSessionFailedToRead();
 
-        if ($this->isExpiredSession($sessionFingerprint)) {
+        if ($this->isExpiredSession($sessionFingerprint) ||
+            $this->isSessionLoginPluginInactive($sessionFingerprint)) {
             $sessionFingerprint->clear();
             return $this->makeAuthFailure();
         }
@@ -244,6 +246,19 @@ class SessionAuth implements Auth
 
         $isExpired = Date::now()->getTimestampUTC() > $expirationTime;
         return $isExpired;
+    }
+
+    private function isSessionLoginPluginInactive(SessionFingerprint $sessionFingerprint)
+    {
+        $savedLoginPluginName = $sessionFingerprint->getLoginPluginName();
+
+        if (empty($savedLoginPluginName)) {
+            return false;
+        }
+
+        $manager = Manager::getInstance();
+
+        return !$manager->isPluginActivated($savedLoginPluginName);
     }
 
     private function checkIfSessionFailedToRead()

@@ -43,6 +43,7 @@ class SessionFingerprint
     public const SESSION_INFO_SESSION_VAR_NAME = 'session.info';
     public const SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED = 'twofactorauth.verified';
     public const SESSION_INFO_TEMP_TOKEN_AUTH = 'user.token_auth_temp';
+    public const SESSION_INFO_LOGIN_PLUGIN_NAME = 'loginpluginname';
 
     public function getUser()
     {
@@ -71,6 +72,15 @@ class SessionFingerprint
         return null;
     }
 
+    public function getLoginPluginName()
+    {
+        if (!empty($_SESSION[self::SESSION_INFO_LOGIN_PLUGIN_NAME])) {
+            return $_SESSION[self::SESSION_INFO_LOGIN_PLUGIN_NAME];
+        }
+
+        return null;
+    }
+
     public function hasVerifiedTwoFactor()
     {
         if (isset($_SESSION[self::SESSION_INFO_TWO_FACTOR_AUTH_VERIFIED])) {
@@ -90,7 +100,8 @@ class SessionFingerprint
         #[\SensitiveParameter]
         $tokenAuth,
         $isRemembered = false,
-        $time = null
+        $time = null,
+        $loginPluginName = ''
     ) {
         $time = $time ?: Date::now()->getTimestampUTC();
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
@@ -101,6 +112,7 @@ class SessionFingerprint
             'remembered' => $isRemembered,
             'expiration' => $this->getExpirationTimeFromNow($time),
         ];
+        $_SESSION[self::SESSION_INFO_LOGIN_PLUGIN_NAME] = $loginPluginName;
     }
 
     public function clear()
