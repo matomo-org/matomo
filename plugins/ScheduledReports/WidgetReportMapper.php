@@ -68,6 +68,18 @@ class WidgetReportMapper
             }
 
             if (null === $reportId) {
+                $reportId = $this->mapFunnelsWidgetIdToReportId($widgetConfig->getUniqueId());
+            }
+
+            if (null === $reportId) {
+                $reportId = $this->mapGoalsWidgetIdToReportId($widgetConfig->getUniqueId());
+            }
+
+            if (null === $reportId) {
+                $reportId = $this->mapEventsWidgetIdToReportId($widgetConfig->getUniqueId());
+            }
+
+            if (null === $reportId) {
                 continue;
             }
 
@@ -107,11 +119,11 @@ class WidgetReportMapper
 
             $widgetId = (string) $widgetId;
 
-            if (!isset($mapping[$widgetId])) {
+            $reportId = $mapping[$widgetId] ?? null;
+
+            if (null === $reportId) {
                 continue;
             }
-
-            $reportId = $mapping[$widgetId];
 
             if (!in_array($reportId, $reportIds, true)) {
                 $reportIds[] = $reportId;
@@ -204,5 +216,34 @@ class WidgetReportMapper
         }
 
         return null;
+    }
+
+    private function mapFunnelsWidgetIdToReportId(string $widgetId): ?string
+    {
+        if (!preg_match('/^widgetFunnels(funnelReportTable|funnelReport).*?idFunnel(\d+)(?:\D|$)/', $widgetId, $matches)) {
+            return null;
+        }
+
+        $reportAction = $matches[1] === 'funnelReportTable' ? 'getFunnelFlowTable' : 'getMetrics';
+
+        return 'Funnels_' . $reportAction . '_idFunnel--' . $matches[2];
+    }
+
+    private function mapGoalsWidgetIdToReportId(string $widgetId): ?string
+    {
+        if (!preg_match('/^widgetGoal_(\d+)$/', $widgetId, $matches)) {
+            return null;
+        }
+
+        return 'Goals_get_idGoal--' . $matches[1];
+    }
+
+    private function mapEventsWidgetIdToReportId(string $widgetId): ?string
+    {
+        if (!preg_match('/^widgetEventsget(Action|Name|Category)secondaryDimension/', $widgetId, $matches)) {
+            return null;
+        }
+
+        return 'Events_get' . $matches[1];
     }
 }
