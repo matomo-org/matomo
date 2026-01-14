@@ -12,9 +12,9 @@
         "SaveAndApply": "Salvesta ja rakenda",
         "SegmentDisplayedAllWebsites": "kõik veebilehed",
         "SegmentDisplayedThisWebsiteOnly": "ainult see veebileht",
+        "Test": "Testi",
         "ThisSegmentIsVisibleTo": "Antud segment on nähtav:",
         "VisibleToAllUsers": "kõik kasutajad",
-        "VisibleToMe": "mina",
-        "Test": "Testi"
+        "VisibleToMe": "mina"
     }
 }

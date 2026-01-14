@@ -2,8 +2,8 @@
     "GeoIp2": {
         "AssumingNonApache": "نمی توان فانکشن apache_get_modules را پیدا نمود, فرض کنید روی وبسرور غیر آپاچی است.",
         "CannotListContent": "مطالب قابل فهرست شدن نمی باشد برای %1$s:%2$s",
-        "DownloadingDb": "در حال بارگزاری %s",
         "DownloadNewDatabasesEvery": "پایگاه های داده را بروزرسانی کن در هر",
+        "DownloadingDb": "در حال بارگزاری %s",
         "FoundApacheModules": "پیویک ماژول های آپاچی زیر را یافت",
         "GeoIPDatabases": "پایگاه های داده GeoIP",
         "HowToInstallApacheModule": "چگونه ماژول GeoIP را برای آپاچی نصب کنم؟",

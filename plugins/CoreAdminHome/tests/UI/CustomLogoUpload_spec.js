@@ -9,7 +9,7 @@ var fs = require('fs'),
     path = require('../../../../tests/lib/screenshot-testing/support/path');
 
 describe("CustomLogoUpload", function () {
-    const contentSelector = '.pageWrap';
+    const contentSelector = 'div[vue-entry="CoreAdminHome.BrandingSettings"]';
 
     const logoToUpload = path.join(PIWIK_INCLUDE_PATH, "/tests/resources/customlogo/logo.png");
     const faviconToUpload = path.join(PIWIK_INCLUDE_PATH, "/tests/resources/customlogo/favicon.png");

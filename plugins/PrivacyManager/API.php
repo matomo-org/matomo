@@ -406,8 +406,11 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setScheduleReportDeletionSettings($deleteLowestInterval = 7, $passwordConfirmation = '')
-    {
+    public function setScheduleReportDeletionSettings(
+        $deleteLowestInterval = 7,
+        #[\SensitiveParameter]
+        $passwordConfirmation = ''
+    ) {
         Piwik::checkUserHasSuperUserAccess();
         $this->confirmCurrentUserPassword($passwordConfirmation);
 
@@ -419,8 +422,12 @@ class API extends \Piwik\Plugin\API
     /**
      * @internal
      */
-    public function setDeleteLogsSettings($enableDeleteLogs = '0', $deleteLogsOlderThan = 180, $passwordConfirmation = '')
-    {
+    public function setDeleteLogsSettings(
+        $enableDeleteLogs = '0',
+        $deleteLogsOlderThan = 180,
+        #[\SensitiveParameter]
+        $passwordConfirmation = ''
+    ) {
         Piwik::checkUserHasSuperUserAccess();
         $this->confirmCurrentUserPassword($passwordConfirmation);
 
@@ -567,7 +574,8 @@ class API extends \Piwik\Plugin\API
         string $idSite,
         string $complianceType,
         bool $enforce,
-        string $passwordConfirmation = null
+        #[\SensitiveParameter]
+        ?string $passwordConfirmation = null
     ): bool {
         if (!$this->featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
             throw new Exception('Feature not available');

@@ -15,9 +15,9 @@
         "PreviousVisitor": "Ankstesnis lankytojas",
         "Referrer_URL": "Persiunčiančiojo URL",
         "ShowMap": "rodyti žemėlapį",
+        "ToggleActions": "Perjungti visų veiksmų matomumą",
         "ViewVisitorProfile": "Peržiūrėti lankytojo profilį",
         "VisitedPages": "Aplankyti puslapiai",
-        "ToggleActions": "Perjungti visų veiksmų matomumą",
         "VisitorsLastVisit": "Šio lankytojo paskutinis apsilankymas buvo prieš %s dienų."
     }
 }

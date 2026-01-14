@@ -749,7 +749,7 @@ class UserIdVisitorIdTest extends IntegrationTestCase
         $this->assertCounts([1, 1], 1);
     }
 
-    private function assertCounts(array $visitsWithActionCount, int $visitorIds, int $userIds = null, int $configIds = null)
+    private function assertCounts(array $visitsWithActionCount, int $visitorIds, ?int $userIds = null, ?int $configIds = null)
     {
         $this->assertVisitsWithActionCount($visitsWithActionCount);
         $this->assertVisitorIdsCount($visitorIds);

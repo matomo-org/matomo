@@ -29,6 +29,11 @@ class TestPolicy extends \Piwik\Policy\CompliancePolicy
         return 'Test policy description';
     }
 
+    protected static function generateWarnings(): string
+    {
+        return '';
+    }
+
     public static function getTitle(): string
     {
         return 'Test Policy';

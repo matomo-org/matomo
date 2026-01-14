@@ -2,9 +2,9 @@
     "UserCountry": {
         "Continent": "Continente",
         "Country": "País",
-        "country_o1": "Outro país",
         "DistinctCountries": "%s continentes distintos",
         "Region": "Rexión",
-        "SubmenuLocations": "Lugares"
+        "SubmenuLocations": "Lugares",
+        "country_o1": "Outro país"
     }
 }

@@ -87,7 +87,7 @@ class ControllerTest extends IntegrationTestCase
         return [$userEmail, $token];
     }
 
-    private function setupPostInvitationSubmitted(string $token, string $userEmail, string $password, string $passwordConfirmation = null)
+    private function setupPostInvitationSubmitted(string $token, string $userEmail, string $password, ?string $passwordConfirmation = null)
     {
         // simulate completing accept invitation form
         $_POST['token'] = $token;

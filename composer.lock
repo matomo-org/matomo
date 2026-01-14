@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68602361dfbffa669afd2a2085e11726",
+    "content-hash": "6bce3f3a5eea9980cfeca33ed264bd8e",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -157,16 +157,16 @@
         },
         {
             "name": "davaxi/sparkline",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/davaxi/Sparkline.git",
-                "reference": "7b1a978ec8c4d5f9eb9aa7b1af2efbc0130c6484"
+                "reference": "096dc8b68c95f1173e42177ed3e2d4ccb40c3fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/7b1a978ec8c4d5f9eb9aa7b1af2efbc0130c6484",
-                "reference": "7b1a978ec8c4d5f9eb9aa7b1af2efbc0130c6484",
+                "url": "https://api.github.com/repos/davaxi/Sparkline/zipball/096dc8b68c95f1173e42177ed3e2d4ccb40c3fd1",
+                "reference": "096dc8b68c95f1173e42177ed3e2d4ccb40c3fd1",
                 "shasum": ""
             },
             "require": {
@@ -208,7 +208,7 @@
                 "issues": "https://github.com/davaxi/Sparkline/issues",
                 "source": "https://github.com/davaxi/Sparkline/releases"
             },
-            "time": "2022-03-11T13:07:09+00:00"
+            "time": "2025-12-29T09:55:02+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -738,12 +738,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/searchengine-and-social-list.git",
-                "reference": "e1ed80f93287b9c3e389242b37bff9140c738874"
+                "reference": "743a0faff8185340c6db38f3b7f1c13cf168cc5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/e1ed80f93287b9c3e389242b37bff9140c738874",
-                "reference": "e1ed80f93287b9c3e389242b37bff9140c738874",
+                "url": "https://api.github.com/repos/matomo-org/searchengine-and-social-list/zipball/743a0faff8185340c6db38f3b7f1c13cf168cc5b",
+                "reference": "743a0faff8185340c6db38f3b7f1c13cf168cc5b",
                 "shasum": ""
             },
             "replace": {
@@ -760,7 +760,7 @@
                 "issues": "https://github.com/matomo-org/searchengine-and-social-list/issues",
                 "source": "https://github.com/matomo-org/searchengine-and-social-list/tree/master"
             },
-            "time": "2025-11-10T14:58:06+00:00"
+            "time": "2025-12-15T20:05:07+00:00"
         },
         {
             "name": "maxmind-db/reader",
@@ -1205,16 +1205,16 @@
         },
         {
             "name": "pear/pear-core-minimal",
-            "version": "v1.10.16",
+            "version": "v1.10.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pear/pear-core-minimal.git",
-                "reference": "c0f51b45f50683bf5bbf558036854ebc9b54d033"
+                "reference": "c7b55789d01de0ce090d289b73f1bbd6a2f113b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/pear-core-minimal/zipball/c0f51b45f50683bf5bbf558036854ebc9b54d033",
-                "reference": "c0f51b45f50683bf5bbf558036854ebc9b54d033",
+                "url": "https://api.github.com/repos/pear/pear-core-minimal/zipball/c7b55789d01de0ce090d289b73f1bbd6a2f113b1",
+                "reference": "c7b55789d01de0ce090d289b73f1bbd6a2f113b1",
                 "shasum": ""
             },
             "require": {
@@ -1250,7 +1250,7 @@
                 "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=PEAR",
                 "source": "https://github.com/pear/pear-core-minimal"
             },
-            "time": "2024-11-24T22:27:58+00:00"
+            "time": "2025-12-14T20:37:07+00:00"
         },
         {
             "name": "pear/pear_exception",
