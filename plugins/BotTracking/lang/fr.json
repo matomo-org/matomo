@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "URL de la page"
+        "PageUrl": "URL de la page",
+        "AIAssistantsReportDocumentation": "Découvrez quels assistants IA explorent votre site et combien de visites chacun génère. Examinez un bot pour voir les pages ou les documents les plus fréquemment demandés."
     }
 }
