@@ -100,7 +100,6 @@ interface ManageScheduledReportState {
   selectedReports: Record<string, Record<string, boolean>>;
   selectedReportsOrder: Record<string, string[]>;
   sendingReports: Array<string|number>;
-  widgetsInDashboard: Array<string>;
   isWidgetReportMappingLoading: boolean;
 }
 
@@ -201,10 +200,6 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    widgetReportMapping: {
-      type: Object,
-      required: true,
-    },
   },
   components: {
     MatomoLoader,
@@ -219,7 +214,7 @@ export default defineComponent({
     $(this.$refs.root as HTMLElement).on('click', 'a.entityCancelLink', () => {
       this.showListOfReports();
     });
-
+    this.applyActionFromUrl();
     Matomo.postEvent('ScheduledReports.ManageScheduledReport.mounted', {
       element: this.$refs.root,
     });
@@ -249,7 +244,6 @@ export default defineComponent({
       selectedReports: {},
       selectedReportsOrder: {},
       sendingReports: [],
-      widgetsInDashboard: [],
       isWidgetReportMappingLoading: false,
     };
   },
@@ -383,9 +377,6 @@ export default defineComponent({
       // entries are used
       nextTick(() => {
         this.formSetEditReport(0);
-        if (this.widgetReportIdsFromDashboard !== null) {
-          this.selectedReports = { ...this.widgetReportIdsFromDashboard };
-        }
       });
     },
     editReport(reportId: number) {
@@ -482,7 +473,7 @@ export default defineComponent({
         (uniqueId) => this.selectedReports[reportType]?.[uniqueId],
       );
     },
-    applyActionFromUrl() {
+    async applyActionFromUrl() {
       const dashboardId = MatomoUrl.getSearchParam('dashboardId');
       if (dashboardId === '') {
         return;
@@ -490,10 +481,10 @@ export default defineComponent({
       const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
       delete nextHash.dashboardId;
       MatomoUrl.updateHash(nextHash);
-      this.getWidgetReportMapping(dashboardId);
+      await this.getWidgetReportMapping(dashboardId);
       this.createReport();
     },
-    getWidgetReportMapping(dashboardId: string) {
+    async getWidgetReportMapping(dashboardId: string) {
       this.isWidgetReportMappingLoading = true;
       AjaxHelper.fetch(
         {
@@ -511,19 +502,6 @@ export default defineComponent({
     },
   },
   computed: {
-    widgetReportIdsFromDashboard() {
-      if (this.widgetsInDashboard.length > 0) {
-        const arr: Record<string, boolean> = {};
-        this.widgetsInDashboard.forEach((widgetId) => {
-          const reportKey = this.widgetReportMapping[widgetId];
-          if (reportKey) {
-            arr[reportKey] = true;
-          }
-        });
-        return { email: arr };
-      }
-      return null;
-    },
     showReportForm() {
       return !this.showReportsList;
     },
