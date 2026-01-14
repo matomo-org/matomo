@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\ScheduledReports\DataTable\Filter;
 
+use Piwik\Columns\Dimension;
 use Piwik\DataTable;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable\Row;
@@ -17,7 +18,7 @@ use Piwik\Metrics\Formatter;
 class ReformatToPrettyTimeAsSentence extends BaseFilter
 {
     /**
-     * @var string[]
+     * @var array <string, string>
      */
     private $durationColumns;
 
@@ -66,12 +67,12 @@ class ReformatToPrettyTimeAsSentence extends BaseFilter
      */
     private function formatRow(Row $row): void
     {
-        foreach ($this->durationColumns as $columnId) {
+        foreach ($this->durationColumns as $columnId => $metricType) {
             if (!$row->hasColumn($columnId)) {
                 continue;
             }
 
-            $formattedValue = $this->formatValue($row->getColumn($columnId));
+            $formattedValue = $this->formatValue($row->getColumn($columnId), $metricType);
             if ($formattedValue !== null) {
                 $row->setColumn($columnId, $formattedValue);
             }
@@ -80,9 +81,10 @@ class ReformatToPrettyTimeAsSentence extends BaseFilter
 
     /**
      * @param $value
+     * @param $metricType
      * @return string|null
      */
-    private function formatValue($value): ?string
+    private function formatValue($value, $metricType): ?string
     {
         if ($value === null || $value === '') {
             return null;
@@ -91,14 +93,16 @@ class ReformatToPrettyTimeAsSentence extends BaseFilter
         if (is_numeric($value)) {
             $seconds = (float) $value;
         } elseif (is_string($value)) {
-            $seconds = $this->formatter->convertPrettyTimeToSeconds($value);
+            $seconds = $this->formatter->getSecondsFromPrettyTime($value);
             if ($seconds === null) {
                 return null;
             }
         } else {
             return null;
         }
-
+        if ($metricType === Dimension::TYPE_DURATION_MS) {
+            $seconds = $this->formatter->normalizeDurationMsType($seconds);
+        }
         return $this->formatter->getPrettyTimeFromSeconds($seconds, true);
     }
 }

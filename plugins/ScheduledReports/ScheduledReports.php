@@ -280,6 +280,7 @@ class ScheduledReports extends \Piwik\Plugin
 
         $displayFormat = $report['parameters'][self::DISPLAY_FORMAT_PARAMETER];
         $evolutionGraph = $report['parameters'][self::EVOLUTION_GRAPH_PARAMETER];
+        $metricsToAllow = $this->getPagePerformanceDurationMetrics();
 
         foreach ($processedReports as &$processedReport) {
             $metadata = $processedReport['metadata'];
@@ -311,7 +312,7 @@ class ScheduledReports extends \Piwik\Plugin
                 $processedReport['columns'] = $columns;
             }
 
-            $this->formatPagePerformanceDurationMetrics($processedReport);
+            $this->formatPagePerformanceDurationMetrics($processedReport, $metricsToAllow);
         }
     }
 
@@ -319,22 +320,21 @@ class ScheduledReports extends \Piwik\Plugin
      * Will go through processedReport and will grab columns with metric type == 'duration'
      * and will pass those into the filter to reformat them into human readable format.
      * @param array $processedReport
+     * @param array $metricsToAllow
      * @return void
      */
-    private function formatPagePerformanceDurationMetrics(array &$processedReport): void
+    private function formatPagePerformanceDurationMetrics(array &$processedReport, array $metricsToAllow): void
     {
         $reportData = $processedReport['reportData'] ?? null;
         if (empty($processedReport['metadata']['metricTypes']) || !$reportData instanceof DataTable) {
             return;
         }
-        $metricsToAllow = $this->getPagePerformanceDurationMetrics();
         $durationColumns = [];
-
         if (count($metricsToAllow) > 0) {
             $durationTypes = [Dimension::TYPE_DURATION_S, Dimension::TYPE_DURATION_MS];
             foreach ($processedReport['metadata']['metricTypes'] as $columnId => $metricType) {
-                if (in_array($columnId, $metricsToAllow) && in_array($metricType, $durationTypes)) {
-                    $durationColumns[] = $columnId;
+                if (in_array($columnId, $metricsToAllow, true) && in_array($metricType, $durationTypes, true)) {
+                    $durationColumns[$columnId] = $metricType;
                 }
             }
         }
@@ -344,13 +344,17 @@ class ScheduledReports extends \Piwik\Plugin
 
         $reportData->filter(ReformatToPrettyTimeAsSentence::class, [$durationColumns]);
     }
+
+    /**
+     * @return array
+     */
     private function getPagePerformanceDurationMetrics(): array
     {
         $performanceMetricsToAllow = [];
         if (Manager::getInstance()->isPluginActivated('PagePerformance')) {
             $performanceMetricsToAllow = array_keys(Metrics::getAllPagePerformanceMetrics());
         }
-        return$performanceMetricsToAllow;
+        return $performanceMetricsToAllow;
     }
 
     public function getRendererInstance(&$reportRenderer, $reportType, $outputType, $report)
