@@ -314,24 +314,22 @@ class API extends \Piwik\Plugin\API
             $parameters->setArchiveOnlyReport($report);
         }
 
-        $shouldRecordMetrics = !$report;
-        if ($shouldRecordMetrics) {
-            /**
-             * Triggered before a full archiveReports run starts.
-             *
-             * Usage example:
-             * Piwik::addAction('CoreAdminHome.archiveReports.start', function ($idSite, $period, $segment, $plugin, $isArchivePhpTriggered) { ... });
-             *
-             * @internal
-             */
-            Piwik::postEvent('CoreAdminHome.archiveReports.start', [
-                $idSite,
-                $period,
-                $segmentObj,
-                (string) $plugin,
-                $isArchivePhpTriggered,
-            ]);
-        }
+        /**
+         * Triggered before a full archiveReports run starts.
+         *
+         * Usage example:
+         * Piwik::addAction('CoreAdminHome.archiveReports.start', function ($idSite, $period, $segment, $plugin, $isArchivePhpTriggered) { ... });
+         *
+         * @internal
+         */
+        Piwik::postEvent('CoreAdminHome.archiveReports.start', [
+            $idSite,
+            $period,
+            $segmentObj,
+            (string) $plugin,
+            $isArchivePhpTriggered,
+            $report
+        ]);
 
         // TODO: need to test case when there are multiple plugin archives w/ only some data each. does purging remove some that we need?
         $archiveLoader = new ArchiveProcessor\Loader($parameters, $invalidateBeforeArchiving);
@@ -347,25 +345,24 @@ class API extends \Piwik\Plugin\API
         $idArchives = isset($result['idarchives']) ? (array) $result['idarchives'] : [];
         $wasCached = $archiveLoader->didReuseArchive();
 
-        if ($shouldRecordMetrics) {
-            /**
-             * Triggered after a full archiveReports run completes.
-             *
-             * Usage example:
-             * Piwik::addAction('CoreAdminHome.archiveReports.complete', function ($idSite, $period, $segment, $plugin, $isArchivePhpTriggered, $idArchives, $wasCached) { ... });
-             *
-             * @internal
-             */
-            Piwik::postEvent('CoreAdminHome.archiveReports.complete', [
-                $idSite,
-                $period,
-                $segmentObj,
-                (string) $plugin,
-                $isArchivePhpTriggered,
-                $idArchives,
-                $wasCached,
-            ]);
-        }
+        /**
+         * Triggered after a full archiveReports run completes.
+         *
+         * Usage example:
+         * Piwik::addAction('CoreAdminHome.archiveReports.complete', function ($idSite, $period, $segment, $plugin, $isArchivePhpTriggered, $idArchives, $wasCached, $report) { ... });
+         *
+         * @internal
+         */
+        Piwik::postEvent('CoreAdminHome.archiveReports.complete', [
+            $idSite,
+            $period,
+            $segmentObj,
+            (string) $plugin,
+            $isArchivePhpTriggered,
+            $idArchives,
+            $wasCached,
+            $report
+        ]);
 
         return $result;
     }
