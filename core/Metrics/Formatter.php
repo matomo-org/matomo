@@ -157,7 +157,7 @@ class Formatter
     /**
      * This will normalize the raw value of
      * Dimension::TYPE_DURATION_MS.
-     * @param $value
+     * @param int|float $value
      * @return float
      */
     public function normalizeDurationMsType($value): float
