@@ -1518,7 +1518,14 @@ class AjaxHelper_AjaxHelper {
       });
     }
     const result = new Promise((resolve, reject) => {
-      this.requestHandle.then(data => {
+      this.requestHandle.then((data, _textStatus, xhr) => {
+        const isInApp = !document.querySelector('#login_form');
+        const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
+        if (sessionTimedOut && isInApp) {
+          setCookie('matomo_session_timed_out', '1', 60 * 1000);
+          Matomo_Matomo.helper.refreshAfter(0);
+          return;
+        }
         if (this.resolveWithHelper) {
           // NOTE: we can't resolve w/ the jquery xhr, because it's a promise, and will
           // just result in following the promise chain back to 'data'

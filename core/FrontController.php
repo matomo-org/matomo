@@ -454,6 +454,7 @@ class FrontController extends Singleton
         }
 
         $this->consumeSessionTimeoutCookie();
+        $this->sendSessionTimedOutHeaderIfNeeded();
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
@@ -870,5 +871,11 @@ class FrontController extends Singleton
         }
 
         return false;
+    }
+    private function sendSessionTimedOutHeaderIfNeeded() {
+        if (!Access::getInstance()->wasSessionExpired()) {
+            return;
+        }
+        Common::sendHeader('X-Matomo-Session-Timed-Out: 1');
     }
 }
