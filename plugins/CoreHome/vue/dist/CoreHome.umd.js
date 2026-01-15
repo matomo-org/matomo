@@ -1494,7 +1494,8 @@ class AjaxHelper_AjaxHelper {
           return;
         }
         const isInApp = !document.querySelector('#login_form');
-        if (xhr.status === 401 && isInApp) {
+        const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
+        if (sessionTimedOut && isInApp) {
           Matomo_Matomo.helper.refreshAfter(0);
           return;
         }

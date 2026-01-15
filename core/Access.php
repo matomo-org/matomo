@@ -756,7 +756,7 @@ class Access
             }
         }
 
-        throw new NoAccessException($message, $this->sessionExpired ? 401 : 403);
+        throw new NoAccessException($message, Piwik::isUserIsAnonymous() ? 401 : 403);
     }
 
     public function setSessionExpired(bool $sessionExpired): void

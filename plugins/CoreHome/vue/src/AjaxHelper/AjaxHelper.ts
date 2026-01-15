@@ -544,8 +544,9 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
 
         const isInApp = !document.querySelector('#login_form');
+        const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
 
-        if (xhr.status === 401 && isInApp) {
+        if (sessionTimedOut && isInApp) {
           Matomo.helper.refreshAfter(0);
           return;
         }
