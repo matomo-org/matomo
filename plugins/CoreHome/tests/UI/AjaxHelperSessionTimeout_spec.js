@@ -36,6 +36,7 @@ describe('AjaxHelperSessionTimeout', function () {
       await loadReportPage();
 
       const refreshCalled = await page.evaluate((value) => {
+        document.cookie = 'matomo_session_timed_out=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
         window._ajaxSessionTimedOutRefresh = false;
         const originalRefresh = window.piwikHelper.refreshAfter;
         const originalAjax = window.$.ajax;

@@ -70,6 +70,7 @@ class FrontController extends Singleton
     public const DEFAULT_MODULE = 'CoreHome';
     public const DEFAULT_LOGIN = 'anonymous';
     public const DEFAULT_TOKEN_AUTH = 'anonymous';
+    private const SESSION_TIMEOUT_COOKIE_NAME = 'matomo_session_timed_out';
 
     // public for tests
     public static $requestId = null;
@@ -452,7 +453,7 @@ class FrontController extends Singleton
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
-
+        $this->consumeSessionTimeoutCookie();
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
@@ -807,6 +808,28 @@ class FrontController extends Singleton
     {
         $requestId = self::getUniqueRequestId();
         Common::sendHeader("X-Matomo-Request-Id: $requestId");
+    }
+
+    private function consumeSessionTimeoutCookie(): void
+    {
+        if (empty($_COOKIE[self::SESSION_TIMEOUT_COOKIE_NAME])) {
+            return;
+        }
+
+        Session::writeCookie(
+            self::SESSION_TIMEOUT_COOKIE_NAME,
+            '',
+            time() - 3600,
+            '/',
+            '',
+            ProxyHttp::isHttps(),
+            false,
+            Session::getSameSiteCookieValue()
+        );
+
+        if (Piwik::isUserIsAnonymous()) {
+            Access::getInstance()->setSessionExpired(true);
+        }
     }
 
     private function isSupportedBrowserCheckNeeded()
