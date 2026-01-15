@@ -166,6 +166,13 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = "ScheduledReports_ReportHourEqualsUtc";
         $translationKeys[] = "ScheduledReports_NoteDeliveryTime";
         $translationKeys[] = 'ScheduledReports_WidgetsNotMappedToReports';
+        $translationKeys[] = "ScheduledReports_ExportDashboardTitle";
+        $translationKeys[] = "ScheduledReports_ExportDashboardPrepare";
+        $translationKeys[] = "ScheduledReports_ExportDashboardWidgetsConvertedAutomatically";
+        $translationKeys[] = "ScheduledReports_ExportDashboardEmailEnabledByDefault";
+        $translationKeys[] = "ScheduledReports_ExportDashboardDownload";
+        $translationKeys[] = "ScheduledReports_ExportDashboardReportDescription";
+        $translationKeys[] = "General_Never";
     }
 
     /**

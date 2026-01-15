@@ -42,6 +42,12 @@ class WidgetReportMapper
         $widgetsConfigs = WidgetsList::get()->getWidgetConfigs();
         foreach ($widgetsConfigs as $widgetConfig) {
             $widgetUniqueId = $widgetConfig->getUniqueId();
+            $goalReportId = $this->mapGoalsWidgetIdToReportId($widgetUniqueId);
+            if ($goalReportId) {
+                $mapping[$widgetUniqueId] = $goalReportId;
+                continue;
+            }
+
             if ($widgetConfig instanceof EventsByDimension) {
                 $this->getEventsWidgetMapping($widgetConfig, $mapping);
                 continue;
@@ -74,10 +80,6 @@ class WidgetReportMapper
 
             if (null === $reportId) {
                 $reportId = $this->mapFunnelsWidgetIdToReportId($widgetUniqueId);
-            }
-
-            if (null === $reportId) {
-                $reportId = $this->mapGoalsWidgetIdToReportId($widgetUniqueId);
             }
 
             if (null === $reportId) {
