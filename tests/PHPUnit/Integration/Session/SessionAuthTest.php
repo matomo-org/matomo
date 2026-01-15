@@ -132,6 +132,44 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
     }
 
+    public function testAuthenticateReturnsFailureIfLoginPluginUsedIsInactive()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+        $sessionBackup = $_SESSION;
+        $_SESSION[SessionFingerprint::SESSION_INFO_LOGIN_PLUGIN_NAME] = 'unknownLoginPlugin';
+
+        $usersModel = new UsersModel();
+        $user = $usersModel->getUser(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        $sessionAuth = new SessionAuth(new MockUsersModel($user));
+        $result = $sessionAuth->authenticate();
+
+        $_SESSION = $sessionBackup;
+
+        $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testAuthenticateReturnsSuccessIfLoginPluginIsActive()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+        $sessionBackup = $_SESSION;
+        $_SESSION[SessionFingerprint::SESSION_INFO_LOGIN_PLUGIN_NAME] = 'Login';
+
+        $usersModel = new UsersModel();
+        $user = $usersModel->getUser(self::TEST_OTHER_USER);
+
+        sleep(1);
+
+        $sessionAuth = new SessionAuth(new MockUsersModel($user));
+        $result = $sessionAuth->authenticate();
+
+        $_SESSION = $sessionBackup;
+
+        $this->assertEquals(AuthResult::SUCCESS, $result->getCode());
+    }
+
     private function initializeSession($userLogin, $isRemembered = false)
     {
         $sessionFingerprint = new SessionFingerprint();
