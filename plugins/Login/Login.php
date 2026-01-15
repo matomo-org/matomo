@@ -231,8 +231,7 @@ class Login extends \Piwik\Plugin
         $frontController = FrontController::getInstance();
 
         if (Common::isXmlHttpRequest()) {
-            $sessionExpired = $exception instanceof NoAccessException && $exception->hasSessionExpired();
-            echo $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', array($exception->getMessage(), $sessionExpired));
+            echo $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', array($exception->getMessage()));
             return;
         }
 
