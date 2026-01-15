@@ -318,7 +318,7 @@ class API extends \Piwik\Plugin\API
          * Triggered before a full archiveReports run starts.
          *
          * Usage example:
-         * Piwik::addAction('CoreAdminHome.archiveReports.start', function ($idSite, $period, $segment, $plugin, $isArchivePhpTriggered) { ... });
+         * Piwik::addAction('CoreAdminHome.archiveReports.start', function ($idSite, $period, $segment, $plugin, $isArchivePhpTriggered, $report) { ... });
          *
          * @internal
          */
@@ -327,8 +327,8 @@ class API extends \Piwik\Plugin\API
             $period,
             $segmentObj,
             (string) $plugin,
+            $report,
             $isArchivePhpTriggered,
-            $report
         ]);
 
         // TODO: need to test case when there are multiple plugin archives w/ only some data each. does purging remove some that we need?
@@ -349,7 +349,7 @@ class API extends \Piwik\Plugin\API
          * Triggered after a full archiveReports run completes.
          *
          * Usage example:
-         * Piwik::addAction('CoreAdminHome.archiveReports.complete', function ($idSite, $period, $segment, $plugin, $isArchivePhpTriggered, $idArchives, $wasCached, $report) { ... });
+         * Piwik::addAction('CoreAdminHome.archiveReports.complete', function ($idSite, $period, $segment, $plugin, $report, $isArchivePhpTriggered, $idArchives, $wasCached) { ... });
          *
          * @internal
          */
@@ -358,10 +358,10 @@ class API extends \Piwik\Plugin\API
             $period,
             $segmentObj,
             (string) $plugin,
+            $report,
             $isArchivePhpTriggered,
             $idArchives,
             $wasCached,
-            $report
         ]);
 
         return $result;

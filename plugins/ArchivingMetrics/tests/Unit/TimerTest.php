@@ -30,12 +30,11 @@ class TimerTest extends TestCase
     /**
      * @dataProvider timerProvider
      */
-    public function testItRecordsArchivingRunsWithCorrectTiming(array $events, array $microtimes, array $nowValues, array $expectedRecords): void
+    public function testItRecordsArchivingRunsWithCorrectTiming(array $events, array $microtimes, array $expectedRecords): void
     {
         $writer = new InMemoryWriter();
         $clock = $this->createMock(ClockInterface::class);
         $clock->method('microtime')->willReturnOnConsecutiveCalls(...$microtimes);
-        $clock->method('now')->willReturnOnConsecutiveCalls(...$nowValues);
         $timer = new Timer(true, $clock, $writer);
 
         foreach ($events as $event) {
@@ -60,7 +59,6 @@ class TimerTest extends TestCase
         $writer = new InMemoryWriter();
         $clock = $this->createMock(ClockInterface::class);
         $clock->method('microtime')->willReturnOnConsecutiveCalls(0.0);
-        $clock->method('now')->willReturnOnConsecutiveCalls('2024-01-01 00:00:02');
         $timer = new Timer(false, $clock, $writer);
 
         $context = $this->createContext([
@@ -100,9 +98,6 @@ class TimerTest extends TestCase
                     strtotime('2024-01-01 00:00:00'),
                     strtotime('2024-01-01 00:00:00') + 1.2,
                 ],
-                'nowValues' => [
-                    '2024-01-01 00:00:02',
-                ],
                 'expectedRecords' => [
                     [
                         'idarchive' => 101,
@@ -113,7 +108,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-01-01',
                         'period' => 1,
                         'ts_started' => '2024-01-01 00:00:00',
-                        'ts_finished' => '2024-01-01 00:00:02',
+                        'ts_finished' => '2024-01-01 00:00:01',
                         'total_time' => 1200,
                         'total_time_exclusive' => 1200,
                     ],
@@ -136,11 +131,6 @@ class TimerTest extends TestCase
                     strtotime('2024-02-01 00:00:01'),
                     strtotime('2024-02-01 00:00:01') + 12.3,
                 ],
-                'nowValues' => [
-                    '2024-02-01 00:00:00',
-                    '2024-12-31 23:59:59',
-                    '2024-12-31 23:59:59',
-                ],
                 'expectedRecords' => [
                     [
                         'idarchive' => 303,
@@ -151,7 +141,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-12-31',
                         'period' => 4,
                         'ts_started' => '2024-01-01 00:00:00',
-                        'ts_finished' => '2024-02-01 00:00:00',
+                        'ts_finished' => '2024-01-01 00:00:06',
                         'total_time' => 6300,
                         'total_time_exclusive' => 6300,
                     ],
@@ -164,7 +154,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-02-01',
                         'period' => 1,
                         'ts_started' => '2024-02-01 00:00:01',
-                        'ts_finished' => '2024-12-31 23:59:59',
+                        'ts_finished' => '2024-02-01 00:00:06',
                         'total_time' => 5400,
                         'total_time_exclusive' => 5400,
                     ],
@@ -177,7 +167,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-02-29',
                         'period' => 3,
                         'ts_started' => '2024-02-01 00:00:01',
-                        'ts_finished' => '2024-12-31 23:59:59',
+                        'ts_finished' => '2024-02-01 00:00:13',
                         'total_time' => 12300,
                         'total_time_exclusive' => 12300,
                     ],
@@ -198,9 +188,6 @@ class TimerTest extends TestCase
                     strtotime('2024-02-01 00:00:00') + 3.0,
                     strtotime('2024-02-01 00:00:01'),
                 ],
-                'nowValues' => [
-                    '2024-02-01 00:00:01',
-                ],
                 'expectedRecords' => [
                     [
                         'idarchive' => 204,
@@ -211,7 +198,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-02-01',
                         'period' => 1,
                         'ts_started' => '2024-02-01 00:00:00',
-                        'ts_finished' => '2024-02-01 00:00:01',
+                        'ts_finished' => '2024-02-01 00:00:03',
                         'total_time' => 3000,
                         'total_time_exclusive' => 3000,
                     ],
@@ -230,10 +217,6 @@ class TimerTest extends TestCase
                     strtotime('2024-01-01 00:00:00') + 1.1,
                     strtotime('2024-01-01 00:00:00') + 2.5,
                 ],
-                'nowValues' => [
-                    '2024-02-01 00:00:01',
-                    '2024-12-31 23:59:59',
-                ],
                 'expectedRecords' => [
                     [
                         'idarchive' => 202,
@@ -244,7 +227,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-02-29',
                         'period' => 3,
                         'ts_started' => '2024-01-01 00:00:00',
-                        'ts_finished' => '2024-02-01 00:00:01',
+                        'ts_finished' => '2024-01-01 00:00:01',
                         'total_time' => 600,
                         'total_time_exclusive' => 600,
                     ],
@@ -257,7 +240,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-12-31',
                         'period' => 4,
                         'ts_started' => '2024-01-01 00:00:00',
-                        'ts_finished' => '2024-12-31 23:59:59',
+                        'ts_finished' => '2024-01-01 00:00:02',
                         'total_time' => 2500,
                         'total_time_exclusive' => 1900,
                     ],
@@ -280,11 +263,6 @@ class TimerTest extends TestCase
                     strtotime('2024-02-01 00:00:01'),
                     strtotime('2024-02-01 00:00:01') + 12.3,
                 ],
-                'nowValues' => [
-                    '2024-02-01 00:00:00',
-                    '2024-12-31 23:59:59',
-                    '2024-12-31 23:59:59',
-                ],
                 'expectedRecords' => [
                     [
                         'idarchive' => 303,
@@ -295,7 +273,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-12-31',
                         'period' => 4,
                         'ts_started' => '2024-01-01 00:00:00',
-                        'ts_finished' => '2024-02-01 00:00:00',
+                        'ts_finished' => '2024-01-01 00:00:06',
                         'total_time' => 6300,
                         'total_time_exclusive' => 6300,
                     ],
@@ -308,7 +286,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-02-01',
                         'period' => 1,
                         'ts_started' => '2024-02-01 00:00:01',
-                        'ts_finished' => '2024-12-31 23:59:59',
+                        'ts_finished' => '2024-02-01 00:00:06',
                         'total_time' => 5400,
                         'total_time_exclusive' => 5400,
                     ],
@@ -321,7 +299,7 @@ class TimerTest extends TestCase
                         'date2' => '2024-02-29',
                         'period' => 3,
                         'ts_started' => '2024-02-01 00:00:01',
-                        'ts_finished' => '2024-12-31 23:59:59',
+                        'ts_finished' => '2024-02-01 00:00:13',
                         'total_time' => 12300,
                         'total_time_exclusive' => 12300,
                     ],
