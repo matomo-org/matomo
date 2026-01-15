@@ -20,6 +20,7 @@ use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\Dashboard\Model as DashboardModel;
+use Piwik\NoAccessException;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Monthly;
 use Piwik\Scheduler\Schedule\Schedule;
@@ -182,6 +183,7 @@ class ApiTest extends IntegrationTestCase
 
         $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite);
 
+        $this->assertArrayHasKey('dashboardName', $result);
         $this->assertArrayHasKey('email', $result);
         $this->assertArrayHasKey('unmappedWidgets', $result);
         $this->assertArrayHasKey('VisitsSummary_get', $result['email']);
@@ -198,6 +200,37 @@ class ApiTest extends IntegrationTestCase
 
         $this->assertNotEmpty($liveWidgetName);
         $this->assertContains($liveWidgetName, $result['unmappedWidgets']);
+        $this->assertSame(Piwik::translate('Dashboard_DashboardOf', Piwik::getCurrentUserLogin()), $result['dashboardName']);
+    }
+
+    public function testGetWidgetReportMapReturnsEmptyWhenLayoutIsEmpty()
+    {
+        $dashboardModel = new DashboardModel();
+        $dashboardModel->updateLayoutForUser(Piwik::getCurrentUserLogin(), 1, '[]');
+
+        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite);
+
+        $this->assertSame([], $result['email']);
+        $this->assertSame([], $result['unmappedWidgets']);
+        $this->assertSame(Piwik::translate('Dashboard_DashboardOf', Piwik::getCurrentUserLogin()), $result['dashboardName']);
+    }
+
+    public function testGetWidgetReportMapReturnsEmptyWhenDashboardIsMissing()
+    {
+        $result = APIScheduledReports::getInstance()->getWidgetReportMap(999, $this->idSite);
+
+        $this->assertSame([], $result['email']);
+        $this->assertSame([], $result['unmappedWidgets']);
+        $this->assertSame('', $result['dashboardName']);
+    }
+
+    public function testGetWidgetReportMapThrowsWhenAnonymous()
+    {
+        $this->setAnonymous();
+
+        $this->expectException(NoAccessException::class);
+
+        APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite);
     }
 
     /**
