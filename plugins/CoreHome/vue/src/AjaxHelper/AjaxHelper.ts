@@ -10,6 +10,7 @@
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
+import { setCookie } from '../CookieHelper/CookieHelper';
 
 export interface AjaxOptions {
   withTokenInUrl?: boolean;
@@ -547,6 +548,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
 
         if (sessionTimedOut && isInApp) {
+          setCookie('matomo_session_timed_out', '1', 60 * 1000);
           Matomo.helper.refreshAfter(0);
           return;
         }
