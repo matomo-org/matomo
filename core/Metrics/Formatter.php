@@ -124,9 +124,9 @@ class Formatter
      * @return null|float|int
      * @param string $value
      */
-    public function getSecondsFromPrettyTime($value)
+    public function getSecondsFromPrettyTime(string $value)
     {
-        $stringValue = trim((string) $value);
+        $stringValue = trim($value);
         if ($stringValue === '') {
             return null;
         }

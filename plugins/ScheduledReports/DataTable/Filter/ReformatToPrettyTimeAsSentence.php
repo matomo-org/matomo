@@ -36,7 +36,7 @@ class ReformatToPrettyTimeAsSentence extends BaseFilter
     }
 
     /**
-     * @param $table
+     * @param DataTable $table
      * @return void
      */
     public function filter($table): void
@@ -80,11 +80,11 @@ class ReformatToPrettyTimeAsSentence extends BaseFilter
     }
 
     /**
-     * @param $value
-     * @param $metricType
+     * @param mixed|bool $value
+     * @param string $metricType
      * @return string|null
      */
-    private function formatValue($value, $metricType): ?string
+    private function formatValue($value, string $metricType): ?string
     {
         if ($value === null || $value === '') {
             return null;
