@@ -425,6 +425,9 @@ class FrontController extends Singleton
         $sessionAuth = $this->makeSessionAuthenticator();
         if ($sessionAuth) {
             $loggedIn = Access::getInstance()->reloadAccess($sessionAuth);
+            if (!$loggedIn && $sessionAuth->wasSessionExpired()) {
+                Access::getInstance()->setSessionExpired(true);
+            }
         }
 
         // ... if session auth fails try normal auth (which will login the anonymous user)
