@@ -34,7 +34,7 @@ class TimerDbTest extends IntegrationTestCase
         $period = new Period\Day(Date::factory('2025-11-01'));
         $segment = new Segment('', [1]);
 
-        $context = new Context(1, $period, $segment, '', 'VisitsSummary_nb_visits');
+        $context = new Context(1, $period, $segment, '');
 
         $timer = new Timer(true, new Clock(), new DbWriter());
         $timer->start($context);
@@ -46,7 +46,6 @@ class TimerDbTest extends IntegrationTestCase
         self::assertSame(999, (int) $rows[0]['idarchive']);
         self::assertSame(1, (int) $rows[0]['idsite']);
         self::assertNotEmpty($rows[0]['archive_name']);
-        self::assertSame('VisitsSummary_nb_visits', $rows[0]['report']);
         self::assertSame('2025-11-01', $rows[0]['date1']);
         self::assertSame('2025-11-01', $rows[0]['date2']);
         self::assertIsNumeric($rows[0]['period']);

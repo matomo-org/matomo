@@ -83,7 +83,6 @@ class TimerTest extends TestCase
             'idSite' => 1,
             'segment' => '',
             'plugin' => '',
-            'report' => '',
             'date1' => '2024-01-01',
             'date2' => '2024-01-01',
         ];
@@ -91,8 +90,8 @@ class TimerTest extends TestCase
         return [
             'single period' => [
                 'events' => [
-                    ['action' => 'start', 'context' => array_merge($base, ['period' => 'day', 'report' => 'VisitsSummary_nb_visits'])],
-                    ['action' => 'complete', 'context' => array_merge($base, ['period' => 'day', 'report' => 'VisitsSummary_nb_visits']), 'idArchives' => [101], 'cached' => false],
+                    ['action' => 'start', 'context' => array_merge($base, ['period' => 'day'])],
+                    ['action' => 'complete', 'context' => array_merge($base, ['period' => 'day']), 'idArchives' => [101], 'cached' => false],
                 ],
                 'microtimes' => [
                     strtotime('2024-01-01 00:00:00'),
@@ -103,7 +102,6 @@ class TimerTest extends TestCase
                         'idarchive' => 101,
                         'idsite' => 1,
                         'archive_name' => 'done',
-                        'report' => 'VisitsSummary_nb_visits',
                         'date1' => '2024-01-01',
                         'date2' => '2024-01-01',
                         'period' => 1,
@@ -136,7 +134,6 @@ class TimerTest extends TestCase
                         'idarchive' => 303,
                         'idsite' => 1,
                         'archive_name' => 'done',
-                        'report' => '',
                         'date1' => '2024-01-01',
                         'date2' => '2024-12-31',
                         'period' => 4,
@@ -149,7 +146,6 @@ class TimerTest extends TestCase
                         'idarchive' => 204,
                         'idsite' => 1,
                         'archive_name' => 'done',
-                        'report' => '',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-01',
                         'period' => 1,
@@ -162,7 +158,6 @@ class TimerTest extends TestCase
                         'idarchive' => 202,
                         'idsite' => 1,
                         'archive_name' => 'done',
-                        'report' => '',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-29',
                         'period' => 3,
@@ -193,7 +188,6 @@ class TimerTest extends TestCase
                         'idarchive' => 204,
                         'idsite' => 1,
                         'archive_name' => 'done',
-                        'report' => '',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-01',
                         'period' => 1,
@@ -222,7 +216,6 @@ class TimerTest extends TestCase
                         'idarchive' => 202,
                         'idsite' => 1,
                         'archive_name' => 'done',
-                        'report' => '',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-29',
                         'period' => 3,
@@ -235,7 +228,6 @@ class TimerTest extends TestCase
                         'idarchive' => 303,
                         'idsite' => 1,
                         'archive_name' => 'done',
-                        'report' => '',
                         'date1' => '2024-01-01',
                         'date2' => '2024-12-31',
                         'period' => 4,
@@ -268,7 +260,6 @@ class TimerTest extends TestCase
                         'idarchive' => 303,
                         'idsite' => 1,
                         'archive_name' => 'done' . md5('browserCode==FF'),
-                        'report' => '',
                         'date1' => '2024-01-01',
                         'date2' => '2024-12-31',
                         'period' => 4,
@@ -281,7 +272,6 @@ class TimerTest extends TestCase
                         'idarchive' => 204,
                         'idsite' => 1,
                         'archive_name' => 'done',
-                        'report' => '',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-01',
                         'period' => 1,
@@ -294,7 +284,6 @@ class TimerTest extends TestCase
                         'idarchive' => 202,
                         'idsite' => 1,
                         'archive_name' => 'done',
-                        'report' => '',
                         'date1' => '2024-02-01',
                         'date2' => '2024-02-29',
                         'period' => 3,
@@ -318,8 +307,7 @@ class TimerTest extends TestCase
             $data['idSite'],
             $period,
             $segment,
-            $data['plugin'],
-            $data['report'] ?? null
+            $data['plugin']
         );
     }
     private function createSegment(string $segmentString): Segment
@@ -348,7 +336,6 @@ class InMemoryWriter implements WriterInterface
                     $context->period->getLabel(),
                     $context->plugin
                 ),
-                'report' => $context->report,
                 'date1' => $context->period->getDateTimeStart()->toString('Y-m-d'),
                 'date2' => $context->period->getDateTimeEnd()->toString('Y-m-d'),
                 'period' => $context->period->getId(),
