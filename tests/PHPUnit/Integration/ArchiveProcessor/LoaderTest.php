@@ -50,8 +50,6 @@ class LoaderTest extends IntegrationTestCase
 
     public function testDidReuseArchiveFlagIsOnlySetWhenReusingArchiveFromDb()
     {
-        $oldGet = $_GET;
-        Fixture::createSuperUser(true);
         $_GET['trigger'] = 'archivephp';
 
         $idSite = 1;
@@ -80,7 +78,6 @@ class LoaderTest extends IntegrationTestCase
 
         $this->assertTrue($loader->didReuseArchive(), 'Expected second archiving run to reuse the existing DB archive.');
         $this->assertSame(1, (int) $result[0][0], 'Expected second archiving run to return the same archive ids.');
-        $_GET = $oldGet;
     }
 
     public function testPluginOnlyArchivingDoesNotRelaunchChildArchives()
