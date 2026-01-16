@@ -307,7 +307,8 @@ class TimerTest extends TestCase
             $data['idSite'],
             $period,
             $segment,
-            $data['plugin']
+            $data['plugin'],
+            $data['report'] ?? false
         );
     }
     private function createSegment(string $segmentString): Segment

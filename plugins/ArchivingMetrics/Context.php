@@ -36,12 +36,21 @@ final class Context
      */
     public $plugin;
 
-    public function __construct(int $idSite, Period $period, Segment $segment, string $plugin)
+    /**
+     * @var false|string|string[]
+     */
+    public $report;
+
+    /**
+     * @param false|string|string[] $report
+     */
+    public function __construct(int $idSite, Period $period, Segment $segment, string $plugin, $report = false)
     {
         $this->idSite = $idSite;
         $this->period = $period;
         $this->segment = $segment;
         $this->plugin = $plugin;
+        $this->report = $report;
     }
 
     public function getKey(): string

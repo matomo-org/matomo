@@ -31,10 +31,9 @@ class ArchivingMetrics extends \Piwik\Plugin
         string $plugin,
         $report,
         bool $isArchivePhpTriggered
-    ): void
-    {
+    ): void {
         $timer = Timer::getInstance($isArchivePhpTriggered);
-        $context = $this->buildContext($idSite, $period, $segment, $plugin);
+        $context = $this->buildContext($idSite, $period, $segment, $plugin, $report);
 
         $timer->start($context);
     }
@@ -53,13 +52,13 @@ class ArchivingMetrics extends \Piwik\Plugin
         bool $wasCached
     ): void {
         $timer = Timer::getInstance($isArchivePhpTriggered);
-        $context = $this->buildContext($idSite, $period, $segment, $plugin);
+        $context = $this->buildContext($idSite, $period, $segment, $plugin, $report);
 
         $timer->complete($context, $idArchives, $wasCached);
     }
 
-    private function buildContext(int $idSite, Period $period, Segment $segment, string $plugin): Context
+    private function buildContext(int $idSite, Period $period, Segment $segment, string $plugin, $report): Context
     {
-        return new Context($idSite, $period, $segment, $plugin);
+        return new Context($idSite, $period, $segment, $plugin, $report);
     }
 }
