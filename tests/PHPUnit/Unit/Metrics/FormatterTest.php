@@ -131,7 +131,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
      */
     public function testNormalizeDurationMsTypeReturnsCorrectResult($value, $expected)
     {
-        $this->assertSame($expected, $this->formatter->normalizeDurationMsType($value));
+        $this->assertSame($expected, $this->formatter->converMillisecondsToSeconds($value));
     }
 
     public function getPrettyNumberTestData()

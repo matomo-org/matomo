@@ -149,7 +149,7 @@ class ArchivedMetric extends Metric
             case Dimension::TYPE_DURATION_S:
                 return $formatter->getPrettyTimeFromSeconds($value, $displayAsSentence = true);
             case Dimension::TYPE_DURATION_MS:
-                $val = $formatter->normalizeDurationMsType($value);
+                $val = $formatter->converMillisecondsToSeconds($value);
                 return $formatter->getPrettyTimeFromSeconds($val, $displayAsSentence = true);
             case Dimension::TYPE_PERCENT:
                 return $formatter->getPrettyPercentFromQuotient($value);

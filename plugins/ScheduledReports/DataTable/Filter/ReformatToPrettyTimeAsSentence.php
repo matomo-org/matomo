@@ -91,18 +91,18 @@ class ReformatToPrettyTimeAsSentence extends BaseFilter
         }
 
         if (is_numeric($value)) {
-            $seconds = (float) $value;
+            $number = (float) $value;
         } elseif (is_string($value)) {
-            $seconds = $this->formatter->getSecondsFromPrettyTime($value);
-            if ($seconds === null) {
+            $number = $this->formatter->getSecondsFromPrettyTime($value);
+            if ($number === null) {
                 return null;
             }
         } else {
             return null;
         }
         if ($metricType === Dimension::TYPE_DURATION_MS) {
-            $seconds = $this->formatter->normalizeDurationMsType($seconds);
+            $number = $this->formatter->converMillisecondsToSeconds($number);
         }
-        return $this->formatter->getPrettyTimeFromSeconds($seconds, true);
+        return $this->formatter->getPrettyTimeFromSeconds($number, true);
     }
 }

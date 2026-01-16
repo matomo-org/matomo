@@ -164,7 +164,7 @@ class Formatter
      * @param int|float $value
      * @return float
      */
-    public function normalizeDurationMsType($value): float
+    public function converMillisecondsToSeconds($value): float
     {
         return round(($value / 1000), ($value / 1000) > 60 ? 0 : 2);
     }
