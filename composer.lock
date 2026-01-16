@@ -1478,16 +1478,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v7.0.1",
+            "version": "v7.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "360ae911ce62e25e11249f6140fa58939f556ebe"
+                "reference": "ebf1655bd5b99b3f97e1a3ec0a69e5f4cd7ea088"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/360ae911ce62e25e11249f6140fa58939f556ebe",
-                "reference": "360ae911ce62e25e11249f6140fa58939f556ebe",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/ebf1655bd5b99b3f97e1a3ec0a69e5f4cd7ea088",
+                "reference": "ebf1655bd5b99b3f97e1a3ec0a69e5f4cd7ea088",
                 "shasum": ""
             },
             "require": {
@@ -1548,7 +1548,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v7.0.1"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v7.0.2"
             },
             "funding": [
                 {
@@ -1556,7 +1556,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-11-25T07:18:09+00:00"
+            "time": "2026-01-09T18:02:33+00:00"
         },
         {
             "name": "psr/container",
@@ -3902,12 +3902,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/matomo-coding-standards.git",
-                "reference": "2690e81df6f7429c9d63f7ba4062657f31a3a961"
+                "reference": "19bdc5e47f64c8b409051a92b7a0deb4405c98e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/matomo-coding-standards/zipball/2690e81df6f7429c9d63f7ba4062657f31a3a961",
-                "reference": "2690e81df6f7429c9d63f7ba4062657f31a3a961",
+                "url": "https://api.github.com/repos/matomo-org/matomo-coding-standards/zipball/19bdc5e47f64c8b409051a92b7a0deb4405c98e1",
+                "reference": "19bdc5e47f64c8b409051a92b7a0deb4405c98e1",
                 "shasum": ""
             },
             "require": {
@@ -3936,7 +3936,7 @@
                 "source": "https://github.com/matomo-org/matomo-coding-standards/tree/master",
                 "issues": "https://github.com/matomo-org/matomo-coding-standards/issues"
             },
-            "time": "2025-06-03T21:54:18+00:00"
+            "time": "2026-01-13T22:48:47+00:00"
         },
         {
             "name": "myclabs/deep-copy",
