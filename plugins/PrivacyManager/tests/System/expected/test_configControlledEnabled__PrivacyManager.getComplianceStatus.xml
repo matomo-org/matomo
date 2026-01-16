@@ -17,14 +17,14 @@
 			<name>Ecommerce Restricted</name>
 			<value>compliant</value>
 			<notes>Ecommerce analytics is enabled, but specific segments are disabled (Order ID, Order revenue, Product price, Product name, Product SKU). If you prefer, you can completely disable Ecommerce tracking &lt;a href=&quot;index.php?module=SitesManager&amp;action=index&amp;idSite=1&quot;&gt;here&lt;/a&gt;.</notes>
-        </row>
+		</row>
 		<row>
 			<name>Ecommerce - Order ID anonymisation</name>
 			<value>compliant</value>
 			<notes>Order IDs must be anonymised.</notes>
 		</row>
-        <row>
-            <name>PII data filtered</name>
+		<row>
+			<name>PII data filtered</name>
 			<value>compliant</value>
 			<notes>Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list.</notes>
 		</row>
