@@ -872,7 +872,8 @@ class FrontController extends Singleton
 
         return false;
     }
-    private function sendSessionTimedOutHeaderIfNeeded() {
+    private function sendSessionTimedOutHeaderIfNeeded()
+    {
         if (!Access::getInstance()->wasSessionExpired()) {
             return;
         }

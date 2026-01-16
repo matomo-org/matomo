@@ -47,8 +47,8 @@ class ResponseCodeTest extends SystemTestCase
             ['token_auth' => Fixture::VIEW_USER_TOKEN]
         );
 
-        // The user doesn't have superuser access, so status code should be 401
-        $this->assertEquals(401, $info['http_code']);
+        // The user doesn't have superuser access, so status code should be 403
+        $this->assertEquals(403, $info['http_code']);
     }
 
     public function testApiShouldHaveCorrectHttpStatus()
