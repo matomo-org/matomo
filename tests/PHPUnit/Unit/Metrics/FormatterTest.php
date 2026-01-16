@@ -257,6 +257,7 @@ class FormatterTest extends \PHPUnit\Framework\TestCase
             array(" 00:00:01.75 ", 1.75),
             array('-00:10:00', -600),
             array('999:59:59', (999 * 3600) + (59 * 60) + 59),
+            array('2 days 01:02:03', (2 * 86400) + 3723),
             array('', null),
             array('00:5:00', null),
             array('not-time', null),

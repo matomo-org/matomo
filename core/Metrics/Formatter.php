@@ -137,16 +137,20 @@ class Formatter
             $stringValue = substr($stringValue, 1);
         }
 
-        if (!preg_match('/^(?P<hours>\d{1,3}):(?P<minutes>\d{2}):(?P<seconds>\d{2})(?:\.(?P<fraction>\d+))?$/', $stringValue, $timeMatch)) {
+        $timeMatch = null;
+        if (preg_match('/^(?P<days>\d+)\s+days\s+(?P<hours>\d{1,3}):(?P<minutes>\d{2}):(?P<seconds>\d{2})(?:\.(?P<fraction>\d+))?$/', $stringValue, $timeMatch)) {
+            // matched days format
+        } elseif (!preg_match('/^(?P<hours>\d{1,3}):(?P<minutes>\d{2}):(?P<seconds>\d{2})(?:\.(?P<fraction>\d+))?$/', $stringValue, $timeMatch)) {
             return null;
         }
 
+        $days = isset($timeMatch['days']) ? (int) $timeMatch['days'] : 0;
         $hours = (int) $timeMatch['hours'];
         $minutes = (int) $timeMatch['minutes'];
         $seconds = (int) $timeMatch['seconds'];
         $fraction = isset($timeMatch['fraction']) ? (float) ('0.' . $timeMatch['fraction']) : 0;
 
-        $totalSeconds = (($hours * 60) + $minutes) * 60 + $seconds + $fraction;
+        $totalSeconds = (((($days * 24) + $hours) * 60) + $minutes) * 60 + $seconds + $fraction;
         if ($isNegative) {
             $totalSeconds *= -1;
         }
