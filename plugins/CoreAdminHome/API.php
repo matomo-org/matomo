@@ -318,7 +318,7 @@ class API extends \Piwik\Plugin\API
          * Triggered before a full archiveReports run starts.
          *
          * Usage example:
-         * Piwik::addAction('CoreAdminHome.archiveReports.start', function ($idSite, $period, $segment, $plugin, $isArchivePhpTriggered, $report) { ... });
+         * Piwik::addAction('CoreAdminHome.archiveReports.start', function ($idSite, $period, $segment, $plugin, $report, $isArchivePhpTriggered) { ... });
          *
          * @internal
          */
