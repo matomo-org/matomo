@@ -526,7 +526,6 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     const result = new Promise<T | ErrorResponse>((resolve, reject) => {
       this.requestHandle!.then((data: unknown, _textStatus: string, xhr: jqXHR) => {
-
         const isInApp = !document.querySelector('#login_form');
         const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
         if (sessionTimedOut && isInApp) {
