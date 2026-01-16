@@ -497,6 +497,7 @@ class API extends \Piwik\Plugin\API
                     'language' => $language,
                     'serialize' => 0,
                     'format' => 'original',
+                    'format_metrics' => 'all',
                 ];
 
                 if ($segment != null) {
