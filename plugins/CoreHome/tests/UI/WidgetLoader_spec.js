@@ -49,7 +49,7 @@ describe('WidgetLoader', function () {
     const loginForm = await page.waitForSelector('#login_form_login', { visible: true });
     expect(loginForm).to.be.ok;
 
-    const expectedText = 'Error: You must be logged in to access this functionality.';
+    const expectedText = 'Error: Your session has expired due to inactivity. Please log in to continue.';
     const notificationText = await page.$eval('div.system.notification-error .notification-body', el => el.textContent.trim());
     expect(notificationText).to.equal(expectedText);
 
