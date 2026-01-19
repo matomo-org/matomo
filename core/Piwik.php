@@ -993,4 +993,28 @@ class Piwik
         $plugin = $parts[2] ?? '';
         return $plugin;
     }
+
+    /**
+     * Given the fully qualified name of a class located within Matomo,
+     * return whether that class is located inside a plugin.
+     *
+     * Expects the path for plugins to follow the format Piwik\Plugins\MyPlugin.
+     *
+     * @param string $className the name of a class
+     * @return bool whether the class is inside a plugin
+     */
+    public static function isMatomoClassInAPlugin(string $className): bool
+    {
+        $parts = explode('\\', $className);
+        $parts = array_filter($parts);
+        if (count($parts) < 2) {
+            return false;
+        }
+
+        if (str_starts_with(strtolower($parts[1]), 'p')) {
+            return true;
+        }
+
+        return false;
+    }
 }
