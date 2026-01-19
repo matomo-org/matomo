@@ -31,15 +31,13 @@ class API extends \Piwik\Plugin\API
     public const NEW_VISITOR_SEGMENT = 'visitorType%3D%3Dnew';
     public const NEW_COLUMN_SUFFIX = "_new";
 
+    protected $autoSanitizeInputParams = false;
+
     /**
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @param bool|array $columns
-     * @return mixed
+     * @param string|int|int[] $idSite
+     * @param null|string|string[] $columns
      */
-    public function get($idSite, $period, $date, $segment = false, $columns = false)
+    public function get($idSite, string $period, string $date, ?string $segment = null, $columns = null): DataTable\DataTableInterface
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -50,7 +48,6 @@ class API extends \Piwik\Plugin\API
 
         $columns = Piwik::getArrayFromApiParameter($columns);
 
-        /** @var \Piwik\DataTable\DataTableInterface $resultSet */
         if ($idSite === 'all' || count(Site::getIdSitesFromIdSitesString($idSite)) > 1) {
             $resultSet = new DataTable\Map();
             $resultSet->setKeyName('idSite');
@@ -82,22 +79,22 @@ class API extends \Piwik\Plugin\API
                 'format_metrics' => 0,
             );
 
-            /** @var \Piwik\DataTable\Map $response */
+            /** @var DataTable\Map|DataTable $response */
             $response = Request::processRequest('VisitsSummary.get', $params);
-            $this->prefixColumns($response, $period, $columnSuffix);
+            $this->prefixColumns($response, $columnSuffix);
 
-            if ($resultSet === null) {
-                $resultSet = $response;
-            } else {
-                $merger = new MergeDataTables();
-                $merger->mergeDataTables($resultSet, $response);
-            }
+            $merger = new MergeDataTables();
+            $merger->mergeDataTables($resultSet, $response);
         }
 
         return $resultSet;
     }
 
-    protected function unprefixColumns(array $requestedColumns, $suffix)
+    /**
+     * @param string[] $requestedColumns
+     * @return string[]
+     */
+    protected function unprefixColumns(array $requestedColumns, string $suffix): array
     {
         $result = array();
         foreach ($requestedColumns as $column) {
@@ -108,12 +105,12 @@ class API extends \Piwik\Plugin\API
         return $result;
     }
 
-    protected function prefixColumns($table, $period, $suffix)
+    protected function prefixColumns(DataTable\DataTableInterface $table, string $suffix): void
     {
         $rename = array();
         foreach ($table->getColumns() as $oldColumn) {
             $rename[$oldColumn] = $oldColumn . $suffix;
         }
-        $table->filter('ReplaceColumnNames', array($rename));
+        $table->filter('ReplaceColumnNames', [$rename]);
     }
 }
