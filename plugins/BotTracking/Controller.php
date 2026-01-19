@@ -144,6 +144,36 @@ class Controller extends \Piwik\Plugin\Controller
         return $this->renderView($view);
     }
 
+    public function noRecentRequestsMessage(): string
+    {
+        $this->checkSitePermission();
+
+        $noDataUrl = 'index.php?' . Url::getQueryStringFromParameters([
+            'module' => 'BotTracking',
+            'action' => 'siteWithoutData',
+            'idSite' => $this->idSite,
+        ]);
+
+        return $this->renderTemplate('noRecentRequestsMessage', [
+            'noDataUrl' => $noDataUrl,
+        ]);
+    }
+
+    public function showNoRecentRequestsMessage(): string
+    {
+        $this->checkSitePermission();
+
+        $request = Request::fromRequest();
+        $period  = $request->getStringParameter('period', '');
+        $date    = $request->getStringParameter('date', '');
+
+        Json::sendHeaderJSON();
+
+        return json_encode(
+            NoRecentRequestsMessage::shouldShow($this->idSite, $period, $date)
+        );
+    }
+
     /**
      * @return array<class-string<BotTrackingMethodAbstract>>
      */

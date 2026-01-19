@@ -48,6 +48,17 @@ class Get extends Report
     {
         $widgetsList->addWidgetConfig(
             $factory->createWidget()
+                ->setName('BotTracking_NoRecentRequestsWidgetTitle')
+                ->setModule('BotTracking')
+                ->setAction('noRecentRequestsMessage')
+                ->setMiddlewareParameters(['module' => 'BotTracking', 'action' => 'showNoRecentRequestsMessage'])
+                ->setIsWide()
+                ->setIsNotWidgetizable()
+                ->setOrder(0)
+        );
+
+        $widgetsList->addWidgetConfig(
+            $factory->createWidget()
                 ->setName('BotTracking_ReportTitleBotsOverTime')
                 ->forceViewDataTable(Evolution::ID)
                 ->setAction('getEvolutionGraph')
