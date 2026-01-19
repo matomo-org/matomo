@@ -41,6 +41,8 @@
         "NoDataHttpTrackingApi": "HTTP Tracking API",
         "NoDataHttpTrackingApiDescription": "Use the %1$sTracking API knowledge base%2$s for setup guidance, and the %3$sHTTP Tracking API reference%4$s for all available parameters.",
         "NoDataMissingOneContactUs": "Missing one? Contact us",
+        "NoRecentAIBotRequests": "%1$sNo data collected in the last 7 days.%2$s %3$sSet up AI Chatbot tracking now%4$s.",
+        "NoRecentRequestsWidgetTitle": "AI Assistants - Bots - No Recent Requests",
         "SiteWithoutDataBackToMatomo": "Back to Matomo",
         "SiteWithoutDataChooseTrackingMethod": "Choose your AI Chatbot Tracking Method",
         "SiteWithoutDataChooseTrackingMethodPreamble1": "Track AI chatbots accessing your website to understand how your content is discovered and consumed by AI-powered assistants.",
