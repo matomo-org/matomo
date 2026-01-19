@@ -1,0 +1,9 @@
+{% set message %}
+  {{ 'BotTracking_NoRecentAIBotRequests'|translate('<strong>', '</strong>', '<a href="' ~ noDataUrl ~ '">', '</a>')|raw }}
+{% endset %}
+
+{{ message|notification({
+    context: 'warning',
+    type: 'persistent',
+    raw: true
+}, false) }}

@@ -33,6 +33,11 @@ describe("BotTracking", function () {
         expect(await elem.screenshot()).to.matchImage('bot_overview');
     });
 
+    it('should not have shown a "no recent tracking requests" message', async function () {
+        const notifications = await page.$$('.notification.notification-warning');
+        expect(notifications.length).to.equal(0);
+    })
+
     it('should not show unique pages and documents metric for higher periods', async function () {
         await page.goto("?" + urlBase + "#?idSite=1&period=week&date=2025-02-02&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();

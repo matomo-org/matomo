@@ -10,7 +10,9 @@
 describe('BotTrackingSiteWithoutData', function () {
     this.fixture = 'Piwik\\Tests\\Fixtures\\OneVisit';
 
-    const url = '?module=BotTracking&action=siteWithoutData&idSite=1';
+    const generalParams = 'idSite=1&period=day&date=today';
+    const urlBase = `module=CoreHome&action=index&${generalParams}`;
+    const urlOverview = `?${urlBase}#?${generalParams}&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview`;
 
     before(function () {
         testEnvironment.detectedContentDetections = [];
@@ -25,8 +27,17 @@ describe('BotTrackingSiteWithoutData', function () {
         testEnvironment.save();
     });
 
+    it('should show a message if no bot data has been recently tracked', async function () {
+        await page.goto(urlOverview);
+        await page.waitForSelector('.notification.notification-warning');
+
+        const notification = await page.$('.notification.notification-warning');
+
+        expect(await notification.getProperty('textContent')).to.match(/No data collected/i);
+    });
+
     it('should show the no data page', async function () {
-        await page.goto(url);
+        await page.click('.notification.notification-warning a');
         await page.waitForSelector('.tracking-method-list');
 
         const pageElement = await page.$('.page');
