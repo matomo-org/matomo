@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bce3f3a5eea9980cfeca33ed264bd8e",
+    "content-hash": "a210353fa13ab6120d3ee99822cb7b49",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -314,24 +314,24 @@
         },
         {
             "name": "matomo/cache",
-            "version": "2.0.6",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matomo-org/component-cache.git",
-                "reference": "8dd6852b26bc0060a85678602e3b7d624e0ad0ea"
+                "reference": "b36cf03b41bb59a9362eb76d69f966d1ff5a18f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/8dd6852b26bc0060a85678602e3b7d624e0ad0ea",
-                "reference": "8dd6852b26bc0060a85678602e3b7d624e0ad0ea",
+                "url": "https://api.github.com/repos/matomo-org/component-cache/zipball/b36cf03b41bb59a9362eb76d69f966d1ff5a18f4",
+                "reference": "b36cf03b41bb59a9362eb76d69f966d1ff5a18f4",
                 "shasum": ""
             },
             "require": {
                 "matomo/doctrine-cache-fork": "1.10.4",
-                "php": ">=7.1"
+                "php": ">=7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "~7.0"
+                "phpunit/phpunit": "^8 || ^9 || ^10 || ^11 || ^12"
             },
             "type": "library",
             "autoload": {
@@ -359,9 +359,9 @@
             ],
             "support": {
                 "issues": "https://github.com/matomo-org/component-cache/issues",
-                "source": "https://github.com/matomo-org/component-cache/tree/2.0.6"
+                "source": "https://github.com/matomo-org/component-cache/tree/3.0.0"
             },
-            "time": "2023-01-18T14:01:31+00:00"
+            "time": "2026-01-19T07:58:59+00:00"
         },
         {
             "name": "matomo/decompress",

@@ -46,7 +46,7 @@
         "davaxi/sparkline": "~2.0",
         "geoip2/geoip2": "^2.8",
         "lox/xhprof": "dev-master",
-        "matomo/cache": "~2.0",
+        "matomo/cache": "~3.0",
         "matomo/decompress": "~2.0",
         "matomo/device-detector": "~6.0",
         "matomo/ini": "~3.0",
