@@ -338,11 +338,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     public function ajaxNoAccess($errorMessage)
     {
-        if (Access::getInstance()->wasSessionExpired()) {
-            header('X-Matomo-Session-Timed-Out: 1');
-        }
-
-        http_response_code(Piwik::isUserIsAnonymous() ? 401 : 403);
+        http_response_code(401);
 
         return sprintf(
             '<div class="alert alert-danger">

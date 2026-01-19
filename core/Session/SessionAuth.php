@@ -245,7 +245,6 @@ class SessionAuth implements Auth
     {
         $expirationTime = $sessionFingerprint->getExpirationTime();
         if (empty($expirationTime)) {
-            $this->sessionExpired = true;
             return true;
         }
 

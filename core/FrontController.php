@@ -813,20 +813,13 @@ class FrontController extends Singleton
 
     private function consumeSessionTimeoutCookie(): void
     {
-        if (empty($_COOKIE[self::SESSION_TIMEOUT_COOKIE_NAME])) {
+        $cookie = new Cookie(self::SESSION_TIMEOUT_COOKIE_NAME);
+
+        if (!$cookie->isCookieFound()) {
             return;
         }
 
-        Session::writeCookie(
-            self::SESSION_TIMEOUT_COOKIE_NAME,
-            '',
-            time() - 3600,
-            '/',
-            '',
-            ProxyHttp::isHttps(),
-            false,
-            Session::getSameSiteCookieValue()
-        );
+        $cookie->delete();
 
         if (Piwik::isUserIsAnonymous()) {
             Access::getInstance()->setSessionExpired(true);
@@ -872,6 +865,7 @@ class FrontController extends Singleton
 
         return false;
     }
+
     private function sendSessionTimedOutHeaderIfNeeded()
     {
         if (!Access::getInstance()->wasSessionExpired()) {

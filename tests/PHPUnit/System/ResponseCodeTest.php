@@ -47,8 +47,8 @@ class ResponseCodeTest extends SystemTestCase
             ['token_auth' => Fixture::VIEW_USER_TOKEN]
         );
 
-        // The user doesn't have superuser access, so status code should be 403
-        $this->assertEquals(403, $info['http_code']);
+        // The user doesn't have superuser access, so status code should be 401
+        $this->assertEquals(401, $info['http_code']);
     }
 
     public function testApiShouldHaveCorrectHttpStatus()
@@ -72,7 +72,7 @@ class ResponseCodeTest extends SystemTestCase
 
         // The message and status code from a nested API call should be used if they are not catched.
         $this->assertEquals("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<result>\n	<error message=\"You can't access this resource as it requires a 'superuser' access.\" />\n</result>", $response);
-        $this->assertEquals(403, $info['http_code']);
+        $this->assertEquals(401, $info['http_code']);
     }
 
     public function testProcessedApiCallWithCaughtExceptionShouldHaveCorrectHttpStatus()

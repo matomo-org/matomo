@@ -648,7 +648,7 @@ class AccessTest extends IntegrationTestCase
         $responseInfo = curl_getinfo($ch);
         curl_close($ch);
 
-        $this->assertEquals(403, $responseInfo["http_code"]);
+        $this->assertEquals(401, $responseInfo["http_code"]);
     }
 
     public function testAPIWithAuthorizationHeader()

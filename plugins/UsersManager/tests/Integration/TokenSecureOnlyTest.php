@@ -68,7 +68,7 @@ class TokenSecureOnlyTest extends IntegrationTestCase
         $responseInfo = curl_getinfo($ch);
         curl_close($ch);
 
-        $this->assertEquals(403, $responseInfo["http_code"]);
+        $this->assertEquals(401, $responseInfo["http_code"]);
         $this->assertStringContainsString("or is required to be sent as a POST parameter", $out);
     }
 

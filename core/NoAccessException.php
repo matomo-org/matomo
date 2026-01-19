@@ -19,7 +19,7 @@ use Piwik\Http\HttpCodeException;
  */
 class NoAccessException extends InvalidRequestParameterException implements HttpCodeException
 {
-    public function __construct($message, $code = 403)
+    public function __construct($message, $code = 401)
     {
         parent::__construct($message, $code);
     }

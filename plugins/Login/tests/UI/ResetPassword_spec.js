@@ -62,13 +62,13 @@ describe('ResetPassword', function () {
       await page.waitForNetworkIdle();
     }
 
-    xit('should display password reset form when forgot password link clicked', async function () {
+    it('should display password reset form when forgot password link clicked', async function () {
         await goToForgotPasswordPage();
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('forgot_password');
     });
 
-    xit('should show reset password form and error message on error', async function () {
+    it('should show reset password form and error message on error', async function () {
         await goToForgotPasswordPage();
 
         await page.type('#reset_form_login', superUserLogin);
@@ -80,7 +80,7 @@ describe('ResetPassword', function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('password_reset_error');
     });
 
-    xdescribe('confirm password reset', function () {
+    describe('confirm password reset', function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
         before(async function () {
@@ -142,9 +142,8 @@ describe('ResetPassword', function () {
 
         before(async function () {
           // make sure we are not logged in
-          await page.goto('?module=Login&action=logout', {waitUntil: 'domcontentloaded'});
+          await page.goto('?module=Login&action=logout');
           await page.waitForNetworkIdle();
-          await page.waitForSelector('.loginSection', { visible: true });
           await page.clearCookies();
         });
 
@@ -156,7 +155,7 @@ describe('ResetPassword', function () {
         });
     });
 
-    xdescribe('password reset "was not me"', function () {
+    describe('password reset "was not me"', function () {
         this.title = parentSuite.title; // to make sure the screenshot prefix is the same
 
         before(async function () {
