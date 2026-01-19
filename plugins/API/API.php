@@ -130,6 +130,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the section [APISettings] if defined in config.ini.php
      * @return array
+     * @deprecated May be removed in one of the next major releases
      */
     public function getSettings()
     {

@@ -16,7 +16,7 @@
         "NumberOfItems": "Αριθμός αντικειμένων στο καλάθι",
         "Order": "Παραγγελία",
         "OrderId": "Αναγνωριστικό παραγγελίας",
-        "OrderIdAnonymizationSettingRequirementNote": "Τα αναγνωριστικά παραγγελιών πρέπει να ανωνυμοποιούνται",
+        "OrderIdAnonymizationSettingRequirementNote": "Τα αναγνωριστικά παραγγελιών πρέπει να ανωνυμοποιούνται.",
         "OrderIdAnonymizationSettingTitle": "Ανωνυμοποίηση αναγνωριστικού παραγγελίας",
         "OrderRevenue": "Έσοδα Παραγγελίας",
         "OrderValue": "Αξία παραγγελίας",
