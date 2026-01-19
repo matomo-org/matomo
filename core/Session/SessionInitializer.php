@@ -85,9 +85,21 @@ class SessionInitializer
     {
         $sessionIdentifier = new SessionFingerprint();
 
-        $authClassString = get_class(StaticContainer::get('Piwik\Auth'));
+        $defaultLoginPluginName = 'Login';
 
-        $currentLoginPluginName = Piwik::getPluginNameOfMatomoClass($authClassString);
+        $authClassString = get_class(StaticContainer::get('Piwik\Auth'));
+        $pluginOfAuthClass = Piwik::getPluginNameOfMatomoClass($authClassString);
+
+        if ($pluginOfAuthClass === $defaultLoginPluginName) {
+            $currentClassString = get_class($this);
+            if (Piwik::isMatomoClassInAPlugin($currentClassString)) {
+                $currentLoginPluginName = Piwik::getPluginNameOfMatomoClass($currentClassString);
+            } else {
+                $currentLoginPluginName = $defaultLoginPluginName;
+            }
+        } else {
+            $currentLoginPluginName = $pluginOfAuthClass;
+        }
 
         $sessionIdentifier->initialize(
             $authResult->getIdentity(),
