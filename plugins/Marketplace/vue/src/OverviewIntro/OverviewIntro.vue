@@ -34,7 +34,6 @@
       :plugin-type-options="pluginTypeOptions"
       :default-sort="defaultSort"
       :plugin-sort-options="pluginSortOptions"
-      :num-available-plugins-by-type="numAvailablePluginsByType"
       :current-user-email="currentUserEmail"
       :is-auto-update-possible="isAutoUpdatePossible"
       :is-super-user="isSuperUser"
@@ -111,10 +110,6 @@ export default defineComponent({
       required: true,
     },
     pluginSortOptions: {
-      type: Object,
-      required: true,
-    },
-    numAvailablePluginsByType: {
       type: Object,
       required: true,
     },
