@@ -61,6 +61,17 @@
       <div>
         <Field
           uicontrol="radio"
+          name="darkMode"
+          v-model="theDarkMode"
+          :title="'You can choose between a light or a dark Matomo interface'"
+          :introduction="'Theme'"
+          :options="darkModeOptions"
+        />
+      </div>
+
+      <div>
+        <Field
+          uicontrol="radio"
           name="defaultReport"
           v-model="theDefaultReport"
           :introduction="translate('UsersManager_ReportToLoadByDefault')"
@@ -126,6 +137,7 @@ interface PersonalSettingsState {
   email: string;
   language: string;
   timeformat: number;
+  theDarkMode: string;
   theDefaultReport: string|number;
   site: SiteRef;
   theDefaultDate: string;
@@ -164,6 +176,14 @@ export default defineComponent({
       required: true,
     },
     timeFormats: {
+      type: Object,
+      required: true,
+    },
+    darkMode: {
+      type: String,
+      required: true,
+    },
+    darkModeOptions: {
       type: Object,
       required: true,
     },
@@ -209,6 +229,7 @@ export default defineComponent({
       email: this.userEmail,
       language: this.currentLanguageCode,
       timeformat: this.currentTimeformat,
+      theDarkMode: this.darkMode,
       theDefaultReport: this.defaultReport,
       site: {
         id: this.defaultReportIdSite,
@@ -231,6 +252,7 @@ export default defineComponent({
     doSave(password?: string) {
       const postParams: QueryParameters = {
         email: this.email,
+        darkMode: this.theDarkMode,
         defaultReport: this.theDefaultReport === 'MultiSites'
           ? this.theDefaultReport
           : this.site.id,

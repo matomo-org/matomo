@@ -208,9 +208,9 @@ class ThemeStyles
      */
     public $colorWidgetBorder;
 
-    public function __construct($isDarkMode)
+    public function __construct($mode)
     {
-        $this->isDarkMode = $isDarkMode;
+        $this->isDarkMode = $mode === 'dark';
         $this->colorFocusRingAlternative = $this->colorBrand;
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
@@ -225,9 +225,9 @@ class ThemeStyles
     /**
      * @return ThemeStyles
      */
-    public static function get($isDarkMode = true)
+    public static function get($mode = 'light')
     {
-        $result = new self($isDarkMode);
+        $result = new self($mode);
 
         /**
          * @ignore

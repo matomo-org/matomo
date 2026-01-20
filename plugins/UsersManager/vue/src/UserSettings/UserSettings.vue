@@ -16,6 +16,8 @@
       :language-options="languageOptions"
       :current-timeformat="currentTimeformat"
       :time-formats="timeFormats"
+      :dark-mode="darkMode"
+      :dark-mode-options="darkModeOptions"
       :default-report="defaultReport"
       :default-report-options="defaultReportOptions"
       :default-report-id-site="defaultReportIdSite"
@@ -79,6 +81,14 @@ export default defineComponent({
       required: true,
     },
     timeFormats: {
+      type: Object,
+      required: true,
+    },
+    darkMode: {
+      type: String,
+      required: true,
+    },
+    darkModeOptions: {
       type: Object,
       required: true,
     },

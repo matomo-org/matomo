@@ -25,6 +25,7 @@ use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
+use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Segment\SegmentsList;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
@@ -78,8 +79,8 @@ class CoreHome extends \Piwik\Plugin
 
     public function addStylesheets(&$mergedContent)
     {
-        // TODO: fetch dark mode preferences
-        $themeStyles = ThemeStyles::get();
+        $darkMode = (new UserPreferences())->getDarkMode();
+        $themeStyles = ThemeStyles::get($darkMode);
         $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
     }
 

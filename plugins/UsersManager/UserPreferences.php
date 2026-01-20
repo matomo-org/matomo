@@ -53,6 +53,19 @@ class UserPreferences
     }
 
     /**
+     * Returns user light/dark mode preference.
+     *
+     * @api
+     */
+    public function getDarkMode() :string
+    {
+        return $this->api->getUserPreference(
+            APIUsersManager::PREFERENCE_DARK_MODE,
+            Piwik::getCurrentUserLogin()
+        );
+    }
+
+    /**
      * Returns default site ID that Piwik should load.
      *
      * _Note: This value is a Piwik setting set by each user._
