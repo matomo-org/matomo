@@ -35,6 +35,8 @@ class CloudFront extends BotTrackingMethodAbstract
     {
         $view = new View('@BotTracking/_noDataCloudFront');
         $view->sendHeadersWhenRendering = false;
+        $view->urlKnowledgeBase = 'https://matomo.org/';
+        $view->urlSourceCode = 'https://matomo.org/';
         return $view->render();
     }
 }

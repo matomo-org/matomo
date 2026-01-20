@@ -35,6 +35,8 @@ class Cloudflare extends BotTrackingMethodAbstract
     {
         $view = new View('@BotTracking/_noDataCloudflare');
         $view->sendHeadersWhenRendering = false;
+        $view->urlKnowledgeBase = 'https://matomo.org/';
+        $view->urlSourceCode = 'https://matomo.org/';
         return $view->render();
     }
 }

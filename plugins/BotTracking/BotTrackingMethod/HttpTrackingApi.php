@@ -36,6 +36,11 @@ class HttpTrackingApi extends BotTrackingMethodAbstract
         return './plugins/SitesManager/images/code.svg';
     }
 
+    public static function isOthers(): bool
+    {
+        return true;
+    }
+
     public static function renderInstructionsTab(): string
     {
         $knowledgeBaseLink = Url::getExternalLinkTag('https://matomo.org/docs/tracking-api/');
