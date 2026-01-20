@@ -108,6 +108,18 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
     }
 
+    public function testGetCurrentSchemeIgnoresProxyHeaderWhenNotConfigured2()
+    {
+        $_SERVER['HTTPS']                                      = 'on';
+        $_SERVER['HTTP_X_FORWARDED_PROTO']                     = 'http';
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
+
+        $this->assertEquals('https', Url::getCurrentScheme());
+
+        unset($_SERVER['HTTPS']);
+        unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
+    }
+
     /**
      * @dataProvider getProtocol
      */
@@ -317,7 +329,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         ];
 
         foreach ($tests as $test) {
-            list($expected, $uri, $pathInfo) = $test;
+            [$expected, $uri, $pathInfo] = $test;
 
             $_SERVER['REQUEST_URI'] = $uri;
             $_SERVER['PATH_INFO'] = $pathInfo;
