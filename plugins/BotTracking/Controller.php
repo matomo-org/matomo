@@ -80,6 +80,7 @@ class Controller extends \Piwik\Plugin\Controller
                     'name'        => $trackingMethodClass::getName(),
                     'content'     => $tabContent,
                     'icon'        => $icon ?? '',
+                    'isOthers'    => $trackingMethodClass::isOthers(),
                     'priority'    => $trackingMethodClass::getPriority(),
                     'wasDetected' => $wasDetected,
                     'link'        => $link,

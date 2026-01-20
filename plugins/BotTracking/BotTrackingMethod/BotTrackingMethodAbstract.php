@@ -36,4 +36,9 @@ abstract class BotTrackingMethodAbstract
         $classParts = explode('\\', static::class);
         return end($classParts);
     }
+
+    public static function isOthers(): bool
+    {
+        return false;
+    }
 }

@@ -124,6 +124,7 @@ interface TrackingMethod {
   link?: string,
   icon: string,
   priority: number,
+  isOthers: boolean,
   wasDetected: boolean
 }
 interface SiteWithoutDataState {
@@ -223,6 +224,10 @@ export default defineComponent({
   computed: {
     headline(): string {
       if (this.showMethodDetails && this.showMethodDetails.name) {
+        if (this.showMethodDetails.isOthers) {
+          return this.showMethodDetails.name;
+        }
+
         return translate('BotTracking_SiteWithoutDataInstallWithX', this.showMethodDetails.name);
       }
       return translate('BotTracking_SiteWithoutDataChooseTrackingMethod');
