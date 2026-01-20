@@ -15,6 +15,7 @@ use Piwik\DataTable\Renderer\Json;
 use Piwik\Piwik;
 use Piwik\Plugins\BotTracking\BotTrackingMethod\BotTrackingMethodAbstract;
 use Piwik\Plugins\BotTracking\Reports\SegmentNotSupportedMessageHelper;
+use Piwik\Plugin\Menu;
 use Piwik\Plugin\Manager;
 use Piwik\Request;
 use Piwik\SiteContentDetector;
@@ -26,8 +27,12 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkSitePermission();
 
+        $request = Request::fromRequest();
+        $period  = $request->getStringParameter('period', '');
+        $date    = $request->getStringParameter('date', '');
+
         return $this->renderTemplateAs('siteWithoutData', [
-            'backToMatomoLink' => Url::getCurrentUrlWithoutQueryString(),
+            'backToMatomoLink' => $this->buildAIBotsOverviewUrl($period, $date),
             'hideWhatIsNew'    => true,
         ], $viewType = 'basic');
     }
@@ -152,11 +157,25 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $this->checkSitePermission();
 
-        $noDataUrl = 'index.php?' . Url::getQueryStringFromParameters([
+        $request = Request::fromRequest();
+        $period  = $request->getStringParameter('period', '');
+        $date    = $request->getStringParameter('date', '');
+
+        $noDataParams = [
             'module' => 'BotTracking',
             'action' => 'siteWithoutData',
             'idSite' => $this->idSite,
-        ]);
+        ];
+
+        if ($period !== '') {
+            $noDataParams['period'] = $period;
+        }
+
+        if ($date !== '') {
+            $noDataParams['date'] = $date;
+        }
+
+        $noDataUrl = 'index.php?' . Url::getQueryStringFromParameters($noDataParams);
 
         return $this->renderTemplate('noRecentRequestsMessage', [
             'noDataUrl' => $noDataUrl,
@@ -192,5 +211,30 @@ class Controller extends \Piwik\Plugin\Controller
     protected function buildSiteContentDetector(): SiteContentDetector
     {
         return new SiteContentDetector();
+    }
+
+    protected function buildAIBotsOverviewUrl(string $period, string $date): string
+    {
+        $menu             = new Menu();
+        $params           = $menu->urlForDefaultUserParams($this->idSite);
+        $params['module'] = 'CoreHome';
+        $params['action'] = 'index';
+
+        if ($period !== '') {
+            $params['period'] = $period;
+        }
+
+        if ($date !== '') {
+            $params['date'] = $date;
+        }
+
+        $hashParams                = $params;
+        $hashParams['category']    = 'General_AIAssistants';
+        $hashParams['subcategory'] = 'BotTracking_AIBotsOverview';
+
+        return 'index.php?'
+            . Url::getQueryStringFromParameters($params)
+            . '#?'
+            . Url::getQueryStringFromParameters($hashParams);
     }
 }

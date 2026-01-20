@@ -85,5 +85,14 @@ describe('BotTrackingSiteWithoutData', function () {
           methodChecksExpected,
           `Expected ${methodChecksExpected} tracking methods with details, found ${methodsChecked}`
         )
-    })
+    });
+
+    it('should link back to the overview', async function () {
+        await page.click('.tracking-method-skip a');
+        await page.waitForSelector('.matomo-widget');
+        await page.waitForNetworkIdle();
+
+        const widgets = await page.$$('.matomo-widget');
+        expect(widgets.length).to.be.greaterThan(0);
+    });
 });
