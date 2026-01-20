@@ -81,6 +81,9 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $passwordVerify;
 
+    /**
+     * @var array<int, array<string, mixed>>|null
+     */
     private $paidPlugins;
 
     public function __construct(
@@ -591,16 +594,12 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
 
     /**
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     private function getPaidPlugins(): array
     {
         if ($this->paidPlugins === null) {
             $this->paidPlugins = $this->plugins->getAllPaidPlugins();
-        }
-
-        if (isset($this->paidPlugins['plugins'])) {
-            return $this->paidPlugins['plugins'];
         }
 
         return $this->paidPlugins;
