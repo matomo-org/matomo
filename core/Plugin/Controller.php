@@ -1125,7 +1125,7 @@ abstract class Controller
             $menu->urlForDefaultUserParams($websiteId, $defaultPeriod, $defaultDate),
             $parameters
         );
-        $queryParams = !empty($parameters) ? '&' . Url::getQueryStringFromParameters($parameters) : '';
+        $queryParams = '&' . Url::getQueryStringFromParameters($parameters);
         $url = "index.php?module=%s&action=%s";
         $url = sprintf($url, $moduleToRedirect, $actionToRedirect);
         $url = $url . $queryParams;
