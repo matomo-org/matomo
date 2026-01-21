@@ -91,7 +91,12 @@ class SessionInitializer
         if (empty($authClass)) {
             $authClass = get_class(StaticContainer::get('Piwik\Auth'));
         }
-        $pluginOfAuthClass = Piwik::getPluginNameOfMatomoClass($authClass);
+
+        if (Piwik::isMatomoClassInAPlugin($authClass)) {
+            $pluginOfAuthClass = Piwik::getPluginNameOfMatomoClass($authClass);
+        } else {
+            $pluginOfAuthClass = $defaultLoginPluginName;
+        }
 
         if ($pluginOfAuthClass === $defaultLoginPluginName) {
             $currentClassString = get_class($this);
