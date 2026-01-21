@@ -19,7 +19,7 @@ class ConsoleTest extends RendererTestCase
     /**
      * @dataProvider getTestCases
      */
-    public function testRender($tableCallback, string $expected, callable $rendererCallback = null)
+    public function testRender($tableCallback, string $expected, ?callable $rendererCallback = null)
     {
         $renderer = new Console();
 

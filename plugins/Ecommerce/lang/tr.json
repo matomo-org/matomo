@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "Sipariş kimliği bir e-ticaret mağazası gibi başka bir sistemde referans olarak bulunacağından, Genel Veri Koruma Yönetmeliği kapsamındaki kişisel bilgilerin elde edilmesinde kullanılabilir. Bu seçenek açıldığında, sipariş kimliği otomatik olarak anonim kılınır böylece kişisel bilgiler izlenemez.",
         "EcommerceLogSubcategoryHelp1": "E-ticaret günlüğü, bir ödeme yapan ya da sepetini terk eden her bir kullanıcının oturumunun incelenebilmesi için oturum düzeyinde ayrıntılı veriler sağlar. Böylece kullanıcıların ödeme yapmadan önce ve sonra ne yaptığı anlaşılarak iyileştirmeler yapılabilir.",
         "EcommerceLogSubcategoryHelp2": "Bu sayfadaki veriler gerçek zamanlı olarak güncellenir.",
         "EcommerceOverviewSubcategoryHelp1": "E-ticaret özeti bölümü, çevrim içi mağaza başarımını genel olarak görmek için en iyi yerdir. Bir bakışta, kaç satış yapıldığı, ne kadar gelir elde edildiği ve sitenin dönüşüm oranı görülebilir.",
@@ -21,14 +22,13 @@
         "SalesBy": "%s bazında satışlar",
         "SalesSubcategoryHelp1": "Bu bölümde, trafik ve kampanya kaynakları, kullanıcının zamanı ve konumu, erişim için kullanılan aygıtlar gibi genel olarak satışa yönlendirici farklı koşulların incelenmesini sağlayacak kapsamlı bir rapor derlemesi bulunur.",
         "SalesSubcategoryHelp2": "Gelirlerin belirli trafik türleri ya da izlenen kampanyalar gibi boyutlara göre tam olarak nasıl dağıldığı görülebilir.",
+        "UseAnonymizeOrderId": "Sipariş kimliği anonim kılınsın",
         "ViewedProductCategory": "Görüntülenen ürün kategorisi",
         "ViewedProductName": "Görüntülenen ürün adı",
         "ViewedProductPrice": "Görüntülenen ürün fiyatı",
         "ViewedProductSKU": "Görüntülenecek ürün stok kodu",
         "VisitorProfileAbandonedCartSummary": "%3$s değerindeki %2$s ögeyi içeren %1$s sepet terk edilmiş.",
         "VisitorProfileItemsAndOrders": "%2$s e-ticaret siparişi ile %1$s öge satın almış.",
-        "VisitorProfileLTV": "%1$s tarafından ömür boyunca elde edilen gelir.",
-        "AnonymizeOrderIdNote": "Sipariş kimliği bir e-ticaret mağazası gibi başka bir sistemde referans olarak bulunacağından, Genel Veri Koruma Yönetmeliği kapsamındaki kişisel bilgilerin elde edilmesinde kullanılabilir. Bu seçenek açıldığında, sipariş kimliği otomatik olarak anonim kılınır böylece kişisel bilgiler izlenemez.",
-        "UseAnonymizeOrderId": "Sipariş kimliği anonim kılınsın"
+        "VisitorProfileLTV": "%1$s tarafından ömür boyunca elde edilen gelir."
     }
 }

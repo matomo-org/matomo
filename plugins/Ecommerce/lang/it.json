@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "Poiché un ID ordine può essere referenziato con un altro sistema, in genere un negozio e-commerce, l'ID dell'ordine può essere considerato come un'informazione personale, secondo il GDPR. Quando abiliti questa opzione, un ID ordine verrà automaticamente reso anonimo, quindi non verranno tracciate le informazioni personali.",
         "EcommerceLogSubcategoryHelp1": "Il log Ecommerce fornisce dati granulari a livello di sessione in modo da poter esaminare l'intera sessione per ogni utente che ha effettuato un acquisto o abbandonato il carrello. Questo può aiutarti a capire cosa fanno gli utenti prima e dopo l'acquisto per rivelare opportunità di ottimizzazione.",
         "EcommerceLogSubcategoryHelp2": "I dati su questa pagina vengono aggiornati in tempo reale.",
         "EcommerceOverviewSubcategoryHelp1": "La sezione Panoramica Ecommerce è il posto migliore per ottenere una visione di alto livello del rendimento del tuo negozio online. A colpo d'occhio, puoi vedere quante vendite stai facendo, quante entrate stai generando e il tasso di conversione del tuo sito web.",
@@ -21,14 +22,13 @@
         "SalesBy": "Vendite per %s",
         "SalesSubcategoryHelp1": "Questa sezione contiene un'ampia raccolta di report per aiutarti ad analizzare le diverse condizioni che più comunemente portano alle vendite, come il traffico e le sorgenti della campagna, l'ora e la localizzazione dell'utente e i dispositivi utilizzati per accedervi.",
         "SalesSubcategoryHelp2": "Puoi anche apprendere esattamente come le entrate sono associate a ciascuna dimensione, ad esempio tipi di traffico specifici o campagne monitorate.",
+        "UseAnonymizeOrderId": "Rendi anonimo l'ID dell'Ordine",
         "ViewedProductCategory": "Categoria Prodotto Visualizzato",
         "ViewedProductName": "Nome Prodotto Visualizzato",
         "ViewedProductPrice": "Prezzo Prodotto Visualizzato",
         "ViewedProductSKU": "Codice SKU Prodotto Visualizzato",
         "VisitorProfileAbandonedCartSummary": "Abbandonati %1$s carrelli contenenti %2$s articoli per un valore di %3$s.",
         "VisitorProfileItemsAndOrders": "Acquistati %1$s articoli in %2$s ordini ecommerce.",
-        "VisitorProfileLTV": "Generato un Incasso Complessivo di %1$s.",
-        "AnonymizeOrderIdNote": "Poiché un ID ordine può essere referenziato con un altro sistema, in genere un negozio e-commerce, l'ID dell'ordine può essere considerato come un'informazione personale, secondo il GDPR. Quando abiliti questa opzione, un ID ordine verrà automaticamente reso anonimo, quindi non verranno tracciate le informazioni personali.",
-        "UseAnonymizeOrderId": "Rendi anonimo l'ID dell'Ordine"
+        "VisitorProfileLTV": "Generato un Incasso Complessivo di %1$s."
     }
 }

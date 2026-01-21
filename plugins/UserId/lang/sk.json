@@ -1,6 +1,6 @@
 {
     "UserId": {
-        "UserId": "UserId",
-        "PluginDescription": "Zobraziť reporty užívateľa"
+        "PluginDescription": "Zobraziť reporty užívateľa",
+        "UserId": "UserId"
     }
 }

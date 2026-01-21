@@ -17,5 +17,5 @@ interface ConfigSettingInterface
     /**
      * @return T
      */
-    public static function getConfigValue(int $idSite = null);
+    public static function getConfigValue(?int $idSite = null);
 }

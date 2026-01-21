@@ -1,6 +1,5 @@
 {
     "Insights": {
-        "PluginDescription": "Te ofrece información en detalle sobre tu tráfico. Esta información en detalle está disponible como widgets de panel así como un nuevo ícono en los informes, dejándote ver las tendencias más importantes en tus datos.",
         "ControlComparedToDescription": "Crecimiento comparado al",
         "ControlFilterByDescription": "Mostrar todo, sólo tendencias, sólo lo nuevo o sólo lo desaparecido",
         "DatePeriodCombinationNotSupported": "No es posible generar información detallada para esta combinación de fecha y período.",
@@ -20,6 +19,7 @@
         "MoversAndShakersWidgetTitle": "Variaciones",
         "NoResultMatchesCriteria": "Ninguna fila coincide con los criterios",
         "OverviewWidgetTitle": "Vista general de información detallada",
+        "PluginDescription": "Te ofrece información en detalle sobre tu tráfico. Esta información en detalle está disponible como widgets de panel así como un nuevo ícono en los informes, dejándote ver las tendencias más importantes en tus datos.",
         "TitleConsideredInsightsChanges": "Las filas aumentaron o descendieron por al menos %1$s visitas (%2$s %% de %3$s visitas totales).",
         "TitleConsideredInsightsGrowth": "Las siguientes filas tuvieron un crecimiento de al menos %1$s%% comparadas a %2$s.",
         "TitleConsideredMoversAndShakersChanges": "Se consideran influyentes sólo si crecieron por más de %1$s%% visitas o si se achicaron menos de %2$s%% visitas, nuevas etradas sólo si aumentaron por más de %3$s%% visitas (%4$s), y filas desaparecidas si se achicaron por menos de %5$s%% visitas (%6$s).",

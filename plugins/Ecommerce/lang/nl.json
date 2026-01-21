@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "Omdat een bestel-ID kan worden gekoppeld aan een ander systeem, meestal een e-commercewinkel, kan de bestel-ID gelden als persoonlijke informatie onder de GDPR. Wanneer u deze optie inschakelt, wordt een bestel-ID automatisch geanonimiseerd, zodat er geen persoonlijke informatie wordt getraceerd.",
         "EcommerceLogSubcategoryHelp1": "De e-commerce-log biedt gedetailleerde gegevens op sessieniveau, zodat u de volledige sessie kunt bekijken voor elke gebruiker die een aankoop heeft gedaan of diens winkelwagen heeft achtergelaten. Dit kan u helpen te begrijpen wat gebruikers doen voor en na de aankoop , en zo optimalisatiekansen te ontdekken.",
         "EcommerceLogSubcategoryHelp2": "Gegevens op deze pagina worden real-time bijgewerkt.",
         "EcommerceOverviewSubcategoryHelp1": "De sectie e-commerce overzicht is de beste plek om inzicht te krijgen in de prestaties van uw online winkel. In één oogopslag ziet u hoeveel u verkoopt, hoeveel inkomsten u genereert en wat het conversiepercentage van uw website is.",
@@ -21,14 +22,13 @@
         "SalesBy": "Verkopen per %s",
         "SalesSubcategoryHelp1": "Deze sectie bevat een uitgebreide verzameling rapporten waarmee u de verschillende omstandigheden kunt analyseren die het vaakst tot verkoop leiden, zoals de verkeers- en campagnebronnen, de tijd en locatie van gebruikers en apparaten die worden gebruikt om toegang te krijgen.",
         "SalesSubcategoryHelp2": "U kunt ook precies te weten komen hoe inkomsten zijn gekoppeld aan elke dimensie, zoals specifieke verkeerstypes of gevolgde campagnes.",
+        "UseAnonymizeOrderId": "Ordernummer anonimiseren",
         "ViewedProductCategory": "Bekeken productcategorie",
         "ViewedProductName": "Bekeken productnaam",
         "ViewedProductPrice": "Bekeken productprijs",
         "ViewedProductSKU": "Bekeken product-SKU",
         "VisitorProfileAbandonedCartSummary": "%1$s verlaten winkelwagens inclusief %2$s items met een totale waarde van %3$s.",
         "VisitorProfileItemsAndOrders": "Gekochte %1$s items in %2$s ecommerce orders.",
-        "VisitorProfileLTV": "Gegenereerde levenslange omzet van %1$s.",
-        "AnonymizeOrderIdNote": "Omdat een bestel-ID kan worden gekoppeld aan een ander systeem, meestal een e-commercewinkel, kan de bestel-ID gelden als persoonlijke informatie onder de GDPR. Wanneer u deze optie inschakelt, wordt een bestel-ID automatisch geanonimiseerd, zodat er geen persoonlijke informatie wordt getraceerd.",
-        "UseAnonymizeOrderId": "Ordernummer anonimiseren"
+        "VisitorProfileLTV": "Gegenereerde levenslange omzet van %1$s."
     }
 }

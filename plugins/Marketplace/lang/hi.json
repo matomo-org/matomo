@@ -1,9 +1,9 @@
 {
     "Marketplace": {
-        "ActivateLicenseKey": "सक्रिय करें",
         "ActionActivatePlugin": "प्लगइन सक्रिय",
         "ActionActivateTheme": "विषय को सक्रिय करें",
         "ActionInstall": "स्थापित करें",
+        "ActivateLicenseKey": "सक्रिय करें",
         "AllowedUploadFormats": "आप इस पेज के माध्यम से ज़िप प्रारूप में एक प्लगइन या विषय अपलोड कर सकते हैं ।",
         "Authors": "लेखक",
         "BackToMarketplace": "वापस बाज़ार में",

@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "Karena ID Pesanan dapat direferensikan silang dengan sistem lain, biasanya di toko niaga-el, ID Pesanan dapat dihitung sebagai informasi pribadi menurut GDPR. Saat Anda mengaktifkan opsi ini, ID Pesanan akan secara otomatis dianonimkan sehingga tidak ada informasi pribadi yang akan dilacak.",
         "EcommerceLogSubcategoryHelp1": "Log Niaga-el menyediakan data tingkat sesi yang terperinci sehingga Anda dapat melihat sesi penuh untuk setiap pengguna yang melakukan pembelian atau meninggalkan keranjang mereka. Ini dapat membantu Anda untuk memahami apa yang dilakukan pengguna sebelum dan sesudah membeli untuk mengungkapkan peluang pengoptimalan.",
         "EcommerceLogSubcategoryHelp2": "Data di halaman ini diperbarui secara waktu nyata.",
         "EcommerceOverviewSubcategoryHelp1": "Bagian Ikhtisar Niaga-el adalah tempat terbaik untuk mendapatkan tampilan tingkat tinggi tentang kinerja toko daring Anda. Sekilas, Anda dapat melihat berapa banyak penjualan dan pendapatan yang Anda hasilkan dan tingkat konversi situs web Anda.",
@@ -21,14 +22,13 @@
         "SalesBy": "Penjualan menurut %s",
         "SalesSubcategoryHelp1": "Bagian ini berisi kumpulan laporan yang ekstensif untuk membantu Anda menganalisis berbagai kondisi, yang biasanya, menghasilkan penjualan, seperti lalu lintas dan sumber kampanye, waktu dan lokasi pengguna, serta perangkat yang digunakan untuk mengaksesnya.",
         "SalesSubcategoryHelp2": "Anda juga dapat mempelajari dengan tepat bagaimana pendapatan dikaitkan dengan setiap dimensi, seperti jenis lalu lintas tertentu atau kampanye yang dilacak.",
+        "UseAnonymizeOrderId": "Anonimkan ID Pesanan",
         "ViewedProductCategory": "Kategori Produk yang Dilihat",
         "ViewedProductName": "Nama Produk yang Dilihat",
         "ViewedProductPrice": "Harga Produk yang Dilihat",
         "ViewedProductSKU": "SKU Produk yang Dilihat",
         "VisitorProfileAbandonedCartSummary": "Meninggalkan %1$s keranjang termasuk %2$s barang senilai total %3$s.",
         "VisitorProfileItemsAndOrders": "Membeli %1$s barang dalam %2$s pesanan niaga-el.",
-        "VisitorProfileLTV": "Menghasilkan Pendapatan Keseluruhan %1$s.",
-        "AnonymizeOrderIdNote": "Karena ID Pesanan dapat direferensikan silang dengan sistem lain, biasanya di toko niaga-el, ID Pesanan dapat dihitung sebagai informasi pribadi menurut GDPR. Saat Anda mengaktifkan opsi ini, ID Pesanan akan secara otomatis dianonimkan sehingga tidak ada informasi pribadi yang akan dilacak.",
-        "UseAnonymizeOrderId": "Anonimkan ID Pesanan"
+        "VisitorProfileLTV": "Menghasilkan Pendapatan Keseluruhan %1$s."
     }
 }

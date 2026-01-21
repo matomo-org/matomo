@@ -1,8 +1,8 @@
 {
     "Contents": {
-        "Impressions": "طباعة",
-        "InteractionRate": "نسبة المشاركة",
         "ContentPiece": "جزء من المحتوى",
-        "Contents": "عنوان المحتوى"
+        "Contents": "عنوان المحتوى",
+        "Impressions": "طباعة",
+        "InteractionRate": "نسبة المشاركة"
     }
 }

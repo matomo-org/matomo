@@ -10,6 +10,7 @@
     class="entityAddContainer"
     :content-title="contentTitle"
   >
+    <p>{{ translate('ScheduledReports_CreateTooltip') }}</p>
     <div class="clear" />
     <form
       id="addEditReport"
@@ -132,6 +133,14 @@
           :title="translate('ScheduledReports_ReportType')"
           :options="reportTypeOptions"
         >
+        <template v-slot:inline-help>
+          <div id="deliveryMediumnInlineHelp" class="inline-help-node">
+          <span
+            v-html="$sanitize(getDeliveryMediumInlineTooltip)"
+          >
+          </span>
+          </div>
+        </template>
         </Field>
       </div>
       <div ref="reportParameters">
@@ -296,6 +305,7 @@ import {
   Matomo,
   translate,
   debounce,
+  externalLink,
 } from 'CoreHome';
 import { Field, Form, SaveButton } from 'CorePluginsAdmin';
 import { adjustHourToTimezone } from '../utilities';
@@ -639,6 +649,14 @@ export default defineComponent({
 
       const isEditing = this.report.idreport > 0;
       return isEditing ? ReportPlugin.updateReportString : translate('ScheduledReports_CreateAndScheduleReport');
+    },
+    getDeliveryMediumInlineTooltip(): string {
+      const link = translate(
+        'CoreHome_LearnMoreFullStop',
+        externalLink('https://matomo.org/faq/general/create-and-schedule-a-report/'),
+        '</a>',
+      );
+      return `${translate('ScheduledReports_CreateTooltip')} ${link}`;
     },
   },
 });

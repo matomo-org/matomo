@@ -5059,26 +5059,6 @@ parameters:
 			path: plugins/UsersManager/UserPreferences.php
 
 		-
-			message: "#^Parameter \\#1 \\$ids of static method Piwik\\\\Site\\:\\:getIdSitesFromIdSitesString\\(\\) expects array\\|string, int given\\.$#"
-			count: 1
-			path: plugins/VisitFrequency/API.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between Piwik\\\\DataTable\\\\Map\\|Piwik\\\\DataTable\\\\Simple and null will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/VisitFrequency/API.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int and 'all' will always evaluate to false\\.$#"
-			count: 1
-			path: plugins/VisitFrequency/API.php
-
-		-
-			message: "#^Variable \\$resultSet in PHPDoc tag @var does not exist\\.$#"
-			count: 1
-			path: plugins/VisitFrequency/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$view of method Piwik\\\\Plugins\\\\VisitFrequency\\\\Reports\\\\Get\\:\\:addSparklineColumns\\(\\) expects Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines, Piwik\\\\Plugin\\\\ViewDataTable given\\.$#"
 			count: 1
 			path: plugins/VisitFrequency/Reports/Get.php

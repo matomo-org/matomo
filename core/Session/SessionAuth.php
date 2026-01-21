@@ -47,6 +47,11 @@ class SessionAuth implements Auth
 
     private $tokenAuth;
 
+    /**
+     * @var bool
+     */
+    private $sessionExpired = false;
+
     public function __construct(?UsersModel $userModel = null, $shouldDestroySession = true)
     {
         $this->userModel = $userModel ?: new UsersModel();
@@ -98,6 +103,7 @@ class SessionAuth implements Auth
 
     public function authenticate()
     {
+        $this->sessionExpired = false;
         $sessionFingerprint = new SessionFingerprint();
         $userModel = $this->userModel;
 
@@ -247,6 +253,9 @@ class SessionAuth implements Auth
         }
 
         $isExpired = Date::now()->getTimestampUTC() > $expirationTime;
+        if ($isExpired) {
+            $this->sessionExpired = true;
+        }
         return $isExpired;
     }
 
@@ -261,6 +270,11 @@ class SessionAuth implements Auth
         $manager = Manager::getInstance();
 
         return !$manager->isPluginActivated($savedLoginPluginName);
+    }
+
+    public function wasSessionExpired(): bool
+    {
+        return $this->sessionExpired;
     }
 
     private function checkIfSessionFailedToRead()

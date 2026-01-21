@@ -1,18 +1,18 @@
 {
     "Ecommerce": {
-        "PluginDescription": "Ecommerce pozwala Ci śledzić dodawanie przez użytkowników produktów do koszyka i konwersję na sprzedaż. Możesz również śledzić produkty i kategorie oraz porzucone koszyki.",
-        "Sales": "Sprzedaż",
-        "Order": "Zamówienie",
-        "Orders": "Zamówienia",
-        "SalesBy": "Sprzedaż według %s",
-        "SalesAdjective": "Sprzedaż %s",
-        "NumberOfItems": "Liczba produktów w koszyku",
-        "OrderValue": "Wartość zamówienia",
         "LifeTimeValue": "Łączna wartość zakupów",
         "LifeTimeValueDescription": "Całkowita sprzedaż przypisana do tego użytkownika w trakcie wszystkich wizyt: suma sprzedaży dla użytkownika o numerze %s.",
-        "VisitorProfileLTV": "Zakupił na łączną kwotę %1$s.",
-        "VisitorProfileItemsAndOrders": "Zakupiono %1$s przedmiotów w %2$s zamówieniach.",
+        "NumberOfItems": "Liczba produktów w koszyku",
+        "Order": "Zamówienie",
+        "OrderValue": "Wartość zamówienia",
+        "Orders": "Zamówienia",
+        "PluginDescription": "Ecommerce pozwala Ci śledzić dodawanie przez użytkowników produktów do koszyka i konwersję na sprzedaż. Możesz również śledzić produkty i kategorie oraz porzucone koszyki.",
+        "Sales": "Sprzedaż",
+        "SalesAdjective": "Sprzedaż %s",
+        "SalesBy": "Sprzedaż według %s",
+        "UseAnonymizeOrderId": "Anonimizuj ID zamówienia",
         "VisitorProfileAbandonedCartSummary": "Porzucono %1$s koszyków zawierających %2$s przedmiotów o łącznej wartości %3$s.",
-        "UseAnonymizeOrderId": "Anonimizuj ID zamówienia"
+        "VisitorProfileItemsAndOrders": "Zakupiono %1$s przedmiotów w %2$s zamówieniach.",
+        "VisitorProfileLTV": "Zakupił na łączną kwotę %1$s."
     }
 }

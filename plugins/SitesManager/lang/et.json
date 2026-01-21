@@ -16,8 +16,8 @@
         "GlobalListExcludedIps": "Globaalselt väljaarvatud IPd",
         "GlobalWebsitesSettings": "Globaalsed veebilehtede seaded",
         "MainDescription": "Sinu veebianalüütika vajab veebilehti, mida hallata! Lisa, uuenda, kustuta veebilehti, ja näita Javascript koodi mida lisada veebilehtedele.",
-        "NotAnEcommerceSite": "Ei ole e-äri lehekülg",
         "NoWebsites": "Sul pole veebilehti, mida administreerida.",
+        "NotAnEcommerceSite": "Ei ole e-äri lehekülg",
         "PiwikOffersEcommerceAnalytics": "Matomo võimaldab detailsemat e-äri analüüsi ja raporteid. Loe rohkem %1$s e-äri analüüsist%2$s.",
         "SearchCategoryLabel": "Kategooria parameeter",
         "SearchKeywordLabel": "Päringu parameeter",
@@ -27,9 +27,9 @@
         "Timezone": "Ajavöönd",
         "TrackingSiteSearch": "Lehe sisemisest otsingust andmete kogumine",
         "TrackingTags": "Jälgimiskood lehele %s",
-        "Urls": "URL-id",
         "Type": "Tüüp",
         "UTCTimeIs": "UTC aeg on %s.",
+        "Urls": "URL-id",
         "WebsitesManagement": "Veebilehe haldamine"
     }
 }

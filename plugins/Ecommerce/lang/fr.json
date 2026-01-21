@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "Parce qu'un identifiant de commande peut être référencé au travers de plusieurs systèmes, typiquement un magasin de commerce électronique, l'identifiant de commande pourrait compter comme donnée personnelle pour RGPD. En sélectionnant cette option, un identifiant de commande va être automatiquement anonymisé de sorte qu'aucune information personnelle ne sera enregistrée.",
         "EcommerceLogSubcategoryHelp1": "Le journal de commerce électronique fournit des données granulaires au niveau de la session afin que vous puissiez consulter la session complète de chaque utilisateur qui a effectué un achat ou abandonné son panier. Cela peut vous aider à comprendre ce que les utilisateurs font avant et après l'achat pour révéler des opportunités d'optimisation.",
         "EcommerceLogSubcategoryHelp2": "Les données de cette page sont mises à jour en temps réel.",
         "EcommerceOverviewSubcategoryHelp1": "La section Aperçu du commerce électronique est le meilleur endroit pour obtenir une vue de haut niveau des performances de votre boutique en ligne. En un coup d'œil, vous pouvez voir combien de ventes vous faites, combien de revenus vous générez et le taux de conversion de votre site Web.",
@@ -21,14 +22,13 @@
         "SalesBy": "Ventes par %s",
         "SalesSubcategoryHelp1": "Cette section contient une vaste collection de rapports pour vous aider à analyser les différentes conditions qui conduisent le plus souvent à des ventes, telles que les sources de trafic et de campagne, l'heure et l'emplacement de l'utilisateur et les appareils utilisés pour y accéder.",
         "SalesSubcategoryHelp2": "Vous pouvez également savoir exactement comment les revenus sont associés à chaque dimension, tels que des types de trafic spécifiques ou des campagnes suivies.",
+        "UseAnonymizeOrderId": "Anonymiser l'identifiant de la commande",
         "ViewedProductCategory": "Catégorie de produit consultée",
         "ViewedProductName": "Nom du produit consulté",
         "ViewedProductPrice": "Prix du produit consulté",
         "ViewedProductSKU": "SKU du produit consulté",
         "VisitorProfileAbandonedCartSummary": "A abandonné %1$s paniers contenant %2$s articles avec une valeur totale de %3$s.",
         "VisitorProfileItemsAndOrders": "%1$s articles achetés en %2$s commandes e-commerce.",
-        "VisitorProfileLTV": "A généré un revenu total de %1$s.",
-        "AnonymizeOrderIdNote": "Parce qu'un identifiant de commande peut être référencé au travers de plusieurs systèmes, typiquement un magasin de commerce électronique, l'identifiant de commande pourrait compter comme donnée personnelle pour RGPD. En sélectionnant cette option, un identifiant de commande va être automatiquement anonymisé de sorte qu'aucune information personnelle ne sera enregistrée.",
-        "UseAnonymizeOrderId": "Anonymiser l'identifiant de la commande"
+        "VisitorProfileLTV": "A généré un revenu total de %1$s."
     }
 }

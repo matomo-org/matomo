@@ -20,8 +20,8 @@
         "ToFollowingPagesInline": "%s به صفحه های داخلی",
         "ToFollowingSiteSearches": "جستجوهای داخلی",
         "ToFollowingSiteSearchesInline": "%s جستجوهای داخلی",
+        "TransitionsSubcategoryHelp2": "جزئیات بیشتر",
         "XOfAllPageviews": "%s از همه ی بازدیدهای این صفحه",
-        "XOutOfYVisits": "%1$s (از %2$s)",
-        "TransitionsSubcategoryHelp2": "جزئیات بیشتر"
+        "XOutOfYVisits": "%1$s (از %2$s)"
     }
 }

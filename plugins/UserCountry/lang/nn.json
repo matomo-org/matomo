@@ -2,12 +2,12 @@
     "UserCountry": {
         "Continent": "Kontinent",
         "Country": "Land",
+        "DistinctCountries": "%s distinkte land",
+        "Location": "Plass",
+        "SubmenuLocations": "Plassar",
         "country_a1": "Anonym mellomtenar",
         "country_a2": "Satelitt-tilbydar",
         "country_cat": "Katalanske område",
-        "country_o1": "Andre land",
-        "DistinctCountries": "%s distinkte land",
-        "Location": "Plass",
-        "SubmenuLocations": "Plassar"
+        "country_o1": "Andre land"
     }
 }

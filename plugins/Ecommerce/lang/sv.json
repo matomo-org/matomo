@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "Eftersom ett order-ID kan korsrefereras med ett annat system, vanligtvis en e-handelsbutik, kan order-ID räknas som personlig information enligt GDPR. När du aktiverar det här alternativet anonymiseras ett order-ID automatiskt så att ingen personlig information spåras.",
         "EcommerceLogSubcategoryHelp1": "E-handelsloggen innehåller detaljerad sessionsnivåinformation så att du kan titta på hela sessionen för varje användare som antingen gjorde ett köp eller övergav sin kundvagn. Detta kan hjälpa dig att förstå vad användare gör före och efter inköp för att upptäcka optimeringsmöjligheter.",
         "EcommerceLogSubcategoryHelp2": "Data på den här sidan uppdateras i realtid.",
         "EcommerceOverviewSubcategoryHelp1": "Sektionen E-handelöversikt är det bästa stället att få en överblick över din webbutiks resultat på hög nivå. Med en överblick kan du se hur många försäljningar du gör, hur mycket inkomst du genererar och din webbplats konverteringsfrekvens.",
@@ -21,14 +22,13 @@
         "SalesBy": "Försäljning genom %s",
         "SalesSubcategoryHelp1": "Detta avsnitt innehåller en omfattande samling rapporter som hjälper dig att analysera de olika förhållanden som oftast leder till försäljning, såsom trafik- och kampanjkällor, användarens tid och plats och enheter som används för att komma åt dem.",
         "SalesSubcategoryHelp2": "Du kan också lära dig exakt hur omsättning är kopplade till varje dimension, till exempel specifika trafiktyper eller spårade kampanjer.",
+        "UseAnonymizeOrderId": "Anonymisera order-ID",
         "ViewedProductCategory": "Visad produktkategori",
         "ViewedProductName": "Visat produktnamn",
         "ViewedProductPrice": "Visat produktpris",
         "ViewedProductSKU": "Visad produkt SKU",
         "VisitorProfileAbandonedCartSummary": "Har övergivit %1$s varukorgar med %2$s artiklar till ett totalt värde av %3$s.",
         "VisitorProfileItemsAndOrders": "Har köpt %1$s artiklar i %2$s e-handelsordrar.",
-        "VisitorProfileLTV": "Genererade Life Time Revenue för %1$s.",
-        "AnonymizeOrderIdNote": "Eftersom ett order-ID kan korsrefereras med ett annat system, vanligtvis en e-handelsbutik, kan order-ID räknas som personlig information enligt GDPR. När du aktiverar det här alternativet anonymiseras ett order-ID automatiskt så att ingen personlig information spåras.",
-        "UseAnonymizeOrderId": "Anonymisera order-ID"
+        "VisitorProfileLTV": "Genererade Life Time Revenue för %1$s."
     }
 }

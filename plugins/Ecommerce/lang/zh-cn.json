@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "由于订单ID可以与另一个系统（通常是电子商务商店）进行交叉引用，因此该订单ID可以视为GDPR下的个人信息。 启用此选项后，订单ID将自动匿名，因此不会跟踪任何个人信息。",
         "EcommerceLogSubcategoryHelp1": "电子商务日志提供精细的会话级数据，因此您可以查看每个进行购买或放弃购物车的用户的完整会话。这可以帮助您了解用户在购买之前和之后做了什么，以揭示优化机会。",
         "EcommerceLogSubcategoryHelp2": "该页面上的数据是实时更新的。",
         "EcommerceOverviewSubcategoryHelp2": "单击迷你图内的单个指标，即可在全尺寸演化图中关注该指标。",
@@ -15,14 +16,13 @@
         "Sales": "销售",
         "SalesAdjective": "销售%s",
         "SalesBy": "由%s销售",
+        "UseAnonymizeOrderId": "匿名订购ID",
         "ViewedProductCategory": "查看产品类别",
         "ViewedProductName": "查看产品名称",
         "ViewedProductPrice": "查看产品价格",
         "ViewedProductSKU": "查看的产品SKU",
         "VisitorProfileAbandonedCartSummary": "被放弃的%1$s购物车包含了%2$s个商品，总值%3$s。",
         "VisitorProfileItemsAndOrders": "在%2$s电商订单中共购买了%1$s个商品。",
-        "VisitorProfileLTV": "生成一个%1$s的终生收入。",
-        "AnonymizeOrderIdNote": "由于订单ID可以与另一个系统（通常是电子商务商店）进行交叉引用，因此该订单ID可以视为GDPR下的个人信息。 启用此选项后，订单ID将自动匿名，因此不会跟踪任何个人信息。",
-        "UseAnonymizeOrderId": "匿名订购ID"
+        "VisitorProfileLTV": "生成一个%1$s的终生收入。"
     }
 }

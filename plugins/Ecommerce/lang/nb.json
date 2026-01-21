@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "Fordi din ordre-ID kan krysssjekkes mot et annet system, typisk en e-handelsbutikk, vil bestillings-ID-en telle som personvernsinfo i henhold til GDPR. Når du skur på dette valget vil en bestillings-ID automatisk anonymiseres slik at ingen personvernsinfo kan spores.",
         "EcommerceLogSubcategoryHelp1": "E-handelsloggen gir finmasket øktnivådata, slik at du kan sjekke hele økten for hver bruker som enten kjøpte noe eller forlot handlekurven sin. Dette kan hjelpe deg å forstå hva brukere gjorde før og etter kjøp for å finne optimaliseringsmuligheter.",
         "EcommerceLogSubcategoryHelp2": "Data på denne siden oppdateres i sanntid.",
         "EcommerceOverviewSubcategoryHelp1": "Netthandelsoversiktensdelen er den beste plassen å få et overblikk over ytelsen til nettbutikken din. Du kan se hvor mange salg du har, hvor mye omsetning du generer, og konverteringsraten for nettsiden din.",
@@ -21,14 +22,13 @@
         "SalesBy": "Salg etter %s",
         "SalesSubcategoryHelp1": "Denne delen inneholder en omfattende samling av rapporter som hjelper deg å analysere forskjellige betingelser som oftest leder til salg, som f.eks. trafikk og kampanjekilder, brukertid og posisjon, samt enheten brukt til å finne dem.",
         "SalesSubcategoryHelp2": "Du kan også lære akkurat hvordan omsetning er tilknyttet alle dimensjoner, som spesifikke trafikktyper eller sporede kampanjer.",
+        "UseAnonymizeOrderId": "Anonymiser ordre-ID",
         "ViewedProductCategory": "Vist produktkategori",
         "ViewedProductName": "Besøkt produktnavn",
         "ViewedProductPrice": "Vist produktpris",
         "ViewedProductSKU": "Vist produkt-SKU",
         "VisitorProfileAbandonedCartSummary": "Forlot %1$s handlevogner med %2$s artikler verdt totalt %3$s.",
         "VisitorProfileItemsAndOrders": "Kjøpte %1$s artikler i totalt %2$s netthandler.",
-        "VisitorProfileLTV": "Genererte livstidsomsetning for %1$s.",
-        "AnonymizeOrderIdNote": "Fordi din ordre-ID kan krysssjekkes mot et annet system, typisk en e-handelsbutikk, vil bestillings-ID-en telle som personvernsinfo i henhold til GDPR. Når du skur på dette valget vil en bestillings-ID automatisk anonymiseres slik at ingen personvernsinfo kan spores.",
-        "UseAnonymizeOrderId": "Anonymiser ordre-ID"
+        "VisitorProfileLTV": "Genererte livstidsomsetning for %1$s."
     }
 }

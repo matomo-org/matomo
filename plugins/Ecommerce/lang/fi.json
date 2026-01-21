@@ -1,17 +1,17 @@
 {
     "Ecommerce": {
-        "Sales": "Myynnit",
+        "LifeTimeValue": "Verkkokaupan arvo koko elinkaaren aikana",
+        "NumberOfItems": "Ostoskorissa olevien kohteiden määrä",
         "Order": "Tilaus",
         "OrderId": "Tilauksen ID",
-        "Orders": "Tilaukset",
-        "SalesBy": "Myynnit %s:n mukaan",
-        "SalesAdjective": "Myynnit %s",
-        "NumberOfItems": "Ostoskorissa olevien kohteiden määrä",
         "OrderValue": "Tilauksen arvo",
-        "LifeTimeValue": "Verkkokaupan arvo koko elinkaaren aikana",
-        "VisitorProfileLTV": "Tuottanut kaikilla vierailukerroillaan yhteensä %1$s.",
-        "VisitorProfileItemsAndOrders": "Osti %1$s tuotetta %2$s verkkokauppatilauksessa.",
+        "Orders": "Tilaukset",
+        "Sales": "Myynnit",
+        "SalesAdjective": "Myynnit %s",
+        "SalesBy": "Myynnit %s:n mukaan",
+        "UseAnonymizeOrderId": "Anonymisoi tilauksen ID",
         "VisitorProfileAbandonedCartSummary": "Hylkäsi %1$s ostoskoria, joissa oli %2$s kohdetta yhteisarvoltaan %3$s.",
-        "UseAnonymizeOrderId": "Anonymisoi tilauksen ID"
+        "VisitorProfileItemsAndOrders": "Osti %1$s tuotetta %2$s verkkokauppatilauksessa.",
+        "VisitorProfileLTV": "Tuottanut kaikilla vierailukerroillaan yhteensä %1$s."
     }
 }

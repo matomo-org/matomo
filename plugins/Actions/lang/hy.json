@@ -8,8 +8,8 @@
         "ColumnExitPageTitle": "Ելքային էջի վերնագիր",
         "ColumnExitPageURL": "Ելքային էջի URL",
         "ColumnPageName": "Էջի վերնագիր",
-        "ColumnPagesPerSearch": "Որոնման արդյունքների էջ",
         "ColumnPageURL": "Էջի URL",
+        "ColumnPagesPerSearch": "Որոնման արդյունքների էջ",
         "ColumnSearchCategory": "Որոնման կատեգորիաները",
         "ColumnSearches": "Որոնումներ",
         "ColumnSiteSearchKeywords": "Ունիկալ որոնվող բառ",
@@ -18,8 +18,8 @@
         "EntryPageTitles": "Սկզբնական էջի վերնագիր",
         "ExitPageTitles": "Ելքային էջի վերնագիր",
         "PageUrls": "Էջի URL հասցեները",
-        "SubmenuPagesExit": "ելքի էջերից",
         "SubmenuPageTitles": "Էջի որոնում",
+        "SubmenuPagesExit": "ելքի էջերից",
         "WidgetPageTitles": "Էջի Վերնագրեր"
     }
 }

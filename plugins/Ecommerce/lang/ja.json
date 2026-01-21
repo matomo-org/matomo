@@ -1,5 +1,6 @@
 {
     "Ecommerce": {
+        "AnonymizeOrderIdNote": "注文 ID は他のシステム、通常は e コマースショップと相互参照できるため、注文 ID は GDPR の下で個人情報としてカウントされる場合があります。 このオプションを有効にすると、注文 ID は自動的に匿名化されるため、個人情報は追跡されません。",
         "EcommerceLogSubcategoryHelp1": "e コマース ログは詳細なセッション レベルのデータを提供するため、購入したか、カートを放棄した各ユーザーの完全なセッションを確認できます。 これは、購入前後のユーザーの行動を理解し、最適化の機会を明らかにするのに役立ちます。",
         "EcommerceLogSubcategoryHelp2": "このページのデータはリアルタイムで更新されます。",
         "EcommerceOverviewSubcategoryHelp1": "e コマースの概要セクションは、オンライン ストアのパフォーマンスの概要を把握するのに最適な場所です。 売上、収益、ウェブサイトのコンバージョン率を一目で確認できます。",
@@ -21,14 +22,13 @@
         "SalesBy": "%s 別売り上げ高",
         "SalesSubcategoryHelp1": "このセクションには、トラフィックとキャンペーン ソース、ユーザーの時間と場所、それらにアクセスするために使用されるデバイスなど、販売に最も一般的につながるさまざまな条件を分析するのに役立つレポートの広範なコレクションが含まれています。",
         "SalesSubcategoryHelp2": "また、特定のトラフィック タイプや追跡されたキャンペーンなど、収益が各ディメンションにどのように関連付けられているかを正確に知ることもできます。",
+        "UseAnonymizeOrderId": "オーダー ID を匿名化",
         "ViewedProductCategory": "閲覧した製品カテゴリ",
         "ViewedProductName": "閲覧した商品名",
         "ViewedProductPrice": "閲覧した商品の価格",
         "ViewedProductSKU": "表示された製品 SKU",
         "VisitorProfileAbandonedCartSummary": "合計 %3$s 中 %2$s アイテムを含む %1$s のカートを放棄しました。",
         "VisitorProfileItemsAndOrders": "%2$s の e コマース注文で %1$s アイテムを購入しました。",
-        "VisitorProfileLTV": "%1$s の通算収益を生成しました。",
-        "AnonymizeOrderIdNote": "注文 ID は他のシステム、通常は e コマースショップと相互参照できるため、注文 ID は GDPR の下で個人情報としてカウントされる場合があります。 このオプションを有効にすると、注文 ID は自動的に匿名化されるため、個人情報は追跡されません。",
-        "UseAnonymizeOrderId": "オーダー ID を匿名化"
+        "VisitorProfileLTV": "%1$s の通算収益を生成しました。"
     }
 }
