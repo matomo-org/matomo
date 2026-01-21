@@ -76,6 +76,11 @@ class ApiTest extends SystemTestCase
 
         $this->setComplianceFeatureFlag(false);
     }
+
+    public static function getPathToTestDirectory()
+    {
+        return __DIR__;
+    }
 }
 
 ApiTest::$fixture = new ManySites();
