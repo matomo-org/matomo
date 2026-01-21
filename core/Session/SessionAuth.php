@@ -259,7 +259,7 @@ class SessionAuth implements Auth
         return $isExpired;
     }
 
-    private function isSessionLoginPluginInactive(SessionFingerprint $sessionFingerprint)
+    private function isSessionLoginPluginInactive(SessionFingerprint $sessionFingerprint): bool
     {
         $savedLoginPluginName = $sessionFingerprint->getLoginPluginName();
 
