@@ -41,7 +41,7 @@ class SessionInitializer
         } else {
             Piwik::postEvent('Login.authenticate.successful', array($auth->getLogin()));
 
-            $this->processSuccessfulSession($authResult);
+            $this->processSuccessfulSession($authResult, get_class($auth));
         }
     }
 
@@ -80,15 +80,18 @@ class SessionInitializer
      * Executed when the session was successfully authenticated.
      *
      * @param AuthResult $authResult The successful authentication result.
+     * @param class-string<AuthInterface> The class of the auth object used to authenticate the session
      */
-    protected function processSuccessfulSession(AuthResult $authResult)
+    protected function processSuccessfulSession(AuthResult $authResult, string $authClass = "")
     {
         $sessionIdentifier = new SessionFingerprint();
 
         $defaultLoginPluginName = 'Login';
 
-        $authClassString = get_class(StaticContainer::get('Piwik\Auth'));
-        $pluginOfAuthClass = Piwik::getPluginNameOfMatomoClass($authClassString);
+        if (empty($authClass)) {
+            $authClass = get_class(StaticContainer::get('Piwik\Auth'));
+        }
+        $pluginOfAuthClass = Piwik::getPluginNameOfMatomoClass($authClass);
 
         if ($pluginOfAuthClass === $defaultLoginPluginName) {
             $currentClassString = get_class($this);
