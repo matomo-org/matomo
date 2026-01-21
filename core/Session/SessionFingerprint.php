@@ -72,9 +72,9 @@ class SessionFingerprint
         return null;
     }
 
-    public function getLoginPluginName()
+    public function getLoginPluginName(): ?string
     {
-        if (!empty($_SESSION[self::SESSION_INFO_LOGIN_PLUGIN_NAME])) {
+        if (is_string($_SESSION[self::SESSION_INFO_LOGIN_PLUGIN_NAME] ?? null)) {
             return $_SESSION[self::SESSION_INFO_LOGIN_PLUGIN_NAME];
         }
 
@@ -101,7 +101,7 @@ class SessionFingerprint
         $tokenAuth,
         $isRemembered = false,
         $time = null,
-        $loginPluginName = ''
+        string $loginPluginName = ''
     ) {
         $time = $time ?: Date::now()->getTimestampUTC();
         $_SESSION[self::USER_NAME_SESSION_VAR_NAME] = $userName;
