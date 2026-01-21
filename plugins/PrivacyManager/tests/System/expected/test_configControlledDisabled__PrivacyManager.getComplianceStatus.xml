@@ -17,13 +17,13 @@
 			<name>Ecommerce Restricted</name>
 			<value>non_compliant</value>
 			<notes>Non compliant because Ecommerce analytics is enabled unrestricted.</notes>
-        </row>
+		</row>
 		<row>
 			<name>Ecommerce - Order ID anonymisation</name>
 			<value>non_compliant</value>
 			<notes>Order IDs must be anonymised.</notes>
 		</row>
-        <row>
+		<row>
 			<name>PII data filtered</name>
 			<value>non_compliant</value>
 			<notes>Personally Identifiable Information (PII) data must be filtered by the Matomo-recommended PII exclusion list.</notes>

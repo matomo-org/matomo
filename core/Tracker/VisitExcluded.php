@@ -372,8 +372,11 @@ class VisitExcluded
                     return true;
                 }
                 // if the string is a valid regex, and the user agent matches, this visit should be excluded
-                if (@preg_match($excludedUserAgent, '') !== false) {
-                    return preg_match($excludedUserAgent, $this->userAgent) ? true : false;
+                if (
+                    @preg_match($excludedUserAgent, '') !== false
+                    && preg_match($excludedUserAgent, $this->userAgent) === 1
+                ) {
+                    return true;
                 }
             }
         }

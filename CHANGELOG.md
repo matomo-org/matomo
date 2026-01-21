@@ -15,6 +15,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
   - Missing plugins return 404
   - Deactivated plugins return 403
 
+### New config.ini.php settings
+* Proxy scheme headers (like `X-Forwarded-Proto`) are now configurable via `proxy_scheme_headers`.
+
 ### New Features
 
 * New event `PrivacyManager.deleteDataSubjectsForDeletedSites` to enable plugins to be GDPR compliant, when tracking visit unrelated data.

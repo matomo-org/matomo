@@ -48,6 +48,38 @@ class LoaderTest extends IntegrationTestCase
         Fixture::createWebsite('2012-02-03 00:00:00');
     }
 
+    public function testDidReuseArchiveFlagIsOnlySetWhenReusingArchiveFromDb()
+    {
+        $_GET['trigger'] = 'archivephp';
+
+        $idSite = 1;
+        $dateTime = '2024-01-01 12:00:00';
+        $date = '2024-01-01';
+
+        $t = Fixture::getTracker($idSite, $dateTime);
+        $t->setUrl('http://example.com/');
+        Fixture::checkResponse($t->doTrackPageView('test'));
+
+        $periodObj = Factory::build('day', $date);
+
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment('', [$idSite]));
+        $loader = new Loader($params);
+        $result = $loader->prepareArchive('VisitsSummary');
+
+        $this->assertFalse($loader->didReuseArchive(), 'Expected first archiving run to generate a new archive.');
+        $this->assertNotEmpty($result);
+        $this->assertNotEmpty($result[0]);
+
+        Cache::flushAll();
+
+        $params = new Parameters(new Site($idSite), $periodObj, new Segment('', [$idSite]));
+        $loader = new Loader($params);
+        $result = $loader->prepareArchive('VisitsSummary');
+
+        $this->assertTrue($loader->didReuseArchive(), 'Expected second archiving run to reuse the existing DB archive.');
+        $this->assertSame(1, (int) $result[0][0], 'Expected second archiving run to return the same archive ids.');
+    }
+
     public function testPluginOnlyArchivingDoesNotRelaunchChildArchives()
     {
         $_GET['pluginOnly'] = 1;

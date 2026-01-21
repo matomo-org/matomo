@@ -3,6 +3,7 @@ on:
   pull_request:
     types:
       - opened
+      - synchronize
       - milestoned
       - demilestoned
 

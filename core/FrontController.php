@@ -70,6 +70,7 @@ class FrontController extends Singleton
     public const DEFAULT_MODULE = 'CoreHome';
     public const DEFAULT_LOGIN = 'anonymous';
     public const DEFAULT_TOKEN_AUTH = 'anonymous';
+    private const SESSION_TIMEOUT_COOKIE_NAME = 'matomo_session_timed_out';
 
     // public for tests
     public static $requestId = null;
@@ -425,6 +426,9 @@ class FrontController extends Singleton
         $sessionAuth = $this->makeSessionAuthenticator();
         if ($sessionAuth) {
             $loggedIn = Access::getInstance()->reloadAccess($sessionAuth);
+            if (!$loggedIn && $sessionAuth->wasSessionExpired()) {
+                Access::getInstance()->setSessionExpired(true);
+            }
         }
 
         // ... if session auth fails try normal auth (which will login the anonymous user)
@@ -449,7 +453,8 @@ class FrontController extends Singleton
             $this->makeAuthenticator($sessionAuth); // Piwik\Auth must be set to the correct Login plugin
         }
 
-
+        $this->consumeSessionTimeoutCookie();
+        $this->sendSessionTimedOutHeaderIfNeeded();
 
         // Force the auth to use the token_auth if specified, so that embed dashboard
         // and all other non widgetized controller methods works fine
@@ -806,6 +811,21 @@ class FrontController extends Singleton
         Common::sendHeader("X-Matomo-Request-Id: $requestId");
     }
 
+    private function consumeSessionTimeoutCookie(): void
+    {
+        $cookie = new Cookie(self::SESSION_TIMEOUT_COOKIE_NAME);
+
+        if (!$cookie->isCookieFound()) {
+            return;
+        }
+
+        $cookie->delete();
+
+        if (Piwik::isUserIsAnonymous()) {
+            Access::getInstance()->setSessionExpired(true);
+        }
+    }
+
     private function isSupportedBrowserCheckNeeded()
     {
         if (defined('PIWIK_ENABLE_DISPATCH') && !PIWIK_ENABLE_DISPATCH) {
@@ -844,5 +864,13 @@ class FrontController extends Singleton
         }
 
         return false;
+    }
+
+    private function sendSessionTimedOutHeaderIfNeeded()
+    {
+        if (!Access::getInstance()->wasSessionExpired()) {
+            return;
+        }
+        Common::sendHeader('X-Matomo-Session-Timed-Out: 1');
     }
 }

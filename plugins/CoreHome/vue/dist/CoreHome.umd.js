@@ -1060,6 +1060,47 @@ class MatomoUrl_MatomoUrl {
 const instance = new MatomoUrl_MatomoUrl();
 /* harmony default export */ var src_MatomoUrl_MatomoUrl = (instance);
 MatomoUrl_piwik.updatePeriodParamsFromUrl = instance.updatePeriodParamsFromUrl.bind(instance);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts
+/*
+ * General utils for managing cookies in Typescript.
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function setCookie(name, val, seconds) {
+  const date = new Date();
+  // set default day to 3 days
+  if (!seconds) {
+    // eslint-disable-next-line no-param-reassign
+    seconds = 3 * 24 * 60 * 1000;
+  }
+  // Set it expire in n days
+  date.setTime(date.getTime() + seconds);
+  // Set it
+  document.cookie = `${name}=${val}; expires=${date.toUTCString()}; path=/`;
+}
+// eslint-disable-next-line consistent-return,@typescript-eslint/explicit-module-boundary-types
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  // if cookie not exist return null
+  // eslint-disable-next-line eqeqeq
+  if (parts.length == 2) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const data = parts.pop().split(';').shift();
+    if (typeof data !== 'undefined') {
+      return data;
+    }
+  }
+  return null;
+}
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+function deleteCookie(name) {
+  const date = new Date();
+  // Set it expire in -1 days
+  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000);
+  // Set it
+  document.cookie = `${name}=; expires=${date.toUTCString()}; path=/`;
+}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.ts
 function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 /*!
@@ -1068,6 +1109,7 @@ function AjaxHelper_defineProperty(obj, key, value) { if (key in obj) { Object.d
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 const {
@@ -1494,7 +1536,9 @@ class AjaxHelper_AjaxHelper {
           return;
         }
         const isInApp = !document.querySelector('#login_form');
-        if (xhr.status === 401 && isInApp) {
+        const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
+        if (sessionTimedOut && isInApp) {
+          setCookie('matomo_session_timed_out', '1', 60 * 1000);
           Matomo_Matomo.helper.refreshAfter(0);
           return;
         }
@@ -1963,47 +2007,6 @@ class PopoverHandler_PopoverHandler {
   }
 }
 /* harmony default export */ var src_PopoverHandler_PopoverHandler = (new PopoverHandler_PopoverHandler());
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/CookieHelper/CookieHelper.ts
-/*
- * General utils for managing cookies in Typescript.
- */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function setCookie(name, val, seconds) {
-  const date = new Date();
-  // set default day to 3 days
-  if (!seconds) {
-    // eslint-disable-next-line no-param-reassign
-    seconds = 3 * 24 * 60 * 1000;
-  }
-  // Set it expire in n days
-  date.setTime(date.getTime() + seconds);
-  // Set it
-  document.cookie = `${name}=${val}; expires=${date.toUTCString()}; path=/`;
-}
-// eslint-disable-next-line consistent-return,@typescript-eslint/explicit-module-boundary-types
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  // if cookie not exist return null
-  // eslint-disable-next-line eqeqeq
-  if (parts.length == 2) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const data = parts.pop().split(';').shift();
-    if (typeof data !== 'undefined') {
-      return data;
-    }
-  }
-  return null;
-}
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function deleteCookie(name) {
-  const date = new Date();
-  // Set it expire in -1 days
-  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000);
-  // Set it
-  document.cookie = `${name}=; expires=${date.toUTCString()}; path=/`;
-}
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/zenMode.ts
 /*!
  * Matomo - free/libre analytics platform
