@@ -80,9 +80,9 @@ class SessionInitializer
      * Executed when the session was successfully authenticated.
      *
      * @param AuthResult $authResult The successful authentication result.
-     * @param class-string<AuthInterface> The class of the auth object used to authenticate the session
+     * @param null|class-string<AuthInterface> $authClass The class of the auth object used to authenticate the session
      */
-    protected function processSuccessfulSession(AuthResult $authResult, string $authClass = "")
+    protected function processSuccessfulSession(AuthResult $authResult, ?string $authClass = null)
     {
         $sessionIdentifier = new SessionFingerprint();
 
