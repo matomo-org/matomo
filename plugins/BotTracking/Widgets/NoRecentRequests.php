@@ -26,7 +26,6 @@ class NoRecentRequests extends Widget
             ->setAction('noRecentRequestsMessage')
             ->setMiddlewareParameters(['module' => 'BotTracking', 'action' => 'showNoRecentRequestsMessage'])
             ->setIsWide()
-            ->setIsNotWidgetizable()
             ->setOrder(0)
             ->setIsNotWidgetizable();
     }
