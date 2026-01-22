@@ -355,6 +355,9 @@ datatable_row_limits = "5,10,25,50,100,250,500,-1"
 ; if set to -1, a click on 'Export as' will export all rows independently of the current '# Rows to display'.
 API_datatable_default_limit = 100
 
+; Maximum number of URLs allowed in API.getBulkRequest for authenticated users (-1 disables the limit)
+API_bulk_request_limit = -1
+
 ; When period=range, below the datatables, when user clicks on "export", the data will be aggregate of the range.
 ; Here you can specify the comma separated list of formats for which the data will be exported aggregated by day
 ; (ie. there will be a new "date" column). For example set to: "rss,tsv,csv"
