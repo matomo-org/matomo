@@ -146,6 +146,11 @@ parameters:
 			path: core/API/ResponseBuilder.php
 
 		-
+			message: "#^Parameter \\#2 \\$columnToFilter of class Piwik\\\\DataTable\\\\Filter\\\\Pattern constructor expects string, array given\\.$#"
+			count: 1
+			path: core/API/ResponseBuilder.php
+
+		-
 			message: "#^Property Piwik\\\\API\\\\ResponseBuilder\\:\\:\\$outputFormat is never read, only written\\.$#"
 			count: 1
 			path: core/API/ResponseBuilder.php
@@ -1714,6 +1719,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$defaultDate of method Piwik\\\\Plugins\\\\UsersManager\\\\UserPreferences\\:\\:getDefaultPeriod\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: core/Plugin/Menu.php
+
+		-
+			message: "#^Parameter \\#4 \\$forceDefault of static method Piwik\\\\ViewDataTable\\\\Factory\\:\\:build\\(\\) expects bool, int given\\.$#"
+			count: 1
+			path: core/Plugin/Report.php
 
 		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$dimension \\(Piwik\\\\Columns\\\\Dimension\\) in empty\\(\\) is not falsy\\.$#"
@@ -3399,6 +3409,16 @@ parameters:
 			path: plugins/CoreUpdater/Commands/Update.php
 
 		-
+			message: "#^Parameter \\#1 \\$https of method Piwik\\\\Plugins\\\\CoreUpdater\\\\Updater\\:\\:updatePiwik\\(\\) expects bool, int given\\.$#"
+			count: 1
+			path: plugins/CoreUpdater/Controller.php
+
+		-
+			message: "#^Property Piwik\\\\View\\\\OneClickDone\\:\\:\\$httpsFail \\(bool\\) does not accept int\\.$#"
+			count: 1
+			path: plugins/CoreUpdater/Controller.php
+
+		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: plugins/CoreUpdater/Controller.php
@@ -3844,6 +3864,11 @@ parameters:
 			path: plugins/ExamplePlugin/RecordBuilders/ExampleMetric2.php
 
 		-
+			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
+			count: 1
+			path: plugins/ExampleTracker/Columns/ExampleActionDimension.php
+
+		-
 			message: "#^Property Piwik\\\\Notification\\:\\:\\$flags \\(int\\) does not accept null\\.$#"
 			count: 1
 			path: plugins/ExampleUI/Controller.php
@@ -3882,6 +3907,11 @@ parameters:
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, true given\\.$#"
 			count: 1
 			path: plugins/GeoIp2/Commands/ConvertRegionCodesToIso.php
+
+		-
+			message: "#^Parameter \\#3 \\$isContinuation of static method Piwik\\\\Http\\:\\:downloadChunk\\(\\) expects bool, int given\\.$#"
+			count: 2
+			path: plugins/GeoIp2/Controller.php
 
 		-
 			message: "#^Call to an undefined method Matomo\\\\Decompress\\\\DecompressInterface\\:\\:extractInString\\(\\)\\.$#"
@@ -4044,7 +4074,7 @@ parameters:
 			path: plugins/Goals/RecordBuilders/ProductRecord.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept array\\<string, float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\>\\.$#"
+			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept array\\<string, string\\>\\.$#"
 			count: 1
 			path: plugins/Goals/Reports/Get.php
 
@@ -4066,6 +4096,11 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$idSites of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
 			count: 1
+			path: plugins/ImageGraph/Controller.php
+
+		-
+			message: "#^Parameter \\#3 \\$date of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) expects bool\\|Piwik\\\\Date, string given\\.$#"
+			count: 2
 			path: plugins/ImageGraph/Controller.php
 
 		-
