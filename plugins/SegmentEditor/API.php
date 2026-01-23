@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SegmentArchiving;
@@ -420,6 +421,8 @@ class API extends \Piwik\Plugin\API
         if (empty($segment)) {
             return null;
         }
+        $this->checkUserHasViewAccessToSegmentSite($segment);
+
         try {
             if (!$segment['enable_all_users']) {
                 Piwik::checkUserHasSuperUserAccessOrIsTheUser($segment['login']);
@@ -462,6 +465,10 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        if (empty($idSite)) {
+            $segments = $this->filterSegmentsWithoutSiteAccess($segments);
+        }
+
         $segments = $this->filterSegmentsWithDisabledElements($segments, $idSite);
         $segments = $this->sortSegmentsCreatedByUserFirst($segments);
 
@@ -486,6 +493,36 @@ class API extends \Piwik\Plugin\API
             }
         }
         return $segments;
+    }
+
+    private function filterSegmentsWithoutSiteAccess(array $segments): array
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            return $segments;
+        }
+
+        $idSitesWithViewAccess = Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+
+        foreach ($segments as $key => $segment) {
+            $segmentSiteId = (int) $segment['enable_only_idsite'];
+            if ($segmentSiteId !== 0 && !in_array($segmentSiteId, $idSitesWithViewAccess, true)) {
+                unset($segments[$key]);
+            }
+        }
+
+        return $segments;
+    }
+
+    private function checkUserHasViewAccessToSegmentSite(array $segment): void
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
+
+        $segmentSiteId = (int) $segment['enable_only_idsite'];
+        if ($segmentSiteId !== 0) {
+            Piwik::checkUserHasViewAccess($segmentSiteId);
+        }
     }
 
     /**

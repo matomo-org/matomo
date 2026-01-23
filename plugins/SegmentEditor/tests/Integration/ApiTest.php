@@ -96,6 +96,44 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame($expectedOrder, $segmentNames);
     }
 
+    public function testGetAllFiltersSegmentsForSitesWithoutAccess()
+    {
+        $this->createAdminUser();
+        $this->createSegments();
+
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [1], $userName = 'myUserLogin');
+
+        $expectedOrder = [
+            // 1) my segments
+            'segment 1',
+            'segment 3',
+            'segment 7',
+
+            // 2) segments created by a super user that were shared with all users
+            'segment 5',
+            'segment 9',
+        ];
+
+        $segments     = $this->api->getAll();
+        $segmentNames = $this->getNamesFromSegments($segments);
+        $this->assertSame($expectedOrder, $segmentNames);
+    }
+
+    public function testGetThrowsWhenSegmentSiteIsNotAccessible()
+    {
+        $this->createAdminUser();
+        $this->setSuperUser();
+
+        $idSegment = $this->api->add('segment access check', 'countryCode==fr', $idSite = 2, $autoArchive = false, $enableAllUsers = true);
+
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [1], $userName = 'myUserLogin');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasViewAccess Fake exception');
+
+        $this->api->get($idSegment);
+    }
+
     public function testGetAllForAllWebsitesReturnsSortedSegmentsAsSuperUser()
     {
         $this->createAdminUser();
