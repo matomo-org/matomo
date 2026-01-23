@@ -4694,11 +4694,6 @@ parameters:
 			path: plugins/ScheduledReports/ScheduledReports.php
 
 		-
-			message: "#^Parameter \\#2 \\$idSites of class Piwik\\\\Segment constructor expects array, int\\|null given\\.$#"
-			count: 1
-			path: plugins/SegmentEditor/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$ids of static method Piwik\\\\Site\\:\\:getIdSitesFromIdSitesString\\(\\) expects array\\|string, int\\<min, \\-2\\>\\|int\\<0, max\\> given\\.$#"
 			count: 1
 			path: plugins/SegmentEditor/SegmentEditor.php
