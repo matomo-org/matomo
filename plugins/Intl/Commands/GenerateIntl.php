@@ -386,7 +386,7 @@ class GenerateIntl extends ConsoleCommand
                 $translations['Intl']['Month_Long_StandAlone_' . $i] = $calendarData['months']['stand-alone']['wide'][$i];
             }
 
-            $days                                      = [
+            $days = [
                 1 => 'mon',
                 2 => 'tue',
                 3 => 'wed',
