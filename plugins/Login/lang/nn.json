@@ -1,6 +1,6 @@
 {
     "Login": {
-        "InvalidUsernameEmail": "Ugyldig brukarnamn og\/eller epost-adresse",
+        "InvalidUsernameEmail": "Ugyldig brukarnamn og/eller epost-adresse",
         "LogIn": "Logg på",
         "LoginPasswordNotCorrect": "Brukarnamn og passord er feil",
         "LostYourPassword": "Har du gløymt passordet?",

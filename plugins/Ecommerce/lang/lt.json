@@ -1,9 +1,9 @@
 {
     "Ecommerce": {
-        "Sales": "Pardavimai",
+        "NumberOfItems": "Elementų krepšelyje skaičius",
         "Order": "Užsakymas",
         "OrderId": "Užsakymo ID",
         "Orders": "Užsakymai",
-        "NumberOfItems": "Elementų krepšelyje skaičius"
+        "Sales": "Pardavimai"
     }
 }

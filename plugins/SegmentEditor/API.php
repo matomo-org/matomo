@@ -261,6 +261,10 @@ class API extends \Piwik\Plugin\API
             throw new Exception('Changing value for enabledAllUsers is permitted to super users only.');
         }
 
+        if ((int)$segment['enable_only_idsite'] !== (int)$idSite && !$this->isUserCanAddNewSegment($idSite)) {
+            throw new Exception('Changing value for enable_only_idsite requires permission to add segments for the target site.');
+        }
+
         $autoArchive     = $this->checkAutoArchive($autoArchive, $idSite);
 
         $bind = [

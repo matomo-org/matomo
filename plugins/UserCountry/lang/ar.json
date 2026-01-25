@@ -5,15 +5,15 @@
         "CityAndCountry": "%1$s ، %2$s",
         "Continent": "القارة",
         "Country": "الدولة",
-        "country_a1": "بروكسي مجهول",
-        "country_a2": "مزود خدمة عبر الأقمار الصناعية",
-        "country_cat": "المجتمعات الناطقة بالكاتالانية",
-        "country_o1": "دولة أخرى",
         "CurrentLocationIntro": "طبقاً لهذا المزوّد فإن مكانك الحالي هو",
         "DefaultLocationProviderDesc1": "مقدم معلومات الأماكن الافتراضي يخمّن بلد الزائر بناءاً على اللغة التي يستخدمها.",
         "DistinctCountries": "%s دولة بارزة",
         "FromDifferentCities": "مدن مختلفة",
         "Location": "المكان",
-        "SubmenuLocations": "الأماكن"
+        "SubmenuLocations": "الأماكن",
+        "country_a1": "بروكسي مجهول",
+        "country_a2": "مزود خدمة عبر الأقمار الصناعية",
+        "country_cat": "المجتمعات الناطقة بالكاتالانية",
+        "country_o1": "دولة أخرى"
     }
 }

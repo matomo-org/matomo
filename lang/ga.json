@@ -120,6 +120,7 @@
         "ComplianceCNILTitle": "Coinníollacha díolúine maidir le toiliú anailísíochta láithreán gréasáin CNIL",
         "ComplianceCNILUnknownSettingOptOutNotes": "Ní mór rogha an diúltaithe a shocrú agus a chumrú de láimh. %1$sFoghlaim tuilleadh%2$s",
         "ComplianceCNILUnknownSettingOptOutTitle": "Rogha amach",
+        "ComplianceCNILWarning": "<b>Ní féidir comhlíonadh a ráthú le húsáid breiseán tríú páirtí.</b>",
         "ComputedMetricAverage": "Avg. %1$s in aghaidh an %2$s",
         "ComputedMetricAverageDocumentation": "Meánluach \"%1$s\" in aghaidh \"%2$s\".",
         "ComputedMetricAverageShortDocumentation": "Meánluach \"%1$s\".",

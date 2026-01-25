@@ -90,10 +90,34 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     {
         $_SERVER['HTTPS'] = 'on';
         $_SERVER['HTTP_X_FORWARDED_PROTO'] = $proto;
+        Config::getInstance()->General['proxy_scheme_headers'] = ['HTTP_X_FORWARDED_PROTO'];
         $this->assertEquals($proto, Url::getCurrentScheme());
 
         unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
         unset($_SERVER['HTTPS']);
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
+    }
+
+    public function testGetCurrentSchemeIgnoresProxyHeaderWhenNotConfigured()
+    {
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
+
+        $this->assertEquals('http', Url::getCurrentScheme());
+
+        unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
+    }
+
+    public function testGetCurrentSchemeIgnoresProxyHeaderWhenNotConfigured2()
+    {
+        $_SERVER['HTTPS']                                      = 'on';
+        $_SERVER['HTTP_X_FORWARDED_PROTO']                     = 'http';
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
+
+        $this->assertEquals('https', Url::getCurrentScheme());
+
+        unset($_SERVER['HTTPS']);
+        unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
     }
 
     /**
@@ -102,6 +126,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
     public function testGetCurrentSchemeShouldDetectSecureFromHttpsHeader()
     {
         $_SERVER['HTTPS'] = 'on';
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
         $this->assertEquals('https', Url::getCurrentScheme());
 
         unset($_SERVER['HTTPS']);
@@ -112,6 +137,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetCurrentSchemeShouldBeHttpByDefault()
     {
+        Config::getInstance()->General['proxy_scheme_headers'] = null;
         $this->assertEquals('http', Url::getCurrentScheme());
     }
 
@@ -303,7 +329,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         ];
 
         foreach ($tests as $test) {
-            list($expected, $uri, $pathInfo) = $test;
+            [$expected, $uri, $pathInfo] = $test;
 
             $_SERVER['REQUEST_URI'] = $uri;
             $_SERVER['PATH_INFO'] = $pathInfo;

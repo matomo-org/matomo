@@ -710,6 +710,18 @@ multi_server_environment = 0
 ; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
 
+; List of proxy headers for scheme (http/https) detection.
+; If unset, Matomo will ignore proxy scheme headers by default.
+;
+; de facto standard (X-Forwarded-Proto)
+;proxy_scheme_headers[] = HTTP_X_FORWARDED_PROTO
+;
+; alternative header (X-Forwarded-Scheme)
+;proxy_scheme_headers[] = HTTP_X_FORWARDED_SCHEME
+;
+; alternative header (X-Url-Scheme)
+;proxy_scheme_headers[] = HTTP_X_URL_SCHEME
+
 ; List of proxy IP addresses (or IP address ranges) to skip (if present in the above headers).
 ; Generally, only required if there's more than one proxy between the visitor and the backend web server.
 ;
@@ -1154,6 +1166,10 @@ delete_reports_keep_year_reports     = 1
 delete_reports_keep_range_reports    = 0
 delete_reports_keep_segment_reports  = 0
 
+[ArchivingMetrics]
+; retention_days - delete archiving metrics older than this many days. Set to 0 to disable cleanup.
+retention_days = 180
+
 [mail]
 defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org ; default Email @hostname, if current host can't be read from system variables
 transport = ; smtp (using the configuration below) or empty (using built-in mail() function)
@@ -1348,7 +1364,9 @@ time_on_load_cap_duration_ms = 0
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
 ; index.php?module=API&method=API.getSettings
+; Access to this API is unrestricted, so do not include any sensitive information here.
 ; This can be used to expose values from Matomo, to control for example a Mobile app tracking
+
 SDK_batch_size = 10
 SDK_interval_value = 30
 

@@ -20,8 +20,8 @@
         "ToFollowingPagesInline": "%s läks sisemistele lehtedele",
         "ToFollowingSiteSearches": "Sisemised otsingud",
         "ToFollowingSiteSearchesInline": "%s sisemist otsingut",
+        "TransitionsSubcategoryHelp2": "Rohkem detaile",
         "XOfAllPageviews": "%s kõigist antud lehe vaatamistest",
-        "XOutOfYVisits": "%1$s (%2$s kõigist)",
-        "TransitionsSubcategoryHelp2": "Rohkem detaile"
+        "XOutOfYVisits": "%1$s (%2$s kõigist)"
     }
 }

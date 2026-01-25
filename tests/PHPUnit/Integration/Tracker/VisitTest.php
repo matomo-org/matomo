@@ -264,6 +264,10 @@ class VisitTest extends IntegrationTestCase
                 'Googlebot-Image/1.0' => false,
                 'Yahoo! Slurp China' => false,
             )),
+            array('/doesnotmatch/,/TargetBot/i', array( // multiple regex entries
+                'Mozilla/5.0 (compatible; TargetBot/1.0; +http://example.org/bot)' => true,
+                'Mozilla/5.0 (compatible; OtherBot/1.0; +http://example.org/bot)' => false,
+            )),
             array('/Mozilla/5.0/i)', array( // invalid regex
                 'Mozilla/5.0 (compatible; Yahoo! Slurp/3.0; http://help.yahoo.com/help/us/ysearch/slurp)' => false,
                 'Wget/1.13.4 (linux-gnu)' => false,

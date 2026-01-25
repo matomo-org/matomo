@@ -11,6 +11,7 @@ namespace Piwik\API;
 
 use Exception;
 use Piwik\Access;
+use Piwik\Http\HttpCodeException;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Cache;
 use Piwik\Common;
@@ -283,10 +284,17 @@ class Request
                 return $response->getResponse($returnedValue, $module, $method);
             });
         } catch (Exception $e) {
-            StaticContainer::get(LoggerInterface::class)->error('Uncaught exception in API: {exception}', [
-                'exception' => $e,
-                'ignoreInScreenWriter' => true,
-            ]);
+            if ($e instanceof HttpCodeException && $e->getCode() >= 400 && $e->getCode() < 500) {
+                StaticContainer::get(LoggerInterface::class)->debug('Uncaught client error in API: {exception}', [
+                    'exception'            => $e,
+                    'ignoreInScreenWriter' => true,
+                ]);
+            } else {
+                StaticContainer::get(LoggerInterface::class)->error('Uncaught exception in API: {exception}', [
+                    'exception'            => $e,
+                    'ignoreInScreenWriter' => true,
+                ]);
+            }
 
             if (empty($response)) {
                 $response = new ResponseBuilder('console', $this->request);

@@ -1,7 +1,7 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Duombazės naudojimas",
         "DataSize": "Informacijos kiekis",
+        "DatabaseUsage": "Duombazės naudojimas",
         "IndexSize": "Indekso dydis",
         "LearnMore": "Norint geriau susipažinti su Matomo duomenų apdorojimu bei kaip priversti Matomo veikti geriau vidutinės ir didelės apkrovos svetainėse, siūlome pastudijuoti dokumentaciją %s.",
         "MainDescription": "Matomo saugo visus Jūsų duomenis MySQL duombazėje. Šiuo metu Matomo lentelės naudoja %s.",

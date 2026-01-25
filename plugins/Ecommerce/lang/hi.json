@@ -1,7 +1,7 @@
 {
     "Ecommerce": {
         "Sales": "बिक्री",
-        "SalesBy": "%s द्वारा बिक्री",
-        "SalesAdjective": "बिक्री %s"
+        "SalesAdjective": "बिक्री %s",
+        "SalesBy": "%s द्वारा बिक्री"
     }
 }

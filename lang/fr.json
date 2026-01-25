@@ -2,6 +2,7 @@
     "General": {
         "12HourClock": "Système horaire sur 12 heures",
         "24HourClock": "Système horaire sur 24 heures",
+        "AIAssistants": "Assistants IA",
         "API": "API",
         "AbandonedCarts": "Paniers abandonnés",
         "AboutPiwikX": "À propos de Matomo %s",

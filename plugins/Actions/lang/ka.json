@@ -6,8 +6,8 @@
         "ColumnPageURL": "გვერდის URL",
         "ColumnUniqueClicks": "უნიკალური დაწკაპუნებები",
         "ColumnUniqueDownloads": "უნიკალური ჩამოტვირთვები",
+        "SubmenuPageTitles": "გვერდის სათაურები",
         "SubmenuPagesEntry": "შესვლის გვერდები",
-        "SubmenuPagesExit": "გასავლის გვერდები",
-        "SubmenuPageTitles": "გვერდის სათაურები"
+        "SubmenuPagesExit": "გასავლის გვერდები"
     }
 }

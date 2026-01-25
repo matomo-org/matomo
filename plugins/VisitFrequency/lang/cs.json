@@ -11,13 +11,13 @@
         "ColumnBounceRateForReturningVisits": "Frekvence odchodů pro opakované návštěvy",
         "ColumnMaxActionsInReturningVisit": "Maximum akcí v jedné vracející se návštěvě",
         "ColumnNbReturningVisitsConverted": "Počet zkonvertovaných vracejících se návštěv",
+        "ColumnNewUsers": "Nový uživatelé",
         "ColumnNewVisits": "Nové návštěvy",
+        "ColumnReturningUsers": "Vracející se uživatelé",
         "ColumnReturningVisits": "Opětovných návštěv",
         "ColumnSumVisitLengthReturning": "Celkový čas strávený vracejícími se návštěvníky (v sekundách)",
         "ColumnUniqueNewVisitors": "Unikátní nový návštěvníci",
         "ColumnUniqueReturningVisitors": "Unikátní vracející se návštěvníci",
-        "ColumnNewUsers": "Nový uživatelé",
-        "ColumnReturningUsers": "Vracející se uživatelé",
         "NewActions": "Akcí za novou návštěvu",
         "NewAverageVisitDuration": "průměrná dělka návštěvy pro nové návštěvníky",
         "NewAvgActions": "akcí za novou návštěvu",
@@ -28,12 +28,12 @@
         "ReturnAverageVisitDuration": "průměrná dělka návštěvy pro vracející se návštěvníky",
         "ReturnAvgActions": "akcí za opakovanou návštěvu",
         "ReturnBounceRate": "vracející se návštěvy, které opustily web po jedné stránce",
+        "ReturnVisits": "opětovných návštěv",
         "ReturningVisitDocumentation": "Vracející se návštěva je návštěvník, který již stránku aspoň jednou navštívil.",
         "ReturningVisitsDocumentation": "Toto je přehled vracejících se návštěvníků.",
-        "ReturnVisits": "opětovných návštěv",
         "SubmenuFrequency": "Frekvence",
+        "VisitFrequencyReportDocumentation": "Tento přehled zobrazuje obecné metriky, jako jsou návštěvy pro vracející se návštěvníky a stejné metriky pro nové návštěvy. Zjistěte, jak si celkově vedou vracející se návštěvníci ve srovnání s novými návštěvníky.",
         "WidgetGraphReturning": "Graf opakujících se návštěv",
-        "WidgetOverview": "Přehled frekvencí",
-        "VisitFrequencyReportDocumentation": "Tento přehled zobrazuje obecné metriky, jako jsou návštěvy pro vracející se návštěvníky a stejné metriky pro nové návštěvy. Zjistěte, jak si celkově vedou vracející se návštěvníci ve srovnání s novými návštěvníky."
+        "WidgetOverview": "Přehled frekvencí"
     }
 }

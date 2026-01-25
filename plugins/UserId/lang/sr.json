@@ -1,6 +1,6 @@
 {
     "UserId": {
-        "UserId": "Korisnik",
-        "PluginDescription": "Prikazuje izveštaj po korisniku"
+        "PluginDescription": "Prikazuje izveštaj po korisniku",
+        "UserId": "Korisnik"
     }
 }

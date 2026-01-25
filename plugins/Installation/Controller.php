@@ -593,6 +593,9 @@ class Controller extends ControllerAdmin
         if (count($headers = ProxyHeaders::getProxyHostHeaders()) > 0) {
             $config->General['proxy_host_headers'] = $headers;
         }
+        if (count($headers = ProxyHeaders::getProxySchemeHeaders()) > 0) {
+            $config->General['proxy_scheme_headers'] = $headers;
+        }
 
         if (Common::getRequestVar('clientProtocol', 'http', 'string') == 'https') {
             $protocol = 'https';

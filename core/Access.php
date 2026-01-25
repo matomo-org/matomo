@@ -13,6 +13,7 @@ use Exception;
 use Piwik\Access\CapabilitiesProvider;
 use Piwik\API\Request;
 use Piwik\Access\RolesProvider;
+use Piwik\Http\BadRequestException;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
@@ -77,6 +78,11 @@ class Access
      * @var Auth
      */
     private $auth = null;
+
+    /**
+     * @var bool
+     */
+    private $sessionExpired = false;
 
     /**
      * Gets the singleton instance. Creates it if necessary.
@@ -627,7 +633,7 @@ class Access
     /**
      * @param int|array|string $idSites
      * @return array
-     * @throws \Piwik\NoAccessException
+     * @throws BadRequestException
      */
     protected function getIdSites($idSites)
     {
@@ -638,7 +644,7 @@ class Access
         $idSites = Site::getIdSitesFromIdSitesString($idSites);
 
         if (empty($idSites)) {
-            $this->throwNoAccessException("The parameter 'idSite=' is missing from the request.");
+            throw new BadRequestException("The parameter 'idSite=' is missing from the request.");
         }
 
         return $idSites;
@@ -745,19 +751,22 @@ class Access
     {
         if (Piwik::isUserIsAnonymous() && !Request::isRootRequestApiRequest()) {
             $message = Piwik::translate('General_YouMustBeLoggedIn');
-
-            // Try to detect whether user was previously logged in so that we can display a different message
-            $referrer = Url::getReferrer();
-            $matomoUrl = SettingsPiwik::getPiwikUrl();
-            if (
-                $referrer && $matomoUrl && Url::isValidHost(Url::getHostFromUrl($referrer)) &&
-                strpos($referrer, $matomoUrl) === 0
-            ) {
+            if ($this->sessionExpired) {
                 $message = Piwik::translate('General_YourSessionHasExpired');
             }
         }
 
         throw new NoAccessException($message);
+    }
+
+    public function setSessionExpired(bool $sessionExpired): void
+    {
+        $this->sessionExpired = $sessionExpired;
+    }
+
+    public function wasSessionExpired(): bool
+    {
+        return $this->sessionExpired;
     }
 
     /**

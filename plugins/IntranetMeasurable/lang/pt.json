@@ -1,7 +1,7 @@
 {
     "IntranetMeasurable": {
         "Intranet": "Site da intranet",
-        "Intranets": "Sites da intranet",
-        "IntranetDescription": "Um mensurável de intranet é como um site, mas disponibilizado numa rede interna."
+        "IntranetDescription": "Um mensurável de intranet é como um site, mas disponibilizado numa rede interna.",
+        "Intranets": "Sites da intranet"
     }
 }

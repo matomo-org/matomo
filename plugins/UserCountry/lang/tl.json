@@ -5,10 +5,6 @@
         "CityAndCountry": "%1$s %2$s",
         "Continent": "Kontinente",
         "Country": "Bansa",
-        "country_a1": "Anonymous Proxy",
-        "country_a2": "Satellite Provider",
-        "country_cat": "Komunidad ng wikang Catalan",
-        "country_o1": "Iba pang mga bansa",
         "CurrentLocationIntro": "Ayon sa provider ang iyong kasalukuyang lokasyon ay",
         "DefaultLocationProviderDesc1": "Ang default na lokasyon ng provider na humu-hula sa mga bansa ng bumibisita batay sa wika na ginagamit nila.",
         "DefaultLocationProviderExplanation": "Iyong ginagamit ang default location provider na nangangahulugan na ang Matomo ay huhulaan ang lokasyon ng iyong bisita base sa wika na kanilang ginagamit. %1$sRead this%2$s upang malaman panu e-setup na may tamang geolocation.",
@@ -17,10 +13,6 @@
         "GeoIPDocumentationSuffix": "Upang makita ang dataus para sa ulat na ito kailangan mong mag setup ng GeoIP sa Geolocation admin tab. Ang komersyal %1$sMaxmind%2$s GeoIP databases ay higit na tiyak kaysa sa mga libre. Upang makita kung gaano ito ka-tiyak i-click ang %3$shere%4$s.",
         "Geolocation": "Geolocation",
         "GeolocationPageDesc": "Sa pahinang ito ay maaari mo nang baguhin kung paano malalaman ng Matomo ang lokasyon ng bisita.",
-        "getCityDocumentation": "Ipinapakita ng ulat na ito ang lungsod ng iyong mga bisita ng in-access nila ang iyong website.",
-        "getContinentDocumentation": "Ang ulat na ito ay nagpapakita kung aling mga kontinente galing ang iyong mga bisita na umaccess sa iyong website.",
-        "getCountryDocumentation": "Ang ulat na ito ay nagpapakita kung saang bansa galing ang iyong bisita ng ina-access nila ang iyong website.",
-        "getRegionDocumentation": "Ang ulat na ito ay nagpapakita kung saang rehiyon galing ang iyong mga bisita ng in-access nila ang iyong website.",
         "Latitude": "Latitud",
         "Location": "Lokasyon",
         "LocationProvider": "Lokasyon ng provider",
@@ -30,6 +22,14 @@
         "Region": "Rehiyon",
         "SubmenuLocations": "Mga Lokasyon",
         "ToGeolocateOldVisits": "Upang makakuha ng data ng lokasyon para sa iyong lumang mga pagbisita gamitin ang script na inilarawan %1$shere%2$s.",
-        "WidgetLocation": "Lokasyon ng bisita"
+        "WidgetLocation": "Lokasyon ng bisita",
+        "country_a1": "Anonymous Proxy",
+        "country_a2": "Satellite Provider",
+        "country_cat": "Komunidad ng wikang Catalan",
+        "country_o1": "Iba pang mga bansa",
+        "getCityDocumentation": "Ipinapakita ng ulat na ito ang lungsod ng iyong mga bisita ng in-access nila ang iyong website.",
+        "getContinentDocumentation": "Ang ulat na ito ay nagpapakita kung aling mga kontinente galing ang iyong mga bisita na umaccess sa iyong website.",
+        "getCountryDocumentation": "Ang ulat na ito ay nagpapakita kung saang bansa galing ang iyong bisita ng ina-access nila ang iyong website.",
+        "getRegionDocumentation": "Ang ulat na ito ay nagpapakita kung saang rehiyon galing ang iyong mga bisita ng in-access nila ang iyong website."
     }
 }
