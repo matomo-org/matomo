@@ -29,15 +29,15 @@ describe('BotTrackingSiteWithoutData', function () {
 
     it('should show a message if no bot data has been recently tracked', async function () {
         await page.goto(urlOverview);
-        await page.waitForSelector('.notification.notification-warning');
+        await page.waitForSelector('.bot-tracking-no-recent-requests-message');
 
-        const notification = await page.$('.notification.notification-warning');
+        const notification = await page.$('.bot-tracking-no-recent-requests-message');
 
         expect(await notification.getProperty('textContent')).to.match(/No data collected/i);
     });
 
     it('should show the no data page', async function () {
-        await page.click('.notification.notification-warning a');
+        await page.click('.bot-tracking-no-recent-requests-message a');
         await page.waitForSelector('.tracking-method-list');
 
         const pageElement = await page.$('.page');
