@@ -931,81 +931,6 @@ parameters:
 			path: core/DataAccess/Model.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with Piwik\\\\DataTable\\\\Row will always evaluate to false\\.$#"
-			count: 12
-			path: core/DataTable.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with mixed will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Instanceof between int and Piwik\\\\DataTable\\\\Row will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Method Piwik\\\\DataTable\\:\\:getRowIdFromLabel\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(callable filter A function like `function \\(DataTable \\$thisTable, \\$otherTable1, \\$otherTable2\\) \\{\\}`\\.\\)\\: Unexpected token \"filter\", expected variable at offset 361$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Parameter \\#2 \\$return of function var_export expects bool, int given\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$rows \\(array\\<Piwik\\\\DataTable\\\\Row\\>\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$summaryRow \\(Piwik\\\\DataTable\\\\Row\\) does not accept null\\.$#"
-			count: 2
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$summaryRow \\(Piwik\\\\DataTable\\\\Row\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$summaryRow \\(Piwik\\\\DataTable\\\\Row\\) in isset\\(\\) is not nullable\\.$#"
-			count: 2
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$tableSortedBy \\(string\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$totalsRow \\(Piwik\\\\DataTable\\\\Row\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
-			path: core/DataTable.php
-
-		-
 			message: "#^Constructor of class Piwik\\\\DataTable\\\\BaseFilter has an unused parameter \\$table\\.$#"
 			count: 1
 			path: core/DataTable/BaseFilter.php
@@ -4165,11 +4090,6 @@ parameters:
 
 		-
 			message: "#^Constructor of class Piwik\\\\Plugins\\\\Insights\\\\DataTable\\\\Filter\\\\OrderBy has an unused parameter \\$table\\.$#"
-			count: 1
-			path: plugins/Insights/DataTable/Filter/OrderBy.php
-
-		-
-			message: "#^Parameter \\#1 \\$functionCallback of method Piwik\\\\DataTable\\:\\:sort\\(\\) expects string, array\\<int, \\$this\\(Piwik\\\\Plugins\\\\Insights\\\\DataTable\\\\Filter\\\\OrderBy\\)\\|string\\> given\\.$#"
 			count: 1
 			path: plugins/Insights/DataTable/Filter/OrderBy.php
 
