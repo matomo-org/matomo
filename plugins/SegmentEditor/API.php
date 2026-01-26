@@ -11,6 +11,7 @@ namespace Piwik\Plugins\SegmentEditor;
 
 use Exception;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SegmentArchiving;
@@ -38,6 +39,9 @@ class API extends \Piwik\Plugin\API
      */
     private $segmentArchiving;
 
+    /**
+     * @var string
+     */
     private $processNewSegmentsFrom;
 
     protected $autoSanitizeInputParams = false;
@@ -58,7 +62,7 @@ class API extends \Piwik\Plugin\API
         $definition = str_replace("&", '%26', $definition);
 
         try {
-            $segment = new Segment($definition, $idSite);
+            $segment = new Segment($definition, $idSite ? [$idSite] : []);
             $segment->getHash();
         } catch (Exception $e) {
             throw new Exception("The specified segment is invalid: " . $e->getMessage());
@@ -84,22 +88,15 @@ class API extends \Piwik\Plugin\API
         return $enabledAllUsers;
     }
 
-    protected function checkIdSite($idSite): ?int
+    protected function checkIdSite(?int $idSite): void
     {
         if (empty($idSite)) {
             if (!Piwik::hasUserSuperUserAccess()) {
                 throw new Exception($this->getMessageCannotEditSegmentCreatedBySuperUser());
             }
-
-            return null;
         } else {
-            if (!is_numeric($idSite)) {
-                throw new Exception("idSite should be a numeric value");
-            }
-
             Piwik::checkUserHasViewAccess($idSite);
         }
-        return (int) $idSite;
     }
 
     protected function checkAutoArchive(bool $autoArchive, ?int $idSite): bool
@@ -168,13 +165,20 @@ class API extends \Piwik\Plugin\API
             return false;
         }
 
-        $requiredAccess = Config::getInstance()->General['adding_segment_requires_access'];
+        if (Piwik::hasUserSuperUserAccess()) {
+            return true; // super user can always edit
+        }
+
+        if (empty($idSite)) {
+            return false; // only super user can add a segment without a site
+        }
+
+        $requiredAccess = Config\GeneralConfig::getConfigValue('adding_segment_requires_access', $idSite);
 
         $authorized =
             ($requiredAccess == 'view' && Piwik::isUserHasViewAccess($idSite)) ||
             ($requiredAccess == 'admin' && Piwik::isUserHasAdminAccess($idSite)) ||
-            ($requiredAccess == 'write' && Piwik::isUserHasWriteAccess($idSite)) ||
-            ($requiredAccess == 'superuser' && Piwik::hasUserSuperUserAccess())
+            ($requiredAccess == 'write' && Piwik::isUserHasWriteAccess($idSite))
         ;
 
         return $authorized;
@@ -233,7 +237,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSegment The ID of the stored segment to modify.
      * @param string $name The new name of the segment.
      * @param string $definition The new definition of the segment.
-     * @param int|string|null $idSite If supplied, associates the stored segment with as single site.
+     * @param int|null $idSite If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
      */
@@ -241,14 +245,14 @@ class API extends \Piwik\Plugin\API
         int $idSegment,
         string $name,
         string $definition,
-        $idSite = null,
+        ?int $idSite = null,
         bool $autoArchive = false,
         bool $enabledAllUsers = false
     ): void {
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
 
-        $idSite = $this->checkIdSite($idSite);
+        $this->checkIdSite($idSite);
         $name = Common::sanitizeInputValue($name);
         $this->checkSegmentName($name);
         $definition = Common::sanitizeInputValue($definition);
@@ -303,7 +307,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $name The new name of the segment.
      * @param string $definition The new definition of the segment.
-     * @param null|string|int $idSite If supplied, associates the stored segment with as single site.
+     * @param null|int $idSite If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
      *
@@ -312,11 +316,11 @@ class API extends \Piwik\Plugin\API
     public function add(
         string $name,
         string $definition,
-        $idSite = null,
+        ?int $idSite = null,
         bool $autoArchive = false,
         bool $enabledAllUsers = false
     ): int {
-        $idSite = $this->checkIdSite($idSite);
+        $this->checkIdSite($idSite);
         $this->checkUserCanAddNewSegment($idSite);
         $name = Common::sanitizeInputValue($name);
         $this->checkSegmentName($name);
@@ -420,6 +424,8 @@ class API extends \Piwik\Plugin\API
         if (empty($segment)) {
             return null;
         }
+        $this->checkUserHasViewAccessToSegmentSite($segment);
+
         try {
             if (!$segment['enable_all_users']) {
                 Piwik::checkUserHasSuperUserAccessOrIsTheUser($segment['login']);
@@ -438,10 +444,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns all stored segments.
      *
-     * @param null|string|int $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
+     * @param null|int $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
      * @return array
      */
-    public function getAll($idSite = null): array
+    public function getAll(?int $idSite = null): array
     {
         if (!empty($idSite)) {
             Piwik::checkUserHasViewAccess($idSite);
@@ -462,6 +468,10 @@ class API extends \Piwik\Plugin\API
             }
         }
 
+        if (empty($idSite)) {
+            $segments = $this->filterSegmentsWithoutSiteAccess($segments);
+        }
+
         $segments = $this->filterSegmentsWithDisabledElements($segments, $idSite);
         $segments = $this->sortSegmentsCreatedByUserFirst($segments);
 
@@ -471,12 +481,12 @@ class API extends \Piwik\Plugin\API
     /**
      * Filter out any segments which cannot be initialized due to disable plugins or features
      *
-     * @param array $segments
-     * @param null|string|int $idSite
+     * @param array<array> $segments
+     * @param null|int $idSite
      *
-     * @return array
+     * @return array<array>
      */
-    private function filterSegmentsWithDisabledElements(array $segments, $idSite = null): array
+    private function filterSegmentsWithDisabledElements(array $segments, ?int $idSite = null): array
     {
         $idSites = empty($idSite) ? [] : [$idSite];
 
@@ -489,14 +499,48 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * @param array<array> $segments
+     * @return array<array>
+     */
+    private function filterSegmentsWithoutSiteAccess(array $segments): array
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            return $segments;
+        }
+
+        $idSitesWithViewAccess = Access::getInstance()->getSitesIdWithAtLeastViewAccess();
+
+        foreach ($segments as $key => $segment) {
+            $segmentSiteId = (int) $segment['enable_only_idsite'];
+            if ($segmentSiteId !== 0 && !in_array($segmentSiteId, $idSitesWithViewAccess, true)) {
+                unset($segments[$key]);
+            }
+        }
+
+        return $segments;
+    }
+
+    private function checkUserHasViewAccessToSegmentSite(array $segment): void
+    {
+        if (Piwik::hasUserSuperUserAccess()) {
+            return;
+        }
+
+        $segmentSiteId = (int) $segment['enable_only_idsite'];
+        if ($segmentSiteId !== 0) {
+            Piwik::checkUserHasViewAccess($segmentSiteId);
+        }
+    }
+
+    /**
      * Sorts segment in a particular order:
      *
      *  1) my segments
      *  2) segments created by the super user that were shared with all users
      *  3) segments created by other users (which are visible to all super users)
      *
-     * @param array $segments
-     * @return array
+     * @param array<array> $segments
+     * @return array<array>
      */
     private function sortSegmentsCreatedByUserFirst(array $segments): array
     {
