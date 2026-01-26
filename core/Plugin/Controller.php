@@ -764,8 +764,8 @@ abstract class Controller
         $view->hasSVGLogo = $customLogo->hasSVGLogo();
         $view->contactEmail = implode(',', Piwik::getContactEmailAddresses());
 
-        $darkMode = (new UserPreferences())->getDarkMode();
-        $view->themeStyles = ThemeStyles::get($darkMode);
+        $themeMode = (new UserPreferences())->getThemeMode();
+        $view->themeStyles = ThemeStyles::get($themeMode);
 
         $general = PiwikConfig::getInstance()->General;
         $view->enableFrames = $general['enable_framed_pages']

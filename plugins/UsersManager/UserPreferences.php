@@ -57,10 +57,10 @@ class UserPreferences
      *
      * @api
      */
-    public function getDarkMode() :string
+    public function getThemeMode(): string
     {
         return $this->api->getUserPreference(
-            APIUsersManager::PREFERENCE_DARK_MODE,
+            APIUsersManager::PREFERENCE_THEME_MODE,
             Piwik::getCurrentUserLogin()
         );
     }

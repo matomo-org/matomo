@@ -61,11 +61,12 @@
       <div>
         <Field
           uicontrol="radio"
-          name="darkMode"
-          v-model="theDarkMode"
-          :title="'You can choose between a light or a dark Matomo interface'"
+          name="themeMode"
+          v-model="theThemeMode"
+          @update:model-value="theThemeMode = $event; doesRequireReload = true"
+          :title="''"
           :introduction="'Theme'"
-          :options="darkModeOptions"
+          :options="themeModeOptions"
         />
       </div>
 
@@ -133,11 +134,12 @@ import {
 
 interface PersonalSettingsState {
   doesRequirePasswordConfirmation: boolean;
+  doesRequireReload: boolean;
   username: string;
   email: string;
   language: string;
   timeformat: number;
-  theDarkMode: string;
+  theThemeMode: string;
   theDefaultReport: string|number;
   site: SiteRef;
   theDefaultDate: string;
@@ -179,11 +181,11 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    darkMode: {
+    themeMode: {
       type: String,
       required: true,
     },
-    darkModeOptions: {
+    themeModeOptions: {
       type: Object,
       required: true,
     },
@@ -225,11 +227,12 @@ export default defineComponent({
   data(): PersonalSettingsState {
     return {
       doesRequirePasswordConfirmation: false,
+      doesRequireReload: false,
       username: this.userLogin,
       email: this.userEmail,
       language: this.currentLanguageCode,
       timeformat: this.currentTimeformat,
-      theDarkMode: this.darkMode,
+      theThemeMode: this.themeMode,
       theDefaultReport: this.defaultReport,
       site: {
         id: this.defaultReportIdSite,
@@ -252,7 +255,7 @@ export default defineComponent({
     doSave(password?: string) {
       const postParams: QueryParameters = {
         email: this.email,
-        darkMode: this.theDarkMode,
+        themeMode: this.theThemeMode,
         defaultReport: this.theDefaultReport === 'MultiSites'
           ? this.theDefaultReport
           : this.site.id,
@@ -278,6 +281,9 @@ export default defineComponent({
           withTokenInUrl: true,
         },
       ).then(() => {
+        if (this.doesRequireReload) {
+          window.location.reload();
+        }
         const id = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           id: 'PersonalSettingsSuccess',

@@ -51,9 +51,14 @@ class ThemeStyles
     ];
 
     /**
-     * @var boolean
+     * @var string
      */
-    public $isDarkMode = false;
+    public $themeMode = 'default';
+
+    /**
+     * @var array<string>
+     */
+    public $themeModeList = ['default', 'dark'];
 
     /**
      * @var string|array<string>
@@ -220,9 +225,9 @@ class ThemeStyles
      */
     public $filterOnIllustration = ['none', 'invert(100%) hue-rotate(180deg)'];
 
-    public function __construct(string $mode)
+    public function __construct(string $themeMode)
     {
-        $this->isDarkMode = $mode === 'dark';
+        $this->themeMode = $themeMode;
         $this->colorFocusRingAlternative = $this->colorBrand;
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
@@ -252,9 +257,10 @@ class ThemeStyles
     public function toLessCode()
     {
         $result = '';
+        $index = array_search($this->themeMode, $this->themeModeList) ?: 0;
         foreach (get_object_vars($this) as $name => $value) {
             if (is_array($value)) {
-                $value = $this->isDarkMode ? $value[1] : $value[0];
+                $value = $value[$index] ?? $value[0];
             }
             $varName = isset(self::$propertyNamesToLessVariableNames[$name]) ? self::$propertyNamesToLessVariableNames[$name] : $this->getGenericThemeVarName($name);
             $result .= "@$varName: $value;\n";

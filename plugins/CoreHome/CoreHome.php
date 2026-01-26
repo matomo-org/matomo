@@ -79,8 +79,8 @@ class CoreHome extends \Piwik\Plugin
 
     public function addStylesheets(&$mergedContent)
     {
-        $darkMode = (new UserPreferences())->getDarkMode();
-        $themeStyles = ThemeStyles::get($darkMode);
+        $themeMode = (new UserPreferences())->getThemeMode();
+        $themeStyles = ThemeStyles::get($themeMode);
         $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
     }
 

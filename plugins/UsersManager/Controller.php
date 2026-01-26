@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\AssetManager;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
@@ -254,8 +255,8 @@ class Controller extends ControllerAdmin
 
         $userPreferences = new UserPreferences();
 
-        $view->darkMode = $userPreferences->getDarkMode();
-        $view->darkModeOptions = array(
+        $view->themeMode = $userPreferences->getThemeMode();
+        $view->themeModeOptions = array(
             array('key' => 'default', 'value' => 'Default'),
             array('key' => 'dark', 'value' => 'Dark'),
         );
@@ -614,7 +615,7 @@ class Controller extends ControllerAdmin
         try {
             $this->checkTokenInUrl();
 
-            $darkMode = Common::getRequestVar('darkMode');
+            $themeMode = Common::getRequestVar('themeMode');
             $defaultReport = Common::getRequestVar('defaultReport');
             $defaultDate = Common::getRequestVar('defaultDate');
             $language = Common::getRequestVar('language');
@@ -636,11 +637,17 @@ class Controller extends ControllerAdmin
                 'use12HourClock' => $timeFormat,
             ]);
 
-            APIUsersManager::getInstance()->setUserPreference(
-                $userLogin,
-                APIUsersManager::PREFERENCE_DARK_MODE,
-                $darkMode
-            );
+            // Invalidate Stylesheet cache if theme mode changes
+            $currentThemeMode = (new UserPreferences())->getThemeMode();
+            if ($currentThemeMode !== $themeMode) {
+                APIUsersManager::getInstance()->setUserPreference(
+                    $userLogin,
+                    APIUsersManager::PREFERENCE_THEME_MODE,
+                    $themeMode
+                );
+                AssetManager::getInstance()->removeMergedAssets();
+            }
+
             APIUsersManager::getInstance()->setUserPreference(
                 $userLogin,
                 APIUsersManager::PREFERENCE_DEFAULT_REPORT,

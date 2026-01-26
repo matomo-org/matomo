@@ -3422,23 +3422,23 @@ function NewsletterSettingsvue_type_template_id_464433cd_render(_ctx, _cache, $p
 NewsletterSettingsvue_type_script_lang_ts.render = NewsletterSettingsvue_type_template_id_464433cd_render
 
 /* harmony default export */ var NewsletterSettings = (NewsletterSettingsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=729513df
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=d36e962e
 
-const PersonalSettingsvue_type_template_id_729513df_hoisted_1 = {
+const PersonalSettingsvue_type_template_id_d36e962e_hoisted_1 = {
   id: "userSettingsTable"
 };
-const PersonalSettingsvue_type_template_id_729513df_hoisted_2 = {
+const PersonalSettingsvue_type_template_id_d36e962e_hoisted_2 = {
   key: 0
 };
-const PersonalSettingsvue_type_template_id_729513df_hoisted_3 = {
+const PersonalSettingsvue_type_template_id_d36e962e_hoisted_3 = {
   id: "languageHelp",
   class: "inline-help-node"
 };
-const PersonalSettingsvue_type_template_id_729513df_hoisted_4 = ["href"];
-const PersonalSettingsvue_type_template_id_729513df_hoisted_5 = {
+const PersonalSettingsvue_type_template_id_d36e962e_hoisted_4 = ["href"];
+const PersonalSettingsvue_type_template_id_d36e962e_hoisted_5 = {
   class: "sites_autocomplete"
 };
-function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $props, $setup, $data, $options) {
+function PersonalSettingsvue_type_template_id_d36e962e_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _component_SiteSelector = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SiteSelector");
   const _component_SaveButton = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("SaveButton");
@@ -3449,7 +3449,7 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
     "content-title": _ctx.title,
     feature: 'true'
   }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("form", PersonalSettingsvue_type_template_id_729513df_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("form", PersonalSettingsvue_type_template_id_d36e962e_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       uicontrol: "text",
       name: "username",
       title: _ctx.translate('General_Username'),
@@ -3457,7 +3457,7 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
       modelValue: _ctx.username,
       "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.username = $event),
       "inline-help": _ctx.translate('UsersManager_YourUsernameCannotBeChanged')
-    }, null, 8, ["title", "modelValue", "inline-help"])]), _ctx.isUsersAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PersonalSettingsvue_type_template_id_729513df_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    }, null, 8, ["title", "modelValue", "inline-help"])]), _ctx.isUsersAdminEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PersonalSettingsvue_type_template_id_d36e962e_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       uicontrol: "text",
       name: "email",
       "model-value": _ctx.email,
@@ -3467,11 +3467,11 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
       }),
       maxlength: 100,
       title: _ctx.translate('UsersManager_Email')
-    }, null, 8, ["model-value", "title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_729513df_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    }, null, 8, ["model-value", "title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_d36e962e_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       target: "_blank",
       rel: "noreferrer noopener",
       href: _ctx.externalRawLink('https://matomo.org/translations/')
-    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 9, PersonalSettingsvue_type_template_id_729513df_hoisted_4)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('LanguagesManager_AboutPiwikTranslations')), 9, PersonalSettingsvue_type_template_id_d36e962e_hoisted_4)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       uicontrol: "select",
       name: "language",
       modelValue: _ctx.language,
@@ -3488,23 +3488,26 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
       options: _ctx.timeFormats
     }, null, 8, ["modelValue", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       uicontrol: "radio",
-      name: "darkMode",
-      modelValue: _ctx.theDarkMode,
-      "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => _ctx.theDarkMode = $event),
-      title: 'You can choose between a light or a dark Matomo interface',
+      name: "themeMode",
+      modelValue: _ctx.theThemeMode,
+      "onUpdate:modelValue": [_cache[4] || (_cache[4] = $event => _ctx.theThemeMode = $event), _cache[5] || (_cache[5] = $event => {
+        _ctx.theThemeMode = $event;
+        _ctx.doesRequireReload = true;
+      })],
+      title: '',
       introduction: 'Theme',
-      options: _ctx.darkModeOptions
+      options: _ctx.themeModeOptions
     }, null, 8, ["modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       uicontrol: "radio",
       name: "defaultReport",
       modelValue: _ctx.theDefaultReport,
-      "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.theDefaultReport = $event),
+      "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.theDefaultReport = $event),
       introduction: _ctx.translate('UsersManager_ReportToLoadByDefault'),
       title: _ctx.translate('General_AllWebsitesDashboard'),
       options: _ctx.defaultReportOptions
-    }, null, 8, ["modelValue", "introduction", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_729513df_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
+    }, null, 8, ["modelValue", "introduction", "title", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PersonalSettingsvue_type_template_id_d36e962e_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SiteSelector, {
       modelValue: _ctx.site,
-      "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.site = $event),
+      "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.site = $event),
       "show-selected-site": true,
       "switch-site-on-select": false,
       "show-all-sites-item": false,
@@ -3514,21 +3517,21 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
       uicontrol: "radio",
       name: "defaultDate",
       modelValue: _ctx.theDefaultDate,
-      "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.theDefaultDate = $event),
+      "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => _ctx.theDefaultDate = $event),
       introduction: _ctx.translate('UsersManager_ReportDateToLoadByDefault'),
       options: _ctx.availableDefaultDates
     }, null, 8, ["modelValue", "introduction", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_SaveButton, {
-      onConfirm: _cache[8] || (_cache[8] = $event => _ctx.save()),
+      onConfirm: _cache[9] || (_cache[9] = $event => _ctx.save()),
       saving: _ctx.loading
     }, null, 8, ["saving"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PasswordConfirmation, {
       modelValue: _ctx.showPasswordConfirmation,
-      "onUpdate:modelValue": _cache[9] || (_cache[9] = $event => _ctx.showPasswordConfirmation = $event),
+      "onUpdate:modelValue": _cache[10] || (_cache[10] = $event => _ctx.showPasswordConfirmation = $event),
       onConfirmed: _ctx.doSave
     }, null, 8, ["modelValue", "onConfirmed"])])), [[_directive_form]])]),
     _: 1
   }, 8, ["content-title"]);
 }
-// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=729513df
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=template&id=d36e962e
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/PersonalSettings/PersonalSettings.vue?vue&type=script&lang=ts
 
@@ -3568,11 +3571,11 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
       type: Object,
       required: true
     },
-    darkMode: {
+    themeMode: {
       type: String,
       required: true
     },
-    darkModeOptions: {
+    themeModeOptions: {
       type: Object,
       required: true
     },
@@ -3614,11 +3617,12 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
   data() {
     return {
       doesRequirePasswordConfirmation: false,
+      doesRequireReload: false,
       username: this.userLogin,
       email: this.userEmail,
       language: this.currentLanguageCode,
       timeformat: this.currentTimeformat,
-      theDarkMode: this.darkMode,
+      theThemeMode: this.themeMode,
       theDefaultReport: this.defaultReport,
       site: {
         id: this.defaultReportIdSite,
@@ -3640,7 +3644,7 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
     doSave(password) {
       const postParams = {
         email: this.email,
-        darkMode: this.theDarkMode,
+        themeMode: this.theThemeMode,
         defaultReport: this.theDefaultReport === 'MultiSites' ? this.theDefaultReport : this.site.id,
         defaultDate: this.theDefaultDate,
         language: this.language,
@@ -3657,6 +3661,9 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
       }, postParams, {
         withTokenInUrl: true
       }).then(() => {
+        if (this.doesRequireReload) {
+          window.location.reload();
+        }
         const id = external_CoreHome_["NotificationsStore"].show({
           message: Object(external_CoreHome_["translate"])('CoreAdminHome_SettingsSaveSuccess'),
           id: 'PersonalSettingsSuccess',
@@ -3678,7 +3685,7 @@ function PersonalSettingsvue_type_template_id_729513df_render(_ctx, _cache, $pro
 
 
 
-PersonalSettingsvue_type_script_lang_ts.render = PersonalSettingsvue_type_template_id_729513df_render
+PersonalSettingsvue_type_script_lang_ts.render = PersonalSettingsvue_type_template_id_d36e962e_render
 
 /* harmony default export */ var PersonalSettings = (PersonalSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/AddNewToken/AddNewToken.vue?vue&type=template&id=45a918d7
@@ -4230,17 +4237,17 @@ function UserSecurityvue_type_template_id_b9d3c432_render(_ctx, _cache, $props, 
 UserSecurityvue_type_script_lang_ts.render = UserSecurityvue_type_template_id_b9d3c432_render
 
 /* harmony default export */ var UserSecurity = (UserSecurityvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=template&id=7eb293df
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=template&id=163c3aa5
 
-const UserSettingsvue_type_template_id_7eb293df_hoisted_1 = ["innerHTML"];
-const UserSettingsvue_type_template_id_7eb293df_hoisted_2 = {
+const UserSettingsvue_type_template_id_163c3aa5_hoisted_1 = ["innerHTML"];
+const UserSettingsvue_type_template_id_163c3aa5_hoisted_2 = {
   style: {
     "margin-left": "20px"
   }
 };
-const UserSettingsvue_type_template_id_7eb293df_hoisted_3 = ["href"];
-const UserSettingsvue_type_template_id_7eb293df_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-function UserSettingsvue_type_template_id_7eb293df_render(_ctx, _cache, $props, $setup, $data, $options) {
+const UserSettingsvue_type_template_id_163c3aa5_hoisted_3 = ["href"];
+const UserSettingsvue_type_template_id_163c3aa5_hoisted_4 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+function UserSettingsvue_type_template_id_163c3aa5_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_PersonalSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PersonalSettings");
   const _component_NewsletterSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("NewsletterSettings");
   const _component_PluginSettings = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PluginSettings");
@@ -4254,15 +4261,15 @@ function UserSettingsvue_type_template_id_7eb293df_render(_ctx, _cache, $props, 
     "language-options": _ctx.languageOptions,
     "current-timeformat": _ctx.currentTimeformat,
     "time-formats": _ctx.timeFormats,
-    "dark-mode": _ctx.darkMode,
-    "dark-mode-options": _ctx.darkModeOptions,
+    "theme-mode": _ctx.themeMode,
+    "theme-mode-options": _ctx.themeModeOptions,
     "default-report": _ctx.defaultReport,
     "default-report-options": _ctx.defaultReportOptions,
     "default-report-id-site": _ctx.defaultReportIdSite,
     "default-report-site-name": _ctx.defaultReportSiteName,
     "default-date": _ctx.defaultDate,
     "available-default-dates": _ctx.availableDefaultDates
-  }, null, 8, ["is-users-admin-enabled", "title", "user-login", "user-email", "current-language-code", "language-options", "current-timeformat", "time-formats", "dark-mode", "dark-mode-options", "default-report", "default-report-options", "default-report-id-site", "default-report-site-name", "default-date", "available-default-dates"]), _ctx.showNewsletterSignup ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_NewsletterSettings, {
+  }, null, 8, ["is-users-admin-enabled", "title", "user-login", "user-email", "current-language-code", "language-options", "current-timeformat", "time-formats", "theme-mode", "theme-mode-options", "default-report", "default-report-options", "default-report-id-site", "default-report-site-name", "default-date", "available-default-dates"]), _ctx.showNewsletterSignup ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(_component_NewsletterSettings, {
     key: 0
   })) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PluginSettings, {
     mode: "user"
@@ -4272,13 +4279,13 @@ function UserSettingsvue_type_template_id_7eb293df_render(_ctx, _cache, $props, 
   }, {
     default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("p", {
       innerHTML: _ctx.$sanitize(_ctx.yourVisitsAreText)
-    }, null, 8, UserSettingsvue_type_template_id_7eb293df_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", UserSettingsvue_type_template_id_7eb293df_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+    }, null, 8, UserSettingsvue_type_template_id_163c3aa5_hoisted_1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", UserSettingsvue_type_template_id_163c3aa5_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
       href: _ctx.setIgnoreCookieLink
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" › " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.ignoreCookieSet ? _ctx.translate('UsersManager_ClickHereToDeleteTheCookie') : _ctx.translate('UsersManager_ClickHereToSetTheCookieOnDomain', _ctx.piwikHost)) + " ", 1), UserSettingsvue_type_template_id_7eb293df_hoisted_4], 8, UserSettingsvue_type_template_id_7eb293df_hoisted_3)])]),
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" › " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.ignoreCookieSet ? _ctx.translate('UsersManager_ClickHereToDeleteTheCookie') : _ctx.translate('UsersManager_ClickHereToSetTheCookieOnDomain', _ctx.piwikHost)) + " ", 1), UserSettingsvue_type_template_id_163c3aa5_hoisted_4], 8, UserSettingsvue_type_template_id_163c3aa5_hoisted_3)])]),
     _: 1
   }, 8, ["content-title"])]);
 }
-// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=template&id=7eb293df
+// CONCATENATED MODULE: ./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=template&id=163c3aa5
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/UsersManager/vue/src/UserSettings/UserSettings.vue?vue&type=script&lang=ts
 
@@ -4316,11 +4323,11 @@ function UserSettingsvue_type_template_id_7eb293df_render(_ctx, _cache, $props, 
       type: Object,
       required: true
     },
-    darkMode: {
+    themeMode: {
       type: String,
       required: true
     },
-    darkModeOptions: {
+    themeModeOptions: {
       type: Object,
       required: true
     },
@@ -4384,7 +4391,7 @@ function UserSettingsvue_type_template_id_7eb293df_render(_ctx, _cache, $props, 
 
 
 
-UserSettingsvue_type_script_lang_ts.render = UserSettingsvue_type_template_id_7eb293df_render
+UserSettingsvue_type_script_lang_ts.render = UserSettingsvue_type_template_id_163c3aa5_render
 
 /* harmony default export */ var UserSettings = (UserSettingsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/UsersManager/vue/src/index.ts

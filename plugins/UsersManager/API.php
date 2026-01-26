@@ -99,7 +99,7 @@ class API extends \Piwik\Plugin\API
 
     private $userRepository;
 
-    public const PREFERENCE_DARK_MODE = 'darkMode';
+    public const PREFERENCE_THEME_MODE = 'themeMode';
 
     public const PREFERENCE_DEFAULT_REPORT = 'defaultReport';
     public const PREFERENCE_DEFAULT_REPORT_DATE = 'defaultReportDate';
@@ -307,7 +307,7 @@ class API extends \Piwik\Plugin\API
             throw new Exception("Preference name cannot contain underscores.");
         }
         $names = [
-          self::PREFERENCE_DARK_MODE,
+          self::PREFERENCE_THEME_MODE,
           self::PREFERENCE_DEFAULT_REPORT,
           self::PREFERENCE_DEFAULT_REPORT_DATE,
           'isLDAPUser', // used in loginldap
@@ -332,7 +332,7 @@ class API extends \Piwik\Plugin\API
     private function getDefaultUserPreference($preferenceName, $login)
     {
         switch ($preferenceName) {
-            case self::PREFERENCE_DARK_MODE:
+            case self::PREFERENCE_THEME_MODE:
                 return 'default';
             case self::PREFERENCE_DEFAULT_REPORT:
                 $viewableSiteIds = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
