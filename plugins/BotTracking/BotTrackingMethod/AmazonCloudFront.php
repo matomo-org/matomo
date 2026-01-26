@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\BotTrackingMethod;
 
-use Piwik\Plugins\SitesManager\SiteContentDetection\CloudFront as SitesManagerCloudFront;
+use Piwik\Plugins\SitesManager\SiteContentDetection\AmazonCloudFront as SitesManagerAmazonCloudFront;
 use Piwik\View;
 
-class CloudFront extends BotTrackingMethodAbstract
+class AmazonCloudFront extends BotTrackingMethodAbstract
 {
     public static function getName(): string
     {
-        return 'CloudFront';
+        return 'Amazon CloudFront';
     }
 
     public static function getPriority(): int
@@ -28,12 +28,12 @@ class CloudFront extends BotTrackingMethodAbstract
 
     public static function getSiteContentDetectionId(): ?string
     {
-        return SitesManagerCloudFront::getId();
+        return SitesManagerAmazonCloudFront::getId();
     }
 
     public static function renderInstructionsTab(): string
     {
-        $view = new View('@BotTracking/_noDataCloudFront');
+        $view = new View('@BotTracking/_noDataAmazonCloudFront');
         $view->sendHeadersWhenRendering = false;
         $view->urlKnowledgeBase = 'https://matomo.org/';
         $view->urlSourceCode = 'https://matomo.org/';

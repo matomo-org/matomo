@@ -10,21 +10,21 @@
 namespace Piwik\Plugins\SitesManager\tests\Unit\SiteContentDetection;
 
 use PHPUnit\Framework\TestCase;
-use Piwik\Plugins\SitesManager\SiteContentDetection\CloudFront;
+use Piwik\Plugins\SitesManager\SiteContentDetection\AmazonCloudFront;
 
 /**
  * @group SitesManager
  * @group SiteContentDetection
  * @group Plugins
  */
-class CloudFrontTest extends TestCase
+class AmazonCloudFrontTest extends TestCase
 {
     /**
      * @dataProvider getResponseTestData
      */
     public function testDetectByContent($expected, $data, $headers)
     {
-        $detection = new CloudFront();
+        $detection = new AmazonCloudFront();
         self::assertSame($expected, $detection->isDetected($data, $headers));
     }
 

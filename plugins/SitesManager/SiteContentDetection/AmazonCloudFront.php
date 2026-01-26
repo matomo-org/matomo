@@ -9,11 +9,11 @@
 
 namespace Piwik\Plugins\SitesManager\SiteContentDetection;
 
-class CloudFront extends SiteContentDetectionAbstract
+class AmazonCloudFront extends SiteContentDetectionAbstract
 {
     public static function getName(): string
     {
-        return 'CloudFront';
+        return 'Amazon CloudFront';
     }
 
     public static function getIcon(): string
