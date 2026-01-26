@@ -821,7 +821,7 @@ parameters:
 			path: core/DataAccess/ArchiveSelector.php
 
 		-
-			message: "#^Parameter \\#1 \\$dateString of static method Piwik\\\\Date\\:\\:factory\\(\\) expects int\\|string, true given\\.$#"
+			message: "#^Parameter \\#1 \\$dateString of static method Piwik\\\\Date\\:\\:factory\\(\\) expects int\\|Piwik\\\\Date\\|string, true given\\.$#"
 			count: 1
 			path: core/DataAccess/ArchiveSelector.php
 
@@ -1139,56 +1139,6 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: core/DataTable/Row.php
-
-		-
-			message: "#^Binary operation \"\\+\" between string and 1 results in an error\\.$#"
-			count: 2
-			path: core/Date.php
-
-		-
-			message: "#^Binary operation \"\\-\" between string and 1 results in an error\\.$#"
-			count: 2
-			path: core/Date.php
-
-		-
-			message: "#^Instanceof between int\\|string and Piwik\\\\Date will always evaluate to false\\.$#"
-			count: 1
-			path: core/Date.php
-
-		-
-			message: "#^Method Piwik\\\\Date\\:\\:extractUtcOffset\\(\\) should return bool\\|int but returns float\\.$#"
-			count: 1
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#1 \\$hour of function mktime expects int, string given\\.$#"
-			count: 4
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#2 \\$min of function mktime expects int, string given\\.$#"
-			count: 4
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#3 \\$sec of function mktime expects int, string given\\.$#"
-			count: 4
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#4 \\$mon of function mktime expects int, string given\\.$#"
-			count: 3
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#5 \\$day of function mktime expects int, string given\\.$#"
-			count: 1
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
-			count: 3
-			path: core/Date.php
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:exec\\(\\)\\.$#"
