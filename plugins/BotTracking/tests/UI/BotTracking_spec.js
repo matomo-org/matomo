@@ -34,7 +34,7 @@ describe("BotTracking", function () {
     });
 
     it('should not have shown a "no recent tracking requests" message', async function () {
-        const notifications = await page.$$('.notification.notification-warning');
+        const notifications = await page.$$('.bot-tracking-no-recent-requests-message');
         expect(notifications.length).to.equal(0);
     })
 
