@@ -14,7 +14,7 @@ namespace Piwik\Plugins\BotTracking\tests\Unit;
 use PHPUnit\Framework\TestCase;
 use Piwik\Plugins\BotTracking\BotTrackingMethod\BotTrackingMethodAbstract;
 use Piwik\Plugins\BotTracking\BotTrackingMethod\Cloudflare;
-use Piwik\Plugins\BotTracking\BotTrackingMethod\CloudFront;
+use Piwik\Plugins\BotTracking\BotTrackingMethod\AmazonCloudFront;
 use Piwik\Plugins\BotTracking\BotTrackingMethod\HttpTrackingApi;
 use Piwik\Plugins\BotTracking\BotTrackingMethod\MissingOneContactUs;
 use Piwik\Plugins\BotTracking\BotTrackingMethod\WordPress;
@@ -42,8 +42,8 @@ class BotTrackingMethodTest extends TestCase
     public function getBotTrackingMethods(): array
     {
         return [
+            [AmazonCloudFront::class],
             [Cloudflare::class],
-            [CloudFront::class],
             [HttpTrackingApi::class],
             [MissingOneContactUs::class],
             [WordPress::class],
