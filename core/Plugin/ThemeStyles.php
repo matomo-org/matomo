@@ -47,7 +47,7 @@ class ThemeStyles
         'colorCodeBackground' => 'theme-color-code-background',
         'colorWidgetBackground' => 'theme-color-widget-background',
         'colorWidgetBorder' => 'theme-color-widget-border',
-        'filterOnIllustration' => 'filter-on-illustration',
+        'filterOnIllustration' => 'theme-filter-on-illustration',
     ];
 
     /**
