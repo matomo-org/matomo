@@ -22,7 +22,7 @@
 
             {% include "@CoreHome/_favicon.twig" %}
             {% include "@CoreHome/_applePinnedTabIcon.twig" %}
-            <meta name="theme-color" content="{{ themeStyles.colorHeaderBackground }}">
+            <meta name="theme-color" content="{{ themeStyles.getPropertyValue('colorHeaderBackground') }}">
             {% include "_jsGlobalVariables.twig" %}
             {% include "_jsCssIncludes.twig" %}
 

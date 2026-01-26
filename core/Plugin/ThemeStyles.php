@@ -254,10 +254,26 @@ class ThemeStyles
         return $result;
     }
 
+    public function getThemeModeIndex(): int
+    {
+        return array_search($this->themeMode, $this->themeModeList) ?: 0;
+    }
+
+    public function getPropertyValue(string $name): string
+    {
+        $value = $this->$name;
+        if (!is_array($value)) {
+            return $value;
+        }
+        $index = $this->getThemeModeIndex();
+
+        return $value[$index] ?? $value[0];
+    }
+
     public function toLessCode()
     {
         $result = '';
-        $index = array_search($this->themeMode, $this->themeModeList) ?: 0;
+        $index = $this->getThemeModeIndex();
         foreach (get_object_vars($this) as $name => $value) {
             if (is_array($value)) {
                 $value = $value[$index] ?? $value[0];
