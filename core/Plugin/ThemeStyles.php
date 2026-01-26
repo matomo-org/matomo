@@ -20,11 +20,15 @@ class ThemeStyles
         'colorBrandContrast' => 'theme-color-brand-contrast',
         'colorFocusRing' => 'theme-color-focus-ring',
         'colorFocusRingAlternative' => 'theme-color-focus-ring-alternative',
+        'colorTextHighContrast' => 'theme-color-text-highContrast',
         'colorText' => 'theme-color-text',
+        'colorTextContrast' => 'theme-color-text-contrast',
         'colorTextLight' => 'theme-color-text-light',
         'colorTextLighter' => 'theme-color-text-lighter',
+        'colorTextInvert' => 'theme-color-text-invert',
+        'colorTextInvertContrast' => 'theme-color-text-invert-contrast',
+        'colorTextInvertLight' => 'theme-color-text-invert-light',
         'colorTextDisabled' => 'theme-color-text-disabled',
-        'colorTextContrast' => 'theme-color-text-contrast',
         'colorLink' => 'theme-color-link',
         'colorBaseSeries' => 'theme-color-base-series',
         'colorHeadlineAlternative' => 'theme-color-headline-alternative',
@@ -43,6 +47,7 @@ class ThemeStyles
         'colorBackgroundContrast' => 'theme-color-background-contrast',
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
         'colorBorder' => 'theme-color-border',
+        'colorBorderLight' => 'theme-color-border-light',
         'colorCode' => 'theme-color-code',
         'colorCodeBackground' => 'theme-color-code-background',
         'colorWidgetBackground' => 'theme-color-widget-background',
@@ -88,7 +93,17 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
+    public $colorTextHighContrast = ['#000', '#d9d9d9'];
+
+    /**
+     * @var string|array<string>
+     */
     public $colorText = ['#212121', '#ccc'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorTextContrast = ['#37474f', '#bbb'];
 
     /**
      * @var string|array<string>
@@ -103,12 +118,22 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorTextDisabled = ['#d3d3d3', '#666'];
+    public $colorTextInvert = ['#ccc', '#212121'];
 
     /**
      * @var string|array<string>
      */
-    public $colorTextContrast = ['#37474f', '#bbb'];
+    public $colorTextInvertContrast = ['#fff', '#000'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorTextInvertLight = ['#b9b9b9', '#666'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorTextDisabled = ['#d3d3d3', '#666'];
 
     /**
      * @var string|array<string>
@@ -183,22 +208,27 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundLowContrast = '#d9d9d9';
+    public $colorBackgroundLowContrast = ['#d9d9d9', '#292c34'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundContrast = ['#fff', '#2b3138'];
+    public $colorBackgroundContrast = ['#fff', '#0f1013'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundHighContrast = '#202020';
+    public $colorBackgroundHighContrast = ['#202020', '#000'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBorder = '#cccccc';
+    public $colorBorderLight = ['#a9a399', '#645e54'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorBorder = ['#cccccc', '#555555'];
 
     /**
      * @var string|array<string>
