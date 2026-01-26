@@ -333,7 +333,7 @@ class API extends \Piwik\Plugin\API
     {
         switch ($preferenceName) {
             case self::PREFERENCE_DARK_MODE:
-                return 'light';
+                return 'default';
             case self::PREFERENCE_DEFAULT_REPORT:
                 $viewableSiteIds = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
                 if (!empty($viewableSiteIds)) {

@@ -62,7 +62,7 @@ class HtmlReportEmailHeaderView extends View
 
     public static function assignCommonParameters(View $view)
     {
-        $themeStyles = ThemeStyles::get(false);
+        $themeStyles = ThemeStyles::get('default');
         $emailStyles = EmailStyles::get();
 
         $view->currentPath = SettingsPiwik::getPiwikUrl();

@@ -256,7 +256,7 @@ class Controller extends ControllerAdmin
 
         $view->darkMode = $userPreferences->getDarkMode();
         $view->darkModeOptions = array(
-            array('key' => 'light', 'value' => 'Light'),
+            array('key' => 'default', 'value' => 'Default'),
             array('key' => 'dark', 'value' => 'Dark'),
         );
 

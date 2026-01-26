@@ -23,6 +23,7 @@ class ThemeStyles
         'colorText' => 'theme-color-text',
         'colorTextLight' => 'theme-color-text-light',
         'colorTextLighter' => 'theme-color-text-lighter',
+        'colorTextDisabled' => 'theme-color-text-disabled',
         'colorTextContrast' => 'theme-color-text-contrast',
         'colorLink' => 'theme-color-link',
         'colorBaseSeries' => 'theme-color-base-series',
@@ -46,6 +47,7 @@ class ThemeStyles
         'colorCodeBackground' => 'theme-color-code-background',
         'colorWidgetBackground' => 'theme-color-widget-background',
         'colorWidgetBorder' => 'theme-color-widget-border',
+        'filterOnIllustration' => 'filter-on-illustration',
     ];
 
     /**
@@ -92,6 +94,11 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorTextLighter = ['#666666', '#999'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorTextDisabled = ['#d3d3d3', '#666'];
 
     /**
      * @var string|array<string>
@@ -166,7 +173,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundTinyContrast = '#f2f2f2';
+    public $colorBackgroundTinyContrast = ['#f2f2f2', '#171a1e'];
 
     /**
      * @var string|array<string>
@@ -208,7 +215,12 @@ class ThemeStyles
      */
     public $colorWidgetBorder;
 
-    public function __construct($mode)
+    /**
+     * @var string|array<string>
+     */
+    public $filterOnIllustration = ['none', 'invert(100%) hue-rotate(180deg)'];
+
+    public function __construct(string $mode)
     {
         $this->isDarkMode = $mode === 'dark';
         $this->colorFocusRingAlternative = $this->colorBrand;
@@ -225,7 +237,7 @@ class ThemeStyles
     /**
      * @return ThemeStyles
      */
-    public static function get($mode = 'light')
+    public static function get(string $mode = 'default')
     {
         $result = new self($mode);
 
