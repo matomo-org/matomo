@@ -96,6 +96,144 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame($expectedOrder, $segmentNames);
     }
 
+    public function testGetAllFiltersSegmentsForSitesWithoutAccess()
+    {
+        $this->createAdminUser();
+        $this->createSegments();
+
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [1], $userName = 'myUserLogin');
+
+        $expectedOrder = [
+            // 1) my segments
+            'segment 1',
+            'segment 3',
+            'segment 7',
+
+            // 2) segments created by a super user that were shared with all users
+            'segment 5',
+            'segment 9',
+        ];
+
+        $segments     = $this->api->getAll();
+        $segmentNames = $this->getNamesFromSegments($segments);
+        $this->assertSame($expectedOrder, $segmentNames);
+    }
+
+    public function testGetThrowsWhenSegmentSiteIsNotAccessible()
+    {
+        $this->createAdminUser();
+        $this->setSuperUser();
+
+        $idSegment = $this->api->add('segment access check', 'countryCode==fr', $idSite = 2, $autoArchive = false, $enableAllUsers = true);
+
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [1], $userName = 'myUserLogin');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasViewAccess Fake exception');
+
+        $this->api->get($idSegment);
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testIsUserCanAddNewSegmentReturnsTrueWithRequiredAccess(string $requiredAccess): void
+    {
+        $this->withAddingSegmentAccess($requiredAccess, function () use ($requiredAccess) {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            $this->setAccessForRequiredAccess($requiredAccess, [1], [1]);
+
+            $this->assertTrue($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testIsUserCanAddNewSegmentReturnsFalseWithoutRequiredAccess(string $requiredAccess): void
+    {
+        $this->withAddingSegmentAccess($requiredAccess, function () use ($requiredAccess) {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            $this->setAccessForRequiredAccess($requiredAccess, [2], [2]);
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testIsUserCanAddNewSegmentReturnsFalseWhenUserHasNoSiteAccess(string $requiredAccess): void
+    {
+        $this->withAddingSegmentAccess($requiredAccess, function () {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            FakeAccess::$idSitesView = [];
+            FakeAccess::$idSitesWrite = [];
+            FakeAccess::$idSitesAdmin = [];
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testIsUserCanAddNewSegmentReturnsFalseForAllSitesWhenNotSuperUser(string $requiredAccess): void
+    {
+        $this->withAddingSegmentAccess($requiredAccess, function () use ($requiredAccess) {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            $this->setAccessForRequiredAccess($requiredAccess, [1], [1]);
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(null));
+        });
+    }
+
+    public function testIsUserCanAddNewSegmentReturnsFalseForAnonymousUser(): void
+    {
+        $this->withAddingSegmentAccess('view', function () {
+            FakeAccess::$identity  = 'anonymous';
+            FakeAccess::$superUser = false;
+            FakeAccess::$idSitesView = [1];
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    public function testIsUserCanAddNewSegmentReturnsTrueForAllSitesForSuperUser(): void
+    {
+        $this->withAddingSegmentAccess('view', function () {
+            FakeAccess::$identity  = 'superUserLogin';
+            FakeAccess::$superUser = true;
+
+            $this->assertTrue($this->api->isUserCanAddNewSegment(null));
+        });
+    }
+
+    public function testIsUserCanAddNewSegmentReturnsFalseWhenSuperUserRequired(): void
+    {
+        $this->withAddingSegmentAccess('superuser', function () {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            FakeAccess::$idSitesView = [1];
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    public function testIsUserCanAddNewSegmentReturnsTrueForSuperUser(): void
+    {
+        $this->withAddingSegmentAccess('superuser', function () {
+            FakeAccess::$identity  = 'superUserLogin';
+            FakeAccess::$superUser = true;
+
+            $this->assertTrue($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
     public function testGetAllForAllWebsitesReturnsSortedSegmentsAsSuperUser()
     {
         $this->createAdminUser();

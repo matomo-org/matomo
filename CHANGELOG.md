@@ -4,6 +4,14 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 5.8.0
+
+### New config.ini.php settings
+* `API_bulk_request_limit` sets the maximum number of URLs allowed in `API.getBulkRequest` for authenticated users (-1 disables the limit).
+
+### HTTP API
+* `API.getBulkRequest` now enforces request limits (10 for anonymous users without view access, 50 for anonymous users with view access, or the lower configured limit if `API_bulk_request_limit` is set).
+
 ## Matomo 5.7.0
 
 ### Breaking Changes

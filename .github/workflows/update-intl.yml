@@ -76,8 +76,6 @@ jobs:
           EOF
 
           cat ./config/config.ini.php
-      - name: Update Intl data
-        run: php ./console translations:generate-intl-data --cldr-version="${{ steps.cldr.outputs.cldr-version }}"
       - name: Prepare git config
         run: |
           cat <<- EOF > $HOME/.netrc
@@ -96,6 +94,8 @@ jobs:
           git branch -D update-intl || true
           git branch update-intl
           git checkout -f update-intl
+      - name: Update Intl data
+        run: php ./console translations:generate-intl-data --cldr-version="${{ steps.cldr.outputs.cldr-version }}"
       - name: Push changes
         id: push
         run: |
@@ -111,7 +111,7 @@ jobs:
         run: |
           curl \
              --request POST \
-             --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+             --header 'authorization: Bearer ${{ secrets.CUSTOM_ACCESS_TOKEN }}' \
              --header 'content-type: application/json' \
              --data '{
               "title":"[automatic Intl data updates from CLDR ${{ steps.cldr.outputs.cldr-version }}]",
