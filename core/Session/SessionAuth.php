@@ -17,6 +17,7 @@ use Piwik\Date;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Session;
 use Piwik\Log\LoggerInterface;
+use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 
 /**
@@ -269,7 +270,11 @@ class SessionAuth implements Auth
 
         $manager = Manager::getInstance();
 
-        return !$manager->isPluginActivated($savedLoginPluginName);
+        $pluginIsInactive = !$manager->isPluginActivated($savedLoginPluginName);
+
+        Piwik::postEvent('Session.isLoginPluginInactive', [&$pluginIsInactive, $savedLoginPluginName]);
+
+        return $pluginIsInactive;
     }
 
     public function wasSessionExpired(): bool
