@@ -54,7 +54,7 @@ class WidgetReportMapper
             }
 
             if ($widgetConfig instanceof EventsByDimension) {
-                $this->getEventsWidgetMapping($widgetConfig, $mapping);
+                $mapping = $this->getEventsWidgetMapping($widgetConfig, $mapping);
                 continue;
             } else if (!$this->shouldMapWidget($widgetConfig)) {
                 continue;
@@ -107,9 +107,9 @@ class WidgetReportMapper
         $widgetIdLookup = array_fill_keys($widgetIds, true);
 
         foreach ($this->getWidgetConfigs() as $widgetConfig) {
-//            if (!$this->shouldMapWidget($widgetConfig)) {
-//                continue;
-//            }
+            if (!$this->shouldMapWidget($widgetConfig)) {
+                continue;
+            }
 
             $uniqueId = $widgetConfig->getUniqueId();
             if (!isset($widgetIdLookup[$uniqueId])) {
@@ -157,6 +157,42 @@ class WidgetReportMapper
         }
 
         return $reportIds;
+    }
+
+    /**
+     * @param mixed $layout
+     * @return string[]
+     */
+    public function extractWidgetIdsFromLayout($layout): array
+    {
+        $columns = $layout;
+        if (is_object($layout) && isset($layout->columns)) {
+            $columns = $layout->columns;
+        } elseif (is_array($layout) && array_key_exists('columns', $layout)) {
+            $columns = $layout['columns'];
+        }
+        if (is_object($columns)) {
+            $columns = get_object_vars($columns);
+        }
+        $widgets = [];
+        $seen = [];
+        foreach ($columns as $column) {
+            if (is_object($column)) {
+                $column = get_object_vars($column);
+            }
+            foreach ($column as $widget) {
+                if (!$widget) {
+                    continue;
+                }
+                $uniqueId = $widget->uniqueId ?? null;
+                if (!$uniqueId || isset($seen[$uniqueId])) {
+                    continue;
+                }
+                $seen[$uniqueId] = true;
+                $widgets[] = $uniqueId;
+            }
+        }
+        return $widgets;
     }
 
     /**
@@ -256,6 +292,11 @@ class WidgetReportMapper
         return null;
     }
 
+    /**
+     * Helper function to map how Funnel Widget can be mapped to its report id
+     * @param string $widgetId
+     * @return string|null
+     */
     private function mapFunnelsWidgetIdToReportId(string $widgetId): ?string
     {
         if (!preg_match('/^widgetFunnels(funnelReportTable|funnelReport).*?idFunnel(\d+)(?:\D|$)/', $widgetId, $matches)) {
@@ -267,6 +308,11 @@ class WidgetReportMapper
         return 'Funnels_' . $reportAction . '_idFunnel--' . $matches[2];
     }
 
+    /**
+     * Helper function to map how Goals Widget can be mapped to its report id
+     * @param string $widgetId
+     * @return string|null
+     */
     private function mapGoalsWidgetIdToReportId(string $widgetId): ?string
     {
         if (!preg_match('/^widgetGoal_(\d+)$/', $widgetId, $matches)) {
@@ -275,17 +321,29 @@ class WidgetReportMapper
 
         return 'Goals_get_idGoal--' . $matches[1];
     }
-    private function getEventsWidgetMapping(EventsByDimension $widgetConfig, array &$mapping)
+
+    /**
+     * @param EventsByDimension $widgetConfig
+     * @param array $mapping
+     * @return array
+     */
+    private function getEventsWidgetMapping(EventsByDimension $widgetConfig, array $mapping)
     {
         foreach ($widgetConfig->getWidgetConfigs() as $configs) {
-            $params = $configs->getParameters();
             $widgetUniqueId = $configs->getUniqueId();
             $reportId = $this->mapEventsWidgetIdToReportId($widgetUniqueId);
             if ($reportId) {
                 $mapping[$widgetUniqueId] = $reportId;
             }
         }
+        return $mapping;
     }
+
+    /**
+     * Helper function to map how Events Widget can be mapped to its report id
+     * @param string $widgetId
+     * @return string|null
+     */
     private function mapEventsWidgetIdToReportId(string $widgetId): ?string
     {
         if (!preg_match('/^widgetEventsget(Action|Name|Category)secondaryDimension/', $widgetId, $matches)) {

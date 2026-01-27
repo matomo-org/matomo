@@ -260,8 +260,8 @@ class API extends \Piwik\Plugin\API
                     'unmappedWidgets' => [],
                 ];
             }
-            $widgetIds = $this->extractWidgetIdsFromLayout($layout);
             $mapper = new WidgetReportMapper();
+            $widgetIds = $mapper->extractWidgetIdsFromLayout($layout);
             $widgetReportMapping = $mapper->getMappingForSite($idSite);
             $reportMapping = [];
             $unmappedWidgets = [];
@@ -305,38 +305,6 @@ class API extends \Piwik\Plugin\API
         }
         return ['name' => $name, 'layout' => $layout];
     }
-    private function extractWidgetIdsFromLayout($layout): array
-    {
-        $columns = $layout;
-        if (is_object($layout) && isset($layout->columns)) {
-            $columns = $layout->columns;
-        } elseif (is_array($layout) && array_key_exists('columns', $layout)) {
-            $columns = $layout['columns'];
-        }
-        if (is_object($columns)) {
-            $columns = get_object_vars($columns);
-        }
-        $widgets = [];
-        $seen = [];
-        foreach ($columns as $column) {
-            if (is_object($column)) {
-                $column = get_object_vars($column);
-            }
-            foreach ($column as $widget) {
-                if (!$widget) {
-                    continue;
-                }
-                $uniqueId = $widget->uniqueId ?? null;
-                if (!$uniqueId || isset($seen[$uniqueId])) {
-                    continue;
-                }
-                $seen[$uniqueId] = true;
-                $widgets[] = $uniqueId;
-            }
-        }
-        return $widgets;
-    }
-
     /**
      * Returns the list of reports matching the passed parameters
      *
