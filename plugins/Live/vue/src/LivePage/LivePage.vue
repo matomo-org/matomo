@@ -11,40 +11,12 @@
       :is="!isWidgetized ? 'ContentBlock' : 'Passthrough'"
       :content-title="!isWidgetized ? translate('Live_VisitorsInRealTime') : undefined"
     >
-      <div v-live-widget-refresh="{liveRefreshAfterMs: liveRefreshAfterMs}">
-        <VueEntryContainer :html="initialTotalVisitors"/>
-        <VueEntryContainer :html="visitors"/>
-      </div>
-
-      <div class="visitsLiveFooter">
-        <a
-          :title="translate('Live_OnClickPause', translate('Live_VisitorsInRealTime'))"
-          @click.prevent="onClickPause()"
-        >
-          <img id="pauseImage" border="0" src="plugins/Live/images/pause.png" role="presentation" />
-        </a>
-        <a
-          :title="translate('Live_OnClickStart', translate('Live_VisitorsInRealTime'))"
-          @click="onClickPlay();"
-        >
-          <img
-            id="playImage"
-            style="display: none;"
-            border="0"
-            src="plugins/Live/images/play.png"
-            role="presentation"
-          />
-        </a>
-        <span v-if="!disableLink">
-        &nbsp;
-        <a
-          class="rightLink"
-          :href="visitorLogUrl"
-        >
-          {{ translate('Live_LinkVisitorLog') }}
-        </a>
-        </span>
-      </div>
+      <LiveWidget
+        :initial-total-visitors="initialTotalVisitors"
+        :visitors="visitors"
+        :live-refresh-after-ms="liveRefreshAfterMs"
+        :disable-link="disableLink"
+      />
     </component>
   </div>
 </template>
@@ -54,18 +26,8 @@ import { defineComponent } from 'vue';
 import {
   ContentBlock,
   Passthrough,
-  MatomoUrl,
-  VueEntryContainer,
 } from 'CoreHome';
-import LiveWidgetRefresh from '../LiveWidget/LiveWidgetRefresh';
-import TotalVisitors from '../TotalVisitors/TotalVisitors.vue';
-
-declare global {
-  interface Window {
-    onClickPause(): void;
-    onClickPlay(): void;
-  }
-}
+import LiveWidget from '../LiveWidget/LiveWidget.vue';
 
 export default defineComponent({
   props: {
@@ -76,30 +38,9 @@ export default defineComponent({
     isWidgetized: Boolean,
   },
   components: {
-    TotalVisitors,
-    VueEntryContainer,
+    LiveWidget,
     ContentBlock,
     Passthrough,
-  },
-  directives: {
-    LiveWidgetRefresh,
-  },
-  computed: {
-    visitorLogUrl() {
-      return `#?${MatomoUrl.stringify({
-        ...MatomoUrl.hashParsed.value,
-        category: 'General_Visitors',
-        subcategory: 'Live_VisitorLog',
-      })}`;
-    },
-  },
-  methods: {
-    onClickPause() {
-      window.onClickPause();
-    },
-    onClickPlay() {
-      window.onClickPlay();
-    },
   },
 });
 </script>
