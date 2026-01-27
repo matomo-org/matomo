@@ -33,6 +33,11 @@ class WidgetReportMapper
      */
     private $widgetConfigs;
 
+    const NO_REPORT_WIDGETS = ['widgetTourgetEngagement', 'widgetMarketplacegetPremiumFeatures', 'widgetRssWidgetrssPiwik',
+        'widgetRssWidgetrssChangelog', 'widgetProfessionalServicespromoServices', 'widgetInstallationgetSystemCheck', 'widgetCoreHomequickLinks',
+        'widgetCoreHomegetSystemSummary', 'widgetCoreHomegetPromoVideo', 'widgetMarketplacegetNewPlugins', 'widgetReferrersgetCampaignUrlBuilder',
+        'widgetCoreHomegetDonateForm'];
+
     /**
      * Builds a widget => report map for the supplied site.
      *
@@ -107,11 +112,10 @@ class WidgetReportMapper
         $widgetIdLookup = array_fill_keys($widgetIds, true);
 
         foreach ($this->getWidgetConfigs() as $widgetConfig) {
-            if (!$this->shouldMapWidget($widgetConfig)) {
+            $uniqueId = $widgetConfig->getUniqueId();
+            if (in_array($uniqueId, self::NO_REPORT_WIDGETS, true)) {
                 continue;
             }
-
-            $uniqueId = $widgetConfig->getUniqueId();
             if (!isset($widgetIdLookup[$uniqueId])) {
                 continue;
             }
