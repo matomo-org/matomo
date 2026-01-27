@@ -16,6 +16,8 @@ use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Piwik;
+use Piwik\Plugins\BotTracking\RecordBuilders\AIAssistantReports;
+use Piwik\Plugins\Referrers\AIAssistant;
 
 class API extends \Piwik\Plugin\API
 {
@@ -74,6 +76,30 @@ class API extends \Piwik\Plugin\API
                 }
             });
         }
+
+        $dataTable->filter(function (DataTable $table) {
+            foreach ($table->getRows() as $key => $row) {
+                $label = $row->getColumn('label');
+                if (array_key_exists($label, AIAssistantReports::ASSISTANT_MAPPING) && !empty(AIAssistantReports::ASSISTANT_MAPPING[$label])) {
+                    $row->setColumn('label', AIAssistantReports::ASSISTANT_MAPPING[$label]);
+                }
+            }
+        });
+
+        $dataTable->queueFilter('ColumnCallbackAddMetadata', [
+            'label',
+            'url',
+            function ($label) {
+                return AIAssistant::getInstance()->getMainUrlFromName($label);
+            },
+        ]);
+        $dataTable->queueFilter('MetadataCallbackAddMetadata', [
+            'url',
+            'logo',
+            function ($url) {
+                return AIAssistant::getInstance()->getLogoFromUrl($url ?: '');
+            },
+        ]);
 
         return $dataTable;
     }
