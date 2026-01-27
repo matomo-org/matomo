@@ -273,6 +273,8 @@ function onLoadDashboard(idDashboard) {
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => external_CoreHome_["MatomoUrl"].parsed.value, parsed => {
       onLocationChange(parsed);
     });
+    // ensure to not bind the event multiple times
+    external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
     external_CoreHome_["Matomo"].on('Dashboard.loadDashboard', onLoadDashboard);
   },
   unmounted() {
