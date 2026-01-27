@@ -1142,7 +1142,7 @@ class Date
      * @param int $timestamp
      * @return int
      */
-    private static function getMaxDaysInMonth($timestamp)
+    private static function getMaxDaysInMonth(int $timestamp): int
     {
         $month = (int)date('m', $timestamp);
         if (
