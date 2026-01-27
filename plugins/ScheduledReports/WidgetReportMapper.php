@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\ScheduledReports;
 
+use Piwik\Piwik;
 use Piwik\Plugins\API\API as ReportsApi;
 use Piwik\Plugins\Events\Widgets\EventsByDimension;
 use Piwik\Report\ReportWidgetConfig;
@@ -28,6 +29,11 @@ use Piwik\Widget\WidgetsList;
 class WidgetReportMapper
 {
     /**
+     * @var WidgetConfig[]|null
+     */
+    private $widgetConfigs;
+
+    /**
      * Builds a widget => report map for the supplied site.
      *
      * @param string $idSite
@@ -39,8 +45,7 @@ class WidgetReportMapper
         $reportIndex = $this->indexReportsByModuleAndAction($reports);
 
         $mapping = [];
-        $widgetsConfigs = WidgetsList::get()->getWidgetConfigs();
-        foreach ($widgetsConfigs as $widgetConfig) {
+        foreach ($this->getWidgetConfigs() as $widgetConfig) {
             $widgetUniqueId = $widgetConfig->getUniqueId();
             $goalReportId = $this->mapGoalsWidgetIdToReportId($widgetUniqueId);
             if ($goalReportId) {
@@ -73,16 +78,9 @@ class WidgetReportMapper
                     }
                 }
             }
-
-            if (null === $reportId) {
-                $reportId = $this->guessReportIdFromHeuristics($widgetModule, $widgetAction, $reportIndex);
-            }
-
-            if (null === $reportId) {
-                $reportId = $this->mapFunnelsWidgetIdToReportId($widgetUniqueId);
-            }
-
-            if (null === $reportId) {
+            $reportId = $reportId ?? $this->guessReportIdFromHeuristics($widgetModule, $widgetAction, $reportIndex);
+            $reportId = $reportId ?? $this->mapFunnelsWidgetIdToReportId($widgetUniqueId);
+            if ($reportId === null) {
                 continue;
             }
 
@@ -97,6 +95,32 @@ class WidgetReportMapper
         }
 
         return $mapping;
+    }
+
+    /**
+     * @param string[] $widgetIds
+     * @return array<string, string>
+     */
+    public function getWidgetNamesById(array $widgetIds): array
+    {
+        $namesById = [];
+        $widgetIdLookup = array_fill_keys($widgetIds, true);
+
+        foreach ($this->getWidgetConfigs() as $widgetConfig) {
+//            if (!$this->shouldMapWidget($widgetConfig)) {
+//                continue;
+//            }
+
+            $uniqueId = $widgetConfig->getUniqueId();
+            if (!isset($widgetIdLookup[$uniqueId])) {
+                continue;
+            }
+
+            $widgetName = $widgetConfig->getName();
+            $namesById[$uniqueId] = $widgetName ? Piwik::translate($widgetName) : $uniqueId;
+        }
+
+        return $namesById;
     }
     /**
      * Maps a JSON array of widget unique IDs to Scheduled Reports report IDs.
@@ -145,6 +169,18 @@ class WidgetReportMapper
         }
 
         return $config instanceof ReportWidgetConfig;
+    }
+
+    /**
+     * @return WidgetConfig[]
+     */
+    private function getWidgetConfigs(): array
+    {
+        if ($this->widgetConfigs === null) {
+            $this->widgetConfigs = WidgetsList::get()->getWidgetConfigs();
+        }
+
+        return $this->widgetConfigs;
     }
 
     /**

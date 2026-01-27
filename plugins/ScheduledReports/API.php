@@ -265,13 +265,13 @@ class API extends \Piwik\Plugin\API
             $widgetReportMapping = $mapper->getMappingForSite($idSite);
             $reportMapping = [];
             $unmappedWidgets = [];
-            $widgetNamesById = $this->getWidgetNamesById($widgetIds);
+            $widgetNamesById = $mapper->getWidgetNamesById($widgetIds);
             foreach ($widgetIds as $widgetId) {
                 $reportKey = $widgetReportMapping[$widgetId] ?? null;
                 if ($reportKey) {
                     $reportMapping[$reportKey] = true;
-                } else {
-                    $unmappedWidgets[] = $widgetNamesById[$widgetId] ?? $widgetId;
+                } else if ($widgetNamesById[$widgetId]){
+                    $unmappedWidgets[] = $widgetNamesById[$widgetId];
                 }
             }
             return [
@@ -335,28 +335,6 @@ class API extends \Piwik\Plugin\API
             }
         }
         return $widgets;
-    }
-
-    /**
-     * @param string[] $widgetIds
-     * @return array<string, string>
-     */
-    private function getWidgetNamesById(array $widgetIds): array
-    {
-        $namesById = [];
-        $widgetIdLookup = array_fill_keys($widgetIds, true);
-
-        foreach (\Piwik\Widget\WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
-            $uniqueId = $widgetConfig->getUniqueId();
-            if (!isset($widgetIdLookup[$uniqueId])) {
-                continue;
-            }
-
-            $widgetName = $widgetConfig->getName();
-            $namesById[$uniqueId] = $widgetName ? Piwik::translate($widgetName) : $uniqueId;
-        }
-
-        return $namesById;
     }
 
     /**
