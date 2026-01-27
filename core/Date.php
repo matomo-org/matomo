@@ -189,85 +189,57 @@ class Date
     public static function factoryInTimezone($dateString, $timezone)
     {
         if ($dateString === 'now') {
-            return self::nowInTimezone($timezone);
+            return self::nowInTimezone((string)$timezone);
         } elseif ($dateString === 'today') {
-            return self::todayInTimezone($timezone);
+            return self::todayInTimezone((string)$timezone);
         } elseif ($dateString === 'yesterday') {
-            return self::yesterdayInTimezone($timezone);
+            return self::yesterdayInTimezone((string)$timezone);
         } elseif ($dateString === 'yesterdaySameTime') {
-            return self::yesterdaySameTimeInTimezone($timezone);
+            return self::yesterdaySameTimeInTimezone((string)$timezone);
         } elseif (preg_match('/last[ -]?week/i', urldecode($dateString))) {
-            return self::lastWeekInTimezone($timezone);
+            return self::lastWeekInTimezone((string)$timezone);
         } elseif (preg_match('/last[ -]?month/i', urldecode($dateString))) {
-            return self::lastMonthInTimezone($timezone);
+            return self::lastMonthInTimezone((string)$timezone);
         } elseif (preg_match('/last[ -]?year/i', urldecode($dateString))) {
-            return self::lastYearInTimezone($timezone);
+            return self::lastYearInTimezone((string)$timezone);
         } else {
             throw new \Exception("Date::factoryInTimezone() should not be used with $dateString.");
         }
     }
 
-    /**
-     * @param string $timezone
-     * @return Date
-     */
-    private static function nowInTimezone($timezone)
+    private static function nowInTimezone(string $timezone): Date
     {
         $now = self::getNowTimestamp();
         $now = self::adjustForTimezone($now, $timezone);
         return new Date($now);
     }
 
-    /**
-     * @param string $timezone
-     * @return Date
-     */
-    private static function todayInTimezone($timezone)
+    private static function todayInTimezone(string $timezone): Date
     {
         return self::nowInTimezone($timezone)->getStartOfDay();
     }
 
-    /**
-     * @param string $timezone
-     * @return Date
-     */
-    private static function yesterdayInTimezone($timezone)
+    private static function yesterdayInTimezone(string $timezone): Date
     {
         return self::todayInTimezone($timezone)->subDay(1);
     }
 
-    /**
-     * @param string $timezone
-     * @return Date
-     */
-    private static function yesterdaySameTimeInTimezone($timezone)
+    private static function yesterdaySameTimeInTimezone(string $timezone): Date
     {
         return self::nowInTimezone($timezone)->subDay(1);
     }
 
-    /**
-     * @param string $timezone
-     * @return Date
-     */
-    private static function lastWeekInTimezone($timezone)
+    private static function lastWeekInTimezone(string $timezone): Date
     {
         return new Date(strtotime('-1week', self::todayInTimezone($timezone)->getTimestamp()));
     }
 
-    /**
-     * @param string $timezone
-     * @return Date
-     */
-    private static function lastMonthInTimezone($timezone)
+    private static function lastMonthInTimezone(string $timezone): Date
     {
         return new Date(strtotime('-1month', self::todayInTimezone($timezone)->getTimestamp()));
     }
 
-    /**
-     * @param string $timezone
-     * @return Date
-     */
-    private static function lastYearInTimezone($timezone)
+    private static function lastYearInTimezone(string $timezone): Date
     {
         return new Date(strtotime('-1year', self::todayInTimezone($timezone)->getTimestamp()));
     }
@@ -1138,10 +1110,6 @@ class Date
         return new Date($ts, $this->timezone);
     }
 
-    /**
-     * @param int $timestamp
-     * @return int
-     */
     private static function getMaxDaysInMonth(int $timestamp): int
     {
         $month = (int)date('m', $timestamp);
