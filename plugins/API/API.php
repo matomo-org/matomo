@@ -79,8 +79,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get Matomo version
-     * @return string
+     * Returns the current Matomo version string.
+     *
+     * @return string Matomo version.
      */
     public function getMatomoVersion()
     {
@@ -89,8 +90,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get PHP version
-     * @return array
+     * Returns the current PHP version information.
+     *
+     * @return array{version: string, major: int, minor: int, release: int, versionId: int, extra: string} Version details.
      */
     public function getPhpVersion()
     {
@@ -128,8 +130,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns the section [APISettings] if defined in config.ini.php
-     * @return array
+     * Returns the [APISettings] config section if defined in config.ini.php.
+     *
+     * @return array<string, mixed>|string API settings data.
      * @deprecated May be removed in one of the next major releases
      */
     public function getSettings()
@@ -141,7 +144,7 @@ class API extends \Piwik\Plugin\API
      * Returns all available measurable types.
      * Marked as deprecated so it won't appear in API page. It won't be a public API for now.
      * @deprecated
-     * @return array
+     * @return array<int, array{id: string, name: string, description: string, longDescription: string, howToSetupUrl: string, settings: array<int, array<string, mixed>>}>
      */
     public function getAvailableMeasurableTypes()
     {
@@ -169,6 +172,14 @@ class API extends \Piwik\Plugin\API
         return $available;
     }
 
+    /**
+     * Returns segment metadata for the requested site(s).
+     *
+     * @param string|array<int, string> $idSites One site ID, an array of site IDs, a comma-separated list of site IDs, or 'all' for all accessible sites.
+     * @param bool $_hideImplementationData Whether to hide implementation details like SQL snippets.
+     * @param bool $_showAllSegments Whether to include internal segments.
+     * @return array<int, array<string, mixed>>|mixed Segment metadata rows.
+     */
     public function getSegmentsMetadata($idSites = array(), $_hideImplementationData = true, $_showAllSegments = false)
     {
         if (empty($idSites)) {
@@ -226,8 +237,26 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Loads reports metadata, then return the requested one,
-     * matching optional API parameters.
+     * Loads report metadata and returns the report matching the API parameters.
+     *
+     * @param int|string $idSite Site ID to scope metadata.
+     * @param string $apiModule API module name.
+     * @param string $apiAction API action name.
+     * @param array<string, mixed> $apiParameters Optional parameters used to disambiguate reports.
+     * @param string|false $language Locale code to translate labels, or false to use current language.
+     * @param string|false $period Period identifier enabled for API requests, typically 'day', 'week', 'month', 'year',
+     *                             'range', plus any custom enabled periods.
+     *                             Use false to omit period context.
+     * @param string|\Piwik\Date|false $date Date within the period or a range string. Supported keywords include
+     *                                       'today', 'yesterday', 'tomorrow', 'now', 'yesterdaySameTime', and
+     *                                       'last week'/'last month'/'last year'. Supported formats include
+     *                                       'YYYY-MM-DD', multiple-period shortcuts like 'lastN'/'previousN' (eg 'last7'),
+     *                                       and ranges like 'YYYY-MM-DD,YYYY-MM-DD' or 'last month,today'.
+     *                                       Relative keywords are evaluated in the site timezone when a single site is
+     *                                       targeted; otherwise UTC is used.
+     * @param bool $hideMetricsDoc Whether to exclude metrics documentation from the result.
+     * @param bool $showSubtableReports Whether to include subtable reports.
+     * @return array<int, array<string, mixed>>|false Matching report metadata, or false if none.
      */
     public function getMetadata(
         $idSite,
@@ -256,13 +285,23 @@ class API extends \Piwik\Plugin\API
      * Triggers a hook to ask plugins for available Reports.
      * Returns metadata information about each report (category, name, dimension, metrics, etc.)
      *
-     * @param string $idSites THIS PARAMETER IS DEPRECATED AND WILL BE REMOVED IN PIWIK 4
-     * @param bool|string $period
-     * @param bool|Date $date
-     * @param bool $hideMetricsDoc
-     * @param bool $showSubtableReports
-     * @param int $idSite
-     * @return array
+     * @param int|string|array<int, int|string> $idSites THIS PARAMETER IS DEPRECATED AND WILL BE REMOVED IN PIWIK 4.
+     *                                                   Accepts a site ID, a list of site IDs, or a comma-separated list.
+     * @param string|false $period Period identifier enabled for API requests, typically 'day', 'week', 'month', 'year',
+     *                             'range', plus any custom enabled periods.
+     *                             Use false to omit period context.
+     * @param string|\Piwik\Date|false $date Date within the period or a range string. Supported keywords include
+     *                                       'today', 'yesterday', 'tomorrow', 'now', 'yesterdaySameTime', and
+     *                                       'last week'/'last month'/'last year'. Supported formats include
+     *                                       'YYYY-MM-DD', multiple-period shortcuts like 'lastN'/'previousN' (eg 'last7'),
+     *                                       and ranges like 'YYYY-MM-DD,YYYY-MM-DD' or 'last month,today'.
+     *                                       Relative keywords are evaluated in the site timezone when a single site is
+     *                                       targeted; otherwise UTC is used.
+     * @param bool $hideMetricsDoc Whether to exclude metrics documentation from the result.
+     * @param bool $showSubtableReports Whether to include subtable reports.
+     * @param int|string|false $idSite Site ID to scope metadata, or derive from $idSites.
+     * @return array<int, array<string, mixed>> Report metadata entries.
+     * @throws \Exception If no site is specified.
      */
     public function getReportMetadata(
         $idSites = '',
@@ -288,6 +327,34 @@ class API extends \Piwik\Plugin\API
         return $metadata;
     }
 
+    /**
+     * Returns a human-readable, processed version of a report, including processed metrics.
+     *
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for API requests, typically 'day', 'week', 'month', 'year',
+     *                       'range', plus any custom enabled periods.
+     * @param string|\Piwik\Date $date Date within the period or a range string. Supported keywords include
+     *                                 'today', 'yesterday', 'tomorrow', 'now', 'yesterdaySameTime', and
+     *                                 'last week'/'last month'/'last year'. Supported formats include
+     *                                 'YYYY-MM-DD', multiple-period shortcuts like 'lastN'/'previousN' (eg 'last7'),
+     *                                 and ranges like 'YYYY-MM-DD,YYYY-MM-DD' or 'last month,today'.
+     *                                 Relative keywords are evaluated in the site timezone when a single site is
+     *                                 targeted; otherwise UTC is used.
+     * @param string $apiModule API module name.
+     * @param string $apiAction API action name.
+     * @param string|false $segment Segment expression, or false for none.
+     * @param array<string, mixed>|false $apiParameters Extra API parameters to include in the request.
+     * @param int|string|false $idGoal Goal ID to use, or false to use default.
+     * @param string|false $language Locale code to translate labels, or false to use current language.
+     * @param bool $showTimer Whether to include the processing timer in the response.
+     * @param bool $hideMetricsDoc Whether to exclude metrics documentation from the report metadata.
+     * @param int|false $idSubtable Subtable ID to fetch, or false for top-level report.
+     * @param bool $showRawMetrics Whether to include raw metrics in addition to processed metrics.
+     * @param bool|string|null $format_metrics If null or 'bc', metrics are formatted as human-readable strings.
+     * @param int|false $idDimension Dimension ID to use, or false to use default.
+     * @return array<string, mixed> Processed report payload.
+     * @throws \Exception If the report cannot be found or the API call fails.
+     */
     public function getProcessedReport(
         $idSite,
         $period,
@@ -333,7 +400,7 @@ class API extends \Piwik\Plugin\API
      * be shown within each page.
      *
      * @param int $idSite
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     public function getReportPagesMetadata($idSite)
     {
@@ -350,7 +417,7 @@ class API extends \Piwik\Plugin\API
      * Get a list of all widgetizable widgets.
      *
      * @param int $idSite
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     public function getWidgetMetadata($idSite)
     {
@@ -364,7 +431,21 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get a combined report of the *.get API methods.
+     * Returns a combined report of all *.get API methods.
+     *
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for API requests, typically 'day', 'week', 'month', 'year',
+     *                       'range', plus any custom enabled periods.
+     * @param string|\Piwik\Date $date Date within the period or a range string. Supported keywords include
+     *                                 'today', 'yesterday', 'tomorrow', 'now', 'yesterdaySameTime', and
+     *                                 'last week'/'last month'/'last year'. Supported formats include
+     *                                 'YYYY-MM-DD', multiple-period shortcuts like 'lastN'/'previousN' (eg 'last7'),
+     *                                 and ranges like 'YYYY-MM-DD,YYYY-MM-DD' or 'last month,today'.
+     *                                 Relative keywords are evaluated in the site timezone when a single site is
+     *                                 targeted; otherwise UTC is used.
+     * @param string|false $segment Segment expression, or false for none.
+     * @param string|array<int, string>|false $columns Comma-separated column list, an array of column names, or false for all.
+     * @return \Piwik\DataTable|\Piwik\DataTable\Map Combined report data table.
      */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
@@ -442,21 +523,27 @@ class API extends \Piwik\Plugin\API
      * a ready to use data structure containing the metrics for the requested Label, along with enriched information (min/max values, etc.)
      *
      * @param int $idSite
-     * @param string $period
-     * @param Date $date
+     * @param string $period Period identifier enabled for API requests. Typically 'day', 'week', 'month', 'year', or
+     *                       'range'. If 'range' is supplied, it is treated as 'day' and the date must be a
+     *                       multi-period selector.
+     * @param string|\Piwik\Date $date Must represent multiple periods, either a range such as
+     *                                'YYYY-MM-DD,YYYY-MM-DD' or 'last month,today', or a multi-period shortcut like
+     *                                'lastN'/'previousN' (eg 'last7'). Relative keywords are evaluated in the site
+     *                                timezone when a single site is targeted; otherwise UTC is used.
      * @param string $apiModule
      * @param string $apiAction
-     * @param bool|string $label
-     * @param bool|string $segment
-     * @param bool|string $column
-     * @param bool|string $language
-     * @param bool|int $idGoal
-     * @param bool|string $legendAppendMetric
-     * @param bool|string $labelUseAbsoluteUrl
-     * @param bool|int $idDimension
-     * @param string $labelSeries
-     * @param string|int $showGoalMetricsForGoal
-     * @return array
+     * @param string|array<int, string>|false $label Label or labels to query, or false for all labels.
+     * @param string|false $segment Segment expression, or false for none.
+     * @param string|false $column Metric column to evolve, or false to use the first metric.
+     * @param string|false $language Locale code to translate labels, or false to use current language.
+     * @param int|string|false $idGoal Goal ID to use, or false to use default.
+     * @param bool $legendAppendMetric Whether to append metric names to legend labels in multi-series results.
+     * @param bool $labelUseAbsoluteUrl Whether to expand labels to absolute URLs where applicable.
+     * @param int|false $idDimension Dimension ID to use, or false to use default.
+     * @param string|false $labelSeries Optional label series indexes as a comma-separated string, or false for none.
+     * @param int|string|false $showGoalMetricsForGoal Goal ID to use for goal metrics, or false to use standard metrics.
+     * @return array<string, mixed> Row evolution data.
+     * @throws \Exception If the date/period combination is invalid or the report cannot be loaded.
      */
     public function getRowEvolution($idSite, $period, $date, $apiModule, $apiAction, $label = false, $segment = false, $column = false, $language = false, $idGoal = false, $legendAppendMetric = true, $labelUseAbsoluteUrl = true, $idDimension = false, $labelSeries = false, $showGoalMetricsForGoal = false)
     {
@@ -506,8 +593,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Performs multiple API requests at once and returns every result.
      *
-     * @param array $urls The array of API requests.
-     * @return array
+     * @param array<int, string> $urls The array of API request query strings.
+     * @return array<int, mixed> List of decoded results for each request.
      * @unsanitized
      */
     public function getBulkRequest($urls)
@@ -546,7 +633,7 @@ class API extends \Piwik\Plugin\API
      * Return true if plugin is activated, false otherwise
      *
      * @param string $pluginName
-     * @return bool
+     * @return bool Whether the plugin is activated.
      */
     public function isPluginActivated($pluginName)
     {
@@ -556,10 +643,11 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Given a segment, will return a list of the most used values for this particular segment.
-     * @param $segmentName
-     * @param $idSite
+     *
+     * @param string $segmentName Segment identifier (eg, 'pageUrl').
+     * @param int|string $idSite Site ID to query.
      * @throws \Exception
-     * @return array
+     * @return mixed Suggested values, most frequent first.
      */
     public function getSuggestedValuesForSegment($segmentName, $idSite)
     {
@@ -778,8 +866,8 @@ class API extends \Piwik\Plugin\API
     /**
      * A glossary of all reports and their definition
      *
-     * @param $idSite
-     * @return array
+     * @param int $idSite Site ID to scope glossary content.
+     * @return array<int, array<string, mixed>>
      */
     public function getGlossaryReports($idSite)
     {
@@ -790,8 +878,8 @@ class API extends \Piwik\Plugin\API
     /**
      * A glossary of all metrics and their definition
      *
-     * @param $idSite
-     * @return array
+     * @param int $idSite Site ID to scope glossary content.
+     * @return array<int, array<string, mixed>>
      */
     public function getGlossaryMetrics($idSite)
     {
