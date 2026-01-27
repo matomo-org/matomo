@@ -3480,7 +3480,7 @@ if (typeof window.Matomo !== 'object') {
                 if (isDefined(screenAlias.width) && isDefined(screenAlias.height)) {
                     var width = parseInt(screenAlias.width, 10);
                     var height = parseInt(screenAlias.height, 10);
-                    browserFeatures.res = parseInt(width, 10) + 'x' + parseInt(height, 10);
+                    browserFeatures.res = width + 'x' + height;
                 }
 
                 return browserFeatures;
