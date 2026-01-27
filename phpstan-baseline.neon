@@ -2859,11 +2859,6 @@ parameters:
 			path: plugins/Actions/API.php
 
 		-
-			message: "#^Parameter \\#5 \\$segment of static method Piwik\\\\Archive\\:\\:createDataTableFromArchive\\(\\) expects string, bool given\\.$#"
-			count: 2
-			path: plugins/Actions/API.php
-
-		-
 			message: "#^Variable \\$period in empty\\(\\) always exists and is not falsy\\.$#"
 			count: 1
 			path: plugins/Actions/API.php

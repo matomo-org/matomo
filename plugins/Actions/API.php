@@ -13,7 +13,6 @@ use Exception;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
-use Piwik\Date;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\Columns\Metrics\AveragePageGenerationTime;
@@ -44,7 +43,7 @@ class API extends \Piwik\Plugin\API
      * Returns the list of metrics (pages, downloads, outlinks).
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -55,8 +54,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param array<int,string>|string|false $columns Metric column names to include, or false for default metrics.
      * @return DataTable Metrics DataTable for the requested period.
@@ -91,7 +89,7 @@ class API extends \Piwik\Plugin\API
      * Returns page URL reports for the given site and date range.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -102,8 +100,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -146,7 +143,7 @@ class API extends \Piwik\Plugin\API
      * Returns page URLs that immediately follow a site search.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -157,8 +154,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -178,7 +174,7 @@ class API extends \Piwik\Plugin\API
      * Returns page titles that immediately follow a site search.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -189,8 +185,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -225,7 +220,7 @@ class API extends \Piwik\Plugin\API
      * the specified site, period & segment.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -236,8 +231,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -266,7 +260,7 @@ class API extends \Piwik\Plugin\API
      * the specified site, period & segment.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -277,8 +271,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -307,7 +300,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $pageUrl The page URL to match (must be URL encoded).
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -318,8 +311,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      *
      * @return DataTable|DataTable\Map Report row for the requested page URL.
@@ -339,7 +331,7 @@ class API extends \Piwik\Plugin\API
      * Returns page title reports for the given site and date range.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -350,8 +342,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -375,7 +366,7 @@ class API extends \Piwik\Plugin\API
      * for the given site, time period & segment.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -386,8 +377,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -416,7 +406,7 @@ class API extends \Piwik\Plugin\API
      * for the given site, time period & segment.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -427,8 +417,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -457,7 +446,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $pageName The page title to match (must be URL encoded).
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -468,8 +457,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      *
      * @return DataTable|DataTable\Map Report row for the requested page title.
@@ -489,7 +477,7 @@ class API extends \Piwik\Plugin\API
      * Returns download reports for the given site and date range.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -500,8 +488,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -523,7 +510,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $downloadUrl The download URL to match (must be URL encoded).
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -534,8 +521,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      *
      * @return DataTable|DataTable\Map Report row for the requested download.
@@ -554,7 +540,7 @@ class API extends \Piwik\Plugin\API
      * Returns outlink reports for the given site and date range.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -565,8 +551,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      * @param bool $expanded Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
@@ -588,7 +573,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $outlinkUrl The outlink URL to match (must be URL encoded).
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -599,8 +584,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      *
      * @return DataTable|DataTable\Map Report row for the requested outlink.
@@ -619,7 +603,7 @@ class API extends \Piwik\Plugin\API
      * Returns the site search keyword report for the given site and date range.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -630,8 +614,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      *
      * @return DataTable|DataTable\Map Site search keyword report.
@@ -670,7 +653,7 @@ class API extends \Piwik\Plugin\API
      * Returns the site search keywords that had no results.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -681,8 +664,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      *
      * @return DataTable|DataTable\Map Site search keywords with no results.
@@ -715,7 +697,7 @@ class API extends \Piwik\Plugin\API
      * Returns site search category reports for the given site and date range.
      *
      * @param int|string $idSite The site ID.
-     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API (General.enabled_periods_API).
+     * @param 'day'|'week'|'month'|'year'|'range' $period Period identifier enabled for API.
      *                                                   Null is not allowed.
      * @param string $date Date or date range. Accepted values:
      *                     - 'YYYY-MM-DD'
@@ -726,8 +708,7 @@ class API extends \Piwik\Plugin\API
      *                     - date ranges with start = 'YYYY-MM-DD' or 'last week'/'last month'/'last year' and
      *                       end = 'YYYY-MM-DD' or 'today'/'now'/'yesterday'/'last week'/'last month'/'last year'
      *                     Timezone: keywords and relative ranges are evaluated in the site timezone when a single
-     *                     site is requested; otherwise UTC. Other date strings are parsed by Date::factory
-     *                     (PHP strtotime) and timezone behavior is determined there.
+     *                     site is requested; otherwise UTC. Other date strings follow the default date parsing rules.
      * @param string|false $segment Segment definition or false for no segment.
      *
      * @return DataTable|DataTable\Map Site search category report.
