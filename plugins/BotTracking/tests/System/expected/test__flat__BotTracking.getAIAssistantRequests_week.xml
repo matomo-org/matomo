@@ -1,87 +1,115 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
 	<row>
-		<label>ChatGPT-User - example.com/article/1/page/1</label>
+		<label>ChatGPT - example.com/article/1/page/1</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>ChatGPT-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>ChatGPT</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/1/page/1</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>ChatGPT-User - example.com/article/1/page/2</label>
+		<label>ChatGPT - example.com/article/1/page/2</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>ChatGPT-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>ChatGPT</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/1/page/2</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>ChatGPT-User - example.com/article/3</label>
+		<label>ChatGPT - example.com/article/3</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>ChatGPT-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>ChatGPT</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>ChatGPT-User - example.com/article/4/page/1</label>
+		<label>ChatGPT - example.com/article/4/page/1</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>ChatGPT-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>ChatGPT</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/4/page/1</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>Claude-User - example.com/article/3</label>
+		<label>Claude - example.com/article/3</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Claude-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>Claude</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>Claude-User - example.com/article/4/page/2</label>
+		<label>Claude - example.com/article/4/page/2</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Claude-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>Claude</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/4/page/2</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
 		<label>Devin - example.com/overview</label>
 		<requests>2</requests>
 		<BotTracking_AIAssistantName>Devin</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/overview</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>Gemini-Deep-Research - example.com/article/3</label>
+		<label>Gemini - example.com/article/3</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Gemini-Deep-Research</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>Gemini</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>Gemini-Deep-Research - example.com/article/4/page/1</label>
+		<label>Gemini - example.com/article/4/page/1</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Gemini-Deep-Research</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>Gemini</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/4/page/1</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>Gemini-Deep-Research - example.com/article/4/page/2</label>
+		<label>Gemini - example.com/article/4/page/2</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Gemini-Deep-Research</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>Gemini</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/4/page/2</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>MistralAI-User - example.com/article/2</label>
+		<label>Le Chat - example.com/article/2</label>
 		<requests>2</requests>
-		<BotTracking_AIAssistantName>MistralAI-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>Le Chat</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/2</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>MistralAI-User - example.com/article/3</label>
+		<label>Le Chat - example.com/article/3</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>MistralAI-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>Le Chat</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>MistralAI-User - example.com/article/4/page/1</label>
+		<label>Le Chat - example.com/article/4/page/1</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>MistralAI-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>Le Chat</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/4/page/1</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>Perplexity-User - example.com/article/2</label>
+		<label>Perplexity - example.com/article/2</label>
 		<requests>2</requests>
-		<BotTracking_AIAssistantName>Perplexity-User</BotTracking_AIAssistantName>
+		<BotTracking_AIAssistantName>Perplexity</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/2</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 </result>
