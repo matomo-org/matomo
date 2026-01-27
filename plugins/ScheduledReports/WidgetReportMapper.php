@@ -126,42 +126,6 @@ class WidgetReportMapper
 
         return $namesById;
     }
-    /**
-     * Maps a JSON array of widget unique IDs to Scheduled Reports report IDs.
-     *
-     * @param array $widgetIds
-     * @param string $idSite
-     * @return string[]
-     */
-    public function mapDashboardWidgetsJsonToReportIds(array $widgetIds, string $idSite): array
-    {
-        if (!is_array($widgetIds)) {
-            return [];
-        }
-
-        $mapping = $this->getMappingForSite($idSite);
-        $reportIds = [];
-
-        foreach ($widgetIds as $widgetId) {
-            if (!is_string($widgetId) && !is_int($widgetId)) {
-                continue;
-            }
-
-            $widgetId = (string) $widgetId;
-
-            $reportId = $mapping[$widgetId] ?? null;
-
-            if (null === $reportId) {
-                continue;
-            }
-
-            if (!in_array($reportId, $reportIds, true)) {
-                $reportIds[] = $reportId;
-            }
-        }
-
-        return $reportIds;
-    }
 
     /**
      * @param mixed $layout

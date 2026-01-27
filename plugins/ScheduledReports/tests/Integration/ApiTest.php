@@ -18,6 +18,7 @@ use Piwik\Piwik;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
+use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\Dashboard\Model as DashboardModel;
 use Piwik\NoAccessException;
@@ -157,6 +158,26 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetWidgetReportMapIncludesUnmappedWidgets()
     {
+        $mapper = new WidgetReportMapper();
+        $widgetReportMapping = $mapper->getMappingForSite($this->idSite);
+        $unmappedWidgetId = null;
+        $unmappedWidgetName = null;
+        foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
+            $uniqueId = $widgetConfig->getUniqueId();
+            if (isset($widgetReportMapping[$uniqueId])) {
+                continue;
+            }
+            if (in_array($uniqueId, WidgetReportMapper::NO_REPORT_WIDGETS, true)) {
+                continue;
+            }
+            $unmappedWidgetId = $uniqueId;
+            $unmappedWidgetName = Piwik::translate($widgetConfig->getName());
+            break;
+        }
+
+        $this->assertNotEmpty($unmappedWidgetId);
+        $this->assertNotEmpty($unmappedWidgetName);
+
         $layout = json_encode([
             [
                 [
@@ -169,11 +190,7 @@ class ApiTest extends IntegrationTestCase
             ],
             [
                 [
-                    'uniqueId' => WidgetsList::getWidgetUniqueId('Live', 'widget'),
-                    'parameters' => [
-                        'module' => 'Live',
-                        'action' => 'widget',
-                    ],
+                    'uniqueId' => $unmappedWidgetId,
                 ],
             ],
         ]);
@@ -189,17 +206,7 @@ class ApiTest extends IntegrationTestCase
         $this->assertArrayHasKey('VisitsSummary_get', $result['email']);
         $this->assertNotEmpty($result['unmappedWidgets']);
 
-        $liveWidgetName = null;
-        $liveWidgetId = WidgetsList::getWidgetUniqueId('Live', 'widget');
-        foreach (WidgetsList::get()->getWidgetConfigs() as $widgetConfig) {
-            if ($widgetConfig->getUniqueId() === $liveWidgetId) {
-                $liveWidgetName = Piwik::translate($widgetConfig->getName());
-                break;
-            }
-        }
-
-        $this->assertNotEmpty($liveWidgetName);
-        $this->assertContains($liveWidgetName, $result['unmappedWidgets']);
+        $this->assertContains($unmappedWidgetName, $result['unmappedWidgets']);
         $this->assertSame(Piwik::translate('Dashboard_DashboardOf', Piwik::getCurrentUserLogin()), $result['dashboardName']);
     }
 
@@ -518,6 +525,7 @@ class ApiTest extends IntegrationTestCase
                     $result->addRowFromSimpleArray(array('label' => 'referrers label', 'nb_visits' => 1));
                     return $result;
                 case '\Piwik\Plugins\API\API':
+                case '\Piwik\Plugins\Dashboard\API':
                 case '\Piwik\Plugins\LanguagesManager\API':
                     return $realProxy->call($className, $methodName, $parametersRequest);
                 default:
