@@ -110,7 +110,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get Matomo version
-     * @return string
+     * @return string Matomo version.
      * @deprecated Deprecated but we keep it for historical reasons to not break BC
      */
     public function getPiwikVersion()
@@ -400,7 +400,7 @@ class API extends \Piwik\Plugin\API
      * Get a list of all pages that shall be shown in a Matomo UI including a list of all widgets that shall
      * be shown within each page.
      *
-     * @param int $idSite
+     * @param int $idSite Site ID to scope visible pages.
      * @return array<int, array<string, mixed>>
      */
     public function getReportPagesMetadata($idSite)
@@ -417,7 +417,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Get a list of all widgetizable widgets.
      *
-     * @param int $idSite
+     * @param int $idSite Site ID to scope visible widgets.
      * @return array<int, array<string, mixed>>
      */
     public function getWidgetMetadata($idSite)
@@ -523,7 +523,7 @@ class API extends \Piwik\Plugin\API
      * this function will query the API for the previous days/weeks/etc. and will return
      * a ready to use data structure containing the metrics for the requested Label, along with enriched information (min/max values, etc.)
      *
-     * @param int $idSite
+     * @param int $idSite Site ID to query.
      * @param string $period Period identifier enabled for API requests. Typically 'day', 'week', 'month', 'year', or
      *                       'range'. If 'range' is supplied, it is treated as 'day' and the date must be a
      *                       multi-period selector.
@@ -531,8 +531,8 @@ class API extends \Piwik\Plugin\API
      *                                'YYYY-MM-DD,YYYY-MM-DD' or 'last month,today', or a multi-period shortcut like
      *                                'lastN'/'previousN' (eg 'last7'). Relative keywords are evaluated in the site
      *                                timezone when a single site is targeted; otherwise UTC is used.
-     * @param string $apiModule
-     * @param string $apiAction
+     * @param string $apiModule API module name.
+     * @param string $apiAction API action name.
      * @param string|array<int, string>|false $label Label or labels to query, or false for all labels.
      * @param string|false $segment Segment expression, or false for none.
      * @param string|false $column Metric column to evolve, or false to use the first metric.
