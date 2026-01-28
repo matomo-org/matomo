@@ -12,6 +12,8 @@ namespace Piwik\Plugins\UserCountry\tests\System;
 use DateTime;
 use Piwik\Plugins\UserCountry\tests\Fixtures\ManySitesManyVisitsWithGeoIp;
 use Piwik\API\Request;
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
@@ -108,35 +110,44 @@ class ApiTest extends SystemTestCase
             $ecommerce = 1
         );
 
-        $this->createManyEcommerceOrders($idSite, $dateTime, 400);
+        $countries = [
+            'nz' => 'New Zealand',
+            'it' => 'Italy',
+            'us' => 'United States',
+            'au' => 'Australia',
+        ];
 
-        $result = Request::processRequest('UserCountry.getCountry', [
+        $this->createManyEcommerceOrders($idSite, $dateTime, 400, array_keys($countries));
+
+        $resultNoSegments = Request::processRequest('UserCountry.getCountry', [
             'idSite' => $idSite,
             'period' => 'year',
             'date' => $dateTime,
             'flat' => '1',
         ]);
 
-        $resultWithSegment = Request::processRequest('UserCountry.getCountry', [
-            'idSite' => $idSite,
-            'period' => 'year',
-            'date' => $dateTime,
-            'flat' => '1',
-            'segment' => 'countryName==Italy',
-        ]);
+        foreach ($countries as $name) {
 
-        foreach ($result->getRows() as $row) {
-            if ($row['label'] == 'Italy') {
-                var_dump($row->getColumns());
-            }
-        }
+            /** @var DataTable */
+            $resultWithSegment = Request::processRequest('UserCountry.getCountry', [
+                'idSite' => $idSite,
+                'period' => 'year',
+                'date' => $dateTime,
+                'flat' => '1',
+                'segment' => "countryName==$name",
+            ]);
 
-        foreach ($resultWithSegment->getRows() as $row) {
-            var_dump($row->getColumns());
+            $rowNoSegments = $resultNoSegments->getRowFromLabel($name)->getColumns();
+            $rowWithSegment = $resultWithSegment->getRowFromLabel($name)->getColumns();
+
+            $conversionsNoSegments = $rowNoSegments['nb_conversions'];
+            $conversionsWithSegment = $rowWithSegment['nb_conversions'];
+
+            $this->assertTrue($conversionsNoSegments == $conversionsWithSegment, "conversions for country $name are not equal: $conversionsNoSegments vs $conversionsWithSegment");
         }
     }
 
-    public function createManyEcommerceOrders($siteId, $dateTime, $numberOfOrders)
+    public function createManyEcommerceOrders($siteId, $dateTime, $numberOfOrders, $countries)
     {
         static::$fixture::createSuperUser($removeExisting = true);
 
@@ -148,13 +159,6 @@ class ApiTest extends SystemTestCase
 
         $orderNumber = 1001;
 
-        $countries = [
-            'nz',
-            'it',
-            'us',
-            'au',
-        ];
-
         $dateTimeObj = new DateTime($dateTime);
         $interval = new \DateInterval('P1D');
 
@@ -162,12 +166,7 @@ class ApiTest extends SystemTestCase
             for ($j = 0; $j < count($countries); $j++) {
                 $dateTimeStr = date_format($dateTimeObj, 'Y-m-d H:i:s');
                 $tracker = static::$fixture::getTracker($siteId, $dateTimeStr, $defaultInit = true, $useLocal = true);
-                // test both IP address and country code for country detection for segment
-                if ($i % 2 == 0) {
-                    $tracker->setIp('151.100.101.92'); // Italy
-                } else {
-                    $tracker->setCountry($countries[$j]);
-                }
+                $tracker->setCountry($countries[$j]);
                 $tracker->setVisitorId(substr(md5($visitorIds[$i % 3]), $offset = 0, $tracker::LENGTH_VISITOR_ID));
                 $tracker->setTokenAuth(static::$fixture::getTokenAuth());
                 $orderNo = $orderNumber + ($i * 10) + $j;
