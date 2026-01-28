@@ -169,7 +169,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get the default dashboard.
-     * @return \array[]
+     *
+     * @return array{name: string, id: int, widgets: array<int, array{module: string, action: string}>} Default dashboard with visible widgets.
      */
     private function getDefaultDashboard()
     {
@@ -186,7 +187,7 @@ class API extends \Piwik\Plugin\API
      * Get all dashboards which a user has created.
      *
      * @param string $userLogin login of the user
-     * @return \array[]
+     * @return array<int, array{name: string, id: int, widgets: array<int, array{module: string, action: string}>}> Dashboards for the user with visible widgets.
      */
     private function getUserDashboards($userLogin)
     {
@@ -202,6 +203,10 @@ class API extends \Piwik\Plugin\API
         return $dashboards;
     }
 
+    /**
+     * @param array{layout?: mixed} $dashboard
+     * @return array<int, array{module: string, action: string}>
+     */
     private function getVisibleWidgetsWithinDashboard($dashboard)
     {
         $columns = $this->getColumnsFromDashboard($dashboard);
@@ -232,6 +237,10 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    /**
+     * @param array{layout?: mixed}|array<string, mixed> $dashboard
+     * @return array<int, mixed>
+     */
     private function getColumnsFromDashboard($dashboard)
     {
         if (empty($dashboard['layout'])) {
@@ -249,6 +258,11 @@ class API extends \Piwik\Plugin\API
         return array();
     }
 
+    /**
+     * @param array{name: string, iddashboard: int} $dashboard
+     * @param array<int, array{module: string, action: string}> $widgets
+     * @return array{name: string, id: int, widgets: array<int, array{module: string, action: string}>}
+     */
     private function buildDashboard($dashboard, $widgets)
     {
         return array('name' => $dashboard['name'], 'id' => $dashboard['iddashboard'], 'widgets' => $widgets);
