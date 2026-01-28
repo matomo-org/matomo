@@ -21,7 +21,10 @@ use Piwik\Url;
 use Piwik\Version;
 
 /**
- * API for plugin Feedback
+ * API for plugin Feedback.
+ *
+ * Exposes endpoints for collecting feedback on product features and survey questions, plus
+ * managing the reminder timing for showing feedback prompts.
  *
  * @method static \Piwik\Plugins\Feedback\API getInstance()
  */
@@ -31,10 +34,12 @@ class API extends \Piwik\Plugin\API
      * Sends feedback for a specific feature to the Matomo team or alternatively to the email address configured in the
      * config: "feedback_email_address".
      *
-     * @param string|null $featureName  The name of a feature you want to give feedback to.
-     * @param string|null $like         Whether you like the feature or not
-     * @param string|null $choice       Multiple choice option chosen
-     * @param string|null $message      A message containing the actual feedback
+     * @param string|null     $featureName The name of a feature you want to give feedback on.
+     * @param int|string|null $like        Whether the feature is liked (use 1/'1') or disliked (use 0/'0').
+     * @param string|null     $choice      Multiple-choice option identifier chosen in the UI, if any.
+     * @param string|null     $message     The feedback message text.
+     * @return string A translated validation message or "success" when the feedback is sent.
+     * @throws \Piwik\NoAccessException When the current user has no view access.
      */
     public function sendFeedbackForFeature($featureName, $like = null, $choice = null, $message = null)
     {
@@ -85,8 +90,9 @@ class API extends \Piwik\Plugin\API
      * Sends feedback for a specific feature to the Matomo team or alternatively to the email address configured in the
      * config: "feedback_email_address".
      *
-     * @param $question
-     * @param string|bool $message A message containing the actual feedback
+     * @param string      $question The survey question text to send with the feedback.
+     * @param string|bool $message  The feedback answer text, or false when no answer is provided yet.
+     * @return string A translated validation message or "success" when the feedback is sent.
      * @throws \Piwik\NoAccessException
      * @throws \Exception
      */
@@ -126,6 +132,12 @@ class API extends \Piwik\Plugin\API
         return 'success';
     }
 
+    /**
+     * Pushes the feedback reminder date out by six months for the current user.
+     *
+     * @return string JSON-encoded array containing the next reminder date.
+     * @throws \Piwik\NoAccessException When the current user is anonymous.
+     */
     public function updateFeedbackReminderDate()
     {
         Piwik::checkUserIsNotAnonymous();
