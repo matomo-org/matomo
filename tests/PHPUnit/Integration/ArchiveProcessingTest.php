@@ -566,7 +566,8 @@ class ArchiveProcessingTest extends IntegrationTestCase
         $archiveWriter->finalizeArchive();
 
         $capturedInserts = $archiveProcessor->getCapturedInserts();
-        $capturedInsertTable = DataTable::fromSerializedArray($capturedInserts[0][1][0]);
+        $serializedTables = $capturedInserts[0][1];
+        $capturedInsertTable = DataTable::fromSerializedArray($serializedTables[0]);
         $capturedInsertTable = $this->getXml($capturedInsertTable);
 
         $expectedXml = <<<END
@@ -686,7 +687,8 @@ END;
         $archiveWriter->finalizeArchive();
 
         $capturedInserts = $archiveProcessor->getCapturedInserts();
-        $capturedInsertTable = DataTable::fromSerializedArray($capturedInserts[0][1][0]);
+        $serializedTables = $capturedInserts[0][1];
+        $capturedInsertTable = DataTable::fromSerializedArray($serializedTables[0]);
         $capturedInsertTable = $this->getXml($capturedInsertTable);
 
         $expectedXml = <<<END
@@ -796,7 +798,8 @@ END;
         $archiveWriter->finalizeArchive();
 
         $capturedInserts = $archiveProcessor->getCapturedInserts();
-        $capturedInsertTable = DataTable::fromSerializedArray($capturedInserts[0][1][0]);
+        $serializedTables = $capturedInserts[0][1];
+        $capturedInsertTable = DataTable::fromSerializedArray($serializedTables[0]);
 
         $this->assertNotFalse($capturedInsertTable->getRowFromLabel('b'));
         $this->assertNotFalse($capturedInsertTable->getRowFromLabel('a'));
@@ -808,15 +811,14 @@ END;
         $this->assertEquals(4, $summaryRow->getColumn('nb_visits'));
 
         $rowB = $capturedInsertTable->getRowFromLabel('b');
-        $subtableB = $rowB->getSubtable();
+        $subtableB = DataTable::fromSerializedArray($serializedTables[$rowB->getIdSubDataTable()]);
         $this->assertNotFalse($subtableB->getRowFromLabel('x'));
-        $this->assertFalse($subtableB->getRowFromLabel('y'));
+        $this->assertNotFalse($subtableB->getRowFromLabel('y'));
         $summarySubB = $subtableB->getRowFromId(DataTable::ID_SUMMARY_ROW);
-        $this->assertNotEmpty($summarySubB);
-        $this->assertEquals(1, $summarySubB->getColumn('nb_visits'));
+        $this->assertEmpty($summarySubB);
 
         $rowA = $capturedInsertTable->getRowFromLabel('a');
-        $subtableA = $rowA->getSubtable();
+        $subtableA = DataTable::fromSerializedArray($serializedTables[$rowA->getIdSubDataTable()]);
         $this->assertNotFalse($subtableA->getRowFromLabel('x'));
         $this->assertFalse($subtableA->getRowFromLabel('y'));
         $summarySubA = $subtableA->getRowFromId(DataTable::ID_SUMMARY_ROW);
