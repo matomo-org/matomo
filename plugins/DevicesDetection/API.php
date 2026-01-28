@@ -19,7 +19,10 @@ use Piwik\Piwik;
 use DeviceDetector\Parser\Client\Browser as BrowserParser;
 
 /**
- * The DevicesDetection API lets you access reports on your visitors devices, brands, models, Operating system, Browsers.
+ * The DevicesDetection API exposes reports about visitor devices, including types, brands, models,
+ * operating system families/versions, browsers, and browser engines.
+ * It returns report DataTables and enriches them with labels, logos, and segments.
+ *
  * @method static \Piwik\Plugins\DevicesDetection\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -44,11 +47,23 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by device type (eg. desktop, smartphone, tablet)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for the API. Built-ins include 'day', 'week', 'month', 'year',
+     *                       and 'range'; plugin-defined period identifiers may also be enabled. Required, not null.
+     * @param \Piwik\Date|string $date Date selector. Single dates can be 'YYYY-MM-DD', 'YYYY-MM-DD HH:MM:SS', a unix
+     *                                 timestamp, or a strtotime-compatible string without a comma. Keywords supported
+     *                                 are 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
+     *                                 'last week'/'last-week', 'last month'/'last-month', 'last year'/'last-year'.
+     *                                 Multiple-period selectors include 'lastN' or 'previousN' (N optional integer),
+     *                                 or a range 'YYYY-MM-DD,YYYY-MM-DD' or
+     *                                 'last week|month|year, today|now|yesterday|last week|month|year'. When $period
+     *                                 is 'range', the date must be a range or a last/previous selector.
+     *                                 Timezone: with a single site, 'now'/'today'/'yesterday'/'yesterdaySameTime' and
+     *                                 'last week/month/year' use the site timezone; otherwise they use UTC. Other
+     *                                 formats (including 'tomorrow') are parsed in UTC. In ranges, the end date uses
+     *                                 that timezone; the start date is parsed in UTC.
+     * @param string|false $segment Segment definition string to filter visits, or false for no segment.
+     * @return DataTable|DataTable\Map Report of visits by device type, or a map when multiple sites/periods are queried.
      */
     public function getType($idSite, $period, $date, $segment = false)
     {
@@ -88,11 +103,23 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by device manufacturer name
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for the API. Built-ins include 'day', 'week', 'month', 'year',
+     *                       and 'range'; plugin-defined period identifiers may also be enabled. Required, not null.
+     * @param \Piwik\Date|string $date Date selector. Single dates can be 'YYYY-MM-DD', 'YYYY-MM-DD HH:MM:SS', a unix
+     *                                 timestamp, or a strtotime-compatible string without a comma. Keywords supported
+     *                                 are 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
+     *                                 'last week'/'last-week', 'last month'/'last-month', 'last year'/'last-year'.
+     *                                 Multiple-period selectors include 'lastN' or 'previousN' (N optional integer),
+     *                                 or a range 'YYYY-MM-DD,YYYY-MM-DD' or
+     *                                 'last week|month|year, today|now|yesterday|last week|month|year'. When $period
+     *                                 is 'range', the date must be a range or a last/previous selector.
+     *                                 Timezone: with a single site, 'now'/'today'/'yesterday'/'yesterdaySameTime' and
+     *                                 'last week/month/year' use the site timezone; otherwise they use UTC. Other
+     *                                 formats (including 'tomorrow') are parsed in UTC. In ranges, the end date uses
+     *                                 that timezone; the start date is parsed in UTC.
+     * @param string|false $segment Segment definition string to filter visits, or false for no segment.
+     * @return DataTable|DataTable\Map Report of visits by device brand, or a map when multiple sites/periods are queried.
      */
     public function getBrand($idSite, $period, $date, $segment = false)
     {
@@ -105,11 +132,24 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by device model
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for the API. Built-ins include 'day', 'week', 'month', 'year',
+     *                       and 'range'; plugin-defined period identifiers may also be enabled. Required, not null.
+     * @param \Piwik\Date|string $date Date selector. Single dates can be 'YYYY-MM-DD', 'YYYY-MM-DD HH:MM:SS', a unix
+     *                                 timestamp, or a strtotime-compatible string without a comma. Keywords supported
+     *                                 are 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
+     *                                 'last week'/'last-week', 'last month'/'last-month', 'last year'/'last-year'.
+     *                                 Multiple-period selectors include 'lastN' or 'previousN' (N optional integer),
+     *                                 or a range 'YYYY-MM-DD,YYYY-MM-DD' or
+     *                                 'last week|month|year, today|now|yesterday|last week|month|year'. When $period
+     *                                 is 'range', the date must be a range or a last/previous selector.
+     *                                 Timezone: with a single site, 'now'/'today'/'yesterday'/'yesterdaySameTime' and
+     *                                 'last week/month/year' use the site timezone; otherwise they use UTC. Other
+     *                                 formats (including 'tomorrow') are parsed in UTC. In ranges, the end date uses
+     *                                 that timezone; the start date is parsed in UTC.
+     * @param string|false $segment Segment definition string to filter visits, or false for no segment.
+     * @return DataTable|DataTable\Map Report of visits by device model, or a map when multiple sites/periods are queried.
+     * @throws Exception When device model reporting is disabled by compliance policy.
      */
     public function getModel($idSite, $period, $date, $segment = false)
     {
@@ -144,11 +184,23 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by OS family (eg. Windows, Android, Linux)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for the API. Built-ins include 'day', 'week', 'month', 'year',
+     *                       and 'range'; plugin-defined period identifiers may also be enabled. Required, not null.
+     * @param \Piwik\Date|string $date Date selector. Single dates can be 'YYYY-MM-DD', 'YYYY-MM-DD HH:MM:SS', a unix
+     *                                 timestamp, or a strtotime-compatible string without a comma. Keywords supported
+     *                                 are 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
+     *                                 'last week'/'last-week', 'last month'/'last-month', 'last year'/'last-year'.
+     *                                 Multiple-period selectors include 'lastN' or 'previousN' (N optional integer),
+     *                                 or a range 'YYYY-MM-DD,YYYY-MM-DD' or
+     *                                 'last week|month|year, today|now|yesterday|last week|month|year'. When $period
+     *                                 is 'range', the date must be a range or a last/previous selector.
+     *                                 Timezone: with a single site, 'now'/'today'/'yesterday'/'yesterdaySameTime' and
+     *                                 'last week/month/year' use the site timezone; otherwise they use UTC. Other
+     *                                 formats (including 'tomorrow') are parsed in UTC. In ranges, the end date uses
+     *                                 that timezone; the start date is parsed in UTC.
+     * @param string|false $segment Segment definition string to filter visits, or false for no segment.
+     * @return DataTable|DataTable\Map Report of visits by OS family, or a map when multiple sites/periods are queried.
      */
     public function getOsFamilies($idSite, $period, $date, $segment = false)
     {
@@ -212,11 +264,23 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by OS version (eg. Android 4.0, Windows 7)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for the API. Built-ins include 'day', 'week', 'month', 'year',
+     *                       and 'range'; plugin-defined period identifiers may also be enabled. Required, not null.
+     * @param \Piwik\Date|string $date Date selector. Single dates can be 'YYYY-MM-DD', 'YYYY-MM-DD HH:MM:SS', a unix
+     *                                 timestamp, or a strtotime-compatible string without a comma. Keywords supported
+     *                                 are 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
+     *                                 'last week'/'last-week', 'last month'/'last-month', 'last year'/'last-year'.
+     *                                 Multiple-period selectors include 'lastN' or 'previousN' (N optional integer),
+     *                                 or a range 'YYYY-MM-DD,YYYY-MM-DD' or
+     *                                 'last week|month|year, today|now|yesterday|last week|month|year'. When $period
+     *                                 is 'range', the date must be a range or a last/previous selector.
+     *                                 Timezone: with a single site, 'now'/'today'/'yesterday'/'yesterdaySameTime' and
+     *                                 'last week/month/year' use the site timezone; otherwise they use UTC. Other
+     *                                 formats (including 'tomorrow') are parsed in UTC. In ranges, the end date uses
+     *                                 that timezone; the start date is parsed in UTC.
+     * @param string|false $segment Segment definition string to filter visits, or false for no segment.
+     * @return DataTable|DataTable\Map Report of visits by OS version, or a map when multiple sites/periods are queried.
      */
     public function getOsVersions($idSite, $period, $date, $segment = false)
     {
@@ -232,11 +296,23 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by Browser (Without version)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for the API. Built-ins include 'day', 'week', 'month', 'year',
+     *                       and 'range'; plugin-defined period identifiers may also be enabled. Required, not null.
+     * @param \Piwik\Date|string $date Date selector. Single dates can be 'YYYY-MM-DD', 'YYYY-MM-DD HH:MM:SS', a unix
+     *                                 timestamp, or a strtotime-compatible string without a comma. Keywords supported
+     *                                 are 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
+     *                                 'last week'/'last-week', 'last month'/'last-month', 'last year'/'last-year'.
+     *                                 Multiple-period selectors include 'lastN' or 'previousN' (N optional integer),
+     *                                 or a range 'YYYY-MM-DD,YYYY-MM-DD' or
+     *                                 'last week|month|year, today|now|yesterday|last week|month|year'. When $period
+     *                                 is 'range', the date must be a range or a last/previous selector.
+     *                                 Timezone: with a single site, 'now'/'today'/'yesterday'/'yesterdaySameTime' and
+     *                                 'last week/month/year' use the site timezone; otherwise they use UTC. Other
+     *                                 formats (including 'tomorrow') are parsed in UTC. In ranges, the end date uses
+     *                                 that timezone; the start date is parsed in UTC.
+     * @param string|false $segment Segment definition string to filter visits, or false for no segment.
+     * @return DataTable|DataTable\Map Report of visits by browser family, or a map when multiple sites/periods are queried.
      */
     public function getBrowsers($idSite, $period, $date, $segment = false)
     {
@@ -262,11 +338,23 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by Browser version (eg. Firefox 20, Safari 6.0)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for the API. Built-ins include 'day', 'week', 'month', 'year',
+     *                       and 'range'; plugin-defined period identifiers may also be enabled. Required, not null.
+     * @param \Piwik\Date|string $date Date selector. Single dates can be 'YYYY-MM-DD', 'YYYY-MM-DD HH:MM:SS', a unix
+     *                                 timestamp, or a strtotime-compatible string without a comma. Keywords supported
+     *                                 are 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
+     *                                 'last week'/'last-week', 'last month'/'last-month', 'last year'/'last-year'.
+     *                                 Multiple-period selectors include 'lastN' or 'previousN' (N optional integer),
+     *                                 or a range 'YYYY-MM-DD,YYYY-MM-DD' or
+     *                                 'last week|month|year, today|now|yesterday|last week|month|year'. When $period
+     *                                 is 'range', the date must be a range or a last/previous selector.
+     *                                 Timezone: with a single site, 'now'/'today'/'yesterday'/'yesterdaySameTime' and
+     *                                 'last week/month/year' use the site timezone; otherwise they use UTC. Other
+     *                                 formats (including 'tomorrow') are parsed in UTC. In ranges, the end date uses
+     *                                 that timezone; the start date is parsed in UTC.
+     * @param string|false $segment Segment definition string to filter visits, or false for no segment.
+     * @return DataTable|DataTable\Map Report of visits by browser version, or a map when multiple sites/periods are queried.
      */
     public function getBrowserVersions($idSite, $period, $date, $segment = false)
     {
@@ -281,11 +369,23 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets datatable displaying number of visits by Browser engine (eg. Trident, Gecko, Blink,...)
-     * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param bool|string $segment
-     * @return DataTable
+     * @param int $idSite Site ID to query.
+     * @param string $period Period identifier enabled for the API. Built-ins include 'day', 'week', 'month', 'year',
+     *                       and 'range'; plugin-defined period identifiers may also be enabled. Required, not null.
+     * @param \Piwik\Date|string $date Date selector. Single dates can be 'YYYY-MM-DD', 'YYYY-MM-DD HH:MM:SS', a unix
+     *                                 timestamp, or a strtotime-compatible string without a comma. Keywords supported
+     *                                 are 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
+     *                                 'last week'/'last-week', 'last month'/'last-month', 'last year'/'last-year'.
+     *                                 Multiple-period selectors include 'lastN' or 'previousN' (N optional integer),
+     *                                 or a range 'YYYY-MM-DD,YYYY-MM-DD' or
+     *                                 'last week|month|year, today|now|yesterday|last week|month|year'. When $period
+     *                                 is 'range', the date must be a range or a last/previous selector.
+     *                                 Timezone: if exactly one site is requested, relative keywords are evaluated in
+     *                                 that site's timezone; otherwise they are evaluated in UTC. For range strings,
+     *                                 the relative end date uses that timezone; start dates are parsed as absolute
+     *                                 dates.
+     * @param string|false $segment Segment definition string to filter visits, or false for no segment.
+     * @return DataTable|DataTable\Map Report of visits by browser engine, or a map when multiple sites/periods are queried.
      */
     public function getBrowserEngines($idSite, $period, $date, $segment = false)
     {
