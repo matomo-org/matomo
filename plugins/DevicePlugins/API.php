@@ -22,7 +22,9 @@ use Piwik\Plugins\CoreHome\Columns\Metrics\VisitsPercent;
 require_once PIWIK_INCLUDE_PATH . '/plugins/DevicePlugins/functions.php';
 
 /**
- * The DevicePlugins API lets you access reports about device plugins such as browser plugins.
+ * The DevicePlugins API exposes reports about device plugins detected in visitors' browsers.
+ * It focuses on plugin usage counts and visit percentages, derived from plugin labels and
+ * related browser version data used to compute percentages.
  *
  * @method static \Piwik\Plugins\DevicePlugins\API getInstance()
  */
@@ -38,6 +40,27 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns the browser plugin report with visit percentage metrics, excluding IE visitors
+     * from the percentage denominator where plugin detection is unreliable.
+     *
+     * @param int|string|array $idSite A single site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
+     * @param string $period Period identifier allowed by the API configuration. Common values include
+     *                       'day', 'week', 'month', 'year', or 'range' when enabled; custom period identifiers
+     *                       may be supported by installed plugins.
+     * @param string $date Date or date range string. Accepted values include:
+     *                    - a single date ('YYYY-MM-DD') or datetime ('YYYY-MM-DD HH:MM:SS')
+     *                    - date keywords: 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
+     *                      'last week', 'last month', 'last year' (spaces or hyphens allowed)
+     *                    - relative series: 'lastN' or 'previousN' (for example 'last7', 'previous30')
+     *                    - date ranges: 'YYYY-MM-DD,YYYY-MM-DD' or ranges that end with a keyword
+     *                      such as 'YYYY-MM-DD,today' or 'last week,yesterday'
+     *                    Timezone handling: keyword dates are evaluated in the site's timezone when a single
+     *                    site is requested; otherwise they are evaluated in UTC. Absolute dates are interpreted
+     *                    without timezone adjustment.
+     * @param string|false $segment Segment definition, or false for no segment.
+     * @return \Piwik\DataTable|\Piwik\DataTable\Map Plugin report data table.
+     */
     public function getPlugin($idSite, $period, $date, $segment = false)
     {
         // fetch all archive data required
