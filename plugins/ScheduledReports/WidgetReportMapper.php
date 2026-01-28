@@ -33,7 +33,7 @@ class WidgetReportMapper
      */
     private $widgetConfigs;
 
-    const NO_REPORT_WIDGETS = ['widgetTourgetEngagement', 'widgetMarketplacegetPremiumFeatures', 'widgetRssWidgetrssPiwik',
+    public const NO_REPORT_WIDGETS = ['widgetTourgetEngagement', 'widgetMarketplacegetPremiumFeatures', 'widgetRssWidgetrssPiwik',
         'widgetRssWidgetrssChangelog', 'widgetProfessionalServicespromoServices', 'widgetInstallationgetSystemCheck', 'widgetCoreHomequickLinks',
         'widgetCoreHomegetSystemSummary', 'widgetCoreHomegetPromoVideo', 'widgetMarketplacegetNewPlugins', 'widgetReferrersgetCampaignUrlBuilder',
         'widgetCoreHomegetDonateForm'];
@@ -61,7 +61,7 @@ class WidgetReportMapper
             if ($widgetConfig instanceof EventsByDimension) {
                 $mapping = $this->getEventsWidgetMapping($widgetConfig, $mapping);
                 continue;
-            } else if (!$this->shouldMapWidget($widgetConfig)) {
+            } elseif (!$this->shouldMapWidget($widgetConfig)) {
                 continue;
             }
 

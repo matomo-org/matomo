@@ -11,7 +11,6 @@ namespace Piwik\Plugins\ScheduledReports\tests\Integration;
 
 use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Piwik;
 use Piwik\Report\ReportWidgetConfig;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;

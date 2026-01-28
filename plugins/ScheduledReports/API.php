@@ -278,7 +278,7 @@ class API extends \Piwik\Plugin\API
                 $reportKey = $widgetReportMapping[$widgetId] ?? null;
                 if ($reportKey) {
                     $reportMapping[$reportKey] = true;
-                } else if ($widgetNamesById[$widgetId]){
+                } elseif ($widgetNamesById[$widgetId]) {
                     $unmappedWidgets[] = $widgetNamesById[$widgetId];
                 }
             }
