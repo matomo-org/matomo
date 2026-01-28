@@ -3533,25 +3533,7 @@ parameters:
 			count: 1
 			path: plugins/DevicesDetection/API.php
 
-		-
-			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 2
-			path: plugins/DevicesDetection/API.php
 
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\DevicesDetection\\\\API\\:\\:getBrowsers\\(\\) should return Piwik\\\\DataTable but returns Piwik\\\\DataTable\\\\DataTableInterface\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\DevicesDetection\\\\API\\:\\:getOsFamilies\\(\\) should return Piwik\\\\DataTable but returns Piwik\\\\DataTable\\\\DataTableInterface\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$table of method Piwik\\\\DataTable\\\\Map\\:\\:addTable\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/API.php
 
 		-
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"

@@ -228,9 +228,9 @@ class API extends \Piwik\Plugin\API
      * For data archived before DevicesDetection plugin was enabled, those archives do not exist, so we try to calculate
      * them here from the "version-containing" reports if possible.
      *
-     * @param DataTable\DataTableInterface $dataTable
-     * @param DataTable\DataTableInterface $dataTable2
-     * @return DataTable|DataTable\Map
+     * @param DataTable|DataTable\Map $dataTable
+     * @param DataTable|DataTable\Map $dataTable2
+     * @return DataTable\DataTableInterface
      */
     protected function mergeDataTables(DataTable\DataTableInterface $dataTable, DataTable\DataTableInterface $dataTable2)
     {
