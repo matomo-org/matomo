@@ -24,7 +24,8 @@ use Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException;
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Reports whether plugin tracker JavaScript files are auto-included in piwik.js.
+     * Detects whether plugin trackers will be automatically added to piwik.js or not. If not, the plugin tracker files
+     * need to be loaded manually.
      *
      * @return bool True when plugin trackers are injected automatically; false when they must be loaded manually.
      */
