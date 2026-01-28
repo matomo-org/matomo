@@ -225,6 +225,7 @@ export default defineComponent({
       : null;
     if (pendingMessage && this.$refs.reportUpdatedSuccess) {
       sessionStorage.removeItem(PENDING_NOTIFICATION_KEY);
+      scrollToTop();
       this.fadeInOutSuccessMessage(
         this.$refs.reportUpdatedSuccess as HTMLElement,
         pendingMessage,
@@ -358,6 +359,17 @@ export default defineComponent({
         Matomo.helper.refreshAfter(2);
       }
     },
+    queueSaveNotificationAndRefresh(isUpdate: boolean) {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem(
+          PENDING_NOTIFICATION_KEY,
+          isUpdate
+            ? translate('ScheduledReports_ReportUpdated')
+            : translate('ScheduledReports_ReportAdded'),
+        );
+      }
+      Matomo.helper.refreshAfter(0);
+    },
     showDashboardExportInfo(
       selector: HTMLElement, message: string,
       dashboardName: string, reload = true,
@@ -471,13 +483,7 @@ export default defineComponent({
         },
         apiParameters,
       ).then(() => {
-        scrollToTop();
-        this.fadeInOutSuccessMessage(
-          this.$refs.reportUpdatedSuccess as HTMLElement,
-          isUpdate
-            ? translate('ScheduledReports_ReportUpdated')
-            : translate('ScheduledReports_ReportAdded'),
-        );
+        this.queueSaveNotificationAndRefresh(isUpdate);
       });
       return false;
     },
