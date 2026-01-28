@@ -33,7 +33,7 @@ class API extends \Piwik\Plugin\API
      * @param string $period
      * @param string $date
      * @param string $segment
-     * @return DataTable
+     * @return DataTable|DataTable\Map
      */
     protected function getDataTable($name, $idSite, $period, $date, $segment)
     {
@@ -230,7 +230,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param DataTable\DataTableInterface $dataTable
      * @param DataTable\DataTableInterface $dataTable2
-     * @return DataTable\DataTableInterface
+     * @return DataTable|DataTable\Map
      */
     protected function mergeDataTables(DataTable\DataTableInterface $dataTable, DataTable\DataTableInterface $dataTable2)
     {
