@@ -145,23 +145,6 @@
         },
 
         /**
-         * Returns a deep copy of the current dashboard layout (column/widget structure)
-         *
-         * @return {object|null}
-         */
-        getLayout: function () {
-            if (!dashboardLayout) {
-                return null;
-            }
-
-            try {
-                return JSON.parse(JSON.stringify(dashboardLayout));
-            } catch (error) {
-                return null;
-            }
-        },
-
-        /**
          * Sets a new name for the current dashboard
          *
          * @param {String} newName

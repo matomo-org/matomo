@@ -100,8 +100,6 @@ interface DashboardSettingsState {
   isActionDisabled: Record<keyof Window, boolean>;
   actionTooltips: Record<keyof Window, string|undefined>;
 }
-type DashboardJQuery = JQuery & { dashboard?: (...args: unknown[]) => unknown };
-
 const { $ } = window;
 
 function isWidgetAvailable(widgetUniqueId: string) {
@@ -273,18 +271,15 @@ export default defineComponent({
     },
 
     getCurrentDashboardId(): number|string|null {
-      const dashboardArea = $('#dashboardWidgetsArea') as DashboardJQuery;
-      let dashboardId = null;
-      if (!dashboardArea.length || typeof dashboardArea.dashboard !== 'function') {
-        return dashboardId;
+      const hash = MatomoUrl.hashParsed.value as QueryParameters;
+      if (hash.subcategory !== undefined) {
+        const parsed = Number(hash.subcategory);
+        if (!Number.isNaN(parsed)) {
+          return parsed;
+        }
       }
 
-      try {
-        dashboardId = dashboardArea.dashboard('getDashboardId') as number|string;
-      } catch (error) {
-        // ignore when dashboard id cannot be determined
-      }
-      return dashboardId;
+      return null;
     },
   },
 });
