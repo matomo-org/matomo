@@ -15,17 +15,66 @@ use Piwik\Piwik;
 use Piwik\Plugins\Contents\Archiver;
 
 /**
- * API for plugin Contents
+ * API for content engagement reports.
+ *
+ * Exposes reports for content names and content pieces, including their
+ * aggregated metrics over the requested period and date selection.
  *
  * @method static \Piwik\Plugins\Contents\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
+    /**
+     * Returns a report of content names for the requested site and date selection.
+     *
+     * @param int|string|int[] $idSite A site ID, a comma-separated list of IDs, an array of IDs, or 'all' for all sites.
+     * @param string $period Period identifier enabled for the API (commonly 'day', 'week', 'month', 'year', 'range';
+     *                       custom period identifiers may also be enabled).
+     * @param string|\Piwik\Date $date Date or date range to query. Supported inputs include:
+     *                                - A single date accepted by the date parser (for example 'YYYY-MM-DD',
+     *                                  'now', 'today', 'yesterday', 'yesterdaySameTime', 'tomorrow',
+     *                                  or 'last week'/'last-week'/'last month'/'last year').
+     *                                - A multiple-period selector 'lastN' or 'previousN' where N is digits.
+     *                                - A date range 'YYYY-MM-DD,YYYY-MM-DD', where the end may also be
+     *                                  'today', 'now', 'yesterday', or 'last week/month/year'.
+     *                                Relative keywords are evaluated in the site timezone when a single site
+     *                                is requested; otherwise UTC is used. For date ranges, the end date uses
+     *                                that timezone only when it is a relative keyword, while the start date
+     *                                is parsed without a timezone override.
+     * @param string|false $segment Segment definition string, or false for no segment.
+     * @param int|numeric-string|'all'|false|null $idSubtable Subtable ID to load. Use a numeric ID, 'all' to
+     *                                                       load all subtables, or false/null for the top-level
+     *                                                       table.
+     * @return DataTable|DataTable\Map Data table containing content name metrics.
+     */
     public function getContentNames($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
         return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
     }
 
+    /**
+     * Returns a report of content pieces for the requested site and date selection.
+     *
+     * @param int|string|int[] $idSite A site ID, a comma-separated list of IDs, an array of IDs, or 'all' for all sites.
+     * @param string $period Period identifier enabled for the API (commonly 'day', 'week', 'month', 'year', 'range';
+     *                       custom period identifiers may also be enabled).
+     * @param string|\Piwik\Date $date Date or date range to query. Supported inputs include:
+     *                                - A single date accepted by the date parser (for example 'YYYY-MM-DD',
+     *                                  'now', 'today', 'yesterday', 'yesterdaySameTime', 'tomorrow',
+     *                                  or 'last week'/'last-week'/'last month'/'last year').
+     *                                - A multiple-period selector 'lastN' or 'previousN' where N is digits.
+     *                                - A date range 'YYYY-MM-DD,YYYY-MM-DD', where the end may also be
+     *                                  'today', 'now', 'yesterday', or 'last week/month/year'.
+     *                                Relative keywords are evaluated in the site timezone when a single site
+     *                                is requested; otherwise UTC is used. For date ranges, the end date uses
+     *                                that timezone only when it is a relative keyword, while the start date
+     *                                is parsed without a timezone override.
+     * @param string|false $segment Segment definition string, or false for no segment.
+     * @param int|numeric-string|'all'|false|null $idSubtable Subtable ID to load. Use a numeric ID, 'all' to
+     *                                                       load all subtables, or false/null for the top-level
+     *                                                       table.
+     * @return DataTable|DataTable\Map Data table containing content piece metrics.
+     */
     public function getContentPieces($idSite, $period, $date, $segment = false, $idSubtable = false)
     {
         return $this->getDataTable(__FUNCTION__, $idSite, $period, $date, $segment, false, $idSubtable);
