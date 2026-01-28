@@ -33,6 +33,9 @@ use Piwik\Url;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 
 /**
+ * Core admin API endpoints for scheduled tasks, archiving controls, and system maintenance.
+ * Exposes operations for report invalidation, tracking failure maintenance, and opt-out helpers.
+ *
  * @method static \Piwik\Plugins\CoreAdminHome\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -70,9 +73,9 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Will run all scheduled tasks due to run at this time.
+     * Runs all scheduled tasks that are due at the time of the request.
      *
-     * @return array
+     * @return array<int, array{task: string, output: string}> Execution results for each task.
      * @hideExceptForSuperUser
      */
     public function runScheduledTasks()
@@ -83,6 +86,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Updates archiving settings for browser-triggered archives and the "today" TTL.
+     *
+     * @param bool $enableBrowserTriggerArchiving Whether browser-triggered archiving is enabled.
+     * @param int $todayArchiveTimeToLive Time-to-live in seconds for today's archives; must be greater than zero.
+     * @return bool Returns true when settings were applied.
+     * @throws Exception If the TTL is invalid or settings access is not enabled.
      * @internal
      */
     public function setArchiveSettings($enableBrowserTriggerArchiving, $todayArchiveTimeToLive)
@@ -100,6 +109,10 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Stores the trusted hostnames list in the configuration.
+     *
+     * @param string|string[] $trustedHosts One hostname or a list of hostnames to trust.
+     * @return bool Returns true when the request completes.
      * @internal
      */
     public function setTrustedHosts($trustedHosts)
@@ -119,6 +132,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Enables or disables custom branding assets and publishes uploaded files when present.
+     *
+     * @param bool $useCustomLogo Whether custom branding should be enabled.
+     * @param bool $hasCustomLogo Whether a temporary custom logo is available to publish.
+     * @param bool $hasCustomFavicon Whether a temporary custom favicon is available to publish.
+     * @return array{useCustomLogo: bool, customLogoPath?: string, customFaviconPath?: string} Flags and published asset paths.
      * @internal
      */
     public function setBrandingSettings($useCustomLogo, $hasCustomLogo, $hasCustomFavicon)
@@ -156,18 +175,23 @@ class API extends \Piwik\Plugin\API
      * Note: This is done automatically when tracking or importing visits in the past.
      *
      * @param string $idSites Comma separated list of site IDs to invalidate reports for.
-     * @param string|string[] $dates Comma separated list of dates of periods to invalidate reports for or array of strings
-     *                               (needed if period = range).
-     * @param string|bool $period The type of period to invalidate: either 'day', 'week', 'month', 'year', 'range'.
-     *                            The command will automatically cascade up, invalidating reports for parent periods as
-     *                            well. So invalidating a day will invalidate the week it's in, the month it's in and the
-     *                            year it's in, since those periods will need to be recomputed too.
-     * @param string|bool $segment Optional. The segment to invalidate reports for.
+     * @param string|string[] $dates For non-range periods, a comma-separated list or array of dates in
+     *                               'YYYY-MM-DD' format, plus the keywords 'today' or 'yesterday'. For period='range',
+     *                               a range string (or list) in one of these forms: 'lastN'/'previousN' (for example,
+     *                               'last7', 'previous30') or '<start>,<end>' where start is 'YYYY-MM-DD' or
+     *                               'last week'|'last month'|'last year', and end is 'YYYY-MM-DD'|'today'|'now'|
+     *                               'yesterday'|'last week'|'last month'|'last year'. Dates are interpreted in UTC;
+     *                               relative keywords like 'today'/'yesterday'/'now' are evaluated in UTC.
+     * @param string|false $period Period identifier enabled for the API (base identifiers are 'day', 'week', 'month',
+     *                             'year', 'range', plus any enabled custom periods). Use 'range' when $dates is a
+     *                             date range string; pass false to leave the period unspecified.
+     * @param string|false $segment Optional. The segment to invalidate reports for.
      * @param bool $cascadeDown If true, child periods will be invalidated as well. So if it is requested to invalidate
      *                          a month, then all the weeks and days within that month will also be invalidated. But only
      *                          if this parameter is set.
-     * @throws Exception
-     * @return array
+     * @param bool $_forceInvalidateNonexistent If true, creates invalidation entries even when no archives exist.
+     * @return string[] Log output describing what was invalidated.
+     * @throws Exception If the site list is invalid or access is denied.
      * @hideExceptForSuperUser
      */
     public function invalidateArchivedReports(
@@ -208,6 +232,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Initiates cron archiving via web request.
      *
+     * @return void
      * @hideExceptForSuperUser
      */
     public function runCronArchiving()
@@ -228,6 +253,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Deletes all tracking failures this user has at least admin access to.
      * A super user will also delete tracking failures for sites that don't exist.
+     *
+     * @return void
      */
     public function deleteAllTrackingFailures()
     {
@@ -242,9 +269,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Deletes a specific tracking failure
-     * @param int $idSite
-     * @param int $idFailure
+     * Deletes a specific tracking failure.
+     *
+     * @param int $idSite Site ID.
+     * @param int $idFailure Failure ID.
+     * @return void
      */
     public function deleteTrackingFailure($idSite, $idFailure)
     {
@@ -257,7 +286,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Get all tracking failures. A user retrieves only tracking failures for sites with at least admin access.
      * A super user will also retrieve failed requests for sites that don't exist.
-     * @return array
+     *
+     * @return array<int, array<string, mixed>> Tracking failures with additional human-readable fields.
      */
     public function getTrackingFailures()
     {
@@ -275,14 +305,25 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param $idSite
-     * @param $period
-     * @param $date
-     * @param bool $segment
-     * @param bool $plugin
-     * @param bool $report
-     * @return mixed
-     * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
+     * Runs a full archiving pass for a site and optional plugin/report.
+     *
+     * @param int $idSite Site ID to archive.
+     * @param string $period Period identifier enabled for the API (base identifiers are 'day', 'week', 'month',
+     *                       'year', 'range', plus any enabled custom periods). If 'range', $date must be a range.
+     * @param string|int|\Piwik\Date $date A single date value or a multi-period spec. Single dates can be
+     *                                    'YYYY-MM-DD', unix timestamps, or any strtotime-compatible string without
+     *                                    commas, plus keywords 'now', 'today', 'tomorrow', 'yesterday',
+     *                                    'yesterdaySameTime', 'last week', 'last month', 'last year'. Multi-period
+     *                                    values include 'lastN'/'previousN' (for example, 'last7') or
+     *                                    '<start>,<end>' where start is 'YYYY-MM-DD' or 'last week'|'last month'|
+     *                                    'last year', and end is 'YYYY-MM-DD'|'today'|'now'|'yesterday'|'last week'|
+     *                                    'last month'|'last year'. Dates are interpreted in UTC; relative keywords
+     *                                    are evaluated in UTC.
+     * @param string|false $segment Optional segment definition string.
+     * @param string|false $plugin Optional plugin name to archive.
+     * @param string|false $report Optional report identifier to archive.
+     * @return array<string, mixed> Archive preparation result; includes 'idarchives' and 'nb_visits' when available.
+     * @throws \Piwik\Exception\UnexpectedWebsiteFoundException If the site ID is invalid.
      * @internal
      */
     public function archiveReports($idSite, $period, $date, $segment = false, $plugin = false, $report = false)
@@ -426,7 +467,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Show the JavaScript opt out code
+     * Returns the JavaScript opt-out embed code with custom styling.
      *
      * @param string $backgroundColor
      * @param string $fontColor
@@ -437,7 +478,7 @@ class API extends \Piwik\Plugin\API
      * @param string $matomoUrl
      * @param string $language
      *
-     * @return string
+     * @return string Generated embed code.
      *
      * @internal
      */
@@ -465,7 +506,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Show the self-contained JavaScript opt out code
+     * Returns the self-contained JavaScript opt-out embed code with custom styling.
      *
      * @param string $backgroundColor
      * @param string $fontColor
@@ -474,7 +515,7 @@ class API extends \Piwik\Plugin\API
      * @param bool   $applyStyling
      * @param bool   $showIntro
      *
-     * @return string
+     * @return string Generated embed code.
      *
      * @internal
      */
@@ -491,8 +532,9 @@ class API extends \Piwik\Plugin\API
 
 
     /**
-     * Mark all "what's new" changes as having been read by the user
+     * Marks all "what's new" changes as read for the current user.
      *
+     * @return bool True if changes were marked as read, false otherwise.
      * @internal
      */
     public function whatIsNewMarkAllChangesReadForCurrentUser()
