@@ -106,7 +106,7 @@ type NotificationContext = NotificationType['context'];
 type NotificationKind = NotificationType['type'];
 
 function scrollToTop() {
-  Matomo.helper.lazyScrollTo('.emailReports', 200);
+  Matomo.helper.lazyScrollTo('.emailReports', 200, true);
 }
 
 function updateParameters(reportType: string, report: Report) {
@@ -253,16 +253,11 @@ export default defineComponent({
       if (!loadingDiv) {
         return;
       }
-
       if (isLoading) {
         loadingDiv.style.display = 'block';
         return;
       }
-
-      const { globalAjaxQueue } = window as unknown as { globalAjaxQueue?: { active: number } };
-      if (!globalAjaxQueue || globalAjaxQueue.active === 0) {
-        loadingDiv.style.display = 'none';
-      }
+      loadingDiv.style.display = 'none';
     },
   },
   methods: {
@@ -537,18 +532,16 @@ export default defineComponent({
       ).then((e) => {
         if (e) {
           let dashName = '';
-          if (e.email) {
-            this.selectedReports = { email: { ...e.email } };
-          }
-          if (e.dashboardName) {
-            dashName = Matomo.helper.htmlDecode(e.dashboardName);
-            const dateTodayString = format(getToday());
-            this.report.description = translate(
-              'ScheduledReports_ExportDashboardReportDescription',
-              dashName,
-              dateTodayString,
-            );
-          }
+          this.selectedReports = { email: { ...e.email } };
+
+          dashName = Matomo.helper.htmlDecode(e.dashboardName);
+          const dateTodayString = format(getToday());
+          this.report.description = translate(
+            'ScheduledReports_ExportDashboardReportDescription',
+            dashName,
+            dateTodayString,
+          );
+
           let unmappedWidgetsForDisplay = '';
           if (e.unmappedWidgets && e.unmappedWidgets.length) {
             unmappedWidgetsForDisplay = translate('ScheduledReports_WidgetsNotMappedToReports',

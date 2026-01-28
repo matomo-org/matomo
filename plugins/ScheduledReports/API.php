@@ -288,7 +288,11 @@ class API extends \Piwik\Plugin\API
                 'unmappedWidgets' => $unmappedWidgets,
             ];
         }
-        return [];
+        return [
+            'dashboardName' => '',
+            'email' => [],
+            'unmappedWidgets' => [],
+        ];
     }
 
     private function getDashboardNameAndLayout(int $dashId): ?array
