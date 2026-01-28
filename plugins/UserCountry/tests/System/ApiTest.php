@@ -105,7 +105,7 @@ class ApiTest extends SystemTestCase
         $dateTime = '2026-01-01 00:00:00';
         $idSite = static::$fixture::createWebsite(
             $dateTime,
-            $ecommerce = 1,
+            $ecommerce = 1
         );
 
         $this->createManyEcommerceOrders($idSite, $dateTime, 400);

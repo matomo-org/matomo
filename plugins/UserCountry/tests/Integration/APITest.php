@@ -9,12 +9,9 @@
 
 namespace Piwik\Plugins\UserCountry\tests\Integration;
 
-use DateTime;
 use Piwik\Access;
-use Piwik\API\Request;
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\DataTable\Row;
 use Piwik\Plugins\UserCountry\API;
 use Piwik\Plugins\GeoIp2\LocationProvider\GeoIp2;
 use Piwik\Plugins\UserCountry\LocationProvider;
