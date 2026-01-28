@@ -795,7 +795,14 @@ class RecordBuilderTest extends TestCase
                 $this->addSubtablesToAggregatedTables = $addSubtablesToAggregatedTables;
             }
 
-            protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
+            protected function aggregateDataTableRecord(
+                $name,
+                $columnsAggregationOperation = null,
+                $columnsToRenameAfterAggregation = null,
+                $maximumRowsInDataTableLevelZero = null,
+                $maximumRowsInSubDataTable = null,
+                $columnToSortByBeforeTruncation = null
+            )
             {
                 $dataTable = RecordBuilderTest::makeAggregatedTestDataTable();
                 if ($this->addSubtablesToAggregatedTables) {

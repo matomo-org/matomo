@@ -856,17 +856,7 @@ class ArchiveProcessor
 
             $summaryRow = $blobTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
             if ($summaryRow) {
-                $resultSummaryRow = $this->aggregateRowIntoSummary($tableToAddTo, $summaryRow, $columnsAggregationOperation);
-                $summarySubtableId = $summaryRow->getIdSubDataTable();
-                if (!empty($summarySubtableId)) {
-                    $summaryPath = $this->getSummaryPath($path);
-                    $summaryPathKey = $this->getPathKey($summaryPath);
-                    if (!array_key_exists($summaryPathKey, $keepLabelsByPath)) {
-                        $keepLabelsByPath[$summaryPathKey] = null;
-                    }
-                    $subtableIdToPath[$period][$summarySubtableId] = $summaryPath;
-                    $tableIdToResultRowMapping[$period][$summarySubtableId] = $resultSummaryRow;
-                }
+                $this->aggregateRowIntoSummary($tableToAddTo, $summaryRow, $columnsAggregationOperation);
             }
 
             foreach ($blobTable->getRowsWithoutSummaryRow() as $blobTableRow) {
@@ -885,17 +875,7 @@ class ArchiveProcessor
                         $tableIdToResultRowMapping[$period][$subtableId] = $resultRow;
                     }
                 } else {
-                    $summaryRow = $this->aggregateRowIntoSummary($tableToAddTo, $blobTableRow, $columnsAggregationOperation);
-                    $subtableId = $blobTableRow->getIdSubDataTable();
-                    if (!empty($subtableId)) {
-                        $summaryPath = $this->getSummaryPath($path);
-                        $summaryPathKey = $this->getPathKey($summaryPath);
-                        if (!array_key_exists($summaryPathKey, $keepLabelsByPath)) {
-                            $keepLabelsByPath[$summaryPathKey] = null;
-                        }
-                        $subtableIdToPath[$period][$subtableId] = $summaryPath;
-                        $tableIdToResultRowMapping[$period][$subtableId] = $summaryRow;
-                    }
+                    $this->aggregateRowIntoSummary($tableToAddTo, $blobTableRow, $columnsAggregationOperation);
                 }
             }
 
