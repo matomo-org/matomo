@@ -245,7 +245,15 @@ class API extends \Piwik\Plugin\API
 
         self::$cache = [];
     }
-    public function getWidgetReportMap($dashId, $idSite): array
+
+    /**
+     * Gets the widget report map to be used when exporting the dashboard into a scheduled report
+     * @param string $dashId
+     * @param string $idSite
+     * @return array
+     * @throws Exception
+     */
+    public function getWidgetReportMap(string $dashId, string $idSite): array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -291,17 +299,13 @@ class API extends \Piwik\Plugin\API
         $dashboard = new Dashboard();
         $login = Piwik::getCurrentUserLogin();
         $allDashboards = $dashboard->getAllDashboards($login);
-        $currentDashboard = null;
+        $name = $layout = '';
         foreach ($allDashboards as $dashbrd) {
-            if ((int)$dashbrd['iddashboard'] === $dashId) {
-                $currentDashboard = $dashbrd;
+            if ((int) $dashbrd['iddashboard'] === $dashId) {
+                $layout = $dashbrd['layout'];
+                $name = $dashbrd['name'];
                 break;
             }
-        }
-        $name = $layout = '';
-        if ($currentDashboard) {
-            $layout = $currentDashboard['layout'];
-            $name = $currentDashboard['name'];
         }
         return ['name' => $name, 'layout' => $layout];
     }
