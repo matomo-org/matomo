@@ -85,7 +85,7 @@ class APITest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('Japan', $timezones['Asia']['Asia/Tokyo']);
         $this->assertEquals('United States - New York', $timezones['North America']['America/New_York']);
-        $this->assertEquals('Antarctica - Dumont d’Urville', $timezones['Antarctica']['Antarctica/DumontDUrville']);
+        $this->assertEquals('Antarctica - Dumont d’Urville Station', $timezones['Antarctica']['Antarctica/DumontDUrville']);
 
         $this->assertArrayHasKey('UTC', $timezones['UTC']);
         $this->assertArrayHasKey('UTC+6', $timezones['UTC']);
