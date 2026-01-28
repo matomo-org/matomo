@@ -233,14 +233,22 @@ class ArchiveProcessor
                 'archive' => $archiveDescription,
             ]);
 
-            $table = $this->aggregateDataTableRecord($recordName, $columnsAggregationOperation, $columnsToRenameAfterAggregation);
+            $table = $this->aggregateDataTableRecord(
+                $recordName,
+                $columnsAggregationOperation,
+                $columnsToRenameAfterAggregation,
+                $maximumRowsInDataTableLevelZero,
+                $maximumRowsInSubDataTable,
+                $defaultColumnToSortByBeforeTruncation
+            );
 
-            $nameToCount[$recordName]['level0'] = $table->getRowsCount();
+            $counts = $this->getAggregatedTableCountsFromMetadata($table) ?? [];
+            $nameToCount[$recordName]['level0'] = $counts['level0'] ?? $table->getRowsCount();
             if ($countRowsRecursive === true || (is_array($countRowsRecursive) && in_array($recordName, $countRowsRecursive))) {
-                $nameToCount[$recordName]['recursive'] = $table->getRowsCountRecursive();
+                $nameToCount[$recordName]['recursive'] = $counts['recursive'] ?? $table->getRowsCountRecursive();
             }
             if (in_array($recordName, $countLeafRows)) {
-                $nameToCount[$recordName]['leafs'] = $table->getLeafRowsCount();
+                $nameToCount[$recordName]['leafs'] = $counts['leafs'] ?? $table->getLeafRowsCount();
             }
 
             $columnToSortByBeforeTruncation = $defaultColumnToSortByBeforeTruncation;
@@ -374,18 +382,581 @@ class ArchiveProcessor
      * @param array $columnsToRenameAfterAggregation columns in the array (old name, new name) to be renamed as the sum operation is not valid on them (eg. nb_uniq_visitors->sum_daily_nb_uniq_visitors)
      * @return DataTable
      */
-    protected function aggregateDataTableRecord($name, $columnsAggregationOperation = null, $columnsToRenameAfterAggregation = null)
+    protected function aggregateDataTableRecord(
+        $name,
+        $columnsAggregationOperation = null,
+        $columnsToRenameAfterAggregation = null,
+        $maximumRowsInDataTableLevelZero = null,
+        $maximumRowsInSubDataTable = null,
+        $columnToSortByBeforeTruncation = null
+    )
     {
         try {
             ErrorHandler::pushFatalErrorBreadcrumb(__CLASS__, ['name' => $name]);
 
-            $blobs = $this->getArchive()->querySingleBlob($name);
-            $dataTable = $this->getAggregatedDataTableMapFromBlobs($blobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name);
+            if ($this->shouldUseTwoPassAggregation($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable)) {
+                $iteratorFactory = function () use ($name) {
+                    return $this->getArchive()->querySingleBlob($name);
+                };
+                $dataTable = $this->getAggregatedDataTableMapFromBlobsWithTruncation(
+                    $iteratorFactory,
+                    $columnsAggregationOperation,
+                    $columnsToRenameAfterAggregation,
+                    $maximumRowsInDataTableLevelZero,
+                    $maximumRowsInSubDataTable,
+                    $columnToSortByBeforeTruncation,
+                    $name
+                );
+            } else {
+                $blobs = $this->getArchive()->querySingleBlob($name);
+                $dataTable = $this->getAggregatedDataTableMapFromBlobs($blobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name);
+            }
         } finally {
             ErrorHandler::popFatalErrorBreadcrumb();
         }
 
         return $dataTable;
+    }
+
+    private const AGGREGATED_ROWS_COUNT_LEVEL0_METADATA = 'aggregate_rows_count_level0';
+    private const AGGREGATED_ROWS_COUNT_RECURSIVE_METADATA = 'aggregate_rows_count_recursive';
+    private const AGGREGATED_ROWS_COUNT_LEAFS_METADATA = 'aggregate_rows_count_leafs';
+
+    private function shouldUseTwoPassAggregation($maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable): bool
+    {
+        return $maximumRowsInDataTableLevelZero !== null || $maximumRowsInSubDataTable !== null;
+    }
+
+    private function getAggregatedTableCountsFromMetadata(DataTable $table): ?array
+    {
+        $level0 = $table->getMetadata(self::AGGREGATED_ROWS_COUNT_LEVEL0_METADATA);
+        if ($level0 === false || $level0 === null) {
+            return null;
+        }
+
+        return [
+            'level0' => (int) $level0,
+            'recursive' => (int) ($table->getMetadata(self::AGGREGATED_ROWS_COUNT_RECURSIVE_METADATA) ?? 0),
+            'leafs' => (int) ($table->getMetadata(self::AGGREGATED_ROWS_COUNT_LEAFS_METADATA) ?? 0),
+        ];
+    }
+
+    private function getAggregatedDataTableMapFromBlobsWithTruncation(
+        callable $blobIteratorFactory,
+        $columnsAggregationOperation,
+        $columnsToRenameAfterAggregation,
+        $maximumRowsInDataTableLevelZero,
+        $maximumRowsInSubDataTable,
+        $columnToSortByBeforeTruncation,
+        string $recordName
+    ): DataTable {
+        $pathStates = [];
+        $pathChildren = [];
+        $subtableIdToPath = [];
+
+        $this->aggregateBlobsForTruncationPass(
+            $blobIteratorFactory,
+            $columnsAggregationOperation,
+            $columnsToRenameAfterAggregation,
+            $columnToSortByBeforeTruncation,
+            $recordName,
+            $pathStates,
+            $pathChildren,
+            $subtableIdToPath
+        );
+
+        $counts = $this->computeAggregatedCounts($pathStates, $pathChildren);
+        $keepLabelsByPath = $this->computeKeepLabelsByPath(
+            $pathStates,
+            $maximumRowsInDataTableLevelZero,
+            $maximumRowsInSubDataTable
+        );
+
+        $result = $this->aggregateBlobsWithTruncationPass(
+            $blobIteratorFactory,
+            $columnsAggregationOperation,
+            $columnsToRenameAfterAggregation,
+            $recordName,
+            $keepLabelsByPath
+        );
+
+        $result->setMetadata(self::AGGREGATED_ROWS_COUNT_LEVEL0_METADATA, $counts['level0']);
+        $result->setMetadata(self::AGGREGATED_ROWS_COUNT_RECURSIVE_METADATA, $counts['recursive']);
+        $result->setMetadata(self::AGGREGATED_ROWS_COUNT_LEAFS_METADATA, $counts['leafs']);
+
+        return $result;
+    }
+
+    private function aggregateBlobsForTruncationPass(
+        callable $blobIteratorFactory,
+        $columnsAggregationOperation,
+        $columnsToRenameAfterAggregation,
+        $columnToSortByBeforeTruncation,
+        string $recordName,
+        array &$pathStates,
+        array &$pathChildren,
+        array &$subtableIdToPath
+    ): void {
+        foreach ($blobIteratorFactory() as $archiveDataRow) {
+            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            $tableId = $archiveDataRow['name'] == $recordName ? null : $this->getSubtableIdFromBlobName($archiveDataRow['name']);
+
+            $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
+
+            $blobTable->filter(function ($table) use ($columnsToRenameAfterAggregation) {
+                if ($this->areColumnsNotAlreadyRenamed($table)) {
+                    $this->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                }
+            });
+
+            $path = [];
+            if ($tableId !== null) {
+                if (empty($subtableIdToPath[$period][$tableId])) {
+                    StaticContainer::get(LoggerInterface::class)->info(
+                        'Unexpected state when aggregating DataTable, unknown period/table ID combination encountered: {period} - {tableId}.'
+                        . ' This either means the SQL to order blobs is behaving incorrectly or the blob data is corrupt in some way.',
+                        [
+                            'period' => $period,
+                            'tableId' => $tableId,
+                        ]
+                    );
+                    Common::destroy($blobTable);
+                    unset($blobTable);
+                    continue;
+                }
+                $path = $subtableIdToPath[$period][$tableId];
+            }
+
+            $pathKey = $this->getPathKey($path);
+            if (empty($pathStates[$pathKey])) {
+                $pathStates[$pathKey] = [
+                    'labelOrder' => [],
+                    'labelsSet' => [],
+                    'sortValues' => [],
+                    'secondaryValues' => [],
+                    'columnToSortBy' => null,
+                    'primarySortColumn' => null,
+                    'secondarySortColumn' => null,
+                    'hasSummaryRow' => false,
+                ];
+            }
+
+            $pathState = &$pathStates[$pathKey];
+            $this->updatePathSortColumns($pathState, $blobTable, $columnToSortByBeforeTruncation);
+
+            if ($blobTable->getRowFromId(DataTable::ID_SUMMARY_ROW)) {
+                $pathState['hasSummaryRow'] = true;
+            }
+
+            foreach ($blobTable->getRowsWithoutSummaryRow() as $row) {
+                $label = $row->getColumn('label');
+                if ($label === false) {
+                    continue;
+                }
+
+                if (!isset($pathState['labelsSet'][$label])) {
+                    $pathState['labelsSet'][$label] = true;
+                    $pathState['labelOrder'][] = $label;
+                }
+
+                if (!empty($pathState['primarySortColumn'])) {
+                    $value = $row->getColumn($pathState['primarySortColumn']);
+                    $pathState['sortValues'][$label] = $this->sumAggregatedValue(
+                        $pathState['sortValues'][$label] ?? false,
+                        $value,
+                        $pathState['primarySortColumn'],
+                        $columnsAggregationOperation
+                    );
+                }
+
+                if (!empty($pathState['secondarySortColumn']) && $pathState['secondarySortColumn'] !== 'label') {
+                    $value = $row->getColumn($pathState['secondarySortColumn']);
+                    $pathState['secondaryValues'][$label] = $this->sumAggregatedValue(
+                        $pathState['secondaryValues'][$label] ?? false,
+                        $value,
+                        $pathState['secondarySortColumn'],
+                        $columnsAggregationOperation
+                    );
+                }
+
+                $subtableId = $row->getIdSubDataTable();
+                if (!empty($subtableId)) {
+                    $childPath = $path;
+                    $childPath[] = $label;
+                    $childPathKey = $this->getPathKey($childPath);
+                    $pathChildren[$pathKey][$label] = $childPathKey;
+                    $subtableIdToPath[$period][$subtableId] = $childPath;
+                }
+            }
+
+            Common::destroy($blobTable);
+            unset($blobTable);
+        }
+    }
+
+    private function updatePathSortColumns(array &$pathState, DataTable $table, $columnToSortByBeforeTruncation): void
+    {
+        if (!empty($pathState['primarySortColumn'])) {
+            return;
+        }
+
+        $columnToSortBy = $columnToSortByBeforeTruncation ?? $pathState['columnToSortBy'];
+        if (empty($columnToSortBy)) {
+            $columns = $table->getColumns();
+            if (in_array(Metrics::INDEX_NB_VISITS, $columns)) {
+                $columnToSortBy = Metrics::INDEX_NB_VISITS;
+            } elseif (in_array('nb_visits', $columns)) {
+                $columnToSortBy = 'nb_visits';
+            }
+        }
+
+        $pathState['columnToSortBy'] = $columnToSortBy;
+        if (empty($columnToSortBy)) {
+            return;
+        }
+
+        $row = $table->getFirstRow();
+        if ($row === false) {
+            return;
+        }
+
+        $config = new Metrics\Sorter\Config();
+        $sorter = new Metrics\Sorter($config);
+        $pathState['primarySortColumn'] = $sorter->getPrimaryColumnToSort($table, $columnToSortBy);
+        $pathState['secondarySortColumn'] = $sorter->getSecondaryColumnToSort($row, $pathState['primarySortColumn']);
+    }
+
+    private function sumAggregatedValue($currentValue, $valueToSum, $columnName, $columnsAggregationOperation)
+    {
+        $row = new Row([Row::COLUMNS => [$columnName => $currentValue]]);
+        $rowToSum = new Row([Row::COLUMNS => [$columnName => $valueToSum]]);
+        $row->sumRow($rowToSum, $enableCopyMetadata = false, $columnsAggregationOperation);
+        return $row->getColumn($columnName);
+    }
+
+    private function computeAggregatedCounts(array $pathStates, array $pathChildren): array
+    {
+        $rootKey = $this->getPathKey([]);
+        $memo = [];
+        $counts = $this->computePathCounts($rootKey, $pathStates, $pathChildren, $memo);
+
+        return [
+            'level0' => $counts['rows'],
+            'recursive' => $counts['recursive'],
+            'leafs' => $counts['leafs'],
+        ];
+    }
+
+    private function computePathCounts(string $pathKey, array $pathStates, array $pathChildren, array &$memo): array
+    {
+        if (isset($memo[$pathKey])) {
+            return $memo[$pathKey];
+        }
+
+        $state = $pathStates[$pathKey] ?? [
+            'labelOrder' => [],
+            'hasSummaryRow' => false,
+        ];
+
+        $rowCount = count($state['labelOrder']) + (!empty($state['hasSummaryRow']) ? 1 : 0);
+        $recursive = $rowCount;
+        $leafs = 0;
+
+        foreach ($state['labelOrder'] as $label) {
+            if (!empty($pathChildren[$pathKey][$label])) {
+                $childCounts = $this->computePathCounts($pathChildren[$pathKey][$label], $pathStates, $pathChildren, $memo);
+                $recursive += $childCounts['recursive'];
+                $leafs += $childCounts['leafs'];
+            } else {
+                $leafs += 1;
+            }
+        }
+
+        $memo[$pathKey] = [
+            'rows' => $rowCount,
+            'recursive' => $recursive,
+            'leafs' => $leafs,
+        ];
+
+        return $memo[$pathKey];
+    }
+
+    private function computeKeepLabelsByPath(array $pathStates, $maximumRowsInDataTableLevelZero, $maximumRowsInSubDataTable): array
+    {
+        $keepLabelsByPath = [];
+        $rootKey = $this->getPathKey([]);
+
+        foreach ($pathStates as $pathKey => $state) {
+            $maxRows = $pathKey === $rootKey ? $maximumRowsInDataTableLevelZero : $maximumRowsInSubDataTable;
+            $keepLabelsByPath[$pathKey] = $this->computeKeepLabelsForPath($state, $maxRows);
+        }
+
+        return $keepLabelsByPath;
+    }
+
+    private function computeKeepLabelsForPath(array $state, $maxRows): array
+    {
+        $labels = $state['labelOrder'];
+
+        if ($maxRows === null || $maxRows <= 0) {
+            return array_fill_keys($labels, true);
+        }
+
+        $normalCount = count($labels);
+        $hasSummary = !empty($state['hasSummaryRow']);
+        $needsTruncate = $hasSummary ? ($normalCount + 1 > $maxRows) : ($normalCount > $maxRows);
+        if (!$needsTruncate) {
+            return array_fill_keys($labels, true);
+        }
+
+        $keepCount = $maxRows - 1;
+        if ($keepCount <= 0) {
+            return [];
+        }
+
+        if (empty($state['columnToSortBy']) || empty($state['primarySortColumn'])) {
+            return array_fill_keys(array_slice($labels, 0, $keepCount), true);
+        }
+
+        $labelsWithValues = [];
+        $valuesToSort = [];
+        $labelsWithoutValues = [];
+
+        foreach ($labels as $label) {
+            $value = $this->getSortableValue($state['sortValues'][$label] ?? null);
+            if ($value === null) {
+                $labelsWithoutValues[] = $label;
+            } else {
+                $labelsWithValues[] = $label;
+                $valuesToSort[] = $value;
+            }
+        }
+
+        if (!empty($labelsWithValues)) {
+            $sortFlags = $this->getSortFlags($valuesToSort, $naturalSort = true);
+            array_multisort($valuesToSort, SORT_DESC, $sortFlags, $labelsWithValues);
+        }
+
+        if (!empty($labelsWithoutValues) && !empty($state['secondarySortColumn'])) {
+            if ($state['secondarySortColumn'] === 'label') {
+                $secondaryValues = $labelsWithoutValues;
+                $flags = $this->getSortFlags($secondaryValues, $naturalSort = true);
+                $order = $this->getSecondarySortOrder('desc', 'label');
+                array_multisort($secondaryValues, $order, $flags, $labelsWithoutValues);
+            } else {
+                $secondaryValues = [];
+                foreach ($labelsWithoutValues as $label) {
+                    $secondaryValues[] = $this->getSortableValue($state['secondaryValues'][$label] ?? null);
+                }
+                $flags = $this->getSortFlags($secondaryValues, $naturalSort = true);
+                $order = $this->getSecondarySortOrder('desc', $state['secondarySortColumn']);
+                array_multisort($secondaryValues, $order, $flags, $labelsWithoutValues);
+            }
+        }
+
+        $sortedLabels = array_merge($labelsWithValues, $labelsWithoutValues);
+        return array_fill_keys(array_slice($sortedLabels, 0, $keepCount), true);
+    }
+
+    private function getSortFlags(array $values, bool $naturalSort): int
+    {
+        foreach ($values as $value) {
+            if ($value === null) {
+                continue;
+            }
+            if (is_numeric($value)) {
+                return SORT_NUMERIC;
+            }
+            return $naturalSort ? (SORT_NATURAL | SORT_FLAG_CASE) : (SORT_STRING | SORT_FLAG_CASE);
+        }
+
+        return $naturalSort ? (SORT_NATURAL | SORT_FLAG_CASE) : (SORT_STRING | SORT_FLAG_CASE);
+    }
+
+    private function getSecondarySortOrder($order, $secondarySortColumn): int
+    {
+        if ($secondarySortColumn === 'label') {
+            return $order === 'asc' ? SORT_DESC : SORT_ASC;
+        }
+
+        return $order === 'asc' ? SORT_ASC : SORT_DESC;
+    }
+
+    private function getSortableValue($value)
+    {
+        if ($value === false || $value === null || is_array($value)) {
+            return null;
+        }
+        return $value;
+    }
+
+    private function aggregateBlobsWithTruncationPass(
+        callable $blobIteratorFactory,
+        $columnsAggregationOperation,
+        $columnsToRenameAfterAggregation,
+        string $recordName,
+        array $keepLabelsByPath
+    ): DataTable {
+        $result = new DataTable();
+        if (!empty($columnsAggregationOperation)) {
+            $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+        }
+
+        $tableIdToResultRowMapping = [];
+        $subtableIdToPath = [];
+
+        foreach ($blobIteratorFactory() as $archiveDataRow) {
+            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            $tableId = $archiveDataRow['name'] == $recordName ? null : $this->getSubtableIdFromBlobName($archiveDataRow['name']);
+
+            $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
+
+            $blobTable->filter(function ($table) use ($columnsToRenameAfterAggregation) {
+                if ($this->areColumnsNotAlreadyRenamed($table)) {
+                    $this->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+                }
+            });
+
+            $path = [];
+            if ($tableId === null) {
+                $tableToAddTo = $result;
+            } elseif (empty($subtableIdToPath[$period][$tableId])) {
+                StaticContainer::get(LoggerInterface::class)->info(
+                    'Unexpected state when aggregating DataTable, unknown period/table ID combination encountered: {period} - {tableId}.'
+                    . ' This either means the SQL to order blobs is behaving incorrectly or the blob data is corrupt in some way.',
+                    [
+                        'period' => $period,
+                        'tableId' => $tableId,
+                    ]
+                );
+                Common::destroy($blobTable);
+                unset($blobTable);
+                continue;
+            } else {
+                $path = $subtableIdToPath[$period][$tableId];
+                $pathKey = $this->getPathKey($path);
+
+                if (empty($tableIdToResultRowMapping[$period][$tableId])) {
+                    Common::destroy($blobTable);
+                    unset($blobTable);
+                    continue;
+                }
+
+                $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
+                if (!$rowToAddTo->getIdSubDataTable()) {
+                    $newTable = new DataTable();
+                    $newTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+                    $rowToAddTo->setSubtable($newTable);
+                }
+                $tableToAddTo = $rowToAddTo->getSubtable();
+            }
+
+            $pathKey = $this->getPathKey($path);
+            $keepLabels = array_key_exists($pathKey, $keepLabelsByPath) ? $keepLabelsByPath[$pathKey] : null;
+
+            $summaryRow = $blobTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            if ($summaryRow) {
+                $resultSummaryRow = $this->aggregateRowIntoSummary($tableToAddTo, $summaryRow, $columnsAggregationOperation);
+                $summarySubtableId = $summaryRow->getIdSubDataTable();
+                if (!empty($summarySubtableId)) {
+                    $summaryPath = $this->getSummaryPath($path);
+                    $summaryPathKey = $this->getPathKey($summaryPath);
+                    if (!array_key_exists($summaryPathKey, $keepLabelsByPath)) {
+                        $keepLabelsByPath[$summaryPathKey] = null;
+                    }
+                    $subtableIdToPath[$period][$summarySubtableId] = $summaryPath;
+                    $tableIdToResultRowMapping[$period][$summarySubtableId] = $resultSummaryRow;
+                }
+            }
+
+            foreach ($blobTable->getRowsWithoutSummaryRow() as $blobTableRow) {
+                $label = $blobTableRow->getColumn('label');
+                if ($label === false) {
+                    continue;
+                }
+
+                if ($keepLabels === null || !empty($keepLabels[$label])) {
+                    $resultRow = $this->aggregateRowIntoTable($tableToAddTo, $blobTableRow, $columnsAggregationOperation);
+                    $subtableId = $blobTableRow->getIdSubDataTable();
+                    if (!empty($subtableId)) {
+                        $childPath = $path;
+                        $childPath[] = $label;
+                        $subtableIdToPath[$period][$subtableId] = $childPath;
+                        $tableIdToResultRowMapping[$period][$subtableId] = $resultRow;
+                    }
+                } else {
+                    $summaryRow = $this->aggregateRowIntoSummary($tableToAddTo, $blobTableRow, $columnsAggregationOperation);
+                    $subtableId = $blobTableRow->getIdSubDataTable();
+                    if (!empty($subtableId)) {
+                        $summaryPath = $this->getSummaryPath($path);
+                        $summaryPathKey = $this->getPathKey($summaryPath);
+                        if (!array_key_exists($summaryPathKey, $keepLabelsByPath)) {
+                            $keepLabelsByPath[$summaryPathKey] = null;
+                        }
+                        $subtableIdToPath[$period][$subtableId] = $summaryPath;
+                        $tableIdToResultRowMapping[$period][$subtableId] = $summaryRow;
+                    }
+                }
+            }
+
+            Common::destroy($blobTable);
+            unset($blobTable);
+        }
+
+        return $result;
+    }
+
+    private function aggregateRowIntoTable(DataTable $table, Row $row, $columnsAggregationOperation): Row
+    {
+        $label = $row->getColumn('label');
+        if ($label === false) {
+            $label = null;
+        }
+
+        $rowFound = $label !== null ? $table->getRowFromLabel($label) : false;
+        if (
+            !empty($rowFound)
+            && $rowFound->isSummaryRow()
+        ) {
+            $rowFound = false;
+        }
+
+        if (empty($rowFound)) {
+            $rowFound = new Row();
+            if ($label !== null) {
+                $rowFound->addColumn('label', $label);
+            }
+            $rowFound->setAllMetadata($row->getMetadata());
+            $table->addRow($rowFound);
+        }
+
+        $rowFound->sumRow($row, $enableCopyMetadata = true, $columnsAggregationOperation);
+
+        return $rowFound;
+    }
+
+    private function aggregateRowIntoSummary(DataTable $table, Row $row, $columnsAggregationOperation): Row
+    {
+        $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        if (empty($summaryRow)) {
+            $summaryRow = new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW]]);
+            $table->addSummaryRow($summaryRow);
+        }
+
+        $summaryRow->sumRow($row, $enableCopyMetadata = false, $columnsAggregationOperation);
+
+        return $summaryRow;
+    }
+
+    private function getPathKey(array $path): string
+    {
+        return json_encode(array_values($path));
+    }
+
+    private function getSummaryPath(array $path): array
+    {
+        $path[] = ['summary' => true];
+        return $path;
     }
 
     protected function getAggregatedDataTableMapFromBlobs(\Iterator $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name)

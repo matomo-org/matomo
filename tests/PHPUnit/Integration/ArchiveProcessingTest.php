@@ -713,6 +713,117 @@ END;
         $this->assertEquals($expectedXml, $capturedInsertTable);
     }
 
+    public function testAggregateDataTableRecordsTruncatesBeforeAggregationIncludingSubtables()
+    {
+        $table1 = new DataTable();
+        $rowA1 = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => 'a', 'nb_visits' => 5]]);
+        $subA1 = new DataTable();
+        $subA1->addRowsFromSimpleArray([
+            ['label' => 'x', 'nb_visits' => 5],
+            ['label' => 'y', 'nb_visits' => 1],
+            ['label' => 'z', 'nb_visits' => 1],
+        ]);
+        $rowA1->setSubtable($subA1);
+        $table1->addRow($rowA1);
+
+        $rowB1 = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => 'b', 'nb_visits' => 2]]);
+        $subB1 = new DataTable();
+        $subB1->addRowsFromSimpleArray([
+            ['label' => 'x', 'nb_visits' => 1],
+        ]);
+        $rowB1->setSubtable($subB1);
+        $table1->addRow($rowB1);
+
+        $rowC1 = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => 'c', 'nb_visits' => 1]]);
+        $subC1 = new DataTable();
+        $subC1->addRowsFromSimpleArray([
+            ['label' => 'x', 'nb_visits' => 1],
+        ]);
+        $rowC1->setSubtable($subC1);
+        $table1->addRow($rowC1);
+
+        $table2 = new DataTable();
+        $rowA2 = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => 'a', 'nb_visits' => 1]]);
+        $subA2 = new DataTable();
+        $subA2->addRowsFromSimpleArray([
+            ['label' => 'x', 'nb_visits' => 1],
+            ['label' => 'y', 'nb_visits' => 2],
+        ]);
+        $rowA2->setSubtable($subA2);
+        $table2->addRow($rowA2);
+
+        $rowB2 = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => 'b', 'nb_visits' => 6]]);
+        $subB2 = new DataTable();
+        $subB2->addRowsFromSimpleArray([
+            ['label' => 'x', 'nb_visits' => 4],
+            ['label' => 'y', 'nb_visits' => 1],
+        ]);
+        $rowB2->setSubtable($subB2);
+        $table2->addRow($rowB2);
+
+        $rowD2 = new DataTable\Row([DataTable\Row::COLUMNS => ['label' => 'd', 'nb_visits' => 3]]);
+        $subD2 = new DataTable();
+        $subD2->addRowsFromSimpleArray([
+            ['label' => 'x', 'nb_visits' => 2],
+        ]);
+        $rowD2->setSubtable($subD2);
+        $table2->addRow($rowD2);
+
+        $tables = [
+            '2015-02-03' => $table1,
+            '2015-02-04' => $table2,
+        ];
+
+        $site = $this->createWebsite('UTC');
+
+        foreach ($tables as $date => $table) {
+            /** @var ArchiveWriter $archiveWriter */
+            [$archiveProcessor, $archiveWriter] = $this->createArchiveProcessorInst('day', $date, $site->getId());
+            $archiveWriter->initNewArchive();
+
+            $tableSerialized = $table->getSerialized();
+            $archiveProcessor->insertBlobRecord('Actions_test_value', $tableSerialized);
+
+            $archiveWriter->finalizeArchive();
+        }
+
+        [$archiveProcessor, $archiveWriter] = $this->createArchiveProcessorInst('week', '2015-02-03', $site->getId());
+        $archiveWriter->initNewArchive();
+
+        $archiveProcessor->captureInserts();
+        $archiveProcessor->aggregateDataTableRecords('Actions_test_value', 3, 2, 'nb_visits');
+
+        $archiveWriter->finalizeArchive();
+
+        $capturedInserts = $archiveProcessor->getCapturedInserts();
+        $capturedInsertTable = DataTable::fromSerializedArray($capturedInserts[0][1][0]);
+
+        $this->assertNotFalse($capturedInsertTable->getRowFromLabel('b'));
+        $this->assertNotFalse($capturedInsertTable->getRowFromLabel('a'));
+        $this->assertFalse($capturedInsertTable->getRowFromLabel('d'));
+        $this->assertFalse($capturedInsertTable->getRowFromLabel('c'));
+
+        $summaryRow = $capturedInsertTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        $this->assertNotEmpty($summaryRow);
+        $this->assertEquals(4, $summaryRow->getColumn('nb_visits'));
+
+        $rowB = $capturedInsertTable->getRowFromLabel('b');
+        $subtableB = $rowB->getSubtable();
+        $this->assertNotFalse($subtableB->getRowFromLabel('x'));
+        $this->assertFalse($subtableB->getRowFromLabel('y'));
+        $summarySubB = $subtableB->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        $this->assertNotEmpty($summarySubB);
+        $this->assertEquals(1, $summarySubB->getColumn('nb_visits'));
+
+        $rowA = $capturedInsertTable->getRowFromLabel('a');
+        $subtableA = $rowA->getSubtable();
+        $this->assertNotFalse($subtableA->getRowFromLabel('x'));
+        $this->assertFalse($subtableA->getRowFromLabel('y'));
+        $summarySubA = $subtableA->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        $this->assertNotEmpty($summarySubA);
+        $this->assertEquals(4, $summarySubA->getColumn('nb_visits'));
+    }
+
     protected function checkTableIsExpected($table, $data)
     {
         $fetched = Db::fetchAll('SELECT * FROM ' . $table);
