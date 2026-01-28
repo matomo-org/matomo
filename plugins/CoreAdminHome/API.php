@@ -183,8 +183,12 @@ class API extends \Piwik\Plugin\API
      *                               'yesterday'|'last week'|'last month'|'last year'. Dates are interpreted in UTC;
      *                               relative keywords like 'today'/'yesterday'/'now' are evaluated in UTC.
      * @param string|false $period Period identifier enabled for the API (base identifiers are 'day', 'week', 'month',
-     *                             'year', 'range', plus any enabled custom periods). Use 'range' when $dates is a
-     *                             date range string; pass false to leave the period unspecified.
+     *                             'year', 'range', plus any enabled custom periods). The type of period to
+     *                             invalidate: either 'day', 'week', 'month', 'year', 'range'. The command will
+     *                             automatically cascade up, invalidating reports for parent periods as well. So
+     *                             invalidating a day will invalidate the week it's in, the month it's in and the
+     *                             year it's in, since those periods will need to be recomputed too. Use 'range' when
+     *                             $dates is a date range string; pass false to leave the period unspecified.
      * @param string|false $segment Optional. The segment to invalidate reports for.
      * @param bool $cascadeDown If true, child periods will be invalidated as well. So if it is requested to invalidate
      *                          a month, then all the weeks and days within that month will also be invalidated. But only
