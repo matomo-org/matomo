@@ -526,11 +526,6 @@ parameters:
 			path: core/Changes/Model.php
 
 		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 3
-			path: core/Changes/Model.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: core/CliMulti.php
@@ -851,51 +846,6 @@ parameters:
 			path: core/DataAccess/ArchivingDbAdapter.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with string\\|true will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$dimensions with type array\\|string is not subtype of native type array\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function strlen expects string, bool given\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Parameter \\#2 \\$needle of function strpos expects int\\|string, true given\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Ternary operator condition is always false\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 89$#"
 			count: 1
 			path: core/DataAccess/LogQueryBuilder.php
@@ -923,11 +873,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\|Piwik\\\\Db\\\\AdapterInterface\\|Piwik\\\\Tracker\\\\Db\\:\\:fetchCol\\(\\)\\.$#"
 			count: 2
-			path: core/DataAccess/Model.php
-
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 1
 			path: core/DataAccess/Model.php
 
 		-
@@ -1148,11 +1093,6 @@ parameters:
 		-
 			message: "#^Call to function is_null\\(\\) with bool will always evaluate to false\\.$#"
 			count: 1
-			path: core/Db.php
-
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 3
 			path: core/Db.php
 
 		-
@@ -1941,11 +1881,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\|Piwik\\\\Db\\\\AdapterInterface\\|Piwik\\\\Tracker\\\\Db\\:\\:getConnection\\(\\)\\.$#"
 			count: 1
-			path: core/Session/SaveHandler/DbTable.php
-
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 3
 			path: core/Session/SaveHandler/DbTable.php
 
 		-
@@ -3889,22 +3824,12 @@ parameters:
 			path: plugins/Goals/RecordBuilders/GeneralGoalsRecords.php
 
 		-
-			message: "#^Parameter \\#3 \\$lookForThisPrefix of static method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:makeArrayOneColumn\\(\\) expects bool, string given\\.$#"
-			count: 2
-			path: plugins/Goals/RecordBuilders/GeneralGoalsRecords.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\|Zend_Db_Statement and false will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/Goals/RecordBuilders/GeneralGoalsRecords.php
 
 		-
 			message: "#^Parameter \\#3 \\$columnToSortByBeforeTruncation of method Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:__construct\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Goals/RecordBuilders/ProductRecord.php
-
-		-
-			message: "#^Parameter \\#6 \\$joinLogActionOnColumn of method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:queryActionsByDimension\\(\\) expects bool\\|string, array\\<int, mixed\\> given\\.$#"
 			count: 1
 			path: plugins/Goals/RecordBuilders/ProductRecord.php
 
@@ -4134,11 +4059,6 @@ parameters:
 			path: plugins/Live/Live.php
 
 		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Tracker\\\\Db\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 3
-			path: plugins/Live/Model.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Reports\\\\GetLastVisits\\:\\:buildReportMetadata\\(\\) should return array\\|null but return statement is missing\\.$#"
 			count: 1
 			path: plugins/Live/Reports/GetLastVisits.php
@@ -4342,11 +4262,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$seriesMetadata of method Piwik\\\\Plugins\\\\CoreVisualizations\\\\JqplotDataGenerator\\\\Chart\\:\\:setAxisYValues\\(\\) expects null, array\\<array\\<string, mixed\\>\\> given\\.$#"
 			count: 1
 			path: plugins/PagePerformance/JqplotDataGenerator/StackedBarEvolution.php
-
-		-
-			message: "#^Parameter \\#6 \\$joinLogActionOnColumn of method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:queryActionsByDimension\\(\\) expects bool\\|string, array\\<int, string\\> given\\.$#"
-			count: 1
-			path: plugins/PagePerformance/RecordBuilders/PerformanceTotals.php
 
 		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$dimension \\(Piwik\\\\Columns\\\\Dimension\\) does not accept null\\.$#"
@@ -4942,11 +4857,6 @@ parameters:
 			message: "#^Function Piwik\\\\Plugins\\\\VisitTime\\\\dayOfWeekFromDate\\(\\) should return int but returns string\\.$#"
 			count: 1
 			path: plugins/VisitTime/functions.php
-
-		-
-			message: "#^Parameter \\#3 \\$lookForThisPrefix of static method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:makeArrayOneColumn\\(\\) expects bool, string given\\.$#"
-			count: 1
-			path: plugins/VisitorInterest/RecordBuilders/Engagement.php
 
 		-
 			message: "#^Ternary operator condition is always true\\.$#"
