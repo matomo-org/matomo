@@ -246,7 +246,7 @@ export default defineComponent({
         ...MatomoUrl.hashParsed.value,
       } as QueryParameters;
 
-      hash.dashboardId = dashboardId;
+      hash.idDashboard = dashboardId;
       delete hash.category;
       delete hash.subcategory;
       MatomoUrl.updateUrl(query, hash);

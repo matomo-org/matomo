@@ -517,12 +517,12 @@ export default defineComponent({
       );
     },
     async handleDashboardExportFromUrl() {
-      const dashboardId = MatomoUrl.getSearchParam('dashboardId');
+      const dashboardId = MatomoUrl.getSearchParam('idDashboard');
       if (dashboardId === '') {
         return;
       }
       const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
-      delete nextHash.dashboardId;
+      delete nextHash.idDashboard;
       MatomoUrl.updateHash(nextHash);
       await this.getWidgetReportMapping(dashboardId);
       this.createReport();

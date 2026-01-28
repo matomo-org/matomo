@@ -295,7 +295,7 @@ class WidgetReportMapper
      * @param array $mapping
      * @return array
      */
-    private function getEventsWidgetMapping(EventsByDimension $widgetConfig, array $mapping)
+    private function getEventsWidgetMapping(EventsByDimension $widgetConfig, array $mapping): array
     {
         foreach ($widgetConfig->getWidgetConfigs() as $configs) {
             $widgetUniqueId = $configs->getUniqueId();
