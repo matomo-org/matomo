@@ -14,6 +14,8 @@ use Piwik\Piwik;
 
 /**
  * This API is the <a href='https://matomo.org/docs/analytics-api/reference/' rel='noreferrer' target='_blank'>Dashboard API</a>: it gives information about dashboards.
+ * It exposes dashboards and their widget placement/layouts for users, and supports
+ * creating, copying, removing, and resetting dashboards.
  *
  * @method static \Piwik\Plugins\Dashboard\API getInstance()
  */
@@ -36,7 +38,7 @@ class API extends \Piwik\Plugin\API
      * @param string $login Login of the user [defaults to current user]
      * @param bool $returnDefaultIfEmpty  disable return of default dashboard
      *
-     * @return array[]
+     * @return array<int, array{name: string, id: int, widgets: array<int, array{module: string, action: string}>}> Dashboards for the user, including visible widgets.
      */
     public function getDashboards($login = '', $returnDefaultIfEmpty = true)
     {
@@ -65,7 +67,7 @@ class API extends \Piwik\Plugin\API
      * @param string $login login of the user that dashboard should be created for
      * @param string $dashboardName name of the new dashboard
      * @param bool $addDefaultWidgets  whether to add the current default widget collection or not
-     * @return int|string
+     * @return int Id of the new dashboard.
      */
     public function createNewDashboardForUser($login, $dashboardName = '', $addDefaultWidgets = true)
     {
@@ -93,6 +95,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idDashboard id of the dashboard to be removed
      * @param string $login  Login of the dashboard user [defaults to current user]
+     * @return void
      */
     public function removeDashboard($idDashboard, $login = '')
     {
@@ -147,10 +150,10 @@ class API extends \Piwik\Plugin\API
      * Resets a dashboard to the default widget configuration
      *
      * Note: Only a super user is able to reset dashboards for other users
-
+     *
      * @param int $idDashboard dashboard id
      * @param string $login user the dashboard belongs
-     *
+     * @return void
      */
     public function resetDashboardLayout($idDashboard, $login = '')
     {
