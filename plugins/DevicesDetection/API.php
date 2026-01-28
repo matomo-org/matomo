@@ -200,7 +200,7 @@ class API extends \Piwik\Plugin\API
      *                                 formats (including 'tomorrow') are parsed in UTC. In ranges, the end date uses
      *                                 that timezone; the start date is parsed in UTC.
      * @param string|false $segment Segment definition string to filter visits, or false for no segment.
-     * @return DataTable|DataTable\Map Report of visits by OS family, or a map when multiple sites/periods are queried.
+     * @return DataTable\DataTableInterface Report of visits by OS family.
      */
     public function getOsFamilies($idSite, $period, $date, $segment = false)
     {
@@ -312,7 +312,7 @@ class API extends \Piwik\Plugin\API
      *                                 formats (including 'tomorrow') are parsed in UTC. In ranges, the end date uses
      *                                 that timezone; the start date is parsed in UTC.
      * @param string|false $segment Segment definition string to filter visits, or false for no segment.
-     * @return DataTable|DataTable\Map Report of visits by browser family, or a map when multiple sites/periods are queried.
+     * @return DataTable\DataTableInterface Report of visits by browser family.
      */
     public function getBrowsers($idSite, $period, $date, $segment = false)
     {

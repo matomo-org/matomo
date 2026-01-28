@@ -3529,13 +3529,6 @@ parameters:
 			path: plugins/Dashboard/Model.php
 
 		-
-			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\DataTableInterface\\:\\:getDataTables\\(\\)\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/API.php
-
-
-
-		-
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
 			count: 1
 			path: plugins/DevicesDetection/Columns/BrowserName.php
