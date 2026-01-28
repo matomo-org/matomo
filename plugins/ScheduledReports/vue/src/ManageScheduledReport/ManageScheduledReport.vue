@@ -12,7 +12,7 @@
       <div>
       <div id="ajaxError" style="display:none"></div>
 
-      <div id="ajaxLoadingDiv" style="display:none;">
+      <div id="ajaxLoadingDiv" ref="ajaxLoadingDiv" style="display:none;">
         <div class="loadingPiwik">
           <MatomoLoader />
           {{ translate('General_LoadingData') }}
@@ -20,10 +20,6 @@
         <div class="loadingSegment">
           {{ translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime') }}
         </div>
-      </div>
-      <div v-if="isWidgetReportMappingLoading" class="loadingPiwik">
-        <MatomoLoader />
-        {{ translate('General_LoadingData') }}
       </div>
       <ListReports
         v-show="showReportsList"
@@ -220,12 +216,10 @@ export default defineComponent({
     $(this.$refs.root as HTMLElement).on('click', 'a.entityCancelLink', () => {
       this.showListOfReports();
     });
-    this.applyActionFromUrl();
+    this.handleDashboardExportFromUrl();
     Matomo.postEvent('ScheduledReports.ManageScheduledReport.mounted', {
       element: this.$refs.root,
     });
-    this.applyActionFromUrl();
-
     const pendingMessage = typeof sessionStorage !== 'undefined'
       ? sessionStorage.getItem(PENDING_NOTIFICATION_KEY)
       : null;
@@ -252,6 +246,24 @@ export default defineComponent({
       sendingReports: [],
       isWidgetReportMappingLoading: false,
     };
+  },
+  watch: {
+    isWidgetReportMappingLoading(isLoading: boolean) {
+      const loadingDiv = this.$refs.ajaxLoadingDiv as HTMLElement | undefined;
+      if (!loadingDiv) {
+        return;
+      }
+
+      if (isLoading) {
+        loadingDiv.style.display = 'block';
+        return;
+      }
+
+      const { globalAjaxQueue } = window as unknown as { globalAjaxQueue?: { active: number } };
+      if (!globalAjaxQueue || globalAjaxQueue.active === 0) {
+        loadingDiv.style.display = 'none';
+      }
+    },
   },
   methods: {
     sendReportNow(idReport: string|number) {
@@ -503,7 +515,7 @@ export default defineComponent({
         (uniqueId) => this.selectedReports[reportType]?.[uniqueId],
       );
     },
-    async applyActionFromUrl() {
+    async handleDashboardExportFromUrl() {
       const dashboardId = MatomoUrl.getSearchParam('dashboardId');
       if (dashboardId === '') {
         return;
