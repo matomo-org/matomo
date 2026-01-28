@@ -108,7 +108,7 @@ class ApiTest extends SystemTestCase
             $ecommerce = 1,
         );
 
-        $this->createManyEcommerceOrders($idSite, $dateTime, 100);
+        $this->createManyEcommerceOrders($idSite, $dateTime, 400);
 
         $result = Request::processRequest('UserCountry.getCountry', [
             'idSite' => $idSite,
@@ -126,13 +126,14 @@ class ApiTest extends SystemTestCase
         ]);
 
         foreach ($result->getRows() as $row) {
-            var_dump($row->getColumns());
+            if ($row['label'] == 'Italy') {
+                var_dump($row->getColumns());
+            }
         }
 
         foreach ($resultWithSegment->getRows() as $row) {
             var_dump($row->getColumns());
         }
-
     }
 
     public function createManyEcommerceOrders($siteId, $dateTime, $numberOfOrders)
@@ -147,23 +148,33 @@ class ApiTest extends SystemTestCase
 
         $orderNumber = 1001;
 
+        $countries = [
+            'nz',
+            'it',
+            'us',
+            'au',
+        ];
+
         $dateTimeObj = new DateTime($dateTime);
         $interval = new \DateInterval('P1D');
 
         for ($i = 0; $i < $numberOfOrders; $i++) {
-            $dateTimeStr = date_format($dateTimeObj, 'Y-m-d H:i:s');
-            $tracker = static::$fixture::getTracker($siteId, $dateTimeStr, $defaultInit = true, $useLocal = true);
-            // test both IP address and country code for country detection for segment
-            if ($i % 2 == 0) {
-                $tracker->setIp('151.100.101.92'); // Italy
-            } else {
-                $tracker->setCountry('it');
+            for ($j = 0; $j < count($countries); $j++) {
+                $dateTimeStr = date_format($dateTimeObj, 'Y-m-d H:i:s');
+                $tracker = static::$fixture::getTracker($siteId, $dateTimeStr, $defaultInit = true, $useLocal = true);
+                // test both IP address and country code for country detection for segment
+                if ($i % 2 == 0) {
+                    $tracker->setIp('151.100.101.92'); // Italy
+                } else {
+                    $tracker->setCountry($countries[$j]);
+                }
+                $tracker->setVisitorId(substr(md5($visitorIds[$i % 3]), $offset = 0, $tracker::LENGTH_VISITOR_ID));
+                $tracker->setTokenAuth(static::$fixture::getTokenAuth());
+                $orderNo = $orderNumber + ($i * 10) + $j;
+                $tracker->addEcommerceItem('SKU-' . $orderNo, 'Product ' . $orderNo, 'Category', 100, 1);
+                static::$fixture::checkResponse($tracker->doTrackEcommerceOrder($orderNo, 111.11, 100, 11));
+                $dateTimeObj = date_add($dateTimeObj, $interval);
             }
-            $tracker->setVisitorId(substr(md5($visitorIds[$i % 3]), $offset = 0, $tracker::LENGTH_VISITOR_ID));
-            $tracker->setTokenAuth(static::$fixture::getTokenAuth());
-            $tracker->addEcommerceItem('SKU-' . ($orderNumber + $i), 'Product ' . ($orderNumber + $i), 'Category', 100, 1);
-            static::$fixture::checkResponse($tracker->doTrackEcommerceOrder($orderNumber + $i, 111.11, 100, 11));
-            $dateTimeObj = date_add($dateTimeObj, $interval);
         }
     }
 }
