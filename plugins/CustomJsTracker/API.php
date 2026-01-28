@@ -14,16 +14,19 @@ use Piwik\Piwik;
 use Piwik\Plugins\CustomJsTracker\Exception\AccessDeniedException;
 
 /**
- * API for plugin CustomJsTracker
+ * API for plugin CustomJsTracker.
+ *
+ * Exposes whether plugin tracker JavaScript files are injected into the main
+ * tracker automatically or must be loaded manually by the integrator.
  *
  * @method static \Piwik\Plugins\CustomJsTracker\API getInstance()
  */
 class API extends \Piwik\Plugin\API
 {
     /**
-     * Detects whether plugin trackers will be automatically added to piwik.js or not. If not, the plugin tracker files
-     * need to be loaded manually.
-     * @return bool
+     * Reports whether plugin tracker JavaScript files are auto-included in piwik.js.
+     *
+     * @return bool True when plugin trackers are injected automatically; false when they must be loaded manually.
      */
     public function doesIncludePluginTrackersAutomatically()
     {
