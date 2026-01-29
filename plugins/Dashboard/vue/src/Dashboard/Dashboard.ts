@@ -108,6 +108,8 @@ export default {
       onLocationChange(parsed);
     });
 
+    // ensure to not bind the event multiple times
+    Matomo.off('Dashboard.loadDashboard', onLoadDashboard);
     Matomo.on('Dashboard.loadDashboard', onLoadDashboard);
   },
   unmounted(): void {

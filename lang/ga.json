@@ -309,6 +309,7 @@
         "ManageSubscriptions": "Bainistigh Síntiúis",
         "Matches": "Lasáin",
         "MatomoIsACollaborativeProjectYouCanContributeAndDonateNextRelease": "Is comhthionscadal é %1$sMatomo%2$s, ar a dtugtaí Piwik roimhe seo, a thug baill foirne %7$sMatomo%8$s chugat chomh maith le go leor rannpháirtithe eile ar fud an domhain. <br> Más leantóir thú de Matomo, is féidir leat cabhrú: faigh amach %3$sConas páirt a ghlacadh i Matomo%4$s, nó %5$sdonate anois %6$s chun cabhrú leis an gcéad eisiúint iontach Matomo eile a mhaoiniú !",
+        "MaximumNumberOfBulkRequestUrlsIs": "Is é %s an líon uasta URLanna is féidir a iarraidh i mbulc-iarratas.",
         "MaximumNumberOfPeriodsComparedIs": "Is é %s an líon uasta tréimhsí is féidir a chur i gcomparáid ag an am céanna.",
         "MaximumNumberOfSegmentsComparedIs": "Is é %s uaslíon na ndeighleoga is féidir a chur i gcomparáid ag an am céanna.",
         "Measurable": "Intomhaiste",

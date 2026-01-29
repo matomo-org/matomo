@@ -101,7 +101,6 @@ abstract class Factory
                 return new Year($dateObject);
         }
 
-        /** @var string[] $customPeriodFactories */
         $customPeriodFactories = Plugin\Manager::getInstance()->findComponents('PeriodFactory', self::class);
         foreach ($customPeriodFactories as $customPeriodFactoryClass) {
             $customPeriodFactory = StaticContainer::get($customPeriodFactoryClass);

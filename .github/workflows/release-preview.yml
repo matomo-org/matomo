@@ -114,6 +114,14 @@ jobs:
           echo "has_new_version=$HAS_NEW_VERSION" >> $GITHUB_OUTPUT
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
 
+      - name: Skip preview releases during RC phase
+        if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
+        run: |
+          if [[ $OLD_VERSION =~ -rc[0-9]+$ ]]; then
+            echo "Preview releases are skipped while VERSION is an RC ($OLD_VERSION). Set VERSION to the next -alpha on 5.x-dev."
+            exit 1
+          fi
+
       - name: Check if the previous version has been released
         if: steps.changes.outputs.do_release == '1' && steps.version.outputs.has_new_version == '1'
         run: |

@@ -146,6 +146,11 @@ parameters:
 			path: core/API/ResponseBuilder.php
 
 		-
+			message: "#^Parameter \\#2 \\$columnToFilter of class Piwik\\\\DataTable\\\\Filter\\\\Pattern constructor expects string, array given\\.$#"
+			count: 1
+			path: core/API/ResponseBuilder.php
+
+		-
 			message: "#^Property Piwik\\\\API\\\\ResponseBuilder\\:\\:\\$outputFormat is never read, only written\\.$#"
 			count: 1
 			path: core/API/ResponseBuilder.php
@@ -816,7 +821,7 @@ parameters:
 			path: core/DataAccess/ArchiveSelector.php
 
 		-
-			message: "#^Parameter \\#1 \\$dateString of static method Piwik\\\\Date\\:\\:factory\\(\\) expects int\\|string, true given\\.$#"
+			message: "#^Parameter \\#1 \\$dateString of static method Piwik\\\\Date\\:\\:factory\\(\\) expects int\\|Piwik\\\\Date\\|string, true given\\.$#"
 			count: 1
 			path: core/DataAccess/ArchiveSelector.php
 
@@ -924,81 +929,6 @@ parameters:
 			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: core/DataAccess/Model.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with Piwik\\\\DataTable\\\\Row will always evaluate to false\\.$#"
-			count: 12
-			path: core/DataTable.php
-
-		-
-			message: "#^Call to function is_string\\(\\) with mixed will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Instanceof between int and Piwik\\\\DataTable\\\\Row will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Method Piwik\\\\DataTable\\:\\:getRowIdFromLabel\\(\\) should return int but returns false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(callable filter A function like `function \\(DataTable \\$thisTable, \\$otherTable1, \\$otherTable2\\) \\{\\}`\\.\\)\\: Unexpected token \"filter\", expected variable at offset 361$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Parameter \\#2 \\$return of function var_export expects bool, int given\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$rows \\(array\\<Piwik\\\\DataTable\\\\Row\\>\\) in isset\\(\\) is not nullable\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$summaryRow \\(Piwik\\\\DataTable\\\\Row\\) does not accept null\\.$#"
-			count: 2
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$summaryRow \\(Piwik\\\\DataTable\\\\Row\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$summaryRow \\(Piwik\\\\DataTable\\\\Row\\) in isset\\(\\) is not nullable\\.$#"
-			count: 2
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$tableSortedBy \\(string\\) does not accept default value of type false\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Property Piwik\\\\DataTable\\:\\:\\$totalsRow \\(Piwik\\\\DataTable\\\\Row\\) in empty\\(\\) is not falsy\\.$#"
-			count: 1
-			path: core/DataTable.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 2
-			path: core/DataTable.php
 
 		-
 			message: "#^Constructor of class Piwik\\\\DataTable\\\\BaseFilter has an unused parameter \\$table\\.$#"
@@ -1211,56 +1141,6 @@ parameters:
 			path: core/DataTable/Row.php
 
 		-
-			message: "#^Binary operation \"\\+\" between string and 1 results in an error\\.$#"
-			count: 2
-			path: core/Date.php
-
-		-
-			message: "#^Binary operation \"\\-\" between string and 1 results in an error\\.$#"
-			count: 2
-			path: core/Date.php
-
-		-
-			message: "#^Instanceof between int\\|string and Piwik\\\\Date will always evaluate to false\\.$#"
-			count: 1
-			path: core/Date.php
-
-		-
-			message: "#^Method Piwik\\\\Date\\:\\:extractUtcOffset\\(\\) should return bool\\|int but returns float\\.$#"
-			count: 1
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#1 \\$hour of function mktime expects int, string given\\.$#"
-			count: 4
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#2 \\$min of function mktime expects int, string given\\.$#"
-			count: 4
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#3 \\$sec of function mktime expects int, string given\\.$#"
-			count: 4
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#4 \\$mon of function mktime expects int, string given\\.$#"
-			count: 3
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#5 \\$day of function mktime expects int, string given\\.$#"
-			count: 1
-			path: core/Date.php
-
-		-
-			message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
-			count: 3
-			path: core/Date.php
-
-		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:exec\\(\\)\\.$#"
 			count: 1
 			path: core/Db.php
@@ -1461,22 +1341,12 @@ parameters:
 			path: core/Mail/EmailStyles.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
-			count: 1
-			path: core/Measurable/Type/TypeManager.php
-
-		-
 			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\.$#"
 			count: 7
 			path: core/Menu/MenuAbstract.php
 
 		-
 			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\<\\-1, 1\\>\\.$#"
-			count: 1
-			path: core/Menu/MenuAbstract.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
 			count: 1
 			path: core/Menu/MenuAbstract.php
 
@@ -1591,16 +1461,6 @@ parameters:
 			path: core/Plugin/ArchivedMetric.php
 
 		-
-			message: "#^Invoking callable on an unknown class Piwik\\\\Plugin\\\\callback\\.$#"
-			count: 1
-			path: core/Plugin/ComponentFactory.php
-
-		-
-			message: "#^Parameter \\$predicate of method Piwik\\\\Plugin\\\\ComponentFactory\\:\\:getComponentIf\\(\\) has invalid type Piwik\\\\Plugin\\\\callback\\.$#"
-			count: 1
-			path: core/Plugin/ComponentFactory.php
-
-		-
 			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, \\(float\\|false\\) given\\.$#"
 			count: 1
 			path: core/Plugin/ComputedMetric.php
@@ -1681,11 +1541,6 @@ parameters:
 			path: core/Plugin/LogTablesProvider.php
 
 		-
-			message: "#^Method Piwik\\\\Plugin\\\\Manager\\:\\:findComponents\\(\\) should return array\\<stdClass\\> but returns array\\<int\\<0, max\\>, string\\>\\.$#"
-			count: 1
-			path: core/Plugin/Manager.php
-
-		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 55$#"
 			count: 1
 			path: core/Plugin/Manager.php
@@ -1714,6 +1569,11 @@ parameters:
 			message: "#^Parameter \\#1 \\$defaultDate of method Piwik\\\\Plugins\\\\UsersManager\\\\UserPreferences\\:\\:getDefaultPeriod\\(\\) expects string\\|null, false given\\.$#"
 			count: 1
 			path: core/Plugin/Menu.php
+
+		-
+			message: "#^Parameter \\#4 \\$forceDefault of static method Piwik\\\\ViewDataTable\\\\Factory\\:\\:build\\(\\) expects bool, int given\\.$#"
+			count: 1
+			path: core/Plugin/Report.php
 
 		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$dimension \\(Piwik\\\\Columns\\\\Dimension\\) in empty\\(\\) is not falsy\\.$#"
@@ -1771,11 +1631,6 @@ parameters:
 			path: core/Plugin/WidgetsProvider.php
 
 		-
-			message: "#^Variable \\$widgetContainer in PHPDoc tag @var does not match assigned variable \\$widgets\\.$#"
-			count: 1
-			path: core/Plugin/WidgetsProvider.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: core/Policy/CompliancePolicy.php
@@ -1829,11 +1684,6 @@ parameters:
 			message: "#^Variable \\$xhprofData might not be defined\\.$#"
 			count: 1
 			path: core/Profiler.php
-
-		-
-			message: "#^Method Piwik\\\\ProxyHeaders\\:\\:getProtocolInformation\\(\\) should return string but returns null\\.$#"
-			count: 1
-			path: core/ProxyHeaders.php
 
 		-
 			message: "#^Call to an undefined method HTML_QuickForm2_Renderer_Proxy\\:\\:toArray\\(\\)\\.$#"
@@ -2019,11 +1869,6 @@ parameters:
 			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: core/Scheduler/Scheduler.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
-			count: 1
-			path: core/Scheduler/TaskLoader.php
 
 		-
 			message: "#^If condition is always false\\.$#"
@@ -3404,6 +3249,16 @@ parameters:
 			path: plugins/CoreUpdater/Commands/Update.php
 
 		-
+			message: "#^Parameter \\#1 \\$https of method Piwik\\\\Plugins\\\\CoreUpdater\\\\Updater\\:\\:updatePiwik\\(\\) expects bool, int given\\.$#"
+			count: 1
+			path: plugins/CoreUpdater/Controller.php
+
+		-
+			message: "#^Property Piwik\\\\View\\\\OneClickDone\\:\\:\\$httpsFail \\(bool\\) does not accept int\\.$#"
+			count: 1
+			path: plugins/CoreUpdater/Controller.php
+
+		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: plugins/CoreUpdater/Controller.php
@@ -3849,6 +3704,11 @@ parameters:
 			path: plugins/ExamplePlugin/RecordBuilders/ExampleMetric2.php
 
 		-
+			message: "#^Strict comparison using \\=\\=\\= between false and string will always evaluate to false\\.$#"
+			count: 1
+			path: plugins/ExampleTracker/Columns/ExampleActionDimension.php
+
+		-
 			message: "#^Property Piwik\\\\Notification\\:\\:\\$flags \\(int\\) does not accept null\\.$#"
 			count: 1
 			path: plugins/ExampleUI/Controller.php
@@ -3887,6 +3747,11 @@ parameters:
 			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, true given\\.$#"
 			count: 1
 			path: plugins/GeoIp2/Commands/ConvertRegionCodesToIso.php
+
+		-
+			message: "#^Parameter \\#3 \\$isContinuation of static method Piwik\\\\Http\\:\\:downloadChunk\\(\\) expects bool, int given\\.$#"
+			count: 2
+			path: plugins/GeoIp2/Controller.php
 
 		-
 			message: "#^Call to an undefined method Matomo\\\\Decompress\\\\DecompressInterface\\:\\:extractInString\\(\\)\\.$#"
@@ -4049,7 +3914,7 @@ parameters:
 			path: plugins/Goals/RecordBuilders/ProductRecord.php
 
 		-
-			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept array\\<string, float\\|int\\<min, \\-1\\>\\|int\\<1, max\\>\\|string\\>\\.$#"
+			message: "#^Property Piwik\\\\Plugins\\\\CoreVisualizations\\\\Visualizations\\\\Sparklines\\\\Config\\:\\:\\$title_attributes \\(string\\) does not accept array\\<string, string\\>\\.$#"
 			count: 1
 			path: plugins/Goals/Reports/Get.php
 
@@ -4071,6 +3936,11 @@ parameters:
 		-
 			message: "#^Parameter \\#1 \\$idSites of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
 			count: 1
+			path: plugins/ImageGraph/Controller.php
+
+		-
+			message: "#^Parameter \\#3 \\$date of method Piwik\\\\Plugins\\\\API\\\\API\\:\\:getReportMetadata\\(\\) expects bool\\|Piwik\\\\Date, string given\\.$#"
+			count: 2
 			path: plugins/ImageGraph/Controller.php
 
 		-
@@ -4135,11 +4005,6 @@ parameters:
 
 		-
 			message: "#^Constructor of class Piwik\\\\Plugins\\\\Insights\\\\DataTable\\\\Filter\\\\OrderBy has an unused parameter \\$table\\.$#"
-			count: 1
-			path: plugins/Insights/DataTable/Filter/OrderBy.php
-
-		-
-			message: "#^Parameter \\#1 \\$functionCallback of method Piwik\\\\DataTable\\:\\:sort\\(\\) expects string, array\\<int, \\$this\\(Piwik\\\\Plugins\\\\Insights\\\\DataTable\\\\Filter\\\\OrderBy\\)\\|string\\> given\\.$#"
 			count: 1
 			path: plugins/Insights/DataTable/Filter/OrderBy.php
 
@@ -4277,11 +4142,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Reports\\\\GetLastVisits\\:\\:buildReportMetadata\\(\\) should return array\\|null but return statement is missing\\.$#"
 			count: 1
 			path: plugins/Live/Reports/GetLastVisits.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Visitor\\:\\:getAllVisitorDetailsClasses\\(\\) should return array\\<string\\> but returns array\\<stdClass\\>\\.$#"
-			count: 1
-			path: plugins/Live/Visitor.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -4662,11 +4522,6 @@ parameters:
 			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\Renderer\\:\\:setRenderImageInline\\(\\)\\.$#"
 			count: 1
 			path: plugins/ScheduledReports/ScheduledReports.php
-
-		-
-			message: "#^Parameter \\#2 \\$idSites of class Piwik\\\\Segment constructor expects array, int\\|null given\\.$#"
-			count: 1
-			path: plugins/SegmentEditor/API.php
 
 		-
 			message: "#^Parameter \\#1 \\$ids of static method Piwik\\\\Site\\:\\:getIdSitesFromIdSitesString\\(\\) expects array\\|string, int\\<min, \\-2\\>\\|int\\<0, max\\> given\\.$#"
