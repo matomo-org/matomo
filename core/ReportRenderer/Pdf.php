@@ -415,6 +415,12 @@ class Pdf extends ReportRenderer
                         }
                     }
                     $text = $this->formatText($text);
+                    $labelLineCount = $this->TCPDF->getNumLines($text, $this->labelCellWidth);
+                    $shouldIncreaseLineHeight = $isLogoDisplayable && $labelLineCount > 1;
+                    if ($shouldIncreaseLineHeight) {
+                        $previousCellHeightRatio = $this->TCPDF->getCellHeightRatio();
+                        $this->TCPDF->setCellHeightRatio($previousCellHeightRatio + 0.3);
+                    }
                     $rowHeight = $this->getLabelRowHeight($text);
                     $maxHeight = $this->getLabelRowMaxHeight($rowHeight);
                     $this->TCPDF->MultiCell(
@@ -434,6 +440,9 @@ class Pdf extends ReportRenderer
                         $maxHeight,
                         'M'
                     );
+                    if ($shouldIncreaseLineHeight) {
+                        $this->TCPDF->setCellHeightRatio($previousCellHeightRatio);
+                    }
                     if ($url) {
                         $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $url);
                     }
