@@ -110,7 +110,6 @@ class WidgetsProvider
             return;
         }
 
-        /** @var Widget[] $widgetContainer */
         $widgets = $plugin->findMultipleComponents('Widgets', 'Piwik\\Widget\\Widget');
 
         foreach ($widgets as $widgetClass) {
