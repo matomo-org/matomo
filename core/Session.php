@@ -227,7 +227,7 @@ class Session extends Zend_Session
         return $headerStr;
     }
 
-    public static function getDbTableConfig()
+    public static function getDbTableConfig(): array
     {
         return array(
             'name'           => Common::prefixTable(DbTable::TABLE_NAME),
@@ -238,7 +238,7 @@ class Session extends Zend_Session
         );
     }
 
-    public static function destroyAllSessions()
+    public static function destroyAllSessions(): void
     {
         $config = self::getDbTableConfig();
         $saveHandler = new DbTable($config);
