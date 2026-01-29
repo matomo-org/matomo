@@ -236,4 +236,12 @@ class Session extends Zend_Session
             'lifetimeColumn' => 'lifetime',
         );
     }
+
+    public static function destroyAllSessions()
+    {
+        $config = self::getDbTableConfig();
+        $saveHandler = new DbTable($config);
+        $saveHandler->destroyAll();
+        parent::destroy();
+    }
 }
