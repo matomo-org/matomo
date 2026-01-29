@@ -394,6 +394,8 @@ class Pdf extends ReportRenderer
                 $url = $rowMetadata['url'];
             }
             $rowHeight = $this->cellHeight;
+            $metricsPaddingApplied = false;
+            $previousCellPadding = null;
             foreach ($this->reportColumns as $columnId => $columnName) {
                 // Label column
                 if ($columnId == 'label') {
@@ -402,7 +404,7 @@ class Pdf extends ReportRenderer
                     $posX = $this->TCPDF->GetX();
                     $posY = $this->TCPDF->GetY();
                     if (isset($rowMetrics[$columnId])) {
-                        $text = $rowMetrics[$columnId];
+                        $text = trim($rowMetrics[$columnId]);
                         $urlString = $this->isUrl($text);
                         if (!$url && $urlString !== false) {
                             $url = $urlString;
@@ -467,6 +469,16 @@ class Pdf extends ReportRenderer
                         $rowMetrics[$columnId] = 0;
                     }
                     $columnWidth = $this->getColumnWidth($columnId);
+                    if (!$metricsPaddingApplied) {
+                        $previousCellPadding = $this->TCPDF->getCellPaddings();
+                        $this->TCPDF->setCellPaddings(
+                            $previousCellPadding['L'],
+                            $previousCellPadding['T'] + 1,
+                            $previousCellPadding['R'],
+                            $previousCellPadding['B']
+                        );
+                        $metricsPaddingApplied = true;
+                    }
                     $this->TCPDF->Cell(
                         $columnWidth,
                         $rowHeight,
@@ -474,11 +486,23 @@ class Pdf extends ReportRenderer
                         'LR',
                         0,
                         'L',
-                        $fill
+                        $fill,
+                        '',
+                        0,
+                        false,
+                        'T',
+                        'T'
                     );
                 }
             }
-
+            if ($metricsPaddingApplied) {
+                $this->TCPDF->setCellPaddings(
+                    $previousCellPadding['L'],
+                    $previousCellPadding['T'],
+                    $previousCellPadding['R'],
+                    $previousCellPadding['B']
+                );
+            }
             $this->TCPDF->Ln();
 
             // Top/Bottom grey border for all cells
