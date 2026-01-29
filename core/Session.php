@@ -15,6 +15,7 @@ use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Plugins\Overlay\Overlay;
 use Piwik\Session\SaveHandler\DbTable;
 use Piwik\Log\LoggerInterface;
+use Piwik\Session\SessionFingerprint;
 use Zend_Session;
 
 /**
@@ -242,6 +243,7 @@ class Session extends Zend_Session
         $config = self::getDbTableConfig();
         $saveHandler = new DbTable($config);
         $saveHandler->destroyAll();
-        parent::destroy();
+        $fingerprint = new SessionFingerprint();
+        $fingerprint->clear();
     }
 }
