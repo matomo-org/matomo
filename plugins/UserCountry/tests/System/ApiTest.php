@@ -13,7 +13,6 @@ use DateTime;
 use Piwik\Plugins\UserCountry\tests\Fixtures\ManySitesManyVisitsWithGeoIp;
 use Piwik\API\Request;
 use Piwik\DataTable;
-use Piwik\DataTable\Row;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 
 /**
