@@ -481,7 +481,7 @@ class Pdf extends ReportRenderer
                     if (!$metricsPaddingApplied) {
                         $previousCellPadding = $this->TCPDF->getCellPaddings();
                         $this->TCPDF->setCellPaddings(
-                            $previousCellPadding['L'],
+                            $previousCellPadding['L'] + 1,
                             $previousCellPadding['T'] + 1,
                             $previousCellPadding['R'],
                             $previousCellPadding['B']
