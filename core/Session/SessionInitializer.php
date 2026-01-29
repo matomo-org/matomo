@@ -95,15 +95,19 @@ class SessionInitializer
             $pluginOfAuthClass = $defaultLoginPluginName;
         }
 
-        if ($pluginOfAuthClass === $defaultLoginPluginName) {
-            $currentClassString = get_class($this);
-            if (Piwik::isMatomoClassInAPlugin($currentClassString)) {
-                $currentLoginPluginName = Piwik::getPluginNameOfMatomoClass($currentClassString);
-            } else {
-                $currentLoginPluginName = $defaultLoginPluginName;
-            }
+        $currentClassString = get_class($this);
+        if (Piwik::isMatomoClassInAPlugin($currentClassString)) {
+            $pluginOfThisClass = Piwik::getPluginNameOfMatomoClass($currentClassString);
         } else {
+            $pluginOfThisClass = $defaultLoginPluginName;
+        }
+
+        if ($pluginOfThisClass !== $defaultLoginPluginName) {
+            $currentLoginPluginName = $pluginOfThisClass;
+        } elseif ($pluginOfAuthClass !== $defaultLoginPluginName) {
             $currentLoginPluginName = $pluginOfAuthClass;
+        } else {
+            $currentLoginPluginName = $defaultLoginPluginName;
         }
 
         $sessionIdentifier->initialize(
