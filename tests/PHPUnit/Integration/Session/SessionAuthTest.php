@@ -156,7 +156,7 @@ class SessionAuthTest extends IntegrationTestCase
         $this->assertEmpty($_SESSION);
     }
 
-    public function countActiveSessions()
+    private function countActiveSessions(): int
     {
         $tableConfig = Session::getDbTableConfig();
         $sql = "SELECT count(id) as count FROM `" . $tableConfig['name'] . "`";

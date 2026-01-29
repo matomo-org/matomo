@@ -183,7 +183,7 @@ class DbTable implements \SessionHandlerInterface
      */
     public function destroyAll(): bool
     {
-        $sql = 'DELETE FROM `' . $this->config['name'] . '`';
+        $sql = 'TRUNCATE TABLE `' . $this->config['name'] . '`';
 
         $this->query($sql, []);
 
