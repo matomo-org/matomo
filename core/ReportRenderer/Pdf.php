@@ -414,33 +414,7 @@ class Pdf extends ReportRenderer
                     if ($shouldIncreaseLineHeight) {
                         $this->TCPDF->setCellHeightRatio($previousCellHeightRatio);
                     }
-                    if ($url) {
-                        $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $url);
-                    }
-                    $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
-
-                    if ($isLogoDisplayable) {
-                        if (isset($rowMetadata['logoWidth'])) {
-                            $logoWidth = $rowMetadata['logoWidth'];
-                        }
-                        if (isset($rowMetadata['logoHeight'])) {
-                            $logoHeight = $rowMetadata['logoHeight'];
-                        }
-                        $restoreY = $this->TCPDF->getY();
-                        $restoreX = $this->TCPDF->getX();
-                        $this->TCPDF->SetY($posY);
-                        $this->TCPDF->SetX($posX);
-                        $topMargin = 1.3;
-                        // Country flags are not very high, force a bigger top margin
-                        if ($logoHeight < 16) {
-                            $topMargin = 2;
-                        }
-                        $path = Filesystem::getPathToPiwikRoot() . "/" . $rowMetadata['logo'];
-                        if (file_exists($path)) {
-                            $this->TCPDF->Image($path, $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth / 4);
-                        }
-                        $this->TCPDF->SetXY($restoreX, $restoreY);
-                    }
+                    $this->renderLabelLinkAndLogo($url, $posX, $posY, $rowHeight, $rowMetadata, $isLogoDisplayable, $logoWidth, $logoHeight);
                 } else {
                     // metrics column
 
@@ -516,6 +490,47 @@ class Pdf extends ReportRenderer
         }
 
         return $labelHeight + 1;
+    }
+
+    /**
+     * @param false|string $url
+     * @param array<string, mixed> $rowMetadata
+     * @param float $logoWidth
+     * @param float $logoHeight
+     * @return void
+     */
+    private function renderLabelLinkAndLogo($url, float $posX, float $posY, float $rowHeight, array $rowMetadata,
+                                            bool $isLogoDisplayable, float &$logoWidth, float &$logoHeight): void
+    {
+        if ($url) {
+            $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $url);
+        }
+        $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
+
+        if (!$isLogoDisplayable) {
+            return;
+        }
+
+        if (isset($rowMetadata['logoWidth'])) {
+            $logoWidth = $rowMetadata['logoWidth'];
+        }
+        if (isset($rowMetadata['logoHeight'])) {
+            $logoHeight = $rowMetadata['logoHeight'];
+        }
+        $restoreY = $this->TCPDF->getY();
+        $restoreX = $this->TCPDF->getX();
+        $this->TCPDF->SetY($posY);
+        $this->TCPDF->SetX($posX);
+        $topMargin = 1.3;
+        // Country flags are not very high, force a bigger top margin
+        if ($logoHeight < 16) {
+            $topMargin = 2;
+        }
+        $path = Filesystem::getPathToPiwikRoot() . "/" . $rowMetadata['logo'];
+        if (file_exists($path)) {
+            $this->TCPDF->Image($path, $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth / 4);
+        }
+        $this->TCPDF->SetXY($restoreX, $restoreY);
     }
 
     /**
