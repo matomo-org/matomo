@@ -23,6 +23,7 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Log\LoggerInterface;
+use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
 use Piwik\Request as PiwikRequest;
@@ -363,6 +364,25 @@ class API extends \Piwik\Plugin\API
             $idArchives,
             $wasCached,
         ]);
+
+        if (is_array($result) && $isArchivePhpTriggered) {
+            $result = $this->addPeakMemoryUsageToResult($result);
+        }
+
+        return $result;
+    }
+
+    private function addPeakMemoryUsageToResult(array $result): array
+    {
+        if (!function_exists('memory_get_peak_usage')) {
+            return $result;
+        }
+
+        $peakMemoryBytes = memory_get_peak_usage(true);
+        $formatter = new Formatter();
+
+        $result['peak_memory_usage'] = $peakMemoryBytes;
+        $result['peak_memory_usage_pretty'] = $formatter->getPrettySizeFromBytes($peakMemoryBytes);
 
         return $result;
     }

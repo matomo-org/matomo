@@ -611,6 +611,7 @@ class CronArchive
             }
 
             $visitsForPeriod = $this->getVisitsFromApiResponse($stats);
+            $peakMemory = $this->getPeakMemoryFromApiResponse($stats);
 
             $this->logArchiveJobFinished(
                 $url,
@@ -618,7 +619,8 @@ class CronArchive
                 $visitsForPeriod,
                 $archivesBeingQueried[$index]['plugin'],
                 $archivesBeingQueried[$index]['report'],
-                !$checkInvalid
+                !$checkInvalid,
+                $peakMemory
             );
 
             $this->deleteInvalidatedArchives($archivesBeingQueried[$index]);
@@ -679,16 +681,17 @@ class CronArchive
         return [$url, $segment, $plugin];
     }
 
-    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null, $report = null, $wasSkipped = null)
+    private function logArchiveJobFinished($url, $timer, $visits, $plugin = null, $report = null, $wasSkipped = null, $peakMemory = null)
     {
         $params = UrlHelper::getArrayFromQueryString($url);
         $visits = (int) $visits;
 
         $message = $wasSkipped ? "Skipped Archiving website" : "Archived website";
+        $peakMemoryPart = $peakMemory ? ", Peak memory: $peakMemory" : "";
 
         $this->logger->info($message . " id {$params['idSite']}, period = {$params['period']}, date = "
             . "{$params['date']}, segment = '" . (isset($params['segment']) ? urldecode(urldecode($params['segment'])) : '') . "', "
-            . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer");
+            . ($plugin ? "plugin = $plugin, " : "") . ($report ? "report = $report, " : "") . "$visits visits found. $timer$peakMemoryPart");
     }
 
     public function getErrors()
@@ -1385,6 +1388,15 @@ class CronArchive
         }
 
         return (int) $stats['nb_visits'];
+    }
+
+    private function getPeakMemoryFromApiResponse($stats): ?string
+    {
+        if (empty($stats['peak_memory_usage_pretty'])) {
+            return null;
+        }
+
+        return (string) $stats['peak_memory_usage_pretty'];
     }
 
     /**
