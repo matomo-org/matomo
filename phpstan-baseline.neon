@@ -1341,22 +1341,12 @@ parameters:
 			path: core/Mail/EmailStyles.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
-			count: 1
-			path: core/Measurable/Type/TypeManager.php
-
-		-
 			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\.$#"
 			count: 7
 			path: core/Menu/MenuAbstract.php
 
 		-
 			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\<\\-1, 1\\>\\.$#"
-			count: 1
-			path: core/Menu/MenuAbstract.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
 			count: 1
 			path: core/Menu/MenuAbstract.php
 
@@ -1471,16 +1461,6 @@ parameters:
 			path: core/Plugin/ArchivedMetric.php
 
 		-
-			message: "#^Invoking callable on an unknown class Piwik\\\\Plugin\\\\callback\\.$#"
-			count: 1
-			path: core/Plugin/ComponentFactory.php
-
-		-
-			message: "#^Parameter \\$predicate of method Piwik\\\\Plugin\\\\ComponentFactory\\:\\:getComponentIf\\(\\) has invalid type Piwik\\\\Plugin\\\\callback\\.$#"
-			count: 1
-			path: core/Plugin/ComponentFactory.php
-
-		-
 			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, \\(float\\|false\\) given\\.$#"
 			count: 1
 			path: core/Plugin/ComputedMetric.php
@@ -1559,11 +1539,6 @@ parameters:
 			message: "#^Property Piwik\\\\Plugin\\\\LogTablesProvider\\:\\:\\$tablesCache \\(array\\<Piwik\\\\Tracker\\\\LogTable\\>\\) in isset\\(\\) is not nullable\\.$#"
 			count: 1
 			path: core/Plugin/LogTablesProvider.php
-
-		-
-			message: "#^Method Piwik\\\\Plugin\\\\Manager\\:\\:findComponents\\(\\) should return array\\<stdClass\\> but returns array\\<int\\<0, max\\>, string\\>\\.$#"
-			count: 1
-			path: core/Plugin/Manager.php
 
 		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 55$#"
@@ -1652,11 +1627,6 @@ parameters:
 
 		-
 			message: "#^Method Piwik\\\\Plugin\\\\WidgetsProvider\\:\\:factory\\(\\) should return Piwik\\\\Widget\\\\Widget\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Plugin/WidgetsProvider.php
-
-		-
-			message: "#^Variable \\$widgetContainer in PHPDoc tag @var does not match assigned variable \\$widgets\\.$#"
 			count: 1
 			path: core/Plugin/WidgetsProvider.php
 
@@ -1899,11 +1869,6 @@ parameters:
 			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: core/Scheduler/Scheduler.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
-			count: 1
-			path: core/Scheduler/TaskLoader.php
 
 		-
 			message: "#^If condition is always false\\.$#"
@@ -4177,11 +4142,6 @@ parameters:
 			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Reports\\\\GetLastVisits\\:\\:buildReportMetadata\\(\\) should return array\\|null but return statement is missing\\.$#"
 			count: 1
 			path: plugins/Live/Reports/GetLastVisits.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Visitor\\:\\:getAllVisitorDetailsClasses\\(\\) should return array\\<string\\> but returns array\\<stdClass\\>\\.$#"
-			count: 1
-			path: plugins/Live/Visitor.php
 
 		-
 			message: "#^If condition is always true\\.$#"

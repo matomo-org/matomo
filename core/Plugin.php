@@ -350,8 +350,11 @@ if (!class_exists('Piwik\Plugin')) {
          *                                   given subclass. If the requested file exists but does not extend this class
          *                                   a warning will be shown to advice a developer to extend this certain class.
          *
-         * @return string|null  Null if the requested component does not exist or an instance of the found
-         *                         component.
+         * @template T of object
+         * @phpstan-param class-string<T>|''|false|null $expectedSubclass
+         *
+         * @return class-string<T>|null  Null if the requested component does not exist,
+         *                               or the class string of the found component.
          */
         public function findComponent($componentName, $expectedSubclass)
         {
@@ -405,6 +408,11 @@ if (!class_exists('Piwik\Plugin')) {
             return $classname;
         }
 
+        /**
+         * @template T of object
+         * @param class-string<T>|''|false|null $expectedSubclass
+         * @return array<class-string<T>>
+         */
         public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
         {
             $this->createCacheIfNeeded();
@@ -602,9 +610,9 @@ if (!class_exists('Piwik\Plugin')) {
         }
 
         /**
-         * @param $directoryWithinPlugin
-         * @param $expectedSubclass
-         * @return array
+         * @template T of object
+         * @param class-string<T>|''|false|null $expectedSubclass
+         * @return array<class-string<T>>
          */
         private function doFindMultipleComponents($directoryWithinPlugin, $expectedSubclass)
         {
