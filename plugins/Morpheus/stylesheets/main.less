@@ -16,11 +16,17 @@ body {
 }
 
 button,
- input,
- optgroup,
- select,
- textarea {
+input,
+optgroup,
+select,
+textarea {
   color: @theme-color-text;
+  background: @theme-color-background-contrast;
+  border: 1px solid @theme-color-background-highContrast;
+
+  &:focus {
+    outline: 1px solid @theme-color-focus-ring;
+  }
 }
 
 select {

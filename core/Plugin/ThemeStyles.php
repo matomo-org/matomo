@@ -158,7 +158,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorHeaderText =  '#fff';
+    public $colorHeaderText =  ['#fff', '#202329'];
 
     /**
      * @var string|array<string>
@@ -198,22 +198,22 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundBase = ['#eff0f1', '#202329'];
+    public $colorBackgroundBase = ['#eff0f1', '#151819'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundTinyContrast = ['#f2f2f2', '#171a1e'];
+    public $colorBackgroundTinyContrast = ['#f2f2f2', '#182c32'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundLowContrast = ['#d9d9d9', '#292c34'];
+    public $colorBackgroundLowContrast = ['#d9d9d9', '#192d33'];
 
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundContrast = ['#fff', '#0f1013'];
+    public $colorBackgroundContrast = ['#fff', '#202329'];
 
     /**
      * @var string|array<string>
@@ -253,7 +253,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $filterOnIllustration = ['none', 'invert(100%) hue-rotate(180deg)'];
+    public $filterOnIllustration = ['none', 'brightness(89%) invert(100%) hue-rotate(180deg)'];
 
     public function __construct(string $themeMode)
     {
