@@ -586,11 +586,29 @@ class Pdf extends ReportRenderer
      */
     private function adjustLabelWidthForTableData(int $columnsCount): void
     {
-        if ($columnsCount <= 1 || !$this->reportHasData()) {
+        if ($columnsCount <= 1) {
+            $this->labelCellWidth = $this->totalWidth;
+            $this->cellWidth = 0;
             return;
         }
 
-        if (!$this->shouldUseShortLabelWidth()) {
+        if ($columnsCount < 5) {
+            if ($columnsCount === 2) {
+                $labelRatio = 0.7;
+            } elseif ($columnsCount === 3) {
+                $labelRatio = 0.65;
+            } else {
+                $labelRatio = 0.6;
+            }
+
+            $metricColumns = $columnsCount - 1;
+            $this->labelCellWidth = max((int) round($this->totalWidth * $labelRatio), $this->minWidthLabelCellPortrait);
+            $this->cellWidth = (int) round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
+            $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+            return;
+        }
+
+        if (!$this->reportHasData() || !$this->shouldUseShortLabelWidth()) {
             return;
         }
 
