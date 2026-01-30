@@ -388,6 +388,7 @@ class Pdf extends ReportRenderer
                     $text = $this->formatText($text);
                     $labelLineCount = $this->TCPDF->getNumLines($text, $this->labelCellWidth);
                     $shouldIncreaseLineHeight = $isLogoDisplayable && $labelLineCount > 1;
+                    $previousCellHeightRatio = null;
                     if ($shouldIncreaseLineHeight) {
                         $previousCellHeightRatio = $this->TCPDF->getCellHeightRatio();
                         $this->TCPDF->setCellHeightRatio($previousCellHeightRatio + 0.3);
@@ -499,9 +500,16 @@ class Pdf extends ReportRenderer
      * @param float $logoHeight
      * @return void
      */
-    private function renderLabelLinkAndLogo($url, float $posX, float $posY, float $rowHeight, array $rowMetadata,
-                                            bool $isLogoDisplayable, float &$logoWidth, float &$logoHeight): void
-    {
+    private function renderLabelLinkAndLogo(
+        $url,
+        float $posX,
+        float $posY,
+        float $rowHeight,
+        array $rowMetadata,
+        bool $isLogoDisplayable,
+        float &$logoWidth,
+        float &$logoHeight
+    ): void {
         if ($url) {
             $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $url);
         }
