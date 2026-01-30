@@ -233,65 +233,14 @@ class Pdf extends ReportRenderer
      */
     private function paintReportHeader()
     {
-        $isAggregateReport = !empty($this->reportMetadata['dimension']);
-
-        // Graph-only report
-        static $graphOnlyReportCount = 0;
-        $graphOnlyReport = $isAggregateReport && $this->displayGraph && !$this->displayTable;
-
-        // Table-only report
-        $tableOnlyReport = $isAggregateReport
-            && !$this->displayGraph
-            && $this->displayTable;
-
-        $columnCount = count($this->reportColumns);
-
-        // Table-only 2-column report
-        static $tableOnly2ColumnReportCount = 0;
-        $tableOnly2ColumnReport = $tableOnlyReport
-            && $columnCount == 2;
-
-        // Table-only report with more than 2 columns
-        static $tableOnlyManyColumnReportRowCount = 0;
-        $tableOnlyManyColumnReport = $tableOnlyReport
-            && $columnCount > 3;
-
-        $reportHasData = $this->reportHasData();
-
-        $rowCount = $reportHasData ? $this->report->getRowsCount() + self::TABLE_HEADER_ROW_COUNT : self::NO_DATA_ROW_COUNT;
-
-        // Only a page break before if the current report has some data
-        if (
-            $reportHasData
-            // and
-            && (
-                // it is the first report
-                $this->currentPage == 0
-                // or, it is a graph-only report and it is the first of a series of self::MAX_GRAPH_REPORTS
-                || ($graphOnlyReport && $graphOnlyReportCount == 0)
-                // or, it is a table-only 2-column report and it is the first of a series of self::MAX_2COL_TABLE_REPORTS
-                || ($tableOnly2ColumnReport && $tableOnly2ColumnReportCount == 0)
-                // or it is a table-only report with more than 2 columns and it is the first of its series or there isn't enough space left on the page
-                || ($tableOnlyManyColumnReport && ($tableOnlyManyColumnReportRowCount == 0 || $tableOnlyManyColumnReportRowCount + $rowCount >= self::MAX_ROW_COUNT))
-                // or it is a report with both a table and a graph
-                || !$graphOnlyReport && !$tableOnlyReport
-            )
-        ) {
+        if ($this->shouldAddPage()) {
             $this->currentPage++;
             $this->TCPDF->AddPage();
 
-            // Table-only reports with more than 2 columns are always landscape
-            if ($tableOnlyManyColumnReport) {
-                $tableOnlyManyColumnReportRowCount = 0;
-            }
             // Scheduled reports should never switch to landscape layouts to keep a consistent portrait output
             $this->orientation = self::PORTRAIT;
             $this->TCPDF->setPageOrientation($this->orientation, '', $this->bottomMargin);
         }
-
-        $graphOnlyReportCount = ($graphOnlyReport && $reportHasData) ? ($graphOnlyReportCount + 1) % self::MAX_GRAPH_REPORTS : 0;
-        $tableOnly2ColumnReportCount = ($tableOnly2ColumnReport && $reportHasData) ? ($tableOnly2ColumnReportCount + 1) % self::MAX_2COL_TABLE_REPORTS : 0;
-        $tableOnlyManyColumnReportRowCount = $tableOnlyManyColumnReport ? ($tableOnlyManyColumnReportRowCount + $rowCount) : 0;
 
         $title = $this->formatText($this->reportMetadata['name']);
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportHeaderFontSize);
@@ -301,6 +250,28 @@ class Pdf extends ReportRenderer
         $this->TCPDF->Ln();
         $this->TCPDF->SetFont($this->reportFont, '', $this->reportSimpleFontSize);
         $this->TCPDF->SetTextColor($this->reportTextColor[0], $this->reportTextColor[1], $this->reportTextColor[2]);
+    }
+
+    /**
+     * @return bool
+     */
+    private function shouldAddPage(): bool
+    {
+        $shouldAddPage = true;
+        if (!$this->reportHasData() && $this->currentPage > 0) {
+            $remainingHeight = $this->TCPDF->getPageHeight()
+                - $this->TCPDF->getBreakMargin()
+                - $this->TCPDF->GetY();
+            $requiredHeight = 15 + $this->cellHeight + 2;
+            if ($remainingHeight >= $requiredHeight) {
+                $shouldAddPage = false;
+            }
+        }
+
+        if ($this->currentPage === 0) {
+            $shouldAddPage = true;
+        }
+        return $shouldAddPage;
     }
 
     private function reportHasData()
