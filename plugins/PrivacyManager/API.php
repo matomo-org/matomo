@@ -116,6 +116,10 @@ class API extends \Piwik\Plugin\API
          * are disabled.
          */
         foreach ($siteIds as $siteId) {
+            if (!Piwik::isUserHasViewAccess($siteId)) {
+                continue;
+            }
+
             $isVisitorProfileEnabled = Live::isVisitorProfileEnabled($siteId);
 
             if ($isVisitorProfileEnabled) {

@@ -61,11 +61,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Return a single goal.
      *
-     * @param int $idSite
-     * @param int $idGoal
      * @return ?array An array of goal attributes.
      */
-    public function getGoal($idSite, $idGoal)
+    public function getGoal(int $idSite, int $idGoal): ?array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -74,6 +72,8 @@ class API extends \Piwik\Plugin\API
         if (!empty($goal)) {
             return $this->formatGoal($goal);
         }
+
+        return null;
     }
 
     /**
@@ -171,7 +171,7 @@ class API extends \Piwik\Plugin\API
      * @return int ID of the new goal
      */
     public function addGoal(
-        $idSite,
+        int $idSite,
         $name,
         $matchAttribute,
         $pattern,
@@ -239,7 +239,7 @@ class API extends \Piwik\Plugin\API
      * @see addGoal() for parameters description
      */
     public function updateGoal(
-        $idSite,
+        int $idSite,
         $idGoal,
         $name,
         $matchAttribute,
@@ -359,7 +359,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return void
      */
-    public function deleteGoal($idSite, $idGoal)
+    public function deleteGoal(int $idSite, $idGoal)
     {
         Piwik::checkUserHasWriteAccess($idSite);
 

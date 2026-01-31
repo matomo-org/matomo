@@ -36,12 +36,12 @@ use Piwik\Tracker\TableLogAction;
  */
 class API extends \Piwik\Plugin\API
 {
-    public function getTransitionsForPageTitle(string $pageTitle, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
+    public function getTransitionsForPageTitle(string $pageTitle, int $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
     {
         return $this->getTransitionsForAction($pageTitle, 'title', $idSite, $period, $date, $segment, $limitBeforeGrouping);
     }
 
-    public function getTransitionsForPageUrl(string $pageUrl, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
+    public function getTransitionsForPageUrl(string $pageUrl, int $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
     {
         return $this->getTransitionsForAction($pageUrl, 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping);
     }
@@ -63,7 +63,7 @@ class API extends \Piwik\Plugin\API
     public function getTransitionsForAction(
         string $actionName,
         string $actionType,
-        $idSite,
+        int $idSite,
         $period,
         $date,
         $segment = false,
@@ -723,7 +723,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return bool
      */
-    public function isPeriodAllowed($idSite, $period, $date): bool
+    public function isPeriodAllowed(int $idSite, $period, $date): bool
     {
         $maxPeriodAllowed = Transitions::getPeriodAllowedConfig($idSite);
         if ($maxPeriodAllowed === 'all') {
