@@ -120,6 +120,7 @@
         "ComplianceCNILTitle": "Συνθήκες εξαίρεσης συναίνεσης από τα αναλυτικά ιστού CNIL",
         "ComplianceCNILUnknownSettingOptOutNotes": "Το opt out πρέπει να οριστεί χειροκίνητα και να παραμετροποιηθεί. %1$sΜάθετε περισσότερα%2$s",
         "ComplianceCNILUnknownSettingOptOutTitle": "Opt out",
+        "ComplianceCNILWarning": "<b>Η συμμόρφωση δεν μπορεί να εγγυηθεί με τη χρήση προσθέτων από τρίτους.</b>",
         "ComputedMetricAverage": "Μέσος όρος %1$s ανά %2$s",
         "ComputedMetricAverageDocumentation": "Μέση τιμή από \"%1$s\" ανά \"%2$s\".",
         "ComputedMetricAverageShortDocumentation": "Μέση τιμή από \"%1$s\".",

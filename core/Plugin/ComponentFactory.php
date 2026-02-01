@@ -31,10 +31,14 @@ class ComponentFactory
      *                                         `"GetKeywords"`.
      * @param string $componentTypeClass The fully qualified class name of the component type, eg,
      *                                   `"Piwik\Plugin\Report"`.
-     * @return mixed|null A new instance of the desired component or null if not found. If the
-     *                    plugin is not loaded or activated or the component is not located in
-     *                    in the sub-namespace specified by `$componentTypeClass::COMPONENT_SUBNAMESPACE`,
-     *                    this method will return null.
+     *
+     * @template T of object
+     * @phpstan-param class-string<T> $componentTypeClass
+     *
+     * @return T|null A new instance of the desired component or null if not found. If the
+     *                plugin is not loaded or activated or the component is not located in
+     *                in the sub-namespace specified by `$componentTypeClass::COMPONENT_SUBNAMESPACE`,
+     *                this method will return null.
      */
     public static function factory($pluginName, $componentClassSimpleName, $componentTypeClass)
     {
@@ -82,8 +86,13 @@ class ComponentFactory
      *                                   `"Piwik\Plugin\Report"`.
      * @param string $pluginName|false The name of the plugin the component is expected to belong to,
      *                                 eg, `'DevicesDetection'`.
-     * @param callback $predicate
-     * @return mixed The component that satisfies $predicate or null if not found.
+     * @param callable $predicate
+     *
+     * @template T of object
+     * @phpstan-param class-string<T> $componentTypeClass
+     * @phpstan-param callable(T): bool $predicate
+     *
+     * @return T|null The component that satisfies $predicate or null if not found.
      */
     public static function getComponentIf($componentTypeClass, $pluginName, $predicate)
     {

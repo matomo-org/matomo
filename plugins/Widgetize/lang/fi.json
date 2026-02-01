@@ -1,7 +1,9 @@
 {
     "Widgetize": {
+        "DirectLink": "› Suora linkki",
         "DisplayDashboardInIframe": "Voit myös näyttää koko Matomo-kojelaudan sovelluksessasi tai verkkosivustollasi IFRAME-kehyksessä (%1$s, katso esimerkki%2$s). Päivämääräparametri voidaan asettaa tiettyyn kalenteripäivämäärään, kuten \"tänään\" tai \"eilen\". Period-parametri voidaan asettaa arvoon \"päivä\", \"viikko\", \"kuukausi\" tai \"vuosi\". Kieliparametri voidaan asettaa käännöksen kielikoodiin, kuten language=fr. Esimerkiksi, jos idSite=1 ja date=eilen, voit kirjoittaa:",
         "DisplayDashboardInIframeAllSites": "Voit myös tehdä kaikkien verkkosivustojen hallintapaneelista vimpaimen näköiseksi IFRAME-kehyksessä (%1$s_katso esimerkki%2$s)",
+        "EmbedIframe": "&rsaquo; Upota Iframe",
         "Intro": "Matomon avulla voit %1$sviedä Web Analytics -raporttisi%2$s blogiisi, verkkosivustollesi tai intranet-hallintapaneeliisi… yhdellä napsautuksella.",
         "OpenInNewWindow": "Avaa uudessa ikkunassa",
         "PluginDescription": "Näytä mikä tahansa Matomon raporteista verkkosivullasi tai sovelluksessa yksinkertaisella HTML-upotuskoodinpätkällä (\"embed\").",

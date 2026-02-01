@@ -94,7 +94,7 @@ class DbTable implements \SessionHandlerInterface
             . ' WHERE ' . $this->config['primary'] . ' = ?'
             . ' AND ' . $this->config['modifiedColumn'] . ' + ' . $this->config['lifetimeColumn'] . ' >= ?';
 
-        $result = $this->fetchOne($sql, array($id, time()));
+        $result = $this->fetchOne($sql, [$id, time()]);
 
         if (!$result) {
             $result = '';
@@ -155,7 +155,7 @@ class DbTable implements \SessionHandlerInterface
             . $this->config['lifetimeColumn'] . ' = ?,'
             . $this->config['dataColumn'] . ' = ?';
 
-        $this->query($sql, array($id, time(), $this->maxLifetime, $data, time(), $this->maxLifetime, $data));
+        $this->query($sql, [$id, time(), $this->maxLifetime, $data, time(), $this->maxLifetime, $data]);
 
         return true;
     }
@@ -173,7 +173,19 @@ class DbTable implements \SessionHandlerInterface
 
         $sql = 'DELETE FROM `' . $this->config['name'] . '` WHERE ' . $this->config['primary'] . ' = ?';
 
-        $this->query($sql, array($id));
+        $this->query($sql, [$id]);
+
+        return true;
+    }
+
+    /**
+     * Destroys all Sessions - removes all rows in Session table
+     */
+    public function destroyAll(): bool
+    {
+        $sql = 'TRUNCATE TABLE `' . $this->config['name'] . '`';
+
+        $this->query($sql, []);
 
         return true;
     }
@@ -191,7 +203,7 @@ class DbTable implements \SessionHandlerInterface
         $sql = 'DELETE FROM `' . $this->config['name'] . '`'
             . ' WHERE ' . $this->config['modifiedColumn'] . ' + ' . $this->config['lifetimeColumn'] . ' < ?';
 
-        $this->query($sql, array(time()));
+        $this->query($sql, [time()]);
 
         return true;
     }

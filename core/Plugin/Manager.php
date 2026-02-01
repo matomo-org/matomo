@@ -600,7 +600,10 @@ class Manager
      *                                  given subclass. If the requested file exists but does not extend this class
      *                                  a warning will be shown to advice a developer to extend this certain class.
      *
-     * @return \stdClass[]
+     * @template T of object
+     * @phpstan-param class-string<T>|''|false|null $expectedSubclass
+     *
+     * @return array<class-string<T>>
      */
     public function findComponents($componentName, $expectedSubclass)
     {
@@ -621,7 +624,7 @@ class Manager
     /**
      * @template T of object
      * @param string $directoryWithinPlugin
-     * @param class-string<T> $expectedSubclass
+     * @param class-string<T>|''|false|null $expectedSubclass
      * @return array<class-string<T>>
      */
     public function findMultipleComponents($directoryWithinPlugin, $expectedSubclass)
