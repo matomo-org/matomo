@@ -42,7 +42,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the list of metrics (pages, downloads, outlinks).
      *
-     * @param int|string|int[]                 $idSite  Website ID(s) to query.
+     * @param int|string|int[]                $idSite  Website ID(s) to query.
      *                                                 - Single site ID (e.g. 1)
      *                                                 - Multiple site IDs (e.g. [1, 4, 5])
      *                                                 - Comma-separated list ("1,4,5") or "all"
@@ -56,7 +56,7 @@ class API extends \Piwik\Plugin\API
      *                                                 'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                                 or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false                     $segment (Optional) Custom segment to filter the report.
+     * @param string|false                    $segment (Optional) Custom segment to filter the report.
      *                                                 Example: "referrerName==twitter.com"
      *                                                 Supports AND (;) and OR (,) operators.
      *                                                 [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -93,7 +93,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns page URL reports for the given site and date range.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -107,7 +107,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -152,7 +152,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns page URLs that immediately follow a site search.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -166,7 +166,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -188,7 +188,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns page titles that immediately follow a site search.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -202,7 +202,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -239,7 +239,7 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique entry page URL, for
      * the specified site, period & segment.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -253,7 +253,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -284,7 +284,7 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique exit page URL, for
      * the specified site, period & segment.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -298,7 +298,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -329,7 +329,7 @@ class API extends \Piwik\Plugin\API
      * Returns a report for a single page URL.
      *
      * @param string           $pageUrl  The page URL to match (must be URL encoded).
-     * @param int|string|int[]  $idSite   Website ID(s) to query.
+     * @param int|string|int[] $idSite   Website ID(s) to query.
      *                                   - Single site ID (e.g. 1)
      *                                   - Multiple site IDs (e.g. [1, 4, 5])
      *                                   - Comma-separated list ("1,4,5") or "all"
@@ -343,7 +343,7 @@ class API extends \Piwik\Plugin\API
      *                                   'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                   or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment  (Optional) Custom segment to filter the report.
+     * @param string|false     $segment  (Optional) Custom segment to filter the report.
      *                                   Example: "referrerName==twitter.com"
      *                                   Supports AND (;) and OR (,) operators.
      *                                   [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -364,7 +364,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns page title reports for the given site and date range.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -378,7 +378,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -404,7 +404,7 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique entry page title
      * for the given site, time period & segment.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -418,7 +418,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -449,7 +449,7 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique exit page title
      * for the given site, time period & segment.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -463,7 +463,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -494,7 +494,7 @@ class API extends \Piwik\Plugin\API
      * Returns a report for a single page title.
      *
      * @param string           $pageName The page title to match (must be URL encoded).
-     * @param int|string|int[]  $idSite   Website ID(s) to query.
+     * @param int|string|int[] $idSite   Website ID(s) to query.
      *                                   - Single site ID (e.g. 1)
      *                                   - Multiple site IDs (e.g. [1, 4, 5])
      *                                   - Comma-separated list ("1,4,5") or "all"
@@ -508,7 +508,7 @@ class API extends \Piwik\Plugin\API
      *                                   'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                   or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment  (Optional) Custom segment to filter the report.
+     * @param string|false     $segment  (Optional) Custom segment to filter the report.
      *                                   Example: "referrerName==twitter.com"
      *                                   Supports AND (;) and OR (,) operators.
      *                                   [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -529,7 +529,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns download reports for the given site and date range.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -543,7 +543,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -567,7 +567,7 @@ class API extends \Piwik\Plugin\API
      * Returns a report for a single download URL.
      *
      * @param string           $downloadUrl The download URL to match (must be URL encoded).
-     * @param int|string|int[]  $idSite      Website ID(s) to query.
+     * @param int|string|int[] $idSite      Website ID(s) to query.
      *                                      - Single site ID (e.g. 1)
      *                                      - Multiple site IDs (e.g. [1, 4, 5])
      *                                      - Comma-separated list ("1,4,5") or "all"
@@ -581,7 +581,7 @@ class API extends \Piwik\Plugin\API
      *                                      'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                      or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment     (Optional) Custom segment to filter the report.
+     * @param string|false     $segment     (Optional) Custom segment to filter the report.
      *                                      Example: "referrerName==twitter.com"
      *                                      Supports AND (;) and OR (,) operators.
      *                                      [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -601,7 +601,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns outlink reports for the given site and date range.
      *
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -615,7 +615,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -639,7 +639,7 @@ class API extends \Piwik\Plugin\API
      * Returns a report for a single outlink URL.
      *
      * @param string           $outlinkUrl The outlink URL to match (must be URL encoded).
-     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     * @param int|string|int[] $idSite     Website ID(s) to query.
      *                                     - Single site ID (e.g. 1)
      *                                     - Multiple site IDs (e.g. [1, 4, 5])
      *                                     - Comma-separated list ("1,4,5") or "all"
@@ -653,7 +653,7 @@ class API extends \Piwik\Plugin\API
      *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
-     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     * @param string|false     $segment    (Optional) Custom segment to filter the report.
      *                                     Example: "referrerName==twitter.com"
      *                                     Supports AND (;) and OR (,) operators.
      *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -673,15 +673,15 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the site search keyword report for the given site and date range.
      *
-     * @param int         $idSite  The numeric ID of the website to query.
-     *                             Dates and periods parameters are interpreted in the website timezone.
+     * @param int          $idSite  The numeric ID of the website to query.
+     *                              Dates and periods parameters are interpreted in the website timezone.
      *
-     * @param string      $period  The period to request statistics for, returns data for the period containing the specified date.
-     *                             Allowed values: "day", "week", "month", "year", "range".
+     * @param string       $period  The period to request statistics for, returns data for the period containing the specified date.
+     *                              Allowed values: "day", "week", "month", "year", "range".
      *
-     * @param string      $date    The date or date range to request data for.
-     *                             'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string       $date    The date or date range to request data for.
+     *                              'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                              or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
      * @param string|false $segment (Optional) Custom segment to filter the report.
      *                             Example: "referrerName==twitter.com"
@@ -723,20 +723,20 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the site search keywords that had no results.
      *
-     * @param int         $idSite  The numeric ID of the website to query.
-     *                             Dates and periods parameters are interpreted in the website timezone.
+     * @param int          $idSite  The numeric ID of the website to query.
+     *                              Dates and periods parameters are interpreted in the website timezone.
      *
-     * @param string      $period  The period to request statistics for, returns data for the period containing the specified date.
-     *                             Allowed values: "day", "week", "month", "year", "range".
+     * @param string       $period  The period to request statistics for, returns data for the period containing the specified date.
+     *                              Allowed values: "day", "week", "month", "year", "range".
      *
-     * @param string      $date    The date or date range to request data for.
-     *                             'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string       $date    The date or date range to request data for.
+     *                              'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                              or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
      * @param string|false $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
      *
      * @return DataTable|DataTable\Map Site search keywords with no results.
      */
@@ -767,20 +767,20 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns site search category reports for the given site and date range.
      *
-     * @param int         $idSite  The numeric ID of the website to query.
-     *                             Dates and periods parameters are interpreted in the website timezone.
+     * @param int          $idSite  The numeric ID of the website to query.
+     *                              Dates and periods parameters are interpreted in the website timezone.
      *
-     * @param string      $period  The period to request statistics for, returns data for the period containing the specified date.
-     *                             Allowed values: "day", "week", "month", "year", "range".
+     * @param string       $period  The period to request statistics for, returns data for the period containing the specified date.
+     *                              Allowed values: "day", "week", "month", "year", "range".
      *
-     * @param string      $date    The date or date range to request data for.
-     *                             'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string       $date    The date or date range to request data for.
+     *                              'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                              or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
      * @param string|false $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *                              Example: "referrerName==twitter.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
      *
      * @return DataTable|DataTable\Map Site search category report.
      */
