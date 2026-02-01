@@ -174,26 +174,25 @@ class API extends \Piwik\Plugin\API
      *
      * Note: This is done automatically when tracking or importing visits in the past.
      *
-     * @param string $idSites Comma separated list of site IDs to invalidate reports for.
-     * @param string|string[] $dates For non-range periods, a comma-separated list or array of dates in
-     *                               'YYYY-MM-DD' format, plus the keywords 'today' or 'yesterday'. For period='range',
-     *                               a range string (or list) in one of these forms: 'lastN'/'previousN' (for example,
-     *                               'last7', 'previous30') or '<start>,<end>' where start is 'YYYY-MM-DD' or
-     *                               'last week'|'last month'|'last year', and end is 'YYYY-MM-DD'|'today'|'now'|
-     *                               'yesterday'|'last week'|'last month'|'last year'. Dates are interpreted in UTC;
-     *                               relative keywords like 'today'/'yesterday'/'now' are evaluated in UTC.
-     * @param string|false $period Period identifier enabled for the API (base identifiers are 'day', 'week', 'month',
-     *                             'year', 'range', plus any enabled custom periods). The type of period to
-     *                             invalidate: either 'day', 'week', 'month', 'year', 'range'. The command will
-     *                             automatically cascade up, invalidating reports for parent periods as well. So
-     *                             invalidating a day will invalidate the week it's in, the month it's in and the
-     *                             year it's in, since those periods will need to be recomputed too. Use 'range' when
-     *                             $dates is a date range string; pass false to leave the period unspecified.
-     * @param string|false $segment Optional. The segment to invalidate reports for.
-     * @param bool $cascadeDown If true, child periods will be invalidated as well. So if it is requested to invalidate
-     *                          a month, then all the weeks and days within that month will also be invalidated. But only
-     *                          if this parameter is set.
-     * @param bool $_forceInvalidateNonexistent If true, creates invalidation entries even when no archives exist.
+     * @param int|string|int[] $idSites                     Website ID(s) to query.
+     *                                                      - Single site ID (e.g. 1)
+     *                                                      - Multiple site IDs (e.g. [1, 4, 5])
+     *                                                      - Comma-separated list ("1,4,5") or "all"
+     *
+     * @param string|array  $dates                          Dates to process.
+     *                                                      Non-range periods: 'YYYY-MM-DD' (or comma list), plus 'today'/'yesterday'.
+     *                                                      Range period: a single range string like 'YYYY-MM-DD,YYYY-MM-DD' or 'lastN'/'previousN'.
+     *
+     * @param string|false  $period                         Period to use: 'day', 'week', 'month', 'year', or 'range' (or false to infer).
+     * @param string|false  $segment                        (Optional) Custom segment to filter the report.
+     *                                                      Example: "referrerName==twitter.com"
+     *                                                      Supports AND (;) and OR (,) operators.
+     *                                                      [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool          $cascadeDown                    If true, child periods will be invalidated as well. So if it is requested to invalidate
+     *                                                      a month, then all the weeks and days within that month will also be invalidated. But only
+     *                                                      if this parameter is set.
+     * @param bool          $_forceInvalidateNonexistent    If true, creates invalidation entries even when no archives exist.
      * @return string[] Log output describing what was invalidated.
      * @throws Exception If the site list is invalid or access is denied.
      * @hideExceptForSuperUser
@@ -275,8 +274,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Deletes a specific tracking failure.
      *
-     * @param int $idSite Site ID.
-     * @param int $idFailure Failure ID.
+     * @param int $idSite     The numeric ID of the website to query.
+     * @param int $idFailure  Failure ID.
      * @return void
      */
     public function deleteTrackingFailure($idSite, $idFailure)
@@ -311,21 +310,23 @@ class API extends \Piwik\Plugin\API
     /**
      * Runs a full archiving pass for a site and optional plugin/report.
      *
-     * @param int $idSite Site ID to archive.
-     * @param string $period Period identifier enabled for the API (base identifiers are 'day', 'week', 'month',
-     *                       'year', 'range', plus any enabled custom periods). If 'range', $date must be a range.
-     * @param string|int|\Piwik\Date $date A single date value or a multi-period spec. Single dates can be
-     *                                    'YYYY-MM-DD', unix timestamps, or any strtotime-compatible string without
-     *                                    commas, plus keywords 'now', 'today', 'tomorrow', 'yesterday',
-     *                                    'yesterdaySameTime', 'last week', 'last month', 'last year'. Multi-period
-     *                                    values include 'lastN'/'previousN' (for example, 'last7') or
-     *                                    '<start>,<end>' where start is 'YYYY-MM-DD' or 'last week'|'last month'|
-     *                                    'last year', and end is 'YYYY-MM-DD'|'today'|'now'|'yesterday'|'last week'|
-     *                                    'last month'|'last year'. Dates are interpreted in UTC; relative keywords
-     *                                    are evaluated in UTC.
-     * @param string|false $segment Optional segment definition string.
-     * @param string|false $plugin Optional plugin name to archive.
-     * @param string|false $report Optional report identifier to archive.
+     * @param int                $idSite  The numeric ID of the website to query.
+     *                                    Dates and periods parameters are interpreted in the website timezone.
+     *
+     * @param string             $period  The period to process, processes data for the period containing the specified date.
+     *                                    Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string|\Piwik\Date $date    The date or date range to process.
+     *                                    'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                    or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false       $segment (Optional) Custom segment to filter the report.
+     *                                    Example: "referrerName==twitter.com"
+     *                                    Supports AND (;) and OR (,) operators.
+     *                                    [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param string|false       $plugin   Optional plugin name to archive.
+     * @param string|false       $report   Optional report identifier to archive.
      * @return array<string, mixed> Archive preparation result; includes 'idarchives' and 'nb_visits' when available.
      * @throws \Piwik\Exception\UnexpectedWebsiteFoundException If the site ID is invalid.
      * @internal
