@@ -910,7 +910,7 @@ class API extends \Piwik\Plugin\API
      * Common filters for all Actions API
      *
      * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
-     * @param bool                                   $isPageTitleType Whether we are handling page title or regular URL
+     * @param bool $isPageTitleType Whether we are handling page title or regular URL
      */
     private function filterActionsDataTable($dataTable, $isPageTitleType)
     {
