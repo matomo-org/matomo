@@ -5,6 +5,7 @@
         "ActivateLicenseKey": "הפעל",
         "Authors": "כותבים",
         "PluginKeywords": "מילות מפתח",
-        "PluginVersionInfo": "%1$s מתוך %2$s"
+        "PluginVersionInfo": "%1$s מתוך %2$s",
+        "Sort": "מיון"
     }
 }

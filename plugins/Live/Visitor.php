@@ -107,7 +107,7 @@ class Visitor implements VisitorInterface
     /**
      * Returns class names of all VisitorDetails classes.
      *
-     * @return string[]
+     * @return array<class-string<VisitorDetailsAbstract>>
      * @api
      */
     protected static function getAllVisitorDetailsClasses()

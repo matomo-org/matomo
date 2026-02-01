@@ -15,6 +15,7 @@ use Piwik\Exception\MissingFilePermissionException;
 use Piwik\Plugins\Overlay\Overlay;
 use Piwik\Session\SaveHandler\DbTable;
 use Piwik\Log\LoggerInterface;
+use Piwik\Session\SessionFingerprint;
 use Zend_Session;
 
 /**
@@ -226,7 +227,7 @@ class Session extends Zend_Session
         return $headerStr;
     }
 
-    public static function getDbTableConfig()
+    public static function getDbTableConfig(): array
     {
         return array(
             'name'           => Common::prefixTable(DbTable::TABLE_NAME),
@@ -235,5 +236,14 @@ class Session extends Zend_Session
             'dataColumn'     => 'data',
             'lifetimeColumn' => 'lifetime',
         );
+    }
+
+    public static function destroyAllSessions(): void
+    {
+        $config = self::getDbTableConfig();
+        $saveHandler = new DbTable($config);
+        $saveHandler->destroyAll();
+        $fingerprint = new SessionFingerprint();
+        $fingerprint->clear();
     }
 }
