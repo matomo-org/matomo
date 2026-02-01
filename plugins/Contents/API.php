@@ -34,10 +34,10 @@ class API extends \Piwik\Plugin\API
      *                                   Dates and periods parameters are interpreted in the website timezone.
      *                                   When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @param string           $period   The period to request statistics for, returns data for the period containing the specified date.
+     * @param string           $period   The period to process, processes data for the period containing the specified date.
      *                                   Allowed values: "day", "week", "month", "year", "range".
      *
-     * @param string           $date     The date or date range to request data for.
+     * @param string           $date     The date or date range to process.
      *                                   'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                   or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
@@ -64,10 +64,10 @@ class API extends \Piwik\Plugin\API
      *                                   Dates and periods parameters are interpreted in the website timezone.
      *                                   When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @param string           $period   The period to request statistics for, returns data for the period containing the specified date.
+     * @param string           $period   The period to process, processes data for the period containing the specified date.
      *                                   Allowed values: "day", "week", "month", "year", "range".
      *
-     * @param string           $date     The date or date range to request data for.
+     * @param string           $date     The date or date range to process.
      *                                   'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
      *                                   or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
      *
