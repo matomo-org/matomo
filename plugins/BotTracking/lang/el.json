@@ -20,6 +20,19 @@
         "ColumnUniquePageUrls": "Μοναδικές διευθύνσεις URL σελίδων",
         "ColumnUniquePageUrlsDocumentation": "Μοναδικές διευθύνσεις URL που αιτήθηκαν οι βοηθοί ΤΝ.",
         "ColumnUniqueDocumentUrls": "Μοναδικές διευθύνσεις URL εγγράφων",
-        "ColumnUniqueDocumentUrlsDocumentation": "Μοναδικές διευθύνσεις URL εγγράφων και μεταφορτώσεων που αιτούνται οι βοηθοί ΤΝ."
+        "ColumnUniqueDocumentUrlsDocumentation": "Μοναδικές διευθύνσεις URL εγγράφων και μεταφορτώσεων που αιτούνται οι βοηθοί ΤΝ.",
+        "ColumnUniqueAiChatbots": "Μοναδικά bot ΤΝ",
+        "ColumnUniqueAiChatbotsDocumentation": "Βοηθοί ΤΝ που εντοπίστηκαν στην επιλεγμένη περίοδο.",
+        "ColumnNotFoundRequests": "Αιτήσεις μη εύρεσης",
+        "ColumnNotFoundRequestsDocumentation": "Αριθμός αιτήσεων από μποτ που επέστρεψαν απόκριση HTTP 404 ή 410, συμπεριλαμβανομένου τις διευθύνσεις URL των εγγράφων.",
+        "ColumnServerErrorRequests": "Αιτήσεις σφαλμάτων διακομιστή (5xx)",
+        "ColumnServerErrorRequestsDocumentation": "Αριθμός αιτήσεων μποτ που επέστρεψαν απόκριση HTTP 5xx, συμπεριλαμβανομένου τις διευθύνσεις URL των εγράφων.",
+        "ColumnClickThroughRate": "Ρυθμός κλικ-διαμέσου",
+        "ColumnClickThroughRateDocumentation": "Μερίδιο των αιτήσεων από βοηθούς ΤΝ που είχαν ως αποτέλεσμα σε επισκέψεις που αποκτήθηκαν (αποκτημένες επισκέψεις ÷ αιτήσεις).",
+        "DocumentUrl": "Διεύθυνση URL εγγράφου",
+        "ReportTitleBotsOverTime": "Βοηθοί ΤΝ - Μποτ μέσα στο χρόνο",
+        "ReportTitleBotsOverview": "Βοηθοί ΤΝ - σύνοψη μποτ",
+        "BotsOverTimeReportDocumentation": "Αυτή η αναφορά εμφανίζει σε γράφημα την εξέλιξη της δραστηριότητας των βοηθών ΤΝ. Κάντε κλικ σε οποιαδήποτε μετρική για να μεγεθύνετε το γράφημα και να δείτε την τάση που υπάρχει.",
+        "SegmentNotSupported": "Η αναφορά δεν υποστηρίζει τμηματοποίηση. Τα δεδομένα που εμφανίζονται είναι τα πρότυπα, χωρίς τμηματοποίηση δεδομένα αναφοράς."
     }
 }
