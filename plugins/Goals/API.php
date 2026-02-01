@@ -61,7 +61,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Return a single goal.
      *
-     * @param int $idSite
+     * @param int $idSite The numeric ID of the website to query.
      * @param int $idGoal
      * @return array|null An array of goal attributes, or null if the goal does not exist.
      */
@@ -79,8 +79,14 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns all Goals for a given website, or list of websites
      *
-     * @param int|string|array<int|string> $idSite Array or comma-separated list of website IDs to request the goals for.
-     * @param bool $orderByName
+     * @param int|string|int[] $idSite      Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param bool             $orderByName
      *
      * @return array<int|string, array<string, mixed>> Array of Goal attributes,
      *               indexed by "idgoal" when requesting a single site,
@@ -156,18 +162,20 @@ class API extends \Piwik\Plugin\API
     /**
      * Creates a Goal for a given website.
      *
-     * @param int        $idSite
+     * @param int        $idSite                           The numeric ID of the website to query.
      * @param string     $name
      * @param string     $matchAttribute                   'url', 'title', 'file', 'external_website', 'manually', 'visit_duration', 'visit_total_actions',
      *                                                     'visit_total_pageviews', 'event_action', 'event_category' or 'event_name'
+     *
      * @param string     $pattern                          For URL/title/file matches, the match pattern. For numeric match attributes, a numeric value.
      * @param string     $patternType                      'regex', 'contains', 'exact', or 'greater_than' for numeric match attributes.
      * @param bool       $caseSensitive
      * @param bool|float $revenue                          If set, default revenue to assign to conversions.
      * @param bool       $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
      *                                                     If set to true, multiple conversions will all be recorded within a visit (useful for Ecommerce goals).
+     *
      * @param string     $description
-     * @param bool       $useEventValueAsRevenue           Whether to use the event value as revenue for matching event goals.
+     * @param bool       $useEventValueAsRevenue         Whether to use the event value as revenue for matching event goals.
      *
      * @return int ID of the new goal
      */
@@ -225,7 +233,7 @@ class API extends \Piwik\Plugin\API
      * Updates a Goal description.
      * Will not update or re-process the conversions already recorded
      *
-     * @param int        $idSite
+     * @param int        $idSite                         The numeric ID of the website to query.
      * @param int        $idGoal
      * @param string     $name
      * @param string     $matchAttribute
@@ -235,7 +243,7 @@ class API extends \Piwik\Plugin\API
      * @param bool|float $revenue
      * @param bool       $allowMultipleConversionsPerVisit
      * @param string     $description
-     * @param bool       $useEventValueAsRevenue           Whether to use the event value as revenue for matching event goals.
+     * @param bool       $useEventValueAsRevenue        Whether to use the event value as revenue for matching event goals.
      *
      * @return void
      * @see addGoal() for parameters description
@@ -356,7 +364,7 @@ class API extends \Piwik\Plugin\API
      * Soft deletes a given Goal.
      * Stats data in the archives will still be recorded, but not displayed.
      *
-     * @param int $idSite
+     * @param int $idSite The numeric ID of the website to query.
      * @param int $idGoal
      *
      * @return void
@@ -476,20 +484,25 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a datatable of item SKUs and their ecommerce metrics.
      *
-     * @param int|string|array<int|string> $idSite         The site(s) to request data for.
-     * @param string                      $period         Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                                     Plugins can add other period identifiers when enabled for the API.
-     *                                                     Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                                     otherwise UTC is used.
-     * @param string                      $date           Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                                     (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                                     or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                                     Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                                     YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                                     Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                                     single site, otherwise UTC is used.
-     * @param bool                        $abandonedCarts  If true, return items abandoned in carts instead of purchased items.
-     * @param string|false                $segment         Optional segment definition, or false for no segment.
+     * @param int|string|int[] $idSite          Website ID(s) to query.
+     *                                        - Single site ID (e.g. 1)
+     *                                        - Multiple site IDs (e.g. [1, 4, 5])
+     *                                        - Comma-separated list ("1,4,5") or "all"
+     *                                        Dates and periods parameters are interpreted in the website timezone.
+     *                                        When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period          The period to process, processes data for the period containing the specified date.
+     *                                         Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date            The date or date range to process.
+     *                                         'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                         or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param bool             $abandonedCarts  If true, return items abandoned in carts instead of purchased items.
+     * @param string|false     $segment         (Optional) Custom segment to filter the report.
+     *                                         Example: "referrerName==twitter.com"
+     *                                         Supports AND (;) and OR (,) operators.
+     *                                         [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
      *
      * @return DataTable DataTable of item SKU metrics.
      */
@@ -503,20 +516,25 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a datatable of item names and their ecommerce metrics.
      *
-     * @param int|string|array<int|string> $idSite         The site(s) to request data for.
-     * @param string                      $period         Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                                     Plugins can add other period identifiers when enabled for the API.
-     *                                                     Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                                     otherwise UTC is used.
-     * @param string                      $date           Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                                     (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                                     or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                                     Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                                     YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                                     Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                                     single site, otherwise UTC is used.
-     * @param bool                        $abandonedCarts  If true, return items abandoned in carts instead of purchased items.
-     * @param string|false                $segment         Optional segment definition, or false for no segment.
+     * @param int|string|int[] $idSite        Website ID(s) to query.
+     *                                        - Single site ID (e.g. 1)
+     *                                        - Multiple site IDs (e.g. [1, 4, 5])
+     *                                        - Comma-separated list ("1,4,5") or "all"
+     *                                        Dates and periods parameters are interpreted in the website timezone.
+     *                                        When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period         The period to process, processes data for the period containing the specified date.
+     *                                         Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date           The date or date range to process.
+     *                                         'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                         or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param bool             $abandonedCarts  If true, return items abandoned in carts instead of purchased items.
+     * @param string|false     $segment        (Optional) Custom segment to filter the report.
+     *                                         Example: "referrerName==twitter.com"
+     *                                         Supports AND (;) and OR (,) operators.
+     *                                         [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
      *
      * @return DataTable DataTable of item name metrics.
      */
@@ -530,20 +548,26 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a datatable of item categories and their ecommerce metrics.
      *
-     * @param int|string|array<int|string> $idSite         The site(s) to request data for.
-     * @param string                      $period         Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                                     Plugins can add other period identifiers when enabled for the API.
-     *                                                     Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                                     otherwise UTC is used.
-     * @param string                      $date           Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                                     (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                                     or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                                     Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                                     YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                                     Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                                     single site, otherwise UTC is used.
-     * @param bool                        $abandonedCarts  If true, return items abandoned in carts instead of purchased items.
-     * @param string|false                $segment         Optional segment definition, or false for no segment.
+     * @param int|string|int[] $idSite        Website ID(s) to query.
+     *                                        - Single site ID (e.g. 1)
+     *                                        - Multiple site IDs (e.g. [1, 4, 5])
+     *                                        - Comma-separated list ("1,4,5") or "all"
+     *                                        Dates and periods parameters are interpreted in the website timezone.
+     *                                        When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period        The period to process, processes data for the period containing the specified date.
+     *                                        Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date          The date or date range to process.
+     *                                        'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                        or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param bool             $abandonedCarts  If true, return items abandoned in carts instead of purchased items.
+     *
+     * @param string|false     $segment        (Optional) Custom segment to filter the report.
+     *                                         Example: "referrerName==twitter.com"
+     *                                         Supports AND (;) and OR (,) operators.
+     *                                         [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
      *
      * @return DataTable DataTable of item category metrics.
      */
@@ -580,24 +604,31 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns Goals data.
      *
-     * @param int|string|array<int|string> $idSite                     The site(s) to request data for.
-     * @param string                      $period                     Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                                                Plugins can add other period identifiers when enabled for the API.
-     *                                                                Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                                                otherwise UTC is used.
-     * @param string                      $date                       Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                                                (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                                                or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                                                Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                                                YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                                                Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                                                single site, otherwise UTC is used.
-     * @param string|false                $segment                    Optional segment definition, or false for no segment.
-     * @param int|string|false            $idGoal                     Goal identifier, or false for all goals.
+     * @param int|string|int[]           $idSite                      Website ID(s) to query.
+     *                                                                - Single site ID (e.g. 1)
+     *                                                                - Multiple site IDs (e.g. [1, 4, 5])
+     *                                                                - Comma-separated list ("1,4,5") or "all"
+     *                                                                Dates and periods parameters are interpreted in the website timezone.
+     *                                                                When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string                     $period                      The period to process, processes data for the period containing the specified date.
+     *                                                                Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string                     $date                        The date or date range to process.
+     *                                                                'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                                                or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false               $segment                     (Optional) Custom segment to filter the report.
+     *                                                                Example: "referrerName==twitter.com"
+     *                                                                Supports AND (;) and OR (,) operators.
+     *                                                                [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param int|string|false           $idGoal                      Goal identifier, or false for all goals.
      *                                                                Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
-     * @param array<int, string>|string   $columns                    Array of metrics to fetch: nb_conversions, conversion_rate, revenue.
-     * @param bool                        $showAllGoalSpecificMetrics Whether to show all goal-specific metrics when no goal is set.
-     * @param bool                        $compare                    Set to true when requesting comparison data.
+     *
+     * @param array<int, string>|string  $columns                      Array of metrics to fetch: nb_conversions, conversion_rate, revenue.
+     * @param bool                       $showAllGoalSpecificMetrics   Whether to show all goal-specific metrics when no goal is set.
+     * @param bool                       $compare                      Set to true when requesting comparison data.
      *
      * @return DataTable Goals metrics data table.
      */
@@ -676,23 +707,30 @@ class API extends \Piwik\Plugin\API
      * any segment by default. This method is deprecated from the API as it is only there to make the implementation of
      * the actual {@link get()} method easy.
      *
-     * @param int|string|array<int|string> $idSite                     The site(s) to request data for.
-     * @param string                      $period                     Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                                                Plugins can add other period identifiers when enabled for the API.
-     *                                                                Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                                                otherwise UTC is used.
-     * @param string                      $date                       Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                                                (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                                                or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                                                Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                                                YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                                                Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                                                single site, otherwise UTC is used.
-     * @param string|false                $segment                    Optional segment definition, or false for no segment.
-     * @param int|string|false            $idGoal                     Goal identifier, or false for all goals.
+     * @param int|string|int[]           $idSite                      Website ID(s) to query.
+     *                                                                - Single site ID (e.g. 1)
+     *                                                                - Multiple site IDs (e.g. [1, 4, 5])
+     *                                                                - Comma-separated list ("1,4,5") or "all"
+     *                                                                Dates and periods parameters are interpreted in the website timezone.
+     *                                                                When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string                     $period                      The period to process, processes data for the period containing the specified date.
+     *                                                                Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string                     $date                        The date or date range to process.
+     *                                                                'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                                                or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false               $segment                     (Optional) Custom segment to filter the report.
+     *                                                                Example: "referrerName==twitter.com"
+     *                                                                Supports AND (;) and OR (,) operators.
+     *                                                                [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param int|string|false           $idGoal                      Goal identifier, or false for all goals.
      *                                                                Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
-     * @param array<int, string>|string   $columns                    Array of metrics to fetch: nb_conversions, conversion_rate, revenue.
-     * @param bool                        $showAllGoalSpecificMetrics Whether to show all goal-specific metrics when no goal is set.
+     *
+     * @param array<int, string>|string  $columns                      Array of metrics to fetch: nb_conversions, conversion_rate, revenue.
+     * @param bool                       $showAllGoalSpecificMetrics   Whether to show all goal-specific metrics when no goal is set.
      *
      * @return DataTable Goals metrics data table.
      * @deprecated
@@ -822,21 +860,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the number of conversions for the requested period.
      *
-     * @param int|string|array<int|string> $idSite  The site(s) to request data for.
-     * @param string                      $period  Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                             Plugins can add other period identifiers when enabled for the API.
-     *                                             Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                             otherwise UTC is used.
-     * @param string                      $date    Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                             (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                             or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                             Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                             YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                             Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                             single site, otherwise UTC is used.
-     * @param string|false                $segment Optional segment definition, or false for no segment.
-     * @param int|string|false            $idGoal  Goal identifier, or false for all goals.
-     *                                             Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
+     * @param int|string|int[] $idSite  Website ID(s) to query.
+     *                                  - Single site ID (e.g. 1)
+     *                                  - Multiple site IDs (e.g. [1, 4, 5])
+     *                                  - Comma-separated list ("1,4,5") or "all"
+     *                                  Dates and periods parameters are interpreted in the website timezone.
+     *                                  When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period  The period to process, processes data for the period containing the specified date.
+     *                                  Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date    The date or date range to process.
+     *                                  'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                  or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false     $segment (Optional) Custom segment to filter the report.
+     *                                  Example: "referrerName==twitter.com"
+     *                                  Supports AND (;) and OR (,) operators.
+     *                                  [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param int|string|false $idGoal  Goal identifier, or false for all goals.
+     *                                  Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
      *
      * @return DataTable Conversions data table.
      * @ignore
@@ -849,21 +893,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the number of visits with at least one conversion for the requested period.
      *
-     * @param int|string|array<int|string> $idSite  The site(s) to request data for.
-     * @param string                      $period  Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                             Plugins can add other period identifiers when enabled for the API.
-     *                                             Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                             otherwise UTC is used.
-     * @param string                      $date    Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                             (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                             or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                             Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                             YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                             Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                             single site, otherwise UTC is used.
-     * @param string|false                $segment Optional segment definition, or false for no segment.
-     * @param int|string|false            $idGoal  Goal identifier, or false for all goals.
-     *                                             Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
+     * @param int|string|int[] $idSite  Website ID(s) to query.
+     *                                  - Single site ID (e.g. 1)
+     *                                  - Multiple site IDs (e.g. [1, 4, 5])
+     *                                  - Comma-separated list ("1,4,5") or "all"
+     *                                  Dates and periods parameters are interpreted in the website timezone.
+     *                                  When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period  The period to process, processes data for the period containing the specified date.
+     *                                  Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date    The date or date range to process.
+     *                                  'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                  or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false     $segment (Optional) Custom segment to filter the report.
+     *                                  Example: "referrerName==twitter.com"
+     *                                  Supports AND (;) and OR (,) operators.
+     *                                  [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param int|string|false $idGoal  Goal identifier, or false for all goals.
+     *                                  Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
      *
      * @return DataTable Visits-with-conversion data table.
      * @ignore
@@ -876,21 +926,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the conversion rate for the requested period.
      *
-     * @param int|string|array<int|string> $idSite  The site(s) to request data for.
-     * @param string                      $period  Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                             Plugins can add other period identifiers when enabled for the API.
-     *                                             Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                             otherwise UTC is used.
-     * @param string                      $date    Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                             (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                             or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                             Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                             YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                             Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                             single site, otherwise UTC is used.
-     * @param string|false                $segment Optional segment definition, or false for no segment.
-     * @param int|string|false            $idGoal  Goal identifier, or false for all goals.
-     *                                             Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
+     * @param int|string|int[] $idSite  Website ID(s) to query.
+     *                                  - Single site ID (e.g. 1)
+     *                                  - Multiple site IDs (e.g. [1, 4, 5])
+     *                                  - Comma-separated list ("1,4,5") or "all"
+     *                                  Dates and periods parameters are interpreted in the website timezone.
+     *                                  When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period  The period to process, processes data for the period containing the specified date.
+     *                                  Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date    The date or date range to process.
+     *                                  'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                  or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false     $segment (Optional) Custom segment to filter the report.
+     *                                  Example: "referrerName==twitter.com"
+     *                                  Supports AND (;) and OR (,) operators.
+     *                                  [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param int|string|false $idGoal  Goal identifier, or false for all goals.
+     *                                  Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
      *
      * @return DataTable Conversion rate data table.
      * @ignore
@@ -905,21 +961,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the revenue for the requested period.
      *
-     * @param int|string|array<int|string> $idSite  The site(s) to request data for.
-     * @param string                      $period  Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                             Plugins can add other period identifiers when enabled for the API.
-     *                                             Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                             otherwise UTC is used.
-     * @param string                      $date    Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                             (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                             or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                             Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                             YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                             Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                             single site, otherwise UTC is used.
-     * @param string|false                $segment Optional segment definition, or false for no segment.
-     * @param int|string|false            $idGoal  Goal identifier, or false for all goals.
-     *                                             Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
+     * @param int|string|int[] $idSite  Website ID(s) to query.
+     *                                  - Single site ID (e.g. 1)
+     *                                  - Multiple site IDs (e.g. [1, 4, 5])
+     *                                  - Comma-separated list ("1,4,5") or "all"
+     *                                  Dates and periods parameters are interpreted in the website timezone.
+     *                                  When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period  The period to process, processes data for the period containing the specified date.
+     *                                  Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date    The date or date range to process.
+     *                                  'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                  or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false     $segment (Optional) Custom segment to filter the report.
+     *                                  Example: "referrerName==twitter.com"
+     *                                  Supports AND (;) and OR (,) operators.
+     *                                  [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param int|string|false $idGoal  Goal identifier, or false for all goals.
+     *                                  Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
      *
      * @return DataTable Revenue data table.
      * @ignore
@@ -964,21 +1026,27 @@ class API extends \Piwik\Plugin\API
      * Gets a DataTable that maps ranges of days to the number of conversions that occurred
      * within those ranges, for the specified site, date range, segment and goal.
      *
-     * @param int|string|array<int|string> $idSite  The site(s) to select data from.
-     * @param string                      $period  Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                             Plugins can add other period identifiers when enabled for the API.
-     *                                             Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                             otherwise UTC is used.
-     * @param string                      $date    Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                             (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                             or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                             Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                             YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                             Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                             single site, otherwise UTC is used.
-     * @param string|false                $segment Optional segment definition, or false for no segment.
-     * @param int|string|false            $idGoal  The id of the goal to get data for. If this is set to false, data for every goal that belongs to $idSite is returned.
-     *                                             Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
+     * @param int|string|int[] $idSite  Website ID(s) to query.
+     *                                  - Single site ID (e.g. 1)
+     *                                  - Multiple site IDs (e.g. [1, 4, 5])
+     *                                  - Comma-separated list ("1,4,5") or "all"
+     *                                  Dates and periods parameters are interpreted in the website timezone.
+     *                                  When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period  The period to process, processes data for the period containing the specified date.
+     *                                  Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date    The date or date range to process.
+     *                                  'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                  or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false     $segment (Optional) Custom segment to filter the report.
+     *                                  Example: "referrerName==twitter.com"
+     *                                  Supports AND (;) and OR (,) operators.
+     *                                  [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param int|string|false $idGoal  The id of the goal to get data for. If this is set to false, data for every goal that belongs to $idSite is returned.
+     *                                  Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
      *
      * @return false|DataTable
      */
@@ -1006,21 +1074,27 @@ class API extends \Piwik\Plugin\API
      * Gets a DataTable that maps ranges of visit counts to the number of conversions that
      * occurred on those visits for the specified site, date range, segment and goal.
      *
-     * @param int|string|array<int|string> $idSite  The site(s) to select data from.
-     * @param string                      $period  Period identifier. Allowed core values: 'day'|'week'|'month'|'year'|'range'.
-     *                                             Plugins can add other period identifiers when enabled for the API.
-     *                                             Timezone handling follows date parsing: for a single site, the site's timezone is used;
-     *                                             otherwise UTC is used.
-     * @param string                      $date    Date selector. Accepts keywords: now|today|tomorrow|yesterday|yesterdaySameTime|last week|last month|last year
-     *                                             (case-insensitive, dash or space allowed), any strtotime()-parseable date/time (e.g. YYYY-MM-DD, YYYY-MM-DD HH:MM:SS),
-     *                                             or a Unix timestamp. Multiple-period shortcuts lastN/previousN are supported when period != 'range'.
-     *                                             Date ranges are supported as "start,end" where start is YYYY-MM-DD or last week|last month|last year and end is
-     *                                             YYYY-MM-DD or today|now|yesterday|last week|last month|last year.
-     *                                             Timezone behavior is applied by the archive/query layer: relative keywords are evaluated in the site timezone for a
-     *                                             single site, otherwise UTC is used.
-     * @param string|false                $segment Optional segment definition, or false for no segment.
-     * @param int|string|false            $idGoal  The id of the goal to get data for. If this is set to false, data for every goal that belongs to $idSite is returned.
-     *                                             Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
+     * @param int|string|int[] $idSite  Website ID(s) to query.
+     *                                  - Single site ID (e.g. 1)
+     *                                  - Multiple site IDs (e.g. [1, 4, 5])
+     *                                  - Comma-separated list ("1,4,5") or "all"
+     *                                  Dates and periods parameters are interpreted in the website timezone.
+     *                                  When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period  The period to process, processes data for the period containing the specified date.
+     *                                  Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date    The date or date range to process.
+     *                                  'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                  or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false     $segment (Optional) Custom segment to filter the report.
+     *                                  Example: "referrerName==twitter.com"
+     *                                  Supports AND (;) and OR (,) operators.
+     *                                  [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param int|string|false $idGoal  The id of the goal to get data for. If this is set to false, data for every goal that belongs to $idSite is returned.
+     *                                  Special values: 'ecommerceOrder', 'ecommerceAbandonedCart'.
      *
      * @return bool|DataTable
      */
