@@ -44,22 +44,24 @@ class API extends \Piwik\Plugin\API
      * Returns the browser plugin report with visit percentage metrics, excluding IE visitors
      * from the percentage denominator where plugin detection is unreliable.
      *
-     * @param int|string|array $idSite A single site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier allowed by the API configuration. Common values include
-     *                       'day', 'week', 'month', 'year', or 'range' when enabled; custom period identifiers
-     *                       may be supported by installed plugins.
-     * @param string $date Date or date range string. Accepted values include:
-     *                    - a single date ('YYYY-MM-DD') or datetime ('YYYY-MM-DD HH:MM:SS')
-     *                    - date keywords: 'now', 'today', 'tomorrow', 'yesterday', 'yesterdaySameTime',
-     *                      'last week', 'last month', 'last year' (spaces or hyphens allowed)
-     *                    - relative series: 'lastN' or 'previousN' (for example 'last7', 'previous30')
-     *                    - date ranges: 'YYYY-MM-DD,YYYY-MM-DD' or ranges that end with a keyword
-     *                      such as 'YYYY-MM-DD,today' or 'last week,yesterday'
-     *                    Timezone handling: keyword dates are evaluated in the site's timezone when a single
-     *                    site is requested; otherwise they are evaluated in UTC. Absolute dates are interpreted
-     *                    without timezone adjustment.
-     * @param string|false $segment Segment definition, or false for no segment.
-     * @return \Piwik\DataTable|\Piwik\DataTable\Map Plugin report data table.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
+     *
+     * @param string $period           The period to process, processes data for the period containing the specified date.
+     *                                 Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string $date             The date or date range to process.
+     *                                 'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                 or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false $segment    (Optional) Custom segment to filter the report.
+     *                                 Example: "referrerName==twitter.com"
+     *                                 Supports AND (;) and OR (,) operators.
+     *                                 [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     *  @return \Piwik\DataTable|\Piwik\DataTable\Map Plugin report data table.
      */
     public function getPlugin($idSite, $period, $date, $segment = false)
     {
