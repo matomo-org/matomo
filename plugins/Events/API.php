@@ -183,23 +183,28 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the Custom Event categories report.
      *
-     * @param int|string|array<int> $idSite Site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier. Must be one of the enabled period identifiers
-     *                       (for example 'day', 'week', 'month', 'year', 'range', or other enabled custom period labels).
-     *                       Null is not allowed.
-     * @param string $date Date or date-range selector. Accepted forms include a single date/time string parseable by the
-     *                     date parser (for example 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'); keywords 'now', 'today',
-     *                     'yesterday', 'yesterdaySameTime', 'tomorrow', 'last week', 'last month', 'last year'
-     *                     (case-insensitive; space or dash allowed in 'last-week'); multiple-period shortcuts
-     *                     'lastN' or 'previousN' (for example 'last7'); or ranges as "start,end" where start is
-     *                     'YYYY-MM-DD' or 'last week|last month|last year' and end is 'YYYY-MM-DD' or
-     *                     'today|now|yesterday|last week|last month|last year'.
-     *                     Timezone: relative keywords are evaluated in the single site's timezone when one site is
-     *                     requested; otherwise UTC. Other date strings use the date parser's timezone behavior.
-     * @param bool|string $segment Segment definition string, or false for no segment.
-     * @param bool $expanded If true, loads all subtables for each row.
-     * @param 'eventAction'|'eventName'|false $secondaryDimension Secondary dimension for subtables, or false to use the default.
-     * @param bool $flat If true, returns a flattened table and disables recursive filters; implies expanded behavior.
+     * @param int|string|int[]               $idSite                Website ID(s) to query.
+     *                                                              - Single site ID (e.g. 1)
+     *                                                              - Multiple site IDs (e.g. [1, 4, 5])
+     *                                                              - Comma-separated list ("1,4,5") or "all"
+     *                                                              Dates and periods parameters are interpreted in the website timezone.
+     *                                                              When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string                           $period              The period to process, processes data for the period containing the specified date.
+     *                                                              Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string                           $date                The date or date range to process.
+     *                                                              'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                                              or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false                     $segment             (Optional) Custom segment to filter the report.
+     *                                                              Example: "referrerName==twitter.com"
+     *                                                              Supports AND (;) and OR (,) operators.
+     *                                                              [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool                             $expanded            If true, loads all subtables for each row.
+     * @param 'eventAction'|'eventName'|false  $secondaryDimension  Secondary dimension for subtables, or false to use the default.
+     * @param bool                             $flat                If true, returns a flattened table and disables recursive filters; implies expanded behavior.
      * @return DataTable|DataTable\Map Event categories report, or a map when multiple sites/periods are requested.
      */
     public function getCategory($idSite, $period, $date, $segment = false, $expanded = false, $secondaryDimension = false, $flat = false)
@@ -210,23 +215,28 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the Custom Event actions report.
      *
-     * @param int|string|array<int> $idSite Site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier. Must be one of the enabled period identifiers
-     *                       (for example 'day', 'week', 'month', 'year', 'range', or other enabled custom period labels).
-     *                       Null is not allowed.
-     * @param string $date Date or date-range selector. Accepted forms include a single date/time string parseable by the
-     *                     date parser (for example 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'); keywords 'now', 'today',
-     *                     'yesterday', 'yesterdaySameTime', 'tomorrow', 'last week', 'last month', 'last year'
-     *                     (case-insensitive; space or dash allowed in 'last-week'); multiple-period shortcuts
-     *                     'lastN' or 'previousN' (for example 'last7'); or ranges as "start,end" where start is
-     *                     'YYYY-MM-DD' or 'last week|last month|last year' and end is 'YYYY-MM-DD' or
-     *                     'today|now|yesterday|last week|last month|last year'.
-     *                     Timezone: relative keywords are evaluated in the single site's timezone when one site is
-     *                     requested; otherwise UTC. Other date strings use the date parser's timezone behavior.
-     * @param bool|string $segment Segment definition string, or false for no segment.
-     * @param bool $expanded If true, loads all subtables for each row.
-     * @param 'eventName'|'eventCategory'|false $secondaryDimension Secondary dimension for subtables, or false to use the default.
-     * @param bool $flat If true, returns a flattened table and disables recursive filters; implies expanded behavior.
+     * @param int|string|int[]                   $idSite              Website ID(s) to query.
+     *                                                                - Single site ID (e.g. 1)
+     *                                                                - Multiple site IDs (e.g. [1, 4, 5])
+     *                                                                - Comma-separated list ("1,4,5") or "all"
+     *                                                                Dates and periods parameters are interpreted in the website timezone.
+     *                                                                When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string                             $period              The period to process, processes data for the period containing the specified date.
+     *                                                                Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string                             $date                The date or date range to process.
+     *                                                                'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                                                or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false                       $segment             (Optional) Custom segment to filter the report.
+     *                                                                Example: "referrerName==twitter.com"
+     *                                                                Supports AND (;) and OR (,) operators.
+     *                                                                [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool                               $expanded            If true, loads all subtables for each row.
+     * @param 'eventName'|'eventCategory'|false  $secondaryDimension  Secondary dimension for subtables, or false to use the default.
+     * @param bool                               $flat                If true, returns a flattened table and disables recursive filters; implies expanded behavior.
      * @return DataTable|DataTable\Map Event actions report, or a map when multiple sites/periods are requested.
      */
     public function getAction($idSite, $period, $date, $segment = false, $expanded = false, $secondaryDimension = false, $flat = false)
@@ -237,23 +247,28 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the Custom Event names report.
      *
-     * @param int|string|array<int> $idSite Site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier. Must be one of the enabled period identifiers
-     *                       (for example 'day', 'week', 'month', 'year', 'range', or other enabled custom period labels).
-     *                       Null is not allowed.
-     * @param string $date Date or date-range selector. Accepted forms include a single date/time string parseable by the
-     *                     date parser (for example 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'); keywords 'now', 'today',
-     *                     'yesterday', 'yesterdaySameTime', 'tomorrow', 'last week', 'last month', 'last year'
-     *                     (case-insensitive; space or dash allowed in 'last-week'); multiple-period shortcuts
-     *                     'lastN' or 'previousN' (for example 'last7'); or ranges as "start,end" where start is
-     *                     'YYYY-MM-DD' or 'last week|last month|last year' and end is 'YYYY-MM-DD' or
-     *                     'today|now|yesterday|last week|last month|last year'.
-     *                     Timezone: relative keywords are evaluated in the single site's timezone when one site is
-     *                     requested; otherwise UTC. Other date strings use the date parser's timezone behavior.
-     * @param bool|string $segment Segment definition string, or false for no segment.
-     * @param bool $expanded If true, loads all subtables for each row.
-     * @param 'eventAction'|'eventCategory'|false $secondaryDimension Secondary dimension for subtables, or false to use the default.
-     * @param bool $flat If true, returns a flattened table and disables recursive filters; implies expanded behavior.
+     * @param int|string|int[]                     $idSite              Website ID(s) to query.
+     *                                                                  - Single site ID (e.g. 1)
+     *                                                                  - Multiple site IDs (e.g. [1, 4, 5])
+     *                                                                  - Comma-separated list ("1,4,5") or "all"
+     *                                                                  Dates and periods parameters are interpreted in the website timezone.
+     *                                                                  When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string                               $period              The period to process, processes data for the period containing the specified date.
+     *                                                                  Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string                               $date                The date or date range to process.
+     *                                                                  'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                                                  or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false                         $segment             (Optional) Custom segment to filter the report.
+     *                                                                  Example: "referrerName==twitter.com"
+     *                                                                  Supports AND (;) and OR (,) operators.
+     *                                                                  [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool                                 $expanded            If true, loads all subtables for each row.
+     * @param 'eventAction'|'eventCategory'|false  $secondaryDimension  Secondary dimension for subtables, or false to use the default.
+     * @param bool                                 $flat                If true, returns a flattened table and disables recursive filters; implies expanded behavior.
      * @return DataTable|DataTable\Map Event names report, or a map when multiple sites/periods are requested.
      */
     public function getName($idSite, $period, $date, $segment = false, $expanded = false, $secondaryDimension = false, $flat = false)
@@ -264,21 +279,25 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the Custom Event actions for a specific category subtable.
      *
-     * @param int|string|array<int> $idSite Site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier. Must be one of the enabled period identifiers
-     *                       (for example 'day', 'week', 'month', 'year', 'range', or other enabled custom period labels).
-     *                       Null is not allowed.
-     * @param string $date Date or date-range selector. Accepted forms include a single date/time string parseable by the
-     *                     date parser (for example 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'); keywords 'now', 'today',
-     *                     'yesterday', 'yesterdaySameTime', 'tomorrow', 'last week', 'last month', 'last year'
-     *                     (case-insensitive; space or dash allowed in 'last-week'); multiple-period shortcuts
-     *                     'lastN' or 'previousN' (for example 'last7'); or ranges as "start,end" where start is
-     *                     'YYYY-MM-DD' or 'last week|last month|last year' and end is 'YYYY-MM-DD' or
-     *                     'today|now|yesterday|last week|last month|last year'.
-     *                     Timezone: relative keywords are evaluated in the single site's timezone when one site is
-     *                     requested; otherwise UTC. Other date strings use the date parser's timezone behavior.
-     * @param int|string $idSubtable Numeric subtable ID, or 'all' to load all subtables.
-     * @param bool|string $segment Segment definition string, or false for no segment.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                      - Single site ID (e.g. 1)
+     *                                      - Multiple site IDs (e.g. [1, 4, 5])
+     *                                      - Comma-separated list ("1,4,5") or "all"
+     *                                      Dates and periods parameters are interpreted in the website timezone.
+     *                                      When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string            $period     The period to process, processes data for the period containing the specified date.
+     *                                      Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string            $date       The date or date range to process.
+     *                                      'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                      or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param int|string|false  $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                      Example: "referrerName==twitter.com"
+     *                                      Supports AND (;) and OR (,) operators.
+     *                                      [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
      * @return DataTable|DataTable\Map Event actions for the requested category, or a map when multiple sites/periods are requested.
      */
     public function getActionFromCategoryId($idSite, $period, $date, $idSubtable, $segment = false)
@@ -289,21 +308,26 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the Custom Event names for a specific category subtable.
      *
-     * @param int|string|array<int> $idSite Site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier. Must be one of the enabled period identifiers
-     *                       (for example 'day', 'week', 'month', 'year', 'range', or other enabled custom period labels).
-     *                       Null is not allowed.
-     * @param string $date Date or date-range selector. Accepted forms include a single date/time string parseable by the
-     *                     date parser (for example 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'); keywords 'now', 'today',
-     *                     'yesterday', 'yesterdaySameTime', 'tomorrow', 'last week', 'last month', 'last year'
-     *                     (case-insensitive; space or dash allowed in 'last-week'); multiple-period shortcuts
-     *                     'lastN' or 'previousN' (for example 'last7'); or ranges as "start,end" where start is
-     *                     'YYYY-MM-DD' or 'last week|last month|last year' and end is 'YYYY-MM-DD' or
-     *                     'today|now|yesterday|last week|last month|last year'.
-     *                     Timezone: relative keywords are evaluated in the single site's timezone when one site is
-     *                     requested; otherwise UTC. Other date strings use the date parser's timezone behavior.
-     * @param int|string $idSubtable Numeric subtable ID, or 'all' to load all subtables.
-     * @param bool|string $segment Segment definition string, or false for no segment.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                      - Single site ID (e.g. 1)
+     *                                      - Multiple site IDs (e.g. [1, 4, 5])
+     *                                      - Comma-separated list ("1,4,5") or "all"
+     *                                      Dates and periods parameters are interpreted in the website timezone.
+     *                                      When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string            $period     The period to process, processes data for the period containing the specified date.
+     *                                      Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string            $date       The date or date range to process.
+     *                                      'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                      or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param int|string|false  $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                      Example: "referrerName==twitter.com"
+     *                                      Supports AND (;) and OR (,) operators.
+     *                                      [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+
      * @return DataTable|DataTable\Map Event names for the requested category, or a map when multiple sites/periods are requested.
      */
     public function getNameFromCategoryId($idSite, $period, $date, $idSubtable, $segment = false)
@@ -314,21 +338,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the Custom Event categories for a specific action subtable.
      *
-     * @param int|string|array<int> $idSite Site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier. Must be one of the enabled period identifiers
-     *                       (for example 'day', 'week', 'month', 'year', 'range', or other enabled custom period labels).
-     *                       Null is not allowed.
-     * @param string $date Date or date-range selector. Accepted forms include a single date/time string parseable by the
-     *                     date parser (for example 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'); keywords 'now', 'today',
-     *                     'yesterday', 'yesterdaySameTime', 'tomorrow', 'last week', 'last month', 'last year'
-     *                     (case-insensitive; space or dash allowed in 'last-week'); multiple-period shortcuts
-     *                     'lastN' or 'previousN' (for example 'last7'); or ranges as "start,end" where start is
-     *                     'YYYY-MM-DD' or 'last week|last month|last year' and end is 'YYYY-MM-DD' or
-     *                     'today|now|yesterday|last week|last month|last year'.
-     *                     Timezone: relative keywords are evaluated in the single site's timezone when one site is
-     *                     requested; otherwise UTC. Other date strings use the date parser's timezone behavior.
-     * @param int|string $idSubtable Numeric subtable ID, or 'all' to load all subtables.
-     * @param bool|string $segment Segment definition string, or false for no segment.
+
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                      - Single site ID (e.g. 1)
+     *                                      - Multiple site IDs (e.g. [1, 4, 5])
+     *                                      - Comma-separated list ("1,4,5") or "all"
+     *                                      Dates and periods parameters are interpreted in the website timezone.
+     *                                      When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string            $period     The period to process, processes data for the period containing the specified date.
+     *                                      Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string            $date       The date or date range to process.
+     *                                      'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                      or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param int|string|false  $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                      Example: "referrerName==twitter.com"
+     *                                      Supports AND (;) and OR (,) operators.
+     *                                      [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+
      * @return DataTable|DataTable\Map Event categories for the requested action, or a map when multiple sites/periods are requested.
      */
     public function getCategoryFromActionId($idSite, $period, $date, $idSubtable, $segment = false)
@@ -339,21 +369,26 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the Custom Event names for a specific action subtable.
      *
-     * @param int|string|array<int> $idSite Site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier. Must be one of the enabled period identifiers
-     *                       (for example 'day', 'week', 'month', 'year', 'range', or other enabled custom period labels).
-     *                       Null is not allowed.
-     * @param string $date Date or date-range selector. Accepted forms include a single date/time string parseable by the
-     *                     date parser (for example 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'); keywords 'now', 'today',
-     *                     'yesterday', 'yesterdaySameTime', 'tomorrow', 'last week', 'last month', 'last year'
-     *                     (case-insensitive; space or dash allowed in 'last-week'); multiple-period shortcuts
-     *                     'lastN' or 'previousN' (for example 'last7'); or ranges as "start,end" where start is
-     *                     'YYYY-MM-DD' or 'last week|last month|last year' and end is 'YYYY-MM-DD' or
-     *                     'today|now|yesterday|last week|last month|last year'.
-     *                     Timezone: relative keywords are evaluated in the single site's timezone when one site is
-     *                     requested; otherwise UTC. Other date strings use the date parser's timezone behavior.
-     * @param int|string $idSubtable Numeric subtable ID, or 'all' to load all subtables.
-     * @param bool|string $segment Segment definition string, or false for no segment.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                      - Single site ID (e.g. 1)
+     *                                      - Multiple site IDs (e.g. [1, 4, 5])
+     *                                      - Comma-separated list ("1,4,5") or "all"
+     *                                      Dates and periods parameters are interpreted in the website timezone.
+     *                                      When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string            $period     The period to process, processes data for the period containing the specified date.
+     *                                      Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string            $date       The date or date range to process.
+     *                                      'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                      or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param int|string|false  $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                      Example: "referrerName==twitter.com"
+     *                                      Supports AND (;) and OR (,) operators.
+     *                                      [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
      * @return DataTable|DataTable\Map Event names for the requested action, or a map when multiple sites/periods are requested.
      */
     public function getNameFromActionId($idSite, $period, $date, $idSubtable, $segment = false)
@@ -364,21 +399,26 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the Custom Event actions for a specific name subtable.
      *
-     * @param int|string|array<int> $idSite Site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier. Must be one of the enabled period identifiers
-     *                       (for example 'day', 'week', 'month', 'year', 'range', or other enabled custom period labels).
-     *                       Null is not allowed.
-     * @param string $date Date or date-range selector. Accepted forms include a single date/time string parseable by the
-     *                     date parser (for example 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'); keywords 'now', 'today',
-     *                     'yesterday', 'yesterdaySameTime', 'tomorrow', 'last week', 'last month', 'last year'
-     *                     (case-insensitive; space or dash allowed in 'last-week'); multiple-period shortcuts
-     *                     'lastN' or 'previousN' (for example 'last7'); or ranges as "start,end" where start is
-     *                     'YYYY-MM-DD' or 'last week|last month|last year' and end is 'YYYY-MM-DD' or
-     *                     'today|now|yesterday|last week|last month|last year'.
-     *                     Timezone: relative keywords are evaluated in the single site's timezone when one site is
-     *                     requested; otherwise UTC. Other date strings use the date parser's timezone behavior.
-     * @param int|string $idSubtable Numeric subtable ID, or 'all' to load all subtables.
-     * @param bool|string $segment Segment definition string, or false for no segment.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                      - Single site ID (e.g. 1)
+     *                                      - Multiple site IDs (e.g. [1, 4, 5])
+     *                                      - Comma-separated list ("1,4,5") or "all"
+     *                                      Dates and periods parameters are interpreted in the website timezone.
+     *                                      When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string            $period     The period to process, processes data for the period containing the specified date.
+     *                                      Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string            $date       The date or date range to process.
+     *                                      'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                      or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param int|string|false  $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                      Example: "referrerName==twitter.com"
+     *                                      Supports AND (;) and OR (,) operators.
+     *                                      [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
      * @return DataTable|DataTable\Map Event actions for the requested name, or a map when multiple sites/periods are requested.
      */
     public function getActionFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
@@ -389,21 +429,26 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the Custom Event categories for a specific name subtable.
      *
-     * @param int|string|array<int> $idSite Site ID, a comma-separated list of IDs, an array of IDs, or 'all'.
-     * @param string $period Period identifier. Must be one of the enabled period identifiers
-     *                       (for example 'day', 'week', 'month', 'year', 'range', or other enabled custom period labels).
-     *                       Null is not allowed.
-     * @param string $date Date or date-range selector. Accepted forms include a single date/time string parseable by the
-     *                     date parser (for example 'YYYY-MM-DD' or 'YYYY-MM-DD HH:MM:SS'); keywords 'now', 'today',
-     *                     'yesterday', 'yesterdaySameTime', 'tomorrow', 'last week', 'last month', 'last year'
-     *                     (case-insensitive; space or dash allowed in 'last-week'); multiple-period shortcuts
-     *                     'lastN' or 'previousN' (for example 'last7'); or ranges as "start,end" where start is
-     *                     'YYYY-MM-DD' or 'last week|last month|last year' and end is 'YYYY-MM-DD' or
-     *                     'today|now|yesterday|last week|last month|last year'.
-     *                     Timezone: relative keywords are evaluated in the single site's timezone when one site is
-     *                     requested; otherwise UTC. Other date strings use the date parser's timezone behavior.
-     * @param int|string $idSubtable Numeric subtable ID, or 'all' to load all subtables.
-     * @param bool|string $segment Segment definition string, or false for no segment.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                      - Single site ID (e.g. 1)
+     *                                      - Multiple site IDs (e.g. [1, 4, 5])
+     *                                      - Comma-separated list ("1,4,5") or "all"
+     *                                      Dates and periods parameters are interpreted in the website timezone.
+     *                                      When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string            $period     The period to process, processes data for the period containing the specified date.
+     *                                      Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string            $date       The date or date range to process.
+     *                                      'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                      or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param int|string|false  $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                      Example: "referrerName==twitter.com"
+     *                                      Supports AND (;) and OR (,) operators.
+     *                                      [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
      * @return DataTable|DataTable\Map Event categories for the requested name, or a map when multiple sites/periods are requested.
      */
     public function getCategoryFromNameId($idSite, $period, $date, $idSubtable, $segment = false)
