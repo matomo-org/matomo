@@ -86,7 +86,7 @@ class API extends \Piwik\Plugin\API
      *                                     Dates and periods parameters are interpreted in the website timezone.
      *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @param bool             $orderByName
+     * @param bool             $orderByName Order the resulting goals by name.
      *
      * @return array<int|string, array<string, mixed>> Array of Goal attributes,
      *               indexed by "idgoal" when requesting a single site,
