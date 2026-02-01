@@ -42,23 +42,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the list of metrics (pages, downloads, outlinks).
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param array<int,string>|string|false $columns Metric column names to include, or false for default metrics.
-     * @return DataTable Metrics DataTable for the requested period.
+     * @param int|string|int[]                 $idSite  Website ID(s) to query.
+     *                                                 - Single site ID (e.g. 1)
+     *                                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                                 - Comma-separated list ("1,4,5") or "all"
+     *                                                 Dates and periods parameters are interpreted in the website timezone.
+     *                                                 When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string                          $period  The period to request statistics for, returns data for the period containing the specified date.
+     *                                                 Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string                          $date    The date or date range to request data for.
+     *                                                 'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                                 or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false                     $segment (Optional) Custom segment to filter the report.
+     *                                                 Example: "referrerName==twitter.com"
+     *                                                 Supports AND (;) and OR (,) operators.
+     *                                                 [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param array<int,string>|string|false  $columns Metric column names to include, or false for default metrics.
+     * @return DataTable                               Metrics DataTable for the requested period.
      */
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
@@ -89,27 +93,31 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns page URL reports for the given site and date range.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
-     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
-     * @param int|false $depth Subtable depth to load when expanding.
-     * @param bool $flat Whether to disable recursive filters and flatten subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Page URL report for the requested period.
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
+     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param int|false        $depth      Subtable depth to load when expanding.
+     * @param bool             $flat       Whether to disable recursive filters and flatten subtables.
+     *
+     * @return DataTable|DataTable\Map     Page URL report for the requested period.
      */
     public function getPageUrls(
         $idSite,
@@ -144,25 +152,29 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns page URLs that immediately follow a site search.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
      *
-     * @return DataTable|DataTable\Map Page URL report filtered to pages after site search.
+     * @return DataTable|DataTable\Map     Page URL report filtered to pages after site search.
      */
     public function getPageUrlsFollowingSiteSearch($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
@@ -176,25 +188,29 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns page titles that immediately follow a site search.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
+     *
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
      * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
      *
-     * @return DataTable|DataTable\Map Page title report filtered to titles after site search.
+     * @return DataTable|DataTable\Map     Page title report filtered to titles after site search.
      */
     public function getPageTitlesFollowingSiteSearch($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false)
     {
@@ -223,26 +239,30 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique entry page URL, for
      * the specified site, period & segment.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
-     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
-     * @param bool $flat Whether to disable recursive filters and flatten subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Entry page URL report.
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
+     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param bool             $flat       Whether to disable recursive filters and flatten subtables.
+     *
+     * @return DataTable|DataTable\Map     Entry page URL report.
      */
     public function getEntryPageUrls(
         $idSite,
@@ -264,26 +284,30 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique exit page URL, for
      * the specified site, period & segment.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
-     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
-     * @param bool $flat Whether to disable recursive filters and flatten subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Exit page URL report.
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
+     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param bool             $flat       Whether to disable recursive filters and flatten subtables.
+     *
+     * @return DataTable|DataTable\Map     Exit page URL report.
      */
     public function getExitPageUrls(
         $idSite,
@@ -304,24 +328,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a report for a single page URL.
      *
-     * @param string $pageUrl The page URL to match (must be URL encoded).
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @param string           $pageUrl  The page URL to match (must be URL encoded).
+     * @param int|string|int[]  $idSite   Website ID(s) to query.
+     *                                   - Single site ID (e.g. 1)
+     *                                   - Multiple site IDs (e.g. [1, 4, 5])
+     *                                   - Comma-separated list ("1,4,5") or "all"
+     *                                   Dates and periods parameters are interpreted in the website timezone.
+     *                                   When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Report row for the requested page URL.
+     * @param string           $period   The period to request statistics for, returns data for the period containing the specified date.
+     *                                   Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date     The date or date range to request data for.
+     *                                   'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                   or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment  (Optional) Custom segment to filter the report.
+     *                                   Example: "referrerName==twitter.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     *                                   [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @return DataTable|DataTable\Map   Report row for the requested page URL.
      */
     public function getPageUrl($pageUrl, $idSite, $period, $date, $segment = false)
     {
@@ -337,26 +364,30 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns page title reports for the given site and date range.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
-     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
-     * @param bool $flat Whether to disable recursive filters and flatten subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Page title report for the requested period.
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
+     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param bool             $flat       Whether to disable recursive filters and flatten subtables.
+     *
+     * @return DataTable|DataTable\Map     Page title report for the requested period.
      */
     public function getPageTitles($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
@@ -373,26 +404,30 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique entry page title
      * for the given site, time period & segment.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
-     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
-     * @param bool $flat Whether to disable recursive filters and flatten subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Entry page title report.
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
+     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param bool             $flat       Whether to disable recursive filters and flatten subtables.
+     *
+     * @return DataTable|DataTable\Map     Entry page title report.
      */
     public function getEntryPageTitles(
         $idSite,
@@ -414,26 +449,30 @@ class API extends \Piwik\Plugin\API
      * Returns a DataTable with analytics information for every unique exit page title
      * for the given site, time period & segment.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
-     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
-     * @param bool $flat Whether to disable recursive filters and flatten subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Exit page title report.
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
+     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param bool             $flat       Whether to disable recursive filters and flatten subtables.
+     *
+     * @return DataTable|DataTable\Map     Exit page title report.
      */
     public function getExitPageTitles(
         $idSite,
@@ -454,24 +493,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a report for a single page title.
      *
-     * @param string $pageName The page title to match (must be URL encoded).
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @param string           $pageName The page title to match (must be URL encoded).
+     * @param int|string|int[]  $idSite   Website ID(s) to query.
+     *                                   - Single site ID (e.g. 1)
+     *                                   - Multiple site IDs (e.g. [1, 4, 5])
+     *                                   - Comma-separated list ("1,4,5") or "all"
+     *                                   Dates and periods parameters are interpreted in the website timezone.
+     *                                   When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Report row for the requested page title.
+     * @param string           $period   The period to request statistics for, returns data for the period containing the specified date.
+     *                                   Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date     The date or date range to request data for.
+     *                                   'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                   or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment  (Optional) Custom segment to filter the report.
+     *                                   Example: "referrerName==twitter.com"
+     *                                   Supports AND (;) and OR (,) operators.
+     *                                   [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @return DataTable|DataTable\Map   Report row for the requested page title.
      */
     public function getPageTitle($pageName, $idSite, $period, $date, $segment = false)
     {
@@ -487,26 +529,30 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns download reports for the given site and date range.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
-     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
-     * @param bool $flat Whether to disable recursive filters and flatten subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Download report for the requested period.
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
+     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param bool             $flat       Whether to disable recursive filters and flatten subtables.
+     *
+     * @return DataTable|DataTable\Map     Download report for the requested period.
      */
     public function getDownloads($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
@@ -520,24 +566,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a report for a single download URL.
      *
-     * @param string $downloadUrl The download URL to match (must be URL encoded).
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @param string           $downloadUrl The download URL to match (must be URL encoded).
+     * @param int|string|int[]  $idSite      Website ID(s) to query.
+     *                                      - Single site ID (e.g. 1)
+     *                                      - Multiple site IDs (e.g. [1, 4, 5])
+     *                                      - Comma-separated list ("1,4,5") or "all"
+     *                                      Dates and periods parameters are interpreted in the website timezone.
+     *                                      When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Report row for the requested download.
+     * @param string           $period      The period to request statistics for, returns data for the period containing the specified date.
+     *                                      Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date        The date or date range to request data for.
+     *                                      'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                      or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment     (Optional) Custom segment to filter the report.
+     *                                      Example: "referrerName==twitter.com"
+     *                                      Supports AND (;) and OR (,) operators.
+     *                                      [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @return DataTable|DataTable\Map      Report row for the requested download.
      */
     public function getDownload($downloadUrl, $idSite, $period, $date, $segment = false)
     {
@@ -552,26 +601,30 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns outlink reports for the given site and date range.
      *
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
-     * @param bool $expanded Whether to load all subtables.
-     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
-     * @param bool $flat Whether to disable recursive filters and flatten subtables.
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Outlink report for the requested period.
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @param bool             $expanded   Whether to load all subtables.
+     * @param int|string|false $idSubtable Subtable ID to load, 'all' to load all subtables, or false for root.
+     * @param bool             $flat       Whether to disable recursive filters and flatten subtables.
+     *
+     * @return DataTable|DataTable\Map     Outlink report for the requested period.
      */
     public function getOutlinks($idSite, $period, $date, $segment = false, $expanded = false, $idSubtable = false, $flat = false)
     {
@@ -585,24 +638,27 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a report for a single outlink URL.
      *
-     * @param string $outlinkUrl The outlink URL to match (must be URL encoded).
-     * @param int|string|int[] $idSite Website ID(s) to query.
-     *                         - Single site ID (e.g. 1)
-     *                         - Multiple site IDs (e.g. [1, 4, 5])
-     *                         - Comma-separated list ("1,4,5") or "all"
-     *                         Dates and periods parameters are interpreted in the website timezone.
-     *                         When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
-     *                             Example: "referrerName==twitter.com"
-     *                             Supports AND (;) and OR (,) operators.
-     *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     * @param string           $outlinkUrl The outlink URL to match (must be URL encoded).
+     * @param int|string|int[]  $idSite     Website ID(s) to query.
+     *                                     - Single site ID (e.g. 1)
+     *                                     - Multiple site IDs (e.g. [1, 4, 5])
+     *                                     - Comma-separated list ("1,4,5") or "all"
+     *                                     Dates and periods parameters are interpreted in the website timezone.
+     *                                     When querying multiple sites, dates and period parameters are interpreted using the UTC timezone.
      *
-     * @return DataTable|DataTable\Map Report row for the requested outlink.
+     * @param string           $period     The period to request statistics for, returns data for the period containing the specified date.
+     *                                     Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string           $date       The date or date range to request data for.
+     *                                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false      $segment    (Optional) Custom segment to filter the report.
+     *                                     Example: "referrerName==twitter.com"
+     *                                     Supports AND (;) and OR (,) operators.
+     *                                     [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
+     *
+     * @return DataTable|DataTable\Map     Report row for the requested outlink.
      */
     public function getOutlink($outlinkUrl, $idSite, $period, $date, $segment = false)
     {
@@ -617,14 +673,17 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the site search keyword report for the given site and date range.
      *
-     * @param int $idSite The numeric ID of the website to query.
-     *                    Dates and periods parameters are interpreted in the website timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
+     * @param int         $idSite  The numeric ID of the website to query.
+     *                             Dates and periods parameters are interpreted in the website timezone.
+     *
+     * @param string      $period  The period to request statistics for, returns data for the period containing the specified date.
+     *                             Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string      $date    The date or date range to request data for.
+     *                             'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false $segment (Optional) Custom segment to filter the report.
      *                             Example: "referrerName==twitter.com"
      *                             Supports AND (;) and OR (,) operators.
      *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -648,7 +707,7 @@ class API extends \Piwik\Plugin\API
      * Visitors can search, and then click "next" to view more results. This is the average number of search results pages viewed for this keyword.
      *
      * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
-     * @param string $columnToRead
+     * @param string                                 $columnToRead
      */
     protected function addPagesPerSearchColumn($dataTable, $columnToRead = 'nb_hits')
     {
@@ -664,14 +723,17 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the site search keywords that had no results.
      *
-     * @param int $idSite The numeric ID of the website to query.
-     *                    Dates and periods parameters are interpreted in the website timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
+     * @param int         $idSite  The numeric ID of the website to query.
+     *                             Dates and periods parameters are interpreted in the website timezone.
+     *
+     * @param string      $period  The period to request statistics for, returns data for the period containing the specified date.
+     *                             Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string      $date    The date or date range to request data for.
+     *                             'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false $segment (Optional) Custom segment to filter the report.
      *                             Example: "referrerName==twitter.com"
      *                             Supports AND (;) and OR (,) operators.
      *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -705,14 +767,17 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns site search category reports for the given site and date range.
      *
-     * @param int $idSite The numeric ID of the website to query.
-     *                    Dates and periods parameters are interpreted in the website timezone.
-     * @param string $period The period to request statistics for, returns data for the period containing the specified date.
-     *                       Allowed values: "day", "week", "month", "year", "range".
-     * @param string $date The date or date range to request data for.
-     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
-     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
-     * @param string|null $segment (Optional) Custom segment to filter the report.
+     * @param int         $idSite  The numeric ID of the website to query.
+     *                             Dates and periods parameters are interpreted in the website timezone.
+     *
+     * @param string      $period  The period to request statistics for, returns data for the period containing the specified date.
+     *                             Allowed values: "day", "week", "month", "year", "range".
+     *
+     * @param string      $date    The date or date range to request data for.
+     *                             'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                             or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     *
+     * @param string|false $segment (Optional) Custom segment to filter the report.
      *                             Example: "referrerName==twitter.com"
      *                             Supports AND (;) and OR (,) operators.
      *                             [See documentation:](https://developer.matomo.org/api-reference/reporting-api-segmentation)
@@ -845,7 +910,7 @@ class API extends \Piwik\Plugin\API
      * Common filters for all Actions API
      *
      * @param DataTable|DataTable\Simple|DataTable\Map $dataTable
-     * @param bool $isPageTitleType Whether we are handling page title or regular URL
+     * @param bool                                   $isPageTitleType Whether we are handling page title or regular URL
      */
     private function filterActionsDataTable($dataTable, $isPageTitleType)
     {
