@@ -428,7 +428,7 @@ class Site
             return [];
         }
 
-        if ($ids === 'all') {
+        if ($ids === 'all' || $ids === ['all']) {
             return API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
         }
 

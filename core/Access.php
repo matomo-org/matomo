@@ -637,7 +637,7 @@ class Access
      */
     protected function getIdSites($idSites)
     {
-        if ($idSites === 'all') {
+        if ($idSites === 'all' || $idSites === ['all']) {
             $idSites = $this->getSitesIdWithAtLeastViewAccess();
         }
 
