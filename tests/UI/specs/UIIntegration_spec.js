@@ -729,8 +729,23 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             expect(await page.screenshot({fullPage: true})).to.matchImage('email_reports_download');
         });
+        it('should load scheduled reports showing report hour description when timezone is not utc', async function () {
+          await testEnvironment.callApi('SitesManager.updateSite', {
+            idSite: 1,
+            timezone: 'Asia/Kolkata', // UTC+05:30
+          });
+          await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
+          await page.click('.entityTable tr:nth-child(11) button[title="Edit"]');
+
+          expect(await screenshotPageWrap()).to.matchImage('email_reports_editor_tz');
+        });
 
         it('should load the scheduled reports when Edit button is clicked', async function () {
+            // put back default timezone
+            await testEnvironment.callApi('SitesManager.updateSite', {
+              idSite: 1,
+              timezone: 'UTC',
+            });
             await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
             await page.click('.entityTable tr:nth-child(11) button[title="Edit"]');
 
