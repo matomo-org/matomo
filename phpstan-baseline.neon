@@ -3734,11 +3734,6 @@ parameters:
 			path: plugins/GeoIp2/LocationProvider/GeoIp2/ServerModule.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\API\\:\\:getGoal\\(\\) should return array\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/Goals/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:deleteColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Goals/API.php

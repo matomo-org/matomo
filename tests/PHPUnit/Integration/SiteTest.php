@@ -102,7 +102,7 @@ class SiteTest extends IntegrationTestCase
     {
         yield "negative int value" => ['1,-1'];
         yield "zero value" => ['1,0'];
-        yield "boolean value" => true;
+        yield "boolean value" => [true];
         yield "float value" => ['1,2.5'];
         yield "string value" => ['1,foo'];
     }
