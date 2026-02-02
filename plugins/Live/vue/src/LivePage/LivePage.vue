@@ -12,8 +12,6 @@
       :content-title="!isWidgetized ? translate('Live_VisitorsInRealTime') : undefined"
     >
       <LiveWidget
-        :initial-total-visitors="initialTotalVisitors"
-        :visitors="visitors"
         :live-refresh-after-ms="liveRefreshAfterMs"
         :disable-link="disableLink"
       />
@@ -32,8 +30,6 @@ import LiveWidget from '../LiveWidget/LiveWidget.vue';
 export default defineComponent({
   props: {
     disableLink: Boolean,
-    visitors: String,
-    initialTotalVisitors: String,
     liveRefreshAfterMs: Number,
     isWidgetized: Boolean,
   },

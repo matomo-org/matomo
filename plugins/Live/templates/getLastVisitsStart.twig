@@ -8,7 +8,7 @@
     {% for visitor in visitors.getRows() %}
         <li id="{{ visitor.getColumn('idVisit') }}" class="visit">
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>
-            <div title="{{ visitor.getColumn('actionDetails')|length }} {{ 'General_Actions'|translate }}" class="datetime">
+            <div class="datetime">
                 <span style="display:none;" class="serverTimestamp">{{ visitor.getColumn('serverTimestamp')|raw }}</span>
                 {{ postEvent('Live.visitorLogWidgetViewBeforeVisitInfo', visitor) }}
                 {% set year = visitor.getColumn('serverTimestamp')|date('Y') %}

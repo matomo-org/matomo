@@ -7,10 +7,10 @@
 
 <template>
   <div>
-    <div ref="root">
-      <VueEntryContainer :html="initialTotalVisitors" />
-      <VueEntryContainer :html="visitors" />
+    <div v-if="isInitialLoading" class="live-widget-loading">
+      <MatomoLoader />
     </div>
+    <div ref="root"></div>
 
     <div class="visitsLiveFooter">
       <a
@@ -55,8 +55,8 @@ import { defineComponent } from 'vue';
 import {
   AjaxHelper,
   Matomo,
+  MatomoLoader,
   MatomoUrl,
-  VueEntryContainer,
 } from 'CoreHome';
 
 const { $ } = window;
@@ -76,13 +76,11 @@ function escapeId(id: string): string {
 
 export default defineComponent({
   props: {
-    initialTotalVisitors: String,
-    visitors: String,
     liveRefreshAfterMs: Number,
     disableLink: Boolean,
   },
   components: {
-    VueEntryContainer,
+    MatomoLoader,
   },
   data() {
     return {
@@ -90,6 +88,7 @@ export default defineComponent({
       isStoppedByBlur: false,
       currentInterval: 0,
       updateInterval: null as number | null,
+      isInitialLoading: true,
     };
   },
   computed: {
@@ -109,11 +108,7 @@ export default defineComponent({
       Matomo.postEvent('hidePeriodSelector');
     }
 
-    window.setTimeout(() => {
-      this.initTooltips();
-    }, TOOLTIP_DELAY_MS);
-
-    this.scheduleUpdate(this.currentInterval);
+    this.fetchInitialContent();
     this.setupVisibilityHandling();
   },
   beforeUnmount() {
@@ -149,6 +144,9 @@ export default defineComponent({
       }, delayMs);
     },
     update() {
+      if (this.isInitialLoading) {
+        return;
+      }
       if (!this.isStarted) {
         return;
       }
@@ -222,6 +220,50 @@ export default defineComponent({
         Matomo.helper.compileVueEntryComponents(root);
       });
     },
+    fetchInitialContent() {
+      const segment = MatomoUrl.parsed.value.segment as string;
+      const visitsPromise = AjaxHelper.fetch(
+        {
+          module: 'Live',
+          action: 'getLastVisitsStart',
+          segment,
+        },
+        {
+          format: 'html',
+        },
+      );
+      const totalPromise = AjaxHelper.fetch(
+        {
+          module: 'Live',
+          action: 'ajaxTotalVisitors',
+          segment,
+        },
+        {
+          format: 'html',
+        },
+      );
+
+      Promise.all([visitsPromise, totalPromise])
+        .then(([visitsHtml, totalHtml]) => {
+          const root = this.$refs.root as HTMLElement | undefined;
+          if (!root) {
+            return;
+          }
+
+          root.innerHTML = `${totalHtml || ''}${visitsHtml || ''}`;
+          Matomo.helper.compileVueEntryComponents(root);
+          window.setTimeout(() => {
+            this.initTooltips();
+          }, TOOLTIP_DELAY_MS);
+        })
+        .catch(() => {
+          // ignore initial errors, refresh loop will retry
+        })
+        .finally(() => {
+          this.isInitialLoading = false;
+          this.scheduleUpdate(this.currentInterval);
+        });
+    },
     parseResponse(response: string): boolean {
       const root = this.$refs.root as HTMLElement | undefined;
       if (!root) {
@@ -294,8 +336,12 @@ export default defineComponent({
         return;
       }
 
-      const visits = $(list).find('li.visit .visitorLogIconWithDetails');
-      visits.tooltip('destroy');
+      const visits = $(list).find('li.visit');
+      try {
+        visits.tooltip('destroy');
+      } catch (error) {
+        // ignore if tooltips were never initialized
+      }
     },
     initTooltips() {
       if (!$) {
