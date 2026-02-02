@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Site;
@@ -73,6 +74,30 @@ class SiteTest extends IntegrationTestCase
 
         $this->assertSame('Piwik test' . $this->siteAppendix, $site->getName());
         $this->assertSame(array(), Site::getSites()); // make sure data was not fetched again
+    }
+
+    public function testGetIdSitesFromIdSitesStringFiltersInvalidByDefault()
+    {
+        $result = Site::getIdSitesFromIdSitesString('1,foo,2,,0,-3');
+        $this->assertSame([1, 2], $result);
+    }
+
+    public function testGetIdSitesFromIdSitesStringAllowsValidIdsWhenStrict()
+    {
+        $result = Site::getIdSitesFromIdSitesString([1, '2'], false, true);
+        $this->assertSame([1, 2], $result);
+    }
+
+    public function testGetIdSitesFromIdSitesStringThrowsOnInvalidWhenStrict()
+    {
+        $this->expectException(BadRequestException::class);
+        Site::getIdSitesFromIdSitesString('1,foo', false, true);
+    }
+
+    public function testGetIdSitesFromIdSitesStringThrowsOnBoolWhenStrict()
+    {
+        $this->expectException(BadRequestException::class);
+        Site::getIdSitesFromIdSitesString(true, false, true);
     }
 
     private function makeSite($idSite)
