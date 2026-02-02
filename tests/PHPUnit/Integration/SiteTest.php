@@ -88,16 +88,23 @@ class SiteTest extends IntegrationTestCase
         $this->assertSame([1, 2], $result);
     }
 
-    public function testGetIdSitesFromIdSitesStringThrowsOnInvalidWhenStrict()
+    /**
+     * @dataProvider getInvalidIdSiteStrings
+     */
+    public function testGetIdSitesFromIdSitesStringThrowsOnInvalidWhenStrict($idSites)
     {
         $this->expectException(BadRequestException::class);
-        Site::getIdSitesFromIdSitesString('1,foo', false, true);
+        Site::getIdSitesFromIdSitesString($idSites, false, true);
     }
 
-    public function testGetIdSitesFromIdSitesStringThrowsOnBoolWhenStrict()
+
+    public function getInvalidIdSiteStrings(): iterable
     {
-        $this->expectException(BadRequestException::class);
-        Site::getIdSitesFromIdSitesString(true, false, true);
+        yield "negative int value" => ['1,-1'];
+        yield "zero value" => ['1,0'];
+        yield "boolean value" => true;
+        yield "float value" => ['1,2.5'];
+        yield "string value" => ['1,foo'];
     }
 
     private function makeSite($idSite)

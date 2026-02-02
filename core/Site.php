@@ -444,10 +444,10 @@ class Site
         $validIds = [];
         foreach ($ids as $id) {
             $id = is_string($id) ? trim($id) : $id;
-            if (empty($id)) {
+            if (is_null($id) || $id === '') {
                 continue;
             }
-            if (is_numeric($id) && (int)$id > 0) {
+            if (is_numeric($id) && (string)$id === (string)(int)$id && (int)$id > 0) {
                 $validIds[] = (int)$id;
                 continue;
             }
