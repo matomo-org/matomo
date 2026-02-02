@@ -723,7 +723,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return bool
      */
-    public function isPeriodAllowed(int $idSite, $period, $date): bool
+    public function isPeriodAllowed($idSite, $period, $date): bool
     {
         $maxPeriodAllowed = Transitions::getPeriodAllowedConfig($idSite);
         if ($maxPeriodAllowed === 'all') {

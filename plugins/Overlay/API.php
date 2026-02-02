@@ -25,7 +25,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Get translation strings
      */
-    public function getTranslations(int $idSite)
+    public function getTranslations()
     {
         $translations = array(
             'oneClick'         => 'Overlay_OneClick',
