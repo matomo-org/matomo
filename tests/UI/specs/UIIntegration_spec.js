@@ -736,16 +736,21 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
           });
           await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
           await page.click('.entityTable tr:nth-child(11) button[title="Edit"]');
+          await page.waitForNetworkIdle();
+          expect(await page.evaluate(() => $('#reportHourHelpText').is(':visible'))).to.be.true;
 
-          expect(await screenshotPageWrap()).to.matchImage('email_reports_editor_tz');
+          // put back default timezone
+          await testEnvironment.callApi('SitesManager.updateSite', {
+            idSite: 1,
+            timezone: 'UTC',
+          });
+          await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
+          await page.click('.entityTable tr:nth-child(11) button[title="Edit"]');
+          await page.waitForNetworkIdle();
+          expect(await page.evaluate(() => $('#reportHourHelpText').is(':visible'))).to.be.false;
         });
 
         it('should load the scheduled reports when Edit button is clicked', async function () {
-            // put back default timezone
-            await testEnvironment.callApi('SitesManager.updateSite', {
-              idSite: 1,
-              timezone: 'UTC',
-            });
             await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
             await page.click('.entityTable tr:nth-child(11) button[title="Edit"]');
 
