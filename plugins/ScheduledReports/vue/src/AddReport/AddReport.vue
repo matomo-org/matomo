@@ -617,7 +617,7 @@ export default defineComponent({
     reportHours() {
       const hours: Option[] = [];
       for (let i = 0; i < 24; i += 1) {
-        const paddedHour = i < 10 ? `0${i}` : `${i}`;
+        const paddedHour = `${i}`.padStart(2, '0');
         if ((this.timeZoneDifferenceInHours * 2) % 2 !== 0) {
           hours.push({
             key: `${i}.5`,
@@ -639,7 +639,7 @@ export default defineComponent({
       );
       const reportHourFloat = parseFloat(reportHour);
       const hours = Math.floor(reportHourFloat);
-      const paddedHour = hours < 10 ? `0${hours}` : `${hours}`;
+      const paddedHour = `${hours}`.padStart(2, '0');
       const reportHourUtcLabel = translate('ScheduledReports_ReportHourWithUTC', [`${paddedHour}:00`]);
       return `${translate('ScheduledReports_ReportWillBeSentAt')}
       ${translate('ScheduledReports_ReportHourEqualsUtc', [reportHourUtcLabel])}
