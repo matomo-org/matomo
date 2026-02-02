@@ -25,7 +25,7 @@
         "PleaseFindBelow": "Please find below your %1$s report for %2$s.",
         "PluginDescription": "Create custom reports and schedule them to be emailed daily, weekly or monthly to one or several people. Several report formats are supported (html, pdf, csv, images).",
         "ReportFormat": "Report Format",
-        "ReportHour": "Send report at %s o'clock",
+        "ReportHour": "Send report at %s (local time)",
         "ReportHourWithUTC": "%s UTC",
         "ReportIncludeNWebsites": "The report will include main metrics for all websites that have at least one visit (from the %s websites currently available).",
         "ReportSent": "Report sent",
@@ -66,7 +66,8 @@
         "SendingReport": "Sending report…",
         "ManageTooltip": "Stay informed wherever you work. Send reports directly to Email, SMS, Slack, or Microsoft Teams by selecting your preferred channel when creating or editing a scheduled report.",
         "CreateTooltip": "You can send scheduled reports via Email, SMS, Slack, or Microsoft Teams. Choose your preferred delivery method when creating or updating a report.",
-        "ReportsGeneratedAndSentAt": "Reports will be generated and sent at %s.",
-        "NoteActualTime": "Note that actual time of receiving reports can vary depending on time it takes to generate the reports."
+        "ReportWillBeSentAt": "The report will be sent at the selected hour in your local time zone.",
+        "ReportHourEqualsUtc": "This corresponds to %s.",
+        "NoteDeliveryTime": "Note: The exact delivery time may vary depending on report generation."
     }
 }

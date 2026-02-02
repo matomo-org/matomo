@@ -641,8 +641,9 @@ export default defineComponent({
       const hours = Math.floor(reportHourFloat);
       const paddedHour = hours < 10 ? `0${hours}` : `${hours}`;
       const reportHourUtcLabel = translate('ScheduledReports_ReportHourWithUTC', [`${paddedHour}:00`]);
-      return `${translate('ScheduledReports_ReportsGeneratedAndSentAt', [reportHourUtcLabel])}
-      ${translate('ScheduledReports_NoteActualTime')}`;
+      return `${translate('ScheduledReports_ReportWillBeSentAt')}
+      ${translate('ScheduledReports_ReportHourEqualsUtc', [reportHourUtcLabel])}
+      ${translate('ScheduledReports_NoteDeliveryTime')}`;
     },
     saveButtonTitle() {
       const { ReportPlugin } = window;
