@@ -172,6 +172,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Invalidates report data, forcing it to be recomputed during the next archiving run.
      *
+     * The command will automatically cascade up, invalidating reports for parent periods as
+     * well. So invalidating a day will invalidate the week it's in, the month it's in and the
+     * year it's in, since those periods will need to be recomputed too.
+     *
      * Note: This is done automatically when tracking or importing visits in the past.
      *
      * @param int|string|int[] $idSites                     Website ID(s) to query.
@@ -183,7 +187,8 @@ class API extends \Piwik\Plugin\API
      *                                                      Non-range periods: 'YYYY-MM-DD' (or comma list), plus 'today'/'yesterday'.
      *                                                      Range period: a single range string like 'YYYY-MM-DD,YYYY-MM-DD' or 'lastN'/'previousN'.
      *
-     * @param string|false  $period                         Period to use: 'day', 'week', 'month', 'year', or 'range' (or false to infer).
+     * @param string|false  $period                         Period to use: 'day', 'week', 'month', 'year', or 'range'
+     *
      * @param string|false  $segment                        (Optional) Custom segment to filter the report.
      *                                                      Example: "referrerName==twitter.com"
      *                                                      Supports AND (;) and OR (,) operators.
