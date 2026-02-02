@@ -636,7 +636,9 @@ export default defineComponent({
         this.report.hour as string,
         -this.timeZoneDifferenceInHours,
       );
-      return translate('ScheduledReports_ReportHourWithUTC', [`${reportHour}:00`]);
+      const reportHourUtcLabel = translate('ScheduledReports_ReportHourWithUTC', [`${reportHour}:00`]);
+      return `${translate('ScheduledReports_ReportsGeneratedAndSentAt', [reportHourUtcLabel])}
+      ${translate('ScheduledReports_NoteActualTime')}`;
     },
     saveButtonTitle() {
       const { ReportPlugin } = window;
