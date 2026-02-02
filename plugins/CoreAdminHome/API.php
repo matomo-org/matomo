@@ -178,7 +178,7 @@ class API extends \Piwik\Plugin\API
         $cascadeDown = false,
         $_forceInvalidateNonexistent = false
     ) {
-        $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         if (empty($idSites)) {
             throw new Exception("Specify a value for &idSites= as a comma separated list of website IDs, for which your token_auth has 'admin' permission");
         }

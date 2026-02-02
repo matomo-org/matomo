@@ -158,7 +158,7 @@ class API extends \Piwik\Plugin\API
     public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+        $idSites = Site::getIdSitesFromIdSitesString($idSite, false, true);
         if (is_array($idSites) && count($idSites) === 1) {
             $idSites = array_shift($idSites);
         }

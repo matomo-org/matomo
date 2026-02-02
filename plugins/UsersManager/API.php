@@ -1373,7 +1373,7 @@ class API extends \Piwik\Plugin\API
             $idSites = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
         } else {
             // in case the idSites is an integer we build an array
-            $idSites = Site::getIdSitesFromIdSitesString($idSites);
+            $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         }
 
         if (empty($idSites)) {

@@ -447,8 +447,8 @@ class Site
             if (empty($id)) {
                 continue;
             }
-            if (is_numeric($id) && $id > 0) {
-                $validIds[] = $id;
+            if (is_numeric($id) && (int)$id > 0) {
+                $validIds[] = (int)$id;
                 continue;
             }
             if ($throwOnInvalid) {
@@ -456,9 +456,7 @@ class Site
             }
         }
         $validIds = array_filter($validIds);
-        $validIds = array_unique($validIds);
-
-        return $validIds;
+        return array_unique($validIds);
     }
 
     /**

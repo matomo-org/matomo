@@ -1635,7 +1635,7 @@ class API extends \Piwik\Plugin\API
      */
     public function updateSiteCreatedTime($idSites, Date $minDate)
     {
-        $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         Piwik::checkUserHasAdminAccess($idSites);
 
         $minDateSql = $minDate->subDay(1)->getDatetime();

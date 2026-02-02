@@ -175,7 +175,7 @@ class API extends \Piwik\Plugin\API
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
         } else {
-            $idSites = Site::getIdSitesFromIdSitesString($idSites);
+            $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
             Piwik::checkUserHasViewAccess($idSites);
         }
 

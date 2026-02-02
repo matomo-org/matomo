@@ -99,7 +99,7 @@ class API extends \Piwik\Plugin\API
             // note: the reason this is secure is because the above cache is a static cache and cleared after each request
             // if we were to use a different cache that persists the result, this would not be secure because when a
             // result is in the cache, it would just return the result
-            $idSite = Site::getIdSitesFromIdSitesString($idSite);
+            $idSite = Site::getIdSitesFromIdSitesString($idSite, false, true);
 
             if (empty($idSite)) {
                 return [];
