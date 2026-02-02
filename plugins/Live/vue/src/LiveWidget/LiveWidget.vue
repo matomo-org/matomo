@@ -64,7 +64,7 @@ const { $ } = window;
 const DEFAULT_INTERVAL_MS = 3000;
 const MAX_INTERVAL_MS = 300000;
 const MAX_ROWS = 10;
-const TOOLTIP_DELAY_MS = 250;
+const TOOLTIP_DELAY_MS = 50;
 
 function escapeId(id: string): string {
   if (window.CSS && typeof window.CSS.escape === 'function') {
@@ -240,6 +240,8 @@ export default defineComponent({
         return false;
       }
 
+      this.clearTooltips();
+
       let updated = false;
       for (let i = items.length - 1; i >= 0; i -= 1) {
         const item = items[i];
@@ -277,6 +279,24 @@ export default defineComponent({
         item.classList.remove('live-widget-fade-in');
       }, { once: true });
     },
+    clearTooltips() {
+      if (!$) {
+        return;
+      }
+
+      const root = this.$refs.root as HTMLElement | undefined;
+      if (!root) {
+        return;
+      }
+
+      const list = root.querySelector('#visitsLive');
+      if (!list) {
+        return;
+      }
+
+      const visits = $(list).find('li.visit .visitorLogIconWithDetails');
+      visits.tooltip('destroy');
+    },
     initTooltips() {
       if (!$) {
         return;
@@ -293,12 +313,6 @@ export default defineComponent({
       }
 
       const visits = $(list).find('li.visit');
-      try {
-        visits.tooltip('destroy');
-      } catch (error) {
-        // ignore
-      }
-
       visits.tooltip({
         items: '.visitorLogIconWithDetails',
         track: true,

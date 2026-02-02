@@ -143,7 +143,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=5308193c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=4a90231b
 
 const _hoisted_1 = {
   ref: "root"
@@ -186,7 +186,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.visitorLogUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, _hoisted_8)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=5308193c
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=4a90231b
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -200,7 +200,7 @@ const {
 const DEFAULT_INTERVAL_MS = 3000;
 const MAX_INTERVAL_MS = 300000;
 const MAX_ROWS = 10;
-const TOOLTIP_DELAY_MS = 250;
+const TOOLTIP_DELAY_MS = 50;
 function escapeId(id) {
   if (window.CSS && typeof window.CSS.escape === 'function') {
     return window.CSS.escape(id);
@@ -351,6 +351,7 @@ function escapeId(id) {
       if (!items.length) {
         return false;
       }
+      this.clearTooltips();
       let updated = false;
       for (let i = items.length - 1; i >= 0; i -= 1) {
         const item = items[i];
@@ -387,6 +388,21 @@ function escapeId(id) {
         once: true
       });
     },
+    clearTooltips() {
+      if (!$) {
+        return;
+      }
+      const root = this.$refs.root;
+      if (!root) {
+        return;
+      }
+      const list = root.querySelector('#visitsLive');
+      if (!list) {
+        return;
+      }
+      const visits = $(list).find('li.visit .visitorLogIconWithDetails');
+      visits.tooltip('destroy');
+    },
     initTooltips() {
       if (!$) {
         return;
@@ -400,11 +416,6 @@ function escapeId(id) {
         return;
       }
       const visits = $(list).find('li.visit');
-      try {
-        visits.tooltip('destroy');
-      } catch (error) {
-        // ignore
-      }
       visits.tooltip({
         items: '.visitorLogIconWithDetails',
         track: true,
