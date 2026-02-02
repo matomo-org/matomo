@@ -626,7 +626,7 @@ export default defineComponent({
         } else {
           hours.push({
             key: `${i}`,
-            value: paddedHour,
+            value: `${paddedHour}:00`,
           });
         }
       }
