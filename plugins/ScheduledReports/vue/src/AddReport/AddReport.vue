@@ -617,15 +617,16 @@ export default defineComponent({
     reportHours() {
       const hours: Option[] = [];
       for (let i = 0; i < 24; i += 1) {
+        const paddedHour = i < 10 ? `0${i}` : `${i}`;
         if ((this.timeZoneDifferenceInHours * 2) % 2 !== 0) {
           hours.push({
             key: `${i}.5`,
-            value: `${i}:30`,
+            value: `${paddedHour}:30`,
           });
         } else {
           hours.push({
             key: `${i}`,
-            value: `${i}`,
+            value: paddedHour,
           });
         }
       }
@@ -636,7 +637,10 @@ export default defineComponent({
         this.report.hour as string,
         -this.timeZoneDifferenceInHours,
       );
-      const reportHourUtcLabel = translate('ScheduledReports_ReportHourWithUTC', [`${reportHour}:00`]);
+      const reportHourFloat = parseFloat(reportHour);
+      const hours = Math.floor(reportHourFloat);
+      const paddedHour = hours < 10 ? `0${hours}` : `${hours}`;
+      const reportHourUtcLabel = translate('ScheduledReports_ReportHourWithUTC', [`${paddedHour}:00`]);
       return `${translate('ScheduledReports_ReportsGeneratedAndSentAt', [reportHourUtcLabel])}
       ${translate('ScheduledReports_NoteActualTime')}`;
     },
