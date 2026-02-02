@@ -143,7 +143,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=f3812228
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=d1748510
 
 const _hoisted_1 = {
   key: 0,
@@ -186,7 +186,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.visitorLogUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, _hoisted_9)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=f3812228
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=d1748510
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -201,12 +201,6 @@ const DEFAULT_INTERVAL_MS = 3000;
 const MAX_INTERVAL_MS = 300000;
 const MAX_ROWS = 10;
 const TOOLTIP_DELAY_MS = 50;
-function escapeId(id) {
-  if (window.CSS && typeof window.CSS.escape === 'function') {
-    return window.CSS.escape(id);
-  }
-  return id.replace(/[^a-zA-Z0-9_-]/g, value => `\\${value}`);
-}
 /* harmony default export */ var LiveWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     liveRefreshAfterMs: Number,
@@ -292,7 +286,8 @@ function escapeId(id) {
       }, {
         format: 'html'
       }).then(response => {
-        const updated = this.parseResponse(response);
+        const ensured = this.ensureVisitsList(response);
+        const updated = ensured ? true : this.parseResponse(response);
         const baseInterval = this.getBaseInterval();
         if (!updated) {
           this.currentInterval += baseInterval;
@@ -306,7 +301,32 @@ function escapeId(id) {
         if (this.isStarted && root.isConnected) {
           this.scheduleUpdate(this.currentInterval);
         }
+      }).catch(() => {
+        if (this.isStarted && root.isConnected) {
+          this.scheduleUpdate(this.getBaseInterval());
+        }
       });
+    },
+    ensureVisitsList(response) {
+      const root = this.$refs.root;
+      if (!root) {
+        return false;
+      }
+      if (root.querySelector('#visitsLive')) {
+        return false;
+      }
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(response, 'text/html');
+      const visitsList = doc.querySelector('#visitsLive');
+      if (!visitsList) {
+        return false;
+      }
+      root.appendChild(visitsList);
+      external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
+      window.setTimeout(() => {
+        this.initTooltips();
+      }, TOOLTIP_DELAY_MS);
+      return true;
     },
     refreshTotalVisitors(segment) {
       const root = this.$refs.root;
@@ -321,16 +341,23 @@ function escapeId(id) {
         format: 'html'
       }).then(response => {
         const container = root.querySelector('#visitsTotal');
-        if (!container) {
-          return;
-        }
-        external_CoreHome_["Matomo"].helper.destroyVueComponent(container);
         const wrapper = document.createElement('div');
         wrapper.innerHTML = response;
-        const newContent = wrapper.firstElementChild;
+        const newContent = wrapper.querySelector('#visitsTotal');
         if (!newContent) {
           return;
         }
+        if (!container) {
+          const list = root.querySelector('#visitsLive');
+          if (list) {
+            list.before(newContent);
+          } else {
+            root.prepend(newContent);
+          }
+          external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
+          return;
+        }
+        external_CoreHome_["Matomo"].helper.destroyVueComponent(container);
         container.replaceWith(newContent);
         external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
       });
@@ -389,7 +416,7 @@ function escapeId(id) {
         const item = items[i];
         const visitId = item.getAttribute('id');
         if (visitId) {
-          const existing = list.querySelector(`#${escapeId(visitId)}`);
+          const existing = list.querySelector(`#${visitId}`);
           if (existing) {
             if (existing.innerHTML !== item.innerHTML) {
               updated = true;
@@ -432,12 +459,13 @@ function escapeId(id) {
       if (!list) {
         return;
       }
-      const visits = $(list).find('li.visit');
-      try {
-        visits.tooltip('destroy');
-      } catch (error) {
-        // ignore if tooltips were never initialized
-      }
+      const visits = $(list).find('li.visit .visitorLogIconWithDetails');
+      visits.each(function clearExisting() {
+        const visit = $(this);
+        if (visit.data('ui-tooltip')) {
+          visit.tooltip('destroy');
+        }
+      });
     },
     initTooltips() {
       if (!$) {

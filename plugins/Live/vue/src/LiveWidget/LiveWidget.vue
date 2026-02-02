@@ -66,14 +66,6 @@ const MAX_INTERVAL_MS = 300000;
 const MAX_ROWS = 10;
 const TOOLTIP_DELAY_MS = 50;
 
-function escapeId(id: string): string {
-  if (window.CSS && typeof window.CSS.escape === 'function') {
-    return window.CSS.escape(id);
-  }
-
-  return id.replace(/[^a-zA-Z0-9_-]/g, (value) => `\\${value}`);
-}
-
 export default defineComponent({
   props: {
     liveRefreshAfterMs: Number,
@@ -167,7 +159,8 @@ export default defineComponent({
           format: 'html',
         },
       ).then((response) => {
-        const updated = this.parseResponse(response);
+        const ensured = this.ensureVisitsList(response);
+        const updated = ensured ? true : this.parseResponse(response);
         const baseInterval = this.getBaseInterval();
 
         if (!updated) {
@@ -184,7 +177,36 @@ export default defineComponent({
         if (this.isStarted && root.isConnected) {
           this.scheduleUpdate(this.currentInterval);
         }
+      }).catch(() => {
+        if (this.isStarted && root.isConnected) {
+          this.scheduleUpdate(this.getBaseInterval());
+        }
       });
+    },
+    ensureVisitsList(response: string): boolean {
+      const root = this.$refs.root as HTMLElement | undefined;
+      if (!root) {
+        return false;
+      }
+
+      if (root.querySelector('#visitsLive')) {
+        return false;
+      }
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(response, 'text/html');
+      const visitsList = doc.querySelector('#visitsLive');
+      if (!visitsList) {
+        return false;
+      }
+
+      root.appendChild(visitsList);
+      Matomo.helper.compileVueEntryComponents(root);
+      window.setTimeout(() => {
+        this.initTooltips();
+      }, TOOLTIP_DELAY_MS);
+
+      return true;
     },
     refreshTotalVisitors(segment: string) {
       const root = this.$refs.root as HTMLElement | undefined;
@@ -203,19 +225,25 @@ export default defineComponent({
         },
       ).then((response) => {
         const container = root.querySelector('#visitsTotal');
-        if (!container) {
-          return;
-        }
-
-        Matomo.helper.destroyVueComponent(container as HTMLElement);
-
         const wrapper = document.createElement('div');
         wrapper.innerHTML = response;
-        const newContent = wrapper.firstElementChild;
+        const newContent = wrapper.querySelector('#visitsTotal');
         if (!newContent) {
           return;
         }
 
+        if (!container) {
+          const list = root.querySelector('#visitsLive');
+          if (list) {
+            list.before(newContent);
+          } else {
+            root.prepend(newContent);
+          }
+          Matomo.helper.compileVueEntryComponents(root);
+          return;
+        }
+
+        Matomo.helper.destroyVueComponent(container as HTMLElement);
         container.replaceWith(newContent);
         Matomo.helper.compileVueEntryComponents(root);
       });
@@ -289,7 +317,7 @@ export default defineComponent({
         const item = items[i];
         const visitId = item.getAttribute('id');
         if (visitId) {
-          const existing = list.querySelector(`#${escapeId(visitId)}`) as HTMLElement | null;
+          const existing = list.querySelector(`#${visitId}`) as HTMLElement | null;
           if (existing) {
             if (existing.innerHTML !== item.innerHTML) {
               updated = true;
@@ -336,12 +364,13 @@ export default defineComponent({
         return;
       }
 
-      const visits = $(list).find('li.visit');
-      try {
-        visits.tooltip('destroy');
-      } catch (error) {
-        // ignore if tooltips were never initialized
-      }
+      const visits = $(list).find('li.visit .visitorLogIconWithDetails');
+      visits.each(function clearExisting() {
+        const visit = $(this);
+        if (visit.data('ui-tooltip')) {
+          visit.tooltip('destroy');
+        }
+      });
     },
     initTooltips() {
       if (!$) {
