@@ -14,8 +14,13 @@
 
     <div style="display: none;" ref="kpiCardTooltipTemplate">
       <div role="tooltip">
-        <h3>{{ translate(kpi.title) }}</h3>
-        {{ kpi.value }}
+        <h3>{{ translate(kpi.tooltipTitle || kpi.title) }}</h3>
+        <template v-if="kpi.tooltipBody">
+          {{ translate(kpi.tooltipBody) }}
+        </template>
+        <template v-else>
+          {{ kpi.value }}
+        </template>
       </div>
     </div>
 

@@ -9,6 +9,7 @@ import { computed, reactive, readonly } from 'vue';
 import {
   AjaxHelper,
   Matomo,
+  MatomoUrl,
   Periods,
   NumberFormatter,
 } from 'CoreHome';
@@ -27,6 +28,8 @@ interface DashboardKPIData {
   hitsCompact: string;
   hitsEvolution: string;
   hitsTrend: EvolutionTrend;
+  aiChatbotsRequests: string;
+  aiChatbotsRequestsCompact: string;
   pageviews: string;
   pageviewsCompact: string;
   pageviewsEvolution: string;
@@ -47,6 +50,7 @@ interface DashboardStoreState {
   errorLoading: boolean;
   isLoadingKPIs: boolean;
   isLoadingSites: boolean;
+  hasAiChatbotsRequests: boolean;
   numSites: number;
   paginationCurrentPage: number;
   sortColumn: string;
@@ -56,6 +60,7 @@ interface DashboardStoreState {
 interface GetAllWithGroupsDataResponse {
   sites: DashboardSiteData[];
   totals: DashboardMetrics;
+  hasAiChatbotsRequests: boolean;
   numSites: number;
 }
 
@@ -73,6 +78,8 @@ class DashboardStore {
       hitsCompact: '?',
       hitsEvolution: '',
       hitsTrend: 0,
+      aiChatbotsRequests: '?',
+      aiChatbotsRequestsCompact: '?',
       pageviews: '?',
       pageviewsCompact: '?',
       pageviewsEvolution: '',
@@ -90,6 +97,7 @@ class DashboardStore {
     errorLoading: false,
     isLoadingKPIs: false,
     isLoadingSites: false,
+    hasAiChatbotsRequests: false,
     numSites: 0,
     paginationCurrentPage: 0,
     sortColumn: DEFAULT_SORT_COLUMN,
@@ -227,6 +235,7 @@ class DashboardStore {
         'hits_evolution_trend',
         'label',
         'hits',
+        'ai_chatbots_requests',
         'nb_pageviews',
         'nb_visits',
         'pageviews_evolution',
@@ -305,6 +314,8 @@ class DashboardStore {
   }
 
   private updateDashboardKPIs(response: GetAllWithGroupsDataResponse) {
+    const isSegmented = !!MatomoUrl.parsed.value.segment;
+    const aiRequests = response.totals.ai_chatbots_requests || 0;
     this.privateState.dashboardKPIs = {
       badges: {
         hits: null,
@@ -323,6 +334,12 @@ class DashboardStore {
       hitsTrend: Math.sign(
         response.totals.hits - response.totals.previous_hits,
       ) as EvolutionTrend,
+      aiChatbotsRequests: isSegmented
+        ? '-'
+        : NumberFormatter.formatNumber(aiRequests),
+      aiChatbotsRequestsCompact: isSegmented
+        ? '-'
+        : NumberFormatter.formatNumberCompact(aiRequests),
       pageviews: NumberFormatter.formatNumber(response.totals.nb_pageviews),
       pageviewsCompact: NumberFormatter.formatNumberCompact(response.totals.nb_pageviews),
       pageviewsEvolution: NumberFormatter.calculateAndFormatEvolution(
@@ -354,11 +371,13 @@ class DashboardStore {
         response.totals.nb_visits - response.totals.previous_nb_visits,
       ) as EvolutionTrend,
     };
+    this.privateState.hasAiChatbotsRequests = !!response.hasAiChatbotsRequests;
   }
 
   private updateDashboardSites(response: GetAllWithGroupsDataResponse) {
     this.privateState.dashboardSites = response.sites;
     this.privateState.numSites = response.numSites;
+    this.privateState.hasAiChatbotsRequests = !!response.hasAiChatbotsRequests;
   }
 }
 

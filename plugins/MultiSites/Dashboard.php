@@ -14,7 +14,12 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\NumberFormatter;
 use Piwik\DataTable;
+use Piwik\DataTable\Map;
 use Piwik\DataTable\Row\DataTableSummaryRow;
+use Piwik\Period;
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\BotTracking\BotDetector;
+use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Site;
 
 /**
@@ -29,6 +34,9 @@ class Dashboard
     /** @var int */
     private $numSites = 0;
 
+    /** @var bool */
+    private $hasAiChatbotsRequests = false;
+
     /**
      * Array of metrics that will be displayed and will be number formatted
      * @var array<string>
@@ -36,6 +44,7 @@ class Dashboard
     private $displayedMetricColumns = [
         'nb_visits', 'nb_pageviews', 'hits', 'nb_actions', 'revenue',
         'previous_nb_visits', 'previous_nb_pageviews', 'previous_hits', 'previous_nb_actions', 'previous_revenue',
+        'ai_chatbots_requests', 'previous_ai_chatbots_requests',
     ];
 
     /**
@@ -45,6 +54,11 @@ class Dashboard
      */
     public function __construct(string $period, string $date, ?string $segment)
     {
+        if (Period::isMultiplePeriod($date, $period)) {
+            throw new \Exception('Multiple periods are not supported');
+        }
+
+        /** @var DataTable $sites */
         $sites = Request::processRequest('MultiSites.getAll', [
             'period' => $period,
             'date' => $date,
@@ -57,9 +71,11 @@ class Dashboard
             'filter_limit' => '-1',
             'filter_offset' => '0',
             'totals' => 0,
-        ], $default = []);
+        ], []);
 
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
+
+        $this->hasAiChatbotsRequests = $this->shouldShowAiChatbotsRequests($sites);
 
         /** @var null|DataTable $pastData */
         $pastData = $sites->getMetadata('pastData');
@@ -89,6 +105,30 @@ class Dashboard
         });
 
         $this->setSitesTable($sites);
+    }
+
+    private function shouldShowAiChatbotsRequests(DataTable $sites): bool
+    {
+        if (!Manager::getInstance()->isPluginActivated('BotTracking')) {
+            return false;
+        }
+
+        $idSites = [];
+        foreach ($sites->getRows() as $row) {
+            $label = $row->getColumn('label');
+            if (!is_numeric($label)) {
+                continue;
+            }
+            $idSite = (int)$label;
+            if ($idSite > 0) {
+                $idSites[] = $idSite;
+            }
+        }
+
+        return (new BotRequestsDao())->hasRequestsForBotTypeAndSites(
+            array_values($idSites),
+            BotDetector::BOT_TYPE_AI_ASSISTANT
+        );
     }
 
     public function setSitesTable(DataTable $sites): void
@@ -122,6 +162,8 @@ class Dashboard
             'previous_hits'         => $this->sitesByGroup->getMetadata('previous_total_hits'),
             'previous_nb_actions'   => $this->sitesByGroup->getMetadata('previous_total_nb_actions'),
             'previous_revenue'      => $this->sitesByGroup->getMetadata('previous_total_revenue'),
+            'ai_chatbots_requests'  => $this->sitesByGroup->getMetadata('total_ai_chatbots_requests') ?? 0,
+            'previous_ai_chatbots_requests' => $this->sitesByGroup->getMetadata('previous_total_ai_chatbots_requests') ?? 0,
         ];
         $this->formatMetrics($totals);
         return $totals;
@@ -150,6 +192,11 @@ class Dashboard
     public function getNumSites(): int
     {
         return $this->numSites;
+    }
+
+    public function hasAiChatbotsRequests(): bool
+    {
+        return $this->hasAiChatbotsRequests;
     }
 
     public function search(?string $pattern): void

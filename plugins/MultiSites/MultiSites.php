@@ -39,6 +39,7 @@ class MultiSites extends \Piwik\Plugin
             'actions_evolution'             => Piwik::translate('General_ColumnNbActions') . $appendix,
             'pageviews_evolution'           => Piwik::translate('General_ColumnPageviews') . $appendix,
             'hits_evolution'                => Piwik::translate('General_ColumnHits') . $appendix,
+            'ai_chatbots_requests_evolution' => Piwik::translate('MultiSites_AiChatbotsRequests') . $appendix,
             'revenue_evolution'             => Piwik::translate('General_ColumnRevenue') . $appendix,
             'nb_conversions_evolution'      => Piwik::translate('Goals_ColumnConversions') . $appendix,
             'orders_evolution'              => Piwik::translate('General_EcommerceOrders') . $appendix,
@@ -88,15 +89,21 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_EvolutionFromPreviousWeek';
         $translations[] = 'MultiSites_EvolutionFromPreviousYear';
         $translations[] = 'MultiSites_TotalHits';
+        $translations[] = 'MultiSites_TotalAiChatbotsRequests';
         $translations[] = 'MultiSites_TotalPageviews';
         $translations[] = 'MultiSites_TotalVisits';
         $translations[] = 'MultiSites_AllWebsitesDashboardErrorMessage';
         $translations[] = 'MultiSites_MetricDocumentationWebsite';
         $translations[] = 'MultiSites_MetricDocumentationVisits';
         $translations[] = 'MultiSites_MetricDocumentationPageviews';
+        $translations[] = 'MultiSites_MetricDocumentationAiChatbotsRequests';
         $translations[] = 'MultiSites_MetricDocumentationHits';
         $translations[] = 'MultiSites_MetricDocumentationRevenue';
         $translations[] = 'MultiSites_MetricDocumentationEvolution';
+        $translations[] = 'MultiSites_AiChatbotsRequests';
+        $translations[] = 'MultiSites_SegmentationNotSupported';
+        $translations[] = 'MultiSites_AiChatbotsSegmentationTooltip';
+        $translations[] = 'MultiSites_TotalHitsIncludingAiTooltip';
     }
 
     public function getStylesheetFiles(&$stylesheets)

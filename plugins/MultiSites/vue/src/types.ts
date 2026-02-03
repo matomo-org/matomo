@@ -20,6 +20,8 @@ export interface DashboardMetrics {
   ratio: number;
   revenue: number;
   previous_revenue: number;
+  ai_chatbots_requests: number;
+  previous_ai_chatbots_requests: number;
 }
 
 export interface DashboardSiteData extends DashboardMetrics, Site {
@@ -39,6 +41,8 @@ export interface KPICardData {
   badge?: KPICardBadge | null;
   icon: string;
   title: string;
+  tooltipTitle?: string;
+  tooltipBody?: string;
   value: string;
   valueCompact: string;
 }

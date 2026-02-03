@@ -40,6 +40,16 @@
             {{ translate('General_ColumnPageviews') }}
           </th>
 
+          <th v-if="showAiChatbotsRequests"
+              @click="sortBy('ai_chatbots_requests')"
+              :title="translate('MultiSites_MetricDocumentationAiChatbotsRequests')">
+            <span
+                v-if="sortColumn === 'ai_chatbots_requests'"
+                :class="sortColumnClass"
+            />
+            {{ translate('MultiSites_AiChatbotsRequests') }}
+          </th>
+
           <th @click="sortBy('hits')"
               :title="translate('MultiSites_MetricDocumentationHits')">
             <span
@@ -97,7 +107,7 @@
 
       <tbody>
         <tr v-if="isLoading">
-          <td class="sitesTableLoading" colspan="7">
+          <td class="sitesTableLoading" :colspan="loadingColspan">
             <MatomoLoader />
           </td>
         </tr>
@@ -111,6 +121,8 @@
             :model-value="site"
             :display-sparkline="displaySparklines"
             :sparkline-metric="sparklineMetric"
+            :show-ai-chatbots-requests="showAiChatbotsRequests"
+            :is-segmented="isSegmented"
         />
       </tbody>
     </table>
@@ -171,6 +183,14 @@ export default defineComponent({
       required: true,
     },
     displaySparklines: {
+      type: Boolean,
+      required: true,
+    },
+    showAiChatbotsRequests: {
+      type: Boolean,
+      required: true,
+    },
+    isSegmented: {
       type: Boolean,
       required: true,
     },
@@ -237,6 +257,19 @@ export default defineComponent({
         default:
           return '';
       }
+    },
+    loadingColspan(): number {
+      let columns = 6;
+      if (this.showAiChatbotsRequests) {
+        columns += 1;
+      }
+      if (this.displayRevenue) {
+        columns += 1;
+      }
+      if (this.displaySparklines) {
+        columns += 1;
+      }
+      return columns;
     },
   },
   methods: {

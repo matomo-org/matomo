@@ -73,6 +73,8 @@
   <SitesTable
       :display-revenue="displayRevenue"
       :display-sparklines="displaySparklines"
+      :show-ai-chatbots-requests="showAiChatbotsRequests"
+      :is-segmented="isSegmented"
   />
 </template>
 
@@ -82,6 +84,7 @@ import {
   EnrichedHeadline,
   Matomo,
   MatomoUrl,
+  translate,
 } from 'CoreHome';
 
 import DashboardStore from './AllWebsitesDashboard.store';
@@ -149,8 +152,15 @@ export default defineComponent({
     errorLoading(): boolean {
       return DashboardStore.state.value.errorLoading;
     },
+    isSegmented(): boolean {
+      return !!MatomoUrl.parsed.value.segment;
+    },
+    showAiChatbotsRequests(): boolean {
+      return DashboardStore.state.value.hasAiChatbotsRequests;
+    },
     kpis(): KPICardData[] {
-      const { dashboardKPIs } = DashboardStore.state.value;
+      const { dashboardKPIs, hasAiChatbotsRequests } = DashboardStore.state.value;
+      const { isSegmented } = this;
 
       const kpis: KPICardData[] = [
         {
@@ -173,17 +183,40 @@ export default defineComponent({
           evolutionTrend: dashboardKPIs.pageviewsTrend,
           evolutionValue: dashboardKPIs.pageviewsEvolution,
         },
-        {
-          badge: dashboardKPIs.badges?.hits || null,
-          icon: 'icon-hits',
-          title: 'MultiSites_TotalHits',
-          value: dashboardKPIs.hits,
-          valueCompact: dashboardKPIs.hitsCompact,
-          evolutionPeriod: dashboardKPIs.evolutionPeriod,
-          evolutionTrend: dashboardKPIs.hitsTrend,
-          evolutionValue: dashboardKPIs.hitsEvolution,
-        },
       ];
+
+      if (hasAiChatbotsRequests) {
+        kpis.push({
+          badge: isSegmented
+            ? {
+              label: translate('MultiSites_SegmentationNotSupported'),
+              title: translate('MultiSites_AiChatbotsSegmentationTooltip'),
+            }
+            : null,
+          icon: 'icon-admin-platform',
+          title: 'MultiSites_TotalAiChatbotsRequests',
+          tooltipBody: isSegmented ? 'MultiSites_AiChatbotsSegmentationTooltip' : undefined,
+          value: dashboardKPIs.aiChatbotsRequests,
+          valueCompact: dashboardKPIs.aiChatbotsRequestsCompact,
+          evolutionPeriod: dashboardKPIs.evolutionPeriod,
+          evolutionTrend: 0,
+          evolutionValue: '',
+        });
+      }
+
+      kpis.push({
+        badge: dashboardKPIs.badges?.hits || null,
+        icon: 'icon-hits',
+        title: 'MultiSites_TotalHits',
+        tooltipTitle: !isSegmented && hasAiChatbotsRequests
+          ? 'MultiSites_TotalHitsIncludingAiTooltip'
+          : undefined,
+        value: dashboardKPIs.hits,
+        valueCompact: dashboardKPIs.hitsCompact,
+        evolutionPeriod: dashboardKPIs.evolutionPeriod,
+        evolutionTrend: dashboardKPIs.hitsTrend,
+        evolutionValue: dashboardKPIs.hitsEvolution,
+      });
 
       if (this.displayRevenue) {
         kpis.push({
