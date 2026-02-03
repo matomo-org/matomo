@@ -1,6 +1,12 @@
 {
     "Marketplace": {
         "ActivateLicenseKey": "Activar",
+        "BrowseMarketplace": "Explorar el mercado",
+        "PluginKeywords": "Palabras clave",
+        "PluginVersionInfo": "%1$s desde %2$s",
+        "SortByLastUpdated": "Última actualización",
+        "SubscriptionEndDate": "Fecha de cierre",
+        "SubscriptionStartDate": "Fecha de inicio",
         "SubscriptionType": "Tipo"
     }
 }

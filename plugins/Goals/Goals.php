@@ -536,6 +536,9 @@ class Goals extends \Piwik\Plugin
         $translationKeys[] = 'General_Yes';
         $translationKeys[] = 'General_No';
         $translationKeys[] = 'General_OrCancel';
+        $translationKeys[] = 'Goals_GoalCreated';
+        $translationKeys[] = 'Goals_GoalUpdated';
+        $translationKeys[] = 'Goals_ViewGoalReport';
     }
 
     public function filterSegments(SegmentsList &$list, array $idSites)

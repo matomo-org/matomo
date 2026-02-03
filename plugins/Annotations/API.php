@@ -221,7 +221,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $ids = array_map('intval', Site::getIdSitesFromIdSitesString($idSite));
+        $ids = array_map('intval', Site::getIdSitesFromIdSitesString($idSite, false, true));
         $model = new Model();
         $annotations = [];
         foreach ($ids as $id) {
@@ -275,7 +275,7 @@ class API extends \Piwik\Plugin\API
     ): array {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $siteIds = array_map('intval', Site::getIdSitesFromIdSitesString($idSite));
+        $siteIds = array_map('intval', Site::getIdSitesFromIdSitesString($idSite, false, true));
         if (empty($siteIds)) {
             return [];
         }

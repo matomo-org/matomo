@@ -215,6 +215,10 @@ enabled = 0
 ; Note that for quick debugging, instead of using below setting, you can add `&disable_merged_assets=1` to the Matomo URL
 disable_merged_assets = 0
 
+; if set to 1, the sourcemaps for built vue files will be allowed to be served.
+; this is useful for debugging vue files in the browser
+allow_vue_sourcemaps = 0
+
 [General]
 ; the following settings control whether Unique Visitors `nb_uniq_visitors` and Unique users `nb_users` will be processed for different period types.
 ; year and range periods are disabled by default, to ensure optimal performance for high traffic Matomo instances
@@ -351,6 +355,9 @@ datatable_row_limits = "5,10,25,50,100,250,500,-1"
 ; this value is overwritten by the '# Rows to display' selector.
 ; if set to -1, a click on 'Export as' will export all rows independently of the current '# Rows to display'.
 API_datatable_default_limit = 100
+
+; Maximum number of URLs allowed in API.getBulkRequest for authenticated users (-1 disables the limit)
+API_bulk_request_limit = -1
 
 ; When period=range, below the datatables, when user clicks on "export", the data will be aggregate of the range.
 ; Here you can specify the comma separated list of formats for which the data will be exported aggregated by day
@@ -636,6 +643,11 @@ datatable_archiving_maximum_rows_subtable_events = 500
 ; maximum number of rows for the Products reports
 datatable_archiving_maximum_rows_products = 10000
 
+; maximum number of AI Assistants listed in Bot Tracking reports
+datatable_archiving_maximum_rows_bots = 250
+; maximum number of page/document rows listed per AI Assistant in Bot Tracking reports
+datatable_archiving_maximum_rows_subtable_bots = 250
+
 ; maximum number of rows for other tables (Providers, User settings configurations)
 datatable_archiving_maximum_rows_standard = 500
 
@@ -704,6 +716,18 @@ multi_server_environment = 0
 ;
 ; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
+
+; List of proxy headers for scheme (http/https) detection.
+; If unset, Matomo will ignore proxy scheme headers by default.
+;
+; de facto standard (X-Forwarded-Proto)
+;proxy_scheme_headers[] = HTTP_X_FORWARDED_PROTO
+;
+; alternative header (X-Forwarded-Scheme)
+;proxy_scheme_headers[] = HTTP_X_FORWARDED_SCHEME
+;
+; alternative header (X-Url-Scheme)
+;proxy_scheme_headers[] = HTTP_X_URL_SCHEME
 
 ; List of proxy IP addresses (or IP address ranges) to skip (if present in the above headers).
 ; Generally, only required if there's more than one proxy between the visitor and the backend web server.
@@ -1150,6 +1174,10 @@ delete_reports_keep_year_reports     = 1
 delete_reports_keep_range_reports    = 0
 delete_reports_keep_segment_reports  = 0
 
+[ArchivingMetrics]
+; retention_days - delete archiving metrics older than this many days. Set to 0 to disable cleanup.
+retention_days = 180
+
 [mail]
 defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org ; default Email @hostname, if current host can't be read from system variables
 transport = ; smtp (using the configuration below) or empty (using built-in mail() function)
@@ -1344,7 +1372,9 @@ time_on_load_cap_duration_ms = 0
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
 ; index.php?module=API&method=API.getSettings
+; Access to this API is unrestricted, so do not include any sensitive information here.
 ; This can be used to expose values from Matomo, to control for example a Mobile app tracking
+
 SDK_batch_size = 10
 SDK_interval_value = 30
 

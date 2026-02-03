@@ -1,13 +1,14 @@
 {
     "Marketplace": {
-        "ActivateLicenseKey": "Aktyvinti",
         "ActionActivatePlugin": "Aktyvuoti papildinį",
         "ActionInstall": "Įdiegti",
+        "ActivateLicenseKey": "Aktyvinti",
         "AllowedUploadFormats": "Per šį puslapį galite įkelti papildinį ar temą .zip formatu.",
         "CannotInstall": "Nepavyksta įdiegti",
         "CannotUpdate": "Nepavyksta atnaujinti",
         "Developer": "Kūrėjas",
         "InstallingPlugin": "Įdiegiama %s",
+        "LastUpdated": "Paskutinį kartą atnaujinta",
         "License": "Licencija",
         "LicenseKey": "Licencijos raktas",
         "LicenseKeyActivatedSuccess": "Licencijos raktas sėkmingai aktyvuotas!",
@@ -18,9 +19,11 @@
         "PluginKeywords": "Raktiniai žodžiai",
         "PluginWebsite": "Papildinio svetainė",
         "Screenshots": "Ekrano kopijos",
+        "Sort": "Sortas",
         "StepPluginSuccessfullyInstalled": "Jūs sėkmingai įdiegėte papildinį %1$s %2$s.",
         "StepPluginSuccessfullyUpdated": "Jūs sėkmingai atnaujinote papildinį %1$s %2$s.",
         "StepReplaceExistingPlugin": "Pakeičiamas esamas papildinys",
+        "SubscriptionStartDate": "Pradžios data",
         "SubscriptionType": "Tipas"
     }
 }

@@ -21,6 +21,7 @@
         "Optional": "Izvēles",
         "Password": "Parole",
         "PasswordDoNotMatch": "paroles nesakrīt",
+        "PasswordRepeat": "Parole (atkārtoti)",
         "PercentDone": "%s %% pabeigts",
         "PleaseFixTheFollowingErrors": "Lūdzu izlabojiet sekojošās kļūdas",
         "Requirements": "Matomo prasības",

@@ -206,7 +206,7 @@ external_CoreHome_["Matomo"].on('Matomo.processDynamicHtml', $element => {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=fd166ff8
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=04dd6425
 
 const _hoisted_1 = {
   class: "manageGoals"
@@ -526,7 +526,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["content-title"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showEditGoal]])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.userCanEditGoals]]), _hoisted_59]);
 }
-// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=fd166ff8
+// CONCATENATED MODULE: ./plugins/Goals/vue/src/ManageGoals/ManageGoals.vue?vue&type=template&id=04dd6425
 
 // EXTERNAL MODULE: external "CorePluginsAdmin"
 var external_CorePluginsAdmin_ = __webpack_require__("a5a2");
@@ -555,6 +555,7 @@ class ManageGoals_store_ManageGoalsStore {
 
 
 
+const notificationKey = 'Goals.ManageGoals.Notification';
 function ambiguousBoolToInt(n) {
   return !!n && n !== '0' ? 1 : 0;
 }
@@ -620,6 +621,10 @@ function ambiguousBoolToInt(n) {
       this.editGoal(this.showGoal);
     } else {
       this.showListOfReports();
+    }
+    const storedNotifications = this.getStoredNotification();
+    if (storedNotifications) {
+      this.showNotificationMessage(storedNotifications.goal, storedNotifications.create);
     }
   },
   methods: {
@@ -743,22 +748,79 @@ function ambiguousBoolToInt(n) {
         return;
       }
       this.isLoading = true;
-      external_CoreHome_["AjaxHelper"].fetch(parameters, options).then(() => {
+      external_CoreHome_["AjaxHelper"].fetch(parameters, options).then(async response => {
+        let idToUse = parameters.idGoal;
+        if (isCreate && response.value) {
+          idToUse = response.value;
+        }
+        this.storeNotification(idToUse, isCreate);
+        this.scrollToTop();
         const subcategory = external_CoreHome_["MatomoUrl"].parsed.value.subcategory;
         if (subcategory === 'Goals_AddNewGoal' && external_CoreHome_["Matomo"].helper.isReportingPage()) {
           // when adding a goal for the first time we need to load manage goals page afterwards
-          external_CoreHome_["ReportingMenuStore"].reloadMenuItems().then(() => {
-            external_CoreHome_["MatomoUrl"].updateHash(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
-              subcategory: 'Goals_ManageGoals'
-            }));
-            this.isLoading = false;
-          });
+          await external_CoreHome_["ReportingMenuStore"].reloadMenuItems();
+          external_CoreHome_["MatomoUrl"].updateHash(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
+            subcategory: 'Goals_ManageGoals'
+          }));
+          this.isLoading = false;
         } else {
           window.location.reload();
         }
       }).catch(() => {
         this.scrollToTop();
         this.isLoading = false;
+      });
+    },
+    storeNotification(goalId, isCreate) {
+      try {
+        sessionStorage.setItem(notificationKey, JSON.stringify({
+          goal: goalId,
+          create: isCreate
+        }));
+      } catch (e) {
+        // Do nothing
+      }
+    },
+    getStoredNotification() {
+      const pendingNotification = sessionStorage.getItem(notificationKey);
+      if (pendingNotification) {
+        sessionStorage.removeItem(notificationKey);
+        try {
+          let {
+            goal,
+            create
+          } = JSON.parse(pendingNotification);
+          if (goal) {
+            goal = parseInt(goal, 10); // we make sure this is an int
+          }
+          create = !!create; // we make sure this is a boolean
+          return {
+            goal,
+            create
+          };
+        } catch (e) {
+          return null;
+        }
+      }
+      return null;
+    },
+    showNotificationMessage(goalId, isCreate) {
+      const link = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value), {}, {
+        module: 'CoreHome',
+        action: 'index'
+      }));
+      const hash = external_CoreHome_["MatomoUrl"].stringify(Object.assign(Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value), {}, {
+        category: 'Goals_Goals',
+        subcategory: encodeURIComponent(goalId)
+      }));
+      let successMessage = Object(external_CoreHome_["translate"])(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
+      const reportLink = `<a href="?${link}#${hash}">[${Object(external_CoreHome_["translate"])('Goals_ViewGoalReport')}]</a>`;
+      successMessage = `${successMessage} ${reportLink}`;
+      external_CoreHome_["NotificationsStore"].show({
+        id: 'ManageGoals.create',
+        message: successMessage,
+        context: 'success',
+        type: 'toast'
       });
     },
     changedTriggerType() {

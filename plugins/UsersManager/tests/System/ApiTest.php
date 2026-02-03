@@ -175,14 +175,17 @@ class ApiTest extends SystemTestCase
     public function testCreateAppSpecificTokenAuthWithExpireDate()
     {
         $this->model->deleteAllTokensForUser('login1');
-        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', '2026-01-02 03:04:05');
+
+        $expiryDate = (new \DateTime())->modify('+1 day');
+
+        $token = $this->api->createAppSpecificTokenAuth('login1', 'password', 'test', $expiryDate->format('Y-m-d H:i:s'));
         $this->assertMd5($token);
 
         $tokens = $this->model->getAllNonSystemTokensForLogin('login1');
         $this->assertEquals($this->model->hashTokenAuth($token), $tokens[0]['password']);
         $this->assertEquals('login1', $tokens[0]['login']);
         $this->assertEquals('test', $tokens[0]['description']);
-        $this->assertEquals('2026-01-02 03:04:05', $tokens[0]['date_expired']);
+        $this->assertEquals($expiryDate->format('Y-m-d H:i:s'), $tokens[0]['date_expired']);
     }
 
     public function testCreateAppSpecificTokenAuthWithExpireHours()

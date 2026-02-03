@@ -3,6 +3,8 @@
         "PluginDescription": "Zeigt Benutzer-Berichte",
         "ThereIsNoDataForThisReportHelp": "%1$sLesen Sie das Benutzerhandbuch, um zu erfahren, wie Sie Daten für diesen Bericht erstellen.%2$s",
         "UserId": "Benutzer-ID",
+        "UserIdDisabledSettingRequirementNote": "Die Erfassung der Benutzer-ID während der Aufzeichnung muss deaktiviert werden.",
+        "UserIdDisabledSettingTitle": "Benutzer-ID deaktiviert",
         "UserIdSegmentHelp": "jeder nicht leere einzigartige String, der den Benutzer identifiziert (wie eine E-Mail-Adresse oder ein Benutzername).",
         "UserReportDocumentation": "Zeigt Besuche und andere allgemeine Metriken für jede individuelle Benutzer-ID.",
         "UserReportTitle": "Benutzer IDs",

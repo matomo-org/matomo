@@ -30,3 +30,52 @@
     }
   }
 }
+.selectedReportsWrapper {
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+
+  .selectedReportsHeading {
+    margin-bottom: 0.4rem;
+  }
+
+  .selectedReportsHelp {
+    margin-top: 0;
+    color: @color-silver;
+  }
+
+  .selectedReportsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 0.9rem;
+      border: 1px solid @color-silver-l85;
+      border-radius: 4px;
+      background: @color-white;
+      cursor: move;
+      margin-bottom: 0.6rem;
+
+        span.drag-icon {
+          padding-right: 15px;
+          font-size: 13px;
+          color: @color-silver-l60;
+        }
+    }
+
+    .selectedReportName {
+      flex: 1;
+    }
+
+    .selectedReportPlaceholder {
+      border: 1px dashed @color-silver;
+      border-radius: 4px;
+      background: @color-silver-l95;
+      height: 2.6rem;
+      margin-bottom: 0.6rem;
+    }
+  }
+}

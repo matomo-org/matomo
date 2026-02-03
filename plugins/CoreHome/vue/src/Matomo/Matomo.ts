@@ -6,25 +6,113 @@
  */
 
 import Periods from '../Periods/Periods';
-
-let originalTitle: string;
+import { translate } from '../translate';
 
 const { piwik, broadcast, piwikHelper } = window;
+
+type ComparisonsStoreLike = {
+  getSegmentComparisons: () => Array<{params: { segment: string }, title: string, index: number}>;
+};
+
+type ReportingMenuStoreLike = {
+  findSubcategory: (categoryId: string, subcategoryId: string) => {
+    category?: { name?: string };
+    subcategory?: { name?: string };
+  };
+  fetchMenuItems: () => Promise<unknown>;
+};
+
+type MatomoWindow = Window & {
+  CoreHome?: {
+    ComparisonStoreInstance?: ComparisonsStoreLike,
+    ReportingMenuStore?: ReportingMenuStoreLike,
+  }
+}
 
 piwik.helper = piwikHelper;
 piwik.broadcast = broadcast;
 
-piwik.updateDateInTitle = function updateDateInTitle(date: string, period: string) {
-  if (!$('.top_controls #periodString').length) {
-    return;
+function getReportingMenuStore(): ReportingMenuStoreLike|undefined {
+  const { CoreHome } = window as MatomoWindow;
+  return CoreHome?.ReportingMenuStore;
+}
+
+function getComparisonsStore(): ComparisonsStoreLike|undefined {
+  const { CoreHome } = window as MatomoWindow;
+  return CoreHome?.ComparisonStoreInstance;
+}
+
+function getActiveSegmentLabel(segment?: string): string|undefined {
+  if (typeof segment !== 'string') {
+    return undefined;
   }
 
-  // Cache server-rendered page title
-  originalTitle = originalTitle || document.title;
+  const trimmedSegment = segment.trim();
+  const comparisonsStore = getComparisonsStore();
 
-  if (originalTitle.indexOf(piwik.siteName) === 0) {
-    const dateString = ` - ${Periods.parse(period, date).getPrettyString()} `;
-    document.title = `${piwik.siteName}${dateString}${originalTitle.slice(piwik.siteName.length)}`;
+  if (comparisonsStore) {
+    const comparisons = comparisonsStore.getSegmentComparisons();
+    if (!trimmedSegment && comparisons.length) {
+      return comparisons[0].title;
+    }
+
+    const found = comparisons.find(
+      (comparison) => comparison.params.segment === segment,
+    );
+    if (found) {
+      return found.title;
+    }
+  }
+
+  if (!trimmedSegment) {
+    return translate('SegmentEditor_DefaultAllVisits');
+  }
+
+  const segmentationTitle = document.querySelector('.segmentEditorPanel .segmentationTitle');
+  const fallbackName = segmentationTitle?.textContent?.trim();
+  if (fallbackName) {
+    return fallbackName;
+  }
+
+  return translate('SegmentEditor_CustomSegment');
+}
+
+piwik.updateTitle = async function updateTitle(
+  date: string,
+  period: string,
+  category: string,
+  subcategory: string,
+  segment?: string,
+) {
+  let categoryName = '';
+  let subcategoryName = '';
+  let dateString = '';
+  if (period !== '' && date !== '') {
+    dateString = Periods.parse(period, date).getPrettyString();
+  }
+  const titleSuffix = `${translate('CoreHome_WebAnalyticsReports')} - Matomo`;
+  const store = getReportingMenuStore();
+  if (store && category && subcategory) {
+    let found = store.findSubcategory(category, subcategory);
+    if (!found.category) {
+      await store.fetchMenuItems();
+      found = store.findSubcategory(category, subcategory);
+    }
+    categoryName = found?.category?.name ?? '';
+    subcategoryName = found?.subcategory?.name ?? '';
+    if (categoryName === subcategoryName) {
+      subcategoryName = '';
+    }
+    categoryName = piwikHelper.htmlEntities(categoryName);
+    subcategoryName = piwikHelper.htmlEntities(subcategoryName);
+
+    // Try to get the correct title by combining the category and subcategory names
+    const categorySubcategoryString = categoryName
+      ? `${categoryName}  ${subcategoryName ? `> ${subcategoryName}` : ''}` : '';
+    const segmentLabel = getActiveSegmentLabel(segment);
+    const segmentString = segmentLabel ? piwikHelper.htmlEntities(segmentLabel) : '';
+    document.title = [piwik.siteName, dateString, categorySubcategoryString,
+      segmentString, titleSuffix].filter(Boolean).join(' - ');
   }
 };
 

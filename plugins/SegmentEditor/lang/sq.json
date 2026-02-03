@@ -24,6 +24,8 @@
         "DefaultAllVisits": "Krejt vizitat",
         "DragDropCondition": "Kusht Merr &amp; Vër",
         "HideMessageInFuture": "Fshihe këtë mesazh në të ardhmen",
+        "LimitSegmentsSettingRequirementNote": "Kufizo segmente të përdorshëm në ata që janë në përputhje me standarde.",
+        "LimitSegmentsSettingTitle": "Kufizo segmente të përdorshëm",
         "LoadingSegmentedDataMayTakeSomeTime": "Përpunimi i të dhënave sipas segmentesh vizitorësh mund të hajë ca minuta…",
         "OperatorAND": "DHE",
         "OperatorOR": "OSE",

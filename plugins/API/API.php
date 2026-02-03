@@ -21,6 +21,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Date;
+use Piwik\Http\BadRequestException;
 use Piwik\IP;
 use Piwik\Period;
 use Piwik\Piwik;
@@ -130,6 +131,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the section [APISettings] if defined in config.ini.php
      * @return array
+     * @deprecated May be removed in one of the next major releases
      */
     public function getSettings()
     {
@@ -173,7 +175,7 @@ class API extends \Piwik\Plugin\API
         if (empty($idSites)) {
             Piwik::checkUserHasSomeViewAccess();
         } else {
-            $idSites = Site::getIdSitesFromIdSitesString($idSites);
+            $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
             Piwik::checkUserHasViewAccess($idSites);
         }
 
@@ -515,6 +517,11 @@ class API extends \Piwik\Plugin\API
             return [];
         }
 
+        $limit = $this->getBulkRequestLimit();
+        if ($limit > -1 && count($urls) > $limit) {
+            throw new BadRequestException(Piwik::translate('General_MaximumNumberOfBulkRequestUrlsIs', [$limit]));
+        }
+
         $request = \Piwik\Request::fromRequest();
         $queryParameters = $request->getParameters();
         unset($queryParameters['urls']);
@@ -539,6 +546,22 @@ class API extends \Piwik\Plugin\API
             $result[] = json_decode($req->process(), true);
         }
         return $result;
+    }
+
+    private function getBulkRequestLimit(): int
+    {
+        $configLimit = Config::getInstance()->General['API_bulk_request_limit'] ?? -1;
+        $configLimit = (int)$configLimit;
+
+        if (Piwik::isUserIsAnonymous()) {
+            $defaultLimit = Piwik::isUserHasSomeViewAccess() ? 50 : 10;
+            if ($configLimit > -1) {
+                return min($defaultLimit, $configLimit);
+            }
+            return $defaultLimit;
+        }
+
+        return $configLimit;
     }
 
     /**

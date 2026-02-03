@@ -11,13 +11,13 @@
         "ColumnBounceRateForReturningVisits": "Percentuale dei rimbalzi per le Visite di Ritorno",
         "ColumnMaxActionsInReturningVisit": "Numero massimo di azioni in una visita di ritorno",
         "ColumnNbReturningVisitsConverted": "Numero di visite di ritorno convertite",
+        "ColumnNewUsers": "Nuovi Utenti",
         "ColumnNewVisits": "Nuove Visite",
+        "ColumnReturningUsers": "Utenti di Ritorno",
         "ColumnReturningVisits": "Visite di Ritorno",
         "ColumnSumVisitLengthReturning": "Tempo complessivo speso dai visitatori di ritorno (in secondi)",
         "ColumnUniqueNewVisitors": "Nuovi visitatori unici",
         "ColumnUniqueReturningVisitors": "Visitatori unici di ritorno",
-        "ColumnNewUsers": "Nuovi Utenti",
-        "ColumnReturningUsers": "Utenti di Ritorno",
         "NewActions": "azioni per le nuove visite",
         "NewAverageVisitDuration": "durata media di una visita per i nuovi visitatori",
         "NewAvgActions": "azioni per nuova visita",
@@ -28,12 +28,12 @@
         "ReturnAverageVisitDuration": "durata media di una visita per i visitatori di ritorno",
         "ReturnAvgActions": "azioni per visite di ritorno",
         "ReturnBounceRate": "visite di ritorno rimbalzate (che hanno lasciato il sito dopo una pagina)",
+        "ReturnVisits": "visite di ritorno",
         "ReturningVisitDocumentation": "Una visita di ritorno è fatta (al contrario di una nuova visita) da qualcuno che ha visitato il sito almeno una volta in precedenza.",
         "ReturningVisitsDocumentation": "Questa è una panoramica delle visite di ritorno.",
-        "ReturnVisits": "visite di ritorno",
         "SubmenuFrequency": "Frequenza",
+        "VisitFrequencyReportDocumentation": "Questo report mostra metriche generali come le visite per i visitatori di ritorno accanto alle stesse metriche per i nuovi visitatori. Scopri il rendimento complessivo dei visitatori di ritorno rispetto ai nuovi visitatori.",
         "WidgetGraphReturning": "Visite di Ritorno nel Tempo",
-        "WidgetOverview": "Riepilogo Frequenza",
-        "VisitFrequencyReportDocumentation": "Questo report mostra metriche generali come le visite per i visitatori di ritorno accanto alle stesse metriche per i nuovi visitatori. Scopri il rendimento complessivo dei visitatori di ritorno rispetto ai nuovi visitatori."
+        "WidgetOverview": "Riepilogo Frequenza"
     }
 }

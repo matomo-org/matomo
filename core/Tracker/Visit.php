@@ -191,9 +191,7 @@ class Visit implements VisitInterface
      * 1) Insert the new action
      * 2) Update the visit information
      *
-     * @param Visitor $visitor
-     * @param Action $action
-     * @param $visitIsConverted
+     * @param bool $visitIsConverted
      * @throws VisitorNotFoundInDb
      */
     protected function handleExistingVisit($visitIsConverted)
@@ -262,8 +260,6 @@ class Visit implements VisitInterface
      *
      * 2) Insert the visit information
      *
-     * @param Visitor $visitor
-     * @param Action $action
      * @param bool $visitIsConverted
      */
     protected function handleNewVisit($visitIsConverted)
@@ -449,8 +445,6 @@ class Visit implements VisitInterface
     /**
      * @param VisitDimension[] $dimensions
      * @param string $hook
-     * @param Visitor $visitor
-     * @param Action|null $action
      * @param array|null $valuesToUpdate If null, $this->visitorInfo will be updated
      *
      * @return array|null The updated $valuesToUpdate or null if no $valuesToUpdate given
@@ -524,9 +518,8 @@ class Visit implements VisitInterface
     }
 
     /**
-     * @param $visitor
-     * @param $valuesToUpdate
-     * @return mixed
+     * @param array $valuesToUpdate
+     * @return array
      */
     private function setIdVisitorForExistingVisit($valuesToUpdate)
     {

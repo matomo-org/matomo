@@ -18,9 +18,9 @@ class ProxyHeaders
     /**
      * Get protocol information, with the exception of HTTPS
      *
-     * @return string protocol information
+     * @return ?string protocol information
      */
-    public static function getProtocolInformation()
+    public static function getProtocolInformation(): ?string
     {
         if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) {
             return 'SERVER_PORT=443';
@@ -44,12 +44,12 @@ class ProxyHeaders
     /**
      * Get headers present in the HTTP request
      *
-     * @param array $recognizedHeaders
-     * @return array HTTP headers
+     * @param string[] $recognizedHeaders
+     * @return string[] HTTP headers
      */
-    private static function getHeaders($recognizedHeaders)
+    private static function getHeaders(array $recognizedHeaders): array
     {
-        $headers = array();
+        $headers = [];
 
         foreach ($recognizedHeaders as $header) {
             if (isset($_SERVER[$header])) {
@@ -63,26 +63,40 @@ class ProxyHeaders
     /**
      * Detect proxy client headers
      *
-     * @return array Proxy client HTTP headers
+     * @return string[] Proxy client HTTP headers
      */
-    public static function getProxyClientHeaders()
+    public static function getProxyClientHeaders(): array
     {
-        return self::getHeaders(array(
-                                     'HTTP_CF_CONNECTING_IP',
-                                     'HTTP_CLIENT_IP',
-                                     'HTTP_X_FORWARDED_FOR',
-                                ));
+        return self::getHeaders([
+            'HTTP_CF_CONNECTING_IP',
+            'HTTP_CLIENT_IP',
+            'HTTP_X_FORWARDED_FOR',
+        ]);
     }
 
     /**
      * Detect proxy host headers
      *
-     * @return array Proxy host HTTP headers
+     * @return string[] Proxy host HTTP headers
      */
-    public static function getProxyHostHeaders()
+    public static function getProxyHostHeaders(): array
     {
-        return self::getHeaders(array(
-                                     'HTTP_X_FORWARDED_HOST',
-                                ));
+        return self::getHeaders([
+            'HTTP_X_FORWARDED_HOST',
+        ]);
+    }
+
+    /**
+     * Detect proxy scheme headers
+     *
+     * @return string[] Proxy scheme HTTP headers
+     */
+    public static function getProxySchemeHeaders(): array
+    {
+        return self::getHeaders([
+            'HTTP_X_FORWARDED_PROTO',
+            'HTTP_X_FORWARDED_SCHEME',
+            'HTTP_X_URL_SCHEME',
+        ]);
     }
 }

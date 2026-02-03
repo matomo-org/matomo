@@ -23,6 +23,7 @@
         "Optional": "ตัวเลือก",
         "Password": "รหัสผ่าน",
         "PasswordDoNotMatch": "รหัสผ่านไม่ถูกต้อง",
+        "PasswordRepeat": "รหัสผ่าน (อีกครั้ง)",
         "PercentDone": "ติดตั้งเสร็จไปแล้ว %s %%",
         "PleaseFixTheFollowingErrors": "กรุณาแก้ไขข้อผิดพลาดต่อไปนี้",
         "Requirements": "ความต้องการของ Matomo",

@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Matomo\Network\IPUtils;
+use Piwik\Config\GeneralConfig;
 
 /**
  * Provides URL related helper methods.
@@ -775,25 +776,22 @@ class Url
     /**
      * List of hosts that are never checked for validity.
      *
-     * @return array
+     * @return string[]
      */
-    private static function getAlwaysTrustedHosts()
+    private static function getAlwaysTrustedHosts(): array
     {
         return self::getLocalHostnames();
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public static function getLocalHostnames()
+    public static function getLocalHostnames(): array
     {
         return ['localhost', '127.0.0.1', '::1', '[::1]', '[::]', '0000::1', '0177.0.0.1', '2130706433', '[0:0:0:0:0:ffff:127.0.0.1]'];
     }
 
-    /**
-     * @return bool
-     */
-    public static function isSecureConnectionAssumedByPiwikButNotForcedYet()
+    public static function isSecureConnectionAssumedByPiwikButNotForcedYet(): bool
     {
         $isSecureConnectionLikelyNotUsed = Url::isSecureConnectionLikelyNotUsed();
         $hasSessionCookieSecureFlag = ProxyHttp::isHttps();
@@ -804,41 +802,68 @@ class Url
                 && $isSecureConnectionAssumedByPiwikButNotForcedYet;
     }
 
-    /**
-     * @return string
-     */
-    protected static function getCurrentSchemeFromRequestHeader()
+    protected static function getCurrentSchemeFromRequestHeader(): string
     {
-        if (isset($_SERVER['HTTP_X_FORWARDED_SCHEME']) && strtolower($_SERVER['HTTP_X_FORWARDED_SCHEME']) === 'https') {
+        $proxySchemeHeaders = self::getProxySchemeHeadersFromConfig();
+        foreach ($proxySchemeHeaders as $header) {
+            if (empty($header) || !isset($_SERVER[$header])) {
+                continue;
+            }
+
+            $scheme = self::getSchemeFromHeaderValue($_SERVER[$header]);
+            if ($scheme !== null) {
+                return $scheme;
+            }
+        }
+
+        if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)) {
             return 'https';
         }
 
-        if (isset($_SERVER['HTTP_X_URL_SCHEME']) && strtolower($_SERVER['HTTP_X_URL_SCHEME']) === 'https') {
-            return 'https';
-        }
-
-        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http') {
-            return 'http';
-        }
-
-        if (
-            (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
-            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
-        ) {
-            return 'https';
-        }
         return 'http';
     }
 
-    protected static function isSecureConnectionLikelyNotUsed()
+    /**
+     * @return string[]
+     */
+    protected static function getProxySchemeHeadersFromConfig(): array
+    {
+        $proxySchemeHeaders = GeneralConfig::getConfigValue('proxy_scheme_headers');
+        if (empty($proxySchemeHeaders) || !is_array($proxySchemeHeaders)) {
+            return [];
+        }
+
+        return $proxySchemeHeaders;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private static function getSchemeFromHeaderValue($value): ?string
+    {
+        if (!is_string($value)) {
+            return null;
+        }
+
+        $value = trim($value);
+        if ($value === '') {
+            return null;
+        }
+
+        $value = strtolower($value);
+        if ($value === 'http' || $value === 'https') {
+            return $value;
+        }
+
+        return null;
+    }
+
+    protected static function isSecureConnectionLikelyNotUsed(): bool
     {
         return  Url::getCurrentSchemeFromRequestHeader() == 'http';
     }
 
-    /**
-     * @return bool
-     */
-    protected static function isPiwikConfiguredToAssumeSecureConnection()
+    protected static function isPiwikConfiguredToAssumeSecureConnection(): bool
     {
         $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
         return (bool) $assume_secure_protocol;

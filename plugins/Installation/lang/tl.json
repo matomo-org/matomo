@@ -36,6 +36,7 @@
         "Optional": "Opsyonal",
         "Password": "Password",
         "PasswordDoNotMatch": "password ay hindi tumutugma",
+        "PasswordRepeat": "Password (ulitin)",
         "PercentDone": "%s %% Tapos na",
         "PiwikOrgNewsletter": "I-email sa akin ang mga pangunahing update sa komunidad ng Matomo",
         "PleaseFixTheFollowingErrors": "Mangyaring ayusin ang mga sumusunod na error",

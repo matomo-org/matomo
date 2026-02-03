@@ -510,7 +510,7 @@
 		<settings>
 			<row>
 				<name>disable_visitor_log</name>
-				<title>Turn off visits log and visitor profiles</title>
+				<title>Turn off Visits log and Visitor profiles</title>
 				<value>0</value>
 				<defaultValue>0</defaultValue>
 				<type>boolean</type>
@@ -529,7 +529,7 @@
 							<requiredValue>1</requiredValue>
 						</cnil_v1>
 					</compliancePolicyControlled>
-                    <idSite/>
+					<idSite />
 				</extraMetadata>
 			</row>
 			<row>

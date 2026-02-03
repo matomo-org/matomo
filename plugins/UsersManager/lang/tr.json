@@ -60,6 +60,7 @@
         "ConfirmThisChange": "Lütfen bu değişikliği onaylayın.",
         "ConfirmTokenCopied": "Kodu kopyaladığımı ve başka kimse ile paylaşmamam gerektiğini anladığımı onaylıyorum.",
         "ConfirmWithPassword": "Bu değişikliği onaylamak için parolanızı yazın.",
+        "ConfirmWithReAuthentication": "Bu değişikliği onaylamak için lütfen kimliği yeniden doğrulayın.",
         "CopyDenied": "Tarayıcınızın ayarları nedeniyle bu isteğin yerine getirilmesine izin verilmiyor.",
         "CopyDeniedHints": "Lütfen tarayıcıyı değiştirerek ya da bu bağlantıyı doğrudan kopyalayıp paylaşarak yeniden deneyin: %1$s",
         "CopyLink": "Çağrı bağlantısını kopyala",

@@ -11,7 +11,7 @@
         "DashboardEmptyNotification": "Din oversikt inneholder ikke noen miniprogrammer. Start ved å legge til noen miniprogrammer eller bare gjenopprett oversikten til å bruke de forvalgte miniprogrammene.",
         "DashboardName": "Navn på oversikt:",
         "DashboardOf": "Oversikt for %s",
-        "DefaultDashboard": "Forvalgt oversikt — Bruker forvalgte miniprogrammer og kolonneoppsett",
+        "DefaultDashboard": "Standard oversikt – Bruker standardwidgetene og -kolonnelayout",
         "DeleteWidgetConfirm": "Er du sikker på at du vil fjerne dette elementet fra din oversikt?",
         "EmptyDashboard": "Tøm oversikt — Velg dine favorittminiprogrammer",
         "LoadingWidget": "Laster element, vennligst vent …",
@@ -30,7 +30,7 @@
         "SelectWidget": "Velg miniprogram å legge til i oversiktspanelet",
         "SetAsDefaultWidgets": "Bruk som forvalgt miniprogramsutvalg",
         "SetAsDefaultWidgetsConfirm": "Sett dette miniprogramsutvalget og kolonneoppsettet som forvalgt mal?",
-        "SetAsDefaultWidgetsConfirmHelp": "Dette miniprogramsutvalget og kolonneoppsettet vil bli brukt når brukere lager nye oversikter, eller når «%s»-funksjonen brukes.",
+        "SetAsDefaultWidgetsConfirmHelp": "Dette widgetutvalget og kolonnelayouten vil bli brukt når brukere lager nye oversikter, eller når funksjonen \"%s\" brukes.",
         "TopLinkTooltip": "Vis webstatistikkrapporter for %s.",
         "WidgetNotFound": "Finner ikke element",
         "WidgetPreview": "Forhåndsvisning av element"

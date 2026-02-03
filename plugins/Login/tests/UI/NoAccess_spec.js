@@ -30,25 +30,36 @@ describe("NoAccess", function () {
 
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('login_noaccess');
+        const loginPage = await page.waitForSelector('#loginPage', {visible: true});
+        expect(loginPage).to.be.ok;
+
+        const expectedText = 'Error: You can\'t access this resource as it requires \'view\' access for the website id = 2.';
+        const notificationText = await page.$eval('div.system.notification-error .notification-body', el => el.textContent.trim());
+        expect(notificationText).to.equal(expectedText);
     });
 
     it("should show session timeout error", async function() {
         await page.clearCookies();
-        await page.goto("");
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=day&date=yesterday#?idSite=1&period=day&date=yesterday&category=General_Visitors&subcategory=UserId_UserReportTitle");
         await page.waitForNetworkIdle();
         await page.type("#login_form_login", "oliverqueen");
         await page.type("#login_form_password", "smartypants");
         await page.evaluate(function(){
             $('#login_form_submit').click();
         });
+        await page.waitForNetworkIdle();
 
         await page.waitForTimeout(60500); // wait for session timeout
 
         await page.click('#topmenu-corehome');
         await page.waitForNetworkIdle();
 
-        expect(await page.screenshot({ fullPage: true })).to.matchImage('login_session_timeout');
+        const loginPage = await page.waitForSelector('#loginPage', {visible: true});
+        expect(loginPage).to.be.ok;
+
+        const expectedText = 'Error: Your session has expired due to inactivity. Please log in to continue.';
+        const notificationText = await page.$eval('div.system.notification-error .notification-body', el => el.textContent.trim());
+        expect(notificationText).to.equal(expectedText);
     });
 
 });

@@ -120,10 +120,6 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    numAvailablePluginsByType: {
-      type: Object,
-      required: true,
-    },
     currentUserEmail: String,
     isValidConsumer: Boolean,
     isSuperUser: Boolean,
@@ -271,8 +267,7 @@ export default defineComponent({
   computed: {
     queryInputTitle(): string {
       const plugins = lcfirst(translate('General_Plugins'));
-      const pluginCount = this.numAvailablePluginsByType[this.pluginTypeFilter] || 0;
-      return `${translate('General_Search')} ${pluginCount} ${plugins}...`;
+      return `${translate('General_Search')} ${plugins}...`;
     },
     loadingMessage(): string {
       return translate(

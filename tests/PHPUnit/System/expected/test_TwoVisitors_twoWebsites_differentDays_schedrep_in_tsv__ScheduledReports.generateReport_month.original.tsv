@@ -378,6 +378,13 @@ AI Agent Visits
 nb_uniq_visitors_ai_agent	nb_users_ai_agent	nb_visits_ai_agent	nb_actions_ai_agent	max_actions_ai_agent	bounce_rate_ai_agent	nb_actions_per_visit_ai_agent	avg_time_on_site_ai_agent	nb_uniq_visitors_human	nb_users_human	nb_visits_human	nb_actions_human	max_actions_human	bounce_rate_human	nb_actions_per_visit_human	avg_time_on_site_human
 0	0	0	0	0	0%	0	00:00:00	2	0	11	43	5	27%	3.9	00:10:55
 
+AI Assistants - Bots Overview
+BotTracking_AIAssistantsRequests	BotTracking_AIAssistantsAcquiredVisits	BotTracking_AIAssistantsNotFoundRequests	BotTracking_AIAssistantsUniqueAssistants	BotTracking_AIAssistantsServerErrorRequests	BotTracking_AIAssistantsClickThroughRate	BotTracking_AIAssistantsUniquePageUrls	BotTracking_AIAssistantsUniqueDocumentUrls
+0	0	0	0	0	0	0	0
+
+AI Assistants - Bots
+No data available
+
 Data tables
 No data available
 

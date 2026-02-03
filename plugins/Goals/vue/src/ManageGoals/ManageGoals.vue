@@ -391,6 +391,7 @@ import {
   ReportingMenuStore,
   VueEntryContainer,
   externalLink,
+  NotificationsStore,
 } from 'CoreHome';
 import {
   Form,
@@ -400,6 +401,7 @@ import {
 import Goal from '../Goal';
 import ManageGoalsStore from './ManageGoals.store';
 
+const notificationKey = 'Goals.ManageGoals.Notification';
 interface ManageGoalsState {
   showEditGoal: boolean;
   showGoalList: boolean;
@@ -479,6 +481,10 @@ export default defineComponent({
       this.editGoal(this.showGoal);
     } else {
       this.showListOfReports();
+    }
+    const storedNotifications = this.getStoredNotification();
+    if (storedNotifications) {
+      this.showNotificationMessage(storedNotifications.goal, storedNotifications.create);
     }
   },
   methods: {
@@ -653,26 +659,73 @@ export default defineComponent({
 
       this.isLoading = true;
 
-      AjaxHelper.fetch(parameters, options).then(() => {
+      AjaxHelper.fetch(parameters, options).then(async (response) => {
+        let idToUse = parameters.idGoal;
+        if (isCreate && response.value) {
+          idToUse = response.value;
+        }
+        this.storeNotification(idToUse, isCreate);
+        this.scrollToTop();
         const subcategory = MatomoUrl.parsed.value.subcategory as string;
         if (subcategory === 'Goals_AddNewGoal'
           && Matomo.helper.isReportingPage()
         ) {
           // when adding a goal for the first time we need to load manage goals page afterwards
-          ReportingMenuStore.reloadMenuItems().then(() => {
-            MatomoUrl.updateHash({
-              ...MatomoUrl.hashParsed.value,
-              subcategory: 'Goals_ManageGoals',
-            });
-
-            this.isLoading = false;
+          await ReportingMenuStore.reloadMenuItems();
+          MatomoUrl.updateHash({
+            ...MatomoUrl.hashParsed.value,
+            subcategory: 'Goals_ManageGoals',
           });
+          this.isLoading = false;
         } else {
           window.location.reload();
         }
       }).catch(() => {
         this.scrollToTop();
         this.isLoading = false;
+      });
+    },
+    storeNotification(goalId:string|number, isCreate:boolean) {
+      try {
+        sessionStorage.setItem(notificationKey, JSON.stringify({ goal: goalId, create: isCreate }));
+      } catch (e) {
+        // Do nothing
+      }
+    },
+    getStoredNotification() {
+      const pendingNotification = sessionStorage.getItem(notificationKey);
+      if (pendingNotification) {
+        sessionStorage.removeItem(notificationKey);
+        try {
+          let { goal, create } = JSON.parse(pendingNotification);
+          if (goal) {
+            goal = parseInt(goal, 10); // we make sure this is an int
+          }
+          create = !!create; // we make sure this is a boolean
+          return { goal, create };
+        } catch (e) {
+          return null;
+        }
+      }
+      return null;
+    },
+    showNotificationMessage(goalId:string|number, isCreate:boolean) {
+      const link = MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        module: 'CoreHome',
+        action: 'index',
+      });
+      const hash = MatomoUrl.stringify({
+        ...MatomoUrl.hashParsed.value,
+        category: 'Goals_Goals',
+        subcategory: encodeURIComponent(goalId),
+      });
+      let successMessage = translate(isCreate ? 'Goals_GoalCreated' : 'Goals_GoalUpdated');
+      const reportLink = `<a href="?${link}#${hash}">[${translate('Goals_ViewGoalReport')}]</a>`;
+      successMessage = `${successMessage} ${reportLink}`;
+
+      NotificationsStore.show({
+        id: 'ManageGoals.create', message: successMessage, context: 'success', type: 'toast',
       });
     },
     changedTriggerType() {

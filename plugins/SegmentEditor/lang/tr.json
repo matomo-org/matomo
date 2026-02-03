@@ -24,6 +24,8 @@
         "DefaultAllVisits": "Tüm ziyaretler",
         "DragDropCondition": "Koşulu sürükleyip bırakın",
         "HideMessageInFuture": "Bu ileti bir daha görüntülenmesin",
+        "LimitSegmentsSettingRequirementNote": "Kullanılabilecek dilimleri uyumlu olacak şekilde sınırlayın.",
+        "LimitSegmentsSettingTitle": "Kullanılabilecek dilimleri sınırla",
         "LoadingSegmentedDataMayTakeSomeTime": "Dilimlenmiş ziyaretçi verilerinin işlenmesi bir kaç dakika sürecek…",
         "OperatorAND": "VE",
         "OperatorOR": "VEYA",

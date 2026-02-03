@@ -20,6 +20,7 @@
         "Optional": "Valfri",
         "Password": "Passord",
         "PasswordDoNotMatch": "Passorda samsvarer ikkje",
+        "PasswordRepeat": "Passord (gjenta)",
         "PercentDone": "%s %% Ferdig",
         "PleaseFixTheFollowingErrors": "Rett på følgjande feil",
         "Requirements": "Matomo-krav",

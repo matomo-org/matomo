@@ -64,7 +64,7 @@ class UIAssetCatalog
     }
 
     /**
-     * @param UIAsset $uiAsset
+     * @param string $location
      * @return boolean
      */
     private function assetAlreadyInCatalog($location)

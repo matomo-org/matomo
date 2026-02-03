@@ -216,6 +216,21 @@ export default class ComparisonsStore {
     );
   }
 
+  removeSegmentComparisonByDefinition(segmentDefinition: string): void {
+    if (!this.isComparisonEnabled()) {
+      throw new Error('Comparison disabled.');
+    }
+    let segmentIndex = null;
+    this.getSegmentComparisons().forEach((segment: SegmentComparison, index: number) => {
+      if (segment && segment.params && segment.params.segment === segmentDefinition) {
+        segmentIndex = index;
+      }
+    });
+    if (segmentIndex !== null) {
+      this.removeSegmentComparison(segmentIndex);
+    }
+  }
+
   addSegmentComparison(params: { [name: string]: string }): void {
     if (!this.isComparisonEnabled()) {
       throw new Error('Comparison disabled.');

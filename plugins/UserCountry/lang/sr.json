@@ -5,10 +5,6 @@
         "CityAndCountry": "%1$s, %2$s",
         "Continent": "Kontinent",
         "Country": "Zemlja",
-        "country_a1": "Anonimni proksi",
-        "country_a2": "Satelitski provajder",
-        "country_cat": "Katalonske zajednice",
-        "country_o1": "Ostale zemlje",
         "CurrentLocationIntro": "Sudeći po ovom provajderu, vaša trenutna lokacija je",
         "DefaultLocationProviderDesc1": "Podrazumevani provajder lokacija nagađa zemlju posetioca na osnovu jezika koji oni koriste.",
         "DefaultLocationProviderExplanation": "Koristite podrazumevanog provajdera lokacije što znači da Matomo pokušava da pogodi lokaciju posetilaca na osnovu jezika koji oni koriste. %1$sPogledajte ovde%2$s kako da podesite znatno sigurniju geolokaciju.",
@@ -17,10 +13,6 @@
         "GeoIPDocumentationSuffix": "Da biste videli podatke za ovaj izveštaj potrebno je da podesite GeoIP preko taba Podešavannje geolokacije. Komercijalna %1$sMaxmind%2$s GeoIP baza je preciznija od besplatnih. Da biste videli koliko su one precizne, kliknite %3$sovde%4$s.",
         "Geolocation": "Geolokacija",
         "GeolocationPageDesc": "Na ovoj stranici možete promeniti način na koji Matomo prepoznaje lokacije posetilaca.",
-        "getCityDocumentation": "Ovaj izveštaj prikazuje gradove vaših posetilaca dok su pristupali vašem sajtu.",
-        "getContinentDocumentation": "Ovaj izveštaj prikazuje sa kojih kontinenata posetioci pristupaju vašem sajtu.",
-        "getCountryDocumentation": "Ovaj izveštaj prikazuje u kojim gradovima se nalaze vaši posetioci dok pristupaju vašem sajtu.",
-        "getRegionDocumentation": "Ovaj izveštaj prikazuje iz kojih regiona posetioci pristupaju vašem sajtu.",
         "Latitude": "Geografska širina",
         "Location": "Lokacija",
         "LocationProvider": "Provajder lokacije",
@@ -31,6 +23,14 @@
         "Region": "Regija",
         "SubmenuLocations": "Lokacije",
         "ToGeolocateOldVisits": "Kako biste dobili podatke o lokacijama starih poseta, iskoristite skript %1$ssa ove adrese%2$s.",
-        "WidgetLocation": "Lokacija posetioca"
+        "WidgetLocation": "Lokacija posetioca",
+        "country_a1": "Anonimni proksi",
+        "country_a2": "Satelitski provajder",
+        "country_cat": "Katalonske zajednice",
+        "country_o1": "Ostale zemlje",
+        "getCityDocumentation": "Ovaj izveštaj prikazuje gradove vaših posetilaca dok su pristupali vašem sajtu.",
+        "getContinentDocumentation": "Ovaj izveštaj prikazuje sa kojih kontinenata posetioci pristupaju vašem sajtu.",
+        "getCountryDocumentation": "Ovaj izveštaj prikazuje u kojim gradovima se nalaze vaši posetioci dok pristupaju vašem sajtu.",
+        "getRegionDocumentation": "Ovaj izveštaj prikazuje iz kojih regiona posetioci pristupaju vašem sajtu."
     }
 }

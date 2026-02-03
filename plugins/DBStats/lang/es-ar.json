@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Uso de la base de datos",
-        "DataSize": "Tamaño de los datos",
         "DBSize": "Tamaño de la base de datos",
+        "DataSize": "Tamaño de los datos",
+        "DatabaseUsage": "Uso de la base de datos",
         "EstimatedSize": "Tamaño estimado",
         "IndexSize": "Tamaño del índice",
         "LearnMore": "Para aprender más sobre cómo Matomo procesa datos y cómo hacer para que Matomo trabaje bien con sitios web de medio y alto tráfico, leé esta documentación: %s.",

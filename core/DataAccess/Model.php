@@ -47,7 +47,6 @@ class Model
      * These archives { archive name (includes segment hash) , idsite, date, period } will be deleted.
      *
      * @param string $archiveTable
-     * @param array $idSites
      * @param bool $setGroupContentMaxLen for tests only
      * @return array
      * @throws Exception
@@ -335,8 +334,8 @@ class Model
     /**
      * @param string $archiveTable Prefixed table name
      * @param int[] $idSites
-     * @param string[][] $datesByPeriodType
-     * @param Segment $segment
+     * @param Period[] $allPeriodsToInvalidate
+     * @param Segment|null $segment
      * @throws Exception
      */
     public function updateRangeArchiveAsInvalidated($archiveTable, $idSites, $allPeriodsToInvalidate, ?Segment $segment = null): void
@@ -352,7 +351,6 @@ class Model
             foreach ($allPeriodsToInvalidate as $period) {
                 $dateConditions = array();
 
-                /** @var Period $period */
                 $dateConditions[] = "(date1 <= ? AND ? <= date2)";
                 $bind[] = $period->getDateStart()->getDatetime();
                 $bind[] = $period->getDateEnd()->getDatetime();
@@ -647,10 +645,8 @@ class Model
     }
 
     /**
-     * Get a list of IDs of archives that don't have any matching rows in the site table. Excludes temporary archives
-     * that may still be in use, as specified by the $oldestToKeep passed in.
+     * Get a list of IDs of archives that don't have any matching rows in the site table.
      * @param string $archiveTableName
-     * @param string $oldestToKeep Datetime string
      * @return array of IDs
      */
     public function getArchiveIdsForDeletedSites($archiveTableName)

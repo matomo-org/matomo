@@ -43,12 +43,37 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
     abstract public static function getName(): string;
     abstract public static function getTitle(): string;
     abstract protected static function generateDescription(): string;
+    abstract protected static function generateWarnings(): string;
 
     public static function getDescription(): string
     {
         $description = static::generateDescription();
 
+        /**
+         * This event is triggered while the description of a compliance policy is
+         * being generated. The policy description can be modified via this event.
+         *
+         * @param string &$description of the policy.
+         */
         Piwik::postEvent('CompliancePolicy.updatePolicyDescription', [&$description, static::class]);
+
+        $shouldShowWarnings = true;
+
+        /**
+         * This event is triggered while the description of a compliance policy is
+         * being generated, and controls whether any warnings specific to the policy
+         * are displayed at the end of the description.
+         *
+         * @param bool &$shouldShowWarnings set to false if the warnings should be hidden
+         */
+        Piwik::postEvent('CompliancePolicy.shouldShowWarnings', [&$shouldShowWarnings, static::class]);
+
+        if ($shouldShowWarnings) {
+            $warnings = static::generateWarnings();
+            if (!empty($warnings)) {
+                $description .= ' ' . static::generateWarnings();
+            }
+        }
 
         return $description;
     }
@@ -126,9 +151,21 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
             if (static::getSystemValue() && !$isActive) {
                 static::setSystemValue($isActive);
             }
-            return;
+        } else {
+            static::setSystemValue($isActive);
         }
-        static::setSystemValue($isActive);
+
+        /**
+         * This event is triggered when the status of a compliance policy changes, and
+         * is to be used to perform extra actions when a policy is activated/deactivated.
+         *
+         * The status of a policy cannot be changed via this event.
+         *
+         * @param bool $isActive Whether the policy is being activated or deactivated
+         * @param int|null $idSite
+         * @param class-string<CompliancePolicy> The compliance policy in question
+         */
+        Piwik::postEvent('CompliancePolicy.setActiveStatus', [$isActive, $idSite, static::class]);
     }
 
     /**

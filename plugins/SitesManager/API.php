@@ -27,13 +27,15 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
+use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
+use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
+use Piwik\Plugins\SitesManager\Settings\FilterPIIParameters;
 use Piwik\Plugins\SitesManager\SiteContentDetection\ConsentManagerDetectionAbstract;
 use Piwik\Plugins\SitesManager\SiteContentDetection\SiteContentDetectionAbstract;
 use Piwik\Plugins\WebsiteMeasurable\Settings\Urls;
 use Piwik\ProxyHttp;
 use Piwik\Scheduler\Scheduler;
 use Piwik\Settings\Measurable\MeasurableProperty;
-use Piwik\Settings\Measurable\MeasurableSettings;
 use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Site;
@@ -293,7 +295,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite
      * @return array
      */
-    public function getSiteFromId($idSite)
+    public function getSiteFromId(int $idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -320,7 +322,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite
      * @return array list of URLs
      */
-    public function getSiteUrlsFromId($idSite)
+    public function getSiteUrlsFromId(int $idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
         return $this->getModel()->getSiteUrlsFromId($idSite);
@@ -402,7 +404,7 @@ class API extends \Piwik\Plugin\API
 
         if ($fetchAliasUrls) {
             foreach ($sites as &$site) {
-                $site['alias_urls'] = $this->getSiteUrlsFromId($site['idsite']);
+                $site['alias_urls'] = $this->getSiteUrlsFromId((int) $site['idsite']);
             }
         }
 
@@ -866,7 +868,7 @@ class API extends \Piwik\Plugin\API
         return $coreProperties;
     }
 
-    public function getSiteSettings($idSite)
+    public function getSiteSettings(int $idSite)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -884,9 +886,6 @@ class API extends \Piwik\Plugin\API
         return $measurableSettings;
     }
 
-    /**
-     * @param MeasurableSettings[] $measurableSettings
-     */
     private function saveMeasurableSettings($idSite, $idType, $settingValues)
     {
         $measurableSettings = $this->setAndValidateMeasurableSettings($idSite, $idType, $settingValues);
@@ -1035,7 +1034,7 @@ class API extends \Piwik\Plugin\API
      * @param array|string $urls When calling API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
      * @return int the number of inserted URLs
      */
-    public function addSiteAliasUrls($idSite, $urls)
+    public function addSiteAliasUrls(int $idSite, $urls)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1069,7 +1068,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return int the number of inserted URLs
      */
-    public function setSiteAliasUrls($idSite, $urls = [])
+    public function setSiteAliasUrls(int $idSite, $urls = [])
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1185,11 +1184,11 @@ class API extends \Piwik\Plugin\API
      *
      * @return string Comma separated list of URL parameters
      */
-    public function getExcludedQueryParametersGlobal(): string
+    public function getExcludedQueryParametersGlobal(?int $idSite = null): string
     {
         Piwik::checkUserHasSomeViewAccess();
 
-        switch ($this->getExclusionTypeForQueryParams()) {
+        switch ($this->getExclusionTypeForQueryParams($idSite)) {
             case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_COMMON_SESSION_PARAMETERS:
                 return '';
             case SitesManager::URL_PARAM_EXCLUSION_TYPE_NAME_MATOMO_RECOMMENDED_PII:
@@ -1236,7 +1235,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return array list of urls/hosts
      */
-    public function getExcludedReferrers($idSite)
+    public function getExcludedReferrers(int $idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -1469,9 +1468,14 @@ class API extends \Piwik\Plugin\API
      *
      * @return string
      */
-    public function getExclusionTypeForQueryParams(): string
+    public function getExclusionTypeForQueryParams(?int $idSite = null): string
     {
         Piwik::checkUserHasSomeViewAccess();
+
+        $featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
+        if ($featureFlagManager->isFeatureActive(PrivacyCompliance::class)) {
+            return FilterPIIParameters::getInstance($idSite)->getValue();
+        }
 
         $result = Option::get(self::OPTION_EXCLUDE_TYPE_QUERY_PARAMS_GLOBAL);
 
@@ -1631,7 +1635,7 @@ class API extends \Piwik\Plugin\API
      */
     public function updateSiteCreatedTime($idSites, Date $minDate)
     {
-        $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         Piwik::checkUserHasAdminAccess($idSites);
 
         $minDateSql = $minDate->subDay(1)->getDatetime();

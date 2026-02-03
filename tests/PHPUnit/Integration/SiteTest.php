@@ -9,6 +9,7 @@
 
 namespace Piwik\Tests\Integration;
 
+use Piwik\Http\BadRequestException;
 use Piwik\Piwik;
 use Piwik\Plugins\SitesManager\API;
 use Piwik\Site;
@@ -73,6 +74,37 @@ class SiteTest extends IntegrationTestCase
 
         $this->assertSame('Piwik test' . $this->siteAppendix, $site->getName());
         $this->assertSame(array(), Site::getSites()); // make sure data was not fetched again
+    }
+
+    public function testGetIdSitesFromIdSitesStringFiltersInvalidByDefault()
+    {
+        $result = Site::getIdSitesFromIdSitesString('1,foo,2,,0,-3');
+        $this->assertSame([1, 2], $result);
+    }
+
+    public function testGetIdSitesFromIdSitesStringAllowsValidIdsWhenStrict()
+    {
+        $result = Site::getIdSitesFromIdSitesString([1, '2'], false, true);
+        $this->assertSame([1, 2], $result);
+    }
+
+    /**
+     * @dataProvider getInvalidIdSiteStrings
+     */
+    public function testGetIdSitesFromIdSitesStringThrowsOnInvalidWhenStrict($idSites)
+    {
+        $this->expectException(BadRequestException::class);
+        Site::getIdSitesFromIdSitesString($idSites, false, true);
+    }
+
+
+    public function getInvalidIdSiteStrings(): iterable
+    {
+        yield "negative int value" => ['1,-1'];
+        yield "zero value" => ['1,0'];
+        yield "boolean value" => [true];
+        yield "float value" => ['1,2.5'];
+        yield "string value" => ['1,foo'];
     }
 
     private function makeSite($idSite)

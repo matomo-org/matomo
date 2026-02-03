@@ -13,6 +13,7 @@ namespace Piwik\Plugins\BotTracking\tests\Integration\Dao;
 
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -58,7 +59,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
             'server_time'         => '2025-10-28 12:00:00',
             'idaction_url'        => 123,
             'bot_name'            => 'ChatGPT-User',
-            'bot_type'            => 'ai_assistant',
+            'bot_type'            => BotDetector::BOT_TYPE_AI_ASSISTANT,
             'http_status_code'    => 200,
             'response_size_bytes' => 2048,
             'response_time_ms'    => 125,
@@ -76,7 +77,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
         self::assertNotEmpty($record);
         self::assertEquals($this->idSite, $record['idsite']);
         self::assertEquals('ChatGPT-User', $record['bot_name']);
-        self::assertEquals('ai_assistant', $record['bot_type']);
+        self::assertEquals(BotDetector::BOT_TYPE_AI_ASSISTANT, $record['bot_type']);
         self::assertEquals(200, $record['http_status_code']);
     }
 
@@ -86,7 +87,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
             'idsite'      => $this->idSite,
             'server_time' => '2025-10-28 12:00:00',
             'bot_name'    => 'Claude-User',
-            'bot_type'    => 'ai_assistant',
+            'bot_type'    => BotDetector::BOT_TYPE_AI_ASSISTANT,
         ];
 
         $idRequest = $this->dao->insert($data);
@@ -132,7 +133,7 @@ class BotRequestsDaoTest extends IntegrationTestCase
             'idsite'      => $idSite,
             'server_time' => $serverTime,
             'bot_name'    => $botName,
-            'bot_type'    => 'ai_assistant',
+            'bot_type'    => BotDetector::BOT_TYPE_AI_ASSISTANT,
         ];
 
         return $this->dao->insert($data);

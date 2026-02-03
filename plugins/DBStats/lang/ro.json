@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Utilizare baza date",
-        "DataSize": "Marime date",
         "DBSize": "Mărimea bazei de date",
+        "DataSize": "Marime date",
+        "DatabaseUsage": "Utilizare baza date",
         "EstimatedSize": "Mărimea anticipată",
         "IndexSize": "Marime index",
         "LearnMore": "Pentru a invata mai multe despre cum proceseaza datele Matomo si cum sa faceti ca Matomo sa functioneze bine cu siteurile care au trafic mediu si mare, vedeti documentatia: %s.",

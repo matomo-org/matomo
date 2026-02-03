@@ -272,4 +272,9 @@ class Login extends \Piwik\Plugin
 
         return $login;
     }
+
+    public function deactivate()
+    {
+        Session::destroyAllSessions();
+    }
 }

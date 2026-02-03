@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<BotTracking_AIAssistantsRequests>28</BotTracking_AIAssistantsRequests>
+	<BotTracking_AIAssistantsAcquiredVisits>8</BotTracking_AIAssistantsAcquiredVisits>
+	<BotTracking_AIAssistantsNotFoundRequests>1</BotTracking_AIAssistantsNotFoundRequests>
+	<BotTracking_AIAssistantsUniqueAssistants>7</BotTracking_AIAssistantsUniqueAssistants>
+	<BotTracking_AIAssistantsServerErrorRequests>2</BotTracking_AIAssistantsServerErrorRequests>
+	<BotTracking_AIAssistantsClickThroughRate>0.2857</BotTracking_AIAssistantsClickThroughRate>
+</result>

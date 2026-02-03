@@ -469,7 +469,7 @@
         "StatisticsAreNotRecorded": "Matomo ziyaretçi İzlemesi şu anda kapalı! config/config.ini.php dosyasındaki record_statistics seçeneğinin değerini 1 yaparak izlemeyi yeniden açın.",
         "Subtotal": "Ara toplam",
         "Summary": "Özet",
-        "SwitchToSecondaryDimension": "%s geç",
+        "SwitchToSecondaryDimension": "%s boyutuna geç",
         "Table": "Tablo",
         "TagCloud": "Etiket bulutu",
         "Tax": "Vergi",

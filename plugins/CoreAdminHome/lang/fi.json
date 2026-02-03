@@ -12,6 +12,7 @@
         "CloudflareDescription": "Jos verkkosivustosi on Cloudflaressa, tutustu %1$stähän ohjeeseen%2$s.",
         "ConfirmDeleteAllTrackingFailures": "Haluatko varmasti poistaa kaikki virhetiedot?",
         "ConfirmDeleteThisTrackingFailure": "Haluat varmasti poistaa tämän virhetiedon?",
+        "Cors": "Cors",
         "CorsDomains": "CORS (Cross-Origin Resource Sharing)-verkkotunnukset",
         "CorsDomainsHelp": "Voit määrittää toimialueita tai alitoimialueita, kuten https://esimerkki.com tai https://tilastot.esimerkki.com. Tai salliaksesi toimialueiden väliset pyynnöt kaikille toimialueille lisäämällä \"*\"",
         "CustomLogoFeedbackInfo": "Jos haluat muokata Matomon logoa, voit myös piilottaa %1$s linkin ylävalikosta. Piilottaminen tapahtuu poistamalla Palaute-liitännäinen %2$s Hallitse liitinnäisiä %3$s -sivulta.",

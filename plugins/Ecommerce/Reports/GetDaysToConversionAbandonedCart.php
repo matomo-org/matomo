@@ -22,7 +22,7 @@ class GetDaysToConversionAbandonedCart extends Base
         $this->name = Piwik::translate('General_AbandonedCarts') . ' - ' . Piwik::translate('Goals_DaysToConv');
         $this->dimension = new DaysToConversion();
         $this->constantRowsCount = true;
-        $this->processedMetrics = false;
+        $this->processedMetrics = [];
         $this->metrics = array('nb_conversions');
         $this->order = 25;
 

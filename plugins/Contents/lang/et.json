@@ -1,8 +1,8 @@
 {
     "Contents": {
-        "InteractionRate": "Koostoime mõju",
         "ContentName": "Sisu nimi",
         "ContentPiece": "Sisu tükk",
-        "Contents": "Sisud"
+        "Contents": "Sisud",
+        "InteractionRate": "Koostoime mõju"
     }
 }

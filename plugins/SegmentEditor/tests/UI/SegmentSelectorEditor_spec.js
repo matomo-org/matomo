@@ -8,6 +8,8 @@
  */
 
 describe("SegmentSelectorEditorTest", function () {
+    const getSegmentQuery = n => '.segmentList li:nth-of-type(' + (n+1) + ')';
+    const getSegmentStarQuery = n => getSegmentQuery(n) + ' .starSegment';
     var selectorsToCapture = ".segmentEditorPanel,.segmentEditorPanel .dropdown-body,.segment-element";
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
@@ -33,6 +35,26 @@ describe("SegmentSelectorEditorTest", function () {
         await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList .secondLevel li:contains(' + name + ')', { waitFor: true })).click();
     }
 
+    async function switchToAnonymousUser() {
+        await testEnvironment.callApi('UsersManager.setUserAccess', {
+            userLogin: 'anonymous',
+            access: 'view',
+            idSites: [1],
+        });
+        testEnvironment.testUseMockAuth = 0;
+        testEnvironment.save();
+    }
+
+    async function switchToConnectedUser() {
+        testEnvironment.testUseMockAuth = 1;
+        testEnvironment.save();
+        await testEnvironment.callApi('UsersManager.setUserAccess', {
+            userLogin: 'anonymous',
+            access: 'noaccess',
+            idSites: [1],
+        });
+    }
+
     it("should load correctly", async function() {
         await page.goto(url);
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('0_initial');
@@ -43,9 +65,40 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_open');
     });
 
+    it("should star all segments", async function() {
+        await page.click(getSegmentStarQuery(1));
+        await page.click(getSegmentStarQuery(2));
+        await page.click(getSegmentStarQuery(3));
+        const firstSegmentClassName = await page.evaluate(() => $('.segmentList li:nth-of-type(2)').attr('class'));
+        expect(firstSegmentClassName).to.match(/segmentStarred/);
+        const firstSegmentStarState = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').attr('data-state') || '');
+        expect(firstSegmentStarState).to.equal('');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1_selector_starred');
+    });
+
+    it("should unstar first segment", async function() {
+        await page.click(getSegmentStarQuery(1));
+        const firstSegmentClassName = await page.evaluate(() => $('.segmentList li:nth-of-type(2)').attr('class'));
+        expect(firstSegmentClassName).to.not.match(/segmentStarred/);
+        const firstSegmentStarState = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').attr('data-state') || '');
+        expect(firstSegmentStarState).to.equal('');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('1b_selector_unstarred');
+    });
+
+    it("should have disabled star for anonymous users", async function() {
+        await switchToAnonymousUser();
+        await page.goto(url);
+        await page.click('.segmentationContainer .title');
+        const firstSegmentStarState = await page.evaluate(() => $('.segmentList li:nth-of-type(2) .starSegment').attr('data-state') || '');
+        expect(firstSegmentStarState).to.equal('disabled');
+    });
+
     it("should open segment editor when edit link clicked for existing segment", async function() {
+        await switchToConnectedUser();
+        await page.goto(url);
+        await page.click('.segmentationContainer .title');
         await page.evaluate(function() {
-            $('.segmentList .editSegment:first').click()
+            $('.segmentList .editSegment:first').click();
         });
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('2_segment_editor_update');
@@ -115,10 +168,10 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should save a new segment and add it to the segment list when the form is filled out and the save button is clicked", async function() {
         for (let i = 0; i < 3; i += 1) {
-          await page.evaluate(function (i) {
-            $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
-          }, i);
-          await page.waitForTimeout(250);
+            await page.evaluate(function (i) {
+               $(`.metricValueBlock input:eq(${i})`).val('value ' + i).change();
+            }, i);
+            await page.waitForTimeout(250);
         }
 
         await page.type('input.edit_segment_name', 'new segment');

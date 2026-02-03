@@ -57,6 +57,8 @@
         "ExclusionTypeOptionMatomoRecommendedPII": "PII recomanat per Matomo",
         "ExclusionViewListLink": "Veure llista d'exclusions",
         "ExtraInformationNeeded": "Per configurar Matomo al vostre sistema és possible que necessiteu la informació següent:",
+        "FilterPIIParametersSettingTitle": "Dades PII filtrades",
+        "FilterPiiParametersSettingRequirementNote": "Les dades PII s'han de filtrar segons la llista d'exclusió de PII recomanada per Matomo.",
         "Format_Utc": "UTC %s",
         "GADetected": "S'ha detectat %1$s al vostre lloc web. Sabíeu que podeu migrar fàcilment les vostres dades d'anàlisi històrica i la configuració de %2$s a Matomo? %3$s%4$s%5$sMés informació en aquesta guia%6$s",
         "GADetectedEmail": "S'ha detectat %1$s al vostre lloc web. Sabíeu que podeu migrar fàcilment les vostres dades d'anàlisi històrica i la configuració de %2$s a Matomo? Més informació aquí: %3$s",

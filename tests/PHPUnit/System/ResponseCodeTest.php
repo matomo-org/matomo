@@ -101,6 +101,46 @@ class ResponseCodeTest extends SystemTestCase
         $this->assertEquals(200, $info['http_code']);
     }
 
+    public function testApiMissingRequiredParameterShouldReturn400()
+    {
+        [$response, $info] = $this->curl(
+            Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=API&method=SitesManager.getSiteFromId',
+            ['token_auth' => Fixture::ADMIN_USER_TOKEN]
+        );
+
+        $this->assertEquals(400, $info['http_code']);
+        $this->assertStringContainsString('Please specify a value for \'idSite\'', $response);
+    }
+
+    public function testValidModuleInvalidActionShouldReturn404()
+    {
+        [$response, $info] = $this->curl(
+            Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=CoreHome&action=doesNotExist'
+        );
+
+        $this->assertEquals(404, $info['http_code']);
+        $this->assertStringContainsString("Action &#039;doesNotExist&#039; not found in the module &#039;CoreHome&#039;", $response);
+    }
+
+    public function testMissingAssetChunkShouldReturn404()
+    {
+        [, $info] = $this->curl(
+            Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=Proxy&action=getPluginUmdJs&plugin=NotAPlugin'
+        );
+
+        $this->assertEquals(404, $info['http_code']);
+    }
+
+    public function testMissingPluginShouldReturn404HttpStatus()
+    {
+        [$response, $info] = $this->curl(
+            Fixture::getRootUrl() . 'tests/PHPUnit/proxy/index.php?module=NotAPlugin&action=index'
+        );
+
+        $this->assertEquals(404, $info['http_code']);
+        $this->assertStringContainsString('The plugin NotAPlugin was not found.', $response);
+    }
+
     private function curl($url, $postParams = [])
     {
         if (!function_exists('curl_init')) {
