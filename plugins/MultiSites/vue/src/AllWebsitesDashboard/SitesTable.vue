@@ -95,6 +95,12 @@
                 {{ translate('General_ColumnPageviews') }}
               </option>
               <option
+                  value="ai_chatbots_requests_evolution"
+                  v-if="showAiChatbotsRequests"
+              >
+                {{ translate('MultiSites_AiChatbotsRequests') }}
+              </option>
+              <option
                   value="revenue_evolution"
                   v-if="displayRevenue"
               >
@@ -250,6 +256,8 @@ export default defineComponent({
           return 'hits';
         case 'pageviews_evolution':
           return 'nb_pageviews';
+        case 'ai_chatbots_requests_evolution':
+          return 'ai_chatbots_requests';
         case 'revenue_evolution':
           return 'revenue';
         case 'visits_evolution':

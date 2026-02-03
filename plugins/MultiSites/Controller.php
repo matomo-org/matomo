@@ -81,10 +81,14 @@ class Controller extends \Piwik\Plugin\Controller
     public function getEvolutionGraph(): ?string
     {
         $columns = Request::fromRequest()->getStringParameter('columns');
-        $api = "API.get";
+        $api = 'API.get';
 
-        if ($columns == 'revenue') {
-            $api = "Goals.get";
+        if ($columns === 'revenue') {
+            $api = 'Goals.get';
+        }
+        if ($columns === 'ai_chatbots_requests') {
+            $api             = 'BotTracking.get';
+            $_GET['columns'] = 'BotTracking_AIAssistantsRequests';
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
         $view->requestConfig->totals = 0;
