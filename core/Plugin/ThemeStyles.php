@@ -148,7 +148,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorHeadlineAlternative = '#4E4E4E';
+    public $colorHeadlineAlternative = ['#4E4E4E', '#aaa'];
 
     /**
      * @var string|array<string>
@@ -158,7 +158,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorHeaderText =  ['#fff', '#202329'];
+    public $colorHeaderText =  ['#fff', '#ccc'];
 
     /**
      * @var string|array<string>
