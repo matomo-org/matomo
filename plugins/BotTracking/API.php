@@ -80,6 +80,7 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter(function (DataTable $table) {
             foreach ($table->getRows() as $key => $row) {
                 $label = $row->getColumn('label');
+                // @phpstan-ignore-next-line  check in next line causes PHPStan violations as ASSISTANT_MAPPING currently does not have an entry with empty value
                 if (array_key_exists($label, AIAssistantReports::ASSISTANT_MAPPING) && !empty(AIAssistantReports::ASSISTANT_MAPPING[$label])) {
                     $row->setColumn('label', AIAssistantReports::ASSISTANT_MAPPING[$label]);
                 }

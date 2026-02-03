@@ -49,14 +49,6 @@
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>
 	<row>
-		<label>Devin - example.com/overview</label>
-		<requests>2</requests>
-		<BotTracking_AIAssistantName>Devin</BotTracking_AIAssistantName>
-		<BotTracking_PageUrl>example.com/overview</BotTracking_PageUrl>
-		<url />
-		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
-	</row>
-	<row>
 		<label>Gemini - example.com/article/3</label>
 		<requests>1</requests>
 		<BotTracking_AIAssistantName>Gemini</BotTracking_AIAssistantName>
@@ -101,6 +93,14 @@
 		<requests>1</requests>
 		<BotTracking_AIAssistantName>Le Chat</BotTracking_AIAssistantName>
 		<BotTracking_PageUrl>example.com/article/4/page/1</BotTracking_PageUrl>
+		<url />
+		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
+	</row>
+	<row>
+		<label>NotebookLM - example.com/overview</label>
+		<requests>2</requests>
+		<BotTracking_AIAssistantName>NotebookLM</BotTracking_AIAssistantName>
+		<BotTracking_PageUrl>example.com/overview</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
 	</row>

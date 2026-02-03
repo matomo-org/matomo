@@ -79,15 +79,6 @@
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/gemini.google.com.png</logo>
 	</row>
 	<row>
-		<label>Devin</label>
-		<requests>2</requests>
-		<document_requests>0</document_requests>
-		<page_requests>2</page_requests>
-		<visits_acquired>0</visits_acquired>
-		<url />
-		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
-	</row>
-	<row>
 		<label>Le Chat</label>
 		<requests>4</requests>
 		<document_requests>0</document_requests>
@@ -98,9 +89,9 @@
 	</row>
 	<row>
 		<label>NotebookLM</label>
-		<requests>2</requests>
+		<requests>4</requests>
 		<document_requests>2</document_requests>
-		<page_requests>0</page_requests>
+		<page_requests>2</page_requests>
 		<visits_acquired>0</visits_acquired>
 		<url>notebooklm.google.com</url>
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/notebooklm.google.com.png</logo>
