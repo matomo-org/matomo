@@ -385,13 +385,13 @@ export default defineComponent({
     },
     reportFormats(): Record<string, string> {
       const formats: Record<string, string> = {
-        CSV: 'CSV',
         TSV: 'TSV (Excel)',
+        JSON: 'JSON',
+        CSV: 'CSV',
         XML: 'XML',
-        JSON: 'Json',
         HTML: 'HTML',
+        RSS: 'RSS',
       };
-      formats.RSS = 'RSS';
       return formats;
     },
     showDimensionsConfigItem() {
