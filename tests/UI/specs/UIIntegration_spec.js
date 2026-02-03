@@ -191,14 +191,6 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await screenshotPageWrap()).to.matchImage('visitors_overview_columns');
         });
 
-        it('should load visitors > overview page correctly for quarter period', async function () {
-            await page.goto("?" + urlBaseGeneric + quarterParams + "#?" + quarterParams + "&category=General_Visitors&subcategory=General_Overview");
-            await page.waitForNetworkIdle();
-            await page.waitForSelector('.piwik-graph');
-
-            expect(await screenshotPageWrap()).to.matchImage('visitors_overview_quarter');
-        });
-
         it('should reload the visitors > overview page when clicking on the visitors overview page element again', async function () {
             await page.click('#secondNavBar ul li.active li.active a.item');
             await page.waitForNetworkIdle();
@@ -228,6 +220,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             expect(await screenshotPageWrap()).to.matchImage('visitors_overview_limit');
         });
 
+        it('should load visitors > overview page correctly for quarter period', async function () {
+          await page.goto("?" + urlBaseGeneric + quarterParams + "#?" + quarterParams + "&category=General_Visitors&subcategory=General_Overview");
+          await page.waitForNetworkIdle();
+          await page.waitForSelector('.piwik-graph');
+
+          expect(await screenshotPageWrap()).to.matchImage('visitors_overview_quarter');
+        });
+        
         it('should load the visitors > devices page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Devices");
             await page.waitForNetworkIdle();

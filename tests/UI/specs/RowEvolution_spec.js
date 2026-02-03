@@ -16,6 +16,22 @@ describe("RowEvolution", function () {
     const ecommerceItemReportWidgetized = "?module=Widgetize&action=iframe&moduleToWidgetize=Goals&actionToWidgetize=getItemsSku&idGoal=ecommerceAbandonedCart"
                                       + "&idSite=1&period=year&date=2012-02-09&viewDataTable=ecommerceAbandonedCart&filter_limit=-1";
 
+    it('should load when icon clicked in ViewDataTable for quarter period', async function() {
+      await page.goto(viewDataTableQuarterUrl);
+      await page.waitForSelector('tbody tr:first-child')
+      const row = await page.jQuery('tbody tr:contains("corruption")');
+      await row.hover();
+
+      const icon = await page.jQuery('tbody tr:contains("corruption") a.actionRowEvolution');
+      await icon.click();
+
+      await page.waitForSelector('.ui-dialog');
+      await page.waitForNetworkIdle();
+
+      const dialog = await page.$('.ui-dialog');
+      expect(await dialog.screenshot()).to.matchImage('row_evolution_quarter');
+    });
+
     it('should load when icon clicked in ViewDataTable', async function() {
         await page.goto(viewDataTableUrl);
         await page.waitForSelector('tbody tr:first-child')
@@ -30,22 +46,6 @@ describe("RowEvolution", function () {
 
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('row_evolution');
-    });
-
-    it('should load when icon clicked in ViewDataTable for quarter period', async function() {
-        await page.goto(viewDataTableQuarterUrl);
-        await page.waitForSelector('tbody tr:first-child')
-        const row = await page.jQuery('tbody tr:contains("corruption")');
-        await row.hover();
-
-        const icon = await page.jQuery('tbody tr:contains("corruption") a.actionRowEvolution');
-        await icon.click();
-
-        await page.waitForSelector('.ui-dialog');
-        await page.waitForNetworkIdle();
-
-        const dialog = await page.$('.ui-dialog');
-        expect(await dialog.screenshot()).to.matchImage('row_evolution_quarter');
     });
 
     it('should change the metric shown when a metric sparkline row is clicked', async function() {

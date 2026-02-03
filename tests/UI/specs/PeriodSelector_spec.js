@@ -97,7 +97,7 @@ describe("PeriodSelector", function () {
         await page.click('#period_id_quarter');
         await page.waitForTimeout(250); // wait for animation
 
-        const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(15)');
+        const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(16)');
         await element.click();
 
         expect(await page.screenshotSelector(selector)).to.matchImage('quarter_selected');

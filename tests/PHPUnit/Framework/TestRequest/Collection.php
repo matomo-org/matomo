@@ -133,7 +133,7 @@ class Collection
             'idSites'        => $this->testConfig->idSite,
         ];
         if ($this->testConfig->date) {
-            $parametersToSet['date'] = ($this->testConfig->periods == ['range'] || strpos($this->testConfig->date, ',') !== false || preg_match('/last[ -]?(week|month|year)/i', $this->testConfig->date) || preg_match('/(today|yesterday)/i', $this->testConfig->date)) ?
+            $parametersToSet['date'] = ($this->testConfig->periods == ['range'] || strpos($this->testConfig->date, ',') !== false || preg_match('/last[ -]?(week|month|quarter|year)/i', $this->testConfig->date) || preg_match('/(today|yesterday)/i', $this->testConfig->date)) ?
                 $this->testConfig->date : date('Y-m-d', strtotime($this->testConfig->date));
         }
         $parametersToSet = array_merge($parametersToSet, $this->testConfig->otherRequestParameters);
@@ -217,8 +217,15 @@ class Collection
                     }
 
                     $lastCount = $this->testConfig->setDateLastN;
+                    if ($period === 'quarter') {
+                        $quarterCount = $lastCount * 3;
+                        $secondDate = strtotime("+$quarterCount months", strtotime($originalDate));
+                    } else {
+                        $secondDate = strtotime("+$lastCount " . $period . "s", strtotime($originalDate));
+                    }
 
-                    $secondDate = date('Y-m-d', strtotime("+$lastCount " . $period . "s", strtotime($originalDate)));
+                    $secondDate = date('Y-m-d', $secondDate);
+
                     $parametersToSet['date'] = $originalDate . ',' . $secondDate;
                 }
 

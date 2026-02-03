@@ -126,7 +126,6 @@ class Quarter extends Period
 
     public function getParentPeriodLabel()
     {
-        // Quarter is a top-level period (parallel to the Year hierarchy)
-        return null;
+        return 'year';
     }
 }
