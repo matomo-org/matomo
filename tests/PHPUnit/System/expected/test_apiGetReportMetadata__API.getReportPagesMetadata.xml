@@ -6,7 +6,7 @@
 			<id>General_AIAssistants</id>
 			<name>AI Assistants</name>
 			<order>80</order>
-			<icon>icon-admin-platform</icon>
+			<icon>icon-ai-assistants</icon>
 			<help />
 			<widget />
 		</category>
@@ -57,7 +57,7 @@
 			<id>General_AIAssistants</id>
 			<name>AI Assistants</name>
 			<order>80</order>
-			<icon>icon-admin-platform</icon>
+			<icon>icon-ai-assistants</icon>
 			<help />
 			<widget />
 		</category>
