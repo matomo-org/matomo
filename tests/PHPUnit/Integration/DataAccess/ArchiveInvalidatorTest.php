@@ -282,6 +282,16 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             [
                 'idarchive' => null,
                 'idsite' => '1',
+                'period' => '6',
+                'name' => 'done',
+                'date1' => '2020-01-01',
+                'date2' => '2020-03-31',
+                'report' => null,
+                'status' => '0',
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
                 'period' => '4',
                 'name' => 'done',
                 'date1' => '2020-01-01',
@@ -825,7 +835,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals(1, $countInvalidatedArchives);
 
         $invalidatedArchiveTableEntries = $this->getInvalidatedArchiveTableEntries();
-        $this->assertCount(4, $invalidatedArchiveTableEntries);
+        $this->assertCount(5, $invalidatedArchiveTableEntries);
     }
 
     public function testMarkArchivesAsInvalidatedDoesNotInvalidateDatesBeforePurgeThreshold()
@@ -866,7 +876,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals(1, $countInvalidatedArchives);
 
         $invalidatedArchiveTableEntries = $this->getInvalidatedArchiveTableEntries();
-        $this->assertCount(4, $invalidatedArchiveTableEntries);
+        $this->assertCount(5, $invalidatedArchiveTableEntries);
     }
 
     public function testMarkArchivesAsInvalidatedInvalidatesCorrectlyWhenNoArchiveTablesExist()
@@ -890,6 +900,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEqualsSorted($expectedIdArchives, $idArchives);
 
         $expectedEntries = [
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2016-01-01',
+                'date2' => '2016-03-31',
+                'period' => '6',
+                'name' => 'done',
+                'report' => null,
+            ],
             [
                 'idarchive' => null,
                 'idsite' => '1',
@@ -952,6 +971,15 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->assertEquals([], $idArchives);
 
         $expectedInvalidatedArchives = [
+            [
+                'idarchive' => null,
+                'idsite' => '1',
+                'date1' => '2020-01-01',
+                'date2' => '2020-03-31',
+                'period' => '6',
+                'name' => 'done.ExamplePlugin',
+                'report' => 'someData',
+            ],
             [
                 'idarchive' => null,
                 'idsite' => '1',
@@ -1059,6 +1087,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2.2015-04-27.2015-05-03.2.done3736b708e4d20cfc10610e816a1b2341',
                     '1.2015-04-01.2015-04-30.3.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
                     '2.2015-04-01.2015-04-30.3.done5447835b0a861475918e79e932abdfd8',
+                    '1.2015-04-01.2015-06-30.6.done3736b708e4d20cfc10610e816a1b2341.UserCountry',
+                    '2.2015-04-01.2015-06-30.6.done5447835b0a861475918e79e932abdfd8',
                 ],
                 '2015_01' => [
                     '1.2015-01-01.2015-01-01.1.done3736b708e4d20cfc10610e816a1b2341',
@@ -1067,6 +1097,8 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                     '2.2015-01-01.2015-01-31.3.done.VisitsSummary',
                     '1.2015-01-01.2015-12-31.4.done5447835b0a861475918e79e932abdfd8',
                     '2.2015-01-01.2015-12-31.4.done',
+                    '1.2015-01-01.2015-12-31.6.done5447835b0a861475918e79e932abdfd8',
+                    '2.2015-01-01.2015-12-31.6.done',
                     '1.2015-01-01.2015-01-10.5.done.VisitsSummary',
                 ],
                 '2015_02' => [
@@ -2185,6 +2217,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'dates' => '2020-01-01,2020-12-31',
                 'count' => '1',
             ),
+            array (
+                'idsite' => '1',
+                'period' => '6',
+                'name' => 'done.VisitsSummary',
+                'report' => null,
+                'dates' => '2020-04-01,2020-06-30',
+                'count' => '1',
+            ),
         ];
 
         $actualInvalidations = $this->getInvalidatedArchiveTableEntriesSummary();
@@ -2241,6 +2281,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'name' => 'done.VisitsSummary',
                 'report' => 'some.Report',
                 'dates' => '2020-01-01,2020-12-31',
+                'count' => '1',
+            ),
+            array (
+                'idsite' => '1',
+                'period' => '6',
+                'name' => 'done.VisitsSummary',
+                'report' => 'some.Report',
+                'dates' => '2020-04-01,2020-06-30',
                 'count' => '1',
             ),
         ];
@@ -2300,6 +2348,14 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'name' => 'done.VisitsSummary',
                 'report' => 'some.Report',
                 'dates' => '2020-01-01,2020-12-31',
+                'count' => '1',
+            ),
+            array (
+                'idsite' => '1',
+                'period' => '6',
+                'name' => 'done.VisitsSummary',
+                'report' => 'some.Report',
+                'dates' => '2020-04-01,2020-06-30',
                 'count' => '1',
             ),
         ];
@@ -2392,6 +2448,22 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
                 'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.VisitsSummary',
                 'report' => 'some.Report',
                 'dates' => '2020-01-01,2020-12-31',
+                'count' => '1',
+            ),
+            array (
+                'idsite' => '11',
+                'period' => '6',
+                'name' => 'done.VisitsSummary',
+                'report' => 'some.Report',
+                'dates' => '2020-04-01,2020-06-30',
+                'count' => '1',
+            ),
+            array (
+                'idsite' => '11',
+                'period' => '6',
+                'name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.VisitsSummary',
+                'report' => 'some.Report',
+                'dates' => '2020-04-01,2020-06-30',
                 'count' => '1',
             ),
         ];
