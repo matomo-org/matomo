@@ -136,9 +136,9 @@ class ArchiveTableDao
             $d['Segment'] = $i['definition'];
             $d['Site'] = (int) $i['idsite'];
             $d['Period'] = ($i['period'] == 1 ? 'Day' : ($i['period'] == 2 ? 'Week' : ($i['period'] == 3 ? 'Month' :
-                ($i['period'] == 4 ? 'Year' : 'Range'))));
+                ($i['period'] == 4 ? 'Year' : ($i['period'] == 6 ? 'Quarter' : 'Range')))));
             $d['Date'] = ($i['period'] == 1 ? $i['date1'] : ($i['period'] == 3 ? substr($i['date1'], 0, 7) :
-                ($i['period'] == 4 ? substr($i['date1'], 0, 4) : $i['date1'] . ' - ' . $i['date2'])));
+                ($i['period'] == 4 ? substr($i['date1'], 0, 4) : ($i['period'] == 6 ? 'Q' . ceil((int) substr($i['date1'], 5, 2) / 3) . ' ' . substr($i['date1'], 0, 4) : $i['date1'] . ' - ' . $i['date2']))));
             $d['TimeQueued'] = $i['ts_invalidated'];
             $d['Waiting'] = $waiting;
             $d['Started'] = $i['ts_started'];

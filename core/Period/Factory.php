@@ -99,6 +99,8 @@ abstract class Factory
                 return new Month($dateObject);
             case 'year':
                 return new Year($dateObject);
+            case 'quarter':
+                return new Quarter($dateObject);
         }
 
         /** @var string[] $customPeriodFactories */
@@ -208,6 +210,9 @@ abstract class Factory
                 $parentPeriod = 'week';
                 break;
             case 'year':
+                $parentPeriod = 'month';
+                break;
+            case 'quarter':
                 $parentPeriod = 'month';
                 break;
             default:

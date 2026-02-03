@@ -86,7 +86,7 @@ class UserId extends VisitDimension
 
     public function isUsedInAtLeastOneSite($idSites, $period, $date)
     {
-        if ($period === 'day' || $period === 'week') {
+        if ($period === 'day' || $period === 'week' || $period === 'quarter') {
             $period = 'month';
         }
 

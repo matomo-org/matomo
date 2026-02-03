@@ -229,6 +229,10 @@ abstract class Controller
                 'singular' => Piwik::translate('Intl_PeriodYear'),
                 'plural' => Piwik::translate('Intl_PeriodYears'),
             ),
+            'quarter' => array(
+                'singular' => Piwik::translate('Intl_PeriodQuarter'),
+                'plural' => Piwik::translate('Intl_PeriodQuarters'),
+            ),
             // Note: plural is not used for date range
             'range' => array(
                 'singular' => Piwik::translate('General_DateRangeInPeriodList'),

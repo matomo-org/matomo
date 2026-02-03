@@ -123,11 +123,13 @@ export function datesAreInTheSamePeriod(date1: Date, date2: Date, period: string
   const month1 = date1.getMonth();
   const day1 = date1.getDate();
   const week1 = getWeekNumber(date1);
+  const quarter1 = Math.ceil((month1 + 1) / 3);
 
   const year2 = date2.getFullYear();
   const month2 = date2.getMonth();
   const day2 = date2.getDate();
   const week2 = getWeekNumber(date2);
+  const quarter2 = Math.ceil((month2 + 1) / 3);
 
   switch (period) {
     case 'day':
@@ -136,6 +138,8 @@ export function datesAreInTheSamePeriod(date1: Date, date2: Date, period: string
       return year1 === year2 && week1 === week2;
     case 'month':
       return year1 === year2 && month1 === month2;
+    case 'quarter':
+      return year1 === year2 && quarter1 === quarter2;
     case 'year':
       return year1 === year2;
     default:

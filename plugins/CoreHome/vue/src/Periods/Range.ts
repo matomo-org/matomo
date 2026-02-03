@@ -44,6 +44,9 @@ export default class RangePeriod {
     } else if (childPeriodType === 'month') {
       startDate.setDate(1);
       startDate.setMonth(startDate.getMonth() - nAmount);
+    } else if (childPeriodType === 'quarter') {
+      startDate.setDate(1);
+      startDate.setMonth(startDate.getMonth() - (nAmount * 3));
     } else if (childPeriodType === 'year') {
       startDate.setFullYear(startDate.getFullYear() - nAmount);
     } else {
@@ -63,6 +66,9 @@ export default class RangePeriod {
       switch (childPeriodType) {
         case 'year':
           startDate = new Date(1992, 0, 1);
+          break;
+        case 'quarter':
+          startDate = new Date(1991, 9, 1); // Q4 1991
           break;
         case 'month':
           startDate = new Date(1991, 8, 1);
@@ -108,6 +114,11 @@ export default class RangePeriod {
       startDate.setMonth(startDate.getMonth() - countBack);
       endDate.setDate(1);
       endDate.setMonth(endDate.getMonth() - countBack);
+    } else if (childPeriodType === 'quarter') {
+      startDate.setDate(1);
+      startDate.setMonth(startDate.getMonth() - (countBack * 3));
+      endDate.setDate(1);
+      endDate.setMonth(endDate.getMonth() - (countBack * 3));
     } else if (childPeriodType === 'year') {
       startDate.setFullYear(startDate.getFullYear() - countBack);
       endDate.setFullYear(endDate.getFullYear() - countBack);
@@ -128,6 +139,9 @@ export default class RangePeriod {
       switch (childPeriodType) {
         case 'year':
           startDate = new Date(1992, 0, 1);
+          break;
+        case 'quarter':
+          startDate = new Date(1991, 9, 1); // Q4 1991
           break;
         case 'month':
           startDate = new Date(1991, 8, 1);

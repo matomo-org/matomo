@@ -961,6 +961,8 @@
         "PeriodDays": "days",
         "PeriodMonth": "month",
         "PeriodMonths": "months",
+        "PeriodQuarter": "quarter",
+        "PeriodQuarters": "quarters",
         "PeriodWeek": "week",
         "PeriodWeeks": "weeks",
         "PeriodYear": "year",
