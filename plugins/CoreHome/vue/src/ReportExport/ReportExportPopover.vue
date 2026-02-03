@@ -51,7 +51,7 @@
             :name="'option_expanded'"
             :title="translate('CoreHome_ExpandSubtables')"
             v-model="optionExpanded"
-            v-show="hasSubtables && !optionFlat"
+            v-show="hasSubtables && !optionFlat && !isCsvOrTsv"
           >
           </Field>
         </div>
@@ -174,6 +174,7 @@ interface DataTable {
 }
 
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
+const FORMATS_WITHOUT_EXPANDED = ['CSV', 'TSV'];
 
 export default defineComponent({
   components: {
@@ -261,6 +262,18 @@ export default defineComponent({
         this.reportFormat = 'JSON';
       }
     },
+    reportFormat: {
+      immediate: true,
+      handler(newVal) {
+        if (this.isFormatWithoutExpanded(newVal)) {
+          this.optionFlat = true;
+          this.optionExpanded = false;
+        } else {
+          this.optionFlat = false;
+          this.optionExpanded = true;
+        }
+      },
+    },
     reportLimit(newVal, oldVal) {
       if (this.maxFilterLimit && this.maxFilterLimit > 0 && newVal > this.maxFilterLimit) {
         this.reportLimit = oldVal;
@@ -284,6 +297,9 @@ export default defineComponent({
         : '';
       return `${rowLimit} (${computedMetricMax})`;
     },
+    isCsvOrTsv() {
+      return this.isFormatWithoutExpanded(this.reportFormat);
+    },
     exportLink() {
       return this.getExportLink(true);
     },
@@ -292,6 +308,9 @@ export default defineComponent({
     },
   },
   methods: {
+    isFormatWithoutExpanded(format: string) {
+      return FORMATS_WITHOUT_EXPANDED.includes(format);
+    },
     getExportLink(withToken = true) {
       const {
         reportFormat,
