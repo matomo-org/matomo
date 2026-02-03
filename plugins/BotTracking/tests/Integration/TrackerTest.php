@@ -76,7 +76,7 @@ class TrackerTest extends IntegrationTestCase
             ['Gemini-Deep-Research/1.0', 'Gemini-Deep-Research', BotDetector::BOT_TYPE_AI_ASSISTANT],
             ['Claude-User/3.0', 'Claude-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
             ['Perplexity-User/1.0', 'Perplexity-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
-            ['Devin/1.0', 'Devin', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['Google-NotebookLM/1.0', 'Google-NotebookLM', BotDetector::BOT_TYPE_AI_ASSISTANT],
         ];
     }
 

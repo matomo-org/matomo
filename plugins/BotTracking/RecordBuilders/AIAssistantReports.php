@@ -39,7 +39,6 @@ class AIAssistantReports extends RecordBuilder
         'Claude-User'          => 'Claude',
         'Perplexity-User'      => 'Perplexity',
         'Google-NotebookLM'    => 'NotebookLM',
-        'Devin'                => '',
     ];
 
     /**
