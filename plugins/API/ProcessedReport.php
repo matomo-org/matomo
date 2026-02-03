@@ -905,7 +905,7 @@ class ProcessedReport
      * @param mixed $value The metric value.
      * @return string
      */
-    public static function getPrettyValue(Formatter $formatter, $idSite, $columnName, $value)
+    public static function getPrettyValue(Formatter $formatter, int $idSite, string $columnName, $value): string
     {
         if (!is_numeric($value)) {
             return $value;
