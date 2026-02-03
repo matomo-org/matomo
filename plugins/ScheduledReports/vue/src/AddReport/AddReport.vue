@@ -109,7 +109,7 @@
           name="report_hour"
           :model-value="report.hour"
           @update:model-value="$emit('change', { prop: 'hour', value: $event })"
-          :title="translate('ScheduledReports_ReportHour', 'X')"
+          :title="translate('ScheduledReports_ReportHourLocal', 'X')"
           :options="reportHours"
         >
           <template v-slot:inline-help>
@@ -640,7 +640,7 @@ export default defineComponent({
       const reportHourFloat = parseFloat(reportHour);
       const hours = Math.floor(reportHourFloat);
       const paddedHour = `${hours}`.padStart(2, '0');
-      const reportHourUtcLabel = translate('ScheduledReports_ReportHourWithUTC', [`${paddedHour}:00`]);
+      const reportHourUtcLabel = translate('ScheduledReports_ReportHourWithUtcOnly', [`${paddedHour}:00`]);
       return `${translate('ScheduledReports_ReportWillBeSentAt')}
       ${translate('ScheduledReports_ReportHourEqualsUtc', [reportHourUtcLabel])}
       ${translate('ScheduledReports_NoteDeliveryTime')}`;
