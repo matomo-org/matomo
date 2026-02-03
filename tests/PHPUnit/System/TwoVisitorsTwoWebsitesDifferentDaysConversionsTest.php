@@ -60,6 +60,7 @@ class TwoVisitorsTwoWebsitesDifferentDaysConversionsTest extends SystemTestCase
                 'day',
                 'week',
                 'month',
+                'quarter',
                 'year',
         );
 

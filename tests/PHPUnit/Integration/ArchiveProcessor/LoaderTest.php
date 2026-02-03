@@ -1340,6 +1340,7 @@ class LoaderTest extends IntegrationTestCase
             ['day', 'always_archive_data_day'],
             ['week', 'always_archive_data_period'],
             ['month', 'always_archive_data_period'],
+            ['quarter', 'always_archive_data_period'],
             ['year', 'always_archive_data_period'],
             ['range', 'always_archive_data_range'],
         ];

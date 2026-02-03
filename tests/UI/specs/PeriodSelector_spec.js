@@ -93,6 +93,16 @@ describe("PeriodSelector", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage('year_selected');
     });
 
+    it("should change the date when a date is clicked in quarter-period mode", async function() {
+        await page.click('#period_id_quarter');
+        await page.waitForTimeout(250); // wait for animation
+
+        const element = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(15)');
+        await element.click();
+
+        expect(await page.screenshotSelector(selector)).to.matchImage('quarter_selected');
+    });
+
     it("should display the range picker when the range radio button is clicked", async function() {
         await page.click('#period_id_range');
         await page.waitForTimeout(250); // wait for animation
@@ -223,5 +233,47 @@ describe("PeriodSelector", function () {
         await page.waitForTimeout(250);
 
         expect(await page.screenshotSelector(selector + ',#notificationContainer')).to.matchImage('invalid');
+    });
+
+    describe('quarter period', function () {
+        this.title = parentSuite.title; // to make sure the screenshot prefix is the same
+
+        const quarterParams = 'idSite=1&period=quarter&date=2012-05-01';
+        const quarterUrl = '?module=CoreHome&action=index&' + quarterParams + '#?' + quarterParams + '&category=General_Actions&subcategory=General_Pages';
+
+        it("should load quarter period correctly", async function() {
+            await page.goto(quarterUrl);
+
+            await page.evaluate(function () {
+                broadcast.propagateNewPage = function () {};
+                $('head').append('<style type="text/css">#ajaxLoadingCalendar { display: none !important; }</style>');
+            });
+
+            expect(await page.screenshotSelector(selector)).to.matchImage('quarter_loaded');
+        });
+
+        it("should expand quarter period selector when clicked", async function() {
+            await page.click('.periodSelector .title');
+            expect(await page.screenshotSelector(selector)).to.matchImage('quarter_expanded');
+        });
+
+        it("should move to next quarter when next period selector is clicked", async function () {
+            await page.click('.periodSelector .title'); // close the selector
+            await page.click('.periodSelector .move-period-next');
+            await page.waitForNetworkIdle();
+            await page.mouse.move(-10, -10);
+
+            expect(await page.screenshotSelector(selector)).to.matchImage('quarter_next');
+        });
+
+        it("should move to previous quarter when previous period selector is clicked", async function () {
+            await page.click('.periodSelector .move-period-prev');
+            await page.waitForNetworkIdle();
+            await page.click('.periodSelector .move-period-prev');
+            await page.waitForNetworkIdle();
+            await page.mouse.move(-10, -10);
+
+            expect(await page.screenshotSelector(selector)).to.matchImage('quarter_prev');
+        });
     });
 });

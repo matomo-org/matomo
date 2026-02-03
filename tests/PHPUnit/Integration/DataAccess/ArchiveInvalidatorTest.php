@@ -91,6 +91,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->insertArchiveRow(1, '2020-03-13', 'day', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
         $this->insertArchiveRow(1, '2020-03-13', 'week', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
         $this->insertArchiveRow(1, '2020-03-13', 'month', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
+        $this->insertArchiveRow(1, '2020-03-13', 'quarter', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
         $this->insertArchiveRow(1, '2020-03-13', 'year', $doneValue = ArchiveWriter::DONE_OK, false, $varyArchiveTypes = false);
 
         Config::getInstance()->General['enabled_periods_UI'] = 'day,week,year,range';
@@ -138,6 +139,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->insertArchiveRow(1, '2020-03-03', 'day', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
         $this->insertArchiveRow(1, '2020-03-03', 'week', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
         $this->insertArchiveRow(1, '2020-03-03', 'month', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
+        $this->insertArchiveRow(1, '2020-03-03', 'quarter', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
         $this->insertArchiveRow(1, '2020-03-03', 'year', $doneValue = ArchiveWriter::DONE_PARTIAL, 'ExamplePlugin');
 
         /** @var ArchiveInvalidator $archiveInvalidator */
@@ -186,12 +188,21 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
             [
                 'idarchive' => null,
                 'idsite' => '1',
+                'period' => '6',
+                'name' => 'done',
+                'date1' => '2020-01-01',
+                'date2' => '2020-03-31',
+                'report' => null,
+            ],
+            [
+                'idarchive' => null,
+                'idsite' => '1',
                 'period' => '4',
                 'name' => 'done',
                 'date1' => '2020-01-01',
                 'date2' => '2020-12-31',
                 'report' => null,
-            ],
+            ]
         ];
 
         $actualInvalidations = $this->getInvalidatedArchiveTableEntries();
@@ -2444,7 +2455,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
 
     private function insertArchiveRowsForTest()
     {
-        $periods = array('day', 'week', 'month', 'year');
+        $periods = array('day', 'week', 'month', 'quarter', 'year');
         $sites = array(1,2,3);
 
         $startDate = Date::factory('2014-12-01');

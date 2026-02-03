@@ -213,4 +213,18 @@ describe("EvolutionGraph", function () {
         const element = await page.$('.add-annotation');
         expect(element).to.be.not.ok;
     });
+
+    it("should load correctly with quarter period", async function () {
+        delete testEnvironment.idSitesViewAccess;
+        testEnvironment.save();
+
+        const quarterUrl = "?module=Widgetize&action=iframe&idSite=1&period=quarter&date=2012-05-01&evolution_quarter_last_n=4"
+              + "&moduleToWidgetize=UserCountry&actionToWidgetize=getCountry&viewDataTable=graphEvolution"
+              + "&isFooterExpandedInDashboard=1";
+
+        await page.goto(quarterUrl);
+        await page.waitForNetworkIdle();
+
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('quarter_period');
+    });
 });

@@ -11,6 +11,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
     var parentSuite = this;
 
     var generalParams = 'idSite=1&period=year&date=2012-08-09',
+        quarterParams = 'idSite=1&period=quarter&date=2012-02-09',
         idSite2Params = 'idSite=2&period=year&date=2012-08-09',
         idSite3Params = 'idSite=3&period=year&date=2012-08-09',
         evolutionParams = 'idSite=1&period=day&date=2012-01-31&evolution_day_last_n=30',
@@ -188,6 +189,14 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
               $('.dataTableScroller').css('overflow-x', 'scroll');
             });
             expect(await screenshotPageWrap()).to.matchImage('visitors_overview_columns');
+        });
+
+        it('should load visitors > overview page correctly for quarter period', async function () {
+            await page.goto("?" + urlBaseGeneric + quarterParams + "#?" + quarterParams + "&category=General_Visitors&subcategory=General_Overview");
+            await page.waitForNetworkIdle();
+            await page.waitForSelector('.piwik-graph');
+
+            expect(await screenshotPageWrap()).to.matchImage('visitors_overview_quarter');
         });
 
         it('should reload the visitors > overview page when clicking on the visitors overview page element again', async function () {

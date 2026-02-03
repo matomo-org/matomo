@@ -49,11 +49,11 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             array($apiToCall,
                   array('idSite'  => $idSite,
                         'date'    => $dateTime,
-                        'periods' => array('month'))),
+                        'periods' => array('month', 'quarter'))),
 
             array($apiToCall, array('idSite'     => $idSite,
                                     'date'       => $dateTime,
-                                    'periods'    => array('month'),
+                                    'periods'    => array('month', 'quarter'),
                                     'testSuffix' => '_segment_region',
                                     'segment'    => 'regionCode==WAR;countryCode==gb')),
 
@@ -65,7 +65,7 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
 
             array($apiToCall, array('idSite'     => $idSite,
                                     'date'       => $dateTime,
-                                    'periods'    => array('month'),
+                                    'periods'    => array('month', 'quarter'),
                                     'testSuffix' => '_segment_lat_long',
                                     'segment'    => 'latitude>45;latitude<49.3;longitude>-125;longitude<-122')),
 
@@ -101,7 +101,7 @@ class ManyVisitorsOneWebsiteTest extends SystemTestCase
             array(array('UserCountry.getLocationFromIP', 'Live.getLastVisitsDetails'), array(
                 'idSite'                 => $idSite,
                 'date'                   => $dateTime,
-                'periods'                => array('month'),
+                'periods'                => array('month', 'quarter'),
                 'otherRequestParameters' => array('ip' => '194.57.91.215'),
             )),
 

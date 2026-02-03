@@ -15,6 +15,7 @@ use Piwik\Config;
 use Piwik\Period\Day;
 use Piwik\Period\Factory;
 use Piwik\Period\Month;
+use Piwik\Period\Quarter;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
 use Piwik\Period\Range;
@@ -730,6 +731,7 @@ class QueueConsumerTest extends IntegrationTestCase
             ['day'],
             ['week'],
             ['month'],
+            ['quarter'],
             ['year'],
             ['range'],
         ];
@@ -1245,6 +1247,14 @@ class QueueConsumerTest extends IntegrationTestCase
             'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
         ];
 
+        yield 'quarter period should be detected as intersecting when day is processed' => [
+            'existingInvalidations' => [
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-03-31', 'period' => Quarter::PERIOD_ID],
+            'expected' => 'lower or same period in progress (period = day, date = 2020-03-04)',
+        ];
+
         yield 'year period should be detected as intersecting when day is processed' => [
             'existingInvalidations' => [
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-04', 'date2' => '2020-03-04', 'period' => Day::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
@@ -1277,6 +1287,14 @@ class QueueConsumerTest extends IntegrationTestCase
             'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)',
         ];
 
+        yield 'quarter period should be detected as intersecting when week is processed' => [
+            'existingInvalidations' => [
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-03-31', 'period' => Quarter::PERIOD_ID],
+            'expected' => 'lower or same period in progress (period = week, date = 2020-03-02)',
+        ];
+
         yield 'year period should be detected as intersecting when week is processed' => [
             'existingInvalidations' => [
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-02', 'date2' => '2020-03-08', 'period' => Week::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
@@ -1290,6 +1308,14 @@ class QueueConsumerTest extends IntegrationTestCase
                 ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID],
+            'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)',
+        ];
+
+        yield 'quarter period should be detected as intersecting when month is processed' => [
+            'existingInvalidations' => [
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-03-01', 'date2' => '2020-03-31', 'period' => Month::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-03-31', 'period' => Quarter::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)',
         ];
 
@@ -1315,6 +1341,14 @@ class QueueConsumerTest extends IntegrationTestCase
             ],
             'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-12-31', 'period' => Year::PERIOD_ID],
             'expected' => 'lower or same period in progress (period = month, date = 2020-03-01)',
+        ];
+
+        yield 'same quarter period should be detected as intersecting' => [
+            'existingInvalidations' => [
+                ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-03-31', 'period' => Quarter::PERIOD_ID, 'status' => 1, 'ts_started' => date('Y-m-d H:i:s')],
+            ],
+            'archiveToProcess' => ['name' => 'done', 'idsite' => 5, 'date1' => '2020-01-01', 'date2' => '2020-03-31', 'period' => Quarter::PERIOD_ID],
+            'expected' => 'lower or same period in progress (period = quarter, date = 2020-01-01)',
         ];
 
         yield 'same year period should be detected as intersecting' => [
