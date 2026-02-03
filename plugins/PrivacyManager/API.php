@@ -107,7 +107,7 @@ class API extends \Piwik\Plugin\API
             return [];
         }
 
-        $siteIds = Site::getIdSitesFromIdSitesString($idSite);
+        $siteIds = Site::getIdSitesFromIdSitesString($idSite, false, true);
         $siteIdsWithVisitorLogsOrProfilesEnabled = [];
 
         /*
@@ -116,6 +116,10 @@ class API extends \Piwik\Plugin\API
          * are disabled.
          */
         foreach ($siteIds as $siteId) {
+            if (!Piwik::isUserHasViewAccess($siteId)) {
+                continue;
+            }
+
             $isVisitorProfileEnabled = Live::isVisitorProfileEnabled($siteId);
 
             if ($isVisitorProfileEnabled) {
@@ -185,7 +189,7 @@ class API extends \Piwik\Plugin\API
         if ($idSites === 'all' || empty($idSites)) {
             $idSites = null; // all websites
         } else {
-            $idSites = Site::getIdSitesFromIdSitesString($idSites);
+            $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         }
         $requester = Piwik::getCurrentUserLogin();
         $this->logDataAnonymizations->scheduleEntry(

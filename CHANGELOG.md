@@ -4,6 +4,13 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 5.7.1
+
+### Breaking Changes
+
+* HTTP APIs that accept `idSite` now validate it more strictly. Invalid values that were previously ignored can now trigger a 400 Bad Request, and some endpoints now enforce integer `idSite` parameters (e.g., non-numeric values may raise a TypeError).
+
+
 ## Matomo 5.7.0
 
 ### Breaking Changes

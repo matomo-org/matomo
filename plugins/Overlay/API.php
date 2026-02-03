@@ -25,7 +25,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Get translation strings
      */
-    public function getTranslations($idSite)
+    public function getTranslations()
     {
         $translations = array(
             'oneClick'         => 'Overlay_OneClick',
@@ -44,7 +44,7 @@ class API extends \Piwik\Plugin\API
      * @deprecated use SitesManager.getExcludedQueryParameters instead
      * @todo Remove in Matomo 6
      */
-    public function getExcludedQueryParameters($idSite)
+    public function getExcludedQueryParameters(int $idSite)
     {
         return Request::processRequest('SitesManager.getExcludedQueryParameters');
     }
@@ -56,7 +56,7 @@ class API extends \Piwik\Plugin\API
      * Note: if you use this method via the regular API, the number of results will be limited.
      * Make sure, you set filter_limit=-1 in the request.
      */
-    public function getFollowingPages($url, $idSite, $period, $date, $segment = false)
+    public function getFollowingPages($url, int $idSite, $period, $date, $segment = false)
     {
         $url = PageUrl::excludeQueryParametersFromUrl($url, $idSite);
         // we don't unsanitize $url here. it will be done in the Transitions plugin.
