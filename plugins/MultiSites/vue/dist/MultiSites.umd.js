@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=cdec2a82
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=7fc2b67e
 
 const _hoisted_1 = {
   class: "dashboardHeader"
@@ -211,7 +211,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "is-segmented": _ctx.isSegmented
   }, null, 8, ["display-revenue", "display-sparklines", "show-ai-chatbots-requests", "is-segmented"])], 64);
 }
-// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=cdec2a82
+// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=7fc2b67e
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -241,6 +241,8 @@ class AllWebsitesDashboard_store_DashboardStore {
         hitsTrend: 0,
         aiChatbotsRequests: '?',
         aiChatbotsRequestsCompact: '?',
+        aiChatbotsRequestsEvolution: '',
+        aiChatbotsRequestsTrend: 0,
         pageviews: '?',
         pageviewsCompact: '?',
         pageviewsEvolution: '',
@@ -408,6 +410,7 @@ class AllWebsitesDashboard_store_DashboardStore {
   updateDashboardKPIs(response) {
     const isSegmented = !!external_CoreHome_["MatomoUrl"].parsed.value.segment;
     const aiRequests = response.totals.ai_chatbots_requests || 0;
+    const previousAiRequests = response.totals.previous_ai_chatbots_requests || 0;
     this.privateState.dashboardKPIs = {
       badges: {
         hits: null,
@@ -422,6 +425,8 @@ class AllWebsitesDashboard_store_DashboardStore {
       hitsTrend: Math.sign(response.totals.hits - response.totals.previous_hits),
       aiChatbotsRequests: isSegmented ? '-' : external_CoreHome_["NumberFormatter"].formatNumber(aiRequests),
       aiChatbotsRequestsCompact: isSegmented ? '-' : external_CoreHome_["NumberFormatter"].formatNumberCompact(aiRequests),
+      aiChatbotsRequestsEvolution: isSegmented ? '' : external_CoreHome_["NumberFormatter"].calculateAndFormatEvolution(aiRequests, previousAiRequests, true),
+      aiChatbotsRequestsTrend: isSegmented ? 0 : Math.sign(aiRequests - previousAiRequests),
       pageviews: external_CoreHome_["NumberFormatter"].formatNumber(response.totals.nb_pageviews),
       pageviewsCompact: external_CoreHome_["NumberFormatter"].formatNumberCompact(response.totals.nb_pageviews),
       pageviewsEvolution: external_CoreHome_["NumberFormatter"].calculateAndFormatEvolution(response.totals.nb_pageviews, response.totals.previous_nb_pageviews, true),
@@ -1203,8 +1208,8 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_9c78bb
           value: dashboardKPIs.aiChatbotsRequests,
           valueCompact: dashboardKPIs.aiChatbotsRequestsCompact,
           evolutionPeriod: dashboardKPIs.evolutionPeriod,
-          evolutionTrend: 0,
-          evolutionValue: ''
+          evolutionTrend: dashboardKPIs.aiChatbotsRequestsTrend,
+          evolutionValue: dashboardKPIs.aiChatbotsRequestsEvolution
         });
       }
       kpis.push({

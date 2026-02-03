@@ -199,8 +199,8 @@ export default defineComponent({
           value: dashboardKPIs.aiChatbotsRequests,
           valueCompact: dashboardKPIs.aiChatbotsRequestsCompact,
           evolutionPeriod: dashboardKPIs.evolutionPeriod,
-          evolutionTrend: 0,
-          evolutionValue: '',
+          evolutionTrend: dashboardKPIs.aiChatbotsRequestsTrend,
+          evolutionValue: dashboardKPIs.aiChatbotsRequestsEvolution,
         });
       }
 
