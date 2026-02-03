@@ -17,5 +17,5 @@ class AIAssistantsCategory extends Category
 {
     protected $id = 'General_AIAssistants';
     protected $order = 80;
-    protected $icon  = 'icon-admin-platform';
+    protected $icon  = 'icon-ai-assistants';
 }
