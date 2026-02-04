@@ -48,6 +48,7 @@ class ThemeStyles
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
         'colorBorder' => 'theme-color-border',
         'colorBorderLight' => 'theme-color-border-light',
+        'colorBoxShadow' => 'theme-color-boxShadow',
         'colorCode' => 'theme-color-code',
         'colorCodeBackground' => 'theme-color-code-background',
         'colorWidgetBackground' => 'theme-color-widget-background',
@@ -229,6 +230,11 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorBorder = ['#cccccc', '#555555'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorBoxShadow = ['rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.1)'];
 
     /**
      * @var string|array<string>
