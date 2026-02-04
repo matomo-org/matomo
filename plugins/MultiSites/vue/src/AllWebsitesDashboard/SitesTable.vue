@@ -40,7 +40,7 @@
             {{ translate('General_ColumnPageviews') }}
           </th>
 
-          <th v-if="showAiChatbotsRequests"
+          <th v-if="showAiChatbotsRequests && !isSegmented"
               @click="sortBy('ai_chatbots_requests')"
               :title="translate('MultiSites_MetricDocumentationAiChatbotsRequests')">
             <span
@@ -98,7 +98,7 @@
               </option>
               <option
                   value="ai_chatbots_requests_evolution"
-                  v-if="showAiChatbotsRequests"
+                  v-if="showAiChatbotsRequests && !isSegmented"
               >
                 {{ translate('MultiSites_AiChatbotsRequests') }}
               </option>
@@ -129,8 +129,7 @@
             :model-value="site"
             :display-sparkline="displaySparklines"
             :sparkline-metric="sparklineMetric"
-            :show-ai-chatbots-requests="showAiChatbotsRequests"
-            :is-segmented="isSegmented"
+            :show-ai-chatbots-requests="showAiChatbotsRequests && !isSegmented"
         />
       </tbody>
     </table>
@@ -208,6 +207,14 @@ export default defineComponent({
       evolutionSelector: 'visits_evolution',
     };
   },
+  watch: {
+    isSegmented() {
+      this.ensureEvolutionSelectorIsValid();
+    },
+    showAiChatbotsRequests() {
+      this.ensureEvolutionSelectorIsValid();
+    },
+  },
   computed: {
     errorLoading(): boolean {
       return DashboardStore.state.value.errorLoading;
@@ -270,7 +277,7 @@ export default defineComponent({
     },
     loadingColspan(): number {
       let columns = 6;
-      if (this.showAiChatbotsRequests) {
+      if (this.showAiChatbotsRequests && !this.isSegmented) {
         columns += 1;
       }
       if (this.displayRevenue) {
@@ -287,6 +294,15 @@ export default defineComponent({
       this.evolutionSelector = metric;
 
       this.sortBy(metric);
+    },
+    ensureEvolutionSelectorIsValid() {
+      if (
+        this.evolutionSelector === 'ai_chatbots_requests_evolution'
+        && (this.isSegmented || !this.showAiChatbotsRequests)
+      ) {
+        this.evolutionSelector = 'visits_evolution';
+        this.sortBy(this.evolutionSelector);
+      }
     },
     navigateNextPage() {
       DashboardStore.navigateNextPage();

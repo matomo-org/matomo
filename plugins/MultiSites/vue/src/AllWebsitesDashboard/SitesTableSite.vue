@@ -36,12 +36,7 @@
     <td><span class="value">{{ formatNumber(site.nb_visits) }}</span></td>
     <td><span class="value">{{ formatNumber(site.nb_pageviews) }}</span></td>
     <td v-if="showAiChatbotsRequests">
-      <span
-          class="value"
-          :title="isSegmented ? translate('MultiSites_AiChatbotsSegmentationTooltip') : ''"
-      >
-        {{ isSegmented ? '-' : formatNumber(site.ai_chatbots_requests) }}
-      </span>
+      <span class="value">{{ formatNumber(site.ai_chatbots_requests) }}</span>
     </td>
     <td><span class="value">{{ formatNumber(site.hits) }}</span></td>
     <td v-if="displayRevenue">
@@ -108,10 +103,6 @@ export default defineComponent({
     sparklineMetric: String,
     displaySparkline: Boolean,
     showAiChatbotsRequests: {
-      type: Boolean,
-      required: true,
-    },
-    isSegmented: {
       type: Boolean,
       required: true,
     },
