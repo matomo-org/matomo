@@ -12,6 +12,7 @@
 			<nb_actions>Actions</nb_actions>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<hits>Hits</hits>
+			<ai_chatbots_requests>AI Chatbots Requests</ai_chatbots_requests>
 			<revenue>Revenue</revenue>
 			<nb_conversions>Conversions</nb_conversions>
 			<orders>Ecommerce Orders</orders>
@@ -28,6 +29,7 @@
 			<actions_evolution>Actions Evolution</actions_evolution>
 			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 			<hits_evolution>Hits Evolution</hits_evolution>
+			<ai_chatbots_requests_evolution>AI Chatbots Requests Evolution</ai_chatbots_requests_evolution>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -38,6 +40,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
 			<hits>number</hits>
+			<ai_chatbots_requests>number</ai_chatbots_requests>
 			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
@@ -46,6 +49,7 @@
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
 			<hits_evolution>percent</hits_evolution>
+			<ai_chatbots_requests_evolution>percent</ai_chatbots_requests_evolution>
 			<revenue_evolution>percent</revenue_evolution>
 			<nb_conversions_evolution>percent</nb_conversions_evolution>
 			<orders_evolution>percent</orders_evolution>
@@ -67,6 +71,7 @@
 			<nb_actions>Actions</nb_actions>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<hits>Hits</hits>
+			<ai_chatbots_requests>AI Chatbots Requests</ai_chatbots_requests>
 			<revenue>Revenue</revenue>
 			<nb_conversions>Conversions</nb_conversions>
 			<orders>Ecommerce Orders</orders>
@@ -83,6 +88,7 @@
 			<actions_evolution>Actions Evolution</actions_evolution>
 			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 			<hits_evolution>Hits Evolution</hits_evolution>
+			<ai_chatbots_requests_evolution>AI Chatbots Requests Evolution</ai_chatbots_requests_evolution>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -93,6 +99,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
 			<hits>number</hits>
+			<ai_chatbots_requests>number</ai_chatbots_requests>
 			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
@@ -101,6 +108,7 @@
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
 			<hits_evolution>percent</hits_evolution>
+			<ai_chatbots_requests_evolution>percent</ai_chatbots_requests_evolution>
 			<revenue_evolution>percent</revenue_evolution>
 			<nb_conversions_evolution>percent</nb_conversions_evolution>
 			<orders_evolution>percent</orders_evolution>
