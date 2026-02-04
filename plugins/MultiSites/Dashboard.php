@@ -14,12 +14,8 @@ use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
 use Piwik\NumberFormatter;
 use Piwik\DataTable;
-use Piwik\DataTable\Map;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Period;
-use Piwik\Plugin\Manager;
-use Piwik\Plugins\BotTracking\BotDetector;
-use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Site;
 
 /**
@@ -35,7 +31,6 @@ class Dashboard
     private $numSites = 0;
 
     /** @var bool */
-    private $hasAiChatbotsRequests = false;
 
     /**
      * Array of metrics that will be displayed and will be number formatted
@@ -75,7 +70,6 @@ class Dashboard
 
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
 
-        $this->hasAiChatbotsRequests = $this->shouldShowAiChatbotsRequests($sites);
 
         /** @var null|DataTable $pastData */
         $pastData = $sites->getMetadata('pastData');
@@ -105,30 +99,6 @@ class Dashboard
         });
 
         $this->setSitesTable($sites);
-    }
-
-    private function shouldShowAiChatbotsRequests(DataTable $sites): bool
-    {
-        if (!Manager::getInstance()->isPluginActivated('BotTracking')) {
-            return false;
-        }
-
-        $idSites = [];
-        foreach ($sites->getRows() as $row) {
-            $label = $row->getColumn('label');
-            if (!is_numeric($label)) {
-                continue;
-            }
-            $idSite = (int)$label;
-            if ($idSite > 0) {
-                $idSites[] = $idSite;
-            }
-        }
-
-        return (new BotRequestsDao())->hasRequestsForBotTypeAndSites(
-            array_values($idSites),
-            BotDetector::BOT_TYPE_AI_ASSISTANT
-        );
     }
 
     public function setSitesTable(DataTable $sites): void
@@ -192,11 +162,6 @@ class Dashboard
     public function getNumSites(): int
     {
         return $this->numSites;
-    }
-
-    public function hasAiChatbotsRequests(): bool
-    {
-        return $this->hasAiChatbotsRequests;
     }
 
     public function search(?string $pattern): void

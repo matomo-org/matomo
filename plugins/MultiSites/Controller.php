@@ -13,8 +13,10 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\BotTracking\Metrics as BotTrackingMetrics;
 use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugin\Manager;
 use Piwik\Request;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -57,6 +59,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->displayRevenueColumn = $this->shouldDisplayRevenueColumn();
         $view->limit                = Config::getInstance()->General['all_websites_website_per_page'];
         $view->show_sparklines      = Config::getInstance()->General['show_multisites_sparklines'];
+        $view->hasBotTrackingEnabled = Manager::getInstance()->isPluginActivated('BotTracking');
 
         $view->autoRefreshTodayReport = 0;
         // if the current date is today, or yesterday,
@@ -88,7 +91,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
         if ($columns === 'ai_chatbots_requests') {
             $api             = 'BotTracking.get';
-            $_GET['columns'] = 'BotTracking_AIAssistantsRequests';
+            $_GET['columns'] = BotTrackingMetrics::METRIC_AI_ASSISTANTS_REQUESTS;
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
         $view->requestConfig->totals = 0;

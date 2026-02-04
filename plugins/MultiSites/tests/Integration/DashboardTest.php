@@ -11,9 +11,6 @@ namespace Piwik\Plugins\MultiSites\tests\Integration;
 
 use Piwik\DataTable;
 use Piwik\Period;
-use Piwik\Plugin\Manager;
-use Piwik\Plugins\BotTracking\BotDetector;
-use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Plugins\MultiSites\Dashboard;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -179,26 +176,6 @@ class DashboardTest extends IntegrationTestCase
             ],
         ];
         $this->assertEquals($expectedSites, $dashboard->getSites([], $limit = 10));
-    }
-
-    public function testHasAiChatbotsRequestsWhenBotTrackingHasData()
-    {
-        Manager::getInstance()->loadPlugins(['BotTracking']);
-        Manager::getInstance()->installLoadedPlugins();
-
-        $dao = new BotRequestsDao();
-        $dao->createTable();
-        $dao->insert([
-            'idsite' => 1,
-            'server_time' => '2012-12-13 01:00:00',
-            'bot_name' => 'ChatGPT',
-            'bot_type' => BotDetector::BOT_TYPE_AI_ASSISTANT,
-        ]);
-
-        $dashboard = new Dashboard('day', '2012-12-13', null);
-        $this->assertTrue($dashboard->hasAiChatbotsRequests());
-
-        $dao->dropTable();
     }
 
     public function testConstructShouldActuallyFindSitesWhenSeaching()

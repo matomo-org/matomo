@@ -52,7 +52,6 @@ interface DashboardStoreState {
   errorLoading: boolean;
   isLoadingKPIs: boolean;
   isLoadingSites: boolean;
-  hasAiChatbotsRequests: boolean;
   numSites: number;
   paginationCurrentPage: number;
   sortColumn: string;
@@ -62,7 +61,6 @@ interface DashboardStoreState {
 interface GetAllWithGroupsDataResponse {
   sites: DashboardSiteData[];
   totals: DashboardMetrics;
-  hasAiChatbotsRequests: boolean;
   numSites: number;
 }
 
@@ -101,7 +99,6 @@ class DashboardStore {
     errorLoading: false,
     isLoadingKPIs: false,
     isLoadingSites: false,
-    hasAiChatbotsRequests: false,
     numSites: 0,
     paginationCurrentPage: 0,
     sortColumn: DEFAULT_SORT_COLUMN,
@@ -386,13 +383,11 @@ class DashboardStore {
         response.totals.nb_visits - response.totals.previous_nb_visits,
       ) as EvolutionTrend,
     };
-    this.privateState.hasAiChatbotsRequests = !!response.hasAiChatbotsRequests;
   }
 
   private updateDashboardSites(response: GetAllWithGroupsDataResponse) {
     this.privateState.dashboardSites = response.sites;
     this.privateState.numSites = response.numSites;
-    this.privateState.hasAiChatbotsRequests = !!response.hasAiChatbotsRequests;
   }
 }
 

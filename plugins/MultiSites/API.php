@@ -274,7 +274,6 @@ class API extends \Piwik\Plugin\API
             'totals'   => $dashboard->getTotals(),
             'lastDate' => $dashboard->getLastDate(),
             'sites'    => $dashboard->getSites($request, $filter_limit),
-            'hasAiChatbotsRequests' => $dashboard->hasAiChatbotsRequests(),
         ];
 
         return $response;

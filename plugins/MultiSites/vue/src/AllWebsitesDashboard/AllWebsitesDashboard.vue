@@ -115,6 +115,10 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    hasBotTrackingEnabled: {
+      type: Boolean,
+      required: true,
+    },
     isWidgetized: {
       type: Boolean,
       required: true,
@@ -156,11 +160,11 @@ export default defineComponent({
       return !!MatomoUrl.parsed.value.segment;
     },
     showAiChatbotsRequests(): boolean {
-      return DashboardStore.state.value.hasAiChatbotsRequests;
+      return this.hasBotTrackingEnabled;
     },
     kpis(): KPICardData[] {
-      const { dashboardKPIs, hasAiChatbotsRequests } = DashboardStore.state.value;
-      const { isSegmented } = this;
+      const { dashboardKPIs } = DashboardStore.state.value;
+      const { hasBotTrackingEnabled, isSegmented } = this;
 
       const kpis: KPICardData[] = [
         {
@@ -185,7 +189,7 @@ export default defineComponent({
         },
       ];
 
-      if (hasAiChatbotsRequests) {
+      if (hasBotTrackingEnabled) {
         kpis.push({
           badge: isSegmented
             ? {
@@ -208,7 +212,7 @@ export default defineComponent({
         badge: dashboardKPIs.badges?.hits || null,
         icon: 'icon-hits',
         title: 'MultiSites_TotalHits',
-        tooltipTitle: !isSegmented && hasAiChatbotsRequests
+        tooltipTitle: !isSegmented && hasBotTrackingEnabled
           ? 'MultiSites_TotalHitsIncludingAiTooltip'
           : undefined,
         value: dashboardKPIs.hits,

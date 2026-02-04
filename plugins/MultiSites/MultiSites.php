@@ -35,15 +35,16 @@ class MultiSites extends \Piwik\Plugin
     {
         $appendix = " " . Piwik::translate('MultiSites_Evolution');
         $metrics = [
-            'visits_evolution'              => Piwik::translate('General_ColumnNbVisits') . $appendix,
-            'actions_evolution'             => Piwik::translate('General_ColumnNbActions') . $appendix,
-            'pageviews_evolution'           => Piwik::translate('General_ColumnPageviews') . $appendix,
-            'hits_evolution'                => Piwik::translate('General_ColumnHits') . $appendix,
+            'visits_evolution'               => Piwik::translate('General_ColumnNbVisits') . $appendix,
+            'actions_evolution'              => Piwik::translate('General_ColumnNbActions') . $appendix,
+            'pageviews_evolution'            => Piwik::translate('General_ColumnPageviews') . $appendix,
+            'hits_evolution'                 => Piwik::translate('General_ColumnHits') . $appendix,
+            'ai_chatbots_requests'           => Piwik::translate('MultiSites_AiChatbotsRequests'),
             'ai_chatbots_requests_evolution' => Piwik::translate('MultiSites_AiChatbotsRequests') . $appendix,
-            'revenue_evolution'             => Piwik::translate('General_ColumnRevenue') . $appendix,
-            'nb_conversions_evolution'      => Piwik::translate('Goals_ColumnConversions') . $appendix,
-            'orders_evolution'              => Piwik::translate('General_EcommerceOrders') . $appendix,
-            'ecommerce_revenue_evolution'   => Piwik::translate('General_ProductRevenue') . $appendix,
+            'revenue_evolution'              => Piwik::translate('General_ColumnRevenue') . $appendix,
+            'nb_conversions_evolution'       => Piwik::translate('Goals_ColumnConversions') . $appendix,
+            'orders_evolution'               => Piwik::translate('General_EcommerceOrders') . $appendix,
+            'ecommerce_revenue_evolution'    => Piwik::translate('General_ProductRevenue') . $appendix,
         ];
 
         $translations = array_merge($translations, $metrics);
@@ -98,6 +99,7 @@ class MultiSites extends \Piwik\Plugin
         $translations[] = 'MultiSites_MetricDocumentationPageviews';
         $translations[] = 'MultiSites_MetricDocumentationAiChatbotsRequests';
         $translations[] = 'MultiSites_MetricDocumentationHits';
+        $translations[] = 'MultiSites_MetricDocumentationHitsIncludingAi';
         $translations[] = 'MultiSites_MetricDocumentationRevenue';
         $translations[] = 'MultiSites_MetricDocumentationEvolution';
         $translations[] = 'MultiSites_AiChatbotsRequests';

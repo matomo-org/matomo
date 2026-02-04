@@ -158,29 +158,6 @@ class BotRequestsDao
     }
 
     /**
-     * @param int[] $idSites
-     */
-    public function hasRequestsForBotTypeAndSites(array $idSites, string $botType): bool
-    {
-        if (empty($idSites)) {
-            return false;
-        }
-
-        $tableName    = self::getPrefixedTableName();
-        $placeholders = Common::getSqlStringFieldsArray($idSites);
-
-        $sql = sprintf(
-            'SELECT 1 FROM `%s` WHERE bot_type = ? AND idsite IN (%s) LIMIT 1',
-            $tableName,
-            $placeholders
-        );
-
-        $result = Db::fetchOne($sql, array_merge([$botType], array_values($idSites)));
-
-        return !empty($result);
-    }
-
-    /**
      * @return int[]
      */
     public function getDistinctIdSitesInTable(int $maxIdSite): array

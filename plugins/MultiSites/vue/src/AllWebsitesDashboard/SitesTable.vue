@@ -51,7 +51,9 @@
           </th>
 
           <th @click="sortBy('hits')"
-              :title="translate('MultiSites_MetricDocumentationHits')">
+              :title="translate(showAiChatbotsRequests && !isSegmented
+                ? 'MultiSites_MetricDocumentationHitsIncludingAi'
+                : 'MultiSites_MetricDocumentationHits')">
             <span
                 v-if="sortColumn === 'hits'"
                 :class="sortColumnClass"
