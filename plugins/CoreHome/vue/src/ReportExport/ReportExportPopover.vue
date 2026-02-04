@@ -265,12 +265,14 @@ export default defineComponent({
     reportFormat: {
       immediate: true,
       handler(newVal) {
-        if (this.isFormatWithoutExpanded(newVal)) {
-          this.optionFlat = true;
-          this.optionExpanded = false;
-        } else {
-          this.optionFlat = false;
-          this.optionExpanded = true;
+        if (this.hasSubtables) {
+          if (this.isFormatWithoutExpanded(newVal)) {
+            this.optionFlat = true;
+            this.optionExpanded = false;
+          } else {
+            this.optionFlat = false;
+            this.optionExpanded = true;
+          }
         }
       },
     },
