@@ -332,7 +332,7 @@ class Pdf extends ReportRenderer
         if (mb_strlen($text) <= $maxLength) {
             return $text;
         }
-        return mb_substr($text, 0, $maxLength) . '...';
+        return mb_substr($text, 0, $maxLength - 1) . '...';
     }
 
     /**
