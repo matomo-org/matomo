@@ -267,6 +267,10 @@ export default defineComponent({
       handler(newVal) {
         if (this.isFormatWithoutExpanded(newVal)) {
           this.optionFlat = true;
+          this.optionExpanded = false;
+        } else {
+          this.optionFlat = false;
+          this.optionExpanded = true;
         }
       },
     },
