@@ -25,7 +25,7 @@
         "PleaseFindBelow": "Please find below your %1$s report for %2$s.",
         "PluginDescription": "Create custom reports and schedule them to be emailed daily, weekly or monthly to one or several people. Several report formats are supported (html, pdf, csv, images).",
         "ReportFormat": "Report Format",
-        "ReportHourLocal": "Send report at %s (local time)",
+        "ReportHourLocal": "Send report at (local time)",
         "ReportHourWithUtcOnly": "%s UTC",
         "ReportIncludeNWebsites": "The report will include main metrics for all websites that have at least one visit (from the %s websites currently available).",
         "ReportSent": "Report sent",

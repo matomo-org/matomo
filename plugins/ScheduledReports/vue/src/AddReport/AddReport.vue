@@ -109,7 +109,7 @@
           name="report_hour"
           :model-value="report.hour"
           @update:model-value="$emit('change', { prop: 'hour', value: $event })"
-          :title="translate('ScheduledReports_ReportHourLocal', 'X')"
+          :title="translate('ScheduledReports_ReportHourLocal')"
           :options="reportHours"
         >
           <template v-slot:inline-help>
