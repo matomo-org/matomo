@@ -46,6 +46,7 @@ class ThemeStyles
         'colorBackgroundLowContrast' => 'theme-color-background-lowContrast',
         'colorBackgroundContrast' => 'theme-color-background-contrast',
         'colorBackgroundHighContrast' => 'theme-color-background-highContrast',
+        'colorBackgroundDisabled' => 'theme-color-background-disabled',
         'colorBorder' => 'theme-color-border',
         'colorBorderLight' => 'theme-color-border-light',
         'colorBoxShadow' => 'theme-color-boxShadow',
@@ -220,6 +221,11 @@ class ThemeStyles
      * @var string|array<string>
      */
     public $colorBackgroundHighContrast = ['#202020', '#000'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorBackgroundDisabled = ['#d9d9d9', '#303339'];
 
     /**
      * @var string|array<string>
