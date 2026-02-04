@@ -191,6 +191,7 @@ class PrivacyManagerTest extends IntegrationTestCase
                 'delete_reports_keep_day_reports'      => '',
                 'delete_reports_keep_week_reports'     => 1.0,
                 'delete_reports_keep_month_reports'    => false,
+                'delete_reports_keep_quarter_reports'  => '1',
                 'delete_reports_keep_year_reports'     => true,
                 'delete_reports_keep_range_reports'    => '1 ',
                 'delete_reports_keep_segment_reports'  => '0',
@@ -213,6 +214,7 @@ class PrivacyManagerTest extends IntegrationTestCase
                 'delete_reports_keep_day_reports'      => 0,
                 'delete_reports_keep_week_reports'     => 1,
                 'delete_reports_keep_month_reports'    => 0,
+                'delete_reports_keep_quarter_reports'  => 1,
                 'delete_reports_keep_year_reports'     => 1,
                 'delete_reports_keep_range_reports'    => 1,
                 'delete_reports_keep_segment_reports'  => 0,
@@ -246,6 +248,7 @@ class PrivacyManagerTest extends IntegrationTestCase
             'delete_reports_keep_year_reports' => 1,
             'delete_reports_keep_range_reports' => 0,
             'delete_reports_keep_segment_reports' => 0,
+            'delete_reports_keep_quarter_reports' => 1,
         );
         return $expected;
     }

@@ -165,7 +165,7 @@ class QuarterTest extends BasePeriodTest
     public function testGetParentPeriodLabel()
     {
         $quarter = new Quarter(Date::factory('2024-05-15'));
-        $this->assertNull($quarter->getParentPeriodLabel());
+        $this->assertSame('year', $quarter->getParentPeriodLabel());
     }
 
     /**

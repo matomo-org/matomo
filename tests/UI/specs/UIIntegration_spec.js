@@ -227,7 +227,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
           expect(await screenshotPageWrap()).to.matchImage('visitors_overview_quarter');
         });
-        
+
         it('should load the visitors > devices page correctly', async function () {
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=DevicesDetection_Devices");
             await page.waitForNetworkIdle();

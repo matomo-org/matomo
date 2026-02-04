@@ -243,7 +243,7 @@ class ArchiveCronTest extends SystemTestCase
 
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
         // there should be 4 invalidations (day, week, month, year) for ExamplePlugin
-        self::assertCount(4, $invalidationEntries);
+        self::assertCount(5, $invalidationEntries);
         self::assertEquals(['done.ExamplePlugin'], array_unique(array_column($invalidationEntries, 'name')));
 
         // empty the list so nothing is invalidated during core:archive (so we only archive ExamplePlugin and not all plugins)
