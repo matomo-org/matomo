@@ -27,14 +27,7 @@ describe('ReportExportPopover', function () {
       }
     }, format);
   }
-  async function clickOptionFlat() {
-    await page.evaluate(() => {
-      const input = document.querySelector('#reportExport input[name="option_flat"]');
-      if (input) {
-        input.click();
-      }
-    });
-  }
+
   it('should hide expanded option when CSV or TSV format is selected and show it for everything else', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
@@ -53,19 +46,12 @@ describe('ReportExportPopover', function () {
     const formatsToCheck = ['CSV', 'JSON', 'TSV', 'HTML', 'RSS', 'XML'];
     const formatsToHideExpanded = ['CSV', 'TSV'];
 
-    let retoggleFlat = false;
     for (const format of formatsToCheck) {
-      if (retoggleFlat) {
-        await clickOptionFlat();
-        await page.waitForTimeout(200);
-        retoggleFlat = false;
-      }
       await clickFormat(format);
       await page.waitForTimeout(200);
       const optionIsExpanded = await isOptionExpandSubtableVisible();
       if (formatsToHideExpanded.includes(format)) {
         expect(optionIsExpanded, `format ${format} should hide expanded option`).to.be.false;
-        retoggleFlat = true;
       } else {
         expect(optionIsExpanded, `format ${format} should show expanded option`).to.be.true;
       }
