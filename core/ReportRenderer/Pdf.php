@@ -51,7 +51,7 @@ class Pdf extends ReportRenderer
     private $bottomMargin = 17;
     private $reportWidthPortrait = 195;
     private $minWidthLabelCellPortrait = 80;
-    private $minWidthLabelCellPortraitShort = 65;
+    private $minWidthLabelCellPortraitShort = 45;
     private $logoWidth = 16;
     private $logoHeight = 16;
     private $totalWidth;
@@ -775,13 +775,14 @@ class Pdf extends ReportRenderer
 
         $additionalWidth = $requiredWidth - $currentWidth;
         $remainingWidthToGain = $additionalWidth;
+        $minMetricWidth = 10;
 
         $adjustableColumns = array();
         foreach ($this->columnCellWidths as $otherColumnId => $width) {
             if ($otherColumnId === 'label' || $otherColumnId === $columnId) {
                 continue;
             }
-            if ($width <= 0) {
+            if ($width <= $minMetricWidth) {
                 continue;
             }
             $adjustableColumns[$otherColumnId] = $width;
@@ -792,7 +793,11 @@ class Pdf extends ReportRenderer
             $updatedColumns = array();
 
             foreach ($adjustableColumns as $otherColumnId => $availableWidth) {
-                $reduction = min($availableWidth, $share);
+                $maxReducible = $availableWidth - $minMetricWidth;
+                if ($maxReducible <= 0) {
+                    continue;
+                }
+                $reduction = min($maxReducible, $share);
                 if ($reduction <= 0) {
                     continue;
                 }
@@ -800,7 +805,7 @@ class Pdf extends ReportRenderer
                 $remainingWidthToGain -= $reduction;
 
                 $newWidth = $availableWidth - $reduction;
-                if ($newWidth > 0 && $remainingWidthToGain > 0) {
+                if ($newWidth > $minMetricWidth && $remainingWidthToGain > 0) {
                     $updatedColumns[$otherColumnId] = $newWidth;
                 }
 
@@ -892,7 +897,7 @@ class Pdf extends ReportRenderer
             }
 
             $formattedLabel = $this->formatText($visibleLabel);
-            if ($this->TCPDF->getNumLines($formattedLabel, $this->labelCellWidth) > 1) {
+            if ($this->TCPDF->getNumLines($formattedLabel, $this->minWidthLabelCellPortraitShort) > 1) {
                 return false;
             }
         }
