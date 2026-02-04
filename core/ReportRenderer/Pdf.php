@@ -362,37 +362,26 @@ class Pdf extends ReportRenderer
             if (isset($rowMetadata['url'])) {
                 $url = $rowMetadata['url'];
             }
-            $rowHeight = $this->cellHeight;
             $metricsPaddingApplied = false;
             $previousCellPadding = null;
+            $labelState = $this->computeLabelRenderState($rowMetrics, $rowMetadata, $leftSpacesBeforeLogo, $url);
+            $labelText = $labelState['text'];
+            $rowHeight = $labelState['rowHeight'];
+            $maxHeight = $labelState['maxHeight'];
+            $verticalAlign = $labelState['verticalAlign'];
+            $shouldIncreaseLineHeight = $labelState['shouldIncreaseLineHeight'];
+            $isLogoDisplayable = $labelState['isLogoDisplayable'];
+            if ((float)$this->TCPDF->GetY() + $rowHeight > $this->TCPDF->getPageHeight() - $this->TCPDF->getBreakMargin()) {
+                $this->TCPDF->AddPage();
+                $this->paintReportTableHeader();
+            }
             foreach ($this->reportColumns as $columnId => $columnName) {
                 // Label column
                 if ($columnId == 'label') {
-                    $isLogoDisplayable = isset($rowMetadata['logo']);
-                    $text = '';
+                    $text = $labelText;
                     $posX = $this->TCPDF->GetX();
                     $posY = $this->TCPDF->GetY();
-                    if (isset($rowMetrics[$columnId])) {
-                        $text = trim($rowMetrics[$columnId]);
-                        $urlString = $this->isUrl($text);
-                        if (!$url && $urlString !== false) {
-                            $url = $urlString;
-                        }
-                        $text = $this->limitTextLength($text, $this->maxLabelCharacter);
-                        if ($isLogoDisplayable) {
-                            $text = $leftSpacesBeforeLogo . $text;
-                        }
-                    }
-                    $text = $this->formatText($text);
-                    $labelLineCount = $this->TCPDF->getNumLines($text, $this->labelCellWidth);
-                    $shouldIncreaseLineHeight = $isLogoDisplayable && $labelLineCount > 1;
-                    $previousCellHeightRatio = null;
-                    if ($shouldIncreaseLineHeight) {
-                        $previousCellHeightRatio = $this->TCPDF->getCellHeightRatio();
-                        $this->TCPDF->setCellHeightRatio($previousCellHeightRatio + 0.3);
-                    }
-                    $rowHeight = $this->getLabelRowHeight($text);
-                    $maxHeight = $this->getLabelRowMaxHeight($rowHeight);
+                    list($previousCellHeightRatio, $previousCellPaddingForLabel) = $this->applyLabelCellStyle($shouldIncreaseLineHeight);
                     $this->TCPDF->MultiCell(
                         $this->labelCellWidth,
                         $rowHeight,
@@ -408,11 +397,9 @@ class Pdf extends ReportRenderer
                         false,
                         true,
                         $maxHeight,
-                        'M'
+                        $verticalAlign
                     );
-                    if ($shouldIncreaseLineHeight) {
-                        $this->TCPDF->setCellHeightRatio($previousCellHeightRatio);
-                    }
+                    $this->restoreLabelCellStyle($shouldIncreaseLineHeight, $previousCellHeightRatio, $previousCellPaddingForLabel);
                     $this->renderLabelLinkAndLogo($url, $posX, $posY, $rowHeight, $rowMetadata, $isLogoDisplayable, $logoWidth, $logoHeight);
                 } else {
                     // metrics column
@@ -423,13 +410,7 @@ class Pdf extends ReportRenderer
                     }
                     $columnWidth = $this->getColumnWidth($columnId);
                     if (!$metricsPaddingApplied) {
-                        $previousCellPadding = $this->TCPDF->getCellPaddings();
-                        $this->TCPDF->setCellPaddings(
-                            $previousCellPadding['L'] + 1,
-                            $previousCellPadding['T'] + 1,
-                            $previousCellPadding['R'],
-                            $previousCellPadding['B']
-                        );
+                        $previousCellPadding = $this->applyCellPaddingOffset(1, 1);
                         $metricsPaddingApplied = true;
                     }
                     $this->TCPDF->Cell(
@@ -449,12 +430,7 @@ class Pdf extends ReportRenderer
                 }
             }
             if ($metricsPaddingApplied) {
-                $this->TCPDF->setCellPaddings(
-                    $previousCellPadding['L'],
-                    $previousCellPadding['T'],
-                    $previousCellPadding['R'],
-                    $previousCellPadding['B']
-                );
+                $this->restoreCellPaddingOffset($previousCellPadding);
             }
             $this->TCPDF->Ln();
 
@@ -466,6 +442,135 @@ class Pdf extends ReportRenderer
 
             $fill = !$fill;
         }
+    }
+
+    /**
+     * @param int $labelLineCount
+     * @return float
+     */
+    private function getExtraLineHeight(int $labelLineCount): float
+    {
+        $ratioDelta = $labelLineCount === 2 ? 0.1 : 0.3;
+        return $this->cellHeight * $ratioDelta * ($labelLineCount - 1);
+    }
+
+    /**
+     * @param array<string, mixed> $rowMetrics
+     * @param array<string, mixed> $rowMetadata
+     * @param string $leftSpacesBeforeLogo
+     * @param false|string $url
+     * @return array<string, mixed>
+     */
+    private function computeLabelRenderState(array $rowMetrics, array $rowMetadata, string $leftSpacesBeforeLogo, &$url): array
+    {
+        $isLogoDisplayable = isset($rowMetadata['logo']);
+        $labelText = '';
+        if (isset($rowMetrics['label'])) {
+            $labelText = trim($rowMetrics['label']);
+            $urlString = $this->isUrl($labelText);
+            if (!$url && $urlString !== false) {
+                $url = $urlString;
+            }
+            $labelText = $this->limitTextLength($labelText, $this->maxLabelCharacter);
+            if ($isLogoDisplayable) {
+                $labelText = $leftSpacesBeforeLogo . $labelText;
+            }
+        }
+        $labelText = $this->formatText($labelText);
+        $labelLineCount = $this->TCPDF->getNumLines($labelText, $this->labelCellWidth);
+        $shouldIncreaseLineHeight = $isLogoDisplayable && $labelLineCount > 1;
+
+        $previousCellHeightRatio = null;
+        if ($shouldIncreaseLineHeight) {
+            $previousCellHeightRatio = $this->TCPDF->getCellHeightRatio();
+            $this->TCPDF->setCellHeightRatio($previousCellHeightRatio + 0.3);
+        }
+        $rowHeight = $this->getLabelRowHeight($labelText);
+        if ($shouldIncreaseLineHeight) {
+            $rowHeight += $this->getExtraLineHeight($labelLineCount);
+            $this->TCPDF->setCellHeightRatio($previousCellHeightRatio);
+        }
+
+        $maxHeight = $shouldIncreaseLineHeight
+            ? $rowHeight
+            : $this->getLabelRowMaxHeight($rowHeight);
+        $verticalAlign = $shouldIncreaseLineHeight ? 'T' : 'M';
+
+        return array(
+            'text' => $labelText,
+            'rowHeight' => $rowHeight,
+            'maxHeight' => $maxHeight,
+            'verticalAlign' => $verticalAlign,
+            'shouldIncreaseLineHeight' => $shouldIncreaseLineHeight,
+            'isLogoDisplayable' => $isLogoDisplayable,
+        );
+    }
+
+    /**
+     * @param bool $shouldIncreaseLineHeight
+     * @return array{0: float|null, 1: array<string, float>|null}
+     */
+    private function applyLabelCellStyle(bool $shouldIncreaseLineHeight): array
+    {
+        if (!$shouldIncreaseLineHeight) {
+            return array(null, null);
+        }
+
+        $previousCellHeightRatio = $this->TCPDF->getCellHeightRatio();
+        $this->TCPDF->setCellHeightRatio($previousCellHeightRatio + 0.3);
+        $previousCellPaddingForLabel = $this->applyCellPaddingOffset();
+
+        return array($previousCellHeightRatio, $previousCellPaddingForLabel);
+    }
+
+    /**
+     * @param bool $shouldIncreaseLineHeight
+     * @param float|null $previousCellHeightRatio
+     * @param array<string, float>|null $previousCellPaddingForLabel
+     * @return void
+     */
+    private function restoreLabelCellStyle(
+        bool $shouldIncreaseLineHeight,
+        ?float $previousCellHeightRatio,
+        ?array $previousCellPaddingForLabel
+    ): void {
+        if (!$shouldIncreaseLineHeight || $previousCellHeightRatio === null || $previousCellPaddingForLabel === null) {
+            return;
+        }
+
+        $this->TCPDF->setCellHeightRatio($previousCellHeightRatio);
+        $this->restoreCellPaddingOffset($previousCellPaddingForLabel);
+    }
+
+    /**
+     * @param float $left
+     * @param float $top
+     * @return array|int[]
+     */
+    private function applyCellPaddingOffset(float $left = 0, float $top = 0.8): array
+    {
+        $previousCellPadding = $this->TCPDF->getCellPaddings();
+        $this->TCPDF->setCellPaddings(
+            $previousCellPadding['L'] + $left,
+            $previousCellPadding['T'] + $top,
+            $previousCellPadding['R'],
+            $previousCellPadding['B']
+        );
+        return $previousCellPadding;
+    }
+
+    /**
+     * @param array $previousCellPaddings
+     * @return void
+     */
+    private function restoreCellPaddingOffset(array $previousCellPaddings): void
+    {
+        $this->TCPDF->setCellPaddings(
+            $previousCellPaddings['L'],
+            $previousCellPaddings['T'],
+            $previousCellPaddings['R'],
+            $previousCellPaddings['B']
+        );
     }
 
     /**
