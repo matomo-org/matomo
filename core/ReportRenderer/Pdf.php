@@ -80,7 +80,6 @@ class Pdf extends ReportRenderer
     private $currentPage = 0;
     private $reportFont = ReportRenderer::DEFAULT_REPORT_FONT_FAMILY;
     private $TCPDF;
-    private $orientation = self::PORTRAIT;
     private $labelShortContentThreshold = 100;
     private $columnCellWidths = array();
     private $labelThirdLinePadding = 4;
@@ -238,8 +237,7 @@ class Pdf extends ReportRenderer
             $this->TCPDF->AddPage();
 
             // Scheduled reports should never switch to landscape layouts to keep a consistent portrait output
-            $this->orientation = self::PORTRAIT;
-            $this->TCPDF->setPageOrientation($this->orientation, '', $this->bottomMargin);
+            $this->TCPDF->setPageOrientation(self::PORTRAIT, '', $this->bottomMargin);
         }
 
         $title = $this->formatText($this->reportMetadata['name']);
@@ -805,7 +803,7 @@ class Pdf extends ReportRenderer
     {
         $imageGraph = parent::getStaticGraph(
             $this->reportMetadata,
-            $this->orientation == self::IMAGE_GRAPH_WIDTH_PORTRAIT,
+            self::IMAGE_GRAPH_WIDTH_PORTRAIT,
             self::IMAGE_GRAPH_HEIGHT,
             $this->evolutionGraph,
             $this->segment
