@@ -91,10 +91,12 @@ class Controller extends \Piwik\Plugin\Controller
         }
         if ($columns === 'ai_chatbots_requests') {
             $api             = 'BotTracking.get';
-            $_GET['columns'] = BotTrackingMetrics::METRIC_AI_ASSISTANTS_REQUESTS;
+            $columns = BotTrackingMetrics::METRIC_AI_ASSISTANTS_REQUESTS;
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
         $view->requestConfig->totals = 0;
+        $view->requestConfig->request_parameters_to_modify['columns'] = $columns;
+        $view->config->columns_to_display = [$columns];
         return $this->renderView($view);
     }
 
