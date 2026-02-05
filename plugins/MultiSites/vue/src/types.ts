@@ -41,7 +41,6 @@ export interface KPICardData {
   badge?: KPICardBadge | null;
   icon: string;
   title: string;
-  tooltipTitle?: string;
   tooltipBody?: string;
   value: string;
   valueCompact: string;

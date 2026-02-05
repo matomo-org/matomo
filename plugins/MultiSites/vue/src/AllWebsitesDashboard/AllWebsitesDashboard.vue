@@ -73,7 +73,7 @@
   <SitesTable
       :display-revenue="displayRevenue"
       :display-sparklines="displaySparklines"
-      :show-ai-chatbots-requests="showAiChatbotsRequests"
+      :show-ai-chatbots-requests="hasBotTrackingEnabled"
       :is-segmented="isSegmented"
   />
 </template>
@@ -159,9 +159,6 @@ export default defineComponent({
     isSegmented(): boolean {
       return !!MatomoUrl.parsed.value.segment;
     },
-    showAiChatbotsRequests(): boolean {
-      return this.hasBotTrackingEnabled;
-    },
     kpis(): KPICardData[] {
       const { dashboardKPIs } = DashboardStore.state.value;
       const { hasBotTrackingEnabled, isSegmented } = this;
@@ -212,7 +209,7 @@ export default defineComponent({
         badge: dashboardKPIs.badges?.hits || null,
         icon: 'icon-hits',
         title: 'MultiSites_TotalHits',
-        tooltipTitle: !isSegmented && hasBotTrackingEnabled
+        tooltipBody: !isSegmented && hasBotTrackingEnabled
           ? 'MultiSites_TotalHitsIncludingAiTooltip'
           : undefined,
         value: dashboardKPIs.hits,

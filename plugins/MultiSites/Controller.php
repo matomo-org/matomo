@@ -89,7 +89,7 @@ class Controller extends \Piwik\Plugin\Controller
         if ($columns === 'revenue') {
             $api = 'Goals.get';
         }
-        if ($columns === 'ai_chatbots_requests') {
+        if ($columns === 'ai_chatbots_requests' && Manager::getInstance()->isPluginActivated('BotTracking')) {
             $api             = 'BotTracking.get';
             $columns = BotTrackingMetrics::METRIC_AI_ASSISTANTS_REQUESTS;
         }

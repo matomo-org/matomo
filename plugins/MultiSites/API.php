@@ -301,7 +301,7 @@ class API extends \Piwik\Plugin\API
         $fieldsToGet = [];
         $columnNameRewrites = [];
         $apiECommerceMetrics = [];
-        $apiMetrics = API::getApiMetrics($enhanced);
+        $apiMetrics = API::getApiMetrics($enhanced, $segment);
         foreach ($apiMetrics as $metricName => $metricSettings) {
             if (!empty($showColumns) && !in_array($metricName, $showColumns)) {
                 unset($apiMetrics[$metricName]);
@@ -478,7 +478,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @ignore
      */
-    public static function getApiMetrics(bool $enhanced): array
+    public static function getApiMetrics(bool $enhanced, ?string $segment = null): array
     {
         $metrics = self::$baseMetrics;
 
@@ -499,7 +499,7 @@ class API extends \Piwik\Plugin\API
             ];
         }
 
-        if (Manager::getInstance()->isPluginActivated('BotTracking')) {
+        if (Manager::getInstance()->isPluginActivated('BotTracking') && empty($segment)) {
             $metrics[self::AI_CHATBOTS_REQUESTS_LABEL] = [
                 self::METRIC_TRANSLATION_KEY        => 'MultiSites_AiChatbotsRequests',
                 self::METRIC_EVOLUTION_COL_NAME_KEY => self::AI_CHATBOTS_REQUESTS_EVOLUTION_LABEL,

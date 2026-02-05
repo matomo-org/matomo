@@ -48,6 +48,8 @@ class Dashboard
     public function __construct(string $period, string $date, ?string $segment)
     {
         if (Period::isMultiplePeriod($date, $period)) {
+            // requesting a multi period would result in a DataTable/Map, which below code can't handle
+            // so throw a proper exception instead of running into PHP errors
             throw new \Exception('Multiple periods are not supported');
         }
 

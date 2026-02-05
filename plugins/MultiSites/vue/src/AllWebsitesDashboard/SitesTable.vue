@@ -211,9 +211,6 @@ export default defineComponent({
     isSegmented() {
       this.ensureEvolutionSelectorIsValid();
     },
-    showAiChatbotsRequests() {
-      this.ensureEvolutionSelectorIsValid();
-    },
   },
   computed: {
     errorLoading(): boolean {
