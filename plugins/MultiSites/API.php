@@ -684,23 +684,18 @@ class API extends \Piwik\Plugin\API
      */
     private function addAiChatbotsRequestsToHits(DataTableInterface $table): void
     {
-        if ($table instanceof Map) {
-            foreach ($table->getDataTables() as $subTable) {
-                $this->addAiChatbotsRequestsToHits($subTable);
+        $table->filter(function (DataTable $dataTable) {
+            foreach ($dataTable->getRows() as $row) {
+                $hits       = $row->getColumn(self::NB_HITS_LABEL);
+                $aiRequests = $row->getColumn(self::AI_CHATBOTS_REQUESTS_LABEL);
+
+                if (!is_numeric($hits) || !is_numeric($aiRequests)) {
+                    continue;
+                }
+
+                $row->setColumn(self::NB_HITS_LABEL, $hits + $aiRequests);
             }
-            return;
-        }
-
-        foreach ($table->getRows() as $row) {
-            $hits = $row->getColumn(self::NB_HITS_LABEL);
-            $aiRequests = $row->getColumn(self::AI_CHATBOTS_REQUESTS_LABEL);
-
-            if (!is_numeric($hits) || !is_numeric($aiRequests)) {
-                continue;
-            }
-
-            $row->setColumn(self::NB_HITS_LABEL, $hits + $aiRequests);
-        }
+        });
     }
 
     private function populateLabel(DataTableInterface $dataTable): void
