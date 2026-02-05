@@ -30,8 +30,6 @@ class Dashboard
     /** @var int */
     private $numSites = 0;
 
-    /** @var bool */
-
     /**
      * Array of metrics that will be displayed and will be number formatted
      * @var array<string>
