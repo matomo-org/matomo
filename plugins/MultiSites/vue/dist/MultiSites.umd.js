@@ -139,7 +139,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=bb361758
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=2d9085e7
 
 const _hoisted_1 = {
   class: "dashboardHeader"
@@ -211,7 +211,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "is-segmented": _ctx.isSegmented
   }, null, 8, ["display-revenue", "display-sparklines", "show-ai-chatbots-requests", "is-segmented"])], 64);
 }
-// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=bb361758
+// CONCATENATED MODULE: ./plugins/MultiSites/vue/src/AllWebsitesDashboard/AllWebsitesDashboard.vue?vue&type=template&id=2d9085e7
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -1184,7 +1184,7 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_2794ef
       return this.hasBotTrackingEnabled;
     },
     kpis() {
-      var _dashboardKPIs$badges, _dashboardKPIs$badges2, _dashboardKPIs$badges3;
+      var _dashboardKPIs$badges, _dashboardKPIs$badges2, _dashboardKPIs$badges4;
       const {
         dashboardKPIs
       } = AllWebsitesDashboard_store.state.value;
@@ -1212,11 +1212,12 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_2794ef
         evolutionValue: dashboardKPIs.pageviewsEvolution
       }];
       if (hasBotTrackingEnabled) {
+        var _dashboardKPIs$badges3;
         kpis.push({
           badge: isSegmented ? {
             label: Object(external_CoreHome_["translate"])('MultiSites_SegmentationNotSupported'),
             title: Object(external_CoreHome_["translate"])('MultiSites_AiChatbotsSegmentationTooltip')
-          } : null,
+          } : (_dashboardKPIs$badges3 = dashboardKPIs.badges) === null || _dashboardKPIs$badges3 === void 0 ? void 0 : _dashboardKPIs$badges3.aiChatbotsRequests,
           icon: 'icon-admin-platform',
           title: 'MultiSites_TotalAiChatbotsRequests',
           tooltipBody: isSegmented ? 'MultiSites_AiChatbotsSegmentationTooltip' : undefined,
@@ -1228,7 +1229,7 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_2794ef
         });
       }
       kpis.push({
-        badge: ((_dashboardKPIs$badges3 = dashboardKPIs.badges) === null || _dashboardKPIs$badges3 === void 0 ? void 0 : _dashboardKPIs$badges3.hits) || null,
+        badge: ((_dashboardKPIs$badges4 = dashboardKPIs.badges) === null || _dashboardKPIs$badges4 === void 0 ? void 0 : _dashboardKPIs$badges4.hits) || null,
         icon: 'icon-hits',
         title: 'MultiSites_TotalHits',
         tooltipTitle: !isSegmented && hasBotTrackingEnabled ? 'MultiSites_TotalHitsIncludingAiTooltip' : undefined,
@@ -1239,9 +1240,9 @@ SitesTablevue_type_script_lang_ts.render = SitesTablevue_type_template_id_2794ef
         evolutionValue: dashboardKPIs.hitsEvolution
       });
       if (this.displayRevenue) {
-        var _dashboardKPIs$badges4;
+        var _dashboardKPIs$badges5;
         kpis.push({
-          badge: ((_dashboardKPIs$badges4 = dashboardKPIs.badges) === null || _dashboardKPIs$badges4 === void 0 ? void 0 : _dashboardKPIs$badges4.revenue) || null,
+          badge: ((_dashboardKPIs$badges5 = dashboardKPIs.badges) === null || _dashboardKPIs$badges5 === void 0 ? void 0 : _dashboardKPIs$badges5.revenue) || null,
           icon: 'icon-dollar-sign',
           title: 'General_TotalRevenue',
           value: dashboardKPIs.revenue,

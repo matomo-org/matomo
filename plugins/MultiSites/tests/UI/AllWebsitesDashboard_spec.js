@@ -129,6 +129,9 @@ describe('AllWebsitesDashboard', function () {
                   data.kpis.badges.pageviews = {
                     "label": "Weird Pageview Badge"
                   };
+                  data.kpis.badges.aiChatbotsRequests = {
+                    "label": "Yet another badge!"
+                  };
                   data.kpis.badges.revenue = {
                     "label": "Help!"
                   };

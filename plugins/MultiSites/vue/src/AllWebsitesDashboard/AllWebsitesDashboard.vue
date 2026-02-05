@@ -196,7 +196,7 @@ export default defineComponent({
               label: translate('MultiSites_SegmentationNotSupported'),
               title: translate('MultiSites_AiChatbotsSegmentationTooltip'),
             }
-            : null,
+            : dashboardKPIs.badges?.aiChatbotsRequests,
           icon: 'icon-admin-platform',
           title: 'MultiSites_TotalAiChatbotsRequests',
           tooltipBody: isSegmented ? 'MultiSites_AiChatbotsSegmentationTooltip' : undefined,
