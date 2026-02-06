@@ -142,7 +142,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=771bb7ba
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=67ea971d
 
 const _hoisted_1 = {
   key: 0,
@@ -185,7 +185,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.visitorLogUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, _hoisted_9)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=771bb7ba
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=67ea971d
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -213,7 +213,8 @@ const MAX_ROWS = 10;
       isStoppedByBlur: false,
       currentInterval: 0,
       updateInterval: null,
-      isInitialLoading: true
+      isInitialLoading: true,
+      visibilityListenerId: null
     };
   },
   computed: {
@@ -236,6 +237,7 @@ const MAX_ROWS = 10;
   beforeUnmount() {
     this.clearUpdate();
     this.teardownListInteractions();
+    this.teardownVisibilityHandling();
   },
   methods: {
     getBaseInterval() {
@@ -413,7 +415,7 @@ const MAX_ROWS = 10;
         if (visitId) {
           const existing = list.querySelector(`#${visitId}`);
           if (existing) {
-            if (existing.innerHTML !== item.innerHTML) {
+            if (existing.getAttribute('data-hash') !== item.getAttribute('data-hash')) {
               updated = true;
             }
             existing.remove();
@@ -467,8 +469,21 @@ const MAX_ROWS = 10;
         window.broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
         return false;
       });
+      const visits = $list.find('li.visit');
+      visits.tooltip({
+        items: '.visitorLogIconWithDetails',
+        track: true,
+        show: {
+          delay: 100,
+          duration: 0
+        },
+        hide: false,
+        content() {
+          return $('<ul>').html($('ul', $(this)).html());
+        },
+        tooltipClass: 'small'
+      });
       $list.tooltip({
-        items: '.visits-live-launch-visitor-profile',
         track: true,
         content() {
           const title = $(this).attr('title') || '';
@@ -480,24 +495,14 @@ const MAX_ROWS = 10;
         },
         hide: false
       });
-      const visits = $list.find('li.visit');
-      visits.tooltip({
-        items: '.visitorLogIconWithDetails',
-        track: true,
-        show: false,
-        hide: false,
-        content() {
-          return $('<ul>').html($('ul', $(this)).html());
-        },
-        tooltipClass: 'small'
-      });
     },
     setupVisibilityHandling() {
       const visibility = window.Visibility;
       if (!visibility || !visibility.isSupported || !visibility.isSupported()) {
         return;
       }
-      visibility.change(() => {
+      this.teardownVisibilityHandling();
+      this.visibilityListenerId = visibility.change(() => {
         if (visibility.hidden()) {
           this.onTabBlur();
         } else {
@@ -505,18 +510,30 @@ const MAX_ROWS = 10;
         }
       });
     },
+    teardownVisibilityHandling() {
+      const visibility = window.Visibility;
+      if (!visibility || typeof this.visibilityListenerId !== 'number') {
+        return;
+      }
+      visibility.unbind(this.visibilityListenerId);
+      this.visibilityListenerId = null;
+    },
     teardownListInteractions() {
       const $list = this.getVisitsList();
       if (!$list) {
         return;
       }
-      const tooltipElements = $list.find('li.visit .visitorLogIconWithDetails, .visits-live-launch-visitor-profile');
-      tooltipElements.each(function clearExisting() {
-        const visit = $(this);
-        if (visit.data('ui-tooltip')) {
-          visit.tooltip('destroy');
-        }
-      });
+      $list.off('click.liveWidgetProfile', '.visits-live-launch-visitor-profile');
+      try {
+        $('li.visit', $list).tooltip('destroy');
+      } catch (e) {
+        // ignore
+      }
+      try {
+        $list.tooltip('destroy');
+      } catch (e) {
+        // ignore
+      }
     },
     onTabBlur() {
       if (this.isStarted) {
