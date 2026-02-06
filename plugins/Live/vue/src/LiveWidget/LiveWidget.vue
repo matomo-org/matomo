@@ -64,7 +64,6 @@ const { $ } = window;
 const DEFAULT_INTERVAL_MS = 3000;
 const MAX_INTERVAL_MS = 300000;
 const MAX_ROWS = 10;
-const TOOLTIP_DELAY_MS = 50;
 
 export default defineComponent({
   props: {
@@ -105,8 +104,7 @@ export default defineComponent({
   },
   beforeUnmount() {
     this.clearUpdate();
-    this.destroyProfileInteractions();
-    this.clearTooltips();
+    this.teardownListInteractions();
   },
   methods: {
     getBaseInterval(): number {
@@ -204,10 +202,7 @@ export default defineComponent({
 
       root.appendChild(visitsList);
       Matomo.helper.compileVueEntryComponents(root);
-      this.setupProfileInteractions();
-      window.setTimeout(() => {
-        this.initTooltips();
-      }, TOOLTIP_DELAY_MS);
+      this.setupListInteractions();
 
       return true;
     },
@@ -283,10 +278,7 @@ export default defineComponent({
 
           root.innerHTML = `${totalHtml || ''}${visitsHtml || ''}`;
           Matomo.helper.compileVueEntryComponents(root);
-          this.setupProfileInteractions();
-          window.setTimeout(() => {
-            this.initTooltips();
-          }, TOOLTIP_DELAY_MS);
+          this.setupListInteractions();
         })
         .catch(() => {
           // ignore initial errors, refresh loop will retry
@@ -314,7 +306,7 @@ export default defineComponent({
         return false;
       }
 
-      this.clearTooltips();
+      this.teardownListInteractions();
 
       let updated = false;
       for (let i = items.length - 1; i >= 0; i -= 1) {
@@ -342,7 +334,7 @@ export default defineComponent({
         visits[i].remove();
       }
 
-      this.initTooltips();
+      this.setupListInteractions();
 
       return updated;
     },
@@ -353,45 +345,56 @@ export default defineComponent({
         item.classList.remove('live-widget-fade-in');
       }, { once: true });
     },
-    clearTooltips() {
+    getVisitsList() {
       if (!$) {
-        return;
+        return null;
       }
 
       const root = this.$refs.root as HTMLElement | undefined;
       if (!root) {
-        return;
+        return null;
       }
 
       const list = root.querySelector('#visitsLive');
       if (!list) {
-        return;
+        return null;
       }
 
-      const visits = $(list).find('li.visit .visitorLogIconWithDetails');
-      visits.each(function clearExisting() {
-        const visit = $(this);
-        if (visit.data('ui-tooltip')) {
-          visit.tooltip('destroy');
-        }
-      });
+      return $(list);
     },
-    initTooltips() {
-      if (!$) {
+    setupListInteractions() {
+      const $list = this.getVisitsList();
+      if (!$list) {
         return;
       }
 
-      const root = this.$refs.root as HTMLElement | undefined;
-      if (!root) {
-        return;
-      }
+      this.teardownListInteractions();
 
-      const list = root.querySelector('#visitsLive');
-      if (!list) {
-        return;
-      }
+      $list.on(
+        'click.liveWidgetProfile',
+        '.visits-live-launch-visitor-profile',
+        function onClickLaunchProfile(this: HTMLElement, e: Event) {
+          e.preventDefault();
+          window.broadcast.propagateNewPopoverParameter(
+            'visitorProfile',
+            $(this).attr('data-visitor-id'),
+          );
+          return false;
+        },
+      );
 
-      const visits = $(list).find('li.visit');
+      $list.tooltip({
+        items: '.visits-live-launch-visitor-profile',
+        track: true,
+        content() {
+          const title = $(this).attr('title') || '';
+          return window.vueSanitize(title.replace(/\n/g, '<br />'));
+        },
+        show: { delay: 100, duration: 0 },
+        hide: false,
+      });
+
+      const visits = $list.find('li.visit');
       visits.tooltip({
         items: '.visitorLogIconWithDetails',
         track: true,
@@ -423,74 +426,19 @@ export default defineComponent({
         }
       });
     },
-    setupProfileInteractions() {
-      if (!$) {
+    teardownListInteractions() {
+      const $list = this.getVisitsList();
+      if (!$list) {
         return;
       }
 
-      const root = this.$refs.root as HTMLElement | undefined;
-      if (!root) {
-        return;
-      }
-
-      const list = root.querySelector('#visitsLive');
-      if (!list) {
-        return;
-      }
-
-      const $list = $(list);
-      $list.off('click.liveWidgetProfile').on(
-        'click.liveWidgetProfile',
-        '.visits-live-launch-visitor-profile',
-        function onClickLaunchProfile(this: HTMLElement, e: Event) {
-          e.preventDefault();
-          window.broadcast.propagateNewPopoverParameter(
-            'visitorProfile',
-            $(this).attr('data-visitor-id'),
-          );
-          return false;
-        },
-      );
-
-      try {
-        $list.tooltip('destroy');
-      } catch (error) {
-        // ignore if tooltip was not initialized yet
-      }
-
-      $list.tooltip({
-        items: '.visits-live-launch-visitor-profile',
-        track: true,
-        content() {
-          const title = $(this).attr('title') || '';
-          return window.vueSanitize(title.replace(/\n/g, '<br />'));
-        },
-        show: { delay: 100, duration: 0 },
-        hide: false,
+      const tooltipElements = $list.find('li.visit .visitorLogIconWithDetails, .visits-live-launch-visitor-profile');
+      tooltipElements.each(function clearExisting() {
+        const visit = $(this);
+        if (visit.data('ui-tooltip')) {
+          visit.tooltip('destroy');
+        }
       });
-    },
-    destroyProfileInteractions() {
-      if (!$) {
-        return;
-      }
-
-      const root = this.$refs.root as HTMLElement | undefined;
-      if (!root) {
-        return;
-      }
-
-      const list = root.querySelector('#visitsLive');
-      if (!list) {
-        return;
-      }
-
-      const $list = $(list);
-      $list.off('click.liveWidgetProfile');
-      try {
-        $list.tooltip('destroy');
-      } catch (error) {
-        // ignore if tooltip was not initialized
-      }
     },
     onTabBlur() {
       if (this.isStarted) {

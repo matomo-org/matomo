@@ -142,7 +142,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=cb658e54
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=771bb7ba
 
 const _hoisted_1 = {
   key: 0,
@@ -185,7 +185,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.visitorLogUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, _hoisted_9)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=cb658e54
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=771bb7ba
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -199,7 +199,6 @@ const {
 const DEFAULT_INTERVAL_MS = 3000;
 const MAX_INTERVAL_MS = 300000;
 const MAX_ROWS = 10;
-const TOOLTIP_DELAY_MS = 50;
 /* harmony default export */ var LiveWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     liveRefreshAfterMs: Number,
@@ -236,8 +235,7 @@ const TOOLTIP_DELAY_MS = 50;
   },
   beforeUnmount() {
     this.clearUpdate();
-    this.destroyProfileInteractions();
-    this.clearTooltips();
+    this.teardownListInteractions();
   },
   methods: {
     getBaseInterval() {
@@ -324,10 +322,7 @@ const TOOLTIP_DELAY_MS = 50;
       }
       root.appendChild(visitsList);
       external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
-      this.setupProfileInteractions();
-      window.setTimeout(() => {
-        this.initTooltips();
-      }, TOOLTIP_DELAY_MS);
+      this.setupListInteractions();
       return true;
     },
     refreshTotalVisitors(segment) {
@@ -387,10 +382,7 @@ const TOOLTIP_DELAY_MS = 50;
         }
         root.innerHTML = `${totalHtml || ''}${visitsHtml || ''}`;
         external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
-        this.setupProfileInteractions();
-        window.setTimeout(() => {
-          this.initTooltips();
-        }, TOOLTIP_DELAY_MS);
+        this.setupListInteractions();
       }).catch(() => {
         // ignore initial errors, refresh loop will retry
       }).finally(() => {
@@ -413,7 +405,7 @@ const TOOLTIP_DELAY_MS = 50;
       if (!items.length) {
         return false;
       }
-      this.clearTooltips();
+      this.teardownListInteractions();
       let updated = false;
       for (let i = items.length - 1; i >= 0; i -= 1) {
         const item = items[i];
@@ -438,7 +430,7 @@ const TOOLTIP_DELAY_MS = 50;
       for (let i = visits.length - 1; i >= MAX_ROWS; i -= 1) {
         visits[i].remove();
       }
-      this.initTooltips();
+      this.setupListInteractions();
       return updated;
     },
     fadeIn(item) {
@@ -450,39 +442,45 @@ const TOOLTIP_DELAY_MS = 50;
         once: true
       });
     },
-    clearTooltips() {
+    getVisitsList() {
       if (!$) {
-        return;
+        return null;
       }
       const root = this.$refs.root;
       if (!root) {
-        return;
+        return null;
       }
       const list = root.querySelector('#visitsLive');
       if (!list) {
-        return;
+        return null;
       }
-      const visits = $(list).find('li.visit .visitorLogIconWithDetails');
-      visits.each(function clearExisting() {
-        const visit = $(this);
-        if (visit.data('ui-tooltip')) {
-          visit.tooltip('destroy');
-        }
-      });
+      return $(list);
     },
-    initTooltips() {
-      if (!$) {
+    setupListInteractions() {
+      const $list = this.getVisitsList();
+      if (!$list) {
         return;
       }
-      const root = this.$refs.root;
-      if (!root) {
-        return;
-      }
-      const list = root.querySelector('#visitsLive');
-      if (!list) {
-        return;
-      }
-      const visits = $(list).find('li.visit');
+      this.teardownListInteractions();
+      $list.on('click.liveWidgetProfile', '.visits-live-launch-visitor-profile', function onClickLaunchProfile(e) {
+        e.preventDefault();
+        window.broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
+        return false;
+      });
+      $list.tooltip({
+        items: '.visits-live-launch-visitor-profile',
+        track: true,
+        content() {
+          const title = $(this).attr('title') || '';
+          return window.vueSanitize(title.replace(/\n/g, '<br />'));
+        },
+        show: {
+          delay: 100,
+          duration: 0
+        },
+        hide: false
+      });
+      const visits = $list.find('li.visit');
       visits.tooltip({
         items: '.visitorLogIconWithDetails',
         track: true,
@@ -507,62 +505,18 @@ const TOOLTIP_DELAY_MS = 50;
         }
       });
     },
-    setupProfileInteractions() {
-      if (!$) {
+    teardownListInteractions() {
+      const $list = this.getVisitsList();
+      if (!$list) {
         return;
       }
-      const root = this.$refs.root;
-      if (!root) {
-        return;
-      }
-      const list = root.querySelector('#visitsLive');
-      if (!list) {
-        return;
-      }
-      const $list = $(list);
-      $list.off('click.liveWidgetProfile').on('click.liveWidgetProfile', '.visits-live-launch-visitor-profile', function onClickLaunchProfile(e) {
-        e.preventDefault();
-        window.broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
-        return false;
+      const tooltipElements = $list.find('li.visit .visitorLogIconWithDetails, .visits-live-launch-visitor-profile');
+      tooltipElements.each(function clearExisting() {
+        const visit = $(this);
+        if (visit.data('ui-tooltip')) {
+          visit.tooltip('destroy');
+        }
       });
-      try {
-        $list.tooltip('destroy');
-      } catch (error) {
-        // ignore if tooltip was not initialized yet
-      }
-      $list.tooltip({
-        items: '.visits-live-launch-visitor-profile',
-        track: true,
-        content() {
-          const title = $(this).attr('title') || '';
-          return window.vueSanitize(title.replace(/\n/g, '<br />'));
-        },
-        show: {
-          delay: 100,
-          duration: 0
-        },
-        hide: false
-      });
-    },
-    destroyProfileInteractions() {
-      if (!$) {
-        return;
-      }
-      const root = this.$refs.root;
-      if (!root) {
-        return;
-      }
-      const list = root.querySelector('#visitsLive');
-      if (!list) {
-        return;
-      }
-      const $list = $(list);
-      $list.off('click.liveWidgetProfile');
-      try {
-        $list.tooltip('destroy');
-      } catch (error) {
-        // ignore if tooltip was not initialized
-      }
     },
     onTabBlur() {
       if (this.isStarted) {
