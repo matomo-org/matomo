@@ -4,7 +4,7 @@
 {% if error is not empty %}
 <div vue-entry="CoreHome.Alert" severity="danger">{{ error }}</div>
 {% else %}
-<ul id="visitsLive" vue-directive="Live.LastVisits">
+<ul id="visitsLive">
     {% for visitor in visitors.getRows() %}
         <li id="{{ visitor.getColumn('idVisit') }}" class="visit">
             <div style="display:none;" class="idvisit">{{ visitor.idVisit }}</div>

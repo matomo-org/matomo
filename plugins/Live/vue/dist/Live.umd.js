@@ -122,7 +122,6 @@ __webpack_require__.d(__webpack_exports__, "LiveWidget", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "TotalVisitors", function() { return /* reexport */ TotalVisitors; });
 __webpack_require__.d(__webpack_exports__, "LivePage", function() { return /* reexport */ LivePage; });
 __webpack_require__.d(__webpack_exports__, "IndexHeader", function() { return /* reexport */ IndexHeader; });
-__webpack_require__.d(__webpack_exports__, "LastVisits", function() { return /* reexport */ LastVisits; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -143,7 +142,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=d1748510
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=cb658e54
 
 const _hoisted_1 = {
   key: 0,
@@ -186,7 +185,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.visitorLogUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, _hoisted_9)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=d1748510
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=cb658e54
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -237,6 +236,8 @@ const TOOLTIP_DELAY_MS = 50;
   },
   beforeUnmount() {
     this.clearUpdate();
+    this.destroyProfileInteractions();
+    this.clearTooltips();
   },
   methods: {
     getBaseInterval() {
@@ -323,6 +324,7 @@ const TOOLTIP_DELAY_MS = 50;
       }
       root.appendChild(visitsList);
       external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
+      this.setupProfileInteractions();
       window.setTimeout(() => {
         this.initTooltips();
       }, TOOLTIP_DELAY_MS);
@@ -385,6 +387,7 @@ const TOOLTIP_DELAY_MS = 50;
         }
         root.innerHTML = `${totalHtml || ''}${visitsHtml || ''}`;
         external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
+        this.setupProfileInteractions();
         window.setTimeout(() => {
           this.initTooltips();
         }, TOOLTIP_DELAY_MS);
@@ -503,6 +506,63 @@ const TOOLTIP_DELAY_MS = 50;
           this.onTabFocus();
         }
       });
+    },
+    setupProfileInteractions() {
+      if (!$) {
+        return;
+      }
+      const root = this.$refs.root;
+      if (!root) {
+        return;
+      }
+      const list = root.querySelector('#visitsLive');
+      if (!list) {
+        return;
+      }
+      const $list = $(list);
+      $list.off('click.liveWidgetProfile').on('click.liveWidgetProfile', '.visits-live-launch-visitor-profile', function onClickLaunchProfile(e) {
+        e.preventDefault();
+        window.broadcast.propagateNewPopoverParameter('visitorProfile', $(this).attr('data-visitor-id'));
+        return false;
+      });
+      try {
+        $list.tooltip('destroy');
+      } catch (error) {
+        // ignore if tooltip was not initialized yet
+      }
+      $list.tooltip({
+        items: '.visits-live-launch-visitor-profile',
+        track: true,
+        content() {
+          const title = $(this).attr('title') || '';
+          return window.vueSanitize(title.replace(/\n/g, '<br />'));
+        },
+        show: {
+          delay: 100,
+          duration: 0
+        },
+        hide: false
+      });
+    },
+    destroyProfileInteractions() {
+      if (!$) {
+        return;
+      }
+      const root = this.$refs.root;
+      if (!root) {
+        return;
+      }
+      const list = root.querySelector('#visitsLive');
+      if (!list) {
+        return;
+      }
+      const $list = $(list);
+      $list.off('click.liveWidgetProfile');
+      try {
+        $list.tooltip('destroy');
+      } catch (error) {
+        // ignore if tooltip was not initialized
+      }
     },
     onTabBlur() {
       if (this.isStarted) {
@@ -690,36 +750,6 @@ function IndexHeadervue_type_template_id_e270701e_render(_ctx, _cache, $props, $
 IndexHeadervue_type_script_lang_ts.render = IndexHeadervue_type_template_id_e270701e_render
 
 /* harmony default export */ var IndexHeader = (IndexHeadervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LastVisits/LastVisits.ts
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link    https://matomo.org
- * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
-const {
-  $: LastVisits_$
-} = window;
-/* harmony default export */ var LastVisits = ({
-  mounted(el) {
-    LastVisits_$(el).off('click').on('click', '.visits-live-launch-visitor-profile', function onClickLaunchProfile(e) {
-      e.preventDefault();
-      window.broadcast.propagateNewPopoverParameter('visitorProfile', LastVisits_$(this).attr('data-visitor-id'));
-      return false;
-    }).tooltip({
-      track: true,
-      content() {
-        const title = LastVisits_$(this).attr('title') || '';
-        return window.vueSanitize(title.replace(/\n/g, '<br />'));
-      },
-      show: {
-        delay: 100,
-        duration: 0
-      },
-      hide: false
-    });
-  }
-});
 // CONCATENATED MODULE: ./plugins/Live/vue/src/index.ts
 /*!
  * Matomo - free/libre analytics platform
@@ -727,7 +757,6 @@ const {
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-
 
 
 

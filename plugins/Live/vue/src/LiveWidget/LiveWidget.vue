@@ -105,6 +105,8 @@ export default defineComponent({
   },
   beforeUnmount() {
     this.clearUpdate();
+    this.destroyProfileInteractions();
+    this.clearTooltips();
   },
   methods: {
     getBaseInterval(): number {
@@ -202,6 +204,7 @@ export default defineComponent({
 
       root.appendChild(visitsList);
       Matomo.helper.compileVueEntryComponents(root);
+      this.setupProfileInteractions();
       window.setTimeout(() => {
         this.initTooltips();
       }, TOOLTIP_DELAY_MS);
@@ -280,6 +283,7 @@ export default defineComponent({
 
           root.innerHTML = `${totalHtml || ''}${visitsHtml || ''}`;
           Matomo.helper.compileVueEntryComponents(root);
+          this.setupProfileInteractions();
           window.setTimeout(() => {
             this.initTooltips();
           }, TOOLTIP_DELAY_MS);
@@ -418,6 +422,75 @@ export default defineComponent({
           this.onTabFocus();
         }
       });
+    },
+    setupProfileInteractions() {
+      if (!$) {
+        return;
+      }
+
+      const root = this.$refs.root as HTMLElement | undefined;
+      if (!root) {
+        return;
+      }
+
+      const list = root.querySelector('#visitsLive');
+      if (!list) {
+        return;
+      }
+
+      const $list = $(list);
+      $list.off('click.liveWidgetProfile').on(
+        'click.liveWidgetProfile',
+        '.visits-live-launch-visitor-profile',
+        function onClickLaunchProfile(this: HTMLElement, e: Event) {
+          e.preventDefault();
+          window.broadcast.propagateNewPopoverParameter(
+            'visitorProfile',
+            $(this).attr('data-visitor-id'),
+          );
+          return false;
+        },
+      );
+
+      try {
+        $list.tooltip('destroy');
+      } catch (error) {
+        // ignore if tooltip was not initialized yet
+      }
+
+      $list.tooltip({
+        items: '.visits-live-launch-visitor-profile',
+        track: true,
+        content() {
+          const title = $(this).attr('title') || '';
+          return window.vueSanitize(title.replace(/\n/g, '<br />'));
+        },
+        show: { delay: 100, duration: 0 },
+        hide: false,
+      });
+    },
+    destroyProfileInteractions() {
+      if (!$) {
+        return;
+      }
+
+      const root = this.$refs.root as HTMLElement | undefined;
+      if (!root) {
+        return;
+      }
+
+      const list = root.querySelector('#visitsLive');
+      if (!list) {
+        return;
+      }
+
+      const $list = $(list);
+      $list.off('click.liveWidgetProfile');
+      try {
+        $list.tooltip('destroy');
+      } catch (error) {
+        // ignore if tooltip was not initialized
+      }
     },
     onTabBlur() {
       if (this.isStarted) {
