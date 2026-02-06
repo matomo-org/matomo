@@ -120,6 +120,7 @@ __webpack_require__.r(__webpack_exports__);
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, "LiveWidget", function() { return /* reexport */ LiveWidget; });
 __webpack_require__.d(__webpack_exports__, "AutoRefreshWidget", function() { return /* reexport */ AutoRefreshWidget; });
+__webpack_require__.d(__webpack_exports__, "SimpleRealtimeVisitorWidget", function() { return /* reexport */ SimpleRealtimeVisitorWidget; });
 __webpack_require__.d(__webpack_exports__, "TotalVisitors", function() { return /* reexport */ TotalVisitors; });
 __webpack_require__.d(__webpack_exports__, "LivePage", function() { return /* reexport */ LivePage; });
 __webpack_require__.d(__webpack_exports__, "IndexHeader", function() { return /* reexport */ IndexHeader; });
@@ -759,6 +760,177 @@ function AutoRefreshWidgetvue_type_template_id_322550ac_render(_ctx, _cache, $pr
 AutoRefreshWidgetvue_type_script_lang_ts.render = AutoRefreshWidgetvue_type_template_id_322550ac_render
 
 /* harmony default export */ var AutoRefreshWidget = (AutoRefreshWidgetvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue?vue&type=template&id=3253b5ec
+
+const SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_1 = {
+  class: "simple-realtime-visitor-widget"
+};
+const SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_2 = ["title"];
+const SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_4 = {
+  key: 0,
+  class: "alert alert-danger"
+};
+const SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_5 = ["innerHTML"];
+function SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    class: "simple-realtime-visitor-counter",
+    title: _ctx.visitorsTooltip
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.visitorsCount), 1)], 8, SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_2), SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_3, _ctx.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.error), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    class: "simple-realtime-elaboration",
+    innerHTML: _ctx.$sanitize(_ctx.messageHtml)
+  }, null, 8, SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_hoisted_5)]);
+}
+// CONCATENATED MODULE: ./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue?vue&type=template&id=3253b5ec
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue?vue&type=script&lang=ts
+
+
+const DEFAULT_LAST_MINUTES = 3;
+const DEFAULT_REFRESH_AFTER_SECS = 3;
+/* harmony default export */ var SimpleRealtimeVisitorWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    lastMinutes: Number,
+    refreshAfterXSecs: Number
+  },
+  data() {
+    return {
+      visitorsCount: '-',
+      visitsCount: '-',
+      actionsCount: '-',
+      error: '',
+      refreshTimer: null
+    };
+  },
+  computed: {
+    refreshIntervalMs() {
+      const seconds = Number(this.refreshAfterXSecs);
+      const normalized = Number.isFinite(seconds) && seconds > 0 ? seconds : DEFAULT_REFRESH_AFTER_SECS;
+      return normalized * 1000;
+    },
+    normalizedLastMinutes() {
+      const minutes = Number(this.lastMinutes);
+      return Number.isFinite(minutes) && minutes > 0 ? minutes : DEFAULT_LAST_MINUTES;
+    },
+    visitorsTooltip() {
+      if (this.isOne(this.visitorsCount)) {
+        return Object(external_CoreHome_["translate"])('Live_NbVisitor');
+      }
+      return Object(external_CoreHome_["translate"])('Live_NbVisitors', this.visitorsCount);
+    },
+    visitsText() {
+      if (this.isOne(this.visitsCount)) {
+        return Object(external_CoreHome_["translate"])('General_OneVisit');
+      }
+      return Object(external_CoreHome_["translate"])('General_NVisits', this.visitsCount);
+    },
+    actionsText() {
+      if (this.isOne(this.actionsCount)) {
+        return Object(external_CoreHome_["translate"])('General_OneAction');
+      }
+      return Object(external_CoreHome_["translate"])('VisitsSummary_NbActionsDescription', this.actionsCount);
+    },
+    minutesText() {
+      if (this.normalizedLastMinutes === 1) {
+        return Object(external_CoreHome_["translate"])('Intl_OneMinute');
+      }
+      return Object(external_CoreHome_["translate"])('Intl_NMinutes', this.normalizedLastMinutes);
+    },
+    messageHtml() {
+      const visitsMessage = `<span class="simple-realtime-metric" data-metric="visits">${this.visitsText}</span>`;
+      const actionsMessage = `<span class="simple-realtime-metric" data-metric="actions">${this.actionsText}</span>`;
+      const minutesMessage = `<span class="simple-realtime-metric" data-metric="minutes">${this.minutesText}</span>`;
+      return Object(external_CoreHome_["translate"])('Live_SimpleRealTimeWidget_Message', visitsMessage, actionsMessage, minutesMessage);
+    }
+  },
+  mounted() {
+    this.update();
+  },
+  beforeUnmount() {
+    this.clearScheduledUpdate();
+  },
+  methods: {
+    clearScheduledUpdate() {
+      if (this.refreshTimer) {
+        window.clearTimeout(this.refreshTimer);
+        this.refreshTimer = null;
+      }
+    },
+    scheduleUpdate() {
+      this.clearScheduledUpdate();
+      this.refreshTimer = window.setTimeout(() => {
+        this.update();
+      }, this.refreshIntervalMs);
+    },
+    normalizeCounter(value) {
+      const parsed = Number(value);
+      if (!Number.isFinite(parsed) || parsed < 0) {
+        return '-';
+      }
+      return `${parsed}`;
+    },
+    isOne(value) {
+      return Number(value) === 1;
+    },
+    isTabHidden() {
+      const visibility = window.Visibility;
+      return Boolean(visibility && visibility.isSupported && visibility.isSupported() && visibility.hidden());
+    },
+    getErrorMessage(error) {
+      if (typeof error === 'string') {
+        return error;
+      }
+      if (error && typeof error === 'object' && 'message' in error) {
+        const {
+          message
+        } = error;
+        if (typeof message === 'string') {
+          return message;
+        }
+      }
+      return '';
+    },
+    update() {
+      const element = this.$el;
+      if (!element || !element.isConnected) {
+        return;
+      }
+      if (this.isTabHidden()) {
+        this.scheduleUpdate();
+        return;
+      }
+      external_CoreHome_["AjaxHelper"].fetch({
+        module: 'API',
+        method: 'Live.getCounters',
+        showColumns: 'visits,visitors,actions',
+        lastMinutes: this.normalizedLastMinutes
+      }, {
+        format: 'json'
+      }).then(response => {
+        const counters = Array.isArray(response) && response.length ? response[0] : {};
+        this.visitorsCount = this.normalizeCounter(counters.visitors);
+        this.visitsCount = this.normalizeCounter(counters.visits);
+        this.actionsCount = this.normalizeCounter(counters.actions);
+        this.error = '';
+      }).catch(error => {
+        this.error = this.getErrorMessage(error);
+      }).finally(() => {
+        if (element.isConnected) {
+          this.scheduleUpdate();
+        }
+      });
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue
+
+
+
+SimpleRealtimeVisitorWidgetvue_type_script_lang_ts.render = SimpleRealtimeVisitorWidgetvue_type_template_id_3253b5ec_render
+
+/* harmony default export */ var SimpleRealtimeVisitorWidget = (SimpleRealtimeVisitorWidgetvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/TotalVisitors/TotalVisitors.vue?vue&type=template&id=c4046fce
 
 const TotalVisitorsvue_type_template_id_c4046fce_hoisted_1 = {
@@ -929,6 +1101,7 @@ IndexHeadervue_type_script_lang_ts.render = IndexHeadervue_type_template_id_e270
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+
 
 
 
