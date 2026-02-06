@@ -5,6 +5,243 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+/**
+ * Deprecated: jQuery UI `liveWidget` is kept for backward compatibility with external plugins.
+ * Use the Vue component `Live.AutoRefreshWidget` for new implementations.
+ * This API will be removed in Matomo 6.
+ */
+(function ($) {
+    $.widget('piwik.liveWidget', {
+
+        /**
+         * Default settings for widgetPreview
+         */
+        options:{
+            // Maximum numbers of rows to display in widget
+            maxRows: 10,
+            // minimal time in microseconds to wait between updates
+            interval: 3000,
+            // maximum time to wait between requests
+            maxInterval: 300000,
+            // url params to use for data request
+            dataUrlParams: null,
+            // callback triggered on a successful update (content of widget changed)
+            onUpdate: null,
+            // speed for fade animation
+            fadeInSpeed: 'slow'
+        },
+
+        /**
+         * current updateInterval used
+         */
+        currentInterval: null,
+
+        /**
+         * identifies if content has updated (eg new visits/views)
+         */
+        updated: false,
+
+        /**
+         * window timeout interval
+         */
+        updateInterval: null,
+
+        /**
+         * identifies if the liveWidget ist started or not
+         */
+        isStarted: true,
+
+        /**
+         * Update the widget
+         *
+         * @return void
+         */
+        _update: function () {
+
+            this.updated = false;
+
+            var that = this;
+
+            var ajaxRequest = new ajaxHelper();
+            ajaxRequest.addParams(this.options.dataUrlParams, 'GET');
+            ajaxRequest.setFormat('html');
+            ajaxRequest.setCallback(function (r) {
+                if (that.options.replaceContent) {
+                    $(that.element).html(r);
+                    piwikHelper.compileVueEntryComponents(that.element);
+                    if (that.options.fadeInSpeed) {
+                        $(that.element).effect("highlight", {}, that.options.fadeInSpeed);
+                    }
+                } else {
+                    that._parseResponse(r);
+                }
+
+                that.options.interval = parseInt(that.options.interval, 10);
+
+                // add default interval to last interval if not updated or reset to default if so
+                if (!that.updated) {
+                    that.currentInterval += that.options.interval;
+                } else {
+                    that.currentInterval = that.options.interval;
+                    if (that.options.onUpdate) that.options.onUpdate();
+                }
+
+                // check new interval doesn't reach the defined maximum
+                if (that.options.maxInterval < that.currentInterval) {
+                    that.currentInterval = that.options.maxInterval;
+                }
+
+                if (that.isStarted) {
+                    window.clearTimeout(that.updateInterval);
+                    if (that.element.length && $.contains(document, that.element[0])) {
+                        that.updateInterval = window.setTimeout(function() { that._update(); }, that.currentInterval);
+                    }
+                }
+            });
+            ajaxRequest.send();
+        },
+
+        /**
+         * Parses the given response and updates the widget if newer content is available
+         *
+         * @return void
+         */
+        _parseResponse: function (data) {
+            if (!data || !data.length) {
+                this.updated = false;
+                return;
+            }
+
+            var items = $('li.visit', $(data));
+            for (var i = items.length; i--;) {
+                this._parseItem(items[i]);
+            }
+
+            this._initTooltips();
+        },
+
+        /**
+         * Initializes the icon tooltips
+         */
+        _initTooltips: function() {
+            $('li.visit').tooltip({
+                items: '.visitorLogIconWithDetails',
+                track: true,
+                show: false,
+                hide: false,
+                content: function() {
+                    return $('<ul>').html($('ul', $(this)).html());
+                },
+                tooltipClass: 'small'
+            });
+        },
+
+        /**
+         * Parses the given item and updates or adds an entry to the list
+         *
+         * @param item to parse
+         * @return void
+         */
+        _parseItem: function (item) {
+            var visitId = $(item).attr('id');
+            if ($('#' + visitId, this.element).length) {
+                if ($('#' + visitId, this.element).html() != $(item).html()) {
+                    this.updated = true;
+                }
+                $('#' + visitId, this.element).remove();
+                $(this.element).prepend(item);
+            } else {
+                this.updated = true;
+                $(item).hide();
+                $(this.element).prepend(item);
+                $(item).fadeIn(this.options.fadeInSpeed);
+            }
+            // remove rows if there are more than the maximum
+            $('li.visit:gt(' + (this.options.maxRows - 1) + ')', this.element).remove();
+        },
+
+        /**
+         * Constructor
+         *
+         * @return void
+         */
+        _create: function () {
+
+            if (!this.options.dataUrlParams) {
+                console && console.error('liveWidget error: dataUrlParams needs to be defined in settings.');
+                return;
+            }
+
+            this.currentInterval = parseInt(this.options.interval, 10);
+
+            if (0 === $(this.element).parents('.widget').length) {
+                window.CoreHome.Matomo.postEvent('hidePeriodSelector');
+            }
+
+            var self = this;
+
+            window.setTimeout(function() { self._initTooltips(); }, 250);
+
+            this.updateInterval = window.setTimeout(function() { self._update(); }, this.currentInterval);
+        },
+
+        /**
+         * Stops requests if widget is destroyed
+         */
+        _destroy: function () {
+            this.stop();
+        },
+
+        /**
+         * Triggers an update for the widget
+         *
+         * @return void
+         */
+        update: function () {
+            this._update();
+        },
+
+        /**
+         * Starts the automatic update cycle
+         *
+         * @return void
+         */
+        start: function () {
+            this.isStarted = true;
+            this.currentInterval = 0;
+            this._update();
+        },
+
+        /**
+         * Stops the automatic update cycle
+         *
+         * @return void
+         */
+        stop: function () {
+            this.isStarted = false;
+            window.clearTimeout(this.updateInterval);
+        },
+
+        /**
+         * Return true in case widget is started.
+         * @returns {boolean}
+         */
+        started: function() {
+            return this.isStarted;
+        },
+
+        /**
+         * Set the interval for refresh
+         *
+         * @param {int} interval  new interval for refresh
+         * @return void
+         */
+        setInterval: function (interval) {
+            this.currentInterval = interval;
+        }
+    });
+})(jQuery);
+
 $(function() {
     var refreshWidget = function (element, refreshAfterXSecs) {
         // if the widget has been removed from the DOM, abort

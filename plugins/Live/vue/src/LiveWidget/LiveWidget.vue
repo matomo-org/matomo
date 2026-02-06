@@ -58,11 +58,12 @@ import {
   MatomoLoader,
   MatomoUrl,
 } from 'CoreHome';
+import {
+  AutoRefreshController,
+} from '../AutoRefreshWidget/AutoRefreshController';
 
 const { $ } = window;
 
-const DEFAULT_INTERVAL_MS = 3000;
-const MAX_INTERVAL_MS = 300000;
 const MAX_ROWS = 10;
 
 export default defineComponent({
@@ -76,11 +77,8 @@ export default defineComponent({
   data() {
     return {
       isStarted: true,
-      isStoppedByBlur: false,
-      currentInterval: 0,
-      updateInterval: null as number | null,
       isInitialLoading: true,
-      visibilityListenerId: null as number | null,
+      refreshController: null as AutoRefreshController<string> | null,
     };
   },
   computed: {
@@ -93,25 +91,61 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.currentInterval = this.getBaseInterval();
-
     const root = this.$refs.root as HTMLElement | undefined;
     if (root && !root.closest('.widget')) {
       Matomo.postEvent('hidePeriodSelector');
     }
 
+    this.initRefreshController();
     this.fetchInitialContent();
-    this.setupVisibilityHandling();
   },
   beforeUnmount() {
     this.clearUpdate();
+    if (this.refreshController) {
+      this.refreshController.destroy();
+      this.refreshController = null;
+    }
     this.teardownListInteractions();
-    this.teardownVisibilityHandling();
   },
   methods: {
+    initRefreshController() {
+      this.refreshController = new AutoRefreshController<string>({
+        getBaseInterval: () => this.getBaseInterval(),
+        shouldRun: () => {
+          if (this.isInitialLoading || !this.isStarted) {
+            return false;
+          }
+
+          const root = this.$refs.root as HTMLElement | undefined;
+          return Boolean(root && root.isConnected);
+        },
+        request: () => {
+          const segment = MatomoUrl.parsed.value.segment as string;
+          return AjaxHelper.fetch(
+            {
+              module: 'Live',
+              action: 'getLastVisitsStart',
+              segment,
+            },
+            {
+              format: 'html',
+            },
+          );
+        },
+        handleResponse: (response) => {
+          const segment = MatomoUrl.parsed.value.segment as string;
+          const ensured = this.ensureVisitsList(response);
+          const updated = ensured ? true : this.parseResponse(response);
+          if (updated) {
+            this.refreshTotalVisitors(segment);
+          }
+          return { updated };
+        },
+      });
+    },
     getBaseInterval(): number {
       const interval = Number(this.liveRefreshAfterMs);
-      return Number.isFinite(interval) && interval > 0 ? interval : DEFAULT_INTERVAL_MS;
+      return Number.isFinite(interval) ? interval : 0;
     },
     pause() {
       this.isStarted = false;
@@ -119,71 +153,24 @@ export default defineComponent({
     },
     play() {
       this.isStarted = true;
-      this.currentInterval = 0;
-      this.update();
+      if (this.refreshController) {
+        this.refreshController.start();
+      }
     },
     clearUpdate() {
-      if (this.updateInterval) {
-        window.clearTimeout(this.updateInterval);
-        this.updateInterval = null;
+      if (this.refreshController) {
+        this.refreshController.stop();
       }
     },
     scheduleUpdate(delayMs: number) {
-      this.clearUpdate();
-      if (!this.isStarted) {
-        return;
+      if (this.refreshController) {
+        this.refreshController.schedule(delayMs);
       }
-      this.updateInterval = window.setTimeout(() => {
-        this.update();
-      }, delayMs);
     },
     update() {
-      if (this.isInitialLoading) {
-        return;
+      if (this.refreshController) {
+        this.refreshController.update();
       }
-      if (!this.isStarted) {
-        return;
-      }
-
-      const root = this.$refs.root as HTMLElement | undefined;
-      if (!root || !root.isConnected) {
-        return;
-      }
-
-      const segment = MatomoUrl.parsed.value.segment as string;
-      AjaxHelper.fetch(
-        {
-          module: 'Live',
-          action: 'getLastVisitsStart',
-          segment,
-        },
-        {
-          format: 'html',
-        },
-      ).then((response) => {
-        const ensured = this.ensureVisitsList(response);
-        const updated = ensured ? true : this.parseResponse(response);
-        const baseInterval = this.getBaseInterval();
-
-        if (!updated) {
-          this.currentInterval += baseInterval;
-        } else {
-          this.currentInterval = baseInterval;
-          this.refreshTotalVisitors(segment);
-        }
-
-        if (this.currentInterval > MAX_INTERVAL_MS) {
-          this.currentInterval = MAX_INTERVAL_MS;
-        }
-
-        if (this.isStarted && root.isConnected) {
-          this.scheduleUpdate(this.currentInterval);
-        }
-      }).catch(() => {
-        if (this.isStarted && root.isConnected) {
-          this.scheduleUpdate(this.getBaseInterval());
-        }
-      });
     },
     ensureVisitsList(response: string): boolean {
       const root = this.$refs.root as HTMLElement | undefined;
@@ -287,7 +274,7 @@ export default defineComponent({
         })
         .finally(() => {
           this.isInitialLoading = false;
-          this.scheduleUpdate(this.currentInterval);
+          this.scheduleUpdate(this.getBaseInterval());
         });
     },
     parseResponse(response: string): boolean {
@@ -407,30 +394,6 @@ export default defineComponent({
         hide: false,
       });
     },
-    setupVisibilityHandling() {
-      const visibility = window.Visibility;
-      if (!visibility || !visibility.isSupported || !visibility.isSupported()) {
-        return;
-      }
-
-      this.teardownVisibilityHandling();
-      this.visibilityListenerId = visibility.change(() => {
-        if (visibility.hidden()) {
-          this.onTabBlur();
-        } else {
-          this.onTabFocus();
-        }
-      });
-    },
-    teardownVisibilityHandling() {
-      const visibility = window.Visibility;
-      if (!visibility || typeof this.visibilityListenerId !== 'number') {
-        return;
-      }
-
-      visibility.unbind(this.visibilityListenerId);
-      this.visibilityListenerId = null;
-    },
     teardownListInteractions() {
       const $list = this.getVisitsList();
       if (!$list) {
@@ -449,18 +412,6 @@ export default defineComponent({
         $list.tooltip('destroy');
       } catch (e) {
         // ignore
-      }
-    },
-    onTabBlur() {
-      if (this.isStarted) {
-        this.isStoppedByBlur = true;
-        this.pause();
-      }
-    },
-    onTabFocus() {
-      if (this.isStoppedByBlur && !this.isStarted) {
-        this.isStoppedByBlur = false;
-        this.play();
       }
     },
   },

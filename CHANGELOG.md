@@ -20,6 +20,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 ### HTTP API
 * `API.getBulkRequest` now enforces request limits (10 for anonymous users without view access, 50 for anonymous users with view access, or the lower configured limit if `API_bulk_request_limit` is set).
 
+### Deprecations
+* The jQuery UI `liveWidget` API (`$.fn.liveWidget`) is now deprecated and will be removed in Matomo 6. Use `Live.AutoRefreshWidget` instead.
+
 ## Matomo 5.7.1
 
 ### Breaking Changes
