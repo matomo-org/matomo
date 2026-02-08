@@ -738,6 +738,17 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
           await page.click('.entityTable tr:nth-child(11) button[title="Edit"]');
           await page.waitForNetworkIdle();
           expect(await page.evaluate(() => $('#reportHourHelpText').is(':visible'))).to.be.true;
+          await page.evaluate(() => {
+            const $hour = $('select[name="report_hour"]');
+            if ($hour.length === 0) {
+              throw new Error('report_hour select not found');
+            }
+            $hour.val('string:10.5').trigger('change');
+          });
+          const expectedTime = '05:00';
+          await page.waitForFunction(() => $('select[name="report_hour"]').val() === 'string:10.5');
+          const helpText = await page.evaluate(() => $('#reportHourHelpText').text());
+          expect(helpText).to.include(expectedTime);
 
           // put back default timezone
           await testEnvironment.callApi('SitesManager.updateSite', {
