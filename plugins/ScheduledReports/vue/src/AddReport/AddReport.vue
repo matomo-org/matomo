@@ -118,7 +118,7 @@
               class="inline-help-node"
               v-if="timezoneOffset !== 0 && timezoneOffset !== '0'"
             >
-              <span v-text="reportHourUtc" />
+              <span v-text="reportHourUtcHelpText" />
             </div>
           </template>
         </Field>
@@ -639,11 +639,15 @@ export default defineComponent({
       );
       const reportHourFloat = parseFloat(reportHour);
       const hours = Math.floor(reportHourFloat);
-      const paddedHour = `${hours}`.padStart(2, '0');
-      const reportHourUtcLabel = translate('ScheduledReports_ReportHourWithUtcOnly', [`${paddedHour}:00`]);
-      return `${translate('ScheduledReports_ReportWillBeSentAt')}
-      ${translate('ScheduledReports_ReportHourEqualsUtc', [reportHourUtcLabel])}
-      ${translate('ScheduledReports_NoteDeliveryTime')}`;
+      return `${hours}`.padStart(2, '0');
+    },
+    reportHourUtcLabel() {
+      return translate('ScheduledReports_ReportHourWithUtcOnly', [`${this.reportHourUtc}:00`]);
+    },
+    reportHourUtcHelpText() {
+      return `${translate('ScheduledReports_ReportWillBeSentAt')} `
+        + `${translate('ScheduledReports_ReportHourEqualsUtc', [this.reportHourUtcLabel])} `
+        + `${translate('ScheduledReports_NoteDeliveryTime')}`;
     },
     saveButtonTitle() {
       const { ReportPlugin } = window;
