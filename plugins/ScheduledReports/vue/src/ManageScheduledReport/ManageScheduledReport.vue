@@ -533,8 +533,17 @@ export default defineComponent({
       const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
       delete nextHash.idDashboard;
       MatomoUrl.updateHash(nextHash);
-      const mapping = await this.getWidgetReportMapping(dashboardId);
-      this.createReport(() => this.applyDashboardExportMapping(mapping));
+      this.createReport(() => {
+        this.getWidgetReportMapping(dashboardId)
+          .then((mapping) => this.applyDashboardExportMapping(mapping))
+          .catch(() => {
+            this.showNotificationMessage(
+              this.$refs.reportUpdatedSuccess as HTMLElement,
+              translate('General_ErrorTryAgain'),
+              'error',
+            );
+          });
+      });
     },
     async getWidgetReportMapping(dashboardId: string): Promise<WidgetReportMap> {
       this.isWidgetReportMappingLoading = true;
