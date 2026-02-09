@@ -31,9 +31,6 @@ class Pdf extends ReportRenderer
     public const IMAGE_GRAPH_WIDTH_PORTRAIT = 760;
     public const IMAGE_GRAPH_HEIGHT = 220;
 
-    public const LANDSCAPE = 'L';
-    public const PORTRAIT = 'P';
-
     public const MAX_ROW_COUNT = 28;
     public const TABLE_HEADER_ROW_COUNT = 6;
     public const NO_DATA_ROW_COUNT = 6;
@@ -41,8 +38,8 @@ class Pdf extends ReportRenderer
     public const MAX_2COL_TABLE_REPORTS = 2;
 
     public const IMPORT_FONT_PATH = 'plugins/ImageGraph/fonts/unifont.ttf';
-
     public const PDF_CONTENT_TYPE = 'pdf';
+    public const PORTRAIT = 'P';
 
     private $reportFontStyle = '';
     private $reportSimpleFontSize = 8.5;
