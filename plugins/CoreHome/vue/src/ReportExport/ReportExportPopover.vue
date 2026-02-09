@@ -51,7 +51,7 @@
             :name="'option_expanded'"
             :title="translate('CoreHome_ExpandSubtables')"
             v-model="optionExpanded"
-            v-show="hasSubtables && !optionFlat && !isCsvOrTsv"
+            v-show="hasSubtables && !isCsvOrTsv"
           >
           </Field>
         </div>
@@ -241,12 +241,26 @@ export default defineComponent({
     this.additionalContent = parameters.content;
   },
   data() {
+    let preferredSubtableOption = null;
+    if (this.initialOptionFlat) {
+      preferredSubtableOption = 'flat';
+    } else if (this.initialOptionExpanded) {
+      preferredSubtableOption = 'expanded';
+    }
+    const isFormatWithoutExpanded = this.isFormatWithoutExpanded(this.initialReportFormat);
+    let optionFlat = this.initialOptionFlat;
+    let optionExpanded = this.initialOptionExpanded;
+    if (isFormatWithoutExpanded) {
+      optionFlat = true;
+      optionExpanded = false;
+    }
     return {
       showUrl: false,
       reportFormat: this.initialReportFormat,
-      optionFlat: this.initialOptionFlat,
+      optionFlat,
       optionShowDimensions: this.initialOptionShowDimensions,
-      optionExpanded: this.initialOptionExpanded,
+      optionExpanded,
+      preferredSubtableOption,
       optionFormatMetrics: this.initialOptionFormatMetrics,
       reportType: this.initialReportType,
       reportLimitAll: this.initialReportLimitAll,
@@ -263,18 +277,52 @@ export default defineComponent({
       }
     },
     reportFormat: {
-      immediate: true,
       handler(newVal) {
-        if (this.hasSubtables) {
-          if (this.isFormatWithoutExpanded(newVal)) {
-            this.optionFlat = true;
-            this.optionExpanded = false;
-          } else {
-            this.optionFlat = false;
-            this.optionExpanded = true;
-          }
+        if (!this.hasSubtables) {
+          return;
+        }
+        if (this.isFormatWithoutExpanded(newVal)) {
+          this.optionFlat = true;
+          this.optionExpanded = false;
+          return;
+        }
+
+        if (this.preferredSubtableOption === 'flat') {
+          this.optionFlat = true;
+          this.optionExpanded = false;
+        } else if (this.preferredSubtableOption === 'expanded') {
+          this.optionExpanded = true;
+          this.optionFlat = false;
+        } else if (this.optionFlat && this.optionExpanded) {
+          this.optionExpanded = false;
         }
       },
+    },
+    optionFlat(newVal) {
+      if (!this.hasSubtables || this.isFormatWithoutExpanded(this.reportFormat)) {
+        return;
+      }
+      if (newVal) {
+        if (this.optionExpanded) {
+          this.optionExpanded = false;
+        }
+        this.preferredSubtableOption = 'flat';
+      } else if (!this.optionExpanded) {
+        this.preferredSubtableOption = null;
+      }
+    },
+    optionExpanded(newVal) {
+      if (!this.hasSubtables || this.isFormatWithoutExpanded(this.reportFormat)) {
+        return;
+      }
+      if (newVal) {
+        if (this.optionFlat) {
+          this.optionFlat = false;
+        }
+        this.preferredSubtableOption = 'expanded';
+      } else if (!this.optionFlat) {
+        this.preferredSubtableOption = null;
+      }
     },
     reportLimit(newVal, oldVal) {
       if (this.maxFilterLimit && this.maxFilterLimit > 0 && newVal > this.maxFilterLimit) {
