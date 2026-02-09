@@ -247,9 +247,6 @@ class Pdf extends ReportRenderer
         $this->TCPDF->SetTextColor($this->reportTextColor[0], $this->reportTextColor[1], $this->reportTextColor[2]);
     }
 
-    /**
-     * @return bool
-     */
     private function shouldAddPage(): bool
     {
         $shouldAddPage = true;
@@ -310,31 +307,19 @@ class Pdf extends ReportRenderer
         }
     }
 
-    /**
-     * @param $text
-     * @return string
-     */
-    private function formatText($text): string
+    private function formatText(?string $text): string
     {
         return Common::unsanitizeInputValue($text);
     }
 
-    /**
-     * @param $text
-     * @param $maxLength
-     * @return string
-     */
-    private function limitTextLength($text, $maxLength): string
+    private function limitTextLength(string $text, int $maxLength): string
     {
         if (mb_strlen($text) <= $maxLength) {
             return $text;
         }
-        return mb_substr($text, 0, $maxLength - 1) . '...';
+        return mb_substr($text, 0, $maxLength - 1) . '…';
     }
 
-    /**
-     * @return void
-     */
     private function paintReportTable(): void
     {
         //Color and font restoration
@@ -441,23 +426,12 @@ class Pdf extends ReportRenderer
         }
     }
 
-    /**
-     * @param int $labelLineCount
-     * @return float
-     */
     private function getExtraLineHeight(int $labelLineCount): float
     {
         $ratioDelta = $labelLineCount === 2 ? 0.1 : 0.3;
         return $this->cellHeight * $ratioDelta * ($labelLineCount - 1);
     }
 
-    /**
-     * @param array<string, mixed> $rowMetrics
-     * @param array<string, mixed> $rowMetadata
-     * @param string $leftSpacesBeforeLogo
-     * @param false|string $url
-     * @return array<string, mixed>
-     */
     private function computeLabelRenderState(array $rowMetrics, array $rowMetadata, string $leftSpacesBeforeLogo, &$url): array
     {
         $isLogoDisplayable = isset($rowMetadata['logo']);
@@ -503,10 +477,6 @@ class Pdf extends ReportRenderer
         );
     }
 
-    /**
-     * @param bool $shouldIncreaseLineHeight
-     * @return array{0: float|null, 1: array<string, float>|null}
-     */
     private function applyLabelCellStyle(bool $shouldIncreaseLineHeight): array
     {
         if (!$shouldIncreaseLineHeight) {
@@ -520,12 +490,6 @@ class Pdf extends ReportRenderer
         return array($previousCellHeightRatio, $previousCellPaddingForLabel);
     }
 
-    /**
-     * @param bool $shouldIncreaseLineHeight
-     * @param float|null $previousCellHeightRatio
-     * @param array<string, float>|null $previousCellPaddingForLabel
-     * @return void
-     */
     private function restoreLabelCellStyle(
         bool $shouldIncreaseLineHeight,
         ?float $previousCellHeightRatio,
@@ -539,11 +503,6 @@ class Pdf extends ReportRenderer
         $this->restoreCellPaddingOffset($previousCellPaddingForLabel);
     }
 
-    /**
-     * @param float $left
-     * @param float $top
-     * @return array|int[]
-     */
     private function applyCellPaddingOffset(float $left = 0, float $top = 0.8): array
     {
         $previousCellPadding = $this->TCPDF->getCellPaddings();
@@ -556,10 +515,6 @@ class Pdf extends ReportRenderer
         return $previousCellPadding;
     }
 
-    /**
-     * @param array $previousCellPaddings
-     * @return void
-     */
     private function restoreCellPaddingOffset(array $previousCellPaddings): void
     {
         $this->TCPDF->setCellPaddings(
@@ -711,11 +666,6 @@ class Pdf extends ReportRenderer
         $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
     }
 
-    /**
-     * Grabs adjusted column widths
-     * @param string $columnId
-     * @return float
-     */
     private function getColumnWidth(string $columnId): float
     {
         if (isset($this->columnCellWidths[$columnId])) {
@@ -902,10 +852,6 @@ class Pdf extends ReportRenderer
         return $maxLength > 0;
     }
 
-    /**
-     * @return void
-     * @throws \Exception
-     */
     private function paintGraph(): void
     {
         $imageGraph = parent::getStaticGraph(
@@ -993,9 +939,6 @@ class Pdf extends ReportRenderer
         $this->totalWidth = array_sum($this->columnCellWidths);
     }
 
-    /**
-     * @return void
-     */
     private function setupHeaderRenderingStyle(): void
     {
         $this->TCPDF->SetFillColor(
@@ -1050,13 +993,6 @@ class Pdf extends ReportRenderer
         return array($columnData, $maxCellHeight);
     }
 
-    /**
-     * @param array $columnData
-     * @param float $initPosX
-     * @param float $posY
-     * @param float $maxCellHeight
-     * @return void
-     */
     private function renderHeaderColumns(array $columnData, float $initPosX, float $posY, float $maxCellHeight): void
     {
         $this->TCPDF->SetFillColor(
@@ -1106,12 +1042,6 @@ class Pdf extends ReportRenderer
         }
     }
 
-    /**
-     * @param float $posY
-     * @param float $maxCellHeight
-     * @param float $textHeight
-     * @return float
-     */
     private function calculateHeaderTextY(float $posY, float $maxCellHeight, float $textHeight): float
     {
         if ($textHeight <= 0) {
