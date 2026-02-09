@@ -1221,6 +1221,46 @@ class ApiTest extends IntegrationTestCase
         $this->assertHasSite($siteId2);
     }
 
+    public function testDeleteSiteDoesNotRequirePasswordWhenPostSessionFlagIsZeroEvenIfGetFlagIsOne()
+    {
+        $this->addSite();
+        $siteId1 = $this->addSite();
+
+        $_GET['force_api_session'] = 1;
+        $_POST['token_auth'] = 'postToken';
+        $_POST['force_api_session'] = 0;
+
+        try {
+            API::getInstance()->deleteSite($siteId1);
+            $this->assertHasNotSite($siteId1);
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['token_auth']);
+            unset($_POST['force_api_session']);
+        }
+    }
+
+    public function testDeleteSiteRequiresPasswordWhenPostSessionFlagIsOneEvenIfGetFlagIsZero()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
+
+        $this->addSite();
+        $siteId1 = $this->addSite();
+
+        $_GET['force_api_session'] = 0;
+        $_POST['token_auth'] = 'postToken';
+        $_POST['force_api_session'] = 1;
+
+        try {
+            API::getInstance()->deleteSite($siteId1);
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['token_auth']);
+            unset($_POST['force_api_session']);
+        }
+    }
+
     public function testDeleteShouldTriggerAnEventOnceSiteWasActuallyDeleted()
     {
         $called = 0;
