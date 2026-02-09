@@ -900,12 +900,12 @@ class ProcessedReport
     /**
      * Prettifies a metric value based on the column name.
      *
-     * @param int $idSite The ID of the site the metric is for (used if the column value is an amount of money).
+     * @param int|string $idSite The ID of the site the metric is for (used if the column value is an amount of money).
      * @param string $columnName The metric name.
      * @param mixed $value The metric value.
      * @return string
      */
-    public static function getPrettyValue(Formatter $formatter, int $idSite, string $columnName, $value): ?string
+    public static function getPrettyValue(Formatter $formatter, $idSite, string $columnName, $value)
     {
         if (!is_numeric($value)) {
             return $value;
