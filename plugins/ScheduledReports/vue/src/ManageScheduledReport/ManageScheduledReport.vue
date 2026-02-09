@@ -102,6 +102,12 @@ interface ManageScheduledReportState {
   isWidgetReportMappingLoading: boolean;
 }
 
+type WidgetReportMap = {
+  dashboardName: string;
+  email: Record<string, boolean>;
+  unmappedWidgets?: string[];
+};
+
 type NotificationContext = NotificationType['context'];
 type NotificationKind = NotificationType['type'];
 
@@ -419,13 +425,16 @@ export default defineComponent({
         scrollToTop();
       }
     },
-    createReport() {
+    createReport(afterInit?: () => void) {
       this.showReportsList = false;
 
       // in nextTick so global report function records get manipulated before individual
       // entries are used
       nextTick(() => {
         this.formSetEditReport(0);
+        if (afterInit) {
+          afterInit();
+        }
       });
     },
     editReport(reportId: number) {
@@ -524,45 +533,46 @@ export default defineComponent({
       const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
       delete nextHash.idDashboard;
       MatomoUrl.updateHash(nextHash);
-      await this.getWidgetReportMapping(dashboardId);
-      this.createReport();
+      const mapping = await this.getWidgetReportMapping(dashboardId);
+      this.createReport(() => this.applyDashboardExportMapping(mapping));
     },
-    async getWidgetReportMapping(dashboardId: string) {
+    async getWidgetReportMapping(dashboardId: string): Promise<WidgetReportMap> {
       this.isWidgetReportMappingLoading = true;
-      AjaxHelper.fetch(
+      return AjaxHelper.fetch(
         {
           method: 'ScheduledReports.getWidgetReportMap',
           dashId: dashboardId,
           idSite: Matomo.idSite,
         },
-      ).then((e) => {
-        if (e) {
-          let dashName = '';
-          this.selectedReports = { email: { ...e.email } };
-
-          dashName = Matomo.helper.htmlDecode(e.dashboardName);
-          const dateTodayString = format(getToday());
-          this.report.description = translate(
-            'ScheduledReports_ExportDashboardReportDescription',
-            dashName,
-            dateTodayString,
-          );
-
-          let unmappedWidgetsForDisplay = '';
-          if (e.unmappedWidgets && e.unmappedWidgets.length) {
-            unmappedWidgetsForDisplay = translate('ScheduledReports_WidgetsNotMappedToReports',
-              e.unmappedWidgets.join(', '));
-          }
-          this.showDashboardExportInfo(
-            this.$refs.reportUpdatedSuccess as HTMLElement,
-            unmappedWidgetsForDisplay,
-            dashName,
-            false,
-          );
-        }
-      }).finally(() => {
+      ).then((e) => e as WidgetReportMap).finally(() => {
         this.isWidgetReportMappingLoading = false;
       });
+    },
+    applyDashboardExportMapping(mapping: WidgetReportMap) {
+      if (!mapping) {
+        return;
+      }
+      const dashName = Matomo.helper.htmlDecode(mapping.dashboardName);
+      this.selectedReports = { email: { ...mapping.email } };
+
+      const dateTodayString = format(getToday());
+      this.report.description = translate(
+        'ScheduledReports_ExportDashboardReportDescription',
+        dashName,
+        dateTodayString,
+      );
+
+      let unmappedWidgetsForDisplay = '';
+      if (mapping.unmappedWidgets && mapping.unmappedWidgets.length) {
+        unmappedWidgetsForDisplay = translate('ScheduledReports_WidgetsNotMappedToReports',
+          mapping.unmappedWidgets.join(', '));
+      }
+      this.showDashboardExportInfo(
+        this.$refs.reportUpdatedSuccess as HTMLElement,
+        unmappedWidgetsForDisplay,
+        dashName,
+        false,
+      );
     },
   },
   computed: {
