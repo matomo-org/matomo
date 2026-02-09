@@ -2,13 +2,6 @@
     "BotTracking": {
         "PluginDescription": "Ndiqni dhe analizoni vizita prej robotësh IA, bie fjala, ChatGPT-User dhe të ngjashëm. Kjo shtojcë ju ndihmon të kuptoni si ndërveprojnë me sajtin tuaj mjete të bazuar në IA, duke regjistruar dhe raportuar kërkesa të ardhura nga robotë.",
         "PageUrl": "URL Faqeje",
-        "AIAssistantsReportDocumentation": "Zbuloni cilët asistenë IA po tjerrin sajtin tuaj dhe se sa vizita prodhon secili prej tyre. Zgjeroni një robot, që të shqyrtoni faqet apo dokumentet e kërkuara më shpesh.",
-        "AIAssistantsReportTitle": "Asistentë IA - Robotë",
-        "AIAssistantsOverviewHelp1": "Përmbledhje Asistentësh IA jep vështrime mi trafik sajtesh të ardhur nga Asistentë IA, b.f., ChatGPT apo të tjerë asistentë të bazuar në LLM. Këto raporte ndjekin parametra kyçë, përfshi numrin e kërkesave të bëra nga këta robotë, faqet dhe dokumentet në të cilët hyjnë dhe çfarëdo gabimesh të hasur. Ato ofrojnë gjithashtu zbërthim të hollësishëm ku shfaqet cilët robotë vizituan URL-ra specifike faqesh, duke ju ndihmuar të kuptoni se si ndërveprojnë asistentët IA me lëndën tuaj dhe të identifikoni mundësi për të përmirësuar dukshmërinë dhe përdorimin për përdorues që bazohen në IA.",
-        "AIAssistantsOverviewHelp2": "Është e rëndësishme të shënohet se asnjë nga këto faqe s’qenë parë faktikisht nga qenie njerëzore në mënyrën tradicionale — krejt kërkesat vijnë nga asistentë IA që sjellin automatikisht lëndë.",
-        "AIAssistantsOverviewHelp3": "Aktualisht, këto raporte përfshijnë përjashtimisht kërkesa nga robotë IA që s’ekzekutojnë JavaScript. Ato s’përfshijnë trafik prej tjerrësish IA të përdorur për të stërvitur modele IA, apo nga agjentë IA të aftë për të ekzekutuar JavaScript.",
-        "AIBotsOverview": "Përmbledhje Robotësh IA",
-        "ColumnAIAssistantName": "Emër Asistenti IA",
         "ColumnAcquiredVisits": "Vizita të fituara",
         "ColumnAcquiredVisitsDocumentation": "Vizita që filluan pasi dikush klikoi që nga një asistent IA (Referues → Asistentë IA).",
         "ColumnDocumentRequests": "Kërkesa Për Dokumente",
@@ -30,9 +23,16 @@
         "ColumnClickThroughRate": "Shkallë klikimi",
         "ColumnClickThroughRateDocumentation": "Përqindje e kërkesave të asistentit IA që sollën vizita të fituara (vizita të fituara ÷ kërkesa).",
         "DocumentUrl": "URL Dokumenti",
-        "ReportTitleBotsOverTime": "Asistentë IA - Robotë Përgjatë Kohës",
-        "ReportTitleBotsOverview": "Asistentë IA - Përmbledhje Robotësh",
-        "BotsOverTimeReportDocumentation": "Ky raport paraqet evolucionin e veprimtarisë të asistentëve IA. Klikoni mbi çfarëdo matje, që të zmadhoni grafikun përkatës dhe për të shqyrtuar prirjen për të.",
-        "SegmentNotSupported": "Raporti s’mbulon segmentim. Të dhënat e shfaqura janë të dhënat tuaja standarde, të pasegmentuara, të raportit."
+        "SegmentNotSupported": "Raporti s’mbulon segmentim. Të dhënat e shfaqura janë të dhënat tuaja standarde, të pasegmentuara, të raportit.",
+        "AIChatbotsReportDocumentation": "Zbuloni cilët asistenë IA po tjerrin sajtin tuaj dhe se sa vizita prodhon secili prej tyre. Zgjeroni një robot, që të shqyrtoni faqet apo dokumentet e kërkuara më shpesh.",
+        "AIChatbotsReportTitle": "Asistentë IA - Robotë",
+        "AIChatbotsOverviewHelp1": "Përmbledhje Asistentësh IA jep vështrime mi trafik sajtesh të ardhur nga Asistentë IA, b.f., ChatGPT apo të tjerë asistentë të bazuar në LLM. Këto raporte ndjekin parametra kyçë, përfshi numrin e kërkesave të bëra nga këta robotë, faqet dhe dokumentet në të cilët hyjnë dhe çfarëdo gabimesh të hasur. Ato ofrojnë gjithashtu zbërthim të hollësishëm ku shfaqet cilët robotë vizituan URL-ra specifike faqesh, duke ju ndihmuar të kuptoni se si ndërveprojnë asistentët IA me lëndën tuaj dhe të identifikoni mundësi për të përmirësuar dukshmërinë dhe përdorimin për përdorues që bazohen në IA.",
+        "AIChatbotsOverviewHelp2": "Është e rëndësishme të shënohet se asnjë nga këto faqe s’qenë parë faktikisht nga qenie njerëzore në mënyrën tradicionale — krejt kërkesat vijnë nga asistentë IA që sjellin automatikisht lëndë.",
+        "AIChatbotsOverviewHelp3": "Aktualisht, këto raporte përfshijnë përjashtimisht kërkesa nga robotë IA që s’ekzekutojnë JavaScript. Ato s’përfshijnë trafik prej tjerrësish IA të përdorur për të stërvitur modele IA, apo nga agjentë IA të aftë për të ekzekutuar JavaScript.",
+        "AIChatbotsOverview": "Përmbledhje Robotësh IA",
+        "ReportTitleChatbotsOverTime": "Asistentë IA - Robotë Përgjatë Kohës",
+        "ReportTitleChatbotsOverview": "Asistentë IA - Përmbledhje Robotësh",
+        "ChatbotsOverTimeReportDocumentation": "Ky raport paraqet evolucionin e veprimtarisë të asistentëve IA. Klikoni mbi çfarëdo matje, që të zmadhoni grafikun përkatës dhe për të shqyrtuar prirjen për të.",
+        "ColumnAIChatbotName": "Emër Asistenti IA"
     }
 }

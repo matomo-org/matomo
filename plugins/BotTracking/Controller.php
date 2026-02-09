@@ -27,7 +27,7 @@ class Controller extends \Piwik\Plugin\Controller
             $columns = Piwik::getArrayFromApiParameter($columnsFromRequest);
         }
 
-        $documentation = Piwik::translate('BotTracking_BotsOverTimeReportDocumentation') . '<br /><br />';
+        $documentation = Piwik::translate('BotTracking_ChatbotsOverTimeReportDocumentation') . '<br /><br />';
         $translations  = Metrics::getMetricTranslations();
         $docs          = Metrics::getMetricDocumentation();
         foreach (Metrics::getSparklineMetricOrder() as $metric) {
@@ -42,7 +42,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         if (Request::fromRequest()->getStringParameter('period', '') !== 'day') {
             $metrics = array_filter($metrics, function ($metric) {
-                return !in_array($metric, [Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS]);
+                return !in_array($metric, [Metrics::METRIC_AI_CHATBOTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS]);
             });
         }
 
@@ -56,7 +56,7 @@ class Controller extends \Piwik\Plugin\Controller
         );
 
         if (empty($view->config->columns_to_display)) {
-            $view->config->columns_to_display = [Metrics::METRIC_AI_ASSISTANTS_REQUESTS];
+            $view->config->columns_to_display = [Metrics::METRIC_AI_CHATBOTS_REQUESTS];
         }
 
         return $this->renderView($view);

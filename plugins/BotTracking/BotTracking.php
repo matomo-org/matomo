@@ -108,7 +108,7 @@ class BotTracking extends Plugin
 
     public function getEvolutionUnit(?string &$unit, string $column): void
     {
-        if ($column === Metrics::METRIC_AI_ASSISTANTS_CLICK_THROUGH_RATE) {
+        if ($column === Metrics::METRIC_AI_CHATBOTS_CLICK_THROUGH_RATE) {
             $unit = '%';
         }
     }
