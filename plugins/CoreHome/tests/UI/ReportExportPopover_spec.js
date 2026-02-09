@@ -48,13 +48,17 @@ describe('ReportExportPopover', function () {
 
     for (const format of formatsToCheck) {
       await clickFormat(format);
-      await page.waitForTimeout(200);
+      const shouldShowExpanded = !formatsToHideExpanded.includes(format);
+      await page.waitForFunction(
+        (formatValue) => (
+          document.querySelector(`#reportExport input[name="format"][value="${formatValue}"]`)?.checked === true
+        ),
+        {},
+        format,
+      );
       const optionIsExpanded = await isOptionExpandSubtableVisible();
-      if (formatsToHideExpanded.includes(format)) {
-        expect(optionIsExpanded, `format ${format} should hide expanded option`).to.be.false;
-      } else {
-        expect(optionIsExpanded, `format ${format} should show expanded option`).to.be.true;
-      }
+      expect(optionIsExpanded, `format ${format} should ${shouldShowExpanded ? 'show' : 'hide'} expanded option`)
+        .to.equal(shouldShowExpanded);
     }
   });
 });
