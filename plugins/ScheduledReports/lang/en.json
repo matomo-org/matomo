@@ -69,7 +69,6 @@
         "ReportWillBeSentAt": "The report will be sent at the selected hour in your local time zone.",
         "ReportHourEqualsUtc": "This corresponds to %s.",
         "NoteDeliveryTime": "Note: The exact delivery time may vary depending on report generation.",
-        "SendingReport": "Sending report…",
         "WidgetsNotMappedToReports": "Some dashboard widgets could not be mapped to scheduled report items: %s.",
         "ExportDashboardTitle": "<b>Exporting your dashboard</b>",
         "ExportDashboardPrepare": "This report is being prepared from your dashboard \"<b>%s</b>\".",
