@@ -173,8 +173,8 @@ class AIChatbotReports extends RecordBuilder
                     Metrics::COLUMN_ACQUIRED_VISITS   => $visits[$label] ?? 0,
                 ];
 
-            $tables[Archiver::AI_CHATBOTS_PAGES_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
-            $tables[Archiver::AI_CHATBOTS_DOCUMENTS_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
+                $tables[Archiver::AI_CHATBOTS_PAGES_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
+                $tables[Archiver::AI_CHATBOTS_DOCUMENTS_RECORD]->sumRowWithLabel($label, $metrics, [Metrics::COLUMN_ACQUIRED_VISITS => 'max']);
                 continue;
             }
 
