@@ -474,7 +474,10 @@ export default defineComponent({
       }
 
       if (this.optionFlat) {
-        exportUrlParams.flat = 1;
+        if (this.hasSubtables) {
+          exportUrlParams.flat = 1;
+        }
+
         if (this.optionShowDimensions) {
           exportUrlParams.show_dimensions = 1;
         }
