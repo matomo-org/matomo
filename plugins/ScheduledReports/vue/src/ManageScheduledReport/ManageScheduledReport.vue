@@ -99,7 +99,6 @@ interface ManageScheduledReportState {
   selectedReports: Record<string, Record<string, boolean>>;
   selectedReportsOrder: Record<string, string[]>;
   sendingReports: Array<string|number>;
-  isWidgetReportMappingLoading: boolean;
 }
 
 type WidgetReportMap = {
@@ -251,21 +250,7 @@ export default defineComponent({
       selectedReports: {},
       selectedReportsOrder: {},
       sendingReports: [],
-      isWidgetReportMappingLoading: false,
     };
-  },
-  watch: {
-    isWidgetReportMappingLoading(isLoading: boolean) {
-      const loadingDiv = this.$refs.ajaxLoadingDiv as HTMLElement | undefined;
-      if (!loadingDiv) {
-        return;
-      }
-      if (isLoading) {
-        loadingDiv.style.display = 'block';
-        return;
-      }
-      loadingDiv.style.display = 'none';
-    },
   },
   methods: {
     sendReportNow(idReport: string|number) {
@@ -546,16 +531,13 @@ export default defineComponent({
       });
     },
     async getWidgetReportMapping(dashboardId: string): Promise<WidgetReportMap> {
-      this.isWidgetReportMappingLoading = true;
       return AjaxHelper.fetch(
         {
           method: 'ScheduledReports.getWidgetReportMap',
           dashId: dashboardId,
           idSite: Matomo.idSite,
         },
-      ).then((e) => e as WidgetReportMap).finally(() => {
-        this.isWidgetReportMappingLoading = false;
-      });
+      ).then((e) => e as WidgetReportMap);
     },
     applyDashboardExportMapping(mapping: WidgetReportMap) {
       if (!mapping) {
