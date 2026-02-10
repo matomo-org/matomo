@@ -48,7 +48,7 @@ class Pdf extends ReportRenderer
     private $bottomMargin = 17;
     private $reportWidthPortrait = 195;
     private $minWidthLabelCellPortrait = 80;
-    private $minWidthLabelCellPortraitShort = 45;
+    private $minWidthLabelCellPortraitShort = 35;
     private $logoWidth = 16;
     private $logoHeight = 16;
     private $totalWidth;
@@ -85,6 +85,7 @@ class Pdf extends ReportRenderer
     private $threeColumnLabelRatio = 0.65;
     private $fourColumnLabelRatio = 0.6;
     private $numColumnsBeforeShrink = 8;
+    private $tableWidthCache = array();
 
     public function __construct()
     {
@@ -711,6 +712,13 @@ class Pdf extends ReportRenderer
 
     private function getMaxSingleLineLabelWidth(): ?float
     {
+        if (
+            !empty($this->tableWidthCache['maxSingleLineLabelWidthFor'])
+            && (float) $this->tableWidthCache['maxSingleLineLabelWidthFor'] === (float) $this->labelCellWidth
+        ) {
+            return $this->tableWidthCache['maxSingleLineLabelWidth'];
+        }
+
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
 
         $rowsMetadata = array();
@@ -743,11 +751,16 @@ class Pdf extends ReportRenderer
         }
 
         if ($maxWidth <= 0) {
+            $this->tableWidthCache['maxSingleLineLabelWidth'] = null;
+            $this->tableWidthCache['maxSingleLineLabelWidthFor'] = $this->labelCellWidth;
             return null;
         }
 
         $padding = $this->TCPDF->getCellPaddings();
-        return $maxWidth + $padding['L'] + $padding['R'];
+        $maxWidth = $maxWidth + $padding['L'] + $padding['R'];
+        $this->tableWidthCache['maxSingleLineLabelWidth'] = $maxWidth;
+        $this->tableWidthCache['maxSingleLineLabelWidthFor'] = $this->labelCellWidth;
+        return $maxWidth;
     }
 
     private function getColumnWidth(string $columnId): float
@@ -867,6 +880,17 @@ class Pdf extends ReportRenderer
      */
     private function getMaxFormattedColumnWidth(string $columnId): float
     {
+        if (
+            !empty($this->tableWidthCache)
+            && isset($this->tableWidthCache['metricMaxWidths'][$columnId])
+        ) {
+            $maxWidth = $this->tableWidthCache['metricMaxWidths'][$columnId];
+            if ($maxWidth <= 0) {
+                return 0;
+            }
+            return $maxWidth + 2;
+        }
+
         $maxWidth = 0;
 
         foreach ($this->report->getRows() as $row) {
@@ -888,6 +912,76 @@ class Pdf extends ReportRenderer
         return $maxWidth + 2;
     }
 
+    private function initializeTableWidthCache(): void
+    {
+        $this->tableWidthCache = array(
+            'ready' => true,
+            'labelTooLong' => false,
+            'labelFitsShortWidth' => true,
+            'maxLabelLength' => 0,
+            'metricMaxWidths' => array(),
+            'maxSingleLineLabelWidth' => null,
+            'maxSingleLineLabelWidthFor' => null,
+        );
+
+        if (!$this->reportHasData()) {
+            return;
+        }
+
+        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
+
+        $maxCharacters = $this->maxLabelCharacter;
+        $rowsMetadata = array();
+        if (!empty($this->reportRowsMetadata)) {
+            $rowsMetadata = $this->reportRowsMetadata->getRows();
+        }
+
+        $metricColumnsToAdjust = array('revenue', 'ecommerce_revenue', 'avg_time_on_site');
+        foreach ($metricColumnsToAdjust as $columnId) {
+            $this->tableWidthCache['metricMaxWidths'][$columnId] = 0.0;
+        }
+
+        foreach ($this->report->getRows() as $rowId => $row) {
+            $label = $row->getColumn('label');
+            if ($label !== false && $label !== null) {
+                $rawLabel = (string) $label;
+                $length = mb_strlen($rawLabel);
+                if ($length > $this->tableWidthCache['maxLabelLength']) {
+                    $this->tableWidthCache['maxLabelLength'] = $length;
+                }
+                if ($length > $maxCharacters) {
+                    $this->tableWidthCache['labelTooLong'] = true;
+                }
+                if ($this->tableWidthCache['labelFitsShortWidth']) {
+                    $formattedLabel = $this->buildFormattedLabelTextForRow(
+                        $rowId,
+                        $rawLabel,
+                        $rowsMetadata,
+                        $maxCharacters
+                    );
+                    if ($this->TCPDF->getNumLines($formattedLabel, $this->minWidthLabelCellPortraitShort) > 1) {
+                        $this->tableWidthCache['labelFitsShortWidth'] = false;
+                    }
+                }
+            }
+
+            foreach ($metricColumnsToAdjust as $columnId) {
+                if (!array_key_exists($columnId, $this->reportColumns)) {
+                    continue;
+                }
+                $value = $row->getColumn($columnId);
+                if ($value === false || $value === null) {
+                    continue;
+                }
+                $formattedValue = NumberFormatter::getInstance()->format($value);
+                $width = $this->TCPDF->GetStringWidth($formattedValue);
+                if ($width > $this->tableWidthCache['metricMaxWidths'][$columnId]) {
+                    $this->tableWidthCache['metricMaxWidths'][$columnId] = $width;
+                }
+            }
+        }
+    }
+
 
     /**
      * Will check if label column could use a shorter width.
@@ -896,46 +990,27 @@ class Pdf extends ReportRenderer
      */
     private function shouldUseShortLabelWidth(): bool
     {
-        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
-
-        $maxCharacters = $this->maxLabelCharacter;
-
-        $rowsMetadata = array();
-        if (!empty($this->reportRowsMetadata)) {
-            $rowsMetadata = $this->reportRowsMetadata->getRows();
+        if (empty($this->tableWidthCache) || empty($this->tableWidthCache['ready'])) {
+            $this->initializeTableWidthCache();
         }
 
-        $maxLength = 0;
-        foreach ($this->report->getRows() as $rowId => $row) {
-            $label = $row->getColumn('label');
-            if ($label === false || $label === null) {
-                continue;
-            }
-            $rawLabel = (string) $label;
-            if (mb_strlen($rawLabel) > $maxCharacters) {
-                return false;
-            }
-
-            $length = mb_strlen($rawLabel);
-            if ($length > $maxLength) {
-                $maxLength = $length;
-                if ($maxLength >= $this->labelShortContentThreshold) {
-                    return false;
-                }
-            }
-
-            $formattedLabel = $this->buildFormattedLabelTextForRow(
-                $rowId,
-                $rawLabel,
-                $rowsMetadata,
-                $maxCharacters
-            );
-            if ($this->TCPDF->getNumLines($formattedLabel, $this->minWidthLabelCellPortraitShort) > 1) {
-                return false;
-            }
+        if (empty($this->tableWidthCache['maxLabelLength'])) {
+            return false;
         }
 
-        return $maxLength > 0;
+        if (!empty($this->tableWidthCache['labelTooLong'])) {
+            return false;
+        }
+
+        if ($this->tableWidthCache['maxLabelLength'] >= $this->labelShortContentThreshold) {
+            return false;
+        }
+
+        if (empty($this->tableWidthCache['labelFitsShortWidth'])) {
+            return false;
+        }
+
+        return $this->tableWidthCache['maxLabelLength'] > 0;
     }
 
     private function buildFormattedLabelTextForRow(
@@ -1033,6 +1108,7 @@ class Pdf extends ReportRenderer
         $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
         $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
 
+        $this->initializeTableWidthCache();
         $this->setInitialLabelWidth($columnsCount);
         $this->capLabelWidthForManyColumns($columnsCount);
         $this->shrinkLabelWidthForSingleLineLabels($columnsCount);
