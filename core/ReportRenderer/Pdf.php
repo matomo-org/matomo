@@ -86,6 +86,7 @@ class Pdf extends ReportRenderer
     private $fourColumnLabelRatio = 0.6;
     private $numColumnsBeforeShrink = 8;
     private $tableWidthCache = array();
+    private $hasFrontPageBreak = false;
 
     public function __construct()
     {
@@ -230,7 +231,7 @@ class Pdf extends ReportRenderer
         $this->TCPDF->Ln();
 
         $this->TCPDF->AddPage(self::PORTRAIT);
-        $this->currentPage = 1;
+        $this->hasFrontPageBreak = true;
     }
 
     /**
@@ -265,9 +266,18 @@ class Pdf extends ReportRenderer
 
         $rowCount = $reportHasData ? $this->report->getRowsCount() + self::TABLE_HEADER_ROW_COUNT : self::NO_DATA_ROW_COUNT;
 
+        $usedFrontPageBreak = false;
+        if ($this->hasFrontPageBreak && $this->currentPage === 0) {
+            $this->currentPage++;
+            $this->TCPDF->setPageOrientation(self::PORTRAIT, '', $this->bottomMargin);
+            $this->hasFrontPageBreak = false;
+            $usedFrontPageBreak = true;
+        }
+
         // Only a page break before if the current report has some data
         if (
-            $reportHasData
+            !$usedFrontPageBreak
+            && $reportHasData
             // and
             && (
                 // it is the first report
