@@ -7,15 +7,14 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-declare(strict_types=1);
-
-namespace Piwik\Plugins\BotTracking;
+namespace Piwik\Updates;
 
 use Piwik\Archive\ArchiveInvalidator;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\DbHelper;
+use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Custom as CustomMigration;
