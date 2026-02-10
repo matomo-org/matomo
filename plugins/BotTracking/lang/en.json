@@ -1,7 +1,7 @@
 {
     "BotTracking": {
         "ColumnAcquiredVisits": "Acquired visits",
-        "ColumnAcquiredVisitsDocumentation": "Visits that started after someone clicked from an AI chatbot (Referrers → AI Assistants).",
+        "ColumnAcquiredVisitsDocumentation": "Visits that started after someone clicked from an AI chatbot (Referrers \u2192 AI Assistants).",
         "ColumnDocumentRequests": "Document Requests",
         "ColumnDocumentRequestsDocumentation": "Total number of bot requests to document URLs recorded during the selected period.",
         "ColumnPageRequests": "Page Requests",

@@ -19,12 +19,9 @@ use Piwik\DbHelper;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Custom as CustomMigration;
-use Piwik\Updates as PiwikUpdates;
+use Piwik\Updates;
 
-/**
- * Update for version 5.8.0-alpha.
- */
-class Updates_5_8_0_alpha extends PiwikUpdates
+class Updates_5_8_0_b1 extends Updates
 {
     public function getMigrations(Updater $updater): array
     {
