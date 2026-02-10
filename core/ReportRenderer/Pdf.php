@@ -80,6 +80,11 @@ class Pdf extends ReportRenderer
     private $labelShortContentThreshold = 100;
     private $columnCellWidths = array();
     private $labelThirdLinePadding = 4;
+    private $expandedMetricRightPadding = 1.0;
+    private $twoColumnLabelRatio = 0.7;
+    private $threeColumnLabelRatio = 0.65;
+    private $fourColumnLabelRatio = 0.6;
+    private $numColumnsBeforeShrink = 8;
 
     public function __construct()
     {
@@ -629,11 +634,11 @@ class Pdf extends ReportRenderer
     }
 
     /**
-     * Will check whether label should use a shorter width or not
+     * Sets initial label width based on column count and content heuristics.
      * @param int $columnsCount
      * @return void
      */
-    private function adjustLabelWidthForTableData(int $columnsCount): void
+    private function setInitialLabelWidth(int $columnsCount): void
     {
         if ($columnsCount <= 1) {
             $this->labelCellWidth = $this->totalWidth;
@@ -643,11 +648,11 @@ class Pdf extends ReportRenderer
 
         if ($columnsCount < 5) {
             if ($columnsCount === 2) {
-                $labelRatio = 0.7;
+                $labelRatio = $this->twoColumnLabelRatio;
             } elseif ($columnsCount === 3) {
-                $labelRatio = 0.65;
+                $labelRatio = $this->threeColumnLabelRatio;
             } else {
-                $labelRatio = 0.6;
+                $labelRatio = $this->fourColumnLabelRatio;
             }
 
             $metricColumns = $columnsCount - 1;
@@ -666,6 +671,85 @@ class Pdf extends ReportRenderer
         $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
     }
 
+    private function shrinkLabelWidthForSingleLineLabels(int $columnsCount): void
+    {
+        if ($columnsCount <= $this->numColumnsBeforeShrink || !$this->reportHasData()) {
+            return;
+        }
+
+        $maxLabelWidth = $this->getMaxSingleLineLabelWidth();
+        if ($maxLabelWidth === null) {
+            return;
+        }
+        $maxLabelWidth = max($maxLabelWidth, $this->minWidthLabelCellPortraitShort);
+        if ($maxLabelWidth >= $this->labelCellWidth) {
+            return;
+        }
+
+        $metricColumns = $columnsCount - 1;
+        $this->labelCellWidth = $maxLabelWidth;
+        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
+        $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+    }
+
+    private function capLabelWidthForManyColumns(int $columnsCount): void
+    {
+        if ($columnsCount <= $this->numColumnsBeforeShrink) {
+            return;
+        }
+
+        $maxLabelWidth = round($this->totalWidth * 0.35, 2);
+        if ($this->labelCellWidth <= $maxLabelWidth) {
+            return;
+        }
+
+        $metricColumns = $columnsCount - 1;
+        $this->labelCellWidth = $maxLabelWidth;
+        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
+        $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+    }
+
+    private function getMaxSingleLineLabelWidth(): ?float
+    {
+        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
+
+        $rowsMetadata = array();
+        if (!empty($this->reportRowsMetadata)) {
+            $rowsMetadata = $this->reportRowsMetadata->getRows();
+        }
+
+        $maxWidth = 0.0;
+
+        foreach ($this->report->getRows() as $rowId => $row) {
+            $label = $row->getColumn('label');
+            if ($label === false || $label === null) {
+                continue;
+            }
+
+            $labelText = $this->buildFormattedLabelTextForRow(
+                $rowId,
+                (string) $label,
+                $rowsMetadata,
+                $this->maxLabelCharacter
+            );
+            if ($this->TCPDF->getNumLines($labelText, $this->labelCellWidth) > 1) {
+                return null;
+            }
+
+            $width = $this->TCPDF->GetStringWidth($labelText);
+            if ($width > $maxWidth) {
+                $maxWidth = $width;
+            }
+        }
+
+        if ($maxWidth <= 0) {
+            return null;
+        }
+
+        $padding = $this->TCPDF->getCellPaddings();
+        return $maxWidth + $padding['L'] + $padding['R'];
+    }
+
     private function getColumnWidth(string $columnId): float
     {
         if (isset($this->columnCellWidths[$columnId])) {
@@ -680,20 +764,20 @@ class Pdf extends ReportRenderer
     }
 
     /**
-     * This function will try to show all values for revenue columns.
+     * This function will try to show all values for selected metric columns.
      * Will adjust other column widths to accommodate this
      * @return void
      */
-    private function adjustMetricColumnWidthsForRevenue(): void
+    private function adjustMetricColumnWidthsToContent(): void
     {
         if (!$this->reportHasData()) {
             return;
         }
 
-        $revenueColumns = array('revenue', 'ecommerce_revenue');
+        $metricColumnsToAdjust = array('revenue', 'ecommerce_revenue', 'avg_time_on_site');
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
 
-        foreach ($revenueColumns as $columnId) {
+        foreach ($metricColumnsToAdjust as $columnId) {
             $this->adjustMetricColumnWidthToContent($columnId);
         }
     }
@@ -721,6 +805,10 @@ class Pdf extends ReportRenderer
         }
 
         $additionalWidth = $requiredWidth - $currentWidth;
+        if ($additionalWidth <= 1.0) {
+            $requiredWidth += $this->expandedMetricRightPadding;
+            $additionalWidth = $requiredWidth - $currentWidth;
+        }
         $remainingWidthToGain = $additionalWidth;
         $minMetricWidth = 10;
 
@@ -800,6 +888,7 @@ class Pdf extends ReportRenderer
         return $maxWidth + 2;
     }
 
+
     /**
      * Will check if label column could use a shorter width.
      * This is done so that we can fit more metrics in the same row for data table with no label that is too long
@@ -823,33 +912,49 @@ class Pdf extends ReportRenderer
                 continue;
             }
             $rawLabel = (string) $label;
-            $visibleLabel = mb_substr($rawLabel, 0, $maxCharacters);
-
-            if (mb_strlen($rawLabel) > mb_strlen($visibleLabel)) {
+            if (mb_strlen($rawLabel) > $maxCharacters) {
                 return false;
             }
 
-            $length = mb_strlen($visibleLabel);
+            $length = mb_strlen($rawLabel);
             if ($length > $maxLength) {
                 $maxLength = $length;
                 if ($maxLength >= $this->labelShortContentThreshold) {
                     return false;
                 }
             }
-            if (isset($rowsMetadata[$rowId])) {
-                $rowMeta = $rowsMetadata[$rowId]->getColumns();
-                if (isset($rowMeta['logo'])) {
-                    $visibleLabel = str_repeat(' ', $this->leftSpacesBeforeLogo) . $visibleLabel;
-                }
-            }
 
-            $formattedLabel = $this->formatText($visibleLabel);
+            $formattedLabel = $this->buildFormattedLabelTextForRow(
+                $rowId,
+                $rawLabel,
+                $rowsMetadata,
+                $maxCharacters
+            );
             if ($this->TCPDF->getNumLines($formattedLabel, $this->minWidthLabelCellPortraitShort) > 1) {
                 return false;
             }
         }
 
         return $maxLength > 0;
+    }
+
+    private function buildFormattedLabelTextForRow(
+        int $rowId,
+        string $label,
+        array $rowsMetadata,
+        int $maxCharacters
+    ): string {
+        $labelText = trim($label);
+        $labelText = $this->limitTextLength($labelText, $maxCharacters);
+
+        if (isset($rowsMetadata[$rowId])) {
+            $rowMeta = $rowsMetadata[$rowId]->getColumns();
+            if (isset($rowMeta['logo'])) {
+                $labelText = str_repeat(' ', $this->leftSpacesBeforeLogo) . $labelText;
+            }
+        }
+
+        return $this->formatText($labelText);
     }
 
     private function paintGraph(): void
@@ -928,14 +1033,16 @@ class Pdf extends ReportRenderer
         $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
         $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
 
-        $this->adjustLabelWidthForTableData($columnsCount);
+        $this->setInitialLabelWidth($columnsCount);
+        $this->capLabelWidthForManyColumns($columnsCount);
+        $this->shrinkLabelWidthForSingleLineLabels($columnsCount);
 
         $this->columnCellWidths = array();
         foreach ($this->reportColumns as $columnId => $_) {
             $this->columnCellWidths[$columnId] = $columnId === 'label' ? $this->labelCellWidth : $this->cellWidth;
         }
 
-        $this->adjustMetricColumnWidthsForRevenue();
+        $this->adjustMetricColumnWidthsToContent();
         $this->totalWidth = array_sum($this->columnCellWidths);
     }
 
