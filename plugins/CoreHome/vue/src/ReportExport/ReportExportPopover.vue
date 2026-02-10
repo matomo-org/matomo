@@ -250,7 +250,7 @@ export default defineComponent({
     const isFormatWithoutExpanded = this.isFormatWithoutExpanded(this.initialReportFormat);
     let optionFlat = this.initialOptionFlat;
     let optionExpanded = this.initialOptionExpanded;
-    if (isFormatWithoutExpanded) {
+    if (this.hasSubtables && isFormatWithoutExpanded) {
       optionFlat = true;
       optionExpanded = false;
     }
