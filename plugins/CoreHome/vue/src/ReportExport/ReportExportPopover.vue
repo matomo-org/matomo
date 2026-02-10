@@ -293,6 +293,9 @@ export default defineComponent({
         } else if (this.preferredSubtableOption === 'expanded') {
           this.optionExpanded = true;
           this.optionFlat = false;
+        } else if (this.preferredSubtableOption === null) {
+          this.optionFlat = false;
+          this.optionExpanded = false;
         } else if (this.optionFlat && this.optionExpanded) {
           this.optionExpanded = false;
         }
