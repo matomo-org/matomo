@@ -35,8 +35,8 @@ class AmazonCloudFront extends BotTrackingMethodAbstract
     {
         $view = new View('@BotTracking/_noDataAmazonCloudFront');
         $view->sendHeadersWhenRendering = false;
-        $view->urlKnowledgeBase = 'https://matomo.org/';
-        $view->urlSourceCode = 'https://matomo.org/';
+        $view->urlKnowledgeBase = 'https://matomo.org/faq/how-to/install-ai-chatbot-tracking';
+        $view->urlSourceCode = 'https://github.com/matomo-org/tracker-cloudfront';
         return $view->render();
     }
 }

@@ -35,8 +35,8 @@ class WordPress extends BotTrackingMethodAbstract
     {
         $view = new View('@BotTracking/_noDataWordPress');
         $view->sendHeadersWhenRendering = false;
-        $view->urlKnowledgeBase = 'https://matomo.org/';
-        $view->urlSourceCode = 'https://matomo.org/';
+        $view->urlKnowledgeBase = 'https://matomo.org/faq/how-to/install-ai-chatbot-tracking-wordpress';
+        $view->urlSourceCode = 'https://github.com/matomo-org/matomo-for-wordpress';
         return $view->render();
     }
 }
