@@ -1499,7 +1499,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /** @var string[] */
-    private static $previousRowClasses = array('O:39:"Piwik\DataTable\Row\DataTableSummaryRow"', 'O:19:"Piwik\DataTable\Row"', 'O:36:"Piwik_DataTable_Row_DataTableSummary"', 'O:19:"Piwik_DataTable_Row"');
+    private static $previousRowClasses = [
+        'O:39:"Piwik\DataTable\Row\DataTableSummaryRow"',
+        'O:19:"Piwik\DataTable\Row"',
+        'O:36:"Piwik_DataTable_Row_DataTableSummary"',
+        'O:19:"Piwik_DataTable_Row"',
+    ];
 
     /** @var string */
     private static $rowClassToUseForUnserialize = 'O:29:"Piwik_DataTable_SerializedRow"';
@@ -1518,18 +1523,79 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     private function unserializeRows($serialized)
     {
-        $serialized = str_replace(self::$previousRowClasses, self::$rowClassToUseForUnserialize, $serialized);
-        $rows = Common::safe_unserialize($serialized, [
-            Row::class,
-            DataTableSummaryRow::class,
-            \Piwik_DataTable_SerializedRow::class,
-        ]);
+        // Current archives only persist row arrays, so do not allow objects in the default path.
+        $rows = Common::safe_unserialize($serialized, []);
+
+        if (!$this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = false)) {
+            $rows = false;
+        }
 
         if ($rows === false) {
+            // Legacy object payloads are attempted as a fallback for BC.
+            $legacySerialized = str_replace(
+                array_map(function ($class) {
+                    return $class . ':';
+                }, self::$previousRowClasses),
+                self::$rowClassToUseForUnserialize . ':',
+                $serialized
+            );
+            $rows = Common::safe_unserialize($legacySerialized, [
+                \Piwik_DataTable_SerializedRow::class,
+            ]);
+        }
+
+        if (!$this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = true)) {
             throw new Exception("The unserialization has failed!");
         }
 
         return $rows;
+    }
+
+    private function isValidRowsPayload($rows, bool $allowLegacySerializedRowObjects): bool
+    {
+        if (!is_array($rows)) {
+            return false;
+        }
+
+        foreach ($rows as $row) {
+            if ($allowLegacySerializedRowObjects && $this->isValidLegacySerializedRowObject($row)) {
+                continue;
+            }
+
+            if ($this->containsObject($row)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function isValidLegacySerializedRowObject($row): bool
+    {
+        if (!$row instanceof \Piwik_DataTable_SerializedRow) {
+            return false;
+        }
+
+        return isset($row->c) && is_array($row->c) && !$this->containsObject($row->c);
+    }
+
+    private function containsObject($value): bool
+    {
+        if (is_object($value)) {
+            return true;
+        }
+
+        if (!is_array($value)) {
+            return false;
+        }
+
+        foreach ($value as $entry) {
+            if ($this->containsObject($entry)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

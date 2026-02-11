@@ -449,6 +449,80 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         self::assertEquals($subtable, $row1->getIdSubDataTable());
     }
 
+    public function testUnserializeFallsBackToLegacyRowObjectSerializationFormat(): void
+    {
+        $serializedDatatable = [];
+        require PIWIK_INCLUDE_PATH . "/tests/resources/DataTables-archived-different-formats.php";
+        require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
+
+        $table = DataTable::fromSerializedArray($serializedDatatable[0]);
+        $row = $table->getFirstRow();
+
+        self::assertSame('piwik.org', $row->getColumn('label'));
+        self::assertSame(10509, $row->getColumn(2));
+    }
+
+    public function testUnserializeFailsForNonLegacyObjectPayloadWithoutLegacyClassMarkers(): void
+    {
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('The unserialization has failed!');
+
+        DataTable::fromSerializedArray('a:1:{i:0;O:8:"stdClass":0:{}}');
+    }
+
+    public function testUnserializeWorksForModernArrayRows(): void
+    {
+        $serialized = serialize([
+            [
+                Row::COLUMNS => ['label' => 'modern.example', 2 => 42],
+                Row::METADATA => [],
+                Row::DATATABLE_ASSOCIATED => 17,
+            ],
+        ]);
+
+        $table = DataTable::fromSerializedArray($serialized);
+        $row = $table->getFirstRow();
+
+        self::assertSame('modern.example', $row->getColumn('label'));
+        self::assertSame(42, $row->getColumn(2));
+        self::assertSame(17, $row->getIdSubDataTable());
+    }
+
+    public function testUnserializeRejectsUnexpectedNestedObjectInArrayPayload(): void
+    {
+        $serialized = serialize([
+            [
+                Row::COLUMNS => ['label' => 'modern.example', 'bad' => new \stdClass()],
+                Row::METADATA => [],
+                Row::DATATABLE_ASSOCIATED => null,
+            ],
+        ]);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('The unserialization has failed!');
+
+        DataTable::fromSerializedArray($serialized);
+    }
+
+    public function testUnserializeRejectsLegacySerializedRowObjectWithNestedObjectPayload(): void
+    {
+        require_once PIWIK_INCLUDE_PATH . "/core/DataTable/Bridges.php";
+
+        $legacyRow = new \Piwik_DataTable_SerializedRow();
+        $legacyRow->c = [
+            Row::COLUMNS => ['label' => 'legacy.example', 'bad' => new \stdClass()],
+            Row::METADATA => [],
+            Row::DATATABLE_ASSOCIATED => null,
+        ];
+
+        $serialized = serialize([0 => $legacyRow]);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('The unserialization has failed!');
+
+        DataTable::fromSerializedArray($serialized);
+    }
+
     public function testSumRowMetadataCustomAggregationOperation(): void
     {
         $metadata1 = ['mytest' => 'value1'];

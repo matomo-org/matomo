@@ -156,17 +156,7 @@ parameters:
 			path: core/API/ResponseBuilder.php
 
 		-
-			message: "#^Invoking callable on an unknown class Piwik\\\\callback\\.$#"
-			count: 2
-			path: core/Access.php
-
-		-
 			message: "#^Parameter \\#1 \\$request of static method Piwik\\\\API\\\\Request\\:\\:getMethodIfApiRequest\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: core/Access.php
-
-		-
-			message: "#^Parameter \\$function of method Piwik\\\\Access\\:\\:doAsSuperUser\\(\\) has invalid type Piwik\\\\callback\\.$#"
 			count: 1
 			path: core/Access.php
 
