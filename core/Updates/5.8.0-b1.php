@@ -19,27 +19,44 @@ use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Custom as CustomMigration;
 use Piwik\Updates;
+use Piwik\Updater\Migration\Factory as MigrationFactory;
 
 class Updates_5_8_0_b1 extends Updates
 {
+    /**
+     * @var MigrationFactory
+     */
+    private $migration;
+
+    public function __construct(MigrationFactory $factory)
+    {
+        $this->migration = $factory;
+    }
+
     public function getMigrations(Updater $updater): array
     {
         $migrations = [];
 
         $tableName = BotRequestsDao::getPrefixedTableName();
+        $earliestDatesBySite = [];
         if (DbHelper::tableExists($tableName)) {
-            $migrations[] = new CustomMigration(function () use ($tableName) {
-                Db::query(
-                    sprintf('UPDATE `%s` SET bot_type = ? WHERE bot_type = ?', $tableName),
-                    [BotDetector::BOT_TYPE_AI_CHATBOT, 'ai_assistant']
-                );
-            }, sprintf('UPDATE %s SET bot_type = "%s" WHERE bot_type = "ai_assistant"', $tableName, BotDetector::BOT_TYPE_AI_CHATBOT));
+            $migrations[] = $this->migration->db->boundSql(sprintf('UPDATE `%s` SET bot_type = ? WHERE bot_type = ?', $tableName), [BotDetector::BOT_TYPE_AI_CHATBOT, 'ai_assistant']);
+            $earliestDatesBySite = Db::fetchAll(
+                sprintf('SELECT idsite, DATE(MIN(server_time)) as earliest_date FROM `%s` GROUP BY idsite', $tableName)
+            );
         }
 
-        $migrations[] = new CustomMigration(function () {
+        $migrations[] = new CustomMigration(function () use ($earliestDatesBySite) {
             $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-            $invalidator->scheduleReArchiving('all', 'BotTracking', null, Date::factory('2000-01-01'));
-        }, './console core:invalidate-report-data --plugin=BotTracking');
+            foreach ($earliestDatesBySite as $siteData) {
+                if (empty($siteData['idsite']) || empty($siteData['earliest_date'])) {
+                    continue;
+                }
+
+                $startDate = Date::factory($siteData['earliest_date'])->subDay(1);
+                $invalidator->scheduleReArchiving([(int)$siteData['idsite']], 'BotTracking', null, $startDate);
+            }
+        }, './console core:invalidate-report-data --plugin=BotTracking --sites=<site-id> --dates=<site-earliest-bot-date-minus-1-day>,today');
 
         return $migrations;
     }
