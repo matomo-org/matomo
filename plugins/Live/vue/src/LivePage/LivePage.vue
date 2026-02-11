@@ -21,7 +21,7 @@
           :title="translate('Live_OnClickPause', translate('Live_VisitorsInRealTime'))"
           @click.prevent="onClickPause()"
         >
-          <img id="pauseImage" border="0" src="plugins/Live/images/pause.png" role="presentation" />
+          <img id="pauseImage" border="0" src="plugins/Live/images/pause.svg" role="presentation" />
         </a>
         <a
           :title="translate('Live_OnClickStart', translate('Live_VisitorsInRealTime'))"
@@ -31,7 +31,7 @@
             id="playImage"
             style="display: none;"
             border="0"
-            src="plugins/Live/images/play.png"
+            src="plugins/Live/images/play.svg"
             role="presentation"
           />
         </a>
