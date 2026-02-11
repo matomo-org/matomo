@@ -81,6 +81,19 @@ input.browser-default {
   border-bottom-color: @theme-color-brand;
 }
 
+[data-theme-mode="dark"]:root {
+  [type="radio"]:not(:checked):disabled + span::before,
+  [type="checkbox"]:not(:checked):disabled + span:not(.lever)::before {
+    border-color: transparent;
+    background: @theme-color-background-disabled;
+  }
+
+  [type="checkbox"]:disabled + span,
+  [type="radio"]:disabled + span {
+    color: @theme-color-text-disabled;
+  }
+}
+
 nav.blue-grey.darken-3 {
   background-color: @theme-color-header-background !important;
 }
