@@ -111,6 +111,8 @@ class EvolutionPeriodSelector
         $periodToUse = 'day';
         if ($lowestNumDaysInRange >= 7 * 365) {
             $periodToUse = 'year';
+        } elseif ($lowestNumDaysInRange >= 4 * 365) {
+            $periodToUse = 'quarter';
         } elseif ($lowestNumDaysInRange >= 2 * 365) {
             $periodToUse = 'month';
         } elseif ($lowestNumDaysInRange >= 180) {
