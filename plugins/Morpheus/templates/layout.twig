@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="ng-app" {% if language is defined %}lang="{{ language }}"{% endif %}>
+<html id="ng-app" {% if language is defined %}lang="{{ language }}"{% endif %} data-theme-mode="{{ themeStyles.getThemeMode() }}">
     <head>
         {% block head %}
             <meta charset="utf-8">

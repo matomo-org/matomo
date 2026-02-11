@@ -301,6 +301,11 @@ class ThemeStyles
         return array_search($this->themeMode, $this->themeModeList) ?: 0;
     }
 
+    public function getThemeMode(): string
+    {
+        return $this->themeMode;
+    }
+
     public function getPropertyValue(string $name): string
     {
         $value = $this->$name;
