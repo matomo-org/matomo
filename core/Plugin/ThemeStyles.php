@@ -120,7 +120,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorTextInvert = ['#ccc', '#212121'];
+    public $colorTextInvert = ['#ccc', '#555'];
 
     /**
      * @var string|array<string>
