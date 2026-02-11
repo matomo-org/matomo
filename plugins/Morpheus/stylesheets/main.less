@@ -719,6 +719,11 @@ tr:hover #token_auth {
 }
 
 /** Materialize color overwrites */
+.dropdown-content {
+  background: @theme-color-background-contrast;
+  color: @theme-color-text;
+}
+
 .dropdown-content li > a,
  .dropdown-content li > span {
   color: @theme-color-link !important;
@@ -729,6 +734,10 @@ tr:hover #token_auth {
  .dropdown-content li.active,
  .dropdown-content li.selected {
   background-color: @theme-color-background-tinyContrast;
+}
+
+.divider {
+  background: @theme-color-border;
 }
 
 #root .side-nav .collapsible-body li a {
