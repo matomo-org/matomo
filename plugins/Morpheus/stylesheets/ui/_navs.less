@@ -66,7 +66,7 @@ nav .sidenav-trigger {
 }
 
 .sidenav {
-  background: @theme-color-background-highContrast;
+  background: @theme-color-background-contrast;
 
   li {
     > a {
@@ -76,6 +76,10 @@ nav .sidenav-trigger {
       &:focus,
       &:hover {
         color: @theme-color-text;
+      }
+
+      > i {
+        color: inherit;
       }
     }
 
@@ -99,6 +103,10 @@ nav .sidenav-trigger {
         right: 20px;
         left: unset;
       }
+    }
+
+    .collapsible-body {
+      background: @theme-color-background-contrast;
     }
   }
 }

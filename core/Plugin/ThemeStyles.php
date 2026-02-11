@@ -220,7 +220,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundHighContrast = ['#202020', '#000'];
+    public $colorBackgroundHighContrast = ['#202020', '#fff'];
 
     /**
      * @var string|array<string>
