@@ -12,8 +12,10 @@ namespace Piwik\Tests\Integration\API;
 use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\AuthResult;
+use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use ReflectionClass;
@@ -264,6 +266,57 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
+    public function testProcessThrowsIfForceApiSessionConflictsBetweenGetAndPost()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+
+        $_GET['force_api_session'] = 1;
+        $_POST['force_api_session'] = 0;
+
+        try {
+            $request = new Request(['method' => 'API.getPiwikVersion', 'format' => 'original']);
+            $request->process();
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['force_api_session']);
+        }
+    }
+
+    public function testProcessThrowsIfTokenAuthConflictsBetweenGetAndPost()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+
+        $_GET['token_auth'] = 'tokenGet';
+        $_POST['token_auth'] = 'tokenPost';
+
+        try {
+            $request = new Request(['method' => 'API.getPiwikVersion', 'format' => 'original']);
+            $request->process();
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_POST['token_auth']);
+        }
+    }
+
+    public function testProcessDoesNotThrowConflictingForceApiSessionWhenNestedApiInvocation()
+    {
+        $_GET['force_api_session'] = 1;
+        $_POST['force_api_session'] = 0;
+        $this->setNestedApiInvocationCount(2);
+
+        try {
+            $request = new Request(['method' => 'API.getPiwikVersion', 'format' => 'original']);
+            $result = $request->process();
+            $this->assertNotEmpty($result);
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['force_api_session']);
+            $this->setNestedApiInvocationCount(0);
+        }
+    }
+
     private function assertSameUserAsBeforeIsAuthenticated()
     {
         $this->assertEquals($this->userAuthToken, $this->access->getTokenAuth());
@@ -324,6 +377,20 @@ class RequestTest extends IntegrationTestCase
         $mock->reloadAccess($auth);
 
         return $mock;
+    }
+
+    private function setNestedApiInvocationCount(int $count): void
+    {
+        $reflection = new ReflectionClass(Request::class);
+        $reflectionProperty = $reflection->getProperty('nestedApiInvocationCount');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue(null, $count);
+
+        if ($count > 0) {
+            Request::setIsRootRequestApiRequest('API.getPiwikVersion');
+        } else {
+            Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
+        }
     }
 
     public function provideContainerConfig()
