@@ -616,19 +616,18 @@ export default defineComponent({
     },
     reportHours() {
       const hours: Option[] = [];
+      const fractionalOffset = ((this.timeZoneDifferenceInHours % 1) + 1) % 1;
+      const minutePart = Math.round(fractionalOffset * 60);
+      const minuteLabel = `${minutePart}`.padStart(2, '0');
+
       for (let i = 0; i < 24; i += 1) {
         const paddedHour = `${i}`.padStart(2, '0');
-        if ((this.timeZoneDifferenceInHours * 2) % 2 !== 0) {
-          hours.push({
-            key: `${i}.5`,
-            value: `${paddedHour}:30`,
-          });
-        } else {
-          hours.push({
-            key: `${i}`,
-            value: `${paddedHour}:00`,
-          });
-        }
+        const key = fractionalOffset === 0 ? `${i}` : `${i + fractionalOffset}`;
+        const value = fractionalOffset === 0 ? `${paddedHour}:00` : `${paddedHour}:${minuteLabel}`;
+        hours.push({
+          key,
+          value,
+        });
       }
       return hours;
     },
@@ -637,9 +636,9 @@ export default defineComponent({
         this.report.hour as string,
         -this.timeZoneDifferenceInHours,
       );
-      const reportHourFloat = parseFloat(reportHour);
-      const hours = Math.floor(reportHourFloat);
-      return `${hours}`.padStart(2, '0');
+      const normalized = ((parseFloat(reportHour) % 24) + 24) % 24;
+      const roundedHour = Math.round(normalized) % 24;
+      return `${roundedHour}`.padStart(2, '0');
     },
     reportHourUtcLabel() {
       return translate('ScheduledReports_ReportHourWithUtcOnly', [`${this.reportHourUtc}:00`]);
