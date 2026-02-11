@@ -237,7 +237,7 @@
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
-				<segment>pageTitle==</segment>
+				<segment />
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010">

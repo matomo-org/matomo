@@ -1546,7 +1546,7 @@ parameters:
 			path: core/Plugin/Visualization.php
 
 		-
-			message: "#^Parameter \\#1 \\$dataTable of method Piwik\\\\Plugin\\\\ViewDataTable\\:\\:setDataTable\\(\\) expects Piwik\\\\DataTable, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
+			message: "#^Parameter \\#1 \\$dataTable of method Piwik\\\\Plugin\\\\ViewDataTable\\:\\:setDataTable\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
 			count: 2
 			path: core/Plugin/Visualization.php
 
@@ -3091,36 +3091,6 @@ parameters:
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\\\Piwik\\\\View \\(the popover_rowevolution template\\)\\)\\: Unexpected token \"\\(\", expected variable at offset 117$#"
 			count: 1
-			path: plugins/CoreHome/DataTableRowAction/MultiRowEvolution.php
-
-		-
-			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\Row\\:\\:getFirstRow\\(\\)\\.$#"
-			count: 2
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^Call to an undefined method Piwik\\\\ViewDataTable\\\\Factory\\:\\:render\\(\\)\\.$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\DataTableRowAction\\\\RowEvolution\\:\\:getRowEvolutionGraph\\(\\) should return Piwik\\\\ViewDataTable\\\\Factory but returns Piwik\\\\Plugin\\\\ViewDataTable\\.$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\Piwik\\\\View \\(the popover_rowevolution template\\)\\)\\: Unexpected token \"\\(\", expected variable at offset 117$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$dataTableMap \\\\Piwik\\\\DataTable\\\\Map\\)\\: Unexpected token \"\\$dataTableMap\", expected type at offset 9$#"
-			count: 1
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
@@ -4049,11 +4019,6 @@ parameters:
 			path: plugins/Live/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function urldecode expects string, array\\|true given\\.$#"
-			count: 1
-			path: plugins/Live/Live.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Reports\\\\GetLastVisits\\:\\:buildReportMetadata\\(\\) should return array\\|null but return statement is missing\\.$#"
 			count: 1
 			path: plugins/Live/Reports/GetLastVisits.php
@@ -4435,11 +4400,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$ids of static method Piwik\\\\Site\\:\\:getIdSitesFromIdSitesString\\(\\) expects array\\|string, int\\<min, \\-2\\>\\|int\\<0, max\\> given\\.$#"
-			count: 1
-			path: plugins/SegmentEditor/SegmentEditor.php
-
-		-
-			message: "#^Parameter \\#1 \\$segmentCondition of class Piwik\\\\Segment constructor expects string, array\\|true given\\.$#"
 			count: 1
 			path: plugins/SegmentEditor/SegmentEditor.php
 

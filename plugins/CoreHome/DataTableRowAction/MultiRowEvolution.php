@@ -12,6 +12,7 @@ namespace Piwik\Plugins\CoreHome\DataTableRowAction;
 use Piwik\Common;
 use Piwik\Context;
 use Piwik\Piwik;
+use Piwik\Request;
 
 /**
  * MULTI ROW EVOLUTION
@@ -19,23 +20,33 @@ use Piwik\Piwik;
  */
 class MultiRowEvolution extends RowEvolution
 {
-    /** The requested metric */
+    /**
+     * The requested metric
+     * @var string
+     */
     protected $metric;
 
-    /** Show all metrics in the evolution graph when the popover opens */
+    /**
+     * Show all metrics in the evolution graph when the popover opens
+     * @var bool
+     */
     protected $initiallyShowAllMetrics = true;
 
-    /** The metrics available in the metrics select */
+    /**
+     * The metrics available in the metrics select
+     * @var array
+     */
     protected $metricsForSelect;
 
     /**
      * The constructor
      * @param int $idSite
      * @param \Piwik\Date $date ($this->date from controller)
+     * @param string $graphType
      */
     public function __construct($idSite, $date, $graphType = 'graphEvolution')
     {
-        $this->metric = Common::getRequestVar('column', '', 'string');
+        $this->metric = Common::sanitizeInputValue(Request::fromRequest()->getStringParameter('column', ''));
         parent::__construct($idSite, $date, $graphType);
     }
 
@@ -57,7 +68,8 @@ class MultiRowEvolution extends RowEvolution
     /**
      * Render the popover
      * @param \Piwik\Plugins\CoreHome\Controller $controller
-     * @param \Piwik\View (the popover_rowevolution template)
+     * @param \Piwik\View $view the popover_rowevolution template
+     * @return string
      */
     public function renderPopover($controller, $view)
     {

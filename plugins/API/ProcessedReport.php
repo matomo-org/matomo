@@ -37,6 +37,16 @@ class ProcessedReport
      */
     private $reportsProvider;
 
+    private const PERFORMANCE_METRICS_TO_FORMAT = [
+        'avg_time_network',
+        'avg_time_server',
+        'avg_time_transfer',
+        'avg_time_dom_processing',
+        'avg_time_dom_completion',
+        'avg_time_on_load',
+        'avg_page_load_time',
+    ];
+
     public function __construct(ReportsProvider $reportsProvider)
     {
         $this->reportsProvider = $reportsProvider;
@@ -890,12 +900,12 @@ class ProcessedReport
     /**
      * Prettifies a metric value based on the column name.
      *
-     * @param int $idSite The ID of the site the metric is for (used if the column value is an amount of money).
+     * @param int|string $idSite The ID of the site the metric is for (used if the column value is an amount of money).
      * @param string $columnName The metric name.
      * @param mixed $value The metric value.
      * @return string
      */
-    public static function getPrettyValue(Formatter $formatter, $idSite, $columnName, $value)
+    public static function getPrettyValue(Formatter $formatter, $idSite, string $columnName, $value)
     {
         if (!is_numeric($value)) {
             return $value;
@@ -906,7 +916,7 @@ class ProcessedReport
         }
 
         // Display time in human readable
-        if (strpos($columnName, 'time_generation') !== false) {
+        if (in_array($columnName, self::PERFORMANCE_METRICS_TO_FORMAT) || strpos($columnName, 'time_generation') !== false) {
             return $formatter->getPrettyTimeFromSeconds($value, true);
         }
         if (strpos($columnName, 'time') !== false) {

@@ -14,9 +14,9 @@ namespace Piwik\Plugins\BotTracking;
 use Piwik\Archive;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
-use Piwik\DataTable\Filter\ColumnDelete;
 use Piwik\Piwik;
 use Piwik\Plugins\BotTracking\RecordBuilders\AIChatbotReports;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Referrers\AIAssistant;
 
 class API extends \Piwik\Plugin\API
@@ -39,9 +39,16 @@ class API extends \Piwik\Plugin\API
             });
         }
 
-        $dataTable = $archive->getDataTableFromNumeric($metrics);
+        $requestedColumns = Piwik::getArrayFromApiParameter($columns);
 
-        $this->filterColumns($dataTable, $columns);
+        $report  = ReportsProvider::factory('BotTracking', 'get');
+        $columns = $report->getMetricsRequiredForReport($metrics, $requestedColumns);
+
+        $dataTable = $archive->getDataTableFromNumeric($columns);
+
+        if (!empty($requestedColumns)) {
+            $dataTable->queueFilter('ColumnDelete', [$columnsToRemove = [], $requestedColumns]);
+        }
 
         return $dataTable;
     }
@@ -125,22 +132,5 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasViewAccess($idSite);
 
         return Archive::createDataTableFromArchive(Archiver::AI_CHATBOTS_DOCUMENTS_RECORD, $idSite, $period, $date, '', false, false, $idSubtable);
-    }
-
-    /**
-     * @param null|string|string[] $columns
-     */
-    private function filterColumns(DataTableInterface $table, $columns): void
-    {
-        if (empty($columns)) {
-            return;
-        }
-
-        $columnsToKeep = Piwik::getArrayFromApiParameter($columns);
-        if (empty($columnsToKeep)) {
-            return;
-        }
-
-        $table->filter(ColumnDelete::class, [[], $columnsToKeep]);
     }
 }

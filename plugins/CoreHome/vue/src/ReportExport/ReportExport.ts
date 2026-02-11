@@ -58,8 +58,8 @@ export default {
         availableReportFormats: {
           default: formats,
           processed: {
-            XML: formats.XML,
             JSON: formats.JSON,
+            XML: formats.XML,
           },
         },
         availableReportTypes: {

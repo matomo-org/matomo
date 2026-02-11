@@ -230,7 +230,7 @@ export default defineComponent({
     },
     initialReportFormat: {
       type: String,
-      default: 'XML',
+      default: 'TSV',
     },
   },
   mounted() {
@@ -258,7 +258,7 @@ export default defineComponent({
   watch: {
     reportType(newVal) {
       if (!this.availableReportFormats[newVal][this.reportFormat]) {
-        this.reportFormat = 'XML';
+        this.reportFormat = 'JSON';
       }
     },
     reportLimit(newVal, oldVal) {
