@@ -18,7 +18,7 @@ class AIChatbotsOverviewSubcategory extends Subcategory
 {
     protected $categoryId = 'General_AIAssistants';
     protected $id = 'BotTracking_AIChatbotsOverview';
-    protected $order = 20;
+    protected $order = 10;
 
     public function getHelp()
     {
