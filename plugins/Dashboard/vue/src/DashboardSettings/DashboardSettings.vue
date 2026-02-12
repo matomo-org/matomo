@@ -239,14 +239,13 @@ export default defineComponent({
 
       delete query.category;
       delete query.subcategory;
-      delete query.idDashboard;
+      query.idDashboard = dashboardId;
       query.module = 'ScheduledReports';
       query.action = 'index';
       const hash = {
         ...MatomoUrl.hashParsed.value,
       } as QueryParameters;
 
-      hash.idDashboard = dashboardId;
       delete hash.category;
       delete hash.subcategory;
       MatomoUrl.updateUrl(query, hash);
