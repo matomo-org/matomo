@@ -22,6 +22,7 @@ use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
 use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
+use Piwik\Plugins\BotTracking\Reports\SegmentNotSupportedMessageHelper;
 
 class GetAIChatbotRequests extends Report
 {
