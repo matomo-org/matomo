@@ -282,7 +282,7 @@ function onLoadDashboard(idDashboard) {
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=bfc51a5c
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=be4bd7fc
 
 const _hoisted_1 = ["title"];
 const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
@@ -353,7 +353,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClosed: _ctx.onClose
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=bfc51a5c
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=be4bd7fc
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=script&lang=ts
 
@@ -476,7 +476,10 @@ function widgetSelected(widget) {
       const query = Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value);
       delete query.category;
       delete query.subcategory;
-      query.idDashboard = dashboardId;
+      delete query.idDashboard;
+      if (dashboardId !== null && dashboardId !== undefined) {
+        query.idDashboard = dashboardId;
+      }
       query.module = 'ScheduledReports';
       query.action = 'index';
       const hash = Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value);
@@ -491,20 +494,20 @@ function widgetSelected(widget) {
       external_CoreHome_["MatomoUrl"].updateUrl(loginQuery);
     },
     onClickExportDashboard() {
-      const dashboardId = this.getCurrentDashboardId();
-      if (this.isUserNotAnonymous && dashboardId !== null) {
-        this.redirectToCreateScheduledReports(dashboardId);
+      if (this.isUserNotAnonymous) {
+        this.redirectToCreateScheduledReports(this.getCurrentDashboardId());
         return;
       }
       this.redirectToLoginPage();
     },
     getCurrentDashboardId() {
-      const hash = external_CoreHome_["MatomoUrl"].hashParsed.value;
-      if (hash.subcategory !== undefined) {
-        const parsed = Number(hash.subcategory);
-        if (!Number.isNaN(parsed)) {
-          return parsed;
-        }
+      const subcategory = external_CoreHome_["MatomoUrl"].getSearchParam('subcategory');
+      if (subcategory === '') {
+        return null;
+      }
+      const parsed = Number(subcategory);
+      if (!Number.isNaN(parsed)) {
+        return parsed;
       }
       return null;
     }

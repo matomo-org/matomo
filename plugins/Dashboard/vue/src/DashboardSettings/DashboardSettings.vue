@@ -232,14 +232,17 @@ export default defineComponent({
     onClose() {
       this.rootJQuery.widgetPreview('reset');
     },
-    redirectToCreateScheduledReports(dashboardId: number|string) {
+    redirectToCreateScheduledReports(dashboardId?: number|string|null) {
       const query = {
         ...MatomoUrl.urlParsed.value,
       } as QueryParameters;
 
       delete query.category;
       delete query.subcategory;
-      query.idDashboard = dashboardId;
+      delete query.idDashboard;
+      if (dashboardId !== null && dashboardId !== undefined) {
+        query.idDashboard = dashboardId;
+      }
       query.module = 'ScheduledReports';
       query.action = 'index';
       const hash = {
@@ -259,10 +262,8 @@ export default defineComponent({
     },
 
     onClickExportDashboard() {
-      const dashboardId = this.getCurrentDashboardId();
-
-      if (this.isUserNotAnonymous && dashboardId !== null) {
-        this.redirectToCreateScheduledReports(dashboardId);
+      if (this.isUserNotAnonymous) {
+        this.redirectToCreateScheduledReports(this.getCurrentDashboardId());
         return;
       }
 
@@ -270,12 +271,14 @@ export default defineComponent({
     },
 
     getCurrentDashboardId(): number|string|null {
-      const hash = MatomoUrl.hashParsed.value as QueryParameters;
-      if (hash.subcategory !== undefined) {
-        const parsed = Number(hash.subcategory);
-        if (!Number.isNaN(parsed)) {
-          return parsed;
-        }
+      const subcategory = MatomoUrl.getSearchParam('subcategory');
+      if (subcategory === '') {
+        return null;
+      }
+
+      const parsed = Number(subcategory);
+      if (!Number.isNaN(parsed)) {
+        return parsed;
       }
 
       return null;
