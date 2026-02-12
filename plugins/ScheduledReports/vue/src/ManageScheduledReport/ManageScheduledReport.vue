@@ -515,9 +515,9 @@ export default defineComponent({
       if (dashboardId === '') {
         return;
       }
-      const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
-      delete nextHash.idDashboard;
-      MatomoUrl.updateHash(nextHash);
+      const nextQuery = { ...MatomoUrl.urlParsed.value } as QueryParameters;
+      delete nextQuery.idDashboard;
+      MatomoUrl.updateUrl(nextQuery, MatomoUrl.hashParsed.value as QueryParameters);
       this.createReport(() => {
         this.getWidgetReportMapping(dashboardId)
           .then((mapping) => this.applyDashboardExportMapping(mapping))
