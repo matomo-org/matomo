@@ -251,6 +251,7 @@ export default defineComponent({
 
       delete hash.category;
       delete hash.subcategory;
+      delete hash.idDashboard;
       MatomoUrl.updateUrl(query, hash);
     },
 

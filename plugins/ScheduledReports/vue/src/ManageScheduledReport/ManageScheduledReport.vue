@@ -511,7 +511,7 @@ export default defineComponent({
       );
     },
     async handleDashboardExportFromUrl() {
-      const dashboardId = MatomoUrl.getSearchParam('idDashboard');
+      const dashboardId = this.getDashboardIdFromUrl();
       if (dashboardId === '') {
         return;
       }
@@ -553,6 +553,27 @@ export default defineComponent({
           idSite: Matomo.idSite,
         },
       ).then((e) => e as WidgetReportMap);
+    },
+    getDashboardIdFromUrl(): string {
+      const queryDashboardId = this.normalizeDashboardIdParam(
+        MatomoUrl.urlParsed.value.idDashboard,
+      );
+      if (queryDashboardId !== '') {
+        return queryDashboardId;
+      }
+
+      return this.normalizeDashboardIdParam(MatomoUrl.hashParsed.value.idDashboard);
+    },
+    normalizeDashboardIdParam(value: unknown): string {
+      if (Array.isArray(value)) {
+        return value.length ? String(value[0]) : '';
+      }
+
+      if (value === null || value === undefined) {
+        return '';
+      }
+
+      return String(value);
     },
     isValidDashboardExportMapping(mapping: WidgetReportMap): boolean {
       if (!mapping?.dashboardName) {
