@@ -729,6 +729,46 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
 
             expect(await page.screenshot({fullPage: true})).to.matchImage('email_reports_download');
         });
+        it('should load scheduled reports showing report hour description for UTC+30 and UTC+45', async function () {
+          const timezoneCases = [
+            { timezone: 'Asia/Kolkata', value: 'string:10.5' }, // UTC+05:30
+            { timezone: 'Asia/Kathmandu', value: 'string:10.75' }, // UTC+05:45
+          ];
+
+          try {
+            for (const timezoneCase of timezoneCases) {
+              await testEnvironment.callApi('SitesManager.updateSite', {
+                idSite: 4,
+                timezone: timezoneCase.timezone,
+              });
+              await page.goto('?idSite=4&period=day&date=today&module=ScheduledReports&action=index');
+              await page.click('#add-report');
+              await page.waitForNetworkIdle();
+              expect(await page.$('#reportHourHelpText')).to.be.ok;
+              await page.evaluate((newValue) => {
+                const $hour = $('select[name="report_hour"]');
+                if ($hour.length === 0) {
+                  throw new Error('report_hour select not found');
+                }
+                $hour.val(newValue).trigger('change');
+              }, timezoneCase.value);
+              const expectedTime = '05:00';
+              await page.waitForFunction((newValue) => $('select[name="report_hour"]').val() === newValue, {}, timezoneCase.value);
+              const helpText = await page.evaluate(() => $('#reportHourHelpText').text());
+              expect(helpText).to.include(expectedTime);
+            }
+          } finally {
+            // put back default timezone
+            await testEnvironment.callApi('SitesManager.updateSite', {
+              idSite: 4,
+              timezone: 'UTC',
+            });
+            await page.goto('?idSite=4&period=day&date=today&module=ScheduledReports&action=index');
+            await page.click('#add-report');
+            await page.waitForNetworkIdle();
+            expect(await page.$('#reportHourHelpText')).to.be.not.ok;
+          }
+        });
 
         it('should load the scheduled reports when Edit button is clicked', async function () {
             await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");

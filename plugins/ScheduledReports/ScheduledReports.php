@@ -126,7 +126,7 @@ class ScheduledReports extends \Piwik\Plugin
     {
         $translationKeys[] = "ScheduledReports_ReportSent";
         $translationKeys[] = "ScheduledReports_ReportUpdated";
-        $translationKeys[] = "ScheduledReports_ReportHourWithUTC";
+        $translationKeys[] = "ScheduledReports_ReportHourWithUtcOnly";
         $translationKeys[] = "ScheduledReports_EvolutionGraphsShowForEachInPeriod";
         $translationKeys[] = "ScheduledReports_EvolutionGraphsShowForPreviousN";
         $translationKeys[] = 'ScheduledReports_ReportFormat';
@@ -145,7 +145,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_ReportPeriod';
         $translationKeys[] = 'ScheduledReports_ScheduleReportPeriodHelp';
         $translationKeys[] = 'ScheduledReports_ScheduleReportPeriodHelp2';
-        $translationKeys[] = 'ScheduledReports_ReportHour';
+        $translationKeys[] = 'ScheduledReports_ReportHourLocal';
         $translationKeys[] = 'ScheduledReports_ReportType';
         $translationKeys[] = 'ScheduledReports_AggregateReportsFormat';
         $translationKeys[] = 'ScheduledReports_EvolutionGraph';
@@ -165,6 +165,9 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = 'ScheduledReports_SelectedReports';
         $translationKeys[] = 'ScheduledReports_SelectedReportsHelp';
         $translationKeys[] = "ScheduledReports_ReportAdded";
+        $translationKeys[] = "ScheduledReports_ReportWillBeSentAt";
+        $translationKeys[] = "ScheduledReports_ReportHourEqualsUtc";
+        $translationKeys[] = "ScheduledReports_NoteDeliveryTime";
     }
 
     /**

@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\Reports;
 
-use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
@@ -84,9 +83,6 @@ class Get extends Report
             $view->config->addSparklineMetric($metric, $order++);
         }
 
-        $segment = Request::getRawSegmentFromRequest();
-        if (!empty($segment)) {
-            $view->config->show_footer_message = Piwik::translate('BotTracking_SegmentNotSupported');
-        }
+        SegmentNotSupportedMessageHelper::addSegmentNotSupportedMessage($view);
     }
 }

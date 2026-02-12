@@ -109,7 +109,7 @@
           name="report_hour"
           :model-value="report.hour"
           @update:model-value="$emit('change', { prop: 'hour', value: $event })"
-          :title="translate('ScheduledReports_ReportHour', 'X')"
+          :title="translate('ScheduledReports_ReportHourLocal')"
           :options="reportHours"
         >
           <template v-slot:inline-help>
@@ -118,7 +118,7 @@
               class="inline-help-node"
               v-if="timezoneOffset !== 0 && timezoneOffset !== '0'"
             >
-              <span v-text="reportHourUtc" />
+              <span v-text="reportHourUtcHelpText" />
             </div>
           </template>
         </Field>
@@ -616,18 +616,18 @@ export default defineComponent({
     },
     reportHours() {
       const hours: Option[] = [];
+      const fractionalOffset = ((this.timeZoneDifferenceInHours % 1) + 1) % 1;
+      const minutePart = Math.round(fractionalOffset * 60);
+      const minuteLabel = `${minutePart}`.padStart(2, '0');
+
       for (let i = 0; i < 24; i += 1) {
-        if ((this.timeZoneDifferenceInHours * 2) % 2 !== 0) {
-          hours.push({
-            key: `${i}.5`,
-            value: `${i}:30`,
-          });
-        } else {
-          hours.push({
-            key: `${i}`,
-            value: `${i}`,
-          });
-        }
+        const paddedHour = `${i}`.padStart(2, '0');
+        const key = fractionalOffset === 0 ? `${i}` : `${i + fractionalOffset}`;
+        const value = fractionalOffset === 0 ? `${paddedHour}:00` : `${paddedHour}:${minuteLabel}`;
+        hours.push({
+          key,
+          value,
+        });
       }
       return hours;
     },
@@ -636,7 +636,17 @@ export default defineComponent({
         this.report.hour as string,
         -this.timeZoneDifferenceInHours,
       );
-      return translate('ScheduledReports_ReportHourWithUTC', [reportHour]);
+      const normalized = ((parseFloat(reportHour) % 24) + 24) % 24;
+      const roundedHour = Math.round(normalized) % 24;
+      return `${roundedHour}`.padStart(2, '0');
+    },
+    reportHourUtcLabel() {
+      return translate('ScheduledReports_ReportHourWithUtcOnly', [`${this.reportHourUtc}:00`]);
+    },
+    reportHourUtcHelpText() {
+      return `${translate('ScheduledReports_ReportWillBeSentAt')} `
+        + `${translate('ScheduledReports_ReportHourEqualsUtc', [this.reportHourUtcLabel])} `
+        + `${translate('ScheduledReports_NoteDeliveryTime')}`;
     },
     saveButtonTitle() {
       const { ReportPlugin } = window;

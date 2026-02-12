@@ -448,6 +448,7 @@ describe("UsersManager", function () {
         });
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250); // animation
+        await page.evaluate(() => window.scrollTo(0, 0));
 
         expect(await page.screenshotSelector('.usersManager')).to.matchImage({
             imageName: 'permissions_bulk_access_set_all',
