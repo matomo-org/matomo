@@ -172,6 +172,7 @@ class ScheduledReports extends \Piwik\Plugin
         $translationKeys[] = "ScheduledReports_ExportDashboardEmailEnabledByDefault";
         $translationKeys[] = "ScheduledReports_ExportDashboardDownload";
         $translationKeys[] = "ScheduledReports_ExportDashboardReportDescription";
+        $translationKeys[] = "ScheduledReports_ExportDashboardInvalidDashboard";
         $translationKeys[] = "General_Never";
     }
 

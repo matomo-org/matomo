@@ -518,17 +518,30 @@ export default defineComponent({
       const nextQuery = { ...MatomoUrl.urlParsed.value } as QueryParameters;
       delete nextQuery.idDashboard;
       MatomoUrl.updateUrl(nextQuery, MatomoUrl.hashParsed.value as QueryParameters);
-      this.createReport(() => {
-        this.getWidgetReportMapping(dashboardId)
-          .then((mapping) => this.applyDashboardExportMapping(mapping))
-          .catch(() => {
+      this.getWidgetReportMapping(dashboardId)
+        .then((mapping) => {
+          if (!this.isValidDashboardExportMapping(mapping)) {
+            scrollToTop();
             this.showNotificationMessage(
               this.$refs.reportUpdatedSuccess as HTMLElement,
-              translate('General_ErrorTryAgain'),
+              translate('ScheduledReports_ExportDashboardInvalidDashboard'),
               'error',
+              'persistent',
             );
+            return;
+          }
+          this.createReport(() => {
+            this.applyDashboardExportMapping(mapping);
           });
-      });
+        })
+        .catch(() => {
+          scrollToTop();
+          this.showNotificationMessage(
+            this.$refs.reportUpdatedSuccess as HTMLElement,
+            translate('General_ErrorTryAgain'),
+            'error',
+          );
+        });
     },
     async getWidgetReportMapping(dashboardId: string): Promise<WidgetReportMap> {
       return AjaxHelper.fetch(
@@ -539,8 +552,15 @@ export default defineComponent({
         },
       ).then((e) => e as WidgetReportMap);
     },
+    isValidDashboardExportMapping(mapping: WidgetReportMap): boolean {
+      if (!mapping?.dashboardName) {
+        return false;
+      }
+
+      return Object.keys(mapping.email || {}).length > 0;
+    },
     applyDashboardExportMapping(mapping: WidgetReportMap) {
-      if (!mapping) {
+      if (!this.isValidDashboardExportMapping(mapping)) {
         return;
       }
       const dashName = Matomo.helper.htmlDecode(mapping.dashboardName);
