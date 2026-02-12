@@ -18,6 +18,7 @@ use Piwik\Context;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Development;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Log;
@@ -248,16 +249,19 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets the widget report map to be used when exporting the dashboard into a scheduled report
-     * @param string $dashId
-     * @param string $idSite
+     * @param int|string $dashId
+     * @param int|string $idSite
      * @return array
      * @throws Exception
      */
-    public function getWidgetReportMap(string $dashId, string $idSite): array
+    public function getWidgetReportMap($dashId, $idSite): array
     {
+        $dashId = $this->normalizePositiveIntegerParameter($dashId, 'dashId');
+        $idSite = $this->normalizePositiveIntegerParameter($idSite, 'idSite');
+
         Piwik::checkUserHasViewAccess($idSite);
 
-        $dashboardInfo = $this->getDashboardNameAndLayout((int) $dashId);
+        $dashboardInfo = $this->getDashboardNameAndLayout($dashId);
         if ($dashboardInfo) {
             $layout = $dashboardInfo['layout'];
             $dashboardName = $dashboardInfo['name'];
@@ -270,7 +274,7 @@ class API extends \Piwik\Plugin\API
             }
             $mapper = new WidgetReportMapper();
             $widgetIds = $mapper->extractWidgetIdsFromLayout($layout);
-            $widgetReportMapping = $mapper->getMappingForSite($idSite);
+            $widgetReportMapping = $mapper->getMappingForSite((string) $idSite);
             $reportMapping = [];
             $unmappedWidgets = [];
             $widgetNamesById = $mapper->getWidgetNamesById($widgetIds);
@@ -312,6 +316,28 @@ class API extends \Piwik\Plugin\API
             }
         }
         return ['name' => $name, 'layout' => $layout];
+    }
+
+    /**
+     * @param mixed $value
+     * @throws InvalidRequestParameterException
+     */
+    private function normalizePositiveIntegerParameter($value, string $parameterName): int
+    {
+        if (!is_scalar($value) || is_bool($value)) {
+            throw new InvalidRequestParameterException("The parameter '$parameterName' contains an invalid value.");
+        }
+
+        $normalizedValue = trim((string) $value);
+        if (
+            $normalizedValue === ''
+            || filter_var($normalizedValue, FILTER_VALIDATE_INT) === false
+            || (int) $normalizedValue < 1
+        ) {
+            throw new InvalidRequestParameterException("The parameter '$parameterName' contains an invalid value.");
+        }
+
+        return (int) $normalizedValue;
     }
     /**
      * Returns the list of reports matching the passed parameters

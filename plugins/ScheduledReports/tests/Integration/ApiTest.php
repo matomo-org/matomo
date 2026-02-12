@@ -21,6 +21,7 @@ use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\Dashboard\Model as DashboardModel;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\NoAccessException;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\Schedule\Monthly;
@@ -238,6 +239,20 @@ class ApiTest extends IntegrationTestCase
         $this->expectException(NoAccessException::class);
 
         APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite);
+    }
+
+    public function testGetWidgetReportMapThrowsWhenDashIdHasInvalidType()
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+
+        APIScheduledReports::getInstance()->getWidgetReportMap(array('1'), $this->idSite);
+    }
+
+    public function testGetWidgetReportMapThrowsWhenIdSiteIsInvalid()
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+
+        APIScheduledReports::getInstance()->getWidgetReportMap(1, 'abc');
     }
 
     /**
