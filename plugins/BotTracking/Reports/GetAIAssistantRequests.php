@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\Reports;
 
-use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
@@ -58,11 +57,7 @@ class GetAIAssistantRequests extends Report
         $view->config->show_table_all_columns = false;
         $view->config->show_insights          = false;
 
-        // Show segment not supported message when a segment is selected
-        if (!empty(Request::getRawSegmentFromRequest())) {
-            $message = '<p style="margin-top:2em;margin-bottom:2em" class=" alert-info alert">' . Piwik::translate('BotTracking_SegmentNotSupported') . '</p>';
-            $view->config->show_header_message = $message;
-        }
+        SegmentNotSupportedMessageHelper::addSegmentNotSupportedMessage($view);
 
         $view->config->setDefaultColumnsToDisplay(
             ['label', Metrics::COLUMN_REQUESTS, Metrics::COLUMN_PAGE_REQUESTS, Metrics::COLUMN_DOCUMENT_REQUESTS, Metrics::COLUMN_ACQUIRED_VISITS],

@@ -75,4 +75,20 @@ describe("BotTracking", function () {
         var elem = await page.$('#widgetBotTrackinggetAIAssistantRequests');
         expect(await elem.screenshot()).to.matchImage('bot_requests_documents');
     });
+
+    it('should show segment not supported footer message in AI bot reports when segmented', async function () {
+        const segment = encodeURIComponent('visitConverted==1');
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview&segment=" + segment);
+        await page.waitForNetworkIdle();
+
+        const expectedMessage = 'Report does not support segmentation. The data displayed is your standard, unsegmented report data.';
+        const matchingFooterMessages = await page.$$eval('.datatableFooterMessage', (nodes, expected) => {
+            return nodes
+                .map((node) => (node.textContent || '').trim())
+                .filter((text) => text.includes(expected))
+                .length;
+        }, expectedMessage);
+
+        expect(matchingFooterMessages).to.be.at.least(3);
+    });
 });
