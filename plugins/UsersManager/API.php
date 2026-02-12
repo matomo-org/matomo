@@ -31,7 +31,6 @@ use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
-use Piwik\Request\AuthenticationToken;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -753,7 +752,7 @@ class API extends \Piwik\Plugin\API
         UsersManager::dieIfUsersAdminIsDisabled();
 
         // check password confirmation only when using session auth
-        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+        if (Access::getInstance()->isAuthenticatedUsingSessionAuth()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
@@ -802,7 +801,7 @@ class API extends \Piwik\Plugin\API
         UsersManager::dieIfUsersAdminIsDisabled();
 
         // check password confirmation only when using session auth
-        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+        if (Access::getInstance()->isAuthenticatedUsingSessionAuth()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
@@ -1021,7 +1020,7 @@ class API extends \Piwik\Plugin\API
         UsersManager::dieIfUsersAdminIsDisabled();
         $this->checkUserIsNotAnonymous($userLogin);
 
-        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+        if (Access::getInstance()->isAuthenticatedUsingSessionAuth()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
@@ -1147,7 +1146,7 @@ class API extends \Piwik\Plugin\API
         // check password confirmation only when using session auth and setting view access for anonymous user
         if (
             $userLogin === 'anonymous'
-            && StaticContainer::get(AuthenticationToken::class)->isSessionToken()
+            && Access::getInstance()->isAuthenticatedUsingSessionAuth()
             && $access === 'view'
         ) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
@@ -1646,7 +1645,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeAdminAccess();
 
         // check password confirmation only when using session auth
-        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+        if (Access::getInstance()->isAuthenticatedUsingSessionAuth()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
@@ -1691,7 +1690,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeAdminAccess();
 
         // check password confirmation only when using session auth
-        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+        if (Access::getInstance()->isAuthenticatedUsingSessionAuth()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 

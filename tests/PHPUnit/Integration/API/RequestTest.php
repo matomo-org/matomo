@@ -110,6 +110,20 @@ class RequestTest extends IntegrationTestCase
         $this->assertTrue($this->access->hasSuperUserAccess());
     }
 
+    public function testProcessShouldRestoreSessionAuthStateAfterAuthReload(): void
+    {
+        /** @var Access $access */
+        $access = $this->access;
+
+        $access->setAuthenticatedUsingSessionAuthForRestore(true);
+        $this->assertAccessReloadedAndRestored('difFenrenT');
+
+        $request = new Request(array('method' => 'API.getPiwikVersion', 'token_auth' => 'difFenrenT'));
+        $request->process();
+
+        $this->assertTrue($access->isAuthenticatedUsingSessionAuth());
+    }
+
     public function testIsApiRequestShouldDetectIfItIsApiRequestOrNot()
     {
         $this->assertFalse(Request::isApiRequest(array()));

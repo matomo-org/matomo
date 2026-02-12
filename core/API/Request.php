@@ -223,6 +223,7 @@ class Request
         $shouldReloadAuth = false;
         $hadSuperUserAccess = false;
         $tokenAuthToRestore = null;
+        $wasAuthenticatedUsingSessionAuth = false;
 
         try {
             ++self::$nestedApiInvocationCount;
@@ -271,6 +272,7 @@ class Request
                 $access = Access::getInstance();
                 $tokenAuthToRestore = $access->getTokenAuth();
                 $hadSuperUserAccess = $access->hasSuperUserAccess();
+                $wasAuthenticatedUsingSessionAuth = $access->isAuthenticatedUsingSessionAuth();
                 self::forceReloadAuthUsingTokenAuth($tokenAuth);
             }
 
@@ -306,7 +308,7 @@ class Request
         }
 
         if ($shouldReloadAuth) {
-            $this->restoreAuthUsingTokenAuth($tokenAuthToRestore, $hadSuperUserAccess);
+            $this->restoreAuthUsingTokenAuth($tokenAuthToRestore, $hadSuperUserAccess, $wasAuthenticatedUsingSessionAuth);
         }
 
         return $toReturn;
@@ -314,21 +316,27 @@ class Request
 
     private function restoreAuthUsingTokenAuth(
         #[\SensitiveParameter]
-        $tokenToRestore,
-        $hadSuperUserAccess
-    ) {
+        ?string $tokenToRestore,
+        bool $hadSuperUserAccess,
+        bool $wasAuthenticatedUsingSessionAuth
+    ): void {
+        $access = Access::getInstance();
+
         // if we would not make sure to unset super user access, the tokenAuth would be not authenticated and any
         // token would just keep super user access (eg if the token that was reloaded before had super user access)
-        Access::getInstance()->setSuperUserAccess(false);
+        $access->setSuperUserAccess(false);
 
         // we need to restore by reloading the tokenAuth as some permissions could have been removed in the API
         // request etc. Otherwise we could just store a clone of Access::getInstance() and restore here
-        self::forceReloadAuthUsingTokenAuth($tokenToRestore);
+        self::forceReloadAuthUsingTokenAuth($tokenToRestore ?? '');
 
-        if ($hadSuperUserAccess && !Access::getInstance()->hasSuperUserAccess()) {
+        if ($hadSuperUserAccess && !$access->hasSuperUserAccess()) {
             // we are in context of `doAsSuperUser()` and need to restore this behaviour
-            Access::getInstance()->setSuperUserAccess(true);
+            $access->setSuperUserAccess(true);
         }
+
+        // restore the auth mechanism state from before nested auth reloads so parent request checks are stable.
+        $access->setAuthenticatedUsingSessionAuthForRestore($wasAuthenticatedUsingSessionAuth);
     }
 
     /**

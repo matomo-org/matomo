@@ -13,6 +13,7 @@ use Piwik\Access\Capability;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
+use Piwik\Access;
 use Piwik\API\Request;
 use Piwik\Auth\Password;
 use Piwik\Common;
@@ -1127,47 +1128,41 @@ class APITest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 
-        $_GET['token_auth'] = 'anyToken';
-        $_GET['force_api_session'] = 1;
+        $access = StaticContainer::get(Access::class);
+        $access->setAuthenticatedUsingSessionAuthForRestore(true);
+
         try {
             $this->api->setUserAccess('anonymous', 'view', [1]);
         } finally {
-            unset($_GET['token_auth']);
-            unset($_GET['force_api_session']);
+            $access->setAuthenticatedUsingSessionAuthForRestore(false);
         }
     }
 
-    public function testAddUserDoesNotRequirePasswordWhenPostSessionFlagIsZeroEvenIfGetFlagIsOne()
+    public function testAddUserDoesNotRequirePasswordWhenNotAuthenticatedUsingSessionAuth()
     {
-        $_GET['force_api_session'] = 1;
-        $_POST['token_auth'] = 'postToken';
-        $_POST['force_api_session'] = 0;
+        $access = StaticContainer::get(Access::class);
+        $access->setAuthenticatedUsingSessionAuthForRestore(false);
 
         try {
             $this->api->addUser('collisionUser', 'password', 'collision@example.com');
             self::assertTrue($this->model->userExists('collisionUser'));
         } finally {
-            unset($_GET['force_api_session']);
-            unset($_POST['token_auth']);
-            unset($_POST['force_api_session']);
+            $access->setAuthenticatedUsingSessionAuthForRestore(false);
         }
     }
 
-    public function testAddUserRequiresPasswordWhenPostSessionFlagIsOneEvenIfGetFlagIsZero()
+    public function testAddUserRequiresPasswordWhenAuthenticatedUsingSessionAuth()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 
-        $_GET['force_api_session'] = 0;
-        $_POST['token_auth'] = 'postToken';
-        $_POST['force_api_session'] = 1;
+        $access = StaticContainer::get(Access::class);
+        $access->setAuthenticatedUsingSessionAuthForRestore(true);
 
         try {
             $this->api->addUser('collisionUser2', 'password', 'collision2@example.com');
         } finally {
-            unset($_GET['force_api_session']);
-            unset($_POST['token_auth']);
-            unset($_POST['force_api_session']);
+            $access->setAuthenticatedUsingSessionAuthForRestore(false);
         }
     }
 
