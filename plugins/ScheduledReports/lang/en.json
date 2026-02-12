@@ -75,6 +75,7 @@
         "ExportDashboardWidgetsConvertedAutomatically": "The widgets from your dashboard have been converted into report sections automatically.",
         "ExportDashboardEmailEnabledByDefault": "Email delivery is enabled by default. To turn it off, change <b>\"%1$s\"</b> to <b>\"%2$s\"</b>.",
         "ExportDashboardDownload": "Once you create the report, you will be able to download it.",
-        "ExportDashboardReportDescription": "This report was automatically generated from the dashboard \"%1$s\" on %2$s"
+        "ExportDashboardReportDescription": "This report was automatically generated from the dashboard \"%1$s\" on %2$s",
+        "ExportDashboardInvalidDashboard": "This dashboard could not be exported. It may not exist anymore, or it has no widgets that can be converted into scheduled report items."
     }
 }
