@@ -13,7 +13,6 @@ namespace Piwik\Plugins\BotTracking\Reports;
 
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
-use Piwik\Plugin\ViewDataTable;
 use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
 use Piwik\Plugins\BotTracking\Columns\PageUrl;
 
@@ -29,11 +28,5 @@ class GetPageUrlsForAIAssistant extends Report
         $this->processedMetrics = [];
         $this->dimension        = new PageUrl();
         $this->isSubtableReport = true;
-    }
-
-    public function configureView(ViewDataTable $view): void
-    {
-        parent::configureView($view);
-        SegmentNotSupportedMessageHelper::addSegmentNotSupportedMessage($view);
     }
 }
