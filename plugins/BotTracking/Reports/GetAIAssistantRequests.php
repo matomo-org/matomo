@@ -14,7 +14,7 @@ namespace Piwik\Plugins\BotTracking\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\BotTracking\Columns\AIChatbotName;
+use Piwik\Plugins\BotTracking\Columns\AIAssistantName;
 use Piwik\Plugins\BotTracking\Columns\Metrics\AcquiredVisits;
 use Piwik\Plugins\BotTracking\Columns\Metrics\DocumentRequests;
 use Piwik\Plugins\BotTracking\Columns\Metrics\PageRequests;
@@ -23,17 +23,17 @@ use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
 
-class GetAIChatbotRequests extends Report
+class GetAIAssistantRequests extends Report
 {
     protected function init(): void
     {
         parent::init();
 
-        $this->name              = Piwik::translate('BotTracking_AIChatbotsReportTitle');
-        $this->documentation     = Piwik::translate('BotTracking_AIChatbotsReportDocumentation');
+        $this->name              = Piwik::translate('BotTracking_AIAssistantsReportTitle');
+        $this->documentation     = Piwik::translate('BotTracking_AIAssistantsReportDocumentation');
         $this->categoryId        = 'General_AIAssistants';
-        $this->subcategoryId     = 'BotTracking_AIChatbotsOverview';
-        $this->dimension         = new AIChatbotName();
+        $this->subcategoryId     = 'BotTracking_AIBotsOverview';
+        $this->dimension         = new AIAssistantName();
         $this->metrics           = [
             new Requests(),
             new PageRequests(),
@@ -44,9 +44,9 @@ class GetAIChatbotRequests extends Report
         $this->order             = 30;
         $this->defaultSortColumn = Metrics::COLUMN_ACQUIRED_VISITS;
         if (\Piwik\Request::fromRequest()->getStringParameter('secondaryDimension', '') === 'documents') {
-            $this->actionToLoadSubTables = 'getDocumentUrlsForAIChatbot';
+            $this->actionToLoadSubTables = 'getDocumentUrlsForAIAssistant';
         } else {
-            $this->actionToLoadSubTables = 'getPageUrlsForAIChatbot';
+            $this->actionToLoadSubTables = 'getPageUrlsForAIAssistant';
         }
     }
 
