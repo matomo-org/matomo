@@ -738,13 +738,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
           try {
             for (const timezoneCase of timezoneCases) {
               await testEnvironment.callApi('SitesManager.updateSite', {
-                idSite: 1,
+                idSite: 4,
                 timezone: timezoneCase.timezone,
               });
-              await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
-              await page.click('.entityTable tr:nth-child(11) button[title="Edit"]');
+              await page.goto('?idSite=4&period=day&date=today&module=ScheduledReports&action=index');
+              await page.click('#add-report');
               await page.waitForNetworkIdle();
-              expect(await page.evaluate(() => $('#reportHourHelpText').is(':visible'))).to.be.true;
+              expect(await page.$('#reportHourHelpText')).to.be.ok;
               await page.evaluate((newValue) => {
                 const $hour = $('select[name="report_hour"]');
                 if ($hour.length === 0) {
@@ -760,13 +760,13 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
           } finally {
             // put back default timezone
             await testEnvironment.callApi('SitesManager.updateSite', {
-              idSite: 1,
+              idSite: 4,
               timezone: 'UTC',
             });
-            await page.goto("?" + generalParams + "&module=ScheduledReports&action=index");
-            await page.click('.entityTable tr:nth-child(11) button[title="Edit"]');
+            await page.goto('?idSite=4&period=day&date=today&module=ScheduledReports&action=index');
+            await page.click('#add-report');
             await page.waitForNetworkIdle();
-            expect(await page.evaluate(() => $('#reportHourHelpText').is(':visible'))).to.be.false;
+            expect(await page.$('#reportHourHelpText')).to.be.not.ok;
           }
         });
 
