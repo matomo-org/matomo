@@ -295,7 +295,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite
      * @return array
      */
-    public function getSiteFromId($idSite)
+    public function getSiteFromId(int $idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -322,7 +322,7 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite
      * @return array list of URLs
      */
-    public function getSiteUrlsFromId($idSite)
+    public function getSiteUrlsFromId(int $idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
         return $this->getModel()->getSiteUrlsFromId($idSite);
@@ -404,7 +404,7 @@ class API extends \Piwik\Plugin\API
 
         if ($fetchAliasUrls) {
             foreach ($sites as &$site) {
-                $site['alias_urls'] = $this->getSiteUrlsFromId($site['idsite']);
+                $site['alias_urls'] = $this->getSiteUrlsFromId((int) $site['idsite']);
             }
         }
 
@@ -868,7 +868,7 @@ class API extends \Piwik\Plugin\API
         return $coreProperties;
     }
 
-    public function getSiteSettings($idSite)
+    public function getSiteSettings(int $idSite)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1034,7 +1034,7 @@ class API extends \Piwik\Plugin\API
      * @param array|string $urls When calling API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
      * @return int the number of inserted URLs
      */
-    public function addSiteAliasUrls($idSite, $urls)
+    public function addSiteAliasUrls(int $idSite, $urls)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1068,7 +1068,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return int the number of inserted URLs
      */
-    public function setSiteAliasUrls($idSite, $urls = [])
+    public function setSiteAliasUrls(int $idSite, $urls = [])
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -1235,7 +1235,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return array list of urls/hosts
      */
-    public function getExcludedReferrers($idSite)
+    public function getExcludedReferrers(int $idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -1635,7 +1635,7 @@ class API extends \Piwik\Plugin\API
      */
     public function updateSiteCreatedTime($idSites, Date $minDate)
     {
-        $idSites = Site::getIdSitesFromIdSitesString($idSites);
+        $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         Piwik::checkUserHasAdminAccess($idSites);
 
         $minDateSql = $minDate->subDay(1)->getDatetime();

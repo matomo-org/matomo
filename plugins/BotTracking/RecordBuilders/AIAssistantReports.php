@@ -32,14 +32,13 @@ class AIAssistantReports extends RecordBuilder
     /**
      * @var array<string, string>
      */
-    private const ASSISTANT_MAPPING = [
+    public const ASSISTANT_MAPPING = [
         'ChatGPT-User'         => 'ChatGPT',
         'MistralAI-User'       => 'Le Chat',
         'Gemini-Deep-Research' => 'Gemini',
         'Claude-User'          => 'Claude',
         'Perplexity-User'      => 'Perplexity',
         'Google-NotebookLM'    => 'NotebookLM',
-        'Devin'                => '',
     ];
 
     /**

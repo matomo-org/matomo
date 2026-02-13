@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Exception\UnexpectedWebsiteFoundException;
+use Piwik\Http\BadRequestException;
 use Piwik\Plugins\SitesManager\API;
 
 /**
@@ -418,35 +419,44 @@ class Site
      * @param string|array $ids Comma separated idSite list, eg, `'1,2,3,4'` or an array of IDs, eg,
      *                          `array(1, 2, 3, 4)`.
      * @param bool|string $_restrictSitesToLogin Implementation detail. Used only when running as a scheduled task.
+     * @param bool $throwOnInvalid If true, throw when an invalid id is supplied.
      * @return array<string>|array<int> An array of valid, unique integers.
      */
-    public static function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false)
+    public static function getIdSitesFromIdSitesString($ids, $_restrictSitesToLogin = false, bool $throwOnInvalid = false): array
     {
         if (empty($ids)) {
             return [];
         }
 
-        if ($ids === 'all') {
+        if ($ids === 'all' || $ids === ['all']) {
             return API::getInstance()->getSitesIdWithAtLeastViewAccess($_restrictSitesToLogin);
         }
 
         if (is_bool($ids)) {
-            return array();
+            if ($throwOnInvalid) {
+                throw new BadRequestException("The parameter 'idSite=' contains an invalid value.");
+            }
+            return [];
         }
         if (!is_array($ids)) {
             $ids = explode(',', $ids);
         }
-        $validIds = array();
+        $validIds = [];
         foreach ($ids as $id) {
             $id = is_string($id) ? trim($id) : $id;
-            if (!empty($id) && is_numeric($id) && $id > 0) {
-                $validIds[] = $id;
+            if (is_null($id) || $id === '') {
+                continue;
+            }
+            if (is_numeric($id) && (string)$id === (string)(int)$id && (int)$id > 0) {
+                $validIds[] = (int)$id;
+                continue;
+            }
+            if ($throwOnInvalid) {
+                throw new BadRequestException("The parameter 'idSite=' contains an invalid value.");
             }
         }
         $validIds = array_filter($validIds);
-        $validIds = array_unique($validIds);
-
-        return $validIds;
+        return array_unique($validIds);
     }
 
     /**

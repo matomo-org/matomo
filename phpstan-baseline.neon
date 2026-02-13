@@ -156,17 +156,7 @@ parameters:
 			path: core/API/ResponseBuilder.php
 
 		-
-			message: "#^Invoking callable on an unknown class Piwik\\\\callback\\.$#"
-			count: 2
-			path: core/Access.php
-
-		-
 			message: "#^Parameter \\#1 \\$request of static method Piwik\\\\API\\\\Request\\:\\:getMethodIfApiRequest\\(\\) expects array, null given\\.$#"
-			count: 1
-			path: core/Access.php
-
-		-
-			message: "#^Parameter \\$function of method Piwik\\\\Access\\:\\:doAsSuperUser\\(\\) has invalid type Piwik\\\\callback\\.$#"
 			count: 1
 			path: core/Access.php
 
@@ -526,11 +516,6 @@ parameters:
 			path: core/Changes/Model.php
 
 		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 3
-			path: core/Changes/Model.php
-
-		-
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: core/CliMulti.php
@@ -851,51 +836,6 @@ parameters:
 			path: core/DataAccess/ArchivingDbAdapter.php
 
 		-
-			message: "#^Call to function is_array\\(\\) with string will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Call to function is_array\\(\\) with string\\|true will always evaluate to false\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^PHPDoc tag @param for parameter \\$dimensions with type array\\|string is not subtype of native type array\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Parameter \\#1 \\$string of function strlen expects string, bool given\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Parameter \\#2 \\$needle of function strpos expects int\\|string, true given\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
-			message: "#^Ternary operator condition is always false\\.$#"
-			count: 1
-			path: core/DataAccess/LogAggregator.php
-
-		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 89$#"
 			count: 1
 			path: core/DataAccess/LogQueryBuilder.php
@@ -923,11 +863,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\|Piwik\\\\Db\\\\AdapterInterface\\|Piwik\\\\Tracker\\\\Db\\:\\:fetchCol\\(\\)\\.$#"
 			count: 2
-			path: core/DataAccess/Model.php
-
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 1
 			path: core/DataAccess/Model.php
 
 		-
@@ -1151,11 +1086,6 @@ parameters:
 			path: core/Db.php
 
 		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 3
-			path: core/Db.php
-
-		-
 			message: "#^Cannot access property \\$server_version on object\\|resource\\.$#"
 			count: 1
 			path: core/Db/Adapter/Mysqli.php
@@ -1341,22 +1271,12 @@ parameters:
 			path: core/Mail/EmailStyles.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
-			count: 1
-			path: core/Measurable/Type/TypeManager.php
-
-		-
 			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\.$#"
 			count: 7
 			path: core/Menu/MenuAbstract.php
 
 		-
 			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\<\\-1, 1\\>\\.$#"
-			count: 1
-			path: core/Menu/MenuAbstract.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
 			count: 1
 			path: core/Menu/MenuAbstract.php
 
@@ -1471,16 +1391,6 @@ parameters:
 			path: core/Plugin/ArchivedMetric.php
 
 		-
-			message: "#^Invoking callable on an unknown class Piwik\\\\Plugin\\\\callback\\.$#"
-			count: 1
-			path: core/Plugin/ComponentFactory.php
-
-		-
-			message: "#^Parameter \\$predicate of method Piwik\\\\Plugin\\\\ComponentFactory\\:\\:getComponentIf\\(\\) has invalid type Piwik\\\\Plugin\\\\callback\\.$#"
-			count: 1
-			path: core/Plugin/ComponentFactory.php
-
-		-
 			message: "#^Parameter \\#1 \\$numberOfSeconds of method Piwik\\\\Metrics\\\\Formatter\\:\\:getPrettyTimeFromSeconds\\(\\) expects int, \\(float\\|false\\) given\\.$#"
 			count: 1
 			path: core/Plugin/ComputedMetric.php
@@ -1561,11 +1471,6 @@ parameters:
 			path: core/Plugin/LogTablesProvider.php
 
 		-
-			message: "#^Method Piwik\\\\Plugin\\\\Manager\\:\\:findComponents\\(\\) should return array\\<stdClass\\> but returns array\\<int\\<0, max\\>, string\\>\\.$#"
-			count: 1
-			path: core/Plugin/Manager.php
-
-		-
 			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 55$#"
 			count: 1
 			path: core/Plugin/Manager.php
@@ -1631,7 +1536,7 @@ parameters:
 			path: core/Plugin/Visualization.php
 
 		-
-			message: "#^Parameter \\#1 \\$dataTable of method Piwik\\\\Plugin\\\\ViewDataTable\\:\\:setDataTable\\(\\) expects Piwik\\\\DataTable, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
+			message: "#^Parameter \\#1 \\$dataTable of method Piwik\\\\Plugin\\\\ViewDataTable\\:\\:setDataTable\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
 			count: 2
 			path: core/Plugin/Visualization.php
 
@@ -1652,11 +1557,6 @@ parameters:
 
 		-
 			message: "#^Method Piwik\\\\Plugin\\\\WidgetsProvider\\:\\:factory\\(\\) should return Piwik\\\\Widget\\\\Widget\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Plugin/WidgetsProvider.php
-
-		-
-			message: "#^Variable \\$widgetContainer in PHPDoc tag @var does not match assigned variable \\$widgets\\.$#"
 			count: 1
 			path: core/Plugin/WidgetsProvider.php
 
@@ -1901,11 +1801,6 @@ parameters:
 			path: core/Scheduler/Scheduler.php
 
 		-
-			message: "#^Parameter \\#1 \\$name of static method Piwik\\\\Container\\\\StaticContainer\\:\\:get\\(\\) expects string, stdClass given\\.$#"
-			count: 1
-			path: core/Scheduler/TaskLoader.php
-
-		-
 			message: "#^If condition is always false\\.$#"
 			count: 1
 			path: core/Segment.php
@@ -1976,11 +1871,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\|Piwik\\\\Db\\\\AdapterInterface\\|Piwik\\\\Tracker\\\\Db\\:\\:getConnection\\(\\)\\.$#"
 			count: 1
-			path: core/Session/SaveHandler/DbTable.php
-
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Db\\\\AdapterInterface\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 3
 			path: core/Session/SaveHandler/DbTable.php
 
 		-
@@ -3191,36 +3081,6 @@ parameters:
 		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\\\Piwik\\\\View \\(the popover_rowevolution template\\)\\)\\: Unexpected token \"\\(\", expected variable at offset 117$#"
 			count: 1
-			path: plugins/CoreHome/DataTableRowAction/MultiRowEvolution.php
-
-		-
-			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\Row\\:\\:getFirstRow\\(\\)\\.$#"
-			count: 2
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^Call to an undefined method Piwik\\\\ViewDataTable\\\\Factory\\:\\:render\\(\\)\\.$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\DataTableRowAction\\\\RowEvolution\\:\\:getRowEvolutionGraph\\(\\) should return Piwik\\\\ViewDataTable\\\\Factory but returns Piwik\\\\Plugin\\\\ViewDataTable\\.$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^Negated boolean expression is always false\\.$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\\\Piwik\\\\View \\(the popover_rowevolution template\\)\\)\\: Unexpected token \"\\(\", expected variable at offset 117$#"
-			count: 1
-			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
-
-		-
-			message: "#^PHPDoc tag @var has invalid value \\(\\$dataTableMap \\\\Piwik\\\\DataTable\\\\Map\\)\\: Unexpected token \"\\$dataTableMap\", expected type at offset 9$#"
-			count: 1
 			path: plugins/CoreHome/DataTableRowAction/RowEvolution.php
 
 		-
@@ -3834,11 +3694,6 @@ parameters:
 			path: plugins/GeoIp2/LocationProvider/GeoIp2/ServerModule.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Goals\\\\API\\:\\:getGoal\\(\\) should return array\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/Goals/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:deleteColumn\\(\\) expects string, int given\\.$#"
 			count: 1
 			path: plugins/Goals/API.php
@@ -3924,22 +3779,12 @@ parameters:
 			path: plugins/Goals/RecordBuilders/GeneralGoalsRecords.php
 
 		-
-			message: "#^Parameter \\#3 \\$lookForThisPrefix of static method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:makeArrayOneColumn\\(\\) expects bool, string given\\.$#"
-			count: 2
-			path: plugins/Goals/RecordBuilders/GeneralGoalsRecords.php
-
-		-
 			message: "#^Strict comparison using \\=\\=\\= between array\\|Zend_Db_Statement and false will always evaluate to false\\.$#"
 			count: 1
 			path: plugins/Goals/RecordBuilders/GeneralGoalsRecords.php
 
 		-
 			message: "#^Parameter \\#3 \\$columnToSortByBeforeTruncation of method Piwik\\\\ArchiveProcessor\\\\RecordBuilder\\:\\:__construct\\(\\) expects string\\|null, int given\\.$#"
-			count: 1
-			path: plugins/Goals/RecordBuilders/ProductRecord.php
-
-		-
-			message: "#^Parameter \\#6 \\$joinLogActionOnColumn of method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:queryActionsByDimension\\(\\) expects bool\\|string, array\\<int, mixed\\> given\\.$#"
 			count: 1
 			path: plugins/Goals/RecordBuilders/ProductRecord.php
 
@@ -4164,24 +4009,9 @@ parameters:
 			path: plugins/Live/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function urldecode expects string, array\\|true given\\.$#"
-			count: 1
-			path: plugins/Live/Live.php
-
-		-
-			message: "#^Parameter \\#2 \\$errno of method Piwik\\\\Tracker\\\\Db\\:\\:isErrNo\\(\\) expects string, int given\\.$#"
-			count: 3
-			path: plugins/Live/Model.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Reports\\\\GetLastVisits\\:\\:buildReportMetadata\\(\\) should return array\\|null but return statement is missing\\.$#"
 			count: 1
 			path: plugins/Live/Reports/GetLastVisits.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Visitor\\:\\:getAllVisitorDetailsClasses\\(\\) should return array\\<string\\> but returns array\\<stdClass\\>\\.$#"
-			count: 1
-			path: plugins/Live/Visitor.php
 
 		-
 			message: "#^If condition is always true\\.$#"
@@ -4384,11 +4214,6 @@ parameters:
 			path: plugins/PagePerformance/JqplotDataGenerator/StackedBarEvolution.php
 
 		-
-			message: "#^Parameter \\#6 \\$joinLogActionOnColumn of method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:queryActionsByDimension\\(\\) expects bool\\|string, array\\<int, string\\> given\\.$#"
-			count: 1
-			path: plugins/PagePerformance/RecordBuilders/PerformanceTotals.php
-
-		-
 			message: "#^Property Piwik\\\\Plugin\\\\Report\\:\\:\\$dimension \\(Piwik\\\\Columns\\\\Dimension\\) does not accept null\\.$#"
 			count: 1
 			path: plugins/PagePerformance/Reports/Get.php
@@ -4565,11 +4390,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$ids of static method Piwik\\\\Site\\:\\:getIdSitesFromIdSitesString\\(\\) expects array\\|string, int\\<min, \\-2\\>\\|int\\<0, max\\> given\\.$#"
-			count: 1
-			path: plugins/SegmentEditor/SegmentEditor.php
-
-		-
-			message: "#^Parameter \\#1 \\$segmentCondition of class Piwik\\\\Segment constructor expects string, array\\|true given\\.$#"
 			count: 1
 			path: plugins/SegmentEditor/SegmentEditor.php
 
@@ -4982,11 +4802,6 @@ parameters:
 			message: "#^Function Piwik\\\\Plugins\\\\VisitTime\\\\dayOfWeekFromDate\\(\\) should return int but returns string\\.$#"
 			count: 1
 			path: plugins/VisitTime/functions.php
-
-		-
-			message: "#^Parameter \\#3 \\$lookForThisPrefix of static method Piwik\\\\DataAccess\\\\LogAggregator\\:\\:makeArrayOneColumn\\(\\) expects bool, string given\\.$#"
-			count: 1
-			path: plugins/VisitorInterest/RecordBuilders/Engagement.php
 
 		-
 			message: "#^Ternary operator condition is always true\\.$#"

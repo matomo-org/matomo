@@ -118,6 +118,42 @@ class TwoFactorAuthTest extends IntegrationTestCase
         ));
     }
 
+    public function testOnCreateAppSpecificTokenAuthThrowsErrorWhenMissingTokenWhenUsing2FaAndAuthenticatedCorrectlyUsingEmail()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('TwoFactorAuth_MissingAuthCodeAPI');
+
+        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+            'userLogin' => $this->userWith2Fa . '@matomo.org',
+            'passwordConfirmation' => $this->userPassword,
+            'description' => 'twofa test',
+        ));
+    }
+
+    public function testOnCreateAppSpecificTokenAuthThrowsErrorWhenInvalidTokenWhenUsing2FaAndAuthenticatedCorrectlyUsingEmail()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('TwoFactorAuth_InvalidAuthCode');
+
+        $_GET['authCode'] = '111222';
+        Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+            'userLogin' => $this->userWith2Fa . '@matomo.org',
+            'passwordConfirmation' => $this->userPassword,
+            'description' => 'twofa test',
+        ));
+    }
+
+    public function testOnCreateAppSpecificTokenAuthReturnsCorrectTokenWhenProvidingCorrectAuthTokenOnAuthenticationUsingEmail()
+    {
+        $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);
+        $token = Request::processRequest('UsersManager.createAppSpecificTokenAuth', array(
+            'userLogin' => $this->userWith2Fa . '@matomo.org',
+            'passwordConfirmation' => $this->userPassword,
+            'description' => 'twofa test',
+        ));
+        $this->assertEquals(32, strlen($token));
+    }
+
     public function testOnCreateAppSpecificTokenAuthReturnsCorrectTokenWhenProvidingCorrectAuthTokenOnAuthentication()
     {
         $_GET['authCode'] = $this->generateValidAuthCode($this->user2faSecret);

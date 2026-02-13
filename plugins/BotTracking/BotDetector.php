@@ -33,7 +33,6 @@ class BotDetector
         'Claude-User'          => self::BOT_TYPE_AI_ASSISTANT,
         'Perplexity-User'      => self::BOT_TYPE_AI_ASSISTANT,
         'Google-NotebookLM'    => self::BOT_TYPE_AI_ASSISTANT,
-        'Devin'                => self::BOT_TYPE_AI_ASSISTANT,
     ];
 
     public function __construct(string $userAgent)

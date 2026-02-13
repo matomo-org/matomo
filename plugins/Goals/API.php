@@ -61,11 +61,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Return a single goal.
      *
-     * @param int $idSite
-     * @param int $idGoal
      * @return ?array An array of goal attributes.
      */
-    public function getGoal($idSite, $idGoal)
+    public function getGoal(int $idSite, int $idGoal): ?array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -74,6 +72,8 @@ class API extends \Piwik\Plugin\API
         if (!empty($goal)) {
             return $this->formatGoal($goal);
         }
+
+        return null;
     }
 
     /**
@@ -99,7 +99,7 @@ class API extends \Piwik\Plugin\API
             // note: the reason this is secure is because the above cache is a static cache and cleared after each request
             // if we were to use a different cache that persists the result, this would not be secure because when a
             // result is in the cache, it would just return the result
-            $idSite = Site::getIdSitesFromIdSitesString($idSite);
+            $idSite = Site::getIdSitesFromIdSitesString($idSite, false, true);
 
             if (empty($idSite)) {
                 return [];
@@ -171,7 +171,7 @@ class API extends \Piwik\Plugin\API
      * @return int ID of the new goal
      */
     public function addGoal(
-        $idSite,
+        int $idSite,
         $name,
         $matchAttribute,
         $pattern,
@@ -239,7 +239,7 @@ class API extends \Piwik\Plugin\API
      * @see addGoal() for parameters description
      */
     public function updateGoal(
-        $idSite,
+        int $idSite,
         $idGoal,
         $name,
         $matchAttribute,
@@ -359,7 +359,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return void
      */
-    public function deleteGoal($idSite, $idGoal)
+    public function deleteGoal(int $idSite, $idGoal)
     {
         Piwik::checkUserHasWriteAccess($idSite);
 

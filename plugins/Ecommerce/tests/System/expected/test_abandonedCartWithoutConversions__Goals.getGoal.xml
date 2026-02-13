@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <result>
-	<success message="ok" />
+	<error message="Please specify a value for 'idGoal'.
+ 
+ --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
 </result>

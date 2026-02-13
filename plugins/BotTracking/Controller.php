@@ -13,6 +13,7 @@ namespace Piwik\Plugins\BotTracking;
 
 use Piwik\Piwik;
 use Piwik\Request;
+use Piwik\Plugins\BotTracking\Reports\SegmentNotSupportedMessageHelper;
 
 class Controller extends \Piwik\Plugin\Controller
 {
@@ -58,6 +59,8 @@ class Controller extends \Piwik\Plugin\Controller
         if (empty($view->config->columns_to_display)) {
             $view->config->columns_to_display = [Metrics::METRIC_AI_ASSISTANTS_REQUESTS];
         }
+
+        SegmentNotSupportedMessageHelper::addSegmentNotSupportedMessage($view);
 
         return $this->renderView($view);
     }

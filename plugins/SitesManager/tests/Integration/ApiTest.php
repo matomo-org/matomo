@@ -574,7 +574,7 @@ class ApiTest extends IntegrationTestCase
      */
     public function testGetSiteFromIdWithWrongIdThrowsException2()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(\TypeError::class);
         API::getInstance()->getSiteFromId("x1");
     }
 

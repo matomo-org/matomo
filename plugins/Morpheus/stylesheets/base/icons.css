@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'matomo';
   src:
-          url('plugins/Morpheus/fonts/matomo.woff2?tat0k2') format('woff2'),
-          url('plugins/Morpheus/fonts/matomo.woff?tat0k2') format('woff'),
-          url('plugins/Morpheus/fonts/matomo.ttf?tat0k2') format('truetype'),
-          url('plugins/Morpheus/fonts/matomo.svg?tat0k2#matomo') format('svg');
+          url('plugins/Morpheus/fonts/matomo.woff2?tat2k2') format('woff2'),
+          url('plugins/Morpheus/fonts/matomo.woff?tat2k2') format('woff'),
+          url('plugins/Morpheus/fonts/matomo.ttf?tat2k2') format('truetype'),
+          url('plugins/Morpheus/fonts/matomo.svg?tat2k2#matomo') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -456,4 +456,7 @@
 }
 .icon-dashboard-customize:before {
   content: "\e911";
+}
+.icon-ai-assistants:before {
+  content: "\e912";
 }

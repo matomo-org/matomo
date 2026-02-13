@@ -71,7 +71,7 @@ abstract class CompliancePolicy implements SystemSettingInterface, MeasurableSet
         if ($shouldShowWarnings) {
             $warnings = static::generateWarnings();
             if (!empty($warnings)) {
-                $description .= ' ' . static::generateWarnings();
+                $description .= '<br/>' . static::generateWarnings();
             }
         }
 

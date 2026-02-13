@@ -12,6 +12,7 @@ namespace Piwik\Tests\Integration\Session;
 use Piwik\AuthResult;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
+use Piwik\Db;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\Session\SessionAuth;
 use Piwik\Session\SessionFingerprint;
@@ -19,6 +20,8 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Session;
+use Piwik\Session\SaveHandler\DbTable;
 
 class SessionAuthTest extends IntegrationTestCase
 {
@@ -130,6 +133,35 @@ class SessionAuthTest extends IntegrationTestCase
         $result = $sessionAuth->authenticate();
 
         $this->assertEquals(AuthResult::FAILURE, $result->getCode());
+    }
+
+    public function testDestroyAllSessions()
+    {
+        $this->initializeSession(self::TEST_OTHER_USER);
+
+        $tableConfig = Session::getDbTableConfig();
+        $dbTable = new DbTable($tableConfig);
+
+        $numberOfSessions = 5;
+
+        for ($i = 0; $i < $numberOfSessions; $i++) {
+            $dbTable->write("testId$i", 'testSessionData');
+        }
+
+        $this->assertSame($numberOfSessions, $this->countActiveSessions());
+        $this->assertNotEmpty($_SESSION[SessionFingerprint::SESSION_INFO_SESSION_VAR_NAME]);
+
+        Session::destroyAllSessions();
+        $this->assertSame(0, $this->countActiveSessions());
+        $this->assertEmpty($_SESSION);
+    }
+
+    private function countActiveSessions(): int
+    {
+        $tableConfig = Session::getDbTableConfig();
+        $sql = "SELECT count(id) as count FROM `" . $tableConfig['name'] . "`";
+        $res = Db::fetchOne($sql, []);
+        return (int) $res;
     }
 
     private function initializeSession($userLogin, $isRemembered = false)

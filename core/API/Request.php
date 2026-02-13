@@ -689,7 +689,7 @@ class Request
     /**
      * Returns the segment query parameter from the original request, without modifications.
      *
-     * @return array|bool
+     * @return string|false
      */
     public static function getRawSegmentFromRequest()
     {
