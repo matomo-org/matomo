@@ -368,7 +368,7 @@ class Url
     }
 
     /**
-     * @return false|string
+     * @return string|false
      */
     protected static function getHostFromServerVariable()
     {
