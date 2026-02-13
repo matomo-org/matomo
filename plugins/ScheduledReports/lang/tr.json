@@ -29,8 +29,6 @@
         "PleaseFindBelow": "%2$s için %1$s raporunuzu aşağıda bulabilirsiniz.",
         "PluginDescription": "Özel rapor ekleyip günlük, haftalık ya da aylık olarak bir ya da bir kaç kişiye gönderilmek üzere zamanlayabilirsiniz. Desteklenen bir kaç farklı rapor biçimi bulunur (html, pdf, csv, görseller).",
         "ReportFormat": "Rapor biçimi",
-        "ReportHour": "Rapor %s zamanında gönderilsin",
-        "ReportHourWithUTC": "UTC %s zamanında",
         "ReportIncludeNWebsites": "Bu rapor en az bir kez ziyaret edilmiş sitelerin tüm temel ölçümlerini içerir (şu anda %s site var).",
         "ReportPeriod": "Raporlama aralığı",
         "ReportSchedule": "Rapor zamanlaması",
