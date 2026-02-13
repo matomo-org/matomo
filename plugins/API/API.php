@@ -756,26 +756,28 @@ class API extends \Piwik\Plugin\API
     private function getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn)
     {
         $startDate = Date::now()->subDay(self::$_autoSuggestLookBack)->toString();
-        $requestLastVisits = "method=Live.getLastVisitsDetails
-        &idSite=$idSite
-        &period=range
-        &date=$startDate,today
-        &format=original
-        &serialize=0
-        &flat=1";
+        $requestLastVisits = [
+            'method' => 'Live.getLastVisitsDetails',
+            'idSite' => $idSite,
+            'period' => 'range',
+            'date' => $startDate . ',today',
+            'format' => 'original',
+            'serialize' => 0,
+            'flat' => 1,
+        ];
 
         $segmentName = $segment['segment'];
 
         // Select non empty fields only
         // Note: this optimization has only a very minor impact
-        $requestLastVisits .= "&segment=$segmentName" . urlencode('!=');
+        $requestLastVisits['segment'] = $segmentName . urlencode('!=');
 
         // By default Live fetches all actions for all visitors, but we'd rather do this only when required
         if ($this->doesSegmentNeedActionsData($segmentName)) {
-            $requestLastVisits .= "&filter_limit=400";
+            $requestLastVisits['filter_limit'] = 400;
         } else {
-            $requestLastVisits .= "&doNotFetchActions=1";
-            $requestLastVisits .= "&filter_limit=800";
+            $requestLastVisits['doNotFetchActions'] = 1;
+            $requestLastVisits['filter_limit'] = 800;
         }
 
         $request = new Request($requestLastVisits);

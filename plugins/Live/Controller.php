@@ -105,7 +105,14 @@ class Controller extends \Piwik\Plugin\Controller
         $error = '';
         $visitors = new DataTable();
         try {
-            $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=original&serialize=0&disable_generic_filters=1");
+            $api = new Request([
+                'method' => 'Live.getLastVisitsDetails',
+                'idSite' => $this->idSite,
+                'filter_limit' => 10,
+                'format' => 'original',
+                'serialize' => 0,
+                'disable_generic_filters' => 1,
+            ]);
             $visitors = $api->process();
         } catch (\Exception $e) {
             $error = $e->getMessage();

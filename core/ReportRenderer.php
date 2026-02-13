@@ -262,13 +262,22 @@ abstract class ReportRenderer extends BaseFactory
             $imageGraphUrl = $reportMetadata['imageGraphEvolutionUrl'];
         }
 
-        $requestGraph = $imageGraphUrl .
-            '&outputType=' . API::GRAPH_OUTPUT_PHP .
-            '&format=original&serialize=0' .
-            '&filter_truncate=' .
-            '&width=' . $width .
-            '&height=' . $height .
-            ($segment != null ? '&segment=' . urlencode($segment['definition']) : '');
+        $queryString = Url::getQueryStringFromUrl($imageGraphUrl);
+        if (!is_string($queryString) || $queryString === '') {
+            $queryString = $imageGraphUrl;
+        }
+
+        $requestGraph = UrlHelper::getArrayFromQueryString($queryString);
+        $requestGraph['outputType'] = API::GRAPH_OUTPUT_PHP;
+        $requestGraph['format'] = 'original';
+        $requestGraph['serialize'] = 0;
+        $requestGraph['filter_truncate'] = '';
+        $requestGraph['width'] = $width;
+        $requestGraph['height'] = $height;
+
+        if ($segment != null) {
+            $requestGraph['segment'] = urlencode($segment['definition']);
+        }
 
         $request = new Request($requestGraph);
 
