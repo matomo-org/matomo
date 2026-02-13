@@ -29,8 +29,6 @@
         "PleaseFindBelow": "U nastavku se nalazi tvoj %1$s izvještaj za %2$s .",
         "PluginDescription": "Izradi prilagođene izvještaje i planiraj njihovo slanje e-poštom jednoj ili više osoba jednom dnevno, tjedno ili mjesečno. Podržano je nekoliko formata izvještaja (html, pdf, csv, slike).",
         "ReportFormat": "Format izvještaja",
-        "ReportHour": "Pošalji izvještaj u %s h",
-        "ReportHourWithUTC": "%s h UTC",
         "ReportIncludeNWebsites": "Izvještaj će uključivati glavne mjerne podatke za sve web-stranice koje imaju barem jedan posjet (od %s trenutačno dostupnih web-stranica).",
         "ReportPeriod": "Razdoblje izvještaja",
         "ReportSchedule": "Termin za izvještaj",
