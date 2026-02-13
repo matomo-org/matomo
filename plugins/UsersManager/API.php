@@ -333,7 +333,7 @@ class API extends \Piwik\Plugin\API
     {
         switch ($preferenceName) {
             case self::PREFERENCE_THEME_MODE:
-                return 'default';
+                return 'auto';
             case self::PREFERENCE_DEFAULT_REPORT:
                 $viewableSiteIds = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAtLeastViewAccess($login);
                 if (!empty($viewableSiteIds)) {

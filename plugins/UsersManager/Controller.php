@@ -257,7 +257,7 @@ class Controller extends ControllerAdmin
 
         $view->themeMode = $userPreferences->getThemeMode();
         $view->themeModeOptions = array(
-            array('key' => 'default', 'value' => 'Default'),
+            array('key' => 'auto', 'value' => 'Default'),
             array('key' => 'dark', 'value' => 'Dark'),
         );
 
@@ -645,7 +645,6 @@ class Controller extends ControllerAdmin
                     APIUsersManager::PREFERENCE_THEME_MODE,
                     $themeMode
                 );
-                AssetManager::getInstance()->removeMergedAssets();
             }
 
             APIUsersManager::getInstance()->setUserPreference(

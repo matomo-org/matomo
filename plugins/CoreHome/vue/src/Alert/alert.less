@@ -19,9 +19,9 @@
     padding: 15px;
   }
 
-  [data-theme-mode="dark"] & {
+  .inDarkMode({
     color: #ccc !important;
-  }
+  });
 
   &::before {
     font-family: "matomo";
@@ -44,9 +44,9 @@
     color: #212121 !important;
     text-decoration: underline;
 
-    [data-theme-mode="dark"] & {
+    .inDarkMode({
       color: #ccc !important;
-    }
+    });
 
     &:hover {
       text-decoration: underline;
@@ -62,9 +62,9 @@
     color: #378039;
   }
 
-  [data-theme-mode="dark"] & {
+  .inDarkMode({
     background-color: transparent;
-  }
+  });
 }
 
 .alert-info {
@@ -74,9 +74,9 @@
     color: #0d94e3;
   }
 
-  [data-theme-mode="dark"] & {
+  .inDarkMode({
     background-color: transparent;
-  }
+  });
 }
 
 .alert-warning {
@@ -87,9 +87,9 @@
     color: #a18a0b;
   }
 
-  [data-theme-mode="dark"] & {
+  .inDarkMode({
     background-color: transparent;
-  }
+  });
 }
 
 .alert-danger {
@@ -100,7 +100,7 @@
     color: @color-red-matomo;
   }
 
-  [data-theme-mode="dark"] & {
+  .inDarkMode({
     background-color: transparent;
-  }
+  });
 }

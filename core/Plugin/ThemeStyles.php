@@ -13,6 +13,10 @@ use Piwik\Piwik;
 
 class ThemeStyles
 {
+    const AUTO_MODE = 'auto';
+    const LIGHT_MODE = 'light';
+    const DARK_MODE = 'dark';
+
     // to maintain BC w/ old names that were defined in LESS
     private static $propertyNamesToLessVariableNames = [
         'fontFamilyBase' => 'theme-fontFamily-base',
@@ -60,12 +64,7 @@ class ThemeStyles
     /**
      * @var string
      */
-    public $themeMode = 'default';
-
-    /**
-     * @var array<string>
-     */
-    public $themeModeList = ['default', 'dark'];
+    public $themeMode = self::AUTO_MODE;
 
     /**
      * @var string|array<string>
@@ -284,7 +283,7 @@ class ThemeStyles
     /**
      * @return ThemeStyles
      */
-    public static function get(string $mode = 'default')
+    public static function get(string $mode = self::AUTO_MODE)
     {
         $result = new self($mode);
 
@@ -296,9 +295,14 @@ class ThemeStyles
         return $result;
     }
 
-    public function getThemeModeIndex(): int
+    public function getIsLightMode(): bool
     {
-        return array_search($this->themeMode, $this->themeModeList) ?: 0;
+        return $this->themeMode === self::LIGHT_MODE;
+    }
+
+    public function getIsDarkMode(): bool
+    {
+        return $this->themeMode === self::DARK_MODE;
     }
 
     public function getThemeMode(): string
@@ -312,21 +316,26 @@ class ThemeStyles
         if (!is_array($value)) {
             return $value;
         }
-        $index = $this->getThemeModeIndex();
 
-        return $value[$index] ?? $value[0];
+        return $this->getIsDarkMode() ? $value[1] : $value[0];
     }
 
     public function toLessCode()
     {
         $result = '';
-        $index = $this->getThemeModeIndex();
         foreach (get_object_vars($this) as $name => $value) {
-            if (is_array($value)) {
-                $value = $value[$index] ?? $value[0];
-            }
             $varName = isset(self::$propertyNamesToLessVariableNames[$name]) ? self::$propertyNamesToLessVariableNames[$name] : $this->getGenericThemeVarName($name);
-            $result .= "@$varName: $value;\n";
+            if (is_array($value)) {
+                if ($this->getIsDarkMode()) {
+                    $result .= "@$varName: $value[1];\n";
+                } else if ($this->getIsLightMode()) {
+                    $result .= "@$varName: $value[0];\n";
+                } else {
+                    $result .= "@$varName: light-dark($value[0], $value[1]);\n";
+                }
+            } else {
+                $result .= "@$varName: $value;\n";
+            }
         }
         return $result;
     }
