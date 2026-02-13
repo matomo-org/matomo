@@ -9,7 +9,7 @@
         "ConvertedNGoals": "Convertiti %s obiettivi",
         "DisableVisitorProfile": "Disattiva i profili dei visitatori",
         "DisableVisitorProfileDescription": "Tutte le funzionalità relative al registro delle visite funzionano sempre.",
-        "DisableVisitsLogAndProfile": "Disattiva il registro delle visite e i profili dei visitatori",
+        "DisableVisitsLogAndProfile": "Disattiva il registro delle Visite e i profili dei Visitatori",
         "DisableVisitsLogAndProfileDescription": "Rimuovere anche le funzionalità che dipendono dal registro e-commerce, dal registro delle visite segmentate, dalla mappa in tempo reale o dal widget in tempo reale. Potrebbe essere necessario per rispettare le leggi o le linee guida locali sulla privacy.",
         "FirstVisit": "Prima visita",
         "GoalType": "Tipo",
