@@ -27,8 +27,6 @@
         "PleaseFindBelow": "Por favor, encontrá abajo tu %1$s informe para %2$s.",
         "PluginDescription": "Creá informes personalizados y programalos para que se envíen por correo electrónico diariamente, semanalmente o mensualmente, a una persona o a varias. Se soportan varios formatos de informe (HTML, PDF, CDV, imágenes).",
         "ReportFormat": "Formato del informe",
-        "ReportHour": "Enviar informe a las %s",
-        "ReportHourWithUTC": "%s UTC",
         "ReportIncludeNWebsites": "El informe incluirá las principales métricas para todos los sitios web con al menos una visita (de todos los %s sitios web disponibles).",
         "ReportPeriod": "Período del informe",
         "ReportSent": "Informe enviado",
