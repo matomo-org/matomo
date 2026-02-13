@@ -58,7 +58,7 @@ class Response
 
     public static function loadFromApi($params, $requestUrl, $normalize = true)
     {
-        $requestParams = Request::getRequestArrayFromString($requestUrl, null);
+        $requestParams = Request::getRequestArrayFromString($requestUrl);
 
         $testRequest = new Request($requestParams, []);
 
