@@ -51,6 +51,16 @@ jest.mock('../useExternalPluginComponent', () => ({
 }));
 
 function createWrapper(extraProps: Record<string, unknown> = {}) {
+  const globalProperties = {
+    translate: (id: string, ...values: string[]|string[][]) => {
+      if (!values.length) {
+        return id;
+      }
+      return `${id} ${values.flat().join(' ')}`.trim();
+    },
+    $sanitize: (value: string) => value,
+  };
+
   return mount(ReportExportPopover, {
     props: {
       hasSubtables: true,
@@ -90,10 +100,7 @@ function createWrapper(extraProps: Record<string, unknown> = {}) {
     },
     global: {
       config: {
-        globalProperties: {
-          translate: (id: string) => id,
-          $sanitize: (value: string) => value,
-        },
+        globalProperties: globalProperties as any,
       },
     },
   });
