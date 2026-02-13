@@ -8,5 +8,10 @@
       "jest",
       "node"
     ]
-  }
+  },
+  "include": [
+    "./types/**/*.d.ts",
+    "plugins/**/vue/**/*.spec.ts",
+    "plugins/**/vue/**/*.spec.js"
+  ]
 }
