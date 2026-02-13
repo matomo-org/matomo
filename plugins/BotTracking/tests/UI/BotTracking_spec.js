@@ -78,7 +78,7 @@ describe("BotTracking", function () {
 
     it('should show segment not supported footer message in AI bot reports when segmented', async function () {
         const segment = encodeURIComponent('visitConverted==1');
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview&segment=" + segment);
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview&segment=" + segment);
         await page.waitForNetworkIdle();
 
         const expectedMessage = 'Report does not support segmentation. The data displayed is your standard, unsegmented report data.';
