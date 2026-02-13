@@ -106,14 +106,13 @@ class ApiTest extends IntegrationTestCase
         $this->assertTrue($complianceStatus['complianceModeEnforced']);
     }
 
-    public function testSetComplianceStatusDoesNotRequirePasswordWhenPostSessionFlagIsZeroEvenIfGetFlagIsOne(): void
+    public function testSetComplianceStatusDoesNotRequirePasswordWhenNotAuthenticatedUsingSessionAuth(): void
     {
         $container = StaticContainer::getContainer();
         $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
 
-        $_GET['force_api_session'] = 1;
-        $_POST['token_auth'] = 'postToken';
-        $_POST['force_api_session'] = 0;
+        $access = $container->get(Access::class);
+        $access->setAuthenticatedUsingSessionAuthForRestore(false);
 
         try {
             $result = $this->api->setComplianceStatus(
@@ -124,13 +123,11 @@ class ApiTest extends IntegrationTestCase
 
             $this->assertTrue($result);
         } finally {
-            unset($_GET['force_api_session']);
-            unset($_POST['token_auth']);
-            unset($_POST['force_api_session']);
+            $access->setAuthenticatedUsingSessionAuthForRestore(false);
         }
     }
 
-    public function testSetComplianceStatusRequiresPasswordWhenPostSessionFlagIsOneEvenIfGetFlagIsZero(): void
+    public function testSetComplianceStatusRequiresPasswordWhenAuthenticatedUsingSessionAuth(): void
     {
         $container = StaticContainer::getContainer();
         $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
@@ -138,9 +135,8 @@ class ApiTest extends IntegrationTestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 
-        $_GET['force_api_session'] = 0;
-        $_POST['token_auth'] = 'postToken';
-        $_POST['force_api_session'] = 1;
+        $access = $container->get(Access::class);
+        $access->setAuthenticatedUsingSessionAuthForRestore(true);
 
         try {
             $this->api->setComplianceStatus(
@@ -149,9 +145,7 @@ class ApiTest extends IntegrationTestCase
                 true
             );
         } finally {
-            unset($_GET['force_api_session']);
-            unset($_POST['token_auth']);
-            unset($_POST['force_api_session']);
+            $access->setAuthenticatedUsingSessionAuthForRestore(false);
         }
     }
 

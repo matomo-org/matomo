@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\SitesManager\tests\Integration;
 
+use Piwik\Access;
 use Piwik\Access\Role\Admin;
 use Piwik\Access\Role\View;
 use Piwik\Access\Role\Write;
@@ -1221,28 +1222,25 @@ class ApiTest extends IntegrationTestCase
         $this->assertHasSite($siteId2);
     }
 
-    public function testDeleteSiteDoesNotRequirePasswordWhenPostSessionFlagIsZeroEvenIfGetFlagIsOne()
+    public function testDeleteSiteDoesNotRequirePasswordWhenNotAuthenticatedUsingSessionAuth()
     {
         $siteId0 = API::getInstance()->addSite('website 1', ['http://piwik.net']);
         $siteId1 = API::getInstance()->addSite('website 2', ['http://piwik.com/test/']);
         self::assertIsInt($siteId0);
         self::assertIsInt($siteId1);
 
-        $_GET['force_api_session'] = 1;
-        $_POST['token_auth'] = 'postToken';
-        $_POST['force_api_session'] = 0;
+        $access = StaticContainer::get(Access::class);
+        $access->setAuthenticatedUsingSessionAuthForRestore(false);
 
         try {
             API::getInstance()->deleteSite($siteId1);
             $this->assertHasNotSite($siteId1);
         } finally {
-            unset($_GET['force_api_session']);
-            unset($_POST['token_auth']);
-            unset($_POST['force_api_session']);
+            $access->setAuthenticatedUsingSessionAuthForRestore(false);
         }
     }
 
-    public function testDeleteSiteRequiresPasswordWhenPostSessionFlagIsOneEvenIfGetFlagIsZero()
+    public function testDeleteSiteRequiresPasswordWhenAuthenticatedUsingSessionAuth()
     {
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
@@ -1252,16 +1250,13 @@ class ApiTest extends IntegrationTestCase
         self::assertIsInt($siteId0);
         self::assertIsInt($siteId1);
 
-        $_GET['force_api_session'] = 0;
-        $_POST['token_auth'] = 'postToken';
-        $_POST['force_api_session'] = 1;
+        $access = StaticContainer::get(Access::class);
+        $access->setAuthenticatedUsingSessionAuthForRestore(true);
 
         try {
             API::getInstance()->deleteSite($siteId1);
         } finally {
-            unset($_GET['force_api_session']);
-            unset($_POST['token_auth']);
-            unset($_POST['force_api_session']);
+            $access->setAuthenticatedUsingSessionAuthForRestore(false);
         }
     }
 

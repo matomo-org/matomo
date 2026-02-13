@@ -85,6 +85,11 @@ class Access
     private $sessionExpired = false;
 
     /**
+     * @var bool
+     */
+    private $isAuthenticatedUsingSessionAuth = false;
+
+    /**
      * Gets the singleton instance. Creates it if necessary.
      *
      * @return self
@@ -155,6 +160,7 @@ class Access
             return true;
         }
 
+        $this->isAuthenticatedUsingSessionAuth = false;
         $this->token_auth = null;
         $this->login = null;
 
@@ -177,6 +183,9 @@ class Access
             $auth = StaticContainer::get(SessionAuth::class);
             $auth->setTokenAuth($tokenAuth);
             $result = $auth->authenticate();
+            if ($result->wasAuthenticationSuccessful()) {
+                $this->isAuthenticatedUsingSessionAuth = true;
+            }
             // Note: We do not post a failed login event at this point on purpose
             // If using the SessionAuth doesn't work, the FrontController will try to reload the Auth using
             // the token_auth only. If that works everything is "fine" and the `force_api_session` parameter was
@@ -189,6 +198,7 @@ class Access
         // access = array ( idsite => accessIdSite, idsite2 => accessIdSite2)
         if (!$result || !$result->wasAuthenticationSuccessful()) {
             $result = $this->auth->authenticate();
+            $this->isAuthenticatedUsingSessionAuth = $result->wasAuthenticationSuccessful() && $this->auth instanceof SessionAuth;
         }
 
         if (!$result->wasAuthenticationSuccessful()) {
@@ -355,6 +365,20 @@ class Access
     public function getTokenAuth()
     {
         return $this->token_auth;
+    }
+
+    public function isAuthenticatedUsingSessionAuth(): bool
+    {
+        return $this->isAuthenticatedUsingSessionAuth;
+    }
+
+    /**
+     * @internal
+     * @ignore
+     */
+    public function setAuthenticatedUsingSessionAuthForRestore(bool $isAuthenticatedUsingSessionAuth): void
+    {
+        $this->isAuthenticatedUsingSessionAuth = $isAuthenticatedUsingSessionAuth;
     }
 
     /**
