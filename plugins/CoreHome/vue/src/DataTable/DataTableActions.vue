@@ -387,10 +387,10 @@ export default defineComponent({
     reportFormats(): Record<string, string> {
       const formats: Record<string, string> = {
         TSV: 'TSV (Excel)',
-        JSON: 'JSON',
-        CSV: 'CSV',
-        XML: 'XML',
         HTML: 'HTML',
+        JSON: 'JSON',
+        XML: 'XML',
+        CSV: 'CSV',
         RSS: 'RSS',
       };
       return formats;
