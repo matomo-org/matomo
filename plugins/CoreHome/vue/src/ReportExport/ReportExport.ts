@@ -45,6 +45,8 @@ export default {
       const optionShowDimensions = dataTable.param.show_dimensions === true
         || dataTable.param.show_dimensions === 1
         || dataTable.param.show_dimensions === '1';
+      const hasSubtables = dataTable.numberOfSubtables > 0;
+      const hasSubtableOptionControls = optionFlat || hasSubtables;
 
       const props = {
         initialReportType: 'default',
@@ -54,7 +56,8 @@ export default {
         initialOptionShowDimensions: optionShowDimensions,
         initialOptionExpanded: true,
         initialOptionFormatMetrics: false,
-        hasSubtables: optionFlat || dataTable.numberOfSubtables > 0,
+        hasSubtableOptionControls,
+        hasSubtables,
         availableReportFormats: {
           default: formats,
           processed: {
