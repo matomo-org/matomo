@@ -27,7 +27,7 @@
             :name="'option_flat'"
             :title="translate('CoreHome_FlattenReport')"
             v-model="optionFlat"
-            v-show="hasSubtables"
+            v-show="hasSubtableOptionControls"
           >
           </Field>
         </div>
@@ -51,7 +51,7 @@
             :name="'option_expanded'"
             :title="translate('CoreHome_ExpandSubtables')"
             v-model="optionExpanded"
-            v-show="hasSubtables && !isCsvOrTsv"
+            v-show="hasSubtableOptionControls && !isCsvOrTsv"
           >
           </Field>
         </div>
@@ -184,6 +184,7 @@ export default defineComponent({
     SelectOnFocus,
   },
   props: {
+    hasSubtableOptionControls: Boolean,
     hasSubtables: Boolean,
     availableReportTypes: Object,
     availableReportFormats: {
@@ -300,11 +301,11 @@ export default defineComponent({
       },
     },
     optionFlat(newVal) {
-      if (!this.hasSubtables) {
+      if (!this.hasSubtableOptionControls) {
         return;
       }
 
-      if (this.isFormatWithoutExpanded(this.reportFormat)) {
+      if (this.hasSubtables && this.isFormatWithoutExpanded(this.reportFormat)) {
         if (!newVal) {
           this.optionFlat = true;
         }
@@ -324,7 +325,7 @@ export default defineComponent({
       }
     },
     optionExpanded(newVal) {
-      if (!this.hasSubtables || this.isFormatWithoutExpanded(this.reportFormat)) {
+      if (!this.hasSubtableOptionControls || this.isFormatWithoutExpanded(this.reportFormat)) {
         return;
       }
       if (newVal) {
@@ -487,12 +488,11 @@ export default defineComponent({
 
       const flatRequiredByFormat = this.hasSubtables
         && this.isFormatWithoutExpanded(reportFormat);
-      const effectiveOptionFlat = this.optionFlat || flatRequiredByFormat;
+      const effectiveOptionFlat = this.hasSubtables
+        && (this.optionFlat || flatRequiredByFormat);
 
       if (effectiveOptionFlat) {
-        if (this.hasSubtables) {
-          exportUrlParams.flat = 1;
-        }
+        exportUrlParams.flat = 1;
 
         if (this.optionShowDimensions) {
           exportUrlParams.show_dimensions = 1;
