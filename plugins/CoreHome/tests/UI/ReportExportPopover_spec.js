@@ -46,6 +46,13 @@ describe('ReportExportPopover', function () {
     expect(actual, `option ${optionName} checked state`).to.equal(expected);
   }
 
+  async function expectExportLinkContains(substring) {
+    const href = await page.evaluate(() => (
+      document.querySelector('#reportExport a.btn')?.getAttribute('href') || ''
+    ));
+    expect(href).to.contain(substring);
+  }
+
   it('should hide expanded option when CSV or TSV format is selected and show it for everything else', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
@@ -142,6 +149,9 @@ describe('ReportExportPopover', function () {
       document.querySelector('#reportExport input[name="format"][value="TSV"]')?.checked === true
     ));
     await expectOptionChecked('option_flat', true);
+    await clickOption('option_flat');
+    await expectOptionChecked('option_flat', true);
+    await expectExportLinkContains('flat=1');
 
     await clickFormat('JSON');
     await page.waitForFunction(() => (
