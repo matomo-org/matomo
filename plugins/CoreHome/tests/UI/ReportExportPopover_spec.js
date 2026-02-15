@@ -172,7 +172,7 @@ describe('ReportExportPopover', function () {
 
   });
 
-  it('should not force flat for CSV or TSV when no subtables are available', async function () {
+  it('should not force flat for CSV or TSV when no subtables are available, even when flat is preset', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
     await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
@@ -193,7 +193,7 @@ describe('ReportExportPopover', function () {
       }
 
       uiControlObject.numberOfSubtables = 0;
-      uiControlObject.param.flat = 0;
+      uiControlObject.param.flat = 1;
       $reportElement.data('uiControlObject', uiControlObject);
 
       const button = document.querySelector('#widgetActionsgetPageUrls .dataTableAction.activateExportSelection');
@@ -203,16 +203,22 @@ describe('ReportExportPopover', function () {
     });
     await page.waitForSelector('#reportExport', { visible: true });
 
+    await expectOptionChecked('option_flat', true);
+    await clickOption('option_flat');
+    await expectOptionChecked('option_flat', false);
+
     await clickFormat('CSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="CSV"]')?.checked === true
     ));
+    await expectOptionChecked('option_flat', false);
     await expectExportLinkNotContains('flat=1');
 
     await clickFormat('TSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="TSV"]')?.checked === true
     ));
+    await expectOptionChecked('option_flat', false);
     await expectExportLinkNotContains('flat=1');
   });
 });
