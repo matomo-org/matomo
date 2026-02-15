@@ -302,9 +302,20 @@ export default defineComponent({
       },
     },
     optionFlat(newVal) {
-      if (!this.hasSubtables || this.isFormatWithoutExpanded(this.reportFormat)) {
+      if (!this.hasSubtables) {
         return;
       }
+
+      if (this.isFormatWithoutExpanded(this.reportFormat)) {
+        if (!newVal) {
+          this.optionFlat = true;
+        }
+        if (this.optionExpanded) {
+          this.optionExpanded = false;
+        }
+        return;
+      }
+
       if (newVal) {
         if (this.optionExpanded) {
           this.optionExpanded = false;
@@ -476,7 +487,11 @@ export default defineComponent({
         });
       }
 
-      if (this.optionFlat) {
+      const flatRequiredByFormat = this.hasSubtables
+        && this.isFormatWithoutExpanded(reportFormat);
+      const effectiveOptionFlat = this.optionFlat || flatRequiredByFormat;
+
+      if (effectiveOptionFlat) {
         if (this.hasSubtables) {
           exportUrlParams.flat = 1;
         }
@@ -491,7 +506,7 @@ export default defineComponent({
         }
       }
 
-      if (!this.optionFlat && this.optionExpanded) {
+      if (!effectiveOptionFlat && this.optionExpanded) {
         exportUrlParams.expanded = 1;
       }
 
