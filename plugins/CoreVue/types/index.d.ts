@@ -184,6 +184,7 @@ declare global {
     updatePeriodParamsFromUrl(): void;
     updateTitle(date: string, period: string, c: string, s: string, segment?: string): void;
     hasUserCapability(capability: string): boolean;
+    getLoginModule(): string;
     getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;
     getBaseDatePickerOptions(defaultDate: Date|null): any;

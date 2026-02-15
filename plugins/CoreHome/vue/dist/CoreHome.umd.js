@@ -782,6 +782,19 @@ const {
   broadcast: Matomo_broadcast,
   piwikHelper: Matomo_piwikHelper
 } = window;
+function normalizeLoginModule(value) {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  if (!/^[A-Za-z0-9_]+$/.test(trimmed)) {
+    return undefined;
+  }
+  return trimmed;
+}
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
 function getReportingMenuStore() {
@@ -874,6 +887,17 @@ piwik.postEvent = function postMatomoEvent(eventName, ...args // eslint-disable-
     detail: args
   });
   window.dispatchEvent(event);
+};
+piwik.getLoginModule = function getLoginModule() {
+  const fromPiwikConfig = normalizeLoginModule(piwik.loginModule);
+  if (fromPiwikConfig) {
+    return fromPiwikConfig;
+  }
+  const fromWindow = normalizeLoginModule(window.loginModule);
+  if (fromWindow) {
+    return fromWindow;
+  }
+  return 'Login';
 };
 const Matomo = piwik;
 /* harmony default export */ var Matomo_Matomo = (Matomo);

@@ -257,7 +257,7 @@ export default defineComponent({
 
     redirectToLoginPage() {
       const loginQuery = {
-        module: 'Login',
+        module: Matomo.getLoginModule(),
       } as QueryParameters;
       MatomoUrl.updateUrl(loginQuery);
     },
