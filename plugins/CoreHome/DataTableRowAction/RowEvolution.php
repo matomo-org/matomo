@@ -202,7 +202,7 @@ class RowEvolution
     }
 
     /**
-     * @param string|false $column
+     * @param string|false|null $column
      * @return void
      */
     protected function loadEvolutionReport($column = false)
@@ -230,6 +230,7 @@ class RowEvolution
             $parameters['column'] = $column;
         }
 
+        $unmodifiedSeriesLabels = [];
         $isComparing = DataComparisonFilter::isCompareParamsPresent();
         if ($isComparing) {
             $compareDates = Common::getRequestVar('compareDates', [], 'array');
@@ -238,7 +239,6 @@ class RowEvolution
 
             $totalSeriesCount = (count($compareSegments) + 1) * (count($comparePeriods) + 1);
 
-            $unmodifiedSeriesLabels = [];
             for ($i = 0; $i < $totalSeriesCount; ++$i) {
                 $unmodifiedSeriesLabels[] = DataComparisonFilter::getPrettyComparisonLabelFromSeriesIndex($i);
             }
@@ -259,6 +259,10 @@ class RowEvolution
             $parameters['compareDates'] = $compareDates;
             $parameters['comparePeriods'] = $comparePeriods;
         }
+
+        $parameters = array_filter($parameters, function ($value) {
+            return $value !== null && $value !== false;
+        });
 
         /** @var array{label: string, reportData: Map, metadata: array{metrics: array, dimension: string, columns: array}} $report */
         $report = Request::processRequest('API.getRowEvolution', $parameters);
