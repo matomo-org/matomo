@@ -53,6 +53,13 @@ describe('ReportExportPopover', function () {
     expect(href).to.contain(substring);
   }
 
+  async function expectExportLinkNotContains(substring) {
+    const href = await page.evaluate(() => (
+      document.querySelector('#reportExport a.btn')?.getAttribute('href') || ''
+    ));
+    expect(href).to.not.contain(substring);
+  }
+
   it('should hide expanded option when CSV or TSV format is selected and show it for everything else', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
@@ -150,6 +157,8 @@ describe('ReportExportPopover', function () {
     ));
     await expectOptionChecked('option_flat', true);
     await clickOption('option_flat');
+    await expectOptionChecked('option_flat', false);
+    await clickOption('option_flat');
     await expectOptionChecked('option_flat', true);
     await expectExportLinkContains('flat=1');
 
@@ -161,5 +170,49 @@ describe('ReportExportPopover', function () {
     await expectOptionChecked('option_expanded', false);
     await expectOptionChecked('option_flat', false);
 
+  });
+
+  it('should not force flat for CSV or TSV when no subtables are available', async function () {
+    await page.goto(url);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
+    await page.waitForSelector('#widgetActionsgetPageUrls .dataTable', { visible: true });
+    await page.waitForFunction(() => (
+      !!document.querySelector('#widgetActionsgetPageUrls .dataTableAction.activateExportSelection')
+    ));
+    await page.evaluate(() => {
+      const reportElement = document.querySelector('#widgetActionsgetPageUrls [data-report]');
+      if (!reportElement) {
+        return;
+      }
+
+      const $reportElement = window.$(reportElement);
+      const uiControlObject = $reportElement.data('uiControlObject');
+      if (!uiControlObject || !uiControlObject.param) {
+        return;
+      }
+
+      uiControlObject.numberOfSubtables = 0;
+      uiControlObject.param.flat = 0;
+      $reportElement.data('uiControlObject', uiControlObject);
+
+      const button = document.querySelector('#widgetActionsgetPageUrls .dataTableAction.activateExportSelection');
+      if (button) {
+        button.click();
+      }
+    });
+    await page.waitForSelector('#reportExport', { visible: true });
+
+    await clickFormat('CSV');
+    await page.waitForFunction(() => (
+      document.querySelector('#reportExport input[name="format"][value="CSV"]')?.checked === true
+    ));
+    await expectExportLinkNotContains('flat=1');
+
+    await clickFormat('TSV');
+    await page.waitForFunction(() => (
+      document.querySelector('#reportExport input[name="format"][value="TSV"]')?.checked === true
+    ));
+    await expectExportLinkNotContains('flat=1');
   });
 });
