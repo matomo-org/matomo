@@ -75,13 +75,7 @@ class WidgetReportMapper
                 $parameters = $widgetConfig->getParameters();
                 unset($parameters['module']);
                 unset($parameters['action']);
-                foreach ($parameters as $parameter) {
-                    $widgetKey .= '.' . $parameter;
-                    if (isset($reportIndex[$widgetKey])) {
-                        $reportId = $reportIndex[$widgetKey];
-                        break;
-                    }
-                }
+                $reportId = $this->findReportIdByWidgetParameters($widgetKey, $parameters, $reportIndex);
             }
             $reportId = $reportId ?? $this->guessReportIdFromHeuristics($widgetModule, $widgetAction, $reportIndex);
             $reportId = $reportId ?? $this->mapFunnelsWidgetIdToReportId($widgetUniqueId);
@@ -100,6 +94,30 @@ class WidgetReportMapper
         }
 
         return $mapping;
+    }
+
+    /**
+     * @param array<string, mixed> $parameters
+     * @param array<string, string> $reportIndex
+     * @return string|null
+     */
+    private function findReportIdByWidgetParameters(
+        string $widgetKey,
+        array $parameters,
+        array $reportIndex
+    ): ?string {
+        foreach ($parameters as $parameter) {
+            if (!is_scalar($parameter) || is_bool($parameter)) {
+                continue;
+            }
+
+            $candidateKey = $widgetKey . '.' . (string) $parameter;
+            if (isset($reportIndex[$candidateKey])) {
+                return $reportIndex[$candidateKey];
+            }
+        }
+
+        return null;
     }
 
     /**

@@ -167,6 +167,27 @@ class WidgetReportMapperTest extends IntegrationTestCase
         $this->assertSame('Events_getCategory', $mapping[$categoryWidget->getUniqueId()]);
     }
 
+    public function testFindReportIdByWidgetParametersChecksEachParameterIndependently()
+    {
+        $mapper = new WidgetReportMapper();
+        $method = new \ReflectionMethod(WidgetReportMapper::class, 'findReportIdByWidgetParameters');
+        $method->setAccessible(true);
+
+        $reportId = $method->invoke(
+            $mapper,
+            'SomeModule.someAction',
+            array(
+                'first' => 'firstValue',
+                'second' => 'matchingValue',
+            ),
+            array(
+                'SomeModule.someAction.matchingValue' => 'SomeModule_someAction_matchingValue',
+            )
+        );
+
+        $this->assertSame('SomeModule_someAction_matchingValue', $reportId);
+    }
+
     private function setMapperWidgetConfigs(WidgetReportMapper $mapper, array $configs): void
     {
         $property = new \ReflectionProperty(WidgetReportMapper::class, 'widgetConfigs');
