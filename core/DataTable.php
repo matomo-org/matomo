@@ -1589,13 +1589,19 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return false;
         }
 
-        foreach ($value as $entry) {
-            if ($this->containsObject($entry)) {
-                return true;
-            }
+        $containsObject = false;
+
+        try {
+            array_walk_recursive($value, function ($entry) use (&$containsObject): void {
+                if (is_object($entry)) {
+                    $containsObject = true;
+                }
+            });
+        } catch (\Throwable $error) {
+            throw new Exception('The unserialization has failed! Array payload cannot be safely traversed.', 0, $error);
         }
 
-        return false;
+        return $containsObject;
     }
 
     /**
