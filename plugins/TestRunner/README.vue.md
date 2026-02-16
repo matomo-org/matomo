@@ -12,11 +12,14 @@ ddev matomo:console tests:run-vue [specs...] [--plugin=<Plugin>] [-o|--options="
 
 - `specs`
   - Accepts one or more Vue spec paths or regex fragments.
-  - Multiple values are combined into one `--testPathPattern` value joined by `|`.
+  - Pass multiple values separated by spaces.
+  - Ignored when `--plugin` is provided.
 - `--plugin`
   - Accepts either `CoreHome` or `plugins/CoreHome` style values.
   - If the value does not start with `plugins/`, it is normalized to `plugins/<Name>`.
   - Exported as `MATOMO_CURRENT_PLUGIN` for the npm test process.
+  - Enforces test discovery scope to `plugins/<Name>/vue/**/*.spec.[tj]s`.
+  - Fails fast with a non-zero exit if the plugin path does not exist.
 - `-o`, `--options`
   - Forwards additional options to `vue-cli-service test:unit` through `npm test -- ...`.
 
@@ -57,7 +60,7 @@ Run with additional forwarded options:
 ddev matomo:console tests:run-vue --options="--runInBand --watch=false"
 ```
 
-Run with multiple spec arguments (combined via ` ` (space)):
+Run with multiple spec arguments:
 
 ```bash
 ddev matomo:console tests:run-vue Alert.spec.ts Notification.spec.ts
@@ -67,10 +70,9 @@ ddev matomo:console tests:run-vue Alert.spec.ts Notification.spec.ts
 
 - No tests found:
   - Confirm the spec path is correct relative to the Matomo root, or use a broader fragment.
-  - If passing multiple spec values, remember they are joined as a regex OR pattern (`|`).
 - Plugin scoping issues:
   - Use `--plugin=CoreHome` or `--plugin=plugins/CoreHome`.
-  - If you see unexpected scope behavior, verify plugin name spelling and casing.
+  - If the plugin path does not exist, the command exits with an error.
 - Forwarded options and shell quoting:
   - Wrap `--options` values in quotes to avoid shell splitting issues.
   - Example: `--options="--runInBand --watch=false"`.

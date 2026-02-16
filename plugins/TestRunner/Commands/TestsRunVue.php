@@ -26,6 +26,8 @@ class TestsRunVue extends ConsoleCommand
         \nddev matomo:console tests:run-vue Alert.spec.ts
         \nRun tests for a specific plugin:
         \nddev matomo:console tests:run-vue --plugin=CoreHome
+        \nIf --plugin is provided, specs arguments are ignored and discovery is scoped to that plugin.
+        \nIf the plugin does not exist, the command exits with a non-zero status.
         ");
 
         $this->addOptionalArgument(
@@ -53,18 +55,31 @@ class TestsRunVue extends ConsoleCommand
             $testOptions[] = $options;
         }
 
-        if (!empty($specs)) {
-            $pattern = implode('|', $specs);
-            $testOptions[] = '--testPathPattern=' . escapeshellarg($pattern);
-        }
-
         $pluginEnv = '';
         if (!empty($plugin)) {
             $plugin = trim((string) $plugin);
             if (strpos($plugin, 'plugins/') !== 0) {
                 $plugin = 'plugins/' . $plugin;
             }
+
+            $pluginPath = PIWIK_INCLUDE_PATH . '/' . $plugin;
+            if (!is_dir($pluginPath)) {
+                $output->writeln('<error>Plugin path not found: ' . $plugin . '</error>');
+                $output->writeln('<error>Use --plugin=CoreHome or --plugin=plugins/CoreHome.</error>');
+                return 1;
+            }
+
+            $pluginPattern = preg_quote($plugin, '/') . '\/vue\/.*\.spec\.[tj]s$';
+            $testOptions[] = '--testPathPattern=' . escapeshellarg($pluginPattern);
+
+            if (!empty($specs)) {
+                $output->writeln('<comment>Ignoring specs arguments because --plugin scopes test discovery.</comment>');
+            }
+
             $pluginEnv = 'MATOMO_CURRENT_PLUGIN=' . escapeshellarg($plugin) . ' ';
+        } elseif (!empty($specs)) {
+            $pattern = implode('|', $specs);
+            $testOptions[] = '--testPathPattern=' . escapeshellarg($pattern);
         }
 
         $cmd = "cd '" . PIWIK_INCLUDE_PATH . "' && " . $pluginEnv . 'npm test';
