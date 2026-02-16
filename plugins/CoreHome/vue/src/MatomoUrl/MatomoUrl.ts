@@ -100,6 +100,27 @@ class MatomoUrl {
     window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
   }
 
+  // updates URL and internal URL store without reloading the page
+  replaceUrl(params: QueryParameters|string, hashParams: QueryParameters|string = {}) {
+    const serializedParams: string = typeof params !== 'string' ? this.stringify(params) : params;
+
+    const modifiedHashParams = Object.keys(hashParams).length
+      ? this.getFinalHashParams(hashParams, params)
+      : {};
+
+    const serializedHashParams: string = this.stringify(modifiedHashParams);
+
+    let url = `?${serializedParams}`;
+    if (serializedHashParams.length) {
+      url = `${url}#?${serializedHashParams}`;
+    }
+
+    window.history.replaceState(window.history.state, '', url);
+    this.url.value = new URL(window.location.href);
+    this.updatePeriodParamsFromUrl();
+    this.updatePageTitle();
+  }
+
   private getFinalHashParams(
     params: QueryParameters|string,
     urlParams: QueryParameters|string = {},

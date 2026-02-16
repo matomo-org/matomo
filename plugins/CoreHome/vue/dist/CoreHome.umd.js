@@ -985,6 +985,20 @@ class MatomoUrl_MatomoUrl {
     }
     window.broadcast.propagateNewPage('', undefined, undefined, undefined, url);
   }
+  // updates URL and internal URL store without reloading the page
+  replaceUrl(params, hashParams = {}) {
+    const serializedParams = typeof params !== 'string' ? this.stringify(params) : params;
+    const modifiedHashParams = Object.keys(hashParams).length ? this.getFinalHashParams(hashParams, params) : {};
+    const serializedHashParams = this.stringify(modifiedHashParams);
+    let url = `?${serializedParams}`;
+    if (serializedHashParams.length) {
+      url = `${url}#?${serializedHashParams}`;
+    }
+    window.history.replaceState(window.history.state, '', url);
+    this.url.value = new URL(window.location.href);
+    this.updatePeriodParamsFromUrl();
+    this.updatePageTitle();
+  }
   getFinalHashParams(params, urlParams = {}) {
     const paramsObj = typeof params !== 'string' ? params : this.parse(params);
     const urlParamsObj = typeof params !== 'string' ? urlParams : this.parse(urlParams);

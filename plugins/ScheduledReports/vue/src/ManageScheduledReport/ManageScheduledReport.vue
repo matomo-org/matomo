@@ -547,15 +547,9 @@ export default defineComponent({
       // Removing idDashboard from URL and hash parameters
       delete nextQuery.idDashboard;
       delete nextHash.idDashboard;
-
-      const serializedQuery = MatomoUrl.stringify(nextQuery);
-      const serializedHash = MatomoUrl.stringify(nextHash);
-      const queryPart = serializedQuery ? `?${serializedQuery}` : '';
-      const hashPart = serializedHash ? `#?${serializedHash}` : '';
-      const nextUrl = `${window.location.pathname}${queryPart}${hashPart}`;
       // Changing the URL w/o idDashboard so that we do not trigger
       // a re-export when page is refreshed
-      window.history.replaceState(window.history.state, '', nextUrl);
+      MatomoUrl.replaceUrl(nextQuery, nextHash);
     },
     async getWidgetReportMapping(dashboardId: string): Promise<WidgetReportMap> {
       return AjaxHelper.fetch(
