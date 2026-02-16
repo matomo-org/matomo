@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class TestsRunVue extends ConsoleCommand
 {
@@ -40,7 +41,6 @@ class TestsRunVue extends ConsoleCommand
         );
         $this->addRequiredValueOption('plugin', null, 'The plugin to run Vue tests for (eg CoreHome or plugins/CoreHome).');
         $this->addNoValueOption('run-in-band', null, 'Run Jest tests serially in a single process.');
-        $this->addNoValueOption('verbose', null, 'Run Jest with verbose output.');
     }
 
     protected function doExecute(): int
@@ -50,7 +50,7 @@ class TestsRunVue extends ConsoleCommand
 
         $plugin = $input->getOption('plugin');
         $runInBand = $input->getOption('run-in-band');
-        $verbose = $input->getOption('verbose');
+        $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
         $specs = $input->getArgument('specs');
 
         $testOptions = [];
