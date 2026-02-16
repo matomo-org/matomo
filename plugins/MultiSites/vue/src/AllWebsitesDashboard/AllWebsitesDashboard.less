@@ -224,7 +224,7 @@
       border-radius: 2px;
       display: inline-block;
       font-size: 0.9rem;
-      height: 1.5rem;
+      min-height: 1.5rem;
       margin-top: 0.5rem;
       padding: 0 0.35rem;
       width: fit-content;
@@ -354,7 +354,7 @@
     }
   }
 
-  @media all and (max-width: 1350px) {
+  @media all and (max-width: 1500px) {
     .kpiCardContainer {
       flex-wrap: wrap;
 
@@ -365,7 +365,8 @@
       }
 
       .kpiCardDivider {
-        &:nth-child(4) {
+        &:nth-child(4),
+        &:nth-child(8) {
           display: none;
         }
       }

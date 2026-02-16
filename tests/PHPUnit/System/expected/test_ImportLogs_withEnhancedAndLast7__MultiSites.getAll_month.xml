@@ -7,6 +7,7 @@
 			<nb_actions>51</nb_actions>
 			<nb_pageviews>45</nb_pageviews>
 			<hits>51</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>195</revenue>
 			<nb_conversions>39</nb_conversions>
 			<orders>0</orders>
@@ -19,6 +20,8 @@
 			<pageviews_evolution_trend>1</pageviews_evolution_trend>
 			<hits_evolution>100%</hits_evolution>
 			<hits_evolution_trend>1</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>100%</revenue_evolution>
 			<revenue_evolution_trend>1</revenue_evolution_trend>
 			<nb_conversions_evolution>100%</nb_conversions_evolution>
@@ -36,6 +39,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<previous_orders>0</previous_orders>
@@ -49,6 +53,7 @@
 			<nb_actions>5</nb_actions>
 			<nb_pageviews>5</nb_pageviews>
 			<hits>5</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>100%</visits_evolution>
@@ -59,6 +64,8 @@
 			<pageviews_evolution_trend>1</pageviews_evolution_trend>
 			<hits_evolution>100%</hits_evolution>
 			<hits_evolution_trend>1</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -72,6 +79,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -83,6 +91,7 @@
 			<nb_actions>1</nb_actions>
 			<nb_pageviews>1</nb_pageviews>
 			<hits>1</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>100%</visits_evolution>
@@ -93,6 +102,8 @@
 			<pageviews_evolution_trend>1</pageviews_evolution_trend>
 			<hits_evolution>100%</hits_evolution>
 			<hits_evolution_trend>1</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -106,6 +117,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -119,6 +131,7 @@
 			<nb_actions>10</nb_actions>
 			<nb_pageviews>10</nb_pageviews>
 			<hits>10</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>5</revenue>
 			<nb_conversions>1</nb_conversions>
 			<orders>0</orders>
@@ -131,6 +144,8 @@
 			<pageviews_evolution_trend>-1</pageviews_evolution_trend>
 			<hits_evolution>-80.4%</hits_evolution>
 			<hits_evolution_trend>-1</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>-97.4%</revenue_evolution>
 			<revenue_evolution_trend>-1</revenue_evolution_trend>
 			<nb_conversions_evolution>-97.4%</nb_conversions_evolution>
@@ -148,6 +163,7 @@
 			<previous_nb_actions>51</previous_nb_actions>
 			<previous_nb_pageviews>45</previous_nb_pageviews>
 			<previous_hits>51</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>195</previous_revenue>
 			<previous_nb_conversions>39</previous_nb_conversions>
 			<previous_orders>0</previous_orders>
@@ -161,6 +177,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>-100%</visits_evolution>
@@ -171,6 +188,8 @@
 			<pageviews_evolution_trend>-1</pageviews_evolution_trend>
 			<hits_evolution>-100%</hits_evolution>
 			<hits_evolution_trend>-1</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -184,6 +203,7 @@
 			<previous_nb_actions>1</previous_nb_actions>
 			<previous_nb_pageviews>1</previous_nb_pageviews>
 			<previous_hits>1</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -195,6 +215,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>-100%</visits_evolution>
@@ -205,6 +226,8 @@
 			<pageviews_evolution_trend>-1</pageviews_evolution_trend>
 			<hits_evolution>-100%</hits_evolution>
 			<hits_evolution_trend>-1</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -218,6 +241,7 @@
 			<previous_nb_actions>5</previous_nb_actions>
 			<previous_nb_pageviews>5</previous_nb_pageviews>
 			<previous_hits>5</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -231,6 +255,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<orders>0</orders>
@@ -243,6 +268,8 @@
 			<pageviews_evolution_trend>-1</pageviews_evolution_trend>
 			<hits_evolution>-100%</hits_evolution>
 			<hits_evolution_trend>-1</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>-100%</revenue_evolution>
 			<revenue_evolution_trend>-1</revenue_evolution_trend>
 			<nb_conversions_evolution>-100%</nb_conversions_evolution>
@@ -260,6 +287,7 @@
 			<previous_nb_actions>10</previous_nb_actions>
 			<previous_nb_pageviews>10</previous_nb_pageviews>
 			<previous_hits>10</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>5</previous_revenue>
 			<previous_nb_conversions>1</previous_nb_conversions>
 			<previous_orders>0</previous_orders>
@@ -273,6 +301,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -283,6 +312,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -296,6 +327,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -307,6 +339,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -317,6 +350,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -330,6 +365,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -343,6 +379,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<orders>0</orders>
@@ -355,6 +392,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -372,6 +411,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<previous_orders>0</previous_orders>
@@ -385,6 +425,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -395,6 +436,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -408,6 +451,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -419,6 +463,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -429,6 +474,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -442,6 +489,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -455,6 +503,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<orders>0</orders>
@@ -467,6 +516,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -484,6 +535,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<previous_orders>0</previous_orders>
@@ -497,6 +549,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -507,6 +560,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -520,6 +575,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -531,6 +587,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -541,6 +598,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -554,6 +613,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -567,6 +627,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<orders>0</orders>
@@ -579,6 +640,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -596,6 +659,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<previous_orders>0</previous_orders>
@@ -609,6 +673,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -619,6 +684,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -632,6 +699,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -643,6 +711,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -653,6 +722,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -666,6 +737,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -679,6 +751,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<orders>0</orders>
@@ -691,6 +764,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -708,6 +783,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<previous_orders>0</previous_orders>
@@ -721,6 +797,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -731,6 +808,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -744,6 +823,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
@@ -755,6 +835,7 @@
 			<nb_actions>0</nb_actions>
 			<nb_pageviews>0</nb_pageviews>
 			<hits>0</hits>
+			<ai_chatbots_requests>0</ai_chatbots_requests>
 			<revenue>0</revenue>
 			<nb_conversions>0</nb_conversions>
 			<visits_evolution>0%</visits_evolution>
@@ -765,6 +846,8 @@
 			<pageviews_evolution_trend>0</pageviews_evolution_trend>
 			<hits_evolution>0%</hits_evolution>
 			<hits_evolution_trend>0</hits_evolution_trend>
+			<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+			<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 			<revenue_evolution>0%</revenue_evolution>
 			<revenue_evolution_trend>0</revenue_evolution_trend>
 			<nb_conversions_evolution>0%</nb_conversions_evolution>
@@ -778,6 +861,7 @@
 			<previous_nb_actions>0</previous_nb_actions>
 			<previous_nb_pageviews>0</previous_nb_pageviews>
 			<previous_hits>0</previous_hits>
+			<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 			<previous_revenue>0</previous_revenue>
 			<previous_nb_conversions>0</previous_nb_conversions>
 			<group />
