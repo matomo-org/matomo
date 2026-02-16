@@ -38,8 +38,6 @@ class Updates_5_8_0_b1 extends Updates
         $migrations = [];
 
         $tableName = BotRequestsDao::getPrefixedTableName();
-        $earliestDatesBySite = [];
-        $reArchiveCommands = [];
         if (DbHelper::tableExists($tableName)) {
             $migrations[] = $this->migration->db->boundSql(sprintf('UPDATE `%s` SET bot_type = ? WHERE bot_type = ?', $tableName), [BotDetector::BOT_TYPE_AI_CHATBOT, 'ai_assistant']);
             $earliestDatesBySite = Db::fetchAll(
@@ -53,30 +51,17 @@ class Updates_5_8_0_b1 extends Updates
 
                 $siteId = (int)$siteData['idsite'];
                 $startDate = Date::factory($siteData['earliest_date'])->subDay(1)->toString('Y-m-d');
-                $reArchiveCommands[] = sprintf(
+                $migrationHint = sprintf(
                     './console core:invalidate-report-data --plugin=BotTracking --sites=%d --dates=%s,today',
                     $siteId,
                     $startDate
                 );
+
+                $migrations[] = new CustomMigration(function () use ($siteId, $startDate) {
+                    $invalidator = StaticContainer::get(ArchiveInvalidator::class);
+                    $invalidator->scheduleReArchiving([$siteId], 'BotTracking', null, Date::factory($startDate));
+                }, $migrationHint);
             }
-        }
-
-        if (!empty($reArchiveCommands)) {
-            $migrationHint = implode(PHP_EOL, $reArchiveCommands);
-        }
-
-        if (!empty($migrationHint)) {
-            $migrations[] = new CustomMigration(function () use ($earliestDatesBySite) {
-                $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-                foreach ($earliestDatesBySite as $siteData) {
-                    if (empty($siteData['idsite']) || empty($siteData['earliest_date'])) {
-                        continue;
-                    }
-
-                    $startDate = Date::factory($siteData['earliest_date'])->subDay(1);
-                    $invalidator->scheduleReArchiving([(int)$siteData['idsite']], 'BotTracking', null, $startDate);
-                }
-            }, $migrationHint);
         }
 
         return $migrations;
