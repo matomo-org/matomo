@@ -10,7 +10,6 @@
 namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class TestsRunVue extends ConsoleCommand
 {
@@ -50,7 +49,7 @@ class TestsRunVue extends ConsoleCommand
 
         $plugin = $input->getOption('plugin');
         $runInBand = $input->getOption('run-in-band');
-        $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+        $verbose = $output->isVerbose();
         $specs = $input->getArgument('specs');
 
         $testOptions = [];
