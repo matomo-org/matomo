@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+namespace Piwik\Plugins\TestRunner\Commands;
+
+use Piwik\Plugin\ConsoleCommand;
+
+class TestsRunVue extends ConsoleCommand
+{
+    protected function configure()
+    {
+        $this->setName('tests:run-vue');
+        $this->setDescription('Run Vue component unit tests');
+        $this->setHelp("Example Commands
+        \nRun all Vue component tests:
+        \nddev matomo:console tests:run-vue
+        \nRun one Vue spec:
+        \nddev matomo:console tests:run-vue plugins/CoreHome/vue/src/Alert/Alert.spec.ts
+        \nor
+        \nddev matomo:console tests:run-vue Alert.spec.ts
+        \nRun tests for a specific plugin:
+        \nddev matomo:console tests:run-vue --plugin=CoreHome
+        ");
+
+        $this->addOptionalArgument(
+            'specs',
+            'One or more Vue spec file paths or test path regex fragments. Separate multiple values by a space.',
+            null,
+            true
+        );
+        $this->addRequiredValueOption('plugin', null, 'The plugin to run Vue tests for (eg CoreHome or plugins/CoreHome).');
+        $this->addOptionalValueOption('options', 'o', 'Additional options forwarded to vue-cli-service test:unit.', '');
+    }
+
+    protected function doExecute(): int
+    {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
+        $plugin = $input->getOption('plugin');
+        $options = trim((string) $input->getOption('options'));
+        $specs = $input->getArgument('specs');
+
+        $testOptions = [];
+
+        if (!empty($options)) {
+            $testOptions[] = $options;
+        }
+
+        if (!empty($specs)) {
+            $pattern = implode('|', $specs);
+            $testOptions[] = '--testPathPattern=' . escapeshellarg($pattern);
+        }
+
+        $pluginEnv = '';
+        if (!empty($plugin)) {
+            $plugin = trim((string) $plugin);
+            if (strpos($plugin, 'plugins/') !== 0) {
+                $plugin = 'plugins/' . $plugin;
+            }
+            $pluginEnv = 'MATOMO_CURRENT_PLUGIN=' . escapeshellarg($plugin) . ' ';
+        }
+
+        $cmd = "cd '" . PIWIK_INCLUDE_PATH . "' && " . $pluginEnv . 'npm test';
+        if (!empty($testOptions)) {
+            $cmd .= ' -- ' . implode(' ', $testOptions);
+        }
+
+        $output->writeln('Executing command: <info>' . $cmd . '</info>');
+        $output->writeln('');
+
+        passthru($cmd, $returnCode);
+
+        return $returnCode;
+    }
+}
