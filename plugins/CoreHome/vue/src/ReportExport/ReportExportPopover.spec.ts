@@ -4,7 +4,6 @@
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
-import { defineComponent } from 'vue';
 import { mount } from '@vue/test-utils';
 import ReportExportPopover from './ReportExportPopover.vue';
 import Matomo from '../Matomo/Matomo';
@@ -40,7 +39,7 @@ jest.mock('../SelectOnFocus/SelectOnFocus', () => ({
 
 jest.mock('../useExternalPluginComponent', () => ({
   __esModule: true,
-  default: () => defineComponent({
+  default: () => ({
     name: 'FieldStub',
     props: {
       name: String,
@@ -155,5 +154,18 @@ describe('CoreHome/ReportExportPopover', () => {
     expect(withoutTokenCall.force_api_session).toBeUndefined();
     expect(withoutTokenCall.translateColumnNames).toBe(1);
     expect(withoutTokenCall.language).toBe('en');
+  });
+
+  it('should default to JSON format when report with metadata is selected', async () => {
+    const wrapper = createWrapper({
+      initialReportType: 'default',
+      initialReportFormat: 'CSV',
+    });
+
+    expect((wrapper.vm as any).reportFormat).toBe('CSV');
+
+    await wrapper.setData({ reportType: 'processed' });
+
+    expect((wrapper.vm as any).reportFormat).toBe('JSON');
   });
 });
