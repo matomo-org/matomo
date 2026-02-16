@@ -515,11 +515,7 @@ export default defineComponent({
       if (dashboardId === '') {
         return;
       }
-      const nextQuery = { ...MatomoUrl.urlParsed.value } as QueryParameters;
-      const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
-      delete nextQuery.idDashboard;
-      delete nextHash.idDashboard;
-      MatomoUrl.updateUrl(nextQuery, nextHash);
+      this.consumeDashboardExportParamFromUrl();
       this.getWidgetReportMapping(dashboardId)
         .then((mapping) => {
           if (!this.isValidDashboardExportMapping(mapping)) {
@@ -544,6 +540,22 @@ export default defineComponent({
             'error',
           );
         });
+    },
+    consumeDashboardExportParamFromUrl() {
+      const nextQuery = { ...MatomoUrl.urlParsed.value } as QueryParameters;
+      const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
+      // Removing idDashboard from URL and hash parameters
+      delete nextQuery.idDashboard;
+      delete nextHash.idDashboard;
+
+      const serializedQuery = MatomoUrl.stringify(nextQuery);
+      const serializedHash = MatomoUrl.stringify(nextHash);
+      const queryPart = serializedQuery ? `?${serializedQuery}` : '';
+      const hashPart = serializedHash ? `#?${serializedHash}` : '';
+      const nextUrl = `${window.location.pathname}${queryPart}${hashPart}`;
+      // Changing the URL w/o idDashboard so that we do not trigger
+      // a re-export when page is refreshed
+      window.history.replaceState(window.history.state, '', nextUrl);
     },
     async getWidgetReportMapping(dashboardId: string): Promise<WidgetReportMap> {
       return AjaxHelper.fetch(
