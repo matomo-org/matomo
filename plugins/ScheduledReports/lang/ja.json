@@ -27,8 +27,6 @@
         "PleaseFindBelow": "%2$s の %1$s のレポートをお届けします。",
         "PluginDescription": "カスタム レポートを作成し、毎日、毎週、毎月等、 1 つまたは複数の人にメールで送信するようにスケジュールします。サポートされているレポート形式 ( html、pdf、csv、画像)。",
         "ReportFormat": "レポートのフォーマット",
-        "ReportHour": "%s 時にレポートを送信します",
-        "ReportHourWithUTC": "%s 時 UTC",
         "ReportIncludeNWebsites": "このレポートには、少なくとも 1 回のビジット（現在利用可能な %s ウェブサイトから）があるすべてのウェブサイトの主な指標が含まれます。",
         "ReportPeriod": "レポート期間",
         "ReportSent": "送信されたレポート",

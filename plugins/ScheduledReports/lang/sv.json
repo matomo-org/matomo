@@ -29,8 +29,6 @@
         "PleaseFindBelow": "Nedan hittar du din %1$s rapport för %2$s.",
         "PluginDescription": "Skapa anpassade rpaporter och schemalägg att dom ska skickas ut dagligen, veckovis eller månadsvis till en eller flera personer. Det finns stöd för flera format (html, pdf, csv och bilder).",
         "ReportFormat": "Rapportformat",
-        "ReportHour": "Skicka rapporten klockan %s",
-        "ReportHourWithUTC": "%s UTC",
         "ReportIncludeNWebsites": "Rapporten kommer att innehålla viktiga mättal för alla webbplatser som har minst ett besök (från %s webbsidorna som för tillfället är tillgängliga).",
         "ReportPeriod": "Rapportperiod",
         "ReportSchedule": "Rapportschema",

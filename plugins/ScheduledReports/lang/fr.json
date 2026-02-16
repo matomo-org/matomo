@@ -29,8 +29,6 @@
         "PleaseFindBelow": "Veuillez trouver ci-dessous votre %1$s rapport pour %2$s.",
         "PluginDescription": "Créez des rapports personnalisés et planifiez de les envoyer par courriel quotidiennement, hebdomadairement ou mensuellement à une ou plusieurs personnes. Plusieurs formats de rapports sont supportés (html, pdf, csv, images).",
         "ReportFormat": "Format du rapport",
-        "ReportHour": "Envoyer le rapport à %s heure",
-        "ReportHourWithUTC": "%s heure(s) UTC (Temps Universel Coordonné)",
         "ReportIncludeNWebsites": "Le rapport inclura les métriques principales pour tous les sites web qui ont au moins une visite (depuis les %s sites web actuellement disponibles).",
         "ReportPeriod": "Période du rapport",
         "ReportSchedule": "Planification du rapport",

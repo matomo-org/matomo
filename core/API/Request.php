@@ -54,8 +54,15 @@ use Piwik\Log\LoggerInterface;
  *
  * **Basic Usage**
  *
- *     $request = new Request('method=UserLanguage.getLanguage&idSite=1&date=yesterday&period=week'
- *                          . '&format=xml&filter_limit=5&filter_offset=0')
+ *     $request = new Request([
+ *         'method' => 'UserLanguage.getLanguage',
+ *         'idSite' => 1,
+ *         'date' => 'yesterday',
+ *         'period' => 'week',
+ *         'format' => 'xml',
+ *         'filter_limit' => 5,
+ *         'filter_offset' => 0,
+ *     ])
  *     $result = $request->process();
  *     echo $result;
  *

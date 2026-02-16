@@ -58,10 +58,12 @@ class Response
 
     public static function loadFromApi($params, $requestUrl, $normalize = true)
     {
-        $testRequest = new Request($requestUrl);
+        $requestParams = Request::getRequestArrayFromString($requestUrl);
+
+        $testRequest = new Request($requestParams, []);
 
         // set the request as root request
-        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest(Request::getRequestArrayFromString($requestUrl, null)));
+        Request::setIsRootRequestApiRequest(Request::getMethodIfApiRequest($requestParams));
 
         // Cast as string is important. For example when calling
         // with format=original, objects or php arrays can be returned.
@@ -229,7 +231,7 @@ class Response
     private function removeXmlElement($input, $xmlElement, $testNotSmallAfter = true)
     {
         // Only raise error if there was some data before
-        $testNotSmallAfter = strlen($input > 100) && $testNotSmallAfter;
+        $testNotSmallAfter = strlen($input) > 100 && $testNotSmallAfter;
 
         $oldInput = $input;
         $input = preg_replace('/(<' . $xmlElement . '>.+?<\/' . $xmlElement . '>)/s', '', $input);

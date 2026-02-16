@@ -346,22 +346,24 @@ class Controller extends \Piwik\Plugin\Controller
                 $idGoalToProcess = AddColumnsProcessedMetricsGoal::GOALS_FULL_TABLE;
             }
 
-            $requestString = "method=$apiMethod
-                               &format=original
-                               &format_metrics=0
-                               &filter_update_columns_when_show_all_goals=1
-                               &idGoal=$idGoalToProcess
-                               &filter_sort_order=desc
-                               &filter_sort_column=$columnNbConversions
-                               &showColumns=label,$columnNbConversions,$columnConversionRate" .
-                               // select a couple more in case some are not valid (ie. conversions==0 or they are "Keyword not defined")
-                               "&filter_limit=" . (self::COUNT_TOP_ROWS_TO_DISPLAY + 2);
+            $requestParams = [
+                'method'                                 => $apiMethod,
+                'format'                                 => 'original',
+                'format_metrics'                         => 0,
+                'filter_update_columns_when_show_all_goals' => 1,
+                'idGoal'                                 => $idGoalToProcess,
+                'filter_sort_order'                      => 'desc',
+                'filter_sort_column'                     => $columnNbConversions,
+                'showColumns'                            => "label,$columnNbConversions,$columnConversionRate",
+                // select a couple more in case some are not valid (ie. conversions==0 or they are "Keyword not defined")
+                'filter_limit'                           => self::COUNT_TOP_ROWS_TO_DISPLAY + 2,
+            ];
 
             if ($apiMethod == 'Actions.getEntryPageUrls') {
-                $requestString .= '&flat=1';
+                $requestParams['flat'] = 1;
             }
 
-            $request = new Request($requestString);
+            $request = new Request($requestParams);
 
             $datatable = $request->process();
             $formatter = new Formatter();
@@ -395,7 +397,11 @@ class Controller extends \Piwik\Plugin\Controller
     protected function getMetricsForGoal($idGoal, $dataRow = null)
     {
         if (!$dataRow) {
-            $request = new Request("method=Goals.get&format=original&idGoal=$idGoal");
+            $request = new Request([
+                'method' => 'Goals.get',
+                'format' => 'original',
+                'idGoal' => $idGoal,
+            ]);
             $datatable = $request->process();
             $dataRow = $datatable->getFirstRow();
         }
