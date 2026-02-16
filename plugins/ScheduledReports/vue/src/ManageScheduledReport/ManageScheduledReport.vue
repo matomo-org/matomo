@@ -130,7 +130,7 @@ window.resetReportParametersFunctions = window.resetReportParametersFunctions ||
 window.updateReportParametersFunctions = window.updateReportParametersFunctions || {};
 window.getReportParametersFunctions = window.getReportParametersFunctions || {};
 
-const { $ } = window;
+const { $, piwikHelper } = window;
 const PENDING_NOTIFICATION_KEY = 'scheduledReports.pendingNotification';
 
 const timeZoneDifferenceInHours = Matomo.timezoneOffset / 3600;
@@ -581,6 +581,13 @@ export default defineComponent({
 
       return String(value);
     },
+    escapeHtml(value: unknown): string {
+      if (value === null || value === undefined) {
+        return '';
+      }
+
+      return piwikHelper.escape(String(value));
+    },
     isValidDashboardExportMapping(mapping: WidgetReportMap): boolean {
       if (!mapping?.dashboardName) {
         return false;
@@ -593,6 +600,7 @@ export default defineComponent({
         return;
       }
       const dashName = Matomo.helper.htmlDecode(mapping.dashboardName);
+      const escapedDashName = this.escapeHtml(dashName);
       this.selectedReports = { email: { ...mapping.email } };
 
       const dateTodayString = format(getToday());
@@ -604,13 +612,16 @@ export default defineComponent({
 
       let unmappedWidgetsForDisplay = '';
       if (mapping.unmappedWidgets && mapping.unmappedWidgets.length) {
+        const escapedWidgets = mapping.unmappedWidgets.map(
+          (widgetName) => this.escapeHtml(widgetName),
+        );
         unmappedWidgetsForDisplay = translate('ScheduledReports_WidgetsNotMappedToReports',
-          mapping.unmappedWidgets.join(', '));
+          escapedWidgets.join(', '));
       }
       this.showDashboardExportInfo(
         this.$refs.reportUpdatedSuccess as HTMLElement,
         unmappedWidgetsForDisplay,
-        dashName,
+        escapedDashName,
         false,
       );
     },
