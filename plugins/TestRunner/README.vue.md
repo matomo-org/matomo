@@ -82,3 +82,33 @@ For command help:
 ```bash
 ddev matomo:console tests:run-vue --help
 ```
+
+## How to create a new Jest test
+
+1. Create a spec file next to the component, for example:
+
+```bash
+plugins/<PluginName>/vue/src/MyComponent/MyComponent.spec.ts
+```
+
+2. Add a minimal test:
+
+```ts
+import { mount } from '@vue/test-utils';
+import MyComponent from './MyComponent.vue';
+
+describe('<PluginName>/MyComponent', () => {
+  it('renders', () => {
+    const wrapper = mount(MyComponent);
+    expect(wrapper.exists()).toBe(true);
+  });
+});
+```
+
+3. Run it:
+
+```bash
+ddev matomo:console tests:run-vue MyComponent.spec.ts
+or 
+ddev matomo:console tests:run-vue --plugin=MyPlugin
+```
