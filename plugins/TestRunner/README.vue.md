@@ -5,7 +5,7 @@ Run Vue component unit tests.
 ### Syntax
 
 ```bash
-ddev matomo:console tests:run-vue [specs...] [--plugin=<Plugin>] [-o|--options="<extra>"]
+ddev matomo:console tests:run-vue [specs...] [--plugin=<Plugin>] [--run-in-band] [--verbose]
 ```
 
 ### Arguments and options
@@ -20,13 +20,14 @@ ddev matomo:console tests:run-vue [specs...] [--plugin=<Plugin>] [-o|--options="
   - Exported as `MATOMO_CURRENT_PLUGIN` for the npm test process.
   - Enforces test discovery scope to `plugins/<Name>/vue/**/*.spec.[tj]s`.
   - Fails fast with a non-zero exit if the plugin path does not exist.
-- `-o`, `--options`
-  - Forwards additional options to `vue-cli-service test:unit` through `npm test -- ...`.
-
+- `--run-in-band`
+  - Forwards Jest `--runInBand` to run tests serially.
+- `--verbose`
+  - Forwards Jest `--verbose` for detailed test output.
 ### Execution details
 
 - The command runs from the Matomo root directory.
-- It executes `npm test` and appends translated CLI options.
+- It executes `npm test` and appends translated test path filters when needed.
 
 ### Examples
 
@@ -54,10 +55,10 @@ Run tests for a specific plugin:
 ddev matomo:console tests:run-vue --plugin=CoreHome
 ```
 
-Run with additional forwarded options:
+Run serially with verbose output:
 
 ```bash
-ddev matomo:console tests:run-vue --options="--runInBand --watch=false"
+ddev matomo:console tests:run-vue --run-in-band --verbose
 ```
 
 Run with multiple spec arguments:
@@ -73,10 +74,9 @@ ddev matomo:console tests:run-vue Alert.spec.ts Notification.spec.ts
 - Plugin scoping issues:
   - Use `--plugin=CoreHome` or `--plugin=plugins/CoreHome`.
   - If the plugin path does not exist, the command exits with an error.
-- Forwarded options and shell quoting:
-  - Wrap `--options` values in quotes to avoid shell splitting issues.
-  - Example: `--options="--runInBand --watch=false"`.
-
+- Test output and execution mode:
+  - Add `--verbose` for detailed output.
+  - Add `--run-in-band` to run tests serially when debugging flaky tests.
 For command help:
 
 ```bash

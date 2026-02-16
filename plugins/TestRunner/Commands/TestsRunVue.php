@@ -26,6 +26,8 @@ class TestsRunVue extends ConsoleCommand
         \nddev matomo:console tests:run-vue Alert.spec.ts
         \nRun tests for a specific plugin:
         \nddev matomo:console tests:run-vue --plugin=CoreHome
+        \nRun tests serially with verbose output:
+        \nddev matomo:console tests:run-vue --run-in-band --verbose
         \nIf --plugin is provided, specs arguments are ignored and discovery is scoped to that plugin.
         \nIf the plugin does not exist, the command exits with a non-zero status.
         ");
@@ -37,7 +39,8 @@ class TestsRunVue extends ConsoleCommand
             true
         );
         $this->addRequiredValueOption('plugin', null, 'The plugin to run Vue tests for (eg CoreHome or plugins/CoreHome).');
-        $this->addOptionalValueOption('options', 'o', 'Additional options forwarded to vue-cli-service test:unit.', '');
+        $this->addNoValueOption('run-in-band', null, 'Run Jest tests serially in a single process.');
+        $this->addNoValueOption('verbose', null, 'Run Jest with verbose output.');
     }
 
     protected function doExecute(): int
@@ -46,13 +49,18 @@ class TestsRunVue extends ConsoleCommand
         $output = $this->getOutput();
 
         $plugin = $input->getOption('plugin');
-        $options = trim((string) $input->getOption('options'));
+        $runInBand = $input->getOption('run-in-band');
+        $verbose = $input->getOption('verbose');
         $specs = $input->getArgument('specs');
 
         $testOptions = [];
 
-        if (!empty($options)) {
-            $testOptions[] = $options;
+        if ($runInBand) {
+            $testOptions[] = '--runInBand';
+        }
+
+        if ($verbose) {
+            $testOptions[] = '--verbose';
         }
 
         $pluginEnv = '';
@@ -91,7 +99,6 @@ class TestsRunVue extends ConsoleCommand
         $output->writeln('');
 
         passthru($cmd, $returnCode);
-
         return $returnCode;
     }
 }
