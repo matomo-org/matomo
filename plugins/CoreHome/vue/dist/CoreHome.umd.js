@@ -6704,73 +6704,74 @@ const MultiPairFieldvue_type_script_lang_ts_Field = useExternalPluginComponent('
 MultiPairFieldvue_type_script_lang_ts.render = MultiPairFieldvue_type_template_id_31708da0_render
 
 /* harmony default export */ var MultiPairField = (MultiPairFieldvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=9675e6d6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=2da765dc
 
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_1 = ["disabled"];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_1 = ["disabled"];
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-chevron-left"
 }, null, -1);
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_3 = [PeriodSelectorvue_type_template_id_9675e6d6_hoisted_2];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_4 = ["title"];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_3 = [PeriodSelectorvue_type_template_id_2da765dc_hoisted_2];
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_4 = ["title"];
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-calendar"
 }, null, -1);
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_6 = {
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_6 = {
   id: "periodMore",
   class: "dropdown"
 };
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_7 = {
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_7 = {
   class: "flex"
 };
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_8 = {
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_8 = {
   key: 0,
   class: "period-date"
 };
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_9 = {
-  class: "period-type"
-};
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_10 = {
-  id: "otherPeriods"
-};
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_11 = ["onDblclick", "title"];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_12 = ["id", "checked", "onChange", "onDblclick"];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_13 = {
-  key: 0,
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_9 = {
+  key: 1,
   class: "compare-checkbox"
 };
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_14 = {
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_10 = {
   id: "comparePeriodToDropdown"
 };
-const _hoisted_15 = {
-  key: 1,
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_11 = {
+  key: 2,
   class: "compare-date-range"
 };
-const _hoisted_16 = {
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_12 = {
   id: "comparePeriodStartDate"
 };
-const _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "compare-dates-separator"
 }, null, -1);
-const _hoisted_18 = {
+const PeriodSelectorvue_type_template_id_2da765dc_hoisted_14 = {
   id: "comparePeriodEndDate"
 };
-const _hoisted_19 = {
+const _hoisted_15 = {
+  class: "period-type"
+};
+const _hoisted_16 = {
+  id: "otherPeriods"
+};
+const _hoisted_17 = ["onDblclick", "title"];
+const _hoisted_18 = ["id", "checked", "onChange", "onDblclick"];
+const _hoisted_19 = ["id", "checked", "onChange"];
+const _hoisted_20 = {
   class: "apply-button-container"
 };
-const _hoisted_20 = ["disabled", "value"];
-const _hoisted_21 = {
-  key: 2,
+const _hoisted_21 = ["disabled", "value"];
+const _hoisted_22 = {
+  key: 0,
   id: "ajaxLoadingCalendar"
 };
-const _hoisted_22 = {
+const _hoisted_23 = {
   class: "loadingSegment"
 };
-const _hoisted_23 = ["disabled"];
-const _hoisted_24 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const _hoisted_24 = ["disabled"];
+const _hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-chevron-right"
 }, null, -1);
-const _hoisted_25 = [_hoisted_24];
-function PeriodSelectorvue_type_template_id_9675e6d6_render(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_26 = [_hoisted_25];
+function PeriodSelectorvue_type_template_id_2da765dc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_DateRangePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DateRangePicker");
   const _component_PeriodDatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodDatePicker");
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
@@ -6787,48 +6788,30 @@ function PeriodSelectorvue_type_template_id_9675e6d6_render(_ctx, _cache, $props
     class: "move-period move-period-prev",
     onClick: _cache[0] || (_cache[0] = $event => _ctx.movePeriod(-1)),
     disabled: _ctx.isPeriodMoveDisabled(-1)
-  }, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_3, 8, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+  }, PeriodSelectorvue_type_template_id_2da765dc_hoisted_3, 8, PeriodSelectorvue_type_template_id_2da765dc_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
     ref: "title",
     id: "date",
     class: "title",
     tabindex: "4",
     title: _ctx.translate('General_ChooseDate', _ctx.currentlyViewingText)
-  }, [PeriodSelectorvue_type_template_id_9675e6d6_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.currentlyViewingText), 1)], 8, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_4)), [[_directive_tooltips]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DateRangePicker, {
+  }, [PeriodSelectorvue_type_template_id_2da765dc_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.currentlyViewingText), 1)], 8, PeriodSelectorvue_type_template_id_2da765dc_hoisted_4)), [[_directive_tooltips]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_2da765dc_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_2da765dc_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DateRangePicker, {
     class: "period-range",
     "start-date": _ctx.startRangeDate,
     "end-date": _ctx.endRangeDate,
     onRangeChange: _cache[1] || (_cache[1] = $event => _ctx.onRangeChange($event.start, $event.end)),
     onSubmit: _cache[2] || (_cache[2] = $event => _ctx.onApplyClicked())
-  }, null, 8, ["start-date", "end-date"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.selectedPeriod === 'range']]), _ctx.selectedPeriod !== 'range' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodDatePicker, {
+  }, null, 8, ["start-date", "end-date"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.selectedPeriod === 'range']]), _ctx.selectedPeriod !== 'range' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_2da765dc_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodDatePicker, {
     id: "datepicker",
     period: _ctx.selectedPeriod,
     date: _ctx.periodValue === _ctx.selectedPeriod ? _ctx.dateValue : null,
     onSelect: _cache[3] || (_cache[3] = $event => _ctx.setPiwikPeriodAndDate(_ctx.selectedPeriod, $event.date))
-  }, null, 8, ["period", "date"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Period')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_10, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodsFiltered, period => {
-    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
-      key: period
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
-        'selected-period-label': period === _ctx.selectedPeriod
-      }),
-      onDblclick: $event => _ctx.changeViewedPeriod(period),
-      title: period === _ctx.periodValue ? '' : _ctx.translate('General_DoubleClickToChangePeriod')
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      type: "radio",
-      name: "period",
-      id: `period_id_${period}`,
-      "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => _ctx.selectedPeriod = $event),
-      checked: _ctx.selectedPeriod === period,
-      onChange: $event => _ctx.selectedPeriod = period,
-      onDblclick: $event => _ctx.changeViewedPeriod(period)
-    }, null, 40, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_12), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.selectedPeriod]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getPeriodDisplayText(period)), 1)], 42, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_11)]);
-  }), 128))])])]), _ctx.isComparisonEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, ["period", "date"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparisonEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_2da765dc_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     id: "comparePeriodTo",
     type: "checkbox",
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.isComparing = $event)
-  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.isComparing]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_CompareTo')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => _ctx.isComparing = $event)
+  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.isComparing]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_CompareTo')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_2da765dc_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.comparePeriodType,
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.comparePeriodType = $event),
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.comparePeriodType = $event),
     style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
       'visibility': _ctx.isComparing ? 'visible' : 'hidden'
     }),
@@ -6837,45 +6820,321 @@ function PeriodSelectorvue_type_template_id_9675e6d6_render(_ctx, _cache, $props
     options: _ctx.comparePeriodDropdownOptions,
     "full-width": true,
     disabled: !_ctx.isComparing
-  }, null, 8, ["modelValue", "style", "options", "disabled"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparing && _ctx.comparePeriodType === 'custom' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["modelValue", "style", "options", "disabled"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparing && _ctx.comparePeriodType === 'custom' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_2da765dc_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_2da765dc_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.compareStartDate,
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.compareStartDate = $event),
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.compareStartDate = $event),
     name: 'comparePeriodStartDate',
     uicontrol: 'text',
     "full-width": true,
     title: _ctx.translate('CoreHome_StartDate'),
     placeholder: 'YYYY-MM-DD'
-  }, null, 8, ["modelValue", "title"])])]), _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["modelValue", "title"])])]), PeriodSelectorvue_type_template_id_2da765dc_hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_2da765dc_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     modelValue: _ctx.compareEndDate,
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => _ctx.compareEndDate = $event),
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.compareEndDate = $event),
     name: 'comparePeriodEndDate',
     uicontrol: 'text',
     "full-width": true,
     title: _ctx.translate('CoreHome_EndDate'),
     placeholder: 'YYYY-MM-DD'
-  }, null, 8, ["modelValue", "title"])])])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, ["modelValue", "title"])])])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Period')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodsFiltered, period => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+      key: period
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+        'selected-period-label': period === _ctx.selectedPeriod
+      }),
+      onDblclick: $event => _ctx.changeViewedPeriod(period),
+      title: period === _ctx.periodValue ? '' : _ctx.translate('General_DoubleClickToChangePeriod')
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "radio",
+      name: "period",
+      id: `period_id_${period}`,
+      checked: _ctx.selectedPeriod === period && !_ctx.activePresetId,
+      onChange: $event => _ctx.onSelectedPeriodChanged(period),
+      onDblclick: $event => _ctx.changeViewedPeriod(period)
+    }, null, 40, _hoisted_18), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getPeriodDisplayText(period)), 1)], 42, _hoisted_17)]);
+  }), 128)), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.presetDateRanges, preset => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+      key: preset.id
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+        'selected-period-label': preset.id === _ctx.activePresetId
+      })
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      type: "radio",
+      name: "presetDateRange",
+      id: `preset_date_${preset.id}`,
+      checked: preset.id === _ctx.activePresetId,
+      onChange: $event => _ctx.onPresetDateRangeClicked(preset.id)
+    }, null, 40, _hoisted_19), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(preset.labelKey)), 1)], 2)]);
+  }), 128))])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_20, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "submit",
     id: "calendarApply",
     class: "btn",
-    onClick: _cache[9] || (_cache[9] = $event => _ctx.onApplyClicked()),
+    onClick: _cache[8] || (_cache[8] = $event => _ctx.onApplyClicked()),
     disabled: !_ctx.isApplyEnabled(),
     value: _ctx.translate('General_Apply')
-  }, null, 8, _hoisted_20)]), _ctx.isLoadingNewPage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+  }, null, 8, _hoisted_21)]), _ctx.isLoadingNewPage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_22, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
     loading: true
-  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), _ctx.canShowMovePeriod ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_23, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), _ctx.canShowMovePeriod ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
     key: 1,
     class: "move-period move-period-next",
-    onClick: _cache[10] || (_cache[10] = $event => _ctx.movePeriod(1)),
+    onClick: _cache[9] || (_cache[9] = $event => _ctx.movePeriod(1)),
     disabled: _ctx.isPeriodMoveDisabled(1)
-  }, _hoisted_25, 8, _hoisted_23)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)), [[_directive_expand_on_click, {
+  }, _hoisted_26, 8, _hoisted_24)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)), [[_directive_expand_on_click, {
     expander: 'title',
     onExpand: _ctx.onExpand,
     onClosed: _ctx.onClosed
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=9675e6d6
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=2da765dc
 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+const PRESET_DATE_RANGES = [{
+  id: 'today',
+  labelKey: 'CoreHome_PresetDateToday'
+}, {
+  id: 'yesterday',
+  labelKey: 'CoreHome_PresetDateYesterday'
+}, {
+  id: 'last7days',
+  labelKey: 'CoreHome_PresetDateLast7Days'
+}, {
+  id: 'last30days',
+  labelKey: 'CoreHome_PresetDateLast30Days'
+}, {
+  id: 'last90days',
+  labelKey: 'CoreHome_PresetDateLast90Days'
+}, {
+  id: 'lastWeekMonSun',
+  labelKey: 'CoreHome_PresetDateLastWeekMonSun'
+}, {
+  id: 'lastMonth',
+  labelKey: 'CoreHome_PresetDateLastMonth'
+}, {
+  id: 'lastQuarter',
+  labelKey: 'CoreHome_PresetDateLastQuarter'
+}, {
+  id: 'lastYear',
+  labelKey: 'CoreHome_PresetDateLastYear'
+}, {
+  id: 'thisWeekMonToday',
+  labelKey: 'CoreHome_PresetDateThisWeekMonToday'
+}, {
+  id: 'thisMonth',
+  labelKey: 'CoreHome_PresetDateThisMonth'
+}, {
+  id: 'thisQuarter',
+  labelKey: 'CoreHome_PresetDateThisQuarter'
+}, {
+  id: 'thisYear',
+  labelKey: 'CoreHome_PresetDateThisYear'
+}];
+function cloneDate(date) {
+  return new Date(date.getTime());
+}
+function addDays(date, days) {
+  const d = cloneDate(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+function startOfMonth(date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+function endOfMonth(date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+function startOfWeekMonday(date) {
+  const daysToMonday = (date.getDay() + 6) % 7;
+  return addDays(date, -daysToMonday);
+}
+function startOfQuarter(date) {
+  const month = date.getMonth();
+  const quarterStartMonth = month - month % 3;
+  return new Date(date.getFullYear(), quarterStartMonth, 1);
+}
+function endOfQuarter(date) {
+  const month = date.getMonth();
+  const quarterStartMonth = month - month % 3;
+  return new Date(date.getFullYear(), quarterStartMonth + 3, 0);
+}
+function makeRangeDateParam(startDate, endDate) {
+  return `${format(startDate)},${format(endDate)}`;
+}
+function resolvePresetDateRange(presetId, todayInput) {
+  const today = cloneDate(todayInput);
+  switch (presetId) {
+    case 'today':
+      return {
+        id: presetId,
+        period: 'day',
+        date: 'today',
+        startDate: today,
+        endDate: today
+      };
+    case 'yesterday':
+      {
+        const yesterday = addDays(today, -1);
+        return {
+          id: presetId,
+          period: 'day',
+          date: 'yesterday',
+          startDate: yesterday,
+          endDate: yesterday
+        };
+      }
+    case 'last7days':
+      {
+        const startDate = addDays(today, -6);
+        return {
+          id: presetId,
+          period: 'range',
+          date: makeRangeDateParam(startDate, today),
+          startDate,
+          endDate: today
+        };
+      }
+    case 'last30days':
+      {
+        const startDate = addDays(today, -29);
+        return {
+          id: presetId,
+          period: 'range',
+          date: makeRangeDateParam(startDate, today),
+          startDate,
+          endDate: today
+        };
+      }
+    case 'last90days':
+      {
+        const startDate = addDays(today, -89);
+        return {
+          id: presetId,
+          period: 'range',
+          date: makeRangeDateParam(startDate, today),
+          startDate,
+          endDate: today
+        };
+      }
+    case 'lastWeekMonSun':
+      {
+        const thisWeekStart = startOfWeekMonday(today);
+        const startDate = addDays(thisWeekStart, -7);
+        const endDate = addDays(startDate, 6);
+        return {
+          id: presetId,
+          period: 'week',
+          date: 'last week',
+          startDate,
+          endDate
+        };
+      }
+    case 'lastMonth':
+      {
+        const lastMonthDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        const startDate = startOfMonth(lastMonthDate);
+        const endDate = endOfMonth(lastMonthDate);
+        return {
+          id: presetId,
+          period: 'month',
+          date: 'lastmonth',
+          startDate,
+          endDate
+        };
+      }
+    case 'lastQuarter':
+      {
+        const thisQuarterStart = startOfQuarter(today);
+        const endDate = addDays(thisQuarterStart, -1);
+        const startDate = startOfQuarter(endDate);
+        return {
+          id: presetId,
+          period: 'range',
+          date: makeRangeDateParam(startDate, endDate),
+          startDate,
+          endDate
+        };
+      }
+    case 'lastYear':
+      {
+        const year = today.getFullYear() - 1;
+        const startDate = new Date(year, 0, 1);
+        const endDate = new Date(year, 11, 31);
+        return {
+          id: presetId,
+          period: 'year',
+          date: 'lastyear',
+          startDate,
+          endDate
+        };
+      }
+    case 'thisWeekMonToday':
+      {
+        const startDate = startOfWeekMonday(today);
+        return {
+          id: presetId,
+          period: 'week',
+          date: 'today',
+          startDate,
+          endDate: today
+        };
+      }
+    case 'thisMonth':
+      {
+        const startDate = startOfMonth(today);
+        return {
+          id: presetId,
+          period: 'month',
+          date: 'today',
+          startDate,
+          endDate: today
+        };
+      }
+    case 'thisQuarter':
+      {
+        const startDate = startOfQuarter(today);
+        return {
+          id: presetId,
+          period: 'range',
+          date: makeRangeDateParam(startDate, today),
+          startDate,
+          endDate: today
+        };
+      }
+    case 'thisYear':
+      {
+        const startDate = new Date(today.getFullYear(), 0, 1);
+        return {
+          id: presetId,
+          period: 'year',
+          date: 'today',
+          startDate,
+          endDate: today
+        };
+      }
+    default:
+      throw new Error(`Unknown preset date range: ${presetId}`);
+  }
+}
+function matchPresetFromSelection(period, startDate, endDate, today) {
+  for (let i = 0; i < PRESET_DATE_RANGES.length; i += 1) {
+    const preset = PRESET_DATE_RANGES[i];
+    const resolvedPreset = resolvePresetDateRange(preset.id, today);
+    if (resolvedPreset.period === period && format(resolvedPreset.startDate) === startDate && format(resolvedPreset.endDate) === endDate) {
+      return preset.id;
+    }
+  }
+  return null;
+}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=script&lang=ts
+
 
 
 
@@ -6911,6 +7170,15 @@ function isValidDate(d) {
   }
   return !Number.isNaN(d.getTime());
 }
+function getDateInBounds(date) {
+  if (date < PeriodSelectorvue_type_script_lang_ts_piwikMinDate) {
+    return new Date(PeriodSelectorvue_type_script_lang_ts_piwikMinDate.getTime());
+  }
+  if (date > PeriodSelectorvue_type_script_lang_ts_piwikMaxDate) {
+    return new Date(PeriodSelectorvue_type_script_lang_ts_piwikMaxDate.getTime());
+  }
+  return date;
+}
 /* harmony default export */ var PeriodSelectorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     periods: Array
@@ -6929,6 +7197,8 @@ function isValidDate(d) {
     const selectedPeriod = src_MatomoUrl_MatomoUrl.parsed.value.period;
     return {
       comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
+      presetDateRanges: PRESET_DATE_RANGES,
+      activePresetId: null,
       periodValue: selectedPeriod,
       dateValue: null,
       selectedPeriod,
@@ -7103,8 +7373,25 @@ function isValidDate(d) {
       this.dateValue = date;
       const currentDateString = format(date);
       this.setRangeStartEndFromPeriod(period, currentDateString);
+      this.activePresetId = null;
       this.propagateNewUrlParams(currentDateString, this.selectedPeriod);
       window.initTopControls();
+    },
+    onSelectedPeriodChanged(period) {
+      this.selectedPeriod = period;
+      this.activePresetId = null;
+    },
+    onPresetDateRangeClicked(presetId) {
+      const resolvedPreset = resolvePresetDateRange(presetId, getToday());
+      const boundedStartDate = getDateInBounds(resolvedPreset.startDate);
+      const boundedEndDate = getDateInBounds(resolvedPreset.endDate);
+      this.selectedPeriod = resolvedPreset.period;
+      this.periodValue = resolvedPreset.period;
+      this.dateValue = boundedStartDate;
+      this.startRangeDate = format(boundedStartDate);
+      this.endRangeDate = format(boundedEndDate);
+      this.isRangeValid = true;
+      this.activePresetId = presetId;
     },
     propagateNewUrlParams(date, period) {
       const compareParams = this.selectedComparisonParams;
@@ -7134,6 +7421,13 @@ function isValidDate(d) {
         }
         this.periodValue = 'range';
         this.propagateNewUrlParams(dateString, 'range');
+        return;
+      }
+      if (this.activePresetId) {
+        const resolvedPreset = resolvePresetDateRange(this.activePresetId, getToday());
+        this.periodValue = this.selectedPeriod;
+        this.propagateNewUrlParams(resolvedPreset.date, this.selectedPeriod);
+        window.initTopControls();
         return;
       }
       this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue);
@@ -7205,6 +7499,7 @@ function isValidDate(d) {
       this.isRangeValid = true;
       this.startRangeDate = start;
       this.endRangeDate = end;
+      this.activePresetId = null;
     },
     isApplyEnabled() {
       if (this.selectedPeriod === 'range' && !this.isRangeValid) {
@@ -7286,7 +7581,7 @@ function isValidDate(d) {
 
 
 
-PeriodSelectorvue_type_script_lang_ts.render = PeriodSelectorvue_type_template_id_9675e6d6_render
+PeriodSelectorvue_type_script_lang_ts.render = PeriodSelectorvue_type_template_id_2da765dc_render
 
 /* harmony default export */ var PeriodSelector = (PeriodSelectorvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportingMenu/ReportingMenu.vue?vue&type=template&id=ebf172cc
@@ -10020,7 +10315,7 @@ const DataTableActionsvue_type_template_id_69fb1239_hoisted_25 = /*#__PURE__*/Ob
   class: "icon-search",
   draggable: "false"
 }, null, -1);
-const _hoisted_26 = ["title"];
+const DataTableActionsvue_type_template_id_f0120eb0_hoisted_26 = ["title"];
 const _hoisted_27 = ["id", "title"];
 const _hoisted_28 = ["title"];
 const _hoisted_29 = ["title", "src"];
@@ -10176,7 +10471,7 @@ function DataTableActionsvue_type_template_id_69fb1239_render(_ctx, _cache, $pro
     class: "icon-close",
     draggable: "false",
     title: _ctx.translate('CoreHome_CloseSearch')
-  }, null, 8, _hoisted_26), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  }, null, 8, DataTableActionsvue_type_template_id_f0120eb0_hoisted_26), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     id: `widgetSearch_${_ctx.reportId}_${_ctx.placement}`,
     title: _ctx.translate('CoreHome_DataTableHowToSearch'),
     type: "text",
