@@ -16,8 +16,6 @@ use Matomo\Network\IPUtils;
 use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\LogTablesProvider;
 use Piwik\Plugins\Actions\Tracker\ActionsRequestProcessor;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\FeatureFlags\FeatureFlags\UpdateVisitIdInLogTablesOnTrackingRequests;
 use Piwik\Tracker;
 use Piwik\Tracker\Visit\VisitProperties;
 
@@ -71,18 +69,12 @@ class Visit implements VisitInterface
      */
     protected $previousVisitProperties;
 
-    /**
-     * @var FeatureFlagManager
-     */
-    private $featureFlagManager;
-
     public function __construct()
     {
         $requestProcessors = StaticContainer::get('Piwik\Plugin\RequestProcessors');
         $this->requestProcessors = $requestProcessors->getRequestProcessors();
         $this->visitProperties = null;
         $this->userSettings = StaticContainer::get('Piwik\Tracker\Settings');
-        $this->featureFlagManager = StaticContainer::get(FeatureFlagManager::class);
     }
 
     public function setRequest(Request $request)
@@ -385,10 +377,8 @@ class Visit implements VisitInterface
         $wasInserted = $this->getModel()->updateVisit($idSite, $idVisit, $valuesToUpdate);
 
         if (isset($valuesToUpdate['idvisitor'])) {
-            if ($this->featureFlagManager->isFeatureActive(UpdateVisitIdInLogTablesOnTrackingRequests::class)) {
-                $this->updateIdVisitorAcrossLogTables($valuesToUpdate['idvisitor']);
-                Common::printDebug('Updating idvisitor across tables for idvisit = ' . $idVisit);
-            }
+            $this->updateIdVisitorAcrossLogTables($valuesToUpdate['idvisitor']);
+            Common::printDebug('Updating idvisitor across tables for idvisit = ' . $idVisit);
 
             //For debug output below
             $valuesToUpdate['idvisitor'] = bin2hex($valuesToUpdate['idvisitor']);

@@ -11,11 +11,8 @@ namespace PHPUnit\Integration\Tracker;
 
 use Piwik\Common;
 use Piwik\Config;
-use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
-use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
-use Piwik\Plugins\FeatureFlags\FeatureFlags\UpdateVisitIdInLogTablesOnTrackingRequests;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -43,14 +40,6 @@ class UserIdVisitorIdTest extends IntegrationTestCase
 
         $this->testEnv = static::$fixture->getTestEnvironment();
         $this->trackerEventTsIterator = Date::factory(self::FIRST_VISIT_TIME)->getTimestamp();
-
-        $mockFeatureFlagManager = $this->createMock(FeatureFlagManager::class);
-        $mockFeatureFlagManager
-            ->method('isFeatureActive')
-            ->with(UpdateVisitIdInLogTablesOnTrackingRequests::class)
-            ->willReturn(true);
-
-        StaticContainer::getContainer()->set(FeatureFlagManager::class, $mockFeatureFlagManager);
     }
 
     private function trackPageview(\MatomoTracker $tracker, $url)
