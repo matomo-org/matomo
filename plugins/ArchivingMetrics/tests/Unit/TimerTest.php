@@ -106,114 +106,112 @@ class TimerTest extends TestCase
         $this->assertSame($expectedIsTemporary, $writer->records[0]['timing']['is_temporary']);
     }
 
-    public function isTemporaryArchiveProvider(): array
+    public function isTemporaryArchiveProvider(): \Generator
     {
-        return [
-            'day in progress is temporary' => [
-                'periodLabel' => 'day',
-                'date' => '2025-11-01',
-                'siteTimezone' => 'UTC',
-                'startTimestamp' => self::timestampInTimezone('2025-11-01 12:00:00', 'UTC'),
-                'expectedIsTemporary' => 1,
-            ],
-            'past day is not temporary' => [
-                'periodLabel' => 'day',
-                'date' => '2025-10-31',
-                'siteTimezone' => 'UTC',
-                'startTimestamp' => self::timestampInTimezone('2025-11-01 00:00:00', 'UTC'),
-                'expectedIsTemporary' => 0,
-            ],
-            'week in progress is temporary' => [
-                'periodLabel' => 'week',
-                'date' => '2025-11-01',
-                'siteTimezone' => 'UTC',
-                'startTimestamp' => self::timestampInTimezone('2025-11-01 12:00:00', 'UTC'),
-                'expectedIsTemporary' => 1,
-            ],
-            'past week is not temporary' => [
-                'periodLabel' => 'week',
-                'date' => '2025-10-20',
-                'siteTimezone' => 'UTC',
-                'startTimestamp' => self::timestampInTimezone('2025-11-01 12:00:00', 'UTC'),
-                'expectedIsTemporary' => 0,
-            ],
-            'month in progress is temporary' => [
-                'periodLabel' => 'month',
-                'date' => '2025-11-01',
-                'siteTimezone' => 'UTC',
-                'startTimestamp' => self::timestampInTimezone('2025-11-15 12:00:00', 'UTC'),
-                'expectedIsTemporary' => 1,
-            ],
-            'year in progress is temporary' => [
-                'periodLabel' => 'year',
-                'date' => '2025-01-01',
-                'siteTimezone' => 'UTC',
-                'startTimestamp' => self::timestampInTimezone('2025-06-01 12:00:00', 'UTC'),
-                'expectedIsTemporary' => 1,
-            ],
-            'range in progress is temporary' => [
-                'periodLabel' => 'range',
-                'date' => '2025-11-01,2025-11-10',
-                'siteTimezone' => 'UTC',
-                'startTimestamp' => self::timestampInTimezone('2025-11-05 12:00:00', 'UTC'),
-                'expectedIsTemporary' => 1,
-            ],
-            'exactly at period end is not temporary' => [
-                'periodLabel' => 'day',
-                'date' => '2025-11-01',
-                'siteTimezone' => 'UTC',
-                'startTimestamp' => self::timestampInTimezone('2025-11-01 23:59:59', 'UTC'),
-                'expectedIsTemporary' => 0,
-            ],
-            'one second before period end is temporary' => [
-                'periodLabel' => 'day',
-                'date' => '2025-11-01',
-                'siteTimezone' => 'UTC',
-                'startTimestamp' => self::timestampInTimezone('2025-11-01 23:59:58', 'UTC'),
-                'expectedIsTemporary' => 1,
-            ],
-            'site timezone affects temporary determination' => [
-                'periodLabel' => 'day',
-                'date' => '2025-11-02',
-                'siteTimezone' => 'America/Los_Angeles',
-                'startTimestamp' => self::timestampInTimezone('2025-11-02 23:30:00', 'America/Los_Angeles'),
-                'expectedIsTemporary' => 1,
-            ],
-            'site timezone with positive UTC offset in progress' => [
-                'periodLabel' => 'day',
-                'date' => '2025-11-02',
-                'siteTimezone' => 'Asia/Tokyo',
-                'startTimestamp' => self::timestampInTimezone('2025-11-01 00:00:00', 'Asia/Tokyo'),
-                'expectedIsTemporary' => 1,
-            ],
-            'site timezone with positive UTC offset after day end' => [
-                'periodLabel' => 'day',
-                'date' => '2025-11-02',
-                'siteTimezone' => 'Asia/Tokyo',
-                'startTimestamp' => self::timestampInTimezone('2025-11-03 00:00:00', 'Asia/Tokyo'),
-                'expectedIsTemporary' => 0,
-            ],
-            'site timezone with negative UTC offset after day end' => [
-                'periodLabel' => 'day',
-                'date' => '2025-11-02',
-                'siteTimezone' => 'America/Los_Angeles',
-                'startTimestamp' => self::timestampInTimezone('2025-11-10 12:00:00', 'America/Los_Angeles'),
-                'expectedIsTemporary' => 0,
-            ],
-            'dst start day before local day end stays temporary' => [
-                'periodLabel' => 'day',
-                'date' => '2025-03-09',
-                'siteTimezone' => 'America/Los_Angeles',
-                'startTimestamp' => self::timestampInTimezone('2025-03-09 23:00:00', 'America/Los_Angeles'),
-                'expectedIsTemporary' => 1,
-            ],
-            'dst end day clearly before local day end is temporary' => [
-                'periodLabel' => 'day',
-                'date' => '2025-11-02',
-                'siteTimezone' => 'America/Los_Angeles',
-                'startTimestamp' => self::timestampInTimezone('2025-11-02 18:00:00', 'America/Los_Angeles'),
-                'expectedIsTemporary' => 1,
-            ],
+        yield 'day in progress is temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'past day is not temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-10-31',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 00:00:00', 'UTC'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'week in progress is temporary' => [
+            'periodLabel' => 'week',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'past week is not temporary' => [
+            'periodLabel' => 'week',
+            'date' => '2025-10-20',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'month in progress is temporary' => [
+            'periodLabel' => 'month',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-15 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'year in progress is temporary' => [
+            'periodLabel' => 'year',
+            'date' => '2025-01-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-06-01 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'range in progress is temporary' => [
+            'periodLabel' => 'range',
+            'date' => '2025-11-01,2025-11-10',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-05 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'exactly at period end is not temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 23:59:59', 'UTC'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'one second before period end is temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 23:59:58', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'site timezone affects temporary determination' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'America/Los_Angeles',
+            'startTimestamp' => self::timestampInTimezone('2025-11-02 23:30:00', 'America/Los_Angeles'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'site timezone with positive UTC offset in progress' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'Asia/Tokyo',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 00:00:00', 'Asia/Tokyo'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'site timezone with positive UTC offset after day end' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'Asia/Tokyo',
+            'startTimestamp' => self::timestampInTimezone('2025-11-03 00:00:00', 'Asia/Tokyo'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'site timezone with negative UTC offset after day end' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'America/Los_Angeles',
+            'startTimestamp' => self::timestampInTimezone('2025-11-10 12:00:00', 'America/Los_Angeles'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'dst start day before local day end stays temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-03-09',
+            'siteTimezone' => 'America/Los_Angeles',
+            'startTimestamp' => self::timestampInTimezone('2025-03-09 23:00:00', 'America/Los_Angeles'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'dst end day clearly before local day end is temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'America/Los_Angeles',
+            'startTimestamp' => self::timestampInTimezone('2025-11-02 18:00:00', 'America/Los_Angeles'),
+            'expectedIsTemporary' => 1,
         ];
     }
 
