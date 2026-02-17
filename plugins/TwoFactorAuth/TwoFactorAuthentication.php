@@ -181,6 +181,10 @@ class TwoFactorAuthentication
 
         $user = self::getUser($login);
 
+        if (!is_string($authCode)) {
+            return false;
+        }
+
         if ($this->wasTwoFaCodeUsedRecently($user['login'], $authCode)) {
             return false;
         }
