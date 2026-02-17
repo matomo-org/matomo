@@ -15,6 +15,11 @@ describe("PeriodSelector", function () {
 
     const selector = '#periodString,#periodString .dropdown';
 
+    const clickPreset = async function (label) {
+        const element = await page.jQuery(`.preset-date-range-btn:contains(${JSON.stringify(label)})`);
+        await element.click();
+    };
+
     it("should load correctly", async function() {
         await page.goto(url);
 
@@ -100,6 +105,29 @@ describe("PeriodSelector", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage('range_picker_displayed');
     });
 
+    it('should render preset date ranges below period options', async function () {
+        const presetHeaderText = await page.evaluate(function () {
+            return $('.period-type .preset-date-ranges h6').text().trim();
+        });
+
+        const presetCount = await page.evaluate(function () {
+            return $('.period-type .preset-date-range-btn').length;
+        });
+
+        expect(presetHeaderText).to.contain('Preset');
+        expect(presetCount).to.equal(13);
+    });
+
+    it('should mark a clicked preset as selected', async function () {
+        await clickPreset('Last 30 days');
+
+        const isSelected = await page.evaluate(function () {
+            return $('.preset-date-range-btn:contains("Last 30 days")').hasClass('selected');
+        });
+
+        expect(isSelected).to.equal(true);
+    });
+
     it("should change from & to dates when range picker calendar dates are clicked", async function() {
         let element = await page.jQuery('#calendarFrom .ui-datepicker-calendar a:contains(10)');
         await element.click();
@@ -132,6 +160,51 @@ describe("PeriodSelector", function () {
     it("should close on click if previously opened", async function () {
       await page.click('.periodSelector .title');
       expect(await page.screenshotSelector(selector)).to.matchImage('closed');
+    });
+
+    it('should apply representative preset URL changes', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        await clickPreset('Today');
+        await page.click('#calendarApply');
+        await page.waitForTimeout(250);
+        let currentUrl = await page.url();
+        expect(currentUrl).to.contain('period=day');
+        expect(currentUrl).to.match(/date=today|date=[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+
+        await page.click('.periodSelector .title');
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
+        await clickPreset('Last 30 days');
+        await page.click('#calendarApply');
+        await page.waitForTimeout(250);
+        currentUrl = await page.url();
+        expect(currentUrl).to.contain('period=range');
+        expect(currentUrl).to.match(/date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+
+        await page.click('.periodSelector .title');
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
+        await clickPreset('Last quarter');
+        await page.click('#calendarApply');
+        await page.waitForTimeout(250);
+        currentUrl = await page.url();
+        expect(currentUrl).to.contain('period=range');
+        expect(currentUrl).to.match(/date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+
+        await page.click('.periodSelector .title');
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
+        await clickPreset('This week (Mon - Today)');
+        await page.click('#calendarApply');
+        await page.waitForTimeout(250);
+        currentUrl = await page.url();
+        expect(currentUrl).to.contain('period=range');
+        expect(currentUrl).to.match(/date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
     });
 
     it("should move forward two days when next period selector is clicked twice", async function () {
