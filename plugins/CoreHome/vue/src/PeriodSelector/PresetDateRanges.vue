@@ -1,11 +1,36 @@
-/*!
- * Matomo - free/libre analytics platform
- *
- * @link    https://matomo.org
- * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
- */
+<!--
+  Matomo - free/libre analytics platform
 
-import { format } from '../Periods';
+  @link    https://matomo.org
+  @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+-->
+
+<template>
+  <div class="presetDateRanges">
+    <p
+      v-for="preset in presetDateRanges"
+      :key="preset.id"
+    >
+      <label
+        :class="{ 'selected-period-label': preset.id === modelValue }"
+      >
+        <input
+          type="radio"
+          name="presetDateRange"
+          :id="`preset_date_${preset.id}`"
+          :checked="preset.id === modelValue"
+          @change="onPresetSelected(preset.id)"
+        />
+        <span>{{ translate(preset.labelKey) }}</span>
+      </label>
+    </p>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+import { format, getToday } from '../Periods';
+import { translate } from '../translate';
 
 export type PresetDateRangeId =
   | 'today'
@@ -22,12 +47,12 @@ export type PresetDateRangeId =
   | 'thisQuarter'
   | 'thisYear';
 
-export interface PresetDateRangeOption {
+interface PresetDateRangeOption {
   id: PresetDateRangeId;
   labelKey: string;
 }
 
-export interface ResolvedPresetDateRange {
+export interface PresetDateRangeSelection {
   id: PresetDateRangeId;
   period: 'day'|'week'|'month'|'year'|'range';
   date: string;
@@ -35,7 +60,7 @@ export interface ResolvedPresetDateRange {
   endDate: Date;
 }
 
-export const PRESET_DATE_RANGES: PresetDateRangeOption[] = [
+const PRESET_DATE_RANGES: PresetDateRangeOption[] = [
   { id: 'today', labelKey: 'CoreHome_PresetDateToday' },
   { id: 'yesterday', labelKey: 'CoreHome_PresetDateYesterday' },
   { id: 'last7days', labelKey: 'CoreHome_PresetDateLast7Days' },
@@ -69,31 +94,37 @@ function endOfMonth(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth() + 1, 0);
 }
 
-export function startOfWeekMonday(date: Date): Date {
+function startOfWeekMonday(date: Date): Date {
   const daysToMonday = (date.getDay() + 6) % 7;
   return addDays(date, -daysToMonday);
 }
 
-export function startOfQuarter(date: Date): Date {
+function startOfQuarter(date: Date): Date {
   const month = date.getMonth();
   const quarterStartMonth = month - (month % 3);
   return new Date(date.getFullYear(), quarterStartMonth, 1);
 }
 
-export function endOfQuarter(date: Date): Date {
-  const month = date.getMonth();
-  const quarterStartMonth = month - (month % 3);
-  return new Date(date.getFullYear(), quarterStartMonth + 3, 0);
-}
-
-function makeRangeDateParam(startDate: Date, endDate: Date) {
+function makeRangeDateParam(startDate: Date, endDate: Date): string {
   return `${format(startDate)},${format(endDate)}`;
 }
 
-export function resolvePresetDateRange(
+function getDateInBounds(date: Date, minDate: Date, maxDate: Date): Date {
+  if (date < minDate) {
+    return new Date(minDate.getTime());
+  }
+
+  if (date > maxDate) {
+    return new Date(maxDate.getTime());
+  }
+
+  return date;
+}
+
+function resolvePresetDateRange(
   presetId: PresetDateRangeId,
   todayInput: Date,
-): ResolvedPresetDateRange {
+): PresetDateRangeSelection {
   const today = cloneDate(todayInput);
 
   switch (presetId) {
@@ -238,23 +269,43 @@ export function resolvePresetDateRange(
   }
 }
 
-export function matchPresetFromSelection(
-  period: string,
-  startDate: string,
-  endDate: string,
-  today: Date,
-): PresetDateRangeId|null {
-  for (let i = 0; i < PRESET_DATE_RANGES.length; i += 1) {
-    const preset = PRESET_DATE_RANGES[i];
-    const resolvedPreset = resolvePresetDateRange(preset.id, today);
+export default defineComponent({
+  props: {
+    modelValue: {
+      type: String as PropType<PresetDateRangeId|null>,
+      default: null,
+    },
+    minDate: {
+      type: Date,
+      required: true,
+    },
+    maxDate: {
+      type: Date,
+      required: true,
+    },
+    today: {
+      type: Date,
+      default: () => getToday(),
+    },
+  },
+  emits: ['update:modelValue', 'select'],
+  setup(props, { emit }) {
+    function onPresetSelected(presetId: PresetDateRangeId) {
+      const resolvedPreset = resolvePresetDateRange(presetId, props.today);
 
-    if (resolvedPreset.period === period
-      && format(resolvedPreset.startDate) === startDate
-      && format(resolvedPreset.endDate) === endDate
-    ) {
-      return preset.id;
+      emit('update:modelValue', presetId);
+      emit('select', {
+        ...resolvedPreset,
+        startDate: getDateInBounds(resolvedPreset.startDate, props.minDate, props.maxDate),
+        endDate: getDateInBounds(resolvedPreset.endDate, props.minDate, props.maxDate),
+      } as PresetDateRangeSelection);
     }
-  }
 
-  return null;
-}
+    return {
+      translate,
+      presetDateRanges: PRESET_DATE_RANGES,
+      onPresetSelected,
+    };
+  },
+});
+</script>
