@@ -28,7 +28,6 @@ use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Conversions;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\Revenue;
 use Piwik\Plugins\Goals\Columns\Metrics\GoalSpecific\RevenuePerVisit;
 use Piwik\Site;
-use Piwik\Url;
 
 /**
  * This class generates a Row evolution dataset, from input request
@@ -406,9 +405,11 @@ class RowEvolution
             $parameters['filter_add_columns_when_show_all_columns'] = '0';
         }
 
-        $url = Url::getQueryStringFromParameters($parameters);
+        $parameters = array_filter($parameters, function ($value) {
+            return $value !== null && $value !== false;
+        });
 
-        $request = new Request($url);
+        $request = new Request($parameters);
 
         try {
             $dataTable = $request->process();

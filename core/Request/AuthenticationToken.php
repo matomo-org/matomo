@@ -9,6 +9,9 @@
 
 namespace Piwik\Request;
 
+use Piwik\API\Request as ApiRequest;
+use Piwik\Http\BadRequestException;
+use Piwik\Piwik;
 use Piwik\Request;
 use Piwik\SettingsServer;
 
@@ -17,12 +20,21 @@ use Piwik\SettingsServer;
  */
 class AuthenticationToken
 {
+    /** @var string */
     protected $authToken = '';
+    /** @var bool */
     protected $wasTokenProvidedSecurely = false;
+    /** @var bool */
     protected $isSessionToken = false;
+    /** @var bool */
+    protected $isConflictingAuthValidationDone = false;
+    /** @var bool */
+    protected $isJsonRequestBodyTokenLoaded = false;
+    /** @var string|null */
+    protected $jsonRequestBodyTokenAuth = null;
 
     /**
-     * @param array|null $request
+     * @param array<string, mixed>|null $request
      * @return string
      */
     public function getAuthToken(?array $request = null): string
@@ -56,13 +68,83 @@ class AuthenticationToken
 
     private function detectToken(): void
     {
+        $this->validateNoConflictingAuthParameters();
         $this->initTokenFromHeader() || $this->initTokenFromJsonRequestBody() || $this->initTokenFromPostRequest() || $this->initTokenFromGetRequest();
+    }
+
+    private function validateNoConflictingAuthParameters(): void
+    {
+        if ($this->isConflictingAuthValidationDone || $this->shouldSkipConflictingAuthValidation()) {
+            return;
+        }
+
+        $this->isConflictingAuthValidationDone = true;
+
+        $tokenAuthBySource = [];
+        $forceApiSessionBySource = [];
+
+        $headerTokenAuth = $this->getTokenAuthFromHeader();
+        if (!empty($headerTokenAuth)) {
+            $tokenAuthBySource['header'] = $headerTokenAuth;
+        }
+
+        $jsonTokenAuth = $this->getTokenAuthFromJsonRequestBody();
+        if (!empty($jsonTokenAuth)) {
+            $tokenAuthBySource['json'] = $jsonTokenAuth;
+        }
+
+        $post = Request::fromPost();
+        $postTokenAuth = $post->getStringParameter('token_auth', '');
+        if (!empty($postTokenAuth)) {
+            $tokenAuthBySource['post'] = $postTokenAuth;
+        }
+
+        if (array_key_exists('force_api_session', $_POST)) {
+            $forceApiSessionBySource['post'] = $post->getBoolParameter('force_api_session', false);
+        }
+
+        $get = Request::fromGet();
+        $getTokenAuth = $get->getStringParameter('token_auth', '');
+        if (!empty($getTokenAuth)) {
+            $tokenAuthBySource['get'] = $getTokenAuth;
+        }
+
+        if (array_key_exists('force_api_session', $_GET)) {
+            $forceApiSessionBySource['get'] = $get->getBoolParameter('force_api_session', false);
+        }
+
+        $this->throwIfValuesConflict($tokenAuthBySource);
+        $this->throwIfValuesConflict($forceApiSessionBySource);
+    }
+
+    private function shouldSkipConflictingAuthValidation(): bool
+    {
+        return ApiRequest::isRootRequestApiRequest() && !ApiRequest::isCurrentApiRequestTheRootApiRequest();
+    }
+
+    /**
+     * @param array<string, bool|string> $valuesBySource
+     */
+    private function throwIfValuesConflict(array $valuesBySource): void
+    {
+        if (count($valuesBySource) < 2) {
+            return;
+        }
+
+        $firstValue = array_shift($valuesBySource);
+        foreach ($valuesBySource as $value) {
+            if ($value !== $firstValue) {
+                throw new BadRequestException(Piwik::translate('General_ConflictingAuthenticationParametersProvided'));
+            }
+        }
     }
 
     private function initTokenFromHeader(): bool
     {
-        if (!empty($_SERVER['HTTP_AUTHORIZATION']) && strpos($_SERVER['HTTP_AUTHORIZATION'], 'Bearer ') === 0) {
-            $this->authToken = substr($_SERVER['HTTP_AUTHORIZATION'], 7);
+        $tokenAuth = $this->getTokenAuthFromHeader();
+
+        if ($tokenAuth !== null) {
+            $this->authToken = $tokenAuth;
             $this->wasTokenProvidedSecurely = true;
             return true;
         }
@@ -72,20 +154,11 @@ class AuthenticationToken
 
     private function initTokenFromJsonRequestBody(): bool
     {
-        // Token in JSON request body is only support for tracking requests
-        if (!SettingsServer::isTrackerApiRequest()) {
-            return false;
-        }
-
-        $requestBody = file_get_contents('php://input');
-        if (!empty($requestBody) && strpos($requestBody, '{') === 0) {
-            $jsonContent = json_decode($requestBody, true);
-
-            if (!empty($jsonContent['token_auth']) && is_string($jsonContent['token_auth'])) {
-                $this->authToken = $jsonContent['token_auth'];
-                $this->wasTokenProvidedSecurely = true;
-                return true;
-            }
+        $tokenAuth = $this->getTokenAuthFromJsonRequestBody();
+        if (!empty($tokenAuth)) {
+            $this->authToken = $tokenAuth;
+            $this->wasTokenProvidedSecurely = true;
+            return true;
         }
 
         return false;
@@ -119,5 +192,40 @@ class AuthenticationToken
         }
 
         return false;
+    }
+
+    private function getTokenAuthFromHeader(): ?string
+    {
+        if (!empty($_SERVER['HTTP_AUTHORIZATION']) && strpos($_SERVER['HTTP_AUTHORIZATION'], 'Bearer ') === 0) {
+            return substr($_SERVER['HTTP_AUTHORIZATION'], 7);
+        }
+
+        return null;
+    }
+
+    private function getTokenAuthFromJsonRequestBody(): ?string
+    {
+        if ($this->isJsonRequestBodyTokenLoaded) {
+            return $this->jsonRequestBodyTokenAuth;
+        }
+
+        $this->isJsonRequestBodyTokenLoaded = true;
+        $this->jsonRequestBodyTokenAuth = null;
+
+        // Token in JSON request body is only supported for tracking requests
+        if (!SettingsServer::isTrackerApiRequest()) {
+            return null;
+        }
+
+        $requestBody = file_get_contents('php://input');
+        if (!empty($requestBody) && strpos($requestBody, '{') === 0) {
+            $jsonContent = json_decode($requestBody, true);
+
+            if (is_array($jsonContent) && !empty($jsonContent['token_auth']) && is_string($jsonContent['token_auth'])) {
+                $this->jsonRequestBodyTokenAuth = $jsonContent['token_auth'];
+            }
+        }
+
+        return $this->jsonRequestBodyTokenAuth;
     }
 }

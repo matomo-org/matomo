@@ -488,6 +488,25 @@ class DataTableTest extends \PHPUnit\Framework\TestCase
         self::assertSame(17, $row->getIdSubDataTable());
     }
 
+    public function testUnserializeRejectsRecursiveArrayPayload(): void
+    {
+        $columns = ['label' => 'recursive'];
+        $columns['loop'] = &$columns;
+
+        $serialized = serialize([
+            [
+                Row::COLUMNS => $columns,
+                Row::METADATA => [],
+                Row::DATATABLE_ASSOCIATED => null,
+            ],
+        ]);
+
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage('Array payload cannot be safely traversed');
+
+        DataTable::fromSerializedArray($serialized);
+    }
+
     public function testUnserializeRejectsUnexpectedNestedObjectInArrayPayload(): void
     {
         $serialized = serialize([

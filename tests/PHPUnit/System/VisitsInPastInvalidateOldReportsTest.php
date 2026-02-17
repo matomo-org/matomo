@@ -82,20 +82,41 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
 
         // 1) Invalidate old reports for the 2 websites
         // Test invalidate 1 date only
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=4,5,6&dates=2010-01-03");
+        $r = new Request([
+            'module' => 'API',
+            'method' => 'CoreAdminHome.invalidateArchivedReports',
+            'idSites' => '4,5,6',
+            'dates' => '2010-01-03',
+        ]);
         $this->assertApiResponseHasNoError($r->process());
 
         // Test invalidate comma separated dates
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite . "," . $idSite2 . "&dates=2010-01-06,2009-10-30");
+        $r = new Request([
+            'module' => 'API',
+            'method' => 'CoreAdminHome.invalidateArchivedReports',
+            'idSites' => $idSite . ',' . $idSite2,
+            'dates' => '2010-01-06,2009-10-30',
+        ]);
         $this->assertApiResponseHasNoError($r->process());
 
         // test invalidate date in the past
         // Format=original will re-throw exception
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2009-06-29&format=original");
+        $r = new Request([
+            'module' => 'API',
+            'method' => 'CoreAdminHome.invalidateArchivedReports',
+            'idSites' => $idSite2,
+            'dates' => '2009-06-29',
+            'format' => 'original',
+        ]);
         $this->assertApiResponseHasNoError($r->process());
 
         // invalidate a date more recent to check the date is only updated when it's earlier than current
-        $r = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSite2 . "&dates=2010-03-03");
+        $r = new Request([
+            'module' => 'API',
+            'method' => 'CoreAdminHome.invalidateArchivedReports',
+            'idSites' => $idSite2,
+            'dates' => '2010-03-03',
+        ]);
         $this->assertApiResponseHasNoError($r->process());
 
 
@@ -103,7 +124,14 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
         $idSiteNoAccess = 777;
         try {
             FakeAccess::clearAccess();
-            $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . $idSiteNoAccess . "&dates=2010-03-03&format=original&token_auth=" . self::$fixture::VIEW_USER_TOKEN);
+            $request = new Request([
+                'module' => 'API',
+                'method' => 'CoreAdminHome.invalidateArchivedReports',
+                'idSites' => $idSiteNoAccess,
+                'dates' => '2010-03-03',
+                'format' => 'original',
+                'token_auth' => self::$fixture::VIEW_USER_TOKEN,
+            ]);
             $request->process();
             $this->fail('Invalidating archived reports with invalid idSite worked, but shouldn\'t');
         } catch (\PHPUnit\Framework\Exception $e) {
@@ -116,7 +144,14 @@ class VisitsInPastInvalidateOldReportsTest extends SystemTestCase
         // test an invalidate period parameter
         try {
             $invalidPeriod = "day,month";
-            $request = new Request("module=API&method=CoreAdminHome.invalidateArchivedReports&period=$invalidPeriod&idSites=$idSite&dates=2010-03-03&format=original");
+            $request = new Request([
+                'module' => 'API',
+                'method' => 'CoreAdminHome.invalidateArchivedReports',
+                'period' => $invalidPeriod,
+                'idSites' => $idSite,
+                'dates' => '2010-03-03',
+                'format' => 'original',
+            ]);
             $request->process();
             $this->fail('Invalidating archived reports with an invalid period worked, but shouldn\'t');
         } catch (\PHPUnit\Framework\Exception $e) {

@@ -27,8 +27,6 @@
         "PleaseFindBelow": "Se venligst %1$s rapport for %2$s i den vedhæftede fil.",
         "PluginDescription": "Opret tilpassede rapporter og planlæg den udsendt pr. e-mail dagligt, ugentligt eller månedsvis til en eller flere modtagere. Adskillige rapport-formater understøttes (html, pdf, csv, billeder).",
         "ReportFormat": "Rapportformat",
-        "ReportHour": "Send rapport kl. %s",
-        "ReportHourWithUTC": "Klokken %s UTC",
         "ReportIncludeNWebsites": "Rapporten indeholder de vigtigste nøgletal for alle hjemmesider, der har mindst ét besøg (fra %s hjemmesider der pt er tilgængelige).",
         "ReportPeriod": "Rapport-periode",
         "ReportSent": "Rapport afsent",

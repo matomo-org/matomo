@@ -26,6 +26,7 @@ use Piwik\Measurable\Type\TypeManager;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin\SettingsProvider;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Plugins\CorePluginsAdmin\SettingsMetadata;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
@@ -922,7 +923,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSuperUserAccess();
         SitesManager::dieIfSitesAdminIsDisabled();
 
-        if (Common::getRequestVar('force_api_session', 0)) {
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 

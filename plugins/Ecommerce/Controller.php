@@ -78,7 +78,12 @@ class Controller extends \Piwik\Plugins\Goals\Controller
      */
     protected function getMetricsForGoal($idGoal, $dataRow = null)
     {
-        $request = new Request("method=Goals.get&format=original&format_metrics=0&idGoal=$idGoal");
+        $request = new Request([
+            'method' => 'Goals.get',
+            'format' => 'original',
+            'format_metrics' => 0,
+            'idGoal' => $idGoal,
+        ]);
         $datatable = $request->process();
         $dataRow = $datatable->getFirstRow();
 

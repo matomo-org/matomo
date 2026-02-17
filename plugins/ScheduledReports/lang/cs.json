@@ -27,8 +27,6 @@
         "PleaseFindBelow": "Najděte níže vaše %1$s hlášení pro %2$s.",
         "PluginDescription": "Vytvořte vlastní e-mailová hlášení a naplánujte jejich zasílání denně, týdně nebo měsíčně jednomu nebo více lidem. Je podporováno několik formátů (HTML, PDF, CSV, obrázky).",
         "ReportFormat": "Formát hlášení",
-        "ReportHour": "Odeslat hlášení v %s hodin",
-        "ReportHourWithUTC": "%s hodin UTC",
         "ReportIncludeNWebsites": "Hlášení bude obsahovat hlavní měření pro všechny weby, které mají aspoň jednu návštěvu (z %s aktuálně dostupných webů).",
         "ReportPeriod": "Perioda hlášení",
         "ReportSent": "Hlášení odesláno",

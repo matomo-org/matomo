@@ -1621,11 +1621,6 @@ parameters:
 			path: core/QuickForm2.php
 
 		-
-			message: "#^PHPDoc tag @throws with type HTML_QuickForm2_InvalidArgumentException\\|HTML_QuickForm2_NotFoundException is not subtype of Throwable$#"
-			count: 1
-			path: core/QuickForm2.php
-
-		-
 			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
 			count: 1
 			path: core/RankingQuery.php
@@ -2432,11 +2427,6 @@ parameters:
 			message: "#^Property Piwik\\\\Updates\\\\Updates_5_3_0_rc1\\:\\:\\$migration is never read, only written\\.$#"
 			count: 1
 			path: core/Updates/5.3.0-rc1.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between null and string\\|true will always evaluate to false\\.$#"
-			count: 1
-			path: core/Url.php
 
 		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"

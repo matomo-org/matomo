@@ -1221,6 +1221,50 @@ class ApiTest extends IntegrationTestCase
         $this->assertHasSite($siteId2);
     }
 
+    public function testDeleteSiteDoesNotRequirePasswordWhenPostSessionFlagIsZeroEvenIfGetFlagIsOne()
+    {
+        $siteId0 = API::getInstance()->addSite('website 1', ['http://piwik.net']);
+        $siteId1 = API::getInstance()->addSite('website 2', ['http://piwik.com/test/']);
+        self::assertIsInt($siteId0);
+        self::assertIsInt($siteId1);
+
+        $_GET['force_api_session'] = 1;
+        $_POST['token_auth'] = 'postToken';
+        $_POST['force_api_session'] = 0;
+
+        try {
+            API::getInstance()->deleteSite($siteId1);
+            $this->assertHasNotSite($siteId1);
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['token_auth']);
+            unset($_POST['force_api_session']);
+        }
+    }
+
+    public function testDeleteSiteRequiresPasswordWhenPostSessionFlagIsOneEvenIfGetFlagIsZero()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
+
+        $siteId0 = API::getInstance()->addSite('website 1', ['http://piwik.net']);
+        $siteId1 = API::getInstance()->addSite('website 2', ['http://piwik.com/test/']);
+        self::assertIsInt($siteId0);
+        self::assertIsInt($siteId1);
+
+        $_GET['force_api_session'] = 0;
+        $_POST['token_auth'] = 'postToken';
+        $_POST['force_api_session'] = 1;
+
+        try {
+            API::getInstance()->deleteSite($siteId1);
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['token_auth']);
+            unset($_POST['force_api_session']);
+        }
+    }
+
     public function testDeleteShouldTriggerAnEventOnceSiteWasActuallyDeleted()
     {
         $called = 0;

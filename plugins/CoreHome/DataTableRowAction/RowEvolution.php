@@ -25,7 +25,6 @@ use Piwik\Plugins\API\Filter\DataComparisonFilter;
 use Piwik\Plugins\CoreVisualizations\Visualizations\Graph\Config as GraphConfig;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Config as JqplotGraphConfig;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution as EvolutionViz;
-use Piwik\Url;
 use Piwik\ViewDataTable\Factory;
 use Piwik\ViewDataTable\Manager as ViewDataTableManager;
 
@@ -203,7 +202,7 @@ class RowEvolution
     }
 
     /**
-     * @param string|false $column
+     * @param string|false|null $column
      * @return void
      */
     protected function loadEvolutionReport($column = false)
@@ -231,6 +230,7 @@ class RowEvolution
             $parameters['column'] = $column;
         }
 
+        $unmodifiedSeriesLabels = [];
         $isComparing = DataComparisonFilter::isCompareParamsPresent();
         if ($isComparing) {
             $compareDates = Common::getRequestVar('compareDates', [], 'array');
@@ -239,7 +239,6 @@ class RowEvolution
 
             $totalSeriesCount = (count($compareSegments) + 1) * (count($comparePeriods) + 1);
 
-            $unmodifiedSeriesLabels = [];
             for ($i = 0; $i < $totalSeriesCount; ++$i) {
                 $unmodifiedSeriesLabels[] = DataComparisonFilter::getPrettyComparisonLabelFromSeriesIndex($i);
             }
@@ -261,11 +260,12 @@ class RowEvolution
             $parameters['comparePeriods'] = $comparePeriods;
         }
 
-        $url = Url::getQueryStringFromParameters($parameters);
+        $parameters = array_filter($parameters, function ($value) {
+            return $value !== null && $value !== false;
+        });
 
-        $request = new Request($url);
         /** @var array{label: string, reportData: Map, metadata: array{metrics: array, dimension: string, columns: array}} $report */
-        $report = $request->process();
+        $report = Request::processRequest('API.getRowEvolution', $parameters);
 
         // at this point the report data will reference the comparison series labels for the changed compare periods/dates. We don't
         // want to show this to users because they will not recognize the changed periods, so we have to replace them.

@@ -6,6 +6,9 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ## Matomo 5.8.0
 
+### Breaking Changes
+* API requests that provide conflicting authentication values for `token_auth` or `force_api_session` across request sources (for example GET and POST) now fail with `400 Bad Request` instead of applying precedence.
+
 ### New config.ini.php settings
 * `API_bulk_request_limit` sets the maximum number of URLs allowed in `API.getBulkRequest` for authenticated users (-1 disables the limit).
 
