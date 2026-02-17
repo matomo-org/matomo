@@ -64,6 +64,62 @@
             >
             </PeriodDatePicker>
           </div>
+          <div
+            class="compare-checkbox"
+            v-if="isComparisonEnabled"
+          >
+            <label>
+              <input
+                id="comparePeriodTo"
+                type="checkbox"
+                v-model="isComparing"
+              />
+              <span>{{ translate('General_CompareTo') }}</span>
+            </label>
+            <div id="comparePeriodToDropdown">
+              <Field
+                v-model="comparePeriodType"
+                :style="{'visibility': isComparing ? 'visible' : 'hidden'}"
+                :name="'comparePeriodToDropdown'"
+                :uicontrol="'select'"
+                :options="comparePeriodDropdownOptions"
+                :full-width="true"
+                :disabled="!isComparing"
+              />
+            </div>
+          </div>
+          <div
+            class="compare-date-range"
+            v-if="isComparing && comparePeriodType === 'custom'"
+          >
+            <div>
+              <div id="comparePeriodStartDate">
+                <div>
+                  <Field
+                    v-model="compareStartDate"
+                    :name="'comparePeriodStartDate'"
+                    :uicontrol="'text'"
+                    :full-width="true"
+                    :title="translate('CoreHome_StartDate')"
+                    :placeholder="'YYYY-MM-DD'"
+                  />
+                </div>
+              </div>
+              <span class="compare-dates-separator" />
+              <div id="comparePeriodEndDate">
+                <div>
+                  <Field
+                    v-model="compareEndDate"
+                    :name="'comparePeriodEndDate'"
+                    :uicontrol="'text'"
+                    :full-width="true"
+                    :title="translate('CoreHome_EndDate')"
+                    :placeholder="'YYYY-MM-DD'"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="period-type">
           <h6>{{ translate('General_Period') }}</h6>
@@ -83,70 +139,30 @@
                   type="radio"
                   name="period"
                   :id="`period_id_${ period }`"
-                  v-model="selectedPeriod"
-                  :checked="selectedPeriod === period"
-                  @change="selectedPeriod = period"
+                  :checked="selectedPeriod === period && !activePresetId"
+                  @change="onSelectedPeriodChanged(period)"
                   @dblclick="changeViewedPeriod(period)"
                 />
                 <span>{{ getPeriodDisplayText(period) }}</span>
               </label>
             </p>
-          </div>
-        </div>
-      </div>
-      <div
-        class="compare-checkbox"
-        v-if="isComparisonEnabled"
-      >
-        <label>
-          <input
-            id="comparePeriodTo"
-            type="checkbox"
-            v-model="isComparing"
-          />
-          <span>{{ translate('General_CompareTo') }}</span>
-        </label>
-        <div id="comparePeriodToDropdown">
-          <Field
-            v-model="comparePeriodType"
-            :style="{'visibility': isComparing ? 'visible' : 'hidden'}"
-            :name="'comparePeriodToDropdown'"
-            :uicontrol="'select'"
-            :options="comparePeriodDropdownOptions"
-            :full-width="true"
-            :disabled="!isComparing"
-          />
-        </div>
-      </div>
-      <div
-        class="compare-date-range"
-        v-if="isComparing && comparePeriodType === 'custom'"
-      >
-        <div>
-          <div id="comparePeriodStartDate">
-            <div>
-              <Field
-                v-model="compareStartDate"
-                :name="'comparePeriodStartDate'"
-                :uicontrol="'text'"
-                :full-width="true"
-                :title="translate('CoreHome_StartDate')"
-                :placeholder="'YYYY-MM-DD'"
-              />
-            </div>
-          </div>
-          <span class="compare-dates-separator" />
-          <div id="comparePeriodEndDate">
-            <div>
-              <Field
-                v-model="compareEndDate"
-                :name="'comparePeriodEndDate'"
-                :uicontrol="'text'"
-                :full-width="true"
-                :title="translate('CoreHome_EndDate')"
-                :placeholder="'YYYY-MM-DD'"
-              />
-            </div>
+            <p
+              v-for="preset in presetDateRanges"
+              :key="preset.id"
+            >
+              <label
+                :class="{ 'selected-period-label': preset.id === activePresetId }"
+              >
+                <input
+                  type="radio"
+                  name="presetDateRange"
+                  :id="`preset_date_${ preset.id }`"
+                  :checked="preset.id === activePresetId"
+                  @change="onPresetDateRangeClicked(preset.id)"
+                />
+                <span>{{ translate(preset.labelKey) }}</span>
+              </label>
+            </p>
           </div>
         </div>
       </div>
@@ -198,10 +214,16 @@ import {
   parseDate,
   Range,
   format,
+  getToday,
   datesAreInTheSamePeriod,
 } from '../Periods';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Tooltips from '../Tooltips/Tooltips';
+import {
+  PRESET_DATE_RANGES,
+  PresetDateRangeId,
+  resolvePresetDateRange,
+} from './PresetDateRanges';
 
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
@@ -234,8 +256,22 @@ function isValidDate(d: any) { // eslint-disable-line @typescript-eslint/no-expl
   return !Number.isNaN(d.getTime());
 }
 
+function getDateInBounds(date: Date): Date {
+  if (date < piwikMinDate) {
+    return new Date(piwikMinDate.getTime());
+  }
+
+  if (date > piwikMaxDate) {
+    return new Date(piwikMaxDate.getTime());
+  }
+
+  return date;
+}
+
 interface PeriodSelectorState {
   comparePeriodDropdownOptions: typeof COMPARE_PERIOD_OPTIONS;
+  presetDateRanges: typeof PRESET_DATE_RANGES;
+  activePresetId: PresetDateRangeId|null;
   periodValue: string;
   dateValue: Date|null;
   selectedPeriod: string;
@@ -267,6 +303,8 @@ export default defineComponent({
     const selectedPeriod = MatomoUrl.parsed.value.period as string;
     return {
       comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
+      presetDateRanges: PRESET_DATE_RANGES,
+      activePresetId: null,
       periodValue: selectedPeriod,
       dateValue: null,
       selectedPeriod,
@@ -480,10 +518,28 @@ export default defineComponent({
 
       const currentDateString = format(date);
       this.setRangeStartEndFromPeriod(period, currentDateString);
+      this.activePresetId = null;
 
       this.propagateNewUrlParams(currentDateString, this.selectedPeriod);
 
       window.initTopControls();
+    },
+    onSelectedPeriodChanged(period: string) {
+      this.selectedPeriod = period;
+      this.activePresetId = null;
+    },
+    onPresetDateRangeClicked(presetId: PresetDateRangeId) {
+      const resolvedPreset = resolvePresetDateRange(presetId, getToday());
+      const boundedStartDate = getDateInBounds(resolvedPreset.startDate);
+      const boundedEndDate = getDateInBounds(resolvedPreset.endDate);
+
+      this.selectedPeriod = resolvedPreset.period;
+      this.periodValue = resolvedPreset.period;
+      this.dateValue = boundedStartDate;
+      this.startRangeDate = format(boundedStartDate);
+      this.endRangeDate = format(boundedEndDate);
+      this.isRangeValid = true;
+      this.activePresetId = presetId;
     },
     propagateNewUrlParams(date: string, period: string) {
       const compareParams = this.selectedComparisonParams;
@@ -520,6 +576,14 @@ export default defineComponent({
         this.periodValue = 'range';
 
         this.propagateNewUrlParams(dateString, 'range');
+        return;
+      }
+
+      if (this.activePresetId) {
+        const resolvedPreset = resolvePresetDateRange(this.activePresetId, getToday());
+        this.periodValue = this.selectedPeriod;
+        this.propagateNewUrlParams(resolvedPreset.date, this.selectedPeriod);
+        window.initTopControls();
         return;
       }
 
@@ -611,6 +675,7 @@ export default defineComponent({
       this.isRangeValid = true;
       this.startRangeDate = start;
       this.endRangeDate = end;
+      this.activePresetId = null;
     },
     isApplyEnabled() {
       if (this.selectedPeriod === 'range'
