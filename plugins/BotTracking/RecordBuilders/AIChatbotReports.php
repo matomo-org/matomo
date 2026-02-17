@@ -103,8 +103,8 @@ class AIChatbotReports extends RecordBuilder
         $logAggregator = $archiveProcessor->getLogAggregator();
         $visits = $this->queryAcquiredVisitsByAIChatbot($logAggregator);
 
-        $this->populateAssistantTableForActionType($tables, Action::TYPE_PAGE_URL, $logAggregator, $visits);
-        $this->populateAssistantTableForActionType($tables, Action::TYPE_DOWNLOAD, $logAggregator, $visits);
+        $this->populateChatbotTableForActionType($tables, Action::TYPE_PAGE_URL, $logAggregator, $visits);
+        $this->populateChatbotTableForActionType($tables, Action::TYPE_DOWNLOAD, $logAggregator, $visits);
     }
 
     /**
@@ -148,7 +148,7 @@ class AIChatbotReports extends RecordBuilder
      * @param array<string, int> $visits
      * @return void
      */
-    private function populateAssistantTableForActionType(array $tables, int $actionType, LogAggregator $logAggregator, array $visits): void
+    private function populateChatbotTableForActionType(array $tables, int $actionType, LogAggregator $logAggregator, array $visits): void
     {
         $resultSet  = $this->queryBotRequests($logAggregator, $actionType);
 
