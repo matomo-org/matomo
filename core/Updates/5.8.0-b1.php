@@ -16,6 +16,7 @@ use Piwik\Db;
 use Piwik\DbHelper;
 use Piwik\Plugins\BotTracking\BotDetector;
 use Piwik\Plugins\BotTracking\Dao\BotRequestsDao;
+use Piwik\Segment;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Custom as CustomMigration;
 use Piwik\Updates;
@@ -52,14 +53,14 @@ class Updates_5_8_0_b1 extends Updates
                 $siteId = (int)$siteData['idsite'];
                 $startDate = Date::factory($siteData['earliest_date'])->subDay(1)->toString('Y-m-d');
                 $migrationHint = sprintf(
-                    './console core:invalidate-report-data --plugin=BotTracking --sites=%d --dates=%s,today',
+                    './console core:invalidate-report-data --plugin=BotTracking --sites=%d --dates=%s,today --segment=',
                     $siteId,
                     $startDate
                 );
 
                 $migrations[] = new CustomMigration(function () use ($siteId, $startDate) {
                     $invalidator = StaticContainer::get(ArchiveInvalidator::class);
-                    $invalidator->scheduleReArchiving([$siteId], 'BotTracking', null, Date::factory($startDate));
+                    $invalidator->scheduleReArchiving([$siteId], 'BotTracking', null, Date::factory($startDate), new Segment('', [$siteId]));
                 }, $migrationHint);
             }
         }
