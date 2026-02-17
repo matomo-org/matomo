@@ -60,7 +60,7 @@
               id="datepicker"
               :period="selectedPeriod"
               :date="periodValue === selectedPeriod ? dateValue : null"
-              @select="setPiwikPeriodAndDate(selectedPeriod, $event.date)"
+              @select="onDatePickerSelected($event.date)"
             >
             </PeriodDatePicker>
           </div>
@@ -129,7 +129,7 @@
               :key="period"
             >
               <label
-                :class="{ 'selected-period-label': period === selectedPeriod }"
+                :class="{ 'selected-period-label': period === selectedPeriod && !activePresetId }"
                 @dblclick="changeViewedPeriod(period)"
                 :title="period === periodValue
                   ? ''
@@ -508,8 +508,17 @@ export default defineComponent({
     },
     onSelectedPeriodChanged(period: string) {
       this.selectedPeriod = period;
-      this.activePresetId = null;
-      this.activePresetSelection = null;
+    },
+    onDatePickerSelected(date: Date) {
+      if (this.activePresetId && this.activePresetSelection) {
+        const presetStartDate = format(this.activePresetSelection.startDate);
+        if (format(date) === presetStartDate) {
+          this.dateValue = date;
+          return;
+        }
+      }
+
+      this.setPiwikPeriodAndDate(this.selectedPeriod, date);
     },
     onPresetDateRangeSelected(selection: PresetDateRangeSelection) {
       this.selectedPeriod = selection.period;
@@ -657,8 +666,6 @@ export default defineComponent({
       this.isRangeValid = true;
       this.startRangeDate = start;
       this.endRangeDate = end;
-      this.activePresetId = null;
-      this.activePresetSelection = null;
     },
     isApplyEnabled() {
       if (this.selectedPeriod === 'range'
