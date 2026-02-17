@@ -23,6 +23,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -256,8 +257,9 @@ class Controller extends ControllerAdmin
 
         $view->themeMode = $userPreferences->getThemeMode();
         $view->themeModeOptions = array(
-            array('key' => 'auto', 'value' => 'Default'),
-            array('key' => 'dark', 'value' => 'Dark'),
+            array('key' => ThemeStyles::LIGHT_MODE, 'value' => 'Default'), // TODO: translate
+            array('key' => ThemeStyles::AUTO_MODE, 'value' => 'Automatic'), // TODO: remove
+            array('key' => ThemeStyles::DARK_MODE, 'value' => 'Dark'),
         );
 
         $defaultReport   = $userPreferences->getDefaultReport();

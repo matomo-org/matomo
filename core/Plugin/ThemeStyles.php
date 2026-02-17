@@ -13,9 +13,9 @@ use Piwik\Piwik;
 
 class ThemeStyles
 {
-    private const AUTO_MODE = 'auto';
-    private const LIGHT_MODE = 'light';
-    private const DARK_MODE = 'dark';
+    public const AUTO_MODE = 'auto';
+    public const LIGHT_MODE = 'light';
+    public const DARK_MODE = 'dark';
 
     // to maintain BC w/ old names that were defined in LESS
     private static $propertyNamesToLessVariableNames = [
