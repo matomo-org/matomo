@@ -146,23 +146,12 @@
                 <span>{{ getPeriodDisplayText(period) }}</span>
               </label>
             </p>
-            <p
-              v-for="preset in presetDateRanges"
-              :key="preset.id"
-            >
-              <label
-                :class="{ 'selected-period-label': preset.id === activePresetId }"
-              >
-                <input
-                  type="radio"
-                  name="presetDateRange"
-                  :id="`preset_date_${ preset.id }`"
-                  :checked="preset.id === activePresetId"
-                  @change="onPresetDateRangeClicked(preset.id)"
-                />
-                <span>{{ translate(preset.labelKey) }}</span>
-              </label>
-            </p>
+            <PresetDateRanges
+              v-model="activePresetId"
+              :min-date="piwikMinDate"
+              :max-date="piwikMaxDate"
+              @select="onPresetDateRangeSelected($event)"
+            />
           </div>
         </div>
       </div>
@@ -214,16 +203,15 @@ import {
   parseDate,
   Range,
   format,
-  getToday,
   datesAreInTheSamePeriod,
 } from '../Periods';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Tooltips from '../Tooltips/Tooltips';
-import {
-  PRESET_DATE_RANGES,
+import PresetDateRanges from './PresetDateRanges.vue';
+import type {
   PresetDateRangeId,
-  resolvePresetDateRange,
-} from './PresetDateRanges';
+  PresetDateRangeSelection,
+} from './PresetDateRanges.vue';
 
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
@@ -256,22 +244,12 @@ function isValidDate(d: any) { // eslint-disable-line @typescript-eslint/no-expl
   return !Number.isNaN(d.getTime());
 }
 
-function getDateInBounds(date: Date): Date {
-  if (date < piwikMinDate) {
-    return new Date(piwikMinDate.getTime());
-  }
-
-  if (date > piwikMaxDate) {
-    return new Date(piwikMaxDate.getTime());
-  }
-
-  return date;
-}
-
 interface PeriodSelectorState {
+  piwikMinDate: Date;
+  piwikMaxDate: Date;
   comparePeriodDropdownOptions: typeof COMPARE_PERIOD_OPTIONS;
-  presetDateRanges: typeof PRESET_DATE_RANGES;
   activePresetId: PresetDateRangeId|null;
+  activePresetSelection: PresetDateRangeSelection|null;
   periodValue: string;
   dateValue: Date|null;
   selectedPeriod: string;
@@ -292,6 +270,7 @@ export default defineComponent({
   components: {
     DateRangePicker,
     PeriodDatePicker,
+    PresetDateRanges,
     Field,
     ActivityIndicator,
   },
@@ -302,9 +281,11 @@ export default defineComponent({
   data(): PeriodSelectorState {
     const selectedPeriod = MatomoUrl.parsed.value.period as string;
     return {
+      piwikMinDate,
+      piwikMaxDate,
       comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
-      presetDateRanges: PRESET_DATE_RANGES,
       activePresetId: null,
+      activePresetSelection: null,
       periodValue: selectedPeriod,
       dateValue: null,
       selectedPeriod,
@@ -519,6 +500,7 @@ export default defineComponent({
       const currentDateString = format(date);
       this.setRangeStartEndFromPeriod(period, currentDateString);
       this.activePresetId = null;
+      this.activePresetSelection = null;
 
       this.propagateNewUrlParams(currentDateString, this.selectedPeriod);
 
@@ -527,19 +509,16 @@ export default defineComponent({
     onSelectedPeriodChanged(period: string) {
       this.selectedPeriod = period;
       this.activePresetId = null;
+      this.activePresetSelection = null;
     },
-    onPresetDateRangeClicked(presetId: PresetDateRangeId) {
-      const resolvedPreset = resolvePresetDateRange(presetId, getToday());
-      const boundedStartDate = getDateInBounds(resolvedPreset.startDate);
-      const boundedEndDate = getDateInBounds(resolvedPreset.endDate);
-
-      this.selectedPeriod = resolvedPreset.period;
-      this.periodValue = resolvedPreset.period;
-      this.dateValue = boundedStartDate;
-      this.startRangeDate = format(boundedStartDate);
-      this.endRangeDate = format(boundedEndDate);
+    onPresetDateRangeSelected(selection: PresetDateRangeSelection) {
+      this.selectedPeriod = selection.period;
+      this.periodValue = selection.period;
+      this.dateValue = selection.startDate;
+      this.startRangeDate = format(selection.startDate);
+      this.endRangeDate = format(selection.endDate);
       this.isRangeValid = true;
-      this.activePresetId = presetId;
+      this.activePresetSelection = selection;
     },
     propagateNewUrlParams(date: string, period: string) {
       const compareParams = this.selectedComparisonParams;
@@ -579,10 +558,13 @@ export default defineComponent({
         return;
       }
 
-      if (this.activePresetId) {
-        const resolvedPreset = resolvePresetDateRange(this.activePresetId, getToday());
+      if (this.activePresetId && this.activePresetSelection?.id === this.activePresetId) {
+        if (!this.activePresetSelection) {
+          this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue!);
+          return;
+        }
         this.periodValue = this.selectedPeriod;
-        this.propagateNewUrlParams(resolvedPreset.date, this.selectedPeriod);
+        this.propagateNewUrlParams(this.activePresetSelection.date, this.selectedPeriod);
         window.initTopControls();
         return;
       }
@@ -676,6 +658,7 @@ export default defineComponent({
       this.startRangeDate = start;
       this.endRangeDate = end;
       this.activePresetId = null;
+      this.activePresetSelection = null;
     },
     isApplyEnabled() {
       if (this.selectedPeriod === 'range'
