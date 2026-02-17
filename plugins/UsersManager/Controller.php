@@ -12,7 +12,6 @@ namespace Piwik\Plugins\UsersManager;
 use Exception;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
-use Piwik\AssetManager;
 use Piwik\Auth\PasswordStrength;
 use Piwik\Common;
 use Piwik\Config\GeneralConfig;
@@ -637,7 +636,6 @@ class Controller extends ControllerAdmin
                 'use12HourClock' => $timeFormat,
             ]);
 
-            // Invalidate Stylesheet cache if theme mode changes
             $currentThemeMode = (new UserPreferences())->getThemeMode();
             if ($currentThemeMode !== $themeMode) {
                 APIUsersManager::getInstance()->setUserPreference(

@@ -13,9 +13,9 @@ use Piwik\Piwik;
 
 class ThemeStyles
 {
-    const AUTO_MODE = 'auto';
-    const LIGHT_MODE = 'light';
-    const DARK_MODE = 'dark';
+    private const AUTO_MODE = 'auto';
+    private const LIGHT_MODE = 'light';
+    private const DARK_MODE = 'dark';
 
     // to maintain BC w/ old names that were defined in LESS
     private static $propertyNamesToLessVariableNames = [
@@ -328,7 +328,7 @@ class ThemeStyles
             if (is_array($value)) {
                 if ($this->getIsDarkMode()) {
                     $result .= "@$varName: $value[1];\n";
-                } else if ($this->getIsLightMode()) {
+                } elseif ($this->getIsLightMode()) {
                     $result .= "@$varName: $value[0];\n";
                 } else {
                     $result .= "@$varName: light-dark($value[0], $value[1]);\n";
