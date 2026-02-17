@@ -2429,11 +2429,6 @@ parameters:
 			path: core/Updates/5.3.0-rc1.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between null and string\\|true will always evaluate to false\\.$#"
-			count: 1
-			path: core/Url.php
-
-		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\)\\: bool\\)\\|null, 'strlen' given\\.$#"
 			count: 1
 			path: core/Validators/IpRanges.php
