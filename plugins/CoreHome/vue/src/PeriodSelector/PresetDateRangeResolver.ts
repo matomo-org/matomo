@@ -126,7 +126,7 @@ export function resolvePresetDateRange(
       return {
         id: presetId,
         period: 'range',
-        date: makeRangeDateParam(startDate, today),
+        date: 'last7',
         startDate,
         endDate: today,
       };
@@ -136,7 +136,7 @@ export function resolvePresetDateRange(
       return {
         id: presetId,
         period: 'range',
-        date: makeRangeDateParam(startDate, today),
+        date: 'last30',
         startDate,
         endDate: today,
       };
@@ -146,7 +146,7 @@ export function resolvePresetDateRange(
       return {
         id: presetId,
         period: 'range',
-        date: makeRangeDateParam(startDate, today),
+        date: 'last90',
         startDate,
         endDate: today,
       };
