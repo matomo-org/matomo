@@ -91,7 +91,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
         if ($columns === 'ai_chatbots_requests' && Manager::getInstance()->isPluginActivated('BotTracking')) {
             $api             = 'BotTracking.get';
-            $columns = BotTrackingMetrics::METRIC_AI_ASSISTANTS_REQUESTS;
+            $columns = BotTrackingMetrics::METRIC_AI_CHATBOTS_REQUESTS;
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
         $view->requestConfig->totals = 0;

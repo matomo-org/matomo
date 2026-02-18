@@ -66,7 +66,7 @@ class NoRecentRequestsMessageTest extends IntegrationTestCase
             'idsite'      => $this->idSite,
             'server_time' => $requestServerTime,
             'bot_name'    => 'ChatGPT-User',
-            'bot_type'    => BotDetector::BOT_TYPE_AI_ASSISTANT,
+            'bot_type'    => BotDetector::BOT_TYPE_AI_CHATBOT,
         ]);
 
         $shouldShow = NoRecentRequestsMessage::shouldShow($this->idSite, $testPeriod, $testDate);

@@ -50,7 +50,7 @@ class NoRecentRequestsMessage
         // server_time is stored in UTC and is indexed with idsite, so querying the latest value is fast.
         $lastRequest = (new BotRequestsDao())->getLastServerTimeForSiteAndBotType(
             $idSite,
-            BotDetector::BOT_TYPE_AI_ASSISTANT
+            BotDetector::BOT_TYPE_AI_CHATBOT
         );
 
         if (empty($lastRequest)) {
