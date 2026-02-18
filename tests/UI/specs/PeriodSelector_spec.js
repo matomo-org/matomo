@@ -16,8 +16,12 @@ describe("PeriodSelector", function () {
     const selector = '#periodString,#periodString .dropdown';
 
     const clickPreset = async function (label) {
-        const element = await page.jQuery(`.preset-date-range-btn:contains(${JSON.stringify(label)})`);
-        await element.click();
+        await page.evaluate(function (presetLabel) {
+            const match = $('#otherPeriods .presetDateRanges label span').filter(function () {
+                return $(this).text().trim() === presetLabel;
+            }).first();
+            match.click();
+        }, label);
     };
 
     it("should load correctly", async function() {
@@ -106,15 +110,10 @@ describe("PeriodSelector", function () {
     });
 
     it('should render preset date ranges below period options', async function () {
-        const presetHeaderText = await page.evaluate(function () {
-            return $('.period-type .preset-date-ranges h6').text().trim();
-        });
-
         const presetCount = await page.evaluate(function () {
-            return $('.period-type .preset-date-range-btn').length;
+            return $('#otherPeriods .presetDateRanges input[type=radio]').length;
         });
 
-        expect(presetHeaderText).to.contain('Preset');
         expect(presetCount).to.equal(13);
     });
 
@@ -122,10 +121,60 @@ describe("PeriodSelector", function () {
         await clickPreset('Last 30 days');
 
         const isSelected = await page.evaluate(function () {
-            return $('.preset-date-range-btn:contains("Last 30 days")').hasClass('selected');
+            return $('#preset_date_last30days').prop('checked');
         });
 
         expect(isSelected).to.equal(true);
+    });
+
+    it('should keep period and preset checked ownership mutually exclusive', async function () {
+        await clickPreset('Last 30 days');
+        await page.waitForTimeout(100);
+
+        let checkedCounts = await page.evaluate(function () {
+            return {
+                period: $('#otherPeriods input[name=period]:checked').length,
+                preset: $('#otherPeriods input[name=presetDateRange]:checked').length,
+            };
+        });
+
+        expect(checkedCounts.period).to.equal(0);
+        expect(checkedCounts.preset).to.equal(1);
+
+        await page.click('#period_id_month');
+        await page.waitForTimeout(100);
+
+        checkedCounts = await page.evaluate(function () {
+            return {
+                period: $('#otherPeriods input[name=period]:checked').length,
+                preset: $('#otherPeriods input[name=presetDateRange]:checked').length,
+            };
+        });
+
+        expect(checkedCounts.period).to.equal(1);
+        expect(checkedCounts.preset).to.equal(0);
+    });
+
+    it('should keep last clicked preset checked after close/reopen without apply', async function () {
+        await clickPreset('Today');
+        await page.waitForTimeout(100);
+
+        await page.click('.periodSelector .title');
+        await page.waitForTimeout(100);
+        await page.click('.periodSelector .title');
+        await page.waitForTimeout(100);
+
+        const checkedCounts = await page.evaluate(function () {
+            return {
+                period: $('#otherPeriods input[name=period]:checked').length,
+                preset: $('#otherPeriods input[name=presetDateRange]:checked').length,
+                todayChecked: $('#preset_date_today').prop('checked'),
+            };
+        });
+
+        expect(checkedCounts.period).to.equal(0);
+        expect(checkedCounts.preset).to.equal(1);
+        expect(checkedCounts.todayChecked).to.equal(true);
     });
 
     it("should change from & to dates when range picker calendar dates are clicked", async function() {
@@ -203,8 +252,8 @@ describe("PeriodSelector", function () {
         await page.click('#calendarApply');
         await page.waitForTimeout(250);
         currentUrl = await page.url();
-        expect(currentUrl).to.contain('period=range');
-        expect(currentUrl).to.match(/date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+        expect(currentUrl).to.contain('period=week');
+        expect(currentUrl).to.match(/date=today|date=[0-9]{4}-[0-9]{2}-[0-9]{2}/);
     });
 
     it("should move forward two days when next period selector is clicked twice", async function () {

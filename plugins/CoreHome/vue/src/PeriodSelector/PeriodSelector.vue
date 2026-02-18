@@ -124,30 +124,17 @@
         <div class="period-type">
           <h6>{{ translate('General_Period') }}</h6>
           <div id="otherPeriods">
-            <p
-              v-for="period in periodsFiltered"
-              :key="period"
-            >
-              <label
-                :class="{ 'selected-period-label': period === selectedPeriod && !activePresetId }"
-                @dblclick="changeViewedPeriod(period)"
-                :title="period === periodValue
-                  ? ''
-                  : translate('General_DoubleClickToChangePeriod')"
-              >
-                <input
-                  type="radio"
-                  name="period"
-                  :id="`period_id_${ period }`"
-                  :checked="selectedPeriod === period && !activePresetId"
-                  @change="onSelectedPeriodChanged(period)"
-                  @dblclick="changeViewedPeriod(period)"
-                />
-                <span>{{ getPeriodDisplayText(period) }}</span>
-              </label>
-            </p>
+            <PeriodOptions
+              v-model="selectedPeriod"
+              :periods="periodsFiltered"
+              :checked-period-id="uiSelection.type === 'period' ? uiSelection.id : null"
+              :active-date-period="periodValue"
+              @select="onPeriodOptionSelected($event)"
+              @dblclick="onPeriodOptionDblClick($event)"
+            />
             <PresetDateRanges
               v-model="activePresetId"
+              :checked-preset-id="uiSelection.type === 'preset' ? uiSelection.id : null"
               :min-date="piwikMinDate"
               :max-date="piwikMaxDate"
               @select="onPresetDateRangeSelected($event)"
@@ -208,10 +195,11 @@ import {
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Tooltips from '../Tooltips/Tooltips';
 import PresetDateRanges from './PresetDateRanges.vue';
+import PeriodOptions from './PeriodOptions.vue';
 import type {
   PresetDateRangeId,
   PresetDateRangeSelection,
-} from './PresetDateRanges.vue';
+} from './PresetDateRangeResolver';
 
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
@@ -235,6 +223,11 @@ const COMPARE_PERIOD_OPTIONS = [
 const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matomo.minDateDay);
 // today/now
 const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
+const RANGE_PERIOD = 'range';
+
+type UiSelection = { type: 'period'; id: string } | { type: 'preset'; id: PresetDateRangeId };
+type InteractionSource = 'period' | 'preset' | 'calendar' | 'range' | null;
+type ProgrammaticRangeLock = { targetRange: string } | null;
 
 function isValidDate(d: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
   if (Object.prototype.toString.call(d) !== '[object Date]') {
@@ -245,6 +238,12 @@ function isValidDate(d: any) { // eslint-disable-line @typescript-eslint/no-expl
 }
 
 interface PeriodSelectorState {
+  uiSelection: UiSelection;
+  lastInteractionSource: InteractionSource;
+  nextHashUiSelection: UiSelection|null;
+  nextHashSelectionKey: string|null;
+  lastKnownHashSelectionKey: string|null;
+  programmaticRangeLock: ProgrammaticRangeLock;
   piwikMinDate: Date;
   piwikMaxDate: Date;
   comparePeriodDropdownOptions: typeof COMPARE_PERIOD_OPTIONS;
@@ -271,6 +270,7 @@ export default defineComponent({
     DateRangePicker,
     PeriodDatePicker,
     PresetDateRanges,
+    PeriodOptions,
     Field,
     ActivityIndicator,
   },
@@ -281,6 +281,12 @@ export default defineComponent({
   data(): PeriodSelectorState {
     const selectedPeriod = MatomoUrl.parsed.value.period as string;
     return {
+      uiSelection: { type: 'period', id: selectedPeriod },
+      lastInteractionSource: null,
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      lastKnownHashSelectionKey: null,
+      programmaticRangeLock: null,
       piwikMinDate,
       piwikMaxDate,
       comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
@@ -316,7 +322,10 @@ export default defineComponent({
     });
 
     this.updateSelectedValuesFromHash();
-    watch(() => MatomoUrl.parsed.value, this.updateSelectedValuesFromHash);
+    watch(
+      () => `${(MatomoUrl.parsed.value.period as string) || ''}|${(MatomoUrl.parsed.value.date as string) || ''}`,
+      this.updateSelectedValuesFromHash,
+    );
 
     this.updateComparisonValuesFromStore();
     watch(() => ComparisonsStore.getPeriodComparisons(), this.updateComparisonValuesFromStore);
@@ -486,41 +495,71 @@ export default defineComponent({
       }
 
       // can't just change to a range period, w/o setting two new dates
-      if (period === 'range') {
+      if (period === RANGE_PERIOD) {
         return;
       }
 
       this.setPiwikPeriodAndDate(period, this.dateValue!);
     },
-    setPiwikPeriodAndDate(period: string, date: Date) {
+    setUiSelection(selection: UiSelection, source: InteractionSource) {
+      this.uiSelection = selection;
+      this.lastInteractionSource = source;
+    },
+    clearPresetSelection() {
+      this.activePresetId = null;
+      this.activePresetSelection = null;
+    },
+    setPendingPeriodAndDate(period: string, date: Date) {
       this.periodValue = period;
       this.selectedPeriod = period;
       this.dateValue = date;
+      this.setRangeStartEndFromPeriod(period, format(date));
+    },
+    setPiwikPeriodAndDate(period: string, date: Date) {
+      this.setPendingPeriodAndDate(period, date);
+      this.setUiSelection({ type: 'period', id: period }, 'period');
+      this.programmaticRangeLock = null;
 
       const currentDateString = format(date);
-      this.setRangeStartEndFromPeriod(period, currentDateString);
-      this.activePresetId = null;
-      this.activePresetSelection = null;
-
-      this.propagateNewUrlParams(currentDateString, this.selectedPeriod);
+      this.clearPresetSelection();
+      this.commitSelectionToUrl(currentDateString, this.selectedPeriod);
+    },
+    setPendingCalendarSelection(period: string, date: Date) {
+      this.setPendingPeriodAndDate(period, date);
+    },
+    commitSelectionToUrl(date: string, period: string) {
+      this.nextHashUiSelection = { ...this.uiSelection };
+      this.nextHashSelectionKey = this.getSelectionKey(period, date);
+      this.propagateNewUrlParams(date, period);
 
       window.initTopControls();
     },
-    onSelectedPeriodChanged(period: string) {
-      this.selectedPeriod = period;
+    onPeriodOptionSelected(payload: { period: string }) {
+      this.setUiSelection({ type: 'period', id: payload.period }, 'period');
+      this.selectedPeriod = payload.period;
+      this.clearPresetSelection();
+      this.programmaticRangeLock = null;
+    },
+    onPeriodOptionDblClick(payload: { period: string }) {
+      this.setUiSelection({ type: 'period', id: payload.period }, 'period');
+      this.programmaticRangeLock = null;
+      this.changeViewedPeriod(payload.period);
     },
     onDatePickerSelected(date: Date) {
-      if (this.activePresetId && this.activePresetSelection) {
-        const presetStartDate = format(this.activePresetSelection.startDate);
-        if (format(date) === presetStartDate) {
-          this.dateValue = date;
-          return;
-        }
+      this.lastInteractionSource = 'calendar';
+      this.setPendingCalendarSelection(this.selectedPeriod, date);
+      this.programmaticRangeLock = null;
+
+      if (this.uiSelection.type === 'preset') {
+        this.setUiSelection({ type: 'period', id: this.selectedPeriod }, 'calendar');
+        this.clearPresetSelection();
       }
 
-      this.setPiwikPeriodAndDate(this.selectedPeriod, date);
+      this.commitSelectionToUrl(format(date), this.selectedPeriod);
     },
     onPresetDateRangeSelected(selection: PresetDateRangeSelection) {
+      this.setUiSelection({ type: 'preset', id: selection.id }, 'preset');
+      this.activePresetId = selection.id;
       this.selectedPeriod = selection.period;
       this.periodValue = selection.period;
       this.dateValue = selection.startDate;
@@ -528,6 +567,11 @@ export default defineComponent({
       this.endRangeDate = format(selection.endDate);
       this.isRangeValid = true;
       this.activePresetSelection = selection;
+      if (selection.period === RANGE_PERIOD) {
+        this.setProgrammaticRangeLock(this.startRangeDate, this.endRangeDate);
+      } else {
+        this.programmaticRangeLock = null;
+      }
     },
     propagateNewUrlParams(date: string, period: string) {
       const compareParams = this.selectedComparisonParams;
@@ -555,26 +599,23 @@ export default defineComponent({
       });
     },
     onApplyClicked() {
-      if (this.selectedPeriod === 'range') {
+      if (this.selectedPeriod === RANGE_PERIOD) {
         const dateString = this.selectedDateString;
         if (!dateString) {
           return;
         }
 
-        this.periodValue = 'range';
-
-        this.propagateNewUrlParams(dateString, 'range');
+        this.periodValue = RANGE_PERIOD;
+        this.commitSelectionToUrl(dateString, RANGE_PERIOD);
         return;
       }
 
-      if (this.activePresetId && this.activePresetSelection?.id === this.activePresetId) {
-        if (!this.activePresetSelection) {
-          this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue!);
-          return;
-        }
+      if (this.uiSelection.type === 'preset'
+        && this.activePresetSelection
+        && this.activePresetSelection.id === this.uiSelection.id
+      ) {
         this.periodValue = this.selectedPeriod;
-        this.propagateNewUrlParams(this.activePresetSelection.date, this.selectedPeriod);
-        window.initTopControls();
+        this.commitSelectionToUrl(this.activePresetSelection.date, this.selectedPeriod);
         return;
       }
 
@@ -620,16 +661,71 @@ export default defineComponent({
       this.compareStartDate = format(startDate);
       this.compareEndDate = format(endDate);
     },
-    updateSelectedValuesFromHash() {
-      const date = MatomoUrl.parsed.value.date as string;
-      const period = MatomoUrl.parsed.value.period as string;
+    resolveSyncedUiSelection(currentSelectionKey: string): UiSelection|null {
+      const syncedUiSelection = this.nextHashUiSelection
+        && this.nextHashSelectionKey === currentSelectionKey
+        ? { ...this.nextHashUiSelection }
+        : null;
 
-      this.periodValue = period;
-      this.selectedPeriod = period;
+      this.nextHashUiSelection = null;
+      this.nextHashSelectionKey = null;
+      this.lastInteractionSource = null;
+      this.lastKnownHashSelectionKey = currentSelectionKey;
 
+      return syncedUiSelection;
+    },
+    applyUiSelectionFromHash(period: string, syncedUiSelection: UiSelection|null) {
+      if (syncedUiSelection) {
+        this.uiSelection = syncedUiSelection;
+        this.activePresetId = syncedUiSelection.type === 'preset'
+          ? syncedUiSelection.id
+          : null;
+        return;
+      }
+
+      this.setUiSelection({ type: 'period', id: period }, null);
+      this.clearPresetSelection();
+    },
+    resetSelectedDateValues() {
       this.dateValue = null;
       this.startRangeDate = null;
       this.endRangeDate = null;
+    },
+    applyDateValuesFromHash(period: string, date: string, syncedUiSelection: UiSelection|null) {
+      if (period === RANGE_PERIOD) {
+        const periodObj = Periods.get(period).parse(date) as Range;
+        const [startDate, endDate] = periodObj.getDateRange();
+        this.dateValue = startDate;
+        this.startRangeDate = format(startDate);
+        this.endRangeDate = format(endDate);
+
+        if (syncedUiSelection?.type === 'preset') {
+          this.setProgrammaticRangeLock(this.startRangeDate, this.endRangeDate);
+        } else {
+          this.programmaticRangeLock = null;
+        }
+        return;
+      }
+
+      this.dateValue = parseDate(date);
+      this.setRangeStartEndFromPeriod(period, date);
+      this.programmaticRangeLock = null;
+    },
+    updateSelectedValuesFromHash() {
+      const date = (MatomoUrl.parsed.value.date as string) || '';
+      const period = (MatomoUrl.parsed.value.period as string) || '';
+      const currentSelectionKey = this.getSelectionKey(period, date);
+      if (!this.nextHashUiSelection
+        && currentSelectionKey === this.lastKnownHashSelectionKey
+      ) {
+        return;
+      }
+
+      const syncedUiSelection = this.resolveSyncedUiSelection(currentSelectionKey);
+      this.applyUiSelectionFromHash(period, syncedUiSelection);
+      this.periodValue = period;
+      this.selectedPeriod = period;
+      this.resetSelectedDateValues();
 
       try {
         Periods.parse(period, date);
@@ -637,38 +733,57 @@ export default defineComponent({
         return;
       }
 
-      if (period === 'range') {
-        const periodObj = Periods.get(period).parse(date) as Range;
-
-        const [startDate, endDate] = periodObj.getDateRange();
-        this.dateValue = startDate;
-        this.startRangeDate = format(startDate);
-        this.endRangeDate = format(endDate);
-      } else {
-        this.dateValue = parseDate(date);
-        this.setRangeStartEndFromPeriod(period, date);
-      }
+      this.applyDateValuesFromHash(period, date, syncedUiSelection);
     },
     setRangeStartEndFromPeriod(period: string, dateStr: string) {
       const dateRange = Periods.parse(period, dateStr).getDateRange();
       this.startRangeDate = format(dateRange[0] < piwikMinDate ? piwikMinDate : dateRange[0]);
       this.endRangeDate = format(dateRange[1] > piwikMaxDate ? piwikMaxDate : dateRange[1]);
     },
-    getPeriodDisplayText(periodLabel: string) {
-      return Periods.get(periodLabel).getDisplayText();
+    getSelectionKey(period: string, date: string) {
+      return `${period}|${date}`;
+    },
+    setProgrammaticRangeLock(start: string|null, end: string|null) {
+      if (!start || !end) {
+        this.programmaticRangeLock = null;
+        return;
+      }
+
+      this.programmaticRangeLock = {
+        targetRange: `${start},${end}`,
+      };
     },
     onRangeChange(start: string, end: string) {
       if (!start || !end) {
-        this.isRangeValid = false;
+        if (this.selectedPeriod === RANGE_PERIOD) {
+          this.isRangeValid = false;
+        }
         return;
       }
 
       this.isRangeValid = true;
       this.startRangeDate = start;
       this.endRangeDate = end;
+
+      if (this.programmaticRangeLock) {
+        const incomingRange = `${start},${end}`;
+        const isProgrammaticSyncRange = incomingRange === this.programmaticRangeLock.targetRange;
+        this.programmaticRangeLock = null;
+
+        if (isProgrammaticSyncRange) {
+          return;
+        }
+      }
+
+      if (this.selectedPeriod !== RANGE_PERIOD) {
+        return;
+      }
+
+      this.setUiSelection({ type: 'period', id: RANGE_PERIOD }, 'range');
+      this.clearPresetSelection();
     },
     isApplyEnabled() {
-      if (this.selectedPeriod === 'range'
+      if (this.selectedPeriod === RANGE_PERIOD
         && !this.isRangeValid
       ) {
         return false;
