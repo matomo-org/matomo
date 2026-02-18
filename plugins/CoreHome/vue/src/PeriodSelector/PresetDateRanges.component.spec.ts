@@ -64,7 +64,7 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
 
     const selectPayload = getSelectPayload(wrapper);
     expect(selectPayload.period).toBe('range');
-    expect(selectPayload.date).toBe('2026-02-10,2026-02-16');
+    expect(selectPayload.date).toBe('last7');
   });
 
   it('should resolve monday/sunday week behavior correctly', async () => {
@@ -105,9 +105,9 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
     const testCases = [
       { id: 'today', period: 'day', date: 'today' },
       { id: 'yesterday', period: 'day', date: 'yesterday' },
-      { id: 'last7days', period: 'range', date: '2026-02-10,2026-02-16' },
-      { id: 'last30days', period: 'range', date: '2026-01-18,2026-02-16' },
-      { id: 'last90days', period: 'range', date: '2025-11-19,2026-02-16' },
+      { id: 'last7days', period: 'range', date: 'last7' },
+      { id: 'last30days', period: 'range', date: 'last30' },
+      { id: 'last90days', period: 'range', date: 'last90' },
       { id: 'lastWeekMonSun', period: 'week', date: 'lastweek' },
       { id: 'lastMonth', period: 'month', date: 'lastmonth' },
       { id: 'lastQuarter', period: 'range', date: '2025-10-01,2025-12-31' },
