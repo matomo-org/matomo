@@ -19,13 +19,15 @@ interface PresetDateRangeSelection {
 
 describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
   function getSelectPayload(wrapper: ReturnType<typeof mount>): PresetDateRangeSelection {
-    return wrapper.emitted('select')?.[0]?.[0] as PresetDateRangeSelection;
+    const events = wrapper.emitted('select') || [];
+    return events[events.length - 1]?.[0] as PresetDateRangeSelection;
   }
 
   function mountComponent(customProps = {}) {
     return mount(PresetDateRanges, {
       props: {
         modelValue: null,
+        checkedPresetId: null,
         minDate: new Date('2000-01-01'),
         maxDate: new Date('2100-12-31'),
         today: new Date('2026-02-16'),
@@ -97,5 +99,52 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
     const selectPayload = getSelectPayload(wrapper);
     expect(selectPayload.startDate.toISOString().substring(0, 10)).toBe('2026-02-14');
     expect(selectPayload.endDate.toISOString().substring(0, 10)).toBe('2026-02-15');
+  });
+
+  it('should resolve period and date values for all presets', async () => {
+    const testCases = [
+      { id: 'today', period: 'day', date: 'today' },
+      { id: 'yesterday', period: 'day', date: 'yesterday' },
+      { id: 'last7days', period: 'range', date: '2026-02-10,2026-02-16' },
+      { id: 'last30days', period: 'range', date: '2026-01-18,2026-02-16' },
+      { id: 'last90days', period: 'range', date: '2025-11-19,2026-02-16' },
+      { id: 'lastWeekMonSun', period: 'week', date: 'lastweek' },
+      { id: 'lastMonth', period: 'month', date: 'lastmonth' },
+      { id: 'lastQuarter', period: 'range', date: '2025-10-01,2025-12-31' },
+      { id: 'lastYear', period: 'year', date: 'lastyear' },
+      { id: 'thisWeekMonToday', period: 'week', date: 'today' },
+      { id: 'thisMonth', period: 'month', date: 'today' },
+      { id: 'thisQuarter', period: 'range', date: '2026-01-01,2026-02-16' },
+      { id: 'thisYear', period: 'year', date: 'today' },
+    ];
+
+    const wrapper = mountComponent();
+
+    for (const testCase of testCases) {
+      await wrapper.find(`#preset_date_${testCase.id}`).trigger('change');
+      const selectPayload = getSelectPayload(wrapper);
+      expect(selectPayload.period).toBe(testCase.period);
+      expect(selectPayload.date).toBe(testCase.date);
+    }
+  });
+
+  it('should throw for an unknown preset id', () => {
+    const wrapper = mountComponent();
+
+    expect(() => (wrapper.vm as unknown as { handlePresetSelected: (id: string) => void })
+      .handlePresetSelected('unknown')).toThrow('Unknown preset date range: unknown');
+  });
+
+  it('should check presets only when preset owner is active', async () => {
+    const wrapper = mountComponent({
+      modelValue: 'lastMonth',
+      checkedPresetId: null,
+    });
+
+    expect((wrapper.find('#preset_date_lastMonth').element as HTMLInputElement).checked).toBe(false);
+
+    await wrapper.setProps({ checkedPresetId: 'lastMonth' });
+
+    expect((wrapper.find('#preset_date_lastMonth').element as HTMLInputElement).checked).toBe(true);
   });
 });
