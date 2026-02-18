@@ -23,6 +23,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector selection ownership', () => {
       isRangeValid: null,
       activePresetSelection: null,
       setProgrammaticRangeLock: jest.fn(),
+      setProgrammaticDatePickerLock: jest.fn(),
       programmaticRangeLock: null,
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
@@ -168,5 +169,28 @@ describe('CoreHome/PeriodSelector/PeriodSelector selection ownership', () => {
     expect(vm.activePresetId).toBeNull();
     expect(vm.activePresetSelection).toBeNull();
     expect(vm.programmaticRangeLock).toBeNull();
+  });
+
+  it('should ignore matching programmatic date picker sync event', () => {
+    const vm: any = {
+      selectedPeriod: 'day',
+      uiSelection: { type: 'preset', id: 'today' },
+      programmaticDatePickerLock: {
+        targetPeriod: 'day',
+        targetDate: '2026-02-18',
+      },
+      lastInteractionSource: 'preset',
+      programmaticRangeLock: null,
+      commitSelectionToUrl: jest.fn(),
+      setPendingCalendarSelection: jest.fn(),
+      clearPresetSelection: jest.fn(),
+      setUiSelection: jest.fn(),
+    };
+
+    methods.onDatePickerSelected.call(vm, new Date('2026-02-18'));
+
+    expect(vm.programmaticDatePickerLock).toBeNull();
+    expect(vm.commitSelectionToUrl).not.toHaveBeenCalled();
+    expect(vm.setPendingCalendarSelection).not.toHaveBeenCalled();
   });
 });
