@@ -5,26 +5,28 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const PeriodSelector = require('./PeriodSelector.vue').default;
 
-describe('CoreHome/PeriodSelector/PeriodSelector selection ownership', () => {
-  const methods = (PeriodSelector as unknown as { methods: Record<string, Function> }).methods;
+describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', () => {
+  const component = PeriodSelector as unknown as {
+    methods: Record<string, (...args: unknown[]) => unknown>;
+    computed: Record<string, (...args: unknown[]) => unknown>;
+  };
+  const { methods, computed } = component;
 
-  it('should set uiSelection to preset on preset click', () => {
+  it('stages preset selection and switches to dual calendar for range presets', () => {
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
       lastInteractionSource: null,
       activePresetId: null,
+      pendingPresetSelection: null,
       selectedPeriod: 'day',
-      periodValue: 'day',
-      dateValue: null,
-      startRangeDate: null,
-      endRangeDate: null,
-      isRangeValid: null,
-      activePresetSelection: null,
-      setProgrammaticRangeLock: jest.fn(),
-      setProgrammaticDatePickerLock: jest.fn(),
-      programmaticRangeLock: null,
+      calendarViewport: 'single',
+      dateValue: new Date('2026-02-18'),
+      startRangeDate: '2026-02-18',
+      endRangeDate: '2026-02-18',
+      isRangeValid: false,
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
@@ -32,165 +34,258 @@ describe('CoreHome/PeriodSelector/PeriodSelector selection ownership', () => {
     };
 
     methods.onPresetDateRangeSelected.call(vm, {
-      id: 'lastMonth',
-      period: 'month',
-      date: 'lastmonth',
-      startDate: new Date('2026-01-01'),
-      endDate: new Date('2026-01-31'),
+      id: 'last7days',
+      period: 'range',
+      date: 'last7',
+      startDate: new Date('2026-02-12'),
+      endDate: new Date('2026-02-18'),
     });
-
-    expect(vm.uiSelection).toEqual({ type: 'preset', id: 'lastMonth' });
-    expect(vm.activePresetId).toBe('lastMonth');
-    expect(vm.selectedPeriod).toBe('month');
-    expect(vm.programmaticRangeLock).toBeNull();
-  });
-
-  it('should set uiSelection to period on period click', () => {
-    const vm: any = {
-      uiSelection: { type: 'preset', id: 'lastMonth' },
-      lastInteractionSource: null,
-      selectedPeriod: 'month',
-      activePresetId: 'lastMonth',
-      activePresetSelection: { id: 'lastMonth' },
-      setUiSelection(selection: { type: string; id: string }, source: string|null) {
-        this.uiSelection = selection;
-        this.lastInteractionSource = source;
-      },
-      clearPresetSelection() {
-        this.activePresetId = null;
-        this.activePresetSelection = null;
-      },
-    };
-
-    methods.onPeriodOptionSelected.call(vm, { period: 'year' });
-
-    expect(vm.uiSelection).toEqual({ type: 'period', id: 'year' });
-    expect(vm.selectedPeriod).toBe('year');
-    expect(vm.activePresetId).toBeNull();
-    expect(vm.activePresetSelection).toBeNull();
-  });
-
-  it('should apply preset magic date only when preset-owned selection is active', () => {
-    const vm = {
-      selectedPeriod: 'month',
-      periodValue: 'month',
-      dateValue: new Date('2026-01-01'),
-      uiSelection: { type: 'preset', id: 'lastMonth' },
-      activePresetSelection: {
-        id: 'lastMonth',
-        period: 'month',
-        date: 'lastmonth',
-        startDate: new Date('2026-01-01'),
-        endDate: new Date('2026-01-31'),
-      },
-      commitSelectionToUrl: jest.fn(),
-      setPiwikPeriodAndDate: jest.fn(),
-    };
-
-    Object.defineProperty(vm, 'selectedDateString', {
-      get() {
-        return '2026-01-01,2026-01-31';
-      },
-    });
-
-    methods.onApplyClicked.call(vm);
-
-    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('lastmonth', 'month');
-    expect(vm.setPiwikPeriodAndDate).not.toHaveBeenCalled();
-  });
-
-  it('should ignore range change ownership updates when selected period is not range', () => {
-    const vm = {
-      selectedPeriod: 'day',
-      uiSelection: { type: 'preset', id: 'today' },
-      isRangeValid: null,
-      startRangeDate: '2026-02-16',
-      endRangeDate: '2026-02-16',
-      activePresetId: 'today',
-      activePresetSelection: { id: 'today' },
-      lastInteractionSource: 'preset',
-    };
-
-    methods.onRangeChange.call(vm, '2026-02-10', '2026-02-16');
-
-    expect(vm.uiSelection).toEqual({ type: 'preset', id: 'today' });
-    expect(vm.activePresetId).toBe('today');
-    expect(vm.isRangeValid).toBe(true);
-  });
-
-  it('should keep preset ownership for programmatic range sync events', () => {
-    const vm = {
-      selectedPeriod: 'range',
-      uiSelection: { type: 'preset', id: 'last7days' },
-      programmaticRangeLock: {
-        targetRange: '2026-02-10,2026-02-16',
-      },
-      isRangeValid: null,
-      startRangeDate: null,
-      endRangeDate: null,
-      activePresetId: 'last7days',
-      activePresetSelection: { id: 'last7days' },
-      lastInteractionSource: 'preset',
-    };
-
-    methods.onRangeChange.call(vm, '2026-02-10', '2026-02-16');
 
     expect(vm.uiSelection).toEqual({ type: 'preset', id: 'last7days' });
     expect(vm.activePresetId).toBe('last7days');
-    expect(vm.programmaticRangeLock).toBeNull();
+    expect(vm.pendingPresetSelection?.date).toBe('last7');
+    expect(vm.calendarViewport).toBe('range');
   });
 
-  it('should process non-matching range input while lock is active', () => {
+  it('keeps single calendar for non-dual presets', () => {
     const vm: any = {
-      selectedPeriod: 'range',
-      uiSelection: { type: 'preset', id: 'last7days' },
-      programmaticRangeLock: {
-        targetRange: '2026-02-10,2026-02-16',
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: null,
+      activePresetId: null,
+      pendingPresetSelection: null,
+      selectedPeriod: 'day',
+      calendarViewport: 'range',
+      singleCalendarPeriod: 'day',
+      singleCalendarDate: null,
+      dateValue: new Date('2026-02-18'),
+      startRangeDate: '2026-02-18',
+      endRangeDate: '2026-02-18',
+      isRangeValid: false,
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
       },
-      isRangeValid: null,
-      startRangeDate: null,
-      endRangeDate: null,
-      activePresetId: 'last7days',
-      activePresetSelection: { id: 'last7days' },
-      lastInteractionSource: 'preset',
+    };
+
+    methods.onPresetDateRangeSelected.call(vm, {
+      id: 'yesterday',
+      period: 'day',
+      date: 'yesterday',
+      startDate: new Date('2026-02-17'),
+      endDate: new Date('2026-02-17'),
+    });
+
+    expect(vm.uiSelection).toEqual({ type: 'preset', id: 'yesterday' });
+    expect(vm.calendarViewport).toBe('single');
+    expect(vm.singleCalendarPeriod).toBe('day');
+  });
+
+  it('applies preset only on apply click', () => {
+    const vm: any = {
+      uiSelection: { type: 'preset', id: 'last30days' },
+      pendingPresetSelection: {
+        id: 'last30days',
+        period: 'range',
+        date: 'last30',
+      },
+      periodValue: 'day',
+      commitSelectionToUrl: jest.fn(),
+    };
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.periodValue).toBe('range');
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('last30', 'range');
+  });
+
+  it('marks non-range period click as pending and does not apply on apply click', () => {
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: null,
+      selectedPeriod: 'day',
+      calendarViewport: 'single',
+      singleCalendarDate: new Date('2026-02-18'),
+      dateValue: new Date('2026-02-18'),
+      activePresetId: 'today',
+      pendingPresetSelection: { id: 'today' },
+      isCompareDirty: false,
+      hasPendingNonRangePeriodChange: true,
+      commitSelectionToUrl: jest.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
       },
       clearPresetSelection() {
         this.activePresetId = null;
-        this.activePresetSelection = null;
+        this.pendingPresetSelection = null;
       },
     };
 
-    methods.onRangeChange.call(vm, '2026-02-09', '2026-02-16');
+    methods.onPeriodOptionSelected.call(vm, { period: 'week' });
 
-    expect(vm.uiSelection).toEqual({ type: 'period', id: 'range' });
+    expect(vm.selectedPeriod).toBe('week');
+    expect(vm.calendarViewport).toBe('single');
+    expect(vm.singleCalendarDate).toBeNull();
+    expect(vm.pendingPresetSelection).toBeNull();
     expect(vm.activePresetId).toBeNull();
-    expect(vm.activePresetSelection).toBeNull();
-    expect(vm.programmaticRangeLock).toBeNull();
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.commitSelectionToUrl).not.toHaveBeenCalled();
   });
 
-  it('should ignore matching programmatic date picker sync event', () => {
+  it('applies non-range period via calendar click', () => {
     const vm: any = {
-      selectedPeriod: 'day',
-      uiSelection: { type: 'preset', id: 'today' },
-      programmaticDatePickerLock: {
-        targetPeriod: 'day',
-        targetDate: '2026-02-18',
-      },
-      lastInteractionSource: 'preset',
-      programmaticRangeLock: null,
-      commitSelectionToUrl: jest.fn(),
+      calendarViewport: 'single',
+      uiSelection: { type: 'period', id: 'week' },
+      selectedPeriod: 'week',
+      setUiSelection: jest.fn(),
       setPendingCalendarSelection: jest.fn(),
       clearPresetSelection: jest.fn(),
-      setUiSelection: jest.fn(),
+      commitSelectionToUrl: jest.fn(),
     };
 
     methods.onDatePickerSelected.call(vm, new Date('2026-02-18'));
 
-    expect(vm.programmaticDatePickerLock).toBeNull();
+    expect(vm.setPendingCalendarSelection).toHaveBeenCalledTimes(1);
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith(expect.any(String), 'week');
+  });
+
+  it('keeps range period pending until apply', () => {
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: null,
+      selectedPeriod: 'day',
+      calendarViewport: 'single',
+      commitSelectionToUrl: jest.fn(),
+      selectedDateString: '2026-02-01,2026-02-18',
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+      clearPresetSelection: jest.fn(),
+    };
+
+    methods.onPeriodOptionSelected.call(vm, { period: 'range' });
+
+    expect(vm.calendarViewport).toBe('range');
+    expect(vm.commitSelectionToUrl).not.toHaveBeenCalled();
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('2026-02-01,2026-02-18', 'range');
+  });
+
+  it('updates range values only when viewport is range and owner is period', () => {
+    const allowedVm: any = {
+      calendarViewport: 'range',
+      uiSelection: { type: 'period', id: 'range' },
+      selectedPeriod: 'range',
+      isRangeValid: null,
+      startRangeDate: null,
+      endRangeDate: null,
+      setUiSelection: jest.fn(),
+    };
+
+    methods.onRangeChange.call(allowedVm, '2026-02-01', '2026-02-18');
+
+    expect(allowedVm.isRangeValid).toBe(true);
+    expect(allowedVm.startRangeDate).toBe('2026-02-01');
+    expect(allowedVm.endRangeDate).toBe('2026-02-18');
+
+    const ignoredVm: any = {
+      calendarViewport: 'range',
+      uiSelection: { type: 'preset', id: 'last30days' },
+      selectedPeriod: 'range',
+      isRangeValid: false,
+      startRangeDate: '2026-01-01',
+      endRangeDate: '2026-01-31',
+      setUiSelection: jest.fn(),
+    };
+
+    methods.onRangeChange.call(ignoredVm, '2026-02-01', '2026-02-18');
+
+    expect(ignoredVm.isRangeValid).toBe(false);
+    expect(ignoredVm.startRangeDate).toBe('2026-01-01');
+    expect(ignoredVm.endRangeDate).toBe('2026-01-31');
+  });
+
+  it('keeps legacy immediate apply behavior on non-range period double click', () => {
+    const vm: any = {
+      periodValue: 'day',
+      dateValue: new Date('2026-02-18'),
+      onPeriodOptionSelected: jest.fn(),
+      setPiwikPeriodAndDate: jest.fn(),
+    };
+
+    methods.onPeriodOptionDblClick.call(vm, { period: 'month' });
+
+    expect(vm.onPeriodOptionSelected).toHaveBeenCalledWith({ period: 'month' });
+    expect(vm.setPiwikPeriodAndDate).toHaveBeenCalledWith('month', vm.dateValue);
+  });
+
+  it('does not immediately apply range period double click', () => {
+    const vm: any = {
+      periodValue: 'day',
+      dateValue: new Date('2026-02-18'),
+      onPeriodOptionSelected: jest.fn(),
+      setPiwikPeriodAndDate: jest.fn(),
+    };
+
+    methods.onPeriodOptionDblClick.call(vm, { period: 'range' });
+
+    expect(vm.onPeriodOptionSelected).toHaveBeenCalledWith({ period: 'range' });
+    expect(vm.setPiwikPeriodAndDate).not.toHaveBeenCalled();
+  });
+
+  it('blocks calendar commit while preset is pending', () => {
+    const vm: any = {
+      calendarViewport: 'single',
+      uiSelection: { type: 'preset', id: 'today' },
+      selectedPeriod: 'day',
+      setUiSelection: jest.fn(),
+      setPendingCalendarSelection: jest.fn(),
+      clearPresetSelection: jest.fn(),
+      commitSelectionToUrl: jest.fn(),
+    };
+
+    methods.onDatePickerSelected.call(vm, new Date('2026-02-18'));
+
     expect(vm.commitSelectionToUrl).not.toHaveBeenCalled();
     expect(vm.setPendingCalendarSelection).not.toHaveBeenCalled();
+  });
+
+  it('shows and hides apply button according to pending state rules', () => {
+    const pendingNonRangeVm: any = {
+      pendingPresetSelection: null,
+      selectedPeriod: 'week',
+      isCompareDirty: true,
+      hasPendingNonRangePeriodChange: true,
+    };
+    expect(computed.shouldShowApplyButton.call(pendingNonRangeVm)).toBe(false);
+
+    const presetVm: any = {
+      pendingPresetSelection: { id: 'today' },
+      selectedPeriod: 'day',
+      isCompareDirty: false,
+      hasPendingNonRangePeriodChange: false,
+    };
+    expect(computed.shouldShowApplyButton.call(presetVm)).toBe(true);
+
+    const rangeVm: any = {
+      pendingPresetSelection: null,
+      selectedPeriod: 'range',
+      isCompareDirty: false,
+      hasPendingNonRangePeriodChange: false,
+    };
+    expect(computed.shouldShowApplyButton.call(rangeVm)).toBe(true);
+
+    const compareVm: any = {
+      pendingPresetSelection: null,
+      selectedPeriod: 'day',
+      isCompareDirty: true,
+      hasPendingNonRangePeriodChange: false,
+    };
+    expect(computed.shouldShowApplyButton.call(compareVm)).toBe(true);
   });
 });
