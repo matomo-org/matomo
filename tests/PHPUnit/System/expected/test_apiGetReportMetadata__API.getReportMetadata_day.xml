@@ -1298,7 +1298,7 @@
 		<uniqueId>CustomVariables_getCustomVariables</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Actions - Main metrics</name>
 		<module>Actions</module>
 		<action>get</action>
@@ -1345,7 +1345,7 @@
 		<uniqueId>Actions_get</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Bandwidth - Main metrics</name>
 		<module>Bandwidth</module>
 		<action>get</action>
@@ -1369,7 +1369,7 @@
 		<uniqueId>Bandwidth_get</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Pages</subcategory>
 		<name>Page URLs</name>
 		<module>Actions</module>
@@ -1437,7 +1437,7 @@
 		<uniqueId>Actions_getPageUrls</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Entry pages</subcategory>
 		<name>Entry pages</name>
 		<module>Actions</module>
@@ -1498,7 +1498,7 @@
 		<uniqueId>Actions_getEntryPageUrls</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Entry pages</subcategory>
 		<name>Entry page titles</name>
 		<module>Actions</module>
@@ -1564,7 +1564,7 @@
 		<uniqueId>Actions_getEntryPageTitles</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Exit pages</subcategory>
 		<name>Exit pages</name>
 		<module>Actions</module>
@@ -1608,7 +1608,7 @@
 		<uniqueId>Actions_getExitPageUrls</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Exit pages</subcategory>
 		<name>Exit page titles</name>
 		<module>Actions</module>
@@ -1655,7 +1655,7 @@
 		<uniqueId>Actions_getExitPageTitles</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Page titles</subcategory>
 		<name>Page titles</name>
 		<module>Actions</module>
@@ -1723,7 +1723,7 @@
 		<uniqueId>Actions_getPageTitles</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Site Search Keywords</name>
 		<module>Actions</module>
@@ -1756,7 +1756,7 @@
 		<uniqueId>Actions_getSiteSearchKeywords</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Pages Following a Site Search</name>
 		<module>Actions</module>
@@ -1792,7 +1792,7 @@
 		<uniqueId>Actions_getPageUrlsFollowingSiteSearch</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Search Keywords with No Results</name>
 		<module>Actions</module>
@@ -1822,7 +1822,7 @@
 		<uniqueId>Actions_getSiteSearchNoResultKeywords</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Page Titles Following a Site Search</name>
 		<module>Actions</module>
@@ -1858,7 +1858,7 @@
 		<uniqueId>Actions_getPageTitlesFollowingSiteSearch</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Search Categories</name>
 		<module>Actions</module>
@@ -1886,7 +1886,7 @@
 		<uniqueId>Actions_getSiteSearchCategories</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Outlinks</subcategory>
 		<name>Outlinks</name>
 		<module>Actions</module>
@@ -1911,7 +1911,7 @@
 		<uniqueId>Actions_getOutlinks</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Downloads</subcategory>
 		<name>Downloads</name>
 		<module>Actions</module>
@@ -1936,7 +1936,7 @@
 		<uniqueId>Actions_getDownloads</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Events</subcategory>
 		<name>Event Categories</name>
 		<module>Events</module>
@@ -1986,7 +1986,7 @@
 		<uniqueId>Events_getCategory</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Events</subcategory>
 		<name>Event Actions</name>
 		<module>Events</module>
@@ -2036,7 +2036,7 @@
 		<uniqueId>Events_getAction</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Events</subcategory>
 		<name>Event Names</name>
 		<module>Events</module>
@@ -2086,7 +2086,7 @@
 		<uniqueId>Events_getName</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Contents</subcategory>
 		<name>Content Name</name>
 		<module>Contents</module>
@@ -2117,7 +2117,7 @@
 		<uniqueId>Contents_getContentNames</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Contents</subcategory>
 		<name>Content Piece</name>
 		<module>Contents</module>
@@ -2148,7 +2148,7 @@
 		<uniqueId>Contents_getContentPieces</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Length of visits</name>
 		<module>VisitorInterest</module>
@@ -2169,7 +2169,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Pages per visit</name>
 		<module>VisitorInterest</module>
@@ -2190,7 +2190,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Visits by visit number</name>
 		<module>VisitorInterest</module>
@@ -2216,7 +2216,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsByVisitCount</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Visits by days since last visit</name>
 		<module>VisitorInterest</module>
@@ -2237,7 +2237,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Returning Visits</name>
 		<module>VisitFrequency</module>
@@ -2286,7 +2286,7 @@
 		<uniqueId>VisitFrequency_get</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Performance</subcategory>
 		<name>Performance overview</name>
 		<module>PagePerformance</module>
@@ -2334,7 +2334,7 @@
 		<uniqueId>PagePerformance_get</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<name>Referrers Overview</name>
 		<module>Referrers</module>
 		<action>get</action>
@@ -2384,7 +2384,7 @@
 		<uniqueId>Referrers_get</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>All Channels</subcategory>
 		<name>Channel Type</name>
 		<module>Referrers</module>
@@ -2441,7 +2441,7 @@
 		<uniqueId>Referrers_getReferrerType</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>All Channels</subcategory>
 		<name>All Channels</name>
 		<module>Referrers</module>
@@ -2484,7 +2484,7 @@
 		<uniqueId>Referrers_getAll</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Search Engines &amp; Keywords</subcategory>
 		<name>Keywords</name>
 		<module>Referrers</module>
@@ -2545,7 +2545,7 @@
 		<uniqueId>Referrers_getKeywords</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Search Engines &amp; Keywords</subcategory>
 		<name>Search Engines</name>
 		<module>Referrers</module>
@@ -2606,7 +2606,7 @@
 		<uniqueId>Referrers_getSearchEngines</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Websites</subcategory>
 		<name>Websites</name>
 		<module>Referrers</module>
@@ -2667,7 +2667,7 @@
 		<uniqueId>Referrers_getWebsites</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Social Networks</subcategory>
 		<name>Social Networks</name>
 		<module>Referrers</module>
@@ -2728,7 +2728,7 @@
 		<uniqueId>Referrers_getSocials</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>AI Assistants</subcategory>
 		<name>AI Assistants</name>
 		<module>Referrers</module>
@@ -2789,7 +2789,7 @@
 		<uniqueId>Referrers_getAIAssistants</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Campaigns</subcategory>
 		<name>Campaigns</name>
 		<module>Referrers</module>
