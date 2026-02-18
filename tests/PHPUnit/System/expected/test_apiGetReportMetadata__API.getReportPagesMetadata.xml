@@ -69,6 +69,22 @@
 		</subcategory>
 		<widgets>
 			<row>
+				<name>AI Chatbots - No Recent Requests</name>
+				<module>BotTracking</module>
+				<action>noRecentRequestsMessage</action>
+				<order>0</order>
+				<parameters>
+					<module>BotTracking</module>
+					<action>noRecentRequestsMessage</action>
+				</parameters>
+				<uniqueId>widgetBotTrackingnoRecentRequestsMessage</uniqueId>
+				<isWide>1</isWide>
+				<middlewareParameters>
+					<module>BotTracking</module>
+					<action>showNoRecentRequestsMessage</action>
+				</middlewareParameters>
+			</row>
+			<row>
 				<name>AI Chatbots Over Time</name>
 				<module>BotTracking</module>
 				<action>getEvolutionGraph</action>
