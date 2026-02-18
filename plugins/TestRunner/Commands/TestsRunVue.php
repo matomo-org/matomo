@@ -17,20 +17,31 @@ class TestsRunVue extends ConsoleCommand
     {
         $this->setName('tests:run-vue');
         $this->setDescription('Run Vue component unit tests');
-        $this->setHelp("Example Commands
-        \nRun all Vue component tests:
-        \nddev matomo:console tests:run-vue
-        \nRun one Vue spec:
-        \nddev matomo:console tests:run-vue plugins/CoreHome/vue/src/Alert/Alert.spec.ts
-        \nor
-        \nddev matomo:console tests:run-vue Alert.spec.ts
-        \nRun tests for a specific plugin:
-        \nddev matomo:console tests:run-vue --plugin=CoreHome
-        \nRun tests serially with verbose output:
-        \nddev matomo:console tests:run-vue --run-in-band --verbose
-        \nIf --plugin is provided, specs arguments are ignored and discovery is scoped to that plugin.
-        \nIf the plugin does not exist, the command exits with a non-zero status.
-        ");
+        $this->setHelp(<<<'EOF'
+The <info>%command.name%</info> command run all Vue component tests by default:
+
+<info>ddev matomo:console %command.name%</info>
+
+You can also run only one Vue spec by adding a specific file path, file name, or a regex:
+
+<info>ddev matomo:console %command.name% plugins/CoreHome/vue/src/Alert/Alert.spec.ts</info>
+
+<info>ddev matomo:console %command.name% Alert.spec.ts</info>
+
+You can run the Vue tests for a specific plugin:
+
+<info>ddev matomo:console %command.name% --plugin=CoreHome</info>
+
+Notes:
+- if <info>--plugin</info> is provided, <info>specs</info> arguments are ignored and discovery is scoped to that plugin.
+- if the plugin does not exist, the command exits with a non-zero status.
+
+It's possible to run the tests serially with verbose output:
+
+<info>ddev matomo:console %command.name% --run-in-band --verbose</info>
+
+EOF
+        );
 
         $this->addOptionalArgument(
             'specs',

@@ -24,6 +24,7 @@ ddev matomo:console tests:run-vue [specs...] [--plugin=<Plugin>] [--run-in-band]
   - Forwards Jest `--runInBand` to run tests serially.
 - `--verbose`
   - Uses Symfony global verbosity and also forwards Jest `--verbose` for detailed test output.
+  
 ### Execution details
 
 - The command runs from the Matomo root directory.
@@ -77,6 +78,7 @@ ddev matomo:console tests:run-vue Alert.spec.ts Notification.spec.ts
 - Test output and execution mode:
   - Add `--verbose` for detailed output.
   - Add `--run-in-band` to run tests serially when debugging flaky tests.
+
 For command help:
 
 ```bash
