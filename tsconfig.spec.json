@@ -10,9 +10,8 @@
     ]
   },
   "include": [
-    "./plugins/CoreVue/types/shims-vue.d.ts",
-    "./plugins/CoreVue/types/index.d.ts",
+    "plugins/CoreVue/types/shims-vue.d.ts",
+    "plugins/CoreVue/types/index.d.ts",
     "plugins/**/vue/**/*.spec.ts",
-    "plugins/**/vue/**/*.spec.js"
   ]
 }
