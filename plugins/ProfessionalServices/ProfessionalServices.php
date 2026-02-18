@@ -11,6 +11,7 @@ namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Option;
 use Piwik\View;
 use Piwik\Plugin;
 
@@ -35,8 +36,14 @@ class ProfessionalServices extends \Piwik\Plugin
             'Template.afterVisitorProfileOverview' => 'getSessionRecordingPromo',
             'Template.afterPagePerformanceReport' => 'getSeoWebVitalsPromo',
             'Template.afterSearchEngines' => 'getSeoWebVitalsPromo',
+            'UsersManager.deleteUser' => 'onDeleteUser',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
         );
+    }
+
+    public function onDeleteUser($userLogin): void
+    {
+        Option::deleteLike('ProfessionalServices.DismissedWidget.%.' . $userLogin);
     }
 
     public function getStylesheetFiles(&$stylesheets)

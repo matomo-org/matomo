@@ -66,6 +66,7 @@ class MobileMessaging extends \Piwik\Plugin
     {
         return array(
             'AssetManager.getStylesheetFiles'           => 'getStylesheetFiles',
+            'UsersManager.deleteUser'                   => 'onDeleteUser',
             'ScheduledReports.getReportParameters'      => 'getReportParameters',
             'ScheduledReports.validateReportParameters' => 'validateReportParameters',
             'ScheduledReports.getReportMetadata'        => 'getReportMetadata',
@@ -88,6 +89,11 @@ class MobileMessaging extends \Piwik\Plugin
     public function getStylesheetFiles(&$stylesheets)
     {
         $stylesheets[] = "plugins/MobileMessaging/stylesheets/MobileMessagingSettings.less";
+    }
+
+    public function onDeleteUser($userLogin): void
+    {
+        Option::delete($userLogin . self::USER_SETTINGS_POSTFIX_OPTION);
     }
 
     public function getClientSideTranslationKeys(&$translationKeys)
