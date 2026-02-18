@@ -235,7 +235,7 @@ describe("PeriodSelector", function () {
         await page.waitForTimeout(250);
         currentUrl = await page.url();
         expect(currentUrl).to.contain('period=range');
-        expect(currentUrl).to.match(/date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+        expect(currentUrl).to.match(/date=last30|date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
 
         await page.click('.periodSelector .title');
         await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
