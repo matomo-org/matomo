@@ -21,7 +21,7 @@ class NoRecentRequests extends Widget
         $config
             ->setName('BotTracking_NoRecentRequestsWidgetTitle')
             ->setCategoryId('General_AIAssistants')
-            ->setSubcategoryId('BotTracking_AIBotsOverview')
+            ->setSubcategoryId('BotTracking_AIChatbotsOverview')
             ->setModule('BotTracking')
             ->setAction('noRecentRequestsMessage')
             ->setMiddlewareParameters(['module' => 'BotTracking', 'action' => 'showNoRecentRequestsMessage'])

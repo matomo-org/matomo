@@ -230,7 +230,7 @@ class Controller extends \Piwik\Plugin\Controller
 
         $hashParams                = $params;
         $hashParams['category']    = 'General_AIAssistants';
-        $hashParams['subcategory'] = 'BotTracking_AIBotsOverview';
+        $hashParams['subcategory'] = 'BotTracking_AIChatbotsOverview';
 
         return 'index.php?'
             . Url::getQueryStringFromParameters($params)

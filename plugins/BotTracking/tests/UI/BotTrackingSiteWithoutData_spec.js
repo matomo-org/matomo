@@ -12,7 +12,7 @@ describe('BotTrackingSiteWithoutData', function () {
 
     const generalParams = 'idSite=1&period=day&date=today';
     const urlBase = `module=CoreHome&action=index&${generalParams}`;
-    const urlOverview = `?${urlBase}#?${generalParams}&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview`;
+    const urlOverview = `?${urlBase}#?${generalParams}&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview`;
 
     before(function () {
         testEnvironment.detectedContentDetections = [];
