@@ -214,7 +214,6 @@ describe("PeriodSelector", function () {
     it('should apply representative preset URL changes', async function () {
         await page.goto(url);
         await page.click('.periodSelector .title');
-        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await page.evaluate(function () {
             piwikHelper.isReportingPage = function () {
                 return true;
@@ -222,6 +221,7 @@ describe("PeriodSelector", function () {
         });
 
         await clickPreset('Today');
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await page.click('#calendarApply');
         await page.waitForTimeout(250);
         let currentUrl = await page.url();
@@ -229,8 +229,8 @@ describe("PeriodSelector", function () {
         expect(currentUrl).to.match(/date=today|date=[0-9]{4}-[0-9]{2}-[0-9]{2}/);
 
         await page.click('.periodSelector .title');
-        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await clickPreset('Last 30 days');
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await page.click('#calendarApply');
         await page.waitForTimeout(250);
         currentUrl = await page.url();
@@ -238,8 +238,8 @@ describe("PeriodSelector", function () {
         expect(currentUrl).to.match(/date=last30|date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
 
         await page.click('.periodSelector .title');
-        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await clickPreset('Last quarter');
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await page.click('#calendarApply');
         await page.waitForTimeout(250);
         currentUrl = await page.url();
@@ -247,13 +247,213 @@ describe("PeriodSelector", function () {
         expect(currentUrl).to.match(/date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
 
         await page.click('.periodSelector .title');
-        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await clickPreset('This week (Mon - Today)');
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await page.click('#calendarApply');
         await page.waitForTimeout(250);
         currentUrl = await page.url();
         expect(currentUrl).to.contain('period=week');
         expect(currentUrl).to.match(/date=today|date=[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+    });
+
+    it('should switch to dual calendar and keep URL unchanged when switching Yesterday to Last 30 days', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        const initialUrl = await page.url();
+
+        await clickPreset('Yesterday');
+        await page.waitForTimeout(120);
+        await clickPreset('Last 30 days');
+        await page.waitForTimeout(120);
+
+        const stateBeforeApply = await page.evaluate(function () {
+            return {
+                expanded: $('.periodSelector').hasClass('expanded'),
+                applyVisible: $('#calendarApply').is(':visible'),
+                singleVisible: $('.period-date:visible').length > 0,
+                rangeVisible: $('.period-range:visible').length > 0,
+                last30Checked: $('#preset_date_last30days').prop('checked'),
+            };
+        });
+
+        expect(stateBeforeApply.expanded).to.equal(true);
+        expect(stateBeforeApply.applyVisible).to.equal(true);
+        expect(stateBeforeApply.singleVisible).to.equal(false);
+        expect(stateBeforeApply.rangeVisible).to.equal(true);
+        expect(stateBeforeApply.last30Checked).to.equal(true);
+        expect(await page.url()).to.equal(initialUrl);
+    });
+
+    it('should keep single calendar for non-range presets like Yesterday', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+
+        await clickPreset('Yesterday');
+        await page.waitForTimeout(120);
+
+        const viewState = await page.evaluate(function () {
+            return {
+                singleVisible: $('.period-date:visible').length > 0,
+                rangeVisible: $('.period-range:visible').length > 0,
+            };
+        });
+
+        expect(viewState.singleVisible).to.equal(true);
+        expect(viewState.rangeVisible).to.equal(false);
+    });
+
+    it('should show dual calendar for range presets like Last 7 days', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+
+        await clickPreset('Last 7 days');
+        await page.waitForTimeout(120);
+
+        const viewState = await page.evaluate(function () {
+            return {
+                singleVisible: $('.period-date:visible').length > 0,
+                rangeVisible: $('.period-range:visible').length > 0,
+            };
+        });
+
+        expect(viewState.singleVisible).to.equal(false);
+        expect(viewState.rangeVisible).to.equal(true);
+    });
+
+    it('should apply staged preset only when apply is clicked', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        const initialUrl = await page.url();
+
+        await clickPreset('Last 30 days');
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
+        await page.waitForTimeout(120);
+        expect(await page.url()).to.equal(initialUrl);
+
+        await page.click('#calendarApply');
+        await page.waitForTimeout(250);
+
+        const stateAfterApply = await page.evaluate(function () {
+            return {
+                expanded: $('.periodSelector').hasClass('expanded'),
+            };
+        });
+        const appliedUrl = await page.url();
+
+        expect(stateAfterApply.expanded).to.equal(false);
+        expect(appliedUrl).to.contain('period=range');
+        expect(appliedUrl).to.match(/date=last30|date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+    });
+
+    it('should apply non-range period selection only after calendar click', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        const initialUrl = await page.url();
+
+        await page.click('#period_id_week');
+        await page.waitForTimeout(150);
+
+        const stateAfterPeriodClick = await page.evaluate(function () {
+            return {
+                expanded: $('.periodSelector').hasClass('expanded'),
+                applyVisible: $('#calendarApply').is(':visible'),
+                selectedCells: $('.period-date td.ui-datepicker-current-period').length,
+            };
+        });
+
+        expect(stateAfterPeriodClick.expanded).to.equal(true);
+        expect(stateAfterPeriodClick.applyVisible).to.equal(false);
+        expect(stateAfterPeriodClick.selectedCells).to.equal(0);
+        expect(await page.url()).to.equal(initialUrl);
+
+        const dateCell = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(13)');
+        await dateCell.click();
+        await page.waitForTimeout(250);
+
+        const appliedUrl = await page.url();
+        expect(appliedUrl).to.contain('period=week');
+        expect(appliedUrl).to.not.equal(initialUrl);
+    });
+
+    it('should keep range selection pending until apply', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        const initialUrl = await page.url();
+
+        await page.click('#period_id_range');
+        await page.waitForTimeout(150);
+        expect(await page.url()).to.equal(initialUrl);
+
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
+        await page.click('#calendarApply');
+        await page.waitForTimeout(250);
+
+        const appliedUrl = await page.url();
+        expect(appliedUrl).to.contain('period=range');
+        expect(appliedUrl).to.not.equal(initialUrl);
+    });
+
+    it('should close on outside click without applying pending preset', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        const initialUrl = await page.url();
+        await clickPreset('Last 30 days');
+        await page.waitForTimeout(120);
+
+        await page.mouse.click(1, 1);
+        await page.waitForTimeout(150);
+
+        const isExpanded = await page.evaluate(function () {
+            return $('.periodSelector').hasClass('expanded');
+        });
+        expect(isExpanded).to.equal(false);
+        expect(await page.url()).to.equal(initialUrl);
+    });
+
+    it('should keep legacy double-click immediate apply behavior for non-range periods', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        await page.click('#period_id_month', { clickCount: 2 });
+        await page.waitForTimeout(250);
+
+        const currentUrl = await page.url();
+        expect(currentUrl).to.contain('period=month');
     });
 
     it("should move forward two days when next period selector is clicked twice", async function () {
