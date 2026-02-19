@@ -249,6 +249,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Gets the widget report map to be used when exporting the dashboard into a scheduled report
+     * @internal
      * @param int|string $dashId
      * @param int|string $idSite
      * @return array
