@@ -1,0 +1,19 @@
+{% extends "dashboard.twig" %}
+
+{% block notification %}
+    {% include "@CoreHome/_notifications.twig" %}
+{% endblock %}
+
+{% set bodyId = 'bot-tracking-site-without-data' %}
+
+{% block topcontrols %}
+    {% if not isSingleSite %}
+    {% include "@CoreHome/_siteSelectHeader.twig" %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div vue-entry="BotTracking.SiteWithoutData"
+         back-to-matomo-link="{{ backToMatomoLink|json_encode }}"
+    ></div>
+{% endblock %}

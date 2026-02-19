@@ -3,7 +3,7 @@
 	<website>Site 1 - Site search</website>
 	<prettyDate>January 1 – July 31, 2010</prettyDate>
 	<metadata>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Actions - Main metrics</name>
 		<module>Actions</module>
 		<action>get</action>

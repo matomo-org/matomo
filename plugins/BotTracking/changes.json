@@ -1,0 +1,9 @@
+[
+    {
+        "title": "AI Chatbot Tracking",
+        "description":  "Matomo introduces AI Chatbot tracking. See how AI Chatbots such as ChatGPT access your site and content, and gain insights that traditional analytics usually miss. These reports use server-side logs to identify chatbot traffic. To enable this feature, setup via a supported server integration is required.",
+        "link_name": "Learn here how to set up chatbot tracking",
+        "link": "/index.php?module=BotTracking&action=siteWithoutData&idSite=1",
+        "version": "5.8.0"
+    }
+]

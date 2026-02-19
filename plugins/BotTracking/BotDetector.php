@@ -12,27 +12,27 @@ declare(strict_types=1);
 namespace Piwik\Plugins\BotTracking;
 
 /**
- * Detects AI assistants and bots based on User-Agent patterns
+ * Detects AI chatbots and bots based on User-Agent patterns
  */
 class BotDetector
 {
-    public const BOT_TYPE_AI_ASSISTANT = 'ai_assistant';
+    public const BOT_TYPE_AI_CHATBOT = 'ai_chatbot';
 
     /** @var null|array{bot_name: string, bot_type: string} */
     private $detectionResult;
 
     /**
-     * AI Assistant/Bot User-Agent patterns to detect
+     * AI Chatbot/Bot User-Agent patterns to detect
      *
      * @var array<string, string>
      */
     private $aiAssistantPatterns = [
-        'ChatGPT-User'         => self::BOT_TYPE_AI_ASSISTANT,
-        'MistralAI-User'       => self::BOT_TYPE_AI_ASSISTANT,
-        'Gemini-Deep-Research' => self::BOT_TYPE_AI_ASSISTANT,
-        'Claude-User'          => self::BOT_TYPE_AI_ASSISTANT,
-        'Perplexity-User'      => self::BOT_TYPE_AI_ASSISTANT,
-        'Google-NotebookLM'    => self::BOT_TYPE_AI_ASSISTANT,
+        'ChatGPT-User'         => self::BOT_TYPE_AI_CHATBOT,
+        'MistralAI-User'       => self::BOT_TYPE_AI_CHATBOT,
+        'Gemini-Deep-Research' => self::BOT_TYPE_AI_CHATBOT,
+        'Claude-User'          => self::BOT_TYPE_AI_CHATBOT,
+        'Perplexity-User'      => self::BOT_TYPE_AI_CHATBOT,
+        'Google-NotebookLM'    => self::BOT_TYPE_AI_CHATBOT,
     ];
 
     public function __construct(string $userAgent)
@@ -41,7 +41,7 @@ class BotDetector
     }
 
     /**
-     * Detect if the User-Agent represents an AI assistant or bot
+     * Detect if the User-Agent represents an AI chatbot or bot
      *
      * @param string $userAgent The User-Agent string to check
      * @return null|array{bot_name: string, bot_type: string} Returns array if detected, null otherwise

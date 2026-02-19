@@ -3,7 +3,7 @@
 	<row>
 		<label>ChatGPT - example.com/article/1/page/1</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>ChatGPT</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>ChatGPT</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/1/page/1</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -11,7 +11,7 @@
 	<row>
 		<label>ChatGPT - example.com/article/1/page/2</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>ChatGPT</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>ChatGPT</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/1/page/2</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -19,7 +19,7 @@
 	<row>
 		<label>ChatGPT - example.com/article/3</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>ChatGPT</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>ChatGPT</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -27,7 +27,7 @@
 	<row>
 		<label>ChatGPT - example.com/article/4/page/1</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>ChatGPT</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>ChatGPT</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/4/page/1</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -35,7 +35,7 @@
 	<row>
 		<label>Claude - example.com/article/3</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Claude</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>Claude</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -43,7 +43,7 @@
 	<row>
 		<label>Claude - example.com/article/4/page/2</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Claude</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>Claude</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/4/page/2</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -51,7 +51,7 @@
 	<row>
 		<label>Gemini - example.com/article/3</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Gemini</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>Gemini</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -59,7 +59,7 @@
 	<row>
 		<label>Gemini - example.com/article/4/page/1</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Gemini</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>Gemini</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/4/page/1</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -67,7 +67,7 @@
 	<row>
 		<label>Gemini - example.com/article/4/page/2</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Gemini</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>Gemini</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/4/page/2</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -75,7 +75,7 @@
 	<row>
 		<label>Le Chat - example.com/article/2</label>
 		<requests>2</requests>
-		<BotTracking_AIAssistantName>Le Chat</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>Le Chat</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/2</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -83,7 +83,7 @@
 	<row>
 		<label>Le Chat - example.com/article/3</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Le Chat</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>Le Chat</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/3</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -91,7 +91,7 @@
 	<row>
 		<label>Le Chat - example.com/article/4/page/1</label>
 		<requests>1</requests>
-		<BotTracking_AIAssistantName>Le Chat</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>Le Chat</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/4/page/1</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -99,7 +99,7 @@
 	<row>
 		<label>NotebookLM - example.com/overview</label>
 		<requests>2</requests>
-		<BotTracking_AIAssistantName>NotebookLM</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>NotebookLM</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/overview</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>
@@ -107,7 +107,7 @@
 	<row>
 		<label>Perplexity - example.com/article/2</label>
 		<requests>2</requests>
-		<BotTracking_AIAssistantName>Perplexity</BotTracking_AIAssistantName>
+		<BotTracking_AIChatbotName>Perplexity</BotTracking_AIChatbotName>
 		<BotTracking_PageUrl>example.com/article/2</BotTracking_PageUrl>
 		<url />
 		<logo>plugins/Morpheus/icons/dist/aiAssistants/xx.png</logo>

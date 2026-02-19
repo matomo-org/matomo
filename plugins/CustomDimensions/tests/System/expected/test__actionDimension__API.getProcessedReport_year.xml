@@ -3,7 +3,7 @@
 	<website>Piwik test</website>
 	<prettyDate>2013</prettyDate>
 	<metadata>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>customdimension3</subcategory>
 		<name>MyName3</name>
 		<module>CustomDimensions</module>

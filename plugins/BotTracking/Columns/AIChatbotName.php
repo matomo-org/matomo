@@ -13,8 +13,8 @@ namespace Piwik\Plugins\BotTracking\Columns;
 
 use Piwik\Columns\Dimension;
 
-class AIAssistantName extends Dimension
+class AIChatbotName extends Dimension
 {
-    protected $nameSingular = 'BotTracking_ColumnAIAssistantName';
+    protected $nameSingular = 'BotTracking_ColumnAIChatbotName';
     protected $type = self::TYPE_TEXT;
 }

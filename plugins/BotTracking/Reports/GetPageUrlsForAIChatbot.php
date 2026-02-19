@@ -16,13 +16,13 @@ use Piwik\Plugin\Report;
 use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
 use Piwik\Plugins\BotTracking\Columns\PageUrl;
 
-class GetPageUrlsForAIAssistant extends Report
+class GetPageUrlsForAIChatbot extends Report
 {
     protected function init(): void
     {
         parent::init();
 
-        $this->name             = Piwik::translate('BotTracking_AIAssistantsReportTitle');
+        $this->name             = Piwik::translate('BotTracking_AIChatbotsReportTitle');
         $this->categoryId       = 'General_AIAssistants';
         $this->metrics          = [new Requests()];
         $this->processedMetrics = [];

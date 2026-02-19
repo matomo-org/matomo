@@ -76,14 +76,6 @@
 		<segment>visitDuration</segment>
 	</row>
 	<row>
-		<type>metric</type>
-		<category>Visitors</category>
-		<name>Visitor IP</name>
-		<segment>visitIp</segment>
-		<acceptedValues>13.54.122.1. Select IP ranges with notation: &lt;code&gt;visitIp&gt;13.54.122.0;visitIp&lt;13.54.122.255&lt;/code&gt;</acceptedValues>
-		<permission>1</permission>
-	</row>
-	<row>
 		<type>dimension</type>
 		<category>Visitors</category>
 		<name>AI Agent Name</name>
@@ -159,13 +151,6 @@
 		<name>Profilable</name>
 		<segment>profilable</segment>
 		<acceptedValues>1 for profilable (eg cookies were used), 0 for not profilable (eg no cookies were used)</acceptedValues>
-	</row>
-	<row>
-		<type>dimension</type>
-		<category>Visitors</category>
-		<name>Site time — hour (time of last action)</name>
-		<segment>visitServerHour</segment>
-		<acceptedValues>0, 1, 2, 3, ..., 20, 21, 22, 23</acceptedValues>
 	</row>
 	<row>
 		<type>dimension</type>

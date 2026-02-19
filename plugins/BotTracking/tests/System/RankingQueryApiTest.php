@@ -36,7 +36,7 @@ class RankingQueryApiTest extends SystemTestCase
         Cache::flushAll();
         self::deleteArchiveTables();
 
-        $this->runApiTests(['BotTracking.getAIAssistantRequests'], [
+        $this->runApiTests(['BotTracking.getAIChatbotRequests'], [
             'idSite'                 => 1,
             'date'                   => '2025-02-03',
             'periods'                => ['day', 'week'],
@@ -58,7 +58,7 @@ class RankingQueryApiTest extends SystemTestCase
         Cache::flushAll();
         self::deleteArchiveTables();
 
-        $this->runApiTests(['BotTracking.getAIAssistantRequests'], [
+        $this->runApiTests(['BotTracking.getAIChatbotRequests'], [
             'idSite'                 => 1,
             'date'                   => '2025-02-03',
             'periods'                => ['day', 'week'],

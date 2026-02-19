@@ -185,10 +185,10 @@ class Menu
      * Returns the &idSite=X&period=Y&date=Z query string fragment,
      * fetched from current logged-in user's preferences.
      *
-     * @param bool $websiteId
-     * @param bool $defaultPeriod
-     * @param bool $defaultDate
-     * @return array eg ['idSite' => 1, 'period' => 'day', 'date' => '2012-02-03']
+     * @param int|string|false $websiteId
+     * @param string|false $defaultPeriod
+     * @param string|false $defaultDate
+     * @return array{idSite: int|string, period: string, date: string}
      * @throws \Exception in case a website was not specified and a default website id could not be found
      */
     public function urlForDefaultUserParams($websiteId = false, $defaultPeriod = false, $defaultDate = false)

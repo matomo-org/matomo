@@ -133,7 +133,7 @@
 		<uniqueId>CustomDimensions_getCustomDimension_idDimension--6</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>customdimension3</subcategory>
 		<name>MyName3</name>
 		<module>CustomDimensions</module>
@@ -174,7 +174,7 @@
 		<uniqueId>CustomDimensions_getCustomDimension_idDimension--3</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>customdimension5</subcategory>
 		<name>MyName5</name>
 		<module>CustomDimensions</module>
