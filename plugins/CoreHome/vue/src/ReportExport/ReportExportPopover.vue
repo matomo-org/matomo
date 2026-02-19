@@ -27,7 +27,7 @@
             :name="'option_flat'"
             :title="translate('CoreHome_FlattenReport')"
             v-model="optionFlat"
-            v-show="hasSubtableOptionControls"
+            v-show="hasSubtables"
           >
           </Field>
         </div>
@@ -51,7 +51,7 @@
             :name="'option_expanded'"
             :title="translate('CoreHome_ExpandSubtables')"
             v-model="optionExpanded"
-            v-show="hasSubtableOptionControls && !isCsvOrTsv"
+            v-show="hasSubtables && !isCsvOrTsv"
           >
           </Field>
         </div>
@@ -504,7 +504,7 @@ export default defineComponent({
         }
       }
 
-      if (!effectiveOptionFlat && this.optionExpanded) {
+      if (this.hasSubtables && !effectiveOptionFlat && this.optionExpanded) {
         exportUrlParams.expanded = 1;
       }
 

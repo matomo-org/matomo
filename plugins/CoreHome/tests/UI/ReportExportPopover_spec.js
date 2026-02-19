@@ -18,6 +18,11 @@ describe('ReportExportPopover', function () {
       $('#reportExport div[name="option_expanded"] div.form-group.matomo-form-field').is(':visible')
     ));
   }
+  async function isOptionVisible(optionName) {
+    return await page.evaluate((nameValue) => (
+      $(`#reportExport div[name="${nameValue}"] div.form-group.matomo-form-field`).is(':visible')
+    ), optionName);
+  }
   async function clickFormat(format){
     await page.evaluate((formatValue) => {
       const selector = `#reportExport input[name="format"][value="${formatValue}"]`;
@@ -172,7 +177,7 @@ describe('ReportExportPopover', function () {
 
   });
 
-  it('should not force flat for CSV or TSV when no subtables are available, even when flat is preset', async function () {
+  it('should hide subtable controls and not include flat or expanded when no subtables are available, even when flat is preset', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
     await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
@@ -203,22 +208,23 @@ describe('ReportExportPopover', function () {
     });
     await page.waitForSelector('#reportExport', { visible: true });
 
-    await expectOptionChecked('option_flat', true);
-    await clickOption('option_flat');
-    await expectOptionChecked('option_flat', false);
+    expect(await isOptionVisible('option_flat')).to.equal(false);
+    expect(await isOptionExpandSubtableVisible()).to.equal(false);
+    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkNotContains('expanded=1');
 
     await clickFormat('CSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="CSV"]')?.checked === true
     ));
-    await expectOptionChecked('option_flat', false);
     await expectExportLinkNotContains('flat=1');
+    await expectExportLinkNotContains('expanded=1');
 
     await clickFormat('TSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="TSV"]')?.checked === true
     ));
-    await expectOptionChecked('option_flat', false);
     await expectExportLinkNotContains('flat=1');
+    await expectExportLinkNotContains('expanded=1');
   });
 });
