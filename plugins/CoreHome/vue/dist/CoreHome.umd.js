@@ -1166,6 +1166,9 @@ class AjaxHelper_AjaxHelper {
   // eslint-disable-line
   params, options = {}) {
     if (Array.isArray(params)) {
+      if (options.returnResponseObject) {
+        throw new Error(this.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
+      }
       const bulkRequestLimit = this.getBulkRequestLimit();
       if (bulkRequestLimit > 0 && params.length > bulkRequestLimit) {
         return this.sendChunkedBulkRequest(params, bulkRequestLimit, options);
@@ -1283,6 +1286,59 @@ class AjaxHelper_AjaxHelper {
       });
     };
     return sendChunk(0).then(chunkResults => chunkResults);
+  }
+  getBulkRequestUrls() {
+    if (this.postParams.method !== 'API.getBulkRequest' || !Array.isArray(this.postParams.urls)) {
+      return null;
+    }
+    return this.postParams.urls;
+  }
+  shouldSendBulkRequestInChunks() {
+    const bulkRequestUrls = this.getBulkRequestUrls();
+    if (!bulkRequestUrls) {
+      return false;
+    }
+    const bulkRequestLimit = AjaxHelper_AjaxHelper.getBulkRequestLimit();
+    return bulkRequestLimit > 0 && bulkRequestUrls.length > bulkRequestLimit;
+  }
+  shouldRejectBulkResponseObjectRequest() {
+    return !!this.getBulkRequestUrls() && this.resolveWithHelper;
+  }
+  sendBulkRequestInChunks() {
+    const bulkRequestUrls = this.getBulkRequestUrls();
+    if (!bulkRequestUrls) {
+      return Promise.resolve([]);
+    }
+    const chunkedAbortController = this.abortController || new AbortController();
+    this.abortController = chunkedAbortController;
+    const requestHandle = {
+      responseJSON: [],
+      abort() {
+        chunkedAbortController.abort();
+      }
+    };
+    this.requestHandle = requestHandle;
+    return AjaxHelper_AjaxHelper.fetch(bulkRequestUrls, {
+      withTokenInUrl: this.withToken,
+      headers: this.headers,
+      format: this.format,
+      createErrorNotification: !this.useRegularCallbackInCaseOfError,
+      abortController: chunkedAbortController,
+      errorElement: this.errorElement,
+      abortable: this.abortable
+    }).then(response => {
+      requestHandle.responseJSON = response;
+      if (this.loadingElement) {
+        AjaxHelper_$(this.loadingElement).hide();
+      }
+      if (this.callback) {
+        this.callback(response, 'success', requestHandle);
+      }
+      if (Matomo_Matomo.ajaxRequestFinished) {
+        Matomo_Matomo.ajaxRequestFinished();
+      }
+      return response;
+    });
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static post(params,
@@ -1545,8 +1601,14 @@ class AjaxHelper_AjaxHelper {
     if (AjaxHelper_$(this.errorElement).length) {
       AjaxHelper_$(this.errorElement).hide();
     }
+    if (this.shouldRejectBulkResponseObjectRequest()) {
+      throw new Error(AjaxHelper_AjaxHelper.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
+    }
     if (this.loadingElement) {
       AjaxHelper_$(this.loadingElement).fadeIn();
+    }
+    if (this.shouldSendBulkRequestInChunks()) {
+      return this.sendBulkRequestInChunks();
     }
     this.requestHandle = this.buildAjaxCall();
     if (this.abortable) {
@@ -1753,6 +1815,7 @@ class AjaxHelper_AjaxHelper {
     return this.requestHandle;
   }
 }
+AjaxHelper_defineProperty(AjaxHelper_AjaxHelper, "UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR", 'AjaxHelper returnResponseObject is not supported for bulk requests.');
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
 
 window.ajaxHelper = AjaxHelper_AjaxHelper;

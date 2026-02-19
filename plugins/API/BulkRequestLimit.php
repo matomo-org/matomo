@@ -19,7 +19,7 @@ class BulkRequestLimit
     public static function getCurrentLimit(): int
     {
         $configLimit = GeneralConfig::getConfigValue('API_bulk_request_limit');
-        $configLimit = $configLimit !== null ? (int)$configLimit : -1;
+        $configLimit = is_numeric($configLimit) ? (int)$configLimit : -1;
 
         if (Piwik::isUserIsAnonymous()) {
             $defaultLimit = Piwik::isUserHasSomeViewAccess() ? 50 : 10;

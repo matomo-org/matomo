@@ -11,6 +11,7 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 * Category names returned by `API.getReportMetadata` were updated to match UI terminology. Plugin integrations expecting old names may break:
     - `Actions` is now `Behaviour`
     - `Referrers` is now `Acquisition`
+* `AjaxHelper` no longer supports `returnResponseObject` for bulk requests (`API.getBulkRequest` / array-based `AjaxHelper.fetch`). Bulk requests now always resolve to merged response data.
 
 
 ### New config.ini.php settings

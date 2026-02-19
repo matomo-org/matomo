@@ -92,6 +92,8 @@ class ApiResponseError extends Error {}
  * Global ajax helper to handle requests within Matomo
  */
 export default class AjaxHelper<T = any> { // eslint-disable-line
+  private static readonly UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR = 'AjaxHelper returnResponseObject is not supported for bulk requests.';
+
   /**
    * Format of response
    */
@@ -188,6 +190,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     options: AjaxOptions = {},
   ): Promise<R> {
     if (Array.isArray(params)) {
+      if (options.returnResponseObject) {
+        throw new Error(this.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
+      }
+
       const bulkRequestLimit = this.getBulkRequestLimit();
       if (bulkRequestLimit > 0 && params.length > bulkRequestLimit) {
         return this.sendChunkedBulkRequest<R>(params, bulkRequestLimit, options);
@@ -309,7 +315,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
   }
 
   private static async sendChunkedBulkRequest<R = any>( // eslint-disable-line
-    bulkRequests: QueryParameters[],
+    bulkRequests: Array<string|QueryParameters>,
     bulkRequestLimit: number,
     options: AjaxOptions = {},
   ): Promise<R> {
@@ -322,7 +328,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       }
 
       return AjaxHelper.fetch<unknown[]>(
-        chunks[chunkIndex],
+        chunks[chunkIndex] as QueryParameters[],
         {
           ...options,
           returnResponseObject: false,
@@ -339,6 +345,75 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     };
 
     return sendChunk(0).then((chunkResults) => chunkResults as unknown as R);
+  }
+
+  private getBulkRequestUrls(): Array<string|QueryParameters>|null {
+    if (this.postParams.method !== 'API.getBulkRequest' || !Array.isArray(this.postParams.urls)) {
+      return null;
+    }
+
+    return this.postParams.urls as Array<string|QueryParameters>;
+  }
+
+  private shouldSendBulkRequestInChunks(): boolean {
+    const bulkRequestUrls = this.getBulkRequestUrls();
+    if (!bulkRequestUrls) {
+      return false;
+    }
+
+    const bulkRequestLimit = AjaxHelper.getBulkRequestLimit();
+    return bulkRequestLimit > 0 && bulkRequestUrls.length > bulkRequestLimit;
+  }
+
+  private shouldRejectBulkResponseObjectRequest(): boolean {
+    return !!this.getBulkRequestUrls() && this.resolveWithHelper;
+  }
+
+  private sendBulkRequestInChunks(): Promise<T | ErrorResponse> {
+    const bulkRequestUrls = this.getBulkRequestUrls();
+    if (!bulkRequestUrls) {
+      return Promise.resolve([] as unknown as (T | ErrorResponse));
+    }
+
+    const chunkedAbortController = this.abortController || new AbortController();
+    this.abortController = chunkedAbortController;
+
+    const requestHandle = {
+      responseJSON: [],
+      abort() {
+        chunkedAbortController.abort();
+      },
+    } as unknown as jqXHR;
+    this.requestHandle = requestHandle;
+
+    return AjaxHelper.fetch<T>(
+      bulkRequestUrls as QueryParameters[],
+      {
+        withTokenInUrl: this.withToken,
+        headers: this.headers,
+        format: this.format,
+        createErrorNotification: !this.useRegularCallbackInCaseOfError,
+        abortController: chunkedAbortController,
+        errorElement: this.errorElement,
+        abortable: this.abortable,
+      },
+    ).then((response) => {
+      requestHandle.responseJSON = response;
+
+      if (this.loadingElement) {
+        $(this.loadingElement).hide();
+      }
+
+      if (this.callback) {
+        this.callback(response, 'success', requestHandle);
+      }
+
+      if (Matomo.ajaxRequestFinished) {
+        Matomo.ajaxRequestFinished();
+      }
+
+      return response as (T | ErrorResponse);
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -569,8 +644,16 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       $(this.errorElement).hide();
     }
 
+    if (this.shouldRejectBulkResponseObjectRequest()) {
+      throw new Error(AjaxHelper.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
+    }
+
     if (this.loadingElement) {
       $(this.loadingElement).fadeIn();
+    }
+
+    if (this.shouldSendBulkRequestInChunks()) {
+      return this.sendBulkRequestInChunks();
     }
 
     this.requestHandle = this.buildAjaxCall();

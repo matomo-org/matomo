@@ -11,6 +11,7 @@ describe('AjaxHelperBulkRequestChunking', function () {
   this.fixture = "Piwik\\Tests\\Fixtures\\OneVisitorTwoVisits";
 
   const reportUrl = '?module=CoreHome&action=index&idSite=1&period=day&date=yesterday';
+  const unsupportedBulkResponseObjectError = 'AjaxHelper returnResponseObject is not supported for bulk requests.';
 
   async function loadReportPage() {
     await page.goto(reportUrl);
@@ -18,8 +19,8 @@ describe('AjaxHelperBulkRequestChunking', function () {
     await page.waitForFunction(() => window.ajaxHelper && window.piwik);
   }
 
-  async function runBulkRequestWithLimit(limit) {
-    return page.evaluate(async (bulkRequestLimit) => {
+  async function runBulkRequestWithLimit(limit, executionMode = 'fetch') {
+    return page.evaluate(async (bulkRequestLimit, mode) => {
       const originalAjax = window.$.ajax;
       const originalBulkLimit = window.piwik.apiBulkRequestLimit;
       const chunkSizes = [];
@@ -57,19 +58,44 @@ describe('AjaxHelperBulkRequestChunking', function () {
           format: 'json',
           index,
         }));
-        const response = await window.ajaxHelper.fetch(requests);
+        let response = null;
+        let errorMessage = null;
+
+        if (mode === 'instance') {
+          const helper = new window.ajaxHelper();
+          helper.setBulkRequests(...requests);
+          response = await helper.send();
+        } else if (mode === 'responseObject') {
+          try {
+            await window.ajaxHelper.fetch(requests, { returnResponseObject: true });
+          } catch (error) {
+            errorMessage = error && error.message ? error.message : `${error}`;
+          }
+        } else if (mode === 'instanceResponseObject') {
+          try {
+            const helper = new window.ajaxHelper();
+            helper.resolveWithHelper = true;
+            helper.setBulkRequests(...requests);
+            await helper.send();
+          } catch (error) {
+            errorMessage = error && error.message ? error.message : `${error}`;
+          }
+        } else {
+          response = await window.ajaxHelper.fetch(requests);
+        }
 
         return {
           chunkSizes,
-          resultLength: response.length,
-          firstIndex: response[0].index,
-          lastIndex: response[response.length - 1].index,
+          errorMessage,
+          resultLength: response ? response.length : null,
+          firstIndex: response ? response[0].index : null,
+          lastIndex: response ? response[response.length - 1].index : null,
         };
       } finally {
         window.$.ajax = originalAjax;
         window.piwik.apiBulkRequestLimit = originalBulkLimit;
       }
-    }, limit);
+    }, limit, executionMode);
   }
 
   it('should chunk bulk requests when request count is higher than configured limit', async function () {
@@ -92,5 +118,43 @@ describe('AjaxHelperBulkRequestChunking', function () {
     expect(result.resultLength).to.equal(5);
     expect(result.firstIndex).to.equal(0);
     expect(result.lastIndex).to.equal(4);
+  });
+
+  it('should chunk bulk requests when using the helper instance API', async function () {
+    await loadReportPage();
+
+    const result = await runBulkRequestWithLimit(2, 'instance');
+
+    expect(result.chunkSizes).to.deep.equal([2, 2, 1]);
+    expect(result.resultLength).to.equal(5);
+    expect(result.firstIndex).to.equal(0);
+    expect(result.lastIndex).to.equal(4);
+  });
+
+  it('should reject returnResponseObject for chunked bulk requests', async function () {
+    await loadReportPage();
+
+    const result = await runBulkRequestWithLimit(2, 'responseObject');
+
+    expect(result.chunkSizes).to.deep.equal([]);
+    expect(result.errorMessage).to.equal(unsupportedBulkResponseObjectError);
+  });
+
+  it('should reject returnResponseObject for chunked helper instance requests', async function () {
+    await loadReportPage();
+
+    const result = await runBulkRequestWithLimit(2, 'instanceResponseObject');
+
+    expect(result.chunkSizes).to.deep.equal([]);
+    expect(result.errorMessage).to.equal(unsupportedBulkResponseObjectError);
+  });
+
+  it('should reject returnResponseObject for non-chunked helper instance requests', async function () {
+    await loadReportPage();
+
+    const result = await runBulkRequestWithLimit(10, 'instanceResponseObject');
+
+    expect(result.chunkSizes).to.deep.equal([]);
+    expect(result.errorMessage).to.equal(unsupportedBulkResponseObjectError);
   });
 });
