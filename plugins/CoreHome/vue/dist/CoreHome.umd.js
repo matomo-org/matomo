@@ -1168,6 +1168,16 @@ class ChunkedBulkRequestError extends Error {
     this.errorThrown = errorThrown;
   }
 }
+class ChunkedBulkAbortError extends Error {
+  constructor() {
+    super('Chunked bulk request was aborted.');
+  }
+}
+class ChunkedBulkSessionTimeoutError extends Error {
+  constructor() {
+    super('Chunked bulk request timed out due to session expiration.');
+  }
+}
 /**
  * Global ajax helper to handle requests within Matomo
  */
@@ -1179,10 +1189,6 @@ class AjaxHelper_AjaxHelper {
     if (Array.isArray(params)) {
       if (options.returnResponseObject) {
         throw new Error(this.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
-      }
-      const bulkRequestLimit = this.getBulkRequestLimit();
-      if (bulkRequestLimit > 0 && params.length > bulkRequestLimit) {
-        return this.sendChunkedBulkRequest(params, bulkRequestLimit, options);
       }
     }
     const helper = new AjaxHelper_AjaxHelper();
@@ -1248,15 +1254,22 @@ class AjaxHelper_AjaxHelper {
         throw new ApiResponseError(errors.filter(e => e.length).join('\n'));
       }
       return result;
-    }).catch(xhr => {
-      if (createErrorNotification || xhr instanceof ApiResponseError) {
-        throw xhr;
+    }).catch(error => {
+      if (createErrorNotification || error instanceof ApiResponseError) {
+        throw error;
       }
       let message = 'Something went wrong';
-      if (xhr.status === 504) {
+      if (error instanceof ChunkedBulkAbortError) {
         message = 'Request was possibly aborted';
       }
-      if (xhr.status === 429) {
+      if (error instanceof ChunkedBulkSessionTimeoutError) {
+        message = 'Session timed out';
+      }
+      const status = typeof error === 'object' && error !== null && 'status' in error ? error.status : null;
+      if (status === 504) {
+        message = 'Request was possibly aborted';
+      }
+      if (status === 429) {
         message = 'Rate Limit was exceed';
       }
       throw new Error(message);
@@ -1275,49 +1288,6 @@ class AjaxHelper_AjaxHelper {
       chunks.push(elements.slice(i, i + chunkSize));
     }
     return chunks;
-  }
-  static keepPromisePending() {
-    return new Promise(
-    // keep promise unresolved to preserve legacy behavior on aborted requests
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    () => {});
-  }
-  static sendChunkedBulkRequest(
-  // eslint-disable-line
-  bulkRequests, bulkRequestLimit, options = {}) {
-    const chunks = this.splitIntoChunks(bulkRequests, bulkRequestLimit);
-    const results = [];
-    const errors = [];
-    let sequentialChain = Promise.resolve();
-    chunks.forEach(chunk => {
-      sequentialChain = sequentialChain.then(() => AjaxHelper_AjaxHelper.fetch(chunk, Object.assign(Object.assign({}, options), {}, {
-        redirectOnSuccess: false,
-        returnResponseObject: false
-      }))).then(chunkResult => {
-        if (Array.isArray(chunkResult)) {
-          results.push(...chunkResult);
-        } else {
-          results.push(chunkResult);
-        }
-      }).catch(error => {
-        if (error instanceof ApiResponseError) {
-          if (error.message) {
-            errors.push(error.message);
-          }
-          return;
-        }
-        throw error;
-      });
-    });
-    return sequentialChain.then(() => {
-      if (errors.length) {
-        throw new ApiResponseError(errors.join('\n'));
-      }
-      if (options.redirectOnSuccess) {
-        piwikHelper.redirect(options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined);
-      }
-      return results;
-    });
   }
   handleApiErrorResponseOrCallback(response,
   // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -1521,14 +1491,14 @@ class AjaxHelper_AjaxHelper {
         throw xhr;
       }
       if (xhr.statusText === 'abort' || xhr.status === 0) {
-        return AjaxHelper_AjaxHelper.keepPromisePending();
+        throw new ChunkedBulkAbortError();
       }
       const isInApp = !document.querySelector('#login_form');
       const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
       if (sessionTimedOut && isInApp) {
         setCookie('matomo_session_timed_out', '1', 60 * 1000);
         Matomo_Matomo.helper.refreshAfter(0);
-        return AjaxHelper_AjaxHelper.keepPromisePending();
+        throw new ChunkedBulkSessionTimeoutError();
       }
       console.log(`Warning: the ${AjaxHelper_$.param(this.getParams)} request failed!`);
       throw xhr;

@@ -103,6 +103,18 @@ class ChunkedBulkRequestError extends Error {
   }
 }
 
+class ChunkedBulkAbortError extends Error {
+  constructor() {
+    super('Chunked bulk request was aborted.');
+  }
+}
+
+class ChunkedBulkSessionTimeoutError extends Error {
+  constructor() {
+    super('Chunked bulk request timed out due to session expiration.');
+  }
+}
+
 /**
  * Global ajax helper to handle requests within Matomo
  */
@@ -208,11 +220,6 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       if (options.returnResponseObject) {
         throw new Error(this.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
       }
-
-      const bulkRequestLimit = this.getBulkRequestLimit();
-      if (bulkRequestLimit > 0 && params.length > bulkRequestLimit) {
-        return this.sendChunkedBulkRequest<R>(params, bulkRequestLimit, options);
-      }
     }
 
     const helper = new AjaxHelper<R>();
@@ -291,16 +298,26 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       }
 
       return result as R;
-    }).catch((xhr: jqXHR) => {
-      if (createErrorNotification || xhr instanceof ApiResponseError) {
-        throw xhr;
+    }).catch((error: unknown) => {
+      if (createErrorNotification || error instanceof ApiResponseError) {
+        throw error;
       }
 
       let message = 'Something went wrong';
-      if (xhr.status === 504) {
+      if (error instanceof ChunkedBulkAbortError) {
         message = 'Request was possibly aborted';
       }
-      if (xhr.status === 429) {
+      if (error instanceof ChunkedBulkSessionTimeoutError) {
+        message = 'Session timed out';
+      }
+
+      const status = typeof error === 'object' && error !== null && 'status' in error
+        ? (error as jqXHR).status
+        : null;
+      if (status === 504) {
+        message = 'Request was possibly aborted';
+      }
+      if (status === 429) {
         message = 'Rate Limit was exceed';
       }
       throw new Error(message);
@@ -327,64 +344,6 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     }
 
     return chunks;
-  }
-
-  private static keepPromisePending<R>(): Promise<R> {
-    return new Promise<R>(
-      // keep promise unresolved to preserve legacy behavior on aborted requests
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      () => {},
-    );
-  }
-
-  private static sendChunkedBulkRequest<R = any>( // eslint-disable-line
-    bulkRequests: Array<string|QueryParameters>,
-    bulkRequestLimit: number,
-    options: AjaxOptions = {},
-  ): Promise<R> {
-    const chunks = this.splitIntoChunks(bulkRequests, bulkRequestLimit);
-    const results: unknown[] = [];
-    const errors: string[] = [];
-    let sequentialChain = Promise.resolve();
-
-    chunks.forEach((chunk) => {
-      sequentialChain = sequentialChain.then(() => AjaxHelper.fetch<unknown[]>(
-        chunk as QueryParameters[],
-        {
-          ...options,
-          redirectOnSuccess: false,
-          returnResponseObject: false,
-        },
-      )).then((chunkResult) => {
-        if (Array.isArray(chunkResult)) {
-          results.push(...chunkResult);
-        } else {
-          results.push(chunkResult);
-        }
-      }).catch((error: unknown) => {
-        if (error instanceof ApiResponseError) {
-          if (error.message) {
-            errors.push(error.message);
-          }
-          return;
-        }
-        throw error;
-      });
-    });
-
-    return sequentialChain.then(() => {
-      if (errors.length) {
-        throw new ApiResponseError(errors.join('\n'));
-      }
-
-      if (options.redirectOnSuccess) {
-        piwikHelper.redirect(
-          options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined,
-        );
-      }
-
-      return results as unknown as R;
-    });
   }
 
   private handleApiErrorResponseOrCallback(
@@ -633,7 +592,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       }
 
       if (xhr.statusText === 'abort' || xhr.status === 0) {
-        return AjaxHelper.keepPromisePending<T | ErrorResponse>();
+        throw new ChunkedBulkAbortError();
       }
 
       const isInApp = !document.querySelector('#login_form');
@@ -642,7 +601,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       if (sessionTimedOut && isInApp) {
         setCookie('matomo_session_timed_out', '1', 60 * 1000);
         Matomo.helper.refreshAfter(0);
-        return AjaxHelper.keepPromisePending<T | ErrorResponse>();
+        throw new ChunkedBulkSessionTimeoutError();
       }
 
       console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
