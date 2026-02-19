@@ -643,15 +643,18 @@ class ArchiveSelector
                         yield $row;
                     }
 
-                    ksort($blobs);
+                    $subtableIds = array_keys($blobs);
+
+                    sort($subtableIds);
 
                     // $rawName = eg 'PluginName_ArchiveName'
                     $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']);
-                    foreach ($blobs as $subtableId => $blob) {
+                    foreach ($subtableIds as $subtableId) {
                         yield array_merge($row, [
-                            'value' => $blob,
+                            'value' => $blobs[$subtableId],
                             'name' => ArchiveSelector::appendIdSubtable($rawName, $subtableId),
                         ]);
+                        unset($blobs[$subtableId]);
                     }
                 } else {
                     yield $row;
