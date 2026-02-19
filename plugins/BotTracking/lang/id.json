@@ -1,5 +1,7 @@
 {
     "BotTracking": {
-        "PageUrl": "URL Halaman"
+        "PageUrl": "URL Halaman",
+        "NoDataHttpTrackingApi": "API Pelacakan HTTP",
+        "SiteWithoutDataBackToMatomo": "Kembali ke Matomo"
     }
 }
