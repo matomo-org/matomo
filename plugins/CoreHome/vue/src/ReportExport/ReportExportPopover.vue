@@ -39,7 +39,7 @@
             :name="'option_show_dimensions'"
             :title="translate('CoreHome_IncludeDimensionsSeparately')"
             v-model="optionShowDimensions"
-            v-show="hasMultipleDimensions && optionFlat"
+            v-show="hasSubtables && hasMultipleDimensions && optionFlat"
           >
           </Field>
         </div>
