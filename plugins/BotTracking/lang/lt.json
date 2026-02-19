@@ -1,5 +1,7 @@
 {
     "BotTracking": {
-        "PageUrl": "Puslapio URL"
+        "PageUrl": "Puslapio URL",
+        "NoDataHttpTrackingApi": "HTTP sekimo API",
+        "SiteWithoutDataBackToMatomo": "Atgal į Matomo"
     }
 }
