@@ -46,7 +46,7 @@ export default {
         || dataTable.param.show_dimensions === 1
         || dataTable.param.show_dimensions === '1';
       const hasSubtables = dataTable.numberOfSubtables > 0;
-      const hasSubtableOptionControls = optionFlat || hasSubtables;
+      const hasSubtableOptionControls = hasSubtables;
 
       const props = {
         initialReportType: 'default',
