@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "Side-URL"
+        "PageUrl": "Side-URL",
+        "SiteWithoutDataBackToMatomo": "Attende til Matomo"
     }
 }
