@@ -209,6 +209,7 @@ describe('ReportExportPopover', function () {
     await page.waitForSelector('#reportExport', { visible: true });
 
     expect(await isOptionVisible('option_flat')).to.equal(false);
+    expect(await isOptionVisible('option_show_dimensions')).to.equal(false);
     expect(await isOptionExpandSubtableVisible()).to.equal(false);
     await expectExportLinkNotContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
