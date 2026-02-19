@@ -184,7 +184,6 @@ export default defineComponent({
     SelectOnFocus,
   },
   props: {
-    hasSubtableOptionControls: Boolean,
     hasSubtables: Boolean,
     availableReportTypes: Object,
     availableReportFormats: {
@@ -301,7 +300,7 @@ export default defineComponent({
       },
     },
     optionFlat(newVal) {
-      if (!this.hasSubtableOptionControls) {
+      if (!this.hasSubtables) {
         return;
       }
 
@@ -325,7 +324,7 @@ export default defineComponent({
       }
     },
     optionExpanded(newVal) {
-      if (!this.hasSubtableOptionControls || this.isFormatWithoutExpanded(this.reportFormat)) {
+      if (!this.hasSubtables || this.isFormatWithoutExpanded(this.reportFormat)) {
         return;
       }
       if (newVal) {
