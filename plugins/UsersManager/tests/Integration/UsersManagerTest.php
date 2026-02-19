@@ -19,6 +19,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugins\LanguagesManager\Model as LanguagesModel;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Settings\Storage\UserScopedSettingsStore;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -475,6 +476,15 @@ class UsersManagerTest extends IntegrationTestCase
             Option::set($login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION, '{"PhoneNumbers":{"123":{"verified":true}}}');
             Option::set('ProfessionalServices.DismissedWidget.SampleWidget.' . $login, time());
 
+            $userSettingsStore = StaticContainer::get(UserScopedSettingsStore::class);
+            $userSettingsStore->set('Feedback', $login, 'nextFeedbackReminder', '2031-01-01');
+            $userSettingsStore->set('MobileMessaging', $login, MobileMessaging::PHONE_NUMBERS_OPTION, [
+                '456' => ['verified' => true],
+            ]);
+            $userSettingsStore->set('ProfessionalServices', $login, 'dismissedWidgets', [
+                'AnotherWidget' => time(),
+            ]);
+
             $corePluginsAdminSettings = new PluginSettingsTable('CorePluginsAdmin', $login);
             $settings = $corePluginsAdminSettings->load();
             $settings['disable_activate_tag_manager_page'] = '1';
@@ -503,6 +513,9 @@ class UsersManagerTest extends IntegrationTestCase
             $this->assertFalse(Option::get('Feedback.nextFeedbackReminder.' . $login));
             $this->assertFalse(Option::get($login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION));
             $this->assertFalse(Option::get('ProfessionalServices.DismissedWidget.SampleWidget.' . $login));
+            $this->assertSame([], $userSettingsStore->getAll('Feedback', $login));
+            $this->assertSame([], $userSettingsStore->getAll('MobileMessaging', $login));
+            $this->assertSame([], $userSettingsStore->getAll('ProfessionalServices', $login));
 
             $this->assertSame([], $corePluginsAdminSettings->load());
             $this->assertSame([], $tourSettings->load());

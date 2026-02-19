@@ -9,16 +9,26 @@
 
 namespace Piwik\Plugins\ProfessionalServices;
 
-use Piwik\Option;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
+use Piwik\Settings\Storage\LegacyUserSettingsMigrator;
+use Piwik\Settings\Storage\UserScopedSettingsStore;
 
 class PromoWidgetDismissal
 {
-    private const DISMISSED_WIDGET_OPTION_NAME = 'ProfessionalServices.DismissedWidget.%s.%s';
+    private const STORE_KEY_DISMISSED_WIDGETS = 'dismissedWidgets';
 
     public function dismissPromoWidget(string $widgetName): void
     {
-        Option::set($this->getDismissedWidgetOptionName($widgetName), time());
+        $userLogin = Piwik::getCurrentUserLogin();
+        if (empty($userLogin)) {
+            return;
+        }
+
+        $this->getLegacyMigrator()->migrateProfessionalServicesDismissedWidgets($userLogin);
+        $dismissedWidgets = $this->getDismissedWidgets($userLogin);
+        $dismissedWidgets[$widgetName] = time();
+        $this->getStore()->set('ProfessionalServices', $userLogin, self::STORE_KEY_DISMISSED_WIDGETS, $dismissedWidgets);
     }
 
     public function isPromoWidgetDismissedForCurrentUser(string $widgetName): bool
@@ -34,11 +44,33 @@ class PromoWidgetDismissal
 
     private function isPromoWidgetDismissed(string $widgetName): bool
     {
-        return Option::get($this->getDismissedWidgetOptionName($widgetName)) > 0;
+        $userLogin = Piwik::getCurrentUserLogin();
+        if (empty($userLogin)) {
+            return false;
+        }
+
+        $this->getLegacyMigrator()->migrateProfessionalServicesDismissedWidgets($userLogin);
+        $dismissedWidgets = $this->getDismissedWidgets($userLogin);
+        return !empty($dismissedWidgets[$widgetName]) && $dismissedWidgets[$widgetName] > 0;
     }
 
-    private function getDismissedWidgetOptionName(string $widgetName): string
+    private function getDismissedWidgets(string $userLogin): array
     {
-        return sprintf(self::DISMISSED_WIDGET_OPTION_NAME, $widgetName, Piwik::getCurrentUserLogin());
+        $value = $this->getStore()->get('ProfessionalServices', $userLogin, self::STORE_KEY_DISMISSED_WIDGETS, []);
+        if (is_array($value)) {
+            return $value;
+        }
+
+        return [];
+    }
+
+    private function getStore(): UserScopedSettingsStore
+    {
+        return StaticContainer::get(UserScopedSettingsStore::class);
+    }
+
+    private function getLegacyMigrator(): LegacyUserSettingsMigrator
+    {
+        return StaticContainer::get(LegacyUserSettingsMigrator::class);
     }
 }

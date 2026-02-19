@@ -32,6 +32,8 @@ use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Request\AuthenticationToken;
+use Piwik\Settings\Storage\LegacyUserSettingsMigrator;
+use Piwik\Settings\Storage\UserScopedSettingsStore;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -224,8 +226,8 @@ class API extends \Piwik\Plugin\API
             Piwik::checkUserHasSuperUserAccess();
         }
 
-        $nameIfSupported = $this->getPreferenceId($userLogin, $preferenceName);
-        Option::set($nameIfSupported, $preferenceValue);
+        $this->assertPreferenceNameIsSupported($preferenceName);
+        $this->getUserSettingsStore()->set('UsersManager', $userLogin, $preferenceName, $preferenceValue);
     }
 
     /**
@@ -284,8 +286,16 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $userPreferences = [];
+        $supportedPreferenceNames = [];
         foreach ($preferenceNames as $preferenceName) {
+            $this->assertPreferenceNameIsSupported($preferenceName);
+            $supportedPreferenceNames[] = $preferenceName;
+        }
+
+        $userPreferences = $this->getUserSettingsStore()->getValuesForAllUsers('UsersManager', $supportedPreferenceNames);
+
+        // fallback for not-yet-migrated old options
+        foreach ($supportedPreferenceNames as $preferenceName) {
             $optionNameMatchAllUsers = $this->getPreferenceId('%', $preferenceName);
             $preferences = Option::getLike($optionNameMatchAllUsers);
 
@@ -293,17 +303,28 @@ class API extends \Piwik\Plugin\API
                 $lastUnderscore = strrpos($optionName, self::OPTION_NAME_PREFERENCE_SEPARATOR);
                 $userName = substr($optionName, 0, $lastUnderscore);
                 $preference = substr($optionName, $lastUnderscore + 1);
-                $userPreferences[$userName][$preference] = $optionValue;
+                if (!isset($userPreferences[$userName][$preference])) {
+                    $userPreferences[$userName][$preference] = $optionValue;
+                }
             }
         }
+
         return $userPreferences;
     }
 
     private function getPreferenceId($login, $preference)
     {
+        $this->assertPreferenceNameIsSupported($preference);
+
+        return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
+    }
+
+    private function assertPreferenceNameIsSupported($preference): void
+    {
         if (false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
             throw new Exception("Preference name cannot contain underscores.");
         }
+
         $names = [
           self::PREFERENCE_DEFAULT_REPORT,
           self::PREFERENCE_DEFAULT_REPORT_DATE,
@@ -318,12 +339,13 @@ class API extends \Piwik\Plugin\API
         ) {
             throw new Exception('Not supported preference name: ' . $preference);
         }
-        return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
     }
 
     private function getPreferenceValue($userLogin, $preferenceName)
     {
-        return Option::get($this->getPreferenceId($userLogin, $preferenceName));
+        $this->assertPreferenceNameIsSupported($preferenceName);
+        $this->getLegacyUserSettingsMigrator()->migrateUsersManagerPreference($userLogin, $preferenceName);
+        return $this->getUserSettingsStore()->get('UsersManager', $userLogin, $preferenceName, false);
     }
 
     private function getDefaultUserPreference($preferenceName, $login)
@@ -340,6 +362,16 @@ class API extends \Piwik\Plugin\API
             default:
                 return false;
         }
+    }
+
+    private function getUserSettingsStore(): UserScopedSettingsStore
+    {
+        return StaticContainer::get(UserScopedSettingsStore::class);
+    }
+
+    private function getLegacyUserSettingsMigrator(): LegacyUserSettingsMigrator
+    {
+        return StaticContainer::get(LegacyUserSettingsMigrator::class);
     }
 
     /**

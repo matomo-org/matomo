@@ -9,11 +9,12 @@
 
 namespace Piwik\Plugins\CorePluginsAdmin\Model;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Plugin;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
-use Piwik\Settings\Storage\Backend\PluginSettingsTable;
+use Piwik\Settings\Storage\UserScopedSettingsStore;
 
 class TagManagerTeaser
 {
@@ -44,16 +45,14 @@ class TagManagerTeaser
 
     public function disableForUser()
     {
-        $table = $this->getTable();
-        $settings = $table->load();
+        $settings = $this->getStore()->getAll('CorePluginsAdmin', $this->login);
         $settings['disable_activate_tag_manager_page'] = 1;
-        $table->save($settings);
+        $this->getStore()->setAll('CorePluginsAdmin', $this->login, $settings);
     }
 
     public function isEnabledForUser()
     {
-        $pluginSettingsTable = $this->getTable();
-        $settings = $pluginSettingsTable->load();
+        $settings = $this->getStore()->getAll('CorePluginsAdmin', $this->login);
 
         return empty($settings['disable_activate_tag_manager_page']);
     }
@@ -69,7 +68,7 @@ class TagManagerTeaser
         Option::delete(self::DISABLE_GLOBALLY_KEY);
 
         // no need to keep any old login entries
-        $this->getTable()->delete();
+        $this->getStore()->deleteAll('CorePluginsAdmin', $this->login);
     }
 
     public function isEnabledGlobally()
@@ -78,8 +77,8 @@ class TagManagerTeaser
         return empty($value);
     }
 
-    private function getTable()
+    private function getStore(): UserScopedSettingsStore
     {
-        return new PluginSettingsTable('CorePluginsAdmin', $this->login);
+        return StaticContainer::get(UserScopedSettingsStore::class);
     }
 }

@@ -9,9 +9,12 @@
 
 namespace Piwik\Plugins\MobileMessaging;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Settings\Storage\LegacyUserSettingsMigrator;
+use Piwik\Settings\Storage\UserScopedSettingsStore;
 
 class Model
 {
@@ -243,10 +246,7 @@ class Model
 
     private function setUserSettings(string $login, $settings): void
     {
-        Option::set(
-            $login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION,
-            json_encode($settings)
-        );
+        $this->getStore()->setAll('MobileMessaging', $login, $settings);
     }
 
     private function getCredentialManagerLogin(): string
@@ -256,16 +256,8 @@ class Model
 
     private function getUserSettings(string $login): array
     {
-        $optionIndex = $login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION;
-        $userSettings = Option::get($optionIndex);
-
-        if (empty($userSettings)) {
-            $userSettings = [];
-        } else {
-            $userSettings = json_decode($userSettings, true);
-        }
-
-        return $userSettings;
+        $this->getLegacyMigrator()->migrateMobileMessagingSettings($login);
+        return $this->getStore()->getAll('MobileMessaging', $login);
     }
 
     private function getPhoneNumbersFromSettings(string $login): array
@@ -303,5 +295,15 @@ class Model
         }
 
         return $phoneNumbers;
+    }
+
+    private function getStore(): UserScopedSettingsStore
+    {
+        return StaticContainer::get(UserScopedSettingsStore::class);
+    }
+
+    private function getLegacyMigrator(): LegacyUserSettingsMigrator
+    {
+        return StaticContainer::get(LegacyUserSettingsMigrator::class);
     }
 }

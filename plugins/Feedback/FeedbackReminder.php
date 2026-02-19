@@ -9,27 +9,38 @@
 
 namespace Piwik\Plugins\Feedback;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Option;
+use Piwik\Settings\Storage\LegacyUserSettingsMigrator;
+use Piwik\Settings\Storage\UserScopedSettingsStore;
 
 class FeedbackReminder
 {
     public $userLogin;
-    public $option;
 
     public function __construct()
     {
         $this->userLogin = Piwik::getCurrentUserLogin();
-        $this->option = 'Feedback.nextFeedbackReminder';
     }
 
     public function getUserOption()
     {
-        return Option::get("{$this->option}.{$this->userLogin}");
+        $this->getLegacyMigrator()->migrateFeedbackReminder($this->userLogin);
+        return $this->getStore()->get('Feedback', $this->userLogin, 'nextFeedbackReminder', false);
     }
 
     public function setUserOption($value)
     {
-        Option::set("{$this->option}.{$this->userLogin}", $value);
+        $this->getStore()->set('Feedback', $this->userLogin, 'nextFeedbackReminder', $value);
+    }
+
+    private function getStore(): UserScopedSettingsStore
+    {
+        return StaticContainer::get(UserScopedSettingsStore::class);
+    }
+
+    private function getLegacyMigrator(): LegacyUserSettingsMigrator
+    {
+        return StaticContainer::get(LegacyUserSettingsMigrator::class);
     }
 }
