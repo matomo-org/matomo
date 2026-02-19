@@ -187,6 +187,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     params: QueryParameters|QueryParameters[],
     options: AjaxOptions = {},
   ): Promise<R> {
+    if (Array.isArray(params)) {
+      const bulkRequestLimit = this.getBulkRequestLimit();
+      if (bulkRequestLimit > 0 && params.length > bulkRequestLimit) {
+        return this.sendChunkedBulkRequest<R>(params, bulkRequestLimit, options);
+      }
+    }
+
     const helper = new AjaxHelper<R>();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
@@ -277,6 +284,61 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       }
       throw new Error(message);
     });
+  }
+
+  private static getBulkRequestLimit(): number {
+    const bulkRequestLimit = parseInt(`${Matomo.apiBulkRequestLimit}`, 10);
+    if (Number.isNaN(bulkRequestLimit)) {
+      return -1;
+    }
+
+    return bulkRequestLimit;
+  }
+
+  private static splitIntoChunks<ElementType>(
+    elements: ElementType[],
+    chunkSize: number,
+  ): ElementType[][] {
+    const chunks: ElementType[][] = [];
+
+    for (let i = 0; i < elements.length; i += chunkSize) {
+      chunks.push(elements.slice(i, i + chunkSize));
+    }
+
+    return chunks;
+  }
+
+  private static async sendChunkedBulkRequest<R = any>( // eslint-disable-line
+    bulkRequests: QueryParameters[],
+    bulkRequestLimit: number,
+    options: AjaxOptions = {},
+  ): Promise<R> {
+    const chunks = this.splitIntoChunks(bulkRequests, bulkRequestLimit);
+    const results: unknown[] = [];
+
+    const sendChunk = (chunkIndex: number): Promise<unknown[]> => {
+      if (chunkIndex >= chunks.length) {
+        return Promise.resolve(results);
+      }
+
+      return AjaxHelper.fetch<unknown[]>(
+        chunks[chunkIndex],
+        {
+          ...options,
+          returnResponseObject: false,
+        },
+      ).then((chunkResult) => {
+        if (Array.isArray(chunkResult)) {
+          results.push(...chunkResult);
+        } else {
+          results.push(chunkResult);
+        }
+
+        return sendChunk(chunkIndex + 1);
+      });
+    };
+
+    return sendChunk(0).then((chunkResults) => chunkResults as unknown as R);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

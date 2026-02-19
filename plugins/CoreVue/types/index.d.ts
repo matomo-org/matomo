@@ -176,6 +176,7 @@ declare global {
     userHasSomeAdminAccess: boolean;
     requiresPasswordConfirmation: boolean;
     disableTrackingMatomoAppLinks: boolean;
+    apiBulkRequestLimit: number;
 
     visitorLogEnabled: boolean;
     updatePeriodParamsFromUrl(): void;

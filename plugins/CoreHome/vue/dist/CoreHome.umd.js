@@ -1165,6 +1165,12 @@ class AjaxHelper_AjaxHelper {
   static fetch(
   // eslint-disable-line
   params, options = {}) {
+    if (Array.isArray(params)) {
+      const bulkRequestLimit = this.getBulkRequestLimit();
+      if (bulkRequestLimit > 0 && params.length > bulkRequestLimit) {
+        return this.sendChunkedBulkRequest(params, bulkRequestLimit, options);
+      }
+    }
     const helper = new AjaxHelper_AjaxHelper();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
@@ -1241,6 +1247,42 @@ class AjaxHelper_AjaxHelper {
       }
       throw new Error(message);
     });
+  }
+  static getBulkRequestLimit() {
+    const bulkRequestLimit = parseInt(`${Matomo_Matomo.apiBulkRequestLimit}`, 10);
+    if (Number.isNaN(bulkRequestLimit)) {
+      return -1;
+    }
+    return bulkRequestLimit;
+  }
+  static splitIntoChunks(elements, chunkSize) {
+    const chunks = [];
+    for (let i = 0; i < elements.length; i += chunkSize) {
+      chunks.push(elements.slice(i, i + chunkSize));
+    }
+    return chunks;
+  }
+  static async sendChunkedBulkRequest(
+  // eslint-disable-line
+  bulkRequests, bulkRequestLimit, options = {}) {
+    const chunks = this.splitIntoChunks(bulkRequests, bulkRequestLimit);
+    const results = [];
+    const sendChunk = chunkIndex => {
+      if (chunkIndex >= chunks.length) {
+        return Promise.resolve(results);
+      }
+      return AjaxHelper_AjaxHelper.fetch(chunks[chunkIndex], Object.assign(Object.assign({}, options), {}, {
+        returnResponseObject: false
+      })).then(chunkResult => {
+        if (Array.isArray(chunkResult)) {
+          results.push(...chunkResult);
+        } else {
+          results.push(chunkResult);
+        }
+        return sendChunk(chunkIndex + 1);
+      });
+    };
+    return sendChunk(0).then(chunkResults => chunkResults);
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static post(params,
