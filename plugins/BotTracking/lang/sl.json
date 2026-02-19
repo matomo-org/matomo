@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "URL spletne strani"
+        "PageUrl": "URL spletne strani",
+        "SiteWithoutDataBackToMatomo": "Nazaj na Matomo"
     }
 }
