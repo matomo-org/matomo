@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "URL หน้า"
+        "PageUrl": "URL หน้า",
+        "SiteWithoutDataBackToMatomo": "กลับไปยัง Matomo"
     }
 }
