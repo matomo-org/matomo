@@ -15,7 +15,7 @@ use Piwik\Http\HttpCodeException;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Cache;
 use Piwik\Common;
-use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Context;
 use Piwik\DataTable;
@@ -508,10 +508,19 @@ class Request
             throw $ex;
         }
 
-        $allowWriteAmin = Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] == 1;
+        $allowWriteAdminModuleActionConfig = StaticContainer::get('token_auth.write_admin_allowed_module_actions');
+
+        if (!is_array($allowWriteAdminModuleActionConfig)) {
+            $allowWriteAdminModuleActionConfig = [];
+        }
+
+        $allowWriteAdmin = GeneralConfig::getConfigValue('enable_framed_allow_write_admin_token_auth') == 1;
+        $allowWriteAdminModuleAction = in_array($module . '.' . $action, $allowWriteAdminModuleActionConfig, true);
+
         if (
             Piwik::isUserHasSomeWriteAccess()
-            && !$allowWriteAmin
+            && !$allowWriteAdmin
+            && !$allowWriteAdminModuleAction
         ) {
             // we allow UI authentication/ embedding widgets / reports etc only for users that have only view
             // access. it's mostly there to get users to use auth tokens of view users when embedding reports
@@ -519,7 +528,8 @@ class Request
             // token_auth is also fine in CLI mode as eg doAsSuperUser might be used etc
             //
             // NOTE: this does not apply if the [General] enable_framed_allow_write_admin_token_auth INI
-            // option is set.
+            // option is set, or if the current module/action is allowlisted in the
+            // token_auth.write_admin_allowed_module_actions DI entry.
             $ex = new \Piwik\Exception\Exception(Piwik::translate(
                 'Widgetize_ViewAccessRequired',
                 [Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/faq_147/') . 'https://matomo.org/faq/troubleshooting/faq_147/</a>']

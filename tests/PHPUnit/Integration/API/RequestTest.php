@@ -15,6 +15,7 @@ use Piwik\AuthResult;
 use Piwik\Cache;
 use Piwik\Common;
 use Piwik\Config;
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -234,6 +235,95 @@ class RequestTest extends IntegrationTestCase
         Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
     }
 
+    public function testCheckTokenAuthIsNotLimitedAllowsWriteTokenAuthIfModuleActionConfigSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
+        $this->setAllowedModuleActions(['SomePlugin.someMethod']);
+
+        $this->idSitesAccess['view'] = [];
+        $this->idSitesAccess['write'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertTrue($this->access->isUserHasSomeWriteAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function testCheckTokenAuthIsNotLimitedAllowsAdminTokenAuthIfModuleActionConfigSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
+        $this->setAllowedModuleActions(['SomePlugin.someMethod']);
+
+        $this->idSitesAccess['view'] = [];
+        $this->idSitesAccess['admin'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertTrue($this->access->isUserHasSomeAdminAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function testCheckTokenAuthIsNotLimitedDoesNotAllowWriteTokenAuthIfModuleActionConfigCaseDoesNotMatch()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
+        $this->setAllowedModuleActions(['someplugin.someMethod']);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Widgetize_ViewAccessRequired');
+
+        $this->idSitesAccess['view'] = [];
+        $this->idSitesAccess['write'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertTrue($this->access->isUserHasSomeWriteAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function testCheckTokenAuthIsNotLimitedAllowsWriteTokenAuthIfCurrentModuleActionIsInMultipleConfiguredValues()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
+        $this->setAllowedModuleActions([
+            'OtherPlugin.otherMethod',
+            'SomePlugin.someMethod',
+            'ThirdPlugin.thirdMethod',
+        ]);
+
+        $this->idSitesAccess['view'] = [];
+        $this->idSitesAccess['write'] = [1];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+        $this->assertFalse($this->access->hasSuperUserAccess());
+        $this->assertTrue($this->access->isUserHasSomeWriteAccess());
+
+        Common::$isCliMode = false;
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
+    public function testCheckTokenAuthIsNotLimitedDoesNotAllowSuperUserTokenAuthIfModuleActionConfigSet()
+    {
+        Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 0;
+        $this->setAllowedModuleActions(['SomePlugin.someMethod']);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Widgetize_TooHighAccessLevel');
+
+        Common::$isCliMode = false;
+        $this->access->setSuperUserAccess(true);
+
+        Request::checkTokenAuthIsNotLimited('SomePlugin', 'someMethod');
+    }
+
     public function testCheckTokenAuthIsNotLimitedAllowsViewTokenAuthIfConfigSet()
     {
         Config::getInstance()->General['enable_framed_allow_write_admin_token_auth'] = 1;
@@ -377,6 +467,11 @@ class RequestTest extends IntegrationTestCase
         $mock->reloadAccess($auth);
 
         return $mock;
+    }
+
+    private function setAllowedModuleActions(array $moduleActions): void
+    {
+        StaticContainer::getContainer()->set('token_auth.write_admin_allowed_module_actions', $moduleActions);
     }
 
     private function setNestedApiInvocationCount(int $count): void

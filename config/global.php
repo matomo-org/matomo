@@ -95,6 +95,20 @@ return [
      */
     'DocumentationGenerator.customParameters' => [],
 
+    /**
+     * A list of exact (case-sensitive) `Module.Action` pairs where token_auths with write/admin
+     * access are allowed for non-API requests.
+     *
+     * Plugins can register actions in their `config/config.php`:
+     *
+     * return [
+     *     'token_auth.write_admin_allowed_module_actions' => \Piwik\DI::add(['MyPlugin.myAction']),
+     * ];
+     *
+     * @internal
+     */
+    'token_auth.write_admin_allowed_module_actions' => [],
+
     \Piwik\Log\Logger::class => Piwik\DI::create(\Piwik\Log\NullLogger::class),
     \Piwik\Log\LoggerInterface::class => Piwik\DI::create(\Piwik\Log\NullLogger::class),
 
