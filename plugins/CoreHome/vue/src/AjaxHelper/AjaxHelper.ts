@@ -88,6 +88,21 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
 
 class ApiResponseError extends Error {}
 
+class ChunkedBulkRequestError extends Error {
+  xhr: jqXHR;
+
+  status: string;
+
+  errorThrown: unknown;
+
+  constructor(xhr: jqXHR, status: string, errorThrown: unknown) {
+    super('Chunked bulk request failed.');
+    this.xhr = xhr;
+    this.status = status;
+    this.errorThrown = errorThrown;
+  }
+}
+
 /**
  * Global ajax helper to handle requests within Matomo
  */
@@ -314,37 +329,159 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     return chunks;
   }
 
-  private static async sendChunkedBulkRequest<R = any>( // eslint-disable-line
+  private static keepPromisePending<R>(): Promise<R> {
+    return new Promise<R>(
+      // keep promise unresolved to preserve legacy behavior on aborted requests
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      () => {},
+    );
+  }
+
+  private static sendChunkedBulkRequest<R = any>( // eslint-disable-line
     bulkRequests: Array<string|QueryParameters>,
     bulkRequestLimit: number,
     options: AjaxOptions = {},
   ): Promise<R> {
     const chunks = this.splitIntoChunks(bulkRequests, bulkRequestLimit);
     const results: unknown[] = [];
+    const errors: string[] = [];
+    let sequentialChain = Promise.resolve();
 
-    const sendChunk = (chunkIndex: number): Promise<unknown[]> => {
-      if (chunkIndex >= chunks.length) {
-        return Promise.resolve(results);
-      }
-
-      return AjaxHelper.fetch<unknown[]>(
-        chunks[chunkIndex] as QueryParameters[],
+    chunks.forEach((chunk) => {
+      sequentialChain = sequentialChain.then(() => AjaxHelper.fetch<unknown[]>(
+        chunk as QueryParameters[],
         {
           ...options,
+          redirectOnSuccess: false,
           returnResponseObject: false,
         },
-      ).then((chunkResult) => {
+      )).then((chunkResult) => {
         if (Array.isArray(chunkResult)) {
           results.push(...chunkResult);
         } else {
           results.push(chunkResult);
         }
-
-        return sendChunk(chunkIndex + 1);
+      }).catch((error: unknown) => {
+        if (error instanceof ApiResponseError) {
+          if (error.message) {
+            errors.push(error.message);
+          }
+          return;
+        }
+        throw error;
       });
-    };
+    });
 
-    return sendChunk(0).then((chunkResults) => chunkResults as unknown as R);
+    return sequentialChain.then(() => {
+      if (errors.length) {
+        throw new ApiResponseError(errors.join('\n'));
+      }
+
+      if (options.redirectOnSuccess) {
+        piwikHelper.redirect(
+          options.redirectOnSuccess !== true ? options.redirectOnSuccess : undefined,
+        );
+      }
+
+      return results as unknown as R;
+    });
+  }
+
+  private handleApiErrorResponseOrCallback(
+    response: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    status: string,
+    request: jqXHR,
+  ): void {
+    if (this.loadingElement) {
+      $(this.loadingElement).hide();
+    }
+
+    const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
+    const errors = results.filter((r) => r.result === 'error')
+      .map((r) => r.message as string)
+      .filter((e) => e.length)
+      // count occurrences of error messages
+      .reduce((acc: Record<string, number>, e: string) => {
+        acc[e] = (acc[e] || 0) + 1;
+        return acc;
+      }, {});
+
+    if (errors && Object.keys(errors).length && !this.useRegularCallbackInCaseOfError) {
+      let errorMessage = '';
+      Object.keys(errors).forEach((error) => {
+        if (errorMessage.length) {
+          errorMessage += '<br />';
+        }
+        // append error count if it occured more than once
+        if (errors[error] > 1) {
+          errorMessage += `${error} (${errors[error]}x)`;
+        } else {
+          errorMessage += error;
+        }
+      });
+      let placeAt = null;
+      let type: string|null = 'toast';
+      if ($(this.errorElement).length && errorMessage.length) {
+        $(this.errorElement).show();
+        placeAt = this.errorElement;
+        type = null;
+      }
+
+      const isLoggedIn = !document.querySelector('#login_form');
+      if (errorMessage && isLoggedIn) {
+        const UI = window['require']('piwik/UI'); // eslint-disable-line
+        const notification = new UI.Notification();
+        notification.show(errorMessage, {
+          placeat: placeAt,
+          context: 'error',
+          type,
+          id: 'ajaxHelper',
+        });
+        notification.scrollToNotification();
+      }
+    } else if (this.callback) {
+      this.callback(response, status, request);
+    }
+  }
+
+  private buildRequestUrl(getParameters: QueryParameters): string {
+    const parameters = this.mixinDefaultGetParams(getParameters);
+
+    let url = this.getUrl;
+    if (url[url.length - 1] !== '?') {
+      url += '&';
+    }
+
+    if (parameters.segment) {
+      url = `${url}segment=${parameters.segment}&`;
+      delete parameters.segment;
+    }
+    if (parameters.date) {
+      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
+      delete parameters.date;
+    }
+    url += $.param(parameters);
+
+    return url;
+  }
+
+  private buildChunkedBulkAjaxCall(urls: Array<string|QueryParameters>): JQuery.jqXHR {
+    const url = this.buildRequestUrl({ ...this.getParams });
+
+    const urlsProcessed = urls.map((bulkUrl) => (typeof bulkUrl === 'string' ? bulkUrl : $.param(bulkUrl)));
+
+    return $.ajax({
+      type: 'POST',
+      async: true,
+      url,
+      dataType: this.format || 'json',
+      headers: this.headers ? this.headers : undefined,
+      data: this.mixinDefaultPostParams({
+        ...this.postParams,
+        urls: urlsProcessed,
+      }),
+      timeout: this.timeout !== null ? this.timeout : undefined,
+    });
   }
 
   private getBulkRequestUrls(): Array<string|QueryParameters>|null {
@@ -375,44 +512,142 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       return Promise.resolve([] as unknown as (T | ErrorResponse));
     }
 
+    const bulkRequestLimit = AjaxHelper.getBulkRequestLimit();
+    if (bulkRequestLimit <= 0) {
+      return Promise.resolve([] as unknown as (T | ErrorResponse));
+    }
+
     const chunkedAbortController = this.abortController || new AbortController();
     this.abortController = chunkedAbortController;
 
+    let activeChunkRequest: jqXHR|null = null;
+    let isQueueFinalized = false;
+    let hasCompleteCallbackRun = false;
+
+    const finalizeQueue = () => {
+      if (isQueueFinalized || !this.abortable) {
+        return;
+      }
+
+      window.globalAjaxQueue.active -= 1;
+      isQueueFinalized = true;
+    };
+
+    const runCompleteCallback = (request: jqXHR, status: string) => {
+      if (hasCompleteCallbackRun || !this.completeCallback) {
+        return;
+      }
+
+      hasCompleteCallbackRun = true;
+      this.completeCallback(request, status);
+    };
+
     const requestHandle = {
-      responseJSON: [],
-      abort() {
+      readyState: 1,
+      status: 0,
+      statusText: '',
+      responseJSON: [] as unknown[],
+      abort: () => {
         chunkedAbortController.abort();
       },
-    } as unknown as jqXHR;
-    this.requestHandle = requestHandle;
+    };
+    const requestHandleAsJqXHR = requestHandle as unknown as jqXHR;
+    let callbackRequest = requestHandleAsJqXHR;
+    this.requestHandle = requestHandleAsJqXHR;
 
-    return AjaxHelper.fetch<T>(
-      bulkRequestUrls as QueryParameters[],
-      {
-        withTokenInUrl: this.withToken,
-        headers: this.headers,
-        format: this.format,
-        createErrorNotification: !this.useRegularCallbackInCaseOfError,
-        abortController: chunkedAbortController,
-        errorElement: this.errorElement,
-        abortable: this.abortable,
-      },
-    ).then((response) => {
-      requestHandle.responseJSON = response;
+    if (this.abortable) {
+      window.globalAjaxQueue.push(requestHandleAsJqXHR as unknown as XMLHttpRequest);
+    }
 
-      if (this.loadingElement) {
-        $(this.loadingElement).hide();
+    chunkedAbortController.signal.addEventListener('abort', () => {
+      if (activeChunkRequest) {
+        activeChunkRequest.abort();
+      }
+    });
+
+    const chunks = AjaxHelper.splitIntoChunks(bulkRequestUrls, bulkRequestLimit);
+    const results: unknown[] = [];
+
+    const sendChunk = (chunkIndex: number): Promise<unknown[]> => {
+      if (chunkIndex >= chunks.length) {
+        return Promise.resolve(results);
       }
 
-      if (this.callback) {
-        this.callback(response, 'success', requestHandle);
-      }
+      activeChunkRequest = this.buildChunkedBulkAjaxCall(chunks[chunkIndex]);
+
+      return new Promise<unknown[]>((resolve, reject) => {
+        activeChunkRequest!.then((chunkResult: unknown, status: string, xhr: jqXHR) => {
+          callbackRequest = xhr;
+          requestHandle.readyState = xhr.readyState;
+          requestHandle.status = xhr.status;
+          requestHandle.statusText = xhr.statusText || status;
+
+          if (Array.isArray(chunkResult)) {
+            results.push(...chunkResult);
+          } else {
+            results.push(chunkResult);
+          }
+
+          resolve(results);
+        }).fail((xhr: jqXHR, status: string, errorThrown: unknown) => {
+          requestHandle.readyState = xhr.readyState;
+          requestHandle.status = xhr.status;
+          requestHandle.statusText = xhr.statusText || status;
+          reject(new ChunkedBulkRequestError(xhr, status, errorThrown));
+        });
+      }).then(() => sendChunk(chunkIndex + 1));
+    };
+
+    return sendChunk(0).then((chunkResults) => {
+      requestHandle.readyState = 4;
+      requestHandle.responseJSON = chunkResults;
+
+      this.handleApiErrorResponseOrCallback(chunkResults, 'success', callbackRequest);
+
+      finalizeQueue();
+      runCompleteCallback(callbackRequest, 'success');
 
       if (Matomo.ajaxRequestFinished) {
         Matomo.ajaxRequestFinished();
       }
 
-      return response as (T | ErrorResponse);
+      return chunkResults as unknown as (T | ErrorResponse);
+    }).catch((error: unknown) => {
+      if (!(error instanceof ChunkedBulkRequestError)) {
+        throw error;
+      }
+
+      const { xhr, status, errorThrown } = error;
+
+      finalizeQueue();
+
+      if (this.errorCallback) {
+        this.errorCallback.apply(this, [xhr, status, errorThrown]);
+      }
+
+      runCompleteCallback(xhr, status);
+
+      if (xhr.status === 429) {
+        console.log(`Warning: the '${$.param(this.getParams)}' request was rate limited!`);
+        throw xhr;
+      }
+
+      if (xhr.statusText === 'abort' || xhr.status === 0) {
+        return AjaxHelper.keepPromisePending<T | ErrorResponse>();
+      }
+
+      const isInApp = !document.querySelector('#login_form');
+      const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
+
+      if (sessionTimedOut && isInApp) {
+        setCookie('matomo_session_timed_out', '1', 60 * 1000);
+        Matomo.helper.refreshAfter(0);
+        return AjaxHelper.keepPromisePending<T | ErrorResponse>();
+      }
+
+      console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
+
+      throw xhr;
     });
   }
 
@@ -722,24 +957,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    */
   private buildAjaxCall(): JQuery.jqXHR {
     const self = this;
-    const parameters = this.mixinDefaultGetParams(this.getParams);
+    const url = this.buildRequestUrl(this.getParams);
 
-    let url = this.getUrl;
-    if (url[url.length - 1] !== '?') {
-      url += '&';
-    }
-
-    // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
-    // URL encodes the values)
-    if (parameters.segment) {
-      url = `${url}segment=${parameters.segment}&`;
-      delete parameters.segment;
-    }
-    if (parameters.date) {
-      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
-      delete parameters.date;
-    }
-    url += $.param(parameters);
     const ajaxCall = {
       type: 'POST',
       async: true,
@@ -757,56 +976,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
       },
       success: (response: any, status: string, request: jqXHR) => { // eslint-disable-line
-        if (this.loadingElement) {
-          $(this.loadingElement).hide();
-        }
-
-        const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
-        const errors = results.filter((r) => r.result === 'error')
-          .map((r) => r.message as string)
-          .filter((e) => e.length)
-          // count occurrences of error messages
-          .reduce((acc: Record<string, number>, e: string) => {
-            acc[e] = (acc[e] || 0) + 1;
-            return acc;
-          }, {});
-
-        if (errors && Object.keys(errors).length && !this.useRegularCallbackInCaseOfError) {
-          let errorMessage = '';
-          Object.keys(errors).forEach((error) => {
-            if (errorMessage.length) {
-              errorMessage += '<br />';
-            }
-            // append error count if it occured more than once
-            if (errors[error] > 1) {
-              errorMessage += `${error} (${errors[error]}x)`;
-            } else {
-              errorMessage += error;
-            }
-          });
-          let placeAt = null;
-          let type: string|null = 'toast';
-          if ($(this.errorElement).length && errorMessage.length) {
-            $(this.errorElement).show();
-            placeAt = this.errorElement;
-            type = null;
-          }
-
-          const isLoggedIn = !document.querySelector('#login_form');
-          if (errorMessage && isLoggedIn) {
-            const UI = window['require']('piwik/UI'); // eslint-disable-line
-            const notification = new UI.Notification();
-            notification.show(errorMessage, {
-              placeat: placeAt,
-              context: 'error',
-              type,
-              id: 'ajaxHelper',
-            });
-            notification.scrollToNotification();
-          }
-        } else if (this.callback) {
-          this.callback(response, status, request);
-        }
+        this.handleApiErrorResponseOrCallback(response, status, request);
 
         if (self.abortable) {
           window.globalAjaxQueue.active -= 1;

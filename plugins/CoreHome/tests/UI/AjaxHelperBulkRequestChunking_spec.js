@@ -23,7 +23,16 @@ describe('AjaxHelperBulkRequestChunking', function () {
     return page.evaluate(async (bulkRequestLimit, mode) => {
       const originalAjax = window.$.ajax;
       const originalBulkLimit = window.piwik.apiBulkRequestLimit;
+      const originalRedirect = window.piwikHelper.redirect;
       const chunkSizes = [];
+
+      let redirectCallCount = 0;
+      const redirectCalls = [];
+
+      window.piwikHelper.redirect = (params) => {
+        redirectCallCount += 1;
+        redirectCalls.push(params || null);
+      };
 
       window.piwik.apiBulkRequestLimit = bulkRequestLimit;
 
@@ -31,11 +40,28 @@ describe('AjaxHelperBulkRequestChunking', function () {
         const urls = Array.isArray(ajaxOptions.data.urls) ? ajaxOptions.data.urls : [];
         const chunkOffset = chunkSizes.reduce((sum, chunkSize) => sum + chunkSize, 0);
         chunkSizes.push(urls.length);
+        const chunkNumber = chunkSizes.length - 1;
 
-        const data = urls.map((url, index) => ({
-          url,
-          index: chunkOffset + index,
-        }));
+        const data = urls.map((url, index) => {
+          if (mode === 'instanceUseCallbackInCaseOfError') {
+            return {
+              result: 'error',
+              message: `chunk-${chunkOffset + index}`,
+            };
+          }
+
+          if (mode === 'fetchChunkErrors' && index === 0) {
+            return {
+              result: 'error',
+              message: `chunk-${chunkOffset + index}`,
+            };
+          }
+
+          return {
+            url,
+            index: chunkOffset + index,
+          };
+        });
 
         return {
           readyState: 4,
@@ -49,6 +75,12 @@ describe('AjaxHelperBulkRequestChunking', function () {
           },
           abort() {
           },
+          getResponseHeader(headerName) {
+            if (headerName === 'X-Test-Header') {
+              return `chunk-${chunkNumber}`;
+            }
+            return null;
+          },
         };
       };
 
@@ -60,14 +92,51 @@ describe('AjaxHelperBulkRequestChunking', function () {
         }));
         let response = null;
         let errorMessage = null;
+        let callbackCallCount = 0;
+        let callbackResultLength = null;
+        let completeCallbackCallCount = 0;
+        let completeCallbackStatus = null;
+        let completeCallbackHasHeaderApi = null;
+        let completeCallbackHeaderValue = null;
 
         if (mode === 'instance') {
           const helper = new window.ajaxHelper();
           helper.setBulkRequests(...requests);
           response = await helper.send();
+        } else if (mode === 'instanceCompleteCallback') {
+          const helper = new window.ajaxHelper();
+          helper.setBulkRequests(...requests);
+          helper.setCompleteCallback((xhr, status) => { // eslint-disable-line no-unused-vars
+            completeCallbackCallCount += 1;
+            completeCallbackStatus = status;
+            completeCallbackHasHeaderApi = typeof xhr.getResponseHeader === 'function';
+            completeCallbackHeaderValue = completeCallbackHasHeaderApi
+              ? xhr.getResponseHeader('X-Test-Header')
+              : null;
+          });
+          response = await helper.send();
+        } else if (mode === 'instanceUseCallbackInCaseOfError') {
+          const helper = new window.ajaxHelper();
+          helper.setBulkRequests(...requests);
+          helper.useCallbackInCaseOfError();
+          helper.setCallback((result) => {
+            callbackCallCount += 1;
+            callbackResultLength = Array.isArray(result) ? result.length : null;
+          });
+          try {
+            response = await helper.send();
+          } catch (error) {
+            errorMessage = error && error.message ? error.message : `${error}`;
+          }
         } else if (mode === 'responseObject') {
           try {
             await window.ajaxHelper.fetch(requests, { returnResponseObject: true });
+          } catch (error) {
+            errorMessage = error && error.message ? error.message : `${error}`;
+          }
+        } else if (mode === 'fetchChunkErrors') {
+          try {
+            await window.ajaxHelper.fetch(requests);
           } catch (error) {
             errorMessage = error && error.message ? error.message : `${error}`;
           }
@@ -80,6 +149,10 @@ describe('AjaxHelperBulkRequestChunking', function () {
           } catch (error) {
             errorMessage = error && error.message ? error.message : `${error}`;
           }
+        } else if (mode === 'fetchRedirectOnSuccess') {
+          response = await window.ajaxHelper.fetch(requests, {
+            redirectOnSuccess: { update: 1 },
+          });
         } else {
           response = await window.ajaxHelper.fetch(requests);
         }
@@ -90,10 +163,19 @@ describe('AjaxHelperBulkRequestChunking', function () {
           resultLength: response ? response.length : null,
           firstIndex: response ? response[0].index : null,
           lastIndex: response ? response[response.length - 1].index : null,
+          callbackCallCount,
+          callbackResultLength,
+          completeCallbackCallCount,
+          completeCallbackStatus,
+          completeCallbackHasHeaderApi,
+          completeCallbackHeaderValue,
+          redirectCallCount,
+          redirectCalls,
         };
       } finally {
         window.$.ajax = originalAjax;
         window.piwik.apiBulkRequestLimit = originalBulkLimit;
+        window.piwikHelper.redirect = originalRedirect;
       }
     }, limit, executionMode);
   }
@@ -129,6 +211,53 @@ describe('AjaxHelperBulkRequestChunking', function () {
     expect(result.resultLength).to.equal(5);
     expect(result.firstIndex).to.equal(0);
     expect(result.lastIndex).to.equal(4);
+  });
+
+  it('should call complete callback for chunked helper instance requests', async function () {
+    await loadReportPage();
+
+    const result = await runBulkRequestWithLimit(2, 'instanceCompleteCallback');
+
+    expect(result.chunkSizes).to.deep.equal([2, 2, 1]);
+    expect(result.completeCallbackCallCount).to.equal(1);
+    expect(result.completeCallbackStatus).to.equal('success');
+    expect(result.completeCallbackHasHeaderApi).to.equal(true);
+    expect(result.completeCallbackHeaderValue).to.equal('chunk-2');
+  });
+
+  it('should preserve useCallbackInCaseOfError for chunked helper instance requests', async function () {
+    await loadReportPage();
+
+    const result = await runBulkRequestWithLimit(2, 'instanceUseCallbackInCaseOfError');
+
+    expect(result.chunkSizes).to.deep.equal([2, 2, 1]);
+    expect(result.errorMessage).to.equal(null);
+    expect(result.resultLength).to.equal(5);
+    expect(result.callbackCallCount).to.equal(1);
+    expect(result.callbackResultLength).to.equal(5);
+  });
+
+  it('should process all chunks before rejecting for API errors in chunked fetch requests', async function () {
+    await loadReportPage();
+
+    const result = await runBulkRequestWithLimit(2, 'fetchChunkErrors');
+
+    expect(result.chunkSizes).to.deep.equal([2, 2, 1]);
+    expect(result.resultLength).to.equal(null);
+    expect(result.errorMessage).to.contain('chunk-0');
+    expect(result.errorMessage).to.contain('chunk-2');
+    expect(result.errorMessage).to.contain('chunk-4');
+  });
+
+  it('should call redirectOnSuccess only once for chunked fetch requests', async function () {
+    await loadReportPage();
+
+    const result = await runBulkRequestWithLimit(2, 'fetchRedirectOnSuccess');
+
+    expect(result.chunkSizes).to.deep.equal([2, 2, 1]);
+    expect(result.resultLength).to.equal(5);
+    expect(result.redirectCallCount).to.equal(1);
+    expect(result.redirectCalls).to.deep.equal([{ update: 1 }]);
   });
 
   it('should reject returnResponseObject for chunked bulk requests', async function () {
