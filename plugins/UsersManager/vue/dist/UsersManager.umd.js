@@ -3495,7 +3495,7 @@ function PersonalSettingsvue_type_template_id_d36e962e_render(_ctx, _cache, $pro
         _ctx.doesRequireReload = true;
       })],
       title: '',
-      introduction: 'Theme',
+      introduction: _ctx.translate('UsersManager_Theme'),
       options: _ctx.themeModeOptions
     }, null, 8, ["modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
       uicontrol: "radio",

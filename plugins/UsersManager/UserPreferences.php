@@ -12,6 +12,7 @@ namespace Piwik\Plugins\UsersManager;
 use Piwik\Config;
 use Piwik\Period\PeriodValidator;
 use Piwik\Piwik;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 
@@ -59,10 +60,12 @@ class UserPreferences
      */
     public function getThemeMode(): string
     {
-        return $this->api->getUserPreference(
+        $themeMode = $this->api->getUserPreference(
             APIUsersManager::PREFERENCE_THEME_MODE,
             Piwik::getCurrentUserLogin()
         );
+
+        return ThemeStyles::normalizeThemeMode(is_string($themeMode) ? $themeMode : null);
     }
 
     /**

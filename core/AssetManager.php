@@ -23,7 +23,6 @@ use Piwik\AssetManager\UIAssetMerger\JScriptUIAssetMerger;
 use Piwik\AssetManager\UIAssetMerger\StylesheetUIAssetMerger;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\UsersManager\UserPreferences;
 
 /**
  * AssetManager is the class used to manage the inclusion of UI assets:
@@ -41,8 +40,7 @@ use Piwik\Plugins\UsersManager\UserPreferences;
  */
 class AssetManager extends Singleton
 {
-    public const MERGED_CSS_FILE_BASE = "asset_manager_global_css.";
-    public const MERGED_CSS_FILE_EXT = ".css";
+    public const MERGED_CSS_FILE = "asset_manager_global_css.css";
     public const MERGED_CORE_JS_FILE = "asset_manager_core_js.js";
     public const MERGED_NON_CORE_JS_FILE = "asset_manager_non_core_js.js";
 
@@ -471,8 +469,7 @@ class AssetManager extends Singleton
      */
     public function getMergedStylesheetAsset()
     {
-        $themeMode = (new UserPreferences())->getThemeMode();
-        return $this->getMergedUIAsset(self::MERGED_CSS_FILE_BASE . $themeMode . self::MERGED_CSS_FILE_EXT);
+        return $this->getMergedUIAsset(self::MERGED_CSS_FILE);
     }
 
     /**

@@ -268,7 +268,7 @@ class ThemeStyles
 
     public function __construct(string $themeMode)
     {
-        $this->themeMode = $themeMode;
+        $this->themeMode = self::normalizeThemeMode($themeMode);
         $this->colorFocusRingAlternative = $this->colorBrand;
         $this->colorMenuContrastText = $this->colorText;
         $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
@@ -295,6 +295,32 @@ class ThemeStyles
         return $result;
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAvailableThemeModes(): array
+    {
+        return [
+            self::LIGHT_MODE,
+            self::AUTO_MODE,
+            self::DARK_MODE,
+        ];
+    }
+
+    public static function isValidThemeMode(string $mode): bool
+    {
+        return in_array($mode, self::getAvailableThemeModes(), true);
+    }
+
+    public static function normalizeThemeMode(?string $mode): string
+    {
+        if (!is_string($mode) || !self::isValidThemeMode($mode)) {
+            return self::LIGHT_MODE;
+        }
+
+        return $mode;
+    }
+
     public function getIsLightMode(): bool
     {
         return $this->themeMode === self::LIGHT_MODE;
@@ -317,30 +343,108 @@ class ThemeStyles
             return $value;
         }
 
-        return $this->getIsDarkMode() ? $value[1] : $value[0];
+        return $this->getIsDarkMode()
+            ? $this->getArrayDarkValue($value)
+            : $this->getArrayLightValue($value);
     }
 
     public function toLessCode()
     {
-        $result = '';
+        $result = $this->toCssVariablesCode();
+
         foreach (get_object_vars($this) as $name => $value) {
-            $varName = isset(self::$propertyNamesToLessVariableNames[$name]) ? self::$propertyNamesToLessVariableNames[$name] : $this->getGenericThemeVarName($name);
-            if (is_array($value)) {
-                if ($this->getIsDarkMode()) {
-                    $result .= "@$varName: $value[1];\n";
-                } elseif ($this->getIsLightMode()) {
-                    $result .= "@$varName: $value[0];\n";
-                } else {
-                    $result .= "@$varName: light-dark($value[0], $value[1]);\n";
-                }
-            } else {
-                $result .= "@$varName: $value;\n";
+            if ($name === 'themeMode') {
+                continue;
             }
+
+            $varName = $this->getLessVariableName($name);
+            $result .= "@$varName: var(--$varName);\n";
         }
+
         return $result;
     }
 
-    private function getGenericThemeVarName($propertyName)
+    private function getLessVariableName(string $propertyName): string
+    {
+        if (isset(self::$propertyNamesToLessVariableNames[$propertyName])) {
+            return self::$propertyNamesToLessVariableNames[$propertyName];
+        }
+
+        return $this->getGenericThemeVarName($propertyName);
+    }
+
+    private function toCssVariablesCode(): string
+    {
+        $lightDefinitions = '';
+        $darkDefinitions = '';
+        $autoDarkDefinitions = '';
+        $hasDarkOverrides = false;
+
+        foreach (get_object_vars($this) as $name => $value) {
+            if ($name === 'themeMode') {
+                continue;
+            }
+
+            $cssVariableName = '--' . $this->getLessVariableName($name);
+            if (is_array($value)) {
+                $lightValue = $this->getArrayLightValue($value);
+                $darkValue = $this->getArrayDarkValue($value);
+
+                $lightDefinitions .= "  $cssVariableName: " . $lightValue . ";\n";
+
+                if ($lightValue !== $darkValue) {
+                    $hasDarkOverrides = true;
+                    $darkDefinitions .= "  $cssVariableName: " . $darkValue . ";\n";
+                    $autoDarkDefinitions .= "    $cssVariableName: " . $darkValue . ";\n";
+                }
+            } else {
+                $lightDefinitions .= "  $cssVariableName: $value;\n";
+            }
+        }
+
+        $result = ":root {\n"
+            . "  color-scheme: light;\n"
+            . $lightDefinitions
+            . "}\n";
+
+        if (!$hasDarkOverrides) {
+            return $result;
+        }
+
+        return $result
+            . "html[data-theme-mode=\"dark\"] {\n"
+            . "  color-scheme: dark;\n"
+            . $darkDefinitions
+            . "}\n"
+            . "html[data-theme-mode=\"auto\"] {\n"
+            . "  color-scheme: light dark;\n"
+            . "}\n"
+            . "@media (prefers-color-scheme: dark) {\n"
+            . "  html[data-theme-mode=\"auto\"] {\n"
+            . $autoDarkDefinitions
+            . "  }\n"
+            . "}\n";
+    }
+
+    private function getArrayLightValue(array $value): string
+    {
+        if (array_key_exists(0, $value)) {
+            return (string) $value[0];
+        }
+
+        return (string) reset($value);
+    }
+
+    private function getArrayDarkValue(array $value): string
+    {
+        if (array_key_exists(1, $value)) {
+            return (string) $value[1];
+        }
+
+        return $this->getArrayLightValue($value);
+    }
+
+    private function getGenericThemeVarName(string $propertyName): string
     {
         return 'theme-' . $propertyName;
     }

@@ -257,9 +257,9 @@ class Controller extends ControllerAdmin
 
         $view->themeMode = $userPreferences->getThemeMode();
         $view->themeModeOptions = array(
-            array('key' => ThemeStyles::LIGHT_MODE, 'value' => 'Default'), // TODO: translate
-            array('key' => ThemeStyles::AUTO_MODE, 'value' => 'Automatic'), // TODO: remove
-            array('key' => ThemeStyles::DARK_MODE, 'value' => 'Dark'),
+            array('key' => ThemeStyles::LIGHT_MODE, 'value' => Piwik::translate('UsersManager_DefaultThemeMode')),
+            array('key' => ThemeStyles::AUTO_MODE, 'value' => Piwik::translate('UsersManager_AutomaticThemeMode')),
+            array('key' => ThemeStyles::DARK_MODE, 'value' => Piwik::translate('UsersManager_DarkThemeMode')),
         );
 
         $defaultReport   = $userPreferences->getDefaultReport();
@@ -616,7 +616,8 @@ class Controller extends ControllerAdmin
         try {
             $this->checkTokenInUrl();
 
-            $themeMode = Common::getRequestVar('themeMode');
+            $themeMode = Common::getRequestVar('themeMode', APIUsersManager::PREFERENCE_DEFAULT_THEME_MODE, 'string');
+            $themeMode = ThemeStyles::normalizeThemeMode($themeMode);
             $defaultReport = Common::getRequestVar('defaultReport');
             $defaultDate = Common::getRequestVar('defaultDate');
             $language = Common::getRequestVar('language');

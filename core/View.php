@@ -11,7 +11,6 @@ namespace Piwik;
 
 use Exception;
 use Piwik\AssetManager\UIAssetCacheBuster;
-use Piwik\Plugins\UsersManager\UserPreferences;
 use Piwik\Request\AuthenticationToken;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugins\CoreAdminHome\Controller;
@@ -359,8 +358,7 @@ class View implements ViewInterface
             } else {
                 $content = $assetManager->getMergedStylesheet()->getContent();
             }
-            $themeMode = (new UserPreferences())->getThemeMode();
-            $cssCacheBusterId = $cacheBuster->md5BasedCacheBuster($content) . '.' . $themeMode;
+            $cssCacheBusterId = $cacheBuster->md5BasedCacheBuster($content);
             $cache->save('cssCacheBusterId', $cssCacheBusterId);
         }
 

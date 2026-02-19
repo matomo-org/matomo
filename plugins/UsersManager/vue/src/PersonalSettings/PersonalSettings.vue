@@ -65,7 +65,7 @@
           v-model="theThemeMode"
           @update:model-value="theThemeMode = $event; doesRequireReload = true"
           :title="''"
-          :introduction="'Theme'"
+          :introduction="translate('UsersManager_Theme')"
           :options="themeModeOptions"
         />
       </div>

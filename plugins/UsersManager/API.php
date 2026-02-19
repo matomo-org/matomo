@@ -228,6 +228,10 @@ class API extends \Piwik\Plugin\API
             Piwik::checkUserHasSuperUserAccess();
         }
 
+        if ($preferenceName === self::PREFERENCE_THEME_MODE) {
+            $preferenceValue = ThemeStyles::normalizeThemeMode($preferenceValue);
+        }
+
         $nameIfSupported = $this->getPreferenceId($userLogin, $preferenceName);
         Option::set($nameIfSupported, $preferenceValue);
     }

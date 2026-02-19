@@ -18,7 +18,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\StylesheetLessCompileException;
 use Piwik\Piwik;
 use Piwik\Plugin\Manager;
-use Piwik\Plugins\UsersManager\UserPreferences;
 
 class StylesheetUIAssetMerger extends UIAssetMerger
 {
@@ -268,8 +267,7 @@ class StylesheetUIAssetMerger extends UIAssetMerger
 
     private function saveConcatenatedAssets($concatenatedAssets)
     {
-        $themeMode = (new UserPreferences())->getThemeMode();
-        $file = StaticContainer::get('path.tmp') . '/assets/uimergedassets.' . $themeMode . '.concat.less';
+        $file = StaticContainer::get('path.tmp') . '/assets/uimergedassets.concat.less';
         if (is_writable(dirname($file))) {
             file_put_contents($file, $concatenatedAssets);
         }

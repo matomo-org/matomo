@@ -1,6 +1,7 @@
 {
     "UsersManager": {
         "2FA": "2FA",
+        "AutomaticThemeMode": "Automatic",
         "UsesTwoFactorAuthentication": "Uses two-factor authentication",
         "TwoFactorAuthentication": "Two-factor authentication",
         "ResetTwoFactorAuthentication": "Reset two-factor authentication",
@@ -75,6 +76,8 @@
         "IfYouWouldLikeToChangeThePasswordTypeANewOne": "If you would like to change the password type a new one. Otherwise, leave this blank.",
         "YourCurrentPassword": "Your current password",
         "CurrentPasswordNotCorrect": "The current password you entered is not correct.",
+        "DarkThemeMode": "Dark",
+        "DefaultThemeMode": "Default",
         "ConfirmWithPassword": "Please enter your password to confirm this change.",
         "ConfirmWithReAuthentication": "Please re-authenticate to confirm this change.",
         "ConfirmThisChange": "Please confirm this change.",
@@ -106,6 +109,7 @@
         "SuperUserAccessManagementGrantMore": "You can grant Super User access to other users of Matomo here. Please use this feature carefully.",
         "SuperUserAccessManagementMainDescription": "Super users have the highest permissions. They can perform all administrative tasks such as adding new websites to monitor, adding users, changing user permissions, activating and deactivating plugins and even installing new plugins from the Marketplace.",
         "TheLoginScreen": "The login screen",
+        "Theme": "Theme",
         "ThereAreCurrentlyNRegisteredUsers": "There are currently %s registered users.",
         "TokenAuth": "API Authentication Token",
         "TokenRegenerateConfirmSelf": "Changing the API authentication token will invalidate your own token. If the current token is in use, you need to update all API clients with the newly generated token. Do you really want to change your authentication token?",
