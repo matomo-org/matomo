@@ -57,15 +57,15 @@ class BotDetectorTest extends TestCase
     public function getBotUserAgents(): array
     {
         return [
-            ['ChatGPT-User/1.0', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
-            ['chatgpt-user/1.0', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
-            ['CHATGPT-USER/1.0', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
-            ['Mozilla/5.0 (compatible; ChatGPT-User/1.0; +https://openai.com)', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
-            ['Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; MistralAI-User/1.0; +https://docs.mistral.ai/robots)', 'MistralAI-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
-            ['Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Gemini-Deep-Research; +https://gemini.google/overview/deep-research/) Chrome/135.0.0.0 Safari/537.36', 'Gemini-Deep-Research', BotDetector::BOT_TYPE_AI_ASSISTANT],
-            ['Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Claude-User/1.0; +Claude-User@anthropic.com)', 'Claude-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
-            ['Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Perplexity-User/1.0; +https://perplexity.ai/perplexity-user)', 'Perplexity-User', BotDetector::BOT_TYPE_AI_ASSISTANT],
-            ['Google-NotebookLM', 'Google-NotebookLM', BotDetector::BOT_TYPE_AI_ASSISTANT],
+            ['ChatGPT-User/1.0', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_CHATBOT],
+            ['chatgpt-user/1.0', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_CHATBOT],
+            ['CHATGPT-USER/1.0', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_CHATBOT],
+            ['Mozilla/5.0 (compatible; ChatGPT-User/1.0; +https://openai.com)', 'ChatGPT-User', BotDetector::BOT_TYPE_AI_CHATBOT],
+            ['Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; MistralAI-User/1.0; +https://docs.mistral.ai/robots)', 'MistralAI-User', BotDetector::BOT_TYPE_AI_CHATBOT],
+            ['Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Gemini-Deep-Research; +https://gemini.google/overview/deep-research/) Chrome/135.0.0.0 Safari/537.36', 'Gemini-Deep-Research', BotDetector::BOT_TYPE_AI_CHATBOT],
+            ['Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Claude-User/1.0; +Claude-User@anthropic.com)', 'Claude-User', BotDetector::BOT_TYPE_AI_CHATBOT],
+            ['Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Perplexity-User/1.0; +https://perplexity.ai/perplexity-user)', 'Perplexity-User', BotDetector::BOT_TYPE_AI_CHATBOT],
+            ['Google-NotebookLM', 'Google-NotebookLM', BotDetector::BOT_TYPE_AI_CHATBOT],
 
         ];
     }

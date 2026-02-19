@@ -14,19 +14,19 @@ namespace Piwik\Plugins\BotTracking\Categories;
 use Piwik\Category\Subcategory;
 use Piwik\Piwik;
 
-class AIBotsOverviewSubcategory extends Subcategory
+class AIChatbotsOverviewSubcategory extends Subcategory
 {
     protected $categoryId = 'General_AIAssistants';
-    protected $id = 'BotTracking_AIBotsOverview';
-    protected $order = 20;
+    protected $id = 'BotTracking_AIChatbotsOverview';
+    protected $order = 10;
 
     public function getHelp()
     {
         return sprintf(
             '<p>%1$s</p><p>%2$s</p><p>%3$s</p>',
-            Piwik::translate('BotTracking_AIAssistantsOverviewHelp1'),
-            Piwik::translate('BotTracking_AIAssistantsOverviewHelp2'),
-            Piwik::translate('BotTracking_AIAssistantsOverviewHelp3')
+            Piwik::translate('BotTracking_AIChatbotsOverviewHelp1'),
+            Piwik::translate('BotTracking_AIChatbotsOverviewHelp2'),
+            Piwik::translate('BotTracking_AIChatbotsOverviewHelp3')
         );
     }
 }

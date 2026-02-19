@@ -28,8 +28,8 @@ describe('AllWebsitesDashboard', function () {
     beforeEach(async function() {
         // set in beforeEach() to have it set in each describe()
         await page.webpage.setViewport({
-            width: 1440,
-            height: 900,
+            width: 1536,
+            height: 864,
         });
     });
 
@@ -128,6 +128,9 @@ describe('AllWebsitesDashboard', function () {
                   };
                   data.kpis.badges.pageviews = {
                     "label": "Weird Pageview Badge"
+                  };
+                  data.kpis.badges.aiChatbotsRequests = {
+                    "label": "Yet another badge!"
                   };
                   data.kpis.badges.revenue = {
                     "label": "Help!"
@@ -360,20 +363,20 @@ describe('AllWebsitesDashboard', function () {
 
         it('should allow sorting by other metrics', async function () {
             // sort by "hits"
-            await page.click('.sitesTable th:nth-child(4)');
+            await page.click('.sitesTable th:nth-child(5)');
             await page.waitForNetworkIdle();
 
             expect(await getSitesTableCell(1, 1)).to.equal('Site Ecommerce');
-            expect(await getSitesTableCell(1, 4)).to.equal('6');
+            expect(await getSitesTableCell(1, 5)).to.equal('6');
             expect(await getSitesTableCell(2, 1)).to.equal('Site Goal Event Value');
-            expect(await getSitesTableCell(2, 4)).to.equal('4');
+            expect(await getSitesTableCell(2, 5)).to.equal('4');
 
             // reverse sorting
-            await page.click('.sitesTable th:nth-child(4)');
+            await page.click('.sitesTable th:nth-child(5)');
             await page.waitForNetworkIdle();
 
             expect(await getSitesTableCell(1, 1)).to.not.equal('Site Ecommerce');
-            expect(await getSitesTableCell(1, 4)).to.equal('0');
+            expect(await getSitesTableCell(1, 5)).to.equal('0');
         });
 
         it('should allow changing the evolution metric', async function () {

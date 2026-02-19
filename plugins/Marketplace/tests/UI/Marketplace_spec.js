@@ -146,6 +146,11 @@ describe("Marketplace", function () {
                   await page.goto('about:blank');
                   await page.goto(url);
 
+                  // redact specific version changes
+                  page.evaluate(() => {
+                    $('div[vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"] .vers a[title="Changelog"]').text('x.x.x => x.x.x');
+                  });
+
                   await captureSelector('paid_plugins_with_license_' + indexArray[index] + '_' + mode, '.pageWrap');
               });
 
