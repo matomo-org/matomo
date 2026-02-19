@@ -7,6 +7,7 @@
         "Resolutions": "Rezolucije",
         "ScreenResolutionDetectionDisabled": "Otkrivanje rezolucije ekrana je deaktivirano",
         "ScreenResolutionDetectionDisabledRequirementNote": "Otkrivanje rezolucije ekrana i izvještaj o rezoluciji ekrana moraju biti deaktivirani.",
+        "ScreenResolutionReportDisabledByCompliancePolicy": "Izvještaj o rezoluciji ekrana je deaktiviran u skladu s politikom izvještaja.",
         "WidgetGlobalVisitors": "Konfiguracija posjetitelja",
         "WidgetGlobalVisitorsDocumentation": "Ovaj izvještaj prikazuje najčešće konfiguracije tvojih posjetitelja. Konfiguracija je kombinacija operacijskog sustava, vrste preglednika i rezolucije ekrana.",
         "WidgetResolutions": "Rezolucija zaslona",

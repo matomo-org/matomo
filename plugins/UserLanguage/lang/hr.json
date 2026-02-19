@@ -3,7 +3,7 @@
         "BrowserLanguage": "Jezik preglednika",
         "LanguageCode": "Oznaka jezika",
         "PluginDescription": "Izvještava o primarnom jeziku web preglednika koji koriste tvoji posjetitelji.",
-        "getLanguageCodeDocumentation": "Prikazuje koji je točan jezični kod postavljen u pregledniku posjetitelja, (npr. „hrvatski – Hrvatska (hr-HR)”)",
+        "getLanguageCodeDocumentation": "Prikazuje koji je točan jezični kod postavljen u pregledniku posjetitelja, (npr. „Hrvatski – Hrvatska (hr-HR)”)",
         "getLanguageDocumentation": "Prikazuje koji jezik koriste preglednici posjetitelja. (npr. „hrvatski”)"
     }
 }
