@@ -51,11 +51,12 @@ export default {
 
       const props = {
         initialReportType: 'default',
+        initialReportFormat: 'TSV',
         initialReportLimit: reportLimit > 0 ? reportLimit : 100,
         initialReportLimitAll: reportLimit === -1 ? 'yes' : 'no',
-        initialOptionFlat: optionFlat,
+        initialOptionFlat: canExportFlat,
         initialOptionShowDimensions: optionShowDimensions,
-        initialOptionExpanded: true,
+        initialOptionExpanded: false,
         initialOptionFormatMetrics: false,
         hasSubtables,
         canExportFlat,

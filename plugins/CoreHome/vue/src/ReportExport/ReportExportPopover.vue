@@ -486,6 +486,7 @@ export default defineComponent({
       if (this.hasSubtables
         && !effectiveOptionFlat
         && this.optionExpanded
+        && !this.isFormatWithoutExpanded(reportFormat)
       ) {
         exportUrlParams.expanded = 1;
       }
