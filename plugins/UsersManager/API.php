@@ -295,13 +295,6 @@ class API extends \Piwik\Plugin\API
         return $userPreferences;
     }
 
-    private function getPreferenceId($login, $preference)
-    {
-        $this->assertPreferenceNameIsSupported($preference);
-
-        return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
-    }
-
     private function assertPreferenceNameIsSupported($preference): void
     {
         if (false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
@@ -419,8 +412,8 @@ class API extends \Piwik\Plugin\API
                         $user['capabilities'] = [];
                     } else {
                         [
-                          $user['role'],
-                          $user['capabilities'],
+                            $user['role'],
+                            $user['capabilities'],
                         ] = $this->getRoleAndCapabilitiesFromAccess($user['access']);
                         $user['role'] = empty($user['role']) ? 'noaccess' : reset($user['role']);
                     }
@@ -674,8 +667,8 @@ class API extends \Piwik\Plugin\API
         );
         foreach ($sites as &$siteAccess) {
             [
-              $siteAccess['role'],
-              $siteAccess['capabilities'],
+                $siteAccess['role'],
+                $siteAccess['capabilities'],
             ] = $this->getRoleAndCapabilitiesFromAccess($siteAccess['access']);
             $siteAccess['role'] = empty($siteAccess['role']) ? 'noaccess' : reset($siteAccess['role']);
             unset($siteAccess['access']);

@@ -4289,11 +4289,6 @@ parameters:
 			path: plugins/PrivacyManager/ReportsPurger.php
 
 		-
-			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<1, max\\> given\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/PromoWidgetDismissal.php
-
-		-
 			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Widgets\\\\PromoServices\\:\\:\\$advertising is never read, only written\\.$#"
 			count: 1
 			path: plugins/ProfessionalServices/Widgets/PromoServices.php
