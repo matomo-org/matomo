@@ -9266,8 +9266,8 @@ const {
       }
       const optionFlat = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === '1';
       const optionShowDimensions = dataTable.param.show_dimensions === true || dataTable.param.show_dimensions === 1 || dataTable.param.show_dimensions === '1';
-      const hasSubtables = dataTable.numberOfSubtables > 0;
-      const canExportFlat = optionFlat || hasSubtables;
+      const hasSubtables = optionFlat || dataTable.numberOfSubtables > 0;
+      const canExportFlat = hasSubtables;
       const props = {
         initialReportType: 'default',
         initialReportLimit: reportLimit > 0 ? reportLimit : 100,
