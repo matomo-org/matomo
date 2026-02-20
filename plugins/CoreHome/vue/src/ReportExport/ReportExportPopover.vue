@@ -185,6 +185,10 @@ export default defineComponent({
   },
   props: {
     hasSubtables: Boolean,
+    canExportFlat: {
+      type: Boolean,
+      default: false,
+    },
     availableReportTypes: Object,
     availableReportFormats: {
       type: Object,
@@ -247,19 +251,12 @@ export default defineComponent({
     } else if (this.initialOptionExpanded) {
       preferredSubtableOption = 'expanded';
     }
-    const isFormatWithoutExpanded = this.isFormatWithoutExpanded(this.initialReportFormat);
-    let optionFlat = this.initialOptionFlat;
-    let optionExpanded = this.initialOptionExpanded;
-    if (this.hasSubtables && isFormatWithoutExpanded) {
-      optionFlat = true;
-      optionExpanded = false;
-    }
     return {
       showUrl: false,
       reportFormat: this.initialReportFormat,
-      optionFlat,
+      optionFlat: this.initialOptionFlat,
       optionShowDimensions: this.initialOptionShowDimensions,
-      optionExpanded,
+      optionExpanded: this.initialOptionExpanded,
       preferredSubtableOption,
       optionFormatMetrics: this.initialOptionFormatMetrics,
       reportType: this.initialReportType,
@@ -277,13 +274,8 @@ export default defineComponent({
       }
     },
     reportFormat: {
-      handler(newVal) {
+      handler() {
         if (!this.hasSubtables) {
-          return;
-        }
-        if (this.isFormatWithoutExpanded(newVal)) {
-          this.optionFlat = true;
-          this.optionExpanded = false;
           return;
         }
 
@@ -304,16 +296,6 @@ export default defineComponent({
         return;
       }
 
-      if (this.hasSubtables && this.isFormatWithoutExpanded(this.reportFormat)) {
-        if (!newVal) {
-          this.optionFlat = true;
-        }
-        if (this.optionExpanded) {
-          this.optionExpanded = false;
-        }
-        return;
-      }
-
       if (newVal) {
         if (this.optionExpanded) {
           this.optionExpanded = false;
@@ -324,7 +306,7 @@ export default defineComponent({
       }
     },
     optionExpanded(newVal) {
-      if (!this.hasSubtables || this.isFormatWithoutExpanded(this.reportFormat)) {
+      if (!this.hasSubtables) {
         return;
       }
       if (newVal) {
@@ -485,10 +467,8 @@ export default defineComponent({
         });
       }
 
-      const flatRequiredByFormat = this.hasSubtables
-        && this.isFormatWithoutExpanded(reportFormat);
-      const effectiveOptionFlat = this.hasSubtables
-        && (this.optionFlat || flatRequiredByFormat);
+      const effectiveOptionFlat = this.canExportFlat
+        && this.optionFlat;
 
       if (effectiveOptionFlat) {
         exportUrlParams.flat = 1;
@@ -503,7 +483,11 @@ export default defineComponent({
         }
       }
 
-      if (this.hasSubtables && !effectiveOptionFlat && this.optionExpanded) {
+      if (this.hasSubtables
+        && !this.isFormatWithoutExpanded(reportFormat)
+        && !effectiveOptionFlat
+        && this.optionExpanded
+      ) {
         exportUrlParams.expanded = 1;
       }
 

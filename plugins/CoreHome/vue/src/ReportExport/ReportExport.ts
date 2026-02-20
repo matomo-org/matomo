@@ -18,6 +18,7 @@ interface ReportExportArgs {
   reportFormats: Record<string, unknown>;
   apiMethod: string;
   maxFilterLimit: number;
+  canExportFlat?: boolean;
   onClose?: () => void;
 }
 
@@ -46,6 +47,7 @@ export default {
         || dataTable.param.show_dimensions === 1
         || dataTable.param.show_dimensions === '1';
       const hasSubtables = dataTable.numberOfSubtables > 0;
+      const canExportFlat = optionFlat || hasSubtables;
 
       const props = {
         initialReportType: 'default',
@@ -56,6 +58,7 @@ export default {
         initialOptionExpanded: true,
         initialOptionFormatMetrics: false,
         hasSubtables,
+        canExportFlat,
         availableReportFormats: {
           default: formats,
           processed: {
