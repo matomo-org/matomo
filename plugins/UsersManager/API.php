@@ -22,7 +22,6 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\NoAccessException;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\AnonymousAccessEnabledEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
@@ -32,7 +31,6 @@ use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Request\AuthenticationToken;
-use Piwik\Settings\Storage\LegacyUserSettingsMigrator;
 use Piwik\Settings\Storage\UserScopedSettingsStore;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
@@ -294,21 +292,6 @@ class API extends \Piwik\Plugin\API
 
         $userPreferences = $this->getUserSettingsStore()->getValuesForAllUsers('UsersManager', $supportedPreferenceNames);
 
-        // fallback for not-yet-migrated old options
-        foreach ($supportedPreferenceNames as $preferenceName) {
-            $optionNameMatchAllUsers = $this->getPreferenceId('%', $preferenceName);
-            $preferences = Option::getLike($optionNameMatchAllUsers);
-
-            foreach ($preferences as $optionName => $optionValue) {
-                $lastUnderscore = strrpos($optionName, self::OPTION_NAME_PREFERENCE_SEPARATOR);
-                $userName = substr($optionName, 0, $lastUnderscore);
-                $preference = substr($optionName, $lastUnderscore + 1);
-                if (!isset($userPreferences[$userName][$preference])) {
-                    $userPreferences[$userName][$preference] = $optionValue;
-                }
-            }
-        }
-
         return $userPreferences;
     }
 
@@ -344,7 +327,6 @@ class API extends \Piwik\Plugin\API
     private function getPreferenceValue($userLogin, $preferenceName)
     {
         $this->assertPreferenceNameIsSupported($preferenceName);
-        $this->getLegacyUserSettingsMigrator()->migrateUsersManagerPreference($userLogin, $preferenceName);
         return $this->getUserSettingsStore()->get('UsersManager', $userLogin, $preferenceName, false);
     }
 
@@ -367,11 +349,6 @@ class API extends \Piwik\Plugin\API
     private function getUserSettingsStore(): UserScopedSettingsStore
     {
         return StaticContainer::get(UserScopedSettingsStore::class);
-    }
-
-    private function getLegacyUserSettingsMigrator(): LegacyUserSettingsMigrator
-    {
-        return StaticContainer::get(LegacyUserSettingsMigrator::class);
     }
 
     /**

@@ -13,7 +13,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
-use Piwik\Settings\Storage\LegacyUserSettingsMigrator;
 use Piwik\Settings\Storage\UserScopedSettingsStore;
 
 class Model
@@ -256,7 +255,6 @@ class Model
 
     private function getUserSettings(string $login): array
     {
-        $this->getLegacyMigrator()->migrateMobileMessagingSettings($login);
         return $this->getStore()->getAll('MobileMessaging', $login);
     }
 
@@ -300,10 +298,5 @@ class Model
     private function getStore(): UserScopedSettingsStore
     {
         return StaticContainer::get(UserScopedSettingsStore::class);
-    }
-
-    private function getLegacyMigrator(): LegacyUserSettingsMigrator
-    {
-        return StaticContainer::get(LegacyUserSettingsMigrator::class);
     }
 }

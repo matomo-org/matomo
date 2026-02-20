@@ -11,7 +11,6 @@ namespace Piwik\Plugins\Feedback;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Settings\Storage\LegacyUserSettingsMigrator;
 use Piwik\Settings\Storage\UserScopedSettingsStore;
 
 class FeedbackReminder
@@ -25,7 +24,6 @@ class FeedbackReminder
 
     public function getUserOption()
     {
-        $this->getLegacyMigrator()->migrateFeedbackReminder($this->userLogin);
         return $this->getStore()->get('Feedback', $this->userLogin, 'nextFeedbackReminder', false);
     }
 
@@ -37,10 +35,5 @@ class FeedbackReminder
     private function getStore(): UserScopedSettingsStore
     {
         return StaticContainer::get(UserScopedSettingsStore::class);
-    }
-
-    private function getLegacyMigrator(): LegacyUserSettingsMigrator
-    {
-        return StaticContainer::get(LegacyUserSettingsMigrator::class);
     }
 }
