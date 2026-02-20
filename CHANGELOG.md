@@ -8,6 +8,10 @@ The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)*
 
 ### Breaking Changes
 * API requests that provide conflicting authentication values for `token_auth` or `force_api_session` across request sources (for example GET and POST) now fail with `400 Bad Request` instead of applying precedence.
+* Category names returned by `API.getReportMetadata` were updated to match UI terminology. Plugin integrations expecting old names may break:
+    - `Actions` is now `Behaviour`
+    - `Referrers` is now `Acquisition`
+
 
 ### New config.ini.php settings
 * `API_bulk_request_limit` sets the maximum number of URLs allowed in `API.getBulkRequest` for authenticated users (-1 disables the limit).

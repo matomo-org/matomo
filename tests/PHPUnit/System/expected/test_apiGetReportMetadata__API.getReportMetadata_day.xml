@@ -12,6 +12,7 @@
 			<nb_actions>Actions</nb_actions>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<hits>Hits</hits>
+			<ai_chatbots_requests>AI Chatbots Requests</ai_chatbots_requests>
 			<revenue>Revenue</revenue>
 			<nb_conversions>Conversions</nb_conversions>
 			<orders>Ecommerce Orders</orders>
@@ -28,6 +29,7 @@
 			<actions_evolution>Actions Evolution</actions_evolution>
 			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 			<hits_evolution>Hits Evolution</hits_evolution>
+			<ai_chatbots_requests_evolution>AI Chatbots Requests Evolution</ai_chatbots_requests_evolution>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -38,6 +40,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
 			<hits>number</hits>
+			<ai_chatbots_requests>number</ai_chatbots_requests>
 			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
@@ -46,6 +49,7 @@
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
 			<hits_evolution>percent</hits_evolution>
+			<ai_chatbots_requests_evolution>percent</ai_chatbots_requests_evolution>
 			<revenue_evolution>percent</revenue_evolution>
 			<nb_conversions_evolution>percent</nb_conversions_evolution>
 			<orders_evolution>percent</orders_evolution>
@@ -67,6 +71,7 @@
 			<nb_actions>Actions</nb_actions>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<hits>Hits</hits>
+			<ai_chatbots_requests>AI Chatbots Requests</ai_chatbots_requests>
 			<revenue>Revenue</revenue>
 			<nb_conversions>Conversions</nb_conversions>
 			<orders>Ecommerce Orders</orders>
@@ -83,6 +88,7 @@
 			<actions_evolution>Actions Evolution</actions_evolution>
 			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 			<hits_evolution>Hits Evolution</hits_evolution>
+			<ai_chatbots_requests_evolution>AI Chatbots Requests Evolution</ai_chatbots_requests_evolution>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -93,6 +99,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
 			<hits>number</hits>
+			<ai_chatbots_requests>number</ai_chatbots_requests>
 			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
@@ -101,6 +108,7 @@
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
 			<hits_evolution>percent</hits_evolution>
+			<ai_chatbots_requests_evolution>percent</ai_chatbots_requests_evolution>
 			<revenue_evolution>percent</revenue_evolution>
 			<nb_conversions_evolution>percent</nb_conversions_evolution>
 			<orders_evolution>percent</orders_evolution>
@@ -1298,7 +1306,7 @@
 		<uniqueId>CustomVariables_getCustomVariables</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Actions - Main metrics</name>
 		<module>Actions</module>
 		<action>get</action>
@@ -1345,7 +1353,7 @@
 		<uniqueId>Actions_get</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Bandwidth - Main metrics</name>
 		<module>Bandwidth</module>
 		<action>get</action>
@@ -1369,7 +1377,7 @@
 		<uniqueId>Bandwidth_get</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Pages</subcategory>
 		<name>Page URLs</name>
 		<module>Actions</module>
@@ -1437,7 +1445,7 @@
 		<uniqueId>Actions_getPageUrls</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Entry pages</subcategory>
 		<name>Entry pages</name>
 		<module>Actions</module>
@@ -1498,7 +1506,7 @@
 		<uniqueId>Actions_getEntryPageUrls</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Entry pages</subcategory>
 		<name>Entry page titles</name>
 		<module>Actions</module>
@@ -1564,7 +1572,7 @@
 		<uniqueId>Actions_getEntryPageTitles</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Exit pages</subcategory>
 		<name>Exit pages</name>
 		<module>Actions</module>
@@ -1608,7 +1616,7 @@
 		<uniqueId>Actions_getExitPageUrls</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Exit pages</subcategory>
 		<name>Exit page titles</name>
 		<module>Actions</module>
@@ -1655,7 +1663,7 @@
 		<uniqueId>Actions_getExitPageTitles</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Page titles</subcategory>
 		<name>Page titles</name>
 		<module>Actions</module>
@@ -1723,7 +1731,7 @@
 		<uniqueId>Actions_getPageTitles</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Site Search Keywords</name>
 		<module>Actions</module>
@@ -1756,7 +1764,7 @@
 		<uniqueId>Actions_getSiteSearchKeywords</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Pages Following a Site Search</name>
 		<module>Actions</module>
@@ -1792,7 +1800,7 @@
 		<uniqueId>Actions_getPageUrlsFollowingSiteSearch</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Search Keywords with No Results</name>
 		<module>Actions</module>
@@ -1822,7 +1830,7 @@
 		<uniqueId>Actions_getSiteSearchNoResultKeywords</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Page Titles Following a Site Search</name>
 		<module>Actions</module>
@@ -1858,7 +1866,7 @@
 		<uniqueId>Actions_getPageTitlesFollowingSiteSearch</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Site Search</subcategory>
 		<name>Search Categories</name>
 		<module>Actions</module>
@@ -1886,7 +1894,7 @@
 		<uniqueId>Actions_getSiteSearchCategories</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Outlinks</subcategory>
 		<name>Outlinks</name>
 		<module>Actions</module>
@@ -1911,7 +1919,7 @@
 		<uniqueId>Actions_getOutlinks</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Downloads</subcategory>
 		<name>Downloads</name>
 		<module>Actions</module>
@@ -1936,7 +1944,7 @@
 		<uniqueId>Actions_getDownloads</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Events</subcategory>
 		<name>Event Categories</name>
 		<module>Events</module>
@@ -1986,7 +1994,7 @@
 		<uniqueId>Events_getCategory</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Events</subcategory>
 		<name>Event Actions</name>
 		<module>Events</module>
@@ -2036,7 +2044,7 @@
 		<uniqueId>Events_getAction</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Events</subcategory>
 		<name>Event Names</name>
 		<module>Events</module>
@@ -2086,7 +2094,7 @@
 		<uniqueId>Events_getName</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Contents</subcategory>
 		<name>Content Name</name>
 		<module>Contents</module>
@@ -2117,7 +2125,7 @@
 		<uniqueId>Contents_getContentNames</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Contents</subcategory>
 		<name>Content Piece</name>
 		<module>Contents</module>
@@ -2148,7 +2156,7 @@
 		<uniqueId>Contents_getContentPieces</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Length of visits</name>
 		<module>VisitorInterest</module>
@@ -2169,7 +2177,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerVisitDuration</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Pages per visit</name>
 		<module>VisitorInterest</module>
@@ -2190,7 +2198,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsPerPage</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Visits by visit number</name>
 		<module>VisitorInterest</module>
@@ -2216,7 +2224,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsByVisitCount</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Visits by days since last visit</name>
 		<module>VisitorInterest</module>
@@ -2237,7 +2245,7 @@
 		<uniqueId>VisitorInterest_getNumberOfVisitsByDaysSinceLast</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Engagement</subcategory>
 		<name>Returning Visits</name>
 		<module>VisitFrequency</module>
@@ -2286,7 +2294,7 @@
 		<uniqueId>VisitFrequency_get</uniqueId>
 	</row>
 	<row>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Performance</subcategory>
 		<name>Performance overview</name>
 		<module>PagePerformance</module>
@@ -2334,7 +2342,7 @@
 		<uniqueId>PagePerformance_get</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<name>Referrers Overview</name>
 		<module>Referrers</module>
 		<action>get</action>
@@ -2384,7 +2392,7 @@
 		<uniqueId>Referrers_get</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>All Channels</subcategory>
 		<name>Channel Type</name>
 		<module>Referrers</module>
@@ -2441,7 +2449,7 @@
 		<uniqueId>Referrers_getReferrerType</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>All Channels</subcategory>
 		<name>All Channels</name>
 		<module>Referrers</module>
@@ -2484,7 +2492,7 @@
 		<uniqueId>Referrers_getAll</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Search Engines &amp; Keywords</subcategory>
 		<name>Keywords</name>
 		<module>Referrers</module>
@@ -2545,7 +2553,7 @@
 		<uniqueId>Referrers_getKeywords</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Search Engines &amp; Keywords</subcategory>
 		<name>Search Engines</name>
 		<module>Referrers</module>
@@ -2606,7 +2614,7 @@
 		<uniqueId>Referrers_getSearchEngines</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Websites</subcategory>
 		<name>Websites</name>
 		<module>Referrers</module>
@@ -2667,7 +2675,7 @@
 		<uniqueId>Referrers_getWebsites</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Social Networks</subcategory>
 		<name>Social Networks</name>
 		<module>Referrers</module>
@@ -2728,7 +2736,7 @@
 		<uniqueId>Referrers_getSocials</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>AI Assistants</subcategory>
 		<name>AI Assistants</name>
 		<module>Referrers</module>
@@ -2789,7 +2797,7 @@
 		<uniqueId>Referrers_getAIAssistants</uniqueId>
 	</row>
 	<row>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>Campaigns</subcategory>
 		<name>Campaigns</name>
 		<module>Referrers</module>
@@ -3546,6 +3554,83 @@
 	</row>
 	<row>
 		<category>AI Assistants</category>
+		<subcategory>AI Chatbots Overview</subcategory>
+		<name>AI Chatbots Overview</name>
+		<module>BotTracking</module>
+		<action>get</action>
+		<metrics>
+			<BotTracking_AIChatbotsRequests>Requests</BotTracking_AIChatbotsRequests>
+			<BotTracking_AIChatbotsAcquiredVisits>Acquired visits</BotTracking_AIChatbotsAcquiredVisits>
+			<BotTracking_AIChatbotsUniquePageUrls>Unique page URLs</BotTracking_AIChatbotsUniquePageUrls>
+			<BotTracking_AIChatbotsNotFoundRequests>Not found requests</BotTracking_AIChatbotsNotFoundRequests>
+			<BotTracking_AIChatbotsUniqueChatbots>Unique AI chatbots</BotTracking_AIChatbotsUniqueChatbots>
+			<BotTracking_AIChatbotsUniqueDocumentUrls>Unique document URLs</BotTracking_AIChatbotsUniqueDocumentUrls>
+			<BotTracking_AIChatbotsServerErrorRequests>Server error (5xx) requests</BotTracking_AIChatbotsServerErrorRequests>
+		</metrics>
+		<metricsDocumentation>
+			<BotTracking_AIChatbotsRequests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</BotTracking_AIChatbotsRequests>
+			<BotTracking_AIChatbotsAcquiredVisits>Visits that started after someone clicked from an AI chatbot (Referrers → AI Assistants).</BotTracking_AIChatbotsAcquiredVisits>
+			<BotTracking_AIChatbotsUniquePageUrls>Distinct page URLs requested by AI chatbots.</BotTracking_AIChatbotsUniquePageUrls>
+			<BotTracking_AIChatbotsNotFoundRequests>Number of bot requests that returned an HTTP 404 or 410 response, including document URLs.</BotTracking_AIChatbotsNotFoundRequests>
+			<BotTracking_AIChatbotsUniqueChatbots>AI chatbot user agents detected during the selected period.</BotTracking_AIChatbotsUniqueChatbots>
+			<BotTracking_AIChatbotsUniqueDocumentUrls>Distinct download or document URLs requested by AI chatbots.</BotTracking_AIChatbotsUniqueDocumentUrls>
+			<BotTracking_AIChatbotsServerErrorRequests>Number of bot requests that returned an HTTP 5xx response, including document URLs.</BotTracking_AIChatbotsServerErrorRequests>
+			<BotTracking_AIChatbotsClickThroughRate>Share of AI chatbot requests that resulted in acquired visits (acquired visits ÷ requests).</BotTracking_AIChatbotsClickThroughRate>
+		</metricsDocumentation>
+		<processedMetrics>
+			<BotTracking_AIChatbotsClickThroughRate>Click-through rate</BotTracking_AIChatbotsClickThroughRate>
+		</processedMetrics>
+		<metricTypes>
+			<BotTracking_AIChatbotsRequests>number</BotTracking_AIChatbotsRequests>
+			<BotTracking_AIChatbotsAcquiredVisits>number</BotTracking_AIChatbotsAcquiredVisits>
+			<BotTracking_AIChatbotsUniquePageUrls>number</BotTracking_AIChatbotsUniquePageUrls>
+			<BotTracking_AIChatbotsNotFoundRequests>number</BotTracking_AIChatbotsNotFoundRequests>
+			<BotTracking_AIChatbotsUniqueChatbots>number</BotTracking_AIChatbotsUniqueChatbots>
+			<BotTracking_AIChatbotsUniqueDocumentUrls>number</BotTracking_AIChatbotsUniqueDocumentUrls>
+			<BotTracking_AIChatbotsServerErrorRequests>number</BotTracking_AIChatbotsServerErrorRequests>
+			<BotTracking_AIChatbotsClickThroughRate>percent</BotTracking_AIChatbotsClickThroughRate>
+		</metricTypes>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>BotTracking_get</uniqueId>
+	</row>
+	<row>
+		<category>AI Assistants</category>
+		<subcategory>AI Chatbots Overview</subcategory>
+		<name>AI Chatbots</name>
+		<module>BotTracking</module>
+		<action>getAIChatbotRequests</action>
+		<dimension>AI Chatbot Name</dimension>
+		<documentation>Discover which AI chatbots are crawling your site and how many hits each one generates. Expand a chatbot to review the most frequently requested pages or documents.</documentation>
+		<dimensions>
+			<BotTracking_AIChatbotName>AI Chatbot Name</BotTracking_AIChatbotName>
+			<BotTracking_PageUrl>Page URL</BotTracking_PageUrl>
+		</dimensions>
+		<metrics>
+			<requests>Requests</requests>
+			<page_requests>Page Requests</page_requests>
+			<document_requests>Document Requests</document_requests>
+			<visits_acquired>Acquired visits</visits_acquired>
+		</metrics>
+		<metricsDocumentation>
+			<requests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</requests>
+			<page_requests>Total number of bot requests to page URLs recorded during the selected period.</page_requests>
+			<document_requests>Total number of bot requests to document URLs recorded during the selected period.</document_requests>
+			<visits_acquired>Visits that started after someone clicked from an AI chatbot (Referrers → AI Assistants).</visits_acquired>
+		</metricsDocumentation>
+		<metricTypes>
+			<requests>number</requests>
+			<page_requests>number</page_requests>
+			<document_requests>number</document_requests>
+			<visits_acquired>number</visits_acquired>
+		</metricTypes>
+		<actionToLoadSubTables>getPageUrlsForAIChatbot</actionToLoadSubTables>
+		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotRequests&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
+		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIChatbotRequests&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
+		<uniqueId>BotTracking_getAIChatbotRequests</uniqueId>
+	</row>
+	<row>
+		<category>AI Assistants</category>
 		<subcategory>AI Agents Overview</subcategory>
 		<name>AI Agent Visits</name>
 		<module>AIAgents</module>
@@ -3591,83 +3676,6 @@
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=AIAgents&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=AIAgents&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
 		<uniqueId>AIAgents_get</uniqueId>
-	</row>
-	<row>
-		<category>AI Assistants</category>
-		<subcategory>AI Bots Overview</subcategory>
-		<name>AI Assistants - Bots Overview</name>
-		<module>BotTracking</module>
-		<action>get</action>
-		<metrics>
-			<BotTracking_AIAssistantsRequests>Requests</BotTracking_AIAssistantsRequests>
-			<BotTracking_AIAssistantsAcquiredVisits>Acquired visits</BotTracking_AIAssistantsAcquiredVisits>
-			<BotTracking_AIAssistantsUniquePageUrls>Unique page URLs</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Not found requests</BotTracking_AIAssistantsNotFoundRequests>
-			<BotTracking_AIAssistantsUniqueAssistants>Unique AI chatbots</BotTracking_AIAssistantsUniqueAssistants>
-			<BotTracking_AIAssistantsUniqueDocumentUrls>Unique document URLs</BotTracking_AIAssistantsUniqueDocumentUrls>
-			<BotTracking_AIAssistantsServerErrorRequests>Server error (5xx) requests</BotTracking_AIAssistantsServerErrorRequests>
-		</metrics>
-		<metricsDocumentation>
-			<BotTracking_AIAssistantsRequests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</BotTracking_AIAssistantsRequests>
-			<BotTracking_AIAssistantsAcquiredVisits>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</BotTracking_AIAssistantsAcquiredVisits>
-			<BotTracking_AIAssistantsUniquePageUrls>Distinct page URLs requested by AI assistants.</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Number of bot requests that returned an HTTP 404 or 410 response, including document URLs.</BotTracking_AIAssistantsNotFoundRequests>
-			<BotTracking_AIAssistantsUniqueAssistants>AI assistant user agents detected during the selected period.</BotTracking_AIAssistantsUniqueAssistants>
-			<BotTracking_AIAssistantsUniqueDocumentUrls>Distinct download or document URLs requested by AI assistants.</BotTracking_AIAssistantsUniqueDocumentUrls>
-			<BotTracking_AIAssistantsServerErrorRequests>Number of bot requests that returned an HTTP 5xx response, including document URLs.</BotTracking_AIAssistantsServerErrorRequests>
-			<BotTracking_AIAssistantsClickThroughRate>Share of AI assistant requests that resulted in acquired visits (acquired visits ÷ requests).</BotTracking_AIAssistantsClickThroughRate>
-		</metricsDocumentation>
-		<processedMetrics>
-			<BotTracking_AIAssistantsClickThroughRate>Click-through rate</BotTracking_AIAssistantsClickThroughRate>
-		</processedMetrics>
-		<metricTypes>
-			<BotTracking_AIAssistantsRequests>number</BotTracking_AIAssistantsRequests>
-			<BotTracking_AIAssistantsAcquiredVisits>number</BotTracking_AIAssistantsAcquiredVisits>
-			<BotTracking_AIAssistantsUniquePageUrls>number</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>number</BotTracking_AIAssistantsNotFoundRequests>
-			<BotTracking_AIAssistantsUniqueAssistants>number</BotTracking_AIAssistantsUniqueAssistants>
-			<BotTracking_AIAssistantsUniqueDocumentUrls>number</BotTracking_AIAssistantsUniqueDocumentUrls>
-			<BotTracking_AIAssistantsServerErrorRequests>number</BotTracking_AIAssistantsServerErrorRequests>
-			<BotTracking_AIAssistantsClickThroughRate>percent</BotTracking_AIAssistantsClickThroughRate>
-		</metricTypes>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>BotTracking_get</uniqueId>
-	</row>
-	<row>
-		<category>AI Assistants</category>
-		<subcategory>AI Bots Overview</subcategory>
-		<name>AI Assistants - Bots</name>
-		<module>BotTracking</module>
-		<action>getAIAssistantRequests</action>
-		<dimension>AI Assistant Name</dimension>
-		<documentation>Discover which AI assistants are crawling your site and how many hits each one generates. Expand a bot to review the most frequently requested pages or documents.</documentation>
-		<dimensions>
-			<BotTracking_AIAssistantName>AI Assistant Name</BotTracking_AIAssistantName>
-			<BotTracking_PageUrl>Page URL</BotTracking_PageUrl>
-		</dimensions>
-		<metrics>
-			<requests>Requests</requests>
-			<page_requests>Page Requests</page_requests>
-			<document_requests>Document Requests</document_requests>
-			<visits_acquired>Acquired visits</visits_acquired>
-		</metrics>
-		<metricsDocumentation>
-			<requests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</requests>
-			<page_requests>Total number of bot requests to page URLs recorded during the selected period.</page_requests>
-			<document_requests>Total number of bot requests to document URLs recorded during the selected period.</document_requests>
-			<visits_acquired>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</visits_acquired>
-		</metricsDocumentation>
-		<metricTypes>
-			<requests>number</requests>
-			<page_requests>number</page_requests>
-			<document_requests>number</document_requests>
-			<visits_acquired>number</visits_acquired>
-		</metricTypes>
-		<actionToLoadSubTables>getPageUrlsForAIAssistant</actionToLoadSubTables>
-		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIAssistantRequests&amp;period=day&amp;date=2009-01-04</imageGraphUrl>
-		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=BotTracking&amp;apiAction=getAIAssistantRequests&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>
-		<uniqueId>BotTracking_getAIAssistantRequests</uniqueId>
 	</row>
 	<row>
 		<category>UI Framework</category>
@@ -3909,13 +3917,13 @@
 			<nb_uniq_visitors_human>Unique Human Visitors</nb_uniq_visitors_human>
 			<nb_users_human>Human Users</nb_users_human>
 			<max_actions_human>Maximum Actions in one Human Visit</max_actions_human>
-			<BotTracking_AIAssistantsRequests>Requests</BotTracking_AIAssistantsRequests>
-			<BotTracking_AIAssistantsAcquiredVisits>Acquired visits</BotTracking_AIAssistantsAcquiredVisits>
-			<BotTracking_AIAssistantsUniquePageUrls>Unique page URLs</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Not found requests</BotTracking_AIAssistantsNotFoundRequests>
-			<BotTracking_AIAssistantsUniqueAssistants>Unique AI chatbots</BotTracking_AIAssistantsUniqueAssistants>
-			<BotTracking_AIAssistantsUniqueDocumentUrls>Unique document URLs</BotTracking_AIAssistantsUniqueDocumentUrls>
-			<BotTracking_AIAssistantsServerErrorRequests>Server error (5xx) requests</BotTracking_AIAssistantsServerErrorRequests>
+			<BotTracking_AIChatbotsRequests>Requests</BotTracking_AIChatbotsRequests>
+			<BotTracking_AIChatbotsAcquiredVisits>Acquired visits</BotTracking_AIChatbotsAcquiredVisits>
+			<BotTracking_AIChatbotsUniquePageUrls>Unique page URLs</BotTracking_AIChatbotsUniquePageUrls>
+			<BotTracking_AIChatbotsNotFoundRequests>Not found requests</BotTracking_AIChatbotsNotFoundRequests>
+			<BotTracking_AIChatbotsUniqueChatbots>Unique AI chatbots</BotTracking_AIChatbotsUniqueChatbots>
+			<BotTracking_AIChatbotsUniqueDocumentUrls>Unique document URLs</BotTracking_AIChatbotsUniqueDocumentUrls>
+			<BotTracking_AIChatbotsServerErrorRequests>Server error (5xx) requests</BotTracking_AIChatbotsServerErrorRequests>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
@@ -3941,19 +3949,19 @@
 			<avg_time_dom_completion>Average time (in seconds) it takes for the browser to load media and execute any Javascript code listening for the DOMContentLoaded event after the webpage was loaded and the user can already interact with it.</avg_time_dom_completion>
 			<avg_time_on_load>Average time (in seconds) it takes the browser to execute Javascript code waiting for the window.load event. This event is triggered once the DOM has completely rendered.</avg_time_on_load>
 			<avg_page_load_time>Average time (in seconds) it takes from requesting a page until the page is fully rendered within the browser</avg_page_load_time>
-			<BotTracking_AIAssistantsRequests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</BotTracking_AIAssistantsRequests>
-			<BotTracking_AIAssistantsAcquiredVisits>Visits that started after someone clicked from an AI assistant (Referrers → AI Assistants).</BotTracking_AIAssistantsAcquiredVisits>
-			<BotTracking_AIAssistantsUniquePageUrls>Distinct page URLs requested by AI assistants.</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>Number of bot requests that returned an HTTP 404 or 410 response, including document URLs.</BotTracking_AIAssistantsNotFoundRequests>
-			<BotTracking_AIAssistantsUniqueAssistants>AI assistant user agents detected during the selected period.</BotTracking_AIAssistantsUniqueAssistants>
-			<BotTracking_AIAssistantsUniqueDocumentUrls>Distinct download or document URLs requested by AI assistants.</BotTracking_AIAssistantsUniqueDocumentUrls>
-			<BotTracking_AIAssistantsServerErrorRequests>Number of bot requests that returned an HTTP 5xx response, including document URLs.</BotTracking_AIAssistantsServerErrorRequests>
+			<BotTracking_AIChatbotsRequests>Total number of bot requests recorded during the selected period. Includes both page and document URLs.</BotTracking_AIChatbotsRequests>
+			<BotTracking_AIChatbotsAcquiredVisits>Visits that started after someone clicked from an AI chatbot (Referrers → AI Assistants).</BotTracking_AIChatbotsAcquiredVisits>
+			<BotTracking_AIChatbotsUniquePageUrls>Distinct page URLs requested by AI chatbots.</BotTracking_AIChatbotsUniquePageUrls>
+			<BotTracking_AIChatbotsNotFoundRequests>Number of bot requests that returned an HTTP 404 or 410 response, including document URLs.</BotTracking_AIChatbotsNotFoundRequests>
+			<BotTracking_AIChatbotsUniqueChatbots>AI chatbot user agents detected during the selected period.</BotTracking_AIChatbotsUniqueChatbots>
+			<BotTracking_AIChatbotsUniqueDocumentUrls>Distinct download or document URLs requested by AI chatbots.</BotTracking_AIChatbotsUniqueDocumentUrls>
+			<BotTracking_AIChatbotsServerErrorRequests>Number of bot requests that returned an HTTP 5xx response, including document URLs.</BotTracking_AIChatbotsServerErrorRequests>
 			<avg_time_generation>The average time it took to generate the page. This metric includes the time it took the server to generate the web page, plus the time it took for the visitor to download the response from the server. A lower 'Avg. generation time' means a faster website for your visitors!</avg_time_generation>
 			<conversion_rate>The percentage of visits that triggered a conversion. The conversion rate is calculated using the number of visits that converted at least one goal. Visits converting multiple goals are only counted once in the conversion rate.</conversion_rate>
 			<bounce_rate>The percentage of visits that only had a single pageview. This means, that the visitor left the website directly from the entrance page.</bounce_rate>
 			<nb_actions_per_visit>The average number of actions (page views, site searches, downloads or outlinks) that were performed during the visits.</nb_actions_per_visit>
 			<avg_time_on_site>The average duration of a visit.</avg_time_on_site>
-			<BotTracking_AIAssistantsClickThroughRate>Share of AI assistant requests that resulted in acquired visits (acquired visits ÷ requests).</BotTracking_AIAssistantsClickThroughRate>
+			<BotTracking_AIChatbotsClickThroughRate>Share of AI chatbot requests that resulted in acquired visits (acquired visits ÷ requests).</BotTracking_AIChatbotsClickThroughRate>
 		</metricsDocumentation>
 		<processedMetrics>
 			<avg_time_generation>Avg. generation time</avg_time_generation>
@@ -3980,7 +3988,7 @@
 			<avg_time_on_site_human>Avg. Duration of a Human Visit (in sec)</avg_time_on_site_human>
 			<nb_actions_per_visit_human>Avg. Actions per Human Visit</nb_actions_per_visit_human>
 			<bounce_rate_human>Bounce Rate for Human Visits</bounce_rate_human>
-			<BotTracking_AIAssistantsClickThroughRate>Click-through rate</BotTracking_AIAssistantsClickThroughRate>
+			<BotTracking_AIChatbotsClickThroughRate>Click-through rate</BotTracking_AIChatbotsClickThroughRate>
 			<nb_total_download_bandwidth>Bytes transferred downloads</nb_total_download_bandwidth>
 			<nb_total_pageview_bandwidth>Bytes transferred pageviews</nb_total_pageview_bandwidth>
 			<nb_total_overall_bandwidth>Bytes transferred overall</nb_total_overall_bandwidth>
@@ -4048,13 +4056,13 @@
 			<nb_uniq_visitors_human>number</nb_uniq_visitors_human>
 			<nb_users_human>number</nb_users_human>
 			<max_actions_human>number</max_actions_human>
-			<BotTracking_AIAssistantsRequests>number</BotTracking_AIAssistantsRequests>
-			<BotTracking_AIAssistantsAcquiredVisits>number</BotTracking_AIAssistantsAcquiredVisits>
-			<BotTracking_AIAssistantsUniquePageUrls>number</BotTracking_AIAssistantsUniquePageUrls>
-			<BotTracking_AIAssistantsNotFoundRequests>number</BotTracking_AIAssistantsNotFoundRequests>
-			<BotTracking_AIAssistantsUniqueAssistants>number</BotTracking_AIAssistantsUniqueAssistants>
-			<BotTracking_AIAssistantsUniqueDocumentUrls>number</BotTracking_AIAssistantsUniqueDocumentUrls>
-			<BotTracking_AIAssistantsServerErrorRequests>number</BotTracking_AIAssistantsServerErrorRequests>
+			<BotTracking_AIChatbotsRequests>number</BotTracking_AIChatbotsRequests>
+			<BotTracking_AIChatbotsAcquiredVisits>number</BotTracking_AIChatbotsAcquiredVisits>
+			<BotTracking_AIChatbotsUniquePageUrls>number</BotTracking_AIChatbotsUniquePageUrls>
+			<BotTracking_AIChatbotsNotFoundRequests>number</BotTracking_AIChatbotsNotFoundRequests>
+			<BotTracking_AIChatbotsUniqueChatbots>number</BotTracking_AIChatbotsUniqueChatbots>
+			<BotTracking_AIChatbotsUniqueDocumentUrls>number</BotTracking_AIChatbotsUniqueDocumentUrls>
+			<BotTracking_AIChatbotsServerErrorRequests>number</BotTracking_AIChatbotsServerErrorRequests>
 			<nb_total_overall_bandwidth>number</nb_total_overall_bandwidth>
 			<nb_total_pageview_bandwidth>number</nb_total_pageview_bandwidth>
 			<nb_total_download_bandwidth>number</nb_total_download_bandwidth>
@@ -4075,7 +4083,7 @@
 			<avg_time_on_site_human>duration_s</avg_time_on_site_human>
 			<nb_actions_per_visit_human>number</nb_actions_per_visit_human>
 			<bounce_rate_human>percent</bounce_rate_human>
-			<BotTracking_AIAssistantsClickThroughRate>percent</BotTracking_AIAssistantsClickThroughRate>
+			<BotTracking_AIChatbotsClickThroughRate>percent</BotTracking_AIChatbotsClickThroughRate>
 		</metricTypes>
 		<imageGraphUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphUrl>
 		<imageGraphEvolutionUrl>index.php?module=API&amp;method=ImageGraph.get&amp;idSite=1&amp;apiModule=API&amp;apiAction=get&amp;period=day&amp;date=2008-12-06,2009-01-04</imageGraphEvolutionUrl>

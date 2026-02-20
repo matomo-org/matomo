@@ -140,6 +140,7 @@
         "ComputedMetricUniqueCountDocumentation": "Numër unik i %s",
         "ConfigFileIsNotWritable": "Kartela për formësimin e Matomo-s %1$s s’është e shkrueshme, disa nga ndryshimet tuaja mund të mos ruhen dot. %2$s Ju lutemi, ndryshoni lejet mbi kartelën e formësimit, për ta bërë të shkrueshshme.",
         "Confirm": "Ripohojeni",
+        "ConflictingAuthenticationParametersProvided": "U dhanë parametra mirëfilltësimi që përplasen me njëri-tjetrin.",
         "Continue": "Vazhdo",
         "ContinueToPiwik": "Vazhdoni te Matomo",
         "CopiedToClipboard": "U kopjua në të papastër",

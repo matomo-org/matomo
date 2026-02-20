@@ -6,6 +6,7 @@
 		<nb_actions>8</nb_actions>
 		<nb_pageviews>4</nb_pageviews>
 		<hits>8</hits>
+		<ai_chatbots_requests>0</ai_chatbots_requests>
 		<revenue>43</revenue>
 		<visits_evolution>100%</visits_evolution>
 		<visits_evolution_trend>1</visits_evolution_trend>
@@ -15,6 +16,8 @@
 		<pageviews_evolution_trend>1</pageviews_evolution_trend>
 		<hits_evolution>100%</hits_evolution>
 		<hits_evolution_trend>1</hits_evolution_trend>
+		<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
+		<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 		<revenue_evolution>100%</revenue_evolution>
 		<revenue_evolution_trend>1</revenue_evolution_trend>
 		<idsite>1</idsite>
@@ -26,6 +29,7 @@
 		<previous_nb_actions>0</previous_nb_actions>
 		<previous_nb_pageviews>0</previous_nb_pageviews>
 		<previous_hits>0</previous_hits>
+		<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 		<previous_revenue>0</previous_revenue>
 		<group />
 		<main_url>http://site.com</main_url>

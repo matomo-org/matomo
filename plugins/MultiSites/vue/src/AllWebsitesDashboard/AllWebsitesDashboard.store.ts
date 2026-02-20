@@ -9,6 +9,7 @@ import { computed, reactive, readonly } from 'vue';
 import {
   AjaxHelper,
   Matomo,
+  MatomoUrl,
   Periods,
   NumberFormatter,
 } from 'CoreHome';
@@ -27,6 +28,10 @@ interface DashboardKPIData {
   hitsCompact: string;
   hitsEvolution: string;
   hitsTrend: EvolutionTrend;
+  aiChatbotsRequests: string;
+  aiChatbotsRequestsCompact: string;
+  aiChatbotsRequestsEvolution: string;
+  aiChatbotsRequestsTrend: EvolutionTrend;
   pageviews: string;
   pageviewsCompact: string;
   pageviewsEvolution: string;
@@ -73,6 +78,10 @@ class DashboardStore {
       hitsCompact: '?',
       hitsEvolution: '',
       hitsTrend: 0,
+      aiChatbotsRequests: '?',
+      aiChatbotsRequestsCompact: '?',
+      aiChatbotsRequestsEvolution: '',
+      aiChatbotsRequestsTrend: 0,
       pageviews: '?',
       pageviewsCompact: '?',
       pageviewsEvolution: '',
@@ -227,6 +236,7 @@ class DashboardStore {
         'hits_evolution_trend',
         'label',
         'hits',
+        'ai_chatbots_requests',
         'nb_pageviews',
         'nb_visits',
         'pageviews_evolution',
@@ -305,6 +315,9 @@ class DashboardStore {
   }
 
   private updateDashboardKPIs(response: GetAllWithGroupsDataResponse) {
+    const isSegmented = !!MatomoUrl.parsed.value.segment;
+    const aiRequests = response.totals.ai_chatbots_requests || 0;
+    const previousAiRequests = response.totals.previous_ai_chatbots_requests || 0;
     this.privateState.dashboardKPIs = {
       badges: {
         hits: null,
@@ -323,6 +336,22 @@ class DashboardStore {
       hitsTrend: Math.sign(
         response.totals.hits - response.totals.previous_hits,
       ) as EvolutionTrend,
+      aiChatbotsRequests: isSegmented
+        ? '-'
+        : NumberFormatter.formatNumber(aiRequests),
+      aiChatbotsRequestsCompact: isSegmented
+        ? '-'
+        : NumberFormatter.formatNumberCompact(aiRequests),
+      aiChatbotsRequestsEvolution: isSegmented
+        ? ''
+        : NumberFormatter.calculateAndFormatEvolution(
+          aiRequests,
+          previousAiRequests,
+          true,
+        ),
+      aiChatbotsRequestsTrend: isSegmented
+        ? 0
+        : Math.sign(aiRequests - previousAiRequests) as EvolutionTrend,
       pageviews: NumberFormatter.formatNumber(response.totals.nb_pageviews),
       pageviewsCompact: NumberFormatter.formatNumberCompact(response.totals.nb_pageviews),
       pageviewsEvolution: NumberFormatter.calculateAndFormatEvolution(

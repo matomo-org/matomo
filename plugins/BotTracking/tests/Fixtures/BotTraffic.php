@@ -150,7 +150,7 @@ class BotTraffic extends Fixture
             $tracker = self::getTracker($this->idSite, $date, true);
             $tracker->setUrl('https://example.com/article-' . (($index % 4) + 1));
             $tracker->setUrlReferrer($referrer);
-            self::checkResponse($tracker->doTrackPageView('Article From AI Assistant ' . ($index + 1)));
+            self::checkResponse($tracker->doTrackPageView('Article From AI Chatbot ' . ($index + 1)));
         }
     }
 

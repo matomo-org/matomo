@@ -7,11 +7,11 @@
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
  * @link http://www.phpgangsta.de/
  *
- * small adjustments by @sgiehl / matomo.org
+ * small adjustments by matomo.org
  * - renamed class
  * - removed method getQRCodeGoogleUrl
- * small adjustments by matomo.org
  * - use better random secret generator
+ * - apply proper type hints
  */
 
 class TwoFactorAuthenticator
@@ -25,7 +25,7 @@ class TwoFactorAuthenticator
      * @param int $secretLength
      * @return string
      */
-    public function createSecret($secretLength = 16)
+    public function createSecret(int $secretLength = 16): string
     {
         $validChars = $this->_getBase32LookupTable();
         unset($validChars[32]);
@@ -41,7 +41,7 @@ class TwoFactorAuthenticator
      * @param int|null $timeSlice
      * @return string
      */
-    public function getCode($secret, $timeSlice = null)
+    public function getCode(string $secret, ?int $timeSlice = null)
     {
         if ($timeSlice === null) {
             $timeSlice = floor(time() / 30);
@@ -77,7 +77,7 @@ class TwoFactorAuthenticator
      * @param int|null $currentTimeSlice time slice if we want use other that time()
      * @return bool
      */
-    public function verifyCode($secret, $code, $discrepancy = 1, $currentTimeSlice = null)
+    public function verifyCode(string $secret, string $code, int $discrepancy = 1, ?int $currentTimeSlice = null): bool
     {
         if ($currentTimeSlice === null) {
             $currentTimeSlice = floor(time() / 30);
@@ -85,7 +85,7 @@ class TwoFactorAuthenticator
 
         for ($i = -$discrepancy; $i <= $discrepancy; $i++) {
             $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
-            if ($calculatedCode == $code ) {
+            if ($this->timingSafeEquals($calculatedCode, $code)) {
                 return true;
             }
         }
@@ -99,7 +99,7 @@ class TwoFactorAuthenticator
      * @param int $length
      * @return self
      */
-    public function setCodeLength($length)
+    public function setCodeLength(int $length)
     {
         $this->_codeLength = $length;
         return $this;
@@ -108,10 +108,10 @@ class TwoFactorAuthenticator
     /**
      * Helper class to decode base32
      *
-     * @param $secret
-     * @return bool|string
+     * @param string $secret
+     * @return string
      */
-    protected function _base32Decode($secret)
+    protected function _base32Decode(string $secret): string
     {
         if (empty($secret)) return '';
 
@@ -149,7 +149,7 @@ class TwoFactorAuthenticator
      * @param bool $padding
      * @return string
      */
-    protected function _base32Encode($secret, $padding = true)
+    protected function _base32Encode(string $secret, bool $padding = true): string
     {
         if (empty($secret)) return '';
 
@@ -179,9 +179,9 @@ class TwoFactorAuthenticator
     /**
      * Get array with all 32 characters for decoding from/encoding to base32
      *
-     * @return array
+     * @return array<string>
      */
-    protected function _getBase32LookupTable()
+    protected function _getBase32LookupTable(): array
     {
         return array(
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', //  7
@@ -190,5 +190,36 @@ class TwoFactorAuthenticator
             'Y', 'Z', '2', '3', '4', '5', '6', '7', // 31
             '='  // padding char
         );
+    }
+
+    /**
+     * A timing safe equals comparison
+     * more info here: https://blog.ircmaxell.com/2014/11/its-all-about-time.html.
+     *
+     * @param string $safeString The internal (safe) value to be checked
+     * @param string $userString The user submitted (unsafe) value
+     *
+     * @return bool True if the two strings are identical
+     */
+    private function timingSafeEquals(string $safeString, string $userString): bool
+    {
+        if (function_exists('hash_equals')) {
+            return hash_equals($safeString, $userString);
+        }
+        $safeLen = strlen($safeString);
+        $userLen = strlen($userString);
+
+        if ($userLen != $safeLen) {
+            return false;
+        }
+
+        $result = 0;
+
+        for ($i = 0; $i < $userLen; ++$i) {
+            $result |= (ord($safeString[$i]) ^ ord($userString[$i]));
+        }
+
+        // They are only identical strings if $result is exactly 0...
+        return $result === 0;
     }
 }

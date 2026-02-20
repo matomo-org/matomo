@@ -140,6 +140,7 @@
         "ComputedMetricUniqueCountDocumentation": "Uimhir uathúil %s",
         "ConfigFileIsNotWritable": "Níl comhad cumraíochta Matomo %1$s inscríofa, b'fhéidir nach sábhálfar cuid de do chuid athruithe. %2$s Athraigh ceadanna an chomhaid chumraíochta le go mbeidh sé inscríofa.",
         "Confirm": "Deimhnigh",
+        "ConflictingAuthenticationParametersProvided": "Paraiméadair fíordheimhnithe contrártha curtha ar fáil.",
         "Continue": "Lean ar aghaidh",
         "ContinueToPiwik": "Lean ar aghaidh go Matomo",
         "CopiedToClipboard": "Cóipeáladh go dtí an ghearrthaisce",

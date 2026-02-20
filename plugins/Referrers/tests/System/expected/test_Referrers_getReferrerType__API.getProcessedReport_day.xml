@@ -3,7 +3,7 @@
 	<website>Piwik test</website>
 	<prettyDate>January 1 – March 10, 2010</prettyDate>
 	<metadata>
-		<category>Referrers</category>
+		<category>Acquisition</category>
 		<subcategory>All Channels</subcategory>
 		<name>Channel Type</name>
 		<module>Referrers</module>

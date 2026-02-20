@@ -144,6 +144,19 @@ class BotRequestsDao
         return (int)Db::get()->rowCount($result);
     }
 
+    public function getLastServerTimeForSiteAndBotType(int $idSite, string $botType): ?string
+    {
+        $tableName = self::getPrefixedTableName();
+
+        return Db::fetchOne(
+            sprintf(
+                'SELECT MAX(server_time) FROM `%s` WHERE idsite = ? AND bot_type = ?',
+                $tableName
+            ),
+            [$idSite, $botType]
+        );
+    }
+
     /**
      * @return int[]
      */
