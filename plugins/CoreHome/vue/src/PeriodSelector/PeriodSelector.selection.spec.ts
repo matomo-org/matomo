@@ -288,4 +288,56 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     };
     expect(computed.shouldShowApplyButton.call(compareVm)).toBe(true);
   });
+
+  it('makes range picker readonly when a range preset owns selection', () => {
+    const presetRangeVm: any = {
+      uiSelection: { type: 'preset', id: 'last30days' },
+      selectedPeriod: 'range',
+    };
+    expect(computed.isRangePresetSelection.call(presetRangeVm)).toBe(true);
+
+    const periodRangeVm: any = {
+      uiSelection: { type: 'period', id: 'range' },
+      selectedPeriod: 'range',
+    };
+    expect(computed.isRangePresetSelection.call(periodRangeVm)).toBe(false);
+  });
+
+  it('blocks range date-cell clicks only when range preset owns selection', () => {
+    const presetVm: any = {
+      isRangePresetSelection: true,
+    };
+
+    const blockedEvent: any = {
+      target: {
+        closest: jest.fn(() => ({})),
+      },
+      preventDefault: jest.fn(),
+      stopPropagation: jest.fn(),
+    };
+
+    methods.onRangePresetDateCellClickCapture.call(presetVm, blockedEvent);
+
+    expect(blockedEvent.preventDefault).toHaveBeenCalledTimes(1);
+    expect(blockedEvent.stopPropagation).toHaveBeenCalledTimes(1);
+
+    const ignoredEvent: any = {
+      target: {
+        closest: jest.fn(() => null),
+      },
+      preventDefault: jest.fn(),
+      stopPropagation: jest.fn(),
+    };
+
+    methods.onRangePresetDateCellClickCapture.call(presetVm, ignoredEvent);
+
+    expect(ignoredEvent.preventDefault).not.toHaveBeenCalled();
+    expect(ignoredEvent.stopPropagation).not.toHaveBeenCalled();
+
+    const periodVm: any = {
+      isRangePresetSelection: false,
+    };
+    methods.onRangePresetDateCellClickCapture.call(periodVm, blockedEvent);
+    expect(blockedEvent.target.closest).toHaveBeenCalledTimes(1);
+  });
 });
