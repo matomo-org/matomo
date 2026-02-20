@@ -43,15 +43,17 @@
     >
       <div class="flex">
         <div>
-          <DateRangePicker
-            v-show="calendarViewport === 'range'"
-            class="period-range"
-            :start-date="startRangeDate"
-            :end-date="endRangeDate"
-            @range-change="onRangeChange($event.start, $event.end)"
-            @submit="onApplyClicked()"
-          >
-          </DateRangePicker>
+          <div @click.capture="onRangePresetDateCellClickCapture($event)">
+            <DateRangePicker
+              v-show="calendarViewport === 'range'"
+              class="period-range"
+              :start-date="startRangeDate"
+              :end-date="endRangeDate"
+              @range-change="onRangeChange($event.start, $event.end)"
+              @submit="onApplyClicked()"
+            >
+            </DateRangePicker>
+          </div>
           <div
             class="period-date"
             v-show="calendarViewport === 'single'"
@@ -506,6 +508,10 @@ export default defineComponent({
         && this.lastInteractionSource === 'period'
         && this.selectedPeriod !== RANGE_PERIOD;
     },
+    isRangePresetSelection() {
+      return this.uiSelection.type === 'preset'
+        && this.selectedPeriod === RANGE_PERIOD;
+    },
     shouldShowApplyButton() {
       if (this.pendingPresetSelection) {
         return true;
@@ -842,6 +848,21 @@ export default defineComponent({
       this.startRangeDate = start;
       this.endRangeDate = end;
       this.setUiSelection({ type: 'period', id: RANGE_PERIOD }, 'range');
+    },
+    onRangePresetDateCellClickCapture(event: MouseEvent) {
+      if (!this.isRangePresetSelection) {
+        return;
+      }
+
+      const target = event.target as HTMLElement | null;
+      if (!target) {
+        return;
+      }
+
+      if (target.closest('.ui-datepicker-calendar a')) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
     },
     isApplyEnabled() {
       if (!this.shouldShowApplyButton) {
