@@ -10,12 +10,15 @@
 namespace Piwik\Plugins\Actions\RecordBuilders;
 
 use Piwik\API\Request;
+use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\ArchiveProcessor\Record;
 use Piwik\Cache;
+use Piwik\Common;
 use Piwik\Config\GeneralConfig;
 use Piwik\DataAccess\LogAggregator;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Metrics as PiwikMetrics;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
@@ -26,6 +29,16 @@ use Piwik\Tracker\GoalManager;
 
 class ActionReports extends ArchiveProcessor\RecordBuilder
 {
+    private const PAGE_HIERARCHICAL_TO_FLAT_RECORD = [
+        Archiver::PAGE_URLS_RECORD_NAME => Archiver::PAGE_URLS_FLAT_RECORD_NAME,
+        Archiver::PAGE_TITLES_RECORD_NAME => Archiver::PAGE_TITLES_FLAT_RECORD_NAME,
+    ];
+
+    private const PAGE_HIERARCHICAL_TO_ACTION_TYPE = [
+        Archiver::PAGE_URLS_RECORD_NAME => Action::TYPE_PAGE_URL,
+        Archiver::PAGE_TITLES_RECORD_NAME => Action::TYPE_PAGE_TITLE,
+    ];
+
     public function __construct()
     {
         ArchivingHelper::reloadConfig();
@@ -49,6 +62,12 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation()),
             Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_RECORD_NAME)
                 ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation()),
+            Record::make(Record::TYPE_BLOB, Archiver::PAGE_URLS_FLAT_RECORD_NAME)
+                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation())
+                ->setMaxRowsInTable(ArchivingHelper::getRankingQueryLimit()),
+            Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_FLAT_RECORD_NAME)
+                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation())
+                ->setMaxRowsInTable(ArchivingHelper::getRankingQueryLimit()),
 
             Record::make(Record::TYPE_BLOB, Archiver::DOWNLOADS_RECORD_NAME),
             Record::make(Record::TYPE_BLOB, Archiver::OUTLINKS_RECORD_NAME),
@@ -76,26 +95,51 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         ArchivingHelper::reloadConfig();
 
         $tablesByType = $this->makeReportTables();
+        $flatPageTablesByType = $this->makeFlatPageTables();
+        $tableModesByType = [
+            Action::TYPE_PAGE_URL => ArchivingHelper::ACTION_TABLE_MODE_FLAT,
+            Action::TYPE_PAGE_TITLE => ArchivingHelper::ACTION_TABLE_MODE_FLAT,
+        ];
+        $dayTablesByType = $tablesByType;
+        $dayTablesByType[Action::TYPE_PAGE_URL] = $flatPageTablesByType[Action::TYPE_PAGE_URL];
+        $dayTablesByType[Action::TYPE_PAGE_TITLE] = $flatPageTablesByType[Action::TYPE_PAGE_TITLE];
 
         $this->archiveDayActions(
             $archiveProcessor,
             $rankingQueryLimit,
-            $tablesByType,
-            array_diff(array_keys($tablesByType), [Action::TYPE_SITE_SEARCH]),
-            true
+            $dayTablesByType,
+            array_diff(array_keys($dayTablesByType), [Action::TYPE_SITE_SEARCH]),
+            true,
+            $tableModesByType
         );
 
         if ($archiveProcessor->getParams()->getSite()->isSiteSearchEnabled()) {
             $rankingQueryLimitSiteSearch = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
-            $this->archiveDayActions($archiveProcessor, $rankingQueryLimitSiteSearch, $tablesByType, [Action::TYPE_SITE_SEARCH], false);
+            $this->archiveDayActions(
+                $archiveProcessor,
+                $rankingQueryLimitSiteSearch,
+                $dayTablesByType,
+                [Action::TYPE_SITE_SEARCH],
+                false,
+                $tableModesByType
+            );
         }
 
-        $this->archiveDayEntryActions($archiveProcessor->getLogAggregator(), $tablesByType, $rankingQueryLimit);
-        $this->archiveDayExitActions($archiveProcessor->getLogAggregator(), $tablesByType, $rankingQueryLimit);
-        $this->archiveDayActionsTime($archiveProcessor->getLogAggregator(), $tablesByType, $rankingQueryLimit);
+        $this->archiveDayEntryActions($archiveProcessor->getLogAggregator(), $dayTablesByType, $rankingQueryLimit, $tableModesByType);
+        $this->archiveDayExitActions($archiveProcessor->getLogAggregator(), $dayTablesByType, $rankingQueryLimit, $tableModesByType);
+        $this->archiveDayActionsTime($archiveProcessor->getLogAggregator(), $dayTablesByType, $rankingQueryLimit, $tableModesByType);
         $this->archiveDayActionsGoals($archiveProcessor, $rankingQueryLimit);
 
         ArchivingHelper::clearActionsCache();
+
+        $tablesByType[Action::TYPE_PAGE_URL] = ArchivingHelper::buildHierarchicalActionsTableFromFlatTable(
+            $flatPageTablesByType[Action::TYPE_PAGE_URL]
+        );
+        $tablesByType[Action::TYPE_PAGE_TITLE] = ArchivingHelper::buildHierarchicalActionsTableFromFlatTable(
+            $flatPageTablesByType[Action::TYPE_PAGE_TITLE]
+        );
+        $tablesByType[Action::TYPE_PAGE_URL]->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+        $tablesByType[Action::TYPE_PAGE_TITLE]->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
 
         $prefix = $archiveProcessor->getParams()->getSite()->getMainUrl();
         $prefix = rtrim($prefix, '/') . '/';
@@ -109,6 +153,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         foreach ($tablesByType as $dataTable) {
             ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($dataTable);
         }
+        foreach ($flatPageTablesByType as $flatDataTable) {
+            ArchivingHelper::removeEmptyColumns($flatDataTable);
+        }
 
         $nbSearches = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
         $nbKeywords = $dataTable->getRowsCount();
@@ -117,7 +164,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $nbOutlinks = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
         $nbUniqOutlinks = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS));
 
-        $dataTable = $tablesByType[Action::TYPE_PAGE_URL];
+        $dataTable = $flatPageTablesByType[Action::TYPE_PAGE_URL];
         $nbPageviews = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
         $nbUniqPageviews = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS));
         $nbSumTimeGeneration = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_GENERATION));
@@ -129,6 +176,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         return [
             // blob records
+            Archiver::PAGE_URLS_FLAT_RECORD_NAME => $flatPageTablesByType[Action::TYPE_PAGE_URL],
+            Archiver::PAGE_TITLES_FLAT_RECORD_NAME => $flatPageTablesByType[Action::TYPE_PAGE_TITLE],
             Archiver::PAGE_URLS_RECORD_NAME => $tablesByType[Action::TYPE_PAGE_URL],
             Archiver::PAGE_TITLES_RECORD_NAME => $tablesByType[Action::TYPE_PAGE_TITLE],
             Archiver::DOWNLOADS_RECORD_NAME => $tablesByType[Action::TYPE_DOWNLOAD],
@@ -150,6 +199,366 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             Archiver::METRIC_DOWNLOADS_RECORD_NAME => $nbDownloads,
             Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME => $nbUniqDownloads,
         ];
+    }
+
+    public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
+    {
+        if (!$this->isEnabled($archiveProcessor)) {
+            return;
+        }
+
+        $requestedReports = $archiveProcessor->getParams()->getArchiveOnlyReportAsArray();
+        $foundRequestedReports = $archiveProcessor->getParams()->getFoundRequestedReports();
+
+        $recordsBuilt = $this->getRecordMetadata($archiveProcessor);
+
+        $numericRecords = array_filter($recordsBuilt, function (Record $r) {
+            return $r->getType() == Record::TYPE_NUMERIC;
+        });
+        $blobRecords = array_filter($recordsBuilt, function (Record $r) {
+            return $r->getType() == Record::TYPE_BLOB;
+        });
+
+        $aggregatedCounts = [];
+
+        foreach ($numericRecords as $record) {
+            if (
+                empty($record->getCountOfRecordName())
+                || !in_array($record->getName(), $requestedReports)
+            ) {
+                continue;
+            }
+
+            $dependentRecordName = $record->getCountOfRecordName();
+            if (!in_array($dependentRecordName, $requestedReports)) {
+                $requestedReports[] = $dependentRecordName;
+            }
+
+            $indexInFoundRecords = array_search($dependentRecordName, $foundRequestedReports);
+            if ($indexInFoundRecords !== false) {
+                unset($foundRequestedReports[$indexInFoundRecords]);
+            }
+        }
+
+        $processedFlatPageRecords = [];
+        foreach ($blobRecords as $record) {
+            if (
+                !empty($requestedReports)
+                && (!in_array($record->getName(), $requestedReports)
+                    || in_array($record->getName(), $foundRequestedReports))
+            ) {
+                continue;
+            }
+
+            $recordName = $record->getName();
+            $maxRowsInTable = $record->getMaxRowsInTable() ?? $this->maxRowsInTable;
+            $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
+            $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation();
+            if (empty($columnToSortByBeforeTruncation)) {
+                $columnToSortByBeforeTruncation = $this->columnToSortByBeforeTruncation;
+            }
+            $columnToRenameAfterAggregation = $record->getColumnToRenameAfterAggregation() ?? $this->columnToRenameAfterAggregation;
+            $columnAggregationOps = $record->getBlobColumnAggregationOps() ?? $this->columnAggregationOps;
+
+            if (isset(self::PAGE_HIERARCHICAL_TO_FLAT_RECORD[$recordName])) {
+                $flatRecordName = self::PAGE_HIERARCHICAL_TO_FLAT_RECORD[$recordName];
+                $processedFlatPageRecords[$flatRecordName] = true;
+
+                $usedFlatPath = $this->aggregatePageRecordFlatFirstForNonDay(
+                    $archiveProcessor,
+                    $recordName,
+                    $flatRecordName,
+                    $columnAggregationOps,
+                    $columnToRenameAfterAggregation,
+                    $maxRowsInTable,
+                    $maxRowsInSubtable,
+                    $columnToSortByBeforeTruncation
+                );
+
+                if (!$usedFlatPath) {
+                    $archiveProcessor->aggregateDataTableRecords(
+                        $recordName,
+                        $maxRowsInTable,
+                        $maxRowsInSubtable,
+                        $columnToSortByBeforeTruncation,
+                        $columnAggregationOps,
+                        $columnToRenameAfterAggregation
+                    );
+                }
+
+                continue;
+            }
+
+            $hierarchicalRecordName = $this->getHierarchicalRecordNameForFlat($recordName);
+            if ($hierarchicalRecordName !== null) {
+                if (isset($processedFlatPageRecords[$recordName])) {
+                    continue;
+                }
+
+                $this->aggregateAndInsertFlatRecordForNonDay(
+                    $archiveProcessor,
+                    $recordName,
+                    $columnAggregationOps,
+                    $columnToRenameAfterAggregation
+                );
+                continue;
+            }
+
+            $countRecursiveRows = $countLeafRows = [];
+            foreach ($numericRecords as $numeric) {
+                if (
+                    $numeric->getCountOfRecordName() == $record->getName()
+                ) {
+                    if ($numeric->getCountOfRecordNameIsRecursive()) {
+                        $countRecursiveRows[] = $numeric->getCountOfRecordName();
+                    }
+                    if ($numeric->getCountOfRecordNameIsForLeafs()) {
+                        $countLeafRows[] = $numeric->getCountOfRecordName();
+                    }
+                }
+            }
+
+            $counts = $archiveProcessor->aggregateDataTableRecords(
+                $record->getName(),
+                $maxRowsInTable,
+                $maxRowsInSubtable,
+                $columnToSortByBeforeTruncation,
+                $columnAggregationOps,
+                $columnToRenameAfterAggregation,
+                $countRecursiveRows,
+                $countLeafRows
+            );
+
+            $aggregatedCounts = array_merge($aggregatedCounts, $counts);
+        }
+
+        if (!empty($numericRecords)) {
+            $autoAggregateMetrics = array_filter($numericRecords, function (Record $r) {
+                return empty($r->getCountOfRecordName());
+            });
+            $autoAggregateMetrics = array_map(function (Record $r) {
+                return $r->getName();
+            }, $autoAggregateMetrics);
+
+            if (!empty($requestedReports)) {
+                $autoAggregateMetrics = array_filter($autoAggregateMetrics, function ($name) use ($requestedReports, $foundRequestedReports) {
+                    return in_array($name, $requestedReports) && !in_array($name, $foundRequestedReports);
+                });
+            }
+
+            $autoAggregateMetrics = array_values($autoAggregateMetrics);
+
+            if (!empty($autoAggregateMetrics)) {
+                $archiveProcessor->aggregateNumericMetrics($autoAggregateMetrics, $this->columnAggregationOps);
+            }
+
+            $recordCountMetricValues = [];
+
+            $recordCountMetrics = array_filter($numericRecords, function (Record $r) {
+                return !empty($r->getCountOfRecordName());
+            });
+            foreach ($recordCountMetrics as $record) {
+                $dependentRecordName = $record->getCountOfRecordName();
+                if (empty($aggregatedCounts[$dependentRecordName])) {
+                    continue;
+                }
+
+                $count = $aggregatedCounts[$dependentRecordName];
+
+                if ($record->getCountOfRecordNameIsForLeafs()) {
+                    $recordCountMetricValues[$record->getName()] = $count['leafs'];
+                } elseif ($record->getCountOfRecordNameIsRecursive()) {
+                    $recordCountMetricValues[$record->getName()] = $count['recursive'];
+                } else {
+                    $recordCountMetricValues[$record->getName()] = $count['level0'];
+                }
+
+                $transform = $record->getMultiplePeriodTransform();
+                if (!empty($transform)) {
+                    $recordCountMetricValues[$record->getName()] = $transform($recordCountMetricValues[$record->getName()], $count);
+                }
+            }
+
+            if (!empty($recordCountMetricValues)) {
+                $archiveProcessor->insertNumericRecords($recordCountMetricValues);
+            }
+        }
+    }
+
+    private function aggregatePageRecordFlatFirstForNonDay(
+        ArchiveProcessor $archiveProcessor,
+        string $hierarchicalRecordName,
+        string $flatRecordName,
+        ?array $columnAggregationOps,
+        ?array $columnToRenameAfterAggregation,
+        ?int $maxRowsInTable,
+        ?int $maxRowsInSubtable,
+        ?string $columnToSortByBeforeTruncation
+    ): bool {
+        [$flatTable, $hasFlatSourceData] = $this->aggregateDataTableFromBlobs(
+            $archiveProcessor,
+            $flatRecordName,
+            $columnAggregationOps,
+            $columnToRenameAfterAggregation
+        );
+
+        if (!$hasFlatSourceData) {
+            Common::destroy($flatTable);
+            return false;
+        }
+
+        $flatSerialized = $flatTable->getSerialized(
+            ArchivingHelper::$maximumRowsInDataTableFlatNonDay,
+            null,
+            $columnToSortByBeforeTruncation
+        );
+        $archiveProcessor->insertBlobRecord($flatRecordName, $flatSerialized);
+
+        $actionType = self::PAGE_HIERARCHICAL_TO_ACTION_TYPE[$hierarchicalRecordName];
+        $hierarchicalTable = ArchivingHelper::buildHierarchicalActionsTableFromFlatTable($flatTable);
+        $hierarchicalTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+
+        if ($actionType === Action::TYPE_PAGE_URL) {
+            $prefix = $archiveProcessor->getParams()->getSite()->getMainUrl();
+            $prefix = rtrim($prefix, '/') . '/';
+            ArchivingHelper::setFolderPathMetadata($hierarchicalTable, $isUrl = true, $prefix);
+        } else {
+            ArchivingHelper::setFolderPathMetadata($hierarchicalTable, $isUrl = false);
+        }
+
+        ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($hierarchicalTable);
+
+        $hierarchicalSerialized = $hierarchicalTable->getSerialized(
+            ArchivingHelper::$maximumRowsInDataTableFlatNonDay,
+            ArchivingHelper::$maximumRowsInDataTableFlatNonDay,
+            $columnToSortByBeforeTruncation
+        );
+        $archiveProcessor->insertBlobRecord($hierarchicalRecordName, $hierarchicalSerialized);
+
+        Common::destroy($hierarchicalTable);
+        Common::destroy($flatTable);
+
+        return true;
+    }
+
+    private function aggregateAndInsertFlatRecordForNonDay(
+        ArchiveProcessor $archiveProcessor,
+        string $flatRecordName,
+        ?array $columnAggregationOps,
+        ?array $columnToRenameAfterAggregation
+    ): void {
+        [$flatTable, $hasFlatSourceData] = $this->aggregateDataTableFromBlobs(
+            $archiveProcessor,
+            $flatRecordName,
+            $columnAggregationOps,
+            $columnToRenameAfterAggregation
+        );
+
+        if (!$hasFlatSourceData) {
+            Common::destroy($flatTable);
+            return;
+        }
+
+        $flatSerialized = $flatTable->getSerialized(
+            ArchivingHelper::$maximumRowsInDataTableFlatNonDay,
+            null,
+            $this->columnToSortByBeforeTruncation
+        );
+        $archiveProcessor->insertBlobRecord($flatRecordName, $flatSerialized);
+
+        Common::destroy($flatTable);
+    }
+
+    private function aggregateDataTableFromBlobs(
+        ArchiveProcessor $archiveProcessor,
+        string $recordName,
+        ?array $columnsAggregationOperation,
+        ?array $columnsToRenameAfterAggregation
+    ): array {
+        $tableIdToResultRowMapping = [];
+        $result = new DataTable();
+
+        if (!empty($columnsAggregationOperation)) {
+            $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+        }
+
+        $hasRows = false;
+        $archive = Archive::factory(
+            $archiveProcessor->getParams()->getSegment(),
+            $archiveProcessor->getParams()->getPeriod()->getSubperiods(),
+            [$archiveProcessor->getParams()->getSite()->getId()]
+        );
+        if (!method_exists($archive, 'querySingleBlob')) {
+            return [$result, false];
+        }
+
+        foreach ($archive->querySingleBlob($recordName) as $archiveDataRow) {
+            $hasRows = true;
+            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            $tableId = $archiveDataRow['name'] == $recordName ? null : $this->getSubtableIdFromBlobName($archiveDataRow['name']);
+
+            $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
+            $blobTable->filter(function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation) {
+                $archiveProcessor->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+            });
+
+            if ($tableId === null) {
+                $tableToAddTo = $result;
+            } elseif (!empty($tableIdToResultRowMapping[$period][$tableId])) {
+                $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
+                if (!$rowToAddTo->getIdSubDataTable()) {
+                    $newTable = new DataTable();
+                    $newTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+                    $rowToAddTo->setSubtable($newTable);
+                }
+
+                $tableToAddTo = $rowToAddTo->getSubtable();
+            } else {
+                Common::destroy($blobTable);
+                continue;
+            }
+
+            $tableToAddTo->addDataTable($blobTable);
+
+            foreach ($blobTable->getRows() as $blobTableRow) {
+                $label = $blobTableRow->getColumn('label');
+                $subtableId = $blobTableRow->getIdSubDataTable();
+                if (empty($subtableId)) {
+                    continue;
+                }
+
+                $rowToAddTo = $tableToAddTo->getRowFromLabel($label);
+                if ($rowToAddTo instanceof Row) {
+                    $tableIdToResultRowMapping[$period][$subtableId] = $rowToAddTo;
+                }
+            }
+
+            Common::destroy($blobTable);
+        }
+
+        return [$result, $hasRows];
+    }
+
+    private function getSubtableIdFromBlobName(string $recordName): ?int
+    {
+        $parts = explode('_', $recordName);
+        $id = end($parts);
+
+        if (!is_numeric($id)) {
+            return null;
+        }
+
+        return (int) $id;
+    }
+
+    private function getHierarchicalRecordNameForFlat(string $flatRecordName): ?string
+    {
+        $hierarchicalRecordName = array_search($flatRecordName, self::PAGE_HIERARCHICAL_TO_FLAT_RECORD, true);
+        if ($hierarchicalRecordName === false) {
+            return null;
+        }
+
+        return $hierarchicalRecordName;
     }
 
     protected function deleteUnusedColumnsFromKeywordsDataTable(DataTable $dataTable): void
@@ -192,12 +601,27 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $result;
     }
 
+    private function makeFlatPageTables(): array
+    {
+        $tables = [];
+        $maxRowsInFlatTable = ArchivingHelper::getRankingQueryLimit() + 1;
+        foreach ([Action::TYPE_PAGE_URL, Action::TYPE_PAGE_TITLE] as $type) {
+            $table = new DataTable();
+            $table->setMaximumAllowedRows($maxRowsInFlatTable);
+            $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+            $tables[$type] = $table;
+        }
+
+        return $tables;
+    }
+
     protected function archiveDayActions(
         ArchiveProcessor $archiveProcessor,
         int $rankingQueryLimit,
         array $actionsTablesByType,
         $actionTypes,
-        bool $includePageNotDefined
+        bool $includePageNotDefined,
+        array $tableModesByType = []
     ): void {
         $logAggregator = $archiveProcessor->getLogAggregator();
 
@@ -256,14 +680,38 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $this->updateQuerySelectFromForSiteSearch($select, $from);
         }
 
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy, $orderBy, "idaction_name", $rankingQuery, $metricsConfig);
-        $this->archiveDayQueryProcess($logAggregator, $actionsTablesByType, $select, $from, $where, $groupBy, $orderBy, "idaction_url", $rankingQuery, $metricsConfig);
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "idaction_name",
+            $rankingQuery,
+            $metricsConfig,
+            $tableModesByType
+        );
+        $this->archiveDayQueryProcess(
+            $logAggregator,
+            $actionsTablesByType,
+            $select,
+            $from,
+            $where,
+            $groupBy,
+            $orderBy,
+            "idaction_url",
+            $rankingQuery,
+            $metricsConfig,
+            $tableModesByType
+        );
     }
 
     /**
      * Entry actions for Page URLs and Page names
      */
-    protected function archiveDayEntryActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit)
+    protected function archiveDayEntryActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
@@ -312,7 +760,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "visit_entry_idaction_url",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
 
         $this->archiveDayQueryProcess(
@@ -324,14 +774,16 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "visit_entry_idaction_name",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
     }
 
     /**
      * Exit actions
      */
-    protected function archiveDayExitActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit)
+    protected function archiveDayExitActions(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
@@ -374,7 +826,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "visit_exit_idaction_url",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
 
         $this->archiveDayQueryProcess(
@@ -386,7 +840,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "visit_exit_idaction_name",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
 
         return array($rankingQuery, $extraSelects, $from, $orderBy, $select, $where, $groupBy);
@@ -395,7 +851,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     /**
      * Time per action
      */
-    protected function archiveDayActionsTime(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit)
+    protected function archiveDayActionsTime(LogAggregator $logAggregator, array $actionsTablesByType, int $rankingQueryLimit, array $tableModesByType = [])
     {
         $rankingQuery = false;
         if ($rankingQueryLimit > 0) {
@@ -438,7 +894,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "idaction_url_ref",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
 
         $this->archiveDayQueryProcess(
@@ -450,7 +908,9 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             $groupBy,
             $orderBy,
             "idaction_name_ref",
-            $rankingQuery
+            $rankingQuery,
+            [],
+            $tableModesByType
         );
     }
 
@@ -464,7 +924,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $orderBy,
         string $sprintfField,
         ?RankingQuery $rankingQuery = null,
-        array $metricsConfig = array()
+        array $metricsConfig = array(),
+        array $tableModesByType = []
     ): void {
         $select = sprintf($select, $sprintfField);
 
@@ -481,7 +942,13 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         // get result
         $resultSet = $logAggregator->getDb()->query($querySql, $query['bind']);
-        ArchivingHelper::updateActionsTableWithRowQuery($resultSet, $sprintfField, $actionsTablesByType, $metricsConfig);
+        ArchivingHelper::updateActionsTableWithRowQuery(
+            $resultSet,
+            $sprintfField,
+            $actionsTablesByType,
+            $metricsConfig,
+            $tableModesByType
+        );
     }
 
     protected function updateQuerySelectFromForSiteSearch(string &$select, array &$from): void

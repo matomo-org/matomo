@@ -31,6 +31,9 @@ use Zend_Db_Statement;
 class ArchivingHelper
 {
     public const OTHERS_ROW_KEY = '';
+    public const ACTION_TABLE_MODE_HIERARCHICAL = 'hierarchical';
+    public const ACTION_TABLE_MODE_FLAT = 'flat';
+    public const ACTION_FLAT_PATH_METADATA_NAME = 'flat_action_path';
 
     /**
      * Ideally this should use the DataArray object instead of custom data structure
@@ -40,7 +43,7 @@ class ArchivingHelper
      * @param array $actionsTablesByType
      * @return int
      */
-    public static function updateActionsTableWithRowQuery($query, $fieldQueried, $actionsTablesByType, $metricsConfig)
+    public static function updateActionsTableWithRowQuery($query, $fieldQueried, $actionsTablesByType, $metricsConfig, array $tableModesByType = [])
     {
         $rowsProcessed = 0;
         while ($row = $query->fetch()) {
@@ -95,7 +98,8 @@ class ArchivingHelper
                     continue;
                 }
 
-                $actionRow = self::getActionRow($actionName, $actionType, $urlPrefix, $actionsTablesByType);
+                $tableMode = $tableModesByType[$actionType] ?? self::ACTION_TABLE_MODE_HIERARCHICAL;
+                $actionRow = self::getActionRow($actionName, $actionType, $urlPrefix, $actionsTablesByType, $tableMode);
 
                 self::setCachedActionRow($idaction, $actionType, $actionRow);
             } else {
@@ -473,6 +477,7 @@ class ArchivingHelper
     public static $maximumRowsInDataTableLevelZero;
     public static $maximumRowsInSubDataTable;
     public static $maximumRowsInDataTableSiteSearch;
+    public static $maximumRowsInDataTableFlatNonDay;
     public static $columnToSortByBeforeTruncation;
 
     protected static $actionUrlCategoryDelimiter = null;
@@ -497,6 +502,7 @@ class ArchivingHelper
         self::$maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
         self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
         self::$maximumRowsInDataTableSiteSearch = Config::getInstance()->General['datatable_archiving_maximum_rows_site_search'];
+        self::$maximumRowsInDataTableFlatNonDay = Config::getInstance()->General['datatable_archiving_maximum_rows_actions_flat_non_day'];
 
         DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
@@ -535,8 +541,13 @@ class ArchivingHelper
      * @param array $actionsTablesByType
      * @return DataTable\Row
      */
-    public static function getActionRow($actionName, $actionType, $urlPrefix, $actionsTablesByType)
-    {
+    public static function getActionRow(
+        $actionName,
+        $actionType,
+        $urlPrefix,
+        $actionsTablesByType,
+        string $tableMode = self::ACTION_TABLE_MODE_HIERARCHICAL
+    ) {
         // we work on the root table of the given TYPE (either ACTION_URL or DOWNLOAD or OUTLINK etc.)
         /* @var DataTable $currentTable */
         $currentTable = $actionsTablesByType[$actionType];
@@ -554,6 +565,10 @@ class ArchivingHelper
             return $summaryRow;
         }
 
+        if ($tableMode === self::ACTION_TABLE_MODE_FLAT) {
+            return self::getFlatActionRow($actionName, $actionType, $urlPrefix, $currentTable);
+        }
+
         // go to the level of the subcategory
         $actionExplodedNames = self::getActionExplodedNames($actionName, $actionType, $urlPrefix);
         list($row, $level) = $currentTable->walkPath(
@@ -563,6 +578,105 @@ class ArchivingHelper
         );
 
         return $row;
+    }
+
+    public static function buildHierarchicalActionsTableFromFlatTable(DataTable $flatTable): DataTable
+    {
+        $table = new DataTable();
+        $table->setMaximumAllowedRows(self::$maximumRowsInDataTableLevelZero);
+        $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+
+        foreach ($flatTable->getRows() as $flatRow) {
+            if ($flatRow->isSummaryRow()) {
+                if (self::isRowEmptyOfMetrics($flatRow)) {
+                    continue;
+                }
+
+                $summaryRow = self::createSummaryRow();
+                self::mergeRowIntoDestination($flatRow, $summaryRow);
+                $table->addSummaryRow($summaryRow);
+                continue;
+            }
+
+            $actionPath = $flatRow->getMetadata(self::ACTION_FLAT_PATH_METADATA_NAME);
+            if (empty($actionPath) || !is_array($actionPath)) {
+                continue;
+            }
+
+            [$hierarchyRow, $level] = $table->walkPath(
+                $actionPath,
+                self::getDefaultRowColumns(),
+                self::$maximumRowsInSubDataTable
+            );
+
+            if ($hierarchyRow === false) {
+                continue;
+            }
+
+            self::mergeRowIntoDestination($flatRow, $hierarchyRow);
+        }
+
+        return $table;
+    }
+
+    private static function getFlatActionRow($actionName, $actionType, $urlPrefix, DataTable $table): Row
+    {
+        $actionExplodedNames = self::getActionExplodedNames($actionName, $actionType, $urlPrefix);
+        $flatLabel = self::buildFlatRowLabel($actionExplodedNames);
+
+        $row = $table->getRowFromLabel($flatLabel);
+        if ($row !== false) {
+            return $row;
+        }
+
+        $row = new Row(array(
+            Row::COLUMNS => array('label' => $flatLabel) + self::getDefaultRowColumns(),
+        ));
+        $row->setMetadata(self::ACTION_FLAT_PATH_METADATA_NAME, $actionExplodedNames);
+        $table->addRow($row);
+
+        return $row;
+    }
+
+    private static function buildFlatRowLabel(array $actionPath): string
+    {
+        $encodedPath = json_encode($actionPath);
+        if ($encodedPath === false) {
+            return implode("\n", $actionPath);
+        }
+
+        return $encodedPath;
+    }
+
+    private static function mergeRowIntoDestination(Row $source, Row $destination): void
+    {
+        $sourceCopy = clone $source;
+        $sourceCopy->deleteMetadata(self::ACTION_FLAT_PATH_METADATA_NAME);
+
+        $aggregationOps = Metrics::getColumnsAggregationOperation();
+        $destination->sumRow($sourceCopy, $enableCopyMetadata = true, $aggregationOps);
+    }
+
+    private static function isRowEmptyOfMetrics(Row $row): bool
+    {
+        foreach ($row->getColumns() as $name => $value) {
+            if ($name === 'label') {
+                continue;
+            }
+
+            if (is_array($value)) {
+                if (!empty($value)) {
+                    return false;
+                }
+                continue;
+            }
+
+            if (!empty($value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
