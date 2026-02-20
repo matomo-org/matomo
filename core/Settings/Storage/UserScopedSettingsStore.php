@@ -158,5 +158,9 @@ class UserScopedSettingsStore
         if (empty($pluginName)) {
             throw new \Exception('No plugin name specified for user scoped settings store');
         }
+
+        if (empty($userLogin)) {
+            throw new \Exception('No username specified for user scoped settings store');
+        }
     }
 }
