@@ -127,7 +127,7 @@ describe('ReportExportPopover', function () {
     ));
     await expectOptionChecked('option_flat', false);
     await expectExportLinkNotContains('flat=1');
-    await expectExportLinkNotContains('expanded=1');
+    await expectExportLinkContains('expanded=1');
 
     await clickFormat('HTML');
     await page.waitForFunction(() => (

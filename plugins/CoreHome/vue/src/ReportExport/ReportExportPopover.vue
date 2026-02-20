@@ -484,7 +484,6 @@ export default defineComponent({
       }
 
       if (this.hasSubtables
-        && !this.isFormatWithoutExpanded(reportFormat)
         && !effectiveOptionFlat
         && this.optionExpanded
       ) {
