@@ -61,11 +61,22 @@ class Controller extends \Piwik\Plugin\Controller
         ];
         $view->segmentList = SegmentEditor\API::getInstance()->getAll($this->idSite);
         array_unshift($view->segmentList, $allVisitsSegment);
+
         $view->segmentData = [];
+        $view->hasRealtimeSegments = false;
         foreach ($view->segmentList as $index => &$segment) {
             $segment['fixed'] = $segment['fixed'] ?? false;
             $segment['selected'] = $segment['definition'] === $this->currentSegmentDefinition;
             $segment['dashboardUrl'] = '?module=CoreHome&action=index&idSite=' . $this->idSite . '&period=' . $this->period . '&date=' . $this->strDate . '&segment=' . urlencode($segment['definition']);
+
+            if ($this->isRealtimeSegment($segment)) {
+                $segment['isRealtime'] = true;
+                $view->hasRealtimeSegments = true;
+                $view->segmentData[] = [];
+                continue;
+            }
+
+            $segment['isRealtime'] = false;
             $segment['sparklineUrl'] = $this->getSegmentSparklineUrl($segment);
             $data = VisitsSummary\API::getInstance()
                 ->get($this->idSite, $this->period, $this->strDate, $segment['definition'])
@@ -77,10 +88,15 @@ class Controller extends \Piwik\Plugin\Controller
             $data['evolution_visits_direction'] = $this->getEvolutionDirection($data["nb_visits"], $data['past_nb_visits']);
             $data['evolution_visits_icon'] = $this->getEvolutionIcon($data['evolution_visits_direction']);
             $data['evolution_visits'] = CalculateEvolutionFilter::calculate($data["nb_visits"], $data['past_nb_visits'], 0, true, false);
-            $view->segmentData[$index] = $data;
+            $view->segmentData[] = $data;
         }
 
         return $view->render();
+    }
+
+    private function isRealtimeSegment(array $segment): bool
+    {
+        return !empty($segment['definition']) && empty((int)$segment['auto_archive']);
     }
 
     protected function getEvolutionDirection(int $currentValue, int $pastValue): string
