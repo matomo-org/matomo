@@ -27,7 +27,7 @@
             :name="'option_flat'"
             :title="translate('CoreHome_FlattenReport')"
             v-model="optionFlat"
-            v-show="hasSubtables"
+            v-show="canExportFlat"
           >
           </Field>
         </div>
@@ -39,7 +39,7 @@
             :name="'option_show_dimensions'"
             :title="translate('CoreHome_IncludeDimensionsSeparately')"
             v-model="optionShowDimensions"
-            v-show="hasSubtables && hasMultipleDimensions && optionFlat"
+            v-show="canExportFlat && hasMultipleDimensions && optionFlat"
           >
           </Field>
         </div>
@@ -245,19 +245,17 @@ export default defineComponent({
     this.additionalContent = parameters.content;
   },
   data() {
-    let preferredSubtableOption = null;
-    if (this.initialOptionFlat) {
-      preferredSubtableOption = 'flat';
-    } else if (this.initialOptionExpanded) {
-      preferredSubtableOption = 'expanded';
-    }
+    const initialOptionFlat = this.canExportFlat
+      && this.initialOptionFlat;
     return {
       showUrl: false,
       reportFormat: this.initialReportFormat,
-      optionFlat: this.initialOptionFlat,
+      optionFlat: initialOptionFlat,
       optionShowDimensions: this.initialOptionShowDimensions,
       optionExpanded: this.initialOptionExpanded,
-      preferredSubtableOption,
+      preferredSubtableOption: 'default' as string | null,
+      isApplyingSubtableOption: false,
+      subtableOptionApplyVersion: 0,
       optionFormatMetrics: this.initialOptionFormatMetrics,
       reportType: this.initialReportType,
       reportLimitAll: this.initialReportLimitAll,
@@ -279,7 +277,17 @@ export default defineComponent({
           return;
         }
 
-        if (this.preferredSubtableOption === 'flat') {
+        const applyVersion = this.subtableOptionApplyVersion + 1;
+        this.subtableOptionApplyVersion = applyVersion;
+        this.isApplyingSubtableOption = true;
+
+        if (this.isFormatWithoutExpanded(this.reportFormat)) {
+          // CSV/TSV do not support expanded exports.
+          this.optionExpanded = false;
+          this.optionFlat = this.canExportFlat
+            && this.preferredSubtableOption !== 'expanded'
+            && this.preferredSubtableOption !== null;
+        } else if (this.preferredSubtableOption === 'flat') {
           this.optionFlat = true;
           this.optionExpanded = false;
         } else if (this.preferredSubtableOption === 'expanded') {
@@ -288,11 +296,20 @@ export default defineComponent({
         } else if (this.preferredSubtableOption === null) {
           this.optionFlat = false;
           this.optionExpanded = false;
+        } else {
+          this.optionFlat = false;
+          this.optionExpanded = true;
         }
+
+        this.$nextTick(() => {
+          if (this.subtableOptionApplyVersion === applyVersion) {
+            this.isApplyingSubtableOption = false;
+          }
+        });
       },
     },
     optionFlat(newVal) {
-      if (!this.hasSubtables) {
+      if (!this.hasSubtables || !this.canExportFlat || this.isApplyingSubtableOption) {
         return;
       }
 
@@ -306,7 +323,7 @@ export default defineComponent({
       }
     },
     optionExpanded(newVal) {
-      if (!this.hasSubtables) {
+      if (!this.hasSubtables || this.isApplyingSubtableOption) {
         return;
       }
       if (newVal) {

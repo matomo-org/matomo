@@ -99,7 +99,7 @@ describe('ReportExportPopover', function () {
 
   });
 
-  it('should default to TSV with flat selected and keep subtable option selection when switching formats', async function () {
+  it('should default to TSV, prefer expanded for non-CSV/TSV, and keep user subtable selection when switching formats', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
     await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
@@ -127,13 +127,31 @@ describe('ReportExportPopover', function () {
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="JSON"]')?.checked === true
     ));
+    await expectOptionChecked('option_flat', false);
+    await expectOptionChecked('option_expanded', true);
+    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkContains('expanded=1');
+
+    // CSV/TSV do not support expanded. In default mode, CSV/TSV keep flat checked.
+    await clickFormat('CSV');
+    await page.waitForFunction(() => (
+      document.querySelector('#reportExport input[name="format"][value="CSV"]')?.checked === true
+    ));
     await expectOptionChecked('option_flat', true);
-    await expectOptionChecked('option_expanded', false);
     await expectExportLinkContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
 
+    await clickFormat('JSON');
+    await page.waitForFunction(() => (
+      document.querySelector('#reportExport input[name="format"][value="JSON"]')?.checked === true
+    ));
+    await expectOptionChecked('option_flat', false);
+    await expectOptionChecked('option_expanded', true);
+    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkContains('expanded=1');
+
     // Clear both options and make sure this preference is remembered across format switches.
-    await clickOption('option_flat');
+    await clickOption('option_expanded');
     await expectOptionChecked('option_flat', false);
     await expectOptionChecked('option_expanded', false);
     await expectExportLinkNotContains('flat=1');
@@ -156,17 +174,23 @@ describe('ReportExportPopover', function () {
     await expectExportLinkNotContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
 
-    // Switch to expanded preference and verify CSV does not apply it.
-    await clickOption('option_expanded');
-    await expectOptionChecked('option_flat', false);
-    await expectOptionChecked('option_expanded', true);
-    await expectExportLinkContains('expanded=1');
-    await expectExportLinkNotContains('flat=1');
+    // Switch to flat preference and verify it is remembered across format switches.
+    await clickOption('option_flat');
+    await expectOptionChecked('option_flat', true);
+    await expectOptionChecked('option_expanded', false);
+    await expectExportLinkContains('flat=1');
+    await expectExportLinkNotContains('expanded=1');
 
     await clickFormat('CSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="CSV"]')?.checked === true
     ));
+    await expectOptionChecked('option_flat', true);
+    await expectExportLinkContains('flat=1');
+    await expectExportLinkNotContains('expanded=1');
+
+    // Unticking in CSV should immediately remove flat=1 and be remembered across formats.
+    await clickOption('option_flat');
     await expectOptionChecked('option_flat', false);
     await expectExportLinkNotContains('flat=1');
     await expectExportLinkNotContains('expanded=1');
@@ -176,9 +200,17 @@ describe('ReportExportPopover', function () {
       document.querySelector('#reportExport input[name="format"][value="XML"]')?.checked === true
     ));
     await expectOptionChecked('option_flat', false);
-    await expectOptionChecked('option_expanded', true);
+    await expectOptionChecked('option_expanded', false);
     await expectExportLinkNotContains('flat=1');
-    await expectExportLinkContains('expanded=1');
+    await expectExportLinkNotContains('expanded=1');
+
+    await clickFormat('CSV');
+    await page.waitForFunction(() => (
+      document.querySelector('#reportExport input[name="format"][value="CSV"]')?.checked === true
+    ));
+    await expectOptionChecked('option_flat', false);
+    await expectExportLinkNotContains('flat=1');
+    await expectExportLinkNotContains('expanded=1');
   });
 
   it('should keep subtable controls available when table is flat and subtables count is zero', async function () {
@@ -224,12 +256,14 @@ describe('ReportExportPopover', function () {
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="CSV"]')?.checked === true
     ));
+    await expectOptionChecked('option_flat', false);
     await expectExportLinkNotContains('flat=1');
 
     await clickFormat('TSV');
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="TSV"]')?.checked === true
     ));
+    await expectOptionChecked('option_flat', false);
     await expectExportLinkNotContains('flat=1');
   });
 

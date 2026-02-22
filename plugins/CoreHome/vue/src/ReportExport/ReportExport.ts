@@ -47,7 +47,7 @@ export default {
         || dataTable.param.show_dimensions === 1
         || dataTable.param.show_dimensions === '1';
       const hasSubtables = optionFlat || dataTable.numberOfSubtables > 0;
-      const canExportFlat = hasSubtables;
+      const canExportFlat = (binding.value.canExportFlat ?? hasSubtables) && hasSubtables;
 
       const props = {
         initialReportType: 'default',
