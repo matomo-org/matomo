@@ -99,7 +99,7 @@ describe('ReportExportPopover', function () {
 
   });
 
-  it('should default to TSV, prefer expanded for non-CSV/TSV, and keep user subtable selection when switching formats', async function () {
+  it('should default to TSV with flat selected on open, then keep user subtable selection when switching formats', async function () {
     await page.goto(url);
     await page.waitForNetworkIdle();
     await page.waitForSelector('#widgetActionsgetPageUrls', { visible: true });
@@ -118,6 +118,7 @@ describe('ReportExportPopover', function () {
     await page.waitForFunction(() => (
       document.querySelector('#reportExport input[name="format"][value="TSV"]')?.checked === true
     ));
+    // Intended default on open: TSV + flat (when flat export is available).
     await expectOptionChecked('option_flat', true);
     await expectOptionChecked('option_expanded', false);
     await expectExportLinkContains('flat=1');
