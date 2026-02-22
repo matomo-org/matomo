@@ -9277,18 +9277,22 @@ const {
       if (binding.value.maxFilterLimit > 0) {
         reportLimit = Math.min(reportLimit, binding.value.maxFilterLimit);
       }
-      const optionFlat = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === '1';
+      const isDataTableFlat = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === '1';
       const optionShowDimensions = dataTable.param.show_dimensions === true || dataTable.param.show_dimensions === 1 || dataTable.param.show_dimensions === '1';
-      const hasSubtables = optionFlat || dataTable.numberOfSubtables > 0;
+      const hasSubtables = isDataTableFlat || dataTable.numberOfSubtables > 0;
       const canExportFlat = ((_binding$value$canExp = binding.value.canExportFlat) !== null && _binding$value$canExp !== void 0 ? _binding$value$canExp : hasSubtables) && hasSubtables;
+      // Intentional product behaviour:
+      // when flat export is available, open the popover with TSV + flat selected.
+      const defaultFlatOnOpen = canExportFlat;
+      const defaultExpandedOnOpen = false;
       const props = {
         initialReportType: 'default',
         initialReportFormat: 'TSV',
         initialReportLimit: reportLimit > 0 ? reportLimit : 100,
         initialReportLimitAll: reportLimit === -1 ? 'yes' : 'no',
-        initialOptionFlat: canExportFlat,
+        initialOptionFlat: defaultFlatOnOpen,
         initialOptionShowDimensions: optionShowDimensions,
-        initialOptionExpanded: false,
+        initialOptionExpanded: defaultExpandedOnOpen,
         initialOptionFormatMetrics: false,
         hasSubtables,
         canExportFlat,
