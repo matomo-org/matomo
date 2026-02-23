@@ -5,6 +5,13 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+window.piwik.minDateYear = 2011;
+window.piwik.minDateMonth = 11;
+window.piwik.minDateDay = 15;
+window.piwik.maxDateYear = 2014;
+window.piwik.maxDateMonth = 3;
+window.piwik.maxDateDay = 29;
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PeriodSelector = require('./PeriodSelector.vue').default;
 
@@ -96,6 +103,24 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
 
     expect(vm.periodValue).toBe('range');
     expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('last30', 'range');
+  });
+
+  it('keeps thisWeekMonToday compatibility semantics when applying preset', () => {
+    const vm: any = {
+      uiSelection: { type: 'preset', id: 'thisWeekMonToday' },
+      pendingPresetSelection: {
+        id: 'thisWeekMonToday',
+        period: 'week',
+        date: 'today',
+      },
+      periodValue: 'day',
+      commitSelectionToUrl: jest.fn(),
+    };
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.periodValue).toBe('week');
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('today', 'week');
   });
 
   it('applies rolling preset token even when staged range is clamped', () => {
@@ -360,5 +385,29 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     };
     methods.onRangePresetDateCellClickCapture.call(periodVm, blockedEvent);
     expect(blockedEvent.target.closest).toHaveBeenCalledTimes(1);
+  });
+
+  it('applies a clamped date when movePeriod shifts past max boundary', () => {
+    const maxDate = new Date(
+      window.piwik.maxDateYear,
+      window.piwik.maxDateMonth - 1,
+      window.piwik.maxDateDay,
+    );
+    const movedDate = new Date(maxDate.getTime());
+    movedDate.setDate(movedDate.getDate() + 1);
+
+    const vm: any = {
+      periodValue: 'day',
+      dateValue: new Date(maxDate.getTime()),
+      canMovePeriod: jest.fn(() => true),
+      setPiwikPeriodAndDate: jest.fn(),
+    };
+
+    methods.movePeriod.call(vm, 1);
+
+    const appliedDate = vm.setPiwikPeriodAndDate.mock.calls[0][1] as Date;
+    expect(vm.setPiwikPeriodAndDate).toHaveBeenCalledWith('day', expect.any(Date));
+    expect(appliedDate.getTime()).toBe(maxDate.getTime());
+    expect(appliedDate.getTime()).not.toBe(movedDate.getTime());
   });
 });

@@ -201,6 +201,9 @@ export function resolvePresetDateRange(
     }
     case 'thisWeekMonToday': {
       const startDate = startOfWeekMonday(today);
+      // Intentionally keep compatibility with existing URL semantics:
+      // period=week&date=today remains the canonical "this week (Mon - Today)" selection.
+      // The selector derives the visible effective range from the current max-date bounds.
       return {
         id: presetId,
         period: 'week',
