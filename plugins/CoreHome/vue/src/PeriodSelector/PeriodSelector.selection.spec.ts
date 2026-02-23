@@ -98,6 +98,27 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('last30', 'range');
   });
 
+  it('applies rolling preset token even when staged range is clamped', () => {
+    const vm: any = {
+      uiSelection: { type: 'preset', id: 'last7days' },
+      pendingPresetSelection: {
+        id: 'last7days',
+        period: 'range',
+        date: 'last7',
+      },
+      startRangeDate: '2026-02-14',
+      endRangeDate: '2026-02-15',
+      periodValue: 'day',
+      commitSelectionToUrl: jest.fn(),
+    };
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.periodValue).toBe('range');
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('last7', 'range');
+    expect(vm.commitSelectionToUrl).not.toHaveBeenCalledWith('2026-02-14,2026-02-15', 'range');
+  });
+
   it('marks non-range period click as pending and does not apply on apply click', () => {
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
