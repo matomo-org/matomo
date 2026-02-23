@@ -13,6 +13,7 @@ use Piwik\Option;
 use Piwik\Plugins\CoreAdminHome\Commands\MigrateUserScopedSettings;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Settings\Storage\Factory;
 use Piwik\Settings\Storage\UserScopedSettingsStore;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -35,6 +36,7 @@ class MigrateUserScopedSettingsTest extends IntegrationTestCase
 
         Option::set($activeUser . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION, '{"PhoneNumbers":{"123":{"verified":true}}}');
         Option::set($deletedUser . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION, '{"PhoneNumbers":{"456":{"verified":true}}}');
+        Option::set(MobileMessaging::USER_SETTINGS_POSTFIX_OPTION, '{"Provider":"StubbedProvider"}');
 
         Option::set('Feedback.nextFeedbackReminder.' . $activeUser, '2030-01-01');
         Option::set('Feedback.nextFeedbackReminder.' . $deletedUser, '2030-02-01');
@@ -47,13 +49,15 @@ class MigrateUserScopedSettingsTest extends IntegrationTestCase
 
         $result = MigrateUserScopedSettings::migrate();
 
-        $this->assertSame(1, $result['mobileMessaging']);
+        $this->assertSame(2, $result['mobileMessaging']);
         $this->assertSame(1, $result['feedback']);
         $this->assertSame(1, $result['professionalServices']);
         $this->assertSame(1, $result['usersManagerPreferences']);
 
         $this->assertSame(['PhoneNumbers' => ['123' => ['verified' => true]]], $store->getAll('MobileMessaging', $activeUser));
         $this->assertSame([], $store->getAll('MobileMessaging', $deletedUser));
+        $globalSettings = (new Factory())->getPluginStorage('MobileMessaging', '')->getBackend()->load();
+        $this->assertSame(['Provider' => 'StubbedProvider'], $globalSettings);
 
         $this->assertSame('2030-01-01', $store->get('Feedback', $activeUser, 'nextFeedbackReminder', false));
         $this->assertFalse($store->get('Feedback', $deletedUser, 'nextFeedbackReminder', false));
@@ -66,6 +70,7 @@ class MigrateUserScopedSettingsTest extends IntegrationTestCase
 
         $this->assertFalse(Option::get($activeUser . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION));
         $this->assertFalse(Option::get($deletedUser . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION));
+        $this->assertFalse(Option::get(MobileMessaging::USER_SETTINGS_POSTFIX_OPTION));
         $this->assertFalse(Option::get('Feedback.nextFeedbackReminder.' . $activeUser));
         $this->assertFalse(Option::get('Feedback.nextFeedbackReminder.' . $deletedUser));
         $this->assertFalse(Option::get('ProfessionalServices.DismissedWidget.ActiveWidget.' . $activeUser));

@@ -68,10 +68,11 @@ class LegacyUserSettingsMigration
                 continue;
             }
 
-            if (empty($this->store->getAll('MobileMessaging', $login)) && is_string($optionValue)) {
+            $existingSettings = $this->getMobileMessagingSettings($login);
+            if (empty($existingSettings) && is_string($optionValue)) {
                 $decoded = json_decode($optionValue, true);
                 if (is_array($decoded)) {
-                    $this->store->setAll('MobileMessaging', $login, $decoded);
+                    $this->setMobileMessagingSettings($login, $decoded);
                     ++$migratedCount;
                 }
             }
@@ -215,6 +216,11 @@ class LegacyUserSettingsMigration
             'hideSegmentDefinitionChangeMessage',
         ];
         $customPreferenceNames = StaticContainer::get('usersmanager.user_preference_names');
+        if (!is_array($customPreferenceNames)) {
+            $customPreferenceNames = [];
+        }
+
+        $customPreferenceNames = array_values(array_filter($customPreferenceNames, 'is_string'));
 
         return array_values(array_unique(array_merge($preferenceNames, $customPreferenceNames)));
     }
@@ -233,5 +239,36 @@ class LegacyUserSettingsMigration
     {
         $settings = $this->store->getAll($pluginName, $userLogin);
         return array_key_exists($settingName, $settings);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getMobileMessagingSettings(string $userLogin): array
+    {
+        if ($userLogin === '') {
+            $settings = $this->getFactory()->getPluginStorage('MobileMessaging', $userLogin)->getBackend()->load();
+            return is_array($settings) ? $settings : [];
+        }
+
+        return $this->store->getAll('MobileMessaging', $userLogin);
+    }
+
+    /**
+     * @param array<string, mixed> $settings
+     */
+    private function setMobileMessagingSettings(string $userLogin, array $settings): void
+    {
+        if ($userLogin === '') {
+            $this->getFactory()->getPluginStorage('MobileMessaging', $userLogin)->getBackend()->save($settings);
+            return;
+        }
+
+        $this->store->setAll('MobileMessaging', $userLogin, $settings);
+    }
+
+    private function getFactory(): Factory
+    {
+        return StaticContainer::get(Factory::class);
     }
 }

@@ -13,8 +13,19 @@ use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Settings\Storage\Factory;
 use Piwik\Settings\Storage\UserScopedSettingsStore;
 
+/**
+ * @phpstan-type PhoneVerificationData array{
+ *     verified: bool,
+ *     verificationCode: string|null,
+ *     verificationTries: int,
+ *     verificationTime: int|null,
+ *     requestTime: int
+ * }
+ * @phpstan-type PhoneNumbers array<string, PhoneVerificationData>
+ */
 class Model
 {
     /**
@@ -28,9 +39,20 @@ class Model
     public function sendSMS(string $content, string $phoneNumber, string $from): bool
     {
         $credential = $this->getSMSAPICredential();
-        $SMSProvider = SMSProvider::factory($credential[MobileMessaging::PROVIDER_OPTION]);
+        $provider = $credential[MobileMessaging::PROVIDER_OPTION];
+        $credentials = $credential[MobileMessaging::API_KEY_OPTION];
+
+        if (!is_string($provider) || $provider === '') {
+            throw new \Exception('No SMS provider configured');
+        }
+
+        if (!is_array($credentials)) {
+            $credentials = [];
+        }
+
+        $SMSProvider = SMSProvider::factory($provider);
         $SMSProvider->sendSMS(
-            $credential[MobileMessaging::API_KEY_OPTION],
+            $credentials,
             $content,
             $phoneNumber,
             $from
@@ -45,7 +67,7 @@ class Model
      * get activated phone number list
      *
      * @param string $login
-     * @return array $phoneNumber
+     * @return string[]
      */
     public function getActivatedPhoneNumbers(string $login): array
     {
@@ -58,6 +80,7 @@ class Model
      * @param string $login
      * @param bool $onlyVerified
      * @return array
+     * @phpstan-return PhoneNumbers
      */
     public function getPhoneNumbers(string $login, bool $onlyVerified = true): array
     {
@@ -69,13 +92,13 @@ class Model
         }
 
         if ($onlyVerified) {
-            $phoneNumbers = array_filter($phoneNumbers, function ($verificationData) {
+            $phoneNumbers = array_filter($phoneNumbers, function (array $verificationData) {
                 return $verificationData['verified'];
             });
         }
 
         // Sort numbers. Unverified numbers first, then sorted by verification or request time
-        uasort($phoneNumbers, function ($a, $b) {
+        uasort($phoneNumbers, function (array $a, array $b) {
             if ($a['verified'] === $b['verified']) {
                 if ($a['verified']) {
                     return $b['verificationTime'] <=> $a['verificationTime'];
@@ -151,7 +174,7 @@ class Model
             'verificationCode' => $verificationCode,
             'verificationTries' => 0,
             'verificationTime' => null,
-            'requestTime' => Date::getNowTimestamp(),
+            'requestTime' => (int) Date::getNowTimestamp(),
         ];
 
         $this->savePhoneNumbers($login, $phoneNumbers);
@@ -171,6 +194,10 @@ class Model
         $this->savePhoneNumbers($login, $phoneNumbers);
     }
 
+    /**
+     * @param array $phoneNumbers
+     * @phpstan-param PhoneNumbers $phoneNumbers
+     */
     private function savePhoneNumbers(string $login, array $phoneNumbers): void
     {
         $settings = $this->getUserSettings($login);
@@ -184,14 +211,14 @@ class Model
     {
         $settings = $this->getUserSettings($login);
 
-        $counts = array();
-        if (isset($settings[$option])) {
+        $counts = [];
+        if (isset($settings[$option]) && is_array($settings[$option])) {
             $counts = $settings[$option];
         }
 
         $countToUpdate = 0;
         if (isset($counts[$phoneNumber])) {
-            $countToUpdate = $counts[$phoneNumber];
+            $countToUpdate = (int) $counts[$phoneNumber];
         }
 
         $counts[$phoneNumber] = $countToUpdate + 1;
@@ -201,32 +228,50 @@ class Model
         $this->setUserSettings($login, $settings);
     }
 
+    /**
+     * @return array{Provider: string|null, APIKey: array<string, mixed>|null}
+     */
     public function getSMSAPICredential(): array
     {
         $settings = $this->getCredentialManagerSettings();
 
-        $credentials = isset($settings[MobileMessaging::API_KEY_OPTION]) ? $settings[MobileMessaging::API_KEY_OPTION] : null;
+        $provider = null;
+        if (isset($settings[MobileMessaging::PROVIDER_OPTION]) && is_string($settings[MobileMessaging::PROVIDER_OPTION])) {
+            $provider = $settings[MobileMessaging::PROVIDER_OPTION];
+        }
+
+        $credentials = $settings[MobileMessaging::API_KEY_OPTION] ?? null;
 
         // fallback for older values, where api key has been stored as string value
-        if (!empty($credentials) && !is_array($credentials)) {
-            $credentials = [
-                'apiKey' => $credentials,
-            ];
+        if ($credentials !== null && $credentials !== '' && !is_array($credentials)) {
+            if (is_scalar($credentials)) {
+                $credentials = [
+                    'apiKey' => (string) $credentials,
+                ];
+            } else {
+                $credentials = null;
+            }
+        } elseif (!is_array($credentials)) {
+            $credentials = null;
         }
 
         return [
-            MobileMessaging::PROVIDER_OPTION =>
-                isset($settings[MobileMessaging::PROVIDER_OPTION]) ? $settings[MobileMessaging::PROVIDER_OPTION] : null,
-            MobileMessaging::API_KEY_OPTION  =>
-                $credentials,
+            MobileMessaging::PROVIDER_OPTION => $provider,
+            MobileMessaging::API_KEY_OPTION => $credentials,
         ];
     }
 
-    public function setCredentialManagerSettings($settings): void
+    /**
+     * @param array<string, mixed> $settings
+     */
+    public function setCredentialManagerSettings(array $settings): void
     {
         $this->setUserSettings($this->getCredentialManagerLogin(), $settings);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getCredentialManagerSettings(): array
     {
         return $this->getUserSettings($this->getCredentialManagerLogin());
@@ -243,8 +288,16 @@ class Model
         Option::set(MobileMessaging::DELEGATED_MANAGEMENT_OPTION, $delegatedManagement);
     }
 
-    private function setUserSettings(string $login, $settings): void
+    /**
+     * @param array<string, mixed> $settings
+     */
+    private function setUserSettings(string $login, array $settings): void
     {
+        if ($login === '') {
+            $this->getFactory()->getPluginStorage('MobileMessaging', $login)->getBackend()->save($settings);
+            return;
+        }
+
         $this->getStore()->setAll('MobileMessaging', $login, $settings);
     }
 
@@ -253,16 +306,28 @@ class Model
         return $this->getDelegatedManagement() ? Piwik::getCurrentUserLogin() : '';
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function getUserSettings(string $login): array
     {
+        if ($login === '') {
+            $settings = $this->getFactory()->getPluginStorage('MobileMessaging', $login)->getBackend()->load();
+            return is_array($settings) ? $settings : [];
+        }
+
         return $this->getStore()->getAll('MobileMessaging', $login);
     }
 
+    /**
+     * @return array
+     * @phpstan-return PhoneNumbers
+     */
     private function getPhoneNumbersFromSettings(string $login): array
     {
         $settings = $this->getUserSettings($login);
 
-        $phoneNumbers = array();
+        $phoneNumbers = [];
         if (isset($settings[MobileMessaging::PHONE_NUMBERS_OPTION])) {
             $phoneNumbers = $settings[MobileMessaging::PHONE_NUMBERS_OPTION];
         }
@@ -271,32 +336,70 @@ class Model
             $phoneNumbers = [];
         }
 
-        // Map old storage data to new format
-        foreach ($phoneNumbers as $phoneNumber => &$verificationData) {
-            if (is_string($verificationData)) {
-                $verificationData = [
-                    'verified' => false,
-                    'verificationCode' => $verificationData,
-                    'verificationTime' => null,
-                    'verificationTries' => 0,
-                    'requestTime' => Date::getNowTimestamp(),
-                ];
-            } elseif (null === $verificationData) {
-                $verificationData = [
-                    'verified' => true,
-                    'verificationCode' => null,
-                    'verificationTime' => null,
-                    'verificationTries' => 0,
-                    'requestTime' => Date::getNowTimestamp(),
-                ];
-            }
+        foreach ($phoneNumbers as $phoneNumber => $verificationData) {
+            $phoneNumbers[$phoneNumber] = $this->normalizeVerificationData($verificationData);
         }
 
         return $phoneNumbers;
     }
 
+    /**
+     * @param mixed $verificationData
+     * @return array
+     * @phpstan-return PhoneVerificationData
+     */
+    private function normalizeVerificationData($verificationData): array
+    {
+        if (is_string($verificationData)) {
+            return [
+                'verified' => false,
+                'verificationCode' => $verificationData,
+                'verificationTime' => null,
+                'verificationTries' => 0,
+                'requestTime' => (int) Date::getNowTimestamp(),
+            ];
+        }
+
+        if ($verificationData === null) {
+            return [
+                'verified' => true,
+                'verificationCode' => null,
+                'verificationTime' => null,
+                'verificationTries' => 0,
+                'requestTime' => (int) Date::getNowTimestamp(),
+            ];
+        }
+
+        if (!is_array($verificationData)) {
+            return [
+                'verified' => false,
+                'verificationCode' => null,
+                'verificationTime' => null,
+                'verificationTries' => 0,
+                'requestTime' => (int) Date::getNowTimestamp(),
+            ];
+        }
+
+        return [
+            'verified' => !empty($verificationData['verified']),
+            'verificationCode' => isset($verificationData['verificationCode']) && $verificationData['verificationCode'] !== null
+                ? (string) $verificationData['verificationCode']
+                : null,
+            'verificationTime' => isset($verificationData['verificationTime']) && $verificationData['verificationTime'] !== null
+                ? (int) $verificationData['verificationTime']
+                : null,
+            'verificationTries' => isset($verificationData['verificationTries']) ? (int) $verificationData['verificationTries'] : 0,
+            'requestTime' => isset($verificationData['requestTime']) ? (int) $verificationData['requestTime'] : (int) Date::getNowTimestamp(),
+        ];
+    }
+
     private function getStore(): UserScopedSettingsStore
     {
         return StaticContainer::get(UserScopedSettingsStore::class);
+    }
+
+    private function getFactory(): Factory
+    {
+        return StaticContainer::get(Factory::class);
     }
 }
