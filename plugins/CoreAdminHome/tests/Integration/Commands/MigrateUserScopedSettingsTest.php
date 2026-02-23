@@ -46,13 +46,15 @@ class MigrateUserScopedSettingsTest extends IntegrationTestCase
 
         Option::set($activeUser . '_defaultReport', '7');
         Option::set($deletedUser . '_defaultReport', '8');
+        Option::set($activeUser . '_isLDAPUser', '1');
+        Option::set($deletedUser . '_isLDAPUser', '1');
 
         $result = MigrateUserScopedSettings::migrate();
 
         $this->assertSame(2, $result['mobileMessaging']);
         $this->assertSame(1, $result['feedback']);
         $this->assertSame(1, $result['professionalServices']);
-        $this->assertSame(1, $result['usersManagerPreferences']);
+        $this->assertSame(2, $result['usersManagerPreferences']);
 
         $this->assertSame(['PhoneNumbers' => ['123' => ['verified' => true]]], $store->getAll('MobileMessaging', $activeUser));
         $this->assertSame([], $store->getAll('MobileMessaging', $deletedUser));
@@ -66,7 +68,9 @@ class MigrateUserScopedSettingsTest extends IntegrationTestCase
         $this->assertSame([], $store->get('ProfessionalServices', $deletedUser, 'dismissedWidgets', []));
 
         $this->assertSame('7', $store->get('UsersManager', $activeUser, 'defaultReport', false));
+        $this->assertSame('1', $store->get('UsersManager', $activeUser, 'isLDAPUser', false));
         $this->assertFalse($store->get('UsersManager', $deletedUser, 'defaultReport', false));
+        $this->assertFalse($store->get('UsersManager', $deletedUser, 'isLDAPUser', false));
 
         $this->assertFalse(Option::get($activeUser . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION));
         $this->assertFalse(Option::get($deletedUser . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION));
@@ -77,5 +81,7 @@ class MigrateUserScopedSettingsTest extends IntegrationTestCase
         $this->assertFalse(Option::get('ProfessionalServices.DismissedWidget.DeletedWidget.' . $deletedUser));
         $this->assertFalse(Option::get($activeUser . '_defaultReport'));
         $this->assertFalse(Option::get($deletedUser . '_defaultReport'));
+        $this->assertSame('1', Option::get($activeUser . '_isLDAPUser'));
+        $this->assertFalse(Option::get($deletedUser . '_isLDAPUser'));
     }
 }

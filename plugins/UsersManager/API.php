@@ -22,6 +22,7 @@ use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\NoAccessException;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\AnonymousAccessEnabledEmail;
 use Piwik\Plugins\CoreAdminHome\Emails\UserDeletedEmail;
@@ -226,6 +227,11 @@ class API extends \Piwik\Plugin\API
 
         $this->assertPreferenceNameIsSupported($preferenceName);
         $this->getUserSettingsStore()->set('UsersManager', $userLogin, $preferenceName, $preferenceValue);
+
+        // Keep legacy option key for LoginLdap compatibility without requiring submodule changes.
+        if ($preferenceName === 'isLDAPUser') {
+            Option::set($userLogin . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preferenceName, $preferenceValue);
+        }
     }
 
     /**

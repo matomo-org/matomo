@@ -180,6 +180,12 @@ class LegacyUserSettingsMigration
                     ++$migratedCount;
                 }
 
+                if ($preferenceName === 'isLDAPUser' && isset($knownLogins[$login])) {
+                    // Keep legacy option key for LoginLdap submodule compatibility.
+                    Option::set($optionName, $optionValue);
+                    continue;
+                }
+
                 Option::delete($optionName);
             }
         }

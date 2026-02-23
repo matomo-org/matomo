@@ -22,6 +22,7 @@ use Piwik\Date;
 use Piwik\EventDispatcher;
 use Piwik\Mail;
 use Piwik\NoAccessException;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
@@ -229,6 +230,17 @@ class APITest extends IntegrationTestCase
 
         $siteId = $this->api->getUserPreference(API::PREFERENCE_DEFAULT_REPORT, $this->login);
         self::assertEquals('5', $siteId);
+    }
+
+    public function testSetUserPreferenceWritesLegacyOptionForIsLdapUserCompatibility()
+    {
+        $this->api->setUserPreference($this->login, 'isLDAPUser', 1);
+
+        $settingsStore = StaticContainer::get(UserScopedSettingsStore::class);
+        self::assertEquals(1, $settingsStore->get('UsersManager', $this->login, 'isLDAPUser', false));
+
+        $legacyOptionName = $this->login . API::OPTION_NAME_PREFERENCE_SEPARATOR . 'isLDAPUser';
+        self::assertEquals(1, Option::get($legacyOptionName));
     }
 
     public function testInitUserPreferenceWithDefaultShouldSaveTheDefaultPreferenceIfPreferenceIsNotSet()
