@@ -106,15 +106,29 @@ class WidgetReportMapper
         array $parameters,
         array $reportIndex
     ): ?string {
-        foreach ($parameters as $parameter) {
-            if (!is_scalar($parameter) || is_bool($parameter)) {
+        $scalarParameterValues = [];
+
+        foreach ($parameters as $parameterName => $parameterValue) {
+            if (!is_scalar($parameterValue) || is_bool($parameterValue)) {
                 continue;
             }
 
-            $candidateKey = $widgetKey . '.' . (string) $parameter;
+            $parameterValue = (string) $parameterValue;
+            $scalarParameterValues[] = $parameterValue;
+
+            $candidateKey = $widgetKey . '.' . (string) $parameterName . '.' . $parameterValue;
             if (isset($reportIndex[$candidateKey])) {
                 return $reportIndex[$candidateKey];
             }
+        }
+
+        if (count($scalarParameterValues) !== 1) {
+            return null;
+        }
+
+        $candidateKey = $widgetKey . '.' . $scalarParameterValues[0];
+        if (isset($reportIndex[$candidateKey])) {
+            return $reportIndex[$candidateKey];
         }
 
         return null;
@@ -221,8 +235,23 @@ class WidgetReportMapper
             $key = $reportMeta['module'] . '.' . $reportMeta['action'];
 
             if (!empty($reportMeta['parameters']) && is_array($reportMeta['parameters'])) {
-                $parameterValue = reset($reportMeta['parameters']);
-                $key .= '.' . $parameterValue;
+                foreach ($reportMeta['parameters'] as $parameterName => $parameterValue) {
+                    if (!is_scalar($parameterValue) || is_bool($parameterValue)) {
+                        continue;
+                    }
+
+                    $parameterValue = (string) $parameterValue;
+                    $keyWithName = $key . '.' . (string) $parameterName . '.' . $parameterValue;
+                    if (!isset($index[$keyWithName])) {
+                        $index[$keyWithName] = $reportMeta['uniqueId'];
+                    }
+
+                    $keyByValue = $key . '.' . $parameterValue;
+                    if (!isset($index[$keyByValue])) {
+                        $index[$keyByValue] = $reportMeta['uniqueId'];
+                    }
+                }
+                continue;
             }
 
             if (!isset($index[$key])) {

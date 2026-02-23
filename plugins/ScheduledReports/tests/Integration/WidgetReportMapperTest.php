@@ -167,7 +167,7 @@ class WidgetReportMapperTest extends IntegrationTestCase
         $this->assertSame('Events_getCategory', $mapping[$categoryWidget->getUniqueId()]);
     }
 
-    public function testFindReportIdByWidgetParametersChecksEachParameterIndependently()
+    public function testFindReportIdByWidgetParametersPrefersParameterNameMatches()
     {
         $mapper = new WidgetReportMapper();
         $method = new \ReflectionMethod(WidgetReportMapper::class, 'findReportIdByWidgetParameters');
@@ -179,6 +179,48 @@ class WidgetReportMapperTest extends IntegrationTestCase
             array(
                 'first' => 'firstValue',
                 'second' => 'matchingValue',
+            ),
+            array(
+                'SomeModule.someAction.second.matchingValue' => 'SomeModule_someAction_second_matchingValue',
+                'SomeModule.someAction.matchingValue' => 'SomeModule_someAction_matchingValue',
+            )
+        );
+
+        $this->assertSame('SomeModule_someAction_second_matchingValue', $reportId);
+    }
+
+    public function testFindReportIdByWidgetParametersDoesNotFallbackToValueOnlyWhenThereAreMultipleParameters()
+    {
+        $mapper = new WidgetReportMapper();
+        $method = new \ReflectionMethod(WidgetReportMapper::class, 'findReportIdByWidgetParameters');
+        $method->setAccessible(true);
+
+        $reportId = $method->invoke(
+            $mapper,
+            'SomeModule.someAction',
+            array(
+                'first' => 'firstValue',
+                'second' => 'matchingValue',
+            ),
+            array(
+                'SomeModule.someAction.matchingValue' => 'SomeModule_someAction_matchingValue',
+            )
+        );
+
+        $this->assertNull($reportId);
+    }
+
+    public function testFindReportIdByWidgetParametersFallsBackToValueOnlyWhenThereIsSingleParameter()
+    {
+        $mapper = new WidgetReportMapper();
+        $method = new \ReflectionMethod(WidgetReportMapper::class, 'findReportIdByWidgetParameters');
+        $method->setAccessible(true);
+
+        $reportId = $method->invoke(
+            $mapper,
+            'SomeModule.someAction',
+            array(
+                'single' => 'matchingValue',
             ),
             array(
                 'SomeModule.someAction.matchingValue' => 'SomeModule_someAction_matchingValue',
