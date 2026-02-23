@@ -99,6 +99,7 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
     const selectPayload = getSelectPayload(wrapper);
     expect(selectPayload.startDate.toISOString().substring(0, 10)).toBe('2026-02-14');
     expect(selectPayload.endDate.toISOString().substring(0, 10)).toBe('2026-02-15');
+    expect(selectPayload.date).toBe('last7');
   });
 
   it('should resolve period and date values for all presets', async () => {

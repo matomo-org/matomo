@@ -673,6 +673,8 @@ export default defineComponent({
         && this.pendingPresetSelection.id === this.uiSelection.id
       ) {
         this.periodValue = this.pendingPresetSelection.period;
+        // Keep relative preset tokens in the URL (for example, "last7") so bookmarks stay rolling.
+        // Staged start/end dates can be clamped for current UI bounds, but URL semantics stay relative.
         this.commitSelectionToUrl(
           this.pendingPresetSelection.date,
           this.pendingPresetSelection.period,
