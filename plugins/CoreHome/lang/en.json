@@ -54,6 +54,7 @@
         "PeriodRange": "Range",
         "ReportGeneratedOn": "Report generated on %s",
         "ReportGeneratedXAgo": "Report generated %s ago",
+        "ReportConfigure": "Configure this report",
         "SharePiwikLong": "Hi! I just found a great piece of free software: Matomo!\n\nMatomo will let you track visitors to your website for free. You should definitely check it out!",
         "SharePiwikShort": "Matomo! Free\/libre web analytics. Own your data.",
         "ShareThis": "Share this",
