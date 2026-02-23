@@ -104,6 +104,7 @@ interface ManageScheduledReportState {
 type WidgetReportMap = {
   dashboardName: string;
   email: Record<string, boolean>;
+  idSegment?: string|number|null;
   unmappedWidgets?: string[];
 };
 
@@ -557,8 +558,13 @@ export default defineComponent({
           method: 'ScheduledReports.getWidgetReportMap',
           dashId: dashboardId,
           idSite: Matomo.idSite,
+          segment: this.getExportSegmentFromUrl(),
         },
       ).then((e) => e as WidgetReportMap);
+    },
+    getExportSegmentFromUrl(): string {
+      const { segment } = MatomoUrl.parsed.value;
+      return typeof segment === 'string' ? segment : '';
     },
     getDashboardIdFromUrl(): string {
       const queryDashboardId = this.normalizeDashboardIdParam(
@@ -602,6 +608,10 @@ export default defineComponent({
       const dashName = Matomo.helper.htmlDecode(mapping.dashboardName);
       const escapedDashName = this.escapeHtml(dashName);
       this.selectedReports = { email: { ...mapping.email } };
+      this.selectedReportsOrder = { email: Object.keys(mapping.email || {}) };
+      if (mapping.idSegment) {
+        this.report.idsegment = mapping.idSegment;
+      }
 
       const dateTodayString = format(getToday());
       this.report.description = translate(

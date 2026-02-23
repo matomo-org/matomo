@@ -19,6 +19,7 @@ use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
+use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\Dashboard\Model as DashboardModel;
 use Piwik\Exception\InvalidRequestParameterException;
@@ -53,7 +54,7 @@ class ApiTest extends IntegrationTestCase
         // setup the access layer
         self::setSuperUser();
         \Piwik\Plugin\Manager::getInstance()->loadPlugins(array('API', 'UserCountry', 'ScheduledReports',
-            'MobileMessaging', 'VisitsSummary', 'Referrers', 'Dashboard', 'Live'));
+            'MobileMessaging', 'VisitsSummary', 'Referrers', 'Dashboard', 'Live', 'SegmentEditor'));
         \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
 
         APISitesManager::getInstance()->addSite("Test", array("http://piwik.net"));
@@ -223,6 +224,52 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame(Piwik::translate('Dashboard_DashboardOf', Piwik::getCurrentUserLogin()), $result['dashboardName']);
     }
 
+    public function testGetWidgetReportMapIncludesIdSegmentWhenSegmentMatchesSavedSegment()
+    {
+        $this->createSimpleDashboardLayout();
+        $segmentDefinition = 'browserCode==ff';
+        $idSegment = APISegmentEditor::getInstance()->add('firefox-segment', $segmentDefinition, $this->idSite);
+
+        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, $segmentDefinition);
+
+        $this->assertArrayHasKey('idSegment', $result);
+        $this->assertSame($idSegment, $result['idSegment']);
+    }
+
+    public function testGetWidgetReportMapReturnsNullIdSegmentWhenNoMatch()
+    {
+        $this->createSimpleDashboardLayout();
+        APISegmentEditor::getInstance()->add('firefox-segment', 'browserCode==ff', $this->idSite);
+
+        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, 'browserCode==ch');
+
+        $this->assertArrayHasKey('idSegment', $result);
+        $this->assertNull($result['idSegment']);
+    }
+
+    public function testGetWidgetReportMapAcceptsEncodedSegmentEquivalent()
+    {
+        $this->createSimpleDashboardLayout();
+        $segmentDefinition = 'browserCode==ff;visitIp!=127.0.0.1';
+        $idSegment = APISegmentEditor::getInstance()->add('firefox-complex-segment', $segmentDefinition, $this->idSite);
+
+        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, urlencode($segmentDefinition));
+
+        $this->assertArrayHasKey('idSegment', $result);
+        $this->assertSame($idSegment, $result['idSegment']);
+    }
+
+    public function testGetWidgetReportMapWithEmptySegmentKeepsNullIdSegment()
+    {
+        $this->createSimpleDashboardLayout();
+        APISegmentEditor::getInstance()->add('firefox-segment', 'browserCode==ff', $this->idSite);
+
+        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, '');
+
+        $this->assertArrayHasKey('idSegment', $result);
+        $this->assertNull($result['idSegment']);
+    }
+
     public function testGetWidgetReportMapReturnsEmptyWhenDashboardIsMissing()
     {
         $result = APIScheduledReports::getInstance()->getWidgetReportMap(999, $this->idSite);
@@ -253,6 +300,31 @@ class ApiTest extends IntegrationTestCase
         $this->expectException(InvalidRequestParameterException::class);
 
         APIScheduledReports::getInstance()->getWidgetReportMap(1, 'abc');
+    }
+
+    public function testGetWidgetReportMapThrowsWhenSegmentHasInvalidType()
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+
+        APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, array('foo'));
+    }
+
+    private function createSimpleDashboardLayout(): void
+    {
+        $layout = json_encode([
+            [
+                [
+                    'uniqueId' => WidgetsList::getWidgetUniqueId('VisitsSummary', 'get'),
+                    'parameters' => [
+                        'module' => 'VisitsSummary',
+                        'action' => 'get',
+                    ],
+                ],
+            ],
+        ]);
+
+        $dashboardModel = new DashboardModel();
+        $dashboardModel->updateLayoutForUser(Piwik::getCurrentUserLogin(), 1, $layout);
     }
 
     /**

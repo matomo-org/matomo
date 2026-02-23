@@ -252,15 +252,18 @@ class API extends \Piwik\Plugin\API
      * @internal
      * @param int|string $dashId
      * @param int|string $idSite
+     * @param string $segment
      * @return array
      * @throws Exception
      */
-    public function getWidgetReportMap($dashId, $idSite): array
+    public function getWidgetReportMap($dashId, $idSite, $segment = ''): array
     {
         $dashId = $this->normalizePositiveIntegerParameter($dashId, 'dashId');
         $idSite = $this->normalizePositiveIntegerParameter($idSite, 'idSite');
+        $segment = $this->normalizeOptionalStringParameter($segment, 'segment');
 
         Piwik::checkUserHasViewAccess($idSite);
+        $idSegment = $this->findIdSegmentForDefinition($segment, $idSite);
 
         $dashboardInfo = $this->getDashboardNameAndLayout($dashId);
         if ($dashboardInfo) {
@@ -270,6 +273,7 @@ class API extends \Piwik\Plugin\API
                 return [
                     'dashboardName' => $dashboardName,
                     'email' => [],
+                    'idSegment' => $idSegment,
                     'unmappedWidgets' => [],
                 ];
             }
@@ -290,12 +294,14 @@ class API extends \Piwik\Plugin\API
             return [
                 'dashboardName' => $dashboardName,
                 'email' => $reportMapping,
+                'idSegment' => $idSegment,
                 'unmappedWidgets' => $unmappedWidgets,
             ];
         }
         return [
             'dashboardName' => '',
             'email' => [],
+            'idSegment' => $idSegment,
             'unmappedWidgets' => [],
         ];
     }
@@ -339,6 +345,49 @@ class API extends \Piwik\Plugin\API
         }
 
         return (int) $normalizedValue;
+    }
+
+    /**
+     * @param mixed $value
+     * @throws InvalidRequestParameterException
+     */
+    private function normalizeOptionalStringParameter($value, string $parameterName): string
+    {
+        if ($value === null || $value === '') {
+            return '';
+        }
+
+        if (!is_scalar($value) || is_bool($value)) {
+            throw new InvalidRequestParameterException("The parameter '$parameterName' contains an invalid value.");
+        }
+
+        return (string) $value;
+    }
+
+    private function findIdSegmentForDefinition(string $segmentDefinition, int $idSite): ?int
+    {
+        if ($segmentDefinition === '' || !self::isSegmentEditorActivated()) {
+            return null;
+        }
+
+        $segmentHash = md5(urldecode($segmentDefinition));
+        $segments = APISegmentEditor::getInstance()->getAll($idSite);
+        foreach ($segments as $segment) {
+            if (empty($segment['idsegment']) || empty($segment['definition'])) {
+                continue;
+            }
+
+            $existingHash = !empty($segment['hash'])
+                ? (string) $segment['hash']
+                : md5(urldecode((string) $segment['definition']));
+            if ($existingHash !== $segmentHash) {
+                continue;
+            }
+
+            return (int) $segment['idsegment'];
+        }
+
+        return null;
     }
     /**
      * Returns the list of reports matching the passed parameters
