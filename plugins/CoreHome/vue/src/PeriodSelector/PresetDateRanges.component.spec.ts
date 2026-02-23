@@ -113,6 +113,7 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
       { id: 'lastMonth', period: 'month', date: 'lastmonth' },
       { id: 'lastQuarter', period: 'range', date: '2025-10-01,2025-12-31' },
       { id: 'lastYear', period: 'year', date: 'lastyear' },
+      // Intentional compatibility behavior: week + today remains canonical here.
       { id: 'thisWeekMonToday', period: 'week', date: 'today' },
       { id: 'thisMonth', period: 'month', date: 'today' },
       { id: 'thisQuarter', period: 'range', date: '2026-01-01,2026-02-16' },

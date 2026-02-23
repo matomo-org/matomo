@@ -674,7 +674,8 @@ export default defineComponent({
       ) {
         this.periodValue = this.pendingPresetSelection.period;
         // Keep relative preset tokens in the URL (for example, "last7") so bookmarks stay rolling.
-        // Staged start/end dates can be clamped for current UI bounds, but URL semantics stay relative.
+        // Staged start/end dates can be clamped for current UI bounds,
+        // but URL semantics stay relative.
         this.commitSelectionToUrl(
           this.pendingPresetSelection.date,
           this.pendingPresetSelection.period,
@@ -911,10 +912,9 @@ export default defineComponent({
         return;
       }
 
-      let newDate = new Date();
-      if (this.dateValue != null) {
-        newDate = this.dateValue;
-      }
+      const newDate = this.dateValue != null
+        ? new Date(this.dateValue.getTime())
+        : new Date();
 
       switch (this.periodValue) {
         case 'day':
@@ -934,11 +934,11 @@ export default defineComponent({
       }
 
       // Ensure the date is not outside the min and max dates
-      if (this.dateValue! < piwikMinDate) {
-        this.dateValue = piwikMinDate;
+      if (newDate < piwikMinDate) {
+        newDate.setTime(piwikMinDate.getTime());
       }
-      if (this.dateValue! > piwikMaxDate) {
-        this.dateValue = piwikMaxDate;
+      if (newDate > piwikMaxDate) {
+        newDate.setTime(piwikMaxDate.getTime());
       }
 
       this.setPiwikPeriodAndDate(this.periodValue, newDate);
