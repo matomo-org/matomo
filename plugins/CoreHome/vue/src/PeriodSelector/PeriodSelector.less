@@ -2,6 +2,15 @@
   display: inline-block;
 
   &.compare-dropdown-open {
+    #comparePeriodToDropdown {
+      position: relative;
+      z-index: 2;
+
+      .dropdown-content {
+        z-index: 3 !important;
+      }
+    }
+
     label[for=comparePeriodEndDate] {
       visibility: hidden;
     }
@@ -41,7 +50,6 @@
   #comparePeriodToDropdown {
     height: 30px;
     display: inline-block;
-    width: 55%;
     transform: scale(.9);
     margin-left: -2%;
     margin-right: -5%;
@@ -69,7 +77,6 @@
 
   div#comparePeriodStartDate, div#comparePeriodEndDate {
     display: inline-block;
-    width: calc(~"50% - 20px");
 
     .form-group {
       margin: 0;
@@ -77,11 +84,23 @@
 
     .input-field {
       margin-top: 0;
-      padding: 0;
+      padding: 0 0 0 0.6rem;
     }
 
     .select-dropdown {
       margin-bottom: 0;
+    }
+  }
+
+  #periodMore.single-calendar {
+    div#comparePeriodStartDate, div#comparePeriodEndDate {
+      width: calc(~"70%");
+    }
+  }
+
+  #periodMore.dual-calendar {
+    div#comparePeriodStartDate, div#comparePeriodEndDate {
+      width: calc(~"50% - 20px");
     }
   }
 

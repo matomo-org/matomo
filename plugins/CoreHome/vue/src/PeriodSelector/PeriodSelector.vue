@@ -40,6 +40,7 @@
     <div
       id="periodMore"
       class="dropdown"
+      :class="selectedPeriod === 'range' ? 'dual-calendar' : 'single-calendar'"
     >
       <div class="flex">
         <div>
