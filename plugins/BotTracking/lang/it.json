@@ -1,5 +1,9 @@
 {
     "BotTracking": {
-        "PageUrl": "URL pagina"
+        "PageUrl": "URL pagina",
+        "NoDataHttpTrackingApi": "API di Tracciamento HTTP",
+        "SiteWithoutDataBackToMatomo": "Torna a Matomo",
+        "SiteWithoutDataInstallWithX": "Installa con %1$s",
+        "SiteWithoutDataStepByStepGuide": "Guida passo-passo"
     }
 }

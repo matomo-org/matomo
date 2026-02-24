@@ -346,6 +346,7 @@ class Mysql implements SchemaInterface
                                       ts_finished DATETIME NOT NULL,
                                       total_time BIGINT UNSIGNED NOT NULL,
                                       total_time_exclusive BIGINT UNSIGNED NOT NULL,
+                                      is_temporary TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
                                         PRIMARY KEY(metadataid),
                                         INDEX index_idarchive(idarchive),
                                         INDEX index_idsite_archive_name(idsite, archive_name),

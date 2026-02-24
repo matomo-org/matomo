@@ -1,5 +1,7 @@
 {
     "BotTracking": {
-        "PageUrl": "Sivun URL"
+        "PageUrl": "Sivun URL",
+        "NoDataHttpTrackingApi": "HTTP-seurantarajapinta",
+        "SiteWithoutDataBackToMatomo": "Takaisin Matomoon"
     }
 }

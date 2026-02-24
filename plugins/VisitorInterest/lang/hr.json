@@ -2,8 +2,24 @@
     "VisitorInterest": {
         "BetweenXYMinutes": "%1$s – %2$s min",
         "BetweenXYSeconds": "%1$s – %2$s s",
+        "ColumnPagesPerVisit": "Br. stranica po posjetu",
+        "ColumnPercentageVisitsDocumentation": "Postotak ukupnih posjeta, pri čemu su posjetitelji do tada imali ovaj broj posjeta ukupno.",
+        "ColumnVisitDuration": "Trajanje posjeta",
         "Engagement": "Angažman",
         "NPages": "%s stranica",
-        "OnePage": "1 stranica"
+        "OnePage": "1 stranica",
+        "PluginDescription": "Interes posjetitelja: broj pregledanih stranica, vrijeme provedeno na web-stranici, broj dana od zadnjeg posjeta i drugo.",
+        "VisitNum": "Broj posjeta",
+        "VisitsByDaysSinceLast": "Posjeti po danima od zadnjeg posjeta",
+        "VisitsPerDuration": "Posjeti po trajanju posjeta",
+        "VisitsPerNbOfPages": "Posjeti po broju stranica",
+        "WidgetLengths": "Duljina posjeta",
+        "WidgetLengthsDocumentation": "Koliko je posjeta imalo određeno ukupno trajanje. Izvještaj se u početku prikazuje kao oblak oznaka, pri čemu se češća trajanja prikazuju većim fontom.",
+        "WidgetPages": "Br. stranica po posjetu",
+        "WidgetPagesDocumentation": "Koliko je posjeta uključivalo određeni broj pregleda stranica. Izvještaj se u početku prikazuje kao oblak oznaka, pri čemu se češći brojevi stranica prikazuju većim fontom.",
+        "WidgetVisitsByDaysSinceLast": "Posjeti po danima od zadnjeg posjeta",
+        "WidgetVisitsByDaysSinceLastDocumentation": "Koliko je posjeta bilo od povratnih posjetitelja čija je zadnja posjeta bila prije određenog broja dana.",
+        "WidgetVisitsByNumDocumentation": "Broj posjetitelja koji su ostvarili svoj n-ti posjet. To jest, ukupni broj posjetitelja koji su posjetili tvoju web-stranicu određeni broj puta ili više.",
+        "visitsByVisitCount": "Posjeti po broju posjeta"
     }
 }

@@ -14,6 +14,7 @@
       href
       @click.prevent
       :data-target="`dropdownConfigure${randomIdForDropdown}`"
+      :title="translate('CoreHome_ReportConfigure')"
       style="margin-right:3.5px"
       v-if="hasConfigItems && (isAnyConfigureIconHighlighted || isTableView)"
     >

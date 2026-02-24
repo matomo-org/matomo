@@ -1,5 +1,9 @@
 {
     "BotTracking": {
-        "PageUrl": "網頁網址"
+        "PageUrl": "網頁網址",
+        "NoDataHttpTrackingApi": "HTTP跟踪API",
+        "SiteWithoutDataBackToMatomo": "返回 Matomo",
+        "SiteWithoutDataInstallWithX": "使用 %1$s 安装",
+        "SiteWithoutDataStepByStepGuide": "分步指南"
     }
 }

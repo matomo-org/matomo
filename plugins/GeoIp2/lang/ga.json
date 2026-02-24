@@ -44,7 +44,7 @@
         "LocationProviderDesc_Php_WithExtension": "Tá an t-eisínteacht %1$smaxminddb%2$s suiteáilte níos tapúla do sholáthraí na suíomhanna seo.",
         "LocationProviderDesc_ServerModule": "Úsáideann an soláthraí suímh seo an modúl GeoIP 2 atá suiteáilte i do fhreastalaí HTTP. Tá an soláthraí seo tapa agus cruinn, ach ní féidir %1$s a úsáid ach amháin le gnáthrianú brabhsálaí.%2$s",
         "LocationProviderDesc_ServerModule2": "Má tá ort logchomhaid a iompórtáil nó rud éigin eile a dhéanamh a theastaíonn uait seoltaí IP a shocrú, úsáid forfheidhmithe %3$sPHP GeoIP 2%4$s agus suiteáil iarmhír %1$smaxminddb%2$s.",
-        "MalFormedUpdateUrl": "Is cosúil go bhfuil an url %1$s neamhbhailí. Cinntigh le do thoil URL bailí a chur isteach ag tosú le http:// nó https://",
+        "MalFormedUpdateUrl": "Is cosúil go bhfuil an url %1$s neamhbhailí. Cinntigh le do thoil go gcuireann tú url bailí isteach ag tosú le http:// nó https://",
         "NotManagingGeoIPDBs": "Níl aon bhunachair shonraí DBIP nó MaxMind á mbainistiú ag Matomo faoi láthair.",
         "PluginDescription": "Soláthraíonn soláthraithe suímh DBIP / GeoIP2.",
         "ServerBasedVariablesConfiguration": "Cumraíocht d'athróga freastalaí a úsáideann modúil freastalaí GeoIP 2",

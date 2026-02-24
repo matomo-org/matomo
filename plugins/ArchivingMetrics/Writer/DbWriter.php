@@ -20,8 +20,8 @@ final class DbWriter implements WriterInterface
     public function write(Context $context, array $timing): void
     {
         Db::query(
-            'INSERT INTO ' . Common::prefixTable('archiving_metrics') . ' (idarchive, idsite, archive_name, date1, date2, period, ts_started, ts_finished, total_time, total_time_exclusive)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO ' . Common::prefixTable('archiving_metrics') . ' (idarchive, idsite, archive_name, date1, date2, period, ts_started, ts_finished, total_time, total_time_exclusive, is_temporary)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
                 $timing['idarchive'],
                 $context->idSite,
@@ -33,6 +33,7 @@ final class DbWriter implements WriterInterface
                 $timing['ts_finished'],
                 $timing['total_time'],
                 $timing['total_time_exclusive'],
+                $timing['is_temporary'],
             ]
         );
     }
