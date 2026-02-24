@@ -327,6 +327,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param mixed $value
+     * @param string $parameterName
      * @throws InvalidRequestParameterException
      */
     private function normalizePositiveIntegerParameter($value, string $parameterName): int
@@ -349,6 +350,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param mixed $value
+     * @param string $parameterName
      * @throws InvalidRequestParameterException
      */
     private function normalizeOptionalStringParameter($value, string $parameterName): string
