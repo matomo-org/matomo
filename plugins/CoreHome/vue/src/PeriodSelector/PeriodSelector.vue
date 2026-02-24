@@ -230,7 +230,7 @@ const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matom
 // today/now
 const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
 const RANGE_PERIOD = 'range';
-const CONTEXT_KEY_IGNORED_PARAMS = ['date', 'period', 'comparePeriods', 'comparePeriodType', 'compareDates'];
+const CONTEXT_KEY_IGNORED_PARAMS = ['date', 'period', 'comparePeriods', 'comparePeriodType', 'compareDates', 'compareSegments'];
 
 type UiSelection = { type: 'period'; id: string } | { type: 'preset'; id: PresetDateRangeId };
 type InteractionSource = 'period' | 'preset' | 'calendar' | 'range' | null;
