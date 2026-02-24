@@ -79,7 +79,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
   });
 
   describe('#getCurrentDashboardId()', () => {
-    it('returns null when subcategory is empty', () => {
+    it('returns null when no dashboard id can be resolved', () => {
       getSearchParamMock.mockReturnValue('');
       const wrapper = mountComponent();
 
@@ -93,8 +93,128 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       expect((wrapper.vm as any).getCurrentDashboardId()).toBe(7);
     });
 
-    it('returns null when subcategory is not numeric', () => {
+    it('falls back to query idDashboard when subcategory is missing', () => {
+      getSearchParamMock.mockReturnValue('');
+      MatomoUrlMock.urlParsed.value = { idDashboard: '9' };
+      const wrapper = mountComponent();
+
+      expect((wrapper.vm as any).getCurrentDashboardId()).toBe(9);
+    });
+
+    it('falls back to hash idDashboard when subcategory and query idDashboard are missing', () => {
+      getSearchParamMock.mockReturnValue('');
+      MatomoUrlMock.urlParsed.value = {};
+      MatomoUrlMock.hashParsed.value = { idDashboard: '13' };
+      const wrapper = mountComponent();
+
+      expect((wrapper.vm as any).getCurrentDashboardId()).toBe(13);
+    });
+
+    it('prefers subcategory over idDashboard', () => {
+      getSearchParamMock.mockReturnValue('7');
+      MatomoUrlMock.urlParsed.value = { idDashboard: '9' };
+      MatomoUrlMock.hashParsed.value = { idDashboard: '13' };
+      const wrapper = mountComponent();
+
+      expect((wrapper.vm as any).getCurrentDashboardId()).toBe(7);
+    });
+
+    it('falls back to query idDashboard when subcategory is invalid', () => {
       getSearchParamMock.mockReturnValue('foo');
+      MatomoUrlMock.urlParsed.value = { idDashboard: '9' };
+      const wrapper = mountComponent();
+
+      expect((wrapper.vm as any).getCurrentDashboardId()).toBe(9);
+    });
+
+    it.each(['', 'foo', '1.5', '0', '-1'])(
+      'returns null for invalid dashboard id value "%s"',
+      (invalidValue) => {
+        getSearchParamMock.mockReturnValue(invalidValue);
+        MatomoUrlMock.urlParsed.value = {};
+        MatomoUrlMock.hashParsed.value = {};
+        const wrapper = mountComponent();
+
+        expect((wrapper.vm as any).getCurrentDashboardId()).toBeNull();
+      },
+    );
+  });
+
+  describe('#normalizeDashboardId()', () => {
+    it.each([
+      ['1', 1],
+      [1, 1],
+      ['001', null],
+      [' 7 ', 7],
+      [['8'], 8],
+      [[], null],
+      ['1.5', null],
+      ['0', null],
+      ['-3', null],
+      ['foo', null],
+      [null, null],
+      [undefined, null],
+    ])('normalizes %p to %p', (input, expected) => {
+      const wrapper = mountComponent();
+
+      expect((wrapper.vm as any).normalizeDashboardId(input)).toBe(expected);
+    });
+  });
+
+  describe('#onClickExportDashboard()', () => {
+    it('redirects authenticated users to create scheduled report with fallback query idDashboard', () => {
+      MatomoMock.userLogin = 'admin';
+      getSearchParamMock.mockReturnValue('');
+      MatomoUrlMock.urlParsed.value = { idDashboard: '11' };
+      const wrapper = mountComponent();
+      const vm = wrapper.vm as any;
+
+      const redirectToCreateScheduledReportsSpy = jest.spyOn(vm, 'redirectToCreateScheduledReports');
+
+      vm.onClickExportDashboard();
+
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledTimes(1);
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith(11);
+    });
+
+    it('redirects authenticated users to create scheduled report with fallback hash idDashboard', () => {
+      MatomoMock.userLogin = 'admin';
+      getSearchParamMock.mockReturnValue('');
+      MatomoUrlMock.urlParsed.value = {};
+      MatomoUrlMock.hashParsed.value = { idDashboard: '17' };
+      const wrapper = mountComponent();
+      const vm = wrapper.vm as any;
+
+      const redirectToCreateScheduledReportsSpy = jest.spyOn(vm, 'redirectToCreateScheduledReports');
+
+      vm.onClickExportDashboard();
+
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledTimes(1);
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith(17);
+    });
+
+    it('redirects authenticated users to create scheduled report with null when all ids are invalid', () => {
+      MatomoMock.userLogin = 'admin';
+      getSearchParamMock.mockReturnValue('foo');
+      MatomoUrlMock.urlParsed.value = { idDashboard: '0' };
+      MatomoUrlMock.hashParsed.value = { idDashboard: 'x' };
+      const wrapper = mountComponent();
+      const vm = wrapper.vm as any;
+
+      const redirectToCreateScheduledReportsSpy = jest.spyOn(vm, 'redirectToCreateScheduledReports');
+
+      vm.onClickExportDashboard();
+
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledTimes(1);
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith(null);
+    });
+  });
+
+  describe('#getCurrentDashboardId() legacy invalid subcategory', () => {
+    it('returns null when subcategory and fallbacks are not numeric', () => {
+      getSearchParamMock.mockReturnValue('foo');
+      MatomoUrlMock.urlParsed.value = {};
+      MatomoUrlMock.hashParsed.value = {};
       const wrapper = mountComponent();
 
       expect((wrapper.vm as any).getCurrentDashboardId()).toBeNull();
@@ -177,7 +297,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
     });
   });
 
-  describe('#onClickExportDashboard()', () => {
+  describe('#onClickExportDashboard() existing behavior', () => {
     it('redirects authenticated users to create scheduled report with dashboard id', () => {
       MatomoMock.userLogin = 'admin';
       const wrapper = mountComponent();

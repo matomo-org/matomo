@@ -271,18 +271,31 @@ export default defineComponent({
       this.redirectToLoginPage();
     },
 
-    getCurrentDashboardId(): number|string|null {
-      const subcategory = MatomoUrl.getSearchParam('subcategory');
-      if (subcategory === '') {
+    normalizeDashboardId(value: unknown): number|null {
+      const candidate = Array.isArray(value) ? value[0] : value;
+      if (candidate === null || candidate === undefined) {
         return null;
       }
 
-      const parsed = Number(subcategory);
-      if (!Number.isNaN(parsed)) {
-        return parsed;
+      const normalized = String(candidate).trim();
+      if (!/^[1-9]\d*$/.test(normalized)) {
+        return null;
       }
 
-      return null;
+      return Number(normalized);
+    },
+    getCurrentDashboardId(): number|null {
+      const fromSubcategory = this.normalizeDashboardId(MatomoUrl.getSearchParam('subcategory'));
+      if (fromSubcategory !== null) {
+        return fromSubcategory;
+      }
+
+      const fromQueryIdDashboard = this.normalizeDashboardId(MatomoUrl.urlParsed.value.idDashboard);
+      if (fromQueryIdDashboard !== null) {
+        return fromQueryIdDashboard;
+      }
+
+      return this.normalizeDashboardId(MatomoUrl.hashParsed.value.idDashboard);
     },
   },
 });
