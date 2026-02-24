@@ -99,6 +99,7 @@ interface ManageScheduledReportState {
   selectedReports: Record<string, Record<string, boolean>>;
   selectedReportsOrder: Record<string, string[]>;
   sendingReports: Array<string|number>;
+  isDashboardExportInfoVisible: boolean;
 }
 
 type WidgetReportMap = {
@@ -251,6 +252,7 @@ export default defineComponent({
       selectedReports: {},
       selectedReportsOrder: {},
       sendingReports: [],
+      isDashboardExportInfoVisible: false,
     };
   },
   methods: {
@@ -374,6 +376,7 @@ export default defineComponent({
       if (message !== '') {
         dashboardInfoMessage += `<br/><br/>${message}`;
       }
+      this.isDashboardExportInfoVisible = true;
       this.showNotificationMessage(selector, dashboardInfoMessage, 'info', 'persistent');
       if (reload) {
         if (typeof sessionStorage !== 'undefined') {
@@ -404,6 +407,11 @@ export default defineComponent({
     },
     showListOfReports(shouldScrollToTop?: boolean) {
       this.showReportsList = true;
+
+      if (this.isDashboardExportInfoVisible) {
+        NotificationsStore.remove('scheduledReportSuccess');
+        this.isDashboardExportInfoVisible = false;
+      }
 
       Matomo.helper.hideAjaxError();
 
