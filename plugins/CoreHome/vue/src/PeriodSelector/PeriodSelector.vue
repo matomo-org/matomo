@@ -48,8 +48,8 @@
             <DateRangePicker
               v-show="calendarViewport === 'range'"
               class="period-range"
-              :start-date="startRangeDate"
-              :end-date="endRangeDate"
+              :start-date="displayRangeStartDate"
+              :end-date="displayRangeEndDate"
               @range-change="onRangeChange($event.start, $event.end)"
               @submit="onApplyClicked()"
             >
@@ -270,6 +270,8 @@ interface PeriodSelectorState {
   singleCalendarDate: Date|null;
   startRangeDate: string|null;
   endRangeDate: string|null;
+  stagedRangeStartDate: string|null;
+  stagedRangeEndDate: string|null;
   isRangeValid: boolean|null;
   isLoadingNewPage: boolean;
   isComparing: null|boolean;
@@ -320,6 +322,8 @@ export default defineComponent({
       singleCalendarDate: null,
       startRangeDate: null,
       endRangeDate: null,
+      stagedRangeStartDate: null,
+      stagedRangeEndDate: null,
       isRangeValid: null,
       isLoadingNewPage: false,
       isComparing: null,
@@ -506,6 +510,20 @@ export default defineComponent({
       return this.uiSelection.type === 'preset'
         && this.selectedPeriod === RANGE_PERIOD;
     },
+    displayRangeStartDate() {
+      if (this.isRangePresetSelection && this.stagedRangeStartDate) {
+        return this.stagedRangeStartDate;
+      }
+
+      return this.startRangeDate;
+    },
+    displayRangeEndDate() {
+      if (this.isRangePresetSelection && this.stagedRangeEndDate) {
+        return this.stagedRangeEndDate;
+      }
+
+      return this.endRangeDate;
+    },
   },
   watch: {
     isComparingStoreValue: {
@@ -556,6 +574,8 @@ export default defineComponent({
     clearPresetSelection() {
       this.activePresetId = null;
       this.pendingPresetSelection = null;
+      this.stagedRangeStartDate = null;
+      this.stagedRangeEndDate = null;
     },
     setPendingPeriodAndDate(period: string, date: Date) {
       this.periodValue = period;
@@ -629,16 +649,17 @@ export default defineComponent({
       this.setUiSelection({ type: 'preset', id: selection.id }, 'preset');
       this.activePresetId = selection.id;
       this.selectedPeriod = selection.period;
-      this.dateValue = selection.startDate;
-      this.startRangeDate = format(selection.startDate);
-      this.endRangeDate = format(selection.endDate);
       this.isRangeValid = true;
       this.pendingPresetSelection = selection;
       if (selection.period === RANGE_PERIOD) {
+        this.stagedRangeStartDate = format(selection.startDate);
+        this.stagedRangeEndDate = format(selection.endDate);
         this.calendarViewport = 'range';
         return;
       }
 
+      this.stagedRangeStartDate = null;
+      this.stagedRangeEndDate = null;
       this.calendarViewport = 'single';
       this.singleCalendarDate = selection.startDate;
       if (isSingleCalendarPeriod(selection.period)) {
@@ -676,6 +697,9 @@ export default defineComponent({
         && this.pendingPresetSelection.id === this.uiSelection.id
       ) {
         this.periodValue = this.pendingPresetSelection.period;
+        this.dateValue = this.pendingPresetSelection.startDate;
+        this.startRangeDate = format(this.pendingPresetSelection.startDate);
+        this.endRangeDate = format(this.pendingPresetSelection.endDate);
         // Keep relative preset tokens in the URL (for example, "last7") so bookmarks stay rolling.
         // Staged start/end dates can be clamped for current UI bounds,
         // but URL semantics stay relative.
@@ -848,6 +872,8 @@ export default defineComponent({
 
       this.applyDateValuesFromHash(period, date);
       this.pendingPresetSelection = null;
+      this.stagedRangeStartDate = null;
+      this.stagedRangeEndDate = null;
       this.calendarViewport = period === RANGE_PERIOD ? 'range' : 'single';
       this.compareAppliedSignature = this.compareCurrentSignature;
     },

@@ -328,6 +328,9 @@ describe("PeriodSelector", function () {
 
     it('should apply staged preset only when apply is clicked', async function () {
         await page.goto(url);
+        const initialTitle = await page.evaluate(function () {
+            return $('.periodSelector .title').text().trim();
+        });
         await page.click('.periodSelector .title');
         await page.evaluate(function () {
             piwikHelper.isReportingPage = function () {
@@ -341,6 +344,9 @@ describe("PeriodSelector", function () {
         await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
         await page.waitForTimeout(120);
         expect(await page.url()).to.equal(initialUrl);
+        expect(await page.evaluate(function () {
+            return $('.periodSelector .title').text().trim();
+        })).to.equal(initialTitle);
 
         await page.click('#calendarApply');
         await page.waitForTimeout(250);
@@ -355,6 +361,9 @@ describe("PeriodSelector", function () {
         expect(stateAfterApply.expanded).to.equal(false);
         expect(appliedUrl).to.contain('period=range');
         expect(appliedUrl).to.match(/date=last30|date=[0-9]{4}-[0-9]{2}-[0-9]{2},[0-9]{4}-[0-9]{2}-[0-9]{2}/);
+        expect(await page.evaluate(function () {
+            return $('.periodSelector .title').text().trim();
+        })).to.not.equal(initialTitle);
     });
 
     it('should apply non-range period selection only after calendar click', async function () {
