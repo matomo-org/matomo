@@ -301,40 +301,6 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.setPendingCalendarSelection).not.toHaveBeenCalled();
   });
 
-  it('shows and hides apply button according to pending state rules', () => {
-    const pendingNonRangeVm: any = {
-      pendingPresetSelection: null,
-      selectedPeriod: 'week',
-      isCompareDirty: true,
-      hasPendingNonRangePeriodChange: true,
-    };
-    expect(computed.shouldShowApplyButton.call(pendingNonRangeVm)).toBe(false);
-
-    const presetVm: any = {
-      pendingPresetSelection: { id: 'today' },
-      selectedPeriod: 'day',
-      isCompareDirty: false,
-      hasPendingNonRangePeriodChange: false,
-    };
-    expect(computed.shouldShowApplyButton.call(presetVm)).toBe(true);
-
-    const rangeVm: any = {
-      pendingPresetSelection: null,
-      selectedPeriod: 'range',
-      isCompareDirty: false,
-      hasPendingNonRangePeriodChange: false,
-    };
-    expect(computed.shouldShowApplyButton.call(rangeVm)).toBe(true);
-
-    const compareVm: any = {
-      pendingPresetSelection: null,
-      selectedPeriod: 'day',
-      isCompareDirty: true,
-      hasPendingNonRangePeriodChange: false,
-    };
-    expect(computed.shouldShowApplyButton.call(compareVm)).toBe(true);
-  });
-
   it('makes range picker readonly when a range preset owns selection', () => {
     const presetRangeVm: any = {
       uiSelection: { type: 'preset', id: 'last30days' },

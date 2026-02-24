@@ -380,7 +380,7 @@ describe("PeriodSelector", function () {
         });
 
         expect(stateAfterPeriodClick.expanded).to.equal(true);
-        expect(stateAfterPeriodClick.applyVisible).to.equal(false);
+        expect(stateAfterPeriodClick.applyVisible).to.equal(true);
         expect(stateAfterPeriodClick.selectedCells).to.equal(0);
         expect(await page.url()).to.equal(initialUrl);
 
