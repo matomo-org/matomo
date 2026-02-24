@@ -40,6 +40,7 @@
                     {% for segment in segmentList %}
                         <tr class="segment dataTable_row {% if segment.fixed or segment.selected %}dataTable_row-highlight dataTable_row-group{% endif %} {% if segment.starred %}segmentStarred{% endif %}"
                             data-segment-name="{{ segment.name }}"
+                            data-segment-definition="{{ segment.definition }}"
                             data-segment-order="{% if segment.fixed %}3{% elseif segment.selected %}2{% elseif segment.starred %}1{% else %}0{% endif %}"
                         >
                             <td class="entityTable_StarCell">
@@ -86,9 +87,7 @@
                             <td class="entityTable_Filler"></td>
                             <td class="entityTable_ActionCell entityTable_ActionCell-3">
                                 {% apply spaceless %}
-                                    {% if segment.dashboardUrl is defined %}
-                                        <a href="{{ segment.dashboardUrl }}" class="table-action icon-show" title="{{ 'SegmentEditor_SeeDashboardForThisSegment'|translate }}"></a>
-                                    {% endif %}
+                                    <a href="#" class="table-action icon-show" title="{{ 'SegmentEditor_SeeDashboardForThisSegment'|translate }}"></a>
                                     {% if segment.idsegment is defined %}
                                         <button class="table-action icon-edit" data-edit-segment="{{ segment.idsegment }}"></button>
                                         <button class="table-action icon-delete" data-delete-segment="{{ segment.idsegment }}"></button>
