@@ -26,7 +26,7 @@
             :uicontrol="'checkbox'"
             :name="'option_flat'"
             :title="translate('CoreHome_FlattenReport')"
-            v-model="optionFlat"
+            v-model="optionFlatModel"
             v-show="canExportFlat"
           >
           </Field>
@@ -39,7 +39,7 @@
             :name="'option_show_dimensions'"
             :title="translate('CoreHome_IncludeDimensionsSeparately')"
             v-model="optionShowDimensions"
-            v-show="canExportFlat && hasMultipleDimensions && optionFlat"
+            v-show="canExportFlat && hasMultipleDimensions && optionFlatModel"
           >
           </Field>
         </div>
@@ -50,7 +50,7 @@
             :uicontrol="'checkbox'"
             :name="'option_expanded'"
             :title="translate('CoreHome_ExpandSubtables')"
-            v-model="optionExpanded"
+            v-model="optionExpandedModel"
             v-show="hasSubtables && !isCsvOrTsv"
           >
           </Field>
@@ -167,6 +167,11 @@ import SelectOnFocus from '../SelectOnFocus/SelectOnFocus';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { translate } from '../translate';
+import {
+  isFormatWithoutExpanded,
+  resolveEffectiveSubtableOptions,
+  resolveInitialSubtablePreference,
+} from './ReportExportPopover.utils';
 
 interface DataTable {
   param: Record<string, string|string[]>;
@@ -174,7 +179,6 @@ interface DataTable {
 }
 
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
-const FORMATS_WITHOUT_EXPANDED = ['CSV', 'TSV'];
 
 export default defineComponent({
   components: {
@@ -245,17 +249,17 @@ export default defineComponent({
     this.additionalContent = parameters.content;
   },
   data() {
-    const initialOptionFlat = this.canExportFlat
-      && this.initialOptionFlat;
     return {
       showUrl: false,
       reportFormat: this.initialReportFormat,
-      optionFlat: initialOptionFlat,
       optionShowDimensions: this.initialOptionShowDimensions,
-      optionExpanded: this.initialOptionExpanded,
-      preferredSubtableOption: 'default' as string | null,
-      isApplyingSubtableOption: false,
-      subtableOptionApplyVersion: 0,
+      // Keep explicit preference separate from default behavior:
+      // default means TSV/CSV flat and non-TSV/CSV expanded.
+      subtablePreference: resolveInitialSubtablePreference(
+        this.initialOptionFlat,
+        this.initialOptionExpanded,
+        this.initialReportFormat,
+      ),
       optionFormatMetrics: this.initialOptionFormatMetrics,
       reportType: this.initialReportType,
       reportLimitAll: this.initialReportLimitAll,
@@ -269,70 +273,6 @@ export default defineComponent({
     reportType(newVal) {
       if (!this.availableReportFormats[newVal][this.reportFormat]) {
         this.reportFormat = 'JSON';
-      }
-    },
-    reportFormat: {
-      handler() {
-        if (!this.hasSubtables) {
-          return;
-        }
-
-        const applyVersion = this.subtableOptionApplyVersion + 1;
-        this.subtableOptionApplyVersion = applyVersion;
-        this.isApplyingSubtableOption = true;
-
-        if (this.isFormatWithoutExpanded(this.reportFormat)) {
-          // CSV/TSV do not support expanded exports.
-          this.optionExpanded = false;
-          this.optionFlat = this.canExportFlat
-            && this.preferredSubtableOption !== 'expanded'
-            && this.preferredSubtableOption !== null;
-        } else if (this.preferredSubtableOption === 'flat') {
-          this.optionFlat = true;
-          this.optionExpanded = false;
-        } else if (this.preferredSubtableOption === 'expanded') {
-          this.optionExpanded = true;
-          this.optionFlat = false;
-        } else if (this.preferredSubtableOption === null) {
-          this.optionFlat = false;
-          this.optionExpanded = false;
-        } else {
-          this.optionFlat = false;
-          this.optionExpanded = true;
-        }
-
-        this.$nextTick(() => {
-          if (this.subtableOptionApplyVersion === applyVersion) {
-            this.isApplyingSubtableOption = false;
-          }
-        });
-      },
-    },
-    optionFlat(newVal) {
-      if (!this.hasSubtables || !this.canExportFlat || this.isApplyingSubtableOption) {
-        return;
-      }
-
-      if (newVal) {
-        if (this.optionExpanded) {
-          this.optionExpanded = false;
-        }
-        this.preferredSubtableOption = 'flat';
-      } else if (!this.optionExpanded) {
-        this.preferredSubtableOption = null;
-      }
-    },
-    optionExpanded(newVal) {
-      if (!this.hasSubtables || this.isApplyingSubtableOption) {
-        return;
-      }
-      if (newVal) {
-        if (this.optionFlat) {
-          this.optionFlat = false;
-        }
-        this.preferredSubtableOption = 'expanded';
-      } else if (!this.optionFlat) {
-        this.preferredSubtableOption = null;
       }
     },
     reportLimit(newVal, oldVal) {
@@ -359,7 +299,59 @@ export default defineComponent({
       return `${rowLimit} (${computedMetricMax})`;
     },
     isCsvOrTsv() {
-      return this.isFormatWithoutExpanded(this.reportFormat);
+      return isFormatWithoutExpanded(this.reportFormat);
+    },
+    effectiveSubtableOptions() {
+      return resolveEffectiveSubtableOptions(
+        this.hasSubtables,
+        this.canExportFlat,
+        this.reportFormat,
+        this.subtablePreference,
+      );
+    },
+    optionFlatModel: {
+      get(): boolean {
+        return this.effectiveSubtableOptions.optionFlat;
+      },
+      set(newVal: boolean) {
+        if (!this.hasSubtables || !this.canExportFlat) {
+          return;
+        }
+
+        if (newVal) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: 'flat',
+          };
+        } else if (!this.optionExpandedModel) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: null,
+          };
+        }
+      },
+    },
+    optionExpandedModel: {
+      get(): boolean {
+        return this.effectiveSubtableOptions.optionExpanded;
+      },
+      set(newVal: boolean) {
+        if (!this.hasSubtables || isFormatWithoutExpanded(this.reportFormat)) {
+          return;
+        }
+
+        if (newVal) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: 'expanded',
+          };
+        } else if (!this.optionFlatModel) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: null,
+          };
+        }
+      },
     },
     exportLink() {
       return this.getExportLink(true);
@@ -369,9 +361,6 @@ export default defineComponent({
     },
   },
   methods: {
-    isFormatWithoutExpanded(format: string) {
-      return FORMATS_WITHOUT_EXPANDED.includes(format);
-    },
     getExportLink(withToken = true) {
       const {
         reportFormat,
@@ -484,8 +473,10 @@ export default defineComponent({
         });
       }
 
-      const effectiveOptionFlat = this.canExportFlat
-        && this.optionFlat;
+      const {
+        optionFlat: effectiveOptionFlat,
+        optionExpanded: effectiveOptionExpanded,
+      } = this.effectiveSubtableOptions;
 
       if (effectiveOptionFlat) {
         exportUrlParams.flat = 1;
@@ -502,8 +493,7 @@ export default defineComponent({
 
       if (this.hasSubtables
         && !effectiveOptionFlat
-        && this.optionExpanded
-        && !this.isFormatWithoutExpanded(reportFormat)
+        && effectiveOptionExpanded
       ) {
         exportUrlParams.expanded = 1;
       }
