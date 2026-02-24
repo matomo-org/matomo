@@ -12,7 +12,6 @@ namespace Piwik\Updates;
 use Piwik\Plugins\CoreAdminHome\Commands\MigrateUserScopedSettings;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Custom as CustomMigration;
-use Piwik\Updater\Migration;  
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 
