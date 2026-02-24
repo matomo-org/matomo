@@ -351,7 +351,6 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Apply';
         $translationKeys[] = 'General_Period';
         $translationKeys[] = 'General_CompareTo';
-        $translationKeys[] = 'CoreHome_PresetDateRanges';
         $translationKeys[] = 'CoreHome_PresetDateToday';
         $translationKeys[] = 'CoreHome_PresetDateYesterday';
         $translationKeys[] = 'CoreHome_PresetDateLast7Days';
