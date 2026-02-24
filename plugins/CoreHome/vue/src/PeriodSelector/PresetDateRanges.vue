@@ -33,6 +33,7 @@ import { getToday } from '../Periods';
 import { translate } from '../translate';
 import {
   PRESET_DATE_RANGES,
+  PRESET_DATE_RANGE_PERIODS,
   clampDateToBounds,
   resolvePresetDateRange,
 } from './PresetDateRangeResolver';
@@ -66,11 +67,17 @@ export default defineComponent({
       type: Date,
       default: () => getToday(),
     },
+    allowedPeriods: {
+      type: Array as PropType<string[]>,
+      required: true,
+    },
   },
   emits: ['update:modelValue', 'select'],
   computed: {
     presetDateRanges(): PresetDateRangeOption[] {
-      return PRESET_DATE_RANGES;
+      return PRESET_DATE_RANGES.filter(
+        (preset) => this.allowedPeriods.includes(PRESET_DATE_RANGE_PERIODS[preset.id]),
+      );
     },
   },
   methods: {

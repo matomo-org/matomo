@@ -35,6 +35,22 @@ export interface PresetDateRangeSelection {
   endDate: Date;
 }
 
+export const PRESET_DATE_RANGE_PERIODS: Record<PresetDateRangeId, PresetDateRangeSelection['period']> = {
+  today: 'day',
+  yesterday: 'day',
+  last7days: 'range',
+  last30days: 'range',
+  last90days: 'range',
+  lastWeekMonSun: 'week',
+  lastMonth: 'month',
+  lastQuarter: 'range',
+  lastYear: 'year',
+  thisWeekMonToday: 'week',
+  thisMonth: 'month',
+  thisQuarter: 'range',
+  thisYear: 'year',
+};
+
 export const PRESET_DATE_RANGES: PresetDateRangeOption[] = [
   { id: 'today', labelKey: 'CoreHome_PresetDateToday' },
   { id: 'yesterday', labelKey: 'CoreHome_PresetDateYesterday' },
