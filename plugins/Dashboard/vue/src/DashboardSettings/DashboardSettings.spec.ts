@@ -9,45 +9,45 @@ import { shallowMount } from '@vue/test-utils';
 
 type PlainObject = Record<string, unknown>;
 
-const rootJQueryMock = {
+const mockRootJQuery = {
   widgetPreview: jest.fn(),
   hide: jest.fn(),
   dashboard: jest.fn(),
   find: jest.fn(() => ({ length: 0 })),
 };
 
-const dollarMock = jest.fn(() => rootJQueryMock);
+const mockDollar = jest.fn(() => mockRootJQuery);
 
 const testWindow = window as any;
-testWindow.$ = dollarMock;
-testWindow.jQuery = dollarMock;
+testWindow.$ = mockDollar;
+testWindow.jQuery = mockDollar;
 testWindow.widgetsHelper = {
   getWidgetObjectFromUniqueId: jest.fn(),
 };
 
-const updateUrlMock = jest.fn();
-const getSearchParamMock = jest.fn();
-const getLoginModuleMock = jest.fn(() => 'Login');
+const mockUpdateUrl = jest.fn();
+const mockGetSearchParam = jest.fn();
+const mockGetLoginModule = jest.fn(() => 'Login');
 
-const MatomoMock = {
+const mockMatomo = {
   userLogin: 'admin',
   hasSuperUserAccess: false,
   userHasSomeAdminAccess: false,
   postEvent: jest.fn(),
   on: jest.fn(),
-  getLoginModule: getLoginModuleMock,
+  getLoginModule: mockGetLoginModule,
 };
 
-const MatomoUrlMock = {
+const mockMatomoUrl = {
   urlParsed: { value: {} as PlainObject },
   hashParsed: { value: {} as PlainObject },
-  getSearchParam: getSearchParamMock,
-  updateUrl: updateUrlMock,
+  getSearchParam: mockGetSearchParam,
+  updateUrl: mockUpdateUrl,
 };
 
 jest.mock('CoreHome', () => ({
-  Matomo: MatomoMock,
-  MatomoUrl: MatomoUrlMock,
+  Matomo: mockMatomo,
+  MatomoUrl: mockMatomoUrl,
   translate: (key: string) => key,
   ExpandOnClick: {},
   Tooltips: {},
@@ -71,57 +71,57 @@ describe('Dashboard/DashboardSettings export navigation', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    MatomoMock.userLogin = 'admin';
-    MatomoUrlMock.urlParsed.value = {} as PlainObject;
-    MatomoUrlMock.hashParsed.value = {} as PlainObject;
-    getSearchParamMock.mockReturnValue('');
-    getLoginModuleMock.mockReturnValue('Login');
+    mockMatomo.userLogin = 'admin';
+    mockMatomoUrl.urlParsed.value = {} as PlainObject;
+    mockMatomoUrl.hashParsed.value = {} as PlainObject;
+    mockGetSearchParam.mockReturnValue('');
+    mockGetLoginModule.mockReturnValue('Login');
   });
 
   describe('#getCurrentDashboardId()', () => {
     it('returns null when no dashboard id can be resolved', () => {
-      getSearchParamMock.mockReturnValue('');
+      mockGetSearchParam.mockReturnValue('');
       const wrapper = mountComponent();
 
       expect((wrapper.vm as any).getCurrentDashboardId()).toBeNull();
     });
 
     it('returns a number when subcategory is numeric', () => {
-      getSearchParamMock.mockReturnValue('7');
+      mockGetSearchParam.mockReturnValue('7');
       const wrapper = mountComponent();
 
       expect((wrapper.vm as any).getCurrentDashboardId()).toBe(7);
     });
 
     it('falls back to query idDashboard when subcategory is missing', () => {
-      getSearchParamMock.mockReturnValue('');
-      MatomoUrlMock.urlParsed.value = { idDashboard: '9' };
+      mockGetSearchParam.mockReturnValue('');
+      mockMatomoUrl.urlParsed.value = { idDashboard: '9' };
       const wrapper = mountComponent();
 
       expect((wrapper.vm as any).getCurrentDashboardId()).toBe(9);
     });
 
     it('falls back to hash idDashboard when subcategory and query idDashboard are missing', () => {
-      getSearchParamMock.mockReturnValue('');
-      MatomoUrlMock.urlParsed.value = {};
-      MatomoUrlMock.hashParsed.value = { idDashboard: '13' };
+      mockGetSearchParam.mockReturnValue('');
+      mockMatomoUrl.urlParsed.value = {};
+      mockMatomoUrl.hashParsed.value = { idDashboard: '13' };
       const wrapper = mountComponent();
 
       expect((wrapper.vm as any).getCurrentDashboardId()).toBe(13);
     });
 
     it('prefers subcategory over idDashboard', () => {
-      getSearchParamMock.mockReturnValue('7');
-      MatomoUrlMock.urlParsed.value = { idDashboard: '9' };
-      MatomoUrlMock.hashParsed.value = { idDashboard: '13' };
+      mockGetSearchParam.mockReturnValue('7');
+      mockMatomoUrl.urlParsed.value = { idDashboard: '9' };
+      mockMatomoUrl.hashParsed.value = { idDashboard: '13' };
       const wrapper = mountComponent();
 
       expect((wrapper.vm as any).getCurrentDashboardId()).toBe(7);
     });
 
     it('falls back to query idDashboard when subcategory is invalid', () => {
-      getSearchParamMock.mockReturnValue('foo');
-      MatomoUrlMock.urlParsed.value = { idDashboard: '9' };
+      mockGetSearchParam.mockReturnValue('foo');
+      mockMatomoUrl.urlParsed.value = { idDashboard: '9' };
       const wrapper = mountComponent();
 
       expect((wrapper.vm as any).getCurrentDashboardId()).toBe(9);
@@ -130,9 +130,9 @@ describe('Dashboard/DashboardSettings export navigation', () => {
     it.each(['', 'foo', '1.5', '0', '-1'])(
       'returns null for invalid dashboard id value "%s"',
       (invalidValue) => {
-        getSearchParamMock.mockReturnValue(invalidValue);
-        MatomoUrlMock.urlParsed.value = {};
-        MatomoUrlMock.hashParsed.value = {};
+        mockGetSearchParam.mockReturnValue(invalidValue);
+        mockMatomoUrl.urlParsed.value = {};
+        mockMatomoUrl.hashParsed.value = {};
         const wrapper = mountComponent();
 
         expect((wrapper.vm as any).getCurrentDashboardId()).toBeNull();
@@ -163,9 +163,9 @@ describe('Dashboard/DashboardSettings export navigation', () => {
 
   describe('#onClickExportDashboard()', () => {
     it('redirects authenticated users to create scheduled report with fallback query idDashboard', () => {
-      MatomoMock.userLogin = 'admin';
-      getSearchParamMock.mockReturnValue('');
-      MatomoUrlMock.urlParsed.value = { idDashboard: '11' };
+      mockMatomo.userLogin = 'admin';
+      mockGetSearchParam.mockReturnValue('');
+      mockMatomoUrl.urlParsed.value = { idDashboard: '11' };
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
@@ -178,10 +178,10 @@ describe('Dashboard/DashboardSettings export navigation', () => {
     });
 
     it('redirects authenticated users to create scheduled report with fallback hash idDashboard', () => {
-      MatomoMock.userLogin = 'admin';
-      getSearchParamMock.mockReturnValue('');
-      MatomoUrlMock.urlParsed.value = {};
-      MatomoUrlMock.hashParsed.value = { idDashboard: '17' };
+      mockMatomo.userLogin = 'admin';
+      mockGetSearchParam.mockReturnValue('');
+      mockMatomoUrl.urlParsed.value = {};
+      mockMatomoUrl.hashParsed.value = { idDashboard: '17' };
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
@@ -194,10 +194,10 @@ describe('Dashboard/DashboardSettings export navigation', () => {
     });
 
     it('redirects authenticated users to create scheduled report with null when all ids are invalid', () => {
-      MatomoMock.userLogin = 'admin';
-      getSearchParamMock.mockReturnValue('foo');
-      MatomoUrlMock.urlParsed.value = { idDashboard: '0' };
-      MatomoUrlMock.hashParsed.value = { idDashboard: 'x' };
+      mockMatomo.userLogin = 'admin';
+      mockGetSearchParam.mockReturnValue('foo');
+      mockMatomoUrl.urlParsed.value = { idDashboard: '0' };
+      mockMatomoUrl.hashParsed.value = { idDashboard: 'x' };
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
@@ -212,9 +212,9 @@ describe('Dashboard/DashboardSettings export navigation', () => {
 
   describe('#getCurrentDashboardId() legacy invalid subcategory', () => {
     it('returns null when subcategory and fallbacks are not numeric', () => {
-      getSearchParamMock.mockReturnValue('foo');
-      MatomoUrlMock.urlParsed.value = {};
-      MatomoUrlMock.hashParsed.value = {};
+      mockGetSearchParam.mockReturnValue('foo');
+      mockMatomoUrl.urlParsed.value = {};
+      mockMatomoUrl.hashParsed.value = {};
       const wrapper = mountComponent();
 
       expect((wrapper.vm as any).getCurrentDashboardId()).toBeNull();
@@ -223,7 +223,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
 
   describe('#redirectToCreateScheduledReports()', () => {
     it('removes dashboard-specific params and redirects to ScheduledReports with dashboard id', () => {
-      MatomoUrlMock.urlParsed.value = {
+      mockMatomoUrl.urlParsed.value = {
         module: 'Dashboard',
         action: 'embeddedIndex',
         category: 'General_Dashboard',
@@ -231,7 +231,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
         idDashboard: '12',
         idSite: '1',
       };
-      MatomoUrlMock.hashParsed.value = {
+      mockMatomoUrl.hashParsed.value = {
         category: 'General_Dashboard',
         subcategory: '12',
         idDashboard: '12',
@@ -242,8 +242,8 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       const wrapper = mountComponent();
       (wrapper.vm as any).redirectToCreateScheduledReports(7);
 
-      expect(updateUrlMock).toHaveBeenCalledTimes(1);
-      expect(updateUrlMock).toHaveBeenCalledWith(
+      expect(mockUpdateUrl).toHaveBeenCalledTimes(1);
+      expect(mockUpdateUrl).toHaveBeenCalledWith(
         {
           module: 'ScheduledReports',
           action: 'index',
@@ -258,20 +258,20 @@ describe('Dashboard/DashboardSettings export navigation', () => {
     });
 
     it('does not include idDashboard when no dashboard id is provided', () => {
-      MatomoUrlMock.urlParsed.value = {
+      mockMatomoUrl.urlParsed.value = {
         module: 'Dashboard',
         subcategory: '12',
         idSite: '1',
       };
-      MatomoUrlMock.hashParsed.value = {
+      mockMatomoUrl.hashParsed.value = {
         period: 'week',
       };
 
       const wrapper = mountComponent();
       (wrapper.vm as any).redirectToCreateScheduledReports(null);
 
-      expect(updateUrlMock).toHaveBeenCalledTimes(1);
-      expect(updateUrlMock).toHaveBeenCalledWith(
+      expect(mockUpdateUrl).toHaveBeenCalledTimes(1);
+      expect(mockUpdateUrl).toHaveBeenCalledWith(
         {
           module: 'ScheduledReports',
           action: 'index',
@@ -286,20 +286,20 @@ describe('Dashboard/DashboardSettings export navigation', () => {
 
   describe('#redirectToLoginPage()', () => {
     it('uses Matomo.getLoginModule for redirect', () => {
-      getLoginModuleMock.mockReturnValue('CustomLogin');
+      mockGetLoginModule.mockReturnValue('CustomLogin');
 
       const wrapper = mountComponent();
       (wrapper.vm as any).redirectToLoginPage();
 
-      expect(getLoginModuleMock).toHaveBeenCalledTimes(1);
-      expect(updateUrlMock).toHaveBeenCalledTimes(1);
-      expect(updateUrlMock).toHaveBeenCalledWith({ module: 'CustomLogin' });
+      expect(mockGetLoginModule).toHaveBeenCalledTimes(1);
+      expect(mockUpdateUrl).toHaveBeenCalledTimes(1);
+      expect(mockUpdateUrl).toHaveBeenCalledWith({ module: 'CustomLogin' });
     });
   });
 
   describe('#onClickExportDashboard() existing behavior', () => {
     it('redirects authenticated users to create scheduled report with dashboard id', () => {
-      MatomoMock.userLogin = 'admin';
+      mockMatomo.userLogin = 'admin';
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
@@ -315,7 +315,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
     });
 
     it('redirects anonymous users to login page', () => {
-      MatomoMock.userLogin = 'anonymous';
+      mockMatomo.userLogin = 'anonymous';
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 
@@ -331,7 +331,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
 
   describe('export menu click', () => {
     it('triggers export navigation method when export menu item is clicked', async () => {
-      MatomoMock.userLogin = 'admin';
+      mockMatomo.userLogin = 'admin';
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
       const onClickExportDashboardSpy = jest.spyOn(vm, 'onClickExportDashboard');
