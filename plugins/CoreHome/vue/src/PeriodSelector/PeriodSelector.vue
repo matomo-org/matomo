@@ -632,11 +632,15 @@ export default defineComponent({
 
       this.setPiwikPeriodAndDate(payload.period, this.dateValue);
     },
+    canInteractWithSingleCalendar(): boolean {
+      // Preset-owned selections are intentionally read-only for calendar interactions.
+      // Users must switch ownership via period options before single-calendar clicks can commit.
+      return this.calendarViewport === 'single'
+        && this.uiSelection.type === 'period'
+        && this.selectedPeriod !== RANGE_PERIOD;
+    },
     onDatePickerSelected(date: Date) {
-      if (this.calendarViewport !== 'single'
-        || this.uiSelection.type !== 'period'
-        || this.selectedPeriod === RANGE_PERIOD
-      ) {
+      if (!this.canInteractWithSingleCalendar()) {
         return;
       }
 
@@ -785,7 +789,16 @@ export default defineComponent({
       const action = (parsed.action as string) || '';
       const category = (parsed.category as string) || '';
       const subcategory = (parsed.subcategory as string) || '';
-      return `${module}|${action}|${category}|${subcategory}`;
+      const idSite = parsed.idSite ?? '';
+      const segment = parsed.segment ?? '';
+      return JSON.stringify({
+        module,
+        action,
+        category,
+        subcategory,
+        idSite,
+        segment,
+      });
     },
     getCurrentContextKey(): string {
       return this.getContextKeyFromParsed(MatomoUrl.parsed.value as Record<string, unknown>);
@@ -885,11 +898,13 @@ export default defineComponent({
     getSelectionKey(period: string, date: string) {
       return `${period}|${date}`;
     },
+    canInteractWithRangeCalendar(): boolean {
+      return this.calendarViewport === 'range'
+        && this.uiSelection.type === 'period'
+        && this.selectedPeriod === RANGE_PERIOD;
+    },
     onRangeChange(start: string, end: string) {
-      if (this.calendarViewport !== 'range'
-        || this.uiSelection.type !== 'period'
-        || this.selectedPeriod !== RANGE_PERIOD
-      ) {
+      if (!this.canInteractWithRangeCalendar()) {
         return;
       }
 
