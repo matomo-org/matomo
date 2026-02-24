@@ -527,6 +527,48 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('2026-02-01,2026-02-18', 'range');
   });
 
+  it('exits preset mode when a period option is selected and apply uses period-owned range state', () => {
+    const vm: any = {
+      uiSelection: { type: 'preset', id: 'last30days' },
+      lastInteractionSource: 'preset',
+      selectedPeriod: 'range',
+      periodValue: 'day',
+      calendarViewport: 'range',
+      pendingPresetSelection: {
+        id: 'last30days',
+        period: 'range',
+        date: 'last30',
+      },
+      stagedRangeStartDate: '2026-01-20',
+      stagedRangeEndDate: '2026-02-18',
+      startRangeDate: '2026-02-01',
+      endRangeDate: '2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
+      commitSelectionToUrl: jest.fn(),
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+      clearPresetSelection() {
+        this.pendingPresetSelection = null;
+        this.stagedRangeStartDate = null;
+        this.stagedRangeEndDate = null;
+      },
+    };
+
+    methods.onPeriodOptionSelected.call(vm, { period: 'range' });
+
+    expect(vm.uiSelection).toEqual({ type: 'period', id: 'range' });
+    expect(vm.pendingPresetSelection).toBeNull();
+    expect(vm.stagedRangeStartDate).toBeNull();
+    expect(vm.stagedRangeEndDate).toBeNull();
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('2026-02-01,2026-02-18', 'range');
+    expect(vm.commitSelectionToUrl).not.toHaveBeenCalledWith('last30', 'range');
+  });
+
   it('updates range values only when viewport is range and owner is period', () => {
     const allowedVm: any = {
       calendarViewport: 'range',
