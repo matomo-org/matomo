@@ -25,6 +25,14 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     computed: Record<string, (...args: unknown[]) => unknown>;
   };
   const { methods, computed } = component;
+  const baseContextKey = JSON.stringify({
+    module: 'CoreHome',
+    action: 'index',
+    category: 'General_Actions',
+    subcategory: 'General_Pages',
+    idSite: '',
+    segment: '',
+  });
 
   it('stages preset selection and switches to dual calendar for range presets', () => {
     const appliedDate = new Date('2026-02-18');
@@ -305,13 +313,20 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     const vm: any = {
       nextHashUiSelection: null,
       lastKnownHashSelectionKey: 'day|today',
-      lastKnownHashContextKey: 'CoreHome|index|General_Actions|General_Pages',
+      lastKnownHashContextKey: baseContextKey,
     };
 
     expect(methods.shouldSkipHashSync.call(
       vm,
       'day|today',
-      'CoreHome|index|General_Visitors|General_Overview',
+      JSON.stringify({
+        module: 'CoreHome',
+        action: 'index',
+        category: 'General_Visitors',
+        subcategory: 'General_Overview',
+        idSite: '',
+        segment: '',
+      }),
     )).toBe(false);
   });
 
@@ -319,20 +334,69 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     const vm: any = {
       nextHashUiSelection: null,
       lastKnownHashSelectionKey: 'day|today',
-      lastKnownHashContextKey: 'CoreHome|index|General_Actions|General_Pages',
+      lastKnownHashContextKey: baseContextKey,
     };
 
     expect(methods.shouldSkipHashSync.call(
       vm,
       'day|today',
-      'CoreHome|index|General_Actions|General_Pages',
+      baseContextKey,
     )).toBe(true);
 
     vm.nextHashUiSelection = { type: 'period', id: 'day' };
     expect(methods.shouldSkipHashSync.call(
       vm,
       'day|today',
-      'CoreHome|index|General_Actions|General_Pages',
+      baseContextKey,
+    )).toBe(false);
+  });
+
+  it('does not skip hash sync when idSite or segment changes with same period/date/context path', () => {
+    const vm: any = {
+      nextHashUiSelection: null,
+      lastKnownHashSelectionKey: 'day|today',
+      lastKnownHashContextKey: JSON.stringify({
+        module: 'CoreHome',
+        action: 'index',
+        category: 'General_Actions',
+        subcategory: 'General_Pages',
+        idSite: '1',
+        segment: '',
+      }),
+    };
+
+    expect(methods.shouldSkipHashSync.call(
+      vm,
+      'day|today',
+      JSON.stringify({
+        module: 'CoreHome',
+        action: 'index',
+        category: 'General_Actions',
+        subcategory: 'General_Pages',
+        idSite: '2',
+        segment: '',
+      }),
+    )).toBe(false);
+
+    vm.lastKnownHashContextKey = JSON.stringify({
+      module: 'CoreHome',
+      action: 'index',
+      category: 'General_Actions',
+      subcategory: 'General_Pages',
+      idSite: '1',
+      segment: 'countryCode==US',
+    });
+    expect(methods.shouldSkipHashSync.call(
+      vm,
+      'day|today',
+      JSON.stringify({
+        module: 'CoreHome',
+        action: 'index',
+        category: 'General_Actions',
+        subcategory: 'General_Pages',
+        idSite: '1',
+        segment: 'countryCode==NZ',
+      }),
     )).toBe(false);
   });
 
@@ -348,13 +412,13 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     const synced = methods.resolveSyncedUiSelection.call(
       vm,
       'day|today',
-      'CoreHome|index|General_Actions|General_Pages',
+      baseContextKey,
     );
 
     expect(synced).toBeNull();
     expect(vm.lastInteractionSource).toBeNull();
     expect(vm.lastKnownHashSelectionKey).toBe('day|today');
-    expect(vm.lastKnownHashContextKey).toBe('CoreHome|index|General_Actions|General_Pages');
+    expect(vm.lastKnownHashContextKey).toBe(baseContextKey);
   });
 
   it('mounted watcher re-syncs staged preset when only report context changes', async () => {
@@ -405,7 +469,14 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect((wrapper.vm as any).activePresetId).toBeNull();
     expect((wrapper.vm as any).uiSelection).toEqual({ type: 'period', id: 'day' });
     expect((wrapper.vm as any).lastKnownHashContextKey).toBe(
-      'CoreHome|index|General_Visitors|General_Overview',
+      JSON.stringify({
+        module: 'CoreHome',
+        action: 'index',
+        category: 'General_Visitors',
+        subcategory: 'General_Overview',
+        idSite: '',
+        segment: '',
+      }),
     );
 
     wrapper.unmount();
@@ -418,6 +489,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       calendarViewport: 'single',
       uiSelection: { type: 'period', id: 'week' },
       selectedPeriod: 'week',
+      canInteractWithSingleCalendar: jest.fn(() => true),
       setUiSelection: jest.fn(),
       setPendingCalendarSelection: jest.fn(),
       clearPresetSelection: jest.fn(),
@@ -460,6 +532,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       calendarViewport: 'range',
       uiSelection: { type: 'period', id: 'range' },
       selectedPeriod: 'range',
+      canInteractWithRangeCalendar: jest.fn(() => true),
       isRangeValid: null,
       startRangeDate: null,
       endRangeDate: null,
@@ -476,6 +549,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       calendarViewport: 'range',
       uiSelection: { type: 'preset', id: 'last30days' },
       selectedPeriod: 'range',
+      canInteractWithRangeCalendar: jest.fn(() => false),
       isRangeValid: false,
       startRangeDate: '2026-01-01',
       endRangeDate: '2026-01-31',
@@ -522,6 +596,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       calendarViewport: 'single',
       uiSelection: { type: 'preset', id: 'today' },
       selectedPeriod: 'day',
+      canInteractWithSingleCalendar: jest.fn(() => false),
       setUiSelection: jest.fn(),
       setPendingCalendarSelection: jest.fn(),
       clearPresetSelection: jest.fn(),
@@ -608,5 +683,130 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.setPiwikPeriodAndDate).toHaveBeenCalledWith('day', expect.any(Date));
     expect(appliedDate.getTime()).toBe(maxDate.getTime());
     expect(appliedDate.getTime()).not.toBe(movedDate.getTime());
+  });
+});
+
+describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions', () => {
+  const originalInitTopControls = window.initTopControls;
+  const originalUrl = (MatomoUrl as any).url.value;
+
+  const setUrl = (url: string) => {
+    (MatomoUrl as any).url.value = new URL(url);
+  };
+
+  function mountSelector() {
+    return mount(PeriodSelector, {
+      shallow: true,
+      props: {
+        periods: ['day', 'week', 'month', 'year', 'range'],
+      },
+      global: {
+        mocks: {
+          translate: (key: string) => key,
+        },
+      },
+    });
+  }
+
+  beforeEach(() => {
+    if (!window.initTopControls) {
+      window.initTopControls = jest.fn();
+    }
+
+    setUrl(
+      'https://matomo.test/index.php?module=CoreHome&action=index&period=day&date=today'
+      + '#?period=day&date=today&category=General_Actions&subcategory=General_Pages',
+    );
+  });
+
+  afterEach(() => {
+    (MatomoUrl as any).url.value = originalUrl;
+    window.initTopControls = originalInitTopControls;
+  });
+
+  it('blocks single-calendar interaction while preset owns selection', async () => {
+    const wrapper = mountSelector();
+    await nextTick();
+
+    const commitSelectionToUrl = jest.fn();
+    (wrapper.vm as any).commitSelectionToUrl = commitSelectionToUrl;
+    (wrapper.vm as any).uiSelection = { type: 'preset', id: 'today' };
+    (wrapper.vm as any).selectedPeriod = 'day';
+    (wrapper.vm as any).calendarViewport = 'single';
+
+    wrapper.findComponent({ name: 'PeriodDatePicker' }).vm.$emit('select', {
+      date: new Date('2026-02-18'),
+    });
+    await nextTick();
+
+    expect(commitSelectionToUrl).not.toHaveBeenCalled();
+    wrapper.unmount();
+  });
+
+  it('allows single-calendar interaction after switching ownership to period option', async () => {
+    const wrapper = mountSelector();
+    await nextTick();
+
+    const commitSelectionToUrl = jest.fn();
+    (wrapper.vm as any).commitSelectionToUrl = commitSelectionToUrl;
+    (wrapper.vm as any).uiSelection = { type: 'preset', id: 'today' };
+    (wrapper.vm as any).selectedPeriod = 'day';
+    (wrapper.vm as any).calendarViewport = 'single';
+
+    wrapper.findComponent({ name: 'PeriodOptions' }).vm.$emit('select', { period: 'day' });
+    await nextTick();
+    wrapper.findComponent({ name: 'PeriodDatePicker' }).vm.$emit('select', {
+      date: new Date('2026-02-18'),
+    });
+    await nextTick();
+
+    expect(commitSelectionToUrl).toHaveBeenCalledTimes(1);
+    wrapper.unmount();
+  });
+
+  it('blocks dual-calendar interaction while preset owns selection', async () => {
+    const wrapper = mountSelector();
+    await nextTick();
+
+    (wrapper.vm as any).uiSelection = { type: 'preset', id: 'last30days' };
+    (wrapper.vm as any).selectedPeriod = 'range';
+    (wrapper.vm as any).calendarViewport = 'range';
+    (wrapper.vm as any).isRangeValid = false;
+    (wrapper.vm as any).startRangeDate = '2026-01-01';
+    (wrapper.vm as any).endRangeDate = '2026-01-31';
+
+    wrapper.findComponent({ name: 'DateRangePicker' }).vm.$emit('range-change', {
+      start: '2026-02-01',
+      end: '2026-02-18',
+    });
+    await nextTick();
+
+    expect((wrapper.vm as any).isRangeValid).toBe(false);
+    expect((wrapper.vm as any).startRangeDate).toBe('2026-01-01');
+    expect((wrapper.vm as any).endRangeDate).toBe('2026-01-31');
+    wrapper.unmount();
+  });
+
+  it('allows dual-calendar interaction when period option owns selection', async () => {
+    const wrapper = mountSelector();
+    await nextTick();
+
+    (wrapper.vm as any).uiSelection = { type: 'period', id: 'range' };
+    (wrapper.vm as any).selectedPeriod = 'range';
+    (wrapper.vm as any).calendarViewport = 'range';
+    (wrapper.vm as any).isRangeValid = null;
+    (wrapper.vm as any).startRangeDate = null;
+    (wrapper.vm as any).endRangeDate = null;
+
+    wrapper.findComponent({ name: 'DateRangePicker' }).vm.$emit('range-change', {
+      start: '2026-02-01',
+      end: '2026-02-18',
+    });
+    await nextTick();
+
+    expect((wrapper.vm as any).isRangeValid).toBe(true);
+    expect((wrapper.vm as any).startRangeDate).toBe('2026-02-01');
+    expect((wrapper.vm as any).endRangeDate).toBe('2026-02-18');
+    wrapper.unmount();
   });
 });
