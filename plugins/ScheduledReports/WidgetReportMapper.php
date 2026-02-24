@@ -188,17 +188,28 @@ class WidgetReportMapper
         if (is_object($columns)) {
             $columns = get_object_vars($columns);
         }
+        if (!is_array($columns)) {
+            return [];
+        }
         $widgets = [];
         $seen = [];
         foreach ($columns as $column) {
             if (is_object($column)) {
                 $column = get_object_vars($column);
+            } elseif (!is_array($column)) {
+                continue;
             }
             foreach ($column as $widget) {
                 if (!$widget) {
                     continue;
                 }
-                $uniqueId = $widget->uniqueId ?? null;
+                if (is_object($widget)) {
+                    $uniqueId = $widget->uniqueId ?? null;
+                } elseif (is_array($widget)) {
+                    $uniqueId = $widget['uniqueId'] ?? null;
+                } else {
+                    continue;
+                }
                 if (!$uniqueId || isset($seen[$uniqueId])) {
                     continue;
                 }

@@ -299,4 +299,39 @@ class WidgetReportMapperTest extends IntegrationTestCase
             $mapper->extractWidgetIdsFromLayout($layout)
         );
     }
+
+    public function testExtractWidgetIdsFromLayoutHandlesArrayWidgetsAndInvalidEntries()
+    {
+        $mapper = new WidgetReportMapper();
+
+        $layout = array(
+            'columns' => array(
+                array(
+                    array('uniqueId' => 'widgetArrayOne'),
+                    (object) array('uniqueId' => 'widgetObjectOne'),
+                    array('uniqueId' => 'widgetArrayOne'),
+                    array('missingUniqueId' => 'ignored'),
+                    null,
+                    'invalidWidgetType',
+                ),
+                'invalidColumnType',
+                (object) array(
+                    array('uniqueId' => 'widgetObjectColumnArrayWidget'),
+                    (object) array('uniqueId' => 'widgetObjectColumnOne'),
+                    array('uniqueId' => 'widgetObjectOne'),
+                    (object) array(),
+                ),
+            ),
+        );
+
+        $this->assertSame(
+            array(
+                'widgetArrayOne',
+                'widgetObjectOne',
+                'widgetObjectColumnArrayWidget',
+                'widgetObjectColumnOne',
+            ),
+            $mapper->extractWidgetIdsFromLayout($layout)
+        );
+    }
 }
