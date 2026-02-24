@@ -19,8 +19,6 @@ use Piwik\Request;
 use Piwik\Url;
 use Piwik\View;
 
-/**
- */
 class Controller extends \Piwik\Plugin\Controller
 {
     private const POSITIVE = 'positive';
