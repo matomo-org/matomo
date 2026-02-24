@@ -313,10 +313,28 @@ class Model
     {
         if ($login === '') {
             $settings = $this->getFactory()->getPluginStorage('MobileMessaging', $login)->getBackend()->load();
-            return is_array($settings) ? $settings : [];
+            if (is_array($settings) && !empty($settings)) {
+                return $settings;
+            }
+
+            return $this->getLegacyGlobalSettings();
         }
 
         return $this->getStore()->getAll('MobileMessaging', $login);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getLegacyGlobalSettings(): array
+    {
+        $settings = Option::get(MobileMessaging::USER_SETTINGS_POSTFIX_OPTION);
+        if (!is_string($settings) || $settings === '') {
+            return [];
+        }
+
+        $decoded = json_decode($settings, true);
+        return is_array($decoded) ? $decoded : [];
     }
 
     /**
