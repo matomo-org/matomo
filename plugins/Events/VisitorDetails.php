@@ -61,7 +61,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderAction($action, $previousAction, $visitorDetails)
     {
         if (empty($action['type']) || $action['type'] != 'event') {
-            return;
+            return '';
         }
 
         $view                 = new View('@Events/_actionEvent.twig');
