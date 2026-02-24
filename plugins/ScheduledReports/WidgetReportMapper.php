@@ -153,7 +153,21 @@ class WidgetReportMapper
             }
 
             $widgetName = $widgetConfig->getName();
-            $namesById[$uniqueId] = $widgetName ? Piwik::translate($widgetName) : $uniqueId;
+            if (!$widgetName) {
+                $namesById[$uniqueId] = $uniqueId;
+                continue;
+            }
+
+            $translatedWidgetName = Piwik::translate($widgetName);
+            $translatedCategoryName = Piwik::translate($widgetConfig->getCategoryId());
+            if (
+                !empty($translatedCategoryName)
+                && stripos($translatedWidgetName, $translatedCategoryName) !== 0
+            ) {
+                $translatedWidgetName = $translatedCategoryName . ' ' . $translatedWidgetName;
+            }
+
+            $namesById[$uniqueId] = $translatedWidgetName;
         }
 
         return $namesById;
