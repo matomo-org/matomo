@@ -65,7 +65,6 @@ class Controller extends \Piwik\Plugin\Controller
         foreach ($view->segmentList as $index => &$segment) {
             $segment['fixed'] = $segment['fixed'] ?? false;
             $segment['selected'] = $segment['definition'] === $this->currentSegmentDefinition;
-            $segment['dashboardUrl'] = '?module=CoreHome&action=index&idSite=' . $this->idSite . '&period=' . $this->period . '&date=' . $this->strDate . '&segment=' . urlencode($segment['definition']);
 
             if ($this->isRealtimeSegment($segment)) {
                 $segment['isRealtime'] = true;

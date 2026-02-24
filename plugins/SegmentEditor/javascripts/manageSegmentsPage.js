@@ -12,6 +12,7 @@ function initManageSegmentsPage() {
   function init() {
     reorderSegments();
     initListener();
+    initHref();
     initTitles();
     window.SegmentEditorPanel.onSegmentsStarChange(onSegmentsStarChange);
   }
@@ -42,6 +43,14 @@ function initManageSegmentsPage() {
       return null;
     }
     return findNextSiblingByOrder(lastRowByOrder, order - 1);
+  }
+
+  function initHref() {
+    rowList.forEach(function (row) {
+      const definition = row.getAttribute('data-segment-definition');
+      const $dashboardLink = $('.icon-show', row);
+      $dashboardLink.attr('href', window.broadcast.buildReportingUrl('category=Dashboard_Dashboard&segment='+definition));
+    });
   }
 
   function initTitles() {
