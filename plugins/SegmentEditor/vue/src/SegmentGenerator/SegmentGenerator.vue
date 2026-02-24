@@ -162,6 +162,22 @@ function initialMatches() {
         value: translate('General_OperationIsNot'),
       },
       {
+        key: '<=',
+        value: translate('General_OperationAtMost'),
+      },
+      {
+        key: '>=',
+        value: translate('General_OperationAtLeast'),
+      },
+      {
+        key: '<',
+        value: translate('General_OperationLessThan'),
+      },
+      {
+        key: '>',
+        value: translate('General_OperationGreaterThan'),
+      },
+      {
         key: '=@',
         value: translate('General_OperationContains'),
       },

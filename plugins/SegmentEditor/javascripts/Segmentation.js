@@ -49,8 +49,11 @@ Segmentation = (function($) {
         self.availableMatches["metric"][">="] = self.translations['General_OperationAtLeast'];
         self.availableMatches["metric"]["<"] = self.translations['General_OperationLessThan'];
         self.availableMatches["metric"][">"] = self.translations['General_OperationGreaterThan'];
-
         self.availableMatches["dimension"] = [];
+        self.availableMatches["dimension"]["<="] = self.translations['General_OperationAtMost'];
+        self.availableMatches["dimension"][">="] = self.translations['General_OperationAtLeast'];
+        self.availableMatches["dimension"]["<"] = self.translations['General_OperationLessThan'];
+        self.availableMatches["dimension"][">"] = self.translations['General_OperationGreaterThan'];
         self.availableMatches["dimension"]["=="] = self.translations['General_OperationIs'];
         self.availableMatches["dimension"]["!="] = self.translations['General_OperationIsNot'];
         self.availableMatches["dimension"]["=@"] = self.translations['General_OperationContains'];
