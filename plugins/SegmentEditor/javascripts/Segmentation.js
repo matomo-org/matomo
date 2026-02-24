@@ -753,7 +753,11 @@ Segmentation = (function($) {
 
         function updateStarSegmentTitle($starButton, segment) {
           const canEdit = getCanUserEditSegment(segment);
-          $starButton.attr('title', getStarSegmentTitle(segment, canEdit));
+          const title = getStarSegmentTitle(segment, canEdit);
+          $starButton.attr('title', title);
+          if (typeof $starButton.data('ui-tooltip-title') !== 'undefined') {
+            $starButton.data('ui-tooltip-title', title);
+          }
         }
 
         function updateStarredSegment(segment, isError = false) {
