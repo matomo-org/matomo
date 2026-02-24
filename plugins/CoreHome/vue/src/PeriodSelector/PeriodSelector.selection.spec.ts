@@ -18,7 +18,7 @@ window.piwik.maxDateDay = 29;
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PeriodSelector = require('./PeriodSelector.vue').default;
-const CONTEXT_KEY_IGNORED_PARAMS = ['date', 'period', 'comparePeriods', 'comparePeriodType', 'compareDates'];
+const CONTEXT_KEY_IGNORED_PARAMS = ['date', 'period', 'comparePeriods', 'comparePeriodType', 'compareDates', 'compareSegments'];
 
 function createContextKey(parsed: Record<string, unknown>): string {
   const context: Record<string, unknown> = {};
@@ -484,6 +484,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       action: 'index',
       category: 'General_Actions',
       subcategory: 'General_Pages',
+      compareSegments: ['countryCode==US'],
       comparePeriods: ['day'],
       comparePeriodType: 'previousPeriod',
       compareDates: ['2026-02-01'],
@@ -495,9 +496,33 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       action: 'index',
       category: 'General_Actions',
       subcategory: 'General_Pages',
+      compareSegments: ['deviceType==desktop'],
       comparePeriods: ['range'],
       comparePeriodType: 'custom',
       compareDates: ['2026-02-01,2026-02-07'],
+      date: 'today',
+      period: 'day',
+    });
+
+    expect(contextA).toBe(contextB);
+  });
+
+  it('keeps context key unchanged when only compareSegments changes', () => {
+    const contextA = methods.getContextKeyFromParsed.call({}, {
+      module: 'CoreHome',
+      action: 'index',
+      category: 'General_Actions',
+      subcategory: 'General_Pages',
+      compareSegments: ['countryCode==US'],
+      date: 'today',
+      period: 'day',
+    });
+    const contextB = methods.getContextKeyFromParsed.call({}, {
+      module: 'CoreHome',
+      action: 'index',
+      category: 'General_Actions',
+      subcategory: 'General_Pages',
+      compareSegments: ['deviceType==desktop'],
       date: 'today',
       period: 'day',
     });
@@ -977,6 +1002,57 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     expect((wrapper.vm as any).isRangeValid).toBe(true);
     expect((wrapper.vm as any).startRangeDate).toBe('2026-02-01');
     expect((wrapper.vm as any).endRangeDate).toBe('2026-02-18');
+    wrapper.unmount();
+  });
+
+  it('keeps preset ownership after close/reopen without apply', async () => {
+    const wrapper = mountSelector();
+    await nextTick();
+
+    (wrapper.vm as any).onPresetDateRangeSelected({
+      id: 'today',
+      period: 'day',
+      date: 'today',
+      startDate: new Date('2026-02-18'),
+      endDate: new Date('2026-02-18'),
+    });
+    await nextTick();
+
+    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'today' });
+    expect((wrapper.vm as any).activePresetId).toBe('today');
+
+    (wrapper.vm as any).onClosed({ detail: 1 });
+    await nextTick();
+    (wrapper.vm as any).onExpand({ detail: 1 });
+    await nextTick();
+
+    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'today' });
+    expect((wrapper.vm as any).activePresetId).toBe('today');
+    wrapper.unmount();
+  });
+
+  it('switches checked ownership from preset to period when a period option is selected', async () => {
+    const wrapper = mountSelector();
+    await nextTick();
+
+    (wrapper.vm as any).onPresetDateRangeSelected({
+      id: 'last30days',
+      period: 'range',
+      date: 'last30',
+      startDate: new Date('2026-01-20'),
+      endDate: new Date('2026-02-18'),
+    });
+    await nextTick();
+
+    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'last30days' });
+    expect((wrapper.vm as any).activePresetId).toBe('last30days');
+
+    wrapper.findComponent({ name: 'PeriodOptions' }).vm.$emit('select', { period: 'month' });
+    await nextTick();
+
+    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'period', id: 'month' });
+    expect((wrapper.vm as any).activePresetId).toBeNull();
+    expect((wrapper.vm as any).pendingPresetSelection).toBeNull();
     wrapper.unmount();
   });
 });
