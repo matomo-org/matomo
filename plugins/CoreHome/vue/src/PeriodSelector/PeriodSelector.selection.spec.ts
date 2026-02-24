@@ -37,6 +37,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
   it('stages preset selection and switches to dual calendar for range presets', () => {
     const appliedDate = new Date('2026-02-18');
     const vm: any = {
+      periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
       uiSelection: { type: 'period', id: 'day' },
       lastInteractionSource: null,
       activePresetId: null,
@@ -77,6 +78,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
 
   it('keeps single calendar for non-dual presets', () => {
     const vm: any = {
+      periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
       uiSelection: { type: 'period', id: 'day' },
       lastInteractionSource: null,
       activePresetId: null,
@@ -110,6 +112,40 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.singleCalendarPeriod).toBe('day');
     expect(vm.stagedRangeStartDate).toBeNull();
     expect(vm.stagedRangeEndDate).toBeNull();
+  });
+
+  it('ignores preset selections that resolve to disallowed periods', () => {
+    const vm: any = {
+      periodsFiltered: ['day'],
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: null,
+      activePresetId: null,
+      pendingPresetSelection: null,
+      selectedPeriod: 'day',
+      calendarViewport: 'single',
+      stagedRangeStartDate: null,
+      stagedRangeEndDate: null,
+      isRangeValid: false,
+      setUiSelection: jest.fn(),
+    };
+
+    methods.onPresetDateRangeSelected.call(vm, {
+      id: 'last7days',
+      period: 'range',
+      date: 'last7',
+      startDate: new Date('2026-02-12'),
+      endDate: new Date('2026-02-18'),
+    });
+
+    expect(vm.setUiSelection).not.toHaveBeenCalled();
+    expect(vm.uiSelection).toEqual({ type: 'period', id: 'day' });
+    expect(vm.activePresetId).toBeNull();
+    expect(vm.pendingPresetSelection).toBeNull();
+    expect(vm.selectedPeriod).toBe('day');
+    expect(vm.calendarViewport).toBe('single');
+    expect(vm.stagedRangeStartDate).toBeNull();
+    expect(vm.stagedRangeEndDate).toBeNull();
+    expect(vm.isRangeValid).toBe(false);
   });
 
   it('applies preset only on apply click', () => {
@@ -189,6 +225,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
   it('keeps currently viewing text unchanged before apply after preset click', () => {
     const appliedDate = new Date('2026-02-18');
     const vm: any = {
+      periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
       uiSelection: { type: 'period', id: 'day' },
       lastInteractionSource: null,
       activePresetId: null,

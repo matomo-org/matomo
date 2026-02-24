@@ -31,6 +31,7 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
         minDate: new Date('2000-01-01'),
         maxDate: new Date('2100-12-31'),
         today: new Date('2026-02-16'),
+        allowedPeriods: ['day', 'week', 'month', 'year', 'range'],
         ...customProps,
       },
     });
@@ -40,6 +41,41 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
     const wrapper = mountComponent();
 
     expect(wrapper.findAll('input[type="radio"]').length).toBe(13);
+  });
+
+  it('should render only day presets when only day is allowed', () => {
+    const wrapper = mountComponent({ allowedPeriods: ['day'] });
+
+    const presetIds = wrapper.findAll('input[type="radio"]').map((input) => input.attributes('id'));
+    expect(presetIds).toEqual(['preset_date_today', 'preset_date_yesterday']);
+  });
+
+  it('should render only range presets when only range is allowed', () => {
+    const wrapper = mountComponent({ allowedPeriods: ['range'] });
+
+    const presetIds = wrapper.findAll('input[type="radio"]').map((input) => input.attributes('id'));
+    expect(presetIds).toEqual([
+      'preset_date_last7days',
+      'preset_date_last30days',
+      'preset_date_last90days',
+      'preset_date_lastQuarter',
+      'preset_date_thisQuarter',
+    ]);
+  });
+
+  it('should render day and range presets when only day and range are allowed', () => {
+    const wrapper = mountComponent({ allowedPeriods: ['day', 'range'] });
+
+    const presetIds = wrapper.findAll('input[type="radio"]').map((input) => input.attributes('id'));
+    expect(presetIds).toEqual([
+      'preset_date_today',
+      'preset_date_yesterday',
+      'preset_date_last7days',
+      'preset_date_last30days',
+      'preset_date_last90days',
+      'preset_date_lastQuarter',
+      'preset_date_thisQuarter',
+    ]);
   });
 
   it('should emit update:modelValue and select payload when preset is selected', async () => {

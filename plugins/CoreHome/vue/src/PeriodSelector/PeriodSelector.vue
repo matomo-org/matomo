@@ -138,6 +138,7 @@
             <PresetDateRanges
               v-model="activePresetId"
               :checked-preset-id="uiSelection.type === 'preset' ? uiSelection.id : null"
+              :allowed-periods="periodsFiltered"
               :min-date="piwikMinDate"
               :max-date="piwikMaxDate"
               @select="onPresetDateRangeSelected($event)"
@@ -652,6 +653,10 @@ export default defineComponent({
       this.commitSelectionToUrl(format(date), this.selectedPeriod);
     },
     onPresetDateRangeSelected(selection: PresetDateRangeSelection) {
+      if (!this.periodsFiltered.includes(selection.period)) {
+        return;
+      }
+
       this.setUiSelection({ type: 'preset', id: selection.id }, 'preset');
       this.activePresetId = selection.id;
       this.selectedPeriod = selection.period;
