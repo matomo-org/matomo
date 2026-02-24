@@ -609,6 +609,8 @@ export default defineComponent({
     onPeriodOptionSelected(payload: { period: string }) {
       this.setUiSelection({ type: 'period', id: payload.period }, 'period');
       this.selectedPeriod = payload.period;
+      // Selecting a period option exits preset ownership and discards any unapplied preset staging.
+      // After this point, Apply commits period-owned state only.
       this.clearPresetSelection();
       if (payload.period === RANGE_PERIOD) {
         this.calendarViewport = 'range';
