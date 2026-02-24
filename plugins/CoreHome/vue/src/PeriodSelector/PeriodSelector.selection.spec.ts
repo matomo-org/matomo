@@ -5,6 +5,10 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
+
 window.piwik.minDateYear = 2011;
 window.piwik.minDateMonth = 11;
 window.piwik.minDateDay = 15;
@@ -270,6 +274,62 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.lastInteractionSource).toBeNull();
     expect(vm.lastKnownHashSelectionKey).toBe('day|today');
     expect(vm.lastKnownHashContextKey).toBe('CoreHome|index|General_Actions|General_Pages');
+  });
+
+  it('mounted watcher re-syncs staged preset when only report context changes', async () => {
+    const originalUrl = (MatomoUrl as any).url.value;
+    const originalInitTopControls = window.initTopControls;
+    if (!window.initTopControls) {
+      window.initTopControls = jest.fn();
+    }
+
+    const setUrl = (url: string) => {
+      (MatomoUrl as any).url.value = new URL(url);
+    };
+
+    setUrl(
+      'https://matomo.test/index.php?module=CoreHome&action=index&period=day&date=today'
+      + '#?period=day&date=today&category=General_Actions&subcategory=General_Pages',
+    );
+
+    const wrapper = mount(PeriodSelector, {
+      shallow: true,
+      props: {
+        periods: ['day', 'week', 'month', 'year', 'range'],
+      },
+      global: {
+        mocks: {
+          translate: (key: string) => key,
+        },
+      },
+    });
+
+    await nextTick();
+
+    (wrapper.vm as any).pendingPresetSelection = {
+      id: 'last7days',
+      period: 'range',
+      date: 'last7',
+    };
+    (wrapper.vm as any).activePresetId = 'last7days';
+    (wrapper.vm as any).uiSelection = { type: 'preset', id: 'last7days' };
+
+    setUrl(
+      'https://matomo.test/index.php?module=CoreHome&action=index&period=day&date=today'
+      + '#?period=day&date=today&category=General_Visitors&subcategory=General_Overview',
+    );
+    await nextTick();
+
+    expect((wrapper.vm as any).pendingPresetSelection).toBeNull();
+    expect((wrapper.vm as any).activePresetId).toBeNull();
+    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'period', id: 'day' });
+    expect((wrapper.vm as any).lastKnownHashContextKey).toBe(
+      'CoreHome|index|General_Visitors|General_Overview',
+    );
+
+    wrapper.unmount();
+    (MatomoUrl as any).url.value = originalUrl;
+    window.initTopControls = originalInitTopControls;
   });
 
   it('applies non-range period via calendar click', () => {
