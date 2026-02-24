@@ -147,7 +147,6 @@
       </div>
       <div
         class="apply-button-container"
-        v-if="shouldShowApplyButton"
       >
         <input
           type="submit"
@@ -513,17 +512,6 @@ export default defineComponent({
       return this.uiSelection.type === 'preset'
         && this.selectedPeriod === RANGE_PERIOD;
     },
-    shouldShowApplyButton() {
-      if (this.pendingPresetSelection) {
-        return true;
-      }
-
-      if (this.selectedPeriod === RANGE_PERIOD) {
-        return true;
-      }
-
-      return this.isCompareDirty && !this.hasPendingNonRangePeriodChange;
-    },
   },
   methods: {
     onExpand(event: MouseEvent|KeyboardEvent) {
@@ -869,10 +857,6 @@ export default defineComponent({
       }
     },
     isApplyEnabled() {
-      if (!this.shouldShowApplyButton) {
-        return false;
-      }
-
       if (this.selectedPeriod === RANGE_PERIOD
         && !this.pendingPresetSelection
         && !this.isRangeValid
