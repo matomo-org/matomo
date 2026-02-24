@@ -181,7 +181,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue';
+import { defineComponent } from 'vue';
 import ExpandOnClick from '../ExpandOnClick/ExpandOnClick';
 import DateRangePicker from '../DateRangePicker/DateRangePicker.vue';
 import PeriodDatePicker from '../PeriodDatePicker/PeriodDatePicker.vue';
@@ -256,6 +256,7 @@ interface PeriodSelectorState {
   nextHashUiSelection: UiSelection|null;
   nextHashSelectionKey: string|null;
   lastKnownHashSelectionKey: string|null;
+  lastKnownHashContextKey: string|null;
   piwikMinDate: Date;
   piwikMaxDate: Date;
   comparePeriodDropdownOptions: typeof COMPARE_PERIOD_OPTIONS;
@@ -305,6 +306,7 @@ export default defineComponent({
       nextHashUiSelection: null,
       nextHashSelectionKey: null,
       lastKnownHashSelectionKey: null,
+      lastKnownHashContextKey: null,
       piwikMinDate,
       piwikMaxDate,
       comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
@@ -338,29 +340,20 @@ export default defineComponent({
       window.$(this.$refs.root as HTMLElement).parent('#periodString').show();
     });
 
-    this.isComparing = ComparisonsStore.isComparingPeriods();
-    watch(() => ComparisonsStore.isComparingPeriods(), (newVal) => {
-      this.isComparing = newVal;
-    });
-
-    this.updateSelectedValuesFromHash();
-    watch(
-      () => `${(MatomoUrl.parsed.value.period as string) || ''}|${(MatomoUrl.parsed.value.date as string) || ''}`,
-      this.updateSelectedValuesFromHash,
-    );
-
-    this.updateComparisonValuesFromStore();
-    this.compareAppliedSignature = this.compareCurrentSignature;
-    watch(() => ComparisonsStore.getPeriodComparisons(), () => {
-      this.updateComparisonValuesFromStore();
-      this.compareAppliedSignature = this.compareCurrentSignature;
-    });
-
     window.initTopControls(); // must be called when a top control changes width
 
     this.handleZIndexPositionRelativeCompareDropdownIssue();
   },
   computed: {
+    matomoParsed() {
+      return MatomoUrl.parsed.value;
+    },
+    isComparingStoreValue() {
+      return ComparisonsStore.isComparingPeriods();
+    },
+    periodComparisonsStoreValue() {
+      return ComparisonsStore.getPeriodComparisons();
+    },
     currentlyViewingText() {
       let date;
       if (this.periodValue === 'range') {
@@ -506,11 +499,33 @@ export default defineComponent({
     hasPendingNonRangePeriodChange() {
       return this.uiSelection.type === 'period'
         && this.lastInteractionSource === 'period'
-        && this.selectedPeriod !== RANGE_PERIOD;
+        && this.selectedPeriod !== RANGE_PERIOD
+        && this.selectedPeriod !== this.periodValue;
     },
     isRangePresetSelection() {
       return this.uiSelection.type === 'preset'
         && this.selectedPeriod === RANGE_PERIOD;
+    },
+  },
+  watch: {
+    isComparingStoreValue: {
+      immediate: true,
+      handler(newVal: boolean) {
+        this.isComparing = newVal;
+      },
+    },
+    matomoParsed: {
+      immediate: true,
+      handler() {
+        this.updateSelectedValuesFromHash();
+      },
+    },
+    periodComparisonsStoreValue: {
+      immediate: true,
+      handler() {
+        this.updateComparisonValuesFromStore();
+        this.compareAppliedSignature = this.compareCurrentSignature;
+      },
     },
   },
   methods: {
@@ -741,7 +756,25 @@ export default defineComponent({
       this.compareStartDate = format(startDate);
       this.compareEndDate = format(endDate);
     },
-    resolveSyncedUiSelection(currentSelectionKey: string): UiSelection|null {
+    getContextKeyFromParsed(parsed: Record<string, unknown>): string {
+      const module = (parsed.module as string) || '';
+      const action = (parsed.action as string) || '';
+      const category = (parsed.category as string) || '';
+      const subcategory = (parsed.subcategory as string) || '';
+      return `${module}|${action}|${category}|${subcategory}`;
+    },
+    getCurrentContextKey(): string {
+      return this.getContextKeyFromParsed(MatomoUrl.parsed.value as Record<string, unknown>);
+    },
+    shouldSkipHashSync(currentSelectionKey: string, currentContextKey: string): boolean {
+      return !this.nextHashUiSelection
+        && currentSelectionKey === this.lastKnownHashSelectionKey
+        && currentContextKey === this.lastKnownHashContextKey;
+    },
+    resolveSyncedUiSelection(
+      currentSelectionKey: string,
+      currentContextKey: string,
+    ): UiSelection|null {
       const syncedUiSelection = this.nextHashUiSelection
         && this.nextHashSelectionKey === currentSelectionKey
         ? { ...this.nextHashUiSelection }
@@ -751,6 +784,7 @@ export default defineComponent({
       this.nextHashSelectionKey = null;
       this.lastInteractionSource = null;
       this.lastKnownHashSelectionKey = currentSelectionKey;
+      this.lastKnownHashContextKey = currentContextKey;
 
       return syncedUiSelection;
     },
@@ -792,13 +826,15 @@ export default defineComponent({
       const date = (MatomoUrl.parsed.value.date as string) || '';
       const period = (MatomoUrl.parsed.value.period as string) || '';
       const currentSelectionKey = this.getSelectionKey(period, date);
-      if (!this.nextHashUiSelection
-        && currentSelectionKey === this.lastKnownHashSelectionKey
-      ) {
+      const currentContextKey = this.getCurrentContextKey();
+      if (this.shouldSkipHashSync(currentSelectionKey, currentContextKey)) {
         return;
       }
 
-      const syncedUiSelection = this.resolveSyncedUiSelection(currentSelectionKey);
+      const syncedUiSelection = this.resolveSyncedUiSelection(
+        currentSelectionKey,
+        currentContextKey,
+      );
       this.applyUiSelectionFromHash(period, syncedUiSelection);
       this.periodValue = period;
       this.selectedPeriod = period;
