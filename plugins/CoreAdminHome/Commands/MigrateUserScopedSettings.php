@@ -17,9 +17,9 @@ class MigrateUserScopedSettings extends ConsoleCommand
 {
     protected function configure()
     {
-        $this->setName('core:matomo570-migrate-user-scoped-settings');
+        $this->setName('core:matomo580-migrate-user-scoped-settings');
         $this->setDescription(
-            'Only needed for Matomo 5.7.0-b4 upgrade. '
+            'Only needed for Matomo 5.8.0-b2 upgrade. '
             . 'Migrates legacy user-scoped settings from option keys to plugin_setting rows and purges legacy option keys.'
         );
     }
