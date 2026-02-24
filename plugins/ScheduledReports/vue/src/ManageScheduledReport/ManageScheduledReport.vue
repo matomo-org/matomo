@@ -595,13 +595,6 @@ export default defineComponent({
 
       return String(value);
     },
-    escapeHtml(value: unknown): string {
-      if (value === null || value === undefined) {
-        return '';
-      }
-
-      return piwikHelper.escape(String(value));
-    },
     isValidDashboardExportMapping(mapping: WidgetReportMap): boolean {
       if (!mapping?.dashboardName) {
         return false;
@@ -614,7 +607,7 @@ export default defineComponent({
         return;
       }
       const dashName = Matomo.helper.htmlDecode(mapping.dashboardName);
-      const escapedDashName = this.escapeHtml(dashName);
+      const escapedDashName = piwikHelper.escape(dashName);
       this.selectedReports = { email: { ...mapping.email } };
       this.selectedReportsOrder = { email: Object.keys(mapping.email || {}) };
       if (mapping.idSegment) {
@@ -631,7 +624,7 @@ export default defineComponent({
       let unmappedWidgetsForDisplay = '';
       if (mapping.unmappedWidgets && mapping.unmappedWidgets.length) {
         const escapedWidgets = mapping.unmappedWidgets.map(
-          (widgetName) => this.escapeHtml(widgetName),
+          (widgetName) => piwikHelper.escape(widgetName),
         );
         unmappedWidgetsForDisplay = translate('ScheduledReports_WidgetsNotMappedToReports',
           escapedWidgets.join(', '));
