@@ -11,10 +11,12 @@ namespace Piwik\Plugins\API\tests\Integration;
 
 use Piwik\Access;
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Http\BadRequestException;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
@@ -169,6 +171,33 @@ class APITest extends IntegrationTestCase
             $response = $this->api->getBulkRequest($this->makeBulkUrls(12));
             $this->assertCount(12, $response);
         } finally {
+            $this->setAnonymousContext();
+        }
+    }
+
+    public function testGetSuggestedValuesForSegmentSupportsAllIdSiteWhenBrowserArchivingDisabled()
+    {
+        $this->setSuperUserContext();
+        $previousBrowserArchivingSetting = Option::get(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING);
+
+        try {
+            Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 0);
+
+            try {
+                $result = $this->api->getSuggestedValuesForSegment('pageTitle', 'all');
+                $this->assertIsArray($result);
+            } catch (\Throwable $e) {
+                $this->assertNotInstanceOf(\TypeError::class, $e);
+                $this->assertStringNotContainsString('SitesManager::getSiteFromId', $e->getMessage());
+                $this->assertStringNotContainsString('must be of the type int', $e->getMessage());
+            }
+        } finally {
+            if ($previousBrowserArchivingSetting === false) {
+                Option::delete(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING);
+            } else {
+                Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, $previousBrowserArchivingSetting);
+            }
+
             $this->setAnonymousContext();
         }
     }

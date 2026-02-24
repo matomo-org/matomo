@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "पृष्ठ का यू.आर.एल"
+        "PageUrl": "पृष्ठ का यू.आर.एल",
+        "SiteWithoutDataBackToMatomo": "वापस Matomo तक"
     }
 }

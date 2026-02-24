@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "페이지 URL"
+        "PageUrl": "페이지 URL",
+        "SiteWithoutDataBackToMatomo": "Matomo으로 돌아가기"
     }
 }

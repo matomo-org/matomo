@@ -181,7 +181,7 @@
         "Hide": "sakrij",
         "HoursMinutes": "%1$s sat(a) %2$s min",
         "IP": "IP",
-        "Id": "ID",
+        "Id": "Id",
         "Installed": "Instalirano",
         "InvalidDateRange": "Neispravan vremenski raspon, pokušaj opet",
         "InvalidResponse": "Primjeni podaci nisu ispravni.",
@@ -377,7 +377,7 @@
     },
     "Mobile": {
         "AboutPiwikMobile": "O Matomou Mobile",
-        "AccessUrlLabel": "Matomo pristupni URL",
+        "AccessUrlLabel": "URL za pristup Matomou",
         "Account": "Račun",
         "Accounts": "Računi",
         "AddAccount": "Dodaj račun",

@@ -598,7 +598,6 @@ class API extends \Piwik\Plugin\API
         $suggestedValuesCallbackRequiresTable = false;
 
         if (!empty($segment['suggestedValuesApi']) && is_string($segment['suggestedValuesApi']) && !Rules::isBrowserTriggerEnabled()) {
-            $now = Date::now()->setTimezone(Site::getTimezoneFor($idSite));
             if ($idSite === 'all') {
                 $now = Date::now()->setTimezone(\Piwik\Plugins\SitesManager\API::getInstance()->getDefaultTimezone());
             } else {

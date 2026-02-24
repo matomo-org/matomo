@@ -27,8 +27,8 @@
     "url": "https://github.com/matomo-org/matomo/issues"
   },
   "homepage": "https://github.com/matomo-org/matomo#readme",
-  "engines" : {
-    "node" : ">=16.0.0 <17.0.0"
+  "engines": {
+    "node": ">=16.0.0 <17.0.0"
   },
   "dependencies": {
     "@materializecss/materialize": "^1.1.0",
@@ -64,6 +64,7 @@
     "@vue/compiler-sfc": "^3.2.6",
     "@vue/eslint-config-airbnb": "^5.3.0",
     "@vue/eslint-config-typescript": "^7.0.0",
+    "@vue/test-utils": "^2.4.6",
     "abortcontroller-polyfill": "^1.7.3",
     "babel-loader": "^8.2.2",
     "dompurify": "^3.2.4",
