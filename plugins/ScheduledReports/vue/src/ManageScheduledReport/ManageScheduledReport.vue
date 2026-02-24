@@ -520,11 +520,24 @@ export default defineComponent({
       );
     },
     async handleDashboardExportFromUrl() {
-      const dashboardId = this.getDashboardIdFromUrl();
-      if (dashboardId === '') {
+      const hasDashboardIdParamInUrl = this.hasDashboardIdParamInUrl();
+      if (!hasDashboardIdParamInUrl) {
         return;
       }
+
+      const dashboardId = this.getDashboardIdFromUrl();
       this.consumeDashboardExportParamFromUrl();
+      if (dashboardId === '') {
+        scrollToTop();
+        this.showNotificationMessage(
+          this.$refs.reportUpdatedSuccess as HTMLElement,
+          translate('ScheduledReports_ExportDashboardInvalidDashboard'),
+          'error',
+          'persistent',
+        );
+        return;
+      }
+
       this.getWidgetReportMapping(dashboardId)
         .then((mapping) => {
           if (!this.isValidDashboardExportMapping(mapping)) {
@@ -574,26 +587,39 @@ export default defineComponent({
       const { segment } = MatomoUrl.parsed.value;
       return typeof segment === 'string' ? segment : '';
     },
-    getDashboardIdFromUrl(): string {
-      const queryDashboardId = this.normalizeDashboardIdParam(
-        MatomoUrl.urlParsed.value.idDashboard,
-      );
-      if (queryDashboardId !== '') {
-        return queryDashboardId;
-      }
-
-      return this.normalizeDashboardIdParam(MatomoUrl.hashParsed.value.idDashboard);
+    hasDashboardIdParam(params: Record<string, unknown>): boolean {
+      return Object.prototype.hasOwnProperty.call(params, 'idDashboard');
     },
-    normalizeDashboardIdParam(value: unknown): string {
-      if (Array.isArray(value)) {
-        return value.length ? String(value[0]) : '';
+    hasDashboardIdParamInUrl(): boolean {
+      const queryParams = MatomoUrl.urlParsed.value as Record<string, unknown>;
+      if (this.hasDashboardIdParam(queryParams)) {
+        return true;
       }
 
-      if (value === null || value === undefined) {
+      const hashParams = MatomoUrl.hashParsed.value as Record<string, unknown>;
+      return this.hasDashboardIdParam(hashParams);
+    },
+    getDashboardIdFromUrl(): string {
+      const queryParams = MatomoUrl.urlParsed.value as Record<string, unknown>;
+      if (this.hasDashboardIdParam(queryParams)) {
+        return this.parsePositiveDashboardIdParam(queryParams.idDashboard);
+      }
+
+      const hashParams = MatomoUrl.hashParsed.value as Record<string, unknown>;
+      return this.parsePositiveDashboardIdParam(hashParams.idDashboard);
+    },
+    parsePositiveDashboardIdParam(value: unknown): string {
+      const candidate = Array.isArray(value) ? value[0] : value;
+      if (candidate === null || candidate === undefined) {
         return '';
       }
 
-      return String(value);
+      const normalizedValue = String(candidate).trim();
+      if (!/^[1-9]\d*$/.test(normalizedValue)) {
+        return '';
+      }
+
+      return normalizedValue;
     },
     isValidDashboardExportMapping(mapping: WidgetReportMap): boolean {
       if (!mapping?.dashboardName) {
