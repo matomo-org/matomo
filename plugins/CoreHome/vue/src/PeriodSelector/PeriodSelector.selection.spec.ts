@@ -144,7 +144,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.commitSelectionToUrl).not.toHaveBeenCalledWith('2026-02-14,2026-02-15', 'range');
   });
 
-  it('marks non-range period click as pending and does not apply on apply click', () => {
+  it('marks non-range period change as pending and does not apply on apply click', () => {
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
       lastInteractionSource: null,
@@ -178,6 +178,98 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     methods.onApplyClicked.call(vm);
 
     expect(vm.commitSelectionToUrl).not.toHaveBeenCalled();
+  });
+
+  it('treats non-range pending state as period-change-only', () => {
+    const samePeriodVm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: 'period',
+      selectedPeriod: 'day',
+      periodValue: 'day',
+    };
+    expect(computed.hasPendingNonRangePeriodChange.call(samePeriodVm)).toBe(false);
+
+    const changedPeriodVm: any = {
+      uiSelection: { type: 'period', id: 'week' },
+      lastInteractionSource: 'period',
+      selectedPeriod: 'week',
+      periodValue: 'day',
+    };
+    expect(computed.hasPendingNonRangePeriodChange.call(changedPeriodVm)).toBe(true);
+  });
+
+  it('allows compare apply path after same-period radio click', () => {
+    const selectedDate = new Date('2026-02-18');
+    const vm: any = {
+      pendingPresetSelection: null,
+      uiSelection: { type: 'period', id: 'day' },
+      selectedPeriod: 'day',
+      periodValue: 'day',
+      dateValue: selectedDate,
+      isCompareDirty: true,
+      hasPendingNonRangePeriodChange: false,
+      commitSelectionToUrl: jest.fn(),
+    };
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('2026-02-18', 'day');
+  });
+
+  it('does not skip hash sync when context changes with same period/date', () => {
+    const vm: any = {
+      nextHashUiSelection: null,
+      lastKnownHashSelectionKey: 'day|today',
+      lastKnownHashContextKey: 'CoreHome|index|General_Actions|General_Pages',
+    };
+
+    expect(methods.shouldSkipHashSync.call(
+      vm,
+      'day|today',
+      'CoreHome|index|General_Visitors|General_Overview',
+    )).toBe(false);
+  });
+
+  it('skips hash sync only when both selection and context keys are unchanged and no pending ui sync', () => {
+    const vm: any = {
+      nextHashUiSelection: null,
+      lastKnownHashSelectionKey: 'day|today',
+      lastKnownHashContextKey: 'CoreHome|index|General_Actions|General_Pages',
+    };
+
+    expect(methods.shouldSkipHashSync.call(
+      vm,
+      'day|today',
+      'CoreHome|index|General_Actions|General_Pages',
+    )).toBe(true);
+
+    vm.nextHashUiSelection = { type: 'period', id: 'day' };
+    expect(methods.shouldSkipHashSync.call(
+      vm,
+      'day|today',
+      'CoreHome|index|General_Actions|General_Pages',
+    )).toBe(false);
+  });
+
+  it('stores selection and context keys when resolving synced ui selection', () => {
+    const vm: any = {
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      lastInteractionSource: 'period',
+      lastKnownHashSelectionKey: null,
+      lastKnownHashContextKey: null,
+    };
+
+    const synced = methods.resolveSyncedUiSelection.call(
+      vm,
+      'day|today',
+      'CoreHome|index|General_Actions|General_Pages',
+    );
+
+    expect(synced).toBeNull();
+    expect(vm.lastInteractionSource).toBeNull();
+    expect(vm.lastKnownHashSelectionKey).toBe('day|today');
+    expect(vm.lastKnownHashContextKey).toBe('CoreHome|index|General_Actions|General_Pages');
   });
 
   it('applies non-range period via calendar click', () => {
