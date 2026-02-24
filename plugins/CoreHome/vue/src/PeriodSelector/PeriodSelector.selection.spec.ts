@@ -27,16 +27,20 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
   const { methods, computed } = component;
 
   it('stages preset selection and switches to dual calendar for range presets', () => {
+    const appliedDate = new Date('2026-02-18');
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
       lastInteractionSource: null,
       activePresetId: null,
       pendingPresetSelection: null,
       selectedPeriod: 'day',
+      periodValue: 'day',
       calendarViewport: 'single',
-      dateValue: new Date('2026-02-18'),
+      dateValue: appliedDate,
       startRangeDate: '2026-02-18',
       endRangeDate: '2026-02-18',
+      stagedRangeStartDate: null,
+      stagedRangeEndDate: null,
       isRangeValid: false,
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
@@ -56,6 +60,11 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.activePresetId).toBe('last7days');
     expect(vm.pendingPresetSelection?.date).toBe('last7');
     expect(vm.calendarViewport).toBe('range');
+    expect(vm.dateValue).toBe(appliedDate);
+    expect(vm.startRangeDate).toBe('2026-02-18');
+    expect(vm.endRangeDate).toBe('2026-02-18');
+    expect(vm.stagedRangeStartDate).toBe('2026-02-12');
+    expect(vm.stagedRangeEndDate).toBe('2026-02-18');
   });
 
   it('keeps single calendar for non-dual presets', () => {
@@ -68,6 +77,8 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       calendarViewport: 'range',
       singleCalendarPeriod: 'day',
       singleCalendarDate: null,
+      stagedRangeStartDate: '2026-02-10',
+      stagedRangeEndDate: '2026-02-12',
       dateValue: new Date('2026-02-18'),
       startRangeDate: '2026-02-18',
       endRangeDate: '2026-02-18',
@@ -89,23 +100,35 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.uiSelection).toEqual({ type: 'preset', id: 'yesterday' });
     expect(vm.calendarViewport).toBe('single');
     expect(vm.singleCalendarPeriod).toBe('day');
+    expect(vm.stagedRangeStartDate).toBeNull();
+    expect(vm.stagedRangeEndDate).toBeNull();
   });
 
   it('applies preset only on apply click', () => {
+    const presetStart = new Date('2026-01-20');
+    const presetEnd = new Date('2026-02-18');
     const vm: any = {
       uiSelection: { type: 'preset', id: 'last30days' },
       pendingPresetSelection: {
         id: 'last30days',
         period: 'range',
         date: 'last30',
+        startDate: presetStart,
+        endDate: presetEnd,
       },
       periodValue: 'day',
+      dateValue: new Date('2026-02-18'),
+      startRangeDate: '2026-02-18',
+      endRangeDate: '2026-02-18',
       commitSelectionToUrl: jest.fn(),
     };
 
     methods.onApplyClicked.call(vm);
 
     expect(vm.periodValue).toBe('range');
+    expect(vm.dateValue).toBe(presetStart);
+    expect(vm.startRangeDate).toBe('2026-01-20');
+    expect(vm.endRangeDate).toBe('2026-02-18');
     expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('last30', 'range');
   });
 
@@ -116,8 +139,13 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
         id: 'thisWeekMonToday',
         period: 'week',
         date: 'today',
+        startDate: new Date('2026-02-16'),
+        endDate: new Date('2026-02-18'),
       },
       periodValue: 'day',
+      dateValue: new Date('2026-02-18'),
+      startRangeDate: '2026-02-18',
+      endRangeDate: '2026-02-18',
       commitSelectionToUrl: jest.fn(),
     };
 
@@ -134,6 +162,8 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
         id: 'last7days',
         period: 'range',
         date: 'last7',
+        startDate: new Date('2026-02-12'),
+        endDate: new Date('2026-02-18'),
       },
       startRangeDate: '2026-02-14',
       endRangeDate: '2026-02-15',
@@ -146,6 +176,57 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.periodValue).toBe('range');
     expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('last7', 'range');
     expect(vm.commitSelectionToUrl).not.toHaveBeenCalledWith('2026-02-14,2026-02-15', 'range');
+  });
+
+  it('keeps currently viewing text unchanged before apply after preset click', () => {
+    const appliedDate = new Date('2026-02-18');
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: null,
+      activePresetId: null,
+      pendingPresetSelection: null,
+      selectedPeriod: 'day',
+      periodValue: 'day',
+      calendarViewport: 'single',
+      dateValue: appliedDate,
+      startRangeDate: '2026-02-18',
+      endRangeDate: '2026-02-18',
+      stagedRangeStartDate: null,
+      stagedRangeEndDate: null,
+      isRangeValid: false,
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+    };
+
+    const before = computed.currentlyViewingText.call(vm);
+
+    methods.onPresetDateRangeSelected.call(vm, {
+      id: 'last7days',
+      period: 'range',
+      date: 'last7',
+      startDate: new Date('2026-02-12'),
+      endDate: new Date('2026-02-18'),
+    });
+
+    const after = computed.currentlyViewingText.call(vm);
+    expect(before).toBe(after);
+  });
+
+  it('uses staged range preview values when range preset is selected', () => {
+    const vm: any = {
+      uiSelection: { type: 'preset', id: 'last7days' },
+      selectedPeriod: 'range',
+      stagedRangeStartDate: '2026-02-12',
+      stagedRangeEndDate: '2026-02-18',
+      startRangeDate: '2026-01-01',
+      endRangeDate: '2026-01-31',
+      isRangePresetSelection: true,
+    };
+
+    expect(computed.displayRangeStartDate.call(vm)).toBe('2026-02-12');
+    expect(computed.displayRangeEndDate.call(vm)).toBe('2026-02-18');
   });
 
   it('marks non-range period change as pending and does not apply on apply click', () => {
