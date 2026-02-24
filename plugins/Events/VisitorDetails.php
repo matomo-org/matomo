@@ -60,7 +60,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderAction($action, $previousAction, $visitorDetails)
     {
-        if ($action['type'] != 'event') {
+        if (empty($action['type']) || $action['type'] != 'event') {
             return;
         }
 
@@ -80,7 +80,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function handleProfileAction($action, &$profile)
     {
-        if ($action['type'] != 'event') {
+        if (empty($action['type']) || $action['type'] != 'event') {
             return;
         }
         $profile['totalEvents']++;

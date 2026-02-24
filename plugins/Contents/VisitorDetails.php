@@ -17,7 +17,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 {
     public function extendActionDetails(&$action, $nextAction, $visitorDetails)
     {
-        if ($action['type'] != Action::TYPE_CONTENT) {
+        if (empty($action['type']) || $action['type'] != Action::TYPE_CONTENT) {
             unset($action['contentName']);
             unset($action['contentPiece']);
             unset($action['contentTarget']);
@@ -27,7 +27,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderAction($action, $previousAction, $visitorDetails)
     {
-        if ($action['type'] != Action::TYPE_CONTENT) {
+        if (empty($action['type']) || $action['type'] != Action::TYPE_CONTENT) {
             return;
         }
 
@@ -41,7 +41,7 @@ class VisitorDetails extends VisitorDetailsAbstract
 
     public function renderActionTooltip($action, $visitInfo)
     {
-        if ($action['type'] != Action::TYPE_CONTENT) {
+        if (empty($action['type']) || $action['type'] != Action::TYPE_CONTENT) {
             return [];
         }
 
