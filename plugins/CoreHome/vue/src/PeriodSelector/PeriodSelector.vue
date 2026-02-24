@@ -230,6 +230,7 @@ const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matom
 // today/now
 const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
 const RANGE_PERIOD = 'range';
+const CONTEXT_KEY_IGNORED_PARAMS = ['date', 'period', 'comparePeriods', 'comparePeriodType', 'compareDates'];
 
 type UiSelection = { type: 'period'; id: string } | { type: 'preset'; id: PresetDateRangeId };
 type InteractionSource = 'period' | 'preset' | 'calendar' | 'range' | null;
@@ -689,7 +690,7 @@ export default defineComponent({
         baseParams = MatomoUrl.parsed.value;
       }
 
-      // get params without comparePeriods/compareSegments/compareDates
+      // get params without comparePeriods/comparePeriodType/compareDates
       const paramsWithoutCompare = { ...baseParams };
       delete paramsWithoutCompare.comparePeriods;
       delete paramsWithoutCompare.comparePeriodType;
@@ -792,20 +793,14 @@ export default defineComponent({
       this.compareEndDate = format(endDate);
     },
     getContextKeyFromParsed(parsed: Record<string, unknown>): string {
-      const module = (parsed.module as string) || '';
-      const action = (parsed.action as string) || '';
-      const category = (parsed.category as string) || '';
-      const subcategory = (parsed.subcategory as string) || '';
-      const idSite = parsed.idSite ?? '';
-      const segment = parsed.segment ?? '';
-      return JSON.stringify({
-        module,
-        action,
-        category,
-        subcategory,
-        idSite,
-        segment,
-      });
+      const normalizedContext: Record<string, unknown> = {};
+      Object.keys(parsed)
+        .filter((key) => !CONTEXT_KEY_IGNORED_PARAMS.includes(key))
+        .sort()
+        .forEach((key) => {
+          normalizedContext[key] = parsed[key];
+        });
+      return JSON.stringify(normalizedContext);
     },
     getCurrentContextKey(): string {
       return this.getContextKeyFromParsed(MatomoUrl.parsed.value as Record<string, unknown>);

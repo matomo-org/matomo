@@ -18,6 +18,18 @@ window.piwik.maxDateDay = 29;
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PeriodSelector = require('./PeriodSelector.vue').default;
+const CONTEXT_KEY_IGNORED_PARAMS = ['date', 'period', 'comparePeriods', 'comparePeriodType', 'compareDates'];
+
+function createContextKey(parsed: Record<string, unknown>): string {
+  const context: Record<string, unknown> = {};
+  Object.keys(parsed)
+    .filter((key) => !CONTEXT_KEY_IGNORED_PARAMS.includes(key))
+    .sort()
+    .forEach((key) => {
+      context[key] = parsed[key];
+    });
+  return JSON.stringify(context);
+}
 
 describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', () => {
   const component = PeriodSelector as unknown as {
@@ -25,13 +37,13 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     computed: Record<string, (...args: unknown[]) => unknown>;
   };
   const { methods, computed } = component;
-  const baseContextKey = JSON.stringify({
+  const baseContextKey = createContextKey({
     module: 'CoreHome',
     action: 'index',
     category: 'General_Actions',
     subcategory: 'General_Pages',
-    idSite: '',
-    segment: '',
+    date: 'today',
+    period: 'day',
   });
 
   it('stages preset selection and switches to dual calendar for range presets', () => {
@@ -356,13 +368,13 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(methods.shouldSkipHashSync.call(
       vm,
       'day|today',
-      JSON.stringify({
+      createContextKey({
         module: 'CoreHome',
         action: 'index',
         category: 'General_Visitors',
         subcategory: 'General_Overview',
-        idSite: '',
-        segment: '',
+        date: 'today',
+        period: 'day',
       }),
     )).toBe(false);
   });
@@ -392,49 +404,128 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     const vm: any = {
       nextHashUiSelection: null,
       lastKnownHashSelectionKey: 'day|today',
-      lastKnownHashContextKey: JSON.stringify({
+      lastKnownHashContextKey: createContextKey({
         module: 'CoreHome',
         action: 'index',
         category: 'General_Actions',
         subcategory: 'General_Pages',
         idSite: '1',
-        segment: '',
+        date: 'today',
+        period: 'day',
       }),
     };
 
     expect(methods.shouldSkipHashSync.call(
       vm,
       'day|today',
-      JSON.stringify({
+      createContextKey({
         module: 'CoreHome',
         action: 'index',
         category: 'General_Actions',
         subcategory: 'General_Pages',
         idSite: '2',
-        segment: '',
+        date: 'today',
+        period: 'day',
       }),
     )).toBe(false);
 
-    vm.lastKnownHashContextKey = JSON.stringify({
+    vm.lastKnownHashContextKey = createContextKey({
       module: 'CoreHome',
       action: 'index',
       category: 'General_Actions',
       subcategory: 'General_Pages',
       idSite: '1',
       segment: 'countryCode==US',
+      date: 'today',
+      period: 'day',
     });
     expect(methods.shouldSkipHashSync.call(
       vm,
       'day|today',
-      JSON.stringify({
+      createContextKey({
         module: 'CoreHome',
         action: 'index',
         category: 'General_Actions',
         subcategory: 'General_Pages',
         idSite: '1',
         segment: 'countryCode==NZ',
+        date: 'today',
+        period: 'day',
       }),
     )).toBe(false);
+  });
+
+  it('changes context key when non-ignored params change', () => {
+    const contextA = methods.getContextKeyFromParsed.call({}, {
+      module: 'CoreHome',
+      action: 'index',
+      category: 'General_Actions',
+      subcategory: 'General_Pages',
+      idGoal: '1',
+      date: 'today',
+      period: 'day',
+    });
+    const contextB = methods.getContextKeyFromParsed.call({}, {
+      module: 'CoreHome',
+      action: 'index',
+      category: 'General_Actions',
+      subcategory: 'General_Pages',
+      idGoal: '2',
+      date: 'today',
+      period: 'day',
+    });
+
+    expect(contextA).not.toBe(contextB);
+  });
+
+  it('keeps context key unchanged for compare-only param changes', () => {
+    const contextA = methods.getContextKeyFromParsed.call({}, {
+      module: 'CoreHome',
+      action: 'index',
+      category: 'General_Actions',
+      subcategory: 'General_Pages',
+      comparePeriods: ['day'],
+      comparePeriodType: 'previousPeriod',
+      compareDates: ['2026-02-01'],
+      date: 'today',
+      period: 'day',
+    });
+    const contextB = methods.getContextKeyFromParsed.call({}, {
+      module: 'CoreHome',
+      action: 'index',
+      category: 'General_Actions',
+      subcategory: 'General_Pages',
+      comparePeriods: ['range'],
+      comparePeriodType: 'custom',
+      compareDates: ['2026-02-01,2026-02-07'],
+      date: 'today',
+      period: 'day',
+    });
+
+    expect(contextA).toBe(contextB);
+  });
+
+  it('builds deterministic context keys regardless of object key order', () => {
+    const contextA = methods.getContextKeyFromParsed.call({}, {
+      module: 'CoreHome',
+      action: 'index',
+      category: 'General_Actions',
+      subcategory: 'General_Pages',
+      segment: 'countryCode==US',
+      date: 'today',
+      period: 'day',
+    });
+    const contextB = methods.getContextKeyFromParsed.call({}, {
+      period: 'day',
+      date: 'today',
+      segment: 'countryCode==US',
+      subcategory: 'General_Pages',
+      category: 'General_Actions',
+      action: 'index',
+      module: 'CoreHome',
+    });
+
+    expect(contextA).toBe(contextB);
   });
 
   it('stores selection and context keys when resolving synced ui selection', () => {
@@ -506,13 +597,13 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect((wrapper.vm as any).activePresetId).toBeNull();
     expect((wrapper.vm as any).uiSelection).toEqual({ type: 'period', id: 'day' });
     expect((wrapper.vm as any).lastKnownHashContextKey).toBe(
-      JSON.stringify({
+      createContextKey({
         module: 'CoreHome',
         action: 'index',
         category: 'General_Visitors',
         subcategory: 'General_Overview',
-        idSite: '',
-        segment: '',
+        date: 'today',
+        period: 'day',
       }),
     );
 
