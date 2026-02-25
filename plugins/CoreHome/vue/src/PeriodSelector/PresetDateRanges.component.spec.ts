@@ -41,6 +41,8 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
     const wrapper = mountComponent();
 
     expect(wrapper.findAll('input[type="radio"]').length).toBe(13);
+    expect(wrapper.findAll('.preset-date-range-group').length).toBe(4);
+    expect(wrapper.findAll('.preset-date-range-group-separator').length).toBe(3);
   });
 
   it('should render only day presets when only day is allowed', () => {
@@ -48,6 +50,8 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
 
     const presetIds = wrapper.findAll('input[type="radio"]').map((input) => input.attributes('id'));
     expect(presetIds).toEqual(['preset_date_today', 'preset_date_yesterday']);
+    expect(wrapper.findAll('.preset-date-range-group').length).toBe(1);
+    expect(wrapper.findAll('.preset-date-range-group-separator').length).toBe(0);
   });
 
   it('should render only range presets when only range is allowed', () => {
@@ -61,6 +65,8 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
       'preset_date_lastQuarter',
       'preset_date_thisQuarter',
     ]);
+    expect(wrapper.findAll('.preset-date-range-group').length).toBe(3);
+    expect(wrapper.findAll('.preset-date-range-group-separator').length).toBe(2);
   });
 
   it('should render day and range presets when only day and range are allowed', () => {
