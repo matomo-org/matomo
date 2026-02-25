@@ -56,11 +56,6 @@ class UserRepository
     }
 
     /**
-     * @param string $userLogin
-     * @param string $email
-     * @param int    $initialIdSite
-     * @param string $password
-     * @param bool   $isPasswordHashed
      * @throws \Exception
      */
     public function create(

@@ -25,9 +25,6 @@ abstract class Base extends \Piwik\Plugin\Report
         return Bar::ID;
     }
 
-    /**
-     * @param ViewDataTable $view
-     */
     protected function setBasicConfigViewProperties(ViewDataTable $view)
     {
         $view->requestConfig->filter_sort_column = 'label';

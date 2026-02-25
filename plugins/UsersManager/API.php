@@ -345,7 +345,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns all users with their role for $idSite.
      *
-     * @param int $idSite
      * @param int|null $limit
      * @param int|null $offset
      * @param string|null $filter_search text to search for in the user's login and email (if any)
