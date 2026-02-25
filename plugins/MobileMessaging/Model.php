@@ -320,7 +320,18 @@ class Model
             return $this->getLegacyGlobalSettings();
         }
 
-        return $this->getStore()->getAll('MobileMessaging', $login);
+        $userSettings = $this->getStore()->getAll('MobileMessaging', $login);
+        if (empty($userSettings)) {
+            // revert to old style
+            $optionIndex = $login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION;
+            $userSettings = Option::get($optionIndex);
+            if (empty($userSettings)) {
+                $userSettings = [];
+            } else {
+                $userSettings = json_decode($userSettings, true);
+            }
+        }
+        return $userSettings;
     }
 
     /**
