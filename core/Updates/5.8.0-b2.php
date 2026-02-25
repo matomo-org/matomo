@@ -33,7 +33,7 @@ class Updates_5_8_0_b2 extends Updates
             $this->migration->db->addColumn('archiving_metrics', 'is_temporary', 'TINYINT(1) UNSIGNED NOT NULL DEFAULT 0'),
             new CustomMigration(
                 [MigrateUserScopedSettings::class, 'migrate'],
-                './console core:matomo570-migrate-user-scoped-settings'
+                './console core:matomo580-migrate-user-scoped-settings'
             ),
         ];
     }
