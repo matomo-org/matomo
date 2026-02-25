@@ -131,6 +131,55 @@
     min-width: 220px;
   }
 
+  .period-selector-options-column {
+    #otherPeriods .periodOptions {
+      p {
+        margin: 0 0 8px;
+      }
+
+      p:first-child {
+        margin-top: 10px;
+      }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+
+      label {
+        cursor: pointer;
+        padding-left: 8px;
+      }
+
+      label.selected-period-label {
+        color: @theme-color-text;
+        font-weight: 600;
+      }
+    }
+
+    #otherPeriods .presetDateRanges {
+      border-top: 1px solid @color-silver-l85;
+      margin-top: 12px;
+      padding-top: 12px;
+    }
+
+    .preset-date-range-group-separator {
+      border-top: 1px solid @color-silver-l85;
+      margin: 12px 0;
+    }
+  }
+
+  .period-selector-calendar-column {
+    border-left: 1px solid @color-silver-l85;
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+    padding-left: 16px;
+
+    .apply-button-container {
+      margin-top: auto;
+    }
+  }
+
 }
 
 .periodSelector-withPrevNext {

@@ -43,8 +43,8 @@
       :class="selectedPeriod === 'range' ? 'dual-calendar' : 'single-calendar'"
     >
       <div class="flex">
-        <div class="period-type">
-          <h6>{{ translate('General_Period') }}</h6>
+        <div class="period-type period-selector-options-column">
+          <h6>{{ translate('General_ChoosePeriod') }}</h6>
           <div id="otherPeriods">
             <PeriodOptions
               v-model="selectedPeriod"
@@ -64,7 +64,7 @@
             />
           </div>
         </div>
-        <div>
+        <div class="period-selector-calendar-column">
           <div @click.capture="onRangePresetDateCellClickCapture($event)">
             <DateRangePicker
               v-show="calendarViewport === 'range'"
@@ -144,19 +144,19 @@
               </div>
             </div>
           </div>
+          <div
+            class="apply-button-container"
+          >
+            <input
+              type="submit"
+              id="calendarApply"
+              class="btn"
+              @click="onApplyClicked()"
+              :disabled="!isApplyEnabled()"
+              :value="translate('General_Apply')"
+            />
+          </div>
         </div>
-      </div>
-      <div
-        class="apply-button-container"
-      >
-        <input
-          type="submit"
-          id="calendarApply"
-          class="btn"
-          @click="onApplyClicked()"
-          :disabled="!isApplyEnabled()"
-          :value="translate('General_Apply')"
-        />
       </div>
       <div
         id="ajaxLoadingCalendar"
