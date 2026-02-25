@@ -43,6 +43,27 @@
       :class="selectedPeriod === 'range' ? 'dual-calendar' : 'single-calendar'"
     >
       <div class="flex">
+        <div class="period-type">
+          <h6>{{ translate('General_Period') }}</h6>
+          <div id="otherPeriods">
+            <PeriodOptions
+              v-model="selectedPeriod"
+              :periods="periodsFiltered"
+              :checked-period-id="uiSelection.type === 'period' ? uiSelection.id : null"
+              :active-date-period="periodValue"
+              @select="onPeriodOptionSelected($event)"
+              @dblclick="onPeriodOptionDblClick($event)"
+            />
+            <PresetDateRanges
+              v-model="activePresetId"
+              :checked-preset-id="uiSelection.type === 'preset' ? uiSelection.id : null"
+              :allowed-periods="periodsFiltered"
+              :min-date="piwikMinDate"
+              :max-date="piwikMaxDate"
+              @select="onPresetDateRangeSelected($event)"
+            />
+          </div>
+        </div>
         <div>
           <div @click.capture="onRangePresetDateCellClickCapture($event)">
             <DateRangePicker
@@ -122,27 +143,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="period-type">
-          <h6>{{ translate('General_Period') }}</h6>
-          <div id="otherPeriods">
-            <PeriodOptions
-              v-model="selectedPeriod"
-              :periods="periodsFiltered"
-              :checked-period-id="uiSelection.type === 'period' ? uiSelection.id : null"
-              :active-date-period="periodValue"
-              @select="onPeriodOptionSelected($event)"
-              @dblclick="onPeriodOptionDblClick($event)"
-            />
-            <PresetDateRanges
-              v-model="activePresetId"
-              :checked-preset-id="uiSelection.type === 'preset' ? uiSelection.id : null"
-              :allowed-periods="periodsFiltered"
-              :min-date="piwikMinDate"
-              :max-date="piwikMaxDate"
-              @select="onPresetDateRangeSelected($event)"
-            />
           </div>
         </div>
       </div>
