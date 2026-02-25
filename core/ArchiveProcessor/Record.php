@@ -86,20 +86,12 @@ class Record
         return $record;
     }
 
-    /**
-     * @param string|null $plugin
-     * @return Record
-     */
     public function setPlugin(?string $plugin): Record
     {
         $this->plugin = $plugin;
         return $this;
     }
 
-    /**
-     * @param string $name
-     * @return Record
-     */
     public function setName(string $name): Record
     {
         if (!preg_match('/^[a-zA-Z0-9_-]+$/', $name)) {
@@ -120,37 +112,23 @@ class Record
         return $this;
     }
 
-    /**
-     * @param int|null $maxRowsInTable
-     * @return Record
-     */
     public function setMaxRowsInTable(?int $maxRowsInTable): Record
     {
         $this->maxRowsInTable = $maxRowsInTable;
         return $this;
     }
 
-    /**
-     * @param int|null $maxRowsInSubtable
-     * @return Record
-     */
     public function setMaxRowsInSubtable(?int $maxRowsInSubtable): Record
     {
         $this->maxRowsInSubtable = $maxRowsInSubtable;
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlugin(): ?string
     {
         return $this->plugin;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
@@ -164,35 +142,22 @@ class Record
         return $this->columnToSortByBeforeTruncation;
     }
 
-    /**
-     * @return int|null
-     */
     public function getMaxRowsInTable(): ?int
     {
         return $this->maxRowsInTable;
     }
 
-    /**
-     * @return int|null
-     */
     public function getMaxRowsInSubtable(): ?int
     {
         return $this->maxRowsInSubtable;
     }
 
-    /**
-     * @param string $type
-     * @return Record
-     */
     public function setType(string $type): Record
     {
         $this->type = $type;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
@@ -212,25 +177,16 @@ class Record
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCountOfRecordName(): ?string
     {
         return $this->countOfRecordName;
     }
 
-    /**
-     * @return bool
-     */
     public function getCountOfRecordNameIsRecursive(): bool
     {
         return $this->countOfRecordNameIsRecursive;
     }
 
-    /**
-     * @return bool
-     */
     public function getCountOfRecordNameIsForLeafs(): bool
     {
         return $this->countOfRecordNameIsForLeafs;
@@ -272,19 +228,12 @@ class Record
         return $this->blobColumnAggregationOps;
     }
 
-    /**
-     * @param ?callable $multiplePeriodTransform
-     * @return Record
-     */
     public function setMultiplePeriodTransform(?callable $multiplePeriodTransform): Record
     {
         $this->multiplePeriodTransform = $multiplePeriodTransform;
         return $this;
     }
 
-    /**
-     * @return callable
-     */
     public function getMultiplePeriodTransform(): ?callable
     {
         return $this->multiplePeriodTransform;

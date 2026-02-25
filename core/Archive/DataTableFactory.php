@@ -109,7 +109,6 @@ class DataTableFactory
      * Returns the ID of the site a table is related to based on the 'site' metadata entry,
      * or null if there is none.
      *
-     * @param DataTable $table
      * @return int|null
      */
     public static function getSiteIdFromMetadata(DataTable $table)

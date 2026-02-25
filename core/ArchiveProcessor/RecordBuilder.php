@@ -45,9 +45,6 @@ abstract class RecordBuilder
     protected $columnToRenameAfterAggregation;
 
     /**
-     * @param int|null $maxRowsInTable
-     * @param int|null $maxRowsInSubtable
-     * @param string|null $columnToSortByBeforeTruncation
      * @param array|null $columnAggregationOps
      * @param array<string|int,string|int>|null $columnToRenameAfterAggregation
      */
@@ -74,7 +71,6 @@ abstract class RecordBuilder
      * Uses the protected `aggregate()` function to build records by aggregating log table data directly, then
      * inserts them as archive data.
      *
-     * @param ArchiveProcessor $archiveProcessor
      * @return void
      */
     public function buildFromLogs(ArchiveProcessor $archiveProcessor): void
@@ -131,7 +127,6 @@ abstract class RecordBuilder
      * Builds records for non-day periods by aggregating day records together, then inserts
      * them as archive data.
      *
-     * @param ArchiveProcessor $archiveProcessor
      * @return void
      */
     public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void

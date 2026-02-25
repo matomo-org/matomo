@@ -480,9 +480,6 @@ class Config
     /**
      * Sanity check a config file by checking contents
      *
-     * @param string $localPath
-     * @param string $expectedContent
-     * @param bool $notify
      * @return bool
      */
     public function sanityCheck(string $localPath, string $expectedContent, bool $notify = false): bool
