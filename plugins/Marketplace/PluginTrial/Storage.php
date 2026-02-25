@@ -36,7 +36,6 @@ class Storage
     /**
      * Creates a trial request for the current user
      *
-     * @param string $pluginDisplayName
      * @return void
      */
     public function setRequested(string $pluginDisplayName = ''): void

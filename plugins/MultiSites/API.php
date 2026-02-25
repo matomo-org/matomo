@@ -155,8 +155,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Fetches the list of sites which names match the string pattern
      *
-     * @param ?string $pattern
-     * @param ?string $_restrictSitesToLogin
      * @return array<int>
      */
     private function getSitesIdFromPattern(?string $pattern, ?string $_restrictSitesToLogin): array
@@ -239,11 +237,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param null|string  $period
-     * @param null|string  $date
-     * @param null|string $segment
-     * @param string       $pattern
-     * @param int          $filter_limit
      * @return array<string,mixed>
      * @throws Exception
      */
@@ -567,7 +560,6 @@ class API extends \Piwik\Plugin\API
      * Sets the total visits, actions & revenue for a DataTable returned by
      * $this->buildDataTable.
      *
-     * @param DataTableInterface $dataTable
      * @param array<string,string> $apiMetrics Metrics info.
      */
     private function setMetricsTotalsMetadata(DataTableInterface $dataTable, array $apiMetrics): void

@@ -66,10 +66,6 @@ class FewVisitsAnonymizedFixture extends Fixture
     /**
      * Returns a pre-configured MatomoTracker
      *
-     * @param int $idSite
-     * @param string $dateTime
-     * @param string $urlPath
-     * @param string $ip
      * @return MatomoTracker
      * @throws \Exception
      */

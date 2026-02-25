@@ -355,8 +355,6 @@ class API extends \Piwik\Plugin\API
      * If no action was performed in this timeframe an empty string is returned
      *
      * @param int|string $idSite
-     * @param string|null $period
-     * @param string|null $date
      * @return string
      * @throws Exception
      */
@@ -371,7 +369,6 @@ class API extends \Piwik\Plugin\API
     /**
      * For an array of visits, query the list of pages for this visit
      * as well as make the data human readable
-     * @param DataTable $dataTable
      * @param bool $flat whether to flatten the array (eg. 'customVariables' names/values will appear in the root array rather than in 'customVariables' key
      * @param bool $doNotFetchActions If set to true, we only fetch visit info and not actions (much faster)
      * @param bool $filterNow If true, the visitors will be cleaned immediately
