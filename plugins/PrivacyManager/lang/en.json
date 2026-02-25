@@ -313,7 +313,7 @@
         "Output": "Output: %1$s",
         "AnonymizePreviousData": "Anonymize previously tracked raw data",
         "AnonymizePreviousDataDescription": "If you have tracked personal data such as the full visitor IP, you may want to anonymize this data now in case you do not have consent for this data or no longer a legitimate interest.",
-        "AnonymizePreviousDataOnlySuperUser": "Only a user with Super User access can anonymize previously tracked raw data.",
+        "AnonymizePreviousDataOnlySuperUser": "Only a user with Superuser access can anonymize previously tracked raw data.",
         "TermsAndConditions": "Terms &amp; Conditions",
         "VisitsSuccessfullyExported": "Visits were successfully exported",
         "VisitsSuccessfullyDeleted": "Visits were successfully deleted",

@@ -88,7 +88,7 @@
         "TrialRequestedNotification1": "A user has requested to start a trial of the %1$s plugin. To start this trial for free, go to %2$sthe marketplace%3$s and click on “Start free trial”.",
         "TrialRequestedNotification2": "For more information about the %1$s plugin, %2$sclick here%3$s.",
         "RequestTrial": "Request trial",
-        "RequestTrialConfirmEmailWarning": "Requesting a trial will send an email to all super users. Are you sure you want to continue?",
+        "RequestTrialConfirmEmailWarning": "Requesting a trial will send an email to all superusers. Are you sure you want to continue?",
         "RequestTrialConfirmTitle": "Request trial for %s",
         "RequestTrialNotificationEmailIntro": "A user of your matomo instance has requested to start a trial of the %s plugin.",
         "RequestTrialNotificationEmailHowToStartIntro": "To start this trial for free:",

@@ -39,7 +39,7 @@
         "VisibleToAllUsers": "all users",
         "VisibleToMe": "me",
         "YouMayChangeSetting": "Alternatively you may change the setting in the config file (%1$s), or edit this Segment and choose '%2$s'.",
-        "VisibleToSuperUser": "Visible to you because you have Super User access",
+        "VisibleToSuperUser": "Visible to you because you have Superuser access",
         "SharedWithYou": "Shared with you",
         "YouMustBeLoggedInToCreateSegments": "You must be logged in to create and edit custom visitor segments.",
         "YouDontHaveAccessToCreateSegments": "You don't have the required access level to create and edit segments.",
@@ -69,8 +69,8 @@
         "ThisSegmentIsSelectedAndCannotBeCompared": "This segment is currently selected so cannot be selected to compare.",
         "CompareThisSegment": "Compare this segment with the selected segment and period.",
         "Test": "Test",
-        "UpdatingAllSitesSegmentPermittedToSuperUser": "This segment was made accessible to all sites by the super user. Now, only super users are allowed to update or remove it.",
-        "UpdatingForeignSegmentPermittedToSuperUser": "You can only edit and delete custom segments that you have created yourself. This segment was created and 'shared with you' by the Super User. To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.",
+        "UpdatingAllSitesSegmentPermittedToSuperUser": "This segment was made accessible to all sites by the superuser. Now, only superusers are allowed to update or remove it.",
+        "UpdatingForeignSegmentPermittedToSuperUser": "You can only edit and delete custom segments that you have created yourself. This segment was created and 'shared with you' by the Superuser. To modify this segment, you can first create a new one by clicking on 'Add new segment'. Then you can customize the segment's definition.",
         "LimitSegmentsSettingTitle": "Limit available segments",
         "LimitSegmentsSettingRequirementNote": "Limit the available segments to be compliant."
     }

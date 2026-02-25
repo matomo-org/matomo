@@ -32,7 +32,7 @@
         "Settings_PleaseSignUp": "To create SMS reports and receive short text messages with your websites' stats on your mobile phone, please sign up with the SMS API and enter your information below.",
         "Settings_SMSAPIAccount": "Manage SMS API Account",
         "Settings_SMSProvider": "SMS Provider",
-        "Settings_SuperAdmin": "Super User Settings",
+        "Settings_SuperAdmin": "Superuser Settings",
         "Settings_SuspiciousPhoneNumber": "If you don't receive the text message, you may try without the leading zero. ie. %s",
         "Settings_UpdateOrDeleteAccount": "You can also %1$supdate%2$s or %3$sdelete%4$s this account.",
         "Settings_ValidatePhoneNumber": "Validate",

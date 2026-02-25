@@ -96,7 +96,7 @@
         "SiteWithoutDataDetectedSiteWordpress": "We've detected you're using a Wordpress site. Simply %1$sfollow the instructions from this guide%2$s to install the %3$sWP-Matomo plugin%4$s.",
         "SiteWithoutDataDetectedSiteWordpress2": "Set up the WordPress plugin already and not seeing any data? Please check %1$sthis FAQ for help%2$s.",
         "SiteWithoutDataDetectedGtm": "We've also detected you're using a Google Tag Manager. If you prefer to set up Matomo using GTM please follow this %1$sguide%2$s.",
-        "SuperUserAccessCan": "A user with Super User access can also %1$s specify global settings%2$s for new websites.",
+        "SuperUserAccessCan": "A user with Superuser access can also %1$s specify global settings%2$s for new websites.",
         "Timezone": "Time zone",
         "TrackingSiteSearch": "Tracking Internal Site Search",
         "TrackingTags": "Tracking code for %s",
