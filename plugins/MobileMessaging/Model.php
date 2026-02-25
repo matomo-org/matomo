@@ -85,7 +85,6 @@ class Model
     /**
      * Tries to verify the given phone number with the given verification code
      *
-     * @return bool
      */
     public function verifyPhoneNumber(string $login, string $phoneNumber, string $verificationCode): bool
     {
@@ -126,7 +125,6 @@ class Model
     /**
      * Adds a new phone number to the user, which needs to be verified with the provided code first
      *
-     * @return void
      */
     public function addPhoneNumber(string $login, string $phoneNumber, string $verificationCode): void
     {
@@ -146,7 +144,6 @@ class Model
     /**
      * Removes a phone number
      *
-     * @return void
      */
     public function removePhoneNumber(string $login, string $phoneNumber): void
     {

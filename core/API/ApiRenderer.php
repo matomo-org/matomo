@@ -126,7 +126,6 @@ abstract class ApiRenderer
 
     /**
      * @param array  $request
-     * @return ApiRenderer
      * @throws Exception
      */
     public static function factory(string $format, array $request): ApiRenderer

@@ -34,7 +34,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get Matomo version
-     * @return string
      */
     public function getMatomoVersion(): string
     {
@@ -44,7 +43,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get Answer to Life
-     * @return int
      */
     public function getAnswerToLife(): int
     {
@@ -70,7 +68,6 @@ class API extends \Piwik\Plugin\API
      * when the API function is called. You can also use default values
      * as shown in this example.
      *
-     * @return float
      */
     public function getSum(float $a = 0, float $b = 0): float
     {
@@ -104,7 +101,6 @@ class API extends \Piwik\Plugin\API
      * This data table will be converted to all available formats
      * when requested in the API request.
      *
-     * @return DataTable
      */
     public function getCompetitionDatatable(): DataTable
     {
@@ -126,7 +122,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Get more information on the Answer to Life...
      *
-     * @return string
      */
     public function getMoreInformationAnswerToLife(): string
     {

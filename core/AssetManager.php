@@ -139,7 +139,6 @@ class AssetManager extends Singleton
     /**
      * Return JS file inclusion directive(s) using the markup <script>
      *
-     * @return string
      */
     public function getJsInclusionDirective(bool $deferJS = false): string
     {
@@ -375,7 +374,6 @@ class AssetManager extends Singleton
     /**
      * Return individual JS file inclusion directive(s) using the markup <script>
      *
-     * @return string
      */
     protected function getIndividualCoreAndNonCoreJsIncludes(): string
     {
@@ -387,7 +385,6 @@ class AssetManager extends Singleton
 
     /**
      * @param UIAssetFetcher $assetFetcher
-     * @return string
      */
     protected function getIndividualJsIncludesFromAssetFetcher($assetFetcher): string
     {

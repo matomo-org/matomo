@@ -837,7 +837,6 @@ abstract class Controller
     /**
      * Set the template variables to show the what's new popup if appropriate
      *
-     * @return void
      */
     protected function showWhatIsNew(View $view): void
     {

@@ -30,7 +30,6 @@ class Tsv extends Csv
     /**
      * Computes the dataTable output and returns the string/binary
      *
-     * @return string
      */
     public function render(): string
     {

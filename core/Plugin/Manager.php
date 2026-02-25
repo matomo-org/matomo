@@ -517,7 +517,6 @@ class Manager
     /**
      * Returns the plugin directory path relative to Matomo's root directory.
      *
-     * @return string
      */
     public static function getRelativePluginDirectory(string $pluginName): string
     {
@@ -787,7 +786,6 @@ class Manager
      *
      * If no theme is enabled, the **Morpheus** plugin is returned (this is the base and default theme).
      *
-     * @return Plugin|null
      * @api
      */
     public function getThemeEnabled(): ?Plugin

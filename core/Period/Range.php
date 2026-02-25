@@ -599,7 +599,6 @@ class Range extends Period
      * automatically lower the end date to the date returned by this method.
      * The max supported timestamp is always set to end of the current year plus 10 years.
      *
-     * @return int
      * @api
      */
     public static function getMaxAllowedEndTimestamp(): int

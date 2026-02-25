@@ -92,7 +92,6 @@ class EvolutionPeriodSelector
      * allow it.
      *
      * @param $comparisonPeriods
-     * @return string
      */
     public function getHighestPeriodInCommon(Period $originalPeriod, $comparisonPeriods): string
     {

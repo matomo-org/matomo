@@ -388,7 +388,6 @@ class Plugins
      * Find the cheapest shop variant, and if none is found specified, return the first variant.
      *
      * @param $plugin
-     * @return void
      */
     private function addPriceFrom(&$plugin): void
     {
@@ -416,7 +415,6 @@ class Plugins
      * cover image), we use Matomo image for Matomo plugins and a generic cover image otherwise.
      *
      * @param $plugin
-     * @return void
      */
     private function addPluginCoverImage(&$plugin): void
     {
@@ -443,7 +441,6 @@ class Plugins
      * Add prettified number of downloads to plugin info to shorten large numbers to 1k or 1m format.
      *
      * @param $plugin
-     * @return void
      */
     private function prettifyNumberOfDownloads(&$plugin): void
     {

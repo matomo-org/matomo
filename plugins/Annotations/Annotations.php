@@ -105,7 +105,6 @@ class Annotations extends \Piwik\Plugin
      * created the note in question.
      *
      * @param array $annotation The annotation.
-     * @return bool
      */
     public static function canUserModifyOrDelete(array $annotation): bool
     {

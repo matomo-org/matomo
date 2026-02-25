@@ -355,7 +355,6 @@ class API extends \Piwik\Plugin\API
      * If no action was performed in this timeframe an empty string is returned
      *
      * @param int|string $idSite
-     * @return string
      * @throws Exception
      */
     public function getMostRecentVisitsDateTime($idSite, ?string $period = null, ?string $date = null): string

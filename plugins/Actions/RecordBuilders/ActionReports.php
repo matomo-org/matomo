@@ -536,7 +536,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
      * Add goals data for each combination of url / title and pageviews / entries
      *
      *
-     * @return void
      */
     protected function archiveDayActionsGoals(ArchiveProcessor $archiveProcessor, int $rankingQueryLimit): void
     {

@@ -1042,7 +1042,6 @@ class Model
      * Otherwise the invalidation will be reset
      *
      * @param array $idinvalidations
-     * @return int
      * @throws \Zend_Db_Statement_Exception
      */
     public function releaseInProgressInvalidations(array $idinvalidations): int

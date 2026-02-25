@@ -32,7 +32,6 @@ class Resolution extends \Piwik\Plugin
     /**
      * Check if compliance policy disables screen resolution detection
      *
-     * @return bool
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
      */

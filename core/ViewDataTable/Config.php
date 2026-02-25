@@ -766,7 +766,6 @@ class Config
      * @template T of array<string, string>
      * @param T $dimensions
      * @param key-of<T> $defaultDimension
-     * @return void
      */
     public function setSecondaryDimensions(array $dimensions, string $defaultDimension): void
     {

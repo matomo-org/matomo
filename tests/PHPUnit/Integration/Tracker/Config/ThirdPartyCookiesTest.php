@@ -18,7 +18,6 @@ class ThirdPartyCookiesTest extends IntegrationTestCase
 {
     /**
      * @dataProvider dataGetValueNoIdSite
-     * @return void
      */
     public function testGetValueReturnsCorrectValueWhenNoIdSiteProvided(
         bool $instanceWideSettingValue,
@@ -69,7 +68,6 @@ class ThirdPartyCookiesTest extends IntegrationTestCase
 
     /**
      * @dataProvider dataGetValueIdSite
-     * @return void
      */
     public function testGetValueReturnsCorrectValueWhenIdSiteProvided(
         int $idSite,
@@ -123,7 +121,6 @@ class ThirdPartyCookiesTest extends IntegrationTestCase
 
     /**
      * @dataProvider dataIsCompliant
-     * @return void
      */
     public function testIsCompliant(
         string $policy,

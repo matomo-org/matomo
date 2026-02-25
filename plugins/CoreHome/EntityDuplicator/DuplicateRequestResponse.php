@@ -86,7 +86,6 @@ class DuplicateRequestResponse
 
     /**
      * @param array $additionalData
-     * @return void
      */
     public function setAdditionalData(array $additionalData): void
     {
@@ -166,7 +165,6 @@ class DuplicateRequestResponse
      *   idSite but also since it doesn't need to be provided if the only destination site is the source site (idSite).
      * @param array|null $additionalData Optional array of additional data relating to the entity being copied.
      *
-     * @return void
      */
     public function setRequestDataForEvent(
         string $entityTypeTranslation,

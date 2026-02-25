@@ -381,7 +381,6 @@ abstract class Base extends VisitDimension
 
     /**
      * AI detection
-     * @return bool
      */
     protected function detectReferrerAIAssistant(): bool
     {
@@ -504,7 +503,6 @@ abstract class Base extends VisitDimension
      * Check if campaign parameters were directly provided in tracking request.
      * This might e.g. be the case when using image tracking
      *
-     * @return void
      */
     protected function detectReferrerCampaignFromTrackerParams(Request $request): void
     {

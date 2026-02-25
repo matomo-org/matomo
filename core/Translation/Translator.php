@@ -110,7 +110,6 @@ class Translator
      * Converts the given list of items into a listing (e.g. One, Two, and Three)
      *
      * @param array       $items
-     * @return string
      */
     public function createAndListing(array $items, ?string $language = null): string
     {
@@ -121,7 +120,6 @@ class Translator
      * Converts the given list of items into a or listing (e.g. One, Two, or Three)
      *
      * @param array       $items
-     * @return string
      */
     public function createOrListing(array $items, ?string $language = null): string
     {
@@ -131,7 +129,6 @@ class Translator
     /**
      * @param string      $listType type of the list (LIST_TYPE_AND or LIST_TYPE_OR)
      * @param array       $items
-     * @return string
      */
     private function createListing(string $listType, array $items, ?string $language = null): string
     {
@@ -218,7 +215,6 @@ class Translator
     /**
      * Decodes all entities in the given string except of &gt; and &lt;
      *
-     * @return string
      */
     private function decodeEntitiesSafeForHTML(string $text): string
     {

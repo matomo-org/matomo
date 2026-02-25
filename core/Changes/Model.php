@@ -135,7 +135,6 @@ class Model
      *
      * @param int|null $newerThanId     Only count new changes as having a key > than this sequential key
      *
-     * @return int
      */
     public function doChangesExist(?int $newerThanId = null): int
     {
@@ -164,7 +163,6 @@ class Model
      *
      * @param int|null $newerThanId     Only count new changes as having a key > than this sequential key
      *
-     * @return int
      */
     public function getNewChangesCount(?int $newerThanId = null): int
     {

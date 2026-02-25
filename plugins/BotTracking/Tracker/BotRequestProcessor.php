@@ -112,7 +112,6 @@ class BotRequestProcessor extends \Piwik\Tracker\BotRequestProcessor
     /**
      * Get or create action ID for the URL
      *
-     * @return int|null
      */
     private function getActionId(Request $request): ?int
     {

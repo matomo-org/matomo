@@ -98,7 +98,6 @@ class API extends \Piwik\Plugin\API
      * @param bool $enhanced When true, return additional goal & ecommerce metrics
      * @param null|string $pattern If specified, only the website which names (or site ID) match the pattern will be returned using SitesManager.getPatternMatchSites
      * @param string|array<string> $showColumns If specified, only the requested columns will be fetched
-     * @return DataTableInterface
      */
     public function getAll(
         string $period,
@@ -206,7 +205,6 @@ class API extends \Piwik\Plugin\API
      * @param null|string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
      *                                        Only used when a scheduled task is running
      * @param bool $enhanced When true, return additional goal & ecommerce metrics
-     * @return DataTableInterface
      */
     public function getOne(
         int $idSite,

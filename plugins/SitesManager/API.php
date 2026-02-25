@@ -1416,7 +1416,6 @@ class API extends \Piwik\Plugin\API
      *  - custom
      * @param string|null $queryParamsToExclude (Optional) Comma separated list of query parameters to exclude when $exclusionType is 'custom'.
      *                                         Ignored if $exclusionType is not 'custom'.
-     * @return void
      * @throws Exception
      */
     public function setGlobalQueryParamExclusion(string $exclusionType, ?string $queryParamsToExclude = null): void
@@ -1451,7 +1450,6 @@ class API extends \Piwik\Plugin\API
      * Gets the exclusion type, if the option is not present in the store then it infers the type based on if there are
      * custom exclusions already defined.
      *
-     * @return string
      */
     public function getExclusionTypeForQueryParams(?int $idSite = null): string
     {

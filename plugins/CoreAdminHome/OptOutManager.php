@@ -183,7 +183,6 @@ class OptOutManager
      * Return the HTML code to be added to pages for the JavaScript opt-out
      *
      *
-     * @return string
      */
     public function getOptOutJSEmbedCode(
         string $matomoUrl,
@@ -217,7 +216,6 @@ class OptOutManager
      * Return the HTML code to be added to pages for the self-contained opt-out
      *
      *
-     * @return string
      */
     public function getOptOutSelfContainedEmbedCode(
         string $backgroundColor,
@@ -286,7 +284,6 @@ HTML;
      *     cookiePath (default blank)         Use this path for consent cookies
      *     cookieDomain (default blank)       Use this domain for consent cookies
      *
-     * @return string
      */
     public function getOptOutJS(): string
     {
@@ -406,7 +403,6 @@ JS;
     /**
      * Return the shared opt-out JavaScript (used by self-contained and tracker versions)
      *
-     * @return string
      */
     private function getOptOutCommonJS(): string
     {
@@ -645,7 +641,6 @@ JS;
      * Provide a CSS style sheet based on the chosen opt out style options
      *
      *
-     * @return string
      * @throws \Exception
      */
     private function optOutStyling(

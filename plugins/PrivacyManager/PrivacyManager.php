@@ -957,7 +957,6 @@ class PrivacyManager extends Plugin
     /**
      * Returns if cookie less tracking is forced
      *
-     * @return bool
      */
     public static function isCookieLessTrackingForced(): bool
     {

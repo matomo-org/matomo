@@ -2226,7 +2226,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param int $offset
-     * @return bool
      */
     public function offsetExists($offset): bool
     {
@@ -2237,7 +2236,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param int $offset
-     * @return Row
      */
     public function offsetGet($offset): Row
     {
@@ -2247,7 +2245,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * @param int $offset
      * @param Row $value
-     * @return void
      */
     public function offsetSet($offset, $value): void
     {
@@ -2256,7 +2253,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param int $offset
-     * @return void
      * @throws Exception
      */
     public function offsetUnset($offset): void
@@ -2268,7 +2264,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param string|int|null $label
      * @param array $columns
      * @param array<string, string>|null $aggregationOps
-     * @return Row
      * @throws Exception
      */
     public function sumRowWithLabel($label, array $columns, ?array $aggregationOps = null): Row

@@ -601,7 +601,6 @@ class DataComparisonFilter
      *
      * @see \Piwik\Plugins\CoreVisualizations\Visualizations\Sparklines::render()
      *
-     * @return bool
      * @throws \Exception
      */
     private function shouldIncludeTrendValues(): bool

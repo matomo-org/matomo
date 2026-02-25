@@ -142,7 +142,6 @@ class AIAssistant extends Singleton
      *
      * @param string $url The URL to check.
      * @param string|null $aiAssistantName The name of the AI assistant to check for, or false to check for any.
-     * @return bool
      */
     public function isAIAssistantUrl(string $url, ?string $aiAssistantName = null): bool
     {

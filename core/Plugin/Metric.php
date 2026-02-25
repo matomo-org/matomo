@@ -92,7 +92,6 @@ abstract class Metric
      *
      * See {@link \Piwik\Columns\Dimension} for the list of available semantic types.
      *
-     * @return string|null
      */
     public function getSemanticType(): ?string
     {

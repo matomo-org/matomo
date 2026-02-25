@@ -356,7 +356,6 @@ class VisitExcluded
      * are also supported.
      *
      * @internal param string $this ->userAgent The user agent string.
-     * @return bool
      */
     protected function isUserAgentExcluded(): bool
     {

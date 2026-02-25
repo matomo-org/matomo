@@ -103,7 +103,6 @@ class Live extends \Piwik\Plugin
      * Returns whether visits log is enabled (for the given site)
      *
      * @param null|int|array $idSite
-     * @return bool
      */
     public static function isVisitorLogEnabled($idSite = null): bool
     {
@@ -152,7 +151,6 @@ class Live extends \Piwik\Plugin
      * Returns whether visitor profile is enabled (for the given site)
      *
      * @param null|int|array $idSite
-     * @return bool
      */
     public static function isVisitorProfileEnabled($idSite = null): bool
     {

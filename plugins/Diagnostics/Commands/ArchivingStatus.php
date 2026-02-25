@@ -102,7 +102,6 @@ class ArchivingStatus extends ConsoleCommand
      *
      * @param mixed     $output
      *
-     * @return void
      */
     private function outputSectionHeader($output, string $title): void
     {

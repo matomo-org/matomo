@@ -208,7 +208,6 @@ class DbHelper
      *
      * Returns utf8mb4 if supported, with fallback to utf8
      *
-     * @return string
      * @throws Tracker\Db\DbException
      */
     public static function getDefaultCharset(): string
@@ -238,7 +237,6 @@ class DbHelper
      * Returns the default collation for a charset.
      *
      *
-     * @return string
      * @throws Exception
      */
     public static function getDefaultCollationForCharset(string $charset): string
@@ -304,7 +302,6 @@ class DbHelper
      *
      * @param string $sql  query to add hint to
      * @param float $limit  time limit in seconds
-     * @return string
      */
     public static function addMaxExecutionTimeHintToQuery(string $sql, float $limit): string
     {

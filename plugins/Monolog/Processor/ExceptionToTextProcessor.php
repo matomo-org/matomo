@@ -94,7 +94,6 @@ class ExceptionToTextProcessor
 
     /**
      * @param \Throwable|array{message: ?string, backtrace: ?string} $exception
-     * @return string
      */
     public static function getMessageAndWholeBacktrace($exception, ?bool $shouldPrintBacktrace = null): string
     {

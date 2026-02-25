@@ -21,7 +21,6 @@ abstract class SectionConfig
      * @param string $name Setting name
      * @param mixed $value Value
      *
-     * @return void
      */
     public static function setConfigValue(string $name, $value): void
     {

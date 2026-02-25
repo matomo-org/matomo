@@ -286,7 +286,6 @@ class JsTrackerInstallCheckOptionTest extends TestCase
     /**
      * Helper method for checking if the nonce is successful
      *
-     * @return bool
      */
     protected function isNonceSuccessFul(int $idSite, string $nonce): bool
     {

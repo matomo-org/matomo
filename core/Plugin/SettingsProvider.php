@@ -41,7 +41,6 @@ class SettingsProvider
     /**
      *
      * Get user settings implemented by a specific plugin (if implemented by this plugin).
-     * @return SystemSettings|null
      */
     public function getSystemSettings(string $pluginName): ?SystemSettings
     {
@@ -60,7 +59,6 @@ class SettingsProvider
 
     /**
      * Get user settings implemented by a specific plugin (if implemented by this plugin).
-     * @return UserSettings|null
      */
     public function getUserSettings(string $pluginName): ?UserSettings
     {
