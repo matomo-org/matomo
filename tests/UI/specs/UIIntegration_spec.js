@@ -782,7 +782,7 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
             await page.waitForNetworkIdle();
             await page.click('#date.title');
-            await page.click('input#period_id_range');
+            await page.click('#period_id_range');
             await page.click('#inputCalendarFrom', { clickCount: 3 });
             await page.keyboard.press('Backspace');
             await page.type('#inputCalendarFrom', '2012-08-02');
