@@ -62,6 +62,9 @@ describe("ScheduledReports", function () {
             await page.waitForSelector('#addEditReport', { visible: true });
             await page.waitForSelector('.selectedReportsList li', { visible: true });
         }
+        async function getReportsWrapper() {
+          return await page.$('.selectedReportsWrapper');
+        }
 
         it("should show selected reports when creating a new report", async function () {
             await page.goto(manageReportsUrl);
@@ -84,13 +87,13 @@ describe("ScheduledReports", function () {
                     selectedReportIds.push(uniqueId);
                 }
             }
-            const selectedReportsWrapper = await page.$('.selectedReportsWrapper');
+            const selectedReportsWrapper = await getReportsWrapper();
             expect(await selectedReportsWrapper.screenshot()).to.matchImage('selected_reports');
         });
 
         it("should persist manually reordered selected reports when saving a report", async function () {
             await openReportForTesting();
-            const selectedReportsWrapper = await page.$('.selectedReportsWrapper');
+            let selectedReportsWrapper = await getReportsWrapper();
             expect(await selectedReportsWrapper.screenshot()).to.matchImage('before_reorder');
 
             const initialOrder = await page.$$eval(
@@ -119,21 +122,15 @@ describe("ScheduledReports", function () {
                 }
             }, expectedOrder);
 
-            await page.evaluate((reportName) => {
-                const descriptionField = document.querySelector(
-                    'textarea[name="report_description"], input[name="report_description"]',
-                );
-                if (!descriptionField) {
-                    return;
-                }
-
-                descriptionField.value = reportName;
-                descriptionField.dispatchEvent(new Event('input', { bubbles: true }));
+            const descriptionSelector = 'textarea[name="report_description"], input[name="report_description"]';
+            await page.waitForSelector(descriptionSelector, { visible: true });
+            await page.click(descriptionSelector, { clickCount: 3 });
+            await page.keyboard.press('Backspace');
+            await page.type(descriptionSelector, createdReportName);
+            await page.keyboard.press('Tab');
+            await page.$eval(descriptionSelector, (descriptionField) => {
                 descriptionField.dispatchEvent(new Event('change', { bubbles: true }));
-            }, createdReportName);
-            await page.evaluate(() => new Promise((resolve) => {
-                requestAnimationFrame(() => requestAnimationFrame(resolve));
-            }));
+            });
             await page.click('.matomo-save-button .btn');
             await page.waitForNetworkIdle();
 
@@ -144,7 +141,7 @@ describe("ScheduledReports", function () {
             );
 
             expect(persistedOrder).to.deep.equal(expectedOrder);
-            await page.waitForSelector('.selectedReportsWrapper', { visible: true });
+            selectedReportsWrapper = await getReportsWrapper();
             expect(await selectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
         });
     });
