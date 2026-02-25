@@ -90,6 +90,8 @@ describe("ScheduledReports", function () {
 
         it("should persist manually reordered selected reports when saving a report", async function () {
             await openReportForTesting();
+            const selectedReportsWrapper = await page.$('.selectedReportsWrapper');
+            expect(await selectedReportsWrapper.screenshot()).to.matchImage('before_reorder');
 
             const initialOrder = await page.$$eval(
               '.selectedReportsList li',
@@ -117,9 +119,23 @@ describe("ScheduledReports", function () {
                 }
             }, expectedOrder);
 
+            await page.evaluate((reportName) => {
+                const descriptionField = document.querySelector(
+                    'textarea[name="report_description"], input[name="report_description"]',
+                );
+                if (!descriptionField) {
+                    return;
+                }
+
+                descriptionField.value = reportName;
+                descriptionField.dispatchEvent(new Event('input', { bubbles: true }));
+                descriptionField.dispatchEvent(new Event('change', { bubbles: true }));
+            }, createdReportName);
+            await page.evaluate(() => new Promise((resolve) => {
+                requestAnimationFrame(() => requestAnimationFrame(resolve));
+            }));
             await page.click('.matomo-save-button .btn');
             await page.waitForNetworkIdle();
-            await page.waitForTimeout(500);
 
             await openReportForTesting();
             const persistedOrder = await page.$$eval(
@@ -128,9 +144,9 @@ describe("ScheduledReports", function () {
             );
 
             expect(persistedOrder).to.deep.equal(expectedOrder);
-
-            const selectedReportsWrapper = await page.$('.selectedReportsWrapper');
-            expect(await selectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
+            await page.waitForSelector('.selectedReportsWrapper', { visible: true });
+            const persistedSelectedReportsWrapper = await page.$('.selectedReportsWrapper');
+            expect(await persistedSelectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
         });
     });
 });
