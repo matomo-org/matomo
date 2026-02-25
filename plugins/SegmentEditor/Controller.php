@@ -167,6 +167,8 @@ class Controller extends \Piwik\Plugin\Controller
             'SegmentEditor_SparklineTooltipWeeks',
             'SegmentEditor_SparklineTooltipMonths',
             'SegmentEditor_SparklineTooltipYears',
+            'SegmentEditor_ManageSegmentsRealtimeNotice',
+            'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip',
             'General_Segment',
             'General_SegmentDocumentation',
             'General_ColumnEvolutionVisits',
