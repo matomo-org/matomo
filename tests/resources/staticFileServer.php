@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This php file is used to unit test Piwik::serverStaticFile()
  * To make a comprehensive test suit for Piwik::serverStaticFile() (ie. being able to test combinations of request
@@ -9,11 +10,12 @@
  * This decision has a structural impact on the usual unit test file structure
  * serverStaticFile.test.php has been created to avoid making too many modifications to /tests/core/Piwik.test.php
  */
+
 use Piwik\Common;
 use Piwik\ProxyHttp;
 
-define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__).'/../../');
-if(file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
+define('PIWIK_DOCUMENT_ROOT', dirname(__FILE__) . '/../../');
+if (file_exists(PIWIK_DOCUMENT_ROOT . '/bootstrap.php')) {
     require_once PIWIK_DOCUMENT_ROOT . '/bootstrap.php';
 }
 if (!defined('PIWIK_INCLUDE_PATH')) {
@@ -62,29 +64,24 @@ $environment->init();
 switch ($staticFileServerMode) {
     // The static file server calls Piwik::serverStaticFile with a null file
     case NULL_FILE_SRV_MODE:
-
         ProxyHttp::serverStaticFile(null, TEST_FILE_CONTENT_TYPE);
         break;
 
     // The static file server calls Piwik::serverStaticFile with a non-existing file
     case GHOST_FILE_SRV_MODE:
-
         ProxyHttp::serverStaticFile(TEST_FILE_LOCATION . ".ghost", TEST_FILE_CONTENT_TYPE);
         break;
 
     // The static file server calls Piwik::serverStaticFile with the test file
     case TEST_FILE_SRV_MODE:
-
         ProxyHttp::serverStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE);
         break;
 
     case PARTIAL_TEST_FILE_SRV_MODE:
-
         ProxyHttp::serverStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE, $expireFarFutureDays = 100, PARTIAL_BYTE_START, PARTIAL_BYTE_END);
         break;
 
     case WHOLE_TEST_FILE_WITH_RANGE_SRV_MODE:
-
         ProxyHttp::serverStaticFile(TEST_FILE_LOCATION, TEST_FILE_CONTENT_TYPE, $expireFarFutureDays = 100, 0, filesize(TEST_FILE_LOCATION));
         break;
 }

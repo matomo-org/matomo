@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -42,7 +43,8 @@ if (!Common::isPhpCliMode()) {
     exit;
 }
 
-function createFreshDatabase($config, $name) {
+function createFreshDatabase($config, $name)
+{
     Db::createDatabaseObject(array_merge($config, [
         'dbname' => null,
     ]));
@@ -59,7 +61,8 @@ function createFreshDatabase($config, $name) {
     print "created database $name...\n";
 }
 
-function updateDatabase() {
+function updateDatabase()
+{
     Cache::deleteTrackerCache();
     Option::clearCache();
 
@@ -70,7 +73,8 @@ function updateDatabase() {
     }
 
     $result = $updater->updateComponents($componentsWithUpdateFile);
-    if (!empty($result['coreError'])
+    if (
+        !empty($result['coreError'])
         || !empty($result['warnings'])
         || !empty($result['errors'])
     ) {
@@ -80,7 +84,8 @@ function updateDatabase() {
     return $result;
 }
 
-function createSuperUser() {
+function createSuperUser()
+{
     $passwordHelper = new Password();
 
     $login    = 'superUserLogin';
@@ -108,7 +113,9 @@ function createWebsite($dateTime)
         $siteName,
         "http://piwik.net/",
         $ecommerce = 1,
-        $siteSearch = null, $searchKeywordParameters = null, $searchCategoryParameters = null,
+        $siteSearch = null,
+        $searchKeywordParameters = null,
+        $searchCategoryParameters = null,
         $ips = null,
         $excludedQueryParameters = null,
         $timezone = null,
@@ -123,7 +130,8 @@ function createWebsite($dateTime)
     );
 
     // Manually set the website creation date to a day earlier than the earliest day we record stats for
-    Db::get()->update(Common::prefixTable("site"),
+    Db::get()->update(
+        Common::prefixTable("site"),
         array('ts_created' => Date::factory($dateTime)->subDay(1)->getDatetime()),
         "idsite = $idSite"
     );
@@ -174,7 +182,7 @@ $pluginsManager = \Piwik\Plugin\Manager::getInstance();
 $pluginsManager->loadActivatedPlugins();
 
 $pluginsManager->installLoadedPlugins();
-foreach($pluginsManager->getLoadedPlugins() as $plugin) {
+foreach ($pluginsManager->getLoadedPlugins() as $plugin) {
     $name = $plugin->getPluginName();
     if (!$pluginsManager->isPluginActivated($name)) {
         $pluginsManager->activatePlugin($name);
@@ -206,8 +214,10 @@ createWebsite('2017-01-01 00:00:00');
 print "created website\n";
 
 // copy custom release channel
-copy(PIWIK_INCLUDE_PATH . '/../tests/PHPUnit/Fixtures/LatestStableInstall/GitCommitReleaseChannel.php',
-    PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/ReleaseChannel/GitCommitReleaseChannel.php');
+copy(
+    PIWIK_INCLUDE_PATH . '/../tests/PHPUnit/Fixtures/LatestStableInstall/GitCommitReleaseChannel.php',
+    PIWIK_INCLUDE_PATH . '/plugins/CoreUpdater/ReleaseChannel/GitCommitReleaseChannel.php'
+);
 
 $settings = StaticContainer::get(CoreUpdater\SystemSettings::class);
 $settings->releaseChannel->setValue('git_commit');

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -10,6 +11,5 @@ namespace Piwik\Plugins\CustomDirPlugin;
 
 class CustomClass
 {
-
         // to test auto loading
 }

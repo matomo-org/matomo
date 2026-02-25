@@ -120,7 +120,6 @@ class SegmentUnavailableTest extends IntegrationTestCase
     /**
      * Disable the visitorlog feature
      *
-     * @param bool $status
      *
      * @return void
      * @throws \Exception
@@ -150,9 +149,6 @@ class SegmentUnavailableTest extends IntegrationTestCase
     /**
      * Check if a segment is available
      *
-     * @param string $definition
-     * @param string $name
-     * @param bool   $shouldBeEnabled
      *
      * @return void
      */
