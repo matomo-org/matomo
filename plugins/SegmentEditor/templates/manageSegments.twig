@@ -1,13 +1,13 @@
+{% if hasRealtimeSegments %}
+    <div class="alert alert-info">
+        {{ 'SegmentEditor_ManageSegmentsRealtimeNotice'|translate }}
+    </div>
+{% endif %}
 <div class="card" data-page="manage-segments">
     <div class="card-content">
         <h2 class="card-title">{{ 'SegmentEditor_SegmentPageTitle'|translate }}</h2>
         <div>
             <p class="card-introduction">{{ 'SegmentEditor_SegmentPageDescription'|translate }}</p>
-            {% if hasRealtimeSegments %}
-                <div class="alert alert-info">
-                    {{ 'SegmentEditor_ManageSegmentsRealtimeNotice'|translate }}
-                </div>
-            {% endif %}
             <form name="manageSegmentSearchFilter">
                 <div class="form-group row matomo-form-field" style="">
                     <div class="col s12 input-field m6">
@@ -55,21 +55,21 @@
                             <td title="{{ segment.name }}">{{ segment.name|rawSafeDecoded }}</td>
                             <td class="entityTable_Numeric">
                                 {% if segment.isRealtime %}
-                                    ~
+                                    <span title="{{ 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'|translate }}">-</span>
                                 {% else %}
                                  {{ segmentData[loop.index0].nb_visits }}
                                 {% endif %}
                             </td>
                             <td class="entityTable_Numeric">
                                 {% if segment.isRealtime %}
-                                    ~
+                                    <span title="{{ 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'|translate }}">-</span>
                                 {% else %}
                                     {{ segmentData[loop.index0].nb_actions }}
                                 {% endif %}
                             </td>
                             <td class="entityTable_Numeric">
                                 {% if segment.isRealtime %}
-                                    ~
+                                    <span title="{{ 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'|translate }}">-</span>
                                 {% else %}
                                     <span title="{{ 'General_ColumnEvolutionVisitsDocumentation'|translate }}" class="sparklineEvolution sparklineEvolution-{{ segmentData[loop.index0].evolution_visits_direction }}">
                                         <img src="{{ segmentData[loop.index0].evolution_visits_icon }}" alt="" class="sparklineEvolution_icon" />
