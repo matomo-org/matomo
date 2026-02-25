@@ -10,6 +10,8 @@
     <p
       v-for="period in displayPeriods"
       :key="period"
+      @click="handlePeriodSelected(period)"
+      @dblclick="handlePeriodDoubleClick(period)"
     >
       <label
         :id="`period_id_${period}`"
@@ -17,8 +19,6 @@
         :title="period === activeDatePeriod
           ? ''
           : translate('General_DoubleClickToChangePeriod')"
-        @click="handlePeriodSelected(period)"
-        @dblclick="handlePeriodDoubleClick(period)"
       >
         <span>{{ getPeriodDisplayText(period) }}</span>
       </label>
