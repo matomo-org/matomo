@@ -101,7 +101,6 @@ class ArchivingStatus extends ConsoleCommand
      * Output a styled header string
      *
      * @param mixed     $output
-     * @param string    $title
      *
      * @return void
      */

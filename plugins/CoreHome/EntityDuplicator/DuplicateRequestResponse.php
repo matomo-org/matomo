@@ -56,35 +56,21 @@ class DuplicateRequestResponse
         $this->initialState = $this->getCurrentState();
     }
 
-    /**
-     * @return bool
-     */
     public function isSuccess(): bool
     {
         return $this->success ?? false;
     }
 
-    /**
-     * @param bool $success
-     * @return void
-     */
     public function setSuccess(bool $success): void
     {
         $this->success = $success;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message ?? '';
     }
 
-    /**
-     * @param string $message
-     * @return void
-     */
     public function setMessage(string $message): void
     {
         $this->message = $message;
@@ -107,9 +93,6 @@ class DuplicateRequestResponse
         $this->additionalData = $additionalData;
     }
 
-    /**
-     * @return bool
-     */
     public function hasResponseBeenModified(): bool
     {
         return $this->initialState !== $this->getCurrentState();

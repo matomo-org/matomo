@@ -72,7 +72,6 @@ class DevicesDetection extends \Piwik\Plugin
     /**
      * Check if compliance policy disables device model detection
      *
-     * @param int|null $idSite
      * @return bool
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException

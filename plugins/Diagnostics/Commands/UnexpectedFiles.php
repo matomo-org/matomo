@@ -75,7 +75,6 @@ class UnexpectedFiles extends ConsoleCommand
     /**
      * Handle unexpected files command options
      *
-     * @param bool $delete
      *
      * @return int
      */
