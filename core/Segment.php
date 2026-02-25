@@ -184,7 +184,6 @@ class Segment
     /**
      * Checks if the provided segmentCondition is valid and available for the given idSites
      *
-     * @param string $segmentCondition
      * @params array $idSites
      * @return bool
      * @api since Matomo 5.3.0

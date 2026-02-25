@@ -96,7 +96,6 @@ abstract class Settings
     /**
      * Adds a new setting to the settings container.
      *
-     * @param Setting $setting
      * @throws \Exception       If there is a setting with the same name that already exists.
      *                          If the name contains non-alphanumeric characters.
      */

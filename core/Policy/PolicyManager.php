@@ -210,7 +210,6 @@ class PolicyManager
     /**
      * Return setting type from a given Setting instance, including subclasses
      *
-     * @param Setting $setting
      * @return string|null
      */
     public static function getSettingTypeFromSettingClass(Setting $setting): ?string
@@ -234,9 +233,6 @@ class PolicyManager
     /**
      * For a given setting name, return an information on policies that may control the setting and its required value.
      *
-     * @param string $settingName
-     * @param int|null $idSite
-     * @param string|null $settingType
      * @return array<string, array{
      *      requiredValue: mixed
      *  }>

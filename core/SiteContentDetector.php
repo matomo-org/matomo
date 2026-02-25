@@ -84,7 +84,6 @@ class SiteContentDetector
     /**
      * Returns the site content detection object with the provided id, or null if it can't be found
      *
-     * @param string $id
      * @return SiteContentDetectionAbstract|null
      */
     public function getSiteContentDetectionById(string $id): ?SiteContentDetectionAbstract
@@ -203,7 +202,6 @@ class SiteContentDetector
      *
      * Note: self::detectContent needs to be called before.
      *
-     * @param string $detectionClassId
      * @return bool
      */
     public function wasDetected(string $detectionClassId): bool
@@ -282,8 +280,6 @@ class SiteContentDetector
     /**
      * Save data to the cache
      *
-     * @param string $cacheKey
-     * @param int    $cacheLife
      *
      * @return void
      */
@@ -356,8 +352,6 @@ class SiteContentDetector
     /**
      * Retrieve data from the specified site using an HTTP request
      *
-     * @param string $url
-     * @param int $timeOut
      *
      * @return array
      */
