@@ -497,7 +497,7 @@
 					<row key="0">No</row>
 				</availableValues>
 				<description />
-				<inlineHelp>An email will be sent to Super Users when there is a new version available for a plugin.</inlineHelp>
+				<inlineHelp>An email will be sent to Superusers when there is a new version available for a plugin.</inlineHelp>
 				<introduction>Send an email when a plugin update is available</introduction>
 				<condition />
 				<fullWidth>0</fullWidth>
