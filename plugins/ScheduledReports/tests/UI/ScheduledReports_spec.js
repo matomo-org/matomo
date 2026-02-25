@@ -145,8 +145,7 @@ describe("ScheduledReports", function () {
 
             expect(persistedOrder).to.deep.equal(expectedOrder);
             await page.waitForSelector('.selectedReportsWrapper', { visible: true });
-            const persistedSelectedReportsWrapper = await page.$('.selectedReportsWrapper');
-            expect(await persistedSelectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
+            expect(await selectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
         });
     });
 });
