@@ -616,6 +616,7 @@ export default defineComponent({
       this.clearPresetSelection();
       if (payload.period === RANGE_PERIOD) {
         this.calendarViewport = 'range';
+        this.isRangeValid = true;
         return;
       }
 
@@ -936,6 +937,17 @@ export default defineComponent({
       }
     },
     isApplyEnabled() {
+      if (this.uiSelection.type === 'period'
+        && this.selectedPeriod !== RANGE_PERIOD
+        && !this.isCompareDirty
+      ) {
+        return false;
+      }
+
+      if (this.hasPendingNonRangePeriodChange) {
+        return false;
+      }
+
       if (this.selectedPeriod === RANGE_PERIOD
         && !this.pendingPresetSelection
         && !this.isRangeValid

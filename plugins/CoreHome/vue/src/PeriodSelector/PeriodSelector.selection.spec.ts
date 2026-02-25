@@ -358,6 +358,63 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('2026-02-18', 'day');
   });
 
+  it('disables apply for pending non-range period option selection', () => {
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'week' },
+      hasPendingNonRangePeriodChange: true,
+      selectedPeriod: 'week',
+      pendingPresetSelection: null,
+      isRangeValid: true,
+      isComparing: false,
+      comparePeriodType: 'previousPeriod',
+      isCompareRangeValid: jest.fn(() => true),
+    };
+
+    expect(methods.isApplyEnabled.call(vm)).toBe(false);
+  });
+
+  it('disables apply when opening with non-range period option selected and no compare changes', () => {
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      selectedPeriod: 'day',
+      isCompareDirty: false,
+      hasPendingNonRangePeriodChange: false,
+      pendingPresetSelection: null,
+      isRangeValid: true,
+      isComparing: false,
+      comparePeriodType: 'previousPeriod',
+      isCompareRangeValid: jest.fn(() => true),
+    };
+
+    expect(methods.isApplyEnabled.call(vm)).toBe(false);
+  });
+
+  it('enables apply immediately when date range period option is selected', () => {
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: null,
+      selectedPeriod: 'day',
+      calendarViewport: 'single',
+      isRangeValid: null,
+      isCompareDirty: false,
+      hasPendingNonRangePeriodChange: false,
+      pendingPresetSelection: null,
+      isComparing: false,
+      comparePeriodType: 'previousPeriod',
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+      clearPresetSelection: jest.fn(),
+      isCompareRangeValid: jest.fn(() => true),
+    };
+
+    methods.onPeriodOptionSelected.call(vm, { period: 'range' });
+
+    expect(vm.isRangeValid).toBe(true);
+    expect(methods.isApplyEnabled.call(vm)).toBe(true);
+  });
+
   it('does not skip hash sync when context changes with same period/date', () => {
     const vm: any = {
       nextHashUiSelection: null,
