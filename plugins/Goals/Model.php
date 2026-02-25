@@ -114,8 +114,6 @@ class Model
     /**
      * Checks if an active idgoal exists for the site
      *
-     * @param int $idGoal
-     * @param int $idSite
      *
      * @return bool
      */
