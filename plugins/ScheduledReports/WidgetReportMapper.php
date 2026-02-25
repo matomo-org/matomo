@@ -41,7 +41,6 @@ class WidgetReportMapper
     /**
      * Builds a widget => report map for the supplied site.
      *
-     * @param string $idSite
      * @return array<string, string> map of widget unique IDs => report unique IDs
      */
     public function getMappingForSite(string $idSite): array
@@ -220,9 +219,6 @@ class WidgetReportMapper
         return $widgets;
     }
 
-    /**
-     * @param WidgetConfig $config
-     */
     private function shouldMapWidget(WidgetConfig $config): bool
     {
         if (!$config->isWidgetizeable()) {
@@ -317,8 +313,6 @@ class WidgetReportMapper
     }
 
     /**
-     * @param string $module
-     * @param string $action
      * @param array<string, string> $reportIndex
      * @return string|null
      */
@@ -334,7 +328,6 @@ class WidgetReportMapper
 
     /**
      * Helper function to map how Funnel Widget can be mapped to its report id
-     * @param string $widgetId
      * @return string|null
      */
     private function mapFunnelsWidgetIdToReportId(string $widgetId): ?string
@@ -350,7 +343,6 @@ class WidgetReportMapper
 
     /**
      * Helper function to map how Goals Widget can be mapped to its report id
-     * @param string $widgetId
      * @return string|null
      */
     private function mapGoalsWidgetIdToReportId(string $widgetId): ?string
@@ -363,7 +355,6 @@ class WidgetReportMapper
     }
 
     /**
-     * @param EventsByDimension $widgetConfig
      * @param array $mapping
      * @return array
      */
@@ -381,7 +372,6 @@ class WidgetReportMapper
 
     /**
      * Helper function to map how Events Widget can be mapped to its report id
-     * @param string $widgetId
      * @return string|null
      */
     private function mapEventsWidgetIdToReportId(string $widgetId): ?string
