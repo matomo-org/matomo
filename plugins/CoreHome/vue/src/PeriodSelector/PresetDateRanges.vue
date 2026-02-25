@@ -7,23 +7,33 @@
 
 <template>
   <div class="presetDateRanges">
-    <p
-      v-for="preset in presetDateRanges"
-      :key="preset.id"
+    <div
+      v-for="(group, index) in groupedPresetDateRanges"
+      :key="index"
+      class="preset-date-range-group"
     >
-      <label
-        :class="{ 'selected-period-label': checkedPresetId === preset.id }"
+      <div
+        v-if="index > 0"
+        class="preset-date-range-group-separator"
+      />
+      <p
+        v-for="preset in group"
+        :key="preset.id"
       >
-        <input
-          type="radio"
-          name="presetDateRange"
-          :id="`preset_date_${preset.id}`"
-          :checked="checkedPresetId === preset.id"
-          @change="handlePresetSelected(preset.id)"
-        />
-        <span>{{ translate(preset.labelKey) }}</span>
-      </label>
-    </p>
+        <label
+          :class="{ 'selected-period-label': checkedPresetId === preset.id }"
+        >
+          <input
+            type="radio"
+            name="presetDateRange"
+            :id="`preset_date_${preset.id}`"
+            :checked="checkedPresetId === preset.id"
+            @change="handlePresetSelected(preset.id)"
+          />
+          <span>{{ translate(preset.labelKey) }}</span>
+        </label>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -44,6 +54,13 @@ import type {
 } from './PresetDateRangeResolver';
 
 export type { PresetDateRangeId, PresetDateRangeSelection };
+
+const PRESET_DATE_RANGE_GROUPS: PresetDateRangeId[][] = [
+  ['today', 'yesterday'],
+  ['last7days', 'last30days', 'last90days'],
+  ['lastWeekMonSun', 'lastMonth', 'lastQuarter', 'lastYear'],
+  ['thisWeekMonToday', 'thisMonth', 'thisQuarter', 'thisYear'],
+];
 
 export default defineComponent({
   props: {
@@ -78,6 +95,16 @@ export default defineComponent({
       return PRESET_DATE_RANGES.filter(
         (preset) => this.allowedPeriods.includes(PRESET_DATE_RANGE_PERIODS[preset.id]),
       );
+    },
+    groupedPresetDateRanges(): PresetDateRangeOption[][] {
+      const presetDateRangeById = new Map<PresetDateRangeId, PresetDateRangeOption>(
+        this.presetDateRanges.map((preset) => [preset.id, preset]),
+      );
+
+      return PRESET_DATE_RANGE_GROUPS.map((group) => group
+        .map((presetId) => presetDateRangeById.get(presetId))
+        .filter((preset): preset is PresetDateRangeOption => !!preset))
+        .filter((group) => group.length);
     },
   },
   methods: {

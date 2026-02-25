@@ -8,24 +8,18 @@
 <template>
   <div class="periodOptions">
     <p
-      v-for="period in periods"
+      v-for="period in displayPeriods"
       :key="period"
     >
       <label
+        :id="`period_id_${period}`"
         :class="{ 'selected-period-label': checkedPeriodId === period }"
         :title="period === activeDatePeriod
           ? ''
           : translate('General_DoubleClickToChangePeriod')"
+        @click="handlePeriodSelected(period)"
         @dblclick="handlePeriodDoubleClick(period)"
       >
-        <input
-          type="radio"
-          name="period"
-          :id="`period_id_${period}`"
-          :checked="checkedPeriodId === period"
-          @change="handlePeriodSelected(period)"
-          @dblclick="handlePeriodDoubleClick(period)"
-        />
         <span>{{ getPeriodDisplayText(period) }}</span>
       </label>
     </p>
@@ -61,10 +55,23 @@ export default defineComponent({
     },
   },
   emits: ['update:modelValue', 'select', 'dblclick'],
+  computed: {
+    displayPeriods(): string[] {
+      if (!this.periods.includes('range')) {
+        return this.periods;
+      }
+
+      return ['range'].concat(this.periods.filter((period) => period !== 'range'));
+    },
+  },
   methods: {
     translate,
     getPeriodDisplayText(periodLabel: string): string {
-      return Periods.get(periodLabel).getDisplayText();
+      const displayText = periodLabel === 'range'
+        ? `${translate('General_Custom')} ${translate('General_DateRangeInPeriodList')}`
+        : Periods.get(periodLabel).getDisplayText();
+
+      return displayText.charAt(0).toUpperCase() + displayText.slice(1);
     },
     handlePeriodSelected(period: string) {
       const payload: PeriodSelectionPayload = { period };
