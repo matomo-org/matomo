@@ -173,7 +173,8 @@ class ApiTest extends IntegrationTestCase
                 continue;
             }
             $unmappedWidgetId = $uniqueId;
-            $unmappedWidgetName = Piwik::translate($widgetConfig->getName());
+            $widgetNamesById = $mapper->getWidgetNamesById([$uniqueId]);
+            $unmappedWidgetName = $widgetNamesById[$uniqueId] ?? null;
             break;
         }
 
@@ -227,7 +228,7 @@ class ApiTest extends IntegrationTestCase
     public function testGetWidgetReportMapIncludesIdSegmentWhenSegmentMatchesSavedSegment()
     {
         $this->createSimpleDashboardLayout();
-        $segmentDefinition = 'browserCode==ff';
+        $segmentDefinition = 'visitIp==127.0.0.1';
         $idSegment = APISegmentEditor::getInstance()->add('firefox-segment', $segmentDefinition, $this->idSite);
 
         $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, $segmentDefinition);
@@ -239,9 +240,9 @@ class ApiTest extends IntegrationTestCase
     public function testGetWidgetReportMapReturnsNullIdSegmentWhenNoMatch()
     {
         $this->createSimpleDashboardLayout();
-        APISegmentEditor::getInstance()->add('firefox-segment', 'browserCode==ff', $this->idSite);
+        APISegmentEditor::getInstance()->add('localhost-segment', 'visitIp==127.0.0.1', $this->idSite);
 
-        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, 'browserCode==ch');
+        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, 'visitIp==127.0.0.2');
 
         $this->assertArrayHasKey('idSegment', $result);
         $this->assertNull($result['idSegment']);
@@ -250,8 +251,8 @@ class ApiTest extends IntegrationTestCase
     public function testGetWidgetReportMapAcceptsEncodedSegmentEquivalent()
     {
         $this->createSimpleDashboardLayout();
-        $segmentDefinition = 'browserCode==ff;visitIp!=127.0.0.1';
-        $idSegment = APISegmentEditor::getInstance()->add('firefox-complex-segment', $segmentDefinition, $this->idSite);
+        $segmentDefinition = 'visitIp==127.0.0.1;visitIp!=127.0.0.2';
+        $idSegment = APISegmentEditor::getInstance()->add('localhost-complex-segment', $segmentDefinition, $this->idSite);
 
         $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, urlencode($segmentDefinition));
 
@@ -262,7 +263,7 @@ class ApiTest extends IntegrationTestCase
     public function testGetWidgetReportMapWithEmptySegmentKeepsNullIdSegment()
     {
         $this->createSimpleDashboardLayout();
-        APISegmentEditor::getInstance()->add('firefox-segment', 'browserCode==ff', $this->idSite);
+        APISegmentEditor::getInstance()->add('localhost-segment', 'visitIp==127.0.0.1', $this->idSite);
 
         $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, '');
 
