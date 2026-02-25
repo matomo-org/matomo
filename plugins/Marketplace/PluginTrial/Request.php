@@ -40,7 +40,6 @@ class Request
     /**
      * Creates a trial request and sends a mail to all super users
      *
-     * @param string $pluginDisplayName
      * @return void
      */
     public function create(string $pluginDisplayName = ''): void

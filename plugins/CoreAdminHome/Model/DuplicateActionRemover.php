@@ -55,8 +55,6 @@ class DuplicateActionRemover
     /**
      * Constructor.
      *
-     * @param TableMetadata $tableMetadataAccess
-     * @param LoggerInterface $logger
      */
     public function __construct(?TableMetadata $tableMetadataAccess = null, ?LoggerInterface $logger = null)
     {

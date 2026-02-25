@@ -79,7 +79,6 @@ class GeoIp2 extends \Piwik\Plugin
     /**
      * Customize the Installation "default settings" form.
      *
-     * @param FormDefaultSettings $form
      */
     public function installationFormInit(FormDefaultSettings $form)
     {
@@ -101,7 +100,6 @@ class GeoIp2 extends \Piwik\Plugin
     /**
      * Process the submit on the Installation "default settings" form.
      *
-     * @param FormDefaultSettings $form
      */
     public function installationFormSubmit(FormDefaultSettings $form)
     {

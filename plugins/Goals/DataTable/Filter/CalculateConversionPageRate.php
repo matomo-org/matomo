@@ -76,7 +76,6 @@ class CalculateConversionPageRate extends BaseFilter
     /**
      * Get the conversions total for each goal in the top level datatable
      *
-     * @param DataTable $table
      * @param array $goalIds
      * @return array
      */

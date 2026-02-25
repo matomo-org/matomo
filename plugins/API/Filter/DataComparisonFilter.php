@@ -193,9 +193,6 @@ class DataComparisonFilter
             || !empty(Common::getRequestVar('compareDates', [], $type = 'array', $request));
     }
 
-    /**
-     * @param DataTable\DataTableInterface $table
-     */
     public function compare(DataTable\DataTableInterface $table)
     {
         if (

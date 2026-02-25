@@ -85,7 +85,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Adds a phone number for the current user
      *
-     * @param string $phoneNumber
      * @return void
      */
     public function addPhoneNumber(string $phoneNumber): void
@@ -123,7 +122,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Requests a new verification code for the given phone number
      *
-     * @param string $phoneNumber
      * @return void
      */
     public function resendVerificationCode(string $phoneNumber): void
@@ -216,7 +214,6 @@ class API extends \Piwik\Plugin\API
     /**
      * remove phone number
      *
-     * @param string $phoneNumber
      *
      * @return void
      */
@@ -248,8 +245,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Verify a phone number
      *
-     * @param string $phoneNumber
-     * @param string $verificationCode
      *
      * @return bool true if verification was successful, false otherwise
      */

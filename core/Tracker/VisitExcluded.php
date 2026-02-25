@@ -37,9 +37,6 @@ class VisitExcluded
     public $userAgent;
     public $ip;
 
-    /**
-     * @param Request $request
-     */
     public function __construct(Request $request)
     {
         $this->spamFilter = new ReferrerSpamFilter();

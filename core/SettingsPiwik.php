@@ -223,9 +223,6 @@ class SettingsPiwik
         return $url;
     }
 
-    /**
-     * @return bool
-     */
     public static function isMatomoInstalled(): bool
     {
         $config = Config::getInstance()->getLocalPath();
@@ -348,7 +345,6 @@ class SettingsPiwik
 
     /**
      * If Piwik uses per-domain config file, make sure CustomLogo is unique
-     * @param string $path
      * @return string
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
@@ -368,8 +364,6 @@ class SettingsPiwik
      * or if the Piwik server is "offline",
      * this will return false..
      *
-     * @param string $piwikServerUrl
-     * @param bool $acceptInvalidSSLCertificates
      * @return void
      * @throws Exception
      */
@@ -425,9 +419,6 @@ class SettingsPiwik
         return file_exists(PIWIK_INCLUDE_PATH . '/.git/HEAD');
     }
 
-    /**
-     * @return string
-     */
     public static function getCurrentGitBranch(): string
     {
         $file = PIWIK_INCLUDE_PATH . '/.git/HEAD';
@@ -448,8 +439,6 @@ class SettingsPiwik
     }
 
     /**
-     * @param string $pathToRewrite
-     * @param string $leadingPathToAppendHostnameTo
      * @return string
      * @throws Exception
      */
@@ -497,17 +486,11 @@ class SettingsPiwik
         return false;
     }
 
-    /**
-     * @param string $currentUrl
-     */
     public static function overwritePiwikUrl(string $currentUrl): void
     {
         Option::set(self::OPTION_PIWIK_URL, $currentUrl, $autoLoad = true);
     }
 
-    /**
-     * @return bool
-     */
     public static function isHttpsForced(): bool
     {
         if (!self::isMatomoInstalled()) {

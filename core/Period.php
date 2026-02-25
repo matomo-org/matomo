@@ -56,7 +56,6 @@ abstract class Period
     /**
      * Constructor.
      *
-     * @param Date $date
      * @ignore
      */
     public function __construct(Date $date)
@@ -253,7 +252,6 @@ abstract class Period
      *
      * Note: the time component of the period's dates and `$date` is ignored.
      *
-     * @param Date $date
      * @return bool
      */
     public function isDateInPeriod(Date $date)
@@ -266,7 +264,6 @@ abstract class Period
     /**
      * Returns whether the given period date range intersects with this one.
      *
-     * @param Period $other
      * @return bool
      */
     public function isPeriodIntersectingWith(Period $other)

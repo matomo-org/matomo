@@ -196,7 +196,6 @@ class Range extends Period
     /**
      * Sets the default end date of the period.
      *
-     * @param Date $oDate
      */
     public function setDefaultEndDate(Date $oDate)
     {

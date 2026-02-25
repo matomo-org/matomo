@@ -30,7 +30,6 @@ class Lock
     private $lastAcquireTime = null;
 
     /**
-     * @param LockBackend $backend
      * @param string $namespace
      * @param int|null $defaultTtl defaults to {@link self::DEFAULT_TTL}
      */

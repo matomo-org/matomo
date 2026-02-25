@@ -125,7 +125,6 @@ abstract class ApiRenderer
     }
 
     /**
-     * @param string $format
      * @param array  $request
      * @return ApiRenderer
      * @throws Exception

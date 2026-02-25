@@ -141,7 +141,6 @@ class Tasks
      * In case you need very high flexibility and none of the other convenient methods such as {@link hourly()} or
      * {@link custom()} suit you, you can use this method to add a custom scheduled task.
      *
-     * @param Task $task
      */
     protected function scheduleTask(Task $task)
     {

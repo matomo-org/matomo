@@ -70,8 +70,6 @@ class API extends \Piwik\Plugin\API
      * when the API function is called. You can also use default values
      * as shown in this example.
      *
-     * @param float $a
-     * @param float $b
      * @return float
      */
     public function getSum(float $a = 0, float $b = 0): float

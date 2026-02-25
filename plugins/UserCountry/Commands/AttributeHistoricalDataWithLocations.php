@@ -86,9 +86,6 @@ class AttributeHistoricalDataWithLocations extends ConsoleCommand
                                                                           . "recommended to use this option.");
     }
 
-    /**
-     * @return int
-     */
     protected function doExecute(): int
     {
         $input = $this->getInput();

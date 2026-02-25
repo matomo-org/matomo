@@ -214,7 +214,6 @@ abstract class LocationProvider
     /**
      * Get all lo that are defined by the given plugin.
      *
-     * @param Plugin $plugin
      * @return LocationProvider[]
      */
     protected static function getLocationProviders(Plugin $plugin)

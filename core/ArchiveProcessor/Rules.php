@@ -306,7 +306,6 @@ class Rules
 
     /**
      * @param array $idSites
-     * @param Segment $segment
      * @return bool
      */
     public static function isSegmentPreProcessed(array $idSites, Segment $segment)

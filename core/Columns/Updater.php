@@ -56,7 +56,6 @@ class Updater extends \Piwik\Updates
     }
 
     /**
-     * @param PiwikUpdater $updater
      * @return Migration[]
      * @api
      */
@@ -66,7 +65,6 @@ class Updater extends \Piwik\Updates
     }
 
     /**
-     * @param PiwikUpdater $updater
      * @return Migration\Db[]
      */
     public function getMigrationQueries(PiwikUpdater $updater)
@@ -231,7 +229,6 @@ class Updater extends \Piwik\Updates
     }
 
     /**
-     * @param PiwikUpdater $updater
      * @param Dimension $dimension
      * @param string $componentPrefix
      * @param array $columns

@@ -76,7 +76,6 @@ class CapabilitiesProvider
     }
 
     /**
-     * @param string $capabilityId
      * @return Capability|null
      * @throws Exception
      */
@@ -105,7 +104,6 @@ class CapabilitiesProvider
     }
 
     /**
-     * @param string $capabilityId
      * @return bool
      * @throws Exception
      */
@@ -117,7 +115,6 @@ class CapabilitiesProvider
     }
 
     /**
-     * @param string $capabilityId
      * @throws Exception
      */
     public function checkValidCapability(string $capabilityId): void

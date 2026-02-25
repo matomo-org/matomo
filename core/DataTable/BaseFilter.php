@@ -38,7 +38,6 @@ abstract class BaseFilter
     /**
      * Constructor.
      *
-     * @param DataTable $table
      */
     public function __construct(DataTable $table)
     {

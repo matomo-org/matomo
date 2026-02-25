@@ -28,7 +28,6 @@ class DI
     }
 
     /**
-     * @param string|null $className
      * @return \DI\Definition\Helper\CreateDefinitionHelper
      * @see PHPDI\create()
      */
@@ -38,7 +37,6 @@ class DI
     }
 
     /**
-     * @param string|null $className
      * @return \DI\Definition\Helper\AutowireDefinitionHelper
      * @see PHPDI\autowire()
      */
@@ -68,7 +66,6 @@ class DI
     }
 
     /**
-     * @param string $entryName
      * @return \DI\Definition\Reference
      * @see PHPDI\get()
      */
@@ -78,7 +75,6 @@ class DI
     }
 
     /**
-     * @param string $variableName
      * @param mixed  $defaultValue
      * @return \DI\Definition\EnvironmentVariableDefinition
      * @see PHPDI\env()
@@ -99,7 +95,6 @@ class DI
     }
 
     /**
-     * @param string $expression
      * @return \DI\Definition\StringDefinition
      * @see PHPDI\string()
      */

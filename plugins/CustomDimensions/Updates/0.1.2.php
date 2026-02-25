@@ -35,7 +35,6 @@ class Updates_0_1_2 extends PiwikUpdates
      * in the `core:update` command when displaying the queries an update will run. If you execute
      * queries directly in `doUpdate()`, they won't be displayed to the user.
      *
-     * @param Updater $updater
      * @return array ```
      *               array(
      *                   'ALTER .... ' => '1234', // if the query fails, it will be ignored if the error code is 1234
@@ -60,7 +59,6 @@ class Updates_0_1_2 extends PiwikUpdates
      *
      * See {@link Updates} for an example.
      *
-     * @param Updater $updater
      */
     public function doUpdate(Updater $updater)
     {

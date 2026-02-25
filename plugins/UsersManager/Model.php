@@ -603,7 +603,6 @@ class Model
     /**
      * Get an array of user data using the supplied token
      *
-     * @param string|null   $tokenAuth
      *
      * @return array|null
      * @throws \Exception

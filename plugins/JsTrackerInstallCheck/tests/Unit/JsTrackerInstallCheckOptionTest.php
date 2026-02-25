@@ -257,7 +257,6 @@ class JsTrackerInstallCheckOptionTest extends TestCase
     /**
      * Helper method for checking the test nonces
      *
-     * @param int $idSite
      * @return array
      */
     protected function getTestOptionArray(int $idSite): array
@@ -275,8 +274,6 @@ class JsTrackerInstallCheckOptionTest extends TestCase
     /**
      * Helper method for checking the test nonce
      *
-     * @param int $idSite
-     * @param string $nonce
      * @return array
      */
     protected function getTestNonceArray(int $idSite, string $nonce): array
@@ -289,8 +286,6 @@ class JsTrackerInstallCheckOptionTest extends TestCase
     /**
      * Helper method for checking if the nonce is successful
      *
-     * @param int $idSite
-     * @param string $nonce
      * @return bool
      */
     protected function isNonceSuccessFul(int $idSite, string $nonce): bool

@@ -61,7 +61,6 @@ abstract class SectionConfig
     /**
      * Get the site specific config (if any) as an array
      *
-     * @param   int $idSite
      *
      * @return array|string
      */

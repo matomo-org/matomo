@@ -119,19 +119,8 @@ class API extends \Piwik\Plugin\API
      * Returns the javascript tag for the given idSite.
      * This tag must be included on every page to be tracked by Matomo
      *
-     * @param int    $idSite
-     * @param string $piwikUrl
-     * @param bool   $mergeSubdomains
-     * @param bool   $groupPageTitlesByDomain
-     * @param bool   $mergeAliasUrls
      * @param array  $visitorCustomVariables
      * @param array  $pageCustomVariables
-     * @param string $customCampaignNameQueryParam
-     * @param string $customCampaignKeywordParam
-     * @param bool   $doNotTrack
-     * @param bool   $disableCookies
-     * @param bool   $trackNoScript
-     * @param bool   $crossDomain
      * @param bool   $forceMatomoEndpoint Whether the Matomo endpoint should be forced if Matomo was installed prior 3.7.0.
      * @param string|array  $excludedQueryParams array or comma separated string of excluded query parameters.
      * @param string|array  $excludedReferrers array or comma separated string of ignored referrers. Defaults to configured ignored referrers
@@ -293,7 +282,6 @@ class API extends \Piwik\Plugin\API
      * Returns the website information : name, main_url
      *
      * @throws Exception if the site ID doesn't exist or the user doesn't have access to it
-     * @param int $idSite
      * @return array
      */
     public function getSiteFromId(int $idSite)
@@ -320,7 +308,6 @@ class API extends \Piwik\Plugin\API
      * Returns the list of all URLs registered for the given idSite (main_url + alias URLs).
      *
      * @throws Exception if the website ID doesn't exist or the user doesn't have access to it
-     * @param int $idSite
      * @return array list of URLs
      */
     public function getSiteUrlsFromId(int $idSite)
@@ -461,7 +448,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the messages to warn users on site deletion.
      *
-     * @param int $idSite
      * @return array messages to warn users
      * @throws Exception if the website ID doesn't exist or the user doesn't have super user access to it
      * @internal
@@ -911,7 +897,6 @@ class API extends \Piwik\Plugin\API
      *
      * Requires Super User access.
      *
-     * @param int $idSite
      * @param string $passwordConfirmation the current user's password, only required when the request is authenticated with session token auth
      * @throws Exception
      */
@@ -1031,7 +1016,6 @@ class API extends \Piwik\Plugin\API
      * If some URLs given in parameter are already recorded as alias URLs for this website,
      * they won't be duplicated. The 'main_url' of the website won't be affected by this method.
      *
-     * @param int $idSite
      * @param array|string $urls When calling API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
      * @return int the number of inserted URLs
      */

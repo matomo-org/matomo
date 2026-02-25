@@ -2889,11 +2889,6 @@ parameters:
 			path: plugins/Contents/RecordBuilders/ContentRecords.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Contents\\\\VisitorDetails\\:\\:renderAction\\(\\) should return string but empty return statement found\\.$#"
-			count: 1
-			path: plugins/Contents/VisitorDetails.php
-
-		-
 			message: "#^Left side of && is always true\\.$#"
 			count: 1
 			path: plugins/CoreAdminHome/API.php
@@ -3574,11 +3569,6 @@ parameters:
 			path: plugins/Events/Columns/TotalEvents.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Events\\\\VisitorDetails\\:\\:renderAction\\(\\) should return string but empty return statement found\\.$#"
-			count: 1
-			path: plugins/Events/VisitorDetails.php
-
-		-
 			message: "#^Parameter \\#3 \\$escapeComment of static method Piwik\\\\Plugins\\\\Diagnostics\\\\Diagnostic\\\\DiagnosticResult\\:\\:informationalResult\\(\\) expects bool, string given\\.$#"
 			count: 1
 			path: plugins/ExamplePlugin/Diagnostic/ExampleCheck.php
@@ -4011,11 +4001,6 @@ parameters:
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\VisitorDetails\\:\\:getAdditionalUrlsForSite\\(\\) should return array\\<int, array\\<string\\>\\> but returns array\\<string\\>\\.$#"
 			count: 1
-			path: plugins/Live/VisitorDetails.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\VisitorDetails\\:\\:renderAction\\(\\) should return string but empty return statement found\\.$#"
-			count: 3
 			path: plugins/Live/VisitorDetails.php
 
 		-

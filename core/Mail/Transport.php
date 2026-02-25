@@ -24,7 +24,6 @@ class Transport
     /**
      * Sends the given mail
      *
-     * @param Mail $mail
      * @return bool
      * @throws DependencyException
      * @throws PHPMailerException

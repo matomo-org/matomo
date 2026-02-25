@@ -575,7 +575,6 @@ class Pdf extends ReportRenderer
     /**
      * Gets the row height for a label. This will be the total height including wrapping
      * but still having a maximum height
-     * @param string $text
      * @return float
      */
     private function getLabelRowHeight(string $text): float
@@ -598,8 +597,6 @@ class Pdf extends ReportRenderer
     /**
      * @param false|string $url
      * @param array<string, mixed> $rowMetadata
-     * @param float $logoWidth
-     * @param float $logoHeight
      * @return void
      */
     private function renderLabelLinkAndLogo(
@@ -646,7 +643,6 @@ class Pdf extends ReportRenderer
     /**
      * Checks if a string might be a url or not
      * Will return the string with an 'https' protocol if it is a valid url
-     * @param string $value
      * @return false|string
      */
     private function isUrl(string $value)
@@ -664,7 +660,6 @@ class Pdf extends ReportRenderer
     /**
      * This is only useful when label row is 3 lines,
      * we needed to make max row bigger so that it can be centered vertically better
-     * @param float $rowHeight
      * @return float
      */
     private function getLabelRowMaxHeight(float $rowHeight): float
@@ -677,7 +672,6 @@ class Pdf extends ReportRenderer
 
     /**
      * Sets initial label width based on column count and content heuristics.
-     * @param int $columnsCount
      * @return void
      */
     private function setInitialLabelWidth(int $columnsCount): void
@@ -839,7 +833,6 @@ class Pdf extends ReportRenderer
     /**
      * This function will try to adjust column width based on the content.
      * This will try to make other columns smaller to accommodate this
-     * @param string $columnId
      * @return void
      */
     private function adjustMetricColumnWidthToContent(string $columnId): void
@@ -916,7 +909,6 @@ class Pdf extends ReportRenderer
 
     /**
      * Computes maximum column width for a given metric column
-     * @param string $columnId
      * @return float
      */
     private function getMaxFormattedColumnWidth(string $columnId): float

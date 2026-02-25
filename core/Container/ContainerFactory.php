@@ -42,8 +42,6 @@ class ContainerFactory
     private $definitions;
 
     /**
-     * @param PluginList $pluginList
-     * @param GlobalSettingsProvider $settings
      * @param string[] $environments Optional environment configs to load.
      * @param array[] $definitions
      */

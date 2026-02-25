@@ -40,8 +40,6 @@ class Xml extends Renderer
      * Computes the output for the given data table
      *
      * @param DataTable|DataTable\Map $table
-     * @param bool $returnOnlyDataTableXml
-     * @param string $prefixLines
      * @return string
      * @throws Exception
      */
@@ -196,9 +194,7 @@ class Xml extends Renderer
     /**
      * Computes the output for the given data table array
      *
-     * @param Map $table
      * @param array $array
-     * @param string $prefixLines
      * @return string
      */
     protected function renderDataTableMap(Map $table, array $array, string $prefixLines = ''): string
@@ -325,7 +321,6 @@ class Xml extends Renderer
      * Computes the output for the given data array
      *
      * @param array $array
-     * @param string $prefixLine
      * @return string
      */
     protected function renderDataTable($array, string $prefixLine = ''): string
@@ -400,7 +395,6 @@ class Xml extends Renderer
      * Computes the output for the given data array (representing a simple data table)
      *
      * @param $array
-     * @param string $prefixLine
      * @return string
      */
     protected function renderDataTableSimple($array, string $prefixLine = ''): string
@@ -435,7 +429,6 @@ class Xml extends Renderer
     /**
      * Returns true if a string is a valid XML tag name, false if otherwise.
      *
-     * @param string $str
      * @return bool
      */
     private static function isValidXmlTagName(string $str): bool

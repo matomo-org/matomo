@@ -99,7 +99,6 @@ class VisitProperties
      * The immutable value remains unchanged throughout request processing and can be access with getImmutableProperty()
      * The mutable value can be updated at any time with setProperty() and accessed via getProperty()
      *
-     * @param string $name
      * @param mixed $value
      *
      * @return void

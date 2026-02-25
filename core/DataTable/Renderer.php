@@ -77,24 +77,17 @@ abstract class Renderer extends BaseFactory
     /**
      * Sets whether to render subtables or not
      *
-     * @param bool $enableRenderSubTable
      */
     public function setRenderSubTables(bool $enableRenderSubTable): void
     {
         $this->renderSubTables = $enableRenderSubTable;
     }
 
-    /**
-     * @param bool $hideIdSubDataTable
-     */
     public function setHideIdSubDatableFromResponse(bool $hideIdSubDataTable): void
     {
         $this->hideIdSubDatatable = $hideIdSubDataTable;
     }
 
-    /**
-     * @param bool $hideMetadata
-     */
     public function setHideMetadataFromResponse(bool $hideMetadata): void
     {
         $this->hideMetadata = $hideMetadata;

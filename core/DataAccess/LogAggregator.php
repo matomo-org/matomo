@@ -806,7 +806,6 @@ class LogAggregator
      * with the dimension name or an custom alias if one was provided as array key.
      *
      * @param array $dimensions An array of dimensions, where an alias can be provided as key
-     * @param string $tableName
      * @return array
      */
     protected function getSelectDimensions(array $dimensions, string $tableName): array
@@ -840,7 +839,6 @@ class LogAggregator
      * For that either the alias, the field expression or prefixed column name of the provided dimensions will be used.
      *
      * @param array $dimensions An array of dimensions, where an alias can be provided as key
-     * @param string $tableName
      * @return array
      */
     protected function getGroupByDimensions(array $dimensions, string $tableName): array
@@ -1278,8 +1276,6 @@ class LogAggregator
      * Similar to queryConversionsByDimension and will return data in the same format, but takes into account pageviews
      * leading up to a conversion, not just the final page that triggered the conversion
      *
-     * @param string $linkField
-     * @param int    $idGoal
      *
      * @return \Zend_Db_Statement|array
      */
@@ -1330,8 +1326,6 @@ class LogAggregator
     /**
      * Query conversions by entry page
      *
-     * @param string $linkField
-     * @param int $rankingQueryLimit
      *
      * @return \Zend_Db_Statement|array
      */

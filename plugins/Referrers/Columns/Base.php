@@ -504,7 +504,6 @@ abstract class Base extends VisitDimension
      * Check if campaign parameters were directly provided in tracking request.
      * This might e.g. be the case when using image tracking
      *
-     * @param Request $request
      * @return void
      */
     protected function detectReferrerCampaignFromTrackerParams(Request $request): void
@@ -631,9 +630,6 @@ abstract class Base extends VisitDimension
         }
     }
 
-    /**
-     * @return string
-     */
     protected function getParameterValueFromReferrerUrl($adsenseReferrerParameter): string
     {
         return trim(urldecode(UrlHelper::getParameterFromQueryString($this->referrerUrlParse['query'], $adsenseReferrerParameter) ?? ''));
@@ -683,8 +679,6 @@ abstract class Base extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @return mixed
      */
     public function getValueForRecordGoal(Request $request, Visitor $visitor)

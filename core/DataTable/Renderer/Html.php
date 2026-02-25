@@ -29,7 +29,6 @@ class Html extends Renderer
     /**
      * Sets the table id
      *
-     * @param string $id
      */
     public function setTableId(string $id): void
     {
@@ -84,7 +83,6 @@ class Html extends Renderer
      * Adds the given data table to the table structure array
      *
      * @param DataTable|DataTable\Map $table
-     * @param null|string $columnToAdd
      * @param null|mixed $valueToAdd
      * @throws Exception
      */

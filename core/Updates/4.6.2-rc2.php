@@ -18,9 +18,6 @@ use Piwik\Updates as PiwikUpdates;
  */
 class Updates_4_6_2_rc2 extends PiwikUpdates
 {
-    /**
-     * @param Updater $updater
-     */
     public function doUpdate(Updater $updater)
     {
         Filesystem::unlinkRecursive(PIWIK_INCLUDE_PATH . '/misc/composer', true);

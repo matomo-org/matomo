@@ -42,7 +42,6 @@ class Updates_4_11_0_rc2 extends PiwikUpdates
     }
 
     /**
-     * @param Updater $updater
      *
      * @return Migration[]
      */

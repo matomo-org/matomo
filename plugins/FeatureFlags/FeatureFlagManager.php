@@ -57,7 +57,6 @@ class FeatureFlagManager
     }
 
     /**
-     * @param string $featureFlagName
      * @return void
      * @internal
      */

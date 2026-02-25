@@ -139,7 +139,6 @@ class AssetManager extends Singleton
     /**
      * Return JS file inclusion directive(s) using the markup <script>
      *
-     * @param bool $deferJS
      * @return string
      */
     public function getJsInclusionDirective(bool $deferJS = false): string

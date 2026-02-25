@@ -208,7 +208,6 @@ class DataSubjects
 
     /**
      * @param LogTable[] $logTables
-     * @param callable $generateWhere
      * @throws \Zend_Db_Statement_Exception
      */
     private function deleteLogDataFrom($logTables, callable $generateWhere)

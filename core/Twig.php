@@ -55,7 +55,6 @@ function piwik_format_number($string, $minFractionDigits, $maxFractionDigits)
 }
 
 /**
- * @param Environment $env
  * @param string $string
  * @param string $strategy
  * @param ?string $charset
