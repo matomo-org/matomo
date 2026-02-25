@@ -55,7 +55,6 @@ class Visitor
     /**
      * Get a visitor property that will not have been changed by other request processors
      *
-     * @param string $column
      *
      * @return false|mixed|null
      */
@@ -67,7 +66,6 @@ class Visitor
     /**
      * Initialize a visitor property
      *
-     * @param string $column
      * @param $value
      *
      * @return void

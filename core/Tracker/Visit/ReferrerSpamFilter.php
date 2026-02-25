@@ -28,7 +28,6 @@ class ReferrerSpamFilter
     /**
      * Check if the request is from a known spammer host.
      *
-     * @param Request $request
      * @return bool
      */
     public function isSpam(Request $request)

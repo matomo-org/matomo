@@ -79,7 +79,6 @@ class Updater
     /**
      * Adds an UpdateObserver to the internal list of listeners.
      *
-     * @param UpdateObserver $listener
      */
     public function addUpdateObserver(UpdateObserver $listener)
     {
@@ -588,7 +587,6 @@ class Updater
 
     /**
      * @param $file
-     * @param Migration $migration
      * @throws UpdaterErrorException
      * @api
      */
