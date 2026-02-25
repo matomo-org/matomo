@@ -60,6 +60,9 @@ function initManageSegmentsPage() {
       const $deleteButton = $('[data-delete-segment]', row);
       const idSegment = $starButton.attr('data-star');
       const segment = window.SegmentEditorPanel.getSegmentFromId(idSegment);
+      if (segment && typeof segment.enable_only_idsite === 'string') {
+        segment.enable_only_idsite = parseInt(segment.enable_only_idsite, 10) || 0;
+      }
       const canEdit = window.SegmentEditorPanel.getCanUserEditSegment(segment);
       if (!canEdit) {
         $starButton.attr('data-state', 'disabled');
