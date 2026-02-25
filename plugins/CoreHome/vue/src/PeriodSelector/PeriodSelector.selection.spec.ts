@@ -1055,4 +1055,35 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     expect((wrapper.vm as any).pendingPresetSelection).toBeNull();
     wrapper.unmount();
   });
+
+  it('closes on outside click without applying pending preset selection', async () => {
+    const wrapper = mountSelector();
+    await nextTick();
+
+    const updateLocationSpy = jest.spyOn(MatomoUrl, 'updateLocation');
+
+    (wrapper.vm as any).onPresetDateRangeSelected({
+      id: 'last30days',
+      period: 'range',
+      date: 'last30',
+      startDate: new Date('2026-01-20'),
+      endDate: new Date('2026-02-18'),
+    });
+    await nextTick();
+
+    const root = wrapper.find('.periodSelector').element as HTMLElement;
+    root.classList.add('expanded');
+
+    document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    document.body.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    await nextTick();
+
+    expect(root.classList.contains('expanded')).toBe(false);
+    expect(updateLocationSpy).not.toHaveBeenCalled();
+    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'last30days' });
+    expect((wrapper.vm as any).pendingPresetSelection).toBeTruthy();
+
+    updateLocationSpy.mockRestore();
+    wrapper.unmount();
+  });
 });
