@@ -97,6 +97,36 @@ describe("SegmentManagementPageTest", function () {
     expect(siteTitle).to.contain('for this website');
   });
 
+  it("should open the editor panel form when clicking edit segment on a row", async function() {
+    await page.goto(url);
+    await page.waitForNetworkIdle();
+
+    await page.waitForSelector(`[data-edit-segment="${siteSegmentId}"]`, { visible: true });
+    await page.click(`[data-edit-segment="${siteSegmentId}"]`);
+
+    await page.waitForFunction((segmentName) => {
+      const $panel = $('.segmentEditorPanel');
+      if (!$panel.hasClass('editing')) {
+        return false;
+      }
+      const $name = $panel.find('.segment-content > h3 > span');
+      return $name.length && $name.text().trim() === segmentName;
+    }, {}, siteSegmentName);
+
+    const formState = await page.evaluate(() => {
+      const $panel = $('.segmentEditorPanel');
+      return {
+        isEditing: $panel.hasClass('editing'),
+        hasForm: $panel.find('.segment-element').length > 0,
+        formName: $panel.find('.segment-content > h3 > span').text().trim(),
+      };
+    });
+
+    expect(formState.isEditing).to.equal(true);
+    expect(formState.hasForm).to.equal(true);
+    expect(formState.formName).to.equal(siteSegmentName);
+  });
+
   it("should update star state and order when starring and unstarring", async function() {
     await page.goto(url);
     await page.waitForNetworkIdle();
