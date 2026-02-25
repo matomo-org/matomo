@@ -62,9 +62,6 @@ class OptOutManager
     /** @var array */
     private $queryParameters = array();
 
-    /**
-     * @param DoNotTrackHeaderChecker|null $doNotTrackHeaderChecker
-     */
     public function __construct(?DoNotTrackHeaderChecker $doNotTrackHeaderChecker = null)
     {
         $this->doNotTrackHeaderChecker = $doNotTrackHeaderChecker ?: new DoNotTrackHeaderChecker();
@@ -185,14 +182,6 @@ class OptOutManager
     /**
      * Return the HTML code to be added to pages for the JavaScript opt-out
      *
-     * @param string $matomoUrl
-     * @param string $language
-     * @param string $backgroundColor
-     * @param string $fontColor
-     * @param string $fontSize
-     * @param string $fontFamily
-     * @param bool   $applyStyling
-     * @param bool   $showIntro
      *
      * @return string
      */
@@ -227,12 +216,6 @@ class OptOutManager
     /**
      * Return the HTML code to be added to pages for the self-contained opt-out
      *
-     * @param string $backgroundColor
-     * @param string $fontColor
-     * @param string $fontSize
-     * @param string $fontFamily
-     * @param bool   $applyStyling
-     * @param bool   $showIntro
      *
      * @return string
      */
@@ -561,7 +544,6 @@ JS;
     /**
      * Get translations used by the opt-out popup
      *
-     * @param string|null $language
      *
      * @return array
      */
@@ -662,11 +644,6 @@ JS;
     /**
      * Provide a CSS style sheet based on the chosen opt out style options
      *
-     * @param string|null $fontSize
-     * @param string|null $fontColor
-     * @param string|null $fontFamily
-     * @param string|null $backgroundColor
-     * @param bool        $noBody
      *
      * @return string
      * @throws \Exception

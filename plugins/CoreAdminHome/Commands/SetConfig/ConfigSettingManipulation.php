@@ -54,7 +54,6 @@ class ConfigSettingManipulation
     /**
      * Performs the INI config manipulation.
      *
-     * @param Config $config
      * @throws \Exception if trying to append to a non-array setting value or if trying to set an
      *                    array value to a non-array setting
      */

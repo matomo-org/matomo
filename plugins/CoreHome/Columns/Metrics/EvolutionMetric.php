@@ -244,9 +244,6 @@ class EvolutionMetric extends ProcessedMetric
      *
      * If the current period end is in the past then the ratio will always be 1, since the current period is complete.
      *
-     * @param DataTable|null $currentData
-     * @param DataTable|null $pastData
-     * @param Row $row
      * @return float|int
      * @throws \Exception
      */

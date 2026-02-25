@@ -535,7 +535,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     /**
      * Add goals data for each combination of url / title and pageviews / entries
      *
-     * @param int   $rankingQueryLimit
      *
      * @return void
      */
@@ -589,7 +588,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     /**
      * Get a list of goal ids for a site
      *
-     * @param string $idSite
      *
      * @return array
      */
@@ -612,7 +610,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     /**
      * Query goal entry page data and update actions data table
      *
-     * @param int   $rankingQueryLimit
      * @param bool  $isUrl              If true then query goal data by url, else by name
      *
      * @return int|null Count of records processed

@@ -64,10 +64,6 @@ class FixDuplicateLogActions extends ConsoleCommand
     /**
      * Constructor.
      *
-     * @param ArchiveInvalidator $invalidator
-     * @param DuplicateActionRemover $duplicateActionRemover
-     * @param Actions $actionsAccess
-     * @param LoggerInterface $logger
      */
     public function __construct(
         ?ArchiveInvalidator $invalidator = null,

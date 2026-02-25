@@ -243,7 +243,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Deletes a specific tracking failure
-     * @param int $idSite
      * @param int $idFailure
      */
     public function deleteTrackingFailure(int $idSite, $idFailure)
@@ -370,7 +369,6 @@ class API extends \Piwik\Plugin\API
      * Ensure the specified dates are valid.
      * Store invalid date so we can log them
      * @param array|string  $dates
-     * @param string        $period
      *
      * @return array
      */
@@ -427,14 +425,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Show the JavaScript opt out code
      *
-     * @param string $backgroundColor
-     * @param string $fontColor
-     * @param string $fontSize
-     * @param string $fontFamily
-     * @param bool   $applyStyling
-     * @param bool   $showIntro
-     * @param string $matomoUrl
-     * @param string $language
      *
      * @return string
      *
@@ -466,12 +456,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Show the self-contained JavaScript opt out code
      *
-     * @param string $backgroundColor
-     * @param string $fontColor
-     * @param string $fontSize
-     * @param string $fontFamily
-     * @param bool   $applyStyling
-     * @param bool   $showIntro
      *
      * @return string
      *
