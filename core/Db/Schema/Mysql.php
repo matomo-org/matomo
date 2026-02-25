@@ -714,7 +714,6 @@ class Mysql implements SchemaInterface
      * Will return an empty string for an unknown charset
      * (can happen for alias charsets like "utf8").
      *
-     * @param string $charset
      *
      * @return string
      * @throws Exception

@@ -237,7 +237,6 @@ class DbHelper
     /**
      * Returns the default collation for a charset.
      *
-     * @param string $charset
      *
      * @return string
      * @throws Exception

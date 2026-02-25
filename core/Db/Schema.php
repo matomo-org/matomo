@@ -51,7 +51,6 @@ class Schema extends Singleton
     /**
      * Return the default port for the provided database schema
      *
-     * @param string $schemaName
      * @return int
      */
     public static function getDefaultPortForSchema(string $schemaName): int
@@ -101,7 +100,6 @@ class Schema extends Singleton
     /**
      * Returns the default collation for a charset.
      *
-     * @param string $charset
      * @return string
      */
     public function getDefaultCollationForCharset(string $charset): string

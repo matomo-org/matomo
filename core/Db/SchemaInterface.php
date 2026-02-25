@@ -143,7 +143,6 @@ interface SchemaInterface
     /**
      * Returns the default collation for a charset used by this database engine.
      *
-     * @param string $charset
      *
      * @return string
      */
