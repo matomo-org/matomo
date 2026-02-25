@@ -29,9 +29,6 @@ class UserScopedSettingsStore
     }
 
     /**
-     * @param string $pluginName
-     * @param string $userLogin
-     * @param string $key
      * @param mixed $defaultValue
      * @return mixed
      */
@@ -47,9 +44,6 @@ class UserScopedSettingsStore
     }
 
     /**
-     * @param string $pluginName
-     * @param string $userLogin
-     * @param string $key
      * @param mixed $value
      * @return void
      */
@@ -61,8 +55,6 @@ class UserScopedSettingsStore
     }
 
     /**
-     * @param string $pluginName
-     * @param string $userLogin
      * @return array
      */
     public function getAll(string $pluginName, string $userLogin): array
@@ -80,8 +72,6 @@ class UserScopedSettingsStore
     }
 
     /**
-     * @param string $pluginName
-     * @param string $userLogin
      * @param array $settings
      * @return void
      */
@@ -93,12 +83,6 @@ class UserScopedSettingsStore
         $storage->getBackend()->save($settings);
     }
 
-    /**
-     * @param string $pluginName
-     * @param string $userLogin
-     * @param string $key
-     * @return void
-     */
     public function delete(string $pluginName, string $userLogin, string $key): void
     {
         $settings = $this->getAll($pluginName, $userLogin);
@@ -106,11 +90,6 @@ class UserScopedSettingsStore
         $this->setAll($pluginName, $userLogin, $settings);
     }
 
-    /**
-     * @param string $pluginName
-     * @param string $userLogin
-     * @return void
-     */
     public function deleteAll(string $pluginName, string $userLogin): void
     {
         $this->validatePluginAndLogin($pluginName, $userLogin);
@@ -120,7 +99,6 @@ class UserScopedSettingsStore
     }
 
     /**
-     * @param string $pluginName
      * @param string[] $settingNames
      * @return array<string, array<string, mixed>>
      */
