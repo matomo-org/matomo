@@ -7,6 +7,22 @@
 
 import { mount } from '@vue/test-utils';
 
+jest.mock('../translate', () => ({
+  translate: (key: string) => {
+    const messages: Record<string, string> = {
+      Intl_PeriodDay: 'day',
+      Intl_PeriodWeek: 'week',
+      Intl_PeriodMonth: 'month',
+      Intl_PeriodYear: 'year',
+      General_DateRangeInPeriodList: 'date range',
+      General_Custom: 'Custom',
+      General_DoubleClickToChangePeriod: 'Double click to change period',
+    };
+
+    return messages[key] || key;
+  },
+}));
+
 const PeriodOptions = require('./PeriodOptions.vue').default;
 
 describe('CoreHome/PeriodSelector/PeriodOptions component', () => {
@@ -25,13 +41,24 @@ describe('CoreHome/PeriodSelector/PeriodOptions component', () => {
   it('should render all provided period options', () => {
     const wrapper = mountComponent();
 
-    expect(wrapper.findAll('input[type="radio"]').length).toBe(5);
+    expect(wrapper.findAll('.periodOptions label').length).toBe(5);
+    expect(wrapper.findAll('.periodOptions label')[0].attributes('id')).toBe('period_id_range');
+  });
+
+  it('should capitalize period labels and show custom date range for range', () => {
+    const wrapper = mountComponent();
+
+    const dayText = wrapper.find('#period_id_day').text().trim();
+    const rangeText = wrapper.find('#period_id_range').text().trim();
+
+    expect(dayText?.charAt(0)).toBe(dayText?.charAt(0)?.toUpperCase());
+    expect(rangeText).toBe('Custom date range');
   });
 
   it('should emit update:modelValue and select when period is selected', async () => {
     const wrapper = mountComponent();
 
-    await wrapper.find('#period_id_month').trigger('change');
+    await wrapper.find('#period_id_month').trigger('click');
 
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['month']);
     expect(wrapper.emitted('select')?.[0]).toEqual([{ period: 'month' }]);
@@ -51,11 +78,11 @@ describe('CoreHome/PeriodSelector/PeriodOptions component', () => {
       checkedPeriodId: null,
     });
 
-    expect((wrapper.find('#period_id_month').element as HTMLInputElement).checked).toBe(false);
+    expect(wrapper.find('#period_id_month').classes()).not.toContain('selected-period-label');
 
     await wrapper.setProps({ checkedPeriodId: 'month' });
 
-    expect((wrapper.find('#period_id_month').element as HTMLInputElement).checked).toBe(true);
+    expect(wrapper.find('#period_id_month').classes()).toContain('selected-period-label');
   });
 
   it('should set empty tooltip for active date period and non-empty for others', () => {
@@ -64,8 +91,8 @@ describe('CoreHome/PeriodSelector/PeriodOptions component', () => {
       activeDatePeriod: 'day',
     });
 
-    const dayLabel = wrapper.find('#period_id_day').element.closest('label') as HTMLLabelElement;
-    const weekLabel = wrapper.find('#period_id_week').element.closest('label') as HTMLLabelElement;
+    const dayLabel = wrapper.find('#period_id_day').element as HTMLLabelElement;
+    const weekLabel = wrapper.find('#period_id_week').element as HTMLLabelElement;
 
     expect(dayLabel.title).toBe('');
     expect(weekLabel.title).not.toBe('');
