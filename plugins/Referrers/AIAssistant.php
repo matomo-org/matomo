@@ -105,7 +105,6 @@ class AIAssistant extends Singleton
     /**
      * Parses the given YML string and caches the resulting definitions
      *
-     * @param string $yml
      * @return null|array<string, string>
      */
     public function loadYmlData(string $yml): ?array
