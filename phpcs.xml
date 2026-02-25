@@ -36,4 +36,5 @@
     <rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment" />
     <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue" />
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation" />
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint.UselessAnnotation" />
 </ruleset>
