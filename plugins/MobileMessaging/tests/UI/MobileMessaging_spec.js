@@ -6,6 +6,32 @@
  * @link    https://matomo.org
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
+describe("MobileMessaging", function () {
+  this.fixture = "Piwik\\Tests\\Fixtures\\EmptySite";
+
+  // required to ensure no provider is set initially
+  this.optionsOverride = {
+    'persist-fixture-data': false,
+  };
+
+  async function screenshotPageWrap() {
+    const pageWrap = await page.$('.pageWrap');
+    const screenshot = await pageWrap.screenshot();
+    return screenshot;
+  }
+
+  it('should show a provider error accordingly', async function () {
+    testEnvironment.optionsOverride['_MobileMessagingSettings'] = '{"Provider":"InValid","APIKey":[]}';
+    testEnvironment.save();
+
+    await page.goto("?idSite=1&period=year&date=2022-08-09&module=MobileMessaging&action=index");
+    await page.waitForNetworkIdle();
+
+    const screenshot = await screenshotPageWrap();
+
+    expect(screenshot).to.matchImage('admin_provider_error');
+  });
+});
 
 describe("MobileMessaging", function () {
   this.fixture = "Piwik\\Tests\\Fixtures\\EmptySite";
@@ -26,21 +52,6 @@ describe("MobileMessaging", function () {
     await page.waitForNetworkIdle();
 
     expect(await screenshotPageWrap()).to.matchImage('admin');
-  });
-
-  it('should show a provider error accordingly', async function () {
-    testEnvironment.optionsOverride['_MobileMessagingSettings'] = '{"Provider":"InValid","APIKey":[]}';
-    testEnvironment.save();
-
-    await page.goto("?idSite=1&period=year&date=2022-08-09&module=MobileMessaging&action=index");
-    await page.waitForNetworkIdle();
-
-    const screenshot = await screenshotPageWrap();
-
-    testEnvironment.optionsOverride['_MobileMessagingSettings'] = '';
-    testEnvironment.save();
-
-    expect(screenshot).to.matchImage('admin_provider_error');
   });
 
   it('should switch the SMS provider correctly', async function () {
