@@ -96,9 +96,6 @@ class ReplaceColumnNames extends BaseFilter
         }
     }
 
-    /**
-     * @param Simple $table
-     */
     protected function filterSimple(Simple $table)
     {
         foreach ($table->getRows() as $row) {

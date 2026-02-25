@@ -100,7 +100,6 @@ class ArchiveTableDao
     /**
      * Return invalidation queue table data
      *
-     * @param bool $prettyTime
      *
      * @return array
      * @throws \Exception

@@ -89,7 +89,6 @@ class Csv extends Renderer
     /**
      * Sets the column separator
      *
-     * @param string $separator
      */
     public function setSeparator(string $separator): void
     {
@@ -121,7 +120,6 @@ class Csv extends Renderer
     /**
      * Computes the output of the given data table array
      *
-     * @param DataTable\Map $table
      * @param array $allColumns
      * @return string
      */
