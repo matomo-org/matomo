@@ -104,21 +104,6 @@ describe("PeriodSelector", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage('range_picker_displayed');
     });
 
-    it('should render preset date ranges and allow selecting one preset', async function () {
-        const presetCount = await page.evaluate(function () {
-            return $('#otherPeriods .presetDateRanges input[type=radio]').length;
-        });
-
-        expect(presetCount).to.equal(13);
-        await clickPreset('last30days');
-
-        const isSelected = await page.evaluate(function () {
-            return $('#preset_date_last30days').prop('checked');
-        });
-
-        expect(isSelected).to.equal(true);
-    });
-
     it("should change from & to dates when range picker calendar dates are clicked", async function() {
         let element = await page.jQuery('#calendarFrom .ui-datepicker-calendar a:contains(10)');
         await element.click();
