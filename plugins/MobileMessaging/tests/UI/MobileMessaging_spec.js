@@ -35,13 +35,15 @@ describe("MobileMessaging", function () {
     await page.goto("?idSite=1&period=year&date=2022-08-09&module=MobileMessaging&action=index");
     await page.waitForNetworkIdle();
 
-    expect(await screenshotPageWrap()).to.matchImage('admin_provider_error');
+    const screenshot = await screenshotPageWrap();
+
+    testEnvironment.optionsOverride['_MobileMessagingSettings'] = '';
+    testEnvironment.save();
+
+    expect(screenshot).to.matchImage('admin_provider_error');
   });
 
   it('should switch the SMS provider correctly', async function () {
-    testEnvironment.optionsOverride['_MobileMessagingSettings'] = null;
-    testEnvironment.save();
-
     await page.evaluate(function () {
       $('[name=smsProviders]').val('string:ASPSMS').trigger('change');
     });
