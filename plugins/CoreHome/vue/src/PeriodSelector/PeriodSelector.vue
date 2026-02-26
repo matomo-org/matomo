@@ -88,62 +88,18 @@
             >
             </PeriodDatePicker>
           </div>
-          <div
-            class="compare-checkbox"
-            v-if="isComparisonEnabled"
-          >
-            <label>
-              <input
-                id="comparePeriodTo"
-                type="checkbox"
-                v-model="isComparing"
-              />
-              <span>{{ translate('General_CompareTo') }}</span>
-            </label>
-            <div id="comparePeriodToDropdown">
-              <Field
-                v-model="comparePeriodType"
-                :style="{'visibility': isComparing ? 'visible' : 'hidden'}"
-                :name="'comparePeriodToDropdown'"
-                :uicontrol="'select'"
-                :options="comparePeriodDropdownOptions"
-                :full-width="true"
-                :disabled="!isComparing"
-              />
-            </div>
-          </div>
-          <div
-            class="compare-date-range"
-            v-if="isComparing && comparePeriodType === 'custom'"
-          >
-            <div>
-              <div id="comparePeriodStartDate">
-                <div>
-                  <Field
-                    v-model="compareStartDate"
-                    :name="'comparePeriodStartDate'"
-                    :uicontrol="'text'"
-                    :full-width="true"
-                    :title="translate('CoreHome_StartDate')"
-                    :placeholder="'YYYY-MM-DD'"
-                  />
-                </div>
-              </div>
-              <span class="compare-dates-separator" />
-              <div id="comparePeriodEndDate">
-                <div>
-                  <Field
-                    v-model="compareEndDate"
-                    :name="'comparePeriodEndDate'"
-                    :uicontrol="'text'"
-                    :full-width="true"
-                    :title="translate('CoreHome_EndDate')"
-                    :placeholder="'YYYY-MM-DD'"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+          <PeriodSelectorCompareControls
+            :is-comparison-enabled="isComparisonEnabled"
+            :is-comparing="isComparing"
+            :compare-period-type="comparePeriodType"
+            :compare-start-date="compareStartDate"
+            :compare-end-date="compareEndDate"
+            :compare-period-dropdown-options="comparePeriodDropdownOptions"
+            @update:isComparing="isComparing = $event"
+            @update:comparePeriodType="comparePeriodType = $event"
+            @update:compareStartDate="compareStartDate = $event"
+            @update:compareEndDate="compareEndDate = $event"
+          />
           <div
             class="apply-button-container"
           >
@@ -190,7 +146,6 @@ import ActivityIndicator from '../ActivityIndicator/ActivityIndicator.vue';
 import Matomo from '../Matomo/Matomo';
 import { translate } from '../translate';
 import ComparisonsStore from '../Comparisons/Comparisons.store.instance';
-import useExternalPluginComponent from '../useExternalPluginComponent';
 import {
   Periods,
   parseDate,
@@ -202,13 +157,19 @@ import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Tooltips from '../Tooltips/Tooltips';
 import PresetDateRanges from './PresetDateRanges.vue';
 import PeriodOptions from './PeriodOptions.vue';
+import PeriodSelectorCompareControls from './PeriodSelectorCompareControls.vue';
 import type {
   PresetDateRangeId,
   PresetDateRangeSelection,
 } from './PresetDateRangeResolver';
 import { getTokenPresetIdFromPeriodAndDate } from './PresetDateRangeResolver';
-
-const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
+import {
+  getContextKeyFromParsed,
+  getSelectionKey,
+  resolveSyncedUiSelection,
+  shouldSkipHashSync,
+} from './PeriodSelectorHashSync';
+import type { UiSelection as HashSyncUiSelection } from './PeriodSelectorHashSync';
 
 const NBSP = Matomo.helper.htmlDecode('&nbsp;');
 
@@ -231,12 +192,11 @@ const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matom
 // today/now
 const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
 const RANGE_PERIOD = 'range';
-const CONTEXT_KEY_IGNORED_PARAMS = ['date', 'period', 'comparePeriods', 'comparePeriodType', 'compareDates', 'compareSegments'];
 
-type UiSelection = { type: 'period'; id: string } | { type: 'preset'; id: PresetDateRangeId };
 type InteractionSource = 'period' | 'preset' | 'calendar' | 'range' | null;
 type SingleCalendarPeriod = 'day' | 'week' | 'month' | 'year';
 type CalendarViewport = 'single' | 'range';
+type UiSelection = HashSyncUiSelection<PresetDateRangeId>;
 
 function isValidDate(d: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
   if (Object.prototype.toString.call(d) !== '[object Date]') {
@@ -262,7 +222,6 @@ interface PeriodSelectorState {
   lastKnownHashContextKey: string|null;
   piwikMinDate: Date;
   piwikMaxDate: Date;
-  comparePeriodDropdownOptions: typeof COMPARE_PERIOD_OPTIONS;
   activePresetId: PresetDateRangeId|null;
   pendingPresetSelection: PresetDateRangeSelection|null;
   periodValue: string;
@@ -293,7 +252,7 @@ export default defineComponent({
     PeriodDatePicker,
     PresetDateRanges,
     PeriodOptions,
-    Field,
+    PeriodSelectorCompareControls,
     ActivityIndicator,
   },
   directives: {
@@ -314,7 +273,6 @@ export default defineComponent({
       lastKnownHashContextKey: null,
       piwikMinDate,
       piwikMaxDate,
-      comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
       activePresetId: null,
       pendingPresetSelection: null,
       periodValue: selectedPeriod,
@@ -360,6 +318,9 @@ export default defineComponent({
     },
     periodComparisonsStoreValue() {
       return ComparisonsStore.getPeriodComparisons();
+    },
+    comparePeriodDropdownOptions() {
+      return COMPARE_PERIOD_OPTIONS;
     },
     currentlyViewingText() {
       let date;
@@ -598,12 +559,9 @@ export default defineComponent({
       this.clearPresetSelection();
       this.commitSelectionToUrl(currentDateString, this.selectedPeriod);
     },
-    setPendingCalendarSelection(period: string, date: Date) {
-      this.setPendingPeriodAndDate(period, date);
-    },
     commitSelectionToUrl(date: string, period: string) {
       this.nextHashUiSelection = { ...this.uiSelection };
-      this.nextHashSelectionKey = this.getSelectionKey(period, date);
+      this.nextHashSelectionKey = getSelectionKey(period, date);
       this.compareAppliedSignature = this.compareCurrentSignature;
       this.propagateNewUrlParams(date, period);
 
@@ -651,7 +609,7 @@ export default defineComponent({
       }
 
       this.setUiSelection({ type: 'period', id: this.selectedPeriod }, 'calendar');
-      this.setPendingCalendarSelection(this.selectedPeriod, date);
+      this.setPendingPeriodAndDate(this.selectedPeriod, date);
       this.clearPresetSelection();
       this.commitSelectionToUrl(format(date), this.selectedPeriod);
     },
@@ -813,40 +771,8 @@ export default defineComponent({
       this.compareStartDate = format(startDate);
       this.compareEndDate = format(endDate);
     },
-    getContextKeyFromParsed(parsed: Record<string, unknown>): string {
-      const normalizedContext: Record<string, unknown> = {};
-      Object.keys(parsed)
-        .filter((key) => !CONTEXT_KEY_IGNORED_PARAMS.includes(key))
-        .sort()
-        .forEach((key) => {
-          normalizedContext[key] = parsed[key];
-        });
-      return JSON.stringify(normalizedContext);
-    },
     getCurrentContextKey(): string {
-      return this.getContextKeyFromParsed(MatomoUrl.parsed.value as Record<string, unknown>);
-    },
-    shouldSkipHashSync(currentSelectionKey: string, currentContextKey: string): boolean {
-      return !this.nextHashUiSelection
-        && currentSelectionKey === this.lastKnownHashSelectionKey
-        && currentContextKey === this.lastKnownHashContextKey;
-    },
-    resolveSyncedUiSelection(
-      currentSelectionKey: string,
-      currentContextKey: string,
-    ): UiSelection|null {
-      const syncedUiSelection = this.nextHashUiSelection
-        && this.nextHashSelectionKey === currentSelectionKey
-        ? { ...this.nextHashUiSelection }
-        : null;
-
-      this.nextHashUiSelection = null;
-      this.nextHashSelectionKey = null;
-      this.lastInteractionSource = null;
-      this.lastKnownHashSelectionKey = currentSelectionKey;
-      this.lastKnownHashContextKey = currentContextKey;
-
-      return syncedUiSelection;
+      return getContextKeyFromParsed(MatomoUrl.parsed.value as Record<string, unknown>);
     },
     applyUiSelectionFromHash(period: string, date: string, syncedUiSelection: UiSelection|null) {
       if (syncedUiSelection) {
@@ -915,17 +841,31 @@ export default defineComponent({
     updateSelectedValuesFromHash() {
       const date = (MatomoUrl.parsed.value.date as string) || '';
       const period = (MatomoUrl.parsed.value.period as string) || '';
-      const currentSelectionKey = this.getSelectionKey(period, date);
+      const currentSelectionKey = getSelectionKey(period, date);
       const currentContextKey = this.getCurrentContextKey();
-      if (this.shouldSkipHashSync(currentSelectionKey, currentContextKey)) {
+      if (shouldSkipHashSync(
+        currentSelectionKey,
+        currentContextKey,
+        this.nextHashUiSelection,
+        this.lastKnownHashSelectionKey,
+        this.lastKnownHashContextKey,
+      )) {
         return;
       }
 
-      const syncedUiSelection = this.resolveSyncedUiSelection(
+      const hashSyncState = resolveSyncedUiSelection<PresetDateRangeId>(
         currentSelectionKey,
         currentContextKey,
+        this.nextHashUiSelection,
+        this.nextHashSelectionKey,
       );
-      this.applyUiSelectionFromHash(period, date, syncedUiSelection);
+      this.nextHashUiSelection = hashSyncState.nextHashUiSelection;
+      this.nextHashSelectionKey = hashSyncState.nextHashSelectionKey;
+      this.lastInteractionSource = hashSyncState.lastInteractionSource;
+      this.lastKnownHashSelectionKey = hashSyncState.lastKnownHashSelectionKey;
+      this.lastKnownHashContextKey = hashSyncState.lastKnownHashContextKey;
+
+      this.applyUiSelectionFromHash(period, date, hashSyncState.syncedUiSelection);
       this.periodValue = period;
       this.selectedPeriod = period;
       this.resetSelectedDateValues();
@@ -953,9 +893,6 @@ export default defineComponent({
       const dateRange = Periods.parse(period, dateStr).getDateRange();
       this.startRangeDate = format(dateRange[0] < piwikMinDate ? piwikMinDate : dateRange[0]);
       this.endRangeDate = format(dateRange[1] > piwikMaxDate ? piwikMaxDate : dateRange[1]);
-    },
-    getSelectionKey(period: string, date: string) {
-      return `${period}|${date}`;
     },
     canInteractWithRangeCalendar(): boolean {
       return this.calendarViewport === 'range'
