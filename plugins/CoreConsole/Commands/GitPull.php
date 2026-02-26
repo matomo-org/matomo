@@ -12,8 +12,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
 
-/**
- */
 class GitPull extends ConsoleCommand
 {
     public function isEnabled()

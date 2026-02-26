@@ -13,8 +13,6 @@ use Piwik\Updates;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
-/**
- */
 class Updates_2_7_0_b2 extends Updates
 {
     /**

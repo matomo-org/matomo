@@ -33,8 +33,6 @@ use Piwik\Site;
 use Piwik\Url;
 use Piwik\View;
 
-/**
- */
 class SegmentEditor extends \Piwik\Plugin
 {
     public const NO_DATA_UNPROCESSED_SEGMENT_ID = 'nodata_segment_not_processed';

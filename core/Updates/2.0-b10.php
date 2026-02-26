@@ -12,8 +12,6 @@ namespace Piwik\Updates;
 use Piwik\Updates;
 use Piwik\Updater;
 
-/**
- */
 class Updates_2_0_b10 extends Updates
 {
     public function doUpdate(Updater $updater)

@@ -20,8 +20,6 @@ use Piwik\Piwik;
 use Zend_Config;
 use Zend_Db_Adapter_Pdo_Mysql;
 
-/**
- */
 class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 {
     use Db\TransactionalDatabaseDynamicTrait;

@@ -12,8 +12,6 @@ namespace Piwik\Plugins\Transitions;
 use Piwik\Common;
 use Piwik\Config;
 
-/**
- */
 class Transitions extends \Piwik\Plugin
 {
     /**

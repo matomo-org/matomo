@@ -13,9 +13,6 @@ use Piwik\Cache;
 use Matomo\Cache\Lazy;
 use Piwik\Http;
 
-/**
- *
- */
 class RssRenderer
 {
     protected $url = null;

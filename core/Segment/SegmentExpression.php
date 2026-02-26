@@ -11,9 +11,6 @@ namespace Piwik\Segment;
 
 use Exception;
 
-/**
- *
- */
 class SegmentExpression
 {
     public const AND_DELIMITER = ';';

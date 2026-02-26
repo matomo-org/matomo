@@ -26,9 +26,6 @@ use Piwik\SettingsPiwik;
 use Piwik\Tracker;
 use Piwik\View;
 
-/**
- *
- */
 class ScheduledReports extends \Piwik\Plugin
 {
     public const DISPLAY_FORMAT_GRAPHS_ONLY_FOR_KEY_METRICS = 1; // Display Tables Only (Graphs only for key metrics)

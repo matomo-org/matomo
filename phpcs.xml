@@ -33,6 +33,7 @@
     </rule>
 
     <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma" />
+    <rule ref="SlevomatCodingStandard.Commenting.EmptyComment" />
     <rule ref="SlevomatCodingStandard.Commenting.ForbiddenComments">
         <properties>
             <property name="forbiddenCommentPatterns" type="array">

@@ -13,8 +13,6 @@ use Piwik\Cache;
 use Piwik\Plugin\Manager;
 use Piwik\Plugins\LanguagesManager\API;
 
-/**
- */
 class Update extends TranslationBase
 {
     protected function configure()
