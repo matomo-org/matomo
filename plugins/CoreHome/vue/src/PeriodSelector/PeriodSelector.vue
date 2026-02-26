@@ -206,6 +206,7 @@ import type {
   PresetDateRangeId,
   PresetDateRangeSelection,
 } from './PresetDateRangeResolver';
+import { getTokenPresetIdFromPeriodAndDate } from './PresetDateRangeResolver';
 
 const Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
 
@@ -730,11 +731,23 @@ export default defineComponent({
         }
 
         this.periodValue = RANGE_PERIOD;
-        this.commitSelectionToUrl(dateString, RANGE_PERIOD);
+        this.commitSelectionToUrl(
+          this.getCurrentRollingDateParamIfOwnedByPreset() || dateString,
+          RANGE_PERIOD,
+        );
         return;
       }
 
-      if (!this.isCompareDirty || this.hasPendingNonRangePeriodChange) {
+      if (this.hasPendingNonRangePeriodChange) {
+        return;
+      }
+
+      if (!this.isCompareDirty) {
+        if (this.uiSelection.type === 'preset'
+          && this.selectedPeriod !== RANGE_PERIOD
+        ) {
+          this.closePeriodSelector();
+        }
         return;
       }
 
@@ -743,7 +756,11 @@ export default defineComponent({
           return;
         }
 
-        this.commitSelectionToUrl(`${this.startRangeDate},${this.endRangeDate}`, RANGE_PERIOD);
+        this.commitSelectionToUrl(
+          this.getCurrentRollingDateParamIfOwnedByPreset()
+          || `${this.startRangeDate},${this.endRangeDate}`,
+          RANGE_PERIOD,
+        );
         return;
       }
 
@@ -751,7 +768,10 @@ export default defineComponent({
         return;
       }
 
-      this.commitSelectionToUrl(format(this.dateValue), this.periodValue);
+      this.commitSelectionToUrl(
+        this.getCurrentRollingDateParamIfOwnedByPreset() || format(this.dateValue),
+        this.periodValue,
+      );
     },
     updateComparisonValuesFromStore() {
       this.comparePeriodType = 'previousPeriod';
@@ -828,7 +848,7 @@ export default defineComponent({
 
       return syncedUiSelection;
     },
-    applyUiSelectionFromHash(period: string, syncedUiSelection: UiSelection|null) {
+    applyUiSelectionFromHash(period: string, date: string, syncedUiSelection: UiSelection|null) {
       if (syncedUiSelection) {
         this.uiSelection = syncedUiSelection;
         this.activePresetId = syncedUiSelection.type === 'preset'
@@ -837,8 +857,38 @@ export default defineComponent({
         return;
       }
 
+      const presetId = getTokenPresetIdFromPeriodAndDate(period, date);
+      if (presetId
+        && this.periodsFiltered.includes(period)
+      ) {
+        this.uiSelection = { type: 'preset', id: presetId };
+        this.activePresetId = presetId;
+        this.pendingPresetSelection = null;
+        this.stagedRangeStartDate = null;
+        this.stagedRangeEndDate = null;
+        return;
+      }
+
       this.setUiSelection({ type: 'period', id: period }, null);
       this.clearPresetSelection();
+    },
+    getCurrentRollingDateParamIfOwnedByPreset(): string|null {
+      if (this.uiSelection.type !== 'preset') {
+        return null;
+      }
+
+      const parsedPeriod = (MatomoUrl.parsed.value.period as string) || '';
+      const parsedDate = (MatomoUrl.parsed.value.date as string) || '';
+      if (parsedPeriod !== this.periodValue || !parsedDate) {
+        return null;
+      }
+
+      const presetId = getTokenPresetIdFromPeriodAndDate(parsedPeriod, parsedDate);
+      if (presetId !== this.uiSelection.id) {
+        return null;
+      }
+
+      return parsedDate;
     },
     resetSelectedDateValues() {
       this.dateValue = null;
@@ -875,7 +925,7 @@ export default defineComponent({
         currentSelectionKey,
         currentContextKey,
       );
-      this.applyUiSelectionFromHash(period, syncedUiSelection);
+      this.applyUiSelectionFromHash(period, date, syncedUiSelection);
       this.periodValue = period;
       this.selectedPeriod = period;
       this.resetSelectedDateValues();
@@ -883,10 +933,16 @@ export default defineComponent({
       try {
         Periods.parse(period, date);
       } catch (e) {
+        if (period === RANGE_PERIOD) {
+          this.isRangeValid = false;
+        } else {
+          this.isRangeValid = null;
+        }
         return;
       }
 
       this.applyDateValuesFromHash(period, date);
+      this.isRangeValid = period === RANGE_PERIOD ? true : null;
       this.pendingPresetSelection = null;
       this.stagedRangeStartDate = null;
       this.stagedRangeEndDate = null;
