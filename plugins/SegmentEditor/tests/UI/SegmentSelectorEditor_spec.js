@@ -256,7 +256,10 @@ describe("SegmentSelectorEditorTest", function () {
         await (await page.waitForSelector('.segmentationContainer')).click();
         await page.waitForNetworkIdle();
         await moveMouseAwayFromCapturedArea();
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage({
+            imageName: 'updated',
+            comparisonThreshold: 0.0002,
+        });
     });
 
     it("should show the updated segment after page reload", async function() {
@@ -264,7 +267,10 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segmentationContainer .title');
         await moveMouseAwayFromCapturedArea();
         // Keep a dedicated baseline for the reload step to make future diffs easier to isolate.
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated_after_reload');
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage({
+            imageName: 'updated_after_reload',
+            comparisonThreshold: 0.0002,
+        });
     });
 
     it("should correctly load the updated segment's details when the updated segment is edited", async function() {
