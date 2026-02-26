@@ -18,7 +18,7 @@ interface PresetDateRangeSelection {
   endDate: Date;
 }
 
-describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
+describe('PresetDateRanges', () => {
   function getSelectPayload(wrapper: ReturnType<typeof mount>): PresetDateRangeSelection {
     const events = wrapper.emitted('select') || [];
     return events[events.length - 1]?.[0] as PresetDateRangeSelection;

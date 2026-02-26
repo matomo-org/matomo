@@ -26,7 +26,7 @@ jest.mock('../translate', () => ({
 
 const PeriodOptions = require('./PeriodOptions.vue').default;
 
-describe('CoreHome/PeriodSelector/PeriodOptions component', () => {
+describe('PeriodOptions', () => {
   function mountComponent(customProps = {}) {
     return mount(PeriodOptions, {
       props: {

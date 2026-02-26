@@ -28,7 +28,7 @@ function createContextKey(parsed: Record<string, unknown>): string {
   return getContextKeyFromParsed(parsed);
 }
 
-describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', () => {
+describe('PeriodSelector', () => {
   const component = PeriodSelector as unknown as {
     methods: Record<string, (...args: unknown[]) => unknown>;
     computed: Record<string, (...args: unknown[]) => unknown>;
