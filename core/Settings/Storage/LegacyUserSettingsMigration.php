@@ -115,27 +115,43 @@ class LegacyUserSettingsMigration
     private function migrateProfessionalServicesSettings(array $knownLogins): int
     {
         $migratedCount = 0;
+        $prefix = 'ProfessionalServices.DismissedWidget.';
+        $legacySettings = Option::getLike($prefix . '%');
+        $legacyByLogin = [];
 
-        foreach (array_keys($knownLogins) as $login) {
-            $legacySettings = Option::getLike('ProfessionalServices.DismissedWidget.%.' . $login);
-            if (empty($legacySettings)) {
+        foreach ($legacySettings as $optionName => $optionValue) {
+            if (!str_starts_with($optionName, $prefix)) {
                 continue;
             }
 
-            $pattern = '/^ProfessionalServices\.DismissedWidget\.(.+)\.' . preg_quote($login, '/') . '$/';
+            $lastSeparatorPosition = strrpos($optionName, '.');
+            if ($lastSeparatorPosition === false) {
+                continue;
+            }
+
+            $login = substr($optionName, $lastSeparatorPosition + 1);
+            if ($login === '' || !isset($knownLogins[$login])) {
+                continue;
+            }
+
+            $widgetName = substr($optionName, strlen($prefix), $lastSeparatorPosition - strlen($prefix));
+            if ($widgetName === '') {
+                continue;
+            }
+
+            $legacyByLogin[$login][$widgetName] = (int) $optionValue;
+        }
+
+        foreach ($legacyByLogin as $login => $legacyWidgets) {
             $dismissedWidgets = $this->store->get('ProfessionalServices', $login, 'dismissedWidgets', []);
             if (!is_array($dismissedWidgets)) {
                 $dismissedWidgets = [];
             }
 
             $hasChanges = false;
-            foreach ($legacySettings as $optionName => $optionValue) {
-                if (!preg_match($pattern, $optionName, $matches)) {
-                    continue;
-                }
-
-                if (!isset($dismissedWidgets[$matches[1]])) {
-                    $dismissedWidgets[$matches[1]] = (int) $optionValue;
+            foreach ($legacyWidgets as $widgetName => $optionValue) {
+                if (!isset($dismissedWidgets[$widgetName])) {
+                    $dismissedWidgets[$widgetName] = $optionValue;
                     $hasChanges = true;
                 }
             }
@@ -144,8 +160,6 @@ class LegacyUserSettingsMigration
                 $this->store->set('ProfessionalServices', $login, 'dismissedWidgets', $dismissedWidgets);
                 ++$migratedCount;
             }
-
-            Option::deleteLike('ProfessionalServices.DismissedWidget.%.' . $login);
         }
 
         Option::deleteLike('ProfessionalServices.DismissedWidget.%');
