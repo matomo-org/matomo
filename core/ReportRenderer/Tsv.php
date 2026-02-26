@@ -145,6 +145,7 @@ class Tsv extends ReportRenderer
         $tsvRenderer->setIdSite($this->idSite);
         $tsvRenderer->setTable($table);
         $tsvRenderer->setConvertToUnicode(false);
+        $tsvRenderer->setTranslateColumnNames(true);
         $tsvRenderer->setApiMethod(
             $this->getApiMethodNameFromUniqueId($uniqueId)
         );
