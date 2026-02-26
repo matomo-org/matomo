@@ -62,6 +62,9 @@ describe("ScheduledReports", function () {
             await page.waitForSelector('#addEditReport', { visible: true });
             await page.waitForSelector('.selectedReportsList li', { visible: true });
         }
+        async function getReportsWrapper() {
+          return await page.$('.selectedReportsWrapper');
+        }
 
         it("should show selected reports when creating a new report", async function () {
             await page.goto(manageReportsUrl);
@@ -84,24 +87,14 @@ describe("ScheduledReports", function () {
                     selectedReportIds.push(uniqueId);
                 }
             }
-            const selectedReportsWrapper = await page.$('.selectedReportsWrapper');
+            const selectedReportsWrapper = await getReportsWrapper();
             expect(await selectedReportsWrapper.screenshot()).to.matchImage('selected_reports');
-        });
-
-        it("should show invalid dashboard message and remove idDashboard for malformed dashboard export url", async function () {
-            await page.goto(`${manageReportsUrl}&idDashboard=foo`);
-            await page.waitForNetworkIdle();
-
-            await page.waitForFunction(
-              () => document.body.textContent.includes('This dashboard could not be exported.'),
-            );
-
-            const currentUrl = page.url();
-            expect(currentUrl).to.not.contain('idDashboard=');
         });
 
         it("should persist manually reordered selected reports when saving a report", async function () {
             await openReportForTesting();
+            let selectedReportsWrapper = await getReportsWrapper();
+            expect(await selectedReportsWrapper.screenshot()).to.matchImage('before_reorder');
 
             const initialOrder = await page.$$eval(
               '.selectedReportsList li',
@@ -129,9 +122,17 @@ describe("ScheduledReports", function () {
                 }
             }, expectedOrder);
 
+            const descriptionSelector = 'textarea[name="report_description"], input[name="report_description"]';
+            await page.waitForSelector(descriptionSelector, { visible: true });
+            await page.click(descriptionSelector, { clickCount: 3 });
+            await page.keyboard.press('Backspace');
+            await page.type(descriptionSelector, createdReportName);
+            await page.keyboard.press('Tab');
+            await page.$eval(descriptionSelector, (descriptionField) => {
+                descriptionField.dispatchEvent(new Event('change', { bubbles: true }));
+            });
             await page.click('.matomo-save-button .btn');
             await page.waitForNetworkIdle();
-            await page.waitForTimeout(500);
 
             await openReportForTesting();
             const persistedOrder = await page.$$eval(
@@ -140,9 +141,20 @@ describe("ScheduledReports", function () {
             );
 
             expect(persistedOrder).to.deep.equal(expectedOrder);
-
-            const selectedReportsWrapper = await page.$('.selectedReportsWrapper');
+            selectedReportsWrapper = await getReportsWrapper();
             expect(await selectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
+        });
+
+        it("should show invalid dashboard message and remove idDashboard for malformed dashboard export url", async function () {
+          await page.goto(`${manageReportsUrl}&idDashboard=foo`);
+          await page.waitForNetworkIdle();
+
+          await page.waitForFunction(
+            () => document.body.textContent.includes('This dashboard could not be exported.'),
+          );
+
+          const currentUrl = page.url();
+          expect(currentUrl).to.not.contain('idDashboard=');
         });
     });
 });
