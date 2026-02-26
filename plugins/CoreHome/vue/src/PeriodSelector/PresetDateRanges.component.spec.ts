@@ -6,6 +6,7 @@
  */
 
 import { mount } from '@vue/test-utils';
+import { format } from '../Periods';
 
 const PresetDateRanges = require('./PresetDateRanges.vue').default;
 
@@ -95,8 +96,8 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
     expect(selectPayload.id).toBe('lastMonth');
     expect(selectPayload.period).toBe('month');
     expect(selectPayload.date).toBe('lastmonth');
-    expect(selectPayload.startDate.toISOString().substring(0, 10)).toBe('2026-01-01');
-    expect(selectPayload.endDate.toISOString().substring(0, 10)).toBe('2026-01-31');
+    expect(format(selectPayload.startDate)).toBe('2026-01-01');
+    expect(format(selectPayload.endDate)).toBe('2026-01-31');
   });
 
   it('should emit explicit date ranges for range presets', async () => {
@@ -115,8 +116,8 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
     await wrapper.find('#preset_date_lastWeekMonSun').trigger('change');
 
     const selectPayload = getSelectPayload(wrapper);
-    expect(selectPayload.startDate.toISOString().substring(0, 10)).toBe('2026-02-02');
-    expect(selectPayload.endDate.toISOString().substring(0, 10)).toBe('2026-02-08');
+    expect(format(selectPayload.startDate)).toBe('2026-02-02');
+    expect(format(selectPayload.endDate)).toBe('2026-02-08');
   });
 
   it('should resolve quarter boundary behavior correctly', async () => {
@@ -139,8 +140,8 @@ describe('CoreHome/PeriodSelector/PresetDateRanges component', () => {
     await wrapper.find('#preset_date_last7days').trigger('change');
 
     const selectPayload = getSelectPayload(wrapper);
-    expect(selectPayload.startDate.toISOString().substring(0, 10)).toBe('2026-02-14');
-    expect(selectPayload.endDate.toISOString().substring(0, 10)).toBe('2026-02-15');
+    expect(format(selectPayload.startDate)).toBe('2026-02-14');
+    expect(format(selectPayload.endDate)).toBe('2026-02-15');
     expect(selectPayload.date).toBe('last7');
   });
 

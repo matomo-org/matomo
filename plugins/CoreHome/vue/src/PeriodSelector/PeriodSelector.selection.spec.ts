@@ -9,6 +9,11 @@ import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { Periods, format } from '../Periods';
+import {
+  getContextKeyFromParsed,
+  resolveSyncedUiSelection,
+  shouldSkipHashSync,
+} from './PeriodSelectorHashSync';
 
 window.piwik.minDateYear = 2011;
 window.piwik.minDateMonth = 11;
@@ -19,17 +24,8 @@ window.piwik.maxDateDay = 29;
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PeriodSelector = require('./PeriodSelector.vue').default;
-const CONTEXT_KEY_IGNORED_PARAMS = ['date', 'period', 'comparePeriods', 'comparePeriodType', 'compareDates', 'compareSegments'];
-
 function createContextKey(parsed: Record<string, unknown>): string {
-  const context: Record<string, unknown> = {};
-  Object.keys(parsed)
-    .filter((key) => !CONTEXT_KEY_IGNORED_PARAMS.includes(key))
-    .sort()
-    .forEach((key) => {
-      context[key] = parsed[key];
-    });
-  return JSON.stringify(context);
+  return getContextKeyFromParsed(parsed);
 }
 
 describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', () => {
@@ -543,8 +539,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       lastKnownHashContextKey: baseContextKey,
     };
 
-    expect(methods.shouldSkipHashSync.call(
-      vm,
+    expect(shouldSkipHashSync(
       'day|today',
       createContextKey({
         module: 'CoreHome',
@@ -554,6 +549,9 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
         date: 'today',
         period: 'day',
       }),
+      vm.nextHashUiSelection,
+      vm.lastKnownHashSelectionKey,
+      vm.lastKnownHashContextKey,
     )).toBe(false);
   });
 
@@ -564,17 +562,21 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       lastKnownHashContextKey: baseContextKey,
     };
 
-    expect(methods.shouldSkipHashSync.call(
-      vm,
+    expect(shouldSkipHashSync(
       'day|today',
       baseContextKey,
+      vm.nextHashUiSelection,
+      vm.lastKnownHashSelectionKey,
+      vm.lastKnownHashContextKey,
     )).toBe(true);
 
     vm.nextHashUiSelection = { type: 'period', id: 'day' };
-    expect(methods.shouldSkipHashSync.call(
-      vm,
+    expect(shouldSkipHashSync(
       'day|today',
       baseContextKey,
+      vm.nextHashUiSelection,
+      vm.lastKnownHashSelectionKey,
+      vm.lastKnownHashContextKey,
     )).toBe(false);
   });
 
@@ -593,8 +595,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       }),
     };
 
-    expect(methods.shouldSkipHashSync.call(
-      vm,
+    expect(shouldSkipHashSync(
       'day|today',
       createContextKey({
         module: 'CoreHome',
@@ -605,6 +606,9 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
         date: 'today',
         period: 'day',
       }),
+      vm.nextHashUiSelection,
+      vm.lastKnownHashSelectionKey,
+      vm.lastKnownHashContextKey,
     )).toBe(false);
 
     vm.lastKnownHashContextKey = createContextKey({
@@ -617,8 +621,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       date: 'today',
       period: 'day',
     });
-    expect(methods.shouldSkipHashSync.call(
-      vm,
+    expect(shouldSkipHashSync(
       'day|today',
       createContextKey({
         module: 'CoreHome',
@@ -630,11 +633,14 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
         date: 'today',
         period: 'day',
       }),
+      vm.nextHashUiSelection,
+      vm.lastKnownHashSelectionKey,
+      vm.lastKnownHashContextKey,
     )).toBe(false);
   });
 
   it('changes context key when non-ignored params change', () => {
-    const contextA = methods.getContextKeyFromParsed.call({}, {
+    const contextA = getContextKeyFromParsed({
       module: 'CoreHome',
       action: 'index',
       category: 'General_Actions',
@@ -643,7 +649,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       date: 'today',
       period: 'day',
     });
-    const contextB = methods.getContextKeyFromParsed.call({}, {
+    const contextB = getContextKeyFromParsed({
       module: 'CoreHome',
       action: 'index',
       category: 'General_Actions',
@@ -657,7 +663,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
   });
 
   it('keeps context key unchanged for compare-only param changes', () => {
-    const contextA = methods.getContextKeyFromParsed.call({}, {
+    const contextA = getContextKeyFromParsed({
       module: 'CoreHome',
       action: 'index',
       category: 'General_Actions',
@@ -669,7 +675,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       date: 'today',
       period: 'day',
     });
-    const contextB = methods.getContextKeyFromParsed.call({}, {
+    const contextB = getContextKeyFromParsed({
       module: 'CoreHome',
       action: 'index',
       category: 'General_Actions',
@@ -686,7 +692,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
   });
 
   it('keeps context key unchanged when only compareSegments changes', () => {
-    const contextA = methods.getContextKeyFromParsed.call({}, {
+    const contextA = getContextKeyFromParsed({
       module: 'CoreHome',
       action: 'index',
       category: 'General_Actions',
@@ -695,7 +701,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       date: 'today',
       period: 'day',
     });
-    const contextB = methods.getContextKeyFromParsed.call({}, {
+    const contextB = getContextKeyFromParsed({
       module: 'CoreHome',
       action: 'index',
       category: 'General_Actions',
@@ -709,7 +715,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
   });
 
   it('builds deterministic context keys regardless of object key order', () => {
-    const contextA = methods.getContextKeyFromParsed.call({}, {
+    const contextA = getContextKeyFromParsed({
       module: 'CoreHome',
       action: 'index',
       category: 'General_Actions',
@@ -718,7 +724,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       date: 'today',
       period: 'day',
     });
-    const contextB = methods.getContextKeyFromParsed.call({}, {
+    const contextB = getContextKeyFromParsed({
       period: 'day',
       date: 'today',
       segment: 'countryCode==US',
@@ -732,24 +738,17 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
   });
 
   it('stores selection and context keys when resolving synced ui selection', () => {
-    const vm: any = {
-      nextHashUiSelection: null,
-      nextHashSelectionKey: null,
-      lastInteractionSource: 'period',
-      lastKnownHashSelectionKey: null,
-      lastKnownHashContextKey: null,
-    };
-
-    const synced = methods.resolveSyncedUiSelection.call(
-      vm,
+    const result = resolveSyncedUiSelection(
       'day|today',
       baseContextKey,
+      null,
+      null,
     );
 
-    expect(synced).toBeNull();
-    expect(vm.lastInteractionSource).toBeNull();
-    expect(vm.lastKnownHashSelectionKey).toBe('day|today');
-    expect(vm.lastKnownHashContextKey).toBe(baseContextKey);
+    expect(result.syncedUiSelection).toBeNull();
+    expect(result.lastInteractionSource).toBeNull();
+    expect(result.lastKnownHashSelectionKey).toBe('day|today');
+    expect(result.lastKnownHashContextKey).toBe(baseContextKey);
   });
 
   it('sets range validity true when hash sync hydrates a valid range', () => {
@@ -773,10 +772,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       compareAppliedSignature: '',
       compareCurrentSignature: '{}',
       isRangeValid: null,
-      getSelectionKey: methods.getSelectionKey,
       getCurrentContextKey: jest.fn(() => baseContextKey),
-      shouldSkipHashSync: jest.fn(() => false),
-      resolveSyncedUiSelection: jest.fn(() => null),
       applyUiSelectionFromHash: methods.applyUiSelectionFromHash,
       setUiSelection: methods.setUiSelection,
       clearPresetSelection: methods.clearPresetSelection,
@@ -869,14 +865,14 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       selectedPeriod: 'week',
       canInteractWithSingleCalendar: jest.fn(() => true),
       setUiSelection: jest.fn(),
-      setPendingCalendarSelection: jest.fn(),
+      setPendingPeriodAndDate: jest.fn(),
       clearPresetSelection: jest.fn(),
       commitSelectionToUrl: jest.fn(),
     };
 
     methods.onDatePickerSelected.call(vm, new Date('2026-02-18'));
 
-    expect(vm.setPendingCalendarSelection).toHaveBeenCalledTimes(1);
+    expect(vm.setPendingPeriodAndDate).toHaveBeenCalledTimes(1);
     expect(vm.commitSelectionToUrl).toHaveBeenCalledWith(expect.any(String), 'week');
   });
 
@@ -1020,7 +1016,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       selectedPeriod: 'day',
       canInteractWithSingleCalendar: jest.fn(() => false),
       setUiSelection: jest.fn(),
-      setPendingCalendarSelection: jest.fn(),
+      setPendingPeriodAndDate: jest.fn(),
       clearPresetSelection: jest.fn(),
       commitSelectionToUrl: jest.fn(),
     };
@@ -1028,7 +1024,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     methods.onDatePickerSelected.call(vm, new Date('2026-02-18'));
 
     expect(vm.commitSelectionToUrl).not.toHaveBeenCalled();
-    expect(vm.setPendingCalendarSelection).not.toHaveBeenCalled();
+    expect(vm.setPendingPeriodAndDate).not.toHaveBeenCalled();
   });
 
   it('makes range picker readonly when a range preset owns selection', () => {
