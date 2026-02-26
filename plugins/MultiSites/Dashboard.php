@@ -12,10 +12,12 @@ namespace Piwik\Plugins\MultiSites;
 use Piwik\API\DataTablePostProcessor;
 use Piwik\API\Request;
 use Piwik\API\ResponseBuilder;
+use Piwik\Columns\Dimension;
 use Piwik\NumberFormatter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row\DataTableSummaryRow;
 use Piwik\Period;
+use Piwik\Plugins\PrivacyManager\DataRounding;
 use Piwik\Site;
 
 /**
@@ -130,6 +132,29 @@ class Dashboard
             'ai_chatbots_requests'  => $this->sitesByGroup->getMetadata('total_ai_chatbots_requests') ?? 0,
             'previous_ai_chatbots_requests' => $this->sitesByGroup->getMetadata('previous_total_ai_chatbots_requests') ?? 0,
         ];
+
+        $request = \Piwik\Request::fromRequest();
+        $roundingRequest = [
+            'idSite' => $request->getStringParameter('idSite', $request->getStringParameter('idsite', '')),
+            'segment' => $request->getStringParameter('segment', ''),
+        ];
+        if (DataRounding::shouldApplyForRequest($roundingRequest)) {
+            $totals = DataRounding::roundCountArrayValues($totals, [
+                'nb_pageviews' => Dimension::TYPE_NUMBER,
+                'nb_visits' => Dimension::TYPE_NUMBER,
+                'hits' => Dimension::TYPE_NUMBER,
+                'nb_actions' => Dimension::TYPE_NUMBER,
+                'revenue' => Dimension::TYPE_MONEY,
+                'previous_nb_pageviews' => Dimension::TYPE_NUMBER,
+                'previous_nb_visits' => Dimension::TYPE_NUMBER,
+                'previous_hits' => Dimension::TYPE_NUMBER,
+                'previous_nb_actions' => Dimension::TYPE_NUMBER,
+                'previous_revenue' => Dimension::TYPE_MONEY,
+                'ai_chatbots_requests' => Dimension::TYPE_NUMBER,
+                'previous_ai_chatbots_requests' => Dimension::TYPE_NUMBER,
+            ]);
+        }
+
         $this->formatMetrics($totals);
         return $totals;
     }

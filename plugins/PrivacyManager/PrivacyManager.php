@@ -213,6 +213,21 @@ class PrivacyManager extends Plugin
 
     public function onConfigureVisualisation(Plugin\Visualization $view)
     {
+        $roundingRequest = [
+            'idSite' => $view->requestConfig->getRequestParam('idSite') ?: $view->requestConfig->getRequestParam('idsite'),
+            'segment' => $view->requestConfig->getRequestParam('segment'),
+        ];
+
+        if (DataRounding::shouldApplyForRequest($roundingRequest)) {
+            if (!$view->config->show_footer_message) {
+                $view->config->show_footer_message = '';
+            } elseif (!str_ends_with($view->config->show_footer_message, '<br/>')) {
+                $view->config->show_footer_message .= '<br/>';
+            }
+
+            $view->config->show_footer_message .= Piwik::translate('PrivacyManager_InfoCountsRoundedForPrivacy');
+        }
+
         if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
             $idSite = $view->requestConfig->getRequestParam('idsite');
             if (!is_numeric($idSite) || !$idSite) {

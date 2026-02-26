@@ -18,7 +18,9 @@ use Piwik\DataTable\Filter\Pattern;
 use Piwik\DataTable\Renderer;
 use Piwik\ExceptionHandler;
 use Piwik\Http\HttpCodeException;
+use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
+use Piwik\Plugins\PrivacyManager\DataRounding;
 
 /**
  */
@@ -191,6 +193,14 @@ class ResponseBuilder
         if ($this->postProcessDataTable) {
             $postProcessor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
             $datatable = $postProcessor->process($datatable);
+        } elseif (DataRounding::shouldApplyForRequest($this->request)) {
+            $report = null;
+            if (!empty($this->apiModule) && !empty($this->apiMethod)) {
+                $report = ReportsProvider::factory($this->apiModule, $this->apiMethod);
+            }
+
+            $datatable = clone $datatable;
+            DataRounding::roundCountMetrics($datatable, $report);
         }
 
         return $this->apiRenderer->renderDataTable($datatable);
