@@ -144,14 +144,14 @@
         "UseEventValueAsRevenue": "Utilisez la valeur de l'événement (si elle existe) en tant que revenu lié à la conversion de l'objectif.",
         "ViewAndEditGoals": "Afficher et modifier un Objectif",
         "VisitDuration": "durée de visite est",
-        "VisitDurationMatchAttr": "Rester pendant un certain temps",
-        "VisitPageTitle": "Visiter la page titrée ainsi",
-        "VisitUrl": "Visitent une URL donnée (page ou groupe de pages)",
+        "VisitDurationMatchAttr": "Restent pendant un certain temps",
+        "VisitPageTitle": "Visitent une page avec un titre spécifique",
+        "VisitUrl": "Visitent une page avec une URL spécifique (page ou groupe de pages)",
         "VisitsUntilConv": "Visites par conversion",
         "VisitsUntilConvColumnDocumentation": "Nombre total de conversions d’objectifs survenues au cours de chaque visite. Représente le nombre de visites effectuées avant la conversion.",
         "VisitsUntilConvReportDocumentation": "Ce rapport indique le nombre de visites avant qu'un visiteur atteigne un objectif.",
         "WhenVisitors": "quand les visiteurs",
-        "WhereThe": "où le",
+        "WhereThe": "où",
         "WhereVisitedPageManuallyCallsJavascriptTrackerLearnMore": "La page visité doit contenir un appel à la méthode JavaScript 'trackGoal' (%1$sapprenez-en plus%2$s)",
         "YouCanEnableEcommerceReports": "Vous pouvez activer %1$s pour ce site web sur la page %2$s."
     }
