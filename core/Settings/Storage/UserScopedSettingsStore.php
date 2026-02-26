@@ -45,7 +45,6 @@ class UserScopedSettingsStore
 
     /**
      * @param mixed $value
-     * @return void
      */
     public function set(string $pluginName, string $userLogin, string $key, $value): void
     {
@@ -54,9 +53,6 @@ class UserScopedSettingsStore
         $this->setAll($pluginName, $userLogin, $settings);
     }
 
-    /**
-     * @return array
-     */
     public function getAll(string $pluginName, string $userLogin): array
     {
         $this->validatePluginAndLogin($pluginName, $userLogin);
@@ -73,7 +69,6 @@ class UserScopedSettingsStore
 
     /**
      * @param array $settings
-     * @return void
      */
     public function setAll(string $pluginName, string $userLogin, array $settings): void
     {
