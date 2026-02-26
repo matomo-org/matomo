@@ -39,7 +39,7 @@
   }
 
   // Match spacing to range mode by adding top space only when a single calendar is shown.
-  .period-date + .compare-checkbox {
+  #periodMore.single-calendar .period-date + .compare-checkbox {
     margin-top: 10px;
   }
 
@@ -133,22 +133,37 @@
 
   .period-selector-options-column {
     #otherPeriods .periodOptions {
-      p {
-        padding: 5px 0 5px 0;
-        &:hover {
-          background-color: @color-silver-l95;
-          border-radius: 5px;
-        }
-      }
       p:first-child {
         margin-top: 5px;
       }
-      label {
+      button {
+        padding: 5px 0 5px 0;
+        background: transparent;
+        border: 0;
+        border-radius: 5px;
+        color: @color-silver;
         cursor: pointer;
+        display: block;
+        font: inherit;
+        margin: 0;
+        outline: none;
         padding-left: 8px;
+        text-align: left;
+        width: 100%;
+        font-size: 13px;
+
+        &:hover {
+          background-color: @color-silver-l95;
+        }
+
+        &:focus-visible {
+          background-color: @color-silver-l95;
+          outline: 2px solid @theme-color-focus-ring;
+          outline-offset: 0;
+        }
       }
 
-      label.selected-period-label {
+      button.selected-period-label {
         color: @theme-color-text;
         font-weight: 600;
       }

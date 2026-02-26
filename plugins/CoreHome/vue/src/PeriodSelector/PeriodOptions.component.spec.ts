@@ -16,6 +16,7 @@ jest.mock('../translate', () => ({
       Intl_PeriodYear: 'year',
       General_DateRangeInPeriodList: 'date range',
       General_Custom: 'Custom',
+      General_ChoosePeriod: 'Choose period',
       General_DoubleClickToChangePeriod: 'Double click to change period',
     };
 
@@ -41,8 +42,16 @@ describe('CoreHome/PeriodSelector/PeriodOptions component', () => {
   it('should render all provided period options', () => {
     const wrapper = mountComponent();
 
-    expect(wrapper.findAll('.periodOptions label').length).toBe(5);
-    expect(wrapper.findAll('.periodOptions label')[0].attributes('id')).toBe('period_id_range');
+    expect(wrapper.findAll('.periodOptions button').length).toBe(5);
+    expect(wrapper.findAll('.periodOptions button')[0].attributes('id')).toBe('period_id_range');
+  });
+
+  it('should expose group semantics for period options', () => {
+    const wrapper = mountComponent();
+    const optionsGroup = wrapper.find('.periodOptions');
+
+    expect(optionsGroup.attributes('role')).toBe('group');
+    expect(optionsGroup.attributes('aria-label')).toBe('Choose period');
   });
 
   it('should capitalize period labels and show custom date range for range', () => {
@@ -72,6 +81,30 @@ describe('CoreHome/PeriodSelector/PeriodOptions component', () => {
     expect(wrapper.emitted('dblclick')?.[0]).toEqual([{ period: 'week' }]);
   });
 
+  it('should render native button options', () => {
+    const wrapper = mountComponent();
+
+    const options = wrapper.findAll('.periodOptions button');
+    expect(options.length).toBe(5);
+    options.forEach((option) => {
+      expect(option.attributes('type')).toBe('button');
+    });
+  });
+
+  it('should expose selected state with aria-pressed', async () => {
+    const wrapper = mountComponent({
+      checkedPeriodId: 'day',
+    });
+
+    expect(wrapper.find('#period_id_day').attributes('aria-pressed')).toBe('true');
+    expect(wrapper.find('#period_id_week').attributes('aria-pressed')).toBe('false');
+
+    await wrapper.setProps({ checkedPeriodId: 'week' });
+
+    expect(wrapper.find('#period_id_day').attributes('aria-pressed')).toBe('false');
+    expect(wrapper.find('#period_id_week').attributes('aria-pressed')).toBe('true');
+  });
+
   it('should check only when owner is active', async () => {
     const wrapper = mountComponent({
       modelValue: 'month',
@@ -91,8 +124,8 @@ describe('CoreHome/PeriodSelector/PeriodOptions component', () => {
       activeDatePeriod: 'day',
     });
 
-    const dayLabel = wrapper.find('#period_id_day').element as HTMLLabelElement;
-    const weekLabel = wrapper.find('#period_id_week').element as HTMLLabelElement;
+    const dayLabel = wrapper.find('#period_id_day').element as HTMLButtonElement;
+    const weekLabel = wrapper.find('#period_id_week').element as HTMLButtonElement;
 
     expect(dayLabel.title).toBe('');
     expect(weekLabel.title).not.toBe('');
