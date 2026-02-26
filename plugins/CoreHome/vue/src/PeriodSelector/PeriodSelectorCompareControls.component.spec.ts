@@ -9,7 +9,7 @@ import { mount } from '@vue/test-utils';
 
 const PeriodSelectorCompareControls = require('./PeriodSelectorCompareControls.vue').default;
 
-describe('CoreHome/PeriodSelector/PeriodSelectorCompareControls component', () => {
+describe('PeriodSelectorCompareControls', () => {
   function mountComponent(customProps = {}) {
     return mount(PeriodSelectorCompareControls, {
       props: {
