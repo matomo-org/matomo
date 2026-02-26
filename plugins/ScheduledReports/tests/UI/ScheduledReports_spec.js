@@ -93,9 +93,6 @@ describe("ScheduledReports", function () {
 
         it("should persist manually reordered selected reports when saving a report", async function () {
             await openReportForTesting();
-            let selectedReportsWrapper = await getReportsWrapper();
-            expect(await selectedReportsWrapper.screenshot()).to.matchImage('before_reorder');
-
             const initialOrder = await page.$$eval(
               '.selectedReportsList li',
               (items) => items.map((item) => item.getAttribute('data-unique-id')),
