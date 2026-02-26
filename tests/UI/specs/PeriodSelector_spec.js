@@ -77,6 +77,38 @@ describe("PeriodSelector", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage('week_selected');
     });
 
+    it('should activate a period option via Enter key', async function () {
+        await page.focus('#period_id_week');
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(150);
+
+        const selectedState = await page.evaluate(function () {
+            return {
+                weekPressed: $('#period_id_week').attr('aria-pressed'),
+                dayPressed: $('#period_id_day').attr('aria-pressed'),
+            };
+        });
+
+        expect(selectedState.weekPressed).to.equal('true');
+        expect(selectedState.dayPressed).to.equal('false');
+    });
+
+    it('should activate a period option via Space key', async function () {
+        await page.focus('#period_id_month');
+        await page.keyboard.press('Space');
+        await page.waitForTimeout(150);
+
+        const selectedState = await page.evaluate(function () {
+            return {
+                monthPressed: $('#period_id_month').attr('aria-pressed'),
+                dayPressed: $('#period_id_day').attr('aria-pressed'),
+            };
+        });
+
+        expect(selectedState.monthPressed).to.equal('true');
+        expect(selectedState.dayPressed).to.equal('false');
+    });
+
     it("should change the date when a date is clicked in month-period mode", async function() {
         await page.click('#period_id_month');
         await page.waitForTimeout(250); // wait for animation
