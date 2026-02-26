@@ -27,7 +27,7 @@ class Mysql extends Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     use Db\TransactionalDatabaseDynamicTrait;
 
     /**
-     * Constructor
+     *
      *
      * @param array|Zend_Config $config database configuration
      */

@@ -30,7 +30,7 @@ class PatternRecursive extends BaseFilter
     private $patternToSearchQuoted;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The table to eventually filter.
      * @param string $columnToFilter The column to match with the `$patternToSearch` pattern.

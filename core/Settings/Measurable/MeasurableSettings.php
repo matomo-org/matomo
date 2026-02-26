@@ -42,7 +42,7 @@ abstract class MeasurableSettings extends Settings
     protected $idMeasurableType;
 
     /**
-     * Constructor.
+     *
      * @param int $idSite If creating settings for a new site that is not created yet, use idSite = 0
      * @param string|null $idMeasurableType If null, idType will be detected from idSite
      * @throws Exception

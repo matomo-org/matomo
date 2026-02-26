@@ -37,7 +37,7 @@ class BeautifyTimeRangeLabels extends BeautifyRangeLabels
     protected $labelSecondsPlural;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The DataTable this filter will run over.
      * @param string $labelSecondsPlural A string to use when beautifying range labels

@@ -136,7 +136,7 @@ class View implements ViewInterface
     public $sendHeadersWhenRendering = true;
 
     /**
-     * Constructor.
+     *
      *
      * @param string $templateFile The template file to load. Must be in the following format:
      *                             `"@MyPlugin/templateFileName"`. Note the absence of .twig

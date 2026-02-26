@@ -20,7 +20,7 @@ class AddSubtableSegmentMetadata extends BaseFilter
     private $dimensionValue;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The table to eventually filter.
      */

@@ -38,7 +38,7 @@ class MeasurableProperty extends \Piwik\Settings\Setting
     );
 
     /**
-     * Constructor.
+     *
      *
      * @param string $name The persisted name of the setting.
      * @param mixed $defaultValue  Default value for this setting if no value was specified.

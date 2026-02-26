@@ -25,7 +25,7 @@ class MeasurableSetting extends \Piwik\Settings\Setting
     private $idSite = 0;
 
     /**
-     * Constructor.
+     *
      *
      * @param string $name The persisted name of the setting.
      * @param mixed $defaultValue  Default value for this setting if no value was specified.

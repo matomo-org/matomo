@@ -78,9 +78,6 @@ class PrivacyManager extends Plugin
     private $dntChecker = null;
     private $ipAnonymizer = null;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();

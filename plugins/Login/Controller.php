@@ -84,7 +84,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private $passwordStrength;
 
     /**
-     * Constructor.
+     *
      *
      * @param PasswordResetter $passwordResetter
      * @param \Piwik\Auth $auth

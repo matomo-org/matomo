@@ -113,7 +113,7 @@ class Segment
     public const SEGMENT_HAS_BUILT_CACHE_KEY = 'segmenthashbuilt';
 
     /**
-     * Constructor.
+     *
      *
      * When using segments that contain a != or !@ condition on a non visit dimension (e.g. action, conversion, ...) it
      * is needed to use a subquery to get correct results. To avoid subqueries that fetch too many data it's required to

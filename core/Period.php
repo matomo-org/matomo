@@ -54,7 +54,7 @@ abstract class Period
     protected $translator;
 
     /**
-     * Constructor.
+     *
      *
      * @ignore
      */

@@ -48,7 +48,7 @@ class ExcludeLowPopulation extends BaseFilter
     private $columnToFilter;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The DataTable that will be filtered eventually.
      * @param string $columnToFilter The name of the column whose value will determine whether

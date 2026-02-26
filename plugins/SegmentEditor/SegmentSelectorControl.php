@@ -28,9 +28,6 @@ class SegmentSelectorControl extends UIControl
 {
     public const TEMPLATE = "@SegmentEditor/_segmentSelector";
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();

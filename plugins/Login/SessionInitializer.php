@@ -57,7 +57,7 @@ class SessionInitializer
     private $authCookiePath;
 
     /**
-     * Constructor.
+     *
      *
      * @param UsersManagerAPI|null $usersManagerAPI
      * @param string|null $authCookieName

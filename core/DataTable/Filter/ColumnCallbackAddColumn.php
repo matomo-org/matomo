@@ -50,7 +50,7 @@ class ColumnCallbackAddColumn extends BaseFilter
     private $functionParameters;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The DataTable that will be filtered.
      * @param array|string $columns The names of the columns to pass to the callback.

@@ -125,7 +125,7 @@ abstract class Controller
     protected $securityPolicy = null;
 
     /**
-     * Constructor.
+     *
      *
      * @api
      */

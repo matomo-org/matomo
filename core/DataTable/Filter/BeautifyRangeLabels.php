@@ -52,7 +52,7 @@ class BeautifyRangeLabels extends ColumnCallbackReplace
     protected $labelPlural;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The DataTable that will be filtered.
      * @param string $labelSingular The string to use when the range being beautified
