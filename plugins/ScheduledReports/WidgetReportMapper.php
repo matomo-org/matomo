@@ -98,7 +98,6 @@ class WidgetReportMapper
     /**
      * @param array<string, mixed> $parameters
      * @param array<string, string> $reportIndex
-     * @return string|null
      */
     private function findReportIdByWidgetParameters(
         string $widgetKey,
@@ -314,7 +313,6 @@ class WidgetReportMapper
 
     /**
      * @param array<string, string> $reportIndex
-     * @return string|null
      */
     private function guessReportIdFromHeuristics(string $module, string $action, array $reportIndex): ?string
     {
@@ -328,7 +326,6 @@ class WidgetReportMapper
 
     /**
      * Helper function to map how Funnel Widget can be mapped to its report id
-     * @return string|null
      */
     private function mapFunnelsWidgetIdToReportId(string $widgetId): ?string
     {
@@ -343,7 +340,6 @@ class WidgetReportMapper
 
     /**
      * Helper function to map how Goals Widget can be mapped to its report id
-     * @return string|null
      */
     private function mapGoalsWidgetIdToReportId(string $widgetId): ?string
     {
@@ -372,7 +368,6 @@ class WidgetReportMapper
 
     /**
      * Helper function to map how Events Widget can be mapped to its report id
-     * @return string|null
      */
     private function mapEventsWidgetIdToReportId(string $widgetId): ?string
     {
