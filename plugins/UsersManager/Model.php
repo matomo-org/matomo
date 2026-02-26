@@ -18,6 +18,7 @@ use Piwik\Date;
 use Piwik\Db;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
@@ -804,6 +805,8 @@ class Model
     {
         Option::deleteLike('UsersManager.%.' . $userLogin);
         Option::delete('Feedback.nextFeedbackReminder.' . $userLogin);
+        Option::delete($userLogin . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION);
+        Option::deleteLike('ProfessionalServices.DismissedWidget.%.' . $userLogin);
 
         $preferences = [
             API::PREFERENCE_DEFAULT_REPORT,

@@ -532,7 +532,7 @@ class UsersManagerTest extends IntegrationTestCase
         $observerHasThrown = false;
 
         EventDispatcher::getInstance()->addObserver('UsersManager.deleteUser', function ($userLogin) use (&$observerHasThrown) {
-            if ($observerHasThrown) {
+            if ($userLogin !== 'cleanupObserverError' || $observerHasThrown) {
                 return;
             }
 
@@ -542,12 +542,16 @@ class UsersManagerTest extends IntegrationTestCase
 
         $this->api->addUser($login, 'geqgeagae', 'cleanupobserver@example.com');
         Option::set('UsersManager.someValue.' . $login, 'yes');
+        Option::set($login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION, '{"PhoneNumbers":{"123":{"verified":true}}}');
+        Option::set('ProfessionalServices.DismissedWidget.SampleWidget.' . $login, time());
         $this->api->setUserAccess($login, "view", [1]);
 
         $this->api->deleteUser($login);
         $this->api->addUser($login, 'geqgeagae', 'cleanupobserver@example.com');
 
         $this->assertFalse(Option::get('UsersManager.someValue.' . $login));
+        $this->assertFalse(Option::get($login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION));
+        $this->assertFalse(Option::get('ProfessionalServices.DismissedWidget.SampleWidget.' . $login));
         $this->assertSame([], $this->api->getSitesAccessFromUser($login));
     }
 
