@@ -8,6 +8,7 @@
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import { Periods, format } from '../Periods';
 
 window.piwik.minDateYear = 2011;
 window.piwik.minDateMonth = 11;
@@ -350,12 +351,132 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       dateValue: selectedDate,
       isCompareDirty: true,
       hasPendingNonRangePeriodChange: false,
+      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       commitSelectionToUrl: jest.fn(),
     };
 
     methods.onApplyClicked.call(vm);
 
     expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('2026-02-18', 'day');
+  });
+
+  it('rehydrates preset ownership from tokenized hash values', () => {
+    const vm: any = {
+      periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
+      uiSelection: { type: 'period', id: 'day' },
+      activePresetId: null,
+      pendingPresetSelection: { id: 'last30days' },
+      stagedRangeStartDate: '2026-01-20',
+      stagedRangeEndDate: '2026-02-18',
+      setUiSelection: jest.fn(),
+      clearPresetSelection: jest.fn(),
+    };
+
+    methods.applyUiSelectionFromHash.call(vm, 'range', 'last7', null);
+
+    expect(vm.uiSelection).toEqual({ type: 'preset', id: 'last7days' });
+    expect(vm.activePresetId).toBe('last7days');
+    expect(vm.pendingPresetSelection).toBeNull();
+    expect(vm.stagedRangeStartDate).toBeNull();
+    expect(vm.stagedRangeEndDate).toBeNull();
+    expect(vm.setUiSelection).not.toHaveBeenCalled();
+    expect(vm.clearPresetSelection).not.toHaveBeenCalled();
+  });
+
+  it('does not infer quarter presets from explicit range values in hash sync', () => {
+    const vm: any = {
+      periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
+      uiSelection: { type: 'preset', id: 'last7days' },
+      activePresetId: 'last7days',
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+      clearPresetSelection() {
+        this.activePresetId = null;
+        this.pendingPresetSelection = null;
+        this.stagedRangeStartDate = null;
+        this.stagedRangeEndDate = null;
+      },
+    };
+
+    methods.applyUiSelectionFromHash.call(vm, 'range', '2026-01-01,2026-03-31', null);
+
+    expect(vm.uiSelection).toEqual({ type: 'period', id: 'range' });
+    expect(vm.activePresetId).toBeNull();
+  });
+
+  it('keeps rolling range token on compare-only apply when preset owns selection', () => {
+    const vm: any = {
+      pendingPresetSelection: null,
+      selectedPeriod: 'range',
+      periodValue: 'range',
+      startRangeDate: '2026-02-01',
+      endRangeDate: '2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
+      isCompareDirty: true,
+      hasPendingNonRangePeriodChange: false,
+      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => 'last7'),
+      commitSelectionToUrl: jest.fn(),
+    };
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('last7', 'range');
+  });
+
+  it('commits explicit range date on compare-only apply when range is not preset-owned', () => {
+    const vm: any = {
+      pendingPresetSelection: null,
+      selectedPeriod: 'range',
+      periodValue: 'range',
+      startRangeDate: '2026-02-01',
+      endRangeDate: '2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
+      isCompareDirty: true,
+      hasPendingNonRangePeriodChange: false,
+      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
+      commitSelectionToUrl: jest.fn(),
+    };
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('2026-02-01,2026-02-18', 'range');
+  });
+
+  it('keeps rolling non-range token on compare-only apply when preset owns selection', () => {
+    const vm: any = {
+      pendingPresetSelection: null,
+      selectedPeriod: 'week',
+      periodValue: 'week',
+      dateValue: new Date('2026-02-18'),
+      isCompareDirty: true,
+      hasPendingNonRangePeriodChange: false,
+      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => 'today'),
+      commitSelectionToUrl: jest.fn(),
+    };
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.commitSelectionToUrl).toHaveBeenCalledWith('today', 'week');
+  });
+
+  it('closes selector for non-range preset no-op apply when compare is unchanged', () => {
+    const vm: any = {
+      pendingPresetSelection: null,
+      uiSelection: { type: 'preset', id: 'today' },
+      selectedPeriod: 'day',
+      periodValue: 'day',
+      isCompareDirty: false,
+      hasPendingNonRangePeriodChange: false,
+      closePeriodSelector: jest.fn(),
+      commitSelectionToUrl: jest.fn(),
+    };
+
+    methods.onApplyClicked.call(vm);
+
+    expect(vm.closePeriodSelector).toHaveBeenCalledTimes(1);
+    expect(vm.commitSelectionToUrl).not.toHaveBeenCalled();
   });
 
   it('disables apply for pending non-range period option selection', () => {
@@ -631,6 +752,53 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     expect(vm.lastKnownHashContextKey).toBe(baseContextKey);
   });
 
+  it('sets range validity true when hash sync hydrates a valid range', () => {
+    const originalUrl = (MatomoUrl as any).url.value;
+    const vm: any = {
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      lastKnownHashSelectionKey: null,
+      lastKnownHashContextKey: null,
+      periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
+      uiSelection: { type: 'period', id: 'day' },
+      periodValue: 'day',
+      selectedPeriod: 'day',
+      dateValue: null,
+      startRangeDate: null,
+      endRangeDate: null,
+      stagedRangeStartDate: '2026-01-20',
+      stagedRangeEndDate: '2026-02-18',
+      pendingPresetSelection: { id: 'last30days' },
+      calendarViewport: 'single',
+      compareAppliedSignature: '',
+      compareCurrentSignature: '{}',
+      isRangeValid: null,
+      getSelectionKey: methods.getSelectionKey,
+      getCurrentContextKey: jest.fn(() => baseContextKey),
+      shouldSkipHashSync: jest.fn(() => false),
+      resolveSyncedUiSelection: jest.fn(() => null),
+      applyUiSelectionFromHash: methods.applyUiSelectionFromHash,
+      setUiSelection: methods.setUiSelection,
+      clearPresetSelection: methods.clearPresetSelection,
+      resetSelectedDateValues: methods.resetSelectedDateValues,
+      applyDateValuesFromHash: methods.applyDateValuesFromHash,
+    };
+
+    (MatomoUrl as any).url.value = new URL(
+      'https://matomo.test/index.php?module=CoreHome&action=index&period=range&date=last7'
+      + '#?period=range&date=last7&category=General_Actions&subcategory=General_Pages',
+    );
+
+    methods.updateSelectedValuesFromHash.call(vm);
+    const [expectedStartDate, expectedEndDate] = Periods.parse('range', 'last7').getDateRange();
+
+    expect(vm.isRangeValid).toBe(true);
+    expect(vm.startRangeDate).toBe(format(expectedStartDate));
+    expect(vm.endRangeDate).toBe(format(expectedEndDate));
+
+    (MatomoUrl as any).url.value = originalUrl;
+  });
+
   it('mounted watcher re-syncs staged preset when only report context changes', async () => {
     const originalUrl = (MatomoUrl as any).url.value;
     const originalInitTopControls = window.initTopControls;
@@ -676,8 +844,8 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
     await nextTick();
 
     expect((wrapper.vm as any).pendingPresetSelection).toBeNull();
-    expect((wrapper.vm as any).activePresetId).toBeNull();
-    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'period', id: 'day' });
+    expect((wrapper.vm as any).activePresetId).toBe('today');
+    expect((wrapper.vm as any).uiSelection).toEqual({ type: 'preset', id: 'today' });
     expect((wrapper.vm as any).lastKnownHashContextKey).toBe(
       createContextKey({
         module: 'CoreHome',
@@ -720,6 +888,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       calendarViewport: 'single',
       commitSelectionToUrl: jest.fn(),
       selectedDateString: '2026-02-01,2026-02-18',
+      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
@@ -754,6 +923,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector persistent calendar behavior', 
       startRangeDate: '2026-02-01',
       endRangeDate: '2026-02-18',
       selectedDateString: '2026-02-01,2026-02-18',
+      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       commitSelectionToUrl: jest.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;

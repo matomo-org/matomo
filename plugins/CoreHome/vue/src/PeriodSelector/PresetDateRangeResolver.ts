@@ -67,6 +67,27 @@ export const PRESET_DATE_RANGES: PresetDateRangeOption[] = [
   { id: 'thisYear', labelKey: 'CoreHome_PresetDateThisYear' },
 ];
 
+const PRESET_TOKEN_TO_ID_MAP: Record<string, PresetDateRangeId> = {
+  'day|today': 'today',
+  'day|yesterday': 'yesterday',
+  'range|last7': 'last7days',
+  'range|last30': 'last30days',
+  'range|last90': 'last90days',
+  'week|lastweek': 'lastWeekMonSun',
+  'month|lastmonth': 'lastMonth',
+  'year|lastyear': 'lastYear',
+  'week|today': 'thisWeekMonToday',
+  'month|today': 'thisMonth',
+  'year|today': 'thisYear',
+};
+
+export function getTokenPresetIdFromPeriodAndDate(
+  period: string,
+  date: string,
+): PresetDateRangeId|null {
+  return PRESET_TOKEN_TO_ID_MAP[`${period}|${date}`] || null;
+}
+
 function cloneDate(date: Date): Date {
   return new Date(date.getTime());
 }

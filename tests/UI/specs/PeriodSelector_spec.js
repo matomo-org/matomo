@@ -247,6 +247,24 @@ describe("PeriodSelector", function () {
         expect(currentUrl).to.contain('period=month');
     });
 
+    it('should keep rolling last7 token after reload and apply', async function () {
+        const tokenUrl = '?module=CoreHome&action=index&idSite=1&period=range&date=last7#?idSite=1&period=range&date=last7&category=General_Actions&subcategory=General_Pages';
+        await page.goto(tokenUrl);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+        await page.click('#calendarApply');
+        await page.waitForNetworkIdle();
+
+        const currentUrl = await page.url();
+        expect(currentUrl).to.contain('period=range');
+        expect(currentUrl).to.contain('date=last7');
+        expect(currentUrl).to.not.match(/date=\d{4}-\d{2}-\d{2}%2C\d{4}-\d{2}-\d{2}/);
+    });
+
     it("should move forward two days when next period selector is clicked twice", async function () {
         await page.goto(url);
 
