@@ -1809,11 +1809,6 @@ parameters:
 			path: core/Segment.php
 
 		-
-			message: "#^PHPDoc tag @throws has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 1034$#"
-			count: 1
-			path: core/Segment.php
-
-		-
 			message: "#^Property Piwik\\\\Segment\\:\\:\\$endDate \\(Piwik\\\\Date\\) in empty\\(\\) is not falsy\\.$#"
 			count: 1
 			path: core/Segment.php
