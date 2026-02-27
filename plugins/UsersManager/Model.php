@@ -16,6 +16,7 @@ use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
@@ -793,11 +794,10 @@ class Model
         try {
             Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
         } catch (\Throwable $e) {
-            error_log(sprintf(
-                'Error while processing event UsersManager.deleteUser for login "%s": %s',
-                $userLogin,
-                $e->getMessage()
-            ));
+            StaticContainer::get(LoggerInterface::class)->error(
+                'Error while processing event UsersManager.deleteUser',
+                ['exception' => $e]
+            );
         }
     }
 
@@ -815,6 +815,11 @@ class Model
             'hideSegmentDefinitionChangeMessage',
         ];
         $customPreferences = StaticContainer::get('usersmanager.user_preference_names');
+        if (empty($customPreferences)) {
+            $customPreferences = [];
+        } elseif (!is_array($customPreferences)) {
+            $customPreferences = [$customPreferences];
+        }
         $preferences = array_merge($preferences, $customPreferences);
 
         foreach ($preferences as $preference) {
