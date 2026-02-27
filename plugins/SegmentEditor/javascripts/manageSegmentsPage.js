@@ -3,6 +3,11 @@ function initManageSegmentsPage() {
   if (!root) {
     return;
   }
+  const panelApi = window.matomoPluginSegmentEditor
+    && window.matomoPluginSegmentEditor.panelAPI;
+  if (!panelApi) {
+    return;
+  }
   const tbody = root.querySelector('tbody');
   const rowList = Array.from(tbody.children).reverse();
   const noResultElement = root.querySelector('.tableFooterLabel');
@@ -14,7 +19,7 @@ function initManageSegmentsPage() {
     initListener();
     initHref();
     initTitles();
-    window.SegmentEditorPanel.onSegmentsStarChange(onSegmentsStarChange);
+    panelApi.onSegmentsStarChange(onSegmentsStarChange);
   }
 
   function reorderSegments() {
@@ -49,7 +54,8 @@ function initManageSegmentsPage() {
     rowList.forEach(function (row) {
       const definition = row.getAttribute('data-segment-definition');
       const $dashboardLink = $('.icon-show', row);
-      $dashboardLink.attr('href', window.broadcast.buildReportingUrl('category=Dashboard_Dashboard&segment='+definition));
+      const encodedDefinition = encodeURIComponent(definition || '');
+      $dashboardLink.attr('href', window.broadcast.buildReportingUrl(`category=Dashboard_Dashboard&segment=${encodedDefinition}`));
     });
   }
 
@@ -59,19 +65,19 @@ function initManageSegmentsPage() {
       const $editButton = $('[data-edit-segment]', row);
       const $deleteButton = $('[data-delete-segment]', row);
       const idSegment = $starButton.attr('data-star');
-      const segment = window.SegmentEditorPanel.getSegmentFromId(idSegment);
+      const segment = panelApi.getSegmentFromId(idSegment);
       if (segment && typeof segment.enable_only_idsite === 'string') {
         segment.enable_only_idsite = parseInt(segment.enable_only_idsite, 10) || 0;
       }
-      const canEdit = window.SegmentEditorPanel.getCanUserEditSegment(segment);
+      const canEdit = panelApi.getCanUserEditSegment(segment);
       if (!canEdit) {
         $starButton.attr('data-state', 'disabled');
         $editButton.attr('data-state', 'disabled');
         $deleteButton.attr('data-state', 'disabled');
       }
-      window.SegmentEditorPanel.updateStarSegmentTitle($starButton, segment);
-      $editButton.attr('title', window.SegmentEditorPanel.getEditSegmentTitle(segment, canEdit));
-      $deleteButton.attr('title', window.SegmentEditorPanel.getDeleteSegmentTitle(segment, canEdit));
+      panelApi.updateStarSegmentTitle($starButton, segment);
+      $editButton.attr('title', panelApi.getEditSegmentTitle(segment, canEdit));
+      $deleteButton.attr('title', panelApi.getDeleteSegmentTitle(segment, canEdit));
     });
   }
 
@@ -84,7 +90,7 @@ function initManageSegmentsPage() {
         return false;
       }
       const idSegment = $button.attr('data-edit-segment');
-      SegmentEditorPanel.openEditFormGivenIdSegment(idSegment);
+      panelApi.openEditFormGivenIdSegment(idSegment);
     });
     $(root).on('click', '[data-delete-segment]', function (e) {
       e.stopPropagation();
@@ -94,8 +100,8 @@ function initManageSegmentsPage() {
         return false;
       }
       const idSegment = $button.attr('data-delete-segment');
-      SegmentEditorPanel.openEditFormGivenIdSegment(idSegment);
-      SegmentEditorPanel.askToDeleteSegment(idSegment);
+      panelApi.openEditFormGivenIdSegment(idSegment);
+      panelApi.askToDeleteSegment(idSegment);
     });
     $(root).on('click', '[data-star]', function (e) {
       e.stopPropagation();
@@ -106,7 +112,7 @@ function initManageSegmentsPage() {
       }
       const $segment = $button.closest('tr');
       const idSegment = $button.attr('data-star');
-      window.SegmentEditorPanel.toggleStarredSegment($segment, idSegment);
+      panelApi.toggleStarredSegment($segment, idSegment);
     });
     $(root).on('input', '#manageSegmentSearch', function (e) {
       e.stopPropagation();
@@ -128,7 +134,7 @@ function initManageSegmentsPage() {
     $(root).on('click', '.createNewSegment', function (e) {
       e.stopPropagation();
       e.preventDefault();
-      window.SegmentEditorPanel.openEditFormGivenIdSegment();
+      panelApi.openEditFormGivenIdSegment();
     });
   }
 
@@ -144,20 +150,20 @@ function initManageSegmentsPage() {
     if (tooltip) {
       tooltip.disable();
     }
-    window.SegmentEditorPanel.updateStarSegmentTitle($starButton, segment);
+    panelApi.updateStarSegmentTitle($starButton, segment);
     if (tooltip) {
       tooltip.enable();
     }
     $segment.attr('data-segment-order', $previousOrder === '2' ? 2 : segment.starred ? 1 : 0);
     reorderSegments();
-    window.SegmentEditorPanel.triggerStarAnimation($segment, segment, isError);
+    panelApi.triggerStarAnimation($segment, segment, isError);
   }
 
   function filterSegmentList(keyword) {
     clearFilterSegmentList();
-    const search = window.SegmentEditorPanel.normalizeSearchString(keyword);
+    const search = panelApi.normalizeSearchString(keyword);
     rowList.forEach(function (row) {
-      const segmentSeed = window.SegmentEditorPanel.normalizeSearchString($(row).attr('data-segment-name'));
+      const segmentSeed = panelApi.normalizeSearchString($(row).attr('data-segment-name'));
       if (segmentSeed.indexOf(search) === -1) {
         $(row).hide();
       }
