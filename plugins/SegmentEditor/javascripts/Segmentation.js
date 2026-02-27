@@ -427,7 +427,7 @@ Segmentation = (function($) {
               $(event.target).parents().hasClass("segmentFilterContainer") === true ||
               $(event.target).hasClass("filterNoResults")
             ) {
-              e.stopPropagation();
+              event.stopPropagation();
             }
           }
           self.target.closest('.segmentEditorPanel').removeClass('expanded');
@@ -1103,7 +1103,8 @@ Segmentation = (function($) {
           });
         }
 
-        window.SegmentEditorPanel = {
+        window.matomoPluginSegmentEditor = window.matomoPluginSegmentEditor || {};
+        window.matomoPluginSegmentEditor.panelAPI = {
           askToDeleteSegment,
           closePanel,
           getDeleteSegmentTitle,
