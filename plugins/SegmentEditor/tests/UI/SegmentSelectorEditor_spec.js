@@ -164,6 +164,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should add an AND condition when clicking on add AND", async function() {
         await page.click('.segmentEditorPanel .segment-add-row');
+        await moveMouseAwayFromCapturedArea();
         await page.waitForSelector('.segmentRow1');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('add_new_and_condition');
