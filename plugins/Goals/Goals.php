@@ -29,9 +29,6 @@ use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 
-/**
- *
- */
 class Goals extends \Piwik\Plugin
 {
     public static function getReportsWithGoalMetrics()

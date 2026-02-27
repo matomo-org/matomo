@@ -38,7 +38,7 @@ abstract class DataTableManipulator
     protected $apiMethodForSubtable;
 
     /**
-     * Constructor
+     *
      *
      * @param bool $apiModule
      * @param bool $apiMethod

@@ -68,7 +68,7 @@ class ColumnDelete extends BaseFilter
     private $deleteRecursive;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The DataTable instance that will eventually be filtered.
      * @param array|string $columnsToRemove An array of column names or a comma-separated list of

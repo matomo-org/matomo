@@ -37,7 +37,7 @@ class DistributedList
     private $logger;
 
     /**
-     * Constructor.
+     *
      *
      * @param string $optionName
      */

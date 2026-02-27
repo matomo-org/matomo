@@ -73,7 +73,7 @@ class EvolutionMetric extends ProcessedMetric
     private $labelPath = [];
 
     /**
-     * Constructor.
+     *
      *
      * @param string|Metric $wrapped The metric used to calculate the evolution.
      * @param DataTable|null $pastData The data in the past to use when calculating evolutions.

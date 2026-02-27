@@ -19,8 +19,6 @@ use Piwik\UpdaterErrorException;
 use Piwik\Updates;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 
-/**
- */
 class Updates_2_0_4_b5 extends Updates
 {
     /**

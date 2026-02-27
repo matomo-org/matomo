@@ -65,7 +65,7 @@ class Site
     private $site = array();
 
     /**
-     * Constructor.
+     *
      *
      * @param int $idsite The ID of the site we want data for.
      * @throws UnexpectedWebsiteFoundException

@@ -95,7 +95,7 @@ class Date
     protected $timezone = 'UTC';
 
     /**
-     * Constructor.
+     *
      *
      * @param int $timestamp The number in seconds since the unix epoch.
      * @param string $timezone The timezone of the datetime.

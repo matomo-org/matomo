@@ -15,8 +15,6 @@ use Piwik\Plugins\CustomDimensions\Dao\Configuration;
 use Piwik\Plugins\CustomDimensions\Dao\LogTable;
 use Piwik\Tracker\Cache;
 
-/**
- */
 class RemoveCustomDimension extends ConsoleCommand
 {
     protected function configure()

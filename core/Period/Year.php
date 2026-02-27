@@ -12,8 +12,6 @@ namespace Piwik\Period;
 use Piwik\Date;
 use Piwik\Period;
 
-/**
- */
 class Year extends Period
 {
     public const PERIOD_ID = 4;

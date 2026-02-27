@@ -26,7 +26,7 @@ use Piwik\DataTable\Row;
 class DataTableSummaryRow extends Row
 {
     /**
-     * Constructor.
+     *
      *
      * @param DataTable|null $subTable The subtable of this row. This parameter is mostly for
      *                                 convenience. If set, its rows will be summed to this one,

@@ -115,7 +115,7 @@ class PasswordResetter
     private $emailFromAddress;
 
     /**
-     * Constructor.
+     *
      *
      * @param UsersManagerAPI|null $usersManagerApi
      * @param string|null $confirmPasswordModule

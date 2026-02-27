@@ -36,7 +36,7 @@ abstract class GoalSpecificProcessedMetric extends ProcessedMetric
     protected $idSite;
 
     /**
-     * Constructor.
+     *
      *
      * @param int|null $idSite The ID of the site the goal belongs to. If supplied, affects the formatting
      *                         and translated name of the metric.

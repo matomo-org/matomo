@@ -54,7 +54,7 @@ class Updater
     private static $activeInstance;
 
     /**
-     * Constructor.
+     *
      *
      * @param string|null $pathUpdateFileCore The path to core Update files.
      * @param string|null $pathUpdateFilePlugins The path to plugin update files. Should contain a `'%s'` placeholder

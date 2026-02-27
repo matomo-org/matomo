@@ -19,9 +19,6 @@ use Piwik\Plugins\Installation\Exception\DatabaseConnectionFailedException;
 use Piwik\SettingsPiwik;
 use Piwik\View as PiwikView;
 
-/**
- *
- */
 class Installation extends \Piwik\Plugin
 {
     protected $installationControllerName = '\\Piwik\\Plugins\\Installation\\Controller';

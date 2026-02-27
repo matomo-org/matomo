@@ -48,7 +48,7 @@ class GroupBy extends BaseFilter
     private $parameters;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The DataTable to filter.
      * @param string $groupByColumn The column name to reduce.

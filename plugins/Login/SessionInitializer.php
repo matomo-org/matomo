@@ -19,8 +19,6 @@ use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\ProxyHttp;
 use Piwik\Session;
 
-/**
- */
 class SessionInitializer
 {
     /**
@@ -57,7 +55,7 @@ class SessionInitializer
     private $authCookiePath;
 
     /**
-     * Constructor.
+     *
      *
      * @param UsersManagerAPI|null $usersManagerAPI
      * @param string|null $authCookieName

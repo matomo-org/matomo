@@ -18,9 +18,6 @@ use Piwik\Site;
 use Piwik\Plugins\Live\Settings\VisitorLogDisabled as VisitorLogDisabledSetting;
 use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 
-/**
- *
- */
 class Live extends \Piwik\Plugin
 {
     /**

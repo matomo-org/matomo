@@ -575,9 +575,6 @@ class Config
      */
     public $controllerAction;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->translations = array_merge(

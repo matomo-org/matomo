@@ -46,7 +46,7 @@ class Range extends Period
     protected $timezone;
 
     /**
-     * Constructor.
+     *
      *
      * @param string $strPeriod The type of period each subperiod is. Either `'day'`, `'week'`,
      *                          `'month'` or `'year'`.
