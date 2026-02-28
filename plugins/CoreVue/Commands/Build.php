@@ -294,14 +294,44 @@ class Build extends ConsoleCommand
 
     private function isTypeScriptRaceConditionInOutput(string $plugin, string $concattedOutput): bool
     {
-        if (!preg_match('/^TS2307: Cannot find module \'([^\']+)\' or its corresponding type declarations./', $concattedOutput, $matches)) {
+        $normalizedOutput = preg_replace('/\x1b\[[0-9;]*m/', '', $concattedOutput);
+        if (empty($normalizedOutput)) {
             return false;
         }
 
-        $file = $matches[1];
-        $filePath = Manager::getPluginDirectory($plugin) . '/vue/src/' . $file;
-        $isTypeScriptCompilerBug = file_exists($filePath);
-        return $isTypeScriptCompilerBug;
+        // Match "ERROR in /path/to/file(12,34)" followed by TS2307 for that import.
+        $matches = [];
+        preg_match_all(
+            '/in\s+([^\n]+)\(\d+,\d+\)\s*\n\s*TS2307:\s+Cannot find module \'([^\']+)\' or its corresponding type declarations\./m',
+            $normalizedOutput,
+            $matches,
+            PREG_SET_ORDER
+        );
+
+        foreach ($matches as $match) {
+            $importerFile = trim($match[1]);
+            $missingModule = $match[2];
+
+            if ($this->isRelativeImport($missingModule)) {
+                $resolvedPath = dirname($importerFile) . DIRECTORY_SEPARATOR . $missingModule;
+                if (file_exists($resolvedPath)) {
+                    return true;
+                }
+                continue;
+            }
+
+            $filePath = Manager::getPluginDirectory($plugin) . '/vue/src/' . $missingModule;
+            if (file_exists($filePath)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isRelativeImport(string $importPath): bool
+    {
+        return strpos($importPath, './') === 0 || strpos($importPath, '../') === 0;
     }
 
     private function getAllPlugins(): array
