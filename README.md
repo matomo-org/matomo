@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/matomo/matomo/v/stable)](https://matomo.org/download/)
 [![Latest Unstable Version](https://poser.pugx.org/matomo/matomo/v/unstable)](https://builds.matomo.org/)
 [![License](https://poser.pugx.org/piwik/piwik/license)](https://matomo.org/free-software/)
+[![Gurubase](https://img.shields.io/badge/Gurubase-Ask%20Matomo%20Guru-006BFF)](https://gurubase.io/g/matomo)
 
 ## Code Status
 
