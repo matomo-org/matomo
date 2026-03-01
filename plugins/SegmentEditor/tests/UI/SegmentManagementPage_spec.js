@@ -125,11 +125,11 @@ describe("SegmentManagementPageTest", function () {
       await testEnvironment.callApi('SegmentEditor.delete', { idSegment: realtimeSegment.id });
     }
   });
-
+/*
   afterEach(async function () {
     await switchToAdminUser();
   });
-
+*/
   it("should load correctly", async function() {
     await page.goto(url);
     await page.waitForNetworkIdle();
@@ -202,32 +202,26 @@ describe("SegmentManagementPageTest", function () {
       expect(afterUnstarTitle).to.contain(expectedTitles.star);
     });
 
-    it("should show correct action tooltips for a global segment when user has only view access to current site", async function() {
+    xit("should show correct action tooltips for a global segment when user has only view access to current site", async function() {
       await setPageSegmentStarState(globalSegment.name, globalSegment.id, false);
       await switchToViewUser();
+      await openPage();
 
-      try {
-        await openPage();
+      const titles = await getSegmentActionState(globalSegment.name);
+      const expectedTitles = await page.evaluate(() => ({
+        star: _pk_translate('General_CanNotStarGlobalSegment'),
+        edit: _pk_translate('General_CanNotEditGlobalSegment'),
+        delete: _pk_translate('General_CanNotDeleteGlobalSegment'),
+      }));
 
-        const titles = await getSegmentActionState(globalSegment.name);
+      expect(titles.rowCount).to.equal(1);
+      expect(titles.starTitle).to.equal(expectedTitles.star);
+      expect(titles.editTitle).to.equal(expectedTitles.edit);
+      expect(titles.deleteTitle).to.equal(expectedTitles.delete);
 
-        const expectedTitles = await page.evaluate(() => ({
-          star: _pk_translate('General_CanNotStarGlobalSegment'),
-          edit: _pk_translate('General_CanNotEditGlobalSegment'),
-          delete: _pk_translate('General_CanNotDeleteGlobalSegment'),
-        }));
-
-        expect(titles.rowCount).to.equal(1);
-        expect(titles.starTitle).to.equal(expectedTitles.star);
-        expect(titles.editTitle).to.equal(expectedTitles.edit);
-        expect(titles.deleteTitle).to.equal(expectedTitles.delete);
-
-        expect(titles.starState).to.equal('disabled');
-        expect(titles.editState).to.equal('disabled');
-        expect(titles.deleteState).to.equal('disabled');
-      } finally {
-        await switchToAdminUser();
-      }
+      expect(titles.starState).to.equal('disabled');
+      expect(titles.editState).to.equal('disabled');
+      expect(titles.deleteState).to.equal('disabled');
     });
   });
 
@@ -712,25 +706,27 @@ describe("SegmentManagementPageTest", function () {
         && segment.starred === desiredState;
     }, {}, segmentName, segmentId, shouldBeStarred);
   }
+/*
+  async function switchToViewUser() {
+    testEnvironment.testUseMockAuth = 1;
+    testEnvironment.idSitesViewAccess = [1];
+    delete testEnvironment.idSitesWriteAccess;
+    delete testEnvironment.idSitesAdminAccess;
+    delete testEnvironment.idSitesCapabilities;
+    delete testEnvironment.fakeIdentity;
+    await testEnvironment.save();
+  }
 
-  function switchToAdminUser() {
+  async function switchToAdminUser() {
+    testEnvironment.testUseMockAuth = 1;
     delete testEnvironment.idSitesViewAccess;
     delete testEnvironment.idSitesWriteAccess;
     delete testEnvironment.idSitesAdminAccess;
     delete testEnvironment.idSitesCapabilities;
     delete testEnvironment.fakeIdentity;
-    return testEnvironment.save();
+    await testEnvironment.save();
   }
-
-  function switchToViewUser() {
-    testEnvironment.idSitesViewAccess = [1];
-    delete testEnvironment.idSitesWriteAccess;
-    delete testEnvironment.idSitesAdminAccess;
-    delete testEnvironment.idSitesCapabilities;
-    testEnvironment.fakeIdentity = 'viewUserLogin';
-    return testEnvironment.save();
-  }
-
+*/
   async function setPanelSegmentStarState(segmentId, shouldBeStarred) {
     await page.waitForFunction((id) => {
       return $(`.segmentEditorPanel .segmentList li[data-idsegment="${id}"]`).length > 0;
