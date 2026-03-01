@@ -9,11 +9,13 @@
 
 namespace Piwik\Updates;
 
+use Piwik\Plugins\CoreAdminHome\Commands\MigrateUserScopedSettings;
 use Piwik\Updater;
+use Piwik\Updater\Migration\Custom as CustomMigration;
 use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 
-class Updates_5_8_0_b2 extends Updates
+class Updates_5_9_0_b1 extends Updates
 {
     /**
      * @var MigrationFactory
@@ -28,7 +30,10 @@ class Updates_5_8_0_b2 extends Updates
     public function getMigrations(Updater $updater)
     {
         return [
-            $this->migration->db->addColumn('archiving_metrics', 'is_temporary', 'TINYINT(1) UNSIGNED NOT NULL DEFAULT 0'),
+            new CustomMigration(
+                [MigrateUserScopedSettings::class, 'migrate'],
+                './console core:matomo580-migrate-user-scoped-settings'
+            ),
         ];
     }
 
