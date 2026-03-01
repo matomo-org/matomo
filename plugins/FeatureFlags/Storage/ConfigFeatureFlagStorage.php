@@ -35,7 +35,6 @@ class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
 
     /**
      * @internal
-     * @return bool|null
      */
     public function isFeatureActive(FeatureFlagInterface $feature): ?bool
     {
@@ -58,7 +57,6 @@ class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
 
     /**
      * @internal
-     * @return void
      */
     public function disableFeatureFlag(FeatureFlagInterface $feature): void
     {
@@ -72,7 +70,6 @@ class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
 
     /**
      * @internal
-     * @return void
      */
     public function enableFeatureFlag(FeatureFlagInterface $feature): void
     {
@@ -86,7 +83,6 @@ class ConfigFeatureFlagStorage implements FeatureFlagStorageInterface
 
     /**
      * @internal
-     * @return void
      */
     public function deleteFeatureFlag(string $featureName): void
     {

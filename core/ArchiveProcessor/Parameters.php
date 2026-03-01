@@ -61,7 +61,7 @@ class Parameters
     private $foundRequestedReports;
 
     /**
-     * Constructor.
+     *
      *
      * @ignore
      */

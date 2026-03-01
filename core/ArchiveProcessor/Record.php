@@ -194,7 +194,6 @@ class Record
 
     /**
      * @param array|null $columnToRenameAfterAggregation
-     * @return Record
      */
     public function setColumnToRenameAfterAggregation(?array $columnToRenameAfterAggregation): Record
     {
@@ -212,7 +211,6 @@ class Record
 
     /**
      * @param array|null $blobColumnAggregationOps
-     * @return Record
      */
     public function setBlobColumnAggregationOps(?array $blobColumnAggregationOps): Record
     {

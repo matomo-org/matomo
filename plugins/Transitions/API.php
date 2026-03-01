@@ -717,7 +717,6 @@ class API extends \Piwik\Plugin\API
      * @param $period
      * @param $date
      *
-     * @return bool
      */
     public function isPeriodAllowed($idSite, $period, $date): bool
     {

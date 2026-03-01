@@ -13,8 +13,6 @@ use Piwik\Filesystem;
 use Piwik\Updates;
 use Piwik\Updater;
 
-/**
- */
 class Updates_2_0_b13 extends Updates
 {
     public function doUpdate(Updater $updater)

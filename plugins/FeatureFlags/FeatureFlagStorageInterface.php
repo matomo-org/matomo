@@ -17,19 +17,16 @@ interface FeatureFlagStorageInterface
      * If the flag isn't set for the particular storage context then will return null
      *
      *
-     * @return bool|null
      */
     public function isFeatureActive(FeatureFlagInterface $feature): ?bool;
 
     /**
      * @internal
-     * @return void
      */
     public function disableFeatureFlag(FeatureFlagInterface $feature): void;
 
     /**
      * @internal
-     * @return void
      */
     public function enableFeatureFlag(FeatureFlagInterface $feature): void;
 
@@ -37,7 +34,6 @@ interface FeatureFlagStorageInterface
      * Delete a feature flag even if it doesn't exist in code as a class
      *
      * @internal
-     * @return void
      */
     public function deleteFeatureFlag(string $featureName): void;
 }

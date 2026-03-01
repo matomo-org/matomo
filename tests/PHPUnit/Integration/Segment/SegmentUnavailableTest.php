@@ -121,7 +121,6 @@ class SegmentUnavailableTest extends IntegrationTestCase
      * Disable the visitorlog feature
      *
      *
-     * @return void
      * @throws \Exception
      */
     private function disableVisitorProfile(bool $status): void
@@ -137,7 +136,6 @@ class SegmentUnavailableTest extends IntegrationTestCase
     /**
      * Flush the caches that contain cached segment data
      *
-     * @return void
      */
     private function flushCaches(): void
     {
@@ -150,7 +148,6 @@ class SegmentUnavailableTest extends IntegrationTestCase
      * Check if a segment is available
      *
      *
-     * @return void
      */
     private function checkSegmentAvailable(string $definition, string $name, bool $shouldBeEnabled): void
     {

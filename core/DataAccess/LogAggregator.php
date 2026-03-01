@@ -168,9 +168,6 @@ class LogAggregator
      */
     private $params;
 
-    /**
-     * Constructor.
-     */
     public function __construct(Parameters $params, ?LoggerInterface $logger = null)
     {
         $this->dateStart = $params->getDateTimeStart();

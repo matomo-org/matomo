@@ -65,7 +65,6 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $provider SMS API provider
      * @param array $credentials array with data like API Key or username
-     * @return void
      */
     public function setSMSAPICredential(string $provider, array $credentials = []): void
     {
@@ -85,7 +84,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Adds a phone number for the current user
      *
-     * @return void
      */
     public function addPhoneNumber(string $phoneNumber): void
     {
@@ -122,7 +120,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Requests a new verification code for the given phone number
      *
-     * @return void
      */
     public function resendVerificationCode(string $phoneNumber): void
     {
@@ -215,7 +212,6 @@ class API extends \Piwik\Plugin\API
      * remove phone number
      *
      *
-     * @return void
      */
     public function removePhoneNumber(string $phoneNumber): void
     {
@@ -260,7 +256,6 @@ class API extends \Piwik\Plugin\API
     /**
      * delete the SMS API credential
      *
-     * @return void
      */
     public function deleteSMSAPICredential(): void
     {
@@ -277,7 +272,6 @@ class API extends \Piwik\Plugin\API
      * Specify if normal users can manage their own SMS API credential
      *
      * @param bool $delegatedManagement false if SMS API credential only manageable by super admin, true otherwise
-     * @return void
      */
     public function setDelegatedManagement(bool $delegatedManagement): void
     {

@@ -21,9 +21,6 @@ use Piwik\Plugins\SegmentEditor\SegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\View;
 
-/**
- *
- */
 class Controller extends \Piwik\Plugin\Controller
 {
     public const DEFAULT_REPORT_TYPE = ScheduledReports::EMAIL_TYPE;

@@ -14,8 +14,6 @@ use Piwik\Plugins\ExamplePlugin\ExamplePlugin;
 use Piwik\Plugin;
 use Piwik\Version;
 
-/**
- */
 class GeneratePlugin extends GeneratePluginBase
 {
     protected function configure()

@@ -57,6 +57,8 @@
         "ExclusionTypeOptionMatomoRecommendedPII": "PII rekomanduar nga Matomo",
         "ExclusionViewListLink": "Shihni listë përjashtimesh",
         "ExtraInformationNeeded": "Që të ujdisni Matomo-n në sistemin tuaj, mund t’ju duhen të dhënat vijuese:",
+        "FilterPIIParametersSettingTitle": "U filtruan të dhëna PII",
+        "FilterPiiParametersSettingRequirementNote": "Të dhëna Informacionesh që Lejojnë Identifikim (PII) duhen filtruar përmes liste përjashtimesh PII të rekomanduar nga Matomo.",
         "Format_Utc": "UTC%s",
         "GADetected": "Në sajtin tuaj u pikas %1$s. E dini se mund të migroni lehtësisht të dhënat tuaja statistikore të dikurshme dhe rregullimet prej %2$s në Matomo? %3$s%4$s%5$sMësoni më tepër në këtë udhërrëfyes%6$s",
         "GADetectedEmail": "Në sajtin tuaj u pikas %1$s. E dini se mund të migroni lehtësisht të dhënat tuaja statistikore të dikurshme dhe rregullimet prej %2$s në Matomo? Mësoni më tepër këtu: %3$s",

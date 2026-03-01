@@ -205,7 +205,6 @@ class ArchivePurger
 
     /**
      * @param array $deletedSegments List of segments whose archives should be purged
-     * @return int
      */
     public function purgeDeletedSegmentArchives(Date $dateStart, array $deletedSegments): int
     {
@@ -221,7 +220,6 @@ class ArchivePurger
      * Purge all numeric and blob archives with the given IDs from the database.
      * @param array $idArchivesToDelete
      * @param string $reason
-     * @return int
      */
     protected function purge(array $idArchivesToDelete, Date $dateStart, $reason): int
     {

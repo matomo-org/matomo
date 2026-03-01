@@ -146,7 +146,6 @@ class AIChatbotReports extends RecordBuilder
     /**
      * @param array<string, DataTable> $tables
      * @param array<string, int> $visits
-     * @return void
      */
     private function populateChatbotTableForActionType(array $tables, int $actionType, LogAggregator $logAggregator, array $visits): void
     {

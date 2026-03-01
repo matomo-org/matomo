@@ -12,8 +12,6 @@ namespace Piwik\Plugins\DevicesDetection;
 use Piwik\Menu\MenuAdmin;
 use Piwik\Piwik;
 
-/**
- */
 class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu)

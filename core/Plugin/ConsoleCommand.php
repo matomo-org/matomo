@@ -54,7 +54,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Sends the given message(s) as success message(s) to the output interface (surrounded by empty lines)
      *
      * @param string|string[] $messages
-     * @return void
      */
     public function writeSuccessMessage($messages): void
     {
@@ -75,7 +74,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Sends the given message(s) as error message(s) to the output interface (surrounded by empty lines)
      *
      * @param string|string[] $messages
-     * @return void
      */
     public function writeErrorMessage($messages): void
     {
@@ -96,7 +94,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Sends the given messages as comment message to the output interface (surrounded by empty lines)
      *
      * @param string|string[] $messages
-     * @return void
      */
     public function writeComment($messages): void
     {
@@ -116,7 +113,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
     /**
      * Checks if all input options that are marked as requires-value were provided
      *
-     * @return void
      * @throws \InvalidArgumentException
      */
     protected function checkAllRequiredOptionsAreNotEmpty(): void
@@ -146,7 +142,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
     /**
      * Method is final to make it impossible to overwrite it in plugin commands
      *
-     * @return int
      */
     final public function run(InputInterface $input, OutputInterface $output): int
     {
@@ -359,7 +354,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * @see parent::interact()
      *
-     * @return void
      */
     protected function doInteract(): void
     {
@@ -382,7 +376,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * @see parent::initialize()
      *
-     * @return void
      */
     protected function doInitialize(): void
     {
@@ -418,7 +411,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * @see QuestionHelper
      *
-     * @return bool
      */
     protected function askForConfirmation(string $question, bool $default = true, string $trueAnswerRegex = '/^y/i'): bool
     {
@@ -471,7 +463,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      *
      * @see ProgressBar
      *
-     * @return ProgressBar
      */
     protected function initProgressBar(int $numChangesToPerform = 0): ProgressBar
     {
@@ -482,7 +473,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
     /**
      * Starts a previously initialized progress bar
      *
-     * @return void
      */
     protected function startProgressBar(int $numChangesToPerform = 0): void
     {
@@ -492,7 +482,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
     /**
      * Advances the previously initialized progress bar
      *
-     * @return void
      */
     protected function advanceProgressBar(int $step = 1): void
     {
@@ -506,7 +495,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
     /**
      * Finished the initialized progress bar
      *
-     * @return void
      */
     protected function finishProgressBar(): void
     {
@@ -539,7 +527,6 @@ class ConsoleCommand extends SymfonyCommand implements SignalableCommandInterfac
      * Runs a certain command
      *
      * @param array  $arguments
-     * @return int
      * @throws \Symfony\Component\Console\Exception\ExceptionInterface
      */
     protected function runCommand(string $command, array $arguments, bool $hideOutput = false): int

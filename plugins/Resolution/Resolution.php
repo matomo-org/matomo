@@ -17,9 +17,6 @@ use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Cache as TrackerCache;
 
-/**
- *
- */
 class Resolution extends \Piwik\Plugin
 {
     public function registerEvents()
@@ -32,7 +29,6 @@ class Resolution extends \Piwik\Plugin
     /**
      * Check if compliance policy disables screen resolution detection
      *
-     * @return bool
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
      */

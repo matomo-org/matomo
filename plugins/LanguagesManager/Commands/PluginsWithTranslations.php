@@ -11,8 +11,6 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugin\Manager;
 
-/**
- */
 class PluginsWithTranslations extends TranslationBase
 {
     protected function configure()

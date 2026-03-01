@@ -59,7 +59,7 @@ class Row extends \ArrayObject
     public const DATATABLE_ASSOCIATED = 3;
 
     /**
-     * Constructor.
+     *
      *
      * @param array $row An array with the following structure:
      *

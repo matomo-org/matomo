@@ -689,7 +689,6 @@ class Mysql implements SchemaInterface
      *
      * @param string $sql  query to add hint to
      * @param float $limit  time limit in seconds
-     * @return string
      */
     public function addMaxExecutionTimeHintToQuery(string $sql, float $limit): string
     {
@@ -715,7 +714,6 @@ class Mysql implements SchemaInterface
      * (can happen for alias charsets like "utf8").
      *
      *
-     * @return string
      * @throws Exception
      */
     public function getDefaultCollationForCharset(string $charset): string

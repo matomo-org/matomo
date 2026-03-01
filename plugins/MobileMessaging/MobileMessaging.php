@@ -18,9 +18,6 @@ use Piwik\Plugins\MobileMessaging\ReportRenderer\Sms;
 use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\View;
 
-/**
- *
- */
 class MobileMessaging extends \Piwik\Plugin
 {
     public const DELEGATED_MANAGEMENT_OPTION = 'MobileMessaging_DelegatedManagement';

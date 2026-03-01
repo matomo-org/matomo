@@ -42,7 +42,6 @@ class MysqliTest extends TestCase
 
     /**
      * This will 'mock' the Schema class to return a specific minimum version.
-     * @return Schema
      */
     private function createMockSchema(string $minimumVersion): Schema
     {

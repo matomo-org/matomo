@@ -234,11 +234,9 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         return (object) ['exitCode' => $exitCode, 'output' => $output];
     }
 
-    //
     //*************************************************************************
     // Tests that should yield errors.
     //*************************************************************************
-    //
     public function testNoArgsShouldYieldError()
     {
 
@@ -337,11 +335,9 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         $this->assertStringContainsString('InvalidArgumentException', $resultObj->output);
     }
 
-    //
     //*************************************************************************
     // Tests for nonexistent data.
     //*************************************************************************
-    //
     public function testUsingOptsNonExistentSectionShouldYieldEmpty()
     {
 
@@ -446,12 +442,9 @@ class ConfigDeleteTest extends ConsoleCommandTestCase
         $this->assertEquals($expectedValue, $resultObj->output);
     }
 
-    //
     //*************************************************************************
     // Tests for existing data.
     //*************************************************************************
-    //
-
     /**
      * @dataProvider getSingleSettingDataProvider1
      */

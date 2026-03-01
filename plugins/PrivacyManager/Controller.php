@@ -28,9 +28,6 @@ use Piwik\SiteContentDetector;
 use Piwik\Scheduler\Scheduler;
 use Piwik\View;
 
-/**
- *
- */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     public const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";

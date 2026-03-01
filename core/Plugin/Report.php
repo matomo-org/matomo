@@ -1143,7 +1143,6 @@ class Report
      * Returns the name of the column/metadata that uniquely identifies rows in this report. See
      * {@link self::$rowIdentifier} for more information.
      *
-     * @return string
      */
     public function getRowIdentifier(): string
     {

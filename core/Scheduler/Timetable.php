@@ -220,7 +220,6 @@ class Timetable
      * Return the current number of retries for a task
      *
      *
-     * @return int
      */
     public function getRetryCount(string $taskName): int
     {

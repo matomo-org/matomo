@@ -19,7 +19,7 @@ class AddSegmentMetadata extends BaseFilter
     private $idDimension;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The table to eventually filter.
      */

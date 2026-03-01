@@ -359,7 +359,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Throws an exception if the given $idSite does not exist.
      *
-     * @return void
      * @throws UnexpectedWebsiteFoundException
      */
     private function checkSiteExists(int $idSite): void

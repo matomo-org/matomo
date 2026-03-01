@@ -210,7 +210,6 @@ class PolicyManager
     /**
      * Return setting type from a given Setting instance, including subclasses
      *
-     * @return string|null
      */
     public static function getSettingTypeFromSettingClass(Setting $setting): ?string
     {

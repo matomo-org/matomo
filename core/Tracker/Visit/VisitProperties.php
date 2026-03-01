@@ -65,7 +65,6 @@ class VisitProperties
      * @param string $name The property name.
      * @param mixed $value The property value.
      *
-     * @return void
      */
     public function setProperty($name, $value): void
     {
@@ -75,7 +74,6 @@ class VisitProperties
     /**
      * Unsets all visit properties.
      *
-     * @return void
      */
     public function clearProperties(): void
     {
@@ -87,7 +85,6 @@ class VisitProperties
      *
      * @param array $properties
      *
-     * @return void
      */
     public function setProperties(array $properties): void
     {
@@ -101,7 +98,6 @@ class VisitProperties
      *
      * @param mixed $value
      *
-     * @return void
      */
     public function initializeProperty(string $name, $value): void
     {

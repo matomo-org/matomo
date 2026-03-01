@@ -17,8 +17,6 @@ use Piwik\Category\Subcategory;
 use Piwik\Widget\WidgetConfig;
 use Piwik\Plugin;
 
-/**
- */
 class Dashboard extends \Piwik\Plugin
 {
     /**

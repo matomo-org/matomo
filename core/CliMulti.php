@@ -415,7 +415,6 @@ class CliMulti
      * Several of the regular supportsAsync requirements may be obsolete after
      * a complete switch has been done.
      *
-     * @return bool
      */
     public function supportsAsyncSymfony(): bool
     {

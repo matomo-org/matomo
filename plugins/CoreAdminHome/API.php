@@ -426,7 +426,6 @@ class API extends \Piwik\Plugin\API
      * Show the JavaScript opt out code
      *
      *
-     * @return string
      *
      * @internal
      */
@@ -457,7 +456,6 @@ class API extends \Piwik\Plugin\API
      * Show the self-contained JavaScript opt out code
      *
      *
-     * @return string
      *
      * @internal
      */

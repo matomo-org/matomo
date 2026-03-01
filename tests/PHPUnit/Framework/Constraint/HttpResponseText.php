@@ -48,7 +48,6 @@ class HttpResponseText extends \PHPUnit\Framework\Constraint\Constraint
      * constraint is met, FALSE otherwise.
      *
      * @param mixed $other Value or object to evaluate.
-     * @return bool
      */
     public function matches($other): bool
     {
@@ -60,7 +59,6 @@ class HttpResponseText extends \PHPUnit\Framework\Constraint\Constraint
     /**
      * Returns a string representation of the constraint.
      *
-     * @return string
      */
     public function toString(): string
     {

@@ -129,7 +129,6 @@ class Request
      * If no default is provided and the requested parameter either can't be found or is not of type integer an
      * exception will be thrown
      *
-     * @return int
      * @throws InvalidArgumentException
      */
     public function getIntegerParameter(string $name, ?int $default = null): int
@@ -152,7 +151,6 @@ class Request
      * If no default is provided and the requested parameter either can't be found or is not of type float an
      * exception will be thrown
      *
-     * @return float
      * @throws InvalidArgumentException
      */
     public function getFloatParameter(string $name, ?float $default = null): float
@@ -183,7 +181,6 @@ class Request
      * If no default is provided and the requested parameter either can't be found or is not of type string an
      * exception will be thrown
      *
-     * @return string
      * @throws InvalidArgumentException
      */
     public function getStringParameter(string $name, ?string $default = null): string
@@ -210,7 +207,6 @@ class Request
      * true: true, 'true', '1', 1
      * false: false, 'false', '0', 0
      *
-     * @return bool
      * @throws InvalidArgumentException
      */
     public function getBoolParameter(string $name, ?bool $default = null): bool

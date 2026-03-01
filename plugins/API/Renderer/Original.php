@@ -87,7 +87,6 @@ class Original extends ApiRenderer
     /**
      * Returns true if the user requested to serialize the output data (&serialize=1 in the request)
      *
-     * @return bool
      */
     private function shouldSerialize(): bool
     {

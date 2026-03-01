@@ -21,9 +21,6 @@ use Piwik\Plugins\PrivacyManager\FeatureFlags\PrivacyCompliance;
 use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 
-/**
- *
- */
 class Ecommerce extends \Piwik\Plugin
 {
     /**
