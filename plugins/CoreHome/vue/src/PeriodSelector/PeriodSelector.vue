@@ -65,7 +65,10 @@
           </div>
         </div>
         <div class="period-selector-calendar-column">
-          <div @click.capture="onRangePresetDateCellClickCapture($event)">
+          <div
+            :class="{ 'calendar-disabled': uiSelection.type === 'preset' }"
+            @click.capture="onRangePresetDateCellClickCapture($event)"
+          >
             <DateRangePicker
               v-show="calendarViewport === 'range'"
               class="period-range"
@@ -78,6 +81,7 @@
           </div>
           <div
             class="period-date"
+            :class="{ 'calendar-disabled': uiSelection.type === 'preset' }"
             v-show="calendarViewport === 'single'"
           >
             <PeriodDatePicker
