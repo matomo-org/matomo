@@ -12,21 +12,10 @@ namespace Piwik\Updates;
 use Piwik\Plugins\CoreAdminHome\Commands\MigrateUserScopedSettings;
 use Piwik\Updater;
 use Piwik\Updater\Migration\Custom as CustomMigration;
-use Piwik\Updater\Migration\Factory as MigrationFactory;
 use Piwik\Updates;
 
 class Updates_5_9_0_b1 extends Updates
 {
-    /**
-     * @var MigrationFactory
-     */
-    private $migration;
-
-    public function __construct(MigrationFactory $factory)
-    {
-        $this->migration = $factory;
-    }
-
     public function getMigrations(Updater $updater)
     {
         return [

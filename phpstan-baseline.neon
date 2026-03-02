@@ -1925,12 +1925,12 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:fetchAll\\(\\)\\.$#"
-			count: 2
+			count: 6
 			path: core/Settings/Storage/Backend/PluginSettingsTable.php
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:query\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: core/Settings/Storage/Backend/PluginSettingsTable.php
 
 		-
