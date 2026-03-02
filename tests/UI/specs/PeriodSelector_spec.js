@@ -15,10 +15,6 @@ describe("PeriodSelector", function () {
 
     const selector = '#periodString,#periodString .dropdown';
 
-    const clickPreset = async function (presetId) {
-        await page.click('#preset_date_' + presetId);
-    };
-
     it("should load correctly", async function() {
         await page.goto(url);
 
