@@ -68,6 +68,14 @@ describe("OneClickLastForcedUpdate", function () {
         await page.click('#updateUsingHttp');
         await page.waitForNetworkIdle();
         await page.waitForSelector('.content');
+
+        // redact specific version changes
+        page.evaluate(() => {
+          const updateLog = $('.row code').html();
+          const redacted = updateLog.replace(/\bv?\d+(?:\.\d+){1,}\b/gi, 'x.x.x');
+          $('.row code').text(redacted);
+        });
+
         expect(await page.screenshot({ fullPage: true })).to.matchImage('update_success');
     });
 
