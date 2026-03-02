@@ -32,7 +32,7 @@ class Updates_5_9_0_b1 extends Updates
         return [
             new CustomMigration(
                 [MigrateUserScopedSettings::class, 'migrate'],
-                './console core:matomo580-migrate-user-scoped-settings'
+                './console core:matomo590Repository-migrate-user-scoped-settings'
             ),
         ];
     }
