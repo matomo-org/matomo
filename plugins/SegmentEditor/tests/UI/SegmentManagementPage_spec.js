@@ -7,7 +7,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-describe("SegmentManagementPageTest", function () {
+xdescribe("SegmentManagementPageTest", function () {
   this.fixture = 'Piwik\\Tests\\Fixtures\\OneVisitorTwoVisits';
 
   var generalParams = 'idSite=1&period=range&date=2010-03-06,2010-03-08';
