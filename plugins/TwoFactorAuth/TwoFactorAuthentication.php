@@ -29,6 +29,8 @@ class TwoFactorAuthentication
      * Make sure the same fa code was not used in the last X minutes.
      * Technically, even 2 minutes be fine since every token is only valid for 30 sec and we only allow the 2 most
      * recent tokens.
+     *
+     * @var int
      */
     public const BLOCK_TWOFA_CODE_MINUTES = 10;
 
@@ -54,16 +56,23 @@ class TwoFactorAuthentication
         $this->secretGenerator = $twoFaSecretRandomGenerator;
     }
 
-    private static function getUserModel()
+    private static function getUserModel(): Model
     {
         return new Model();
     }
 
+    /**
+     * @return string
+     */
     public function generateSecret()
     {
         return $this->secretGenerator->generateSecret();
     }
 
+    /**
+     * @param string $login
+     * @return void
+     */
     public function disable2FAforUser($login)
     {
         $this->saveSecret($login, '');
@@ -72,11 +81,16 @@ class TwoFactorAuthentication
         Piwik::postEvent('TwoFactorAuth.disabled', array($login));
     }
 
-    private static function isAnonymous($login)
+    private static function isAnonymous(string $login): bool
     {
         return strtolower($login) === 'anonymous';
     }
 
+    /**
+     * @param string $login
+     * @param string $secret
+     * @return void
+     */
     public function saveSecret(
         $login,
         #[\SensitiveParameter]
@@ -95,11 +109,18 @@ class TwoFactorAuthentication
         $model->updateUserFields($login, array('twofactor_secret' => $secret));
     }
 
+    /**
+     * @return bool
+     */
     public function isUserRequiredToHaveTwoFactorEnabled()
     {
-        return $this->settings->twoFactorAuthRequired->getValue();
+        return !!$this->settings->twoFactorAuthRequired->getValue();
     }
 
+    /**
+     * @param string $login
+     * @return bool
+     */
     public static function isUserUsingTwoFactorAuthentication($login)
     {
         if (self::isAnonymous($login)) {
@@ -110,17 +131,17 @@ class TwoFactorAuthentication
         return !empty($user['twofactor_secret']);
     }
 
-    private static function getUser($login)
+    private static function getUser(string $login): array
     {
         $model = self::getUserModel();
         return $model->getUser($login);
     }
 
     private function wasTwoFaCodeUsedRecently(
-        $login,
+        string $login,
         #[\SensitiveParameter]
-        $authCode
-    ) {
+        string $authCode
+    ): bool {
         $time = Option::get($this->gettwoFaCodeUsedKey($login, $authCode));
         if (empty($time)) {
             return false;
@@ -130,18 +151,18 @@ class TwoFactorAuthentication
     }
 
     private function gettwoFaCodeUsedKey(
-        $login,
+        string $login,
         #[\SensitiveParameter]
-        $authCode
-    ) {
+        string $authCode
+    ): string {
         return self::OPTION_PREFIX_TWO_FA_CODE_USED . md5($login . $authCode . SettingsPiwik::getSalt());
     }
 
     private function setTwoFaCodeWasUsed(
-        $login,
+        string $login,
         #[\SensitiveParameter]
-        $authCode
-    ) {
+        string $authCode
+    ): bool {
         $table = Common::prefixTable('option');
         $optionName = $this->gettwoFaCodeUsedKey($login, $authCode);
         $currentTime = time();
@@ -171,6 +192,9 @@ class TwoFactorAuthentication
         }
     }
 
+    /**
+     * @return void
+     */
     public function cleanupTwoFaCodesUsedRecently()
     {
         $values = Option::getLike(TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . '%');
@@ -185,6 +209,11 @@ class TwoFactorAuthentication
         }
     }
 
+    /**
+     * @param string $login
+     * @param string $authCode
+     * @return bool
+     */
     public function validateAuthCode(
         $login,
         #[\SensitiveParameter]
@@ -222,6 +251,11 @@ class TwoFactorAuthentication
         return false;
     }
 
+    /**
+     * @param string $authCode
+     * @param string $secret
+     * @return bool
+     */
     public function validateAuthCodeDuringSetup(
         #[\SensitiveParameter]
         $authCode,
@@ -236,7 +270,7 @@ class TwoFactorAuthentication
         return false;
     }
 
-    private function makeAuthenticator()
+    private function makeAuthenticator(): \TwoFactorAuthenticator
     {
         return new \TwoFactorAuthenticator();
     }
