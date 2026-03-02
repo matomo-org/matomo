@@ -14,6 +14,10 @@ describe("RowEvolution", function () {
     const ecommerceItemReportWidgetized = "?module=Widgetize&action=iframe&moduleToWidgetize=Goals&actionToWidgetize=getItemsSku&idGoal=ecommerceAbandonedCart"
                                       + "&idSite=1&period=year&date=2012-02-09&viewDataTable=ecommerceAbandonedCart&filter_limit=-1";
 
+    const waitForRowEvolutionAnnotations = async () => {
+        await page.waitForFunction("$('.ui-dialog .evolution-annotations > span').length > 0");
+    };
+
     it('should load when icon clicked in ViewDataTable', async function() {
         await page.goto(viewDataTableUrl);
         await page.waitForSelector('tbody tr:first-child')
@@ -25,6 +29,7 @@ describe("RowEvolution", function () {
 
         await page.waitForSelector('.ui-dialog');
         await page.waitForNetworkIdle();
+        await waitForRowEvolutionAnnotations();
 
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('row_evolution');
@@ -118,7 +123,7 @@ describe("RowEvolution", function () {
 
         await page.waitForSelector('.ui-dialog', { visible: true });
         await page.waitForNetworkIdle();
-        await page.waitForTimeout(250); // wait till annotations are rendered
+        await waitForRowEvolutionAnnotations();
 
         const dialog = await page.$('.ui-dialog');
         expect(await dialog.screenshot()).to.matchImage('row_evolution_ecommerce_item');
