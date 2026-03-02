@@ -15,7 +15,6 @@ use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Option;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
-use Piwik\Plugins\VisitsSummary\API as VisitsSummaryAPI;
 use Piwik\Tests\Fixtures\OneVisitorTwoVisits;
 
 class SegmentManagementPageFixture extends OneVisitorTwoVisits
@@ -40,7 +39,6 @@ class SegmentManagementPageFixture extends OneVisitorTwoVisits
         parent::setUp();
 
         $this->setUpSegments();
-        $this->warmUpPreProcessedSegmentArchive();
     }
 
     private function setUpSegments(): void
@@ -70,15 +68,5 @@ class SegmentManagementPageFixture extends OneVisitorTwoVisits
                 Rules::setBrowserTriggerArchiving((bool) $originalBrowserTriggerOption);
             }
         }
-    }
-
-    private function warmUpPreProcessedSegmentArchive(): void
-    {
-        VisitsSummaryAPI::getInstance()->get(
-            $this->idSite,
-            'range',
-            '2010-03-06,2010-03-08',
-            self::SITE_SEGMENT_DEFINITION
-        );
     }
 }
