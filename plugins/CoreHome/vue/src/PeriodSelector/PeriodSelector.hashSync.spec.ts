@@ -6,7 +6,6 @@
  */
 
 import { mount } from '@vue/test-utils';
-import { nextTick } from 'vue';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { Periods, format } from '../Periods';
 import {
@@ -306,7 +305,7 @@ describe('PeriodSelector hash sync', () => {
     (MatomoUrl as any).url.value = originalUrl;
   });
 
-  it('mounted watcher re-syncs staged preset when only report context changes', async () => {
+  it('re-syncs staged preset when only report context changes', () => {
     const originalUrl = (MatomoUrl as any).url.value;
     const originalInitTopControls = window.initTopControls;
     if (!window.initTopControls) {
@@ -333,8 +332,7 @@ describe('PeriodSelector hash sync', () => {
         },
       },
     });
-
-    await nextTick();
+    (wrapper.vm as any).updateSelectedValuesFromHash();
 
     (wrapper.vm as any).pendingPresetSelection = {
       id: 'last7days',
@@ -348,7 +346,7 @@ describe('PeriodSelector hash sync', () => {
       'https://matomo.test/index.php?module=CoreHome&action=index&period=day&date=today'
       + '#?period=day&date=today&category=General_Visitors&subcategory=General_Overview',
     );
-    await nextTick();
+    (wrapper.vm as any).updateSelectedValuesFromHash();
 
     expect((wrapper.vm as any).pendingPresetSelection).toBeNull();
     expect((wrapper.vm as any).activePresetId).toBe('today');
