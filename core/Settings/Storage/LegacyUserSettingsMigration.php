@@ -120,26 +120,38 @@ class LegacyUserSettingsMigration
         $legacyByLogin = [];
 
         foreach ($legacySettings as $optionName => $optionValue) {
-            if (!str_starts_with($optionName, $prefix)) {
+            $knownLoginNames = array_keys($knownLogins);
+            // sort logins by length to avoid partial collisions
+            usort($knownLoginNames, fn ($a, $b) => strlen($b) <=> strlen($a));
+
+            $matchedLogin = null;
+            $matchedWidget = null;
+
+            foreach ($knownLoginNames as $candidateLogin) {
+                if (empty($candidateLogin)) {
+                    continue;
+                }
+
+                $suffix = '.' . $candidateLogin;
+                if (!str_ends_with($optionName, $suffix)) {
+                    continue;
+                }
+
+                $widgetName = substr($optionName, 0, strlen($suffix) * -1);
+                if (empty($widgetName)) {
+                    continue;
+                }
+
+                $matchedLogin = $candidateLogin;
+                $matchedWidget = $widgetName;
+                break;
+            }
+
+            if (empty($matchedLogin)) {
                 continue;
             }
 
-            $lastSeparatorPosition = strrpos($optionName, '.');
-            if ($lastSeparatorPosition === false) {
-                continue;
-            }
-
-            $login = substr($optionName, $lastSeparatorPosition + 1);
-            if ($login === '' || !isset($knownLogins[$login])) {
-                continue;
-            }
-
-            $widgetName = substr($optionName, strlen($prefix), $lastSeparatorPosition - strlen($prefix));
-            if ($widgetName === '') {
-                continue;
-            }
-
-            $legacyByLogin[$login][$widgetName] = (int) $optionValue;
+            $legacyByLogin[$matchedLogin][$matchedWidget] = (int) $optionValue;
         }
 
         foreach ($legacyByLogin as $login => $legacyWidgets) {
