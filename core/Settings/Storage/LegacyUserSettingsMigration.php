@@ -118,11 +118,18 @@ class LegacyUserSettingsMigration
         $prefix = 'ProfessionalServices.DismissedWidget.';
         $legacySettings = Option::getLike($prefix . '%');
         $legacyByLogin = [];
+        $knownLoginNames = array_keys($knownLogins);
+        // sort logins by length to avoid partial collisions
+        usort($knownLoginNames, function ($a, $b) {
+            return strlen($b) <=> strlen($a);
+        });
 
         foreach ($legacySettings as $optionName => $optionValue) {
-            $knownLoginNames = array_keys($knownLogins);
-            // sort logins by length to avoid partial collisions
-            usort($knownLoginNames, fn ($a, $b) => strlen($b) <=> strlen($a));
+            if (!str_starts_with($optionName, $prefix)) {
+                continue;
+            }
+
+            $payload = substr($optionName, strlen($prefix));
 
             $matchedLogin = null;
             $matchedWidget = null;
@@ -133,11 +140,11 @@ class LegacyUserSettingsMigration
                 }
 
                 $suffix = '.' . $candidateLogin;
-                if (!str_ends_with($optionName, $suffix)) {
+                if (!str_ends_with($payload, $suffix)) {
                     continue;
                 }
 
-                $widgetName = substr($optionName, 0, strlen($suffix) * -1);
+                $widgetName = substr($payload, 0, strlen($suffix) * -1);
                 if (empty($widgetName)) {
                     continue;
                 }

@@ -19,12 +19,19 @@ class UserScopedSettingsAccessManager
      */
     private $backends = [];
 
-    public function get(string $pluginName, string $userLogin, string $key, mixed $defaultValue = null): mixed
+    /**
+     * @param mixed $defaultValue
+     * @return mixed
+     */
+    public function get(string $pluginName, string $userLogin, string $key, $defaultValue = null)
     {
         return $this->getBackend($pluginName, $userLogin)->loadValue($key, $defaultValue);
     }
 
-    public function set(string $pluginName, string $userLogin, string $key, mixed $value): void
+    /**
+     * @param mixed $value
+     */
+    public function set(string $pluginName, string $userLogin, string $key, $value): void
     {
         $this->getBackend($pluginName, $userLogin)->saveValue($key, $value);
     }

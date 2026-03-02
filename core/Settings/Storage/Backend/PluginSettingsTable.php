@@ -103,7 +103,10 @@ class PluginSettingsTable extends BaseSettingsTable
      *
      * @throws Exception when param $settingName is empty
      */
-    public function saveValue(string $settingName, mixed $value): void
+    /**
+     * @param mixed $value
+     */
+    public function saveValue(string $settingName, $value): void
     {
         $this->initDbIfNeeded();
 
@@ -134,7 +137,11 @@ class PluginSettingsTable extends BaseSettingsTable
     /**
      * @throws Exception when param $settingName is empty
      */
-    public function loadValue(string $settingName, mixed $defaultValue = null): mixed
+    /**
+     * @param mixed $defaultValue
+     * @return mixed
+     */
+    public function loadValue(string $settingName, $defaultValue = null)
     {
         $this->initDbIfNeeded();
         if (empty($settingName)) {
@@ -345,9 +352,10 @@ class PluginSettingsTable extends BaseSettingsTable
     }
 
     /**
-     * return array{0: mixed, 1: int}
+     * @param mixed $value
+     * @return array{0: mixed, 1: int}
      */
-    private function encodeValueForStorage(mixed $value): array
+    private function encodeValueForStorage($value): array
     {
         if (is_array($value) || is_object($value)) {
             return [json_encode($value), 1];
@@ -360,7 +368,11 @@ class PluginSettingsTable extends BaseSettingsTable
         return [$value, 0];
     }
 
-    private function decodeValueFromStorage(mixed $value, bool $jsonEncoded): mixed
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    private function decodeValueFromStorage($value, bool $jsonEncoded)
     {
         if ($jsonEncoded) {
             return json_decode($value, true);
@@ -378,7 +390,7 @@ class PluginSettingsTable extends BaseSettingsTable
             $name = $setting['setting_name'];
             $jsonEncoded = isset($setting['json_encoded']) ? (bool) $setting['json_encoded'] : false;
             $value = $this->decodeValueFromStorage($setting['setting_value'], $jsonEncoded);
-            if (array_key_exists($name, $flat) && !isset($setting['json_encoded'])) {
+            if (array_key_exists($name, $flat) && !$jsonEncoded) {
                 $flat[$name] = (array) $flat[$name];
                 $flat[$name][] = $value;
             } else {
