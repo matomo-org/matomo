@@ -778,5 +778,6 @@ describe("SegmentManagementPageTest", function () {
         && window.location.href.indexOf('category=Dashboard_Dashboard') !== -1;
     }, {}, previousUrl);
     await page.waitForSelector('.segmentationContainer .segmentationTitle', { visible: true });
+    await page.waitForNetworkIdle();
   }
 });
