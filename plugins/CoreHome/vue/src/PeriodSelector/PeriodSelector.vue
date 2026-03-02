@@ -969,7 +969,6 @@ export default defineComponent({
     isApplyEnabled() {
       if (this.uiSelection.type === 'period'
         && this.uiSelectedPeriod !== RANGE_PERIOD
-        && !this.isCompareDirty
       ) {
         return false;
       }

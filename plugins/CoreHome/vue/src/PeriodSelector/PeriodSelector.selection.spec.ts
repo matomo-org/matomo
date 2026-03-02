@@ -489,6 +489,22 @@ describe('PeriodSelector', () => {
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
   });
 
+  it('keeps apply disabled for non-range period options even when compare type changes', () => {
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      uiSelectedPeriod: 'day',
+      isCompareDirty: true,
+      hasPendingNonRangePeriodChange: false,
+      pendingPresetSelection: null,
+      isRangeValid: true,
+      isComparing: true,
+      comparePeriodType: 'custom',
+      isCompareRangeValid: jest.fn(() => true),
+    };
+
+    expect(methods.isApplyEnabled.call(vm)).toBe(false);
+  });
+
   it('enables apply immediately when date range period option is selected', () => {
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
