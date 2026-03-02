@@ -61,6 +61,7 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
             fs.writeFileSync(processedPath, imageBuffer);
 
             if (options['skip-screenshots']) {
+                console.log(`    ~ [skip-screenshots] no image comparison for ${imageName}`);
                 performAutomaticPageChecks();
                 return;
             }
