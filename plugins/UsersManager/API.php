@@ -32,7 +32,7 @@ use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
 use Piwik\Request\AuthenticationToken;
-use Piwik\Settings\Storage\UserScopedSettingsStore;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -226,7 +226,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $this->assertPreferenceNameIsSupported($preferenceName);
-        $this->getUserSettingsStore()->set('UsersManager', $userLogin, $preferenceName, $preferenceValue);
+        $this->getUserSettingsAccessManager()->set('UsersManager', $userLogin, $preferenceName, $preferenceValue);
 
         // Keep legacy option key for LoginLdap compatibility without requiring submodule changes.
         if ($preferenceName === 'isLDAPUser') {
@@ -296,7 +296,7 @@ class API extends \Piwik\Plugin\API
             $supportedPreferenceNames[] = $preferenceName;
         }
 
-        $userPreferences = $this->getUserSettingsStore()->getValuesForAllUsers('UsersManager', $supportedPreferenceNames);
+        $userPreferences = $this->getUserSettingsAccessManager()->getValuesForAllUsers('UsersManager', $supportedPreferenceNames);
 
         return $userPreferences;
     }
@@ -326,7 +326,7 @@ class API extends \Piwik\Plugin\API
     private function getPreferenceValue($userLogin, $preferenceName)
     {
         $this->assertPreferenceNameIsSupported($preferenceName);
-        return $this->getUserSettingsStore()->get('UsersManager', $userLogin, $preferenceName, false);
+        return $this->getUserSettingsAccessManager()->get('UsersManager', $userLogin, $preferenceName, false);
     }
 
     private function getDefaultUserPreference($preferenceName, $login)
@@ -345,9 +345,9 @@ class API extends \Piwik\Plugin\API
         }
     }
 
-    private function getUserSettingsStore(): UserScopedSettingsStore
+    private function getUserSettingsAccessManager(): UserScopedSettingsAccessManager
     {
-        return StaticContainer::get(UserScopedSettingsStore::class);
+        return StaticContainer::get(UserScopedSettingsAccessManager::class);
     }
 
     /**

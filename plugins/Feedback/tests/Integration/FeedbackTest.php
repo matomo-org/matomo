@@ -16,7 +16,7 @@ use Piwik\Plugins\Feedback\API;
 use Piwik\Plugins\Feedback\Feedback;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
-use Piwik\Settings\Storage\UserScopedSettingsStore;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -110,7 +110,7 @@ class FeedbackTest extends IntegrationTestCase
     public function testShouldPromptForFeedbackUserOldThanHalfYear()
     {
         FakeAccess::$identity = 'user1';
-        StaticContainer::get(UserScopedSettingsStore::class)->deleteAll('Feedback', 'user1');
+        StaticContainer::get(UserScopedSettingsAccessManager::class)->deleteAll('Feedback', 'user1');
         $this->assertFalse($this->feedback->showQuestionBanner());
     }
 
@@ -143,6 +143,6 @@ class FeedbackTest extends IntegrationTestCase
 
     private function setFeedbackReminderForUser(string $login, string $value): void
     {
-        StaticContainer::get(UserScopedSettingsStore::class)->set('Feedback', $login, 'nextFeedbackReminder', $value);
+        StaticContainer::get(UserScopedSettingsAccessManager::class)->set('Feedback', $login, 'nextFeedbackReminder', $value);
     }
 }

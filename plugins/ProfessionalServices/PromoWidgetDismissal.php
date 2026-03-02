@@ -11,7 +11,7 @@ namespace Piwik\Plugins\ProfessionalServices;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Settings\Storage\UserScopedSettingsStore;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 
 class PromoWidgetDismissal
 {
@@ -26,7 +26,7 @@ class PromoWidgetDismissal
 
         $dismissedWidgets = $this->getDismissedWidgets($userLogin);
         $dismissedWidgets[$widgetName] = time();
-        $this->getStore()->set('ProfessionalServices', $userLogin, self::STORE_KEY_DISMISSED_WIDGETS, $dismissedWidgets);
+        $this->getAccessManager()->set('ProfessionalServices', $userLogin, self::STORE_KEY_DISMISSED_WIDGETS, $dismissedWidgets);
     }
 
     public function isPromoWidgetDismissedForCurrentUser(string $widgetName): bool
@@ -53,7 +53,7 @@ class PromoWidgetDismissal
 
     private function getDismissedWidgets(string $userLogin): array
     {
-        $value = $this->getStore()->get('ProfessionalServices', $userLogin, self::STORE_KEY_DISMISSED_WIDGETS, []);
+        $value = $this->getAccessManager()->get('ProfessionalServices', $userLogin, self::STORE_KEY_DISMISSED_WIDGETS, []);
         if (is_array($value)) {
             return $value;
         }
@@ -61,8 +61,8 @@ class PromoWidgetDismissal
         return [];
     }
 
-    private function getStore(): UserScopedSettingsStore
+    private function getAccessManager(): UserScopedSettingsAccessManager
     {
-        return StaticContainer::get(UserScopedSettingsStore::class);
+        return StaticContainer::get(UserScopedSettingsAccessManager::class);
     }
 }

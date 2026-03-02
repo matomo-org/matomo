@@ -28,7 +28,7 @@ use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
-use Piwik\Settings\Storage\UserScopedSettingsStore;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -236,7 +236,7 @@ class APITest extends IntegrationTestCase
     {
         $this->api->setUserPreference($this->login, 'isLDAPUser', 1);
 
-        $settingsStore = StaticContainer::get(UserScopedSettingsStore::class);
+        $settingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
         self::assertEquals(1, $settingsStore->get('UsersManager', $this->login, 'isLDAPUser', false));
 
         $legacyOptionName = $this->login . API::OPTION_NAME_PREFERENCE_SEPARATOR . 'isLDAPUser';
@@ -245,7 +245,7 @@ class APITest extends IntegrationTestCase
 
     public function testInitUserPreferenceWithDefaultShouldSaveTheDefaultPreferenceIfPreferenceIsNotSet()
     {
-        $settingsStore = StaticContainer::get(UserScopedSettingsStore::class);
+        $settingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
 
         // make sure there is no value saved so it will use default preference
         $siteId = $settingsStore->get('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, false);
@@ -260,7 +260,7 @@ class APITest extends IntegrationTestCase
 
     public function testInitUserPreferenceWithDefaultShouldNotSaveTheDefaultPreferenceIfPreferenceIsAlreadySet()
     {
-        $settingsStore = StaticContainer::get(UserScopedSettingsStore::class);
+        $settingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
 
         // set value so there will already be a default
         $settingsStore->set('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, '999');

@@ -20,14 +20,14 @@ use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 class LegacyUserSettingsMigration
 {
     /**
-     * @var UserScopedSettingsStore
+     * @var UserScopedSettingsAccessManager
      */
     private $store;
 
-    public function __construct(?UserScopedSettingsStore $store = null)
+    public function __construct(?UserScopedSettingsAccessManager $store = null)
     {
         if ($store === null) {
-            $store = new UserScopedSettingsStore();
+            $store = new UserScopedSettingsAccessManager();
         }
 
         $this->store = $store;

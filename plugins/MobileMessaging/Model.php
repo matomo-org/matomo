@@ -14,7 +14,7 @@ use Piwik\Date;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Settings\Storage\Factory;
-use Piwik\Settings\Storage\UserScopedSettingsStore;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 
 /**
  * @phpstan-type PhoneVerificationData array{
@@ -281,7 +281,7 @@ class Model
             return;
         }
 
-        $this->getStore()->setAll('MobileMessaging', $login, $settings);
+        $this->getAccessManager()->setAll('MobileMessaging', $login, $settings);
     }
 
     private function getCredentialManagerLogin(): string
@@ -303,7 +303,7 @@ class Model
             return $this->getLegacyGlobalSettings();
         }
 
-        $userSettings = $this->getStore()->getAll('MobileMessaging', $login);
+        $userSettings = $this->getAccessManager()->getAll('MobileMessaging', $login);
         if (empty($userSettings)) {
             // revert to old style
             $optionIndex = $login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION;
@@ -405,9 +405,9 @@ class Model
         ];
     }
 
-    private function getStore(): UserScopedSettingsStore
+    private function getAccessManager(): UserScopedSettingsAccessManager
     {
-        return StaticContainer::get(UserScopedSettingsStore::class);
+        return StaticContainer::get(UserScopedSettingsAccessManager::class);
     }
 
     private function getFactory(): Factory

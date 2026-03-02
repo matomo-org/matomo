@@ -11,7 +11,7 @@ namespace Piwik\Plugins\Feedback;
 
 use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Settings\Storage\UserScopedSettingsStore;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 
 class FeedbackReminder
 {
@@ -24,16 +24,16 @@ class FeedbackReminder
 
     public function getUserOption()
     {
-        return $this->getStore()->get('Feedback', $this->userLogin, 'nextFeedbackReminder', false);
+        return $this->getAccessManager()->get('Feedback', $this->userLogin, 'nextFeedbackReminder', false);
     }
 
     public function setUserOption($value)
     {
-        $this->getStore()->set('Feedback', $this->userLogin, 'nextFeedbackReminder', $value);
+        $this->getAccessManager()->set('Feedback', $this->userLogin, 'nextFeedbackReminder', $value);
     }
 
-    private function getStore(): UserScopedSettingsStore
+    private function getAccessManager(): UserScopedSettingsAccessManager
     {
-        return StaticContainer::get(UserScopedSettingsStore::class);
+        return StaticContainer::get(UserScopedSettingsAccessManager::class);
     }
 }

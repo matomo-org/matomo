@@ -14,7 +14,7 @@ use Piwik\Plugins\CoreAdminHome\Commands\MigrateUserScopedSettings;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
 use Piwik\Settings\Storage\Factory;
-use Piwik\Settings\Storage\UserScopedSettingsStore;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -26,7 +26,7 @@ class MigrateUserScopedSettingsTest extends IntegrationTestCase
     public function testMigrateMovesKnownUsersToPluginSettingsAndPurgesLegacyOptions(): void
     {
         $usersModel = new UsersModel();
-        $store = new UserScopedSettingsStore();
+        $store = new UserScopedSettingsAccessManager();
         $activeUser = 'activeMigrUser';
         $deletedUser = 'deletedMigrUser';
 

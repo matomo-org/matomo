@@ -14,7 +14,7 @@ use Piwik\Plugin;
 use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\CorePluginsAdmin\CorePluginsAdmin;
-use Piwik\Settings\Storage\UserScopedSettingsStore;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 
 class TagManagerTeaser
 {
@@ -45,14 +45,14 @@ class TagManagerTeaser
 
     public function disableForUser()
     {
-        $settings = $this->getStore()->getAll('CorePluginsAdmin', $this->login);
+        $settings = $this->getAccessManager()->getAll('CorePluginsAdmin', $this->login);
         $settings['disable_activate_tag_manager_page'] = 1;
-        $this->getStore()->setAll('CorePluginsAdmin', $this->login, $settings);
+        $this->getAccessManager()->setAll('CorePluginsAdmin', $this->login, $settings);
     }
 
     public function isEnabledForUser()
     {
-        $settings = $this->getStore()->getAll('CorePluginsAdmin', $this->login);
+        $settings = $this->getAccessManager()->getAll('CorePluginsAdmin', $this->login);
 
         return empty($settings['disable_activate_tag_manager_page']);
     }
@@ -68,7 +68,7 @@ class TagManagerTeaser
         Option::delete(self::DISABLE_GLOBALLY_KEY);
 
         // no need to keep any old login entries
-        $this->getStore()->deleteAll('CorePluginsAdmin', $this->login);
+        $this->getAccessManager()->deleteAll('CorePluginsAdmin', $this->login);
     }
 
     public function isEnabledGlobally()
@@ -77,8 +77,8 @@ class TagManagerTeaser
         return empty($value);
     }
 
-    private function getStore(): UserScopedSettingsStore
+    private function getAccessManager(): UserScopedSettingsAccessManager
     {
-        return StaticContainer::get(UserScopedSettingsStore::class);
+        return StaticContainer::get(UserScopedSettingsAccessManager::class);
     }
 }

@@ -19,7 +19,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugins\LanguagesManager\Model as LanguagesModel;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
-use Piwik\Settings\Storage\UserScopedSettingsStore;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
@@ -476,7 +476,7 @@ class UsersManagerTest extends IntegrationTestCase
             Option::set($login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION, '{"PhoneNumbers":{"123":{"verified":true}}}');
             Option::set('ProfessionalServices.DismissedWidget.SampleWidget.' . $login, time());
 
-            $userSettingsStore = StaticContainer::get(UserScopedSettingsStore::class);
+            $userSettingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
             $userSettingsStore->set('Feedback', $login, 'nextFeedbackReminder', '2031-01-01');
             $userSettingsStore->set('MobileMessaging', $login, MobileMessaging::PHONE_NUMBERS_OPTION, [
                 '456' => ['verified' => true],

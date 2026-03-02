@@ -83,7 +83,7 @@ class PluginSettingsTable extends BaseSettingsTable
             $valuesKeep[] = array($this->pluginName, $this->userLogin, $name, $value, $jsonEncoded);
         }
 
-        $columns = array('plugin_name', 'user_login', 'setting_name', 'setting_value', 'json_encoded');
+        $columns = self::getColumns();
 
         $table = $this->getTableName();
         $lockKey = $this->getStorageId();
@@ -95,6 +95,97 @@ class PluginSettingsTable extends BaseSettingsTable
             }
         });
     }
+
+    /**
+     * Save exactly one setting key atomically for the current plugin/user context
+     *
+     * if the value is null, the key is deleted.
+     *
+     * @throws Exception when param $settingName is empty
+     */
+    public function saveValue(string $settingName, mixed $value): void
+    {
+        $this->initDbIfNeeded();
+
+        if (empty($settingName)) {
+            throw new Exception('No setting name given for PluginSettingsTable backend');
+        }
+
+        $table = $this->getTableName();
+        $lockKey = $this->getStorageId();
+        $columns = self::getColumns();
+
+        $this->lock->execute($lockKey, function () use ($table, $columns, $settingName, $value) {
+            $this->deleteValueWithoutLock($settingName);
+
+            if (is_null($value)) {
+                return;
+            }
+
+            [$storedValue, $jsonEncoded] = $this->encodeValueForStorage($value);
+            Db\BatchInsert::tableInsertBatchSql(
+                $table,
+                $columns,
+                [[$this->pluginName, $this->userLogin, $settingName, $storedValue, $jsonEncoded]]
+            );
+        });
+    }
+
+    /**
+     * @throws Exception when param $settingName is empty
+     */
+    public function loadValue(string $settingName, mixed $defaultValue = null): mixed
+    {
+        $this->initDbIfNeeded();
+        if (empty($settingName)) {
+            throw new Exception('No setting name given for PluginSettingsTable backend');
+        }
+
+        $table = $this->getTableName();
+
+        $sql = "SELECT `setting_name`, `setting_value`, `json_encoded`
+                FROM `$table`
+                WHERE plugin_name = ? and user_login = ? and setting_name = ?";
+        $bind = [$this->pluginName, $this->userLogin, $settingName];
+
+        try {
+            $rows = $this->db->fetchAll($sql, $bind);
+        } catch (\Exception $e) {
+            if ($this->jsonEncodedMissingError($e)) {
+                $sql = "SELECT `setting_name`, `setting_value`
+                        FROM `$table`
+                        WHERE plugin_name = ? and user_login = ? and setting_name = ?";
+                $rows = $this->db->fetchAll($sql, $bind);
+            } else {
+                throw $e;
+            }
+        }
+
+        if (empty($rows)) {
+            return $defaultValue;
+        }
+
+        $flat = $this->flattenSettingsRows($rows);
+        return array_key_exists($settingName, $flat) ? $flat[$settingName] : $defaultValue;
+    }
+
+    /**
+     * @throws Exception when param $settingName is empty
+     */
+    public function deleteValue(string $settingName): void
+    {
+        $this->initDbIfNeeded();
+
+        if (empty($settingName)) {
+            throw new Exception('No setting name given for PluginSettingsTable backend');
+        }
+
+        $lockKey = $this->getStorageId();
+        $this->lock->execute($lockKey, function () use ($settingName) {
+            $this->deleteValueWithoutLock($settingName);
+        });
+    }
+
 
     private function jsonEncodedMissingError(Exception $e)
     {
@@ -121,23 +212,56 @@ class PluginSettingsTable extends BaseSettingsTable
             }
         }
 
-        $flat = array();
-        foreach ($settings as $setting) {
-            $name = $setting['setting_name'];
+        return $this->flattenSettingsRows($settings);
+    }
 
-            if (!empty($setting['json_encoded'])) {
-                $flat[$name] = json_decode($setting['setting_value'], true);
-            } elseif (array_key_exists($name, $flat)) {
-                if (!is_array($flat[$name])) {
-                    $flat[$name] = array($flat[$name]);
-                }
-                $flat[$name][] = $setting['setting_value'];
+    /**
+     * Returns selected setting names for all users in one plugin
+     *
+     * @param string[] $settingNames
+     * @return array<string, array<string, mixed>>
+     */
+    public function loadValuesForUsers(array $settingNames): array
+    {
+        $this->initDbIfNeeded();
+        if (empty($settingNames)) {
+            return [];
+        }
+
+        $table = $this->getTableName();
+        $placeholders = Common::getSqlStringFieldsArray($settingNames);
+        $sql = "SELECT user_login, setting_name, setting_value, json_encoded
+                FROM `$table`
+                WHERE plugin_name = ?
+                    AND setting_name IN ($placeholders)
+                    AND user_login <> ''";
+        $bind = array_merge([$this->pluginName], $settingNames);
+
+        try {
+            $rows = $this->db->fetchAll($sql, $bind);
+        } catch (\Exception $e) {
+            if ($this->jsonEncodedMissingError($e)) {
+                $sql = "SELECT user_login, setting_name, setting_value
+                        FROM `$table`
+                        WHERE plugin_name = ?
+                            AND setting_name IN ($placeholders)
+                            AND user_login <> ''";
+                $rows = $this->db->fetchAll($sql, $bind);
             } else {
-                $flat[$name] = $setting['setting_value'];
+                throw $e;
             }
         }
 
-        return $flat;
+        $valuesByUser = [];
+        foreach ($rows as $row) {
+            $jsonEncoded = isset($row['json_encoded']) ? (bool) $row['json_encoded'] : false;
+            $value = $this->decodeValueFromStorage(
+                $row['setting_value'],
+                $jsonEncoded
+            );
+            $valuesByUser[$row['user_login']][$row['setting_name']] = $value;
+        }
+        return $valuesByUser;
     }
 
     protected function getTableName()
@@ -152,6 +276,18 @@ class PluginSettingsTable extends BaseSettingsTable
         $table = $this->getTableName();
         $sql = "DELETE FROM `$table` WHERE `plugin_name` = ? and `user_login` = ?";
         $bind  = array($this->pluginName, $this->userLogin);
+
+        $this->db->query($sql, $bind);
+    }
+
+    private function deleteValueWithoutLock(string $settingName): void
+    {
+        $this->initDbIfNeeded();
+
+        $table = $this->getTableName();
+        $sql = "DELETE FROM `$table`
+                WHERE `plugin_name` = ? and `user_login` = ? and `setting_name` = ?";
+        $bind = [$this->pluginName, $this->userLogin, $settingName];
 
         $this->db->query($sql, $bind);
     }
@@ -175,6 +311,7 @@ class PluginSettingsTable extends BaseSettingsTable
             Db::get()->query(sprintf('DELETE FROM `%s` WHERE user_login = ?', $table), array($userLogin));
         } catch (Exception $e) {
             if ($e->getCode() != 42) {
+
                 // ignore table not found error, which might occur when updating from an older version of Piwik
                 throw $e;
             }
@@ -200,5 +337,54 @@ class PluginSettingsTable extends BaseSettingsTable
                 throw $e;
             }
         }
+    }
+
+    private static function getColumns(): array
+    {
+        return ['plugin_name', 'user_login', 'setting_name', 'setting_value', 'json_encoded'];
+    }
+
+    /**
+     * return array{0: mixed, 1: int}
+     */
+    private function encodeValueForStorage(mixed $value): array
+    {
+        if (is_array($value) || is_object($value)) {
+            return [json_encode($value), 1];
+        }
+
+        if (is_bool($value)) {
+            return [(int) $value, 0];
+        }
+
+        return [$value, 0];
+    }
+
+    private function decodeValueFromStorage(mixed $value, bool $jsonEncoded): mixed
+    {
+        if ($jsonEncoded) {
+            return json_decode($value, true);
+        }
+        return $value;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function flattenSettingsRows(array $settings): array
+    {
+        $flat = [];
+        foreach ($settings as $setting) {
+            $name = $setting['setting_name'];
+            $jsonEncoded = isset($setting['json_encoded']) ? (bool) $setting['json_encoded'] : false;
+            $value = $this->decodeValueFromStorage($setting['setting_value'], $jsonEncoded);
+            if (array_key_exists($name, $flat) && !isset($setting['json_encoded'])) {
+                $flat[$name] = (array) $flat[$name];
+                $flat[$name][] = $value;
+            } else {
+                $flat[$name] = $value;
+            }
+        }
+        return $flat;
     }
 }
