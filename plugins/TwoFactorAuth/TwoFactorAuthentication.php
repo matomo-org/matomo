@@ -125,11 +125,8 @@ class TwoFactorAuthentication
         if (empty($time)) {
             return false;
         }
-        $fiveMinutes = 60 * self::BLOCK_TWOFA_CODE_MINUTES;
-        if (time() - $fiveMinutes >= (int)$time) {
-            return true;
-        }
-        return false;
+        $blockWindowSeconds = 60 * self::BLOCK_TWOFA_CODE_MINUTES;
+        return (int)$time >= time() - $blockWindowSeconds;
     }
 
     private function gettwoFaCodeUsedKey(
@@ -146,13 +143,31 @@ class TwoFactorAuthentication
         $authCode
     ) {
         $table = Common::prefixTable('option');
-        $bind = array($this->gettwoFaCodeUsedKey($login, $authCode), time(), 0);
+        $optionName = $this->gettwoFaCodeUsedKey($login, $authCode);
+        $currentTime = time();
+        $bind = array($optionName, $currentTime, 0);
         try {
             Db::query('INSERT INTO `' . $table . '` (option_name, option_value, autoload) VALUES (?, ?, ?) ', $bind);
+            Option::clearCachedOption($optionName);
             return true;
         } catch (Exception $e) {
-            // when 2 process try to insert at same time should result in duplicate error
-            return false;
+            // when 2 processes try to insert at same time this can fail with duplicate key.
+            // if the record is older than the block window, refresh the timestamp and allow usage again.
+            $blockWindowSeconds = 60 * self::BLOCK_TWOFA_CODE_MINUTES;
+            $staleThreshold = $currentTime - $blockWindowSeconds;
+            $updateBind = array($currentTime, $optionName, $staleThreshold);
+
+            $result = Db::query(
+                'UPDATE `' . $table . '` SET option_value = ?, autoload = 0 WHERE option_name = ? AND CAST(option_value AS UNSIGNED) <= ?',
+                $updateBind
+            );
+
+            $didUpdateRecord = (bool) Db::get()->rowCount($result);
+            if ($didUpdateRecord) {
+                Option::clearCachedOption($optionName);
+            }
+
+            return $didUpdateRecord;
         }
     }
 
