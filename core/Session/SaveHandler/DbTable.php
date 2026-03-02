@@ -61,7 +61,6 @@ class DbTable implements \SessionHandlerInterface
      *
      * @param string $save_path
      * @param string $name
-     * @return boolean
      */
     public function open($save_path, $name): bool
     {
@@ -73,7 +72,6 @@ class DbTable implements \SessionHandlerInterface
     /**
      * Close Session - free resources
      *
-     * @return boolean
      */
     public function close(): bool
     {
@@ -138,7 +136,6 @@ class DbTable implements \SessionHandlerInterface
      *
      * @param string $id
      * @param mixed $data
-     * @return boolean
      */
     public function write($id, $data): bool
     {
@@ -165,7 +162,6 @@ class DbTable implements \SessionHandlerInterface
      * given session id
      *
      * @param string $id
-     * @return boolean
      */
     public function destroy($id): bool
     {

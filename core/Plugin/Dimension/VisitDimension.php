@@ -164,8 +164,6 @@ abstract class VisitDimension extends Dimension
      * value for this user here. By returning boolean `false` no value will be saved. Once the user makes another action
      * the event "onExistingVisit" is executed. Meaning for each visitor this method is executed once.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed|false
      * @api
@@ -180,8 +178,6 @@ abstract class VisitDimension extends Dimension
      * You can overwrite any previous value set by the event `onNewVisit` by implementing this event. By returning boolean
      * `false` no value will be updated.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed|false
      * @api
@@ -197,8 +193,6 @@ abstract class VisitDimension extends Dimension
      * instance to persist the last converted action url. Return boolean `false` if you do not want to change the
      * current value.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed|false
      * @api
@@ -215,8 +209,6 @@ abstract class VisitDimension extends Dimension
      * implement this event and a $columnType is defined a column in the `log_conversion` MySQL table will be
      * created automatically.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed|false
      * @api
@@ -333,7 +325,6 @@ abstract class VisitDimension extends Dimension
 
     /**
      * Get all visit dimensions that are defined by the given plugin.
-     * @param Plugin $plugin
      * @return VisitDimension[]
      * @ignore
      */

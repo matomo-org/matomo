@@ -19,8 +19,6 @@ use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Url;
 use Piwik\View;
 
-/**
- */
 class Controller extends \Piwik\Plugin\Controller
 {
     public const SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY = 'live_widget_visitor_count_last_minutes';

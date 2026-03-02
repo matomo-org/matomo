@@ -24,9 +24,6 @@ use Piwik\Plugins\Login\Security\LoginFromDifferentCountryDetection;
 use Piwik\Session;
 use Piwik\SettingsServer;
 
-/**
- *
- */
 class Login extends \Piwik\Plugin
 {
     private $hasAddedFailedAttempt = false;

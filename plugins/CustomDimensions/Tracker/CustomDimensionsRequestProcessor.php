@@ -207,7 +207,6 @@ class CustomDimensionsRequestProcessor extends RequestProcessor
     /**
      * Get Cached Custom Dimensions during tracking. Returns only active custom dimensions.
      *
-     * @param Request $request
      * @return array
      * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
      */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,9 +8,6 @@
  */
 
 namespace Piwik\Plugins\CustomDirPlugin;
-
-use Piwik\Common;
-use Piwik\Db;
 
 class CustomDirPlugin extends \Piwik\Plugin
 {

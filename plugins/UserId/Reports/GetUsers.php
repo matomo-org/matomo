@@ -44,9 +44,6 @@ class GetUsers extends Base
         return array();
     }
 
-    /**
-     * @param ViewDataTable $view
-     */
     public function configureView(ViewDataTable $view)
     {
         $view->config->addTranslation('label', Piwik::translate('General_UserId'));

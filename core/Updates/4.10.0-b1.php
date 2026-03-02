@@ -32,7 +32,6 @@ class Updates_4_10_0_b1 extends PiwikUpdates
     }
 
     /**
-     * @param Updater $updater
      *
      * @return Migration[]
      */

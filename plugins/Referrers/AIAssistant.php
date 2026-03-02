@@ -105,7 +105,6 @@ class AIAssistant extends Singleton
     /**
      * Parses the given YML string and caches the resulting definitions
      *
-     * @param string $yml
      * @return null|array<string, string>
      */
     public function loadYmlData(string $yml): ?array
@@ -143,7 +142,6 @@ class AIAssistant extends Singleton
      *
      * @param string $url The URL to check.
      * @param string|null $aiAssistantName The name of the AI assistant to check for, or false to check for any.
-     * @return bool
      */
     public function isAIAssistantUrl(string $url, ?string $aiAssistantName = null): bool
     {

@@ -47,8 +47,6 @@ class ExitPageUrl extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return int|bool
      */
@@ -64,8 +62,6 @@ class ExitPageUrl extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */

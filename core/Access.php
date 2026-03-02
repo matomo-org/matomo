@@ -104,9 +104,6 @@ class Access
      */
     private $roleProvider;
 
-    /**
-     * Constructor
-     */
     public function __construct(?RolesProvider $roleProvider = null, ?CapabilitiesProvider $capabilityProvider = null)
     {
         if (!isset($roleProvider)) {

@@ -12,8 +12,6 @@ namespace Piwik\Db;
 use Zend_Db_Table;
 use Piwik\Piwik;
 
-/**
- */
 class Adapter
 {
     /**

@@ -91,7 +91,7 @@ class RankingQuery
     private $othersLabelValue = self::LABEL_SUMMARY_ROW;
 
     /**
-     * Constructor.
+     *
      *
      * @param int|false $limit The result row limit. See {@link setLimit()}.
      */

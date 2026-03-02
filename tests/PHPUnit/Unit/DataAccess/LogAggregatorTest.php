@@ -45,7 +45,6 @@ class LogAggregatorTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider getTestQueryConversionsByDimensionForcingIndexFlagTestData
      *
-     * @param bool $forceIndex
      * @return void
      */
     public function testQueryConversionsByDimensionForcingIndexFlag(bool $forceIndex)

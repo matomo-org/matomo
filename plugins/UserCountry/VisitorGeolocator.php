@@ -143,7 +143,6 @@ class VisitorGeolocator
     }
 
     /**
-     * @param LocationProvider $provider
      * @param array $userInfo
      * @return array|false
      */

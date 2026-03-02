@@ -42,8 +42,6 @@ class ContainerFactory
     private $definitions;
 
     /**
-     * @param PluginList $pluginList
-     * @param GlobalSettingsProvider $settings
      * @param string[] $environments Optional environment configs to load.
      * @param array[] $definitions
      */
@@ -58,7 +56,6 @@ class ContainerFactory
     /**
      * @link https://php-di.org/doc/container-configuration.html
      * @throws \Exception
-     * @return Container
      */
     public function create(): Container
     {
@@ -170,7 +167,6 @@ class ContainerFactory
     /**
      * This method is required for Matomo Cloud to allow for custom sorting of plugin order
      *
-     * @return bool
      */
     private function shouldSortPlugins(): bool
     {

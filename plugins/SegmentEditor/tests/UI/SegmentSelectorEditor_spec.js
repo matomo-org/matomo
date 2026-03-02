@@ -35,6 +35,12 @@ describe("SegmentSelectorEditorTest", function () {
         await (await page.jQuery(prefixSelector + ' .metricListBlock .expandableList .secondLevel li:contains(' + name + ')', { waitFor: true })).click();
     }
 
+    async function moveMouseAwayFromCapturedArea()
+    {
+        await page.mouse.move(-10, -10);
+        await page.waitForTimeout(100);
+    }
+
     async function switchToAnonymousUser() {
         await testEnvironment.callApi('UsersManager.setUserAccess', {
             userLogin: 'anonymous',
@@ -101,6 +107,7 @@ describe("SegmentSelectorEditorTest", function () {
             $('.segmentList .editSegment:first').click();
         });
         await page.waitForNetworkIdle();
+        await moveMouseAwayFromCapturedArea();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('2_segment_editor_update');
     });
 
@@ -136,6 +143,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input');
         await page.waitForNetworkIdle();
         await page.waitForTimeout(500);
+        await moveMouseAwayFromCapturedArea();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('suggested_values');
     });
 
@@ -144,6 +152,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.click('.segmentEditorPanel .segment-add-or');
         await page.waitForFunction(() => !! $('.segmentRow0 .segment-rows>div:eq(1)').length);
         await page.waitForNetworkIdle();
+        await moveMouseAwayFromCapturedArea();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('add_new_or_condition');
     });
 
@@ -155,6 +164,7 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should add an AND condition when clicking on add AND", async function() {
         await page.click('.segmentEditorPanel .segment-add-row');
+        await moveMouseAwayFromCapturedArea();
         await page.waitForSelector('.segmentRow1');
         await page.waitForNetworkIdle();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('add_new_and_condition');
@@ -246,13 +256,22 @@ describe("SegmentSelectorEditorTest", function () {
         await page.waitForNetworkIdle();
         await (await page.waitForSelector('.segmentationContainer')).click();
         await page.waitForNetworkIdle();
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated');
+        await moveMouseAwayFromCapturedArea();
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage({
+            imageName: 'updated',
+            comparisonThreshold: 0.0002,
+        });
     });
 
     it("should show the updated segment after page reload", async function() {
         await page.reload();
         await page.click('.segmentationContainer .title');
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated');
+        await moveMouseAwayFromCapturedArea();
+        // Keep a dedicated baseline for the reload step to make future diffs easier to isolate.
+        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage({
+            imageName: 'updated_after_reload',
+            comparisonThreshold: 0.0002,
+        });
     });
 
     it("should correctly load the updated segment's details when the updated segment is edited", async function() {

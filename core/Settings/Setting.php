@@ -64,7 +64,7 @@ class Setting
     protected $type;
 
     /**
-     * Constructor.
+     *
      *
      * @param string $name    The setting's persisted name. Only alphanumeric characters are allowed, eg,
      *                        `'refreshInterval'`.
@@ -134,7 +134,6 @@ class Setting
 
     /**
      * @internal
-     * @param Storage $storage
      */
     public function setStorage(Storage $storage)
     {

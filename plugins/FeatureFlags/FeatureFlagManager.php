@@ -33,7 +33,6 @@ class FeatureFlagManager
 
     /**
      * @param string $featureFlag The ::class name of a class that implements FeatureFlagInterface
-     * @return bool
      */
     public function isFeatureActive(string $featureFlag): bool
     {
@@ -57,8 +56,6 @@ class FeatureFlagManager
     }
 
     /**
-     * @param string $featureFlagName
-     * @return void
      * @internal
      */
     public static function deleteFeatureFlag(string $featureFlagName): void

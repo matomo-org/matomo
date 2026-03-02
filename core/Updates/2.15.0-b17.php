@@ -26,7 +26,6 @@ class Updates_2_15_0_b17 extends Updates
      *
      * See {@link Updates} for an example.
      *
-     * @param Updater $updater
      */
     public function doUpdate(Updater $updater)
     {

@@ -40,7 +40,6 @@ class Updates_3_0_0_b1 extends Updates
 
     /**
      * Here you can define one or multiple SQL statements that should be executed during the update.
-     * @param Updater $updater
      * @return Migration[]
      */
     public function getMigrations(Updater $updater)

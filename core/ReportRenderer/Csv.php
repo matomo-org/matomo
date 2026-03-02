@@ -134,7 +134,6 @@ class Csv extends ReportRenderer
     }
 
     /**
-     * @param DataTableInterface $table
      * @param string $uniqueId
      * @return \Piwik\DataTable\Renderer\Csv
      */

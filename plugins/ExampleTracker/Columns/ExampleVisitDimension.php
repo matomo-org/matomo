@@ -69,8 +69,6 @@ class ExampleVisitDimension extends VisitDimension
      * event "onExistingVisit" is executed. That means for each visitor this method is executed once. If you do not want
      * to perform any action on a new visit you can just remove this method.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed|false
      */
@@ -97,8 +95,6 @@ class ExampleVisitDimension extends VisitDimension
      * If you want you can overwrite any previous value set by the event onNewVisit. By returning boolean false no value
      * will be updated. If you do not want to perform any action on a new visit you can just remove this method.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      *
      * @return mixed|false
@@ -123,8 +119,6 @@ class ExampleVisitDimension extends VisitDimension
      * can simply remove this method therefore. An example would be for instance to persist the last converted
      * action url. Return boolean false if you do not want to change the current value.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      *
      * @return mixed|false

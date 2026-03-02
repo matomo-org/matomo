@@ -75,7 +75,6 @@ class WidgetMetadata
     }
 
     /**
-     * @param WidgetConfig $widget
      * @param CategoryList|null $categoryList If null, no category information will be added to the widgets in first
      *                                        level (they will be added to nested widgets as potentially needed eg for
      *                                        widgets in ByDimensionView where they are needed to build the left menu)
@@ -267,8 +266,6 @@ class WidgetMetadata
     }
 
     /**
-     * @param CategoryList $categoryList
-     * @param WidgetsList $widgetsList
      * @return array
      */
     private function buildPagesMetadata(CategoryList $categoryList, WidgetsList $widgetsList)

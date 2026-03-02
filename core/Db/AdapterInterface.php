@@ -11,8 +11,6 @@ namespace Piwik\Db;
 
 use Exception;
 
-/**
- */
 interface AdapterInterface extends TransactionalDatabaseInterface
 {
     /**

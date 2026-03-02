@@ -70,7 +70,6 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
      * result for the site will be returned. This is determined by whether there's only one previous nonce or if the URL
      * matches the main URL of the site.
      *
-     * @param int $idSite
      * @param string $nonce The unique nonce used to identify the test requests. Optionally can be left empty if simply
      * wanting to check if the site has been successfully tested.
      * @return bool Indicating whether the nonce check was marked as successful
@@ -111,7 +110,6 @@ class JsTrackerInstallCheck extends \Piwik\Plugin
      * Initiate a test whether the JS tracking code has been successfully installed for a site. It generates a nonce and
      * stores it in the option table so that it can be accessed later during the Tracker.isExcludedVisit event.
      *
-     * @param int $idSite
      * @param string $url Optional URL to append the nonce to. If not provided, it uses the main URL of the site
      * @return array containing the URL constructed using the main URL for the site and the newly created nonce as a
      * query parameter.

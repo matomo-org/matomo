@@ -103,8 +103,6 @@ class ArchiveTableCreator
      * If no type is specified, blob table is returned when both blob and numeric are found for the same year_month.
      *
      * @param string|null $type The type of archive table to return. Either `self::NUMERIC_TABLE` or `self::BLOB_TABLE`.
-     * @param bool   $forceReload
-     * @return string|null
      */
     public static function getLatestArchiveTableInstalled(?string $type = null, bool $forceReload = false): ?string
     {

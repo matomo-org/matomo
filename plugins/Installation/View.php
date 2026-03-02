@@ -12,9 +12,6 @@ namespace Piwik\Plugins\Installation;
 use Piwik\Container\StaticContainer;
 use Piwik\Version;
 
-/**
- *
- */
 class View extends \Piwik\View
 {
     public function __construct($subtemplatePath, $installationSteps, $currentStepName)

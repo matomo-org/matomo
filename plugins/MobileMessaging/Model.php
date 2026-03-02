@@ -18,9 +18,6 @@ class Model
     /**
      * send a SMS
      *
-     * @param string $content
-     * @param string $phoneNumber
-     * @param string $from
      * @return bool true
      */
     public function sendSMS(string $content, string $phoneNumber, string $from): bool
@@ -42,7 +39,6 @@ class Model
     /**
      * get activated phone number list
      *
-     * @param string $login
      * @return array $phoneNumber
      */
     public function getActivatedPhoneNumbers(string $login): array
@@ -53,8 +49,6 @@ class Model
     /**
      * Returns the list of phone numbers with their verification data
      *
-     * @param string $login
-     * @param bool $onlyVerified
      * @return array
      */
     public function getPhoneNumbers(string $login, bool $onlyVerified = true): array
@@ -91,10 +85,6 @@ class Model
     /**
      * Tries to verify the given phone number with the given verification code
      *
-     * @param string $login
-     * @param string $phoneNumber
-     * @param string $verificationCode
-     * @return bool
      */
     public function verifyPhoneNumber(string $login, string $phoneNumber, string $verificationCode): bool
     {
@@ -135,10 +125,6 @@ class Model
     /**
      * Adds a new phone number to the user, which needs to be verified with the provided code first
      *
-     * @param string $login
-     * @param string $phoneNumber
-     * @param string $verificationCode
-     * @return void
      */
     public function addPhoneNumber(string $login, string $phoneNumber, string $verificationCode): void
     {
@@ -158,9 +144,6 @@ class Model
     /**
      * Removes a phone number
      *
-     * @param string $login
-     * @param string $phoneNumber
-     * @return void
      */
     public function removePhoneNumber(string $login, string $phoneNumber): void
     {

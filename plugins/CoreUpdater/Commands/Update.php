@@ -371,8 +371,6 @@ class Update extends ConsoleCommand
         return $updater;
     }
 
-    /**
-     */
     protected function writeAlertMessageWhenCommandExecutedWithUnexpectedUser()
     {
         if (SettingsServer::isWindows()) {

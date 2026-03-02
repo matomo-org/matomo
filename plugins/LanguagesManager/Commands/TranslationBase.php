@@ -12,8 +12,6 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 use Piwik\Development;
 use Piwik\Plugin\ConsoleCommand;
 
-/**
- */
 abstract class TranslationBase extends ConsoleCommand
 {
     public function isEnabled()

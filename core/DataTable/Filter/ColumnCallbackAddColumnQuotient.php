@@ -38,7 +38,7 @@ class ColumnCallbackAddColumnQuotient extends BaseFilter
     protected $getDivisorFromSummaryRow;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The DataTable that will eventually be filtered.
      * @param string $columnNameToAdd The name of the column to add the quotient value to.

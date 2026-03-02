@@ -32,7 +32,6 @@ class Updates_5_0_0_rc5 extends PiwikUpdates
     /**
      * Here you can define one or multiple SQL statements that should be executed during the update.
      *
-     * @param Updater $updater
      *
      * @return Migration[]
      */

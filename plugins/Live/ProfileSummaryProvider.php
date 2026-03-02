@@ -15,9 +15,6 @@ use Piwik\Plugin;
 use Piwik\Piwik;
 use Piwik\Plugins\Live\ProfileSummary\ProfileSummaryAbstract;
 
-/**
- *
- */
 class ProfileSummaryProvider
 {
     /**

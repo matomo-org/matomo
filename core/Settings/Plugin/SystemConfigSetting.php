@@ -25,7 +25,7 @@ class SystemConfigSetting extends Setting
 {
     protected $configSection = null;
     /**
-     * Constructor.
+     *
      *
      * @param string $name The setting's persisted name.
      * @param mixed $defaultValue  Default value for this setting if no value was specified.

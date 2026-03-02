@@ -35,7 +35,7 @@ class DataTableGenericFilter
     private $request;
 
     /**
-     * Constructor
+     *
      *
      * @param $request
      */

@@ -12,9 +12,6 @@ namespace Piwik\Plugins\TwoFactorAuth;
 use Piwik\Piwik;
 use Piwik\QuickForm2;
 
-/**
- *
- */
 class FormTwoFactorAuthCode extends QuickForm2
 {
     public function __construct($id = 'login_form', $method = 'post', $attributes = null, $trackSubmit = false)

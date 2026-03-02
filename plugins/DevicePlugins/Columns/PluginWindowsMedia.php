@@ -27,8 +27,6 @@ class PluginWindowsMedia extends DevicePluginColumn
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

@@ -33,8 +33,6 @@ class Response extends Tracker\Response
     /**
      * Echos an error message & other information, then exits.
      *
-     * @param Tracker $tracker
-     * @param Exception $e
      * @param int  $statusCode eg 500
      */
     public function outputException(Tracker $tracker, Exception $e, $statusCode)

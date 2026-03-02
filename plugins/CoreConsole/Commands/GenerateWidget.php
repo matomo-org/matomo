@@ -14,8 +14,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\Manager;
 use Piwik\Widget\WidgetsList;
 
-/**
- */
 class GenerateWidget extends GeneratePluginBase
 {
     protected function configure()

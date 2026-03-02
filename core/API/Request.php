@@ -145,7 +145,7 @@ class Request
     }
 
     /**
-     * Constructor.
+     *
      *
      * @param string|array $request Query string that defines the API call (must at least contain a **method** parameter),
      *                              eg, `'method=UserLanguage.getLanguage&idSite=1&date=yesterday&period=week&format=xml'`

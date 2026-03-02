@@ -20,8 +20,6 @@ use Piwik\ExceptionHandler;
 use Piwik\Http\HttpCodeException;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 
-/**
- */
 class ResponseBuilder
 {
     private $outputFormat = null;

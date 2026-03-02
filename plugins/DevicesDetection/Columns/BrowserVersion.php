@@ -25,8 +25,6 @@ class BrowserVersion extends Base
     protected $type = self::TYPE_TEXT;
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

@@ -115,7 +115,7 @@ if (!class_exists('Piwik\Plugin')) {
         private $cache;
 
         /**
-         * Constructor.
+         *
          *
          * @param string|bool $pluginName A plugin name to force. If not supplied, it is set
          *                                to the last part of the class name.

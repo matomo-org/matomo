@@ -41,7 +41,7 @@ class SetGetReferrerTypeSubtables extends DataTable\BaseFilter
     private $expanded;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The table to eventually filter.
      * @param int $idSite
