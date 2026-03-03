@@ -3,6 +3,9 @@ function initManageSegmentsPage() {
   if (!root) {
     return;
   }
+  if (typeof root.__segmentEditorManageSegmentsCleanup === 'function') {
+    root.__segmentEditorManageSegmentsCleanup();
+  }
   const panelApi = window.matomoPluginSegmentEditor
     && window.matomoPluginSegmentEditor.panelAPI;
   if (!panelApi) {
@@ -12,14 +15,29 @@ function initManageSegmentsPage() {
   const rowList = Array.from(tbody.children).reverse();
   const noResultElement = root.querySelector('.tableFooterLabel');
   let filterTimerId = null;
+  let removeStarChangeListener = null;
+  let removePageListeners = null;
   init();
 
   function init() {
     reorderSegments();
-    initListener();
+    removePageListeners = initListener();
     initHref();
     initTitles();
-    panelApi.onSegmentsStarChange(onSegmentsStarChange);
+    removeStarChangeListener = panelApi.onSegmentsStarChange(onSegmentsStarChange);
+    root.__segmentEditorManageSegmentsCleanup = cleanup;
+  }
+
+  function cleanup() {
+    if (removeStarChangeListener) {
+      removeStarChangeListener();
+      removeStarChangeListener = null;
+    }
+    if (removePageListeners) {
+      removePageListeners();
+      removePageListeners = null;
+    }
+    delete root.__segmentEditorManageSegmentsCleanup;
   }
 
   function reorderSegments() {
@@ -82,17 +100,23 @@ function initManageSegmentsPage() {
   }
 
   function initListener() {
+    const removeDelegatedListeners = [];
+
     function delegate(eventName, selector, handler) {
-      root.addEventListener(eventName, function (e) {
+      const listener = function (e) {
         const target = e.target.closest(selector);
         if (!target || !root.contains(target)) {
           return;
         }
         handler(e, target);
-      });
+      };
+      root.addEventListener(eventName, listener);
+      return function unsubscribe() {
+        root.removeEventListener(eventName, listener);
+      };
     }
 
-    delegate('click', '[data-edit-segment]', function (e, button) {
+    removeDelegatedListeners.push(delegate('click', '[data-edit-segment]', function (e, button) {
       e.stopPropagation();
       e.preventDefault();
       if (button.getAttribute('data-state') === 'disabled') {
@@ -100,9 +124,9 @@ function initManageSegmentsPage() {
       }
       const idSegment = button.getAttribute('data-edit-segment');
       panelApi.openEditFormGivenIdSegment(idSegment);
-    });
+    }));
 
-    delegate('click', '[data-delete-segment]', function (e, button) {
+    removeDelegatedListeners.push(delegate('click', '[data-delete-segment]', function (e, button) {
       e.stopPropagation();
       e.preventDefault();
       if (button.getAttribute('data-state') === 'disabled') {
@@ -111,9 +135,9 @@ function initManageSegmentsPage() {
       const idSegment = button.getAttribute('data-delete-segment');
       panelApi.openEditFormGivenIdSegment(idSegment);
       panelApi.askToDeleteSegment(idSegment);
-    });
+    }));
 
-    delegate('click', '[data-star]', function (e, button) {
+    removeDelegatedListeners.push(delegate('click', '[data-star]', function (e, button) {
       e.stopPropagation();
       e.preventDefault();
       if (button.getAttribute('data-state') === 'disabled') {
@@ -122,15 +146,15 @@ function initManageSegmentsPage() {
       const $segment = $(button).closest('tr');
       const idSegment = button.getAttribute('data-star');
       panelApi.toggleStarredSegment($segment, idSegment);
-    });
+    }));
 
-    delegate('click', '.createNewSegment', function (e) {
+    removeDelegatedListeners.push(delegate('click', '.createNewSegment', function (e) {
       e.stopPropagation();
       e.preventDefault();
       panelApi.openEditFormGivenIdSegment();
-    });
+    }));
 
-    delegate('input', '#manageSegmentSearch', function (e, searchInput) {
+    removeDelegatedListeners.push(delegate('input', '#manageSegmentSearch', function (e, searchInput) {
       e.stopPropagation();
       e.preventDefault();
       if (filterTimerId) {
@@ -145,7 +169,13 @@ function initManageSegmentsPage() {
       } else {
         filterTimerId = setTimeout(clearFilterSegmentList, 500);
       }
-    });
+    }));
+
+    return function removeListeners() {
+      removeDelegatedListeners.forEach(function (unsubscribe) {
+        unsubscribe();
+      });
+    };
   }
 
   function getStarButtonFromSegmentId(segmentId) {
