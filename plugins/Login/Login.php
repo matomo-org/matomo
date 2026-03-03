@@ -21,6 +21,7 @@ use Piwik\NoAccessException;
 use Piwik\Piwik;
 use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\Login\Security\LoginFromDifferentCountryDetection;
+use Piwik\Plugins\UsersManager\UserLoginHelper;
 use Piwik\Session;
 use Piwik\SettingsServer;
 
@@ -202,7 +203,18 @@ class Login extends \Piwik\Plugin
      */
     public function beforeCreateAppSpecificTokenAuthCheckBruteForce(array $params): void
     {
-        $this->performBruteForceCheck($params['userLogin'] ?? '');
+        $userLogin = $params['userLogin'] ?? '';
+
+        if (!is_string($userLogin)) {
+            $userLogin = '';
+        }
+
+        $this->performBruteForceCheck($this->normalizeUserLogin($userLogin));
+    }
+
+    private function normalizeUserLogin(string $userLogin): string
+    {
+        return UserLoginHelper::normalizeLoginOrEmailToLogin($userLogin);
     }
 
     private function performBruteForceCheck(?string $login): void
@@ -266,8 +278,15 @@ class Login extends \Piwik\Plugin
         }
 
         // if this is a login request & form_rememberme was set, change the session cookie expire time before starting the session
-        if (\Piwik\Request::fromPost()->getBoolParameter('form_rememberme')) {
-            Session::rememberMe(GeneralConfig::getConfigValue('login_cookie_expire'));
+        if (\Piwik\Request::fromPost()->getBoolParameter('form_rememberme', false)) {
+            $loginCookieExpire = GeneralConfig::getConfigValue('login_cookie_expire');
+            if (!is_numeric($loginCookieExpire)) {
+                $loginCookieExpire = null;
+            } else {
+                $loginCookieExpire = (int) $loginCookieExpire;
+            }
+
+            Session::rememberMe($loginCookieExpire);
         }
     }
 
@@ -289,11 +308,13 @@ class Login extends \Piwik\Plugin
         $frontController = FrontController::getInstance();
 
         if (Common::isXmlHttpRequest()) {
-            echo $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', [$exception->getMessage()]);
+            $response = $frontController->dispatch(Piwik::getLoginPluginName(), 'ajaxNoAccess', [$exception->getMessage()]);
+            echo is_string($response) ? $response : '';
             return;
         }
 
-        echo $frontController->dispatch(Piwik::getLoginPluginName(), 'login', [$exception->getMessage()]);
+        $response = $frontController->dispatch(Piwik::getLoginPluginName(), 'login', [$exception->getMessage()]);
+        echo is_string($response) ? $response : '';
     }
 
     /**
@@ -334,7 +355,7 @@ class Login extends \Piwik\Plugin
             }
         }
 
-        return $login;
+        return $this->normalizeUserLogin($login);
     }
 
     /**
