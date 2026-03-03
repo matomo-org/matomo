@@ -36,6 +36,10 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
         mocks: {
           translate: (key: string) => key,
         },
+        stubs: {
+          PeriodSelectorOptionsColumn: false,
+          PeriodSelectorCalendarColumn: false,
+        },
       },
     });
   }
