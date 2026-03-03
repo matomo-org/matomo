@@ -166,7 +166,7 @@ class TwoFactorAuthentication
         $table = Common::prefixTable('option');
         $optionName = $this->gettwoFaCodeUsedKey($login, $authCode);
         $currentTime = time();
-        $bind = array($optionName, $currentTime, 0);
+        $bind = [$optionName, $currentTime, 0];
         try {
             Db::query('INSERT INTO `' . $table . '` (option_name, option_value, autoload) VALUES (?, ?, ?) ', $bind);
             Option::clearCachedOption($optionName);
@@ -176,7 +176,7 @@ class TwoFactorAuthentication
             // if the record is older than the block window, refresh the timestamp and allow usage again.
             $blockWindowSeconds = 60 * self::BLOCK_TWOFA_CODE_MINUTES;
             $staleThreshold = $currentTime - $blockWindowSeconds;
-            $updateBind = array($currentTime, $optionName, $staleThreshold);
+            $updateBind = [$currentTime, $optionName, $staleThreshold];
 
             $result = Db::query(
                 'UPDATE `' . $table . '` SET option_value = ?, autoload = 0 WHERE option_name = ? AND CAST(option_value AS UNSIGNED) <= ?',
