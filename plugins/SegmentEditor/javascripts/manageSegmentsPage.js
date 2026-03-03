@@ -82,47 +82,62 @@ function initManageSegmentsPage() {
   }
 
   function initListener() {
-    $(root).on('click', '[data-edit-segment]', function (e) {
+    function delegate(eventName, selector, handler) {
+      root.addEventListener(eventName, function (e) {
+        const target = e.target.closest(selector);
+        if (!target || !root.contains(target)) {
+          return;
+        }
+        handler(e, target);
+      });
+    }
+
+    delegate('click', '[data-edit-segment]', function (e, button) {
       e.stopPropagation();
       e.preventDefault();
-      const $button = $(this);
-      if ($button.attr('data-state') === 'disabled') {
-        return false;
+      if (button.getAttribute('data-state') === 'disabled') {
+        return;
       }
-      const idSegment = $button.attr('data-edit-segment');
+      const idSegment = button.getAttribute('data-edit-segment');
       panelApi.openEditFormGivenIdSegment(idSegment);
     });
-    $(root).on('click', '[data-delete-segment]', function (e) {
+
+    delegate('click', '[data-delete-segment]', function (e, button) {
       e.stopPropagation();
       e.preventDefault();
-      const $button = $(this);
-      if ($button.attr('data-state') === 'disabled') {
-        return false;
+      if (button.getAttribute('data-state') === 'disabled') {
+        return;
       }
-      const idSegment = $button.attr('data-delete-segment');
+      const idSegment = button.getAttribute('data-delete-segment');
       panelApi.openEditFormGivenIdSegment(idSegment);
       panelApi.askToDeleteSegment(idSegment);
     });
-    $(root).on('click', '[data-star]', function (e) {
+
+    delegate('click', '[data-star]', function (e, button) {
       e.stopPropagation();
       e.preventDefault();
-      const $button = $(this);
-      if ($button.attr('data-state') === 'disabled') {
-        return false;
+      if (button.getAttribute('data-state') === 'disabled') {
+        return;
       }
-      const $segment = $button.closest('tr');
-      const idSegment = $button.attr('data-star');
+      const $segment = $(button).closest('tr');
+      const idSegment = button.getAttribute('data-star');
       panelApi.toggleStarredSegment($segment, idSegment);
     });
-    $(root).on('input', '#manageSegmentSearch', function (e) {
+
+    delegate('click', '.createNewSegment', function (e) {
       e.stopPropagation();
       e.preventDefault();
+      panelApi.openEditFormGivenIdSegment();
+    });
 
+    delegate('input', '#manageSegmentSearch', function (e, searchInput) {
+      e.stopPropagation();
+      e.preventDefault();
       if (filterTimerId) {
         clearTimeout(filterTimerId);
         filterTimerId = null;
       }
-      const value = $(this).val();
+      const value = searchInput.value || '';
       if (value.length >= 2) {
         filterTimerId = setTimeout(function () {
           filterSegmentList(value);
@@ -130,11 +145,6 @@ function initManageSegmentsPage() {
       } else {
         filterTimerId = setTimeout(clearFilterSegmentList, 500);
       }
-    });
-    $(root).on('click', '.createNewSegment', function (e) {
-      e.stopPropagation();
-      e.preventDefault();
-      panelApi.openEditFormGivenIdSegment();
     });
   }
 

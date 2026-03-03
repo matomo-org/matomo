@@ -303,6 +303,7 @@ import {
 import {
   ContentBlock,
   Matomo,
+  MatomoUrl,
   translate,
   debounce,
   externalLink,
@@ -600,15 +601,13 @@ export default defineComponent({
       );
     },
     reportSegmentInlineHelp() {
-      const segmentManagementPageParams = [
-        'module=CoreHome',
-        'action=index',
-        'category=General_Visitors',
-        'subcategory=CoreHome_Segments',
-      ].join('&');
-      const segmentManagementPageUrl = piwikHelper.getCurrentQueryStringWithParametersModified(
-        segmentManagementPageParams,
-      );
+      const segmentManagementPageUrl = `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        module: 'CoreHome',
+        action: 'index',
+        category: 'General_Visitors',
+        subcategory: 'CoreHome_Segments',
+      })}`;
       return translate(
         'ScheduledReports_HelpSegmentManagement',
         `<a href="${segmentManagementPageUrl}" rel="noreferrer noopener" target="_blank">`,
