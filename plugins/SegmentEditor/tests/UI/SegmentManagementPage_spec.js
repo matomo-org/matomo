@@ -701,18 +701,19 @@ describe("SegmentManagementPageTest", function () {
 
   async function clickDashboardLinkForSegment(segmentName) {
     await page.waitForFunction((name) => {
-      return $('tr[data-segment-name]').filter(function () {
-        return $(this).attr('data-segment-name') === name;
-      }).find('.icon-show').length > 0;
+      const row = Array.from(document.querySelectorAll('tr[data-segment-name]')).find((element) => (
+        element.getAttribute('data-segment-name') === name
+      ));
+      return !!(row && row.querySelector('.icon-show'));
     }, {}, segmentName);
 
     const previousUrl = await page.url();
     const navigationPromise = page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 10000 }).catch(() => null);
     await page.evaluate((name) => {
-      const $row = $('tr[data-segment-name]').filter(function () {
-        return $(this).attr('data-segment-name') === name;
-      }).first();
-      const link = $row.find('.icon-show').get(0);
+      const row = Array.from(document.querySelectorAll('tr[data-segment-name]')).find((element) => (
+        element.getAttribute('data-segment-name') === name
+      ));
+      const link = row && row.querySelector('.icon-show');
       if (!link) {
         throw new Error(`Dashboard link not found for segment "${name}"`);
       }
