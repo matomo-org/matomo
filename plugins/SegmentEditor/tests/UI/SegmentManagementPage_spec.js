@@ -8,7 +8,7 @@
  */
 
 describe("SegmentManagementPageTest", function () {
-  this.fixture = 'Piwik\\Tests\\Fixtures\\OneVisitorTwoVisits';
+  this.fixture = 'Piwik\\Plugins\\SegmentEditor\\tests\\Fixtures\\SegmentManagementPageFixture';
 
   var generalParams = 'idSite=1&period=range&date=2010-03-06,2010-03-08';
   var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Visitors&subcategory=CoreHome_Segments';
@@ -39,95 +39,9 @@ describe("SegmentManagementPageTest", function () {
   };
 
   before(async function () {
-    testEnvironment.configOverride.General = {
-      browser_archiving_disabled_enforce: '1',
-      enable_browser_archiving_triggering: '0',
-    };
-    testEnvironment.optionsOverride = {
-      enableBrowserTriggerArchiving: '0',
-    };
-    await testEnvironment.save();
-
-    const globalSegmentResult = await testEnvironment.callApi('SegmentEditor.add', {
-      name: globalSegment.name,
-      definition: globalSegment.definition,
-      idSite: 0,
-      autoArchive: 1,
-      enabledAllUsers: 1,
-    });
-
-    const siteSegmentResult = await testEnvironment.callApi('SegmentEditor.add', {
-      name: siteSegment.name,
-      definition: siteSegment.definition,
-      idSite: 1,
-      autoArchive: 1,
-      enabledAllUsers: 1,
-    });
-
-    const xssSegmentResult = await testEnvironment.callApi('SegmentEditor.add', {
-      name: xssSegment.name,
-      definition: xssSegment.definition,
-      idSite: 1,
-      autoArchive: 1,
-      enabledAllUsers: 1,
-    });
-
-    const realtimeSegmentResult = await testEnvironment.callApi('SegmentEditor.add', {
-      name: realtimeSegment.name,
-      definition: realtimeSegment.definition,
-      idSite: 1,
-      autoArchive: 0,
-      enabledAllUsers: 1,
-    });
-
-    const complexDashboardSegmentResult = await testEnvironment.callApi('SegmentEditor.add', {
-      name: complexDashboardSegment.name,
-      definition: complexDashboardSegment.definition,
-      idSite: 1,
-      autoArchive: 1,
-      enabledAllUsers: 1,
-    });
-
-    globalSegment.id = extractSegmentId(globalSegmentResult);
-    siteSegment.id = extractSegmentId(siteSegmentResult);
-    xssSegment.id = extractSegmentId(xssSegmentResult);
-    realtimeSegment.id = extractSegmentId(realtimeSegmentResult);
-    complexDashboardSegment.id = extractSegmentId(complexDashboardSegmentResult);
-
-    testEnvironment.configOverride.General = {
-      browser_archiving_disabled_enforce: '0',
-      enable_browser_archiving_triggering: '1',
-    };
-    testEnvironment.optionsOverride = {
-      enableBrowserTriggerArchiving: '1',
-    };
-    await testEnvironment.save();
-
-    await testEnvironment.callApi('VisitsSummary.get', {
-      idSite: 1,
-      period: 'range',
-      date: '2010-03-06,2010-03-08',
-      segment: siteSegment.definition,
-    });
-  });
-
-  after(async function () {
-    if (globalSegment.id) {
-      await testEnvironment.callApi('SegmentEditor.delete', { idSegment: globalSegment.id });
-    }
-    if (siteSegment.id) {
-      await testEnvironment.callApi('SegmentEditor.delete', { idSegment: siteSegment.id });
-    }
-    if (xssSegment.id) {
-      await testEnvironment.callApi('SegmentEditor.delete', { idSegment: xssSegment.id });
-    }
-    if (realtimeSegment.id) {
-      await testEnvironment.callApi('SegmentEditor.delete', { idSegment: realtimeSegment.id });
-    }
-  });
-
-  afterEach(async function () {
     await switchToAdminUser();
+    const allSegmentsResponse = await testEnvironment.callApi('SegmentEditor.getAll', {});
+    assignSegmentIdsFromApiResponse(allSegmentsResponse);
   });
 
   it("should load correctly", async function() {
@@ -556,11 +470,39 @@ describe("SegmentManagementPageTest", function () {
     expect(alertCount).to.equal(0);
   });
 
-  function extractSegmentId(result) {
-    if (result && typeof result === 'object' && typeof result.value !== 'undefined') {
-      return parseInt(result.value, 10) || 0;
+  function assignSegmentIdsFromApiResponse(response) {
+    const segments = normalizeSegmentsResponse(response);
+
+    const findSegmentId = (target) => {
+      const expectedSite = target === globalSegment ? 0 : 1;
+      const match = segments.find((segment) => {
+        const segmentSite = parseInt(segment && segment.enable_only_idsite, 10) || 0;
+        return segment
+          && segment.definition === target.definition
+          && segmentSite === expectedSite;
+      });
+
+      return parseInt(match && (match.idsegment || match.idSegment), 10) || 0;
+    };
+
+    globalSegment.id = findSegmentId(globalSegment);
+    siteSegment.id = findSegmentId(siteSegment);
+    xssSegment.id = findSegmentId(xssSegment);
+    realtimeSegment.id = findSegmentId(realtimeSegment);
+    complexDashboardSegment.id = findSegmentId(complexDashboardSegment);
+  }
+
+  function normalizeSegmentsResponse(segments) {
+    if (Array.isArray(segments)) {
+      return segments;
     }
-    return parseInt(result, 10) || 0;
+    if (segments && Array.isArray(segments.value)) {
+      return segments.value;
+    }
+    if (segments && typeof segments === 'object') {
+      return Object.values(segments).filter((value) => value && typeof value === 'object');
+    }
+    return [];
   }
 
   async function getSegmentRowNumericData(segmentName) {
