@@ -14,14 +14,34 @@ describe("SegmentSelectorEditorTest", function () {
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
+    async function clickJQueryWithRetry(selector, attempts = 3)
+    {
+        // This is intentionally specific to Materialize dropdown transitions:
+        // the dropdown input/list can be briefly detached or non-clickable mid-animation.
+        let lastError = null;
+
+        for (let i = 0; i < attempts; i += 1) {
+            try {
+                const element = await page.jQuery(selector, { waitFor: true });
+                await element.click();
+                return;
+            } catch (error) {
+                lastError = error;
+                await page.waitForTimeout(100);
+            }
+        }
+
+        throw lastError;
+    }
+
     async function selectFieldValue(fieldName, textToSelect)
     {
-        await (await page.jQuery(fieldName + ' input.select-dropdown', { waitFor: true })).click();
+        await clickJQueryWithRetry(fieldName + ' input.select-dropdown:visible:first');
 
         // wait for animation
         await page.waitForTimeout(200);
 
-        await (await page.jQuery(fieldName + ' .dropdown-content li:contains("' + textToSelect + '"):first', { waitFor: true })).click();
+        await clickJQueryWithRetry(fieldName + ' .dropdown-content:visible li:contains("' + textToSelect + '"):visible:first');
 
         // wait for animation
         await page.waitForTimeout(300);
