@@ -119,6 +119,7 @@ describe("CustomDimensions", function () {
     it('should create a new dimension', async function () {
         await capturePageWrap('manage_new_action_dimension_created', async function () {
             await page.click('.editCustomDimension .create');
+            await page.mouse.move(0, 0);
             await page.waitForNetworkIdle();
         });
     });

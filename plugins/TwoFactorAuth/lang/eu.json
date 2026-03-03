@@ -15,6 +15,7 @@
         "LostAuthenticationDevice": "Kaixo,%1$sBi faktoreko autentifikazioa daukat eta nire autentifikazio-gailua galdu dut. Berrezarri dezakezu nire \"%5$s\" erabiltzailearen bi faktoreko autentifikazioa? Jarraibideak hemen daude: %6$s.%2$sMatomoren URLa %3$s da.%4$sEskerrik asko",
         "MissingAuthCodeAPI": "Zehaztu bi faktoreko autentifikazio-kodea.",
         "NotPossibleToLogIn": "Ezin dut saioa hasi Matomo Analytics-en",
+        "PluginDescription": "Hobetu zure Matomo kontuaren segurtasuna bi faktoreko autentifikazioarekin (2FA), baimenik gabeko sarbidetik babesteko.",
         "RecoveryCodes": "Berreskuratze-kodeak",
         "RecoveryCodesAllUsed": "Berreskuratze-kode guztiak erabili dira. Berriak sortu behar dituzu.",
         "RecoveryCodesExplanation": "Berreskuratze-kodeak erabil ditzakezu zure kontura sartzeko, bi faktoreko autentifikazio kodeak ezin dituzunean jaso (adibidez zure mugikorra ez daukazunean eskura).",

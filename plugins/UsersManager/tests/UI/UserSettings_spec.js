@@ -123,12 +123,16 @@ describe("UserSettings", function () {
         await page.click('#newsletterSignupCheckbox');
         await page.click('#newsletterSignupBtn input');
         await page.waitForNetworkIdle();
+        await page.waitForFunction(() => !$('#newsletterSignup').is(':visible'));
         expect(await page.screenshotSelector('.pageWrap')).to.matchImage('signup_success');
     });
 
     it('should not prompt user to subscribe to newsletter again', async function () {
         // Assumes previous test has clicked on the signup button - so we shouldn't see it this time
         await page.goto(userSettingsUrl);
+        const isNewsletterVisible = await page.evaluate(() => $('#newsletterSignup').is(':visible'));
+        expect(isNewsletterVisible, 'newsletter signup should stay hidden after signup').to.equal(false);
+
         expect(await page.screenshotSelector('.admin')).to.matchImage('already_signed_up');
     });
 
