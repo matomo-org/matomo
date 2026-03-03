@@ -477,9 +477,25 @@ Segmentation = (function($) {
         }
 
         function onSegmentsStarChange(callback) {
+          if (typeof callback !== 'function') {
+            return function () {};
+          }
           starCallbackList.push(callback);
+
+          let isUnsubscribed = false;
+          return function unsubscribeStarChange() {
+            if (isUnsubscribed) {
+              return;
+            }
+            isUnsubscribed = true;
+
+            const index = starCallbackList.indexOf(callback);
+            if (index !== -1) {
+              starCallbackList.splice(index, 1);
+            }
+          };
         }
-        onSegmentsStarChange(function(segment, isError) {
+        const removePanelStarChangeListener = onSegmentsStarChange(function(segment, isError) {
           const $starButton = self.target.find(`[data-star="${segment.idsegment}"]`);
           const $segment = $starButton.closest('li');
           updateStarSegmentTitle($starButton, segment);
@@ -1121,6 +1137,10 @@ Segmentation = (function($) {
           updateStarSegmentTitle,
         };
 
+        this.destroy = function () {
+          removePanelStarChangeListener();
+        };
+
         this.initHtml();
         bindEvents();
         handleAddNewSegment();
@@ -1397,6 +1417,9 @@ $(document).ready(function() {
             UIControl.prototype._destroy.call(this);
 
             $('body').off('mouseup', null, this.onMouseUp);
+            if (this.impl && typeof this.impl.destroy === 'function') {
+                this.impl.destroy();
+            }
         }
     });
 
