@@ -21,6 +21,7 @@ use Piwik\Plugins\Login\Emails\PasswordResetEmail;
 use Piwik\Plugins\Login\Emails\PasswordResetCancelEmail;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Plugins\UsersManager\UserLoginHelper;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\Plugins\UsersManager\UserUpdater;
 use Piwik\SettingsPiwik;
@@ -468,7 +469,7 @@ class PasswordResetter
      * Derived classes can override this method to provide custom user querying logic.
      *
      * @param string $loginOrMail user login or email address
-     * @return array `array("login" => '...', "email" => '...', "password" => '...')` or null, if user not found.
+     * @return array<string, mixed>|null `array("login" => '...', "email" => '...', "password" => '...')` or null, if user not found.
      */
     protected function getUserInformation($loginOrMail)
     {
@@ -478,14 +479,7 @@ class PasswordResetter
             return null;
         }
 
-        $user = null;
-
-        if ($userModel->userExists($loginOrMail)) {
-            $user = $userModel->getUser($loginOrMail);
-        } elseif ($userModel->userEmailExists($loginOrMail)) {
-            $user = $userModel->getUserByEmail($loginOrMail);
-        }
-        return $user;
+        return UserLoginHelper::findUserByLoginOrEmail($loginOrMail);
     }
 
     /**

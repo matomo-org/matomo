@@ -16,11 +16,12 @@ use Piwik\Container\StaticContainer;
 use Piwik\Development;
 use Piwik\Exception\ThingNotFoundException;
 use Piwik\Plugin\Manager;
+use Piwik\Theme;
 
 class PluginUmdAssetFetcher extends UIAssetFetcher
 {
     /**
-     * @var string
+     * @var string|null
      */
     private $requestedChunk;
 
@@ -34,6 +35,13 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
      */
     private $chunkCount;
 
+    /**
+     * @param string[] $plugins
+     * @param Theme|null $theme
+     * @param string|null $chunk
+     * @param bool|null $loadIndividually
+     * @param int|null $chunkCount
+     */
     public function __construct($plugins, $theme, $chunk, $loadIndividually = null, $chunkCount = null)
     {
         parent::__construct($plugins, $theme);
@@ -46,7 +54,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
             $chunkCount = self::getDefaultChunkCount();
         }
 
-        $this->requestedChunk = $chunk;
+        $this->requestedChunk = ($chunk !== null && $chunk !== '') ? (string)$chunk : null;
         $this->loadIndividually = $loadIndividually;
         $this->chunkCount = $chunkCount;
 
@@ -55,6 +63,9 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
     }
 
+    /**
+     * @return string
+     */
     public function getRequestedChunkOutputFile()
     {
         return "asset_manager_chunk.{$this->requestedChunk}.js";
@@ -82,7 +93,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return $chunks;
     }
 
-    private function getTotalChunkSize($allPluginUmds)
+    /**
+     * @param Chunk[] $allPluginUmds
+     */
+    private function getTotalChunkSize(array $allPluginUmds): int
     {
         $totalSize = 0;
         foreach ($allPluginUmds as $chunk) {
@@ -94,7 +108,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return $totalSize;
     }
 
-    private function getAllPluginUmds()
+    /**
+     * @return Chunk[]
+     */
+    private function getAllPluginUmds(): array
     {
         $pluginsToLoadOnInit = $this->getPluginsToLoadOnInit();
         $this->checkForMissingPluginDependencies($pluginsToLoadOnInit);
@@ -114,7 +131,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return $allPluginUmds;
     }
 
-    private function checkForMissingPluginDependencies($pluginsToLoadOnInit)
+    /**
+     * @param string[] $pluginsToLoadOnInit
+     */
+    private function checkForMissingPluginDependencies(array $pluginsToLoadOnInit): void
     {
         $allPlugins = $this->getPluginsWithUmdsToUse();
         foreach ($pluginsToLoadOnInit as $pluginName) {
@@ -138,7 +158,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
     }
 
-    private function getPluginsToLoadOnInit()
+    /**
+     * @return string[]
+     */
+    private function getPluginsToLoadOnInit(): array
     {
         $plugins = $this->getPluginsWithUmdsToUse();
         $plugins = array_filter($plugins, function ($pluginName) {
@@ -152,7 +175,11 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return $plugins;
     }
 
-    private function dividePluginUmdsByChunkCount($allPluginUmds, $totalSize)
+    /**
+     * @param Chunk[] $allPluginUmds
+     * @return array<string[]>
+     */
+    private function dividePluginUmdsByChunkCount(array $allPluginUmds, int $totalSize): array
     {
         $chunkSizeLimit = floor($totalSize / $this->chunkCount);
 
@@ -184,6 +211,9 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return $chunkFiles;
     }
 
+    /**
+     * @return void
+     */
     protected function retrieveFileLocations()
     {
         $plugins = $this->getPluginsWithUmdsToUse();
@@ -196,14 +226,14 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
 
             $foundChunk = null;
             foreach ($chunkFiles as $chunk) {
-                if ($chunk->getChunkName() == $this->requestedChunk) {
+                if ($chunk->getChunkName() === $this->requestedChunk) {
                     $foundChunk = $chunk;
                     break;
                 }
             }
 
             if (!$foundChunk) {
-                throw new ThingNotFoundException('Could not find chunk {$this->requestedChunk}');
+                throw new ThingNotFoundException("Could not find chunk {$this->requestedChunk}");
             }
 
             foreach ($foundChunk->getFiles() as $file) {
@@ -217,7 +247,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         $this->addUmdFilesIfDetected($this->getPluginsWithUmdsToUse());
     }
 
-    private function addUmdFilesIfDetected($plugins)
+    /**
+     * @param string[] $plugins
+     */
+    private function addUmdFilesIfDetected(array $plugins): void
     {
         $plugins = self::orderPluginsByPluginDependencies($plugins, false);
 
@@ -236,6 +269,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
     }
 
+    /**
+     * @param string $plugin
+     * @return string|null
+     */
     public static function getUmdFileToUseForPlugin($plugin)
     {
         $pluginDir = self::getRelativePluginDirectory($plugin);
@@ -256,6 +293,11 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return null;
     }
 
+    /**
+     * @param string[] $plugins
+     * @param bool $keepUnresolved
+     * @return string[]
+     */
     public static function orderPluginsByPluginDependencies($plugins, $keepUnresolved = true)
     {
         $result = [];
@@ -267,6 +309,10 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return $result;
     }
 
+    /**
+     * @param string $plugin
+     * @return string[]
+     */
     public static function getPluginDependencies($plugin)
     {
         $pluginDir = self::getPluginDirectory($plugin);
@@ -279,14 +325,23 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         if (!is_array($pluginDependencies)) {
             $pluginDependencies = [];
             if (is_file($umdMetadata)) {
-                $pluginDependencies = json_decode(file_get_contents($umdMetadata), true);
-                $pluginDependencies = $pluginDependencies['dependsOn'] ?? [];
+                $dependencies = json_decode(file_get_contents($umdMetadata) ?: '', true);
+                if (!empty($dependencies['dependsOn']) && is_array($dependencies['dependsOn'])) {
+                    $pluginDependencies = $dependencies['dependsOn'];
+                }
             }
             $cache->save($cacheKey, $pluginDependencies);
         }
         return $cache->fetch($cacheKey);
     }
 
+    /**
+     * @param string $plugin
+     * @param bool $keepUnresolved
+     * @param string[] $plugins
+     * @param string[] $result
+     * @return void
+     */
     private static function visitPlugin($plugin, $keepUnresolved, &$plugins, &$result)
     {
         // remove the plugin from the array of plugins to visit
@@ -326,29 +381,36 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return [];
     }
 
-    private static function getRelativePluginDirectory($plugin)
+    private static function getRelativePluginDirectory(string $plugin): string
     {
         return Manager::getRelativePluginDirectory($plugin);
     }
 
-    private static function getPluginDirectory($plugin)
+    private static function getPluginDirectory(string $plugin): string
     {
         return Manager::getInstance()->getPluginDirectory($plugin);
     }
 
+    /**
+     * @return bool
+     */
     public static function getDefaultLoadIndividually()
     {
         return (Config::getInstance()->General['assets_umd_load_individually'] ?? 0) == 1;
     }
 
+    /**
+     * @return int
+     */
     public static function getDefaultChunkCount()
     {
         return (int)(Config::getInstance()->General['assets_umd_chunk_count'] ?? 3);
     }
 
-    private function shouldLoadUmdOnDemand(string $pluginName)
+    private function shouldLoadUmdOnDemand(string $pluginName): bool
     {
         try {
+            /** @var string[] $pluginsToNotLoadOnDemand */
             $pluginsToNotLoadOnDemand = StaticContainer::get('plugins.shouldNotLoadOnDemand');
         } catch (\Exception $e) {
             // ignore errors, as this might be loaded during the update, before it is defined
@@ -359,6 +421,7 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         }
 
         try {
+            /** @var string[] $pluginsToLoadOnDemand */
             $pluginsToLoadOnDemand = StaticContainer::get('plugins.shouldLoadOnDemand');
         } catch (\Exception $e) {
             // ignore errors, as this might be loaded during the update, before it is defined
@@ -374,12 +437,14 @@ class PluginUmdAssetFetcher extends UIAssetFetcher
         return method_exists($plugin, 'shouldLoadUmdOnDemand') && $plugin->shouldLoadUmdOnDemand();
     }
 
-    private function getPluginsWithUmdsToUse()
+    /**
+     * @return string[]
+     */
+    private function getPluginsWithUmdsToUse(): array
     {
         $plugins = $this->plugins;
         // Login UMDs must always be used, even if there's another login plugin being used
         $plugins[] = 'Login';
-        $plugins = array_unique($plugins);
-        return $plugins;
+        return array_unique($plugins);
     }
 }

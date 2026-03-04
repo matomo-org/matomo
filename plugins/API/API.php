@@ -517,7 +517,7 @@ class API extends \Piwik\Plugin\API
             return [];
         }
 
-        $limit = $this->getBulkRequestLimit();
+        $limit = BulkRequestLimit::getCurrentLimit();
         if ($limit > -1 && count($urls) > $limit) {
             throw new BadRequestException(Piwik::translate('General_MaximumNumberOfBulkRequestUrlsIs', [$limit]));
         }
@@ -546,22 +546,6 @@ class API extends \Piwik\Plugin\API
             $result[] = json_decode($req->process(), true);
         }
         return $result;
-    }
-
-    private function getBulkRequestLimit(): int
-    {
-        $configLimit = Config::getInstance()->General['API_bulk_request_limit'] ?? -1;
-        $configLimit = (int)$configLimit;
-
-        if (Piwik::isUserIsAnonymous()) {
-            $defaultLimit = Piwik::isUserHasSomeViewAccess() ? 50 : 10;
-            if ($configLimit > -1) {
-                return min($defaultLimit, $configLimit);
-            }
-            return $defaultLimit;
-        }
-
-        return $configLimit;
     }
 
     /**
@@ -937,6 +921,9 @@ class Plugin extends \Piwik\Plugin
 
     public function getJsGlobalVariables(&$out)
     {
+        $bulkRequestLimit = BulkRequestLimit::getCurrentLimit();
+        $out .= "piwik.apiBulkRequestLimit = $bulkRequestLimit;\n";
+
         // Do not perform page comparison check for glossary widget
         // This is performed here and not in Comparison.store.ts, as the widget might be used like on glossary.matomo.org
         // where url parameters are hidden in the request and javascript can't access the current module and action

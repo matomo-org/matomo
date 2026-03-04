@@ -4069,11 +4069,6 @@ parameters:
 			path: plugins/Login/Model.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Login\\\\PasswordResetter\\:\\:getUserInformation\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: plugins/Login/PasswordResetter.php
-
-		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 171$#"
 			count: 1
 			path: plugins/Login/PasswordResetter.php
@@ -4081,11 +4076,6 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$password of method Piwik\\\\Plugins\\\\UsersManager\\\\UserUpdater\\:\\:updateUserWithoutCurrentPassword\\(\\) expects bool, string given\\.$#"
 			count: 1
-			path: plugins/Login/PasswordResetter.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between array and null will always evaluate to false\\.$#"
-			count: 2
 			path: plugins/Login/PasswordResetter.php
 
 		-

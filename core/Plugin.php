@@ -232,6 +232,7 @@ if (!class_exists('Piwik\Plugin')) {
          *                                                      'before'   => true // execute before callbacks w/o ordering
          *                                                  )
          *                   )
+         * @phpstan-return array<string, string|array{function: string, after?: bool, before?: bool}>
          * @since 2.15.0
          */
         public function registerEvents()
