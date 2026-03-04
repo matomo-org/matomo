@@ -449,6 +449,31 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250); // animation
         await page.evaluate(() => window.scrollTo(0, 0));
+        // This screenshot is flaky specifically after the "set access to all sites" modal flow:
+        // we wait for the modal to be fully closed, loading state to be cleared and Materialize
+        // select markup to be initialized before taking the screenshot.
+        await page.waitForFunction(() => {
+            const panel = document.querySelector('.user-permissions .userPermissionsEdit');
+            if (!panel || panel.classList.contains('loading')) {
+                return false;
+            }
+
+            const row = panel.querySelector('.to-all-websites');
+            const button = panel.querySelector('.to-all-websites .btn');
+            const selectInput = panel.querySelector('#all-sites-access-select .select-wrapper input.select-dropdown');
+            if (!row || !button || !selectInput) {
+                return false;
+            }
+
+            const rowRect = row.getBoundingClientRect();
+            const buttonRect = button.getBoundingClientRect();
+            const selectRect = selectInput.getBoundingClientRect();
+
+            return !document.querySelector('.modal.open')
+                && rowRect.height > 0
+                && buttonRect.width > 0
+                && selectRect.width > 0;
+        });
 
         expect(await page.screenshotSelector('.user-permissions')).to.matchImage({
             imageName: 'permissions_bulk_access_set_all',
