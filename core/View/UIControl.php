@@ -74,9 +74,6 @@ class UIControl extends \Piwik\View
      */
     private $innerView = null;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->innerView = new View(static::TEMPLATE);

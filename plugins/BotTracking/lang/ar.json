@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "رابط الصفحة"
+        "PageUrl": "رابط الصفحة",
+        "SiteWithoutDataBackToMatomo": "العودة إلى Matomo"
     }
 }

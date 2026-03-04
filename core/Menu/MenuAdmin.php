@@ -80,11 +80,8 @@ class MenuAdmin extends MenuAbstract
 
     /**
      * See {@link add()}. Adds a new menu item to the plugins section of the admin menu.
-     * @param string $menuName
      * @param array $url
-     * @param int $order
      * @param bool|string $tooltip
-     * @param string $cssClass
      * @api
      * @since 5.0.0
      */

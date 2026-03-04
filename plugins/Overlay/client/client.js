@@ -221,7 +221,7 @@ var Matomo_Overlay_Client = (function () {
                 $('body').prepend(statusBar);
             }
 
-            var item = c('div', 'Item').html(message);
+            var item = c('div', 'Item').text(message);
 
             if (addClass) {
                 item.addClass('PIS_' + addClass);

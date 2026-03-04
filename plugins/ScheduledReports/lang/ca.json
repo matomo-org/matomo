@@ -29,8 +29,6 @@
         "PleaseFindBelow": "A continuació podeu trobar el vostre informe %1$s per a %2$s.",
         "PluginDescription": "Creeu informes personalitzats i programeu-los perquè s'enviïn per correu electrònic diàriament, setmanalment o mensualment a una o diverses persones. S'admeten diversos formats d'informes (html, pdf, csv, imatges).",
         "ReportFormat": "Format de l'informe",
-        "ReportHour": "Envia l'informe a les %s en punt",
-        "ReportHourWithUTC": "%s en punt UTC",
         "ReportIncludeNWebsites": "L'informe inclourà mètriques principals per a tots els llocs web que tinguin almenys una visita (dels %s llocs web disponibles actualment).",
         "ReportPeriod": "Període de l'informe",
         "ReportSchedule": "Calendari d'informes",

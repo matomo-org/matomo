@@ -616,7 +616,6 @@ class Metrics
      *
      * The goal metrics returned will differ based on whether the goal is user defined or an ecommerce goal.
      *
-     * @param int $idGoal
      * @param array $goalsMetrics
      * @return array
      */

@@ -11,9 +11,6 @@ namespace Piwik\Plugins\MobileMessaging\ReportRenderer;
 
 use Piwik\ReportRenderer;
 
-/**
- *
- */
 class ReportRendererException extends ReportRenderer
 {
     private $rendering = "";

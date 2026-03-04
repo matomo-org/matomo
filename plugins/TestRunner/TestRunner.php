@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\TestRunner;
 
-/**
- */
 class TestRunner extends \Piwik\Plugin
 {
 }

@@ -33,9 +33,6 @@ class ConvertRegionCodesToIso extends ConsoleCommand
         return (LocationProvider::getCurrentProvider() instanceof GeoIp2);
     }
 
-    /**
-     * @return int
-     */
     protected function doExecute(): int
     {
         $output = $this->getOutput();

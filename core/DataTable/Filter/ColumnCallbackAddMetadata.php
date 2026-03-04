@@ -31,7 +31,7 @@ class ColumnCallbackAddMetadata extends BaseFilter
     private $applyToSummaryRow;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The DataTable instance that will be filtered.
      * @param string|array $columnsToRead The columns to read from each row and pass on to the callback.

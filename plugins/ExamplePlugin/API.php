@@ -29,9 +29,7 @@ class API extends \Piwik\Plugin\API
      * /index.php?module=API&method=ExamplePlugin.getAnswerToLife
      * /index.php?module=API&method=ExamplePlugin.getAnswerToLife&truth=0
      *
-     * @param  bool $truth
      *
-     * @return int
      */
     public function getAnswerToLife(bool $truth = true): int
     {
@@ -45,10 +43,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Another example method that returns a data table.
      * @param string $idSite  (might be a number, or the string all)
-     * @param string $period
-     * @param string $date
-     * @param null|string $segment
-     * @return DataTable
      */
     public function getExampleReport(string $idSite, string $period, string $date, ?string $segment = null): DataTable
     {
@@ -65,10 +59,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns the example metric we archive in Archiver.php.
      * @param string $idSite (might be a number, or the string all)
-     * @param string $period
-     * @param string $date
-     * @param null|string $segment
-     * @return DataTable\DataTableInterface
      */
     public function getExampleArchivedMetric(string $idSite, string $period, string $date, ?string $segment = null): DataTable\DataTableInterface
     {

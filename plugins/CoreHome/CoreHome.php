@@ -30,9 +30,6 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Tracker\Model as TrackerModel;
 
-/**
- *
- */
 class CoreHome extends \Piwik\Plugin
 {
     /**
@@ -394,6 +391,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_EndDate';
         $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
         $translationKeys[] = 'CoreHome_ChangeVisualization';
+        $translationKeys[] = 'CoreHome_ReportConfigure';
         $translationKeys[] = 'General_ExportThisReport';
         $translationKeys[] = 'Annotations_Annotations';
         $translationKeys[] = 'CoreHome_CloseSearch';
@@ -454,12 +452,14 @@ class CoreHome extends \Piwik\Plugin
             }
             if ($limitSegmentsSettingEnabled) {
                 $list->remove('General_Visitors', 'userId');
+                $list->remove('General_Visitors', 'visitIp');
                 $list->remove('General_Visitors', 'visitId');
                 $list->remove('General_Visitors', 'visitorId');
                 $list->remove('General_Visitors', 'fingerprint');
                 $list->remove('Referrers_Referrers', 'campaignId');
                 $list->remove('General_Actions', 'actionServerHour');
                 $list->remove('General_Actions', 'actionServerMinute');
+                $list->remove('General_Visitors', 'visitServerHour');
                 $list->remove('General_Visitors', 'visitEndServerMinute');
                 $list->remove('General_Visitors', 'visitEndServerSecond');
                 $list->remove('General_Visitors', 'visitStartServerHour');

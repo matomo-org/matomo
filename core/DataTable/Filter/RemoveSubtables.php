@@ -24,7 +24,7 @@ use Piwik\DataTable\BaseFilter;
 class RemoveSubtables extends BaseFilter
 {
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The DataTable that will be filtered eventually.
      */

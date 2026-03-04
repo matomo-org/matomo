@@ -26,8 +26,6 @@ class City extends Base
     protected $category = 'UserCountry_VisitLocation';
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -45,8 +43,6 @@ class City extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */
@@ -56,8 +52,6 @@ class City extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

@@ -31,7 +31,6 @@ class WriteAccessCheck implements Diagnostic
     private $tmpPath;
 
     /**
-     * @param Translator $translator
      * @param string $tmpPath Path to the temp directory.
      */
     public function __construct(Translator $translator, $tmpPath)

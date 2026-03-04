@@ -11,8 +11,6 @@ namespace Piwik\Plugins\LanguagesManager\Commands;
 
 use Piwik\Plugins\LanguagesManager\API;
 
-/**
- */
 class LanguageCodes extends TranslationBase
 {
     protected function configure()

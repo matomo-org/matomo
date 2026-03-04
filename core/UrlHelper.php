@@ -18,6 +18,9 @@ use Piwik\Intl\Data\Provider\RegionDataProvider;
  */
 class UrlHelper
 {
+    /**
+     * @var string[]
+     */
     private static $validLinkProtocols = [
         'http',
         'https',
@@ -28,14 +31,14 @@ class UrlHelper
     ];
 
     /**
-    * Checks if a string matches/is equal to one of the patterns/strings.
-    *
-    * @static
-    * @param $test String to test.
-    * @param $patterns Array of strings or regexs.
-    *
-    * @return bool true if $test matches or is equal to one of the regex/string in $patterns, false otherwise.
-    */
+     * Checks if a string matches/is equal to one of the patterns/strings.
+     *
+     * @static
+     * @param string $test String to test.
+     * @param string[] $patterns Array of strings or regexs.
+     *
+     * @return bool true if $test matches or is equal to one of the regex/string in $patterns, false otherwise.
+     */
     protected static function inArrayMatchesRegex($test, $patterns): bool
     {
         foreach ($patterns as $val) {
@@ -57,8 +60,8 @@ class UrlHelper
      * Parameters that are in `$parametersToExclude` will not appear in the result.
      *
      * @static
-     * @param $queryParameters Array of query parameters, eg, `array('site' => '0', 'date' => '2012-01-01')`.
-     * @param $parametersToExclude Array of query parameter names that shouldn't be
+     * @param array<string, string|false|array<string|false>> $queryParameters Array of query parameters, eg, `array('site' => '0', 'date' => '2012-01-01')`.
+     * @param string[] $parametersToExclude Array of query parameter names that shouldn't be
      *                             in the result query string, eg, `array('date', 'period')`.
      * @return string A query string, eg, `"?site=0"`.
      * @api
@@ -149,6 +152,10 @@ class UrlHelper
             ;
     }
 
+    /**
+     * @param string $url
+     * @return bool
+     */
     public static function isLookLikeSafeUrl($url)
     {
         if (preg_match('/[\x00-\x1F\x7F]/', $url)) {
@@ -160,7 +167,7 @@ class UrlHelper
         }
 
         $protocol = explode(':', $url, 2)[0];
-        return preg_match('/^(' . implode('|', self::$validLinkProtocols) . ')$/i', $protocol);
+        return (bool)preg_match('/^(' . implode('|', self::$validLinkProtocols) . ')$/i', $protocol);
     }
 
     /**
@@ -359,10 +366,8 @@ class UrlHelper
     /**
      * Add an array of additional parameters to a query string
      *
-     * @param string $query
      * @param array  $additionalParamsToAdd
      *
-     * @return string
      */
     private static function addAdditionalParameters(string $query, array $additionalParamsToAdd): string
     {
@@ -376,6 +381,10 @@ class UrlHelper
         return $query;
     }
 
+    /**
+     * @param string $url
+     * @return string|false|null
+     */
     public static function getHostFromUrl($url)
     {
         if (!UrlHelper::isLookLikeUrl($url)) {

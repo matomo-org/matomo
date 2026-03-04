@@ -25,8 +25,6 @@
         "PleaseFindBelow": "Alla on raporttisi tyyppiä \"%1$s\" sivustolle %2$s.",
         "PluginDescription": "Luo mukautettuja raportteja ja aikatauluta ne lähettäväksi päivittäin, viikoittain tai kuukausittain yhdelle tai useammalle ihmiselle. Useat eri raporttimuodot ovat tuettuja (html, pdf, csv, kuvat).",
         "ReportFormat": "Raportin muoto",
-        "ReportHour": "Lähetä raportti kello %s",
-        "ReportHourWithUTC": "kello %s UTC-aikaa",
         "ReportIncludeNWebsites": "Raportti sisältää tärkeimmät mittarit kaikista sivustoista, joilla on vähintään yksi käynti (tällä hetkellä saatavilla olevista %s-sivustoista).",
         "ReportPeriod": "Raportin aikaväli",
         "ReportSent": "Raportti lähetetty",

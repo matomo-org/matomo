@@ -138,7 +138,6 @@ class Settings // TODO: merge w/ visitor recognizer or make it it's own service.
      * @param $ip
      * @param $browserLang
      * @param $fingerprintHash
-     * @return string
      */
     protected function getConfigHash(
         Request $request,

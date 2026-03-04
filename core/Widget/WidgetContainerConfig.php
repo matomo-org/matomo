@@ -86,7 +86,6 @@ class WidgetContainerConfig extends WidgetConfig
     /**
      * Adds a new widget to the container widget.
      *
-     * @param WidgetConfig $widget
      * @return static
      */
     public function addWidgetConfig(WidgetConfig $widget)

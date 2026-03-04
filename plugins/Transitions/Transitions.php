@@ -12,8 +12,6 @@ namespace Piwik\Plugins\Transitions;
 use Piwik\Common;
 use Piwik\Config;
 
-/**
- */
 class Transitions extends \Piwik\Plugin
 {
     /**
@@ -79,7 +77,6 @@ class Transitions extends \Piwik\Plugin
      *
      * @param $idSite
      *
-     * @return string
      */
     public static function getPeriodAllowedConfig($idSite): string
     {

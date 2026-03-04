@@ -27,8 +27,6 @@ class VisitorSecondsSinceOrder extends VisitDimension
     protected $type = self::TYPE_NUMBER;
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -68,8 +66,6 @@ class VisitorSecondsSinceOrder extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

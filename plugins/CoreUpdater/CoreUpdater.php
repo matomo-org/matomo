@@ -20,9 +20,6 @@ use Piwik\UpdateCheck;
 use Piwik\Updater as PiwikCoreUpdater;
 use Piwik\Version;
 
-/**
- *
- */
 class CoreUpdater extends \Piwik\Plugin
 {
     /**

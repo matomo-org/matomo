@@ -59,7 +59,7 @@ class Row extends \ArrayObject
     public const DATATABLE_ASSOCIATED = 3;
 
     /**
-     * Constructor.
+     *
      *
      * @param array $row An array with the following structure:
      *
@@ -512,8 +512,6 @@ class Row extends \ArrayObject
         }
     }
 
-    /**
-     */
     private function getColumnValuesMerged($operation, $thisColumnValue, $columnToSumValue, $thisRow, $rowToSum, $columnName = null)
     {
         switch ($operation) {
@@ -650,7 +648,6 @@ class Row extends \ArrayObject
     /**
      * Associates the supplied table with this row as the comparisons table.
      *
-     * @param DataTable $table
      */
     public function setComparisons(DataTable $table)
     {

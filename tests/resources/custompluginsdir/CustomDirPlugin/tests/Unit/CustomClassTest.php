@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -7,6 +8,7 @@
  */
 
 namespace Piwik\Plugins\CustomDirPlugin\tests\Unit;
+
 use Piwik\Plugins\CustomDirPlugin\CustomClass;
 
 /**
@@ -20,7 +22,7 @@ class CustomClassTest extends \PHPUnit\Framework\TestCase
     {
         // set up here if needed
     }
-    
+
     public function tearDown(): void
     {
         // tear down here if needed
@@ -31,5 +33,4 @@ class CustomClassTest extends \PHPUnit\Framework\TestCase
         $customClass = new CustomClass();
         $this->assertTrue($customClass instanceof CustomClass);
     }
-
 }

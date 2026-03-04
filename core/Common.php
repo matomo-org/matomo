@@ -273,8 +273,6 @@ class Common
     /**
      * Timing attack safe string comparison.
      *
-     * @param string $stringA
-     * @param string $stringB
      * @return bool
      */
     public static function hashEquals(string $stringA, string $stringB)

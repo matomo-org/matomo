@@ -121,6 +121,7 @@
         "ComplianceCNILWarning": "<b>Compliance cannot be guaranteed with the use of third-party plugins.</b>",
         "ComplianceCNILUnknownSettingOptOutTitle": "Opt out",
         "ComplianceCNILUnknownSettingOptOutNotes": "Opt out must be manually set up and configured. %1$sLearn more%2$s",
+        "ConflictingAuthenticationParametersProvided": "Conflicting authentication parameters provided.",
         "ComputedMetricAverage": "Avg. %1$s per %2$s",
         "ComputedMetricAverageDocumentation": "Average value of \"%1$s\" per \"%2$s\".",
         "ComputedMetricAverageShortDocumentation": "Average value of \"%1$s\".",

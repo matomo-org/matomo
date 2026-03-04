@@ -11,12 +11,15 @@ namespace Piwik\Plugins\API\tests\Integration;
 
 use Piwik\Access;
 use Piwik\API\Request;
+use Piwik\ArchiveProcessor\Rules;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Http\BadRequestException;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
+use Piwik\Plugins\API\BulkRequestLimit;
 use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -160,6 +163,48 @@ class APITest extends IntegrationTestCase
         $this->api->getBulkRequest($this->makeBulkUrls(3));
     }
 
+    public function testGetBulkRequestLimitReturnsDefaultForAnonymousWithoutViewAccess()
+    {
+        Config::getInstance()->General['API_bulk_request_limit'] = -1;
+
+        $this->assertSame(10, BulkRequestLimit::getCurrentLimit());
+    }
+
+    public function testGetBulkRequestLimitReturnsDefaultForAnonymousWithViewAccess()
+    {
+        Config::getInstance()->General['API_bulk_request_limit'] = -1;
+        $this->setAnonymousAccessForSite(1, 'view');
+
+        try {
+            $this->assertSame(50, BulkRequestLimit::getCurrentLimit());
+        } finally {
+            $this->restoreAnonymousAccessForSite(1);
+        }
+    }
+
+    public function testGetBulkRequestLimitReturnsConfiguredLimitForAuthenticatedUsers()
+    {
+        $this->setSuperUserContext();
+        Config::getInstance()->General['API_bulk_request_limit'] = 3;
+
+        try {
+            $this->assertSame(3, BulkRequestLimit::getCurrentLimit());
+        } finally {
+            $this->setAnonymousContext();
+        }
+    }
+
+    public function testGetJsGlobalVariablesIncludesBulkRequestLimit()
+    {
+        Config::getInstance()->General['API_bulk_request_limit'] = 2;
+
+        $out = '';
+        $plugin = new \Piwik\Plugins\API\Plugin();
+        $plugin->getJsGlobalVariables($out);
+
+        $this->assertStringContainsString('piwik.apiBulkRequestLimit = 2;', $out);
+    }
+
     public function testGetBulkRequestLimitIsDisabledForAuthenticatedUsersWhenConfigIsMinusOne()
     {
         $this->setSuperUserContext();
@@ -169,6 +214,33 @@ class APITest extends IntegrationTestCase
             $response = $this->api->getBulkRequest($this->makeBulkUrls(12));
             $this->assertCount(12, $response);
         } finally {
+            $this->setAnonymousContext();
+        }
+    }
+
+    public function testGetSuggestedValuesForSegmentSupportsAllIdSiteWhenBrowserArchivingDisabled()
+    {
+        $this->setSuperUserContext();
+        $previousBrowserArchivingSetting = Option::get(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING);
+
+        try {
+            Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 0);
+
+            try {
+                $result = $this->api->getSuggestedValuesForSegment('pageTitle', 'all');
+                $this->assertIsArray($result);
+            } catch (\Throwable $e) {
+                $this->assertNotInstanceOf(\TypeError::class, $e);
+                $this->assertStringNotContainsString('SitesManager::getSiteFromId', $e->getMessage());
+                $this->assertStringNotContainsString('must be of the type int', $e->getMessage());
+            }
+        } finally {
+            if ($previousBrowserArchivingSetting === false) {
+                Option::delete(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING);
+            } else {
+                Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, $previousBrowserArchivingSetting);
+            }
+
             $this->setAnonymousContext();
         }
     }

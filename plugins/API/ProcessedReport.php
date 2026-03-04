@@ -14,6 +14,7 @@ use Piwik\API\Request;
 use Piwik\Archive\DataTableFactory;
 use Piwik\CacheId;
 use Piwik\Cache as PiwikCache;
+use Piwik\Category\CategoryList;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
@@ -28,7 +29,6 @@ use Piwik\Piwik;
 use Piwik\Plugin\ReportsProvider;
 use Piwik\Site;
 use Piwik\Timer;
-use Piwik\Url;
 
 class ProcessedReport
 {
@@ -248,8 +248,16 @@ class ProcessedReport
         $columnsToKeep   = $this->getColumnsToKeep();
         $columnsToRemove = $this->getColumnsToRemove();
 
+        $categoryList = CategoryList::get();
         foreach ($availableReports as &$availableReport) {
-            $availableReport['category']    = Piwik::translate($availableReport['category']);
+            $categoryId = $availableReport['category'];
+            $categoryObj = $categoryList->getCategory($categoryId);
+            if ($categoryObj) {
+                $availableReport['category'] = $categoryObj->getDisplayName();
+            } else {
+                $availableReport['category']    = Piwik::translate($categoryId);
+            }
+
             $availableReport['subcategory'] = Piwik::translate($availableReport['subcategory']);
 
             // Ensure all metrics have a translation
@@ -431,16 +439,19 @@ class ProcessedReport
             $parameters['filter_add_columns_when_show_all_columns'] = $deleteRowsWithNoVisits;
         }
 
-        $url = Url::getQueryStringFromParameters($parameters);
-        $request = new Request($url);
+        $parameters = array_filter($parameters, function ($value) {
+            return $value !== null && $value !== false;
+        });
+
+        $request = new Request($parameters);
         try {
-            /** @var DataTable */
+            /** @var DataTable $dataTable */
             $dataTable = $request->process();
         } catch (Exception $e) {
             throw new Exception("API returned an error: " . $e->getMessage() . " at " . basename($e->getFile()) . ":" . $e->getLine() . "\n");
         }
 
-        list($newReport, $columns, $rowsMetadata, $totals) = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
+        [$newReport, $columns, $rowsMetadata, $totals] = $this->handleTableReport($idSite, $dataTable, $reportMetadata, $showRawMetrics, $formatMetrics);
 
         if (function_exists('mb_substr')) {
             foreach ($columns as &$name) {
@@ -540,7 +551,7 @@ class ProcessedReport
             foreach ($dataTable->getDataTables() as $simpleDataTable) {
                 $this->removeEmptyColumns($columns, $reportMetadata, $simpleDataTable);
 
-                list($enhancedSimpleDataTable, $rowMetadata) = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
+                [$enhancedSimpleDataTable, $rowMetadata] = $this->handleSimpleDataTable($idSite, $simpleDataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
                 $enhancedSimpleDataTable->setAllTableMetadata($simpleDataTable->getAllTableMetadata());
 
                 $period = $simpleDataTable->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX)->getLocalizedLongString();
@@ -551,7 +562,8 @@ class ProcessedReport
             }
         } else {
             $this->removeEmptyColumns($columns, $reportMetadata, $dataTable);
-            list($newReport, $rowsMetadata) = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
+            [$newReport, $rowsMetadata] = $this->handleSimpleDataTable($idSite, $dataTable, $columns, $hasDimension, $showRawMetrics, $formatMetrics);
+            $newReport->setAllTableMetadata($dataTable->getAllTableMetadata());
 
             $totals = $this->aggregateReportTotalValues($dataTable, $totals);
         }
@@ -746,7 +758,7 @@ class ProcessedReport
                 !empty($comparisons)
                 && $comparisons->getRowsCount() > 0
             ) {
-                list($newComparisons, $ignore) = $this->handleSimpleDataTable($idSite, $comparisons, $comparisonColumns, true, $returnRawMetrics, $formatMetrics, $keepMetadata = true);
+                [$newComparisons, $ignore] = $this->handleSimpleDataTable($idSite, $comparisons, $comparisonColumns, true, $returnRawMetrics, $formatMetrics, $keepMetadata = true);
                 $enhancedRow->setComparisons($newComparisons);
             }
 

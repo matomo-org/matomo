@@ -12,9 +12,6 @@ namespace Piwik\Plugins\ImageGraph\StaticGraph;
 use CpChart\Data;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 
-/**
- *
- */
 class Exception extends StaticGraph
 {
     public const MESSAGE_RIGHT_MARGIN = 5;

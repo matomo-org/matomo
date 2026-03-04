@@ -201,7 +201,6 @@ class Archive implements ArchiveQuery
     private $forceFetchingWithoutLaunchingArchiving;
 
     /**
-     * @param Parameters $params
      * @param bool $forceIndexedBySite Whether to force index the result of a query by site ID.
      * @param bool $forceIndexedByDate Whether to force index the result of a query by period.
      */
@@ -882,7 +881,6 @@ class Archive implements ArchiveQuery
      * entries to the cache. If the archive is used again, SQL will be executed to
      * try and find the archive IDs even though we know there are none.
      *
-     * @param string $doneFlag
      */
     private function initializeArchiveIdCache(string $doneFlag)
     {

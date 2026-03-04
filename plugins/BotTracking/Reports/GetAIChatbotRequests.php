@@ -14,7 +14,7 @@ namespace Piwik\Plugins\BotTracking\Reports;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
-use Piwik\Plugins\BotTracking\Columns\AIAssistantName;
+use Piwik\Plugins\BotTracking\Columns\AIChatbotName;
 use Piwik\Plugins\BotTracking\Columns\Metrics\AcquiredVisits;
 use Piwik\Plugins\BotTracking\Columns\Metrics\DocumentRequests;
 use Piwik\Plugins\BotTracking\Columns\Metrics\PageRequests;
@@ -22,18 +22,19 @@ use Piwik\Plugins\BotTracking\Columns\Metrics\Requests;
 use Piwik\Plugins\BotTracking\Metrics;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\Widget\WidgetsList;
+use Piwik\Plugins\BotTracking\Reports\SegmentNotSupportedMessageHelper;
 
-class GetAIAssistantRequests extends Report
+class GetAIChatbotRequests extends Report
 {
     protected function init(): void
     {
         parent::init();
 
-        $this->name              = Piwik::translate('BotTracking_AIAssistantsReportTitle');
-        $this->documentation     = Piwik::translate('BotTracking_AIAssistantsReportDocumentation');
+        $this->name              = Piwik::translate('BotTracking_AIChatbotsReportTitle');
+        $this->documentation     = Piwik::translate('BotTracking_AIChatbotsReportDocumentation');
         $this->categoryId        = 'General_AIAssistants';
-        $this->subcategoryId     = 'BotTracking_AIBotsOverview';
-        $this->dimension         = new AIAssistantName();
+        $this->subcategoryId     = 'BotTracking_AIChatbotsOverview';
+        $this->dimension         = new AIChatbotName();
         $this->metrics           = [
             new Requests(),
             new PageRequests(),
@@ -44,9 +45,9 @@ class GetAIAssistantRequests extends Report
         $this->order             = 30;
         $this->defaultSortColumn = Metrics::COLUMN_ACQUIRED_VISITS;
         if (\Piwik\Request::fromRequest()->getStringParameter('secondaryDimension', '') === 'documents') {
-            $this->actionToLoadSubTables = 'getDocumentUrlsForAIAssistant';
+            $this->actionToLoadSubTables = 'getDocumentUrlsForAIChatbot';
         } else {
-            $this->actionToLoadSubTables = 'getPageUrlsForAIAssistant';
+            $this->actionToLoadSubTables = 'getPageUrlsForAIChatbot';
         }
     }
 

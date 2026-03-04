@@ -85,7 +85,7 @@
         "URLCampaignBuilder": "Tógálaí URL an Fheachtais",
         "URLCampaignBuilderIntro": "Ligeann uirlis Tógálaí %1$sURL%2$s duit URLanna a ghiniúint atá réidh le húsáid le haghaidh Feachtais Rianaithe i Matomo. Féach ar an gcáipéisíocht faoi %3$sCampaign Tracking%4$s le haghaidh tuilleadh eolais.",
         "URLCampaignBuilderResult": "URL ginte gur féidir leat a chóipeáil agus a ghreamú i do Feachtais, Nuachtlitir Ríomhphoist, Fógraí Facebook nó tweets:",
-        "UsingNDistinctUrls": "(ag baint úsáide as URLanna ar leith %s)",
+        "UsingNDistinctUrls": "(ag baint úsáide as urlanna ar leith %s)",
         "ViewAllReferrers": "Féach ar gach Tagróir",
         "ViewReferrersBy": "Amharc ar thagróirí de réir %s",
         "VisitorsFromAIAssistants": "Cuairteoirí ó Chúntóirí AI",

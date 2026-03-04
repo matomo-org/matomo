@@ -217,6 +217,7 @@ describe("ViewDataTableTest", function () { // TODO: should remove Test suffix f
 
     it("should display the ENTER_YOUR_TOKEN_AUTH_HERE text in the export url", async function () {
         await page.goto(url.replace(/filter_limit=5/, 'filter_limit=10') + '&flat=1');
+        await page.waitForNetworkIdle();
         await page.click('.activateExportSelection');
         await page.waitForSelector('.toggle-export-url');
         await page.click('.toggle-export-url');

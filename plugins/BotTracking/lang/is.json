@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "Síðu slóð"
+        "PageUrl": "Síðu slóð",
+        "SiteWithoutDataBackToMatomo": "Aftur í Matomo"
     }
 }

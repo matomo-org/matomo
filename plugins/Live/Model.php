@@ -174,7 +174,6 @@ class Model
      * @param $idSite
      * @param $period
      * @param $date
-     * @return string
      * @throws Exception
      */
     public function getMostRecentVisitsDateTime($idSite, $period = null, $date = null): string

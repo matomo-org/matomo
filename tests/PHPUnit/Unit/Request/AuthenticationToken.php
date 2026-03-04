@@ -9,6 +9,8 @@
 
 namespace Piwik\Tests\Unit\Request;
 
+use Piwik\Cache;
+
 class AuthenticationToken extends \PHPUnit\Framework\TestCase
 {
     public function tearDown(): void
@@ -16,6 +18,8 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         parent::tearDown();
         $_GET = $_POST = [];
         unset($_SERVER['HTTP_AUTHORIZATION']);
+        $this->setNestedApiInvocationCount(0);
+        Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
     }
 
     /**
@@ -86,7 +90,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         ];
 
         yield 'token in POST request overwrites GET token' => [
-            ['token_auth' => 'randomGetAccessToken'],
+            ['token_auth' => 'randomPostAccessToken'],
             ['token_auth' => 'randomPostAccessToken'],
             null,
             null,
@@ -96,7 +100,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         ];
 
         yield 'token in POST request overwrites GET session token' => [
-            ['token_auth' => 'randomGetAccessToken', 'force_api_session' => 1],
+            ['token_auth' => 'randomPostAccessToken', 'force_api_session' => 1],
             ['token_auth' => 'randomPostAccessToken'],
             null,
             null,
@@ -106,7 +110,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         ];
 
         yield 'token in header overwrites GET token' => [
-            ['token_auth' => 'randomGetAccessToken'],
+            ['token_auth' => 'randomHeaderAccessToken'],
             [],
             'Bearer randomHeaderAccessToken',
             null,
@@ -116,7 +120,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         ];
 
         yield 'token in header overwrites GET session token' => [
-            ['token_auth' => 'randomGetAccessToken', 'force_api_session' => 1],
+            ['token_auth' => 'randomHeaderAccessToken', 'force_api_session' => 1],
             [],
             'Bearer randomHeaderAccessToken',
             null,
@@ -127,7 +131,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
 
         yield 'token in header overwrites POST token' => [
             [],
-            ['token_auth' => 'randomPostAccessToken'],
+            ['token_auth' => 'randomHeaderAccessToken'],
             'Bearer randomHeaderAccessToken',
             null,
             'randomHeaderAccessToken',
@@ -137,7 +141,7 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
 
         yield 'token in header overwrites POST session token' => [
             [],
-            ['token_auth' => 'randomPostAccessToken', 'force_api_session' => 1],
+            ['token_auth' => 'randomHeaderAccessToken', 'force_api_session' => 1],
             'Bearer randomHeaderAccessToken',
             null,
             'randomHeaderAccessToken',
@@ -146,8 +150,8 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         ];
 
         yield 'token in header overwrites GET and POST token' => [
-            ['token_auth' => 'randomGetAccessToken'],
-            ['token_auth' => 'randomPostAccessToken'],
+            ['token_auth' => 'randomHeaderAccessToken'],
+            ['token_auth' => 'randomHeaderAccessToken'],
             'Bearer randomHeaderAccessToken',
             null,
             'randomHeaderAccessToken',
@@ -156,8 +160,8 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         ];
 
         yield 'token in header overwrites GET session and POST token' => [
-            ['token_auth' => 'randomGetAccessToken', 'force_api_session' => 1],
-            ['token_auth' => 'randomPostAccessToken'],
+            ['token_auth' => 'randomHeaderAccessToken', 'force_api_session' => 1],
+            ['token_auth' => 'randomHeaderAccessToken'],
             'Bearer randomHeaderAccessToken',
             null,
             'randomHeaderAccessToken',
@@ -166,8 +170,8 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         ];
 
         yield 'token in header overwrites GET and POST session token' => [
-            ['token_auth' => 'randomGetAccessToken'],
-            ['token_auth' => 'randomPostAccessToken', 'force_api_session' => 1],
+            ['token_auth' => 'randomHeaderAccessToken'],
+            ['token_auth' => 'randomHeaderAccessToken', 'force_api_session' => 1],
             'Bearer randomHeaderAccessToken',
             null,
             'randomHeaderAccessToken',
@@ -176,8 +180,8 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
         ];
 
         yield 'token in header overwrites GET session and POST session token' => [
-            ['token_auth' => 'randomGetAccessToken', 'force_api_session' => 1],
-            ['token_auth' => 'randomPostAccessToken', 'force_api_session' => 1],
+            ['token_auth' => 'randomHeaderAccessToken', 'force_api_session' => 1],
+            ['token_auth' => 'randomHeaderAccessToken', 'force_api_session' => 1],
             'Bearer randomHeaderAccessToken',
             null,
             'randomHeaderAccessToken',
@@ -195,5 +199,122 @@ class AuthenticationToken extends \PHPUnit\Framework\TestCase
             false, // secure
             false, // no session token
         ];
+    }
+
+    /**
+     * @dataProvider provideConflictingAuthParametersData
+     */
+    public function testGetAuthenticationTokenThrowsOnConflictingAuthParameters(array $getParams, array $postParams, ?string $authorizationHeader)
+    {
+        $this->expectException(\Piwik\Http\BadRequestException::class);
+        $this->expectExceptionCode(400);
+
+        $_GET = $getParams;
+        $_POST = $postParams;
+        $_SERVER['HTTP_AUTHORIZATION'] = $authorizationHeader;
+
+        $token = new \Piwik\Request\AuthenticationToken();
+        $token->getAuthToken();
+    }
+
+    public function provideConflictingAuthParametersData(): iterable
+    {
+        yield 'conflicting token_auth between GET and POST' => [
+            ['token_auth' => 'randomGetAccessToken'],
+            ['token_auth' => 'randomPostAccessToken'],
+            null,
+        ];
+
+        yield 'conflicting token_auth between header and GET' => [
+            ['token_auth' => 'randomGetAccessToken'],
+            [],
+            'Bearer randomHeaderAccessToken',
+        ];
+
+        yield 'conflicting token_auth between header and POST' => [
+            [],
+            ['token_auth' => 'randomPostAccessToken'],
+            'Bearer randomHeaderAccessToken',
+        ];
+
+        yield 'conflicting token_auth between header and GET/POST' => [
+            ['token_auth' => 'sameRequestToken'],
+            ['token_auth' => 'sameRequestToken'],
+            'Bearer randomHeaderAccessToken',
+        ];
+
+        yield 'conflicting force_api_session without token_auth on both sources' => [
+            ['force_api_session' => 1],
+            ['force_api_session' => 0],
+            null,
+        ];
+
+        yield 'conflicting force_api_session when token_auth only provided in one source' => [
+            ['token_auth' => 'randomGetAccessToken', 'force_api_session' => 1],
+            ['force_api_session' => 0],
+            null,
+        ];
+    }
+
+    /**
+     * @dataProvider provideConflictingAuthParametersForNestedApiRequestData
+     */
+    public function testGetAuthenticationTokenDoesNotThrowOnConflictingAuthForNestedApiRequest(
+        array $getParams,
+        array $postParams,
+        ?string $authorizationHeader,
+        string $expectedToken,
+        bool $expectedSessionToken
+    ) {
+        $this->setNestedApiInvocationCount(2);
+
+        $_GET = $getParams;
+        $_POST = $postParams;
+        $_SERVER['HTTP_AUTHORIZATION'] = $authorizationHeader;
+
+        $token = new \Piwik\Request\AuthenticationToken();
+        self::assertEquals($expectedToken, $token->getAuthToken());
+        self::assertSame($expectedSessionToken, $token->isSessionToken());
+    }
+
+    public function provideConflictingAuthParametersForNestedApiRequestData(): iterable
+    {
+        yield 'conflicting token_auth and force_api_session between GET and POST' => [
+            ['token_auth' => 'randomGetAccessToken', 'force_api_session' => 1],
+            ['token_auth' => 'randomPostAccessToken', 'force_api_session' => 0],
+            null,
+            'randomPostAccessToken',
+            false,
+        ];
+
+        yield 'conflicting token_auth including header and conflicting force_api_session' => [
+            ['token_auth' => 'randomGetAccessToken', 'force_api_session' => 1],
+            ['token_auth' => 'randomPostAccessToken', 'force_api_session' => 0],
+            'Bearer randomHeaderAccessToken',
+            'randomHeaderAccessToken',
+            false,
+        ];
+
+        yield 'force_api_session conflict only keeps POST session state in nested requests' => [
+            ['token_auth' => 'sameToken', 'force_api_session' => 0],
+            ['token_auth' => 'sameToken', 'force_api_session' => 1],
+            null,
+            'sameToken',
+            true,
+        ];
+    }
+
+    private function setNestedApiInvocationCount(int $count): void
+    {
+        $reflectionClass = new \ReflectionClass(\Piwik\API\Request::class);
+        $reflectionProperty = $reflectionClass->getProperty('nestedApiInvocationCount');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue(null, $count);
+
+        if ($count > 0) {
+            \Piwik\API\Request::setIsRootRequestApiRequest('API.getPiwikVersion');
+        } else {
+            Cache::getTransientCache()->delete('API.setIsRootRequestApiRequest');
+        }
     }
 }

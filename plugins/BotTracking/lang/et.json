@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "Lehe URL"
+        "PageUrl": "Lehe URL",
+        "SiteWithoutDataBackToMatomo": "Tagasi Matomosse"
     }
 }

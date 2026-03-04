@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "URL ng Pahina"
+        "PageUrl": "URL ng Pahina",
+        "SiteWithoutDataBackToMatomo": "Bumalik sa Matomo"
     }
 }

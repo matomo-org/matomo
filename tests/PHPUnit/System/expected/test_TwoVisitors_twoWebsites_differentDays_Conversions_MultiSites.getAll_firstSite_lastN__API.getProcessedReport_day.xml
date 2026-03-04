@@ -14,6 +14,7 @@
 			<nb_actions>Actions</nb_actions>
 			<nb_pageviews>Pageviews</nb_pageviews>
 			<hits>Hits</hits>
+			<ai_chatbots_requests>AI Chatbots Requests</ai_chatbots_requests>
 			<revenue>Revenue</revenue>
 			<nb_conversions>Conversions</nb_conversions>
 			<orders>Ecommerce Orders</orders>
@@ -30,6 +31,7 @@
 			<actions_evolution>Actions Evolution</actions_evolution>
 			<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 			<hits_evolution>Hits Evolution</hits_evolution>
+			<ai_chatbots_requests_evolution>AI Chatbots Requests Evolution</ai_chatbots_requests_evolution>
 			<revenue_evolution>Revenue Evolution</revenue_evolution>
 			<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 			<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -40,6 +42,7 @@
 			<nb_actions>number</nb_actions>
 			<nb_pageviews>number</nb_pageviews>
 			<hits>number</hits>
+			<ai_chatbots_requests>number</ai_chatbots_requests>
 			<revenue>money</revenue>
 			<nb_conversions>number</nb_conversions>
 			<orders>number</orders>
@@ -48,6 +51,7 @@
 			<actions_evolution>percent</actions_evolution>
 			<pageviews_evolution>percent</pageviews_evolution>
 			<hits_evolution>percent</hits_evolution>
+			<ai_chatbots_requests_evolution>percent</ai_chatbots_requests_evolution>
 			<revenue_evolution>percent</revenue_evolution>
 			<nb_conversions_evolution>percent</nb_conversions_evolution>
 			<orders_evolution>percent</orders_evolution>
@@ -63,6 +67,7 @@
 		<nb_actions>Actions</nb_actions>
 		<nb_pageviews>Pageviews</nb_pageviews>
 		<hits>Hits</hits>
+		<ai_chatbots_requests>AI Chatbots Requests</ai_chatbots_requests>
 		<revenue>Revenue</revenue>
 		<nb_conversions>Conversions</nb_conversions>
 		<orders>Ecommerce Orders</orders>
@@ -71,6 +76,7 @@
 		<actions_evolution>Actions Evolution</actions_evolution>
 		<pageviews_evolution>Pageviews Evolution</pageviews_evolution>
 		<hits_evolution>Hits Evolution</hits_evolution>
+		<ai_chatbots_requests_evolution>AI Chatbots Requests Evolution</ai_chatbots_requests_evolution>
 		<revenue_evolution>Revenue Evolution</revenue_evolution>
 		<nb_conversions_evolution>Conversions Evolution</nb_conversions_evolution>
 		<orders_evolution>Ecommerce Orders Evolution</orders_evolution>
@@ -84,11 +90,13 @@
 				<nb_actions>2</nb_actions>
 				<nb_pageviews>2</nb_pageviews>
 				<hits>2</hits>
+				<ai_chatbots_requests>0</ai_chatbots_requests>
 				<revenue>$10</revenue>
 				<visits_evolution>100%</visits_evolution>
 				<actions_evolution>100%</actions_evolution>
 				<pageviews_evolution>100%</pageviews_evolution>
 				<hits_evolution>100%</hits_evolution>
+				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -105,11 +113,13 @@
 				<nb_actions>1</nb_actions>
 				<nb_pageviews>1</nb_pageviews>
 				<hits>1</hits>
+				<ai_chatbots_requests>0</ai_chatbots_requests>
 				<revenue>$0</revenue>
 				<visits_evolution>-50%</visits_evolution>
 				<actions_evolution>-50%</actions_evolution>
 				<pageviews_evolution>-50%</pageviews_evolution>
 				<hits_evolution>-50%</hits_evolution>
+				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>-100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -124,11 +134,13 @@
 				<nb_actions>3</nb_actions>
 				<nb_pageviews>3</nb_pageviews>
 				<hits>3</hits>
+				<ai_chatbots_requests>0</ai_chatbots_requests>
 				<revenue>$0</revenue>
 				<visits_evolution>100%</visits_evolution>
 				<actions_evolution>100%</actions_evolution>
 				<pageviews_evolution>100%</pageviews_evolution>
 				<hits_evolution>100%</hits_evolution>
+				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -145,11 +157,13 @@
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
 				<hits>5</hits>
+				<ai_chatbots_requests>0</ai_chatbots_requests>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>400%</actions_evolution>
 				<pageviews_evolution>400%</pageviews_evolution>
 				<hits_evolution>400%</hits_evolution>
+				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>100%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -166,11 +180,13 @@
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
 				<hits>5</hits>
+				<ai_chatbots_requests>0</ai_chatbots_requests>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>0%</actions_evolution>
 				<pageviews_evolution>0%</pageviews_evolution>
 				<hits_evolution>0%</hits_evolution>
+				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -187,11 +203,13 @@
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
 				<hits>5</hits>
+				<ai_chatbots_requests>0</ai_chatbots_requests>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>0%</actions_evolution>
 				<pageviews_evolution>0%</pageviews_evolution>
 				<hits_evolution>0%</hits_evolution>
+				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -208,11 +226,13 @@
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
 				<hits>5</hits>
+				<ai_chatbots_requests>0</ai_chatbots_requests>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>0%</actions_evolution>
 				<pageviews_evolution>0%</pageviews_evolution>
 				<hits_evolution>0%</hits_evolution>
+				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -229,11 +249,13 @@
 				<nb_actions>5</nb_actions>
 				<nb_pageviews>5</nb_pageviews>
 				<hits>5</hits>
+				<ai_chatbots_requests>0</ai_chatbots_requests>
 				<revenue>$5</revenue>
 				<visits_evolution>0%</visits_evolution>
 				<actions_evolution>0%</actions_evolution>
 				<pageviews_evolution>0%</pageviews_evolution>
 				<hits_evolution>0%</hits_evolution>
+				<ai_chatbots_requests_evolution>0%</ai_chatbots_requests_evolution>
 				<revenue_evolution>0%</revenue_evolution>
 				<nb_conversions>0</nb_conversions>
 				<orders>0</orders>
@@ -256,6 +278,7 @@
 				<previous_nb_actions>0</previous_nb_actions>
 				<previous_nb_pageviews>0</previous_nb_pageviews>
 				<previous_hits>0</previous_hits>
+				<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 				<previous_revenue>0</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
@@ -272,6 +295,7 @@
 				<previous_nb_actions>2</previous_nb_actions>
 				<previous_nb_pageviews>2</previous_nb_pageviews>
 				<previous_hits>2</previous_hits>
+				<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 				<previous_revenue>10</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
@@ -286,6 +310,7 @@
 				<previous_nb_actions>0</previous_nb_actions>
 				<previous_nb_pageviews>0</previous_nb_pageviews>
 				<previous_hits>0</previous_hits>
+				<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 				<previous_revenue>0</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
@@ -302,6 +327,7 @@
 				<previous_nb_actions>1</previous_nb_actions>
 				<previous_nb_pageviews>1</previous_nb_pageviews>
 				<previous_hits>1</previous_hits>
+				<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 				<previous_revenue>0</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
@@ -318,6 +344,7 @@
 				<previous_nb_actions>5</previous_nb_actions>
 				<previous_nb_pageviews>5</previous_nb_pageviews>
 				<previous_hits>5</previous_hits>
+				<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 				<previous_revenue>5</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
@@ -334,6 +361,7 @@
 				<previous_nb_actions>5</previous_nb_actions>
 				<previous_nb_pageviews>5</previous_nb_pageviews>
 				<previous_hits>5</previous_hits>
+				<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 				<previous_revenue>5</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
@@ -350,6 +378,7 @@
 				<previous_nb_actions>5</previous_nb_actions>
 				<previous_nb_pageviews>5</previous_nb_pageviews>
 				<previous_hits>5</previous_hits>
+				<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 				<previous_revenue>5</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
@@ -366,6 +395,7 @@
 				<previous_nb_actions>5</previous_nb_actions>
 				<previous_nb_pageviews>5</previous_nb_pageviews>
 				<previous_hits>5</previous_hits>
+				<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
 				<previous_revenue>5</previous_revenue>
 				<group />
 				<main_url>http://piwik.net</main_url>
@@ -377,6 +407,7 @@
 		<nb_actions>31</nb_actions>
 		<nb_pageviews>31</nb_pageviews>
 		<hits>31</hits>
+		<ai_chatbots_requests>0</ai_chatbots_requests>
 		<revenue>35</revenue>
 		<_metadata>
 			<ts_archived>today-date-removed-in-tests</ts_archived>
@@ -386,6 +417,7 @@
 		<actions_evolution_trend>7</actions_evolution_trend>
 		<pageviews_evolution_trend>7</pageviews_evolution_trend>
 		<hits_evolution_trend>7</hits_evolution_trend>
+		<ai_chatbots_requests_evolution_trend>0</ai_chatbots_requests_evolution_trend>
 		<revenue_evolution_trend>6</revenue_evolution_trend>
 	</reportTotal>
 </result>

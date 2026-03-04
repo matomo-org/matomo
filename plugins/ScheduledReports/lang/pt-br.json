@@ -27,8 +27,6 @@
         "PleaseFindBelow": "Veja abaixo o seu relatório %1$s para %2$s.",
         "PluginDescription": "Crie relatórios personalizados e programe-os para serem enviado por dia, semana ou mês para uma ou várias pessoas. Vários formatos de relatório são suportados (imagens html, pdf, csv).",
         "ReportFormat": "Formato do relatório",
-        "ReportHour": "Enviar relatório no horário: %s",
-        "ReportHourWithUTC": "%s horas UTC",
         "ReportIncludeNWebsites": "O relatório incluirá as principais métricas para todos os sites que têm pelo menos uma visita (a partir de sites %s atualmente disponível).",
         "ReportPeriod": "Período do relatório",
         "ReportSent": "Relatório enviado",

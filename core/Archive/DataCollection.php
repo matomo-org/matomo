@@ -106,7 +106,7 @@ class DataCollection
     private $isBuiltWithoutArchives = true;
 
     /**
-     * Constructor.
+     *
      *
      * @param array $dataNames @see $this->dataNames
      * @param string $dataType @see $this->dataType

@@ -13,8 +13,10 @@ use Piwik\Common;
 use Piwik\Config;
 use Piwik\Date;
 use Piwik\Piwik;
+use Piwik\Plugins\BotTracking\Metrics as BotTrackingMetrics;
 use Piwik\Plugins\Goals\API as GoalsAPI;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Plugin\Manager;
 use Piwik\Request;
 use Piwik\Translation\Translator;
 use Piwik\View;
@@ -57,6 +59,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view->displayRevenueColumn = $this->shouldDisplayRevenueColumn();
         $view->limit                = Config::getInstance()->General['all_websites_website_per_page'];
         $view->show_sparklines      = Config::getInstance()->General['show_multisites_sparklines'];
+        $view->hasBotTrackingEnabled = Manager::getInstance()->isPluginActivated('BotTracking');
 
         $view->autoRefreshTodayReport = 0;
         // if the current date is today, or yesterday,
@@ -81,13 +84,19 @@ class Controller extends \Piwik\Plugin\Controller
     public function getEvolutionGraph(): ?string
     {
         $columns = Request::fromRequest()->getStringParameter('columns');
-        $api = "API.get";
+        $api = 'API.get';
 
-        if ($columns == 'revenue') {
-            $api = "Goals.get";
+        if ($columns === 'revenue') {
+            $api = 'Goals.get';
+        }
+        if ($columns === 'ai_chatbots_requests' && Manager::getInstance()->isPluginActivated('BotTracking')) {
+            $api             = 'BotTracking.get';
+            $columns = BotTrackingMetrics::METRIC_AI_CHATBOTS_REQUESTS;
         }
         $view = $this->getLastUnitGraph($this->pluginName, __FUNCTION__, $api);
         $view->requestConfig->totals = 0;
+        $view->requestConfig->request_parameters_to_modify['columns'] = $columns;
+        $view->config->columns_to_display = [$columns];
         return $this->renderView($view);
     }
 

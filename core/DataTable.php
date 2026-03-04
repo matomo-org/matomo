@@ -677,7 +677,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * cases, the {@link COLUMN_AGGREGATION_OPS_METADATA_NAME}
      * metadata can be used to specify a different type of operation.
      *
-     * @param DataTable $tableToSum
      * @return void
      * @throws Exception
      */
@@ -848,7 +847,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * at the maximum, the new row will be summed to the summary row. If there is no summary row,
      * this row is set as the summary row.
      *
-     * @param Row $row
      * @return Row `$row` or the summary row if we're at the maximum number of rows.
      */
     public function addRow(Row $row)
@@ -892,7 +890,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * _Note: A DataTable can have only one summary row._
      *
-     * @param Row $row
      * @return Row Returns `$row`.
      */
     public function addSummaryRow(Row $row)
@@ -1335,8 +1332,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * is equal to the row in the other table with the same label. The order
      * of rows is not important.
      *
-     * @param DataTable $table1
-     * @param DataTable $table2
      * @return bool
      */
     public static function isEqual(DataTable $table1, DataTable $table2)
@@ -1589,13 +1584,19 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
             return false;
         }
 
-        foreach ($value as $entry) {
-            if ($this->containsObject($entry)) {
-                return true;
-            }
+        $containsObject = false;
+
+        try {
+            array_walk_recursive($value, function ($entry) use (&$containsObject): void {
+                if (is_object($entry)) {
+                    $containsObject = true;
+                }
+            });
+        } catch (\Throwable $error) {
+            throw new Exception('The unserialization has failed! Array payload cannot be safely traversed.', 0, $error);
         }
 
-        return false;
+        return $containsObject;
     }
 
     /**
@@ -2121,7 +2122,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * $row must have a column "label". The $row will be summed to this table's row with the same label.
      *
-     * @param Row $row
      * @param null|array<string|int, string> $columnAggregationOps
      * @return void
      * @throws \Exception
@@ -2226,7 +2226,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param int $offset
-     * @return bool
      */
     public function offsetExists($offset): bool
     {
@@ -2237,7 +2236,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param int $offset
-     * @return Row
      */
     public function offsetGet($offset): Row
     {
@@ -2247,7 +2245,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * @param int $offset
      * @param Row $value
-     * @return void
      */
     public function offsetSet($offset, $value): void
     {
@@ -2256,7 +2253,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param int $offset
-     * @return void
      * @throws Exception
      */
     public function offsetUnset($offset): void
@@ -2268,7 +2264,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param string|int|null $label
      * @param array $columns
      * @param array<string, string>|null $aggregationOps
-     * @return Row
      * @throws Exception
      */
     public function sumRowWithLabel($label, array $columns, ?array $aggregationOps = null): Row

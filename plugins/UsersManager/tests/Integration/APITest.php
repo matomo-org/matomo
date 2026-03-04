@@ -1127,11 +1127,47 @@ class APITest extends IntegrationTestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
 
+        $_GET['token_auth'] = 'anyToken';
         $_GET['force_api_session'] = 1;
         try {
             $this->api->setUserAccess('anonymous', 'view', [1]);
         } finally {
+            unset($_GET['token_auth']);
             unset($_GET['force_api_session']);
+        }
+    }
+
+    public function testAddUserDoesNotRequirePasswordWhenPostSessionFlagIsZeroEvenIfGetFlagIsOne()
+    {
+        $_GET['force_api_session'] = 1;
+        $_POST['token_auth'] = 'postToken';
+        $_POST['force_api_session'] = 0;
+
+        try {
+            $this->api->addUser('collisionUser', 'password', 'collision@example.com');
+            self::assertTrue($this->model->userExists('collisionUser'));
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['token_auth']);
+            unset($_POST['force_api_session']);
+        }
+    }
+
+    public function testAddUserRequiresPasswordWhenPostSessionFlagIsOneEvenIfGetFlagIsZero()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
+
+        $_GET['force_api_session'] = 0;
+        $_POST['token_auth'] = 'postToken';
+        $_POST['force_api_session'] = 1;
+
+        try {
+            $this->api->addUser('collisionUser2', 'password', 'collision2@example.com');
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['token_auth']);
+            unset($_POST['force_api_session']);
         }
     }
 

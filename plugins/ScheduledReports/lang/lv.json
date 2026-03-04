@@ -27,8 +27,6 @@
         "PleaseFindBelow": "Jūsu %1$s ziņojums par %2$s skatāms zemāk.",
         "PluginDescription": "Izveidojiet pielāgotas atskaites un ieplānojiet tās nosūtīt pa e-pastu katru dienu, reizi nedēļā vai reizi mēnesī vienai vai vairākām personām. Tiek atbalstīti vairāki atskaišu formāti (HTML, PDF, csv, attēli).",
         "ReportFormat": "Atskaites formāts",
-        "ReportHour": "Nosūtīt ziņojumu plkst. %s",
-        "ReportHourWithUTC": "plkst. %s pēc UTC laika",
         "ReportIncludeNWebsites": "Ziņojumā tiks iekļauti galvenie rādījumi visām vietnēm, kurām ir vismaz viens apmeklējums (no pašlaik pieejamajām %s vietnēm).",
         "ReportPeriod": "Ziņojuma laikposms",
         "ReportSent": "Ziņojums nosūtīts",

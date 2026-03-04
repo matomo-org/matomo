@@ -87,7 +87,6 @@ class PasswordVerifier
     }
 
     /**
-     * @param Date $now
      * @ignore
      * tests only
      */

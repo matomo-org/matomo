@@ -13,6 +13,7 @@ namespace Piwik\Plugins\ArchivingMetrics;
 
 use Piwik\Period;
 use Piwik\Segment;
+use Piwik\Site;
 
 class ArchivingMetrics extends \Piwik\Plugin
 {
@@ -59,6 +60,7 @@ class ArchivingMetrics extends \Piwik\Plugin
 
     private function buildContext(int $idSite, Period $period, Segment $segment, string $plugin, $report): Context
     {
-        return new Context($idSite, $period, $segment, $plugin, $report);
+        $site = new Site($idSite);
+        return new Context($idSite, $period, $segment, $plugin, $report, $site->getTimezone());
     }
 }

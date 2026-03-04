@@ -23,8 +23,6 @@
         "PleaseFindBelow": "Prosimy odszukać %2$s w poniższym raporcie %1$s .",
         "PluginDescription": "Utwórz osobiste raporty i ich harmonogramy aby codziennie, co tydzień lub raz w miesiącu trafiały one do jednej lub kilku osób. Dostępne jest kilka formatów (html, pdf, csv, obrazki).",
         "ReportFormat": "Format raportu",
-        "ReportHour": "Wyślij raport o %s",
-        "ReportHourWithUTC": "O godzinie %s UTC",
         "ReportIncludeNWebsites": "Raport będzie zawierał główne wskaźniki dla wszystkich serwisów, które miał przynajmniej jedne odwiedziny (spośród dostępnych %s serwisów).",
         "ReportSent": "Raport wysłany",
         "ReportType": "Wyślij raport przez",

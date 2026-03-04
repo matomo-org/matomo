@@ -15,6 +15,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\Exception\NoPrivilegesException;
 use Piwik\FrontController;
 use Piwik\Piwik;
+use Piwik\Request\AuthenticationToken;
 use Piwik\Plugins\TwoFactorAuth\Dao\RecoveryCodeDao;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Session;
@@ -248,7 +249,7 @@ class TwoFactorAuth extends \Piwik\Plugin
                 if (!Request::isRootRequestApiRequest()) {
                     $module = 'TwoFactorAuth';
                     $action = 'loginTwoFactorAuth';
-                } elseif (Common::getRequestVar('force_api_session', 0) == 1) {
+                } elseif (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
                     // don't allow API requests with session auth if 2fa code hasn't been verified.
                     throw new Exception(Piwik::translate('General_YourSessionHasExpired'));
                 }

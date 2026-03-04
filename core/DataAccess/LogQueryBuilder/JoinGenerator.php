@@ -231,7 +231,6 @@ class JoinGenerator
     }
 
     /**
-     * @param LogTable $logTable
      * @param LogTable[] $availableLogTables
      * @return string|null   returns null in case the table is already joined, or the join string if the table needs
      *                       to be joined

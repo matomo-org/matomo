@@ -24,9 +24,6 @@ class IdPageview extends ActionDimension
     protected $nameSingular = 'Actions_ColumnIdPageview';
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
-     * @param Action $action
      *
      * @return mixed|false
      * @api

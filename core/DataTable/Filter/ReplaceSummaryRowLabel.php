@@ -36,7 +36,7 @@ class ReplaceSummaryRowLabel extends BaseFilter
     private $newLabel;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The table that will eventually be filtered.
      * @param string|null $newLabel The new label for summary row. If null, defaults to

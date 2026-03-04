@@ -35,6 +35,9 @@
 
     <td><span class="value">{{ formatNumber(site.nb_visits) }}</span></td>
     <td><span class="value">{{ formatNumber(site.nb_pageviews) }}</span></td>
+    <td v-if="showAiChatbotsRequests">
+      <span class="value">{{ formatNumber(site.ai_chatbots_requests) }}</span>
+    </td>
     <td><span class="value">{{ formatNumber(site.hits) }}</span></td>
     <td v-if="displayRevenue">
       <span class="value">{{ formatCurrency(site.revenue, site.currencySymbol || '') }}</span>
@@ -99,6 +102,10 @@ export default defineComponent({
     },
     sparklineMetric: String,
     displaySparkline: Boolean,
+    showAiChatbotsRequests: {
+      type: Boolean,
+      required: true,
+    },
   },
   computed: {
     dashboardUrl() {

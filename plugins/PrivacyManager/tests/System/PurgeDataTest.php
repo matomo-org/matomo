@@ -165,37 +165,40 @@ class PurgeDataTest extends SystemTestCase
 
     private function assertNumVisits($expectedNumVisits, $period)
     {
-        $url = 'method=VisitsSummary.getVisits'
-             . '&idSite=' . self::$fixture->idSite
-             . '&date=' . self::$fixture->dateTime
-             . '&period=' . $period
-             . '&format=original';
-        $api   = new Request($url);
+        $api   = new Request([
+            'method' => 'VisitsSummary.getVisits',
+            'idSite' => self::$fixture->idSite,
+            'date' => self::$fixture->dateTime,
+            'period' => $period,
+            'format' => 'original',
+        ]);
         $table = $api->process();
         $this->assertEquals($expectedNumVisits, $table->getFirstRow()->getColumn('nb_visits'));
     }
 
     private function assertHasOneDownload($period)
     {
-        $api   = new Request($this->getDownloadApiRequestUrl($period));
+        $api   = new Request($this->getDownloadApiRequestParams($period));
         $table = $api->process();
         $this->assertEquals(1, $table->getRowsCount(), $period . ' should have one download but has not');
     }
 
     private function assertHasNoDownload($period)
     {
-        $api   = new Request($this->getDownloadApiRequestUrl($period));
+        $api   = new Request($this->getDownloadApiRequestParams($period));
         $table = $api->process();
         $this->assertEquals(0, $table->getRowsCount(), $period . ' should not have a download but has one');
     }
 
-    private function getDownloadApiRequestUrl($period)
+    private function getDownloadApiRequestParams($period)
     {
-        return 'method=Actions.getDownloads'
-             . '&idSite=' . self::$fixture->idSite
-             . '&date=' . self::$fixture->dateTime
-             . '&period=' . $period
-             . '&format=original';
+        return [
+            'method' => 'Actions.getDownloads',
+            'idSite' => self::$fixture->idSite,
+            'date' => self::$fixture->dateTime,
+            'period' => $period,
+            'format' => 'original',
+        ];
     }
 
     private function purgeData($deleteReportsOlderThan, $reportPeriodsToKeep, $keepBasicMetrics, $keepSegmentReports = false)

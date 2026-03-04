@@ -21,7 +21,7 @@ class RemoveUserIfNeeded extends BaseFilter
     private $date;
 
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The table to eventually filter.
      */

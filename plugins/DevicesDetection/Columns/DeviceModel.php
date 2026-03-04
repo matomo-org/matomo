@@ -25,8 +25,6 @@ class DeviceModel extends Base
     protected $acceptValues = 'iPad, Nexus 5, Galaxy S5, Fire TV, etc.';
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return string
      */
@@ -57,8 +55,6 @@ class DeviceModel extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

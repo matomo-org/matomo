@@ -21,7 +21,7 @@ class Actions extends BaseFilter
 {
     private $actionType;
     /**
-     * Constructor.
+     *
      *
      * @param DataTable $table The table to eventually filter.
      * @param int $actionType The action type being processed.

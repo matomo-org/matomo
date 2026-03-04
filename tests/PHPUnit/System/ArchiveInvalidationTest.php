@@ -357,9 +357,12 @@ class ArchiveInvalidationTest extends SystemTestCase
         $dateToInvalidate1 = new \DateTime(self::$fixture->dateTimeFirstDateWebsite1);
 
         $r = new Request(
-            "module=API&method=CoreAdminHome.invalidateArchivedReports&idSites=" . self::$fixture->idSite1 . "&dates=" . $dateToInvalidate1->format(
-                'Y-m-d'
-            )
+            [
+                'module' => 'API',
+                'method' => 'CoreAdminHome.invalidateArchivedReports',
+                'idSites' => self::$fixture->idSite1,
+                'dates' => $dateToInvalidate1->format('Y-m-d'),
+            ]
         );
         $this->assertApiResponseHasNoError($r->process());
 
@@ -373,7 +376,14 @@ class ArchiveInvalidationTest extends SystemTestCase
         $dates = new \DateTime($dateTime);
         $dates = $dates->format('Y-m-d');
         $r     = new Request(
-            "module=API&method=CoreAdminHome.invalidateArchivedReports&period=$period&idSites=$idSite&dates=$dates&cascadeDown=" . (int)$cascadeDown
+            [
+                'module' => 'API',
+                'method' => 'CoreAdminHome.invalidateArchivedReports',
+                'period' => $period,
+                'idSites' => $idSite,
+                'dates' => $dates,
+                'cascadeDown' => (int)$cascadeDown,
+            ]
         );
         $this->assertApiResponseHasNoError($r->process());
     }

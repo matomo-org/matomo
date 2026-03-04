@@ -109,9 +109,6 @@ class Log extends Singleton
         self::$instance = $instance;
     }
 
-    /**
-     * @param LoggerInterface $logger
-     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;

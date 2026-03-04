@@ -148,7 +148,6 @@ class Mysql extends Db
 
     /**
      * @internal  tests only
-     * @param Exception $e
      * @return bool
      */
     public function isMysqlServerHasGoneAwayError(Exception $e)
@@ -266,7 +265,6 @@ class Mysql extends Db
 
     /**
      * @internal for tests only
-     * @param Exception $e
      * @throws Exception
      */
     public function reconnect(Exception $e)
