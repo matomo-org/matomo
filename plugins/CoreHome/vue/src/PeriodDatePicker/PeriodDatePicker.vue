@@ -7,10 +7,11 @@
 
 <template>
   <DatePicker
+    :selected-boundary-only="true"
     :selected-date-start="selectedDates[0]"
     :selected-date-end="selectedDates[1]"
-    :highlighted-date-start="highlightedDates[0]"
-    :highlighted-date-end="highlightedDates[1]"
+    :highlighted-date-start="effectiveHighlightedDates[0]"
+    :highlighted-date-end="effectiveHighlightedDates[1]"
     :view-date="viewDate"
     :step-months="period === 'year' ? 12 : 1"
     :disable-month-dropdown="period === 'year'"
@@ -22,7 +23,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref } from 'vue';
+import {
+  defineComponent, watch, ref, computed,
+} from 'vue';
 import DatePicker from '../DatePicker/DatePicker.vue';
 import Matomo from '../Matomo/Matomo';
 import { Periods, parseDate } from '../Periods';
@@ -45,7 +48,10 @@ export default defineComponent({
   setup(props, context) {
     const viewDate = ref<string|Date|undefined|null>(props.date);
     const selectedDates = ref<(Date|null)[]>([null, null]);
-    const highlightedDates = ref<(Date|null)[]>([null, null]);
+    const committedBetweenHighlightDates = ref<(Date|null)[]>([null, null]);
+    const transientHoverDates = ref<(Date|null)[]|null>(null);
+    const effectiveHighlightedDates = computed<(Date|null)[]>(
+      () => transientHoverDates.value || committedBetweenHighlightDates.value);
 
     function getBoundedDateRange(date: string|Date) {
       const dates = Periods.get(props.period).parse(date).getDateRange();
@@ -55,6 +61,40 @@ export default defineComponent({
       dates[1] = piwikMaxDate > dates[1] ? dates[1] : piwikMaxDate;
 
       return dates;
+    }
+
+    function getExclusiveBetweenRange(
+      startDate: Date|null,
+      endDate: Date|null,
+    ): [Date|null, Date|null] {
+      if (!startDate || !endDate || startDate.getTime() >= endDate.getTime()) {
+        return [null, null];
+      }
+
+      const betweenStart = new Date(startDate);
+      betweenStart.setDate(betweenStart.getDate() + 1);
+
+      const betweenEnd = new Date(endDate);
+      betweenEnd.setDate(betweenEnd.getDate() - 1);
+
+      if (betweenStart.getTime() > betweenEnd.getTime()) {
+        return [null, null];
+      }
+
+      return [betweenStart, betweenEnd];
+    }
+
+    function refreshCommittedBetweenHighlightFromDate(date?: string|Date|null) {
+      if (!date) {
+        committedBetweenHighlightDates.value = [null, null];
+        return;
+      }
+
+      const boundedDateRange = getBoundedDateRange(date);
+      committedBetweenHighlightDates.value = getExclusiveBetweenRange(
+        boundedDateRange[0],
+        boundedDateRange[1],
+      );
     }
 
     function onHoverNormalCell(cellDate: Date, $cell: JQuery) {
@@ -68,15 +108,16 @@ export default defineComponent({
       if (isOutOfMinMaxDateRange
         || shouldNotHighlightFromWhitespace
       ) {
-        highlightedDates.value = [null, null];
+        transientHoverDates.value = [null, null];
         return;
       }
 
-      highlightedDates.value = getBoundedDateRange(cellDate);
+      // Keep hover preview inclusive (start/end + in-between) for parity with historical UX.
+      transientHoverDates.value = getBoundedDateRange(cellDate);
     }
 
     function onHoverLeaveNormalCells() {
-      highlightedDates.value = [null, null];
+      transientHoverDates.value = null;
     }
 
     function onDateSelected(date: Date) {
@@ -86,11 +127,15 @@ export default defineComponent({
     function onChanges() {
       if (!props.period || !props.date) {
         selectedDates.value = [null, null];
+        committedBetweenHighlightDates.value = [null, null];
+        transientHoverDates.value = null;
         viewDate.value = null;
         return;
       }
 
       selectedDates.value = getBoundedDateRange(props.date);
+      refreshCommittedBetweenHighlightFromDate(props.date);
+      transientHoverDates.value = null;
       viewDate.value = parseDate(props.date);
     }
 
@@ -100,7 +145,7 @@ export default defineComponent({
 
     return {
       selectedDates,
-      highlightedDates,
+      effectiveHighlightedDates,
       viewDate,
       onHoverNormalCell,
       onHoverLeaveNormalCells,

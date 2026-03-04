@@ -7,7 +7,7 @@
 
 <template>
   <div class="period-type period-selector-options-column">
-    <h6>{{ translate('General_ChoosePeriod') }}</h6>
+    <h6><b>{{ translate('General_ChoosePeriod') }}</b></h6>
     <div id="otherPeriods">
       <PeriodOptions
         :model-value="uiSelectedPeriod"

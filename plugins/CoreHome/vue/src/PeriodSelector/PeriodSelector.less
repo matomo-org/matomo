@@ -112,7 +112,7 @@
     height: 0.5px;
     margin-left: 11px;
     margin-right: 11px;
-    background-color: @color-silver-l14;
+    background-color: @color-silver-l95;
     width: 16px;
     display: inline-block;
     vertical-align: top;
@@ -145,7 +145,7 @@
         background: transparent;
         border: 0;
         border-radius: 5px;
-        color: @color-silver;
+        color: @color-period-selector;
         cursor: pointer;
         display: block;
         font: inherit;
@@ -157,11 +157,11 @@
         font-size: 13px;
 
         &:hover {
-          background-color: @color-silver-l95;
+          background-color: @color-period-selector-muted-bg;
         }
 
         &:focus-visible {
-          background-color: @color-silver-l95;
+          background-color: @color-period-selector-muted-bg;
           outline: 2px solid @theme-color-focus-ring;
           outline-offset: 0;
         }
@@ -180,7 +180,7 @@
 
       label,
       label span {
-        color: @color-silver;
+        color: @color-period-selector;
       }
 
       label.selected-period-label,
@@ -212,6 +212,112 @@
     }
   }
 
+  .dateRangePicker {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 16px;
+
+    #calendarRangeFrom {
+      float: none;
+    }
+
+    #calendarRangeTo {
+      margin-left: 0;
+    }
+  }
+
+  .ui-datepicker {
+    border: none !important;
+    font-size: 13px !important;
+    width: 100% !important;
+
+    select.ui-datepicker-month {
+      width: 46%;
+    }
+    select.ui-datepicker-year {
+      width: 46%;
+    }
+    .ui-datepicker-prev span, .ui-datepicker-next span {
+      top: 20%;
+    }
+    .ui-datepicker-prev span {
+      left: 0%;
+    }
+
+    .ui-datepicker-header .ui-icon.icon-chevron-left,
+    .ui-datepicker-header .ui-icon.icon-chevron-right {
+      background-image: none !important;
+      text-indent: 0 !important;
+      overflow: visible !important;
+      width: auto !important;
+      height: auto !important;
+      margin: 0 !important;
+      font-size: 12px;
+      line-height: 1;
+      display: inline-block;
+
+      &::before {
+        display: inline-block;
+        line-height: 1;
+      }
+    }
+
+    .ui-datepicker-title {
+      select {
+        font-size: 13px;
+      }
+    }
+    table.ui-datepicker-calendar, div.ui-datepicker-header {
+      font-size: 13px !important;
+      border: none !important;
+
+      thead {
+        border: none !important;
+      }
+    }
+    table.ui-datepicker-calendar {
+
+      tbody td {
+        padding: 0px 4px !important;
+      }
+
+      // Weekend cells use a distinct inner background in jQuery UI defaults.
+      // Match the td background so left/right padding does not create visible seams.
+      tbody td.ui-datepicker-week-end {
+        background: @color-period-selector-weekend !important;
+      }
+
+      // Fill padded horizontal spacing by coloring the td itself for states.
+      // `ui-state-hover` is applied by DatePicker.vue for range-hover highlighting.
+      tbody td.ui-state-hover,
+      tbody td:hover {
+        background: @period-selector-hover-bg !important;
+      }
+
+      // Ensure the inner content (a/span) matches td hover fill, including disabled cells.
+      // Without this, hovering padded area can leave the center looking unhighlighted.
+      tbody td:not(.ui-datepicker-current-period).ui-state-hover > a,
+      tbody td:not(.ui-datepicker-current-period).ui-state-hover > span,
+      tbody td:not(.ui-datepicker-current-period):hover > a,
+      tbody td:not(.ui-datepicker-current-period):hover > span {
+        background: @period-selector-hover-bg !important;
+      }
+
+      tbody td.ui-datepicker-current-period {
+        background: @theme-color-text !important;
+      }
+
+      // Keep state color on the td (full cell + padding), not just the inner anchor.
+      tbody td.ui-state-hover > a.ui-state-hover,
+      tbody td:hover > a.ui-state-hover,
+      tbody td.ui-datepicker-current-period > a.ui-state-default,
+      tbody td.ui-datepicker-current-period > a.ui-state-active {
+        background: transparent !important;
+      }
+
+    }
+  }
 }
 
 .periodSelector-withPrevNext {
@@ -240,7 +346,7 @@
     }
 
     &:disabled {
-      color: @color-silver;
+      color: @color-period-selector;
       cursor: auto;
     }
   }
