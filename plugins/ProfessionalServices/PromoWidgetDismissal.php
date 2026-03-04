@@ -9,7 +9,6 @@
 
 namespace Piwik\Plugins\ProfessionalServices;
 
-use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
 use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 
