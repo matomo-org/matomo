@@ -277,16 +277,30 @@
       }
     }
     table.ui-datepicker-calendar {
-      @period-selector-hover-bg: darken(@color-period-selector-muted-bg, 14%);
 
       tbody td {
         padding: 0px 4px !important;
+      }
+
+      // Weekend cells use a distinct inner background in jQuery UI defaults.
+      // Match the td background so left/right padding does not create visible seams.
+      tbody td.ui-datepicker-week-end {
+        background: @color-period-selector-weekend !important;
       }
 
       // Fill padded horizontal spacing by coloring the td itself for states.
       // `ui-state-hover` is applied by DatePicker.vue for range-hover highlighting.
       tbody td.ui-state-hover,
       tbody td:hover {
+        background: @period-selector-hover-bg !important;
+      }
+
+      // Ensure the inner content (a/span) matches td hover fill, including disabled cells.
+      // Without this, hovering padded area can leave the center looking unhighlighted.
+      tbody td:not(.ui-datepicker-current-period).ui-state-hover > a,
+      tbody td:not(.ui-datepicker-current-period).ui-state-hover > span,
+      tbody td:not(.ui-datepicker-current-period):hover > a,
+      tbody td:not(.ui-datepicker-current-period):hover > span {
         background: @period-selector-hover-bg !important;
       }
 

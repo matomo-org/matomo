@@ -25,11 +25,11 @@
         :view-date="startDate"
         :selected-date-start="fromPickerSelectedDates[0]"
         :selected-date-end="fromPickerSelectedDates[1]"
-        :highlighted-date-start="fromPickerHighlightedDates[0]"
-        :highlighted-date-end="fromPickerHighlightedDates[1]"
+        :highlighted-date-start="effectiveHighlightedDates[0]"
+        :highlighted-date-end="effectiveHighlightedDates[1]"
         @date-select="setStartRangeDate($event.date)"
-        @cell-hover="fromPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
-        @cell-hover-leave="fromPickerHighlightedDates = [null, null]"
+        @cell-hover="transientHoverDates = getNewHighlightedDates($event.date, $event.$cell)"
+        @cell-hover-leave="transientHoverDates = [null, null]"
       >
       </DatePicker>
     </div>
@@ -51,11 +51,11 @@
         :view-date="endDate"
         :selected-date-start="toPickerSelectedDates[0]"
         :selected-date-end="toPickerSelectedDates[1]"
-        :highlighted-date-start="toPickerHighlightedDates[0]"
-        :highlighted-date-end="toPickerHighlightedDates[1]"
+        :highlighted-date-start="effectiveHighlightedDates[0]"
+        :highlighted-date-end="effectiveHighlightedDates[1]"
         @date-select="setEndRangeDate($event.date)"
-        @cell-hover="toPickerHighlightedDates = getNewHighlightedDates($event.date, $event.$cell)"
-        @cell-hover-leave="toPickerHighlightedDates = [null, null]"
+        @cell-hover="transientHoverDates = getNewHighlightedDates($event.date, $event.$cell)"
+        @cell-hover-leave="transientHoverDates = [null, null]"
       >
       </DatePicker>
     </div>
@@ -73,8 +73,8 @@ const DATE_FORMAT = 'YYYY-MM-DD';
 interface DateRangePickerState {
   fromPickerSelectedDates: (Date|null)[];
   toPickerSelectedDates: (Date|null)[];
-  fromPickerHighlightedDates: (Date|null)[];
-  toPickerHighlightedDates: (Date|null)[];
+  committedBetweenHighlightDates: (Date|null)[];
+  transientHoverDates: (Date|null)[];
   startDateText?: string;
   endDateText?: string;
   startDateInvalid: boolean;
@@ -111,8 +111,8 @@ export default defineComponent({
     return {
       fromPickerSelectedDates: [startDate, startDate],
       toPickerSelectedDates: [endDate, endDate],
-      fromPickerHighlightedDates: [null, null],
-      toPickerHighlightedDates: [null, null],
+      committedBetweenHighlightDates: [null, null],
+      transientHoverDates: [null, null],
       startDateText: this.startDate,
       endDateText: this.endDate,
       startDateInvalid: false,
@@ -120,6 +120,15 @@ export default defineComponent({
     };
   },
   emits: ['rangeChange', 'submit'],
+  computed: {
+    effectiveHighlightedDates(): (Date|null)[] {
+      if (this.committedBetweenHighlightDates[0] && this.committedBetweenHighlightDates[1]) {
+        return this.committedBetweenHighlightDates;
+      }
+
+      return this.transientHoverDates;
+    },
+  },
   watch: {
     startDate() {
       this.startDateText = this.startDate;
@@ -131,16 +140,19 @@ export default defineComponent({
     },
   },
   mounted() {
+    this.refreshCommittedBetweenHighlight();
     this.rangeChanged(); // emit with initial range pair
   },
   methods: {
     setStartRangeDate(date: Date) {
       this.fromPickerSelectedDates = [date, date];
+      this.refreshCommittedBetweenHighlight();
 
       this.rangeChanged();
     },
     setEndRangeDate(date: Date) {
       this.toPickerSelectedDates = [date, date];
+      this.refreshCommittedBetweenHighlight();
 
       this.rangeChanged();
     },
@@ -155,10 +167,46 @@ export default defineComponent({
     },
     getNewHighlightedDates(date: Date, $cell: JQuery) {
       if ($cell.hasClass('ui-datepicker-unselectable')) {
-        return null;
+        return [null, null];
       }
 
       return [date, date];
+    },
+    getCurrentRangeBounds() {
+      return {
+        start: this.fromPickerSelectedDates[0],
+        end: this.toPickerSelectedDates[0],
+      };
+    },
+    isStrictlyValidRange(start: Date|null, end: Date|null): boolean {
+      if (!start || !end) {
+        return false;
+      }
+
+      return start.getTime() < end.getTime();
+    },
+    getExclusiveBetweenRange(start: Date, end: Date): [Date|null, Date|null] {
+      const betweenStart = new Date(start);
+      betweenStart.setDate(betweenStart.getDate() + 1);
+
+      const betweenEnd = new Date(end);
+      betweenEnd.setDate(betweenEnd.getDate() - 1);
+
+      if (betweenStart.getTime() > betweenEnd.getTime()) {
+        return [null, null];
+      }
+
+      return [betweenStart, betweenEnd];
+    },
+    refreshCommittedBetweenHighlight() {
+      const { start, end } = this.getCurrentRangeBounds();
+
+      if (!start || !end || !this.isStrictlyValidRange(start, end)) {
+        this.committedBetweenHighlightDates = [null, null];
+        return;
+      }
+
+      this.committedBetweenHighlightDates = this.getExclusiveBetweenRange(start, end);
     },
     handleEnterPress($event: KeyboardEvent) {
       if ($event.keyCode !== 13) {
@@ -185,8 +233,11 @@ export default defineComponent({
       if (startDateParsed) {
         this.fromPickerSelectedDates = [startDateParsed, startDateParsed];
         this.startDateInvalid = false;
+        this.refreshCommittedBetweenHighlight();
 
         this.rangeChanged();
+      } else {
+        this.committedBetweenHighlightDates = [null, null];
       }
     },
     setEndRangeDateFromStr(dateStr?: string) {
@@ -204,8 +255,11 @@ export default defineComponent({
       if (endDateParsed) {
         this.toPickerSelectedDates = [endDateParsed, endDateParsed];
         this.endDateInvalid = false;
+        this.refreshCommittedBetweenHighlight();
 
         this.rangeChanged();
+      } else {
+        this.committedBetweenHighlightDates = [null, null];
       }
     },
     rangeChanged() {
