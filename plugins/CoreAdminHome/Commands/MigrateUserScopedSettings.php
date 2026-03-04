@@ -13,10 +13,6 @@ use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\Settings\Storage\LegacyUserSettingsMigration;
 
-/**
- * @deprecated Remove this command with Matomo 6 after legacy user-scoped option migration is no longer required.
- * @todo Remove this command with Matomo 6.
- */
 class MigrateUserScopedSettings extends ConsoleCommand
 {
     protected function configure()

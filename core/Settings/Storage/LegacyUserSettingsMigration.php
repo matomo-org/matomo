@@ -17,10 +17,6 @@ use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\API as UsersManagerAPI;
 
-/**
- * @deprecated Remove this class with Matomo 6 once legacy user-scoped option migration is no longer needed.
- * @todo Remove this class and its callers with Matomo 6.
- */
 class LegacyUserSettingsMigration
 {
     /**

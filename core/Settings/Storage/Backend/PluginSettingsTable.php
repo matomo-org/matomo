@@ -346,7 +346,7 @@ class PluginSettingsTable extends BaseSettingsTable
     }
 
     /**
-     * return string[]
+     * @return string[]
      */
     private static function getColumns(): array
     {

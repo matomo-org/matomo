@@ -7,9 +7,8 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 describe("MobileMessaging", function () {
-  this.fixture = "Piwik\\Tests\\Fixtures\\EmptySite";
+  this.fixture = "Piwik\\Plugins\\MobileMessaging\\tests\\Fixtures\\InvalidProviderFixture";
 
-  // required to ensure no provider is set initially
   this.optionsOverride = {
     'persist-fixture-data': false,
   };
@@ -21,9 +20,6 @@ describe("MobileMessaging", function () {
   }
 
   it('should show a provider error accordingly', async function () {
-    testEnvironment.optionsOverride['_MobileMessagingSettings'] = '{"Provider":"InValid","APIKey":[]}';
-    testEnvironment.save();
-
     await page.goto("?idSite=1&period=year&date=2022-08-09&module=MobileMessaging&action=index");
     await page.waitForNetworkIdle();
 
