@@ -56,7 +56,6 @@ class JoinTables extends \ArrayObject
 
     /**
      * Tables constructor.
-     * @param LogTablesProvider $logTablesProvider
      * @param array $tables
      */
     public function __construct(LogTablesProvider $logTablesProvider, $tables)

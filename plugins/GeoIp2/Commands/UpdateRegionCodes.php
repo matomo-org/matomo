@@ -51,9 +51,6 @@ class UpdateRegionCodes extends ConsoleCommand
         return Development::isEnabled();
     }
 
-    /**
-     * @return int
-     */
     protected function doExecute(): int
     {
         $output = $this->getOutput();

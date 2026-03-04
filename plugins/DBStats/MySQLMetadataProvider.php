@@ -35,9 +35,6 @@ class MySQLMetadataProvider
      */
     public $dataAccess = null;
 
-    /**
-     * Constructor.
-     */
     public function __construct(MySQLMetadataDataAccess $dataAccess)
     {
         $this->dataAccess = $dataAccess;

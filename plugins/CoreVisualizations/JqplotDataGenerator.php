@@ -62,7 +62,7 @@ class JqplotDataGenerator
     }
 
     /**
-     * Constructor.
+     *
      *
      * @param array $properties
      * @param string $graphType

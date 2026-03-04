@@ -68,9 +68,6 @@ class DataTablePostProcessor
     private $callbackBeforeGenericFilters;
     private $callbackAfterGenericFilters;
 
-    /**
-     * Constructor.
-     */
     public function __construct($apiModule, $apiMethod, $request)
     {
         $this->apiModule = $apiModule;
@@ -149,10 +146,6 @@ class DataTablePostProcessor
         return $dataTable;
     }
 
-    /**
-     * @param DataTableInterface $dataTable
-     * @return DataTableInterface
-     */
     public function applyArchiveStateFilter(DataTableInterface $dataTable): DataTableInterface
     {
         $fetchArchiveState = (new \Piwik\Request($this->request))->getBoolParameter('fetch_archive_state', false);
@@ -167,7 +160,6 @@ class DataTablePostProcessor
     }
 
     /**
-     * @param DataTableInterface $dataTable
      * @return DataTableInterface
      */
     public function applyPivotByFilter(DataTableInterface $dataTable)
@@ -374,9 +366,6 @@ class DataTablePostProcessor
         return $dataTable;
     }
 
-    /**
-     * @param DataTableInterface $dataTable
-     */
     public function removeTemporaryMetrics(DataTableInterface $dataTable)
     {
         $report = $this->report;

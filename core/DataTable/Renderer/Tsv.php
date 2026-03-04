@@ -18,9 +18,6 @@ namespace Piwik\DataTable\Renderer;
  */
 class Tsv extends Csv
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct();
@@ -30,7 +27,6 @@ class Tsv extends Csv
     /**
      * Computes the dataTable output and returns the string/binary
      *
-     * @return string
      */
     public function render(): string
     {

@@ -22,9 +22,6 @@ use Piwik\Url;
 use Piwik\UrlHelper;
 use Piwik\View;
 
-/**
- *
- */
 class Controller extends \Piwik\Plugin\Controller
 {
     public function index()

@@ -46,7 +46,6 @@ class WidgetsList
      * Adds a new widget to the widget config. Please make sure the widget is enabled before adding a widget as
      * no such checks will be performed.
      *
-     * @param WidgetConfig $widget
      */
     public function addWidgetConfig(WidgetConfig $widget)
     {
@@ -114,7 +113,6 @@ class WidgetsList
      * will not be recognized.
      *
      * @param string $containerId  eg 'Products' or 'Contents'. See {@link WidgetContainerConfig::setId}
-     * @param WidgetConfig $widget
      */
     public function addToContainerWidget($containerId, WidgetConfig $widget)
     {

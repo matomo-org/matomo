@@ -31,8 +31,6 @@ class IdSite extends VisitDimension
     protected $type = self::TYPE_TEXT;
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -42,8 +40,6 @@ class IdSite extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

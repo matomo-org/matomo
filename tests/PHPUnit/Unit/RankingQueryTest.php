@@ -441,11 +441,6 @@ class RankingQueryTest extends \PHPUnit\Framework\TestCase
         $this->checkQuery($query, $innerQuery, $expected);
     }
 
-    /**
-     * @param RankingQuery $rankingQuery
-     * @param string $innerQuerySql
-     * @param string $expected
-     */
     private function checkQuery(
         RankingQuery $rankingQuery,
         string $innerQuerySql,

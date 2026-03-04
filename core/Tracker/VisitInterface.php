@@ -18,7 +18,6 @@ interface VisitInterface
     /**
      * Stores the object describing the current tracking request.
      *
-     * @param Request $request
      * @return void
      */
     public function setRequest(Request $request);

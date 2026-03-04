@@ -33,7 +33,6 @@ abstract class Updates
      * of which migrations and database queries an update will run. If you execute migrations directly in `doUpdate()`,
      * they won't be displayed to the user.
      *
-     * @param Updater $updater
      * @return Migration[]
      * @api
      */
@@ -50,7 +49,6 @@ abstract class Updates
      *
      * See {@link \Piwik\Plugins\ExamplePlugin\Updates\Updates_0_0_2} for an example.
      *
-     * @param Updater $updater
      * @api
      */
     public function doUpdate(Updater $updater)

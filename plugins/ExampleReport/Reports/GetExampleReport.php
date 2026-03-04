@@ -56,7 +56,6 @@ class GetExampleReport extends Base
      * Here you can configure how your report should be displayed. For instance whether your report supports a search
      * etc. You can also change the default request config. For instance change how many rows are displayed by default.
      *
-     * @param ViewDataTable $view
      */
     public function configureView(ViewDataTable $view)
     {

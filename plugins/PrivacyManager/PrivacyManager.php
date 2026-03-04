@@ -43,8 +43,6 @@ use Piwik\Policy\PolicyManager;
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/DoNotTrackHeaderChecker.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 
-/**
- */
 class PrivacyManager extends Plugin
 {
     public const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
@@ -78,9 +76,6 @@ class PrivacyManager extends Plugin
     private $dntChecker = null;
     private $ipAnonymizer = null;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -535,7 +530,6 @@ class PrivacyManager extends Plugin
     /**
      * Customize the Installation "default settings" form.
      *
-     * @param FormDefaultSettings $form
      */
     public function installationFormInit(FormDefaultSettings $form)
     {
@@ -558,7 +552,6 @@ class PrivacyManager extends Plugin
     /**
      * Process the Installation "default settings" form submission
      *
-     * @param FormDefaultSettings $form
      */
     public function installationFormSubmit(FormDefaultSettings $form)
     {
@@ -959,7 +952,6 @@ class PrivacyManager extends Plugin
     /**
      * Returns if cookie less tracking is forced
      *
-     * @return bool
      */
     public static function isCookieLessTrackingForced(): bool
     {

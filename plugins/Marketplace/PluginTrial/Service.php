@@ -23,9 +23,6 @@ final class Service
     /**
      * Creates a trial request (and sends a mail to all super users)
      *
-     * @param string $pluginName
-     * @param string $pluginDisplayName
-     * @return void
      */
     public function request(string $pluginName, string $pluginDisplayName): void
     {
@@ -41,8 +38,6 @@ final class Service
     /**
      * Returns if a plugin was already requested
      *
-     * @param string $pluginName
-     * @return bool
      */
     public function wasRequested(string $pluginName): bool
     {
@@ -57,7 +52,6 @@ final class Service
     /**
      * Creates notifications for all available plugin trial requests if any
      *
-     * @return void
      * @throws Exception
      */
     public function createNotificationsIfNeeded(): void
@@ -80,8 +74,6 @@ final class Service
      * Dismisses a plugin trial notification for the current (super) user if the provided notification id matches a
      * plugin trial request.
      *
-     * @param string $notificationId
-     * @return void
      * @throws Exception
      */
     public function dismissNotification(string $notificationId): void
@@ -118,8 +110,6 @@ final class Service
     /**
      * Cancels a plugin trial request
      *
-     * @param string $pluginName
-     * @return void
      * @throws Exception
      */
     public function cancelRequest(string $pluginName): void

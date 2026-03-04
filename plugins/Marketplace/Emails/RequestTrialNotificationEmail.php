@@ -49,9 +49,6 @@ class RequestTrialNotificationEmail extends Mail
         $this->setUpEmail();
     }
 
-    /**
-     * @return string
-     */
     protected function getDefaultSubject(): string
     {
         return Piwik::translate(
@@ -62,9 +59,6 @@ class RequestTrialNotificationEmail extends Mail
         );
     }
 
-    /**
-     * @return View
-     */
     protected function getDefaultBodyView(): View
     {
         $piwikUrl = SettingsPiwik::getPiwikUrl();

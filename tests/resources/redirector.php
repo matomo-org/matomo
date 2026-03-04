@@ -19,7 +19,7 @@ if ($target) {
 
 if ($redirect > 0) {
     header('HTTP/1.1 302 Found');
-    header('Location: ' . preg_replace('/(redirects=[0-9]+)/', 'redirects=' . ($redirect-1), $url));
+    header('Location: ' . preg_replace('/(redirects=[0-9]+)/', 'redirects=' . ($redirect - 1), $url));
     exit;
 }
 

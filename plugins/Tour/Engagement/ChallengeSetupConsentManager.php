@@ -26,7 +26,6 @@ class ChallengeSetupConsentManager extends Challenge
 
 
     /**
-     * @param SiteContentDetector $siteContentDetector
      * @param array|null         $siteData    String of site content, content of the current site will be retrieved if left blank
      */
     public function __construct(SiteContentDetector $siteContentDetector, ?array $siteData = null)

@@ -32,7 +32,6 @@ class Updates_4_7_1_b1 extends PiwikUpdates
     /**
      * Here you can define one or multiple SQL statements that should be executed during the update.
      *
-     * @param Updater $updater
      *
      * @return Migration[]
      */

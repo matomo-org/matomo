@@ -62,9 +62,6 @@ class OmniFixture extends Fixture
         }
     }
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $this->requireAllFixtures();

@@ -49,7 +49,6 @@ class ArchiveSelector
     }
 
     /**
-     * @param ArchiveProcessor\Parameters $params
      * @param bool $minDatetimeArchiveProcessedUTC deprecated. Will be removed in Matomo 4.
      * @return array An array with four values:
      *               - the latest archive ID or false if none
@@ -465,7 +464,6 @@ class ArchiveSelector
      * this instance is querying for.
      *
      * @param array $plugins
-     * @param Segment $segment
      * @param bool $includeInvalidated
      * @return string
      */

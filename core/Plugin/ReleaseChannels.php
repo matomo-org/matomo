@@ -90,7 +90,6 @@ class ReleaseChannels
 
     /**
      * @param string $releaseChannelId
-     * @return ?ReleaseChannel
      */
     private function factory($releaseChannelId): ?ReleaseChannel
     {

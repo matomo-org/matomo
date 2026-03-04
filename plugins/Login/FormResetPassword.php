@@ -12,9 +12,6 @@ namespace Piwik\Plugins\Login;
 use Piwik\Piwik;
 use Piwik\QuickForm2;
 
-/**
- *
- */
 class FormResetPassword extends QuickForm2
 {
     public function __construct($id = 'resetpasswordform', $method = 'post', $attributes = null, $trackSubmit = false)

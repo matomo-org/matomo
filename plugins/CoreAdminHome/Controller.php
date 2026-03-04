@@ -269,7 +269,6 @@ class Controller extends ControllerAdmin
     /**
      * Shows the Javascript opt out
      *
-     * @return string
      * @throws Exception
      */
     public function optOutJS(): string

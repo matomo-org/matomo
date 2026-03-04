@@ -29,9 +29,6 @@ class Campaign extends Base
      * If we should create a new visit when the campaign changes, check if the campaign info changed and if so
      * force the tracker to create a new visit.i
      *
-     * @param Request $request
-     * @param Visitor $visitor
-     * @param Action|null $action
      * @return bool
      */
     public function shouldForceNewVisit(Request $request, Visitor $visitor, ?Action $action = null)

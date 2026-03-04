@@ -27,9 +27,6 @@ class Chunk
         $this->files = $files;
     }
 
-    /**
-     * @return string
-     */
     public function getOutputFile(): string
     {
         return "asset_manager_chunk.{$this->chunkName}.js";
@@ -51,17 +48,11 @@ class Chunk
         $this->files = $files;
     }
 
-    /**
-     * @return string
-     */
     public function getChunkName(): string
     {
         return $this->chunkName;
     }
 
-    /**
-     * @param string $chunkName
-     */
     public function setChunkName(string $chunkName): void
     {
         $this->chunkName = $chunkName;

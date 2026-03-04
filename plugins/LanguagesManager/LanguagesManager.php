@@ -25,9 +25,6 @@ use Piwik\ProxyHttp;
 use Piwik\Translation\Translator;
 use Piwik\View;
 
-/**
- *
- */
 class LanguagesManager extends \Piwik\Plugin
 {
     public const LANGUAGE_SELECTION_NONCE = 'LanguagesManager.selection';

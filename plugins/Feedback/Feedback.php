@@ -15,9 +15,6 @@ use Piwik\Piwik;
 use Piwik\Common;
 use Piwik\Plugins\Feedback\FeedbackReminder;
 
-/**
- *
- */
 class Feedback extends \Piwik\Plugin
 {
     public const NEVER_REMIND_ME_AGAIN = "-1";

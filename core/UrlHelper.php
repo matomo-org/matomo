@@ -366,10 +366,8 @@ class UrlHelper
     /**
      * Add an array of additional parameters to a query string
      *
-     * @param string $query
      * @param array  $additionalParamsToAdd
      *
-     * @return string
      */
     private static function addAdditionalParameters(string $query, array $additionalParamsToAdd): string
     {

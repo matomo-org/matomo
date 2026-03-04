@@ -17,9 +17,6 @@ use Piwik\Plugins\Marketplace\Plugins;
 use Piwik\Translation\Translator;
 use Piwik\Url;
 
-/**
- *
- */
 class InvalidLicenses
 {
     /**

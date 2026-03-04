@@ -100,7 +100,6 @@ class Request
      * @see getArrayParameter
      * @see getJSONParameter
      *
-     * @param string $name
      * @param mixed $default
      * @return mixed
      * @throws InvalidArgumentException
@@ -130,9 +129,6 @@ class Request
      * If no default is provided and the requested parameter either can't be found or is not of type integer an
      * exception will be thrown
      *
-     * @param string $name
-     * @param int|null $default
-     * @return int
      * @throws InvalidArgumentException
      */
     public function getIntegerParameter(string $name, ?int $default = null): int
@@ -155,9 +151,6 @@ class Request
      * If no default is provided and the requested parameter either can't be found or is not of type float an
      * exception will be thrown
      *
-     * @param string $name
-     * @param float|null $default
-     * @return float
      * @throws InvalidArgumentException
      */
     public function getFloatParameter(string $name, ?float $default = null): float
@@ -188,9 +181,6 @@ class Request
      * If no default is provided and the requested parameter either can't be found or is not of type string an
      * exception will be thrown
      *
-     * @param string $name
-     * @param string|null $default
-     * @return string
      * @throws InvalidArgumentException
      */
     public function getStringParameter(string $name, ?string $default = null): string
@@ -217,9 +207,6 @@ class Request
      * true: true, 'true', '1', 1
      * false: false, 'false', '0', 0
      *
-     * @param string $name
-     * @param bool|null $default
-     * @return bool
      * @throws InvalidArgumentException
      */
     public function getBoolParameter(string $name, ?bool $default = null): bool
@@ -250,7 +237,6 @@ class Request
      * If no default is provided and the requested parameter either can't be found or is not of type array an
      * exception will be thrown
      *
-     * @param string $name
      * @param array|null $default
      * @return array
      * @throws InvalidArgumentException
@@ -275,7 +261,6 @@ class Request
      * If no default is provided and the requested parameter either can't be found or can't be json_decode'd an
      * exception will be thrown
      *
-     * @param string $name
      * @param mixed $default
      * @return mixed
      * @throws InvalidArgumentException

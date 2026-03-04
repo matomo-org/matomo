@@ -76,9 +76,6 @@ class Visit implements VisitInterface
         $this->userSettings = StaticContainer::get('Piwik\Tracker\Settings');
     }
 
-    /**
-     * @param Request $request
-     */
     public function setRequest(Request $request)
     {
         $this->request = $request;

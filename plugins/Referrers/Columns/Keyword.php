@@ -26,8 +26,6 @@ class Keyword extends Base
     protected $category = 'Referrers_Referrers';
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -51,8 +49,6 @@ class Keyword extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

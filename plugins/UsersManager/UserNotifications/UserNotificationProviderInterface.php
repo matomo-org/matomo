@@ -23,7 +23,6 @@ interface UserNotificationProviderInterface
      * Sets information that a notification for a set of users has been dispatched
      *
      * @param array $users
-     * @return void
      */
     public function setUserNotificationDispatched(array $users): void;
 }

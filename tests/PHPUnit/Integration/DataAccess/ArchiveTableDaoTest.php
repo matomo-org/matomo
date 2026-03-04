@@ -41,9 +41,6 @@ class ArchiveTableDaoTest extends IntegrationTestCase
         ArchiveTableCreator::getNumericTable(Date::factory('2015-01-01'));
     }
 
-    /**
-     *
-     */
     public function testGetArchiveTableAnalysisQueriesNumericAndBlobTableIncludingArchivesInBlobThatAreNotInNumeric()
     {
         $tableMonth = '2015_01';

@@ -570,7 +570,6 @@ class Filesystem
     /**
      * Check if the filesystem is case sensitive by writing a temporary file
      *
-     * @return bool
      */
     public static function isFileSystemCaseInsensitive(): bool
     {

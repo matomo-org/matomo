@@ -37,7 +37,6 @@ class Updates_0_0_2 extends PiwikUpdates
      * migrations directly in `doUpdate()`, they won't be displayed to the user. Migrations will be executed in the
      * order as positioned in the returned array.
      *
-     * @param Updater $updater
      * @return Migration\Db[]
      */
     public function getMigrations(Updater $updater)
@@ -59,7 +58,6 @@ class Updates_0_0_2 extends PiwikUpdates
      * This method should perform all updating logic. If you define queries in the `getMigrations()` method,
      * you must call {@link Updater::executeMigrations()} here.
      *
-     * @param Updater $updater
      */
     public function doUpdate(Updater $updater)
     {

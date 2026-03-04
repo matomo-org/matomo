@@ -504,7 +504,6 @@ class RowEvolution
 
     /**
      * @param string|int|float $value
-     * @return int
      */
     private function getFractionDigits($value): int
     {

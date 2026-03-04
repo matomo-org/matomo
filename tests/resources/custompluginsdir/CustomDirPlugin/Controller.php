@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -8,7 +9,6 @@
 
 namespace Piwik\Plugins\CustomDirPlugin;
 
-use Piwik\Config;
 use Piwik\Container\StaticContainer;
 
 class Controller extends \Piwik\Plugin\Controller
@@ -17,7 +17,7 @@ class Controller extends \Piwik\Plugin\Controller
     {
         return $this->renderTemplate('index', array(
             'answerToLife' => 42,
-            'diTest' => StaticContainer::get('customDirPluginTest')
+            'diTest' => StaticContainer::get('customDirPluginTest'),
         ));
     }
 }

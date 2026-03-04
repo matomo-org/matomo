@@ -161,7 +161,7 @@ class Notification
     public $raw = false;
 
     /**
-     * Constructor.
+     *
      *
      * @param  string $message   The notification message.
      * @throws \Exception        If the message is empty.

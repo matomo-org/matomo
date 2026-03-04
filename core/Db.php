@@ -296,7 +296,6 @@ class Db implements TransactionalDatabaseInterface
      * If the callback throws a "MySQL server has gone away" exception
      * it will be called again after a single reconnection attempt.
      *
-     * @param callable $callback
      *
      * @return mixed
      *

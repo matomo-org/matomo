@@ -30,9 +30,6 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Tracker\Model as TrackerModel;
 
-/**
- *
- */
 class CoreHome extends \Piwik\Plugin
 {
     /**

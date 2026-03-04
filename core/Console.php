@@ -104,8 +104,6 @@ class Console extends Application
     /**
      * Makes parent doRun method available
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
      * @return int
      */
     public function originDoRun(InputInterface $input, OutputInterface $output)

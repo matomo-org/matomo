@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Matomo - free/libre analytics platform
  *
@@ -45,5 +46,4 @@ class SystemSettingsTest extends IntegrationTestCase
         $this->settings->custom->setValue('%');
         $this->assertSame('%', $this->settings->custom->getValue());
     }
-
 }
