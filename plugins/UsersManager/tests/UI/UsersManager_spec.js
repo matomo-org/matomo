@@ -449,6 +449,7 @@ describe("UsersManager", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250); // animation
         await page.evaluate(() => window.scrollTo(0, 0));
+
         // This screenshot is flaky specifically after the "set access to all sites" modal flow:
         // we wait for the modal to be fully closed, loading state to be cleared and Materialize
         // select markup to be initialized before taking the screenshot.

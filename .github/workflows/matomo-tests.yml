@@ -7,7 +7,7 @@ name: Matomo Tests
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
   push:
     branches:
       - '**.x-dev'
@@ -58,6 +58,9 @@ concurrency:
 
 jobs:
   PHP:
+    # In reduced UI label mode we skip PHP here because these jobs are long-running.
+    # Remove the label to run the normal full test workflow (including PHP).
+    if: "${{ github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'test: only-updated-ui-test') }}"
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
@@ -132,6 +135,9 @@ jobs:
           node-version: '16'
           mysql-service: false
   UI:
+    # Keep the historical required check contexts `UI (0..3)` stable for branch protection.
+    # We do not replace this matrix with a separate job in reduced mode, otherwise GitHub would
+    # keep waiting for missing required contexts.
     runs-on: ubuntu-24.04
     strategy:
       fail-fast: ${{ inputs.is_preview == true }}
@@ -145,7 +151,50 @@ jobs:
           submodules: true
           path: matomo
           ref: ${{ inputs.ref || github.ref }}
-      - name: running tests
+      - name: Detect changed UI test suites
+        # Reduced mode is activated through PR label `test: only-updated-ui-test`.
+        # We only compute changed suites in matrix part 0 and reuse this part to execute them.
+        id: changed-ui
+        if: "${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'test: only-updated-ui-test') && matrix.parts == 0 }}"
+        working-directory: matomo
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          git fetch --depth=1 origin "$BASE_SHA"
+
+          mapfile -t changed_specs < <(git diff --name-only "$BASE_SHA" -- 'tests/**/*_spec.js' 'plugins/**/*_spec.js' | sort -u)
+
+          if [[ ${#changed_specs[@]} -eq 0 ]]; then
+            echo "No changed *_spec.js files detected."
+            echo "has_suites=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          suite_names=()
+          for spec in "${changed_specs[@]}"; do
+            if [[ ! -f "$spec" ]]; then
+              continue
+            fi
+
+            suite_name="$(sed -n "s/^[[:space:]]*describe[[:space:]]*(['\"]\\([^'\"]\\+\\)['\"].*/\\2/p" "$spec" | head -n1)"
+            if [[ -z "$suite_name" ]]; then
+              suite_name="$(basename "$spec" _spec.js)"
+            fi
+            suite_names+=("$suite_name")
+          done
+
+          if [[ ${#suite_names[@]} -eq 0 ]]; then
+            echo "No suite names could be extracted from changed specs."
+            echo "has_suites=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          ui_suites="$(printf "%s\n" "${suite_names[@]}" | awk 'NF' | sort -u | tr '\n' ' ' | sed 's/[[:space:]]\+$//')"
+          echo "Detected UI suites: $ui_suites"
+          echo "has_suites=1" >> "$GITHUB_OUTPUT"
+          echo "ui_suites=$ui_suites" >> "$GITHUB_OUTPUT"
+      - name: running tests (full UI matrix)
+        # Default mode (no label): run full split UI suite as before.
+        if: "${{ github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'test: only-updated-ui-test') }}"
         uses: matomo-org/github-action-tests@main
         with:
           ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
@@ -156,3 +205,91 @@ jobs:
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true
           testomatio: ${{ secrets.TESTOMATIO }}
+      - name: running tests (changed suites only)
+        # Reduced mode: run only changed suites and only in UI (0).
+        if: "${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'test: only-updated-ui-test') && matrix.parts == 0 && steps.changed-ui.outputs.has_suites == '1' }}"
+        uses: matomo-org/github-action-tests@main
+        with:
+          ui-test-options: '${{ steps.changed-ui.outputs.ui_suites }}'
+          test-type: 'UI'
+          php-version: '7.2'
+          node-version: '16'
+          redis-service: true
+          artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
+          upload-artifacts: true
+          testomatio: ${{ secrets.TESTOMATIO }}
+      - name: no-op for split UI jobs when only-updated-ui-test label is used
+        # In reduced mode, UI (1..3) intentionally skip running test commands.
+        # We still keep these jobs to publish required check contexts.
+        if: "${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'test: only-updated-ui-test') && (matrix.parts != 0 || steps.changed-ui.outputs.has_suites != '1') }}"
+        run: |
+          echo "Skipping full UI split job ${{ matrix.parts }} because label 'test: only-updated-ui-test' is set."
+      - name: block merge when running reduced UI mode
+        # Reduced mode is intentionally non-mergeable: UI (0) provides fast feedback on changed suites,
+        # while UI (1..3) fail to enforce rerunning full UI before merge (remove the label).
+        if: "${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'test: only-updated-ui-test') && matrix.parts != 0 }}"
+        run: |
+          echo "Reduced UI mode was requested via label 'test: only-updated-ui-test'."
+          echo "This mode is for fast feedback only and is intentionally non-mergeable."
+          echo "UI (0) is used for changed-suite validation; this job fails intentionally to block merge."
+          echo "Remove the label to run the full UI matrix and unblock merge."
+          exit 1
+  UI-Scope-Full:
+    if: "${{ github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'test: only-updated-ui-test') }}"
+    runs-on: ubuntu-24.04
+    steps:
+      - name: UI scope
+        run: |
+          echo "UI mode: full matrix"
+          echo "Reason: label 'test: only-updated-ui-test' is not set."
+          echo "Expected UI jobs: UI (0), UI (1), UI (2), UI (3)."
+  UI-Scope-Changed:
+    if: "${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'test: only-updated-ui-test') }}"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: false
+          persist-credentials: false
+          submodules: true
+          path: matomo
+          ref: ${{ inputs.ref || github.ref }}
+      - name: Detect changed UI test suites
+        id: changed-ui-scope
+        working-directory: matomo
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          git fetch --depth=1 origin "$BASE_SHA"
+
+          mapfile -t changed_specs < <(git diff --name-only "$BASE_SHA" -- 'tests/**/*_spec.js' 'plugins/**/*_spec.js' | sort -u)
+
+          if [[ ${#changed_specs[@]} -eq 0 ]]; then
+            echo "changed_ui_suites=(none)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          suite_names=()
+          for spec in "${changed_specs[@]}"; do
+            if [[ ! -f "$spec" ]]; then
+              continue
+            fi
+
+            suite_name="$(sed -n "s/^[[:space:]]*describe[[:space:]]*(['\"]\\([^'\"]\\+\\)['\"].*/\\2/p" "$spec" | head -n1)"
+            if [[ -z "$suite_name" ]]; then
+              suite_name="$(basename "$spec" _spec.js)"
+            fi
+            suite_names+=("$suite_name")
+          done
+
+          changed_ui_suites="$(printf "%s\n" "${suite_names[@]}" | awk 'NF' | sort -u | tr '\n' ', ' | sed 's/, $//')"
+          if [[ -z "$changed_ui_suites" ]]; then
+            changed_ui_suites="(none)"
+          fi
+
+          echo "changed_ui_suites=$changed_ui_suites" >> "$GITHUB_OUTPUT"
+      - name: UI scope
+        run: |
+          echo "UI mode: changed suites only"
+          echo "Reason: label 'test: only-updated-ui-test' is set."
+          echo "Detected suites: ${{ steps.changed-ui-scope.outputs.changed_ui_suites }}"
+          echo "Execution model: UI (0) runs changed suites; UI (1..3) are intentional no-op."
