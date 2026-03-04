@@ -345,6 +345,9 @@ class PluginSettingsTable extends BaseSettingsTable
         }
     }
 
+    /**
+     * return string[]
+     */
     private static function getColumns(): array
     {
         return ['plugin_name', 'user_login', 'setting_name', 'setting_value', 'json_encoded'];
