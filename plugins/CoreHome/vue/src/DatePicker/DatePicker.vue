@@ -27,6 +27,7 @@ export default defineComponent({
   props: {
     selectedDateStart: Date,
     selectedDateEnd: Date,
+    selectedBoundaryOnly: Boolean,
     highlightedDateStart: Date,
     highlightedDateEnd: Date,
     viewDate: [String, Date],
@@ -40,12 +41,27 @@ export default defineComponent({
 
     function setDateCellColor($dateCell: JQuery, dateValue: Date): void {
       const $dateCellLink = $dateCell.children('a');
+      const { selectedDateStart, selectedDateEnd } = props;
+      const dateValueTime = dateValue.getTime();
 
-      if (props.selectedDateStart
-        && props.selectedDateEnd
-        && dateValue >= props.selectedDateStart
-        && dateValue <= props.selectedDateEnd
-      ) {
+      const isBoundarySelectedDate = !!(
+        props.selectedBoundaryOnly
+        && selectedDateStart
+        && selectedDateEnd
+        && (
+          dateValueTime === selectedDateStart.getTime()
+          || dateValueTime === selectedDateEnd.getTime()
+        )
+      );
+      const isRangeSelectedDate = !!(
+        !props.selectedBoundaryOnly
+        && selectedDateStart
+        && selectedDateEnd
+        && dateValue >= selectedDateStart
+        && dateValue <= selectedDateEnd
+      );
+
+      if (isBoundarySelectedDate || isRangeSelectedDate) {
         $dateCell.addClass('ui-datepicker-current-period');
       } else {
         $dateCell.removeClass('ui-datepicker-current-period');
