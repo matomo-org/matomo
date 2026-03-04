@@ -538,11 +538,9 @@ Segmentation = (function($) {
                   return false;
                 }
                 const comparisonService = window.CoreHome.ComparisonsStoreInstance;
-                const segmentDefinition = $button.closest('li').data('definition');
+                const segmentDefinition = $button.closest('li').data('definition') ?? '';
                 if ($button.attr('data-state') === 'active') {
-                  if (segmentDefinition) {
-                    comparisonService.removeSegmentComparisonByDefinition(segmentDefinition);
-                  }
+                  comparisonService.removeSegmentComparisonByDefinition(segmentDefinition);
                 } else {
                   comparisonService.addSegmentComparison({
                     segment: segmentDefinition,
