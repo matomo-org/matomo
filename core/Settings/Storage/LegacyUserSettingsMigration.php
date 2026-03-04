@@ -213,9 +213,12 @@ class LegacyUserSettingsMigration
                     ++$migratedCount;
                 }
 
+                /**
+                 * @deprecated Should be removed with Matomo 6, LoginLdap should be
+                 *             updated to not rely on Option storage for this setting
+                 */
                 if ($preferenceName === 'isLDAPUser' && isset($knownLogins[$login])) {
                     // Keep legacy option key for LoginLdap submodule compatibility.
-                    Option::set($optionName, $optionValue);
                     continue;
                 }
 
