@@ -291,6 +291,8 @@ class Model
 
     /**
      * @return array<string, mixed>
+     * @deprecated Remove legacy Option fallback handling with Matomo 6.
+     * @todo Remove fallback reads from legacy user/global option keys with Matomo 6.
      */
     private function getUserSettings(string $login): array
     {
@@ -305,7 +307,7 @@ class Model
 
         $userSettings = $this->getAccessManager()->getAll('MobileMessaging', $login);
         if (empty($userSettings)) {
-            // revert to old style
+            // @todo Remove this legacy option fallback with Matomo 6.
             $optionIndex = $login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION;
             $userSettings = Option::get($optionIndex);
             if (empty($userSettings)) {
@@ -319,6 +321,8 @@ class Model
 
     /**
      * @return array<string, mixed>
+     * @deprecated Remove legacy global Option fallback handling with Matomo 6.
+     * @todo Remove this method with Matomo 6.
      */
     private function getLegacyGlobalSettings(): array
     {
@@ -394,12 +398,8 @@ class Model
 
         return [
             'verified' => !empty($verificationData['verified']),
-            'verificationCode' => isset($verificationData['verificationCode']) && $verificationData['verificationCode'] !== null
-                ? (string) $verificationData['verificationCode']
-                : null,
-            'verificationTime' => isset($verificationData['verificationTime']) && $verificationData['verificationTime'] !== null
-                ? (int) $verificationData['verificationTime']
-                : null,
+            'verificationCode' => isset($verificationData['verificationCode']) ? (string) $verificationData['verificationCode'] : null,
+            'verificationTime' => isset($verificationData['verificationTime']) ? (int) $verificationData['verificationTime'] : null,
             'verificationTries' => isset($verificationData['verificationTries']) ? (int) $verificationData['verificationTries'] : 0,
             'requestTime' => isset($verificationData['requestTime']) ? (int) $verificationData['requestTime'] : (int) Date::getNowTimestamp(),
         ];

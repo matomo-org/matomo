@@ -803,6 +803,7 @@ class Model
 
     public function deleteUserOptions($userLogin)
     {
+        // @todo Remove legacy option cleanup with Matomo 6 once user-scoped settings no longer use Option keys.
         Option::deleteLike('UsersManager.%.' . $userLogin);
         Option::delete('Feedback.nextFeedbackReminder.' . $userLogin);
         Option::delete($userLogin . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION);
@@ -822,6 +823,7 @@ class Model
         }
         $preferences = array_merge($preferences, $customPreferences);
 
+        // @todo remove with matomo 6
         foreach ($preferences as $preference) {
             Option::delete($userLogin . API::OPTION_NAME_PREFERENCE_SEPARATOR . $preference);
         }

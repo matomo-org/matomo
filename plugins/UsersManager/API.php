@@ -229,7 +229,7 @@ class API extends \Piwik\Plugin\API
         $this->getUserSettingsAccessManager()->set('UsersManager', $userLogin, $preferenceName, $preferenceValue);
 
         /**
-         * Keep legacy option key for LoginLdap compatibility without requiring submodule changes.
+         * Keep legacy option key for compatibility with older LoginLdap versions.
          * @deprecated - This should be removed with Matomo 6, LoginLdap should be updated
          *               to not rely on Option storage for this setting
          */
