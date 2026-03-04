@@ -56,9 +56,12 @@ export default defineComponent({
         && dateValue >= props.highlightedDateStart
         && dateValue <= props.highlightedDateEnd
       ) {
-        // other-month cells don't have links, so the <td> must have the ui-state-hover class
-        const elementToAddClassTo = $dateCellLink.length ? $dateCellLink : $dateCell;
-        elementToAddClassTo.addClass('ui-state-hover');
+        // Always mark the td so hover can fill full cell area (including horizontal padding).
+        $dateCell.addClass('ui-state-hover');
+        // Keep anchor class too for existing link-focused hover styling.
+        if ($dateCellLink.length) {
+          $dateCellLink.addClass('ui-state-hover');
+        }
       } else {
         $dateCell.removeClass('ui-state-hover');
         $dateCellLink.removeClass('ui-state-hover');
@@ -168,6 +171,14 @@ export default defineComponent({
 
       // add href to left/right nav in calendar so they can be accessed via keyboard
       element.find('.ui-datepicker-prev,.ui-datepicker-next').attr('href', '');
+
+      // Use explicit chevron classes so scoped styles can render modern nav icons.
+      element.find('.ui-datepicker-prev .ui-icon')
+        .removeClass('ui-icon-circle-triangle-w')
+        .addClass('icon-chevron-left');
+      element.find('.ui-datepicker-next .ui-icon')
+        .removeClass('ui-icon-circle-triangle-e')
+        .addClass('icon-chevron-right');
     }
 
     function stepMonthsChanged(): boolean {
