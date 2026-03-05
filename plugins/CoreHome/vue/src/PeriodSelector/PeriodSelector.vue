@@ -128,7 +128,7 @@ import {
   clampDateToBounds,
   isKeyboardExpandEvent,
   shiftDateByPeriod,
-  stripCompareParams,
+  stripCompareDateParams,
 } from './PeriodSelector.helpers';
 import PeriodSelectorOptionsColumn from './PeriodSelectorOptionsColumn.vue';
 import PeriodSelectorCalendarColumn from './PeriodSelectorCalendarColumn.vue';
@@ -571,7 +571,7 @@ export default defineComponent({
       }
 
       MatomoUrl.updateLocation({
-        ...stripCompareParams(baseUrlParams),
+        ...stripCompareDateParams(baseUrlParams),
         date,
         period,
         ...selectedCompareParams,
@@ -651,6 +651,11 @@ export default defineComponent({
 
       this.commitSelectionToUrl(action.date, action.period);
     },
+
+    // Invariant: non-range period mode intentionally cannot commit compare-only via Apply.
+    // When a non-range period option owns the selection, 'Apply' button stays disabled.
+    // Compare controls can still be edited in this state, but users must click the calendar
+    // to commit date/compare changes.
     onApplyClicked() {
       if (this.applyPendingPresetSelection()) {
         return;
@@ -659,7 +664,6 @@ export default defineComponent({
       if (this.applyRangeSelection()) {
         return;
       }
-
       this.applyNonRangeOrCompareChanges();
     },
     updateComparisonValuesFromStore() {

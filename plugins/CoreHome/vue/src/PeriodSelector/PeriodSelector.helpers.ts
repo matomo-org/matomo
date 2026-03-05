@@ -9,10 +9,11 @@ export function isKeyboardExpandEvent(event: MouseEvent | KeyboardEvent): boolea
   return event.detail === 0;
 }
 
-export function stripCompareParams(
+export function stripCompareDateParams(
   baseUrlParams: Record<string, unknown>,
 ): Record<string, unknown> {
   const paramsWithoutCompare = { ...baseUrlParams };
+  // Intentionally keep compareSegments. Only date-period compare params are reset here.
   delete paramsWithoutCompare.comparePeriods;
   delete paramsWithoutCompare.comparePeriodType;
   delete paramsWithoutCompare.compareDates;
