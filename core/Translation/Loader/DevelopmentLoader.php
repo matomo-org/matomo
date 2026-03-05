@@ -10,18 +10,13 @@
 namespace Piwik\Translation\Loader;
 
 /**
- * Loads a pseudo-language for developers where translation are equal to translation ids.
+ * Loads a pseudo-language for developers.
  */
 class DevelopmentLoader implements LoaderInterface
 {
     public const LANGUAGE_ID = 'dev';
 
-    /**
-     * from https://github.com/tryggvigy/pseudo-localization/blob/master/src/localize.js
-     * by Tryggvi Gylfason
-     * MIT license
-     */
-    const MAP = [
+    private const MAP = [
         "a" => 'ȧ',
         "A" => 'Ȧ',
         "b" => 'ƀ',
@@ -58,7 +53,7 @@ class DevelopmentLoader implements LoaderInterface
         "Q" => 'Ɋ',
         "r" => 'ř',
         "R" => 'Ř',
-//        "s" => 'ş', // avoid breaking format strings
+        "s" => 'ş',
         "S" => 'Ş',
         "t" => 'ŧ',
         "T" => 'Ŧ',
@@ -77,8 +72,6 @@ class DevelopmentLoader implements LoaderInterface
     ];
 
     /**
-     * Decorated loader.
-     *
      * @var LoaderInterface
      */
     private $loader;
@@ -96,9 +89,6 @@ class DevelopmentLoader implements LoaderInterface
         $this->loader = $loader;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load($language, array $directories)
     {
         if ($language !== self::LANGUAGE_ID) {
@@ -108,22 +98,11 @@ class DevelopmentLoader implements LoaderInterface
         return $this->getPseudoLocale($directories);
     }
 
-    private function getDevelopmentTranslations(array $directories)
-    {
-        $fallbackTranslations = $this->loader->load($this->fallbackLanguage, $directories);
-
-        $translations = array();
-        foreach ($fallbackTranslations as $section => $sectionFallbackTranslations) {
-            $translationIds = array_keys($sectionFallbackTranslations);
-            $sectionTranslations = $this->prefixTranslationsWithSection($section, $translationIds);
-
-            $translations[$section] = array_combine($translationIds, $sectionTranslations);
-        }
-
-        return $translations;
-    }
-
-    private function getPseudoLocale(array $directories)
+    /**
+     * @param string[] $directories
+     * @return array<string, array<string, string>>
+     */
+    private function getPseudoLocale(array $directories): array
     {
         $fallbackTranslations = $this->loader->load($this->fallbackLanguage, $directories);
 
@@ -134,19 +113,39 @@ class DevelopmentLoader implements LoaderInterface
                 continue;
             }
 
-            $translations[$section] = array_map(function ($translation) {
-                $accented = strtr($translation, self::MAP);
-                return "[" . $accented . "]";
-            }, $sectionFallbackTranslations);
+            $sectionTranslations = [];
+            foreach ($sectionFallbackTranslations as $key => $translation) {
+                $sectionTranslations[$key] = $this->pseudoLocalize($translation);
+            }
+
+            $translations[$section] = $sectionTranslations;
         }
 
         return $translations;
     }
 
-    private function prefixTranslationsWithSection($section, $translationIds)
+    private function pseudoLocalize(string $translation): string
     {
-        return array_map(function ($translation) use ($section) {
-            return $section . '_' . $translation;
-        }, $translationIds);
+        $protectedTokens = [];
+        $tokenized = preg_replace_callback(
+            "/<[^>]+>|&[A-Za-z0-9#]+;|%%|%(?:[0-9]+[$])?[+\\-0'#]*[0-9]*(?:\\.[0-9]+)?[bcdeEfFgGosuxX]/",
+            function ($matches) use (&$protectedTokens) {
+                $token = "\x1D" . count($protectedTokens) . "\x1E";
+                $protectedTokens[$token] = $matches[0];
+                return $token;
+            },
+            $translation
+        );
+
+        if ($tokenized === null) {
+            $tokenized = $translation;
+        }
+
+        $accented = strtr($tokenized, self::MAP);
+        if (!empty($protectedTokens)) {
+            $accented = strtr($accented, $protectedTokens);
+        }
+
+        return "[" . $accented . "]";
     }
 }

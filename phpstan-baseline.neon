@@ -2329,16 +2329,6 @@ parameters:
 			path: core/Tracker/VisitorRecognizer.php
 
 		-
-			message: "#^Parameter \\#1 \\$input of function array_keys expects array, string given\\.$#"
-			count: 1
-			path: core/Translation/Loader/DevelopmentLoader.php
-
-		-
-			message: "#^Parameter \\#1 \\$keys of function array_combine expects array, null given\\.$#"
-			count: 1
-			path: core/Translation/Loader/DevelopmentLoader.php
-
-		-
 			message: "#^Variable \\$translationId on left side of \\?\\? always exists and is not nullable\\.$#"
 			count: 1
 			path: core/Translation/Translator.php
