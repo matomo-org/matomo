@@ -477,7 +477,7 @@ class ArchivingHelper
     public static $maximumRowsInDataTableLevelZero;
     public static $maximumRowsInSubDataTable;
     public static $maximumRowsInDataTableSiteSearch;
-    public static $maximumRowsInDataTableFlatNonDay;
+    public static $maximumRowsInDataTableFlat;
     public static $columnToSortByBeforeTruncation;
 
     protected static $actionUrlCategoryDelimiter = null;
@@ -502,7 +502,7 @@ class ArchivingHelper
         self::$maximumRowsInDataTableLevelZero = Config::getInstance()->General['datatable_archiving_maximum_rows_actions'];
         self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
         self::$maximumRowsInDataTableSiteSearch = Config::getInstance()->General['datatable_archiving_maximum_rows_site_search'];
-        self::$maximumRowsInDataTableFlatNonDay = Config::getInstance()->General['datatable_archiving_maximum_rows_actions_flat_non_day'];
+        self::$maximumRowsInDataTableFlat = Config::getInstance()->General['datatable_archiving_maximum_rows_actions_flat'] ?? 0;
 
         DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
@@ -583,8 +583,15 @@ class ArchivingHelper
     public static function buildHierarchicalActionsTableFromFlatTable(DataTable $flatTable): DataTable
     {
         $table = new DataTable();
-        $table->setMaximumAllowedRows(self::$maximumRowsInDataTableLevelZero);
+        $maxRowsInHierarchy = self::$maximumRowsInDataTableFlat > 0
+            ? self::$maximumRowsInDataTableFlat
+            : self::$maximumRowsInDataTableLevelZero;
+        $table->setMaximumAllowedRows($maxRowsInHierarchy);
         $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+
+        $maxRowsInHierarchySubtable = self::$maximumRowsInDataTableFlat > 0
+            ? self::$maximumRowsInDataTableFlat
+            : self::$maximumRowsInSubDataTable;
 
         foreach ($flatTable->getRows() as $flatRow) {
             if ($flatRow->isSummaryRow()) {
@@ -606,7 +613,7 @@ class ArchivingHelper
             [$hierarchyRow, $level] = $table->walkPath(
                 $actionPath,
                 self::getDefaultRowColumns(),
-                self::$maximumRowsInSubDataTable
+                $maxRowsInHierarchySubtable
             );
 
             if ($hierarchyRow === false) {
@@ -617,6 +624,11 @@ class ArchivingHelper
         }
 
         return $table;
+    }
+
+    public static function mergeHierarchicalActionsTableIntoFlatTable(DataTable $hierarchicalTable, DataTable $flatTable): void
+    {
+        self::appendHierarchicalRowsToFlatTable($hierarchicalTable, [], $flatTable);
     }
 
     private static function getFlatActionRow($actionName, $actionType, $urlPrefix, DataTable $table): Row
@@ -636,6 +648,50 @@ class ArchivingHelper
         $table->addRow($row);
 
         return $row;
+    }
+
+    private static function appendHierarchicalRowsToFlatTable(DataTable $sourceTable, array $path, DataTable $flatTable): void
+    {
+        foreach ($sourceTable->getRowsWithoutSummaryRow() as $row) {
+            $label = $row->getColumn('label');
+            if (!is_string($label) || $label === '') {
+                continue;
+            }
+
+            $currentPath = $path;
+            $currentPath[] = $label;
+
+            $subtable = $row->getSubtable();
+            if ($subtable) {
+                self::appendHierarchicalRowsToFlatTable($subtable, $currentPath, $flatTable);
+                continue;
+            }
+
+            $flatLabel = self::buildFlatRowLabel($currentPath);
+            $flatRow = $flatTable->getRowFromLabel($flatLabel);
+            if ($flatRow === false) {
+                $flatRow = new Row(array(
+                    Row::COLUMNS => array('label' => $flatLabel) + self::getDefaultRowColumns(),
+                ));
+                $flatRow->setMetadata(self::ACTION_FLAT_PATH_METADATA_NAME, $currentPath);
+                $flatTable->addRow($flatRow);
+            }
+            self::mergeRowIntoDestination($row, $flatRow);
+        }
+
+        $summaryRow = $sourceTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        if ($summaryRow !== false) {
+            if (self::isRowEmptyOfMetrics($summaryRow)) {
+                return;
+            }
+
+            $globalSummary = $flatTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            if ($globalSummary === false) {
+                $globalSummary = self::createSummaryRow();
+                $flatTable->addSummaryRow($globalSummary);
+            }
+            self::mergeRowIntoDestination($summaryRow, $globalSummary);
+        }
     }
 
     private static function buildFlatRowLabel(array $actionPath): string

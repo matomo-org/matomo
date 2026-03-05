@@ -624,8 +624,9 @@ datatable_archiving_maximum_rows_subtable_custom_dimensions = 1000
 
 ; maximum number of rows for any of the Actions tables (pages, downloads, outlinks)
 datatable_archiving_maximum_rows_actions = 500
-; maximum number of rows used when aggregating flat page/title actions for non-day periods before rebuilding hierarchy
-datatable_archiving_maximum_rows_actions_flat_non_day = 50000
+; maximum number of rows used when archiving flat page/title actions before rebuilding hierarchy
+; if set to 0, legacy hierarchical-only Actions archiving is used
+datatable_archiving_maximum_rows_actions_flat = 0
 ; maximum number of rows for pages in categories (sub pages, when clicking on the + for a page category)
 ; note: should not exceed the display limit in Piwik\Actions\Controller::ACTIONS_REPORT_ROWS_DISPLAY
 ; because each subdirectory doesn't have paging at the bottom, so all data should be displayed if possible.
