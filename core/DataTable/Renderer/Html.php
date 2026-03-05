@@ -165,7 +165,7 @@ class Html extends Renderer
                 if ($this->translateColumnNames) {
                     $name = $this->translateColumnName($name);
                 }
-                $html .= "\t\t<th>" . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . "</th>\n";
+                $html .= "\t\t<th>" . self::formatValueXml($name) . "</th>\n";
             }
         }
 
