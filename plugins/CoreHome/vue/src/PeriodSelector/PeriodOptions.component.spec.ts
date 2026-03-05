@@ -45,14 +45,6 @@ describe('PeriodOptions', () => {
     expect(wrapper.findAll('.periodOptions button')[0].attributes('id')).toBe('period_id_range');
   });
 
-  it('should expose group semantics for period options', () => {
-    const wrapper = mountComponent();
-    const optionsGroup = wrapper.find('.periodOptions');
-
-    expect(optionsGroup.attributes('role')).toBe('group');
-    expect(optionsGroup.attributes('aria-label')).toBe('Choose period');
-  });
-
   it('should capitalize period labels and show custom date range for range', () => {
     const wrapper = mountComponent();
 

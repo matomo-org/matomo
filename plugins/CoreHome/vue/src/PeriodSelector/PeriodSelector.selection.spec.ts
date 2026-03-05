@@ -5,6 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import { Periods, format } from '../Periods';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
 window.piwik.minDateYear = 2011;
@@ -41,7 +42,7 @@ describe('PeriodSelector', () => {
       committedAnchorDate: new Date('2026-02-18'),
       appliedRangeStartDate: '2026-02-01',
       appliedRangeEndDate: '2026-02-18',
-      selectedDateParam: '2026-02-01,2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
       isCompareDirty: true,
       hasPendingNonRangePeriodChange: false,
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
@@ -502,7 +503,7 @@ describe('PeriodSelector', () => {
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
   });
 
-  it('keeps Apply disabled for period-owned non-range selection even when compare is dirty', () => {
+  it('intentional: keeps Apply disabled for period-owned non-range selection even when compare is dirty', () => {
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
       selectedPeriod: 'day',
@@ -518,7 +519,7 @@ describe('PeriodSelector', () => {
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
   });
 
-  it('allows compare edits but requires calendar click to commit period-owned non-range changes', () => {
+  it('intentional: compare edits in period-owned non-range mode require calendar click to commit', () => {
     const originalInitTopControls = window.initTopControls;
     window.initTopControls = jest.fn();
     const updateLocationSpy = jest.spyOn(MatomoUrl, 'updateLocation');
@@ -658,7 +659,7 @@ describe('PeriodSelector', () => {
       },
       appliedRangeStartDate: '2026-02-01',
       appliedRangeEndDate: '2026-02-18',
-      selectedDateParam: '2026-02-01,2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       commitSelectionToUrl: jest.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {

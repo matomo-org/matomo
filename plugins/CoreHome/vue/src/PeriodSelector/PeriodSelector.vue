@@ -128,7 +128,7 @@ import {
   clampDateToBounds,
   isKeyboardExpandEvent,
   shiftDateByPeriod,
-  stripCompareParams,
+  stripCompareDateParams,
 } from './PeriodSelector.helpers';
 import PeriodSelectorOptionsColumn from './PeriodSelectorOptionsColumn.vue';
 import PeriodSelectorCalendarColumn from './PeriodSelectorCalendarColumn.vue';
@@ -235,23 +235,23 @@ export default defineComponent({
       return COMPARE_PERIOD_OPTIONS;
     },
     currentlyViewingText() {
-      let date;
+      let selectedDateValue;
       if (this.committedPeriod === 'range') {
         if (!this.appliedRangeStartDate || !this.appliedRangeEndDate) {
           return translate('General_Error');
         }
 
-        date = `${this.appliedRangeStartDate},${this.appliedRangeEndDate}`;
+        selectedDateValue = `${this.appliedRangeStartDate},${this.appliedRangeEndDate}`;
       } else {
         if (!this.committedAnchorDate) {
           return translate('General_Error');
         }
 
-        date = format(this.committedAnchorDate);
+        selectedDateValue = format(this.committedAnchorDate);
       }
 
       try {
-        return Periods.parse(this.committedPeriod!, date).getPrettyString();
+        return Periods.parse(this.committedPeriod!, selectedDateValue).getPrettyString();
       } catch (e) {
         return translate('General_Error');
       }
@@ -346,12 +346,12 @@ export default defineComponent({
       ).startDate;
       return format(previousPeriodStartDate);
     },
-    selectedDateParam() {
-      if (this.selectedPeriod === 'range') {
+    selectedDateString() {
+      if (this.uiSelectedPeriod === 'range') {
         const selectedStartDate = this.appliedRangeStartDate!;
         const selectedEndDate = this.appliedRangeEndDate!;
-        const parsedStartDate = parseDate(dateFrom);
-        const parsedEndDate = parseDate(dateTo);
+        const parsedStartDate = parseDate(selectedStartDate);
+        const parsedEndDate = parseDate(selectedEndDate);
 
         if (!isValidDate(parsedStartDate)
           || !isValidDate(parsedEndDate)
@@ -571,7 +571,7 @@ export default defineComponent({
       }
 
       MatomoUrl.updateLocation({
-        ...stripCompareParams(baseUrlParams),
+        ...stripCompareDateParams(baseUrlParams),
         date,
         period,
         ...selectedCompareParams,
@@ -613,7 +613,7 @@ export default defineComponent({
         return false;
       }
 
-      const dateString = this.selectedDateParam;
+      const dateString = this.selectedDateString;
       if (!dateString) {
         return true;
       }
@@ -651,6 +651,11 @@ export default defineComponent({
 
       this.commitSelectionToUrl(action.date, action.period);
     },
+
+    // Invariant: non-range period mode intentionally cannot commit compare-only via Apply.
+    // When a non-range period option owns the selection, 'Apply' button stays disabled.
+    // Compare controls can still be edited in this state, but users must click the calendar
+    // to commit date/compare changes.
     onApplyClicked() {
       if (this.applyPendingPresetSelection()) {
         return;
@@ -659,7 +664,6 @@ export default defineComponent({
       if (this.applyRangeSelection()) {
         return;
       }
-
       this.applyNonRangeOrCompareChanges();
     },
     updateComparisonValuesFromStore() {
