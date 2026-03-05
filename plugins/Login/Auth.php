@@ -108,7 +108,9 @@ class Auth implements \Piwik\Auth
 
         if (!empty($user['login'])) {
             $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
-            return $this->authenticationSuccess($user);
+            $result = $this->authenticationSuccess($user);
+            $result->setMaxAccessLevel($user['token_max_access_level'] ?? null);
+            return $result;
         }
 
         return new AuthResult(AuthResult::FAILURE, null, $token);
@@ -120,7 +122,9 @@ class Auth implements \Piwik\Auth
 
         if (!empty($user['login']) && $user['login'] === $login) {
             $this->userModel->setTokenAuthWasUsed($token, Date::now()->getDatetime());
-            return $this->authenticationSuccess($user);
+            $result = $this->authenticationSuccess($user);
+            $result->setMaxAccessLevel($user['token_max_access_level'] ?? null);
+            return $result;
         }
 
         return new AuthResult(AuthResult::FAILURE, $login, $token);
