@@ -325,6 +325,31 @@ describe('PeriodSelector', () => {
     expectNoCommitSelection(vm);
   });
 
+  it('restores applied date when returning to applied period without calendar click', () => {
+    const appliedDate = new Date('2026-03-03');
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: null,
+      uiSelectedPeriod: 'day',
+      appliedPeriod: 'day',
+      appliedAnchorDate: appliedDate,
+      calendarViewport: 'single',
+      singleCalendarPeriod: 'day',
+      singleCalendarSelectedDate: appliedDate,
+      clearPresetSelection: jest.fn(),
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+    };
+
+    methods.onPeriodOptionSelected.call(vm, { period: 'week' });
+    expect(vm.singleCalendarSelectedDate).toBeNull();
+
+    methods.onPeriodOptionSelected.call(vm, { period: 'day' });
+    expect(vm.singleCalendarSelectedDate).toBe(appliedDate);
+  });
+
   it('treats non-range pending state as period-change-only', () => {
     const samePeriodVm: any = {
       uiSelection: { type: 'period', id: 'day' },

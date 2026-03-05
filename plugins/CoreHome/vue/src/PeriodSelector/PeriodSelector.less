@@ -1,5 +1,9 @@
 .periodSelector {
   display: inline-block;
+  [type=radio]:not(:checked) + span,
+  [type=radio]:checked + span {
+    padding-left: 30px;
+  }
 
   &.compare-dropdown-open {
     #comparePeriodToDropdown {
