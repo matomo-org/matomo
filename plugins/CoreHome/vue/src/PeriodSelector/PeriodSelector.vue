@@ -248,6 +248,7 @@ interface PeriodSelectorState {
 }
 
 export default defineComponent({
+  name: 'PeriodSelector',
   props: {
     periods: Array,
   },
@@ -591,7 +592,9 @@ export default defineComponent({
       if (isSingleCalendarPeriod(payload.period)) {
         this.singleCalendarPeriod = payload.period;
       }
-      this.singleCalendarSelectedDate = null;
+      this.singleCalendarSelectedDate = payload.period === this.appliedPeriod
+        ? this.appliedAnchorDate
+        : null;
     },
     onPeriodOptionDblClick(payload: { period: string }) {
       this.onPeriodOptionSelected(payload);
