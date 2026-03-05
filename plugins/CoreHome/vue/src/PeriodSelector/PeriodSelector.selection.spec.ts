@@ -6,6 +6,7 @@
  */
 
 import { Periods, format } from '../Periods';
+import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
 window.piwik.minDateYear = 2011;
 window.piwik.minDateMonth = 11;
@@ -514,7 +515,7 @@ describe('PeriodSelector', () => {
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
   });
 
-  it('keeps apply disabled for non-range period options even when compare type changes', () => {
+  it('keeps Apply disabled for period-owned non-range selection even when compare is dirty', () => {
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
       uiSelectedPeriod: 'day',
@@ -528,6 +529,60 @@ describe('PeriodSelector', () => {
     };
 
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
+  });
+
+  it('allows compare edits but requires calendar click to commit period-owned non-range changes', () => {
+    const originalInitTopControls = window.initTopControls;
+    window.initTopControls = jest.fn();
+    const updateLocationSpy = jest.spyOn(MatomoUrl, 'updateLocation');
+    const selectedDate = new Date('2026-02-19');
+    const vm: any = {
+      calendarViewport: 'single',
+      uiSelection: { type: 'period', id: 'day' },
+      uiSelectedPeriod: 'day',
+      appliedPeriod: 'day',
+      appliedAnchorDate: new Date('2026-02-18'),
+      appliedRangeStartDate: '2026-02-18',
+      appliedRangeEndDate: '2026-02-18',
+      singleCalendarPeriod: 'day',
+      singleCalendarSelectedDate: new Date('2026-02-18'),
+      selectedComparisonParams: {
+        comparePeriods: ['day'],
+        comparePeriodType: 'previousPeriod',
+        compareDates: ['2026-02-18'],
+      },
+      compareCurrentSignature: '{"isComparing":true,"comparePeriodType":"previousPeriod"}',
+      compareAppliedSignature: '',
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      isLoadingNewPage: false,
+      canInteractWithSingleCalendar: jest.fn(() => true),
+      clearPresetSelection: jest.fn(),
+      closePeriodSelector: jest.fn(),
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+      setRangeStartEndFromPeriod: methods.setRangeStartEndFromPeriod,
+      setPendingPeriodAndDate: methods.setPendingPeriodAndDate,
+      propagateNewUrlParams: methods.propagateNewUrlParams,
+      commitSelectionToUrl: methods.commitSelectionToUrl,
+    };
+
+    try {
+      methods.onDatePickerSelected.call(vm, selectedDate);
+
+      expect(updateLocationSpy).toHaveBeenCalledWith(expect.objectContaining({
+        date: '2026-02-19',
+        period: 'day',
+        comparePeriods: ['day'],
+        comparePeriodType: 'previousPeriod',
+        compareDates: ['2026-02-18'],
+      }));
+    } finally {
+      updateLocationSpy.mockRestore();
+      window.initTopControls = originalInitTopControls;
+    }
   });
 
   it('enables apply immediately when date range period option is selected', () => {

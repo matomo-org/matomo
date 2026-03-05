@@ -970,6 +970,9 @@ export default defineComponent({
       }
     },
     isApplyEnabled() {
+      // When a non-range period option owns the selection, 'Apply' button stays disabled.
+      // Compare controls can still be edited in this state, but users must click the calendar
+      // to commit date/compare changes.
       if (this.uiSelection.type === 'period'
         && this.uiSelectedPeriod !== RANGE_PERIOD
       ) {
