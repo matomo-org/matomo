@@ -105,7 +105,6 @@ class Html extends Renderer
             }
 
             foreach ($row->getColumns() as $column => $value) {
-                $column = htmlspecialchars($column, ENT_QUOTES, 'UTF-8');
                 $this->allColumns[$column] = true;
                 $this->tableStructure[$i][$column] = $value;
             }
@@ -166,7 +165,7 @@ class Html extends Renderer
                 if ($this->translateColumnNames) {
                     $name = $this->translateColumnName($name);
                 }
-                $html .= "\t\t<th>$name</th>\n";
+                $html .= "\t\t<th>" . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . "</th>\n";
             }
         }
 
