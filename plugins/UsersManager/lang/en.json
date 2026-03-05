@@ -281,6 +281,10 @@
         "CannotRevokeOwnSuperuserAccess": "You cannot revoke your own superuser access.",
         "TokenDescription": "Token description",
         "TokenExpirationDate": "Token expiration date",
-        "TokenCreationDate": "Token creation date"
+        "TokenCreationDate": "Token creation date",
+        "TokenAccessLevel": "Access level",
+        "TokenAccessLevelHelp": "Restrict this token to a maximum access level. The token cannot grant more access than the user already has for a given site.",
+        "TokenAccessLevelNone": "No restriction",
+        "PrivSuperUser": "Super User"
     }
 }

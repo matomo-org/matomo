@@ -443,5 +443,9 @@ class UsersManager extends \Piwik\Plugin
         $translationKeys[] = 'UsersManager_InvalidTokenExpireDateFormat';
         $translationKeys[] = 'UsersManager_XAgo';
         $translationKeys[] = 'UsersManager_CannotRevokeOwnSuperuserAccess';
+        $translationKeys[] = 'UsersManager_TokenAccessLevel';
+        $translationKeys[] = 'UsersManager_TokenAccessLevelHelp';
+        $translationKeys[] = 'UsersManager_PrivSuperUser';
+        $translationKeys[] = 'UsersManager_PrivWrite';
     }
 }

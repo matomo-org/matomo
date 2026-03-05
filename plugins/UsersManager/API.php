@@ -1481,7 +1481,8 @@ class API extends \Piwik\Plugin\API
         string $description,
         $expireDate = null,
         $expireHours = 0,
-        bool $secureOnly = false
+        bool $secureOnly = false,
+        ?string $maxAccessLevel = null
     ) {
         $user = $this->model->getUser($userLogin);
         if (empty($user) && Piwik::isValidEmailString($userLogin)) {
@@ -1510,7 +1511,7 @@ class API extends \Piwik\Plugin\API
         }
 
         $generatedToken = $this->model->generateRandomTokenAuth();
-        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly);
+        $this->model->addTokenAuth($userLogin, $generatedToken, $description, Date::now()->getDatetime(), $expireDate, false, $secureOnly, $maxAccessLevel);
 
         return $generatedToken;
     }

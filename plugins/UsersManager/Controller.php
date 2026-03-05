@@ -430,7 +430,12 @@ class Controller extends ControllerAdmin
         $description = $postRequest->getStringParameter('description', '');
         $noDescription = empty($description);
 
-        if (false === $noDescription && false === $invalidExpireDate) {
+        $availableAccessLevels = $this->getAvailableTokenAccessLevels();
+
+        $maxAccessLevel = $postRequest->getStringParameter('max_access_level', end($availableAccessLevels));
+        $invalidMaxAccessLevel = !in_array($maxAccessLevel, $availableAccessLevels, true);
+
+        if (false === $noDescription && false === $invalidExpireDate && false === $invalidMaxAccessLevel) {
             Nonce::checkNonce(self::NONCE_ADD_AUTH_TOKEN);
             $secureOnly = $postRequest->getBoolParameter('secure_only', false);
             $hasTokenExpiry = $postRequest->getBoolParameter('has_expiration', false);
@@ -446,7 +451,8 @@ class Controller extends ControllerAdmin
                 $today->getDatetime(),
                 $hasTokenExpiry ? $tokenExpireDate : null,
                 false,
-                $secureOnly
+                $secureOnly,
+                $maxAccessLevel
             );
 
             $container = StaticContainer::getContainer();
@@ -470,7 +476,33 @@ class Controller extends ControllerAdmin
             'initialExpireDate' => $today->addDay($defaultExpireDays)->toString(),
             'defaultExpirationDays' => $defaultExpireDays,
             'expirationReminderDays' => GeneralConfig::getConfigValue('auth_token_expiration_notification_days'),
+            'availableAccessLevels' => $availableAccessLevels,
         ]);
+    }
+
+    /**
+     * Returns the access levels the current user is allowed to select for a new token.
+     * Levels are ordered from lowest to highest permission.
+     *
+     * @return string[]
+     */
+    private function getAvailableTokenAccessLevels(): array
+    {
+        $levels = ['view', 'write', 'admin', 'superuser'];
+
+        if (Piwik::hasUserSuperUserAccess()) {
+            return $levels;
+        }
+
+        if (Piwik::isUserHasSomeAdminAccess()) {
+            return ['view', 'write', 'admin'];
+        }
+
+        if (Piwik::isUserHasSomeWriteAccess()) {
+            return ['view', 'write'];
+        }
+
+        return ['view'];
     }
 
     /**

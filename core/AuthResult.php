@@ -44,6 +44,14 @@ class AuthResult
     protected $code = null;
 
     /**
+     * Optional max access level restriction for the token used to authenticate.
+     * When set, the user's access will be capped at this level.
+     *
+     * @var string|null
+     */
+    protected $maxAccessLevel = null;
+
+    /**
      * Constructor for AuthResult
      *
      * @param int    $code
@@ -109,5 +117,25 @@ class AuthResult
     public function wasAuthenticationSuccessful()
     {
         return $this->code > self::FAILURE;
+    }
+
+    /**
+     * Returns the max access level restriction for the token, or null if unrestricted.
+     *
+     * @return string|null
+     */
+    public function getMaxAccessLevel(): ?string
+    {
+        return $this->maxAccessLevel;
+    }
+
+    /**
+     * Sets the max access level restriction for the token used to authenticate.
+     *
+     * @param string|null $maxAccessLevel
+     */
+    public function setMaxAccessLevel(?string $maxAccessLevel): void
+    {
+        $this->maxAccessLevel = $maxAccessLevel;
     }
 }

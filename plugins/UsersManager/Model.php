@@ -343,6 +343,8 @@ class Model
      * @return int                  Primary key of the new token auth
      * @throws \Piwik\Tracker\Db\DbException
      */
+    public const VALID_ACCESS_LEVELS = ['view', 'write', 'admin', 'superuser'];
+
     public function addTokenAuth(
         $login,
         #[\SensitiveParameter]
@@ -351,7 +353,8 @@ class Model
         $dateCreated,
         $dateExpired = null,
         $isSystemToken = false,
-        bool $secureOnly = false
+        bool $secureOnly = false,
+        ?string $maxAccessLevel = null
     ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');
@@ -367,16 +370,20 @@ class Model
             $dateExpired = null;
         }
 
+        if ($maxAccessLevel !== null && !in_array($maxAccessLevel, self::VALID_ACCESS_LEVELS, true)) {
+            throw new \Exception('Invalid max_access_level value: ' . $maxAccessLevel);
+        }
+
         $isSystemToken = (int)$isSystemToken;
 
-        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo, secure_only) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        $insertSql = "INSERT INTO " . $this->tokenTable . ' (login, description, password, date_created, date_expired, system_token, hash_algo, secure_only, max_access_level) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
         $tokenAuth = $this->hashTokenAuth($tokenAuth);
 
         $db = $this->getDb();
         $db->query(
             $insertSql,
-            [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, (int) $secureOnly]
+            [$login, $description, $tokenAuth, $dateCreated, $dateExpired, $isSystemToken, self::TOKEN_HASH_ALGO, (int) $secureOnly, $maxAccessLevel]
         );
 
         return $db->lastInsertId();
@@ -622,7 +629,13 @@ class Model
         if (!empty($token)) {
             $db = $this->getDb();
             $row = $db->fetchRow("SELECT * FROM " . $this->userTable . " WHERE `login` = ?", $token['login']);
-            return (is_array($row) ? $row : null);
+            if (is_array($row)) {
+                $row['token_max_access_level'] = isset($token['max_access_level']) && $token['max_access_level'] !== ''
+                    ? $token['max_access_level']
+                    : null;
+                return $row;
+            }
+            return null;
         }
 
         return null;

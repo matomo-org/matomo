@@ -85,6 +85,21 @@ class Access
     private $sessionExpired = false;
 
     /**
+     * Max access level enforced by the current API token, or null if no restriction.
+     * Values: 'view', 'write', 'admin', 'superuser', or null.
+     *
+     * @var string|null
+     */
+    private $tokenMaxAccessLevel = null;
+
+    /**
+     * True when the authenticated user is a superuser but their token restricts access below superuser level.
+     *
+     * @var bool
+     */
+    private $isSuperUserWithRestrictedToken = false;
+
+    /**
      * Gets the singleton instance. Creates it if necessary.
      *
      * @return self
@@ -145,6 +160,8 @@ class Access
     public function reloadAccess(?Auth $auth = null)
     {
         $this->resetSites();
+        $this->tokenMaxAccessLevel = null;
+        $this->isSuperUserWithRestrictedToken = false;
 
         if (isset($auth)) {
             $this->auth = $auth;
@@ -198,9 +215,18 @@ class Access
         $this->login = $result->getIdentity();
         $this->token_auth = $result->getTokenAuth();
 
+        // Read the max access level restriction from the authentication result (if any)
+        $this->tokenMaxAccessLevel = $result->getMaxAccessLevel();
+
         // case the superUser is logged in
         if ($result->hasSuperUserAccess()) {
-            $this->setSuperUserAccess(true);
+            if ($this->tokenMaxAccessLevel === null || $this->tokenMaxAccessLevel === 'superuser') {
+                $this->setSuperUserAccess(true);
+            } else {
+                // Superuser authenticated with a restricted token: grant access at the capped level only
+                $this->isSuperUserWithRestrictedToken = true;
+                $this->makeSureLoginNameIsSet();
+            }
         }
 
         return true;
@@ -250,6 +276,19 @@ class Access
                     $allSitesId = array();
                 }
                 $this->idsitesByAccess['superuser'] = $allSitesId;
+            }
+        } elseif ($this->isSuperUserWithRestrictedToken) {
+            // Superuser with a token that caps access below superuser level:
+            // load all sites and place them in the capped access level bucket.
+            $level = $this->tokenMaxAccessLevel ?? 'admin';
+            if (empty($this->idsitesByAccess[$level])) {
+                try {
+                    $api = SitesManagerApi::getInstance();
+                    $allSitesId = $api->getAllSitesId();
+                } catch (\Exception $e) {
+                    $allSitesId = array();
+                }
+                $this->idsitesByAccess[$level] = $allSitesId;
             }
         } elseif (isset($this->login)) {
             if (
@@ -306,7 +345,45 @@ class Access
                  * @param string $login The current user's login.
                  */
                 Piwik::postEvent('Access.modifyUserAccess', [&$this->idsitesByAccess, $this->login]);
+
+                // Apply token access restriction if set (downgrades higher-level access per site)
+                if ($this->tokenMaxAccessLevel !== null && $this->tokenMaxAccessLevel !== 'superuser') {
+                    $this->applyTokenAccessRestriction($this->tokenMaxAccessLevel);
+                }
             }
+        }
+    }
+
+    /**
+     * Downgrades per-site access levels to not exceed the given max access level.
+     * Sites that have a lower access than the cap are left untouched.
+     *
+     * @param string $maxAccessLevel  One of 'view', 'write', 'admin'
+     */
+    private function applyTokenAccessRestriction(string $maxAccessLevel): void
+    {
+        $hierarchy = ['view' => 0, 'write' => 1, 'admin' => 2];
+        $maxLevel = $hierarchy[$maxAccessLevel] ?? 2;
+
+        if ($maxLevel < 2) {
+            // Demote admin sites to the capped level
+            foreach ($this->idsitesByAccess['admin'] as $idsite) {
+                $target = $maxLevel === 1 ? 'write' : 'view';
+                if (!in_array($idsite, $this->idsitesByAccess[$target])) {
+                    $this->idsitesByAccess[$target][] = $idsite;
+                }
+            }
+            $this->idsitesByAccess['admin'] = [];
+        }
+
+        if ($maxLevel < 1) {
+            // Demote write sites to view
+            foreach ($this->idsitesByAccess['write'] as $idsite) {
+                if (!in_array($idsite, $this->idsitesByAccess['view'])) {
+                    $this->idsitesByAccess['view'][] = $idsite;
+                }
+            }
+            $this->idsitesByAccess['write'] = [];
         }
     }
 

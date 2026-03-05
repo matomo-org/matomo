@@ -88,6 +88,7 @@ class Mysql implements SchemaInterface
                           secure_only TINYINT(2) unsigned NOT NULL DEFAULT '0',
                           ts_rotation_notified DATETIME NULL,
                           ts_expiration_warning_notified DATETIME NULL,
+                          max_access_level VARCHAR(20) NULL DEFAULT NULL,
                             PRIMARY KEY(idusertokenauth),
                             UNIQUE KEY uniq_password(password)
                           ) $tableOptions

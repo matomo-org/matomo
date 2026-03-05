@@ -38,6 +38,15 @@
       />
 
       <Field
+        uicontrol="select"
+        name="max_access_level"
+        :title="translate('UsersManager_TokenAccessLevel')"
+        :inline-help="translate('UsersManager_TokenAccessLevelHelp')"
+        :options="accessLevelOptions"
+        v-model="tokenMaxAccessLevel"
+      />
+
+      <Field
         uicontrol="checkbox"
         name="secure_only"
         :title="translate('UsersManager_OnlyAllowSecureRequests')"
@@ -117,6 +126,7 @@ interface AddNewTokenState {
   tokenSecureOnly: boolean;
   tokenHasExpiration: boolean;
   tokenExpireDate: string|null;
+  tokenMaxAccessLevel: string;
   isSaving: boolean;
 }
 
@@ -131,6 +141,10 @@ export default defineComponent({
     defaultExpirationDays: Number,
     expirationReminderDays: Number,
     initialExpireDate: String,
+    availableAccessLevels: {
+      type: Array as () => string[],
+      default: () => ['view'],
+    },
   },
   components: {
     ContentBlock,
@@ -142,11 +156,15 @@ export default defineComponent({
       tokenSecureOnly: true,
       tokenHasExpiration: true,
       tokenExpireDate: null,
+      tokenMaxAccessLevel: '',
       isSaving: false,
     };
   },
   mounted() {
     this.setInitialTokenExpirationDate();
+    // Default to the highest available access level (last in the array)
+    const levels = this.availableAccessLevels;
+    this.tokenMaxAccessLevel = levels.length ? levels[levels.length - 1] : 'view';
   },
   computed: {
     addNewTokenFormUrl() {
@@ -188,6 +206,18 @@ export default defineComponent({
         'UsersManager_TokenExpireDateCheckboxHelp',
         this.expirationReminderDays as unknown as string,
       );
+    },
+    accessLevelOptions(): { key: string; value: string }[] {
+      const labelMap: Record<string, string> = {
+        view: translate('UsersManager_PrivView'),
+        write: translate('UsersManager_PrivWrite'),
+        admin: translate('UsersManager_PrivAdmin'),
+        superuser: translate('UsersManager_PrivSuperUser'),
+      };
+      return this.availableAccessLevels.map((level) => ({
+        key: level,
+        value: labelMap[level] || level,
+      }));
     },
   },
   methods: {

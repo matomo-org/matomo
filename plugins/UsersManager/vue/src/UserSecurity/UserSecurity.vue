@@ -98,13 +98,14 @@
           <th>{{ translate('UsersManager_LastUsed') }}</th>
           <th>{{ translate('UsersManager_SecureUseOnly') }}</th>
           <th>{{ translate('UsersManager_ExpireDate') }}</th>
+          <th>{{ translate('UsersManager_TokenAccessLevel') }}</th>
           <th>{{ translate('General_Actions') }}</th>
         </tr>
         </thead>
         <tbody>
         <tr v-if="!tokens?.length">
           <td
-            :colspan="5"
+            :colspan="6"
             v-html="$sanitize(noTokenCreatedYetText)"
           ></td>
         </tr>
@@ -121,6 +122,7 @@
           <td>
             {{ theToken.date_expired ? theToken.date_expired : translate('General_Never') }}
           </td>
+          <td>{{ accessLevelLabel(theToken.max_access_level) }}</td>
           <td>
             <form
               method="post"
@@ -226,6 +228,15 @@ export default defineComponent({
       if (field === 'passwordBisStrengthMet') {
         this.passwordBisStrengthMet = event;
       }
+    },
+    accessLevelLabel(level: string|null): string {
+      const labelMap: Record<string, string> = {
+        view: translate('UsersManager_PrivView'),
+        write: translate('UsersManager_PrivWrite'),
+        admin: translate('UsersManager_PrivAdmin'),
+        superuser: translate('UsersManager_PrivSuperUser'),
+      };
+      return level && labelMap[level] ? labelMap[level] : translate('UsersManager_TokenAccessLevelNone');
     },
   },
   computed: {
