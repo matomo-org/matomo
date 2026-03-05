@@ -41,7 +41,7 @@ describe('PeriodSelector', () => {
       committedAnchorDate: new Date('2026-02-18'),
       appliedRangeStartDate: '2026-02-01',
       appliedRangeEndDate: '2026-02-18',
-      selectedDateParam: '2026-02-01,2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
       isCompareDirty: true,
       hasPendingNonRangePeriodChange: false,
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
@@ -502,7 +502,7 @@ describe('PeriodSelector', () => {
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
   });
 
-  it('keeps Apply disabled for period-owned non-range selection even when compare is dirty', () => {
+  it('keeps apply disabled for non-range period options even when compare type changes', () => {
     const vm: any = {
       uiSelection: { type: 'period', id: 'day' },
       selectedPeriod: 'day',
@@ -658,7 +658,7 @@ describe('PeriodSelector', () => {
       },
       appliedRangeStartDate: '2026-02-01',
       appliedRangeEndDate: '2026-02-18',
-      selectedDateParam: '2026-02-01,2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       commitSelectionToUrl: jest.fn(),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {

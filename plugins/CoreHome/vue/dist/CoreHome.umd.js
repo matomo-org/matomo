@@ -4634,20 +4634,20 @@ const {
 DatePickervue_type_script_lang_ts.render = DatePickervue_type_template_id_7b95c829_render
 
 /* harmony default export */ var DatePicker = (DatePickervue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=a7e391d4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=7e956b79
 
-const DateRangePickervue_type_template_id_a7e391d4_hoisted_1 = {
+const DateRangePickervue_type_template_id_7e956b79_hoisted_1 = {
   class: "dateRangePicker"
 };
-const DateRangePickervue_type_template_id_a7e391d4_hoisted_2 = {
+const DateRangePickervue_type_template_id_7e956b79_hoisted_2 = {
   id: "calendarRangeFrom"
 };
-const DateRangePickervue_type_template_id_a7e391d4_hoisted_3 = {
+const DateRangePickervue_type_template_id_7e956b79_hoisted_3 = {
   id: "calendarRangeTo"
 };
-function DateRangePickervue_type_template_id_a7e391d4_render(_ctx, _cache, $props, $setup, $data, $options) {
+function DateRangePickervue_type_template_id_7e956b79_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_DatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DatePicker");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DateRangePickervue_type_template_id_a7e391d4_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_a7e391d4_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeFrom')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DateRangePickervue_type_template_id_7e956b79_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_7e956b79_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeFrom')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
     id: "inputCalendarFrom",
     name: "inputCalendarFrom",
@@ -4660,12 +4660,12 @@ function DateRangePickervue_type_template_id_a7e391d4_render(_ctx, _cache, $prop
     "view-date": _ctx.startDate,
     "selected-date-start": _ctx.fromPickerSelectedDates[0],
     "selected-date-end": _ctx.fromPickerSelectedDates[1],
-    "highlighted-date-start": _ctx.effectiveHighlightedDates[0],
-    "highlighted-date-end": _ctx.effectiveHighlightedDates[1],
+    "highlighted-date-start": _ctx.fromPickerHighlightedDates[0],
+    "highlighted-date-end": _ctx.fromPickerHighlightedDates[1],
     onDateSelect: _cache[3] || (_cache[3] = $event => _ctx.setStartRangeDate($event.date)),
-    onCellHover: _cache[4] || (_cache[4] = $event => _ctx.transientHoverDates = _ctx.getNewHighlightedDates($event.date, $event.$cell)),
-    onCellHoverLeave: _cache[5] || (_cache[5] = $event => _ctx.transientHoverDates = [null, null])
-  }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_a7e391d4_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeTo')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    onCellHover: _cache[4] || (_cache[4] = $event => _ctx.fromPickerHighlightedDates = _ctx.getNewHighlightedDates($event.date, $event.$cell)),
+    onCellHoverLeave: _cache[5] || (_cache[5] = $event => _ctx.fromPickerHighlightedDates = [null, null])
+  }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", DateRangePickervue_type_template_id_7e956b79_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_DateRangeTo')) + " ", 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     type: "text",
     id: "inputCalendarTo",
     name: "inputCalendarTo",
@@ -4678,14 +4678,14 @@ function DateRangePickervue_type_template_id_a7e391d4_render(_ctx, _cache, $prop
     "view-date": _ctx.endDate,
     "selected-date-start": _ctx.toPickerSelectedDates[0],
     "selected-date-end": _ctx.toPickerSelectedDates[1],
-    "highlighted-date-start": _ctx.effectiveHighlightedDates[0],
-    "highlighted-date-end": _ctx.effectiveHighlightedDates[1],
+    "highlighted-date-start": _ctx.toPickerHighlightedDates[0],
+    "highlighted-date-end": _ctx.toPickerHighlightedDates[1],
     onDateSelect: _cache[9] || (_cache[9] = $event => _ctx.setEndRangeDate($event.date)),
-    onCellHover: _cache[10] || (_cache[10] = $event => _ctx.transientHoverDates = _ctx.getNewHighlightedDates($event.date, $event.$cell)),
-    onCellHoverLeave: _cache[11] || (_cache[11] = $event => _ctx.transientHoverDates = [null, null])
+    onCellHover: _cache[10] || (_cache[10] = $event => _ctx.toPickerHighlightedDates = _ctx.getNewHighlightedDates($event.date, $event.$cell)),
+    onCellHoverLeave: _cache[11] || (_cache[11] = $event => _ctx.toPickerHighlightedDates = [null, null])
   }, null, 8, ["view-date", "selected-date-start", "selected-date-end", "highlighted-date-start", "highlighted-date-end"])])]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=a7e391d4
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=7e956b79
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=script&lang=ts
 
@@ -4720,8 +4720,8 @@ const DATE_FORMAT = 'YYYY-MM-DD';
     return {
       fromPickerSelectedDates: [startDate, startDate],
       toPickerSelectedDates: [endDate, endDate],
-      committedBetweenHighlightDates: [null, null],
-      transientHoverDates: [null, null],
+      fromPickerHighlightedDates: [null, null],
+      toPickerHighlightedDates: [null, null],
       startDateText: this.startDate,
       endDateText: this.endDate,
       startDateInvalid: false,
@@ -4729,14 +4729,6 @@ const DATE_FORMAT = 'YYYY-MM-DD';
     };
   },
   emits: ['rangeChange', 'submit'],
-  computed: {
-    effectiveHighlightedDates() {
-      if (this.committedBetweenHighlightDates[0] && this.committedBetweenHighlightDates[1]) {
-        return this.committedBetweenHighlightDates;
-      }
-      return this.transientHoverDates;
-    }
-  },
   watch: {
     startDate() {
       this.startDateText = this.startDate;
@@ -4748,18 +4740,15 @@ const DATE_FORMAT = 'YYYY-MM-DD';
     }
   },
   mounted() {
-    this.refreshCommittedBetweenHighlight();
     this.rangeChanged(); // emit with initial range pair
   },
   methods: {
     setStartRangeDate(date) {
       this.fromPickerSelectedDates = [date, date];
-      this.refreshCommittedBetweenHighlight();
       this.rangeChanged();
     },
     setEndRangeDate(date) {
       this.toPickerSelectedDates = [date, date];
-      this.refreshCommittedBetweenHighlight();
       this.rangeChanged();
     },
     onRangeInputChanged(source, event) {
@@ -4773,42 +4762,9 @@ const DATE_FORMAT = 'YYYY-MM-DD';
     },
     getNewHighlightedDates(date, $cell) {
       if ($cell.hasClass('ui-datepicker-unselectable')) {
-        return [null, null];
+        return null;
       }
       return [date, date];
-    },
-    getCurrentRangeBounds() {
-      return {
-        start: this.fromPickerSelectedDates[0],
-        end: this.toPickerSelectedDates[0]
-      };
-    },
-    isStrictlyValidRange(start, end) {
-      if (!start || !end) {
-        return false;
-      }
-      return start.getTime() < end.getTime();
-    },
-    getExclusiveBetweenRange(start, end) {
-      const betweenStart = new Date(start);
-      betweenStart.setDate(betweenStart.getDate() + 1);
-      const betweenEnd = new Date(end);
-      betweenEnd.setDate(betweenEnd.getDate() - 1);
-      if (betweenStart.getTime() > betweenEnd.getTime()) {
-        return [null, null];
-      }
-      return [betweenStart, betweenEnd];
-    },
-    refreshCommittedBetweenHighlight() {
-      const {
-        start,
-        end
-      } = this.getCurrentRangeBounds();
-      if (!start || !end || !this.isStrictlyValidRange(start, end)) {
-        this.committedBetweenHighlightDates = [null, null];
-        return;
-      }
-      this.committedBetweenHighlightDates = this.getExclusiveBetweenRange(start, end);
     },
     handleEnterPress($event) {
       if ($event.keyCode !== 13) {
@@ -4832,10 +4788,7 @@ const DATE_FORMAT = 'YYYY-MM-DD';
       if (startDateParsed) {
         this.fromPickerSelectedDates = [startDateParsed, startDateParsed];
         this.startDateInvalid = false;
-        this.refreshCommittedBetweenHighlight();
         this.rangeChanged();
-      } else {
-        this.committedBetweenHighlightDates = [null, null];
       }
     },
     setEndRangeDateFromStr(dateStr) {
@@ -4851,10 +4804,7 @@ const DATE_FORMAT = 'YYYY-MM-DD';
       if (endDateParsed) {
         this.toPickerSelectedDates = [endDateParsed, endDateParsed];
         this.endDateInvalid = false;
-        this.refreshCommittedBetweenHighlight();
         this.rangeChanged();
-      } else {
-        this.committedBetweenHighlightDates = [null, null];
       }
     },
     rangeChanged() {
@@ -4871,7 +4821,7 @@ const DATE_FORMAT = 'YYYY-MM-DD';
 
 
 
-DateRangePickervue_type_script_lang_ts.render = DateRangePickervue_type_template_id_a7e391d4_render
+DateRangePickervue_type_script_lang_ts.render = DateRangePickervue_type_template_id_7e956b79_render
 
 /* harmony default export */ var DateRangePicker = (DateRangePickervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodDatePicker/PeriodDatePicker.vue?vue&type=template&id=32009d07
