@@ -54,7 +54,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
     {
-        return [
+        $records = [
             Record::make(Record::TYPE_BLOB, Archiver::SITE_SEARCH_RECORD_NAME)
                 ->setMaxRowsInTable(ArchivingHelper::$maximumRowsInDataTableSiteSearch),
 
@@ -62,12 +62,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation()),
             Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_RECORD_NAME)
                 ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation()),
-            Record::make(Record::TYPE_BLOB, Archiver::PAGE_URLS_FLAT_RECORD_NAME)
-                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation())
-                ->setMaxRowsInTable(ArchivingHelper::getRankingQueryLimit()),
-            Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_FLAT_RECORD_NAME)
-                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation())
-                ->setMaxRowsInTable(ArchivingHelper::getRankingQueryLimit()),
 
             Record::make(Record::TYPE_BLOB, Archiver::DOWNLOADS_RECORD_NAME),
             Record::make(Record::TYPE_BLOB, Archiver::OUTLINKS_RECORD_NAME),
@@ -87,10 +81,25 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_DOWNLOADS_RECORD_NAME),
             Record::make(Record::TYPE_NUMERIC, Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME),
         ];
+
+        if ($this->isFlatArchivingEnabled()) {
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::PAGE_URLS_FLAT_RECORD_NAME)
+                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation())
+                ->setMaxRowsInTable(ArchivingHelper::$maximumRowsInDataTableFlat);
+            $records[] = Record::make(Record::TYPE_BLOB, Archiver::PAGE_TITLES_FLAT_RECORD_NAME)
+                ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation())
+                ->setMaxRowsInTable(ArchivingHelper::$maximumRowsInDataTableFlat);
+        }
+
+        return $records;
     }
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
     {
+        if (!$this->isFlatArchivingEnabled()) {
+            return $this->aggregateLegacyHierarchical($archiveProcessor);
+        }
+
         $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
         ArchivingHelper::reloadConfig();
 
@@ -203,6 +212,11 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
     {
+        if (!$this->isFlatArchivingEnabled()) {
+            parent::buildForNonDayPeriod($archiveProcessor);
+            return;
+        }
+
         if (!$this->isEnabled($archiveProcessor)) {
             return;
         }
@@ -395,20 +409,47 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         ?int $maxRowsInSubtable,
         ?string $columnToSortByBeforeTruncation
     ): bool {
+        $periodsWithFlatRecord = $this->getPeriodsWithRootBlob($archiveProcessor, $flatRecordName);
+        $allSubperiodKeys = $this->getAllSubperiodKeys($archiveProcessor);
+        $periodsWithoutFlatRecord = array_diff_key($allSubperiodKeys, $periodsWithFlatRecord);
+
         [$flatTable, $hasFlatSourceData] = $this->aggregateDataTableFromBlobs(
             $archiveProcessor,
             $flatRecordName,
             $columnAggregationOps,
-            $columnToRenameAfterAggregation
+            $columnToRenameAfterAggregation,
+            $periodsWithFlatRecord
         );
 
-        if (!$hasFlatSourceData) {
+        $hierarchicalTableFallback = new DataTable();
+        if (!empty($columnAggregationOps)) {
+            $hierarchicalTableFallback->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOps);
+        }
+
+        $hasHierarchicalFallbackData = false;
+        if (!empty($periodsWithoutFlatRecord)) {
+            [$hierarchicalTableFallback, $hasHierarchicalFallbackData] = $this->aggregateDataTableFromBlobs(
+                $archiveProcessor,
+                $hierarchicalRecordName,
+                $columnAggregationOps,
+                $columnToRenameAfterAggregation,
+                $periodsWithoutFlatRecord
+            );
+        }
+
+        if ($hasHierarchicalFallbackData) {
+            ArchivingHelper::mergeHierarchicalActionsTableIntoFlatTable($hierarchicalTableFallback, $flatTable);
+        }
+
+        Common::destroy($hierarchicalTableFallback);
+
+        if (!$hasFlatSourceData && !$hasHierarchicalFallbackData) {
             Common::destroy($flatTable);
             return false;
         }
 
         $flatSerialized = $flatTable->getSerialized(
-            ArchivingHelper::$maximumRowsInDataTableFlatNonDay,
+            ArchivingHelper::$maximumRowsInDataTableFlat,
             null,
             $columnToSortByBeforeTruncation
         );
@@ -429,8 +470,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($hierarchicalTable);
 
         $hierarchicalSerialized = $hierarchicalTable->getSerialized(
-            ArchivingHelper::$maximumRowsInDataTableFlatNonDay,
-            ArchivingHelper::$maximumRowsInDataTableFlatNonDay,
+            null,
+            null,
             $columnToSortByBeforeTruncation
         );
         $archiveProcessor->insertBlobRecord($hierarchicalRecordName, $hierarchicalSerialized);
@@ -460,7 +501,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         }
 
         $flatSerialized = $flatTable->getSerialized(
-            ArchivingHelper::$maximumRowsInDataTableFlatNonDay,
+            ArchivingHelper::$maximumRowsInDataTableFlat,
             null,
             $this->columnToSortByBeforeTruncation
         );
@@ -473,7 +514,8 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         ArchiveProcessor $archiveProcessor,
         string $recordName,
         ?array $columnsAggregationOperation,
-        ?array $columnsToRenameAfterAggregation
+        ?array $columnsToRenameAfterAggregation,
+        ?array $periodsToInclude = null
     ): array {
         $tableIdToResultRowMapping = [];
         $result = new DataTable();
@@ -493,8 +535,12 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         }
 
         foreach ($archive->querySingleBlob($recordName) as $archiveDataRow) {
-            $hasRows = true;
             $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            if ($periodsToInclude !== null && !isset($periodsToInclude[$period])) {
+                continue;
+            }
+
+            $hasRows = true;
             $tableId = $archiveDataRow['name'] == $recordName ? null : $this->getSubtableIdFromBlobName($archiveDataRow['name']);
 
             $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
@@ -537,6 +583,122 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         }
 
         return [$result, $hasRows];
+    }
+
+    private function getPeriodsWithRootBlob(ArchiveProcessor $archiveProcessor, string $recordName): array
+    {
+        $result = [];
+        $archive = Archive::factory(
+            $archiveProcessor->getParams()->getSegment(),
+            $archiveProcessor->getParams()->getPeriod()->getSubperiods(),
+            [$archiveProcessor->getParams()->getSite()->getId()]
+        );
+        if (!method_exists($archive, 'querySingleBlob')) {
+            return $result;
+        }
+
+        foreach ($archive->querySingleBlob($recordName) as $archiveDataRow) {
+            if ($archiveDataRow['name'] !== $recordName) {
+                continue;
+            }
+
+            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            $result[$period] = true;
+        }
+
+        return $result;
+    }
+
+    private function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
+    {
+        $result = [];
+        foreach ($archiveProcessor->getParams()->getPeriod()->getSubperiods() as $period) {
+            $result[$period->getDateStart()->toString() . ',' . $period->getDateEnd()->toString()] = true;
+        }
+
+        return $result;
+    }
+
+    private function isFlatArchivingEnabled(): bool
+    {
+        ArchivingHelper::reloadConfig();
+        return ArchivingHelper::$maximumRowsInDataTableFlat > 0;
+    }
+
+    private function aggregateLegacyHierarchical(ArchiveProcessor $archiveProcessor): array
+    {
+        $rankingQueryLimit = ArchivingHelper::getRankingQueryLimit();
+        ArchivingHelper::reloadConfig();
+
+        $tablesByType = $this->makeReportTables();
+
+        $this->archiveDayActions(
+            $archiveProcessor,
+            $rankingQueryLimit,
+            $tablesByType,
+            array_diff(array_keys($tablesByType), [Action::TYPE_SITE_SEARCH]),
+            true
+        );
+
+        if ($archiveProcessor->getParams()->getSite()->isSiteSearchEnabled()) {
+            $rankingQueryLimitSiteSearch = max($rankingQueryLimit, ArchivingHelper::$maximumRowsInDataTableSiteSearch);
+            $this->archiveDayActions($archiveProcessor, $rankingQueryLimitSiteSearch, $tablesByType, [Action::TYPE_SITE_SEARCH], false);
+        }
+
+        $this->archiveDayEntryActions($archiveProcessor->getLogAggregator(), $tablesByType, $rankingQueryLimit);
+        $this->archiveDayExitActions($archiveProcessor->getLogAggregator(), $tablesByType, $rankingQueryLimit);
+        $this->archiveDayActionsTime($archiveProcessor->getLogAggregator(), $tablesByType, $rankingQueryLimit);
+        $this->archiveDayActionsGoals($archiveProcessor, $rankingQueryLimit);
+
+        ArchivingHelper::clearActionsCache();
+
+        $prefix = $archiveProcessor->getParams()->getSite()->getMainUrl();
+        $prefix = rtrim($prefix, '/') . '/';
+        ArchivingHelper::setFolderPathMetadata($tablesByType[Action::TYPE_PAGE_URL], $isUrl = true, $prefix);
+        ArchivingHelper::setFolderPathMetadata($tablesByType[Action::TYPE_PAGE_TITLE], $isUrl = false);
+
+        $dataTable = $tablesByType[Action::TYPE_SITE_SEARCH];
+        $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
+
+        foreach ($tablesByType as $dataTable) {
+            ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($dataTable);
+        }
+
+        $nbSearches = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
+        $nbKeywords = $dataTable->getRowsCount();
+
+        $dataTable = $tablesByType[Action::TYPE_OUTLINK];
+        $nbOutlinks = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
+        $nbUniqOutlinks = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS));
+
+        $dataTable = $tablesByType[Action::TYPE_PAGE_URL];
+        $nbPageviews = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
+        $nbUniqPageviews = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS));
+        $nbSumTimeGeneration = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_SUM_TIME_GENERATION));
+        $nbHitsWithTimeGeneration = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS_WITH_TIME_GENERATION));
+
+        $dataTable = $tablesByType[Action::TYPE_DOWNLOAD];
+        $nbDownloads = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_PAGE_NB_HITS));
+        $nbUniqDownloads = array_sum($dataTable->getColumn(PiwikMetrics::INDEX_NB_VISITS));
+
+        return [
+            Archiver::PAGE_URLS_RECORD_NAME => $tablesByType[Action::TYPE_PAGE_URL],
+            Archiver::PAGE_TITLES_RECORD_NAME => $tablesByType[Action::TYPE_PAGE_TITLE],
+            Archiver::DOWNLOADS_RECORD_NAME => $tablesByType[Action::TYPE_DOWNLOAD],
+            Archiver::OUTLINKS_RECORD_NAME => $tablesByType[Action::TYPE_OUTLINK],
+            Archiver::SITE_SEARCH_RECORD_NAME => $tablesByType[Action::TYPE_SITE_SEARCH],
+
+            Archiver::METRIC_SEARCHES_RECORD_NAME => $nbSearches,
+            Archiver::METRIC_KEYWORDS_RECORD_NAME => $nbKeywords,
+            Archiver::METRIC_OUTLINKS_RECORD_NAME => $nbOutlinks,
+            Archiver::METRIC_UNIQ_OUTLINKS_RECORD_NAME => $nbUniqOutlinks,
+            Archiver::METRIC_PAGEVIEWS_RECORD_NAME => $nbPageviews,
+            Archiver::METRIC_UNIQ_PAGEVIEWS_RECORD_NAME => $nbUniqPageviews,
+            Archiver::METRIC_SUM_TIME_RECORD_NAME => $nbSumTimeGeneration,
+            Archiver::METRIC_HITS_TIMED_RECORD_NAME => $nbHitsWithTimeGeneration,
+            Archiver::METRIC_DOWNLOADS_RECORD_NAME => $nbDownloads,
+            Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME => $nbUniqDownloads,
+        ];
     }
 
     private function getSubtableIdFromBlobName(string $recordName): ?int
@@ -604,7 +766,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     private function makeFlatPageTables(): array
     {
         $tables = [];
-        $maxRowsInFlatTable = ArchivingHelper::getRankingQueryLimit() + 1;
+        $maxRowsInFlatTable = ArchivingHelper::$maximumRowsInDataTableFlat;
         foreach ([Action::TYPE_PAGE_URL, Action::TYPE_PAGE_TITLE] as $type) {
             $table = new DataTable();
             $table->setMaximumAllowedRows($maxRowsInFlatTable);
