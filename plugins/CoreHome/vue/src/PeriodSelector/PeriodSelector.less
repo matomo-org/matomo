@@ -10,8 +10,15 @@
     padding-left: 30px;
   }
   [type=radio]:not(:checked)+span:before,
-  [type=radio]:not(:checked)+span:after {
-    border-color: @color-period-selector-input-radio;
+  [type=radio]:not(:checked)+span:after,
+  [type=checkbox]+span:not(.lever):before,
+  [type=checkbox]:not(.filled-in)+span:not(.lever):after {
+    border: 2px solid @color-period-selector-input-radio;
+  }
+
+  [type=checkbox]:checked+span:not(.lever):before {
+    border-top: 2px solid rgba(0, 0, 0, 0);
+    border-left: 2px solid rgba(0, 0, 0, 0);
   }
 
   &.compare-dropdown-open {
