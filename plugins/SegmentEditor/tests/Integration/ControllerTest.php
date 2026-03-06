@@ -182,11 +182,55 @@ class ControllerTest extends IntegrationTestCase
         $data = json_decode($response, true);
 
         $this->assertIsArray($data);
+        $this->assertArrayNotHasKey('result', $data);
         $this->assertArrayHasKey('nb_visits', $data);
         $this->assertArrayHasKey('nb_actions', $data);
         $this->assertArrayHasKey('evolution_visits_direction', $data);
         $this->assertArrayHasKey('evolution_visits_icon', $data);
         $this->assertArrayHasKey('evolution_visits', $data);
+
+        $this->assertIsInt($data['nb_visits']);
+        $this->assertIsInt($data['nb_actions']);
+        $this->assertContains($data['evolution_visits_direction'], ['positive', 'negative', 'stable']);
+        $this->assertIsString($data['evolution_visits_icon']);
+        $this->assertStringStartsWith('plugins/MultiSites/images/', $data['evolution_visits_icon']);
+        $this->assertIsString($data['evolution_visits']);
+    }
+
+    public function testGetSegmentDataReturnsErrorForInvalidSegmentDefinition(): void
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $_GET = [
+            'idSite' => '1',
+            'period' => 'range',
+            'date' => '2010-03-06,2010-03-08',
+            'segmentDefinition' => 'thisSegmentDefinitelyDoesNotExist==1',
+        ];
+        $_REQUEST = $_GET;
+
+        $response = (new Controller())->getSegmentData();
+        $data = json_decode($response, true);
+
+        $this->assertIsArray($data);
+        $this->assertSame('error', $data['result'] ?? null);
+        $this->assertNotEmpty($data['message'] ?? null);
+    }
+
+    public function testGetSegmentDataRequiresViewAccess(): void
+    {
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [], $login = 'anonymous');
+
+        $_GET = [
+            'idSite' => '1',
+            'period' => 'range',
+            'date' => '2010-03-06,2010-03-08',
+            'segmentDefinition' => '',
+        ];
+        $_REQUEST = $_GET;
+
+        $this->expectException(\Exception::class);
+        new Controller();
     }
 
     private function getRowAttribute(\DOMXPath $xpath, string $segmentName, string $attribute): string

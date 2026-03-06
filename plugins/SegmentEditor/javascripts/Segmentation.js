@@ -434,18 +434,24 @@ Segmentation = (function($) {
         }
 
         function askToDeleteSegment(idSegment) {
+          if (!idSegment) {
+            return;
+          }
+
           const segment = getSegmentFromId(idSegment);
+          if (!segment) {
+            return;
+          }
+
           const label = _pk_translate('SegmentEditor_AreYouSureDeleteSegment', [getSegmentName(segment)]);
           $('#segment-delete-confirm').find('h2').text(label);
-          if (idSegment != "") {
-            piwikHelper.modalConfirm($('#segment-delete-confirm'), {
-              yes: function(){
-                self.deleteMethod({
-                  "idsegment" : idSegment
-                });
-              }
-            });
-          }
+          piwikHelper.modalConfirm($('#segment-delete-confirm'), {
+            yes: function(){
+              self.deleteMethod({
+                "idsegment" : idSegment
+              });
+            }
+          });
         }
 
         function toggleStarredSegment($segment, idSegment) {
@@ -672,10 +678,6 @@ Segmentation = (function($) {
             });
 
         };
-
-        function getCanUserCreateSegment() {
-          return self.segmentAccess === 'write';
-        }
 
         function getCanUserEditSegment(segment) {
           if (self.segmentAccess !== 'write') {
