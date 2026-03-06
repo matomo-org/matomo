@@ -11,6 +11,8 @@ namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\DataTable\Renderer\Json;
+use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor;
@@ -106,9 +108,20 @@ class Controller extends \Piwik\Plugin\Controller
                 'evolution_visits' => CalculateEvolutionFilter::calculate($nbVisits, $pastNbVisits, 0, true, false),
             ]);
         } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'SegmentEditor.getSegmentData failed (idSite: {idSite}, period: {period}, date: {date}, segmentDefinition: {segmentDefinition}): {exception}',
+                [
+                    'idSite' => $this->idSite,
+                    'period' => $this->period,
+                    'date' => $this->strDate,
+                    'segmentDefinition' => $segmentDefinition,
+                    'exception' => $e,
+                ]
+            );
+
             return json_encode([
                 'result' => 'error',
-                'message' => $e->getMessage(),
+                'message' => Piwik::translate('General_ErrorRequest'),
             ]);
         }
     }

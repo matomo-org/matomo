@@ -215,6 +215,7 @@ class ControllerTest extends IntegrationTestCase
         $this->assertIsArray($data);
         $this->assertSame('error', $data['result'] ?? null);
         $this->assertNotEmpty($data['message'] ?? null);
+        $this->assertStringNotContainsString('thisSegmentDefinitelyDoesNotExist', $data['message']);
     }
 
     public function testGetSegmentDataRequiresViewAccess(): void
