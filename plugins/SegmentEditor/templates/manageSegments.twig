@@ -41,6 +41,7 @@
                         <tr class="segment dataTable_row {% if segment.fixed or segment.selected %}dataTable_row-highlight dataTable_row-group{% endif %} {% if segment.starred %}segmentStarred{% endif %}"
                             data-segment-name="{{ segment.name }}"
                             data-segment-definition="{{ segment.definition }}"
+                            data-is-realtime="{% if segment.isRealtime %}1{% else %}0{% endif %}"
                             data-segment-order="{% if segment.fixed %}3{% elseif segment.selected %}2{% elseif segment.starred %}1{% else %}0{% endif %}"
                         >
                             <td class="entityTable_StarCell">
@@ -57,23 +58,23 @@
                                 {% if segment.isRealtime %}
                                     <span title="{{ 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'|translate }}">-</span>
                                 {% else %}
-                                 {{ segmentData[loop.index0].nb_visits }}
+                                    <span data-segment-data-field="nb_visits">-</span>
                                 {% endif %}
                             </td>
                             <td class="entityTable_Numeric">
                                 {% if segment.isRealtime %}
                                     <span title="{{ 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'|translate }}">-</span>
                                 {% else %}
-                                    {{ segmentData[loop.index0].nb_actions }}
+                                    <span data-segment-data-field="nb_actions">-</span>
                                 {% endif %}
                             </td>
                             <td class="entityTable_Numeric">
                                 {% if segment.isRealtime %}
                                     <span title="{{ 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'|translate }}">-</span>
                                 {% else %}
-                                    <span title="{{ 'General_ColumnEvolutionVisitsDocumentation'|translate }}" class="sparklineEvolution sparklineEvolution-{{ segmentData[loop.index0].evolution_visits_direction }}">
-                                        <img src="{{ segmentData[loop.index0].evolution_visits_icon }}" alt="" class="sparklineEvolution_icon" />
-                                        {{ segmentData[loop.index0].evolution_visits }}
+                                    <span title="{{ 'General_ColumnEvolutionVisitsDocumentation'|translate }}" class="sparklineEvolution">
+                                        <img src="" alt="" class="sparklineEvolution_icon" />
+                                        <span data-segment-data-field="evolution_visits">-</span>
                                     </span>
                                 {% endif %}
                             </td>
