@@ -47,7 +47,7 @@ jobs:
           ui-test-options: '${{ inputs.test_suite_name }}'
           test-type: 'UI'
           php-version: '7.2'
-          node-version: '16'
+          node-version: '20'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true

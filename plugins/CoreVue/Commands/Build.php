@@ -18,8 +18,8 @@ use Piwik\Plugin\Manager;
 
 class Build extends ConsoleCommand
 {
-    public const RECOMMENDED_NODE_VERSION = '16.0.0';
-    public const RECOMMENDED_NPM_VERSION = '7.0.0';
+    public const RECOMMENDED_NODE_VERSION = '20.0.0';
+    public const RECOMMENDED_NPM_VERSION = '10.0.0';
     public const RETRY_COUNT = 2;
 
     protected function configure()
@@ -127,10 +127,12 @@ class Build extends ConsoleCommand
 
     private function watch(array $plugins, bool $printBuildCommand, array $allPluginNames): void
     {
+        $nodeCompatibilityEnv = $this->getNodeCompatibilityEnv();
+
         $commandSingle = 'cd ' . PIWIK_INCLUDE_PATH . ' && '
             . "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=%2\$s "
             . 'MATOMO_ALL_PLUGINS=' . implode(',', $allPluginNames) . ' '
-            . 'node ' . self::getVueCliServiceProxyBin() . ' build --mode=development --target lib --name '
+            . $nodeCompatibilityEnv . 'node ' . self::getVueCliServiceProxyBin() . ' build --mode=development --target lib --name '
             . "%1\$s --filename=%1\$s.development --no-clean %2\$s/vue/src/index.ts --dest %2\$s/vue/dist --watch &";
 
         $command = '';
@@ -151,11 +153,12 @@ class Build extends ConsoleCommand
     {
         $output = $this->getOutput();
         $pluginDirPath = Manager::getRelativePluginDirectory($plugin);
+        $nodeCompatibilityEnv = $this->getNodeCompatibilityEnv();
 
         $command = 'cd ' . PIWIK_INCLUDE_PATH . ' && '
             . "BROWSERSLIST_IGNORE_OLD_DATA=1 FORCE_COLOR=1 MATOMO_CURRENT_PLUGIN=$pluginDirPath "
             . 'MATOMO_ALL_PLUGINS=' . implode(',', $allPluginNames) . ' '
-            . 'node ' . self::getVueCliServiceProxyBin() . ' build --target lib --name ' . $plugin
+            . $nodeCompatibilityEnv . 'node ' . self::getVueCliServiceProxyBin() . ' build --target lib --name ' . $plugin
             . " $pluginDirPath/vue/src/index.ts --dest $pluginDirPath/vue/dist";
 
         if ($printBuildCommand) {
@@ -290,6 +293,21 @@ class Build extends ConsoleCommand
                 'npm install -g npm@latest'
             ));
         }
+    }
+
+    private function getNodeCompatibilityEnv(): string
+    {
+        $nodeVersion = ltrim(trim(`node -v`), 'v');
+        if (version_compare($nodeVersion, '17.0.0', '<')) {
+            return '';
+        }
+
+        $nodeOptions = getenv('NODE_OPTIONS') ?: '';
+        if (strpos($nodeOptions, '--openssl-legacy-provider') === false) {
+            $nodeOptions = trim($nodeOptions . ' --openssl-legacy-provider');
+        }
+
+        return 'NODE_OPTIONS=' . escapeshellarg($nodeOptions) . ' ';
     }
 
     private function isTypeScriptRaceConditionInOutput(string $plugin, string $concattedOutput): bool

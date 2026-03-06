@@ -113,7 +113,7 @@ jobs:
         with:
           test-type: 'JS'
           php-version: '7.2'
-          node-version: '12'
+          node-version: '20'
   Client:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
@@ -129,7 +129,7 @@ jobs:
         uses: matomo-org/github-action-tests@main
         with:
           test-type: 'Client'
-          node-version: '16'
+          node-version: '20'
           mysql-service: false
   UI:
     runs-on: ubuntu-24.04
@@ -151,7 +151,7 @@ jobs:
           ui-test-options: '--num-test-groups=4 --test-group=${{ matrix.parts }}'
           test-type: 'UI'
           php-version: '7.2'
-          node-version: '16'
+          node-version: '20'
           redis-service: true
           artifacts-pass: ${{ secrets.ARTIFACTS_PASS }}
           upload-artifacts: true

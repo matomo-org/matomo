@@ -73,7 +73,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: '16'
+          node-version: '20'
           cache: 'npm'
         if: steps.vars.outputs.branch != '' && steps.vuecheck.outputs.vue_modified == '1'
       - run: npm install
