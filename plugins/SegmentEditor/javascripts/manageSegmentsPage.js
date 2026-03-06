@@ -17,6 +17,7 @@ function initManageSegmentsPage() {
   let filterTimerId = null;
   let removeStarChangeListener = null;
   let removePageListeners = null;
+  let isDestroyed = false;
   init();
 
   function init() {
@@ -24,11 +25,13 @@ function initManageSegmentsPage() {
     removePageListeners = initListener();
     initHref();
     initTitles();
+    loadSegmentDataSequentially();
     removeStarChangeListener = panelApi.onSegmentsStarChange(onSegmentsStarChange);
     root.__segmentEditorManageSegmentsCleanup = cleanup;
   }
 
   function cleanup() {
+    isDestroyed = true;
     if (removeStarChangeListener) {
       removeStarChangeListener();
       removeStarChangeListener = null;
@@ -176,6 +179,76 @@ function initManageSegmentsPage() {
         unsubscribe();
       });
     };
+  }
+
+  function loadSegmentDataSequentially() {
+    const rowsToLoad = Array.from(tbody.querySelectorAll('tr[data-segment-name]')).filter(function (row) {
+      return row.getAttribute('data-is-realtime') !== '1';
+    });
+    loadSegmentDataByIndex(rowsToLoad, 0);
+  }
+
+  function loadSegmentDataByIndex(rows, index) {
+    if (isDestroyed || index >= rows.length) {
+      return;
+    }
+
+    const row = rows[index];
+    const segmentDefinition = row.getAttribute('data-segment-definition') || '';
+    fetchSegmentData(segmentDefinition, function onSuccess(segmentData) {
+      if (!isDestroyed) {
+        applySegmentData(row, segmentData);
+      }
+      loadSegmentDataByIndex(rows, index + 1);
+    }, function onError() {
+      loadSegmentDataByIndex(rows, index + 1);
+    });
+  }
+
+  function fetchSegmentData(segmentDefinition, onSuccess, onError) {
+    const idSite = getReportingParam('idSite');
+    const period = getReportingParam('period');
+    const date = getReportingParam('date');
+    const ajaxHandler = new ajaxHelper();
+    ajaxHandler.addParams({
+      module: 'SegmentEditor',
+      action: 'getSegmentData',
+      format: 'json',
+      segmentDefinition,
+      idSite,
+      period,
+      date,
+    }, 'GET');
+    ajaxHandler.useCallbackInCaseOfError();
+    ajaxHandler.setCallback(function (response) {
+      if (!response || response.result === 'error') {
+        if (typeof onError === 'function') {
+          onError(response);
+        }
+        return;
+      }
+
+      if (typeof onSuccess === 'function') {
+        onSuccess(response);
+      }
+    });
+    ajaxHandler.send();
+  }
+
+  function getReportingParam(paramName) {
+    return window.broadcast.getValueFromHash(paramName) || window.broadcast.getValueFromUrl(paramName);
+  }
+
+  function applySegmentData(row, data) {
+    const $row = $(row);
+    $row.find('[data-segment-data-field="nb_visits"]').text(data.nb_visits);
+    $row.find('[data-segment-data-field="nb_actions"]').text(data.nb_actions);
+    $row.find('[data-segment-data-field="evolution_visits"]').text(data.evolution_visits);
+
+    const $evolution = $row.find('.sparklineEvolution');
+    $evolution.removeClass('sparklineEvolution-positive sparklineEvolution-negative sparklineEvolution-stable');
+    $evolution.addClass(`sparklineEvolution-${data.evolution_visits_direction}`);
+    $evolution.find('.sparklineEvolution_icon').attr('src', data.evolution_visits_icon);
   }
 
   function getStarButtonFromSegmentId(segmentId) {

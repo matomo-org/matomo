@@ -159,10 +159,34 @@ class ControllerTest extends IntegrationTestCase
         $this->assertSame('-', $this->getNumericCellValue($xpath, $realtime['name'], 1));
         $this->assertSame('-', $this->getNumericCellValue($xpath, $realtime['name'], 2));
 
+        // Non-realtime values are loaded asynchronously on the frontend.
         $selectedVisits = $this->getNumericCellValue($xpath, $selectedPreProcessed['name'], 1);
         $selectedActions = $this->getNumericCellValue($xpath, $selectedPreProcessed['name'], 2);
-        $this->assertNotSame('-', $selectedVisits);
-        $this->assertNotSame('-', $selectedActions);
+        $this->assertSame('-', $selectedVisits);
+        $this->assertSame('-', $selectedActions);
+    }
+
+    public function testGetSegmentDataReturnsMetricsForGivenSegment(): void
+    {
+        Rules::setBrowserTriggerArchiving(false);
+
+        $_GET = [
+            'idSite' => '1',
+            'period' => 'range',
+            'date' => '2010-03-06,2010-03-08',
+            'segmentDefinition' => '',
+        ];
+        $_REQUEST = $_GET;
+
+        $response = (new Controller())->getSegmentData();
+        $data = json_decode($response, true);
+
+        $this->assertIsArray($data);
+        $this->assertArrayHasKey('nb_visits', $data);
+        $this->assertArrayHasKey('nb_actions', $data);
+        $this->assertArrayHasKey('evolution_visits_direction', $data);
+        $this->assertArrayHasKey('evolution_visits_icon', $data);
+        $this->assertArrayHasKey('evolution_visits', $data);
     }
 
     private function getRowAttribute(\DOMXPath $xpath, string $segmentName, string $attribute): string

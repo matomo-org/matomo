@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\SegmentEditor;
 
 use Piwik\DataTable\Filter\CalculateEvolutionFilter;
+use Piwik\DataTable\Renderer\Json;
 use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor;
@@ -60,35 +61,49 @@ class Controller extends \Piwik\Plugin\Controller
         $view->segmentList = SegmentEditor\API::getInstance()->getAll($this->idSite);
         array_unshift($view->segmentList, $allVisitsSegment);
 
-        $view->segmentData = [];
         $view->hasRealtimeSegments = false;
-        foreach ($view->segmentList as $index => &$segment) {
+        foreach ($view->segmentList as &$segment) {
             $segment['fixed'] = $segment['fixed'] ?? false;
             $segment['selected'] = $segment['definition'] === $this->currentSegmentDefinition;
 
             if ($this->isRealtimeSegment($segment)) {
                 $segment['isRealtime'] = true;
                 $view->hasRealtimeSegments = true;
-                $view->segmentData[] = [];
                 continue;
             }
 
             $segment['isRealtime'] = false;
             $segment['sparklineUrl'] = $this->getSegmentSparklineUrl($segment);
-            $data = VisitsSummary\API::getInstance()
-                ->get($this->idSite, $this->period, $this->strDate, $segment['definition'])
-                ->getFirstRow()->getArrayCopy();
-            list($previousDate, $ignore) = Range::getLastDate($this->strDate, $this->period);
-            $data['past_nb_visits'] = VisitsSummary\API::getInstance()
-                ->getVisits($this->idSite, $this->period, $previousDate, $segment['definition'])
-                ->getFirstRow()->getColumn('nb_visits');
-            $data['evolution_visits_direction'] = $this->getEvolutionDirection($data["nb_visits"], $data['past_nb_visits']);
-            $data['evolution_visits_icon'] = $this->getEvolutionIcon($data['evolution_visits_direction']);
-            $data['evolution_visits'] = CalculateEvolutionFilter::calculate($data["nb_visits"], $data['past_nb_visits'], 0, true, false);
-            $view->segmentData[] = $data;
         }
 
         return $view->render();
+    }
+
+    public function getSegmentData(): string
+    {
+        $segmentDefinition = Request::fromRequest()->getStringParameter('segmentDefinition', '');
+
+        $data = VisitsSummary\API::getInstance()
+            ->get($this->idSite, $this->period, $this->strDate, $segmentDefinition)
+            ->getFirstRow()->getArrayCopy();
+        [$previousDate] = Range::getLastDate($this->strDate, $this->period);
+        $pastNbVisits = VisitsSummary\API::getInstance()
+            ->getVisits($this->idSite, $this->period, $previousDate, $segmentDefinition)
+            ->getFirstRow()->getColumn('nb_visits');
+
+        $nbVisits = (int)($data['nb_visits'] ?? 0);
+        $nbActions = (int)($data['nb_actions'] ?? 0);
+        $pastNbVisits = (int)$pastNbVisits;
+        $evolutionDirection = $this->getEvolutionDirection($nbVisits, $pastNbVisits);
+
+        Json::sendHeaderJSON();
+        return json_encode([
+            'nb_visits' => $nbVisits,
+            'nb_actions' => $nbActions,
+            'evolution_visits_direction' => $evolutionDirection,
+            'evolution_visits_icon' => $this->getEvolutionIcon($evolutionDirection),
+            'evolution_visits' => CalculateEvolutionFilter::calculate($nbVisits, $pastNbVisits, 0, true, false),
+        ]);
     }
 
     private function isRealtimeSegment(array $segment): bool
