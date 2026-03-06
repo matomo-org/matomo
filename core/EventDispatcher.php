@@ -10,6 +10,8 @@
 namespace Piwik;
 
 use Piwik\Container\StaticContainer;
+use Piwik\Log\LoggerInterface;
+use Throwable;
 
 /**
  * This class allows code to post events from anywhere in Piwik and for
@@ -141,11 +143,24 @@ class EventDispatcher
         // sort callbacks by their importance
         ksort($callbacks);
 
+        $firstException = null;
+
         // execute callbacks in order
         foreach ($callbacks as $callbackGroup) {
             foreach ($callbackGroup as $callback) {
-                call_user_func_array($callback, $params);
+                try {
+                    call_user_func_array($callback, $params);
+                } catch (Throwable $exception) {
+                    $this->logCallbackException($eventName, $callback, $exception);
+                    if ($firstException === null) {
+                        $firstException = $exception;
+                    }
+                }
             }
+        }
+
+        if ($firstException) {
+            throw $firstException;
         }
     }
 
@@ -215,5 +230,55 @@ class EventDispatcher
         }
 
         return array($pluginFunction, $callbackGroup);
+    }
+
+    /**
+     * @param callable|array|string $callback
+     */
+    private function logCallbackException($eventName, $callback, Throwable $exception)
+    {
+        try {
+            StaticContainer::get(LoggerInterface::class)->warning(
+                'Exception in event handler for {event}: {callback}. {exception}',
+                [
+                    'event' => $eventName,
+                    'callback' => $this->getCallbackName($callback),
+                    'exception' => $exception,
+                ]
+            );
+        } catch (Throwable $logException) {
+            // Ignore logging failures to avoid breaking event dispatch.
+        }
+    }
+
+    /**
+     * @param callable|array|string $callback
+     */
+    private function getCallbackName($callback)
+    {
+        if (is_string($callback)) {
+            return $callback;
+        }
+
+        if (is_array($callback)) {
+            $classOrObject = $callback[0] ?? '';
+            $method = $callback[1] ?? '';
+
+            if (is_object($classOrObject)) {
+                $classOrObject = get_class($classOrObject);
+            }
+
+            return $classOrObject . '::' . $method;
+        }
+
+        if ($callback instanceof \Closure) {
+            return 'Closure';
+        }
+
+        if (is_object($callback)) {
+            return get_class($callback);
+        }
+
+        return 'Unknown callback';
     }
 }
