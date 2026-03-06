@@ -287,16 +287,7 @@ class API extends \Piwik\Plugin\API
      */
     public function archiveReports(int $idSite, $period, $date, $segment = false, $plugin = false, $report = false)
     {
-        $rootApiMethod = Request::getRootApiRequestMethod();
-        $requestParameters = PiwikRequest::fromRequest()->getParameters();
-        $currentApiMethod = Request::getMethodIfApiRequest($requestParameters);
-        if (empty($currentApiMethod)) {
-            $currentApiMethod = (string) ($requestParameters['method'] ?? '');
-        }
-        if (
-            $rootApiMethod === 'CoreAdminHome.archiveReports'
-            || ($rootApiMethod === 'API.getBulkRequest' && $currentApiMethod === 'CoreAdminHome.archiveReports')
-        ) {
+        if ($this->shouldRequireSuperUserForArchiveReports()) {
             Piwik::checkUserHasSuperUserAccess();
         } else {
             Piwik::checkUserHasViewAccess($idSite);
@@ -374,6 +365,22 @@ class API extends \Piwik\Plugin\API
         ]);
 
         return $result;
+    }
+
+    private function shouldRequireSuperUserForArchiveReports(): bool
+    {
+        $rootApiMethod = Request::getRootApiRequestMethod();
+        $requestParameters = PiwikRequest::fromRequest()->getParameters();
+        $currentApiMethod = Request::getMethodIfApiRequest($requestParameters);
+
+        // Bulk subrequests can arrive without module=API, so fall back to raw method.
+        if (empty($currentApiMethod)) {
+            $currentApiMethod = (string) ($requestParameters['method'] ?? '');
+        }
+
+        // Require superuser for direct archiveReports calls and archiveReports inside bulk requests.
+        return $rootApiMethod === 'CoreAdminHome.archiveReports'
+            || ($rootApiMethod === 'API.getBulkRequest' && $currentApiMethod === 'CoreAdminHome.archiveReports');
     }
 
     /**

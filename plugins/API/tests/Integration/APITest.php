@@ -336,11 +336,7 @@ class APITest extends IntegrationTestCase
         $this->assertSame('error', $response['result']);
 
         $message = strtolower((string) ($response['message'] ?? ''));
-        $this->assertTrue(
-            strpos($message, 'superuser') !== false
-            || strpos($message, 'general_exceptionprivilege') !== false
-            || strpos($message, 'checkuserhassuperuseraccess') !== false
-        );
+        $this->assertStringContainsString('general_exceptionprivilege', $message);
     }
 
     private function makeBulkUrls(int $count): array
