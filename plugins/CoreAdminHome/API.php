@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
+use Piwik\API\Request;
 use Piwik\Changes\UserChanges;
 use Piwik\Log\Logger;
 use Piwik\Access;
@@ -24,6 +25,7 @@ use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
+use Piwik\Request as PiwikRequest;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsServer;
@@ -285,7 +287,16 @@ class API extends \Piwik\Plugin\API
      */
     public function archiveReports(int $idSite, $period, $date, $segment = false, $plugin = false, $report = false)
     {
-        if (\Piwik\API\Request::getRootApiRequestMethod() === 'CoreAdminHome.archiveReports') {
+        $rootApiMethod = Request::getRootApiRequestMethod();
+        $requestParameters = PiwikRequest::fromRequest()->getParameters();
+        $currentApiMethod = Request::getMethodIfApiRequest($requestParameters);
+        if (empty($currentApiMethod)) {
+            $currentApiMethod = (string) ($requestParameters['method'] ?? '');
+        }
+        if (
+            $rootApiMethod === 'CoreAdminHome.archiveReports'
+            || ($rootApiMethod === 'API.getBulkRequest' && $currentApiMethod === 'CoreAdminHome.archiveReports')
+        ) {
             Piwik::checkUserHasSuperUserAccess();
         } else {
             Piwik::checkUserHasViewAccess($idSite);
