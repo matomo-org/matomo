@@ -151,10 +151,13 @@ class EventDispatcher
                 try {
                     call_user_func_array($callback, $params);
                 } catch (Throwable $exception) {
-                    $this->logCallbackException($eventName, $callback, $exception);
                     if ($firstException === null) {
                         $firstException = $exception;
+                        continue;
                     }
+
+                    // log only additional callback failures. the first one is rethrown below.
+                    $this->logCallbackException($eventName, $callback, $exception);
                 }
             }
         }
