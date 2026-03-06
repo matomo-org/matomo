@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Option;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\SegmentEditor\Controller;
 use Piwik\Tests\Framework\Fixture;
@@ -32,12 +33,16 @@ class ControllerTest extends IntegrationTestCase
     /** @var int[] */
     private $createdSegmentIds = [];
 
+    /** @var string|false */
+    private $backupBrowserTriggerArchivingOption = false;
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->backupGet = $_GET;
         $this->backupRequest = $_REQUEST;
+        $this->backupBrowserTriggerArchivingOption = Option::get(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING);
 
         Fixture::createSuperUser();
         if (!Fixture::siteCreated(1)) {
@@ -59,6 +64,11 @@ class ControllerTest extends IntegrationTestCase
 
         $_GET = $this->backupGet;
         $_REQUEST = $this->backupRequest;
+        if ($this->backupBrowserTriggerArchivingOption === false) {
+            Option::delete(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING);
+        } else {
+            Rules::setBrowserTriggerArchiving((bool) $this->backupBrowserTriggerArchivingOption);
+        }
 
         parent::tearDown();
     }
