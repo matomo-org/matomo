@@ -82,28 +82,35 @@ class Controller extends \Piwik\Plugin\Controller
     public function getSegmentData(): string
     {
         $segmentDefinition = Request::fromRequest()->getStringParameter('segmentDefinition', '');
-
-        $data = VisitsSummary\API::getInstance()
-            ->get($this->idSite, $this->period, $this->strDate, $segmentDefinition)
-            ->getFirstRow()->getArrayCopy();
-        [$previousDate] = Range::getLastDate($this->strDate, $this->period);
-        $pastNbVisits = VisitsSummary\API::getInstance()
-            ->getVisits($this->idSite, $this->period, $previousDate, $segmentDefinition)
-            ->getFirstRow()->getColumn('nb_visits');
-
-        $nbVisits = (int)($data['nb_visits'] ?? 0);
-        $nbActions = (int)($data['nb_actions'] ?? 0);
-        $pastNbVisits = (int)$pastNbVisits;
-        $evolutionDirection = $this->getEvolutionDirection($nbVisits, $pastNbVisits);
-
         Json::sendHeaderJSON();
-        return json_encode([
-            'nb_visits' => $nbVisits,
-            'nb_actions' => $nbActions,
-            'evolution_visits_direction' => $evolutionDirection,
-            'evolution_visits_icon' => $this->getEvolutionIcon($evolutionDirection),
-            'evolution_visits' => CalculateEvolutionFilter::calculate($nbVisits, $pastNbVisits, 0, true, false),
-        ]);
+
+        try {
+            $data = VisitsSummary\API::getInstance()
+                ->get($this->idSite, $this->period, $this->strDate, $segmentDefinition)
+                ->getFirstRow()->getArrayCopy();
+            [$previousDate] = Range::getLastDate($this->strDate, $this->period);
+            $pastNbVisits = VisitsSummary\API::getInstance()
+                ->getVisits($this->idSite, $this->period, $previousDate, $segmentDefinition)
+                ->getFirstRow()->getColumn('nb_visits');
+
+            $nbVisits = (int)($data['nb_visits'] ?? 0);
+            $nbActions = (int)($data['nb_actions'] ?? 0);
+            $pastNbVisits = (int)$pastNbVisits;
+            $evolutionDirection = $this->getEvolutionDirection($nbVisits, $pastNbVisits);
+
+            return json_encode([
+                'nb_visits' => $nbVisits,
+                'nb_actions' => $nbActions,
+                'evolution_visits_direction' => $evolutionDirection,
+                'evolution_visits_icon' => $this->getEvolutionIcon($evolutionDirection),
+                'evolution_visits' => CalculateEvolutionFilter::calculate($nbVisits, $pastNbVisits, 0, true, false),
+            ]);
+        } catch (\Throwable $e) {
+            return json_encode([
+                'result' => 'error',
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 
     private function isRealtimeSegment(array $segment): bool

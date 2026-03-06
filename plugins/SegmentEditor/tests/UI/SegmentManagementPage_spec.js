@@ -153,6 +153,23 @@ describe("SegmentManagementPageTest", function () {
         && $(`tr[data-segment-name="${realtimeName}"]`).length;
     }, {}, siteSegment.name, realtimeSegment.name);
 
+    await page.waitForFunction((preProcessedName, realtimeName) => {
+      const $preProcessedRow = $(`tr[data-segment-name="${preProcessedName}"]`);
+      const $realtimeRow = $(`tr[data-segment-name="${realtimeName}"]`);
+      const $preProcessedCells = $preProcessedRow.find('td.entityTable_Numeric');
+      const $realtimeCells = $realtimeRow.find('td.entityTable_Numeric');
+
+      const preProcessedVisits = ($preProcessedCells.eq(0).text() || '').trim();
+      const preProcessedActions = ($preProcessedCells.eq(1).text() || '').trim();
+      const realtimeVisits = ($realtimeCells.eq(0).text() || '').trim();
+      const realtimeActions = ($realtimeCells.eq(1).text() || '').trim();
+
+      return /[0-9]/.test(preProcessedVisits)
+        && /[0-9]/.test(preProcessedActions)
+        && realtimeVisits === '-'
+        && realtimeActions === '-';
+    }, {}, siteSegment.name, realtimeSegment.name);
+
     const tableData = {
       preProcessed: await getSegmentRowNumericData(siteSegment.name),
       realtime: await getSegmentRowNumericData(realtimeSegment.name),
