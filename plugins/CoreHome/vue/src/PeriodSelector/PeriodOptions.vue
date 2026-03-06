@@ -8,26 +8,28 @@
 <template>
   <div
     class="periodOptions"
-    role="group"
     :aria-label="translate('General_ChoosePeriod')"
   >
     <p
       v-for="period in displayPeriods"
       :key="period"
     >
-      <button
-        type="button"
-        :id="`period_id_${period}`"
-        :aria-pressed="checkedPeriodId === period ? 'true' : 'false'"
+      <label
         :class="{ 'selected-period-label': checkedPeriodId === period }"
         :title="period === activeDatePeriod
           ? ''
           : translate('General_DoubleClickToChangePeriod')"
-        @click="handlePeriodSelected(period)"
         @dblclick="handlePeriodDoubleClick(period)"
       >
+        <input
+          type="radio"
+          name="period"
+          :id="`period_id_${period}`"
+          :checked="checkedPeriodId === period"
+          @change="handlePeriodSelected(period)"
+        />
         <span>{{ getPeriodDisplayText(period) }}</span>
-      </button>
+      </label>
     </p>
   </div>
 </template>
