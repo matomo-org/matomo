@@ -80,13 +80,13 @@ describe("PeriodSelector", function () {
 
         const selectedState = await page.evaluate(function () {
             return {
-                weekPressed: $('#period_id_week').attr('aria-pressed'),
-                dayPressed: $('#period_id_day').attr('aria-pressed'),
+                weekChecked: $('#period_id_week').is(':checked'),
+                dayChecked: $('#period_id_day').is(':checked'),
             };
         });
 
-        expect(selectedState.weekPressed).to.equal('true');
-        expect(selectedState.dayPressed).to.equal('false');
+        expect(selectedState.weekChecked).to.equal(true);
+        expect(selectedState.dayChecked).to.equal(false);
     });
 
     it('should activate a period option via Space key', async function () {
@@ -96,13 +96,13 @@ describe("PeriodSelector", function () {
 
         const selectedState = await page.evaluate(function () {
             return {
-                monthPressed: $('#period_id_month').attr('aria-pressed'),
-                dayPressed: $('#period_id_day').attr('aria-pressed'),
+                monthChecked: $('#period_id_month').is(':checked'),
+                dayChecked: $('#period_id_day').is(':checked'),
             };
         });
 
-        expect(selectedState.monthPressed).to.equal('true');
-        expect(selectedState.dayPressed).to.equal('false');
+        expect(selectedState.monthChecked).to.equal(true);
+        expect(selectedState.dayChecked).to.equal(false);
     });
 
     it("should change the date when a date is clicked in month-period mode", async function() {

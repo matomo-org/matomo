@@ -4,11 +4,6 @@
   [type=radio]:checked + span {
     padding-left: 30px;
   }
-
-  [type=radio]:not(:checked) + span,
-  [type=radio]:checked + span {
-    padding-left: 30px;
-  }
   [type=radio]:not(:checked)+span:before,
   [type=radio]:not(:checked)+span:after,
   [type=checkbox]+span:not(.lever):before,
@@ -147,6 +142,29 @@
     display: flex;
   }
 
+  #periodMore {
+    box-sizing: border-box;
+    left: 0;
+    max-width: calc(~'100vw - 16px');
+    right: auto;
+  }
+
+  @media (max-width: 900px) {
+    // On iPad/mobile, keep panel right-anchored.
+    #periodMore {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    &.periodSelector-withPrevNext {
+      #periodMore {
+        right: 30px;
+      }
+    }
+  }
+
   .period-type {
     min-width: 220px;
   }
@@ -156,8 +174,8 @@
       p:first-child {
         margin-top: 5px;
       }
-      button {
-        padding: 5px 0 5px 0;
+
+      label {
         background: transparent;
         border: 0;
         border-radius: 5px;
@@ -168,6 +186,7 @@
         margin: 0;
         outline: none;
         padding-left: 8px;
+        position: relative;
         text-align: left;
         width: 100%;
         font-size: 13px;
@@ -175,15 +194,40 @@
         &:hover {
           background-color: @color-period-selector-options-hover-bg;
         }
+      }
 
-        &:focus-visible {
+      input[type=radio]:focus-visible + span {
+        background-color: @color-period-selector-options-hover-bg;
+        border-radius: 5px;
+        outline: 2px solid @theme-color-focus-ring;
+        outline-offset: 0;
+      }
+
+      label > span {
+        display: block;
+      }
+
+      // Period options are visually button-like; hide radio-marker pseudo elements.
+      input[type=radio] + span {
+        padding-left: 0;
+      }
+
+      input[type=radio] + span:before,
+      input[type=radio] + span:after {
+        display: none !important;
+      }
+
+      input[type=radio]:focus + span {
+        // fallback for browsers without :focus-visible support
+        @supports not selector(:focus-visible) {
           background-color: @color-period-selector-options-hover-bg;
+          border-radius: 5px;
           outline: 2px solid @theme-color-focus-ring;
           outline-offset: 0;
         }
       }
 
-      button.selected-period-label {
+      label.selected-period-label {
         color: @theme-color-text;
         font-weight: 600;
       }
@@ -243,6 +287,34 @@
     }
   }
 
+  @media (max-width: 900px) {
+    .flex {
+      flex-direction: column;
+      overflow-x: auto;
+    }
+
+    .period-selector-calendar-column {
+      border-left: 0;
+      margin-left: 0;
+      margin-top: 12px;
+      padding-left: 0;
+    }
+
+    .dateRangePicker {
+      flex-wrap: wrap;
+    }
+
+    #periodMore.dual-calendar .dateRangePicker {
+      flex-direction: column;
+      width: 100%;
+
+      #calendarRangeFrom,
+      #calendarRangeTo {
+        width: 100%;
+      }
+    }
+  }
+
   .ui-datepicker {
     border: none !important;
     font-size: 13px !important;
@@ -295,7 +367,7 @@
     table.ui-datepicker-calendar {
 
       tbody td {
-        padding: 0px 4px !important;
+        padding: 0 4px !important;
       }
 
       // Weekend cells use a distinct inner background in jQuery UI defaults.
@@ -362,7 +434,7 @@
     }
 
     &:disabled {
-      color: @color-period-selector;
+      color: @color-silver;
       cursor: auto;
     }
   }
