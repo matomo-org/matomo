@@ -29,6 +29,12 @@ describe("Theme", function () {
         removeTree(path.join(PIWIK_INCLUDE_PATH, 'tmp', 'assets'));
     }
 
+    async function setDarkMode() {
+        await page.evaluate(() => {
+            document.documentElement.setAttribute('data-theme-mode', 'dark');
+        });
+    }
+
     before(function () {
         testEnvironment.pluginsToLoad = ['ExampleTheme'];
 
@@ -52,6 +58,15 @@ describe("Theme", function () {
         expect(await page.screenshot({ fullPage: true })).to.matchImage('home');
     });
 
+    it("should screenshot dashboard in dark mode", async function () {
+        await page.goto("?module=CoreHome&action=index&idSite=1&period=year&date=2012-08-09");
+        await page.waitForSelector('.widget');
+        await setDarkMode();
+        await page.waitForTimeout(500);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('home_dark');
+    });
+
     it("should theme the UI demo page", async function () {
         await page.goto("?module=Morpheus&action=demo");
         await page.waitForSelector('.progressbar .matomo-loader');
@@ -64,5 +79,20 @@ describe("Theme", function () {
         await page.waitForTimeout(500);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('demo');
+    });
+
+    it("should screenshot the UI demo page in dark mode", async function () {
+        await page.goto("?module=Morpheus&action=demo");
+        await page.waitForSelector('.progressbar .matomo-loader');
+        await setDarkMode();
+        await page.evaluate(() => {
+            $('img[src~=loading],.progressbar .matomo-loader').each(function () {
+                $(this).hide();
+            });
+        });
+        await page.waitForNetworkIdle();
+        await page.waitForTimeout(500);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('demo_dark');
     });
 });

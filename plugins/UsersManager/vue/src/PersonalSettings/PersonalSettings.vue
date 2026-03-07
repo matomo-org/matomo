@@ -61,6 +61,18 @@
       <div>
         <Field
           uicontrol="radio"
+          name="themeMode"
+          v-model="theThemeMode"
+          @update:model-value="theThemeMode = $event;"
+          :title="''"
+          :introduction="'Theme'"
+          :options="themeModeOptions"
+        />
+      </div>
+
+      <div>
+        <Field
+          uicontrol="radio"
           name="defaultReport"
           v-model="theDefaultReport"
           :introduction="translate('UsersManager_ReportToLoadByDefault')"
@@ -126,6 +138,7 @@ interface PersonalSettingsState {
   email: string;
   language: string;
   timeformat: number;
+  theThemeMode: string;
   theDefaultReport: string|number;
   site: SiteRef;
   theDefaultDate: string;
@@ -164,6 +177,14 @@ export default defineComponent({
       required: true,
     },
     timeFormats: {
+      type: Object,
+      required: true,
+    },
+    themeMode: {
+      type: String,
+      required: true,
+    },
+    themeModeOptions: {
       type: Object,
       required: true,
     },
@@ -209,6 +230,7 @@ export default defineComponent({
       email: this.userEmail,
       language: this.currentLanguageCode,
       timeformat: this.currentTimeformat,
+      theThemeMode: this.themeMode,
       theDefaultReport: this.defaultReport,
       site: {
         id: this.defaultReportIdSite,
@@ -231,6 +253,7 @@ export default defineComponent({
     doSave(password?: string) {
       const postParams: QueryParameters = {
         email: this.email,
+        themeMode: this.theThemeMode,
         defaultReport: this.theDefaultReport === 'MultiSites'
           ? this.theDefaultReport
           : this.site.id,
@@ -256,6 +279,7 @@ export default defineComponent({
           withTokenInUrl: true,
         },
       ).then(() => {
+        document.documentElement.setAttribute('data-theme-mode', this.theThemeMode);
         const id = NotificationsStore.show({
           message: translate('CoreAdminHome_SettingsSaveSuccess'),
           id: 'PersonalSettingsSuccess',
