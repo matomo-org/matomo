@@ -45,11 +45,11 @@
 
     > a {
       color: @theme-color-link;
-      background-color: @color-silver-l95;
+      background-color: @theme-color-background-tinyContrast;
 
       &:hover,
       &:focus {
-        background-color: @color-silver-l85;
+        background-color: @theme-color-background-contrast;
       }
     }
 
@@ -66,14 +66,26 @@ nav .sidenav-trigger {
 }
 
 .sidenav {
+  background: @theme-color-background-contrast;
+
   li {
     > a {
+      color: @theme-color-text-contrast;
       text-decoration: none;
+
+      &:focus,
+      &:hover {
+        color: @theme-color-text;
+      }
+
+      > i {
+        color: inherit;
+      }
     }
 
     > div > a {
       text-decoration: none;
-      color: rgba(0,0,0,.87);
+      color: @theme-color-text-contrast;
       display: block;
       font-size: 14px;
       font-weight: 500;
@@ -81,11 +93,20 @@ nav .sidenav-trigger {
       line-height: 48px;
       padding: 0 32px;
 
+      &:focus,
+      &:hover {
+        color: @theme-color-text;
+      }
+
       > .badge-menu-item {
         top: 6px;
         right: 20px;
         left: unset;
       }
+    }
+
+    .collapsible-body {
+      background: @theme-color-background-contrast;
     }
   }
 }

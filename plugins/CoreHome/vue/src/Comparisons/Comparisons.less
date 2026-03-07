@@ -9,7 +9,7 @@
     min-width: 164px;
     margin-right: 16px;
     padding: 14px;
-    background-color: white;
+    background-color: @theme-color-background-contrast;
     margin-bottom: 16px;
     position: relative;
   }
@@ -18,12 +18,12 @@
     font-weight: bold;
     text-transform: uppercase;
     font-size: .7em;
-    color: #999;
+    color: @theme-color-text-lighter;
   }
 
   .remove-button {
     font-size: .6em;
-    color: #666;
+    color: @theme-color-text-lighter;
     position: absolute;
     right: 12px;
     top: 12px;
@@ -45,7 +45,7 @@
     white-space: nowrap;
 
     a {
-      color: #333;
+      color: @theme-color-text-contrast;
     }
   }
 
@@ -78,6 +78,6 @@
   p {
     font-size: 1.1em;
     line-height: 1.3em;
-    color: #fff;
+    color: @theme-color-text-invert-contrast;
   }
 }
