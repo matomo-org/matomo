@@ -14,37 +14,29 @@ describe("SegmentSelectorEditorTest", function () {
     var generalParams = 'idSite=1&period=year&date=2012-08-09';
     var url = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=General_Actions&subcategory=General_Pages';
 
-    async function clickJQueryWithRetry(selector, attempts = 3)
-    {
-        // This is intentionally specific to Materialize dropdown transitions:
-        // the dropdown input/list can be briefly detached or non-clickable mid-animation.
-        let lastError = null;
-
-        for (let i = 0; i < attempts; i += 1) {
-            try {
-                const element = await page.jQuery(selector, { waitFor: true });
-                await element.click();
-                return;
-            } catch (error) {
-                lastError = error;
-                await page.waitForTimeout(100);
-            }
-        }
-
-        throw lastError;
-    }
-
     async function selectFieldValue(fieldName, textToSelect)
     {
-        await clickJQueryWithRetry(fieldName + ' input.select-dropdown:visible:first');
+        await page.waitForFunction((fieldNameSelector, optionText) => {
+            const $field = window.$(fieldNameSelector).first();
+            const select = $field.find('select').get(0);
 
-        // wait for animation
+            if (!select) {
+                return false;
+            }
+
+            const option = Array.from(select.options).find((entry) => {
+                return (entry.textContent || '').trim() === optionText;
+            });
+
+            if (!option) {
+                return false;
+            }
+
+            window.$(select).val(option.value).trigger('change');
+            return true;
+        }, {}, fieldName, textToSelect);
+
         await page.waitForTimeout(200);
-
-        await clickJQueryWithRetry(fieldName + ' .dropdown-content:visible li:contains("' + textToSelect + '"):visible:first');
-
-        // wait for animation
-        await page.waitForTimeout(300);
         await page.mouse.move(-10, -10);
     }
 
@@ -154,8 +146,10 @@ describe("SegmentSelectorEditorTest", function () {
 
     it("should update segment expression when selecting different segment", async function() {
         await selectDimension('.segmentRow0', 'Behaviour', 'Action URL');
-        await selectFieldValue('.segmentRow0 .segment-row:first .metricMatchBlock', 'Is not');
+        await selectFieldValue('.segmentRow0 .segment-row:visible:first .metricMatchBlock', 'Is not');
+        await page.$eval('.segmentEditorPanel .segmentRow0 .metricValueBlock input', e => e.blur());
         await page.waitForNetworkIdle();
+        await moveMouseAwayFromCapturedArea();
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('dimension_drag_drop');
     });
 
@@ -313,7 +307,11 @@ describe("SegmentSelectorEditorTest", function () {
             const values = $('.segmentEditorPanel .metricValueBlock input').map(function () {
                 return ($(this).val() || '').toString();
             }).get();
-            const segmentName = ($('input.edit_segment_name').val() || '').toString();
+            const segmentName = (
+                $('input.edit_segment_name').val()
+                || $('.segmentEditorPanel .segment-content > h3 .segmentName').text()
+                || ''
+            ).toString();
 
             return segmentName === 'edited segment'
                 && values.indexOf('new value 0') !== -1
@@ -378,7 +376,7 @@ describe("SegmentSelectorEditorTest", function () {
         await page.goto(url);
 
         await page.click('.segmentationContainer .title');
-        await page.click('button.add_new_segment');
+        await page.click('.add_new_segment');
         await page.type('input.edit_segment_name', 'complex segment');
 
         await page.waitForSelector('.segmentRow0');
@@ -404,7 +402,7 @@ describe("SegmentSelectorEditorTest", function () {
 
         // configure and condition
         await selectDimension('.segmentRow1', 'Visitors', 'Browser');
-        await selectFieldValue('.segmentRow1 .segment-row:first .metricMatchBlock', 'Is not');
+        await selectFieldValue('.segmentRow1 .segment-row:visible:first .metricMatchBlock', 'Is not');
 
         await (await page.jQuery('.segmentRow1 .metricValueBlock input')).type(complexValue);
         await page.waitForTimeout(200);
