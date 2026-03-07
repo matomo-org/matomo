@@ -103,6 +103,13 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__19dc__;
 
 /***/ }),
 
+/***/ "46d7":
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
 /***/ "8bbf":
 /***/ (function(module, exports) {
 
@@ -122,7 +129,7 @@ __webpack_require__.d(__webpack_exports__, "LiveWidget", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "AutoRefreshWidget", function() { return /* reexport */ AutoRefreshWidget; });
 __webpack_require__.d(__webpack_exports__, "SimpleRealtimeVisitorWidget", function() { return /* reexport */ SimpleRealtimeVisitorWidget; });
 __webpack_require__.d(__webpack_exports__, "TotalVisitors", function() { return /* reexport */ TotalVisitors; });
-__webpack_require__.d(__webpack_exports__, "LivePage", function() { return /* reexport */ LivePage; });
+__webpack_require__.d(__webpack_exports__, "LivePage", function() { return /* reexport */ LivePage_default.a; });
 __webpack_require__.d(__webpack_exports__, "IndexHeader", function() { return /* reexport */ IndexHeader; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
@@ -1050,47 +1057,10 @@ function TotalVisitorsvue_type_template_id_c4046fce_render(_ctx, _cache, $props,
 TotalVisitorsvue_type_script_lang_ts.render = TotalVisitorsvue_type_template_id_c4046fce_render
 
 /* harmony default export */ var TotalVisitors = (TotalVisitorsvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=2ecbc076
+// EXTERNAL MODULE: ./plugins/Live/vue/src/LivePage/LivePage.vue
+var LivePage = __webpack_require__("46d7");
+var LivePage_default = /*#__PURE__*/__webpack_require__.n(LivePage);
 
-function LivePagevue_type_template_id_2ecbc076_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_LiveWidget = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("LiveWidget");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", null, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createBlock"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDynamicComponent"])(!_ctx.isWidgetized ? 'ContentBlock' : 'Passthrough'), {
-    "content-title": !_ctx.isWidgetized ? _ctx.translate('Live_VisitorsInRealTime') : undefined
-  }, {
-    default: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withCtx"])(() => [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_LiveWidget, {
-      "live-refresh-after-ms": _ctx.liveRefreshAfterMs,
-      "disable-link": _ctx.disableLink
-    }, null, 8, ["live-refresh-after-ms", "disable-link"])]),
-    _: 1
-  }, 8, ["content-title"]))]);
-}
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=template&id=2ecbc076
-
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=script&lang=ts
-
-
-
-/* harmony default export */ var LivePagevue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
-  props: {
-    disableLink: Boolean,
-    liveRefreshAfterMs: Number,
-    isWidgetized: Boolean
-  },
-  components: {
-    LiveWidget: LiveWidget,
-    ContentBlock: external_CoreHome_["ContentBlock"],
-    Passthrough: external_CoreHome_["Passthrough"]
-  }
-}));
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LivePage/LivePage.vue?vue&type=script&lang=ts
- 
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LivePage/LivePage.vue
-
-
-
-LivePagevue_type_script_lang_ts.render = LivePagevue_type_template_id_2ecbc076_render
-
-/* harmony default export */ var LivePage = (LivePagevue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/IndexHeader/IndexHeader.vue?vue&type=template&id=e270701e
 
 function IndexHeadervue_type_template_id_e270701e_render(_ctx, _cache, $props, $setup, $data, $options) {

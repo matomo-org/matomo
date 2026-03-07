@@ -23,6 +23,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugin;
 use Piwik\Plugin\ControllerAdmin;
+use Piwik\Plugin\ThemeStyles;
 use Piwik\Plugins\LanguagesManager\API as APILanguagesManager;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\Login\PasswordVerifier;
@@ -253,6 +254,14 @@ class Controller extends ControllerAdmin
                                     && SettingsPiwik::isInternetEnabled();
 
         $userPreferences = new UserPreferences();
+
+        $view->themeMode = $userPreferences->getThemeMode();
+        $view->themeModeOptions = array(
+            array('key' => ThemeStyles::LIGHT_MODE, 'value' => 'Default'), // TODO: translate
+            array('key' => ThemeStyles::AUTO_MODE, 'value' => 'Automatic'), // TODO: remove
+            array('key' => ThemeStyles::DARK_MODE, 'value' => 'Dark'),
+        );
+
         $defaultReport   = $userPreferences->getDefaultReport();
 
         if ($defaultReport === false) {
@@ -607,6 +616,7 @@ class Controller extends ControllerAdmin
         try {
             $this->checkTokenInUrl();
 
+            $themeMode = Common::getRequestVar('themeMode');
             $defaultReport = Common::getRequestVar('defaultReport');
             $defaultDate = Common::getRequestVar('defaultDate');
             $language = Common::getRequestVar('language');
@@ -627,6 +637,15 @@ class Controller extends ControllerAdmin
                 'login' => $userLogin,
                 'use12HourClock' => $timeFormat,
             ]);
+
+            $currentThemeMode = (new UserPreferences())->getThemeMode();
+            if ($currentThemeMode !== $themeMode) {
+                APIUsersManager::getInstance()->setUserPreference(
+                    $userLogin,
+                    APIUsersManager::PREFERENCE_THEME_MODE,
+                    $themeMode
+                );
+            }
 
             APIUsersManager::getInstance()->setUserPreference(
                 $userLogin,
