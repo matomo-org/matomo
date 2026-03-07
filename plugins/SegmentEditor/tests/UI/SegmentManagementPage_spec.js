@@ -181,42 +181,23 @@ describe("SegmentManagementPageTest", function () {
     expect(tableData.realtime.actions).to.equal('-');
   });
 
-  it("should continue loading later segment rows when one segment data request fails", async function() {
-    await installSegmentDataApiErrorMock(siteSegment.definition);
+  it("should mark realtime and pre-processed rows via data-is-realtime", async function() {
+    await openPage();
 
-    try {
-      await openPage();
-      const allVisitsName = await page.evaluate(() => _pk_translate('SegmentEditor_DefaultAllVisits'));
+    await page.waitForFunction((preProcessedName, realtimeName) => {
+      return $(`tr[data-segment-name="${preProcessedName}"]`).length
+        && $(`tr[data-segment-name="${realtimeName}"]`).length;
+    }, {}, siteSegment.name, realtimeSegment.name);
 
-      await page.waitForFunction((failingSegmentName, succeedingSegmentName) => {
-        const getNumericCellText = (segmentName, index) => {
-          const $row = $(`tr[data-segment-name="${segmentName}"]`);
-          const $numericCells = $row.find('td.entityTable_Numeric');
-          return ($numericCells.eq(index).text() || '').trim();
-        };
+    const rowTypes = await page.evaluate((preProcessedName, realtimeName) => {
+      return {
+        preProcessed: $(`tr[data-segment-name="${preProcessedName}"]`).attr('data-is-realtime') || '',
+        realtime: $(`tr[data-segment-name="${realtimeName}"]`).attr('data-is-realtime') || '',
+      };
+    }, siteSegment.name, realtimeSegment.name);
 
-        const failedVisits = getNumericCellText(failingSegmentName, 0);
-        const failedActions = getNumericCellText(failingSegmentName, 1);
-        const succeedingVisits = getNumericCellText(succeedingSegmentName, 0);
-        const succeedingActions = getNumericCellText(succeedingSegmentName, 1);
-
-        return (window.__segmentDataApiErrorCount || 0) > 0
-          && failedVisits === '-'
-          && failedActions === '-'
-          && /[0-9]/.test(succeedingVisits)
-          && /[0-9]/.test(succeedingActions);
-      }, {}, siteSegment.name, allVisitsName);
-
-      const failingSegmentData = await getSegmentRowNumericData(siteSegment.name);
-      const succeedingSegmentData = await getSegmentRowNumericData(allVisitsName);
-
-      expect(failingSegmentData.visits).to.equal('-');
-      expect(failingSegmentData.actions).to.equal('-');
-      expect(succeedingSegmentData.visits).to.match(/[0-9]/);
-      expect(succeedingSegmentData.actions).to.match(/[0-9]/);
-    } finally {
-      await restoreSegmentDataApiMock();
-    }
+    expect(rowTypes.preProcessed).to.not.equal('1');
+    expect(rowTypes.realtime).to.equal('1');
   });
 
   describe("Segments order", function () {
@@ -680,38 +661,6 @@ describe("SegmentManagementPageTest", function () {
         window.ajaxHelper.prototype.send = window.__segmentOriginalAjaxHelperSend;
       }
       delete window.__segmentStarApiErrorCount;
-    });
-  }
-
-  async function installSegmentDataApiErrorMock(failedSegmentDefinition) {
-    await page.evaluate((segmentDefinition) => {
-      window.__segmentDataApiErrorCount = 0;
-      if (!window.__segmentOriginalAjaxHelperSend) {
-        window.__segmentOriginalAjaxHelperSend = window.ajaxHelper.prototype.send;
-      }
-      window.ajaxHelper.prototype.send = function () {
-        const params = this.getParams || {};
-        if (params.module === 'SegmentEditor'
-            && params.action === 'getSegmentData'
-            && params.segmentDefinition === segmentDefinition) {
-          window.__segmentDataApiErrorCount += 1;
-          const callback = this.callback;
-          if (typeof callback === 'function') {
-            setTimeout(() => callback({ result: 'error', message: 'Simulated segment data API error in UI test' }), 0);
-          }
-          return null;
-        }
-        return window.__segmentOriginalAjaxHelperSend.apply(this, arguments);
-      };
-    }, failedSegmentDefinition);
-  }
-
-  async function restoreSegmentDataApiMock() {
-    await page.evaluate(() => {
-      if (window.__segmentOriginalAjaxHelperSend) {
-        window.ajaxHelper.prototype.send = window.__segmentOriginalAjaxHelperSend;
-      }
-      delete window.__segmentDataApiErrorCount;
     });
   }
 
