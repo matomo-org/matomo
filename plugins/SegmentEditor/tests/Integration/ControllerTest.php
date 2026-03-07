@@ -10,6 +10,8 @@
 namespace Piwik\Plugins\SegmentEditor\tests\Integration;
 
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Container\StaticContainer;
+use Piwik\NoAccessException;
 use Piwik\Option;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Plugins\SegmentEditor\Controller;
@@ -218,12 +220,9 @@ class ControllerTest extends IntegrationTestCase
         $this->assertStringNotContainsString('thisSegmentDefinitelyDoesNotExist', $data['message']);
     }
 
-    public function testGetSegmentDataRequiresViewAccess(): void
+    public function testGetSegmentDataRequiresValidSiteInRequest(): void
     {
-        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [], $login = 'anonymous');
-
         $_GET = [
-            'idSite' => '1',
             'period' => 'range',
             'date' => '2010-03-06,2010-03-08',
             'segmentDefinition' => '',
@@ -232,6 +231,28 @@ class ControllerTest extends IntegrationTestCase
 
         $this->expectException(\Exception::class);
         new Controller();
+    }
+
+    public function testGetSegmentDataRequiresViewAccess(): void
+    {
+        $originalAccess = StaticContainer::getContainer()->get('Piwik\Access');
+        $fakeAccess = new FakeAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [], $identity = 'anonymous');
+        StaticContainer::getContainer()->set('Piwik\Access', $fakeAccess);
+
+        try {
+            $_GET = [
+                'idSite' => '1',
+                'period' => 'range',
+                'date' => '2010-03-06,2010-03-08',
+                'segmentDefinition' => '',
+            ];
+            $_REQUEST = $_GET;
+
+            $this->expectException(NoAccessException::class);
+            new Controller();
+        } finally {
+            StaticContainer::getContainer()->set('Piwik\Access', $originalAccess);
+        }
     }
 
     private function getRowAttribute(\DOMXPath $xpath, string $segmentName, string $attribute): string
