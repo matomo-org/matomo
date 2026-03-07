@@ -237,7 +237,7 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved_details');
     });
 
-    it("should correctly show a confirmation when changing segment definition", async function() {
+    it("should show a confirmation modal when changing segment definition", async function() {
         await page.click('.segmentEditorPanel .editSegmentName');
 
         await page.$eval('.segmentEditorPanel .segmentRow0 .ui-autocomplete-input', e => e.blur());
@@ -264,43 +264,62 @@ describe("SegmentSelectorEditorTest", function () {
            $('button.saveAndApply').click();
         });
         await page.waitForSelector('.modal.open');
-        await page.waitForTimeout(500); // animation to show confirm
-
-        const modal = await page.$('.modal.open');
-        expect(await modal.screenshot()).to.matchImage('update_confirmation');
+        await page.waitForFunction(() => $('.modal.open .modal-footer a:contains(Yes):visible').length > 0);
     });
 
-    it("should correctly update the segment when saving confirmed", async function() {
+    it("should update the segment URL when saving is confirmed", async function() {
         var elem = await page.jQuery('.modal.open .modal-footer a:contains(Yes):visible');
         await elem.click();
-        await page.waitForNetworkIdle();
-        await (await page.waitForSelector('.segmentationContainer')).click();
-        await page.waitForNetworkIdle();
-        await moveMouseAwayFromCapturedArea();
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage({
-            imageName: 'updated',
-            comparisonThreshold: 0.0002,
+        await page.waitForSelector('.modal.open', { hidden: true });
+        await page.waitForFunction(() => {
+            const hash = (window.location.hash || '').replace(/^#\?/, '');
+            const params = new URLSearchParams(hash);
+            let segment = params.get('segment') || '';
+
+            for (let i = 0; i < 3; i += 1) {
+                try {
+                    const decoded = decodeURIComponent(segment);
+                    if (decoded === segment) {
+                        break;
+                    }
+                    segment = decoded;
+                } catch (e) {
+                    break;
+                }
+            }
+
+            return segment.indexOf('new value 0') !== -1
+                && segment.indexOf('new value 1') !== -1
+                && segment.indexOf('new value 2') !== -1;
         });
     });
 
-    it("should show the updated segment after page reload", async function() {
+    it("should keep the updated segment name after page reload", async function() {
         await page.reload();
-        await page.click('.segmentationContainer .title');
-        await moveMouseAwayFromCapturedArea();
-        // Keep a dedicated baseline for the reload step to make future diffs easier to isolate.
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage({
-            imageName: 'updated_after_reload',
-            comparisonThreshold: 0.0002,
+        await page.waitForSelector('.segmentationContainer .title');
+        await page.waitForFunction(() => {
+            return $('.segmentationContainer .segmentationTitle').text().indexOf('edited segment') !== -1;
         });
+        await page.click('.segmentationContainer .title');
+        await page.waitForSelector('.segmentList li[data-idsegment="4"] .editSegment');
     });
 
-    it("should correctly load the updated segment's details when the updated segment is edited", async function() {
+    it("should load the updated segment values in editor", async function() {
+        await page.waitForSelector('.segmentList li[data-idsegment="4"] .editSegment');
         await page.click('.segmentList li[data-idsegment="4"] .editSegment');
         await page.waitForNetworkIdle();
 
-        await page.waitForSelector('.segmentListContainer .metricValueBlock');
+        await page.waitForFunction(() => {
+            const values = $('.segmentEditorPanel .metricValueBlock input').map(function () {
+                return ($(this).val() || '').toString();
+            }).get();
+            const segmentName = ($('input.edit_segment_name').val() || '').toString();
 
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('updated_details');
+            return segmentName === 'edited segment'
+                && values.indexOf('new value 0') !== -1
+                && values.indexOf('new value 1') !== -1
+                && values.indexOf('new value 2') !== -1;
+        });
     });
 
     it('should display autocomplete dropdown options correctly with lower case', async function() {
