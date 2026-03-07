@@ -19,14 +19,14 @@
   .segment-input {
     float: left;
     padding: 6px 0 5px 3px;
-    border: 2px dashed #EFEFEB;
+    border: 2px dashed @theme-color-background-base;
     margin-right: 3px;
 
     label {
       display: block;
       margin: 0 0 5px 0;
       font-size: 11px;
-      color: #505050;
+      color: @theme-color-text-lighter;
     }
 
     input {
@@ -47,7 +47,7 @@
   .segment-rows {
     padding: 4px;
     margin: 0 3px 0 0;
-    border: 1px solid #a9a399;
+    border: 1px solid @theme-color-border-light;
     border-radius: 3px 3px 3px 3px;
     position: relative;
     box-shadow: 0 12px 6px -10px rgba(0, 0, 0, 0.42);
@@ -59,7 +59,7 @@
     font-size: 14px;
     font-weight: bold;
     background: @theme-color-background-contrast;
-    color: #b9b9b9;
+    color: @theme-color-text-invert;
     text-align: center;
     position: relative;
     .border-radius(5px);
@@ -68,13 +68,13 @@
   .segment-add-row > div,
   .segment-add-or > div {
     border-radius: 4px;
-    border: 2px dashed #fff;
+    border: 2px dashed @theme-color-background-contrast;
     padding: 10px 0;
   }
 
   .segment-add-row > div a,
   .segment-add-or > div a {
-    color: #b9b9b9;
+    color: @theme-color-text-invert;
     text-decoration: none;
   }
 
@@ -87,23 +87,23 @@
   .segment-add-row {
     margin: 0 3px 0 0;
     padding: 0 12px;
-    border: 1px solid #a9a399;
+    border: 1px solid @theme-color-border-light;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 0 12px 6px -10px rgba(0, 0, 0, 0.42);
   }
 
   .segment-add-or {
-    text-shadow: 0 1px 0 #fff;
+    text-shadow: 0 1px 0 @theme-color-background-contrast;
     display: inline-block;
     width: 100%;
     padding: 0 1%;
-    background: #efefeb;
+    background: @theme-color-background-base;
     border-radius: 3px 3px 3px 3px;
   }
 
   .segment-add-or > div {
-    border: 2px dashed #EFEFEB;
-    background-color: #efefeb;
+    border: 2px dashed @theme-color-background-base;
+    background-color: @theme-color-background-base;
   }
 
   .segment-row {
@@ -111,7 +111,7 @@
     display: inline-block;
     position: relative;
     width: 100%;
-    background: #efefeb;
+    background: @theme-color-background-base;
     padding: 0 5px 0 5px;
 
     @media screen and (max-width: 749px) {
@@ -140,12 +140,12 @@
     display: inline-block;
     margin: 0 0 0 6%;
     position: relative;
-    background: #efefeb;
+    background: @theme-color-background-base;
     padding: 5px 28px;
-    color: #4f4f4f;
+    color: @theme-color-text-light;
     font-weight: bold;
     font-size: 14px;
-    text-shadow: 0 1px 0 #fff;
+    text-shadow: 0 1px 0 @theme-color-background-contrast;
   }
 
   .segment-or:before,
@@ -153,7 +153,7 @@
     content: '';
     position: absolute;
     background: @theme-color-background-base;
-    border: 1px solid #efefeb;
+    border: 1px solid @theme-color-background-base;
     width: 10px;
     top: -1px;
     bottom: -1px;
@@ -178,17 +178,17 @@
     position: relative;
     background: @theme-color-background-contrast;
     padding: 5px 35px;
-    color: #4f4f4f;
+    color: @theme-color-text-light;
     font-size: 14px;
     font-weight: bold;
-    text-shadow: 0 1px 0 #fff;
+    text-shadow: 0 1px 0 @theme-color-background-contrast;
   }
 
   .segment-and::before,
   .segment-and::after {
     content: '';
     position: absolute;
-    border: 1px solid #a9a399;
+    border: 1px solid @theme-color-border-light;
     width: 10px;
     top: 0;
     bottom: 0;
