@@ -76,7 +76,16 @@ class CoreHome extends \Piwik\Plugin
 
     public function addStylesheets(&$mergedContent)
     {
-        $themeMode = (new UserPreferences())->getThemeMode();
+        $themeMode = ThemeStyles::LIGHT_MODE;
+        // During installation (no local config / no DB yet), resolving user preferences can fail.
+        // Keep stylesheet generation DB-independent in that case by falling back to light mode.
+        if (SettingsPiwik::isMatomoInstalled()) {
+            try {
+                $themeMode = (new UserPreferences())->getThemeMode();
+            } catch (\Throwable $e) {
+                $themeMode = ThemeStyles::LIGHT_MODE;
+            }
+        }
         $themeStyles = ThemeStyles::get($themeMode);
         $mergedContent = $themeStyles->toLessCode() . "\n" . $mergedContent;
     }
