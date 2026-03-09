@@ -10,8 +10,10 @@
 namespace Piwik\Plugins\Actions\tests\Unit;
 
 use Piwik\ArchiveProcessor;
+use Piwik\Config;
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Date;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Actions\RecordBuilders\ActionReports;
@@ -24,10 +26,7 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetRecordMetadataDoesNotIncludeFlatRecordsWhenFlatLimitIsZero()
     {
-        $previousFlatLimit = ArchivingHelper::$maximumRowsInDataTableFlat;
-        try {
-            ArchivingHelper::$maximumRowsInDataTableFlat = 0;
-
+        $this->withFlatLimit(0, function () {
             $recordBuilder = new ActionReports();
             $records = $recordBuilder->getRecordMetadata($this->createMock(ArchiveProcessor::class));
             $recordNames = array_map(function ($record) {
@@ -36,9 +35,133 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
 
             $this->assertNotContains(Archiver::PAGE_URLS_FLAT_RECORD_NAME, $recordNames);
             $this->assertNotContains(Archiver::PAGE_TITLES_FLAT_RECORD_NAME, $recordNames);
-        } finally {
-            ArchivingHelper::$maximumRowsInDataTableFlat = $previousFlatLimit;
-        }
+        });
+    }
+
+    public function testBuildForNonDayPeriodUsesLegacyPathWhenFlatArchivingDisabled()
+    {
+        $this->withFlatLimit(0, function () {
+            $params = $this->createParams(
+                [Archiver::PAGE_URLS_RECORD_NAME],
+                [],
+                ['2026-01-01']
+            );
+            $archiveProcessor = $this->getMockBuilder(ArchiveProcessor::class)
+                ->disableOriginalConstructor()
+                ->onlyMethods(['getParams', 'aggregateDataTableRecords', 'aggregateNumericMetrics', 'insertNumericRecords'])
+                ->getMock();
+            $archiveProcessor->method('getParams')->willReturn($params);
+            $archiveProcessor->expects($this->never())->method('aggregateNumericMetrics');
+            $archiveProcessor->expects($this->never())->method('insertNumericRecords');
+
+            $aggregatedRecordNames = [];
+            $archiveProcessor->expects($this->once())->method('aggregateDataTableRecords')
+                ->willReturnCallback(function (...$args) use (&$aggregatedRecordNames) {
+                    $aggregatedRecordNames[] = $args[0];
+                    return [];
+                });
+
+            $recordBuilder = new ActionReports();
+            $recordBuilder->buildForNonDayPeriod($archiveProcessor);
+
+            $this->assertSame([Archiver::PAGE_URLS_RECORD_NAME], $aggregatedRecordNames);
+        });
+    }
+
+    public function testBuildForNonDayPeriodFlatFirstAggregatesMixedFlatAndHierarchicalSources()
+    {
+        $this->withFlatLimit(50000, function () {
+            $flatRecordName = Archiver::PAGE_URLS_FLAT_RECORD_NAME;
+            $hierarchicalRecordName = Archiver::PAGE_URLS_RECORD_NAME;
+
+            $flatPeriodTable = $this->createFlatSerializedTable(['flat-a'], 4);
+            $hierarchicalPeriodTable = $this->createHierarchicalSerializedTable('legacy-b', 6, 2);
+
+            $rowsByRecordName = [
+                $flatRecordName => [[
+                    'date1' => '2026-01-01',
+                    'date2' => '2026-01-01',
+                    'name' => $flatRecordName,
+                    'value' => $flatPeriodTable,
+                ]],
+                $hierarchicalRecordName => [[
+                    'date1' => '2026-01-02',
+                    'date2' => '2026-01-02',
+                    'name' => $hierarchicalRecordName,
+                    'value' => $hierarchicalPeriodTable,
+                ]],
+            ];
+
+            $recordBuilder = new class ($rowsByRecordName) extends ActionReports {
+                private $rowsByRecordName;
+
+                public function __construct(array $rowsByRecordName)
+                {
+                    $this->rowsByRecordName = $rowsByRecordName;
+                    parent::__construct();
+                }
+
+                protected function querySingleBlobRows(ArchiveProcessor $archiveProcessor, string $recordName): iterable
+                {
+                    return $this->rowsByRecordName[$recordName] ?? [];
+                }
+            };
+
+            $params = $this->createParams(
+                [Archiver::PAGE_URLS_RECORD_NAME],
+                [],
+                ['2026-01-01', '2026-01-02']
+            );
+            $archiveProcessor = $this->getMockBuilder(ArchiveProcessor::class)
+                ->disableOriginalConstructor()
+                ->onlyMethods(['getParams', 'insertBlobRecord', 'aggregateDataTableRecords', 'aggregateNumericMetrics', 'insertNumericRecords'])
+                ->getMock();
+            $archiveProcessor->method('getParams')->willReturn($params);
+            $archiveProcessor->expects($this->never())->method('aggregateDataTableRecords');
+            $archiveProcessor->expects($this->never())->method('aggregateNumericMetrics');
+            $archiveProcessor->expects($this->never())->method('insertNumericRecords');
+
+            $insertedBlobs = [];
+            $archiveProcessor->method('insertBlobRecord')->willReturnCallback(function ($recordName, $blobValue) use (&$insertedBlobs) {
+                $insertedBlobs[$recordName] = $blobValue;
+            });
+
+            $recordBuilder->buildForNonDayPeriod($archiveProcessor);
+
+            $this->assertArrayHasKey($flatRecordName, $insertedBlobs);
+            $this->assertArrayHasKey($hierarchicalRecordName, $insertedBlobs);
+            $this->assertArrayNotHasKey(Archiver::PAGE_TITLES_RECORD_NAME, $insertedBlobs);
+
+            $flatResult = DataTable::fromSerializedArray(
+                $this->getRootBlobFromInsertedRecord($insertedBlobs[$flatRecordName], $flatRecordName)
+            );
+            $flatRowA = $flatResult->getRowFromLabel(json_encode(['flat-a']));
+            $this->assertNotFalse($flatRowA);
+            $this->assertSame(4, $flatRowA->getColumn('nb_hits'));
+
+            $flatRowB = $flatResult->getRowFromLabel(json_encode(['legacy-b']));
+            $this->assertNotFalse($flatRowB);
+            $this->assertSame(6, $flatRowB->getColumn('nb_hits'));
+
+            $flatSummary = $flatResult->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            $this->assertNotFalse($flatSummary);
+            $this->assertSame(2, $flatSummary->getColumn('nb_hits'));
+
+            $hierarchicalResult = DataTable::fromSerializedArray(
+                $this->getRootBlobFromInsertedRecord($insertedBlobs[$hierarchicalRecordName], $hierarchicalRecordName)
+            );
+            $hierarchicalRowA = $hierarchicalResult->getRowFromLabel('flat-a');
+            $this->assertNotFalse($hierarchicalRowA);
+            $this->assertSame(4, $hierarchicalRowA->getColumn('nb_hits'));
+
+            $hierarchicalRowB = $hierarchicalResult->getRowFromLabel('legacy-b');
+            $this->assertNotFalse($hierarchicalRowB);
+            $this->assertSame(6, $hierarchicalRowB->getColumn('nb_hits'));
+
+            $hierarchicalSummary = $hierarchicalResult->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            $this->assertNotFalse($hierarchicalSummary);
+            $this->assertSame(2, $hierarchicalSummary->getColumn('nb_hits'));
+        });
     }
 
     public function testMergeHierarchicalActionsTableIntoFlatTableMovesNestedOthersToGlobalOthers()
@@ -72,5 +195,158 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
         $rebuiltSummary = $rebuilt->getRowFromId(DataTable::ID_SUMMARY_ROW);
         $this->assertNotFalse($rebuiltSummary);
         $this->assertSame(12, $rebuiltSummary->getColumn('nb_hits'));
+    }
+
+    private function withFlatLimit(int $flatLimit, callable $callback): void
+    {
+        $config = Config::getInstance();
+        $hadPreviousFlatLimit = array_key_exists('datatable_archiving_maximum_rows_actions_flat', $config->General);
+        $previousFlatLimit = $hadPreviousFlatLimit ? $config->General['datatable_archiving_maximum_rows_actions_flat'] : null;
+
+        $config->General['datatable_archiving_maximum_rows_actions_flat'] = $flatLimit;
+        ArchivingHelper::reloadConfig();
+
+        try {
+            $callback();
+        } finally {
+            if ($hadPreviousFlatLimit) {
+                $config->General['datatable_archiving_maximum_rows_actions_flat'] = $previousFlatLimit;
+            } else {
+                unset($config->General['datatable_archiving_maximum_rows_actions_flat']);
+            }
+            ArchivingHelper::reloadConfig();
+        }
+    }
+
+    private function createParams(array $requestedReports, array $foundRequestedReports, array $dates): object
+    {
+        $subperiods = array_map(function ($date) {
+            return new class ($date) {
+                private $date;
+
+                public function __construct(string $date)
+                {
+                    $this->date = $date;
+                }
+
+                public function getDateStart(): Date
+                {
+                    return Date::factory($this->date);
+                }
+
+                public function getDateEnd(): Date
+                {
+                    return Date::factory($this->date);
+                }
+            };
+        }, $dates);
+
+        $period = new class ($subperiods) {
+            private $subperiods;
+
+            public function __construct(array $subperiods)
+            {
+                $this->subperiods = $subperiods;
+            }
+
+            public function getSubperiods(): array
+            {
+                return $this->subperiods;
+            }
+        };
+
+        $site = new class {
+            public function getId(): int
+            {
+                return 1;
+            }
+
+            public function getMainUrl(): string
+            {
+                return 'https://example.test/';
+            }
+        };
+
+        return new class ($requestedReports, $foundRequestedReports, $period, $site) {
+            private $requestedReports;
+            private $foundRequestedReports;
+            private $period;
+            private $site;
+
+            public function __construct(array $requestedReports, array $foundRequestedReports, object $period, object $site)
+            {
+                $this->requestedReports = $requestedReports;
+                $this->foundRequestedReports = $foundRequestedReports;
+                $this->period = $period;
+                $this->site = $site;
+            }
+
+            public function getArchiveOnlyReportAsArray(): array
+            {
+                return $this->requestedReports;
+            }
+
+            public function getFoundRequestedReports(): array
+            {
+                return $this->foundRequestedReports;
+            }
+
+            public function getPeriod(): object
+            {
+                return $this->period;
+            }
+
+            public function getSite(): object
+            {
+                return $this->site;
+            }
+
+            public function getSegment()
+            {
+                return null;
+            }
+        };
+    }
+
+    private function createFlatSerializedTable(array $actionPath, int $nbHits): string
+    {
+        $flat = new DataTable();
+        $flatRow = new Row([Row::COLUMNS => ['label' => json_encode($actionPath), 'nb_hits' => $nbHits]]);
+        $flatRow->setMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME, $actionPath);
+        $flat->addRow($flatRow);
+
+        return $this->getRootSerializedBlob($flat);
+    }
+
+    private function createHierarchicalSerializedTable(string $label, int $nbHits, int $summaryHits): string
+    {
+        $table = new DataTable();
+        $table->addRow(new Row([Row::COLUMNS => ['label' => $label, 'nb_hits' => $nbHits]]));
+        $table->addSummaryRow(new Row([Row::COLUMNS => ['label' => DataTable::LABEL_SUMMARY_ROW, 'nb_hits' => $summaryHits]]));
+
+        return $this->getRootSerializedBlob($table);
+    }
+
+    private function getRootSerializedBlob(DataTable $table): string
+    {
+        $serialized = $table->getSerialized(null, null, null);
+        if (!is_array($serialized)) {
+            return $serialized;
+        }
+
+        return (string) reset($serialized);
+    }
+
+    private function getRootBlobFromInsertedRecord($blobValue, string $recordName): string
+    {
+        if (!is_array($blobValue)) {
+            return $blobValue;
+        }
+
+        if (!empty($blobValue[$recordName])) {
+            return $blobValue[$recordName];
+        }
+
+        return (string) reset($blobValue);
     }
 }
