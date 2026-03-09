@@ -683,7 +683,7 @@ Segmentation = (function($) {
           if (self.segmentAccess !== 'write') {
             return false;
           }
-          if (piwik.hasSuperUserAccess || piwik.userCurrentRole === 'admin' || piwik.userCurrentRole === 'write') {
+          if (piwik.hasSuperUserAccess) {
             return true;
           }
 
