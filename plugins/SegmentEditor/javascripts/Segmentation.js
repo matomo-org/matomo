@@ -369,16 +369,23 @@ Segmentation = (function($) {
 
         var filterSegmentList = function (keyword) {
             var curTitle;
+            var normalizedKeyword = piwikHelper.normalize(keyword);
+            var lowerKeyword = keyword.toLowerCase();
+
+            var isSearchMatch = function(title) {
+                var normalizedTitle = piwikHelper.normalize(title);
+                var lowerTitle = title.toLowerCase();
+                return normalizedTitle.indexOf(normalizedKeyword) !== -1
+                    || lowerTitle.indexOf(lowerKeyword) !== -1;
+            };
+
             clearFilterSegmentList();
             $(self.target).find(".filterNoResults").remove();
 
             $(self.target).find(".segmentList li").each(function () {
-                curTitle = $(this).find('.segname').prop('title');
+                curTitle = $(this).find('.segname').prop('title') || '';
                 $(this).hide();
-                if (
-                  piwikHelper.normalize(curTitle).indexOf(keyword) !== -1 ||
-                  curTitle.indexOf(keyword) !== -1
-                ) {
+                if (isSearchMatch(curTitle)) {
                     $(this).show();
                 }
             });

@@ -53,6 +53,48 @@ describe("SegmentSelectorEditorTest", function () {
         await page.waitForTimeout(100);
     }
 
+    async function searchForSegment(searchTerm)
+    {
+        await page.evaluate((searchTermValue) => {
+            $('.segmentationContainer .segmentFilter').val(searchTermValue).trigger('keyup');
+        }, searchTerm);
+
+        // debounce in segment filter is 500ms
+        await page.waitForTimeout(600);
+    }
+
+    async function getVisibleSegmentTitles()
+    {
+        return await page.evaluate(() => {
+            return $('.segmentList li:visible .segname').toArray()
+                .map((element) => $(element).prop('title') || $(element).text());
+        });
+    }
+
+    async function expectSearchToFind(searchTerm, expectedTitlePart)
+    {
+        await searchForSegment(searchTerm);
+        const visibleSegmentTitles = await getVisibleSegmentTitles();
+        const expectedTitlePartLower = expectedTitlePart.toLowerCase();
+        const hasExpectedTitle = visibleSegmentTitles.some((title) => {
+            return (title || '').toLowerCase().indexOf(expectedTitlePartLower) !== -1;
+        });
+        expect(hasExpectedTitle).to.equal(true);
+        await searchForSegment('');
+    }
+
+    async function expectSearchToHaveNoResults(searchTerm)
+    {
+        await searchForSegment(searchTerm);
+        const visibleSegmentTitles = await getVisibleSegmentTitles();
+        expect(visibleSegmentTitles.length).to.equal(0);
+        const hasNoResultsMessage = await page.evaluate(() => {
+            return !!$('.segmentList .filterNoResults:visible').length;
+        });
+        expect(hasNoResultsMessage).to.equal(true);
+        await searchForSegment('');
+    }
+
     async function switchToAnonymousUser() {
         await testEnvironment.callApi('UsersManager.setUserAccess', {
             userLogin: 'anonymous',
@@ -225,10 +267,12 @@ describe("SegmentSelectorEditorTest", function () {
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('saved');
     });
 
-    it("should find the segment also when searching with diacritics", async function() {
-        await page.evaluate(() => $('.segmentationContainer .segmentFilter').val('segment').trigger('keyup'));
-        await page.waitForTimeout(500); // wait for search to be applied
-        expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('searched');
+    it("should find diacritic segment names with ASCII query", async function() {
+        await expectSearchToFind('segment', 'șégmênt');
+    });
+
+    it("should match ASCII segment names case-insensitively", async function() {
+        await expectSearchToFind('SEGMENT', 'șégmênt');
     });
 
     it("should correctly load the new segment's details when the new segment is edited", async function() {
@@ -465,5 +509,22 @@ describe("SegmentSelectorEditorTest", function () {
 
         await page.click('.segmentationContainer .title');
         expect(await page.screenshotSelector(selectorsToCapture)).to.matchImage('enabled_create_realtime_segments_saved');
+    });
+
+    it("should match Cyrillic and Chinese segment names without transliteration", async function() {
+        await testEnvironment.callApi('SegmentEditor.add', {
+            name: 'unicode журнал 中文',
+            definition: 'browserCode==ff',
+            idSite: 1,
+            autoArchive: 1,
+            enableAllUsers: 1,
+        });
+
+        await page.goto(url);
+        await page.click('.segmentationContainer .title');
+
+        await expectSearchToFind('ЖУРНАЛ', 'журнал');
+        await expectSearchToFind('中文', '中文');
+        await expectSearchToHaveNoResults('zhongwen');
     });
 });
