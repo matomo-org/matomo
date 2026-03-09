@@ -525,16 +525,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         }
 
         $hasRows = false;
-        $archive = Archive::factory(
-            $archiveProcessor->getParams()->getSegment(),
-            $archiveProcessor->getParams()->getPeriod()->getSubperiods(),
-            [$archiveProcessor->getParams()->getSite()->getId()]
-        );
-        if (!method_exists($archive, 'querySingleBlob')) {
-            return [$result, false];
-        }
-
-        foreach ($archive->querySingleBlob($recordName) as $archiveDataRow) {
+        foreach ($this->querySingleBlobRows($archiveProcessor, $recordName) as $archiveDataRow) {
             $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
             if ($periodsToInclude !== null && !isset($periodsToInclude[$period])) {
                 continue;
@@ -588,16 +579,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     private function getPeriodsWithRootBlob(ArchiveProcessor $archiveProcessor, string $recordName): array
     {
         $result = [];
-        $archive = Archive::factory(
-            $archiveProcessor->getParams()->getSegment(),
-            $archiveProcessor->getParams()->getPeriod()->getSubperiods(),
-            [$archiveProcessor->getParams()->getSite()->getId()]
-        );
-        if (!method_exists($archive, 'querySingleBlob')) {
-            return $result;
-        }
-
-        foreach ($archive->querySingleBlob($recordName) as $archiveDataRow) {
+        foreach ($this->querySingleBlobRows($archiveProcessor, $recordName) as $archiveDataRow) {
             if ($archiveDataRow['name'] !== $recordName) {
                 continue;
             }
@@ -607,6 +589,20 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         }
 
         return $result;
+    }
+
+    protected function querySingleBlobRows(ArchiveProcessor $archiveProcessor, string $recordName): iterable
+    {
+        $archive = Archive::factory(
+            $archiveProcessor->getParams()->getSegment(),
+            $archiveProcessor->getParams()->getPeriod()->getSubperiods(),
+            [$archiveProcessor->getParams()->getSite()->getId()]
+        );
+        if (!method_exists($archive, 'querySingleBlob')) {
+            return [];
+        }
+
+        return $archive->querySingleBlob($recordName);
     }
 
     private function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
