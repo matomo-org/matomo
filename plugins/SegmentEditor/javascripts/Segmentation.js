@@ -509,7 +509,12 @@ Segmentation = (function($) {
         });
 
         var bindEvents = function () {
-            self.target.on('click', '.segmentationContainer', togglePanel);
+            self.target.on('click', '.segmentationContainer', function (e) {
+                if ($(e.target).closest('.segmentFilterContainer').length > 0) {
+                    return;
+                }
+                togglePanel(e);
+            });
 
             self.target.on('click', '.editSegment', function(e) {
                 const $button = $(this);
