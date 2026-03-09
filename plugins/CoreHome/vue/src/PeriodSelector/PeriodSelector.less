@@ -176,17 +176,10 @@
       }
 
       label {
-        background: transparent;
-        border: 0;
         border-radius: 5px;
         color: @color-period-selector;
-        cursor: pointer;
         display: block;
-        font: inherit;
-        margin: 0;
-        outline: none;
         padding-left: 8px;
-        position: relative;
         text-align: left;
         width: 100%;
         font-size: 13px;
@@ -338,8 +331,6 @@
       background-image: none !important;
       text-indent: 0 !important;
       overflow: visible !important;
-      width: auto !important;
-      height: auto !important;
       margin: 0 !important;
       font-size: 12px;
       line-height: 1;
@@ -385,8 +376,6 @@
 
       // Ensure the inner content (a/span) matches td hover fill, including disabled cells.
       // Without this, hovering padded area can leave the center looking unhighlighted.
-      tbody td:not(.ui-datepicker-current-period).ui-state-hover > a,
-      tbody td:not(.ui-datepicker-current-period).ui-state-hover > span,
       tbody td:not(.ui-datepicker-current-period):hover > a,
       tbody td:not(.ui-datepicker-current-period):hover > span {
         background: @period-selector-calendar-hover-bg !important;
@@ -395,15 +384,6 @@
       tbody td.ui-datepicker-current-period {
         background: @theme-color-text !important;
       }
-
-      // Keep state color on the td (full cell + padding), not just the inner anchor.
-      tbody td.ui-state-hover > a.ui-state-hover,
-      tbody td:hover > a.ui-state-hover,
-      tbody td.ui-datepicker-current-period > a.ui-state-default,
-      tbody td.ui-datepicker-current-period > a.ui-state-active {
-        background: transparent !important;
-      }
-
     }
   }
 }

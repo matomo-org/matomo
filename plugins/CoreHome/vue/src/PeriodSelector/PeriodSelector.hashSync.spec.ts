@@ -261,7 +261,7 @@ describe('PeriodSelector hash sync', () => {
     expect(result.lastKnownHashContextKey).toBe(baseContextKey);
   });
 
-  it('sets range validity true when hash sync hydrates a valid range', () => {
+  it('sets range validity true and clamps resolved range when hash sync hydrates a tokenized range', () => {
     const originalUrl = (MatomoUrl as any).url.value;
     const vm: any = {
       nextHashUiSelection: null,
@@ -297,8 +297,16 @@ describe('PeriodSelector hash sync', () => {
     const [expectedStartDate, expectedEndDate] = Periods.parse('range', 'last7').getDateRange();
 
     expect(vm.isRangeValid).toBe(true);
-    expect(vm.appliedRangeStartDate).toBe(format(expectedStartDate));
-    expect(vm.appliedRangeEndDate).toBe(format(expectedEndDate));
+    expect(vm.appliedRangeStartDate).toBe(
+      format(expectedStartDate < new Date(2011, 10, 15) ? new Date(2011, 10, 15) : expectedStartDate),
+    );
+    expect(vm.appliedRangeEndDate).toBe(
+      format(expectedEndDate > new Date(2014, 2, 29) ? new Date(2014, 2, 29) : expectedEndDate),
+    );
+    expect(vm.uiSelection).toEqual({ type: 'preset', id: 'last7days' });
+    expect(vm.activePresetId).toBe('last7days');
+    expect(vm.committedPeriod).toBe('range');
+    expect(vm.calendarViewport).toBe('range');
 
     (MatomoUrl as any).url.value = originalUrl;
   });

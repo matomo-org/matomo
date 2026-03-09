@@ -122,11 +122,11 @@ export default defineComponent({
   emits: ['rangeChange', 'submit'],
   computed: {
     effectiveHighlightedDates(): (Date|null)[] {
-      if (this.committedBetweenHighlightDates[0] && this.committedBetweenHighlightDates[1]) {
-        return this.committedBetweenHighlightDates;
+      if (this.transientHoverDates[0] && this.transientHoverDates[1]) {
+        return this.transientHoverDates;
       }
 
-      return this.transientHoverDates;
+      return this.committedBetweenHighlightDates;
     },
   },
   watch: {

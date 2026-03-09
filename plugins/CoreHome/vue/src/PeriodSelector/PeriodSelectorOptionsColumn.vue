@@ -10,11 +10,11 @@
     <h6><b>{{ translate('General_ChoosePeriod') }}</b></h6>
     <div id="otherPeriods">
       <PeriodOptions
-        :model-value="uiSelectedPeriod"
+        :model-value="selectedPeriod"
         :periods="periodsFiltered"
         :checked-period-id="uiSelection.type === 'period' ? uiSelection.id : null"
-        :active-date-period="appliedPeriod"
-        @update:model-value="$emit('update:uiSelectedPeriod', $event)"
+        :active-date-period="committedPeriod"
+        @update:model-value="$emit('update:selectedPeriod', $event)"
         @select="$emit('period-select', $event)"
         @dblclick="$emit('period-dblclick', $event)"
       />
@@ -44,7 +44,7 @@ export default defineComponent({
     PeriodOptions,
   },
   props: {
-    uiSelectedPeriod: {
+    selectedPeriod: {
       type: String,
       required: true,
     },
@@ -56,7 +56,7 @@ export default defineComponent({
       type: Object as PropType<{ type: string; id: string }>,
       required: true,
     },
-    appliedPeriod: {
+    committedPeriod: {
       type: String,
       required: true,
     },
@@ -74,7 +74,7 @@ export default defineComponent({
     },
   },
   emits: [
-    'update:uiSelectedPeriod',
+    'update:selectedPeriod',
     'update:activePresetId',
     'period-select',
     'period-dblclick',

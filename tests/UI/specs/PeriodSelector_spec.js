@@ -76,22 +76,6 @@ describe("PeriodSelector", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage('week_selected');
     });
 
-    it('should activate a period option via Enter key', async function () {
-        await page.focus('#period_id_week');
-        await page.keyboard.press('Enter');
-        await waitForPeriodChecked('#period_id_week');
-
-        const selectedState = await page.evaluate(function () {
-            return {
-                weekChecked: $('#period_id_week').is(':checked'),
-                dayChecked: $('#period_id_day').is(':checked'),
-            };
-        });
-
-        expect(selectedState.weekChecked).to.equal(true);
-        expect(selectedState.dayChecked).to.equal(false);
-    });
-
     it('should activate a period option via Space key', async function () {
         await page.focus('#period_id_month');
         await page.keyboard.press('Space');

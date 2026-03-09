@@ -44,14 +44,14 @@
     >
       <div class="flex">
         <PeriodSelectorOptionsColumn
-          :ui-selected-period="uiSelectedPeriod"
+          :selected-period="selectedPeriod"
           :periods-filtered="periodsFiltered"
           :ui-selection="uiSelection"
-          :applied-period="appliedPeriod"
+          :committed-period="committedPeriod"
           :active-preset-id="activePresetId"
           :min-allowed-date="minAllowedDate"
           :max-allowed-date="maxAllowedDate"
-          @update:ui-selected-period="uiSelectedPeriod = $event"
+          @update:selected-period="selectedPeriod = $event"
           @update:active-preset-id="activePresetId = $event"
           @period-select="onPeriodOptionSelected($event)"
           @period-dblclick="onPeriodOptionDblClick($event)"
@@ -347,7 +347,7 @@ export default defineComponent({
       return format(previousPeriodStartDate);
     },
     selectedDateString() {
-      if (this.uiSelectedPeriod === 'range') {
+      if (this.selectedPeriod === 'range') {
         const selectedStartDate = this.appliedRangeStartDate!;
         const selectedEndDate = this.appliedRangeEndDate!;
         const parsedStartDate = parseDate(selectedStartDate);
@@ -630,13 +630,13 @@ export default defineComponent({
         hasPendingNonRangePeriodChange: this.hasPendingNonRangePeriodChange,
         isCompareDirty: this.isCompareDirty,
         shouldCloseSelectorWithoutApplying: this.shouldCloseSelectorWithoutApplying(),
-        appliedPeriod: this.appliedPeriod,
+        committedPeriod: this.committedPeriod,
         hasCommittedRangeBounds: this.hasCommittedRangeBounds(),
         rollingDateParam: this.getCurrentRollingDateParamIfOwnedByPreset(),
         appliedRangeStartDate: this.appliedRangeStartDate,
         appliedRangeEndDate: this.appliedRangeEndDate,
-        formattedAppliedAnchorDate: this.appliedAnchorDate
-          ? format(this.appliedAnchorDate)
+        formattedCommittedAnchorDate: this.committedAnchorDate
+          ? format(this.committedAnchorDate)
           : null,
       });
 
@@ -652,7 +652,7 @@ export default defineComponent({
       this.commitSelectionToUrl(action.date, action.period);
     },
 
-    // Invariant: non-range period mode intentionally cannot commit compare-only via Apply.
+    // Non-range period mode intentionally cannot commit compare-only via Apply.
     // When a non-range period option owns the selection, 'Apply' button stays disabled.
     // Compare controls can still be edited in this state, but users must click the calendar
     // to commit date/compare changes.
@@ -726,6 +726,9 @@ export default defineComponent({
       if (presetId
         && this.periodsFiltered.includes(selectedPeriod)
       ) {
+        // Tokenized URLs such as week|today/month|today/year|today
+        // reopen with preset ownership so bookmarked rolling periods map back to
+        // the corresponding preset option instead of a plain period selection.
         this.uiSelection = { type: 'preset', id: presetId };
         this.activePresetId = presetId;
         this.pendingPresetSelection = null;
@@ -763,8 +766,12 @@ export default defineComponent({
         const parsedRangePeriod = Periods.get(period).parse(date) as Range;
         const [startDate, endDate] = parsedRangePeriod.getDateRange();
         this.committedAnchorDate = startDate;
-        this.appliedRangeStartDate = format(startDate);
-        this.appliedRangeEndDate = format(endDate);
+        this.appliedRangeStartDate = format(
+          startDate < siteMinAllowedDate ? siteMinAllowedDate : startDate,
+        );
+        this.appliedRangeEndDate = format(
+          endDate > siteMaxAllowedDate ? siteMaxAllowedDate : endDate,
+        );
         return;
       }
 
@@ -825,7 +832,7 @@ export default defineComponent({
       this.applyDateValuesFromHash(currentPeriod, currentDate);
       this.isRangeValid = currentPeriod === RANGE_PERIOD ? true : null;
       this.pendingPresetSelection = null;
-      this.calendarViewport = period === RANGE_PERIOD ? 'range' : 'single';
+      this.calendarViewport = currentPeriod === RANGE_PERIOD ? 'range' : 'single';
       this.compareAppliedSignature = this.compareCurrentSignature;
     },
     setRangeStartEndFromPeriod(period: string, dateStr: string) {
@@ -875,7 +882,7 @@ export default defineComponent({
     isApplyEnabled() {
       return isApplyEnabledFromState({
         uiSelectionType: this.uiSelection.type,
-        uiSelectedPeriod: this.uiSelectedPeriod,
+        selectedPeriod: this.selectedPeriod,
         hasPendingNonRangePeriodChange: this.hasPendingNonRangePeriodChange,
         hasPendingPresetSelection: !!this.pendingPresetSelection,
         isRangeValid: this.isRangeValid,

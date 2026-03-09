@@ -9,7 +9,7 @@ import { RANGE_PERIOD } from './PeriodSelector.types';
 
 export interface ApplyEnabledState {
   uiSelectionType: 'period' | 'preset';
-  uiSelectedPeriod: string;
+  selectedPeriod: string;
   hasPendingNonRangePeriodChange: boolean;
   hasPendingPresetSelection: boolean;
   isRangeValid: boolean | null;
@@ -20,7 +20,7 @@ export interface ApplyEnabledState {
 
 export function isApplyEnabledFromState(state: ApplyEnabledState): boolean {
   // Invariant: non-range period mode intentionally cannot commit compare-only via Apply.
-  if (state.uiSelectionType === 'period' && state.uiSelectedPeriod !== RANGE_PERIOD) {
+  if (state.uiSelectionType === 'period' && state.selectedPeriod !== RANGE_PERIOD) {
     return false;
   }
 
@@ -28,7 +28,7 @@ export function isApplyEnabledFromState(state: ApplyEnabledState): boolean {
     return false;
   }
 
-  if (state.uiSelectedPeriod === RANGE_PERIOD
+  if (state.selectedPeriod === RANGE_PERIOD
       && !state.hasPendingPresetSelection
       && !state.isRangeValid
   ) {
@@ -54,12 +54,12 @@ export interface NonRangeApplyState {
   hasPendingNonRangePeriodChange: boolean;
   isCompareDirty: boolean;
   shouldCloseSelectorWithoutApplying: boolean;
-  appliedPeriod: string;
+  committedPeriod: string;
   hasCommittedRangeBounds: boolean;
   rollingDateParam: string | null;
   appliedRangeStartDate: string | null;
   appliedRangeEndDate: string | null;
-  formattedAppliedAnchorDate: string | null;
+  formattedCommittedAnchorDate: string | null;
 }
 
 export function resolveNonRangeApplyAction(state: NonRangeApplyState): NonRangeApplyAction {
@@ -73,7 +73,7 @@ export function resolveNonRangeApplyAction(state: NonRangeApplyState): NonRangeA
       : { type: 'stop' };
   }
 
-  if (state.appliedPeriod === RANGE_PERIOD) {
+  if (state.committedPeriod === RANGE_PERIOD) {
     if (!state.hasCommittedRangeBounds) {
       return { type: 'stop' };
     }
@@ -87,13 +87,13 @@ export function resolveNonRangeApplyAction(state: NonRangeApplyState): NonRangeA
     };
   }
 
-  if (!state.formattedAppliedAnchorDate) {
+  if (!state.formattedCommittedAnchorDate) {
     return { type: 'stop' };
   }
 
   return {
     type: 'commit',
-    date: state.rollingDateParam || state.formattedAppliedAnchorDate,
-    period: state.appliedPeriod,
+    date: state.rollingDateParam || state.formattedCommittedAnchorDate,
+    period: state.committedPeriod,
   };
 }

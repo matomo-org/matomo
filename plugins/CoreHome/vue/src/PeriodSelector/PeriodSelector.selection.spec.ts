@@ -377,7 +377,7 @@ describe('PeriodSelector', () => {
     expectCommitSelection(vm, '2026-02-18', 'day');
   });
 
-  it('rehydrates preset ownership from tokenized hash values', () => {
+  it('intentional: rehydrates preset ownership from tokenized hash values', () => {
     const vm: any = {
       periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
       uiSelection: { type: 'period', id: 'day' },
@@ -624,7 +624,7 @@ describe('PeriodSelector', () => {
       selectedPeriod: 'day',
       calendarViewport: 'single',
       commitSelectionToUrl: jest.fn(),
-      selectedDateParam: '2026-02-01,2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;

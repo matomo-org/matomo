@@ -72,7 +72,7 @@ describe('PeriodSelector template contract', () => {
 
     await wrapper.setData({
       isLoadingNewPage: true,
-      uiSelectedPeriod: 'range',
+      selectedPeriod: 'range',
     });
 
     expect(wrapper.find('#periodMore').classes()).toContain('dual-calendar');
@@ -87,12 +87,12 @@ describe('PeriodSelector template contract', () => {
       period: 'range',
     });
 
-    expect((wrapper.vm as any).uiSelectedPeriod).toBe('range');
+    expect((wrapper.vm as any).selectedPeriod).toBe('range');
     expect((wrapper.vm as any).calendarViewport).toBe('range');
 
     await wrapper.setData({
       uiSelection: { type: 'period', id: 'range' },
-      uiSelectedPeriod: 'range',
+      selectedPeriod: 'range',
       calendarViewport: 'range',
       isRangeValid: null,
       appliedRangeStartDate: null,
