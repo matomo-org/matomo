@@ -71,15 +71,14 @@ describe("SegmentSelectorEditorTest", function () {
         });
     }
 
-    async function expectSearchToFind(searchTerm, expectedTitlePart)
+    async function expectSearchToShowOnly(searchTerm, expectedTitlePart)
     {
         await searchForSegment(searchTerm);
         const visibleSegmentTitles = await getVisibleSegmentTitles();
+        expect(visibleSegmentTitles.length).to.equal(1);
         const expectedTitlePartLower = expectedTitlePart.toLowerCase();
-        const hasExpectedTitle = visibleSegmentTitles.some((title) => {
-            return (title || '').toLowerCase().indexOf(expectedTitlePartLower) !== -1;
-        });
-        expect(hasExpectedTitle).to.equal(true);
+        const visibleTitle = (visibleSegmentTitles[0] || '').toLowerCase();
+        expect(visibleTitle.indexOf(expectedTitlePartLower) !== -1).to.equal(true);
         await searchForSegment('');
     }
 
@@ -268,11 +267,11 @@ describe("SegmentSelectorEditorTest", function () {
     });
 
     it("should find diacritic segment names with ASCII query", async function() {
-        await expectSearchToFind('segment', 'șégmênt');
+        await expectSearchToShowOnly('segment', 'șégmênt');
     });
 
     it("should match ASCII segment names case-insensitively", async function() {
-        await expectSearchToFind('SEGMENT', 'șégmênt');
+        await expectSearchToShowOnly('SEGMENT', 'șégmênt');
     });
 
     it("should correctly load the new segment's details when the new segment is edited", async function() {
@@ -523,8 +522,8 @@ describe("SegmentSelectorEditorTest", function () {
         await page.goto(url);
         await page.click('.segmentationContainer .title');
 
-        await expectSearchToFind('ЖУРНАЛ', 'журнал');
-        await expectSearchToFind('中文', '中文');
+        await expectSearchToShowOnly('ЖУРНАЛ', 'журнал');
+        await expectSearchToShowOnly('中文', '中文');
         await expectSearchToHaveNoResults('zhongwen');
     });
 });
