@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\VisitsSummary;
 
 use Piwik\Archive;
+use Piwik\Attributes\Permission;
 use Piwik\DataTable;
 use Piwik\Metrics\Formatter;
 use Piwik\Piwik;
@@ -44,6 +45,7 @@ class API extends \Piwik\Plugin\API
      * @param string|string[]|false $columns Specific metrics to include, or `false` to return the default set.
      * @return DataTable|DataTable\Map VisitsSummary metrics for the requested period.
      */
+    #[Permission('view', 'idSite')]
     public function get($idSite, string $period, string $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
@@ -114,6 +116,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the number of visits.
      */
+    #[Permission('view', 'idSite')]
     public function getVisits($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_visits');
@@ -136,6 +139,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the number of unique visitors.
      */
+    #[Permission('view', 'idSite')]
     public function getUniqueVisitors($idSite, string $period, string $date, $segment = false)
     {
         $metric = 'nb_uniq_visitors';
@@ -160,6 +164,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the number of users.
      */
+    #[Permission('view', 'idSite')]
     public function getUsers($idSite, string $period, string $date, $segment = false)
     {
         $metric = 'nb_users';
@@ -184,6 +189,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the number of actions.
      */
+    #[Permission('view', 'idSite')]
     public function getActions($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_actions');
@@ -206,6 +212,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the maximum actions value.
      */
+    #[Permission('view', 'idSite')]
     public function getMaxActions($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'max_actions');
@@ -228,6 +235,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing the bounce count.
      */
+    #[Permission('view', 'idSite')]
     public function getBounceCount($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'bounce_count');
@@ -250,6 +258,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing converted visits.
      */
+    #[Permission('view', 'idSite')]
     public function getVisitsConverted($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'nb_visits_converted');
@@ -272,6 +281,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing total visit duration.
      */
+    #[Permission('view', 'idSite')]
     public function getSumVisitsLength($idSite, string $period, string $date, $segment = false)
     {
         return $this->getNumeric($idSite, $period, $date, $segment, 'sum_visit_length');
@@ -294,6 +304,7 @@ class API extends \Piwik\Plugin\API
      *                                   Supports AND (;) and OR (,) operators.
      * @return DataTable|DataTable\Map Numeric archive result containing Human-readable visit duration values.
      */
+    #[Permission('view', 'idSite')]
     public function getSumVisitsLengthPretty($idSite, string $period, string $date, $segment = false)
     {
         $formatter = new Formatter();

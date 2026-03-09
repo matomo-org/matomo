@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Feedback;
 
+use Piwik\Attributes\Permission;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Config\GeneralConfig;
@@ -123,6 +124,7 @@ class API extends \Piwik\Plugin\API
      *
      * @return string JSON-encoded array containing the next reminder date.
      */
+    #[Permission('notAnonymous')]
     public function updateFeedbackReminderDate(): string
     {
         Piwik::checkUserIsNotAnonymous();
