@@ -6,8 +6,7 @@
  */
 
 import { mount } from '@vue/test-utils';
-
-const PeriodSelectorCompareControls = require('./PeriodSelectorCompareControls.vue').default;
+import PeriodSelectorCompareControls from './PeriodSelectorCompareControls.vue';
 
 describe('PeriodSelectorCompareControls', () => {
   function mountComponent(customProps = {}) {
