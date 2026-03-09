@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\Feedback;
 
+use Piwik\Attributes\Permission;
 use Piwik\Common;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -126,6 +127,10 @@ class API extends \Piwik\Plugin\API
         return 'success';
     }
 
+    /**
+     * @matomo-permission notAnonymous
+     */
+    #[Permission('notAnonymous')]
     public function updateFeedbackReminderDate()
     {
         Piwik::checkUserIsNotAnonymous();

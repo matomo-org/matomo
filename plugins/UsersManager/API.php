@@ -14,6 +14,7 @@ use Exception;
 use Piwik\Access;
 use Piwik\Access\CapabilitiesProvider;
 use Piwik\Access\RolesProvider;
+use Piwik\Attributes\Permission;
 use Piwik\Auth\Password;
 use Piwik\Common;
 use Piwik\Concurrency\Lock;
@@ -156,8 +157,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Get the list of all available roles.
      * It does not return the super user role, and neither the "noaccess" role.
+     * @matomo-permission someAdmin
      * @return array[]  Returns an array containing information about each role
      */
+    #[Permission('someAdmin')]
     public function getAvailableRoles()
     {
         Piwik::checkUserHasSomeAdminAccess();
@@ -211,8 +214,10 @@ class API extends \Piwik\Plugin\API
      * @param string $userLogin
      * @param string $preferenceName
      * @param string $preferenceValue
+     * @matomo-permission superUserOrUser(userLogin)
      * @return void
      */
+    #[Permission('superUserOrUser', 'userLogin')]
     public function setUserPreference($userLogin, $preferenceName, $preferenceValue)
     {
         Piwik::checkUserHasSuperUserAccessOrIsTheUser($userLogin);
@@ -553,6 +558,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite website ID
      *
+     * @matomo-permission admin(idSite)
      * @return array    The returned array has the format
      *                    array(
      *                        login1 => 'view',
@@ -561,6 +567,7 @@ class API extends \Piwik\Plugin\API
      *                        ...
      *                    )
      */
+    #[Permission('admin', 'idSite')]
     public function getUsersAccessFromSite(int $idSite)
     {
         Piwik::checkUserHasAdminAccess($idSite);

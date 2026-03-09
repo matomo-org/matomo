@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CustomDimensions;
 
 use Piwik\Common;
 use Piwik\Archive;
+use Piwik\Attributes\Permission;
 use Piwik\DataTable;
 use Piwik\Filesystem;
 use Piwik\Piwik;
@@ -92,9 +93,11 @@ class API extends \Piwik\Plugin\API
      *                              supported dimensions request the API method `CustomDimensions.getAvailableExtractionDimensions`.
      *                              Note: Extractions can be only set for dimensions in scope 'action'.
      * @param int|bool $caseSensitive  '0' if extractions should be applied case insensitive, '1' if extractions should be applied case sensitive
+     * @matomo-permission write(idSite)
      * @return int Returns the ID of the configured dimension. Note that the same idDimension will be used for different websites.
      * @throws \Exception
      */
+    #[Permission('write', 'idSite')]
     public function configureNewCustomDimension(int $idSite, $name, $scope, $active, $extractions = array(), $caseSensitive = true)
     {
         Piwik::checkUserHasWriteAccess($idSite);
@@ -259,8 +262,10 @@ class API extends \Piwik\Plugin\API
      * Get a list of all available dimensions that can be used in an extraction. Requires at least Admin access
      * to one website.
      *
+     * @matomo-permission someWrite
      * @return array
      */
+    #[Permission('someWrite')]
     public function getAvailableExtractionDimensions()
     {
         Piwik::checkUserHasSomeWriteAccess();
