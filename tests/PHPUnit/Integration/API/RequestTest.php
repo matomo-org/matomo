@@ -9,7 +9,10 @@
 
 namespace Piwik\Tests\Integration\API;
 
+use Piwik\Plugin\Manager;
+use Piwik\Plugins\CustomDirPlugin\API as CustomDirPluginApi;
 use Piwik\Access;
+use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\AuthResult;
 use Piwik\Cache;
@@ -38,6 +41,7 @@ class RequestTest extends IntegrationTestCase
     public function setUp(): void
     {
         parent::setUp();
+        CustomDirPluginApi::$wasMetadataOnlyMethodExecuted = false;
         $this->idSitesAccess = [
             'view'      => array(1),
             'write'     => array(),
@@ -404,6 +408,98 @@ class RequestTest extends IntegrationTestCase
             unset($_GET['force_api_session']);
             unset($_POST['force_api_session']);
             $this->setNestedApiInvocationCount(0);
+        }
+    }
+
+    public function testProcessEnforcesMigratedMethodPermissionsBeforeInvocation()
+    {
+        Proxy::getInstance()->registerClass(Request::getClassNameAPI('API'));
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionPrivilegeAtLeastOneWebsite');
+
+        $this->idSitesAccess['view'] = [];
+        $this->idSitesAccess['write'] = [];
+        $this->idSitesAccess['admin'] = [];
+        $this->idSitesAccess['superuser'] = [];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+
+        $request = new Request(['method' => 'API.getPiwikVersion', 'format' => 'original']);
+        $request->process();
+    }
+
+    public function testProcessEnforcesMigratedParameterizedPermissionsBeforeInvocation()
+    {
+        Proxy::getInstance()->registerClass(Request::getClassNameAPI('UsersManager'));
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(Piwik::translate('General_ExceptionPrivilegeAccessWebsite', ["'admin'", 1]));
+
+        $this->idSitesAccess['view'] = [1];
+        $this->idSitesAccess['write'] = [];
+        $this->idSitesAccess['admin'] = [];
+        $this->idSitesAccess['superuser'] = [];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+
+        $request = new Request([
+            'method' => 'UsersManager.getUsersAccessFromSite',
+            'idSite' => 1,
+            'format' => 'original',
+        ]);
+        $request->process();
+    }
+
+    public function testProcessEnforcesPermissionMetadataBeforeFixtureMethodInvocation()
+    {
+        Manager::getInstance()->activatePlugin('CustomDirPlugin');
+        Proxy::getInstance()->registerClass(Request::getClassNameAPI('CustomDirPlugin'));
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('General_ExceptionPrivilegeAtLeastOneWebsite');
+
+        $this->idSitesAccess['view'] = [];
+        $this->idSitesAccess['write'] = [];
+        $this->idSitesAccess['admin'] = [];
+        $this->idSitesAccess['superuser'] = [];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+
+        try {
+            $request = new Request([
+                'method' => 'CustomDirPlugin.getPermissionMetadataOnlyResult',
+                'format' => 'original',
+            ]);
+            $request->process();
+        } finally {
+            $this->assertFalse(CustomDirPluginApi::$wasMetadataOnlyMethodExecuted);
+            Manager::getInstance()->deactivatePlugin('CustomDirPlugin');
+        }
+    }
+
+    public function testProcessAllowsFixtureMethodInvocationWhenPermissionMetadataIsSatisfied()
+    {
+        Manager::getInstance()->activatePlugin('CustomDirPlugin');
+        Proxy::getInstance()->registerClass(Request::getClassNameAPI('CustomDirPlugin'));
+
+        $this->idSitesAccess['view'] = [1];
+        $this->idSitesAccess['write'] = [];
+        $this->idSitesAccess['admin'] = [];
+        $this->idSitesAccess['superuser'] = [];
+        $this->access->reloadAccess($this->auth);
+        $this->access->setSuperUserAccess(false);
+
+        try {
+            $request = new Request([
+                'method' => 'CustomDirPlugin.getPermissionMetadataOnlyResult',
+                'format' => 'original',
+            ]);
+
+            $this->assertSame('permission metadata proof', $request->process());
+            $this->assertTrue(CustomDirPluginApi::$wasMetadataOnlyMethodExecuted);
+        } finally {
+            Manager::getInstance()->deactivatePlugin('CustomDirPlugin');
         }
     }
 

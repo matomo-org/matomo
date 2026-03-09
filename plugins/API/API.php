@@ -12,6 +12,7 @@ namespace Piwik\Plugins\API;
 use Piwik\API\Proxy;
 use Piwik\API\Request;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Attributes\Permission;
 use Piwik\Cache;
 use Piwik\CacheId;
 use Piwik\Category\CategoryList;
@@ -81,8 +82,10 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get Matomo version
+     * @matomo-permission someView
      * @return string
      */
+    #[Permission('someView')]
     public function getMatomoVersion()
     {
         Piwik::checkUserHasSomeViewAccess();
@@ -91,8 +94,10 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get PHP version
+     * @matomo-permission superuser
      * @return array
      */
+    #[Permission('superuser')]
     public function getPhpVersion()
     {
         Piwik::checkUserHasSuperUserAccess();
@@ -108,9 +113,11 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get Matomo version
+     * @matomo-permission someView
      * @return string
      * @deprecated Deprecated but we keep it for historical reasons to not break BC
      */
+    #[Permission('someView')]
     public function getPiwikVersion()
     {
         return $this->getMatomoVersion();
@@ -120,8 +127,10 @@ class API extends \Piwik\Plugin\API
      * Returns the most accurate IP address available for the current user, in
      * IPv4 format. This could be the proxy client's IP address.
      *
+     * @matomo-permission someView
      * @return string IP address in presentation format.
      */
+    #[Permission('someView')]
     public function getIpFromHeader()
     {
         Piwik::checkUserHasSomeViewAccess();
