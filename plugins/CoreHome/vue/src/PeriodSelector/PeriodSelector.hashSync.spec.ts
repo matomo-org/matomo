@@ -270,13 +270,11 @@ describe('PeriodSelector hash sync', () => {
       lastKnownHashContextKey: null,
       periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
       uiSelection: { type: 'period', id: 'day' },
-      appliedPeriod: 'day',
-      uiSelectedPeriod: 'day',
-      appliedAnchorDate: null,
+      committedPeriod: 'day',
+      selectedPeriod: 'day',
+      committedAnchorDate: null,
       appliedRangeStartDate: null,
       appliedRangeEndDate: null,
-      stagedPresetRangeStartDate: '2026-01-20',
-      stagedPresetRangeEndDate: '2026-02-18',
       pendingPresetSelection: { id: 'last30days' },
       calendarViewport: 'single',
       compareAppliedSignature: '',
@@ -338,6 +336,8 @@ describe('PeriodSelector hash sync', () => {
       id: 'last7days',
       period: 'range',
       date: 'last7',
+      startDate: new Date('2026-02-12'),
+      endDate: new Date('2026-02-18'),
     };
     (wrapper.vm as any).activePresetId = 'last7days';
     (wrapper.vm as any).uiSelection = { type: 'preset', id: 'last7days' };

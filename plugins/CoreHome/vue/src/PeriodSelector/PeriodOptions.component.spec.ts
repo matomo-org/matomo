@@ -6,6 +6,7 @@
  */
 
 import { mount } from '@vue/test-utils';
+import PeriodOptions from './PeriodOptions.vue';
 
 jest.mock('../translate', () => ({
   translate: (key: string) => {
@@ -23,8 +24,6 @@ jest.mock('../translate', () => ({
     return messages[key] || key;
   },
 }));
-
-const PeriodOptions = require('./PeriodOptions.vue').default;
 
 describe('PeriodOptions', () => {
   function mountComponent(customProps = {}) {

@@ -63,7 +63,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     (wrapper.vm as any).commitSelectionToUrl = commitSelectionToUrl;
     await wrapper.setData({
       uiSelection: { type: 'preset', id: 'today' },
-      uiSelectedPeriod: 'day',
+      selectedPeriod: 'day',
       calendarViewport: 'single',
     });
 
@@ -84,7 +84,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     (wrapper.vm as any).commitSelectionToUrl = commitSelectionToUrl;
     await wrapper.setData({
       uiSelection: { type: 'preset', id: 'today' },
-      uiSelectedPeriod: 'day',
+      selectedPeriod: 'day',
       calendarViewport: 'single',
     });
 
@@ -101,7 +101,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     const wrapper = mountSelector();
     await wrapper.setData({
       uiSelection: { type: 'preset', id: 'last30days' },
-      uiSelectedPeriod: 'range',
+      selectedPeriod: 'range',
       calendarViewport: 'range',
       isRangeValid: false,
       appliedRangeStartDate: '2026-01-01',
@@ -123,7 +123,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     const wrapper = mountSelector();
     await wrapper.setData({
       uiSelection: { type: 'period', id: 'range' },
-      uiSelectedPeriod: 'range',
+      selectedPeriod: 'range',
       calendarViewport: 'range',
       isRangeValid: null,
       appliedRangeStartDate: null,

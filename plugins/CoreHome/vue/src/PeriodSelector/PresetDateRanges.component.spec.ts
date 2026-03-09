@@ -7,8 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 import { format } from '../Periods';
-
-const PresetDateRanges = require('./PresetDateRanges.vue').default;
+import PresetDateRanges from './PresetDateRanges.vue';
 
 interface PresetDateRangeSelection {
   id: string;
