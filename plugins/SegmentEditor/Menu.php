@@ -39,7 +39,7 @@ class Menu extends \Piwik\Plugin\Menu
 
     private function getDefaultIdSiteForUser(): int
     {
-        $sites = SitesManagerAPI::getInstance()->getSitesWithAtLeastViewAccess();
+        $sites = SitesManagerAPI::getInstance()->getSitesWithAtLeastViewAccess(1);
         $site = reset($sites);
         if (!empty($site['idsite'])) {
             return (int) $site['idsite'];
