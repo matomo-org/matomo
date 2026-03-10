@@ -9,9 +9,11 @@
 
 namespace Piwik\ArchiveProcessor;
 
+use Piwik\Archive;
 use Piwik\ArchiveProcessor;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\DataTable\Row;
 use Piwik\Piwik;
 
 /**
@@ -142,6 +144,10 @@ abstract class RecordBuilder
         $blobRecords = array_filter($recordsBuilt, function (Record $r) {
             return $r->getType() == Record::TYPE_BLOB;
         });
+        $blobRecordsByName = [];
+        foreach ($blobRecords as $blobRecord) {
+            $blobRecordsByName[$blobRecord->getName()] = $blobRecord;
+        }
 
         $aggregatedCounts = [];
 
@@ -167,6 +173,7 @@ abstract class RecordBuilder
             }
         }
 
+        $processedFlatRecords = [];
         foreach ($blobRecords as $record) {
             if (
                 !empty($requestedReports)
@@ -176,11 +183,29 @@ abstract class RecordBuilder
                 continue;
             }
 
+            if (isset($processedFlatRecords[$record->getName()])) {
+                continue;
+            }
+
             $maxRowsInTable = $record->getMaxRowsInTable() ?? $this->maxRowsInTable;
             $maxRowsInSubtable = $record->getMaxRowsInSubtable() ?? $this->maxRowsInSubtable;
             $columnToSortByBeforeTruncation = $record->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
             $columnToRenameAfterAggregation = $record->getColumnToRenameAfterAggregation() ?? $this->columnToRenameAfterAggregation;
             $columnAggregationOps = $record->getBlobColumnAggregationOps() ?? $this->columnAggregationOps;
+
+            if (
+                $this->aggregateBuiltFromFlatRecordForNonDay(
+                    $archiveProcessor,
+                    $record,
+                    $blobRecordsByName,
+                    $columnAggregationOps,
+                    $columnToRenameAfterAggregation,
+                    $columnToSortByBeforeTruncation,
+                    $processedFlatRecords
+                )
+            ) {
+                continue;
+            }
 
             // only do recursive row counts if there is a numeric record that depends on it
             $countRecursiveRows = $countLeafRows = [];
@@ -264,6 +289,301 @@ abstract class RecordBuilder
                 $archiveProcessor->insertNumericRecords($recordCountMetricValues);
             }
         }
+    }
+
+    protected function aggregateBuiltFromFlatRecordForNonDay(
+        ArchiveProcessor $archiveProcessor,
+        Record $hierarchicalRecord,
+        array $blobRecordsByName,
+        ?array $columnAggregationOps,
+        ?array $columnToRenameAfterAggregation,
+        ?string $columnToSortByBeforeTruncation,
+        array &$processedFlatRecords
+    ): bool {
+        $flatRecordName = $hierarchicalRecord->getBuiltFromFlatRecord();
+        if (empty($flatRecordName)) {
+            return false;
+        }
+
+        $flatToHierarchyPathCallback = $hierarchicalRecord->getFlatToHierarchyPathCallback();
+        if (!is_callable($flatToHierarchyPathCallback)) {
+            return false;
+        }
+
+        $flatRecord = $blobRecordsByName[$flatRecordName] ?? null;
+        if (empty($flatRecord)) {
+            return false;
+        }
+
+        $flatColumnAggregationOps = $flatRecord->getBlobColumnAggregationOps() ?? $this->columnAggregationOps;
+        $flatColumnToRenameAfterAggregation = $flatRecord->getColumnToRenameAfterAggregation() ?? $this->columnToRenameAfterAggregation;
+        $flatColumnToSortByBeforeTruncation = $flatRecord->getColumnToSortByBeforeTruncation() ?? $this->columnToSortByBeforeTruncation;
+        $flatMaxRowsInTable = $flatRecord->getMaxRowsInTable() ?? $this->maxRowsInTable;
+
+        $periodsWithFlatRecord = $this->getPeriodsWithRootBlob($archiveProcessor, $flatRecordName);
+        $allSubperiodKeys = $this->getAllSubperiodKeys($archiveProcessor);
+        $periodsWithoutFlatRecord = array_diff_key($allSubperiodKeys, $periodsWithFlatRecord);
+
+        [$flatTable, $hasFlatSourceData] = $this->aggregateDataTableFromBlobs(
+            $archiveProcessor,
+            $flatRecordName,
+            $flatColumnAggregationOps,
+            $flatColumnToRenameAfterAggregation,
+            $periodsWithFlatRecord
+        );
+
+        $hasLegacyFallbackData = false;
+        $legacyReducerCallback = $hierarchicalRecord->getLegacyHierarchyToFlatReducerCallback();
+        if (!empty($periodsWithoutFlatRecord) && is_callable($legacyReducerCallback)) {
+            [$legacyHierarchicalTable, $hasLegacyFallbackData] = $this->aggregateDataTableFromBlobs(
+                $archiveProcessor,
+                $hierarchicalRecord->getName(),
+                $columnAggregationOps,
+                $columnToRenameAfterAggregation,
+                $periodsWithoutFlatRecord
+            );
+
+            if ($hasLegacyFallbackData) {
+                call_user_func($legacyReducerCallback, $legacyHierarchicalTable, $flatTable, $archiveProcessor, $hierarchicalRecord);
+            }
+            Common::destroy($legacyHierarchicalTable);
+        }
+
+        if (!$hasFlatSourceData && !$hasLegacyFallbackData) {
+            Common::destroy($flatTable);
+            return false;
+        }
+
+        $flatSerialized = $flatTable->getSerialized(
+            $flatMaxRowsInTable,
+            null,
+            $flatColumnToSortByBeforeTruncation
+        );
+        $archiveProcessor->insertBlobRecord($flatRecordName, $flatSerialized);
+        $processedFlatRecords[$flatRecordName] = true;
+
+        $hierarchicalTable = $this->buildHierarchicalTableFromFlatTable(
+            $flatTable,
+            $columnAggregationOps,
+            $flatToHierarchyPathCallback,
+            $archiveProcessor,
+            $hierarchicalRecord
+        );
+
+        $this->beforeInsertBuiltFromFlatHierarchyRecord($archiveProcessor, $hierarchicalRecord, $hierarchicalTable, $flatTable);
+
+        $hierarchicalSerialized = $hierarchicalTable->getSerialized(
+            null,
+            null,
+            $columnToSortByBeforeTruncation
+        );
+        $archiveProcessor->insertBlobRecord($hierarchicalRecord->getName(), $hierarchicalSerialized);
+
+        Common::destroy($hierarchicalTable);
+        Common::destroy($flatTable);
+
+        return true;
+    }
+
+    protected function beforeInsertBuiltFromFlatHierarchyRecord(
+        ArchiveProcessor $archiveProcessor,
+        Record $hierarchicalRecord,
+        DataTable $hierarchicalTable,
+        DataTable $flatTable
+    ): void {
+    }
+
+    protected function buildHierarchicalTableFromFlatTable(
+        DataTable $flatTable,
+        ?array $columnAggregationOps,
+        callable $flatToHierarchyPathCallback,
+        ArchiveProcessor $archiveProcessor,
+        Record $hierarchicalRecord
+    ): DataTable {
+        $hierarchicalTable = new DataTable();
+        if (!empty($columnAggregationOps)) {
+            $hierarchicalTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnAggregationOps);
+        }
+
+        foreach ($flatTable->getRows() as $flatRow) {
+            if ($flatRow->isSummaryRow()) {
+                if ($this->isSummaryRowEmpty($flatRow)) {
+                    continue;
+                }
+
+                $summaryRow = $hierarchicalTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+                if ($summaryRow === false) {
+                    $summaryRow = clone $flatRow;
+                    $summaryRow->setIsSummaryRow();
+                    $hierarchicalTable->addSummaryRow($summaryRow);
+                    continue;
+                }
+
+                $this->sumRowIntoDestination($flatRow, $summaryRow, $columnAggregationOps);
+                continue;
+            }
+
+            $path = call_user_func($flatToHierarchyPathCallback, $flatRow, $archiveProcessor, $hierarchicalRecord);
+            if (!is_array($path) || empty($path)) {
+                continue;
+            }
+
+            [$destinationRow, $level] = $hierarchicalTable->walkPath($path, [], 0);
+            if (!$destinationRow instanceof Row) {
+                continue;
+            }
+
+            $this->sumRowIntoDestination($flatRow, $destinationRow, $columnAggregationOps);
+        }
+
+        return $hierarchicalTable;
+    }
+
+    protected function sumRowIntoDestination(Row $source, Row $destination, ?array $columnAggregationOps): void
+    {
+        $sourceCopy = clone $source;
+        $destination->sumRow($sourceCopy, true, $columnAggregationOps ?? []);
+    }
+
+    protected function isSummaryRowEmpty(Row $summaryRow): bool
+    {
+        foreach ($summaryRow->getColumns() as $name => $value) {
+            if ($name === 'label') {
+                continue;
+            }
+
+            if (is_array($value)) {
+                if (!empty($value)) {
+                    return false;
+                }
+                continue;
+            }
+
+            if (!empty($value)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    protected function aggregateDataTableFromBlobs(
+        ArchiveProcessor $archiveProcessor,
+        string $recordName,
+        ?array $columnsAggregationOperation,
+        ?array $columnsToRenameAfterAggregation,
+        ?array $periodsToInclude = null
+    ): array {
+        $tableIdToResultRowMapping = [];
+        $result = new DataTable();
+
+        if (!empty($columnsAggregationOperation)) {
+            $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+        }
+
+        $hasRows = false;
+        foreach ($this->querySingleBlobRows($archiveProcessor, $recordName) as $archiveDataRow) {
+            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            if ($periodsToInclude !== null && !isset($periodsToInclude[$period])) {
+                continue;
+            }
+
+            $hasRows = true;
+            $tableId = $archiveDataRow['name'] == $recordName ? null : $this->getSubtableIdFromBlobName($archiveDataRow['name']);
+
+            $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
+            $blobTable->filter(function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation) {
+                $archiveProcessor->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
+            });
+
+            if ($tableId === null) {
+                $tableToAddTo = $result;
+            } elseif (!empty($tableIdToResultRowMapping[$period][$tableId])) {
+                $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
+                if (!$rowToAddTo->getIdSubDataTable()) {
+                    $newTable = new DataTable();
+                    if (!empty($columnsAggregationOperation)) {
+                        $newTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
+                    }
+                    $rowToAddTo->setSubtable($newTable);
+                }
+
+                $tableToAddTo = $rowToAddTo->getSubtable();
+            } else {
+                Common::destroy($blobTable);
+                continue;
+            }
+
+            $tableToAddTo->addDataTable($blobTable);
+
+            foreach ($blobTable->getRows() as $blobTableRow) {
+                $label = $blobTableRow->getColumn('label');
+                $subtableId = $blobTableRow->getIdSubDataTable();
+                if (empty($subtableId)) {
+                    continue;
+                }
+
+                $rowToAddTo = $tableToAddTo->getRowFromLabel($label);
+                if ($rowToAddTo instanceof Row) {
+                    $tableIdToResultRowMapping[$period][$subtableId] = $rowToAddTo;
+                }
+            }
+
+            Common::destroy($blobTable);
+        }
+
+        return [$result, $hasRows];
+    }
+
+    protected function getPeriodsWithRootBlob(ArchiveProcessor $archiveProcessor, string $recordName): array
+    {
+        $result = [];
+        foreach ($this->querySingleBlobRows($archiveProcessor, $recordName) as $archiveDataRow) {
+            if ($archiveDataRow['name'] !== $recordName) {
+                continue;
+            }
+
+            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+            $result[$period] = true;
+        }
+
+        return $result;
+    }
+
+    protected function querySingleBlobRows(ArchiveProcessor $archiveProcessor, string $recordName): iterable
+    {
+        $archive = Archive::factory(
+            $archiveProcessor->getParams()->getSegment(),
+            $archiveProcessor->getParams()->getPeriod()->getSubperiods(),
+            [$archiveProcessor->getParams()->getSite()->getId()]
+        );
+        if (!method_exists($archive, 'querySingleBlob')) {
+            return [];
+        }
+
+        return $archive->querySingleBlob($recordName);
+    }
+
+    protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
+    {
+        $result = [];
+        foreach ($archiveProcessor->getParams()->getPeriod()->getSubperiods() as $period) {
+            $result[$period->getDateStart()->toString() . ',' . $period->getDateEnd()->toString()] = true;
+        }
+
+        return $result;
+    }
+
+    protected function getSubtableIdFromBlobName(string $recordName): ?int
+    {
+        $parts = explode('_', $recordName);
+        $id = end($parts);
+
+        if (!is_numeric($id)) {
+            return null;
+        }
+
+        return (int) $id;
     }
 
     /**

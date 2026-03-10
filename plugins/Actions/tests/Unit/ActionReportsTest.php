@@ -74,7 +74,7 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
             $flatRecordName = Archiver::PAGE_URLS_FLAT_RECORD_NAME;
             $hierarchicalRecordName = Archiver::PAGE_URLS_RECORD_NAME;
 
-            $flatPeriodTable = $this->createFlatSerializedTable(['flat-a'], 4);
+            $flatPeriodTable = $this->createFlatSerializedTable('flat-a', ['flat-a'], 4);
             $hierarchicalPeriodTable = $this->createHierarchicalSerializedTable('legacy-b', 6, 2);
 
             $rowsByRecordName = [
@@ -135,11 +135,11 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
             $flatResult = DataTable::fromSerializedArray(
                 $this->getRootBlobFromInsertedRecord($insertedBlobs[$flatRecordName], $flatRecordName)
             );
-            $flatRowA = $flatResult->getRowFromLabel(json_encode(['flat-a']));
+            $flatRowA = $flatResult->getRowFromLabel('flat-a');
             $this->assertNotFalse($flatRowA);
             $this->assertSame(4, $flatRowA->getColumn('nb_hits'));
 
-            $flatRowB = $flatResult->getRowFromLabel(json_encode(['legacy-b']));
+            $flatRowB = $flatResult->getRowFromLabel('legacy-b');
             $this->assertNotFalse($flatRowB);
             $this->assertSame(6, $flatRowB->getColumn('nb_hits'));
 
@@ -308,10 +308,10 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
         };
     }
 
-    private function createFlatSerializedTable(array $actionPath, int $nbHits): string
+    private function createFlatSerializedTable(string $label, array $actionPath, int $nbHits): string
     {
         $flat = new DataTable();
-        $flatRow = new Row([Row::COLUMNS => ['label' => json_encode($actionPath), 'nb_hits' => $nbHits]]);
+        $flatRow = new Row([Row::COLUMNS => ['label' => $label, 'nb_hits' => $nbHits]]);
         $flatRow->setMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME, $actionPath);
         $flat->addRow($flatRow);
 

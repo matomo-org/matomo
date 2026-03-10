@@ -78,6 +78,21 @@ class Record
      */
     private $multiplePeriodTransform = null;
 
+    /**
+     * @var string|null
+     */
+    private $builtFromFlatRecord = null;
+
+    /**
+     * @var callable|null
+     */
+    private $flatToHierarchyPathCallback = null;
+
+    /**
+     * @var callable|null
+     */
+    private $legacyHierarchyToFlatReducerCallback = null;
+
     public static function make($type, $name)
     {
         $record = new Record();
@@ -235,5 +250,40 @@ class Record
     public function getMultiplePeriodTransform(): ?callable
     {
         return $this->multiplePeriodTransform;
+    }
+
+    public function setBuiltFromFlatRecord(
+        string $flatRecordName,
+        callable $flatToHierarchyPathCallback,
+        ?callable $legacyHierarchyToFlatReducerCallback = null
+    ): Record {
+        if ($this->type !== self::TYPE_BLOB) {
+            throw new \InvalidArgumentException('setBuiltFromFlatRecord() can only be used with blob records.');
+        }
+
+        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $flatRecordName)) {
+            throw new \InvalidArgumentException('Invalid flat record name: ' . $flatRecordName);
+        }
+
+        $this->builtFromFlatRecord = $flatRecordName;
+        $this->flatToHierarchyPathCallback = $flatToHierarchyPathCallback;
+        $this->legacyHierarchyToFlatReducerCallback = $legacyHierarchyToFlatReducerCallback;
+
+        return $this;
+    }
+
+    public function getBuiltFromFlatRecord(): ?string
+    {
+        return $this->builtFromFlatRecord;
+    }
+
+    public function getFlatToHierarchyPathCallback(): ?callable
+    {
+        return $this->flatToHierarchyPathCallback;
+    }
+
+    public function getLegacyHierarchyToFlatReducerCallback(): ?callable
+    {
+        return $this->legacyHierarchyToFlatReducerCallback;
     }
 }
