@@ -7,7 +7,6 @@
 
 <template>
   <DatePicker
-    :selected-boundary-only="true"
     :selected-date-start="selectedDates[0]"
     :selected-date-end="selectedDates[1]"
     :persistent-highlighted-date-start="committedBetweenHighlightDates[0]"
@@ -29,11 +28,11 @@ import {
   defineComponent, watch, ref,
 } from 'vue';
 import DatePicker from '../DatePicker/DatePicker.vue';
-import Matomo from '../Matomo/Matomo';
 import { Periods, parseDate } from '../Periods';
-
-const piwikMinDate = new Date(Matomo.minDateYear, Matomo.minDateMonth - 1, Matomo.minDateDay);
-const piwikMaxDate = new Date(Matomo.maxDateYear, Matomo.maxDateMonth - 1, Matomo.maxDateDay);
+import {
+  getSiteMaxAllowedDate,
+  getSiteMinAllowedDate,
+} from '../PeriodSelector/PeriodSelector.types';
 
 export default defineComponent({
   props: {
@@ -52,6 +51,8 @@ export default defineComponent({
     const selectedDates = ref<(Date|null)[]>([null, null]);
     const committedBetweenHighlightDates = ref<(Date|null)[]>([null, null]);
     const transientHoverDates = ref<(Date|null)[]|null>(null);
+    const piwikMinDate = getSiteMinAllowedDate();
+    const piwikMaxDate = getSiteMaxAllowedDate();
 
     function getBoundedDateRange(date: string|Date) {
       const dates = Periods.get(props.period).parse(date).getDateRange();

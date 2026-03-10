@@ -5,6 +5,7 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+import PeriodSelector from './PeriodSelector.vue';
 import { Periods, format } from '../Periods';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 
@@ -14,9 +15,6 @@ window.piwik.minDateDay = 15;
 window.piwik.maxDateYear = 2014;
 window.piwik.maxDateMonth = 3;
 window.piwik.maxDateDay = 29;
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const PeriodSelector = require('./PeriodSelector.vue').default;
 
 describe('PeriodSelector', () => {
   const component = PeriodSelector as unknown as {
@@ -856,6 +854,12 @@ describe('PeriodSelector', () => {
     const vm: any = {
       committedPeriod: 'day',
       committedAnchorDate: new Date(maxDate.getTime()),
+      minAllowedDate: new Date(
+        window.piwik.minDateYear,
+        window.piwik.minDateMonth - 1,
+        window.piwik.minDateDay,
+      ),
+      maxAllowedDate: maxDate,
       canMovePeriod: jest.fn(() => true),
       setPiwikPeriodAndDate: jest.fn(),
     };

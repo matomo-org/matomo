@@ -152,10 +152,10 @@ import {
   COMPARE_PERIOD_OPTIONS,
   COMPARE_PERIOD_TYPES,
   RANGE_PERIOD,
+  getSiteMaxAllowedDate,
+  getSiteMinAllowedDate,
   isValidDate,
   isSingleCalendarPeriod,
-  siteMinAllowedDate,
-  siteMaxAllowedDate,
 } from './PeriodSelector.types';
 
 export default defineComponent({
@@ -177,6 +177,8 @@ export default defineComponent({
     const initialSinglePeriod = isSingleCalendarPeriod(selectedPeriod)
       ? selectedPeriod
       : 'day';
+    const siteMinAllowedDate = getSiteMinAllowedDate();
+    const siteMaxAllowedDate = getSiteMaxAllowedDate();
 
     return {
       uiSelection: { type: 'period', id: selectedPeriod },
@@ -831,10 +833,10 @@ export default defineComponent({
     setRangeStartEndFromPeriod(period: string, dateStr: string) {
       const periodDateRange = Periods.parse(period, dateStr).getDateRange();
       this.appliedRangeStartDate = format(
-        periodDateRange[0] < siteMinAllowedDate ? siteMinAllowedDate : periodDateRange[0],
+        periodDateRange[0] < this.minAllowedDate ? this.minAllowedDate : periodDateRange[0],
       );
       this.appliedRangeEndDate = format(
-        periodDateRange[1] > siteMaxAllowedDate ? siteMaxAllowedDate : periodDateRange[1],
+        periodDateRange[1] > this.maxAllowedDate ? this.maxAllowedDate : periodDateRange[1],
       );
     },
     canInteractWithRangeCalendar(): boolean {
@@ -909,7 +911,7 @@ export default defineComponent({
 
       const baseDate = this.committedAnchorDate || new Date();
       const shiftedDate = shiftDateByPeriod(baseDate, this.committedPeriod, direction);
-      const clampedDate = clampDateToBounds(shiftedDate, siteMinAllowedDate, siteMaxAllowedDate);
+      const clampedDate = clampDateToBounds(shiftedDate, this.minAllowedDate, this.maxAllowedDate);
 
       this.setPiwikPeriodAndDate(this.committedPeriod, clampedDate);
     },
@@ -924,7 +926,7 @@ export default defineComponent({
       if (this.committedAnchorDate === null) {
         return false;
       }
-      const relevantBoundaryDate = (direction === -1) ? siteMinAllowedDate : siteMaxAllowedDate;
+      const relevantBoundaryDate = (direction === -1) ? this.minAllowedDate : this.maxAllowedDate;
       return !datesAreInTheSamePeriod(
         this.committedAnchorDate!,
         relevantBoundaryDate,

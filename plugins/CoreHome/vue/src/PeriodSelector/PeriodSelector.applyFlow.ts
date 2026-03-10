@@ -19,7 +19,7 @@ export interface ApplyEnabledState {
 }
 
 export function isApplyEnabledFromState(state: ApplyEnabledState): boolean {
-  // Invariant: non-range period mode intentionally cannot commit compare-only via Apply.
+  // Invariant: non-range period mode intentionally cannot commit "compare to" via Apply button.
   if (state.uiSelectionType === 'period' && state.uiSelectedPeriod !== RANGE_PERIOD) {
     return false;
   }
