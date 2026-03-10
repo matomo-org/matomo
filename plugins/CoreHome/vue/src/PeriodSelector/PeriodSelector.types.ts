@@ -5,7 +5,6 @@
  * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
-import Matomo from '../Matomo/Matomo';
 import { translate } from '../translate';
 import type {
   PresetDateRangeId,
@@ -13,7 +12,7 @@ import type {
 } from './PresetDateRangeResolver';
 import type { UiSelection as HashSyncUiSelection } from './PeriodSelectorHashSync';
 
-const NBSP = Matomo.helper.htmlDecode('&nbsp;');
+const NBSP = '\u00A0';
 
 export const COMPARE_PERIOD_TYPES = ['custom', 'previousPeriod', 'previousYear'];
 
@@ -29,18 +28,13 @@ export const COMPARE_PERIOD_OPTIONS = [
   },
 ];
 
-// the date when the site was created
-export const siteMinAllowedDate = new Date(
-  Matomo.minDateYear,
-  Matomo.minDateMonth - 1,
-  Matomo.minDateDay,
-);
-// today/now
-export const siteMaxAllowedDate = new Date(
-  Matomo.maxDateYear,
-  Matomo.maxDateMonth - 1,
-  Matomo.maxDateDay,
-);
+export function getSiteMinAllowedDate(): Date {
+  return new Date(window.piwik.minDateYear, window.piwik.minDateMonth - 1, window.piwik.minDateDay);
+}
+
+export function getSiteMaxAllowedDate(): Date {
+  return new Date(window.piwik.maxDateYear, window.piwik.maxDateMonth - 1, window.piwik.maxDateDay);
+}
 
 export const RANGE_PERIOD = 'range';
 

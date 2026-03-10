@@ -23,13 +23,13 @@
       <DatePicker
         id="calendarFrom"
         :view-date="startDate"
-        :selected-date-start="fromPickerSelectedDates[0]"
-        :selected-date-end="fromPickerSelectedDates[1]"
-        :highlighted-date-start="fromPickerHoveredDates[0]"
-        :highlighted-date-end="fromPickerHoveredDates[1]"
+        :selected-date-start="fromPickerSelectedDate"
+        :selected-date-end="fromPickerSelectedDate"
+        :highlighted-date-start="fromPickerHoveredDate"
+        :highlighted-date-end="fromPickerHoveredDate"
         @date-select="setStartRangeDate($event.date)"
-        @cell-hover="fromPickerHoveredDates = getNewHoveredDates($event.date, $event.$cell)"
-        @cell-hover-leave="fromPickerHoveredDates = [null, null]"
+        @cell-hover="fromPickerHoveredDate = getNewHoveredDate($event.date, $event.$cell)"
+        @cell-hover-leave="fromPickerHoveredDate = null"
       >
       </DatePicker>
     </div>
@@ -49,13 +49,13 @@
       <DatePicker
         id="calendarTo"
         :view-date="endDate"
-        :selected-date-start="toPickerSelectedDates[0]"
-        :selected-date-end="toPickerSelectedDates[1]"
-        :highlighted-date-start="toPickerHoveredDates[0]"
-        :highlighted-date-end="toPickerHoveredDates[1]"
+        :selected-date-start="toPickerSelectedDate"
+        :selected-date-end="toPickerSelectedDate"
+        :highlighted-date-start="toPickerHoveredDate"
+        :highlighted-date-end="toPickerHoveredDate"
         @date-select="setEndRangeDate($event.date)"
-        @cell-hover="toPickerHoveredDates = getNewHoveredDates($event.date, $event.$cell)"
-        @cell-hover-leave="toPickerHoveredDates = [null, null]"
+        @cell-hover="toPickerHoveredDate = getNewHoveredDate($event.date, $event.$cell)"
+        @cell-hover-leave="toPickerHoveredDate = null"
       >
       </DatePicker>
     </div>
@@ -71,10 +71,10 @@ import ChangeEvent = JQuery.ChangeEvent;
 const DATE_FORMAT = 'YYYY-MM-DD';
 
 interface DateRangePickerState {
-  fromPickerSelectedDates: (Date|null)[];
-  toPickerSelectedDates: (Date|null)[];
-  fromPickerHoveredDates: (Date|null)[];
-  toPickerHoveredDates: (Date|null)[];
+  fromPickerSelectedDate: Date|null;
+  toPickerSelectedDate: Date|null;
+  fromPickerHoveredDate: Date|null;
+  toPickerHoveredDate: Date|null;
   startDateText?: string;
   endDateText?: string;
   startDateInvalid: boolean;
@@ -110,10 +110,10 @@ export default defineComponent({
     }
 
     return {
-      fromPickerSelectedDates: [startDate, startDate],
-      toPickerSelectedDates: [endDate, endDate],
-      fromPickerHoveredDates: [null, null],
-      toPickerHoveredDates: [null, null],
+      fromPickerSelectedDate: startDate,
+      toPickerSelectedDate: endDate,
+      fromPickerHoveredDate: null,
+      toPickerHoveredDate: null,
       startDateText: this.startDate,
       endDateText: this.endDate,
       startDateInvalid: false,
@@ -136,12 +136,12 @@ export default defineComponent({
   },
   methods: {
     setStartRangeDate(date: Date) {
-      this.fromPickerSelectedDates = [date, date];
+      this.fromPickerSelectedDate = date;
 
       this.rangeChanged();
     },
     setEndRangeDate(date: Date) {
-      this.toPickerSelectedDates = [date, date];
+      this.toPickerSelectedDate = date;
 
       this.rangeChanged();
     },
@@ -154,12 +154,12 @@ export default defineComponent({
         }
       });
     },
-    getNewHoveredDates(date: Date, $cell: JQuery) {
+    getNewHoveredDate(date: Date, $cell: JQuery): Date|null {
       if ($cell.hasClass('ui-datepicker-unselectable')) {
-        return [null, null];
+        return null;
       }
 
-      return [date, date];
+      return date;
     },
     handleEnterPress($event: KeyboardEvent) {
       if ($event.keyCode !== 13) {
@@ -184,7 +184,7 @@ export default defineComponent({
       }
 
       if (startDateParsed) {
-        this.fromPickerSelectedDates = [startDateParsed, startDateParsed];
+        this.fromPickerSelectedDate = startDateParsed;
         this.startDateInvalid = false;
 
         this.rangeChanged();
@@ -203,7 +203,7 @@ export default defineComponent({
       }
 
       if (endDateParsed) {
-        this.toPickerSelectedDates = [endDateParsed, endDateParsed];
+        this.toPickerSelectedDate = endDateParsed;
         this.endDateInvalid = false;
 
         this.rangeChanged();
@@ -211,8 +211,8 @@ export default defineComponent({
     },
     rangeChanged() {
       this.$emit('rangeChange', {
-        start: this.fromPickerSelectedDates[0] ? format(this.fromPickerSelectedDates[0]) : null,
-        end: this.toPickerSelectedDates[0] ? format(this.toPickerSelectedDates[0]) : null,
+        start: this.fromPickerSelectedDate ? format(this.fromPickerSelectedDate) : null,
+        end: this.toPickerSelectedDate ? format(this.toPickerSelectedDate) : null,
       });
     },
   },

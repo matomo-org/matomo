@@ -27,7 +27,6 @@ export default defineComponent({
   props: {
     selectedDateStart: Date,
     selectedDateEnd: Date,
-    selectedBoundaryOnly: Boolean,
     persistentHighlightedDateStart: Date,
     persistentHighlightedDateEnd: Date,
     highlightedDateStart: Date,
@@ -53,23 +52,15 @@ export default defineComponent({
       );
 
       const isBoundarySelectedDate = !!(
-        props.selectedBoundaryOnly
-        && selectedDateStart
+        selectedDateStart
         && selectedDateEnd
         && (
           dateValueTime === selectedDateStart.getTime()
           || dateValueTime === selectedDateEnd.getTime()
         )
       );
-      const isRangeSelectedDate = !!(
-        !props.selectedBoundaryOnly
-        && selectedDateStart
-        && selectedDateEnd
-        && dateValue >= selectedDateStart
-        && dateValue <= selectedDateEnd
-      );
 
-      if (isBoundarySelectedDate || isRangeSelectedDate) {
+      if (isBoundarySelectedDate) {
         $dateCell.addClass('ui-datepicker-current-period');
       } else {
         $dateCell.removeClass('ui-datepicker-current-period');
