@@ -9,25 +9,15 @@
 
 namespace Piwik\Plugins\SegmentEditor;
 
-use Piwik\DataTable\Filter\CalculateEvolutionFilter;
-use Piwik\DataTable\Renderer\Json;
-use Piwik\Container\StaticContainer;
-use Piwik\Log\LoggerInterface;
-use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Plugins\SegmentEditor;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorAPI;
-use Piwik\Plugins\VisitsSummary;
 use Piwik\Request;
 use Piwik\Url;
 use Piwik\View;
 
 class Controller extends \Piwik\Plugin\Controller
 {
-    private const POSITIVE = 'positive';
-    private const NEGATIVE = 'negative';
-    private const STABLE = 'stable';
-
     /** The requested period */
     protected $period;
 
@@ -81,83 +71,9 @@ class Controller extends \Piwik\Plugin\Controller
         return $view->render();
     }
 
-    public function getSegmentData(): string
-    {
-        $segmentDefinition = Request::fromRequest()->getStringParameter('segmentDefinition', '');
-        Json::sendHeaderJSON();
-
-        try {
-            $data = VisitsSummary\API::getInstance()
-                ->get($this->idSite, $this->period, $this->strDate, $segmentDefinition)
-                ->getFirstRow()->getArrayCopy();
-            [$previousDate] = Range::getLastDate($this->strDate, $this->period);
-            $pastNbVisits = VisitsSummary\API::getInstance()
-                ->getVisits($this->idSite, $this->period, $previousDate, $segmentDefinition)
-                ->getFirstRow()->getColumn('nb_visits');
-
-            $nbVisits = (int)($data['nb_visits'] ?? 0);
-            $nbActions = (int)($data['nb_actions'] ?? 0);
-            $pastNbVisits = (int)$pastNbVisits;
-            $evolutionDirection = $this->getEvolutionDirection($nbVisits, $pastNbVisits);
-
-            return json_encode([
-                'nb_visits' => $nbVisits,
-                'nb_actions' => $nbActions,
-                'evolution_visits_direction' => $evolutionDirection,
-                'evolution_visits_icon' => $this->getEvolutionIcon($evolutionDirection),
-                'evolution_visits' => CalculateEvolutionFilter::calculate($nbVisits, $pastNbVisits, 0, true, false),
-            ]);
-        } catch (\Throwable $e) {
-            StaticContainer::get(LoggerInterface::class)->warning(
-                'SegmentEditor.getSegmentData failed (idSite: {idSite}, period: {period}, date: {date}, segmentDefinition: {segmentDefinition}): {exception}',
-                [
-                    'idSite' => $this->idSite,
-                    'period' => $this->period,
-                    'date' => $this->strDate,
-                    'segmentDefinition' => $segmentDefinition,
-                    'exception' => $e,
-                ]
-            );
-
-            return json_encode([
-                'result' => 'error',
-                'message' => Piwik::translate('General_ErrorRequest'),
-            ]);
-        }
-    }
-
     private function isRealtimeSegment(array $segment): bool
     {
         return !empty($segment['definition']) && empty((int)$segment['auto_archive']);
-    }
-
-    protected function getEvolutionDirection(int $currentValue, int $pastValue): string
-    {
-        if ($currentValue > $pastValue) {
-            return self::POSITIVE;
-        }
-
-        if ($currentValue < $pastValue) {
-            return self::NEGATIVE;
-        }
-
-        return self::STABLE;
-    }
-
-    /*
-     * @param self::POSITIVE|self::NEGATIVE|self::STABLE $direction
-     */
-    protected function getEvolutionIcon(string $direction): string
-    {
-        if ($direction === self::POSITIVE) {
-            return 'plugins/MultiSites/images/arrow_up.png';
-        }
-
-        if ($direction === self::NEGATIVE) {
-            return 'plugins/MultiSites/images/arrow_down.png';
-        }
-
-        return 'plugins/MultiSites/images/stop.png';
     }
 
     protected function getSegmentSparklineUrl(array $segment): string
