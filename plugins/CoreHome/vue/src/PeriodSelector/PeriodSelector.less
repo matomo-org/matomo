@@ -385,25 +385,21 @@
 
       // Ensure the inner content (a/span) matches td hover fill, including disabled cells.
       // Without this, hovering padded area can leave the center looking unhighlighted.
-      tbody td:not(.ui-datepicker-current-period).ui-state-hover > a,
-      tbody td:not(.ui-datepicker-current-period).ui-state-hover > span,
+      tbody td:not(.ui-datepicker-current-period).ui-datepicker-persistent-highlight > a,
+      tbody td:not(.ui-datepicker-current-period).ui-datepicker-persistent-highlight > span,
       tbody td:not(.ui-datepicker-current-period):hover > a,
       tbody td:not(.ui-datepicker-current-period):hover > span {
         background: @period-selector-calendar-hover-bg !important;
       }
 
+      tbody td.ui-datepicker-persistent-highlight {
+        background: @period-selector-calendar-hover-bg !important;
+        opacity: 1;
+      }
+
       tbody td.ui-datepicker-current-period {
         background: @theme-color-text !important;
       }
-
-      // Keep state color on the td (full cell + padding), not just the inner anchor.
-      tbody td.ui-state-hover > a.ui-state-hover,
-      tbody td:hover > a.ui-state-hover,
-      tbody td.ui-datepicker-current-period > a.ui-state-default,
-      tbody td.ui-datepicker-current-period > a.ui-state-active {
-        background: transparent !important;
-      }
-
     }
   }
 }

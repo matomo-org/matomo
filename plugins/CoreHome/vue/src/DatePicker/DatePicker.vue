@@ -28,6 +28,8 @@ export default defineComponent({
     selectedDateStart: Date,
     selectedDateEnd: Date,
     selectedBoundaryOnly: Boolean,
+    persistentHighlightedDateStart: Date,
+    persistentHighlightedDateEnd: Date,
     highlightedDateStart: Date,
     highlightedDateEnd: Date,
     viewDate: [String, Date],
@@ -43,6 +45,12 @@ export default defineComponent({
       const $dateCellLink = $dateCell.children('a');
       const { selectedDateStart, selectedDateEnd } = props;
       const dateValueTime = dateValue.getTime();
+      const isPersistentlyHighlightedDate = !!(
+        props.persistentHighlightedDateStart
+        && props.persistentHighlightedDateEnd
+        && dateValue >= props.persistentHighlightedDateStart
+        && dateValue <= props.persistentHighlightedDateEnd
+      );
 
       const isBoundarySelectedDate = !!(
         props.selectedBoundaryOnly
@@ -81,6 +89,16 @@ export default defineComponent({
       } else {
         $dateCell.removeClass('ui-state-hover');
         $dateCellLink.removeClass('ui-state-hover');
+      }
+
+      if (isPersistentlyHighlightedDate) {
+        $dateCell.addClass('ui-datepicker-persistent-highlight');
+        if ($dateCellLink.length) {
+          $dateCellLink.addClass('ui-datepicker-persistent-highlight');
+        }
+      } else {
+        $dateCell.removeClass('ui-datepicker-persistent-highlight');
+        $dateCellLink.removeClass('ui-datepicker-persistent-highlight');
       }
     }
 

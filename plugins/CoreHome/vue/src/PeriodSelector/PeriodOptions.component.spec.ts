@@ -45,6 +45,14 @@ describe('PeriodOptions', () => {
     expect(wrapper.findAll('.periodOptions input[type="radio"]')[0].attributes('id')).toBe('period_id_range');
   });
 
+  it('should expose radiogroup semantics for period options', () => {
+    const wrapper = mountComponent();
+    const optionsGroup = wrapper.find('.periodOptions');
+
+    expect(optionsGroup.attributes('role')).toBe('radiogroup');
+    expect(optionsGroup.attributes('aria-label')).toBe('Choose period');
+  });
+
   it('should capitalize period labels and show custom date range for range', () => {
     const wrapper = mountComponent();
 

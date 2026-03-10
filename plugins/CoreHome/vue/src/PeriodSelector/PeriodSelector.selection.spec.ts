@@ -458,6 +458,19 @@ describe('PeriodSelector', () => {
     expectCommitSelection(vm, 'today', 'week');
   });
 
+  it('commits explicit non-range date on compare-only apply when selection is already committed', () => {
+    const vm: any = createApplyVm({
+      selectedPeriod: 'week',
+      committedPeriod: 'week',
+      committedAnchorDate: new Date('2026-02-18'),
+      getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
+    });
+
+    callOnApplyClicked(vm);
+
+    expectCommitSelection(vm, '2026-02-18', 'week');
+  });
+
   it('closes selector for non-range preset no-op apply when compare is unchanged', () => {
     const vm: any = createApplyVm({
       uiSelection: { type: 'preset', id: 'today' },
@@ -485,6 +498,21 @@ describe('PeriodSelector', () => {
     };
 
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
+  });
+
+  it('enables apply for a valid period-owned range selection', () => {
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'range' },
+      selectedPeriod: 'range',
+      hasPendingNonRangePeriodChange: false,
+      pendingPresetSelection: null,
+      isRangeValid: true,
+      isComparing: false,
+      comparePeriodType: 'previousPeriod',
+      isCompareRangeValid: jest.fn(() => true),
+    };
+
+    expect(methods.isApplyEnabled.call(vm)).toBe(true);
   });
 
   it('disables apply when opening with non-range period option selected and no compare changes', () => {
@@ -624,7 +652,7 @@ describe('PeriodSelector', () => {
       selectedPeriod: 'day',
       calendarViewport: 'single',
       commitSelectionToUrl: jest.fn(),
-      selectedDateParam: '2026-02-01,2026-02-18',
+      selectedDateString: '2026-02-01,2026-02-18',
       getCurrentRollingDateParamIfOwnedByPreset: jest.fn(() => null),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;

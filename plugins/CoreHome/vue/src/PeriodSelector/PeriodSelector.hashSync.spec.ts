@@ -286,6 +286,7 @@ describe('PeriodSelector hash sync', () => {
       clearPresetSelection: methods.clearPresetSelection,
       resetSelectedDateValues: methods.resetSelectedDateValues,
       applyDateValuesFromHash: methods.applyDateValuesFromHash,
+      setRangeStartEndFromPeriod: methods.setRangeStartEndFromPeriod,
     };
 
     (MatomoUrl as any).url.value = new URL(
@@ -299,6 +300,47 @@ describe('PeriodSelector hash sync', () => {
     expect(vm.isRangeValid).toBe(true);
     expect(vm.appliedRangeStartDate).toBe(format(expectedStartDate));
     expect(vm.appliedRangeEndDate).toBe(format(expectedEndDate));
+    expect(vm.calendarViewport).toBe('range');
+
+    (MatomoUrl as any).url.value = originalUrl;
+  });
+
+  it('sets single calendar viewport when hash sync hydrates a valid non-range period', () => {
+    const originalUrl = (MatomoUrl as any).url.value;
+    const vm: any = {
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      lastKnownHashSelectionKey: null,
+      lastKnownHashContextKey: null,
+      periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
+      uiSelection: { type: 'period', id: 'range' },
+      committedPeriod: 'range',
+      selectedPeriod: 'range',
+      committedAnchorDate: null,
+      appliedRangeStartDate: null,
+      appliedRangeEndDate: null,
+      pendingPresetSelection: { id: 'last30days' },
+      calendarViewport: 'range',
+      compareAppliedSignature: '',
+      compareCurrentSignature: '{}',
+      isRangeValid: null,
+      getCurrentContextKey: jest.fn(() => baseContextKey),
+      applyUiSelectionFromHash: methods.applyUiSelectionFromHash,
+      setUiSelection: methods.setUiSelection,
+      clearPresetSelection: methods.clearPresetSelection,
+      resetSelectedDateValues: methods.resetSelectedDateValues,
+      applyDateValuesFromHash: methods.applyDateValuesFromHash,
+      setRangeStartEndFromPeriod: methods.setRangeStartEndFromPeriod,
+    };
+
+    (MatomoUrl as any).url.value = new URL(
+      'https://matomo.test/index.php?module=CoreHome&action=index&period=day&date=today'
+      + '#?period=day&date=today&category=General_Actions&subcategory=General_Pages',
+    );
+
+    expect(() => methods.updateSelectedValuesFromHash.call(vm)).not.toThrow();
+    expect(vm.isRangeValid).toBeNull();
+    expect(vm.calendarViewport).toBe('single');
 
     (MatomoUrl as any).url.value = originalUrl;
   });
