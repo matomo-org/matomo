@@ -503,6 +503,8 @@ class ArchivingHelper
         self::$maximumRowsInSubDataTable = Config::getInstance()->General['datatable_archiving_maximum_rows_subtable_actions'];
         self::$maximumRowsInDataTableSiteSearch = Config::getInstance()->General['datatable_archiving_maximum_rows_site_search'];
         self::$maximumRowsInDataTableFlat = Config::getInstance()->General['datatable_archiving_maximum_rows_actions_flat'] ?? 0;
+        self::$defaultActionNameWhenNotDefined = null;
+        self::$defaultActionUrlWhenNotDefined = null;
 
         DataTable::setMaximumDepthLevelAllowedAtLeast(self::getSubCategoryLevelLimit() + 1);
     }
@@ -592,6 +594,7 @@ class ArchivingHelper
         $maxRowsInHierarchySubtable = self::$maximumRowsInDataTableFlat > 0
             ? self::$maximumRowsInDataTableFlat
             : self::$maximumRowsInSubDataTable;
+        $hierarchyDefaultColumns = self::getDefaultRowColumns();
 
         foreach ($flatTable->getRows() as $flatRow) {
             if ($flatRow->isSummaryRow()) {
@@ -599,8 +602,9 @@ class ArchivingHelper
                     continue;
                 }
 
-                $summaryRow = self::createSummaryRow();
-                self::mergeRowIntoDestination($flatRow, $summaryRow);
+                $summaryRow = clone $flatRow;
+                $summaryRow->setIsSummaryRow();
+                $summaryRow->deleteMetadata(self::ACTION_FLAT_PATH_METADATA_NAME);
                 $table->addSummaryRow($summaryRow);
                 continue;
             }
@@ -612,7 +616,7 @@ class ArchivingHelper
 
             [$hierarchyRow, $level] = $table->walkPath(
                 $actionPath,
-                self::getDefaultRowColumns(),
+                $hierarchyDefaultColumns,
                 $maxRowsInHierarchySubtable
             );
 
@@ -642,7 +646,7 @@ class ArchivingHelper
         }
 
         $row = new Row(array(
-            Row::COLUMNS => array('label' => $flatLabel) + self::getDefaultRowColumns(),
+            Row::COLUMNS => array('label' => $flatLabel) + self::getDefaultFlatRowColumns(),
         ));
         $row->setMetadata(self::ACTION_FLAT_PATH_METADATA_NAME, $actionExplodedNames);
         $table->addRow($row);
@@ -702,7 +706,7 @@ class ArchivingHelper
             $flatRow = $flatTable->getRowFromLabel($flatLabel);
             if ($flatRow === false) {
                 $flatRow = new Row(array(
-                    Row::COLUMNS => array('label' => $flatLabel) + self::getDefaultRowColumns(),
+                    Row::COLUMNS => array('label' => $flatLabel) + self::getDefaultFlatRowColumns(),
                 ));
                 $flatRow->setMetadata(self::ACTION_FLAT_PATH_METADATA_NAME, $currentPath);
                 $flatTable->addRow($flatRow);
@@ -944,6 +948,13 @@ class ArchivingHelper
     {
         return array(PiwikMetrics::INDEX_NB_VISITS           => 0,
                      PiwikMetrics::INDEX_NB_UNIQ_VISITORS    => 0,
+                     PiwikMetrics::INDEX_PAGE_NB_HITS        => 0,
+                     PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT => 0);
+    }
+
+    private static function getDefaultFlatRowColumns()
+    {
+        return array(PiwikMetrics::INDEX_NB_VISITS           => 0,
                      PiwikMetrics::INDEX_PAGE_NB_HITS        => 0,
                      PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT => 0);
     }
