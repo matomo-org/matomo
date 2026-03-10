@@ -11,10 +11,12 @@
     :aria-label="translate('General_ChoosePeriod')"
   >
     <p
+      class="period-selector-option-row"
       v-for="period in displayPeriods"
       :key="period"
     >
       <label
+        class="period-selector-option-label"
         :class="{ 'selected-period-label': checkedPeriodId === period }"
         :title="period === activeDatePeriod
           ? ''
@@ -22,13 +24,14 @@
         @dblclick="handlePeriodDoubleClick(period)"
       >
         <input
+          class="period-selector-option-input"
           type="radio"
           name="period"
           :id="`period_id_${period}`"
           :checked="checkedPeriodId === period"
           @change="handlePeriodSelected(period)"
         />
-        <span>{{ getPeriodDisplayText(period) }}</span>
+        <span class="period-selector-option-text">{{ getPeriodDisplayText(period) }}</span>
       </label>
     </p>
   </div>

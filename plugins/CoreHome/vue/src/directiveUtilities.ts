@@ -8,9 +8,19 @@
 import { DirectiveBinding } from 'vue';
 
 function getRef<T>(expander: string | HTMLElement, binding: DirectiveBinding<T>): HTMLElement|null {
-  return expander instanceof HTMLElement
-    ? expander
-    : binding.instance?.$refs[expander] as HTMLElement;
+  if (expander instanceof HTMLElement) {
+    return expander;
+  }
+
+  const refTarget = binding.instance?.$refs[expander] as {
+    $refs?: { title?: HTMLElement };
+  } | HTMLElement | undefined;
+
+  if (refTarget instanceof HTMLElement) {
+    return refTarget;
+  }
+
+  return refTarget?.$refs?.title || null;
 }
 
 export default {

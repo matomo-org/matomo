@@ -30,17 +30,22 @@ export const COMPARE_PERIOD_OPTIONS = [
 ];
 
 // the date when the site was created
-export const siteMinAllowedDate = new Date(
-  Matomo.minDateYear,
-  Matomo.minDateMonth - 1,
-  Matomo.minDateDay,
-);
+export function getSiteMinAllowedDate(): Date {
+  return new Date(
+    Matomo.minDateYear,
+    Matomo.minDateMonth - 1,
+    Matomo.minDateDay,
+  );
+}
+
 // today/now
-export const siteMaxAllowedDate = new Date(
-  Matomo.maxDateYear,
-  Matomo.maxDateMonth - 1,
-  Matomo.maxDateDay,
-);
+export function getSiteMaxAllowedDate(): Date {
+  return new Date(
+    Matomo.maxDateYear,
+    Matomo.maxDateMonth - 1,
+    Matomo.maxDateDay,
+  );
+}
 
 export const RANGE_PERIOD = 'range';
 
@@ -48,6 +53,17 @@ export type InteractionSource = 'period' | 'preset' | 'calendar' | 'range' | nul
 export type SingleCalendarPeriod = 'day' | 'week' | 'month' | 'year';
 export type CalendarViewport = 'single' | 'range';
 export type UiSelection = HashSyncUiSelection<PresetDateRangeId>;
+export type CompareStateChangeSource = 'user' | 'sync' | 'context';
+
+export interface CompareStateChangePayload {
+  isComparing: boolean;
+  comparePeriodType: string;
+  compareStartDate: string;
+  compareEndDate: string;
+  compareCurrentSignature: string;
+  isCompareRangeValid: boolean;
+  source: CompareStateChangeSource;
+}
 
 export function isValidDate(candidateDate: unknown): boolean {
   if (Object.prototype.toString.call(candidateDate) !== '[object Date]') {
@@ -69,6 +85,7 @@ export interface PeriodSelectorState {
   lastInteractionSource: InteractionSource;
   nextHashUiSelection: UiSelection|null;
   nextHashSelectionKey: string|null;
+  nextHashContextKey: string|null;
   lastKnownHashSelectionKey: string|null;
   lastKnownHashContextKey: string|null;
   minAllowedDate: Date;
@@ -89,5 +106,7 @@ export interface PeriodSelectorState {
   comparePeriodType: string;
   compareStartDate: string;
   compareEndDate: string;
+  compareCurrentSignature: string;
+  isCompareRangeValidValue: boolean;
   compareAppliedSignature: string;
 }

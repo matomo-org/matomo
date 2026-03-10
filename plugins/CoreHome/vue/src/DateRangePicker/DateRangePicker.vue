@@ -25,8 +25,10 @@
         :view-date="startDate"
         :selected-date-start="fromPickerSelectedDates[0]"
         :selected-date-end="fromPickerSelectedDates[1]"
-        :highlighted-date-start="effectiveHighlightedDates[0]"
-        :highlighted-date-end="effectiveHighlightedDates[1]"
+        :committed-highlighted-date-start="committedBetweenHighlightDates[0]"
+        :committed-highlighted-date-end="committedBetweenHighlightDates[1]"
+        :highlighted-date-start="transientHoverDates[0]"
+        :highlighted-date-end="transientHoverDates[1]"
         @date-select="setStartRangeDate($event.date)"
         @cell-hover="transientHoverDates = getNewHighlightedDates($event.date, $event.$cell)"
         @cell-hover-leave="transientHoverDates = [null, null]"
@@ -51,8 +53,10 @@
         :view-date="endDate"
         :selected-date-start="toPickerSelectedDates[0]"
         :selected-date-end="toPickerSelectedDates[1]"
-        :highlighted-date-start="effectiveHighlightedDates[0]"
-        :highlighted-date-end="effectiveHighlightedDates[1]"
+        :committed-highlighted-date-start="committedBetweenHighlightDates[0]"
+        :committed-highlighted-date-end="committedBetweenHighlightDates[1]"
+        :highlighted-date-start="transientHoverDates[0]"
+        :highlighted-date-end="transientHoverDates[1]"
         @date-select="setEndRangeDate($event.date)"
         @cell-hover="transientHoverDates = getNewHighlightedDates($event.date, $event.$cell)"
         @cell-hover-leave="transientHoverDates = [null, null]"
@@ -120,15 +124,6 @@ export default defineComponent({
     };
   },
   emits: ['rangeChange', 'submit'],
-  computed: {
-    effectiveHighlightedDates(): (Date|null)[] {
-      if (this.transientHoverDates[0] && this.transientHoverDates[1]) {
-        return this.transientHoverDates;
-      }
-
-      return this.committedBetweenHighlightDates;
-    },
-  },
   watch: {
     startDate() {
       this.startDateText = this.startDate;

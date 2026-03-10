@@ -28,6 +28,8 @@ export default defineComponent({
     selectedDateStart: Date,
     selectedDateEnd: Date,
     selectedBoundaryOnly: Boolean,
+    committedHighlightedDateStart: Date,
+    committedHighlightedDateEnd: Date,
     highlightedDateStart: Date,
     highlightedDateEnd: Date,
     viewDate: [String, Date],
@@ -67,11 +69,20 @@ export default defineComponent({
         $dateCell.removeClass('ui-datepicker-current-period');
       }
 
-      if (props.highlightedDateStart
+      const isCommittedHighlightedDate = !!(
+        props.committedHighlightedDateStart
+        && props.committedHighlightedDateEnd
+        && dateValue >= props.committedHighlightedDateStart
+        && dateValue <= props.committedHighlightedDateEnd
+      );
+      const isTransientHighlightedDate = !!(
+        props.highlightedDateStart
         && props.highlightedDateEnd
         && dateValue >= props.highlightedDateStart
         && dateValue <= props.highlightedDateEnd
-      ) {
+      );
+
+      if (isCommittedHighlightedDate || isTransientHighlightedDate) {
         // Always mark the td so hover can fill full cell area (including horizontal padding).
         $dateCell.addClass('ui-state-hover');
         // Keep anchor class too for existing link-focused hover styling.

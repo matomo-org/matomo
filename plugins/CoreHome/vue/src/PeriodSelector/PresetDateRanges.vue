@@ -17,20 +17,23 @@
         class="preset-date-range-group-separator"
       />
       <p
+        class="period-selector-option-row"
         v-for="preset in group"
         :key="preset.id"
       >
         <label
+          class="period-selector-option-label"
           :class="{ 'selected-period-label': checkedPresetId === preset.id }"
         >
           <input
+            class="period-selector-option-input"
             type="radio"
             name="presetDateRange"
             :id="`preset_date_${preset.id}`"
             :checked="checkedPresetId === preset.id"
             @change="handlePresetSelected(preset.id)"
           />
-          <span>{{ translate(preset.labelKey) }}</span>
+          <span class="period-selector-option-text">{{ translate(preset.labelKey) }}</span>
         </label>
       </p>
     </div>

@@ -7,6 +7,7 @@
 
 import { mount } from '@vue/test-utils';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import PeriodSelector from './PeriodSelector.vue';
 
 window.piwik.minDateYear = 2011;
 window.piwik.minDateMonth = 11;
@@ -14,9 +15,6 @@ window.piwik.minDateDay = 15;
 window.piwik.maxDateYear = 2014;
 window.piwik.maxDateMonth = 3;
 window.piwik.maxDateDay = 29;
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const PeriodSelector = require('./PeriodSelector.vue').default;
 
 describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions', () => {
   const originalInitTopControls = window.initTopControls;

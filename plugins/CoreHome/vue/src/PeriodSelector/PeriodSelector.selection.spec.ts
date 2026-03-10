@@ -7,6 +7,9 @@
 
 import { Periods, format } from '../Periods';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
+import { applyUiSelectionFromHash } from './PeriodSelectorHashSync';
+import { getTokenPresetIdFromPeriodAndDate } from './PresetDateRangeResolver';
+import PeriodSelector from './PeriodSelector.vue';
 
 window.piwik.minDateYear = 2011;
 window.piwik.minDateMonth = 11;
@@ -14,9 +17,6 @@ window.piwik.minDateDay = 15;
 window.piwik.maxDateYear = 2014;
 window.piwik.maxDateMonth = 3;
 window.piwik.maxDateDay = 29;
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const PeriodSelector = require('./PeriodSelector.vue').default;
 
 describe('PeriodSelector', () => {
   const component = PeriodSelector as unknown as {
@@ -231,7 +231,7 @@ describe('PeriodSelector', () => {
     expect(vm.commitSelectionToUrl).not.toHaveBeenCalledWith('2026-02-14,2026-02-15', 'range');
   });
 
-  it('keeps currently viewing text unchanged before apply after preset click', () => {
+  it('keeps committed selection unchanged before apply after preset click', () => {
     const appliedDate = new Date('2026-02-18');
     const vm: any = {
       periodsFiltered: ['day', 'week', 'month', 'year', 'range'],
@@ -252,8 +252,6 @@ describe('PeriodSelector', () => {
       },
     };
 
-    const before = computed.currentlyViewingText.call(vm);
-
     methods.onPresetDateRangeSelected.call(vm, {
       id: 'last7days',
       period: 'range',
@@ -262,8 +260,10 @@ describe('PeriodSelector', () => {
       endDate: new Date('2026-02-18'),
     });
 
-    const after = computed.currentlyViewingText.call(vm);
-    expect(before).toBe(after);
+    expect(vm.committedPeriod).toBe('day');
+    expect(vm.committedAnchorDate).toBe(appliedDate);
+    expect(vm.appliedRangeStartDate).toBe('2026-02-18');
+    expect(vm.appliedRangeEndDate).toBe('2026-02-18');
   });
 
   it('uses staged range preview values when range preset is selected', () => {
@@ -387,7 +387,11 @@ describe('PeriodSelector', () => {
       clearPresetSelection: jest.fn(),
     };
 
-    methods.applyUiSelectionFromHash.call(vm, 'range', 'last7', null);
+    applyUiSelectionFromHash(vm, 'range', 'last7', null, {
+      getTokenPresetIdFromPeriodAndDate,
+      setUiSelection: (selection, source) => vm.setUiSelection(selection, source),
+      clearPresetSelection: () => vm.clearPresetSelection(),
+    });
 
     expect(vm.uiSelection).toEqual({ type: 'preset', id: 'last7days' });
     expect(vm.activePresetId).toBe('last7days');
@@ -411,7 +415,11 @@ describe('PeriodSelector', () => {
       },
     };
 
-    methods.applyUiSelectionFromHash.call(vm, 'range', '2026-01-01,2026-03-31', null);
+    applyUiSelectionFromHash(vm, 'range', '2026-01-01,2026-03-31', null, {
+      getTokenPresetIdFromPeriodAndDate,
+      setUiSelection: (selection, source) => vm.setUiSelection(selection, source),
+      clearPresetSelection: () => vm.clearPresetSelection(),
+    });
 
     expect(vm.uiSelection).toEqual({ type: 'period', id: 'range' });
     expect(vm.activePresetId).toBeNull();
@@ -481,7 +489,7 @@ describe('PeriodSelector', () => {
       isRangeValid: true,
       isComparing: false,
       comparePeriodType: 'previousPeriod',
-      isCompareRangeValid: jest.fn(() => true),
+      isCompareRangeValidValue: true,
     };
 
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
@@ -497,7 +505,7 @@ describe('PeriodSelector', () => {
       isRangeValid: true,
       isComparing: false,
       comparePeriodType: 'previousPeriod',
-      isCompareRangeValid: jest.fn(() => true),
+      isCompareRangeValidValue: true,
     };
 
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
@@ -513,7 +521,7 @@ describe('PeriodSelector', () => {
       isRangeValid: true,
       isComparing: true,
       comparePeriodType: 'custom',
-      isCompareRangeValid: jest.fn(() => true),
+      isCompareRangeValidValue: true,
     };
 
     expect(methods.isApplyEnabled.call(vm)).toBe(false);
@@ -534,25 +542,27 @@ describe('PeriodSelector', () => {
       appliedRangeEndDate: '2026-02-18',
       singleCalendarPeriod: 'day',
       singleCalendarSelectedDate: new Date('2026-02-18'),
-      selectedComparisonParams: {
-        comparePeriods: ['day'],
-        comparePeriodType: 'previousPeriod',
-        compareDates: ['2026-02-18'],
-      },
+      isComparing: true,
+      comparePeriodType: 'previousPeriod',
+      compareStartDate: '',
+      compareEndDate: '',
       compareCurrentSignature: '{"isComparing":true,"comparePeriodType":"previousPeriod"}',
       compareAppliedSignature: '',
       nextHashUiSelection: null,
       nextHashSelectionKey: null,
+      nextHashContextKey: null,
       isLoadingNewPage: false,
       canInteractWithSingleCalendar: jest.fn(() => true),
       clearPresetSelection: jest.fn(),
       closePeriodSelector: jest.fn(),
+      getCurrentContextKey: jest.fn(() => 'context-key'),
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
       },
       setRangeStartEndFromPeriod: methods.setRangeStartEndFromPeriod,
       setPendingPeriodAndDate: methods.setPendingPeriodAndDate,
+      getSelectedComparisonParamsForCommit: methods.getSelectedComparisonParamsForCommit,
       propagateNewUrlParams: methods.propagateNewUrlParams,
       commitSelectionToUrl: methods.commitSelectionToUrl,
     };
@@ -585,12 +595,12 @@ describe('PeriodSelector', () => {
       pendingPresetSelection: null,
       isComparing: false,
       comparePeriodType: 'previousPeriod',
+      isCompareRangeValidValue: true,
       setUiSelection(selection: { type: string; id: string }, source: string|null) {
         this.uiSelection = selection;
         this.lastInteractionSource = source;
       },
       clearPresetSelection: jest.fn(),
-      isCompareRangeValid: jest.fn(() => true),
     };
 
     methods.onPeriodOptionSelected.call(vm, { period: 'range' });
@@ -720,29 +730,49 @@ describe('PeriodSelector', () => {
 
   it('keeps legacy immediate apply behavior on non-range period double click', () => {
     const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: null,
+      activePresetId: null,
+      pendingPresetSelection: null,
+      selectedPeriod: 'day',
       committedPeriod: 'day',
+      calendarViewport: 'single',
+      singleCalendarPeriod: 'day',
+      singleCalendarSelectedDate: null,
+      isRangeValid: null,
       committedAnchorDate: new Date('2026-02-18'),
-      onPeriodOptionSelected: jest.fn(),
       setPiwikPeriodAndDate: jest.fn(),
     };
 
     methods.onPeriodOptionDblClick.call(vm, { period: 'month' });
 
-    expect(vm.onPeriodOptionSelected).toHaveBeenCalledWith({ period: 'month' });
+    expect(vm.uiSelection).toEqual({ type: 'period', id: 'month' });
+    expect(vm.selectedPeriod).toBe('month');
+    expect(vm.calendarViewport).toBe('single');
     expect(vm.setPiwikPeriodAndDate).toHaveBeenCalledWith('month', vm.committedAnchorDate);
   });
 
   it('does not immediately apply range period double click', () => {
     const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      lastInteractionSource: null,
+      activePresetId: null,
+      pendingPresetSelection: null,
+      selectedPeriod: 'day',
       committedPeriod: 'day',
+      calendarViewport: 'single',
+      singleCalendarPeriod: 'day',
+      singleCalendarSelectedDate: null,
+      isRangeValid: null,
       committedAnchorDate: new Date('2026-02-18'),
-      onPeriodOptionSelected: jest.fn(),
       setPiwikPeriodAndDate: jest.fn(),
     };
 
     methods.onPeriodOptionDblClick.call(vm, { period: 'range' });
 
-    expect(vm.onPeriodOptionSelected).toHaveBeenCalledWith({ period: 'range' });
+    expect(vm.uiSelection).toEqual({ type: 'period', id: 'range' });
+    expect(vm.selectedPeriod).toBe('range');
+    expect(vm.calendarViewport).toBe('range');
     expect(vm.setPiwikPeriodAndDate).not.toHaveBeenCalled();
   });
 
@@ -828,15 +858,170 @@ describe('PeriodSelector', () => {
     const vm: any = {
       committedPeriod: 'day',
       committedAnchorDate: new Date(maxDate.getTime()),
+      minAllowedDate: new Date(
+        window.piwik.minDateYear,
+        window.piwik.minDateMonth - 1,
+        window.piwik.minDateDay,
+      ),
+      maxAllowedDate: maxDate,
       canMovePeriod: jest.fn(() => true),
       setPiwikPeriodAndDate: jest.fn(),
     };
 
-    methods.movePeriod.call(vm, 1);
+    methods.onMovePeriod.call(vm, 1);
 
     const appliedDate = vm.setPiwikPeriodAndDate.mock.calls[0][1] as Date;
     expect(vm.setPiwikPeriodAndDate).toHaveBeenCalledWith('day', expect.any(Date));
     expect(appliedDate.getTime()).toBe(maxDate.getTime());
     expect(appliedDate.getTime()).not.toBe(movedDate.getTime());
+  });
+
+  it('commits fresh compare dates for calendar clicks instead of cached comparison params', () => {
+    const originalInitTopControls = window.initTopControls;
+    window.initTopControls = jest.fn();
+    const updateLocationSpy = jest.spyOn(MatomoUrl, 'updateLocation');
+    const selectedDate = new Date('2026-02-20');
+    const vm: any = {
+      calendarViewport: 'single',
+      uiSelection: { type: 'period', id: 'day' },
+      selectedPeriod: 'day',
+      committedPeriod: 'day',
+      committedAnchorDate: new Date('2026-02-18'),
+      appliedRangeStartDate: '2026-02-18',
+      appliedRangeEndDate: '2026-02-18',
+      singleCalendarPeriod: 'day',
+      singleCalendarSelectedDate: new Date('2026-02-18'),
+      isComparing: true,
+      comparePeriodType: 'previousPeriod',
+      compareStartDate: '',
+      compareEndDate: '',
+      compareCurrentSignature: '{"isComparing":true,"comparePeriodType":"previousPeriod"}',
+      compareAppliedSignature: '',
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      nextHashContextKey: null,
+      isLoadingNewPage: false,
+      canInteractWithSingleCalendar: jest.fn(() => true),
+      clearPresetSelection: jest.fn(),
+      closePeriodSelector: jest.fn(),
+      getCurrentContextKey: jest.fn(() => 'context-key'),
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+      setRangeStartEndFromPeriod: methods.setRangeStartEndFromPeriod,
+      setPendingPeriodAndDate: methods.setPendingPeriodAndDate,
+      getSelectedComparisonParamsForCommit: methods.getSelectedComparisonParamsForCommit,
+      propagateNewUrlParams: methods.propagateNewUrlParams,
+      commitSelectionToUrl: methods.commitSelectionToUrl,
+    };
+
+    try {
+      methods.onDatePickerSelected.call(vm, selectedDate);
+
+      expect(updateLocationSpy).toHaveBeenCalledWith(expect.objectContaining({
+        date: '2026-02-20',
+        period: 'day',
+        comparePeriods: ['day'],
+        comparePeriodType: 'previousPeriod',
+        compareDates: ['2026-02-19'],
+      }));
+    } finally {
+      updateLocationSpy.mockRestore();
+      window.initTopControls = originalInitTopControls;
+    }
+  });
+
+  it('commits fresh compare dates for prev-next navigation through setPiwikPeriodAndDate', () => {
+    const originalInitTopControls = window.initTopControls;
+    window.initTopControls = jest.fn();
+    const updateLocationSpy = jest.spyOn(MatomoUrl, 'updateLocation');
+    const vm: any = {
+      uiSelection: { type: 'period', id: 'day' },
+      selectedPeriod: 'day',
+      committedPeriod: 'day',
+      committedAnchorDate: new Date('2014-03-28'),
+      appliedRangeStartDate: '2014-03-28',
+      appliedRangeEndDate: '2014-03-28',
+      singleCalendarPeriod: 'day',
+      singleCalendarSelectedDate: new Date('2014-03-28'),
+      isComparing: true,
+      comparePeriodType: 'previousPeriod',
+      compareStartDate: '',
+      compareEndDate: '',
+      compareCurrentSignature: '{"isComparing":true,"comparePeriodType":"previousPeriod"}',
+      compareAppliedSignature: '',
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      nextHashContextKey: null,
+      isLoadingNewPage: false,
+      clearPresetSelection: jest.fn(),
+      closePeriodSelector: jest.fn(),
+      getCurrentContextKey: jest.fn(() => 'context-key'),
+      setUiSelection(selection: { type: string; id: string }, source: string|null) {
+        this.uiSelection = selection;
+        this.lastInteractionSource = source;
+      },
+      setRangeStartEndFromPeriod: methods.setRangeStartEndFromPeriod,
+      setPendingPeriodAndDate: methods.setPendingPeriodAndDate,
+      getSelectedComparisonParamsForCommit: methods.getSelectedComparisonParamsForCommit,
+      propagateNewUrlParams: methods.propagateNewUrlParams,
+      commitSelectionToUrl: methods.commitSelectionToUrl,
+    };
+
+    try {
+      methods.setPiwikPeriodAndDate.call(vm, 'day', new Date('2014-03-29'));
+
+      expect(updateLocationSpy).toHaveBeenCalledWith(expect.objectContaining({
+        date: '2014-03-29',
+        period: 'day',
+        comparePeriods: ['day'],
+        comparePeriodType: 'previousPeriod',
+        compareDates: ['2014-03-28'],
+      }));
+    } finally {
+      updateLocationSpy.mockRestore();
+      window.initTopControls = originalInitTopControls;
+    }
+  });
+
+  it('derives fresh comparison params for applied range selections', () => {
+    const originalInitTopControls = window.initTopControls;
+    window.initTopControls = jest.fn();
+    const updateLocationSpy = jest.spyOn(MatomoUrl, 'updateLocation');
+    const vm: any = createApplyVm({
+      uiSelection: { type: 'period', id: 'range' },
+      selectedPeriod: 'range',
+      committedPeriod: 'range',
+      committedAnchorDate: new Date('2026-02-10'),
+      appliedRangeStartDate: '2026-02-10',
+      appliedRangeEndDate: '2026-02-12',
+      isComparing: true,
+      comparePeriodType: 'previousPeriod',
+      compareStartDate: '',
+      compareEndDate: '',
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      nextHashContextKey: null,
+      getCurrentContextKey: jest.fn(() => 'context-key'),
+      getSelectedComparisonParamsForCommit: methods.getSelectedComparisonParamsForCommit,
+      propagateNewUrlParams: methods.propagateNewUrlParams,
+      commitSelectionToUrl: methods.commitSelectionToUrl,
+    });
+
+    try {
+      methods.applyRangeSelection.call(vm);
+
+      expect(updateLocationSpy).toHaveBeenCalledWith(expect.objectContaining({
+        date: '2026-02-01,2026-02-18',
+        period: 'range',
+        comparePeriods: ['range'],
+        comparePeriodType: 'previousPeriod',
+        compareDates: ['2026-02-07,2026-02-09'],
+      }));
+    } finally {
+      updateLocationSpy.mockRestore();
+      window.initTopControls = originalInitTopControls;
+    }
   });
 });

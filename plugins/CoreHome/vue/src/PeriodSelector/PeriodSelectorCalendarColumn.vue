@@ -34,15 +34,12 @@
     </div>
     <PeriodSelectorCompareControls
       :is-comparison-enabled="isComparisonEnabled"
-      :is-comparing="isComparing"
-      :compare-period-type="comparePeriodType"
-      :compare-start-date="compareStartDate"
-      :compare-end-date="compareEndDate"
       :compare-period-dropdown-options="comparePeriodDropdownOptions"
-      @update:isComparing="$emit('update:isComparing', $event)"
-      @update:comparePeriodType="$emit('update:comparePeriodType', $event)"
-      @update:compareStartDate="$emit('update:compareStartDate', $event)"
-      @update:compareEndDate="$emit('update:compareEndDate', $event)"
+      :selected-period="selectedPeriod"
+      :committed-anchor-date="committedAnchorDate"
+      :applied-range-start-date="displayRangeStartDate || ''"
+      :applied-range-end-date="displayRangeEndDate || ''"
+      @compare-state-change="onCompareStateChange($event)"
     />
     <div class="apply-button-container">
       <input
@@ -63,6 +60,7 @@ import DateRangePicker from '../DateRangePicker/DateRangePicker.vue';
 import PeriodDatePicker from '../PeriodDatePicker/PeriodDatePicker.vue';
 import { translate } from '../translate';
 import PeriodSelectorCompareControls from './PeriodSelectorCompareControls.vue';
+import type { CompareStateChangePayload } from './PeriodSelector.types';
 
 export default defineComponent({
   name: 'PeriodSelectorCalendarColumn',
@@ -100,21 +98,13 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    isComparing: {
-      type: Boolean as PropType<boolean|null>,
+    selectedPeriod: {
+      type: String,
+      required: true,
+    },
+    committedAnchorDate: {
+      type: Date as PropType<Date|null>,
       default: null,
-    },
-    comparePeriodType: {
-      type: String,
-      required: true,
-    },
-    compareStartDate: {
-      type: String,
-      required: true,
-    },
-    compareEndDate: {
-      type: String,
-      required: true,
     },
     comparePeriodDropdownOptions: {
       type: Array as PropType<Array<{ key: string; value: string }>>,
@@ -130,13 +120,13 @@ export default defineComponent({
     'single-date-select',
     'apply-click',
     'range-preset-date-cell-click-capture',
-    'update:isComparing',
-    'update:comparePeriodType',
-    'update:compareStartDate',
-    'update:compareEndDate',
+    'compare-state-change',
   ],
   methods: {
     translate,
+    onCompareStateChange(payload: CompareStateChangePayload) {
+      this.$emit('compare-state-change', payload);
+    },
   },
 });
 </script>

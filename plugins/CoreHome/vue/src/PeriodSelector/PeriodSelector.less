@@ -1,23 +1,22 @@
 .periodSelector {
   display: inline-block;
-  [type=radio]:not(:checked) + span,
-  [type=radio]:checked + span {
+  .period-selector-option-text {
     padding-left: 30px;
   }
-  [type=radio]:not(:checked)+span:before,
-  [type=radio]:not(:checked)+span:after,
-  [type=checkbox]+span:not(.lever):before,
-  [type=checkbox]:not(.filled-in)+span:not(.lever):after {
+  .period-selector-option-input:not(:checked) + .period-selector-option-text:before,
+  .period-selector-option-input:not(:checked) + .period-selector-option-text:after,
+  .compare-checkbox-input:not(:checked) + .compare-checkbox-text:not(.lever):before,
+  .compare-checkbox-input:not(.filled-in) + .compare-checkbox-text:not(.lever):after {
     border: 2px solid @color-period-selector-input-radio;
   }
 
-  [type=checkbox]:checked+span:not(.lever):before {
+  .compare-checkbox-input:checked + .compare-checkbox-text:not(.lever):before {
     border-top: 2px solid rgba(0, 0, 0, 0);
     border-left: 2px solid rgba(0, 0, 0, 0);
   }
 
   &.compare-dropdown-open {
-    #comparePeriodToDropdown {
+    .compare-period-dropdown {
       position: relative;
       z-index: 2;
 
@@ -26,11 +25,11 @@
       }
     }
 
-    label[for=comparePeriodEndDate] {
+    .compare-date-field-end label[for=comparePeriodEndDate] {
       visibility: hidden;
     }
 
-    #comparePeriodEndDate .input-field {
+    .compare-date-field-end .input-field {
       position: static; // needed when dropdown is open, since dropdown content is position: absolute, and this is position: relative, which causes it to show up in the background of the dropdown
     }
   }
@@ -44,12 +43,10 @@
 
   .compare-checkbox {
     margin-bottom: 20px;
-    label {
-        span {
-            padding-left:25px;
-            font-size: 14px;
-            margin-right: 3px;
-        }
+    .compare-checkbox-text {
+      padding-left: 25px;
+      font-size: 14px;
+      margin-right: 3px;
     }
   }
 
@@ -62,7 +59,7 @@
     padding-top: 20px;
   }
 
-  #comparePeriodToDropdown {
+  .compare-period-dropdown {
     height: 30px;
     display: inline-block;
     transform: scale(.9);
@@ -90,7 +87,7 @@
     }
   }
 
-  div#comparePeriodStartDate, div#comparePeriodEndDate {
+  .compare-date-field {
     display: inline-block;
 
     .form-group {
@@ -108,13 +105,13 @@
   }
 
   #periodMore.single-calendar {
-    div#comparePeriodStartDate, div#comparePeriodEndDate {
+    .compare-date-field {
       width: calc(~"70%");
     }
   }
 
   #periodMore.dual-calendar {
-    div#comparePeriodStartDate, div#comparePeriodEndDate {
+    .compare-date-field {
       width: calc(~"50% - 20px");
     }
   }
@@ -130,7 +127,7 @@
     margin-top: 30px;
   }
 
-  label[for=comparePeriodTo] {
+  .compare-checkbox label[for=comparePeriodTo] {
     transform: scale(.9);
   }
 
@@ -171,11 +168,11 @@
 
   .period-selector-options-column {
     #otherPeriods .periodOptions {
-      p:first-child {
+      .period-selector-option-row:first-child {
         margin-top: 5px;
       }
 
-      label {
+      .period-selector-option-label {
         border-radius: 5px;
         color: @color-period-selector;
         display: block;
@@ -189,28 +186,28 @@
         }
       }
 
-      input[type=radio]:focus-visible + span {
+      .period-selector-option-input:focus-visible + .period-selector-option-text {
         background-color: @color-period-selector-options-hover-bg;
         border-radius: 5px;
         outline: 2px solid @theme-color-focus-ring;
         outline-offset: 0;
       }
 
-      label > span {
+      .period-selector-option-text {
         display: block;
       }
 
       // Period options are visually button-like; hide radio-marker pseudo elements.
-      input[type=radio] + span {
+      .period-selector-option-input + .period-selector-option-text {
         padding-left: 0;
       }
 
-      input[type=radio] + span:before,
-      input[type=radio] + span:after {
+      .period-selector-option-input + .period-selector-option-text:before,
+      .period-selector-option-input + .period-selector-option-text:after {
         display: none !important;
       }
 
-      input[type=radio]:focus + span {
+      .period-selector-option-input:focus + .period-selector-option-text {
         // fallback for browsers without :focus-visible support
         @supports not selector(:focus-visible) {
           background-color: @color-period-selector-options-hover-bg;
@@ -220,7 +217,7 @@
         }
       }
 
-      label.selected-period-label {
+      .period-selector-option-label.selected-period-label {
         color: @theme-color-text;
         font-weight: 600;
       }
@@ -231,13 +228,13 @@
       margin-top: 12px;
       padding-top: 12px;
 
-      label,
-      label span {
+      .period-selector-option-label,
+      .period-selector-option-text {
         color: @color-period-selector;
       }
 
-      label.selected-period-label,
-      label.selected-period-label span {
+      .period-selector-option-label.selected-period-label,
+      .period-selector-option-label.selected-period-label .period-selector-option-text {
         color: @theme-color-text;
       }
     }
