@@ -44,14 +44,14 @@
     >
       <div class="flex">
         <PeriodSelectorOptionsColumn
-          :ui-selected-period="uiSelectedPeriod"
+          :ui-selected-period="selectedPeriod"
           :periods-filtered="periodsFiltered"
           :ui-selection="uiSelection"
-          :applied-period="appliedPeriod"
+          :applied-period="committedPeriod"
           :active-preset-id="activePresetId"
           :min-allowed-date="minAllowedDate"
           :max-allowed-date="maxAllowedDate"
-          @update:ui-selected-period="uiSelectedPeriod = $event"
+          @update:ui-selected-period="selectedPeriod = $event"
           @update:active-preset-id="activePresetId = $event"
           @period-select="onPeriodOptionSelected($event)"
           @period-dblclick="onPeriodOptionDblClick($event)"
@@ -347,7 +347,7 @@ export default defineComponent({
       return format(previousPeriodStartDate);
     },
     selectedDateString() {
-      if (this.uiSelectedPeriod === 'range') {
+      if (this.selectedPeriod === 'range') {
         const selectedStartDate = this.appliedRangeStartDate!;
         const selectedEndDate = this.appliedRangeEndDate!;
         const parsedStartDate = parseDate(selectedStartDate);
@@ -630,13 +630,13 @@ export default defineComponent({
         hasPendingNonRangePeriodChange: this.hasPendingNonRangePeriodChange,
         isCompareDirty: this.isCompareDirty,
         shouldCloseSelectorWithoutApplying: this.shouldCloseSelectorWithoutApplying(),
-        appliedPeriod: this.appliedPeriod,
+        appliedPeriod: this.committedPeriod,
         hasCommittedRangeBounds: this.hasCommittedRangeBounds(),
         rollingDateParam: this.getCurrentRollingDateParamIfOwnedByPreset(),
         appliedRangeStartDate: this.appliedRangeStartDate,
         appliedRangeEndDate: this.appliedRangeEndDate,
-        formattedAppliedAnchorDate: this.appliedAnchorDate
-          ? format(this.appliedAnchorDate)
+        formattedAppliedAnchorDate: this.committedAnchorDate
+          ? format(this.committedAnchorDate)
           : null,
       });
 
@@ -825,7 +825,7 @@ export default defineComponent({
       this.applyDateValuesFromHash(currentPeriod, currentDate);
       this.isRangeValid = currentPeriod === RANGE_PERIOD ? true : null;
       this.pendingPresetSelection = null;
-      this.calendarViewport = period === RANGE_PERIOD ? 'range' : 'single';
+      this.calendarViewport = currentPeriod === RANGE_PERIOD ? 'range' : 'single';
       this.compareAppliedSignature = this.compareCurrentSignature;
     },
     setRangeStartEndFromPeriod(period: string, dateStr: string) {
@@ -875,7 +875,7 @@ export default defineComponent({
     isApplyEnabled() {
       return isApplyEnabledFromState({
         uiSelectionType: this.uiSelection.type,
-        uiSelectedPeriod: this.uiSelectedPeriod,
+        uiSelectedPeriod: this.selectedPeriod,
         hasPendingNonRangePeriodChange: this.hasPendingNonRangePeriodChange,
         hasPendingPresetSelection: !!this.pendingPresetSelection,
         isRangeValid: this.isRangeValid,

@@ -8,6 +8,7 @@
 <template>
   <div
     class="periodOptions"
+    role="radiogroup"
     :aria-label="translate('General_ChoosePeriod')"
   >
     <p
