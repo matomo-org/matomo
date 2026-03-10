@@ -619,14 +619,14 @@ class API extends \Piwik\Plugin\API
     private function getEvolutionIcon(string $direction): string
     {
         if ($direction === 'positive') {
-            return 'plugins/MultiSites/images/evolution_up.svg';
+            return 'plugins/MultiSites/images/arrow_up.png';
         }
 
         if ($direction === 'negative') {
-            return 'plugins/MultiSites/images/evolution_down.svg';
+            return 'plugins/MultiSites/images/arrow_down.png';
         }
 
-        return 'plugins/MultiSites/images/evolution_equal.svg';
+        return 'plugins/MultiSites/images/stop.png';
     }
 
     /**
