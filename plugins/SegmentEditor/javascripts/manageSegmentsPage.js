@@ -211,10 +211,10 @@ function initManageSegmentsPage() {
     const date = getReportingParam('date');
     const ajaxHandler = new ajaxHelper();
     ajaxHandler.addParams({
-      module: 'SegmentEditor',
-      action: 'getSegmentData',
+      module: 'API',
+      method: 'SegmentEditor.getSegmentData',
       format: 'json',
-      segmentDefinition,
+      segment: segmentDefinition,
       idSite,
       period,
       date,

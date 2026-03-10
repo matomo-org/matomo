@@ -141,22 +141,10 @@ class ControllerTest extends IntegrationTestCase
         @$document->loadHTML($html);
         $xpath = new \DOMXPath($document);
 
-        $this->assertSame(
-            '3',
-            $this->getAllVisitsRowAttribute($xpath, 'data-segment-order')
-        );
-        $this->assertSame(
-            '2',
-            $this->getRowAttribute($xpath, $selectedPreProcessed['name'], 'data-segment-order')
-        );
-        $this->assertSame(
-            '1',
-            $this->getRowAttribute($xpath, $starredPreProcessed['name'], 'data-segment-order')
-        );
-        $this->assertSame(
-            '0',
-            $this->getRowAttribute($xpath, $realtime['name'], 'data-segment-order')
-        );
+        $this->assertSame('3', $this->getAllVisitsRowAttribute($xpath, 'data-segment-order'));
+        $this->assertSame('2', $this->getRowAttribute($xpath, $selectedPreProcessed['name'], 'data-segment-order'));
+        $this->assertSame('1', $this->getRowAttribute($xpath, $starredPreProcessed['name'], 'data-segment-order'));
+        $this->assertSame('0', $this->getRowAttribute($xpath, $realtime['name'], 'data-segment-order'));
 
         $this->assertSame('-', $this->getNumericCellValue($xpath, $realtime['name'], 1));
         $this->assertSame('-', $this->getNumericCellValue($xpath, $realtime['name'], 2));
@@ -172,19 +160,14 @@ class ControllerTest extends IntegrationTestCase
     {
         Rules::setBrowserTriggerArchiving(false);
 
-        $_GET = [
-            'idSite' => '1',
-            'period' => 'range',
-            'date' => '2010-03-06,2010-03-08',
-            'segmentDefinition' => '',
-        ];
-        $_REQUEST = $_GET;
-
-        $response = (new Controller())->getSegmentData();
-        $data = json_decode($response, true);
+        $data = API::getInstance()->getSegmentData(
+            1,
+            'range',
+            '2010-03-06,2010-03-08',
+            ''
+        );
 
         $this->assertIsArray($data);
-        $this->assertArrayNotHasKey('result', $data);
         $this->assertArrayHasKey('nb_visits', $data);
         $this->assertArrayHasKey('nb_actions', $data);
         $this->assertArrayHasKey('evolution_visits_direction', $data);
@@ -203,34 +186,19 @@ class ControllerTest extends IntegrationTestCase
     {
         Rules::setBrowserTriggerArchiving(false);
 
-        $_GET = [
-            'idSite' => '1',
-            'period' => 'range',
-            'date' => '2010-03-06,2010-03-08',
-            'segmentDefinition' => 'thisSegmentDefinitelyDoesNotExist==1',
-        ];
-        $_REQUEST = $_GET;
-
-        $response = (new Controller())->getSegmentData();
-        $data = json_decode($response, true);
-
-        $this->assertIsArray($data);
-        $this->assertSame('error', $data['result'] ?? null);
-        $this->assertNotEmpty($data['message'] ?? null);
-        $this->assertStringNotContainsString('thisSegmentDefinitelyDoesNotExist', $data['message']);
+        $this->expectException(\Exception::class);
+        API::getInstance()->getSegmentData(
+            1,
+            'range',
+            '2010-03-06,2010-03-08',
+            'thisSegmentDefinitelyDoesNotExist==1'
+        );
     }
 
     public function testGetSegmentDataRequiresValidSiteInRequest(): void
     {
-        $_GET = [
-            'period' => 'range',
-            'date' => '2010-03-06,2010-03-08',
-            'segmentDefinition' => '',
-        ];
-        $_REQUEST = $_GET;
-
         $this->expectException(\Exception::class);
-        new Controller();
+        API::getInstance()->getSegmentData(999999, 'range', '2010-03-06,2010-03-08', '');
     }
 
     public function testGetSegmentDataRequiresViewAccess(): void
@@ -240,16 +208,8 @@ class ControllerTest extends IntegrationTestCase
         StaticContainer::getContainer()->set('Piwik\Access', $fakeAccess);
 
         try {
-            $_GET = [
-                'idSite' => '1',
-                'period' => 'range',
-                'date' => '2010-03-06,2010-03-08',
-                'segmentDefinition' => '',
-            ];
-            $_REQUEST = $_GET;
-
             $this->expectException(NoAccessException::class);
-            new Controller();
+            API::getInstance()->getSegmentData(1, 'range', '2010-03-06,2010-03-08', '');
         } finally {
             StaticContainer::getContainer()->set('Piwik\Access', $originalAccess);
         }
