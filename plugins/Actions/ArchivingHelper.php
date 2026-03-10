@@ -634,7 +634,7 @@ class ArchivingHelper
     private static function getFlatActionRow($actionName, $actionType, $urlPrefix, DataTable $table): Row
     {
         $actionExplodedNames = self::getActionExplodedNames($actionName, $actionType, $urlPrefix);
-        $flatLabel = self::buildFlatRowLabel($actionExplodedNames);
+        $flatLabel = self::buildFlatActionLabelFromActionName($actionName, $actionType, $urlPrefix);
 
         $row = $table->getRowFromLabel($flatLabel);
         if ($row !== false) {
@@ -648,6 +648,37 @@ class ArchivingHelper
         $table->addRow($row);
 
         return $row;
+    }
+
+    public static function buildBestEffortActionLabelFromPath(array $actionPath, int $actionType): string
+    {
+        if (empty($actionPath)) {
+            return '';
+        }
+
+        $segments = array_values($actionPath);
+        $lastIndex = count($segments) - 1;
+        $lastSegment = (string) $segments[$lastIndex];
+
+        if ($actionType === Action::TYPE_PAGE_URL) {
+            if (strpos($lastSegment, '/') === 0) {
+                $lastSegment = substr($lastSegment, 1);
+            }
+            $segments[$lastIndex] = $lastSegment;
+            $delimiter = self::$actionUrlCategoryDelimiter;
+        } else {
+            if (strpos($lastSegment, ' ') === 0) {
+                $lastSegment = substr($lastSegment, 1);
+            }
+            $segments[$lastIndex] = $lastSegment;
+            $delimiter = self::$actionTitleCategoryDelimiter;
+        }
+
+        if ($delimiter === '') {
+            return implode('', $segments);
+        }
+
+        return implode($delimiter, $segments);
     }
 
     private static function appendHierarchicalRowsToFlatTable(DataTable $sourceTable, array $path, DataTable $flatTable): void
@@ -702,6 +733,23 @@ class ArchivingHelper
         }
 
         return $encodedPath;
+    }
+
+    private static function buildFlatActionLabelFromActionName($actionName, $actionType, $urlPrefix): string
+    {
+        if (!is_string($actionName)) {
+            return (string) $actionName;
+        }
+
+        if (
+            $actionType === Action::TYPE_PAGE_URL
+            && $actionName !== ''
+            && $actionName !== RankingQuery::LABEL_SUMMARY_ROW
+        ) {
+            return PageUrl::reconstructNormalizedUrl($actionName, $urlPrefix);
+        }
+
+        return $actionName;
     }
 
     private static function mergeRowIntoDestination(Row $source, Row $destination): void
