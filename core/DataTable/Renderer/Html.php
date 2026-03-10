@@ -28,7 +28,6 @@ class Html extends Renderer
 
     /**
      * Sets the table id
-     *
      */
     public function setTableId(string $id): void
     {
@@ -37,7 +36,6 @@ class Html extends Renderer
 
     /**
      * Computes the dataTable output and returns the string/binary
-     *
      */
     public function render(): string
     {
@@ -151,7 +149,6 @@ class Html extends Renderer
 
     /**
      * Computes the output for the table structure array
-     *
      */
     protected function renderDataTable(): string
     {

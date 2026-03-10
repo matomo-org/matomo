@@ -83,7 +83,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Adds a phone number for the current user
-     *
      */
     public function addPhoneNumber(string $phoneNumber): void
     {
@@ -119,7 +118,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Requests a new verification code for the given phone number
-     *
      */
     public function resendVerificationCode(string $phoneNumber): void
     {
@@ -210,8 +208,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * remove phone number
-     *
-     *
      */
     public function removePhoneNumber(string $phoneNumber): void
     {
@@ -241,7 +237,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Verify a phone number
      *
-     *
      * @return bool true if verification was successful, false otherwise
      */
     public function validatePhoneNumber(string $phoneNumber, string $verificationCode)
@@ -255,7 +250,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * delete the SMS API credential
-     *
      */
     public function deleteSMSAPICredential(): void
     {

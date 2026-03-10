@@ -350,7 +350,6 @@ class SegmentEditor extends \Piwik\Plugin
 
     /**
      * Returns whether create realtime segments is enabled or not.
-     *
      */
     public static function isCreateRealtimeSegmentsEnabled(): bool
     {

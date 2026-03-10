@@ -88,7 +88,6 @@ class ServeStaticFileTest extends \PHPUnit\Framework\TestCase
     /**
      * Checks that "HTTP/1.0 404 Not Found" is returned when Piwik::serverStaticFile is called with a non existing file
      *
-     *
      * @group Core
      */
     public function testGhostFile()

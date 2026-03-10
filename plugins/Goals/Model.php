@@ -113,8 +113,6 @@ class Model
 
     /**
      * Checks if an active idgoal exists for the site
-     *
-     *
      */
     public function doesGoalExist(int $idGoal, int $idSite): bool
     {

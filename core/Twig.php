@@ -322,7 +322,6 @@ class Twig
      *
      * Usage:
      *     externallink(url)
-     *
      */
     private function addFunctionExternalLink(): void
     {
@@ -614,9 +613,7 @@ class Twig
     }
 
     /**
-     *
      * Plugin-Templates can be overwritten by putting identically named templates in plugins/[theme]/templates/plugins/[plugin]/
-     *
      */
     private function addCustomPluginNamespaces(FilesystemLoader $loader, string $pluginName): void
     {
@@ -654,7 +651,6 @@ class Twig
      *
      * Apply custom campaign tracking parameters:
      * {{ 'https://matomo.org/faq/123'|trackmatomolink('SomeCampaign', 'SomeSource', 'SomeMedium') }}
-     *
      */
     private function addFilterTrackMatomoLink(): void
     {

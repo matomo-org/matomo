@@ -26,7 +26,6 @@ class Tsv extends Csv
 
     /**
      * Computes the dataTable output and returns the string/binary
-     *
      */
     public function render(): string
     {

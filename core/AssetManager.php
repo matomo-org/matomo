@@ -138,7 +138,6 @@ class AssetManager extends Singleton
 
     /**
      * Return JS file inclusion directive(s) using the markup <script>
-     *
      */
     public function getJsInclusionDirective(bool $deferJS = false): string
     {
@@ -373,7 +372,6 @@ class AssetManager extends Singleton
 
     /**
      * Return individual JS file inclusion directive(s) using the markup <script>
-     *
      */
     protected function getIndividualCoreAndNonCoreJsIncludes(): string
     {

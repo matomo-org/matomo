@@ -167,8 +167,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     *
-     *
      * @unsanitized
      * @internal
      */
@@ -196,7 +194,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     *
      * @throws Service\Exception If the marketplace request failed
      *
      * @internal

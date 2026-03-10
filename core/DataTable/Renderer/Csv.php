@@ -61,7 +61,6 @@ class Csv extends Renderer
 
     /**
      * Computes the dataTable output and returns the string/binary
-     *
      */
     public function render(): string
     {
@@ -87,7 +86,6 @@ class Csv extends Renderer
 
     /**
      * Sets the column separator
-     *
      */
     public function setSeparator(string $separator): void
     {

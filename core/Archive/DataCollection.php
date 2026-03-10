@@ -106,8 +106,6 @@ class DataCollection
     private $isBuiltWithoutArchives = true;
 
     /**
-     *
-     *
      * @param array $dataNames @see $this->dataNames
      * @param string $dataType @see $this->dataType
      * @param array $sitesId @see $this->sitesId

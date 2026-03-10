@@ -43,8 +43,6 @@ class ReplaceColumnNames extends BaseFilter
     protected $mappingToApply;
 
     /**
-     *
-     *
      * @param DataTable $table The table that will be eventually filtered.
      * @param array|null $mappingToApply The name mapping to apply. Must map old column names
      *                                   with new ones, eg,

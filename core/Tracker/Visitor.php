@@ -55,7 +55,6 @@ class Visitor
     /**
      * Get a visitor property that will not have been changed by other request processors
      *
-     *
      * @return false|mixed|null
      */
     public function getImmutableVisitorColumn(string $column)

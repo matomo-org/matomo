@@ -21,7 +21,6 @@ class PageViewPosition extends ActionDimension
     protected $type = self::TYPE_NUMBER;
 
     /**
-     *
      * @return mixed|false
      */
     public function onNewAction(Request $request, Visitor $visitor, Action $action)

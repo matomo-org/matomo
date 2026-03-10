@@ -203,7 +203,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Deletes a stored segment.
-     *
      */
     public function delete(int $idSegment): void
     {

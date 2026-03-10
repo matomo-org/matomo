@@ -250,7 +250,6 @@ abstract class GeoIp2 extends LocationProvider
 
     /**
      * GeoIP2 providers can be used for location-based security checks
-     *
      */
     public function canBeUsedForLocationBasedSecurityChecks(): bool
     {

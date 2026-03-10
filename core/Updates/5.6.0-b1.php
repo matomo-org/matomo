@@ -35,7 +35,6 @@ class Updates_5_6_0_b1 extends PiwikUpdates
      * the `changes` table. As a change record was added with that feature, we can assume that the date, where that change record is added to
      * the database, is the date where updating to 5.5.0 or later happened. So we use this date for invalidations.
      *
-     *
      * @return Migration[]
      */
     public function getMigrations(Updater $updater)

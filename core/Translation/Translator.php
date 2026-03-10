@@ -214,7 +214,6 @@ class Translator
 
     /**
      * Decodes all entities in the given string except of &gt; and &lt;
-     *
      */
     private function decodeEntitiesSafeForHTML(string $text): string
     {

@@ -54,8 +54,6 @@ abstract class Period
     protected $translator;
 
     /**
-     *
-     *
      * @ignore
      */
     public function __construct(Date $date)
