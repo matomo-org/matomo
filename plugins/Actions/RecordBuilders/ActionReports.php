@@ -21,6 +21,7 @@ use Piwik\Metrics as PiwikMetrics;
 use Piwik\Plugins\Actions\Archiver;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Actions\Metrics;
+use Piwik\Piwik;
 use Piwik\RankingQuery;
 use Piwik\Tracker\Action;
 use Piwik\Tracker\GoalManager;
@@ -162,6 +163,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         $this->archiveDayExitActions($archiveProcessor->getLogAggregator(), $dayTablesByType, $rankingQueryLimit, $tableModesByType);
         $this->archiveDayActionsTime($archiveProcessor->getLogAggregator(), $dayTablesByType, $rankingQueryLimit, $tableModesByType);
         $this->archiveDayActionsGoals($archiveProcessor, $rankingQueryLimit);
+        $this->normalizeFlatGoalsMetricsForHierarchy($flatPageTablesByType);
 
         ArchivingHelper::clearActionsCache();
 
@@ -262,6 +264,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             ArchivingHelper::setFolderPathMetadata($hierarchicalTable, $isUrl = false);
         }
 
+        $this->removeFlatPathMetadataFromDataTable($hierarchicalTable);
         ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($hierarchicalTable);
     }
 
@@ -283,6 +286,23 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     private function reduceLegacyHierarchyIntoFlatTable(DataTable $legacyHierarchy, DataTable $flatTable, int $actionType): void
     {
         $this->appendLegacyHierarchyRowsToFlatTable($legacyHierarchy, [], $flatTable, $actionType);
+    }
+
+    private function removeFlatPathMetadataFromDataTable(DataTable $dataTable): void
+    {
+        $summaryRow = $dataTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        if ($summaryRow instanceof Row) {
+            $summaryRow->deleteMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME);
+        }
+
+        foreach ($dataTable->getRows() as $row) {
+            $row->deleteMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME);
+
+            $subtable = $row->getSubtable();
+            if ($subtable instanceof DataTable) {
+                $this->removeFlatPathMetadataFromDataTable($subtable);
+            }
+        }
     }
 
     private function appendLegacyHierarchyRowsToFlatTable(DataTable $sourceTable, array $path, DataTable $flatTable, int $actionType): void
@@ -335,6 +355,122 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     {
         ArchivingHelper::reloadConfig();
         return ArchivingHelper::$maximumRowsInDataTableFlat > 0;
+    }
+
+    private function normalizeFlatGoalsMetricsForHierarchy(array $flatPageTablesByType): void
+    {
+        foreach ($flatPageTablesByType as $dataTable) {
+            if (!$dataTable instanceof DataTable) {
+                continue;
+            }
+
+            $rowsByPath = [];
+            foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
+                $path = $row->getMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME);
+                if (!is_array($path) || empty($path)) {
+                    continue;
+                }
+
+                $pathKey = json_encode($path);
+                if ($pathKey === false) {
+                    $pathKey = implode("\n", $path);
+                }
+                $rowsByPath[$pathKey][] = $row;
+            }
+
+            foreach ($rowsByPath as $rows) {
+                $this->normalizeFlatGoalsMetricsForHierarchyPathRows($rows);
+            }
+        }
+    }
+
+    private function normalizeFlatGoalsMetricsForHierarchyPathRows(array $rows): void
+    {
+        $entryVisitsTotal = 0.0;
+        $maxPagesBeforeByGoal = [];
+
+        foreach ($rows as $row) {
+            $entryVisits = $row->getColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS);
+            if (is_numeric($entryVisits)) {
+                $entryVisitsTotal += (float) $entryVisits;
+            }
+
+            $goals = $row->getColumn(PiwikMetrics::INDEX_GOALS);
+            if (!is_array($goals)) {
+                continue;
+            }
+
+            foreach ($goals as $goalId => $goalMetrics) {
+                if (!is_array($goalMetrics)) {
+                    continue;
+                }
+
+                $pagesBefore = $goalMetrics[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] ?? null;
+                if (!is_numeric($pagesBefore)) {
+                    continue;
+                }
+
+                if (
+                    !isset($maxPagesBeforeByGoal[$goalId])
+                    || $maxPagesBeforeByGoal[$goalId]['value'] < (float) $pagesBefore
+                ) {
+                    $maxPagesBeforeByGoal[$goalId] = [
+                        'row' => $row,
+                        'value' => (float) $pagesBefore,
+                    ];
+                }
+            }
+        }
+
+        foreach ($rows as $row) {
+            $goals = $row->getColumn(PiwikMetrics::INDEX_GOALS);
+            if (!is_array($goals)) {
+                continue;
+            }
+
+            foreach ($goals as $goalId => &$goalMetrics) {
+                if (!is_array($goalMetrics)) {
+                    continue;
+                }
+
+                if (isset($goalMetrics[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE])) {
+                    $goalMetrics[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] = 0;
+                }
+
+                if ($entryVisitsTotal > 0.0) {
+                    if (isset($goalMetrics[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY])) {
+                        $goalMetrics[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE] = Piwik::getQuotientSafe(
+                            $goalMetrics[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY],
+                            $entryVisitsTotal,
+                            GoalManager::REVENUE_PRECISION + 1
+                        );
+                    }
+
+                    if (isset($goalMetrics[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY])) {
+                        $goalMetrics[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = (float) Piwik::getQuotientSafe(
+                            $goalMetrics[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY],
+                            $entryVisitsTotal,
+                            GoalManager::REVENUE_PRECISION + 1
+                        );
+                    }
+                }
+            }
+            unset($goalMetrics);
+
+            $row[PiwikMetrics::INDEX_GOALS] = $goals;
+        }
+
+        foreach ($maxPagesBeforeByGoal as $goalId => $maxValue) {
+            /** @var Row $maxRow */
+            $maxRow = $maxValue['row'];
+            $goals = $maxRow->getColumn(PiwikMetrics::INDEX_GOALS);
+            if (!is_array($goals) || !isset($goals[$goalId]) || !is_array($goals[$goalId])) {
+                continue;
+            }
+
+            $goals[$goalId][PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] = $maxValue['value'];
+            $maxRow[PiwikMetrics::INDEX_GOALS] = $goals;
+        }
     }
 
     private function aggregateLegacyHierarchical(ArchiveProcessor $archiveProcessor): array
