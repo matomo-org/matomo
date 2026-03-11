@@ -31,8 +31,6 @@ class ReportTotalsCalculator extends DataTableManipulator
     private $report;
 
     /**
-     *
-     *
      * @param bool $apiModule
      * @param bool $apiMethod
      * @param array $request

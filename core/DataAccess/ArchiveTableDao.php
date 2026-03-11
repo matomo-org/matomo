@@ -100,7 +100,6 @@ class ArchiveTableDao
     /**
      * Return invalidation queue table data
      *
-     *
      * @return array
      * @throws \Exception
      */

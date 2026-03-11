@@ -101,7 +101,9 @@ body>.widget table.dataTable {
 }
 
 // for dataTables in report pages (not for widgets in the dashboard)
-.theWidgetContent .card .card-content table.dataTable, table.dataTable, table.subDataTable {
+.theWidgetContent .card .card-content table.dataTable,
+table.dataTable,
+table.subDataTable {
 
   th {
     background: @theme-color-background-base !important;
@@ -156,8 +158,13 @@ table.dataTable td.column {
   white-space: nowrap;
 }
 
-.dataTable tr.highlight td {
+.dataTable tr.highlight td,
+.dataTable_row-highlight td {
   font-weight: bold;
+}
+
+tr:nth-last-child(1 of .dataTable_row-group) td {
+  border-bottom: 3px solid @theme-color-background-tinyContrast !important;
 }
 
 table.dataTable th.label,

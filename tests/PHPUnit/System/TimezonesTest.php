@@ -204,6 +204,8 @@ class TimezonesTest extends SystemTestCase
             ];
         }
 
+        Date::$now = null;
+
         return $testcases;
     }
 

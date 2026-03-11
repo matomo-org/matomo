@@ -67,7 +67,6 @@ class ExampleActionDimension extends ActionDimension
      * looked up action so it makes usually no sense to implement both methods but it sometimes does. You can assign
      * any value to the column or return boolan false in case you do not want to save any value.
      *
-     *
      * @return mixed|false
      */
     public function onNewAction(Request $request, Visitor $visitor, Action $action)

@@ -871,7 +871,6 @@ class CronArchive
 
     /**
      * Initializes the various parameters to the script, based on input parameters.
-     *
      */
     private function initStateFromParameters()
     {

@@ -15,8 +15,6 @@ interface FeatureFlagStorageInterface
      * Returns true/false depending on if enabled
      *
      * If the flag isn't set for the particular storage context then will return null
-     *
-     *
      */
     public function isFeatureActive(FeatureFlagInterface $feature): ?bool;
 

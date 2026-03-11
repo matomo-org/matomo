@@ -20,8 +20,6 @@ class AddSubtableSegmentMetadata extends BaseFilter
     private $dimensionValue;
 
     /**
-     *
-     *
      * @param DataTable $table The table to eventually filter.
      */
     public function __construct($table, $idDimension, $dimensionValue)

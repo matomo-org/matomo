@@ -1271,21 +1271,6 @@ parameters:
 			path: core/Mail/EmailStyles.php
 
 		-
-			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\.$#"
-			count: 7
-			path: core/Menu/MenuAbstract.php
-
-		-
-			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\<\\-1, 1\\>\\.$#"
-			count: 1
-			path: core/Menu/MenuAbstract.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 3
-			path: core/Menu/MenuAbstract.php
-
-		-
 			message: "#^Variable \\$unit in empty\\(\\) always exists and is always falsy\\.$#"
 			count: 1
 			path: core/Metrics.php
@@ -1925,12 +1910,12 @@ parameters:
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:fetchAll\\(\\)\\.$#"
-			count: 2
+			count: 6
 			path: core/Settings/Storage/Backend/PluginSettingsTable.php
 
 		-
 			message: "#^Call to an undefined method Piwik\\\\Db\\\\AdapterInterface\\:\\:query\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: core/Settings/Storage/Backend/PluginSettingsTable.php
 
 		-
@@ -2327,16 +2312,6 @@ parameters:
 			message: "#^Property Piwik\\\\Tracker\\\\VisitorRecognizer\\:\\:\\$visitRow \\(array\\) does not accept false\\.$#"
 			count: 1
 			path: core/Tracker/VisitorRecognizer.php
-
-		-
-			message: "#^Parameter \\#1 \\$input of function array_keys expects array, string given\\.$#"
-			count: 1
-			path: core/Translation/Loader/DevelopmentLoader.php
-
-		-
-			message: "#^Parameter \\#1 \\$keys of function array_combine expects array, null given\\.$#"
-			count: 1
-			path: core/Translation/Loader/DevelopmentLoader.php
 
 		-
 			message: "#^Variable \\$translationId on left side of \\?\\? always exists and is not nullable\\.$#"
@@ -2997,16 +2972,6 @@ parameters:
 			message: "#^Unsafe call to private method Piwik\\\\Plugins\\\\CoreAdminHome\\\\CustomLogo\\:\\:logoExists\\(\\) through static\\:\\:\\.$#"
 			count: 5
 			path: plugins/CoreAdminHome/CustomLogo.php
-
-		-
-			message: "#^Parameter \\#8 \\$attribute of method Piwik\\\\Menu\\\\MenuAbstract\\:\\:addItem\\(\\) expects bool\\|string, null given\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/Menu.php
-
-		-
-			message: "#^Parameter \\#9 \\$help of method Piwik\\\\Menu\\\\MenuAbstract\\:\\:addItem\\(\\) expects bool\\|string, null given\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/Menu.php
 
 		-
 			message: "#^Parameter \\#1 \\$idSegments of method Piwik\\\\CronArchive\\\\ArchiveFilter\\:\\:setSegmentsToForceFromSegmentIds\\(\\) expects array\\<int\\>, array\\<int, string\\> given\\.$#"
@@ -4069,11 +4034,6 @@ parameters:
 			path: plugins/Login/Model.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\Login\\\\PasswordResetter\\:\\:getUserInformation\\(\\) should return array but returns null\\.$#"
-			count: 1
-			path: plugins/Login/PasswordResetter.php
-
-		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\)\\: Unexpected token \"\\\\n     \", expected type at offset 171$#"
 			count: 1
 			path: plugins/Login/PasswordResetter.php
@@ -4081,11 +4041,6 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$password of method Piwik\\\\Plugins\\\\UsersManager\\\\UserUpdater\\:\\:updateUserWithoutCurrentPassword\\(\\) expects bool, string given\\.$#"
 			count: 1
-			path: plugins/Login/PasswordResetter.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between array and null will always evaluate to false\\.$#"
-			count: 2
 			path: plugins/Login/PasswordResetter.php
 
 		-
@@ -4267,11 +4222,6 @@ parameters:
 			message: "#^Parameter \\#3 \\$last of static method Piwik\\\\Db\\:\\:segmentedFetchOne\\(\\) expects int, string given\\.$#"
 			count: 2
 			path: plugins/PrivacyManager/ReportsPurger.php
-
-		-
-			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<1, max\\> given\\.$#"
-			count: 1
-			path: plugins/ProfessionalServices/PromoWidgetDismissal.php
 
 		-
 			message: "#^Property Piwik\\\\Plugins\\\\ProfessionalServices\\\\Widgets\\\\PromoServices\\:\\:\\$advertising is never read, only written\\.$#"

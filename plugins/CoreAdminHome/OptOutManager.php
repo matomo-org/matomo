@@ -181,8 +181,6 @@ class OptOutManager
 
     /**
      * Return the HTML code to be added to pages for the JavaScript opt-out
-     *
-     *
      */
     public function getOptOutJSEmbedCode(
         string $matomoUrl,
@@ -214,8 +212,6 @@ class OptOutManager
 
     /**
      * Return the HTML code to be added to pages for the self-contained opt-out
-     *
-     *
      */
     public function getOptOutSelfContainedEmbedCode(
         string $backgroundColor,
@@ -283,7 +279,6 @@ HTML;
      *     useSecureCookies (default 1)       Set secure cookies?
      *     cookiePath (default blank)         Use this path for consent cookies
      *     cookieDomain (default blank)       Use this domain for consent cookies
-     *
      */
     public function getOptOutJS(): string
     {
@@ -402,7 +397,6 @@ JS;
 
     /**
      * Return the shared opt-out JavaScript (used by self-contained and tracker versions)
-     *
      */
     private function getOptOutCommonJS(): string
     {
@@ -540,7 +534,6 @@ JS;
     /**
      * Get translations used by the opt-out popup
      *
-     *
      * @return array
      */
     private function getTranslations(?string $language = null): array
@@ -639,7 +632,6 @@ JS;
 
     /**
      * Provide a CSS style sheet based on the chosen opt out style options
-     *
      *
      * @throws \Exception
      */

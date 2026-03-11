@@ -125,8 +125,6 @@ abstract class Controller
     protected $securityPolicy = null;
 
     /**
-     *
-     *
      * @api
      */
     public function __construct()
@@ -836,7 +834,6 @@ abstract class Controller
 
     /**
      * Set the template variables to show the what's new popup if appropriate
-     *
      */
     protected function showWhatIsNew(View $view): void
     {

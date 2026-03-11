@@ -16,9 +16,9 @@ interface LoaderInterface
 {
     /**
      * @param string $language
-     * @param mixed[] $directories Directories containing translation files.
+     * @param string[] $directories Directories containing translation files.
+     * @return array<string, array<string, string>> Translations.
      * @throws \Exception The translation file was not found
-     * @return string[] Translations.
      */
     public function load($language, array $directories);
 }

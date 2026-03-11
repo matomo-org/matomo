@@ -70,7 +70,6 @@ abstract class RecordBuilder
     /**
      * Uses the protected `aggregate()` function to build records by aggregating log table data directly, then
      * inserts them as archive data.
-     *
      */
     public function buildFromLogs(ArchiveProcessor $archiveProcessor): void
     {
@@ -125,7 +124,6 @@ abstract class RecordBuilder
     /**
      * Builds records for non-day periods by aggregating day records together, then inserts
      * them as archive data.
-     *
      */
     public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
     {
@@ -324,7 +322,6 @@ abstract class RecordBuilder
     /**
      * Returns an extra hint for LogAggregator to add to log aggregation SQL. Can be overridden if you'd
      * like the origin hint to have more information.
-     *
      */
     public function getQueryOriginHint(): string
     {

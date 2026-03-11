@@ -569,7 +569,6 @@ class Filesystem
 
     /**
      * Check if the filesystem is case sensitive by writing a temporary file
-     *
      */
     public static function isFileSystemCaseInsensitive(): bool
     {

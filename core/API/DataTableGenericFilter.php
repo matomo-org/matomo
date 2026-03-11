@@ -35,8 +35,6 @@ class DataTableGenericFilter
     private $request;
 
     /**
-     *
-     *
      * @param $request
      */
     public function __construct($request, $report)

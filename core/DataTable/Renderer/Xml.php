@@ -28,7 +28,6 @@ class Xml extends Renderer
 {
     /**
      * Computes the dataTable output and returns the string/binary
-     *
      */
     public function render(): string
     {
@@ -422,7 +421,6 @@ class Xml extends Renderer
 
     /**
      * Returns true if a string is a valid XML tag name, false if otherwise.
-     *
      */
     private static function isValidXmlTagName(string $str): bool
     {

@@ -243,6 +243,110 @@ class PluginSettingsTableTest extends IntegrationTestCase
         $this->assertEquals($value1, $this->backendUser1->load());
     }
 
+    public function testSaveValueShouldSaveOnlySingleValueAndKeepOtherValues()
+    {
+        $this->backendUser1->save(array('Mysetting1' => 'value1', 'Mysetting2' => 'value2'));
+        $this->backendUser1->saveValue('Mysetting1', 'valueNew');
+
+        $this->assertSame('valueNew', $this->backendUser1->loadValue('Mysetting1'));
+        $this->assertSame('value2', $this->backendUser1->loadValue('Mysetting2'));
+        $this->assertEquals(array('Mysetting1' => 'valueNew', 'Mysetting2' => 'value2'), $this->backendUser1->load());
+    }
+
+    public function testSaveValueShouldDeleteValueWhenValueIsNull()
+    {
+        $this->backendUser1->save(array('Mysetting1' => 'value1', 'Mysetting2' => 'value2'));
+        $this->backendUser1->saveValue('Mysetting1', null);
+
+        $this->assertSame('defaultValue', $this->backendUser1->loadValue('Mysetting1', 'defaultValue'));
+        $this->assertSame(array('Mysetting2' => 'value2'), $this->backendUser1->load());
+    }
+
+    public function testSaveValueShouldSupportArrayObjectAndBoolValues()
+    {
+        $this->backendUser1->saveValue('arrayValue', array('foo' => 'bar'));
+        $this->backendUser1->saveValue('objectValue', (object) array('one' => 'two'));
+        $this->backendUser1->saveValue('boolValue', true);
+
+        $this->assertSame(array('foo' => 'bar'), $this->backendUser1->loadValue('arrayValue'));
+        $this->assertSame(array('one' => 'two'), $this->backendUser1->loadValue('objectValue'));
+        $this->assertSame('1', $this->backendUser1->loadValue('boolValue'));
+    }
+
+    public function testLoadValueShouldReturnDefaultIfValueDoesNotExist()
+    {
+        $this->assertSame('myDefault', $this->backendUser1->loadValue('unknownSetting', 'myDefault'));
+        $this->assertNull($this->backendUser1->loadValue('unknownSetting'));
+    }
+
+    public function testDeleteValueShouldDeleteOnlySpecificValue()
+    {
+        $this->backendUser1->save(array('Mysetting1' => 'value1', 'Mysetting2' => 'value2'));
+        $this->backendUser1->deleteValue('Mysetting1');
+
+        $this->assertSame('defaultValue', $this->backendUser1->loadValue('Mysetting1', 'defaultValue'));
+        $this->assertSame('value2', $this->backendUser1->loadValue('Mysetting2'));
+        $this->assertSame(array('Mysetting2' => 'value2'), $this->backendUser1->load());
+    }
+
+    public function testLoadValuesForUsersShouldReturnValuesForSelectedSettingsAndOnlyUsers()
+    {
+        $this->backendPlugin1->saveValue('Mysetting1', 'pluginValue');
+        $this->backendUser1->save(array(
+            'Mysetting1' => 'userValue1',
+            'Mysetting2' => array('foo' => 'bar'),
+            'Mysetting3' => 'ignoreMe',
+        ));
+        $this->backendUser2->save(array(
+            'Mysetting1' => 'userValue2',
+            'Mysetting2' => array('foo' => 'baz'),
+        ));
+
+        $result = $this->backendPlugin1->loadValuesForUsers(array('Mysetting1', 'Mysetting2'));
+
+        $this->assertSame(array(
+            'user1' => array(
+                'Mysetting1' => 'userValue1',
+                'Mysetting2' => array('foo' => 'bar'),
+            ),
+            'user2' => array(
+                'Mysetting1' => 'userValue2',
+                'Mysetting2' => array('foo' => 'baz'),
+            ),
+        ), $result);
+    }
+
+    public function testLoadValuesForUsersShouldReturnEmptyArrayWhenNoSettingNamesProvided()
+    {
+        $this->backendUser1->save(array('Mysetting1' => 'userValue1'));
+
+        $this->assertSame(array(), $this->backendPlugin1->loadValuesForUsers(array()));
+    }
+
+    public function testSaveValueShouldThrowExceptionIfSettingNameIsEmpty()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No setting name given');
+
+        $this->backendUser1->saveValue('', 'value1');
+    }
+
+    public function testLoadValueShouldThrowExceptionIfSettingNameIsEmpty()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No setting name given');
+
+        $this->backendUser1->loadValue('');
+    }
+
+    public function testDeleteValueShouldThrowExceptionIfSettingNameIsEmpty()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('No setting name given');
+
+        $this->backendUser1->deleteValue('');
+    }
+
     public function testRemoveAllUserSettingsForUserShouldOnlyRemoveSettingsForThatUser()
     {
         $value = $this->saveValueForAllBackends();

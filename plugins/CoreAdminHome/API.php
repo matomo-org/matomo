@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
+use Piwik\API\Request;
 use Piwik\Changes\UserChanges;
 use Piwik\Log\Logger;
 use Piwik\Access;
@@ -24,6 +25,7 @@ use Piwik\Date;
 use Piwik\Log\LoggerInterface;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
+use Piwik\Request as PiwikRequest;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsServer;
@@ -285,7 +287,7 @@ class API extends \Piwik\Plugin\API
      */
     public function archiveReports(int $idSite, $period, $date, $segment = false, $plugin = false, $report = false)
     {
-        if (\Piwik\API\Request::getRootApiRequestMethod() === 'CoreAdminHome.archiveReports') {
+        if ($this->shouldRequireSuperUserForArchiveReports()) {
             Piwik::checkUserHasSuperUserAccess();
         } else {
             Piwik::checkUserHasViewAccess($idSite);
@@ -365,6 +367,22 @@ class API extends \Piwik\Plugin\API
         return $result;
     }
 
+    private function shouldRequireSuperUserForArchiveReports(): bool
+    {
+        $rootApiMethod = Request::getRootApiRequestMethod();
+        $requestParameters = PiwikRequest::fromRequest()->getParameters();
+        $currentApiMethod = Request::getMethodIfApiRequest($requestParameters);
+
+        // Bulk subrequests can arrive without module=API, so fall back to raw method.
+        if (empty($currentApiMethod)) {
+            $currentApiMethod = (string) ($requestParameters['method'] ?? '');
+        }
+
+        // Require superuser for direct archiveReports calls and archiveReports inside bulk requests.
+        return $rootApiMethod === 'CoreAdminHome.archiveReports'
+            || ($rootApiMethod === 'API.getBulkRequest' && $currentApiMethod === 'CoreAdminHome.archiveReports');
+    }
+
     /**
      * Ensure the specified dates are valid.
      * Store invalid date so we can log them
@@ -425,8 +443,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Show the JavaScript opt out code
      *
-     *
-     *
      * @internal
      */
     public function getOptOutJSEmbedCode(
@@ -454,8 +470,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Show the self-contained JavaScript opt out code
-     *
-     *
      *
      * @internal
      */

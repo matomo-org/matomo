@@ -48,8 +48,6 @@ class GroupBy extends BaseFilter
     private $parameters;
 
     /**
-     *
-     *
      * @param DataTable $table The DataTable to filter.
      * @param string $groupByColumn The column name to reduce.
      * @param callable $reduceFunction The reduce function. This must alter the `$groupByColumn`

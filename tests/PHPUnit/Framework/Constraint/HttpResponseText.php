@@ -58,7 +58,6 @@ class HttpResponseText extends \PHPUnit\Framework\Constraint\Constraint
 
     /**
      * Returns a string representation of the constraint.
-     *
      */
     public function toString(): string
     {

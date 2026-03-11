@@ -145,8 +145,6 @@ class Request
     }
 
     /**
-     *
-     *
      * @param string|array $request Query string that defines the API call (must at least contain a **method** parameter),
      *                              eg, `'method=UserLanguage.getLanguage&idSite=1&date=yesterday&period=week&format=xml'`
      *                              If a request is not provided, then we use the values in the `$_GET` and `$_POST`
