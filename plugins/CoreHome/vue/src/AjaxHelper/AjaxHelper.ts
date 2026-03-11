@@ -86,6 +86,11 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
   }
 }
 
+function hasExplicitSegmentParam(params: QueryParameters): boolean {
+  return Object.prototype.hasOwnProperty.call(params, 'segment')
+    && typeof params.segment !== 'undefined';
+}
+
 class ApiResponseError extends Error {}
 
 class ChunkedBulkRequestError extends Error {
@@ -244,8 +249,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
       });
 
-      const hasExplicitSegment = Object.prototype.hasOwnProperty.call(params, 'segment')
-        && typeof params.segment !== 'undefined';
+      const hasExplicitSegment = hasExplicitSegmentParam(params);
 
       let segmentParam = {};
       if (hasExplicitSegment) {
@@ -1022,13 +1026,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     };
 
     const params = originalParams;
-    const hasExplicitSegment = (
-      Object.prototype.hasOwnProperty.call(params, 'segment')
-      && typeof params.segment !== 'undefined'
-    ) || (
-      Object.prototype.hasOwnProperty.call(this.postParams, 'segment')
-      && typeof this.postParams.segment !== 'undefined'
-    );
+    const hasExplicitSegment = hasExplicitSegmentParam(params)
+      || hasExplicitSegmentParam(this.postParams);
 
     // never append token_auth to url
     if (params.token_auth) {
