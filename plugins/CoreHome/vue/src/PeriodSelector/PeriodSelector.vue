@@ -237,23 +237,23 @@ export default defineComponent({
       return COMPARE_PERIOD_OPTIONS;
     },
     currentlyViewingText() {
-      let selectedDateValue;
+      let date;
       if (this.committedPeriod === 'range') {
         if (!this.appliedRangeStartDate || !this.appliedRangeEndDate) {
           return translate('General_Error');
         }
 
-        selectedDateValue = `${this.appliedRangeStartDate},${this.appliedRangeEndDate}`;
+        date = `${this.appliedRangeStartDate},${this.appliedRangeEndDate}`;
       } else {
         if (!this.committedAnchorDate) {
           return translate('General_Error');
         }
 
-        selectedDateValue = format(this.committedAnchorDate);
+        date = format(this.committedAnchorDate);
       }
 
       try {
-        return Periods.parse(this.committedPeriod!, selectedDateValue).getPrettyString();
+        return Periods.parse(this.committedPeriod!, date).getPrettyString();
       } catch (e) {
         return translate('General_Error');
       }
@@ -288,35 +288,29 @@ export default defineComponent({
       }
 
       if (this.comparePeriodType === 'previousYear') {
-        const selectedDateValue = this.selectedPeriod === 'range'
+        const dateStr = this.selectedPeriod === 'range'
           ? `${this.appliedRangeStartDate},${this.appliedRangeEndDate}`
           : format(this.committedAnchorDate!);
 
-        const previousYearComparisonDateRange = Periods.parse(
+        const currentDateRange = Periods.parse(
           this.selectedPeriod as string,
-          selectedDateValue,
+          dateStr,
         ).getDateRange();
-        previousYearComparisonDateRange[0].setFullYear(
-          previousYearComparisonDateRange[0].getFullYear() - 1,
-        );
-        previousYearComparisonDateRange[1].setFullYear(
-          previousYearComparisonDateRange[1].getFullYear() - 1,
-        );
+        currentDateRange[0].setFullYear(currentDateRange[0].getFullYear() - 1);
+        currentDateRange[1].setFullYear(currentDateRange[1].getFullYear() - 1);
 
         if (this.selectedPeriod === 'range') {
           return {
             comparePeriods: ['range'],
             comparePeriodType: 'previousYear',
-            compareDates: [
-              `${format(previousYearComparisonDateRange[0])},${format(previousYearComparisonDateRange[1])}`,
-            ],
+            compareDates: [`${format(currentDateRange[0])},${format(currentDateRange[1])}`],
           };
         }
 
         return {
           comparePeriods: [this.selectedPeriod],
           comparePeriodType: 'previousYear',
-          compareDates: [format(previousYearComparisonDateRange[0])],
+          compareDates: [format(currentDateRange[0])],
         };
       }
 
@@ -327,37 +321,33 @@ export default defineComponent({
       if (this.selectedPeriod === 'range') {
         const currentStartRange = parseDate(this.appliedRangeStartDate!);
         const currentEndRange = parseDate(this.appliedRangeEndDate!);
-        const previousPeriodEndDate = Range.getLastNRange('day', 2, currentStartRange).startDate;
+        const newEndDate = Range.getLastNRange('day', 2, currentStartRange).startDate;
 
-        const selectedRangeLengthInDays = Math.floor(
+        const rangeSize = Math.floor(
           (currentEndRange.valueOf() - currentStartRange.valueOf()) / 86400000,
         );
-        const previousRange = Range.getLastNRange(
-          'day',
-          1 + selectedRangeLengthInDays,
-          previousPeriodEndDate,
-        );
+        const newRange = Range.getLastNRange('day', 1 + rangeSize, newEndDate);
 
-        return `${format(previousRange.startDate)},${format(previousRange.endDate)}`;
+        return `${format(newRange.startDate)},${format(newRange.endDate)}`;
       }
 
-      const previousPeriodStartDate = Range.getLastNRange(
+      const newStartDate = Range.getLastNRange(
         this.selectedPeriod,
         2,
         this.committedAnchorDate!,
       ).startDate;
-      return format(previousPeriodStartDate);
+      return format(newStartDate);
     },
     selectedDateString() {
       if (this.selectedPeriod === 'range') {
-        const selectedStartDate = this.appliedRangeStartDate!;
-        const selectedEndDate = this.appliedRangeEndDate!;
-        const parsedStartDate = parseDate(selectedStartDate);
-        const parsedEndDate = parseDate(selectedEndDate);
+        const dateFrom = this.appliedRangeStartDate!;
+        const dateTo = this.appliedRangeEndDate!;
+        const oDateFrom = parseDate(dateFrom);
+        const oDateTo = parseDate(dateTo);
 
-        if (!isValidDate(parsedStartDate)
-          || !isValidDate(parsedEndDate)
-          || parsedStartDate > parsedEndDate
+        if (!isValidDate(oDateFrom)
+          || !isValidDate(oDateTo)
+          || oDateFrom > oDateTo
         ) {
           // TODO: use a notification instead?
           window.$('#alert')
@@ -367,7 +357,7 @@ export default defineComponent({
           return null;
         }
 
-        return `${selectedStartDate},${selectedEndDate}`;
+        return `${dateFrom},${dateTo}`;
       }
 
       return format(this.committedAnchorDate!);
@@ -479,9 +469,9 @@ export default defineComponent({
       this.setPendingPeriodAndDate(period, date);
       this.setUiSelection({ type: 'period', id: period }, 'period');
 
-      const formattedDate = format(date);
+      const currentDateString = format(date);
       this.clearPresetSelection();
-      this.commitSelectionToUrl(formattedDate, this.selectedPeriod);
+      this.commitSelectionToUrl(currentDateString, this.selectedPeriod);
     },
     commitSelectionToUrl(date: string, period: string) {
       this.nextHashUiSelection = { ...this.uiSelection };
@@ -561,22 +551,22 @@ export default defineComponent({
       }
     },
     propagateNewUrlParams(date: string, period: string) {
-      const selectedCompareParams = this.selectedComparisonParams;
+      const compareParams = this.selectedComparisonParams;
 
-      let baseUrlParams: Record<string, unknown>;
+      let baseParams: Record<string, unknown>;
       if (Matomo.helper.isReportingPage()) {
         this.closePeriodSelector();
-        baseUrlParams = MatomoUrl.hashParsed.value;
+        baseParams = MatomoUrl.hashParsed.value;
       } else {
         this.isLoadingNewPage = true;
-        baseUrlParams = MatomoUrl.parsed.value;
+        baseParams = MatomoUrl.parsed.value;
       }
 
       MatomoUrl.updateLocation({
-        ...stripCompareDateParams(baseUrlParams),
+        ...stripCompareDateParams(baseParams),
         date,
         period,
-        ...selectedCompareParams,
+        ...compareParams,
       });
     },
     hasPendingPresetSelectionOwnedByUi(): boolean {
@@ -596,17 +586,17 @@ export default defineComponent({
         return false;
       }
 
-      const pendingPresetSelection = this.pendingPresetSelection!;
-      this.committedPeriod = pendingPresetSelection.period;
-      this.committedAnchorDate = pendingPresetSelection.startDate;
-      this.appliedRangeStartDate = format(pendingPresetSelection.startDate);
-      this.appliedRangeEndDate = format(pendingPresetSelection.endDate);
+      const pendingPreset = this.pendingPresetSelection!;
+      this.committedPeriod = pendingPreset.period;
+      this.committedAnchorDate = pendingPreset.startDate;
+      this.appliedRangeStartDate = format(pendingPreset.startDate);
+      this.appliedRangeEndDate = format(pendingPreset.endDate);
       // Keep relative preset tokens in the URL (for example, "last7") so bookmarks stay rolling.
       // Staged start/end dates can be clamped for current UI bounds,
       // but URL semantics stay relative.
       this.commitSelectionToUrl(
-        pendingPresetSelection.date,
-        pendingPresetSelection.period,
+        pendingPreset.date,
+        pendingPreset.period,
       );
       return true;
     },
@@ -674,36 +664,36 @@ export default defineComponent({
       this.compareEndDate = '';
 
       // first is selected period, second is period to compare to
-      const periodComparisons = ComparisonsStore.getPeriodComparisons();
+      const comparePeriods = ComparisonsStore.getPeriodComparisons();
 
-      if (periodComparisons.length < 2) {
+      if (comparePeriods.length < 2) {
         return;
       }
 
-      const parsedComparePeriodType = MatomoUrl.parsed.value.comparePeriodType as string;
+      const comparePeriodType = MatomoUrl.parsed.value.comparePeriodType as string;
 
-      if (!COMPARE_PERIOD_TYPES.includes(parsedComparePeriodType)) {
+      if (!COMPARE_PERIOD_TYPES.includes(comparePeriodType)) {
         return;
       }
 
-      this.comparePeriodType = parsedComparePeriodType;
+      this.comparePeriodType = comparePeriodType;
 
-      if (this.comparePeriodType !== 'custom' || periodComparisons[1].params.period !== 'range') {
+      if (this.comparePeriodType !== 'custom' || comparePeriods[1].params.period !== 'range') {
         return;
       }
 
-      let parsedCompareRangePeriod;
+      let periodObj;
 
       try {
-        parsedCompareRangePeriod = Periods.parse(
-          periodComparisons[1].params.period,
-          periodComparisons[1].params.date,
+        periodObj = Periods.parse(
+          comparePeriods[1].params.period,
+          comparePeriods[1].params.date,
         ) as Range;
       } catch {
         return;
       }
 
-      const [startDate, endDate] = parsedCompareRangePeriod.getDateRange();
+      const [startDate, endDate] = periodObj.getDateRange();
 
       this.compareStartDate = format(startDate);
       this.compareEndDate = format(endDate);
@@ -712,8 +702,8 @@ export default defineComponent({
       return getContextKeyFromParsed(MatomoUrl.parsed.value as Record<string, unknown>);
     },
     applyUiSelectionFromHash(
-      selectedPeriod: string,
-      selectedDate: string,
+      period: string,
+      date: string,
       syncedUiSelection: UiSelection|null,
     ) {
       if (syncedUiSelection) {
@@ -724,9 +714,9 @@ export default defineComponent({
         return;
       }
 
-      const presetId = getTokenPresetIdFromPeriodAndDate(selectedPeriod, selectedDate);
+      const presetId = getTokenPresetIdFromPeriodAndDate(period, date);
       if (presetId
-        && this.periodsFiltered.includes(selectedPeriod)
+        && this.periodsFiltered.includes(period)
       ) {
         this.uiSelection = { type: 'preset', id: presetId };
         this.activePresetId = presetId;
@@ -734,7 +724,7 @@ export default defineComponent({
         return;
       }
 
-      this.setUiSelection({ type: 'period', id: selectedPeriod }, null);
+      this.setUiSelection({ type: 'period', id: period }, null);
       this.clearPresetSelection();
     },
     getCurrentRollingDateParamIfOwnedByPreset(): string|null {
@@ -742,18 +732,18 @@ export default defineComponent({
         return null;
       }
 
-      const currentUrlPeriod = (MatomoUrl.parsed.value.period as string) || '';
-      const currentUrlDate = (MatomoUrl.parsed.value.date as string) || '';
-      if (currentUrlPeriod !== this.committedPeriod || !currentUrlDate) {
+      const parsedPeriod = (MatomoUrl.parsed.value.period as string) || '';
+      const parsedDate = (MatomoUrl.parsed.value.date as string) || '';
+      if (parsedPeriod !== this.committedPeriod || !parsedDate) {
         return null;
       }
 
-      const presetId = getTokenPresetIdFromPeriodAndDate(currentUrlPeriod, currentUrlDate);
+      const presetId = getTokenPresetIdFromPeriodAndDate(parsedPeriod, parsedDate);
       if (presetId !== this.uiSelection.id) {
         return null;
       }
 
-      return currentUrlDate;
+      return parsedDate;
     },
     resetSelectedDateValues() {
       this.committedAnchorDate = null;
@@ -762,8 +752,8 @@ export default defineComponent({
     },
     applyDateValuesFromHash(period: string, date: string) {
       if (period === RANGE_PERIOD) {
-        const parsedRangePeriod = Periods.get(period).parse(date) as Range;
-        const [startDate, endDate] = parsedRangePeriod.getDateRange();
+        const periodObj = Periods.get(period).parse(date) as Range;
+        const [startDate, endDate] = periodObj.getDateRange();
         this.committedAnchorDate = startDate;
         this.appliedRangeStartDate = format(startDate);
         this.appliedRangeEndDate = format(endDate);
@@ -778,9 +768,9 @@ export default defineComponent({
       this.singleCalendarSelectedDate = this.committedAnchorDate;
     },
     updateSelectedValuesFromHash() {
-      const currentDate = (MatomoUrl.parsed.value.date as string) || '';
-      const currentPeriod = (MatomoUrl.parsed.value.period as string) || '';
-      const currentSelectionKey = getSelectionKey(currentPeriod, currentDate);
+      const date = (MatomoUrl.parsed.value.date as string) || '';
+      const period = (MatomoUrl.parsed.value.period as string) || '';
+      const currentSelectionKey = getSelectionKey(period, date);
       const currentContextKey = this.getCurrentContextKey();
       if (shouldSkipHashSync(
         currentSelectionKey,
@@ -792,31 +782,31 @@ export default defineComponent({
         return;
       }
 
-      const resolvedHashSyncState = resolveSyncedUiSelection<PresetDateRangeId>(
+      const hashSyncState = resolveSyncedUiSelection<PresetDateRangeId>(
         currentSelectionKey,
         currentContextKey,
         this.nextHashUiSelection,
         this.nextHashSelectionKey,
       );
-      this.nextHashUiSelection = resolvedHashSyncState.nextHashUiSelection;
-      this.nextHashSelectionKey = resolvedHashSyncState.nextHashSelectionKey;
-      this.lastInteractionSource = resolvedHashSyncState.lastInteractionSource;
-      this.lastKnownHashSelectionKey = resolvedHashSyncState.lastKnownHashSelectionKey;
-      this.lastKnownHashContextKey = resolvedHashSyncState.lastKnownHashContextKey;
+      this.nextHashUiSelection = hashSyncState.nextHashUiSelection;
+      this.nextHashSelectionKey = hashSyncState.nextHashSelectionKey;
+      this.lastInteractionSource = hashSyncState.lastInteractionSource;
+      this.lastKnownHashSelectionKey = hashSyncState.lastKnownHashSelectionKey;
+      this.lastKnownHashContextKey = hashSyncState.lastKnownHashContextKey;
 
       this.applyUiSelectionFromHash(
-        currentPeriod,
-        currentDate,
-        resolvedHashSyncState.syncedUiSelection,
+        period,
+        date,
+        hashSyncState.syncedUiSelection,
       );
-      this.committedPeriod = currentPeriod;
-      this.selectedPeriod = currentPeriod;
+      this.committedPeriod = period;
+      this.selectedPeriod = period;
       this.resetSelectedDateValues();
 
       try {
-        Periods.parse(currentPeriod, currentDate);
+        Periods.parse(period, date);
       } catch (e) {
-        if (currentPeriod === RANGE_PERIOD) {
+        if (period === RANGE_PERIOD) {
           this.isRangeValid = false;
         } else {
           this.isRangeValid = null;
@@ -824,19 +814,19 @@ export default defineComponent({
         return;
       }
 
-      this.applyDateValuesFromHash(currentPeriod, currentDate);
-      this.isRangeValid = currentPeriod === RANGE_PERIOD ? true : null;
+      this.applyDateValuesFromHash(period, date);
+      this.isRangeValid = period === RANGE_PERIOD ? true : null;
       this.pendingPresetSelection = null;
-      this.calendarViewport = currentPeriod === RANGE_PERIOD ? 'range' : 'single';
+      this.calendarViewport = period === RANGE_PERIOD ? 'range' : 'single';
       this.compareAppliedSignature = this.compareCurrentSignature;
     },
     setRangeStartEndFromPeriod(period: string, dateStr: string) {
-      const periodDateRange = Periods.parse(period, dateStr).getDateRange();
+      const dateRange = Periods.parse(period, dateStr).getDateRange();
       this.appliedRangeStartDate = format(
-        periodDateRange[0] < this.minAllowedDate ? this.minAllowedDate : periodDateRange[0],
+        dateRange[0] < this.minAllowedDate ? this.minAllowedDate : dateRange[0],
       );
       this.appliedRangeEndDate = format(
-        periodDateRange[1] > this.maxAllowedDate ? this.maxAllowedDate : periodDateRange[1],
+        dateRange[1] > this.maxAllowedDate ? this.maxAllowedDate : dateRange[1],
       );
     },
     canInteractWithRangeCalendar(): boolean {
@@ -864,12 +854,12 @@ export default defineComponent({
         return;
       }
 
-      const eventTarget = event.target as HTMLElement | null;
-      if (!eventTarget) {
+      const target = event.target as HTMLElement | null;
+      if (!target) {
         return;
       }
 
-      if (eventTarget.closest('.ui-datepicker-calendar a')) {
+      if (target.closest('.ui-datepicker-calendar a')) {
         event.preventDefault();
         event.stopPropagation();
       }
@@ -926,10 +916,10 @@ export default defineComponent({
       if (this.committedAnchorDate === null) {
         return false;
       }
-      const relevantBoundaryDate = (direction === -1) ? this.minAllowedDate : this.maxAllowedDate;
+      const boundaryDate = (direction === -1) ? this.minAllowedDate : this.maxAllowedDate;
       return !datesAreInTheSamePeriod(
         this.committedAnchorDate!,
-        relevantBoundaryDate,
+        boundaryDate,
         this.committedPeriod,
       );
     },

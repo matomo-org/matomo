@@ -11,8 +11,8 @@
     :selected-date-end="selectedDates[1]"
     :persistent-highlighted-date-start="committedBetweenHighlightDates[0]"
     :persistent-highlighted-date-end="committedBetweenHighlightDates[1]"
-    :highlighted-date-start="transientHoverDates ? transientHoverDates[0] : null"
-    :highlighted-date-end="transientHoverDates ? transientHoverDates[1] : null"
+    :highlighted-date-start="highlightedDates ? highlightedDates[0] : null"
+    :highlighted-date-end="highlightedDates ? highlightedDates[1] : null"
     :view-date="viewDate"
     :step-months="period === 'year' ? 12 : 1"
     :disable-month-dropdown="period === 'year'"
@@ -50,7 +50,7 @@ export default defineComponent({
     const viewDate = ref<string|Date|undefined|null>(props.date);
     const selectedDates = ref<(Date|null)[]>([null, null]);
     const committedBetweenHighlightDates = ref<(Date|null)[]>([null, null]);
-    const transientHoverDates = ref<(Date|null)[]|null>(null);
+    const highlightedDates = ref<(Date|null)[]|null>(null);
     const piwikMinDate = getSiteMinAllowedDate();
     const piwikMaxDate = getSiteMaxAllowedDate();
 
@@ -109,16 +109,16 @@ export default defineComponent({
       if (isOutOfMinMaxDateRange
         || shouldNotHighlightFromWhitespace
       ) {
-        transientHoverDates.value = [null, null];
+        highlightedDates.value = [null, null];
         return;
       }
 
       // Keep hover preview inclusive (start/end + in-between) for parity with historical UX.
-      transientHoverDates.value = getBoundedDateRange(cellDate);
+      highlightedDates.value = getBoundedDateRange(cellDate);
     }
 
     function onHoverLeaveNormalCells() {
-      transientHoverDates.value = null;
+      highlightedDates.value = null;
     }
 
     function onDateSelected(date: Date) {
@@ -129,14 +129,14 @@ export default defineComponent({
       if (!props.period || !props.date) {
         selectedDates.value = [null, null];
         committedBetweenHighlightDates.value = [null, null];
-        transientHoverDates.value = null;
+        highlightedDates.value = null;
         viewDate.value = null;
         return;
       }
 
       selectedDates.value = getBoundedDateRange(props.date);
       refreshCommittedBetweenHighlightFromDate(props.date);
-      transientHoverDates.value = null;
+      highlightedDates.value = null;
       viewDate.value = parseDate(props.date);
     }
 
@@ -147,7 +147,7 @@ export default defineComponent({
     return {
       selectedDates,
       committedBetweenHighlightDates,
-      transientHoverDates,
+      highlightedDates,
       viewDate,
       onHoverNormalCell,
       onHoverLeaveNormalCells,
