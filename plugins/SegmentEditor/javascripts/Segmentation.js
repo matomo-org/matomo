@@ -1110,7 +1110,6 @@ Segmentation = (function($) {
           getEditSegmentTitle,
           getCanUserEditSegment,
           getSegmentFromId,
-          normalizeSearchString,
           onSegmentsStarChange,
           openPanel,
           openEditFormGivenIdSegment,
