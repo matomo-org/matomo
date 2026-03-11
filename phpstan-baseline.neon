@@ -1271,11 +1271,6 @@ parameters:
 			path: core/Mail/EmailStyles.php
 
 		-
-			message: "#^Variable \\$unit in empty\\(\\) always exists and is always falsy\\.$#"
-			count: 1
-			path: core/Metrics.php
-
-		-
 			message: "#^Method Piwik\\\\Metrics\\\\Sorter\\:\\:getPrimaryColumnToSort\\(\\) should return int but returns string\\.$#"
 			count: 1
 			path: core/Metrics/Sorter.php
@@ -2987,11 +2982,6 @@ parameters:
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: plugins/CoreHome/Columns/Metrics/EvolutionMetric.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:hasColumn\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/CoreHome/Columns/UserId.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Columns\\\\VisitGoalBuyer\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"
