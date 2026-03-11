@@ -424,7 +424,7 @@ Segmentation = (function($) {
           // for each visible segmentationContainer -> trigger click event to close and kill scrollpane - very important !
           closeAllOpenLists();
           self.target.closest('.segmentEditorPanel').addClass('expanded');
-          self.target.find('.segmentFilter').val(self.translations['General_Search']).trigger('keyup');
+          self.target.find('.segmentFilter').val('').trigger('keyup');
         }
 
         function closePanel(event) {
