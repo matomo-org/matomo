@@ -705,15 +705,10 @@ class ArchivingHelper
     public static function buildHierarchicalActionsTableFromFlatTable(DataTable $flatTable): DataTable
     {
         $table = new DataTable();
-        $maxRowsInHierarchy = self::$maximumRowsInDataTableFlat > 0
-            ? self::$maximumRowsInDataTableFlat
-            : self::$maximumRowsInDataTableLevelZero;
-        $table->setMaximumAllowedRows($maxRowsInHierarchy);
+        // Flat source table is already limited. Do not apply extra hierarchy limits.
+        $table->setMaximumAllowedRows(0);
         $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
 
-        $maxRowsInHierarchySubtable = self::$maximumRowsInDataTableFlat > 0
-            ? self::$maximumRowsInDataTableFlat
-            : self::$maximumRowsInSubDataTable;
         $hierarchyDefaultColumns = self::getDefaultRowColumns();
 
         foreach ($flatTable->getRows() as $flatRow) {
@@ -737,7 +732,7 @@ class ArchivingHelper
             [$hierarchyRow, $level] = $table->walkPath(
                 $actionPath,
                 $hierarchyDefaultColumns,
-                $maxRowsInHierarchySubtable
+                0
             );
 
             if ($hierarchyRow === false) {
