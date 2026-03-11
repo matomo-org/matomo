@@ -468,13 +468,6 @@ abstract class RecordBuilder
                 continue;
             }
 
-            if (is_array($value)) {
-                if (!empty($value)) {
-                    return false;
-                }
-                continue;
-            }
-
             if (!empty($value)) {
                 return false;
             }

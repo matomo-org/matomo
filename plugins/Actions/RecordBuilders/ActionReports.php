@@ -100,24 +100,32 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return $records;
     }
 
-    public function flatRowToUrlHierarchyPath(Row $flatRow, ArchiveProcessor $archiveProcessor, Record $record): ?array
+    public function flatRowToUrlHierarchyPath(Row $flatRow): ?array
     {
         return $this->flatRowToHierarchyPath($flatRow, Action::TYPE_PAGE_URL);
     }
 
-    public function flatRowToTitleHierarchyPath(Row $flatRow, ArchiveProcessor $archiveProcessor, Record $record): ?array
+    public function flatRowToTitleHierarchyPath(Row $flatRow): ?array
     {
         return $this->flatRowToHierarchyPath($flatRow, Action::TYPE_PAGE_TITLE);
     }
 
     public function reduceLegacyUrlHierarchyIntoFlatTable(DataTable $legacyHierarchy, DataTable $flatTable, ArchiveProcessor $archiveProcessor, Record $record): void
     {
-        $this->reduceLegacyHierarchyIntoFlatTable($legacyHierarchy, $flatTable, Action::TYPE_PAGE_URL);
+        ArchivingHelper::mergeHierarchicalActionsTableIntoBestEffortFlatTable(
+            $legacyHierarchy,
+            $flatTable,
+            Action::TYPE_PAGE_URL
+        );
     }
 
     public function reduceLegacyTitleHierarchyIntoFlatTable(DataTable $legacyHierarchy, DataTable $flatTable, ArchiveProcessor $archiveProcessor, Record $record): void
     {
-        $this->reduceLegacyHierarchyIntoFlatTable($legacyHierarchy, $flatTable, Action::TYPE_PAGE_TITLE);
+        ArchivingHelper::mergeHierarchicalActionsTableIntoBestEffortFlatTable(
+            $legacyHierarchy,
+            $flatTable,
+            Action::TYPE_PAGE_TITLE
+        );
     }
 
     protected function aggregate(ArchiveProcessor $archiveProcessor): array
@@ -170,15 +178,11 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         $tablesByType[Action::TYPE_PAGE_URL] = $this->buildDayHierarchicalTableFromFlatTable(
             $flatPageTablesByType[Action::TYPE_PAGE_URL],
-            Archiver::PAGE_URLS_RECORD_NAME,
-            [$this, 'flatRowToUrlHierarchyPath'],
-            $archiveProcessor
+            [$this, 'flatRowToUrlHierarchyPath']
         );
         $tablesByType[Action::TYPE_PAGE_TITLE] = $this->buildDayHierarchicalTableFromFlatTable(
             $flatPageTablesByType[Action::TYPE_PAGE_TITLE],
-            Archiver::PAGE_TITLES_RECORD_NAME,
-            [$this, 'flatRowToTitleHierarchyPath'],
-            $archiveProcessor
+            [$this, 'flatRowToTitleHierarchyPath']
         );
         $this->finalizeBuiltFromFlatHierarchyTable(
             $archiveProcessor,
@@ -284,11 +288,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         return ArchivingHelper::getActionExplodedNames($label, $actionType);
     }
 
-    private function reduceLegacyHierarchyIntoFlatTable(DataTable $legacyHierarchy, DataTable $flatTable, int $actionType): void
-    {
-        $this->appendLegacyHierarchyRowsToFlatTable($legacyHierarchy, [], $flatTable, $actionType);
-    }
-
     private function removeFlatPathMetadataFromDataTable(DataTable $dataTable): void
     {
         $summaryRow = $dataTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
@@ -325,52 +324,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
         ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($hierarchicalTable);
     }
 
-    private function appendLegacyHierarchyRowsToFlatTable(DataTable $sourceTable, array $path, DataTable $flatTable, int $actionType): void
-    {
-        foreach ($sourceTable->getRowsWithoutSummaryRow() as $row) {
-            $label = $row->getColumn('label');
-            if (!is_string($label) || $label === '') {
-                continue;
-            }
-
-            $currentPath = $path;
-            $currentPath[] = $label;
-
-            $subtable = $row->getSubtable();
-            if ($subtable) {
-                $this->appendLegacyHierarchyRowsToFlatTable($subtable, $currentPath, $flatTable, $actionType);
-                continue;
-            }
-
-            $flatLabel = ArchivingHelper::buildBestEffortActionLabelFromPath($currentPath, $actionType);
-            $flatRow = $flatTable->getRowFromLabel($flatLabel);
-            if ($flatRow === false) {
-                $flatRow = new Row([
-                    Row::COLUMNS => ['label' => $flatLabel],
-                ]);
-                $flatRow->setMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME, $currentPath);
-                $flatTable->addRow($flatRow);
-            }
-
-            $flatRow->sumRow(clone $row, true, Metrics::getColumnsAggregationOperation());
-        }
-
-        $summaryRow = $sourceTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
-        if ($summaryRow === false) {
-            return;
-        }
-
-        $globalSummary = $flatTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
-        if ($globalSummary === false) {
-            $globalSummary = clone $summaryRow;
-            $globalSummary->setIsSummaryRow();
-            $flatTable->addSummaryRow($globalSummary);
-            return;
-        }
-
-        $globalSummary->sumRow(clone $summaryRow, true, Metrics::getColumnsAggregationOperation());
-    }
-
     private function isFlatArchivingEnabled(): bool
     {
         ArchivingHelper::reloadConfig();
@@ -392,18 +345,12 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
     private function buildDayHierarchicalTableFromFlatTable(
         DataTable $flatTable,
-        string $hierarchicalRecordName,
-        callable $flatToHierarchyPathCallback,
-        ArchiveProcessor $archiveProcessor
+        callable $flatToHierarchyPathCallback
     ): DataTable {
-        $hierarchicalRecord = Record::make(Record::TYPE_BLOB, $hierarchicalRecordName);
-
         return $this->buildHierarchicalTableFromFlatTable(
             $flatTable,
             Metrics::getColumnsAggregationOperation(),
-            function (Row $flatRow) use ($flatToHierarchyPathCallback, $archiveProcessor, $hierarchicalRecord) {
-                return call_user_func($flatToHierarchyPathCallback, $flatRow, $archiveProcessor, $hierarchicalRecord);
-            },
+            $flatToHierarchyPathCallback,
             $this->getDefaultHierarchyRowColumns()
         );
     }
