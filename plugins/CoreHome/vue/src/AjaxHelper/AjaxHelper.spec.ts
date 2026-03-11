@@ -366,4 +366,41 @@ describe('CoreHome/AjaxHelper', () => {
     expect(requestedUrl).not.toContain('segment=urlSegmentValue');
     expect(requestedUrl).not.toContain('segment=');
   });
+
+  it('should treat an undefined segment like a missing segment parameter', async () => {
+    let requestedUrl = '';
+
+    (window.$ as JQueryStatic & { ajax: typeof window.$.ajax }).ajax = ((ajaxOptions: any) => {
+      requestedUrl = ajaxOptions.url;
+
+      const xhr = {
+        readyState: 4,
+        status: 200,
+        statusText: 'success',
+        responseJSON: [],
+        abort: jest.fn(),
+        getResponseHeader() {
+          return null;
+        },
+        then(callback: (response: unknown) => void) {
+          callback([]);
+          return this;
+        },
+        fail() {
+          return this;
+        },
+      };
+
+      return xhr as unknown as JQueryXhr;
+    }) as typeof window.$.ajax;
+
+    history.replaceState({}, '', '?module=CoreHome&action=index&idSite=1&period=day&segment=urlSegmentValue');
+
+    await AjaxHelper.fetch({
+      method: 'API.getSuggestedValuesForSegment',
+      segment: undefined,
+    });
+
+    expect(requestedUrl).toContain('segment=urlSegmentValue');
+  });
 });

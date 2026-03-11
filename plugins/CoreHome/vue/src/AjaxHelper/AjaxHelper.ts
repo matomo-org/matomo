@@ -244,7 +244,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
       });
 
-      const hasExplicitSegment = Object.prototype.hasOwnProperty.call(params, 'segment');
+      const hasExplicitSegment = Object.prototype.hasOwnProperty.call(params, 'segment')
+        && typeof params.segment !== 'undefined';
 
       let segmentParam = {};
       if (hasExplicitSegment) {
@@ -1021,8 +1022,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     };
 
     const params = originalParams;
-    const hasExplicitSegment = Object.prototype.hasOwnProperty.call(params, 'segment')
-      || Object.prototype.hasOwnProperty.call(this.postParams, 'segment');
+    const hasExplicitSegment = (
+      Object.prototype.hasOwnProperty.call(params, 'segment')
+      && typeof params.segment !== 'undefined'
+    ) || (
+      Object.prototype.hasOwnProperty.call(this.postParams, 'segment')
+      && typeof this.postParams.segment !== 'undefined'
+    );
 
     // never append token_auth to url
     if (params.token_auth) {
