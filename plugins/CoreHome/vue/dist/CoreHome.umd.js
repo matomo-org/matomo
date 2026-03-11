@@ -1156,6 +1156,9 @@ function defaultErrorCallback(deferred, status) {
     AjaxHelper_$('#loadingError').show();
   }
 }
+function hasExplicitSegmentParam(params) {
+  return Object.prototype.hasOwnProperty.call(params, 'segment') && typeof params.segment !== 'undefined';
+}
 class ApiResponseError extends Error {}
 class ChunkedBulkRequestError extends Error {
   constructor(xhr, status, errorThrown) {
@@ -1210,7 +1213,7 @@ class AjaxHelper_AjaxHelper {
           throw new Error(`Password parameters are not allowed to be sent as GET parameter. Please send ${key} as POST parameter instead.`);
         }
       });
-      const hasExplicitSegment = Object.prototype.hasOwnProperty.call(params, 'segment');
+      const hasExplicitSegment = hasExplicitSegmentParam(params);
       let segmentParam = {};
       if (hasExplicitSegment) {
         let segmentVal = null;
@@ -1905,7 +1908,7 @@ class AjaxHelper_AjaxHelper {
       segment
     };
     const params = originalParams;
-    const hasExplicitSegment = Object.prototype.hasOwnProperty.call(params, 'segment') || Object.prototype.hasOwnProperty.call(this.postParams, 'segment');
+    const hasExplicitSegment = hasExplicitSegmentParam(params) || hasExplicitSegmentParam(this.postParams);
     // never append token_auth to url
     if (params.token_auth) {
       params.token_auth = null;
