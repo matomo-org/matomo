@@ -290,4 +290,80 @@ describe('CoreHome/AjaxHelper', () => {
     expect(window.piwikHelper.refreshAfter).toHaveBeenCalledTimes(1);
     expect(window.piwikHelper.refreshAfter).toHaveBeenCalledWith(0);
   });
+
+  it('should not replace an explicitly empty segment with the URL segment', async () => {
+    let requestedUrl = '';
+
+    (window.$ as JQueryStatic & { ajax: typeof window.$.ajax }).ajax = ((ajaxOptions: any) => {
+      requestedUrl = ajaxOptions.url;
+
+      const xhr = {
+        readyState: 4,
+        status: 200,
+        statusText: 'success',
+        responseJSON: [],
+        abort: jest.fn(),
+        getResponseHeader() {
+          return null;
+        },
+        then(callback: (response: unknown) => void) {
+          callback([]);
+          return this;
+        },
+        fail() {
+          return this;
+        },
+      };
+
+      return xhr as unknown as JQueryXhr;
+    }) as typeof window.$.ajax;
+
+    history.replaceState({}, '', '?module=CoreHome&action=index&idSite=1&period=day&segment=urlSegmentValue');
+
+    await AjaxHelper.fetch({
+      method: 'API.getSuggestedValuesForSegment',
+      segment: '',
+    });
+
+    expect(requestedUrl).not.toContain('segment=urlSegmentValue');
+    expect(requestedUrl).toContain('segment=');
+  });
+
+  it('should omit the segment parameter when explicitly set to null', async () => {
+    let requestedUrl = '';
+
+    (window.$ as JQueryStatic & { ajax: typeof window.$.ajax }).ajax = ((ajaxOptions: any) => {
+      requestedUrl = ajaxOptions.url;
+
+      const xhr = {
+        readyState: 4,
+        status: 200,
+        statusText: 'success',
+        responseJSON: [],
+        abort: jest.fn(),
+        getResponseHeader() {
+          return null;
+        },
+        then(callback: (response: unknown) => void) {
+          callback([]);
+          return this;
+        },
+        fail() {
+          return this;
+        },
+      };
+
+      return xhr as unknown as JQueryXhr;
+    }) as typeof window.$.ajax;
+
+    history.replaceState({}, '', '?module=CoreHome&action=index&idSite=1&period=day&segment=urlSegmentValue');
+
+    await AjaxHelper.fetch({
+      method: 'API.getSuggestedValuesForSegment',
+      segment: null,
+    });
+
+    expect(requestedUrl).not.toContain('segment=urlSegmentValue');
+    expect(requestedUrl).not.toContain('segment=');
+  });
 });

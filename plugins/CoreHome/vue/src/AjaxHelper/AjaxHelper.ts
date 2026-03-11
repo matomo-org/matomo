@@ -244,6 +244,19 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
       });
 
+      const hasExplicitSegment = Object.prototype.hasOwnProperty.call(params, 'segment');
+
+      let segmentParam = {};
+      if (hasExplicitSegment) {
+        let segmentVal : string|null = null;
+        if (params.segment !== null) {
+          segmentVal = encodeURIComponent(params.segment as string);
+        }
+        segmentParam = {
+          segment: segmentVal,
+        };
+      }
+
       helper.addParams({
         module: 'API',
         format: options.format || 'json',
@@ -255,7 +268,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         // to support any existing uses of the old code, so instead we do a manual encode here. new
         // code that uses .fetch() will not need to pre-encode the parameter, while old code
         // can pre-encode it.
-        segment: params.segment ? encodeURIComponent(params.segment as string) : undefined,
+        ...segmentParam,
       }, 'get');
     }
     if (options.postParams) {
@@ -411,9 +424,13 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       url += '&';
     }
 
-    if (parameters.segment) {
-      url = `${url}segment=${parameters.segment}&`;
+    if (Object.prototype.hasOwnProperty.call(parameters, 'segment')) {
+      const segmentValue = parameters.segment;
       delete parameters.segment;
+
+      if (segmentValue !== null && typeof segmentValue !== 'undefined') {
+        url = `${url}segment=${segmentValue}&`;
+      }
     }
     if (parameters.date) {
       url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
@@ -1004,6 +1021,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     };
 
     const params = originalParams;
+    const hasExplicitSegment = Object.prototype.hasOwnProperty.call(params, 'segment')
+      || Object.prototype.hasOwnProperty.call(this.postParams, 'segment');
 
     // never append token_auth to url
     if (params.token_auth) {
@@ -1013,6 +1032,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     Object.keys(defaultParams).forEach((key) => {
       if (this.useGETDefaultParameter(key)
+        && !(key === 'segment' && hasExplicitSegment)
         && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '')
         && (this.postParams[key] === null
           || typeof this.postParams[key] === 'undefined'
