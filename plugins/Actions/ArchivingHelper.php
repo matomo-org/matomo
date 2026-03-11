@@ -291,29 +291,10 @@ class ArchivingHelper
         }
 
         if (!$isPages) {
-            $nbEntrances = $actionRow->getColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS);
-            $conversions = $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY];
-            if ($nbEntrances !== false && is_numeric($nbEntrances) && $nbEntrances > 0) {
-                // Calculate conversion entry rate
-                if (isset($row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY])) {
-                    $row[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE] = Piwik::getQuotientSafe(
-                        $conversions,
-                        $nbEntrances,
-                        GoalManager::REVENUE_PRECISION + 1
-                    );
-                }
-
-                // Calculate revenue per entry
-                if (isset($row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY])) {
-                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = (float) Piwik::getQuotientSafe(
-                        $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY],
-                        $nbEntrances,
-                        GoalManager::REVENUE_PRECISION + 1
-                    );
-
-                    $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $row[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
-                }
-            }
+            self::normalizeEntryGoalMetricsForEntrances(
+                $row,
+                $actionRow->getColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS)
+            );
         }
 
         // Get goals column
@@ -331,23 +312,162 @@ class ArchivingHelper
         foreach ($possibleMetrics as $metricKey => $columnName) {
             if (isset($row[$metricKey])) {
                 // Add metric
-                if (!isset($goalsColumn[$row['idgoal']][$metricKey])) {
-                    $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];
-                } else {
-                    if ($metricKey == PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE) {
-                        if ($goalsColumn[$row['idgoal']][$metricKey] < $row[$metricKey]) {
-                            $goalsColumn[$row['idgoal']][$metricKey] = $row[$metricKey];
-                        }
-                    } else {
-                        $goalsColumn[$row['idgoal']][$metricKey] += $row[$metricKey];
-                    }
-                }
+                self::mergeGoalMetric($goalsColumn[$row['idgoal']], $metricKey, $row[$metricKey]);
 
                 // Write goals column back to datatable
                 $actionRow->setColumn(PiwikMetrics::INDEX_GOALS, $goalsColumn);
             }
         }
         return true;
+    }
+
+    public static function normalizeFlatGoalsMetricsForHierarchy(array $flatPageTablesByType): void
+    {
+        foreach ($flatPageTablesByType as $dataTable) {
+            if (!$dataTable instanceof DataTable) {
+                continue;
+            }
+
+            $rowsByPath = [];
+            foreach ($dataTable->getRowsWithoutSummaryRow() as $row) {
+                $path = $row->getMetadata(self::ACTION_FLAT_PATH_METADATA_NAME);
+                if (!is_array($path) || empty($path)) {
+                    continue;
+                }
+
+                $pathKey = self::getFlatPathKey($path);
+                $rowsByPath[$pathKey][] = $row;
+            }
+
+            foreach ($rowsByPath as $rows) {
+                self::normalizeFlatGoalsMetricsForHierarchyPathRows($rows);
+            }
+        }
+    }
+
+    private static function normalizeFlatGoalsMetricsForHierarchyPathRows(array $rows): void
+    {
+        $entryVisitsTotal = 0.0;
+        $maxPagesBeforeByGoal = [];
+
+        foreach ($rows as $row) {
+            $entryVisits = $row->getColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_VISITS);
+            if (is_numeric($entryVisits)) {
+                $entryVisitsTotal += (float) $entryVisits;
+            }
+
+            $goals = $row->getColumn(PiwikMetrics::INDEX_GOALS);
+            if (!is_array($goals)) {
+                continue;
+            }
+
+            foreach ($goals as $goalId => $goalMetrics) {
+                if (!is_array($goalMetrics)) {
+                    continue;
+                }
+
+                $pagesBefore = $goalMetrics[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] ?? null;
+                if (!is_numeric($pagesBefore)) {
+                    continue;
+                }
+
+                if (
+                    !isset($maxPagesBeforeByGoal[$goalId])
+                    || $maxPagesBeforeByGoal[$goalId]['value'] < (float) $pagesBefore
+                ) {
+                    $maxPagesBeforeByGoal[$goalId] = [
+                        'row' => $row,
+                        'value' => (float) $pagesBefore,
+                    ];
+                }
+            }
+        }
+
+        foreach ($rows as $row) {
+            $goals = $row->getColumn(PiwikMetrics::INDEX_GOALS);
+            if (!is_array($goals)) {
+                continue;
+            }
+
+            foreach ($goals as &$goalMetrics) {
+                if (!is_array($goalMetrics)) {
+                    continue;
+                }
+
+                if (isset($goalMetrics[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE])) {
+                    $goalMetrics[PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] = 0;
+                }
+
+                self::normalizeEntryGoalMetricsForEntrances($goalMetrics, $entryVisitsTotal);
+            }
+            unset($goalMetrics);
+
+            $row[PiwikMetrics::INDEX_GOALS] = $goals;
+        }
+
+        foreach ($maxPagesBeforeByGoal as $goalId => $maxValue) {
+            /** @var Row $maxRow */
+            $maxRow = $maxValue['row'];
+            $goals = $maxRow->getColumn(PiwikMetrics::INDEX_GOALS);
+            if (!is_array($goals) || !isset($goals[$goalId]) || !is_array($goals[$goalId])) {
+                continue;
+            }
+
+            $goals[$goalId][PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE] = $maxValue['value'];
+            $maxRow[PiwikMetrics::INDEX_GOALS] = $goals;
+        }
+    }
+
+    private static function normalizeEntryGoalMetricsForEntrances(array &$goalMetrics, $nbEntrances): void
+    {
+        if (!is_numeric($nbEntrances) || $nbEntrances <= 0) {
+            return;
+        }
+
+        if (isset($goalMetrics[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY])) {
+            $goalMetrics[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY_RATE] = Piwik::getQuotientSafe(
+                $goalMetrics[PiwikMetrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY],
+                $nbEntrances,
+                GoalManager::REVENUE_PRECISION + 1
+            );
+        }
+
+        if (isset($goalMetrics[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY])) {
+            $goalMetrics[PiwikMetrics::INDEX_GOAL_REVENUE_PER_ENTRY] = (float) Piwik::getQuotientSafe(
+                $goalMetrics[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY],
+                $nbEntrances,
+                GoalManager::REVENUE_PRECISION + 1
+            );
+
+            $goalMetrics[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY] = (float) $goalMetrics[PiwikMetrics::INDEX_GOAL_REVENUE_ENTRY];
+        }
+    }
+
+    private static function mergeGoalMetric(array &$goalMetrics, int $metricKey, $value): void
+    {
+        if (!isset($goalMetrics[$metricKey])) {
+            $goalMetrics[$metricKey] = $value;
+            return;
+        }
+
+        if ($metricKey == PiwikMetrics::INDEX_GOAL_NB_PAGES_UNIQ_BEFORE) {
+            if ($goalMetrics[$metricKey] < $value) {
+                $goalMetrics[$metricKey] = $value;
+            }
+            return;
+        }
+
+        $goalMetrics[$metricKey] += $value;
+    }
+
+    private static function getFlatPathKey(array $path): string
+    {
+        $pathKey = json_encode($path);
+        if ($pathKey === false) {
+            return implode("\n", $path);
+        }
+
+        return $pathKey;
     }
 
     public static function removeEmptyColumns($dataTable)
