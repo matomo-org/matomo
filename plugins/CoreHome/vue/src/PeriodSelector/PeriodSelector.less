@@ -45,11 +45,11 @@
   .compare-checkbox {
     margin-bottom: 20px;
     label {
-        span {
-            padding-left:25px;
-            font-size: 14px;
-            margin-right: 3px;
-        }
+      span {
+        padding-left: 25px;
+        font-size: 14px;
+        margin-right: 3px;
+      }
     }
   }
 
@@ -156,12 +156,11 @@
       right: 0;
     }
   }
-
   @media (max-width: 600px) {
-    &.periodSelector-withPrevNext {
-      #periodMore {
-        right: 30px;
-      }
+    #periodMore {
+      max-width: 90%;
+      left: 25px;
+      right: auto;
     }
   }
 
@@ -227,7 +226,7 @@
         }
       }
 
-      label.selected-period-label {
+      .selected-period-label {
         color: @theme-color-text;
         font-weight: 600;
       }
@@ -243,8 +242,7 @@
         color: @color-period-selector;
       }
 
-      label.selected-period-label,
-      label.selected-period-label span {
+      .selected-period-label {
         color: @theme-color-text;
       }
     }
@@ -258,8 +256,10 @@
   .period-selector-calendar-column {
     border-left: 1px solid @color-silver-l95;
     display: flex;
+    flex: 1 1 220px;
     flex-direction: column;
     margin-left: 16px;
+    min-width: 220px;
     padding-left: 16px;
 
     .apply-button-container {
@@ -271,12 +271,25 @@
       pointer-events: none;
     }
   }
+  .period-date{
+    min-width: 220px;
+  }
+  .period-date,
+  .period-range {
+    padding-right: 0px !important;
+  }
 
   .dateRangePicker {
     display: flex;
     align-items: flex-start;
     flex-wrap: nowrap;
     gap: 16px;
+
+    #calendarRangeFrom,
+    #calendarRangeTo {
+      flex: 1 1 0;
+      min-width: 220px;
+    }
 
     #calendarRangeFrom {
       float: none;
@@ -295,9 +308,12 @@
 
     .period-selector-calendar-column {
       border-left: 0;
-      margin-left: 0;
+      min-width: 0;
+      margin-left: auto;
+      margin-right: auto;
       margin-top: 12px;
       padding-left: 0;
+      width: 80%;
     }
 
     .dateRangePicker {
@@ -356,7 +372,7 @@
         font-size: 13px;
       }
     }
-    table.ui-datepicker-calendar, div.ui-datepicker-header {
+    .ui-datepicker-calendar, .ui-datepicker-header {
       font-size: 13px !important;
       border: none !important;
 
@@ -365,26 +381,23 @@
       }
     }
     table.ui-datepicker-calendar {
+      table-layout: fixed;
 
       tbody td {
-        padding: 0 4px !important;
+        padding: 0 !important;
+        width: 14.2857%;
       }
 
-      // Weekend cells use a distinct inner background in jQuery UI defaults.
-      // Match the td background so left/right padding does not create visible seams.
-      tbody td.ui-datepicker-week-end {
-        background: @color-period-selector-weekend !important;
+      tbody td > a,
+      tbody td > span {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        aspect-ratio: 1 / 1;
       }
 
-      // Fill padded horizontal spacing by coloring the td itself for states.
-      // `ui-state-hover` is applied by DatePicker.vue for range-hover highlighting.
-      tbody td.ui-state-hover,
-      tbody td:hover {
-        background: @period-selector-calendar-hover-bg !important;
-      }
-
-      // Ensure the inner content (a/span) matches td hover fill, including disabled cells.
-      // Without this, hovering padded area can leave the center looking unhighlighted.
+      // Apply hover/persistent highlight to the square inner day box.
       tbody td:not(.ui-datepicker-current-period).ui-datepicker-persistent-highlight > a,
       tbody td:not(.ui-datepicker-current-period).ui-datepicker-persistent-highlight > span,
       tbody td:not(.ui-datepicker-current-period):hover > a,
@@ -392,12 +405,8 @@
         background: @period-selector-calendar-hover-bg !important;
       }
 
-      tbody td.ui-datepicker-persistent-highlight {
-        background: @period-selector-calendar-hover-bg !important;
-        opacity: 1;
-      }
-
-      tbody td.ui-datepicker-current-period {
+      tbody td.ui-datepicker-current-period > a,
+      tbody td.ui-datepicker-current-period > span {
         background: @theme-color-text !important;
       }
     }
