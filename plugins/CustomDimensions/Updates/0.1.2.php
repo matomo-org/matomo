@@ -58,7 +58,6 @@ class Updates_0_1_2 extends PiwikUpdates
      * method, you must call {@link Updater::executeMigrationQueries()} here.
      *
      * See {@link Updates} for an example.
-     *
      */
     public function doUpdate(Updater $updater)
     {

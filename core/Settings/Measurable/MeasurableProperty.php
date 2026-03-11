@@ -38,8 +38,6 @@ class MeasurableProperty extends \Piwik\Settings\Setting
     );
 
     /**
-     *
-     *
      * @param string $name The persisted name of the setting.
      * @param mixed $defaultValue  Default value for this setting if no value was specified.
      * @param string $type Eg an array, int, ... see TYPE_* constants

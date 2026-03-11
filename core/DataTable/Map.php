@@ -486,7 +486,6 @@ class Map implements DataTableInterface
      * _Note: Will only add `$tableToSum` if the childTable has some rows._
      *
      * See {@link Piwik\DataTable::addDataTable()}.
-     *
      */
     public function addDataTable(DataTable $tableToSum)
     {

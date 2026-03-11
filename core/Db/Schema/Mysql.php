@@ -713,7 +713,6 @@ class Mysql implements SchemaInterface
      * Will return an empty string for an unknown charset
      * (can happen for alias charsets like "utf8").
      *
-     *
      * @throws Exception
      */
     public function getDefaultCollationForCharset(string $charset): string

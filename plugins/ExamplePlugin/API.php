@@ -28,8 +28,6 @@ class API extends \Piwik\Plugin\API
      * You can call this API method like this:
      * /index.php?module=API&method=ExamplePlugin.getAnswerToLife
      * /index.php?module=API&method=ExamplePlugin.getAnswerToLife&truth=0
-     *
-     *
      */
     public function getAnswerToLife(bool $truth = true): int
     {

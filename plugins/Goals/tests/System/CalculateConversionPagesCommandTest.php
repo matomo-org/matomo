@@ -81,7 +81,6 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
     /**
      * Check that the log_conversion.pageviews_before column was correctly calculated
      *
-     *
      * @throws \Exception
      */
     public function checkPageviewsBeforeValid(?string $onlyToDate = null): void

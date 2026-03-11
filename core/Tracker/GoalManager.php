@@ -262,7 +262,6 @@ class GoalManager
 
     /**
      * Records one or several goals matched in this request.
-     *
      */
     public function recordGoals(VisitProperties $visitProperties, Request $request)
     {

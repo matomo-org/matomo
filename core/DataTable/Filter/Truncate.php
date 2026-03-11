@@ -55,8 +55,6 @@ class Truncate extends BaseFilter
     protected $filterRecursive;
 
     /**
-     *
-     *
      * @param DataTable $table The table that will be filtered eventually.
      * @param int $truncateAfter The row index to truncate at. All rows passed this index will
      *                           be removed.

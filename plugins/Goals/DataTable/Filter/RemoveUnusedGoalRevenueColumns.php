@@ -62,7 +62,6 @@ class RemoveUnusedGoalRevenueColumns extends BaseFilter
     /**
      * Get the ids of all goals used in the table
      *
-     *
      * @return array
      */
     private function getGoalsInTable(DataTable &$table)

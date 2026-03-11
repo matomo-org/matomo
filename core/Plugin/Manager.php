@@ -516,7 +516,6 @@ class Manager
 
     /**
      * Returns the plugin directory path relative to Matomo's root directory.
-     *
      */
     public static function getRelativePluginDirectory(string $pluginName): string
     {
@@ -1423,7 +1422,6 @@ class Manager
 
     /**
      * Install a plugin, if necessary
-     *
      */
     private function installPluginIfNecessary(Plugin $plugin)
     {

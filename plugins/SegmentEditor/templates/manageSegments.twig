@@ -1,0 +1,114 @@
+{% if hasRealtimeSegments %}
+    <div class="alert alert-info">
+        {{ 'SegmentEditor_ManageSegmentsRealtimeNotice'|translate }}
+    </div>
+{% endif %}
+<div class="card" data-page="manage-segments">
+    <div class="card-content">
+        <h2 class="card-title">{{ 'SegmentEditor_SegmentPageTitle'|translate }}</h2>
+        <div>
+            <p class="card-introduction">{{ 'SegmentEditor_SegmentPageDescription'|translate }}</p>
+            <form name="manageSegmentSearchFilter">
+                <div class="form-group row matomo-form-field" style="">
+                    <div class="col s12 input-field m6">
+                        <input class="control_text" type="text" id="manageSegmentSearch" name="manageSegmentSearch">
+                        <label for="manageSegmentSearch">{{ 'General_Search'|translate }}</label>
+                    </div>
+                </div>
+            </form>
+            <table class="card card-table entityTable">
+                <thead>
+                    <tr class="index">
+                        <th></th>
+                        <th title="{{ 'General_ColumnSegmentDocumentation'|translate }}">
+                            {{ 'General_ColumnSegment'|translate }}
+                        </th>
+                        <th class="entityTable_Numeric" title="{{ 'General_ColumnNbVisitsDocumentation'|translate }}">
+                            {{ 'General_ColumnNbVisits'|translate }}
+                        </th>
+                        <th class="entityTable_Numeric" title="{{ 'General_ColumnNbActionsDocumentation'|translate }}">
+                            {{ 'General_ColumnNbActions'|translate }}
+                        </th>
+                        <th class="entityTable_Numeric" colspan="2" title="{{ 'General_ColumnEvolutionVisitsDocumentation'|translate }}">
+                            {{ 'General_ColumnEvolutionVisits'|translate }}
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for segment in segmentList %}
+                        <tr class="segment dataTable_row {% if segment.fixed or segment.selected %}dataTable_row-highlight dataTable_row-group{% endif %} {% if segment.starred %}segmentStarred{% endif %}"
+                            data-segment-name="{{ segment.name }}"
+                            data-segment-definition="{{ segment.definition }}"
+                            data-is-realtime="{% if segment.isRealtime %}1{% else %}0{% endif %}"
+                            data-segment-order="{% if segment.fixed %}3{% elseif segment.selected %}2{% elseif segment.starred %}1{% else %}0{% endif %}"
+                        >
+                            <td class="entityTable_StarCell">
+                                {% if segment.idsegment is defined %}
+                                    <button data-star="{{ segment.idsegment }}" class="segmentAction starSegment">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                                            <path stroke="black" stroke-width="3" fill="none" d="M9.153 5.408C10.42 3.136 11.053 2 12 2c.947 0 1.58 1.136 2.847 3.408l.328.588c.36.646.54.969.82 1.182.28.213.63.292 1.33.45l.636.144c2.46.557 3.689.835 3.982 1.776.292.94-.546 1.921-2.223 3.882l-.434.507c-.476.557-.715.836-.822 1.18-.107.345-.071.717.001 1.46l.066.677c.253 2.617.38 3.925-.386 4.506-.766.582-1.918.051-4.22-1.009l-.597-.274c-.654-.302-.981-.452-1.328-.452-.347 0-.674.15-1.329.452l-.595.274c-2.303 1.06-3.455 1.59-4.22 1.01-.767-.582-.64-1.89-.387-4.507l.066-.676c.072-.744.108-1.116 0-1.46-.106-.345-.345-.624-.821-1.18l-.434-.508c-1.677-1.96-2.515-2.941-2.223-3.882.293-.941 1.523-1.22 3.983-1.776l.636-.144c.699-.158 1.048-.237 1.329-.45.28-.213.46-.536.82-1.182l.328-.588Z"/>
+                                        </svg>
+                                    </button>
+                                {% endif %}
+                            </td>
+                            <td title="{{ segment.name }}">{{ segment.name|rawSafeDecoded }}</td>
+                            <td class="entityTable_Numeric">
+                                {% if segment.isRealtime %}
+                                    <span title="{{ 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'|translate }}">-</span>
+                                {% else %}
+                                    <span data-segment-data-field="nb_visits">-</span>
+                                {% endif %}
+                            </td>
+                            <td class="entityTable_Numeric">
+                                {% if segment.isRealtime %}
+                                    <span title="{{ 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'|translate }}">-</span>
+                                {% else %}
+                                    <span data-segment-data-field="nb_actions">-</span>
+                                {% endif %}
+                            </td>
+                            <td class="entityTable_Numeric">
+                                {% if segment.isRealtime %}
+                                    <span title="{{ 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'|translate }}">-</span>
+                                {% else %}
+                                    <span title="{{ 'General_ColumnEvolutionVisitsDocumentation'|translate }}" class="sparklineEvolution">
+                                        <img src="" alt="" class="sparklineEvolution_icon" />
+                                        <span data-segment-data-field="evolution_visits">-</span>
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="entityTable_Sparkline">
+                                {% if segment.sparklineUrl is defined %}
+                                    <div class="sparkline" {% if sparklineTooltipKey -%} title="{{ sparklineTooltipKey|translate(segment.name) }}" {%- endif %}>
+                                        {{ sparkline(segment.sparklineUrl) }}
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td class="entityTable_Filler"></td>
+                            <td class="entityTable_ActionCell entityTable_ActionCell-3">
+                                {% apply spaceless %}
+                                    <a href="#" class="table-action icon-show" title="{{ 'SegmentEditor_SeeDashboardForThisSegment'|translate }}"></a>
+                                    {% if segment.idsegment is defined %}
+                                        <button class="table-action icon-edit" data-edit-segment="{{ segment.idsegment }}"></button>
+                                        <button class="table-action icon-delete" data-delete-segment="{{ segment.idsegment }}"></button>
+                                    {% endif %}
+                                {% endapply %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="tableFooterLabel" style="display: none;">{{ 'General_SearchNoResults'|translate }}</div>
+
+            {% if authorizedToCreateSegments %}
+                <div class="tableActionBar">
+                    <button class="createNewSegment"><span class="icon-add"></span> {{ 'SegmentEditor_AddNewSegment'|translate }}</button>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+  initManageSegmentsPage();
+</script>

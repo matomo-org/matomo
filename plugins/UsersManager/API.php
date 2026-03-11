@@ -1021,7 +1021,6 @@ class API extends \Piwik\Plugin\API
      * @param string $passwordConfirmation the currents users password, only required when request is authenticated with session token auth
      *
      * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
-     *
      */
     public function deleteUser(
         $userLogin,

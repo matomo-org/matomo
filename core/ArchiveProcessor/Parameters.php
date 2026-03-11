@@ -61,8 +61,6 @@ class Parameters
     private $foundRequestedReports;
 
     /**
-     *
-     *
      * @ignore
      */
     public function __construct(Site $site, Period $period, Segment $segment)

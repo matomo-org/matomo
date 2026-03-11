@@ -59,8 +59,6 @@ class Row extends \ArrayObject
     public const DATATABLE_ASSOCIATED = 3;
 
     /**
-     *
-     *
      * @param array $row An array with the following structure:
      *
      *                       array(
@@ -647,7 +645,6 @@ class Row extends \ArrayObject
 
     /**
      * Associates the supplied table with this row as the comparisons table.
-     *
      */
     public function setComparisons(DataTable $table)
     {

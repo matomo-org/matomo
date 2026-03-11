@@ -15,10 +15,13 @@ use Piwik\Access;
 use Piwik\Common;
 use Piwik\Container\StaticContainer;
 use Piwik\CronArchive\SegmentArchiving;
+use Piwik\DataTable\Filter\CalculateEvolutionFilter;
 use Piwik\Date;
+use Piwik\Period\Range;
 use Piwik\Piwik;
 use Piwik\Config;
 use Piwik\Segment;
+use Piwik\Plugins\VisitsSummary;
 use Piwik\Cache;
 use Piwik\Url;
 
@@ -203,7 +206,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Deletes a stored segment.
-     *
      */
     public function delete(int $idSegment): void
     {
@@ -378,6 +380,7 @@ class API extends \Piwik\Plugin\API
 
         return [
             'result' => $result,
+            'starred' => 1,
             'starred_by' => $login,
         ];
     }
@@ -401,6 +404,7 @@ class API extends \Piwik\Plugin\API
         $result = $this->getModel()->updateSegment($idSegment, $bind);
 
         return [
+            'starred' => 0,
             'result' => $result,
         ];
     }
@@ -561,5 +565,89 @@ class API extends \Piwik\Plugin\API
     private function getMessageCannotEditSegmentCreatedBySuperUser(): string
     {
         return Piwik::translate('SegmentEditor_UpdatingForeignSegmentPermittedToSuperUser');
+    }
+
+    /**
+     * @return array{
+     *     nb_visits:int,
+     *     nb_actions:int,
+     *     evolution_visits_direction:string,
+     *     evolution_visits_icon:string,
+     *     evolution_visits:string
+     * }
+     */
+    public function getSegmentData(int $idSite, string $period, string $date, string $segment): array
+    {
+        $segmentDefinition = $segment ?: '';
+        $this->checkSegmentIsPreProcessed($segmentDefinition);
+        $data = VisitsSummary\API::getInstance()
+            ->get($idSite, $period, $date, $segmentDefinition)
+            ->getFirstRow()->getArrayCopy();
+        [$previousDate] = Range::getLastDate($date, $period);
+        $pastNbVisits = VisitsSummary\API::getInstance()
+            ->getVisits($idSite, $period, $previousDate, $segmentDefinition)
+            ->getFirstRow()->getColumn('nb_visits');
+
+        $nbVisits = (int)($data['nb_visits'] ?? 0);
+        $nbActions = (int)($data['nb_actions'] ?? 0);
+        $pastNbVisits = (int)$pastNbVisits;
+        $evolutionDirection = $this->getEvolutionDirection($nbVisits, $pastNbVisits);
+
+        return [
+            'nb_visits' => $nbVisits,
+            'nb_actions' => $nbActions,
+            'evolution_visits_direction' => $evolutionDirection,
+            'evolution_visits_icon' => $this->getEvolutionIcon($evolutionDirection),
+            'evolution_visits' => CalculateEvolutionFilter::calculate($nbVisits, $pastNbVisits, 0, true, false),
+        ];
+    }
+
+    private function getEvolutionDirection(int $currentValue, int $pastValue): string
+    {
+        if ($currentValue > $pastValue) {
+            return 'positive';
+        }
+
+        if ($currentValue < $pastValue) {
+            return 'negative';
+        }
+
+        return 'stable';
+    }
+
+    private function getEvolutionIcon(string $direction): string
+    {
+        if ($direction === 'positive') {
+            return 'plugins/MultiSites/images/arrow_up.png';
+        }
+
+        if ($direction === 'negative') {
+            return 'plugins/MultiSites/images/arrow_down.png';
+        }
+
+        return 'plugins/MultiSites/images/stop.png';
+    }
+
+    /**
+     * Throw an exception if the segment is not pre-processed.
+     * We do not want to compute data for real-time segments to avoid performance issues.
+     */
+    private function checkSegmentIsPreProcessed(string $segmentDefinition): void
+    {
+        if (empty($segmentDefinition)) {
+            return;
+        }
+
+        $normalizedDefinition = Common::unsanitizeInputValue($segmentDefinition);
+        $segment = $this->model->getSegmentByDefinition($normalizedDefinition);
+
+        // Missing segments are allowed since we want data for "All Visits" too
+        if (!$segment) {
+            return;
+        }
+
+        if (empty((int)($segment['auto_archive'] ?? 0))) {
+            throw new Exception(Piwik::translate('SegmentEditor_ManageSegmentsRealtimeNoDataTooltip'));
+        }
     }
 }

@@ -67,8 +67,6 @@ class ReportsPurger
     private $segmentArchiveIds = null;
 
     /**
-     *
-     *
      * @param int $deleteReportsOlderThan The number of months after which report/metric data
      *                                    is considered old.
      * @param bool $keepBasicMetrics Whether to keep basic metrics or not.

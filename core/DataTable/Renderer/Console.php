@@ -26,7 +26,6 @@ class Console extends Renderer
 
     /**
      * Computes the dataTable output and returns the string/binary
-     *
      */
     public function render(): string
     {

@@ -76,7 +76,6 @@ class Transitions extends \Piwik\Plugin
      * Retrieve the period allowed config setting for a site or all sites if null
      *
      * @param $idSite
-     *
      */
     public static function getPeriodAllowedConfig($idSite): string
     {

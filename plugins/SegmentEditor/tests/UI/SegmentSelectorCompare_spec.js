@@ -9,6 +9,19 @@
 
 describe('SegmentComparison', () => {
   var generalParams = 'idSite=1&period=year&date=2012-08-09';
+  async function clickCompareButton(selector) {
+    await page.click('.segmentationContainer .title');
+    await page.waitForSelector(selector);
+    await page.evaluate((buttonSelector) => {
+      const button = document.querySelector(buttonSelector);
+      if (!button) {
+        throw new Error(`Compare button not found for selector: ${buttonSelector}`);
+      }
+      button.click();
+    }, selector);
+    await page.waitForTimeout(150);
+  }
+
   it('should not allow comparing segments more than the limit set', async function() {
     const configLimit = 2;
     const maxSegments = configLimit + 1;
@@ -28,7 +41,7 @@ describe('SegmentComparison', () => {
       maxSegments);
 
     // We check that the title attribute is still not the max limit message
-    let title = await page.$eval('.segmentationContainer .segmentList li:last-child', (el) => el.getAttribute('title'));
+    let title = await page.$eval('.segmentationContainer .segmentList li:last-child .compareSegment', (el) => el.getAttribute('title'));
     expect(title).to.not.equal(maxLimitMessage);
 
     await page.waitForSelector('.segmentationContainer');
@@ -50,14 +63,14 @@ describe('SegmentComparison', () => {
       await page.waitForTimeout(100);
     }
 
-    // We want to click all the segments so that we can check that it stops at the limit
-    for (let i=0; i<liElemLength; i++) {
-      await page.click('.segmentationContainer .title');
-      await page.waitForTimeout(100);
-      const elements = await page.$$('.segmentListContainer .segmentList li button.compareSegment');
-      if (!elements[i]) break;
-      await elements[i].click();
-      await page.waitForTimeout(100);
+    // We want to click all the segments so that we can check that it stops at the limit.
+    // Use DOM-level click because Materialize dropdown transitions can make Puppeteer
+    // consider the element temporarily non-clickable even though it exists in the panel.
+    for (let i = 0; i < liElemLength; i++) {
+      const selector = `.segmentListContainer .segmentList li:nth-child(${i + 1}) .compareSegment`;
+      const hasButton = await page.$(selector);
+      if (!hasButton) break;
+      await clickCompareButton(selector);
     }
 
     // We check that the number of segments compared is now equal to the limit we set
@@ -66,5 +79,49 @@ describe('SegmentComparison', () => {
       (nodes) => nodes.length,
     );
     expect(comparedCount).to.equal(maxSegments);
+  });
+
+  it("should remove 'All Visits' from comparisons when clicking its compare button", async function () {
+    testEnvironment.overrideConfig('General', 'data_comparison_segment_limit', 5);
+    await testEnvironment.save();
+
+    const dashUrl = '?module=CoreHome&action=index&' + generalParams + '#?' + generalParams + '&category=Dashboard_Dashboard&subcategory=1';
+    await page.goto('about:blank');
+    await page.waitForNetworkIdle();
+    await page.goto(dashUrl);
+    await page.waitForNetworkIdle();
+    await page.waitForSelector('.segmentationContainer');
+
+    await page.click('.segmentationContainer .title');
+    await page.waitForSelector('.segmentListContainer .segmentList li[data-idsegment]');
+
+    const segmentIds = await page.$$eval(
+      '.segmentListContainer .segmentList li[data-idsegment]',
+      (items) => items
+        .map((item) => item.getAttribute('data-idsegment'))
+        .filter((id) => !!id)
+        .slice(0, 2),
+    );
+    expect(segmentIds.length).to.equal(2);
+
+    for (const id of segmentIds) {
+      await clickCompareButton(`.segmentListContainer .segmentList li[data-idsegment="${id}"] .compareSegment`);
+    }
+
+    await page.waitForFunction(() => (
+      document.querySelectorAll('.segmentListContainer .segmentList li.comparedSegment').length >= 3
+    ));
+
+    const allVisitsCompareSelector = '.segmentListContainer .segmentList li[data-idsegment=""] .compareSegment';
+    await clickCompareButton(allVisitsCompareSelector);
+
+    await page.waitForFunction(() => {
+      const comparisonService = window.CoreHome?.ComparisonsStoreInstance;
+      if (!comparisonService) {
+        return false;
+      }
+      const segments = comparisonService.getSegmentComparisons().map((comparison) => comparison.params.segment);
+      return segments.indexOf('') === -1 && segments.length >= 2;
+    });
   });
 });

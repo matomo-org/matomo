@@ -303,6 +303,7 @@ import {
 import {
   ContentBlock,
   Matomo,
+  MatomoUrl,
   translate,
   debounce,
   externalLink,
@@ -600,12 +601,17 @@ export default defineComponent({
       );
     },
     reportSegmentInlineHelp() {
+      const segmentManagementPageUrl = `?${MatomoUrl.stringify({
+        ...MatomoUrl.urlParsed.value,
+        module: 'CoreHome',
+        action: 'index',
+        category: 'General_Visitors',
+        subcategory: 'CoreHome_Segments',
+      })}`;
       return translate(
-        'ScheduledReports_Segment_HelpScheduledReport',
-        '<a href="./" rel="noreferrer noopener" target="_blank">',
+        'ScheduledReports_HelpSegmentManagement',
+        `<a href="${segmentManagementPageUrl}" rel="noreferrer noopener" target="_blank">`,
         '</a>',
-        translate('SegmentEditor_DefaultAllVisits'),
-        translate('SegmentEditor_AddNewSegment'),
       );
     },
     timezoneOffset() {
