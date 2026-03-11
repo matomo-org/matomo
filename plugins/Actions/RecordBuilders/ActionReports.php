@@ -48,16 +48,18 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             ->setBlobColumnAggregationOps(Metrics::getColumnsAggregationOperation());
 
         if ($this->isFlatArchivingEnabled()) {
-            $pageUrlsRecord->setBuiltFromFlatRecord(
+            $this->setHierarchyBuiltFromFlatRecord(
+                $pageUrlsRecord,
                 Archiver::PAGE_URLS_FLAT_RECORD_NAME,
                 [$this, 'flatRowToUrlHierarchyPath'],
                 [$this, 'reduceLegacyUrlHierarchyIntoFlatTable']
-            )->setMaxRowsInTable(0)->setMaxRowsInSubtable(0);
-            $pageTitlesRecord->setBuiltFromFlatRecord(
+            );
+            $this->setHierarchyBuiltFromFlatRecord(
+                $pageTitlesRecord,
                 Archiver::PAGE_TITLES_FLAT_RECORD_NAME,
                 [$this, 'flatRowToTitleHierarchyPath'],
                 [$this, 'reduceLegacyTitleHierarchyIntoFlatTable']
-            )->setMaxRowsInTable(0)->setMaxRowsInSubtable(0);
+            );
         }
 
         $records = [
@@ -166,14 +168,20 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
 
         ArchivingHelper::clearActionsCache();
 
-        $tablesByType[Action::TYPE_PAGE_URL] = ArchivingHelper::buildHierarchicalActionsTableFromFlatTable(
-            $flatPageTablesByType[Action::TYPE_PAGE_URL]
+        $tablesByType[Action::TYPE_PAGE_URL] = $this->buildDayHierarchicalTableFromFlatTable(
+            $flatPageTablesByType[Action::TYPE_PAGE_URL],
+            Archiver::PAGE_URLS_RECORD_NAME,
+            [$this, 'flatRowToUrlHierarchyPath'],
+            $archiveProcessor
         );
-        $tablesByType[Action::TYPE_PAGE_TITLE] = ArchivingHelper::buildHierarchicalActionsTableFromFlatTable(
-            $flatPageTablesByType[Action::TYPE_PAGE_TITLE]
+        $tablesByType[Action::TYPE_PAGE_TITLE] = $this->buildDayHierarchicalTableFromFlatTable(
+            $flatPageTablesByType[Action::TYPE_PAGE_TITLE],
+            Archiver::PAGE_TITLES_RECORD_NAME,
+            [$this, 'flatRowToTitleHierarchyPath'],
+            $archiveProcessor
         );
-        $tablesByType[Action::TYPE_PAGE_URL]->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
-        $tablesByType[Action::TYPE_PAGE_TITLE]->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+        $this->removeFlatPathMetadataFromDataTable($tablesByType[Action::TYPE_PAGE_URL]);
+        $this->removeFlatPathMetadataFromDataTable($tablesByType[Action::TYPE_PAGE_TITLE]);
 
         $prefix = $archiveProcessor->getParams()->getSite()->getMainUrl();
         $prefix = rtrim($prefix, '/') . '/';
@@ -233,11 +241,6 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             Archiver::METRIC_DOWNLOADS_RECORD_NAME => $nbDownloads,
             Archiver::METRIC_UNIQ_DOWNLOADS_RECORD_NAME => $nbUniqDownloads,
         ];
-    }
-
-    public function buildForNonDayPeriod(ArchiveProcessor $archiveProcessor): void
-    {
-        parent::buildForNonDayPeriod($archiveProcessor);
     }
 
     protected function beforeInsertBuiltFromFlatHierarchyRecord(
@@ -354,6 +357,47 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
     {
         ArchivingHelper::reloadConfig();
         return ArchivingHelper::$maximumRowsInDataTableFlat > 0;
+    }
+
+    private function setHierarchyBuiltFromFlatRecord(
+        Record $record,
+        string $flatRecordName,
+        callable $flatToHierarchyPathCallback,
+        callable $legacyHierarchyToFlatReducer
+    ): void {
+        $record->setBuiltFromFlatRecord(
+            $flatRecordName,
+            $flatToHierarchyPathCallback,
+            $legacyHierarchyToFlatReducer
+        )->setMaxRowsInTable(0)->setMaxRowsInSubtable(0);
+    }
+
+    private function buildDayHierarchicalTableFromFlatTable(
+        DataTable $flatTable,
+        string $hierarchicalRecordName,
+        callable $flatToHierarchyPathCallback,
+        ArchiveProcessor $archiveProcessor
+    ): DataTable {
+        $hierarchicalRecord = Record::make(Record::TYPE_BLOB, $hierarchicalRecordName);
+
+        return $this->buildHierarchicalTableFromFlatTable(
+            $flatTable,
+            Metrics::getColumnsAggregationOperation(),
+            function (Row $flatRow) use ($flatToHierarchyPathCallback, $archiveProcessor, $hierarchicalRecord) {
+                return call_user_func($flatToHierarchyPathCallback, $flatRow, $archiveProcessor, $hierarchicalRecord);
+            },
+            $this->getDefaultHierarchyRowColumns()
+        );
+    }
+
+    private function getDefaultHierarchyRowColumns(): array
+    {
+        return [
+            PiwikMetrics::INDEX_NB_VISITS => 0,
+            PiwikMetrics::INDEX_NB_UNIQ_VISITORS => 0,
+            PiwikMetrics::INDEX_PAGE_NB_HITS => 0,
+            PiwikMetrics::INDEX_PAGE_SUM_TIME_SPENT => 0,
+        ];
     }
 
     private function aggregateLegacyHierarchical(ArchiveProcessor $archiveProcessor): array

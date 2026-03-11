@@ -365,9 +365,9 @@ abstract class RecordBuilder
         $hierarchicalTable = $this->buildHierarchicalTableFromFlatTable(
             $flatTable,
             $columnAggregationOps,
-            $flatToHierarchyPathCallback,
-            $archiveProcessor,
-            $hierarchicalRecord
+            function (Row $flatRow) use ($flatToHierarchyPathCallback, $archiveProcessor, $hierarchicalRecord) {
+                return call_user_func($flatToHierarchyPathCallback, $flatRow, $archiveProcessor, $hierarchicalRecord);
+            }
         );
 
         $this->beforeInsertBuiltFromFlatHierarchyRecord($archiveProcessor, $hierarchicalRecord, $hierarchicalTable, $flatTable);
@@ -397,8 +397,7 @@ abstract class RecordBuilder
         DataTable $flatTable,
         ?array $columnAggregationOps,
         callable $flatToHierarchyPathCallback,
-        ArchiveProcessor $archiveProcessor,
-        Record $hierarchicalRecord
+        array $defaultHierarchyRowColumns = []
     ): DataTable {
         $hierarchicalTable = new DataTable();
         if (!empty($columnAggregationOps)) {
@@ -423,12 +422,12 @@ abstract class RecordBuilder
                 continue;
             }
 
-            $path = call_user_func($flatToHierarchyPathCallback, $flatRow, $archiveProcessor, $hierarchicalRecord);
+            $path = call_user_func($flatToHierarchyPathCallback, $flatRow);
             if (!is_array($path) || empty($path)) {
                 continue;
             }
 
-            [$destinationRow, $level] = $hierarchicalTable->walkPath($path, [], 0);
+            [$destinationRow, $level] = $hierarchicalTable->walkPath($path, $defaultHierarchyRowColumns, 0);
             if (!$destinationRow instanceof Row) {
                 continue;
             }
@@ -442,6 +441,23 @@ abstract class RecordBuilder
     protected function sumRowIntoDestination(Row $source, Row $destination, ?array $columnAggregationOps): void
     {
         $sourceCopy = clone $source;
+
+        // Preserve original column representation (eg "0.0620" strings) when
+        // destination does not have a value yet. This keeps day flat-first
+        // output consistent with legacy day archiving.
+        foreach ($sourceCopy->getColumns() as $columnName => $columnValue) {
+            if ($columnName === 'label') {
+                continue;
+            }
+
+            if ($destination->getColumn($columnName) !== false) {
+                continue;
+            }
+
+            $destination->setColumn($columnName, $columnValue);
+            $sourceCopy->deleteColumn($columnName);
+        }
+
         $destination->sumRow($sourceCopy, true, $columnAggregationOps ?? []);
     }
 

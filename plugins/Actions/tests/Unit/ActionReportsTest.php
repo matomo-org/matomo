@@ -191,7 +191,21 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
         $this->assertNotFalse($flatRowB);
         $this->assertSame(2, $flatRowB->getColumn('nb_hits'));
 
-        $rebuilt = ArchivingHelper::buildHierarchicalActionsTableFromFlatTable($flat);
+        $recordBuilder = new class extends ActionReports {
+            public function buildHierarchyFromFlatForTest(DataTable $flat): DataTable
+            {
+                return $this->buildHierarchicalTableFromFlatTable(
+                    $flat,
+                    null,
+                    function (Row $flatRow) {
+                        $path = $flatRow->getMetadata(ArchivingHelper::ACTION_FLAT_PATH_METADATA_NAME);
+                        return is_array($path) && !empty($path) ? $path : null;
+                    }
+                );
+            }
+        };
+
+        $rebuilt = $recordBuilder->buildHierarchyFromFlatForTest($flat);
         $rebuiltSummary = $rebuilt->getRowFromId(DataTable::ID_SUMMARY_ROW);
         $this->assertNotFalse($rebuiltSummary);
         $this->assertSame(12, $rebuiltSummary->getColumn('nb_hits'));

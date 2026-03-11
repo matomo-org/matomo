@@ -702,49 +702,6 @@ class ArchivingHelper
         return $row;
     }
 
-    public static function buildHierarchicalActionsTableFromFlatTable(DataTable $flatTable): DataTable
-    {
-        $table = new DataTable();
-        // Flat source table is already limited. Do not apply extra hierarchy limits.
-        $table->setMaximumAllowedRows(0);
-        $table->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
-
-        $hierarchyDefaultColumns = self::getDefaultRowColumns();
-
-        foreach ($flatTable->getRows() as $flatRow) {
-            if ($flatRow->isSummaryRow()) {
-                if (self::isRowEmptyOfMetrics($flatRow)) {
-                    continue;
-                }
-
-                $summaryRow = clone $flatRow;
-                $summaryRow->setIsSummaryRow();
-                $summaryRow->deleteMetadata(self::ACTION_FLAT_PATH_METADATA_NAME);
-                $table->addSummaryRow($summaryRow);
-                continue;
-            }
-
-            $actionPath = $flatRow->getMetadata(self::ACTION_FLAT_PATH_METADATA_NAME);
-            if (empty($actionPath) || !is_array($actionPath)) {
-                continue;
-            }
-
-            [$hierarchyRow, $level] = $table->walkPath(
-                $actionPath,
-                $hierarchyDefaultColumns,
-                0
-            );
-
-            if ($hierarchyRow === false) {
-                continue;
-            }
-
-            self::mergeRowIntoDestination($flatRow, $hierarchyRow);
-        }
-
-        return $table;
-    }
-
     public static function mergeHierarchicalActionsTableIntoFlatTable(DataTable $hierarchicalTable, DataTable $flatTable): void
     {
         self::appendHierarchicalRowsToFlatTable($hierarchicalTable, [], $flatTable);
