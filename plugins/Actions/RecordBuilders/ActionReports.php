@@ -180,19 +180,28 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             [$this, 'flatRowToTitleHierarchyPath'],
             $archiveProcessor
         );
-        $this->removeFlatPathMetadataFromDataTable($tablesByType[Action::TYPE_PAGE_URL]);
-        $this->removeFlatPathMetadataFromDataTable($tablesByType[Action::TYPE_PAGE_TITLE]);
-
-        $prefix = $archiveProcessor->getParams()->getSite()->getMainUrl();
-        $prefix = rtrim($prefix, '/') . '/';
-        ArchivingHelper::setFolderPathMetadata($tablesByType[Action::TYPE_PAGE_URL], $isUrl = true, $prefix);
-
-        ArchivingHelper::setFolderPathMetadata($tablesByType[Action::TYPE_PAGE_TITLE], $isUrl = false);
+        $this->finalizeBuiltFromFlatHierarchyTable(
+            $archiveProcessor,
+            $tablesByType[Action::TYPE_PAGE_URL],
+            Archiver::PAGE_URLS_RECORD_NAME
+        );
+        $this->finalizeBuiltFromFlatHierarchyTable(
+            $archiveProcessor,
+            $tablesByType[Action::TYPE_PAGE_TITLE],
+            Archiver::PAGE_TITLES_RECORD_NAME
+        );
 
         $dataTable = $tablesByType[Action::TYPE_SITE_SEARCH];
         $this->deleteUnusedColumnsFromKeywordsDataTable($dataTable);
 
-        foreach ($tablesByType as $dataTable) {
+        foreach ($tablesByType as $actionType => $dataTable) {
+            if (
+                $actionType === Action::TYPE_PAGE_URL
+                || $actionType === Action::TYPE_PAGE_TITLE
+            ) {
+                continue;
+            }
+
             ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($dataTable);
         }
         foreach ($flatPageTablesByType as $flatDataTable) {
@@ -257,17 +266,7 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
             return;
         }
 
-        $hierarchicalTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
-        if ($recordName === Archiver::PAGE_URLS_RECORD_NAME) {
-            $prefix = $archiveProcessor->getParams()->getSite()->getMainUrl();
-            $prefix = rtrim($prefix, '/') . '/';
-            ArchivingHelper::setFolderPathMetadata($hierarchicalTable, $isUrl = true, $prefix);
-        } else {
-            ArchivingHelper::setFolderPathMetadata($hierarchicalTable, $isUrl = false);
-        }
-
-        $this->removeFlatPathMetadataFromDataTable($hierarchicalTable);
-        ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($hierarchicalTable);
+        $this->finalizeBuiltFromFlatHierarchyTable($archiveProcessor, $hierarchicalTable, $recordName);
     }
 
     private function flatRowToHierarchyPath(Row $flatRow, int $actionType): ?array
@@ -305,6 +304,25 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 $this->removeFlatPathMetadataFromDataTable($subtable);
             }
         }
+    }
+
+    private function finalizeBuiltFromFlatHierarchyTable(
+        ArchiveProcessor $archiveProcessor,
+        DataTable $hierarchicalTable,
+        string $recordName
+    ): void {
+        $hierarchicalTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, Metrics::getColumnsAggregationOperation());
+
+        if ($recordName === Archiver::PAGE_URLS_RECORD_NAME) {
+            $prefix = $archiveProcessor->getParams()->getSite()->getMainUrl();
+            $prefix = rtrim($prefix, '/') . '/';
+            ArchivingHelper::setFolderPathMetadata($hierarchicalTable, $isUrl = true, $prefix);
+        } elseif ($recordName === Archiver::PAGE_TITLES_RECORD_NAME) {
+            ArchivingHelper::setFolderPathMetadata($hierarchicalTable, $isUrl = false);
+        }
+
+        $this->removeFlatPathMetadataFromDataTable($hierarchicalTable);
+        ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($hierarchicalTable);
     }
 
     private function appendLegacyHierarchyRowsToFlatTable(DataTable $sourceTable, array $path, DataTable $flatTable, int $actionType): void
