@@ -52,12 +52,12 @@ class ActionReports extends ArchiveProcessor\RecordBuilder
                 Archiver::PAGE_URLS_FLAT_RECORD_NAME,
                 [$this, 'flatRowToUrlHierarchyPath'],
                 [$this, 'reduceLegacyUrlHierarchyIntoFlatTable']
-            );
+            )->setMaxRowsInTable(0)->setMaxRowsInSubtable(0);
             $pageTitlesRecord->setBuiltFromFlatRecord(
                 Archiver::PAGE_TITLES_FLAT_RECORD_NAME,
                 [$this, 'flatRowToTitleHierarchyPath'],
                 [$this, 'reduceLegacyTitleHierarchyIntoFlatTable']
-            );
+            )->setMaxRowsInTable(0)->setMaxRowsInSubtable(0);
         }
 
         $records = [
