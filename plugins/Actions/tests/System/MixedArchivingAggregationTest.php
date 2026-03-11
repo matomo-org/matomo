@@ -16,6 +16,7 @@ use Piwik\DataTable;
 use Piwik\Db;
 use Piwik\Metrics;
 use Piwik\Plugins\Actions\Archiver;
+use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -104,6 +105,66 @@ class MixedArchivingAggregationTest extends IntegrationTestCase
         $weekHierarchicalSummary = $weekHierarchical->getRowFromId(DataTable::ID_SUMMARY_ROW);
         $this->assertNotFalse($weekHierarchicalSummary);
         $this->assertSame($weekSummaryHits, (int) $weekHierarchicalSummary->getColumn(Metrics::INDEX_PAGE_NB_HITS));
+    }
+
+    public function testWeekAggregationParityBetweenLegacyAndFlatFirst()
+    {
+        $legacySiteId = Fixture::createWebsite('2026-02-01 00:00:00');
+        $flatSiteId = Fixture::createWebsite('2026-02-01 00:00:00');
+
+        $hitsByDay = [
+            '2026-02-02' => [
+                '/shop/shoes/nike' => 5,
+                '/shop/shoes/adidas' => 3,
+                '/about' => 2,
+            ],
+            '2026-02-03' => [
+                '/shop/shoes/nike' => 4,
+                '/blog/article-1' => 3,
+                '/contact' => 1,
+            ],
+        ];
+
+        foreach ($hitsByDay as $day => $urlHits) {
+            $this->trackUrlHits($legacySiteId, $day, $urlHits);
+            $this->trackUrlHits($flatSiteId, $day, $urlHits);
+        }
+
+        $config = Config::getInstance();
+        $configKeys = [
+            'datatable_archiving_maximum_rows_actions_flat',
+            'datatable_archiving_maximum_rows_actions',
+            'datatable_archiving_maximum_rows_subtable_actions',
+            'archiving_ranking_query_row_limit',
+        ];
+        $configBackup = $this->backupGeneralConfig($configKeys);
+
+        try {
+            $config->General['datatable_archiving_maximum_rows_actions'] = 50000;
+            $config->General['datatable_archiving_maximum_rows_subtable_actions'] = 50000;
+            $config->General['archiving_ranking_query_row_limit'] = 100000;
+
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 0;
+            $legacyWeekArchive = Archive::build($legacySiteId, 'week', '2026-02-03');
+            $legacyWeekUrls = $legacyWeekArchive->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+            $legacyWeekTitles = $legacyWeekArchive->getDataTable(Archiver::PAGE_TITLES_RECORD_NAME);
+
+            $config->General['datatable_archiving_maximum_rows_actions_flat'] = 50000;
+            $flatWeekArchive = Archive::build($flatSiteId, 'week', '2026-02-03');
+            $flatWeekUrls = $flatWeekArchive->getDataTable(Archiver::PAGE_URLS_RECORD_NAME);
+            $flatWeekTitles = $flatWeekArchive->getDataTable(Archiver::PAGE_TITLES_RECORD_NAME);
+        } finally {
+            $this->restoreGeneralConfig($configBackup);
+        }
+
+        $this->assertSame(
+            $this->exportHierarchyTableValues($legacyWeekUrls),
+            $this->exportHierarchyTableValues($flatWeekUrls)
+        );
+        $this->assertSame(
+            $this->exportHierarchyTableValues($legacyWeekTitles),
+            $this->exportHierarchyTableValues($flatWeekTitles)
+        );
     }
 
     protected static function configureFixture($fixture)
@@ -210,5 +271,43 @@ class MixedArchivingAggregationTest extends IntegrationTestCase
         }
 
         return $sum;
+    }
+
+    private function exportHierarchyTableValues(DataTable $hierarchicalTable): array
+    {
+        $flattened = new DataTable();
+        ArchivingHelper::mergeHierarchicalActionsTableIntoFlatTable($hierarchicalTable, $flattened);
+
+        return $this->exportFlatTableValues($flattened);
+    }
+
+    private function exportFlatTableValues(DataTable $flatTable): array
+    {
+        $rows = [];
+        foreach ($flatTable->getRowsWithoutSummaryRow() as $row) {
+            $label = $row->getColumn('label');
+            if (!is_string($label)) {
+                continue;
+            }
+
+            $columns = $row->getColumns();
+            unset($columns['label']);
+            ksort($columns);
+            $rows[$label] = $columns;
+        }
+        ksort($rows);
+
+        $summaryColumns = [];
+        $summaryRow = $flatTable->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        if ($summaryRow !== false) {
+            $summaryColumns = $summaryRow->getColumns();
+            unset($summaryColumns['label']);
+            ksort($summaryColumns);
+        }
+
+        return [
+            'rows' => $rows,
+            'summary' => $summaryColumns,
+        ];
     }
 }

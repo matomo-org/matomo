@@ -704,7 +704,28 @@ class ArchivingHelper
 
     public static function mergeHierarchicalActionsTableIntoFlatTable(DataTable $hierarchicalTable, DataTable $flatTable): void
     {
-        self::appendHierarchicalRowsToFlatTable($hierarchicalTable, [], $flatTable);
+        self::appendHierarchicalRowsToFlatTable(
+            $hierarchicalTable,
+            [],
+            $flatTable,
+            [self::class, 'buildFlatRowLabel']
+        );
+    }
+
+    public static function mergeHierarchicalActionsTableIntoBestEffortFlatTable(
+        DataTable $hierarchicalTable,
+        DataTable $flatTable,
+        int $actionType
+    ): void {
+        self::appendHierarchicalRowsToFlatTable(
+            $hierarchicalTable,
+            [],
+            $flatTable,
+            function (array $path) use ($actionType): string {
+                return self::buildBestEffortActionLabelFromPath($path, $actionType);
+            },
+            false
+        );
     }
 
     private static function getFlatActionRow($actionName, $actionType, $urlPrefix, DataTable $table): Row
@@ -757,8 +778,13 @@ class ArchivingHelper
         return implode($delimiter, $segments);
     }
 
-    private static function appendHierarchicalRowsToFlatTable(DataTable $sourceTable, array $path, DataTable $flatTable): void
-    {
+    private static function appendHierarchicalRowsToFlatTable(
+        DataTable $sourceTable,
+        array $path,
+        DataTable $flatTable,
+        callable $flatLabelBuilder,
+        bool $useDefaultFlatRowColumns = true
+    ): void {
         foreach ($sourceTable->getRowsWithoutSummaryRow() as $row) {
             $label = $row->getColumn('label');
             if (!is_string($label) || $label === '') {
@@ -770,15 +796,26 @@ class ArchivingHelper
 
             $subtable = $row->getSubtable();
             if ($subtable) {
-                self::appendHierarchicalRowsToFlatTable($subtable, $currentPath, $flatTable);
+                self::appendHierarchicalRowsToFlatTable(
+                    $subtable,
+                    $currentPath,
+                    $flatTable,
+                    $flatLabelBuilder,
+                    $useDefaultFlatRowColumns
+                );
                 continue;
             }
 
-            $flatLabel = self::buildFlatRowLabel($currentPath);
+            $flatLabel = call_user_func($flatLabelBuilder, $currentPath);
             $flatRow = $flatTable->getRowFromLabel($flatLabel);
             if ($flatRow === false) {
+                $columns = array('label' => $flatLabel);
+                if ($useDefaultFlatRowColumns) {
+                    $columns += self::getDefaultFlatRowColumns();
+                }
+
                 $flatRow = new Row(array(
-                    Row::COLUMNS => array('label' => $flatLabel) + self::getDefaultFlatRowColumns(),
+                    Row::COLUMNS => $columns,
                 ));
                 $flatRow->setMetadata(self::ACTION_FLAT_PATH_METADATA_NAME, $currentPath);
                 $flatTable->addRow($flatRow);
@@ -841,13 +878,6 @@ class ArchivingHelper
     {
         foreach ($row->getColumns() as $name => $value) {
             if ($name === 'label') {
-                continue;
-            }
-
-            if (is_array($value)) {
-                if (!empty($value)) {
-                    return false;
-                }
                 continue;
             }
 
