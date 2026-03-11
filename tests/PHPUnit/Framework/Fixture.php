@@ -211,6 +211,10 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        // PHPUnit can execute data providers from non-selected tests during discovery.
+        // Ensure no singleton/cache state leaks into fixture setup.
+        self::clearInMemoryCaches();
+
         // TODO: don't use static var, use test env var for this
         TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
 
