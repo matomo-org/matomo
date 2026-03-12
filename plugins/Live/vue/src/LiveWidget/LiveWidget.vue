@@ -136,7 +136,7 @@ export default defineComponent({
           const segment = MatomoUrl.parsed.value.segment as string;
           const ensured = this.ensureVisitsList(response);
           const updated = ensured ? true : this.parseResponse(response);
-          if (updated) {
+          if (updated || !this.hasTotalVisitors()) {
             this.refreshTotalVisitors(segment);
           }
           return { updated };
@@ -258,19 +258,21 @@ export default defineComponent({
         },
       );
 
-      Promise.all([visitsPromise, totalPromise])
-        .then(([visitsHtml, totalHtml]) => {
+      Promise.allSettled([visitsPromise, totalPromise])
+        .then(([visitsResult, totalResult]) => {
+          const visitsHtml = visitsResult.status === 'fulfilled' ? visitsResult.value : '';
+          const totalHtml = totalResult.status === 'fulfilled' ? totalResult.value : '';
+
           const root = this.$refs.root as HTMLElement | undefined;
-          if (!root) {
+          if (!root || (!visitsHtml && !totalHtml)) {
             return;
           }
 
           root.innerHTML = `${totalHtml || ''}${visitsHtml || ''}`;
           Matomo.helper.compileVueEntryComponents(root);
-          this.setupListInteractions();
-        })
-        .catch(() => {
-          // ignore initial errors, refresh loop will retry
+          if (visitsHtml) {
+            this.setupListInteractions();
+          }
         })
         .finally(() => {
           this.isInitialLoading = false;
@@ -333,6 +335,14 @@ export default defineComponent({
       item.addEventListener('animationend', () => {
         item.classList.remove('live-widget-fade-in');
       }, { once: true });
+    },
+    hasTotalVisitors(): boolean {
+      const root = this.$refs.root as HTMLElement | undefined;
+      if (!root) {
+        return false;
+      }
+
+      return Boolean(root.querySelector('#visitsTotal'));
     },
     getVisitsList() {
       if (!$) {

@@ -143,7 +143,7 @@ if (typeof window !== 'undefined') {
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=3c46a0d2
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=253ba914
 
 const _hoisted_1 = {
   key: 0,
@@ -186,7 +186,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.visitorLogUrl
   }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('Live_LinkVisitorLog')), 9, _hoisted_9)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=3c46a0d2
+// CONCATENATED MODULE: ./plugins/Live/vue/src/LiveWidget/LiveWidget.vue?vue&type=template&id=253ba914
 
 // EXTERNAL MODULE: external "CoreHome"
 var external_CoreHome_ = __webpack_require__("19dc");
@@ -395,7 +395,7 @@ const MAX_ROWS = 10;
           const segment = external_CoreHome_["MatomoUrl"].parsed.value.segment;
           const ensured = this.ensureVisitsList(response);
           const updated = ensured ? true : this.parseResponse(response);
-          if (updated) {
+          if (updated || !this.hasTotalVisitors()) {
             this.refreshTotalVisitors(segment);
           }
           return {
@@ -502,16 +502,18 @@ const MAX_ROWS = 10;
       }, {
         format: 'html'
       });
-      Promise.all([visitsPromise, totalPromise]).then(([visitsHtml, totalHtml]) => {
+      Promise.allSettled([visitsPromise, totalPromise]).then(([visitsResult, totalResult]) => {
+        const visitsHtml = visitsResult.status === 'fulfilled' ? visitsResult.value : '';
+        const totalHtml = totalResult.status === 'fulfilled' ? totalResult.value : '';
         const root = this.$refs.root;
-        if (!root) {
+        if (!root || !visitsHtml && !totalHtml) {
           return;
         }
         root.innerHTML = `${totalHtml || ''}${visitsHtml || ''}`;
         external_CoreHome_["Matomo"].helper.compileVueEntryComponents(root);
-        this.setupListInteractions();
-      }).catch(() => {
-        // ignore initial errors, refresh loop will retry
+        if (visitsHtml) {
+          this.setupListInteractions();
+        }
       }).finally(() => {
         this.isInitialLoading = false;
         this.scheduleUpdate(this.getBaseInterval());
@@ -568,6 +570,13 @@ const MAX_ROWS = 10;
       }, {
         once: true
       });
+    },
+    hasTotalVisitors() {
+      const root = this.$refs.root;
+      if (!root) {
+        return false;
+      }
+      return Boolean(root.querySelector('#visitsTotal'));
     },
     getVisitsList() {
       if (!$) {
