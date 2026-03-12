@@ -24,7 +24,6 @@ class Updates_5_5_0_b2 extends PiwikUpdates
     /**
      * Migrations
      *
-     *
      * @return Migration[]
      */
     public function getMigrations(Updater $updater)

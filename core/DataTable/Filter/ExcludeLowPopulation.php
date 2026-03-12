@@ -48,8 +48,6 @@ class ExcludeLowPopulation extends BaseFilter
     private $columnToFilter;
 
     /**
-     *
-     *
      * @param DataTable $table The DataTable that will be filtered eventually.
      * @param string $columnToFilter The name of the column whose value will determine whether
      *                               a row is deleted or not.

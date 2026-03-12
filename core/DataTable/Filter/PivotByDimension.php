@@ -140,8 +140,6 @@ class PivotByDimension extends BaseFilter
     private $metricIndexValue;
 
     /**
-     *
-     *
      * @param DataTable $table The table to pivot.
      * @param string $report The ID of the report being pivoted, eg, `'Referrers.getKeywords'`.
      * @param string $pivotByDimension The ID of the dimension to pivot by, eg, `'Referrers.Keyword'`.

@@ -529,7 +529,6 @@ class PrivacyManager extends Plugin
 
     /**
      * Customize the Installation "default settings" form.
-     *
      */
     public function installationFormInit(FormDefaultSettings $form)
     {
@@ -551,7 +550,6 @@ class PrivacyManager extends Plugin
 
     /**
      * Process the Installation "default settings" form submission
-     *
      */
     public function installationFormSubmit(FormDefaultSettings $form)
     {
@@ -951,7 +949,6 @@ class PrivacyManager extends Plugin
 
     /**
      * Returns if cookie less tracking is forced
-     *
      */
     public static function isCookieLessTrackingForced(): bool
     {

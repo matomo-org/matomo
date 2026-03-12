@@ -25,8 +25,6 @@ use Piwik\Settings\Setting;
 class SystemSetting extends Setting
 {
     /**
-     *
-     *
      * @param string $name The setting's persisted name.
      * @param mixed $defaultValue  Default value for this setting if no value was specified.
      * @param string $type Eg an array, int, ... see TYPE_* constants

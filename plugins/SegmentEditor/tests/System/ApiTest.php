@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\SegmentEditor\tests\System;
 
+use Exception;
 use Piwik\Config;
 use Piwik\Http;
 use Piwik\Plugins\SegmentEditor\API as SegmentEditorApi;
@@ -91,5 +92,29 @@ class ApiTest extends SystemTestCase
             ['pageUrl==https%253A%252F%252Fmatomo.org%252Fpricing%252F'],
             ['visitIp>=80.229.0.0;visitIp<=80.229.255.255'],
         ];
+    }
+
+    public function testGetSegmentDataRejectsRealtimeSegment(): void
+    {
+        Fixture::createWebsite('2020-03-03 00:00:00');
+
+        Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
+        self::$fixture->getTestEnvironment()->overrideConfig('General', 'enable_browser_archiving_triggering', 0);
+        self::$fixture->getTestEnvironment()->save();
+
+        $segmentDefinition = 'visitCount>=1';
+        $segmentId = SegmentEditorApi::getInstance()->add('realtime', $segmentDefinition, 1, 0, 1);
+
+        $this->expectException(Exception::class);
+        try {
+            SegmentEditorApi::getInstance()->getSegmentData(
+                1,
+                'range',
+                '2010-03-06,2010-03-08',
+                $segmentDefinition
+            );
+        } finally {
+            SegmentEditorApi::getInstance()->delete($segmentId);
+        }
     }
 }

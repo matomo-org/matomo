@@ -35,8 +35,6 @@ class MetadataLoader
     private $pluginName;
 
     /**
-     *
-     *
      * @param string $pluginName Name of the plugin to load metadata.
      */
     public function __construct($pluginName)

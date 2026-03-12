@@ -1271,21 +1271,6 @@ parameters:
 			path: core/Mail/EmailStyles.php
 
 		-
-			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\.$#"
-			count: 7
-			path: core/Menu/MenuAbstract.php
-
-		-
-			message: "#^Method Piwik\\\\Menu\\\\MenuAbstract\\:\\:menuCompare\\(\\) should return bool but returns int\\<\\-1, 1\\>\\.$#"
-			count: 1
-			path: core/Menu/MenuAbstract.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 3
-			path: core/Menu/MenuAbstract.php
-
-		-
 			message: "#^Variable \\$unit in empty\\(\\) always exists and is always falsy\\.$#"
 			count: 1
 			path: core/Metrics.php
@@ -2987,16 +2972,6 @@ parameters:
 			message: "#^Unsafe call to private method Piwik\\\\Plugins\\\\CoreAdminHome\\\\CustomLogo\\:\\:logoExists\\(\\) through static\\:\\:\\.$#"
 			count: 5
 			path: plugins/CoreAdminHome/CustomLogo.php
-
-		-
-			message: "#^Parameter \\#8 \\$attribute of method Piwik\\\\Menu\\\\MenuAbstract\\:\\:addItem\\(\\) expects bool\\|string, null given\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/Menu.php
-
-		-
-			message: "#^Parameter \\#9 \\$help of method Piwik\\\\Menu\\\\MenuAbstract\\:\\:addItem\\(\\) expects bool\\|string, null given\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/Menu.php
 
 		-
 			message: "#^Parameter \\#1 \\$idSegments of method Piwik\\\\CronArchive\\\\ArchiveFilter\\:\\:setSegmentsToForceFromSegmentIds\\(\\) expects array\\<int\\>, array\\<int, string\\> given\\.$#"

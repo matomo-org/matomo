@@ -47,7 +47,6 @@ class Model
     /**
      * Add any new changes for a plugin to the changes table
      *
-     *
      * @throws \Exception
      */
     public function addChanges(string $pluginName): void
@@ -74,7 +73,6 @@ class Model
 
     /**
      * Remove all changes for a plugin
-     *
      */
     public function removeChanges(string $pluginName): void
     {
@@ -134,7 +132,6 @@ class Model
      * Check if any changes items exist
      *
      * @param int|null $newerThanId     Only count new changes as having a key > than this sequential key
-     *
      */
     public function doChangesExist(?int $newerThanId = null): int
     {
@@ -162,7 +159,6 @@ class Model
      * Get count of new changes
      *
      * @param int|null $newerThanId     Only count new changes as having a key > than this sequential key
-     *
      */
     public function getNewChangesCount(?int $newerThanId = null): int
     {

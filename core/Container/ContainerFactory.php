@@ -166,7 +166,6 @@ class ContainerFactory
 
     /**
      * This method is required for Matomo Cloud to allow for custom sorting of plugin order
-     *
      */
     private function shouldSortPlugins(): bool
     {

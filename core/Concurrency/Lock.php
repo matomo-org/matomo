@@ -59,7 +59,6 @@ class Lock
 
     /**
      * Reacquires the current lock. The TTL will be extended if 1/4 of the TTL already passed by.
-     *
      */
     public function reacquireLock(): bool
     {
@@ -147,7 +146,6 @@ class Lock
 
     /**
      * Return if the acquired lock is currently locked
-     *
      */
     public function isLocked(): bool
     {
@@ -160,7 +158,6 @@ class Lock
 
     /**
      * Releases the acquired lock
-     *
      */
     public function unlock(): void
     {

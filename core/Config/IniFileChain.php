@@ -54,8 +54,6 @@ class IniFileChain
     protected $mergedSettings = [];
 
     /**
-     *
-     *
      * @param string[] $defaultSettingsFiles The list of paths to INI files w/ the default setting values.
      * @param string|null $userSettingsFile The path to the user settings file.
      */

@@ -45,7 +45,6 @@ class WidgetsList
     /**
      * Adds a new widget to the widget config. Please make sure the widget is enabled before adding a widget as
      * no such checks will be performed.
-     *
      */
     public function addWidgetConfig(WidgetConfig $widget)
     {

@@ -67,7 +67,7 @@
     "@vue/test-utils": "^2.4.6",
     "abortcontroller-polyfill": "^1.7.3",
     "babel-loader": "^8.2.2",
-    "dompurify": "^3.2.4",
+    "dompurify": "^3.3.2",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-vue": "^7.16.0",

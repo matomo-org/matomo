@@ -15,8 +15,6 @@ use Piwik\DataTable;
 class UrlsFromWebsiteId extends BaseFilter
 {
     /**
-     *
-     *
      * @param DataTable $table The table to eventually filter.
      */
     public function __construct($table)

@@ -273,7 +273,6 @@ class Zend_Config implements Countable, Iterator
 
     /**
      * Defined by Iterator interface
-     *
      */
     public function next()
     {
@@ -287,7 +286,6 @@ class Zend_Config implements Countable, Iterator
 
     /**
      * Defined by Iterator interface
-     *
      */
     public function rewind()
     {
@@ -363,7 +361,6 @@ class Zend_Config implements Countable, Iterator
      * Prevent any more modifications being made to this instance. Useful
      * after merge() has been used to merge multiple Zend_Config objects
      * into one object which should then not be modified again.
-     *
      */
     public function setReadOnly()
     {

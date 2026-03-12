@@ -502,7 +502,6 @@ abstract class Base extends VisitDimension
     /**
      * Check if campaign parameters were directly provided in tracking request.
      * This might e.g. be the case when using image tracking
-     *
      */
     protected function detectReferrerCampaignFromTrackerParams(Request $request): void
     {

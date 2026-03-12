@@ -605,7 +605,6 @@ class Model
     /**
      * Get an array of user data using the supplied token
      *
-     *
      * @return array|null
      * @throws \Exception
      */

@@ -35,7 +35,6 @@ class Storage
 
     /**
      * Creates a trial request for the current user
-     *
      */
     public function setRequested(string $pluginDisplayName = ''): void
     {
@@ -50,7 +49,6 @@ class Storage
 
     /**
      * Returns if a plugin was already requested
-     *
      */
     public function wasRequested(): bool
     {
@@ -70,7 +68,6 @@ class Storage
 
     /**
      * Dismisses the trial request for the current user
-     *
      */
     public function setNotificationDismissed(): void
     {
@@ -80,7 +77,6 @@ class Storage
 
     /**
      * Returns the display name for the plugin stored when requesting the trial
-     *
      */
     public function getDisplayName(): string
     {
@@ -89,7 +85,6 @@ class Storage
 
     /**
      * Returns if the current user has dismissed the trial request
-     *
      */
     public function isNotificationDismissed(): bool
     {
@@ -98,7 +93,6 @@ class Storage
 
     /**
      * Removes the trial request from storage
-     *
      */
     public function clearStorage(): void
     {

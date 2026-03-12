@@ -16,8 +16,6 @@ namespace Piwik\Tests\Framework\Mock;
 class Site extends \Piwik\Site
 {
     /**
-     *
-     *
      * @param int $idsite The ID of the site we want data for.
      */
     public function __construct($idsite)

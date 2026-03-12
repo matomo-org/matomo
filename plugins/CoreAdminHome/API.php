@@ -443,8 +443,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Show the JavaScript opt out code
      *
-     *
-     *
      * @internal
      */
     public function getOptOutJSEmbedCode(
@@ -472,8 +470,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Show the self-contained JavaScript opt out code
-     *
-     *
      *
      * @internal
      */

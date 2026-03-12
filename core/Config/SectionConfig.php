@@ -20,7 +20,6 @@ abstract class SectionConfig
      *
      * @param string $name Setting name
      * @param mixed $value Value
-     *
      */
     public static function setConfigValue(string $name, $value): void
     {
@@ -59,7 +58,6 @@ abstract class SectionConfig
 
     /**
      * Get the site specific config (if any) as an array
-     *
      *
      * @return array|string
      */

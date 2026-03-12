@@ -334,7 +334,6 @@ class Client
 
     /**
      * Return the api.matomo.org URL with the correct protocol prefix
-     *
      */
     public static function getApiServiceUrl(): ?string
     {
