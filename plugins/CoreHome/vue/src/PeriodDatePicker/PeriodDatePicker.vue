@@ -24,9 +24,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent, watch, ref,
-} from 'vue';
+import { defineComponent, watch, ref } from 'vue';
 import DatePicker from '../DatePicker/DatePicker.vue';
 import { Periods, parseDate } from '../Periods';
 import {

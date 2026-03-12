@@ -16,6 +16,7 @@
       :key="period"
     >
       <label
+        class="period-option-label"
         :class="{ 'selected-period-label': checkedPeriodId === period }"
         :title="period === activeDatePeriod
           ? ''
@@ -23,13 +24,14 @@
         @dblclick="handlePeriodDoubleClick(period)"
       >
         <input
+          class="period-option-input"
           type="radio"
           name="period"
           :id="`period_id_${period}`"
           :checked="checkedPeriodId === period"
           @change="handlePeriodSelected(period)"
         />
-        <span>{{ getPeriodDisplayText(period) }}</span>
+        <span class="period-option-text">{{ getPeriodDisplayText(period) }}</span>
       </label>
     </p>
   </div>
@@ -45,6 +47,7 @@ interface PeriodSelectionPayload {
 }
 
 export default defineComponent({
+  name: 'PeriodOptions',
   props: {
     modelValue: {
       type: String as PropType<string|null>,
