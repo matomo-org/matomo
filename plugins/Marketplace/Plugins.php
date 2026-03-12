@@ -18,9 +18,6 @@ use Piwik\Plugin;
 use Piwik\Plugins\Marketplace\Input\PurchaseType;
 use Piwik\Plugins\Marketplace\Input\Sort;
 
-/**
- *
- */
 class Plugins
 {
     /**

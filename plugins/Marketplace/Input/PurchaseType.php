@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\Marketplace\Input;
 
-/**
- */
 class PurchaseType
 {
     public const TYPE_FREE = 'free';

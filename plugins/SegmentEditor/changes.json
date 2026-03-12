@@ -1,0 +1,9 @@
+[
+    {
+        "title": "Improved Segment management",
+        "description":  "Managing segments just got easier - star your most important segments for easier access and manage all segments from a new centralised Segments page with at-a-glance KPIs and quick actions.",
+        "link_name": "Explore the Segments page",
+        "link": "/index.php?module=CoreHome&action=index&idSite=1&period=day&date=yesterday#?idSite=1&period=day&date=yesterday&category=General_Visitors&subcategory=CoreHome_Segments",
+        "version": "5.9.0"
+    }
+]

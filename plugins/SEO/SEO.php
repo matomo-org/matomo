@@ -13,8 +13,6 @@ use Piwik\Plugins\SEO\Widgets\GetRank;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
-/**
- */
 class SEO extends \Piwik\Plugin
 {
     public function registerEvents()

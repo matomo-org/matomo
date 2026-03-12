@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<numSites>11</numSites>
+	<totals>
+		<nb_pageviews>20</nb_pageviews>
+		<nb_visits>10</nb_visits>
+		<hits>20</hits>
+		<nb_actions>20</nb_actions>
+		<revenue>110</revenue>
+		<previous_nb_pageviews>0</previous_nb_pageviews>
+		<previous_nb_visits>0</previous_nb_visits>
+		<previous_hits>0</previous_hits>
+		<previous_nb_actions>0</previous_nb_actions>
+		<previous_revenue>0</previous_revenue>
+		<ai_chatbots_requests>0</ai_chatbots_requests>
+		<previous_ai_chatbots_requests>0</previous_ai_chatbots_requests>
+	</totals>
+	<lastDate>2012-08-08</lastDate>
+	<sites>
+	</sites>
+</result>

@@ -236,7 +236,6 @@ class DbHelper
     /**
      * Returns the default collation for a charset.
      *
-     *
      * @throws Exception
      */
     public static function getDefaultCollationForCharset(string $charset): string

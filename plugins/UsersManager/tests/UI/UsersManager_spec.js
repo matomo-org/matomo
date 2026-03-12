@@ -450,7 +450,7 @@ describe("UsersManager", function () {
         await page.waitForTimeout(250); // animation
         await page.evaluate(() => window.scrollTo(0, 0));
 
-        expect(await page.screenshotSelector('.usersManager')).to.matchImage({
+        expect(await page.screenshotSelector('.user-permissions')).to.matchImage({
             imageName: 'permissions_bulk_access_set_all',
             comparisonThreshold: 0.0015
         });

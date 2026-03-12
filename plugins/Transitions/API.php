@@ -163,7 +163,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Derive the action ID from the request action name and type.
      *
-     *
      * @return array|int|string
      */
     private function deriveIdAction(string $actionName, string $actionType)
@@ -716,7 +715,6 @@ class API extends \Piwik\Plugin\API
      * @param $idSite
      * @param $period
      * @param $date
-     *
      */
     public function isPeriodAllowed($idSite, $period, $date): bool
     {

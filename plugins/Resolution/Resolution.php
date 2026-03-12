@@ -17,9 +17,6 @@ use Piwik\Plugins\SegmentEditor\Settings\LimitSegments;
 use Piwik\Segment\SegmentsList;
 use Piwik\Tracker\Cache as TrackerCache;
 
-/**
- *
- */
 class Resolution extends \Piwik\Plugin
 {
     public function registerEvents()

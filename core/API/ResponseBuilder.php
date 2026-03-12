@@ -22,8 +22,6 @@ use Piwik\Plugin\ReportsProvider;
 use Piwik\Plugins\Monolog\Processor\ExceptionToTextProcessor;
 use Piwik\Plugins\PrivacyManager\DataRounding;
 
-/**
- */
 class ResponseBuilder
 {
     private $outputFormat = null;

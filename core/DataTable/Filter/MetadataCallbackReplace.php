@@ -27,8 +27,6 @@ use Piwik\DataTable\Row;
 class MetadataCallbackReplace extends ColumnCallbackReplace
 {
     /**
-     * Constructor.
-     *
      * @param DataTable $table The DataTable that will eventually be filtered.
      * @param array|string $metadataToFilter The metadata whose values should be passed to the callback
      *                                       and then replaced with the callback's result.

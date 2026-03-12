@@ -1,6 +1,0 @@
-[
-  "Actions.getPageUrls",
-  "MultiSites.getAllWithGroups",
-  "Referrers.getAll",
-  "VisitsSummary.get"
-]

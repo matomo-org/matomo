@@ -60,6 +60,12 @@ module.exports = function makeChaiImageAssert(comparisonCommand = 'compare') {
             chai.assert.instanceOf(imageBuffer, Buffer);
             fs.writeFileSync(processedPath, imageBuffer);
 
+            if (options['skip-screenshots']) {
+                console.log(`    ~ [skip-screenshots] no image comparison for ${imageName}`);
+                performAutomaticPageChecks();
+                return;
+            }
+
             try {
                 if (!fs.isFile(expectedPath)) {
                     app.appendMissingExpected(imageName);

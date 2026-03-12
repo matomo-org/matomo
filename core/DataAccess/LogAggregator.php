@@ -168,9 +168,6 @@ class LogAggregator
      */
     private $params;
 
-    /**
-     * Constructor.
-     */
     public function __construct(Parameters $params, ?LoggerInterface $logger = null)
     {
         $this->dateStart = $params->getDateTimeStart();
@@ -1276,7 +1273,6 @@ class LogAggregator
      * Similar to queryConversionsByDimension and will return data in the same format, but takes into account pageviews
      * leading up to a conversion, not just the final page that triggered the conversion
      *
-     *
      * @return \Zend_Db_Statement|array
      */
     public function queryConversionsByPageView(string $linkField, int $idGoal)
@@ -1325,7 +1321,6 @@ class LogAggregator
 
     /**
      * Query conversions by entry page
-     *
      *
      * @return \Zend_Db_Statement|array
      */

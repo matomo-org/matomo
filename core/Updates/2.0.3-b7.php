@@ -15,8 +15,6 @@ use Piwik\Plugins\PrivacyManager\IPAnonymizer;
 use Piwik\Updates;
 use Piwik\Updater;
 
-/**
- */
 class Updates_2_0_3_b7 extends Updates
 {
     public function doUpdate(Updater $updater)

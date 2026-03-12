@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>Direct Entry</label>
+		<nb_uniq_visitors>10</nb_uniq_visitors>
+		<nb_visits>10</nb_visits>
+		<nb_actions>20</nb_actions>
+		<nb_users>0</nb_users>
+		<max_actions>2</max_actions>
+		<sum_visit_length>22</sum_visit_length>
+		<bounce_count>0</bounce_count>
+		<nb_visits_converted>10</nb_visits_converted>
+		<goals>
+			<row idgoal='1'>
+				<nb_conversions>11</nb_conversions>
+				<nb_visits_converted>11</nb_visits_converted>
+				<revenue>55</revenue>
+			</row>
+			<row idgoal='2'>
+				<nb_conversions>11</nb_conversions>
+				<nb_visits_converted>11</nb_visits_converted>
+				<revenue>55</revenue>
+			</row>
+		</goals>
+		<nb_conversions>20</nb_conversions>
+		<revenue>110</revenue>
+		<segment>referrerType==direct</segment>
+		<referrer_type>1</referrer_type>
+	</row>
+</result>

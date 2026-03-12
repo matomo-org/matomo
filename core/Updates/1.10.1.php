@@ -12,8 +12,6 @@ namespace Piwik\Updates;
 use Piwik\Updates;
 use Piwik\Updater;
 
-/**
- */
 class Updates_1_10_1 extends Updates
 {
     public static function isMajorUpdate()

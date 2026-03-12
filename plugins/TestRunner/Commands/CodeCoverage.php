@@ -11,8 +11,6 @@ namespace Piwik\Plugins\TestRunner\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
 
-/**
- */
 class CodeCoverage extends ConsoleCommand
 {
     protected function configure()

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<row>
+		<label>HTTP-code</label>
+		<nb_actions>20</nb_actions>
+		<slots>
+			<row>
+				<scope>page</scope>
+				<index>1</index>
+			</row>
+		</slots>
+		<segment>customVariableName==HTTP-code</segment>
+		<subtable>
+			<row>
+				<label>200</label>
+				<nb_visits>11</nb_visits>
+				<nb_actions>22</nb_actions>
+			</row>
+		</subtable>
+	</row>
+</result>

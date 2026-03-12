@@ -18,7 +18,6 @@ abstract class BotRequestProcessor
      *
      * Derived classes can use this method to manipulate a bot request before the request
      * is handled. Plugins could change the URL, add custom variables, etc.
-     *
      */
     public function manipulateRequest(Request $request): void
     {

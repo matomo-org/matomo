@@ -28,9 +28,6 @@ use Piwik\View;
 use Piwik\ViewDataTable\Factory as ViewDataTableFactory;
 use Piwik\Plugins\CoreVisualizations\Visualizations\JqplotGraph\Evolution;
 
-/**
- *
- */
 class Controller extends \Piwik\Plugin\Controller
 {
     /**

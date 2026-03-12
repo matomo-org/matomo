@@ -15,9 +15,6 @@ use Piwik\ProxyHttp;
 use Piwik\Plugins\CoreHome\SystemSummary;
 use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 
-/**
- *
- */
 class CoreAdminHome extends \Piwik\Plugin
 {
     /**

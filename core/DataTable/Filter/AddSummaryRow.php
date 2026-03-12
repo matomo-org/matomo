@@ -33,8 +33,6 @@ class AddSummaryRow extends BaseFilter
     private $labelSummaryRow;
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table The table that will be filtered.
      * @param int $labelSummaryRow The value of the label column for the new row.
      */

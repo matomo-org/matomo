@@ -64,8 +64,6 @@ class Setting
     protected $type;
 
     /**
-     * Constructor.
-     *
      * @param string $name    The setting's persisted name. Only alphanumeric characters are allowed, eg,
      *                        `'refreshInterval'`.
      * @param mixed $defaultValue  Default value for this setting if no value was specified.

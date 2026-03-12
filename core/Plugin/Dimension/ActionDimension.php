@@ -48,7 +48,6 @@ abstract class ActionDimension extends Dimension
      * "onNewAction" the value will be probably overwritten by the other event. So make sure to implement only one of
      * those.
      *
-     *
      * @return false|mixed
      * @api
      */
@@ -71,7 +70,6 @@ abstract class ActionDimension extends Dimension
      * This event is triggered before a new action is logged to the `log_link_visit_action` table. It overwrites any
      * looked up action so it makes usually no sense to implement both methods but it sometimes does. You can assign
      * any value to the column or return boolan false in case you do not want to save any value.
-     *
      *
      * @return mixed|false
      * @api

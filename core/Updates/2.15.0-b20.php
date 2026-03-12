@@ -25,7 +25,6 @@ class Updates_2_15_0_b20 extends Updates
      * method, you must call {@link Updater::executeMigrations()} here.
      *
      * See {@link Updates} for an example.
-     *
      */
     public function doUpdate(Updater $updater)
     {

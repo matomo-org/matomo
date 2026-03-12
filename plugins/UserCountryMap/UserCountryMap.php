@@ -12,8 +12,6 @@ namespace Piwik\Plugins\UserCountryMap;
 use Piwik\FrontController;
 use Piwik\Piwik;
 
-/**
- */
 class UserCountryMap extends \Piwik\Plugin
 {
     public function postLoad()

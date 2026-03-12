@@ -11,9 +11,6 @@ namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
 use Piwik\Piwik;
 
-/**
- *
- */
 class HorizontalBar extends GridGraph
 {
     public const INTERLEAVE = 0.30;

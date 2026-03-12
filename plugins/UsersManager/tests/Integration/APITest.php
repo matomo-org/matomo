@@ -28,6 +28,7 @@ use Piwik\Plugins\CoreAdminHome\Emails\UserCreatedEmail;
 use Piwik\Plugins\UsersManager\Emails\UserInviteEmail;
 use Piwik\Plugins\UsersManager\SystemSettings;
 use Piwik\Plugins\SitesManager\API as SitesManagerAPI;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\UsersManager;
@@ -231,31 +232,46 @@ class APITest extends IntegrationTestCase
         self::assertEquals('5', $siteId);
     }
 
+    public function testSetUserPreferenceWritesLegacyOptionForIsLdapUserCompatibility()
+    {
+        $this->api->setUserPreference($this->login, 'isLDAPUser', 1);
+
+        $settingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
+        self::assertEquals(1, $settingsStore->get('UsersManager', $this->login, 'isLDAPUser', false));
+
+        $legacyOptionName = $this->login . API::OPTION_NAME_PREFERENCE_SEPARATOR . 'isLDAPUser';
+        self::assertEquals(1, Option::get($legacyOptionName));
+    }
+
     public function testInitUserPreferenceWithDefaultShouldSaveTheDefaultPreferenceIfPreferenceIsNotSet()
     {
+        $settingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
+
         // make sure there is no value saved so it will use default preference
-        $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
+        $siteId = $settingsStore->get('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, false);
         self::assertFalse($siteId);
 
         $this->api->initUserPreferenceWithDefault($this->login, API::PREFERENCE_DEFAULT_REPORT);
 
         // make sure it did save the preference
-        $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
+        $siteId = $settingsStore->get('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, false);
         self::assertEquals('1', $siteId);
     }
 
     public function testInitUserPreferenceWithDefaultShouldNotSaveTheDefaultPreferenceIfPreferenceIsAlreadySet()
     {
-        // set value so there will already be a default
-        Option::set($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT), '999');
+        $settingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
 
-        $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
+        // set value so there will already be a default
+        $settingsStore->set('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, '999');
+
+        $siteId = $settingsStore->get('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, false);
         self::assertEquals('999', $siteId);
 
         $this->api->initUserPreferenceWithDefault($this->login, API::PREFERENCE_DEFAULT_REPORT);
 
         // make sure it did not save the preference
-        $siteId = Option::get($this->getPreferenceId(API::PREFERENCE_DEFAULT_REPORT));
+        $siteId = $settingsStore->get('UsersManager', $this->login, API::PREFERENCE_DEFAULT_REPORT, false);
         self::assertEquals('999', $siteId);
     }
 
@@ -1663,11 +1679,6 @@ class APITest extends IntegrationTestCase
             }
         }
         return $ids;
-    }
-
-    private function getPreferenceId($preferenceName)
-    {
-        return $this->login . '_' . $preferenceName;
     }
 
     public function provideContainerConfig()

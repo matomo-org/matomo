@@ -204,7 +204,6 @@ class Task
     /**
      * Returns the TTL for this task.
      * See {@link self::$ttlInSeconds}
-     *
      */
     public function getTTL(): int
     {

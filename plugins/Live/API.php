@@ -334,7 +334,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getFirstVisitForVisitorId($idSite, $visitorId)
     {
-        Piwik::checkUserHasSomeViewAccess();
+        Piwik::checkUserHasViewAccess($idSite);
         Live::checkIsVisitorProfileEnabled($idSite);
 
         if (empty($visitorId)) {

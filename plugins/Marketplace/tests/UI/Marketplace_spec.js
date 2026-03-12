@@ -114,6 +114,11 @@ describe("Marketplace", function () {
 
                 await page.goto('?module=CorePluginsAdmin&action=plugins&idSite=1&period=day&date=yesterday&activated=');
 
+                // redact specific version changes
+                page.evaluate(() => {
+                    $('div[vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"] .vers a[title="Changelog"]').text('x.x.x => x.x.x');
+                });
+
                 await captureSelector('updates_' + mode, '#content div[vue-entry="CorePluginsAdmin.PluginsTableWithUpdates"]');
             });
         }

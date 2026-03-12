@@ -255,10 +255,6 @@ class CronArchive
     private const STEP_SCHEDULED_TASKS = 3;
     private const STEP_FINISH = 4;
 
-    /**
-     * Constructor.
-     *
-     */
     public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger ?: StaticContainer::get(LoggerInterface::class);
@@ -875,7 +871,6 @@ class CronArchive
 
     /**
      * Initializes the various parameters to the script, based on input parameters.
-     *
      */
     private function initStateFromParameters()
     {

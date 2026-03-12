@@ -40,8 +40,6 @@ class Limit extends BaseFilter
     public $keepSummaryRow;
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table The DataTable that will be filtered eventually.
      * @param int $offset The starting row index to keep.
      * @param int $limit Number of rows to keep (specify -1 to keep all rows).

@@ -18,15 +18,11 @@ use Piwik\Piwik;
 use Zend_Config;
 use Zend_Db_Adapter_Mysqli;
 
-/**
- */
 class Mysqli extends Zend_Db_Adapter_Mysqli implements AdapterInterface
 {
     use Db\TransactionalDatabaseDynamicTrait;
 
     /**
-     * Constructor
-     *
      * @param array|Zend_Config $config database configuration
      */
     public function __construct($config)

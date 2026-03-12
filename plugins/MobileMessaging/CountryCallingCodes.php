@@ -9,9 +9,6 @@
 
 namespace Piwik\Plugins\MobileMessaging;
 
-/**
- *
- */
 class CountryCallingCodes
 {
     // list taken from core/DataFiles/Countries.php

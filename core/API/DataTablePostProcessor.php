@@ -69,9 +69,6 @@ class DataTablePostProcessor
     private $callbackBeforeGenericFilters;
     private $callbackAfterGenericFilters;
 
-    /**
-     * Constructor.
-     */
     public function __construct($apiModule, $apiMethod, $request)
     {
         $this->apiModule = $apiModule;

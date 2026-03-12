@@ -632,7 +632,6 @@ class ArchiveProcessor
     /**
      * If the DataTable is a Map, sums all DataTable in the map and return the DataTable.
      *
-     *
      * @param $data DataTable|DataTable\Map
      * @param $columnsToRenameAfterAggregation array
      * @return DataTable

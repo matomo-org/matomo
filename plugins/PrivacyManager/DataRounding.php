@@ -52,7 +52,7 @@ class DataRounding
 
     private const CHANGE_COLUMN_PATTERN = '/_change$/i';
 
-    private const EXCLUDED_BY_NAME_PATTERN = '/(rate|percent|percentage|revenue|price|cost|tax|shipping|discount|avg_|average|time|duration|evolution|min_|max_)/';
+    private const EXCLUDED_BY_NAME_PATTERN = '/(rate|percent|percentage|revenue|price|cost|tax|shipping|discount|avg_|average|duration|evolution|min_|max_)/';
 
     private const INCLUDED_COUNT_BY_NAME_PATTERN = '/(^nb_|_nb_|_count$|^count_|^sum_daily_nb_|^hits$|^visits$|^actions$|^conversions$|^users$|^goals$|^orders$|^items$|^quantity$|^impressions$|^interactions$|^downloads$|^outlinks$|^bounce_count$|^entry_nb_|^exit_nb_)/';
 
@@ -69,9 +69,12 @@ class DataRounding
 
     public static function roundCountMetrics(DataTableInterface $dataTable, ?Report $report = null): void
     {
-        $dataTable->filter(function (DataTable $table) use ($report) {
+        $roundTable = function (DataTable $table) use ($report) {
             self::roundDataTable($table, $report);
-        });
+        };
+
+        $dataTable->filter($roundTable);
+        $dataTable->filterSubtables($roundTable);
     }
 
     private static function roundDataTable(DataTable $table, ?Report $report = null): void
@@ -81,18 +84,42 @@ class DataRounding
 
         if (!empty($columnsToRound)) {
             foreach ($table->getRows() as $row) {
-                self::roundRowColumns($row, $columnsToRound);
+                self::roundRowColumns($row, $columnsToRound, $metricTypes);
                 self::roundRowComparisons($row, $report);
             }
         }
 
+        self::roundTotalsRowIfPresent($table, $columnsToRound, $metricTypes, $report);
         self::roundTotalsMetadataIfPresent($table, $metricTypes);
+        self::reconcileTotalsFromRoundedRowsForConstantRowsReport($table, $columnsToRound, $report);
+        self::clearStaleRatioMetadata($table, $columnsToRound);
     }
 
     /**
      * @param string[] $columnsToRound
+     * @param array<string, string|null> $metricTypes
      */
-    private static function roundRowColumns(Row $row, array $columnsToRound): void
+    private static function roundTotalsRowIfPresent(
+        DataTable $table,
+        array $columnsToRound,
+        array $metricTypes,
+        ?Report $report
+    ): void
+    {
+        $totalsRow = $table->getTotalsRow();
+        if (empty($totalsRow)) {
+            return;
+        }
+
+        self::roundRowColumns($totalsRow, $columnsToRound, $metricTypes);
+        self::roundRowComparisons($totalsRow, $report);
+    }
+
+    /**
+     * @param string[] $columnsToRound
+     * @param array<string, string|null> $metricTypes
+     */
+    private static function roundRowColumns(Row $row, array $columnsToRound, array $metricTypes): void
     {
         foreach ($columnsToRound as $columnName) {
             $value = $row->getColumn($columnName);
@@ -101,6 +128,14 @@ class DataRounding
             }
 
             $row->setColumn($columnName, self::roundToNearestTen((float) $value));
+        }
+
+        foreach ($row->getColumns() as $columnName => $value) {
+            if (!is_array($value)) {
+                continue;
+            }
+
+            $row->setColumn((string) $columnName, self::roundCountArrayValues($value, $metricTypes));
         }
     }
 
@@ -120,11 +155,95 @@ class DataRounding
     private static function roundTotalsMetadataIfPresent(DataTable $table, array $metricTypes): void
     {
         $totals = $table->getMetadata('totals');
-        if (!is_array($totals)) {
+        if (is_array($totals)) {
+            $table->setMetadata('totals', self::roundTotals($totals, $metricTypes));
+        }
+
+        $totalsUnformatted = $table->getMetadata('totalsUnformatted');
+        if (is_array($totalsUnformatted)) {
+            $table->setMetadata('totalsUnformatted', self::roundTotals($totalsUnformatted, $metricTypes));
+        }
+    }
+
+    /**
+     * @param string[] $columnsToRound
+     */
+    private static function clearStaleRatioMetadata(DataTable $table, array $columnsToRound): void
+    {
+        if (empty($columnsToRound)) {
             return;
         }
 
-        $table->setMetadata('totals', self::roundTotals($totals, $metricTypes));
+        foreach ($table->getRows() as $row) {
+            foreach ($columnsToRound as $columnName) {
+                self::clearRatioMetadata($row, $columnName);
+            }
+        }
+    }
+
+    private static function clearRatioMetadata(Row $row, string $columnName): void
+    {
+        foreach (['_row_percentage', '_site_total_percentage'] as $suffix) {
+            $metadataName = $columnName . $suffix;
+            if ($row->getMetadata($metadataName) !== false) {
+                $row->deleteMetadata($metadataName);
+            }
+        }
+    }
+
+    /**
+     * @param string[] $columnsToRound
+     */
+    private static function reconcileTotalsFromRoundedRowsForConstantRowsReport(
+        DataTable $table,
+        array $columnsToRound,
+        ?Report $report
+    ): void {
+        if (empty($report) || !self::isConstantRowsCountReport($report) || empty($columnsToRound)) {
+            return;
+        }
+
+        $totals = $table->getMetadata('totals');
+        if (!is_array($totals)) {
+            $totals = [];
+        }
+
+        $totalsUnformatted = $table->getMetadata('totalsUnformatted');
+        if (!is_array($totalsUnformatted)) {
+            $totalsUnformatted = [];
+        }
+
+        $totalsRow = $table->getTotalsRow();
+
+        foreach ($columnsToRound as $columnName) {
+            $sum = 0;
+            foreach ($table->getRows() as $row) {
+                $value = $row->getColumn($columnName);
+                if (is_numeric($value) && $value >= 0) {
+                    $sum += (int) $value;
+                }
+            }
+
+            $totals[$columnName] = $sum;
+            $totalsUnformatted[$columnName] = $sum;
+            if (!empty($totalsRow)) {
+                $totalsRow->setColumn($columnName, $sum);
+            }
+        }
+
+        $table->setMetadata('totals', $totals);
+        $table->setMetadata('totalsUnformatted', $totalsUnformatted);
+    }
+
+    private static function isConstantRowsCountReport(Report $report): bool
+    {
+        try {
+            $property = new \ReflectionProperty(\Piwik\Plugin\Report::class, 'constantRowsCount');
+            $property->setAccessible(true);
+            return $property->getValue($report) === true;
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
     /**
@@ -153,19 +272,47 @@ class DataRounding
      */
     private static function collectColumnsToRound(DataTable $table, array $metricTypes): array
     {
-        $firstRow = $table->getFirstRow();
-        if (empty($firstRow)) {
+        $sampleValuesByColumn = [];
+
+        foreach ($table->getRows() as $row) {
+            foreach ($row->getColumns() as $columnName => $value) {
+                $columnName = (string) $columnName;
+                if (
+                    !array_key_exists($columnName, $sampleValuesByColumn)
+                    || !self::shouldRoundValue($sampleValuesByColumn[$columnName])
+                ) {
+                    $sampleValuesByColumn[$columnName] = $value;
+                }
+            }
+        }
+
+        $totalsRow = $table->getTotalsRow();
+        if (!empty($totalsRow)) {
+            foreach ($totalsRow->getColumns() as $columnName => $value) {
+                $columnName = (string) $columnName;
+                if (
+                    !array_key_exists($columnName, $sampleValuesByColumn)
+                    || !self::shouldRoundValue($sampleValuesByColumn[$columnName])
+                ) {
+                    $sampleValuesByColumn[$columnName] = $value;
+                }
+            }
+        }
+
+        if (empty($sampleValuesByColumn)) {
             return [];
         }
 
         $columns = [];
-        foreach ($firstRow->getColumns() as $columnName => $value) {
-            if (!self::shouldRoundColumn((string) $columnName, $metricTypes[(string) $columnName] ?? null)) {
+        foreach ($sampleValuesByColumn as $columnName => $value) {
+            $columnName = (string) $columnName;
+
+            if (!self::shouldRoundColumn($columnName, $metricTypes[$columnName] ?? null)) {
                 continue;
             }
 
             if (self::shouldRoundValue($value)) {
-                $columns[] = (string) $columnName;
+                $columns[] = $columnName;
             }
         }
 
@@ -200,6 +347,8 @@ class DataRounding
     private static function roundArrayValuesRecursive(array $values, array $metricTypes): array
     {
         foreach ($values as $columnName => $value) {
+            $columnName = (string) $columnName;
+
             if (is_array($value)) {
                 $values[$columnName] = self::roundArrayValuesRecursive($value, $metricTypes);
                 continue;

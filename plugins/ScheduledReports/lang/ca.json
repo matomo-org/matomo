@@ -43,7 +43,6 @@
         "SegmentAppliedToReports": "El segment '%s' s'aplica als informes.",
         "SegmentDeleted": "Segment esborrat",
         "Segment_Deletion_Error": "Aquest segment no es pot esborrar ni es pot fer invisible per a altres usuaris perquè s'utilitza per generar informes de correu electrònic %s. Torneu-ho a provar després d'eliminar aquest segment d'aquests informes.",
-        "Segment_HelpScheduledReport": "Podeu seleccionar un segment personalitzat existent per aplicar-lo a les dades d'aquest informe programat. Podeu crear i editar segments personalitzats al vostre tauler de control %1$s(feu clic aquí per obrir-lo)%2$s i, a continuació, fer clic a la casella \"%3$s\" i, a continuació, a \"%4$s\".",
         "SendReportNow": "Envia l'informe ara",
         "SendReportTo": "Envia l'informe a",
         "SendingReport": "Enviant l'informe…",
