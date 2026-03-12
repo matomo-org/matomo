@@ -1,17 +1,18 @@
 .periodSelector {
   display: inline-block;
-  [type=radio]:not(:checked) + span,
-  [type=radio]:checked + span {
+
+  .period-option-text {
     padding-left: 30px;
   }
-  [type=radio]:not(:checked)+span:before,
-  [type=radio]:not(:checked)+span:after,
-  [type=checkbox]+span:not(.lever):before,
-  [type=checkbox]:not(.filled-in)+span:not(.lever):after {
+
+  .period-option-text:before,
+  .period-option-text:after,
+  .compare-checkbox-text:not(.lever):before,
+  .compare-checkbox-text:not(.lever):after {
     border: 2px solid @color-period-selector-input-radio;
   }
 
-  [type=checkbox]:checked+span:not(.lever):before {
+  .compare-checkbox-input:checked + .compare-checkbox-text:not(.lever):before {
     border-top: 2px solid rgba(0, 0, 0, 0);
     border-left: 2px solid rgba(0, 0, 0, 0);
   }
@@ -44,12 +45,11 @@
 
   .compare-checkbox {
     margin-bottom: 20px;
-    label {
-      span {
-        padding-left: 25px;
-        font-size: 14px;
-        margin-right: 3px;
-      }
+
+    .compare-checkbox-text {
+      padding-left: 25px;
+      font-size: 14px;
+      margin-right: 3px;
     }
   }
 
@@ -174,7 +174,7 @@
         margin-top: 5px;
       }
 
-      label {
+      .period-option-label {
         background: transparent;
         border: 0;
         border-radius: 5px;
@@ -195,35 +195,21 @@
         }
       }
 
-      input[type=radio]:focus-visible + span {
+      .period-option-label:has(.period-option-input:focus-visible) {
         background-color: @color-period-selector-options-hover-bg;
         border-radius: 5px;
         outline: 2px solid @theme-color-focus-ring;
         outline-offset: 0;
       }
 
-      label > span {
-        display: block;
-      }
-
       // Period options are visually button-like; hide radio-marker pseudo elements.
-      input[type=radio] + span {
+      .period-option-text {
         padding-left: 0;
       }
 
-      input[type=radio] + span:before,
-      input[type=radio] + span:after {
+      .period-option-text:before,
+      .period-option-text:after {
         display: none !important;
-      }
-
-      input[type=radio]:focus + span {
-        // fallback for browsers without :focus-visible support
-        @supports not selector(:focus-visible) {
-          background-color: @color-period-selector-options-hover-bg;
-          border-radius: 5px;
-          outline: 2px solid @theme-color-focus-ring;
-          outline-offset: 0;
-        }
       }
 
       .selected-period-label {
@@ -256,7 +242,6 @@
   .period-selector-calendar-column {
     border-left: 1px solid @color-silver-l95;
     display: flex;
-    flex: 1 1 220px;
     flex-direction: column;
     margin-left: 16px;
     min-width: 220px;
@@ -276,7 +261,7 @@
   }
   .period-date,
   .period-range {
-    padding-right: 0px !important;
+    padding-right: 0 !important;
   }
 
   .dateRangePicker {
@@ -336,16 +321,17 @@
     font-size: 13px !important;
     width: 100% !important;
 
-    select.ui-datepicker-month {
+    .ui-datepicker-month {
       width: 46%;
     }
-    select.ui-datepicker-year {
+    .ui-datepicker-year {
       width: 46%;
     }
-    .ui-datepicker-prev span, .ui-datepicker-next span {
+    .ui-datepicker-prev .ui-icon,
+    .ui-datepicker-next .ui-icon {
       top: 20%;
     }
-    .ui-datepicker-prev span {
+    .ui-datepicker-prev .ui-icon {
       left: 0%;
     }
 
@@ -367,11 +353,10 @@
       }
     }
 
-    .ui-datepicker-title {
-      select {
-        font-size: 13px;
-      }
+    .ui-datepicker-month, .ui-datepicker-year {
+      font-size: 13px;
     }
+
     .ui-datepicker-calendar, .ui-datepicker-header {
       font-size: 13px !important;
       border: none !important;
@@ -380,7 +365,7 @@
         border: none !important;
       }
     }
-    table.ui-datepicker-calendar {
+    .ui-datepicker-calendar {
       table-layout: fixed;
 
       tbody td {
@@ -398,15 +383,14 @@
       }
 
       // Apply hover/persistent highlight to the square inner day box.
-      tbody td:not(.ui-datepicker-current-period).ui-datepicker-persistent-highlight > a,
-      tbody td:not(.ui-datepicker-current-period).ui-datepicker-persistent-highlight > span,
-      tbody td:not(.ui-datepicker-current-period):hover > a,
-      tbody td:not(.ui-datepicker-current-period):hover > span {
+      .ui-datepicker-persistent-highlight:not(.ui-datepicker-current-period),
+      .ui-datepicker-persistent-highlight:not(.ui-datepicker-current-period) > .ui-datepicker-persistent-highlight {
         background: @period-selector-calendar-hover-bg !important;
+        opacity: 1;
       }
 
-      tbody td.ui-datepicker-current-period > a,
-      tbody td.ui-datepicker-current-period > span {
+      .ui-datepicker-current-period > a,
+      .ui-datepicker-current-period > span {
         background: @theme-color-text !important;
       }
     }
