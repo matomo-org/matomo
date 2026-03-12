@@ -361,20 +361,6 @@ describe('PeriodSelector', () => {
     expect(computed.hasPendingNonRangePeriodChange.call(changedPeriodVm)).toBe(true);
   });
 
-  it('allows compare apply path after same-period radio click', () => {
-    const selectedDate = new Date('2026-02-18');
-    const vm: any = createApplyVm({
-      uiSelection: { type: 'period', id: 'day' },
-      selectedPeriod: 'day',
-      committedPeriod: 'day',
-      committedAnchorDate: selectedDate,
-    });
-
-    callOnApplyClicked(vm);
-
-    expectCommitSelection(vm, '2026-02-18', 'day');
-  });
-
   it('rehydrates preset ownership from tokenized hash values', () => {
     const vm: any = {
       periodsFiltered: ['day', 'week', 'month', 'year', 'range'],

@@ -51,6 +51,8 @@ export default defineComponent({
         && dateValue <= props.persistentHighlightedDateEnd
       );
 
+      // Intentional UX: for custom date ranges (dual calendar) we only style the boundary dates
+      // as selected. The in-between span is not kept persistently highlighted.
       const isBoundarySelectedDate = !!(
         selectedDateStart
         && selectedDateEnd
@@ -271,6 +273,8 @@ export default defineComponent({
       [
         (x: typeof props): Date|undefined => x.selectedDateStart,
         (x: typeof props): Date|undefined => x.selectedDateEnd,
+        (x: typeof props): Date|undefined => x.persistentHighlightedDateStart,
+        (x: typeof props): Date|undefined => x.persistentHighlightedDateEnd,
         (x: typeof props): Date|undefined => x.highlightedDateStart,
         (x: typeof props): Date|undefined => x.highlightedDateEnd,
       ].forEach((selector) => {
@@ -309,7 +313,7 @@ export default defineComponent({
         enableDisableMonthDropdown();
       }
 
-      // redraw when selected/highlighted dates change
+      // redraw when selected or highlighted date props change
       if (redraw) {
         setDatePickerCellColors();
       }
