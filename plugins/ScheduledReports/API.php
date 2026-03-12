@@ -33,6 +33,7 @@ use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\RetryableException;
 use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Log\LoggerInterface;
@@ -370,21 +371,12 @@ class API extends \Piwik\Plugin\API
             return null;
         }
 
-        $segmentHash = md5(urldecode($segmentDefinition));
+        $segmentHash = (new Segment($segmentDefinition, [$idSite]))->getHash();
         $segments = APISegmentEditor::getInstance()->getAll($idSite);
         foreach ($segments as $segment) {
-            if (empty($segment['idsegment']) || empty($segment['definition'])) {
-                continue;
+            if ($segment['hash'] === $segmentHash) {
+                return (int) $segment['idsegment'];
             }
-
-            $existingHash = !empty($segment['hash'])
-                ? (string) $segment['hash']
-                : md5(urldecode((string) $segment['definition']));
-            if ($existingHash !== $segmentHash) {
-                continue;
-            }
-
-            return (int) $segment['idsegment'];
         }
 
         return null;
