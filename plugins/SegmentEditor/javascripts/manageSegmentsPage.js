@@ -274,9 +274,9 @@ function initManageSegmentsPage() {
 
   function filterSegmentList(keyword) {
     clearFilterSegmentList();
-    const search = panelApi.normalizeSearchString(keyword);
+    const search = piwikHelper.normalize(keyword || '');
     rowList.forEach(function (row) {
-      const segmentSeed = panelApi.normalizeSearchString($(row).attr('data-segment-name'));
+      const segmentSeed = piwikHelper.normalize($(row).attr('data-segment-name') || '');
       if (segmentSeed.indexOf(search) === -1) {
         $(row).hide();
       }
