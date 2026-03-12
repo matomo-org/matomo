@@ -92,6 +92,7 @@ import AddReport from '../AddReport/AddReport.vue';
 import ListReports from '../ListReports/ListReports.vue';
 import { Report } from '../types';
 import { adjustHourToTimezone } from '../utilities';
+import { consumeStoredValue, getStoredValue, removeStoredValue, setStoredValue } from './storage';
 
 interface ManageScheduledReportState {
   showReportsList: boolean;
@@ -229,11 +230,9 @@ export default defineComponent({
     Matomo.postEvent('ScheduledReports.ManageScheduledReport.mounted', {
       element: this.$refs.root,
     });
-    const pendingMessage = typeof sessionStorage !== 'undefined'
-      ? sessionStorage.getItem(PENDING_NOTIFICATION_KEY)
-      : null;
+    const pendingMessage = getStoredValue(PENDING_NOTIFICATION_KEY);
     if (pendingMessage && this.$refs.reportUpdatedSuccess) {
-      sessionStorage.removeItem(PENDING_NOTIFICATION_KEY);
+      removeStoredValue(PENDING_NOTIFICATION_KEY);
       scrollToTop();
       this.fadeInOutSuccessMessage(
         this.$refs.reportUpdatedSuccess as HTMLElement,
@@ -356,14 +355,12 @@ export default defineComponent({
       }
     },
     queueSaveNotificationAndRefresh(isUpdate: boolean) {
-      if (typeof sessionStorage !== 'undefined') {
-        sessionStorage.setItem(
-          PENDING_NOTIFICATION_KEY,
-          isUpdate
-            ? translate('ScheduledReports_ReportUpdated')
-            : translate('ScheduledReports_ReportAdded'),
-        );
-      }
+      setStoredValue(
+        PENDING_NOTIFICATION_KEY,
+        isUpdate
+          ? translate('ScheduledReports_ReportUpdated')
+          : translate('ScheduledReports_ReportAdded'),
+      );
       Matomo.helper.refreshAfter(0);
     },
     showDashboardExportInfo(
@@ -381,9 +378,7 @@ export default defineComponent({
       this.isDashboardExportInfoVisible = true;
       this.showNotificationMessage(selector, dashboardInfoMessage, 'info', 'persistent');
       if (reload) {
-        if (typeof sessionStorage !== 'undefined') {
-          sessionStorage.setItem(PENDING_NOTIFICATION_KEY, message);
-        }
+        setStoredValue(PENDING_NOTIFICATION_KEY, message);
         Matomo.helper.refreshAfter(2);
       }
     },
@@ -565,16 +560,7 @@ export default defineComponent({
         });
     },
     consumeDashboardExportIdFromSession(): string|null {
-      if (typeof sessionStorage === 'undefined') {
-        return null;
-      }
-
-      const dashboardId = sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY);
-      if (dashboardId !== null) {
-        sessionStorage.removeItem(DASHBOARD_EXPORT_STORAGE_KEY);
-      }
-
-      return dashboardId;
+      return consumeStoredValue(DASHBOARD_EXPORT_STORAGE_KEY);
     },
     async getWidgetReportMapping(dashboardId: string): Promise<WidgetReportMap> {
       return AjaxHelper.fetch(

@@ -6,6 +6,7 @@
  */
 
 import { shallowMount } from '@vue/test-utils';
+import { consumeStoredValue, getStoredValue, removeStoredValue, setStoredValue } from './storage';
 
 type PlainObject = Record<string, unknown>;
 
@@ -102,6 +103,25 @@ async function flushPromises() {
     setTimeout(resolve, 0);
   });
 }
+
+describe('ScheduledReports/ManageScheduledReport storage helper', () => {
+  it('gets, sets, removes and consumes stored values', () => {
+    setStoredValue('key', 'value');
+
+    expect(getStoredValue('key')).toBe('value');
+
+    expect(consumeStoredValue('key')).toBe('value');
+    expect(getStoredValue('key')).toBeNull();
+
+    setStoredValue('key', 'another');
+    removeStoredValue('key');
+    expect(getStoredValue('key')).toBeNull();
+  });
+
+  it('returns null when consuming a missing value', () => {
+    expect(consumeStoredValue('missing')).toBeNull();
+  });
+});
 
 describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', () => {
   beforeAll(() => {
