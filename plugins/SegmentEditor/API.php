@@ -28,6 +28,22 @@ use Piwik\Url;
 /**
  * The SegmentEditor API lets you add, update, delete custom Segments, and list saved segments.
  *
+ * @phpstan-type StoredSegment array{
+ *     idsegment: int|string,
+ *     name: string,
+ *     definition: string,
+ *     hash: string,
+ *     login: string,
+ *     enable_all_users: int|string,
+ *     enable_only_idsite: int|string|null,
+ *     auto_archive: int|string,
+ *     ts_created: string|null,
+ *     ts_last_edit: string|null,
+ *     deleted: int|string,
+ *     starred: int|string,
+ *     starred_by: string|null
+ * }
+ *
  * @method static \Piwik\Plugins\SegmentEditor\API getInstance()
  */
 class API extends \Piwik\Plugin\API
@@ -53,7 +69,8 @@ class API extends \Piwik\Plugin\API
     {
         $this->model = $model;
         $this->segmentArchiving = $segmentArchiving;
-        $this->processNewSegmentsFrom = StaticContainer::get('ini.General.process_new_segments_from');
+        $processNewSegmentsFrom = StaticContainer::get('ini.General.process_new_segments_from');
+        $this->processNewSegmentsFrom = is_scalar($processNewSegmentsFrom) ? (string)$processNewSegmentsFrom : '';
     }
 
     protected function checkSegmentValue(string $definition, ?int $idSite): string
@@ -104,25 +121,27 @@ class API extends \Piwik\Plugin\API
 
     protected function checkAutoArchive(bool $autoArchive, ?int $idSite): bool
     {
-        // Segment 'All websites' and pre-processed requires Super User
-        if (null === $idSite && $autoArchive) {
-            if (!Piwik::hasUserSuperUserAccess()) {
+        if (!$autoArchive) {
+            // if real-time segments are disabled, then allow user to create pre-processed report
+            $realTimeSegmentsEnabled = SegmentEditor::isCreateRealtimeSegmentsEnabled();
+            if (!$realTimeSegmentsEnabled) {
                 throw new Exception(
-                    "Please contact Support to make these changes on your behalf. " .
-                    " To modify a pre-processed segment for all websites, a user must have super user access. "
+                    "Real time segments are disabled. You need to enable auto archiving."
                 );
             }
-        }
+        } else {
+            // Segment 'All websites' and pre-processed requires Super User
+            if ($idSite === null) {
+                if (!Piwik::hasUserSuperUserAccess()) {
+                    throw new Exception(
+                        "Please contact Support to make these changes on your behalf. " .
+                        " To modify a pre-processed segment for all websites, a user must have super user access. "
+                    );
+                }
+            } else {
+                Piwik::checkUserHasViewAccess($idSite);
+            }
 
-        // if real-time segments are disabled, then allow user to create pre-processed report
-        $realTimeSegmentsEnabled = SegmentEditor::isCreateRealtimeSegmentsEnabled();
-        if (!$realTimeSegmentsEnabled && !$autoArchive) {
-            throw new Exception(
-                "Real time segments are disabled. You need to enable auto archiving."
-            );
-        }
-
-        if ($autoArchive) {
             if (Rules::isBrowserTriggerEnabled()) {
                 $message = "Pre-processed segments can only be created if browser triggered archiving is disabled.";
                 if (Piwik::hasUserSuperUserAccess()) {
@@ -130,19 +149,28 @@ class API extends \Piwik\Plugin\API
                 }
                 throw new Exception($message);
             }
-
-            Piwik::checkUserHasViewAccess($idSite);
         }
 
         return $autoArchive;
     }
 
+    /**
+     * @return StoredSegment
+     */
     protected function getSegmentOrFail(int $idSegment): array
     {
-        $segment = $this->get($idSegment);
+        Piwik::checkUserHasSomeViewAccess();
+
+        $segment = $this->getModel()->getSegment($idSegment);
 
         if (empty($segment)) {
             throw new Exception("Requested segment not found");
+        }
+
+        $this->checkUserHasViewAccessToSegmentSite($segment);
+
+        if ($segment['deleted']) {
+            throw new Exception("This segment is marked as deleted. ");
         }
 
         return $segment;
@@ -187,6 +215,9 @@ class API extends \Piwik\Plugin\API
         return $authorized;
     }
 
+    /**
+     * @param StoredSegment $segment
+     */
     protected function checkUserCanEditOrDeleteSegment(array $segment): void
     {
         if (Piwik::hasUserSuperUserAccess()) {
@@ -311,7 +342,6 @@ class API extends \Piwik\Plugin\API
      * @param null|int $idSite If supplied, associates the stored segment with as single site.
      * @param bool $autoArchive Whether to automatically archive data with the segment or not.
      * @param bool $enabledAllUsers Whether the stored segment is viewable by all users or just the one that created it.
-     *
      * @return int The newly created segment Id
      */
     public function add(
@@ -363,11 +393,9 @@ class API extends \Piwik\Plugin\API
      * Stars a stored segment.
      *
      * @return array{result: boolean, starred_by: string}
-     * @throws Exception if the user is not logged in or does not have the required permissions.
      */
     public function star(int $idSegment): array
     {
-        Piwik::checkUserHasSomeViewAccess();
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
         $login = Piwik::getCurrentUserLogin();
@@ -389,11 +417,9 @@ class API extends \Piwik\Plugin\API
      * Unstars a stored segment.
      *
      * @return array{result: boolean}
-     * @throws Exception if the user is not logged in or does not have the required permissions.
      */
     public function unstar(int $idSegment): array
     {
-        Piwik::checkUserHasSomeViewAccess();
         $segment = $this->getSegmentOrFail($idSegment);
         $this->checkUserCanEditOrDeleteSegment($segment);
         $bind = [
@@ -412,8 +438,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns a stored segment by ID
      *
-     * @throws Exception
-     * @return array|null
+     * @return StoredSegment|null
      */
     public function get(int $idSegment): ?array
     {
@@ -445,7 +470,7 @@ class API extends \Piwik\Plugin\API
      * Returns all stored segments.
      *
      * @param null|int $idSite Whether to return stored segments for a specific idSite, or all of them. If supplied, must be a valid site ID.
-     * @return array
+     * @return list<StoredSegment>
      */
     public function getAll(?int $idSite = null): array
     {
@@ -481,9 +506,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Filter out any segments which cannot be initialized due to disable plugins or features
      *
-     * @param array<array> $segments
-     *
-     * @return array<array>
+     * @param array<int, StoredSegment> $segments
+     * @return array<int, StoredSegment>
      */
     private function filterSegmentsWithDisabledElements(array $segments, ?int $idSite = null): array
     {
@@ -498,8 +522,8 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param array<array> $segments
-     * @return array<array>
+     * @param array<int, StoredSegment> $segments
+     * @return array<int, StoredSegment>
      */
     private function filterSegmentsWithoutSiteAccess(array $segments): array
     {
@@ -519,6 +543,9 @@ class API extends \Piwik\Plugin\API
         return $segments;
     }
 
+    /**
+     * @param StoredSegment $segment
+     */
     private function checkUserHasViewAccessToSegmentSite(array $segment): void
     {
         if (Piwik::hasUserSuperUserAccess()) {
@@ -538,8 +565,8 @@ class API extends \Piwik\Plugin\API
      *  2) segments created by the super user that were shared with all users
      *  3) segments created by other users (which are visible to all super users)
      *
-     * @param array<array> $segments
-     * @return array<array>
+     * @param array<int, StoredSegment> $segments
+     * @return list<StoredSegment>
      */
     private function sortSegmentsCreatedByUserFirst(array $segments): array
     {
