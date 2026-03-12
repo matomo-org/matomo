@@ -1206,46 +1206,6 @@ parameters:
 			path: core/FrontController.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function trim expects string, null given\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Parameter \\#2 \\$newvalue of function ini_set expects string, int given\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Parameter \\#2 \\$use_include_path of function file_get_contents expects bool, int given\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 2
-			path: core/Http.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 2
-			path: core/Http.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int and false will always evaluate to false\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Variable \\$headers in empty\\(\\) always exists and is always falsy\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\$controller Controller\\)\\: Unexpected token \"\\$controller\", expected type at offset 9$#"
 			count: 1
 			path: core/Http/ControllerResolver.php
