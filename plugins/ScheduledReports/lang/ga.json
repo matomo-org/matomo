@@ -51,7 +51,6 @@
         "SegmentAppliedToReports": "Cuirtear an mhír '%s' i bhfeidhm ar na tuarascálacha.",
         "SegmentDeleted": "Scriosadh an mhír",
         "Segment_Deletion_Error": "Ní féidir an mhír seo a scriosadh nó a dhéanamh dofheicthe d'úsáideoirí eile toisc go n-úsáidtear é chun tuairisc(í) ríomhphoist %s a chruthú. Bain triail eile as tar éis duit an mhír seo a bhaint den tuairisc(í).",
-        "Segment_HelpScheduledReport": "Is féidir leat deighleog saincheaptha atá ann cheana a roghnú le cur i bhfeidhm ar shonraí sa tuarascáil sceidealaithe seo. Is féidir leat deighleoga saincheaptha a chruthú agus a chur in eagar i do phainéal %1$s(cliceáil anseo le hoscailt)%2$s, ansin cliceáil ar an mbosca \"%3$s\", ansin \"%4$s\".",
         "SelectedReports": "Réamhamharc ar do thuairisc",
         "SelectedReportsHelp": "Tarraing agus scaoil chun athordú a dhéanamh ar rannóga na tuarascála.",
         "SendReportNow": "Seol Tuairisc anois",

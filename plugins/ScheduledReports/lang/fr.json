@@ -43,7 +43,6 @@
         "SegmentAppliedToReports": "Le segment '%s' est appliqué au rapport.",
         "SegmentDeleted": "Segment supprimé",
         "Segment_Deletion_Error": "Ce segment ne peut pas être supprimé ou rendu invisible aux autres utilisateurs car il est utilisé dans un ou plusieurs rapport(s) par courriel %s. Veuillez essayer à nouveau après avoir supprimé ce segment de ce(s) rapport(s).",
-        "Segment_HelpScheduledReport": "Vous pouvez sélectionner un segment personnalisé existant à appliquer aux données de ce rapport planifié. Vous pouvez créer et modifier des segments personnalisés dans votre tableau de bord %1$s(cliquez ici pour ouvrir)%2$s, puis cliquer sur la case \"%3$s\", puis sur \"%4$s \".",
         "SendReportNow": "Envoyer le rapport maintenant",
         "SendReportTo": "Envoyer le(s) rapport(s) à",
         "SendingReport": "Envoi du rapport…",
