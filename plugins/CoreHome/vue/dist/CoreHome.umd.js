@@ -1213,6 +1213,19 @@ class AjaxHelper_AjaxHelper {
           throw new Error(`Password parameters are not allowed to be sent as GET parameter. Please send ${key} as POST parameter instead.`);
         }
       });
+      /*
+       * ajax helper does not encode the segment parameter assuming it is already encoded. this is
+       * probably for pre-angularjs code, so we don't want to do this now, but just treat segment
+       * as a normal query parameter input (so it will have double encoded values in input params
+       * object, then naturally triple encoded in the URL after a $.param call), however we need
+       * to support any existing uses of the old code, so instead we do a manual encode here. new
+       * code that uses .fetch() will not need to pre-encode the parameter, while old code
+       * can pre-encode it.
+       *
+       * If a segment value is explicitly provided, then that is added to the request params.
+       * otherwise the request will use the segment value present in the current URL, if
+       * available.
+       */
       const hasExplicitSegment = hasExplicitSegmentParam(params);
       let segmentParam = {};
       if (hasExplicitSegment) {
