@@ -1,15 +1,19 @@
 .periodSelector {
   display: inline-block;
 
-  .period-option-text {
-    padding-left: 30px;
+  .preset-option-text {
+    padding-left: 30px !important;
   }
 
-  .period-option-text:before,
-  .period-option-text:after,
+  .preset-option-text:not(.lever):before,
+  .preset-option-text:not(.lever):after,
   .compare-checkbox-text:not(.lever):before,
   .compare-checkbox-text:not(.lever):after {
     border: 2px solid @color-period-selector-input-radio;
+  }
+  .preset-option-input:checked + .preset-option-text:not(.lever):before,
+  .preset-option-input:checked + .preset-option-text:not(.lever):after {
+    border-color: @theme-color-brand;
   }
 
   .compare-checkbox-input:checked + .compare-checkbox-text:not(.lever):before {
@@ -136,6 +140,7 @@
 
   .apply-button-container {
     text-align: right;
+    margin-top: auto;
   }
 
   .flex {
@@ -149,13 +154,6 @@
     right: auto;
   }
 
-  @media (max-width: 900px) {
-    // On iPad/mobile, keep panel right-anchored.
-    #periodMore {
-      left: auto;
-      right: 0;
-    }
-  }
   @media (max-width: 600px) {
     #periodMore {
       max-width: 90%;
@@ -246,10 +244,7 @@
     margin-left: 16px;
     min-width: 220px;
     padding-left: 16px;
-
-    .apply-button-container {
-      margin-top: auto;
-    }
+    width: 100%;
 
     .calendar-disabled {
       opacity: 0.75;
@@ -292,13 +287,9 @@
     }
 
     .period-selector-calendar-column {
-      border-left: 0;
-      min-width: 0;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 12px;
+      margin-left: 0;
       padding-left: 0;
-      width: 80%;
+      border-left: none;
     }
 
     .dateRangePicker {

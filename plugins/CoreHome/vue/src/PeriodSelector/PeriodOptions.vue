@@ -26,10 +26,11 @@
         <input
           class="period-option-input"
           type="radio"
-          name="period"
+          :name="periodInputName"
           :id="`period_id_${period}`"
           :checked="checkedPeriodId === period"
           @change="handlePeriodSelected(period)"
+          @keydown.enter.prevent="handlePeriodEnter(period)"
         />
         <span class="period-option-text">{{ getPeriodDisplayText(period) }}</span>
       </label>
@@ -45,6 +46,8 @@ import { translate } from '../translate';
 interface PeriodSelectionPayload {
   period: string;
 }
+
+let nextPeriodOptionsGroupId = 0;
 
 export default defineComponent({
   name: 'PeriodOptions',
@@ -65,6 +68,14 @@ export default defineComponent({
       type: String,
       required: true,
     },
+  },
+  data() {
+    const periodInputName = `period-${nextPeriodOptionsGroupId}`;
+    nextPeriodOptionsGroupId += 1;
+
+    return {
+      periodInputName,
+    };
   },
   emits: ['update:modelValue', 'select', 'dblclick'],
   computed: {
@@ -89,6 +100,9 @@ export default defineComponent({
       const payload: PeriodSelectionPayload = { period };
       this.$emit('update:modelValue', period);
       this.$emit('select', payload);
+    },
+    handlePeriodEnter(period: string) {
+      this.handlePeriodSelected(period);
     },
     handlePeriodDoubleClick(period: string) {
       const payload: PeriodSelectionPayload = { period };

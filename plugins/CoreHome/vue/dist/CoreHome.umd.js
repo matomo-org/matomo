@@ -4394,15 +4394,15 @@ const {
 MenuItemsDropdownvue_type_script_lang_ts.render = MenuItemsDropdownvue_type_template_id_2ca24410_render
 
 /* harmony default export */ var MenuItemsDropdown = (MenuItemsDropdownvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=320dc3c3
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=1d25bc09
 
-const DatePickervue_type_template_id_320dc3c3_hoisted_1 = {
+const DatePickervue_type_template_id_1d25bc09_hoisted_1 = {
   ref: "root"
 };
-function DatePickervue_type_template_id_320dc3c3_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DatePickervue_type_template_id_320dc3c3_hoisted_1, null, 512);
+function DatePickervue_type_template_id_1d25bc09_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DatePickervue_type_template_id_1d25bc09_hoisted_1, null, 512);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=320dc3c3
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=template&id=1d25bc09
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DatePicker/DatePicker.vue?vue&type=script&lang=ts
 
@@ -4436,6 +4436,8 @@ const {
       } = props;
       const dateValueTime = dateValue.getTime();
       const isPersistentlyHighlightedDate = !!(props.persistentHighlightedDateStart && props.persistentHighlightedDateEnd && dateValue >= props.persistentHighlightedDateStart && dateValue <= props.persistentHighlightedDateEnd);
+      // Intentional UX: for custom date ranges (dual calendar) we only style the boundary dates
+      // as selected. The in-between span is not kept persistently highlighted.
       const isBoundarySelectedDate = !!(selectedDateStart && selectedDateEnd && (dateValueTime === selectedDateStart.getTime() || dateValueTime === selectedDateEnd.getTime()));
       if (isBoundarySelectedDate) {
         $dateCell.addClass('ui-datepicker-current-period');
@@ -4592,7 +4594,7 @@ const {
     // that is within the context of the date picker component, it's bearable.
     Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => Object.assign({}, props), (newProps, oldProps) => {
       let redraw = false;
-      [x => x.selectedDateStart, x => x.selectedDateEnd, x => x.highlightedDateStart, x => x.highlightedDateEnd].forEach(selector => {
+      [x => x.selectedDateStart, x => x.selectedDateEnd, x => x.persistentHighlightedDateStart, x => x.persistentHighlightedDateEnd, x => x.highlightedDateStart, x => x.highlightedDateEnd].forEach(selector => {
         if (redraw) {
           return;
         }
@@ -4617,7 +4619,7 @@ const {
       if (newProps.disableMonthDropdown !== oldProps.disableMonthDropdown) {
         enableDisableMonthDropdown();
       }
-      // redraw when selected/highlighted dates change
+      // redraw when selected or highlighted date props change
       if (redraw) {
         setDatePickerCellColors();
       }
@@ -4701,7 +4703,7 @@ const {
 
 
 
-DatePickervue_type_script_lang_ts.render = DatePickervue_type_template_id_320dc3c3_render
+DatePickervue_type_script_lang_ts.render = DatePickervue_type_template_id_1d25bc09_render
 
 /* harmony default export */ var DatePicker = (DatePickervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DateRangePicker/DateRangePicker.vue?vue&type=template&id=2fba06f3
@@ -7088,22 +7090,25 @@ function PeriodSelectorOptionsColumnvue_type_template_id_0c87dbac_render(_ctx, _
 }
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelectorOptionsColumn.vue?vue&type=template&id=0c87dbac
 
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.vue?vue&type=template&id=566bc3fc
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.vue?vue&type=template&id=4ac3a57b
 
-const PresetDateRangesvue_type_template_id_566bc3fc_hoisted_1 = {
+const PresetDateRangesvue_type_template_id_4ac3a57b_hoisted_1 = {
   class: "presetDateRanges"
 };
-const PresetDateRangesvue_type_template_id_566bc3fc_hoisted_2 = {
+const PresetDateRangesvue_type_template_id_4ac3a57b_hoisted_2 = {
   key: 0,
   class: "preset-date-range-group-separator"
 };
-const PresetDateRangesvue_type_template_id_566bc3fc_hoisted_3 = ["id", "checked", "onChange"];
-function PresetDateRangesvue_type_template_id_566bc3fc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PresetDateRangesvue_type_template_id_566bc3fc_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.groupedPresetDateRanges, (group, index) => {
+const PresetDateRangesvue_type_template_id_4ac3a57b_hoisted_3 = ["name", "id", "checked", "onChange"];
+const PresetDateRangesvue_type_template_id_4ac3a57b_hoisted_4 = {
+  class: "preset-option-text"
+};
+function PresetDateRangesvue_type_template_id_4ac3a57b_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PresetDateRangesvue_type_template_id_4ac3a57b_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.groupedPresetDateRanges, (group, index) => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
       key: index,
       class: "preset-date-range-group"
-    }, [index > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PresetDateRangesvue_type_template_id_566bc3fc_hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(group, preset => {
+    }, [index > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PresetDateRangesvue_type_template_id_4ac3a57b_hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(group, preset => {
       return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
         key: preset.id
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
@@ -7112,15 +7117,16 @@ function PresetDateRangesvue_type_template_id_566bc3fc_render(_ctx, _cache, $pro
         })
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
         type: "radio",
-        name: "presetDateRange",
+        class: "preset-option-input",
+        name: _ctx.presetInputName,
         id: `preset_date_${preset.id}`,
         checked: _ctx.checkedPresetId === preset.id,
         onChange: $event => _ctx.handlePresetSelected(preset.id)
-      }, null, 40, PresetDateRangesvue_type_template_id_566bc3fc_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(preset.labelKey)), 1)], 2)]);
+      }, null, 40, PresetDateRangesvue_type_template_id_4ac3a57b_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PresetDateRangesvue_type_template_id_4ac3a57b_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(preset.labelKey)), 1)], 2)]);
     }), 128))]);
   }), 128))]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.vue?vue&type=template&id=566bc3fc
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.vue?vue&type=template&id=4ac3a57b
 
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRangeResolver.ts
 /*!
@@ -7400,6 +7406,7 @@ function resolvePresetDateRange(presetId, todayInput) {
 
 
 const PRESET_DATE_RANGE_GROUPS = [['today', 'yesterday'], ['last7days', 'last30days', 'last90days'], ['lastWeekMonSun', 'lastMonth', 'lastQuarter', 'lastYear'], ['thisWeekMonToday', 'thisMonth', 'thisQuarter', 'thisYear']];
+let nextPresetDateRangeGroupId = 0;
 /* harmony default export */ var PresetDateRangesvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     modelValue: {
@@ -7426,6 +7433,13 @@ const PRESET_DATE_RANGE_GROUPS = [['today', 'yesterday'], ['last7days', 'last30d
       type: Array,
       required: true
     }
+  },
+  data() {
+    const presetInputName = `preset-date-range-${nextPresetDateRangeGroupId}`;
+    nextPresetDateRangeGroupId += 1;
+    return {
+      presetInputName
+    };
   },
   emits: ['update:modelValue', 'select'],
   computed: {
@@ -7455,18 +7469,18 @@ const PRESET_DATE_RANGE_GROUPS = [['today', 'yesterday'], ['last7days', 'last30d
 
 
 
-PresetDateRangesvue_type_script_lang_ts.render = PresetDateRangesvue_type_template_id_566bc3fc_render
+PresetDateRangesvue_type_script_lang_ts.render = PresetDateRangesvue_type_template_id_4ac3a57b_render
 
 /* harmony default export */ var PresetDateRanges = (PresetDateRangesvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue?vue&type=template&id=f9ceecb4
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue?vue&type=template&id=878f3d3a
 
-const PeriodOptionsvue_type_template_id_f9ceecb4_hoisted_1 = ["aria-label"];
-const PeriodOptionsvue_type_template_id_f9ceecb4_hoisted_2 = ["title", "onDblclick"];
-const PeriodOptionsvue_type_template_id_f9ceecb4_hoisted_3 = ["id", "checked", "onChange"];
-const PeriodOptionsvue_type_template_id_f9ceecb4_hoisted_4 = {
+const PeriodOptionsvue_type_template_id_878f3d3a_hoisted_1 = ["aria-label"];
+const PeriodOptionsvue_type_template_id_878f3d3a_hoisted_2 = ["title", "onDblclick"];
+const PeriodOptionsvue_type_template_id_878f3d3a_hoisted_3 = ["name", "id", "checked", "onChange", "onKeydown"];
+const PeriodOptionsvue_type_template_id_878f3d3a_hoisted_4 = {
   class: "period-option-text"
 };
-function PeriodOptionsvue_type_template_id_f9ceecb4_render(_ctx, _cache, $props, $setup, $data, $options) {
+function PeriodOptionsvue_type_template_id_878f3d3a_render(_ctx, _cache, $props, $setup, $data, $options) {
   return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
     class: "periodOptions",
     role: "radiogroup",
@@ -7483,19 +7497,21 @@ function PeriodOptionsvue_type_template_id_f9ceecb4_render(_ctx, _cache, $props,
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
       class: "period-option-input",
       type: "radio",
-      name: "period",
+      name: _ctx.periodInputName,
       id: `period_id_${period}`,
       checked: _ctx.checkedPeriodId === period,
-      onChange: $event => _ctx.handlePeriodSelected(period)
-    }, null, 40, PeriodOptionsvue_type_template_id_f9ceecb4_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PeriodOptionsvue_type_template_id_f9ceecb4_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getPeriodDisplayText(period)), 1)], 42, PeriodOptionsvue_type_template_id_f9ceecb4_hoisted_2)]);
-  }), 128))], 8, PeriodOptionsvue_type_template_id_f9ceecb4_hoisted_1);
+      onChange: $event => _ctx.handlePeriodSelected(period),
+      onKeydown: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withKeys"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])($event => _ctx.handlePeriodEnter(period), ["prevent"]), ["enter"])
+    }, null, 40, PeriodOptionsvue_type_template_id_878f3d3a_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", PeriodOptionsvue_type_template_id_878f3d3a_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getPeriodDisplayText(period)), 1)], 42, PeriodOptionsvue_type_template_id_878f3d3a_hoisted_2)]);
+  }), 128))], 8, PeriodOptionsvue_type_template_id_878f3d3a_hoisted_1);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue?vue&type=template&id=f9ceecb4
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue?vue&type=template&id=878f3d3a
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue?vue&type=script&lang=ts
 
 
 
+let nextPeriodOptionsGroupId = 0;
 /* harmony default export */ var PeriodOptionsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   name: 'PeriodOptions',
   props: {
@@ -7515,6 +7531,13 @@ function PeriodOptionsvue_type_template_id_f9ceecb4_render(_ctx, _cache, $props,
       type: String,
       required: true
     }
+  },
+  data() {
+    const periodInputName = `period-${nextPeriodOptionsGroupId}`;
+    nextPeriodOptionsGroupId += 1;
+    return {
+      periodInputName
+    };
   },
   emits: ['update:modelValue', 'select', 'dblclick'],
   computed: {
@@ -7538,6 +7561,9 @@ function PeriodOptionsvue_type_template_id_f9ceecb4_render(_ctx, _cache, $props,
       this.$emit('update:modelValue', period);
       this.$emit('select', payload);
     },
+    handlePeriodEnter(period) {
+      this.handlePeriodSelected(period);
+    },
     handlePeriodDoubleClick(period) {
       const payload = {
         period
@@ -7552,7 +7578,7 @@ function PeriodOptionsvue_type_template_id_f9ceecb4_render(_ctx, _cache, $props,
 
 
 
-PeriodOptionsvue_type_script_lang_ts.render = PeriodOptionsvue_type_template_id_f9ceecb4_render
+PeriodOptionsvue_type_script_lang_ts.render = PeriodOptionsvue_type_template_id_878f3d3a_render
 
 /* harmony default export */ var PeriodOptions = (PeriodOptionsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelectorOptionsColumn.vue?vue&type=script&lang=ts
