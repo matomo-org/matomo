@@ -100,7 +100,9 @@ interface DashboardSettingsState {
   isActionDisabled: Record<keyof Window, boolean>;
   actionTooltips: Record<keyof Window, string|undefined>;
 }
+
 const { $ } = window;
+const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
 function isWidgetAvailable(widgetUniqueId: string) {
   return !$('#dashboardWidgetsArea').find(`[widgetId="${widgetUniqueId}"]`).length;
@@ -119,6 +121,7 @@ function widgetSelected(widget: WidgetType) {
 }
 
 export default defineComponent({
+  name: 'DashboardSettings',
   directives: {
     ExpandOnClick,
     Tooltips,
@@ -232,7 +235,7 @@ export default defineComponent({
     onClose() {
       this.rootJQuery.widgetPreview('reset');
     },
-    redirectToCreateScheduledReports(dashboardId?: number|string|null) {
+    redirectToCreateScheduledReports() {
       const query = {
         ...MatomoUrl.urlParsed.value,
       } as QueryParameters;
@@ -240,11 +243,9 @@ export default defineComponent({
       delete query.category;
       delete query.subcategory;
       delete query.idDashboard;
-      if (dashboardId !== null && dashboardId !== undefined) {
-        query.idDashboard = dashboardId;
-      }
       query.module = 'ScheduledReports';
       query.action = 'index';
+
       const hash = {
         ...MatomoUrl.hashParsed.value,
       } as QueryParameters;
@@ -264,7 +265,12 @@ export default defineComponent({
 
     onClickExportDashboard() {
       if (this.isUserNotAnonymous) {
-        this.redirectToCreateScheduledReports(this.getCurrentDashboardId());
+        const dashboardId = this.getCurrentDashboardId();
+        if (dashboardId !== null && typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, String(dashboardId));
+        }
+
+        this.redirectToCreateScheduledReports();
         return;
       }
 

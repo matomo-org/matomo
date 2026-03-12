@@ -28,6 +28,7 @@ testWindow.widgetsHelper = {
 const mockUpdateUrl = jest.fn();
 const mockGetSearchParam = jest.fn();
 const mockGetLoginModule = jest.fn(() => 'Login');
+const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
 const mockMatomo = {
   userLogin: 'admin',
@@ -70,6 +71,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    sessionStorage.clear();
 
     mockMatomo.userLogin = 'admin';
     mockMatomoUrl.urlParsed.value = {} as PlainObject;
@@ -162,7 +164,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
   });
 
   describe('#onClickExportDashboard()', () => {
-    it('redirects authenticated users to create scheduled report with fallback query idDashboard', () => {
+    it('stores a valid query dashboard id and redirects authenticated users', () => {
       mockMatomo.userLogin = 'admin';
       mockGetSearchParam.mockReturnValue('');
       mockMatomoUrl.urlParsed.value = { idDashboard: '11' };
@@ -174,10 +176,11 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       vm.onClickExportDashboard();
 
       expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledTimes(1);
-      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith(11);
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith();
+      expect(sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY)).toBe('11');
     });
 
-    it('redirects authenticated users to create scheduled report with fallback hash idDashboard', () => {
+    it('stores a valid hash dashboard id and redirects authenticated users', () => {
       mockMatomo.userLogin = 'admin';
       mockGetSearchParam.mockReturnValue('');
       mockMatomoUrl.urlParsed.value = {};
@@ -190,10 +193,11 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       vm.onClickExportDashboard();
 
       expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledTimes(1);
-      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith(17);
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith();
+      expect(sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY)).toBe('17');
     });
 
-    it('redirects authenticated users to create scheduled report with null when all ids are invalid', () => {
+    it('does not store a dashboard id when all candidates are invalid', () => {
       mockMatomo.userLogin = 'admin';
       mockGetSearchParam.mockReturnValue('foo');
       mockMatomoUrl.urlParsed.value = { idDashboard: '0' };
@@ -206,7 +210,8 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       vm.onClickExportDashboard();
 
       expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledTimes(1);
-      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith(null);
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith();
+      expect(sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY)).toBeNull();
     });
   });
 
@@ -222,7 +227,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
   });
 
   describe('#redirectToCreateScheduledReports()', () => {
-    it('removes dashboard-specific params and redirects to ScheduledReports with dashboard id', () => {
+    it('removes dashboard-specific params and redirects to ScheduledReports without dashboard id', () => {
       mockMatomoUrl.urlParsed.value = {
         module: 'Dashboard',
         action: 'embeddedIndex',
@@ -240,7 +245,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       };
 
       const wrapper = mountComponent();
-      (wrapper.vm as any).redirectToCreateScheduledReports(7);
+      (wrapper.vm as any).redirectToCreateScheduledReports();
 
       expect(mockUpdateUrl).toHaveBeenCalledTimes(1);
       expect(mockUpdateUrl).toHaveBeenCalledWith(
@@ -248,7 +253,6 @@ describe('Dashboard/DashboardSettings export navigation', () => {
           module: 'ScheduledReports',
           action: 'index',
           idSite: '1',
-          idDashboard: 7,
         },
         {
           period: 'day',
@@ -257,7 +261,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       );
     });
 
-    it('does not include idDashboard when no dashboard id is provided', () => {
+    it('does not include idDashboard when redirecting without dashboard state in the URL', () => {
       mockMatomoUrl.urlParsed.value = {
         module: 'Dashboard',
         subcategory: '12',
@@ -310,7 +314,8 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       vm.onClickExportDashboard();
 
       expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledTimes(1);
-      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith(3);
+      expect(redirectToCreateScheduledReportsSpy).toHaveBeenCalledWith();
+      expect(sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY)).toBe('3');
       expect(redirectToLoginPageSpy).not.toHaveBeenCalled();
     });
 
@@ -326,6 +331,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
 
       expect(redirectToCreateScheduledReportsSpy).not.toHaveBeenCalled();
       expect(redirectToLoginPageSpy).toHaveBeenCalledTimes(1);
+      expect(sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY)).toBeNull();
     });
   });
 

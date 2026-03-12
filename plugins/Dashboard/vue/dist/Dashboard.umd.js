@@ -282,7 +282,7 @@ function onLoadDashboard(idDashboard) {
     external_CoreHome_["Matomo"].off('Dashboard.loadDashboard', onLoadDashboard);
   }
 });
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=3574b63a
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=faeddac0
 
 const _hoisted_1 = ["title"];
 const _hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
@@ -353,7 +353,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClosed: _ctx.onClose
   }]]);
 }
-// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=3574b63a
+// CONCATENATED MODULE: ./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=template&id=faeddac0
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Dashboard/vue/src/DashboardSettings/DashboardSettings.vue?vue&type=script&lang=ts
 
@@ -361,6 +361,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 const {
   $: DashboardSettingsvue_type_script_lang_ts_$
 } = window;
+const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 function isWidgetAvailable(widgetUniqueId) {
   return !DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').find(`[widgetId="${widgetUniqueId}"]`).length;
 }
@@ -374,6 +375,7 @@ function widgetSelected(widget) {
   DashboardSettingsvue_type_script_lang_ts_$('#dashboardWidgetsArea').dashboard('addWidget', widget.uniqueId, 1, widget.parameters, true, false);
 }
 /* harmony default export */ var DashboardSettingsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'DashboardSettings',
   directives: {
     ExpandOnClick: external_CoreHome_["ExpandOnClick"],
     Tooltips: external_CoreHome_["Tooltips"]
@@ -472,14 +474,11 @@ function widgetSelected(widget) {
     onClose() {
       this.rootJQuery.widgetPreview('reset');
     },
-    redirectToCreateScheduledReports(dashboardId) {
+    redirectToCreateScheduledReports() {
       const query = Object.assign({}, external_CoreHome_["MatomoUrl"].urlParsed.value);
       delete query.category;
       delete query.subcategory;
       delete query.idDashboard;
-      if (dashboardId !== null && dashboardId !== undefined) {
-        query.idDashboard = dashboardId;
-      }
       query.module = 'ScheduledReports';
       query.action = 'index';
       const hash = Object.assign({}, external_CoreHome_["MatomoUrl"].hashParsed.value);
@@ -496,7 +495,11 @@ function widgetSelected(widget) {
     },
     onClickExportDashboard() {
       if (this.isUserNotAnonymous) {
-        this.redirectToCreateScheduledReports(this.getCurrentDashboardId());
+        const dashboardId = this.getCurrentDashboardId();
+        if (dashboardId !== null && typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, String(dashboardId));
+        }
+        this.redirectToCreateScheduledReports();
         return;
       }
       this.redirectToLoginPage();

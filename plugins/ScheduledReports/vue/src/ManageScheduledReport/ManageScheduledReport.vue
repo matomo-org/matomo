@@ -134,10 +134,12 @@ window.getReportParametersFunctions = window.getReportParametersFunctions || {};
 
 const { $, piwikHelper } = window;
 const PENDING_NOTIFICATION_KEY = 'scheduledReports.pendingNotification';
+const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
 const timeZoneDifferenceInHours = Matomo.timezoneOffset / 3600;
 
 export default defineComponent({
+  name: 'ManageScheduledReport',
   props: {
     contentTitle: {
       type: String,
@@ -223,7 +225,7 @@ export default defineComponent({
     $(this.$refs.root as HTMLElement).on('click', 'a.entityCancelLink', () => {
       this.showListOfReports();
     });
-    this.handleDashboardExportFromUrl();
+    this.handleDashboardExportFromSession();
     Matomo.postEvent('ScheduledReports.ManageScheduledReport.mounted', {
       element: this.$refs.root,
     });
@@ -519,14 +521,13 @@ export default defineComponent({
         (uniqueId) => this.selectedReports[reportType]?.[uniqueId],
       );
     },
-    async handleDashboardExportFromUrl() {
-      const hasDashboardIdParamInUrl = this.hasDashboardIdParamInUrl();
-      if (!hasDashboardIdParamInUrl) {
+    async handleDashboardExportFromSession() {
+      const storedDashboardId = this.consumeDashboardExportIdFromSession();
+      if (storedDashboardId === null) {
         return;
       }
 
-      const dashboardId = this.getDashboardIdFromUrl();
-      this.consumeDashboardExportParamFromUrl();
+      const dashboardId = this.parsePositiveDashboardIdParam(storedDashboardId);
       if (dashboardId === '') {
         scrollToTop();
         this.showNotificationMessage(
@@ -563,15 +564,17 @@ export default defineComponent({
           );
         });
     },
-    consumeDashboardExportParamFromUrl() {
-      const nextQuery = { ...MatomoUrl.urlParsed.value } as QueryParameters;
-      const nextHash = { ...MatomoUrl.hashParsed.value } as QueryParameters;
-      // Removing idDashboard from URL and hash parameters
-      delete nextQuery.idDashboard;
-      delete nextHash.idDashboard;
-      // Changing the URL w/o idDashboard so that we do not trigger
-      // a re-export when page is refreshed
-      MatomoUrl.replaceUrl(nextQuery, nextHash);
+    consumeDashboardExportIdFromSession(): string|null {
+      if (typeof sessionStorage === 'undefined') {
+        return null;
+      }
+
+      const dashboardId = sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY);
+      if (dashboardId !== null) {
+        sessionStorage.removeItem(DASHBOARD_EXPORT_STORAGE_KEY);
+      }
+
+      return dashboardId;
     },
     async getWidgetReportMapping(dashboardId: string): Promise<WidgetReportMap> {
       return AjaxHelper.fetch(
@@ -586,27 +589,6 @@ export default defineComponent({
     getExportSegmentFromUrl(): string {
       const { segment } = MatomoUrl.parsed.value;
       return typeof segment === 'string' ? segment : '';
-    },
-    hasDashboardIdParam(params: Record<string, unknown>): boolean {
-      return Object.prototype.hasOwnProperty.call(params, 'idDashboard');
-    },
-    hasDashboardIdParamInUrl(): boolean {
-      const queryParams = MatomoUrl.urlParsed.value as Record<string, unknown>;
-      if (this.hasDashboardIdParam(queryParams)) {
-        return true;
-      }
-
-      const hashParams = MatomoUrl.hashParsed.value as Record<string, unknown>;
-      return this.hasDashboardIdParam(hashParams);
-    },
-    getDashboardIdFromUrl(): string {
-      const queryParams = MatomoUrl.urlParsed.value as Record<string, unknown>;
-      if (this.hasDashboardIdParam(queryParams)) {
-        return this.parsePositiveDashboardIdParam(queryParams.idDashboard);
-      }
-
-      const hashParams = MatomoUrl.hashParsed.value as Record<string, unknown>;
-      return this.parsePositiveDashboardIdParam(hashParams.idDashboard);
     },
     parsePositiveDashboardIdParam(value: unknown): string {
       const candidate = Array.isArray(value) ? value[0] : value;

@@ -14,9 +14,9 @@ const mockDollar = jest.fn(() => ({ on: mockOn }));
 
 const mockFetch = jest.fn();
 const mockPost = jest.fn();
-const mockReplaceUrl = jest.fn();
 const mockShowNotification = jest.fn();
 const mockRemoveNotification = jest.fn();
+const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
 const mockMatomo = {
   helper: {
@@ -33,9 +33,6 @@ const mockMatomo = {
 
 const mockMatomoUrl = {
   parsed: { value: {} as PlainObject },
-  urlParsed: { value: {} as PlainObject },
-  hashParsed: { value: {} as PlainObject },
-  replaceUrl: mockReplaceUrl,
 };
 
 const mockTranslate = (key: string) => key;
@@ -125,8 +122,6 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
     jest.clearAllMocks();
     sessionStorage.clear();
     mockMatomoUrl.parsed.value = {};
-    mockMatomoUrl.urlParsed.value = {};
-    mockMatomoUrl.hashParsed.value = {};
     mockFetch.mockResolvedValue({
       dashboardName: 'dashboard',
       email: { VisitsSummary_get: true },
@@ -134,21 +129,19 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
     });
   });
 
-  it('does not call API when idDashboard is absent', async () => {
+  it('does not call API when dashboard export state is absent', async () => {
     mountComponent();
     await flushPromises();
 
     expect(mockFetch).not.toHaveBeenCalled();
-    expect(mockReplaceUrl).not.toHaveBeenCalled();
     expect(mockShowNotification).not.toHaveBeenCalled();
   });
 
-  it('shows invalid dashboard and skips API for invalid query idDashboard', async () => {
-    mockMatomoUrl.urlParsed.value = { idDashboard: 'foo' };
+  it('shows invalid dashboard and skips API for invalid stored dashboard id', async () => {
+    sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, 'foo');
     mountComponent();
     await flushPromises();
 
-    expect(mockReplaceUrl).toHaveBeenCalledTimes(1);
     expect(mockFetch).not.toHaveBeenCalled();
     expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
       message: 'ScheduledReports_ExportDashboardInvalidDashboard',
@@ -157,34 +150,8 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
     }));
   });
 
-  it('shows invalid dashboard and skips API for invalid hash idDashboard', async () => {
-    mockMatomoUrl.hashParsed.value = { idDashboard: '0' };
-    mountComponent();
-    await flushPromises();
-
-    expect(mockReplaceUrl).toHaveBeenCalledTimes(1);
-    expect(mockFetch).not.toHaveBeenCalled();
-    expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
-      message: 'ScheduledReports_ExportDashboardInvalidDashboard',
-      context: 'error',
-      type: 'persistent',
-    }));
-  });
-
-  it('does not fall back to hash when query idDashboard is invalid', async () => {
-    mockMatomoUrl.urlParsed.value = { idDashboard: 'foo' };
-    mockMatomoUrl.hashParsed.value = { idDashboard: '7' };
-    mountComponent();
-    await flushPromises();
-
-    expect(mockFetch).not.toHaveBeenCalled();
-    expect(mockShowNotification).toHaveBeenCalledWith(expect.objectContaining({
-      message: 'ScheduledReports_ExportDashboardInvalidDashboard',
-    }));
-  });
-
-  it('calls API exactly once for a valid idDashboard', async () => {
-    mockMatomoUrl.urlParsed.value = { idDashboard: '7' };
+  it('calls API exactly once for a valid stored dashboard id', async () => {
+    sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, '7');
     mockFetch.mockResolvedValue({
       dashboardName: '',
       email: {},
@@ -193,7 +160,6 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
     mountComponent();
     await flushPromises();
 
-    expect(mockReplaceUrl).toHaveBeenCalledTimes(1);
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect(mockFetch).toHaveBeenCalledWith(expect.objectContaining({
       method: 'ScheduledReports.getWidgetReportMap',
@@ -202,8 +168,8 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
     }));
   });
 
-  it('shows generic retry error for fetch failures on valid idDashboard', async () => {
-    mockMatomoUrl.urlParsed.value = { idDashboard: '7' };
+  it('shows generic retry error for fetch failures on valid stored dashboard id', async () => {
+    sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, '7');
     mockFetch.mockRejectedValue(new Error('network'));
     mountComponent();
     await flushPromises();
@@ -217,7 +183,7 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
   });
 
   it('shows invalid dashboard when mapping response is not usable', async () => {
-    mockMatomoUrl.urlParsed.value = { idDashboard: '7' };
+    sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, '7');
     mockFetch.mockResolvedValue({
       dashboardName: '',
       email: {},
@@ -232,5 +198,15 @@ describe('ScheduledReports/ManageScheduledReport dashboard export bootstrap', ()
       context: 'error',
       type: 'persistent',
     }));
+  });
+
+  it('removes stored dashboard export state before starting async export work', () => {
+    sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, '7');
+    mockFetch.mockReturnValue(new Promise(() => {}));
+
+    mountComponent();
+
+    expect(sessionStorage.getItem(DASHBOARD_EXPORT_STORAGE_KEY)).toBeNull();
+    expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 });
