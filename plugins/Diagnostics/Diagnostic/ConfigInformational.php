@@ -43,6 +43,7 @@ class ConfigInformational implements Diagnostic
             $results[] = DiagnosticResult::informationalResult('Auto Update Enabled', SettingsPiwik::isAutoUpdateEnabled());
             $results[] = DiagnosticResult::informationalResult('Custom User Path', PIWIK_USER_PATH != PIWIK_DOCUMENT_ROOT);
             $results[] = DiagnosticResult::informationalResult('Custom Include Path', PIWIK_INCLUDE_PATH != PIWIK_DOCUMENT_ROOT);
+            $results[] = DiagnosticResult::informationalResult('Local Config File', Config::getInstance()->getLocalPath());
             $results[] = DiagnosticResult::informationalResult('Release Channel', Config::getInstance()->General['release_channel']);
 
             $pluginsActivated = array();
