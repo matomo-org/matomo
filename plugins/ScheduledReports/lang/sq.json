@@ -51,7 +51,6 @@
         "SegmentAppliedToReports": "Për raportet është zbatuar segmenti '%s'.",
         "SegmentDeleted": "Segmenti u fshi",
         "Segment_Deletion_Error": "Ky segment s’mund të fshihet ose të bëhet i padukshëm për përdoruesit e tjerë, ngaqë përdoret për të prodhuar raport(e) email për %s. Ju lutemi, riprovoni pas heqjes së këtij segmenti nga ky raport(e).",
-        "Segment_HelpScheduledReport": "Mund të përzgjidhni një segment vetjak ekzistues, për të aplikuar mbi të dhënat te ky raport i planifikuar. Segmente vetjakë mund të krijoni dhe përpunoni në pultin tuaj %1$s(klikoni këtu për ta hapur)%2$s, mandej klikoni mbi kutizën “%3$s”, mandej “%4$s”.",
         "SelectedReports": "Paraaparje e raportit tuaj",
         "SelectedReportsHelp": "Tërhiqini dhe lërini ku doni, që të rirenditni pjesët e raportit.",
         "SendReportNow": "Dërgoje Raportin tani",
