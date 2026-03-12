@@ -67,16 +67,21 @@ class WidgetReportMapper
             $widgetModule = $widgetConfig->getModule();
             $widgetAction = $widgetConfig->getAction();
             $widgetKey = $widgetModule . '.' . $widgetAction;
+            $parameters = $widgetConfig->getParameters();
 
             // Checking if we have other parameters aside from module and action that we can use
             $reportId = null;
-            if (count($widgetConfig->getParameters()) > 2) {
-                $parameters = $widgetConfig->getParameters();
+            if (count($parameters) > 2) {
                 unset($parameters['module']);
                 unset($parameters['action']);
                 $reportId = $this->findReportIdByWidgetParameters($widgetKey, $parameters, $reportIndex);
             }
-            $reportId = $reportId ?? $this->guessReportIdFromHeuristics($widgetModule, $widgetAction, $reportIndex);
+            $reportId = $reportId ?? $this->guessReportIdFromHeuristics(
+                $widgetModule,
+                $widgetAction,
+                $reportIndex,
+                $parameters
+            );
             $reportId = $reportId ?? $this->mapFunnelsWidgetIdToReportId($widgetUniqueId);
             if ($reportId === null) {
                 continue;
@@ -313,15 +318,42 @@ class WidgetReportMapper
 
     /**
      * @param array<string, string> $reportIndex
+     * @param array<string, mixed> $parameters
      */
-    private function guessReportIdFromHeuristics(string $module, string $action, array $reportIndex): ?string
-    {
-        if ('getEvolutionGraph' === $action) {
-            $fallbackKey = $module . '.get';
-            return $reportIndex[$fallbackKey] ?? null;
+    private function guessReportIdFromHeuristics(
+        string $module,
+        string $action,
+        array $reportIndex,
+        array $parameters = []
+    ): ?string {
+        if ('getEvolutionGraph' !== $action) {
+            return null;
         }
 
-        return null;
+        if ($module === 'CustomReports') {
+            $reportId = $this->findReportIdByWidgetParameters(
+                'CustomReports.getCustomReport',
+                $parameters,
+                $reportIndex
+            );
+
+            if ($reportId !== null) {
+                return $reportId;
+            }
+        }
+
+        $fallbackKey = $module . '.get';
+        $reportId = $this->findReportIdByWidgetParameters(
+            $fallbackKey,
+            $parameters,
+            $reportIndex
+        );
+
+        if ($reportId !== null) {
+            return $reportId;
+        }
+
+        return $reportIndex[$fallbackKey] ?? null;
     }
 
     /**

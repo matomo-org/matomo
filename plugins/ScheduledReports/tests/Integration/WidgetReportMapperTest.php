@@ -230,6 +230,46 @@ class WidgetReportMapperTest extends IntegrationTestCase
         $this->assertSame('SomeModule_someAction_matchingValue', $reportId);
     }
 
+    public function testGuessReportIdFromHeuristicsFallsBackToGetForSimpleEvolutionWidgets()
+    {
+        $mapper = new WidgetReportMapper();
+        $method = new \ReflectionMethod(WidgetReportMapper::class, 'guessReportIdFromHeuristics');
+        $method->setAccessible(true);
+
+        $reportId = $method->invoke(
+            $mapper,
+            'VisitsSummary',
+            'getEvolutionGraph',
+            array(
+                'VisitsSummary.get' => 'VisitsSummary_get',
+            ),
+            array()
+        );
+
+        $this->assertSame('VisitsSummary_get', $reportId);
+    }
+
+    public function testGuessReportIdFromHeuristicsMapsParameterizedCustomReportsEvolutionWidgets()
+    {
+        $mapper = new WidgetReportMapper();
+        $method = new \ReflectionMethod(WidgetReportMapper::class, 'guessReportIdFromHeuristics');
+        $method->setAccessible(true);
+
+        $reportId = $method->invoke(
+            $mapper,
+            'CustomReports',
+            'getEvolutionGraph',
+            array(
+                'CustomReports.getCustomReport.idCustomReport.17' => 'CustomReports_getCustomReport_idCustomReport--17',
+            ),
+            array(
+                'idCustomReport' => '17',
+            )
+        );
+
+        $this->assertSame('CustomReports_getCustomReport_idCustomReport--17', $reportId);
+    }
+
     private function setMapperWidgetConfigs(WidgetReportMapper $mapper, array $configs): void
     {
         $property = new \ReflectionProperty(WidgetReportMapper::class, 'widgetConfigs');
