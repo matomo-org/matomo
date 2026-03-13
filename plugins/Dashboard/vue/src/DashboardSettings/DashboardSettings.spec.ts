@@ -321,6 +321,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
 
     it('redirects anonymous users to login page without preserving the dashboard id in session', () => {
       mockMatomo.userLogin = 'anonymous';
+      sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, '99');
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;
 

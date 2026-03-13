@@ -264,11 +264,11 @@ export default defineComponent({
     },
 
     onClickExportDashboard() {
-      if (this.isUserNotAnonymous) {
-        if (typeof sessionStorage !== 'undefined') {
-          sessionStorage.removeItem(DASHBOARD_EXPORT_STORAGE_KEY);
-        }
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem(DASHBOARD_EXPORT_STORAGE_KEY);
+      }
 
+      if (this.isUserNotAnonymous) {
         const dashboardId = this.getCurrentDashboardId();
         if (dashboardId !== null && typeof sessionStorage !== 'undefined') {
           sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, String(dashboardId));
