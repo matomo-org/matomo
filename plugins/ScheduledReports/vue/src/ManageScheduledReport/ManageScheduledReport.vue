@@ -583,17 +583,11 @@ export default defineComponent({
       return typeof segment === 'string' ? segment : '';
     },
     parsePositiveDashboardIdParam(value: unknown): string {
-      const candidate = Array.isArray(value) ? value[0] : value;
-      if (candidate === null || candidate === undefined) {
+      if (typeof value !== 'string') {
         return '';
       }
 
-      const normalizedValue = String(candidate).trim();
-      if (!/^[1-9]\d*$/.test(normalizedValue)) {
-        return '';
-      }
-
-      return normalizedValue;
+      return /^[1-9]\d*$/.test(value.trim()) ? value.trim() : '';
     },
     isValidDashboardExportMapping(mapping: WidgetReportMap): boolean {
       if (!mapping?.dashboardName) {

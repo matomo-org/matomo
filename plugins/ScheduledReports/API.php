@@ -374,6 +374,7 @@ class API extends \Piwik\Plugin\API
         $segmentHash = (new Segment($segmentDefinition, [$idSite]))->getHash();
         $segments = APISegmentEditor::getInstance()->getAll($idSite);
         foreach ($segments as $segment) {
+            // SegmentEditor::getAll() is expected to always include a precomputed hash.
             if ($segment['hash'] === $segmentHash) {
                 return (int) $segment['idsegment'];
             }
