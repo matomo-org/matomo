@@ -291,23 +291,37 @@ class ApiTest extends IntegrationTestCase
 
     public function testGetWidgetReportMapThrowsWhenDashIdHasInvalidType()
     {
-        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectException(\TypeError::class);
 
         APIScheduledReports::getInstance()->getWidgetReportMap(array('1'), $this->idSite);
     }
 
     public function testGetWidgetReportMapThrowsWhenIdSiteIsInvalid()
     {
-        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectException(\TypeError::class);
 
         APIScheduledReports::getInstance()->getWidgetReportMap(1, 'abc');
     }
 
     public function testGetWidgetReportMapThrowsWhenSegmentHasInvalidType()
     {
-        $this->expectException(InvalidRequestParameterException::class);
+        $this->expectException(\TypeError::class);
 
         APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite, array('foo'));
+    }
+
+    public function testGetWidgetReportMapThrowsWhenDashIdIsNotPositive()
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+
+        APIScheduledReports::getInstance()->getWidgetReportMap(0, $this->idSite);
+    }
+
+    public function testGetWidgetReportMapThrowsWhenIdSiteIsNotPositive()
+    {
+        $this->expectException(InvalidRequestParameterException::class);
+
+        APIScheduledReports::getInstance()->getWidgetReportMap(1, 0);
     }
 
     private function createSimpleDashboardLayout(): void

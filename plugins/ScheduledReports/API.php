@@ -251,17 +251,14 @@ class API extends \Piwik\Plugin\API
     /**
      * Gets the widget report map to be used when exporting the dashboard into a scheduled report
      * @internal
-     * @param int|string $dashId
-     * @param int|string $idSite
-     * @param string $segment
      * @return array
      * @throws Exception
      */
-    public function getWidgetReportMap($dashId, $idSite, $segment = ''): array
+    public function getWidgetReportMap(int $dashId, int $idSite, string $segment = ''): array
     {
-        $dashId = $this->normalizePositiveIntegerParameter($dashId, 'dashId');
-        $idSite = $this->normalizePositiveIntegerParameter($idSite, 'idSite');
-        $segment = $this->normalizeOptionalStringParameter($segment, 'segment');
+        $dashId = $this->validatePositiveIntegerParameter($dashId, 'dashId');
+        $idSite = $this->validatePositiveIntegerParameter($idSite, 'idSite');
+        $segment = trim($segment);
 
         Piwik::checkUserHasViewAccess($idSite);
         $idSegment = $this->findIdSegmentForDefinition($segment, $idSite);
@@ -327,42 +324,15 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param mixed $value
      * @throws InvalidRequestParameterException
      */
-    private function normalizePositiveIntegerParameter($value, string $parameterName): int
+    private function validatePositiveIntegerParameter(int $value, string $parameterName): int
     {
-        if (!is_scalar($value) || is_bool($value)) {
+        if ($value < 1) {
             throw new InvalidRequestParameterException("The parameter '$parameterName' contains an invalid value.");
         }
 
-        $normalizedValue = trim((string) $value);
-        if (
-            $normalizedValue === ''
-            || filter_var($normalizedValue, FILTER_VALIDATE_INT) === false
-            || (int) $normalizedValue < 1
-        ) {
-            throw new InvalidRequestParameterException("The parameter '$parameterName' contains an invalid value.");
-        }
-
-        return (int) $normalizedValue;
-    }
-
-    /**
-     * @param mixed $value
-     * @throws InvalidRequestParameterException
-     */
-    private function normalizeOptionalStringParameter($value, string $parameterName): string
-    {
-        if ($value === null || $value === '') {
-            return '';
-        }
-
-        if (!is_scalar($value) || is_bool($value)) {
-            throw new InvalidRequestParameterException("The parameter '$parameterName' contains an invalid value.");
-        }
-
-        return (string) $value;
+        return $value;
     }
 
     private function findIdSegmentForDefinition(string $segmentDefinition, int $idSite): ?int
