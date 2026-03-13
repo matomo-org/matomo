@@ -11,6 +11,7 @@ namespace Piwik\Plugins\Goals\DataTable\Filter;
 
 use Piwik\Plugins\Goals\Archiver as GoalsArchiver;
 use Piwik\Archive;
+use Piwik\Context;
 use Piwik\DataTable\BaseFilter;
 use Piwik\DataTable;
 use Piwik\Metrics;
@@ -45,6 +46,17 @@ class CalculateConversionPageRate extends BaseFilter
 
         // Get the total top-level conversions for the goals in the table
         $goalTotals = $this->getGoalTotalConversions($table, $goals);
+        $fallbackGoalTotals = $this->getGoalTotalConversionsFromTable($table, $goals);
+        foreach ($goals as $idGoal) {
+            if (
+                (!isset($goalTotals[$idGoal]) || (float) $goalTotals[$idGoal] <= 0.0)
+                && isset($fallbackGoalTotals[$idGoal])
+                && (float) $fallbackGoalTotals[$idGoal] > 0.0
+            ) {
+                $goalTotals[$idGoal] = (float) $fallbackGoalTotals[$idGoal];
+            }
+        }
+
         if (count($goalTotals) === 0) {
             return;
         }
@@ -97,19 +109,50 @@ class CalculateConversionPageRate extends BaseFilter
         $date = $period->getDateStart()->toString();
         $date = ($periodName === 'range' ? $date . ',' . $period->getDateEnd()->toString() : $date);
         $segment = $table->getMetadata('segment');
-        $archive = Archive::build($idSite, $periodName, $date, $segment);
-
         $names = [];
         foreach ($goalIds as $idGoal => $g) {
             $names[$idGoal] = GoalsArchiver::getRecordName('nb_conversions', $idGoal);
         }
 
-        $sum = $archive->getNumeric($names);
+        $sum = Context::executeWithQueryParameters(['requestedReport' => ''], function () use ($idSite, $periodName, $date, $segment, $names) {
+            $archive = Archive::build($idSite, $periodName, $date, $segment);
+            return $archive->getNumeric($names);
+        });
         foreach ($names as $idGoal => $name) {
             if (is_array($sum) && array_key_exists($name, $sum) && is_numeric($sum[$name])) {
                 $goalTotals[$idGoal] = $sum[$name];
             } elseif (is_numeric($sum)) {
                 $goalTotals[$idGoal] = $sum;
+            }
+        }
+
+        return $goalTotals;
+    }
+
+    private function getGoalTotalConversionsFromTable(DataTable $table, array $goalIds): array
+    {
+        $goalTotals = [];
+        if (empty($goalIds)) {
+            return $goalTotals;
+        }
+
+        foreach ($table->getRows() as $row) {
+            $goalsColumn = $row[Metrics::INDEX_GOALS] ?? null;
+            if (!is_array($goalsColumn)) {
+                continue;
+            }
+
+            foreach ($goalIds as $idGoal) {
+                if (!isset($goalsColumn[$idGoal]) || !is_array($goalsColumn[$idGoal])) {
+                    continue;
+                }
+
+                $entryConversions = $goalsColumn[$idGoal][Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY] ?? null;
+                if (!is_numeric($entryConversions)) {
+                    continue;
+                }
+
+                $goalTotals[$idGoal] = ($goalTotals[$idGoal] ?? 0) + (float) $entryConversions;
             }
         }
 
