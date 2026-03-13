@@ -19,7 +19,6 @@ use Piwik\Plugins\ScheduledReports\API as APIScheduledReports;
 use Piwik\Plugins\ScheduledReports\ScheduledReports;
 use Piwik\Plugins\ScheduledReports\Tasks;
 use Piwik\Plugins\ScheduledReports\WidgetReportMapper;
-use Piwik\Plugins\Dashboard\API as APIDashboard;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
 use Piwik\Plugins\Dashboard\Model as DashboardModel;
@@ -214,31 +213,6 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame(Piwik::translate('Dashboard_DashboardOf', Piwik::getCurrentUserLogin()), $result['dashboardName']);
     }
 
-    public function testGetWidgetReportMapReturnsDefaultDashboardWhenNoLayoutIsPersisted()
-    {
-        $dashboardModel = new DashboardModel();
-        $dashboardModel->deleteAllLayoutsForUser(Piwik::getCurrentUserLogin());
-
-        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite);
-
-        $this->assertNotSame('', $result['dashboardName']);
-        $this->assertNotEmpty($result['email']);
-    }
-
-    public function testGetWidgetReportMapUsesRealDashboardLayoutInsteadOfFlattenedDashboardWidgets()
-    {
-        $this->createSimpleDashboardLayout();
-
-        $dashboards = APIDashboard::getInstance()->getDashboards(Piwik::getCurrentUserLogin(), true);
-        $this->assertNotEmpty($dashboards);
-        $this->assertSame('VisitsSummary', $dashboards[0]['widgets'][0]['module']);
-        $this->assertArrayNotHasKey('uniqueId', $dashboards[0]['widgets'][0]);
-
-        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite);
-
-        $this->assertArrayHasKey('VisitsSummary_get', $result['email']);
-    }
-
     public function testGetWidgetReportMapReturnsEmptyWhenLayoutIsEmpty()
     {
         $dashboardModel = new DashboardModel();
@@ -249,6 +223,21 @@ class ApiTest extends IntegrationTestCase
         $this->assertSame([], $result['email']);
         $this->assertSame([], $result['unmappedWidgets']);
         $this->assertSame(Piwik::translate('Dashboard_DashboardOf', Piwik::getCurrentUserLogin()), $result['dashboardName']);
+    }
+
+    public function testGetWidgetReportMapUsesDefaultDashboardWhenDashboardOneIsMissing()
+    {
+        $dashboardModel = new DashboardModel();
+        $dashboardModel->deleteAllLayoutsForUser(Piwik::getCurrentUserLogin());
+
+        $result = APIScheduledReports::getInstance()->getWidgetReportMap(1, $this->idSite);
+
+        $this->assertNotEmpty($result['email']);
+        $this->assertSame(
+            ['General_Visitors' . ' ' . 'Live_VisitorsInRealTime', 'General_Visitors' . ' ' . 'VisitsSummary_WidgetVisits'],
+            $result['unmappedWidgets']
+        );
+        $this->assertSame('Dashboard_Dashboard', $result['dashboardName']);
     }
 
     public function testGetWidgetReportMapIncludesIdSegmentWhenSegmentMatchesSavedSegment()

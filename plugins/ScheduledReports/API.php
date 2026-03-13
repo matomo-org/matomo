@@ -25,9 +25,8 @@ use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
-use Piwik\Plugins\Dashboard\Dashboard as DashboardPlugin;
+use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\ImageGraph\ImageGraph;
-use Piwik\Plugins\Dashboard\API as APIDashboard;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
 use Piwik\Plugins\SitesManager\API as SitesManagerApi;
@@ -311,33 +310,24 @@ class API extends \Piwik\Plugin\API
             return null;
         }
 
+        $dashboard = new Dashboard();
         $login = Piwik::getCurrentUserLogin();
-        $allDashboards = APIDashboard::getInstance()->getDashboards($login, true);
+        $allDashboards = $dashboard->getAllDashboards($login);
         $name = $layout = '';
+        $dashboardFound = false;
         foreach ($allDashboards as $dashbrd) {
-            if ((int) $dashbrd['id'] === $dashId) {
+            if ((int) $dashbrd['iddashboard'] === $dashId) {
+                $dashboardFound = true;
+                $layout = $dashbrd['layout'];
                 $name = $dashbrd['name'];
-                $layout = $this->getDashboardLayoutForUser($login, $dashId);
                 break;
             }
         }
+        if ($dashId === 1 && !$dashboardFound) {
+            $layout = $dashboard->decodeLayout($dashboard->getDefaultLayout());
+            $name = Piwik::translate('Dashboard_Dashboard');
+        }
         return ['name' => $name, 'layout' => $layout];
-    }
-
-    private function getDashboardLayoutForUser(string $login, int $dashId): string
-    {
-        $dashboard = new DashboardPlugin();
-        $layout = $dashboard->getLayoutForUser($login, $dashId);
-
-        if (empty($layout)) {
-            $layout = $dashboard->getDefaultLayout();
-        }
-
-        if (!empty($layout)) {
-            $layout = $dashboard->removeDisabledPluginFromLayout($layout);
-        }
-
-        return (string) $layout;
     }
 
     /**
