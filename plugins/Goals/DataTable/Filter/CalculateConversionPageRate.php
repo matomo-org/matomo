@@ -147,12 +147,12 @@ class CalculateConversionPageRate extends BaseFilter
                     continue;
                 }
 
-                $entryConversions = $goalsColumn[$idGoal][Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY] ?? null;
-                if (!is_numeric($entryConversions)) {
+                $conversions = $goalsColumn[$idGoal][Metrics::INDEX_GOAL_NB_CONVERSIONS] ?? null;
+                if (!is_numeric($conversions)) {
                     continue;
                 }
 
-                $goalTotals[$idGoal] = ($goalTotals[$idGoal] ?? 0) + (float) $entryConversions;
+                $goalTotals[$idGoal] = ($goalTotals[$idGoal] ?? 0) + (float) $conversions;
             }
         }
 

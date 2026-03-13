@@ -87,6 +87,19 @@ class TrackGoalsPagesTest extends SystemTestCase
                     'apiAction' => 'getPageTitles',
                 ],
             ]],
+            ['API.getProcessedReport', [
+                'idSite' => self::$fixture->idSite,
+                'date' => self::$fixture->dateTime,
+                'period' => 'day',
+                'testSuffix' => 'showGoalsMetricsPageReportWithRequestedReport',
+                'otherRequestParameters' => [
+                    'filter_update_columns_when_show_all_goals' => '1',
+                    'filter_show_goal_columns_process_goals' => '1',
+                    'apiModule' => 'Actions',
+                    'apiAction' => 'getPageTitles',
+                    'requestedReport' => 'Goals.get',
+                ],
+            ]],
         ];
     }
 
