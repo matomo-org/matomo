@@ -138,7 +138,7 @@ window.resetReportParametersFunctions = window.resetReportParametersFunctions ||
 window.updateReportParametersFunctions = window.updateReportParametersFunctions || {};
 window.getReportParametersFunctions = window.getReportParametersFunctions || {};
 
-const { $, piwikHelper } = window;
+const { $ } = window;
 const PENDING_NOTIFICATION_KEY = 'scheduledReports.pendingNotification';
 const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
@@ -601,7 +601,7 @@ export default defineComponent({
         return;
       }
       const dashName = Matomo.helper.htmlDecode(mapping.dashboardName);
-      const escapedDashName = piwikHelper.escape(dashName);
+      const escapedDashName = Matomo.helper.escape(dashName);
       this.selectedReports = { email: { ...mapping.email } };
       this.selectedReportsOrder = { email: Object.keys(mapping.email || {}) };
       if (mapping.idSegment) {
@@ -618,7 +618,7 @@ export default defineComponent({
       let unmappedWidgetsForDisplay = '';
       if (mapping.unmappedWidgets && mapping.unmappedWidgets.length) {
         const escapedWidgets = mapping.unmappedWidgets.map(
-          (widgetName) => piwikHelper.escape(widgetName),
+          (widgetName) => Matomo.helper.escape(widgetName),
         );
         unmappedWidgetsForDisplay = translate('ScheduledReports_WidgetsNotMappedToReports',
           escapedWidgets.join(', '));
