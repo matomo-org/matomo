@@ -319,7 +319,7 @@ describe('Dashboard/DashboardSettings export navigation', () => {
       expect(redirectToLoginPageSpy).not.toHaveBeenCalled();
     });
 
-    it('redirects anonymous users to login page', () => {
+    it('redirects anonymous users to login page without preserving the dashboard id in session', () => {
       mockMatomo.userLogin = 'anonymous';
       const wrapper = mountComponent();
       const vm = wrapper.vm as any;

@@ -92,7 +92,12 @@ import AddReport from '../AddReport/AddReport.vue';
 import ListReports from '../ListReports/ListReports.vue';
 import { Report } from '../types';
 import { adjustHourToTimezone } from '../utilities';
-import { consumeStoredValue, getStoredValue, removeStoredValue, setStoredValue } from './storage';
+import {
+  consumeStoredValue,
+  getStoredValue,
+  removeStoredValue,
+  setStoredValue,
+} from './storage';
 
 interface ManageScheduledReportState {
   showReportsList: boolean;
@@ -517,6 +522,7 @@ export default defineComponent({
       );
     },
     async handleDashboardExportFromSession() {
+      // Dashboard export bootstrap is session-backed on purpose; URL idDashboard is ignored.
       const storedDashboardId = this.consumeDashboardExportIdFromSession();
       if (storedDashboardId === null) {
         return;

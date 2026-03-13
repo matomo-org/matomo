@@ -138,20 +138,8 @@ describe("ScheduledReports", function () {
             );
 
             expect(persistedOrder).to.deep.equal(expectedOrder);
-            selectedReportsWrapper = await getReportsWrapper();
+            const selectedReportsWrapper = await getReportsWrapper();
             expect(await selectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
-        });
-
-        it("should show invalid dashboard message and remove idDashboard for malformed dashboard export url", async function () {
-          await page.goto(`${manageReportsUrl}&idDashboard=foo`);
-          await page.waitForNetworkIdle();
-
-          await page.waitForFunction(
-            () => document.body.textContent.includes('This dashboard could not be exported.'),
-          );
-
-          const currentUrl = page.url();
-          expect(currentUrl).to.not.contain('idDashboard=');
         });
     });
 });

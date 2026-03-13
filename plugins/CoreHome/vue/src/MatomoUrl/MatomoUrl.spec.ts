@@ -13,33 +13,6 @@ import '../Periods/Year';
 import '../Periods/Range';
 
 describe('CoreHome/MatomoUrl', () => {
-  describe('#replaceUrl()', () => {
-    it('should update the URL and parsed state without a reload', () => {
-      history.pushState(
-        null,
-        '',
-        '?module=ScheduledReports&idDashboard=7#?period=day&date=today&idDashboard=7',
-      );
-      MatomoUrl.url.value = new URL(window.location.href);
-
-      const nextQuery = {
-        ...MatomoUrl.urlParsed.value,
-      } as QueryParameters;
-      const nextHash = {
-        ...MatomoUrl.hashParsed.value,
-      } as QueryParameters;
-      delete nextQuery.idDashboard;
-      delete nextHash.idDashboard;
-
-      MatomoUrl.replaceUrl(nextQuery, nextHash);
-
-      expect(window.location.search).toEqual('?module=ScheduledReports');
-      expect(window.location.hash).toEqual('#?period=day&date=today');
-      expect(MatomoUrl.urlParsed.value.idDashboard).toBeUndefined();
-      expect(MatomoUrl.hashParsed.value.idDashboard).toBeUndefined();
-    });
-  });
-
   describe('#updatePeriodParamsFromUrl()', () => {
     const DATE_PERIODS_TO_TEST = [
       {

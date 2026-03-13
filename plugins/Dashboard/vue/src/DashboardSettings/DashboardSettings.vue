@@ -273,7 +273,7 @@ export default defineComponent({
         this.redirectToCreateScheduledReports();
         return;
       }
-
+      // We do not persist dashboard id when user is anonymous
       this.redirectToLoginPage();
     },
 
