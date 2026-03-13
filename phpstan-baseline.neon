@@ -201,31 +201,6 @@ parameters:
 			path: core/Application/Kernel/PluginList.php
 
 		-
-			message: "#^Parameter \\#3 \\$idSubtable of method Piwik\\\\Archive\\:\\:get\\(\\) expects int\\|null, string given\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
-			message: "#^Parameter \\#5 \\$plugin of method Piwik\\\\Plugins\\\\CoreAdminHome\\\\API\\:\\:archiveReports\\(\\) expects bool, \\(int\\|string\\) given\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
-			message: "#^Static property Piwik\\\\Archive\\:\\:\\$cache \\(Matomo\\\\Cache\\\\Cache\\) does not accept null\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
-			message: "#^Static property Piwik\\\\Archive\\:\\:\\$cache is never read, only written\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int\\|string\\|null and false will always evaluate to false\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
 			message: "#^Method Piwik\\\\Archive\\\\ArchiveInvalidator\\:\\:getSegmentArchiving\\(\\) is unused\\.$#"
 			count: 1
 			path: core/Archive/ArchiveInvalidator.php
@@ -2815,16 +2790,6 @@ parameters:
 
 		-
 			message: "#^Left side of && is always true\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$archiveOnlyReport of method Piwik\\\\ArchiveProcessor\\\\Parameters\\:\\:setArchiveOnlyReport\\(\\) expects array\\<string\\>\\|string, true given\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$segmentCondition of class Piwik\\\\Segment constructor expects string, bool given\\.$#"
 			count: 1
 			path: plugins/CoreAdminHome/API.php
 

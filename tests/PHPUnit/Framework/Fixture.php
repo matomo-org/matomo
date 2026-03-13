@@ -11,7 +11,6 @@ namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
 use Piwik\Application\Environment;
-use Piwik\Archive;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Auth;
 use Piwik\Auth\Password;
@@ -409,7 +408,6 @@ class Fixture extends \PHPUnit\Framework\Assert
         Common::$isCliMode = null;
         Common::$headersSentInTests = [];
         MockFileMethods::reset();
-        Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
         Site::clearCache();
