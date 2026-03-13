@@ -381,6 +381,12 @@ class ArchivingHelper
                 foreach (Metrics::$columnsToDeleteAfterAggregation as $name) {
                     $row->deleteColumn($name);
                 }
+
+                if ($idSubtable !== null) {
+                    foreach (array_values(Metrics::$columnsToRenameAfterAggregation) as $name) {
+                        $row->deleteColumn($name);
+                    }
+                }
             }
         }
 
