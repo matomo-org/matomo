@@ -154,13 +154,6 @@
     right: auto;
   }
 
-  @media (max-width: 900px) {
-    // On iPad/mobile, keep panel right-anchored.
-    #periodMore {
-      left: auto;
-      right: 0;
-    }
-  }
   @media (max-width: 600px) {
     #periodMore {
       max-width: 90%;
@@ -247,12 +240,11 @@
   .period-selector-calendar-column {
     border-left: 1px solid @color-silver-l95;
     display: flex;
-    flex: 1 1 1 220px;
     flex-direction: column;
     margin-left: 16px;
     min-width: 220px;
     padding-left: 16px;
-    width: 80%;
+    width: 100%;
 
     .calendar-disabled {
       opacity: 0.75;
@@ -292,6 +284,12 @@
     .flex {
       flex-direction: column;
       overflow-x: auto;
+    }
+
+    .period-selector-calendar-column {
+      margin-left: 0;
+      padding-left: 0;
+      border-left: none;
     }
 
     .dateRangePicker {
