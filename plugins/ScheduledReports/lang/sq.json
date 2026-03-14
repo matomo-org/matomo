@@ -18,6 +18,7 @@
         "EvolutionGraphsShowForEachInPeriod": "Grafikët e ecurisë shfaqin ecurinë për %1$sçdo ditë%2$s gjatë %3$s të fundit",
         "EvolutionGraphsShowForPreviousN": "Grafikët e ecurisë shfaqin ecurinë përgjatë N %s të shkuara",
         "FrontPage": "Faqja Ballore",
+        "HelpSegmentManagement": "Mundeni të përzgjidhni një segment ekzistues vetjak për ta aplikuar te të dhëna në këtë raport të planifikuar. Mundeni të krijoni dhe përpunoni segmente vetjakë te faqja enkas për administrim segmentesh %1$s(për ta hapur, klikoni këtu)%2$s.",
         "ManageTooltip": "Jini në dijeni, kudo që punoni. Dërgoni raporte drejtpërdrejt te Email, SMS, Slack, ose Microsoft Teams duke përzgjedhur kanalin tuaj të parapëlqyer, kur krijoni ose përpunoni një raport të planifikuar.",
         "MonthlyScheduleHelp": "Planifikim mujor: raporti do të dërgohet ditën e parë të çdo muaji.",
         "MustBeLoggedIn": "Që të krijoni dhe të planifikoni raporte vetjakë, duhet të jeni i futur.",
