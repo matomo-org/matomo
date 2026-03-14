@@ -18,6 +18,7 @@
         "EvolutionGraphsShowForEachInPeriod": "Taispeánann graif éabhlóide an éabhlóid do %1$seach lá%2$s le %3$s deiridh",
         "EvolutionGraphsShowForPreviousN": "Taispeánann graif éabhlóide an éabhlóid thar na N %s roimhe seo",
         "FrontPage": "Leathanach Tosaigh",
+        "HelpSegmentManagement": "Is féidir leat deighleog saincheaptha atá ann cheana a roghnú le cur i bhfeidhm ar shonraí sa tuarascáil sceidealaithe seo. Is féidir leat deighleoga saincheaptha a chruthú agus a chur in eagar ar an leathanach bainistíochta deighleog tiomnaithe %1$s (cliceáil anseo le hoscailt)%2$s.",
         "ManageTooltip": "Fan ar an eolas cibé áit a n-oibríonn tú. Seol tuarascálacha go díreach chuig Ríomhphost, SMS, Slack, nó Microsoft Teams trí do chainéal is fearr leat a roghnú agus tuarascáil sceidealaithe á cruthú nó á heagarthóireacht agat.",
         "MonthlyScheduleHelp": "Sceideal míosúil: seolfar tuairisc ar an gcéad lá de gach mí.",
         "MustBeLoggedIn": "Ní mór duit a bheith logáilte isteach chun tuarascálacha saincheaptha a chruthú agus a sceidealú.",
