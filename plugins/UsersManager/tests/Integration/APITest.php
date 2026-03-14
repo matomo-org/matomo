@@ -342,6 +342,31 @@ class APITest extends IntegrationTestCase
         $this->api->addUser('userLogin2', 'password', 'userlogin2@password.com');
     }
 
+    public function testLogoutUser_userNotExists()
+    {
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+        $this->api->logoutUser('foobar');
+    }
+
+    public function testLogoutUser_notSuperUser()
+    {
+        FakeAccess::$superUser = false;
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
+        $this->api->logoutUser('foobar');
+    }
+
+    public function testLogoutUser_anonymous()
+    {
+        $this->expectExceptionMessage('UsersManager_ExceptionEditAnonymous');
+        $this->api->logoutUser('anonymous');
+    }
+
+    public function testLogoutUser_deleteSessionUser()
+    {
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@password.com');
+        $this->assertNull($this->api->logoutUser('userLogin2'));
+    }
+
     public function testUpdateUser()
     {
         $capturedMails = [];

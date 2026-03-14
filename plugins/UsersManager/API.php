@@ -1067,6 +1067,22 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Signs a user out of all active sessions. Requires super user access.
+     * Use this for security purposes, e.g., if a device was lost or compromised.
+     *
+     * @param string $userLogin The login of the user to sign out
+     * @throws Exception if the user does not exist or is the anonymous user
+     */
+    public function logoutUser(string $userLogin): void
+    {
+        Piwik::checkUserHasSuperUserAccess();
+        $this->checkUserIsNotAnonymous($userLogin);
+        $this->checkUserExist($userLogin);
+
+        $this->model->deleteUserSessions($userLogin);
+    }
+
+    /**
      * Returns true if the given userLogin is known in the database
      *
      * @param string $userLogin

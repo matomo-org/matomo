@@ -355,6 +355,14 @@
               <span class="icon-edit"/>
             </button>
             <button
+                class="signoutuser table-action"
+                :title="translate('UsersManager_SignOutUser')"
+                @click="userToChange = user; showSignOutConfirm()"
+                v-if="currentUserRole === 'superuser' && user.login !== 'anonymous'"
+            >
+              <span class="icon-sign-out"/>
+            </button>
+            <button
                 class="deleteuser table-action"
                 title="Delete"
                 @click="userToChange = user; showDeleteConfirm()"
@@ -419,6 +427,31 @@
         </em>
       </h3>
     </PasswordConfirmation>
+
+    <div class="sign-out-user-confirm-modal modal" ref="signOutUserConfirmModal">
+      <div class="modal-content">
+        <h3
+            v-if="userToChange"
+            v-html="$sanitize(translate(
+                'UsersManager_SignOutUserConfirm',
+                `<strong>${userToChange.login}</strong>`,
+              ))"
+        ></h3>
+      </div>
+      <div class="modal-footer">
+        <a
+            href=""
+            class="modal-action modal-close btn"
+            @click.prevent="signOutRequestedUser()"
+            style="margin-right:3.5px"
+        >{{ translate('General_Yes') }}</a>
+        <a
+            href=""
+            class="modal-action modal-close modal-no btn-flat"
+            @click.prevent="resetUserAndRoleToChange()"
+        >{{ translate('General_No') }}</a>
+      </div>
+    </div>
 
     <div class="change-user-role-confirm-modal modal" ref="changeUserRoleConfirmModal">
       <div class="modal-content">
@@ -555,7 +588,7 @@ export default defineComponent({
       showPasswordConfirmationForAnonymousAccess: false,
     };
   },
-  emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite'],
+  emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite', 'signOutUser'],
   created() {
     this.onUserTextFilterChange = debounce(this.onUserTextFilterChange, 300);
   },
@@ -624,6 +657,18 @@ export default defineComponent({
     },
     showDeleteConfirm() {
       this.showPasswordConfirmationForUserRemoval = true;
+    },
+    showSignOutConfirm() {
+      $(this.$refs.signOutUserConfirmModal as HTMLElement)
+        .modal({
+          dismissible: false,
+        })
+        .modal('open');
+    },
+    signOutRequestedUser() {
+      this.$emit('signOutUser', {
+        user: this.userToChange,
+      });
     },
 
     showAccessChangeConfirm() {
