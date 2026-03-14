@@ -391,7 +391,8 @@ class ModelTest extends IntegrationTestCase
             $countAfter = (int) Db::fetchOne('SELECT COUNT(*) FROM `' . $sessionTable . '`');
             $this->assertSame(4, $countAfter, $variation . ' test failed');
 
-            $this->model->deleteUserSessions('login');
+            // check won't delete not matching username
+            $this->model->deleteUserSessions('notExistingUsername');
             $this->assertSame(4, $countAfter, $variation . ' test failed when nothing should be deleted');
 
         }
@@ -403,8 +404,8 @@ class ModelTest extends IntegrationTestCase
         $underscoreLogin = 'user_name_1';
         $this->api->addUser($underscoreLogin, 'password3', 'username1@password.de');
 
-        $this->insertSessionRowForLogin($underscoreLogin);
-        $this->insertSessionRowForLogin($this->login2);
+        $this->insertSessionRowForLogin($underscoreLogin, 'bar');
+        $this->insertSessionRowForLogin($this->login2, 'foo');
 
         $this->model->deleteUserSessions($underscoreLogin);
 

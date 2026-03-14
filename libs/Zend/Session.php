@@ -723,9 +723,9 @@ class Zend_Session extends Zend_Session_Abstract
         }
     }
 
-    public static function buildSessionData(array $sessionData): array
+    public static function buildSessionData(array $data): array
     {
-        return ['data' => base64_encode(serialize($_SESSION))];
+        return ['data' => base64_encode(serialize($data))];
     }
 
 
