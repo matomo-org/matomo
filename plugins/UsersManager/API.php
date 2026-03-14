@@ -38,6 +38,7 @@ use Piwik\Site;
 use Piwik\Tracker\Cache;
 use Piwik\Url;
 use Piwik\Validators\BaseValidator;
+use Piwik\Validators\NotEmpty;
 
 /**
  * The UsersManager API lets you Manage Users and their permissions to access specific websites.
@@ -1076,6 +1077,8 @@ class API extends \Piwik\Plugin\API
     public function logoutUser(string $userLogin): void
     {
         Piwik::checkUserHasSuperUserAccess();
+
+        BaseValidator::check('userlogin', $userLogin, [new NotEmpty()]);
         $this->checkUserIsNotAnonymous($userLogin);
         $this->checkUserExist($userLogin);
 

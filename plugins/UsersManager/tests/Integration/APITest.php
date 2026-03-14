@@ -342,26 +342,32 @@ class APITest extends IntegrationTestCase
         $this->api->addUser('userLogin2', 'password', 'userlogin2@password.com');
     }
 
-    public function testLogoutUser_userNotExists()
+    public function testLogoutUser_userNotExists_shouldFail()
     {
         $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
         $this->api->logoutUser('foobar');
     }
 
-    public function testLogoutUser_notSuperUser()
+    public function testLogoutUser_notSuperUser_shouldFail()
     {
         FakeAccess::$superUser = false;
         $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
         $this->api->logoutUser('foobar');
     }
 
-    public function testLogoutUser_anonymous()
+    public function testLogoutUser_anonymous_shouldFail()
     {
         $this->expectExceptionMessage('UsersManager_ExceptionEditAnonymous');
         $this->api->logoutUser('anonymous');
     }
 
-    public function testLogoutUser_deleteSessionUser()
+    public function testLogoutUser_emptyLogin_shouldFail()
+    {
+        $this->expectExceptionMessage('userlogin: General_ValidatorErrorEmptyValue');
+        $this->api->logoutUser('');
+    }
+
+    public function testLogoutUser_deleteSessionUser_shouldNotThrowErrorIfNoSessionExists()
     {
         $this->api->addUser('userLogin2', 'password', 'userlogin2@password.com');
         $this->assertNull($this->api->logoutUser('userLogin2'));

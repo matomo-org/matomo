@@ -372,7 +372,7 @@ class ModelTest extends IntegrationTestCase
         $this->insertSessionRowForLogin('login222character', '');
         $this->insertSessionRowForLogin('login2222character', '');
 
-        $variations = ['login1character', 'login11character', 'login111character', 'login1111character'];
+        $variations = ['login1character', 'login11character', 'login111character', 'login1111character', '用户'];
 
         foreach ($variations as $variation) {
             $sessionTable = Common::prefixTable('session');

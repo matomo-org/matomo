@@ -786,7 +786,7 @@ class Model
         $userMarker .= SessionFingerprint::USER_NAME_SESSION_VAR_NAME.'";s:' . strlen($userLogin);
         $userMarker .= ':"' . $userLogin . '"';
 
-        $numCharactersToAdd = mb_strlen($userMarker) % 3;
+        $numCharactersToAdd = strlen($userMarker) % 3;
 
         // ensure we work with a string length divisible by 3
         if ($numCharactersToAdd === 1) {
@@ -796,12 +796,12 @@ class Model
         }
 
         // base64 encodes 3 input bytes → 4 characters. Test for different combinations as we don't know which
-        // 3 bytes were included originally
+        // 3 bytes were included originally. See also Zend_Session::buildSessionData()
         $variations = [
             '%' .  base64_encode($userMarker) . '%',
-            '%' .  base64_encode(mb_substr($userMarker, 1) . ';') . '%',
-            '%' .  base64_encode(mb_substr($userMarker, 2) . ';s') . '%', // in case string follows
-            '%' .  base64_encode(mb_substr($userMarker, 2) . ';i') . '%', // in case integer follows
+            '%' .  base64_encode(substr($userMarker, 1) . ';') . '%',
+            '%' .  base64_encode(substr($userMarker, 2) . ';s') . '%', // in case string follows
+            '%' .  base64_encode(substr($userMarker, 2) . ';i') . '%', // in case integer follows
         ];
 
         $db = $this->getDb();
