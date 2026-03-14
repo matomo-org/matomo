@@ -394,7 +394,6 @@ class ModelTest extends IntegrationTestCase
             // check won't delete not matching username
             $this->model->deleteUserSessions('notExistingUsername');
             $this->assertSame(4, $countAfter, $variation . ' test failed when nothing should be deleted');
-
         }
     }
 

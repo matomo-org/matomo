@@ -777,13 +777,11 @@ class Model
     /**
      * Deletes all active sessions for the given user from the session table.
      * This effectively signs the user out of all devices. It does not delete any token_auths.
-     *
-     * @param string $userLogin
      */
     public function deleteUserSessions(string $userLogin): void
     {
         $userMarker = strlen(SessionFingerprint::USER_NAME_SESSION_VAR_NAME) . ':"';
-        $userMarker .= SessionFingerprint::USER_NAME_SESSION_VAR_NAME.'";s:' . strlen($userLogin);
+        $userMarker .= SessionFingerprint::USER_NAME_SESSION_VAR_NAME . '";s:' . strlen($userLogin);
         $userMarker .= ':"' . $userLogin . '"';
 
         $numCharactersToAdd = strlen($userMarker) % 3;
@@ -806,12 +804,9 @@ class Model
 
         $db = $this->getDb();
         $sessionTable = Common::prefixTable('session');
+        $sql = 'DELETE FROM `' . $sessionTable . '`' . ' WHERE `data` LIKE ? or `data` LIKE ? or `data` LIKE ? or `data` LIKE ?';
 
-        $db->query(
-         'DELETE FROM `' . $sessionTable . '`'
-            . ' WHERE `data` LIKE ? or `data` LIKE ? or `data` LIKE ? or `data` LIKE ?',
-            $variations
-        );
+        $db->query($sql, $variations);
     }
 
     /**

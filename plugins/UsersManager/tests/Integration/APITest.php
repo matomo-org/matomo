@@ -342,32 +342,32 @@ class APITest extends IntegrationTestCase
         $this->api->addUser('userLogin2', 'password', 'userlogin2@password.com');
     }
 
-    public function testLogoutUser_userNotExists_shouldFail()
+    public function testLogoutUserUserNotExistsShouldFail()
     {
         $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
         $this->api->logoutUser('foobar');
     }
 
-    public function testLogoutUser_notSuperUser_shouldFail()
+    public function testLogoutUserNotSuperUserShouldFail()
     {
         FakeAccess::$superUser = false;
         $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
         $this->api->logoutUser('foobar');
     }
 
-    public function testLogoutUser_anonymous_shouldFail()
+    public function testLogoutUserAnonymousShouldFail()
     {
         $this->expectExceptionMessage('UsersManager_ExceptionEditAnonymous');
         $this->api->logoutUser('anonymous');
     }
 
-    public function testLogoutUser_emptyLogin_shouldFail()
+    public function testLogoutUserEmptyLoginShouldFail()
     {
         $this->expectExceptionMessage('userlogin: General_ValidatorErrorEmptyValue');
         $this->api->logoutUser('');
     }
 
-    public function testLogoutUser_deleteSessionUser_shouldNotThrowErrorIfNoSessionExists()
+    public function testLogoutUserDeleteSessionUserShouldNotThrowErrorIfNoSessionExists()
     {
         $this->api->addUser('userLogin2', 'password', 'userlogin2@password.com');
         $this->assertNull($this->api->logoutUser('userLogin2'));
