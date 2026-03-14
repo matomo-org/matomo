@@ -82,6 +82,7 @@
         "ColumnPercentageVisits": "%% ziyaretler",
         "ColumnPercentageVisitsDocumentation": "Toplam ziyaret yüzdesi.",
         "ColumnRevenue": "Gelir",
+        "ColumnSegment": "Dilim",
         "ColumnSumTimeOnSite": "Sitede geçirilen toplam süre",
         "ColumnSumVisitLength": "Ziyaretçilerin geçirdiği toplam süre (saniye)",
         "ColumnTotalPageviews": "Sayfa gösterimi toplamı",
