@@ -167,7 +167,7 @@ Bytes transferred overall,Bytes transferred pageviews,Bytes transferred download
 0,0,0
 
 Page URLs
-Label,Visits,Pageviews,Bounce Rate,Avg. Time on Page,Exit Rate
+Label,Unique Pageviews,Pageviews,Bounce Rate,Avg. time on page,Exit rate
 /index.htm,4,16,0%,00:03:23,100%
 
 Entry pages
@@ -181,16 +181,16 @@ incredible title!,1,0,0%
 Looking at Electronics & Cameras page with a page level custom variable,1,0,0%
 
 Exit pages
-Label,Visits,Exits,Exit Rate
+Label,Unique Pageviews,Exits,Exit rate
 /index.htm,4,4,100%
 
 Exit page titles
-Label,Visits,Exits,Exit Rate
+Label,Unique Pageviews,Exits,Exit rate
 View product left in cart,3,3,100%
 Another Product page with multiple categories,1,1,100%
 
 Page titles
-Label,Visits,Pageviews,Bounce Rate,Avg. Time on Page,Exit Rate
+Label,Unique Pageviews,Pageviews,Bounce Rate,Avg. time on page,Exit rate
 View product left in cart,3,9,0%,00:02:00,100%
 Another Product page,1,1,0%,00:06:00,0%
 Another Product page with multiple categories,1,1,0%,00:00:00,100%
@@ -298,7 +298,7 @@ New visits,1
 365+ days,0
 
 Returning Visits
-Unique new visitors,New Users,New Visits,Actions by New Visits,Maximum actions in one visit,Bounce Rate for New Visits,Avg. Actions per New Visit,Avg. Duration of a New Visit (in sec),Unique returning visitors,Returning Users,Returning Visits,Actions by Returning Visits,Maximum actions in one returning visit,Bounce Rate for Returning Visits,Avg. Actions per Returning Visit,Avg. Duration of a Returning Visit (in sec)
+Unique new visitors,New Users,New Visits,Actions by New Visits,max_actions_new,Bounce Rate for New Visits,Avg. Actions per New Visit,Avg. Duration of a New Visit (in sec),Unique returning visitors,Returning Users,Returning Visits,Actions by Returning Visits,Maximum actions in one returning visit,Bounce Rate for Returning Visits,Avg. Actions per Returning Visit,Avg. Duration of a Returning Visit (in sec)
 1,0,1,4,4,0%,4,00:12:02,1,0,4,12,6,25%,3,00:25:32
 
 Performance overview
@@ -306,7 +306,7 @@ Avg. network time,Avg. server time,Avg. transfer time,Avg. DOM processing time,A
 0s,0s,0s,0s,0s,0s,0s
 
 Referrers Overview
-Visitors from Search Engines,Visitors from Social Networks,Visitors from AI Assistants,Visitors from Direct Entry,Visitors from Websites,Visitors from Campaigns,Distinct search engines,Distinct social networks,Distinct AI assistants,Distinct keywords,Distinct websites,Distinct campaigns,% Visitors from Direct Entry,% Visitors from Search Engines,% Visitors from AI Assistants,% Visitors from Campaigns,% Visitors from Social Networks,% Visitors from Websites
+Visitors from Search Engines,Visitors from Social Networks,Visitors from AI Assistants,Visitors from Direct Entry,Visitors from Websites,Visitors from Campaigns,Distinct search engines,Distinct social networks,Distinct AI assistants,Distinct keywords,Distinct websites,Distinct campaigns,Percent of Visitors from Direct Entry,Percent of Visitors from Search Engines,Percent of Visitors from AI Assistants,Percent of Visitors from Campaigns,Percent of Visitors from Social Networks,Percent of Visitors from Websites
 0,0,0,5,0,0,0,0,0,0,0,0,100%,0%,0%,0%,0%,0%
 
 Channel Type
