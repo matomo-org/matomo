@@ -828,7 +828,10 @@ class API extends \Piwik\Plugin\API
         return (int) $idSite;
     }
 
-    private function setSettingValue($fieldName, $value, $coreProperties, $settingValues)
+    /**
+     * @param string|int|float|bool|array|null $value
+     */
+    private function setSettingValue(string $fieldName, $value, array $coreProperties, array $settingValues): array
     {
         $pluginName = 'WebsiteMeasurable';
 
@@ -859,7 +862,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
-        $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite, $idMeasurableType = false);
+        $measurableSettings = $this->settingsProvider->getAllMeasurableSettings($idSite);
 
         return $this->settingsMetadata->formatSettings($measurableSettings, $idSite);
     }
@@ -897,7 +900,7 @@ class API extends \Piwik\Plugin\API
      *
      * Requires Super User access.
      *
-     * @param string $passwordConfirmation the current user's password, only required when the request is authenticated with session token auth
+     * @param string|null $passwordConfirmation the current user's password, only required when the request is authenticated with session token auth
      * @throws Exception
      */
     public function deleteSite(
@@ -1480,8 +1483,8 @@ class API extends \Piwik\Plugin\API
      *
      * @param int $idSite website ID defining the website to edit
      * @param string $siteName website name
-     * @param string|array $urls the website URLs
-     *                           When calling API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
+     * @param string|string[] $urls the website URLs
+     *                              When calling API via HTTP specify multiple URLs via `&urls[]=http...&urls[]=http...`.
      * @param int $ecommerce Whether Ecommerce is enabled, 0 or 1
      * @param null|int $siteSearch Whether site search is enabled, 0 or 1
      * @param string $searchKeywordParameters Comma separated list of search keyword parameter names
@@ -1547,8 +1550,8 @@ class API extends \Piwik\Plugin\API
 
         $coreProperties = [];
         $coreProperties = $this->setSettingValue('urls', $urls, $coreProperties, $settingValues);
-        $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('ecommerce', $ecommerce, $coreProperties, $settingValues);
+        $coreProperties = $this->setSettingValue('group', $group, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('sitesearch', $siteSearch, $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('sitesearch_keyword_parameters', explode(',', $searchKeywordParameters ?? ''), $coreProperties, $settingValues);
         $coreProperties = $this->setSettingValue('sitesearch_category_parameters', explode(',', $searchCategoryParameters ?? ''), $coreProperties, $settingValues);
@@ -1610,7 +1613,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Updates the field ts_created for the specified websites.
      *
-     * @param $idSites int Id Site to update ts_created
+     * @param $idSites int|string|array<string|int> Id Site(s) to update ts_created
      * @param $minDate Date to set as creation date. To play it safe it will subtract one more day.
      *
      * @ignore
@@ -1641,8 +1644,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of supported currencies
+     * @return array<string, string> (currencyId => currencyName)
      * @see getCurrencySymbols()
-     * @return array ( currencyId => currencyName)
      */
     public function getCurrencyList()
     {
@@ -1663,8 +1666,8 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Returns the list of currency symbols
+     * @return array<string, string> (currencyId => currencySymbol)
      * @see getCurrencyList()
-     * @return array( currencyId => currencySymbol )
      */
     public function getCurrencySymbols()
     {
@@ -1680,9 +1683,8 @@ class API extends \Piwik\Plugin\API
     /**
      * Return true if Timezone support is enabled on server
      *
-     * @return bool
      */
-    public function isTimezoneSupportEnabled()
+    public function isTimezoneSupportEnabled(): bool
     {
         Piwik::checkUserHasSomeViewAccess();
         return SettingsServer::isTimezoneSupportEnabled();
@@ -1835,17 +1837,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Tests if the URL is a valid URL
-     *
-     * @param string $url
-     * @return bool
-     */
-    private function isValidUrl($url)
-    {
-        return UrlHelper::isLookLikeUrl($url);
-    }
-
-    /**
      * Tests if the IP is a valid IP, allowing wildcards, except in the first octet.
      * Wildcards can only be used from right to left, ie. 1.1.*.* is allowed, but 1.1.*.1 is not.
      *
@@ -1860,10 +1851,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Check that the website name has a correct format.
      *
-     * @param $siteName
-     * @throws Exception
+     * @param string $siteName
      */
-    private function checkName($siteName)
+    private function checkName($siteName): void
     {
         if (empty($siteName)) {
             throw new Exception($this->translator->translate("SitesManager_ExceptionEmptyName"));
@@ -1909,7 +1899,7 @@ class API extends \Piwik\Plugin\API
      *
      * @param string $pattern
      * @param int|false $limit
-     * @param []|int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
+     * @param int[] $sitesToExclude optional array of Integer IDs of sites to exclude from the result.
      * @return array
      */
     public function getPatternMatchSites($pattern, $limit = false, $sitesToExclude = [])

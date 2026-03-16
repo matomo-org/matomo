@@ -1849,11 +1849,6 @@ parameters:
 			path: core/Settings/Storage/Backend/PluginSettingsTable.php
 
 		-
-			message: "#^Method Piwik\\\\Settings\\\\Storage\\\\Backend\\\\SitesTable\\:\\:load\\(\\) should return array\\|null but return statement is missing\\.$#"
-			count: 1
-			path: core/Settings/Storage/Backend/SitesTable.php
-
-		-
 			message: "#^Right side of && is always true\\.$#"
 			count: 1
 			path: core/SettingsPiwik.php
@@ -4249,17 +4244,7 @@ parameters:
 			path: plugins/SitesManager/API.php
 
 		-
-			message: "#^Method Piwik\\\\Plugins\\\\SitesManager\\\\API\\:\\:isValidUrl\\(\\) is unused\\.$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
 			message: "#^PHPDoc tag @param has invalid value \\(\\[\\]\\|int\\[\\] \\$sitesToExclude optional array of Integer IDs of sites to exclude from the result\\.\\)\\: Unexpected token \"\\[\", expected type at offset 282$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\[\\]\\|int\\[\\] \\$sitesToExclude optional array of Integer IDs of sites to exclude from the result\\.\\)\\: Unexpected token \"\\[\", expected type at offset 357$#"
 			count: 1
 			path: plugins/SitesManager/API.php
 
@@ -4294,18 +4279,13 @@ parameters:
 			path: plugins/SitesManager/API.php
 
 		-
-			message: "#^Parameter \\#2 \\$idMeasurableType of method Piwik\\\\Plugin\\\\SettingsProvider\\:\\:getAllMeasurableSettings\\(\\) expects string\\|null, false given\\.$#"
-			count: 1
-			path: plugins/SitesManager/API.php
-
-		-
 			message: "#^Parameter \\#2 \\$limit of method Piwik\\\\Plugins\\\\SitesManager\\\\API\\:\\:getSitesFromIds\\(\\) expects bool, int\\|null given\\.$#"
 			count: 1
 			path: plugins/SitesManager/API.php
 
 		-
 			message: "#^Result of && is always true\\.$#"
-			count: 1
+			count: 2
 			path: plugins/SitesManager/API.php
 
 		-
