@@ -164,7 +164,6 @@ class DuplicateRequestResponse
      * @param array|null $idDestinationSites IDs of the destination sites. This is optional for the same reason as
      *   idSite but also since it doesn't need to be provided if the only destination site is the source site (idSite).
      * @param array|null $additionalData Optional array of additional data relating to the entity being copied.
-     *
      */
     public function setRequestDataForEvent(
         string $entityTypeTranslation,

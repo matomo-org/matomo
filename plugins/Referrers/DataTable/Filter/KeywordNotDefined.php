@@ -14,8 +14,6 @@ use Piwik\DataTable;
 class KeywordNotDefined extends DataTable\Filter\ColumnCallbackReplace
 {
     /**
-     *
-     *
      * @param DataTable $table The table to eventually filter.
      */
     public function __construct($table)

@@ -20,6 +20,7 @@ use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\API\API;
 use Piwik\Plugins\API\BulkRequestLimit;
+use Piwik\Plugins\CoreAdminHome\API as CoreAdminHomeAPI;
 use Piwik\Plugins\UsersManager\Model as UsersManagerModel;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
@@ -106,6 +107,80 @@ class APITest extends IntegrationTestCase
         $this->assertResponseIsPermissionError($response[2]);
         $this->assertResponseIsPermissionError($response[3]);
         $this->assertResponseIsSuccess($response[4]);
+    }
+
+    public function testGetBulkRequestDeniesArchiveReportsForViewOnlyUser()
+    {
+        $this->setAnonymousAccessForSite(1, 'view');
+
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([$this->makeArchiveReportsBulkUrl(1)]);
+            $this->assertCount(1, $response);
+            $this->assertResponseIsSuperUserPermissionError($response[0]);
+        } finally {
+            $this->restoreAnonymousAccessForSite(1);
+        }
+    }
+
+    public function testGetBulkRequestAllowsArchiveReportsForSuperUser()
+    {
+        $this->setSuperUserContext();
+
+        try {
+            $response = $this->getBulkRequestAsRootApiRequest([$this->makeArchiveReportsBulkUrl(1)]);
+            $this->assertCount(1, $response);
+            $this->assertResponseIsSuccess($response[0]);
+        } finally {
+            $this->setAnonymousContext();
+        }
+    }
+
+    public function testGetBulkRequestAllowsArchiveReportsForSuperUserTokenInBulkUrl()
+    {
+        $response = $this->getBulkRequestAsRootApiRequest([$this->makeArchiveReportsBulkUrl(1, Fixture::getTokenAuth())]);
+        $this->assertCount(1, $response);
+        $this->assertResponseIsSuccess($response[0]);
+    }
+
+    public function testArchiveReportsAllowsViewAccessForNonBulkRootApiMethod()
+    {
+        $this->setAnonymousAccessForSite(1, 'view');
+        $rootApiMethod = Request::getRootApiRequestMethod();
+
+        try {
+            Request::setIsRootRequestApiRequest('VisitsSummary.get');
+            $response = CoreAdminHomeAPI::getInstance()->archiveReports(1, 'day', '2012-01-01');
+            $this->assertIsArray($response);
+        } finally {
+            Request::setIsRootRequestApiRequest($rootApiMethod ?: '');
+            $this->restoreAnonymousAccessForSite(1);
+        }
+    }
+
+    public function testGetBulkRequestAllowsViewOnlyUserWhenReportFetchTriggersBrowserArchiving()
+    {
+        $this->setAnonymousAccessForSite(1, 'view');
+        $previousBrowserArchivingSetting = Option::get(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING);
+
+        try {
+            Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, 1);
+
+            $this->setSuperUserContext();
+            CoreAdminHomeAPI::getInstance()->invalidateArchivedReports('1', '2012-01-01', 'day');
+
+            $this->setAnonymousContext();
+            $response = $this->getBulkRequestAsRootApiRequest([$this->makeVisitsSummaryBulkUrl(1, '2012-01-01')]);
+            $this->assertCount(1, $response);
+            $this->assertResponseIsSuccess($response[0]);
+        } finally {
+            if ($previousBrowserArchivingSetting === false) {
+                Option::delete(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING);
+            } else {
+                Option::set(Rules::OPTION_BROWSER_TRIGGER_ARCHIVING, $previousBrowserArchivingSetting);
+            }
+
+            $this->restoreAnonymousAccessForSite(1);
+        }
     }
 
     public function testGetBulkRequestLimitForAnonymousWithoutViewAccess()
@@ -256,9 +331,52 @@ class APITest extends IntegrationTestCase
         $this->assertArrayNotHasKey('result', $response);
     }
 
+    private function assertResponseIsSuperUserPermissionError($response)
+    {
+        $this->assertSame('error', $response['result']);
+
+        $message = strtolower((string) ($response['message'] ?? ''));
+        $this->assertStringContainsString('general_exceptionprivilege', $message);
+    }
+
     private function makeBulkUrls(int $count): array
     {
         return array_fill(0, $count, 'method%3dAPI.getMatomoVersion');
+    }
+
+    private function getBulkRequestAsRootApiRequest(array $urls): array
+    {
+        $rootApiMethod = Request::getRootApiRequestMethod();
+
+        try {
+            Request::setIsRootRequestApiRequest('API.getBulkRequest');
+            return $this->api->getBulkRequest($urls);
+        } finally {
+            Request::setIsRootRequestApiRequest($rootApiMethod ?: '');
+        }
+    }
+
+    private function makeArchiveReportsBulkUrl(int $idSite, ?string $tokenAuth = null): string
+    {
+        $url = sprintf(
+            'method%%3dCoreAdminHome.archiveReports%%26idSite%%3d%d%%26period%%3dday%%26date%%3d2012-01-01',
+            $idSite
+        );
+
+        if (!empty($tokenAuth)) {
+            $url .= '%26token_auth%3d' . $tokenAuth;
+        }
+
+        return $url;
+    }
+
+    private function makeVisitsSummaryBulkUrl(int $idSite, string $date): string
+    {
+        return sprintf(
+            'method%%3dVisitsSummary.get%%26idSite%%3d%d%%26period%%3dday%%26date%%3d%s',
+            $idSite,
+            $date
+        );
     }
 
     private function makeSureTestRunsInContextOfAnonymousUser()

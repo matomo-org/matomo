@@ -64,7 +64,6 @@ class FileIntegrity
 
     /**
      * Include the manifest
-     *
      */
     private static function loadManifest(): void
     {

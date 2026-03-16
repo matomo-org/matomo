@@ -1449,7 +1449,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Gets the exclusion type, if the option is not present in the store then it infers the type based on if there are
      * custom exclusions already defined.
-     *
      */
     public function getExclusionTypeForQueryParams(?int $idSite = null): string
     {

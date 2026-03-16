@@ -1,5 +1,7 @@
 {
     "CoreHome": {
-        "ChooseWebsite": "Elekti retpaĝon"
+        "ChooseWebsite": "Elekti retpaĝon",
+        "PresetDateToday": "Today",
+        "PresetDateYesterday": "Yesterday"
     }
 }

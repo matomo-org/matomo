@@ -3,7 +3,8 @@
 namespace Piwik\Plugins\Feedback\tests\Fixtures;
 
 use Piwik\Date;
-use Piwik\Option;
+use Piwik\Settings\Storage\Backend\PluginSettingsTable;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Tests\Fixtures\UITestFixture;
 
 class FeedbackQuestionBannerFixture extends UITestFixture
@@ -12,12 +13,12 @@ class FeedbackQuestionBannerFixture extends UITestFixture
     {
         parent::setUp();
         $yesterday = Date::yesterday();
-        Option::set('Feedback.nextFeedbackReminder.superUserLogin', $yesterday->toString('Y-m-d'));
+        (new UserScopedSettingsAccessManager())->set('Feedback', 'superUserLogin', 'nextFeedbackReminder', $yesterday->toString('Y-m-d'));
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        Option::delete('Feedback.nextFeedbackReminder.superUserLogin');
+        PluginSettingsTable::removeAllUserSettingsForUser('superUserLogin');
     }
 }

@@ -26,7 +26,6 @@ class SettingsPiwik
      * Get salt from [General] section. Should ONLY be used as a seed to create hashes
      *
      * NOTE: Keep this salt secret! Never output anywhere or share it etc.
-     *
      */
     public static function getSalt(): ?string
     {
@@ -161,7 +160,6 @@ class SettingsPiwik
 
     /**
      * Number of websites to show in the Website selector
-     *
      */
     public static function getWebsitesCountToDisplay(): int
     {
@@ -251,7 +249,6 @@ class SettingsPiwik
     /**
      * Check if outgoing internet connections are enabled
      * This is often disable in an intranet environment
-     *
      */
     public static function isInternetEnabled(): bool
     {
@@ -278,7 +275,6 @@ class SettingsPiwik
      * automatic updates are actually enabled. If a user is running Piwik on multiple servers an update is not possible
      * as it would be installed only on one server instead of all of them. Also if a user has disabled automatic updates
      * we cannot perform any automatic updates.
-     *
      */
     public static function isAutoUpdatePossible(): bool
     {
@@ -401,7 +397,6 @@ class SettingsPiwik
     /**
      * Returns true if Piwik is deployed using git
      * FAQ: https://piwik.org/faq/how-to-install/faq_18271/
-     *
      */
     public static function isGitDeployment(): bool
     {
@@ -490,7 +485,6 @@ class SettingsPiwik
 
     /**
      * Note: this config settig is also checked in the InterSites plugin
-     *
      */
     public static function isSameFingerprintAcrossWebsites(): bool
     {

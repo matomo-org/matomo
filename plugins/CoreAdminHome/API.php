@@ -11,6 +11,7 @@ namespace Piwik\Plugins\CoreAdminHome;
 
 use Exception;
 use Monolog\Handler\StreamHandler;
+use Piwik\API\Request;
 use Piwik\Changes\UserChanges;
 use Piwik\Log\Logger;
 use Piwik\Access;
@@ -22,8 +23,10 @@ use Piwik\Archive\ArchiveInvalidator;
 use Piwik\CronArchive;
 use Piwik\Date;
 use Piwik\Log\LoggerInterface;
+use Piwik\Metrics\Formatter;
 use Piwik\Period\Factory;
 use Piwik\Piwik;
+use Piwik\Request as PiwikRequest;
 use Piwik\Segment;
 use Piwik\Scheduler\Scheduler;
 use Piwik\SettingsServer;
@@ -273,19 +276,17 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param $idSite
-     * @param $period
-     * @param $date
-     * @param bool $segment
-     * @param bool $plugin
-     * @param bool $report
-     * @return mixed
-     * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
+     * @param string $period
+     * @param string $date
+     * @param string|null|false $segment
+     * @param string|null|false $plugin
+     * @param string|string[]|null|false $report
+     * @return array
      * @internal
      */
     public function archiveReports(int $idSite, $period, $date, $segment = false, $plugin = false, $report = false)
     {
-        if (\Piwik\API\Request::getRootApiRequestMethod() === 'CoreAdminHome.archiveReports') {
+        if ($this->shouldRequireSuperUserForArchiveReports()) {
             Piwik::checkUserHasSuperUserAccess();
         } else {
             Piwik::checkUserHasViewAccess($idSite);
@@ -362,7 +363,42 @@ class API extends \Piwik\Plugin\API
             $wasCached,
         ]);
 
+        if (is_array($result) && $isArchivePhpTriggered) {
+            $result = $this->addPeakMemoryUsageToResult($result);
+        }
+
         return $result;
+    }
+
+    private function addPeakMemoryUsageToResult(array $result): array
+    {
+        if (!function_exists('memory_get_peak_usage')) {
+            return $result;
+        }
+
+        $peakMemoryBytes = memory_get_peak_usage(true);
+        $formatter = new Formatter();
+
+        $result['peak_memory_usage'] = $peakMemoryBytes;
+        $result['peak_memory_usage_pretty'] = $formatter->getPrettySizeFromBytes($peakMemoryBytes);
+
+        return $result;
+    }
+
+    private function shouldRequireSuperUserForArchiveReports(): bool
+    {
+        $rootApiMethod = Request::getRootApiRequestMethod();
+        $requestParameters = PiwikRequest::fromRequest()->getParameters();
+        $currentApiMethod = Request::getMethodIfApiRequest($requestParameters);
+
+        // Bulk subrequests can arrive without module=API, so fall back to raw method.
+        if (empty($currentApiMethod)) {
+            $currentApiMethod = (string) ($requestParameters['method'] ?? '');
+        }
+
+        // Require superuser for direct archiveReports calls and archiveReports inside bulk requests.
+        return $rootApiMethod === 'CoreAdminHome.archiveReports'
+            || ($rootApiMethod === 'API.getBulkRequest' && $currentApiMethod === 'CoreAdminHome.archiveReports');
     }
 
     /**
@@ -425,8 +461,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Show the JavaScript opt out code
      *
-     *
-     *
      * @internal
      */
     public function getOptOutJSEmbedCode(
@@ -454,8 +488,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Show the self-contained JavaScript opt out code
-     *
-     *
      *
      * @internal
      */

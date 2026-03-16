@@ -57,7 +57,6 @@ class Updates_0_0_2 extends PiwikUpdates
      *
      * This method should perform all updating logic. If you define queries in the `getMigrations()` method,
      * you must call {@link Updater::executeMigrations()} here.
-     *
      */
     public function doUpdate(Updater $updater)
     {

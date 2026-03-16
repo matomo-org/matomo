@@ -76,7 +76,6 @@ abstract class Renderer extends BaseFactory
 
     /**
      * Sets whether to render subtables or not
-     *
      */
     public function setRenderSubTables(bool $enableRenderSubTable): void
     {
@@ -95,7 +94,6 @@ abstract class Renderer extends BaseFactory
 
     /**
      * Returns whether to render subtables or not
-     *
      */
     protected function isRenderSubtables(): bool
     {
@@ -544,7 +542,6 @@ abstract class Renderer extends BaseFactory
     }
 
     /**
-     *
      * @param array $array
      * @return array
      */

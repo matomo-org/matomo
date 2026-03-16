@@ -10,6 +10,23 @@ import { translate } from '../translate';
 
 const { piwik, broadcast, piwikHelper } = window;
 
+function normalizeLoginModule(value: unknown): string|undefined {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  if (!/^[A-Za-z0-9_]+$/.test(trimmed)) {
+    return undefined;
+  }
+
+  return trimmed;
+}
+
 type ComparisonsStoreLike = {
   getSegmentComparisons: () => Array<{params: { segment: string }, title: string, index: number}>;
 };
@@ -143,6 +160,22 @@ piwik.postEvent = function postMatomoEvent(
 ): void {
   const event = new CustomEvent(eventName, { detail: args });
   window.dispatchEvent(event);
+};
+
+piwik.getLoginModule = function getLoginModule(): string {
+  const fromPiwikConfig = normalizeLoginModule((piwik as { loginModule?: unknown }).loginModule);
+  if (fromPiwikConfig) {
+    return fromPiwikConfig;
+  }
+
+  const fromWindow = normalizeLoginModule(
+    (window as Window & { loginModule?: unknown }).loginModule,
+  );
+  if (fromWindow) {
+    return fromWindow;
+  }
+
+  return 'Login';
 };
 
 const Matomo = piwik;

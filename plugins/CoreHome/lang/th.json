@@ -5,6 +5,8 @@
         "CheckForUpdates": "ตรวจสอบชุดอัพเดท",
         "ChooseWebsite": "เลือกเว็บไซต์",
         "Default": "ค่าเริ่มต้น",
+        "PresetDateToday": "วันนี้",
+        "PresetDateYesterday": "เมื่อวาน",
         "ShowJSCode": "แสดงรหัส JavaScript เมื่อต้องการแทรก",
         "SupportPiwik": "สนับสนุน Matomo!",
         "SystemSummaryPhpVersion": "เวอร์ชั่น PHP",

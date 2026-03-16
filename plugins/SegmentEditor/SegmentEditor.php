@@ -55,7 +55,12 @@ class SegmentEditor extends \Piwik\Plugin
             'Db.getTablesInstalled'                      => 'getTablesInstalled',
             'SitesManager.deleteSite.end'                => 'onDeleteSite',
             'UsersManager.deleteUser'                    => 'onDeleteUser',
+            'API.getPagesComparisonsDisabledFor'         => 'getPagesComparisonsDisabledFor',
         );
+    }
+    public function getPagesComparisonsDisabledFor(&$pages)
+    {
+        $pages[] = 'General_Visitors.CoreHome_Segments';
     }
 
     public function onDeleteSite($idSite): void
@@ -332,6 +337,7 @@ class SegmentEditor extends \Piwik\Plugin
     public function getJsFiles(&$jsFiles): void
     {
         $jsFiles[] = "plugins/SegmentEditor/javascripts/Segmentation.js";
+        $jsFiles[] = "plugins/SegmentEditor/javascripts/manageSegmentsPage.js";
     }
 
     public function getStylesheetFiles(&$stylesheets): void
@@ -350,7 +356,6 @@ class SegmentEditor extends \Piwik\Plugin
 
     /**
      * Returns whether create realtime segments is enabled or not.
-     *
      */
     public static function isCreateRealtimeSegmentsEnabled(): bool
     {
@@ -368,6 +373,34 @@ class SegmentEditor extends \Piwik\Plugin
         $translationKeys[] = 'SegmentEditor_OperatorOR';
         $translationKeys[] = 'SegmentEditor_AddANDorORCondition';
         $translationKeys[] = 'SegmentEditor_DefaultAllVisits';
+        $translationKeys[] = 'SegmentEditor_AreYouSureDeleteSegment';
+        $translationKeys[] = 'SegmentEditor_AddNewSegment';
+        $translationKeys[] = 'SegmentEditor_ManageSegments';
+        $translationKeys[] = 'SegmentEditor_SegmentPageTitle';
+        $translationKeys[] = 'SegmentEditor_SegmentPageDescription';
+        $translationKeys[] = 'SegmentEditor_SeeDashboardForThisSegment';
+        $translationKeys[] = 'SegmentEditor_SparklineTooltipDays';
+        $translationKeys[] = 'SegmentEditor_SparklineTooltipWeeks';
+        $translationKeys[] = 'SegmentEditor_SparklineTooltipMonths';
+        $translationKeys[] = 'SegmentEditor_SparklineTooltipYears';
+        $translationKeys[] = 'SegmentEditor_ManageSegmentsRealtimeNotice';
+        $translationKeys[] = 'SegmentEditor_ManageSegmentsRealtimeNoDataTooltip';
+        $translationKeys[] = 'General_CanNotEditGlobalSegment';
+        $translationKeys[] = 'General_CanNotDeleteGlobalSegment';
+        $translationKeys[] = 'General_CanNotStarGlobalSegment';
+        $translationKeys[] = 'General_CanNotUnstarGlobalSegment';
+        $translationKeys[] = 'General_CanEditGlobalSegment';
+        $translationKeys[] = 'General_CanDeleteGlobalSegment';
+        $translationKeys[] = 'General_CanStarGlobalSegment';
+        $translationKeys[] = 'General_CanUnstarGlobalSegment';
+        $translationKeys[] = 'General_CanNotEditSiteSegment';
+        $translationKeys[] = 'General_CanNotDeleteSiteSegment';
+        $translationKeys[] = 'General_CanNotStarSiteSegment';
+        $translationKeys[] = 'General_CanNotUnstarSiteSegment';
+        $translationKeys[] = 'General_CanEditSiteSegment';
+        $translationKeys[] = 'General_CanDeleteSiteSegment';
+        $translationKeys[] = 'General_CanStarSiteSegment';
+        $translationKeys[] = 'General_CanUnstarSiteSegment';
         $translationKeys[] = 'General_OperationEquals';
         $translationKeys[] = 'General_OperationNotEquals';
         $translationKeys[] = 'General_OperationAtMost';

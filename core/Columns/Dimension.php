@@ -502,7 +502,6 @@ abstract class Dimension
      * Configures metrics for this dimension.
      *
      * For certain dimension types, some metrics will be added automatically.
-     *
      */
     public function configureMetrics(MetricsList $metricsList, DimensionMetricFactory $dimensionMetricFactory)
     {

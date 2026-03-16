@@ -26,13 +26,34 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 abstract class MenuAbstract extends Singleton
 {
+    /**
+     * @var array
+     */
     protected $menu = null;
-    protected $menuEntries = array();
-    protected $menuEntriesToRemove = array();
-    protected $edits = array();
-    protected $renames = array();
+    /**
+     * @var array
+     */
+    protected $menuEntries = [];
+    /**
+     * @var array
+     */
+    protected $menuEntriesToRemove = [];
+    /**
+     * @var array
+     */
+    protected $edits = [];
+    /**
+     * @var array
+     */
+    protected $renames = [];
+    /**
+     * @var bool
+     */
     protected $orderingApplied = false;
-    protected $menuIcons = array();
+    /**
+     * @var array<string, string>
+     */
+    protected $menuIcons = [];
 
     /**
      * Builds the menu, applies edits, renames
@@ -55,6 +76,7 @@ abstract class MenuAbstract extends Singleton
      *
      * @param string $menuName The translation key of a main menu category, eg 'Dashboard_Dashboard'
      * @param string $iconCssClass   The css class name of an icon, eg 'icon-user'
+     * @return void
      */
     public function registerMenuIcon($menuName, $iconCssClass)
     {
@@ -77,7 +99,7 @@ abstract class MenuAbstract extends Singleton
 
         $components = PluginManager::getInstance()->findComponents('Menu', 'Piwik\\Plugin\\Menu');
 
-        $menus = array();
+        $menus = [];
         foreach ($components as $component) {
             $menus[] = StaticContainer::get($component);
         }
@@ -92,16 +114,17 @@ abstract class MenuAbstract extends Singleton
      *
      * @param string $menuName The menu's category name. Can be a translation token.
      * @param null|string $subMenuName The menu item's name. Can be a translation token.
-     * @param string|array $url The URL the admin menu entry should link to, or an array of query parameters
+     * @param string|array<string, scalar> $url The URL the admin menu entry should link to, or an array of query parameters
      *                          that can be used to build the URL.
      * @param int $order The order hint.
-     * @param bool|string $tooltip An optional tooltip to display or false to display the tooltip.
-     * @param bool|string $icon An icon classname, such as "icon-add". Only supported by admin menu
-     * @param bool|string $onclick Will execute the on click handler instead of executing the link. Only supported by admin menu.
-     * @param bool|string $attribute Will add this string as a link attribute.
-     * @param bool|string $help Will display a help icon that will pop a notification with help information.
+     * @param string|null|false $tooltip An optional tooltip to display or false to display the tooltip.
+     * @param string|null|false $icon An icon classname, such as "icon-add". Only supported by admin menu
+     * @param string|null|false $onclick Will execute the on click handler instead of executing the link. Only supported by admin menu.
+     * @param string|null|false $attribute Will add this string as a link attribute.
+     * @param string|null|false $help Will display a help icon that will pop a notification with help information.
      * @param int $badgeCount If non-zero then a badge will be overlaid on the icon showing the provided count
      * @param string $cssClass If a string is provided, it will be added as an extra CSS class to the menu item
+     * @return void
      * @since 2.7.0
      * @api
      */
@@ -143,7 +166,8 @@ abstract class MenuAbstract extends Singleton
      * Removes an existing entry from the menu.
      *
      * @param string      $menuName    The menu's category name. Can be a translation token.
-     * @param bool|string $subMenuName The menu item's name. Can be a translation token.
+     * @param string|null|false $subMenuName The menu item's name. Can be a translation token.
+     * @return void
      * @api
      */
     public function remove($menuName, $subMenuName = false)
@@ -158,11 +182,11 @@ abstract class MenuAbstract extends Singleton
      * Builds a single menu item
      *
      * @param string|array $url
-     * @param bool|string $tooltip Tooltip to display.
-     * @param bool|string $icon
-     * @param bool|string $onclick
-     * @param bool|string $attribute
-     * @param bool|string $help
+     * @param string|null|false $tooltip Tooltip to display.
+     * @param string|null|false $icon
+     * @param string|null|false $onclick
+     * @param string|null|false $attribute
+     * @param string|null|false $help
      */
     private function buildMenuItem(
         string $menuName,
@@ -176,12 +200,12 @@ abstract class MenuAbstract extends Singleton
         $help = false,
         int $badgeCount = 0,
         string $cssClass = ''
-    ) {
+    ): void {
         if (!isset($this->menu[$menuName])) {
-            $this->menu[$menuName] = array(
+            $this->menu[$menuName] = [
                 '_hasSubmenu' => false,
                 '_order' => $order,
-            );
+            ];
         }
 
         if (empty($subMenuName)) {
@@ -224,7 +248,7 @@ abstract class MenuAbstract extends Singleton
     /**
      * Builds the menu from the $this->menuEntries variable.
      */
-    private function buildMenu()
+    private function buildMenu(): void
     {
         foreach ($this->menuEntries as $menuEntry) {
             $this->buildMenuItem(...$menuEntry);
@@ -234,35 +258,42 @@ abstract class MenuAbstract extends Singleton
     /**
      * Renames a single menu entry.
      *
-     * @param $mainMenuOriginal
-     * @param $subMenuOriginal
-     * @param $mainMenuRenamed
-     * @param $subMenuRenamed
+     * @param string $mainMenuOriginal
+     * @param string|null $subMenuOriginal
+     * @param string $mainMenuRenamed
+     * @param string|null $subMenuRenamed
+     * @phpstan-param ($subMenuOriginal is null ? null : string) $subMenuRenamed
+     * @return void
      * @api
      */
     public function rename($mainMenuOriginal, $subMenuOriginal, $mainMenuRenamed, $subMenuRenamed)
     {
-        $this->renames[] = array($mainMenuOriginal, $subMenuOriginal,
-                                 $mainMenuRenamed, $subMenuRenamed);
+        $this->renames[] = [
+            $mainMenuOriginal,
+            $subMenuOriginal,
+            $mainMenuRenamed,
+            $subMenuRenamed,
+        ];
     }
 
     /**
      * Edits a URL of an existing menu entry.
      *
-     * @param $mainMenuToEdit
-     * @param $subMenuToEdit
-     * @param $newUrl
+     * @param string $mainMenuToEdit
+     * @param string|null $subMenuToEdit
+     * @param string|array<string, scalar> $newUrl
+     * @return void
      * @api
      */
     public function editUrl($mainMenuToEdit, $subMenuToEdit, $newUrl)
     {
-        $this->edits[] = array($mainMenuToEdit, $subMenuToEdit, $newUrl);
+        $this->edits[] = [$mainMenuToEdit, $subMenuToEdit, $newUrl];
     }
 
     /**
      * Applies all edits to the menu.
      */
-    private function applyEdits()
+    private function applyEdits(): void
     {
         foreach ($this->edits as $edit) {
             $mainMenuToEdit = $edit[0];
@@ -291,7 +322,7 @@ abstract class MenuAbstract extends Singleton
         }
     }
 
-    private function applyRemoves()
+    private function applyRemoves(): void
     {
         foreach ($this->menuEntriesToRemove as $menuToDelete) {
             if (empty($menuToDelete[1])) {
@@ -310,7 +341,7 @@ abstract class MenuAbstract extends Singleton
     /**
      * Applies renames to the menu.
      */
-    private function applyRenames()
+    private function applyRenames(): void
     {
         foreach ($this->renames as $rename) {
             $mainMenuOriginal = $rename[0];
@@ -339,7 +370,7 @@ abstract class MenuAbstract extends Singleton
     /**
      * Orders the menu according to their order.
      */
-    private function applyOrdering()
+    private function applyOrdering(): void
     {
         if (
             empty($this->menu)
@@ -348,12 +379,12 @@ abstract class MenuAbstract extends Singleton
             return;
         }
 
-        uasort($this->menu, array($this, 'menuCompare'));
+        uasort($this->menu, [$this, 'menuCompare']);
         foreach ($this->menu as $key => &$element) {
             if (is_null($element)) {
                 unset($this->menu[$key]);
             } elseif ($element['_hasSubmenu']) {
-                uasort($element, array($this, 'menuCompare'));
+                uasort($element, [$this, 'menuCompare']);
             }
         }
 
@@ -363,9 +394,9 @@ abstract class MenuAbstract extends Singleton
     /**
      * Compares two menu entries. Used for ordering.
      *
-     * @param array $itemOne
-     * @param array $itemTwo
-     * @return boolean
+     * @param array|string $itemOne
+     * @param array|string $itemTwo
+     * @return int
      */
     protected function menuCompare($itemOne, $itemTwo)
     {
