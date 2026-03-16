@@ -38,7 +38,7 @@ class Request
     }
 
     /**
-     * Creates a trial request and sends a mail to all super users
+     * Creates a trial request and sends a mail to all superusers
      */
     public function create(string $pluginDisplayName = ''): void
     {
@@ -73,7 +73,7 @@ class Request
     }
 
     /**
-     * Send notification email to all super users
+     * Send notification email to all superusers
      */
     private function sendEmailToSuperUsers(): void
     {

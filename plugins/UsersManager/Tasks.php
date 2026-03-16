@@ -70,7 +70,7 @@ class Tasks extends \Piwik\Plugin\Tasks
         $usersModel = $this->usersModel;
         $usersManagerApi = $this->usersManagerApi;
         /*
-         * Required to be executed as super user, as the API method used requires super user or the user itself.
+         * Required to be executed as superuser, as the API method used requires superuser or the user itself.
          */
         Access::getInstance()->doAsSuperUser(function () use ($usersModel, $usersManagerApi) {
             $allUsers = $usersModel->getUsers([]);

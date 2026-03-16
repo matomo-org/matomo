@@ -68,8 +68,8 @@ class Updates_2_0_4_b5 extends Updates
             || empty($superUser)
             || empty($superUser['login'])
         ) {
-            // there is a super user which is not from the config but from the bridge, that means we already have
-            // a super user in the database
+            // there is a superuser which is not from the config but from the bridge, that means we already have
+            // a superuser in the database
             return;
         }
 

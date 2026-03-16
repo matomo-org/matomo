@@ -392,7 +392,7 @@ class Controller extends ControllerAdmin
         $javascriptGenerator = new TrackerCodeGenerator();
         $jsTag = $javascriptGenerator->generate($idSite, Url::getCurrentUrlWithoutFileName());
 
-        // Needs to be generated as super user, as API requests would otherwise fail
+        // Needs to be generated as superuser, as API requests would otherwise fail
         $emailBody = Access::doAsSuperUser(
             function () use ($idSite) {
                 return SitesManager::renderTrackingCodeEmail($idSite);
@@ -483,7 +483,7 @@ class Controller extends ControllerAdmin
      * system check, so people can see if there are any issues w/ their running
      * Matomo installation.
      *
-     * This admin tab is only viewable by the Super User.
+     * This admin tab is only viewable by the Superuser.
      */
     public function systemCheckPage()
     {

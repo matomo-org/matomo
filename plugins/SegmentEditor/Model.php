@@ -101,7 +101,7 @@ class Model
     }
 
     /**
-     * This should be used _only_ by Super Users
+     * This should be used _only_ by Superusers
      * @param $idSite
      * @return array
      */

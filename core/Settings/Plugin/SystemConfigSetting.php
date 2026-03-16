@@ -14,7 +14,7 @@ use Piwik\Piwik;
 use Piwik\Settings\Setting;
 
 /**
- * Describes a system wide setting. Only the Super User can change this type of setting by d efault and
+ * Describes a system wide setting. Only the Superuser can change this type of setting by d efault and
  * the value of this setting will affect all users.
  *
  * See {@link \Piwik\Settings\Setting}.

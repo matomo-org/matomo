@@ -150,7 +150,7 @@ class Controller extends \Piwik\Plugin\Controller
         }
 
         /*
-         * Executed as super user, as we need to fetch a scheduled report, without the current user being authenticated.
+         * Executed as superuser, as we need to fetch a scheduled report, without the current user being authenticated.
          */
         $report = Access::doAsSuperUser(function () use ($subscription) {
             $reports = Request::processRequest('ScheduledReports.getReports', [

@@ -205,7 +205,7 @@ class Piwik
     }
 
     /**
-     * Returns the email addresses configured as contact. If none is configured the mail addresses of all super users will be returned instead.
+     * Returns the email addresses configured as contact. If none is configured the mail addresses of all superusers will be returned instead.
      *
      * @return array
      */
@@ -222,7 +222,7 @@ class Piwik
     }
 
     /**
-     * Get a list of all email addresses having Super User access.
+     * Get a list of all email addresses having Superuser access.
      *
      * @return array
      */
@@ -271,7 +271,7 @@ class Piwik
     }
 
     /**
-     * Returns `true` if the current user is either the Super User or the user specified by
+     * Returns `true` if the current user is either the Superuser or the user specified by
      * `$theUser`.
      *
      * @param string $theUser A username.
@@ -317,14 +317,14 @@ class Piwik
      * Check that the current user is either the specified user or the superuser.
      *
      * @param string $theUser A username.
-     * @throws NoAccessException If the user is neither the Super User nor the user `$theUser`.
+     * @throws NoAccessException If the user is neither the Superuser nor the user `$theUser`.
      * @api
      */
     public static function checkUserHasSuperUserAccessOrIsTheUser($theUser)
     {
         try {
             if (Piwik::getCurrentUserLogin() !== $theUser) {
-                // or to the Super User
+                // or to the Superuser
                 Piwik::checkUserHasSuperUserAccess();
             }
         } catch (NoAccessException $e) {
@@ -410,7 +410,7 @@ class Piwik
     }
 
     /**
-     * Returns true if the current user has Super User access.
+     * Returns true if the current user has Superuser access.
      *
      * @return bool
      * @api

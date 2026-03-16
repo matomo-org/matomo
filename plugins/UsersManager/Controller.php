@@ -511,7 +511,7 @@ class Controller extends ControllerAdmin
     }
 
     /**
-     * The Super User can modify Anonymous user settings
+     * The Superuser can modify Anonymous user settings
      * @param View $view
      */
     protected function initViewAnonymousUserSettings($view)

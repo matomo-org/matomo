@@ -119,11 +119,11 @@ class UITestFixture extends SqlDump
         $userUpdater->setSuperUserAccessWithoutCurrentPassword('superUserLogin', true);
         SitesManagerAPI::getInstance()->updateSite(1, null, null, true);
 
-        // create non super user
+        // create non superuser
         UsersManagerAPI::getInstance()->addUser('oliverqueen', 'smartypants', 'oli@queenindustries.com');
         UsersManagerAPI::getInstance()->setUserAccess('oliverqueen', 'view', [1]);
 
-        // another non super user
+        // another non superuser
         UsersManagerAPI::getInstance()->addUser('anotheruser', 'anotheruser', 'someemail@email.com');
         UsersManagerAPI::getInstance()->setUserAccess('anotheruser', 'view', [1]);
 

@@ -322,8 +322,8 @@ class Request
         $tokenToRestore,
         $hadSuperUserAccess
     ) {
-        // if we would not make sure to unset super user access, the tokenAuth would be not authenticated and any
-        // token would just keep super user access (eg if the token that was reloaded before had super user access)
+        // if we would not make sure to unset superuser access, the tokenAuth would be not authenticated and any
+        // token would just keep superuser access (eg if the token that was reloaded before had superuser access)
         Access::getInstance()->setSuperUserAccess(false);
 
         // we need to restore by reloading the tokenAuth as some permissions could have been removed in the API

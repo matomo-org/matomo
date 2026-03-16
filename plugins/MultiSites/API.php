@@ -165,7 +165,7 @@ class API extends \Piwik\Plugin\API
             // Then, warm the cache with only the data we should have access to
             if (
                 Piwik::hasUserSuperUserAccess()
-                // Hack: when this API function is called as a Scheduled Task, Super User status is enforced.
+                // Hack: when this API function is called as a Scheduled Task, Superuser status is enforced.
                 // This means this function would return ALL websites in all cases.
                 // Instead, we make sure that only the right set of data is returned
                 && !$scheduler->isRunningTask()

@@ -21,7 +21,7 @@ final class Service
     }
 
     /**
-     * Creates a trial request (and sends a mail to all super users)
+     * Creates a trial request (and sends a mail to all superusers)
      */
     public function request(string $pluginName, string $pluginDisplayName): void
     {
@@ -59,7 +59,7 @@ final class Service
         }
 
         if (!Piwik::hasUserSuperUserAccess()) {
-            return; // only super users can see and dismiss those notifications
+            return; // only superusers can see and dismiss those notifications
         }
 
         foreach (Storage::getPluginsInStorage() as $pluginName) {
@@ -81,7 +81,7 @@ final class Service
         }
 
         if (!Piwik::hasUserSuperUserAccess()) {
-            return; // only super users can see and dismiss those notifications
+            return; // only superusers can see and dismiss those notifications
         }
 
         if (strpos($notificationId, 'Marketplace_PluginTrialRequest_') !== 0) {

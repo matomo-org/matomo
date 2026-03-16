@@ -89,8 +89,8 @@ class Failures
     private function getParamsWithTokenAnonymized(Request $request)
     {
         // eg if there is a typo in the token auth we want to replace it as well to not accidentally leak a token
-        // eg imagine a super user tries to issue an API request for a site and sending the wrong parameter for a token...
-        // an admin may have view access for this and can see the super users token
+        // eg imagine a superuser tries to issue an API request for a site and sending the wrong parameter for a token...
+        // an admin may have view access for this and can see the superusers token
         $token = $request->getTokenAuth();
         $params = $request->getRawParams();
         foreach (array('token_auth', 'token', 'tokenauth', 'token__auth') as $key) {

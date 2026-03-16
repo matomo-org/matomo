@@ -1337,7 +1337,7 @@ class CronArchive
     private function logInitInfo()
     {
         $this->logSection("INIT");
-        $this->logger->info("Running Matomo " . Version::VERSION . " as Super User");
+        $this->logger->info("Running Matomo " . Version::VERSION . " as Superuser");
     }
 
     private function logArchiveTimeoutInfo()

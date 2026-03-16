@@ -97,7 +97,7 @@ abstract class SMSProvider
      * Defines whether the SMS Provider is available. If a certain provider should be used only be a limited
      * range of users you can restrict the provider here. For example there is a Development SMS Provider that is only
      * available when the development is actually enabled. You could also create a SMS Provider that is only available
-     * to Super Users etc. Usually this method does not have to be implemented by a SMS Provider.
+     * to Superusers etc. Usually this method does not have to be implemented by a SMS Provider.
      *
      * @return bool
      */

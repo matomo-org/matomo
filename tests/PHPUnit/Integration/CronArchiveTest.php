@@ -1377,7 +1377,7 @@ class CronArchiveTest extends IntegrationTestCase
         $expected = <<<LOG
 ---------------------------
 INIT
-Running Matomo $version as Super User
+Running Matomo $version as Superuser
 ---------------------------
 NOTES
 - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.
@@ -1491,7 +1491,7 @@ LOG;
         $expected = <<<LOG
 ---------------------------
 INIT
-Running Matomo $version as Super User
+Running Matomo $version as Superuser
 ---------------------------
 NOTES
 - If you execute this script at least once per hour (or more often) in a crontab, you may disable 'Browser trigger archiving' in Matomo UI > Settings > General Settings.

@@ -752,7 +752,7 @@ class Fixture extends \PHPUnit\Framework\Assert
     }
 
     /**
-     * Returns the Super User token auth that can be used in tests. Can be used to
+     * Returns the Superuser token auth that can be used in tests. Can be used to
      * do bulk tracking.
      *
      * @return string

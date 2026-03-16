@@ -92,7 +92,7 @@ class AuthResult
     }
 
     /**
-     * Returns true if the user has Super User access, false otherwise.
+     * Returns true if the user has Superuser access, false otherwise.
      *
      * @return bool
      */

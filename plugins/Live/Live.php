@@ -61,7 +61,7 @@ class Live extends \Piwik\Plugin
     public static function checkIsVisitorLogEnabled($idSite = null): void
     {
         if (VisitorLogDisabledSetting::getInstance()->getValue() === true) {
-            throw new \Exception('Visits log is deactivated globally. A user with super user access can enable this feature in the general settings.');
+            throw new \Exception('Visits log is deactivated globally. A user with superuser access can enable this feature in the general settings.');
         }
 
         if (empty($idSite)) {
@@ -107,7 +107,7 @@ class Live extends \Piwik\Plugin
         $systemSettings = new SystemSettings();
 
         if ($systemSettings->disableVisitorProfile->getValue() === true) {
-            throw new \Exception('Visitor profile is deactivated globally. A user with super user access can enable this feature in the general settings.');
+            throw new \Exception('Visitor profile is deactivated globally. A user with superuser access can enable this feature in the general settings.');
         }
 
         if (empty($idSite)) {

@@ -51,7 +51,7 @@ class MyExampleWidget extends Widget
         /**
          * Define whether a widget is enabled or not. For instance some widgets might not be available to every user or
          * might depend on a setting (such as Ecommerce) of a site. In such a case you can perform any checks and then
-         * set `true` or `false`. If your widget is only available to users having super user access you can do the
+         * set `true` or `false`. If your widget is only available to users having superuser access you can do the
          * following:
          *
          * $config->setIsEnabled(\Piwik\Piwik::hasUserSuperUserAccess());

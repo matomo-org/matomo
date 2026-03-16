@@ -43,7 +43,7 @@ class SegmentEditorTest extends IntegrationTestCase
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3, 4));
 
-        //finally we set the user as a Super User by default
+        //finally we set the user as a Superuser by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
 

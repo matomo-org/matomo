@@ -567,7 +567,7 @@ class APITest extends IntegrationTestCase
         $userUpdater = new UserUpdater();
         $userUpdater->setSuperUserAccessWithoutCurrentPassword($user2, true);
 
-        // super user has admin access for every site
+        // superuser has admin access for every site
         $access   = $this->api->getSitesAccessFromUser($user2);
         $expected = [
             [

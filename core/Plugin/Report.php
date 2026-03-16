@@ -254,7 +254,7 @@ class Report
     /**
      * Defines whether a report is enabled or not. For instance some reports might not be available to every user or
      * might depend on a setting (such as Ecommerce) of a site. In such a case you can perform any checks and then
-     * return `true` or `false`. If your report is only available to users having super user access you can do the
+     * return `true` or `false`. If your report is only available to users having superuser access you can do the
      * following: `return Piwik::hasUserSuperUserAccess();`
      * @return bool
      * @api

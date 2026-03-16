@@ -42,7 +42,7 @@ class UpdateCommunication
     }
 
     /**
-     * Sends a notification email to all super users if there is a core update available but only if we haven't notfied
+     * Sends a notification email to all superusers if there is a core update available but only if we haven't notfied
      * them about a specific new version yet.
      */
     public function sendNotificationIfUpdateAvailable(): void
@@ -88,7 +88,7 @@ class UpdateCommunication
     }
 
     /**
-     * Send an email notification to all super users.
+     * Send an email notification to all superusers.
      *
      * @param $subject
      * @param $message

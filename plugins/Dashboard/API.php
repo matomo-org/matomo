@@ -60,7 +60,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Creates a new dashboard for the given login
      *
-     * Note: Only a super user is able to create dashboards for other users
+     * Note: Only a superuser is able to create dashboards for other users
      *
      * @param string $login login of the user that dashboard should be created for
      * @param string $dashboardName name of the new dashboard
@@ -84,7 +84,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Removes a dashboard according to given dashboard id and login
      *
-     * Note: Only a super user is able to remove dashboards for other users
+     * Note: Only a superuser is able to remove dashboards for other users
      *
      * Also note: It is allowed to delete the first dashboard for a user, BUT
      * that will cause buggy behavior if a new dashboard is not immediately added.
@@ -107,7 +107,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Copy a dashboard of current user to another user
      *
-     * Note: current user needs super user access
+     * Note: current user needs superuser access
      *
      * @param int $idDashboard Id of the dashboard that should be copied
      * @param string $copyToUser User the dashboard should be copied to
@@ -146,7 +146,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Resets a dashboard to the default widget configuration
      *
-     * Note: Only a super user is able to reset dashboards for other users
+     * Note: Only a superuser is able to reset dashboards for other users
 
      * @param int $idDashboard dashboard id
      * @param string $login user the dashboard belongs

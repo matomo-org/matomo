@@ -779,7 +779,7 @@ abstract class Controller
         $view->isMultiSitesEnabled = $pluginManager->isPluginActivated('MultiSites');
 
         /*
-         * Executed as super user, so we are able to check if there are other sites (the current user might not have access to)
+         * Executed as superuser, so we are able to check if there are other sites (the current user might not have access to)
          */
         $view->isSingleSite = Access::doAsSuperUser(function () {
             $allSites = Request::processRequest('SitesManager.getAllSitesId', [], []);
@@ -798,7 +798,7 @@ abstract class Controller
      *
      * The following variables assigned:
      *
-     * **isSuperUser** - True if the current user is the Super User, false if otherwise.
+     * **isSuperUser** - True if the current user is the Superuser, false if otherwise.
      * **hasSomeAdminAccess** - True if the current user has admin access to at least one site,
      *                          false if otherwise.
      * **isCustomLogo** - The value of the `branding_use_custom_logo` option.
@@ -865,7 +865,7 @@ abstract class Controller
      * - **isValidHost** - true if host is valid, false if otherwise
      * - **invalidHostMessage** - message to display if host is invalid (only set if host is invalid)
      * - **invalidHost** - the invalid hostname (only set if host is invalid)
-     * - **mailLinkStart** - the open tag of a link to email the Super User of this problem (only set
+     * - **mailLinkStart** - the open tag of a link to email the Superuser of this problem (only set
      *                       if host is invalid)
      *
      * @param View $view
@@ -933,7 +933,7 @@ abstract class Controller
                                                                                        '</a>',
                                                                                   ));
             }
-            $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Matomo Super User can manually edit the file /path/to/matomo/config/config.ini.php
+            $view->invalidHostMessageHowToFix = '<p><b>How do I fix this problem and how do I login again?</b><br/> The Matomo Superuser can manually edit the file /path/to/matomo/config/config.ini.php
 						and add the following lines: <pre>[General]' . "\n" . 'trusted_hosts[] = "' . $invalidHost . '"</pre>After making the change, you will be able to login again.</p>
 						<p>You may also <i>disable this security feature (not recommended)</i>. To do so edit config/config.ini.php and add:
 						<pre>[General]' . "\n" . 'enable_trusted_host_check=0</pre>';

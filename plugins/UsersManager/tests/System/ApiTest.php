@@ -59,7 +59,7 @@ class ApiTest extends SystemTestCase
             'login4' => 'when_viewaccess',
         ];
 
-        // login1 = super user, login2 = some admin access, login4 = only view access
+        // login1 = superuser, login2 = some admin access, login4 = only view access
         foreach ($logins as $login => $appendix) {
             $params['token_auth'] = self::$fixture->users[$login]['token'];
             $xmlFieldsToRemove = [

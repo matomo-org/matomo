@@ -292,7 +292,7 @@ class PasswordResetter
         $passwordHash
     ) {
         /*
-         * Executed as super user, as we need to update the password, without the current user being authenticated yet.
+         * Executed as superuser, as we need to update the password, without the current user being authenticated yet.
          */
         Access::doAsSuperUser(function () use ($login, $passwordHash) {
             $userUpdater = new UserUpdater();

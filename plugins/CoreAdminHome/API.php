@@ -230,7 +230,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Deletes all tracking failures this user has at least admin access to.
-     * A super user will also delete tracking failures for sites that don't exist.
+     * A superuser will also delete tracking failures for sites that don't exist.
      */
     public function deleteAllTrackingFailures()
     {
@@ -257,7 +257,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get all tracking failures. A user retrieves only tracking failures for sites with at least admin access.
-     * A super user will also retrieve failed requests for sites that don't exist.
+     * A superuser will also retrieve failed requests for sites that don't exist.
      * @return array
      */
     public function getTrackingFailures()

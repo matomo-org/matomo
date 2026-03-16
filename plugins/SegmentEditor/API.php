@@ -103,7 +103,7 @@ class API extends \Piwik\Plugin\API
             $enabledAllUsers
             && !Piwik::hasUserSuperUserAccess()
         ) {
-            throw new Exception("enabledAllUsers=1 requires Super User access");
+            throw new Exception("enabledAllUsers=1 requires Superuser access");
         }
         return $enabledAllUsers;
     }
@@ -130,12 +130,12 @@ class API extends \Piwik\Plugin\API
                 );
             }
         } else {
-            // Segment 'All websites' and pre-processed requires Super User
+            // Segment 'All websites' and pre-processed requires Superuser
             if ($idSite === null) {
                 if (!Piwik::hasUserSuperUserAccess()) {
                     throw new Exception(
                         "Please contact Support to make these changes on your behalf. " .
-                        " To modify a pre-processed segment for all websites, a user must have super user access. "
+                        " To modify a pre-processed segment for all websites, a user must have superuser access. "
                     );
                 }
             } else {
@@ -203,11 +203,11 @@ class API extends \Piwik\Plugin\API
         }
 
         if (Piwik::hasUserSuperUserAccess()) {
-            return true; // super user can always edit
+            return true; // superuser can always edit
         }
 
         if (empty($idSite)) {
-            return false; // only super user can add a segment without a site
+            return false; // only superuser can add a segment without a site
         }
 
         $requiredAccess = Config\GeneralConfig::getConfigValue('adding_segment_requires_access', $idSite);
@@ -302,7 +302,7 @@ class API extends \Piwik\Plugin\API
         // this ensure that a segment from a user with lower permission can still be changed by them
         // if a superuser updated the segment to be available for all users
         if ((int) $segment['enable_all_users'] !== (int) $enabledAllUsers && !Piwik::hasUserSuperUserAccess()) {
-            throw new Exception('Changing value for enabledAllUsers is permitted to super users only.');
+            throw new Exception('Changing value for enabledAllUsers is permitted to superusers only.');
         }
 
         if ((int)$segment['enable_only_idsite'] !== (int)$idSite && !$this->isUserCanAddNewSegment($idSite)) {
@@ -573,8 +573,8 @@ class API extends \Piwik\Plugin\API
      * Sorts segment in a particular order:
      *
      *  1) my segments
-     *  2) segments created by the super user that were shared with all users
-     *  3) segments created by other users (which are visible to all super users)
+     *  2) segments created by the superuser that were shared with all users
+     *  3) segments created by other users (which are visible to all superusers)
      *
      * @param array<int, StoredSegment> $segments
      * @return list<StoredSegment>

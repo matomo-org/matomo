@@ -111,8 +111,8 @@ class Cache
 
         $content = [];
         /*
-         * Updating cached websites attributes might be triggered by various events, including actions performed by non super users.
-         * Therefore we execute below code as super user, to ensure the cache is built without restrictions.
+         * Updating cached websites attributes might be triggered by various events, including actions performed by non superusers.
+         * Therefore we execute below code as superuser, to ensure the cache is built without restrictions.
          */
         Access::doAsSuperUser(function () use (&$content, $idSite) {
             /**

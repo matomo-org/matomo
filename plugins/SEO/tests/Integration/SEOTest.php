@@ -33,7 +33,7 @@ class SEOTest extends IntegrationTestCase
         FakeAccess::setIdSitesView([1, 2]);
         FakeAccess::setIdSitesAdmin([3, 4]);
 
-        // Finally we set the user as a Super User by default
+        // Finally we set the user as a Superuser by default
         FakeAccess::$superUser = true;
 
         // Needed to load the Intl_NumberFormatNumber translation string used when formatting the ranking numbers

@@ -124,7 +124,7 @@ class Visitor implements VisitorInterface
     }
 
     /**
-     * Removes fields that the user should only access if they are Super User or admin (cookie, IP,
+     * Removes fields that the user should only access if they are Superuser or admin (cookie, IP,
      * md5 config "fingerprint" hash)
      *
      * @param array $visitorDetails

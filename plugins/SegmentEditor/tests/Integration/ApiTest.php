@@ -56,12 +56,12 @@ class ApiTest extends IntegrationTestCase
             'segment 3',
             'segment 7',
 
-            // 2) segments created by a super user that were shared with all users
+            // 2) segments created by a superuser that were shared with all users
             'segment 5',
             'segment 9',
 
-            // 3) segments created by other users (which are visible to all super users)
-            // not a super user, so can't see those
+            // 3) segments created by other users (which are visible to all superusers)
+            // not a superuser, so can't see those
         ];
 
         $segments     = $this->api->getAll($idSite = 1);
@@ -82,13 +82,13 @@ class ApiTest extends IntegrationTestCase
             'segment 3',
             'segment 7',
 
-            // 2) segments created by a super user that were shared with all users
+            // 2) segments created by a superuser that were shared with all users
             'segment 5',
             'segment 6',
             'segment 9',
 
-            // 3) segments created by other users (which are visible to all super users)
-            // not a super user, so can't see those
+            // 3) segments created by other users (which are visible to all superusers)
+            // not a superuser, so can't see those
         ];
 
         $segments     = $this->api->getAll();
@@ -109,7 +109,7 @@ class ApiTest extends IntegrationTestCase
             'segment 3',
             'segment 7',
 
-            // 2) segments created by a super user that were shared with all users
+            // 2) segments created by a superuser that were shared with all users
             'segment 5',
             'segment 9',
         ];
@@ -244,11 +244,11 @@ class ApiTest extends IntegrationTestCase
             // 1) my segments
             'segment 9',
 
-            // 2) segments created by a super user that were shared with all users
+            // 2) segments created by a superuser that were shared with all users
             'segment 5',
             'segment 6',
 
-            // 3) segments created by other users (which are visible to all super users)
+            // 3) segments created by other users (which are visible to all superusers)
             'segment 1',
             'segment 2',
             'segment 3',
@@ -272,10 +272,10 @@ class ApiTest extends IntegrationTestCase
             // 1) my segments
             'segment 9',
 
-            // 2) segments created by a super user that were shared with all users
+            // 2) segments created by a superuser that were shared with all users
             'segment 5',
 
-            // 3) segments created by other users (which are visible to all super users)
+            // 3) segments created by other users (which are visible to all superusers)
             'segment 1',
             'segment 3',
             'segment 4',
@@ -366,7 +366,7 @@ class ApiTest extends IntegrationTestCase
     public function testNormalUserCannotCreateSharedSegment()
     {
         self::expectException(\Exception::class);
-        self::expectExceptionMessage('enabledAllUsers=1 requires Super User access');
+        self::expectExceptionMessage('enabledAllUsers=1 requires Superuser access');
 
         $segment = 'pageUrl=@%252F1';
         Fixture::createWebsite('2020-03-03 00:00:00');

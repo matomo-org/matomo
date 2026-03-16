@@ -452,7 +452,7 @@ class SegmentEditor extends \Piwik\Plugin
     public function transferAllUserSegmentsToSuperUser($userLogin): void
     {
         /*
-         * We need to do that as super user, as the event triggering this method might be initiated without a session
+         * We need to do that as superuser, as the event triggering this method might be initiated without a session
          */
         Access::doAsSuperUser(function () use ($userLogin) {
             $model = new Model();

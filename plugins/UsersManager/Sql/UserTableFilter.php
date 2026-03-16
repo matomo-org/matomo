@@ -91,7 +91,7 @@ class UserTableFilter
             }
             if ($this->filterStatus === 'pending') {
                 $conditions[] = '(u.invite_token is not NULL and u.invite_expired_at > DATE(Now()))';
-                // Pending users are only visible for super user or the user, who invited the user
+                // Pending users are only visible for superuser or the user, who invited the user
                 if (!Piwik::hasUserSuperUserAccess()) {
                     $conditions[] = 'u.invited_by = ?';
                     $bind[] = Piwik::getCurrentUserLogin();
@@ -99,7 +99,7 @@ class UserTableFilter
             }
             if ($this->filterStatus === 'expired') {
                 $conditions[] = '(u.invite_token is not NULL and u.invite_expired_at < DATE(Now()))';
-                // Expired users are only visible for super user or the user, who invited the user
+                // Expired users are only visible for superuser or the user, who invited the user
                 if (!Piwik::hasUserSuperUserAccess()) {
                     $conditions[] = 'u.invited_by = ?';
                     $bind[] = Piwik::getCurrentUserLogin();

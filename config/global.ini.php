@@ -586,7 +586,7 @@ noreply_email_address = "noreply@{DOMAIN}"
 ; standard email name displayed when sending emails. If not set, a default name will be used.
 noreply_email_name = ""
 
-; email address to use when an administrator should be contacted. If not set, email addresses of all super users will be used instead.
+; email address to use when an administrator should be contacted. If not set, email addresses of all superusers will be used instead.
 ; To use multiple addresses simply concatenate them with a ','
 contact_email_address = ""
 
@@ -835,19 +835,19 @@ enable_users_admin = 1
 ; By setting this option to 0 the websites management will be disabled
 enable_sites_admin = 1
 
-; By setting this option to 1, it will be possible for Super Users to upload Matomo plugin ZIP archives directly in Matomo Administration.
+; By setting this option to 1, it will be possible for Superusers to upload Matomo plugin ZIP archives directly in Matomo Administration.
 ; Enabling this opens a remote code execution vulnerability where
-; an attacker who gained Super User access could execute custom PHP code in a Matomo plugin.
+; an attacker who gained Superuser access could execute custom PHP code in a Matomo plugin.
 enable_plugin_upload = 0
 
 ; By setting this option to 0 (e.g. in common.config.ini.php) the installer will be disabled.
 enable_installer = 1
 
-; By setting this option to 0, you can prevent Super User from editing the Geolocation settings.
+; By setting this option to 0, you can prevent Superuser from editing the Geolocation settings.
 enable_geolocation_admin = 1
 
 ; By setting this option to 0, the old raw data and old report data purging features will be hidden from the UI
-; Note: log purging and old data purging still occurs, just the Super User cannot change the settings.
+; Note: log purging and old data purging still occurs, just the Superuser cannot change the settings.
 enable_delete_old_data_settings_admin = 1
 
 ; By setting this option to 0, the following settings will be hidden and disabled from being set in the UI:

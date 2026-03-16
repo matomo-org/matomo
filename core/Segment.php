@@ -134,7 +134,7 @@ class Segment
             !SettingsPiwik::isSegmentationEnabled()
             && !empty($segmentCondition)
         ) {
-            throw new Exception("The Super User has disabled the Segmentation feature.");
+            throw new Exception("The Superuser has disabled the Segmentation feature.");
         }
 
         $this->originalString = $segmentCondition;

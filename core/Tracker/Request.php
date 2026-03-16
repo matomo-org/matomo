@@ -158,7 +158,7 @@ class Request
 
     /**
      * This method allows to set custom IP + server time + visitor ID, when using Tracking API.
-     * These two attributes can be only set by the Super User (passing token_auth).
+     * These two attributes can be only set by the Superuser (passing token_auth).
      */
     protected function authenticateTrackingApi(
         #[\SensitiveParameter]
@@ -253,7 +253,7 @@ class Request
             return true;
         }
 
-        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Super User / Admin / Write was NOT authenticated");
+        Common::printDebug("WARNING! token_auth = $tokenAuth is not valid, Superuser / Admin / Write was NOT authenticated");
 
         /**
          * @ignore

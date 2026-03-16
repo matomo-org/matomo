@@ -66,7 +66,7 @@ class UpdateCommunication
     }
 
     /**
-     * Sends an email to all super users if there is an update available for any plugins from the Marketplace.
+     * Sends an email to all superusers if there is an update available for any plugins from the Marketplace.
      * For each update we send an email only once.
      */
     public function sendNotificationIfUpdatesAvailable()
@@ -111,7 +111,7 @@ class UpdateCommunication
     }
 
     /**
-     * Send an email notification to all super users.
+     * Send an email notification to all superusers.
      *
      * @param $subject
      * @param $message

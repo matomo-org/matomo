@@ -234,7 +234,7 @@ class ApiTest extends IntegrationTestCase
     public function testRequestTrialRequiresRegularUserAccessIfSuperUser()
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Cannot request trial as a super user');
+        $this->expectExceptionMessage('Cannot request trial as a superuser');
 
         $this->api->requestTrial('testPlugin');
     }

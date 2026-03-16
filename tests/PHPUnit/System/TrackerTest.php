@@ -285,7 +285,7 @@ class TrackerTest extends IntegrationTestCase
     {
         $piwikHost = Fixture::getRootUrl() . 'tests/PHPUnit/proxy/matomo.php';
 
-        // Note: The first request requires a valid super user token, because of the custom ip
+        // Note: The first request requires a valid superuser token, because of the custom ip
         $command = 'curl -s -X POST -d \'{"requests":["?idsite=1&url=http://example.org&action_name=Test bulk log Pageview&cip=1.1.1.1&rec=1","?idsite=1&url=http://example.net/test.htm&action_name=Another bulk page view&rec=1"],"token_auth":"' . $token_auth . '"}\' ' . $piwikHost;
 
         exec($command, $output, $result);

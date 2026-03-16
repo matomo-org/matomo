@@ -1207,7 +1207,7 @@ class Manager
         if ($newPlugin->hasMissingDependencies()) {
             $this->unloadPluginFromMemory($pluginName);
 
-            // at this state we do not know yet whether current user has super user access. We do not even know
+            // at this state we do not know yet whether current user has superuser access. We do not even know
             // if someone is actually logged in.
             $message  = Piwik::translate('CorePluginsAdmin_WeCouldNotLoadThePluginAsItHasMissingDependencies', array($pluginName, $newPlugin->getMissingDependenciesAsString()));
             $message .= ' ';

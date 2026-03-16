@@ -383,7 +383,7 @@ class FrontController extends Singleton
             throw $exception;
         }
 
-        // Init the Access object, so that eg. core/Updates/* can enforce Super User and use some APIs
+        // Init the Access object, so that eg. core/Updates/* can enforce Superuser and use some APIs
         Access::getInstance();
 
         /**
@@ -716,7 +716,7 @@ class FrontController extends Singleton
             $messages = array(
                 Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebase', array($current, $dbSchemaVersion)),
                 Piwik::translate('General_ExceptionDatabaseVersionNewerThanCodebaseWait'),
-                // we cannot fill in the Super User emails as we are failing before Authentication was ready
+                // we cannot fill in the Superuser emails as we are failing before Authentication was ready
                 Piwik::translate('General_ExceptionContactSupportGeneric', array('', '')),
             );
             throw new DatabaseSchemaIsNewerThanCodebaseException(implode(" ", $messages));

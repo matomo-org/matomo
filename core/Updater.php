@@ -251,7 +251,7 @@ class Updater
                 $classNames[] = $className;
 
                 /*
-                 * Fetch available migrations as super user, to ensure having access to everything.
+                 * Fetch available migrations as superuser, to ensure having access to everything.
                  * Otherwise migrations iterating e.g. over available sites or similar, might only update those the
                  * current user has permission for.
                  */
@@ -483,7 +483,7 @@ class Updater
 
         if (!empty($componentsWithUpdateFile)) {
             /*
-             * Perform updates as super user, so we bypass any permission checks and are able to change anything.
+             * Perform updates as superuser, so we bypass any permission checks and are able to change anything.
              */
             Access::doAsSuperUser(function () use ($componentsWithUpdateFile, &$coreError, &$deactivatedPlugins, &$errors, &$warnings) {
 

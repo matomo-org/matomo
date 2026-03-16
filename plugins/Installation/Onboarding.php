@@ -32,7 +32,7 @@ class Onboarding
 <br>
 Thank you for installing Matomo On-Premises, the #1 Google Analytics alternative that protects your data.<br>
 <br>
-You’re receiving this email from your Matomo instance because you\'re the Super User and you have just finished installing Matomo On-Premise. You’re the only person who will receive this email. The mail was sent from your Matomo.<br>
+You’re receiving this email from your Matomo instance because you\'re the Superuser and you have just finished installing Matomo On-Premise. You’re the only person who will receive this email. The mail was sent from your Matomo.<br>
 <br>
 It’s now our job to ensure you get the best possible Matomo experience without any disruptions, so we hope to answer the three most common problems we find users ask when starting out with Matomo.<br>
 <br>

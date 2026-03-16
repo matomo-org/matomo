@@ -146,7 +146,7 @@ class Console extends Application
         if ($exitCode === null) {
             $self = $this;
             /*
-             * Ensure to run console command with super user permission. Otherwise any permission check would fail,
+             * Ensure to run console command with superuser permission. Otherwise any permission check would fail,
              * as we do not have any user session or authentication in place.
              */
             $exitCode = Access::doAsSuperUser(function () use ($input, $output, $self) {

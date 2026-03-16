@@ -14,7 +14,7 @@ use Piwik\Piwik;
 use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 
 /**
- * Defines a new challenge which a super user needs to complete in order to become a "Matomo expert".
+ * Defines a new challenge which a superuser needs to complete in order to become a "Matomo expert".
  * Plugins can add new challenges by listening to the {@hook Tour.filterChallenges} event.
  *
  * @since 3.10.0
@@ -126,7 +126,7 @@ abstract class Challenge
     }
 
     /**
-     * Set this challenge was completed successfully by the current user. Only works for a super user.
+     * Set this challenge was completed successfully by the current user. Only works for a superuser.
      */
     public function setCompleted(string $login)
     {

@@ -613,7 +613,7 @@ class Controller extends Plugin\ControllerAdmin
     }
 
     /**
-     * Let Super User troubleshoot in safe mode, even when Login is broken, with this special trick
+     * Let Superuser troubleshoot in safe mode, even when Login is broken, with this special trick
      *
      * @return bool
      * @throws Exception

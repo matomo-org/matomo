@@ -21,7 +21,7 @@ use ReflectionClass;
  *
  * @hide -> Won't be shown in list of all APIs but is also not possible to be called via HTTP API
  * @hideForAll Same as @hide
- * @hideExceptForSuperUser Same as @hide but still shown and possible to be called by a user with super user access
+ * @hideExceptForSuperUser Same as @hide but still shown and possible to be called by a user with superuser access
  * @internal -> Won't be shown in list of all APIs but is possible to be called via HTTP API
  */
 class DocumentationGenerator

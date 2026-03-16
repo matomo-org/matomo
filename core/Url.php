@@ -291,7 +291,7 @@ class Url
 
     /**
      * Records one host, or an array of hosts in the config file,
-     * if user is Super User
+     * if user is Superuser
      *
      * @static
      * @param string|string[] $host

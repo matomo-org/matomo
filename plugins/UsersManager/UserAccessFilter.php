@@ -14,7 +14,7 @@ use Piwik\Access;
 /**
  * This class offers methods to filter a list of users, logins, or anything that is related to users/logins.
  *
- * * By default a super user is allowed to see all users.
+ * * By default a superuser is allowed to see all users.
  * * A user having admin access is allowed to see all other users that have view or admin access to the same access.
  * * A user not having any admin access is only allowed to see the own user.
  *
@@ -75,7 +75,7 @@ class UserAccessFilter
     public function filterLoginIndexedArray($arrayIndexedByLogin)
     {
         if ($this->access->hasSuperUserAccess()) {
-            return $arrayIndexedByLogin; // this part is not needed but makes it faster for super user.
+            return $arrayIndexedByLogin; // this part is not needed but makes it faster for superuser.
         }
 
         $allowedLogins = $this->filterLogins(array_keys($arrayIndexedByLogin));
@@ -162,7 +162,7 @@ class UserAccessFilter
 
     protected function isNonSuperUserAllowedToSeeThisLogin($login)
     {
-        // we do not test for super user access here for better performance as we would otherwise test for access for
+        // we do not test for superuser access here for better performance as we would otherwise test for access for
         // each single login in the other calling methods.
         return $this->hasAccessToSameSite($login) || $this->isOwnLogin($login);
     }

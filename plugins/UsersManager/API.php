@@ -160,7 +160,7 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Get the list of all available roles.
-     * It does not return the super user role, and neither the "noaccess" role.
+     * It does not return the superuser role, and neither the "noaccess" role.
      * @return array[]  Returns an array containing information about each role
      */
     public function getAvailableRoles()
@@ -616,7 +616,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
         $this->checkUserExists($userLogin);
-        // Super users have 'admin' access for every site
+        // Superusers have 'admin' access for every site
         if (Piwik::hasTheUserSuperUserAccess($userLogin)) {
             $return = [];
             $siteManagerModel = new \Piwik\Plugins\SitesManager\Model();
@@ -848,11 +848,11 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Enable or disable Super user access to the given user login. Note: When granting Super User access all previous
+     * Enable or disable Superuser access to the given user login. Note: When granting Superuser access all previous
      * permissions of the user will be removed as the user gains access to everything.
      *
      * @param string $userLogin the user login.
-     * @param bool|int $hasSuperUserAccess true or '1' to grant Super User access, false or '0' to remove Super User
+     * @param bool|int $hasSuperUserAccess true or '1' to grant Superuser access, false or '0' to remove Superuser
      *                                     access.
      * @param string $passwordConfirmation the current user's password. For security purposes, this value should be
      *                                     sent as a POST parameter.
@@ -896,7 +896,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Detect whether the current user has super user access or not.
+     * Detect whether the current user has superuser access or not.
      *
      * @return bool
      */
@@ -906,7 +906,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns a list of all Super Users containing there userLogin and email address.
+     * Returns a list of all Superusers containing there userLogin and email address.
      *
      * @return array
      */
@@ -1045,7 +1045,7 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUser($userLogin);
 
-        // If user is not a super user check if the user was invited by the current user
+        // If user is not a superuser check if the user was invited by the current user
         if (!Piwik::hasUserSuperUserAccess()) {
             if ($user['invited_by'] !== Piwik::getCurrentUserLogin() || !$this->model->isPendingUser($userLogin)) {
                 throw new NoAccessException(Piwik::translate('UsersManager_ExceptionUserDoesNotExist', $userLogin));
@@ -1123,7 +1123,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Returns true if user with given email (userEmail) is known in the database, or the Super User
+     * Returns true if user with given email (userEmail) is known in the database, or the Superuser
      *
      * @param string $userEmail
      * @return bool true if the user is known
@@ -1252,7 +1252,7 @@ class API extends \Piwik\Plugin\API
                 $this->addCapabilitesToUser($userLogin, $capabilities, $idSites);
             }
 
-            // Send notification to all super users if anonymous access is set for a site
+            // Send notification to all superusers if anonymous access is set for a site
             if ($userLogin === 'anonymous' && $access === 'view') {
                 $container = StaticContainer::getContainer();
 
@@ -1281,7 +1281,7 @@ class API extends \Piwik\Plugin\API
     /**
      * Adds the given capabilities to the given user for the given sites.
      * The capability will be added only when the user also has access to a site, for example View, Write, or Admin.
-     * Note: You can neither add any capability to a super user, nor to the anonymous user.
+     * Note: You can neither add any capability to a superuser, nor to the anonymous user.
      * Note: If the user has assigned a role which already grants the given capability, the capability will not be added in
      * the backend.
      *
@@ -1700,7 +1700,7 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUser($userLogin);
 
-        // If user is not a super user check if the user was invited by the current user
+        // If user is not a superuser check if the user was invited by the current user
         if (!Piwik::hasUserSuperUserAccess()) {
             if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
                 throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));
@@ -1745,7 +1745,7 @@ class API extends \Piwik\Plugin\API
 
         $user = $this->model->getUser($userLogin);
 
-        // If user is not a super user check if the user was invited by the current user
+        // If user is not a superuser check if the user was invited by the current user
         if (!Piwik::hasUserSuperUserAccess()) {
             if ($user['invited_by'] !== Piwik::getCurrentUserLogin()) {
                 throw new NoAccessException(Piwik::translate('UsersManager_ExceptionResendInviteDenied', $userLogin));

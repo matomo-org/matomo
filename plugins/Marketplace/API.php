@@ -175,7 +175,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserIsNotAnonymous();
 
         if (Piwik::hasUserSuperUserAccess()) {
-            throw new Exception('Cannot request trial as a super user');
+            throw new Exception('Cannot request trial as a superuser');
         }
 
         if (!$this->pluginManager->isValidPluginName($pluginName)) {

@@ -339,7 +339,7 @@ class Segment
 
     /**
      * You can restrict the access to this segment by passing a boolean `false`. For instance if you want to make
-     * a certain segment only available to users having super user access you could do the following:
+     * a certain segment only available to users having superuser access you could do the following:
      * `$segment->setPermission(Piwik::hasUserSuperUserAccess());`
      * @param bool $permission
      * @api

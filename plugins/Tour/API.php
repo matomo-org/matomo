@@ -38,7 +38,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * Get all challenges that can be completed by a super user.
+     * Get all challenges that can be completed by a superuser.
      *
      * @return array[]
      */

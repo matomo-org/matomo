@@ -33,7 +33,7 @@ class AllWebsitesTest extends SystemTestCase
     private static function createUser()
     {
         if (!UsersManagerAPI::getInstance()->userExists('limitedUser')) {
-            // create non super user
+            // create non superuser
             UsersManagerAPI::getInstance()->addUser('limitedUser', 'smartypants', 'user@limited.com');
             UsersManagerAPI::getInstance()->setUserAccess('limitedUser', 'view', array(2, 3));
             $userModel = new UsersManagerModel();
@@ -46,7 +46,7 @@ class AllWebsitesTest extends SystemTestCase
         $dateTime = substr(self::$fixture->dateTime, 0, 10);
 
         return [
-            // should return all websites as super user has access to all
+            // should return all websites as superuser has access to all
             ['VisitsSummary.get', ['idSite' => 'all',
                                      'date' => $dateTime,
                                      'period' => 'day',

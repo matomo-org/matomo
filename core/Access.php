@@ -30,10 +30,10 @@ use Piwik\Session\SessionAuth;
  * - **no access**: Users with this access level cannot view the resource.
  * - **view access**: Users with this access level can view the resource, but cannot modify it.
  * - **admin access**: Users with this access level can view and modify the resource.
- * - **Super User access**: Only the Super User has this access level. It means the user can do
+ * - **Superuser access**: Only the Superuser has this access level. It means the user can do
  *                          whatever they want.
  *
- *                          Super user access is required to set some configuration options.
+ *                          Superuser access is required to set some configuration options.
  *                          All other options are specific to the user or to a website.
  *
  * Access is granted per website. Uses with access for a website can view all
@@ -65,7 +65,7 @@ class Access
     protected $token_auth = null;
 
     /**
-     * Defines if the current user is the Super User
+     * Defines if the current user is the Superuser
      * @see hasSuperUserAccess()
      *
      * @var bool
@@ -137,7 +137,7 @@ class Access
      * We load the access levels for this user for all the websites.
      *
      * @param null|Auth $auth Auth adapter
-     * @return bool  true on success, false if reloading access failed (when auth object wasn't specified and user is not enforced to be Super User)
+     * @return bool  true on success, false if reloading access failed (when auth object wasn't specified and user is not enforced to be Superuser)
      */
     public function reloadAccess(?Auth $auth = null)
     {
@@ -231,7 +231,7 @@ class Access
     protected function makeSureLoginNameIsSet(): void
     {
         if (empty($this->login)) {
-            // flag to force non empty login so Super User is not mistaken for anonymous
+            // flag to force non empty login so Superuser is not mistaken for anonymous
             $this->login = 'super user was set';
         }
     }
@@ -308,7 +308,7 @@ class Access
     }
 
     /**
-     * We bypass the normal auth method and give the current user Super User rights.
+     * We bypass the normal auth method and give the current user Superuser rights.
      * This should be very carefully used.
      *
      * @param bool $bool
@@ -325,7 +325,7 @@ class Access
     }
 
     /**
-     * Returns true if the current user is logged in as the Super User
+     * Returns true if the current user is logged in as the Superuser
      *
      * @return bool
      */

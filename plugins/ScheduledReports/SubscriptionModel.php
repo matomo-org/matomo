@@ -38,7 +38,7 @@ class SubscriptionModel
         $email = $details['email'];
 
         /*
-         * Executed as super user, as we need to fetch a scheduled report, without the current user being authenticated.
+         * Executed as superuser, as we need to fetch a scheduled report, without the current user being authenticated.
          */
         $report = Access::doAsSuperUser(function () use ($details) {
             $reports = Request::processRequest('ScheduledReports.getReports', array(

@@ -80,7 +80,7 @@ class ReportInformational implements Diagnostic
         if (empty($this->idSiteCache)) {
             $idSites = null;
             /*
-             * Performed as super user to ensure we are able to fetch all available site ids.
+             * Performed as superuser to ensure we are able to fetch all available site ids.
              */
             Access::doAsSuperUser(function () use (&$idSites) {
                 $idSites = Site::getIdSitesFromIdSitesString('all');

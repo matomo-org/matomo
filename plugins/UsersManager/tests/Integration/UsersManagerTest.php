@@ -64,7 +64,7 @@ class UsersManagerTest extends IntegrationTestCase
         FakeAccess::setIdSitesView(array(1, 2));
         FakeAccess::setIdSitesAdmin(array(3, 4));
 
-        //finally we set the user as a Super User by default
+        //finally we set the user as a Superuser by default
         FakeAccess::$superUser = true;
         FakeAccess::$superUserLogin = 'superusertest';
         $this->backupIdentity = FakeAccess::$identity;
@@ -835,7 +835,7 @@ class UsersManagerTest extends IntegrationTestCase
     public function testSetUserAccessIdsitesMultipleSites()
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com");
-        list($id1, $id2, $id3) = $this->addSites(3);
+        [$id1, $id2, $id3] = $this->addSites(3);
 
         $this->api->setUserAccess("gegg4564eqgeqag", "view", array($id1, $id3));
 
@@ -865,7 +865,7 @@ class UsersManagerTest extends IntegrationTestCase
     {
         $this->api->addUser("gegg4564eqgeqag", "geqgegagae", "tegst@tesgt.com");
 
-        list($id1, $id2) = $this->addSites(2);
+        [$id1, $id2] = $this->addSites(2);
 
         $this->api->setUserAccess("gegg4564eqgeqag", "view", array($id1));
         $this->api->setUserAccess("gegg4564eqgeqag", "admin", array($id2));
@@ -883,7 +883,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->api->addUser("user1", "geqgegagae", "tegst@tesgt.com");
         $this->api->addUser("user2", "geqgegagae", "tegst2@tesgt.com");
 
-        list($id1, $id2, $id3) = $this->addSites(3);
+        [$id1, $id2, $id3] = $this->addSites(3);
 
         $this->api->setUserAccess("user1", "view", array($id1, $id2));
         $this->api->setUserAccess("user2", "admin", array($id1));
@@ -938,7 +938,7 @@ class UsersManagerTest extends IntegrationTestCase
     {
         $this->api->addUser("user1", "geqgegagae", "tegst@tesgt.com");
 
-        list($id1, $id2) = $this->addSites(2);
+        [$id1, $id2] = $this->addSites(2);
 
         $this->api->setUserAccess("user1", "view", array($id1, $id2));
         $this->api->setUserAccess("user1", "admin", array($id1));
@@ -996,12 +996,12 @@ class UsersManagerTest extends IntegrationTestCase
     {
         $pwd = $this->createCurrentUser();
 
-        list($id1, $id2) = $this->addSites(2);
+        [$id1, $id2] = $this->addSites(2);
         $this->api->addUser('login1', 'password1', 'test@example.com', false);
         $this->api->setUserAccess('login1', 'view', array($id1));
         $this->api->setUserAccess('login1', 'admin', array($id2));
 
-        // verify user has access before setting Super User access
+        // verify user has access before setting Superuser access
         $access = $this->flatten($this->api->getSitesAccessFromUser('login1'));
         $this->assertEquals(array($id1 => 'view', $id2 => 'admin'), $access);
 
@@ -1021,7 +1021,7 @@ class UsersManagerTest extends IntegrationTestCase
 
         $this->api->setSuperUserAccess('login2', true, $pwd);
 
-        // test add Super User access
+        // test add Superuser access
         $users = $this->api->getUsers();
 
         $this->assertEquals(0, $users[0]['superuser_access']);
@@ -1029,9 +1029,9 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals('login2', $users[1]['login']);
         $this->assertEquals(0, $users[2]['superuser_access']);
 
-        // should also accept string '1' to add Super User access
+        // should also accept string '1' to add Superuser access
         $this->api->setSuperUserAccess('login1', '1', $pwd);
-        // test remove Super User access
+        // test remove Superuser access
         $this->api->setSuperUserAccess('login2', false, $pwd);
 
         $users = $this->api->getUsers();
@@ -1041,7 +1041,7 @@ class UsersManagerTest extends IntegrationTestCase
         $this->assertEquals(0, $users[2]['superuser_access']);
 
         $this->api->setSuperUserAccess('login3', true, $pwd);
-        // should also accept string '0' to remove Super User access
+        // should also accept string '0' to remove Superuser access
         $this->api->setSuperUserAccess('login1', '0', $pwd);
 
         $users = $this->api->getUsers();
@@ -1132,7 +1132,7 @@ class UsersManagerTest extends IntegrationTestCase
         );
 
         $this->api->addUser($user['login'], $user['password'], $user['email']);
-        // currently logged in is a super user and not "login". therefore the password of "login" won't work
+        // currently logged in is a superuser and not "login". therefore the password of "login" won't work
         $this->api->updateUser($login, "passowordOK", false, false, "geqgeag");
     }
 

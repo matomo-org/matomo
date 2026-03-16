@@ -129,7 +129,7 @@ class UserAccessFilterTest extends IntegrationTestCase
     public function getIsUserAllowedToSeeThisLoginWithAdminAccess()
     {
         return array(
-            array($expectedAllowed = false, 'login1'), // not allowed to see this user as it has super user access
+            array($expectedAllowed = false, 'login1'), // not allowed to see this user as it has superuser access
             array($expectedAllowed = true,  'login10'),
             array($expectedAllowed = true,  'login2'), // it is the own user so visible anyway
             array($expectedAllowed = false, 'login3'), // not allowed to see this user as this one does not have access to any site
@@ -248,8 +248,8 @@ class UserAccessFilterTest extends IntegrationTestCase
     public function getTestFilterLogins()
     {
         return [
-            [$expectedLogins = $this->getAllLogins(),                $identity = 'login1', $this->getAllLogins()], // a super user is allowed to see all logins
-            [$expectedLogins = ['login2', 'foobar'],                 $identity = 'login1', ['login2', 'foobar']], // for super users we do not even check if they actually exist
+            [$expectedLogins = $this->getAllLogins(),                $identity = 'login1', $this->getAllLogins()], // a superuser is allowed to see all logins
+            [$expectedLogins = ['login2', 'foobar'],                 $identity = 'login1', ['login2', 'foobar']], // for superusers we do not even check if they actually exist
             [$expectedLogins = $this->buildLogins([2,4]),            $identity = 'login2', ['login2', 'foobar', 'login4', 'login3']], // should remove logins that do not actually exist when user has admin permission
             [$expectedLogins = $this->buildLogins([10,2,4,6,7,8,9]), $identity = 'login2', $this->getAllLogins()], // an admin user can see users having access to the admin sites
             [$expectedLogins = $this->buildLogins([3]),              $identity = 'login3', $this->getAllLogins()], // a user with no access to any site can only see itself
@@ -261,7 +261,7 @@ class UserAccessFilterTest extends IntegrationTestCase
             [$expectedLogins = $this->buildLogins([2,7,8,9]),        $identity = 'login8', $this->getAllLogins()], // has access to multiple view & admin sites
             [$expectedLogins = $this->buildLogins([9]),              $identity = 'login9', $this->getAllLogins()], // a user with write access only can only see itself
             [$expectedLogins = $this->buildLogins([10]),             $identity = 'login10', $this->getAllLogins()], // a user with view and write access to a site can only see itself
-            [$expectedLogins = [],                                   $identity = 'login1', []], // no users given, should return empty array for user with super user access
+            [$expectedLogins = [],                                   $identity = 'login1', []], // no users given, should return empty array for user with superuser access
             [$expectedLogins = [],                                   $identity = 'login2', []], // no users given, should return empty array for user with admin access
             [$expectedLogins = [],                                   $identity = 'login9', []], // no users given, should return empty array for user with write access
             [$expectedLogins = [],                                   $identity = 'login3', []], // no users given, should return empty array for user with no access

@@ -442,7 +442,7 @@ class API extends \Piwik\Plugin\API
         $sqlWhere = '';
         $bind = [];
 
-        // Super user gets all reports back, other users only their own
+        // Superuser gets all reports back, other users only their own
         if (
             !Piwik::hasUserSuperUserAccess()
             || $ifSuperUserReturnOnlySuperUserReports
@@ -661,7 +661,7 @@ class API extends \Piwik\Plugin\API
                         $_GET['filter_truncate'] = false;
                         $_GET['filter_limit'] = -1; // show all websites in all websites report
 
-                        // when a view/admin user created a report, workaround the fact that "Super User"
+                        // when a view/admin user created a report, workaround the fact that "Superuser"
                         // is enforced in Scheduled tasks, and ensure Multisites.getAll only return the websites that this user can access
                         $userLogin = $report['login'];
                         if (
