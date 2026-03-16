@@ -83,6 +83,7 @@
         "ColumnPercentageVisits": "%% Visites",
         "ColumnPercentageVisitsDocumentation": "El percentatge de visites totals.",
         "ColumnRevenue": "Ingressos",
+        "ColumnSegment": "Segment",
         "ColumnSumTimeOnSite": "Temps total al lloc web",
         "ColumnSumVisitLength": "Temps total acumulat pels visitants (en segons)",
         "ColumnTotalPageviews": "Total de pàgines vistes",
