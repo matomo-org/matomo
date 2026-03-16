@@ -6,7 +6,7 @@ if (!defined('PIWIK_INCLUDE_PATH')) {
 }
 
 if (!defined('PIWIK_USER_PATH')) {
-    define('PIWIK_USER_PATH', PIWIK_INCLUDE_PATH);
+    define('PIWIK_USER_PATH', rtrim(PIWIK_INCLUDE_PATH, '/'));
 }
 if (!defined('PIWIK_TEST_MODE')) {
     define('PIWIK_TEST_MODE', true);
