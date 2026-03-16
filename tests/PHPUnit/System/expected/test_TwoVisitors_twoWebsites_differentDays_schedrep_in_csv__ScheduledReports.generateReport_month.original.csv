@@ -178,7 +178,7 @@ Bytes transferred overall,Bytes transferred pageviews,Bytes transferred download
 0,0,0
 
 Page URLs
-Label,Visits,Pageviews,Bounce Rate,Avg. Time on Page,Exit Rate
+Label,Unique Pageviews,Pageviews,Bounce Rate,Avg. time on page,Exit rate
 /index.htm,9,9,11%,00:05:20,11%
 Page URL not defined,9,17,0%,00:00:00,0%
 /thankyou,8,16,0%,00:04:30,100%
@@ -195,18 +195,18 @@ second visitor/two days later/a new visit,8,0,0%
 first page view,2,2,100%
 
 Exit pages
-Label,Visits,Exits,Exit Rate
+Label,Unique Pageviews,Exits,Exit rate
 /index.htm,9,1,11%
 /thankyou,8,8,100%
 /products,1,1,100%
 
 Exit page titles
-Label,Visits,Exits,Exit Rate
+Label,Unique Pageviews,Exits,Exit rate
 Checkout / Purchasing...,8,8,100%
 first page view,2,2,100%
 
 Page titles
-Label,Visits,Pageviews,Bounce Rate,Avg. Time on Page,Exit Rate
+Label,Unique Pageviews,Pageviews,Bounce Rate,Avg. time on page,Exit rate
 Checkout / Purchasing...,8,8,0%,00:00:00,100%
 second visitor/two days later/a new visit,8,8,0%,00:06:00,0%
 second visitor/two days later/second page view😀💩😀💩,8,8,0%,00:09:00,0%
@@ -311,7 +311,7 @@ New visits,2
 365+ days,0
 
 Returning Visits
-Unique new visitors,New Users,New Visits,Actions by New Visits,Maximum actions in one visit,Bounce Rate for New Visits,Avg. Actions per New Visit,Avg. Duration of a New Visit (in sec),Unique returning visitors,Returning Users,Returning Visits,Actions by Returning Visits,Maximum actions in one returning visit,Bounce Rate for Returning Visits,Avg. Actions per Returning Visit,Avg. Duration of a Returning Visit (in sec)
+Unique new visitors,New Users,New Visits,Actions by New Visits,max_actions_new,Bounce Rate for New Visits,Avg. Actions per New Visit,Avg. Duration of a New Visit (in sec),Unique returning visitors,Returning Users,Returning Visits,Actions by Returning Visits,Maximum actions in one returning visit,Bounce Rate for Returning Visits,Avg. Actions per Returning Visit,Avg. Duration of a Returning Visit (in sec)
 2,0,2,2,1,100%,1,00:00:00,2,0,9,41,5,11%,4.6,00:13:21
 
 Performance overview
@@ -319,7 +319,7 @@ Avg. network time,Avg. server time,Avg. transfer time,Avg. DOM processing time,A
 0.02s,0.27s,0.37s,1.17s,0.28s,0.31s,2.42s
 
 Referrers Overview
-Visitors from Search Engines,Visitors from Social Networks,Visitors from AI Assistants,Visitors from Direct Entry,Visitors from Websites,Visitors from Campaigns,Distinct search engines,Distinct social networks,Distinct AI assistants,Distinct keywords,Distinct websites,Distinct campaigns,% Visitors from Direct Entry,% Visitors from Search Engines,% Visitors from AI Assistants,% Visitors from Campaigns,% Visitors from Social Networks,% Visitors from Websites
+Visitors from Search Engines,Visitors from Social Networks,Visitors from AI Assistants,Visitors from Direct Entry,Visitors from Websites,Visitors from Campaigns,Distinct search engines,Distinct social networks,Distinct AI assistants,Distinct keywords,Distinct websites,Distinct campaigns,Percent of Visitors from Direct Entry,Percent of Visitors from Search Engines,Percent of Visitors from AI Assistants,Percent of Visitors from Campaigns,Percent of Visitors from Social Networks,Percent of Visitors from Websites
 0,0,0,1,6,4,0,0,0,0,1,1,9%,0%,0%,36%,0%,55%
 
 Channel Type
