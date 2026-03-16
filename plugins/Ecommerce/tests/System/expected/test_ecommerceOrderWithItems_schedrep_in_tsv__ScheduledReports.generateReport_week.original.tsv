@@ -4,7 +4,7 @@ Label	Visits	Actions	Pageviews	Hits	AI Chatbots Requests	Revenue	Conversions	Eco
 Piwik test	2	1	1	1	0	$0	0	0	$0	100%	100%	100%	100%	0%	0%	0%	0	0
 
 Visits Summary
-Unique visitors	Visits	Actions	Maximum actions in one visit	Actions per Visit	Avg. Time on Website	Bounce Rate
+Unique visitors	Visits	Actions	Maximum actions in one visit	Actions per Visit	Avg. Visit Duration (in seconds)	Bounce Rate
 1	5	16	6	3.2	00:22:50	20%
 
 Country
@@ -163,7 +163,7 @@ Pageviews	Unique Pageviews	Downloads	Unique Downloads	Outlinks	Unique Outlinks	S
 16	4	0	0	0	0	0	0	16
 
 Bandwidth - Main metrics
-Total Overall Bandwidth	Total Pageview Bandwidth	Total Download Bandwidth
+Bytes transferred overall	Bytes transferred pageviews	Bytes transferred downloads
 0	0	0
 
 Page URLs
