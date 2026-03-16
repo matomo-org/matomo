@@ -80,6 +80,7 @@
         "ColumnPageviewsDocumentation": "Количество просмотров этой страницы.",
         "ColumnPercentageVisits": "%% Посещений",
         "ColumnRevenue": "Прибыль",
+        "ColumnSegment": "Сегмент",
         "ColumnSumTimeOnSite": "Общее время на сайте",
         "ColumnSumVisitLength": "Общее время, проведенное посетителями (в секундах)",
         "ColumnTotalPageviews": "Всего просмотров страниц",

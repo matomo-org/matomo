@@ -29,7 +29,6 @@ class Controller extends \Piwik\Plugin\Controller
     {
         $view = new View('@ScheduledReports/index');
         $this->setGeneralVariablesView($view);
-
         $view->countWebsites      = count(APISitesManager::getInstance()->getSitesIdWithAtLeastViewAccess());
 
         // get report types

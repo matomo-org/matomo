@@ -201,31 +201,6 @@ parameters:
 			path: core/Application/Kernel/PluginList.php
 
 		-
-			message: "#^Parameter \\#3 \\$idSubtable of method Piwik\\\\Archive\\:\\:get\\(\\) expects int\\|null, string given\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
-			message: "#^Parameter \\#5 \\$plugin of method Piwik\\\\Plugins\\\\CoreAdminHome\\\\API\\:\\:archiveReports\\(\\) expects bool, \\(int\\|string\\) given\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
-			message: "#^Static property Piwik\\\\Archive\\:\\:\\$cache \\(Matomo\\\\Cache\\\\Cache\\) does not accept null\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
-			message: "#^Static property Piwik\\\\Archive\\:\\:\\$cache is never read, only written\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int\\|string\\|null and false will always evaluate to false\\.$#"
-			count: 1
-			path: core/Archive.php
-
-		-
 			message: "#^Method Piwik\\\\Archive\\\\ArchiveInvalidator\\:\\:getSegmentArchiving\\(\\) is unused\\.$#"
 			count: 1
 			path: core/Archive/ArchiveInvalidator.php
@@ -1206,46 +1181,6 @@ parameters:
 			path: core/FrontController.php
 
 		-
-			message: "#^Parameter \\#1 \\$str of function trim expects string, null given\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Parameter \\#2 \\$newvalue of function ini_set expects string, int given\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Parameter \\#2 \\$use_include_path of function file_get_contents expects bool, int given\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Parameter \\#2 \\$value of static method Piwik\\\\Option\\:\\:set\\(\\) expects string, int\\<min, \\-1\\>\\|int\\<1, max\\> given\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Result of \\|\\| is always false\\.$#"
-			count: 2
-			path: core/Http.php
-
-		-
-			message: "#^Strict comparison using \\!\\=\\= between null and null will always evaluate to false\\.$#"
-			count: 2
-			path: core/Http.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between int and false will always evaluate to false\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
-			message: "#^Variable \\$headers in empty\\(\\) always exists and is always falsy\\.$#"
-			count: 1
-			path: core/Http.php
-
-		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\$controller Controller\\)\\: Unexpected token \"\\$controller\", expected type at offset 9$#"
 			count: 1
 			path: core/Http/ControllerResolver.php
@@ -1269,11 +1204,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$num of function dechex expects int, string given\\.$#"
 			count: 3
 			path: core/Mail/EmailStyles.php
-
-		-
-			message: "#^Variable \\$unit in empty\\(\\) always exists and is always falsy\\.$#"
-			count: 1
-			path: core/Metrics.php
 
 		-
 			message: "#^Method Piwik\\\\Metrics\\\\Sorter\\:\\:getPrimaryColumnToSort\\(\\) should return int but returns string\\.$#"
@@ -2864,16 +2794,6 @@ parameters:
 			path: plugins/CoreAdminHome/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$archiveOnlyReport of method Piwik\\\\ArchiveProcessor\\\\Parameters\\:\\:setArchiveOnlyReport\\(\\) expects array\\<string\\>\\|string, true given\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$segmentCondition of class Piwik\\\\Segment constructor expects string, bool given\\.$#"
-			count: 1
-			path: plugins/CoreAdminHome/API.php
-
-		-
 			message: "#^Expression in empty\\(\\) is not falsy\\.$#"
 			count: 1
 			path: plugins/CoreAdminHome/Commands/ConfigDelete.php
@@ -2987,11 +2907,6 @@ parameters:
 			message: "#^If condition is always true\\.$#"
 			count: 1
 			path: plugins/CoreHome/Columns/Metrics/EvolutionMetric.php
-
-		-
-			message: "#^Parameter \\#1 \\$name of method Piwik\\\\DataTable\\\\Row\\:\\:hasColumn\\(\\) expects string, int given\\.$#"
-			count: 1
-			path: plugins/CoreHome/Columns/UserId.php
 
 		-
 			message: "#^Method Piwik\\\\Plugins\\\\CoreHome\\\\Columns\\\\VisitGoalBuyer\\:\\:onExistingVisit\\(\\) should return int but returns false\\.$#"

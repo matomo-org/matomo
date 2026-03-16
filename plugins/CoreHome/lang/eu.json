@@ -71,6 +71,8 @@
         "PeriodHasOnlyRawData": "Dirudienez epe honetako txostenak ez dira prozesatu oraindik. Orain zer gertatzen ari den ikusi nahi duzu? Begiratu %1$sBisiten egunkaria%2$s edo aukeratu beste denbora-epe bat txostenak sortu bitartean.",
         "PeriodRange": "Tartea",
         "PivotBySubtable": "Txosten hau ez dago pibotatuta %1$s Pibotatu %2$s erabiliz",
+        "PresetDateToday": "Gaur",
+        "PresetDateYesterday": "Atzo",
         "Profilable": "Errentagarria",
         "QuickAccessTitle": "Bilatu %s. Erabili gako-teklak bilaketaren emaitzetan nabigatzeko. Lasterbidea: Sakatu 'f' bilatzeko.",
         "QuickLinks": "Esteka azkarrak",
