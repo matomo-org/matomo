@@ -31,11 +31,7 @@ class UpdateCheck
      */
     public static function check($force = false, $interval = null)
     {
-        if (!SettingsPiwik::isInternetEnabled()) {
-            return;
-        }
-
-        if (!SettingsPiwik::isAutoUpdateEnabled()) {
+        if (!SettingsPiwik::isVersionUpdateCheckEnabled()) {
             return;
         }
 
