@@ -37,6 +37,8 @@
         "OnlyForSuperUserAccess": "عنصر الواجهة هذا يُعرَض للمستخدمين من فئة المستخدم الفائق فقط.",
         "PeriodRange": "نطاق",
         "PivotBySubtable": "هذا التقرير ليس متمركزاً %1$s ، إجعله متمركزاً على %2$s",
+        "PresetDateToday": "اليوم",
+        "PresetDateYesterday": "أمس",
         "QuickAccessTitle": "إبحث عن %s . استخدم مفاتيح الأسهم لتصفح نتائج البحث. اختصار: إضغط 'f' للبحث.",
         "ReportGeneratedOn": "تم إنشاء التقرير في %s",
         "ReportGeneratedXAgo": "التقارير المستخرجة منذ %s",
