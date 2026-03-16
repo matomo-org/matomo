@@ -17,6 +17,13 @@
         "EvolutionGraph": "Shfaq Grafikë të Dikurshëm për %s vlerat kryesuese",
         "EvolutionGraphsShowForEachInPeriod": "Grafikët e ecurisë shfaqin ecurinë për %1$sçdo ditë%2$s gjatë %3$s të fundit",
         "EvolutionGraphsShowForPreviousN": "Grafikët e ecurisë shfaqin ecurinë përgjatë N %s të shkuara",
+        "ExportDashboardDownload": "Pasi të krijoni raportin, do të jeni në gjendje ta shkarkoni.",
+        "ExportDashboardEmailEnabledByDefault": "Si parazgjedhje, dërgimi i email-eve është aktivizuar. Për ta çaktivizuar, ndryshoni <b>“%1$s”</b> në <b>“%2$s”</b>.",
+        "ExportDashboardInvalidDashboard": "Ky pult s’u eksportua dot. Mund të mos ekzistojë më, ose të mos ketë widget-e që mund të shndërrohen në objekte raporti të planifikuar.",
+        "ExportDashboardPrepare": "Ky raport po përgatitet nga pulti juaj “<b>%s</b>”.",
+        "ExportDashboardReportDescription": "Ky raport qe prodhuar automatikisht nga pulti “%1$s” më %2$s",
+        "ExportDashboardTitle": "<b>Eksportim i pultit tuaj</b>",
+        "ExportDashboardWidgetsConvertedAutomatically": "Widget-et nga pulti juaj janë shndërruar automatikisht në ndarje raporti.",
         "FrontPage": "Faqja Ballore",
         "HelpSegmentManagement": "Mundeni të përzgjidhni një segment ekzistues vetjak për ta aplikuar te të dhëna në këtë raport të planifikuar. Mundeni të krijoni dhe përpunoni segmente vetjakë te faqja enkas për administrim segmentesh %1$s(për ta hapur, klikoni këtu)%2$s.",
         "ManageTooltip": "Jini në dijeni, kudo që punoni. Dërgoni raporte drejtpërdrejt te Email, SMS, Slack, ose Microsoft Teams duke përzgjedhur kanalin tuaj të parapëlqyer, kur krijoni ose përpunoni një raport të planifikuar.",
@@ -68,6 +75,7 @@
         "UnsubscribeFooter": "Që të shpajtoheni nga ky raport, ju lutemi, ndiqni këtë lidhje: %1$s",
         "UnsubscribeReportConfirmation": "Jeni i sigurt se doni të shpajtoheni nga raporti %1$s?",
         "UpdateReport": "Përditësoje Raportin",
-        "WeeklyScheduleHelp": "Planifikim javor: raporti do të dërgohet të Hënën e parë të çdo jave."
+        "WeeklyScheduleHelp": "Planifikim javor: raporti do të dërgohet të Hënën e parë të çdo jave.",
+        "WidgetsNotMappedToReports": "Për disa widget-e pulti s’u krijuan dot përshoqërime me objekte raportesh të vënë në plan: %s."
     }
 }
