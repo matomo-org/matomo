@@ -97,7 +97,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Piwik\\Tests\\": "tests/PHPUnit/"
+            "Piwik\\Tests\\": "tests/PHPUnit/",
+            "Piwik\\Tests\\PHPStan\\": "tests/PHPStan/"
         }
     },
     "scripts": {
