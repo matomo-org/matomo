@@ -28,7 +28,7 @@ class API extends \Piwik\Plugin\API
     /**
      * @matomo-permission view(idSite)
      */
-    #[Permission('view', 'idSite')]
+    #[Permission('doesNotExist', 'idSite')]
     public function get($idSite, $period, $date, $segment = false, $columns = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
@@ -68,7 +68,7 @@ class API extends \Piwik\Plugin\API
 
     protected function getNumeric($idSite, $period, $date, $segment, $toFetch)
     {
-        Piwik::checkUserHasViewAccess($idSite);
+        Piwik::checkUserHasAdminAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
         $dataTable = $archive->getDataTableFromNumeric($toFetch);
         return $dataTable;
