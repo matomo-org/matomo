@@ -71,7 +71,7 @@ jobs:
           submodules: true
           path: matomo
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: clcl777/github-action-tests@main
         with:
           test-type: ${{ '{{' }} matrix.type {{ '}}' }}
           mysql-driver: ${{ '{{' }} matrix.adapter {{ '}}' }}
@@ -99,7 +99,7 @@ jobs:
           submodules: true
 {% endif %}
       - name: Run tests
-        uses: matomo-org/github-action-tests@main
+        uses: clcl777/github-action-tests@main
         with:
           plugin-name: '{{ plugin }}'
           php-version: ${{ '{{' }} matrix.php {{ '}}' }}
@@ -144,7 +144,7 @@ jobs:
           path: matomo
 {% endif %}
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: clcl777/github-action-tests@main
         with:
 {% if plugin %}
           plugin-name: '{{ plugin }}'
@@ -181,7 +181,7 @@ jobs:
           path: matomo
 {% endif %}
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: clcl777/github-action-tests@main
         with:
 {% if plugin %}
           plugin-name: '{{ plugin }}'
@@ -217,7 +217,7 @@ jobs:
           path: matomo
 {% endif %}
       - name: running tests
-        uses: matomo-org/github-action-tests@main
+        uses: clcl777/github-action-tests@main
         with:
 {% if plugin %}
           testomatio: ${{ '{{secrets.TESTOMATIO}}' }}
