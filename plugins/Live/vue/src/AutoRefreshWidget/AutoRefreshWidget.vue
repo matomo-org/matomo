@@ -81,11 +81,7 @@ export default defineComponent({
         return;
       }
 
-      if (typeof fadeInSpeed === 'number') {
-        window.$(root).effect('highlight', {}, fadeInSpeed);
-      } else {
-        window.$(root).effect('highlight', {}, fadeInSpeed);
-      }
+      window.$(root).effect('highlight', {}, fadeInSpeed as string);
     },
     replaceContent(response: string) {
       const root = this.$refs.root as HTMLElement | undefined;

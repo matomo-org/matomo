@@ -658,15 +658,15 @@ const MAX_ROWS = 10;
 LiveWidgetvue_type_script_lang_ts.render = render
 
 /* harmony default export */ var LiveWidget = (LiveWidgetvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/AutoRefreshWidget/AutoRefreshWidget.vue?vue&type=template&id=5c3ceb95
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/AutoRefreshWidget/AutoRefreshWidget.vue?vue&type=template&id=322550ac
 
-const AutoRefreshWidgetvue_type_template_id_5c3ceb95_hoisted_1 = {
+const AutoRefreshWidgetvue_type_template_id_322550ac_hoisted_1 = {
   ref: "root"
 };
-function AutoRefreshWidgetvue_type_template_id_5c3ceb95_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AutoRefreshWidgetvue_type_template_id_5c3ceb95_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512);
+function AutoRefreshWidgetvue_type_template_id_322550ac_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", AutoRefreshWidgetvue_type_template_id_322550ac_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "default")], 512);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/AutoRefreshWidget/AutoRefreshWidget.vue?vue&type=template&id=5c3ceb95
+// CONCATENATED MODULE: ./plugins/Live/vue/src/AutoRefreshWidget/AutoRefreshWidget.vue?vue&type=template&id=322550ac
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/AutoRefreshWidget/AutoRefreshWidget.vue?vue&type=script&lang=ts
 
@@ -731,11 +731,7 @@ function AutoRefreshWidgetvue_type_template_id_5c3ceb95_render(_ctx, _cache, $pr
       if (!fadeInSpeed || !window.$ || !window.$.fn || !window.$.fn.effect) {
         return;
       }
-      if (typeof fadeInSpeed === 'number') {
-        window.$(root).effect('highlight', {}, fadeInSpeed);
-      } else {
-        window.$(root).effect('highlight', {}, fadeInSpeed);
-      }
+      window.$(root).effect('highlight', {}, fadeInSpeed);
     },
     replaceContent(response) {
       const root = this.$refs.root;
@@ -760,7 +756,7 @@ function AutoRefreshWidgetvue_type_template_id_5c3ceb95_render(_ctx, _cache, $pr
 
 
 
-AutoRefreshWidgetvue_type_script_lang_ts.render = AutoRefreshWidgetvue_type_template_id_5c3ceb95_render
+AutoRefreshWidgetvue_type_script_lang_ts.render = AutoRefreshWidgetvue_type_template_id_322550ac_render
 
 /* harmony default export */ var AutoRefreshWidget = (AutoRefreshWidgetvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/TotalVisitors/TotalVisitors.vue?vue&type=template&id=c4046fce
