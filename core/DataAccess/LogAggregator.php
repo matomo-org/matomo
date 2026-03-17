@@ -976,7 +976,7 @@ class LogAggregator
     public function queryEcommerceItems($dimension)
     {
         $query = $this->generateQuery(
-        // SELECT ...
+            // SELECT ...
             implode(
                 ', ',
                 array(
