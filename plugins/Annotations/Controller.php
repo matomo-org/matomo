@@ -229,7 +229,6 @@ class Controller extends \Piwik\Plugin\Controller
      * Returns true if the current user can add notes for a specific site.
      *
      * @param int $idSite The site to add notes to.
-     * @return bool
      */
     public static function canUserAddNotesFor(int $idSite): bool
     {

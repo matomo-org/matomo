@@ -262,12 +262,9 @@ class ArchiveInvalidator
      * @param int[] $idSites
      * @param Date[]|string[] $dates
      * @param string $period
-     * @param null|Segment $segment
-     * @param bool $cascadeDown
      * @param bool $forceInvalidateNonexistentRanges set true to force inserting rows for ranges in archive_invalidations
      * @param null|string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
      *                          or a plugin name to only archive the specific plugin.
-     * @param bool $ignorePurgeLogDataDate
      * @param bool $doNotCreateInvalidations If true, archives will only be marked as invalid, but no archive_invalidation record will be created
      * @return InvalidationResult
      * @throws \Exception
@@ -436,7 +433,6 @@ class ArchiveInvalidator
     /**
      * @param int[] $idSites
      * @param Date[] $dates
-     * @param Segment $segment
      * @param null|string $name null to make sure every plugin is archived when this invalidation is processed by core:archive,
      * *                          or a plugin name to only archive the specific plugin.
      * @return InvalidationResult
@@ -473,9 +469,6 @@ class ArchiveInvalidator
      * core:archive is run, they will be processed.
      *
      * @param int[]|string $idSites A list of idSites or 'all'
-     * @param string $plugin
-     * @param string|null $report
-     * @param Date|null $startDate
      * @throws \Exception
      * @api
      */
@@ -561,7 +554,6 @@ class ArchiveInvalidator
      * @param int|int[]|'all' $idSites
      * @param string|int $pluginName
      * @param string|null $report
-     * @param Date|null $startDate
      */
     public function scheduleReArchiving(
         $idSites,
@@ -734,7 +726,6 @@ class ArchiveInvalidator
 
     /**
      * @param Date[] $dates
-     * @param InvalidationResult $invalidationInfo
      * @return \Piwik\Date[]
      */
     private function removeDatesThatHaveBeenPurged($dates, $period, InvalidationResult $invalidationInfo, $ignorePurgeLogDataDate)

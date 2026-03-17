@@ -98,7 +98,6 @@ class API extends \Piwik\Plugin\API
      * @param bool $enhanced When true, return additional goal & ecommerce metrics
      * @param null|string $pattern If specified, only the website which names (or site ID) match the pattern will be returned using SitesManager.getPatternMatchSites
      * @param string|array<string> $showColumns If specified, only the requested columns will be fetched
-     * @return DataTableInterface
      */
     public function getAll(
         string $period,
@@ -155,8 +154,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Fetches the list of sites which names match the string pattern
      *
-     * @param ?string $pattern
-     * @param ?string $_restrictSitesToLogin
      * @return array<int>
      */
     private function getSitesIdFromPattern(?string $pattern, ?string $_restrictSitesToLogin): array
@@ -208,7 +205,6 @@ class API extends \Piwik\Plugin\API
      * @param null|string $_restrictSitesToLogin Hack used to enforce we restrict the returned data to the specified username
      *                                        Only used when a scheduled task is running
      * @param bool $enhanced When true, return additional goal & ecommerce metrics
-     * @return DataTableInterface
      */
     public function getOne(
         int $idSite,
@@ -239,11 +235,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param null|string  $period
-     * @param null|string  $date
-     * @param null|string $segment
-     * @param string       $pattern
-     * @param int          $filter_limit
      * @return array<string,mixed>
      * @throws Exception
      */
@@ -567,7 +558,6 @@ class API extends \Piwik\Plugin\API
      * Sets the total visits, actions & revenue for a DataTable returned by
      * $this->buildDataTable.
      *
-     * @param DataTableInterface $dataTable
      * @param array<string,string> $apiMetrics Metrics info.
      */
     private function setMetricsTotalsMetadata(DataTableInterface $dataTable, array $apiMetrics): void

@@ -35,7 +35,6 @@ class AuthenticationToken
 
     /**
      * @param array<string, mixed>|null $request
-     * @return string
      */
     public function getAuthToken(?array $request = null): string
     {

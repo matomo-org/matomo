@@ -54,8 +54,6 @@ class Updater
     private static $activeInstance;
 
     /**
-     * Constructor.
-     *
      * @param string|null $pathUpdateFileCore The path to core Update files.
      * @param string|null $pathUpdateFilePlugins The path to plugin update files. Should contain a `'%s'` placeholder
      *                                           for the plugin name.
@@ -78,8 +76,6 @@ class Updater
 
     /**
      * Adds an UpdateObserver to the internal list of listeners.
-     *
-     * @param UpdateObserver $listener
      */
     public function addUpdateObserver(UpdateObserver $listener)
     {
@@ -588,7 +584,6 @@ class Updater
 
     /**
      * @param $file
-     * @param Migration $migration
      * @throws UpdaterErrorException
      * @api
      */

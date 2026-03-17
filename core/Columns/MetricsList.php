@@ -37,9 +37,6 @@ class MetricsList
 
     private $metricsByNameCache = array();
 
-    /**
-     * @param Metric $metric
-     */
     public function addMetric(Metric $metric)
     {
         $this->metrics[] = $metric;

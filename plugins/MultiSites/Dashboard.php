@@ -40,11 +40,6 @@ class Dashboard
         'ai_chatbots_requests', 'previous_ai_chatbots_requests',
     ];
 
-    /**
-     * @param string $period
-     * @param string $date
-     * @param string|null $segment
-     */
     public function __construct(string $period, string $date, ?string $segment)
     {
         if (Period::isMultiplePeriod($date, $period)) {
@@ -310,7 +305,6 @@ class Dashboard
      *
      * in a sorted order
      *
-     * @param DataTable $table
      * @param array $request
      */
     private function makeSitesFlatAndApplyGenericFilters(DataTable $table, array $request): void

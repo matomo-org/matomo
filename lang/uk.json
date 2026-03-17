@@ -81,6 +81,7 @@
         "ColumnPercentageVisits": "%% Переглядів",
         "ColumnPercentageVisitsDocumentation": "Відсоток від загальної кількості відвідувань.",
         "ColumnRevenue": "Прибуток",
+        "ColumnSegment": "Сегмент",
         "ColumnSumTimeOnSite": "Загальний час на сайті",
         "ColumnSumVisitLength": "Загальний час відвідувачів на сайті (секунд)",
         "ColumnTotalPageviews": "Загальна кількість переглядів сторінок",

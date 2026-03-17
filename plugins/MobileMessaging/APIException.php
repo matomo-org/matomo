@@ -11,8 +11,6 @@ namespace Piwik\Plugins\MobileMessaging;
 
 use Exception;
 
-/**
- */
 class APIException extends Exception
 {
 }

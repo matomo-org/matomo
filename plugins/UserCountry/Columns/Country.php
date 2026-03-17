@@ -55,7 +55,11 @@ class Country extends Base
         });
 
         $segment->setSqlFilterValue(function ($val) use ($countryList) {
-            $result   = array_search($val, $countryList);
+            $countryList = array_map(function ($countryName) {
+                return mb_strtolower($countryName);
+            }, $countryList);
+            $result = array_search(mb_strtolower($val), $countryList);
+
             if ($result === false) {
                 $result = 'UNK';
             }
@@ -74,8 +78,6 @@ class Country extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -98,8 +100,6 @@ class Country extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */
@@ -109,8 +109,6 @@ class Country extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

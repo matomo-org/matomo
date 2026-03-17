@@ -73,6 +73,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Vypadá to, že hlášení za toto období ještě nebyla zpracována, ale budou k dispozici během několika hodin. Do doby, než budou hlášení vygenerována, můžete zvolit jiné datumové období.",
         "PeriodRange": "Rozsah",
         "PivotBySubtable": "Toto hlášení není zaměřené %1$s Zaměřit na %2$s",
+        "PresetDateToday": "Dnes",
+        "PresetDateYesterday": "Včera",
         "Profilable": "Profilovatelné",
         "QuickAccessTitle": "Výsledky hledání pro %s. Pro navigaci ve výsledcích vyhledávání použijte šipky. Zkratka: Zmáčknout 'f' pro hledání.",
         "QuickLinks": "Rychlé odkazy",

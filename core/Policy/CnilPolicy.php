@@ -33,15 +33,6 @@ class CnilPolicy extends CompliancePolicy
             '</a>',
             '<a href="' .
             Url::addCampaignParametersToMatomoLink(
-                'https://matomo.org/matomo-cloud-dpa/',
-                null,
-                null,
-                'App.PrivacyManager.compliance'
-            ) .
-            '" target="_blank" rel="noreferrer noopener">',
-            '</a>',
-            '<a href="' .
-            Url::addCampaignParametersToMatomoLink(
                 'https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/',
                 null,
                 null,

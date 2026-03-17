@@ -18,7 +18,7 @@ class AmazonCloudFront extends SiteContentDetectionAbstract
 
     public static function getIcon(): string
     {
-        return './plugins/Morpheus/icons/src/brand/Amazon.png';
+        return './plugins/Morpheus/icons/dist/brand/Amazon.png';
     }
 
     public static function getContentType(): int

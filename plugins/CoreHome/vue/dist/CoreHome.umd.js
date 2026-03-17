@@ -782,6 +782,19 @@ const {
   broadcast: Matomo_broadcast,
   piwikHelper: Matomo_piwikHelper
 } = window;
+function normalizeLoginModule(value) {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  if (!/^[A-Za-z0-9_]+$/.test(trimmed)) {
+    return undefined;
+  }
+  return trimmed;
+}
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
 function getReportingMenuStore() {
@@ -874,6 +887,17 @@ piwik.postEvent = function postMatomoEvent(eventName, ...args // eslint-disable-
     detail: args
   });
   window.dispatchEvent(event);
+};
+piwik.getLoginModule = function getLoginModule() {
+  const fromPiwikConfig = normalizeLoginModule(piwik.loginModule);
+  if (fromPiwikConfig) {
+    return fromPiwikConfig;
+  }
+  const fromWindow = normalizeLoginModule(window.loginModule);
+  if (fromWindow) {
+    return fromWindow;
+  }
+  return 'Login';
 };
 const Matomo = piwik;
 /* harmony default export */ var Matomo_Matomo = (Matomo);
@@ -1156,7 +1180,31 @@ function defaultErrorCallback(deferred, status) {
     AjaxHelper_$('#loadingError').show();
   }
 }
+function hasExplicitSegmentParam(params) {
+  return Object.prototype.hasOwnProperty.call(params, 'segment') && typeof params.segment !== 'undefined';
+}
 class ApiResponseError extends Error {}
+class ChunkedBulkRequestError extends Error {
+  constructor(xhr, status, errorThrown) {
+    super('Chunked bulk request failed.');
+    AjaxHelper_defineProperty(this, "xhr", void 0);
+    AjaxHelper_defineProperty(this, "status", void 0);
+    AjaxHelper_defineProperty(this, "errorThrown", void 0);
+    this.xhr = xhr;
+    this.status = status;
+    this.errorThrown = errorThrown;
+  }
+}
+class ChunkedBulkAbortError extends Error {
+  constructor() {
+    super('Chunked bulk request was aborted.');
+  }
+}
+class ChunkedBulkSessionTimeoutError extends Error {
+  constructor() {
+    super('Chunked bulk request timed out due to session expiration.');
+  }
+}
 /**
  * Global ajax helper to handle requests within Matomo
  */
@@ -1165,6 +1213,11 @@ class AjaxHelper_AjaxHelper {
   static fetch(
   // eslint-disable-line
   params, options = {}) {
+    if (Array.isArray(params)) {
+      if (options.returnResponseObject) {
+        throw new Error(this.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
+      }
+    }
     const helper = new AjaxHelper_AjaxHelper();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
@@ -1184,19 +1237,34 @@ class AjaxHelper_AjaxHelper {
           throw new Error(`Password parameters are not allowed to be sent as GET parameter. Please send ${key} as POST parameter instead.`);
         }
       });
+      /*
+       * ajax helper does not encode the segment parameter assuming it is already encoded. this is
+       * probably for pre-angularjs code, so we don't want to do this now, but just treat segment
+       * as a normal query parameter input (so it will have double encoded values in input params
+       * object, then naturally triple encoded in the URL after a $.param call), however we need
+       * to support any existing uses of the old code, so instead we do a manual encode here. new
+       * code that uses .fetch() will not need to pre-encode the parameter, while old code
+       * can pre-encode it.
+       *
+       * If a segment value is explicitly provided, then that is added to the request params.
+       * otherwise the request will use the segment value present in the current URL, if
+       * available.
+       */
+      const hasExplicitSegment = hasExplicitSegmentParam(params);
+      let segmentParam = {};
+      if (hasExplicitSegment) {
+        let segmentVal = null;
+        if (params.segment !== null) {
+          segmentVal = encodeURIComponent(params.segment);
+        }
+        segmentParam = {
+          segment: segmentVal
+        };
+      }
       helper.addParams(Object.assign(Object.assign({
         module: 'API',
         format: options.format || 'json'
-      }, params), {}, {
-        // ajax helper does not encode the segment parameter assuming it is already encoded. this is
-        // probably for pre-angularjs code, so we don't want to do this now, but just treat segment
-        // as a normal query parameter input (so it will have double encoded values in input params
-        // object, then naturally triple encoded in the URL after a $.param call), however we need
-        // to support any existing uses of the old code, so instead we do a manual encode here. new
-        // code that uses .fetch() will not need to pre-encode the parameter, while old code
-        // can pre-encode it.
-        segment: params.segment ? encodeURIComponent(params.segment) : undefined
-      }), 'get');
+      }, params), segmentParam), 'get');
     }
     if (options.postParams) {
       helper.addParams(options.postParams, 'post');
@@ -1228,18 +1296,257 @@ class AjaxHelper_AjaxHelper {
         throw new ApiResponseError(errors.filter(e => e.length).join('\n'));
       }
       return result;
-    }).catch(xhr => {
-      if (createErrorNotification || xhr instanceof ApiResponseError) {
-        throw xhr;
+    }).catch(error => {
+      if (createErrorNotification || error instanceof ApiResponseError) {
+        throw error;
       }
       let message = 'Something went wrong';
-      if (xhr.status === 504) {
+      if (error instanceof ChunkedBulkAbortError) {
         message = 'Request was possibly aborted';
       }
-      if (xhr.status === 429) {
+      if (error instanceof ChunkedBulkSessionTimeoutError) {
+        message = 'Session timed out';
+      }
+      const status = typeof error === 'object' && error !== null && 'status' in error ? error.status : null;
+      if (status === 504) {
+        message = 'Request was possibly aborted';
+      }
+      if (status === 429) {
         message = 'Rate Limit was exceed';
       }
       throw new Error(message);
+    });
+  }
+  static getBulkRequestLimit() {
+    const bulkRequestLimit = parseInt(`${Matomo_Matomo.apiBulkRequestLimit}`, 10);
+    if (Number.isNaN(bulkRequestLimit)) {
+      return -1;
+    }
+    return bulkRequestLimit;
+  }
+  static splitIntoChunks(elements, chunkSize) {
+    const chunks = [];
+    for (let i = 0; i < elements.length; i += chunkSize) {
+      chunks.push(elements.slice(i, i + chunkSize));
+    }
+    return chunks;
+  }
+  handleApiErrorResponseOrCallback(response,
+  // eslint-disable-line @typescript-eslint/no-explicit-any
+  status, request) {
+    if (this.loadingElement) {
+      AjaxHelper_$(this.loadingElement).hide();
+    }
+    const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
+    const errors = results.filter(r => r.result === 'error').map(r => r.message).filter(e => e.length)
+    // count occurrences of error messages
+    .reduce((acc, e) => {
+      acc[e] = (acc[e] || 0) + 1;
+      return acc;
+    }, {});
+    if (errors && Object.keys(errors).length && !this.useRegularCallbackInCaseOfError) {
+      let errorMessage = '';
+      Object.keys(errors).forEach(error => {
+        if (errorMessage.length) {
+          errorMessage += '<br />';
+        }
+        // append error count if it occured more than once
+        if (errors[error] > 1) {
+          errorMessage += `${error} (${errors[error]}x)`;
+        } else {
+          errorMessage += error;
+        }
+      });
+      let placeAt = null;
+      let type = 'toast';
+      if (AjaxHelper_$(this.errorElement).length && errorMessage.length) {
+        AjaxHelper_$(this.errorElement).show();
+        placeAt = this.errorElement;
+        type = null;
+      }
+      const isLoggedIn = !document.querySelector('#login_form');
+      if (errorMessage && isLoggedIn) {
+        const UI = window['require']('piwik/UI'); // eslint-disable-line
+        const notification = new UI.Notification();
+        notification.show(errorMessage, {
+          placeat: placeAt,
+          context: 'error',
+          type,
+          id: 'ajaxHelper'
+        });
+        notification.scrollToNotification();
+      }
+    } else if (this.callback) {
+      this.callback(response, status, request);
+    }
+  }
+  buildRequestUrl(getParameters) {
+    const parameters = this.mixinDefaultGetParams(getParameters);
+    let url = this.getUrl;
+    if (url[url.length - 1] !== '?') {
+      url += '&';
+    }
+    if (Object.prototype.hasOwnProperty.call(parameters, 'segment')) {
+      const segmentValue = parameters.segment;
+      delete parameters.segment;
+      if (segmentValue !== null && typeof segmentValue !== 'undefined') {
+        url = `${url}segment=${segmentValue}&`;
+      }
+    }
+    if (parameters.date) {
+      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
+      delete parameters.date;
+    }
+    url += AjaxHelper_$.param(parameters);
+    return url;
+  }
+  buildChunkedBulkAjaxCall(urls) {
+    const url = this.buildRequestUrl(Object.assign({}, this.getParams));
+    const urlsProcessed = urls.map(bulkUrl => typeof bulkUrl === 'string' ? bulkUrl : AjaxHelper_$.param(bulkUrl));
+    return AjaxHelper_$.ajax({
+      type: 'POST',
+      async: true,
+      url,
+      dataType: this.format || 'json',
+      headers: this.headers ? this.headers : undefined,
+      data: this.mixinDefaultPostParams(Object.assign(Object.assign({}, this.postParams), {}, {
+        urls: urlsProcessed
+      })),
+      timeout: this.timeout !== null ? this.timeout : undefined
+    });
+  }
+  getBulkRequestUrls() {
+    if (this.postParams.method !== 'API.getBulkRequest' || !Array.isArray(this.postParams.urls)) {
+      return null;
+    }
+    return this.postParams.urls;
+  }
+  shouldSendBulkRequestInChunks() {
+    const bulkRequestUrls = this.getBulkRequestUrls();
+    if (!bulkRequestUrls) {
+      return false;
+    }
+    const bulkRequestLimit = AjaxHelper_AjaxHelper.getBulkRequestLimit();
+    return bulkRequestLimit > 0 && bulkRequestUrls.length > bulkRequestLimit;
+  }
+  shouldRejectBulkResponseObjectRequest() {
+    return !!this.getBulkRequestUrls() && this.resolveWithHelper;
+  }
+  sendBulkRequestInChunks() {
+    const bulkRequestUrls = this.getBulkRequestUrls();
+    if (!bulkRequestUrls) {
+      return Promise.resolve([]);
+    }
+    const bulkRequestLimit = AjaxHelper_AjaxHelper.getBulkRequestLimit();
+    if (bulkRequestLimit <= 0) {
+      return Promise.resolve([]);
+    }
+    const chunkedAbortController = this.abortController || new AbortController();
+    this.abortController = chunkedAbortController;
+    let activeChunkRequest = null;
+    let isQueueFinalized = false;
+    let hasCompleteCallbackRun = false;
+    const finalizeQueue = () => {
+      if (isQueueFinalized || !this.abortable) {
+        return;
+      }
+      window.globalAjaxQueue.active -= 1;
+      isQueueFinalized = true;
+    };
+    const runCompleteCallback = (request, status) => {
+      if (hasCompleteCallbackRun || !this.completeCallback) {
+        return;
+      }
+      hasCompleteCallbackRun = true;
+      this.completeCallback(request, status);
+    };
+    const requestHandle = {
+      readyState: 1,
+      status: 0,
+      statusText: '',
+      responseJSON: [],
+      abort: () => {
+        chunkedAbortController.abort();
+      }
+    };
+    const requestHandleAsJqXHR = requestHandle;
+    let callbackRequest = requestHandleAsJqXHR;
+    this.requestHandle = requestHandleAsJqXHR;
+    if (this.abortable) {
+      window.globalAjaxQueue.push(requestHandleAsJqXHR);
+    }
+    chunkedAbortController.signal.addEventListener('abort', () => {
+      if (activeChunkRequest) {
+        activeChunkRequest.abort();
+      }
+    });
+    const chunks = AjaxHelper_AjaxHelper.splitIntoChunks(bulkRequestUrls, bulkRequestLimit);
+    const results = [];
+    const sendChunk = chunkIndex => {
+      if (chunkIndex >= chunks.length) {
+        return Promise.resolve(results);
+      }
+      activeChunkRequest = this.buildChunkedBulkAjaxCall(chunks[chunkIndex]);
+      return new Promise((resolve, reject) => {
+        activeChunkRequest.then((chunkResult, status, xhr) => {
+          callbackRequest = xhr;
+          requestHandle.readyState = xhr.readyState;
+          requestHandle.status = xhr.status;
+          requestHandle.statusText = xhr.statusText || status;
+          if (Array.isArray(chunkResult)) {
+            results.push(...chunkResult);
+          } else {
+            results.push(chunkResult);
+          }
+          resolve(results);
+        }).fail((xhr, status, errorThrown) => {
+          requestHandle.readyState = xhr.readyState;
+          requestHandle.status = xhr.status;
+          requestHandle.statusText = xhr.statusText || status;
+          reject(new ChunkedBulkRequestError(xhr, status, errorThrown));
+        });
+      }).then(() => sendChunk(chunkIndex + 1));
+    };
+    return sendChunk(0).then(chunkResults => {
+      requestHandle.readyState = 4;
+      requestHandle.responseJSON = chunkResults;
+      this.handleApiErrorResponseOrCallback(chunkResults, 'success', callbackRequest);
+      finalizeQueue();
+      runCompleteCallback(callbackRequest, 'success');
+      if (Matomo_Matomo.ajaxRequestFinished) {
+        Matomo_Matomo.ajaxRequestFinished();
+      }
+      return chunkResults;
+    }).catch(error => {
+      if (!(error instanceof ChunkedBulkRequestError)) {
+        throw error;
+      }
+      const {
+        xhr,
+        status,
+        errorThrown
+      } = error;
+      finalizeQueue();
+      if (this.errorCallback) {
+        this.errorCallback.apply(this, [xhr, status, errorThrown]);
+      }
+      runCompleteCallback(xhr, status);
+      if (xhr.status === 429) {
+        console.log(`Warning: the '${AjaxHelper_$.param(this.getParams)}' request was rate limited!`);
+        throw xhr;
+      }
+      if (xhr.statusText === 'abort' || xhr.status === 0) {
+        throw new ChunkedBulkAbortError();
+      }
+      const isInApp = !document.querySelector('#login_form');
+      const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
+      if (sessionTimedOut && isInApp) {
+        setCookie('matomo_session_timed_out', '1', 60 * 1000);
+        Matomo_Matomo.helper.refreshAfter(0);
+        throw new ChunkedBulkSessionTimeoutError();
+      }
+      console.log(`Warning: the ${AjaxHelper_$.param(this.getParams)} request failed!`);
+      throw xhr;
     });
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1503,8 +1810,14 @@ class AjaxHelper_AjaxHelper {
     if (AjaxHelper_$(this.errorElement).length) {
       AjaxHelper_$(this.errorElement).hide();
     }
+    if (this.shouldRejectBulkResponseObjectRequest()) {
+      throw new Error(AjaxHelper_AjaxHelper.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
+    }
     if (this.loadingElement) {
       AjaxHelper_$(this.loadingElement).fadeIn();
+    }
+    if (this.shouldSendBulkRequestInChunks()) {
+      return this.sendBulkRequestInChunks();
     }
     this.requestHandle = this.buildAjaxCall();
     if (this.abortable) {
@@ -1562,22 +1875,7 @@ class AjaxHelper_AjaxHelper {
    */
   buildAjaxCall() {
     const self = this;
-    const parameters = this.mixinDefaultGetParams(this.getParams);
-    let url = this.getUrl;
-    if (url[url.length - 1] !== '?') {
-      url += '&';
-    }
-    // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
-    // URL encodes the values)
-    if (parameters.segment) {
-      url = `${url}segment=${parameters.segment}&`;
-      delete parameters.segment;
-    }
-    if (parameters.date) {
-      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
-      delete parameters.date;
-    }
-    url += AjaxHelper_$.param(parameters);
+    const url = this.buildRequestUrl(this.getParams);
     const ajaxCall = {
       type: 'POST',
       async: true,
@@ -1594,51 +1892,7 @@ class AjaxHelper_AjaxHelper {
         }
       },
       success: (response, status, request) => {
-        if (this.loadingElement) {
-          AjaxHelper_$(this.loadingElement).hide();
-        }
-        const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
-        const errors = results.filter(r => r.result === 'error').map(r => r.message).filter(e => e.length)
-        // count occurrences of error messages
-        .reduce((acc, e) => {
-          acc[e] = (acc[e] || 0) + 1;
-          return acc;
-        }, {});
-        if (errors && Object.keys(errors).length && !this.useRegularCallbackInCaseOfError) {
-          let errorMessage = '';
-          Object.keys(errors).forEach(error => {
-            if (errorMessage.length) {
-              errorMessage += '<br />';
-            }
-            // append error count if it occured more than once
-            if (errors[error] > 1) {
-              errorMessage += `${error} (${errors[error]}x)`;
-            } else {
-              errorMessage += error;
-            }
-          });
-          let placeAt = null;
-          let type = 'toast';
-          if (AjaxHelper_$(this.errorElement).length && errorMessage.length) {
-            AjaxHelper_$(this.errorElement).show();
-            placeAt = this.errorElement;
-            type = null;
-          }
-          const isLoggedIn = !document.querySelector('#login_form');
-          if (errorMessage && isLoggedIn) {
-            const UI = window['require']('piwik/UI'); // eslint-disable-line
-            const notification = new UI.Notification();
-            notification.show(errorMessage, {
-              placeat: placeAt,
-              context: 'error',
-              type,
-              id: 'ajaxHelper'
-            });
-            notification.scrollToNotification();
-          }
-        } else if (this.callback) {
-          this.callback(response, status, request);
-        }
+        this.handleApiErrorResponseOrCallback(response, status, request);
         if (self.abortable) {
           window.globalAjaxQueue.active -= 1;
         }
@@ -1691,13 +1945,14 @@ class AjaxHelper_AjaxHelper {
       segment
     };
     const params = originalParams;
+    const hasExplicitSegment = hasExplicitSegmentParam(params) || hasExplicitSegmentParam(this.postParams);
     // never append token_auth to url
     if (params.token_auth) {
       params.token_auth = null;
       delete params.token_auth;
     }
     Object.keys(defaultParams).forEach(key => {
-      if (this.useGETDefaultParameter(key) && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '') && (this.postParams[key] === null || typeof this.postParams[key] === 'undefined' || this.postParams[key] === '') && defaultParams[key]) {
+      if (this.useGETDefaultParameter(key) && !(key === 'segment' && hasExplicitSegment) && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '') && (this.postParams[key] === null || typeof this.postParams[key] === 'undefined' || this.postParams[key] === '') && defaultParams[key]) {
         params[key] = defaultParams[key];
       }
     });
@@ -1711,6 +1966,7 @@ class AjaxHelper_AjaxHelper {
     return this.requestHandle;
   }
 }
+AjaxHelper_defineProperty(AjaxHelper_AjaxHelper, "UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR", 'AjaxHelper returnResponseObject is not supported for bulk requests.');
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/AjaxHelper/AjaxHelper.adapter.ts
 
 window.ajaxHelper = AjaxHelper_AjaxHelper;
@@ -6494,76 +6750,51 @@ const MultiPairFieldvue_type_script_lang_ts_Field = useExternalPluginComponent('
 MultiPairFieldvue_type_script_lang_ts.render = MultiPairFieldvue_type_template_id_31708da0_render
 
 /* harmony default export */ var MultiPairField = (MultiPairFieldvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=9675e6d6
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=901f7596
 
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_1 = ["disabled"];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_1 = ["disabled"];
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_2 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-chevron-left"
 }, null, -1);
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_3 = [PeriodSelectorvue_type_template_id_9675e6d6_hoisted_2];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_4 = ["title"];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_3 = [PeriodSelectorvue_type_template_id_901f7596_hoisted_2];
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_4 = ["title"];
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_5 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon icon-calendar"
 }, null, -1);
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_6 = {
-  id: "periodMore",
-  class: "dropdown"
-};
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_7 = {
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_6 = {
   class: "flex"
 };
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_8 = {
-  key: 0,
-  class: "period-date"
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_7 = {
+  class: "period-type period-selector-options-column"
 };
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_9 = {
-  class: "period-type"
-};
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_10 = {
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_8 = {
   id: "otherPeriods"
 };
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_11 = ["onDblclick", "title"];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_12 = ["id", "checked", "onChange", "onDblclick"];
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_13 = {
-  key: 0,
-  class: "compare-checkbox"
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_9 = {
+  class: "period-selector-calendar-column"
 };
-const PeriodSelectorvue_type_template_id_9675e6d6_hoisted_14 = {
-  id: "comparePeriodToDropdown"
-};
-const _hoisted_15 = {
-  key: 1,
-  class: "compare-date-range"
-};
-const _hoisted_16 = {
-  id: "comparePeriodStartDate"
-};
-const _hoisted_17 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
-  class: "compare-dates-separator"
-}, null, -1);
-const _hoisted_18 = {
-  id: "comparePeriodEndDate"
-};
-const _hoisted_19 = {
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_10 = {
   class: "apply-button-container"
 };
-const _hoisted_20 = ["disabled", "value"];
-const _hoisted_21 = {
-  key: 2,
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_11 = ["disabled", "value"];
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_12 = {
+  key: 0,
   id: "ajaxLoadingCalendar"
 };
-const _hoisted_22 = {
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_13 = {
   class: "loadingSegment"
 };
-const _hoisted_23 = ["disabled"];
-const _hoisted_24 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const PeriodSelectorvue_type_template_id_901f7596_hoisted_14 = ["disabled"];
+const _hoisted_15 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-chevron-right"
 }, null, -1);
-const _hoisted_25 = [_hoisted_24];
-function PeriodSelectorvue_type_template_id_9675e6d6_render(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_16 = [_hoisted_15];
+function PeriodSelectorvue_type_template_id_901f7596_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_PeriodOptions = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodOptions");
+  const _component_PresetDateRanges = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PresetDateRanges");
   const _component_DateRangePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("DateRangePicker");
   const _component_PeriodDatePicker = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodDatePicker");
-  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  const _component_PeriodSelectorCompareControls = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("PeriodSelectorCompareControls");
   const _component_ActivityIndicator = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("ActivityIndicator");
   const _directive_tooltips = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("tooltips");
   const _directive_expand_on_click = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("expand-on-click");
@@ -6577,48 +6808,576 @@ function PeriodSelectorvue_type_template_id_9675e6d6_render(_ctx, _cache, $props
     class: "move-period move-period-prev",
     onClick: _cache[0] || (_cache[0] = $event => _ctx.movePeriod(-1)),
     disabled: _ctx.isPeriodMoveDisabled(-1)
-  }, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_3, 8, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+  }, PeriodSelectorvue_type_template_id_901f7596_hoisted_3, 8, PeriodSelectorvue_type_template_id_901f7596_hoisted_1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
     ref: "title",
     id: "date",
     class: "title",
     tabindex: "4",
     title: _ctx.translate('General_ChooseDate', _ctx.currentlyViewingText)
-  }, [PeriodSelectorvue_type_template_id_9675e6d6_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.currentlyViewingText), 1)], 8, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_4)), [[_directive_tooltips]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DateRangePicker, {
+  }, [PeriodSelectorvue_type_template_id_901f7596_hoisted_5, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])(" " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.currentlyViewingText), 1)], 8, PeriodSelectorvue_type_template_id_901f7596_hoisted_4)), [[_directive_tooltips]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    id: "periodMore",
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["dropdown", _ctx.selectedPeriod === 'range' ? 'dual-calendar' : 'single-calendar'])
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_901f7596_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_901f7596_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("b", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_ChoosePeriod')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_901f7596_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodOptions, {
+    modelValue: _ctx.selectedPeriod,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.selectedPeriod = $event),
+    periods: _ctx.periodsFiltered,
+    "checked-period-id": _ctx.uiSelection.type === 'period' ? _ctx.uiSelection.id : null,
+    "active-date-period": _ctx.committedPeriod,
+    onSelect: _cache[2] || (_cache[2] = $event => _ctx.onPeriodOptionSelected($event)),
+    onDblclick: _cache[3] || (_cache[3] = $event => _ctx.onPeriodOptionDblClick($event))
+  }, null, 8, ["modelValue", "periods", "checked-period-id", "active-date-period"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PresetDateRanges, {
+    modelValue: _ctx.activePresetId,
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => _ctx.activePresetId = $event),
+    "checked-preset-id": _ctx.uiSelection.type === 'preset' ? _ctx.uiSelection.id : null,
+    "allowed-periods": _ctx.periodsFiltered,
+    "min-date": _ctx.minAllowedDate,
+    "max-date": _ctx.maxAllowedDate,
+    onSelect: _cache[5] || (_cache[5] = $event => _ctx.onPresetDateRangeSelected($event))
+  }, null, 8, ["modelValue", "checked-preset-id", "allowed-periods", "min-date", "max-date"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_901f7596_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+      'calendar-disabled': _ctx.uiSelection.type === 'preset'
+    }),
+    onClickCapture: _cache[8] || (_cache[8] = $event => _ctx.onRangePresetDateCellClickCapture($event))
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_DateRangePicker, {
     class: "period-range",
-    "start-date": _ctx.startRangeDate,
-    "end-date": _ctx.endRangeDate,
-    onRangeChange: _cache[1] || (_cache[1] = $event => _ctx.onRangeChange($event.start, $event.end)),
-    onSubmit: _cache[2] || (_cache[2] = $event => _ctx.onApplyClicked())
-  }, null, 8, ["start-date", "end-date"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.selectedPeriod === 'range']]), _ctx.selectedPeriod !== 'range' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodDatePicker, {
+    "start-date": _ctx.displayRangeStartDate,
+    "end-date": _ctx.displayRangeEndDate,
+    onRangeChange: _cache[6] || (_cache[6] = $event => _ctx.onRangeChange($event.start, $event.end)),
+    onSubmit: _cache[7] || (_cache[7] = $event => _ctx.onApplyClicked())
+  }, null, 8, ["start-date", "end-date"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.calendarViewport === 'range']])], 34), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+    class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["period-date", {
+      'calendar-disabled': _ctx.uiSelection.type === 'preset'
+    }])
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodDatePicker, {
     id: "datepicker",
-    period: _ctx.selectedPeriod,
-    date: _ctx.periodValue === _ctx.selectedPeriod ? _ctx.dateValue : null,
-    onSelect: _cache[3] || (_cache[3] = $event => _ctx.setPiwikPeriodAndDate(_ctx.selectedPeriod, $event.date))
-  }, null, 8, ["period", "date"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("h6", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Period')), 1), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_10, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.periodsFiltered, period => {
+    period: _ctx.singleCalendarPeriod,
+    date: _ctx.singleCalendarSelectedDate,
+    onSelect: _cache[9] || (_cache[9] = $event => _ctx.onDatePickerSelected($event.date))
+  }, null, 8, ["period", "date"])], 2), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.calendarViewport === 'single']]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_PeriodSelectorCompareControls, {
+    "is-comparison-enabled": _ctx.isComparisonEnabled,
+    "is-comparing": _ctx.isComparing,
+    "compare-period-type": _ctx.comparePeriodType,
+    "compare-start-date": _ctx.compareStartDate,
+    "compare-end-date": _ctx.compareEndDate,
+    "compare-period-dropdown-options": _ctx.comparePeriodDropdownOptions,
+    "onUpdate:isComparing": _cache[10] || (_cache[10] = $event => _ctx.isComparing = $event),
+    "onUpdate:comparePeriodType": _cache[11] || (_cache[11] = $event => _ctx.comparePeriodType = $event),
+    "onUpdate:compareStartDate": _cache[12] || (_cache[12] = $event => _ctx.compareStartDate = $event),
+    "onUpdate:compareEndDate": _cache[13] || (_cache[13] = $event => _ctx.compareEndDate = $event)
+  }, null, 8, ["is-comparison-enabled", "is-comparing", "compare-period-type", "compare-start-date", "compare-end-date", "compare-period-dropdown-options"]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_901f7596_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+    type: "submit",
+    id: "calendarApply",
+    class: "btn",
+    onClick: _cache[14] || (_cache[14] = $event => _ctx.onApplyClicked()),
+    disabled: !_ctx.isApplyEnabled(),
+    value: _ctx.translate('General_Apply')
+  }, null, 8, PeriodSelectorvue_type_template_id_901f7596_hoisted_11)])])]), _ctx.isLoadingNewPage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_901f7596_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
+    loading: true
+  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_901f7596_hoisted_13, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2), _ctx.canShowMovePeriod ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
+    key: 1,
+    class: "move-period move-period-next",
+    onClick: _cache[15] || (_cache[15] = $event => _ctx.movePeriod(1)),
+    disabled: _ctx.isPeriodMoveDisabled(1)
+  }, _hoisted_16, 8, PeriodSelectorvue_type_template_id_901f7596_hoisted_14)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)), [[_directive_expand_on_click, {
+    expander: 'title',
+    onExpand: _ctx.onExpand,
+    onClosed: _ctx.onClosed
+  }]]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=901f7596
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.vue?vue&type=template&id=566bc3fc
+
+const PresetDateRangesvue_type_template_id_566bc3fc_hoisted_1 = {
+  class: "presetDateRanges"
+};
+const PresetDateRangesvue_type_template_id_566bc3fc_hoisted_2 = {
+  key: 0,
+  class: "preset-date-range-group-separator"
+};
+const PresetDateRangesvue_type_template_id_566bc3fc_hoisted_3 = ["id", "checked", "onChange"];
+function PresetDateRangesvue_type_template_id_566bc3fc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PresetDateRangesvue_type_template_id_566bc3fc_hoisted_1, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.groupedPresetDateRanges, (group, index) => {
+    return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+      key: index,
+      class: "preset-date-range-group"
+    }, [index > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PresetDateRangesvue_type_template_id_566bc3fc_hoisted_2)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(group, preset => {
+      return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
+        key: preset.id
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
+        class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+          'selected-period-label': _ctx.checkedPresetId === preset.id
+        })
+      }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+        type: "radio",
+        name: "presetDateRange",
+        id: `preset_date_${preset.id}`,
+        checked: _ctx.checkedPresetId === preset.id,
+        onChange: $event => _ctx.handlePresetSelected(preset.id)
+      }, null, 40, PresetDateRangesvue_type_template_id_566bc3fc_hoisted_3), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate(preset.labelKey)), 1)], 2)]);
+    }), 128))]);
+  }), 128))]);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.vue?vue&type=template&id=566bc3fc
+
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRangeResolver.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+
+const PRESET_DATE_RANGE_PERIODS = {
+  today: 'day',
+  yesterday: 'day',
+  last7days: 'range',
+  last30days: 'range',
+  last90days: 'range',
+  lastWeekMonSun: 'week',
+  lastMonth: 'month',
+  lastQuarter: 'range',
+  lastYear: 'year',
+  thisWeekMonToday: 'week',
+  thisMonth: 'month',
+  thisQuarter: 'range',
+  thisYear: 'year'
+};
+const PRESET_DATE_RANGES = [{
+  id: 'today',
+  labelKey: 'CoreHome_PresetDateToday'
+}, {
+  id: 'yesterday',
+  labelKey: 'CoreHome_PresetDateYesterday'
+}, {
+  id: 'last7days',
+  labelKey: 'CoreHome_PresetDateLast7Days'
+}, {
+  id: 'last30days',
+  labelKey: 'CoreHome_PresetDateLast30Days'
+}, {
+  id: 'last90days',
+  labelKey: 'CoreHome_PresetDateLast90Days'
+}, {
+  id: 'lastWeekMonSun',
+  labelKey: 'CoreHome_PresetDateLastWeekMonSun'
+}, {
+  id: 'lastMonth',
+  labelKey: 'CoreHome_PresetDateLastMonth'
+}, {
+  id: 'lastQuarter',
+  labelKey: 'CoreHome_PresetDateLastQuarter'
+}, {
+  id: 'lastYear',
+  labelKey: 'CoreHome_PresetDateLastYear'
+}, {
+  id: 'thisWeekMonToday',
+  labelKey: 'CoreHome_PresetDateThisWeekMonToday'
+}, {
+  id: 'thisMonth',
+  labelKey: 'CoreHome_PresetDateThisMonth'
+}, {
+  id: 'thisQuarter',
+  labelKey: 'CoreHome_PresetDateThisQuarter'
+}, {
+  id: 'thisYear',
+  labelKey: 'CoreHome_PresetDateThisYear'
+}];
+const PRESET_TOKEN_TO_ID_MAP = {
+  'day|today': 'today',
+  'day|yesterday': 'yesterday',
+  'range|last7': 'last7days',
+  'range|last30': 'last30days',
+  'range|last90': 'last90days',
+  'week|lastweek': 'lastWeekMonSun',
+  'month|lastmonth': 'lastMonth',
+  'year|lastyear': 'lastYear',
+  'week|today': 'thisWeekMonToday',
+  'month|today': 'thisMonth',
+  'year|today': 'thisYear'
+};
+function getTokenPresetIdFromPeriodAndDate(period, date) {
+  return PRESET_TOKEN_TO_ID_MAP[`${period}|${date}`] || null;
+}
+function cloneDate(date) {
+  return new Date(date.getTime());
+}
+function addDays(date, days) {
+  const nextDate = cloneDate(date);
+  nextDate.setDate(nextDate.getDate() + days);
+  return nextDate;
+}
+function startOfMonth(date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+function endOfMonth(date) {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+}
+function startOfWeekMonday(date) {
+  const daysToMonday = (date.getDay() + 6) % 7;
+  return addDays(date, -daysToMonday);
+}
+function startOfQuarter(date) {
+  const month = date.getMonth();
+  const quarterStartMonth = month - month % 3;
+  return new Date(date.getFullYear(), quarterStartMonth, 1);
+}
+function makeRangeDateParam(startDate, endDate) {
+  return `${format(startDate)},${format(endDate)}`;
+}
+function clampDateToBounds(date, minDate, maxDate) {
+  if (date < minDate) {
+    return new Date(minDate.getTime());
+  }
+  if (date > maxDate) {
+    return new Date(maxDate.getTime());
+  }
+  return date;
+}
+function resolvePresetDateRange(presetId, todayInput) {
+  const today = cloneDate(todayInput);
+  switch (presetId) {
+    case 'today':
+      return {
+        id: presetId,
+        period: 'day',
+        date: 'today',
+        startDate: today,
+        endDate: today
+      };
+    case 'yesterday':
+      {
+        const yesterday = addDays(today, -1);
+        return {
+          id: presetId,
+          period: 'day',
+          date: 'yesterday',
+          startDate: yesterday,
+          endDate: yesterday
+        };
+      }
+    case 'last7days':
+      {
+        const startDate = addDays(today, -6);
+        return {
+          id: presetId,
+          period: 'range',
+          date: 'last7',
+          startDate,
+          endDate: today
+        };
+      }
+    case 'last30days':
+      {
+        const startDate = addDays(today, -29);
+        return {
+          id: presetId,
+          period: 'range',
+          date: 'last30',
+          startDate,
+          endDate: today
+        };
+      }
+    case 'last90days':
+      {
+        const startDate = addDays(today, -89);
+        return {
+          id: presetId,
+          period: 'range',
+          date: 'last90',
+          startDate,
+          endDate: today
+        };
+      }
+    case 'lastWeekMonSun':
+      {
+        const thisWeekStart = startOfWeekMonday(today);
+        const startDate = addDays(thisWeekStart, -7);
+        const endDate = addDays(startDate, 6);
+        return {
+          id: presetId,
+          period: 'week',
+          date: 'lastweek',
+          startDate,
+          endDate
+        };
+      }
+    case 'lastMonth':
+      {
+        const lastMonthDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        const startDate = startOfMonth(lastMonthDate);
+        const endDate = endOfMonth(lastMonthDate);
+        return {
+          id: presetId,
+          period: 'month',
+          date: 'lastmonth',
+          startDate,
+          endDate
+        };
+      }
+    case 'lastQuarter':
+      {
+        const thisQuarterStart = startOfQuarter(today);
+        const endDate = addDays(thisQuarterStart, -1);
+        const startDate = startOfQuarter(endDate);
+        return {
+          id: presetId,
+          period: 'range',
+          date: makeRangeDateParam(startDate, endDate),
+          startDate,
+          endDate
+        };
+      }
+    case 'lastYear':
+      {
+        const year = today.getFullYear() - 1;
+        const startDate = new Date(year, 0, 1);
+        const endDate = new Date(year, 11, 31);
+        return {
+          id: presetId,
+          period: 'year',
+          date: 'lastyear',
+          startDate,
+          endDate
+        };
+      }
+    case 'thisWeekMonToday':
+      {
+        const startDate = startOfWeekMonday(today);
+        // Intentionally keep compatibility with existing URL semantics:
+        // period=week&date=today remains the canonical "this week (Mon - Today)" selection.
+        // The selector derives the visible effective range from the current max-date bounds.
+        return {
+          id: presetId,
+          period: 'week',
+          date: 'today',
+          startDate,
+          endDate: today
+        };
+      }
+    case 'thisMonth':
+      {
+        const startDate = startOfMonth(today);
+        return {
+          id: presetId,
+          period: 'month',
+          date: 'today',
+          startDate,
+          endDate: today
+        };
+      }
+    case 'thisQuarter':
+      {
+        const startDate = startOfQuarter(today);
+        return {
+          id: presetId,
+          period: 'range',
+          date: makeRangeDateParam(startDate, today),
+          startDate,
+          endDate: today
+        };
+      }
+    case 'thisYear':
+      {
+        const startDate = new Date(today.getFullYear(), 0, 1);
+        return {
+          id: presetId,
+          period: 'year',
+          date: 'today',
+          startDate,
+          endDate: today
+        };
+      }
+    default:
+      throw new Error(`Unknown preset date range: ${presetId}`);
+  }
+}
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.vue?vue&type=script&lang=ts
+
+
+
+
+const PRESET_DATE_RANGE_GROUPS = [['today', 'yesterday'], ['last7days', 'last30days', 'last90days'], ['lastWeekMonSun', 'lastMonth', 'lastQuarter', 'lastYear'], ['thisWeekMonToday', 'thisMonth', 'thisQuarter', 'thisYear']];
+/* harmony default export */ var PresetDateRangesvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    modelValue: {
+      type: String,
+      default: null
+    },
+    checkedPresetId: {
+      type: String,
+      default: null
+    },
+    minDate: {
+      type: Date,
+      required: true
+    },
+    maxDate: {
+      type: Date,
+      required: true
+    },
+    today: {
+      type: Date,
+      default: () => getToday()
+    },
+    allowedPeriods: {
+      type: Array,
+      required: true
+    }
+  },
+  emits: ['update:modelValue', 'select'],
+  computed: {
+    presetDateRanges() {
+      return PRESET_DATE_RANGES.filter(preset => this.allowedPeriods.includes(PRESET_DATE_RANGE_PERIODS[preset.id]));
+    },
+    groupedPresetDateRanges() {
+      const presetDateRangeById = new Map(this.presetDateRanges.map(preset => [preset.id, preset]));
+      return PRESET_DATE_RANGE_GROUPS.map(group => group.map(presetId => presetDateRangeById.get(presetId)).filter(preset => !!preset)).filter(group => group.length);
+    }
+  },
+  methods: {
+    translate: translate,
+    handlePresetSelected(presetId) {
+      const resolvedPreset = resolvePresetDateRange(presetId, this.today);
+      this.$emit('update:modelValue', presetId);
+      this.$emit('select', Object.assign(Object.assign({}, resolvedPreset), {}, {
+        startDate: clampDateToBounds(resolvedPreset.startDate, this.minDate, this.maxDate),
+        endDate: clampDateToBounds(resolvedPreset.endDate, this.minDate, this.maxDate)
+      }));
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PresetDateRanges.vue
+
+
+
+PresetDateRangesvue_type_script_lang_ts.render = PresetDateRangesvue_type_template_id_566bc3fc_render
+
+/* harmony default export */ var PresetDateRanges = (PresetDateRangesvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue?vue&type=template&id=2d7a8937
+
+const PeriodOptionsvue_type_template_id_2d7a8937_hoisted_1 = ["aria-label"];
+const PeriodOptionsvue_type_template_id_2d7a8937_hoisted_2 = ["id", "aria-pressed", "title", "onClick", "onDblclick"];
+function PeriodOptionsvue_type_template_id_2d7a8937_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", {
+    class: "periodOptions",
+    role: "group",
+    "aria-label": _ctx.translate('General_ChoosePeriod')
+  }, [(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.displayPeriods, period => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("p", {
       key: period
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", {
-      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
-        'selected-period-label': period === _ctx.selectedPeriod
-      }),
-      onDblclick: $event => _ctx.changeViewedPeriod(period),
-      title: period === _ctx.periodValue ? '' : _ctx.translate('General_DoubleClickToChangePeriod')
-    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-      type: "radio",
-      name: "period",
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("button", {
+      type: "button",
       id: `period_id_${period}`,
-      "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => _ctx.selectedPeriod = $event),
-      checked: _ctx.selectedPeriod === period,
-      onChange: $event => _ctx.selectedPeriod = period,
-      onDblclick: $event => _ctx.changeViewedPeriod(period)
-    }, null, 40, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_12), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelRadio"], _ctx.selectedPeriod]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getPeriodDisplayText(period)), 1)], 42, PeriodSelectorvue_type_template_id_9675e6d6_hoisted_11)]);
-  }), 128))])])]), _ctx.isComparisonEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
+      "aria-pressed": _ctx.checkedPeriodId === period ? 'true' : 'false',
+      class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])({
+        'selected-period-label': _ctx.checkedPeriodId === period
+      }),
+      title: period === _ctx.activeDatePeriod ? '' : _ctx.translate('General_DoubleClickToChangePeriod'),
+      onClick: $event => _ctx.handlePeriodSelected(period),
+      onDblclick: $event => _ctx.handlePeriodDoubleClick(period)
+    }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.getPeriodDisplayText(period)), 1)], 42, PeriodOptionsvue_type_template_id_2d7a8937_hoisted_2)]);
+  }), 128))], 8, PeriodOptionsvue_type_template_id_2d7a8937_hoisted_1);
+}
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue?vue&type=template&id=2d7a8937
+
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue?vue&type=script&lang=ts
+
+
+
+/* harmony default export */ var PeriodOptionsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  props: {
+    modelValue: {
+      type: String,
+      default: null
+    },
+    periods: {
+      type: Array,
+      required: true
+    },
+    checkedPeriodId: {
+      type: String,
+      default: null
+    },
+    activeDatePeriod: {
+      type: String,
+      required: true
+    }
+  },
+  emits: ['update:modelValue', 'select', 'dblclick'],
+  computed: {
+    displayPeriods() {
+      if (!this.periods.includes('range')) {
+        return this.periods;
+      }
+      return ['range'].concat(this.periods.filter(period => period !== 'range'));
+    }
+  },
+  methods: {
+    translate: translate,
+    getPeriodDisplayText(periodLabel) {
+      const displayText = periodLabel === 'range' ? `${translate('General_Custom')} ${translate('General_DateRangeInPeriodList')}` : Periods_Periods.get(periodLabel).getDisplayText();
+      return displayText.charAt(0).toUpperCase() + displayText.slice(1);
+    },
+    handlePeriodSelected(period) {
+      const payload = {
+        period
+      };
+      this.$emit('update:modelValue', period);
+      this.$emit('select', payload);
+    },
+    handlePeriodDoubleClick(period) {
+      const payload = {
+        period
+      };
+      this.$emit('dblclick', payload);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodOptions.vue
+
+
+
+PeriodOptionsvue_type_script_lang_ts.render = PeriodOptionsvue_type_template_id_2d7a8937_render
+
+/* harmony default export */ var PeriodOptions = (PeriodOptionsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelectorCompareControls.vue?vue&type=template&id=6585cb20
+
+const PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_1 = {
+  key: 0,
+  class: "compare-checkbox"
+};
+const PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_2 = ["checked"];
+const PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_3 = {
+  id: "comparePeriodToDropdown"
+};
+const PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_4 = {
+  key: 1,
+  class: "compare-date-range"
+};
+const PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_5 = {
+  id: "comparePeriodStartDate"
+};
+const PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_6 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  class: "compare-dates-separator"
+}, null, -1);
+const PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_7 = {
+  id: "comparePeriodEndDate"
+};
+function PeriodSelectorCompareControlsvue_type_template_id_6585cb20_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, [_ctx.isComparisonEnabled ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("label", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
     id: "comparePeriodTo",
     type: "checkbox",
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.isComparing = $event)
-  }, null, 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vModelCheckbox"], _ctx.isComparing]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_CompareTo')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorvue_type_template_id_9675e6d6_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    modelValue: _ctx.comparePeriodType,
-    "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.comparePeriodType = $event),
+    checked: !!_ctx.isComparing,
+    onChange: _cache[0] || (_cache[0] = $event => _ctx.onCompareToggle($event))
+  }, null, 40, PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_2), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_CompareTo')), 1)]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    "model-value": _ctx.comparePeriodType,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.$emit('update:comparePeriodType', $event)),
     style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])({
       'visibility': _ctx.isComparing ? 'visible' : 'hidden'
     }),
@@ -6627,44 +7386,111 @@ function PeriodSelectorvue_type_template_id_9675e6d6_render(_ctx, _cache, $props
     options: _ctx.comparePeriodDropdownOptions,
     "full-width": true,
     disabled: !_ctx.isComparing
-  }, null, 8, ["modelValue", "style", "options", "disabled"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparing && _ctx.comparePeriodType === 'custom' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_15, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_16, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    modelValue: _ctx.compareStartDate,
-    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.compareStartDate = $event),
+  }, null, 8, ["model-value", "style", "options", "disabled"])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.isComparing && _ctx.comparePeriodType === 'custom' ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    "model-value": _ctx.compareStartDate,
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.$emit('update:compareStartDate', $event)),
     name: 'comparePeriodStartDate',
     uicontrol: 'text',
     "full-width": true,
     title: _ctx.translate('CoreHome_StartDate'),
     placeholder: 'YYYY-MM-DD'
-  }, null, 8, ["modelValue", "title"])])]), _hoisted_17, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_18, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
-    modelValue: _ctx.compareEndDate,
-    "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => _ctx.compareEndDate = $event),
+  }, null, 8, ["model-value", "title"])])]), PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_6, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", PeriodSelectorCompareControlsvue_type_template_id_6585cb20_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    "model-value": _ctx.compareEndDate,
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => _ctx.$emit('update:compareEndDate', $event)),
     name: 'comparePeriodEndDate',
     uicontrol: 'text',
     "full-width": true,
     title: _ctx.translate('CoreHome_EndDate'),
     placeholder: 'YYYY-MM-DD'
-  }, null, 8, ["modelValue", "title"])])])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_19, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("input", {
-    type: "submit",
-    id: "calendarApply",
-    class: "btn",
-    onClick: _cache[9] || (_cache[9] = $event => _ctx.onApplyClicked()),
-    disabled: !_ctx.isApplyEnabled(),
-    value: _ctx.translate('General_Apply')
-  }, null, 8, _hoisted_20)]), _ctx.isLoadingNewPage ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", _hoisted_21, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_ActivityIndicator, {
-    loading: true
-  }), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", _hoisted_22, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('SegmentEditor_LoadingSegmentedDataMayTakeSomeTime')), 1)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]), _ctx.canShowMovePeriod ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("button", {
-    key: 1,
-    class: "move-period move-period-next",
-    onClick: _cache[10] || (_cache[10] = $event => _ctx.movePeriod(1)),
-    disabled: _ctx.isPeriodMoveDisabled(1)
-  }, _hoisted_25, 8, _hoisted_23)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 2)), [[_directive_expand_on_click, {
-    expander: 'title',
-    onExpand: _ctx.onExpand,
-    onClosed: _ctx.onClosed
-  }]]);
+  }, null, 8, ["model-value", "title"])])])])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 64);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=template&id=9675e6d6
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelectorCompareControls.vue?vue&type=template&id=6585cb20
 
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelectorCompareControls.vue?vue&type=script&lang=ts
+
+
+
+const PeriodSelectorCompareControlsvue_type_script_lang_ts_Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
+/* harmony default export */ var PeriodSelectorCompareControlsvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  components: {
+    Field: PeriodSelectorCompareControlsvue_type_script_lang_ts_Field
+  },
+  props: {
+    isComparisonEnabled: {
+      type: Boolean,
+      required: true
+    },
+    isComparing: {
+      type: Boolean,
+      default: null
+    },
+    comparePeriodType: {
+      type: String,
+      required: true
+    },
+    compareStartDate: {
+      type: String,
+      required: true
+    },
+    compareEndDate: {
+      type: String,
+      required: true
+    },
+    comparePeriodDropdownOptions: {
+      type: Array,
+      required: true
+    }
+  },
+  emits: ['update:isComparing', 'update:comparePeriodType', 'update:compareStartDate', 'update:compareEndDate'],
+  methods: {
+    translate: translate,
+    onCompareToggle(event) {
+      this.$emit('update:isComparing', event.target.checked);
+    }
+  }
+}));
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelectorCompareControls.vue?vue&type=script&lang=ts
+ 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelectorCompareControls.vue
+
+
+
+PeriodSelectorCompareControlsvue_type_script_lang_ts.render = PeriodSelectorCompareControlsvue_type_template_id_6585cb20_render
+
+/* harmony default export */ var PeriodSelectorCompareControls = (PeriodSelectorCompareControlsvue_type_script_lang_ts);
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelectorHashSync.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+const CONTEXT_KEY_IGNORED_PARAMS = ['date', 'period', 'comparePeriods', 'comparePeriodType', 'compareDates', 'compareSegments'];
+function getSelectionKey(period, date) {
+  return `${period}|${date}`;
+}
+function getContextKeyFromParsed(parsed) {
+  const normalizedContext = {};
+  Object.keys(parsed).filter(key => !CONTEXT_KEY_IGNORED_PARAMS.includes(key)).sort().forEach(key => {
+    normalizedContext[key] = parsed[key];
+  });
+  return JSON.stringify(normalizedContext);
+}
+function shouldSkipHashSync(currentSelectionKey, currentContextKey, nextHashUiSelection, lastKnownHashSelectionKey, lastKnownHashContextKey) {
+  return !nextHashUiSelection && currentSelectionKey === lastKnownHashSelectionKey && currentContextKey === lastKnownHashContextKey;
+}
+function resolveSyncedUiSelection(currentSelectionKey, currentContextKey, nextHashUiSelection, nextHashSelectionKey) {
+  const isExpectedHashUpdate = !!nextHashUiSelection && nextHashSelectionKey === currentSelectionKey;
+  const syncedUiSelection = isExpectedHashUpdate && nextHashUiSelection ? Object.assign({}, nextHashUiSelection) : null;
+  return {
+    syncedUiSelection,
+    lastKnownHashSelectionKey: currentSelectionKey,
+    lastKnownHashContextKey: currentContextKey,
+    nextHashUiSelection: null,
+    nextHashSelectionKey: null,
+    lastInteractionSource: null
+  };
+}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/PeriodSelector/PeriodSelector.vue?vue&type=script&lang=ts
 
 
@@ -6678,7 +7504,10 @@ function PeriodSelectorvue_type_template_id_9675e6d6_render(_ctx, _cache, $props
 
 
 
-const PeriodSelectorvue_type_script_lang_ts_Field = useExternalPluginComponent('CorePluginsAdmin', 'Field');
+
+
+
+
 const NBSP = Matomo_Matomo.helper.htmlDecode('&nbsp;');
 const COMPARE_PERIOD_TYPES = ['custom', 'previousPeriod', 'previousYear'];
 const COMPARE_PERIOD_OPTIONS = [{
@@ -6692,23 +7521,30 @@ const COMPARE_PERIOD_OPTIONS = [{
   value: translate('General_PreviousYear').replace(/\s+/, NBSP)
 }];
 // the date when the site was created
-const PeriodSelectorvue_type_script_lang_ts_piwikMinDate = new Date(Matomo_Matomo.minDateYear, Matomo_Matomo.minDateMonth - 1, Matomo_Matomo.minDateDay);
+const siteMinAllowedDate = new Date(Matomo_Matomo.minDateYear, Matomo_Matomo.minDateMonth - 1, Matomo_Matomo.minDateDay);
 // today/now
-const PeriodSelectorvue_type_script_lang_ts_piwikMaxDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMonth - 1, Matomo_Matomo.maxDateDay);
+const siteMaxAllowedDate = new Date(Matomo_Matomo.maxDateYear, Matomo_Matomo.maxDateMonth - 1, Matomo_Matomo.maxDateDay);
+const RANGE_PERIOD = 'range';
 function isValidDate(d) {
   if (Object.prototype.toString.call(d) !== '[object Date]') {
     return false;
   }
   return !Number.isNaN(d.getTime());
 }
+function isSingleCalendarPeriod(period) {
+  return period === 'day' || period === 'week' || period === 'month' || period === 'year';
+}
 /* harmony default export */ var PeriodSelectorvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
+  name: 'PeriodSelector',
   props: {
     periods: Array
   },
   components: {
     DateRangePicker: DateRangePicker,
     PeriodDatePicker: PeriodDatePicker,
-    Field: PeriodSelectorvue_type_script_lang_ts_Field,
+    PresetDateRanges: PresetDateRanges,
+    PeriodOptions: PeriodOptions,
+    PeriodSelectorCompareControls: PeriodSelectorCompareControls,
     ActivityIndicator: ActivityIndicator
   },
   directives: {
@@ -6717,19 +7553,36 @@ function isValidDate(d) {
   },
   data() {
     const selectedPeriod = src_MatomoUrl_MatomoUrl.parsed.value.period;
+    const initialSinglePeriod = isSingleCalendarPeriod(selectedPeriod) ? selectedPeriod : 'day';
     return {
-      comparePeriodDropdownOptions: COMPARE_PERIOD_OPTIONS,
-      periodValue: selectedPeriod,
-      dateValue: null,
+      uiSelection: {
+        type: 'period',
+        id: selectedPeriod
+      },
+      lastInteractionSource: null,
+      nextHashUiSelection: null,
+      nextHashSelectionKey: null,
+      lastKnownHashSelectionKey: null,
+      lastKnownHashContextKey: null,
+      minAllowedDate: siteMinAllowedDate,
+      maxAllowedDate: siteMaxAllowedDate,
+      activePresetId: null,
+      pendingPresetSelection: null,
+      committedPeriod: selectedPeriod,
+      committedAnchorDate: null,
       selectedPeriod,
-      startRangeDate: null,
-      endRangeDate: null,
+      calendarViewport: selectedPeriod === RANGE_PERIOD ? 'range' : 'single',
+      singleCalendarPeriod: initialSinglePeriod,
+      singleCalendarSelectedDate: null,
+      appliedRangeStartDate: null,
+      appliedRangeEndDate: null,
       isRangeValid: null,
       isLoadingNewPage: false,
       isComparing: null,
       comparePeriodType: 'previousPeriod',
       compareStartDate: '',
-      compareEndDate: ''
+      compareEndDate: '',
+      compareAppliedSignature: ''
     };
   },
   mounted() {
@@ -6741,33 +7594,37 @@ function isValidDate(d) {
     Matomo_Matomo.on('matomoPageChange', () => {
       window.$(this.$refs.root).parent('#periodString').show();
     });
-    this.isComparing = Comparisons_store_instance.isComparingPeriods();
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => Comparisons_store_instance.isComparingPeriods(), newVal => {
-      this.isComparing = newVal;
-    });
-    this.updateSelectedValuesFromHash();
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => src_MatomoUrl_MatomoUrl.parsed.value, this.updateSelectedValuesFromHash);
-    this.updateComparisonValuesFromStore();
-    Object(external_commonjs_vue_commonjs2_vue_root_Vue_["watch"])(() => Comparisons_store_instance.getPeriodComparisons(), this.updateComparisonValuesFromStore);
     window.initTopControls(); // must be called when a top control changes width
     this.handleZIndexPositionRelativeCompareDropdownIssue();
   },
   computed: {
+    matomoParsed() {
+      return src_MatomoUrl_MatomoUrl.parsed.value;
+    },
+    isComparingStoreValue() {
+      return Comparisons_store_instance.isComparingPeriods();
+    },
+    periodComparisonsStoreValue() {
+      return Comparisons_store_instance.getPeriodComparisons();
+    },
+    comparePeriodDropdownOptions() {
+      return COMPARE_PERIOD_OPTIONS;
+    },
     currentlyViewingText() {
       let date;
-      if (this.periodValue === 'range') {
-        if (!this.startRangeDate || !this.endRangeDate) {
+      if (this.committedPeriod === 'range') {
+        if (!this.appliedRangeStartDate || !this.appliedRangeEndDate) {
           return translate('General_Error');
         }
-        date = `${this.startRangeDate},${this.endRangeDate}`;
+        date = `${this.appliedRangeStartDate},${this.appliedRangeEndDate}`;
       } else {
-        if (!this.dateValue) {
+        if (!this.committedAnchorDate) {
           return translate('General_Error');
         }
-        date = format(this.dateValue);
+        date = format(this.committedAnchorDate);
       }
       try {
-        return Periods_Periods.parse(this.periodValue, date).getPrettyString();
+        return Periods_Periods.parse(this.committedPeriod, date).getPrettyString();
       } catch (e) {
         return translate('General_Error');
       }
@@ -6797,7 +7654,7 @@ function isValidDate(d) {
         };
       }
       if (this.comparePeriodType === 'previousYear') {
-        const dateStr = this.selectedPeriod === 'range' ? `${this.startRangeDate},${this.endRangeDate}` : format(this.dateValue);
+        const dateStr = this.selectedPeriod === 'range' ? `${this.appliedRangeStartDate},${this.appliedRangeEndDate}` : format(this.committedAnchorDate);
         const currentDateRange = Periods_Periods.parse(this.selectedPeriod, dateStr).getDateRange();
         currentDateRange[0].setFullYear(currentDateRange[0].getFullYear() - 1);
         currentDateRange[1].setFullYear(currentDateRange[1].getFullYear() - 1);
@@ -6819,20 +7676,20 @@ function isValidDate(d) {
     },
     previousPeriodDateToSelectedPeriod() {
       if (this.selectedPeriod === 'range') {
-        const currentStartRange = parseDate(this.startRangeDate);
-        const currentEndRange = parseDate(this.endRangeDate);
+        const currentStartRange = parseDate(this.appliedRangeStartDate);
+        const currentEndRange = parseDate(this.appliedRangeEndDate);
         const newEndDate = Range_RangePeriod.getLastNRange('day', 2, currentStartRange).startDate;
         const rangeSize = Math.floor((currentEndRange.valueOf() - currentStartRange.valueOf()) / 86400000);
         const newRange = Range_RangePeriod.getLastNRange('day', 1 + rangeSize, newEndDate);
         return `${format(newRange.startDate)},${format(newRange.endDate)}`;
       }
-      const newStartDate = Range_RangePeriod.getLastNRange(this.selectedPeriod, 2, this.dateValue).startDate;
+      const newStartDate = Range_RangePeriod.getLastNRange(this.selectedPeriod, 2, this.committedAnchorDate).startDate;
       return format(newStartDate);
     },
-    selectedDateString() {
+    selectedDateParam() {
       if (this.selectedPeriod === 'range') {
-        const dateFrom = this.startRangeDate;
-        const dateTo = this.endRangeDate;
+        const dateFrom = this.appliedRangeStartDate;
+        const dateTo = this.appliedRangeEndDate;
         const oDateFrom = parseDate(dateFrom);
         const oDateTo = parseDate(dateTo);
         if (!isValidDate(oDateFrom) || !isValidDate(oDateTo) || oDateFrom > oDateTo) {
@@ -6843,16 +7700,66 @@ function isValidDate(d) {
         }
         return `${dateFrom},${dateTo}`;
       }
-      return format(this.dateValue);
+      return format(this.committedAnchorDate);
     },
     isErrorDisplayed() {
       return this.currentlyViewingText === translate('General_Error');
     },
     isRangeSelection() {
-      return this.periodValue === 'range';
+      return this.committedPeriod === 'range';
     },
     canShowMovePeriod() {
       return !this.isRangeSelection && !this.isErrorDisplayed;
+    },
+    compareCurrentSignature() {
+      return JSON.stringify({
+        isComparing: !!this.isComparing,
+        comparePeriodType: this.comparePeriodType || '',
+        compareStartDate: this.compareStartDate || '',
+        compareEndDate: this.compareEndDate || ''
+      });
+    },
+    isCompareDirty() {
+      return this.compareCurrentSignature !== this.compareAppliedSignature;
+    },
+    hasPendingNonRangePeriodChange() {
+      return this.uiSelection.type === 'period' && this.lastInteractionSource === 'period' && this.selectedPeriod !== RANGE_PERIOD && this.selectedPeriod !== this.committedPeriod;
+    },
+    isRangePresetSelection() {
+      return this.uiSelection.type === 'preset' && this.selectedPeriod === RANGE_PERIOD;
+    },
+    displayRangeStartDate() {
+      if (this.isRangePresetSelection && this.pendingPresetSelection) {
+        return format(this.pendingPresetSelection.startDate);
+      }
+      return this.appliedRangeStartDate;
+    },
+    displayRangeEndDate() {
+      if (this.isRangePresetSelection && this.pendingPresetSelection) {
+        return format(this.pendingPresetSelection.endDate);
+      }
+      return this.appliedRangeEndDate;
+    }
+  },
+  watch: {
+    isComparingStoreValue: {
+      immediate: true,
+      handler(newVal) {
+        this.isComparing = newVal;
+      }
+    },
+    matomoParsed: {
+      immediate: true,
+      handler() {
+        this.updateSelectedValuesFromHash();
+      }
+    },
+    periodComparisonsStoreValue: {
+      immediate: true,
+      handler() {
+        this.updateComparisonValuesFromStore();
+        this.compareAppliedSignature = this.compareCurrentSignature;
+      }
     }
   },
   methods: {
@@ -6876,25 +7783,106 @@ function isValidDate(d) {
         $element.removeClass('compare-dropdown-open');
       });
     },
-    changeViewedPeriod(period) {
-      // only change period if it's different from what's being shown currently
-      if (period === this.periodValue) {
-        return;
+    setUiSelection(selection, source) {
+      this.uiSelection = selection;
+      this.lastInteractionSource = source;
+    },
+    clearPresetSelection() {
+      this.activePresetId = null;
+      this.pendingPresetSelection = null;
+    },
+    setPendingPeriodAndDate(period, date) {
+      this.committedPeriod = period;
+      this.selectedPeriod = period;
+      this.committedAnchorDate = date;
+      this.setRangeStartEndFromPeriod(period, format(date));
+      if (isSingleCalendarPeriod(period)) {
+        this.singleCalendarPeriod = period;
+        this.singleCalendarSelectedDate = date;
       }
-      // can't just change to a range period, w/o setting two new dates
-      if (period === 'range') {
-        return;
-      }
-      this.setPiwikPeriodAndDate(period, this.dateValue);
     },
     setPiwikPeriodAndDate(period, date) {
-      this.periodValue = period;
-      this.selectedPeriod = period;
-      this.dateValue = date;
+      this.setPendingPeriodAndDate(period, date);
+      this.setUiSelection({
+        type: 'period',
+        id: period
+      }, 'period');
       const currentDateString = format(date);
-      this.setRangeStartEndFromPeriod(period, currentDateString);
-      this.propagateNewUrlParams(currentDateString, this.selectedPeriod);
+      this.clearPresetSelection();
+      this.commitSelectionToUrl(currentDateString, this.selectedPeriod);
+    },
+    commitSelectionToUrl(date, period) {
+      this.nextHashUiSelection = Object.assign({}, this.uiSelection);
+      this.nextHashSelectionKey = getSelectionKey(period, date);
+      this.compareAppliedSignature = this.compareCurrentSignature;
+      this.propagateNewUrlParams(date, period);
       window.initTopControls();
+    },
+    onPeriodOptionSelected(payload) {
+      this.setUiSelection({
+        type: 'period',
+        id: payload.period
+      }, 'period');
+      this.selectedPeriod = payload.period;
+      // Selecting a period option exits preset ownership and discards any unapplied preset staging.
+      // After this point, Apply commits period-owned state only.
+      this.clearPresetSelection();
+      if (payload.period === RANGE_PERIOD) {
+        this.calendarViewport = 'range';
+        this.isRangeValid = true;
+        return;
+      }
+      this.calendarViewport = 'single';
+      if (isSingleCalendarPeriod(payload.period)) {
+        this.singleCalendarPeriod = payload.period;
+      }
+      this.singleCalendarSelectedDate = payload.period === this.committedPeriod ? this.committedAnchorDate : null;
+    },
+    onPeriodOptionDblClick(payload) {
+      this.onPeriodOptionSelected(payload);
+      if (payload.period === RANGE_PERIOD || payload.period === this.committedPeriod || !this.committedAnchorDate) {
+        return;
+      }
+      this.setPiwikPeriodAndDate(payload.period, this.committedAnchorDate);
+    },
+    canInteractWithSingleCalendar() {
+      // Preset-owned selections are intentionally read-only for calendar interactions.
+      // Users must switch ownership via period options before single-calendar clicks can commit.
+      return this.calendarViewport === 'single' && this.uiSelection.type === 'period' && this.selectedPeriod !== RANGE_PERIOD;
+    },
+    onDatePickerSelected(date) {
+      if (!this.canInteractWithSingleCalendar()) {
+        return;
+      }
+      this.setUiSelection({
+        type: 'period',
+        id: this.selectedPeriod
+      }, 'calendar');
+      this.setPendingPeriodAndDate(this.selectedPeriod, date);
+      this.clearPresetSelection();
+      this.commitSelectionToUrl(format(date), this.selectedPeriod);
+    },
+    onPresetDateRangeSelected(selection) {
+      if (!this.periodsFiltered.includes(selection.period)) {
+        return;
+      }
+      this.setUiSelection({
+        type: 'preset',
+        id: selection.id
+      }, 'preset');
+      this.activePresetId = selection.id;
+      this.selectedPeriod = selection.period;
+      this.isRangeValid = true;
+      this.pendingPresetSelection = selection;
+      if (selection.period === RANGE_PERIOD) {
+        this.calendarViewport = 'range';
+        return;
+      }
+      this.calendarViewport = 'single';
+      this.singleCalendarSelectedDate = selection.startDate;
+      if (isSingleCalendarPeriod(selection.period)) {
+        this.singleCalendarPeriod = selection.period;
+      }
     },
     propagateNewUrlParams(date, period) {
       const compareParams = this.selectedComparisonParams;
@@ -6906,7 +7894,7 @@ function isValidDate(d) {
         this.isLoadingNewPage = true;
         baseParams = src_MatomoUrl_MatomoUrl.parsed.value;
       }
-      // get params without comparePeriods/compareSegments/compareDates
+      // get params without comparePeriods/comparePeriodType/compareDates
       const paramsWithoutCompare = Object.assign({}, baseParams);
       delete paramsWithoutCompare.comparePeriods;
       delete paramsWithoutCompare.comparePeriodType;
@@ -6916,17 +7904,72 @@ function isValidDate(d) {
         period
       }, compareParams));
     },
-    onApplyClicked() {
-      if (this.selectedPeriod === 'range') {
-        const dateString = this.selectedDateString;
-        if (!dateString) {
-          return;
-        }
-        this.periodValue = 'range';
-        this.propagateNewUrlParams(dateString, 'range');
+    hasPendingPresetSelectionOwnedByUi() {
+      return !!this.pendingPresetSelection && this.uiSelection.type === 'preset' && this.pendingPresetSelection.id === this.uiSelection.id;
+    },
+    shouldCloseSelectorWithoutApplying() {
+      return this.uiSelection.type === 'preset' && this.selectedPeriod !== RANGE_PERIOD;
+    },
+    hasCommittedRangeBounds() {
+      return !!this.appliedRangeStartDate && !!this.appliedRangeEndDate;
+    },
+    applyPendingPresetSelection() {
+      if (!this.hasPendingPresetSelectionOwnedByUi()) {
+        return false;
+      }
+      const pendingPreset = this.pendingPresetSelection;
+      this.committedPeriod = pendingPreset.period;
+      this.committedAnchorDate = pendingPreset.startDate;
+      this.appliedRangeStartDate = format(pendingPreset.startDate);
+      this.appliedRangeEndDate = format(pendingPreset.endDate);
+      // Keep relative preset tokens in the URL (for example, "last7") so bookmarks stay rolling.
+      // Staged start/end dates can be clamped for current UI bounds,
+      // but URL semantics stay relative.
+      this.commitSelectionToUrl(pendingPreset.date, pendingPreset.period);
+      return true;
+    },
+    applyRangeSelection() {
+      if (this.selectedPeriod !== RANGE_PERIOD) {
+        return false;
+      }
+      const dateString = this.selectedDateParam;
+      if (!dateString) {
+        return true;
+      }
+      this.committedPeriod = RANGE_PERIOD;
+      this.commitSelectionToUrl(this.getCurrentRollingDateParamIfOwnedByPreset() || dateString, RANGE_PERIOD);
+      return true;
+    },
+    applyNonRangeOrCompareChanges() {
+      if (this.hasPendingNonRangePeriodChange) {
         return;
       }
-      this.setPiwikPeriodAndDate(this.selectedPeriod, this.dateValue);
+      if (!this.isCompareDirty) {
+        if (this.shouldCloseSelectorWithoutApplying()) {
+          this.closePeriodSelector();
+        }
+        return;
+      }
+      if (this.committedPeriod === RANGE_PERIOD) {
+        if (!this.hasCommittedRangeBounds()) {
+          return;
+        }
+        this.commitSelectionToUrl(this.getCurrentRollingDateParamIfOwnedByPreset() || `${this.appliedRangeStartDate},${this.appliedRangeEndDate}`, RANGE_PERIOD);
+        return;
+      }
+      if (!this.committedAnchorDate) {
+        return;
+      }
+      this.commitSelectionToUrl(this.getCurrentRollingDateParamIfOwnedByPreset() || format(this.committedAnchorDate), this.committedPeriod);
+    },
+    onApplyClicked() {
+      if (this.applyPendingPresetSelection()) {
+        return;
+      }
+      if (this.applyRangeSelection()) {
+        return;
+      }
+      this.applyNonRangeOrCompareChanges();
     },
     updateComparisonValuesFromStore() {
       this.comparePeriodType = 'previousPeriod';
@@ -6955,49 +7998,149 @@ function isValidDate(d) {
       this.compareStartDate = format(startDate);
       this.compareEndDate = format(endDate);
     },
+    getCurrentContextKey() {
+      return getContextKeyFromParsed(src_MatomoUrl_MatomoUrl.parsed.value);
+    },
+    applyUiSelectionFromHash(period, date, syncedUiSelection) {
+      if (syncedUiSelection) {
+        this.uiSelection = syncedUiSelection;
+        this.activePresetId = syncedUiSelection.type === 'preset' ? syncedUiSelection.id : null;
+        return;
+      }
+      const presetId = getTokenPresetIdFromPeriodAndDate(period, date);
+      if (presetId && this.periodsFiltered.includes(period)) {
+        this.uiSelection = {
+          type: 'preset',
+          id: presetId
+        };
+        this.activePresetId = presetId;
+        this.pendingPresetSelection = null;
+        return;
+      }
+      this.setUiSelection({
+        type: 'period',
+        id: period
+      }, null);
+      this.clearPresetSelection();
+    },
+    getCurrentRollingDateParamIfOwnedByPreset() {
+      if (this.uiSelection.type !== 'preset') {
+        return null;
+      }
+      const parsedPeriod = src_MatomoUrl_MatomoUrl.parsed.value.period || '';
+      const parsedDate = src_MatomoUrl_MatomoUrl.parsed.value.date || '';
+      if (parsedPeriod !== this.committedPeriod || !parsedDate) {
+        return null;
+      }
+      const presetId = getTokenPresetIdFromPeriodAndDate(parsedPeriod, parsedDate);
+      if (presetId !== this.uiSelection.id) {
+        return null;
+      }
+      return parsedDate;
+    },
+    resetSelectedDateValues() {
+      this.committedAnchorDate = null;
+      this.appliedRangeStartDate = null;
+      this.appliedRangeEndDate = null;
+    },
+    applyDateValuesFromHash(period, date) {
+      if (period === RANGE_PERIOD) {
+        const periodObj = Periods_Periods.get(period).parse(date);
+        const [startDate, endDate] = periodObj.getDateRange();
+        this.committedAnchorDate = startDate;
+        this.appliedRangeStartDate = format(startDate);
+        this.appliedRangeEndDate = format(endDate);
+        return;
+      }
+      this.committedAnchorDate = parseDate(date);
+      this.setRangeStartEndFromPeriod(period, date);
+      if (isSingleCalendarPeriod(period)) {
+        this.singleCalendarPeriod = period;
+      }
+      this.singleCalendarSelectedDate = this.committedAnchorDate;
+    },
     updateSelectedValuesFromHash() {
-      const date = src_MatomoUrl_MatomoUrl.parsed.value.date;
-      const period = src_MatomoUrl_MatomoUrl.parsed.value.period;
-      this.periodValue = period;
+      const date = src_MatomoUrl_MatomoUrl.parsed.value.date || '';
+      const period = src_MatomoUrl_MatomoUrl.parsed.value.period || '';
+      const currentSelectionKey = getSelectionKey(period, date);
+      const currentContextKey = this.getCurrentContextKey();
+      if (shouldSkipHashSync(currentSelectionKey, currentContextKey, this.nextHashUiSelection, this.lastKnownHashSelectionKey, this.lastKnownHashContextKey)) {
+        return;
+      }
+      const hashSyncState = resolveSyncedUiSelection(currentSelectionKey, currentContextKey, this.nextHashUiSelection, this.nextHashSelectionKey);
+      this.nextHashUiSelection = hashSyncState.nextHashUiSelection;
+      this.nextHashSelectionKey = hashSyncState.nextHashSelectionKey;
+      this.lastInteractionSource = hashSyncState.lastInteractionSource;
+      this.lastKnownHashSelectionKey = hashSyncState.lastKnownHashSelectionKey;
+      this.lastKnownHashContextKey = hashSyncState.lastKnownHashContextKey;
+      this.applyUiSelectionFromHash(period, date, hashSyncState.syncedUiSelection);
+      this.committedPeriod = period;
       this.selectedPeriod = period;
-      this.dateValue = null;
-      this.startRangeDate = null;
-      this.endRangeDate = null;
+      this.resetSelectedDateValues();
       try {
         Periods_Periods.parse(period, date);
       } catch (e) {
+        if (period === RANGE_PERIOD) {
+          this.isRangeValid = false;
+        } else {
+          this.isRangeValid = null;
+        }
         return;
       }
-      if (period === 'range') {
-        const periodObj = Periods_Periods.get(period).parse(date);
-        const [startDate, endDate] = periodObj.getDateRange();
-        this.dateValue = startDate;
-        this.startRangeDate = format(startDate);
-        this.endRangeDate = format(endDate);
-      } else {
-        this.dateValue = parseDate(date);
-        this.setRangeStartEndFromPeriod(period, date);
-      }
+      this.applyDateValuesFromHash(period, date);
+      this.isRangeValid = period === RANGE_PERIOD ? true : null;
+      this.pendingPresetSelection = null;
+      this.calendarViewport = period === RANGE_PERIOD ? 'range' : 'single';
+      this.compareAppliedSignature = this.compareCurrentSignature;
     },
     setRangeStartEndFromPeriod(period, dateStr) {
       const dateRange = Periods_Periods.parse(period, dateStr).getDateRange();
-      this.startRangeDate = format(dateRange[0] < PeriodSelectorvue_type_script_lang_ts_piwikMinDate ? PeriodSelectorvue_type_script_lang_ts_piwikMinDate : dateRange[0]);
-      this.endRangeDate = format(dateRange[1] > PeriodSelectorvue_type_script_lang_ts_piwikMaxDate ? PeriodSelectorvue_type_script_lang_ts_piwikMaxDate : dateRange[1]);
+      this.appliedRangeStartDate = format(dateRange[0] < siteMinAllowedDate ? siteMinAllowedDate : dateRange[0]);
+      this.appliedRangeEndDate = format(dateRange[1] > siteMaxAllowedDate ? siteMaxAllowedDate : dateRange[1]);
     },
-    getPeriodDisplayText(periodLabel) {
-      return Periods_Periods.get(periodLabel).getDisplayText();
+    canInteractWithRangeCalendar() {
+      return this.calendarViewport === 'range' && this.uiSelection.type === 'period' && this.selectedPeriod === RANGE_PERIOD;
     },
     onRangeChange(start, end) {
+      if (!this.canInteractWithRangeCalendar()) {
+        return;
+      }
       if (!start || !end) {
         this.isRangeValid = false;
         return;
       }
       this.isRangeValid = true;
-      this.startRangeDate = start;
-      this.endRangeDate = end;
+      this.appliedRangeStartDate = start;
+      this.appliedRangeEndDate = end;
+      this.setUiSelection({
+        type: 'period',
+        id: RANGE_PERIOD
+      }, 'range');
+    },
+    onRangePresetDateCellClickCapture(event) {
+      if (!this.isRangePresetSelection) {
+        return;
+      }
+      const target = event.target;
+      if (!target) {
+        return;
+      }
+      if (target.closest('.ui-datepicker-calendar a')) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
     },
     isApplyEnabled() {
-      if (this.selectedPeriod === 'range' && !this.isRangeValid) {
+      // When a non-range period option owns the selection, 'Apply' button stays disabled.
+      // Compare controls can still be edited in this state, but users must click the calendar
+      // to commit date/compare changes.
+      if (this.uiSelection.type === 'period' && this.selectedPeriod !== RANGE_PERIOD) {
+        return false;
+      }
+      if (this.hasPendingNonRangePeriodChange) {
+        return false;
+      }
+      if (this.selectedPeriod === RANGE_PERIOD && !this.pendingPresetSelection && !this.isRangeValid) {
         return false;
       }
       if (this.isComparing && this.comparePeriodType === 'custom' && !this.isCompareRangeValid()) {
@@ -7025,11 +8168,8 @@ function isValidDate(d) {
       if (!this.canMovePeriod(direction)) {
         return;
       }
-      let newDate = new Date();
-      if (this.dateValue != null) {
-        newDate = this.dateValue;
-      }
-      switch (this.periodValue) {
+      const newDate = this.committedAnchorDate != null ? new Date(this.committedAnchorDate.getTime()) : new Date();
+      switch (this.committedPeriod) {
         case 'day':
           newDate.setDate(newDate.getDate() + direction);
           break;
@@ -7046,27 +8186,27 @@ function isValidDate(d) {
           break;
       }
       // Ensure the date is not outside the min and max dates
-      if (this.dateValue < PeriodSelectorvue_type_script_lang_ts_piwikMinDate) {
-        this.dateValue = PeriodSelectorvue_type_script_lang_ts_piwikMinDate;
+      if (newDate < siteMinAllowedDate) {
+        newDate.setTime(siteMinAllowedDate.getTime());
       }
-      if (this.dateValue > PeriodSelectorvue_type_script_lang_ts_piwikMaxDate) {
-        this.dateValue = PeriodSelectorvue_type_script_lang_ts_piwikMaxDate;
+      if (newDate > siteMaxAllowedDate) {
+        newDate.setTime(siteMaxAllowedDate.getTime());
       }
-      this.onApplyClicked();
+      this.setPiwikPeriodAndDate(this.committedPeriod, newDate);
     },
     isPeriodMoveDisabled(direction) {
       // disable period move when date range is used or when we would go out of the min/max dates
-      if (this.dateValue === null) {
+      if (this.committedAnchorDate === null) {
         return this.isRangeSelection;
       }
       return this.isRangeSelection || !this.canMovePeriod(direction);
     },
     canMovePeriod(direction) {
-      if (this.dateValue === null) {
+      if (this.committedAnchorDate === null) {
         return false;
       }
-      const boundaryDate = direction === -1 ? PeriodSelectorvue_type_script_lang_ts_piwikMinDate : PeriodSelectorvue_type_script_lang_ts_piwikMaxDate;
-      return !datesAreInTheSamePeriod(this.dateValue, boundaryDate, this.periodValue);
+      const boundaryDate = direction === -1 ? siteMinAllowedDate : siteMaxAllowedDate;
+      return !datesAreInTheSamePeriod(this.committedAnchorDate, boundaryDate, this.committedPeriod);
     }
   }
 }));
@@ -7076,7 +8216,7 @@ function isValidDate(d) {
 
 
 
-PeriodSelectorvue_type_script_lang_ts.render = PeriodSelectorvue_type_template_id_9675e6d6_render
+PeriodSelectorvue_type_script_lang_ts.render = PeriodSelectorvue_type_template_id_901f7596_render
 
 /* harmony default export */ var PeriodSelector = (PeriodSelectorvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportingMenu/ReportingMenu.vue?vue&type=template&id=ebf172cc
@@ -7116,8 +8256,8 @@ const ReportingMenuvue_type_template_id_ebf172cc_hoisted_15 = {
 const ReportingMenuvue_type_template_id_ebf172cc_hoisted_16 = {
   class: "collapsible-body"
 };
-const ReportingMenuvue_type_template_id_ebf172cc_hoisted_17 = ["onClick", "href"];
-const ReportingMenuvue_type_template_id_ebf172cc_hoisted_18 = ["onClick", "href"];
+const _hoisted_17 = ["onClick", "href"];
+const _hoisted_18 = ["onClick", "href"];
 function ReportingMenuvue_type_template_id_ebf172cc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MenuItemsDropdown = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("MenuItemsDropdown");
   const _directive_side_nav = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("side-nav");
@@ -7205,12 +8345,12 @@ function ReportingMenuvue_type_template_id_ebf172cc_render(_ctx, _cache, $props,
           onClick: $event => _ctx.loadSubcategory(category, subcat),
           href: `#?${_ctx.makeUrl(category, subcat)}`,
           key: subcat.id
-        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(subcat.name), 9, ReportingMenuvue_type_template_id_ebf172cc_hoisted_17);
+        }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(subcat.name), 9, _hoisted_17);
       }), 128)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !subcategory.isGroup ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
         key: 1,
         onClick: $event => _ctx.loadSubcategory(category, subcategory),
         href: `#?${_ctx.makeUrl(category, subcategory)}`
-      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(subcategory.name), 9, ReportingMenuvue_type_template_id_ebf172cc_hoisted_18)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+      }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(subcategory.name), 9, _hoisted_18)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
     }), 128))])])])])), [[_directive_side_nav, {
       activator: _ctx.sideNavActivator
     }]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 8, ReportingMenuvue_type_template_id_ebf172cc_hoisted_13);
@@ -8758,64 +9898,64 @@ function hideOnlyRawDataNoticifation() {
 ReportingPagevue_type_script_lang_ts.render = ReportingPagevue_type_template_id_16afd136_render
 
 /* harmony default export */ var ReportingPage = (ReportingPagevue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.vue?vue&type=template&id=5362adde
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.vue?vue&type=template&id=2eab0715
 
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_1 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_1 = {
   class: "report-export-popover row",
   id: "reportExport"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_2 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_2 = {
   class: "col l6"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_3 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_3 = {
   name: "format"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_4 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_4 = {
   name: "option_flat"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_5 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_5 = {
   name: "option_show_dimensions"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_6 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_6 = {
   name: "option_expanded"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_7 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_7 = {
   name: "option_format_metrics"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_8 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_8 = {
   class: "col l6"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_9 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_9 = {
   name: "filter_type"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_10 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_10 = {
   class: "filter_limit"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_11 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_11 = {
   name: "filter_limit_all"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_12 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_12 = {
   key: 0,
   name: "filter_limit"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_13 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_13 = {
   key: 1,
   name: "filter_limit"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_14 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_14 = {
   class: "col l12"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_15 = ["value"];
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_16 = ["innerHTML"];
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_17 = {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_15 = ["value"];
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_16 = ["innerHTML"];
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_17 = {
   class: "col l12"
 };
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_18 = ["href", "title"];
-const ReportExportPopovervue_type_template_id_5362adde_hoisted_19 = ["innerHTML"];
-function ReportExportPopovervue_type_template_id_5362adde_render(_ctx, _cache, $props, $setup, $data, $options) {
+const ReportExportPopovervue_type_template_id_2eab0715_hoisted_18 = ["href", "title"];
+const _hoisted_19 = ["innerHTML"];
+function ReportExportPopovervue_type_template_id_2eab0715_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Field = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Field");
   const _directive_select_on_focus = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("select-on-focus");
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_2, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_3, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'radio',
     name: 'format',
     title: _ctx.translate('CoreHome_ExportFormat'),
@@ -8823,31 +9963,31 @@ function ReportExportPopovervue_type_template_id_5362adde_render(_ctx, _cache, $
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => _ctx.reportFormat = $event),
     "full-width": true,
     options: _ctx.availableReportFormats[_ctx.reportType]
-  }, null, 8, ["title", "modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["title", "modelValue", "options"])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_4, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'checkbox',
     name: 'option_flat',
     title: _ctx.translate('CoreHome_FlattenReport'),
-    modelValue: _ctx.optionFlat,
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.optionFlat = $event)
-  }, null, 8, ["title", "modelValue"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasSubtables]])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    modelValue: _ctx.optionFlatModel,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => _ctx.optionFlatModel = $event)
+  }, null, 8, ["title", "modelValue"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.canExportFlat]])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_5, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'checkbox',
     name: 'option_show_dimensions',
     title: _ctx.translate('CoreHome_IncludeDimensionsSeparately'),
     modelValue: _ctx.optionShowDimensions,
     "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => _ctx.optionShowDimensions = $event)
-  }, null, 8, ["title", "modelValue"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasMultipleDimensions && _ctx.optionFlat]])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["title", "modelValue"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.canExportFlat && _ctx.hasMultipleDimensions && _ctx.optionFlatModel]])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_6, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'checkbox',
     name: 'option_expanded',
     title: _ctx.translate('CoreHome_ExpandSubtables'),
-    modelValue: _ctx.optionExpanded,
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => _ctx.optionExpanded = $event)
-  }, null, 8, ["title", "modelValue"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasSubtables && !_ctx.optionFlat]])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+    modelValue: _ctx.optionExpandedModel,
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => _ctx.optionExpandedModel = $event)
+  }, null, 8, ["title", "modelValue"]), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.hasSubtables && !_ctx.isCsvOrTsv]])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_7, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'checkbox',
     name: 'option_format_metrics',
     title: _ctx.translate('CoreHome_FormatMetrics'),
     modelValue: _ctx.optionFormatMetrics,
     "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => _ctx.optionFormatMetrics = $event)
-  }, null, 8, ["title", "modelValue"])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["title", "modelValue"])])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_8, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_9, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'radio',
     name: 'filter_type',
     title: _ctx.translate('CoreHome_ReportType'),
@@ -8855,7 +9995,7 @@ function ReportExportPopovervue_type_template_id_5362adde_render(_ctx, _cache, $
     "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.reportType = $event),
     "full-width": true,
     options: _ctx.availableReportTypes
-  }, null, 8, ["title", "modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["title", "modelValue", "options"])])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'radio',
     name: 'filter_limit_all',
     title: _ctx.translate('CoreHome_RowLimit'),
@@ -8863,14 +10003,14 @@ function ReportExportPopovervue_type_template_id_5362adde_render(_ctx, _cache, $
     "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.reportLimitAll = $event),
     "full-width": true,
     options: _ctx.limitAllOptions
-  }, null, 8, ["title", "modelValue", "options"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.maxFilterLimit || _ctx.maxFilterLimit <= 0]]), _ctx.reportLimitAll === 'no' && _ctx.maxFilterLimit <= 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["title", "modelValue", "options"])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], !_ctx.maxFilterLimit || _ctx.maxFilterLimit <= 0]]), _ctx.reportLimitAll === 'no' && _ctx.maxFilterLimit <= 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_12, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'number',
     name: "filter_limit",
     min: 1,
     modelValue: _ctx.reportLimit,
     "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.reportLimit = $event),
     "full-width": true
-  }, null, 8, ["modelValue"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.reportLimitAll === 'no' && _ctx.maxFilterLimit > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
+  }, null, 8, ["modelValue"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.reportLimitAll === 'no' && _ctx.maxFilterLimit > 0 ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_13, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createVNode"])(_component_Field, {
     uicontrol: 'number',
     name: 'filter_limit',
     min: 1,
@@ -8880,19 +10020,19 @@ function ReportExportPopovervue_type_template_id_5362adde_render(_ctx, _cache, $
     value: _ctx.reportLimit,
     "full-width": true,
     title: _ctx.filterLimitTooltip
-  }, null, 8, ["max", "modelValue", "value", "title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("textarea", {
+  }, null, 8, ["max", "modelValue", "value", "title"])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])(Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_14, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("textarea", {
     readonly: "",
     class: "exportFullUrl",
     value: _ctx.exportLinkWithoutToken
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\n      ")], 8, ReportExportPopovervue_type_template_id_5362adde_hoisted_15)), [[_directive_select_on_focus, {}]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("\n      ")], 8, ReportExportPopovervue_type_template_id_2eab0715_hoisted_15)), [[_directive_select_on_focus, {}]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: "tooltip",
     innerHTML: _ctx.$sanitize(_ctx.translate('CoreHome_ExportTooltipWithLink', '<a target=_blank href=\'?module=UsersManager&action=userSecurity\'>', '</a>', 'ENTER_YOUR_TOKEN_AUTH_HERE'))
-  }, null, 8, ReportExportPopovervue_type_template_id_5362adde_hoisted_16)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showUrl]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_5362adde_hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, null, 8, ReportExportPopovervue_type_template_id_2eab0715_hoisted_16)], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_["vShow"], _ctx.showUrl]]), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", ReportExportPopovervue_type_template_id_2eab0715_hoisted_17, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     class: "btn",
     href: _ctx.exportLink,
     target: "_new",
     title: _ctx.translate('CoreHome_ExportTooltip')
-  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Export')), 9, ReportExportPopovervue_type_template_id_5362adde_hoisted_18), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
+  }, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translate('General_Export')), 9, ReportExportPopovervue_type_template_id_2eab0715_hoisted_18), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("a", {
     href: "javascript:",
     onClick: _cache[9] || (_cache[9] = $event => _ctx.showUrl = !_ctx.showUrl),
     class: "toggle-export-url"
@@ -8900,11 +10040,98 @@ function ReportExportPopovervue_type_template_id_5362adde_render(_ctx, _cache, $
     key: 0,
     class: "col l12 report-export-popover-footer",
     innerHTML: _ctx.$sanitize(_ctx.additionalContent)
-  }, null, 8, ReportExportPopovervue_type_template_id_5362adde_hoisted_19)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
+  }, null, 8, _hoisted_19)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)]);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.vue?vue&type=template&id=5362adde
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.vue?vue&type=template&id=2eab0715
 
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.utils.ts
+/*!
+ * Matomo - free/libre analytics platform
+ *
+ * @link    https://matomo.org
+ * @license https://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
+const FORMATS_WITHOUT_EXPANDED = ['CSV', 'TSV'];
+function isFormatWithoutExpanded(format) {
+  return FORMATS_WITHOUT_EXPANDED.includes(format);
+}
+function resolveInitialSubtablePreference(initialOptionFlat, initialOptionExpanded, initialReportFormat) {
+  // `hasUserPreference=false` means "use the product default behavior":
+  // TSV/CSV start flat, and non-TSV/CSV start expanded.
+  if (initialOptionFlat) {
+    if (isFormatWithoutExpanded(initialReportFormat)) {
+      return {
+        hasUserPreference: false,
+        preferredMode: null
+      };
+    }
+    return {
+      hasUserPreference: true,
+      preferredMode: 'flat'
+    };
+  }
+  if (initialOptionExpanded) {
+    return {
+      hasUserPreference: true,
+      preferredMode: 'expanded'
+    };
+  }
+  return {
+    hasUserPreference: true,
+    preferredMode: null
+  };
+}
+function resolveEffectiveSubtableOptions(hasSubtables, canExportFlat, reportFormat, subtablePreference) {
+  const {
+    hasUserPreference,
+    preferredMode
+  } = subtablePreference;
+  if (!hasSubtables) {
+    return {
+      optionFlat: false,
+      optionExpanded: false
+    };
+  }
+  if (isFormatWithoutExpanded(reportFormat)) {
+    if (!canExportFlat) {
+      return {
+        optionFlat: false,
+        optionExpanded: false
+      };
+    }
+    return {
+      optionFlat: !hasUserPreference || preferredMode === 'flat',
+      optionExpanded: false
+    };
+  }
+  if (!hasUserPreference) {
+    return {
+      optionFlat: false,
+      optionExpanded: true
+    };
+  }
+  if (preferredMode === 'flat') {
+    return canExportFlat ? {
+      optionFlat: true,
+      optionExpanded: false
+    } : {
+      optionFlat: false,
+      optionExpanded: true
+    };
+  }
+  if (preferredMode === 'expanded') {
+    return {
+      optionFlat: false,
+      optionExpanded: true
+    };
+  }
+  return {
+    optionFlat: false,
+    optionExpanded: false
+  };
+}
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/ReportExport/ReportExportPopover.vue?vue&type=script&lang=ts
+
 
 
 
@@ -8921,6 +10148,10 @@ const ReportExportPopovervue_type_script_lang_ts_Field = useExternalPluginCompon
   },
   props: {
     hasSubtables: Boolean,
+    canExportFlat: {
+      type: Boolean,
+      default: false
+    },
     availableReportTypes: Object,
     availableReportFormats: {
       type: Object,
@@ -8983,9 +10214,10 @@ const ReportExportPopovervue_type_script_lang_ts_Field = useExternalPluginCompon
     return {
       showUrl: false,
       reportFormat: this.initialReportFormat,
-      optionFlat: this.initialOptionFlat,
       optionShowDimensions: this.initialOptionShowDimensions,
-      optionExpanded: this.initialOptionExpanded,
+      // Keep explicit preference separate from default behavior:
+      // default means TSV/CSV flat and non-TSV/CSV expanded.
+      subtablePreference: resolveInitialSubtablePreference(this.initialOptionFlat, this.initialOptionExpanded, this.initialReportFormat),
       optionFormatMetrics: this.initialOptionFormatMetrics,
       reportType: this.initialReportType,
       reportLimitAll: this.initialReportLimitAll,
@@ -9017,6 +10249,54 @@ const ReportExportPopovervue_type_script_lang_ts_Field = useExternalPluginCompon
       const rowLimit = translate('CoreHome_RowLimit');
       const computedMetricMax = this.maxFilterLimit ? translate('General_ComputedMetricMax', this.maxFilterLimit.toString()) : '';
       return `${rowLimit} (${computedMetricMax})`;
+    },
+    isCsvOrTsv() {
+      return isFormatWithoutExpanded(this.reportFormat);
+    },
+    effectiveSubtableOptions() {
+      return resolveEffectiveSubtableOptions(this.hasSubtables, this.canExportFlat, this.reportFormat, this.subtablePreference);
+    },
+    optionFlatModel: {
+      get() {
+        return this.effectiveSubtableOptions.optionFlat;
+      },
+      set(newVal) {
+        if (!this.hasSubtables || !this.canExportFlat) {
+          return;
+        }
+        if (newVal) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: 'flat'
+          };
+        } else if (!this.optionExpandedModel) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: null
+          };
+        }
+      }
+    },
+    optionExpandedModel: {
+      get() {
+        return this.effectiveSubtableOptions.optionExpanded;
+      },
+      set(newVal) {
+        if (!this.hasSubtables || isFormatWithoutExpanded(this.reportFormat)) {
+          return;
+        }
+        if (newVal) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: 'expanded'
+          };
+        } else if (!this.optionFlatModel) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: null
+          };
+        }
+      }
     },
     exportLink() {
       return this.getExportLink(true);
@@ -9110,7 +10390,11 @@ const ReportExportPopovervue_type_script_lang_ts_Field = useExternalPluginCompon
           exportUrlParams[index] = value;
         });
       }
-      if (this.optionFlat) {
+      const {
+        optionFlat: effectiveOptionFlat,
+        optionExpanded: effectiveOptionExpanded
+      } = this.effectiveSubtableOptions;
+      if (effectiveOptionFlat) {
         exportUrlParams.flat = 1;
         if (this.optionShowDimensions) {
           exportUrlParams.show_dimensions = 1;
@@ -9119,7 +10403,7 @@ const ReportExportPopovervue_type_script_lang_ts_Field = useExternalPluginCompon
           exportUrlParams.include_aggregate_rows = 1;
         }
       }
-      if (!this.optionFlat && this.optionExpanded) {
+      if (this.hasSubtables && !effectiveOptionFlat && effectiveOptionExpanded) {
         exportUrlParams.expanded = 1;
       }
       if (this.optionFormatMetrics) {
@@ -9173,7 +10457,7 @@ const ReportExportPopovervue_type_script_lang_ts_Field = useExternalPluginCompon
 
 
 
-ReportExportPopovervue_type_script_lang_ts.render = ReportExportPopovervue_type_template_id_5362adde_render
+ReportExportPopovervue_type_script_lang_ts.render = ReportExportPopovervue_type_template_id_2eab0715_render
 
 /* harmony default export */ var ReportExportPopover = (ReportExportPopovervue_type_script_lang_ts);
 // CONCATENATED MODULE: ./plugins/CoreHome/vue/src/ReportExport/ReportExport.ts
@@ -9194,6 +10478,7 @@ const {
 /* harmony default export */ var ReportExport = ({
   mounted(el, binding) {
     el.addEventListener('click', () => {
+      var _binding$value$canExp;
       const popoverParamBackup = src_MatomoUrl_MatomoUrl.hashParsed.value.popover;
       const dataTable = ReportExport_$(el).closest('[data-report]').data('uiControlObject');
       const popover = window.Piwik_Popover.showLoading('Export');
@@ -9202,17 +10487,25 @@ const {
       if (binding.value.maxFilterLimit > 0) {
         reportLimit = Math.min(reportLimit, binding.value.maxFilterLimit);
       }
-      const optionFlat = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === '1';
+      const isDataTableFlat = dataTable.param.flat === true || dataTable.param.flat === 1 || dataTable.param.flat === '1';
       const optionShowDimensions = dataTable.param.show_dimensions === true || dataTable.param.show_dimensions === 1 || dataTable.param.show_dimensions === '1';
+      const hasSubtables = isDataTableFlat || dataTable.numberOfSubtables > 0;
+      const canExportFlat = ((_binding$value$canExp = binding.value.canExportFlat) !== null && _binding$value$canExp !== void 0 ? _binding$value$canExp : hasSubtables) && hasSubtables;
+      // Intentional product behaviour:
+      // when flat export is available, open the popover with TSV + flat selected.
+      const defaultFlatOnOpen = canExportFlat;
+      const defaultExpandedOnOpen = false;
       const props = {
         initialReportType: 'default',
+        initialReportFormat: 'TSV',
         initialReportLimit: reportLimit > 0 ? reportLimit : 100,
         initialReportLimitAll: reportLimit === -1 ? 'yes' : 'no',
-        initialOptionFlat: optionFlat,
+        initialOptionFlat: defaultFlatOnOpen,
         initialOptionShowDimensions: optionShowDimensions,
-        initialOptionExpanded: true,
+        initialOptionExpanded: defaultExpandedOnOpen,
         initialOptionFormatMetrics: false,
-        hasSubtables: optionFlat || dataTable.numberOfSubtables > 0,
+        hasSubtables,
+        canExportFlat,
         availableReportFormats: {
           default: formats,
           processed: {
@@ -9611,49 +10904,49 @@ function Passthroughvue_type_template_id_31c1d52c_render(_ctx, _cache, $props, $
 Passthroughvue_type_script_lang_ts.render = Passthroughvue_type_template_id_31c1d52c_render
 
 /* harmony default export */ var Passthrough = (Passthroughvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DataTable/DataTableActions.vue?vue&type=template&id=f0120eb0
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DataTable/DataTableActions.vue?vue&type=template&id=69fb1239
 
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_1 = {
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_1 = {
   key: 0
 };
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_2 = ["data-target"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_2 = ["data-target", "title"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-configure"
 }, null, -1);
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_4 = [DataTableActionsvue_type_template_id_f0120eb0_hoisted_3];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_5 = ["data-target"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_6 = ["title"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_7 = ["title", "src"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_8 = ["id"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_9 = ["data-footer-icon-id"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_10 = ["title"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_11 = ["title", "src"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_12 = {
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_4 = [DataTableActionsvue_type_template_id_69fb1239_hoisted_3];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_5 = ["data-target"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_6 = ["title"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_7 = ["title", "src"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_8 = ["id"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_9 = ["data-footer-icon-id"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_10 = ["title"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_11 = ["title", "src"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_12 = {
   key: 2
 };
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_13 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
   class: "divider"
 }, null, -1);
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_14 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("li", {
   class: "divider"
 }, null, -1);
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_15 = ["title"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_15 = ["title"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_16 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-export"
 }, null, -1);
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_17 = [DataTableActionsvue_type_template_id_f0120eb0_hoisted_16];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_18 = ["title"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_17 = [DataTableActionsvue_type_template_id_69fb1239_hoisted_16];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_18 = ["title"];
+const DataTableActionsvue_type_template_id_69fb1239_hoisted_19 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-image"
 }, null, -1);
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_20 = [DataTableActionsvue_type_template_id_f0120eb0_hoisted_19];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_21 = ["title"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const _hoisted_20 = [DataTableActionsvue_type_template_id_69fb1239_hoisted_19];
+const _hoisted_21 = ["title"];
+const _hoisted_22 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-annotation"
 }, null, -1);
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_23 = [DataTableActionsvue_type_template_id_f0120eb0_hoisted_22];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_24 = ["title"];
-const DataTableActionsvue_type_template_id_f0120eb0_hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+const _hoisted_23 = [_hoisted_22];
+const _hoisted_24 = ["title"];
+const _hoisted_25 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
   class: "icon-search",
   draggable: "false"
 }, null, -1);
@@ -9695,11 +10988,11 @@ const _hoisted_45 = {
 };
 const _hoisted_46 = ["id"];
 const _hoisted_47 = ["data-period"];
-function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $props, $setup, $data, $options) {
+function DataTableActionsvue_type_template_id_69fb1239_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Passthrough = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveComponent"])("Passthrough");
   const _directive_dropdown_button = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("dropdown-button");
   const _directive_report_export = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["resolveDirective"])("report-export");
-  return _ctx.showFooter && _ctx.showFooterIcons ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DataTableActionsvue_type_template_id_f0120eb0_hoisted_1, [_ctx.hasConfigItems && (_ctx.isAnyConfigureIconHighlighted || _ctx.isTableView) ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  return _ctx.showFooter && _ctx.showFooterIcons ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", DataTableActionsvue_type_template_id_69fb1239_hoisted_1, [_ctx.hasConfigItems && (_ctx.isAnyConfigureIconHighlighted || _ctx.isTableView) ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 0,
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(["dropdown-button dropdownConfigureIcon dataTableAction", {
       highlighted: _ctx.isAnyConfigureIconHighlighted
@@ -9707,10 +11000,11 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
     href: "",
     onClick: _cache[0] || (_cache[0] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(() => {}, ["prevent"])),
     "data-target": `dropdownConfigure${_ctx.randomIdForDropdown}`,
+    title: _ctx.translate('CoreHome_ReportConfigure'),
     style: {
       "margin-right": "3.5px"
     }
-  }, DataTableActionsvue_type_template_id_f0120eb0_hoisted_4, 10, DataTableActionsvue_type_template_id_f0120eb0_hoisted_2)), [[_directive_dropdown_button]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.hasFooterIconsToShow ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }, DataTableActionsvue_type_template_id_69fb1239_hoisted_4, 10, DataTableActionsvue_type_template_id_69fb1239_hoisted_2)), [[_directive_dropdown_button]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.hasFooterIconsToShow ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 1,
     class: "dropdown-button dataTableAction activateVisualizationSelection",
     href: "",
@@ -9723,13 +11017,13 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
     key: 0,
     title: _ctx.translate('CoreHome_ChangeVisualization'),
     class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(_ctx.activeFooterIcon)
-  }, null, 10, DataTableActionsvue_type_template_id_f0120eb0_hoisted_6)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
+  }, null, 10, DataTableActionsvue_type_template_id_69fb1239_hoisted_6)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
     key: 1,
     title: _ctx.translate('CoreHome_ChangeVisualization'),
     width: "16",
     height: "16",
     src: _ctx.activeFooterIcon
-  }, null, 8, DataTableActionsvue_type_template_id_f0120eb0_hoisted_7))], 8, DataTableActionsvue_type_template_id_f0120eb0_hoisted_5)), [[_directive_dropdown_button]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showFooterIcons ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", {
+  }, null, 8, DataTableActionsvue_type_template_id_69fb1239_hoisted_7))], 8, DataTableActionsvue_type_template_id_69fb1239_hoisted_5)), [[_directive_dropdown_button]]) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showFooterIcons ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("ul", {
     key: 2,
     id: `dropdownVisualizations${_ctx.randomIdForDropdown}`,
     class: "dropdown-content dataTableFooterIcons"
@@ -9751,7 +11045,7 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
           style: {
             "margin-right": "5.5px"
           }
-        }, null, 10, DataTableActionsvue_type_template_id_f0120eb0_hoisted_10)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
+        }, null, 10, DataTableActionsvue_type_template_id_69fb1239_hoisted_10)) : (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("img", {
           key: 1,
           width: "16",
           height: "16",
@@ -9760,11 +11054,11 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
           style: {
             "margin-right": "5.5px"
           }
-        }, null, 8, DataTableActionsvue_type_template_id_f0120eb0_hoisted_11)), footerIcon.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DataTableActionsvue_type_template_id_f0120eb0_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(footerIcon.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, DataTableActionsvue_type_template_id_f0120eb0_hoisted_9)]);
-      }), 128)), DataTableActionsvue_type_template_id_f0120eb0_hoisted_13]),
+        }, null, 8, DataTableActionsvue_type_template_id_69fb1239_hoisted_11)), footerIcon.title ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", DataTableActionsvue_type_template_id_69fb1239_hoisted_12, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(footerIcon.title), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)], 10, DataTableActionsvue_type_template_id_69fb1239_hoisted_9)]);
+      }), 128)), DataTableActionsvue_type_template_id_69fb1239_hoisted_13]),
       _: 2
     }, 1024);
-  }), 128)), DataTableActionsvue_type_template_id_f0120eb0_hoisted_14], 8, DataTableActionsvue_type_template_id_f0120eb0_hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showExport ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }), 128)), DataTableActionsvue_type_template_id_69fb1239_hoisted_14], 8, DataTableActionsvue_type_template_id_69fb1239_hoisted_8)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showExport ? Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withDirectives"])((Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 3,
     class: "dataTableAction activateExportSelection",
     title: _ctx.translate('General_ExportThisReport'),
@@ -9773,7 +11067,7 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
       "margin-right": "3.5px"
     },
     onClick: _cache[2] || (_cache[2] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(() => {}, ["prevent"]))
-  }, DataTableActionsvue_type_template_id_f0120eb0_hoisted_17, 8, DataTableActionsvue_type_template_id_f0120eb0_hoisted_15)), [[_directive_report_export, {
+  }, DataTableActionsvue_type_template_id_69fb1239_hoisted_17, 8, DataTableActionsvue_type_template_id_69fb1239_hoisted_15)), [[_directive_report_export, {
     reportTitle: _ctx.reportTitle,
     requestParams: _ctx.requestParams,
     apiMethod: _ctx.apiMethodToRequestDataTable,
@@ -9789,7 +11083,7 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
     style: {
       "margin-right": "3.5px"
     }
-  }, DataTableActionsvue_type_template_id_f0120eb0_hoisted_20, 8, DataTableActionsvue_type_template_id_f0120eb0_hoisted_18)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showAnnotations ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }, _hoisted_20, 8, DataTableActionsvue_type_template_id_69fb1239_hoisted_18)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showAnnotations ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 5,
     class: "dataTableAction annotationView",
     href: "",
@@ -9798,7 +11092,7 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
     style: {
       "margin-right": "3.5px"
     }
-  }, DataTableActionsvue_type_template_id_f0120eb0_hoisted_23, 8, DataTableActionsvue_type_template_id_f0120eb0_hoisted_21)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showSearch ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
+  }, _hoisted_23, 8, _hoisted_21)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), _ctx.showSearch ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
     key: 6,
     class: "dropdown-button dataTableAction searchAction",
     href: "",
@@ -9808,7 +11102,7 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
     },
     draggable: "false",
     onClick: _cache[5] || (_cache[5] = Object(external_commonjs_vue_commonjs2_vue_root_Vue_["withModifiers"])(() => {}, ["prevent"]))
-  }, [DataTableActionsvue_type_template_id_f0120eb0_hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
+  }, [_hoisted_25, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", {
     class: "icon-close",
     draggable: "false",
     title: _ctx.translate('CoreHome_CloseSearch')
@@ -9817,7 +11111,7 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
     title: _ctx.translate('CoreHome_DataTableHowToSearch'),
     type: "text",
     class: "dataTableSearchInput"
-  }, null, 8, _hoisted_27)], 8, DataTableActionsvue_type_template_id_f0120eb0_hoisted_24)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.dataTableActions, action => {
+  }, null, 8, _hoisted_27)], 8, _hoisted_24)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderList"])(_ctx.dataTableActions, action => {
     return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("a", {
       key: action.id,
       class: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeClass"])(`dataTableAction ${action.id}`),
@@ -9878,7 +11172,7 @@ function DataTableActionsvue_type_template_id_f0120eb0_render(_ctx, _cache, $pro
     }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.translations[selectablePeriod] || selectablePeriod), 1)], 10, _hoisted_47)]);
   }), 128))], 8, _hoisted_46)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true)])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true);
 }
-// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DataTable/DataTableActions.vue?vue&type=template&id=f0120eb0
+// CONCATENATED MODULE: ./plugins/CoreHome/vue/src/DataTable/DataTableActions.vue?vue&type=template&id=69fb1239
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/DataTable/DataTableActions.vue?vue&type=script&lang=ts
 
@@ -10020,10 +11314,10 @@ function isBooleanLikeSet(value) {
     reportFormats() {
       const formats = {
         TSV: 'TSV (Excel)',
-        JSON: 'JSON',
-        CSV: 'CSV',
-        XML: 'XML',
         HTML: 'HTML',
+        JSON: 'JSON',
+        XML: 'XML',
+        CSV: 'CSV',
         RSS: 'RSS'
       };
       return formats;
@@ -10082,7 +11376,7 @@ function isBooleanLikeSet(value) {
 
 
 
-DataTableActionsvue_type_script_lang_ts.render = DataTableActionsvue_type_template_id_f0120eb0_render
+DataTableActionsvue_type_script_lang_ts.render = DataTableActionsvue_type_template_id_69fb1239_render
 
 /* harmony default export */ var DataTableActions = (DataTableActionsvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/CoreHome/vue/src/VersionInfoHeaderMessage/VersionInfoHeaderMessage.vue?vue&type=template&id=74c59d89

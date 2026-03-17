@@ -35,11 +35,6 @@ abstract class BaseFilter
      */
     protected $enableRecursive = false;
 
-    /**
-     * Constructor.
-     *
-     * @param DataTable $table
-     */
     public function __construct(DataTable $table)
     {
         // empty

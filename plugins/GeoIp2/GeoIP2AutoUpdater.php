@@ -56,9 +56,6 @@ class GeoIP2AutoUpdater extends Task
         'isp' => self::ISP_URL_OPTION_NAME,
     );
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         $logger = StaticContainer::get(LoggerInterface::class);

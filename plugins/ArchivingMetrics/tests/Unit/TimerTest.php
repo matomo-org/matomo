@@ -13,6 +13,7 @@ namespace Piwik\Plugins\ArchivingMetrics\tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Piwik\ArchiveProcessor\Rules;
+use Piwik\Date;
 use Piwik\Period\Factory;
 use Piwik\Plugins\ArchivingMetrics\Clock\ClockInterface;
 use Piwik\Plugins\ArchivingMetrics\Context;
@@ -74,6 +75,144 @@ class TimerTest extends TestCase
         $timer->complete($context, [123], false);
 
         $this->assertSame([], $writer->records);
+    }
+
+    /**
+     * @dataProvider isTemporaryArchiveProvider
+     */
+    public function testItSetsIsTemporaryFlagCorrectly(
+        string $periodLabel,
+        string $date,
+        string $siteTimezone,
+        int $startTimestamp,
+        int $expectedIsTemporary
+    ): void {
+        $writer = new TimingCaptureWriter();
+        $clock = $this->createMock(ClockInterface::class);
+        $clock->method('microtime')->willReturnOnConsecutiveCalls(
+            $startTimestamp,
+            $startTimestamp + 1
+        );
+        $timer = new Timer(true, $clock, $writer);
+
+        $period = Factory::build($periodLabel, $date);
+        $segment = $this->createSegment('');
+        $context = new Context(1, $period, $segment, '', false, $siteTimezone);
+
+        $timer->start($context);
+        $timer->complete($context, [123], false);
+
+        $this->assertCount(1, $writer->records);
+        $this->assertSame($expectedIsTemporary, $writer->records[0]['timing']['is_temporary']);
+    }
+
+    public function isTemporaryArchiveProvider(): \Generator
+    {
+        yield 'day in progress is temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'past day is not temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-10-31',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 00:00:00', 'UTC'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'week in progress is temporary' => [
+            'periodLabel' => 'week',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'past week is not temporary' => [
+            'periodLabel' => 'week',
+            'date' => '2025-10-20',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'month in progress is temporary' => [
+            'periodLabel' => 'month',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-15 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'year in progress is temporary' => [
+            'periodLabel' => 'year',
+            'date' => '2025-01-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-06-01 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'range in progress is temporary' => [
+            'periodLabel' => 'range',
+            'date' => '2025-11-01,2025-11-10',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-05 12:00:00', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'exactly at period end is not temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 23:59:59', 'UTC'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'one second before period end is temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-01',
+            'siteTimezone' => 'UTC',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 23:59:58', 'UTC'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'site timezone affects temporary determination' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'America/Los_Angeles',
+            'startTimestamp' => self::timestampInTimezone('2025-11-02 23:30:00', 'America/Los_Angeles'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'site timezone with positive UTC offset in progress' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'Asia/Tokyo',
+            'startTimestamp' => self::timestampInTimezone('2025-11-01 00:00:00', 'Asia/Tokyo'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'site timezone with positive UTC offset after day end' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'Asia/Tokyo',
+            'startTimestamp' => self::timestampInTimezone('2025-11-03 00:00:00', 'Asia/Tokyo'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'site timezone with negative UTC offset after day end' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'America/Los_Angeles',
+            'startTimestamp' => self::timestampInTimezone('2025-11-10 12:00:00', 'America/Los_Angeles'),
+            'expectedIsTemporary' => 0,
+        ];
+        yield 'dst start day before local day end stays temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-03-09',
+            'siteTimezone' => 'America/Los_Angeles',
+            'startTimestamp' => self::timestampInTimezone('2025-03-09 23:00:00', 'America/Los_Angeles'),
+            'expectedIsTemporary' => 1,
+        ];
+        yield 'dst end day clearly before local day end is temporary' => [
+            'periodLabel' => 'day',
+            'date' => '2025-11-02',
+            'siteTimezone' => 'America/Los_Angeles',
+            'startTimestamp' => self::timestampInTimezone('2025-11-02 18:00:00', 'America/Los_Angeles'),
+            'expectedIsTemporary' => 1,
+        ];
     }
 
     public function timerProvider(): array
@@ -423,6 +562,11 @@ class TimerTest extends TestCase
         $segment->method('isEmpty')->willReturn($segmentString === '');
         return $segment;
     }
+
+    private static function timestampInTimezone(string $datetime, string $timezone): int
+    {
+        return Date::factory($datetime, $timezone)->getTimestampUTC();
+    }
 }
 
 class InMemoryWriter implements WriterInterface
@@ -431,9 +575,17 @@ class InMemoryWriter implements WriterInterface
 
     public function write(Context $context, array $timing): void
     {
+        $baseTiming = [
+            'idarchive' => $timing['idarchive'],
+            'ts_started' => $timing['ts_started'],
+            'ts_finished' => $timing['ts_finished'],
+            'total_time' => $timing['total_time'],
+            'total_time_exclusive' => $timing['total_time_exclusive'],
+        ];
+
         $this->records[] = array_merge(
             [
-                'idarchive' => $timing['idarchive'],
+                'idarchive' => $baseTiming['idarchive'],
                 'idsite' => $context->idSite,
                 'archive_name' => Rules::getDoneStringFlagFor(
                     [$context->idSite],
@@ -445,7 +597,20 @@ class InMemoryWriter implements WriterInterface
                 'date2' => $context->period->getDateTimeEnd()->toString('Y-m-d'),
                 'period' => $context->period->getId(),
             ],
-            $timing
+            $baseTiming
         );
+    }
+}
+
+class TimingCaptureWriter implements WriterInterface
+{
+    public $records = [];
+
+    public function write(Context $context, array $timing): void
+    {
+        $this->records[] = [
+            'context' => $context,
+            'timing' => $timing,
+        ];
     }
 }

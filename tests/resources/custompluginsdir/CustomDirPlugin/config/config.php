@@ -1,4 +1,5 @@
 <?php
+
 return array(
-    'customDirPluginTest' => 'hello world!'
+    'customDirPluginTest' => 'hello world!',
 );

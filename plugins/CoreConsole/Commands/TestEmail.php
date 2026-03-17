@@ -14,8 +14,6 @@ use Piwik\Mail;
 use Piwik\Plugin\ConsoleCommand;
 use Piwik\SettingsPiwik;
 
-/**
- */
 class TestEmail extends ConsoleCommand
 {
     protected function configure()

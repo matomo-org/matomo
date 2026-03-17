@@ -74,7 +74,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testExistsShouldReturnsFalseIfNothingWrittenYet(OutputInterface $output)
     {
@@ -92,7 +91,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testIsAbormalShouldReturnFalseIfFileDoesNotExist(OutputInterface $output)
     {
@@ -101,7 +99,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testIsAbormalShouldReturnTrueIfFilesizeIsNotTooBig(OutputInterface $output)
     {
@@ -123,7 +120,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testExistsShouldReturnTrueIfSomethingIsWritten(OutputInterface $output)
     {
@@ -138,7 +134,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testGetShouldReturnNullIfNothingWritten(OutputInterface $output)
     {
@@ -147,7 +142,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testGetWriteShouldReturnTheActualOutputIfExists(OutputInterface $output)
     {
@@ -159,7 +153,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testWriteShouldNotAppendIfWriteIsCalledTwice(OutputInterface $output)
     {
@@ -172,7 +165,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testWriteShouldSaveAnEmptyStringIfContentIsNull(OutputInterface $output)
     {
@@ -184,7 +176,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testDestroyShouldRemoveIfAnyOutputIsWritten(OutputInterface $output)
     {
@@ -200,7 +191,6 @@ class OutputTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider outputProvider
-     * @param OutputInterface $output
      */
     public function testDestroyShouldNotFailIfNothingIsWritten(OutputInterface $output)
     {

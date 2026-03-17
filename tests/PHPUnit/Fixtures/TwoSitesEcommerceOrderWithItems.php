@@ -207,9 +207,6 @@ class TwoSitesEcommerceOrderWithItems extends Fixture
         return array($defaultInit, $t, $category, $price, $sku, $name, $quantity, $grandTotal, $orderId);
     }
 
-    /**
-     * @param $this->dateTime
-     */
     protected function trackVisitsSite2($url)
     {
         $t = self::getTracker($this->idSite2, $this->dateTime, $defaultInit = true);

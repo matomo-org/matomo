@@ -21,8 +21,6 @@ class AppendNameToColumnNames extends BaseFilter
     protected $nameToAppend;
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table     The table that will be eventually filtered.
      * @param string $nameToAppend The name that will be appended to each column
      */

@@ -14,9 +14,6 @@ use Piwik\Plugins\RssWidget\Widgets\RssPiwik;
 use Piwik\SettingsPiwik;
 use Piwik\Widget\WidgetsList;
 
-/**
- *
- */
 class RssWidget extends \Piwik\Plugin
 {
     /**

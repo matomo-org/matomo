@@ -77,6 +77,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Het lijkt er op dat rapporten voor deze periode nog niet verwerkt zijn, maar deze zullen beschikbaar komen binnen enkele uren. Je kan een andere periode kiezen tot de rapporten gegenereerd zijn.",
         "PeriodRange": "Bereik",
         "PivotBySubtable": "Dit rapport wordt niet als een draaitabel getoond, %1$s maak een draaitabel op basis van %2$s",
+        "PresetDateToday": "Vandaag",
+        "PresetDateYesterday": "Gisteren",
         "Profilable": "Profileerbaar",
         "QuickAccessTitle": "Zoeken naar %s. Gebruik de pijltjestoetsen om door de zoekopdrachten te navigeren. Shortcut: Druk 'f' om te zoeken.",
         "QuickLinks": "Snelkoppelingen",

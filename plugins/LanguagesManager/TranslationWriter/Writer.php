@@ -284,8 +284,6 @@ class Writer
 
     /**
      * Adds an validator to check before saving
-     *
-     * @param ValidateAbstract $validator
      */
     public function addValidator(ValidateAbstract $validator)
     {
@@ -353,9 +351,6 @@ class Writer
         return $this->filteredData;
     }
 
-    /**
-     * @param FilterAbstract $filter
-     */
     public function addFilter(FilterAbstract $filter)
     {
         $this->filters[] = $filter;

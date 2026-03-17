@@ -40,8 +40,6 @@ class ExitPageTitle extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return int|bool
      */
@@ -57,8 +55,6 @@ class ExitPageTitle extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return int|bool
      */

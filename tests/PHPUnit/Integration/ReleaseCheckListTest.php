@@ -1152,7 +1152,6 @@ class ReleaseCheckListTest extends \PHPUnit\Framework\TestCase
 
     /**
      * ignore icon source files as they are large, but not included in the final package
-     *
      */
     private function isFileIsAnIconButDoesNotBelongToDistribution($file)
     {

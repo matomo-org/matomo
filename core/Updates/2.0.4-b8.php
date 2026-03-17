@@ -16,8 +16,6 @@ use Piwik\UpdaterErrorException;
 use Piwik\Updates;
 use Piwik\Updater;
 
-/**
- */
 class Updates_2_0_4_b8 extends Updates
 {
     public function doUpdate(Updater $updater)

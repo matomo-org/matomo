@@ -24,6 +24,8 @@
         "MainNavigation": "ניווט מרכזי",
         "Menu": "תפריט",
         "PeriodRange": "טווח",
+        "PresetDateToday": "היום",
+        "PresetDateYesterday": "אתמול",
         "SharePiwikShort": "Matomo! ניתוח רשת חינמי ופתוח. שליטה בנתונים של עצמך.",
         "ShareThis": "שתף את זה",
         "ShortcutCalendar": "לפתיחת לוח שנה (d מסמל תאריך (Date))",

@@ -1318,7 +1318,6 @@ class ApiTest extends IntegrationTestCase
     }
 
     /**
-     *
      * @dataProvider getInvalidTimezoneData
      */
     public function testAddSiteWithInvalidTimezoneThrowsException($timezone)

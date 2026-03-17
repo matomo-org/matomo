@@ -48,9 +48,6 @@ class BotRequest
         $this->logger = $logger;
     }
 
-    /**
-     * @param Request $request
-     */
     public function setRequest(Request $request)
     {
         $this->request = $request;

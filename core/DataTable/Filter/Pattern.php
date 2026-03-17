@@ -33,8 +33,6 @@ class Pattern extends BaseFilter
     private $invertedMatch;
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table The table to eventually filter.
      * @param string $columnToFilter The column to match with the `$patternToSearch` pattern.
      * @param string $patternToSearch The regex pattern to use.

@@ -69,6 +69,7 @@
         "ColumnPageviewsDocumentation": "Arv, mitu korda seda lehte külastati.",
         "ColumnPercentageVisits": "%% külastust",
         "ColumnRevenue": "Tulu",
+        "ColumnSegment": "Segment",
         "ColumnSumTimeOnSite": "Aeg kokku veebisaidil",
         "ColumnSumVisitLength": "Külastajate poolt lehel viibitud aeg kokku (sek)",
         "ColumnTotalPageviews": "Lehe vaatamisi kokku",

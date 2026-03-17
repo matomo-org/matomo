@@ -30,9 +30,6 @@ use Piwik\SettingsPiwik;
 use Piwik\SettingsServer;
 use Piwik\Tracker\Model as TrackerModel;
 
-/**
- *
- */
 class CoreHome extends \Piwik\Plugin
 {
     /**
@@ -349,8 +346,22 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_DateRangeTo';
         $translationKeys[] = 'General_DoubleClickToChangePeriod';
         $translationKeys[] = 'General_Apply';
+        $translationKeys[] = 'General_ChoosePeriod';
         $translationKeys[] = 'General_Period';
         $translationKeys[] = 'General_CompareTo';
+        $translationKeys[] = 'CoreHome_PresetDateToday';
+        $translationKeys[] = 'CoreHome_PresetDateYesterday';
+        $translationKeys[] = 'CoreHome_PresetDateLast7Days';
+        $translationKeys[] = 'CoreHome_PresetDateLast30Days';
+        $translationKeys[] = 'CoreHome_PresetDateLast90Days';
+        $translationKeys[] = 'CoreHome_PresetDateLastWeekMonSun';
+        $translationKeys[] = 'CoreHome_PresetDateLastMonth';
+        $translationKeys[] = 'CoreHome_PresetDateLastQuarter';
+        $translationKeys[] = 'CoreHome_PresetDateLastYear';
+        $translationKeys[] = 'CoreHome_PresetDateThisWeekMonToday';
+        $translationKeys[] = 'CoreHome_PresetDateThisMonth';
+        $translationKeys[] = 'CoreHome_PresetDateThisQuarter';
+        $translationKeys[] = 'CoreHome_PresetDateThisYear';
         $translationKeys[] = 'CoreHome_DateInvalid';
         $translationKeys[] = 'CoreHome_EnterZenMode';
         $translationKeys[] = 'CoreHome_ExitZenMode';
@@ -394,6 +405,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'CoreHome_EndDate';
         $translationKeys[] = 'CoreHome_DataForThisReportHasBeenDisabled';
         $translationKeys[] = 'CoreHome_ChangeVisualization';
+        $translationKeys[] = 'CoreHome_ReportConfigure';
         $translationKeys[] = 'General_ExportThisReport';
         $translationKeys[] = 'Annotations_Annotations';
         $translationKeys[] = 'CoreHome_CloseSearch';

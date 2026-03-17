@@ -27,7 +27,6 @@ class VisitorProfile
     }
 
     /**
-     * @param DataTable $visits
      * @param $visitorId
      * @param $segment
      * @param $numLastVisits
@@ -76,7 +75,6 @@ class VisitorProfile
     }
 
     /**
-     * @param DataTable $visits
      * @param           $visitorId
      * @param           $segment
      */

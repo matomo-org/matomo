@@ -80,7 +80,6 @@ class API extends \Piwik\Plugin\API
      * Returns all Goals for a given website, or list of websites
      *
      * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
-     * @param bool $orderByName
      *
      * @return array Array of Goal attributes,
      *               indexed by "idgoal" when requesting a single site,
@@ -156,7 +155,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Creates a Goal for a given website.
      *
-     * @param int        $idSite
      * @param string     $name
      * @param string     $matchAttribute                   'url', 'title', 'file', 'external_website', 'manually', 'visit_duration', 'visit_total_actions', 'visit_total_pageviews',
      *                                                     'event_action', 'event_category' or 'event_name'
@@ -224,7 +222,6 @@ class API extends \Piwik\Plugin\API
      * Updates a Goal description.
      * Will not update or re-process the conversions already recorded
      *
-     * @param int        $idSite
      * @param int        $idGoal
      * @param            $name
      * @param            $matchAttribute
@@ -354,7 +351,6 @@ class API extends \Piwik\Plugin\API
      * Soft deletes a given Goal.
      * Stats data in the archives will still be recorded, but not displayed.
      *
-     * @param int $idSite
      * @param int $idGoal
      *
      * @return void

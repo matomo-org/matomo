@@ -13,8 +13,14 @@ use Exception;
 use Piwik\Access;
 use Piwik\Auth\Password;
 use Piwik\Date;
+use Piwik\EventDispatcher;
 use Piwik\Option;
+use Piwik\Container\StaticContainer;
+use Piwik\Plugins\LanguagesManager\Model as LanguagesModel;
+use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\SitesManager\API as APISitesManager;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
+use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\Plugins\UsersManager\API;
 use Piwik\Plugins\UsersManager\Model;
 use Piwik\Plugins\UsersManager\NewsletterSignup;
@@ -418,11 +424,135 @@ class UsersManagerTest extends IntegrationTestCase
         Fixture::createSuperUser();
         $this->api->addUser("geggeqgeqag", "geqgeagae", "test@test.com");
         Option::set(NewsletterSignup::NEWSLETTER_SIGNUP_OPTION . 'geggeqgeqag', 'yes');
+        Option::set('geggeqgeqag_defaultReport', 'all');
+        Option::set('geggeqgeqag_defaultReportDate', 'week');
 
         $this->api->deleteUser("geggeqgeqag");
 
         $option = Option::get(NewsletterSignup::NEWSLETTER_SIGNUP_OPTION . 'geggeqgeqag');
         $this->assertFalse($option);
+        $this->assertFalse(Option::get('geggeqgeqag_defaultReport'));
+        $this->assertFalse(Option::get('geggeqgeqag_defaultReportDate'));
+    }
+
+    public function testDeleteUserDeletesPluginSettingsAndFeedbackReminder()
+    {
+        Fixture::createSuperUser();
+        $login = 'cleanupUserSettings';
+
+        $this->api->addUser($login, 'geqgeagae', 'cleanup@example.com');
+
+        $pluginSettings = new PluginSettingsTable('CorePluginsAdmin', $login);
+        $settings = $pluginSettings->load();
+        $settings['disable_activate_tag_manager_page'] = '1';
+        $pluginSettings->save($settings);
+        Option::set('Feedback.nextFeedbackReminder.' . $login, '2030-01-01');
+
+        $this->api->deleteUser($login);
+        $this->api->addUser($login, 'geqgeagae', 'cleanup@example.com');
+
+        $this->assertSame([], $pluginSettings->load());
+        $this->assertFalse(Option::get('Feedback.nextFeedbackReminder.' . $login));
+    }
+
+    public function testDeleteUserPurgesAllKnownUserSettings()
+    {
+        Fixture::createSuperUser();
+        $login = 'purgeAllUserSettings';
+        $container = StaticContainer::getContainer();
+        $originalCustomPreferences = StaticContainer::get('usersmanager.user_preference_names');
+        $container->set('usersmanager.user_preference_names', array_merge($originalCustomPreferences, ['customPreference']));
+
+        try {
+            $this->api->addUser($login, 'geqgeagae', 'purgeall@example.com');
+
+            Option::set('UsersManager.someOption.' . $login, 'yes');
+            Option::set($login . '_defaultReport', 'all');
+            Option::set($login . '_defaultReportDate', 'week');
+            Option::set($login . '_isLDAPUser', '1');
+            Option::set($login . '_hideSegmentDefinitionChangeMessage', '1');
+            Option::set($login . '_customPreference', 'customValue');
+            Option::set('Feedback.nextFeedbackReminder.' . $login, '2030-01-01');
+            Option::set($login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION, '{"PhoneNumbers":{"123":{"verified":true}}}');
+            Option::set('ProfessionalServices.DismissedWidget.SampleWidget.' . $login, time());
+
+            $userSettingsStore = StaticContainer::get(UserScopedSettingsAccessManager::class);
+            $userSettingsStore->set('Feedback', $login, 'nextFeedbackReminder', '2031-01-01');
+            $userSettingsStore->set('MobileMessaging', $login, MobileMessaging::PHONE_NUMBERS_OPTION, [
+                '456' => ['verified' => true],
+            ]);
+            $userSettingsStore->set('ProfessionalServices', $login, 'dismissedWidgets', [
+                'AnotherWidget' => time(),
+            ]);
+
+            $corePluginsAdminSettings = new PluginSettingsTable('CorePluginsAdmin', $login);
+            $settings = $corePluginsAdminSettings->load();
+            $settings['disable_activate_tag_manager_page'] = '1';
+            $corePluginsAdminSettings->save($settings);
+
+            $tourSettings = new PluginSettingsTable('Tour', $login);
+            $tourData = $tourSettings->load();
+            $tourData['tourChallenge_completed'] = '1';
+            $tourSettings->save($tourData);
+
+            \Piwik\Plugin\Manager::getInstance()->loadPlugins(['MobileMessaging', 'ProfessionalServices']);
+            \Piwik\Plugin\Manager::getInstance()->installLoadedPlugins();
+
+            $languagesModel = new LanguagesModel();
+            $languagesModel->setLanguageForUser($login, 'de');
+
+            $this->api->deleteUser($login);
+            $this->api->addUser($login, 'geqgeagae', 'purgeall@example.com');
+
+            $this->assertFalse(Option::get('UsersManager.someOption.' . $login));
+            $this->assertFalse(Option::get($login . '_defaultReport'));
+            $this->assertFalse(Option::get($login . '_defaultReportDate'));
+            $this->assertFalse(Option::get($login . '_isLDAPUser'));
+            $this->assertFalse(Option::get($login . '_hideSegmentDefinitionChangeMessage'));
+            $this->assertFalse(Option::get($login . '_customPreference'));
+            $this->assertFalse(Option::get('Feedback.nextFeedbackReminder.' . $login));
+            $this->assertFalse(Option::get($login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION));
+            $this->assertFalse(Option::get('ProfessionalServices.DismissedWidget.SampleWidget.' . $login));
+            $this->assertSame([], $userSettingsStore->getAll('Feedback', $login));
+            $this->assertSame([], $userSettingsStore->getAll('MobileMessaging', $login));
+            $this->assertSame([], $userSettingsStore->getAll('ProfessionalServices', $login));
+
+            $this->assertSame([], $corePluginsAdminSettings->load());
+            $this->assertSame([], $tourSettings->load());
+            $this->assertFalse($languagesModel->getLanguageForUser($login));
+        } finally {
+            $container->set('usersmanager.user_preference_names', $originalCustomPreferences);
+        }
+    }
+
+    public function testDeleteUserContinuesCleanupWhenDeleteUserObserverThrows()
+    {
+        Fixture::createSuperUser();
+        $login = 'cleanupObserverError';
+        $observerHasThrown = false;
+
+        EventDispatcher::getInstance()->addObserver('UsersManager.deleteUser', function ($userLogin) use (&$observerHasThrown) {
+            if ($userLogin !== 'cleanupObserverError' || $observerHasThrown) {
+                return;
+            }
+
+            $observerHasThrown = true;
+            throw new \Exception('Expected test exception from observer');
+        });
+
+        $this->api->addUser($login, 'geqgeagae', 'cleanupobserver@example.com');
+        Option::set('UsersManager.someValue.' . $login, 'yes');
+        Option::set($login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION, '{"PhoneNumbers":{"123":{"verified":true}}}');
+        Option::set('ProfessionalServices.DismissedWidget.SampleWidget.' . $login, time());
+        $this->api->setUserAccess($login, "view", [1]);
+
+        $this->api->deleteUser($login);
+        $this->api->addUser($login, 'geqgeagae', 'cleanupobserver@example.com');
+
+        $this->assertFalse(Option::get('UsersManager.someValue.' . $login));
+        $this->assertFalse(Option::get($login . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION));
+        $this->assertFalse(Option::get('ProfessionalServices.DismissedWidget.SampleWidget.' . $login));
+        $this->assertSame([], $this->api->getSitesAccessFromUser($login));
     }
 
     public function testGetUserNoUser()

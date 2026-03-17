@@ -38,7 +38,6 @@ class Updates_2_14_2 extends Updates
      * Removes option entries for columns that are marked as installed but are actually no longer installed due to
      * a bug in previous versions where the option entries were not correctly removed.
      *
-     * @param Updater $updater
      * @return array
      */
     public function getMigrations(Updater $updater)
@@ -126,9 +125,6 @@ class Updates_2_14_2 extends Updates
         return array_keys(DbHelper::getTableColumns($tableName));
     }
 
-    /**
-     * @param Updater $updater
-     */
     public function doUpdate(Updater $updater)
     {
         $updater->executeMigrations(__FILE__, $this->getMigrations($updater));

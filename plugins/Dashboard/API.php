@@ -150,7 +150,6 @@ class API extends \Piwik\Plugin\API
 
      * @param int $idDashboard dashboard id
      * @param string $login user the dashboard belongs
-     *
      */
     public function resetDashboardLayout($idDashboard, $login = '')
     {

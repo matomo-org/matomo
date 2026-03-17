@@ -12,9 +12,6 @@ namespace Piwik\Plugins\ImageGraph\StaticGraph;
 use Piwik\Exception\InvalidDimensionException;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 
-/**
- *
- */
 abstract class GridGraph extends StaticGraph
 {
     public const GRAPHIC_COLOR_KEY = 'GRAPHIC_COLOR';

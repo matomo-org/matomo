@@ -113,10 +113,6 @@ class Controller extends \Piwik\Plugins\Goals\Controller
      *
      * @param array         $return
      * @param string|int    $idGoal
-     * @param string        $date
-     * @param string        $lastPeriodDate
-     * @param DataTable\Row $currentDataRow
-     * @param DataTable\Row $previousDataRow
      *
      * @return array
      */

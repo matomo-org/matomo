@@ -77,6 +77,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Sembra che i report per questo periodo non siano ancora stati elaborati, ma saranno disponibili tra qualche ora. Puoi scegliere un periodo di tempo diverso finché i report non saranno generati.",
         "PeriodRange": "Intervallo",
         "PivotBySubtable": "Questo report non è imperniato al Pivot %1$s da %2$s",
+        "PresetDateToday": "Oggi",
+        "PresetDateYesterday": "Ieri",
         "Profilable": "Profilabili",
         "ProfilableSegmentHelp": "1 per profilabile (ad esempio sono stati utilizzati cookie), 0 per non profilabile (ad esempio non sono stati utilizzati cookie)",
         "QuickAccessTitle": "Ricerca per %s. Utilizza i tasti freccia per navigare tra i risultati della ricerca. Scorciatoia: premi 'f' per cercare.",

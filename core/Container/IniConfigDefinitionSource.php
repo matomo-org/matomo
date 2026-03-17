@@ -34,7 +34,6 @@ class IniConfigDefinitionSource implements DefinitionSource
     private $prefix;
 
     /**
-     * @param GlobalSettingsProvider $config
      * @param string $prefix Prefix for the container entries.
      */
     public function __construct(GlobalSettingsProvider $config, $prefix = 'ini.')

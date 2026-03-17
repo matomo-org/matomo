@@ -1,5 +1,7 @@
 {
     "BotTracking": {
-        "PageUrl": "Side-URL"
+        "PageUrl": "Side-URL",
+        "NoDataHttpTrackingApi": "API for HTTP-sporing",
+        "SiteWithoutDataBackToMatomo": "Tilbake til Matomo"
     }
 }

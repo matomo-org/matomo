@@ -16,6 +16,7 @@ use Piwik\Plugins\TwoFactorAuth\Dao\TwoFaSecretRandomGenerator;
 use Piwik\Plugins\TwoFactorAuth\SystemSettings;
 use Piwik\Plugins\TwoFactorAuth\TwoFactorAuthentication;
 use Piwik\Plugins\UsersManager\API;
+use Piwik\SettingsPiwik;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
 /**
@@ -182,6 +183,38 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
         $this->assertCount(2, $options);
     }
 
+    public function testValidateAuthCodeUserIsUsingTwoFaStaleRecordCanBeUsedAgainAndRefreshesTimestamp()
+    {
+        $secret = '654321';
+        $this->dao->createRecoveryCodesForLogin('mylogin1');
+        $this->twoFa->saveSecret('mylogin1', $secret);
+
+        $authCode = $this->generateValidAuthCode($secret);
+        $optionKey = $this->getTwoFaCodeUsedOptionKey('mylogin1', $authCode);
+        Option::set($optionKey, time() - $this->getTwoFaCodeWindowInSeconds() - 10);
+
+        $this->assertTrue($this->twoFa->validateAuthCode('mylogin1', $authCode));
+
+        $storedTime = (int) Option::get($optionKey);
+        $this->assertGreaterThanOrEqual(time() - 2, $storedTime);
+
+        // record was refreshed, so immediate reuse is blocked again
+        $this->assertFalse($this->twoFa->validateAuthCode('mylogin1', $authCode));
+    }
+
+    public function testValidateAuthCodeUserIsUsingTwoFaStaleRecordDoesNotRequireCleanup()
+    {
+        $secret = '654321';
+        $this->dao->createRecoveryCodesForLogin('mylogin1');
+        $this->twoFa->saveSecret('mylogin1', $secret);
+
+        $authCode = $this->generateValidAuthCode($secret);
+        $optionKey = $this->getTwoFaCodeUsedOptionKey('mylogin1', $authCode);
+        Option::set($optionKey, time() - $this->getTwoFaCodeWindowInSeconds() - 300);
+
+        $this->assertTrue($this->twoFa->validateAuthCode('mylogin1', $authCode));
+    }
+
     public function testValidateAuthCodeUserIsUsingTwoFaAuthenticatesThroughRecoveryCode()
     {
         $this->dao->createRecoveryCodesForLogin('mylogin1');
@@ -233,5 +266,15 @@ class TwoFactorAuthenticationTest extends IntegrationTestCase
     {
         $code = new \TwoFactorAuthenticator();
         return $code->getCode($secret);
+    }
+
+    private function getTwoFaCodeUsedOptionKey($login, $authCode)
+    {
+        return TwoFactorAuthentication::OPTION_PREFIX_TWO_FA_CODE_USED . md5($login . $authCode . SettingsPiwik::getSalt());
+    }
+
+    private function getTwoFaCodeWindowInSeconds()
+    {
+        return 60 * TwoFactorAuthentication::BLOCK_TWOFA_CODE_MINUTES;
     }
 }

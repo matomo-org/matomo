@@ -367,6 +367,7 @@ export default defineComponent({
           format: 'json',
           method: 'API.getSuggestedValuesForSegment',
           segmentName: orCondition.segment,
+          segment: null,
           idSite: this.idsite,
         },
         {

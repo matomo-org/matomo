@@ -21,10 +21,7 @@ class EntityDuplicatorHelperTest extends TestCase
 {
     /**
      * @dataProvider getGetIncrementNameWithNumericalSuffixData
-     * @param string $name
-     * @param string $expected
      * @param string $maxLength String to allow empty string to indicate using the default max length
-     * @param bool $expectException
      * @return void
      */
     public function testIncrementNameWithNumericalSuffix(string $name, string $expected, string $maxLength, bool $expectException)
@@ -93,11 +90,8 @@ class EntityDuplicatorHelperTest extends TestCase
 
     /**
      * @dataProvider getGetUniqueNameComparedToListData
-     * @param string $name
      * @param array $names
-     * @param string $expected
      * @param string $maxLength String to allow empty string to indicate using the default max length
-     * @param bool $expectException
      * @return void
      */
     public function testGetUniqueNameComparedToList(string $name, array $names, string $expected, string $maxLength, bool $expectException)

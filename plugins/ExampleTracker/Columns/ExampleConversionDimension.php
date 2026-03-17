@@ -70,10 +70,7 @@ class ExampleConversionDimension extends ConversionDimension
      * Return boolean false if you do not want to change the value in some cases. If you do not want to perform any
      * action on an ecommerce order at all it is recommended to just remove this method.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
-     * @param GoalManager $goalManager
      *
      * @return mixed|false
      */
@@ -92,10 +89,7 @@ class ExampleConversionDimension extends ConversionDimension
      * Return boolean false if you do not want to change the value in some cases. If you do not want to perform any
      * action on an ecommerce order at all it is recommended to just remove this method.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
-     * @param GoalManager $goalManager
      *
      * @return mixed|false
      */
@@ -110,10 +104,7 @@ class ExampleConversionDimension extends ConversionDimension
      * Return boolean false if you do not want to change the value in some cases. If you do not want to perform any
      * action on an ecommerce order at all it is recommended to just remove this method.
      *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
-     * @param GoalManager $goalManager
      *
      * @return mixed|false
      */

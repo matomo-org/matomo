@@ -260,7 +260,6 @@ class HtmlTable extends Visualization
     /**
      * Override to compute a custom cell HTML attributes (such as style).
      *
-     * @param Row $row
      * @param $column
      * @return array Array of name => value pairs.
      */

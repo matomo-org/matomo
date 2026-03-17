@@ -1,5 +1,7 @@
 {
     "BotTracking": {
-        "PageUrl": "ページ URL"
+        "PageUrl": "ページ URL",
+        "NoDataHttpTrackingApi": "HTTPトラッキング API",
+        "SiteWithoutDataBackToMatomo": "Matomo へ戻る"
     }
 }

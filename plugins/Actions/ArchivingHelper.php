@@ -222,7 +222,6 @@ class ArchivingHelper
      * @param array $row        The array of goals metric data to add to the action table row
      * @param bool  $isPages    True if page view goals metrics should be used, else entry goal metrics
      *
-     * @return bool
      * @throws \Exception
      */
     private static function updateActionsTableRowWithGoals(array $row, bool $isPages): bool
@@ -381,6 +380,12 @@ class ArchivingHelper
 
                 foreach (Metrics::$columnsToDeleteAfterAggregation as $name) {
                     $row->deleteColumn($name);
+                }
+
+                if ($idSubtable !== null) {
+                    foreach (array_values(Metrics::$columnsToRenameAfterAggregation) as $name) {
+                        $row->deleteColumn($name);
+                    }
                 }
             }
         }

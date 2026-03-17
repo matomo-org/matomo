@@ -9,13 +9,16 @@
 
 namespace Piwik\Intl\Data\Provider;
 
-use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 
 /**
  * Provides currency data.
  */
 class CurrencyDataProvider
 {
+    /**
+     * @var array<string, array{0: string, 1: string}>|null
+     */
     private $currencyList;
 
     /**
@@ -23,6 +26,7 @@ class CurrencyDataProvider
      *
      * @return array An array mapping currency codes to their respective currency symbols
      *               and a description, eg, `array('USD' => array('$', 'US dollar'))`.
+     * @phpstan-return array<string, array{0: string, 1: string}>
      * @api
      */
     public function getCurrencyList()
@@ -30,9 +34,12 @@ class CurrencyDataProvider
         if ($this->currencyList === null) {
             $this->currencyList = require __DIR__ . '/../Resources/currencies.php';
 
-            $custom = Config::getInstance()->General['currencies'];
-            foreach ($custom as $code => $name) {
-                $this->currencyList[$code] = array($code, $name);
+            /** @var array<string, string>|null $custom */
+            $custom = GeneralConfig::getConfigValue('currencies');
+            if (is_array($custom)) {
+                foreach ($custom as $code => $name) {
+                    $this->currencyList[$code] = [$code, $name];
+                }
             }
         }
 

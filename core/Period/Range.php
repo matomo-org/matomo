@@ -46,8 +46,6 @@ class Range extends Period
     protected $timezone;
 
     /**
-     * Constructor.
-     *
      * @param string $strPeriod The type of period each subperiod is. Either `'day'`, `'week'`,
      *                          `'month'` or `'year'`.
      * @param string $strDate The date range, eg, `'2007-07-24,2013-11-15'`.
@@ -195,8 +193,6 @@ class Range extends Period
 
     /**
      * Sets the default end date of the period.
-     *
-     * @param Date $oDate
      */
     public function setDefaultEndDate(Date $oDate)
     {
@@ -600,7 +596,6 @@ class Range extends Period
      * automatically lower the end date to the date returned by this method.
      * The max supported timestamp is always set to end of the current year plus 10 years.
      *
-     * @return int
      * @api
      */
     public static function getMaxAllowedEndTimestamp(): int

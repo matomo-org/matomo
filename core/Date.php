@@ -95,8 +95,6 @@ class Date
     protected $timezone = 'UTC';
 
     /**
-     * Constructor.
-     *
      * @param int $timestamp The number in seconds since the unix epoch.
      * @param string $timezone The timezone of the datetime.
      * @throws Exception If $timestamp is not an int.
@@ -447,7 +445,6 @@ class Date
     /**
      * Returns `true` if the current date is older than the given `$date`.
      *
-     * @param Date $date
      * @return bool
      */
     public function isLater(Date $date)
@@ -458,7 +455,6 @@ class Date
     /**
      * Returns `true` if the current date is earlier than the given `$date`.
      *
-     * @param Date $date
      * @return bool
      */
     public function isEarlier(Date $date)
@@ -503,7 +499,6 @@ class Date
     /**
      * Performs three-way comparison of the week of the current date against the given `$date`'s week.
      *
-     * @param \Piwik\Date $date
      * @return int Returns `0` if the current week is equal to `$date`'s, `-1` if the current week is
      *             earlier or `1` if the current week is later.
      */

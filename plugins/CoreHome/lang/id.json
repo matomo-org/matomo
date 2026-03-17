@@ -72,6 +72,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Sepertinya laporan untuk jangka waktu ini belum diproses, tetapi akan tersedia dalam beberapa jam. Anda bisa memilih periode tanggal yang berbeda hingga laporan tersebut dibuat.",
         "PeriodRange": "Rentang",
         "PivotBySubtable": "Laporan ini tidak dipivot %1$s Dipivot berdasarkan %2$s",
+        "PresetDateToday": "Hari ini",
+        "PresetDateYesterday": "Kemarin",
         "Profilable": "Dapat diprofilkan",
         "QuickAccessTitle": "Telusuri %s. Gunakan tombol panah untuk menavigasi hasil pencarian. Pintasan: Tekan 'f' untuk mencari.",
         "QuickLinks": "Tautan Cepat",

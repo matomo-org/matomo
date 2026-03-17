@@ -207,7 +207,6 @@ class DataArray
     }
 
     /**
-     *
      * @param $newRowToAdd
      * @param $oldRowToUpdate
      */

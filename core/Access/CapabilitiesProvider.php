@@ -76,8 +76,6 @@ class CapabilitiesProvider
     }
 
     /**
-     * @param string $capabilityId
-     * @return Capability|null
      * @throws Exception
      */
     public function getCapability(string $capabilityId): ?Capability
@@ -105,8 +103,6 @@ class CapabilitiesProvider
     }
 
     /**
-     * @param string $capabilityId
-     * @return bool
      * @throws Exception
      */
     public function isValidCapability(string $capabilityId): bool
@@ -117,7 +113,6 @@ class CapabilitiesProvider
     }
 
     /**
-     * @param string $capabilityId
      * @throws Exception
      */
     public function checkValidCapability(string $capabilityId): void

@@ -139,7 +139,6 @@ class Menu
      * @param  string $controllerAction  The name of the action that should be executed within your controller
      * @param  array  $additionalParams  Optional URL parameters that will be appended to the URL
      * @return array   Returns the array of query parameter names and values to the given module action and idSite date and period.
-     *
      */
     protected function urlForActionWithDefaultUserParams($controllerAction, $additionalParams = array())
     {
@@ -158,7 +157,6 @@ class Menu
      * @param  array  $additionalParams  Optional URL parameters that will be appended to the URL
      * @return array|null   Returns the array of query parameter names and values to the given module action and idSite date and period.
      *                      Returns null if the module or action is invalid.
-     *
      */
     protected function urlForModuleActionWithDefaultUserParams($module, $controllerAction, $additionalParams = array())
     {

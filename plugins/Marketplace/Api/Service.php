@@ -11,9 +11,6 @@ namespace Piwik\Plugins\Marketplace\Api;
 
 use Piwik\Http;
 
-/**
- *
- */
 class Service
 {
     public const CACHE_TIMEOUT_IN_SECONDS = 1200;

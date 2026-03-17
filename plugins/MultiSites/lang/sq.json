@@ -1,5 +1,7 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "Kërkesa nga Robotë IA Fjalosjesh",
+        "AiChatbotsSegmentationTooltip": "Segmentimi s’është i përdorshëm për këtë matje, ngaqë kërkesat nga robotë IA fjalosjesh (fjala vjen, ato nga ChatGPT) s’lidhen me vizita apo vizitorë normalë.",
         "AllWebsitesDashboardDocumentation": "Ky raport ju jep një përmbledhje informuese për çdonjërin nga sajtet tuaj, me matjet më të përgjithshme rreth vizitorëve tuaj.",
         "AllWebsitesDashboardErrorMessage": "S’merren dot të dhëna tani. Kjo mund të vijë nga një problem i përkohshëm rrjeti, ose raporti përmban shumë të dhëna. Ju lutemi, riprovoni më vonë. Nëse problemi vazhdon, ju lutemi, lidhuni për asistencë me përgjegjësin e instancës tuaj Matomo.",
         "AllWebsitesDashboardTitle": "Krejt Sajtet",
@@ -16,16 +18,21 @@
         "EvolutionFromPreviousWeek": "Nga java e mëparshme",
         "EvolutionFromPreviousYear": "Nga viti i mëparshëm",
         "LoadingWebsites": "Po ngarkohen sajte",
+        "MetricDocumentationAiChatbotsRequests": "Numri gjithsej i kërkesave nga robotë IA fjalosjes të regjistruara për këtë sajt.",
         "MetricDocumentationEvolution": "Ndryshimi si përqindje i kësaj matjeje, krahasuar me periudhën e mëparshme për këtë sajt. Një vlerë pozitive tregon rritje, ndërsa një vlerë negative flet për ulje.",
         "MetricDocumentationHits": "Numri gjithsej i veprimeve të regjistruara për këtë sajt, përfshi parje faqesh, shkarkime dhe lidhje për jashtë.",
+        "MetricDocumentationHitsIncludingAi": "Numri gjithsej i veprimeve të regjistruara për këtë sajt, përfshi parje faqesh, shkarkime, lidhje për jashtë dhe kërkesa nga robotë IA fjalosjesh.",
         "MetricDocumentationPageviews": "Numri gjithsej i faqeve të para në këtë sajt. Kjo përfshin parme të shumëfishta të të njëjtës faqe nga një vizitor i vetëm.",
         "MetricDocumentationRevenue": "Të ardhurat gjithsej të ndjekura për këtë sajt. Kjo matje mund të kihet nëse është aktivizuar ndjekja për Etregti dhe pasqyron blerje nga të ardhura apo me bazë synime.",
         "MetricDocumentationVisits": "Numri gjithsej i vizitave të regjistruara për këtë sajt. Një vizitë nis kur një përdorues viziton sajtin dhe përfundon pas një periudhe mosveprimtarie, ose kur sesioni skadon.",
         "MetricDocumentationWebsite": "Lista e sajteve të ndjekur e shfaqur te pulti. Secili rresht përfaqëson një sajt më vete me të dhënat analitike përkatëse.",
         "PluginDescription": "Shihni dhe krahasoni krejt sajtet dhe aplikacionet tuaja te ky pult i dobishëm “Krejt Sajtet”.",
+        "SegmentationNotSupported": "Segmentimi nuk mbulohet",
         "SingleWebsitesDashboardDocumentation": "Ky raport ju jep një përmbledhje informuese për një sajt të dhënë, me matjet më të përgjithshme rreth vizitorëve tuaj.",
         "TopLinkTooltip": "Krahasoni statistika Analizimesh Web për krejt Sajtet tuaj.",
+        "TotalAiChatbotsRequests": "Kërkesa Robotësh IA Fjalosjesh Gjithsej",
         "TotalHits": "Ardhje Gjithsej",
+        "TotalHitsIncludingAiTooltip": "Vizita Gjithsej: Përfshi krejt vizitat nga Qenie Njerëzore dhe kërkesa Robotësh IA Fjalosjesh",
         "TotalPageviews": "Parje faqesh Gjithsej",
         "TotalVisits": "Vizita Gjithsej"
     }

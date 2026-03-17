@@ -11,7 +11,6 @@ namespace Piwik\Tests\Framework;
 
 use Piwik\Access;
 use Piwik\Application\Environment;
-use Piwik\Archive;
 use Piwik\ArchiveProcessor\PluginsArchiver;
 use Piwik\Auth;
 use Piwik\Auth\Password;
@@ -211,6 +210,10 @@ class Fixture extends \PHPUnit\Framework\Assert
 
     public function performSetUp($setupEnvironmentOnly = false)
     {
+        // PHPUnit can execute data providers from non-selected tests during discovery.
+        // Ensure no singleton/cache state leaks into fixture setup.
+        self::clearInMemoryCaches();
+
         // TODO: don't use static var, use test env var for this
         TestingEnvironmentManipulator::$extraPluginsToLoad = $this->extraPluginsToLoad;
 
@@ -405,7 +408,6 @@ class Fixture extends \PHPUnit\Framework\Assert
         Common::$isCliMode = null;
         Common::$headersSentInTests = [];
         MockFileMethods::reset();
-        Archive::clearStaticCache();
         DataTableManager::getInstance()->deleteAll();
         Option::clearCache();
         Site::clearCache();
