@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "כתובת העמוד"
+        "PageUrl": "כתובת העמוד",
+        "SiteWithoutDataBackToMatomo": "חזרה ל Matomo"
     }
 }

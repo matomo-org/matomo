@@ -4,7 +4,40 @@ This is the Developer Changelog for Matomo platform developers. All changes in o
 
 The Product Changelog at **[matomo.org/changelog](https://matomo.org/changelog)** lets you see more details about any Matomo release, such as the list of new guides and FAQs, security fixes, and links to all closed issues. 
 
+## Matomo 5.8.0
+
+### Breaking Changes
+* API requests that provide conflicting authentication values for `token_auth` or `force_api_session` across request sources (for example GET and POST) now fail with `400 Bad Request` instead of applying precedence.
+* Category names returned by `API.getReportMetadata` were updated to match UI terminology. Plugin integrations expecting old names may break:
+    - `Actions` is now `Behaviour`
+    - `Referrers` is now `Acquisition`
+* `AjaxHelper` no longer supports `returnResponseObject` for bulk requests (`API.getBulkRequest` / array-based `AjaxHelper.fetch`). Bulk requests now always resolve to merged response data.
+
+
+### New config.ini.php settings
+* `API_bulk_request_limit` sets the maximum number of URLs allowed in `API.getBulkRequest` for authenticated users (-1 disables the limit).
+
+### HTTP API
+* `API.getBulkRequest` now enforces request limits (10 for anonymous users without view access, 50 for anonymous users with view access, or the lower configured limit if `API_bulk_request_limit` is set).
+
+## Matomo 5.7.1
+
+### Breaking Changes
+* HTTP APIs that accept `idSite` now validate it more strictly. Invalid values that were previously ignored can now trigger a 400 Bad Request, and some endpoints now enforce integer `idSite` parameters (e.g., non-numeric values may raise a TypeError).
+
 ## Matomo 5.7.0
+
+### Breaking Changes
+
+* Client-side faults now map to consistent 4xx responses:
+  - Missing/invalid API params return 400
+  - Invalid actions return 404
+  - Missing chunks return 404
+  - Missing plugins return 404
+  - Deactivated plugins return 403
+
+### New config.ini.php settings
+* Proxy scheme headers (like `X-Forwarded-Proto`) are now configurable via `proxy_scheme_headers`.
 
 ### New Features
 

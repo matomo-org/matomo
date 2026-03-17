@@ -24,8 +24,6 @@ class VisitTotalTime extends VisitDimension
     protected $type = self::TYPE_DURATION_S;
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -38,8 +36,6 @@ class VisitTotalTime extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -54,8 +50,6 @@ class VisitTotalTime extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */

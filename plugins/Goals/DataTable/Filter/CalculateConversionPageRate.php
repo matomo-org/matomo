@@ -20,8 +20,6 @@ use Piwik\Site;
 class CalculateConversionPageRate extends BaseFilter
 {
     /**
-     * Constructor.
-     *
      * @param DataTable $table The table to eventually filter.
      */
     public function __construct($table)
@@ -76,7 +74,6 @@ class CalculateConversionPageRate extends BaseFilter
     /**
      * Get the conversions total for each goal in the top level datatable
      *
-     * @param DataTable $table
      * @param array $goalIds
      * @return array
      */

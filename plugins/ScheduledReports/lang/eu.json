@@ -27,8 +27,6 @@
         "PleaseFindBelow": "Behean duzu %2$s(r)en zure %1$s txostena.",
         "PluginDescription": "Sortu txosten pertsonalizatuak eta programatu posta elektronikoz bidaltzeko egunero, astero edo hilabetero, pertsona bati edo hainbati. Hainbat txosten formatu onartzen dira (html, pdf, csv, irudiak).",
         "ReportFormat": "Txostenaren formatua",
-        "ReportHour": "Bidali txostena %s(e)tan puntuan",
-        "ReportHourWithUTC": "%s(a)k puntuan UTC",
         "ReportIncludeNWebsites": "Txostenean gutxienez bisita bat izan duten webgune guztien oinarrizko metrikak sartuko dira (une honetan eskuragarri dauden %s webguneetatik).",
         "ReportPeriod": "Txostenaren epea",
         "ReportSent": "Txostena bidalita",

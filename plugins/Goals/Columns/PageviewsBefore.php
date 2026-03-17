@@ -25,11 +25,7 @@ class PageviewsBefore extends ConversionDimension
     protected $nameSingular = 'Goals_PageviewsBefore';
 
     /**
-     *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
-     * @param GoalManager $goalManager
      *
      * @return int
      */
@@ -39,11 +35,7 @@ class PageviewsBefore extends ConversionDimension
     }
 
     /**
-     *
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
-     * @param GoalManager $goalManager
      *
      * @return int
      */

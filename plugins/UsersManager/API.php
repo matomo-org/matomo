@@ -31,7 +31,8 @@ use Piwik\Plugins\UsersManager\Emails\UserInfoChangedEmail;
 use Piwik\Plugins\UsersManager\Repository\UserRepository;
 use Piwik\Plugins\UsersManager\Validators\AllowedEmailDomain;
 use Piwik\Plugins\UsersManager\Validators\Email;
-use Piwik\Request;
+use Piwik\Request\AuthenticationToken;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\SettingsPiwik;
 use Piwik\Site;
 use Piwik\Tracker\Cache;
@@ -224,8 +225,17 @@ class API extends \Piwik\Plugin\API
             Piwik::checkUserHasSuperUserAccess();
         }
 
-        $nameIfSupported = $this->getPreferenceId($userLogin, $preferenceName);
-        Option::set($nameIfSupported, $preferenceValue);
+        $this->assertPreferenceNameIsSupported($preferenceName);
+        $this->getUserSettingsAccessManager()->set('UsersManager', $userLogin, $preferenceName, $preferenceValue);
+
+        /**
+         * Keep legacy option key for compatibility with older LoginLdap versions.
+         * @deprecated - This should be removed with Matomo 6, LoginLdap should be updated
+         *               to not rely on Option storage for this setting
+         */
+        if ($preferenceName === 'isLDAPUser') {
+            Option::set($userLogin . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preferenceName, $preferenceValue);
+        }
     }
 
     /**
@@ -284,26 +294,23 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $userPreferences = [];
+        $supportedPreferenceNames = [];
         foreach ($preferenceNames as $preferenceName) {
-            $optionNameMatchAllUsers = $this->getPreferenceId('%', $preferenceName);
-            $preferences = Option::getLike($optionNameMatchAllUsers);
-
-            foreach ($preferences as $optionName => $optionValue) {
-                $lastUnderscore = strrpos($optionName, self::OPTION_NAME_PREFERENCE_SEPARATOR);
-                $userName = substr($optionName, 0, $lastUnderscore);
-                $preference = substr($optionName, $lastUnderscore + 1);
-                $userPreferences[$userName][$preference] = $optionValue;
-            }
+            $this->assertPreferenceNameIsSupported($preferenceName);
+            $supportedPreferenceNames[] = $preferenceName;
         }
+
+        $userPreferences = $this->getUserSettingsAccessManager()->getValuesForAllUsers('UsersManager', $supportedPreferenceNames);
+
         return $userPreferences;
     }
 
-    private function getPreferenceId($login, $preference)
+    private function assertPreferenceNameIsSupported($preference): void
     {
         if (false !== strpos($preference, self::OPTION_NAME_PREFERENCE_SEPARATOR)) {
             throw new Exception("Preference name cannot contain underscores.");
         }
+
         $names = [
           self::PREFERENCE_DEFAULT_REPORT,
           self::PREFERENCE_DEFAULT_REPORT_DATE,
@@ -318,12 +325,12 @@ class API extends \Piwik\Plugin\API
         ) {
             throw new Exception('Not supported preference name: ' . $preference);
         }
-        return $login . self::OPTION_NAME_PREFERENCE_SEPARATOR . $preference;
     }
 
     private function getPreferenceValue($userLogin, $preferenceName)
     {
-        return Option::get($this->getPreferenceId($userLogin, $preferenceName));
+        $this->assertPreferenceNameIsSupported($preferenceName);
+        return $this->getUserSettingsAccessManager()->get('UsersManager', $userLogin, $preferenceName, false);
     }
 
     private function getDefaultUserPreference($preferenceName, $login)
@@ -342,10 +349,14 @@ class API extends \Piwik\Plugin\API
         }
     }
 
+    private function getUserSettingsAccessManager(): UserScopedSettingsAccessManager
+    {
+        return StaticContainer::get(UserScopedSettingsAccessManager::class);
+    }
+
     /**
      * Returns all users with their role for $idSite.
      *
-     * @param int $idSite
      * @param int|null $limit
      * @param int|null $offset
      * @param string|null $filter_search text to search for in the user's login and email (if any)
@@ -353,7 +364,7 @@ class API extends \Piwik\Plugin\API
      *                                   Filtering by 'superuser' is only allowed for other superusers.
      * @return array
      */
-    public function getUsersPlusRole($idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null, $filter_status = null)
+    public function getUsersPlusRole(int $idSite, $limit = null, $offset = 0, $filter_search = null, $filter_access = null, $filter_status = null)
     {
         if (Piwik::isUserIsAnonymous()) {
             // anonymous user should never see any results.
@@ -410,8 +421,8 @@ class API extends \Piwik\Plugin\API
                         $user['capabilities'] = [];
                     } else {
                         [
-                          $user['role'],
-                          $user['capabilities'],
+                            $user['role'],
+                            $user['capabilities'],
                         ] = $this->getRoleAndCapabilitiesFromAccess($user['access']);
                         $user['role'] = empty($user['role']) ? 'noaccess' : reset($user['role']);
                     }
@@ -550,7 +561,7 @@ class API extends \Piwik\Plugin\API
      *                        ...
      *                    )
      */
-    public function getUsersAccessFromSite($idSite)
+    public function getUsersAccessFromSite(int $idSite)
     {
         Piwik::checkUserHasAdminAccess($idSite);
 
@@ -560,7 +571,7 @@ class API extends \Piwik\Plugin\API
         return $usersAccess;
     }
 
-    public function getUsersWithSiteAccess($idSite, $access)
+    public function getUsersWithSiteAccess(int $idSite, $access)
     {
         Piwik::checkUserHasAdminAccess($idSite);
         $this->checkAccessType($access);
@@ -665,8 +676,8 @@ class API extends \Piwik\Plugin\API
         );
         foreach ($sites as &$siteAccess) {
             [
-              $siteAccess['role'],
-              $siteAccess['capabilities'],
+                $siteAccess['role'],
+                $siteAccess['capabilities'],
             ] = $this->getRoleAndCapabilitiesFromAccess($siteAccess['access']);
             $siteAccess['role'] = empty($siteAccess['role']) ? 'noaccess' : reset($siteAccess['role']);
             unset($siteAccess['access']);
@@ -753,7 +764,7 @@ class API extends \Piwik\Plugin\API
         UsersManager::dieIfUsersAdminIsDisabled();
 
         // check password confirmation only when using session auth
-        if (Common::getRequestVar('force_api_session', 0)) {
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
@@ -802,7 +813,7 @@ class API extends \Piwik\Plugin\API
         UsersManager::dieIfUsersAdminIsDisabled();
 
         // check password confirmation only when using session auth
-        if (Common::getRequestVar('force_api_session', 0)) {
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
@@ -1010,7 +1021,6 @@ class API extends \Piwik\Plugin\API
      * @param string $passwordConfirmation the currents users password, only required when request is authenticated with session token auth
      *
      * @throws Exception if the user doesn't exist or if deleting the users would leave no superusers.
-     *
      */
     public function deleteUser(
         $userLogin,
@@ -1021,7 +1031,7 @@ class API extends \Piwik\Plugin\API
         UsersManager::dieIfUsersAdminIsDisabled();
         $this->checkUserIsNotAnonymous($userLogin);
 
-        if (Common::getRequestVar('force_api_session', 0)) {
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
@@ -1145,7 +1155,11 @@ class API extends \Piwik\Plugin\API
         $idSites = $this->getIdSitesCheckAdminAccess($idSites);
 
         // check password confirmation only when using session auth and setting view access for anonymous user
-        if ($userLogin === 'anonymous' && Request::fromRequest()->getBoolParameter('force_api_session', false) && $access === 'view') {
+        if (
+            $userLogin === 'anonymous'
+            && StaticContainer::get(AuthenticationToken::class)->isSessionToken()
+            && $access === 'view'
+        ) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
@@ -1373,7 +1387,7 @@ class API extends \Piwik\Plugin\API
             $idSites = \Piwik\Plugins\SitesManager\API::getInstance()->getSitesIdWithAdminAccess();
         } else {
             // in case the idSites is an integer we build an array
-            $idSites = Site::getIdSitesFromIdSitesString($idSites);
+            $idSites = Site::getIdSitesFromIdSitesString($idSites, false, true);
         }
 
         if (empty($idSites)) {
@@ -1642,7 +1656,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeAdminAccess();
 
         // check password confirmation only when using session auth
-        if (Common::getRequestVar('force_api_session', 0)) {
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 
@@ -1687,7 +1701,7 @@ class API extends \Piwik\Plugin\API
         Piwik::checkUserHasSomeAdminAccess();
 
         // check password confirmation only when using session auth
-        if (Common::getRequestVar('force_api_session', 0)) {
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
             $this->confirmCurrentUserPassword($passwordConfirmation);
         }
 

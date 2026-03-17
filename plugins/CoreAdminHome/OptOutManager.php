@@ -62,9 +62,6 @@ class OptOutManager
     /** @var array */
     private $queryParameters = array();
 
-    /**
-     * @param DoNotTrackHeaderChecker|null $doNotTrackHeaderChecker
-     */
     public function __construct(?DoNotTrackHeaderChecker $doNotTrackHeaderChecker = null)
     {
         $this->doNotTrackHeaderChecker = $doNotTrackHeaderChecker ?: new DoNotTrackHeaderChecker();
@@ -184,17 +181,6 @@ class OptOutManager
 
     /**
      * Return the HTML code to be added to pages for the JavaScript opt-out
-     *
-     * @param string $matomoUrl
-     * @param string $language
-     * @param string $backgroundColor
-     * @param string $fontColor
-     * @param string $fontSize
-     * @param string $fontFamily
-     * @param bool   $applyStyling
-     * @param bool   $showIntro
-     *
-     * @return string
      */
     public function getOptOutJSEmbedCode(
         string $matomoUrl,
@@ -226,15 +212,6 @@ class OptOutManager
 
     /**
      * Return the HTML code to be added to pages for the self-contained opt-out
-     *
-     * @param string $backgroundColor
-     * @param string $fontColor
-     * @param string $fontSize
-     * @param string $fontFamily
-     * @param bool   $applyStyling
-     * @param bool   $showIntro
-     *
-     * @return string
      */
     public function getOptOutSelfContainedEmbedCode(
         string $backgroundColor,
@@ -302,8 +279,6 @@ HTML;
      *     useSecureCookies (default 1)       Set secure cookies?
      *     cookiePath (default blank)         Use this path for consent cookies
      *     cookieDomain (default blank)       Use this domain for consent cookies
-     *
-     * @return string
      */
     public function getOptOutJS(): string
     {
@@ -422,8 +397,6 @@ JS;
 
     /**
      * Return the shared opt-out JavaScript (used by self-contained and tracker versions)
-     *
-     * @return string
      */
     private function getOptOutCommonJS(): string
     {
@@ -561,8 +534,6 @@ JS;
     /**
      * Get translations used by the opt-out popup
      *
-     * @param string|null $language
-     *
      * @return array
      */
     private function getTranslations(?string $language = null): array
@@ -662,13 +633,6 @@ JS;
     /**
      * Provide a CSS style sheet based on the chosen opt out style options
      *
-     * @param string|null $fontSize
-     * @param string|null $fontColor
-     * @param string|null $fontFamily
-     * @param string|null $backgroundColor
-     * @param bool        $noBody
-     *
-     * @return string
      * @throws \Exception
      */
     private function optOutStyling(

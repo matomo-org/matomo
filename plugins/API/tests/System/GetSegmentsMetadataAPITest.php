@@ -19,13 +19,13 @@ class GetSegmentsMetadataAPITest extends SystemTestCase
 {
     public function testItContainsVisitidByDefault()
     {
-        $request = new Request(
-            'method=API.getSegmentsMetadata'
-            . '&filter_limit=-1'
-            . '&_hideImplementationData=0'
-            . '&format=json'
-            . '&module=API'
-        );
+        $request = new Request([
+            'method' => 'API.getSegmentsMetadata',
+            'filter_limit' => -1,
+            '_hideImplementationData' => 0,
+            'format' => 'json',
+            'module' => 'API',
+        ]);
 
         $response = json_decode($request->process(), true);
 
@@ -49,13 +49,13 @@ class GetSegmentsMetadataAPITest extends SystemTestCase
         $systemSettings->disableVisitorProfile->setValue(1);
         $systemSettings->save();
 
-        $request = new Request(
-            'method=API.getSegmentsMetadata'
-            . '&filter_limit=-1'
-            . '&_hideImplementationData=0'
-            . '&format=json'
-            . '&module=API'
-        );
+        $request = new Request([
+            'method' => 'API.getSegmentsMetadata',
+            'filter_limit' => -1,
+            '_hideImplementationData' => 0,
+            'format' => 'json',
+            'module' => 'API',
+        ]);
 
         $response = json_decode($request->process(), true);
 

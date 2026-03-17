@@ -29,6 +29,7 @@ use Piwik\Plugins\Login\Security\BruteForceDetection;
 use Piwik\Plugins\PrivacyManager\SystemSettings;
 use Piwik\Plugins\UsersManager\API as APIUsersManager;
 use Piwik\Plugins\UsersManager\Model as UsersModel;
+use Piwik\Plugins\UsersManager\UserLoginHelper;
 use Piwik\Plugins\UsersManager\UsersManager;
 use Piwik\QuickForm2;
 use Piwik\Request;
@@ -84,8 +85,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     private $passwordStrength;
 
     /**
-     * Constructor.
-     *
      * @param PasswordResetter $passwordResetter
      * @param \Piwik\Auth $auth
      * @param SessionInitializer $sessionInitializer
@@ -169,7 +168,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             // validate if there is error message
             if ($messageNoAccess === "") {
                 $loginOrEmail = $form->getSubmitValue('form_login');
-                $login = $this->getLoginFromLoginOrEmail($loginOrEmail);
+                if (!is_string($loginOrEmail)) {
+                    $loginOrEmail = '';
+                }
+                $login = UserLoginHelper::normalizeLoginOrEmailToLogin($loginOrEmail);
 
                 $password = $form->getSubmitValue('form_password');
                 try {
@@ -193,19 +195,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         self::setHostValidationVariablesView($view);
 
         return $view->render();
-    }
-
-    private function getLoginFromLoginOrEmail($loginOrEmail)
-    {
-        $model = new UsersModel();
-        if (!$model->userExists($loginOrEmail)) {
-            $user = $model->getUserByEmail($loginOrEmail);
-            if (!empty($user)) {
-                return $user['login'];
-            }
-        }
-
-        return $loginOrEmail;
     }
 
     /**
@@ -339,6 +328,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     public function ajaxNoAccess($errorMessage)
     {
         http_response_code(401);
+
         return sprintf(
             '<div class="alert alert-danger">
                 <p><strong>%s:</strong> %s</p>

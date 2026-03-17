@@ -1,5 +1,7 @@
 {
     "BotTracking": {
-        "PageUrl": "آدرس صفحه"
+        "PageUrl": "آدرس صفحه",
+        "NoDataHttpTrackingApi": "API ردیابی HTTP",
+        "SiteWithoutDataBackToMatomo": "بازگشت به Matomo"
     }
 }

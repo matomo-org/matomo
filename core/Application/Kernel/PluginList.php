@@ -33,6 +33,7 @@ class PluginList
      * @var array
      */
     private $corePluginsDisabledByDefault = array(
+        'ArchivingMetrics',
         'DBStats',
         'ExamplePlugin',
         'ExampleCommand',

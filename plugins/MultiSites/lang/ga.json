@@ -1,5 +1,7 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "Iarratais ar Chomhrábotanna Intleachta Saorga",
+        "AiChatbotsSegmentationTooltip": "Níl deighilt ar fáil don mhéadrach seo toisc nach bhfuil iarratais chatbot AI (cosúil leo siúd ó ChatGPT) nasctha le cuairteanna rialta nó le cuairteoirí.",
         "AllWebsitesDashboardDocumentation": "Tugann an tuarascáil seo forbhreathnú faisnéiseach duit ar gach ceann de do láithreáin ghréasáin, ina bhfuil na méadrachtaí is ginearálta faoi do chuairteoirí.",
         "AllWebsitesDashboardErrorMessage": "Níl na sonraí ar fáil faoi láthair. D'fhéadfadh sé seo a bheith mar gheall ar cheist shealadach freastalaí nó an tuarascáil ina bhfuil an iomarca sonraí. Bain triail eile as ar ball. Má leanann an fhadhb ar aghaidh, déan teagmháil le do riarthóir Matomo chun cúnamh a fháil.",
         "AllWebsitesDashboardTitle": "Gach Láithreán Gréasáin",
@@ -16,16 +18,21 @@
         "EvolutionFromPreviousWeek": "Ón tseachtain roimhe sin",
         "EvolutionFromPreviousYear": "Ón bhliain roimhe sin",
         "LoadingWebsites": "Láithreáin ghréasáin á lódáil",
+        "MetricDocumentationAiChatbotsRequests": "Líon iomlán na n-iarratas comhrábot AI a taifeadadh don suíomh Gréasáin seo.",
         "MetricDocumentationEvolution": "An t-athrú céatadánach don mhéadrach seo i gcomparáid leis an tréimhse roimhe sin don suíomh Gréasáin seo. Léiríonn luach dearfach fás, agus comharthaíonn luach diúltach laghdú.",
         "MetricDocumentationHits": "Líon iomlán na ngníomhartha taifeadta don suíomh Gréasáin seo, lena n-áirítear amhairc leathanaigh, íoslódálacha agus eisnaisc.",
+        "MetricDocumentationHitsIncludingAi": "Líon iomlán na ngníomhartha taifeadta don suíomh Gréasáin seo, lena n-áirítear amharc leathanaigh, íoslódálacha, naisc amach agus iarratais ó chomhrábots AI.",
         "MetricDocumentationPageviews": "Líon iomlán na leathanach a breathnaíodh ar an suíomh Gréasáin seo. Áiríonn sé seo go leor radharcanna ar an leathanach céanna ó chuairteoir amháin.",
         "MetricDocumentationRevenue": "An t-ioncam iomlán arna rianú don suíomh Gréasáin seo. Tá an méadrach seo ar fáil má tá rianú Ríomhthráchtáil cumasaithe agus má léiríonn sé ceannacháin nó ioncam bunaithe ar sprioc.",
         "MetricDocumentationVisits": "Líon iomlán na gcuairteanna a taifeadadh don suíomh Gréasáin seo. Tosaíonn cuairt nuair a fhaigheann úsáideoir rochtain ar an suíomh agus críochnaíonn sé tar éis tréimhse neamhghníomhaíochta nó nuair a théann an seisiún in éag.",
         "MetricDocumentationWebsite": "Liosta de na láithreáin ghréasáin rianaithe ar taispeáint ar an deais. Léiríonn gach sraith suíomh Gréasáin ar leith agus na sonraí anailíse comhfhreagracha aige.",
         "PluginDescription": "Féach ar do shuímh Ghréasáin agus aipeanna go léir agus déan iad a chur i gcomparáid sa phainéal úsáideach 'Gach Láithreán Gréasáin' seo.",
+        "SegmentationNotSupported": "Ní thacaítear le deighilt",
         "SingleWebsitesDashboardDocumentation": "Tugann an tuarascáil seo forbhreathnú faisnéiseach duit ar shuíomh Gréasáin ar leith, ina bhfuil na méadrachtaí is ginearálta faoi do chuairteoirí.",
         "TopLinkTooltip": "Déan comparáid idir stats Web Analytics do do Láithreáin Ghréasáin go léir.",
+        "TotalAiChatbotsRequests": "Líon iomlán na nIarratas ar Chomhrábotanna AI",
         "TotalHits": "Amas Iomlán",
+        "TotalHitsIncludingAiTooltip": "Líon Iomlán na mBuailtí: Lena n-áirítear gach buille Daonna agus iarratais ar Chomhrábotanna AI",
         "TotalPageviews": "Iomlán Pageviews",
         "TotalVisits": "Cuairteanna Iomlána"
     }

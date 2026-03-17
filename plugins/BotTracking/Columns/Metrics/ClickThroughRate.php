@@ -22,7 +22,7 @@ class ClickThroughRate extends ProcessedMetric
 {
     public function getName()
     {
-        return Metrics::METRIC_AI_ASSISTANTS_CLICK_THROUGH_RATE;
+        return Metrics::METRIC_AI_CHATBOTS_CLICK_THROUGH_RATE;
     }
 
     public function getTranslatedName()
@@ -38,15 +38,15 @@ class ClickThroughRate extends ProcessedMetric
     public function getDependentMetrics()
     {
         return [
-            Metrics::METRIC_AI_ASSISTANTS_REQUESTS,
-            Metrics::METRIC_AI_ASSISTANTS_ACQUIRED_VISITS,
+            Metrics::METRIC_AI_CHATBOTS_REQUESTS,
+            Metrics::METRIC_AI_CHATBOTS_ACQUIRED_VISITS,
         ];
     }
 
     public function compute(Row $row)
     {
-        $requests = (int)$this->getMetric($row, Metrics::METRIC_AI_ASSISTANTS_REQUESTS);
-        $visits   = (int)$this->getMetric($row, Metrics::METRIC_AI_ASSISTANTS_ACQUIRED_VISITS);
+        $requests = (int)$this->getMetric($row, Metrics::METRIC_AI_CHATBOTS_REQUESTS);
+        $visits   = (int)$this->getMetric($row, Metrics::METRIC_AI_CHATBOTS_ACQUIRED_VISITS);
 
         return Piwik::getQuotientSafe($visits, $requests, 4);
     }

@@ -121,8 +121,6 @@ class AddColumnsProcessedMetricsGoal extends AddColumnsProcessedMetrics
     private $goalsToProcess;
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table The table that will eventually filtered.
      * @param bool $enable Always set to true.
      * @param string $processOnlyIdGoal Defines what metrics to add (don't process metrics when you don't display them).

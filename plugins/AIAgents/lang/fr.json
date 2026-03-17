@@ -31,6 +31,7 @@
         "SparklineHumanBounceRate": "Les visites humaines ont rebondi (les visiteurs ont quitté le site après avoir consulté une seule page)",
         "SparklineHumanVisits": "visites humaines",
         "WidgetGraphAIAgents": "Agents IA dans le temps",
-        "WidgetOverviewAIAgents": "Vue d'ensemble des agents IA"
+        "WidgetOverviewAIAgents": "Vue d'ensemble des agents IA",
+        "AIAgentsOverview": "Récapitulatif des agents IA"
     }
 }

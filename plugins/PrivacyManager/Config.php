@@ -19,7 +19,7 @@ use Piwik\Plugins\PrivacyManager\Settings\ReferrerAnonymisation as ReferrerAnony
 use Piwik\Tracker\Cache;
 use Piwik\Plugins\PrivacyManager\Settings\IpAddressMaskLength as IpAddressMaskLengthSetting;
 use Piwik\Plugins\PrivacyManager\Settings\IPAnonymisation as IPAnonymisationSetting;
-use Piwik\Plugins\PrivacyManager\Settings\OrderIdAnonymization as OrderIdAnonymizationSetting;
+use Piwik\Plugins\Ecommerce\Settings\OrderIdAnonymization as OrderIdAnonymizationSetting;
 
 /**
  * @property bool $doNotTrackEnabled    Enable / Disable Do Not Track {@see DoNotTrackHeaderChecker}
@@ -122,8 +122,6 @@ class Config
      * If PrivacyCompliance is enabled and specific settings are requested, return their value, otherwise
      * return a provided option value
      *
-     * @param string $name
-     * @param int|null $idSite
      * @param false|string $optionValue
      * @return int|mixed|null
      * @throws DependencyException
@@ -151,8 +149,6 @@ class Config
      * Get a value from the option table, with a potential compliance policy override and a fallback value
      * if there's no option stored for the given name yet
      *
-     * @param string $name
-     * @param bool $allowPolicyComplianceOverride
      * @return mixed
      * @throws DependencyException
      * @throws NotFoundException

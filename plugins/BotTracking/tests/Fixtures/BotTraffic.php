@@ -86,11 +86,11 @@ class BotTraffic extends Fixture
             2 => [
                 ['Perplexity-User/1.0', $downloads[3], 200, 84269, true],
                 ['Gemini-Deep-Research/1.0', $pages[3], 200, 3265, false],
-                ['Devin/1.0', $pages[6], 200, 33366, false],
+                ['Google-NotebookLM/1.0', $pages[6], 200, 33366, false],
                 ['ChatGPT-User/1.0', $pages[3], 200, 5454, false],
                 ['Perplexity-User/1.0', $downloads[2], 200, 69856, true],
                 ['Gemini-Deep-Research/1.0', $pages[4], 200, 63256, false],
-                ['Devin/1.0', $pages[6], 200, 25486, false],
+                ['Google-NotebookLM/1.0', $pages[6], 200, 25486, false],
             ],
             3 => [
                 ['MistralAI-User/2.0', $pages[4], 200, 12568, false],
@@ -150,7 +150,7 @@ class BotTraffic extends Fixture
             $tracker = self::getTracker($this->idSite, $date, true);
             $tracker->setUrl('https://example.com/article-' . (($index % 4) + 1));
             $tracker->setUrlReferrer($referrer);
-            self::checkResponse($tracker->doTrackPageView('Article From AI Assistant ' . ($index + 1)));
+            self::checkResponse($tracker->doTrackPageView('Article From AI Chatbot ' . ($index + 1)));
         }
     }
 

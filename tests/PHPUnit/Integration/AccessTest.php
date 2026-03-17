@@ -304,7 +304,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasViewAccessWithEmptyAccessNoSiteIdsGiven()
     {
-        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectException(\Piwik\Http\BadRequestException::class);
         $access = $this->getAccess();
         $access->checkUserHasViewAccess(array());
     }
@@ -356,7 +356,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasWriteAccessWithEmptyAccessNoSiteIdsGiven()
     {
-        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectException(\Piwik\Http\BadRequestException::class);
         $access = $this->getAccess();
         $access->checkUserHasWriteAccess(array());
     }
@@ -393,7 +393,7 @@ class AccessTest extends IntegrationTestCase
 
     public function testCheckUserHasAdminAccessWithEmptyAccessNoSiteIdsGiven()
     {
-        $this->expectException(\Piwik\NoAccessException::class);
+        $this->expectException(\Piwik\Http\BadRequestException::class);
         $access = $this->getAccess();
         $access->checkUserHasViewAccess(array());
     }

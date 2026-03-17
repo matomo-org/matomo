@@ -5,7 +5,7 @@
         </a>
         <div class="dropdown dropdown-body">
             <div class="segmentFilterContainer">
-                <input class="segmentFilter browser-default" type="text" tabindex="4" value="{{ 'General_Search'|translate }}"/>
+                <input class="segmentFilter browser-default" type="text" tabindex="4" value="" placeholder="{{ 'General_Search'|translate }}"/>
                 <span></span>
             </div>
             <ul class="submenu">
@@ -18,7 +18,13 @@
             </ul>
 
             {% if authorizedToCreateSegments %}
-                <a tabindex="4" class="add_new_segment btn">{{ 'SegmentEditor_AddNewSegment'|translate }}</a>
+                <button tabindex="4" class="add_new_segment btn">
+                    <span class="icon-add"></span>&nbsp;
+                    {{ 'SegmentEditor_AddNewSegment'|translate }}
+                </button>
+                <a href="index.php?{{ manageSegmentUrl|urlRewriteWithParameters|slice(1) }}" tabindex="4" class="btn btn-block btn-outline">
+                    {{ 'SegmentEditor_ManageSegments'|translate }}
+                </a>
             {% else %}
                 <hr/>
                 <ul class="submenu">

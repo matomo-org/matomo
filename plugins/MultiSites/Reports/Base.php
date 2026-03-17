@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\MultiSites\Reports;
 
+use Piwik\Columns\Dimension;
 use Piwik\Piwik;
 use Piwik\Plugins\MultiSites\API;
 
@@ -33,5 +34,13 @@ abstract class Base extends \Piwik\Plugin\Report
 
         $this->metrics = array_keys($metadataMetrics);
         $this->processedMetrics = array_keys($processedMetricsMetadata);
+    }
+
+    public function getMetricSemanticTypes(): array
+    {
+        $metricTypes                         = parent::getMetricSemanticTypes();
+        $metricTypes['ai_chatbots_requests'] = Dimension::TYPE_NUMBER;
+
+        return $metricTypes;
     }
 }

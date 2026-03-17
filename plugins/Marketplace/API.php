@@ -76,7 +76,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @return bool
      * @throws Service\Exception If the marketplace request failed
      *
      * @internal
@@ -168,10 +167,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param string $pluginName
-     *
-     * @return bool
-     *
      * @unsanitized
      * @internal
      */
@@ -199,9 +194,6 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param string $pluginName
-     *
-     * @return bool
      * @throws Service\Exception If the marketplace request failed
      *
      * @internal

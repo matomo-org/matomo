@@ -81,13 +81,7 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param string $name
      * @param int|string $idSite
-     * @param string $period
-     * @param string $date
-     * @param null|string $segment
-     * @param bool $expanded
-     * @param int|null $idSubtable
      * @return DataTable|DataTable\Map
      */
     protected function getDataTable(string $name, $idSite, string $period, string $date, ?string $segment, bool $expanded = false, ?int $idSubtable = null)
@@ -192,7 +186,7 @@ class API extends \Piwik\Plugin\API
 
     private function checkSingleSite($idSite, string $method): void
     {
-        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+        $idSites = Site::getIdSitesFromIdSitesString($idSite, false, true);
 
         if (count($idSites) > 1 || 'all' === $idSite) {
             throw new Exception("Referrers.$method with multiple sites is not supported (yet).");
@@ -407,11 +401,6 @@ class API extends \Piwik\Plugin\API
      * This is a view of the getWebsites report.
      *
      * @param string $idSite
-     * @param string $period
-     * @param string $date
-     * @param string|null $segment
-     * @param bool $expanded
-     * @param bool $flat
      * @return DataTable|DataTable\Map
      */
     public function getSocials($idSite, string $period, string $date, ?string $segment = null, bool $expanded = false, bool $flat = false)
@@ -450,11 +439,6 @@ class API extends \Piwik\Plugin\API
      * This is a view of the getWebsites report.
      *
      * @param string|int|int[] $idSite
-     * @param string $period
-     * @param string $date
-     * @param string|null $segment
-     * @param bool $expanded
-     * @param bool $flat
      * @param 'entryPageTitle'|'entryPageUrl'|null $secondaryDimension defaults to entryPageUrl if not provided
      * @return DataTable|DataTable\Map
      */
@@ -523,7 +507,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param DataTable|DataTable\Map $dataTable
-     * @param callable $callbackForAdditionalData
      * @return DataTable|DataTable\Map
      */
     protected function combineDataTables($dataTable, callable $callbackForAdditionalData)
@@ -621,9 +604,6 @@ class API extends \Piwik\Plugin\API
      * site.
      *
      * @param string $idSite
-     * @param string $period
-     * @param string $date
-     * @param null|string $segment
      * @param null|int $idSubtable This ID does not reference a real DataTable record. Instead, it
      *                             is the array index of an item in the Socials list file.
      *                             The urls are filtered by the social network at this index.
@@ -670,9 +650,6 @@ class API extends \Piwik\Plugin\API
      * Returns report containing individual entry page URLs for a specific AI assistant.
      *
      * @param string|int|int[] $idSite
-     * @param string $period
-     * @param string $date
-     * @param null|string $segment
      * @param null|int $idSubtable This ID does not reference a real DataTable record. Instead, it
      *                             is the array index of an item in the AI list file.
      *                             The urls are filtered by the AI at this index.
@@ -704,9 +681,6 @@ class API extends \Piwik\Plugin\API
      * Returns report containing individual entry page names for a specific AI assistant.
      *
      * @param string|int|int[] $idSite
-     * @param string $period
-     * @param string $date
-     * @param null|string $segment
      * @param null|int $idSubtable This ID does not reference a real DataTable record. Instead, it
      *                              is the array index of an item in the AI list file.
      *                              The urls are filtered by the AI at this index.
@@ -845,10 +819,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @param int $idSite
-     * @param string $period
-     * @param string $date
-     * @param string|null $segment
-     * @param bool $expanded
      * @param DataTable|DataTable\Map $dataTable
      */
     private function buildExpandedTableForFlattenGetSocials($idSite, string $period, string $date, ?string $segment, bool $expanded, $dataTable)

@@ -46,8 +46,11 @@ class API extends \Piwik\Plugin\API
      * @param array $settingValues Format: array('PluginName' => array(array('name' => 'SettingName1', 'value' => 'SettingValue1), ..))
      * @throws Exception
      */
-    public function setSystemSettings($settingValues, $passwordConfirmation = false)
-    {
+    public function setSystemSettings(
+        $settingValues,
+        #[\SensitiveParameter]
+        $passwordConfirmation = false
+    ) {
         Piwik::checkUserHasSuperUserAccess();
 
         $this->confirmCurrentUserPassword($passwordConfirmation);
@@ -132,7 +135,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @internal
-     * @return int
      */
     public function getNumberOfPluginUpdates(): int
     {

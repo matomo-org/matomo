@@ -221,7 +221,7 @@ class API extends \Piwik\Plugin\API
     {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $ids = array_map('intval', Site::getIdSitesFromIdSitesString($idSite));
+        $ids = array_map('intval', Site::getIdSitesFromIdSitesString($idSite, false, true));
         $model = new Model();
         $annotations = [];
         foreach ($ids as $id) {
@@ -248,7 +248,6 @@ class API extends \Piwik\Plugin\API
      * @param string $date The date of the period.
      * @param string $period The period type.
      * @param int|null $lastN Whether to get counts for the last N number of periods or not.
-     * @param bool $getAnnotationText
      * @return array An array mapping site IDs to arrays holding dates & the count of
      *               annotations made for those dates. eg,
      *               array(
@@ -275,7 +274,7 @@ class API extends \Piwik\Plugin\API
     ): array {
         Piwik::checkUserHasViewAccess($idSite);
 
-        $siteIds = array_map('intval', Site::getIdSitesFromIdSitesString($idSite));
+        $siteIds = array_map('intval', Site::getIdSitesFromIdSitesString($idSite, false, true));
         if (empty($siteIds)) {
             return [];
         }
@@ -360,8 +359,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Throws an exception if the given $idSite does not exist.
      *
-     * @param int $idSite
-     * @return void
      * @throws UnexpectedWebsiteFoundException
      */
     private function checkSiteExists(int $idSite): void

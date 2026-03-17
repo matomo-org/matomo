@@ -27,8 +27,6 @@
         "PleaseFindBelow": "請從下方確認你 %2$s 的 %1$s。",
         "PluginDescription": "建立自定報表並排程每日、每周、每月以信件寄送給多個人。支援多種報表格式（HTML、PDF、CSV、圖片）。",
         "ReportFormat": "報表格式",
-        "ReportHour": "於 %s 點寄送報表",
-        "ReportHourWithUTC": "UTC 時間 %s 點",
         "ReportIncludeNWebsites": "報表將包含所有至少含有 1 次訪問網站中的主要數據（目前有 %s 個網站可用）。",
         "ReportPeriod": "報告間隔",
         "ReportSent": "報表已寄送",

@@ -11,6 +11,8 @@
         "IncludeRowsWithLowPopulation": "Rader med låg populasjon er skjult %s Vis alle rader",
         "NoPrivilegesAskPiwikAdmin": "Du er innlogga som '%1$s' men det ser ikkje ut til at du har vidare tilgang til Matomo. %2$s Spør Matomo-administratoren (klikk for å senda e-post)%3$s om å gje deg 'vis'-tilgang til ei nettside.",
         "PeriodRange": "Periode",
+        "PresetDateToday": "I dag",
+        "PresetDateYesterday": "I går",
         "ReportGeneratedOn": "Rapport generert den %s",
         "ReportGeneratedXAgo": "Rapport generert %s sidan",
         "ReportLowercase": "rapport",

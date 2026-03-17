@@ -46,7 +46,7 @@ class FewVisitsAnonymizedFixture extends Fixture
         // empty
     }
 
-    private function getPrivacyConfig(int $idSite = null)
+    private function getPrivacyConfig(?int $idSite = null)
     {
         return new Config($idSite);
     }
@@ -66,11 +66,6 @@ class FewVisitsAnonymizedFixture extends Fixture
     /**
      * Returns a pre-configured MatomoTracker
      *
-     * @param int $idSite
-     * @param string $dateTime
-     * @param string $urlPath
-     * @param string $ip
-     * @return MatomoTracker
      * @throws \Exception
      */
     private static function prepareTracker(int $idSite, string $dateTime, string $urlPath = '', string $ip = ''): MatomoTracker

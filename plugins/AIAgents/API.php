@@ -30,7 +30,6 @@ class API extends PluginAPI
 
     /**
      * @param int|string $idSite
-     * @param string $segment
      * @param string|array<string> $columns
      */
     public function get(
@@ -44,7 +43,7 @@ class API extends PluginAPI
 
         $columns = Piwik::getArrayFromApiParameter($columns);
 
-        if ($idSite === 'all' || count(Site::getIdSitesFromIdSitesString($idSite)) > 1) {
+        if ($idSite === 'all' || count(Site::getIdSitesFromIdSitesString($idSite, false, true)) > 1) {
             $resultSet = new DataTable\Map();
             $resultSet->setKeyName('idSite');
         } elseif (Period::isMultiplePeriod($date, $period)) {

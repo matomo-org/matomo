@@ -273,8 +273,6 @@ class Common
     /**
      * Timing attack safe string comparison.
      *
-     * @param string $stringA
-     * @param string $stringB
      * @return bool
      */
     public static function hashEquals(string $stringA, string $stringB)
@@ -497,6 +495,7 @@ class Common
      *                             If `'json'`, the string value will be `json_decode`-d and then sanitized.
      * @param array|null $requestArrayToUse The array to use instead of `$_GET` and `$_POST`.
      * @return mixed The sanitized request parameter.
+     * @phpstan-return ($varType is 'array' ? array : ($varType is 'integer' ? int : ($varType is 'int' ? int : ($varType is 'float' ? float : ($varType is 'string' ? string : ($varType is 'json' ? array|bool|float|int|string|null : mixed))))))
      * @throws Exception If the request parameter doesn't exist and there is no default value, or if the request parameter
      *                   exists but has an incorrect type.
      * @see Request::getParameter()

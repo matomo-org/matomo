@@ -1,8 +1,8 @@
 {
     "DBStats": {
-        "DatabaseUsage": "Andmebaasi kasutus",
-        "DataSize": "Andmemaht",
         "DBSize": "Andmebaasi suurus",
+        "DataSize": "Andmemaht",
+        "DatabaseUsage": "Andmebaasi kasutus",
         "EstimatedSize": "Ennustatud maht",
         "IndexSize": "Indeksi maht",
         "LearnMore": "Et saada rohkem infot, kuidas Matomo töötleb andmeid ja kuidas optimeerida Matomout tööks keskmise ja kõrge külastatavusega veebilehtedele, vaata seda dokumentatsiooni: %s.",

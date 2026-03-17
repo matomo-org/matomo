@@ -73,6 +73,38 @@ describe("PeriodSelector", function () {
         expect(await page.screenshotSelector(selector)).to.matchImage('week_selected');
     });
 
+    it('should activate a period option via Enter key', async function () {
+        await page.focus('#period_id_week');
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(150);
+
+        const selectedState = await page.evaluate(function () {
+            return {
+                weekPressed: $('#period_id_week').attr('aria-pressed'),
+                dayPressed: $('#period_id_day').attr('aria-pressed'),
+            };
+        });
+
+        expect(selectedState.weekPressed).to.equal('true');
+        expect(selectedState.dayPressed).to.equal('false');
+    });
+
+    it('should activate a period option via Space key', async function () {
+        await page.focus('#period_id_month');
+        await page.keyboard.press('Space');
+        await page.waitForTimeout(150);
+
+        const selectedState = await page.evaluate(function () {
+            return {
+                monthPressed: $('#period_id_month').attr('aria-pressed'),
+                dayPressed: $('#period_id_day').attr('aria-pressed'),
+            };
+        });
+
+        expect(selectedState.monthPressed).to.equal('true');
+        expect(selectedState.dayPressed).to.equal('false');
+    });
+
     it("should change the date when a date is clicked in month-period mode", async function() {
         await page.click('#period_id_month');
         await page.waitForTimeout(250); // wait for animation
@@ -132,6 +164,101 @@ describe("PeriodSelector", function () {
     it("should close on click if previously opened", async function () {
       await page.click('.periodSelector .title');
       expect(await page.screenshotSelector(selector)).to.matchImage('closed');
+    });
+
+
+    it('should apply non-range period selection only after calendar click', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        const initialUrl = await page.url();
+
+        await page.click('#period_id_week');
+        await page.waitForTimeout(150);
+
+        const stateAfterPeriodClick = await page.evaluate(function () {
+            return {
+                expanded: $('.periodSelector').hasClass('expanded'),
+                applyVisible: $('#calendarApply').is(':visible'),
+                selectedCells: $('.period-date td.ui-datepicker-current-period').length,
+            };
+        });
+
+        expect(stateAfterPeriodClick.expanded).to.equal(true);
+        expect(stateAfterPeriodClick.applyVisible).to.equal(true);
+        expect(stateAfterPeriodClick.selectedCells).to.equal(0);
+        expect(await page.url()).to.equal(initialUrl);
+
+        const dateCell = await page.jQuery('.period-date .ui-datepicker-calendar a:contains(13)');
+        await dateCell.click();
+        await page.waitForTimeout(250);
+
+        const appliedUrl = await page.url();
+        expect(appliedUrl).to.contain('period=week');
+        expect(appliedUrl).to.not.equal(initialUrl);
+    });
+
+    it('should keep range selection pending until apply', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        const initialUrl = await page.url();
+
+        await page.click('#period_id_range');
+        await page.waitForTimeout(150);
+        expect(await page.url()).to.equal(initialUrl);
+
+        await page.waitForSelector('#calendarApply', {visible: true, timeout: 250});
+        await page.click('#calendarApply');
+        await page.waitForTimeout(250);
+
+        const appliedUrl = await page.url();
+        expect(appliedUrl).to.contain('period=range');
+        expect(appliedUrl).to.not.equal(initialUrl);
+    });
+
+    it('should keep legacy double-click immediate apply behavior for non-range periods', async function () {
+        await page.goto(url);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+
+        await page.click('#period_id_month', { clickCount: 2 });
+        await page.waitForTimeout(250);
+
+        const currentUrl = await page.url();
+        expect(currentUrl).to.contain('period=month');
+    });
+
+    it('should keep rolling last7 token after reload and apply', async function () {
+        const tokenUrl = '?module=CoreHome&action=index&idSite=1&period=range&date=last7#?idSite=1&period=range&date=last7&category=General_Actions&subcategory=General_Pages';
+        await page.goto(tokenUrl);
+        await page.click('.periodSelector .title');
+        await page.evaluate(function () {
+            piwikHelper.isReportingPage = function () {
+                return true;
+            };
+        });
+        await page.click('#calendarApply');
+        await page.waitForNetworkIdle();
+
+        const currentUrl = await page.url();
+        expect(currentUrl).to.contain('period=range');
+        expect(currentUrl).to.contain('date=last7');
+        expect(currentUrl).to.not.match(/date=\d{4}-\d{2}-\d{2}%2C\d{4}-\d{2}-\d{2}/);
     });
 
     it("should move forward two days when next period selector is clicked twice", async function () {

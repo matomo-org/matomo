@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Matomo\Network\IPUtils;
+use Piwik\Config\GeneralConfig;
 
 /**
  * Provides URL related helper methods.
@@ -130,9 +131,10 @@ class Url
         $url = '';
 
         // insert extra path info if proxy_uri_header is set and enabled
+        $proxyUriHeader = GeneralConfig::getConfigValue('proxy_uri_header');
         if (
-            isset(Config::getInstance()->General['proxy_uri_header'])
-            && Config::getInstance()->General['proxy_uri_header'] == 1
+            is_scalar($proxyUriHeader)
+            && (int)$proxyUriHeader === 1
             && !empty($_SERVER['HTTP_X_FORWARDED_URI'])
         ) {
             $url .= $_SERVER['HTTP_X_FORWARDED_URI'];
@@ -175,7 +177,7 @@ class Url
         // A hash part should actually be never send to the server, as browsers automatically remove them from the request
         // The same happens for tools like cUrl. While Apache won't answer requests that contain them, Nginx would handle them
         // and the hash part would be included in REQUEST_URI. Therefor we always remove any hash parts here.
-        if (mb_strpos($url, '#')) {
+        if (mb_strpos($url, '#') > 0) {
             $url = mb_substr($url, 0, mb_strpos($url, '#'));
         }
 
@@ -231,7 +233,7 @@ class Url
      * Validates the **Host** HTTP header (untrusted user input). Used to prevent Host header
      * attacks.
      *
-     * @param string|bool $host Contents of Host: header from the HTTP request. If `false`, gets the
+     * @param string|null|false $host Contents of Host: header from the HTTP request. If `false`, gets the
      *                          value from the request.
      * @return bool `true` if valid; `false` otherwise.
      */
@@ -292,7 +294,7 @@ class Url
      * if user is Super User
      *
      * @static
-     * @param $host string|array
+     * @param string|string[] $host
      * @return bool
      */
     public static function saveTrustedHostnameInConfig($host)
@@ -300,11 +302,22 @@ class Url
         return self::saveHostsnameInConfig($host, 'General', 'trusted_hosts');
     }
 
+    /**
+     * @param string|string[] $host
+     * @return bool
+     * @deprecated no longer in use, will be removed with Matomo 6
+     */
     public static function saveCORSHostnameInConfig($host)
     {
         return self::saveHostsnameInConfig($host, 'General', 'cors_domains');
     }
 
+    /**
+     * @param string|string[] $host
+     * @param string $domain
+     * @param string $key
+     * @return bool
+     */
     protected static function saveHostsnameInConfig($host, $domain, $key)
     {
         if (
@@ -332,13 +345,13 @@ class Url
      *
      * @param bool $checkIfTrusted Whether to do trusted host check. Should ALWAYS be true,
      *                             except in Controller.
-     * @return string|bool eg, `"demo.matomo.cloud"` or false if no host found.
+     * @return string|false eg, `"demo.matomo.cloud"` or false if no host found.
      */
     public static function getHost($checkIfTrusted = true)
     {
         $host = self::getHostFromServerVariable();
 
-        if (strlen($host) && (!$checkIfTrusted || self::isValidHost($host))) {
+        if (!empty($host) && (!$checkIfTrusted || self::isValidHost($host))) {
             return $host;
         }
 
@@ -354,13 +367,16 @@ class Url
         return false;
     }
 
+    /**
+     * @return string|false
+     */
     protected static function getHostFromServerVariable()
     {
         try {
             // this fails when trying to get the hostname before the config was initialized
             // e.g. for loading the domain specific configuration file
             // in such a case we always use HTTP_HOST
-            $preferServerName = Config::getInstance()->General['host_validation_use_server_name'];
+            $preferServerName = GeneralConfig::getConfigValue('host_validation_use_server_name');
         } catch (\Exception $e) {
             $preferServerName = false;
         }
@@ -378,7 +394,7 @@ class Url
      * Returns the valid hostname (according to RFC standards) as a string; else it will return false if it isn't valid.
      * If the hostname isn't supplied it will default to using Url::getHost
      * Note: this will not verify if the hostname is trusted.
-     * @param $hostname
+     * @param string|null $hostname
      * @return false|string
      */
     public static function getRFCValidHostname($hostname = null)
@@ -392,7 +408,8 @@ class Url
     /**
      * Sets the host. Useful for CLI scripts, eg. core:archive command
      *
-     * @param $host string
+     * @param string $host
+     * @return void
      */
     public static function setHost($host)
     {
@@ -415,13 +432,9 @@ class Url
     {
         $hostHeaders = [];
 
-        $config = Config::getInstance()->General;
-        if (isset($config['proxy_host_headers'])) {
-            $hostHeaders = $config['proxy_host_headers'];
-        }
-
-        if (!is_array($hostHeaders)) {
-            $hostHeaders = [];
+        $hostHeadersInConfig = GeneralConfig::getConfigValue('proxy_host_headers');
+        if (is_array($hostHeadersInConfig)) {
+            $hostHeaders = $hostHeadersInConfig;
         }
 
         $host = self::getHost($checkTrustedHost);
@@ -465,8 +478,7 @@ class Url
     public static function getArrayFromCurrentQueryString()
     {
         $queryString = self::getCurrentQueryString();
-        $urlValues = UrlHelper::getArrayFromQueryString($queryString);
-        return $urlValues;
+        return UrlHelper::getArrayFromQueryString($queryString);
     }
 
     /**
@@ -520,6 +532,10 @@ class Url
         return $query;
     }
 
+    /**
+     * @param string $url
+     * @return string|false|null
+     */
     public static function getQueryStringFromUrl($url)
     {
         return parse_url($url, PHP_URL_QUERY);
@@ -529,6 +545,7 @@ class Url
      * Redirects the user to the referrer. If no referrer exists, the user is redirected
      * to the current URL without query string.
      *
+     * @return void
      * @api
      */
     public static function redirectToReferrer()
@@ -540,7 +557,7 @@ class Url
         self::redirectToUrl(self::getCurrentUrlWithoutQueryString());
     }
 
-    private static function redirectToUrlNoExit($url)
+    private static function redirectToUrlNoExit(string $url): void
     {
         if (
             UrlHelper::isLookLikeUrl($url)
@@ -562,6 +579,7 @@ class Url
      * Redirects the user to the specified URL.
      *
      * @param string $url
+     * @return void
      * @throws Exception
      * @api
      */
@@ -579,6 +597,8 @@ class Url
 
     /**
      * If the page is using HTTP, redirect to the same page over HTTPS
+     *
+     * @return void
      */
     public static function redirectToHttps()
     {
@@ -625,10 +645,11 @@ class Url
             $hosts[] = $parseRequest['host'];
         }
 
-        // drop port numbers from hostnames and IP addresses
+        // drop invalid host values and port numbers from hostnames/IPs
+        $hosts = array_filter($hosts, 'is_string');
         $hosts = array_map(self::class . '::getHostSanitized', $hosts);
 
-        $disableHostCheck = Config::getInstance()->General['enable_trusted_host_check'] == 0;
+        $disableHostCheck = GeneralConfig::getConfigValue('enable_trusted_host_check') == 0;
         // compare scheme and host
         $parsedUrl = @parse_url($url);
         $host = IPUtils::sanitizeIp($parsedUrl['host'] ?? '');
@@ -660,6 +681,9 @@ class Url
             || in_array($hostWithoutPort, $localHostnames, true);
     }
 
+    /**
+     * @return string[]
+     */
     public static function getTrustedHostsFromConfig()
     {
         $hosts = self::getHostsFromConfig('General', 'trusted_hosts');
@@ -673,11 +697,17 @@ class Url
         return $hosts;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getTrustedHosts()
     {
         return self::getTrustedHostsFromConfig();
     }
 
+    /**
+     * @return string[]
+     */
     public static function getCorsHostsFromConfig()
     {
         return self::getHostsFromConfig('General', 'cors_domains');
@@ -686,7 +716,7 @@ class Url
     /**
      * Returns hostname, without port numbers
      *
-     * @param $host
+     * @param string $host
      * @return string
      */
     public static function getHostSanitized($host)
@@ -697,6 +727,11 @@ class Url
         return IPUtils::sanitizeIp($host);
     }
 
+    /**
+     * @param string $domain
+     * @param string $key
+     * @return string[]
+     */
     protected static function getHostsFromConfig($domain, $key)
     {
         $config = @Config::getInstance()->$domain;
@@ -738,8 +773,8 @@ class Url
      * subdomain of the given host. For instance if host is "example.com" and a URL is "https://www.example.com" we
      * consider this as valid and return true. The always trusted hosts such as "127.0.0.1" are considered valid as well.
      *
-     * @param $host
-     * @param $urls
+     * @param string $host
+     * @param string[] $urls
      * @return bool
      */
     public static function isHostInUrls($host, $urls)
@@ -775,25 +810,22 @@ class Url
     /**
      * List of hosts that are never checked for validity.
      *
-     * @return array
+     * @return string[]
      */
-    private static function getAlwaysTrustedHosts()
+    private static function getAlwaysTrustedHosts(): array
     {
         return self::getLocalHostnames();
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public static function getLocalHostnames()
+    public static function getLocalHostnames(): array
     {
         return ['localhost', '127.0.0.1', '::1', '[::1]', '[::]', '0000::1', '0177.0.0.1', '2130706433', '[0:0:0:0:0:ffff:127.0.0.1]'];
     }
 
-    /**
-     * @return bool
-     */
-    public static function isSecureConnectionAssumedByPiwikButNotForcedYet()
+    public static function isSecureConnectionAssumedByPiwikButNotForcedYet(): bool
     {
         $isSecureConnectionLikelyNotUsed = Url::isSecureConnectionLikelyNotUsed();
         $hasSessionCookieSecureFlag = ProxyHttp::isHttps();
@@ -804,46 +836,76 @@ class Url
                 && $isSecureConnectionAssumedByPiwikButNotForcedYet;
     }
 
-    /**
-     * @return string
-     */
-    protected static function getCurrentSchemeFromRequestHeader()
+    protected static function getCurrentSchemeFromRequestHeader(): string
     {
-        if (isset($_SERVER['HTTP_X_FORWARDED_SCHEME']) && strtolower($_SERVER['HTTP_X_FORWARDED_SCHEME']) === 'https') {
+        $proxySchemeHeaders = self::getProxySchemeHeadersFromConfig();
+        foreach ($proxySchemeHeaders as $header) {
+            if (empty($header) || !isset($_SERVER[$header])) {
+                continue;
+            }
+
+            $scheme = self::getSchemeFromHeaderValue($_SERVER[$header]);
+            if ($scheme !== null) {
+                return $scheme;
+            }
+        }
+
+        if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true)) {
             return 'https';
         }
 
-        if (isset($_SERVER['HTTP_X_URL_SCHEME']) && strtolower($_SERVER['HTTP_X_URL_SCHEME']) === 'https') {
-            return 'https';
-        }
-
-        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http') {
-            return 'http';
-        }
-
-        if (
-            (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] === true))
-            || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
-        ) {
-            return 'https';
-        }
         return 'http';
     }
 
-    protected static function isSecureConnectionLikelyNotUsed()
+    /**
+     * @return string[]
+     */
+    protected static function getProxySchemeHeadersFromConfig(): array
+    {
+        $proxySchemeHeaders = GeneralConfig::getConfigValue('proxy_scheme_headers');
+        if (empty($proxySchemeHeaders) || !is_array($proxySchemeHeaders)) {
+            return [];
+        }
+
+        return $proxySchemeHeaders;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private static function getSchemeFromHeaderValue($value): ?string
+    {
+        if (!is_string($value)) {
+            return null;
+        }
+
+        $value = trim($value);
+        if ($value === '') {
+            return null;
+        }
+
+        $value = strtolower($value);
+        if ($value === 'http' || $value === 'https') {
+            return $value;
+        }
+
+        return null;
+    }
+
+    protected static function isSecureConnectionLikelyNotUsed(): bool
     {
         return  Url::getCurrentSchemeFromRequestHeader() == 'http';
     }
 
-    /**
-     * @return bool
-     */
-    protected static function isPiwikConfiguredToAssumeSecureConnection()
+    protected static function isPiwikConfiguredToAssumeSecureConnection(): bool
     {
-        $assume_secure_protocol = @Config::getInstance()->General['assume_secure_protocol'];
+        $assume_secure_protocol = GeneralConfig::getConfigValue('assume_secure_protocol');
         return (bool) $assume_secure_protocol;
     }
 
+    /**
+     * @return string
+     */
     public static function getHostFromServerNameVar()
     {
         $host = @$_SERVER['SERVER_NAME'];
@@ -882,7 +944,7 @@ class Url
     ): ?string {
 
         // Ignore if disabled by config setting
-        if (Config::getInstance()->General['disable_tracking_matomo_app_links']) {
+        if (GeneralConfig::getConfigValue('disable_tracking_matomo_app_links')) {
             return $url;
         }
 

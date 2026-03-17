@@ -18,6 +18,8 @@
         "IncludeRowsWithLowPopulation": "Ebapopulaarsed read on peidetud %s Kuva kõik read",
         "Menu": "Menüü",
         "PeriodRange": "vahemik",
+        "PresetDateToday": "Täna",
+        "PresetDateYesterday": "Eile",
         "ReportGeneratedOn": "Raport genereeritud %s",
         "ReportGeneratedXAgo": "Raport genereeritud %s tagasi",
         "SharePiwikShort": "Matomo! Tasuta ja avatud lähtekoodiga veebianalüütika tarkvara. Andmed on sinu kontrolli all.",

@@ -36,12 +36,12 @@ use Piwik\Tracker\TableLogAction;
  */
 class API extends \Piwik\Plugin\API
 {
-    public function getTransitionsForPageTitle(string $pageTitle, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
+    public function getTransitionsForPageTitle(string $pageTitle, int $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
     {
         return $this->getTransitionsForAction($pageTitle, 'title', $idSite, $period, $date, $segment, $limitBeforeGrouping);
     }
 
-    public function getTransitionsForPageUrl(string $pageUrl, $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
+    public function getTransitionsForPageUrl(string $pageUrl, int $idSite, $period, $date, $segment = false, $limitBeforeGrouping = 0)
     {
         return $this->getTransitionsForAction($pageUrl, 'url', $idSite, $period, $date, $segment, $limitBeforeGrouping);
     }
@@ -49,7 +49,6 @@ class API extends \Piwik\Plugin\API
     /**
      * General method to get transitions for an action
      *
-     * @param string $actionName
      * @param string $actionType "url"|"title"
      * @param $idSite
      * @param $period
@@ -63,7 +62,7 @@ class API extends \Piwik\Plugin\API
     public function getTransitionsForAction(
         string $actionName,
         string $actionType,
-        $idSite,
+        int $idSite,
         $period,
         $date,
         $segment = false,
@@ -93,7 +92,7 @@ class API extends \Piwik\Plugin\API
         $period = Period\Factory::build($period, $date);
         $segment = new Segment(
             $segment,
-            $idSite,
+            [$idSite],
             $period->getDateTimeStart()->setTimezone($site->getTimezone()),
             $period->getDateTimeEnd()->setTimezone($site->getTimezone())
         );
@@ -163,9 +162,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Derive the action ID from the request action name and type.
-     *
-     * @param string $actionName
-     * @param string $actionType
      *
      * @return array|int|string
      */
@@ -260,7 +256,6 @@ class API extends \Piwik\Plugin\API
      *
      * @param $idaction
      * @param $actionType
-     * @param LogAggregator $logAggregator
      * @param  $limitBeforeGrouping
      * @param $includeLoops
      * @return array(followingPages:DataTable, outlinks:DataTable, downloads:DataTable)
@@ -720,8 +715,6 @@ class API extends \Piwik\Plugin\API
      * @param $idSite
      * @param $period
      * @param $date
-     *
-     * @return bool
      */
     public function isPeriodAllowed($idSite, $period, $date): bool
     {

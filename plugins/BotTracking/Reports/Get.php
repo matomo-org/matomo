@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Piwik\Plugins\BotTracking\Reports;
 
-use Piwik\API\Request;
 use Piwik\Piwik;
 use Piwik\Plugin\Report;
 use Piwik\Plugin\ViewDataTable;
@@ -28,8 +27,8 @@ class Get extends Report
     {
         parent::init();
         $this->categoryId       = 'General_AIAssistants';
-        $this->subcategoryId    = 'BotTracking_AIBotsOverview';
-        $this->name             = Piwik::translate('BotTracking_ReportTitleBotsOverview');
+        $this->subcategoryId    = 'BotTracking_AIChatbotsOverview';
+        $this->name             = Piwik::translate('BotTracking_ReportTitleChatbotsOverview');
         $this->documentation    = '';
         $this->metrics          = Metrics::getReportMetricColumns();
         $this->processedMetrics = [
@@ -39,7 +38,7 @@ class Get extends Report
 
         if (\Piwik\Request::fromRequest()->getStringParameter('period', '') !== 'day') {
             $this->metrics = array_filter($this->metrics, function ($metric) {
-                return !in_array($metric, [Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS]);
+                return !in_array($metric, [Metrics::METRIC_AI_CHATBOTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS]);
             });
         }
     }
@@ -48,7 +47,7 @@ class Get extends Report
     {
         $widgetsList->addWidgetConfig(
             $factory->createWidget()
-                ->setName('BotTracking_ReportTitleBotsOverTime')
+                ->setName('BotTracking_ReportTitleChatbotsOverTime')
                 ->forceViewDataTable(Evolution::ID)
                 ->setAction('getEvolutionGraph')
                 ->setOrder(1)
@@ -56,7 +55,7 @@ class Get extends Report
 
         $widgetsList->addWidgetConfig(
             $factory->createWidget()
-                ->setName('BotTracking_ReportTitleBotsOverview')
+                ->setName('BotTracking_ReportTitleChatbotsOverview')
                 ->forceViewDataTable(Sparklines::ID)
                 ->setOrder(2)
         );
@@ -69,7 +68,7 @@ class Get extends Report
         }
 
         /** @var Sparklines $view */
-        $view->config->title = Piwik::translate('BotTracking_ReportTitleBotsOverview');
+        $view->config->title = Piwik::translate('BotTracking_ReportTitleChatbotsOverview');
         $view->config->addTranslations(Metrics::getMetricTranslations());
         $view->config->metrics_documentation = Metrics::getMetricDocumentation();
 
@@ -77,16 +76,13 @@ class Get extends Report
         foreach (Metrics::getSparklineMetricOrder() as $metric) {
             if (
                 \Piwik\Request::fromRequest()->getStringParameter('period', '') !== 'day'
-                && in_array($metric, [Metrics::METRIC_AI_ASSISTANTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_ASSISTANTS_UNIQUE_PAGE_URLS])
+                && in_array($metric, [Metrics::METRIC_AI_CHATBOTS_UNIQUE_DOCUMENT_URLS, Metrics::METRIC_AI_CHATBOTS_UNIQUE_PAGE_URLS])
             ) {
                 continue;
             }
             $view->config->addSparklineMetric($metric, $order++);
         }
 
-        $segment = Request::getRawSegmentFromRequest();
-        if (!empty($segment)) {
-            $view->config->show_footer_message = Piwik::translate('BotTracking_SegmentNotSupported');
-        }
+        SegmentNotSupportedMessageHelper::addSegmentNotSupportedMessage($view);
     }
 }

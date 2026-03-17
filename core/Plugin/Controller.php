@@ -125,8 +125,6 @@ abstract class Controller
     protected $securityPolicy = null;
 
     /**
-     * Constructor.
-     *
      * @api
      */
     public function __construct()
@@ -836,9 +834,6 @@ abstract class Controller
 
     /**
      * Set the template variables to show the what's new popup if appropriate
-     *
-     * @param View $view
-     * @return void
      */
     protected function showWhatIsNew(View $view): void
     {
@@ -1125,7 +1120,7 @@ abstract class Controller
             $menu->urlForDefaultUserParams($websiteId, $defaultPeriod, $defaultDate),
             $parameters
         );
-        $queryParams = !empty($parameters) ? '&' . Url::getQueryStringFromParameters($parameters) : '';
+        $queryParams = '&' . Url::getQueryStringFromParameters($parameters);
         $url = "index.php?module=%s&action=%s";
         $url = sprintf($url, $moduleToRedirect, $actionToRedirect);
         $url = $url . $queryParams;

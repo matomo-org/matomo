@@ -18,12 +18,14 @@ use Piwik\Context;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Development;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
@@ -31,6 +33,7 @@ use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\RetryableException;
 use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Log\LoggerInterface;
@@ -49,6 +52,8 @@ use Piwik\Log\LoggerInterface;
  */
 class API extends \Piwik\Plugin\API
 {
+    public const ENFORCE_ORDER_PARAMETER = ScheduledReports::ENFORCE_ORDER_PARAMETER;
+
     public const VALIDATE_PARAMETERS_EVENT = 'ScheduledReports.validateReportParameters';
     public const GET_REPORT_PARAMETERS_EVENT = 'ScheduledReports.getReportParameters';
     public const GET_REPORT_METADATA_EVENT = 'ScheduledReports.getReportMetadata';
@@ -244,6 +249,117 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
+     * Gets the widget report map to be used when exporting the dashboard into a scheduled report
+     * @internal
+     * @return array
+     * @throws Exception
+     */
+    public function getWidgetReportMap(int $dashId, int $idSite, string $segment = ''): array
+    {
+        $dashId = $this->validatePositiveIntegerParameter($dashId, 'dashId');
+        $idSite = $this->validatePositiveIntegerParameter($idSite, 'idSite');
+        $segment = trim($segment);
+
+        Piwik::checkUserHasViewAccess($idSite);
+        $idSegment = $this->findIdSegmentForDefinition($segment, $idSite);
+
+        $dashboardInfo = $this->getDashboardNameAndLayout($dashId);
+        if ($dashboardInfo) {
+            $layout = $dashboardInfo['layout'];
+            $dashboardName = $dashboardInfo['name'];
+            if (empty($layout)) {
+                return [
+                    'dashboardName' => $dashboardName,
+                    'email' => [],
+                    'idSegment' => $idSegment,
+                    'unmappedWidgets' => [],
+                ];
+            }
+            $mapper = new WidgetReportMapper();
+            $widgetIds = $mapper->extractWidgetIdsFromLayout($layout);
+            $widgetReportMapping = $mapper->getMappingForSite((string) $idSite);
+            $reportMapping = [];
+            $unmappedWidgets = [];
+            $widgetNamesById = $mapper->getWidgetNamesById($widgetIds);
+            foreach ($widgetIds as $widgetId) {
+                $reportKey = $widgetReportMapping[$widgetId] ?? null;
+                if ($reportKey) {
+                    $reportMapping[$reportKey] = true;
+                } elseif (isset($widgetNamesById[$widgetId]) && $widgetNamesById[$widgetId]) {
+                    $unmappedWidgets[] = $widgetNamesById[$widgetId];
+                }
+            }
+            return [
+                'dashboardName' => $dashboardName,
+                'email' => $reportMapping,
+                'idSegment' => $idSegment,
+                'unmappedWidgets' => $unmappedWidgets,
+            ];
+        }
+        return [
+            'dashboardName' => '',
+            'email' => [],
+            'idSegment' => $idSegment,
+            'unmappedWidgets' => [],
+        ];
+    }
+
+    private function getDashboardNameAndLayout(int $dashId): ?array
+    {
+        if (Piwik::isUserIsAnonymous()) {
+            return null;
+        }
+
+        $dashboard = new Dashboard();
+        $login = Piwik::getCurrentUserLogin();
+        $allDashboards = $dashboard->getAllDashboards($login);
+        $name = $layout = '';
+        $dashboardFound = false;
+        foreach ($allDashboards as $dashbrd) {
+            if ((int) $dashbrd['iddashboard'] === $dashId) {
+                $dashboardFound = true;
+                $layout = $dashbrd['layout'];
+                $name = $dashbrd['name'];
+                break;
+            }
+        }
+        if ($dashId === 1 && !$dashboardFound) {
+            $layout = $dashboard->decodeLayout($dashboard->getDefaultLayout());
+            $name = Piwik::translate('Dashboard_Dashboard');
+        }
+        return ['name' => $name, 'layout' => $layout];
+    }
+
+    /**
+     * @throws InvalidRequestParameterException
+     */
+    private function validatePositiveIntegerParameter(int $value, string $parameterName): int
+    {
+        if ($value < 1) {
+            throw new InvalidRequestParameterException("The parameter '$parameterName' contains an invalid value.");
+        }
+
+        return $value;
+    }
+
+    private function findIdSegmentForDefinition(string $segmentDefinition, int $idSite): ?int
+    {
+        if ($segmentDefinition === '' || !self::isSegmentEditorActivated()) {
+            return null;
+        }
+
+        $segmentHash = (new Segment($segmentDefinition, [$idSite]))->getHash();
+        $segments = APISegmentEditor::getInstance()->getAll($idSite);
+        foreach ($segments as $segment) {
+            // SegmentEditor::getAll() is expected to always include a precomputed hash.
+            if ($segment['hash'] === $segmentHash) {
+                return (int) $segment['idsegment'];
+            }
+        }
+
+        return null;
+    }
+    /**
      * Returns the list of reports matching the passed parameters
      *
      * @param bool|int $idSite If specified, will filter reports that belong to a specific idsite
@@ -407,6 +523,10 @@ class API extends \Piwik\Plugin\API
             self::validateReportParameters($reportType, empty($parameters) ? $report['parameters'] : $parameters),
             true
         );
+        $parameters = $report['parameters'];
+        $enforceCustomOrder = is_array($parameters)
+            && array_key_exists(self::ENFORCE_ORDER_PARAMETER, $parameters)
+            && !empty($parameters[self::ENFORCE_ORDER_PARAMETER]);
 
         $originalShowEvolutionWithinSelectedPeriod = Config::getInstance()->General['graphs_show_evolution_within_selected_period'];
         $originalDefaultEvolutionGraphLastPeriodsAmount = Config::getInstance()->General['graphs_default_evolution_graph_last_days_amount'];
@@ -418,11 +538,26 @@ class API extends \Piwik\Plugin\API
             // available reports
             $availableReportMetadata = \Piwik\Plugins\API\API::getInstance()->getReportMetadata($idSite);
 
-            // we need to lookup which reports metadata are registered in this report
             $reportMetadata = [];
-            foreach ($availableReportMetadata as $metadata) {
-                if (in_array($metadata['uniqueId'], $report['reports'])) {
-                    $reportMetadata[] = $metadata;
+            if ($enforceCustomOrder) {
+                // we need to lookup which reports metadata are registered in this report
+                // and keep the order defined
+                $reportMetadataByUniqueId = [];
+                foreach ($availableReportMetadata as $metadata) {
+                    $reportMetadataByUniqueId[$metadata['uniqueId']] = $metadata;
+                }
+
+                foreach ($report['reports'] as $reportUniqueId) {
+                    if (isset($reportMetadataByUniqueId[$reportUniqueId])) {
+                        $reportMetadata[] = $reportMetadataByUniqueId[$reportUniqueId];
+                    }
+                }
+            } else {
+                // fallback to default metadata order when the flag isn't set
+                foreach ($availableReportMetadata as $metadata) {
+                    if (in_array($metadata['uniqueId'], $report['reports'], true)) {
+                        $reportMetadata[] = $metadata;
+                    }
                 }
             }
 

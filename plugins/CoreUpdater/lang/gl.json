@@ -9,14 +9,14 @@
         "LatestStableRelease": "Versión estábel máis recente",
         "NotificationClickToUpdateThemes": "Prema aquí para actualizar os temas agora:",
         "PiwikHasBeenSuccessfullyUpgraded": "Matomo foi actualizado correctamente!",
-        "UpdateTitle": "Actualizar",
-        "UpdateSuccessTitle": "Matomo foi actualizado correctamente!",
-        "UpdateErrorTitle": "Erro de actualización",
         "ThankYouUpdatePiwik": "Grazas por usar Matomo e mantelo actualizado!",
+        "UpdateErrorTitle": "Erro de actualización",
+        "UpdateSuccessTitle": "Matomo foi actualizado correctamente!",
+        "UpdateTitle": "Actualizar",
         "UpgradeComplete": "Anovación rematada!",
         "UpgradePiwik": "Anovar Matomo",
         "VerifyingUnpackedFiles": "A comprobar os ficheiros desempaquetados",
-        "WarningMessages": "Mensaxes de advertencia:",
-        "ViewVersionChangelog": "Ver o rexistro de cambios desta versión:"
+        "ViewVersionChangelog": "Ver o rexistro de cambios desta versión:",
+        "WarningMessages": "Mensaxes de advertencia:"
     }
 }

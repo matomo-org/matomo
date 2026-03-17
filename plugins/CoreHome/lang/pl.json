@@ -71,6 +71,8 @@
         "PeriodHasOnlyRawData": "Wygląda, że raporty dla tego okresu są jeszcze procesowane. Chcesz zobaczyć co dzieje się teraz? Sprawdź %1$sVisits log%2$s lub wybierz inny okres zanim raporty zostaną wygenerowane.",
         "PeriodRange": "Zakres",
         "PivotBySubtable": "Ten raport nie jest obrócony %1$s Obróć o %2$s",
+        "PresetDateToday": "Dzisiaj",
+        "PresetDateYesterday": "Wczoraj",
         "Profilable": "Profilowane",
         "QuickAccessTitle": "Wyszukaj %s. Użyj strzałek do nawigacji po wynikach wyszukiwania. Skrót: Naciśnij 'f' aby wyszukać.",
         "QuickLinks": "Szybkie linki",

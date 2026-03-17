@@ -40,4 +40,106 @@ describe("ScheduledReports", function () {
 
         expect(await page.screenshot({ fullPage: true })).to.matchImage('invalid_token');
     });
+
+    describe('ManageScheduledReports', function () {
+        const manageReportsUrl = "?module=ScheduledReports&action=index&idSite=1&period=day&date=2013-01-23";
+        const createdReportName = "for testing";
+
+        // Helper function to open the report we will use for testing
+        async function openReportForTesting() {
+            await page.evaluate((description) => {
+                const rows = Array.from(document.querySelectorAll('#entityEditContainer tbody tr'));
+
+                for (const row of rows) {
+                    if (!row.textContent || row.textContent.indexOf(description) === -1) {
+                        continue;
+                    }
+                    const editButton = row.querySelector('button[title="Edit"]');
+                    editButton.click();
+                }
+            }, createdReportName);
+
+            await page.waitForSelector('#addEditReport', { visible: true });
+            await page.waitForSelector('.selectedReportsList li', { visible: true });
+        }
+        async function getReportsWrapper() {
+          return await page.$('.selectedReportsWrapper');
+        }
+
+        it("should show selected reports when creating a new report", async function () {
+            await page.goto(manageReportsUrl);
+            await page.waitForNetworkIdle();
+
+            await page.waitForSelector('#add-report');
+            await page.click('#add-report');
+            await page.waitForSelector('#addEditReport', { visible: true });
+
+            const reportCheckboxes = await page.$$(
+                'div[name="reportsList"]:not([style*="display: none"]) .listReports input[type="checkbox"]',
+            );
+
+            const selectedReportIds = [];
+            // Click the first 4 checkboxes
+            for (const checkbox of reportCheckboxes.slice(0, 4)) {
+                await checkbox.click();
+                const uniqueId = await checkbox.evaluate((input) => input.id );
+                if (uniqueId) {
+                    selectedReportIds.push(uniqueId);
+                }
+            }
+            const selectedReportsWrapper = await getReportsWrapper();
+            expect(await selectedReportsWrapper.screenshot()).to.matchImage('selected_reports');
+        });
+
+        it("should persist manually reordered selected reports when saving a report", async function () {
+            await openReportForTesting();
+            const initialOrder = await page.$$eval(
+              '.selectedReportsList li',
+              (items) => items.map((item) => item.getAttribute('data-unique-id')),
+            );
+            const expectedOrder = initialOrder.slice().reverse();
+
+            // Reorder the selected reports via DOM manipulation
+            await page.evaluate((newOrder) => {
+                const list = document.querySelector('.selectedReportsList');
+                newOrder.forEach((uniqueId) => {
+                    const item = list.querySelector(`li[data-unique-id="${uniqueId}"]`);
+                    if (item) {
+                        list.appendChild(item);
+                    }
+                });
+
+                const jq = window.jQuery || window.$;
+                const $list = jq('.selectedReportsList');
+                // Get sortable instance and call stop handler manually,
+                // so that we simulate the emitted reorder event
+                const stopHandler = $list.sortable('option', 'stop');
+                if (typeof stopHandler === 'function') {
+                    stopHandler();
+                }
+            }, expectedOrder);
+
+            const descriptionSelector = 'textarea[name="report_description"], input[name="report_description"]';
+            await page.waitForSelector(descriptionSelector, { visible: true });
+            await page.click(descriptionSelector, { clickCount: 3 });
+            await page.keyboard.press('Backspace');
+            await page.type(descriptionSelector, createdReportName);
+            await page.keyboard.press('Tab');
+            await page.$eval(descriptionSelector, (descriptionField) => {
+                descriptionField.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+            await page.click('.matomo-save-button .btn');
+            await page.waitForNetworkIdle();
+
+            await openReportForTesting();
+            const persistedOrder = await page.$$eval(
+              '.selectedReportsList li',
+              (items) => items.map((item) => item.getAttribute('data-unique-id')),
+            );
+
+            expect(persistedOrder).to.deep.equal(expectedOrder);
+            const selectedReportsWrapper = await getReportsWrapper();
+            expect(await selectedReportsWrapper.screenshot()).to.matchImage('reorder_persisted');
+        });
+    });
 });

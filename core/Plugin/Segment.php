@@ -332,9 +332,6 @@ class Segment
         $this->suggestedValuesApi = $suggestedValuesApi;
     }
 
-    /**
-     * @param bool $value
-     */
     public function setNeedsMostFrequentValues(bool $value)
     {
         $this->needsMostFrequentValues = $value;

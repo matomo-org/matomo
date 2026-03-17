@@ -101,8 +101,6 @@ class UpdateCheck
 
     /**
      * Returns whether the last update check was flagged as having failed or not.
-     *
-     * @return bool
      */
     public static function hasLastCheckFailed(): bool
     {

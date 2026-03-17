@@ -10,6 +10,7 @@
 import jqXHR = JQuery.jqXHR;
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import Matomo from '../Matomo/Matomo';
+import { setCookie } from '../CookieHelper/CookieHelper';
 
 export interface AjaxOptions {
   withTokenInUrl?: boolean;
@@ -85,12 +86,46 @@ function defaultErrorCallback(deferred: XMLHttpRequest, status: string): void {
   }
 }
 
+function hasExplicitSegmentParam(params: QueryParameters): boolean {
+  return Object.prototype.hasOwnProperty.call(params, 'segment')
+    && typeof params.segment !== 'undefined';
+}
+
 class ApiResponseError extends Error {}
+
+class ChunkedBulkRequestError extends Error {
+  xhr: jqXHR;
+
+  status: string;
+
+  errorThrown: unknown;
+
+  constructor(xhr: jqXHR, status: string, errorThrown: unknown) {
+    super('Chunked bulk request failed.');
+    this.xhr = xhr;
+    this.status = status;
+    this.errorThrown = errorThrown;
+  }
+}
+
+class ChunkedBulkAbortError extends Error {
+  constructor() {
+    super('Chunked bulk request was aborted.');
+  }
+}
+
+class ChunkedBulkSessionTimeoutError extends Error {
+  constructor() {
+    super('Chunked bulk request timed out due to session expiration.');
+  }
+}
 
 /**
  * Global ajax helper to handle requests within Matomo
  */
 export default class AjaxHelper<T = any> { // eslint-disable-line
+  private static readonly UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR = 'AjaxHelper returnResponseObject is not supported for bulk requests.';
+
   /**
    * Format of response
    */
@@ -186,6 +221,12 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     params: QueryParameters|QueryParameters[],
     options: AjaxOptions = {},
   ): Promise<R> {
+    if (Array.isArray(params)) {
+      if (options.returnResponseObject) {
+        throw new Error(this.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
+      }
+    }
+
     const helper = new AjaxHelper<R>();
     if (options.withTokenInUrl) {
       helper.withTokenInUrl();
@@ -208,18 +249,37 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
       });
 
+      /*
+       * ajax helper does not encode the segment parameter assuming it is already encoded. this is
+       * probably for pre-angularjs code, so we don't want to do this now, but just treat segment
+       * as a normal query parameter input (so it will have double encoded values in input params
+       * object, then naturally triple encoded in the URL after a $.param call), however we need
+       * to support any existing uses of the old code, so instead we do a manual encode here. new
+       * code that uses .fetch() will not need to pre-encode the parameter, while old code
+       * can pre-encode it.
+       *
+       * If a segment value is explicitly provided, then that is added to the request params.
+       * otherwise the request will use the segment value present in the current URL, if
+       * available.
+       */
+      const hasExplicitSegment = hasExplicitSegmentParam(params);
+
+      let segmentParam = {};
+      if (hasExplicitSegment) {
+        let segmentVal : string|null = null;
+        if (params.segment !== null) {
+          segmentVal = encodeURIComponent(params.segment as string);
+        }
+        segmentParam = {
+          segment: segmentVal,
+        };
+      }
+
       helper.addParams({
         module: 'API',
         format: options.format || 'json',
         ...params,
-        // ajax helper does not encode the segment parameter assuming it is already encoded. this is
-        // probably for pre-angularjs code, so we don't want to do this now, but just treat segment
-        // as a normal query parameter input (so it will have double encoded values in input params
-        // object, then naturally triple encoded in the URL after a $.param call), however we need
-        // to support any existing uses of the old code, so instead we do a manual encode here. new
-        // code that uses .fetch() will not need to pre-encode the parameter, while old code
-        // can pre-encode it.
-        segment: params.segment ? encodeURIComponent(params.segment as string) : undefined,
+        ...segmentParam,
       }, 'get');
     }
     if (options.postParams) {
@@ -262,19 +322,319 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       }
 
       return result as R;
-    }).catch((xhr: jqXHR) => {
-      if (createErrorNotification || xhr instanceof ApiResponseError) {
-        throw xhr;
+    }).catch((error: unknown) => {
+      if (createErrorNotification || error instanceof ApiResponseError) {
+        throw error;
       }
 
       let message = 'Something went wrong';
-      if (xhr.status === 504) {
+      if (error instanceof ChunkedBulkAbortError) {
         message = 'Request was possibly aborted';
       }
-      if (xhr.status === 429) {
+      if (error instanceof ChunkedBulkSessionTimeoutError) {
+        message = 'Session timed out';
+      }
+
+      const status = typeof error === 'object' && error !== null && 'status' in error
+        ? (error as jqXHR).status
+        : null;
+      if (status === 504) {
+        message = 'Request was possibly aborted';
+      }
+      if (status === 429) {
         message = 'Rate Limit was exceed';
       }
       throw new Error(message);
+    });
+  }
+
+  private static getBulkRequestLimit(): number {
+    const bulkRequestLimit = parseInt(`${Matomo.apiBulkRequestLimit}`, 10);
+    if (Number.isNaN(bulkRequestLimit)) {
+      return -1;
+    }
+
+    return bulkRequestLimit;
+  }
+
+  private static splitIntoChunks<ElementType>(
+    elements: ElementType[],
+    chunkSize: number,
+  ): ElementType[][] {
+    const chunks: ElementType[][] = [];
+
+    for (let i = 0; i < elements.length; i += chunkSize) {
+      chunks.push(elements.slice(i, i + chunkSize));
+    }
+
+    return chunks;
+  }
+
+  private handleApiErrorResponseOrCallback(
+    response: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    status: string,
+    request: jqXHR,
+  ): void {
+    if (this.loadingElement) {
+      $(this.loadingElement).hide();
+    }
+
+    const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
+    const errors = results.filter((r) => r.result === 'error')
+      .map((r) => r.message as string)
+      .filter((e) => e.length)
+      // count occurrences of error messages
+      .reduce((acc: Record<string, number>, e: string) => {
+        acc[e] = (acc[e] || 0) + 1;
+        return acc;
+      }, {});
+
+    if (errors && Object.keys(errors).length && !this.useRegularCallbackInCaseOfError) {
+      let errorMessage = '';
+      Object.keys(errors).forEach((error) => {
+        if (errorMessage.length) {
+          errorMessage += '<br />';
+        }
+        // append error count if it occured more than once
+        if (errors[error] > 1) {
+          errorMessage += `${error} (${errors[error]}x)`;
+        } else {
+          errorMessage += error;
+        }
+      });
+      let placeAt = null;
+      let type: string|null = 'toast';
+      if ($(this.errorElement).length && errorMessage.length) {
+        $(this.errorElement).show();
+        placeAt = this.errorElement;
+        type = null;
+      }
+
+      const isLoggedIn = !document.querySelector('#login_form');
+      if (errorMessage && isLoggedIn) {
+        const UI = window['require']('piwik/UI'); // eslint-disable-line
+        const notification = new UI.Notification();
+        notification.show(errorMessage, {
+          placeat: placeAt,
+          context: 'error',
+          type,
+          id: 'ajaxHelper',
+        });
+        notification.scrollToNotification();
+      }
+    } else if (this.callback) {
+      this.callback(response, status, request);
+    }
+  }
+
+  private buildRequestUrl(getParameters: QueryParameters): string {
+    const parameters = this.mixinDefaultGetParams(getParameters);
+
+    let url = this.getUrl;
+    if (url[url.length - 1] !== '?') {
+      url += '&';
+    }
+
+    if (Object.prototype.hasOwnProperty.call(parameters, 'segment')) {
+      const segmentValue = parameters.segment;
+      delete parameters.segment;
+
+      if (segmentValue !== null && typeof segmentValue !== 'undefined') {
+        url = `${url}segment=${segmentValue}&`;
+      }
+    }
+    if (parameters.date) {
+      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
+      delete parameters.date;
+    }
+    url += $.param(parameters);
+
+    return url;
+  }
+
+  private buildChunkedBulkAjaxCall(urls: Array<string|QueryParameters>): JQuery.jqXHR {
+    const url = this.buildRequestUrl({ ...this.getParams });
+
+    const urlsProcessed = urls.map((bulkUrl) => (typeof bulkUrl === 'string' ? bulkUrl : $.param(bulkUrl)));
+
+    return $.ajax({
+      type: 'POST',
+      async: true,
+      url,
+      dataType: this.format || 'json',
+      headers: this.headers ? this.headers : undefined,
+      data: this.mixinDefaultPostParams({
+        ...this.postParams,
+        urls: urlsProcessed,
+      }),
+      timeout: this.timeout !== null ? this.timeout : undefined,
+    });
+  }
+
+  private getBulkRequestUrls(): Array<string|QueryParameters>|null {
+    if (this.postParams.method !== 'API.getBulkRequest' || !Array.isArray(this.postParams.urls)) {
+      return null;
+    }
+
+    return this.postParams.urls as Array<string|QueryParameters>;
+  }
+
+  private shouldSendBulkRequestInChunks(): boolean {
+    const bulkRequestUrls = this.getBulkRequestUrls();
+    if (!bulkRequestUrls) {
+      return false;
+    }
+
+    const bulkRequestLimit = AjaxHelper.getBulkRequestLimit();
+    return bulkRequestLimit > 0 && bulkRequestUrls.length > bulkRequestLimit;
+  }
+
+  private shouldRejectBulkResponseObjectRequest(): boolean {
+    return !!this.getBulkRequestUrls() && this.resolveWithHelper;
+  }
+
+  private sendBulkRequestInChunks(): Promise<T | ErrorResponse> {
+    const bulkRequestUrls = this.getBulkRequestUrls();
+    if (!bulkRequestUrls) {
+      return Promise.resolve([] as unknown as (T | ErrorResponse));
+    }
+
+    const bulkRequestLimit = AjaxHelper.getBulkRequestLimit();
+    if (bulkRequestLimit <= 0) {
+      return Promise.resolve([] as unknown as (T | ErrorResponse));
+    }
+
+    const chunkedAbortController = this.abortController || new AbortController();
+    this.abortController = chunkedAbortController;
+
+    let activeChunkRequest: jqXHR|null = null;
+    let isQueueFinalized = false;
+    let hasCompleteCallbackRun = false;
+
+    const finalizeQueue = () => {
+      if (isQueueFinalized || !this.abortable) {
+        return;
+      }
+
+      window.globalAjaxQueue.active -= 1;
+      isQueueFinalized = true;
+    };
+
+    const runCompleteCallback = (request: jqXHR, status: string) => {
+      if (hasCompleteCallbackRun || !this.completeCallback) {
+        return;
+      }
+
+      hasCompleteCallbackRun = true;
+      this.completeCallback(request, status);
+    };
+
+    const requestHandle = {
+      readyState: 1,
+      status: 0,
+      statusText: '',
+      responseJSON: [] as unknown[],
+      abort: () => {
+        chunkedAbortController.abort();
+      },
+    };
+    const requestHandleAsJqXHR = requestHandle as unknown as jqXHR;
+    let callbackRequest = requestHandleAsJqXHR;
+    this.requestHandle = requestHandleAsJqXHR;
+
+    if (this.abortable) {
+      window.globalAjaxQueue.push(requestHandleAsJqXHR as unknown as XMLHttpRequest);
+    }
+
+    chunkedAbortController.signal.addEventListener('abort', () => {
+      if (activeChunkRequest) {
+        activeChunkRequest.abort();
+      }
+    });
+
+    const chunks = AjaxHelper.splitIntoChunks(bulkRequestUrls, bulkRequestLimit);
+    const results: unknown[] = [];
+
+    const sendChunk = (chunkIndex: number): Promise<unknown[]> => {
+      if (chunkIndex >= chunks.length) {
+        return Promise.resolve(results);
+      }
+
+      activeChunkRequest = this.buildChunkedBulkAjaxCall(chunks[chunkIndex]);
+
+      return new Promise<unknown[]>((resolve, reject) => {
+        activeChunkRequest!.then((chunkResult: unknown, status: string, xhr: jqXHR) => {
+          callbackRequest = xhr;
+          requestHandle.readyState = xhr.readyState;
+          requestHandle.status = xhr.status;
+          requestHandle.statusText = xhr.statusText || status;
+
+          if (Array.isArray(chunkResult)) {
+            results.push(...chunkResult);
+          } else {
+            results.push(chunkResult);
+          }
+
+          resolve(results);
+        }).fail((xhr: jqXHR, status: string, errorThrown: unknown) => {
+          requestHandle.readyState = xhr.readyState;
+          requestHandle.status = xhr.status;
+          requestHandle.statusText = xhr.statusText || status;
+          reject(new ChunkedBulkRequestError(xhr, status, errorThrown));
+        });
+      }).then(() => sendChunk(chunkIndex + 1));
+    };
+
+    return sendChunk(0).then((chunkResults) => {
+      requestHandle.readyState = 4;
+      requestHandle.responseJSON = chunkResults;
+
+      this.handleApiErrorResponseOrCallback(chunkResults, 'success', callbackRequest);
+
+      finalizeQueue();
+      runCompleteCallback(callbackRequest, 'success');
+
+      if (Matomo.ajaxRequestFinished) {
+        Matomo.ajaxRequestFinished();
+      }
+
+      return chunkResults as unknown as (T | ErrorResponse);
+    }).catch((error: unknown) => {
+      if (!(error instanceof ChunkedBulkRequestError)) {
+        throw error;
+      }
+
+      const { xhr, status, errorThrown } = error;
+
+      finalizeQueue();
+
+      if (this.errorCallback) {
+        this.errorCallback.apply(this, [xhr, status, errorThrown]);
+      }
+
+      runCompleteCallback(xhr, status);
+
+      if (xhr.status === 429) {
+        console.log(`Warning: the '${$.param(this.getParams)}' request was rate limited!`);
+        throw xhr;
+      }
+
+      if (xhr.statusText === 'abort' || xhr.status === 0) {
+        throw new ChunkedBulkAbortError();
+      }
+
+      const isInApp = !document.querySelector('#login_form');
+      const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
+
+      if (sessionTimedOut && isInApp) {
+        setCookie('matomo_session_timed_out', '1', 60 * 1000);
+        Matomo.helper.refreshAfter(0);
+        throw new ChunkedBulkSessionTimeoutError();
+      }
+
+      console.log(`Warning: the ${$.param(this.getParams)} request failed!`);
+
+      throw xhr;
     });
   }
 
@@ -506,8 +866,16 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
       $(this.errorElement).hide();
     }
 
+    if (this.shouldRejectBulkResponseObjectRequest()) {
+      throw new Error(AjaxHelper.UNSUPPORTED_BULK_RESPONSE_OBJECT_ERROR);
+    }
+
     if (this.loadingElement) {
       $(this.loadingElement).fadeIn();
+    }
+
+    if (this.shouldSendBulkRequestInChunks()) {
+      return this.sendBulkRequestInChunks();
     }
 
     this.requestHandle = this.buildAjaxCall();
@@ -544,8 +912,10 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
 
         const isInApp = !document.querySelector('#login_form');
+        const sessionTimedOut = xhr.getResponseHeader('X-Matomo-Session-Timed-Out') === '1';
 
-        if (xhr.status === 401 && isInApp) {
+        if (sessionTimedOut && isInApp) {
+          setCookie('matomo_session_timed_out', '1', 60 * 1000);
           Matomo.helper.refreshAfter(0);
           return;
         }
@@ -574,24 +944,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
    */
   private buildAjaxCall(): JQuery.jqXHR {
     const self = this;
-    const parameters = this.mixinDefaultGetParams(this.getParams);
+    const url = this.buildRequestUrl(this.getParams);
 
-    let url = this.getUrl;
-    if (url[url.length - 1] !== '?') {
-      url += '&';
-    }
-
-    // we took care of encoding &segment properly already, so we don't use $.param for it ($.param
-    // URL encodes the values)
-    if (parameters.segment) {
-      url = `${url}segment=${parameters.segment}&`;
-      delete parameters.segment;
-    }
-    if (parameters.date) {
-      url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
-      delete parameters.date;
-    }
-    url += $.param(parameters);
     const ajaxCall = {
       type: 'POST',
       async: true,
@@ -609,56 +963,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
         }
       },
       success: (response: any, status: string, request: jqXHR) => { // eslint-disable-line
-        if (this.loadingElement) {
-          $(this.loadingElement).hide();
-        }
-
-        const results = this.postParams.method === 'API.getBulkRequest' && Array.isArray(response) ? response : [response];
-        const errors = results.filter((r) => r.result === 'error')
-          .map((r) => r.message as string)
-          .filter((e) => e.length)
-          // count occurrences of error messages
-          .reduce((acc: Record<string, number>, e: string) => {
-            acc[e] = (acc[e] || 0) + 1;
-            return acc;
-          }, {});
-
-        if (errors && Object.keys(errors).length && !this.useRegularCallbackInCaseOfError) {
-          let errorMessage = '';
-          Object.keys(errors).forEach((error) => {
-            if (errorMessage.length) {
-              errorMessage += '<br />';
-            }
-            // append error count if it occured more than once
-            if (errors[error] > 1) {
-              errorMessage += `${error} (${errors[error]}x)`;
-            } else {
-              errorMessage += error;
-            }
-          });
-          let placeAt = null;
-          let type: string|null = 'toast';
-          if ($(this.errorElement).length && errorMessage.length) {
-            $(this.errorElement).show();
-            placeAt = this.errorElement;
-            type = null;
-          }
-
-          const isLoggedIn = !document.querySelector('#login_form');
-          if (errorMessage && isLoggedIn) {
-            const UI = window['require']('piwik/UI'); // eslint-disable-line
-            const notification = new UI.Notification();
-            notification.show(errorMessage, {
-              placeat: placeAt,
-              context: 'error',
-              type,
-              id: 'ajaxHelper',
-            });
-            notification.scrollToNotification();
-          }
-        } else if (this.callback) {
-          this.callback(response, status, request);
-        }
+        this.handleApiErrorResponseOrCallback(response, status, request);
 
         if (self.abortable) {
           window.globalAjaxQueue.active -= 1;
@@ -727,6 +1032,8 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
     };
 
     const params = originalParams;
+    const hasExplicitSegment = hasExplicitSegmentParam(params)
+      || hasExplicitSegmentParam(this.postParams);
 
     // never append token_auth to url
     if (params.token_auth) {
@@ -736,6 +1043,7 @@ export default class AjaxHelper<T = any> { // eslint-disable-line
 
     Object.keys(defaultParams).forEach((key) => {
       if (this.useGETDefaultParameter(key)
+        && !(key === 'segment' && hasExplicitSegment)
         && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '')
         && (this.postParams[key] === null
           || typeof this.postParams[key] === 'undefined'

@@ -355,6 +355,9 @@ datatable_row_limits = "5,10,25,50,100,250,500,-1"
 ; if set to -1, a click on 'Export as' will export all rows independently of the current '# Rows to display'.
 API_datatable_default_limit = 100
 
+; Maximum number of URLs allowed in API.getBulkRequest for authenticated users (-1 disables the limit)
+API_bulk_request_limit = -1
+
 ; When period=range, below the datatables, when user clicks on "export", the data will be aggregate of the range.
 ; Here you can specify the comma separated list of formats for which the data will be exported aggregated by day
 ; (ie. there will be a new "date" column). For example set to: "rss,tsv,csv"
@@ -709,6 +712,18 @@ multi_server_environment = 0
 ;
 ; de facto standard (X-Forwarded-Host)
 ;proxy_host_headers[] = HTTP_X_FORWARDED_HOST
+
+; List of proxy headers for scheme (http/https) detection.
+; If unset, Matomo will ignore proxy scheme headers by default.
+;
+; de facto standard (X-Forwarded-Proto)
+;proxy_scheme_headers[] = HTTP_X_FORWARDED_PROTO
+;
+; alternative header (X-Forwarded-Scheme)
+;proxy_scheme_headers[] = HTTP_X_FORWARDED_SCHEME
+;
+; alternative header (X-Url-Scheme)
+;proxy_scheme_headers[] = HTTP_X_URL_SCHEME
 
 ; List of proxy IP addresses (or IP address ranges) to skip (if present in the above headers).
 ; Generally, only required if there's more than one proxy between the visitor and the backend web server.
@@ -1154,6 +1169,10 @@ delete_reports_keep_year_reports     = 1
 delete_reports_keep_range_reports    = 0
 delete_reports_keep_segment_reports  = 0
 
+[ArchivingMetrics]
+; retention_days - delete archiving metrics older than this many days. Set to 0 to disable cleanup.
+retention_days = 180
+
 [mail]
 defaultHostnameIfEmpty = defaultHostnameIfEmpty.example.org ; default Email @hostname, if current host can't be read from system variables
 transport = ; smtp (using the configuration below) or empty (using built-in mail() function)
@@ -1348,7 +1367,9 @@ time_on_load_cap_duration_ms = 0
 [APISettings]
 ; Any key/value pair can be added in this section, they will be available via the REST call
 ; index.php?module=API&method=API.getSettings
+; Access to this API is unrestricted, so do not include any sensitive information here.
 ; This can be used to expose values from Matomo, to control for example a Mobile app tracking
+
 SDK_batch_size = 10
 SDK_interval_value = 30
 
@@ -1363,6 +1384,12 @@ CommonPIIParams[] = addressline1
 CommonPIIParams[] = addressline2
 CommonPIIParams[] = adres
 CommonPIIParams[] = adresse
+CommonPIIParams[] = adresse1
+CommonPIIParams[] = adresse2
+CommonPIIParams[] = adresse3
+CommonPIIParams[] = adresse_email
+CommonPIIParams[] = adresseemail
+CommonPIIParams[] = adressepostale
 CommonPIIParams[] = age
 CommonPIIParams[] = alter
 CommonPIIParams[] = auth
@@ -1373,6 +1400,10 @@ CommonPIIParams[] = billingaddress1
 CommonPIIParams[] = billingaddress2
 CommonPIIParams[] = calle
 CommonPIIParams[] = cardnumber
+CommonPIIParams[] = carte
+CommonPIIParams[] = cartebancaire
+CommonPIIParams[] = carteidentite
+CommonPIIParams[] = cb
 CommonPIIParams[] = cc
 CommonPIIParams[] = ccc
 CommonPIIParams[] = cccsc
@@ -1387,36 +1418,51 @@ CommonPIIParams[] = cctype
 CommonPIIParams[] = cell
 CommonPIIParams[] = cellphone
 CommonPIIParams[] = city
+CommonPIIParams[] = civilite
+CommonPIIParams[] = civilité
+CommonPIIParams[] = cle
 CommonPIIParams[] = clientid
 CommonPIIParams[] = clientsecret
+CommonPIIParams[] = clé
+CommonPIIParams[] = codepostal
 CommonPIIParams[] = company
 CommonPIIParams[] = consumerkey
 CommonPIIParams[] = consumersecret
 CommonPIIParams[] = contrasenya
 CommonPIIParams[] = contraseña
+CommonPIIParams[] = courriel
+CommonPIIParams[] = cp
 CommonPIIParams[] = creditcard
 CommonPIIParams[] = creditcardnumber
 CommonPIIParams[] = cvc
 CommonPIIParams[] = cvv
+CommonPIIParams[] = datedenaissance
+CommonPIIParams[] = dateexpiration
+CommonPIIParams[] = datenaissance
 CommonPIIParams[] = dateofbirth
 CommonPIIParams[] = debitcard
+CommonPIIParams[] = departement
 CommonPIIParams[] = dirección
 CommonPIIParams[] = dob
 CommonPIIParams[] = domain
+CommonPIIParams[] = département
 CommonPIIParams[] = ebost
 CommonPIIParams[] = email
 CommonPIIParams[] = emailaddress
 CommonPIIParams[] = emailadresse
+CommonPIIParams[] = entreprise
 CommonPIIParams[] = epos
 CommonPIIParams[] = epost
 CommonPIIParams[] = eposta
 CommonPIIParams[] = exp
+CommonPIIParams[] = expiration
 CommonPIIParams[] = familyname
 CommonPIIParams[] = firma
 CommonPIIParams[] = firstname
 CommonPIIParams[] = formlogin
 CommonPIIParams[] = fullname
 CommonPIIParams[] = gender
+CommonPIIParams[] = genre
 CommonPIIParams[] = geschlecht
 CommonPIIParams[] = gst
 CommonPIIParams[] = gstnumber
@@ -1427,7 +1473,9 @@ CommonPIIParams[] = iban
 CommonPIIParams[] = ibanaccountnum
 CommonPIIParams[] = ibanaccountnumber
 CommonPIIParams[] = id
+CommonPIIParams[] = identifiant
 CommonPIIParams[] = identifier
+CommonPIIParams[] = identitenationale
 CommonPIIParams[] = indirizzo
 CommonPIIParams[] = kartakredytowa
 CommonPIIParams[] = kennwort
@@ -1442,43 +1490,83 @@ CommonPIIParams[] = kreditkort
 CommonPIIParams[] = lastname
 CommonPIIParams[] = login
 CommonPIIParams[] = mail
+CommonPIIParams[] = mdp
 CommonPIIParams[] = mobiili
 CommonPIIParams[] = mobile
 CommonPIIParams[] = mobilne
+CommonPIIParams[] = mot_de_passe
+CommonPIIParams[] = motdepasse
 CommonPIIParams[] = nachname
 CommonPIIParams[] = name
+CommonPIIParams[] = nationalite
 CommonPIIParams[] = nickname
+CommonPIIParams[] = nom
+CommonPIIParams[] = nomcomplet
+CommonPIIParams[] = nomdefamille
+CommonPIIParams[] = nomfamille
+CommonPIIParams[] = nss
+CommonPIIParams[] = numero_fiscal
+CommonPIIParams[] = numerocarte
+CommonPIIParams[] = numerocarteidentite
+CommonPIIParams[] = numerocompte
+CommonPIIParams[] = numerodecarte
+CommonPIIParams[] = numerofiscal
+CommonPIIParams[] = numeroidentite
+CommonPIIParams[] = numeromobile
+CommonPIIParams[] = numeropasseport
+CommonPIIParams[] = numerosecuritesociale
+CommonPIIParams[] = numerotelephone
+CommonPIIParams[] = numerotva
+CommonPIIParams[] = numfiscal
+CommonPIIParams[] = numsecu
+CommonPIIParams[] = numtva
 CommonPIIParams[] = off
 CommonPIIParams[] = osoite
 CommonPIIParams[] = parole
 CommonPIIParams[] = pass
+CommonPIIParams[] = passeport
 CommonPIIParams[] = passord
 CommonPIIParams[] = password
 CommonPIIParams[] = passwort
 CommonPIIParams[] = pasword
 CommonPIIParams[] = paswort
 CommonPIIParams[] = paword
+CommonPIIParams[] = pays
 CommonPIIParams[] = phone
 CommonPIIParams[] = pin
 CommonPIIParams[] = plz
+CommonPIIParams[] = portable
 CommonPIIParams[] = postalcode
 CommonPIIParams[] = postcode
 CommonPIIParams[] = postleitzahl
+CommonPIIParams[] = prenom
 CommonPIIParams[] = privatekey
+CommonPIIParams[] = prénom
 CommonPIIParams[] = publickey
 CommonPIIParams[] = pw
 CommonPIIParams[] = pwd
 CommonPIIParams[] = pword
 CommonPIIParams[] = pwrd
+CommonPIIParams[] = questionsecrete
+CommonPIIParams[] = region
+CommonPIIParams[] = reponsesecrete
+CommonPIIParams[] = rib
 CommonPIIParams[] = rue
 CommonPIIParams[] = secret
+CommonPIIParams[] = secretclé
 CommonPIIParams[] = secretq
 CommonPIIParams[] = secretquestion
+CommonPIIParams[] = securitesociale
+CommonPIIParams[] = sexe
 CommonPIIParams[] = shippingaddress
 CommonPIIParams[] = shippingaddress1
 CommonPIIParams[] = shippingaddress2
+CommonPIIParams[] = signature
+CommonPIIParams[] = siren
+CommonPIIParams[] = siret
 CommonPIIParams[] = socialsec
 CommonPIIParams[] = socialsecuritynumber
+CommonPIIParams[] = societe
 CommonPIIParams[] = socsec
 CommonPIIParams[] = sokak
 CommonPIIParams[] = ssn
@@ -1495,16 +1583,21 @@ CommonPIIParams[] = telefonnr
 CommonPIIParams[] = telefonnummer
 CommonPIIParams[] = telefono
 CommonPIIParams[] = telephone
+CommonPIIParams[] = titre
 CommonPIIParams[] = token
 CommonPIIParams[] = token_auth
 CommonPIIParams[] = tokenauth
+CommonPIIParams[] = tva
 CommonPIIParams[] = téléphone
 CommonPIIParams[] = ulica
 CommonPIIParams[] = user
 CommonPIIParams[] = username
+CommonPIIParams[] = utilisateur
 CommonPIIParams[] = vat
 CommonPIIParams[] = vatnumber
 CommonPIIParams[] = via
+CommonPIIParams[] = ville
+CommonPIIParams[] = voie
 CommonPIIParams[] = vorname
 CommonPIIParams[] = wachtwoord
 CommonPIIParams[] = wagwoord

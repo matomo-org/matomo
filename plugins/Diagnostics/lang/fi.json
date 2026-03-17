@@ -1,13 +1,13 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Asetustiedosto",
-        "MysqlMaxPacketSize": "Paketin enimmäiskoko",
-        "Sections": "Osiot",
-        "DatabaseUtf8mb4CharsetRecommended": "Tietokantasi ei tue vielä utf8mb4-merkistöä.",
-        "CronArchivingLastRunCheck": "Viimeisin onnistunut arkistointi",
         "CronArchivingHasNotRun": "Arkistointia ei ole vielä suoritettu onnistuneesti.",
         "CronArchivingHasNotRunInAWhile": "Arkistointi suoritettiin onnistuneesti viimeksi %1$s, eli %2$s sitten.",
+        "CronArchivingLastRunCheck": "Viimeisin onnistunut arkistointi",
         "CronArchivingRanSuccessfullyXAgo": "Arkistointiprosessi suoritettiin onnistuneesti %1$s sitten.",
-        "NoDataForReportArchivingNotRun": "Raporttiesi arkistointia ei ole suoritettu hetkeen. %1$sLue lisää kuinka luoda raportteja.%2$s"
+        "DatabaseUtf8mb4CharsetRecommended": "Tietokantasi ei tue vielä utf8mb4-merkistöä.",
+        "MysqlMaxPacketSize": "Paketin enimmäiskoko",
+        "NoDataForReportArchivingNotRun": "Raporttiesi arkistointia ei ole suoritettu hetkeen. %1$sLue lisää kuinka luoda raportteja.%2$s",
+        "Sections": "Osiot"
     }
 }

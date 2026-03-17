@@ -170,12 +170,12 @@ class AutoSuggestAPITest extends SystemTestCase
     public function testAnotherApi($api, $params)
     {
         // Get the top segment value
-        $request = new Request(
-            'method=API.getSuggestedValuesForSegment'
-            . '&segmentName=' . $params['segmentToComplete']
-            . '&idSite=' . $params['idSite']
-            . '&format=json'
-        );
+        $request = new Request([
+            'method' => 'API.getSuggestedValuesForSegment',
+            'segmentName' => $params['segmentToComplete'],
+            'idSite' => $params['idSite'],
+            'format' => 'json',
+        ]);
         $response = json_decode($request->process(), true);
         $this->assertApiResponseHasNoError($response);
         $topSegmentValue = @$response[0];

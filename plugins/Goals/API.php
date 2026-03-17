@@ -61,11 +61,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Return a single goal.
      *
-     * @param int $idSite
-     * @param int $idGoal
      * @return ?array An array of goal attributes.
      */
-    public function getGoal($idSite, $idGoal)
+    public function getGoal(int $idSite, int $idGoal): ?array
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -74,13 +72,14 @@ class API extends \Piwik\Plugin\API
         if (!empty($goal)) {
             return $this->formatGoal($goal);
         }
+
+        return null;
     }
 
     /**
      * Returns all Goals for a given website, or list of websites
      *
      * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
-     * @param bool $orderByName
      *
      * @return array Array of Goal attributes,
      *               indexed by "idgoal" when requesting a single site,
@@ -99,7 +98,7 @@ class API extends \Piwik\Plugin\API
             // note: the reason this is secure is because the above cache is a static cache and cleared after each request
             // if we were to use a different cache that persists the result, this would not be secure because when a
             // result is in the cache, it would just return the result
-            $idSite = Site::getIdSitesFromIdSitesString($idSite);
+            $idSite = Site::getIdSitesFromIdSitesString($idSite, false, true);
 
             if (empty($idSite)) {
                 return [];
@@ -156,7 +155,6 @@ class API extends \Piwik\Plugin\API
     /**
      * Creates a Goal for a given website.
      *
-     * @param int        $idSite
      * @param string     $name
      * @param string     $matchAttribute                   'url', 'title', 'file', 'external_website', 'manually', 'visit_duration', 'visit_total_actions', 'visit_total_pageviews',
      *                                                     'event_action', 'event_category' or 'event_name'
@@ -171,7 +169,7 @@ class API extends \Piwik\Plugin\API
      * @return int ID of the new goal
      */
     public function addGoal(
-        $idSite,
+        int $idSite,
         $name,
         $matchAttribute,
         $pattern,
@@ -224,7 +222,6 @@ class API extends \Piwik\Plugin\API
      * Updates a Goal description.
      * Will not update or re-process the conversions already recorded
      *
-     * @param int        $idSite
      * @param int        $idGoal
      * @param            $name
      * @param            $matchAttribute
@@ -239,7 +236,7 @@ class API extends \Piwik\Plugin\API
      * @see addGoal() for parameters description
      */
     public function updateGoal(
-        $idSite,
+        int $idSite,
         $idGoal,
         $name,
         $matchAttribute,
@@ -354,12 +351,11 @@ class API extends \Piwik\Plugin\API
      * Soft deletes a given Goal.
      * Stats data in the archives will still be recorded, but not displayed.
      *
-     * @param int $idSite
      * @param int $idGoal
      *
      * @return void
      */
-    public function deleteGoal($idSite, $idGoal)
+    public function deleteGoal(int $idSite, $idGoal)
     {
         Piwik::checkUserHasWriteAccess($idSite);
 

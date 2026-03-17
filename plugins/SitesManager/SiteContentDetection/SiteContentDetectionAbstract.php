@@ -27,8 +27,6 @@ abstract class SiteContentDetectionAbstract
 
     /**
      * Returns the ID of the current detection. Automatically built from the class name (without namespace)
-     *
-     * @return string
      */
     public static function getId(): string
     {
@@ -38,15 +36,11 @@ abstract class SiteContentDetectionAbstract
 
     /**
      * Returns the Name of this detection (e.g. name of CMS, Framework, ...)
-     *
-     * @return string
      */
     abstract public static function getName(): string;
 
     /**
      * Returns the location of the icon of this detection
-     *
-     * @return string
      */
     public static function getIcon(): string
     {
@@ -56,15 +50,11 @@ abstract class SiteContentDetectionAbstract
     /**
      * Returns the content type this detection provides
      * May be one of TYPE_TRACKER, TYPE_CMS, TYPE_JS_FRAMEWORK, TYPE_CONSENT_MANAGER
-     *
-     * @return int
      */
     abstract public static function getContentType(): int;
 
     /**
      * Returns the URL to the instruction FAQ on how to integrate Matomo (if applicable)
-     *
-     * @return string|null
      */
     public static function getInstructionUrl(): ?string
     {
@@ -73,8 +63,6 @@ abstract class SiteContentDetectionAbstract
 
     /**
      * Returns the priority the tab should be displayed with.
-     *
-     * @return int
      */
     public static function getPriority(): int
     {
@@ -84,17 +72,12 @@ abstract class SiteContentDetectionAbstract
     /**
      * Returns if the current detection succeeded for the provided site content or not.
      *
-     * @param string|null $data
      * @param array<string,string>|null $headers
-     * @return bool
      */
     abstract public function isDetected(?string $data = null, ?array $headers = null): bool;
 
     /**
      * Returns the content that should be rendered into a new Tab on the no data page
-     *
-     * @param SiteContentDetector $detector
-     * @return string
      */
     public function renderInstructionsTab(SiteContentDetector $detector): string
     {
@@ -103,9 +86,6 @@ abstract class SiteContentDetectionAbstract
 
     /**
      * Returns the content that should be displayed in the Others tab on the no data page
-     *
-     * @param SiteContentDetector $detector
-     * @return string
      */
     public function renderOthersInstruction(SiteContentDetector $detector): string
     {
@@ -114,9 +94,6 @@ abstract class SiteContentDetectionAbstract
 
     /**
      * Returns if the method should be recommended. Returns true if the method was detected
-     *
-     * @param SiteContentDetector $detector
-     * @return bool
      */
     public function isRecommended(SiteContentDetector $detector): bool
     {
@@ -126,7 +103,6 @@ abstract class SiteContentDetectionAbstract
     /**
      * Returns details used to render the recommendation on no data screen
      *
-     * @param SiteContentDetector $detector
      * @return array{title: string, text: string, button: string}
      */
     public function getRecommendationDetails(SiteContentDetector $detector): array

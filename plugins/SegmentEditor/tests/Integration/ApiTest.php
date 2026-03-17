@@ -50,7 +50,7 @@ class ApiTest extends IntegrationTestCase
         $this->createSegments();
         $this->setAdminUser();
 
-        $expectedOrder = array(
+        $expectedOrder = [
             // 1) my segments
             'segment 1',
             'segment 3',
@@ -62,9 +62,9 @@ class ApiTest extends IntegrationTestCase
 
             // 3) segments created by other users (which are visible to all super users)
             // not a super user, so can't see those
-        );
+        ];
 
-        $segments = $this->api->getAll($idSite = 1);
+        $segments     = $this->api->getAll($idSite = 1);
         $segmentNames = $this->getNamesFromSegments($segments);
         $this->assertSame($expectedOrder, $segmentNames);
     }
@@ -75,7 +75,7 @@ class ApiTest extends IntegrationTestCase
         $this->createSegments();
         $this->setAdminUser();
 
-        $expectedOrder = array(
+        $expectedOrder = [
             // 1) my segments
             'segment 1',
             'segment 2',
@@ -89,11 +89,149 @@ class ApiTest extends IntegrationTestCase
 
             // 3) segments created by other users (which are visible to all super users)
             // not a super user, so can't see those
-        );
+        ];
 
-        $segments = $this->api->getAll();
+        $segments     = $this->api->getAll();
         $segmentNames = $this->getNamesFromSegments($segments);
         $this->assertSame($expectedOrder, $segmentNames);
+    }
+
+    public function testGetAllFiltersSegmentsForSitesWithoutAccess()
+    {
+        $this->createAdminUser();
+        $this->createSegments();
+
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [1], $userName = 'myUserLogin');
+
+        $expectedOrder = [
+            // 1) my segments
+            'segment 1',
+            'segment 3',
+            'segment 7',
+
+            // 2) segments created by a super user that were shared with all users
+            'segment 5',
+            'segment 9',
+        ];
+
+        $segments     = $this->api->getAll();
+        $segmentNames = $this->getNamesFromSegments($segments);
+        $this->assertSame($expectedOrder, $segmentNames);
+    }
+
+    public function testGetThrowsWhenSegmentSiteIsNotAccessible()
+    {
+        $this->createAdminUser();
+        $this->setSuperUser();
+
+        $idSegment = $this->api->add('segment access check', 'countryCode==fr', $idSite = 2, $autoArchive = false, $enableAllUsers = true);
+
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [], $idSitesView = [1], $userName = 'myUserLogin');
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('checkUserHasViewAccess Fake exception');
+
+        $this->api->get($idSegment);
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testIsUserCanAddNewSegmentReturnsTrueWithRequiredAccess(string $requiredAccess): void
+    {
+        $this->withAddingSegmentAccess($requiredAccess, function () use ($requiredAccess) {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            $this->setAccessForRequiredAccess($requiredAccess, [1], [1]);
+
+            $this->assertTrue($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testIsUserCanAddNewSegmentReturnsFalseWithoutRequiredAccess(string $requiredAccess): void
+    {
+        $this->withAddingSegmentAccess($requiredAccess, function () use ($requiredAccess) {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            $this->setAccessForRequiredAccess($requiredAccess, [2], [2]);
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testIsUserCanAddNewSegmentReturnsFalseWhenUserHasNoSiteAccess(string $requiredAccess): void
+    {
+        $this->withAddingSegmentAccess($requiredAccess, function () {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            FakeAccess::$idSitesView = [];
+            FakeAccess::$idSitesWrite = [];
+            FakeAccess::$idSitesAdmin = [];
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testIsUserCanAddNewSegmentReturnsFalseForAllSitesWhenNotSuperUser(string $requiredAccess): void
+    {
+        $this->withAddingSegmentAccess($requiredAccess, function () use ($requiredAccess) {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            $this->setAccessForRequiredAccess($requiredAccess, [1], [1]);
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(null));
+        });
+    }
+
+    public function testIsUserCanAddNewSegmentReturnsFalseForAnonymousUser(): void
+    {
+        $this->withAddingSegmentAccess('view', function () {
+            FakeAccess::$identity  = 'anonymous';
+            FakeAccess::$superUser = false;
+            FakeAccess::$idSitesView = [1];
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    public function testIsUserCanAddNewSegmentReturnsTrueForAllSitesForSuperUser(): void
+    {
+        $this->withAddingSegmentAccess('view', function () {
+            FakeAccess::$identity  = 'superUserLogin';
+            FakeAccess::$superUser = true;
+
+            $this->assertTrue($this->api->isUserCanAddNewSegment(null));
+        });
+    }
+
+    public function testIsUserCanAddNewSegmentReturnsFalseWhenSuperUserRequired(): void
+    {
+        $this->withAddingSegmentAccess('superuser', function () {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            FakeAccess::$idSitesView = [1];
+
+            $this->assertFalse($this->api->isUserCanAddNewSegment(1));
+        });
+    }
+
+    public function testIsUserCanAddNewSegmentReturnsTrueForSuperUser(): void
+    {
+        $this->withAddingSegmentAccess('superuser', function () {
+            FakeAccess::$identity  = 'superUserLogin';
+            FakeAccess::$superUser = true;
+
+            $this->assertTrue($this->api->isUserCanAddNewSegment(1));
+        });
     }
 
     public function testGetAllForAllWebsitesReturnsSortedSegmentsAsSuperUser()
@@ -102,7 +240,7 @@ class ApiTest extends IntegrationTestCase
         $this->createSegments();
         $this->setAnotherSuperUser();
 
-        $expectedOrder = array(
+        $expectedOrder = [
             // 1) my segments
             'segment 9',
 
@@ -117,9 +255,9 @@ class ApiTest extends IntegrationTestCase
             'segment 4',
             'segment 7',
             'segment 8',
-        );
+        ];
 
-        $segments = $this->api->getAll();
+        $segments     = $this->api->getAll();
         $segmentNames = $this->getNamesFromSegments($segments);
         $this->assertSame($expectedOrder, $segmentNames);
     }
@@ -130,7 +268,7 @@ class ApiTest extends IntegrationTestCase
         $this->createSegments();
         $this->setAnotherSuperUser();
 
-        $expectedOrder = array(
+        $expectedOrder = [
             // 1) my segments
             'segment 9',
 
@@ -143,9 +281,9 @@ class ApiTest extends IntegrationTestCase
             'segment 4',
             'segment 7',
             'segment 8',
-        );
+        ];
 
-        $segments = $this->api->getAll($idSite = 1);
+        $segments     = $this->api->getAll($idSite = 1);
         $segmentNames = $this->getNamesFromSegments($segments);
         $this->assertSame($expectedOrder, $segmentNames);
     }
@@ -186,41 +324,41 @@ class ApiTest extends IntegrationTestCase
 
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
 
-        FakeAccess::$identity = 'normalUser';
-        FakeAccess::$superUser = false;
+        FakeAccess::$identity    = 'normalUser';
+        FakeAccess::$superUser   = false;
         FakeAccess::$idSitesView = [1];
 
         $idSegment = Request::processRequest('SegmentEditor.add', [
-            'name' => 'test segment',
-            'definition' => $segment,
-            'idSite' => 1,
-            'autoArchive' => 1,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 1,
             'enabledAllUsers' => 0,
         ]);
 
-        FakeAccess::$identity = 'superUserLogin';
-        FakeAccess::$superUser = true;
+        FakeAccess::$identity    = 'superUserLogin';
+        FakeAccess::$superUser   = true;
         FakeAccess::$idSitesView = [];
 
         Request::processRequest('SegmentEditor.update', [
-            'idSegment' => $idSegment,
-            'name' => 'test segment',
-            'definition' => $segment,
-            'idSite' => 1,
-            'autoArchive' => 1,
+            'idSegment'       => $idSegment,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 1,
             'enabledAllUsers' => 1,
         ]);
 
-        FakeAccess::$identity = 'normalUser';
-        FakeAccess::$superUser = false;
+        FakeAccess::$identity    = 'normalUser';
+        FakeAccess::$superUser   = false;
         FakeAccess::$idSitesView = [1];
 
         Request::processRequest('SegmentEditor.update', [
-            'idSegment' => $idSegment,
-            'name' => 'new segment name',
-            'definition' => $segment,
-            'idSite' => 1,
-            'autoArchive' => 1,
+            'idSegment'       => $idSegment,
+            'name'            => 'new segment name',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 1,
             'enabledAllUsers' => 1,
         ]);
     }
@@ -235,73 +373,335 @@ class ApiTest extends IntegrationTestCase
 
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
 
-        FakeAccess::$identity = 'normalUser';
-        FakeAccess::$superUser = false;
+        FakeAccess::$identity    = 'normalUser';
+        FakeAccess::$superUser   = false;
         FakeAccess::$idSitesView = [1];
 
         $idSegment = Request::processRequest('SegmentEditor.add', [
-            'name' => 'test segment',
-            'definition' => $segment,
-            'idSite' => 1,
-            'autoArchive' => 1,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 1,
             'enabledAllUsers' => 1,
         ]);
     }
 
 
-    public function testUserCanNoLongerEditSegmentAfterSuperUserSharedItAccrossSites()
+    public function testUserCanNoLongerEditSegmentAfterSuperUserSharedItAcrossSites()
     {
         $segment = 'pageUrl=@%252F1';
         Fixture::createWebsite('2020-03-03 00:00:00');
 
         Config::getInstance()->General['enable_browser_archiving_triggering'] = 0;
 
-        FakeAccess::$identity = 'normalUser';
-        FakeAccess::$superUser = false;
+        FakeAccess::$identity    = 'normalUser';
+        FakeAccess::$superUser   = false;
         FakeAccess::$idSitesView = [1];
 
         $idSegment = Request::processRequest('SegmentEditor.add', [
-            'name' => 'test segment',
-            'definition' => $segment,
-            'idSite' => 1,
-            'autoArchive' => 1,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 1,
             'enabledAllUsers' => 0,
         ]);
 
-        FakeAccess::$identity = 'superUserLogin';
-        FakeAccess::$superUser = true;
+        FakeAccess::$identity    = 'superUserLogin';
+        FakeAccess::$superUser   = true;
         FakeAccess::$idSitesView = [];
 
         Request::processRequest('SegmentEditor.update', [
-            'idSegment' => $idSegment,
-            'name' => 'test segment',
-            'definition' => $segment,
-            'idSite' => 0,
-            'autoArchive' => 1,
+            'idSegment'       => $idSegment,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 0,
+            'autoArchive'     => 1,
             'enabledAllUsers' => 0,
         ]);
 
         self::expectException(\Exception::class);
         self::expectExceptionMessage('SegmentEditor_UpdatingAllSitesSegmentPermittedToSuperUser');
 
-        FakeAccess::$identity = 'normalUser';
-        FakeAccess::$superUser = false;
+        FakeAccess::$identity    = 'normalUser';
+        FakeAccess::$superUser   = false;
         FakeAccess::$idSitesView = [1];
 
         Request::processRequest('SegmentEditor.update', [
-            'idSegment' => $idSegment,
-            'name' => 'new segment name',
-            'definition' => $segment,
-            'idSite' => 0,
-            'autoArchive' => 1,
+            'idSegment'       => $idSegment,
+            'name'            => 'new segment name',
+            'definition'      => $segment,
+            'idSite'          => 0,
+            'autoArchive'     => 1,
             'enabledAllUsers' => 0,
         ]);
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testNormalUserCannotChangeSegmentScopeBetweenSitesWhenNoPermissionForTargetSite(string $requiredAccess): void
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        $this->withAddingSegmentAccess($requiredAccess, function () use ($segment, $requiredAccess) {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            $this->setAccessForRequiredAccess($requiredAccess, [1], [1, 2]);
+
+            $idSegment = Request::processRequest('SegmentEditor.add', [
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 1,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+
+            self::expectException(\Exception::class);
+            if ($requiredAccess !== 'view') {
+                self::expectExceptionMessage('Changing value for enable_only_idsite requires permission to add segments for the target site.');
+            }
+
+            Request::processRequest('SegmentEditor.update', [
+                'idSegment'       => $idSegment,
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 2,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+        });
+    }
+
+    /**
+     * @dataProvider requiredAccessProvider
+     */
+    public function testUserCanChangeSegmentScopeBetweenSitesWithPermissionForTargetSite(string $requiredAccess): void
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        $this->withAddingSegmentAccess($requiredAccess, function () use ($segment, $requiredAccess) {
+            FakeAccess::$identity  = 'normalUser';
+            FakeAccess::$superUser = false;
+            $this->setAccessForRequiredAccess($requiredAccess, [1, 2]);
+
+            $idSegment = Request::processRequest('SegmentEditor.add', [
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 1,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+
+            Request::processRequest('SegmentEditor.update', [
+                'idSegment'       => $idSegment,
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 2,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+
+            $updatedSegment = $this->api->get($idSegment);
+            $this->assertSame(2, (int)$updatedSegment['enable_only_idsite']);
+        });
+    }
+
+    public function testSuperUserCanChangeSegmentScopeBetweenSitesWithoutTargetSitePermission(): void
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        $this->withAddingSegmentAccess('admin', function () use ($segment) {
+            FakeAccess::$identity    = 'superUserLogin';
+            FakeAccess::$superUser   = true;
+            FakeAccess::$idSitesView = [];
+
+            $idSegment = Request::processRequest('SegmentEditor.add', [
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 1,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+
+            Request::processRequest('SegmentEditor.update', [
+                'idSegment'       => $idSegment,
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 2,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+
+            $updatedSegment = $this->api->get($idSegment);
+            $this->assertSame(2, (int)$updatedSegment['enable_only_idsite']);
+        });
+    }
+
+    public function testUserCannotChangeSegmentScopeBetweenSitesWhenNotSegmentOwner(): void
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        $this->withAddingSegmentAccess('view', function () use ($segment) {
+            FakeAccess::$identity    = 'segmentOwner';
+            FakeAccess::$superUser   = false;
+            FakeAccess::$idSitesView = [1, 2];
+
+            $idSegment = Request::processRequest('SegmentEditor.add', [
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 1,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+
+            FakeAccess::$identity    = 'anotherUser';
+            FakeAccess::$superUser   = false;
+            FakeAccess::$idSitesView = [1, 2];
+
+            self::expectException(\Exception::class);
+            self::expectExceptionMessage('SegmentEditor_UpdatingForeignSegmentPermittedToSuperUser');
+
+            Request::processRequest('SegmentEditor.update', [
+                'idSegment'       => $idSegment,
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 2,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+        });
+    }
+
+    public function testUserCannotChangeSegmentScopeFromSiteToAllSitesEvenWithPermissions(): void
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        $this->withAddingSegmentAccess('admin', function () use ($segment) {
+            FakeAccess::$identity     = 'normalUser';
+            FakeAccess::$superUser    = false;
+            FakeAccess::$idSitesAdmin = [1];
+            FakeAccess::$idSitesView  = [1];
+
+            $idSegment = Request::processRequest('SegmentEditor.add', [
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 1,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+
+            self::expectException(\Exception::class);
+            self::expectExceptionMessage('SegmentEditor_UpdatingForeignSegmentPermittedToSuperUser');
+
+            Request::processRequest('SegmentEditor.update', [
+                'idSegment'       => $idSegment,
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 0,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+        });
+    }
+
+    public function testUserCannotChangeSegmentScopeFromAllSitesToSiteWhenSegmentOwnedBySuperUser(): void
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        $this->withAddingSegmentAccess('admin', function () use ($segment) {
+            FakeAccess::$identity    = 'superUserLogin';
+            FakeAccess::$superUser   = true;
+            FakeAccess::$idSitesView = [];
+
+            $idSegment = Request::processRequest('SegmentEditor.add', [
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 0,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+
+            FakeAccess::$identity     = 'normalUser';
+            FakeAccess::$superUser    = false;
+            FakeAccess::$idSitesAdmin = [1];
+            FakeAccess::$idSitesView  = [1];
+
+            self::expectException(\Exception::class);
+            self::expectExceptionMessage('SegmentEditor_UpdatingForeignSegmentPermittedToSuperUser');
+
+            Request::processRequest('SegmentEditor.update', [
+                'idSegment'       => $idSegment,
+                'name'            => 'test segment',
+                'definition'      => $segment,
+                'idSite'          => 1,
+                'autoArchive'     => 0,
+                'enabledAllUsers' => 0,
+            ]);
+        });
+    }
+
+    public function testSuperUserCanChangeSegmentScopeFromSiteToAllSites(): void
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        FakeAccess::$identity    = 'superUserLogin';
+        FakeAccess::$superUser   = true;
+        FakeAccess::$idSitesView = [1];
+
+        $idSegment = Request::processRequest('SegmentEditor.add', [
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment'       => $idSegment,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 0,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        $updatedSegment = $this->api->get($idSegment);
+        $this->assertSame(0, (int)$updatedSegment['enable_only_idsite']);
+    }
+
+    public function testSuperUserCanChangeSegmentScopeFromAllSitesToSite(): void
+    {
+        $segment = 'pageUrl=@%252F1';
+
+        FakeAccess::$identity    = 'superUserLogin';
+        FakeAccess::$superUser   = true;
+        FakeAccess::$idSitesView = [1];
+
+        $idSegment = Request::processRequest('SegmentEditor.add', [
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 0,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        Request::processRequest('SegmentEditor.update', [
+            'idSegment'       => $idSegment,
+            'name'            => 'test segment',
+            'definition'      => $segment,
+            'idSite'          => 1,
+            'autoArchive'     => 0,
+            'enabledAllUsers' => 0,
+        ]);
+
+        $updatedSegment = $this->api->get($idSegment);
+        $this->assertSame(1, (int)$updatedSegment['enable_only_idsite']);
     }
 
 
     protected function setSuperUser($userName = 'superUserLogin')
     {
-        FakeAccess::clearAccess($superUser = true, $idSitesAdmin = array(), $idSitesView = array(), $userName);
+        FakeAccess::clearAccess($superUser = true, $idSitesAdmin = [], $idSitesView = [], $userName);
     }
 
     protected function setAnotherSuperUser()
@@ -311,7 +711,7 @@ class ApiTest extends IntegrationTestCase
 
     protected function setAdminUser($userName = 'myUserLogin')
     {
-        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = array(1,2), $idSitesView = array(1,2), $userName);
+        FakeAccess::clearAccess($superUser = false, $idSitesAdmin = [1, 2], $idSitesView = [1, 2], $userName);
     }
 
     protected function setAnotherAdminUser()
@@ -319,11 +719,51 @@ class ApiTest extends IntegrationTestCase
         $this->setAdminUser('anotherUserWithAdmin');
     }
 
+    public function requiredAccessProvider(): iterable
+    {
+        yield 'view access' => ['view'];
+        yield 'write access' => ['write'];
+        yield 'admin access' => ['admin'];
+    }
+
+    protected function setAccessForRequiredAccess(string $requiredAccess, array $sitesForRequiredAccess, array $viewSites = []): void
+    {
+        FakeAccess::$idSitesView  = $viewSites;
+        FakeAccess::$idSitesWrite = [];
+        FakeAccess::$idSitesAdmin = [];
+
+        switch ($requiredAccess) {
+            case 'view':
+                FakeAccess::$idSitesView = $sitesForRequiredAccess;
+                break;
+            case 'write':
+                FakeAccess::$idSitesWrite = $sitesForRequiredAccess;
+                break;
+            case 'admin':
+                FakeAccess::$idSitesAdmin = $sitesForRequiredAccess;
+                break;
+            default:
+                throw new \InvalidArgumentException('Unknown access level for segment permissions test.');
+        }
+    }
+
+    protected function withAddingSegmentAccess(string $accessLevel, callable $callback): void
+    {
+        $originalAccess                                                  = Config::getInstance()->General['adding_segment_requires_access'];
+        Config::getInstance()->General['adding_segment_requires_access'] = $accessLevel;
+
+        try {
+            $callback();
+        } finally {
+            Config::getInstance()->General['adding_segment_requires_access'] = $originalAccess;
+        }
+    }
+
     public function provideContainerConfig()
     {
-        return array(
+        return [
             'Piwik\Access' => new FakeAccess(),
-        );
+        ];
     }
 
     protected function createAdminUser()
@@ -337,7 +777,7 @@ class ApiTest extends IntegrationTestCase
      */
     protected function getNamesFromSegments($segments)
     {
-        $segmentNames = array();
+        $segmentNames = [];
         foreach ($segments as $segment) {
             $segmentNames[] = $segment['name'];
         }

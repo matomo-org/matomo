@@ -1,7 +1,20 @@
 .periodSelector {
   display: inline-block;
+  [type=radio]:not(:checked) + span,
+  [type=radio]:checked + span {
+    padding-left: 30px;
+  }
 
   &.compare-dropdown-open {
+    #comparePeriodToDropdown {
+      position: relative;
+      z-index: 2;
+
+      .dropdown-content {
+        z-index: 3 !important;
+      }
+    }
+
     label[for=comparePeriodEndDate] {
       visibility: hidden;
     }
@@ -29,6 +42,11 @@
     }
   }
 
+  // Match spacing to range mode by adding top space only when a single calendar is shown.
+  #periodMore.single-calendar .period-date + .compare-checkbox {
+    margin-top: 10px;
+  }
+
   .compare-date-range {
     padding-top: 20px;
   }
@@ -36,7 +54,6 @@
   #comparePeriodToDropdown {
     height: 30px;
     display: inline-block;
-    width: 55%;
     transform: scale(.9);
     margin-left: -2%;
     margin-right: -5%;
@@ -64,7 +81,6 @@
 
   div#comparePeriodStartDate, div#comparePeriodEndDate {
     display: inline-block;
-    width: calc(~"50% - 20px");
 
     .form-group {
       margin: 0;
@@ -72,11 +88,23 @@
 
     .input-field {
       margin-top: 0;
-      padding: 0;
+      padding: 0 0 0 0.6rem;
     }
 
     .select-dropdown {
       margin-bottom: 0;
+    }
+  }
+
+  #periodMore.single-calendar {
+    div#comparePeriodStartDate, div#comparePeriodEndDate {
+      width: calc(~"70%");
+    }
+  }
+
+  #periodMore.dual-calendar {
+    div#comparePeriodStartDate, div#comparePeriodEndDate {
+      width: calc(~"50% - 20px");
     }
   }
 
@@ -102,6 +130,88 @@
   .flex {
     display: flex;
   }
+
+  .period-type {
+    min-width: 220px;
+  }
+
+  .period-selector-options-column {
+    #otherPeriods .periodOptions {
+      p:first-child {
+        margin-top: 5px;
+      }
+      button {
+        padding: 5px 0 5px 0;
+        background: transparent;
+        border: 0;
+        border-radius: 5px;
+        color: @color-silver;
+        cursor: pointer;
+        display: block;
+        font: inherit;
+        margin: 0;
+        outline: none;
+        padding-left: 8px;
+        text-align: left;
+        width: 100%;
+        font-size: 13px;
+
+        &:hover {
+          background-color: @color-silver-l95;
+        }
+
+        &:focus-visible {
+          background-color: @color-silver-l95;
+          outline: 2px solid @theme-color-focus-ring;
+          outline-offset: 0;
+        }
+      }
+
+      button.selected-period-label {
+        color: @theme-color-text;
+        font-weight: 600;
+      }
+    }
+
+    #otherPeriods .presetDateRanges {
+      border-top: 1px solid @color-silver-l95;
+      margin-top: 12px;
+      padding-top: 12px;
+
+      label,
+      label span {
+        color: @color-silver;
+      }
+
+      label.selected-period-label,
+      label.selected-period-label span {
+        color: @theme-color-text;
+      }
+    }
+
+    .preset-date-range-group-separator {
+      border-top: 1px solid @color-silver-l95;
+      margin: 12px 0;
+    }
+  }
+
+  .period-selector-calendar-column {
+    border-left: 1px solid @color-silver-l95;
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+    padding-left: 16px;
+
+    .apply-button-container {
+      margin-top: auto;
+    }
+
+    .calendar-disabled {
+      opacity: 0.75;
+      pointer-events: none;
+    }
+  }
+
 }
 
 .periodSelector-withPrevNext {
@@ -143,5 +253,3 @@
     padding-left: 0;
   }
 }
-
-

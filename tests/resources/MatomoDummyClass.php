@@ -2,6 +2,6 @@
 
 namespace Matomo;
 
-class DummyClass {
-
+class DummyClass
+{
 }

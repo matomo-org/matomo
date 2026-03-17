@@ -26,8 +26,6 @@ class Longitude extends Base
     protected $namePlural = 'UserCountry_Longitudes';
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -47,8 +45,6 @@ class Longitude extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return int
      */
@@ -58,8 +54,6 @@ class Longitude extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

@@ -1,8 +1,8 @@
 {
     "Diagnostics": {
         "ConfigFileTitle": "Plik konfiguracyjny",
+        "DatabaseUtf8mb4CharsetRecommended": "Twoja baza danych nie wspiera jeszcze zestawu UTF8mb4.",
         "HideUnchanged": "W celu zobaczenia tylko zmienionych wartości %1$sukryj niezmienione wartości%2$s.",
-        "Sections": "Sekcje",
-        "DatabaseUtf8mb4CharsetRecommended": "Twoja baza danych nie wspiera jeszcze zestawu UTF8mb4."
+        "Sections": "Sekcje"
     }
 }

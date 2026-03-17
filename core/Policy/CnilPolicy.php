@@ -21,7 +21,31 @@ class CnilPolicy extends CompliancePolicy
 
     public static function generateDescription(): string
     {
-        return Piwik::translate('General_ComplianceCNILDescription');
+        return Piwik::translate('General_ComplianceCNILDescription', [
+            '<a href="' .
+            Url::addCampaignParametersToMatomoLink(
+                'https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/',
+                null,
+                null,
+                'App.PrivacyManager.compliance'
+            ) .
+            '" target="_blank" rel="noreferrer noopener">',
+            '</a>',
+            '<a href="' .
+            Url::addCampaignParametersToMatomoLink(
+                'https://matomo.org/faq/how-to/how-do-i-configure-matomo-without-tracking-consent-for-french-visitors-cnil-exemption/',
+                null,
+                null,
+                'App.PrivacyManager.compliance'
+            ) .
+            '" target="_blank" rel="noreferrer noopener">',
+            '</a>',
+        ]);
+    }
+
+    protected static function generateWarnings(): string
+    {
+        return Piwik::translate('General_ComplianceCNILWarning');
     }
 
     public static function getTitle(): string

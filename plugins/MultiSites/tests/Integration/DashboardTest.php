@@ -65,6 +65,8 @@ class DashboardTest extends IntegrationTestCase
             'previous_hits' => 0,
             'previous_nb_actions' => 0,
             'previous_revenue' => 0,
+            'ai_chatbots_requests'          => 0,
+            'previous_ai_chatbots_requests' => 0,
         ];
         $this->assertEquals($expectedTotals, $dashboard->getTotals());
 
@@ -103,6 +105,10 @@ class DashboardTest extends IntegrationTestCase
                 'previous_revenue' => 0,
                 'previous_nb_conversions' => 0,
                 'previous_nb_actions' => 0,
+                'ai_chatbots_requests'                 => 0,
+                'ai_chatbots_requests_evolution'       => '0%',
+                'ai_chatbots_requests_evolution_trend' => 0,
+                'previous_ai_chatbots_requests'        => 0,
             ],
             [
                 'label' => 'Site 2',
@@ -138,6 +144,10 @@ class DashboardTest extends IntegrationTestCase
                 'previous_revenue' => 0,
                 'previous_nb_conversions' => 0,
                 'previous_nb_actions' => 0,
+                'ai_chatbots_requests'                 => 0,
+                'ai_chatbots_requests_evolution'       => '0%',
+                'ai_chatbots_requests_evolution_trend' => 0,
+                'previous_ai_chatbots_requests'        => 0,
             ],
             [
                 'label' => 'Site 3',
@@ -173,6 +183,10 @@ class DashboardTest extends IntegrationTestCase
                 'previous_revenue' => 0,
                 'previous_nb_conversions' => 0,
                 'previous_nb_actions' => 0,
+                'ai_chatbots_requests'                 => 0,
+                'ai_chatbots_requests_evolution'       => '0%',
+                'ai_chatbots_requests_evolution_trend' => 0,
+                'previous_ai_chatbots_requests'        => 0,
             ],
         ];
         $this->assertEquals($expectedSites, $dashboard->getSites([], $limit = 10));
@@ -217,6 +231,10 @@ class DashboardTest extends IntegrationTestCase
                 'previous_revenue' => 0,
                 'previous_nb_conversions' => 0,
                 'previous_nb_actions' => 0,
+                'ai_chatbots_requests'                 => 0,
+                'ai_chatbots_requests_evolution'       => '0%',
+                'ai_chatbots_requests_evolution_trend' => 0,
+                'previous_ai_chatbots_requests'        => 0,
             ],
         ];
         $dashboard->search('site 2');

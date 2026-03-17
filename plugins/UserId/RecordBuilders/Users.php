@@ -95,8 +95,6 @@ class Users extends RecordBuilder
 
     /**
      * Fill visitor ID as metadata before actual inserting rows to DB.
-     *
-     * @param DataTable $dataTable
      */
     private function setVisitorIds(DataTable $dataTable, array $visitorIdsUserIdsMap)
     {

@@ -11,9 +11,6 @@ namespace Piwik\Plugins\PagePerformance\JqplotDataGenerator;
 
 use Piwik\ProxyHttp;
 
-/**
- *
- */
 class Chart extends \Piwik\Plugins\CoreVisualizations\JqplotDataGenerator\Chart
 {
     // the data kept here conforms to the jqplot data layout

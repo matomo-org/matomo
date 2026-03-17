@@ -57,8 +57,6 @@ class NestedSitesLimiter extends BaseFilter
     private $rows   = [];
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table The table to eventually filter.
      */
     public function __construct(DataTable $table, int $offset, int $limit)
@@ -121,9 +119,6 @@ class NestedSitesLimiter extends BaseFilter
         }
     }
 
-    /**
-     * @param null|Row $lastGroupFromPreviousPage
-     */
     private function prependGroupIfFirstSiteBelongsToAGroupButGroupIsMissingInRows(?Row $lastGroupFromPreviousPage): void
     {
         if ($lastGroupFromPreviousPage && !empty($this->rows)) {

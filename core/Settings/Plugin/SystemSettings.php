@@ -28,9 +28,6 @@ use Piwik\Settings\Settings;
  */
 abstract class SystemSettings extends Settings
 {
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();

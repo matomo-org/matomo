@@ -90,9 +90,6 @@ class DataTableFactory
     public const TABLE_METADATA_SITE_INDEX = 'site';
     public const TABLE_METADATA_PERIOD_INDEX = 'period';
 
-    /**
-     * Constructor.
-     */
     public function __construct($dataNames, $dataType, $sitesId, $periods, Segment $segment, $defaultRow)
     {
         $this->dataNames = $dataNames;
@@ -109,7 +106,6 @@ class DataTableFactory
      * Returns the ID of the site a table is related to based on the 'site' metadata entry,
      * or null if there is none.
      *
-     * @param DataTable $table
      * @return int|null
      */
     public static function getSiteIdFromMetadata(DataTable $table)

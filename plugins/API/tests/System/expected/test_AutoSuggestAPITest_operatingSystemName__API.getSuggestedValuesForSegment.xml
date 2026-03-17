@@ -9,10 +9,12 @@
 	<row>tvOS</row>
 	<row>risingOS</row>
 	<row>palmOS</row>
+	<row>openSUSE</row>
 	<row>moonOS</row>
 	<row>iPadOS</row>
 	<row>iOS</row>
 	<row>gNewSense</row>
+	<row>elementary OS</row>
 	<row>blackPanther OS</row>
 	<row>ZorinOS</row>
 	<row>Zenwalk</row>
@@ -28,6 +30,4 @@
 	<row>Whale OS</row>
 	<row>Webian</row>
 	<row>WebTV</row>
-	<row>Wear OS</row>
-	<row>ViziOS</row>
 </result>

@@ -1,5 +1,9 @@
 {
     "BotTracking": {
-        "PageUrl": "பக்கத்தின் URL"
+        "PageUrl": "பக்கத்தின் URL",
+        "NoDataHttpTrackingApi": "HTTP கண்காணிப்பு பநிஇ",
+        "SiteWithoutDataBackToMatomo": "மட்டோமோக்கு திரும்ப",
+        "SiteWithoutDataInstallWithX": "%1$s உடன் நிறுவவும்",
+        "SiteWithoutDataStepByStepGuide": "படிப்படியான வழிகாட்டி"
     }
 }

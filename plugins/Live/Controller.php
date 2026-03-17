@@ -19,8 +19,6 @@ use Piwik\Plugins\Live\Visualizations\VisitorLog;
 use Piwik\Url;
 use Piwik\View;
 
-/**
- */
 class Controller extends \Piwik\Plugin\Controller
 {
     public const SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY = 'live_widget_visitor_count_last_minutes';
@@ -105,7 +103,14 @@ class Controller extends \Piwik\Plugin\Controller
         $error = '';
         $visitors = new DataTable();
         try {
-            $api = new Request("method=Live.getLastVisitsDetails&idSite={$this->idSite}&filter_limit=10&format=original&serialize=0&disable_generic_filters=1");
+            $api = new Request([
+                'method' => 'Live.getLastVisitsDetails',
+                'idSite' => $this->idSite,
+                'filter_limit' => 10,
+                'format' => 'original',
+                'serialize' => 0,
+                'disable_generic_filters' => 1,
+            ]);
             $visitors = $api->process();
         } catch (\Exception $e) {
             $error = $e->getMessage();

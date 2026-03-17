@@ -9,9 +9,6 @@
 
 namespace Piwik\Plugins\ImageGraph\StaticGraph;
 
-/**
- *
- */
 class Pie3D extends PieGraph
 {
     public function renderGraph()

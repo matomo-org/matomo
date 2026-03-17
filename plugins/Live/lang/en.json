@@ -38,7 +38,7 @@
         "ToggleActions": "Toggle visibility of all actions",
         "TopVisitedPages": "Most visited pages",
         "VisitsLog": "Visits Log",
-        "DisableVisitsLogAndProfile": "Turn off visits log and visitor profiles",
+        "DisableVisitsLogAndProfile": "Turn off Visits log and Visitor profiles",
         "DisableVisitsLogAndProfileDescription": "Also removes features that depend on these, like the e-commerce log, the segmented visits-log, the real-time map or the real-time widget. May be required to comply with local privacy laws\/guidelines.",
         "QueryMaxExecutionTimeExceeded": "Could not run the query in time.",
         "QueryMaxExecutionTimeExceededReasonDateRange": "Maybe the selected date range is too wide?",

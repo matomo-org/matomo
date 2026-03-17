@@ -294,14 +294,55 @@ class Build extends ConsoleCommand
 
     private function isTypeScriptRaceConditionInOutput(string $plugin, string $concattedOutput): bool
     {
-        if (!preg_match('/^TS2307: Cannot find module \'([^\']+)\' or its corresponding type declarations./', $concattedOutput, $matches)) {
+        // Console output can contain ANSI escape sequences; remove them first to make regex matching stable.
+        // Example:
+        //   "\x1b[41m ERROR \x1b[49m ... TS2307: Cannot find module ..."
+        // becomes:
+        //   " ERROR  ... TS2307: Cannot find module ..."
+        $normalizedOutput = preg_replace('/\x1b\[[0-9;]*m/', '', $concattedOutput);
+        if (empty($normalizedOutput)) {
             return false;
         }
 
-        $file = $matches[1];
-        $filePath = Manager::getPluginDirectory($plugin) . '/vue/src/' . $file;
-        $isTypeScriptCompilerBug = file_exists($filePath);
-        return $isTypeScriptCompilerBug;
+        // Match TS2307 blocks and capture:
+        // 1) the importer file path
+        // 2) the missing module path
+        // so we can verify whether the target actually exists on disk.
+        $matches = [];
+        preg_match_all(
+            '/in\s+([^\n]+)\(\d+,\d+\)\s*\n\s*TS2307:\s+Cannot find module \'([^\']+)\' or its corresponding type declarations\./m',
+            $normalizedOutput,
+            $matches,
+            PREG_SET_ORDER
+        );
+
+        foreach ($matches as $match) {
+            $importerFile = trim($match[1]);
+            $missingModule = $match[2];
+
+            if ($this->isRelativeImport($missingModule)) {
+                // Relative imports are resolved from the importer directory.
+                // If the path exists, this is likely a transient TS resolver race and should be retried.
+                $resolvedPath = dirname($importerFile) . DIRECTORY_SEPARATOR . $missingModule;
+                if (file_exists($resolvedPath)) {
+                    return true;
+                }
+                continue;
+            }
+
+            // Keep legacy behavior for non-relative plugin imports (e.g. "SomePluginComponent").
+            $filePath = Manager::getPluginDirectory($plugin) . '/vue/src/' . $missingModule;
+            if (file_exists($filePath)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isRelativeImport(string $importPath): bool
+    {
+        return strpos($importPath, './') === 0 || strpos($importPath, '../') === 0;
     }
 
     private function getAllPlugins(): array

@@ -18,6 +18,7 @@ interface ReportExportArgs {
   reportFormats: Record<string, unknown>;
   apiMethod: string;
   maxFilterLimit: number;
+  canExportFlat?: boolean;
   onClose?: () => void;
 }
 
@@ -38,28 +39,36 @@ export default {
         reportLimit = Math.min(reportLimit, binding.value.maxFilterLimit);
       }
 
-      const optionFlat = dataTable.param.flat === true
+      const isDataTableFlat = dataTable.param.flat === true
         || dataTable.param.flat === 1
         || dataTable.param.flat === '1';
 
       const optionShowDimensions = dataTable.param.show_dimensions === true
         || dataTable.param.show_dimensions === 1
         || dataTable.param.show_dimensions === '1';
+      const hasSubtables = isDataTableFlat || dataTable.numberOfSubtables > 0;
+      const canExportFlat = (binding.value.canExportFlat ?? hasSubtables) && hasSubtables;
+      // Intentional product behaviour:
+      // when flat export is available, open the popover with TSV + flat selected.
+      const defaultFlatOnOpen = canExportFlat;
+      const defaultExpandedOnOpen = false;
 
       const props = {
         initialReportType: 'default',
+        initialReportFormat: 'TSV',
         initialReportLimit: reportLimit > 0 ? reportLimit : 100,
         initialReportLimitAll: reportLimit === -1 ? 'yes' : 'no',
-        initialOptionFlat: optionFlat,
+        initialOptionFlat: defaultFlatOnOpen,
         initialOptionShowDimensions: optionShowDimensions,
-        initialOptionExpanded: true,
+        initialOptionExpanded: defaultExpandedOnOpen,
         initialOptionFormatMetrics: false,
-        hasSubtables: optionFlat || dataTable.numberOfSubtables > 0,
+        hasSubtables,
+        canExportFlat,
         availableReportFormats: {
           default: formats,
           processed: {
-            XML: formats.XML,
             JSON: formats.JSON,
+            XML: formats.XML,
           },
         },
         availableReportTypes: {

@@ -3,7 +3,7 @@
 	<website>Piwik test</website>
 	<prettyDate>Monday, January 5, 2009</prettyDate>
 	<metadata>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Entry pages</subcategory>
 		<name>Entry page titles</name>
 		<module>Actions</module>

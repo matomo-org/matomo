@@ -39,8 +39,6 @@ class Notification
 
     /**
      * Dismisses the notification for the current user
-     *
-     * @return void
      */
     public function setNotificationDismissed(): void
     {
@@ -51,7 +49,6 @@ class Notification
     /**
      * Creates a plugin trial notification for the current user if needed
      *
-     * @return void
      * @throws Exception
      */
     public function createNotificationIfNeeded(): void
@@ -81,8 +78,6 @@ class Notification
 
     /**
      * Removes a notification from current users session
-     *
-     * @return void
      */
     public function removeFromSession(): void
     {

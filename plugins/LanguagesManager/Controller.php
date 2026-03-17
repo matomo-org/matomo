@@ -16,8 +16,6 @@ use Piwik\Nonce;
 use Piwik\Piwik;
 use Piwik\Url;
 
-/**
- */
 class Controller extends \Piwik\Plugin\ControllerAdmin
 {
     /**

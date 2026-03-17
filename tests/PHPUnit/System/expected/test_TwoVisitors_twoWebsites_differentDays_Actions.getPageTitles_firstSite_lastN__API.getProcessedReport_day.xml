@@ -3,7 +3,7 @@
 	<website>Site 1</website>
 	<prettyDate>January 3 – 9, 2010</prettyDate>
 	<metadata>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<subcategory>Page titles</subcategory>
 		<name>Page titles</name>
 		<module>Actions</module>
@@ -237,7 +237,7 @@
 		</result>
 		<result prettyDate="Monday, January 4, 2010">
 			<row>
-				<segment>pageTitle==</segment>
+				<segment />
 			</row>
 		</result>
 		<result prettyDate="Tuesday, January 5, 2010">

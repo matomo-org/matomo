@@ -244,7 +244,7 @@ https://www.example.org/</placeholder>
 		<settings>
 			<row>
 				<name>disable_visitor_log</name>
-				<title>Turn off visits log and visitor profiles</title>
+				<title>Turn off Visits log and Visitor profiles</title>
 				<value>0</value>
 				<defaultValue>0</defaultValue>
 				<type>boolean</type>

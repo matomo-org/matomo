@@ -22,7 +22,7 @@ trait ConfigGetterTrait
     /**
      * @return T|null
      */
-    public static function getConfigValue(int $idSite = null)
+    public static function getConfigValue(?int $idSite = null)
     {
         $configKey = self::getConfigSection();
 

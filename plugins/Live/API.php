@@ -158,7 +158,7 @@ class API extends \Piwik\Plugin\API
     public function getLastVisitsDetails($idSite, $period = false, $date = false, $segment = false, $countVisitorsToFetch = false, $minTimestamp = false, $flat = false, $doNotFetchActions = false, $enhanced = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
-        $idSites = Site::getIdSitesFromIdSitesString($idSite);
+        $idSites = Site::getIdSitesFromIdSitesString($idSite, false, true);
         if (is_array($idSites) && count($idSites) === 1) {
             $idSites = array_shift($idSites);
         }
@@ -334,7 +334,7 @@ class API extends \Piwik\Plugin\API
      */
     public function getFirstVisitForVisitorId($idSite, $visitorId)
     {
-        Piwik::checkUserHasSomeViewAccess();
+        Piwik::checkUserHasViewAccess($idSite);
         Live::checkIsVisitorProfileEnabled($idSite);
 
         if (empty($visitorId)) {
@@ -355,9 +355,6 @@ class API extends \Piwik\Plugin\API
      * If no action was performed in this timeframe an empty string is returned
      *
      * @param int|string $idSite
-     * @param string|null $period
-     * @param string|null $date
-     * @return string
      * @throws Exception
      */
     public function getMostRecentVisitsDateTime($idSite, ?string $period = null, ?string $date = null): string
@@ -371,7 +368,6 @@ class API extends \Piwik\Plugin\API
     /**
      * For an array of visits, query the list of pages for this visit
      * as well as make the data human readable
-     * @param DataTable $dataTable
      * @param bool $flat whether to flatten the array (eg. 'customVariables' names/values will appear in the root array rather than in 'customVariables' key
      * @param bool $doNotFetchActions If set to true, we only fetch visit info and not actions (much faster)
      * @param bool $filterNow If true, the visitors will be cleaned immediately

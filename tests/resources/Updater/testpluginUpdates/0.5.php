@@ -1,4 +1,5 @@
 <?php
+
 namespace Piwik\Plugins\testpluginUpdates;
 
 use Piwik\Updates as PiwikUpdates;

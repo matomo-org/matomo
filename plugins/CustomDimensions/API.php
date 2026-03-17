@@ -38,7 +38,6 @@ class API extends \Piwik\Plugin\API
      * view access.
      *
      * @param int $idDimension
-     * @param int $idSite
      * @param string $period
      * @param string $date
      * @param bool|false $segment
@@ -48,7 +47,7 @@ class API extends \Piwik\Plugin\API
      * @return DataTable|DataTable\Map
      * @throws \Exception
      */
-    public function getCustomDimension($idDimension, $idSite, $period, $date, $segment = false, $expanded = false, $flat = false, $idSubtable = false)
+    public function getCustomDimension($idDimension, int $idSite, $period, $date, $segment = false, $expanded = false, $flat = false, $idSubtable = false)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -96,7 +95,7 @@ class API extends \Piwik\Plugin\API
      * @return int Returns the ID of the configured dimension. Note that the same idDimension will be used for different websites.
      * @throws \Exception
      */
-    public function configureNewCustomDimension($idSite, $name, $scope, $active, $extractions = array(), $caseSensitive = true)
+    public function configureNewCustomDimension(int $idSite, $name, $scope, $active, $extractions = array(), $caseSensitive = true)
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -150,7 +149,7 @@ class API extends \Piwik\Plugin\API
      * @param int|bool|null $caseSensitive  '0' if extractions should be applied case insensitive, '1' if extractions should be applied case sensitive, null to keep case sensitive unchanged
      * @throws \Exception
      */
-    public function configureExistingCustomDimension($idDimension, $idSite, $name, $active, $extractions = array(), $caseSensitive = null)
+    public function configureExistingCustomDimension($idDimension, int $idSite, $name, $active, $extractions = array(), $caseSensitive = null)
     {
         Piwik::checkUserHasWriteAccess($idSite);
 
@@ -182,10 +181,9 @@ class API extends \Piwik\Plugin\API
      * Get a list of all configured CustomDimensions for a given website. Requires at least Admin access for the
      * specified website.
      *
-     * @param int $idSite
      * @return array
      */
-    public function getConfiguredCustomDimensions($idSite)
+    public function getConfiguredCustomDimensions(int $idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
 
@@ -198,7 +196,7 @@ class API extends \Piwik\Plugin\API
      * For convenience. Hidden to reduce API surface area.
      * @hide
      */
-    public function getConfiguredCustomDimensionsHavingScope($idSite, $scope)
+    public function getConfiguredCustomDimensionsHavingScope(int $idSite, $scope)
     {
         $result = $this->getConfiguredCustomDimensions($idSite);
         $result = array_filter($result, function ($row) use ($scope) {
@@ -233,10 +231,9 @@ class API extends \Piwik\Plugin\API
      * `CustomDimensions.configureNewCustomDimension`. The response also contains information whether more Custom
      * Dimensions can be created or not. Requires at least Admin access for the specified website.
      *
-     * @param int $idSite
      * @return array
      */
-    public function getAvailableScopes($idSite)
+    public function getAvailableScopes(int $idSite)
     {
         Piwik::checkUserHasViewAccess($idSite);
 

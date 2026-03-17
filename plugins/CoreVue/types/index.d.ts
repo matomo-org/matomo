@@ -83,8 +83,10 @@ declare global {
   interface PiwikHelperGlobal {
     escape(text: string): string;
     redirect(params?: any);
+    getCurrentQueryStringWithParametersModified(newparams: string);
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
+    normalize(value: string): string;
     modalConfirm(element: JQuery|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     isReportingPage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|Element|string): void;
@@ -176,11 +178,13 @@ declare global {
     userHasSomeAdminAccess: boolean;
     requiresPasswordConfirmation: boolean;
     disableTrackingMatomoAppLinks: boolean;
+    apiBulkRequestLimit: number;
 
     visitorLogEnabled: boolean;
     updatePeriodParamsFromUrl(): void;
     updateTitle(date: string, period: string, c: string, s: string, segment?: string): void;
     hasUserCapability(capability: string): boolean;
+    getLoginModule(): string;
     getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;
     getBaseDatePickerOptions(defaultDate: Date|null): any;

@@ -37,7 +37,6 @@ class Updates_3_6_0_b2 extends PiwikUpdates
 
      /**
      * Here you can define one or multiple SQL statements that should be executed during the update.
-     * @param Updater $updater
      * @return Migration[]
      */
     public function getMigrations(Updater $updater)

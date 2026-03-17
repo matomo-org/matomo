@@ -1,7 +1,7 @@
 {
     "Tour": {
-        "Engagement": "Zainteresovanost",
         "BrowseMarketplace": "Pretraži Market",
-        "CompletionTitle": "Odlično!"
+        "CompletionTitle": "Odlično!",
+        "Engagement": "Zainteresovanost"
     }
 }

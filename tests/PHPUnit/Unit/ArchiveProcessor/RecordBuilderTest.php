@@ -211,6 +211,45 @@ class RecordBuilderTest extends TestCase
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
     }
 
+    public function testBuildFromLogsUsesZeroRecordSpecificLimitInsteadOfDefaultLimit(): void
+    {
+        $recordBuilder = new class (2, null, 'nb_visits') extends ArchiveProcessor\RecordBuilder {
+            public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
+            {
+                return [
+                    Record::make(Record::TYPE_NUMERIC, 'TestPlugin_myMetric'),
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_myReport')
+                        ->setMaxRowsInTable(0),
+                ];
+            }
+
+            protected function aggregate(ArchiveProcessor $archiveProcessor): array
+            {
+                return [
+                    'TestPlugin_myMetric' => 30,
+                    'TestPlugin_myReport' => RecordBuilderTest::makeTestDataTable(),
+                ];
+            }
+        };
+
+        $mockArchiveProcessor = $this->getMockArchiveProcessor();
+        $recordBuilder->buildFromLogs($mockArchiveProcessor);
+
+        $expectedNumericRecords = ['TestPlugin_myMetric' => 30];
+        $expectedBlobRecords = [
+            'TestPlugin_myReport' => [
+                [
+                    [Row::COLUMNS => ['label' => 'the thing', 'nb_visits' => 40], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+                    [Row::COLUMNS => ['label' => 'another thing', 'nb_visits' => 50], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+                    [Row::COLUMNS => ['label' => 'a third thing', 'nb_visits' => 20], Row::METADATA => [], Row::DATATABLE_ASSOCIATED => null],
+                ],
+            ],
+        ];
+
+        $this->assertEquals($expectedNumericRecords, $this->numericRecordsInserted);
+        $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
+    }
+
     public function testBuildForNonDayPeriodDoesNothingIfRecordBuilderNotEnabled()
     {
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {

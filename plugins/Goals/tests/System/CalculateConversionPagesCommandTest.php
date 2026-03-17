@@ -69,7 +69,6 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
      * Set all pageviews before value to null
      *
      * @throws \Exception
-     * @return void
      */
     private function unsetPageviewsBefore(): void
     {
@@ -82,9 +81,6 @@ class CalculateConversionPagesCommandTest extends ConsoleCommandTestCase
     /**
      * Check that the log_conversion.pageviews_before column was correctly calculated
      *
-     * @param string|null $onlyToDate
-     *
-     * @return void
      * @throws \Exception
      */
     public function checkPageviewsBeforeValid(?string $onlyToDate = null): void

@@ -9,12 +9,14 @@
 
 namespace Piwik\Plugins\Feedback\tests\Unit;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Date;
-use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Feedback\API;
 use Piwik\Plugins\Feedback\Feedback;
 use Piwik\Plugins\UsersManager\Model;
+use Piwik\Settings\Storage\Backend\PluginSettingsTable;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 use Piwik\Tests\Framework\Mock\FakeAccess;
 use Piwik\Tests\Framework\TestCase\IntegrationTestCase;
 
@@ -58,11 +60,11 @@ class FeedbackTest extends IntegrationTestCase
     public function tearDown(): void
     {
         FakeAccess::$identity = 'user1';
-        Option::deleteLike('Feedback.nextFeedbackReminder.%');
+        PluginSettingsTable::removeAllUserSettingsForUser('user1');
         $this->userModel->deleteUserOnly('user1');
 
         FakeAccess::$identity = 'user2';
-        Option::deleteLike('Feedback.nextFeedbackReminder.%');
+        PluginSettingsTable::removeAllUserSettingsForUser('user2');
         $this->userModel->deleteUserOnly('user2');
 
         Date::$now = $this->now;
@@ -87,7 +89,7 @@ class FeedbackTest extends IntegrationTestCase
 
     public function testShouldPromptForFeedbackDontRemindUserAgain()
     {
-        Option::set('Feedback.nextFeedbackReminder.user1', '-1');
+        $this->setFeedbackReminderForUser('user1', '-1');
 
         $this->assertFalse($this->feedback->showQuestionBanner());
     }
@@ -95,20 +97,20 @@ class FeedbackTest extends IntegrationTestCase
     public function testShouldPromptForFeedbackNextReminderDateInPast()
     {
         FakeAccess::$identity = 'user1';
-        Option::set('Feedback.nextFeedbackReminder.user1', '2019-05-31');
+        $this->setFeedbackReminderForUser('user1', '2019-05-31');
         $this->assertTrue($this->feedback->showQuestionBanner());
     }
 
     public function testShouldPromptForFeedackNextReminderDateToday()
     {
-        Option::set('Feedback.nextFeedbackReminder.user1', '2018-10-31');
+        $this->setFeedbackReminderForUser('user1', '2018-10-31');
         $this->assertTrue($this->feedback->showQuestionBanner());
     }
 
     public function testShouldPromptForFeedbackUserOldThanHalfYear()
     {
         FakeAccess::$identity = 'user1';
-        Option::deleteLike('Feedback.nextFeedbackReminder.user1');
+        StaticContainer::get(UserScopedSettingsAccessManager::class)->deleteAll('Feedback', 'user1');
         $this->assertFalse($this->feedback->showQuestionBanner());
     }
 
@@ -137,5 +139,10 @@ class FeedbackTest extends IntegrationTestCase
         //test pass with like is null
         $result = $api->sendFeedbackForFeature('test', null, null, "dislike this test");
         $this->assertEquals("success", $result);
+    }
+
+    private function setFeedbackReminderForUser(string $login, string $value): void
+    {
+        StaticContainer::get(UserScopedSettingsAccessManager::class)->set('Feedback', $login, 'nextFeedbackReminder', $value);
     }
 }

@@ -218,9 +218,6 @@ class SharedSiteIds
         return Process::isSupported();
     }
 
-    /**
-     * @return bool
-     */
     public function isContinuingPreviousRun(): bool
     {
         return $this->isContinuingPreviousRun;

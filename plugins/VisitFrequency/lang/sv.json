@@ -11,13 +11,13 @@
         "ColumnBounceRateForReturningVisits": "Avvisningsfrekvens för återkommande besök",
         "ColumnMaxActionsInReturningVisit": "Flest händelser under ett återkommande besök",
         "ColumnNbReturningVisitsConverted": "Antalet konverterade återkommande besök",
+        "ColumnNewUsers": "Nya användare",
         "ColumnNewVisits": "Nya besök",
+        "ColumnReturningUsers": "Återkommande användare",
         "ColumnReturningVisits": "Återkommande besök",
         "ColumnSumVisitLengthReturning": "Total tid som återkommande besökare spenderade (i sekunder)",
         "ColumnUniqueNewVisitors": "Nya unika besökare",
         "ColumnUniqueReturningVisitors": "Unika återkommande besökare",
-        "ColumnNewUsers": "Nya användare",
-        "ColumnReturningUsers": "Återkommande användare",
         "NewActions": "händelser av nya besök",
         "NewAverageVisitDuration": "genomsnittlig besökstid för nya besökare",
         "NewAvgActions": "åtgärder per nytt besök",
@@ -28,12 +28,12 @@
         "ReturnAverageVisitDuration": "genomsnittlig besökstid för återkommande besökare",
         "ReturnAvgActions": "händelser per återkommande besök",
         "ReturnBounceRate": "återkommande besöken har studsat (lämnat sidan efter en sidvisning)",
+        "ReturnVisits": "återkommande besök",
         "ReturningVisitDocumentation": "Ett återkommande besök är (till skillnad från ett nytt besök) en besökare som besökt webbplatsen minst en gång tidigare.",
         "ReturningVisitsDocumentation": "Detta är en översikt av återkommande besök.",
-        "ReturnVisits": "återkommande besök",
         "SubmenuFrequency": "Frekvens",
+        "VisitFrequencyReportDocumentation": "Denna rapport visar allmänna mått som till exempel besök för återkommande besökare sida vid sida med samma mätvärden för nya besökare. Lär dig hur återkommande besökare presterar totalt sett jämfört med nya besökare.",
         "WidgetGraphReturning": "Graf över återkommande besök",
-        "WidgetOverview": "Frekvensöversikt",
-        "VisitFrequencyReportDocumentation": "Denna rapport visar allmänna mått som till exempel besök för återkommande besökare sida vid sida med samma mätvärden för nya besökare. Lär dig hur återkommande besökare presterar totalt sett jämfört med nya besökare."
+        "WidgetOverview": "Frekvensöversikt"
     }
 }

@@ -28,9 +28,6 @@ class SegmentSelectorControl extends UIControl
 {
     public const TEMPLATE = "@SegmentEditor/_segmentSelector";
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -75,6 +72,12 @@ class SegmentSelectorControl extends UIControl
             }
         }
 
+        $this->manageSegmentUrl =  [
+            'module' => 'CoreHome',
+            'action' => 'index',
+            'category' => 'General_Visitors',
+            'subcategory' => 'CoreHome_Segments',
+        ];
         $this->authorizedToCreateSegments = SegmentEditorAPI::getInstance()->isUserCanAddNewSegment($this->idSite);
         $this->isUserAnonymous = Piwik::isUserIsAnonymous();
         $this->segmentTranslations = $this->getTranslations();
@@ -110,15 +113,19 @@ class SegmentSelectorControl extends UIControl
     {
         $translationKeys = array(
             'General_CanNotEditGlobalSegment',
+            'General_CanNotDeleteGlobalSegment',
             'General_CanNotStarGlobalSegment',
             'General_CanNotUnstarGlobalSegment',
             'General_CanEditGlobalSegment',
+            'General_CanDeleteGlobalSegment',
             'General_CanStarGlobalSegment',
             'General_CanUnstarGlobalSegment',
             'General_CanNotEditSiteSegment',
+            'General_CanNotDeleteSiteSegment',
             'General_CanNotStarSiteSegment',
             'General_CanNotUnstarSiteSegment',
             'General_CanEditSiteSegment',
+            'General_CanDeleteSiteSegment',
             'General_CanStarSiteSegment',
             'General_CanUnstarSiteSegment',
             'General_OperationEquals',

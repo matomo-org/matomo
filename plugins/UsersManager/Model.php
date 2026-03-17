@@ -16,10 +16,13 @@ use Piwik\Config\GeneralConfig;
 use Piwik\Container\StaticContainer;
 use Piwik\Date;
 use Piwik\Db;
+use Piwik\Log\LoggerInterface;
 use Piwik\Option;
 use Piwik\Piwik;
+use Piwik\Plugins\MobileMessaging\MobileMessaging;
 use Piwik\Plugins\UsersManager\Sql\SiteAccessFilter;
 use Piwik\Plugins\UsersManager\Sql\UserTableFilter;
+use Piwik\Settings\Storage\Backend\PluginSettingsTable;
 use Piwik\SettingsPiwik;
 use Piwik\Validators\BaseValidator;
 use Piwik\Validators\CharacterLength;
@@ -602,8 +605,6 @@ class Model
     /**
      * Get an array of user data using the supplied token
      *
-     * @param string|null   $tokenAuth
-     *
      * @return array|null
      * @throws \Exception
      */
@@ -767,6 +768,7 @@ class Model
     public function deleteUser($userLogin): void
     {
         $this->deleteUserOnly($userLogin);
+        PluginSettingsTable::removeAllUserSettingsForUser($userLogin);
         $this->deleteUserOptions($userLogin);
         $this->deleteUserAccess($userLogin);
     }
@@ -788,12 +790,42 @@ class Model
          *
          * @param string $userLogins The login handle of the deleted user.
          */
-        Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
+        try {
+            Piwik::postEvent('UsersManager.deleteUser', array($userLogin));
+        } catch (\Throwable $e) {
+            StaticContainer::get(LoggerInterface::class)->error(
+                'Error while processing event UsersManager.deleteUser',
+                ['exception' => $e]
+            );
+        }
     }
 
     public function deleteUserOptions($userLogin)
     {
+        // @todo Remove legacy option cleanup with Matomo 6 once user-scoped settings no longer use Option keys.
         Option::deleteLike('UsersManager.%.' . $userLogin);
+        Option::delete('Feedback.nextFeedbackReminder.' . $userLogin);
+        Option::delete($userLogin . MobileMessaging::USER_SETTINGS_POSTFIX_OPTION);
+        Option::deleteLike('ProfessionalServices.DismissedWidget.%.' . $userLogin);
+
+        $preferences = [
+            API::PREFERENCE_DEFAULT_REPORT,
+            API::PREFERENCE_DEFAULT_REPORT_DATE,
+            'isLDAPUser',
+            'hideSegmentDefinitionChangeMessage',
+        ];
+        $customPreferences = StaticContainer::get('usersmanager.user_preference_names');
+        if (empty($customPreferences)) {
+            $customPreferences = [];
+        } elseif (!is_array($customPreferences)) {
+            $customPreferences = [$customPreferences];
+        }
+        $preferences = array_merge($preferences, $customPreferences);
+
+        // @todo remove with matomo 6
+        foreach ($preferences as $preference) {
+            Option::delete($userLogin . API::OPTION_NAME_PREFERENCE_SEPARATOR . $preference);
+        }
     }
 
     /**

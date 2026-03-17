@@ -25,7 +25,7 @@ interface PolicyComparisonInterface
      * @param T|null $settingValue
      * @return T|null
      */
-    public static function getPolicyValuesAgainstProvided($settingValue, int $idSite = null);
+    public static function getPolicyValuesAgainstProvided($settingValue, ?int $idSite = null);
 
     /**
      * @return array<class-string<CompliancePolicy>, T|null>
