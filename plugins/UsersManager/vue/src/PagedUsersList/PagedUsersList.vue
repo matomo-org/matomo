@@ -358,7 +358,7 @@
                 class="signoutuser table-action"
                 :title="translate('UsersManager_SignOutUser')"
                 @click="userToChange = user; showSignOutConfirm()"
-                v-if="currentUserRole === 'superuser' && user.login !== 'anonymous'"
+                v-if="currentUserRole === 'superuser' && user.login !== 'anonymous' && user.invite_status === 'active'"
             >
               <span class="icon-sign-out"/>
             </button>
@@ -428,30 +428,19 @@
       </h3>
     </PasswordConfirmation>
 
-    <div class="sign-out-user-confirm-modal modal" ref="signOutUserConfirmModal">
-      <div class="modal-content">
-        <h3
-            v-if="userToChange"
-            v-html="$sanitize(translate(
-                'UsersManager_SignOutUserConfirm',
-                `<strong>${userToChange.login}</strong>`,
-              ))"
-        ></h3>
-      </div>
-      <div class="modal-footer">
-        <a
-            href=""
-            class="modal-action modal-close btn"
-            @click.prevent="signOutRequestedUser()"
-            style="margin-right:3.5px"
-        >{{ translate('General_Yes') }}</a>
-        <a
-            href=""
-            class="modal-action modal-close modal-no btn-flat"
-            @click.prevent="resetUserAndRoleToChange()"
-        >{{ translate('General_No') }}</a>
-      </div>
-    </div>
+    <PasswordConfirmation
+      v-model="showPasswordConfirmationForUserSignOut"
+      @confirmed="signOutRequestedUser"
+      @aborted="resetUserAndRoleToChange"
+    >
+      <h3
+        v-if="userToChange"
+        v-html="$sanitize(translate(
+            'UsersManager_SignOutUserConfirm',
+            `<strong>${userToChange.login}</strong>`,
+          ))"
+      ></h3>
+    </PasswordConfirmation>
 
     <div class="change-user-role-confirm-modal modal" ref="changeUserRoleConfirmModal">
       <div class="modal-content">
@@ -519,6 +508,7 @@ interface PagedUsersListState {
   permissionsForSite: SiteRef;
   showPasswordConfirmationForUserRemoval: boolean;
   showPasswordConfirmationForAnonymousAccess: boolean;
+  showPasswordConfirmationForUserSignOut: boolean;
 }
 
 const { $ } = window;
@@ -586,6 +576,7 @@ export default defineComponent({
       },
       showPasswordConfirmationForUserRemoval: false,
       showPasswordConfirmationForAnonymousAccess: false,
+      showPasswordConfirmationForUserSignOut: false,
     };
   },
   emits: ['editUser', 'changeUserRole', 'deleteUser', 'searchChange', 'resendInvite', 'signOutUser'],
@@ -659,15 +650,12 @@ export default defineComponent({
       this.showPasswordConfirmationForUserRemoval = true;
     },
     showSignOutConfirm() {
-      $(this.$refs.signOutUserConfirmModal as HTMLElement)
-        .modal({
-          dismissible: false,
-        })
-        .modal('open');
+      this.showPasswordConfirmationForUserSignOut = true;
     },
-    signOutRequestedUser() {
+    signOutRequestedUser(password: string) {
       this.$emit('signOutUser', {
-        user: this.userToChange,
+        userLogin: this.userToChange?.login || null,
+        password,
       });
     },
 

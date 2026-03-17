@@ -1072,11 +1072,20 @@ class API extends \Piwik\Plugin\API
      * Use this for security purposes, e.g., if a device was lost or compromised.
      *
      * @param string $userLogin The login of the user to sign out
+     * @param string | null $passwordConfirmation the current user's password, only required when request is authenticated with session token auth
      * @throws Exception if the user does not exist or is the anonymous user
      */
-    public function logoutUser(string $userLogin): void
+    public function logoutUser(
+        string $userLogin,
+        #[\SensitiveParameter]
+        $passwordConfirmation = null
+    ): void
     {
         Piwik::checkUserHasSuperUserAccess();
+
+        if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
+            $this->confirmCurrentUserPassword($passwordConfirmation);
+        }
 
         BaseValidator::check('userlogin', $userLogin, [new NotEmpty()]);
         $this->checkUserIsNotAnonymous($userLogin);

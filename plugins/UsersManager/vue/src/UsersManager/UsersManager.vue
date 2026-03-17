@@ -52,7 +52,7 @@
           @delete-user="onDeleteUser($event.users, $event.password)"
           @search-change="searchParams = $event.params; fetchUsers()"
           @resend-invite="triggerResendInviteForUser = $event.user"
-          @sign-out-user="onSignOutUser($event.user)"
+          @sign-out-user="onSignOutUser($event.userLogin, $event.password)"
           :initial-site-id="initialSiteId"
           :initial-site-name="initialSiteName"
           :is-loading-users="isLoadingUsers"
@@ -417,19 +417,31 @@ export default defineComponent({
         this.isLoadingUsers = false;
       });
     },
-    onSignOutUser(user: User) {
-      AjaxHelper.fetch({
+    onSignOutUser(userLogin: string | null, password: string) {
+      if (!userLogin) {
+        NotificationsStore.scrollToNotification(NotificationsStore.show({
+          id: 'signOutUserError',
+          message: translate('UsersManager_SignOutUserNotSuccessful'),
+          context: 'warning',
+          type: 'toast',
+        }));
+        return;
+      }
+
+      AjaxHelper.post({
         method: 'UsersManager.logoutUser',
-        userLogin: user.login,
-      }, { createErrorNotification: true }).then(() => {
+        userLogin,
+      }, {
+        passwordConfirmation: password,
+      }, {
+        createErrorNotification: true,
+      }).then(() => {
         NotificationsStore.scrollToNotification(NotificationsStore.show({
           id: 'signOutUserSuccess',
-          message: translate('UsersManager_SignOutUserSuccess', user.login),
+          message: translate('UsersManager_SignOutUserSuccess', userLogin),
           context: 'success',
           type: 'toast',
         }));
-      }).catch(() => {
-        // ignore (error notification shown by AjaxHelper)
       });
     },
     onAddNewUser() {
