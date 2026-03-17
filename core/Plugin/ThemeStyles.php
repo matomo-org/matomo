@@ -60,6 +60,7 @@ class ThemeStyles
         'colorWidgetBackground' => 'theme-color-widget-background',
         'colorWidgetBorder' => 'theme-color-widget-border',
         'filterOnIllustration' => 'theme-filter-on-illustration',
+        'colorMenuContrastBackgroundHover' => 'theme-color-menu-contrast-backgroundHover',
     ];
 
     /**
@@ -175,12 +176,17 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorMenuContrastTextSelected;
+    public $colorMenuContrastTextSelected = ['#1976D2', '#ccc'];
 
     /**
      * @var string|array<string>
      */
     public $colorMenuContrastTextActive = ['#3450A3', '#fff'];
+
+    /**
+     * @var string|array<string>
+     */
+    public $colorMenuContrastBackgroundHover = ['#eff0f1', '#151819'];
 
     /**
      * @var string|array<string>
@@ -277,7 +283,6 @@ class ThemeStyles
         $this->themeMode = $themeMode;
         $this->colorFocusRingAlternative = $this->colorBrand;
         $this->colorMenuContrastText = $this->colorText;
-        $this->colorMenuContrastTextSelected = $this->colorMenuContrastText;
         $this->colorMenuContrastBackground = $this->colorBackgroundContrast;
         $this->colorWidgetExportedBackgroundBase = $this->colorBackgroundContrast;
         $this->colorWidgetTitleText = $this->colorText;

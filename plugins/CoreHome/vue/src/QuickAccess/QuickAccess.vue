@@ -16,12 +16,12 @@
       @mouseenter="searchActive = true"
     />
     <input
-      class="s"
+      class="quickAccessInput browser-default"
       @keydown="onKeypress($event)"
       @focus="searchActive = true"
       v-model="searchTerm"
       type="text"
-      tabindex="2"
+      tabindex="5"
       v-focus-if="{ focused: searchActive }"
       v-tooltips
       :title="quickAccessTitle"
@@ -29,7 +29,7 @@
       ref="input"
     />
     <div
-      class="dropdown"
+      class="dropdown quickAccessDropdown"
       v-show="searchTerm && searchActive"
     >
       <ul v-show="!(numMenuItems > 0 || sites.length)">
@@ -107,6 +107,7 @@ import Site from '../SiteSelector/Site';
 import Matomo from '../Matomo/Matomo';
 import debounce from '../debounce';
 import Tooltips from '../Tooltips/Tooltips';
+import { closeMobileLeftMenu, openMobileLeftMenu } from '../SideNav/SideNav';
 
 const { ListingFormatter } = window;
 
@@ -157,6 +158,7 @@ function scrollFirstElementIntoView(element: HTMLElement) {
 }
 
 export default defineComponent({
+  name: 'QuickAccess',
   directives: {
     FocusAnywhereButHere,
     FocusIf,
@@ -185,16 +187,17 @@ export default defineComponent({
       root.parentElement.classList.add('quick-access', 'piwikSelector');
     }
 
-    if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
-      window.initTopControls();
-    }
-
     Matomo.helper.registerShortcut('f', translate('CoreHome_ShortcutSearch'), (event) => {
       if (event.altKey) {
         return;
       }
 
       event.preventDefault();
+      const mobileMenuTrigger = document.querySelector('nav .activateLeftMenu');
+
+      if (mobileMenuTrigger && window.$(mobileMenuTrigger).is(':visible')) {
+        openMobileLeftMenu();
+      }
 
       scrollFirstElementIntoView(this.$refs.root as HTMLElement);
 
@@ -261,6 +264,8 @@ export default defineComponent({
         this.deactivateSearch();
       } else if (isEscKey && areSearchResultsDisplayed) {
         this.deactivateSearch();
+      } else if (isTabKey) {
+        this.searchActive = false;
       } else {
         setTimeout(() => {
           this.searchActive = true;
@@ -385,12 +390,15 @@ export default defineComponent({
       this.makeSureSelectedItemIsInViewport();
     },
     selectSite(idSite: string|number) {
+      this.deactivateSearch();
+      closeMobileLeftMenu();
       SitesStore.loadSite(idSite);
     },
     selectMenuItem(index: number) {
       const target: HTMLElement|null = document.querySelector(`[quick_access='${index}']`);
       if (target) {
         this.deactivateSearch();
+        closeMobileLeftMenu();
 
         const href = target.getAttribute('href');
         if (href && href.length > 10 && target && target.click) {
