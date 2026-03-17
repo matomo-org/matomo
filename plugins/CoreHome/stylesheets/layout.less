@@ -124,10 +124,6 @@ nav {
  // end #secondNavBar fadeInLeft animation
 
 #root {
-  .page {
-    display: flex;
-  }
-
   .pageWrap {
     width: 100%;
     height: fit-content;
@@ -137,11 +133,21 @@ nav {
     margin-right: 9px;
   }
 
-  #secondNavBar + .pageWrap {
-    width: calc(~'100% - 224px - 18px');  // 100% - menu width - pageWrap margin
+  .layoutWithSidebar {
+    display: flex;
+    flex-direction: column;
   }
 
-  &>.top_controls {
+  .layoutWithSidebarContent {
+    min-width: 0;
+  }
+
+  .layoutWithSidebar--hasSidebar .page > .pageWrap {
+    width: calc(~'100% - 18px');  // 100% - pageWrap margin
+  }
+
+  .top_controls,
+  .layoutWithSidebar .top_controls {
     .icon-arrowup:before, .icon-arrowdown:before {
       padding: 17px 0 0 0;
       display: inline-block;
@@ -154,6 +160,21 @@ nav {
   }
 
   @media only screen and (min-width: 993px) {
+    .layoutWithSidebar--hasSidebar {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+
+      #secondNavBar {
+        flex: 0 0 224px;
+      }
+
+      .layoutWithSidebarContent {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+    }
+
     ~ .drag-target {
       display: none !important;
     }
@@ -567,7 +588,7 @@ nav {
   }
 
   #root{
-    #secondNavBar + .pageWrap {
+    .layoutWithSidebar--hasSidebar .page > .pageWrap {
       width: calc(~'100% - 18px') !important; // 100% - pageWrap margin
     }
 
