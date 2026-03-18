@@ -239,7 +239,7 @@ class LogAggregator
      */
     public function cleanup()
     {
-        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
+        if ($this->isSegmentCacheEnabled()) {
             $segmentTable = $this->getSegmentTmpTableName();
             $segmentTable = Common::prefixTable($segmentTable);
 
@@ -373,7 +373,7 @@ class LogAggregator
         $segment = $this->segment;
         $bind = $this->getGeneralQueryBindParams();
 
-        if (!$this->segment->isEmpty() && $this->isSegmentCacheEnabled()) {
+        if ($this->isSegmentCacheEnabled()) {
             $segment = new Segment('', $this->sites, $this->params->getPeriod()->getDateTimeStart(), $this->params->getPeriod()->getDateTimeEnd());
 
             $logTablesProvider = $this->getLogTableProvider();
