@@ -16,7 +16,7 @@
       @mouseenter="searchActive = true"
     />
     <input
-      class="s"
+      class="s quickAccessInput"
       @keydown="onKeypress($event)"
       @focus="searchActive = true"
       v-model="searchTerm"
@@ -29,7 +29,7 @@
       ref="input"
     />
     <div
-      class="dropdown"
+      class="dropdown quickAccessDropdown"
       v-show="searchTerm && searchActive"
     >
       <ul v-show="!(numMenuItems > 0 || sites.length)">
