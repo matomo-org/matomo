@@ -46,7 +46,6 @@
         "BuildYourOwn": "Costruisci il tuo",
         "ClickHereSettings": "Accedi alle impostazioni %s.",
         "ComplianceTableSettingStatus": "Stato",
-        "ConsentExplanation": "Consenso significa offrire alle singole persone la scelta e il controllo su come vengono trattati i loro dati personali.",
         "ConsentManager": "Gestione dei Consensi",
         "ConsentManagerConnected": "Sembra che %1$s sia già configurato per funzionare con Matomo.",
         "ConsentManagerDetected": "È stato rilevato sul tuo sito web il gestore dei consensi %1$s. Per sapere come configurare Matomo per funzionare con %1$s leggi %2$squesta guida%3$s",
@@ -116,9 +115,6 @@
         "GdprToolsPageIntroEraseRight": "il diritto di cancellare alcuni o tutti i loro dati (e il diritto di rettifica).",
         "GeolocationAnonymizeIpNote": "Nota: La Geolocalizzazione avrà circa gli stessi risultati con 1 byte anonimo. Con 2 byte o più, la Geolocalizzazione sarà imprecisa.",
         "GetPurgeEstimate": "Ottieni stima pulizia",
-        "HowDoIAskForConsent": "Come devo chiedere il consenso agli utenti?",
-        "HowDoIAskForConsentIntro": "Matomo dispone di guide per l'impostazione del monitoraggio del consenso con i seguenti apprezzati gestori di consenso:",
-        "HowDoIAskForConsentOutro": "Se non utilizzi uno dei gestori del consenso sopra indicati, puoi implementare il %1$smonitoraggio con consenso utilizzando l'API JavaScript Matomo%2$s.",
         "IPAddress": "Indirizzo IP",
         "Imprint": "Colophon",
         "ImprintUrl": "URL Colophon",
@@ -229,9 +225,6 @@
         "VisitsMatchedCriteria": "Queste visite corrispondono ai criteri selezionati.",
         "VisitsSuccessfullyDeleted": "Visite cancellate con successo",
         "VisitsSuccessfullyExported": "Visite esportate con successo",
-        "WhenConsentIsNeededPart1": "In alcuni casi, le normative sulla privacy del %1$sGDPR%2$s richiedono che tu chieda il consenso dei tuoi utenti quando tratti i dati personali. Per determinare se è necessario chiedere il consenso, è necessario identificare la base giuridica del trattamento dei dati personali. Può trattarsi di \"Consenso\" o \"Interesse legittimo\", oppure potresti essere in grado di evitare del tutto la raccolta dei dati personali.",
-        "WhenConsentIsNeededPart2": "Si consiglia di saperne di più sulle basi legali per il trattamento dei dati personali ai sensi del GDPR. Puoi trovare ulteriori informazioni su questo argomento nel %1$snostro blog%2$s.",
-        "WhenConsentIsNeededPart3": "Tieni presente che se richiedi il consenso dei tuoi utenti e non puoi dimostrare di aver ottenuto il loro \"Consenso\" in passato, ti consigliamo di anonimizzare i dati grezzi dei tuoi utenti precedentemente tracciati. L'anonimizzazione dei dati grezzi degli utenti precedentemente tracciati può essere eseguita tramite il Privacy Manager in Matomo %1$sulteriori informazioni%2$s.",
         "WhenDoINeedConsent": "Quando devi richiedere il consenso dell'utente?"
     }
 }
