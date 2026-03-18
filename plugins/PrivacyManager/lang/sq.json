@@ -66,7 +66,6 @@
         "ConfirmConfigRandomisationEnabled": "Jeni i sigurt se doni të aktivizohet dhënie kuturu e config_ID-së?",
         "ConfirmConfigRandomisationEnabledPerSite": "Jeni i sigurt se doni të ruhen rregullimet e sajtit dhe të aktivizohet dhënie kuturu e config_ID-së?",
         "ConfirmConfigRandomisationExplanation": "Dhënia kuturu e config_ID-së për çdo kërkesë çaktivizon mekanizma që bazohen në të dhëna nga “user-agent”, “cookies”, apo identifikues të tjerë për të cilët duhet dhënë pranim shprehimisht, duke lejuar ndjekje të anonimizuar teksa respektohet privatësia e përdoruesit. Çdo veprim do të ndiqet si vizitë e re.",
-        "ConsentExplanation": "Pranim do të thotë t’u ofrohet individëve zgjedhje dhe kontroll rreth se si përpunohen të dhënat e tyre personale.",
         "ConsentManager": "Përgjegjës Pranimi",
         "ConsentManagerConnected": "%1$s duket të jetë formësuar tashmë për të funksionuar me Matomo-n.",
         "ConsentManagerDetected": "Në sajtin tuaj u pikas përgjegjës %1$s pranimi. Për të mësuar rreth formësimit të Matomo-s që të funksionojë me %1$s, ju lutemi, lexoni %2$skëtë udhërrëfyes%3$s",
@@ -136,9 +135,6 @@
         "GdprToolsPageIntroEraseRight": "e drejta për të fshirë disa ose krejt të dhënat e tij (dhe e drejta për të saktësuar).",
         "GeolocationAnonymizeIpNote": "Shënim: Gjeolokalizimi do të ketë përafërsisht të njëjtat përfundime me 1 bajt të anonimizuar. Me 2 ose më shumë bajte, Gjeolokalizimi do të jetë i pasaktë.",
         "GetPurgeEstimate": "Merrni parashikim pastrimi",
-        "HowDoIAskForConsent": "Si ta kërkoj pranimin nga përdoruesit?",
-        "HowDoIAskForConsentIntro": "Matomo-ja ka udhërrëfyes të gatshëm për ujdisje pranimi ndjekjeje, me platformat vijuese popullore administrimi pranimesh:",
-        "HowDoIAskForConsentOutro": "Nëse s’përdorni një nga platformat më sipër, mund të sendërtoni %1$sndjekje me pranim duke përdorur API JavaScript Matomo%2$s.",
         "IPAddress": "Adresë IP",
         "Imprint": "Imprint",
         "ImprintUrl": "URL për Imprint-in",
@@ -262,9 +258,6 @@
         "VisitsMatchedCriteria": "Këto vizita plotësojnë kriterin e përzgjedhur.",
         "VisitsSuccessfullyDeleted": "Vizitat u fshinë me sukses",
         "VisitsSuccessfullyExported": "Vizitat u eksportuan me sukses",
-        "WhenConsentIsNeededPart1": "%1$sRregulloret GDPR të privatësisë%2$s lypin prej jush të kërkoni pranimin nga përdoruesit, kur përpunoni të dhëna personale në disa raste. Për të përcaktuar nëse lypset të kërkoni prani, ju duhet të identifikoni bazën tuaj ligjore për përpunim të dhënash personale. Kjo mund të jetë ose “Pranim”, ose “Interes legjitim”, ose mund të jeni në gjendje të shmangni fare grumbullim të dhënash personale.",
-        "WhenConsentIsNeededPart2": "Rekomandohet të mësohet më tepër rreth bazë ligjore për përpunim të dhënash personale sipas GDPR-së. Më tepër informacion rreth subjektit mund të gjeni në %1$sblogun tonë%2$s.",
-        "WhenConsentIsNeededPart3": "Ju lutemi, kini parasysh se, nëse kërkoni pranim nga përdoruesit dhe s’mund të provoni se e keni marrë “Pranimin” prej tyre në të kaluarën, rekomandojmë anonimizimin e të dhënave të papërpunuara të ndjekura më parë. Anonimizimi i të dhënave të papërpunuara të përdoruesve të ndjekura më parë mund të bëhet përmes Përgjegjësit të Privatësisë në Matomo %1$smësoni më tepër%2$s.",
         "WhenDoINeedConsent": "Kur më duhet të kërkoj për pranim nga përdoruesi?"
     }
 }
