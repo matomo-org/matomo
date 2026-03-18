@@ -37,7 +37,6 @@
         "AwarenessDocumentationIntro": "Jasně a transparentně informujte uživatele a seznamte své kolegy se shromažďovanými údaji a způsobem jejich využití:",
         "ClickHereSettings": "Pro přístup k nastavení %s klikněte zde.",
         "ComplianceTableSettingStatus": "Stav",
-        "ConsentExplanation": "Souhlas znamená nabídnout jednotlivcům možnost volby a kontroly nad tím, jak jsou jejich osobní údaje zpracovávány.",
         "ConsentManagerConnected": "Zdá se, že %1$s je již nakonfigurován pro práci se systémem Matomo.",
         "CurrentDBSize": "Aktuální velikost databáze",
         "DBPurged": "Databáze vyprázdněna.",
@@ -95,9 +94,6 @@
         "GdprToolsPageIntroEraseRight": "právo na vymazání některých nebo všech jejich údajů (a právo na opravu).",
         "GeolocationAnonymizeIpNote": "Poznámka: Geolokace bude mít přibližně stejnou přesnost, když je anonymizován 1 bit. Pokud jsou anonymizovány 2 bity a více, geolokace bude nepřesná.",
         "GetPurgeEstimate": "Získat odhad po vyprázdnění",
-        "HowDoIAskForConsent": "Jak mohu požádat uživatele o souhlas?",
-        "HowDoIAskForConsentIntro": "Matomo má k dispozici průvodce pro nastavení sledování souhlasů s následujícími oblíbenými správci souhlasů:",
-        "HowDoIAskForConsentOutro": "Pokud nepoužíváte žádný z výše uvedených správců souhlasů, můžete implementovat %1$ssledování se souhlasem pomocí rozhraní API Matomo JavaScript%2$s.",
         "IndividualsRights": "Práva uživatelů",
         "IndividualsRightsAccess": "Právo na přístup: %1$svyhledat subjekt údajů%2$s a exportovat všechny jeho údaje.",
         "IndividualsRightsChildren": "Pokud nabízíte online služby dětem a spoléháte se na souhlas se shromažďováním informací o nich, můžete k zákonnému zpracování osobních údajů dětí potřebovat souhlas rodičů nebo zákonných zástupců.",
@@ -144,9 +140,6 @@
         "UseAnonymizeIp": "Anonymizovat IP adresy návštěvníků",
         "UseAnonymizedIpForVisitEnrichment": "Anonymizované IP adresy použít i při obohacování návštěv.",
         "UseDeleteReports": "Průběžně mazat stará hlášení z databáze",
-        "WhenConsentIsNeededPart1": "Nařízení %1$sGDPR o ochraně osobních údajů%2$s vyžaduje, abyste si v některých případech při zpracování osobních údajů vyžádali souhlas uživatelů. Abyste zjistili, zda musíte žádat o souhlas, musíte určit svůj zákonný základ pro zpracování osobních údajů. Může to být buď \"Souhlas\", nebo \"Oprávněný zájem\", případně se můžete shromažďování osobních údajů zcela vyhnout.",
-        "WhenConsentIsNeededPart2": "Doporučujeme se dozvědět více o zákonném základu pro zpracování osobních údajů podle GDPR. Více informací k tomuto tématu najdete na %1$snašem blogu%2$s.",
-        "WhenConsentIsNeededPart3": "Vezměte prosím na vědomí, že pokud vyžadujete souhlas uživatelů a nemůžete prokázat, že jste v minulosti získali jejich \"souhlas\", doporučujeme surová data dříve sledovaných uživatelů anonymizovat. Anonymizaci nezpracovaných údajů vašich dříve sledovaných uživatelů můžete provést prostřednictvím Správce ochrany osobních údajů v aplikaci Matomo %1$sdalší informace%2$s.",
         "WhenDoINeedConsent": "Kdy musím žádat o souhlas uživatelů?"
     }
 }
