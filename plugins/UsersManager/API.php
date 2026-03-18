@@ -1079,8 +1079,7 @@ class API extends \Piwik\Plugin\API
         string $userLogin,
         #[\SensitiveParameter]
         $passwordConfirmation = null
-    ): void
-    {
+    ): void {
         Piwik::checkUserHasSuperUserAccess();
 
         if (StaticContainer::get(AuthenticationToken::class)->isSessionToken()) {
