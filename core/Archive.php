@@ -606,6 +606,16 @@ class Archive implements ArchiveQuery
         $result->setAsBuiltWithoutArchives(false);
 
         $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
+        if (empty($archiveData)) {
+            // Archive IDs are cached in-memory. During nested archiving, older archives can be pruned,
+            // so cached IDs might become stale. Retry once with refreshed cache.
+            $this->clearArchiveIdCache();
+            [$archiveIds, $archiveStates] = $this->getArchiveIdsAndStates($archiveNames);
+            if (!empty($archiveIds)) {
+                $archiveData = ArchiveSelector::getArchiveData($archiveIds, $archiveNames, $archiveDataType, $idSubtable);
+            }
+        }
+
         $archiveState = new ArchiveState();
 
         $this->addDataToResultCollection($result, $archiveData, $archiveDataType);
@@ -891,6 +901,12 @@ class Archive implements ArchiveQuery
         if (!isset($this->idarchives[$doneFlag])) {
             $this->idarchives[$doneFlag] = [];
         }
+    }
+
+    private function clearArchiveIdCache(): void
+    {
+        $this->idarchives = [];
+        $this->idarchiveStates = [];
     }
 
     /**
