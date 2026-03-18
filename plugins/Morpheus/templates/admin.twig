@@ -39,13 +39,11 @@
         {% if hasSidebar %}
             {% import '@CoreHome/_menu.twig' as menu %}
             {% set collapsibleMenu = hasSomeAdminAccess %}
-            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, collapsibleMenu, isSuperUser) }}
+            {{ menu.menu(adminMenu, false, 'Menu--admin', currentModule, currentAction, collapsibleMenu, isSuperUser, true) }}
         {% endif %}
 
         <div class="layoutWithSidebarContent">
             <div class="top_controls">
-                <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
-
                 {% block topcontrols %}
                 {% endblock %}
 

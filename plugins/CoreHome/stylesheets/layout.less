@@ -447,6 +447,39 @@ nav {
     }
   }
 
+  .quick-access {
+    width: 208px;
+    margin-left: 10px;
+    margin-top: 10px;
+
+    @media screen and (max-width: 600px){
+      z-index: 1000;
+      position: absolute;
+      width: 208px;
+      margin-left: 16px;
+    }
+
+    .dropdown {
+      width: 209px;
+      padding: 0;
+    }
+
+    input {
+      height: 33px;
+      font-size: 11px;
+      padding: 10px 12px 10px 30px;
+      border: 0;
+      margin: 0;
+      box-sizing: border-box;
+      border-radius: 2px !important;
+      box-shadow: none!important;
+    }
+
+    input::placeholder {
+      color: #a9a9a9;
+    }
+  }
+
   .top_controls {
     visibility: hidden;
     opacity: 0;
@@ -456,39 +489,6 @@ nav {
       visibility: hidden;
       opacity: 0;
       padding-left: 0;
-    }
-
-    .quick-access {
-      position: absolute;
-      width: 208px;
-      margin-left: 0;
-
-      @media screen and (max-width: 600px){
-        z-index: 1000;
-        position: absolute;
-        width: 208px;
-        margin-left: 16px;
-      }
-
-      .dropdown {
-        width: 209px;
-        padding: 0;
-      }
-
-      input {
-        height: 33px;
-        font-size: 11px;
-        padding: 10px 12px 10px 30px;
-        border: 0;
-        margin: 0;
-        box-sizing: border-box;
-        border-radius: 2px !important;
-        box-shadow: none!important;
-      }
-
-      input::placeholder {
-        color: #a9a9a9;
-      }
     }
 
     .piwikTopControl {
