@@ -143,7 +143,7 @@ class Archive implements ArchiveQuery
      *     )
      * )
      *
-     * @var array
+     * @var array<string, array<string, list<int>>>
      */
     private $idarchives = [];
 
@@ -162,7 +162,7 @@ class Archive implements ArchiveQuery
      *     )
      *  )
      *
-     * @var array
+     * @var array<int, array<string, array<string, array<int, int>>>>
      */
     private $idarchiveStates = [];
 
@@ -870,12 +870,13 @@ class Archive implements ArchiveQuery
      */
     private function formatNumericValue($value)
     {
+        if ($value === false) {
+            return 0;
+        }
+
         // If there is no dot, we return as is
         // Note: this could be an integer bigger than 32 bits
-        if (strpos($value, '.') === false) {
-            if ($value === false) {
-                return 0;
-            }
+        if (strpos((string)$value, '.') === false) {
             return (float)$value;
         }
 
@@ -964,7 +965,13 @@ class Archive implements ArchiveQuery
             $report = 'AIAgents_Metrics';
         }
 
-        $plugin = substr($report, 0, strpos($report, '_'));
+        $pluginSeparatorPos = strpos($report, '_');
+        if ($pluginSeparatorPos === false) {
+            $plugin = '';
+        } else {
+            $plugin = substr($report, 0, $pluginSeparatorPos);
+        }
+
         if (
             empty($plugin)
             || !\Piwik\Plugin\Manager::getInstance()->isPluginActivated($plugin)

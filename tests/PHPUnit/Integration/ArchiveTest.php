@@ -54,7 +54,7 @@ class ArchiveTest extends IntegrationTestCase
         $data = $archive->getDataTableFromNumeric([]);
         $this->assertEquals([], $data->getRows());
 
-        $data = $archive->getDataTableFromNumeric(null);
+        $data = $archive->getDataTableFromNumeric('');
         $this->assertEquals([], $data->getRows());
 
         $data = $archive->getDataTableFromNumeric(['']);
@@ -147,7 +147,7 @@ class ArchiveTest extends IntegrationTestCase
         $this->assertEquals($expected, $metrics);
     }
 
-    public function testStaleCachedArchiveIdsAreRefreshedWhenArchiveRowsAreMissing()
+    public function testStaleCachedArchiveIdsAreRefreshedWhenArchiveRowsAreMissing(): void
     {
         $idSite = 1;
         $date = '2014-05-10';
@@ -191,7 +191,7 @@ class ArchiveTest extends IntegrationTestCase
         );
     }
 
-    public function testStaleCachedArchiveIdsAreRefreshedAfterArchiveRowsArePurged()
+    public function testStaleCachedArchiveIdsAreRefreshedAfterArchiveRowsArePurged(): void
     {
         $idSite = 1;
         $date = '2014-05-11';
