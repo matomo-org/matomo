@@ -169,6 +169,28 @@ describe("UsersManager", function () {
         expect(await page.screenshotSelector('.usersManager')).to.matchImage('previous');
     });
 
+    it('should show password confirmation when signing out a single user', async function () {
+        await (await page.jQuery('.signoutuser:eq(0)')).click();
+        const modal = await page.waitForSelector('.modal.open', { visible: true });
+        await page.focus('.modal.open #currentUserPassword');
+        await page.waitForTimeout(250);
+        expect(await modal.screenshot()).to.matchImage({
+          imageName: 'signout_single_confirm',
+          comparisonThreshold: 0.025
+        });
+    });
+
+    it('should show signout success notification when confirmed sign out', async function () {
+        await page.type('.modal.open #currentUserPassword', superUserPassword);
+        await page.waitForTimeout(250);
+        await (await page.jQuery('.confirm-password-modal .confirm-password-btn:visible')).click();
+        await page.waitForTimeout(250);
+        expect(await page.screenshotSelector('.notification-success')).to.matchImage({
+          imageName: 'signout_single_confirmed',
+          comparisonThreshold: 0.025
+        });
+    });
+
     it('should show password confirmation when deleting a single user', async function () {
         await (await page.jQuery('.deleteuser:eq(0)')).click();
         const modal = await page.waitForSelector('.modal.open', { visible: true });
