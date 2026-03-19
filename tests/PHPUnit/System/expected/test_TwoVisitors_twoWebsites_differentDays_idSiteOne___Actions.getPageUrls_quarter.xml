@@ -90,7 +90,7 @@
 			<bounce_rate>0%</bounce_rate>
 			<exit_rate>0%</exit_rate>
 			<url />
-			<segment>pageUrl==</segment>
+			<segment />
 		</row>
 		<row>
 			<label>/thankyou</label>
