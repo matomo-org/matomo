@@ -9,14 +9,32 @@
 
 namespace Piwik\Plugins\UserCountry\tests\Unit;
 
+use Piwik\Columns\DimensionSegmentFactory;
 use Piwik\Container\StaticContainer;
 use Piwik\Intl\Data\Provider\RegionDataProvider;
+use Piwik\Plugins\UserCountry\Columns\Country;
+use Piwik\Segment\SegmentsList;
+use Piwik\Tests\Framework\Fixture;
 
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/UserCountry.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/UserCountry/functions.php';
 
 class UserCountryTest extends \PHPUnit\Framework\TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Fixture::loadAllTranslations();
+    }
+
+    public function tearDown(): void
+    {
+        Fixture::resetTranslations();
+
+        parent::tearDown();
+    }
+
     /**
      * @group Plugins
      */
@@ -68,5 +86,24 @@ class UserCountryTest extends \PHPUnit\Framework\TestCase
             // test country
             $this->assertArrayHasKey($country, $countries, $filename);
         }
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testCountryNameSegmentMatchesCaseInsensitively()
+    {
+        $country = new Country();
+        $segmentsList = new SegmentsList();
+
+        $country->configureSegments($segmentsList, new DimensionSegmentFactory($country));
+
+        $segment = $segmentsList->getSegment('countryName');
+
+        $this->assertNotNull($segment);
+        $this->assertSame('ca', $segment->getSqlFilterValue()('Canada'));
+        $this->assertSame('ca', $segment->getSqlFilterValue()('canada'));
+        $this->assertSame('ca', $segment->getSqlFilterValue()('CANADA'));
+        $this->assertSame('UNK', $segment->getSqlFilterValue()('NotACountry'));
     }
 }

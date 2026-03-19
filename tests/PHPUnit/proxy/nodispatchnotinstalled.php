@@ -12,7 +12,7 @@ define('PIWIK_ENABLE_DISPATCH', false);
 
 require realpath(dirname(__FILE__)) . "/includes.php";
 $testEnvironment = new TestingEnvironmentVariables();
-$testEnvironment->configFileLocal = PIWIK_INCLUDE_PATH . "tmp/test.config.ini.php";
+$testEnvironment->configFileLocal = PIWIK_INCLUDE_PATH . "/tmp/test.config.ini.php";
 $testEnvironment->save();
 
 Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($testEnvironment));

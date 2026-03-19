@@ -73,6 +73,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Det ser ut som att rapporterna för perioden inte bearbetats ännu, men de kommer synas inom några timmar. Du kan välja en annan datumperiod medan rapporterna skapas.",
         "PeriodRange": "Intervall",
         "PivotBySubtable": "Denna rapport är inte pivoterad %1$s Pivotera med %2$s",
+        "PresetDateToday": "I dag",
+        "PresetDateYesterday": "I går",
         "Profilable": "Profilabel",
         "QuickAccessTitle": "Sök efter %s. Använd piltangenterna för att navigera i sökresultatet. Genväg: Tryck på 'f' för att söka.",
         "QuickLinks": "Snabblänkar",

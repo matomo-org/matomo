@@ -42,6 +42,13 @@
 
           <ul>
             <li
+              class="exportDashboard"
+              data-action="exportDashboard"
+              @click="onClickExportDashboard()"
+            >
+              {{ translate('Dashboard_ExportThisDashboard') }}
+            </li>
+            <li
               v-for="(title, actionName) of dashboardActions"
               :key="actionName"
               @click="onClickAction($event, actionName)"
@@ -74,6 +81,7 @@ import {
   Tooltips,
   translate,
   WidgetType,
+  MatomoUrl,
 } from 'CoreHome';
 
 declare global {
@@ -94,6 +102,7 @@ interface DashboardSettingsState {
 }
 
 const { $ } = window;
+const DASHBOARD_EXPORT_STORAGE_KEY = 'scheduledReports.dashboardExportId';
 
 function isWidgetAvailable(widgetUniqueId: string) {
   return !$('#dashboardWidgetsArea').find(`[widgetId="${widgetUniqueId}"]`).length;
@@ -112,6 +121,7 @@ function widgetSelected(widget: WidgetType) {
 }
 
 export default defineComponent({
+  name: 'DashboardSettings',
   directives: {
     ExpandOnClick,
     Tooltips,
@@ -224,6 +234,78 @@ export default defineComponent({
     },
     onClose() {
       this.rootJQuery.widgetPreview('reset');
+    },
+    redirectToCreateScheduledReports() {
+      const query = {
+        ...MatomoUrl.urlParsed.value,
+      } as QueryParameters;
+
+      delete query.category;
+      delete query.subcategory;
+      delete query.idDashboard;
+      query.module = 'ScheduledReports';
+      query.action = 'index';
+
+      const hash = {
+        ...MatomoUrl.hashParsed.value,
+      } as QueryParameters;
+
+      delete hash.category;
+      delete hash.subcategory;
+      delete hash.idDashboard;
+      MatomoUrl.updateUrl(query, hash);
+    },
+
+    redirectToLoginPage() {
+      const loginQuery = {
+        module: Matomo.getLoginModule(),
+      } as QueryParameters;
+      MatomoUrl.updateUrl(loginQuery);
+    },
+
+    onClickExportDashboard() {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem(DASHBOARD_EXPORT_STORAGE_KEY);
+      }
+
+      if (this.isUserNotAnonymous) {
+        const dashboardId = this.getCurrentDashboardId();
+        if (dashboardId !== null && typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem(DASHBOARD_EXPORT_STORAGE_KEY, String(dashboardId));
+        }
+
+        this.redirectToCreateScheduledReports();
+        return;
+      }
+      // We do not persist dashboard id when user is anonymous
+      this.redirectToLoginPage();
+    },
+
+    normalizeDashboardId(value: unknown): number|null {
+      const candidate = Array.isArray(value) ? value[0] : value;
+      if (candidate === null || candidate === undefined) {
+        return null;
+      }
+
+      const normalized = String(candidate).trim();
+      if (!/^[1-9]\d*$/.test(normalized)) {
+        return null;
+      }
+
+      return Number(normalized);
+    },
+    getCurrentDashboardId(): number|null {
+      const fromSubcategory = this.normalizeDashboardId(MatomoUrl.getSearchParam('subcategory'));
+      if (fromSubcategory !== null) {
+        return fromSubcategory;
+      }
+
+      const fromQueryIdDashboard = this.normalizeDashboardId(MatomoUrl.urlParsed.value.idDashboard);
+      if (fromQueryIdDashboard !== null) {
+        return fromQueryIdDashboard;
+      }
+
+      return this.normalizeDashboardId(MatomoUrl.hashParsed.value.idDashboard);
     },
   },
 });

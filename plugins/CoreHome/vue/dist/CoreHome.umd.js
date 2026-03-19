@@ -782,6 +782,19 @@ const {
   broadcast: Matomo_broadcast,
   piwikHelper: Matomo_piwikHelper
 } = window;
+function normalizeLoginModule(value) {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  if (!/^[A-Za-z0-9_]+$/.test(trimmed)) {
+    return undefined;
+  }
+  return trimmed;
+}
 piwik.helper = Matomo_piwikHelper;
 piwik.broadcast = Matomo_broadcast;
 function getReportingMenuStore() {
@@ -874,6 +887,17 @@ piwik.postEvent = function postMatomoEvent(eventName, ...args // eslint-disable-
     detail: args
   });
   window.dispatchEvent(event);
+};
+piwik.getLoginModule = function getLoginModule() {
+  const fromPiwikConfig = normalizeLoginModule(piwik.loginModule);
+  if (fromPiwikConfig) {
+    return fromPiwikConfig;
+  }
+  const fromWindow = normalizeLoginModule(window.loginModule);
+  if (fromWindow) {
+    return fromWindow;
+  }
+  return 'Login';
 };
 const Matomo = piwik;
 /* harmony default export */ var Matomo_Matomo = (Matomo);
@@ -1156,6 +1180,9 @@ function defaultErrorCallback(deferred, status) {
     AjaxHelper_$('#loadingError').show();
   }
 }
+function hasExplicitSegmentParam(params) {
+  return Object.prototype.hasOwnProperty.call(params, 'segment') && typeof params.segment !== 'undefined';
+}
 class ApiResponseError extends Error {}
 class ChunkedBulkRequestError extends Error {
   constructor(xhr, status, errorThrown) {
@@ -1210,19 +1237,34 @@ class AjaxHelper_AjaxHelper {
           throw new Error(`Password parameters are not allowed to be sent as GET parameter. Please send ${key} as POST parameter instead.`);
         }
       });
+      /*
+       * ajax helper does not encode the segment parameter assuming it is already encoded. this is
+       * probably for pre-angularjs code, so we don't want to do this now, but just treat segment
+       * as a normal query parameter input (so it will have double encoded values in input params
+       * object, then naturally triple encoded in the URL after a $.param call), however we need
+       * to support any existing uses of the old code, so instead we do a manual encode here. new
+       * code that uses .fetch() will not need to pre-encode the parameter, while old code
+       * can pre-encode it.
+       *
+       * If a segment value is explicitly provided, then that is added to the request params.
+       * otherwise the request will use the segment value present in the current URL, if
+       * available.
+       */
+      const hasExplicitSegment = hasExplicitSegmentParam(params);
+      let segmentParam = {};
+      if (hasExplicitSegment) {
+        let segmentVal = null;
+        if (params.segment !== null) {
+          segmentVal = encodeURIComponent(params.segment);
+        }
+        segmentParam = {
+          segment: segmentVal
+        };
+      }
       helper.addParams(Object.assign(Object.assign({
         module: 'API',
         format: options.format || 'json'
-      }, params), {}, {
-        // ajax helper does not encode the segment parameter assuming it is already encoded. this is
-        // probably for pre-angularjs code, so we don't want to do this now, but just treat segment
-        // as a normal query parameter input (so it will have double encoded values in input params
-        // object, then naturally triple encoded in the URL after a $.param call), however we need
-        // to support any existing uses of the old code, so instead we do a manual encode here. new
-        // code that uses .fetch() will not need to pre-encode the parameter, while old code
-        // can pre-encode it.
-        segment: params.segment ? encodeURIComponent(params.segment) : undefined
-      }), 'get');
+      }, params), segmentParam), 'get');
     }
     if (options.postParams) {
       helper.addParams(options.postParams, 'post');
@@ -1344,9 +1386,12 @@ class AjaxHelper_AjaxHelper {
     if (url[url.length - 1] !== '?') {
       url += '&';
     }
-    if (parameters.segment) {
-      url = `${url}segment=${parameters.segment}&`;
+    if (Object.prototype.hasOwnProperty.call(parameters, 'segment')) {
+      const segmentValue = parameters.segment;
       delete parameters.segment;
+      if (segmentValue !== null && typeof segmentValue !== 'undefined') {
+        url = `${url}segment=${segmentValue}&`;
+      }
     }
     if (parameters.date) {
       url = `${url}date=${decodeURIComponent(parameters.date.toString())}&`;
@@ -1900,13 +1945,14 @@ class AjaxHelper_AjaxHelper {
       segment
     };
     const params = originalParams;
+    const hasExplicitSegment = hasExplicitSegmentParam(params) || hasExplicitSegmentParam(this.postParams);
     // never append token_auth to url
     if (params.token_auth) {
       params.token_auth = null;
       delete params.token_auth;
     }
     Object.keys(defaultParams).forEach(key => {
-      if (this.useGETDefaultParameter(key) && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '') && (this.postParams[key] === null || typeof this.postParams[key] === 'undefined' || this.postParams[key] === '') && defaultParams[key]) {
+      if (this.useGETDefaultParameter(key) && !(key === 'segment' && hasExplicitSegment) && (params[key] === null || typeof params[key] === 'undefined' || params[key] === '') && (this.postParams[key] === null || typeof this.postParams[key] === 'undefined' || this.postParams[key] === '') && defaultParams[key]) {
         params[key] = defaultParams[key];
       }
     });

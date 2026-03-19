@@ -4,6 +4,16 @@
         "NoDataHttpTrackingApi": "HTTP Tracking API",
         "SiteWithoutDataBackToMatomo": "Zurück zu Matomo",
         "SiteWithoutDataInstallWithX": "Mit %1$s installieren",
-        "SiteWithoutDataStepByStepGuide": "Schritt-für-Schritt-Anleitung"
+        "SiteWithoutDataStepByStepGuide": "Schritt-für-Schritt-Anleitung",
+        "AIChatbotsOverview": "AI Chatbots Übersicht",
+        "AIChatbotsReportTitle": "KI Chatbots",
+        "ColumnAIChatbotName": "KI Chatbot Name",
+        "ColumnDocumentRequests": "Dokumentenanfragen",
+        "ColumnDocumentRequestsDocumentation": "Gesamtanzahl der vom Bot gestellten Anfragen an Dokument-URLs, die im ausgewählten Zeitraum aufgezeichnet wurden.",
+        "ColumnPageRequests": "Seitenanfragen",
+        "ColumnRequests": "Anfragen",
+        "ColumnServerErrorRequests": "Serverfehler (5xx) Anfragen",
+        "ColumnUniqueAiChatbots": "Einzigartige KI-Chatbots",
+        "ColumnUniqueDocumentUrls": "Einzigartige Dokument-URLs"
     }
 }

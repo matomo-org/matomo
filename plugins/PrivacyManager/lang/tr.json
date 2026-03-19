@@ -67,7 +67,6 @@
         "ConfirmConfigRandomisationEnabled": "Config_ID rastgeleleştirmesini açmak istediğinize emin misiniz?",
         "ConfirmConfigRandomisationEnabledPerSite": "Site ayarlarını kaydetmek ve config_ID değerini rastgeleleştirmek istediğinize emin misiniz?",
         "ConfirmConfigRandomisationExplanation": "Config_ID her istek için rastgele yapıldığında, açık rıza gerektiren kullanıcı uygulaması verilerine, tanımlama bilgilerine veya diğer tanımlayıcıları kullanan yöntemleri kullanımdan kaldırır. Kullanıcı gizliliğine saygı gösterirken anonim izleme yapılmasını sağlar. Her işlem yeni bir ziyaret olarak izlenir.",
-        "ConsentExplanation": "Rıza alma, bireylere kendi kişisel verilerinin nasıl işleneceğini seçme ve denetleme olanağı sunar.",
         "ConsentManager": "Rıza yöneticisi",
         "ConsentManagerConnected": "%1$s zaten Matomo ile birlikte çalışacak şekilde yapılandırılmış gibi görünüyor.",
         "ConsentManagerDetected": "Sitenizde %1$s rıza yöneticisi algılandı. Matomo uygulamasını %1$s ile çalışacak şekilde yapılandırmak hakkında ayrıntılı bilgi almak için lütfen %2$sbu rehberi%3$s okuyun",
@@ -137,9 +136,6 @@
         "GdprToolsPageIntroEraseRight": "kendileri ile ilgili verilerin bir kısmını ya da tamamını silme hakkı (ve düzeltme hakkı).",
         "GeolocationAnonymizeIpNote": "Not: Coğrafi konum yaklaşık olarak 1 bayt anonim kılma ile aynı sonucu verir. 2 ya da daha fazla bayt ile yapılan anonim kılmalarda coğrafi konum doğruluğu kalmaz.",
         "GetPurgeEstimate": "Temizlik öngörüsünü görüntüle",
-        "HowDoIAskForConsent": "Kullanıcılardan nasıl rıza alırım?",
-        "HowDoIAskForConsentIntro": "Şu yaygın rıza yöneticileriyle çalışmak için Matomo ayarlama rehberleri vardır:",
-        "HowDoIAskForConsentOutro": "Yukarıdaki rıza yöneticilerinden birini kullanmıyorsanız, %1$sizlemeyi Matomo JavaScript API kullanarak rıza ile %2$s uygulayabilirsiniz.",
         "IPAddress": "IP adresi",
         "Imprint": "Künye",
         "ImprintUrl": "Künye adresi",
@@ -263,9 +259,6 @@
         "VisitsMatchedCriteria": "Bu ziyaretler seçilmiş ölçüte uyuyor.",
         "VisitsSuccessfullyDeleted": "Ziyaretler silindi",
         "VisitsSuccessfullyExported": "Ziyaretler dışa aktarıldı",
-        "WhenConsentIsNeededPart1": "%1$sGDPR gizlilik düzenlemeleri%2$s, bazı durumlarda kişisel verileri işlerken kullanıcılarınızın rızasını almanızı gerektirir. Rıza almanızın gerekip gerekmediğini belirlemek için, kişisel verileri işlemeye ilişkin yasal dayanağınızı belirlemeniz gerekir. Bu, \"Rıza\" veya \"Meşru menfaat\" olabilir ya da kişisel verileri toplamaktan tümüyle kaçınabilirsiniz.",
-        "WhenConsentIsNeededPart2": "Kişisel verileri GDPR kapsamında işlemenin yasal dayanağı hakkında daha fazla bilgi edinmeniz önerilir. Bu konu hakkında ayrıntılı bilgiyi %1$sblogumuzda%2$s bulabilirsiniz.",
-        "WhenConsentIsNeededPart3": "Kullanıcılarınızın rızasını almaya gerek duyuyorsanız ve geçmişte onların \"Rızasını\" aldığınızı kanıtlayamıyorsanız, lütfen daha önce izlenen kullanıcılarınızın ham verilerini anonimleştirmenizi önerdiğimizi unutmayın. Daha önce izlenen kullanıcılarınızın ham verilerinin anonimleştirilmesi, Matomo içindeki Gizlilik Yönetimi bölümünden yapılabilir. %1$sAyrıntılı bilgi alın%2$s.",
         "WhenDoINeedConsent": "Kullanıcı rızasını ne zaman almalıyım?"
     }
 }

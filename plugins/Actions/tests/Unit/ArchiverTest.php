@@ -9,6 +9,9 @@
 
 namespace Piwik\Plugins\Actions\tests\Unit;
 
+use Piwik\DataTable;
+use Piwik\DataTable\Row;
+use Piwik\Metrics as PiwikMetrics;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker\Action;
@@ -126,5 +129,72 @@ class ArchiverTests extends \PHPUnit\Framework\TestCase
         ArchivingHelper::reloadConfig();
         $processed = ArchivingHelper::getActionExplodedNames($params['name'], $params['type'], (isset($params['urlPrefix']) ? $params['urlPrefix'] : null));
         $this->assertEquals($expected, $processed);
+    }
+
+    public function testDeleteInvalidSummedColumnsFromDataTableRemovesRenamedUniqMetricsFromParentRowsOnly()
+    {
+        $table = new DataTable();
+
+        $parentRow = new Row([Row::COLUMNS => [
+            'label' => '/parent',
+            PiwikMetrics::INDEX_NB_UNIQ_VISITORS => 12,
+            PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => 8,
+            PiwikMetrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS => 4,
+            PiwikMetrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS => 20,
+            PiwikMetrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS => 16,
+            PiwikMetrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS => 14,
+        ]]);
+        $parentRow->setSubtable(new DataTable());
+        $table->addRow($parentRow);
+
+        $leafRow = new Row([Row::COLUMNS => [
+            'label' => '/leaf',
+            PiwikMetrics::INDEX_NB_UNIQ_VISITORS => 5,
+            PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => 4,
+            PiwikMetrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS => 3,
+            PiwikMetrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS => 9,
+            PiwikMetrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS => 7,
+            PiwikMetrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS => 6,
+        ]]);
+        $table->addRow($leafRow);
+
+        ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($table);
+
+        $this->assertFalse($parentRow->hasColumn(PiwikMetrics::INDEX_NB_UNIQ_VISITORS));
+        $this->assertFalse($parentRow->hasColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS));
+        $this->assertFalse($parentRow->hasColumn(PiwikMetrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS));
+        $this->assertFalse($parentRow->hasColumn(PiwikMetrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS));
+        $this->assertFalse($parentRow->hasColumn(PiwikMetrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS));
+        $this->assertFalse($parentRow->hasColumn(PiwikMetrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS));
+
+        $this->assertSame(9, $leafRow->getColumn(PiwikMetrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS));
+        $this->assertSame(7, $leafRow->getColumn(PiwikMetrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS));
+        $this->assertSame(6, $leafRow->getColumn(PiwikMetrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS));
+    }
+
+    public function testDeleteInvalidSummedColumnsFromDataTableKeepsRenamedUniqMetricsOnSummaryRow()
+    {
+        $table = new DataTable();
+        $summaryRow = new Row([Row::COLUMNS => [
+            'label' => DataTable::LABEL_SUMMARY_ROW,
+            PiwikMetrics::INDEX_NB_UNIQ_VISITORS => 12,
+            PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS => 8,
+            PiwikMetrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS => 4,
+            PiwikMetrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS => 20,
+            PiwikMetrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS => 16,
+            PiwikMetrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS => 14,
+        ]]);
+        $table->addSummaryRow($summaryRow);
+
+        ArchivingHelper::deleteInvalidSummedColumnsFromDataTable($table);
+
+        $summaryRow = $table->getRowFromId(DataTable::ID_SUMMARY_ROW);
+        $this->assertNotNull($summaryRow);
+        $this->assertFalse($summaryRow->hasColumn(PiwikMetrics::INDEX_NB_UNIQ_VISITORS));
+        $this->assertFalse($summaryRow->hasColumn(PiwikMetrics::INDEX_PAGE_ENTRY_NB_UNIQ_VISITORS));
+        $this->assertFalse($summaryRow->hasColumn(PiwikMetrics::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS));
+        $this->assertSame(20, $summaryRow->getColumn(PiwikMetrics::INDEX_SUM_DAILY_NB_UNIQ_VISITORS));
+        $this->assertSame(16, $summaryRow->getColumn(PiwikMetrics::INDEX_PAGE_ENTRY_SUM_DAILY_NB_UNIQ_VISITORS));
+        $this->assertSame(14, $summaryRow->getColumn(PiwikMetrics::INDEX_PAGE_EXIT_SUM_DAILY_NB_UNIQ_VISITORS));
     }
 }

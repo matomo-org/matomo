@@ -23,6 +23,7 @@
         "CampaignsDocumentation": "Besucher, die aufgrund einer Kampagne auf Ihre Webseite kamen. Weitere Details finden Sie %1$sim Bericht%2$s.",
         "CampaignsReportDocumentation": "Dieser Bericht zeigt welche Kampagnien Besucher auf Ihre Webseite gelenkt haben.",
         "CampaignsSubcategoryHelp": "Der Kampagnen-Tracking Bereich erlaubt Ihnen zu analysieren, welche Besuche mit welchen unterschiedlichen Tracking Werten verknüpft sind, welche mit Ihren digitalen Kampagnen verlinkt sind. Damit kann man Dinge aufzeigen wie zum Beispiel wie viel Datenverkehr Ihre Kampagnen erzeugen, welche Werbemittel am besten funktionieren, wie engagiert Kampagnenbesucher sind, und ob die Kampagne zu Verkäufen führt oder nicht.",
+        "ColumnAIAssistant": "KI Assistent",
         "ColumnCampaign": "Kampagne",
         "ColumnSearchEngine": "Suchmaschine",
         "ColumnSocial": "Soziales Netzwerk",
