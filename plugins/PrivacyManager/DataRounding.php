@@ -106,8 +106,7 @@ class DataRounding
         array $columnsToRound,
         array $metricTypes,
         ?Report $report
-    ): void
-    {
+    ): void {
         $totalsRow = $table->getTotalsRow();
         if (empty($totalsRow)) {
             return;
