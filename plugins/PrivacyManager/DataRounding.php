@@ -74,7 +74,9 @@ class DataRounding
         };
 
         $dataTable->filter($roundTable);
-        $dataTable->filterSubtables($roundTable);
+        if ($dataTable instanceof DataTable || $dataTable instanceof DataTable\Map) {
+            $dataTable->filterSubtables($roundTable);
+        }
     }
 
     private static function roundDataTable(DataTable $table, ?Report $report = null): void
