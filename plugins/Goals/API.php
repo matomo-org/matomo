@@ -482,7 +482,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns ecommerce item metrics grouped by product SKU.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
@@ -505,7 +508,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns ecommerce item metrics grouped by product name.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
@@ -528,7 +534,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns ecommerce item metrics grouped by product category.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
@@ -574,7 +583,10 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns Goals data.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
@@ -665,7 +677,10 @@ class API extends \Piwik\Plugin\API
      * any segment by default. This method is deprecated from the API as it is only there to make the implementation of
      * the actual {@link get()} method easy.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
@@ -873,7 +888,10 @@ class API extends \Piwik\Plugin\API
      * Gets a DataTable that maps ranges of days to the number of conversions that occurred
      * within those ranges, for the specified site, date range, segment and goal.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
@@ -911,7 +929,10 @@ class API extends \Piwik\Plugin\API
      * Gets a DataTable that maps ranges of visit counts to the number of conversions that
      * occurred on those visits for the specified site, date range, segment and goal.
      *
-     * @param int $idSite The numeric ID of the website to query.
+     * @param int|string|int[] $idSite Website ID(s) to query.
+     *                                 - Single site ID (e.g. 1)
+     *                                 - Multiple site IDs (e.g. [1, 4, 5])
+     *                                 - Comma-separated list ("1,4,5") or "all"
      * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
      *                                                    containing the specified date.
      * @param string $date The date or date range to process.
