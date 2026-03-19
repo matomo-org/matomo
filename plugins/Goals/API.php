@@ -35,22 +35,10 @@ use Piwik\Validators\Regex;
 use Piwik\Validators\WhitelistedValue;
 
 /**
- * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
- * or list existing Goals for one or several websites via "getGoals"
+ * API for plugin Goals.
  *
- * If you are <a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
- * will return the list of products purchased on your site, either grouped by Product SKU, Product Name or Product Category. For each name, SKU or category, the following
- * metrics are returned: Total revenue, Total quantity, average price, average quantity, number of orders (or abandoned carts) containing this product, number of visits on the Product page,
- * Conversion rate.
- *
- * By default, these functions return the 'Products purchased'. These functions also accept an optional parameter &abandonedCarts=1.
- * If the parameter is set, it will instead return the metrics for products that were left in an abandoned cart therefore not purchased.
- *
- * The API also lets you request overall Goal metrics via the method "get": Conversions, Visits with at least one conversion, Conversion rate and Revenue.
- * If you wish to request specific metrics about Ecommerce goals, you can set the parameter &idGoal=ecommerceAbandonedCart to get metrics about abandoned carts (including Lost revenue, and number of items left in the cart)
- * or &idGoal=ecommerceOrder to get metrics about Ecommerce orders (number of orders, visits with an order, subtotal, tax, shipping, discount, revenue, items ordered)
- *
- * See also the documentation about <a href='https://matomo.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>Tracking Goals</a> in Matomo.
+ * Exposes endpoints to manage goals, retrieve goal and ecommerce reports, and fetch
+ * conversion metrics for specific goals or all configured goals.
  *
  * @method static \Piwik\Plugins\Goals\API getInstance()
  */
@@ -60,6 +48,9 @@ class API extends \Piwik\Plugin\API
 
     /**
      * Return a single goal.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param int $idGoal The numeric ID of the goal to query.
      *
      * @return ?array An array of goal attributes.
      */
@@ -79,7 +70,9 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns all Goals for a given website, or list of websites
      *
-     * @param string|array $idSite Array or Comma separated list of website IDs to request the goals for
+     * @param string|array $idSite Website ID(s) to query.
+     *                             Accepts comma-separated IDs, "all", numeric IDs as strings, or ["all"].
+     * @param bool $orderByName If true, sorts the returned goals by name.
      *
      * @return array Array of Goal attributes,
      *               indexed by "idgoal" when requesting a single site,
@@ -155,16 +148,18 @@ class API extends \Piwik\Plugin\API
     /**
      * Creates a Goal for a given website.
      *
-     * @param string     $name
-     * @param string     $matchAttribute                   'url', 'title', 'file', 'external_website', 'manually', 'visit_duration', 'visit_total_actions', 'visit_total_pageviews',
-     *                                                     'event_action', 'event_category' or 'event_name'
-     * @param string     $pattern                          eg. purchase-confirmation.htm or numeric value if used with a numeric match attribute
-     * @param string     $patternType                      'regex', 'contains', 'exact', or 'greater_than' for numeric match attributes
-     * @param bool       $caseSensitive
-     * @param bool|float $revenue                          If set, default revenue to assign to conversions
+     * @param int $idSite The numeric ID of the website to query.
+     * @param string     $name The goal name.
+     * @param 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'visit_total_actions'|'visit_total_pageviews'|'event_action'|'event_category'|'event_name' $matchAttribute The attribute to match against.
+     * @param string     $pattern The match pattern, for example a URL fragment or a numeric threshold
+     *                            for numeric match attributes.
+     * @param 'regex'|'contains'|'exact'|'greater_than' $patternType The match type.
+     * @param bool       $caseSensitive If true, uses case-sensitive matching where applicable.
+     * @param bool|float $revenue If set, default revenue to assign to conversions.
      * @param bool       $allowMultipleConversionsPerVisit By default, multiple conversions in the same visit will only record the first conversion.
      *                                                     If set to true, multiple conversions will all be recorded within a visit (useful for Ecommerce goals)
-     * @param string     $description
+     * @param string     $description The goal description.
+     * @param bool       $useEventValueAsRevenue If true, uses the tracked event value as the goal revenue.
      *
      * @return int ID of the new goal
      */
@@ -222,15 +217,19 @@ class API extends \Piwik\Plugin\API
      * Updates a Goal description.
      * Will not update or re-process the conversions already recorded
      *
-     * @param int        $idGoal
-     * @param            $name
-     * @param            $matchAttribute
-     * @param string     $pattern
-     * @param string     $patternType
-     * @param bool       $caseSensitive
-     * @param bool|float $revenue
-     * @param bool       $allowMultipleConversionsPerVisit
-     * @param string     $description
+     * @param int        $idSite The numeric ID of the website to query.
+     * @param int        $idGoal The numeric ID of the goal to update.
+     * @param string     $name The goal name.
+     * @param 'url'|'title'|'file'|'external_website'|'manually'|'visit_duration'|'visit_total_actions'|'visit_total_pageviews'|'event_action'|'event_category'|'event_name' $matchAttribute The attribute to match against.
+     * @param string     $pattern The match pattern, for example a URL fragment or a numeric threshold
+     *                            for numeric match attributes.
+     * @param 'regex'|'contains'|'exact'|'greater_than' $patternType The match type.
+     * @param bool       $caseSensitive If true, uses case-sensitive matching where applicable.
+     * @param bool|float $revenue If set, default revenue to assign to conversions.
+     * @param bool       $allowMultipleConversionsPerVisit If true, allows multiple conversions for
+     *                                                     this goal within a single visit.
+     * @param string     $description The goal description.
+     * @param bool       $useEventValueAsRevenue If true, uses the tracked event value as the goal revenue.
      *
      * @return void
      * @see addGoal() for parameters description
@@ -351,7 +350,8 @@ class API extends \Piwik\Plugin\API
      * Soft deletes a given Goal.
      * Stats data in the archives will still be recorded, but not displayed.
      *
-     * @param int $idGoal
+     * @param int $idSite The numeric ID of the website to query.
+     * @param int $idGoal The numeric ID of the goal to delete.
      *
      * @return void
      */
@@ -467,6 +467,22 @@ class API extends \Piwik\Plugin\API
         $dataTable->addDataTable($ecommerceViews);
     }
 
+    /**
+     * Returns ecommerce item metrics grouped by product SKU.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param bool $abandonedCarts If true, returns items left in abandoned carts instead of purchased items.
+     * @param string|false $segment Custom segment to filter the report.
+     *                              Example: "referrerName==example.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *
+     * @return DataTable|DataTable\Map
+     */
     public function getItemsSku($idSite, $period, $date, $abandonedCarts = false, $segment = false)
     {
         $dataTable = $this->getItems('Goals_ItemsSku', $idSite, $period, $date, $abandonedCarts, $segment);
@@ -474,6 +490,22 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns ecommerce item metrics grouped by product name.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param bool $abandonedCarts If true, returns items left in abandoned carts instead of purchased items.
+     * @param string|false $segment Custom segment to filter the report.
+     *                              Example: "referrerName==example.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *
+     * @return DataTable|DataTable\Map
+     */
     public function getItemsName($idSite, $period, $date, $abandonedCarts = false, $segment = false)
     {
         $dataTable = $this->getItems('Goals_ItemsName', $idSite, $period, $date, $abandonedCarts, $segment);
@@ -481,6 +513,22 @@ class API extends \Piwik\Plugin\API
         return $dataTable;
     }
 
+    /**
+     * Returns ecommerce item metrics grouped by product category.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param bool $abandonedCarts If true, returns items left in abandoned carts instead of purchased items.
+     * @param string|false $segment Custom segment to filter the report.
+     *                              Example: "referrerName==example.com"
+     *                              Supports AND (;) and OR (,) operators.
+     *
+     * @return DataTable|DataTable\Map
+     */
     public function getItemsCategory($idSite, $period, $date, $abandonedCarts = false, $segment = false)
     {
         $dataTable = $this->getItems('Goals_ItemsCategory', $idSite, $period, $date, $abandonedCarts, $segment);
@@ -514,15 +562,21 @@ class API extends \Piwik\Plugin\API
     /**
      * Returns Goals data.
      *
-     * @param int      $idSite
-     * @param string   $period
-     * @param string   $date
-     * @param bool     $segment
-     * @param bool|int $idGoal
-     * @param array    $columns                    Array of metrics to fetch: nb_conversions, conversion_rate, revenue
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false $segment Custom segment to filter the report.
+     *                              Example: "referrerName==example.com"
+     *                              Supports AND (;) and OR (,) operators.
+     * @param bool|int|string $idGoal The goal ID to filter by, or a special ecommerce goal identifier.
+     * @param array|string $columns Array of metrics to fetch: nb_conversions, conversion_rate, revenue.
      * @param bool     $showAllGoalSpecificMetrics whether to show all goal specific metrics when no goal is set
+     * @param bool $compare If true, leaves metrics unformatted until the queued formatter runs later.
      *
-     * @return DataTable
+     * @return DataTable|DataTable\Map
      */
     public function get($idSite, $period, $date, $segment = false, $idGoal = false, $columns = array(), $showAllGoalSpecificMetrics = false, $compare = false)
     {
@@ -598,6 +652,21 @@ class API extends \Piwik\Plugin\API
      * Similar to {@link get()} but does not return any metrics for new and returning visitors. It won't apply
      * any segment by default. This method is deprecated from the API as it is only there to make the implementation of
      * the actual {@link get()} method easy.
+     *
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false $segment Custom segment to filter the report.
+     *                              Example: "referrerName==example.com"
+     *                              Supports AND (;) and OR (,) operators.
+     * @param bool|int|string $idGoal The goal ID to filter by, or a special ecommerce goal identifier.
+     * @param array|string $columns Array of metrics to fetch: nb_conversions, conversion_rate, revenue.
+     * @param bool $showAllGoalSpecificMetrics Whether to show all goal-specific metrics when no goal is set.
+     *
+     * @return DataTable
      *
      * @deprecated
      * @internal
@@ -792,12 +861,17 @@ class API extends \Piwik\Plugin\API
      * Gets a DataTable that maps ranges of days to the number of conversions that occurred
      * within those ranges, for the specified site, date range, segment and goal.
      *
-     * @param int         $idSite  The site to select data from.
-     * @param string      $period  The period type.
-     * @param string      $date    The date type.
-     * @param string|bool $segment The segment.
-     * @param int|bool    $idGoal  The id of the goal to get data for. If this is set to false,
-     *                             data for every goal that belongs to $idSite is returned.
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false $segment Custom segment to filter the report.
+     *                              Example: "referrerName==example.com"
+     *                              Supports AND (;) and OR (,) operators.
+     * @param int|bool|string $idGoal The goal ID to get data for. If false, returns data for every goal that
+     *                                belongs to $idSite.
      *
      * @return false|DataTable
      */
@@ -825,12 +899,17 @@ class API extends \Piwik\Plugin\API
      * Gets a DataTable that maps ranges of visit counts to the number of conversions that
      * occurred on those visits for the specified site, date range, segment and goal.
      *
-     * @param int         $idSite  The site to select data from.
-     * @param string      $period  The period type.
-     * @param string      $date    The date type.
-     * @param string|bool $segment The segment.
-     * @param int|bool    $idGoal  The id of the goal to get data for. If this is set to false,
-     *                             data for every goal that belongs to $idSite is returned.
+     * @param int $idSite The numeric ID of the website to query.
+     * @param 'day'|'week'|'month'|'year'|'range' $period The period to process, processes data for the period
+     *                                                    containing the specified date.
+     * @param string $date The date or date range to process.
+     *                     'YYYY-MM-DD', magic keywords (today, yesterday, lastWeek, lastMonth, lastYear),
+     *                     or date range (ie, 'YYYY-MM-DD,YYYY-MM-DD', lastX, previousX).
+     * @param string|false $segment Custom segment to filter the report.
+     *                              Example: "referrerName==example.com"
+     *                              Supports AND (;) and OR (,) operators.
+     * @param int|bool|string $idGoal The goal ID to get data for. If false, returns data for every goal that
+     *                                belongs to $idSite.
      *
      * @return bool|DataTable
      */
