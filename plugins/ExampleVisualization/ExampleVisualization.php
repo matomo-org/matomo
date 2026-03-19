@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\ExampleVisualization;
 
-/**
- */
 class ExampleVisualization extends \Piwik\Plugin
 {
 }

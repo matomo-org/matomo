@@ -12,8 +12,6 @@ namespace Piwik\Plugins\CoreConsole\Commands;
 use Piwik\Container\StaticContainer;
 use Piwik\Plugin\ConsoleCommand;
 
-/**
- */
 class WatchLog extends ConsoleCommand
 {
     protected function configure()

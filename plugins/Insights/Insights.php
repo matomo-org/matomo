@@ -9,8 +9,6 @@
 
 namespace Piwik\Plugins\Insights;
 
-/**
- */
 class Insights extends \Piwik\Plugin
 {
     /**

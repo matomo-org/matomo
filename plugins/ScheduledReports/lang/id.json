@@ -27,8 +27,6 @@
         "PleaseFindBelow": "Silakan temukan di bawah laporan %1$s Anda untuk %2$s.",
         "PluginDescription": "Buat laporan khusus dan jadwalkan untuk dikirim melalui surel setiap hari, mingguan, atau bulanan ke satu atau beberapa orang. Beberapa format laporan didukung (html, pdf, csv, gambar).",
         "ReportFormat": "Bentuk Laporan",
-        "ReportHour": "Kirim laporan pada jam %s",
-        "ReportHourWithUTC": "pukul %s UTC",
         "ReportIncludeNWebsites": "Laporan akan menyertakan metrik utama untuk semua situs web yang memiliki setidaknya satu kunjungan (dari situs web %s yang saat ini tersedia).",
         "ReportPeriod": "Periode Laporan",
         "ReportSent": "Laporan telah dikirim",

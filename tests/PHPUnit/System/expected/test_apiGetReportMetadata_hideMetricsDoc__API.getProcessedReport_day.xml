@@ -3,7 +3,7 @@
 	<website>Piwik test</website>
 	<prettyDate>Sunday, January 4, 2009</prettyDate>
 	<metadata>
-		<category>Actions</category>
+		<category>Behaviour</category>
 		<name>Actions - Main metrics</name>
 		<module>Actions</module>
 		<action>get</action>

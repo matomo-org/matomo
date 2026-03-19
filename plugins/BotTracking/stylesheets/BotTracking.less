@@ -1,0 +1,211 @@
+.reporting-page {
+  // adjust message container margins to match .card widgets
+  .bot-tracking-no-recent-requests-message {
+    margin-bottom: 1rem;
+  }
+
+  .isFirstWidgetInPage {
+    .bot-tracking-no-recent-requests-message {
+      margin-top: 0;
+    }
+  }
+}
+
+#bot-tracking-site-without-data {
+  background: @color-white;
+
+  .top_controls {
+    background: @color-white;
+
+    .quick-access {
+      display: none;
+    }
+  }
+
+  .pageWrap {
+    max-width: 1168px; // 1120px + padding
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  a.tracking-method-back {
+    color: @theme-color-text;
+    text-decoration: none;
+    margin-bottom: 16px;
+    line-height: 24px;
+    display: block;
+
+    [class^="icon-"], [class*=" icon-"] {
+      position: relative;
+      top: 1px;
+    }
+  }
+
+  h1 {
+    font-weight: bold;
+    font-size: 32px;
+    float: left;
+    margin-bottom: 32px;
+  }
+
+  h1 + p {
+    clear: both;
+    float: left;
+    margin-bottom: 32px;
+  }
+
+  .loadingPiwik {
+    clear: both;
+  }
+
+  .tracking-method-details,
+  .tracking-method-detection,
+  .tracking-method-list {
+    clear: both;
+    width: 100%;
+    display: block;
+    border-radius: 4px;
+    border: 1px dashed @theme-color-background-lowContrast;
+    padding: 24px 87px 24px 87px;
+    position: relative;
+
+    @media only screen and (max-width: 992px) {
+      padding: 24px;
+      min-width: 312px;
+    }
+
+    h2 {
+      font-size: 20px;
+      line-height: 30px;
+      font-weight: bold;
+      color: @theme-color-text;
+      padding: 0 0 16px 0;
+
+      @media only screen and (max-width: 992px) {
+        clear: both;
+      }
+    }
+
+    a.btn {
+      margin-top: 24px;
+      font-weight: bold;
+    }
+  }
+
+  .tracking-method-details,
+  .tracking-method-detection {
+    img {
+      position: absolute;
+      height: 48px;
+      width: 48px;
+      top: 16px;
+      left: 24px;
+
+      @media only screen and (max-width: 992px) {
+        position: relative;
+        float: left;
+        top: 0;
+        left: 0;
+        margin-bottom: 16px;
+      }
+    }
+  }
+
+  .tracking-method-list {
+    h2 {
+      @media only screen and (max-width: 992px) {
+        padding-left: 64px
+      }
+    }
+
+    .icon-search {
+      position: absolute;
+      top: 22px;
+      left: 28px;
+      font-size: 33px;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 20px -20px 0;
+
+      @media only screen and (max-width: 992px) {
+        margin: 20px -12px;
+      }
+
+      li {
+        width: 288px;
+        height: 64px;
+        float: left;
+        border-radius: 4px;
+        border: 1px solid @theme-color-background-lowContrast;
+        margin: 16px 20px;
+        position: relative;
+
+        @media only screen and (max-width: 992px) {
+          width: 264px;
+          margin: 12px 12px;
+        }
+
+        a {
+          text-decoration: none;
+          color: @theme-color-text;
+          height: 100%;
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: left;
+        }
+
+        img {
+          height: 48px;
+          width: 48px;
+          margin: 8px 16px 8px 24px;
+
+          @media only screen and (max-width: 992px) {
+            margin: 8px 8px 8px 16px;
+          }
+        }
+
+        .list-entry-text {
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 24px;
+          max-height: 48px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 2;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+  }
+
+  .tracking-method-skip {
+    clear: both;
+    margin-top: 40px;
+    font-size: 16px;
+    line-height: 21px;
+
+    h2 {
+      color: @theme-color-text;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 21px;
+      padding: 0 0 8px 0;
+    }
+
+    a {
+      margin-top: 16px;
+      color: @color-green-matomo;
+      text-transform: uppercase;
+      display: block;
+
+      &:hover {
+        color: @color-green-matomo;
+      }
+    }
+  }
+}

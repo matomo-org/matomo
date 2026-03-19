@@ -26,8 +26,6 @@ class SettingsPiwik
      * Get salt from [General] section. Should ONLY be used as a seed to create hashes
      *
      * NOTE: Keep this salt secret! Never output anywhere or share it etc.
-     *
-     * @return string|null
      */
     public static function getSalt(): ?string
     {
@@ -162,8 +160,6 @@ class SettingsPiwik
 
     /**
      * Number of websites to show in the Website selector
-     *
-     * @return int
      */
     public static function getWebsitesCountToDisplay(): int
     {
@@ -223,9 +219,6 @@ class SettingsPiwik
         return $url;
     }
 
-    /**
-     * @return bool
-     */
     public static function isMatomoInstalled(): bool
     {
         $config = Config::getInstance()->getLocalPath();
@@ -256,8 +249,6 @@ class SettingsPiwik
     /**
      * Check if outgoing internet connections are enabled
      * This is often disable in an intranet environment
-     *
-     * @return bool
      */
     public static function isInternetEnabled(): bool
     {
@@ -268,7 +259,6 @@ class SettingsPiwik
      * Detect whether user has enabled auto updates. Please note this config is a bit misleading. It is currently
      * actually used for 2 things: To disable making any connections back to Piwik, and to actually disable the auto
      * update of core and plugins.
-     * @return bool
      */
     public static function isAutoUpdateEnabled(): bool
     {
@@ -285,8 +275,6 @@ class SettingsPiwik
      * automatic updates are actually enabled. If a user is running Piwik on multiple servers an update is not possible
      * as it would be installed only on one server instead of all of them. Also if a user has disabled automatic updates
      * we cannot perform any automatic updates.
-     *
-     * @return bool
      */
     public static function isAutoUpdatePossible(): bool
     {
@@ -297,7 +285,6 @@ class SettingsPiwik
      * Returns `true` if Piwik is running on more than one server. For example in a load balanced environment. In this
      * case we should not make changes to the config and not install a plugin via the UI as it would be only executed
      * on one server.
-     * @return bool
      */
     public static function isMultiServerEnvironment(): bool
     {
@@ -309,7 +296,6 @@ class SettingsPiwik
     /**
      * Returns `true` if segmentation is allowed for this user, `false` if otherwise.
      *
-     * @return bool
      * @api
      */
     public static function isSegmentationEnabled(): bool
@@ -325,7 +311,6 @@ class SettingsPiwik
      * INI config options. By default, unique visitors are processed only for day/week/month periods.
      *
      * @param string $periodLabel `"day"`, `"week"`, `"month"`, `"year"` or `"range"`
-     * @return bool
      * @api
      */
     public static function isUniqueVisitorsEnabled(string $periodLabel): bool
@@ -348,8 +333,6 @@ class SettingsPiwik
 
     /**
      * If Piwik uses per-domain config file, make sure CustomLogo is unique
-     * @param string $path
-     * @return string
      * @throws \Piwik\Exception\DI\DependencyException
      * @throws \Piwik\Exception\DI\NotFoundException
      * @throws Exception
@@ -368,9 +351,6 @@ class SettingsPiwik
      * or if the Piwik server is "offline",
      * this will return false..
      *
-     * @param string $piwikServerUrl
-     * @param bool $acceptInvalidSSLCertificates
-     * @return void
      * @throws Exception
      */
     public static function checkPiwikServerWorking(string $piwikServerUrl, bool $acceptInvalidSSLCertificates = false): void
@@ -417,17 +397,12 @@ class SettingsPiwik
     /**
      * Returns true if Piwik is deployed using git
      * FAQ: https://piwik.org/faq/how-to-install/faq_18271/
-     *
-     * @return bool
      */
     public static function isGitDeployment(): bool
     {
         return file_exists(PIWIK_INCLUDE_PATH . '/.git/HEAD');
     }
 
-    /**
-     * @return string
-     */
     public static function getCurrentGitBranch(): string
     {
         $file = PIWIK_INCLUDE_PATH . '/.git/HEAD';
@@ -448,9 +423,6 @@ class SettingsPiwik
     }
 
     /**
-     * @param string $pathToRewrite
-     * @param string $leadingPathToAppendHostnameTo
-     * @return string
      * @throws Exception
      */
     protected static function rewritePathAppendPiwikInstanceId(string $pathToRewrite, string $leadingPathToAppendHostnameTo): string
@@ -497,17 +469,11 @@ class SettingsPiwik
         return false;
     }
 
-    /**
-     * @param string $currentUrl
-     */
     public static function overwritePiwikUrl(string $currentUrl): void
     {
         Option::set(self::OPTION_PIWIK_URL, $currentUrl, $autoLoad = true);
     }
 
-    /**
-     * @return bool
-     */
     public static function isHttpsForced(): bool
     {
         if (!self::isMatomoInstalled()) {
@@ -519,8 +485,6 @@ class SettingsPiwik
 
     /**
      * Note: this config settig is also checked in the InterSites plugin
-     *
-     * @return bool
      */
     public static function isSameFingerprintAcrossWebsites(): bool
     {

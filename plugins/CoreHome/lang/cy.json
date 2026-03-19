@@ -1,5 +1,7 @@
 {
     "CoreHome": {
-        "ChooseWebsite": "Dewiswch wefan"
+        "ChooseWebsite": "Dewiswch wefan",
+        "PresetDateToday": "Heddiw",
+        "PresetDateYesterday": "Ddoe"
     }
 }

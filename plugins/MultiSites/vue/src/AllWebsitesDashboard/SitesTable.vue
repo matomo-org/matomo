@@ -40,8 +40,20 @@
             {{ translate('General_ColumnPageviews') }}
           </th>
 
+          <th v-if="showAiChatbotsRequests && !isSegmented"
+              @click="sortBy('ai_chatbots_requests')"
+              :title="translate('MultiSites_MetricDocumentationAiChatbotsRequests')">
+            <span
+                v-if="sortColumn === 'ai_chatbots_requests'"
+                :class="sortColumnClass"
+            />
+            {{ translate('MultiSites_AiChatbotsRequests') }}
+          </th>
+
           <th @click="sortBy('hits')"
-              :title="translate('MultiSites_MetricDocumentationHits')">
+              :title="translate(showAiChatbotsRequests && !isSegmented
+                ? 'MultiSites_MetricDocumentationHitsIncludingAi'
+                : 'MultiSites_MetricDocumentationHits')">
             <span
                 v-if="sortColumn === 'hits'"
                 :class="sortColumnClass"
@@ -85,6 +97,12 @@
                 {{ translate('General_ColumnPageviews') }}
               </option>
               <option
+                  value="ai_chatbots_requests_evolution"
+                  v-if="showAiChatbotsRequests && !isSegmented"
+              >
+                {{ translate('MultiSites_AiChatbotsRequests') }}
+              </option>
+              <option
                   value="revenue_evolution"
                   v-if="displayRevenue"
               >
@@ -97,7 +115,7 @@
 
       <tbody>
         <tr v-if="isLoading">
-          <td class="sitesTableLoading" colspan="7">
+          <td class="sitesTableLoading" :colspan="loadingColspan">
             <MatomoLoader />
           </td>
         </tr>
@@ -111,6 +129,7 @@
             :model-value="site"
             :display-sparkline="displaySparklines"
             :sparkline-metric="sparklineMetric"
+            :show-ai-chatbots-requests="showAiChatbotsRequests && !isSegmented"
         />
       </tbody>
     </table>
@@ -174,11 +193,24 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+    showAiChatbotsRequests: {
+      type: Boolean,
+      required: true,
+    },
+    isSegmented: {
+      type: Boolean,
+      required: true,
+    },
   },
   data(): SitesTableState {
     return {
       evolutionSelector: 'visits_evolution',
     };
+  },
+  watch: {
+    isSegmented() {
+      this.ensureEvolutionSelectorIsValid();
+    },
   },
   computed: {
     errorLoading(): boolean {
@@ -230,6 +262,8 @@ export default defineComponent({
           return 'hits';
         case 'pageviews_evolution':
           return 'nb_pageviews';
+        case 'ai_chatbots_requests_evolution':
+          return 'ai_chatbots_requests';
         case 'revenue_evolution':
           return 'revenue';
         case 'visits_evolution':
@@ -238,12 +272,34 @@ export default defineComponent({
           return '';
       }
     },
+    loadingColspan(): number {
+      let columns = 6;
+      if (this.showAiChatbotsRequests && !this.isSegmented) {
+        columns += 1;
+      }
+      if (this.displayRevenue) {
+        columns += 1;
+      }
+      if (this.displaySparklines) {
+        columns += 1;
+      }
+      return columns;
+    },
   },
   methods: {
     changeEvolutionSelector(metric: string) {
       this.evolutionSelector = metric;
 
       this.sortBy(metric);
+    },
+    ensureEvolutionSelectorIsValid() {
+      if (
+        this.evolutionSelector === 'ai_chatbots_requests_evolution'
+        && (this.isSegmented || !this.showAiChatbotsRequests)
+      ) {
+        this.evolutionSelector = 'visits_evolution';
+        this.sortBy(this.evolutionSelector);
+      }
     },
     navigateNextPage() {
       DashboardStore.navigateNextPage();

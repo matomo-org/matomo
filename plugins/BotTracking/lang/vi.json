@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "URL của trang"
+        "PageUrl": "URL của trang",
+        "SiteWithoutDataBackToMatomo": "Quay lại Matomo"
     }
 }

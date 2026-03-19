@@ -1,5 +1,7 @@
 {
     "BotTracking": {
-        "PageUrl": "URL сторінок"
+        "PageUrl": "URL сторінок",
+        "NoDataHttpTrackingApi": "API відстеження HTTP",
+        "SiteWithoutDataBackToMatomo": "Повернутися до Matomo"
     }
 }

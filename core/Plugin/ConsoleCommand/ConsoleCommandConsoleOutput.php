@@ -16,5 +16,4 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  */
 class ConsoleCommandConsoleOutput extends ConsoleOutput
 {
-    //
 }

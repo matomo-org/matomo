@@ -26,8 +26,6 @@ class ColumnCallbackDeleteMetadata extends BaseFilter
     private $metadataToRemove;
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table The DataTable instance that will be filtered.
      * @param string $metadataToRemove The name of the metadata field that will be removed from each row.
      */

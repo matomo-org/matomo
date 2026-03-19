@@ -1,5 +1,6 @@
 {
     "BotTracking": {
-        "PageUrl": "Weblap URL-je"
+        "PageUrl": "Weblap URL-je",
+        "SiteWithoutDataBackToMatomo": "Vissza a Matomohoz"
     }
 }

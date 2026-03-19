@@ -321,100 +321,98 @@ div.scrollable {
   100% { stroke: black; fill: transparent; }
 }
 
-.segmentationContainer ul.submenu > li {
-    .editSegment,
-    .compareSegment,
-    .starSegment {
-        flex: none;
-        display: flex;
-        width: 16px;
-        height: 16px;
+.segmentAction {
+  flex: none;
+  display: flex;
+  width: 16px;
+  height: 16px;
 
-        // Button reset
-        padding: 0;
-        border: 0;
-        background: transparent;
-        cursor: pointer;
+  // Button reset
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 
-        font-weight: normal;
-        text-align: center;
-        opacity: 0.5;
+  font-weight: normal;
+  text-align: center;
+  opacity: 0.5;
 
-        &:hover {
-          opacity: 1;
-        }
+  &:hover {
+    opacity: 1;
+  }
 
-        &[data-state=disabled] {
-          opacity: 0.2;
-          cursor: not-allowed;
-        }
+  &:focus {
+    background-color: transparent;
+  }
+
+  &[data-state=disabled] {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+.editSegment {
+    background: url(plugins/SegmentEditor/images/edit_segment.svg) no-repeat;
+    background-size: cover;
+    order: 3;
+}
+
+.starSegment {
+    order: 2;
+}
+
+.segmentStarAnimation .starSegment {
+  animation: unstarAnimation 0.5s 1;
+}
+
+.segmentStarAnimation .starSegment path {
+  animation: unstarAnimationPath 0.5s 1;
+}
+
+.segmentStarred.segmentStarAnimation .starSegment {
+  animation-name: starAnimation;
+}
+
+.segmentStarred.segmentStarAnimation .starSegment path {
+  animation-name: starAnimationPath;
+}
+
+.segmentStarErrorAnimation .starSegment {
+  animation: starErrorAnimation 2s 1;
+}
+
+.segmentStarErrorAnimation .starSegment path {
+  animation: starErrorAnimationPath 2s 1;
+}
+
+.segmentStarred.segmentStarErrorAnimation .starSegment path {
+  animation-direction: reverse;
+}
+
+/* We do not want filled & transparent stars, design wanted by Matthieu */
+.segmentStarred .starSegment[data-state=disabled] {
+  opacity: 0.5;
+}
+
+.segmentStarred .starSegment path {
+    fill: black;
+}
+
+.compareSegment {
+    background: url(plugins/Morpheus/images/compare.svg) no-repeat;
+    background-size: cover;
+    order: 2;
+
+    &.allVisitsCompareSegment {
+        margin-left: 20px;
     }
-
-    .editSegment {
-        background: url(plugins/SegmentEditor/images/edit_segment.svg) no-repeat;
-        background-size: cover;
-        order: 3;
-    }
-
-    .starSegment {
-        order: 2;
-    }
-
-    .segmentStarAnimation .starSegment {
-      animation: unstarAnimation 0.5s 1;
-    }
-
-    .segmentStarAnimation .starSegment path {
-      animation: unstarAnimationPath 0.5s 1;
-    }
-
-    .segmentStarred.segmentStarAnimation .starSegment {
-      animation-name: starAnimation;
-    }
-
-    .segmentStarred.segmentStarAnimation .starSegment path {
-      animation-name: starAnimationPath;
-    }
-
-    .segmentStarErrorAnimation .starSegment {
-      animation: starErrorAnimation 2s 1;
-    }
-
-    .segmentStarErrorAnimation .starSegment path {
-      animation: starErrorAnimationPath 2s 1;
-    }
-
-    .segmentStarred.segmentStarErrorAnimation .starSegment path {
-      animation-direction: reverse;
-    }
-
-    /* We do not want filled & transparent stars, design wanted by Matthieu */
-    .segmentStarred .starSegment[data-state=disabled] {
-      opacity: 0.5;
-    }
-
-    .segmentStarred .starSegment path {
-        fill: black;
-    }
-
-    .compareSegment {
-        background: url(plugins/Morpheus/images/compare.svg) no-repeat;
-        background-size: cover;
-        order: 2;
-
-        &.allVisitsCompareSegment {
-            margin-left: 20px;
-        }
-        &.allVisitsCompareSegment--write {
-          margin-right: 20px;
-        }
+    &.allVisitsCompareSegment--write {
+      margin-right: 20px;
     }
 }
 
-html.comparisonsDisabled .segmentationContainer ul.submenu {
-    .compareSegment {
-        display: none;
-    }
+.comparisonsDisabled  .compareSegment {
+  display: none;
 }
 
 .segmentEditorPanel.expanded .segmentationContainer {
@@ -422,7 +420,7 @@ html.comparisonsDisabled .segmentationContainer ul.submenu {
     border-bottom-right-radius: 0;
 
     .dropdown-body {
-        min-width: 240px;
+        min-width: 280px;
     }
 
     @media screen and (max-width: 600px) {

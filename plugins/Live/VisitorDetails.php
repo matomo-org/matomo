@@ -77,7 +77,7 @@ class VisitorDetails extends VisitorDetailsAbstract
     public function renderAction($action, $previousAction, $visitorDetails)
     {
         if (empty($action['type'])) {
-            return;
+            return '';
         }
 
         switch ($action['type']) {
@@ -87,7 +87,7 @@ class VisitorDetails extends VisitorDetailsAbstract
                 break;
             case 'goal':
                 if (empty($action['goalName'])) {
-                    return; // goal deleted
+                    return ''; // goal deleted
                 }
                 $template = '@Live/_actionGoal.twig';
                 break;
@@ -100,7 +100,7 @@ class VisitorDetails extends VisitorDetailsAbstract
         }
 
         if (empty($template)) {
-            return;
+            return '';
         }
 
         if (isset($action['type']) && in_array($action['type'], ['outlink', 'download']) && isset($action['url'])) {

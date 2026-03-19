@@ -9,8 +9,9 @@
 
 namespace Piwik\Plugins\Tour\Engagement;
 
+use Piwik\Container\StaticContainer;
 use Piwik\Piwik;
-use Piwik\Settings\Storage\Backend\PluginSettingsTable;
+use Piwik\Settings\Storage\UserScopedSettingsAccessManager;
 
 /**
  * Defines a new challenge which a super user needs to complete in order to become a "Matomo expert".
@@ -91,16 +92,10 @@ abstract class Challenge
         return '';
     }
 
-    private function getPluginSettingsInstance(string $login)
-    {
-        return new PluginSettingsTable('Tour', $login);
-    }
-
     private function getSettings(string $login)
     {
         if (!isset(self::$settings[$login])) {
-            $pluginSettings = $this->getPluginSettingsInstance($login);
-            self::$settings[$login] = $pluginSettings->load();
+            self::$settings[$login] = $this->getAccessManager()->getAll('Tour', $login);
         }
 
         return self::$settings[$login];
@@ -154,13 +149,17 @@ abstract class Challenge
         if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
-        $pluginSettings = $this->getPluginSettingsInstance($login);
-        $settings = $pluginSettings->load();
+        $settings = $this->getAccessManager()->getAll('Tour', $login);
 
         if (empty($settings[$this->getId() . $appendix])) {
             $settings[$this->getId() . $appendix] = '1';
-            $pluginSettings->save($settings);
+            $this->getAccessManager()->setAll('Tour', $login, $settings);
             self::clearCache();
         }
+    }
+
+    private function getAccessManager(): UserScopedSettingsAccessManager
+    {
+        return StaticContainer::get(UserScopedSettingsAccessManager::class);
     }
 }

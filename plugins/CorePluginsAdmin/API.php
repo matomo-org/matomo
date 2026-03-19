@@ -135,7 +135,6 @@ class API extends \Piwik\Plugin\API
 
     /**
      * @internal
-     * @return int
      */
     public function getNumberOfPluginUpdates(): int
     {

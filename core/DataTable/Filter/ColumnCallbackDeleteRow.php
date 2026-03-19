@@ -31,8 +31,6 @@ class ColumnCallbackDeleteRow extends BaseFilter
     private $columnsToFilter;
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table The DataTable that will be filtered eventually.
      * @param array|string $columnsToFilter The column or array of columns that should be
      *                                      passed to the callback.

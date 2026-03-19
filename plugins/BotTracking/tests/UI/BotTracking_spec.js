@@ -15,8 +15,8 @@ describe("BotTracking", function () {
     var generalParams = 'idSite=1&period=day&date=2025-02-02',
         urlBase = 'module=CoreHome&action=index&' + generalParams;
 
-    it('should render AI Assistants > AI Bots Overview page with evolution and sparkline', async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview");
+    it('should render AI Assistants > AI Chatbots Overview page with evolution and sparkline', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();
 
         await page.hover('.jqplot-seriespicker');
@@ -33,8 +33,13 @@ describe("BotTracking", function () {
         expect(await elem.screenshot()).to.matchImage('bot_overview');
     });
 
+    it('should not have shown a "no recent tracking requests" message', async function () {
+        const notifications = await page.$$('.bot-tracking-no-recent-requests-message');
+        expect(notifications.length).to.equal(0);
+    })
+
     it('should not show unique pages and documents metric for higher periods', async function () {
-        await page.goto("?" + urlBase + "#?idSite=1&period=week&date=2025-02-02&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview");
+        await page.goto("?" + urlBase + "#?idSite=1&period=week&date=2025-02-02&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();
 
         await page.hover('.jqplot-seriespicker');
@@ -46,8 +51,8 @@ describe("BotTracking", function () {
         expect(sparklines.length).to.equal(6);
     });
 
-    it('should render AI Assistants > AI Bots Overview bot detail report', async function () {
-        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIBotsOverview");
+    it('should render AI Assistants > AI Chatbots Overview bot detail report', async function () {
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview");
         await page.waitForNetworkIdle();
 
         const row = await page.jQuery('tr.subDataTable:first');
@@ -57,7 +62,7 @@ describe("BotTracking", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250); // rendering
 
-        var elem = await page.$('#widgetBotTrackinggetAIAssistantRequests');
+        var elem = await page.$('#widgetBotTrackinggetAIChatbotRequests');
         expect(await elem.screenshot()).to.matchImage('bot_requests');
     });
 
@@ -72,7 +77,23 @@ describe("BotTracking", function () {
         await page.waitForNetworkIdle();
         await page.waitForTimeout(250); // rendering
 
-        var elem = await page.$('#widgetBotTrackinggetAIAssistantRequests');
+        var elem = await page.$('#widgetBotTrackinggetAIChatbotRequests');
         expect(await elem.screenshot()).to.matchImage('bot_requests_documents');
+    });
+
+    it('should show segment not supported footer message in AI bot reports when segmented', async function () {
+        const segment = encodeURIComponent('visitConverted==1');
+        await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_AIAssistants&subcategory=BotTracking_AIChatbotsOverview&segment=" + segment);
+        await page.waitForNetworkIdle();
+
+        const expectedMessage = 'Report does not support segmentation. The data displayed is your standard, unsegmented report data.';
+        const matchingFooterMessages = await page.$$eval('.datatableFooterMessage', (nodes, expected) => {
+            return nodes
+                .map((node) => (node.textContent || '').trim())
+                .filter((text) => text.includes(expected))
+                .length;
+        }, expectedMessage);
+
+        expect(matchingFooterMessages).to.be.at.least(3);
     });
 });

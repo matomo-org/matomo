@@ -81,8 +81,6 @@ class VisitLastActionTime extends VisitDimension
     // installing point (we do not know whether idsite column will be added first).
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -92,8 +90,6 @@ class VisitLastActionTime extends VisitDimension
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

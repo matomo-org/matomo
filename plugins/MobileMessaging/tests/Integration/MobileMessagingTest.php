@@ -10,6 +10,7 @@
 namespace Piwik\Plugins\MobileMessaging\tests\Integration;
 
 use Piwik\Date;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\MobileMessaging\API as APIMobileMessaging;
 use Piwik\Plugins\MobileMessaging\MobileMessaging;
@@ -288,6 +289,22 @@ class MobileMessagingTest extends IntegrationTestCase
         $mobileMessagingAPI->addPhoneNumber('+2345678890');
         $mobileMessagingAPI->addPhoneNumber('+2345678901');
         $mobileMessagingAPI->addPhoneNumber('+3456789012');
+    }
+
+    public function testGetSMSAPICredentialFallsBackToLegacyGlobalOptionIfPluginSettingsAreMissing()
+    {
+        $model = new Model();
+        $model->setCredentialManagerSettings([]);
+
+        Option::set(MobileMessaging::USER_SETTINGS_POSTFIX_OPTION, json_encode([
+            MobileMessaging::PROVIDER_OPTION => 'InValid',
+            MobileMessaging::API_KEY_OPTION => [],
+        ]));
+
+        $credential = $model->getSMSAPICredential();
+
+        self::assertSame('InValid', $credential[MobileMessaging::PROVIDER_OPTION]);
+        self::assertSame([], $credential[MobileMessaging::API_KEY_OPTION]);
     }
 
     /**

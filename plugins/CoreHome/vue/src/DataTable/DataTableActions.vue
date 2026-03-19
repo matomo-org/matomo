@@ -14,6 +14,7 @@
       href
       @click.prevent
       :data-target="`dropdownConfigure${randomIdForDropdown}`"
+      :title="translate('CoreHome_ReportConfigure')"
       style="margin-right:3.5px"
       v-if="hasConfigItems && (isAnyConfigureIconHighlighted || isTableView)"
     >
@@ -385,13 +386,13 @@ export default defineComponent({
     },
     reportFormats(): Record<string, string> {
       const formats: Record<string, string> = {
-        CSV: 'CSV',
         TSV: 'TSV (Excel)',
-        XML: 'XML',
-        JSON: 'Json',
         HTML: 'HTML',
+        JSON: 'JSON',
+        XML: 'XML',
+        CSV: 'CSV',
+        RSS: 'RSS',
       };
-      formats.RSS = 'RSS';
       return formats;
     },
     showDimensionsConfigItem() {

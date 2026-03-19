@@ -12,9 +12,6 @@ namespace Piwik\Tests\Fixtures;
 use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
 
-/**
- *
- */
 class Utf8mb4 extends Fixture
 {
     public $idSite = 1;

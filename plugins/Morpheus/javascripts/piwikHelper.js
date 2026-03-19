@@ -164,6 +164,11 @@ window.piwikHelper = {
         return window.vueSanitize(value);
     },
 
+    normalize: function(value)
+    {
+        return value.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+    },
+
 	/**
 	 * Add break points to a string so that it can be displayed more compactly
 	 */

@@ -27,8 +27,6 @@ class ReferrerName extends Base
     protected $category = 'Referrers_Referrers';
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */
@@ -52,8 +50,6 @@ class ReferrerName extends Base
     }
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
      * @return mixed
      */

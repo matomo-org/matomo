@@ -12,8 +12,6 @@ namespace Piwik\Plugins\ExampleUI;
 use Piwik\Notification;
 use Piwik\View;
 
-/**
- */
 class Controller extends \Piwik\Plugin\Controller
 {
     public function notifications()

@@ -77,6 +77,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Bu aralıktaki raporlar henüz işlenmemiş gibi görünüyor, ancak birkaç saat içinde hazır olacaklar. Raporlar oluşturulana kadar farklı bir tarih aralığı seçebilirsiniz.",
         "PeriodRange": "Aralık",
         "PivotBySubtable": "Bu rapor merkeze alınmamış %1$s Şununla merkeze alın %2$s",
+        "PresetDateToday": "Bugün",
+        "PresetDateYesterday": "Dün",
         "Profilable": "Profillenebilir",
         "ProfilableSegmentHelp": "Profili oluşturulabilenler için 1 (tanımlama bilgileri kullanıldı gibi), profili oluşturulamayanlar için 0 (hiçbir tanımlama bilgisi kullanılmadı gibi)",
         "QuickAccessTitle": "%s ile arayın. Arama sonuçlarında gezinmek için ok tuşlarını kullanın. Aramak için 'f' kısa yol tuşuna basın.",

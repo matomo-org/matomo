@@ -91,9 +91,7 @@ class EvolutionPeriodSelector
      * For best performance and for better detecting trends we try to select the highest period if all the periods given
      * allow it.
      *
-     * @param Period $originalPeriod
      * @param $comparisonPeriods
-     * @return string
      */
     public function getHighestPeriodInCommon(Period $originalPeriod, $comparisonPeriods): string
     {

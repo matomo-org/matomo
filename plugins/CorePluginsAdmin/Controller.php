@@ -71,11 +71,7 @@ class Controller extends Plugin\ControllerAdmin
 
     /**
      * Controller constructor.
-     * @param Translator $translator
-     * @param Plugin\SettingsProvider $settingsProvider
-     * @param PluginInstaller $pluginInstaller
      * @param Plugins $marketplacePlugins
-     * @param PasswordVerifier $passwordVerify
      */
     public function __construct(
         Translator $translator,

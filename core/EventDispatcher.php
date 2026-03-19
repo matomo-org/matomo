@@ -62,9 +62,6 @@ class EventDispatcher
 
     public static $_SKIP_EVENTS_IN_TESTS = false; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
-    /**
-     * Constructor.
-     */
     public function __construct(Plugin\Manager $pluginManager, array $observers = array())
     {
         $this->pluginManager = $pluginManager;

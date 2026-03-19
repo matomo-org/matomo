@@ -82,8 +82,6 @@ abstract class RequestProcessor
      *
      * Derived classes can use this method to manipulate a tracker request before the request
      * is handled. Plugins could change the URL, add custom variables, etc.
-     *
-     * @param Request $request
      */
     public function manipulateRequest(Request $request)
     {
@@ -99,8 +97,6 @@ abstract class RequestProcessor
      *
      * When this method is called, `$visitProperties->visitorInfo` will be empty.
      *
-     * @param VisitProperties $visitProperties
-     * @param Request $request
      * @return bool If `true` the tracking request will be aborted.
      */
     public function processRequestParams(VisitProperties $visitProperties, Request $request)
@@ -119,8 +115,6 @@ abstract class RequestProcessor
      * will be initialized (but not at their final value). Also, `$visitProperties->visitorInfo`
      * will contain the values of the visitor's last known visit (if any).
      *
-     * @param VisitProperties $visitProperties
-     * @param Request $request
      * @return bool If `true` the tracking request will be aborted.
      */
     public function afterRequestProcessed(VisitProperties $visitProperties, Request $request)
@@ -135,9 +129,6 @@ abstract class RequestProcessor
      * Only implement this method if you cannot use a Dimension for the same thing.
      *
      * Please note that the `onNewAction` hook in an action dimension is executed after this method.
-     *
-     * @param VisitProperties $visitProperties
-     * @param Request $request
      */
     public function onNewVisit(VisitProperties $visitProperties, Request $request)
     {
@@ -153,8 +144,6 @@ abstract class RequestProcessor
      * Please note that the `onNewAction` hook in an action dimension is executed before this method.
      *
      * @param array &$valuesToUpdate
-     * @param VisitProperties $visitProperties
-     * @param Request $request
      */
     public function onExistingVisit(&$valuesToUpdate, VisitProperties $visitProperties, Request $request)
     {
@@ -168,9 +157,6 @@ abstract class RequestProcessor
      * When this method is called, you can assume all request metadata have their final values. Also,
      * `$visitProperties->visitorInfo` will contain the properties of the visitor's current visit (in
      * other words, the values in the array were persisted to the DB before this method was called).
-     *
-     * @param VisitProperties $visitProperties
-     * @param Request $request
      */
     public function recordLogs(VisitProperties $visitProperties, Request $request)
     {

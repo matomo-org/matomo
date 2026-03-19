@@ -30,7 +30,6 @@ class API extends PluginAPI
 
     /**
      * @param int|string $idSite
-     * @param string $segment
      * @param string|array<string> $columns
      */
     public function get(

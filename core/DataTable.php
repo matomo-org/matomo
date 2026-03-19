@@ -677,7 +677,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * cases, the {@link COLUMN_AGGREGATION_OPS_METADATA_NAME}
      * metadata can be used to specify a different type of operation.
      *
-     * @param DataTable $tableToSum
      * @return void
      * @throws Exception
      */
@@ -848,7 +847,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * at the maximum, the new row will be summed to the summary row. If there is no summary row,
      * this row is set as the summary row.
      *
-     * @param Row $row
      * @return Row `$row` or the summary row if we're at the maximum number of rows.
      */
     public function addRow(Row $row)
@@ -892,7 +890,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * _Note: A DataTable can have only one summary row._
      *
-     * @param Row $row
      * @return Row Returns `$row`.
      */
     public function addSummaryRow(Row $row)
@@ -1335,8 +1332,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * is equal to the row in the other table with the same label. The order
      * of rows is not important.
      *
-     * @param DataTable $table1
-     * @param DataTable $table2
      * @return bool
      */
     public static function isEqual(DataTable $table1, DataTable $table2)
@@ -1499,7 +1494,12 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     }
 
     /** @var string[] */
-    private static $previousRowClasses = array('O:39:"Piwik\DataTable\Row\DataTableSummaryRow"', 'O:19:"Piwik\DataTable\Row"', 'O:36:"Piwik_DataTable_Row_DataTableSummary"', 'O:19:"Piwik_DataTable_Row"');
+    private static $previousRowClasses = [
+        'O:39:"Piwik\DataTable\Row\DataTableSummaryRow"',
+        'O:19:"Piwik\DataTable\Row"',
+        'O:36:"Piwik_DataTable_Row_DataTableSummary"',
+        'O:19:"Piwik_DataTable_Row"',
+    ];
 
     /** @var string */
     private static $rowClassToUseForUnserialize = 'O:29:"Piwik_DataTable_SerializedRow"';
@@ -1518,18 +1518,85 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      */
     private function unserializeRows($serialized)
     {
-        $serialized = str_replace(self::$previousRowClasses, self::$rowClassToUseForUnserialize, $serialized);
-        $rows = Common::safe_unserialize($serialized, [
-            Row::class,
-            DataTableSummaryRow::class,
-            \Piwik_DataTable_SerializedRow::class,
-        ]);
+        // Current archives only persist row arrays, so do not allow objects in the default path.
+        $rows = Common::safe_unserialize($serialized, []);
+
+        if (!$this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = false)) {
+            $rows = false;
+        }
 
         if ($rows === false) {
+            // Legacy object payloads are attempted as a fallback for BC.
+            $legacySerialized = str_replace(
+                array_map(function ($class) {
+                    return $class . ':';
+                }, self::$previousRowClasses),
+                self::$rowClassToUseForUnserialize . ':',
+                $serialized
+            );
+            $rows = Common::safe_unserialize($legacySerialized, [
+                \Piwik_DataTable_SerializedRow::class,
+            ]);
+        }
+
+        if (!$this->isValidRowsPayload($rows, $allowLegacySerializedRowObjects = true)) {
             throw new Exception("The unserialization has failed!");
         }
 
         return $rows;
+    }
+
+    private function isValidRowsPayload($rows, bool $allowLegacySerializedRowObjects): bool
+    {
+        if (!is_array($rows)) {
+            return false;
+        }
+
+        foreach ($rows as $row) {
+            if ($allowLegacySerializedRowObjects && $this->isValidLegacySerializedRowObject($row)) {
+                continue;
+            }
+
+            if ($this->containsObject($row)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function isValidLegacySerializedRowObject($row): bool
+    {
+        if (!$row instanceof \Piwik_DataTable_SerializedRow) {
+            return false;
+        }
+
+        return isset($row->c) && is_array($row->c) && !$this->containsObject($row->c);
+    }
+
+    private function containsObject($value): bool
+    {
+        if (is_object($value)) {
+            return true;
+        }
+
+        if (!is_array($value)) {
+            return false;
+        }
+
+        $containsObject = false;
+
+        try {
+            array_walk_recursive($value, function ($entry) use (&$containsObject): void {
+                if (is_object($entry)) {
+                    $containsObject = true;
+                }
+            });
+        } catch (\Throwable $error) {
+            throw new Exception('The unserialization has failed! Array payload cannot be safely traversed.', 0, $error);
+        }
+
+        return $containsObject;
     }
 
     /**
@@ -2055,7 +2122,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      *
      * $row must have a column "label". The $row will be summed to this table's row with the same label.
      *
-     * @param Row $row
      * @param null|array<string|int, string> $columnAggregationOps
      * @return void
      * @throws \Exception
@@ -2160,7 +2226,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param int $offset
-     * @return bool
      */
     public function offsetExists($offset): bool
     {
@@ -2171,7 +2236,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param int $offset
-     * @return Row
      */
     public function offsetGet($offset): Row
     {
@@ -2181,7 +2245,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
     /**
      * @param int $offset
      * @param Row $value
-     * @return void
      */
     public function offsetSet($offset, $value): void
     {
@@ -2190,7 +2253,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
 
     /**
      * @param int $offset
-     * @return void
      * @throws Exception
      */
     public function offsetUnset($offset): void
@@ -2202,7 +2264,6 @@ class DataTable implements DataTableInterface, \IteratorAggregate, \ArrayAccess
      * @param string|int|null $label
      * @param array $columns
      * @param array<string, string>|null $aggregationOps
-     * @return Row
      * @throws Exception
      */
     public function sumRowWithLabel($label, array $columns, ?array $aggregationOps = null): Row

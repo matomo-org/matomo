@@ -47,8 +47,6 @@ class CalculateEvolutionFilter extends ColumnCallbackAddColumnPercentage
     protected $isRevenueEvolution = null;
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table The DataTable being filtered.
      * @param DataTable $pastDataTable The DataTable containing data for the period in the past.
      * @param string $columnToAdd The column to add evolution data to, eg, `'visits_evolution'`.

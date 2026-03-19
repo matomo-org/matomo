@@ -30,7 +30,6 @@ class Updates_5_7_0_b2 extends PiwikUpdates
     }
 
     /**
-     * @param Updater $updater
      * @return Migration[]
      */
     public function getMigrations(Updater $updater)

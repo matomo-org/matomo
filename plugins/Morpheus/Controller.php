@@ -896,6 +896,7 @@ export default defineComponent({
                 'circle',
                 'dollar-sign',
                 'hits',
+                'ai-assistants',
             ],
         ];
         // @phpcs:enable Generic.Files.LineLength

@@ -21,7 +21,6 @@ class Daily extends Schedule
     /**
      * @see ScheduledTime::getRescheduledTime
      * @return int
-     *
      */
     public function getRescheduledTime()
     {

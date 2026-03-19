@@ -193,7 +193,6 @@ class Environment
     }
 
     /**
-     * @param EnvironmentManipulator $manipulator
      * @internal
      */
     public static function setGlobalEnvironmentManipulator(EnvironmentManipulator $manipulator)

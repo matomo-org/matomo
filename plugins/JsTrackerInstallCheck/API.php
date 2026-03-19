@@ -36,7 +36,6 @@ class API extends \Piwik\Plugin\API
      * nonce isn't found, return false. This also returns the main URL for the specified site so that we can auto-
      * populate an input with it.
      *
-     * @param int $idSite
      * @param string $nonce Optional nonce string. If provided, it validates whether the success response matches the
      * provided nonce. If omitted, it simply returns the most recent result for the provided site.
      * @return array Indicates whether the check was successful and provides the main URL for the specified site.
@@ -61,7 +60,6 @@ class API extends \Piwik\Plugin\API
      * Initiate a test whether the JS tracking code has been successfully installed for a site. It generates a nonce and
      * stores it in the option table so that it can be accessed later during the Tracker.isExcludedVisit event.
      *
-     * @param int $idSite
      * @param string $url Optional URL to append the nonce to. If not provided, it uses the main URL of the site
      * @return array containing the URL constructed using the main URL for the site and the newly created nonce as a
      * query parameter.

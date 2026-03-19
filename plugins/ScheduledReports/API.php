@@ -18,12 +18,14 @@ use Piwik\Context;
 use Piwik\Date;
 use Piwik\Db;
 use Piwik\Development;
+use Piwik\Exception\InvalidRequestParameterException;
 use Piwik\Filesystem;
 use Piwik\Http;
 use Piwik\Log;
 use Piwik\NoAccessException;
 use Piwik\Period;
 use Piwik\Piwik;
+use Piwik\Plugins\Dashboard\Dashboard;
 use Piwik\Plugins\ImageGraph\ImageGraph;
 use Piwik\Plugins\LanguagesManager\LanguagesManager;
 use Piwik\Plugins\SegmentEditor\API as APISegmentEditor;
@@ -31,6 +33,7 @@ use Piwik\Plugins\SitesManager\API as SitesManagerApi;
 use Piwik\ReportRenderer;
 use Piwik\Scheduler\RetryableException;
 use Piwik\Scheduler\Schedule\Schedule;
+use Piwik\Segment;
 use Piwik\Site;
 use Piwik\Translation\Translator;
 use Piwik\Log\LoggerInterface;
@@ -245,6 +248,117 @@ class API extends \Piwik\Plugin\API
         self::$cache = [];
     }
 
+    /**
+     * Gets the widget report map to be used when exporting the dashboard into a scheduled report
+     * @internal
+     * @return array
+     * @throws Exception
+     */
+    public function getWidgetReportMap(int $dashId, int $idSite, string $segment = ''): array
+    {
+        $dashId = $this->validatePositiveIntegerParameter($dashId, 'dashId');
+        $idSite = $this->validatePositiveIntegerParameter($idSite, 'idSite');
+        $segment = trim($segment);
+
+        Piwik::checkUserHasViewAccess($idSite);
+        $idSegment = $this->findIdSegmentForDefinition($segment, $idSite);
+
+        $dashboardInfo = $this->getDashboardNameAndLayout($dashId);
+        if ($dashboardInfo) {
+            $layout = $dashboardInfo['layout'];
+            $dashboardName = $dashboardInfo['name'];
+            if (empty($layout)) {
+                return [
+                    'dashboardName' => $dashboardName,
+                    'email' => [],
+                    'idSegment' => $idSegment,
+                    'unmappedWidgets' => [],
+                ];
+            }
+            $mapper = new WidgetReportMapper();
+            $widgetIds = $mapper->extractWidgetIdsFromLayout($layout);
+            $widgetReportMapping = $mapper->getMappingForSite((string) $idSite);
+            $reportMapping = [];
+            $unmappedWidgets = [];
+            $widgetNamesById = $mapper->getWidgetNamesById($widgetIds);
+            foreach ($widgetIds as $widgetId) {
+                $reportKey = $widgetReportMapping[$widgetId] ?? null;
+                if ($reportKey) {
+                    $reportMapping[$reportKey] = true;
+                } elseif (isset($widgetNamesById[$widgetId]) && $widgetNamesById[$widgetId]) {
+                    $unmappedWidgets[] = $widgetNamesById[$widgetId];
+                }
+            }
+            return [
+                'dashboardName' => $dashboardName,
+                'email' => $reportMapping,
+                'idSegment' => $idSegment,
+                'unmappedWidgets' => $unmappedWidgets,
+            ];
+        }
+        return [
+            'dashboardName' => '',
+            'email' => [],
+            'idSegment' => $idSegment,
+            'unmappedWidgets' => [],
+        ];
+    }
+
+    private function getDashboardNameAndLayout(int $dashId): ?array
+    {
+        if (Piwik::isUserIsAnonymous()) {
+            return null;
+        }
+
+        $dashboard = new Dashboard();
+        $login = Piwik::getCurrentUserLogin();
+        $allDashboards = $dashboard->getAllDashboards($login);
+        $name = $layout = '';
+        $dashboardFound = false;
+        foreach ($allDashboards as $dashbrd) {
+            if ((int) $dashbrd['iddashboard'] === $dashId) {
+                $dashboardFound = true;
+                $layout = $dashbrd['layout'];
+                $name = $dashbrd['name'];
+                break;
+            }
+        }
+        if ($dashId === 1 && !$dashboardFound) {
+            $layout = $dashboard->decodeLayout($dashboard->getDefaultLayout());
+            $name = Piwik::translate('Dashboard_Dashboard');
+        }
+        return ['name' => $name, 'layout' => $layout];
+    }
+
+    /**
+     * @throws InvalidRequestParameterException
+     */
+    private function validatePositiveIntegerParameter(int $value, string $parameterName): int
+    {
+        if ($value < 1) {
+            throw new InvalidRequestParameterException("The parameter '$parameterName' contains an invalid value.");
+        }
+
+        return $value;
+    }
+
+    private function findIdSegmentForDefinition(string $segmentDefinition, int $idSite): ?int
+    {
+        if ($segmentDefinition === '' || !self::isSegmentEditorActivated()) {
+            return null;
+        }
+
+        $segmentHash = (new Segment($segmentDefinition, [$idSite]))->getHash();
+        $segments = APISegmentEditor::getInstance()->getAll($idSite);
+        foreach ($segments as $segment) {
+            // SegmentEditor::getAll() is expected to always include a precomputed hash.
+            if ($segment['hash'] === $segmentHash) {
+                return (int) $segment['idsegment'];
+            }
+        }
+
+        return null;
+    }
     /**
      * Returns the list of reports matching the passed parameters
      *

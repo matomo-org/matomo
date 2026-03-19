@@ -2,7 +2,7 @@
     "CoreUpdater": {
         "AlreadyUpToDate": "Todo ya está actualizado.",
         "CheckingForPluginUpdates": "Verificando nuevas actualizaciones del complemento",
-        "ClickHereToViewSqlQueries": "Haga clic aquí para ver y copiar la lista de consultas SQL y comandos de consola que se ejecutarán",
+        "ClickHereToViewSqlQueries": "Haz clic aquí para ver y copiar la lista de consultas SQL y comandos de consola que se ejecutarán",
         "CloudHosting": "Alojamiento en la nube",
         "ConsoleCommandDescription": "Desencadena actualizaciones. Úselo después que Matomo core o cualquier complemento haya sido actualizado. Agregue la opción --yes para actualizar sin confirmaciones.",
         "ConsoleParameterDescription": "Ejecute directamente la actualización sin solicitar confirmación",

@@ -25,8 +25,8 @@
         "PleaseFindBelow": "Please find below your %1$s report for %2$s.",
         "PluginDescription": "Create custom reports and schedule them to be emailed daily, weekly or monthly to one or several people. Several report formats are supported (html, pdf, csv, images).",
         "ReportFormat": "Report Format",
-        "ReportHour": "Send report at %s o'clock",
-        "ReportHourWithUTC": "%s o'clock UTC",
+        "ReportHourLocal": "Send report at (local time)",
+        "ReportHourWithUtcOnly": "%s UTC",
         "ReportIncludeNWebsites": "The report will include main metrics for all websites that have at least one visit (from the %s websites currently available).",
         "ReportSent": "Report sent",
         "ReportsIncluded": "Select the reports to include",
@@ -36,7 +36,7 @@
         "ReportUpdated": "Report updated",
         "ReportAdded": "Report added",
         "Segment_Deletion_Error": "This segment cannot be deleted or made invisible to other users because it is used to generate email report(s) %s. Please retry after removing this segment from this report(s).",
-        "Segment_HelpScheduledReport": "You can select an existing custom segment to apply to data in this scheduled report. You may create and edit custom segments in your dashboard %1$s(click here to open)%2$s, then click on the \"%3$s\" box, then \"%4$s\".",
+        "HelpSegmentManagement": "You can select an existing custom segment to apply to data in this scheduled report. You may create and edit custom segments in the dedicated segments management page %1$s(click here to open)%2$s.",
         "SegmentAppliedToReports": "The segment '%s' is applied to the reports.",
         "SegmentDeleted": "Segment deleted",
         "SendReportNow": "Send Report now",
@@ -65,6 +65,17 @@
         "ReportSchedule": "Report Schedule",
         "SendingReport": "Sending report…",
         "ManageTooltip": "Stay informed wherever you work. Send reports directly to Email, SMS, Slack, or Microsoft Teams by selecting your preferred channel when creating or editing a scheduled report.",
-        "CreateTooltip": "You can send scheduled reports via Email, SMS, Slack, or Microsoft Teams. Choose your preferred delivery method when creating or updating a report."
+        "CreateTooltip": "You can send scheduled reports via Email, SMS, Slack, or Microsoft Teams. Choose your preferred delivery method when creating or updating a report.",
+        "ReportWillBeSentAt": "The report will be sent at the selected hour in your local time zone.",
+        "ReportHourEqualsUtc": "This corresponds to %s.",
+        "NoteDeliveryTime": "Note: The exact delivery time may vary depending on report generation.",
+        "WidgetsNotMappedToReports": "Some dashboard widgets could not be mapped to scheduled report items: %s.",
+        "ExportDashboardTitle": "<b>Exporting your dashboard</b>",
+        "ExportDashboardPrepare": "This report is being prepared from your dashboard \"<b>%s</b>\".",
+        "ExportDashboardWidgetsConvertedAutomatically": "The widgets from your dashboard have been converted into report sections automatically.",
+        "ExportDashboardEmailEnabledByDefault": "Email delivery is enabled by default. To turn it off, change <b>\"%1$s\"</b> to <b>\"%2$s\"</b>.",
+        "ExportDashboardDownload": "Once you create the report, you will be able to download it.",
+        "ExportDashboardReportDescription": "This report was automatically generated from the dashboard \"%1$s\" on %2$s",
+        "ExportDashboardInvalidDashboard": "This dashboard could not be exported. It may not exist anymore, or it has no widgets that can be converted into scheduled report items."
     }
 }

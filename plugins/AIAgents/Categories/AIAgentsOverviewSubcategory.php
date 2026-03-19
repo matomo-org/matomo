@@ -18,7 +18,7 @@ class AIAgentsOverviewSubcategory extends Subcategory
 {
     protected $categoryId = 'General_AIAssistants';
     protected $id = 'AIAgents_AIAgentsOverview';
-    protected $order = 10;
+    protected $order = 20;
 
     public function getHelp()
     {

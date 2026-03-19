@@ -170,12 +170,9 @@ class ConfigGetTest extends ConsoleCommandTestCase
         return (object) ['exitCode' => $exitCode, 'output' => $output];
     }
 
-    //
     //*************************************************************************
     // Tests that should yield errors.
     //*************************************************************************
-    //
-
     public function testNoArgsShouldYieldError()
     {
 
@@ -250,11 +247,9 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $this->assertStringContainsString('InvalidArgumentException', $resultObj->output);
     }
 
-    //
     //*************************************************************************
     // Tests for nonexistent data.
     //*************************************************************************
-    //
     public function testUsingOptsNonExistentSectionShouldYieldEmpty()
     {
 
@@ -332,12 +327,9 @@ class ConfigGetTest extends ConsoleCommandTestCase
         $expectedValue = self::MSG_NOTHING_FOUND;
         $this->assertEquals($expectedValue, $resultObj->output);
     }
-    //
     //*************************************************************************
     // Tests for existing data.
     //*************************************************************************
-    //
-
     /**
      * Assumes default --format=json.
      */

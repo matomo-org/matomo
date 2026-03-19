@@ -42,15 +42,27 @@ final class Context
     public $report;
 
     /**
+     * @var string
+     */
+    public $siteTimezone;
+
+    /**
      * @param false|string|string[] $report
      */
-    public function __construct(int $idSite, Period $period, Segment $segment, string $plugin, $report = false)
-    {
+    public function __construct(
+        int $idSite,
+        Period $period,
+        Segment $segment,
+        string $plugin,
+        $report = false,
+        string $siteTimezone = 'UTC'
+    ) {
         $this->idSite = $idSite;
         $this->period = $period;
         $this->segment = $segment;
         $this->plugin = $plugin;
         $this->report = $report;
+        $this->siteTimezone = $siteTimezone;
     }
 
     public function getKey(): string

@@ -28,12 +28,8 @@ require_once PIWIK_INCLUDE_PATH . '/plugins/ScheduledReports/config/tcpdf_config
  */
 class Pdf extends ReportRenderer
 {
-    public const IMAGE_GRAPH_WIDTH_LANDSCAPE = 1050;
     public const IMAGE_GRAPH_WIDTH_PORTRAIT = 760;
     public const IMAGE_GRAPH_HEIGHT = 220;
-
-    public const LANDSCAPE = 'L';
-    public const PORTRAIT = 'P';
 
     public const MAX_ROW_COUNT = 28;
     public const TABLE_HEADER_ROW_COUNT = 6;
@@ -42,26 +38,28 @@ class Pdf extends ReportRenderer
     public const MAX_2COL_TABLE_REPORTS = 2;
 
     public const IMPORT_FONT_PATH = 'plugins/ImageGraph/fonts/unifont.ttf';
-
     public const PDF_CONTENT_TYPE = 'pdf';
+    public const PORTRAIT = 'P';
 
     private $reportFontStyle = '';
-    private $reportSimpleFontSize = 9;
+    private $reportSimpleFontSize = 8.5;
     private $reportHeaderFontSize = 16;
     private $cellHeight = 6;
     private $bottomMargin = 17;
     private $reportWidthPortrait = 195;
-    private $reportWidthLandscape = 270;
-    private $minWidthLabelCell = 100;
-    private $maxColumnCountPortraitOrientation = 6;
+    private $minWidthLabelCellPortrait = 80;
+    private $minWidthLabelCellPortraitShort = 35;
     private $logoWidth = 16;
     private $logoHeight = 16;
     private $totalWidth;
     private $cellWidth;
     private $labelCellWidth;
-    private $truncateAfter = 55;
+    private $maxRowHeight = 13;
+    private $maxLabelCharacter = 135;
     private $leftSpacesBeforeLogo = 7;
     private $logoImagePosition = array(10, 40);
+    private $headerBottomPadding = 2;
+    private $headerBottomPaddingShort = 0.5;
     private $headerTextColor;
     private $reportTextColor;
     private $tableHeaderBackgroundColor;
@@ -79,7 +77,16 @@ class Pdf extends ReportRenderer
     private $currentPage = 0;
     private $reportFont = ReportRenderer::DEFAULT_REPORT_FONT_FAMILY;
     private $TCPDF;
-    private $orientation = self::PORTRAIT;
+    private $labelShortContentThreshold = 100;
+    private $columnCellWidths = array();
+    private $labelThirdLinePadding = 4;
+    private $expandedMetricRightPadding = 1.0;
+    private $twoColumnLabelRatio = 0.7;
+    private $threeColumnLabelRatio = 0.65;
+    private $fourColumnLabelRatio = 0.6;
+    private $numColumnsBeforeShrink = 8;
+    private $tableWidthCache = array();
+    private $hasFrontPageBreak = false;
 
     public function __construct()
     {
@@ -222,6 +229,9 @@ class Pdf extends ReportRenderer
         $this->TCPDF->Ln(8);
         $this->TCPDF->SetFont($this->reportFont, '', $this->reportHeaderFontSize);
         $this->TCPDF->Ln();
+
+        $this->TCPDF->AddPage(self::PORTRAIT);
+        $this->hasFrontPageBreak = true;
     }
 
     /**
@@ -256,9 +266,18 @@ class Pdf extends ReportRenderer
 
         $rowCount = $reportHasData ? $this->report->getRowsCount() + self::TABLE_HEADER_ROW_COUNT : self::NO_DATA_ROW_COUNT;
 
+        $usedFrontPageBreak = false;
+        if ($this->hasFrontPageBreak && $this->currentPage === 0) {
+            $this->currentPage++;
+            $this->TCPDF->setPageOrientation(self::PORTRAIT, '', $this->bottomMargin);
+            $this->hasFrontPageBreak = false;
+            $usedFrontPageBreak = true;
+        }
+
         // Only a page break before if the current report has some data
         if (
-            $reportHasData
+            !$usedFrontPageBreak
+            && $reportHasData
             // and
             && (
                 // it is the first report
@@ -276,16 +295,8 @@ class Pdf extends ReportRenderer
             $this->currentPage++;
             $this->TCPDF->AddPage();
 
-            // Table-only reports with more than 2 columns are always landscape
-            if ($tableOnlyManyColumnReport) {
-                $tableOnlyManyColumnReportRowCount = 0;
-                $this->orientation = self::LANDSCAPE;
-            } else {
-                // Graph-only reports are always portrait
-                $this->orientation = $graphOnlyReport ? self::PORTRAIT : ($columnCount > $this->maxColumnCountPortraitOrientation ? self::LANDSCAPE : self::PORTRAIT);
-            }
-
-            $this->TCPDF->setPageOrientation($this->orientation, '', $this->bottomMargin);
+            // Scheduled reports should never switch to landscape layouts to keep a consistent portrait output
+            $this->TCPDF->setPageOrientation(self::PORTRAIT, '', $this->bottomMargin);
         }
 
         $graphOnlyReportCount = ($graphOnlyReport && $reportHasData) ? ($graphOnlyReportCount + 1) % self::MAX_GRAPH_REPORTS : 0;
@@ -343,12 +354,20 @@ class Pdf extends ReportRenderer
         }
     }
 
-    private function formatText($text)
+    private function formatText(?string $text): string
     {
         return Common::unsanitizeInputValue($text);
     }
 
-    private function paintReportTable()
+    private function limitTextLength(string $text, int $maxLength): string
+    {
+        if (mb_strlen($text) <= $maxLength) {
+            return $text;
+        }
+        return mb_substr($text, 0, $maxLength - 1) . '…';
+    }
+
+    private function paintReportTable(): void
     {
         //Color and font restoration
         $this->TCPDF->SetFillColor($this->tableBackgroundColor[0], $this->tableBackgroundColor[1], $this->tableBackgroundColor[2]);
@@ -367,49 +386,50 @@ class Pdf extends ReportRenderer
         // Draw a body of report table
         foreach ($this->report->getRows() as $rowId => $row) {
             $rowMetrics = $row->getColumns();
+            $url = false;
             $rowMetadata = isset($rowsMetadata[$rowId]) ? $rowsMetadata[$rowId]->getColumns() : array();
             if (isset($rowMetadata['url'])) {
                 $url = $rowMetadata['url'];
             }
+            $metricsPaddingApplied = false;
+            $previousCellPadding = null;
+            $labelState = $this->computeLabelRenderState($rowMetrics, $rowMetadata, $leftSpacesBeforeLogo, $url);
+            $labelText = $labelState['text'];
+            $rowHeight = $labelState['rowHeight'];
+            $maxHeight = $labelState['maxHeight'];
+            $verticalAlign = $labelState['verticalAlign'];
+            $shouldIncreaseLineHeight = $labelState['shouldIncreaseLineHeight'];
+            $isLogoDisplayable = $labelState['isLogoDisplayable'];
+            if ((float)$this->TCPDF->GetY() + $rowHeight > $this->TCPDF->getPageHeight() - $this->TCPDF->getBreakMargin()) {
+                $this->TCPDF->AddPage();
+                $this->paintReportTableHeader();
+            }
             foreach ($this->reportColumns as $columnId => $columnName) {
                 // Label column
                 if ($columnId == 'label') {
-                    $isLogoDisplayable = isset($rowMetadata['logo']);
-                    $text = '';
+                    $text = $labelText;
                     $posX = $this->TCPDF->GetX();
                     $posY = $this->TCPDF->GetY();
-                    if (isset($rowMetrics[$columnId])) {
-                        $text = mb_substr($rowMetrics[$columnId], 0, $this->truncateAfter);
-                        if ($isLogoDisplayable) {
-                            $text = $leftSpacesBeforeLogo . $text;
-                        }
-                    }
-                    $text = $this->formatText($text);
-
-                    $this->TCPDF->Cell($this->labelCellWidth, $this->cellHeight, $text, 'LR', 0, 'L', $fill, $url);
-
-                    if ($isLogoDisplayable) {
-                        if (isset($rowMetadata['logoWidth'])) {
-                            $logoWidth = $rowMetadata['logoWidth'];
-                        }
-                        if (isset($rowMetadata['logoHeight'])) {
-                            $logoHeight = $rowMetadata['logoHeight'];
-                        }
-                        $restoreY = $this->TCPDF->getY();
-                        $restoreX = $this->TCPDF->getX();
-                        $this->TCPDF->SetY($posY);
-                        $this->TCPDF->SetX($posX);
-                        $topMargin = 1.3;
-                        // Country flags are not very high, force a bigger top margin
-                        if ($logoHeight < 16) {
-                            $topMargin = 2;
-                        }
-                        $path = Filesystem::getPathToPiwikRoot() . "/" . $rowMetadata['logo'];
-                        if (file_exists($path)) {
-                            $this->TCPDF->Image($path, $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth / 4);
-                        }
-                        $this->TCPDF->SetXY($restoreX, $restoreY);
-                    }
+                    list($previousCellHeightRatio, $previousCellPaddingForLabel) = $this->applyLabelCellStyle($shouldIncreaseLineHeight);
+                    $this->TCPDF->MultiCell(
+                        $this->labelCellWidth,
+                        $rowHeight,
+                        $text,
+                        'LR',
+                        'L',
+                        $fill,
+                        0,
+                        '',
+                        '',
+                        true,
+                        0,
+                        false,
+                        true,
+                        $maxHeight,
+                        $verticalAlign
+                    );
+                    $this->restoreLabelCellStyle($shouldIncreaseLineHeight, $previousCellHeightRatio, $previousCellPaddingForLabel);
+                    $this->renderLabelLinkAndLogo($url, $posX, $posY, $rowHeight, $rowMetadata, $isLogoDisplayable, $logoWidth, $logoHeight);
                 } else {
                     // metrics column
 
@@ -417,10 +437,30 @@ class Pdf extends ReportRenderer
                     if (empty($rowMetrics[$columnId])) {
                         $rowMetrics[$columnId] = 0;
                     }
-                    $this->TCPDF->Cell($this->cellWidth, $this->cellHeight, NumberFormatter::getInstance()->format($rowMetrics[$columnId]), 'LR', 0, 'L', $fill);
+                    $columnWidth = $this->getColumnWidth($columnId);
+                    if (!$metricsPaddingApplied) {
+                        $previousCellPadding = $this->applyCellPaddingOffset(1, 1);
+                        $metricsPaddingApplied = true;
+                    }
+                    $this->TCPDF->Cell(
+                        $columnWidth,
+                        $rowHeight,
+                        NumberFormatter::getInstance()->format($rowMetrics[$columnId]),
+                        'LR',
+                        0,
+                        'L',
+                        $fill,
+                        '',
+                        0,
+                        false,
+                        'T',
+                        'T'
+                    );
                 }
             }
-
+            if ($metricsPaddingApplied) {
+                $this->restoreCellPaddingOffset($previousCellPadding);
+            }
             $this->TCPDF->Ln();
 
             // Top/Bottom grey border for all cells
@@ -433,11 +473,595 @@ class Pdf extends ReportRenderer
         }
     }
 
-    private function paintGraph()
+    private function getExtraLineHeight(int $labelLineCount): float
+    {
+        $ratioDelta = $labelLineCount === 2 ? 0.1 : 0.3;
+        return $this->cellHeight * $ratioDelta * ($labelLineCount - 1);
+    }
+
+    private function computeLabelRenderState(array $rowMetrics, array $rowMetadata, string $leftSpacesBeforeLogo, &$url): array
+    {
+        $isLogoDisplayable = isset($rowMetadata['logo']);
+        $labelText = '';
+        if (isset($rowMetrics['label'])) {
+            $labelText = trim($rowMetrics['label']);
+            $urlString = $this->isUrl($labelText);
+            if (!$url && $urlString !== false) {
+                $url = $urlString;
+            }
+            $labelText = $this->limitTextLength($labelText, $this->maxLabelCharacter);
+            if ($isLogoDisplayable) {
+                $labelText = $leftSpacesBeforeLogo . $labelText;
+            }
+        }
+        $labelText = $this->formatText($labelText);
+        $labelLineCount = $this->TCPDF->getNumLines($labelText, $this->labelCellWidth);
+        $shouldIncreaseLineHeight = $isLogoDisplayable && $labelLineCount > 1;
+
+        $previousCellHeightRatio = null;
+        if ($shouldIncreaseLineHeight) {
+            $previousCellHeightRatio = $this->TCPDF->getCellHeightRatio();
+            $this->TCPDF->setCellHeightRatio($previousCellHeightRatio + 0.3);
+        }
+        $rowHeight = $this->getLabelRowHeight($labelText);
+        if ($shouldIncreaseLineHeight) {
+            $rowHeight += $this->getExtraLineHeight($labelLineCount);
+            $this->TCPDF->setCellHeightRatio($previousCellHeightRatio);
+        }
+
+        $maxHeight = $shouldIncreaseLineHeight
+            ? $rowHeight
+            : $this->getLabelRowMaxHeight($rowHeight);
+        $verticalAlign = $shouldIncreaseLineHeight ? 'T' : 'M';
+
+        return array(
+            'text' => $labelText,
+            'rowHeight' => $rowHeight,
+            'maxHeight' => $maxHeight,
+            'verticalAlign' => $verticalAlign,
+            'shouldIncreaseLineHeight' => $shouldIncreaseLineHeight,
+            'isLogoDisplayable' => $isLogoDisplayable,
+        );
+    }
+
+    private function applyLabelCellStyle(bool $shouldIncreaseLineHeight): array
+    {
+        if (!$shouldIncreaseLineHeight) {
+            return array(null, null);
+        }
+
+        $previousCellHeightRatio = $this->TCPDF->getCellHeightRatio();
+        $this->TCPDF->setCellHeightRatio($previousCellHeightRatio + 0.3);
+        $previousCellPaddingForLabel = $this->applyCellPaddingOffset();
+
+        return array($previousCellHeightRatio, $previousCellPaddingForLabel);
+    }
+
+    private function restoreLabelCellStyle(
+        bool $shouldIncreaseLineHeight,
+        ?float $previousCellHeightRatio,
+        ?array $previousCellPaddingForLabel
+    ): void {
+        if (!$shouldIncreaseLineHeight || $previousCellHeightRatio === null || $previousCellPaddingForLabel === null) {
+            return;
+        }
+
+        $this->TCPDF->setCellHeightRatio($previousCellHeightRatio);
+        $this->restoreCellPaddingOffset($previousCellPaddingForLabel);
+    }
+
+    private function applyCellPaddingOffset(float $left = 0, float $top = 0.8): array
+    {
+        $previousCellPadding = $this->TCPDF->getCellPaddings();
+        $this->TCPDF->setCellPaddings(
+            $previousCellPadding['L'] + $left,
+            $previousCellPadding['T'] + $top,
+            $previousCellPadding['R'],
+            $previousCellPadding['B']
+        );
+        return $previousCellPadding;
+    }
+
+    private function restoreCellPaddingOffset(array $previousCellPaddings): void
+    {
+        $this->TCPDF->setCellPaddings(
+            $previousCellPaddings['L'],
+            $previousCellPaddings['T'],
+            $previousCellPaddings['R'],
+            $previousCellPaddings['B']
+        );
+    }
+
+    /**
+     * Gets the row height for a label. This will be the total height including wrapping
+     * but still having a maximum height
+     */
+    private function getLabelRowHeight(string $text): float
+    {
+        $maxHeight = $this->maxRowHeight;
+        $labelHeight = $this->TCPDF->getStringHeight($this->labelCellWidth, $text);
+        $labelHeight = ceil($labelHeight * 2) / 2; // round up to nearest 0.5 for stable row heights
+
+        if ($labelHeight > $maxHeight) {
+            return $maxHeight;
+        }
+
+        if ($labelHeight < $this->cellHeight) {
+            return $this->cellHeight;
+        }
+
+        return $labelHeight + 1;
+    }
+
+    /**
+     * @param false|string $url
+     * @param array<string, mixed> $rowMetadata
+     */
+    private function renderLabelLinkAndLogo(
+        $url,
+        float $posX,
+        float $posY,
+        float $rowHeight,
+        array $rowMetadata,
+        bool $isLogoDisplayable,
+        float &$logoWidth,
+        float &$logoHeight
+    ): void {
+        if ($url) {
+            $this->TCPDF->Link($posX, $posY, $this->labelCellWidth, $rowHeight, $url);
+        }
+        $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
+
+        if (!$isLogoDisplayable) {
+            return;
+        }
+
+        if (isset($rowMetadata['logoWidth'])) {
+            $logoWidth = $rowMetadata['logoWidth'];
+        }
+        if (isset($rowMetadata['logoHeight'])) {
+            $logoHeight = $rowMetadata['logoHeight'];
+        }
+        $restoreY = $this->TCPDF->getY();
+        $restoreX = $this->TCPDF->getX();
+        $this->TCPDF->SetY($posY);
+        $this->TCPDF->SetX($posX);
+        $topMargin = 1.3;
+        // Country flags are not very high, force a bigger top margin
+        if ($logoHeight < 16) {
+            $topMargin = 2;
+        }
+        $path = Filesystem::getPathToPiwikRoot() . "/" . $rowMetadata['logo'];
+        if (file_exists($path)) {
+            $this->TCPDF->Image($path, $posX + ($leftMargin = 2), $posY + $topMargin, $logoWidth / 4);
+        }
+        $this->TCPDF->SetXY($restoreX, $restoreY);
+    }
+
+    /**
+     * Checks if a string might be a url or not
+     * Will return the string with an 'https' protocol if it is a valid url
+     * @return false|string
+     */
+    private function isUrl(string $value)
+    {
+        $candidate = $value;
+        if (!preg_match('~^[a-z][a-z0-9+.-]*://~i', $candidate)) {
+            $candidate = 'https://' . $candidate;
+        }
+        $host = parse_url($candidate, PHP_URL_HOST);
+        $isValidHost = $host && strpos($host, '.') !== false;
+        $isValidUrl = filter_var($candidate, FILTER_VALIDATE_URL) !== false && $isValidHost;
+        return $isValidUrl ? $candidate : false;
+    }
+
+    /**
+     * This is only useful when label row is 3 lines,
+     * we needed to make max row bigger so that it can be centered vertically better
+     */
+    private function getLabelRowMaxHeight(float $rowHeight): float
+    {
+        if ($rowHeight >= $this->maxRowHeight) {
+            return $rowHeight + $this->labelThirdLinePadding;
+        }
+        return $rowHeight;
+    }
+
+    /**
+     * Sets initial label width based on column count and content heuristics.
+     */
+    private function setInitialLabelWidth(int $columnsCount): void
+    {
+        if ($columnsCount <= 1) {
+            $this->labelCellWidth = $this->totalWidth;
+            $this->cellWidth = 0;
+            return;
+        }
+
+        if ($columnsCount < 5) {
+            if ($columnsCount === 2) {
+                $labelRatio = $this->twoColumnLabelRatio;
+            } elseif ($columnsCount === 3) {
+                $labelRatio = $this->threeColumnLabelRatio;
+            } else {
+                $labelRatio = $this->fourColumnLabelRatio;
+            }
+
+            $metricColumns = $columnsCount - 1;
+            $this->labelCellWidth = max((int) round($this->totalWidth * $labelRatio), $this->minWidthLabelCellPortrait);
+            $this->cellWidth = (int) round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
+            $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+            return;
+        }
+
+        if (!$this->reportHasData() || !$this->shouldUseShortLabelWidth()) {
+            return;
+        }
+
+        $this->labelCellWidth = $this->minWidthLabelCellPortraitShort;
+        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
+        $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
+    }
+
+    private function shrinkLabelWidthForSingleLineLabels(int $columnsCount): void
+    {
+        if ($columnsCount <= $this->numColumnsBeforeShrink || !$this->reportHasData()) {
+            return;
+        }
+
+        $maxLabelWidth = $this->getMaxSingleLineLabelWidth();
+        if ($maxLabelWidth === null) {
+            return;
+        }
+        $maxLabelWidth = max($maxLabelWidth, $this->minWidthLabelCellPortraitShort);
+        if ($maxLabelWidth >= $this->labelCellWidth) {
+            return;
+        }
+
+        $metricColumns = $columnsCount - 1;
+        $this->labelCellWidth = $maxLabelWidth;
+        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
+        $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+    }
+
+    private function capLabelWidthForManyColumns(int $columnsCount): void
+    {
+        if ($columnsCount <= $this->numColumnsBeforeShrink) {
+            return;
+        }
+
+        $maxLabelWidth = round($this->totalWidth * 0.35, 2);
+        if ($this->labelCellWidth <= $maxLabelWidth) {
+            return;
+        }
+
+        $metricColumns = $columnsCount - 1;
+        $this->labelCellWidth = $maxLabelWidth;
+        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
+        $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+    }
+
+    private function getMaxSingleLineLabelWidth(): ?float
+    {
+        if (
+            !empty($this->tableWidthCache['maxSingleLineLabelWidthFor'])
+            && (float) $this->tableWidthCache['maxSingleLineLabelWidthFor'] === (float) $this->labelCellWidth
+        ) {
+            return $this->tableWidthCache['maxSingleLineLabelWidth'];
+        }
+
+        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
+
+        $rowsMetadata = array();
+        if (!empty($this->reportRowsMetadata)) {
+            $rowsMetadata = $this->reportRowsMetadata->getRows();
+        }
+
+        $maxWidth = 0.0;
+
+        foreach ($this->report->getRows() as $rowId => $row) {
+            $label = $row->getColumn('label');
+            if ($label === false || $label === null) {
+                continue;
+            }
+
+            $labelText = $this->buildFormattedLabelTextForRow(
+                $rowId,
+                (string) $label,
+                $rowsMetadata,
+                $this->maxLabelCharacter
+            );
+            if ($this->TCPDF->getNumLines($labelText, $this->labelCellWidth) > 1) {
+                return null;
+            }
+
+            $width = $this->TCPDF->GetStringWidth($labelText);
+            if ($width > $maxWidth) {
+                $maxWidth = $width;
+            }
+        }
+
+        if ($maxWidth <= 0) {
+            $this->tableWidthCache['maxSingleLineLabelWidth'] = null;
+            $this->tableWidthCache['maxSingleLineLabelWidthFor'] = $this->labelCellWidth;
+            return null;
+        }
+
+        $padding = $this->TCPDF->getCellPaddings();
+        $maxWidth = $maxWidth + $padding['L'] + $padding['R'];
+        $this->tableWidthCache['maxSingleLineLabelWidth'] = $maxWidth;
+        $this->tableWidthCache['maxSingleLineLabelWidthFor'] = $this->labelCellWidth;
+        return $maxWidth;
+    }
+
+    private function getColumnWidth(string $columnId): float
+    {
+        if (isset($this->columnCellWidths[$columnId])) {
+            return (float) $this->columnCellWidths[$columnId];
+        }
+
+        if ($columnId === 'label') {
+            return (float) $this->labelCellWidth;
+        }
+
+        return (float) $this->cellWidth;
+    }
+
+    /**
+     * This function will try to show all values for selected metric columns.
+     * Will adjust other column widths to accommodate this
+     */
+    private function adjustMetricColumnWidthsToContent(): void
+    {
+        if (!$this->reportHasData()) {
+            return;
+        }
+
+        $metricColumnsToAdjust = array('revenue', 'ecommerce_revenue', 'avg_time_on_site');
+        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
+
+        foreach ($metricColumnsToAdjust as $columnId) {
+            $this->adjustMetricColumnWidthToContent($columnId);
+        }
+    }
+
+    /**
+     * This function will try to adjust column width based on the content.
+     * This will try to make other columns smaller to accommodate this
+     */
+    private function adjustMetricColumnWidthToContent(string $columnId): void
+    {
+        if (!array_key_exists($columnId, $this->reportColumns) || !isset($this->columnCellWidths[$columnId])) {
+            return;
+        }
+
+        $requiredWidth = $this->getMaxFormattedColumnWidth($columnId);
+        if ($requiredWidth <= 0) {
+            return;
+        }
+
+        $currentWidth = $this->columnCellWidths[$columnId];
+        if ($requiredWidth <= $currentWidth) {
+            return;
+        }
+
+        $additionalWidth = $requiredWidth - $currentWidth;
+        if ($additionalWidth <= 1.0) {
+            $requiredWidth += $this->expandedMetricRightPadding;
+            $additionalWidth = $requiredWidth - $currentWidth;
+        }
+        $remainingWidthToGain = $additionalWidth;
+        $minMetricWidth = 10;
+
+        $adjustableColumns = array();
+        foreach ($this->columnCellWidths as $otherColumnId => $width) {
+            if ($otherColumnId === 'label' || $otherColumnId === $columnId) {
+                continue;
+            }
+            if ($width <= $minMetricWidth) {
+                continue;
+            }
+            $adjustableColumns[$otherColumnId] = $width;
+        }
+
+        while ($remainingWidthToGain > 0 && !empty($adjustableColumns)) {
+            $share = $remainingWidthToGain / count($adjustableColumns);
+            $updatedColumns = array();
+
+            foreach ($adjustableColumns as $otherColumnId => $availableWidth) {
+                $maxReducible = $availableWidth - $minMetricWidth;
+                if ($maxReducible <= 0) {
+                    continue;
+                }
+                $reduction = min($maxReducible, $share);
+                if ($reduction <= 0) {
+                    continue;
+                }
+                $this->columnCellWidths[$otherColumnId] -= $reduction;
+                $remainingWidthToGain -= $reduction;
+
+                $newWidth = $availableWidth - $reduction;
+                if ($newWidth > $minMetricWidth && $remainingWidthToGain > 0) {
+                    $updatedColumns[$otherColumnId] = $newWidth;
+                }
+
+                if ($remainingWidthToGain <= 0) {
+                    break 2;
+                }
+            }
+
+            $adjustableColumns = $updatedColumns;
+        }
+
+        $appliedWidth = $additionalWidth - $remainingWidthToGain;
+        if ($appliedWidth <= 0) {
+            return;
+        }
+
+        $this->columnCellWidths[$columnId] += $appliedWidth;
+    }
+
+    /**
+     * Computes maximum column width for a given metric column
+     */
+    private function getMaxFormattedColumnWidth(string $columnId): float
+    {
+        if (
+            !empty($this->tableWidthCache)
+            && isset($this->tableWidthCache['metricMaxWidths'][$columnId])
+        ) {
+            $maxWidth = $this->tableWidthCache['metricMaxWidths'][$columnId];
+            if ($maxWidth <= 0) {
+                return 0;
+            }
+            return $maxWidth + 2;
+        }
+
+        $maxWidth = 0;
+
+        foreach ($this->report->getRows() as $row) {
+            $value = $row->getColumn($columnId);
+            if ($value === false || $value === null) {
+                continue;
+            }
+            $formattedValue = NumberFormatter::getInstance()->format($value);
+            $width = $this->TCPDF->GetStringWidth($formattedValue);
+            if ($width > $maxWidth) {
+                $maxWidth = $width;
+            }
+        }
+
+        if ($maxWidth <= 0) {
+            return 0;
+        }
+
+        return $maxWidth + 2;
+    }
+
+    private function initializeTableWidthCache(): void
+    {
+        $this->tableWidthCache = array(
+            'ready' => true,
+            'labelTooLong' => false,
+            'labelFitsShortWidth' => true,
+            'maxLabelLength' => 0,
+            'metricMaxWidths' => array(),
+            'maxSingleLineLabelWidth' => null,
+            'maxSingleLineLabelWidthFor' => null,
+        );
+
+        if (!$this->reportHasData()) {
+            return;
+        }
+
+        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
+
+        $maxCharacters = $this->maxLabelCharacter;
+        $rowsMetadata = array();
+        if (!empty($this->reportRowsMetadata)) {
+            $rowsMetadata = $this->reportRowsMetadata->getRows();
+        }
+
+        $metricColumnsToAdjust = array('revenue', 'ecommerce_revenue', 'avg_time_on_site');
+        foreach ($metricColumnsToAdjust as $columnId) {
+            $this->tableWidthCache['metricMaxWidths'][$columnId] = 0.0;
+        }
+
+        foreach ($this->report->getRows() as $rowId => $row) {
+            $label = $row->getColumn('label');
+            if ($label !== false && $label !== null) {
+                $rawLabel = (string) $label;
+                $length = mb_strlen($rawLabel);
+                if ($length > $this->tableWidthCache['maxLabelLength']) {
+                    $this->tableWidthCache['maxLabelLength'] = $length;
+                }
+                if ($length > $maxCharacters) {
+                    $this->tableWidthCache['labelTooLong'] = true;
+                }
+                if ($this->tableWidthCache['labelFitsShortWidth']) {
+                    $formattedLabel = $this->buildFormattedLabelTextForRow(
+                        $rowId,
+                        $rawLabel,
+                        $rowsMetadata,
+                        $maxCharacters
+                    );
+                    if ($this->TCPDF->getNumLines($formattedLabel, $this->minWidthLabelCellPortraitShort) > 1) {
+                        $this->tableWidthCache['labelFitsShortWidth'] = false;
+                    }
+                }
+            }
+
+            foreach ($metricColumnsToAdjust as $columnId) {
+                if (!array_key_exists($columnId, $this->reportColumns)) {
+                    continue;
+                }
+                $value = $row->getColumn($columnId);
+                if ($value === false || $value === null) {
+                    continue;
+                }
+                $formattedValue = NumberFormatter::getInstance()->format($value);
+                $width = $this->TCPDF->GetStringWidth($formattedValue);
+                if ($width > $this->tableWidthCache['metricMaxWidths'][$columnId]) {
+                    $this->tableWidthCache['metricMaxWidths'][$columnId] = $width;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Will check if label column could use a shorter width.
+     * This is done so that we can fit more metrics in the same row for data table with no label that is too long
+     */
+    private function shouldUseShortLabelWidth(): bool
+    {
+        if (empty($this->tableWidthCache) || empty($this->tableWidthCache['ready'])) {
+            $this->initializeTableWidthCache();
+        }
+
+        if (empty($this->tableWidthCache['maxLabelLength'])) {
+            return false;
+        }
+
+        if (!empty($this->tableWidthCache['labelTooLong'])) {
+            return false;
+        }
+
+        if ($this->tableWidthCache['maxLabelLength'] >= $this->labelShortContentThreshold) {
+            return false;
+        }
+
+        if (empty($this->tableWidthCache['labelFitsShortWidth'])) {
+            return false;
+        }
+
+        return $this->tableWidthCache['maxLabelLength'] > 0;
+    }
+
+    private function buildFormattedLabelTextForRow(
+        int $rowId,
+        string $label,
+        array $rowsMetadata,
+        int $maxCharacters
+    ): string {
+        $labelText = trim($label);
+        $labelText = $this->limitTextLength($labelText, $maxCharacters);
+
+        if (isset($rowsMetadata[$rowId])) {
+            $rowMeta = $rowsMetadata[$rowId]->getColumns();
+            if (isset($rowMeta['logo'])) {
+                $labelText = str_repeat(' ', $this->leftSpacesBeforeLogo) . $labelText;
+            }
+        }
+
+        return $this->formatText($labelText);
+    }
+
+    private function paintGraph(): void
     {
         $imageGraph = parent::getStaticGraph(
             $this->reportMetadata,
-            $this->orientation == self::PORTRAIT ? self::IMAGE_GRAPH_WIDTH_PORTRAIT : self::IMAGE_GRAPH_WIDTH_LANDSCAPE,
+            self::IMAGE_GRAPH_WIDTH_PORTRAIT,
             self::IMAGE_GRAPH_HEIGHT,
             $this->evolutionGraph,
             $this->segment
@@ -471,81 +1095,197 @@ class Pdf extends ReportRenderer
     /**
      * Draw the table header (first row)
      */
-    private function paintReportTableHeader()
+    private function paintReportTableHeader(): void
     {
         $initPosX = 10;
 
-        // Get the longest column name
-        $longestColumnName = '';
-        foreach ($this->reportColumns as $columnName) {
-            if (strlen($columnName) > strlen($longestColumnName)) {
-                $longestColumnName = $columnName;
-            }
-        }
-
-        $columnsCount = count($this->reportColumns);
-        // Computes available column width
-        if (
-            $this->orientation == self::PORTRAIT
-            && $columnsCount <= 3
-        ) {
-            $totalWidth = $this->reportWidthPortrait * 2 / 3;
-        } elseif ($this->orientation == self::LANDSCAPE) {
-            $totalWidth = $this->reportWidthLandscape;
-        } else {
-            $totalWidth = $this->reportWidthPortrait;
-        }
-        $this->totalWidth = $totalWidth;
-        $this->labelCellWidth = max(round(($this->totalWidth / $columnsCount)), $this->minWidthLabelCell);
-        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / ($columnsCount - 1));
-        $this->totalWidth = $this->labelCellWidth + ($columnsCount - 1) * $this->cellWidth;
-
-        $this->TCPDF->SetFillColor($this->tableHeaderBackgroundColor[0], $this->tableHeaderBackgroundColor[1], $this->tableHeaderBackgroundColor[2]);
-        $this->TCPDF->SetTextColor($this->tableHeaderTextColor[0], $this->tableHeaderTextColor[1], $this->tableHeaderTextColor[2]);
-        $this->TCPDF->SetLineWidth(.3);
-        $this->setBorderColor();
-        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle);
-        $this->TCPDF->SetFillColor(255);
-        $this->TCPDF->SetTextColor($this->tableHeaderBackgroundColor[0], $this->tableHeaderBackgroundColor[1], $this->tableHeaderBackgroundColor[2]);
-        $this->TCPDF->SetDrawColor(255);
+        $this->initializeTableColumnWidths();
+        $this->setupHeaderRenderingStyle();
 
         $posY = $this->TCPDF->GetY();
-        $this->TCPDF->MultiCell($this->cellWidth, $this->cellHeight, $longestColumnName, 1, 'C', true);
-        $maxCellHeight = $this->TCPDF->GetY() - $posY;
-
-        $this->TCPDF->SetFillColor($this->tableHeaderBackgroundColor[0], $this->tableHeaderBackgroundColor[1], $this->tableHeaderBackgroundColor[2]);
-        $this->TCPDF->SetTextColor($this->tableHeaderTextColor[0], $this->tableHeaderTextColor[1], $this->tableHeaderTextColor[2]);
-        $this->TCPDF->SetDrawColor($this->tableCellBorderColor[0], $this->tableCellBorderColor[1], $this->tableCellBorderColor[2]);
+        list($columnData, $maxCellHeight) = $this->buildHeaderColumnData();
 
         $this->TCPDF->SetXY($initPosX, $posY);
+        $this->renderHeaderColumns($columnData, $initPosX, $posY, $maxCellHeight);
 
-        $countColumns = 0;
-        $posX = $initPosX;
-        foreach ($this->reportColumns as $columnName) {
+        $extraSpacing = 1;
+        $this->TCPDF->Ln($extraSpacing);
+        $this->TCPDF->SetXY($initPosX, $posY + $maxCellHeight + $extraSpacing);
+
+        $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
+        $this->TCPDF->SetTextColor($this->reportTextColor[0], $this->reportTextColor[1], $this->reportTextColor[2]);
+    }
+
+    /**
+     * Will initialize table column widths,
+     * this will include adjusting label and revenue columns
+     */
+    private function initializeTableColumnWidths(): void
+    {
+        $columnsCount = count($this->reportColumns);
+        if ($columnsCount === 0) {
+            return;
+        }
+
+        $this->totalWidth = $this->reportWidthPortrait;
+        $minLabelWidth = $this->minWidthLabelCellPortrait;
+        $this->labelCellWidth = max(round($this->totalWidth / $columnsCount), $minLabelWidth);
+
+        $metricColumns = max(1, $columnsCount - 1);
+        $this->cellWidth = round(($this->totalWidth - $this->labelCellWidth) / $metricColumns);
+        $this->totalWidth = $this->labelCellWidth + $metricColumns * $this->cellWidth;
+
+        $this->initializeTableWidthCache();
+        $this->setInitialLabelWidth($columnsCount);
+        $this->capLabelWidthForManyColumns($columnsCount);
+        $this->shrinkLabelWidthForSingleLineLabels($columnsCount);
+
+        $this->columnCellWidths = array();
+        foreach ($this->reportColumns as $columnId => $_) {
+            $this->columnCellWidths[$columnId] = $columnId === 'label' ? $this->labelCellWidth : $this->cellWidth;
+        }
+
+        $this->adjustMetricColumnWidthsToContent();
+        $this->totalWidth = array_sum($this->columnCellWidths);
+    }
+
+    private function setupHeaderRenderingStyle(): void
+    {
+        $this->TCPDF->SetFillColor(
+            $this->tableHeaderBackgroundColor[0],
+            $this->tableHeaderBackgroundColor[1],
+            $this->tableHeaderBackgroundColor[2]
+        );
+        $this->TCPDF->SetTextColor(
+            $this->tableHeaderTextColor[0],
+            $this->tableHeaderTextColor[1],
+            $this->tableHeaderTextColor[2]
+        );
+        $this->TCPDF->SetLineWidth(.3);
+        $this->setBorderColor();
+        $this->TCPDF->SetFont($this->reportFont, 'B');
+        $this->TCPDF->SetFillColor(255);
+        $this->TCPDF->SetTextColor(
+            $this->tableHeaderBackgroundColor[0],
+            $this->tableHeaderBackgroundColor[1],
+            $this->tableHeaderBackgroundColor[2]
+        );
+        $this->TCPDF->SetDrawColor(255);
+    }
+
+    /**
+     * Will adjust table headers based on their column name and make them be closer to the table
+     * @return array
+     */
+    private function buildHeaderColumnData(): array
+    {
+        $columnData = array();
+        $maxCellHeight = $this->cellHeight;
+
+        foreach ($this->reportColumns as $columnId => $columnName) {
             $columnName = $this->formatText($columnName);
+            $columnWidth = $this->getColumnWidth($columnId);
+            $textHeight = $this->TCPDF->getStringHeight($columnWidth, $columnName);
+            $cellHeight = max($textHeight, $this->cellHeight);
 
-            //Label column
-            if ($countColumns == 0) {
-                $this->TCPDF->MultiCell($this->labelCellWidth, $maxCellHeight, $columnName, $border = 0, $align = 'L', true);
-                $this->TCPDF->SetXY($posX + $this->labelCellWidth, $posY);
-            } else {
-                $this->TCPDF->MultiCell($this->cellWidth, $maxCellHeight, $columnName, $border = 0, $align = 'L', true);
-                $this->TCPDF->SetXY($posX + $this->cellWidth, $posY);
+            $columnData[] = array(
+                'text' => $columnName,
+                'width' => $columnWidth,
+                'height' => $cellHeight,
+                'textHeight' => $textHeight,
+            );
+
+            if ($cellHeight > $maxCellHeight) {
+                $maxCellHeight = $cellHeight;
             }
-            $countColumns++;
+        }
+
+        return array($columnData, $maxCellHeight);
+    }
+
+    private function renderHeaderColumns(array $columnData, float $initPosX, float $posY, float $maxCellHeight): void
+    {
+        $this->TCPDF->SetFillColor(
+            $this->tableHeaderBackgroundColor[0],
+            $this->tableHeaderBackgroundColor[1],
+            $this->tableHeaderBackgroundColor[2]
+        );
+        $this->TCPDF->SetTextColor(
+            $this->tableHeaderTextColor[0],
+            $this->tableHeaderTextColor[1],
+            $this->tableHeaderTextColor[2]
+        );
+        $this->TCPDF->SetDrawColor(
+            $this->tableCellBorderColor[0],
+            $this->tableCellBorderColor[1],
+            $this->tableCellBorderColor[2]
+        );
+
+        $posX = $initPosX;
+        foreach ($columnData as $columnInfo) {
+            $columnWidth = $columnInfo['width'];
+            $textHeight = $columnInfo['textHeight'];
+
+            $this->TCPDF->Rect($posX, $posY, $columnWidth, $maxCellHeight, 'F');
+
+            $textPosY = $this->calculateHeaderTextY($posY, $maxCellHeight, $textHeight);
+            $this->TCPDF->SetXY($posX, $textPosY);
+            $this->TCPDF->MultiCell(
+                $columnWidth,
+                $this->cellHeight,
+                $columnInfo['text'],
+                0,
+                'L',
+                false,
+                0,
+                '',
+                '',
+                true,
+                0,
+                false,
+                true,
+                0,
+                'T'
+            );
+            $this->TCPDF->SetXY($posX + $columnWidth, $posY);
             $posX = $this->TCPDF->GetX();
         }
-        $this->TCPDF->Ln();
-        $this->TCPDF->SetXY($initPosX, $posY + $maxCellHeight);
+    }
+
+    private function calculateHeaderTextY(float $posY, float $maxCellHeight, float $textHeight): float
+    {
+        if ($textHeight <= 0) {
+            $textHeight = $this->cellHeight;
+        }
+
+        $bottomPadding = $this->headerBottomPadding;
+        if ($textHeight <= $this->cellHeight) {
+            $bottomPadding = 0;
+        } elseif ($textHeight <= $this->cellHeight * 2) {
+            $bottomPadding = $this->headerBottomPaddingShort;
+        }
+
+        $availableSpace = max(0, $maxCellHeight - $textHeight);
+        $textPosY = $posY + $availableSpace - $bottomPadding;
+
+        $minY = $posY;
+        $maxY = $posY + $maxCellHeight - $textHeight;
+        if ($textPosY < $minY) {
+            return $minY;
+        }
+        if ($textPosY > $maxY) {
+            return $maxY;
+        }
+
+        return $textPosY;
     }
 
     /**
      * Prints a message
      *
      * @param string $message
-     * @return void
      */
-    private function paintMessage($message)
+    private function paintMessage($message): void
     {
         $this->TCPDF->SetFont($this->reportFont, $this->reportFontStyle, $this->reportSimpleFontSize);
         $this->TCPDF->SetTextColor($this->reportTextColor[0], $this->reportTextColor[1], $this->reportTextColor[2]);
@@ -562,7 +1302,7 @@ class Pdf extends ReportRenderer
      * @param $prettyDate
      * @return array
      */
-    public function getAttachments($report, $processedReports, $prettyDate)
+    public function getAttachments($report, $processedReports, $prettyDate): array
     {
         return array();
     }

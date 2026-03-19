@@ -12,9 +12,6 @@ namespace Piwik\Plugins\ImageGraph\StaticGraph;
 use CpChart\Chart\Pie;
 use Piwik\Plugins\ImageGraph\StaticGraph;
 
-/**
- *
- */
 abstract class PieGraph extends StaticGraph
 {
     public const RADIUS_MARGIN = 40;

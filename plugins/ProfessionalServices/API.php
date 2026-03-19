@@ -30,7 +30,6 @@ class API extends \Piwik\Plugin\API
      *
      * @internal
      *
-     * @return bool
      * @throws \Piwik\NoAccessException
      */
     public function dismissWidget(): bool

@@ -1,7 +1,7 @@
 All Websites dashboard
-label,nb_visits,nb_actions,nb_pageviews,hits,revenue,nb_conversions,orders,ecommerce_revenue,visits_evolution,actions_evolution,pageviews_evolution,hits_evolution,revenue_evolution,nb_conversions_evolution,orders_evolution,ecommerce_revenue_evolution
-"A very long name for a very tiny test site, that also reaches the 90 character limit fully",5,16,16,16,"$13,361.11",5,4,"$13,351.11",100%,100%,100%,100%,100%,100%,100%,100%
-Piwik test,2,1,1,1,$0,0,0,$0,100%,100%,100%,100%,0%,0%,0,0
+label,nb_visits,nb_actions,nb_pageviews,hits,ai_chatbots_requests,revenue,nb_conversions,orders,ecommerce_revenue,visits_evolution,actions_evolution,pageviews_evolution,hits_evolution,ai_chatbots_requests_evolution,revenue_evolution,nb_conversions_evolution,orders_evolution,ecommerce_revenue_evolution
+"A very long name for a very tiny test site, that also reaches the 90 character limit fully",5,16,16,16,0,"$13,361.11",5,4,"$13,351.11",100%,100%,100%,100%,0%,100%,100%,100%,100%
+Piwik test,2,1,1,1,0,$0,0,0,$0,100%,100%,100%,100%,0%,0%,0%,0,0
 
 Visits Summary
 nb_uniq_visitors,nb_visits,nb_actions,max_actions,nb_actions_per_visit,avg_time_on_site,bounce_rate
@@ -303,7 +303,7 @@ nb_uniq_visitors_new,nb_users_new,nb_visits_new,nb_actions_new,max_actions_new,b
 
 Performance overview
 avg_time_network,avg_time_server,avg_time_transfer,avg_time_dom_processing,avg_time_dom_completion,avg_time_on_load,avg_page_load_time
-00:00:00,00:00:00,00:00:00,00:00:00,00:00:00,00:00:00,00:00:00
+0s,0s,0s,0s,0s,0s,0s
 
 Referrers Overview
 Referrers_visitorsFromSearchEngines,Referrers_visitorsFromSocialNetworks,Referrers_visitorsFromAIAssistants,Referrers_visitorsFromDirectEntry,Referrers_visitorsFromWebsites,Referrers_visitorsFromCampaigns,Referrers_distinctSearchEngines,Referrers_distinctSocialNetworks,Referrers_distinctAIAssistants,Referrers_distinctKeywords,Referrers_distinctWebsites,Referrers_distinctCampaigns,Referrers_visitorsFromDirectEntry_percent,Referrers_visitorsFromSearchEngines_percent,Referrers_visitorsFromAIAssistants_percent,Referrers_visitorsFromCampaigns_percent,Referrers_visitorsFromSocialNetworks_percent,Referrers_visitorsFromWebsites_percent
@@ -548,16 +548,16 @@ label,nb_conversions
 121-364 days,0
 365+ days,0
 
+AI Chatbots Overview
+BotTracking_AIChatbotsRequests,BotTracking_AIChatbotsAcquiredVisits,BotTracking_AIChatbotsNotFoundRequests,BotTracking_AIChatbotsUniqueChatbots,BotTracking_AIChatbotsServerErrorRequests,BotTracking_AIChatbotsClickThroughRate,BotTracking_AIChatbotsUniquePageUrls,BotTracking_AIChatbotsUniqueDocumentUrls
+0,0,0,0,0,0,0,0
+
+AI Chatbots
+No data available
+
 AI Agent Visits
 nb_uniq_visitors_ai_agent,nb_users_ai_agent,nb_visits_ai_agent,nb_actions_ai_agent,max_actions_ai_agent,bounce_rate_ai_agent,nb_actions_per_visit_ai_agent,avg_time_on_site_ai_agent,nb_uniq_visitors_human,nb_users_human,nb_visits_human,nb_actions_human,max_actions_human,bounce_rate_human,nb_actions_per_visit_human,avg_time_on_site_human
 0,0,0,0,0,0%,0,00:00:00,1,0,5,16,6,20%,3.2,00:22:50
-
-AI Assistants - Bots Overview
-BotTracking_AIAssistantsRequests,BotTracking_AIAssistantsAcquiredVisits,BotTracking_AIAssistantsNotFoundRequests,BotTracking_AIAssistantsUniqueAssistants,BotTracking_AIAssistantsServerErrorRequests,BotTracking_AIAssistantsClickThroughRate,BotTracking_AIAssistantsUniquePageUrls,BotTracking_AIAssistantsUniqueDocumentUrls
-0,0,0,0,0,0,0,0
-
-AI Assistants - Bots
-No data available
 
 Data tables
 No data available

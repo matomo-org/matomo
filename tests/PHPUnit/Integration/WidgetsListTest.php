@@ -44,7 +44,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Dashboard_Dashboard' => 1,
             'General_Actions' => 26,
             'General_KpiMetric' => 1,
-            'General_Visitors' => 30,
+            'General_Visitors' => 31,
             'SEO' => 1,
             'Goals_Goals' => 3,
             'Insights_WidgetCategory' => 2,
@@ -52,7 +52,7 @@ class WidgetsListTest extends IntegrationTestCase
             'Referrers_Referrers' => 11,
             'About Matomo' => 11,
             'Marketplace_Marketplace' => 3,
-            'General_AIAssistants' => 5,
+            'General_AIAssistants' => 6,
 
             // widgets provided by Professional Services plugin for plugin promos
             'ProfessionalServices_PromoAbTesting' => 1,

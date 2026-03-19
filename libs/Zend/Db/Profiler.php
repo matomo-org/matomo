@@ -48,7 +48,6 @@ class Zend_Db_Profiler
 
     /**
      * Updating existing information in the database, such as SQL's UPDATE.
-     *
      */
     const UPDATE = 8;
 

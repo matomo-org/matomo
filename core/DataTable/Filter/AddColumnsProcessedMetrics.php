@@ -46,8 +46,6 @@ class AddColumnsProcessedMetrics extends BaseFilter
     protected $deleteRowsWithNoVisit = true;
 
     /**
-     * Constructor.
-     *
      * @param DataTable $table The table to eventually filter.
      * @param bool $deleteRowsWithNoVisit Whether to delete rows with no visits or not.
      */

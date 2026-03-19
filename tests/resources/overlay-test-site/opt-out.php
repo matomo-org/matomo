@@ -33,7 +33,7 @@
                         'useCookiesIfNoTracker' => $loadTracker ? '0' : '1',
                         'useCookiesTimeout' => $loadTracker ? '' : '1',
                     ];
-                ?>
+                    ?>
                 <script src="../../../index.php?module=CoreAdminHome&action=optOutJS&language=auto&<?= http_build_query($optOutArgs) ?>"></script>
             </div>
         <?php else : ?>

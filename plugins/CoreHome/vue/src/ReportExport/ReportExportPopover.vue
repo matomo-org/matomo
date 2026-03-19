@@ -26,8 +26,8 @@
             :uicontrol="'checkbox'"
             :name="'option_flat'"
             :title="translate('CoreHome_FlattenReport')"
-            v-model="optionFlat"
-            v-show="hasSubtables"
+            v-model="optionFlatModel"
+            v-show="canExportFlat"
           >
           </Field>
         </div>
@@ -39,7 +39,7 @@
             :name="'option_show_dimensions'"
             :title="translate('CoreHome_IncludeDimensionsSeparately')"
             v-model="optionShowDimensions"
-            v-show="hasMultipleDimensions && optionFlat"
+            v-show="canExportFlat && hasMultipleDimensions && optionFlatModel"
           >
           </Field>
         </div>
@@ -50,8 +50,8 @@
             :uicontrol="'checkbox'"
             :name="'option_expanded'"
             :title="translate('CoreHome_ExpandSubtables')"
-            v-model="optionExpanded"
-            v-show="hasSubtables && !optionFlat"
+            v-model="optionExpandedModel"
+            v-show="hasSubtables && !isCsvOrTsv"
           >
           </Field>
         </div>
@@ -167,6 +167,11 @@ import SelectOnFocus from '../SelectOnFocus/SelectOnFocus';
 import Matomo from '../Matomo/Matomo';
 import MatomoUrl from '../MatomoUrl/MatomoUrl';
 import { translate } from '../translate';
+import {
+  isFormatWithoutExpanded,
+  resolveEffectiveSubtableOptions,
+  resolveInitialSubtablePreference,
+} from './ReportExportPopover.utils';
 
 interface DataTable {
   param: Record<string, string|string[]>;
@@ -184,6 +189,10 @@ export default defineComponent({
   },
   props: {
     hasSubtables: Boolean,
+    canExportFlat: {
+      type: Boolean,
+      default: false,
+    },
     availableReportTypes: Object,
     availableReportFormats: {
       type: Object,
@@ -230,7 +239,7 @@ export default defineComponent({
     },
     initialReportFormat: {
       type: String,
-      default: 'XML',
+      default: 'TSV',
     },
   },
   mounted() {
@@ -243,9 +252,14 @@ export default defineComponent({
     return {
       showUrl: false,
       reportFormat: this.initialReportFormat,
-      optionFlat: this.initialOptionFlat,
       optionShowDimensions: this.initialOptionShowDimensions,
-      optionExpanded: this.initialOptionExpanded,
+      // Keep explicit preference separate from default behavior:
+      // default means TSV/CSV flat and non-TSV/CSV expanded.
+      subtablePreference: resolveInitialSubtablePreference(
+        this.initialOptionFlat,
+        this.initialOptionExpanded,
+        this.initialReportFormat,
+      ),
       optionFormatMetrics: this.initialOptionFormatMetrics,
       reportType: this.initialReportType,
       reportLimitAll: this.initialReportLimitAll,
@@ -258,7 +272,7 @@ export default defineComponent({
   watch: {
     reportType(newVal) {
       if (!this.availableReportFormats[newVal][this.reportFormat]) {
-        this.reportFormat = 'XML';
+        this.reportFormat = 'JSON';
       }
     },
     reportLimit(newVal, oldVal) {
@@ -283,6 +297,61 @@ export default defineComponent({
         )
         : '';
       return `${rowLimit} (${computedMetricMax})`;
+    },
+    isCsvOrTsv() {
+      return isFormatWithoutExpanded(this.reportFormat);
+    },
+    effectiveSubtableOptions() {
+      return resolveEffectiveSubtableOptions(
+        this.hasSubtables,
+        this.canExportFlat,
+        this.reportFormat,
+        this.subtablePreference,
+      );
+    },
+    optionFlatModel: {
+      get(): boolean {
+        return this.effectiveSubtableOptions.optionFlat;
+      },
+      set(newVal: boolean) {
+        if (!this.hasSubtables || !this.canExportFlat) {
+          return;
+        }
+
+        if (newVal) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: 'flat',
+          };
+        } else if (!this.optionExpandedModel) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: null,
+          };
+        }
+      },
+    },
+    optionExpandedModel: {
+      get(): boolean {
+        return this.effectiveSubtableOptions.optionExpanded;
+      },
+      set(newVal: boolean) {
+        if (!this.hasSubtables || isFormatWithoutExpanded(this.reportFormat)) {
+          return;
+        }
+
+        if (newVal) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: 'expanded',
+          };
+        } else if (!this.optionFlatModel) {
+          this.subtablePreference = {
+            hasUserPreference: true,
+            preferredMode: null,
+          };
+        }
+      },
     },
     exportLink() {
       return this.getExportLink(true);
@@ -404,8 +473,14 @@ export default defineComponent({
         });
       }
 
-      if (this.optionFlat) {
+      const {
+        optionFlat: effectiveOptionFlat,
+        optionExpanded: effectiveOptionExpanded,
+      } = this.effectiveSubtableOptions;
+
+      if (effectiveOptionFlat) {
         exportUrlParams.flat = 1;
+
         if (this.optionShowDimensions) {
           exportUrlParams.show_dimensions = 1;
         }
@@ -416,7 +491,10 @@ export default defineComponent({
         }
       }
 
-      if (!this.optionFlat && this.optionExpanded) {
+      if (this.hasSubtables
+        && !effectiveOptionFlat
+        && effectiveOptionExpanded
+      ) {
         exportUrlParams.expanded = 1;
       }
 

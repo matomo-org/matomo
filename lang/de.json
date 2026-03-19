@@ -95,6 +95,7 @@
         "ColumnPercentageVisits": "%% Besuche",
         "ColumnPercentageVisitsDocumentation": "Der Prozentsatz der Gesamtbesuche.",
         "ColumnRevenue": "Umsatz",
+        "ColumnSegment": "Segment",
         "ColumnSumTimeOnSite": "Gesamte Zeit auf der Webseite",
         "ColumnSumVisitLength": "Von Besuchern verbrachte Gesamtzeit (in Sekunden)",
         "ColumnTotalPageviews": "Gesamte Seitenansichten",

@@ -22,10 +22,7 @@ class RevenueShipping extends BaseConversion
     protected $nameSingular = 'General_Shipping';
 
     /**
-     * @param Request $request
-     * @param Visitor $visitor
      * @param Action|null $action
-     * @param GoalManager $goalManager
      *
      * @return mixed|false
      */

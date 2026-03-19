@@ -86,9 +86,6 @@ class Collection
      */
     private $apiNotToCall;
 
-    /**
-     * Constructor.
-     */
     public function __construct($api, ApiTestConfig $testConfig, $apiToCall)
     {
         $this->testConfig = $testConfig;

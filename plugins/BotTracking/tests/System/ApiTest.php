@@ -46,7 +46,7 @@ class ApiTest extends SystemTestCase
             ],
             [
                 [
-                    'BotTracking.getAIAssistantRequests',
+                    'BotTracking.getAIChatbotRequests',
                 ],
                 [
                     'idSite'                 => 1,
@@ -61,7 +61,7 @@ class ApiTest extends SystemTestCase
             ],
             [
                 [
-                    'BotTracking.getAIAssistantRequests',
+                    'BotTracking.getAIChatbotRequests',
                 ],
                 [
                     'idSite'                 => 1,
@@ -75,7 +75,7 @@ class ApiTest extends SystemTestCase
             ],
             [
                 [
-                    'BotTracking.getAIAssistantRequests',
+                    'BotTracking.getAIChatbotRequests',
                 ], [
                     'idSite'                 => 1,
                     'date'                   => '2025-02-03',

@@ -15,6 +15,7 @@ use Piwik\API\ResponseBuilder;
 use Piwik\NumberFormatter;
 use Piwik\DataTable;
 use Piwik\DataTable\Row\DataTableSummaryRow;
+use Piwik\Period;
 use Piwik\Site;
 
 /**
@@ -36,15 +37,18 @@ class Dashboard
     private $displayedMetricColumns = [
         'nb_visits', 'nb_pageviews', 'hits', 'nb_actions', 'revenue',
         'previous_nb_visits', 'previous_nb_pageviews', 'previous_hits', 'previous_nb_actions', 'previous_revenue',
+        'ai_chatbots_requests', 'previous_ai_chatbots_requests',
     ];
 
-    /**
-     * @param string $period
-     * @param string $date
-     * @param string|null $segment
-     */
     public function __construct(string $period, string $date, ?string $segment)
     {
+        if (Period::isMultiplePeriod($date, $period)) {
+            // requesting a multi period would result in a DataTable/Map, which below code can't handle
+            // so throw a proper exception instead of running into PHP errors
+            throw new \Exception('Multiple periods are not supported');
+        }
+
+        /** @var DataTable $sites */
         $sites = Request::processRequest('MultiSites.getAll', [
             'period' => $period,
             'date' => $date,
@@ -57,9 +61,10 @@ class Dashboard
             'filter_limit' => '-1',
             'filter_offset' => '0',
             'totals' => 0,
-        ], $default = []);
+        ], []);
 
         $sites->deleteRow(DataTable::ID_SUMMARY_ROW);
+
 
         /** @var null|DataTable $pastData */
         $pastData = $sites->getMetadata('pastData');
@@ -122,6 +127,8 @@ class Dashboard
             'previous_hits'         => $this->sitesByGroup->getMetadata('previous_total_hits'),
             'previous_nb_actions'   => $this->sitesByGroup->getMetadata('previous_total_nb_actions'),
             'previous_revenue'      => $this->sitesByGroup->getMetadata('previous_total_revenue'),
+            'ai_chatbots_requests'  => $this->sitesByGroup->getMetadata('total_ai_chatbots_requests') ?? 0,
+            'previous_ai_chatbots_requests' => $this->sitesByGroup->getMetadata('previous_total_ai_chatbots_requests') ?? 0,
         ];
         $this->formatMetrics($totals);
         return $totals;
@@ -298,7 +305,6 @@ class Dashboard
      *
      * in a sorted order
      *
-     * @param DataTable $table
      * @param array $request
      */
     private function makeSitesFlatAndApplyGenericFilters(DataTable $table, array $request): void

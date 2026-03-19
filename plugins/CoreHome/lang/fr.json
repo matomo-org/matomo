@@ -77,6 +77,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Il semble que les rapports pour cette période n'ont pas encore été générés, ils seront disponibles dans quelques heures. Vous pouvez choisir une période différente en attendant que les rapports soient générés.",
         "PeriodRange": "Etendue",
         "PivotBySubtable": "Ce rapport n'a pas été pivoté %1$s Pivoter par %2$s",
+        "PresetDateToday": "Aujourd’hui",
+        "PresetDateYesterday": "Hier",
         "Profilable": "Profilage",
         "ProfilableSegmentHelp": "1 pour profilable (par exemple, des cookies ont été utilisés), 0 pour non profilable (par exemple, aucun cookie n’a été utilisé)",
         "QuickAccessTitle": "Recherche pour %s. Utilisez les flèches de navigation pour parcourir les résultats de recherche. Raccourci : appuyez sur 'f' pour rechercher.",

@@ -76,9 +76,9 @@ class CronArchivingCheck implements Diagnostic
             $comment .= $this->translator->translate('Installation_NotSupported')
                 . ' ' . $this->translator->translate('Goals_Optional')
                 . ' (' . $this->translator->translate('General_Reasons') . ': ' . $reasonText . ')'
-                . $this->translator->translate(
+                . ' ' . $this->translator->translate(
                     'General_LearnMore',
-                    [' ' . Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/') . '">', '</a>']
+                    [Url::getExternalLinkTag('https://matomo.org/faq/troubleshooting/how-to-make-the-diagnostic-managing-processes-via-cli-to-display-ok/'), '</a>']
                 );
             $status = DiagnosticResult::STATUS_INFORMATIONAL;
         }

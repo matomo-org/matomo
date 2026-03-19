@@ -84,7 +84,6 @@ abstract class Action
     /**
      * Makes the correct Action object based on the request.
      *
-     * @param Request $request
      * @return Action
      */
     public static function factory(Request $request)
@@ -123,7 +122,6 @@ abstract class Action
      * action should send a `ca=1` tracking parameter along the request so it doesn't get executed should the plugin
      * be disabled but the JS tracker is still cached and keeps on sending these requests.
      *
-     * @param Request $request
      * @return bool
      * @throws Exception
      */
@@ -377,7 +375,6 @@ abstract class Action
      *
      * @param int $idReferrerActionUrl is the ID of the last action done by the current visit.
      * @param $idReferrerActionName
-     * @param Visitor $visitor
      */
     public function record(Visitor $visitor, $idReferrerActionUrl, $idReferrerActionName)
     {

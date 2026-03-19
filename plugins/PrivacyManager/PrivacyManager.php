@@ -43,8 +43,6 @@ use Piwik\Policy\PolicyManager;
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/DoNotTrackHeaderChecker.php';
 require_once PIWIK_INCLUDE_PATH . '/plugins/PrivacyManager/IPAnonymizer.php';
 
-/**
- */
 class PrivacyManager extends Plugin
 {
     public const OPTION_LAST_DELETE_PIWIK_LOGS = "lastDelete_piwik_logs";
@@ -79,9 +77,6 @@ class PrivacyManager extends Plugin
     private $dntChecker = null;
     private $ipAnonymizer = null;
 
-    /**
-     * Constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -306,7 +301,18 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_AwarenessDocumentationDesc4';
         $translationKeys[] = 'PrivacyManager_AwarenessDocumentationIntro';
         $translationKeys[] = 'PrivacyManager_BackgroundColor';
-        $translationKeys[] = 'PrivacyManager_ConsentExplanation';
+        $translationKeys[] = 'PrivacyManager_ConsentManagementPlatforms';
+        $translationKeys[] = 'PrivacyManager_ConsentManagementPlatformsIntro';
+        $translationKeys[] = 'PrivacyManager_ConsentManagementPlatformsOutro';
+        $translationKeys[] = 'PrivacyManager_ConsentNotRequiredCondition1';
+        $translationKeys[] = 'PrivacyManager_ConsentNotRequiredCondition2';
+        $translationKeys[] = 'PrivacyManager_ConsentNotRequiredCondition3';
+        $translationKeys[] = 'PrivacyManager_ConsentNotRequiredCondition4';
+        $translationKeys[] = 'PrivacyManager_ConsentNotRequiredIntro';
+        $translationKeys[] = 'PrivacyManager_ConsentRequirements';
+        $translationKeys[] = 'PrivacyManager_ConsentRequirementsIntro';
+        $translationKeys[] = 'PrivacyManager_ConsentRequirementsReasonPersonalData';
+        $translationKeys[] = 'PrivacyManager_ConsentRequirementsReasonStorage';
         $translationKeys[] = 'PrivacyManager_ApplyStyling';
         $translationKeys[] = 'PrivacyManager_BackgroundColor';
         $translationKeys[] = 'PrivacyManager_BuildYourOwn';
@@ -363,9 +369,13 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_GdprToolsPageIntroEraseRight';
         $translationKeys[] = 'PrivacyManager_GeolocationAnonymizeIpNote';
         $translationKeys[] = 'PrivacyManager_GetPurgeEstimate';
-        $translationKeys[] = 'PrivacyManager_HowDoIAskForConsent';
-        $translationKeys[] = 'PrivacyManager_HowDoIAskForConsentIntro';
-        $translationKeys[] = 'PrivacyManager_HowDoIAskForConsentOutro';
+        $translationKeys[] = 'PrivacyManager_DetermineConsentNeedAction1';
+        $translationKeys[] = 'PrivacyManager_DetermineConsentNeedAction2';
+        $translationKeys[] = 'PrivacyManager_DetermineConsentNeedIntro';
+        $translationKeys[] = 'PrivacyManager_HandlingPreviouslyCollectedData';
+        $translationKeys[] = 'PrivacyManager_HandlingPreviouslyCollectedDataDetails';
+        $translationKeys[] = 'PrivacyManager_HandlingPreviouslyCollectedDataIntro';
+        $translationKeys[] = 'PrivacyManager_HowToObtainValidConsent';
         $translationKeys[] = 'PrivacyManager_IndividualsRights';
         $translationKeys[] = 'PrivacyManager_IndividualsRightsAccess';
         $translationKeys[] = 'PrivacyManager_IndividualsRightsChildren';
@@ -445,10 +455,17 @@ class PrivacyManager extends Plugin
         $translationKeys[] = 'PrivacyManager_VisitsMatchedCriteria';
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyDeleted';
         $translationKeys[] = 'PrivacyManager_VisitsSuccessfullyExported';
-        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeededPart1';
-        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeededPart2';
-        $translationKeys[] = 'PrivacyManager_WhenConsentIsNeededPart3';
         $translationKeys[] = 'PrivacyManager_WhenDoINeedConsent';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement1';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement2';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement3';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement4';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement5';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement6';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement7';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement8';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement9';
+        $translationKeys[] = 'PrivacyManager_ValidConsentRequirement10';
         $translationKeys[] = 'UsersManager_AllWebsites';
         $translationKeys[] = 'PrivacyManager_ConsentManager';
         $translationKeys[] = 'PrivacyManager_ConsentManagerDetected';
@@ -535,8 +552,6 @@ class PrivacyManager extends Plugin
 
     /**
      * Customize the Installation "default settings" form.
-     *
-     * @param FormDefaultSettings $form
      */
     public function installationFormInit(FormDefaultSettings $form)
     {
@@ -558,8 +573,6 @@ class PrivacyManager extends Plugin
 
     /**
      * Process the Installation "default settings" form submission
-     *
-     * @param FormDefaultSettings $form
      */
     public function installationFormSubmit(FormDefaultSettings $form)
     {
@@ -960,8 +973,6 @@ class PrivacyManager extends Plugin
 
     /**
      * Returns if cookie less tracking is forced
-     *
-     * @return bool
      */
     public static function isCookieLessTrackingForced(): bool
     {

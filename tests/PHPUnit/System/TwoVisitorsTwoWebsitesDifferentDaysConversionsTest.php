@@ -13,8 +13,6 @@ use Piwik\Archive;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Fixtures\TwoSitesTwoVisitorsDifferentDays;
 
-require_once PIWIK_INCLUDE_PATH . '/plugins/Goals/Goals.php';
-
 /**
  * Same as TwoVisitors_twoWebsites_differentDays but with goals that convert
  * on every url.

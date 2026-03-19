@@ -1,5 +1,6 @@
 {
     "MultiSites": {
+        "AiChatbotsRequests": "AI Chatbot Anfragen",
         "AllWebsitesDashboardDocumentation": "Dieser Bericht gibt Ihnen eine informative Übersicht für all Ihre Webseiten, in der die allgemeinsten Metriken Ihrer Besucher ausgewertet werden.",
         "AllWebsitesDashboardErrorMessage": "Es sind derzeit keine Daten verfügbar. Dies könnte auf ein vorübergehendes Serverproblem oder einen Bericht mit zu vielen Daten zurückzuführen sein. Bitte versuchen Sie es später erneut. Wenn das Problem weiterhin besteht, wenden Sie sich bitte an Ihren Matomo-Administrator, um Hilfe zu erhalten.",
         "AllWebsitesDashboardTitle": "Alle Websites",

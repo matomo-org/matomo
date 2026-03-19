@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Piwik\Plugins\ArchivingMetrics\tests\Integration;
 
 use Piwik\Common;
-use Piwik\Date;
 use Piwik\Db;
 use Piwik\Period;
 use Piwik\Plugins\ArchivingMetrics\Clock\Clock;
@@ -31,9 +30,8 @@ class TimerDbTest extends IntegrationTestCase
 {
     public function testItWritesAndReadsFromDatabase(): void
     {
-        $period = new Period\Day(Date::factory('2025-11-01'));
+        $period = new Period\Day(\Piwik\Date::factory('2020-11-01'));
         $segment = new Segment('', [1]);
-
         $context = new Context(1, $period, $segment, '');
 
         $timer = new Timer(true, new Clock(), new DbWriter());
@@ -46,12 +44,14 @@ class TimerDbTest extends IntegrationTestCase
         self::assertSame(999, (int) $rows[0]['idarchive']);
         self::assertSame(1, (int) $rows[0]['idsite']);
         self::assertNotEmpty($rows[0]['archive_name']);
-        self::assertSame('2025-11-01', $rows[0]['date1']);
-        self::assertSame('2025-11-01', $rows[0]['date2']);
+        self::assertSame('2020-11-01', $rows[0]['date1']);
+        self::assertSame('2020-11-01', $rows[0]['date2']);
         self::assertIsNumeric($rows[0]['period']);
         self::assertNotEmpty($rows[0]['ts_started']);
         self::assertNotEmpty($rows[0]['ts_finished']);
         self::assertIsNumeric($rows[0]['total_time']);
         self::assertIsNumeric($rows[0]['total_time_exclusive']);
+        self::assertArrayHasKey('is_temporary', $rows[0]);
+        self::assertSame(0, (int) $rows[0]['is_temporary']);
     }
 }

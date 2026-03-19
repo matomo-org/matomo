@@ -104,9 +104,6 @@ class Access
      */
     private $roleProvider;
 
-    /**
-     * Constructor
-     */
     public function __construct(?RolesProvider $roleProvider = null, ?CapabilitiesProvider $capabilityProvider = null)
     {
         if (!isset($roleProvider)) {
@@ -656,7 +653,7 @@ class Access
      *
      * Use this method with care, as it might open up attack vectors
      *
-     * @param callback $function The callback to execute. Should accept no arguments.
+     * @param callable $function The callback to execute. Should accept no arguments.
      * @return mixed The result of `$function`.
      * @throws Exception rethrows any exceptions thrown by `$function`.
      * @api

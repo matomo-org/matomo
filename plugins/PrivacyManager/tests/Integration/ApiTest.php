@@ -9,6 +9,7 @@
 
 namespace Piwik\Plugins\PrivacyManager\tests\Integration;
 
+use Exception;
 use Piwik\Access;
 use Piwik\Config;
 use Piwik\Container\StaticContainer;
@@ -103,6 +104,55 @@ class ApiTest extends IntegrationTestCase
 
         $complianceStatus = $this->api->getComplianceStatus($this->siteId, $complianceType);
         $this->assertTrue($complianceStatus['complianceModeEnforced']);
+    }
+
+    public function testSetComplianceStatusDoesNotRequirePasswordWhenPostSessionFlagIsZeroEvenIfGetFlagIsOne(): void
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        $_GET['force_api_session'] = 1;
+        $_POST['token_auth'] = 'postToken';
+        $_POST['force_api_session'] = 0;
+
+        try {
+            $result = $this->api->setComplianceStatus(
+                (string) $this->siteId,
+                'cnil_v1',
+                true
+            );
+
+            $this->assertTrue($result);
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['token_auth']);
+            unset($_POST['force_api_session']);
+        }
+    }
+
+    public function testSetComplianceStatusRequiresPasswordWhenPostSessionFlagIsOneEvenIfGetFlagIsZero(): void
+    {
+        $container = StaticContainer::getContainer();
+        $container->get(Config::class)->FeatureFlags = ['PrivacyCompliance_feature' => 'enabled'];
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
+
+        $_GET['force_api_session'] = 0;
+        $_POST['token_auth'] = 'postToken';
+        $_POST['force_api_session'] = 1;
+
+        try {
+            $this->api->setComplianceStatus(
+                (string) $this->siteId,
+                'cnil_v1',
+                true
+            );
+        } finally {
+            unset($_GET['force_api_session']);
+            unset($_POST['token_auth']);
+            unset($_POST['force_api_session']);
+        }
     }
 
     public function provideContainerConfig()
