@@ -125,7 +125,7 @@ nav {
 
 #root {
   .pageWrap {
-    width: 100%;
+    width: calc(~'100% - 18px');  // 100% - pageWrap margin
     height: fit-content;
     padding-left: 9px;
     padding-right: 9px;
@@ -142,12 +142,17 @@ nav {
     min-width: 0;
   }
 
-  .layoutWithSidebar--hasSidebar .page > .pageWrap {
-    width: calc(~'100% - 18px');  // 100% - pageWrap margin
-  }
+  .top_controls {
+    min-height: 51px;
+    position: relative;
+    background-color: @theme-color-background-base;
+    height: auto;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    visibility: hidden;
+    opacity: 0;
+    padding-left: 18px;
 
-  .top_controls,
-  .layoutWithSidebar .top_controls {
     .icon-arrowup:before, .icon-arrowdown:before {
       padding: 17px 0 0 0;
       display: inline-block;
@@ -157,16 +162,64 @@ nav {
         display: none;
       }
     }
+
+    @media all and (max-width: 600px) {
+      height: auto;
+      padding-left: 0;
+
+      .piwikTopControl {
+        position: static !important;
+        float: none;
+        margin: 0 23px 10px 17px !important;
+        display: block !important;
+      }
+
+      .piwikSelector {
+        > a.title {
+            max-width: none;
+        }
+
+        display: block;
+      }
+    }
+
+    .quickAccessPlaceholder {
+      width: 0;
+      visibility: hidden;
+      display: inline-block;
+      position: relative;
+      margin-right: -1px;
+    }
+
+    .piwikTopControl {
+      display: inline-block;
+      float: none;
+      position: relative;
+      margin-right: 14px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      vertical-align: top;
+      font-size: 11px;
+    }
+
+    @media print {
+      .quick-access {
+        display: none !important;
+      }
+    }
   }
 
   @media only screen and (min-width: 993px) {
     .layoutWithSidebar--hasSidebar {
       display: flex;
       flex-direction: row;
-      align-items: flex-start;
+      align-items: stretch;
 
       #secondNavBar {
         flex: 0 0 224px;
+        background-color: @theme-color-menu-contrast-background;
+        box-shadow: none !important;
+        padding: 16px 12px;
       }
 
       .layoutWithSidebarContent {
@@ -183,45 +236,38 @@ nav {
   @media all and (max-width: 992px) {
     #secondNavBar {
       width: 0 !important;
+      .quick-access {
+        margin-left: 16px;
+        z-index: 1000;
+        position: fixed;
+        top: 15px;
+        width: 268px;
+
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateX(-24px);
+        transition: opacity 50ms ease-out;
+      }
+
+      &.mobileLeftMenuOpen {
+        width: auto !important;
+
+        .quick-access {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+          transform: translateX(0);
+          transition: opacity 380ms ease, transform 380ms ease;
+        }
+        .sidenav > .no-padding:first-child {
+          padding-top: 65px !important;
+        }
+      }
     }
 
     .pageWrap {
       width: calc(~'100% - 18px') !important; // 100% - pageWrap margin
-    }
-  }
-
-  @media all and (max-width: 600px) {
-    .top_controls {
-      height: auto;
-
-      .piwikTopControl {
-        position: static !important;
-        float: none;
-        margin: 0 23px 10px 17px !important;
-        display: block !important;
-      }
-
-      .piwikSelector {
-        > a.title {
-            max-width: none;
-        }
-
-        display: block;
-      }
-
-      .quick-access {
-        width: auto !important;
-
-        input {
-          padding-left: 15px !important;
-        }
-
-        .icon-search {
-          position: absolute;
-          left: unset;
-          right: 36px;
-        }
-      }
     }
   }
 
@@ -230,19 +276,15 @@ nav {
   }
 
   #secondNavBar {
-    width: 224px;
-    height: fit-content;
-    flex: none;
-    background-color: @theme-color-menu-contrast-background;
-    box-shadow: none !important;
-
     .navbar {
       padding-top: 16px;
       padding-bottom: 20px;
 
       .menu-icon {
-        padding-right: 13px;
+        padding-right: 8px;
         display: inline;
+        font-size: 16px;
+        color: @theme-color-text-contrast;
       }
 
       .reporting-menu-sub-icon {
@@ -259,37 +301,56 @@ nav {
 
         .item {
           width: 100%;
-          padding: 12px 21px 12px 19px;
+          min-height: 42px;
+          padding: 8px 12px;
           word-wrap: break-word;
           word-break: break-word;
-        }
-
-        .item,.item-help-icon {
-          display: inline-block;
-          .font-default(13px, 21px);
-          color: @theme-color-menu-contrast-text;
+          display: flex;
+          align-items: center;
+          .font-default(14px, 20px);
+          color: @theme-color-text-lighter;
+          border-radius: 8px;
+          cursor: pointer;
+          text-decoration: none;
+          &:hover, &:focus {
+            outline: 0;
+          }
+          &:focus-visible {
+            color: @theme-color-text-lighter;
+            background-color: @theme-color-background-base;
+            outline: 1px solid @theme-color-link;
+          }
+          &:hover {
+            background-color: @theme-color-background-base;
+          }
+          .menu-icon {
+            align-self: flex-start;
+            flex: 0 0 auto;
+            margin-top: 5px;
+          }
         }
 
         .item-help-icon {
           display:none;
           opacity: 0.2;
           position: absolute;
-          right: 21px;
+          right: 0;
           top: 0;
+          padding: 10px;
           line-height: 13px;
-          padding-left: 16px;
-          padding-right: 16px;
           height: calc(100%);
+          align-items: center;
+          justify-content: center;
 
           > span {
             position: relative;
-            top: 12px;
+            top: auto;
           }
         }
 
         &.menuTab li:hover {
           .item-help-icon:not(.active) {
-            display:inline-block;
+            display:inline-flex;
             color: @color-black-matomo;
 
             &:hover {
@@ -300,30 +361,34 @@ nav {
         }
 
         .item-help-icon.active {
-          display: inline-block;
+          display: inline-flex;
           color: @theme-color-help-background-color;
           opacity: 0.75;
         }
 
         > .item {
-          cursor: default;
-          font-weight: bold;
-          &:hover, &:focus {
-            text-decoration: none;
-          }
+          font-weight: 600;
         }
 
+        //Selects the submenu of the menu item
         > ul {
           position: relative;
-
+          // Submenu element
           li {
             position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+
             .item {
               .font-default(13px, 16px);
-              padding: 11px 22px 11px 45px;
+              padding: 10px 22px 10px 36px;
+              min-height: 36px;
+              width: 98%;
+              border-radius: 8px;
               text-decoration: none;
               transition: background-color 200ms linear;
-              &:hover, &:focus {
+              &:hover, &.active {
                 text-decoration: none;
                 color: @theme-color-menu-contrast-textActive;
                 background-color: @theme-color-background-base;
@@ -336,8 +401,17 @@ nav {
                 color: @theme-color-menu-contrast-textSelected;
                 background-color: @theme-color-background-base;
                 text-decoration: none;
+                border-radius: 8px;
               }
             }
+          }
+        }
+      }
+      li.active, li:hover {
+        >.item {
+          color: @theme-color-menu-contrast-textSelected;
+          .menu-icon {
+            color: @theme-color-menu-contrast-textSelected;
           }
         }
       }
@@ -350,11 +424,13 @@ nav {
         width: 100%;
 
         .items {
-          width: 224px;
-          box-shadow: 0 1px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+          border-radius: 8px;
 
           .search {
             margin: 15px 16px 10px 17px;
+            input {
+              font-size: 14px;
+            }
           }
 
           .item {
@@ -366,12 +442,14 @@ nav {
 
         .title {
           color: @theme-color-menu-contrast-text;
-          display: block;
-          padding: 15px 22px 11px 45px;
+          padding: 10px 10px 10px 36px;
           font-size: 13px;
           font-weight: normal;
           word-wrap: break-word;
           word-break: break-all;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
 
           &:hover, &:focus {
             color: @theme-color-menu-contrast-textActive;
@@ -395,14 +473,6 @@ nav {
           display: block;
         }
       }
-
-      > .item {
-        cursor: pointer;
-        &:hover, &:focus {
-          color: @theme-color-menu-contrast-textActive;
-        }
-      }
-
       &.active {
         ul {
           display: block;
@@ -415,21 +485,15 @@ nav {
     }
 
     &.Menu--admin .navbar > li {
-      > .item {
-        padding: 14px 21px 6px 19px;
-      }
       .item .icon-arrow-right:before {
         content: "\e63b";
-      }
-      .menu-icon {
-        padding-right: 13px;
-        display: inline;
       }
     }
 
     .collapsible {
       margin: 0;
       border: 0;
+      box-shadow: none;
     }
 
     .collapsible-header {
@@ -451,35 +515,6 @@ nav {
     .collapsible-body {
       border-bottom: 0;
       padding: 0;
-    }
-  }
-
-  .quick-access {
-    margin-left: 10px;
-    margin-top: 10px;
-
-    @media screen and (max-width: 600px){
-      z-index: 1000;
-      position: absolute;
-      width: 208px;
-      margin-left: 16px;
-    }
-  }
-
-  .top_controls {
-    visibility: hidden;
-    opacity: 0;
-    padding-left: 16px;
-
-    @media screen and (max-width: 600px){
-      visibility: hidden;
-      opacity: 0;
-      padding-left: 0;
-    }
-
-    .piwikTopControl {
-      margin-top: 10px;
-      margin-bottom: 10px;
     }
   }
 }
@@ -563,12 +598,6 @@ nav {
   #root{
     .layoutWithSidebar--hasSidebar .page > .pageWrap {
       width: calc(~'100% - 18px') !important; // 100% - pageWrap margin
-    }
-
-    .top_controls{
-      .quick-access {
-      display: none !important;
-      }
     }
   }
   #content.home,

@@ -31,7 +31,12 @@ export default {
     if (!binding.value.activator) {
       return;
     }
-
+    const secondNavBar = document.getElementById('secondNavBar');
+    const setSecondNavBarMenuState = (isOpen: boolean) => {
+      if (secondNavBar) {
+        secondNavBar.classList.toggle('mobileLeftMenuOpen', isOpen);
+      }
+    };
     setTimeout(() => {
       if (!binding.value.initialized) {
         binding.value.initialized = true;
@@ -41,10 +46,15 @@ export default {
           window.$(sideNavActivator).show();
 
           const targetSelector = sideNavActivator.getAttribute('data-target');
-
           // @ts-ignore
           window.$(`#${targetSelector}`).sidenav({
             closeOnClick: true,
+            onOpenStart: () => {
+              setSecondNavBarMenuState(true);
+            },
+            onCloseStart: () => {
+              setSecondNavBarMenuState(false);
+            },
           });
         }
       }

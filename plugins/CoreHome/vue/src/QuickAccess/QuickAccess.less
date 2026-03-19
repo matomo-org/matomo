@@ -1,9 +1,9 @@
 .quick-access {
   position: relative;
   box-shadow: none !important;
-  border: 1px solid #e0e0e0 !important;
+  border: 1px solid @theme-color-background-lowContrast !important;
   border-radius: 8px !important;
-  width: 192px;
+  width: 200px;
 
   &:hover,
   &.expanded,
@@ -26,13 +26,13 @@
 
   .icon-search {
     position: absolute;
-    font-size: 18px;
-    top: 10px;
+    font-size: 14px;
+    top: 13px;
     left: 12px;
-    color: @color-silver-placeholders;
+    color: @theme-color-border;
 
   }
-  .quickAccessInput.s {
+  .quickAccessInside .quickAccessInput {
     height: 38px;
     font-size: 14px;
     padding: 10px 12px 10px 38px;
@@ -40,22 +40,25 @@
     margin: 0;
     box-sizing: border-box;
     box-shadow: none!important;
-    border-radius: 8px !important;
-    background-color: @color-white !important;
+    border-radius: 8px;
+    background-color: @theme-color-background-contrast !important;
     &:focus {
       outline: none;
       border-bottom: none !important;
     }
   }
   .quickAccessInside .quickAccessDropdown.dropdown {
-    width: 192px;
     padding: 8px;
     border-radius: 8px;
     margin-top: 5px;
+    width: 200px;
+    max-height: 75vh;
+    overflow: auto;
+    box-shadow: 0 10px 40px 0 rgba(165, 177, 202, 0.30), 0 0 3px 0 rgba(165, 177, 202, 0.30);;
   }
 
   .quickAccessInput::placeholder {
-    color: @color-silver-placeholders;
+    color: @theme-color-background-lowContrast;
   }
   .selected {
     background-color: @theme-color-background-tinyContrast !important;

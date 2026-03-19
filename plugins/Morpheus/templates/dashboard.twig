@@ -33,6 +33,9 @@
         {% endif %}
         <div class="layoutWithSidebarContent">
             <div class="top_controls">
+                {% if hideQuickAccess is not defined or not hideQuickAccess %}
+                    <div class="quickAccessPlaceholder" style="" aria-hidden="true"></div>
+                {% endif %}
                 {% block topcontrols %}
                 {% endblock %}
             </div>

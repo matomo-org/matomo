@@ -16,7 +16,7 @@
       @mouseenter="searchActive = true"
     />
     <input
-      class="s quickAccessInput"
+      class="quickAccessInput"
       @keydown="onKeypress($event)"
       @focus="searchActive = true"
       v-model="searchTerm"
@@ -183,10 +183,6 @@ export default defineComponent({
     // same applies to above watch for searchActive()
     if (root && root.parentElement) {
       root.parentElement.classList.add('quick-access', 'piwikSelector');
-    }
-
-    if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
-      window.initTopControls();
     }
 
     Matomo.helper.registerShortcut('f', translate('CoreHome_ShortcutSearch'), (event) => {
