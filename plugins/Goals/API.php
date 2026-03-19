@@ -35,10 +35,22 @@ use Piwik\Validators\Regex;
 use Piwik\Validators\WhitelistedValue;
 
 /**
- * API for plugin Goals.
+ * Goals API lets you Manage existing goals, via "updateGoal" and "deleteGoal", create new Goals via "addGoal",
+ * or list existing Goals for one or several websites via "getGoals"
  *
- * Exposes endpoints to manage goals, retrieve goal and ecommerce reports, and fetch
- * conversion metrics for specific goals or all configured goals.
+ * If you are <a href='https://matomo.org/docs/ecommerce-analytics/' target='_blank'>tracking Ecommerce orders and products</a> on your site, the functions "getItemsSku", "getItemsName" and "getItemsCategory"
+ * will return the list of products purchased on your site, either grouped by Product SKU, Product Name or Product Category. For each name, SKU or category, the following
+ * metrics are returned: Total revenue, Total quantity, average price, average quantity, number of orders (or abandoned carts) containing this product, number of visits on the Product page,
+ * Conversion rate.
+ *
+ * By default, these functions return the 'Products purchased'. These functions also accept an optional parameter &abandonedCarts=1.
+ * If the parameter is set, it will instead return the metrics for products that were left in an abandoned cart therefore not purchased.
+ *
+ * The API also lets you request overall Goal metrics via the method "get": Conversions, Visits with at least one conversion, Conversion rate and Revenue.
+ * If you wish to request specific metrics about Ecommerce goals, you can set the parameter &idGoal=ecommerceAbandonedCart to get metrics about abandoned carts (including Lost revenue, and number of items left in the cart)
+ * or &idGoal=ecommerceOrder to get metrics about Ecommerce orders (number of orders, visits with an order, subtotal, tax, shipping, discount, revenue, items ordered)
+ *
+ * See also the documentation about <a href='https://matomo.org/docs/tracking-goals-web-analytics/' rel='noreferrer' target='_blank'>Tracking Goals</a> in Matomo.
  *
  * @method static \Piwik\Plugins\Goals\API getInstance()
  */
