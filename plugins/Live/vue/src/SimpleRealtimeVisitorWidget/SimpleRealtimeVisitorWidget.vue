@@ -29,6 +29,7 @@ type VisibilityApi = {
 
 const DEFAULT_LAST_MINUTES = 3;
 const DEFAULT_REFRESH_AFTER_SECS = 3;
+const MAX_EXECUTION_TIME_ERROR_MARKER = 'Live_QueryMaxExecutionTimeExceeded';
 
 export default defineComponent({
   props: {
@@ -124,6 +125,11 @@ export default defineComponent({
 
       return `${parsed}`;
     },
+    resetCounters() {
+      this.visitorsCount = '-';
+      this.visitsCount = '-';
+      this.actionsCount = '-';
+    },
     isOne(value: string): boolean {
       return Number(value) === 1;
     },
@@ -149,6 +155,10 @@ export default defineComponent({
       }
 
       return '';
+    },
+    isMaxExecutionTimeError(error: unknown): boolean {
+      const message = this.getErrorMessage(error);
+      return message.includes(MAX_EXECUTION_TIME_ERROR_MARKER);
     },
     update() {
       const element = this.$el as HTMLElement | undefined;
@@ -179,8 +189,11 @@ export default defineComponent({
         this.error = '';
       }).catch((error) => {
         this.error = this.getErrorMessage(error);
+        if (this.isMaxExecutionTimeError(error)) {
+          this.resetCounters();
+        }
       }).finally(() => {
-        if (element.isConnected) {
+        if (element.isConnected && !this.isMaxExecutionTimeError(this.error)) {
           this.scheduleUpdate();
         }
       });
