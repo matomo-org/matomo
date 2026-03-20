@@ -9,7 +9,7 @@
 
 namespace Piwik\Plugins\Live\Reports;
 
-use Piwik\Config;
+use Piwik\Config\GeneralConfig;
 use Piwik\Plugins\Live\Controller;
 use Piwik\Report\ReportWidgetFactory;
 use Piwik\View;
@@ -32,12 +32,9 @@ class GetSimpleLastVisitCount extends Base
 
     public function render()
     {
-        $lastMinutes = (int) Config::getInstance()->General[Controller::SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY];
-        $refreshAfterSeconds = (int) Config::getInstance()->General['live_widget_refresh_after_seconds'];
-
         $view = new View('@Live/getSimpleLastVisitCount');
-        $view->lastMinutes = $lastMinutes;
-        $view->refreshAfterXSecs = $refreshAfterSeconds;
+        $view->lastMinutes = (int)GeneralConfig::getConfigValue(Controller::SIMPLE_VISIT_COUNT_WIDGET_LAST_MINUTES_CONFIG_KEY);
+        $view->refreshAfterXSecs = (int)GeneralConfig::getConfigValue('live_widget_refresh_after_seconds');
 
         return $view->render();
     }

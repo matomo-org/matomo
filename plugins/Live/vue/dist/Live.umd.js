@@ -760,35 +760,35 @@ function AutoRefreshWidgetvue_type_template_id_322550ac_render(_ctx, _cache, $pr
 AutoRefreshWidgetvue_type_script_lang_ts.render = AutoRefreshWidgetvue_type_template_id_322550ac_render
 
 /* harmony default export */ var AutoRefreshWidget = (AutoRefreshWidgetvue_type_script_lang_ts);
-// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue?vue&type=template&id=d51c4398
+// CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue?vue&type=template&id=35f6d9b2
 
-const SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_1 = {
+const SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_1 = {
   class: "simple-realtime-visitor-widget"
 };
-const SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_2 = ["title"];
-const SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
-const SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_4 = {
+const SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_2 = ["title"];
+const SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_3 = /*#__PURE__*/Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("br", null, null, -1);
+const SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_4 = {
   key: 0,
   class: "alert alert-danger"
 };
-const SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_5 = ["innerHTML"];
-function SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+const SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_5 = ["innerHTML"];
+function SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_1, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: "simple-realtime-visitor-counter",
     title: _ctx.visitorsTooltip
-  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.visitorsCount), 1)], 8, SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_2), SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_3, _ctx.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.error), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
+  }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", null, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.visitorsCountText), 1)], 8, SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_2), SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_3, _ctx.error ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("div", SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_4, Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.error), 1)) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("div", {
     class: "simple-realtime-elaboration",
     innerHTML: _ctx.$sanitize(_ctx.messageHtml)
-  }, null, 8, SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_hoisted_5)]);
+  }, null, 8, SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_hoisted_5)]);
 }
-// CONCATENATED MODULE: ./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue?vue&type=template&id=d51c4398
+// CONCATENATED MODULE: ./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue?vue&type=template&id=35f6d9b2
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-typescript/node_modules/cache-loader/dist/cjs.js??ref--15-0!./node_modules/babel-loader/lib!./node_modules/@vue/cli-plugin-typescript/node_modules/ts-loader??ref--15-2!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/SimpleRealtimeVisitorWidget/SimpleRealtimeVisitorWidget.vue?vue&type=script&lang=ts
 
 
 const DEFAULT_LAST_MINUTES = 3;
 const DEFAULT_REFRESH_AFTER_SECS = 3;
-const MAX_EXECUTION_TIME_ERROR_MARKER = 'Live_QueryMaxExecutionTimeExceeded';
+const QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY = 'Live_QueryMaxExecutionTimeExceeded';
 /* harmony default export */ var SimpleRealtimeVisitorWidgetvue_type_script_lang_ts = (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["defineComponent"])({
   props: {
     lastMinutes: Number,
@@ -796,11 +796,12 @@ const MAX_EXECUTION_TIME_ERROR_MARKER = 'Live_QueryMaxExecutionTimeExceeded';
   },
   data() {
     return {
-      visitorsCount: '-',
-      visitsCount: '-',
-      actionsCount: '-',
+      visitorsCount: null,
+      visitsCount: null,
+      actionsCount: null,
       error: '',
-      refreshTimer: null
+      refreshTimer: null,
+      stopRefreshing: false
     };
   },
   computed: {
@@ -813,23 +814,32 @@ const MAX_EXECUTION_TIME_ERROR_MARKER = 'Live_QueryMaxExecutionTimeExceeded';
       const minutes = Number(this.lastMinutes);
       return Number.isFinite(minutes) && minutes > 0 ? minutes : DEFAULT_LAST_MINUTES;
     },
+    visitorsCountText() {
+      return this.formatCount(this.visitorsCount);
+    },
+    visitsCountText() {
+      return this.formatCount(this.visitsCount);
+    },
+    actionsCountText() {
+      return this.formatCount(this.actionsCount);
+    },
     visitorsTooltip() {
-      if (this.isOne(this.visitorsCount)) {
+      if (this.visitorsCount === 1) {
         return Object(external_CoreHome_["translate"])('Live_NbVisitor');
       }
-      return Object(external_CoreHome_["translate"])('Live_NbVisitors', this.visitorsCount);
+      return Object(external_CoreHome_["translate"])('Live_NbVisitors', this.visitorsCountText);
     },
     visitsText() {
-      if (this.isOne(this.visitsCount)) {
+      if (this.visitsCount === 1) {
         return Object(external_CoreHome_["translate"])('General_OneVisit');
       }
-      return Object(external_CoreHome_["translate"])('General_NVisits', this.visitsCount);
+      return Object(external_CoreHome_["translate"])('General_NVisits', this.visitsCountText);
     },
     actionsText() {
-      if (this.isOne(this.actionsCount)) {
+      if (this.actionsCount === 1) {
         return Object(external_CoreHome_["translate"])('General_OneAction');
       }
-      return Object(external_CoreHome_["translate"])('VisitsSummary_NbActionsDescription', this.actionsCount);
+      return Object(external_CoreHome_["translate"])('VisitsSummary_NbActionsDescription', this.actionsCountText);
     },
     minutesText() {
       if (this.normalizedLastMinutes === 1) {
@@ -863,20 +873,23 @@ const MAX_EXECUTION_TIME_ERROR_MARKER = 'Live_QueryMaxExecutionTimeExceeded';
         this.update();
       }, this.refreshIntervalMs);
     },
-    normalizeCounter(value) {
+    parseCount(value) {
       const parsed = Number(value);
       if (!Number.isFinite(parsed) || parsed < 0) {
+        return null;
+      }
+      return parsed;
+    },
+    formatCount(value) {
+      if (value === null) {
         return '-';
       }
-      return `${parsed}`;
+      return Object(external_CoreHome_["formatNumber"])(value, 0, 0);
     },
     resetCounters() {
-      this.visitorsCount = '-';
-      this.visitsCount = '-';
-      this.actionsCount = '-';
-    },
-    isOne(value) {
-      return Number(value) === 1;
+      this.visitorsCount = null;
+      this.visitsCount = null;
+      this.actionsCount = null;
     },
     isTabHidden() {
       const visibility = window.Visibility;
@@ -898,7 +911,8 @@ const MAX_EXECUTION_TIME_ERROR_MARKER = 'Live_QueryMaxExecutionTimeExceeded';
     },
     isMaxExecutionTimeError(error) {
       const message = this.getErrorMessage(error);
-      return message.includes(MAX_EXECUTION_TIME_ERROR_MARKER);
+      const translatedMarker = Object(external_CoreHome_["translate"])(QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY);
+      return message.startsWith(translatedMarker) || message.includes(QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY);
     },
     update() {
       const element = this.$el;
@@ -918,17 +932,19 @@ const MAX_EXECUTION_TIME_ERROR_MARKER = 'Live_QueryMaxExecutionTimeExceeded';
         format: 'json'
       }).then(response => {
         const counters = Array.isArray(response) && response.length ? response[0] : {};
-        this.visitorsCount = this.normalizeCounter(counters.visitors);
-        this.visitsCount = this.normalizeCounter(counters.visits);
-        this.actionsCount = this.normalizeCounter(counters.actions);
+        this.visitorsCount = this.parseCount(counters.visitors);
+        this.visitsCount = this.parseCount(counters.visits);
+        this.actionsCount = this.parseCount(counters.actions);
         this.error = '';
+        this.stopRefreshing = false;
       }).catch(error => {
         this.error = this.getErrorMessage(error);
-        if (this.isMaxExecutionTimeError(error)) {
+        this.stopRefreshing = this.isMaxExecutionTimeError(error);
+        if (this.stopRefreshing) {
           this.resetCounters();
         }
       }).finally(() => {
-        if (element.isConnected && !this.isMaxExecutionTimeError(this.error)) {
+        if (element.isConnected && !this.stopRefreshing) {
           this.scheduleUpdate();
         }
       });
@@ -941,7 +957,7 @@ const MAX_EXECUTION_TIME_ERROR_MARKER = 'Live_QueryMaxExecutionTimeExceeded';
 
 
 
-SimpleRealtimeVisitorWidgetvue_type_script_lang_ts.render = SimpleRealtimeVisitorWidgetvue_type_template_id_d51c4398_render
+SimpleRealtimeVisitorWidgetvue_type_script_lang_ts.render = SimpleRealtimeVisitorWidgetvue_type_template_id_35f6d9b2_render
 
 /* harmony default export */ var SimpleRealtimeVisitorWidget = (SimpleRealtimeVisitorWidgetvue_type_script_lang_ts);
 // CONCATENATED MODULE: ./node_modules/@vue/cli-plugin-babel/node_modules/cache-loader/dist/cjs.js??ref--13-0!./node_modules/@vue/cli-plugin-babel/node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/@vue/cli-service/node_modules/cache-loader/dist/cjs.js??ref--1-0!./node_modules/@vue/cli-service/node_modules/vue-loader-v16/dist??ref--1-1!./plugins/Live/vue/src/TotalVisitors/TotalVisitors.vue?vue&type=template&id=c4046fce

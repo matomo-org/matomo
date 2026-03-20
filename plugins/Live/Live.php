@@ -212,6 +212,7 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = 'Intl_OneMinute';
         $translationKeys[] = 'Intl_NMinutes';
         $translationKeys[] = 'Live_SimpleRealTimeWidget_Message';
+        $translationKeys[] = 'Live_QueryMaxExecutionTimeExceeded';
     }
 
     public function renderAction(&$renderedAction, $action, $previousAction, $visitorDetails)

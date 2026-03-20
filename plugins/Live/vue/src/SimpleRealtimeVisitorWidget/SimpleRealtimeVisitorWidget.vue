@@ -8,7 +8,7 @@
 <template>
   <div class="simple-realtime-visitor-widget">
     <div class="simple-realtime-visitor-counter" :title="visitorsTooltip">
-      <div>{{ visitorsCount }}</div>
+      <div>{{ visitorsCountText }}</div>
     </div>
 
     <br />
@@ -20,7 +20,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { AjaxHelper, translate } from 'CoreHome';
+import {
+  AjaxHelper,
+  formatNumber,
+  translate,
+} from 'CoreHome';
 
 type VisibilityApi = {
   isSupported: () => boolean;
@@ -29,7 +33,7 @@ type VisibilityApi = {
 
 const DEFAULT_LAST_MINUTES = 3;
 const DEFAULT_REFRESH_AFTER_SECS = 3;
-const MAX_EXECUTION_TIME_ERROR_MARKER = 'Live_QueryMaxExecutionTimeExceeded';
+const QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY = 'Live_QueryMaxExecutionTimeExceeded';
 
 export default defineComponent({
   props: {
@@ -38,11 +42,12 @@ export default defineComponent({
   },
   data() {
     return {
-      visitorsCount: '-',
-      visitsCount: '-',
-      actionsCount: '-',
+      visitorsCount: null as number | null,
+      visitsCount: null as number | null,
+      actionsCount: null as number | null,
       error: '',
       refreshTimer: null as number | null,
+      stopRefreshing: false,
     };
   },
   computed: {
@@ -57,26 +62,35 @@ export default defineComponent({
       const minutes = Number(this.lastMinutes);
       return Number.isFinite(minutes) && minutes > 0 ? minutes : DEFAULT_LAST_MINUTES;
     },
+    visitorsCountText(): string {
+      return this.formatCount(this.visitorsCount);
+    },
+    visitsCountText(): string {
+      return this.formatCount(this.visitsCount);
+    },
+    actionsCountText(): string {
+      return this.formatCount(this.actionsCount);
+    },
     visitorsTooltip(): string {
-      if (this.isOne(this.visitorsCount)) {
+      if (this.visitorsCount === 1) {
         return translate('Live_NbVisitor');
       }
 
-      return translate('Live_NbVisitors', this.visitorsCount);
+      return translate('Live_NbVisitors', this.visitorsCountText);
     },
     visitsText(): string {
-      if (this.isOne(this.visitsCount)) {
+      if (this.visitsCount === 1) {
         return translate('General_OneVisit');
       }
 
-      return translate('General_NVisits', this.visitsCount);
+      return translate('General_NVisits', this.visitsCountText);
     },
     actionsText(): string {
-      if (this.isOne(this.actionsCount)) {
+      if (this.actionsCount === 1) {
         return translate('General_OneAction');
       }
 
-      return translate('VisitsSummary_NbActionsDescription', this.actionsCount);
+      return translate('VisitsSummary_NbActionsDescription', this.actionsCountText);
     },
     minutesText(): string {
       if (this.normalizedLastMinutes === 1) {
@@ -117,21 +131,25 @@ export default defineComponent({
         this.update();
       }, this.refreshIntervalMs);
     },
-    normalizeCounter(value: unknown): string {
+    parseCount(value: unknown): number | null {
       const parsed = Number(value);
       if (!Number.isFinite(parsed) || parsed < 0) {
+        return null;
+      }
+
+      return parsed;
+    },
+    formatCount(value: number | null): string {
+      if (value === null) {
         return '-';
       }
 
-      return `${parsed}`;
+      return formatNumber(value, 0, 0);
     },
     resetCounters() {
-      this.visitorsCount = '-';
-      this.visitsCount = '-';
-      this.actionsCount = '-';
-    },
-    isOne(value: string): boolean {
-      return Number(value) === 1;
+      this.visitorsCount = null;
+      this.visitsCount = null;
+      this.actionsCount = null;
     },
     isTabHidden(): boolean {
       const visibility = (window as Window & { Visibility?: VisibilityApi }).Visibility;
@@ -158,7 +176,10 @@ export default defineComponent({
     },
     isMaxExecutionTimeError(error: unknown): boolean {
       const message = this.getErrorMessage(error);
-      return message.includes(MAX_EXECUTION_TIME_ERROR_MARKER);
+      const translatedMarker = translate(QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY);
+
+      return message.startsWith(translatedMarker)
+        || message.includes(QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY);
     },
     update() {
       const element = this.$el as HTMLElement | undefined;
@@ -183,17 +204,19 @@ export default defineComponent({
         },
       ).then((response) => {
         const counters = Array.isArray(response) && response.length ? response[0] : {};
-        this.visitorsCount = this.normalizeCounter(counters.visitors);
-        this.visitsCount = this.normalizeCounter(counters.visits);
-        this.actionsCount = this.normalizeCounter(counters.actions);
+        this.visitorsCount = this.parseCount(counters.visitors);
+        this.visitsCount = this.parseCount(counters.visits);
+        this.actionsCount = this.parseCount(counters.actions);
         this.error = '';
+        this.stopRefreshing = false;
       }).catch((error) => {
         this.error = this.getErrorMessage(error);
-        if (this.isMaxExecutionTimeError(error)) {
+        this.stopRefreshing = this.isMaxExecutionTimeError(error);
+        if (this.stopRefreshing) {
           this.resetCounters();
         }
       }).finally(() => {
-        if (element.isConnected && !this.isMaxExecutionTimeError(this.error)) {
+        if (element.isConnected && !this.stopRefreshing) {
           this.scheduleUpdate();
         }
       });

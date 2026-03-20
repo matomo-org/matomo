@@ -8,11 +8,16 @@
 import { mount } from '@vue/test-utils';
 
 const mockFetch = jest.fn();
+const QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY = 'Live_QueryMaxExecutionTimeExceeded';
 
 jest.mock('CoreHome', () => ({
   AjaxHelper: {
     fetch: mockFetch,
   },
+  formatNumber: (value: string | number) => new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  }).format(Number(value)),
   translate: (key: string, value?: string|number, value2?: string|number, value3?: string|number) => {
     const translations: Record<string, string> = {
       Live_NbVisitor: '1 visitor',
@@ -24,6 +29,7 @@ jest.mock('CoreHome', () => ({
       Intl_OneMinute: '1 minute',
       Intl_NMinutes: `${value} minutes`,
       Live_SimpleRealTimeWidget_Message: `${value} ${value2} ${value3}`,
+      [QUERY_MAX_EXECUTION_TIME_EXCEEDED_TRANSLATION_KEY]: 'Query exceeded max execution time',
     };
 
     return translations[key] || key;
@@ -85,6 +91,18 @@ describe('Live/SimpleRealtimeVisitorWidget', () => {
     wrapper.unmount();
   });
 
+  it('formats counters using the shared number formatter', async () => {
+    mockFetch.mockResolvedValue([{ visitors: 1234, visits: 2345, actions: 3456 }]);
+
+    const wrapper = mountComponent();
+    await flushPromises();
+
+    expect(wrapper.find('.simple-realtime-visitor-counter').text()).toBe('1,234');
+    expect(wrapper.find('.simple-realtime-elaboration').text()).toContain('2,345 visits');
+    expect(wrapper.find('.simple-realtime-elaboration').text()).toContain('3,456 actions');
+    wrapper.unmount();
+  });
+
   it('retries after non-max-execution-time errors', async () => {
     mockFetch.mockRejectedValue(new Error('network error'));
 
@@ -100,12 +118,12 @@ describe('Live/SimpleRealtimeVisitorWidget', () => {
   });
 
   it('stops refreshing and resets counters for max execution time errors', async () => {
-    mockFetch.mockRejectedValue(new Error('Live_QueryMaxExecutionTimeExceeded details'));
+    mockFetch.mockRejectedValue(new Error('Query exceeded max execution time details'));
 
     const wrapper = mountComponent({ refreshAfterXSecs: 2 });
     await flushPromises();
 
-    expect(wrapper.find('.alert').text()).toContain('Live_QueryMaxExecutionTimeExceeded');
+    expect(wrapper.find('.alert').text()).toContain('Query exceeded max execution time');
     expect(wrapper.find('.simple-realtime-visitor-counter').text()).toBe('-');
 
     jest.advanceTimersByTime(5000);
