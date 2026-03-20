@@ -273,6 +273,9 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
                 'idgoal' => 11,
                 'nb_conversions' => 24,
                 'revenue' => 99.99,
+                'sum_bandwidth' => 7148,
+                'nb_hits_with_bandwidth' => 2,
+                'items' => 3,
             ],
             'all' => [
                 'nb_visits_converted' => 1,
@@ -286,6 +289,9 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(20, $goals['1']['nb_conversions']);
         $this->assertSame(11, $goals['1']['idgoal']);
         $this->assertSame(99.99, $goals['1']['revenue']);
+        $this->assertSame(7148, $goals['1']['sum_bandwidth']);
+        $this->assertSame(10, $goals['1']['nb_hits_with_bandwidth']);
+        $this->assertSame(10, $goals['1']['items']);
         $this->assertSame(10, $goals['all']['nb_visits_converted']);
     }
 
@@ -384,5 +390,67 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(20, $rounded['nb_visits']);
         $this->assertSame(16, $rounded['nb_visits_change']);
         $this->assertSame(17, $rounded['NB_ACTIONS_CHANGE']);
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testRoundCountMetricsUsesDefaultMetricSemanticTypesWhenNoReportProvided(): void
+    {
+        $table = new DataTable();
+        $row = new Row();
+        $row->addColumn('hits', 16);
+        $row->addColumn('revenue', 17.55);
+        $row->addColumn('bounce_rate', 0.42);
+        $row->addColumn('avg_time_on_page', 99);
+        $table->addRow($row);
+
+        DataRounding::roundCountMetrics($table);
+
+        $actual = $table->getFirstRow();
+        $this->assertSame(20, $actual->getColumn('hits'));
+        $this->assertSame(17.55, $actual->getColumn('revenue'));
+        $this->assertSame(0.42, $actual->getColumn('bounce_rate'));
+        $this->assertSame(99, $actual->getColumn('avg_time_on_page'));
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testRoundCountArrayValuesUsesReducedNameFallbackOnlyForCountLikeMetrics(): void
+    {
+        $rounded = DataRounding::roundCountArrayValues([
+            'custom_nb_sessions' => 17,
+            'custom_count' => 21,
+            'custom_rate' => 0.17,
+            'custom_percentage' => 0.18,
+            'custom_metric' => 19,
+        ]);
+
+        $this->assertSame(20, $rounded['custom_nb_sessions']);
+        $this->assertSame(20, $rounded['custom_count']);
+        $this->assertSame(0.17, $rounded['custom_rate']);
+        $this->assertSame(0.18, $rounded['custom_percentage']);
+        $this->assertSame(19, $rounded['custom_metric']);
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testRoundCountArrayValuesExcludesVisitLengthEvenWithNumberSemanticType(): void
+    {
+        $rounded = DataRounding::roundCountArrayValues([
+            'entry_sum_visit_length' => 14,
+            'sum_bandwidth' => 7148,
+            'nb_visits' => 16,
+        ], [
+            'entry_sum_visit_length' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+            'sum_bandwidth' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+            'nb_visits' => \Piwik\Columns\Dimension::TYPE_NUMBER,
+        ]);
+
+        $this->assertSame(14, $rounded['entry_sum_visit_length']);
+        $this->assertSame(7150, $rounded['sum_bandwidth']);
+        $this->assertSame(20, $rounded['nb_visits']);
     }
 }

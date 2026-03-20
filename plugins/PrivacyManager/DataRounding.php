@@ -16,6 +16,7 @@ use Piwik\Container\StaticContainer;
 use Piwik\DataTable;
 use Piwik\DataTable\DataTableInterface;
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Plugin\Metric;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\FeatureFlags\FeatureFlagManager;
@@ -52,9 +53,9 @@ class DataRounding
 
     private const CHANGE_COLUMN_PATTERN = '/_change$/i';
 
-    private const EXCLUDED_BY_NAME_PATTERN = '/(rate|percent|percentage|revenue|price|cost|tax|shipping|discount|avg_|average|duration|evolution|min_|max_)/';
+    private const EXCLUDED_BY_NAME_PATTERN = '/(rate|percent|percentage|evolution|duration|visit_length)/';
 
-    private const INCLUDED_COUNT_BY_NAME_PATTERN = '/(^nb_|_nb_|_count$|^count_|^sum_daily_nb_|^hits$|^visits$|^actions$|^conversions$|^users$|^goals$|^orders$|^items$|^quantity$|^impressions$|^interactions$|^downloads$|^outlinks$|^bounce_count$|^entry_nb_|^exit_nb_)/';
+    private const INCLUDED_COUNT_BY_NAME_PATTERN = '/(^nb_|_nb_|_count$|^count_|^items$|^orders$|^quantity$)/';
 
     private const IDENTIFIER_BY_NAME_PATTERN = '/(^id_|_id$)/';
 
@@ -252,10 +253,10 @@ class DataRounding
      */
     private static function getMetricTypes(DataTable $table, ?Report $report = null): array
     {
-        $metricTypes = [];
-
         if (!empty($report)) {
             $metricTypes = $report->getMetricSemanticTypes();
+        } else {
+            $metricTypes = Metrics::getDefaultMetricSemanticTypes();
         }
 
         $metrics = Report::getMetricsForTable($table, $report, Metric::class);
@@ -327,7 +328,7 @@ class DataRounding
      */
     private static function roundTotals(array $totals, array $metricTypes): array
     {
-        return self::roundArrayValuesRecursive($totals, $metricTypes);
+        return self::roundArrayValuesRecursive($totals, $metricTypes, true);
     }
 
     /**
@@ -337,7 +338,7 @@ class DataRounding
      */
     public static function roundCountArrayValues(array $values, array $metricTypes = []): array
     {
-        return self::roundArrayValuesRecursive($values, $metricTypes);
+        return self::roundArrayValuesRecursive($values, $metricTypes, true);
     }
 
     /**
@@ -345,18 +346,21 @@ class DataRounding
      * @param array<string, string|null> $metricTypes
      * @return array<string, mixed>
      */
-    private static function roundArrayValuesRecursive(array $values, array $metricTypes): array
+    private static function roundArrayValuesRecursive(array $values, array $metricTypes, bool $allowSemanticTypes): array
     {
         foreach ($values as $columnName => $value) {
             $columnName = (string) $columnName;
 
             if (is_array($value)) {
-                $values[$columnName] = self::roundArrayValuesRecursive($value, $metricTypes);
+                $values[$columnName] = self::roundArrayValuesRecursive($value, $metricTypes, false);
                 continue;
             }
 
             if (
-                self::shouldRoundColumn((string) $columnName, $metricTypes[(string) $columnName] ?? null)
+                self::shouldRoundColumn(
+                    (string) $columnName,
+                    $allowSemanticTypes ? ($metricTypes[(string) $columnName] ?? null) : null
+                )
                 && self::shouldRoundValue($value)
             ) {
                 $values[$columnName] = self::roundToNearestTen((float) $value);
@@ -391,6 +395,11 @@ class DataRounding
             return false;
         }
 
+        $columnName = strtolower($columnName);
+        if (preg_match(self::EXCLUDED_BY_NAME_PATTERN, $columnName)) {
+            return false;
+        }
+
         if (!empty($semanticType)) {
             if ($semanticType === Dimension::TYPE_NUMBER) {
                 return true;
@@ -399,12 +408,6 @@ class DataRounding
             if (in_array($semanticType, self::EXCLUDED_SEMANTIC_TYPES, true)) {
                 return false;
             }
-        }
-
-        $columnName = strtolower($columnName);
-
-        if (preg_match(self::EXCLUDED_BY_NAME_PATTERN, $columnName)) {
-            return false;
         }
 
         return (bool) preg_match(self::INCLUDED_COUNT_BY_NAME_PATTERN, $columnName);
