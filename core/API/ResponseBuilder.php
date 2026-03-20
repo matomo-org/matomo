@@ -197,7 +197,6 @@ class ResponseBuilder
                 $report = ReportsProvider::factory($this->apiModule, $this->apiMethod);
             }
 
-            $datatable = clone $datatable;
             DataRounding::roundCountMetrics($datatable, $report);
         }
 
