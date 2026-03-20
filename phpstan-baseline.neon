@@ -2559,46 +2559,6 @@ parameters:
 			path: plugins/API/Filter/DataComparisonFilter/ComparisonRowGenerator.php
 
 		-
-			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
-			message: "#^Elseif branch is unreachable because previous condition is always true\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\API\\\\ProcessedReport\\:\\:translateMetric\\(\\) should return string\\|null but empty return statement found\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\API\\\\ProcessedReport\\:\\:translateMetric\\(\\) should return string\\|null but return statement is missing\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
-			message: "#^Parameter \\#2 \\$dataTable of method Piwik\\\\Plugins\\\\API\\\\ProcessedReport\\:\\:handleTableReport\\(\\) expects Piwik\\\\DataTable\\\\Map\\|Piwik\\\\DataTable\\\\Simple, Piwik\\\\DataTable given\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
-			message: "#^Result of && is always true\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
-			message: "#^Static method Piwik\\\\Plugins\\\\API\\\\ProcessedReport\\:\\:getPrettyValue\\(\\) invoked with 5 parameters, 4 required\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
-			message: "#^Variable \\$comparisons in empty\\(\\) always exists and is not falsy\\.$#"
-			count: 1
-			path: plugins/API/ProcessedReport.php
-
-		-
 			message: "#^PHPDoc tag @var has invalid value \\(\\$row Row\\)\\: Unexpected token \"\\$row\", expected type at offset 9$#"
 			count: 1
 			path: plugins/API/RowEvolution.php
