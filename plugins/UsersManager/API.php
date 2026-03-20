@@ -1078,7 +1078,7 @@ class API extends \Piwik\Plugin\API
     public function logoutUser(
         string $userLogin,
         #[\SensitiveParameter]
-        $passwordConfirmation = null
+        ?string $passwordConfirmation = null
     ): void {
         Piwik::checkUserHasSuperUserAccess();
 
