@@ -139,24 +139,31 @@ class Dashboard
             'segment' => $request->getStringParameter('segment', ''),
         ];
         if (DataRounding::shouldApplyForRequest($roundingRequest)) {
-            $totals = DataRounding::roundCountArrayValues($totals, [
-                'nb_pageviews' => Dimension::TYPE_NUMBER,
-                'nb_visits' => Dimension::TYPE_NUMBER,
-                'hits' => Dimension::TYPE_NUMBER,
-                'nb_actions' => Dimension::TYPE_NUMBER,
-                'revenue' => Dimension::TYPE_MONEY,
-                'previous_nb_pageviews' => Dimension::TYPE_NUMBER,
-                'previous_nb_visits' => Dimension::TYPE_NUMBER,
-                'previous_hits' => Dimension::TYPE_NUMBER,
-                'previous_nb_actions' => Dimension::TYPE_NUMBER,
-                'previous_revenue' => Dimension::TYPE_MONEY,
-                'ai_chatbots_requests' => Dimension::TYPE_NUMBER,
-                'previous_ai_chatbots_requests' => Dimension::TYPE_NUMBER,
-            ]);
+            $totals = DataRounding::roundCountArrayValues($totals, $this->getTotalsMetricSemanticTypes($totals));
         }
 
         $this->formatMetrics($totals);
         return $totals;
+    }
+
+    /**
+     * @param array<string, mixed> $totals
+     * @return array<string, string>
+     */
+    private function getTotalsMetricSemanticTypes(array $totals): array
+    {
+        $metricTypes = [];
+        foreach (array_keys($totals) as $metricName) {
+            if (!in_array($metricName, $this->displayedMetricColumns, true)) {
+                continue;
+            }
+
+            $metricTypes[$metricName] = strpos($metricName, 'revenue') !== false
+                ? Dimension::TYPE_MONEY
+                : Dimension::TYPE_NUMBER;
+        }
+
+        return $metricTypes;
     }
 
     private function formatMetrics(array &$metrics): void
