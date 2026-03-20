@@ -220,7 +220,7 @@ class PrivacyManager extends Plugin
                 $view->config->show_footer_message .= '<br/>';
             }
 
-            $view->config->show_footer_message .= Piwik::translate('PrivacyManager_InfoCountsRoundedForPrivacy');
+            $view->config->show_footer_message .= Piwik::translate('PrivacyManager_InfoCountsRoundedForPrivacy') . '<br/>';
         }
 
         if ($view->requestConfig->getApiModuleToRequest() === 'Referrers' && !$view->requestConfig->idSubtable) {
