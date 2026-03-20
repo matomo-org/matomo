@@ -167,7 +167,6 @@
         "ReportsDataSavedEstimate": "Database size",
         "SearchForDataSubject": "Search for a data subject.",
         "FindDataSubjectsBy": "Find data subjects by",
-        "SearchForDataSubject": "Search for a data subject",
         "SegmentedDataRoundingSettingRequirementNote": "Segmented data for count based metrics (such as visits or pageviews) must be rounded to the nearest 10. Note: This rounding applies to reports, exports and API responses.",
         "SegmentedDataRoundingSettingTitle": "Segmented data rounding enabled",
         "NoDataSubjectsFound": "No data subjects found",
