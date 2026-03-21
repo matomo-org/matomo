@@ -358,7 +358,8 @@
                 class="signoutuser table-action"
                 :title="translate('UsersManager_SignOutUser')"
                 @click="userToChange = user; showSignOutConfirm()"
-                v-if="currentUserRole === 'superuser' && user.login !== 'anonymous' && user.invite_status === 'active'"
+                v-if="currentUserRole === 'superuser' && user.login !== 'anonymous'
+                  && user.invite_status === 'active'"
             >
               <span class="icon-sign-out"/>
             </button>
