@@ -90,6 +90,10 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    configFilePath: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     ContentBlock,
@@ -147,7 +151,7 @@ export default defineComponent({
     configFileIntro() {
       return translate(
         'Diagnostics_ConfigFileIntroduction',
-        '<code>"config/config.ini.php"</code>',
+        `<code>"${Matomo.helper.htmlEntities(this.configFilePath)}"</code>`,
       );
     },
   },

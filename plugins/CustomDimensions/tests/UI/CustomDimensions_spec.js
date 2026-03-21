@@ -60,6 +60,16 @@ describe("CustomDimensions", function () {
         await page.waitForNetworkIdle();
     }
 
+    async function waitForRowEvolutionPopover()
+    {
+        await page.waitForFunction('$(".ui-dialog:visible .rowevolution").length > 0');
+        await page.waitForFunction(
+            '$(".ui-dialog:visible .rowevolution table.metrics tr").length > 0'
+            + ' && $(".ui-dialog:visible .rowevolution .jqplot-target").length > 0'
+        );
+        await page.waitForTimeout(250);
+    }
+
     before(function () {
         testEnvironment.pluginsToLoad = ['CustomDimensions'];
         testEnvironment.save();
@@ -252,6 +262,7 @@ describe("CustomDimensions", function () {
         await captureSelector('report_actions_rowevolution', popupSelector, async function () {
             await page.goto(reportUrlDimension3);
             await triggerRowAction('en', 'actionRowEvolution');
+            await waitForRowEvolutionPopover();
         });
     });
 
@@ -269,6 +280,7 @@ describe("CustomDimensions", function () {
     it('should be able to show row evolution for subtable', async function () {
         await captureSelector('report_action_subtable_rowevolution', popupSelector, async function () {
             await triggerRowAction('en_US', 'actionRowEvolution');
+            await waitForRowEvolutionPopover();
         });
     });
 

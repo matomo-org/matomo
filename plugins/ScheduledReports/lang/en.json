@@ -68,6 +68,14 @@
         "CreateTooltip": "You can send scheduled reports via Email, SMS, Slack, or Microsoft Teams. Choose your preferred delivery method when creating or updating a report.",
         "ReportWillBeSentAt": "The report will be sent at the selected hour in your local time zone.",
         "ReportHourEqualsUtc": "This corresponds to %s.",
-        "NoteDeliveryTime": "Note: The exact delivery time may vary depending on report generation."
+        "NoteDeliveryTime": "Note: The exact delivery time may vary depending on report generation.",
+        "WidgetsNotMappedToReports": "Some dashboard widgets could not be mapped to scheduled report items: %s.",
+        "ExportDashboardTitle": "<b>Exporting your dashboard</b>",
+        "ExportDashboardPrepare": "This report is being prepared from your dashboard \"<b>%s</b>\".",
+        "ExportDashboardWidgetsConvertedAutomatically": "The widgets from your dashboard have been converted into report sections automatically.",
+        "ExportDashboardEmailEnabledByDefault": "Email delivery is enabled by default. To turn it off, change <b>\"%1$s\"</b> to <b>\"%2$s\"</b>.",
+        "ExportDashboardDownload": "Once you create the report, you will be able to download it.",
+        "ExportDashboardReportDescription": "This report was automatically generated from the dashboard \"%1$s\" on %2$s",
+        "ExportDashboardInvalidDashboard": "This dashboard could not be exported. It may not exist anymore, or it has no widgets that can be converted into scheduled report items."
     }
 }

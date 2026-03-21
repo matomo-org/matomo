@@ -72,6 +72,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Izskatās, ka ziņojumi par šo laikposmu vēl nav apstrādāti, bet tie būs pieejami pēc dažām stundām. Kamēr ziņojumi tiek ģenerēti, varat izvēlēties citu laikposmu.",
         "PeriodRange": "Diapazons",
         "PivotBySubtable": "Šis ziņojums nav apkopots %1$s Apkopot pēc %2$s",
+        "PresetDateToday": "Šodien",
+        "PresetDateYesterday": "Vakar",
         "Profilable": "Profilējams",
         "QuickAccessTitle": "Meklēt %s. Izmantojiet bulttaustiņus, lai pārlūkotu meklēšanas rezultātus. Saīsne: nospiediet \"f\", lai meklētu.",
         "QuickLinks": "Ātrās saites",

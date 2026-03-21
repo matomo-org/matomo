@@ -65,18 +65,21 @@
                                     <div class="alert alert-warning">{{ 'Marketplace_PluginLicenseExceededDescription'|translate }}</div>
                                 {% endif %}
 
-                                <div>{{ latestVersion.readmeHtml.description|raw }}</div>
+                                <div class="js-sanitized-marketplace-html" data-source-id="pluginDetailsDescription"></div>
+                                <script type="application/json" id="pluginDetailsDescription">{{ latestVersion.readmeHtml.description|json_encode|raw }}</script>
                             </div>
 
                             {% if latestVersion.readmeHtml.faq %}
                                 <div id="tabs-faq" class="tab-content col s12">
-                                    {{ latestVersion.readmeHtml.faq|raw }}
+                                    <div class="js-sanitized-marketplace-html" data-source-id="pluginDetailsFaq"></div>
+                                    <script type="application/json" id="pluginDetailsFaq">{{ latestVersion.readmeHtml.faq|json_encode|raw }}</script>
                                 </div>
                             {% endif %}
 
                             {% if latestVersion.readmeHtml.documentation %}
                                 <div id="tabs-documentation" class="tab-content col s12">
-                                    {{ latestVersion.readmeHtml.documentation|raw }}
+                                    <div class="js-sanitized-marketplace-html" data-source-id="pluginDetailsDocumentation"></div>
+                                    <script type="application/json" id="pluginDetailsDocumentation">{{ latestVersion.readmeHtml.documentation|json_encode|raw }}</script>
                                 </div>
                             {% endif %}
 
@@ -229,6 +232,25 @@
 
             <script type="text/javascript">
                 $(function() {
+                    var sanitizeHtml = window.vueSanitize || function (html) {
+                        return $('<div/>').text(html || '').html();
+                    };
+
+                    $('.js-sanitized-marketplace-html').each(function (index, element) {
+                        var sourceId = $(element).attr('data-source-id');
+                        var source = sourceId ? document.getElementById(sourceId) : null;
+                        var html = '';
+
+                        if (source && source.textContent) {
+                            try {
+                                html = JSON.parse(source.textContent);
+                            } catch (e) {
+                                html = '';
+                            }
+                        }
+
+                        $(element).html(sanitizeHtml(html));
+                    });
 
                     var active = 0;
                     {% if activeTab %}

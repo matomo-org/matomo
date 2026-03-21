@@ -276,14 +276,12 @@ class API extends \Piwik\Plugin\API
     }
 
     /**
-     * @param $idSite
-     * @param $period
-     * @param $date
-     * @param bool $segment
-     * @param bool $plugin
-     * @param bool $report
-     * @return mixed
-     * @throws \Piwik\Exception\UnexpectedWebsiteFoundException
+     * @param string $period
+     * @param string $date
+     * @param string|null|false $segment
+     * @param string|null|false $plugin
+     * @param string|string[]|null|false $report
+     * @return array
      * @internal
      */
     public function archiveReports(int $idSite, $period, $date, $segment = false, $plugin = false, $report = false)

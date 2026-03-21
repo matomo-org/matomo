@@ -6,9 +6,10 @@
  */
 
 /**
- * jQueryUI widget for Live visitors widget
+ * Deprecated: jQuery UI `liveWidget` is kept for backward compatibility with external plugins.
+ * Use the Vue component `Live.AutoRefreshWidget` for new implementations.
+ * This API will be removed in Matomo 6.
  */
-
 (function ($) {
     $.widget('piwik.liveWidget', {
 
@@ -93,7 +94,7 @@
                 if (that.isStarted) {
                     window.clearTimeout(that.updateInterval);
                     if (that.element.length && $.contains(document, that.element[0])) {
-                        that.updateInterval = window.setTimeout(function() { that._update() }, that.currentInterval);
+                        that.updateInterval = window.setTimeout(function() { that._update(); }, that.currentInterval);
                     }
                 }
             });
@@ -319,49 +320,3 @@ $(function() {
         });
     };
 });
-
-function onClickPause() {
-    $('#pauseImage').hide();
-    $('#playImage').show();
-    return $('#visitsLive').liveWidget('stop');
-}
-function onClickPlay() {
-    $('#playImage').hide();
-    $('#pauseImage').show();
-    return $('#visitsLive').liveWidget('start');
-}
-
-(function () {
-    if (!Visibility.isSupported()) {
-        return;
-    }
-
-    var isStoppedByBlur = false;
-
-    function isStarted()
-    {
-        return $('#visitsLive').liveWidget('started');
-    }
-
-    function onTabBlur() {
-        if (isStarted()) {
-            isStoppedByBlur = true;
-            onClickPause();
-        }
-    }
-
-    function onTabFocus() {
-        if (isStoppedByBlur && !isStarted()) {
-            isStoppedByBlur = false;
-            onClickPlay();
-        }
-    }
-
-    Visibility.change(function (event, state) {
-        if (Visibility.hidden()) {
-            onTabBlur();
-        } else {
-            onTabFocus();
-        }
-    });
-})();

@@ -113,6 +113,7 @@ class Proxy
     {
         // Doc comment
         $doc = $rClass->getDocComment();
+        $doc = $this->removeDocblockAnnotationBlocks($doc, 'phpstan');
         $doc = str_replace(" * " . PHP_EOL, "<br>", $doc);
 
         // boldify the first line only if there is more than one line, otherwise too much bold
@@ -127,6 +128,44 @@ class Proxy
         // replace 'foo' and `bar` and "foobar" with code blocks... much magic
         $doc = preg_replace('/`(.*?)`/', '<code>$1</code>', $doc);
         $this->metadataArray[$className]['__documentation'] = $doc;
+    }
+
+    /**
+     * Removes docblock annotations and their continuation lines.
+     *
+     * For example, this removes `@phpstan-type` and the following multiline shape definition.
+     */
+    private function removeDocblockAnnotationBlocks($doc, $annotationPrefix)
+    {
+        if (!is_string($doc) || $doc === '') {
+            return $doc;
+        }
+
+        $lines = preg_split('/\R/', $doc);
+        $result = [];
+        $isSkipping = false;
+
+        foreach ($lines as $line) {
+            if (!$isSkipping && preg_match('/^\s*\*\s*@' . preg_quote($annotationPrefix, '/') . '\S*/', $line)) {
+                $isSkipping = true;
+                continue;
+            }
+
+            if ($isSkipping) {
+                // stop skipping once a new annotation starts
+                if (preg_match('/^\s*\*\s*@\S+/', $line)) {
+                    $isSkipping = false;
+                } elseif (preg_match('/^\s*\*\/\s*$/', $line)) {
+                    $isSkipping = false;
+                } else {
+                    continue;
+                }
+            }
+
+            $result[] = $line;
+        }
+
+        return implode(PHP_EOL, $result);
     }
 
     /**

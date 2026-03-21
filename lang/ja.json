@@ -79,6 +79,7 @@
         "ColumnPageviewsDocumentation": "このページにアクセスした回数。",
         "ColumnPercentageVisits": "%% ビジット",
         "ColumnRevenue": "収益",
+        "ColumnSegment": "セグメント",
         "ColumnSumTimeOnSite": "ウェブサイトの合計時間",
         "ColumnSumVisitLength": "ビジターの総滞在時間（秒単位）",
         "ColumnTotalPageviews": "総ページビュー",

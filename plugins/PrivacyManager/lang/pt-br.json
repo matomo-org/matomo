@@ -47,7 +47,6 @@
         "ClickHereSettings": "Clique aqui para acessar as configurações do %s.",
         "ComplianceComplianceUnknown": "desconhecido",
         "ComplianceTableSettingStatus": "Status",
-        "ConsentExplanation": "Consentimento significa oferecer aos indivíduos escolha e controle sobre como seus dados pessoais são processados.",
         "ConsentManager": "Gerenciador de Consentimento",
         "ConsentManagerConnected": "%1$s parece já estar configurado para trabalhar com o Matomo.",
         "ConsentManagerDetected": "O gerenciador de consentimento %1$s foi detectado em seu site. Para saber mais sobre como configurar o Matomo para funcionar com %1$s, leia %2$seste guia%3$s",
@@ -117,9 +116,6 @@
         "GdprToolsPageIntroEraseRight": "o direito de apagar alguns ou todos os seus dados (e o direito de retificação).",
         "GeolocationAnonymizeIpNote": "Obs: A geolocalização terá aproximadamente os mesmos resultados com 1 byte anonimizado. Com 2 bytes ou mais, a geolocalização será imprecisa.",
         "GetPurgeEstimate": "Obter estimativa de expurgação",
-        "HowDoIAskForConsent": "Como peço o consentimento dos usuários?",
-        "HowDoIAskForConsentIntro": "Matomo tem guias disponíveis para configurar o rastreamento de consentimento com os seguintes gerenciadores de consentimento populares:",
-        "HowDoIAskForConsentOutro": "Se você não usar um dos gerenciadores de consentimento acima, poderá implementar o %1$srastreamento com consentimento usando a API JavaScript do Matomo%2$s.",
         "IPAddress": "Endereço IP",
         "Imprint": "Impressão",
         "ImprintUrl": "URL de impressão",
@@ -222,9 +218,6 @@
         "VisitsMatchedCriteria": "Essas visitas correspondem aos critérios selecionados.",
         "VisitsSuccessfullyDeleted": "As visitas foram excluídas com sucesso",
         "VisitsSuccessfullyExported": "As visitas foram exportadas com sucesso",
-        "WhenConsentIsNeededPart1": "Os regulamentos de privacidade %1$sGDPR%2$s exigem que você peça o consentimento de seus usuários ao processar dados pessoais em alguns casos. Para determinar se você precisa pedir consentimento, você precisa identificar sua base legal para o processamento de dados pessoais. Isso pode ser \"Consentimento\" ou \"Interesse legítimo\" ou você pode evitar a coleta de dados pessoais.",
-        "WhenConsentIsNeededPart2": "Recomenda-se saber mais sobre a base legal para o processamento de dados pessoais no GDPR. Você pode encontrar mais informações sobre este tópico em %1$snosso blog%2$s.",
-        "WhenConsentIsNeededPart3": "Observe que, se você precisar do consentimento de seus usuários e não puder provar que obteve o \"Consentimento\" deles no passado, recomendamos anonimizar os dados brutos de seus usuários rastreados anteriormente. A anonimização dos dados brutos dos usuários rastreados anteriormente pode ser feita por meio do Gerenciador de Privacidade no Matomo, %1$ssaiba mais%2$s.",
         "WhenDoINeedConsent": "Quando eu preciso pedir o consentimento do usuário?"
     }
 }
