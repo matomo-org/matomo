@@ -25,14 +25,14 @@
     <div class="layoutWithSidebar{% if hasSidebar %} layoutWithSidebar--hasSidebar{% endif %}">
         {% if hasSidebar %}
             <div id="secondNavBar" class="sideBar Menu--dashboard z-depth-1">
+                {% if hideQuickAccess is not defined or not hideQuickAccess %}
+                    <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
+                {% endif %}
                 <div vue-entry="CoreHome.ReportingMenu"></div>
             </div>
         {% endif %}
         <div class="layoutWithSidebarContent">
             <div class="top_controls">
-                {% if hideQuickAccess is not defined or not hideQuickAccess %}
-                    <div vue-entry="CoreHome.QuickAccess" class="piwikTopControl borderedControl"></div>
-                {% endif %}
                 {% block topcontrols %}
                 {% endblock %}
             </div>

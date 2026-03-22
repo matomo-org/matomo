@@ -185,10 +185,6 @@ export default defineComponent({
       root.parentElement.classList.add('quick-access', 'piwikSelector');
     }
 
-    if (typeof window.initTopControls !== 'undefined' && window.initTopControls) {
-      window.initTopControls();
-    }
-
     Matomo.helper.registerShortcut('f', translate('CoreHome_ShortcutSearch'), (event) => {
       if (event.altKey) {
         return;
