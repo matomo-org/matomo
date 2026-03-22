@@ -163,14 +163,13 @@ nav {
     .layoutWithSidebar--hasSidebar {
       display: flex;
       flex-direction: row;
-      align-items: flex-start;
+      align-items: stretch;
 
       #secondNavBar {
         min-height: 100vh;
         height: auto;
         flex: 0 0 224px;
-        background-color: @theme-color-menu-contrast-background;
-        box-shadow: none !important;
+        padding: 16px 16px;
       }
 
       .layoutWithSidebarContent {
