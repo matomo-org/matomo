@@ -34,7 +34,7 @@
         <div class="layoutWithSidebarContent">
             <div class="top_controls">
                 {% if hideQuickAccess is not defined or not hideQuickAccess %}
-                    <div class="piwikTopControl quickAccessPlaceholder" aria-hidden="true"></div>
+                    <div class="quickAccessPlaceholder" style="display: inline-block; position: relative; margin-right: 14px; font-size: 11px;vertical-align: top;" aria-hidden="true"></div>
                 {% endif %}
                 {% block topcontrols %}
                 {% endblock %}
