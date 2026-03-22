@@ -14,7 +14,9 @@ use Piwik\API\Request;
 use Piwik\Archive;
 use Piwik\Common;
 use Piwik\DataTable;
+use Piwik\Db;
 use Piwik\Metrics;
+use Piwik\Option;
 use Piwik\Piwik;
 use Piwik\Plugins\Actions\ArchivingHelper;
 use Piwik\Plugins\Referrers\Columns\Metrics\VisitorsFromReferrerPercent;
@@ -749,11 +751,103 @@ class API extends \Piwik\Plugin\API
         return $this->getNumeric(Archiver::METRIC_DISTINCT_URLS_RECORD_NAME, $idSite, $period, $date, $segment);
     }
 
+    /**
+     * @unsanitized
+     */
+    public function getCampaignUrlPresets($idSite, string $search = '')
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        if (!empty($search)) {
+            $optionName = $this->getCampaignUrlPresetsOptionName($idSite);
+            $sql = sprintf(
+                "SELECT option_value FROM `%s` WHERE option_name = '%s' AND option_value LIKE '%%%s%%'",
+                Common::prefixTable('option'),
+                $optionName,
+                $search
+            );
+            $optionValue = Db::fetchOne($sql);
+        } else {
+            $optionValue = Option::get($this->getCampaignUrlPresetsOptionName($idSite));
+        }
+
+        $presets = json_decode($optionValue, true);
+        if (!is_array($presets)) {
+            return [];
+        }
+
+        return Common::unsanitizeInputValues(array_slice(array_reverse($presets), 0, 5));
+    }
+
+    public function saveCampaignUrlPreset(
+        $idSite,
+        string $websiteUrl = '',
+        string $generatedUrl = '',
+        string $campaignName = '',
+        string $campaignKeyword = '',
+        string $campaignSource = '',
+        string $campaignMedium = '',
+        string $campaignId = '',
+        string $campaignContent = '',
+        string $campaignGroup = '',
+        string $campaignPlacement = ''
+    ) {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $optionName = $this->getCampaignUrlPresetsOptionName($idSite);
+        $presets = json_decode(Option::get($optionName), true);
+        if (!is_array($presets)) {
+            $presets = [];
+        }
+
+        $presets[] = [
+            'websiteUrl' => $websiteUrl,
+            'generatedUrl' => $generatedUrl,
+            'campaignName' => $campaignName,
+            'campaignKeyword' => $campaignKeyword,
+            'campaignSource' => $campaignSource,
+            'campaignMedium' => $campaignMedium,
+            'campaignId' => $campaignId,
+            'campaignContent' => $campaignContent,
+            'campaignGroup' => $campaignGroup,
+            'campaignPlacement' => $campaignPlacement,
+            'login' => Piwik::getCurrentUserLogin(),
+            'savedAt' => date('Y-m-d H:i:s'),
+        ];
+
+        Option::set($optionName, json_encode($presets));
+
+        return Common::unsanitizeInputValues(array_slice(array_reverse($presets), 0, 5));
+    }
+
+    public function deleteCampaignUrlPreset($idSite, int $index)
+    {
+        Piwik::checkUserHasViewAccess($idSite);
+
+        $optionName = $this->getCampaignUrlPresetsOptionName($idSite);
+        $presets = json_decode(Option::get($optionName), true);
+        if (!is_array($presets)) {
+            return [];
+        }
+
+        unset($presets[$index]);
+        $presets = array_values($presets);
+
+        Option::set($optionName, json_encode($presets));
+
+        return Common::unsanitizeInputValues(array_slice(array_reverse($presets), 0, 5));
+    }
+
     private function getNumeric(string $name, $idSite, string $period, string $date, ?string $segment)
     {
         Piwik::checkUserHasViewAccess($idSite);
         $archive = Archive::build($idSite, $period, $date, $segment);
         return $archive->getDataTableFromNumeric($name);
+    }
+
+    private function getCampaignUrlPresetsOptionName($idSite): string
+    {
+        return 'Referrers.campaignUrlPresets.' . (int) $idSite;
     }
 
     /**

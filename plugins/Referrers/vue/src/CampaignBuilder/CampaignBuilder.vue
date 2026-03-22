@@ -135,14 +135,54 @@
           ><code v-text="generatedUrl" /></pre>
         </div>
       </div>
+      <div v-show="presets.length">
+        <h3>Recent campaigns</h3>
+        <div>
+          <Field
+            uicontrol="text"
+            name="presetsearch"
+            title="Search saved campaigns"
+            v-model="presetSearch"
+            @update:model-value="loadPresets()"
+          >
+          </Field>
+        </div>
+        <ul class="recentCampaignPresets">
+          <li v-for="(preset, index) in presets" :key="index">
+            <span v-html="getPresetSummary(preset)"></span>
+            <span
+              class="recentCampaignPresetAction"
+              @click="applyPreset(preset)"
+            >
+              Apply
+            </span>
+            <a href="" @click.prevent="deletePreset(index)">Delete</a>
+          </li>
+        </ul>
+      </div>
     </form>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { CopyToClipboard } from 'CoreHome';
+import { AjaxHelper, CopyToClipboard } from 'CoreHome';
 import { Field, SaveButton } from 'CorePluginsAdmin';
+
+interface CampaignPreset {
+  websiteUrl: string;
+  generatedUrl: string;
+  campaignName: string;
+  campaignKeyword: string;
+  campaignSource: string;
+  campaignMedium: string;
+  campaignId: string;
+  campaignContent: string;
+  campaignGroup: string;
+  campaignPlacement: string;
+  login?: string;
+  savedAt?: string;
+}
 
 interface CampaignBuilderState {
   websiteUrl: string;
@@ -155,6 +195,8 @@ interface CampaignBuilderState {
   campaignGroup: string;
   campaignPlacement: string;
   generatedUrl: string;
+  presets: CampaignPreset[];
+  presetSearch: string;
 }
 
 const { $ } = window;
@@ -185,10 +227,13 @@ export default defineComponent({
       campaignGroup: '',
       campaignPlacement: '',
       generatedUrl: '',
+      presets: [],
+      presetSearch: '',
     };
   },
   created() {
     this.reset();
+    this.loadPresets();
   },
   watch: {
     generatedUrl() {
@@ -268,6 +313,83 @@ export default defineComponent({
       generatedUrl += urlHash;
 
       this.generatedUrl = generatedUrl;
+      this.savePreset();
+    },
+    getIdSite() {
+      const idSite = new URLSearchParams(window.location.search).get('idSite');
+      return Number(idSite || 0);
+    },
+    loadPresets() {
+      AjaxHelper.post(
+        {
+          module: 'API',
+          method: 'Referrers.getCampaignUrlPresets',
+        },
+        {
+          idSite: this.getIdSite(),
+          search: this.presetSearch,
+        },
+      ).then((response) => {
+        this.presets = Array.isArray(response) ? response : [];
+      }).catch(() => {
+        this.presets = [];
+      });
+    },
+    savePreset() {
+      AjaxHelper.post(
+        {
+          module: 'API',
+          method: 'Referrers.saveCampaignUrlPreset',
+        },
+        {
+          idSite: this.getIdSite(),
+          websiteUrl: this.websiteUrl,
+          generatedUrl: this.generatedUrl,
+          campaignName: this.campaignName,
+          campaignKeyword: this.campaignKeyword,
+          campaignSource: this.campaignSource,
+          campaignMedium: this.campaignMedium,
+          campaignId: this.campaignId,
+          campaignContent: this.campaignContent,
+          campaignGroup: this.campaignGroup,
+          campaignPlacement: this.campaignPlacement,
+        },
+      ).then((response) => {
+        this.presets = Array.isArray(response) ? response : [];
+      }).catch(() => {
+      });
+    },
+    applyPreset(preset: CampaignPreset) {
+      this.websiteUrl = preset.websiteUrl || this.websiteUrl;
+      this.campaignName = preset.campaignName || '';
+      this.campaignKeyword = preset.campaignKeyword || '';
+      this.campaignSource = preset.campaignSource || '';
+      this.campaignMedium = preset.campaignMedium || '';
+      this.campaignId = preset.campaignId || '';
+      this.campaignContent = preset.campaignContent || '';
+      this.campaignGroup = preset.campaignGroup || '';
+      this.campaignPlacement = preset.campaignPlacement || '';
+      this.generatedUrl = preset.generatedUrl || '';
+    },
+    getPresetSummary(preset: CampaignPreset) {
+      return `<strong>${preset.campaignName || 'Untitled campaign'}</strong>${
+        preset.websiteUrl ? ` for ${preset.websiteUrl}` : ''
+      }`;
+    },
+    deletePreset(index: number) {
+      AjaxHelper.post(
+        {
+          module: 'API',
+          method: 'Referrers.deleteCampaignUrlPreset',
+        },
+        {
+          idSite: this.getIdSite(),
+          index: this.presets.length - index - 1,
+        },
+      ).then((response) => {
+        this.presets = Array.isArray(response) ? response : [];
+      }).catch(() => {
+      });
     },
   },
 });
