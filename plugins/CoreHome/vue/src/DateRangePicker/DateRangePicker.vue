@@ -8,13 +8,13 @@
 <template>
   <div class="dateRangePicker">
     <div id="calendarRangeFrom">
-      <h6 class="date-range-picker-label">
+      <h6 class="dateRangePicker-label">
         {{ translate('General_DateRangeFrom') }}
         <input
           type="text"
           id="inputCalendarFrom"
           name="inputCalendarFrom"
-          class="browser-default date-range-picker-field"
+          class="browser-default dateRangePicker-field"
           v-model="startDateText"
           @keydown="onRangeInputChanged('from', $event)"
           @keyup="handleEnterPress($event)"
@@ -34,13 +34,13 @@
       </DatePicker>
     </div>
     <div id="calendarRangeTo">
-      <h6 class="date-range-picker-label">
+      <h6 class="dateRangePicker-label">
         {{ translate('General_DateRangeTo') }}
         <input
           type="text"
           id="inputCalendarTo"
           name="inputCalendarTo"
-          class="browser-default date-range-picker-field"
+          class="browser-default dateRangePicker-field"
           v-model="endDateText"
           @keydown="onRangeInputChanged('to', $event)"
           @keyup="handleEnterPress($event)"

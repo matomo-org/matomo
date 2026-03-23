@@ -121,9 +121,9 @@ import {
 import Tooltips from '../Tooltips/Tooltips';
 import { translate } from '../translate';
 import {
-  isApplyEnabledFromState,
-  resolveNonRangeApplyAction,
-} from './PeriodSelector.applyFlow';
+  isApplyButtonEnabled,
+  getApplyButtonAction,
+} from './PeriodSelector.applyButton';
 import {
   clampDateToBounds,
   isKeyboardExpandEvent,
@@ -142,7 +142,7 @@ import {
   getSelectionKey,
   resolveSyncedUiSelection,
   shouldSkipHashSync,
-} from './PeriodSelectorHashSync';
+} from './PeriodSelector.hashSync';
 import type {
   InteractionSource,
   PeriodSelectorState,
@@ -618,7 +618,7 @@ export default defineComponent({
       return true;
     },
     applyNonRangeOrCompareChanges() {
-      const action = resolveNonRangeApplyAction({
+      const action = getApplyButtonAction({
         hasPendingNonRangePeriodChange: this.hasPendingNonRangePeriodChange,
         isCompareDirty: this.isCompareDirty,
         shouldCloseSelectorWithoutApplying: this.shouldCloseSelectorWithoutApplying(),
@@ -865,7 +865,7 @@ export default defineComponent({
       }
     },
     isApplyEnabled() {
-      return isApplyEnabledFromState({
+      return isApplyButtonEnabled({
         uiSelectionType: this.uiSelection.type,
         uiSelectedPeriod: this.selectedPeriod,
         hasPendingNonRangePeriodChange: this.hasPendingNonRangePeriodChange,

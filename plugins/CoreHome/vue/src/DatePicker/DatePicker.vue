@@ -51,8 +51,9 @@ export default defineComponent({
         && dateValue <= props.persistentHighlightedDateEnd
       );
 
-      // Intentional UX: for custom date ranges (dual calendar) we only style the boundary dates
-      // as selected. The in-between span is not kept persistently highlighted.
+      // Intentional UX: in custom range mode we only persistently style the boundary dates.
+      // Keeping the whole span highlighted can make the currently visible month look fully
+      // selected when navigating, which is misleading for an arbitrary custom range.
       const isBoundarySelectedDate = !!(
         selectedDateStart
         && selectedDateEnd

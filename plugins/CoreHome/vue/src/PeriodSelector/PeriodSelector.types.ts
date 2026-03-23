@@ -10,7 +10,7 @@ import type {
   PresetDateRangeId,
   PresetDateRangeSelection,
 } from './PresetDateRangeResolver';
-import type { UiSelection as HashSyncUiSelection } from './PeriodSelectorHashSync';
+import type { UiSelection as HashSyncUiSelection } from './PeriodSelector.hashSync';
 
 const NBSP = '\u00A0';
 

@@ -1,3 +1,8 @@
+@color-period-selector:                             @theme-color-text-lighter;
+@color-period-selector-input-radio:                 @theme-color-border;
+@color-period-selector-options-hover-background:    @theme-color-code;
+@color-period-selector-calendar-hover-background:   @theme-color-background-lowContrast;
+
 .periodSelector {
   display: inline-block;
 
@@ -189,12 +194,12 @@
         font-size: 13px;
 
         &:hover {
-          background-color: @color-period-selector-options-hover-bg;
+          background-color: @color-period-selector-options-hover-background;
         }
       }
 
       .period-option-label:has(.period-option-input:focus-visible) {
-        background-color: @color-period-selector-options-hover-bg;
+        background-color: @color-period-selector-options-hover-background;
         border-radius: 5px;
         outline: 2px solid @theme-color-focus-ring;
         outline-offset: 0;
@@ -247,7 +252,7 @@
     width: 100%;
 
     .calendar-disabled {
-      opacity: 0.75;
+      opacity: 0.65;
       pointer-events: none;
     }
   }
@@ -376,7 +381,7 @@
       // Apply hover/persistent highlight to the square inner day box.
       .ui-datepicker-persistent-highlight:not(.ui-datepicker-current-period),
       .ui-datepicker-persistent-highlight:not(.ui-datepicker-current-period) > .ui-datepicker-persistent-highlight {
-        background: @period-selector-calendar-hover-bg !important;
+        background: @color-period-selector-calendar-hover-background !important;
         opacity: 1;
       }
 

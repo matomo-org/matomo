@@ -13,7 +13,7 @@ import {
   getContextKeyFromParsed,
   resolveSyncedUiSelection,
   shouldSkipHashSync,
-} from './PeriodSelectorHashSync';
+} from './PeriodSelector.hashSync';
 
 window.piwik.minDateYear = 2011;
 window.piwik.minDateMonth = 11;

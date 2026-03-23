@@ -18,7 +18,7 @@ export interface ApplyEnabledState {
   isCompareRangeValid: boolean;
 }
 
-export function isApplyEnabledFromState(state: ApplyEnabledState): boolean {
+export function isApplyButtonEnabled(state: ApplyEnabledState): boolean {
   // Invariant: non-range period mode intentionally cannot commit "compare to" via Apply button.
   if (state.uiSelectionType === 'period' && state.uiSelectedPeriod !== RANGE_PERIOD) {
     return false;
@@ -62,7 +62,7 @@ export interface NonRangeApplyState {
   formattedAppliedAnchorDate: string | null;
 }
 
-export function resolveNonRangeApplyAction(state: NonRangeApplyState): NonRangeApplyAction {
+export function getApplyButtonAction(state: NonRangeApplyState): NonRangeApplyAction {
   if (state.hasPendingNonRangePeriodChange) {
     return { type: 'stop' };
   }
