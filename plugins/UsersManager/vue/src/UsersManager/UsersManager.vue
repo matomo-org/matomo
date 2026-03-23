@@ -417,17 +417,7 @@ export default defineComponent({
         this.isLoadingUsers = false;
       });
     },
-    onSignOutUser(userLogin: string | null, password: string) {
-      if (!userLogin) {
-        NotificationsStore.scrollToNotification(NotificationsStore.show({
-          id: 'signOutUserError',
-          message: translate('UsersManager_SignOutUserNotSuccessful'),
-          context: 'warning',
-          type: 'toast',
-        }));
-        return;
-      }
-
+    onSignOutUser(userLogin: string, password: string) {
       AjaxHelper.post({
         method: 'UsersManager.logoutUser',
         userLogin,
