@@ -414,8 +414,8 @@ class Site
     /**
      * Checks the given string for valid site IDs and returns them as an array.
      *
-     * @param string|array $ids Comma separated idSite list, eg, `'1,2,3,4'` or an array of IDs, eg,
-     *                          `array(1, 2, 3, 4)`.
+     * @param bool|int|string|array<string|int|null> $ids Comma separated idSite list, eg, `'1,2,3,4'` or an array of IDs, eg,
+     *                                                    `array(1, 2, 3, 4)`, or 'all'.
      * @param bool|string $_restrictSitesToLogin Implementation detail. Used only when running as a scheduled task.
      * @param bool $throwOnInvalid If true, throw when an invalid id is supplied.
      * @return array<string>|array<int> An array of valid, unique integers.

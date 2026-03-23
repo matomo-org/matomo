@@ -1859,11 +1859,6 @@ parameters:
 			path: core/SettingsServer.php
 
 		-
-			message: "#^Call to function is_bool\\(\\) with non\\-empty\\-array\\|non\\-falsy\\-string will always evaluate to false\\.$#"
-			count: 1
-			path: core/Site.php
-
-		-
 			message: "#^Method Piwik\\\\Site\\:\\:isEcommerceEnabledFor\\(\\) should return string but returns bool\\.$#"
 			count: 1
 			path: core/Site.php
@@ -3204,31 +3199,6 @@ parameters:
 			path: plugins/Dashboard/Model.php
 
 		-
-			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\DataTableInterface\\:\\:getDataTables\\(\\)\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/API.php
-
-		-
-			message: "#^Instanceof between Piwik\\\\DataTable and Piwik\\\\DataTable\\\\Map will always evaluate to false\\.$#"
-			count: 2
-			path: plugins/DevicesDetection/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\DevicesDetection\\\\API\\:\\:getBrowsers\\(\\) should return Piwik\\\\DataTable but returns Piwik\\\\DataTable\\\\DataTableInterface\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/API.php
-
-		-
-			message: "#^Method Piwik\\\\Plugins\\\\DevicesDetection\\\\API\\:\\:getOsFamilies\\(\\) should return Piwik\\\\DataTable but returns Piwik\\\\DataTable\\\\DataTableInterface\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/API.php
-
-		-
-			message: "#^Parameter \\#1 \\$table of method Piwik\\\\DataTable\\\\Map\\:\\:addTable\\(\\) expects Piwik\\\\DataTable\\|Piwik\\\\DataTable\\\\Map, Piwik\\\\DataTable\\\\DataTableInterface given\\.$#"
-			count: 1
-			path: plugins/DevicesDetection/API.php
-
-		-
 			message: "#^Parameter \\#1 \\$sqlFilterValue of method Piwik\\\\Plugin\\\\Segment\\:\\:setSqlFilterValue\\(\\) expects array\\|string, Closure given\\.$#"
 			count: 1
 			path: plugins/DevicesDetection/Columns/BrowserName.php
@@ -3814,11 +3784,6 @@ parameters:
 			path: plugins/Live/API.php
 
 		-
-			message: "#^Parameter \\#1 \\$ids of static method Piwik\\\\Site\\:\\:getIdSitesFromIdSitesString\\(\\) expects array\\|string, int given\\.$#"
-			count: 1
-			path: plugins/Live/API.php
-
-		-
 			message: "#^Method Piwik\\\\Plugins\\\\Live\\\\Reports\\\\GetLastVisits\\:\\:buildReportMetadata\\(\\) should return array\\|null but return statement is missing\\.$#"
 			count: 1
 			path: plugins/Live/Reports/GetLastVisits.php
@@ -4177,11 +4142,6 @@ parameters:
 			message: "#^Call to an undefined method Piwik\\\\DataTable\\\\Renderer\\:\\:setRenderImageInline\\(\\)\\.$#"
 			count: 1
 			path: plugins/ScheduledReports/ScheduledReports.php
-
-		-
-			message: "#^Parameter \\#1 \\$ids of static method Piwik\\\\Site\\:\\:getIdSitesFromIdSitesString\\(\\) expects array\\|string, int\\<min, \\-2\\>\\|int\\<0, max\\> given\\.$#"
-			count: 1
-			path: plugins/SegmentEditor/SegmentEditor.php
 
 		-
 			message: "#^Parameter \\#2 \\$minDatetimeArchiveProcessedUTC of static method Piwik\\\\DataAccess\\\\ArchiveSelector\\:\\:getArchiveIdAndVisits\\(\\) expects bool, null given\\.$#"
