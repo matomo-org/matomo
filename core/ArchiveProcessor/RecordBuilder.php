@@ -151,6 +151,25 @@ abstract class RecordBuilder
 
         $aggregatedCounts = [];
 
+        foreach ($blobRecords as $record) {
+            $flatRecordName = $record->getBuiltFromFlatRecord();
+            if (
+                empty($flatRecordName)
+                || !in_array($flatRecordName, $requestedReports)
+            ) {
+                continue;
+            }
+
+            if (!in_array($record->getName(), $requestedReports)) {
+                $requestedReports[] = $record->getName();
+            }
+
+            $indexInFoundRecords = array_search($record->getName(), $foundRequestedReports);
+            if ($indexInFoundRecords !== false) {
+                unset($foundRequestedReports[$indexInFoundRecords]);
+            }
+        }
+
         // make sure if there are requested numeric records that depend on blob records, that the blob records will be archived first
         foreach ($numericRecords as $record) {
             if (

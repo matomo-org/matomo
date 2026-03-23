@@ -164,6 +164,86 @@ class ActionReportsTest extends \PHPUnit\Framework\TestCase
         });
     }
 
+    public function testBuildForNonDayPeriodFlatFirstAggregatesMixedSourcesWhenOnlyFlatRecordIsRequested()
+    {
+        $this->withFlatLimit(50000, function () {
+            $flatRecordName = Archiver::PAGE_URLS_FLAT_RECORD_NAME;
+            $hierarchicalRecordName = Archiver::PAGE_URLS_RECORD_NAME;
+
+            $flatPeriodTable = $this->createFlatSerializedTable('flat-a', ['flat-a'], 4);
+            $hierarchicalPeriodTable = $this->createHierarchicalSerializedTable('legacy-b', 6, 2);
+
+            $rowsByRecordName = [
+                $flatRecordName => [[
+                    'date1' => '2026-01-01',
+                    'date2' => '2026-01-01',
+                    'name' => $flatRecordName,
+                    'value' => $flatPeriodTable,
+                ]],
+                $hierarchicalRecordName => [[
+                    'date1' => '2026-01-02',
+                    'date2' => '2026-01-02',
+                    'name' => $hierarchicalRecordName,
+                    'value' => $hierarchicalPeriodTable,
+                ]],
+            ];
+
+            $recordBuilder = new class ($rowsByRecordName) extends ActionReports {
+                private $rowsByRecordName;
+
+                public function __construct(array $rowsByRecordName)
+                {
+                    $this->rowsByRecordName = $rowsByRecordName;
+                    parent::__construct();
+                }
+
+                protected function querySingleBlobRows(ArchiveProcessor $archiveProcessor, string $recordName): iterable
+                {
+                    return $this->rowsByRecordName[$recordName] ?? [];
+                }
+            };
+
+            $params = $this->createParams(
+                [Archiver::PAGE_URLS_FLAT_RECORD_NAME],
+                [Archiver::PAGE_URLS_RECORD_NAME],
+                ['2026-01-01', '2026-01-02']
+            );
+            $archiveProcessor = $this->getMockBuilder(ArchiveProcessor::class)
+                ->disableOriginalConstructor()
+                ->onlyMethods(['getParams', 'insertBlobRecord', 'aggregateDataTableRecords', 'aggregateNumericMetrics', 'insertNumericRecords'])
+                ->getMock();
+            $archiveProcessor->method('getParams')->willReturn($params);
+            $archiveProcessor->expects($this->never())->method('aggregateDataTableRecords');
+            $archiveProcessor->expects($this->never())->method('aggregateNumericMetrics');
+            $archiveProcessor->expects($this->never())->method('insertNumericRecords');
+
+            $insertedBlobs = [];
+            $archiveProcessor->method('insertBlobRecord')->willReturnCallback(function ($recordName, $blobValue) use (&$insertedBlobs) {
+                $insertedBlobs[$recordName] = $blobValue;
+            });
+
+            $recordBuilder->buildForNonDayPeriod($archiveProcessor);
+
+            $this->assertArrayHasKey($flatRecordName, $insertedBlobs);
+            $this->assertArrayHasKey($hierarchicalRecordName, $insertedBlobs);
+
+            $flatResult = DataTable::fromSerializedArray(
+                $this->getRootBlobFromInsertedRecord($insertedBlobs[$flatRecordName], $flatRecordName)
+            );
+            $flatRowA = $flatResult->getRowFromLabel('flat-a');
+            $this->assertNotFalse($flatRowA);
+            $this->assertSame(4, $flatRowA->getColumn('nb_hits'));
+
+            $flatRowB = $flatResult->getRowFromLabel('legacy-b');
+            $this->assertNotFalse($flatRowB);
+            $this->assertSame(6, $flatRowB->getColumn('nb_hits'));
+
+            $flatSummary = $flatResult->getRowFromId(DataTable::ID_SUMMARY_ROW);
+            $this->assertNotFalse($flatSummary);
+            $this->assertSame(2, $flatSummary->getColumn('nb_hits'));
+        });
+    }
+
     public function testMergeHierarchicalActionsTableIntoFlatTableMovesNestedOthersToGlobalOthers()
     {
         $hierarchical = new DataTable();
