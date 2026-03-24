@@ -1,14 +1,9 @@
 .widget {
     .font-default(13px, 18px);
     background: @theme-color-widget-background;
-    border-radius: 2px;
+    border-radius: 8px;
     position: relative;
-    box-shadow: @default-box-shade;
     border: 1px solid @theme-color-widget-background !important;
-
-    &:hover, &:focus {
-        box-shadow: @default-box-shade;
-    }
 
     h2 {
         font-weight: normal;
@@ -43,7 +38,7 @@
         padding-bottom: 4px;
         background: @theme-color-widget-title-background;
         h3 {
-            .font-default(18px, 18px);
+            .font-default(20px, 20px);
             color: @theme-color-widget-title-text;
         }
         .button {
@@ -92,7 +87,7 @@
 
             .card-content {
                 padding: 0;
-                border-radius: 0
+                border-radius: 8px
             }
         }
         .jqplot-graph {
@@ -127,7 +122,7 @@
 
     .card {
         margin: 0;
-        border-radius: 0;
+        border-radius: 8px;
     }
 
     .datatableHeaderMessage, .datatableFooterMessage {
