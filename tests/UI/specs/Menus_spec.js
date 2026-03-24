@@ -68,6 +68,7 @@ describe("Menus", function () {
 
     // admin menu tests
     it('should load the admin reporting menu correctly', async function() {
+        await page.webpage.setViewport({width: 1500, height: 750 });
         await page.goto("?" + generalParams + "&module=CoreAdminHome&action=generalSettings");
         await page.waitForSelector('#secondNavBar');
 
