@@ -13,6 +13,7 @@ namespace Piwik\Plugins\PrivacyManager\tests\Unit;
 
 use Piwik\DataTable;
 use Piwik\DataTable\Row;
+use Piwik\Metrics;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\PrivacyManager\DataRounding;
 
@@ -293,6 +294,94 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(10, $goals['1']['nb_hits_with_bandwidth']);
         $this->assertSame(10, $goals['1']['items']);
         $this->assertSame(10, $goals['all']['nb_visits_converted']);
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testRoundCountMetricsRoundsNestedDataTableValuesInRowColumns(): void
+    {
+        $table = new DataTable();
+        $row = new Row();
+        $row->addColumn('nb_visits', 13);
+
+        $goals = new DataTable();
+        $goalRow = new Row();
+        $goalRow->addColumn('idgoal', 11);
+        $goalRow->addColumn('nb_conversions', 2);
+        $goalRow->addColumn('nb_visits_converted', 4);
+        $goalRow->addColumn('revenue', 99.99);
+        $goals->addRow($goalRow);
+
+        $row->addColumn('goals', $goals);
+        $table->addRow($row);
+
+        DataRounding::roundCountMetrics($table);
+
+        /** @var DataTable $roundedGoals */
+        $roundedGoals = $table->getFirstRow()->getColumn('goals');
+        $roundedGoalRow = $roundedGoals->getFirstRow();
+
+        $this->assertSame(10, $table->getFirstRow()->getColumn('nb_visits'));
+        $this->assertSame(11, $roundedGoalRow->getColumn('idgoal'));
+        $this->assertSame(10, $roundedGoalRow->getColumn('nb_conversions'));
+        $this->assertSame(10, $roundedGoalRow->getColumn('nb_visits_converted'));
+        $this->assertSame(99.99, $roundedGoalRow->getColumn('revenue'));
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testRoundCountMetricsRoundsRawGoalMetricArraysInRowColumns(): void
+    {
+        $table = new DataTable();
+        $row = new Row();
+        $row->addColumn('nb_visits', 13);
+        $row->addColumn((string) Metrics::INDEX_GOALS, [
+            1 => Metrics::makeGoalColumnsRow(1, [
+                Metrics::INDEX_GOAL_NB_CONVERSIONS => 7,
+                Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 7,
+                Metrics::INDEX_GOAL_REVENUE => 35.0,
+            ]),
+            2 => Metrics::makeGoalColumnsRow(2, [
+                Metrics::INDEX_GOAL_NB_CONVERSIONS => 3,
+                Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 3,
+                Metrics::INDEX_GOAL_REVENUE => 15.0,
+            ]),
+        ]);
+        $table->addRow($row);
+
+        DataRounding::roundCountMetrics($table);
+
+        $goals = $table->getFirstRow()->getColumn((string) Metrics::INDEX_GOALS);
+
+        $this->assertSame(10, $table->getFirstRow()->getColumn('nb_visits'));
+        $this->assertSame(10, $goals[1][Metrics::INDEX_GOAL_NB_CONVERSIONS]);
+        $this->assertSame(10, $goals[1][Metrics::INDEX_GOAL_NB_VISITS_CONVERTED]);
+        $this->assertSame(35.0, $goals[1][Metrics::INDEX_GOAL_REVENUE]);
+        $this->assertSame(10, $goals[2][Metrics::INDEX_GOAL_NB_CONVERSIONS]);
+        $this->assertSame(10, $goals[2][Metrics::INDEX_GOAL_NB_VISITS_CONVERTED]);
+        $this->assertSame(15.0, $goals[2][Metrics::INDEX_GOAL_REVENUE]);
+    }
+
+    /**
+     * @group Plugins
+     */
+    public function testRoundCountArrayValuesRoundsRawGoalMetricArrays(): void
+    {
+        $rounded = DataRounding::roundCountArrayValues([
+            (string) Metrics::INDEX_GOALS => [
+                1 => Metrics::makeGoalColumnsRow(1, [
+                    Metrics::INDEX_GOAL_NB_CONVERSIONS => 1,
+                    Metrics::INDEX_GOAL_NB_VISITS_CONVERTED => 4,
+                    Metrics::INDEX_GOAL_REVENUE => 5.0,
+                ]),
+            ],
+        ]);
+
+        $this->assertSame(10, $rounded[(string) Metrics::INDEX_GOALS][1][Metrics::INDEX_GOAL_NB_CONVERSIONS]);
+        $this->assertSame(10, $rounded[(string) Metrics::INDEX_GOALS][1][Metrics::INDEX_GOAL_NB_VISITS_CONVERTED]);
+        $this->assertSame(5.0, $rounded[(string) Metrics::INDEX_GOALS][1][Metrics::INDEX_GOAL_REVENUE]);
     }
 
     /**

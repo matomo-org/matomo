@@ -87,7 +87,7 @@ class DataRounding
 
         if (!empty($columnsToRound)) {
             foreach ($table->getRows() as $row) {
-                self::roundRowColumns($row, $columnsToRound, $metricTypes);
+                self::roundRowColumns($row, $columnsToRound, $metricTypes, $report);
                 self::roundRowComparisons($row, $report);
             }
         }
@@ -113,7 +113,7 @@ class DataRounding
             return;
         }
 
-        self::roundRowColumns($totalsRow, $columnsToRound, $metricTypes);
+        self::roundRowColumns($totalsRow, $columnsToRound, $metricTypes, $report);
         self::roundRowComparisons($totalsRow, $report);
     }
 
@@ -121,7 +121,7 @@ class DataRounding
      * @param string[] $columnsToRound
      * @param array<string, string|null> $metricTypes
      */
-    private static function roundRowColumns(Row $row, array $columnsToRound, array $metricTypes): void
+    private static function roundRowColumns(Row $row, array $columnsToRound, array $metricTypes, ?Report $report): void
     {
         foreach ($columnsToRound as $columnName) {
             $value = $row->getColumn($columnName);
@@ -133,11 +133,18 @@ class DataRounding
         }
 
         foreach ($row->getColumns() as $columnName => $value) {
-            if (!is_array($value)) {
+            if (is_array($value)) {
+                if (self::isGoalsContainerColumn((string) $columnName)) {
+                    $row->setColumn((string) $columnName, self::roundGoalRowsArray($value, $metricTypes));
+                } else {
+                    $row->setColumn((string) $columnName, self::roundCountArrayValues($value, $metricTypes));
+                }
                 continue;
             }
 
-            $row->setColumn((string) $columnName, self::roundCountArrayValues($value, $metricTypes));
+            if ($value instanceof DataTableInterface) {
+                self::roundCountMetrics($value, $report);
+            }
         }
     }
 
@@ -346,21 +353,35 @@ class DataRounding
      * @param array<string, string|null> $metricTypes
      * @return array<string, mixed>
      */
-    private static function roundArrayValuesRecursive(array $values, array $metricTypes, bool $allowSemanticTypes): array
+    private static function roundArrayValuesRecursive(
+        array $values,
+        array $metricTypes,
+        bool $allowSemanticTypes,
+        ?string $parentColumnName = null
+    ): array
     {
         foreach ($values as $columnName => $value) {
             $columnName = (string) $columnName;
 
             if (is_array($value)) {
-                $values[$columnName] = self::roundArrayValuesRecursive($value, $metricTypes, false);
+                if (self::isGoalsContainerColumn($columnName)) {
+                    $values[$columnName] = self::roundGoalRowsArray($value, $metricTypes);
+                } else {
+                    $values[$columnName] = self::roundArrayValuesRecursive($value, $metricTypes, false, $columnName);
+                }
                 continue;
             }
 
+            $semanticType = $allowSemanticTypes ? ($metricTypes[$columnName] ?? null) : null;
+            $metricName = $columnName;
+
+            if (!self::shouldRoundColumn($metricName, $semanticType) && self::isGoalsContainerColumn($parentColumnName)) {
+                $metricName = self::getGoalMetricNameFromRawColumn($columnName) ?? $columnName;
+                $semanticType = null;
+            }
+
             if (
-                self::shouldRoundColumn(
-                    (string) $columnName,
-                    $allowSemanticTypes ? ($metricTypes[(string) $columnName] ?? null) : null
-                )
+                self::shouldRoundColumn($metricName, $semanticType)
                 && self::shouldRoundValue($value)
             ) {
                 $values[$columnName] = self::roundToNearestTen((float) $value);
@@ -373,6 +394,43 @@ class DataRounding
     private static function shouldRoundValue($value): bool
     {
         return is_numeric($value) && $value >= 0;
+    }
+
+    /**
+     * @param array<string, mixed> $goalRows
+     * @param array<string, string|null> $metricTypes
+     * @return array<string, mixed>
+     */
+    private static function roundGoalRowsArray(array $goalRows, array $metricTypes): array
+    {
+        foreach ($goalRows as $goalId => $goalValues) {
+            if (!is_array($goalValues)) {
+                continue;
+            }
+
+            $goalRows[$goalId] = self::roundArrayValuesRecursive($goalValues, $metricTypes, false, 'goals');
+        }
+
+        return $goalRows;
+    }
+
+    private static function isGoalsContainerColumn(?string $columnName): bool
+    {
+        if ($columnName === null) {
+            return false;
+        }
+
+        return $columnName === 'goals' || $columnName === (string) Metrics::INDEX_GOALS;
+    }
+
+    private static function getGoalMetricNameFromRawColumn(string $columnName): ?string
+    {
+        if (!is_numeric($columnName)) {
+            return null;
+        }
+
+        $columnId = (int) $columnName;
+        return Metrics::$mappingFromIdToNameGoal[$columnId] ?? null;
     }
 
     private static function roundToNearestTen(float $value): int
