@@ -219,6 +219,12 @@ class DataRoundingCoverageTest extends SystemTestCase
         return [$this->getPrimaryScenario()];
     }
 
+    public function testVisitsSummaryDayOnlyMetricsAreRounded(): void
+    {
+        [$api, $params] = $this->getDayMetricScenario();
+        $this->runApiTests($api, $params);
+    }
+
     public static function getOutputPrefix(): string
     {
         return 'DataRoundingCoverage';
@@ -400,8 +406,38 @@ class DataRoundingCoverageTest extends SystemTestCase
                 ],
                 'apiNotToCall' => [
                     'CustomVariables.getUsagesOfSlots',
+                    // These metrics are not available for the year period in this fixture/setup.
+                    // Cover them separately with period=day so we get real payloads and can still verify rounding.
+                    'VisitsSummary.getUniqueVisitors',
+                    'VisitsSummary.getUsers',
                 ],
                 'testSuffix' => '_cnil_enabled_segmented',
+            ],
+        ];
+    }
+
+    /**
+     * @return array{0: string[], 1: array<string, mixed>}
+     */
+    private function getDayMetricScenario(): array
+    {
+        return [
+            [
+                'VisitsSummary.getUniqueVisitors',
+                'VisitsSummary.getUsers',
+            ],
+            [
+                'idSite' => 1,
+                'date' => '2012-08-09',
+                'periods' => ['day'],
+                'format' => 'xml',
+                'segment' => self::DEFAULT_SEGMENT,
+                'otherRequestParameters' => [
+                    'filter_limit' => '-1',
+                    'keep_totals_row' => '1',
+                    'keep_totals_row_label' => 'Totals',
+                ],
+                'testSuffix' => '_cnil_enabled_segmented_day_metrics',
             ],
         ];
     }

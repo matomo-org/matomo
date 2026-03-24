@@ -124,12 +124,13 @@ class DataRounding
     private static function roundRowColumns(Row $row, array $columnsToRound, array $metricTypes, ?Report $report): void
     {
         foreach ($columnsToRound as $columnName) {
-            $value = $row->getColumn($columnName);
+            $rawColumnName = self::getRawMetricColumnName($row, $columnName);
+            $value = $row->getColumn($rawColumnName);
             if (!self::shouldRoundValue($value)) {
                 continue;
             }
 
-            $row->setColumn($columnName, self::roundToNearestTen((float) $value));
+            $row->setColumn($rawColumnName, self::roundToNearestTen((float) $value));
         }
 
         foreach ($row->getColumns() as $columnName => $value) {
@@ -315,13 +316,14 @@ class DataRounding
         $columns = [];
         foreach ($sampleValuesByColumn as $columnName => $value) {
             $columnName = (string) $columnName;
+            $normalizedColumnName = self::normalizeRawMetricColumnName($columnName);
 
-            if (!self::shouldRoundColumn($columnName, $metricTypes[$columnName] ?? null)) {
+            if (!self::shouldRoundColumn($normalizedColumnName, $metricTypes[$normalizedColumnName] ?? null)) {
                 continue;
             }
 
             if (self::shouldRoundValue($value)) {
-                $columns[] = $columnName;
+                $columns[] = $normalizedColumnName;
             }
         }
 
@@ -373,11 +375,14 @@ class DataRounding
             }
 
             $semanticType = $allowSemanticTypes ? ($metricTypes[$columnName] ?? null) : null;
-            $metricName = $columnName;
-
-            if (!self::shouldRoundColumn($metricName, $semanticType) && self::isGoalsContainerColumn($parentColumnName)) {
+            if (self::isGoalsContainerColumn($parentColumnName)) {
                 $metricName = self::getGoalMetricNameFromRawColumn($columnName) ?? $columnName;
                 $semanticType = null;
+            } else {
+                $metricName = self::normalizeRawMetricColumnName($columnName);
+                if ($metricName !== $columnName) {
+                    $semanticType = $allowSemanticTypes ? ($metricTypes[$metricName] ?? null) : null;
+                }
             }
 
             if (
@@ -431,6 +436,41 @@ class DataRounding
 
         $columnId = (int) $columnName;
         return Metrics::$mappingFromIdToNameGoal[$columnId] ?? null;
+    }
+
+    private static function normalizeRawMetricColumnName(string $columnName): string
+    {
+        if (!is_numeric($columnName)) {
+            return $columnName;
+        }
+
+        $columnId = (int) $columnName;
+        return Metrics::$mappingFromIdToName[$columnId] ?? $columnName;
+    }
+
+    /**
+     * @return string|int
+     */
+    private static function getRawMetricColumnName(Row $row, string $columnName)
+    {
+        if ($row->hasColumn($columnName)) {
+            return $columnName;
+        }
+
+        $mapping = Metrics::getMappingFromNameToId();
+        $rawColumnId = $mapping[$columnName] ?? null;
+        if ($rawColumnId !== null) {
+            if ($row->hasColumn($rawColumnId)) {
+                return $rawColumnId;
+            }
+
+            $rawColumnName = (string) $rawColumnId;
+            if ($row->hasColumn($rawColumnName)) {
+                return $rawColumnName;
+            }
+        }
+
+        return $columnName;
     }
 
     private static function roundToNearestTen(float $value): int

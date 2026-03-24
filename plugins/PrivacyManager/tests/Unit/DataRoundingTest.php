@@ -367,6 +367,35 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
     /**
      * @group Plugins
      */
+    public function testRoundCountMetricsRoundsMixedNamedAndRawTopLevelVisitMetrics(): void
+    {
+        $table = new DataTable();
+        $row = new Row();
+        $row->addColumn('label', 'Thursday');
+        $row->addColumn('nb_visits', 10);
+        $row->addColumn(Metrics::INDEX_NB_UNIQ_VISITORS, 11);
+        $row->addColumn(Metrics::INDEX_NB_ACTIONS, 22);
+        $row->addColumn(Metrics::INDEX_NB_USERS, 0);
+        $row->addColumn(Metrics::INDEX_SUM_VISIT_LENGTH, 22);
+        $row->addColumn(Metrics::INDEX_BOUNCE_COUNT, 0);
+        $row->addColumn(Metrics::INDEX_NB_VISITS_CONVERTED, 11);
+        $row->addColumn('day_of_week', 4);
+        $table->addRow($row);
+
+        DataRounding::roundCountMetrics($table);
+
+        $actual = $table->getFirstRow();
+        $this->assertSame(10, $actual->getColumn('nb_visits'));
+        $this->assertSame(10, $actual->getColumn(Metrics::INDEX_NB_UNIQ_VISITORS));
+        $this->assertSame(20, $actual->getColumn(Metrics::INDEX_NB_ACTIONS));
+        $this->assertSame(10, $actual->getColumn(Metrics::INDEX_NB_VISITS_CONVERTED));
+        $this->assertSame(22, $actual->getColumn(Metrics::INDEX_SUM_VISIT_LENGTH));
+        $this->assertSame(4, $actual->getColumn('day_of_week'));
+    }
+
+    /**
+     * @group Plugins
+     */
     public function testRoundCountArrayValuesRoundsRawGoalMetricArrays(): void
     {
         $rounded = DataRounding::roundCountArrayValues([
