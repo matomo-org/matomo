@@ -70,6 +70,7 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
     });
 
     expect(wrapper.find('.period-date').classes()).toContain('calendar-disabled');
+    expect(wrapper.findComponent({ name: 'PeriodDatePicker' }).props('disabled')).toBe(true);
 
     wrapper.findComponent({ name: 'PeriodDatePicker' }).vm.$emit('select', {
       date: new Date('2026-02-18'),
@@ -109,6 +110,8 @@ describe('CoreHome/PeriodSelector/PeriodSelector mounted ownership interactions'
       appliedRangeStartDate: '2026-01-01',
       appliedRangeEndDate: '2026-01-31',
     });
+
+    expect(wrapper.findComponent({ name: 'DateRangePicker' }).props('disabled')).toBe(true);
 
     wrapper.findComponent({ name: 'DateRangePicker' }).vm.$emit('range-change', {
       start: '2026-02-01',

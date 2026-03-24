@@ -15,6 +15,7 @@
           id="inputCalendarFrom"
           name="inputCalendarFrom"
           class="browser-default dateRangePicker-field"
+          :disabled="disabled"
           v-model="startDateText"
           @keydown="onRangeInputChanged('from', $event)"
           @keyup="handleEnterPress($event)"
@@ -27,6 +28,7 @@
         :selected-date-end="fromPickerSelectedDate"
         :highlighted-date-start="fromPickerHoveredDate"
         :highlighted-date-end="fromPickerHoveredDate"
+        :disabled="disabled"
         @date-select="setStartRangeDate($event.date)"
         @cell-hover="fromPickerHoveredDate = getNewHoveredDate($event.date, $event.$cell)"
         @cell-hover-leave="fromPickerHoveredDate = null"
@@ -41,6 +43,7 @@
           id="inputCalendarTo"
           name="inputCalendarTo"
           class="browser-default dateRangePicker-field"
+          :disabled="disabled"
           v-model="endDateText"
           @keydown="onRangeInputChanged('to', $event)"
           @keyup="handleEnterPress($event)"
@@ -53,6 +56,7 @@
         :selected-date-end="toPickerSelectedDate"
         :highlighted-date-start="toPickerHoveredDate"
         :highlighted-date-end="toPickerHoveredDate"
+        :disabled="disabled"
         @date-select="setEndRangeDate($event.date)"
         @cell-hover="toPickerHoveredDate = getNewHoveredDate($event.date, $event.$cell)"
         @cell-hover-leave="toPickerHoveredDate = null"
@@ -86,6 +90,7 @@ export default defineComponent({
   props: {
     startDate: String,
     endDate: String,
+    disabled: Boolean,
   },
   components: {
     DatePicker,

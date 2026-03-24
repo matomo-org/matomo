@@ -16,6 +16,7 @@
     :view-date="viewDate"
     :step-months="period === 'year' ? 12 : 1"
     :disable-month-dropdown="period === 'year'"
+    :disabled="disabled"
     @cell-hover="onHoverNormalCell($event.date, $event.$cell)"
     @cell-hover-leave="onHoverLeaveNormalCells()"
     @date-select="onDateSelected($event.date)"
@@ -39,6 +40,7 @@ export default defineComponent({
       required: true,
     },
     date: [String, Date],
+    disabled: Boolean,
   },
   components: {
     DatePicker,

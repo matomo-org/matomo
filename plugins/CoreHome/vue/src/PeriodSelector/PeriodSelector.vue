@@ -431,7 +431,15 @@ export default defineComponent({
   methods: {
     onExpand(event: MouseEvent|KeyboardEvent) {
       if (isKeyboardExpandEvent(event)) {
-        window.$(this.$refs.root as HTMLElement).find('.ui-datepicker-month').focus();
+        const root = this.$refs.root as HTMLElement;
+        const selector = this.uiSelection.type === 'preset'
+          ? `#preset_date_${this.uiSelection.id}`
+          : `#period_id_${this.uiSelection.id}`;
+        const focusTarget = root.querySelector(selector)
+          || root.querySelector('#preset_date_today');
+        if (focusTarget instanceof HTMLElement) {
+          focusTarget.focus();
+        }
       }
     },
     onClosed(event: MouseEvent|KeyboardEvent) {

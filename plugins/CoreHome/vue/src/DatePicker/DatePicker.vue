@@ -34,6 +34,7 @@ export default defineComponent({
     viewDate: [String, Date],
     stepMonths: Number,
     disableMonthDropdown: Boolean,
+    disabled: Boolean,
     options: Object,
   },
   emits: ['cellHover', 'cellHoverLeave', 'dateSelect'],
@@ -188,6 +189,33 @@ export default defineComponent({
       return false;
     }
 
+    function enableDisableMonthDropdown(): void {
+      const element = $(root.value!);
+      const monthPicker = element.find('.ui-datepicker-month')[0] as HTMLInputElement;
+      if (monthPicker) {
+        monthPicker.disabled = props.disableMonthDropdown || !!props.disabled;
+      }
+
+      const yearPicker = element.find('.ui-datepicker-year')[0] as HTMLInputElement;
+      if (yearPicker) {
+        yearPicker.disabled = !!props.disabled;
+      }
+    }
+
+    function updateKeyboardAccessibility(): void {
+      const element = $(root.value!);
+      const tabIndex = props.disabled ? -1 : 0;
+
+      element.find('a, select').attr('tabindex', tabIndex);
+      element.attr('aria-disabled', props.disabled ? 'true' : 'false');
+
+      if (props.disabled) {
+        element.find('a').attr('aria-disabled', 'true');
+      } else {
+        element.find('a').removeAttr('aria-disabled');
+      }
+    }
+
     // remove the ui-state-active class & click handlers for every cell. we bypass
     // the datepicker's date selection logic for smoother browser rendering.
     function onJqueryUiRenderedPicker(): void {
@@ -207,6 +235,8 @@ export default defineComponent({
       element.find('.ui-datepicker-next .ui-icon')
         .removeClass('ui-icon-circle-triangle-e')
         .addClass('icon-chevron-right');
+
+      updateKeyboardAccessibility();
     }
 
     function stepMonthsChanged(): boolean {
@@ -231,14 +261,6 @@ export default defineComponent({
       return true;
     }
 
-    function enableDisableMonthDropdown(): void {
-      const element = $(root.value!);
-      const monthPicker = element.find('.ui-datepicker-month')[0] as HTMLInputElement;
-      if (monthPicker) {
-        monthPicker.disabled = props.disableMonthDropdown;
-      }
-    }
-
     function handleOtherMonthClick(this: HTMLElement) {
       if (!$(this).hasClass('ui-state-hover')) {
         return;
@@ -259,6 +281,7 @@ export default defineComponent({
     function onCalendarViewChange() {
       // clicking left/right re-enables the month dropdown, so we disable it again
       enableDisableMonthDropdown();
+      updateKeyboardAccessibility();
 
       setDatePickerCellColors();
     }
@@ -312,6 +335,11 @@ export default defineComponent({
 
       if (newProps.disableMonthDropdown !== oldProps.disableMonthDropdown) {
         enableDisableMonthDropdown();
+      }
+
+      if (newProps.disabled !== oldProps.disabled) {
+        enableDisableMonthDropdown();
+        updateKeyboardAccessibility();
       }
 
       // redraw when selected or highlighted date props change
@@ -402,6 +430,7 @@ export default defineComponent({
         onJqueryUiRenderedPicker();
       }
 
+      updateKeyboardAccessibility();
       setDatePickerCellColors();
     });
 

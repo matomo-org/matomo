@@ -9,6 +9,7 @@
   <div class="period-selector-calendar-column">
     <div
       :class="{ 'calendar-disabled': uiSelection.type === 'preset' }"
+      :aria-disabled="uiSelection.type === 'preset' ? 'true' : 'false'"
       @click.capture="$emit('range-preset-date-cell-click-capture', $event)"
     >
       <DateRangePicker
@@ -16,6 +17,7 @@
         class="period-range"
         :start-date="displayRangeStartDate"
         :end-date="displayRangeEndDate"
+        :disabled="uiSelection.type === 'preset'"
         @range-change="$emit('range-change', $event)"
         @submit="$emit('apply-click')"
       />
@@ -23,12 +25,14 @@
     <div
       class="period-date"
       :class="{ 'calendar-disabled': uiSelection.type === 'preset' }"
+      :aria-disabled="uiSelection.type === 'preset' ? 'true' : 'false'"
       v-show="calendarViewport === 'single'"
     >
       <PeriodDatePicker
         id="datepicker"
         :period="singleCalendarPeriod"
         :date="singleCalendarSelectedDate"
+        :disabled="uiSelection.type === 'preset'"
         @select="$emit('single-date-select', $event.date)"
       />
     </div>

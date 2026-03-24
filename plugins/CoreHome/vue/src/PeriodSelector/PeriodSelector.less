@@ -231,6 +231,11 @@
         color: @color-period-selector;
       }
 
+      .preset-option-input:focus-visible:checked + .preset-option-text:not(.lever):before,
+      .preset-option-input:focus-visible:checked + .preset-option-text:not(.lever):after {
+        border-color: @theme-color-focus-ring;
+      }
+
       .selected-period-label {
         color: @theme-color-text;
       }
