@@ -81,6 +81,7 @@
         "ColumnPercentageVisits": "%% návštěv",
         "ColumnPercentageVisitsDocumentation": "Procento celkových návštěv.",
         "ColumnRevenue": "Příjem",
+        "ColumnSegment": "Část",
         "ColumnSumTimeOnSite": "Celkový čas na webu",
         "ColumnSumVisitLength": "Celkový čas strávený návštěvníky (v sekundách)",
         "ColumnTotalPageviews": "Celkem zobrazených stránek",

@@ -77,6 +77,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Sembla que els informes d'aquest període encara no s'han processat, però estaran disponibles d'aquí a unes hores. Podeu triar un període diferent fins que es generin els informes.",
         "PeriodRange": "Rang",
         "PivotBySubtable": "Aquest informe no està orientat %1$s Gira per %2$s",
+        "PresetDateToday": "Avui",
+        "PresetDateYesterday": "Ahir",
         "Profilable": "Perfilable",
         "ProfilableSegmentHelp": "1 per a perfilable (per exemple, s'han utilitzat cookies), 0 per a no perfilable (per exemple, no s'han utilitzat cookies)",
         "QuickAccessTitle": "Cerca %s. Utilitzeu les tecles de direcció per navegar pels resultats de la cerca. Drecera: premeu 'f' per cercar.",

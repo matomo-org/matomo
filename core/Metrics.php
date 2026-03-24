@@ -113,7 +113,10 @@ class Metrics
     public const INDEX_GOAL_NB_CONVERSIONS_ENTRY = 16;
     public const INDEX_GOAL_REVENUE_ENTRY = 17;
 
-    public static $mappingFromIdToName = array(
+    /**
+     * @var string[]
+     */
+    public static $mappingFromIdToName = [
         Metrics::INDEX_NB_UNIQ_VISITORS                      => 'nb_uniq_visitors',
         Metrics::INDEX_NB_UNIQ_FINGERPRINTS                  => 'nb_uniq_fingerprints',
         Metrics::INDEX_NB_VISITS                             => 'nb_visits',
@@ -167,9 +170,12 @@ class Metrics
         // Contents
         Metrics::INDEX_CONTENT_NB_IMPRESSIONS                => 'nb_impressions',
         Metrics::INDEX_CONTENT_NB_INTERACTIONS               => 'nb_interactions',
-    );
+    ];
 
-    public static $mappingFromIdToNameGoal = array(
+    /**
+     * @var string[]
+     */
+    public static $mappingFromIdToNameGoal = [
         Metrics::INDEX_GOAL_NB_CONVERSIONS             => 'nb_conversions',
         Metrics::INDEX_GOAL_NB_VISITS_CONVERTED        => 'nb_visits_converted',
         Metrics::INDEX_GOAL_REVENUE                    => 'revenue',
@@ -187,9 +193,12 @@ class Metrics
         Metrics::INDEX_GOAL_REVENUE_ATTRIB             => 'revenue_attrib',
         Metrics::INDEX_GOAL_NB_CONVERSIONS_ENTRY       => 'nb_conversions_entry',
         Metrics::INDEX_GOAL_REVENUE_ENTRY              => 'revenue_entry',
-    );
+    ];
 
-    protected static $metricsAggregatedFromLogs = array(
+    /**
+     * @var int[]
+     */
+    protected static $metricsAggregatedFromLogs = [
         Metrics::INDEX_NB_UNIQ_VISITORS,
         Metrics::INDEX_NB_VISITS,
         Metrics::INDEX_NB_ACTIONS,
@@ -198,13 +207,17 @@ class Metrics
         Metrics::INDEX_SUM_VISIT_LENGTH,
         Metrics::INDEX_BOUNCE_COUNT,
         Metrics::INDEX_NB_VISITS_CONVERTED,
-    );
+    ];
 
+    /**
+     * @return array<int, string>
+     */
     public static function getMappingFromIdToName()
     {
         $cache = PiwikCache::getTransientCache();
         $cacheKey = CacheId::siteAware(CacheId::pluginAware('Metrics.mappingFromIdToName'));
 
+        /** @var array<int, string>|false $value */
         $value = $cache->fetch($cacheKey);
         if (empty($value)) {
             $value = self::$mappingFromIdToName;
@@ -230,9 +243,12 @@ class Metrics
         return $value;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public static function getVisitsMetricNames()
     {
-        $names = array();
+        $names = [];
 
         foreach (self::$metricsAggregatedFromLogs as $metricId) {
             $names[$metricId] = self::$mappingFromIdToName[$metricId];
@@ -241,6 +257,9 @@ class Metrics
         return $names;
     }
 
+    /**
+     * @return array<string, int>
+     */
     public static function getMappingFromNameToId()
     {
         static $nameToId = null;
@@ -250,6 +269,9 @@ class Metrics
         return $nameToId;
     }
 
+    /**
+     * @return array<string, int>
+     */
     public static function getMappingFromNameToIdGoal()
     {
         static $nameToId = null;
@@ -261,7 +283,7 @@ class Metrics
 
     /**
      * Is a lower value for a given column better?
-     * @param $column
+     * @param string $column
      * @return bool
      *
      * @ignore
@@ -306,8 +328,8 @@ class Metrics
 
     /**
      * Derive the unit name from a column name
-     * @param $column
-     * @param $idSite
+     * @param string $column
+     * @param string|int $idSite
      * @return string
      * @ignore
      */
@@ -315,10 +337,11 @@ class Metrics
     {
         $nameToUnit = array(
             '_rate'   => '%',
-            'revenue' => Site::getCurrencySymbolFor($idSite),
+            'revenue' => Site::getCurrencySymbolFor((int)$idSite),
             '_time_'  => 's',
         );
 
+        /** @var string|null $unit */
         $unit = null;
 
         /**
@@ -343,11 +366,15 @@ class Metrics
         return '';
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function getDefaultMetricSemanticTypes(): array
     {
         $cacheId = CacheId::pluginAware('DefaultMetricSemanticTypes');
         $cache = PiwikCache::getTransientCache();
 
+        /** @var array<string, string>|false $types */
         $types = $cache->fetch($cacheId);
         if (empty($types)) {
             $types = [
@@ -411,12 +438,16 @@ class Metrics
         return $types;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function getDefaultMetricTranslations()
     {
         $cacheId = CacheId::pluginAware('DefaultMetricTranslations');
         $cache   = PiwikCache::getTransientCache();
 
         if ($cache->contains($cacheId)) {
+            /** @var array<string, string> */
             return $cache->fetch($cacheId);
         }
 
@@ -472,12 +503,16 @@ class Metrics
         return $translations;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function getDefaultMetrics()
     {
         $cacheId = CacheId::languageAware('DefaultMetrics');
         $cache   = PiwikCache::getTransientCache();
 
         if ($cache->contains($cacheId)) {
+            /** @var array<string, string> */
             return $cache->fetch($cacheId);
         }
 
@@ -494,12 +529,16 @@ class Metrics
         return $translations;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function getDefaultProcessedMetrics()
     {
         $cacheId = CacheId::languageAware('DefaultProcessedMetrics');
         $cache   = PiwikCache::getTransientCache();
 
         if ($cache->contains($cacheId)) {
+            /** @var array<string, string> */
             return $cache->fetch($cacheId);
         }
 
@@ -517,6 +556,10 @@ class Metrics
         return $translations;
     }
 
+    /**
+     * @param int|string $columnIdRaw
+     * @return int|string
+     */
     public static function getReadableColumnName($columnIdRaw)
     {
         $mappingIdToName = self::$mappingFromIdToName;
@@ -528,9 +571,12 @@ class Metrics
         return $columnIdRaw;
     }
 
+    /**
+     * @return int[]
+     */
     public static function getMetricIdsToProcessReportTotal()
     {
-        return array(
+        return [
             self::INDEX_NB_VISITS,
             self::INDEX_NB_UNIQ_VISITORS,
             self::INDEX_NB_ACTIONS,
@@ -545,15 +591,19 @@ class Metrics
             self::INDEX_PAGE_EXIT_NB_VISITS,
             self::INDEX_PAGE_EXIT_NB_UNIQ_VISITORS,
             self::INDEX_REVENUE,
-        );
+        ];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public static function getDefaultMetricsDocumentation()
     {
         $cacheId = CacheId::pluginAware('DefaultMetricsDocumentation');
         $cache   = PiwikCache::getTransientCache();
 
         if ($cache->contains($cacheId)) {
+            /** @var array<string, string> */
             return $cache->fetch($cacheId);
         }
 
@@ -587,10 +637,12 @@ class Metrics
         return $translations;
     }
 
+    /**
+     * @return string
+     */
     public static function getPercentVisitColumn()
     {
-        $percentVisitsLabel = str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'));
-        return $percentVisitsLabel;
+        return str_replace(' ', '&nbsp;', Piwik::translate('General_ColumnPercentageVisits'));
     }
 
     /**
@@ -616,8 +668,8 @@ class Metrics
      *
      * The goal metrics returned will differ based on whether the goal is user defined or an ecommerce goal.
      *
-     * @param array $goalsMetrics
-     * @return array
+     * @param array<int, int|float> $goalsMetrics
+     * @return array<int, float>
      */
     public static function makeGoalColumnsRow(int $idGoal, array $goalsMetrics): array
     {

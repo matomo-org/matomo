@@ -89,6 +89,32 @@ describe('CoreHome/AjaxHelper', () => {
     }) as typeof window.$.ajax;
   }
 
+  function installUrlCapturingAjaxMock(onRequest: (url: string) => void): void {
+    (window.$ as JQueryStatic & { ajax: typeof window.$.ajax }).ajax = ((ajaxOptions: any) => {
+      onRequest(ajaxOptions.url);
+
+      const xhr = {
+        readyState: 4,
+        status: 200,
+        statusText: 'success',
+        responseJSON: [],
+        abort: jest.fn(),
+        getResponseHeader() {
+          return null;
+        },
+        then(callback: (response: unknown) => void) {
+          callback([]);
+          return this;
+        },
+        fail() {
+          return this;
+        },
+      };
+
+      return xhr as unknown as JQueryXhr;
+    }) as typeof window.$.ajax;
+  }
+
   beforeEach(() => {
     consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     notificationCallCount = 0;
@@ -289,5 +315,58 @@ describe('CoreHome/AjaxHelper', () => {
     expect(chunkSizes).toEqual([2]);
     expect(window.piwikHelper.refreshAfter).toHaveBeenCalledTimes(1);
     expect(window.piwikHelper.refreshAfter).toHaveBeenCalledWith(0);
+  });
+
+  it('should not replace an explicitly empty segment with the URL segment', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    history.replaceState({}, '', '?module=CoreHome&action=index&idSite=1&period=day&segment=urlSegmentValue');
+
+    await AjaxHelper.fetch({
+      method: 'API.getSuggestedValuesForSegment',
+      segment: '',
+    });
+
+    expect(requestedUrl).not.toContain('segment=urlSegmentValue');
+    expect(requestedUrl).toContain('segment=');
+  });
+
+  it('should omit the segment parameter when explicitly set to null', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    history.replaceState({}, '', '?module=CoreHome&action=index&idSite=1&period=day&segment=urlSegmentValue');
+
+    await AjaxHelper.fetch({
+      method: 'API.getSuggestedValuesForSegment',
+      segment: null,
+    });
+
+    expect(requestedUrl).not.toContain('segment=urlSegmentValue');
+    expect(requestedUrl).not.toContain('segment=');
+  });
+
+  it('should treat an undefined segment like a missing segment parameter', async () => {
+    let requestedUrl = '';
+
+    installUrlCapturingAjaxMock((url) => {
+      requestedUrl = url;
+    });
+
+    history.replaceState({}, '', '?module=CoreHome&action=index&idSite=1&period=day&segment=urlSegmentValue');
+
+    await AjaxHelper.fetch({
+      method: 'API.getSuggestedValuesForSegment',
+      segment: undefined,
+    });
+
+    expect(requestedUrl).toContain('segment=urlSegmentValue');
   });
 });

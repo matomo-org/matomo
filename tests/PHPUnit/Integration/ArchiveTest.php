@@ -54,7 +54,7 @@ class ArchiveTest extends IntegrationTestCase
         $data = $archive->getDataTableFromNumeric([]);
         $this->assertEquals([], $data->getRows());
 
-        $data = $archive->getDataTableFromNumeric(null);
+        $data = $archive->getDataTableFromNumeric('');
         $this->assertEquals([], $data->getRows());
 
         $data = $archive->getDataTableFromNumeric(['']);
@@ -145,6 +145,96 @@ class ArchiveTest extends IntegrationTestCase
         ];
 
         $this->assertEquals($expected, $metrics);
+    }
+
+    public function testStaleCachedArchiveIdsAreRefreshedWhenArchiveRowsAreMissing(): void
+    {
+        $idSite = 1;
+        $date = '2014-05-10';
+        $periodRange = $date . ',' . $date;
+        $tracker = Fixture::getTracker($idSite, $date . ' 12:00:00');
+        $tracker->setUrl('https://example.org/cache-test');
+        Fixture::checkResponse($tracker->doTrackPageView('cache test'));
+
+        $archive = Archive::build($idSite, 'day', $date);
+        $metric = $archive->getNumeric('nb_visits');
+        $expectedValue = (float) $metric;
+        $this->assertGreaterThan(0.0, $expectedValue);
+
+        $archiveClass = new \ReflectionClass(Archive::class);
+
+        $idArchivesProp = $archiveClass->getProperty('idarchives');
+        $idArchivesProp->setAccessible(true);
+        $idArchivesProp->setValue($archive, [
+            'done' => [
+                $periodRange => [99999999],
+            ],
+        ]);
+
+        $idArchiveStatesProp = $archiveClass->getProperty('idarchiveStates');
+        $idArchiveStatesProp->setAccessible(true);
+        $idArchiveStatesProp->setValue($archive, [
+            $idSite => [
+                'done' => [
+                    $periodRange => [
+                        99999999 => ArchiveWriter::DONE_OK,
+                    ],
+                ],
+            ],
+        ]);
+
+        $metric = $archive->getNumeric('nb_visits');
+        $this->assertSame(
+            $expectedValue,
+            (float) $metric,
+            'Expected stale cached archive IDs to be refreshed and return data from the current archive.'
+        );
+    }
+
+    public function testStaleCachedArchiveIdsAreRefreshedAfterArchiveRowsArePurged(): void
+    {
+        $idSite = 1;
+        $date = '2014-05-11';
+        $tracker = Fixture::getTracker($idSite, $date . ' 12:00:00');
+        $tracker->setUrl('https://example.org/cache-test-normal-flow');
+        Fixture::checkResponse($tracker->doTrackPageView('cache test normal flow'));
+
+        // Keep this Archive instance to preserve its in-memory idarchive cache.
+        $archive = Archive::build($idSite, 'day', $date);
+        $initialMetric = (float) $archive->getNumeric('nb_visits');
+        $this->assertGreaterThan(0.0, $initialMetric);
+
+        $wasBrowserTriggerEnabled = Rules::isBrowserTriggerEnabled();
+        Rules::setBrowserTriggerArchiving(true);
+
+        try {
+            $numericTable = ArchiveTableCreator::getNumericTable(Date::factory($date));
+            $blobTable = ArchiveTableCreator::getBlobTable(Date::factory($date));
+
+            $deletedNumericRows = Db::query(
+                "DELETE FROM `$numericTable` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ?",
+                [$idSite, 1, $date, $date]
+            )->rowCount();
+            $deletedBlobRows = Db::query(
+                "DELETE FROM `$blobTable` WHERE idsite = ? AND period = ? AND date1 = ? AND date2 = ?",
+                [$idSite, 1, $date, $date]
+            )->rowCount();
+
+            $this->assertGreaterThan(
+                0,
+                $deletedNumericRows + $deletedBlobRows,
+                'Expected archive rows to be removed to simulate concurrent purge.'
+            );
+
+            $metricAfterPurge = (float) $archive->getNumeric('nb_visits');
+            $this->assertSame(
+                $initialMetric,
+                $metricAfterPurge,
+                'Expected stale cached archive IDs to be refreshed after archive rows are purged in normal flow.'
+            );
+        } finally {
+            Rules::setBrowserTriggerArchiving($wasBrowserTriggerEnabled);
+        }
     }
 
     public function testPluginSpecificArchiveUsedEvenIfAllArchiveExistsIfThereAreNoDataInAllArchiveWithBrowserArchivingDisabled()

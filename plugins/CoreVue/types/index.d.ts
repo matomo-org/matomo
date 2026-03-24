@@ -86,6 +86,7 @@ declare global {
     getCurrentQueryStringWithParametersModified(newparams: string);
     htmlDecode(encoded: string): string;
     htmlEntities(value: string): string;
+    normalize(value: string): string;
     modalConfirm(element: JQuery|HTMLElement|string, callbacks?: ModalConfirmCallbacks, options?: ModalConfirmOptions);
     isReportingPage(): boolean;
     setMarginLeftToBeInViewport(elementToPosition: JQuery|Element|string): void;
@@ -183,6 +184,7 @@ declare global {
     updatePeriodParamsFromUrl(): void;
     updateTitle(date: string, period: string, c: string, s: string, segment?: string): void;
     hasUserCapability(capability: string): boolean;
+    getLoginModule(): string;
     getBaseDatePickerOptions(defaultDate?: Date|null): {[key: string]: any};
     getSparklineColors(): SparklineColors;
     getBaseDatePickerOptions(defaultDate: Date|null): any;
@@ -224,6 +226,13 @@ declare global {
     show(apiMethod: string, segment: string, extraParams: Record<string|number, unknown>): void;
   }
 
+  interface VisibilityGlobal {
+    isSupported: () => boolean;
+    hidden: () => boolean;
+    change: (callback: (event?: Event, state?: unknown) => void) => number | null;
+    unbind: (id: number) => void;
+  }
+
   interface RowAction {
     name: string;
     dataTableIcon: string;
@@ -259,7 +268,8 @@ declare global {
     Piwik_Transitions: TransitionsGlobal;
     SegmentedVisitorLog: SegmentedVisitorLogService;
     DataTable_RowActions_Registry: DataTableRowActionsRegisteryService;
-    Cloud: any
+    Visibility?: VisibilityGlobal;
+    Cloud: any;
 
     _pk_translate(translationStringId: string, values: (string|number|boolean)[]): string;
     _pk_externalRawLink(url: string, values: (string|null)[]): string;

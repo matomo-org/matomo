@@ -5,6 +5,8 @@
         "ChangeVisualization": "Cambiar visualización",
         "CheckForUpdates": "Buscar actualizacións",
         "CheckPiwikOut": "Controla Matomo!",
+        "PresetDateToday": "Hoxe",
+        "PresetDateYesterday": "Onte",
         "ShowJSCode": "Ver o código javascript para insertar",
         "SystemSummaryPhpVersion": "Versión PHP"
     }

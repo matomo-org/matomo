@@ -81,6 +81,7 @@
         "ColumnPercentageVisits": "%% Besøg",
         "ColumnPercentageVisitsDocumentation": "Procentdelen af det samlede antal besøg.",
         "ColumnRevenue": "Indtægter",
+        "ColumnSegment": "Segment",
         "ColumnSumTimeOnSite": "Samlet tid på hjemmesiden",
         "ColumnSumVisitLength": "Samlet tid brugt af besøgende (i sekunder)",
         "ColumnTotalPageviews": "Totale sidevisninger",

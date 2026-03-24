@@ -71,6 +71,8 @@
         "PeriodHasOnlyRawData": "この期間のレポートはまだ処理されていないようです。 今何が起こっているのか見たいですか？ %1$sビジットログ%2$sを確認するか、レポートが生成されるまで別の期間を選択してください。",
         "PeriodRange": "範囲",
         "PivotBySubtable": "このレポートは、%1$s が %2$s ピボット を旋回していません。",
+        "PresetDateToday": "今日",
+        "PresetDateYesterday": "昨日",
         "Profilable": "プロファイラブル",
         "QuickAccessTitle": "%s を検索します。矢印キーを使用して、検索結果をナビゲートします。ショートカット： ' f ' を押して検索します。",
         "QuickLinks": "クイックリンク",

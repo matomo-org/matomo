@@ -81,6 +81,7 @@
         "ColumnPercentageVisits": "%% bisita",
         "ColumnPercentageVisitsDocumentation": "Bisita guztien ehunekoa.",
         "ColumnRevenue": "Diru-sarrera",
+        "ColumnSegment": "Segmentua",
         "ColumnSumTimeOnSite": "Webgunean emandako denbora denetara",
         "ColumnSumVisitLength": "Bisitariek guztira igarotako denbora (segundotan)",
         "ColumnTotalPageviews": "Orrialde-ikustaldiak denetara",

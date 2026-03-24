@@ -67,7 +67,6 @@
         "ConfirmConfigRandomisationEnabled": "An bhfuil tú cinnte gur mian leat randamú config_ID a chumasú?",
         "ConfirmConfigRandomisationEnabledPerSite": "An bhfuil tú cinnte gur mian leat socruithe an tsuímh a shábháil agus randamú config_ID a chumasú?",
         "ConfirmConfigRandomisationExplanation": "Trí an config_ID a randamú do gach iarratas, díchumasaítear meicníochtaí a bhraitheann ar shonraí gníomhaire úsáideora, fianáin, nó aitheantóirí eile a éilíonn toiliú sainráite, rud a chuireann ar chumas rianú gan ainm agus príobháideacht an úsáideora á hurramú ag an am céanna. Déanfar gach gníomh a rianú mar chuairt nua.",
-        "ConsentExplanation": "Ciallaíonn toiliú rogha agus smacht a thabhairt do dhaoine aonair maidir leis an gcaoi a bpróiseáiltear a gcuid sonraí pearsanta.",
         "ConsentManager": "Bainisteoir Toilithe",
         "ConsentManagerConnected": "Is cosúil go bhfuil %1$s cumraithe cheana féin chun oibriú le Matomo.",
         "ConsentManagerDetected": "Braitheadh bainisteoir toilithe %1$s ar do láithreán gréasáin. Chun foghlaim faoi Matomo a chumrú chun oibriú le %1$s léigh %2$sthis guide%3$s",
@@ -137,9 +136,6 @@
         "GdprToolsPageIntroEraseRight": "an ceart chun cuid dá sonraí nó iad go léir a léirscriosadh (agus an ceart go ndéanfaí ceartúcháin).",
         "GeolocationAnonymizeIpNote": "Tabhair faoi deara: Beidh thart ar na torthaí céanna ag geolocation le 1 beart gan ainm. Le 2 bheart nó níos mó, beidh Geolocation míchruinn.",
         "GetPurgeEstimate": "Faigh meastachán purge",
-        "HowDoIAskForConsent": "Conas is féidir liom toiliú a iarraidh ar úsáideoirí?",
-        "HowDoIAskForConsentIntro": "Tá treoracha ar fáil ag Matomo chun rianú toilithe a bhunú leis na bainisteoirí toilithe coitianta seo a leanas:",
-        "HowDoIAskForConsentOutro": "Mura n-úsáideann tú ceann de na bainisteoirí toilithe thuas, is féidir leat %1$stracking a chur i bhfeidhm le toiliú ag baint úsáide as an Matomo JavaScript API%2$s.",
         "IPAddress": "Seoladh IP",
         "Imprint": "Imphriontáil",
         "ImprintUrl": "URL Imphriontáil",
@@ -263,9 +259,6 @@
         "VisitsMatchedCriteria": "Tá na cuairteanna seo ag teacht leis na critéir roghnaithe.",
         "VisitsSuccessfullyDeleted": "Scriosadh na cuairteanna go rathúil",
         "VisitsSuccessfullyExported": "Easpórtáladh cuairteanna go rathúil",
-        "WhenConsentIsNeededPart1": "Éilíonn rialacháin phríobháideachais %1$sGDPR%2$s ort toiliú d'úsáideoirí a iarraidh agus sonraí pearsanta á bpróiseáil agat i gcásanna áirithe. Chun a chinneadh an gá duit toiliú a iarraidh, ní mór duit do bhunús dleathach a shainaithint chun sonraí pearsanta a phróiseáil. D'fhéadfadh sé seo a bheith ina \"Toiliú\" nó \"Leas dlisteanach\", nó b'fhéidir go mbeifeá in ann gan sonraí pearsanta a bhailiú ar fad.",
-        "WhenConsentIsNeededPart2": "Moltar níos mó a fhoghlaim faoin mbunús dleathach le sonraí pearsanta a phróiseáil faoin GDPR. Is féidir leat tuilleadh eolais a fháil ar an ábhar seo ar %1$sour blog%2$s.",
-        "WhenConsentIsNeededPart3": "Tabhair faoi deara, le do thoil, má theastaíonn toiliú d'úsáideoirí uait, agus mura féidir leat a chruthú go bhfuair tú a \"Toiliú\" roimhe seo, molaimid sonraí amha d'úsáideoirí a rianaíodh roimhe seo a anaithnidiú. Is féidir sonraí amha d'úsáideoirí a rianaíodh roimhe seo a anaithnidiú tríd an mBainisteoir Príobháideachais i Matomo %1$slearn more%2$s.",
         "WhenDoINeedConsent": "Cén uair is gá dom toiliú úsáideora a iarraidh?"
     }
 }

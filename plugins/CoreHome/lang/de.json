@@ -75,6 +75,8 @@
         "PeriodHasOnlyRawDataNoVisitsLog": "Es scheint, als ob die Berichte für diesen Zeitraum noch nicht verarbeitet wurden, aber sie werden in ein paar Stunden verfügbar sein. Sie könnten einen anderen Zeitraum auswählen, bis die Berichte generiert sind.",
         "PeriodRange": "Zeitspanne",
         "PivotBySubtable": "Kein Pivot erstellt für diesen Bericht %1$s Pivot erstellen mit %2$s",
+        "PresetDateToday": "Heute",
+        "PresetDateYesterday": "Gestern",
         "Profilable": "Profilierbar",
         "QuickAccessTitle": "Suche nach '%s'. Benutzen Sie die Pfeiltasten um durch die Ergebnisse zu navigieren. Tastenkürzel: Drücken Sie 'f' um zu suchen.",
         "QuickLinks": "Schnelllinks",

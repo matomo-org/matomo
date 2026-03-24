@@ -91,6 +91,7 @@
         "SettingBruteForceTimeRange": "Zähle Anmeldeversuche innerhalb dieses Zeitraums in Minuten",
         "SettingBruteForceTimeRangeHelp": "Geben Sie eine Anzahl von Minuten an.",
         "SettingBruteForceWhitelistIp": "Diese IPs nie vom Anmelden abhalten",
+        "SettingPasswordStrengthCheck": "Verwendung starker Passwörter erzwingen",
         "SuspiciousLoginAttemptsInLastHourEmail1": "Bei Ihrem Matomo-Benutzerkonto wurde eine verdächtig hohe Anzahl von Anmeldeversuchen in der letzten Stunde festgestellt. Es wurden %1$s Anmeldeversuche von %2$s unterschiedlichen IP-Adressen erfasst. Möglicherweise versucht jemand Ihr Benutzerkonto zu hacken.",
         "SuspiciousLoginAttemptsInLastHourEmail2": "Machen Sie Folgendes:",
         "SuspiciousLoginAttemptsInLastHourEmail3": "Stellen Sie sicher, dass Ihr Passwort ein sicheres zufällig generiertes Passwort ist, das aus mindestens 30 Zeichen besteht.",

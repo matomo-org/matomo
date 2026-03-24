@@ -291,9 +291,9 @@ abstract class RecordBuilder
         ?string $columnToSortByBeforeTruncation
     ): void {
         $serialized = $record->getSerialized(
-            $maxRowsInTable ?: $this->maxRowsInTable,
-            $maxRowsInSubtable ?: $this->maxRowsInSubtable,
-            $columnToSortByBeforeTruncation ?: $this->columnToSortByBeforeTruncation
+            $maxRowsInTable ?? $this->maxRowsInTable,
+            $maxRowsInSubtable ?? $this->maxRowsInSubtable,
+            $columnToSortByBeforeTruncation ?? $this->columnToSortByBeforeTruncation
         );
         $archiveProcessor->insertBlobRecord($recordName, $serialized);
         unset($serialized);

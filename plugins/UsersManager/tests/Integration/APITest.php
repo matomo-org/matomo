@@ -342,6 +342,67 @@ class APITest extends IntegrationTestCase
         $this->api->addUser('userLogin2', 'password', 'userlogin2@password.com');
     }
 
+    public function testLogoutUserFailsWhenNoPassword()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_ConfirmWithReAuthentication');
+
+        $_GET['token_auth'] = 'anyToken';
+        $_GET['force_api_session'] = 1;
+        try {
+            $this->api->logoutUser($this->login);
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+    }
+
+    public function testLogoutUserFailsWhenWrongPassword()
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('UsersManager_CurrentPasswordNotCorrect');
+
+        $_GET['token_auth'] = 'anyToken';
+        $_GET['force_api_session'] = 1;
+        try {
+            $this->api->logoutUser($this->login, 'foopass');
+        } finally {
+            unset($_GET['token_auth']);
+            unset($_GET['force_api_session']);
+        }
+    }
+
+    public function testLogoutUserUserNotExistsShouldFail()
+    {
+        $this->expectExceptionMessage('UsersManager_ExceptionUserDoesNotExist');
+        $this->api->logoutUser('foobar');
+    }
+
+    public function testLogoutUserNotSuperUserShouldFail()
+    {
+        FakeAccess::$superUser = false;
+        $this->expectExceptionMessage('checkUserHasSuperUserAccess Fake exception');
+        $this->api->logoutUser('foobar');
+    }
+
+    public function testLogoutUserAnonymousShouldFail()
+    {
+        $this->expectExceptionMessage('UsersManager_ExceptionEditAnonymous');
+        $this->api->logoutUser('anonymous');
+    }
+
+    public function testLogoutUserEmptyLoginShouldFail()
+    {
+        $this->expectExceptionMessage('userlogin: General_ValidatorErrorEmptyValue');
+        $this->api->logoutUser('');
+    }
+
+    public function testLogoutUserDeleteSessionUserShouldNotThrowErrorIfNoSessionExists()
+    {
+        $this->api->addUser('userLogin2', 'password', 'userlogin2@password.com');
+        $this->assertNull($this->api->logoutUser('userLogin2'));
+    }
+
     public function testUpdateUser()
     {
         $capturedMails = [];

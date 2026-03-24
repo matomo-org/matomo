@@ -81,6 +81,7 @@
         "ColumnPercentageVisits": "%% visitas",
         "ColumnPercentageVisitsDocumentation": "A porcentagem de visitas totais.",
         "ColumnRevenue": "Rendimento",
+        "ColumnSegment": "Segmento",
         "ColumnSumTimeOnSite": "Tempo total no site",
         "ColumnSumVisitLength": "Tempo total gasto pelos visitantes (em segundos)",
         "ColumnTotalPageviews": "Total de visualizações de páginas",

@@ -46,7 +46,6 @@
         "GdprTools": "GDPR-værktøjer",
         "GeolocationAnonymizeIpNote": "Bemærk: geolokalisering vil have omtrent de samme resultater med 1 byte anonymiseret. Med 2 byte eller mere, vil geolokalisering være unøjagtig.",
         "GetPurgeEstimate": "Overslag på rensning",
-        "HowDoIAskForConsent": "Hvordan beder jeg brugerne om samtykke?",
         "IndividualsRights": "Registreredes rettigheder",
         "IndividualsRightsAccess": "Ret til indsigt: %1$ssøg efter registrerede%2$s og eksporter al deres data.",
         "IndividualsRightsErasure": "Ret til sletning: %1$ssøg efter registrerede%2$s og slet deres data helt eller delvist.",

@@ -67,7 +67,6 @@
         "ConfirmConfigRandomisationEnabled": "Êtes-vous sûr de vouloir activer la randomisation de l’identifiant config_ID ?",
         "ConfirmConfigRandomisationEnabledPerSite": "Êtes-vous sûr de vouloir enregistrer les paramètres du site et activer la randomisation de l’identifiant config_ID ?",
         "ConfirmConfigRandomisationExplanation": "La randomisation du config_ID pour chaque requête désactive les mécanismes qui s’appuient sur les données du user-agent, les cookies ou d’autres identifiants nécessitant un consentement explicite. Cela permet d’effectuer un suivi anonymisé tout en respectant la vie privée des utilisateurs. Chaque action sera enregistrée comme une nouvelle visite.",
-        "ConsentExplanation": "Le consentement consiste à proposer aux individus le choix et le contrôle au sujet du traitement de leurs données personnelles.",
         "ConsentManager": "Gestionnaire de consentement",
         "ConsentManagerConnected": "%1$s semble déjà configuré pour fonctionner avec Matomo.",
         "ConsentManagerDetected": "%1$s gestionnaire de consentement a été détecté sur votre site web. Pour en savoir plus sur comment configurer Matomo pour fonctionner avec %1$s merci de lire %2$sce guide%3$s",
@@ -137,9 +136,6 @@
         "GdprToolsPageIntroEraseRight": "le droit d'effacer tout ou partie de leurs données (et le droit de rectification).",
         "GeolocationAnonymizeIpNote": "Note : La géolocalisation aura à peu près les mêmes résultats avec 1 octet rendu anonyme. Avec 2 octets ou plus, elle sera inexacte.",
         "GetPurgeEstimate": "Obtenir l'estimation de la purge",
-        "HowDoIAskForConsent": "Comment demander le consentement des utilisateurs ?",
-        "HowDoIAskForConsentIntro": "Matomo dispose de guides disponibles pour paramétrer le consentement du suivi avec les principaux gestionnaires de consentement suivants :",
-        "HowDoIAskForConsentOutro": "Si vous n'utilisez pas l'un des gestionnaires de consentement précédent, vous pouvez mettre en oeuvre le %1$ssuivi avec consentement à l'aide de l'API JavaScript de Matomo%2$s.",
         "IPAddress": "Adresse IP",
         "Imprint": "Impression",
         "ImprintUrl": "URL d'empreinte",
@@ -263,9 +259,6 @@
         "VisitsMatchedCriteria": "Ces visites correspondent aux critères sélectionnés.",
         "VisitsSuccessfullyDeleted": "Les visites ont été correctement supprimées",
         "VisitsSuccessfullyExported": "Les visites ont été exportées avec succès",
-        "WhenConsentIsNeededPart1": "La %1$sréglementation sur les données personnelles RGPD%2$s nécessite que vous obteniez le consentement des utilisateurs quand vous traitez des données à caractère personnel dans certains cas. Pour déterminer si vous devez demander ce consentement, vous devez identifier la base légale pour le besoin de trajet ces données personnelles. Cela peut être du \"Consentement\" un \"Intérêt légitime\", ou vous pouvez éviter de collecter toute donnée personnelle globalement.",
-        "WhenConsentIsNeededPart2": "Il est recommandé de se renseigner dur la base légale permettant le traitement de données à caractère personnel dans le cadre du RGPD. Vous pouvez trouver plus d'informations à ce sujet sur %1$snotre blog%2$s.",
-        "WhenConsentIsNeededPart3": "Merci de noter que si vous exigez le consentement des utilisateurs, et que vous ne pouvez pas prouver que vous aviez obtenu ce consentement par le passé, nous recommandons d'anonymiser les données brutes des utilisateurs qui étaient suivis. Cette anonymisation des données brutes des utilisateurs suivis précédemment peut être réalisée via le Gestionnaire de confidentialité de Matomo %1$sEn savoir plus %2$s.",
         "WhenDoINeedConsent": "Quand dois-je demander le consentement de l'utilisateur ?"
     }
 }

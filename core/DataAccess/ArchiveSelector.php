@@ -646,6 +646,7 @@ class ArchiveSelector
                     // $rawName = eg 'PluginName_ArchiveName'
                     $rawName = $chunk->getRecordNameWithoutChunkAppendix($row['name']);
                     foreach ($blobs as $subtableId => $blob) {
+                        unset($blobs[$subtableId]);
                         yield array_merge($row, [
                             'value' => $blob,
                             'name' => ArchiveSelector::appendIdSubtable($rawName, $subtableId),

@@ -202,6 +202,17 @@ class Live extends \Piwik\Plugin
         $translationKeys[] = 'Live_VisitorLog';
         $translationKeys[] = 'General_ColumnNbVisitsDocumentation';
         $translationKeys[] = 'General_ColumnNbActionsDocumentation';
+        $translationKeys[] = 'Live_RealTimeVisitorCount';
+        $translationKeys[] = 'Live_NbVisitor';
+        $translationKeys[] = 'Live_NbVisitors';
+        $translationKeys[] = 'General_OneVisit';
+        $translationKeys[] = 'General_NVisits';
+        $translationKeys[] = 'General_OneAction';
+        $translationKeys[] = 'VisitsSummary_NbActionsDescription';
+        $translationKeys[] = 'Intl_OneMinute';
+        $translationKeys[] = 'Intl_NMinutes';
+        $translationKeys[] = 'Live_SimpleRealTimeWidget_Message';
+        $translationKeys[] = 'Live_QueryMaxExecutionTimeExceeded';
     }
 
     public function renderAction(&$renderedAction, $action, $previousAction, $visitorDetails)

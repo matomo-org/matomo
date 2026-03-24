@@ -23,6 +23,9 @@ class SitesTable implements BackendInterface
      */
     private $idSite;
 
+    /**
+     * @var string[]
+     */
     private $commaSeparatedArrayFields = array(
         'sitesearch_keyword_parameters',
         'sitesearch_category_parameters',
@@ -32,7 +35,10 @@ class SitesTable implements BackendInterface
         'excluded_referrers',
     );
 
-    // these fields are standard fields of a site and cannot be adjusted via a setting
+    /**
+     * these fields are standard fields of a site and cannot be adjusted via a setting
+     * @var string[]
+     */
     private $allowedNames = array(
         'ecommerce', 'sitesearch', 'sitesearch_keyword_parameters',
         'sitesearch_category_parameters', 'exclude_unknown_urls',
@@ -40,6 +46,9 @@ class SitesTable implements BackendInterface
         'excluded_user_agents', 'keep_url_fragment', 'urls',
     );
 
+    /**
+     * @param string|int|null $idSite
+     */
     public function __construct($idSite)
     {
         if (empty($idSite)) {
@@ -59,6 +68,7 @@ class SitesTable implements BackendInterface
 
     /**
      * Saves (persists) the current setting values in the database.
+     * @param array $values
      */
     public function save($values)
     {
@@ -77,14 +87,8 @@ class SitesTable implements BackendInterface
             }
         }
 
-        if (!empty($values['urls'])) {
-            $urls = array_unique($values['urls']);
-            $values['main_url'] = array_shift($urls);
-
-            $model->deleteSiteAliasUrls($this->idSite);
-            foreach ($urls as $url) {
-                $model->insertSiteUrl($this->idSite, $url);
-            }
+        if (!empty($values['urls']) && is_array($values['urls'])) {
+            $values['main_url'] = $this->processAdditionalUrls($values['urls']);
         }
 
         unset($values['urls']);
@@ -98,7 +102,7 @@ class SitesTable implements BackendInterface
         if (!empty($this->idSite)) {
             $site = Site::getSite($this->idSite);
 
-            $urls = $this->getModel();
+            $urls         = $this->getModel();
             $site['urls'] = $urls->getSiteUrlsFromId($this->idSite);
 
             foreach ($this->commaSeparatedArrayFields as $field) {
@@ -109,9 +113,28 @@ class SitesTable implements BackendInterface
 
             return $site;
         }
+
+        return null;
     }
 
-    private function getModel()
+    /**
+     * @param string[] $urls
+     */
+    private function processAdditionalUrls(array $urls): string
+    {
+        $model   = $this->getModel();
+        $urls    = array_unique($urls);
+        $mainUrl = array_shift($urls);
+
+        $model->deleteSiteAliasUrls($this->idSite);
+        foreach ($urls as $url) {
+            $model->insertSiteUrl($this->idSite, $url);
+        }
+
+        return $mainUrl;
+    }
+
+    private function getModel(): Model
     {
         return new Model();
     }

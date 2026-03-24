@@ -15,6 +15,7 @@
         "EmptyDashboard": "Empty dashboard - Pick your favorite widgets",
         "LoadingWidget": "Loading widget, please wait…",
         "ManageDashboard": "Manage this dashboard",
+        "ExportThisDashboard": "Export this dashboard",
         "Maximise": "Maximise",
         "Minimise": "Minimise",
         "NotUndo": "You will not be able to undo this operation.",

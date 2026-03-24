@@ -782,13 +782,17 @@ describe("UIIntegrationTest", function () { // TODO: Rename to Piwik?
             await page.goto("?" + urlBase + "#?" + generalParams + "&category=General_Visitors&subcategory=VisitTime_SubmenuTimes");
             await page.waitForNetworkIdle();
             await page.click('#date.title');
-            await page.click('input#period_id_range');
-            await page.evaluate(function () {
-                $('#inputCalendarFrom').val('2012-08-02');
-                $('#inputCalendarTo').val('2012-08-12');
-            });
-            await page.waitForTimeout(500);
-            await page.evaluate(() => $('#calendarApply').click());
+            await page.click('#period_id_range');
+            await page.click('#inputCalendarFrom', { clickCount: 3 });
+            await page.keyboard.press('Backspace');
+            await page.type('#inputCalendarFrom', '2012-08-02');
+
+            await page.click('#inputCalendarTo', { clickCount: 3 });
+            await page.keyboard.press('Backspace');
+            await page.type('#inputCalendarTo', '2012-08-12');
+
+            await page.waitForFunction(() => !$('#calendarApply').is(':disabled'));
+            await page.click('#calendarApply');
 
             await page.mouse.move(-10, -10);
             await page.waitForNetworkIdle();
