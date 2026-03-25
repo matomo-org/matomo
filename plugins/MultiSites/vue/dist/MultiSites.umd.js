@@ -902,12 +902,12 @@ function SitesTableSitevue_type_template_id_b1171e5e_render(_ctx, _cache, $props
     },
     evolutionIconSrc() {
       if (this.evolutionTrend === 1) {
-        return 'plugins/MultiSites/images/arrow_up.png';
+        return 'plugins/MultiSites/images/arrow_up.svg';
       }
       if (this.evolutionTrend === -1) {
-        return 'plugins/MultiSites/images/arrow_down.png';
+        return 'plugins/MultiSites/images/arrow_down.svg';
       }
-      return 'plugins/MultiSites/images/stop.png';
+      return 'plugins/MultiSites/images/stop.svg';
     },
     evolutionSparklineSrc() {
       let sparklineDate = external_CoreHome_["Matomo"].currentDateString;
