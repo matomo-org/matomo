@@ -1,3 +1,4 @@
+@_layout-pageWrap-margin: 18px;
 
 .card-content > .row:last-child {
   margin-bottom: 0;
@@ -125,7 +126,7 @@ nav {
 
 #root {
   .pageWrap {
-    width: calc(~'100% - 18px');  // 100% - pageWrap margin
+    width: calc(~'100% - @{_layout-pageWrap-margin}');
     height: fit-content;
     padding-left: 9px;
     padding-right: 9px;
@@ -181,14 +182,6 @@ nav {
 
         display: block;
       }
-    }
-
-    .quickAccessPlaceholder {
-      width: 0;
-      visibility: hidden;
-      display: inline-block;
-      position: relative;
-      margin-right: -1px;
     }
 
     .piwikTopControl {
@@ -267,7 +260,7 @@ nav {
     }
 
     .pageWrap {
-      width: calc(~'100% - 18px') !important; // 100% - pageWrap margin
+      width: calc(~'100% - @{_layout-pageWrap-margin}') !important;
     }
   }
 
@@ -317,11 +310,11 @@ nav {
           }
           &:focus-visible {
             color: @theme-color-text-lighter;
-            background-color: @theme-color-background-base;
+            background-color: @theme-color-menu-contrast-backgroundHover;
             outline: 1px solid @theme-color-link;
           }
           &:hover {
-            background-color: @theme-color-background-base;
+            background-color: @theme-color-menu-contrast-backgroundHover;
           }
           .menu-icon {
             align-self: flex-start;
@@ -384,14 +377,13 @@ nav {
               .font-default(13px, 16px);
               padding: 10px 22px 10px 36px;
               min-height: 36px;
-              width: 98%;
               border-radius: 8px;
               text-decoration: none;
               transition: background-color 200ms linear;
               &:hover, &.active {
                 text-decoration: none;
                 color: @theme-color-menu-contrast-textActive;
-                background-color: @theme-color-background-base;
+                background-color: @theme-color-menu-contrast-backgroundHover;
               }
             }
 
@@ -399,7 +391,7 @@ nav {
               > .menuDropdown,
               > .item {
                 color: @theme-color-menu-contrast-textSelected;
-                background-color: @theme-color-background-base;
+                background-color: @theme-color-menu-contrast-backgroundHover;
                 text-decoration: none;
                 border-radius: 8px;
               }
@@ -597,7 +589,7 @@ nav {
 
   #root{
     .layoutWithSidebar--hasSidebar .page > .pageWrap {
-      width: calc(~'100% - 18px') !important; // 100% - pageWrap margin
+      width: calc(~'100% - @{_layout-pageWrap-margin}') !important;
     }
   }
   #content.home,

@@ -1,15 +1,19 @@
 .quick-access {
   position: relative;
-  box-shadow: none !important;
-  border: 1px solid @theme-color-background-lowContrast !important;
-  border-radius: 8px !important;
+  box-shadow: none;
+  border: 1px solid @theme-color-background-lowContrast;
+  border-radius: 8px;
   width: 200px;
 
   &:hover,
   &.expanded,
   &.active {
-    input {
-      background-color: @theme-color-background-contrast !important;
+    border-color: transparent;
+    .quickAccessInside .quickAccessInput {
+      background-color: @theme-color-background-contrast;
+      border: 1px solid @theme-color-focus-ring;
+      outline: 0;
+      box-shadow: none;
     }
   }
   li {
@@ -37,14 +41,11 @@
     font-size: 14px;
     padding: 10px 12px 10px 38px;
     border: 0;
-    margin: 0;
-    box-sizing: border-box;
-    box-shadow: none!important;
     border-radius: 8px;
-    background-color: @theme-color-background-contrast !important;
-    &:focus {
-      outline: none;
-      border-bottom: none !important;
+    width: 100%;
+    &:focus-visible {
+      border: 1px solid @theme-color-focus-ring;
+      outline: 1px solid @theme-color-focus-ring;
     }
   }
   .quickAccessInside .quickAccessDropdown.dropdown {
@@ -54,8 +55,11 @@
     width: 200px;
     max-height: 75vh;
     overflow: auto;
-    box-shadow: 0 10px 40px 0 rgba(165, 177, 202, 0.30), 0 0 3px 0 rgba(165, 177, 202, 0.30);;
-  }
+    box-shadow: 0 10px 40px 0 rgba(165, 177, 202, 0.30), 0 0 3px 0 rgba(165, 177, 202, 0.30);
+    @media all and (max-width: 992px) {
+      width: 100%;
+    }
+   }
 
   .quickAccessInput::placeholder {
     color: @theme-color-background-lowContrast;
