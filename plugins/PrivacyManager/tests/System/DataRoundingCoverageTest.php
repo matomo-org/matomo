@@ -226,6 +226,57 @@ class DataRoundingCoverageTest extends SystemTestCase
         $this->runApiTests($api, $params);
     }
 
+    public function testMultiSiteMixedPolicyPayloadRoundsOnlyEnabledSite(): void
+    {
+        try {
+            CnilPolicy::setActiveStatus(null, false);
+            CnilPolicy::setActiveStatus(1, true);
+            CnilPolicy::setActiveStatus(2, false);
+
+            [$api, $params] = $this->getMultiSiteMixedPolicyScenario();
+            $this->runApiTests($api, $params);
+
+            $request = [
+                'module' => 'API',
+                'method' => 'Actions.getPageUrls',
+                'format' => 'xml',
+                'idSite' => '1,2',
+                'period' => 'year',
+                'date' => '2012-08-09',
+                'language' => 'en',
+                'segment' => self::DEFAULT_SEGMENT,
+                'filter_limit' => '-1',
+                'keep_totals_row' => '1',
+                'keep_totals_row_label' => 'Totals',
+            ];
+
+            $response = $this->loadApiResponse($request);
+            $site1Payload = $this->getMultiSiteResultXml($response, 1);
+            $site2Payload = $this->getMultiSiteResultXml($response, 2);
+
+            $this->assertNotSame('', $site1Payload, 'Expected a multi-site XML payload for site 1.');
+            $this->assertNotSame('', $site2Payload, 'Expected a multi-site XML payload for site 2.');
+
+            $site1Violations = $this->findUnroundedCountFieldValues($site1Payload);
+            $site2Violations = $this->findUnroundedCountFieldValues($site2Payload);
+
+            $this->assertSame(
+                [],
+                $site1Violations,
+                sprintf('Expected rounded count metrics for site 1, found: %s', implode(', ', $site1Violations))
+            );
+            $this->assertNotSame(
+                [],
+                $site2Violations,
+                'Expected at least one non-rounded count metric for site 2 when CNIL rounding is disabled.'
+            );
+        } finally {
+            CnilPolicy::setActiveStatus(1, false);
+            CnilPolicy::setActiveStatus(2, false);
+            CnilPolicy::setActiveStatus(null, true);
+        }
+    }
+
     public function testActionsPageReportsAreRoundedWithoutSnapshotComparison(): void
     {
         foreach ($this->getActionsPageReportRequests() as $requestId => $requestUrl) {
@@ -308,6 +359,20 @@ class DataRoundingCoverageTest extends SystemTestCase
     private function loadApiResponse(array $requestUrl): string
     {
         return Response::loadFromApi([], $this->withTokenAuth($requestUrl), false)->getResponseText();
+    }
+
+    private function getMultiSiteResultXml(string $xml, int $siteId): string
+    {
+        $document = new \DOMDocument();
+        $document->loadXML($xml);
+
+        $xpath = new \DOMXPath($document);
+        $nodes = $xpath->query(sprintf('/results/result[@idSite="%d"]', $siteId));
+        if ($nodes === false || $nodes->length === 0) {
+            return '';
+        }
+
+        return $document->saveXML($nodes->item(0)) ?: '';
     }
 
     /**
@@ -500,6 +565,36 @@ class DataRoundingCoverageTest extends SystemTestCase
                     'keep_totals_row_label' => 'Totals',
                 ],
                 'testSuffix' => '_cnil_enabled_segmented_day_metrics',
+            ],
+        ];
+    }
+
+    /**
+     * API-only multi-site requests are not available in the UI, but they are a valid
+     * request shape and should round site payloads selectively based on each site's
+     * CNIL policy state.
+     *
+     * @return array{0: string[], 1: array<string, mixed>}
+     */
+    private function getMultiSiteMixedPolicyScenario(): array
+    {
+        return [
+            [
+                'Actions.getPageUrls',
+            ],
+            [
+                'idSite' => '1,2',
+                'date' => '2012-08-09',
+                'periods' => ['year'],
+                'format' => 'xml',
+                'language' => 'en',
+                'segment' => self::DEFAULT_SEGMENT,
+                'otherRequestParameters' => [
+                    'filter_limit' => '-1',
+                    'keep_totals_row' => '1',
+                    'keep_totals_row_label' => 'Totals',
+                ],
+                'testSuffix' => '_cnil_enabled_segmented_multi_site_mixed_policy',
             ],
         ];
     }

@@ -560,4 +560,141 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(7148, $rounded['sum_bandwidth']);
         $this->assertSame(20, $rounded['nb_visits']);
     }
+
+    public function testExtractRequestedSiteIdsReturnsAllRequestedSiteIds(): void
+    {
+        $actual = $this->invokeDataRoundingMethod('extractRequestedSiteIds', [[
+            'idSite' => '1,2',
+            'segment' => 'visitCount>=1',
+        ]]);
+
+        $this->assertSame([1, 2], $actual);
+    }
+
+    public function testRoundCountMetricsForRequestRoundsOnlyEnabledSitesWithinSiteKeyedMap(): void
+    {
+        $siteOneTable = new DataTable();
+        $siteOneRow = new Row();
+        $siteOneRow->addColumn('nb_visits', 13);
+        $siteOneTable->addRow($siteOneRow);
+
+        $siteTwoTable = new DataTable();
+        $siteTwoRow = new Row();
+        $siteTwoRow->addColumn('nb_visits', 13);
+        $siteTwoTable->addRow($siteTwoRow);
+
+        $map = new DataTable\Map();
+        $map->setKeyName('site');
+        $map->addTable($siteOneTable, '1');
+        $map->addTable($siteTwoTable, '2');
+
+        $this->invokeDataRoundingMethod('roundCountMetricsForRequestedSites', [
+            $map,
+            [1, 2],
+            null,
+            null,
+            function (int $siteId): bool {
+                return $siteId === 1;
+            },
+        ]);
+
+        $this->assertSame(10, $siteOneTable->getFirstRow()->getColumn('nb_visits'));
+        $this->assertSame(13, $siteTwoTable->getFirstRow()->getColumn('nb_visits'));
+    }
+
+    public function testRoundCountMetricsForRequestRoundsCombinedMultiSiteTableWhenAnyRequestedSiteHasRoundingEnabled(): void
+    {
+        $table = new DataTable();
+        $row = new Row();
+        $row->addColumn('nb_visits', 13);
+        $table->addRow($row);
+
+        $this->invokeDataRoundingMethod('roundCountMetricsForRequestedSites', [
+            $table,
+            [1, 2],
+            null,
+            null,
+            function (int $siteId): bool {
+                return $siteId === 1;
+            },
+        ]);
+
+        $this->assertSame(10, $table->getFirstRow()->getColumn('nb_visits'));
+    }
+
+    public function testRoundCountMetricsForRequestRoundsOnlyEnabledRowsWithinMergedMultiSiteTable(): void
+    {
+        $table = new DataTable();
+
+        $siteOneRow = new Row();
+        $siteOneRow->addColumn('idsite', 1);
+        $siteOneRow->addColumn('nb_visits', 13);
+        $table->addRow($siteOneRow);
+
+        $siteTwoRow = new Row();
+        $siteTwoRow->addColumn('idsite', 2);
+        $siteTwoRow->addColumn('nb_visits', 13);
+        $table->addRow($siteTwoRow);
+
+        $this->invokeDataRoundingMethod('roundCountMetricsForRequestedSites', [
+            $table,
+            [1, 2],
+            null,
+            null,
+            function (int $siteId): bool {
+                return $siteId === 1;
+            },
+        ]);
+
+        $this->assertSame(10, $table->getRows()[0]->getColumn('nb_visits'));
+        $this->assertSame(13, $table->getRows()[1]->getColumn('nb_visits'));
+    }
+
+    public function testRoundCountArrayValuesForRequestRoundsOnlyEnabledSitesWithinMultiSiteArrayPayload(): void
+    {
+        $rounded = $this->invokeDataRoundingMethod('roundArrayValuesForRequestedSites', [[
+            [
+                'idsite' => 1,
+                'nb_visits' => 13,
+                'nb_actions' => 17,
+            ],
+            [
+                'idsite' => 2,
+                'nb_visits' => 13,
+                'nb_actions' => 17,
+            ],
+        ], [1, 2], null, function (int $siteId): bool {
+            return $siteId === 1;
+        }]);
+
+        $this->assertSame(10, $rounded[0]['nb_visits']);
+        $this->assertSame(20, $rounded[0]['nb_actions']);
+        $this->assertSame(13, $rounded[1]['nb_visits']);
+        $this->assertSame(17, $rounded[1]['nb_actions']);
+    }
+
+    public function testRoundCountArrayValuesForRequestRoundsCombinedArrayPayloadWhenAnyRequestedSiteHasRoundingEnabled(): void
+    {
+        $rounded = $this->invokeDataRoundingMethod('roundArrayValuesForRequestedSites', [[
+            'nb_visits' => 13,
+            'nb_actions' => 17,
+        ], [1, 2], null, function (int $siteId): bool {
+            return $siteId === 1;
+        }]);
+
+        $this->assertSame(10, $rounded['nb_visits']);
+        $this->assertSame(20, $rounded['nb_actions']);
+    }
+
+    /**
+     * @param array<int, mixed> $arguments
+     * @return mixed
+     */
+    private function invokeDataRoundingMethod(string $methodName, array $arguments)
+    {
+        $reflectionMethod = new \ReflectionMethod(DataRounding::class, $methodName);
+        $reflectionMethod->setAccessible(true);
+
+        return $reflectionMethod->invokeArgs(null, $arguments);
+    }
 }

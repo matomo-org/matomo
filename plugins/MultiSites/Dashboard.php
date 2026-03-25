@@ -111,6 +111,7 @@ class Dashboard
 
         $this->makeSitesFlatAndApplyGenericFilters($this->sitesByGroup, $request);
         $sites = $this->convertDataTableToArrayAndApplyQueuedFilters($this->sitesByGroup, $request);
+        $sites = DataRounding::roundCountArrayValuesForRequest($sites, $this->getRoundingRequest($request));
         $sites = $this->enrichValues($sites);
 
         return $sites;
@@ -134,10 +135,10 @@ class Dashboard
         ];
 
         $request = \Piwik\Request::fromRequest();
-        $roundingRequest = [
+        $roundingRequest = $this->getRoundingRequest([
             'idSite' => $request->getStringParameter('idSite', $request->getStringParameter('idsite', '')),
             'segment' => $request->getStringParameter('segment', ''),
-        ];
+        ]);
         if (DataRounding::shouldApplyForRequest($roundingRequest)) {
             $totals = DataRounding::roundCountArrayValues($totals, $this->getTotalsMetricSemanticTypes($totals));
         }
@@ -200,6 +201,37 @@ class Dashboard
     private function rememberNumberOfSites(): void
     {
         $this->numSites = $this->sitesByGroup->getRowsCountRecursive();
+    }
+
+    /**
+     * @param array<string, mixed> $request
+     * @return array<string, string>
+     */
+    private function getRoundingRequest(array $request): array
+    {
+        $idSite = '';
+        if (!empty($request['idSite']) && is_scalar($request['idSite'])) {
+            $idSite = (string) $request['idSite'];
+        } elseif (!empty($request['idsite']) && is_scalar($request['idsite'])) {
+            $idSite = (string) $request['idsite'];
+        }
+
+        if ($idSite === '') {
+            $siteIds = [];
+            foreach ($this->sitesByGroup->getRows() as $row) {
+                $siteId = $row->getMetadata('idsite');
+                if (is_numeric($siteId)) {
+                    $siteIds[] = (string) (int) $siteId;
+                }
+            }
+
+            $idSite = implode(',', array_unique($siteIds));
+        }
+
+        return [
+            'idSite' => $idSite,
+            'segment' => isset($request['segment']) && is_scalar($request['segment']) ? (string) $request['segment'] : '',
+        ];
     }
 
     private function nestedSearch(DataTable $sitesByGroup, ?string $pattern): void

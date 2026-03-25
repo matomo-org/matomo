@@ -136,9 +136,7 @@ class DataTablePostProcessor
         $dataTable = $this->applyRequestedColumnDeletion($dataTable);
         $dataTable = $this->applyLabelFilter($dataTable);
 
-        if (DataRounding::shouldApplyForRequest($this->request)) {
-            DataRounding::roundCountMetrics($dataTable, $this->report);
-        }
+        DataRounding::roundCountMetricsForRequest($dataTable, $this->request, $this->report);
 
         $dataTable = $this->applyMetricsFormatting($dataTable);
         return $dataTable;

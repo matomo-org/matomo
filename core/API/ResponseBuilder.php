@@ -191,13 +191,17 @@ class ResponseBuilder
         if ($this->postProcessDataTable) {
             $postProcessor = new DataTablePostProcessor($this->apiModule, $this->apiMethod, $this->request);
             $datatable = $postProcessor->process($datatable);
-        } elseif (DataRounding::shouldApplyForRequest($this->request)) {
+        } else {
             $report = null;
-            if (!empty($this->apiModule) && !empty($this->apiMethod)) {
+            if (
+                DataRounding::shouldApplyForRequest($this->request)
+                && !empty($this->apiModule)
+                && !empty($this->apiMethod)
+            ) {
                 $report = ReportsProvider::factory($this->apiModule, $this->apiMethod);
             }
 
-            DataRounding::roundCountMetrics($datatable, $report);
+            DataRounding::roundCountMetricsForRequest($datatable, $this->request, $report);
         }
 
         return $this->apiRenderer->renderDataTable($datatable);
@@ -205,6 +209,10 @@ class ResponseBuilder
 
     private function handleArray($array)
     {
+        if (DataRounding::shouldApplyForRequest($this->request)) {
+            $array = DataRounding::roundCountArrayValuesForRequest($array, $this->request);
+        }
+
         $firstArray = null;
         $firstKey   = null;
         if (!empty($array)) {

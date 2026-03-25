@@ -66,7 +66,48 @@ class DataRounding
             return false;
         }
 
-        return self::isDataRoundingEnabledForSite(self::extractSingleSiteId($request));
+        return self::isDataRoundingEnabledForAnyRequestedSite(self::extractRequestedSiteIds($request));
+    }
+
+    public static function roundCountMetricsForRequest(
+        DataTableInterface $dataTable,
+        array $request,
+        ?Report $report = null
+    ): void {
+        if (!self::requestHasNonEmptySegment($request)) {
+            return;
+        }
+
+        $requestedSiteIds = self::extractRequestedSiteIds($request);
+        if (empty($requestedSiteIds)) {
+            return;
+        }
+
+        self::roundCountMetricsForRequestedSites(
+            $dataTable,
+            $requestedSiteIds,
+            $report,
+            null,
+            [self::class, 'isDataRoundingEnabledForSite']
+        );
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     * @return array<string, mixed>
+     */
+    public static function roundCountArrayValuesForRequest(array $values, array $request): array
+    {
+        if (!self::shouldApplyForRequest($request)) {
+            return $values;
+        }
+
+        $requestedSiteIds = self::extractRequestedSiteIds($request);
+        if (empty($requestedSiteIds)) {
+            return $values;
+        }
+
+        return self::roundArrayValuesForRequestedSites($values, $requestedSiteIds);
     }
 
     public static function roundCountMetrics(DataTableInterface $dataTable, ?Report $report = null): void
@@ -579,7 +620,10 @@ class DataRounding
         }
     }
 
-    private static function extractSingleSiteId(array $request): ?int
+    /**
+     * @return int[]
+     */
+    private static function extractRequestedSiteIds(array $request): array
     {
         try {
             $requestObject = new Request($request);
@@ -589,17 +633,12 @@ class DataRounding
             }
 
             if (!is_scalar($idSite) || trim((string) $idSite) === '') {
-                return null;
+                return [];
             }
 
-            $idSites = Site::getIdSitesFromIdSitesString((string) $idSite, false, false);
-            if (count($idSites) !== 1) {
-                return null;
-            }
-
-            return (int) reset($idSites);
+            return Site::getIdSitesFromIdSitesString((string) $idSite, false, false);
         } catch (Throwable $e) {
-            return null;
+            return [];
         }
     }
 
@@ -615,5 +654,259 @@ class DataRounding
         } catch (Throwable $e) {
             return false;
         }
+    }
+
+    /**
+     * @param int[] $requestedSiteIds
+     */
+    private static function isDataRoundingEnabledForAnyRequestedSite(array $requestedSiteIds): bool
+    {
+        return self::isAnyRequestedSiteEnabled($requestedSiteIds, [self::class, 'isDataRoundingEnabledForSite']);
+    }
+
+    /**
+     * @param int[] $requestedSiteIds
+     */
+    private static function roundCountMetricsForRequestedSites(
+        DataTableInterface $dataTable,
+        array $requestedSiteIds,
+        ?Report $report,
+        ?int $currentSiteId = null,
+        ?callable $isSiteEnabled = null
+    ): void {
+        $isSiteEnabled = $isSiteEnabled ?: [self::class, 'isDataRoundingEnabledForSite'];
+
+        if ($dataTable instanceof DataTable\Map) {
+            foreach ($dataTable->getDataTables() as $key => $childTable) {
+                self::roundCountMetricsForRequestedSites(
+                    $childTable,
+                    $requestedSiteIds,
+                    $report,
+                    self::resolveCurrentSiteIdFromMapKey($dataTable, $key, $currentSiteId),
+                    $isSiteEnabled
+                );
+            }
+
+            return;
+        }
+
+        if ($currentSiteId !== null) {
+            if (!(bool) call_user_func($isSiteEnabled, $currentSiteId)) {
+                return;
+            }
+        } elseif (!self::isAnyRequestedSiteEnabled($requestedSiteIds, $isSiteEnabled)) {
+            return;
+        }
+
+        self::roundDataTableForRequestedSites($dataTable, $requestedSiteIds, $report, $currentSiteId, $isSiteEnabled);
+    }
+
+    /**
+     * @param int[] $requestedSiteIds
+     */
+    private static function isAnyRequestedSiteEnabled(array $requestedSiteIds, callable $isSiteEnabled): bool
+    {
+        foreach ($requestedSiteIds as $siteId) {
+            if ((bool) call_user_func($isSiteEnabled, (int) $siteId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     * @param int[] $requestedSiteIds
+     * @return array<string, mixed>
+     */
+    private static function roundArrayValuesForRequestedSites(
+        array $values,
+        array $requestedSiteIds,
+        ?int $currentSiteId = null,
+        ?callable $isSiteEnabled = null
+    ): array {
+        $isSiteEnabled = $isSiteEnabled ?: [self::class, 'isDataRoundingEnabledForSite'];
+
+        $rowSiteId = self::extractSiteIdFromArrayRow($values);
+        if ($rowSiteId !== null) {
+            $currentSiteId = $rowSiteId;
+        }
+
+        if (!self::containsNestedArrays($values)) {
+            if ($currentSiteId !== null && !(bool) call_user_func($isSiteEnabled, $currentSiteId)) {
+                return $values;
+            }
+
+            if ($currentSiteId === null && !self::isAnyRequestedSiteEnabled($requestedSiteIds, $isSiteEnabled)) {
+                return $values;
+            }
+
+            return self::roundCountArrayValues($values);
+        }
+
+        foreach ($values as $key => $value) {
+            if (!is_array($value)) {
+                continue;
+            }
+
+            $values[$key] = self::roundArrayValuesForRequestedSites(
+                $value,
+                $requestedSiteIds,
+                $currentSiteId,
+                $isSiteEnabled
+            );
+        }
+
+        if ($currentSiteId !== null) {
+            if (!(bool) call_user_func($isSiteEnabled, $currentSiteId)) {
+                return $values;
+            }
+        } elseif (!self::isAnyRequestedSiteEnabled($requestedSiteIds, $isSiteEnabled)) {
+            return $values;
+        }
+
+        return self::roundDirectScalarArrayValues($values);
+    }
+
+    /**
+     * @param int[] $requestedSiteIds
+     */
+    private static function roundDataTableForRequestedSites(
+        DataTableInterface $dataTable,
+        array $requestedSiteIds,
+        ?Report $report,
+        ?int $currentSiteId,
+        callable $isSiteEnabled
+    ): void {
+        if ($dataTable instanceof DataTable\Map) {
+            self::roundCountMetrics($dataTable, $report);
+            return;
+        }
+
+        if (!$dataTable instanceof DataTable) {
+            return;
+        }
+
+        $metricTypes = self::getMetricTypes($dataTable, $report);
+        $columnsToRound = self::collectColumnsToRound($dataTable, $metricTypes);
+        $shouldRoundFallbackRows = self::isAnyRequestedSiteEnabled($requestedSiteIds, $isSiteEnabled);
+
+        if (!empty($columnsToRound)) {
+            foreach ($dataTable->getRows() as $row) {
+                $rowSiteId = $currentSiteId ?? self::extractSiteIdFromRow($row);
+                $shouldRoundRow = $rowSiteId !== null
+                    ? (bool) call_user_func($isSiteEnabled, $rowSiteId)
+                    : $shouldRoundFallbackRows;
+
+                if (!$shouldRoundRow) {
+                    $subtable = $row->getSubtable();
+                    if (!empty($subtable)) {
+                        self::roundDataTableForRequestedSites($subtable, $requestedSiteIds, $report, $rowSiteId, $isSiteEnabled);
+                    }
+                    continue;
+                }
+
+                self::roundRowColumns($row, $columnsToRound, $metricTypes, $report);
+                self::roundRowComparisons($row, $report);
+
+                $subtable = $row->getSubtable();
+                if (!empty($subtable)) {
+                    self::roundDataTableForRequestedSites($subtable, $requestedSiteIds, $report, $rowSiteId, $isSiteEnabled);
+                }
+            }
+        }
+
+        if ($shouldRoundFallbackRows) {
+            self::roundTotalsRowIfPresent($dataTable, $columnsToRound, $metricTypes, $report);
+            self::roundTotalsMetadataIfPresent($dataTable, $metricTypes);
+            self::reconcileTotalsFromRoundedRowsForConstantRowsReport($dataTable, $columnsToRound, $report);
+            self::clearStaleRatioMetadata($dataTable, $columnsToRound);
+            self::recomputeProcessedPercentMetrics($dataTable, $report);
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     */
+    private static function containsNestedArrays(array $values): bool
+    {
+        foreach ($values as $value) {
+            if (is_array($value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     */
+    private static function extractSiteIdFromArrayRow(array $values): ?int
+    {
+        foreach (['idsite', 'idSite'] as $siteColumn) {
+            if (isset($values[$siteColumn]) && is_numeric($values[$siteColumn])) {
+                return (int) $values[$siteColumn];
+            }
+        }
+
+        return null;
+    }
+
+    private static function extractSiteIdFromRow(Row $row): ?int
+    {
+        foreach (['idsite', 'idSite'] as $siteColumn) {
+            $siteId = $row->getColumn($siteColumn);
+            if (is_numeric($siteId)) {
+                return (int) $siteId;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array<string, mixed> $values
+     * @return array<string, mixed>
+     */
+    private static function roundDirectScalarArrayValues(array $values): array
+    {
+        foreach ($values as $columnName => $value) {
+            if (is_array($value)) {
+                continue;
+            }
+
+            $metricName = self::normalizeRawMetricColumnName((string) $columnName);
+            if (
+                self::shouldRoundColumn($metricName, null)
+                && self::shouldRoundValue($value)
+            ) {
+                $values[$columnName] = self::roundToNearestTen((float) $value);
+            }
+        }
+
+        return $values;
+    }
+
+    /**
+     * @param string|int $key
+     */
+    private static function resolveCurrentSiteIdFromMapKey(DataTable\Map $dataTableMap, $key, ?int $currentSiteId): ?int
+    {
+        if ($currentSiteId !== null) {
+            return $currentSiteId;
+        }
+
+        $keyName = strtolower((string) $dataTableMap->getKeyName());
+        if ($keyName !== 'site' && $keyName !== 'idsite') {
+            return null;
+        }
+
+        if (is_numeric($key) && (string) (int) $key === (string) $key && (int) $key > 0) {
+            return (int) $key;
+        }
+
+        return null;
     }
 }
