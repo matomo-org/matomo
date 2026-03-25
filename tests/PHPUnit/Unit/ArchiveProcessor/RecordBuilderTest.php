@@ -150,6 +150,7 @@ class RecordBuilderTest extends TestCase
         $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
             public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
             {
+                // @phpstan-ignore-next-line intentionally returns invalid values to verify runtime filtering.
                 return [
                     0,
                     'def',
@@ -478,6 +479,156 @@ class RecordBuilderTest extends TestCase
 
         $this->assertEquals($expectedNumericRecords, $this->numericRecordsInserted);
         $this->assertEquals($expectedBlobRecords, $this->blobRecordsInserted);
+    }
+
+    public function testBuildForNonDayPeriodBuildsHierarchyFromFlatBlobWhenFlatBlobIsRequested()
+    {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
+            public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
+            {
+                return [
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_hierarchy')
+                        ->setBuiltFromFlatRecord('TestPlugin_flat', function (Row $flatRow): ?array {
+                            $label = $flatRow->getColumn('label');
+                            if (!is_string($label) || $label === '') {
+                                return null;
+                            }
+
+                            return [$label];
+                        }),
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_flat'),
+                ];
+            }
+
+            protected function aggregate(ArchiveProcessor $archiveProcessor): array
+            {
+                return [];
+            }
+
+            protected function aggregateDataTableFromBlobs(
+                ArchiveProcessor $archiveProcessor,
+                string $recordName,
+                ?array $columnsAggregationOperation,
+                ?array $columnsToRenameAfterAggregation,
+                ?array $periodsToInclude = null
+            ): array {
+                $table = new DataTable();
+                if ($recordName === 'TestPlugin_flat') {
+                    $table->addRowFromSimpleArray(['label' => '/flat-path', 'nb_visits' => 5]);
+                    return [$table, true];
+                }
+
+                return [$table, false];
+            }
+
+            protected function getPeriodsWithRootBlob(ArchiveProcessor $archiveProcessor, string $recordName): array
+            {
+                return ['2020-03-04,2020-03-04' => true];
+            }
+
+            protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
+            {
+                return ['2020-03-04,2020-03-04' => true];
+            }
+        };
+
+        $mockArchiveProcessor = $this->getMockArchiveProcessor('week', ['TestPlugin_flat']);
+        $recordBuilder->buildForNonDayPeriod($mockArchiveProcessor);
+
+        $this->assertArrayHasKey('TestPlugin_flat', $this->blobRecordsInserted);
+        $this->assertArrayHasKey('TestPlugin_hierarchy', $this->blobRecordsInserted);
+
+        $flatLabels = $this->getTopLevelLabelsOfInsertedBlobRecord('TestPlugin_flat');
+        $hierarchyLabels = $this->getTopLevelLabelsOfInsertedBlobRecord('TestPlugin_hierarchy');
+
+        $this->assertSame(['/flat-path'], $flatLabels);
+        $this->assertSame(['/flat-path'], $hierarchyLabels);
+    }
+
+    public function testBuildForNonDayPeriodCanFallbackToLegacyHierarchyWhenFlatBlobMissingForSomeSubperiods()
+    {
+        $recordBuilder = new class () extends ArchiveProcessor\RecordBuilder {
+            public function getRecordMetadata(ArchiveProcessor $archiveProcessor): array
+            {
+                return [
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_hierarchy')
+                        ->setBuiltFromFlatRecord(
+                            'TestPlugin_flat',
+                            function (Row $flatRow): ?array {
+                                $label = $flatRow->getColumn('label');
+                                if (!is_string($label) || $label === '') {
+                                    return null;
+                                }
+
+                                return [$label];
+                            },
+                            function (DataTable $legacyHierarchy, DataTable $flatTable): void {
+                                foreach ($legacyHierarchy->getRows() as $legacyRow) {
+                                    $flatTable->addRowFromSimpleArray([
+                                        'label' => (string) $legacyRow->getColumn('label'),
+                                        'nb_visits' => $legacyRow->getColumn('nb_visits'),
+                                    ]);
+                                }
+                            }
+                        ),
+                    Record::make(Record::TYPE_BLOB, 'TestPlugin_flat'),
+                ];
+            }
+
+            protected function aggregate(ArchiveProcessor $archiveProcessor): array
+            {
+                return [];
+            }
+
+            protected function aggregateDataTableFromBlobs(
+                ArchiveProcessor $archiveProcessor,
+                string $recordName,
+                ?array $columnsAggregationOperation,
+                ?array $columnsToRenameAfterAggregation,
+                ?array $periodsToInclude = null
+            ): array {
+                $table = new DataTable();
+                if ($recordName === 'TestPlugin_flat') {
+                    $table->addRowFromSimpleArray(['label' => '/flat-path', 'nb_visits' => 5]);
+                    return [$table, true];
+                }
+
+                if ($recordName === 'TestPlugin_hierarchy') {
+                    $table->addRowFromSimpleArray(['label' => '/legacy-path', 'nb_visits' => 7]);
+                    return [$table, true];
+                }
+
+                return [$table, false];
+            }
+
+            protected function getPeriodsWithRootBlob(ArchiveProcessor $archiveProcessor, string $recordName): array
+            {
+                return ['2020-03-04,2020-03-04' => true];
+            }
+
+            protected function getAllSubperiodKeys(ArchiveProcessor $archiveProcessor): array
+            {
+                return [
+                    '2020-03-04,2020-03-04' => true,
+                    '2020-03-05,2020-03-05' => true,
+                ];
+            }
+        };
+
+        $mockArchiveProcessor = $this->getMockArchiveProcessor('week', ['TestPlugin_hierarchy']);
+        $recordBuilder->buildForNonDayPeriod($mockArchiveProcessor);
+
+        $this->assertArrayHasKey('TestPlugin_flat', $this->blobRecordsInserted);
+        $this->assertArrayHasKey('TestPlugin_hierarchy', $this->blobRecordsInserted);
+
+        $flatLabels = $this->getTopLevelLabelsOfInsertedBlobRecord('TestPlugin_flat');
+        $hierarchyLabels = $this->getTopLevelLabelsOfInsertedBlobRecord('TestPlugin_hierarchy');
+
+        sort($flatLabels);
+        sort($hierarchyLabels);
+
+        $this->assertSame(['/flat-path', '/legacy-path'], $flatLabels);
+        $this->assertSame(['/flat-path', '/legacy-path'], $hierarchyLabels);
     }
 
     public function testBuildForNonDayPeriodCorrectlyAggregatesMetricsForMetricsThatAreRowCountsOfRecords()
@@ -885,6 +1036,17 @@ class RecordBuilderTest extends TestCase
                 $this->test->blobRecordsInserted[$name] = $values;
             }
         };
+    }
+
+    private function getTopLevelLabelsOfInsertedBlobRecord(string $recordName): array
+    {
+        if (empty($this->blobRecordsInserted[$recordName][0])) {
+            return [];
+        }
+
+        return array_values(array_map(function (array $row): string {
+            return (string) ($row[Row::COLUMNS]['label'] ?? '');
+        }, $this->blobRecordsInserted[$recordName][0]));
     }
 
     public static function makeTestDataTable(): DataTable

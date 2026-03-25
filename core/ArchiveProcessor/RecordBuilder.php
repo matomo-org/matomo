@@ -160,10 +160,14 @@ abstract class RecordBuilder
                 continue;
             }
 
+            // If the flat record is requested directly, also force aggregation of the corresponding
+            // hierarchical record so the API can still read the expected hierarchical blob.
             if (!in_array($record->getName(), $requestedReports)) {
                 $requestedReports[] = $record->getName();
             }
 
+            // We are about to rebuild this record from flat data, so treat it as not-found and
+            // make sure it is re-aggregated even if a previous archive row exists.
             $indexInFoundRecords = array_search($record->getName(), $foundRequestedReports);
             if ($indexInFoundRecords !== false) {
                 unset($foundRequestedReports[$indexInFoundRecords]);
@@ -404,6 +408,13 @@ abstract class RecordBuilder
         return true;
     }
 
+    /**
+     * Hook executed after the hierarchy table has been rebuilt from the flat table and before
+     * the hierarchical blob record is serialized and inserted.
+     *
+     * Intended for plugin-specific finalization (for example, metadata or column cleanup) when
+     * using setBuiltFromFlatRecord().
+     */
     protected function beforeInsertBuiltFromFlatHierarchyRecord(
         ArchiveProcessor $archiveProcessor,
         Record $hierarchicalRecord,
