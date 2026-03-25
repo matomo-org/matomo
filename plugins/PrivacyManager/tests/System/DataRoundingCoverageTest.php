@@ -21,6 +21,7 @@ use Piwik\Tests\Framework\Fixture;
 use Piwik\Tests\Fixtures\UITestFixture;
 use Piwik\Tests\Framework\TestCase\SystemTestCase;
 use Piwik\Tests\Framework\TestRequest\ApiTestConfig;
+use Piwik\Tests\Framework\TestRequest\Response;
 
 /**
  * CNIL rounding integration coverage using the standard Matomo system test pattern.
@@ -126,7 +127,7 @@ class DataRoundingCoverageTest extends SystemTestCase
     public function testAllScenarioResponsesContainNoApiErrors(): void
     {
         foreach ($this->getPrimaryRequests() as $requestId => $requestUrl) {
-            $response = $this->getResponseFromHttpAPI($this->withTokenAuth($requestUrl));
+            $response = $this->loadApiResponse($requestUrl);
 
             $this->assertStringNotContainsString(
                 '<error>',
@@ -145,7 +146,7 @@ class DataRoundingCoverageTest extends SystemTestCase
     {
         $violations = [];
         foreach ($this->getPrimaryRequests() as $requestId => $requestUrl) {
-            $response = $this->getResponseFromHttpAPI($this->withTokenAuth($requestUrl));
+            $response = $this->loadApiResponse($requestUrl);
             $requestViolations = $this->findUnroundedCountFieldValues($response);
             foreach ($requestViolations as $violation) {
                 $violations[] = $requestId . ': ' . $violation;
@@ -163,7 +164,7 @@ class DataRoundingCoverageTest extends SystemTestCase
     public function testProcessedReportPayloadContainsTotalsForCuratedEndpoints(): void
     {
         foreach (self::PROCESSED_REPORT_TOTALS_ENDPOINTS as $endpoint) {
-            $response = $this->getResponseFromHttpAPI($this->withTokenAuth([
+            $response = $this->loadApiResponse([
                 'module' => 'API',
                 'method' => 'API.getProcessedReport',
                 'format' => 'xml',
@@ -175,7 +176,7 @@ class DataRoundingCoverageTest extends SystemTestCase
                 'keep_totals_row_label' => 'Totals',
                 'apiModule' => $endpoint['apiModule'],
                 'apiAction' => $endpoint['apiAction'],
-            ]));
+            ]);
 
             $requestId = $endpoint['apiModule'] . '.' . $endpoint['apiAction'];
 
@@ -268,6 +269,16 @@ class DataRoundingCoverageTest extends SystemTestCase
         }
 
         return $requestUrl;
+    }
+
+    /**
+     * Executes generated API requests through the internal request path used by runApiTests().
+     * This avoids rebuilding an HTTP URL from decoded request parameters, which can produce
+     * malformed curl URLs for values like full page URLs or labels containing spaces.
+     */
+    private function loadApiResponse(array $requestUrl): string
+    {
+        return Response::loadFromApi([], $this->withTokenAuth($requestUrl), false)->getResponseText();
     }
 
     /**
@@ -398,6 +409,7 @@ class DataRoundingCoverageTest extends SystemTestCase
                 'date' => '2012-08-09',
                 'periods' => ['year'],
                 'format' => 'xml',
+                'language' => 'en',
                 'segment' => self::DEFAULT_SEGMENT,
                 'otherRequestParameters' => [
                     'filter_limit' => '-1',
@@ -431,6 +443,7 @@ class DataRoundingCoverageTest extends SystemTestCase
                 'date' => '2012-08-09',
                 'periods' => ['day'],
                 'format' => 'xml',
+                'language' => 'en',
                 'segment' => self::DEFAULT_SEGMENT,
                 'otherRequestParameters' => [
                     'filter_limit' => '-1',
