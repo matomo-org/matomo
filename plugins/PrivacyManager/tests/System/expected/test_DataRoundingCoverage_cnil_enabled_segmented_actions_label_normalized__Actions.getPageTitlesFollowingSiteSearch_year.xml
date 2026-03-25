@@ -15,8 +15,8 @@
 		<max_bandwidth>3574</max_bandwidth>
 		<sum_daily_nb_uniq_visitors>60</sum_daily_nb_uniq_visitors>
 		<avg_bandwidth>3574</avg_bandwidth>
-		<avg_time_server>0.387</avg_time_server>
-		<avg_page_load_time>0.387</avg_page_load_time>
+		
+		
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>0%</exit_rate>
@@ -72,8 +72,8 @@
 		<sum_daily_entry_nb_uniq_visitors>10</sum_daily_entry_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_server>0</avg_time_server>
-		<avg_page_load_time>0</avg_page_load_time>
+		
+		
 		<avg_time_on_page>273</avg_time_on_page>
 		<bounce_rate>100%</bounce_rate>
 		<exit_rate>100%</exit_rate>
@@ -115,8 +115,8 @@
 		<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>10</sum_daily_exit_nb_uniq_visitors>
 		<avg_bandwidth>0</avg_bandwidth>
-		<avg_time_server>0</avg_time_server>
-		<avg_page_load_time>0</avg_page_load_time>
+		
+		
 		<avg_time_on_page>0</avg_time_on_page>
 		<bounce_rate>0%</bounce_rate>
 		<exit_rate>100%</exit_rate>
