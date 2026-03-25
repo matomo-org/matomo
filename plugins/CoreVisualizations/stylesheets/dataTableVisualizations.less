@@ -1,6 +1,8 @@
 .jqplot-target {
-  filter: @theme-filter-on-illustration;
-  z-index: 1010; /* filter will create a stacking context, and the seriespicker-popover must be above ui dialog */
+    filter: @theme-filter-on-illustration;
+    /* filter will create a new stacking context */
+    /* z-index is here for the seriespicker-popover. It must be above ui dialog but under le mobile menu */
+    z-index: 990;
 }
 
 .piwik-graph {
