@@ -17,11 +17,12 @@ use Piwik\Metrics;
 use Piwik\Plugin\Report;
 use Piwik\Plugins\PrivacyManager\DataRounding;
 
+/**
+ * @group PrivacyManager
+ * @group Plugins
+ */
 class DataRoundingTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsUsesExpectedThresholds(): void
     {
         $table = new DataTable();
@@ -42,9 +43,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([0, 10, 10, 20, 20, 30], $actual);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsSkipsRatesDurationsAndMoneyAndRoundsTotals(): void
     {
         $table = new DataTable();
@@ -81,9 +79,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(10.50, $totals['revenue']);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsRoundsTotalsRowCountColumns(): void
     {
         $table = new DataTable();
@@ -111,9 +106,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('Totals', $actualTotalsRow->getColumn('label'));
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsClearsStaleRowPercentagesAndRoundsTotalsUnformatted(): void
     {
         $table = new DataTable();
@@ -146,9 +138,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(810, $totalsUnformatted['nb_uniq_visitors']);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsConstantRowsCountUsesSumOfRoundedBucketsForTotalsAndPercentages(): void
     {
         $table = new DataTable();
@@ -199,9 +188,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsNonConstantRowsCountKeepsExistingTotalsSemantics(): void
     {
         $table = new DataTable();
@@ -237,9 +223,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsRoundsSubtableRows(): void
     {
         $table = new DataTable();
@@ -261,9 +244,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(20, $table->getFirstRow()->getSubtable()->getFirstRow()->getColumn('nb_visits'));
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsRoundsNestedArrayValuesInRowColumns(): void
     {
         $table = new DataTable();
@@ -296,9 +276,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(10, $goals['all']['nb_visits_converted']);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsRoundsNestedDataTableValuesInRowColumns(): void
     {
         $table = new DataTable();
@@ -329,9 +306,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(99.99, $roundedGoalRow->getColumn('revenue'));
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsRoundsRawGoalMetricArraysInRowColumns(): void
     {
         $table = new DataTable();
@@ -364,9 +338,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(15.0, $goals[2][Metrics::INDEX_GOAL_REVENUE]);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsRoundsMixedNamedAndRawTopLevelVisitMetrics(): void
     {
         $table = new DataTable();
@@ -393,9 +364,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(4, $actual->getColumn('day_of_week'));
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountArrayValuesRoundsRawGoalMetricArrays(): void
     {
         $rounded = DataRounding::roundCountArrayValues([
@@ -413,9 +381,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(5.0, $rounded[(string) Metrics::INDEX_GOALS][1][Metrics::INDEX_GOAL_REVENUE]);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsRoundsCountColumnsPresentOnlyInLaterRows(): void
     {
         $table = new DataTable();
@@ -437,9 +402,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(10, $rows[1]->getColumn('nb_conversions'));
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountArrayValuesSkipsIdentifierLikeFields(): void
     {
         $rounded = DataRounding::roundCountArrayValues([
@@ -455,9 +417,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(10, $rounded['nb_visits']);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountArrayValuesRespectsMetricSemanticTypes(): void
     {
         $rounded = DataRounding::roundCountArrayValues([
@@ -472,9 +431,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(18.75, $rounded['revenue']);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountArrayValuesRoundsNestedCountValues(): void
     {
         $rounded = DataRounding::roundCountArrayValues([
@@ -494,9 +450,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(99, $rounded['totals']['child']['avg_time_on_page']);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountArrayValuesSkipsChangeColumns(): void
     {
         $rounded = DataRounding::roundCountArrayValues([
@@ -510,9 +463,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(17, $rounded['NB_ACTIONS_CHANGE']);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountMetricsUsesDefaultMetricSemanticTypesWhenNoReportProvided(): void
     {
         $table = new DataTable();
@@ -532,9 +482,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(99, $actual->getColumn('avg_time_on_page'));
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountArrayValuesUsesReducedNameFallbackOnlyForCountLikeMetrics(): void
     {
         $rounded = DataRounding::roundCountArrayValues([
@@ -552,9 +499,6 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(19, $rounded['custom_metric']);
     }
 
-    /**
-     * @group Plugins
-     */
     public function testRoundCountArrayValuesExcludesVisitLengthEvenWithNumberSemanticType(): void
     {
         $rounded = DataRounding::roundCountArrayValues([
