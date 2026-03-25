@@ -332,6 +332,12 @@ class DataRoundingCoverageTest extends SystemTestCase
             return false;
         }
 
+        // Bandwidth/byte metrics may use an nb_* prefix, but they represent sizes, not
+        // privacy-rounded counts. Keep the system audit aligned with DataRounding.
+        if (strpos($tag, 'bandwidth') !== false || strpos($tag, 'byte') !== false) {
+            return false;
+        }
+
         return true;
     }
 
