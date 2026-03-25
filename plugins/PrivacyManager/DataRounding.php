@@ -54,7 +54,7 @@ class DataRounding
 
     private const CHANGE_COLUMN_PATTERN = '/_change$/i';
 
-    private const EXCLUDED_BY_NAME_PATTERN = '/(rate|percent|percentage|evolution|duration|visit_length)/';
+    private const EXCLUDED_BY_NAME_PATTERN = '/(rate|percent|percentage|evolution|duration|visit_length|bandwidth|byte)/';
 
     private const INCLUDED_COUNT_BY_NAME_PATTERN = '/(^nb_|_nb_|_count$|^count_|^items$|^orders$|^quantity$)/';
 

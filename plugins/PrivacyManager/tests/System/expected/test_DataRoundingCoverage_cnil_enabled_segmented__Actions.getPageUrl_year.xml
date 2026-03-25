@@ -5,10 +5,10 @@
 		<nb_visits>30</nb_visits>
 		<nb_hits>40</nb_hits>
 		<sum_time_spent>5150</sum_time_spent>
-		<sum_bandwidth>90</sum_bandwidth>
-		<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
-		<min_bandwidth>40</min_bandwidth>
-		<max_bandwidth>40</max_bandwidth>
+		<sum_bandwidth>86</sum_bandwidth>
+		<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
+		<min_bandwidth>43</min_bandwidth>
+		<max_bandwidth>43</max_bandwidth>
 		<exit_nb_visits>20</exit_nb_visits>
 		<sum_daily_nb_uniq_visitors>20</sum_daily_nb_uniq_visitors>
 		<sum_daily_exit_nb_uniq_visitors>20</sum_daily_exit_nb_uniq_visitors>
@@ -92,7 +92,7 @@
 		<avg_time_on_page>123</avg_time_on_page>
 		<bounce_rate>50%</bounce_rate>
 		<exit_rate>67%</exit_rate>
-		<avg_bandwidth>40</avg_bandwidth>
+		<avg_bandwidth>43</avg_bandwidth>
 		<url>http://example.org/index.htm</url>
 	</row>
 </result>

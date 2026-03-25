@@ -571,10 +571,10 @@
 		<nb_hits>10</nb_hits>
 		<sum_time_spent>0</sum_time_spent>
 		<sum_bandwidth>8669490</sum_bandwidth>
-		<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
-		<min_bandwidth>4334750</min_bandwidth>
-		<max_bandwidth>4334750</max_bandwidth>
-		<avg_bandwidth>1083690</avg_bandwidth>
+		<nb_hits_with_bandwidth>8</nb_hits_with_bandwidth>
+		<min_bandwidth>4334745</min_bandwidth>
+		<max_bandwidth>4334745</max_bandwidth>
+		<avg_bandwidth>1083686</avg_bandwidth>
 		<subtable>
 			<row>
 				<label>/19.pdf</label>
@@ -582,7 +582,7 @@
 				<nb_hits>10</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<sum_bandwidth>8648046</sum_bandwidth>
-				<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
+				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 				<min_bandwidth>4324023</min_bandwidth>
 				<max_bandwidth>4324023</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -595,7 +595,7 @@
 				<nb_hits>10</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<sum_bandwidth>7148</sum_bandwidth>
-				<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
+				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -608,7 +608,7 @@
 				<nb_hits>10</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<sum_bandwidth>7148</sum_bandwidth>
-				<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
+				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>
@@ -621,7 +621,7 @@
 				<nb_hits>10</nb_hits>
 				<sum_time_spent>0</sum_time_spent>
 				<sum_bandwidth>7148</sum_bandwidth>
-				<nb_hits_with_bandwidth>10</nb_hits_with_bandwidth>
+				<nb_hits_with_bandwidth>2</nb_hits_with_bandwidth>
 				<min_bandwidth>3574</min_bandwidth>
 				<max_bandwidth>3574</max_bandwidth>
 				<sum_daily_nb_uniq_visitors>10</sum_daily_nb_uniq_visitors>

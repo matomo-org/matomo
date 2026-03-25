@@ -273,7 +273,7 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(11, $goals['1']['idgoal']);
         $this->assertSame(99.99, $goals['1']['revenue']);
         $this->assertSame(7148, $goals['1']['sum_bandwidth']);
-        $this->assertSame(10, $goals['1']['nb_hits_with_bandwidth']);
+        $this->assertSame(2, $goals['1']['nb_hits_with_bandwidth']);
         $this->assertSame(10, $goals['1']['items']);
         $this->assertSame(10, $goals['all']['nb_visits_converted']);
     }
@@ -557,7 +557,7 @@ class DataRoundingTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $this->assertSame(14, $rounded['entry_sum_visit_length']);
-        $this->assertSame(7150, $rounded['sum_bandwidth']);
+        $this->assertSame(7148, $rounded['sum_bandwidth']);
         $this->assertSame(20, $rounded['nb_visits']);
     }
 }
