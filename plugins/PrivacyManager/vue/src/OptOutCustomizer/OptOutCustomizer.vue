@@ -7,12 +7,7 @@
 
 <template>
   <div class="optOutCustomizer">
-    <p>
-      {{ translate('CoreAdminHome_OptOutExplanation') }}
-      <span
-        v-html="$sanitize(readThisToLearnMore)"
-      />
-    </p>
+    <p v-html="$sanitize(usersOptOutIntro)" />
     <h3>{{ translate('PrivacyManager_OptOutAppearance') }}</h3>
     <div>
       <span>
@@ -179,6 +174,8 @@
     <p
       v-html="$sanitize(optOutExplanationIntro)">
     </p>
+    <p>{{ translate('PrivacyManager_OptOutExplanationCookieDeletion') }}</p>
+    <p>{{ translate('PrivacyManager_OptOutExplanationCookieDeletionCheck') }}</p>
     <div class="system notification notification-info optOutTestReminder">
       <p>
       <strong>{{ translate('PrivacyManager_OptOutRememberToTest') }}</strong>
@@ -370,16 +367,16 @@ export default defineComponent({
       });
       return `${this.matomoUrl}index.php?${query}`;
     },
-    readThisToLearnMore() {
+    usersOptOutIntro() {
       return translate(
-        'General_ReadThisToLearnMore',
+        'PrivacyManager_UsersOptOutIntro',
         externalLink('https://matomo.org/faq/how-to/faq_25918/'),
         '</a>',
       );
     },
     optOutExplanationIntro() {
       return translate(
-        'CoreAdminHome_OptOutExplanationIntro',
+        'PrivacyManager_OptOutExplanationIntro',
         `<a href="${this.iframeUrl}" rel="noreferrer noopener" target="_blank">`,
         '</a>',
       );
