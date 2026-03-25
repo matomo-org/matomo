@@ -409,8 +409,7 @@ class DataRounding
         array $metricTypes,
         bool $allowSemanticTypes,
         ?string $parentColumnName = null
-    ): array
-    {
+    ): array {
         foreach ($values as $columnName => $value) {
             $columnName = (string) $columnName;
 
