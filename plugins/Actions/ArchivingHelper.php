@@ -34,6 +34,8 @@ class ArchivingHelper
     public const ACTION_TABLE_MODE_HIERARCHICAL = 'hierarchical';
     public const ACTION_TABLE_MODE_FLAT = 'flat';
     public const ACTION_FLAT_PATH_METADATA_NAME = 'flat_action_path';
+    private const URL_ACTION_LEAF_MARKER = '/';
+    private const TITLE_ACTION_LEAF_MARKER = ' ';
 
     /**
      * Ideally this should use the DataArray object instead of custom data structure
@@ -758,14 +760,14 @@ class ArchivingHelper
         $lastSegment = (string) $segments[$lastIndex];
 
         if ($actionType === Action::TYPE_PAGE_URL) {
-            if (strpos($lastSegment, '/') === 0) {
-                $lastSegment = substr($lastSegment, 1);
+            if (strpos($lastSegment, self::URL_ACTION_LEAF_MARKER) === 0) {
+                $lastSegment = substr($lastSegment, strlen(self::URL_ACTION_LEAF_MARKER));
             }
             $segments[$lastIndex] = $lastSegment;
             $delimiter = self::$actionUrlCategoryDelimiter;
         } else {
-            if (strpos($lastSegment, ' ') === 0) {
-                $lastSegment = substr($lastSegment, 1);
+            if (strpos($lastSegment, self::TITLE_ACTION_LEAF_MARKER) === 0) {
+                $lastSegment = substr($lastSegment, strlen(self::TITLE_ACTION_LEAF_MARKER));
             }
             $segments[$lastIndex] = $lastSegment;
             $delimiter = self::$actionTitleCategoryDelimiter;
@@ -952,7 +954,7 @@ class ArchivingHelper
             if ($name === '' || $name === false || $name === null || trim($name) === '') {
                 $name = self::getUnknownActionName($type);
             }
-            return array(' ' . trim($name));
+            return array(self::TITLE_ACTION_LEAF_MARKER . trim($name));
         }
 
         $name = self::parseNameFromPageUrl($name, $type, $urlPrefix);
@@ -974,9 +976,9 @@ class ArchivingHelper
         // so that if a page has the same name as a category
         // we don't merge both entries
         if ($type != Action::TYPE_PAGE_TITLE) {
-            $lastPageName = '/' . $lastPageName;
+            $lastPageName = self::URL_ACTION_LEAF_MARKER . $lastPageName;
         } else {
-            $lastPageName = ' ' . $lastPageName;
+            $lastPageName = self::TITLE_ACTION_LEAF_MARKER . $lastPageName;
         }
         $split[count($split) - 1] = $lastPageName;
         return array_values($split);
