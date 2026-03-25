@@ -1149,7 +1149,7 @@ class ArchivingHelper
     public static function setFolderPathMetadata(DataTable $dataTable, $isUrl, $prefix = '')
     {
         $configGeneral = Config::getInstance()->General;
-        $separator = $isUrl ? '/' : $configGeneral['action_title_category_delimiter'];
+        $separator = $isUrl ? $configGeneral['action_url_category_delimiter'] : $configGeneral['action_title_category_delimiter'];
         $metadataName = $isUrl ? 'folder_url_start' : 'page_title_path';
 
         foreach ($dataTable->getRows() as $row) {
