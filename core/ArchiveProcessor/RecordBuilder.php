@@ -513,63 +513,21 @@ abstract class RecordBuilder
         ?array $columnsToRenameAfterAggregation,
         ?array $periodsToInclude = null
     ): array {
-        $tableIdToResultRowMapping = [];
-        $result = new DataTable();
-
-        if (!empty($columnsAggregationOperation)) {
-            $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
-        }
-
-        $hasRows = false;
-        foreach ($this->querySingleBlobRows($archiveProcessor, $recordName) as $archiveDataRow) {
-            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
-            if ($periodsToInclude !== null && !isset($periodsToInclude[$period])) {
-                continue;
-            }
-
-            $hasRows = true;
-            $tableId = $archiveDataRow['name'] == $recordName ? null : $this->getSubtableIdFromBlobName($archiveDataRow['name']);
-
-            $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
-            $blobTable->filter(function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation) {
+        [$result, $hasRows] = BlobTableAggregator::aggregateBlobRows(
+            $this->querySingleBlobRows($archiveProcessor, $recordName),
+            $recordName,
+            $columnsAggregationOperation,
+            function (DataTable $table) use ($archiveProcessor, $columnsToRenameAfterAggregation): void {
                 $archiveProcessor->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
-            });
-
-            if ($tableId === null) {
-                $tableToAddTo = $result;
-            } elseif (!empty($tableIdToResultRowMapping[$period][$tableId])) {
-                $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
-                if (!$rowToAddTo->getIdSubDataTable()) {
-                    $newTable = new DataTable();
-                    if (!empty($columnsAggregationOperation)) {
-                        $newTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
-                    }
-                    $rowToAddTo->setSubtable($newTable);
+            },
+            function (array $archiveDataRow) use ($periodsToInclude): bool {
+                if ($periodsToInclude === null) {
+                    return true;
                 }
-
-                $tableToAddTo = $rowToAddTo->getSubtable();
-            } else {
-                Common::destroy($blobTable);
-                continue;
+                $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
+                return isset($periodsToInclude[$period]);
             }
-
-            $tableToAddTo->addDataTable($blobTable);
-
-            foreach ($blobTable->getRows() as $blobTableRow) {
-                $label = $blobTableRow->getColumn('label');
-                $subtableId = $blobTableRow->getIdSubDataTable();
-                if (empty($subtableId)) {
-                    continue;
-                }
-
-                $rowToAddTo = $tableToAddTo->getRowFromLabel($label);
-                if ($rowToAddTo instanceof Row) {
-                    $tableIdToResultRowMapping[$period][$subtableId] = $rowToAddTo;
-                }
-            }
-
-            Common::destroy($blobTable);
-        }
+        );
 
         return [$result, $hasRows];
     }
@@ -611,18 +569,6 @@ abstract class RecordBuilder
         }
 
         return $result;
-    }
-
-    protected function getSubtableIdFromBlobName(string $recordName): ?int
-    {
-        $parts = explode('_', $recordName);
-        $id = end($parts);
-
-        if (!is_numeric($id)) {
-            return null;
-        }
-
-        return (int) $id;
     }
 
     /**

@@ -11,6 +11,7 @@ namespace Piwik;
 
 use Exception;
 use Piwik\Archive\DataTableFactory;
+use Piwik\ArchiveProcessor\BlobTableAggregator;
 use Piwik\ArchiveProcessor\Parameters;
 use Piwik\ArchiveProcessor\Rules;
 use Piwik\Container\StaticContainer;
@@ -390,25 +391,12 @@ class ArchiveProcessor
 
     protected function getAggregatedDataTableMapFromBlobs(\Iterator $dataTableBlobs, $columnsAggregationOperation, $columnsToRenameAfterAggregation, $name)
     {
-        // maps period & subtable ID in database to the Row instance in $result that subtable should be added to when encountered
-        // [$row['date1'].','.$row['date2']][$tableId] = $row in $result
-        /** @var Row[][] */
-        $tableIdToResultRowMapping = [];
-
-        $result = new DataTable();
-
-        if (!empty($columnsAggregationOperation)) {
-            $result->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
-        }
-
-        foreach ($dataTableBlobs as $archiveDataRow) {
-            $period = $archiveDataRow['date1'] . ',' . $archiveDataRow['date2'];
-            $tableId = $archiveDataRow['name'] == $name ? null : $this->getSubtableIdFromBlobName($archiveDataRow['name']);
-
-            $blobTable = DataTable::fromSerializedArray($archiveDataRow['value']);
-
-            // see https://github.com/piwik/piwik/issues/4377
-            $blobTable->filter(function ($table) use ($columnsToRenameAfterAggregation) {
+        [$result, $hasRows] = BlobTableAggregator::aggregateBlobRows(
+            $dataTableBlobs,
+            $name,
+            $columnsAggregationOperation,
+            function (DataTable $table) use ($columnsToRenameAfterAggregation): void {
+                // see https://github.com/piwik/piwik/issues/4377
                 if ($this->areColumnsNotAlreadyRenamed($table)) {
                     /**
                      * This makes archiving and range dates a lot faster. Imagine we archive a week, then we will
@@ -420,12 +408,9 @@ class ArchiveProcessor
                      */
                     $this->renameColumnsAfterAggregation($table, $columnsToRenameAfterAggregation);
                 }
-            });
-
-            $tableToAddTo = null;
-            if ($tableId === null) {
-                $tableToAddTo = $result;
-            } elseif (empty($tableIdToResultRowMapping[$period][$tableId])) { // sanity check
+            },
+            null,
+            function (string $period, int $tableId): void {
                 StaticContainer::get(LoggerInterface::class)->info(
                     'Unexpected state when aggregating DataTable, unknown period/table ID combination encountered: {period} - {tableId}.'
                     . ' This either means the SQL to order blobs is behaving incorrectly or the blob data is corrupt in some way.',
@@ -434,50 +419,11 @@ class ArchiveProcessor
                         'tableId' => $tableId,
                     ]
                 );
-                continue;
-            } else {
-                $rowToAddTo = $tableIdToResultRowMapping[$period][$tableId];
-
-                if (!$rowToAddTo->getIdSubDataTable()) {
-                    $newTable = new DataTable();
-                    $newTable->setMetadata(DataTable::COLUMN_AGGREGATION_OPS_METADATA_NAME, $columnsAggregationOperation);
-                    $rowToAddTo->setSubtable($newTable);
-                }
-
-                $tableToAddTo = $rowToAddTo->getSubtable();
             }
-
-            $tableToAddTo->addDataTable($blobTable);
-
-            // add subtable IDs for $blobTableRow to $tableIdToResultRowMapping
-            foreach ($blobTable->getRows() as $blobTableRow) {
-                $label = $blobTableRow->getColumn('label');
-                $subtableId = $blobTableRow->getIdSubDataTable();
-                if (empty($subtableId)) {
-                    continue;
-                }
-
-                $rowToAddTo = $tableToAddTo->getRowFromLabel($label);
-                $tableIdToResultRowMapping[$period][$subtableId] = $rowToAddTo;
-            }
-
-            Common::destroy($blobTable);
-            unset($blobTable);
-        }
+        );
+        unset($hasRows);
 
         return $result;
-    }
-
-    private function getSubtableIdFromBlobName($recordName)
-    {
-        $parts = explode('_', $recordName);
-        $id = end($parts);
-
-        if (is_numeric($id)) {
-            return $id;
-        }
-
-        return null;
     }
 
     /**
