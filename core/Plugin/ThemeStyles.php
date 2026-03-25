@@ -219,7 +219,7 @@ class ThemeStyles
     /**
      * @var string|array<string>
      */
-    public $colorBackgroundHighContrast = ['#202020', '#fff'];
+    public $colorBackgroundHighContrast = ['#202020', '#404349'];
 
     /**
      * @var string|array<string>

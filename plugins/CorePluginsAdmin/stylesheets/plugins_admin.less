@@ -14,11 +14,15 @@ table.dataTable tr.active-plugin:hover > td {
 }
 
 table.dataTable tr.inactive-plugin > td {
-    background-color:@theme-color-background-lowContrast !important;
+    background-color:@theme-color-background-tinyContrast !important;
 }
 
 table.dataTable tr.inactive-plugin:hover > td {
     background-color:@theme-color-background-lowContrast !important;
+
+    .inDarkMode({
+        background-color:@theme-color-background-contrast !important;
+    });
 }
 
 .plugin-desc-text {
@@ -97,11 +101,26 @@ table.entityTable tr td a.uninstall {
 
     .inactive-plugin {
         td {
-            background-color: @theme-color-background-lowContrast;
+            background-color: @theme-color-background-tinyContrast;
+            color: @theme-color-text-light;
         }
 
         &:hover td {
-            background-color: @theme-color-background-tinyContrast;
+            background-color: @theme-color-background-lowContrast;
+
+            .inDarkMode({
+                background-color: @theme-color-background-highContrast;
+            });
+        }
+
+        .plugin-version,
+        .plugin-author,
+        .plugin-license {
+            color: @theme-color-text-lighter;
+        }
+
+        a {
+            color: @theme-color-link;
         }
     }
 
