@@ -9,6 +9,7 @@ export { default as Periods } from './Periods';
 export { default as Day } from './Day';
 export { default as Week } from './Week';
 export { default as Month } from './Month';
+export { default as Quarter } from './Quarter';
 export { default as Year } from './Year';
 export { default as Range } from './Range';
 export * from './utilities';

@@ -108,6 +108,16 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
+                    array (
+                        'idarchive' => null,
+                        'idsite' => '1',
+                        'period' => '6',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
                 ],
             ],
 
@@ -159,6 +169,16 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
+                    array (
+                        'idarchive' => null,
+                        'idsite' => '1',
+                        'period' => '6',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
                 ],
             ],
 
@@ -200,6 +220,16 @@ class CronArchiveTest extends IntegrationTestCase
                         'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
                     ),
+                    array (
+                        'idarchive' => null,
+                        'idsite' => '1',
+                        'period' => '6',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-03-31',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
                 ],
             ],
 
@@ -226,6 +256,16 @@ class CronArchiveTest extends IntegrationTestCase
                         'period' => '4',
                         'date1' => '2020-01-01',
                         'date2' => '2020-12-31',
+                        'name' => 'done',
+                        'report' => null,
+                        'ts_invalidated' => '2020-03-04 01:00:00',
+                    ),
+                    array (
+                        'idarchive' => null,
+                        'idsite' => '1',
+                        'period' => '6',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-03-31',
                         'name' => 'done',
                         'report' => null,
                         'ts_invalidated' => '2020-03-04 01:00:00',
@@ -299,6 +339,16 @@ class CronArchiveTest extends IntegrationTestCase
                         'period' => '4',
                         'date1' => '2020-01-01',
                         'date2' => '2020-12-31',
+                        'name' => 'done.MyPlugin',
+                        'report' => 'myReport',
+                        'ts_invalidated' => '2020-03-04 03:04:04',
+                    ),
+                    array (
+                        'idarchive' => null,
+                        'idsite' => '1',
+                        'period' => '6',
+                        'date1' => '2020-01-01',
+                        'date2' => '2020-03-31',
                         'name' => 'done.MyPlugin',
                         'report' => 'myReport',
                         'ts_invalidated' => '2020-03-04 03:04:04',
@@ -1422,19 +1472,23 @@ Processing invalidation: [idinvalidation = %d, idsite = 1, period = month(2019-1
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=month&date=2019-12-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = month, date = 2019-12-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs, Peak memory: %f M
+Processing invalidation: [idinvalidation = %d, idsite = 1, period = quarter(2019-10-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
+No next invalidated archive.
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=quarter&date=2019-10-01&format=json&segment=actions%3E%3D2&trigger=archivephp
+Archived website id 1, period = quarter, date = 2019-10-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs, Peak memory: %f M
 Processing invalidation: [idinvalidation = %d, idsite = 1, period = year(2019-01-01 - 2019-12-31), name = donee0512c03f7c20af6ef96a8d792c6bb9f, segment = actions>=2].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=1&period=year&date=2019-01-01&format=json&segment=actions%3E%3D2&trigger=archivephp
 Archived website id 1, period = year, date = 2019-01-01, segment = 'actions>=2', 0 visits found. Time elapsed: %fs, Peak memory: %f M
 No next invalidated archive.
-Finished archiving for site 1, 8 API requests, Time elapsed: %fs [1 / 1 done]
+Finished archiving for site 1, 9 API requests, Time elapsed: %fs [1 / 1 done]
 No more sites left to archive, stopping.
 Done archiving!
 ---------------------------
 SUMMARY
-Processed 8 archives.
-Total API requests: 8
-done: 8 req, %d ms, no error
+Processed 9 archives.
+Total API requests: 9
+done: 9 req, %d ms, no error
 Time elapsed: %fs
 LOG;
 
@@ -1522,19 +1576,23 @@ Processing invalidation: [idinvalidation = %d, idsite = 2, period = month(2019-1
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=month&date=2019-12-01&format=json&trigger=archivephp
 Archived website id 2, period = month, date = 2019-12-01, segment = '', 2 visits found. Time elapsed: %fs, Peak memory: %f M
+Processing invalidation: [idinvalidation = %d, idsite = 2, period = quarter(2019-10-01 - 2019-12-31), name = done, segment = ].
+No next invalidated archive.
+Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=quarter&date=2019-10-01&format=json&trigger=archivephp
+Archived website id 2, period = quarter, date = 2019-10-01, segment = '', 2 visits found. Time elapsed: %fs, Peak memory: %f M
 Processing invalidation: [idinvalidation = %d, idsite = 2, period = year(2019-01-01 - 2019-12-31), name = done, segment = ].
 No next invalidated archive.
 Starting archiving for ?module=API&method=CoreAdminHome.archiveReports&idSite=2&period=year&date=2019-01-01&format=json&trigger=archivephp
 Archived website id 2, period = year, date = 2019-01-01, segment = '', 2 visits found. Time elapsed: %fs, Peak memory: %f M
 No next invalidated archive.
-Finished archiving for site 2, 5 API requests, Time elapsed: %fs [1 / 1 done]
+Finished archiving for site 2, 6 API requests, Time elapsed: %fs [1 / 1 done]
 No more sites left to archive, stopping.
 Done archiving!
 ---------------------------
 SUMMARY
-Processed 5 archives.
-Total API requests: 5
-done: 5 req, %d ms, no error
+Processed 6 archives.
+Total API requests: 6
+done: 6 req, %d ms, no error
 Time elapsed: %fs
 LOG;
 

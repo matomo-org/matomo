@@ -532,14 +532,17 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -554,6 +557,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -568,6 +572,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -582,10 +587,12 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -601,6 +608,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -615,14 +623,17 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279.Actions', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279.Actions', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -637,6 +648,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -663,6 +675,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-02', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-03', 'date2' => '2012-01-03', 'period' => 1, 'report' => null],
@@ -680,6 +693,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-02', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-03', 'date2' => '2012-01-03', 'period' => 1, 'report' => null],
@@ -697,6 +711,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -714,6 +729,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-06', 'date2' => '2012-01-06', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-12', 'date2' => '2012-01-12', 'period' => 1, 'report' => null],
@@ -722,6 +738,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-06', 'date2' => '2012-01-06', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-12', 'date2' => '2012-01-12', 'period' => 1, 'report' => null],
@@ -730,6 +747,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -752,6 +770,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-02', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-03', 'date2' => '2012-01-03', 'period' => 1, 'report' => null],
@@ -765,6 +784,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-02', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-03', 'date2' => '2012-01-03', 'period' => 1, 'report' => null],
@@ -778,6 +798,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-09', 'date2' => '2012-01-15', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -791,22 +812,27 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done', 'idsite' => 2, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-01', 'period' => 1, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 // second segment is only valid for idsite 1, so missing here
             ],
         ];
@@ -822,6 +848,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-08', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -859,6 +886,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
             [
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -922,6 +950,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-30', 'date2' => '2012-02-05', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -946,6 +975,8 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-01-01', 'date2' => '2011-12-31', 'period' => 4, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2011-10-01', 'date2' => '2011-12-31', 'period' => 6, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -962,6 +993,7 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
 
@@ -990,14 +1022,17 @@ class InvalidateReportDataTest extends ConsoleCommandTestCase
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-08', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-02', 'date2' => '2012-01-08', 'period' => 2, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done9aedf9b6022140586347897209404279', 'idsite' => 1, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2011-12-26', 'date2' => '2012-01-01', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-02', 'date2' => '2012-01-08', 'period' => 2, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-01-31', 'period' => 3, 'report' => null],
                 ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-12-31', 'period' => 4, 'report' => null],
+                ['name' => 'done5f4f9bafeda3443c3c2d4b2ef4dffadc', 'idsite' => 2, 'date1' => '2012-01-01', 'date2' => '2012-03-31', 'period' => 6, 'report' => null],
             ],
         ];
     }

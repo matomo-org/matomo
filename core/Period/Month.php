@@ -122,6 +122,6 @@ class Month extends Period
 
     public function getParentPeriodLabel()
     {
-        return 'year';
+        return 'quarter';
     }
 }

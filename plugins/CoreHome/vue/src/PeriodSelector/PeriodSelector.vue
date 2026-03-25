@@ -1022,6 +1022,9 @@ export default defineComponent({
         case 'month':
           newDate.setMonth(newDate.getMonth() + direction);
           break;
+        case 'quarter':
+          newDate.setMonth(newDate.getMonth() + direction * 3);
+          break;
         case 'year':
           newDate.setFullYear(newDate.getFullYear() + direction);
           break;

@@ -134,6 +134,9 @@ class DataComparisonTest extends SystemTestCase
         $date3 = '2012-08-16';
         $period3 = 'month';
 
+        $date4 = '2012-08-16';
+        $period4 = 'quarter';
+
         $multiPeriodDate1 = '2012-08-09,2012-08-16';
         $multiPeriodPeriod1 = 'day';
 
@@ -200,6 +203,17 @@ class DataComparisonTest extends SystemTestCase
                     'compare' => '1',
                 ],
             ]],
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => '2012-08-09',
+                'period' => 'month',
+                'testSuffix' => '_periods_quarter',
+                'otherRequestParameters' => [
+                    'compareDates' => [$date1, $date4],
+                    'comparePeriods' => [$period1, $period4],
+                    'compare' => '1',
+                ],
+            ]],
 
             // compare multiple segments/periods
             [$apiToTest, [
@@ -214,6 +228,18 @@ class DataComparisonTest extends SystemTestCase
                     'compare' => '1',
                 ],
             ]],
+            [$apiToTest, [
+                'idSite' => self::$fixture->idSite,
+                'date' => '2012-08-09',
+                'period' => 'month',
+                'testSuffix' => '_segmentsAndPeriods_quarter',
+                'otherRequestParameters' => [
+                    'compareSegments' => [$segment1, $segment2],
+                    'compareDates' => [$date1, $date4],
+                    'comparePeriods' => [$period1, $period4],
+                    'compare' => '1',
+                ],
+            ]],
 
             // multiple sites + compare multiple segments/periods
             [$apiToTest, [
@@ -225,6 +251,18 @@ class DataComparisonTest extends SystemTestCase
                     'compareSegments' => [$segment1, $segment2],
                     'compareDates' => [$date1, $date2],
                     'comparePeriods' => [$period1, $period2],
+                    'compare' => '1',
+                ],
+            ]],
+            [$apiToTest, [
+                'idSite' => 'all',
+                'date' => '2012-08-09',
+                'period' => 'month',
+                'testSuffix' => '_multipleSites_multipleCompare_quarter',
+                'otherRequestParameters' => [
+                    'compareSegments' => [$segment1, $segment2],
+                    'compareDates' => [$date1, $date4],
+                    'comparePeriods' => [$period1, $period4],
                     'compare' => '1',
                 ],
             ]],

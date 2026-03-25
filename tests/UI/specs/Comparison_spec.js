@@ -40,6 +40,8 @@ describe("Comparison", function () {
           "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=year&date=2012-01-12&compareDates[]=2011-01-31&comparePeriods[]=year",
         visitOverviewWidgetCompareWeekSmallRange = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&" +
         "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=week&date=2012-01-12&compareDates[]=2012-01-20,2012-01-31&comparePeriods[]=range",
+        visitOverviewWidgetCompareQuarterSmallRange = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&" +
+        "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=quarter&date=2012-02-09&compareDates[]=2012-03-01,2012-03-31&comparePeriods[]=range",
         visitOverviewWidgetCompareLargeRange = "?module=Widgetize&action=iframe&containerId=VisitOverviewWithGraph&disableLink=0&widget=1&" +
         "moduleToWidgetize=CoreHome&actionToWidgetize=renderWidgetContainer&disableLink=1&widget=1&idSite=1&period=range&date=2012-01-12,2014-02-12&compareDates[]=2011-01-31,2013-02-31&comparePeriods[]=range"
     ;
@@ -288,6 +290,12 @@ describe("Comparison", function () {
         await page.goto(visitOverviewWidgetCompareWeekSmallRange);
         await page.waitForNetworkIdle();
         expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_week_smallrange');
+    });
+
+    it('should load a widgetized sparklines visualization correctly when comparing a quarter with a small range', async () => {
+        await page.goto(visitOverviewWidgetCompareQuarterSmallRange);
+        await page.waitForNetworkIdle();
+        expect(await page.screenshot({ fullPage: true })).to.matchImage('visits_overview_widget_quarter_smallrange');
     });
 
     it('should load a widgetized sparklines visualization correctly when comparing large ranges', async () => {

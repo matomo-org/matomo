@@ -227,6 +227,7 @@ allow_vue_sourcemaps = 0
 enable_processing_unique_visitors_day = 1
 enable_processing_unique_visitors_week = 1
 enable_processing_unique_visitors_month = 1
+enable_processing_unique_visitors_quarter = 0
 enable_processing_unique_visitors_year = 0
 enable_processing_unique_visitors_range = 0
 
@@ -238,13 +239,13 @@ enable_processing_unique_visitors_multiple_sites = 0
 ; The list of periods that are available in the Matomo calendar
 ; Example use case: custom date range requests are processed in real time,
 ; so they may take a few minutes on very high traffic website: you may remove "range" below to disable this period
-enabled_periods_UI = "day,week,month,year,range"
+enabled_periods_UI = "day,week,month,quarter,year,range"
 
 ; The list of periods that are available in through the API. This also controls the list of periods that are allowed
 ; to be archived. You can disable some of them if you have a high traffic website and archiving is too compute heavy.
 ; NOTE: if you disable a period in the API, it's parent periods are effectively disabled as well. For example, if
 ; month periods are disabled, then year periods can no longer be computed, so they are effectively disabled as well.
-enabled_periods_API = "day,week,month,year,range"
+enabled_periods_API = "day,week,month,quarter,year,range"
 
 ; whether to enable segment archiving cache
 ; Note: if you use any plugins, this need to be compliant with Matomo and
@@ -366,7 +367,7 @@ datatable_export_range_as_day = "rss"
 ; This setting is overridden in the UI, under "User Settings".
 ; The date and period loaded by Matomo uses the defaults below. Possible values: yesterday, today.
 default_day = yesterday
-; Possible values: day, week, month, year.
+; Possible values: day, week, month, quarter, year.
 default_period = day
 
 ; Time in seconds after which an archive will be computed again. This setting is used only for today's statistics.
@@ -381,6 +382,9 @@ time_before_week_archive_considered_outdated = -1
 
 ; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to monthly archives
 time_before_month_archive_considered_outdated = -1
+
+; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to quarterly archives
+time_before_quarter_archive_considered_outdated = -1
 
 ; Same as config setting "time_before_week_archive_considered_outdated" but it is only applied to yearly archives
 time_before_year_archive_considered_outdated = -1
@@ -1165,6 +1169,7 @@ delete_reports_keep_basic_metrics    = 1
 delete_reports_keep_day_reports      = 0
 delete_reports_keep_week_reports     = 0
 delete_reports_keep_month_reports    = 1
+delete_reports_keep_quarter_reports  = 1
 delete_reports_keep_year_reports     = 1
 delete_reports_keep_range_reports    = 0
 delete_reports_keep_segment_reports  = 0

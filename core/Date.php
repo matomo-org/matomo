@@ -141,6 +141,8 @@ class Date
             $date = self::lastMonth();
         } elseif (is_string($dateString) && preg_match('/last[ -]?year/i', urldecode($dateString))) {
             $date = self::lastYear();
+        } elseif (is_string($dateString) && preg_match('/last[ -]?quarter/i', urldecode($dateString))) {
+            $date = self::lastQuarter();
         } elseif (
             !is_int($dateString)
             && (
@@ -200,6 +202,8 @@ class Date
             return self::lastMonthInTimezone((string)$timezone);
         } elseif (preg_match('/last[ -]?year/i', urldecode($dateString))) {
             return self::lastYearInTimezone((string)$timezone);
+        } elseif (preg_match('/last[ -]?quarter/i', urldecode($dateString))) {
+            return self::lastQuarterInTimezone($timezone);
         } else {
             throw new \Exception("Date::factoryInTimezone() should not be used with $dateString.");
         }
@@ -240,6 +244,11 @@ class Date
     private static function lastYearInTimezone(string $timezone): Date
     {
         return new Date(strtotime('-1year', self::todayInTimezone($timezone)->getTimestamp()));
+    }
+
+    private static function lastQuarterInTimezone($timezone)
+    {
+        return new Date(strtotime('-3months', self::todayInTimezone($timezone)->getTimestamp()));
     }
 
     /**
@@ -643,6 +652,16 @@ class Date
     public static function lastYear()
     {
         return new Date(strtotime("-1year 00:00:00", self::getNowTimestamp()));
+    }
+
+    /**
+     * Returns a date object set to the day a quarter (3 months) ago at midnight in UTC.
+     *
+     * @return \Piwik\Date
+     */
+    public static function lastQuarter()
+    {
+        return new Date(strtotime("-3months 00:00:00", self::getNowTimestamp()));
     }
 
     /**
@@ -1096,6 +1115,9 @@ class Date
 
             $daysToAdd = min($dateInfo['mday'], self::getMaxDaysInMonth($ts)) - 1;
             $ts += self::NUM_SECONDS_IN_DAY * $daysToAdd;
+        } elseif (strtolower($period) == 'quarter') {
+            // Quarter = 3 months
+            return $this->addPeriod($n * 3, 'month');
         } else {
             $time = $n < 0 ? "$n $period" : "+$n $period";
 

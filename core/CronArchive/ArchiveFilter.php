@@ -261,7 +261,7 @@ class ArchiveFilter
      */
     private function getDefaultPeriodsToProcess()
     {
-        return array('day', 'week', 'month', 'year', 'range');
+        return array('day', 'week', 'month', 'quarter', 'year', 'range');
     }
 
     /**

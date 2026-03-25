@@ -14,6 +14,7 @@ use Piwik\Date;
 use Piwik\Period;
 use Piwik\Period\Day;
 use Piwik\Period\Month;
+use Piwik\Period\Quarter;
 use Piwik\Period\Range;
 use Piwik\Period\Week;
 use Piwik\Period\Year;
@@ -120,6 +121,7 @@ class FactoryTest extends UnitTestCase
             ['day', '2015-01-01', 'UTC', Day::class, '2015-01-01,2015-01-01'],
             ['week', '2015-01-01', 'UTC', Week::class, '2014-12-29,2015-01-04'],
             ['month', '2015-01-01', 'UTC', Month::class, '2015-01-01,2015-01-31'],
+            ['quarter', '2015-02-01', 'UTC', Quarter::class, '2015-01-01,2015-03-31'],
             ['year', '2015-01-01', 'UTC', Year::class, '2015-01-01,2015-12-31'],
 
             ['range', '2015-01-01,2015-01-10', 'UTC', Range::class, '2015-01-01,2015-01-10'],
@@ -130,6 +132,8 @@ class FactoryTest extends UnitTestCase
             ['day', '2015-01-01,2015-01-10', 'UTC', Range::class, '2015-01-01,2015-01-10'],
             ['week', '2015-01-01,2015-01-10', 'UTC', Range::class, '2014-12-29,2015-01-11'],
             ['month', '2015-01-01,2015-02-10', 'UTC', Range::class, '2015-01-01,2015-02-28'],
+            ['quarter', '2015-01-01,2015-05-10', 'UTC', Range::class, '2015-01-01,2015-06-30'],
+            ['quarter', '2015-01-01,2015-03-10', 'UTC', Range::class, '2015-01-01,2015-03-31'],
             ['year', '2015-01-01,2016-01-10', 'UTC', Range::class, '2015-01-01,2016-12-31'],
         ];
     }

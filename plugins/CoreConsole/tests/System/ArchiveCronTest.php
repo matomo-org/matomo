@@ -19,6 +19,7 @@ use Piwik\Log\Logger;
 use Piwik\Log\LoggerInterface;
 use Piwik\Period\Day;
 use Piwik\Period\Month;
+use Piwik\Period\Quarter;
 use Piwik\Period\Week;
 use Piwik\Plugins\SegmentEditor\API;
 use Piwik\Site;
@@ -243,7 +244,7 @@ class ArchiveCronTest extends SystemTestCase
 
         $invalidationEntries = $this->getInvalidatedArchiveTableEntries();
         // there should be 4 invalidations (day, week, month, year) for ExamplePlugin
-        self::assertCount(4, $invalidationEntries);
+        self::assertCount(5, $invalidationEntries);
         self::assertEquals(['done.ExamplePlugin'], array_unique(array_column($invalidationEntries, 'name')));
 
         // empty the list so nothing is invalidated during core:archive (so we only archive ExamplePlugin and not all plugins)
@@ -257,6 +258,7 @@ class ArchiveCronTest extends SystemTestCase
             ['period' => Day::PERIOD_ID, 'date1' => '2007-04-05', 'date2' => '2007-04-05', 'value' => ArchiveWriter::DONE_OK],
             ['period' => Week::PERIOD_ID, 'date1' => '2007-04-02', 'date2' => '2007-04-08', 'value' => ArchiveWriter::DONE_OK],
             ['period' => Month::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-04-30', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Quarter::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-06-30', 'value' => ArchiveWriter::DONE_OK],
             // Year flag is stored in other table
         ];
         self::assertEquals($expectedDoneFlags, $doneFlags);
@@ -328,6 +330,7 @@ class ArchiveCronTest extends SystemTestCase
             ['period' => Day::PERIOD_ID, 'date1' => '2007-04-05', 'date2' => '2007-04-05', 'value' => ArchiveWriter::DONE_OK],
             ['period' => Week::PERIOD_ID, 'date1' => '2007-04-02', 'date2' => '2007-04-08', 'value' => ArchiveWriter::DONE_OK],
             ['period' => Month::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-04-30', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Quarter::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-06-30', 'value' => ArchiveWriter::DONE_OK],
             // Year flag is stored in other table
         ];
         self::assertEquals($expectedDoneFlags, $doneFlags);
@@ -354,6 +357,8 @@ class ArchiveCronTest extends SystemTestCase
             ['period' => Week::PERIOD_ID, 'date1' => '2007-04-02', 'date2' => '2007-04-08', 'value' => ArchiveWriter::DONE_PARTIAL],
             ['period' => Month::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-04-30', 'value' => ArchiveWriter::DONE_OK],
             ['period' => Month::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-04-30', 'value' => ArchiveWriter::DONE_PARTIAL],
+            ['period' => Quarter::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-06-30', 'value' => ArchiveWriter::DONE_OK],
+            ['period' => Quarter::PERIOD_ID, 'date1' => '2007-04-01', 'date2' => '2007-06-30', 'value' => ArchiveWriter::DONE_PARTIAL],
         ];
         self::assertEquals($expectedDoneFlags, $doneFlags);
     }

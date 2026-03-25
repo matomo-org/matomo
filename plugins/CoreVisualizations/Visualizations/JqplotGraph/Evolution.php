@@ -187,6 +187,8 @@ class Evolution extends JqplotGraph
                 return 26;
             case 'month':
                 return 24;
+            case 'quarter':
+                return 12;
             case 'year':
                 return 5;
             case 'day':

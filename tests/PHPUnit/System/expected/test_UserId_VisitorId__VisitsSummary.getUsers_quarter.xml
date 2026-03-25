@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<result>
+	<error message="The metric nb_users is not enabled for the requested period. Please see this FAQ: https://matomo.org/faq/how-to/faq_113/
+ 
+ --&gt; To temporarily debug this error further, set const PIWIK_PRINT_ERROR_BACKTRACE=true; in index.php" />
+</result>

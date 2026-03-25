@@ -265,7 +265,7 @@ class BackwardsCompatibility1XTest extends SystemTestCase
                                               'disableArchiving' => true, 'testSuffix' => '_multipleDates']],
 
             ['VisitFrequency.get', ['idSite' => $idSite, 'date' => $dateTime,
-                                              'periods' => ['day', 'week', 'month', 'year'],
+                                              'periods' => ['day', 'week', 'month', 'quarter', 'year'],
                                               'disableArchiving' => false]],
 
             ['VisitFrequency.get', ['idSite' => $idSite, 'date' => '2012-03-06,2012-12-31',

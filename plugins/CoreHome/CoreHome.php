@@ -213,6 +213,7 @@ class CoreHome extends \Piwik\Plugin
         $translationKeys[] = 'General_Pagination';
         $translationKeys[] = 'General_RowsToDisplay';
         $translationKeys[] = 'Intl_Year_Short';
+        $translationKeys[] = 'Intl_PeriodQuarter';
         $translationKeys[] = 'General_MultiSitesSummary';
         $translationKeys[] = 'General_SearchNoResults';
         $translationKeys[] = 'CoreHome_ChooseX';

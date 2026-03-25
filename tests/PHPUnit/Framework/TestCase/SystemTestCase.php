@@ -177,7 +177,7 @@ abstract class SystemTestCase extends TestCase
      * - two in SMS (one for each available report: MultiSites.getOne & MultiSites.getAll)
      *
      * @param string $dateTime eg '2010-01-01 12:34:56'
-     * @param string $period eg 'day', 'week', 'month', 'year'
+     * @param string $period eg 'day', 'week', 'month', 'quarter', 'year'
      * @return array
      */
     protected static function getApiForTestingScheduledReports($dateTime, $period)
@@ -528,6 +528,7 @@ abstract class SystemTestCase extends TestCase
                     Period\Day::class,
                     Period\Week::class,
                     Period\Month::class,
+                    Period\Quarter::class,
                     Period\Year::class,
                     Period\Range::class,
                     ProcessedMetric::class,

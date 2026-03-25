@@ -74,6 +74,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $settings['delete_reports_keep_day_reports']               = Common::getRequestVar("keepDay", 0);
         $settings['delete_reports_keep_week_reports']              = Common::getRequestVar("keepWeek", 0);
         $settings['delete_reports_keep_month_reports']             = Common::getRequestVar("keepMonth", 0);
+        $settings['delete_reports_keep_quarter_reports']           = Common::getRequestVar("keepQuarter", 0);
         $settings['delete_reports_keep_year_reports']              = Common::getRequestVar("keepYear", 0);
         $settings['delete_reports_keep_range_reports']             = Common::getRequestVar("keepRange", 0);
         $settings['delete_reports_keep_segment_reports']           = Common::getRequestVar("keepSegments", 0);

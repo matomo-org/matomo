@@ -1257,6 +1257,17 @@ class CronArchive
                 continue;
             }
 
+            // archive is for a week that spans two quarters, we don't need to care about the quarter
+            if ($label == 'quarter') {
+                $date1 = Date::factory($archiveToProcess['date1']);
+                $date2 = Date::factory($archiveToProcess['date2']);
+                $quarter1 = (int) ceil((int) $date1->toString('n') / 3);
+                $quarter2 = (int) ceil((int) $date2->toString('n') / 3);
+                if ($date1->toString('Y') != $date2->toString('Y') || $quarter1 != $quarter2) {
+                    continue;
+                }
+            }
+
             $period = Period\Factory::build($label, $archiveToProcess['date1']);
 
             $invalidationToInsert = [
@@ -1357,7 +1368,7 @@ class CronArchive
         $this->logger->info("- Reports for today will be processed at most every " . $this->todayArchiveTimeToLive
             . " seconds. You can change this value in Matomo UI > Settings > General Settings.");
 
-        foreach (['week', 'month', 'year', 'range'] as $period) {
+        foreach (['week', 'month', 'quarter', 'year', 'range'] as $period) {
             $ttl = Rules::getPeriodArchiveTimeToLiveDefault($period);
 
             if (!empty($ttl) && $ttl !== $this->todayArchiveTimeToLive) {

@@ -46,6 +46,7 @@ class ParametersTest extends IntegrationTestCase
             [true, '2012-02-02', 'day'],
             [false, '2013-03-04', 'week'],
             [false, '2013-03-04', 'month'],
+            [false, '2013-03-04', 'quarter'],
             [false, '2013-03-04', 'year'],
             [true, '2012-02-02,2012-02-02', 'range'],
             [false, '2012-02-02,2012-02-03', 'range'],

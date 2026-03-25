@@ -10,13 +10,31 @@
 describe("RowEvolution", function () {
     const viewDataTableUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=week&date=2012-02-09&"
                          + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5";
+    const viewDataTableQuarterUrl = "?module=Widgetize&action=iframe&moduleToWidgetize=Referrers&idSite=1&period=quarter&date=2012-02-09&"
+                         + "actionToWidgetize=getKeywords&viewDataTable=table&filter_limit=5";
 
     const ecommerceItemReportWidgetized = "?module=Widgetize&action=iframe&moduleToWidgetize=Goals&actionToWidgetize=getItemsSku&idGoal=ecommerceAbandonedCart"
                                       + "&idSite=1&period=year&date=2012-02-09&viewDataTable=ecommerceAbandonedCart&filter_limit=-1";
 
     const waitForRowEvolutionAnnotations = async () => {
-        await page.waitForFunction("$('.ui-dialog .evolution-annotations > span').length > 0");
+      await page.waitForFunction("$('.ui-dialog .evolution-annotations > span').length > 0");
     };
+
+    it('should load when icon clicked in ViewDataTable for quarter period', async function() {
+      await page.goto(viewDataTableQuarterUrl);
+      await page.waitForSelector('tbody tr:first-child')
+      const row = await page.jQuery('tbody tr:contains("corruption")');
+      await row.hover();
+
+      const icon = await page.jQuery('tbody tr:contains("corruption") a.actionRowEvolution');
+      await icon.click();
+
+      await page.waitForSelector('.ui-dialog');
+      await page.waitForNetworkIdle();
+
+      const dialog = await page.$('.ui-dialog');
+      expect(await dialog.screenshot()).to.matchImage('row_evolution_quarter');
+    });
 
     it('should load when icon clicked in ViewDataTable', async function() {
         await page.goto(viewDataTableUrl);

@@ -90,7 +90,7 @@ class Year extends Period
 
     public function getImmediateChildPeriodLabel()
     {
-        return 'month';
+        return 'quarter';
     }
 
     public function getParentPeriodLabel()
